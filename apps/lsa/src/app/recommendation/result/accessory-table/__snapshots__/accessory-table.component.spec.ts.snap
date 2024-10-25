@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AccessoryTableComponent ngOnChanges should provide pricing information with euro 1`] = `
+Object {
+  "Adapter for lubricator": Object {
+    "isOpen": true,
+    "totalNetPrice": 0.68,
+    "totalQty": 1,
+  },
+}
+`;
+
+exports[`AccessoryTableComponent ngOnChanges should provide state with pricing information 1`] = `
+Object {
+  "Adapter for lubricator": Object {
+    "isOpen": true,
+    "totalNetPrice": 0.68,
+    "totalQty": 1,
+  },
+}
+`;
+
+exports[`AccessoryTableComponent ngOnChanges when values are changing should recalculates the totalQty and totalPrice 1`] = `
+Object {
+  "Adapter for lubricator": Object {
+    "isOpen": true,
+    "totalNetPrice": 6.46,
+    "totalQty": 12,
+  },
+}
+`;

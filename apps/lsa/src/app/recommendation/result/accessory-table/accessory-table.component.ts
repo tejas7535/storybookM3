@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/member-ordering */
-import { JsonPipe, KeyValuePipe } from '@angular/common';
+import { CommonModule, JsonPipe, KeyValuePipe } from '@angular/common';
 import {
   Component,
   Input,
@@ -15,6 +15,7 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { environment } from '@lsa/environments/environment';
 import { Accessory } from '@lsa/shared/models';
+import { MediasCallbackResponse } from '@lsa/shared/models/price-availibility.model';
 import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -34,6 +35,7 @@ import {
   templateUrl: './accessory-table.component.html',
   standalone: true,
   imports: [
+    CommonModule,
     MatIconModule,
     KeyValuePipe,
     FormsModule,
@@ -48,11 +50,17 @@ export class AccessoryTableComponent implements OnChanges, OnDestroy {
   @Input()
   public readonly accessories: Accessory[];
 
+  @Input()
+  public priceAndAvailability: MediasCallbackResponse;
+
   public tableFormGroup!: AccessoryTableFormGroup;
 
   public accGroups: AccessoryTable;
   public tableGroupStates: { [key: string]: TableGroupState };
-  public tableSummaryState: { totalQty: number; totalPrice?: number } = {
+  public tableSummaryState: {
+    totalQty: number;
+    totalPrice?: number;
+  } = {
     totalQty: 0,
   };
 
@@ -61,6 +69,7 @@ export class AccessoryTableComponent implements OnChanges, OnDestroy {
 
   public showEmptyState = true;
   public imagePlaceholder = `${environment.assetsPath}/images/placeholder.png`;
+  public currency = 'EUR';
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.accessories.currentValue) {
@@ -77,6 +86,7 @@ export class AccessoryTableComponent implements OnChanges, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroy$.next();
+    this.destroy$.complete();
   }
 
   generateAccessoriesForInput(): void {
@@ -87,14 +97,29 @@ export class AccessoryTableComponent implements OnChanges, OnDestroy {
       .pipe(takeUntil(this.formUpdate$))
       .subscribe((newValue) => {
         this.tableSummaryState.totalQty = 0;
+        this.tableSummaryState.totalPrice = 0;
+
         for (const [key, value] of Object.entries(newValue)) {
           const qty = Object.values(value).reduce(
             (curr, next) => curr + next,
             0
           );
-          // TODO: update price
+
+          let totalNetPrice = 0;
+          for (const [itemKey, itemValue] of Object.entries(value)) {
+            if (itemValue > 0) {
+              const currentItem = this.accGroups[key].items.find(
+                (item) => item.fifteen_digit === itemKey
+              );
+
+              totalNetPrice += currentItem.price * itemValue;
+            }
+          }
+
+          this.tableSummaryState.totalPrice += totalNetPrice;
           this.tableSummaryState.totalQty += qty;
           this.tableGroupStates[key].totalQty = qty;
+          this.tableGroupStates[key].totalNetPrice = totalNetPrice;
         }
       });
 
@@ -105,9 +130,22 @@ export class AccessoryTableComponent implements OnChanges, OnDestroy {
         (prev, current) => prev + current.qty,
         0
       );
-      const totalNetPrice = value.items
-        .filter((acc) => acc.price)
-        .reduce((prev, current) => prev + current.price, 0);
+
+      let totalNetPrice = 0;
+
+      value.items.forEach((acc) => {
+        if (!acc.price || acc.qty === 0) {
+          return;
+        }
+
+        if (!this.tableSummaryState.totalPrice) {
+          this.tableSummaryState.totalPrice = 0;
+        }
+
+        this.setCurrency(acc.currency);
+        const price = acc.price * acc.qty;
+        totalNetPrice += price;
+      });
 
       states[group] = { isOpen: true, totalQty, totalNetPrice };
 
@@ -147,5 +185,16 @@ export class AccessoryTableComponent implements OnChanges, OnDestroy {
     return Object.values(this.tableGroupStates).some(
       (state) => !!state.totalNetPrice
     );
+  }
+
+  private setCurrency(currency: string): void {
+    if (currency === '€') {
+      this.currency = 'EUR';
+    } else if (currency === '$') {
+      this.currency = 'USD';
+    } else {
+      // fallback to EUR
+      this.currency = 'EUR';
+    }
   }
 }

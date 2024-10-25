@@ -3,9 +3,12 @@ import { CommonModule } from '@angular/common';
 import { waitForAsync } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
 
+import { of } from 'rxjs';
+
 import { LsaStepperComponent } from '@lsa/core/lsa-stepper/lsa-stepper.component';
 import { LsaAppService } from '@lsa/core/services/lsa-app.service';
 import { LsaFormService } from '@lsa/core/services/lsa-form.service';
+import { PriceAvailabilityService } from '@lsa/core/services/price-availability.service';
 import { RestService } from '@lsa/core/services/rest.service';
 import { ResultInputsService } from '@lsa/core/services/result-inputs.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -67,6 +70,12 @@ describe('RecommendationContainerComponent', () => {
         provide: LsaStepperComponent,
         useValue: {
           selectStepByIndex: jest.fn(),
+        },
+      },
+      {
+        provide: PriceAvailabilityService,
+        useValue: {
+          priceAndAvailabilityResponse$: of({ items: {} }),
         },
       },
     ],

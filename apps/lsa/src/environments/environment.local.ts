@@ -3,7 +3,8 @@ import { Environment } from './environment.model';
 export const environment: Environment = {
   production: false,
   localDev: true,
-  assetsPath: 'https://localhost:8000/assets',
+  assetsPath: 'http://localhost:8000/assets',
+  // lsaApiBaseUrl: 'http://localhost:3000/api',
   lsaApiBaseUrl:
     'https://lubricator-selection-assistant-d.dev.dp.schaeffler/api',
 };

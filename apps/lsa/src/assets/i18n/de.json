@@ -98,6 +98,8 @@
       "quantity": "Menge",
       "totalPieces": "Gesamtstücke",
       "totalPrice": "Gesamtwert netto",
+      "inStock": "verfügbar",
+      "notInStock": "nicht verfügbar",
       "configSummary": "Konfigurationsübersicht",
       "increaseOne": "Menge um eins erhöhen",
       "decreaseOne": "Menge um eins verringern",

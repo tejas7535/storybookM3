@@ -3,15 +3,29 @@ import { CommonModule } from '@angular/common';
 import { Component, forwardRef, OnDestroy, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { BehaviorSubject, debounceTime, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  debounceTime,
+  map,
+  Subject,
+} from 'rxjs';
 
 import { LsaStepperComponent } from '@lsa/core/lsa-stepper/lsa-stepper.component';
 import { transformFormValue } from '@lsa/core/services/form-helper';
 import { LsaAppService } from '@lsa/core/services/lsa-app.service';
 import { LsaFormService } from '@lsa/core/services/lsa-form.service';
+import { PriceAvailabilityService } from '@lsa/core/services/price-availability.service';
 import { RestService } from '@lsa/core/services/rest.service';
 import { ResultInputsService } from '@lsa/core/services/result-inputs.service';
-import { Page, RecommendationForm } from '@lsa/shared/models';
+import {
+  Accessory,
+  ErrorResponse,
+  Page,
+  RecommendationForm,
+  RecommendationResponse,
+} from '@lsa/shared/models';
+import { MediasCallbackResponse } from '@lsa/shared/models/price-availibility.model';
 import { ResultInputModel } from '@lsa/shared/models/result-inputs.model';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
@@ -60,7 +74,21 @@ export class RecommendationContainerComponent implements OnDestroy {
   public readonly pages: Page[] = this.lsaAppService.getPages();
 
   greases$ = this.restService.greases$;
-  recommendation$ = this.restService.recommendation$;
+
+  priceAvailability$ =
+    this.priceAvailabilityService.priceAndAvailabilityResponse$;
+
+  recommendation$ = combineLatest([
+    this.restService.recommendation$,
+    this.priceAvailability$,
+  ]).pipe(
+    map(([recommendation, priceAndAvailability]) =>
+      this.updateRecommendationWithPriceAndAvailability(
+        recommendation,
+        priceAndAvailability
+      )
+    )
+  );
 
   public resultInputs: ResultInputModel;
 
@@ -70,7 +98,8 @@ export class RecommendationContainerComponent implements OnDestroy {
     private readonly formService: LsaFormService,
     private readonly restService: RestService,
     private readonly lsaAppService: LsaAppService,
-    private readonly resultInputService: ResultInputsService
+    private readonly resultInputService: ResultInputsService,
+    private readonly priceAvailabilityService: PriceAvailabilityService
   ) {}
 
   ngOnDestroy(): void {
@@ -105,5 +134,62 @@ export class RecommendationContainerComponent implements OnDestroy {
 
   navigateToStep(step: number): void {
     this.stepper.selectStepByIndex(step);
+  }
+
+  private updateRecommendationWithPriceAndAvailability(
+    recommendation: RecommendationResponse | ErrorResponse,
+    mediasCallbackResponse: MediasCallbackResponse
+  ): RecommendationResponse | ErrorResponse {
+    if (!mediasCallbackResponse || this.isErrorResponse(recommendation)) {
+      return recommendation;
+    }
+
+    const updateItems = (items: Accessory[]) => {
+      items.forEach((item) =>
+        this.updateItemProperties(item, mediasCallbackResponse)
+      );
+    };
+
+    const updatedRecommendation = {
+      ...recommendation,
+      lubricators: {
+        ...recommendation.lubricators,
+        minimumRequiredLubricator: {
+          ...recommendation.lubricators.minimumRequiredLubricator,
+          bundle: [
+            ...recommendation.lubricators.minimumRequiredLubricator.bundle,
+          ],
+        },
+        recommendedLubricator: {
+          ...recommendation.lubricators.recommendedLubricator,
+          bundle: [...recommendation.lubricators.recommendedLubricator.bundle],
+        },
+      },
+    };
+
+    updateItems(
+      updatedRecommendation.lubricators.minimumRequiredLubricator.bundle
+    );
+    updateItems(updatedRecommendation.lubricators.recommendedLubricator.bundle);
+
+    return updatedRecommendation;
+  }
+
+  private updateItemProperties(
+    accessory: Accessory,
+    response: MediasCallbackResponse
+  ) {
+    const responseItem = response.items[accessory.pim_code];
+    if (responseItem) {
+      accessory.price = responseItem.price ?? accessory.price;
+      accessory.currency = responseItem.currency ?? accessory.currency;
+      accessory.availability = responseItem.available ?? accessory.availability;
+    }
+  }
+
+  private isErrorResponse(
+    response: RecommendationResponse | ErrorResponse
+  ): response is ErrorResponse {
+    return (response as ErrorResponse).message !== undefined;
   }
 }

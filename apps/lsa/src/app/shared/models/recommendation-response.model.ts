@@ -36,9 +36,12 @@ export interface Accessory {
   qty: number;
   description: string;
   fifteen_digit: string;
+  pim_code: string;
   designation: string;
   product_image: string;
   class: string | number;
   price?: number;
+  currency?: string;
+  availability?: boolean;
   attributes: { [key: string]: string | number };
 }

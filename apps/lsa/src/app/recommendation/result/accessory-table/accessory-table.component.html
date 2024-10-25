@@ -11,7 +11,7 @@
           <span class="sr-only">{{ t('availability') }}</span>
         </th>
         @if (shouldShowPriceColumn()) {
-          <th>Price</th>
+          <th class="text-center">Price</th>
         }
         <th class="w-11 md:w-20">{{ t('quantity') }}</th>
         <th>
@@ -26,7 +26,13 @@
           <th>&nbsp;</th>
 
           @if (shouldShowPriceColumn()) {
-            <th>15 Euro</th>
+            <th class="text-center">
+              <span class="inline-block first-letter:pr-1">
+                {{
+                  tableGroupStates[group.key].totalNetPrice | currency: currency
+                }}
+              </span>
+            </th>
             <!--- integrate as soon as medias API is available -->
           }
           <th>{{ tableGroupStates[group.key].totalQty }} pcs</th>
@@ -75,19 +81,38 @@
                 </div>
               </td>
               <td>
-                <div class="flex flex-col items-center space-y-1">
-                  <div class="aspect-square w-3 h-3 rounded-full bg-primary">
-                    <div class="sr-only">Availability indicator green</div>
+                @if (item?.availability === true) {
+                  <div class="flex flex-col items-center space-y-1">
+                    <div class="aspect-square w-3 h-3 rounded-full bg-primary">
+                      <div class="sr-only">Availability indicator green</div>
+                    </div>
+                    <span
+                      class="text-body-small text-medium-emphasis text-center"
+                      >{{ t('inStock') }}</span
+                    >
                   </div>
-                  <span class="text-body-small text-medium-emphasis"
-                    >In stock</span
-                  >
-                </div>
+                }
+
+                @if (item?.availability === false) {
+                  <div class="flex flex-col items-center space-y-1">
+                    <div class="aspect-square w-3 h-3 rounded-full bg-error">
+                      <div class="sr-only">Availability indicator red</div>
+                    </div>
+                    <span
+                      class="text-body-small text-medium-emphasis text-center"
+                      >{{ t('notInStock') }}</span
+                    >
+                  </div>
+                }
               </td>
               @if (shouldShowPriceColumn()) {
                 <td>
                   <div class="text-center flex flex-col justify-center h-full">
-                    <span class="text-body-small text-medium"> 15 Euro </span>
+                    <span
+                      class="text-body-small text-medium inline-block first-letter:pr-1"
+                    >
+                      {{ item?.currency }}{{ item?.price }}
+                    </span>
                     <span
                       class="text-body-small mt-1 text=[12px] text-medium-emphasis"
                       >per Piece</span
@@ -148,8 +173,8 @@
         @if (!isNaN(tableSummaryState.totalPrice)) {
           <td>
             <div class="flex flex-col px-2">
-              <span class="font-semibold"
-                >{{ tableSummaryState.totalPrice }} EUR</span
+              <span class="font-semibold inline-block first-letter:pr-1">
+                {{ tableSummaryState.totalPrice | currency: currency }}</span
               >
               <span class="font-light text-body-small">{{
                 t('totalPrice')
@@ -163,7 +188,7 @@
           <div class="flex flex-col px-2">
             <span class="font-semibold">{{ tableSummaryState.totalQty }}</span>
             <span class="font-light text-body-small">{{
-              t('totalPrice')
+              t('totalPieces')
             }}</span>
           </div>
         </td>

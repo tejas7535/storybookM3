@@ -99,6 +99,8 @@
       "totalPieces": "Total pieces",
       "totalPrice": "Total net value",
       "configSummary": "Configuration summary",
+      "inStock": "In stock",
+      "notInStock": "Out of stock",
       "increaseOne": "Increase quantity by one",
       "decreaseOne": "Decrease quantity by one",
       "func_principle": "Functional principle",
