@@ -1,4 +1,18 @@
 # Release Notes of Material App Center
+## [1.25.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.24.0...mac-v1.25.0) (2024-10-25)
+
+
+### Features
+
+* **mac:** add product category rules (UFTABI-7950) ([#6563](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6563)) ([6de4ebe](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6de4ebeaf5402568ade0feccc85e162edd885eeb))
+* **mac:** use retry on failed data loads (UFTABI-8203) ([#6650](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6650)) ([b483f09](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b483f095d39fde72c74c39afe9c5ccaccd450e95))
+
+
+### Bug Fixes
+
+* **mac:** change Tooltip behavior for green steel (UFTABI-8155) ([#6656](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6656)) ([c06474d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c06474dafa39cdf5f3787975d5f5c030b2ad2081))
+* **mac:** make bg color more transparent for disabled items ([#6616](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6616)) ([92f6610](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/92f66104be7d294ab16b38f84e4b97373842147b))
+
 ## [1.24.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.23.0...mac-v1.24.0) (2024-10-09)
 
 
