@@ -117,8 +117,8 @@
       "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
-          "format": "checkstyle",
-          "outputFile": "checkstyle/apps/cdba/checkstyle.xml",
+          "format": "json",
+          "outputFile": "eslint/apps/cdba/eslint.json",
           "force": true
         }
       }
@@ -129,6 +129,16 @@
         "jestConfig": "apps/cdba/jest.config.ts"
       },
       "outputs": ["{workspaceRoot}/coverage/apps/cdba"]
+    },
+    "sonar": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "sonar-scanner -Dsonar.token=${SONAR_TOKEN} -Dproject.settings=apps/cdba/sonar-project.properties"
+        ],
+        "parallel": false
+      },
+      "outputs": []
     },
     "version": {
       "executor": "@jscutlery/semver:version",
