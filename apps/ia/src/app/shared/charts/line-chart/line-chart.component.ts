@@ -117,8 +117,8 @@ export class LineChartComponent {
       ...this.config,
       grid: {
         top: 20,
-        left: '15%',
-        right: 0,
+        left: 40,
+        right: 40,
       },
     };
   }

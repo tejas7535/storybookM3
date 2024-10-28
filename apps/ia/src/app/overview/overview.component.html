@@ -1,6 +1,8 @@
 <div *transloco="let t; read: 'overview'">
-  <div class="bg-surface-legacy flex flex-wrap gap-4 p-4 lg:flex-nowrap">
-    <div class="flex w-full flex-col p-4 shadow lg:w-[24%]">
+  <div
+    class="bg-surface-legacy grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grid-rows-4 md:grid-rows-2 xl:grid-rows-1 gap-4"
+  >
+    <div class="w-full p-4 shadow">
       <div class="flex-1">
         <div class="flex h-full flex-col">
           <h5>{{ t('fluctuationRate') }}</h5>
@@ -50,7 +52,7 @@
         </div>
       </div>
     </div>
-    <div class="flex w-full flex-col p-4 shadow lg:w-[24%]">
+    <div class="w-full p-4 shadow">
       <div class="flex-1">
         <div class="flex h-full flex-col">
           <h5>{{ t('unforcedFluctuationRate') }}</h5>
@@ -107,7 +109,7 @@
         </div>
       </div>
     </div>
-    <div class="flex w-full flex-col p-4 shadow lg:w-[29%] lg:grow">
+    <div class="w-full p-4 shadow">
       <div class="flex-1">
         <ia-entries-exits
           [data]="chartData$ | ngrxPush"
@@ -132,46 +134,46 @@
         </ia-entries-exits>
       </div>
     </div>
-
-    <div class="flex w-full grow flex-col lg:w-[23%]">
-      <div class="flex flex-1 flex-col gap-4">
-        <div class="p-4 shadow">
-          <ia-open-positions
-            [available]="areOpenApplicationsAvailable$ | ngrxPush"
-            [openApplicationsCount]="openApplicationsCount$ | ngrxPush"
-            [openApplicationsCountLoading]="
-              openApplicationsCountLoading$ | ngrxPush
-            "
-            [openApplications]="openApplications$ | ngrxPush"
-            [openApplicationsLoading]="openApplicationsLoading$ | ngrxPush"
-            (openApplicationsRequested)="triggerLoadOpenApplications()"
-          >
-          </ia-open-positions>
-        </div>
-        <div class="grow p-4 shadow">
-          <ia-resignations
-            [data]="resignedEmployees$ | ngrxPush"
-            [syncOn]="resignedEmployeesSyncOn$ | ngrxPush"
-            [loading]="resignedEmployeesLoading$ | ngrxPush"
-            [totalCount]="resignedEmployeesCount$ | ngrxPush"
-          ></ia-resignations>
-        </div>
+    <div
+      class="w-full flex flex-col lg:flex-col gap-4 lg:col-span-3 xl:col-span-1 row-span-3 md:row-span-1 lg:row-span-2 xl:row-span-1"
+    >
+      <div class="w-full p-4 shadow">
+        <ia-open-positions
+          [available]="areOpenApplicationsAvailable$ | ngrxPush"
+          [openApplicationsCount]="openApplicationsCount$ | ngrxPush"
+          [openApplicationsCountLoading]="
+            openApplicationsCountLoading$ | ngrxPush
+          "
+          [openApplications]="openApplications$ | ngrxPush"
+          [openApplicationsLoading]="openApplicationsLoading$ | ngrxPush"
+          (openApplicationsRequested)="triggerLoadOpenApplications()"
+        >
+        </ia-open-positions>
+      </div>
+      <div class="w-full grow p-4 shadow">
+        <ia-resignations
+          [data]="resignedEmployees$ | ngrxPush"
+          [syncOn]="resignedEmployeesSyncOn$ | ngrxPush"
+          [loading]="resignedEmployeesLoading$ | ngrxPush"
+          [totalCount]="resignedEmployeesCount$ | ngrxPush"
+        ></ia-resignations>
       </div>
     </div>
-  </div>
-
-  <h5>
-    {{ t('attritionRateDetails.title') }}
-  </h5>
-  <div class="bg-surface-legacy">
-    <ia-overview-chart
-      [dataLoading]="attritionRateLoading$ | ngrxPush"
-      [data]="attritionData$ | ngrxPush"
-      [attritionEmployeesData]="attritionEmployeesData$ | ngrxPush"
-      [attritionEmployeesLoading]="attritionEmployeesLoading$ | ngrxPush"
-      [filters]="beautifiedFilters$ | ngrxPush"
-      (leaversForTimeRangeRequested)="triggerAttritionOverTimeEmployees($event)"
-    >
-    </ia-overview-chart>
+    <div class="bg-surface-legacy p-4 shadow col-span-full">
+      <h5>
+        {{ t('attritionRateDetails.title') }}
+      </h5>
+      <ia-overview-chart
+        [dataLoading]="attritionRateLoading$ | ngrxPush"
+        [data]="attritionData$ | ngrxPush"
+        [attritionEmployeesData]="attritionEmployeesData$ | ngrxPush"
+        [attritionEmployeesLoading]="attritionEmployeesLoading$ | ngrxPush"
+        [filters]="beautifiedFilters$ | ngrxPush"
+        (leaversForTimeRangeRequested)="
+          triggerAttritionOverTimeEmployees($event)
+        "
+      >
+      </ia-overview-chart>
+    </div>
   </div>
 </div>

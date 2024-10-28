@@ -18,10 +18,8 @@
   @if (autoCompleteLoading) {
     <mat-spinner matSuffix [diameter]="18"></mat-spinner>
   }
-  <mat-error>
-    {{ inputControl.errors?.invalidInput }}
-  </mat-error>
-  <mat-hint align="start">{{ hint }} </mat-hint>
+  <mat-error>{{ inputControl.errors?.invalidInput }}</mat-error>
+  <mat-hint align="start">{{ hint }}</mat-hint>
   <mat-autocomplete
     #auto="matAutocomplete"
     [displayWith]="displayFn"
@@ -30,9 +28,7 @@
     [hideSingleSelectionIndicator]="true"
   >
     @for (option of filter?.options; track $index) {
-      <mat-option [value]="option">
-        {{ displayFn(option) }}
-      </mat-option>
+      <mat-option [value]="option">{{ displayFn(option) }}</mat-option>
     }
     @if (
       filter?.options?.length === 0 &&
@@ -40,9 +36,7 @@
       !autoCompleteLoading &&
       inputControl.value?.length > minCharLength
     ) {
-      <mat-option disabled>
-        {{ noResultMessage }}
-      </mat-option>
+      <mat-option disabled>{{ noResultMessage }}</mat-option>
     }
   </mat-autocomplete>
 </mat-form-field>

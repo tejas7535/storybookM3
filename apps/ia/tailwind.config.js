@@ -43,6 +43,9 @@ module.exports = {
         'heatmap-red': 'rgb(251, 36, 36)',
         ...theme('colors'),
       }),
+      screens: {
+        xxl: '1850px',
+      },
     },
   },
   plugins: [],

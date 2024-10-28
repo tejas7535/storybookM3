@@ -1,5 +1,5 @@
 <ng-container *transloco="let t; read: 'filters'" class="gap-2">
-  <div class="flex flex-col w-full">
+  <div class="flex flex-col flex-wrap w-full md:w-[45%]">
     @if (layout === filterLayout.DEFAULT && !disableFilters) {
       <span class="text-body-1 mb-2">
         {{ dimensionFilterTranslation?.title }}
@@ -7,7 +7,7 @@
     }
     <ia-select-input
       #selectInput
-      class="mr-1 flex-1"
+      class="flex-1"
       [appearance]="apparence"
       [disabled]="disableFilters"
       [label]="dimensionFilterTranslation?.dimension"
@@ -17,9 +17,9 @@
       (selected)="onDimensionSelected($event)"
     ></ia-select-input>
   </div>
-  <div class="flex flex-col w-full">
+  <div class="flex flex-col w-full md:w-[45%]">
     @if (layout === filterLayout.DEFAULT && !disableFilters) {
-      <div class="flex flex-row w-max">
+      <div class="flex flex-row">
         <span class="text-body-1 mb-2 flex">
           {{ t('dimensionIdValue.title', { dimension: dimensionName }) }}
         </span>

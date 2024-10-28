@@ -1,10 +1,10 @@
 <ng-container *transloco="let t; read: 'filters'">
   <div
-    class="flex gap-4"
+    class="flex flex-wrap gap-4"
     [class]="layout === filterLayout.DEFAULT ? 'flex-row' : 'flex-col'"
   >
     <ia-dimension-filter
-      class="mr-6 flex columns-2 gap-2"
+      class="flex flex-wrap gap-4 md:flex-row w-full lg:w-1/2 xxl:w-[33%]"
       [availableDimensions]="availableDimensions"
       [activeDimension]="activeDimension"
       [selectedDimensionIdValue]="selectedDimensionIdValue"
@@ -17,9 +17,11 @@
       (optionSelected)="onDimensionOptionSelected($event)"
     ></ia-dimension-filter>
 
-    <div class="mr-6 flex flex-col columns-2">
-      <div class="flex flex-row gap-2 w-1/2">
-        <div class="mb-2 mr-1">
+    <div class="flex flex-col w-full lg:w-[48%] xxl:w-[32%]">
+      <div
+        class="flex flex-row flex-wrap gap-4 w-full lg:justify-end xxl:justify-center"
+      >
+        <div class="w-full md:w-[45%]">
           @if (!disableFilters) {
             <span class="flex mb-2">{{ t('periodOfTime.title') }}</span>
           }
@@ -34,9 +36,9 @@
             (selected)="timePeriodSelected($event)"
           ></ia-select-input>
         </div>
-        <div class="mb-2">
+        <div class="w-full md:w-[45%]">
           @if (!disableFilters) {
-            <div class="flex flex-row w-max">
+            <div class="flex flex-row w-full">
               <span class="flex mb-2">{{
                 t('periodOfTime.timeRangeTitle')
               }}</span>
@@ -66,7 +68,7 @@
 
     @if (showBenchmarkFilter) {
       <ia-dimension-filter
-        class="ml-auto flex"
+        class="flex flex-wrap gap-4 ia-benchmark-filter md:flex-row w-full lg:w-1/2 xxl:w-[33%] xxl:justify-end"
         [availableDimensions]="availableDimensions"
         [activeDimension]="activeBenchmarkDimension"
         [selectedDimensionIdValue]="benchmarkDimensionIdValue"
