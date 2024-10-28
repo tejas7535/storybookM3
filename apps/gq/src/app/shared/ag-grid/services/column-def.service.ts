@@ -545,6 +545,25 @@ export class ColumnDefService {
       width: 225,
     },
     {
+      headerName: translate('shared.quotationDetailsTable.priceDiffSAP'),
+      field: ColumnFields.PRICE_DIFF_SAP,
+      headerComponentParams: {
+        tooltipText: this.translocoService.translate(
+          'shared.quotationDetailsTable.priceDiffSAPInfoText'
+        ),
+      },
+      valueFormatter: (params) =>
+        this.columnUtilityService.percentageFormatter(params, false),
+      filter: NUMBER_COLUMN_FILTER,
+      filterParams: this.columnUtilityService.numberFilterParams,
+      cellRenderer: 'EditCellComponent',
+      cellRendererParams: {
+        condition: { enabled: false },
+        field: ColumnFields.PRICE_DIFF_SAP,
+      } as EditCellData,
+      width: 225,
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.lastOfferPrice'),
       field: ColumnFields.LAST_OFFER_PRICE,
       filterParams: this.columnUtilityService.numberFilterParams,

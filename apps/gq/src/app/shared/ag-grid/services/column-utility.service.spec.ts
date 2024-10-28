@@ -294,6 +294,21 @@ describe('CreateColumnService', () => {
     });
   });
 
+  describe('filterSapPriceDiffColumn', () => {
+    test('should remove sapPriceDiff Column', () => {
+      const colDefs: ColDef[] = [
+        { field: ColumnFields.MATERIAL_NUMBER_15 },
+        { field: ColumnFields.PRICING_ASSISTANT },
+        { field: ColumnFields.PRICE_DIFF_SAP },
+      ];
+      const res = ColumnUtilityService.filterSapPriceDiffColumn(colDefs);
+      expect(res).toEqual([
+        { field: ColumnFields.MATERIAL_NUMBER_15 },
+        { field: ColumnFields.PRICING_ASSISTANT },
+      ]);
+    });
+  });
+
   describe('filterRFQColumns', () => {
     const colDefs: ColDef[] = [
       { field: ColumnFields.MATERIAL_NUMBER_15 },

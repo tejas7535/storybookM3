@@ -76,6 +76,7 @@ export class QuotationDetail {
   fPricing: QuotationFPricingData;
 
   priceDiff: number;
+  priceDiffSap: number;
   netValue: number;
   gpi: number;
   lastCustomerPriceGpi: number;

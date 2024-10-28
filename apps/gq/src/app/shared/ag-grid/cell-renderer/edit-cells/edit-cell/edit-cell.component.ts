@@ -165,6 +165,7 @@ export class EditCellComponent implements ICellRendererAngularComp {
         params.data[params.condition.conditionField]) &&
       userHasNeededRole &&
       params.field !== ColumnFields.PRICE_DIFF &&
+      params.field !== ColumnFields.PRICE_DIFF_SAP &&
       params.field !== ColumnFields.RLM &&
       params.field !== ColumnFields.NET_VALUE &&
       params.field !== ColumnFields.PRICE_SOURCE;

@@ -130,6 +130,10 @@ export class QuotationDetailsTableComponent implements OnInit {
           this.tableContext.quotation
         );
 
+        columnDef = this.featureToggleService.isEnabled('sapPriceDiffColumn')
+          ? columnDef
+          : ColumnUtilityService.filterSapPriceDiffColumn(columnDef);
+
         columnDef =
           hasFNumberMaterials && !syncPending
             ? columnDef

@@ -379,6 +379,44 @@ describe('QuotationDetailsTableComponent', () => {
       })
     );
 
+    test(
+      'should NOT remove SAPPriceDiff column when featureToggle is NOT enabled',
+      marbles((m) => {
+        const mockColDefs: ColDef[] = [
+          {
+            field: ColumnFields.PRICE_DIFF_SAP,
+          },
+          {
+            field: ColumnFields.DATE_NEXT_FREE_ATP,
+          },
+        ];
+        component['columnDefinitionService'].COLUMN_DEFS = mockColDefs;
+        store.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [],
+              },
+            },
+          },
+        });
+        component['activeCaseFacade'].quotationHasRfqMaterials$ = of(false);
+        component['activeCaseFacade'].quotationHasRfqMaterials$ = of(true);
+        component['activeCaseFacade'].isSapSyncPending$ = of(false);
+        component['featureToggleService'].isEnabled = jest
+          .fn()
+          .mockReturnValue(true);
+
+        component.ngOnInit();
+
+        m.expect(component.columnDefs$).toBeObservable(
+          m.cold('a', {
+            a: mockColDefs,
+          })
+        );
+      })
+    );
+
     test('should reset simulation when simulationModeEnabled is false', () => {
       const simulationEnabledSubject$$: BehaviorSubject<boolean> =
         new BehaviorSubject(true);

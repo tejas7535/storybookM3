@@ -63,6 +63,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   fPricing: QUOTATION_F_PRICING_MOCK,
 
   priceDiff: 0.1765,
+  priceDiffSap: 0,
   gpc: 20,
   gpcDate: '2022-01-01T00:00:00',
   sqv: 30,

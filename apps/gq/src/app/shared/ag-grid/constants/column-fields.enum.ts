@@ -37,6 +37,7 @@ export enum ColumnFields {
   SAP_PRICE = 'sapPrice',
   RECOMMENDED_PRICE = 'recommendedPrice',
   PRICE_DIFF = 'priceDiff',
+  PRICE_DIFF_SAP = 'priceDiffSap',
   NEXT_FREE_ATP = 'materialStockByPlant.nextFree',
   DATE_NEXT_FREE_ATP = 'materialStockByPlant.dateNextFree',
   STRATEGIC_MATERIAL = 'strategicMaterial',
