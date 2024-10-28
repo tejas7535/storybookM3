@@ -3,6 +3,7 @@ export class NavItem {
     public label: string,
     public translation: string,
     public badge?: string,
+    public icon?: 'info' | 'warning',
     public tooltipTranslation?: string
   ) {}
 }

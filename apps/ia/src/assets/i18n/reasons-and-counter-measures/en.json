@@ -3,7 +3,10 @@
     "title": "Digital Exit Interviews",
     "tabs": {
       "overallReasons": "Overall Reasons",
-      "topReasons": "Top Reasons"
+      "topReasons": {
+        "title": "Top Reasons",
+        "tooltip": "Top reasons are classified in the tool as \"high impact\" reasons for leaving, or counted if an employee gives only one reason for leaving."
+      }
     },
     "chart": {
       "others": "Others",

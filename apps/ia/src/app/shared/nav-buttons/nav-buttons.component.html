@@ -22,6 +22,11 @@
             >{{ item.badge }}
           </sup>
         }
+        @if (item.icon) {
+          <mat-icon class="ml-1" [matTooltip]="t(item.tooltipTranslation)">{{
+            item.icon
+          }}</mat-icon>
+        }
       </ng-template>
     </mat-tab>
   }

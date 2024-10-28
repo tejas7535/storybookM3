@@ -5,11 +5,12 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedModule } from '../shared.module';
 import { NavItem } from './models';
 
@@ -19,6 +20,7 @@ import { NavItem } from './models';
   imports: [
     SharedModule,
     SharedTranslocoModule,
+    MatIconModule,
     MatTabsModule,
     MatTooltipModule,
   ],

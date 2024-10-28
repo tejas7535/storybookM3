@@ -15,6 +15,7 @@ export const getAvailableClusters = createSelector(
           cluster.name,
           undefined,
           `${cluster.availableFeatures}/${cluster.allFeatures}`,
+          undefined,
           'attritionAnalytics.cluster.moreFeaturesAvailableTooltip'
         )
     )

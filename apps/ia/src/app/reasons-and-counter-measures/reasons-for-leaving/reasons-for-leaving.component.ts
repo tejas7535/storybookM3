@@ -47,7 +47,9 @@ export class ReasonsForLeavingComponent implements OnInit {
     },
     {
       label: ReasonForLeavingTab.TOP_REASONS,
-      translation: `${this.translationPath}.${ReasonForLeavingTab.TOP_REASONS}`,
+      translation: `${this.translationPath}.${ReasonForLeavingTab.TOP_REASONS}.title`,
+      icon: 'info',
+      tooltipTranslation: `${this.translationPath}.${ReasonForLeavingTab.TOP_REASONS}.tooltip`,
     },
   ];
 
