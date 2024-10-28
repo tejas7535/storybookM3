@@ -44,6 +44,7 @@ Thumbs.db
 
 # lint outputs
 /checkstyle
+/eslint
 
 # reports (npm audit)
 /reports
