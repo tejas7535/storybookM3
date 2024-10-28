@@ -817,6 +817,48 @@ describe('ActiveCaseEffects', () => {
     });
 
     test(
+      'should return uploadSelectionToSapSuccess when REST call is successful and status pending',
+      marbles((m) => {
+        snackBar.open = jest.fn();
+
+        action = ActiveCaseActions.uploadSelectionToSap({
+          gqPositionIds: ['1'],
+        });
+
+        quotationService.uploadSelectionToSap = jest.fn(() => response);
+        effects['showUploadSelectionToast'] = jest.fn();
+
+        actions$ = m.hot('-a', { a: action });
+        const quote = {
+          ...QUOTATION_MOCK,
+          sapSyncStatus: SAP_SYNC_STATUS.SYNC_PENDING,
+        };
+        const response = m.cold('-a|', {
+          a: quote,
+        });
+
+        const expected = m.cold('--(bc)', {
+          b: ActiveCaseActions.uploadSelectionToSapSuccess({
+            updatedQuotation: quote,
+          }),
+          c: ActiveCaseActions.getSapSyncStatusInInterval(),
+        });
+
+        m.expect(effects.uploadSelectionToSap$).toBeObservable(expected);
+        m.flush();
+        expect(quotationService.uploadSelectionToSap).toHaveBeenCalledTimes(1);
+        expect(quotationService.uploadSelectionToSap).toHaveBeenCalledWith([
+          '1',
+        ]);
+        expect(effects['showUploadSelectionToast']).toHaveBeenCalledTimes(1);
+        expect(effects['showUploadSelectionToast']).toHaveBeenCalledWith(
+          quote,
+          ['1']
+        );
+      })
+    );
+
+    test(
       'should return uploadSelectionToSapSuccess when REST call is successful',
       marbles((m) => {
         snackBar.open = jest.fn();
@@ -829,14 +871,19 @@ describe('ActiveCaseEffects', () => {
         effects['showUploadSelectionToast'] = jest.fn();
 
         actions$ = m.hot('-a', { a: action });
-        const response = m.cold('-a|', { a: QUOTATION_MOCK });
+        const quote = {
+          ...QUOTATION_MOCK,
+          sapSyncStatus: SAP_SYNC_STATUS.PARTIALLY_SYNCED,
+        };
+
+        const response = m.cold('-a|', { a: quote });
 
         const expected = m.cold('--(bc)', {
           b: ActiveCaseActions.uploadSelectionToSapSuccess({
-            updatedQuotation: QUOTATION_MOCK,
+            updatedQuotation: quote,
           }),
           c: ApprovalActions.getApprovalCockpitData({
-            sapId: QUOTATION_MOCK.sapId,
+            sapId: quote.sapId,
             forceLoad: true,
           }),
         });
@@ -849,7 +896,7 @@ describe('ActiveCaseEffects', () => {
         ]);
         expect(effects['showUploadSelectionToast']).toHaveBeenCalledTimes(1);
         expect(effects['showUploadSelectionToast']).toHaveBeenCalledWith(
-          QUOTATION_MOCK,
+          quote,
           ['1']
         );
       })

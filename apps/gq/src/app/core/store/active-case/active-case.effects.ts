@@ -401,13 +401,31 @@ export class ActiveCaseEffects {
           tap((quotation) => {
             addCalculationsForDetails(quotation.quotationDetails);
           }),
-          mergeMap((updatedQuotation: Quotation) => [
-            ActiveCaseActions.uploadSelectionToSapSuccess({ updatedQuotation }),
-            ApprovalActions.getApprovalCockpitData({
-              sapId: updatedQuotation.sapId,
-              forceLoad: true,
-            }),
-          ]),
+          mergeMap((updatedQuotation: Quotation) => {
+            const actions: Action[] = [
+              ActiveCaseActions.uploadSelectionToSapSuccess({
+                updatedQuotation,
+              }),
+            ];
+
+            // ToDo: Always return getSapSyncStatusInInterval when feature toggle for async is removed (https://jira.schaeffler.com/browse/GQUOTE-4943)
+            if (
+              updatedQuotation.sapSyncStatus === SAP_SYNC_STATUS.SYNC_PENDING
+            ) {
+              // if quotation is pending, set interval to refresh the sap sync status
+              actions.push(ActiveCaseActions.getSapSyncStatusInInterval());
+            } else {
+              // if a quote was fully synced, the approval data should be reloaded because net value and gpm might have changed
+              actions.push(
+                ApprovalActions.getApprovalCockpitData({
+                  sapId: updatedQuotation.sapId,
+                  forceLoad: true,
+                })
+              );
+            }
+
+            return actions;
+          }),
           catchError((errorMessage) =>
             of(ActiveCaseActions.uploadSelectionToSapFailure({ errorMessage }))
           )
