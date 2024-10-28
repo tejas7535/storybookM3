@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import { GlobalSearchBarModule } from '@gq/shared/components/global-search-bar/global-search-bar.module';
-import { UserSettingsModule } from '@gq/shared/components/user-settings/user-settings.module';
+import { UserSettingsComponent } from '@gq/shared/components/user-settings/user-settings.component';
 import {
   AVAILABLE_LANGUAGES,
   FALLBACK_LANGUAGE,
@@ -19,7 +19,7 @@ import {
 } from '@gq/shared/constants/language';
 import { HttpErrorInterceptor } from '@gq/shared/http/http-error.interceptor';
 import { HttpHeaderInterceptor } from '@gq/shared/http/http-header.interceptor';
-import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
+import { provideTranslocoScope } from '@jsverse/transloco';
 import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
 import { PushPipe } from '@ngrx/component';
 
@@ -70,7 +70,7 @@ export function appInitializer(
 
     // UI Modules
     AppShellModule,
-    UserSettingsModule,
+    UserSettingsComponent,
     MatButtonModule,
     MatSnackBarModule,
     LoadingSpinnerModule,
@@ -130,7 +130,7 @@ export function appInitializer(
       provide: ENV,
       useValue: { ...getEnv() },
     },
-    { provide: TRANSLOCO_SCOPE, useValue: 'http' },
+    provideTranslocoScope('http'),
   ],
   exports: [AppComponent],
 })

@@ -8,7 +8,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockModule } from 'ng-mocks';
+import { MockComponent } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { AppShellModule } from '@schaeffler/app-shell';
@@ -24,7 +24,7 @@ import { AUTH_STATE_MOCK, HEALTH_CHECK_STATE_MOCK } from '../testing/mocks';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { GlobalSearchBarModule } from './shared/components/global-search-bar/global-search-bar.module';
-import { UserSettingsModule } from './shared/components/user-settings/user-settings.module';
+import { UserSettingsComponent } from './shared/components/user-settings/user-settings.component';
 
 jest.mock('@jsverse/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
@@ -52,7 +52,7 @@ describe('AppComponent', () => {
       PushPipe,
       AppShellModule,
       LoadingSpinnerModule,
-      MockModule(UserSettingsModule),
+      MockComponent(UserSettingsComponent),
       MaintenanceModule,
       AppRoutingModule,
       GlobalSearchBarModule,
