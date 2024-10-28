@@ -2,7 +2,7 @@ const nxPreset = require('@nx/jest/preset').default;
 module.exports = {
   ...nxPreset,
   cacheDirectory: '/tmp/.project-cache/jest',
-  coverageReporters: ['html', 'cobertura'],
+  coverageReporters: ['html', 'lcov', 'cobertura'],
   coverageThreshold: {
     global: {
       branches: 80,
