@@ -74,11 +74,11 @@ importers:
         specifier: 18.1.0
         version: 18.1.0(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.1.0(@angular/animations@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(rxjs@7.8.1)
       '@azure/msal-angular':
-        specifier: 3.0.21
-        version: 3.0.21(@azure/msal-browser@3.18.0)(rxjs@7.8.1)
+        specifier: 3.0.25
+        version: 3.0.25(@azure/msal-browser@3.26.1)(rxjs@7.8.1)
       '@azure/msal-browser':
-        specifier: 3.18.0
-        version: 3.18.0
+        specifier: 3.26.1
+        version: 3.26.1
       '@caeonline/dynamic-forms':
         specifier: https://artifactory.schaeffler.com:443/artifactory/npm-local/%40caeonline/dynamic-forms/-/%40caeonline/production/dynamic-forms-1.1.0.tgz
         version: https://artifactory.schaeffler.com:443/artifactory/npm-local/%40caeonline/dynamic-forms/-/%40caeonline/production/dynamic-forms-1.1.0.tgz(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/forms@18.1.0(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.1.0(@angular/animations@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7)))(rxjs@7.8.1))(standard-version@9.1.1)
@@ -1106,18 +1106,18 @@ packages:
     resolution: {integrity: sha512-cWgAwmbFYNCFzPwxL705+lWps0F3ZvOckufd2KKoEZUmtpVw9/txUXNrPySUXSmRTSRhoatIMABNfStWR043bQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@aws-sdk/xml-builder/-/xml-builder-3.575.0.tgz}
     engines: {node: '>=16.0.0'}
 
-  '@azure/msal-angular@3.0.21':
-    resolution: {integrity: sha512-oYcRUQEhxI2vxKO5dMRwJKmfZVVR7Q6HvECZfasJf4gUY4P+NfoI9qSuTO+BcFFRPOfFsIhcso5A9TkA6JaIFA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@azure/msal-angular/-/msal-angular-3.0.21.tgz}
+  '@azure/msal-angular@3.0.25':
+    resolution: {integrity: sha512-n0B8KAC055ZfrEbo3AVr//KC/chCeHorV5gqX9skKhn1KGmEE6YRdKXt82AkaJz5Si2Xjk8gG2+Xq/rUjEVRgQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@azure/msal-angular/-/msal-angular-3.0.25.tgz}
     peerDependencies:
-      '@azure/msal-browser': ^3.18.0
+      '@azure/msal-browser': ^3.25.0
       rxjs: ^7.0.0
 
-  '@azure/msal-browser@3.18.0':
-    resolution: {integrity: sha512-jvK5bDUWbpOaJt2Io/rjcaOVcUzkqkrCme/WntdV1SMUc67AiTcEdKuY6G/nMQ7N5Cfsk9SfpugflQwDku53yg==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@azure/msal-browser/-/msal-browser-3.18.0.tgz}
+  '@azure/msal-browser@3.26.1':
+    resolution: {integrity: sha512-y78sr9g61aCAH9fcLO1um+oHFXc1/5Ap88RIsUSuzkm0BHzFnN+PXGaQeuM1h5Qf5dTnWNOd6JqkskkMPAhh7Q==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@azure/msal-browser/-/msal-browser-3.26.1.tgz}
     engines: {node: '>=0.8.0'}
 
-  '@azure/msal-common@14.13.0':
-    resolution: {integrity: sha512-b4M/tqRzJ4jGU91BiwCsLTqChveUEyFK3qY2wGfZ0zBswIBZjAxopx5CYt5wzZFKuN15HqRDYXQbztttuIC3nA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@azure/msal-common/-/msal-common-14.13.0.tgz}
+  '@azure/msal-common@14.15.0':
+    resolution: {integrity: sha512-ImAQHxmpMneJ/4S8BRFhjt1MZ3bppmpRPYYNyzeQPeFN288YKbb8TmmISQEbtfkQ1BPASvYZU5doIZOPBAqENQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@azure/msal-common/-/msal-common-14.15.0.tgz}
     engines: {node: '>=0.8.0'}
 
   '@babel/code-frame@7.24.7':
@@ -2181,7 +2181,7 @@ packages:
       '@capacitor/core': ^6.0.0
 
   '@capacitor/keyboard@6.0.2':
-    resolution: {integrity: sha512-fOfO3rQ0ZXuTHpK03INVTwmBnpqMiH8EHPpNaHjwjKwdrVRWBvtgIFhuyHNXh53rdcXw+uHB+1RIiNabnCrITw==}
+    resolution: {integrity: sha512-fOfO3rQ0ZXuTHpK03INVTwmBnpqMiH8EHPpNaHjwjKwdrVRWBvtgIFhuyHNXh53rdcXw+uHB+1RIiNabnCrITw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@capacitor/keyboard/-/keyboard-6.0.2.tgz}
     peerDependencies:
       '@capacitor/core': ^6.0.0
 
@@ -6166,6 +6166,7 @@ packages:
 
   boolean@3.2.0:
     resolution: {integrity: sha512-d0II/GO9uf9lfUHH2BQsjxzRJZBdsjgsBiW4BvhWk/3qoKwQFjIDVN19PfX8F2D/r9PCMTtLWjYVCFrpeYUzsw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/boolean/-/boolean-3.2.0.tgz}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   bowser@2.11.0:
     resolution: {integrity: sha512-AlcaJBi/pqqJBIQ8U9Mcpc9i8Aqxn88Skv5d+xBX006BY5u8N3mGLHa5Lgppa7L/HfwgwLgZ6NYs+Ag6uUmJRA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/bowser/-/bowser-2.11.0.tgz}
@@ -7791,6 +7792,7 @@ packages:
   eslint@8.57.0:
     resolution: {integrity: sha512-dZ6+mexnaTIbSBZWgou51U6OmzIhYM2VcNdtiTtI7qPNZm35Akpr0f6vtw3w1Kmn5PYo+tZVfh13WrhpS6oLqQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/eslint/-/eslint-8.57.0.tgz}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
   espree@9.6.1:
@@ -14726,17 +14728,17 @@ snapshots:
       '@smithy/types': 3.1.0
       tslib: 2.6.3
 
-  '@azure/msal-angular@3.0.21(@azure/msal-browser@3.18.0)(rxjs@7.8.1)':
+  '@azure/msal-angular@3.0.25(@azure/msal-browser@3.26.1)(rxjs@7.8.1)':
     dependencies:
-      '@azure/msal-browser': 3.18.0
+      '@azure/msal-browser': 3.26.1
       rxjs: 7.8.1
       tslib: 2.4.0
 
-  '@azure/msal-browser@3.18.0':
+  '@azure/msal-browser@3.26.1':
     dependencies:
-      '@azure/msal-common': 14.13.0
+      '@azure/msal-common': 14.15.0
 
-  '@azure/msal-common@14.13.0': {}
+  '@azure/msal-common@14.15.0': {}
 
   '@babel/code-frame@7.24.7':
     dependencies:
