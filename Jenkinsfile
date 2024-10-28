@@ -682,6 +682,22 @@ pipeline {
             }
         }
 
+        stage('Sonar:Scan'){
+            when {
+                expression {
+                    return runQualityStage
+                }
+            }
+            steps {
+                echo 'Run Sonar Scan'
+                script {
+                    withCredentials([string(credentialsId: 'SONARQUBE_TOKEN', variable: 'SONAR_TOKEN')]) {  
+                        sh "NX_SONAR_TOKEN=${SONAR_TOKEN} pnpm nx affected --base=${buildBase} --target sonar  --parallel=3"
+                    }
+                }
+            }
+        }
+
         stage('Hotfix') {
             when {
                 expression {
