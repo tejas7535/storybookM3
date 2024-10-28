@@ -129,7 +129,7 @@ importers:
         version: 17.0.1(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
       '@tailwindcss/typography':
         specifier: ^0.5.10
-        version: 0.5.12(tailwindcss@3.3.1(postcss@8.4.39)(ts-node@10.9.2(@swc/core@1.4.16)(@types/node@18.19.45)(typescript@5.4.5)))
+        version: 0.5.15(tailwindcss@3.3.1(postcss@8.4.39)(ts-node@10.9.2(@swc/core@1.4.16)(@types/node@18.19.45)(typescript@5.4.5)))
       ag-grid-angular:
         specifier: 30.2.1
         version: 30.2.1(@angular/common@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(ag-grid-community@30.2.1)
@@ -502,7 +502,7 @@ importers:
     devDependencies:
       '@tailwindcss/typography':
         specifier: ^0.5.10
-        version: 0.5.12(tailwindcss@3.3.1(postcss@8.4.39)(ts-node@10.9.2(@swc/core@1.4.16)(@types/node@18.19.45)(typescript@5.4.5)))
+        version: 0.5.15(tailwindcss@3.3.1(postcss@8.4.39)(ts-node@10.9.2(@swc/core@1.4.16)(@types/node@18.19.45)(typescript@5.4.5)))
 
   apps/ga:
     dependencies:
@@ -2883,8 +2883,8 @@ packages:
     resolution: {integrity: sha512-7bQW+gkKa2kKZPeJf6+c6gFK9ARxQfn+FKy9ScTBppyKRWH2KzsmweXUoklqeEiHiNVWaeP5csIdsNq6w7QhzA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@gwhitney/detect-indent/-/detect-indent-7.0.1.tgz}
     engines: {node: '>=12.20'}
 
-  '@hapi/hoek@11.0.4':
-    resolution: {integrity: sha512-PnsP5d4q7289pS2T2EgGz147BFJ2Jpb4yrEdkpz2IhgEUzos1S7HTl7ezWh1yfYzYlj89KzLdCRkqsP6SIryeQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@hapi/hoek/-/hoek-11.0.4.tgz}
+  '@hapi/hoek@11.0.6':
+    resolution: {integrity: sha512-mu8He+jghTDJ+la/uGBT4b1rqQdqFADZiXhzd98b3XW5nb/c+5woXx3FiNco2nm4wPJFHQVRGxYeWeSDPIYpYw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@hapi/hoek/-/hoek-11.0.6.tgz}
 
   '@humanwhocodes/config-array@0.11.14':
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@humanwhocodes/config-array/-/config-array-0.11.14.tgz}
@@ -2941,6 +2941,10 @@ packages:
 
   '@inquirer/figures@1.0.5':
     resolution: {integrity: sha512-79hP/VWdZ2UVc9bFGJnoQ/lQMpL74mGgzSYX1xUqCVk7/v73vJCMw1VuyWN1jGkZ9B3z7THAbySqGbCNefcjfA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@inquirer/figures/-/figures-1.0.5.tgz}
+    engines: {node: '>=18'}
+
+  '@inquirer/figures@1.0.7':
+    resolution: {integrity: sha512-m+Trk77mp54Zma6xLkLuY+mvanPxlE4A7yNKs2HBiyZ4UkVs28Mv5c/pgWrHeInx+USHeX/WEPzjrWrcJiQgjw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@inquirer/figures/-/figures-1.0.7.tgz}
     engines: {node: '>=18'}
 
   '@inquirer/input@2.2.9':
@@ -5060,10 +5064,10 @@ packages:
     peerDependencies:
       tailwindcss: '>=3.2.0'
 
-  '@tailwindcss/typography@0.5.12':
-    resolution: {integrity: sha512-CNwpBpconcP7ppxmuq3qvaCxiRWnbhANpY/ruH4L5qs2GCiVDJXde/pjj2HWPV1+Q4G9+V/etrwUYopdcjAlyg==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@tailwindcss/typography/-/typography-0.5.12.tgz}
+  '@tailwindcss/typography@0.5.15':
+    resolution: {integrity: sha512-AqhlCXl+8grUz8uqExv5OTtgpjuVIwFTSXTrh8y9/pw6q2ek7fJ+Y8ZEVw7EB2DCcuCOtEjf9w3+J3rzts01uA==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@tailwindcss/typography/-/typography-0.5.15.tgz}
     peerDependencies:
-      tailwindcss: '>=3.0.0 || insiders'
+      tailwindcss: '>=3.0.0 || insiders || >=4.0.0-alpha.20'
 
   '@technote-space/anchor-markdown-header@1.1.42':
     resolution: {integrity: sha512-iJ5qu1EO3kZDthq9zbMQ9ufB4jd0XwhHJ+4RNpTUEVTIZFitCV++IUfH1YCACGasct41pQRxGmWQNoaRZmn7EQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@technote-space/anchor-markdown-header/-/anchor-markdown-header-1.1.42.tgz}
@@ -11209,6 +11213,10 @@ packages:
     resolution: {integrity: sha512-A0RVJrX+IUkVZbW3ClroRWurercFhieevHB38sr2+l9eUClMqome3LmEmnhlNy+5Mr2EYN6B2Kaw9wYdd+VHiw==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/postcss-selector-parser/-/postcss-selector-parser-6.0.16.tgz}
     engines: {node: '>=4'}
 
+  postcss-selector-parser@6.1.2:
+    resolution: {integrity: sha512-Q8qQfPiZ+THO/3ZrOrO0cJJKfpYCagtMUkXbnEfmgUjwXg6z/WBeOyS9APBBPCTSiDV+s4SwQGu8yFsiMRIudg==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/postcss-selector-parser/-/postcss-selector-parser-6.1.2.tgz}
+    engines: {node: '>=4'}
+
   postcss-svgo@6.0.3:
     resolution: {integrity: sha512-dlrahRmxP22bX6iKEjOM+c8/1p+81asjKT+V5lrgOH944ryx/OHpclnIbGsKVd3uWOXFLYJwCVf0eEkJGvO96g==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/postcss-svgo/-/postcss-svgo-6.0.3.tgz}
     engines: {node: ^14 || ^16 || >= 18}
@@ -11963,6 +11971,11 @@ packages:
 
   semver@7.6.2:
     resolution: {integrity: sha512-FNAIBWCx9qcRhoHcgcJ0gvU7SN1lYU2ZXuSfl04bSC5OpvDHFyJCjdNHomPXxjQlCBU67YW64PzY7/VIEH7F2w==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/semver/-/semver-7.6.2.tgz}
+    engines: {node: '>=10'}
+    hasBin: true
+
+  semver@7.6.3:
+    resolution: {integrity: sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/semver/-/semver-7.6.3.tgz}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -16559,9 +16572,9 @@ snapshots:
 
   '@csstools/postcss-cascade-layers@1.1.1(postcss@8.4.39)':
     dependencies:
-      '@csstools/selector-specificity': 2.2.0(postcss-selector-parser@6.0.16)
+      '@csstools/selector-specificity': 2.2.0(postcss-selector-parser@6.1.2)
       postcss: 8.4.39
-      postcss-selector-parser: 6.0.16
+      postcss-selector-parser: 6.1.2
 
   '@csstools/postcss-color-function@1.1.1(postcss@8.4.39)':
     dependencies:
@@ -16587,9 +16600,9 @@ snapshots:
 
   '@csstools/postcss-is-pseudo-class@2.0.7(postcss@8.4.39)':
     dependencies:
-      '@csstools/selector-specificity': 2.2.0(postcss-selector-parser@6.0.16)
+      '@csstools/selector-specificity': 2.2.0(postcss-selector-parser@6.1.2)
       postcss: 8.4.39
-      postcss-selector-parser: 6.0.16
+      postcss-selector-parser: 6.1.2
 
   '@csstools/postcss-nested-calc@1.0.0(postcss@8.4.39)':
     dependencies:
@@ -16631,9 +16644,9 @@ snapshots:
     dependencies:
       postcss: 8.4.39
 
-  '@csstools/selector-specificity@2.2.0(postcss-selector-parser@6.0.16)':
+  '@csstools/selector-specificity@2.2.0(postcss-selector-parser@6.1.2)':
     dependencies:
-      postcss-selector-parser: 6.0.16
+      postcss-selector-parser: 6.1.2
 
   '@cypress/request@3.0.1':
     dependencies:
@@ -16944,7 +16957,7 @@ snapshots:
 
   '@gwhitney/detect-indent@7.0.1': {}
 
-  '@hapi/hoek@11.0.4': {}
+  '@hapi/hoek@11.0.6': {}
 
   '@humanwhocodes/config-array@0.11.14':
     dependencies:
@@ -17027,6 +17040,8 @@ snapshots:
   '@inquirer/figures@1.0.3': {}
 
   '@inquirer/figures@1.0.5': {}
+
+  '@inquirer/figures@1.0.7': {}
 
   '@inquirer/input@2.2.9':
     dependencies:
@@ -20791,7 +20806,7 @@ snapshots:
     dependencies:
       tailwindcss: 3.3.1(postcss@8.4.39)(ts-node@10.9.2(@swc/core@1.4.16)(@types/node@18.19.45)(typescript@5.4.5))
 
-  '@tailwindcss/typography@0.5.12(tailwindcss@3.3.1(postcss@8.4.39)(ts-node@10.9.2(@swc/core@1.4.16)(@types/node@18.19.45)(typescript@5.4.5)))':
+  '@tailwindcss/typography@0.5.15(tailwindcss@3.3.1(postcss@8.4.39)(ts-node@10.9.2(@swc/core@1.4.16)(@types/node@18.19.45)(typescript@5.4.5)))':
     dependencies:
       lodash.castarray: 4.4.0
       lodash.isplainobject: 4.0.6
@@ -22785,7 +22800,7 @@ snapshots:
       json-stringify-safe: 5.0.1
       lodash: 4.17.21
       meow: 8.1.2
-      semver: 7.6.2
+      semver: 7.6.3
       split: 1.0.1
       through2: 4.0.2
 
@@ -23025,7 +23040,7 @@ snapshots:
   css-blank-pseudo@3.0.3(postcss@8.4.39):
     dependencies:
       postcss: 8.4.39
-      postcss-selector-parser: 6.0.16
+      postcss-selector-parser: 6.1.2
 
   css-declaration-sorter@7.2.0(postcss@8.4.39):
     dependencies:
@@ -23034,7 +23049,7 @@ snapshots:
   css-has-pseudo@3.0.4(postcss@8.4.39):
     dependencies:
       postcss: 8.4.39
-      postcss-selector-parser: 6.0.16
+      postcss-selector-parser: 6.1.2
 
   css-line-break@2.1.0:
     dependencies:
@@ -24697,7 +24712,7 @@ snapshots:
   git-semver-tags@4.1.1:
     dependencies:
       meow: 8.1.2
-      semver: 7.6.2
+      semver: 7.6.3
 
   git-semver-tags@7.0.1:
     dependencies:
@@ -25330,7 +25345,7 @@ snapshots:
 
   inquirer@9.2.22:
     dependencies:
-      '@inquirer/figures': 1.0.5
+      '@inquirer/figures': 1.0.7
       '@ljharb/through': 2.3.13
       ansi-escapes: 4.3.2
       chalk: 5.3.0
@@ -26037,7 +26052,7 @@ snapshots:
 
   joi@13.7.0:
     dependencies:
-      hoek: '@hapi/hoek@11.0.4'
+      hoek: '@hapi/hoek@11.0.6'
       isemail: 3.2.0
       topo: 3.0.3
 
@@ -27808,12 +27823,12 @@ snapshots:
   postcss-attribute-case-insensitive@5.0.2(postcss@8.4.39):
     dependencies:
       postcss: 8.4.39
-      postcss-selector-parser: 6.0.16
+      postcss-selector-parser: 6.1.2
 
   postcss-calc@9.0.1(postcss@8.4.39):
     dependencies:
       postcss: 8.4.39
-      postcss-selector-parser: 6.0.16
+      postcss-selector-parser: 6.1.2
       postcss-value-parser: 4.2.0
 
   postcss-clamp@4.1.0(postcss@8.4.39):
@@ -27863,12 +27878,12 @@ snapshots:
   postcss-custom-selectors@6.0.3(postcss@8.4.39):
     dependencies:
       postcss: 8.4.39
-      postcss-selector-parser: 6.0.16
+      postcss-selector-parser: 6.1.2
 
   postcss-dir-pseudo-class@6.0.5(postcss@8.4.39):
     dependencies:
       postcss: 8.4.39
-      postcss-selector-parser: 6.0.16
+      postcss-selector-parser: 6.1.2
 
   postcss-discard-comments@6.0.2(postcss@8.4.39):
     dependencies:
@@ -27900,12 +27915,12 @@ snapshots:
   postcss-focus-visible@6.0.4(postcss@8.4.39):
     dependencies:
       postcss: 8.4.39
-      postcss-selector-parser: 6.0.16
+      postcss-selector-parser: 6.1.2
 
   postcss-focus-within@5.0.4(postcss@8.4.39):
     dependencies:
       postcss: 8.4.39
-      postcss-selector-parser: 6.0.16
+      postcss-selector-parser: 6.1.2
 
   postcss-font-variant@5.0.0(postcss@8.4.39):
     dependencies:
@@ -27998,7 +28013,7 @@ snapshots:
       caniuse-api: 3.0.0
       cssnano-utils: 4.0.2(postcss@8.4.39)
       postcss: 8.4.39
-      postcss-selector-parser: 6.0.16
+      postcss-selector-parser: 6.1.2
 
   postcss-minify-font-values@6.1.0(postcss@8.4.39):
     dependencies:
@@ -28022,7 +28037,7 @@ snapshots:
   postcss-minify-selectors@6.0.4(postcss@8.4.39):
     dependencies:
       postcss: 8.4.39
-      postcss-selector-parser: 6.0.16
+      postcss-selector-parser: 6.1.2
 
   postcss-modules-extract-imports@3.1.0(postcss@8.4.39):
     dependencies:
@@ -28032,13 +28047,13 @@ snapshots:
     dependencies:
       icss-utils: 5.1.0(postcss@8.4.39)
       postcss: 8.4.39
-      postcss-selector-parser: 6.0.16
+      postcss-selector-parser: 6.1.2
       postcss-value-parser: 4.2.0
 
   postcss-modules-scope@3.2.0(postcss@8.4.39):
     dependencies:
       postcss: 8.4.39
-      postcss-selector-parser: 6.0.16
+      postcss-selector-parser: 6.1.2
 
   postcss-modules-values@4.0.0(postcss@8.4.39):
     dependencies:
@@ -28052,9 +28067,9 @@ snapshots:
 
   postcss-nesting@10.2.0(postcss@8.4.39):
     dependencies:
-      '@csstools/selector-specificity': 2.2.0(postcss-selector-parser@6.0.16)
+      '@csstools/selector-specificity': 2.2.0(postcss-selector-parser@6.1.2)
       postcss: 8.4.39
-      postcss-selector-parser: 6.0.16
+      postcss-selector-parser: 6.1.2
 
   postcss-normalize-charset@6.0.2(postcss@8.4.39):
     dependencies:
@@ -28181,7 +28196,7 @@ snapshots:
   postcss-pseudo-class-any-link@7.1.6(postcss@8.4.39):
     dependencies:
       postcss: 8.4.39
-      postcss-selector-parser: 6.0.16
+      postcss-selector-parser: 6.1.2
 
   postcss-reduce-initial@6.1.0(postcss@8.4.39):
     dependencies:
@@ -28201,7 +28216,7 @@ snapshots:
   postcss-selector-not@6.0.1(postcss@8.4.39):
     dependencies:
       postcss: 8.4.39
-      postcss-selector-parser: 6.0.16
+      postcss-selector-parser: 6.1.2
 
   postcss-selector-parser@6.0.10:
     dependencies:
@@ -28209,6 +28224,11 @@ snapshots:
       util-deprecate: 1.0.2
 
   postcss-selector-parser@6.0.16:
+    dependencies:
+      cssesc: 3.0.0
+      util-deprecate: 1.0.2
+
+  postcss-selector-parser@6.1.2:
     dependencies:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
@@ -28222,7 +28242,7 @@ snapshots:
   postcss-unique-selectors@6.0.4(postcss@8.4.39):
     dependencies:
       postcss: 8.4.39
-      postcss-selector-parser: 6.0.16
+      postcss-selector-parser: 6.1.2
 
   postcss-url@10.1.3(postcss@8.4.39):
     dependencies:
@@ -29153,6 +29173,8 @@ snapshots:
 
   semver@7.6.2: {}
 
+  semver@7.6.3: {}
+
   send@0.18.0:
     dependencies:
       debug: 2.6.9
@@ -29464,7 +29486,7 @@ snapshots:
       find-up: 5.0.0
       fs-access: 1.0.1
       git-semver-tags: 4.1.1
-      semver: 7.6.2
+      semver: 7.6.3
       stringify-package: 1.0.1
       yargs: 16.2.0
 
@@ -29621,7 +29643,7 @@ snapshots:
     dependencies:
       browserslist: 4.23.3
       postcss: 8.4.39
-      postcss-selector-parser: 6.0.16
+      postcss-selector-parser: 6.1.2
 
   stylus-loader@7.1.3(stylus@0.59.0)(webpack@5.95.0(@swc/core@1.4.16)(esbuild@0.18.20)):
     dependencies:
@@ -29917,7 +29939,7 @@ snapshots:
 
   topo@3.0.3:
     dependencies:
-      hoek: '@hapi/hoek@11.0.4'
+      hoek: '@hapi/hoek@11.0.6'
 
   totalist@1.1.0: {}
 
@@ -30873,7 +30895,7 @@ snapshots:
 
   xml2json@0.12.0:
     dependencies:
-      hoek: '@hapi/hoek@11.0.4'
+      hoek: '@hapi/hoek@11.0.6'
       joi: 13.7.0
       node-expat: 2.4.1
 
