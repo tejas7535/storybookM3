@@ -131,8 +131,8 @@
       "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
-          "format": "checkstyle",
-          "outputFile": "checkstyle/apps/mac/checkstyle.xml",
+          "format": "json",
+          "outputFile": "eslint/apps/mac/eslint.json",
           "force": true
         }
       }
@@ -143,6 +143,16 @@
         "jestConfig": "apps/mac/jest.config.ts"
       },
       "outputs": ["{workspaceRoot}/coverage/apps/mac"]
+    },
+    "sonar": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "sonar-scanner -Dsonar.token=${SONAR_TOKEN} -Dproject.settings=apps/mac/sonar-project.properties"
+        ],
+        "parallel": false
+      },
+      "outputs": []
     },
     "version": {
       "executor": "@jscutlery/semver:version",
