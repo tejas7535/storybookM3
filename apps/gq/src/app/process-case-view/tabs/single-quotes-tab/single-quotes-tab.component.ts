@@ -5,6 +5,7 @@ import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { map, Observable, take } from 'rxjs';
 
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
+import { ColumnDefService } from '@gq/shared/ag-grid/services';
 import { FILTER_PARAM_INDICATOR } from '@gq/shared/constants';
 import { Quotation } from '@gq/shared/models';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
@@ -36,7 +37,8 @@ export class SingleQuotesTabComponent implements OnInit {
     private readonly store: Store,
     private readonly dialog: MatDialog,
     private readonly gridStateService: AgGridStateService,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly colDefService: ColumnDefService
   ) {}
 
   ngOnInit(): void {
@@ -46,8 +48,14 @@ export class SingleQuotesTabComponent implements OnInit {
     this.updateLoading$ = this.store.select(
       activeCaseFeature.selectUpdateLoading
     );
-    this.gridStateService.init('process_case');
+    this.gridStateService.init(
+      'process_case',
+      null,
+      this.colDefService.COLUMN_DEFS.map((item) => item.field)
+    );
+
     this.gridStateService.setActiveView(this.gridStateService.DEFAULT_VIEW_ID);
+    this.gridStateService.clearDefaultViewColumnAndFilterState();
 
     this.customViews$ = this.gridStateService.views.asObservable().pipe(
       map((views: ViewToggle[]) => {

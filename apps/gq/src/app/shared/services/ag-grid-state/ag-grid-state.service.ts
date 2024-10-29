@@ -1,10 +1,8 @@
 /* eslint-disable max-lines */
-import { Inject, Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { translate } from '@jsverse/transloco';
-import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { ColumnState } from 'ag-grid-enterprise';
 
 import { ViewToggle } from '@schaeffler/view-toggle';
@@ -15,6 +13,9 @@ import {
   GridState,
 } from '../../models/grid-state.model';
 import { QuotationDetail } from '../../models/quotation-detail';
+import { LocalStorageService } from '../local-storage/local-storage.service';
+import { GridLocalStorageService } from './grid-local-storage.service';
+import { GridMergeService } from './grid-merge.service';
 
 @Injectable({
   providedIn: 'root',
@@ -32,8 +33,15 @@ export class AgGridStateService {
 
   private activeTableKey: string;
   private activeViewId = this.DEFAULT_VIEW_ID;
+  private columnIds: string[];
 
-  constructor(@Inject(LOCAL_STORAGE) readonly localStorage: Storage) {}
+  private readonly gridMergeService: GridMergeService =
+    inject(GridMergeService);
+  private readonly gridLocalStorageService: GridLocalStorageService = inject(
+    GridLocalStorageService
+  );
+  private readonly localStorageService: LocalStorageService =
+    inject(LocalStorageService);
 
   /**
    * Init the gridState by table key.
@@ -42,46 +50,57 @@ export class AgGridStateService {
    *
    * @param tableName key of the table
    * @param additionalViews all custom views but the default one
+   * @param columnIds columnIds of ColumnDefinitions configured in the app
    */
-  public init(tableName: string, additionalViews?: CustomView[]) {
+  public init(
+    tableName: string,
+    additionalViews?: CustomView[],
+    columnIds?: string[]
+  ) {
     this.activeTableKey = `GQ_${tableName.toUpperCase()}_STATE`;
+    const gridState = this.gridLocalStorageService.getGridState(
+      this.activeTableKey
+    );
 
-    if (!this.localStorage.getItem(this.activeTableKey)) {
-      this.localStorage.setItem(
+    if (!gridState) {
+      this.gridLocalStorageService.createInitialLocalStorage(
         this.activeTableKey,
-        JSON.stringify({
-          version: 1,
-          customViews: [
-            {
-              id: 0,
-              title: translate('shared.quotationDetailsTable.defaultView'),
-              state: { columnState: [] },
-            },
-            ...(additionalViews || []),
-          ],
-        } as GridState)
+        additionalViews,
+        columnIds
       );
+    } else if (gridState && columnIds) {
+      this.columnIds = columnIds;
+      // check if initalColumnIds are present in the GridState, if not, add them,
+      // required because this new property will not be in old versions of the gridState
+      if (!gridState.initialColIds || gridState.initialColIds?.length === 0) {
+        this.saveGridState({
+          ...gridState,
+          initialColIds: columnIds,
+        });
+      }
+      // check whether columns are in State but not in Config
+      this.cleanupRemovedColumns(gridState);
     }
 
     this.updateViews();
   }
 
   public getColumnData(quotationId: string): QuotationDetail[] {
-    return JSON.parse(this.localStorage.getItem(`${quotationId}_items`));
+    return this.localStorageService.getFromLocalStorage(
+      `${quotationId}_items`
+    ) as QuotationDetail[];
   }
 
   public setColumnData(
     quotationId: string,
     columnData: QuotationDetail[]
   ): void {
-    this.localStorage.setItem(
+    this.localStorageService.setToLocalStorage(
       `${quotationId}_items`,
-      JSON.stringify(
-        columnData.map((detail: QuotationDetail) => ({
-          gqPositionId: detail.gqPositionId,
-          quotationItemId: detail.quotationItemId,
-        }))
-      )
+      columnData.map((detail: QuotationDetail) => ({
+        gqPositionId: detail.gqPositionId,
+        quotationItemId: detail.quotationItemId,
+      }))
     );
   }
 
@@ -117,7 +136,9 @@ export class AgGridStateService {
   }
 
   public getCustomViews(): ViewToggle[] {
-    const gridState = this.getGridState(this.activeTableKey);
+    const gridState = this.gridLocalStorageService.getGridState(
+      this.activeTableKey
+    );
     const views = gridState?.customViews?.map((view: CustomView) => ({
       id: view.id,
       active: false,
@@ -135,12 +156,17 @@ export class AgGridStateService {
   }
 
   public createViewFromCurrentView(title: string, actionItemId: string) {
-    const currentView = this.getCurrentView();
+    const currentView = this.gridLocalStorageService.getViewById(
+      this.activeTableKey,
+      this.activeViewId
+    );
     this.createNewView(title, currentView.state.columnState, actionItemId);
   }
 
   public deleteView(id: number) {
-    const gridState = this.getGridState(this.activeTableKey);
+    const gridState = this.gridLocalStorageService.getGridState(
+      this.activeTableKey
+    );
 
     this.saveGridState({
       ...gridState,
@@ -153,13 +179,17 @@ export class AgGridStateService {
   }
 
   public getViewNameById(viewId: number) {
-    const gridState = this.getGridState(this.activeTableKey);
+    const gridState = this.gridLocalStorageService.getGridState(
+      this.activeTableKey
+    );
 
     return gridState.customViews.find((view) => view.id === viewId).title;
   }
 
   public updateViewName(viewId: number, name: string) {
-    const gridState = this.getGridState(this.activeTableKey);
+    const gridState = this.gridLocalStorageService.getGridState(
+      this.activeTableKey
+    );
 
     this.saveGridState({
       ...gridState,
@@ -192,56 +222,39 @@ export class AgGridStateService {
    * @deprecated can be removed a while, when all users have updated their localStorage once, or localStorage is not used any longer
    */
   public renameQuotationIdToActionItemForProcessCaseState(): void {
-    let toBeRenamed = false;
-    const gridState = this.getGridState(`GQ_PROCESS_CASE_STATE`);
-    if (!gridState) {
-      return;
-    }
-
-    const customViews = gridState?.customViews?.map((view: CustomView) => {
-      const filterState = view.state?.filterState?.map(
-        (filter: FilterState & { quotationId?: string }) => {
-          if (filter.quotationId) {
-            // the field quotationId needs to be renamed to actionItemId
-            const newFilter: FilterState = {
-              actionItemId: filter.quotationId,
-              filterModels: filter.filterModels,
-            };
-            toBeRenamed = true;
-
-            return newFilter;
-          } else {
-            return filter;
-          }
-        }
-      );
-
-      return {
-        ...view,
-        state: {
-          ...view.state,
-          filterState,
-        },
-      };
-    });
-
-    if (toBeRenamed) {
-      this.localStorage.setItem(
-        `GQ_PROCESS_CASE_STATE`,
-        JSON.stringify({
-          ...gridState,
-          customViews,
-        })
-      );
-    }
+    this.gridLocalStorageService.renameQuotationIdToActionItemForProcessCaseState();
   }
 
+  /**
+   * clears the columnState and filterState of the default view
+   */
+  public clearDefaultViewColumnAndFilterState() {
+    const gridState = this.gridLocalStorageService.getGridState(
+      this.activeTableKey
+    );
+    if (gridState) {
+      this.saveGridState({
+        ...gridState,
+        customViews: gridState.customViews.map((view: CustomView) =>
+          view.id === this.DEFAULT_VIEW_ID
+            ? {
+                ...view,
+                state: {
+                  columnState: [],
+                  filterState: [],
+                },
+              }
+            : view
+        ),
+      });
+    }
+  }
   private setColumnState(
     key: string,
     viewId: number,
     columnState: ColumnState[]
   ): void {
-    const gridState = this.getGridState(key);
+    const gridState = this.gridLocalStorageService.getGridState(key);
 
     this.saveGridState({
       ...gridState,
@@ -259,24 +272,14 @@ export class AgGridStateService {
     });
   }
 
-  private getGridState(key: string): GridState {
-    return JSON.parse(this.localStorage.getItem(key)) as GridState;
-  }
-
-  private getViewById(key: string, viewId: number): CustomView | undefined {
-    const gridState = this.getGridState(key);
-
-    return gridState.customViews.find(
-      (customView: CustomView) => customView.id === viewId
-    );
-  }
-
   private createNewView(
     title: string,
     columnState: ColumnState[],
     actionItemId?: string
   ) {
-    const gridState = this.getGridState(this.activeTableKey);
+    const gridState = this.gridLocalStorageService.getGridState(
+      this.activeTableKey
+    );
     const filterState = this.getColumnFilters(
       this.activeTableKey,
       this.activeViewId
@@ -313,16 +316,29 @@ export class AgGridStateService {
     return ids.at(-1) + 1;
   }
 
-  private getCurrentView() {
-    const gridState = this.getGridState(this.activeTableKey);
-
-    return gridState.customViews.find(
-      (view: CustomView) => view.id === this.activeViewId
-    );
-  }
-
   private saveGridState(gridState: GridState) {
-    this.localStorage.setItem(this.activeTableKey, JSON.stringify(gridState));
+    const currentViewState = this.gridLocalStorageService.getViewById(
+      this.activeTableKey,
+      this.activeViewId
+    );
+
+    if (
+      currentViewState?.state?.columnState?.length > 0 &&
+      this.activeViewId !== this.DEFAULT_VIEW_ID &&
+      this.columnIds?.length > 0
+    ) {
+      this.gridMergeService.handleAdjustments(
+        gridState,
+        this.activeViewId,
+        this.columnIds,
+        this.gridLocalStorageService.getViewById(
+          this.activeTableKey,
+          this.activeViewId
+        )
+      );
+    }
+
+    this.gridLocalStorageService.setGridState(this.activeTableKey, gridState);
     this.updateViews();
     this.updateColumnState();
     this.updateFilterState();
@@ -357,7 +373,7 @@ export class AgGridStateService {
     filterModels: { [key: string]: any }
   ): void {
     const existingFilters = this.getColumnFilters(key, viewId);
-    const gridState = this.getGridState(key);
+    const gridState = this.gridLocalStorageService.getGridState(key);
 
     const filterState: FilterState[] =
       existingFilters !== undefined &&
@@ -396,14 +412,29 @@ export class AgGridStateService {
   }
 
   private getColumnFilters(key: string, viewId: number) {
-    const view = this.getViewById(key, viewId);
+    const view = this.gridLocalStorageService.getViewById(key, viewId);
 
     return view?.state?.filterState || [];
   }
 
   private getColumnState(key: string, viewId: number) {
-    const view = this.getViewById(key, viewId);
+    const view = this.gridLocalStorageService.getViewById(key, viewId);
 
     return view?.state?.columnState || [];
+  }
+
+  private cleanupRemovedColumns(gridState: GridState) {
+    if (
+      this.gridMergeService.getUpdateCustomViewsWhenConfiguredColumnsRemoved(
+        gridState,
+        this.DEFAULT_VIEW_ID,
+        this.columnIds
+      )
+    ) {
+      this.saveGridState({
+        ...gridState,
+        initialColIds: this.columnIds,
+      });
+    }
   }
 }

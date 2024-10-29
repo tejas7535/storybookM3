@@ -853,9 +853,6 @@ export class ColumnDefService {
     },
   ];
 
-  COLUMN_DEFS_WITHOUT_PRICING_ASSISTANT: ColDef[] =
-    ColumnUtilityService.filterPricingAssistantColumns(this.COLUMN_DEFS);
-
   constructor(
     private readonly columnUtilityService: ColumnUtilityService,
     private readonly translocoService: TranslocoService,

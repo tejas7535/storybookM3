@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { LocalizationService } from '@gq/shared/ag-grid/services';
+import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -21,6 +22,7 @@ describe('SapConditionsTableComponent', () => {
     providers: [
       MockProvider(LocalizationService),
       MockProvider(SapPriceDetailsColumnDefService),
+      MockProvider(AgGridStateService),
       provideMockStore({}),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

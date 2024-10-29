@@ -25,7 +25,7 @@ import { ColumnUtilityService } from '../config/column-utility.service';
 import { MaterialsCriteriaSelection } from './material-criteria-selection.enum';
 import { MaterialsResultTableComponent } from './materials-result-table.component';
 
-describe('CasesResultTableComponent', () => {
+describe('MaterialsResultTableComponent', () => {
   let component: MaterialsResultTableComponent;
   let spectator: Spectator<MaterialsResultTableComponent>;
 
@@ -46,12 +46,16 @@ describe('CasesResultTableComponent', () => {
       mockProvider(TranslocoLocaleService),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    detectChanges: false,
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     component['criteriaSelected'].emit = jest.fn();
+    Object.defineProperty(component, 'agGridStateService', {
+      value: { init: jest.fn() },
+    });
   });
 
   test('should be created', () => {
@@ -60,6 +64,7 @@ describe('CasesResultTableComponent', () => {
 
   describe('ngOnInit', () => {
     test('should initialize localeText$', () => {
+      component.ngOnInit();
       expect(component.localeText$).toBeDefined();
     });
 

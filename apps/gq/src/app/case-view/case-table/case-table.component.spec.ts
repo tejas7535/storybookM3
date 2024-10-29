@@ -11,6 +11,7 @@ import { LocalizationService } from '@gq/shared/ag-grid/services';
 import { ColumnUtilityService } from '@gq/shared/ag-grid/services/column-utility.service';
 import { QuotationStatus } from '@gq/shared/models';
 import { FilterState } from '@gq/shared/models/grid-state.model';
+import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -49,6 +50,9 @@ describe('CaseTableComponent', () => {
       MockProvider(ColumnDefService, {
         COLUMN_DEFS: [],
       }),
+      MockProvider(AgGridStateService, {
+        filterState: of([]),
+      } as AgGridStateService),
       MockProvider(LocalizationService),
       MockProvider(ColumnUtilityService),
       provideMockStore({
@@ -94,6 +98,7 @@ describe('CaseTableComponent', () => {
       component.activeTab = QuotationTab.ACTIVE;
       component['agGridStateService'].init = jest.fn();
       component['agGridStateService'].setActiveView = jest.fn();
+
       component['overviewCasesFacade'].selectedIds$ = of([]);
 
       component.ngOnInit();

@@ -83,10 +83,8 @@ export class QuotationDetailsTableComponent implements OnInit {
   private readonly activeCaseFacade: ActiveCaseFacade =
     inject(ActiveCaseFacade);
   private readonly rolesFacade: RolesFacade = inject(RolesFacade);
-  private readonly featureToggleService: FeatureToggleConfigService = inject(
-    FeatureToggleConfigService
-  );
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
+  private readonly featureToggleService = inject(FeatureToggleConfigService);
 
   sideBar: SideBarDef = SIDE_BAR;
   defaultColumnDefs: ColDef = DEFAULT_COLUMN_DEFS;
@@ -115,9 +113,7 @@ export class QuotationDetailsTableComponent implements OnInit {
   ngOnInit(): void {
     this.columnDefs$ = combineLatest([
       this.rolesFacade.getColumnDefsForRolesOnQuotationDetailsTable(
-        this.featureToggleService.isEnabled('fPricing')
-          ? this.columnDefinitionService.COLUMN_DEFS
-          : this.columnDefinitionService.COLUMN_DEFS_WITHOUT_PRICING_ASSISTANT
+        this.columnDefinitionService.COLUMN_DEFS
       ),
       this.activeCaseFacade.quotationHasFNumberMaterials$,
       this.activeCaseFacade.quotationHasRfqMaterials$,

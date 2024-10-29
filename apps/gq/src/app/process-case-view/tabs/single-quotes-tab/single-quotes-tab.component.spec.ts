@@ -1,15 +1,20 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, provideRouter } from '@angular/router';
+
+import { BehaviorSubject } from 'rxjs';
 
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
+import { ColumnDefService } from '@gq/shared/ag-grid/services';
+import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+import { ViewToggle } from '@schaeffler/view-toggle';
 
 import {
   PROCESS_CASE_STATE_MOCK,
@@ -17,6 +22,7 @@ import {
 } from '../../../../testing/mocks';
 import { SingleQuotesTabComponent } from './single-quotes-tab.component';
 describe('SingleQuotesTab', () => {
+  const viewsSubject = new BehaviorSubject<ViewToggle[]>([]);
   describe('SingleQuotesTabComponent', () => {
     let component: SingleQuotesTabComponent;
     let spectator: Spectator<SingleQuotesTabComponent>;
@@ -48,6 +54,26 @@ describe('SingleQuotesTab', () => {
             },
           },
         },
+        MockProvider(ColumnDefService, {
+          COLUMN_DEFS: [
+            {
+              field: 'key1',
+              filter: 'agSetColumnFilter',
+              filterParams: {
+                values: ['gq123'],
+              },
+            },
+          ],
+        }),
+        MockProvider(AgGridStateService, {
+          init: jest.fn(),
+          setActiveView: jest.fn(),
+          setColumnFilterForCurrentView: jest.fn(),
+          resetFilterModelsOfDefaultView: jest.fn(),
+          clearDefaultViewColumnAndFilterState: jest.fn(),
+          DEFAULT_VIEW_ID: 1,
+          views: viewsSubject,
+        } as unknown as AgGridStateService),
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
@@ -162,12 +188,12 @@ describe('SingleQuotesTab', () => {
     const createComponent = createComponentFactory({
       component: SingleQuotesTabComponent,
       imports: [
-        RouterTestingModule,
         provideTranslocoTestingModule({ en: {} }),
         PushPipe,
         MatDialogModule,
       ],
       providers: [
+        provideRouter([]),
         provideMockStore({
           initialState: {
             processCase: PROCESS_CASE_STATE_MOCK,
@@ -186,7 +212,28 @@ describe('SingleQuotesTab', () => {
             },
           },
         },
+        MockProvider(ColumnDefService, {
+          COLUMN_DEFS: [
+            {
+              field: 'key1',
+              filter: 'agSetColumnFilter',
+              filterParams: {
+                values: ['gq123'],
+              },
+            },
+          ],
+        }),
+        MockProvider(AgGridStateService, {
+          init: jest.fn(),
+          setActiveView: jest.fn(),
+          setColumnFilterForCurrentView: jest.fn(),
+          resetFilterModelsOfDefaultView: jest.fn(),
+          clearDefaultViewColumnAndFilterState: jest.fn(),
+          DEFAULT_VIEW_ID: 1,
+          views: viewsSubject,
+        } as unknown as AgGridStateService),
       ],
+
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
     beforeEach(() => {

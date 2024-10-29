@@ -22,4 +22,5 @@ export interface CustomView {
 export interface GridState {
   version: number;
   customViews: CustomView[];
+  initialColIds: string[];
 }

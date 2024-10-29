@@ -2,6 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
 import { UserRoles } from '@gq/shared/constants';
+import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
@@ -33,6 +34,7 @@ describe('ComparableTransactionsComponent', () => {
       provideMockStore(),
       MockProvider(ApplicationInsightsService),
       MockProvider(TranslocoLocaleService),
+      MockProvider(AgGridStateService),
     ],
     detectChanges: false,
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

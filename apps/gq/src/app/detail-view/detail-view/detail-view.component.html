@@ -38,22 +38,21 @@
     <div class="mx-4 mt-4 flex flex-col md:flex-row">
       <div class="w-full md:w-3/5">
         <gq-filter-pricing> </gq-filter-pricing>
-        <ng-container *featureToggle="'fPricing'">
-          <ng-container *transloco="let t; read: 'detailView.filterPricing'">
-            @if (displayPricingAssistantButton$ | ngrxPush) {
-              <div class="flex justify-end md:mr-4">
-                <button
-                  *ngrxLet="quotationDetail$ as quotationDetail"
-                  class="!mt-2 w-[250px]"
-                  mat-raised-button
-                  color="primary"
-                  (click)="openPricingAssistant(quotationDetail)"
-                >
-                  {{ t('pricingAssistantButton') }}
-                </button>
-              </div>
-            }
-          </ng-container>
+
+        <ng-container *transloco="let t; read: 'detailView.filterPricing'">
+          @if (displayPricingAssistantButton$ | ngrxPush) {
+            <div class="flex justify-end md:mr-4">
+              <button
+                *ngrxLet="quotationDetail$ as quotationDetail"
+                class="!mt-2 w-[250px]"
+                mat-raised-button
+                color="primary"
+                (click)="openPricingAssistant(quotationDetail)"
+              >
+                {{ t('pricingAssistantButton') }}
+              </button>
+            </div>
+          }
         </ng-container>
       </div>
       <div class="mt-4 w-full md:mt-0 md:w-2/5">

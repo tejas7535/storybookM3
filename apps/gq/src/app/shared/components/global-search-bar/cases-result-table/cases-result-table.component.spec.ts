@@ -29,6 +29,7 @@ describe('CasesResultTableComponent', () => {
   const createComponent = createComponentFactory({
     component: CasesResultTableComponent,
     imports: [provideTranslocoTestingModule({ en: {} }), PushPipe],
+
     providers: [
       MockProvider(ColumnDefinitionService, {
         CASES_TABLE_COLUMN_DEFS: [],
@@ -40,11 +41,15 @@ describe('CasesResultTableComponent', () => {
       mockProvider(TranslocoLocaleService),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    detectChanges: false,
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    Object.defineProperty(component, 'agGridStateService', {
+      value: { init: jest.fn() },
+    });
   });
 
   it('should be created', () => {
@@ -67,6 +72,7 @@ describe('CasesResultTableComponent', () => {
 
   describe('ngOnInit', () => {
     it('should initialize localeText$', () => {
+      component.ngOnInit();
       expect(component.localeText$).toBeDefined();
     });
 
