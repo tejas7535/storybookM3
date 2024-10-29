@@ -156,8 +156,8 @@
       "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
-          "format": "checkstyle",
-          "outputFile": "checkstyle/apps/ga/checkstyle.xml",
+          "format": "json",
+          "outputFile": "eslint/apps/ga/eslint.json",
           "force": true
         }
       }
@@ -168,6 +168,16 @@
       "options": {
         "jestConfig": "apps/ga/jest.config.ts"
       }
+    },
+    "sonar": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "sonar-scanner -Dsonar.token=${SONAR_TOKEN} -Dproject.settings=apps/ga/sonar-project.properties"
+        ],
+        "parallel": false
+      },
+      "outputs": []
     },
     "version": {
       "executor": "@jscutlery/semver:version",
