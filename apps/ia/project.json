@@ -117,8 +117,8 @@
       "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
-          "format": "checkstyle",
-          "outputFile": "checkstyle/apps/ia/checkstyle.xml",
+          "format": "json",
+          "outputFile": "eslint/apps/ia/eslint.json",
           "force": true
         }
       }
@@ -129,6 +129,16 @@
         "jestConfig": "apps/ia/jest.config.ts"
       },
       "outputs": ["{workspaceRoot}/coverage/apps/ia"]
+    },
+    "sonar": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "sonar-scanner -Dsonar.token=${SONAR_TOKEN} -Dproject.settings=apps/ia/sonar-project.properties"
+        ],
+        "parallel": false
+      },
+      "outputs": []
     },
     "version": {
       "executor": "@jscutlery/semver:version",
