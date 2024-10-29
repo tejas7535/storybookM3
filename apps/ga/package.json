@@ -1,6 +1,6 @@
 {
   "name": "ga",
-  "version": "1.14.4",
+  "version": "1.14.5",
   "dependencies": {
     "@capacitor-community/file-opener": "^6.0.0",
     "@capacitor-community/firebase-analytics": "6.0.0",

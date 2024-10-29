@@ -1,4 +1,12 @@
 # Release Notes of Grease App
+## [1.14.5](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.14.4...ga-v1.14.5) (2024-10-29)
+
+
+### Features
+
+* **ga:** add button translations ([82dda2c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/82dda2c58cdc3b0e55b738137c8065b891910ebe))
+* **ga:** add native implementation for barcode scanning ([#6635](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6635)) ([ae87cb2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ae87cb227846c4283d6c495ea2afe1f88d9efd56))
+
 ## [1.14.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.14.3...ga-v1.14.4) (2024-10-17)
 
 
