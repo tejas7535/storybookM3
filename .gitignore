@@ -49,6 +49,9 @@ Thumbs.db
 # reports (npm audit)
 /reports
 
+# sonar scan
+.scannerwork
+
 # i18n checksum files
 **/i18n-checksums.json
 .angular
