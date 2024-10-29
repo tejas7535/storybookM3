@@ -23,6 +23,7 @@ import {
   getComparedConductedInterviewsInfo,
   getComparedReasonsChartData,
   getComparedReasonsChildren,
+  getComparedReasonsLoading,
   getComparedReasonsTableData,
   getConductedInterviewsInfo,
   getCurrentTab,
@@ -30,6 +31,7 @@ import {
   getLeaversByReasonLoading,
   getReasonsChartData,
   getReasonsChildren,
+  getReasonsLoading,
   getReasonsTableData,
 } from '../store/selectors/reasons-and-counter-measures.selector';
 
@@ -54,6 +56,7 @@ export class ReasonsForLeavingComponent implements OnInit {
   ];
 
   selectedTab$: Observable<ReasonForLeavingTab>;
+  reasonsLoading$: Observable<boolean>;
   reasonsTableData$: Observable<ReasonForLeavingRank[]>;
   reasonsChartData$: Observable<DoughnutChartData[]>;
   reasonsChildren$: Observable<
@@ -63,6 +66,7 @@ export class ReasonsForLeavingComponent implements OnInit {
     conducted: number;
     percentage: number;
   }>;
+  comparedReasonsLoading$: Observable<boolean>;
   comparedReasonsTableData$: Observable<ReasonForLeavingRank[]>;
   comparedReasonsChartData$: Observable<DoughnutChartData[]>;
   comparedReasonsChildren$: Observable<
@@ -81,12 +85,14 @@ export class ReasonsForLeavingComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedTab$ = this.store.select(getCurrentTab);
+    this.reasonsLoading$ = this.store.select(getReasonsLoading);
     this.reasonsTableData$ = this.store.select(getReasonsTableData);
     this.reasonsChartData$ = this.store.select(getReasonsChartData);
     this.reasonsChildren$ = this.store.select(getReasonsChildren);
     this.conductedInterviewsInfo$ = this.store.select(
       getConductedInterviewsInfo
     );
+    this.comparedReasonsLoading$ = this.store.select(getComparedReasonsLoading);
     this.comparedReasonsTableData$ = this.store.select(
       getComparedReasonsTableData
     );

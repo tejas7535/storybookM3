@@ -24,7 +24,7 @@ export const getReasonsTableData = createSelector(
   getCurrentTab,
   getReasonsData,
   (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
-    if (data) {
+    if (data?.reasons) {
       const reasons =
         tab === ReasonForLeavingTab.TOP_REASONS
           ? utils.filterTopReasons(data.reasons)
@@ -47,7 +47,7 @@ export const getReasonsChartData = createSelector(
   getCurrentTab,
   getReasonsData,
   (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
-    if (data) {
+    if (data?.reasons) {
       const reasons =
         tab === ReasonForLeavingTab.TOP_REASONS
           ? utils.filterTopReasons(data.reasons)
@@ -64,7 +64,7 @@ export const getReasonsChildren = createSelector(
   getCurrentTab,
   getReasonsData,
   (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
-    if (data) {
+    if (data?.reasons) {
       const reasons =
         tab === ReasonForLeavingTab.TOP_REASONS
           ? utils.filterTopReasons(data.reasons)
@@ -101,7 +101,7 @@ export const getComparedReasonsTableData = createSelector(
   getCurrentTab,
   getComparedReasonsData,
   (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
-    if (data) {
+    if (data?.reasons) {
       const reasons =
         tab === ReasonForLeavingTab.TOP_REASONS
           ? utils.filterTopReasons(data.reasons)
@@ -124,7 +124,7 @@ export const getComparedReasonsChartData = createSelector(
   getCurrentTab,
   getComparedReasonsData,
   (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
-    if (data) {
+    if (data?.reasons) {
       const reasons =
         tab === ReasonForLeavingTab.TOP_REASONS
           ? utils.filterTopReasons(data.reasons)
@@ -141,7 +141,7 @@ export const getComparedReasonsChildren = createSelector(
   getCurrentTab,
   getComparedReasonsData,
   (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
-    if (data) {
+    if (data?.reasons) {
       const reasons =
         tab === ReasonForLeavingTab.TOP_REASONS
           ? utils.filterTopReasons(data.reasons)

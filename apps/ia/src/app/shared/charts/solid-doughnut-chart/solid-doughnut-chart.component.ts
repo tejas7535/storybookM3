@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { ECharts, EChartsOption, SeriesOption } from 'echarts';
 
+import { Color } from '../../models';
 import { ExternalLegend } from '../external-legend';
 import { LegendSelectAction } from '../models';
 import { DoughnutChartData } from '../models/doughnut-chart-data.model';
@@ -22,6 +23,11 @@ export class SolidDoughnutChartComponent extends ExternalLegend {
   _data: DoughnutChartData[];
   _initialConfig: SolidDoughnutChartConfig;
   selected: string;
+  loadingOpts = {
+    text: '',
+    color: Color.GREEN,
+    zlevel: 0,
+  };
 
   @Input() isLoading: boolean;
   @Input() children: { reason: string; children: DoughnutChartData[] }[];
@@ -74,6 +80,11 @@ export class SolidDoughnutChartComponent extends ExternalLegend {
     this.echartsInstance.on('click', (event: any) => {
       this.manageOnClickEvent(event);
     });
+    if (this.isLoading) {
+      this.echartsInstance.showLoading(this.loadingOpts);
+    } else {
+      this.echartsInstance.hideLoading();
+    }
   }
 
   manageSelectedDataPoint(name: string): void {

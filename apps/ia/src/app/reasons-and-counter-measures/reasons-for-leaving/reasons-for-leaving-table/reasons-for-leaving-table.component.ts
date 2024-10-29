@@ -2,7 +2,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { translate } from '@jsverse/transloco';
-import { CellClickedEvent, ColDef } from 'ag-grid-community';
+import {
+  CellClickedEvent,
+  ColDef,
+  GridApi,
+  GridReadyEvent,
+} from 'ag-grid-community';
 
 import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { EmployeeListDialogComponent } from '../../../shared/dialogs/employee-list-dialog/employee-list-dialog.component';
@@ -31,18 +36,28 @@ import { ReasonForLeavingRank } from '../../models';
   ],
 })
 export class ReasonsForLeavingTableComponent implements OnInit {
+  private _loading: boolean;
+  gridApi: GridApi<ReasonForLeavingRank[]>;
   leavers: EmployeeWithAction[];
+  components = {
+    AmountCellRendererComponent,
+  };
 
-  @Input() loading: boolean; // not used at the moment
-  @Input() data: ReasonForLeavingRank[];
   @Input() filters: EmployeeListDialogMetaFilters;
   @Input() timeRange: IdValue;
 
   @Output() leaversRequested = new EventEmitter<number>();
 
-  components = {
-    AmountCellRendererComponent,
-  };
+  @Input() data: ReasonForLeavingRank[];
+
+  @Input() set loading(loading: boolean) {
+    this._loading = loading;
+    this.showOrHideLoadingOverlay(loading);
+  }
+
+  get loading(): boolean {
+    return this._loading;
+  }
 
   @Input() set leaversLoading(leaversLoading: boolean) {
     this.dialogMeta.employeesLoading = leaversLoading;
@@ -141,6 +156,12 @@ export class ReasonsForLeavingTableComponent implements OnInit {
     ];
   }
 
+  onGridReady(event: GridReadyEvent<ReasonForLeavingRank[]>): void {
+    this.gridApi = event.api;
+
+    this.showOrHideLoadingOverlay(this.loading);
+  }
+
   handleCellClick(params: CellClickedEvent): void {
     this.leaversRequested.emit(params.data.reasonId);
     const icon = 'person_add_disabled';
@@ -169,5 +190,13 @@ export class ReasonsForLeavingTableComponent implements OnInit {
     this.dialog.open(EmployeeListDialogComponent, {
       data,
     });
+  }
+
+  showOrHideLoadingOverlay(loading: boolean) {
+    if (loading) {
+      this.gridApi?.showLoadingOverlay();
+    } else {
+      this.gridApi?.hideOverlay();
+    }
   }
 }

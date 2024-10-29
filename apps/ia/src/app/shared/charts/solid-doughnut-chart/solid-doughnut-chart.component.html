@@ -1,10 +1,12 @@
 <div class="relative flex h-[400px] flex-col items-center">
-  @if (!isLoading || data) {
+  @if (data) {
     <div
       echarts
       (chartInit)="onChartInit($event)"
       [options]="options"
       [merge]="mergeOptions"
+      [loadingOpts]="loadingOpts"
+      [loading]="isLoading"
       class="h-full w-full"
     ></div>
   } @else {
