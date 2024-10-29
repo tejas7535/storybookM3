@@ -418,6 +418,8 @@
     "cancel": "Cancelar",
     "retry": "Tentar novamente",
     "continue": "Continuar",
+    "scan": "Digitalizar",
+    "moduleDownload": "Baixando módulo de scanner de código de barras",
     "errors": {
       "invalidformat": "Este código tem um formato inválido e não pode ser analisado. Por favor, entre em contacto para relatar este produto",
       "upstream": "Ocorreu um erro interno ao avaliar o código",

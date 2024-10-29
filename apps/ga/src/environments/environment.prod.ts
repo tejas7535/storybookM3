@@ -27,7 +27,7 @@ export const environment: Environment = {
     enableNgrxMetaReducer: true,
     ngrxIgnorePattern: ['@ngrx/*'],
   },
-  dmcScanEnabled: false,
+  dmcScanEnabled: true,
   dmcBackendUrl: 'https://engineeringapps.dp.schaeffler',
   axisOrientationEnabled: false,
 };

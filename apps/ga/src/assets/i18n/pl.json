@@ -418,6 +418,8 @@
     "cancel": "Anuluj",
     "retry": "Spróbuj ponownie",
     "continue": "Kontynuuj",
+    "scan": "Skanować",
+    "moduleDownload": "Pobieranie modułu skanera kodów kreskowych",
     "errors": {
       "invalidformat": "Ten kod ma nieprawidłowy format i nie można go przetworzyć. Prosimy o kontakt w celu zgłoszenia tego produktu",
       "upstream": "Wystąpił błąd wewnętrzny podczas oceny kodu",

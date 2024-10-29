@@ -419,6 +419,8 @@
     "cancel": "Annuler",
     "retry": "Réessayer",
     "continue": "Continuer",
+    "scan": "Scanner",
+    "moduleDownload": "Téléchargement du module de lecteur de code-barres",
     "errors": {
       "invalidformat": "Ce code a un format invalide et ne peut pas être analysé. Veuillez nous contacter pour signaler ce produit",
       "upstream": "Une erreur interne s'est produite lors de l'évaluation du code",

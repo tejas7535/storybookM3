@@ -419,6 +419,8 @@
     "cancel": "Hủy bỏ",
     "retry": "Thử lại",
     "continue": "Tiếp tục",
+    "scan": "Quét",
+    "moduleDownload": "Đang tải xuống mô-đun máy quét mã vạch",
     "errors": {
       "invalidformat": "Mã này có định dạng không hợp lệ và không thể được phân tích. Vui lòng liên hệ để báo cáo sản phẩm này",
       "upstream": "Đã xảy ra lỗi nội bộ khi đánh giá mã",

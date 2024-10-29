@@ -418,6 +418,8 @@
     "cancel": "İptal",
     "retry": "Tekrar Dene",
     "continue": "Devam Et",
+    "scan": "Taramak",
+    "moduleDownload": "Barkod tarayıcı modülü indiriliyor",
     "errors": {
       "invalidformat": "Bu kod geçersiz bir biçime sahip ve çözümlenemiyor. Lütfen bu ürünü bildirmek için iletişime geçin",
       "upstream": "Kodu değerlendirirken iç hatası oluştu",

@@ -418,6 +418,8 @@
     "cancel": "取消",
     "retry": "重試",
     "continue": "繼續",
+    "scan": "掃描",
+    "moduleDownload": "下載條形碼掃描模組",
     "errors": {
       "invalidformat": "此代碼格式無效，無法解析。請聯繫報告此產品",
       "upstream": "評估代碼時發生內部錯誤",

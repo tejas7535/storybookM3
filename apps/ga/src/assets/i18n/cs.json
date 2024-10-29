@@ -418,6 +418,8 @@
     "cancel": "Zrušit",
     "retry": "Zkusit znovu",
     "continue": "Pokračovat",
+    "scan": "Skenovat",
+    "moduleDownload": "Stahování modulu pro skenování čárových kódů",
     "errors": {
       "invalidformat": "Tento kód má neplatný formát a nelze jej zpracovat. Prosím, kontaktujte nás pro nahlášení tohoto výrobku",
       "upstream": "Došlo k interní chybě při vyhodnocování kódu",

@@ -17,18 +17,29 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 
-import { distinctUntilChanged, filter, map, Subject, takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  distinctUntilChanged,
+  filter,
+  firstValueFrom,
+  map,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 
-import { BarcodeFormat } from '@zxing/library';
+import { Capacitor } from '@capacitor/core';
+import { BarcodeFormat } from '@capacitor-mlkit/barcode-scanning';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 import { InfoBannerComponent } from '@schaeffler/feedback-banner';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { ScannedState } from './scan.models';
+import { BarcodeScannerFacade } from './barcode-scanner.facade';
+import { ScannedState, ScannerState } from './scan.models';
 import { ScanService } from './scan.service';
 
 const DO_NOT_SHOW_STORAGE_KEY = 'camera-prompt-donotshow';
@@ -53,6 +64,7 @@ interface EventData {
     MatIconModule,
     SharedTranslocoModule,
     LoadingSpinnerModule,
+    MatProgressBarModule,
   ],
 })
 export class ScanDialogComponent implements OnInit, OnDestroy {
@@ -63,10 +75,24 @@ export class ScanDialogComponent implements OnInit, OnDestroy {
   @Output() selectDesignation = new EventEmitter<string>();
 
   public notShowAgain = false;
-  public readonly allowedCodes = [BarcodeFormat.DATA_MATRIX];
+  public readonly allowedCodes = [BarcodeFormat.DataMatrix];
 
   public readonly state = this.scanService.state;
   public readonly trackingState = computed(() => this.state().name);
+  public readonly shouldShowScanComponent = computed(
+    () => this.state().name === 'Scanner' && !Capacitor.isNativePlatform()
+  );
+
+  readonly mobileScanEffect = effect(async () => {
+    if (this.state().name === 'Scanner') {
+      const nativeState = this.state() as ScannerState;
+      if (nativeState.method && nativeState.method === 'native') {
+        this.showNativeScanner();
+      }
+    }
+  });
+
+  public readonly androidModelDownloadProgress = new BehaviorSubject(0);
 
   readonly scanResultTracker = effect(() => {
     if (this.state().name === 'Scanned') {
@@ -91,17 +117,18 @@ export class ScanDialogComponent implements OnInit, OnDestroy {
 
   public destroy$ = new Subject();
 
+  private readonly trackingObservable = toObservable(this.trackingState);
+
   constructor(
     private readonly dialogRef: DialogRef,
     public readonly scanService: ScanService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly scanningFacade: BarcodeScannerFacade
   ) {}
 
   ngOnInit() {
     this.dialogRef.addPanelClass(['w-full', '!max-w-3xl', 'scan-dialog']);
     this.dialogRef.config.disableClose = true;
-    this.restoreDoNotShowState();
-
     this.router.events
       .pipe(
         takeUntil(this.destroy$),
@@ -114,26 +141,28 @@ export class ScanDialogComponent implements OnInit, OnDestroy {
           this.scanService.reset();
         }
       });
-
-    toObservable(this.trackingState)
+    this.trackingObservable
       .pipe(distinctUntilChanged())
-      .subscribe(this.track);
+      .subscribe((event) => this.track(event));
   }
 
   track(name: string, data?: Omit<EventData, 'name'>) {
     this.events.emit({ name, ...data });
   }
 
-  ngOnDestroy() {
-    this.destroy$.next(true);
+  next() {
+    if (this.state().name === 'Intro') {
+      window.localStorage.setItem(
+        DO_NOT_SHOW_STORAGE_KEY,
+        `${this.notShowAgain}`
+      );
+    }
+    this.scanService.next();
   }
 
-  restoreDoNotShowState() {
-    this.notShowAgain =
-      window.localStorage.getItem(DO_NOT_SHOW_STORAGE_KEY) === 'true';
-    if (this.notShowAgain) {
-      this.showScanner();
-    }
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.stopNativeScan();
   }
 
   handleDetection(result: string) {
@@ -146,10 +175,6 @@ export class ScanDialogComponent implements OnInit, OnDestroy {
   }
 
   showScanner(): void {
-    window.localStorage.setItem(
-      DO_NOT_SHOW_STORAGE_KEY,
-      `${this.notShowAgain}`
-    );
     this.scanService.enableScanner();
   }
 
@@ -168,5 +193,44 @@ export class ScanDialogComponent implements OnInit, OnDestroy {
     if (!has) {
       this.scanService.pushError('nopermissions');
     }
+  }
+
+  async showNativeScanner() {
+    const permissionsGranted = await this.handlePermissionRequest();
+    if (!permissionsGranted) {
+      this.scanService.pushError('nopermissions');
+
+      return;
+    }
+
+    this.scanningFacade
+      .scan({
+        formats: [BarcodeFormat.DataMatrix],
+      })
+      .subscribe((result) => {
+        if (result.barcodes.length > 0) {
+          this.track('code_scanned', { result: result.barcodes[0].rawValue });
+          this.scanService.setBarcode(result.barcodes[0].rawValue);
+        }
+        this.stopNativeScan();
+      });
+    // Note: This has to be here as the current version of the scanning library does appear to not automatically hide the remains of the scanner view
+    // document.querySelector('body')?.classList.remove('barcode-scanner-active');
+  }
+
+  async handlePermissionRequest() {
+    if (await this.scanService.nativePermissionGranted()) {
+      return true;
+    } else {
+      const response = await firstValueFrom(
+        this.scanningFacade.requestPermissions()
+      );
+
+      return response.camera === 'granted';
+    }
+  }
+
+  stopNativeScan() {
+    this.scanningFacade.stopScan();
   }
 }

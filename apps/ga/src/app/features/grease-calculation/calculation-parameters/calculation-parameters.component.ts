@@ -45,6 +45,7 @@ import {
   isApplicationScenarioDisabled,
   radialLoadPossible,
 } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
+import { environment } from '@ga/environments/environment';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
 import { AxisOrientationModalComponent } from '@ga/shared/components/axis-orientation/axis-orientation-modal.component';
 import {
@@ -71,7 +72,6 @@ import {
   ApplicationScenario,
 } from './constants/application-scenarios.model';
 import { CalculationParametersService } from './services';
-import { environment } from '@ga/environments/environment';
 
 @Component({
   selector: 'ga-calculation-parameters',

@@ -174,3 +174,12 @@ span.mdc-list-item__primary-text:has(> .expert-highlight) {
 .schaeffler-header-logo {
   margin-right: env(safe-area-inset-right);
 }
+
+body.barcode-scanner-active {
+  visibility: hidden;
+}
+
+// Show only the barcode scanner modal
+.barcode-scanner-modal {
+  visibility: visible;
+}

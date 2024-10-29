@@ -12,7 +12,15 @@
         "project": ["apps/ga/tsconfig.*?.json"]
       },
       "rules": {
-        "import/no-extraneous-dependencies": ["warn"],
+        "import/no-extraneous-dependencies": [
+          "error",
+          {
+            "devDependencies": true,
+            "optionalDependencies": false,
+            "peerDependencies": false,
+            "packageDir": ["./", "apps/ga"]
+          }
+        ],
         "unicorn/switch-case-braces": "off",
         "@angular-eslint/directive-selector": [
           "error",

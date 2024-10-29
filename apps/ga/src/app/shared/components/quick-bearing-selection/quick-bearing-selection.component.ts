@@ -13,8 +13,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
 
-import { Subject, takeUntil } from 'rxjs';
+import { from, map, of, Subject, takeUntil } from 'rxjs';
 
+import { Capacitor } from '@capacitor/core';
+import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { TranslocoService } from '@jsverse/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
@@ -62,6 +64,11 @@ export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
   @Input() showSelectButton = false;
 
   public readonly dmcScanEnabled = environment.dmcScanEnabled;
+  public readonly showDmcFeature =
+    this.dmcScanEnabled && Capacitor.isNativePlatform();
+  public readonly dmcSupported$ = Capacitor.isNativePlatform()
+    ? from(BarcodeScanner.isSupported()).pipe(map((result) => result.supported))
+    : of(false);
 
   public bearingSelectionLoading$ = this.store.select(
     getBearingSelectionLoading

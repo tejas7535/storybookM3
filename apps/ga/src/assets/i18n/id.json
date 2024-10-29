@@ -419,6 +419,8 @@
     "cancel": "Batalkan",
     "retry": "Coba lagi",
     "continue": "Lanjutkan",
+    "scan": "Memindai",
+    "moduleDownload": "Mengunduh modul pemindai barcode",
     "errors": {
       "invalidformat": "Kode ini memiliki format yang tidak valid dan tidak dapat diproses. Silakan hubungi kami untuk melaporkan produk ini",
       "upstream": "Terjadi kesalahan internal saat mengevaluasi kode",

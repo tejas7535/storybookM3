@@ -2,6 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import {
   computed,
+  effect,
   Injectable,
   Signal,
   signal,
@@ -11,6 +12,7 @@ import {
 import {
   catchError,
   debounceTime,
+  firstValueFrom,
   map,
   Observable,
   of,
@@ -19,10 +21,13 @@ import {
   timeout,
 } from 'rxjs';
 
+import { Capacitor } from '@capacitor/core';
+import { GoogleBarcodeScannerModuleInstallState } from '@capacitor-mlkit/barcode-scanning';
 import { TranslocoService } from '@jsverse/transloco';
 
 import { environment } from '@ga/environments/environment';
 
+import { BarcodeScannerFacade } from './barcode-scanner.facade';
 import {
   DialogState,
   EABackendVerificationResponse,
@@ -32,6 +37,12 @@ import {
 } from './scan.models';
 
 const EA_BACKEND_BASE_URL = environment.dmcBackendUrl;
+const DO_NOT_SHOW_STORAGE_KEY = 'camera-prompt-donotshow';
+
+const initialState: DialogState = {
+  name: 'Intro',
+  native: Capacitor.isNativePlatform(),
+} as const;
 
 @Injectable({ providedIn: 'root' })
 export class ScanService {
@@ -42,8 +53,33 @@ export class ScanService {
     switchMap((httpObservable) => httpObservable)
   );
 
-  private readonly modalState: WritableSignal<DialogState> = signal({
-    name: 'Intro',
+  private readonly modalState: WritableSignal<DialogState> =
+    signal(initialState);
+  readonly androidDownloadEffect = effect(() => {
+    const state = this.modalState();
+    if (state.name === 'AndroidDownload' && state.downloadProgress) {
+      this.handleAndroidDownload();
+    }
+  });
+
+  readonly initialPermissionStateHandler = effect(async () => {
+    if (this.modalState().name === 'Intro') {
+      if (Capacitor.isNativePlatform()) {
+        const permission = await firstValueFrom(
+          this.scanningFacade.checkPermissions()
+        );
+
+        if (permission.camera === 'granted') {
+          this.next(); // Skip intro screen outright
+        }
+      } else {
+        const skipIntoSet =
+          window.localStorage.getItem(DO_NOT_SHOW_STORAGE_KEY) === 'true';
+        if (skipIntoSet) {
+          this.next();
+        }
+      }
+    }
   });
 
   private readonly error$ = new Subject<Error | string>();
@@ -53,6 +89,7 @@ export class ScanService {
       ? this.getReportMailUrl()
       : undefined
   );
+
   readonly designation: Signal<string | undefined> = computed(() =>
     this.state().name === 'Scanned'
       ? (this.state() as ScannedState).pimData.bearingxDesignation
@@ -63,9 +100,12 @@ export class ScanService {
     this.state()
   );
 
+  readonly androidModelDownloadProgress = signal(0);
+
   constructor(
     private readonly httpClient: HttpClient,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly scanningFacade: BarcodeScannerFacade
   ) {
     this.error$.subscribe((err) => {
       let errState: ErrorState;
@@ -108,13 +148,40 @@ export class ScanService {
     });
   }
 
+  // Navigate to the next step based on the current state
+  public next() {
+    switch (this.modalState().name) {
+      case 'Error':
+        this.enableScanner();
+        break;
+      case 'Intro':
+        this.enableScanner();
+        break;
+      case 'AndroidDownload':
+        this.enableScanner();
+        break;
+      default:
+        return;
+    }
+  }
+
   public setBarcode(result: string) {
     this.modalState.set({ name: 'Loading' });
     this.detection$.next(result);
   }
 
-  public enableScanner() {
-    this.modalState.set({ name: 'Scanner' });
+  public async enableScanner() {
+    const googleModuleAvailable = await firstValueFrom(
+      this.scanningFacade.isGoogleBarcodeScannerModuleAvailable()
+    );
+    if (googleModuleAvailable.available) {
+      this.modalState.set({
+        name: 'Scanner',
+        method: Capacitor.isNativePlatform() ? 'native' : 'web',
+      });
+    } else {
+      this.handleAndroidDownload();
+    }
   }
 
   public pushError(error: Error | string) {
@@ -122,7 +189,7 @@ export class ScanService {
   }
 
   public reset() {
-    this.modalState.set({ name: 'Intro' });
+    this.modalState.set(initialState);
   }
 
   checkAuthenticity(
@@ -199,5 +266,55 @@ export class ScanService {
     ].join('%0A');
 
     return `mailto:${receiverEmail}?subject=${subject}&body=${body}`;
+  }
+
+  /**
+   * Handle the download of the Google Play Services scan module if not already downloaded
+   * @param enableAfterCompletion go ahead to the scan state after the download has finished defaults to true
+   **/
+  private async handleAndroidDownload(enableAfterCompletion = true) {
+    const isAvailable = await firstValueFrom(
+      this.scanningFacade.isGoogleBarcodeScannerModuleAvailable()
+    );
+
+    if (isAvailable.available) {
+      this.enableScanner();
+
+      return;
+    }
+
+    const downloadEventHandler = await firstValueFrom(
+      this.scanningFacade.addGoogleDownloadListener((event) => {
+        this.modalState.set({
+          name: 'AndroidDownload',
+          downloadProgress: event.progress,
+          downloadState: event.state,
+          inProgress: true,
+        });
+
+        if (event.progress >= 100) {
+          downloadEventHandler.remove();
+          if (enableAfterCompletion) {
+            this.enableScanner();
+          }
+        }
+      })
+    );
+
+    this.modalState.set({
+      name: 'AndroidDownload',
+      downloadState: GoogleBarcodeScannerModuleInstallState.UNKNOWN,
+      downloadProgress: 0,
+      inProgress: true,
+    });
+    await firstValueFrom(
+      this.scanningFacade.installGoogleBarcodeScannerModule()
+    );
+  }
+
+  public async nativePermissionGranted() {
+    const result = await firstValueFrom(this.scanningFacade.checkPermissions());
+
+    return result.camera === 'granted';
   }
 }

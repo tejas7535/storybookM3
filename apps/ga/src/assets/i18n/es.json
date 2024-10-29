@@ -422,6 +422,8 @@
     "cancel": "Cancelar",
     "retry": "Reintentar",
     "continue": "Continuar",
+    "scan": "Escanear",
+    "moduleDownload": "Descargando módulo de escáner de códigos de barras",
     "errors": {
       "invalidformat": "Este código tiene un formato inválido y no puede ser analizado. Por favor, póngase en contacto con nosotros para informar de este producto",
       "upstream": "Ocurrió un error interno al evaluar el código",

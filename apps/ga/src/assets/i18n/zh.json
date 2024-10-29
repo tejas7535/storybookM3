@@ -432,6 +432,8 @@
     "cancel": "取消",
     "retry": "重试",
     "continue": "继续",
+    "scan": "扫描",
+    "moduleDownload": "下载条形码扫描模块",
     "errors": {
       "invalidformat": "此代码格式无效，无法解析。请联系报告此产品",
       "upstream": "评估代码时发生内部错误",

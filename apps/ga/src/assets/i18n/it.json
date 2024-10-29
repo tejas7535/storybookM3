@@ -418,6 +418,8 @@
     "cancel": "Annulla",
     "retry": "Riprova",
     "continue": "Continua",
+    "scan": "Scansionare",
+    "moduleDownload": "Scaricamento modulo scanner codice a barre",
     "errors": {
       "invalidformat": "Questo codice ha un formato non valido e non può essere elaborato. Si prega di contattare per segnalare questo prodotto",
       "upstream": "Si è verificato un errore interno durante la valutazione del codice",

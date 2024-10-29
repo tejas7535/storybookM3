@@ -419,6 +419,8 @@
     "cancel": "취소",
     "retry": "재시도",
     "continue": "계속",
+    "scan": "스캔하다",
+    "moduleDownload": "바코드 스캐너 모듈 다운로드",
     "errors": {
       "invalidformat": "이 코드는 유효하지 않은 형식이며 파싱할 수 없습니다. 이 제품을 신고하려면 연락 주십시오",
       "upstream": "코드를 평가하는 동안 내부 오류가 발생했습니다",

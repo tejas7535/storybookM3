@@ -423,6 +423,8 @@
     "cancel": "Cancel",
     "retry": "Retry",
     "continue": "Continue",
+    "scan": "Scan",
+    "moduleDownload": "Downloading barcode scanner module",
     "errors": {
       "invalidformat": "This code has an invalid format and cannot be parsed. Please get in touch to report this product",
       "upstream": "An internal error occured while evaluating the code",

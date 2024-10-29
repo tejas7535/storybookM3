@@ -48,12 +48,14 @@
           }
         </ng-template>
       </schaeffler-search>
-      @if (dmcScanEnabled) {
-        <div class="mb-6 flex items-center">
-          <a [routerLink]="['/scan']">
-            <img src="/assets/images/scan/dmc-code.svg" alt="DMC scan icon" />
-          </a>
-        </div>
+      @if (showDmcFeature) {
+        @if (dmcSupported$ | async) {
+          <div class="mb-6 flex items-center">
+            <a [routerLink]="['/scan']">
+              <img src="/assets/images/scan/dmc-code.svg" alt="DMC scan icon" />
+            </a>
+          </div>
+        }
       }
     </div>
     <div class="text-center md:text-right">

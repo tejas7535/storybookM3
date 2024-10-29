@@ -439,6 +439,8 @@
     "cancel": "Abbrechen",
     "retry": "Erneut versuchen",
     "continue": "Fortsetzen",
+    "scan": "Scannen",
+    "moduleDownload": "Download des Google Barcode Scanner Moduls",
     "errors": {
       "invalidformat": "Dieser Code hat ein ungültiges Format und kann nicht geparst werden. Bitte melden Sie dieses Produkt",
       "upstream": "Beim Auswerten des Codes ist ein interner Fehler aufgetreten",

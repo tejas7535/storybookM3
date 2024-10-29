@@ -1,3 +1,5 @@
+import { GoogleBarcodeScannerModuleInstallState } from '@capacitor-mlkit/barcode-scanning';
+
 export interface EABackendVerificationPayload {
   bearingCode: string;
   language?: 'en' | 'de' | string;
@@ -23,6 +25,7 @@ export interface ValidityResponse {
 
 export interface IntroState {
   name: 'Intro';
+  native: boolean;
 }
 
 export interface ErrorState {
@@ -33,6 +36,7 @@ export interface ErrorState {
 
 export interface ScannerState {
   name: 'Scanner';
+  method: 'web' | 'native';
 }
 
 export interface ScannedState {
@@ -50,6 +54,13 @@ export interface ScannedState {
     | undefined;
 }
 
+export interface ModelDownloadState {
+  name: 'AndroidDownload';
+  downloadProgress: number;
+  inProgress: true;
+  downloadState: GoogleBarcodeScannerModuleInstallState;
+}
+
 export interface LoadingState {
   name: 'Loading';
 }
@@ -59,7 +70,8 @@ export type DialogState =
   | ErrorState
   | ScannerState
   | ScannedState
-  | LoadingState;
+  | LoadingState
+  | ModelDownloadState;
 
 export interface ReportMetadata {
   translationKey: string;
