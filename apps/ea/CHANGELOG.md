@@ -1,4 +1,23 @@
 # Release Notes of Engineering App
+## [1.13.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.12.1...ea-v1.13.0) (2024-10-29)
+
+
+### Features
+
+* **ea:** add loading indication for calculation in easy calc mobile (UFTABI-8149) ([#6605](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6605)) ([11c3a4e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/11c3a4e583087b6fa4586a72544ab0387f2da3f8))
+* **ea:** add store badges in ea ( UFTABI-8134) ([#6664](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6664)) ([385cd3f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/385cd3f7393f64bda909b013e994466e8700f58f))
+* **ea:** fix buttons to be displayed as m3 style ([172929d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/172929db70a5f4bc2bb3db775c21c7bf12952934))
+* **ea:** fix clipped settings for native devices with safe area (UFTABI-8149) ([#6599](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6599)) ([e39cf6a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e39cf6a669213d910486d901d16097fcdcc88be5))
+* **ea:** improve mobile view in ea (UFTABI- 8149) ([#6632](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6632)) ([34e96d6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/34e96d606a205560f7ab777d884f9b7ad1df85b1))
+* **ea:** migrate app to m3 styles ([f60b7bb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f60b7bb7e2679d85cebc235b22e50697b2044799))
+* **ea:** update loading container to use m3 classes ([f93db78](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f93db78a85019e52f784d83d02ff2bd35097072b))
+* **ga:** add button translations ([82dda2c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/82dda2c58cdc3b0e55b738137c8065b891910ebe))
+
+
+### Bug Fixes
+
+* **ea:** mobile adjustments-UFTABI-8149 ([#6597](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6597)) ([4efab80](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4efab80c2ae4f33636d95e0a00f1607a0ea07d99))
+
 ## [1.12.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.12.0...ea-v1.12.1) (2024-10-07)
 
 
