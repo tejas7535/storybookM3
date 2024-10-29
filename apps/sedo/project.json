@@ -112,8 +112,8 @@
       "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
-          "format": "checkstyle",
-          "outputFile": "checkstyle/apps/sedo/checkstyle.xml",
+          "format": "json",
+          "outputFile": "eslint/apps/sedo/eslint.json",
           "force": true
         }
       }
@@ -124,6 +124,16 @@
         "jestConfig": "apps/sedo/jest.config.ts"
       },
       "outputs": ["{workspaceRoot}/coverage/apps/sedo"]
+    },
+    "sonar": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "sonar-scanner -Dsonar.token=${SONAR_TOKEN} -Dproject.settings=apps/sedo/sonar-project.properties"
+        ],
+        "parallel": false
+      },
+      "outputs": []
     },
     "version": {
       "executor": "@jscutlery/semver:version",
