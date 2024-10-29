@@ -53,7 +53,7 @@
       "price": "Net Price",
       "priceInfoText": "Selected net price, which will be quoted",
       "priceDiff": "Price Diff %",
-      "priceDiffInfoText": "Net Price vs. Last Customer Price",
+      "priceDiffInfoText": "SAP Net Price vs. Last Customer Price",
       "priceDiffSAP": "SAP Price Diff %",
       "priceDiffSAPInfoText": "Net Price vs. Last Customer Price",
       "gqPrice": "GQ Price",
