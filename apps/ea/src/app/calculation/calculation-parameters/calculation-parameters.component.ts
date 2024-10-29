@@ -65,6 +65,7 @@ import {
   LoadCaseData,
 } from '@ea/core/store/models';
 import { environment } from '@ea/environments/environment';
+import { AppStoreButtonsComponent } from '@ea/shared/app-store-buttons/app-store-buttons.component';
 import { Greases } from '@ea/shared/constants/greases';
 import { ISOVgClasses } from '@ea/shared/constants/iso-vg-classes';
 import { extractNestedErrors } from '@ea/shared/helper/form.helper';
@@ -139,6 +140,7 @@ import { ParameterTemplateDirective } from './parameter-template.directive';
     MatTooltipModule,
     SubheaderModule,
     LetDirective,
+    AppStoreButtonsComponent,
   ],
 })
 export class CalculationParametersComponent
@@ -733,6 +735,10 @@ export class CalculationParametersComponent
     this.calculationParametersFacade.dispatch(
       setSelectedLoadcase({ selectedLoadcase })
     );
+  }
+
+  sendClickEvent(storeName: string) {
+    this.analyticsService.logAppStoreClick(storeName, 'calculation-parameters');
   }
 
   private resetLoadcasesArray(): void {

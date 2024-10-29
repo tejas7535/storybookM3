@@ -10,6 +10,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { firstValueFrom, of, Subject } from 'rxjs';
 
 import { LocalStorageService } from '@ea/core/local-storage';
+import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
 import {
   resetCalculationParameters,
   setSelectedLoadcase,
@@ -67,6 +68,7 @@ describe('CalculationParametersComponent', () => {
         },
       },
     ],
+    mocks: [TrackingService],
   });
 
   beforeEach(() => {
@@ -80,6 +82,25 @@ describe('CalculationParametersComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('when store button is clicked', () => {
+    let trackingService: TrackingService;
+
+    beforeEach(() => {
+      trackingService = spectator.inject(TrackingService);
+    });
+
+    it('should emit the store name', () => {
+      const storeName = 'App Store';
+
+      component.sendClickEvent(storeName);
+
+      expect(trackingService.logAppStoreClick).toHaveBeenCalledWith(
+        storeName,
+        'calculation-parameters'
+      );
+    });
   });
 
   describe('ngOnDestroy', () => {

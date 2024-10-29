@@ -11,6 +11,7 @@ import {
   CalculationTypeChangeEvent,
   GoogleAnalyticsService,
   LoadCaseEvent,
+  StoreClickEvent,
 } from '../google-analytics';
 import { MobileFirebaseAnalyticsService } from '../mobile-frebase-analytics/mobile-firebase-analytics.service';
 
@@ -80,6 +81,16 @@ export class TrackingService {
       event,
       numberOfLoadcases,
     });
+  }
+
+  public logAppStoreClick(storeName: string, page: string): void {
+    const storeClickEvent: StoreClickEvent = {
+      action: 'App Store Link Click',
+      storeName,
+      page,
+    };
+
+    this.logEvent(storeClickEvent);
   }
 
   private logEvent<T extends BasicEvent>(event: T): void {

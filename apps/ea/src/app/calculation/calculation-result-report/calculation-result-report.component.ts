@@ -19,6 +19,7 @@ import {
 } from '@ea/core/store';
 import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection/product-selection.facade';
 import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/models';
+import { AppStoreButtonsComponent } from '@ea/shared/app-store-buttons/app-store-buttons.component';
 import { InfoBannerComponent } from '@ea/shared/info-banner/info-banner.component';
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 import { QualtricsInfoBannerComponent } from '@ea/shared/qualtrics-info-banner/qualtrics-info-banner.component';
@@ -61,6 +62,7 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
     DialogModule,
     CalculationResultReportSelectionComponent,
     ResultReportComponent,
+    AppStoreButtonsComponent,
   ],
   providers: [TranslocoDecimalPipe, MeaningfulRoundPipe],
 })
@@ -128,5 +130,9 @@ export class CalculationResultReportComponent {
     const reportName = await this.reportService.generateFilename();
 
     this.pdfFileSaveService.saveAndOpenFile(report.document, reportName);
+  }
+
+  sendClickEvent(storeName: string) {
+    this.trackingService.logAppStoreClick(storeName, 'result-report');
   }
 }

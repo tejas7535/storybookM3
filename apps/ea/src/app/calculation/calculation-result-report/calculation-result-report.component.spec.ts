@@ -5,6 +5,7 @@ import { provideRouter } from '@angular/router';
 
 import { PDFReportService } from '@ea/core/services/pdf-report.service';
 import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
+import { AppStoreButtonsComponent } from '@ea/shared/app-store-buttons/app-store-buttons.component';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
 import { translate } from '@jsverse/transloco';
 import { provideTranslocoLocale } from '@jsverse/transloco-locale';
@@ -25,6 +26,7 @@ import { CalculationResultReportComponent } from './calculation-result-report.co
 describe('CalculationResultReportComponent', () => {
   let component: CalculationResultReportComponent;
   let spectator: Spectator<CalculationResultReportComponent>;
+
   const dialogRefMock = {
     close: jest.fn(),
   };
@@ -66,6 +68,33 @@ describe('CalculationResultReportComponent', () => {
   it('should close the dialog', () => {
     component.closeDialog();
     expect(dialogRefMock.close).toHaveBeenCalled();
+  });
+
+  describe('when store button is clicked', () => {
+    let buttonsComponent: AppStoreButtonsComponent;
+    let trackingService: TrackingService;
+
+    beforeEach(() => {
+      buttonsComponent = spectator.query(AppStoreButtonsComponent);
+      trackingService = spectator.inject(TrackingService);
+    });
+
+    it('should emit the store name', () => {
+      const storeName = 'App Store';
+      const appStoreClickSpy = jest.spyOn(
+        buttonsComponent.appStoreClick,
+        'emit'
+      );
+
+      buttonsComponent.onAppStoreClick(storeName);
+
+      expect(appStoreClickSpy).toHaveBeenCalledWith(storeName);
+
+      expect(trackingService.logAppStoreClick).toHaveBeenCalledWith(
+        storeName,
+        'result-report'
+      );
+    });
   });
 
   describe('should display calculation result report selection component', () => {

@@ -32,6 +32,10 @@ describe('SettingsFacade', () => {
     expect(spectator.service).toBeDefined();
   });
 
+  it('should provide is NativeMobile value', () => {
+    expect(spectator.service.isNativeMobile).toBe(false);
+  });
+
   describe('operationConditions$', () => {
     it(
       'should provide the operation conditions',

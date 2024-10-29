@@ -9,6 +9,7 @@ import {
   BasicEvent,
   GoogleAnalyticsService,
   LoadCaseEvent,
+  StoreClickEvent,
 } from '../google-analytics';
 import { MobileFirebaseAnalyticsService } from '../mobile-frebase-analytics/mobile-firebase-analytics.service';
 import { TrackingService } from './tracking.service';
@@ -95,5 +96,25 @@ describe('TrackingService', () => {
 
       expect(firebaseService.logEvent).toHaveBeenCalledWith(MOCK_BASIC_EVENT);
     });
+  });
+
+  it('should log app store click', () => {
+    const storeName = 'App Store';
+    const page = 'test-page';
+
+    const expectedEvent: StoreClickEvent = {
+      action: 'App Store Link Click',
+      storeName,
+      page,
+    };
+
+    service.logAppStoreClick(storeName, page);
+
+    expect(googleAnalyticsService.logEvent).toHaveBeenCalledWith(expectedEvent);
+    expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
+      'App Store Link Click',
+      expectedEvent
+    );
+    expect(firebaseService.logEvent).toHaveBeenCalledWith(expectedEvent);
   });
 });

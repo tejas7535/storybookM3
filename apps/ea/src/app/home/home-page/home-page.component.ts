@@ -7,7 +7,9 @@ import { combineLatest, filter, Observable, Subject, takeUntil } from 'rxjs';
 
 import { Card } from '@ea/core/services/home/card.model';
 import { HomeCardsService } from '@ea/core/services/home/home-cards.service';
+import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
 import { SettingsFacade } from '@ea/core/store';
+import { AppStoreButtonsComponent } from '@ea/shared/app-store-buttons/app-store-buttons.component';
 import { QualtricsInfoBannerComponent } from '@ea/shared/qualtrics-info-banner/qualtrics-info-banner.component';
 import { TranslocoService } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
@@ -30,6 +32,7 @@ import { QuickBearingSelectionComponent } from '../quick-bearing-selection';
     QuickBearingSelectionComponent,
     HomePageSustainabilityCardComponent,
     QualtricsInfoBannerComponent,
+    AppStoreButtonsComponent,
   ],
 })
 export class HomePageComponent implements OnInit, OnDestroy {
@@ -43,6 +46,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private readonly settingsFacade: SettingsFacade,
     private readonly titleService: Title,
     private readonly metaService: Meta,
+    private readonly trackingService: TrackingService,
     @Inject(DOCUMENT) private readonly document: Document
   ) {}
 
@@ -80,5 +84,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
       content: description,
     });
     this.document.documentElement.lang = lang;
+  }
+
+  sendClickEvent(storeName: string) {
+    this.trackingService.logAppStoreClick(storeName, 'home');
   }
 }

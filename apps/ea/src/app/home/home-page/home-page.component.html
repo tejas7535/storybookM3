@@ -45,5 +45,10 @@
         [bearingDesingation]="undefined"
       ></ea-qualtrics-info-banner>
     </div>
+
+    <ea-app-store-buttons
+      [title]="'appStoreButtonsTitle' | transloco"
+      (appStoreClick)="sendClickEvent($event)"
+    ></ea-app-store-buttons>
   </div>
 </div>

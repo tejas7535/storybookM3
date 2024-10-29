@@ -31,3 +31,9 @@ export interface LoadCaseEvent extends BasicEvent {
   event: 'Added' | 'Removed';
   numberOfLoadcases?: number;
 }
+
+export interface StoreClickEvent extends BasicEvent {
+  action: 'App Store Link Click';
+  storeName: string;
+  page: string;
+}

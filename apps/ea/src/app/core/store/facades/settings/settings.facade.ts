@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { combineLatest, map } from 'rxjs';
 
+import { Capacitor } from '@capacitor/core';
 import { MobileKeyboardVisibilityService } from '@ea/core/services/mobile-keyboard-visibility/mobile-keyboard-visibility.service';
 import { Action, Store } from '@ngrx/store';
 
@@ -18,6 +19,8 @@ export class SettingsFacade {
   public readonly isResultPreviewSticky$ = this.store.select(
     isResultPreviewSticky
   );
+
+  public readonly isNativeMobile = Capacitor.isNativePlatform();
 
   public readonly isMobileKeyboardVisible$ = combineLatest([
     this.isStandalone$,

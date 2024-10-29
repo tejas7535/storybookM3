@@ -4,7 +4,9 @@ import { Meta, Title } from '@angular/platform-browser';
 import { of } from 'rxjs';
 
 import { HomeCardsService } from '@ea/core/services/home/home-cards.service';
+import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
 import { ProductSelectionFacade, SettingsFacade } from '@ea/core/store/facades';
+import { AppStoreButtonsComponent } from '@ea/shared/app-store-buttons/app-store-buttons.component';
 import { QualtricsInfoBannerComponent } from '@ea/shared/qualtrics-info-banner/qualtrics-info-banner.component';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockComponent } from 'ng-mocks';
@@ -24,6 +26,7 @@ describe('HomePageComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       MockComponent(QuickBearingSelectionComponent),
       provideTranslocoTestingModule({ en: {} }),
+      MockComponent(AppStoreButtonsComponent),
     ],
     providers: [
       {
@@ -59,6 +62,12 @@ describe('HomePageComponent', () => {
           setTitle: jest.fn(),
         },
       },
+      {
+        provide: TrackingService,
+        useValue: {
+          logAppStoreClick: jest.fn(),
+        },
+      },
     ],
     mocks: [],
   });
@@ -87,5 +96,21 @@ describe('HomePageComponent', () => {
     expect(spectator.component).toBeTruthy();
     expect(spectator.component['titleService'].setTitle).toHaveBeenCalled();
     expect(spectator.component['metaService'].updateTag).toHaveBeenCalled();
+  });
+
+  it('should display app store buttons', () => {
+    const appStoreButtons = spectator.query(AppStoreButtonsComponent);
+    expect(appStoreButtons).toBeTruthy();
+    expect(appStoreButtons.title).toBe('appStoreButtonsTitle');
+  });
+
+  describe('when app store button is clicked', () => {
+    it('should log the app store click', () => {
+      const appStoreButtons = spectator.query(AppStoreButtonsComponent);
+      appStoreButtons.appStoreClick.emit('App Store');
+      expect(
+        spectator.component['trackingService'].logAppStoreClick
+      ).toHaveBeenCalledWith('App Store', 'home');
+    });
   });
 });

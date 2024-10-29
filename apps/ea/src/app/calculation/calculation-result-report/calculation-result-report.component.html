@@ -301,10 +301,15 @@
             <span
               class="block w-auto"
               [ngClass]="{
-                'h-9': settingsFacade.isResultPreviewSticky$ | ngrxPush,
-                'h-32': (settingsFacade.isStandalone$ | ngrxPush) === false
+                'h-9': settingsFacade.isResultPreviewSticky$ | ngrxPush
               }"
             ></span>
+          </ng-container>
+          <ng-container report-footer-content>
+            <ea-app-store-buttons
+              [title]="'appStoreButtonsTitle' | transloco"
+              (appStoreClick)="sendClickEvent($event)"
+            ></ea-app-store-buttons>
           </ng-container>
         </schaeffler-result-report>
       </ng-container>
