@@ -27,7 +27,7 @@
       "equalApproversError": "Die ausgewählten Genehmiger müssen unterschiedlich sein!",
       "invalidUserError": "Benutzer ungültig",
       "invalidSelectionApproverError": "Genehmigerauswahl ungültig",
-      "exceededCharactersError": "Der eingefügte Text überschreitet 200 Zeichen",
+      "exceededCharactersError": "Der eingefügte Text überschreitet {{ maxLength }} Zeichen",
       "snackbar": {
         "informationSaved": "Informationen zum Freigabeprozess wurden gespeichert",
         "startWorkflow": "Freigabeprozess wurde gestartet",

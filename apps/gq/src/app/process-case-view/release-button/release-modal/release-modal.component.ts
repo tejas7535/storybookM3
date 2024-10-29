@@ -3,7 +3,6 @@
 import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   Inject,
   OnDestroy,
@@ -36,6 +35,7 @@ import {
 import { AppRoutePath } from '@gq/app-route-path.enum';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
+import { TextareaFormFieldComponent } from '@gq/shared/components/textarea-form-field/textarea-form-field.component';
 import { UserSelectComponent } from '@gq/process-case-view/user-select/user-select.component';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { InfoBannerComponent } from '@gq/shared/components/info-banner/info-banner.component';
@@ -79,6 +79,7 @@ interface ReleaseModalFormControl {
     ReactiveFormsModule,
     InfoBannerComponent,
     NgClass,
+    TextareaFormFieldComponent,
   ],
   selector: 'gq-release-modal',
   templateUrl: './release-modal.component.html',
@@ -87,7 +88,8 @@ interface ReleaseModalFormControl {
 export class ReleaseModalComponent implements OnInit, OnDestroy {
   formGroup: FormGroup<ReleaseModalFormControl>;
 
-  INPUT_MAX_LENGTH = 200;
+  INPUT_MAX_LENGTH_COMMENT = 200;
+  INPUT_MAX_LENGTH_PROJECT_INFORMATION = 1000;
   private readonly REQUIRED_ERROR_MESSAGE = '';
   private readonly INVALID_APPROVER_ERROR_MESSAGE = '';
   private readonly INVALID_USER_ERROR_MESSAGE = '';
@@ -137,8 +139,7 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
     private readonly formBuilder: FormBuilder,
     private readonly translocoService: TranslocoService,
     private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute,
-    private readonly changeDetectorRef: ChangeDetectorRef
+    private readonly activatedRoute: ActivatedRoute
   ) {
     this.REQUIRED_ERROR_MESSAGE = this.translocoService.translate(
       'processCaseView.header.releaseModal.requiredError'
@@ -163,11 +164,11 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
     this.formGroup = this.formBuilder.group<ReleaseModalFormControl>({
       comment: new FormControl(
         undefined,
-        Validators.maxLength(this.INPUT_MAX_LENGTH)
+        Validators.maxLength(this.INPUT_MAX_LENGTH_COMMENT)
       ),
       projectInformation: new FormControl(
         undefined,
-        Validators.maxLength(this.INPUT_MAX_LENGTH)
+        Validators.maxLength(this.INPUT_MAX_LENGTH_PROJECT_INFORMATION)
       ),
     });
     this.setApprovalControlsAndInitialData();
@@ -184,19 +185,6 @@ export class ReleaseModalComponent implements OnInit, OnDestroy {
     this.priceLowerThanMsp = this.dialogData.quotationDetails?.some(
       (qd) => qd.price < qd.msp
     );
-  }
-
-  onPaste(event: ClipboardEvent): void {
-    const pastedText = event.clipboardData?.getData('text/plain') || '';
-    if (pastedText.length > this.INPUT_MAX_LENGTH) {
-      this.isInvalidInput = true;
-
-      // Clear the error after 3 seconds
-      setTimeout(() => {
-        this.isInvalidInput = false;
-        this.changeDetectorRef.detectChanges();
-      }, 3000);
-    }
   }
 
   getErrorMessageOfControl(

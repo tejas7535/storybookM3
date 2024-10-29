@@ -114,41 +114,20 @@
           <p class="text-subtitle-2 pb-5 pt-6">
             {{ t('additionalInformation') }}
           </p>
-          <mat-form-field class="w-full" appearance="outline">
-            <mat-label>{{ t('commentLabel') }}</mat-label>
-            <textarea
-              matInput
-              (paste)="onPaste($event)"
-              class="h-20 max-h-32 !leading-6"
-              formControlName="comment"
-              type="text"
-              [maxlength]="INPUT_MAX_LENGTH"
-              #comment
-            ></textarea>
-            @if (isInvalidInput) {
-              <mat-hint class="text-error" align="start">
-                {{ t('exceededCharactersError') }}
-              </mat-hint>
-            }
-            <mat-hint align="end">
-              {{ comment.value.length }} / {{ INPUT_MAX_LENGTH }}</mat-hint
-            >
-          </mat-form-field>
-          <mat-form-field class="w-full pt-2" appearance="outline">
-            <mat-label>{{ t('projectInformation') }}</mat-label>
-            <textarea
-              matInput
-              class="h-20 max-h-32 !leading-6"
+          <gq-textarea-form-field
+            label="commentLabel"
+            formControlName="comment"
+            [inputMaxLength]="INPUT_MAX_LENGTH_COMMENT"
+          >
+          </gq-textarea-form-field>
+          <div class="pt-2">
+            <gq-textarea-form-field
+              label="projectInformation"
               formControlName="projectInformation"
-              type="text"
-              [maxlength]="INPUT_MAX_LENGTH"
-              #projectInformation
-            ></textarea>
-            <mat-hint align="end">
-              {{ projectInformation.value.length }} /
-              {{ INPUT_MAX_LENGTH }}</mat-hint
+              [inputMaxLength]="INPUT_MAX_LENGTH_PROJECT_INFORMATION"
             >
-          </mat-form-field>
+            </gq-textarea-form-field>
+          </div>
         </div>
 
         @if (priceLowerThanMsp) {

@@ -1,0 +1,25 @@
+<mat-form-field
+  class="w-full"
+  appearance="outline"
+  *transloco="let t; read: 'processCaseView.header.releaseModal'"
+>
+  <mat-label>{{ t(label()) }}</mat-label>
+  <textarea
+    matInput
+    (paste)="onPaste($event)"
+    (input)="onInputChange($event)"
+    [value]="value"
+    class="h-20 max-h-32 !leading-6"
+    type="text"
+    [attr.maxlength]="inputMaxLength()"
+    #textArea
+  ></textarea>
+  @if (isInvalidInput) {
+    <mat-hint class="text-error" align="start">
+      {{ t('exceededCharactersError', { maxLength: inputMaxLength() }) }}
+    </mat-hint>
+  }
+  <mat-hint align="end">
+    {{ textArea.value.length }} / {{ inputMaxLength() }}</mat-hint
+  >
+</mat-form-field>

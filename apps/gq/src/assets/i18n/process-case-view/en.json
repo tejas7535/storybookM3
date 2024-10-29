@@ -27,7 +27,7 @@
       "equalApproversError": "Approvers must be different, it is not allowed to enter an approver multiple times!",
       "invalidUserError": "Invalid User",
       "invalidSelectionApproverError": "Invalid Approver selected",
-      "exceededCharactersError": "The pasted text exceeds 200 characters",
+      "exceededCharactersError": "The pasted text exceeds {{ maxLength }} characters",
       "snackbar": {
         "startWorkflow": "Approval workflow was started",
         "startWorkflowAutoApproval": "Quotation was auto approved",
