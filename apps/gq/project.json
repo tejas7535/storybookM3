@@ -129,8 +129,8 @@
       "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
-          "format": "checkstyle",
-          "outputFile": "checkstyle/apps/gq/checkstyle.xml",
+          "format": "json",
+          "outputFile": "eslint/apps/gq/eslint.json",
           "force": true
         }
       }
@@ -141,6 +141,16 @@
         "jestConfig": "apps/gq/jest.config.ts"
       },
       "outputs": ["{workspaceRoot}/coverage/apps/gq"]
+    },
+    "sonar": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "sonar-scanner -Dsonar.token=${SONAR_TOKEN} -Dproject.settings=apps/gq/sonar-project.properties"
+        ],
+        "parallel": false
+      },
+      "outputs": []
     },
     "version": {
       "executor": "@jscutlery/semver:version",
