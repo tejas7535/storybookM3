@@ -1,32 +1,39 @@
 /* eslint-disable max-lines */
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  signal,
+  WritableSignal,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
-  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
+  MatDialogModule,
   MatDialogRef,
-  MatDialogTitle,
 } from '@angular/material/dialog';
-import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatGridList, MatGridTile } from '@angular/material/grid-list';
-import { MatInput } from '@angular/material/input';
-import { MatOption, MatSelect } from '@angular/material/select';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIcon } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+
+import { combineLatest, map, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
 import { GridApi } from 'ag-grid-community';
+import moment from 'moment';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -41,19 +48,29 @@ import {
 import { CurrencyService } from '../../../../../../feature/info/currency.service';
 import { DatePickerComponent } from '../../../../../../shared/components/date-picker/date-picker.component';
 import { SingleAutocompleteSelectedEvent } from '../../../../../../shared/components/inputs/autocomplete/model';
-import { SelectableValue } from '../../../../../../shared/components/inputs/autocomplete/selectable-values.utils';
+import {
+  SelectableValue,
+  SelectableValueUtils,
+} from '../../../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { SingleAutocompleteOnTypeComponent } from '../../../../../../shared/components/inputs/autocomplete/single-autocomplete-on-type/single-autocomplete-on-type.component';
 import { SingleAutocompletePreLoadedComponent } from '../../../../../../shared/components/inputs/autocomplete/single-autocomplete-pre-loaded/single-autocomplete-pre-loaded.component';
-import { displayFnText } from '../../../../../../shared/components/inputs/display-functions.utils';
 import { FilterDropdownComponent } from '../../../../../../shared/components/inputs/filter-dropdown/filter-dropdown.component';
 import { StyledGridSectionComponent } from '../../../../../../shared/components/styled-grid-section/styled-grid-section.component';
-import { SelectableOptionsService } from '../../../../../../shared/services/selectable-options.service';
+import { NumberSeparatorDirective } from '../../../../../../shared/directives';
+import {
+  OptionsLoadingResult,
+  OptionsTypes,
+  SelectableOptionsService,
+} from '../../../../../../shared/services/selectable-options.service';
+import { SnackbarService } from '../../../../../../shared/utils/service/snackbar.service';
+import { ValidationHelper } from '../../../../../../shared/utils/validation/validation-helper';
+import { DisplayFunctions } from './../../../../../../shared/components/inputs/display-functions.utils';
+import { ValidateForm } from './../../../../../../shared/decorators';
 import {
   errorsFromSAPtoMessage,
   singlePostResultToUserMessage,
-} from '../../../../../../shared/utils/error-handling';
-import { SnackbarService } from '../../../../../../shared/utils/service/snackbar.service';
-import { fillZeroOnValueFunc } from '../../../../../../shared/utils/validation/validation-helper';
+  ToastResult,
+} from './../../../../../../shared/utils/error-handling';
 import {
   execIntervalOptions,
   possibleWhenOptions,
@@ -70,609 +87,661 @@ export interface AlertRuleModalProps {
   title: AlertRuleModalTitle;
 }
 
+/**
+ * The AlertRuleEditSingleModal Component.
+ *
+ * @export
+ * @class AlertRuleEditSingleModalComponent
+ * @implements {OnInit}
+ */
 @Component({
   selector: 'app-alert-rule-edit-modal',
   standalone: true,
   imports: [
-    MatDialogContent,
-    MatDialogActions,
-    MatButton,
-    MatDialogClose,
+    MatDialogModule,
+    MatButtonModule,
+    MatGridListModule,
     StyledGridSectionComponent,
-    MatGridList,
     LoadingSpinnerModule,
-    MatGridTile,
     SingleAutocompletePreLoadedComponent,
     SharedTranslocoModule,
-    MatDialogTitle,
     FilterDropdownComponent,
     SingleAutocompleteOnTypeComponent,
     PushPipe,
-    MatFormField,
-    MatLabel,
-    MatInput,
+    MatSelectModule,
+    MatInputModule,
     ReactiveFormsModule,
-    MatError,
-    MatSelect,
-    MatOption,
-    DatePickerComponent,
+    MatSelectModule,
     CdkTextareaAutosize,
+    DatePickerComponent,
+    NumberSeparatorDirective,
+    MatIcon,
   ],
   templateUrl: './alert-rule-edit-single-modal.component.html',
   styleUrl: './alert-rule-edit-single-modal.component.scss',
 })
 export class AlertRuleEditSingleModalComponent implements OnInit {
-  protected loading = this.selectableOptionsService.loading$;
-  protected saveOptionLoading = false;
-  protected showInputError = false;
-  protected fromPickerErrorReason: string | null = null;
-  protected toPickerErrorReason: string | null = null;
-  protected threshold1Required = false;
-  protected threshold2Required = false;
-  protected threshold3Required = false;
-  protected whenOptions: ExecDay[] = [];
-  protected title = `alert_rules.edit_modal.title.${this.data.title as AlertRuleModalTitle}`;
-
-  protected alertTypeData: AlertTypeDescription[] = [];
-
-  // TODO check if this is necessary and use transloco settings if possible
-  // const decimalSeparator = preferredDecimalSeparator === 'COMMA' ? ',' : '.';
-  // const thousandSeparator = preferredDecimalSeparator === 'COMMA' ? '.' : ',';
-
-  protected formGroup: FormGroup;
-
-  protected alertTypeControl: FormControl<SelectableValue | string>;
-  protected regionControl: FormControl<Partial<SelectableValue>>;
-  protected demandPlannerControl: FormControl<SelectableValue | string>;
-  protected sectorMgmtControl: FormControl<Partial<SelectableValue>>;
-  protected salesAreaControl: FormControl<Partial<SelectableValue>>;
-  protected salesOrgControl: FormControl<SelectableValue | string>;
-  protected gkamControl: FormControl<SelectableValue | string>;
-  protected productLineControl: FormControl<SelectableValue | string>;
-  protected productionLineControl: FormControl<SelectableValue | string>;
-  protected customerNumberControl: FormControl<SelectableValue | string>;
-  protected materialClassificationControl: FormControl<
-    Partial<SelectableValue>
-  >;
-  protected materialNumberControl: FormControl<SelectableValue | string>;
-  protected threshold1Control: FormControl<string>;
-  protected threshold2Control: FormControl<string>;
-  protected threshold3Control: FormControl<string>;
-  protected execIntervalControl: FormControl<ExecInterval>;
-  protected whenOptionsControl: FormControl<ExecDay>;
-  protected alertCommentControl: FormControl<string>;
-  protected startDateControl: FormControl<Date>;
-  protected endDateControl: FormControl<Date>;
+  /**
+   * The CurrencyService instance.
+   *
+   * @private
+   * @type {CurrencyService}
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  private readonly currencyService: CurrencyService = inject(CurrencyService);
 
   /**
-   * Mit der Regel stellt der Demand Planner ein Todo für die Sales Kollegen zur Validierung des Forecasts ein, das passiert in Demand360 nur auf SP Materialien (prio 1) und mit niedrigere Prio auch für AP Materialien
-   *  Daher werden nur AP und SP als Auswahlmöglichkeit angegeben
+   * The AlertRulesService instance
+   *
+   * @private
+   * @type {AlertRulesService}
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  private readonly alertRuleService: AlertRulesService =
+    inject(AlertRulesService);
+
+  /**
+   * The MatDialogRef instance
+   *
+   * @private
+   * @type {MatDialogRef<AlertRuleEditSingleModalComponent>}
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  private readonly dialogRef: MatDialogRef<AlertRuleEditSingleModalComponent> =
+    inject(MatDialogRef);
+
+  /**
+   * The SnackbarService instance
+   *
+   * @private
+   * @type {SnackbarService}
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  private readonly snackbarService: SnackbarService = inject(SnackbarService);
+
+  /**
+   * A shortener for the translation for missingFields
+   *
    * @protected
+   * @type {string}
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  protected missingFields: string = translate(
+    'generic.validation.missing_fields'
+  );
+
+  /**
+   * A shortener for the translation strings for edit_modal.labels
+   *
+   *
+   * @protected
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  protected translationStart = 'alert_rules.edit_modal.label';
+
+  /**
+   * The DestroyRef instance used for takeUntilDestroyed().
+   *
+   * @private
+   * @type {DestroyRef}
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
+
+  /**
+   * For these fields, only one needs to be set in the form.
+   *
+   * @private
+   * @type {string[]}
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  private readonly conditionalRequired: string[] = [
+    'salesArea',
+    'salesOrg',
+    'customerNumber',
+    'sectorManagement',
+    'demandPlannerId',
+    'gkamNumber',
+  ];
+
+  /**
+   * The SelectableOptionsService instance.
+   *
+   * @type {SelectableOptionsService}
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  public readonly selectableOptionsService: SelectableOptionsService = inject(
+    SelectableOptionsService
+  );
+
+  /**
+   * The data passed via MatDialog
+   *
+   * @type {AlertRuleModalProps}
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  public readonly data: AlertRuleModalProps = inject(MAT_DIALOG_DATA);
+
+  /**
+   * The available execIntervalOptions
+   *
+   * @protected
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  protected readonly execIntervalOptions = execIntervalOptions;
+
+  /**
+   * A helper function to render the options in the HTML
+   *
+   * @protected
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  protected readonly displayFnText = DisplayFunctions.displayFnText;
+
+  /**
+   * A loading indicator
+   *
+   * @type {WritableSignal<boolean>}
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  public loading: WritableSignal<boolean> = signal(false);
+
+  /**
+   * The current alert type data.
+   *
+   * @private
+   * @type {AlertTypeDescription[]}
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  private alertTypeData: AlertTypeDescription[] = [];
+
+  /**
+   * The exec day options getting rendered
+   *
+   * @protected
+   * @type {ExecDay[]}
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  protected execDayOptions: ExecDay[] = [];
+
+  /**
+   * The title used in the dialog
+   *
+   * @protected
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  protected title = `alert_rules.edit_modal.title.${this.data.title as AlertRuleModalTitle}`;
+
+  /**
+   * The materialClassificationOptions getting rendered
+   *
+   * Hint:
+   * Mit der Regel stellt der Demand Planner ein Todo für die Sales Kollegen zur Validierung des Forecasts ein, das passiert in Demand360 nur auf SP Materialien (prio 1) und mit niedrigere Prio auch für AP Materialien
+   * Daher werden nur AP und SP als Auswahlmöglichkeit angegeben
+   *
+   * @protected
+   * @type {SelectableValue[]}
+   * @memberof AlertRuleEditSingleModalComponent
    */
   protected materialClassificationOptions: SelectableValue[] = [
     { id: 'AP', text: 'AP' },
-    {
-      id: 'SP',
-      text: 'SP',
-    },
+    { id: 'SP', text: 'SP' },
   ];
-  protected alertTypeDescriptionWithParameter: AlertTypeDescription | null =
-    null;
+  /**
+   * The alertTypeDescription for the current selected alertType.
+   *
+   * @protected
+   * @type {(AlertTypeDescription | null)}
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  protected alertTypeDescription: AlertTypeDescription | null = null;
+
+  /**
+   * The current used currency.
+   * Hint: not changeable right now.
+   *
+   * @private
+   * @type {string}
+   * @memberof AlertRuleEditSingleModalComponent
+   */
   private currentCurrency: string;
 
-  protected isAtLeastOneFieldSet: boolean;
+  /**
+   * The FormGroup
+   *
+   * @type {FormGroup}
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  public readonly formGroup: FormGroup = new FormGroup(
+    {
+      alertComment: new FormControl(null),
+      customerNumber: new FormControl(null, Validators.required), // @see this.conditionalRequired
+      demandPlannerId: new FormControl(null, Validators.required), // @see this.conditionalRequired
+      endDate: new FormControl(null, Validators.required),
+      execInterval: new FormControl(null, Validators.required),
+      execDay: new FormControl(null, Validators.required),
+      gkamNumber: new FormControl(null, Validators.required), // @see this.conditionalRequired
+      materialClassification: new FormControl(null),
+      materialNumber: new FormControl(null),
+      productionLine: new FormControl(null),
+      productLine: new FormControl(null),
+      region: new FormControl(null, Validators.required),
+      salesArea: new FormControl(null, Validators.required), // @see this.conditionalRequired
+      salesOrg: new FormControl(null, Validators.required), // @see this.conditionalRequired
+      sectorManagement: new FormControl(null, Validators.required), // @see this.conditionalRequired
+      startDate: new FormControl(null, Validators.required),
+      threshold1: new FormControl(null),
+      threshold2: new FormControl(null),
+      threshold3: new FormControl(null),
+      type: new FormControl(null, Validators.required),
 
-  constructor(
-    // private readonly snackbarService: SnackbarService,
-    private readonly currencyService: CurrencyService,
-    private readonly alertRuleService: AlertRulesService,
-    protected readonly selectableOptionsService: SelectableOptionsService,
-    @Inject(MAT_DIALOG_DATA) public data: AlertRuleModalProps,
-    public dialogRef: MatDialogRef<AlertRuleEditSingleModalComponent>,
-    private readonly fb: FormBuilder,
-    private readonly snackbarService: SnackbarService
-  ) {
-    this.alertRuleService.getRuleTypeData().subscribe((response) => {
-      this.alertTypeData = response;
-      this.updateThresholds();
-    });
-    this.currencyService
-      .getCurrentCurrency()
-      .subscribe((currency) => (this.currentCurrency = currency));
-    this.updateWhenOptions(this.data.alertRule.execInterval);
-    this.updateIsAtLeastOneFieldSet();
-    this.createAndInitializeFormGroup();
+      // not visible in form
+      currency: new FormControl(null, Validators.required),
+    },
+    { validators: this.crossFieldValidator() }
+  );
+
+  /**
+   * @inheritdoc
+   */
+  public ngOnInit(): void {
+    this.init();
   }
 
-  ngOnInit(): void {
-    this.regionControl.valueChanges.subscribe((value) => {
-      this.data.alertRule = { ...this.data.alertRule, region: value.id };
-    });
-    this.sectorMgmtControl.valueChanges.subscribe((value) => {
-      this.data.alertRule = {
-        ...this.data.alertRule,
-        sectorManagement: value.id,
-      };
-      this.updateIsAtLeastOneFieldSet();
-    });
-    this.salesAreaControl.valueChanges.subscribe((value) => {
-      this.data.alertRule = { ...this.data.alertRule, salesArea: value.id };
-      this.updateIsAtLeastOneFieldSet();
-    });
-    this.materialClassificationControl.valueChanges.subscribe((value) => {
-      this.data.alertRule = {
-        ...this.data.alertRule,
-        materialClassification: value.id,
-      };
-    });
-    this.threshold1Control.valueChanges.subscribe((value) => {
-      // TODO check if number should be localized
-      this.data.alertRule = { ...this.data.alertRule, threshold1: value };
-    });
-    this.threshold2Control.valueChanges.subscribe((value) => {
-      // TODO check if number should be localized
-      this.data.alertRule = { ...this.data.alertRule, threshold2: value };
-    });
-    this.threshold3Control.valueChanges.subscribe((value) => {
-      // TODO check if number should be localized
-      this.data.alertRule = { ...this.data.alertRule, threshold3: value };
-    });
-    this.execIntervalControl.valueChanges.subscribe((value) => {
-      this.updateWhenOptions(value);
-      this.handleIntervalChange(value);
-    });
-    this.whenOptionsControl.valueChanges.subscribe((value) => {
-      this.data.alertRule = { ...this.data.alertRule, execDay: value };
-      // TODO check if this is handled by execIntervall or anywhere else
-    });
-    this.alertCommentControl.valueChanges.subscribe((value) => {
-      this.data.alertRule = { ...this.data.alertRule, alertComment: value };
-    });
-    this.startDateControl.valueChanges.subscribe((value) => {
-      this.data.alertRule = { ...this.data.alertRule, startDate: value };
-    });
-    this.endDateControl.valueChanges.subscribe((value) => {
-      this.data.alertRule = { ...this.data.alertRule, endDate: value };
-    });
+  /**
+   * The init function to load the missing data.
+   *
+   * @private
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  private init(): void {
+    this.loading.set(true);
+
+    combineLatest([
+      this.alertRuleService.getRuleTypeData(),
+      this.currencyService.getCurrentCurrency(),
+    ])
+      .pipe(
+        // set results
+        tap(([alertTypeData, currency]: [AlertTypeDescription[], string]) => {
+          this.alertTypeData = alertTypeData;
+          this.currentCurrency = currency;
+        }),
+
+        // set / init the rest afterwards
+        tap(() => {
+          // needs to run first
+          this.setInitialValues();
+
+          // set/update the exec days options
+          this.setExecDays();
+
+          // show/hide Thresholds
+          this.updateThresholds();
+
+          // set the required fields
+          this.setIsAtLeastOneRequireStatus();
+        }),
+
+        // reset loading state
+        tap(() => this.loading.set(false)),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
-  private createAndInitializeFormGroup() {
-    this.alertTypeControl = this.fb.control(
-      this.data.alertRule.type ?? '',
-      Validators.required
-    );
-    this.regionControl = this.fb.control(
-      { id: this.data.alertRule.region },
-      Validators.required
-    );
-    this.demandPlannerControl = this.fb.control(
-      this.data.alertRule.demandPlannerId
-    );
-    this.sectorMgmtControl = this.fb.control({
-      id: this.data.alertRule.sectorManagement,
-    });
-    this.salesAreaControl = this.fb.control({
-      id: this.data.alertRule.salesArea,
-    });
-    this.salesOrgControl = this.fb.control(this.data.alertRule.salesOrg);
-    this.gkamControl = this.fb.control(this.data.alertRule.gkamNumber);
-    this.productLineControl = this.fb.control(this.data.alertRule.productLine);
-    this.productionLineControl = this.fb.control(
-      this.data.alertRule.productionLine
-    );
-    this.customerNumberControl = this.fb.control(
-      this.data.alertRule.customerNumber
-    );
-    this.materialClassificationControl = this.fb.control({
-      id: this.data.alertRule.materialClassification,
-    });
-    this.materialNumberControl = this.fb.control(
-      this.data.alertRule.materialNumber
-    );
-    this.threshold1Control = this.fb.control(this.data.alertRule.threshold1);
-    this.threshold2Control = this.fb.control(this.data.alertRule.threshold2);
-    this.threshold3Control = this.fb.control(this.data.alertRule.threshold3);
-    this.execIntervalControl = this.fb.control(
-      this.data.alertRule.execInterval,
-      Validators.required
-    );
-    this.whenOptionsControl = this.fb.control(
-      this.whenOptions.find((elem) => elem === this.data.alertRule.execDay),
-      Validators.required
-    );
-    this.alertCommentControl = this.fb.control(
-      this.data.alertRule.alertComment
-    );
-    this.startDateControl = this.fb.control(this.data.alertRule.startDate);
-    this.endDateControl = this.fb.control(this.data.alertRule.endDate);
-
-    this.formGroup = this.fb.group(
+  /**
+   * Set the initial values.
+   *
+   * @private
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  private setInitialValues(): void {
+    this.formGroup.patchValue(
       {
-        // Define your form controls here
-        // TODO check validators, not all fields are required, i think there is a logic regarding to the alert type
-        alertTypeControl: this.alertTypeControl,
-        regionControl: this.regionControl,
-        demandPlannerControl: this.demandPlannerControl,
-        sectorMgmtControl: this.sectorMgmtControl,
-        salesAreaControl: this.salesAreaControl,
-        salesOrgControl: this.salesOrgControl,
-        gkamControl: this.gkamControl,
-        productLineControl: this.productLineControl,
-        productionLineControl: this.productionLineControl,
-        customerNumberControl: this.customerNumberControl,
-        materialClassificationControl: this.materialClassificationControl,
-        materialNumberControl: this.materialNumberControl,
-        threshold1Control: this.threshold1Control,
-        threshold2Control: this.threshold2Control,
-        threshold3Control: this.threshold3Control,
-        execIntervalControl: this.execIntervalControl,
-        whenOptionsControl: this.whenOptionsControl,
-        alertCommentControl: this.alertCommentControl,
-        startDateControl: this.startDateControl,
-        endDateControl: this.endDateControl,
+        // set the defaults
+        ...this.data.alertRule,
+
+        // type: filter-dropdown (special value mapping)
+        region: this.getInitialValue('region'),
+        salesArea: this.getInitialValue('salesArea'),
+        sectorManagement: this.getInitialValue('sectorManagement'),
+        materialClassification: this.getInitialValue('materialClassification'),
+
+        // unused as visible form field
+        currency: this.data.alertRule.currency || this.currentCurrency,
       },
-      { validators: this.editSingleModalValidator() }
+      { emitEvent: false }
     );
   }
 
-  private updateIsAtLeastOneFieldSet() {
-    // TODO check if it is necessary to also validate the FormControl values here or this property is only used initially
-    this.isAtLeastOneFieldSet =
-      !this.data.alertRule.salesArea &&
-      !this.data.alertRule.salesOrg &&
-      !this.data.alertRule.customerNumber &&
-      !this.data.alertRule.sectorManagement &&
-      !this.data.alertRule.demandPlannerId &&
-      !this.data.alertRule.gkamNumber;
+  /**
+   * Returns the selectable options by key
+   *
+   * @protected
+   * @param {keyof OptionsTypes} key
+   * @return {OptionsLoadingResult}
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  protected getOptions(key: keyof OptionsTypes): OptionsLoadingResult {
+    return this.selectableOptionsService.get(key);
   }
 
+  /**
+   * The callback used by all form fields to perform additional steps, like updating the required fields.
+   *
+   * @protected
+   * @param {SingleAutocompleteSelectedEvent} { option: { id } }
+   * @param {keyof AlertRule} key
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  protected updateForm(
+    { option: { id } }: SingleAutocompleteSelectedEvent,
+    key: keyof AlertRule
+  ): void {
+    // update the required fields
+    if (this.conditionalRequired.includes(key)) {
+      this.setIsAtLeastOneRequireStatus();
+    }
+
+    // update thresholds
+    if (key === 'type') {
+      this.applyRuleTypeChange({ id, text: '' });
+      this.updateThresholds();
+    }
+  }
+
+  /**
+   * Returns the initial values as SelectableValue or null
+   *
+   * @private
+   * @param {keyof AlertRule} key
+   * @return {(Partial<SelectableValue | null>)}
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  private getInitialValue(
+    key: keyof AlertRule
+  ): Partial<SelectableValue | null> {
+    return this.data.alertRule?.[key]
+      ? { id: String(this.data.alertRule[key]) }
+      : null;
+  }
+
+  /**
+   * Add or remove the required validator, based on other input fields
+   *
+   * @private
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  private setIsAtLeastOneRequireStatus(): void {
+    // eslint-disable-next-line unicorn/no-array-reduce
+    const isOptional: boolean = this.conditionalRequired.reduce(
+      (previousValue: boolean, key: string) => {
+        const value: any = this.formGroup.get(key)?.value;
+
+        // TODO: Refactor! It's possible to have different types here, this makes no sense
+        // @see this.setInitialValues() and all input types! we need definitely ONE input type + null
+        return (
+          previousValue ||
+          (Array.isArray(value) && value.length > 0) ||
+          (!Array.isArray(value) &&
+            ((typeof value === 'object' && !!value?.id) ||
+              (typeof value !== 'object' && !!value)))
+        );
+      },
+      false
+    );
+
+    // update / set all required fields
+    this.conditionalRequired.forEach((key: string) =>
+      this.setOrRemoveRequired(!isOptional, this.formGroup.get(key))
+    );
+  }
+
+  /**
+   * A helper to set or remove the required validator. Used to avoid boilerplate code.
+   *
+   * @private
+   * @param {boolean} required
+   * @param {AbstractControl} control
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  private setOrRemoveRequired(
+    required: boolean,
+    control: AbstractControl
+  ): void {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    required
+      ? control?.setValidators(Validators.required)
+      : control?.removeValidators(Validators.required);
+
+    control?.updateValueAndValidity({ emitEvent: true });
+  }
+
+  /**
+   * A helper to avoid boilerplate code in the HTML.
+   *
+   * @protected
+   * @param {(1 | 2 | 3)} number
+   * @return {string}
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  protected getThresholdDescription(number: 1 | 2 | 3): string {
+    return this.alertTypeDescription?.[`threshold${number}Description`] ?? '';
+  }
+
+  /**
+   * Update the threshold data
+   *
+   * @private
+   * @memberof AlertRuleEditSingleModalComponent
+   */
   private updateThresholds(): void {
-    const typeDescription = this.alertTypeData.find(
-      (element) => element.alertType === this.data.alertRule.type
+    const data: AlertTypeDescription | undefined = this.alertTypeData.find(
+      (typeData) =>
+        // TODO: Refactor! It's possible to have different types here, this makes no sense
+        // @see this.setInitialValues() and all input types! we need definitely ONE input type + null
+        typeData.alertType === this.formGroup.get('type')?.value?.id ||
+        typeData.alertType === this.formGroup.get('type')?.value
     );
 
-    const isThresholdRequired = (thresholdType: string) =>
-      thresholdTypeWithParameter.includes(thresholdType || '');
+    const isRequired = (type: string) =>
+      thresholdTypeWithParameter.includes(type || '');
 
-    if (
-      typeDescription &&
-      thresholdTypeWithParameter.includes(typeDescription?.threshold1Type)
-    ) {
-      const { threshold1Type, threshold2Type, threshold3Type } =
-        typeDescription;
-      this.alertTypeDescriptionWithParameter = typeDescription;
-      this.threshold1Required = isThresholdRequired(threshold1Type);
-      this.threshold2Required = isThresholdRequired(threshold2Type);
-      this.threshold3Required = isThresholdRequired(threshold3Type);
-      this.updateThresholdControlStatus();
+    const check: boolean = data && isRequired(data?.threshold1Type);
+    const required1: boolean = check ? isRequired(data.threshold1Type) : false;
+    const required2: boolean = check ? isRequired(data.threshold2Type) : false;
+    const required3: boolean = check ? isRequired(data.threshold3Type) : false;
 
-      return;
-    }
+    this.alertTypeDescription = check ? data : null;
 
-    this.alertTypeDescriptionWithParameter = null;
-    this.threshold1Required = false;
-    this.threshold2Required = false;
-    this.threshold3Required = false;
-    this.updateThresholdControlStatus();
+    this.setOrRemoveRequired(required1, this.formGroup.get('threshold1'));
+    this.setOrRemoveRequired(required2, this.formGroup.get('threshold2'));
+    this.setOrRemoveRequired(required3, this.formGroup.get('threshold3'));
+
+    /* eslint-disable @typescript-eslint/no-unused-expressions */
+    !required1 && this.formGroup.get('threshold1').reset(null);
+    !required2 && this.formGroup.get('threshold2').reset(null);
+    !required3 && this.formGroup.get('threshold3').reset(null);
   }
 
-  private updateThresholdControlStatus() {
-    if (this.threshold1Required) {
-      this.threshold1Control.enable();
-    } else {
-      this.threshold1Control.disable();
-    }
+  /**
+   * Set the ExecDays options, based on the execInterval value
+   *
+   * @private
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  private setExecDays(): void {
+    const execInterval: ExecInterval | null =
+      this.formGroup.get('execInterval')?.value ?? null;
 
-    if (this.threshold2Required) {
-      this.threshold2Control.enable();
-    } else {
-      this.threshold2Control.disable();
-    }
-
-    if (this.threshold3Required) {
-      this.threshold3Control.enable();
-    } else {
-      this.threshold3Control.disable();
-    }
+    this.execDayOptions = possibleWhenOptions?.[execInterval] || [];
   }
 
-  private updateWhenOptions(execInterval: ExecInterval | null) {
-    if (!execInterval) {
-      return;
-    }
-    const options = possibleWhenOptions[execInterval];
-    this.whenOptions = options || [];
-  }
+  /**
+   * On execInterval changes, we can set default values for execDay
+   *
+   * @protected
+   * @param {MatSelectChange} { value }
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  protected onIntervalSelectionChange({ value }: MatSelectChange): void {
+    // cast to use the correct type
+    const execInterval: ExecInterval = value as ExecInterval;
 
-  private handleIntervalChange(execInterval: ExecInterval) {
+    // update ExecDays first
+    this.setExecDays();
+
+    let execDay: 'M01' | 'M15' | 'W6' | 'D' | null = null;
+    const currentExecDay = this.formGroup.get('execDay')?.value;
+
     switch (execInterval) {
       case 'M1':
       case 'M2':
       case 'M3':
       case 'M6': {
-        this.data.alertRule =
-          !this.data.alertRule.execDay ||
-          !possibleWhenOptions[execInterval].includes(
-            this.data.alertRule.execDay
+        execDay =
+          !currentExecDay ||
+          !possibleWhenOptions[execInterval as ExecInterval].includes(
+            currentExecDay
           )
-            ? {
-                ...this.data.alertRule,
-                execDay: 'M01',
-                execInterval,
-              }
-            : { ...this.data.alertRule, execInterval };
+            ? 'M01'
+            : currentExecDay ?? null;
         break;
       }
+
+      case 'D1':
       case 'W1': {
-        // There is only one option here so we can set it directly
-        this.data.alertRule = {
-          ...this.data.alertRule,
-          execDay: 'W6',
-          execInterval,
-        };
+        execDay = execInterval === 'W1' ? 'W6' : 'D';
         break;
       }
-      case 'D1': {
-        // There is only one option here so we can set it directly
-        this.data.alertRule = {
-          ...this.data.alertRule,
-          execDay: 'D',
-          execInterval,
-        };
-        break;
-      }
+
       default: {
-        this.updateWhenOptions(null);
-        this.data.alertRule = {
-          ...this.data.alertRule,
-          execDay: null,
-          execInterval,
-        };
         break;
       }
     }
+
+    // Update the form control
+    this.formGroup.get('execDay')?.patchValue(execDay);
   }
 
-  // @ts-expect-error: ignore unused method for now
-  private getEndDateErrorText() {
-    if (!this.data.alertRule.endDate) {
-      return [translate('generic.validation.missing_fields', {})];
-    }
-
-    if (
-      this.data.alertRule.startDate &&
-      this.data.alertRule.endDate &&
-      this.data.alertRule.endDate < this.data.alertRule.startDate
-    ) {
-      return [translate('error.toDateAfterFromDate', {})];
-    }
-
-    // eslint-disable-next-line unicorn/no-useless-undefined
-    return undefined;
-  }
-
-  private applyRuleTypeChange(value: SelectableValue | null) {
-    if (this.data.alertRule.type === value?.id) {
-      return;
-    }
-
-    this.data.alertRule = {
-      ...this.data.alertRule,
-      type: value && value.id ? value.id : null,
-      threshold1: null,
-      threshold2: null,
-      threshold3: null,
-      currency: this.data.alertRule.currency || this.currentCurrency,
-    };
-
-    this.threshold1Control.setValue(null);
-    this.threshold2Control.setValue(null);
-    this.threshold3Control.setValue(null);
-
-    this.showInputError = false;
-  }
-
-  /* eslint-disable complexity */
-  protected handleSave() {
-    if (
-      (this.formGroup.dirty || this.formGroup.touched) &&
-      this.formGroup.valid
-    ) {
-      // TODO update data and return
-    }
-
-    if (
-      !this.data.alertRule.region ||
-      !this.data.alertRule.type ||
-      !this.data.alertRule.execInterval ||
-      !this.data.alertRule.execDay ||
-      !this.data.alertRule.startDate ||
-      !this.data.alertRule.endDate ||
-      this.isAtLeastOneFieldSet
-    ) {
-      // TODO implement
-      // snackbar.enqueueSnackbar(t('generic.validation.missing_fields', {}), {
-      //   variant: 'error',
-      // });
-      this.snackbarService.openSnackBar(
-        translate('generic.validation.missing_fields')
-      );
-      this.showInputError = true;
-
-      return;
-    }
-
-    if (
-      this.toPickerErrorReason ||
-      this.fromPickerErrorReason ||
-      this.data.alertRule.startDate > this.data.alertRule.endDate ||
-      (Number.isNaN(this.data.alertRule.threshold1) &&
-        this.threshold1Required) ||
-      (Number.isNaN(this.data.alertRule.threshold2) &&
-        this.threshold2Required) ||
-      (!this.data.alertRule.threshold3 && this.threshold3Required)
-    ) {
-      // TODO implement
-      // snackbar.enqueueSnackbar(t('generic.validation.check_inputs', {}), {
-      //   variant: 'error',
-      // });
-      this.snackbarService.openSnackBar(
-        translate('generic.validation.check_inputs')
-      );
-      this.showInputError = true;
-
-      return;
-    }
-
-    this.showInputError = false;
-
-    this.saveOptionLoading = true;
-
-    const refinedAlertRule: AlertRule = {
-      ...this.data.alertRule,
-      // TODO check if this values are SelectableValues or strings --> Should be Selectable after fix and then use .id
-      gkamNumber:
-        this.data.alertRule.gkamNumber &&
-        fillZeroOnValueFunc(6, this.data.alertRule.gkamNumber),
-      materialNumber:
-        this.data.alertRule.materialNumber &&
-        fillZeroOnValueFunc(15, this.data.alertRule.materialNumber),
-      customerNumber:
-        this.data.alertRule.customerNumber &&
-        fillZeroOnValueFunc(10, this.data.alertRule.customerNumber),
-    };
-
-    this.alertRuleService
-      .saveMultiAlertRules([refinedAlertRule])
-      .subscribe((postResult) => {
-        const userMessage = singlePostResultToUserMessage(
-          postResult,
-          errorsFromSAPtoMessage,
-          translate('alert_rules.edit_modal.success.alert_rule_created', {})
-        );
-        // TODO implement
-        // snackbar.enqueueSnackbar(userMessage.message, { variant: userMessage.variant });
-        this.snackbarService.openSnackBar(userMessage.message);
-
-        if (userMessage.variant !== 'error') {
-          this.alertRuleService
-            .getAlertRuleData()
-            .subscribe((response) =>
-              this.data.gridApi.setRowData(response.content)
-            );
-          this.handleOnClose();
-        }
-        this.saveOptionLoading = false;
-      });
-  }
-
-  protected handleOnClose() {
-    // Reset valid state on close
-    this.showInputError = false;
-    this.fromPickerErrorReason = null;
-    this.toPickerErrorReason = null;
-    this.alertTypeDescriptionWithParameter = null;
-    this.data.alertRule = {
-      id: '00000000-0000-0000-0000-000000000000',
-      startDate: new Date(Date.now()),
-      endDate: new Date('9999-12-31'),
-    };
-    this.dialogRef.close();
-  }
-
-  protected readonly execIntervalOptions = execIntervalOptions;
-  protected readonly displayFnText = displayFnText;
-
-  private editSingleModalValidator(): ValidatorFn {
-    return (group: AbstractControl) => {
-      const startDate = this.startDateControl;
-      const endDate = group.get('endDateControl');
-      const threshold1 = group.get('threshold1Control');
-      const threshold2 = group.get('threshold2Control');
-      const threshold3 = group.get('threshold3Control');
-
+  /**
+   * The form cross field validator to check the dates.
+   *
+   * @private
+   * @return {ValidatorFn}
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  private crossFieldValidator(): ValidatorFn {
+    return (formGroup: AbstractControl) => {
       const errors: { [key: string]: string[] } = {};
 
-      if (!startDate || !startDate.value) {
-        errors.startDate = [translate('generic.validation.missing_fields')];
-      }
-
-      if (!endDate || !endDate.value) {
-        errors.endDate = [translate('generic.validation.missing_fields')];
-      }
-
-      if (startDate.value && endDate.value && startDate.value > endDate.value) {
-        errors.endDate = [translate('error.toDateAfterFromDate', {})];
-      }
-
-      if (threshold1.value && Number.isNaN(threshold1.value)) {
-        errors.threshold1 = [translate('generic.validation.invalid_number')];
-      }
-
-      if (threshold2.value && Number.isNaN(threshold2.value)) {
-        errors.threshold2 = [translate('generic.validation.invalid_number')];
-      }
-
-      if (threshold3.value && Number.isNaN(threshold3.value)) {
-        errors.threshold3 = [translate('generic.validation.invalid_number')];
+      // start- / endDate
+      const startDate = formGroup.get('startDate')?.value;
+      const endDate = formGroup.get('endDate')?.value;
+      if (startDate && endDate && startDate > endDate) {
+        errors.endDate = ['end-before-start'];
       }
 
       return Object.keys(errors).length > 0 ? errors : null;
     };
   }
 
-  handleAlertTypeChange($event: SingleAutocompleteSelectedEvent) {
-    this.applyRuleTypeChange($event.option);
-    this.updateThresholds();
+  /**
+   * Reset the thresholds, if we have a change in the alert rules.
+   *
+   * @private
+   * @param {(SelectableValue | null)} value
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  private applyRuleTypeChange(value: SelectableValue | null): void {
+    if (this.formGroup.get('type')?.value !== value?.id) {
+      this.formGroup.get('threshold1').reset(null);
+      this.formGroup.get('threshold2').reset(null);
+      this.formGroup.get('threshold3').reset(null);
+    }
   }
 
-  handleSalesOrgChange($event: SingleAutocompleteSelectedEvent) {
-    this.data.alertRule = {
+  /**
+   * Save the form.
+   *
+   * @protected
+   * @return {void}
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  @ValidateForm('formGroup')
+  protected onSave(): void {
+    if (!this.formGroup.valid) {
+      return;
+    }
+
+    this.loading.set(true);
+
+    const refinedAlertRule: AlertRule = {
+      // use the initial values
       ...this.data.alertRule,
-      salesOrg: $event.option.id,
+
+      // overwrite with the form values
+      ...this.formGroup.getRawValue(),
+
+      // saveMultiAlertRules expects a local date, so we need to convert here
+      // This is because of the clipboard functionality of the multi modal. (Copy/Paste from Excel)
+      startDate: ValidationHelper.localeService.localizeDate(
+        moment(this.formGroup.getRawValue().startDate).format('YYYY-MM-DD')
+      ),
+      // saveMultiAlertRules expects a local date, so we need to convert here
+      // This is because of the clipboard functionality of the multi modal. (Copy/Paste from Excel)
+      endDate: ValidationHelper.localeService.localizeDate(
+        moment(this.formGroup.getRawValue().endDate).format('YYYY-MM-DD')
+      ),
     };
-    this.updateIsAtLeastOneFieldSet();
+
+    Object.keys(refinedAlertRule).forEach((key) => {
+      const value = (refinedAlertRule as any)[key] as SelectableValue;
+      if (SelectableValueUtils.isSelectableValue(value)) {
+        (refinedAlertRule as any)[key] = value.id;
+      }
+    });
+
+    this.alertRuleService
+      .saveMultiAlertRules([refinedAlertRule])
+      .pipe(
+        // Map result to ToastResult
+        map((postResult) =>
+          singlePostResultToUserMessage(
+            postResult,
+            errorsFromSAPtoMessage,
+            translate('alert_rules.edit_modal.success.alert_rule_created', {})
+          )
+        ),
+
+        tap((userMessage: ToastResult) => {
+          // show SnackBar
+          this.snackbarService.openSnackBar(userMessage.message);
+
+          if (userMessage.variant === 'error') {
+            this.loading.set(false);
+
+            return;
+          }
+
+          // stop loader
+          this.handleOnClose(true);
+        }),
+
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
-  handleDemandPlannerChange($event: SingleAutocompleteSelectedEvent) {
-    this.data.alertRule = {
-      ...this.data.alertRule,
-      demandPlannerId: $event.option.id,
-    };
-    this.updateIsAtLeastOneFieldSet();
-  }
-
-  handleGkamChange($event: SingleAutocompleteSelectedEvent) {
-    this.data.alertRule = {
-      ...this.data.alertRule,
-      gkamNumber: $event.option.id,
-    };
-    this.updateIsAtLeastOneFieldSet();
-  }
-
-  handleCustomerNumberChange($event: SingleAutocompleteSelectedEvent) {
-    this.data.alertRule = {
-      ...this.data.alertRule,
-      customerNumber: $event.option.id,
-    };
-    this.updateIsAtLeastOneFieldSet();
-  }
-
-  handleProductLineChange($event: SingleAutocompleteSelectedEvent) {
-    this.data.alertRule = {
-      ...this.data.alertRule,
-      productLine: $event.option.id,
-    };
-  }
-
-  handleProductionLineChange(_: SingleAutocompleteSelectedEvent) {
-    // TODO implement
-  }
-
-  handleMaterialNumberChange($event: SingleAutocompleteSelectedEvent) {
-    this.data.alertRule = {
-      ...this.data.alertRule,
-      materialNumber: $event.option.id,
-    };
+  /**
+   * Close the open dialogs
+   *
+   * @protected
+   * @param {boolean} reloadData
+   * @memberof AlertRuleEditSingleModalComponent
+   */
+  protected handleOnClose(reloadData: boolean): void {
+    this.dialogRef.close(reloadData);
   }
 }

@@ -25,12 +25,18 @@ export function messageFromSAP(
       messageNumber: sapMessageNumber,
     });
 
-  return (
-    translate(`sap_message.${messageClass}.${sapMessageNumber}`, {
+  const translatedError: string = translate(
+    `sap_message.${messageClass}.${sapMessageNumber}`,
+    {
       messageV1: messageV1 || '',
       messageV2: messageV2 || '',
       messageV3: messageV3 || '',
       messageV4: messageV4 || '',
-    }) ?? defaultErrorMessage
+    }
   );
+
+  // If we have no "real" translation, we need to use the defaultErrorMessage
+  return translatedError === `sap_message.${messageClass}.${sapMessageNumber}`
+    ? defaultErrorMessage
+    : translatedError;
 }

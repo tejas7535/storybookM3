@@ -1,9 +1,34 @@
 @mixin mat-button() {
-  button {
-    outline: none !important;
-  }
-
   .mdc-button__label {
     @apply whitespace-nowrap;
+  }
+
+  .mat-mdc-button-base {
+    &.error-variant {
+      @apply bg-error;
+      @apply text-on-error;
+
+      .mat-icon {
+        @apply text-on-error;
+      }
+    }
+
+    &.primary-variant {
+      @apply bg-primary;
+      @apply text-on-primary;
+
+      .mat-icon {
+        @apply text-on-primary;
+      }
+    }
+
+    &.secondary-variant {
+      @apply bg-on-surface;
+      @apply text-surface-container-lowest;
+
+      .mat-icon {
+        @apply text-surface-container-lowest;
+      }
+    }
   }
 }

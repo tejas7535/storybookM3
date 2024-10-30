@@ -680,7 +680,8 @@
   "alert_rules": {
     "title": "Tasks Rule Editor",
     "button": {
-      "new_rule": "New rule"
+      "createRule": "Create rule",
+      "createMultipleRules": "Create multiple rules"
     },
     "action_menu": {
       "activate": "Activate",

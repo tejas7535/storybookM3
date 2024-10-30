@@ -1,0 +1,38 @@
+@mixin apply() {
+  .fixed-action-column {
+    @apply pl-0;
+    @apply pr-0;
+    @apply flex;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .ag {
+    &-theme-material {
+      --ag-font-family: 'Noto sans';
+
+      .ag-column-panel {
+        border-left: 1px solid ag-param(border-color);
+        border-right: 1px solid ag-param(border-color);
+      }
+
+      .ag-header-cell-text {
+        font-size: 14px;
+      }
+    }
+
+    &-row-group-indent-1 {
+      @apply ml-4 #{!important};
+      @apply pl-4 #{!important};
+    }
+
+    &-group-contracted,
+    &-group-expanded {
+      @apply mr-2 #{!important};
+    }
+
+    &-root-wrapper {
+      min-height: 400px !important;
+    }
+  }
+}

@@ -5,9 +5,10 @@
 /***************************************************************************************************
   * DECLARATIONS
   */
-
 @use 'ag-grid-community/styles' as ag;
 @use 'styles/material-overrides' as matOverrides;
+@use 'styles/ag-grid-overrides' as agGridOverrides;
+
 /*
  * TailwindCSS, utility-first css framework
  * see https://tailwindcss.com/docs
@@ -35,33 +36,10 @@
   )
 );
 
-/** Material overrides */
-body {
+html {
+  /** Material overrides */
   @include matOverrides.apply;
-}
 
-// Material Fixes
-
-.ag-theme-material {
-  --ag-font-family: 'Noto sans';
-  .ag-column-panel {
-    border-left: 1px solid ag-param(border-color);
-    border-right: 1px solid ag-param(border-color);
-  }
-  .ag-header-cell-text {
-    font-size: 14px;
-  }
-}
-
-.ag-row-group-indent-1 {
-  @apply ml-4 #{!important};
-  @apply pl-4 #{!important};
-}
-.ag-group-contracted,
-.ag-group-expanded {
-  @apply mr-2 #{!important};
-}
-
-.ag-root-wrapper {
-  min-height: 400px !important;
+  /** Ag-Grid overrides */
+  @include agGridOverrides.apply;
 }

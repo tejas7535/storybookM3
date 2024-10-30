@@ -671,7 +671,8 @@
   "alert_rules": {
     "title": "Editor de reglas de tareas",
     "button": {
-      "new_rule": "Nueva norma"
+      "createRule": "Crear norma",
+      "createMultipleRules": "Crear múltiples normas"
     },
     "action_menu": {
       "activate": "Activar",

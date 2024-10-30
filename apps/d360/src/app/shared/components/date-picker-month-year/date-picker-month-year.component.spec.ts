@@ -11,7 +11,12 @@ import {
 } from '@angular/material-moment-adapter';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 
 import { DatePickerMonthYearComponent } from './date-picker-month-year.component';
 
@@ -32,6 +37,9 @@ describe('DatePickerMonthYearComponent', () => {
     ],
     providers: [
       provideMomentDateAdapter(),
+      mockProvider(TranslocoLocaleService, {
+        getLocale: () => 'DE-de',
+      }),
       {
         provide: MomentDateAdapter,
         useClass: MomentDateAdapter,

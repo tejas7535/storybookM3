@@ -29,6 +29,9 @@ jest.mock('@jsverse/transloco', () => ({
       case 'sap_message./SGD/SCM_SOP_SALES.-2': {
         return 'Fallback Error Message';
       }
+      case 'sap_message./SGD/SCM_SOP_SALES.17': {
+        return 'any Message';
+      }
       default: {
         return translateKey;
       }

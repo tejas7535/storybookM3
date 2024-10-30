@@ -17,7 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { take } from 'rxjs';
 
-import { TranslocoService } from '@jsverse/transloco';
+import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { PushPipe } from '@ngrx/component';
 
@@ -77,16 +77,6 @@ export class GlobalSelectionCriteriaComponent implements OnInit {
    */
   protected readonly selectableOptionsService: SelectableOptionsService =
     inject(SelectableOptionsService);
-
-  /**
-   * The TranslocoService instance.
-   *
-   * @private
-   * @type {TranslocoService}
-   * @memberof GlobalSelectionCriteriaComponent
-   */
-  private readonly translocoService: TranslocoService =
-    inject(TranslocoService);
 
   /**
    * The SnackBarService instance.
@@ -201,8 +191,8 @@ export class GlobalSelectionCriteriaComponent implements OnInit {
    */
   public text: Signal<string> = computed(() =>
     this.countLoading()
-      ? this.translocoService.translate('globalSelection.dropdown.loading', {})
-      : `${this.translocoLocaleService.localizeNumber(this.count(), 'decimal')}  ${this.translocoService.translate('globalSelection.results', {})}`
+      ? translate('globalSelection.dropdown.loading', {})
+      : `${this.translocoLocaleService.localizeNumber(this.count(), 'decimal', this.translocoLocaleService.getLocale())}  ${translate('globalSelection.results', {})}`
   );
 
   // Display functions
@@ -234,7 +224,7 @@ export class GlobalSelectionCriteriaComponent implements OnInit {
       this.selectableOptionsService.get('alertTypes')?.options ?? []
     )?.map((item) => ({
       id: item.id,
-      text: this.translocoService.translate(
+      text: translate(
         `alert.category.${item.id as AlertCategory}`,
         {},
         item.text
@@ -254,7 +244,7 @@ export class GlobalSelectionCriteriaComponent implements OnInit {
 
     if (this.globalSelectionStateService.isEmpty()) {
       this.snackBarService.openSnackBar(
-        this.translocoService.translate('globalSelection.selection_empty')
+        translate('globalSelection.selection_empty')
       );
 
       this.count.set(0);

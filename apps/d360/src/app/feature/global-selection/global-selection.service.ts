@@ -23,7 +23,7 @@ import {
   validateSalesOrg,
   validateSectors,
 } from '../../shared/utils/validation/filter-validation';
-import { fillZeroOnValueFunc } from '../../shared/utils/validation/validation-helper';
+import { ValidationHelper } from '../../shared/utils/validation/validation-helper';
 import { MaterialCustomerService } from '../material-customer/material-customer.service';
 import { GlobalSelectionUtils } from './global-selection.utils';
 import { CustomerEntry, GlobalSelectionStatus } from './model';
@@ -217,7 +217,7 @@ export class GlobalSelectionHelperService {
     return GlobalSelectionUtils.resolveOptions({
       values,
       options,
-      formatFunc: (value) => fillZeroOnValueFunc(6, value),
+      formatFunc: (value) => ValidationHelper.fillZeroOnValueFunc(6, value),
       validateFunc: (value) => validateGkamNumber(value),
       errorTextFunc: (formattedValue) =>
         translate('error.notValidGkamNumber', { formattedValue }),
@@ -239,7 +239,7 @@ export class GlobalSelectionHelperService {
     return GlobalSelectionUtils.resolveOptions({
       values,
       options,
-      formatFunc: (value) => fillZeroOnValueFunc(4, value),
+      formatFunc: (value) => ValidationHelper.fillZeroOnValueFunc(4, value),
       validateFunc: (value) => validateSalesOrg(value),
       errorTextFunc: (formattedValue) =>
         translate('error.notValidSalesOrg', { formattedValue }),
@@ -310,7 +310,7 @@ export class GlobalSelectionHelperService {
 
     const formattedCustomerNumbers = resolveResults
       .filter((entry) => !entry.error)
-      .map((entry) => fillZeroOnValueFunc(10, entry.id));
+      .map((entry) => ValidationHelper.fillZeroOnValueFunc(10, entry.id));
 
     const requests = GlobalSelectionUtils.splitToChunks(
       formattedCustomerNumbers,
@@ -324,7 +324,8 @@ export class GlobalSelectionHelperService {
           map((fetchedCustomers) => {
             fetchedCustomers.forEach((customer) => {
               const entry = resolveResults.filter(
-                (e) => customer.id === fillZeroOnValueFunc(10, e.id)
+                (e) =>
+                  customer.id === ValidationHelper.fillZeroOnValueFunc(10, e.id)
               );
 
               if (entry) {

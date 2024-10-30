@@ -1,5 +1,6 @@
 import {
   Component,
+  inject,
   Input,
   OnInit,
   signal,
@@ -24,10 +25,9 @@ import {
   provideMomentDateAdapter,
 } from '@angular/material-moment-adapter';
 
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { addMonths, subMonths } from 'date-fns';
 import moment, { Moment } from 'moment';
-
-import { AVAILABLE_LOCALES } from '../../constants/available-locales';
 
 export const MY_FORMATS = {
   parse: {
@@ -61,6 +61,12 @@ export const MY_FORMATS = {
   styleUrls: ['./date-picker-month-year.component.scss'],
 })
 export class DatePickerMonthYearComponent implements OnInit {
+  private readonly translocoLocaleService: TranslocoLocaleService = inject(
+    TranslocoLocaleService
+  );
+
+  private readonly adapter: MomentDateAdapter = inject(MomentDateAdapter);
+
   @Input() placeholder!: string;
   @Input() appearance: MatFormFieldAppearance = 'outline';
   @Input() color: ThemePalette = 'primary';
@@ -77,13 +83,8 @@ export class DatePickerMonthYearComponent implements OnInit {
     subMonths(new Date(), 36)
   );
 
-  constructor(private readonly _adapter: MomentDateAdapter) {}
-
   ngOnInit(): void {
-    // TODO: Placeholder until the implementation of Locale Select
-    this._adapter.setLocale(
-      localStorage.getItem('locale') ?? AVAILABLE_LOCALES[0].id
-    );
+    this.adapter.setLocale(this.translocoLocaleService.getLocale());
   }
 
   onSelectMonth(event: any, datepicker: MatDatepicker<Moment>) {

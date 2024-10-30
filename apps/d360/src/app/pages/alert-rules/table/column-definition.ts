@@ -1,5 +1,9 @@
 import { translate } from '@jsverse/transloco';
-import { ColDef, ValueFormatterParams } from 'ag-grid-community';
+import {
+  ColDef,
+  ICellRendererParams,
+  ValueFormatterParams,
+} from 'ag-grid-community';
 import { parseISO } from 'date-fns';
 
 import { AgGridLocalizationService } from '../../../shared/services/ag-grid-localization.service';
@@ -306,7 +310,8 @@ export function alertRuleColumnDefinitions(
     {
       colId: 'deactivated',
       title: 'rules.deactivated',
-      valueFormatter: (params: ValueFormatterParams) =>
+      // Hint: We can't use valueFormatter here, because AG-Grid knowns, that this column contains a boolean.
+      cellRenderer: (params: ICellRendererParams) =>
         translate(`alert_rules.table.deactivated.${params.value}`, {}),
       filter: 'agSetColumnFilter',
       filterParams: {

@@ -671,7 +671,8 @@
   "alert_rules": {
     "title": "Éditeur de règles pour les tâches",
     "button": {
-      "new_rule": "Nouvelle règle"
+      "createRule": "Créer une règle",
+      "createMultipleRules": "Créer plusieurs règles"
     },
     "action_menu": {
       "activate": "Activez",

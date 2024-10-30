@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { ForecastChartComponent } from '../../feature/forecast-chart/components/forecast-chart/forecast-chart.component';
 import { ColumnFilters } from '../../shared/ag-grid/grid-filter-model';
 import { ActionButtonComponent } from '../../shared/components/action-button/action-button.component';
-import { ContentWrapperComponent } from '../../shared/components/content-wrapper/content-wrapper.component';
 import { GlobalSelectionCriteriaComponent } from '../../shared/components/global-selection-criteria/global-selection-criteria/global-selection-criteria.component';
 import { GlobalSelectionState } from '../../shared/components/global-selection-criteria/global-selection-state.service';
 import { HeaderActionBarComponent } from '../../shared/components/header-action-bar/header-action-bar.component';
@@ -19,7 +18,6 @@ import { MaterialCustomerTableComponent } from './table/components/material-cust
     ForecastChartComponent,
     HeaderActionBarComponent,
     ActionButtonComponent,
-    ContentWrapperComponent,
     StyledSectionComponent,
     MaterialCustomerTableComponent,
     StyledGridSectionComponent,
@@ -47,7 +45,7 @@ export class HomeComponent {
   /**
    * On filter update set the new values for the global selection state.
    *
-   * @param {GlobalSelectionState} filter
+   * @param {GlobalSelectionState} globalSelectionState
    * @memberof HomeComponent
    */
   onUpdateGlobalSelectionState(globalSelectionState: GlobalSelectionState) {

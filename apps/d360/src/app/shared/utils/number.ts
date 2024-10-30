@@ -1,6 +1,6 @@
 import {
   AvailableDecimalSeparators,
-  validateForLocalFloat,
+  ValidationHelper,
 } from './validation/validation-helper';
 
 export function strictlyParseInteger(value: string): number {
@@ -34,7 +34,9 @@ export function strictlyParseLocalFloat(
     return value;
   }
 
-  if (validateForLocalFloat(value, decimalSeparator) !== null) {
+  if (
+    ValidationHelper.validateForLocalFloat(value, decimalSeparator) !== null
+  ) {
     return Number.NaN;
   }
 

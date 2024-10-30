@@ -94,7 +94,7 @@ export abstract class AbstractSingleAutocompleteComponent implements OnInit {
    * @memberof AbstractSingleAutocompleteComponent
    */
   public control: InputSignal<FormControl<SelectableValue | string>> =
-    input.required<FormControl<SelectableValue | string>>();
+    input.required();
 
   /**
    * The render function to display the options in the dropdown.
@@ -114,6 +114,14 @@ export abstract class AbstractSingleAutocompleteComponent implements OnInit {
    */
   public onSelectionChange: OutputEmitterRef<SingleAutocompleteSelectedEvent> =
     output<SingleAutocompleteSelectedEvent>({ alias: 'selectionChange' });
+
+  /**
+   * Add a clear button to the component.
+   *
+   * @type {InputSignal<boolean>}
+   * @memberof AbstractSingleAutocompleteComponent
+   */
+  public addClearButton: InputSignal<boolean> = input(false);
 
   /**
    * A signal for the current loading state.
@@ -162,7 +170,7 @@ export abstract class AbstractSingleAutocompleteComponent implements OnInit {
         debounceTime(300),
         distinctUntilChanged(),
         filter((value) => !SelectableValueUtils.isSelectableValue(value)),
-        map((value) => value as string),
+        map((value) => (value ? String(value) : null)),
         tap((value) => {
           // set loading state
           if (!this.isPreloaded && value) {
@@ -188,5 +196,17 @@ export abstract class AbstractSingleAutocompleteComponent implements OnInit {
         option: this.control().value as SelectableValue,
       });
     }
+  }
+
+  /**
+   * On Clear Button Action, to delete the current values and to emit the data.
+   *
+   * @protected
+   * @memberof AbstractSingleAutocompleteComponent
+   */
+  protected onClear(): void {
+    this.inputValue.set('');
+    this.control().patchValue(null);
+    this.onSelectionChange.emit({ option: { id: null, text: null } });
   }
 }

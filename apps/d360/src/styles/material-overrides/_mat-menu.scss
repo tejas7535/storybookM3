@@ -8,4 +8,13 @@
       @apply py-0 #{!important};
     }
   }
+
+  .tabs-menu-panel {
+    max-width: 33.33vw !important;
+    width: 33.33vw !important;
+  }
+
+  .mat-mdc-tab-nav-panel {
+    display: contents;
+  }
 }

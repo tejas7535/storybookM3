@@ -1,7 +1,18 @@
-import { Component, ViewChild } from '@angular/core';
-import { MatButton } from '@angular/material/button';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  OnDestroy,
+  signal,
+  ViewChild,
+  WritableSignal,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
+
+import { EMPTY, Observable, switchMap, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
@@ -9,6 +20,8 @@ import { PushPipe } from '@ngrx/component';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { AlertRulesService } from '../../feature/alert-rules/alert-rules.service';
+import { AlertRule, AlertRuleResponse } from '../../feature/alert-rules/model';
 import { ActionButtonComponent } from '../../shared/components/action-button/action-button.component';
 import {
   HeaderActionBarComponent,
@@ -30,7 +43,7 @@ import {
     AlertRuleTableComponent,
     SharedTranslocoModule,
     HeaderActionBarComponent,
-    MatButton,
+    MatButtonModule,
     ActionButtonComponent,
     ProjectedContendDirective,
     MatIcon,
@@ -40,18 +53,32 @@ import {
   templateUrl: './alert-rules.component.html',
   styleUrl: './alert-rules.component.scss',
 })
-export class AlertRulesComponent {
+export class AlertRulesComponent implements OnDestroy {
   @ViewChild('alertRuleTableComponent')
   protected alertRuleTableComponent: AlertRuleTableComponent;
+  private readonly alertRuleService: AlertRulesService =
+    inject(AlertRulesService);
+  /**
+   * The DestroyRef instance used for takeUntilDestroyed().
+   *
+   * @private
+   * @type {DestroyRef}
+   * @memberof AlertRulesComponent
+   */
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
-  protected loading$;
+  /**
+   * The loading indicator for reloading data.
+   *
+   * @type {WritableSignal<boolean>}
+   * @memberof AlertRulesComponent
+   */
+  public loading: WritableSignal<boolean> = signal(false);
 
   constructor(
     private readonly dialog: MatDialog,
-    private readonly selectableOptionsService: SelectableOptionsService
-  ) {
-    this.loading$ = this.selectableOptionsService.loading$;
-  }
+    protected readonly selectableOptionsService: SelectableOptionsService
+  ) {}
 
   // TODO use as page title --> like Page does in the react application
   protected readonly title = `${translate('tabbar.functions.label', {})} | ${translate(
@@ -59,47 +86,91 @@ export class AlertRulesComponent {
     {}
   )}`;
 
-  handleCreateSingleAlertRule() {
-    const dialogRef = this.dialog.open(AlertRuleEditSingleModalComponent, {
-      data: {
-        gridApi: this.alertRuleTableComponent.gridApi,
-        alertRule: {
-          deactivated: false,
-          id: '00000000-0000-0000-0000-000000000000',
-          startDate: new Date(Date.now()),
-          endDate: new Date('9999-12-31'),
-          generation: 'R',
-        },
-        title: 'create',
-      } as AlertRuleModalProps,
-      disableClose: true,
-    });
-
-    // TODO check if this works we need to update the row data in ag-grid
-    dialogRef.afterClosed().subscribe((_result) => {
-      // TODO implement updateData
-    });
+  /**
+   * Opens the AlertRuleEditSingleModal.
+   *
+   * @protected
+   * @memberof AlertRulesComponent
+   */
+  protected handleCreateSingleAlertRule(data?: AlertRule) {
+    this.dialog
+      .open(AlertRuleEditSingleModalComponent, {
+        data: {
+          alertRule: {
+            ...(data ?? {
+              deactivated: false,
+              id: '00000000-0000-0000-0000-000000000000',
+              startDate: new Date(Date.now()),
+              endDate: new Date('9999-12-31'),
+              generation: 'R',
+            }),
+          },
+          title: data?.id ? 'edit' : 'create',
+        } as AlertRuleModalProps,
+        disableClose: true,
+        autoFocus: false,
+        panelClass: ['form-dialog', 'alert-rule'],
+      })
+      .afterClosed()
+      .pipe(
+        switchMap((reloadData: boolean) =>
+          reloadData ? this.reloadData$() : EMPTY
+        ),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   handleCreateMultiAlertRule() {
-    const dialogRef = this.dialog.open(AlertRuleEditMultiModalComponent, {
-      disableClose: true,
-    });
-
-    // TODO check if this works we need to update the row data in ag-grid
-    dialogRef.afterClosed().subscribe((_esult) => {
-      // TODO implement updateData
-    });
+    this.dialog
+      .open(AlertRuleEditMultiModalComponent, {
+        // disableClose: true,
+      })
+      .afterClosed()
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        // TODO implement updateData
+      });
   }
 
   handleDeleteMultiAlertRule() {
-    const dialogRef = this.dialog.open(AlertRuleDeleteMultiModalComponent, {
-      disableClose: true,
-    });
+    this.dialog
+      .open(AlertRuleDeleteMultiModalComponent, {
+        // disableClose: true,
+      })
+      .afterClosed()
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        // TODO implement updateData
+      });
+  }
 
-    // TODO check if this works we need to update the row data in ag-grid
-    dialogRef.afterClosed().subscribe((_result) => {
-      // TODO implement updateData
-    });
+  /**
+   * @inheritdoc
+   */
+  public ngOnDestroy(): void {
+    // close all open dialogs
+    this.dialog.closeAll();
+  }
+
+  /**
+   * Reloads the data and sets them to the available grid
+   *
+   * @private
+   * @return {Observable<AlertRuleResponse>}
+   * @memberof AlertRulesComponent
+   */
+  private reloadData$(): Observable<AlertRuleResponse> {
+    this.loading.set(true);
+
+    return this.alertRuleService.getAlertRuleData().pipe(
+      tap((response: AlertRuleResponse) => {
+        if (response?.content) {
+          this.alertRuleTableComponent?.grid?.api?.setRowData(response.content);
+        }
+        this.loading.set(false);
+      }),
+      takeUntilDestroyed(this.destroyRef)
+    );
   }
 }

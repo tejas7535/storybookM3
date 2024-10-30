@@ -1,13 +1,23 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-
-import { BehaviorSubject, Observable } from 'rxjs';
+import { DestroyRef, inject, Injectable } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import {
-  ColumnMovedEvent,
+  BehaviorSubject,
+  distinctUntilChanged,
+  filter,
+  Observable,
+  of,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
+
+import {
   ColumnVisibleEvent,
   DragStoppedEvent,
   FilterChangedEvent,
+  GridApi,
   SortChangedEvent,
 } from 'ag-grid-community';
 
@@ -32,6 +42,15 @@ export abstract class AbstractColumnSettingsService<
   COLUMN_KEYS extends string,
   COLDEF extends ColumnDefinition<COLUMN_KEYS>,
 > {
+  /**
+   * The DestroyRef instance used for takeUntilDestroyed().
+   *
+   * @private
+   * @type {DestroyRef}
+   * @memberof AbstractColumnSettingsService
+   */
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
+
   private readonly columnSettings = new BehaviorSubject<
     (ColumnSetting<COLUMN_KEYS> & COLDEF)[]
   >([]);
@@ -49,33 +68,34 @@ export abstract class AbstractColumnSettingsService<
     return this.columnSettings.asObservable();
   }
 
-  protected refreshColumnSettings(): void {
+  protected refreshColumnSettings$(): Observable<ColumnSetting<COLUMN_KEYS>[]> {
     // Make HTTP request to fetch column settings
-    this.http
+    return this.http
       .get<
         ColumnSetting<COLUMN_KEYS>[]
       >(`api/user-settings/tables/${this.tableName}/columns`)
-      .subscribe((data) => {
-        if (data) {
-          this.columnSettings.next(this.ensureColumnSettingsValidity(data));
-        } else {
-          this.columnSettings.next(this.ensureColumnSettingsValidity([]));
-        }
-      });
+      .pipe(
+        tap((data) => {
+          if (data) {
+            this.columnSettings.next(this.ensureColumnSettingsValidity(data));
+          } else {
+            this.columnSettings.next(this.ensureColumnSettingsValidity([]));
+          }
+        })
+      );
   }
 
-  saveColumnSettings(settings: ColumnSetting<COLUMN_KEYS>[]): void {
-    this.http
+  private saveColumnSettings$(
+    settings: ColumnSetting<COLUMN_KEYS>[]
+  ): Observable<ColumnSetting<COLUMN_KEYS>[]> {
+    return this.http
       .post(`api/user-settings/tables/${this.tableName}/columns`, settings)
-      .subscribe(() => {
-        this.refreshColumnSettings();
-      });
+      .pipe(switchMap(() => this.refreshColumnSettings$()));
   }
 
   saveFromAgGridEvent(
     event:
       | SortChangedEvent
-      | ColumnMovedEvent
       | ColumnVisibleEvent
       | FilterChangedEvent
       | DragStoppedEvent
@@ -84,15 +104,54 @@ export abstract class AbstractColumnSettingsService<
     const filterModel =
       rawFilterModel && formatFilterModelForBackend(rawFilterModel);
 
-    const columnState: any[] = event.columnApi
-      .getColumnState()
-      .map((col: any) => ({
+    of(
+      event.columnApi.getColumnState().map((col: any) => ({
         colId: col.colId,
         visible: !col.hide,
         sort: col.sort,
         filterModel: filterModel && filterModel[col.colId],
-      }));
-    this.saveColumnSettings(columnState);
+      }))
+    )
+      .pipe(
+        distinctUntilChanged(undefined, (data) => JSON.stringify(data)),
+        take(1), // only trigger once, if same
+        switchMap((columnState: any) => this.saveColumnSettings$(columnState)),
+        take(1), // only trigger once, switchMap created a "new" Observable
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+  }
+
+  /**
+   * Apply the already stored filters
+   * Example Code: {@link AlertRuleTableComponent.onFirstDataRendered}
+   * @example  HTML: <ag-grid-angular (firstDataRendered)="onFirstDataRendered($event) />
+   *
+   * @param {GridApi} gridApi
+   * @memberof AbstractColumnSettingsService
+   */
+  public applyStoredFilters(gridApi: GridApi): void {
+    this.columnSettings
+      .pipe(
+        filter((data) => !!data),
+        take(1),
+        tap((data) => {
+          gridApi.setFilterModel(
+            // eslint-disable-next-line unicorn/no-array-reduce
+            data.reduce(
+              (result, columnSetting) => ({
+                ...result,
+                [columnSetting.colId]: columnSetting.filterModel,
+              }),
+              {}
+            )
+          );
+          // force redraw, otherwise filtered rows sometimes will appear as blank rows
+          gridApi.redrawRows();
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   private ensureColumnSettingsValidity(

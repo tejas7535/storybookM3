@@ -4,10 +4,12 @@ import { Injectable } from '@angular/core';
 import { catchError, map, Observable, of, shareReplay, switchMap } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
+import { format, parse } from 'date-fns';
 
 import { USE_DEFAULT_HTTP_ERROR_INTERCEPTOR } from '../../shared/interceptors/http-error.interceptor';
 import { PostResult } from '../../shared/utils/error-handling';
 import { getErrorMessage } from '../../shared/utils/errors';
+import { ValidationHelper } from '../../shared/utils/validation/validation-helper';
 import { CurrencyService } from '../info/currency.service';
 import {
   AlertRule,
@@ -72,7 +74,14 @@ export class AlertRulesService {
         response: [] as AlertRuleSaveResponse[],
       });
     }
-    const request = data.map((d) => dataToAlertRuleRequest(d));
+
+    const request = data.map((row) =>
+      dataToAlertRuleRequest({
+        ...row,
+        startDate: this.parse2Date(row.startDate),
+        endDate: this.parse2Date(row.endDate),
+      })
+    );
 
     return this.http
       .post<
@@ -167,5 +176,16 @@ export class AlertRulesService {
           } as PostResult<AlertRuleSaveResponse>)
         )
       );
+  }
+
+  private parse2Date(date: Date | null | string): Date | null {
+    return date
+      ? new Date(
+          format(
+            parse(String(date), ValidationHelper.getDateFormat(), new Date()),
+            'yyyy-MM-dd'
+          )
+        )
+      : null;
   }
 }

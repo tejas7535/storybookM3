@@ -1,10 +1,26 @@
-<mat-form-field [appearance]="appearance" [color]="color">
+<mat-form-field [appearance]="appearance" [color]="color" *transloco="let t">
+  <!-- label -->
   <mat-label>{{ label }}</mat-label>
+
+  <!-- input fields -->
   <input [formControl]="dateControl" [matDatepicker]="picker" matInput />
+
+  <!-- picker toggle -->
   <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+
+  <!-- picker -->
   <mat-datepicker #picker></mat-datepicker>
+
+  <!-- hint -->
   <mat-hint>{{ hint }}</mat-hint>
+
+  <!-- custom errors -->
   @if (dateControl.hasError('matDatepickerParse')) {
     <mat-error>{{ errorMessage }}</mat-error>
+  }
+
+  <!-- Error -->
+  @if (dateControl.hasError('required')) {
+    <mat-error>{{ t('generic.validation.missing_fields') }}</mat-error>
   }
 </mat-form-field>

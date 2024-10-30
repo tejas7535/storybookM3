@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DATE_LOCALE, ThemePalette } from '@angular/material/core';
@@ -11,7 +11,9 @@ import {
   provideMomentDateAdapter,
 } from '@angular/material-moment-adapter';
 
-import { AVAILABLE_LOCALES } from '../../constants/available-locales';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'app-date-picker',
@@ -21,6 +23,7 @@ import { AVAILABLE_LOCALES } from '../../constants/available-locales';
     MatInputModule,
     MatDatepickerModule,
     ReactiveFormsModule,
+    SharedTranslocoModule,
   ],
   providers: [
     provideMomentDateAdapter(),
@@ -34,6 +37,12 @@ import { AVAILABLE_LOCALES } from '../../constants/available-locales';
   styleUrls: ['./date-picker.component.scss'],
 })
 export class DatePickerComponent implements OnInit {
+  private readonly translocoLocaleService: TranslocoLocaleService = inject(
+    TranslocoLocaleService
+  );
+
+  private readonly adapter: MomentDateAdapter = inject(MomentDateAdapter);
+
   @Input() label!: string;
   @Input() appearance: MatFormFieldAppearance = 'outline';
   @Input() color: ThemePalette = 'primary';
@@ -41,12 +50,10 @@ export class DatePickerComponent implements OnInit {
   @Input() errorMessage!: string;
   @Input() dateControl: FormControl = new FormControl('');
 
-  constructor(private readonly _adapter: MomentDateAdapter) {}
-
-  ngOnInit(): void {
-    // TODO: Placeholder until the implementation of Locale Select
-    this._adapter.setLocale(
-      localStorage.getItem('locale') ?? AVAILABLE_LOCALES[0].id
-    );
+  /**
+   * @inheritdoc
+   */
+  public ngOnInit(): void {
+    this.adapter.setLocale(this.translocoLocaleService.getLocale());
   }
 }

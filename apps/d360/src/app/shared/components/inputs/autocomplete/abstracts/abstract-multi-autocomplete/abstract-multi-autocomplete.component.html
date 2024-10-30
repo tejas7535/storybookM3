@@ -66,4 +66,9 @@
 
   <!-- Add an arrow, so it will look like a dropdown  -->
   <mat-icon matSuffix>arrow_drop_down</mat-icon>
+
+  <!-- Error -->
+  @if (control().hasError('required')) {
+    <mat-error>{{ t('generic.validation.missing_fields') }}</mat-error>
+  }
 </mat-form-field>

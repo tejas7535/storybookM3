@@ -671,7 +671,8 @@
   "alert_rules": {
     "title": "Editor delle regole dei compiti",
     "button": {
-      "new_rule": "Nuova regola"
+      "createRule": "Crea regola",
+      "createMultipleRules": "Crea regole multiple"
     },
     "action_menu": {
       "activate": "Attivare",

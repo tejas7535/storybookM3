@@ -1,265 +1,338 @@
 <div *transloco="let t">
-  <h2 mat-dialog-title>{{ t(title) }}</h2>
+  <!-- title -->
+  <div mat-dialog-title class="m-0 pt-0">
+    <h2 class="text-title-large">{{ t(title) }}</h2>
+  </div>
+
+  <!-- content -->
   <mat-dialog-content>
-    @if (loading | ngrxPush) {
-      <schaeffler-loading-spinner
-        [useBearingLoadingSpinner]="true"
-      ></schaeffler-loading-spinner>
+    @if (loading() || (selectableOptionsService.loading$ | ngrxPush)) {
+      <!-- loading spinner -->
+      <div>
+        <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
+      </div>
     } @else {
-      @if (saveOptionLoading) {
-        <schaeffler-loading-spinner
-          [useBearingLoadingSpinner]="true"
-        ></schaeffler-loading-spinner>
-      }
+      <!-- row 1 -->
       <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
-        <div>
-          <!-- TODO set initial value and handle valueChange when app-single-autocomplete-pre-loaded component is fixed -->
-          <app-single-autocomplete-pre-loaded
-            [control]="alertTypeControl"
-            [form]="formGroup"
-            [label]="t('alert_rules.edit_modal.label.type', {})"
-            [optionsLoadingResult]="
-              selectableOptionsService.get('alertTypesForRuleEditor')
-            "
-            [getOptionLabelInTag]="displayFnText"
-            (selectionChange)="handleAlertTypeChange($event)"
-          ></app-single-autocomplete-pre-loaded>
-        </div>
-        <div>
-          <app-filter-dropdown
-            [form]="formGroup"
-            [control]="regionControl"
-            [label]="t('alert_rules.edit_modal.label.region', {})"
-            [options]="selectableOptionsService.get('region').options"
-            [formatOptionValue]="displayFnText"
-          ></app-filter-dropdown>
-        </div>
+        <!-- alertType -->
+        <app-single-autocomplete-pre-loaded
+          [form]="formGroup"
+          [control]="$any(formGroup.controls.type)"
+          [label]="t(translationStart + '.type', {})"
+          [optionsLoadingResult]="getOptions('alertTypesForRuleEditor')"
+          [getOptionLabelInTag]="displayFnText"
+          (selectionChange)="updateForm($event, 'type')"
+        />
+
+        <!-- region -->
+        <app-filter-dropdown
+          [form]="formGroup"
+          [control]="$any(formGroup.controls.region)"
+          [label]="t(translationStart + '.region', {})"
+          [options]="getOptions('region').options"
+          [formatOptionValue]="displayFnText"
+          (selectionChange)="
+            updateForm(
+              { option: $event ? $any($event) : { id: null } },
+              'region'
+            )
+          "
+        />
       </div>
+
+      <!-- row 2 -->
       <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
-        <div>
-          <app-filter-dropdown
-            [form]="formGroup"
-            [control]="salesAreaControl"
-            [label]="t('alert_rules.edit_modal.label.sales_area', {})"
-            [options]="selectableOptionsService.get('salesArea').options"
-          ></app-filter-dropdown>
-        </div>
-        <div>
-          <!-- TODO set initial value and handle valueChange when app-single-autocomplete-pre-loaded component is fixed -->
-          <app-single-autocomplete-pre-loaded
-            [control]="salesOrgControl"
-            [form]="formGroup"
-            [label]="t('alert_rules.edit_modal.label.sales_org', {})"
-            [optionsLoadingResult]="selectableOptionsService.get('salesOrg')"
-            (selectionChange)="handleSalesOrgChange($event)"
-          ></app-single-autocomplete-pre-loaded>
-        </div>
-        <div>
-          <app-filter-dropdown
-            [form]="formGroup"
-            [control]="sectorMgmtControl"
-            [label]="t('alert_rules.edit_modal.label.sector_management', {})"
-            [options]="selectableOptionsService.get('sectorMgmt').options"
-          ></app-filter-dropdown>
-        </div>
+        <!-- salesArea -->
+        <app-filter-dropdown
+          [form]="formGroup"
+          [control]="$any(formGroup.controls.salesArea)"
+          [label]="t(translationStart + '.sales_area', {})"
+          [options]="getOptions('salesArea').options"
+          (selectionChange)="
+            updateForm(
+              { option: $event ? $any($event) : { id: null } },
+              'salesArea'
+            )
+          "
+          [addClearButton]="true"
+        />
+
+        <!-- salesOrg -->
+        <app-single-autocomplete-pre-loaded
+          [form]="formGroup"
+          [control]="$any(formGroup.controls.salesOrg)"
+          [label]="t(translationStart + '.sales_org', {})"
+          [optionsLoadingResult]="getOptions('salesOrg')"
+          (selectionChange)="updateForm($event, 'salesOrg')"
+          [addClearButton]="true"
+        />
+
+        <!-- sectorManagement -->
+        <app-filter-dropdown
+          [form]="formGroup"
+          [control]="$any(formGroup.controls.sectorManagement)"
+          [label]="t(translationStart + '.sector_management', {})"
+          [options]="getOptions('sectorMgmt').options"
+          (selectionChange)="
+            updateForm(
+              { option: $event ? $any($event) : { id: null } },
+              'sectorManagement'
+            )
+          "
+          [addClearButton]="true"
+        />
       </div>
+
+      <!-- row 3 -->
       <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
-        <div>
-          <!-- TODO set initial value and handle valueChange when app-single-autocomplete-pre-loaded component is fixed -->
-          <app-single-autocomplete-pre-loaded
-            [control]="demandPlannerControl"
-            [form]="formGroup"
-            [label]="t('alert_rules.edit_modal.label.demandPlanner', {})"
-            [optionsLoadingResult]="
-              selectableOptionsService.get('demandPlanners')
-            "
-            (selectionChange)="handleDemandPlannerChange($event)"
-          ></app-single-autocomplete-pre-loaded>
-        </div>
-        <div>
-          <app-single-autocomplete-pre-loaded
-            [control]="gkamControl"
-            [form]="formGroup"
-            [label]="t('alert_rules.edit_modal.label.gkam', {})"
-            [optionsLoadingResult]="selectableOptionsService.get('gkam')"
-            (selectionChange)="handleGkamChange($event)"
-          ></app-single-autocomplete-pre-loaded>
-        </div>
-        <div>
-          <app-single-autocomplete-on-type
-            [control]="customerNumberControl"
-            [form]="formGroup"
-            [label]="t('alert_rules.edit_modal.label.customer', {})"
-            urlBegin="global-selection/search-customers"
-            (selectionChange)="handleCustomerNumberChange($event)"
-          ></app-single-autocomplete-on-type>
-        </div>
+        <!-- demandPlanner -->
+        <app-single-autocomplete-pre-loaded
+          [form]="formGroup"
+          [control]="$any(formGroup.controls.demandPlannerId)"
+          [label]="t(translationStart + '.demandPlanner', {})"
+          [optionsLoadingResult]="getOptions('demandPlanners')"
+          (selectionChange)="updateForm($event, 'demandPlannerId')"
+          [addClearButton]="true"
+        />
+
+        <!-- gkamNumber -->
+        <app-single-autocomplete-pre-loaded
+          [form]="formGroup"
+          [control]="$any(formGroup.controls.gkamNumber)"
+          [label]="t(translationStart + '.gkam', {})"
+          [optionsLoadingResult]="getOptions('gkam')"
+          (selectionChange)="updateForm($event, 'gkamNumber')"
+          [addClearButton]="true"
+        />
+
+        <!-- customerNumber -->
+        <app-single-autocomplete-on-type
+          [form]="formGroup"
+          [control]="$any(formGroup.controls.customerNumber)"
+          [label]="t(translationStart + '.customer', {})"
+          urlBegin="global-selection/search-customers"
+          (selectionChange)="updateForm($event, 'customerNumber')"
+          [addClearButton]="true"
+        />
       </div>
+
+      <!-- row 4 -->
       <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
-        <div>
-          <app-filter-dropdown
-            [form]="formGroup"
-            [control]="materialClassificationControl"
-            [label]="
-              t('alert_rules.edit_modal.label.materialClassification', {})
-            "
-            [options]="materialClassificationOptions"
-          ></app-filter-dropdown>
-        </div>
-        <div>
-          <app-single-autocomplete-pre-loaded
-            [form]="formGroup"
-            [control]="productLineControl"
-            [label]="t('alert_rules.edit_modal.label.product_line', {})"
-            [optionsLoadingResult]="selectableOptionsService.get('productLine')"
-            (selectionChange)="handleProductLineChange($event)"
-          ></app-single-autocomplete-pre-loaded>
-        </div>
-        <div>
-          <app-single-autocomplete-on-type
-            [form]="formGroup"
-            [control]="productionLineControl"
-            [label]="t('alert_rules.edit_modal.label.production_line', {})"
-            urlBegin="global-selection/search-production-line"
-            (selectionChange)="handleProductionLineChange($event)"
-          ></app-single-autocomplete-on-type>
-        </div>
+        <!-- materialClassification -->
+        <app-filter-dropdown
+          [form]="formGroup"
+          [control]="$any(formGroup.controls.materialClassification)"
+          [label]="t(translationStart + '.materialClassification', {})"
+          [options]="materialClassificationOptions"
+          (selectionChange)="
+            updateForm(
+              { option: $event ? $any($event) : { id: null } },
+              'materialClassification'
+            )
+          "
+          [addClearButton]="true"
+        />
+
+        <!-- productLine -->
+        <app-single-autocomplete-pre-loaded
+          [form]="formGroup"
+          [control]="$any(formGroup.controls.productLine)"
+          [label]="t(translationStart + '.product_line', {})"
+          [optionsLoadingResult]="getOptions('productLine')"
+          (selectionChange)="updateForm($event, 'productLine')"
+          [addClearButton]="true"
+        />
+
+        <!-- productionLine -->
+        <app-single-autocomplete-on-type
+          [form]="formGroup"
+          [control]="$any(formGroup.controls.productionLine)"
+          [label]="t(translationStart + '.production_line', {})"
+          urlBegin="global-selection/search-production-line"
+          (selectionChange)="updateForm($event, 'productionLine')"
+          [addClearButton]="true"
+        />
       </div>
+
+      <!-- row 4 -->
       <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
-        <div>
-          <app-single-autocomplete-on-type
-            [control]="materialNumberControl"
-            [form]="formGroup"
-            [label]="t('alert_rules.edit_modal.label.material', {})"
-            urlBegin="global-selection/search-materials"
-            (selectionChange)="handleMaterialNumberChange($event)"
-          ></app-single-autocomplete-on-type>
-        </div>
+        <!-- materialNumber -->
+        <app-single-autocomplete-on-type
+          [control]="$any(formGroup.controls.materialNumber)"
+          [form]="formGroup"
+          [label]="t(translationStart + '.material', {})"
+          urlBegin="global-selection/search-materials"
+          (selectionChange)="updateForm($event, 'materialNumber')"
+          [addClearButton]="true"
+        />
       </div>
-      @if (alertTypeDescriptionWithParameter) {
+
+      <!-- row 5 (not always visible) -->
+      @if (alertTypeDescription) {
         <hr />
         <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
-          @if (threshold1Required) {
-            <div>
-              <mat-form-field [formGroup]="formGroup" appearance="outline">
-                <mat-label>{{
-                  alertTypeDescriptionWithParameter.threshold1Description
-                }}</mat-label>
-                <input
-                  [attr.aria-label]="
-                    alertTypeDescriptionWithParameter.threshold1Description
-                  "
-                  matInput
-                  [formControl]="threshold1Control"
-                  type="number"
-                />
-              </mat-form-field>
-            </div>
+          <!-- threshold1 -->
+          @if (formGroup.controls.threshold1.enabled) {
+            <mat-form-field [formGroup]="formGroup" appearance="outline">
+              <mat-label>{{ getThresholdDescription(1) }}</mat-label>
+              <input
+                [attr.aria-label]="getThresholdDescription(1)"
+                matInput
+                [formControl]="$any(formGroup.controls.threshold1)"
+                appNumberSeparator
+              />
+              @if (formGroup.controls.threshold1.hasError('required')) {
+                <mat-error>{{ missingFields }}</mat-error>
+              }
+            </mat-form-field>
           }
-          @if (threshold2Required) {
-            <div>
-              <mat-form-field [formGroup]="formGroup" appearance="outline">
-                <mat-label>{{
-                  alertTypeDescriptionWithParameter.threshold2Description
-                }}</mat-label>
-                <input
-                  [attr.aria-label]="
-                    alertTypeDescriptionWithParameter.threshold2Description
-                  "
-                  matInput
-                  [formControl]="threshold2Control"
-                  type="number"
-                />
-              </mat-form-field>
-            </div>
+
+          <!-- threshold2 -->
+          @if (formGroup.controls.threshold2.enabled) {
+            <mat-form-field [formGroup]="formGroup" appearance="outline">
+              <mat-label>{{ getThresholdDescription(2) }}</mat-label>
+              <input
+                [attr.aria-label]="getThresholdDescription(2)"
+                matInput
+                [formControl]="$any(formGroup.controls.threshold2)"
+                appNumberSeparator
+              />
+              @if (formGroup.controls.threshold2.hasError('required')) {
+                <mat-error>{{ missingFields }}</mat-error>
+              }
+            </mat-form-field>
           }
-          @if (threshold3Required) {
-            <div>
-              <mat-form-field [formGroup]="formGroup" appearance="outline">
-                <mat-label>{{
-                  alertTypeDescriptionWithParameter.threshold3Description
-                }}</mat-label>
-                <input
-                  [attr.aria-label]="
-                    alertTypeDescriptionWithParameter.threshold3Description
-                  "
-                  matInput
-                  [formControl]="threshold3Control"
-                  type="number"
-                />
-              </mat-form-field>
-            </div>
+
+          <!-- threshold3 -->
+          @if (formGroup.controls.threshold3.enabled) {
+            <mat-form-field [formGroup]="formGroup" appearance="outline">
+              <mat-label>{{ getThresholdDescription(3) }}</mat-label>
+              <input
+                [attr.aria-label]="getThresholdDescription(3)"
+                matInput
+                [formControl]="$any(formGroup.controls.threshold3)"
+                appNumberSeparator
+              />
+              @if (formGroup.controls.threshold3.hasError('required')) {
+                <mat-error>{{ missingFields }}</mat-error>
+              }
+            </mat-form-field>
           }
         </div>
       }
+
       <hr />
+      <!-- row 6 -->
       <div class="grid grid-cols-1 md:grid-cols-4 xs:gap-1 md:gap-4">
-        <div>
-          <!-- TODO add error handling date picker-->
-        </div>
-        <div class="styled-form-control">
-          <mat-form-field [formGroup]="formGroup" appearance="outline">
-            <mat-label>{{
-              t('alert_rules.edit_modal.label.interval.rootString', {})
-            }}</mat-label>
-            <mat-select
-              [aria-label]="
-                t('alert_rules.edit_modal.label.interval.rootString', {})
-              "
-              [formControl]="execIntervalControl"
-            >
-              @for (option of execIntervalOptions; track option) {
-                <mat-option [value]="option">
-                  {{ t('alert_rules.edit_modal.label.interval.' + option, {}) }}
-                </mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="styled-form-control">
-          <mat-form-field [formGroup]="formGroup" appearance="outline">
-            <mat-label>{{
-              t('alert_rules.edit_modal.label.when.rootString', {})
-            }}</mat-label>
-            <mat-select
-              [aria-label]="
-                t('alert_rules.edit_modal.label.when.rootString', {})
-              "
-              [formControl]="whenOptionsControl"
-            >
-              @for (option of whenOptions; track option) {
-                <mat-option [value]="option">
-                  {{ t('alert_rules.edit_modal.label.when.' + option, {}) }}
-                </mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div><!-- TODO add error handling date picker--></div>
+        <!-- startDate-->
+        <app-date-picker
+          [dateControl]="$any(formGroup.controls.startDate)"
+          [label]="t(translationStart + '.start')"
+        />
+
+        <!-- execInterval -->
+        <mat-form-field [formGroup]="formGroup" appearance="outline">
+          <mat-label>{{
+            t(translationStart + '.interval.rootString', {})
+          }}</mat-label>
+          <mat-select
+            [aria-label]="t(translationStart + '.interval.rootString', {})"
+            [formControl]="$any(formGroup.controls.execInterval)"
+            (selectionChange)="onIntervalSelectionChange($event)"
+          >
+            @for (option of execIntervalOptions; track option) {
+              <mat-option [value]="option">
+                {{ t(translationStart + '.interval.' + option, {}) }}
+              </mat-option>
+            }
+          </mat-select>
+          @if (formGroup.controls.execInterval.hasError('required')) {
+            <mat-error>{{ missingFields }}</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- execDay -->
+        <mat-form-field [formGroup]="formGroup" appearance="outline">
+          <mat-label>{{
+            t(translationStart + '.when.rootString', {})
+          }}</mat-label>
+          <mat-select
+            [aria-label]="t(translationStart + '.when.rootString', {})"
+            [formControl]="$any(formGroup.controls.execDay)"
+            (selectionChange)="
+              updateForm(
+                { option: $any({ id: formGroup.controls.execDay.value }) },
+                'execDay'
+              )
+            "
+          >
+            @for (option of execDayOptions; track option) {
+              <mat-option [value]="option">
+                {{ t(translationStart + '.when.' + option, {}) }}
+              </mat-option>
+            }
+          </mat-select>
+          @if (formGroup.controls.execDay.hasError('required')) {
+            <mat-error>{{ missingFields }}</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- endDate -->
+        <app-date-picker
+          [dateControl]="$any(formGroup.controls.endDate)"
+          [label]="t(translationStart + '.end')"
+        />
+
+        @if (formGroup.hasError('endDate')) {
+          <div class="-mt-6">
+            <mat-error>{{ t('error.toDateAfterFromDate') }}</mat-error>
+          </div>
+        }
       </div>
+
+      <!-- row 7 -->
       <div class="grid grid-cols-1 xs:gap-1 md:gap-4">
+        <!-- alertComment -->
         <div class="styled-text-field">
           <mat-form-field [formGroup]="formGroup" appearance="outline">
-            <mat-label>{{
-              t('alert_rules.edit_modal.label.comment', {})
-            }}</mat-label>
+            <mat-label>{{ t(translationStart + '.comment', {}) }}</mat-label>
             <textarea
               matInput
               cdkTextareaAutosize
               cdkAutosizeMinRows="4"
               #autosize="cdkTextareaAutosize"
-              [formControl]="alertCommentControl"
+              [formControl]="$any(formGroup.controls.alertComment)"
               rows="4"
+              (blur)="
+                updateForm(
+                  {
+                    option: $any({ id: formGroup.controls.alertComment.value })
+                  },
+                  'alertComment'
+                )
+              "
             ></textarea>
           </mat-form-field>
         </div>
       </div>
     }
   </mat-dialog-content>
+
+  <!--  buttons -->
   <mat-dialog-actions align="end">
-    <button (click)="handleSave()" mat-flat-button color="primary">
-      {{ t('button.save', {}) }}
+    <!-- close button -->
+    <button mat-button (click)="handleOnClose(false)">
+      {{ t('button.close') }}
     </button>
-    <button mat-button (click)="handleOnClose()">Close</button>
+
+    <!-- save button -->
+    <button
+      (click)="onSave()"
+      mat-flat-button
+      color="primary"
+      [disabled]="loading() || (selectableOptionsService.loading$ | ngrxPush)"
+    >
+      {{ t('button.save') }}
+    </button>
   </mat-dialog-actions>
 </div>

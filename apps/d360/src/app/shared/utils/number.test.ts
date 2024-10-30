@@ -1,6 +1,81 @@
+import { HttpClient } from '@angular/common/http';
+import { Component, importProvidersFrom } from '@angular/core';
+
+import { of } from 'rxjs';
+
+import { TranslocoService, TranslocoTestingModule } from '@jsverse/transloco';
+import {
+  provideTranslocoLocale,
+  TranslocoLocaleService,
+} from '@jsverse/transloco-locale';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
+
+import {
+  sharedTranslocoLocaleConfig,
+  SharedTranslocoModule,
+} from '@schaeffler/transloco';
+
+import { geDefaultLocale } from '../constants/available-locales';
+import {
+  AVAILABLE_LANGUAGES,
+  FALLBACK_LANGUAGE,
+  LANGUAGE_STORAGE_KEY,
+} from '../constants/language';
 import { strictlyParseInteger, strictlyParseLocalFloat } from './number';
+import { ValidationHelper } from './validation/validation-helper';
+
+@Component({
+  selector: 'app-dummy',
+  standalone: true,
+  template: '',
+})
+class DummyComponent {}
 
 describe('numbers', () => {
+  let spectator: Spectator<DummyComponent>;
+
+  const createComponent = createComponentFactory({
+    component: DummyComponent,
+    imports: [
+      TranslocoTestingModule.forRoot({
+        langs: {},
+        translocoConfig: {
+          availableLangs: ['de', 'en'],
+          defaultLang: 'de',
+        },
+        preloadLangs: true,
+      }),
+    ],
+    providers: [
+      mockProvider(HttpClient, { get: () => of({}) }),
+      TranslocoService,
+      importProvidersFrom(
+        SharedTranslocoModule.forRoot(
+          true,
+          AVAILABLE_LANGUAGES,
+          undefined,
+          FALLBACK_LANGUAGE.id,
+          LANGUAGE_STORAGE_KEY,
+          true,
+          false
+        )
+      ),
+      provideTranslocoLocale({
+        ...sharedTranslocoLocaleConfig,
+        defaultLocale: geDefaultLocale().id,
+      }),
+    ],
+  });
+
+  beforeEach(() => {
+    spectator = createComponent();
+    ValidationHelper.localeService = spectator.query(TranslocoLocaleService);
+  });
+
   test.each`
     input        | isValid
     ${'1'}       | ${true}

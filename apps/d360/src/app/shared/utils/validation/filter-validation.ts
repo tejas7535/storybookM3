@@ -1,57 +1,62 @@
-import {
-  condenseValidationResults,
-  validateExactLength,
-  validateForNumbers,
-  validateMaxLength,
-} from './validation-helper';
+import { ValidationHelper } from './validation-helper';
 
 export function validateSalesOrg(value: string): string[] | null {
-  const validLength = validateMaxLength(value, 4);
-  const validTypes = validateForNumbers(value);
+  const validLength = ValidationHelper.validateMaxLength(value, 4);
+  const validTypes = ValidationHelper.validateForNumbers(value);
 
-  return condenseValidationResults([validLength, validTypes]);
+  return ValidationHelper.condenseValidationResults([validLength, validTypes]);
 }
 
 export function validateGkamNumber(value: string): string[] | null {
-  const validLength = validateMaxLength(value, 6);
-  const validTypes = validateForNumbers(value);
+  const validLength = ValidationHelper.validateMaxLength(value, 6);
+  const validTypes = ValidationHelper.validateForNumbers(value);
 
-  return condenseValidationResults([validLength, validTypes]);
+  return ValidationHelper.condenseValidationResults([validLength, validTypes]);
 }
 
 export function validateCustomerNumber(value: string): string[] | null {
-  const validLength = validateMaxLength(value, 10);
-  const validTypes = validateForNumbers(value);
+  const validLength = ValidationHelper.validateMaxLength(value, 10);
+  const validTypes = ValidationHelper.validateForNumbers(value);
 
-  return condenseValidationResults([validLength, validTypes]);
+  return ValidationHelper.condenseValidationResults([validLength, validTypes]);
 }
 
 export function validateMaterialNumber(value: string): string[] | null {
   const valueForChecking = value.replaceAll('-', '');
-  const validExactLength = validateExactLength(valueForChecking, 15);
-  const validTypes = validateForNumbers(valueForChecking);
+  const validExactLength = ValidationHelper.validateExactLength(
+    valueForChecking,
+    15
+  );
+  const validTypes = ValidationHelper.validateForNumbers(valueForChecking);
 
-  return condenseValidationResults([validExactLength, validTypes]);
+  return ValidationHelper.condenseValidationResults([
+    validExactLength,
+    validTypes,
+  ]);
 }
 
 export function validateSectors(value: string): string[] | null {
-  const validLength = validateMaxLength(value, 4);
+  const validLength = ValidationHelper.validateMaxLength(value, 4);
   const firstChar = value[0] === 'V' ? null : 'error.sectorWrongBegin';
-  const validTypes = validateForNumbers(value.slice(1));
+  const validTypes = ValidationHelper.validateForNumbers(value.slice(1));
 
-  return condenseValidationResults([validLength, firstChar, validTypes]);
+  return ValidationHelper.condenseValidationResults([
+    validLength,
+    firstChar,
+    validTypes,
+  ]);
 }
 
 export function validateProductionSegment(value: string): string[] | null {
-  const validLength = validateMaxLength(value, 6);
-  const validTypes = validateForNumbers(value);
+  const validLength = ValidationHelper.validateMaxLength(value, 6);
+  const validTypes = ValidationHelper.validateForNumbers(value);
 
-  return condenseValidationResults([validLength, validTypes]);
+  return ValidationHelper.condenseValidationResults([validLength, validTypes]);
 }
 
 export function validateProductionPlants(value: string): string[] | null {
-  const validLength = validateMaxLength(value, 4);
-  const validTypes = validateForNumbers(value);
+  const validLength = ValidationHelper.validateMaxLength(value, 4);
+  const validTypes = ValidationHelper.validateForNumbers(value);
 
-  return condenseValidationResults([validLength, validTypes]);
+  return ValidationHelper.condenseValidationResults([validLength, validTypes]);
 }

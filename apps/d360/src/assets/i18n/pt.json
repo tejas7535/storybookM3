@@ -671,7 +671,8 @@
   "alert_rules": {
     "title": "Tarefas Editor de regras",
     "button": {
-      "new_rule": "Nova regra"
+      "createRule": "Criar regra",
+      "createMultipleRules": "Criar várias regras"
     },
     "action_menu": {
       "activate": "Ativar",

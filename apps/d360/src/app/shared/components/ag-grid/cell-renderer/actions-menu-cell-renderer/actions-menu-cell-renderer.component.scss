@@ -1,0 +1,15 @@
+:host {
+  .mat-mdc-icon-button {
+    &.mat-mdc-button-base {
+      --mdc-icon-button-state-layer-size: 41px;
+      padding: 2px 8px;
+
+      ::ng-deep {
+        .mat-mdc-button-touch-target {
+          height: var(--mdc-icon-button-state-layer-size);
+          width: var(--mdc-icon-button-state-layer-size);
+        }
+      }
+    }
+  }
+}

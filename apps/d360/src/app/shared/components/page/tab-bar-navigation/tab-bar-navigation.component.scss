@@ -1,6 +1,5 @@
-::ng-deep .mat-mdc-menu-panel {
-  max-width: 33.33vw !important;
-  width: 33.33vw !important;
+:host {
+  display: contents;
 }
 
 .navigation-tab {

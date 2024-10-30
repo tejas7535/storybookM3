@@ -22,6 +22,6 @@ export class AlertRulesColumnSettingsService<
     agGridLocalizationService: AgGridLocalizationService
   ) {
     super(httpClient, alertRuleColumnDefinitions(agGridLocalizationService));
-    this.refreshColumnSettings();
+    this.refreshColumnSettings$().subscribe();
   }
 }

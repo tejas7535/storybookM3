@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -13,14 +13,14 @@ import { ActionButtonComponent } from './action-button.component';
   imports: [ActionButtonComponent],
   template: `
     <app-action-button
-      [tooltip]="tooltip"
-      [disabled]="disabled"
+      [tooltip]="tooltip()"
+      [disabled]="disabled()"
     ></app-action-button>
   `,
 })
 class TestHostComponent {
-  tooltip = '';
-  disabled = false;
+  tooltip = signal('');
+  disabled = signal(false);
 }
 
 describe('ActionButtonComponent', () => {
@@ -51,15 +51,15 @@ describe('ActionButtonComponent', () => {
     const tooltip = 'Tooltip Text';
     const disabled = true;
 
-    expect(component.tooltip).toEqual('');
-    expect(component.disabled).toBeFalsy();
+    expect(component['tooltip']()).toEqual('');
+    expect(component['disabled']()).toBeFalsy();
 
     const testHostComponent = spectator.component;
-    testHostComponent.tooltip = tooltip;
-    testHostComponent.disabled = disabled;
+    testHostComponent['tooltip'].set(tooltip);
+    testHostComponent['disabled'].set(disabled);
     spectator.detectChanges();
 
-    expect(component.tooltip).toEqual(tooltip);
-    expect(component.disabled).toEqual(disabled);
+    expect(component['tooltip']()).toEqual(tooltip);
+    expect(component['disabled']()).toEqual(disabled);
   });
 });

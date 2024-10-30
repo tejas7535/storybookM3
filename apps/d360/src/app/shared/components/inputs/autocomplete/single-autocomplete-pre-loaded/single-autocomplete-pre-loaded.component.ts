@@ -1,10 +1,9 @@
 import {
   Component,
-  computed,
+  effect,
   input,
   InputSignal,
   OnInit,
-  Signal,
   signal,
   WritableSignal,
 } from '@angular/core';
@@ -57,21 +56,13 @@ export class SingleAutocompletePreLoadedComponent
    * @override
    * @inheritdoc
    */
-  protected isPreloaded = false;
+  protected isPreloaded = true;
 
   /**
    * @override
    * @inheritdoc
    */
-  protected filteredOptions: Signal<SelectableValue[]> = computed(() =>
-    this.inputValue()
-      ? this.options().filter((option) =>
-          DisplayFunctions.displayFnUnited(option)
-            .toLowerCase()
-            .includes(this.inputValue().toLowerCase())
-        )
-      : this.options()
-  );
+  protected filteredOptions: WritableSignal<SelectableValue[]> = signal([]);
 
   /**
    * @override
@@ -100,6 +91,30 @@ export class SingleAutocompletePreLoadedComponent
   private readonly options: WritableSignal<SelectableValue[]> = signal<
     SelectableValue[]
   >([]);
+
+  /**
+   * Creates an instance of SingleAutocompletePreLoadedComponent.
+   *
+   * @memberof SingleAutocompletePreLoadedComponent
+   */
+  public constructor() {
+    super();
+
+    effect(
+      () => {
+        this.filteredOptions.set(
+          this.inputValue()
+            ? this.options().filter((option) =>
+                DisplayFunctions.displayFnUnited(option)
+                  .toLowerCase()
+                  .includes(this.inputValue().toLowerCase())
+              )
+            : this.options()
+        );
+      },
+      { allowSignalWrites: true }
+    );
+  }
 
   /**
    * @override

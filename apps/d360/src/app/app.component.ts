@@ -20,6 +20,7 @@ import {
   RedirectRequest,
 } from '@azure/msal-browser';
 import { TranslocoService } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
@@ -39,6 +40,7 @@ import packageJson from '../../package.json';
 import { AppRoutePath } from './app.routes.enum';
 import { TabBarNavigationComponent } from './shared/components/page/tab-bar-navigation/tab-bar-navigation.component';
 import { UserSettingsComponent } from './shared/components/user-settings/user-settings.component';
+import { ValidationHelper } from './shared/utils/validation/validation-helper';
 
 @Component({
   standalone: true,
@@ -63,7 +65,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly msalGuardConfig: MsalGuardConfiguration,
     private readonly authService: MsalService,
     private readonly msalBroadcastService: MsalBroadcastService,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly translocoLocaleService: TranslocoLocaleService
   ) {}
 
   isIframe = false;
@@ -116,6 +119,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.setLoginDisplay();
         this.checkAndSetActiveAccount();
       });
+
+    // add translocoLocaleService to static class.
+    ValidationHelper.localeService = this.translocoLocaleService;
   }
 
   setLoginDisplay() {

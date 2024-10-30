@@ -22,6 +22,7 @@ describe('AlertRuleTableComponent', () => {
     providers: [
       mockProvider(AlertRulesService, {
         getAlertRuleData: jest.fn().mockReturnValue(of({})),
+        getRuleTypeData: jest.fn().mockReturnValue(of({})),
       }),
       mockProvider(AlertRulesColumnSettingsService, {
         getColumnSettings: jest.fn().mockReturnValue(of([])),

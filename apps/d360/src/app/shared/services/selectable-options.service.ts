@@ -32,7 +32,7 @@ export interface OptionsLoadingResult {
  *
  * @interface OptionsTypes
  */
-interface OptionsTypes {
+export interface OptionsTypes {
   alertTypesForRuleEditor: OptionsLoadingResult;
   alertTypes: OptionsLoadingResult;
   region: OptionsLoadingResult;

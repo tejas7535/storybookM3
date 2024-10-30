@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
@@ -22,6 +23,7 @@ describe('AlertRulesComponent', () => {
       mockProvider(SelectableOptionsService, {
         loading$: jest.fn().mockReturnValue(of(true)),
       }),
+      mockProvider(HttpClient, { get: () => of({}) }),
       mockProvider(MatDialog),
     ],
   });

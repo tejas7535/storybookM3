@@ -1,8 +1,15 @@
 <ag-grid-angular
   #alertRulesGrid
-  class="ag-theme-material"
+  class="ag-theme-material grow"
   [gridOptions]="gridOptions"
   [rowData]="rowData"
   [columnDefs]="columnDefs"
+  [context]="context"
   [localeText]="agGridLocalizationService.lang()"
+  (firstDataRendered)="onFirstDataRendered($event)"
+  (dragStopped)="columnSettingsService.saveFromAgGridEvent($event)"
+  (columnVisible)="columnSettingsService.saveFromAgGridEvent($event)"
+  (filterChanged)="columnSettingsService.saveFromAgGridEvent($event)"
+  (sortChanged)="columnSettingsService.saveFromAgGridEvent($event)"
+  (gridReady)="onGridReady($event)"
 />

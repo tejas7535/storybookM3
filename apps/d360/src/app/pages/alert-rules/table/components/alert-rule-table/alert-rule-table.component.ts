@@ -1,12 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  input,
+  InputSignal,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+
+import { take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
+  FirstDataRenderedEvent,
   GridApi,
   GridOptions,
   GridReadyEvent,
+  ICellRendererParams,
 } from 'ag-grid-community';
 
 import { AlertRulesService } from '../../../../../feature/alert-rules/alert-rules.service';
@@ -16,10 +28,17 @@ import {
   getDefaultColDef,
   sideBar,
 } from '../../../../../shared/ag-grid/grid-defaults';
+import { ActionsMenuCellRendererComponent } from '../../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
 import { AgGridLocalizationService } from '../../../../../shared/services/ag-grid-localization.service';
+import {
+  errorsFromSAPtoMessage,
+  singlePostResultToUserMessage,
+} from '../../../../../shared/utils/error-handling';
+import { SnackbarService } from '../../../../../shared/utils/service/snackbar.service';
+import { ValidationHelper } from '../../../../../shared/utils/validation/validation-helper';
 import { alertRuleColumnDefinitions } from '../../column-definition';
 import { AlertRulesColumnSettingsService } from '../../services/alert-rules-column-settings.service';
-import { AlertRuleTableRowMenuButtonComponent } from '../alert-rule-table-row-menu-button/alert-rule-table-row-menu-button.component';
+import { AlertRuleDeleteSingleModalComponent } from '../modals/alert-rule-delete-single-modal/alert-rule-delete-single-modal.component';
 
 type AlertRuleColumnDefinitions = ReturnType<
   typeof alertRuleColumnDefinitions
@@ -28,97 +47,211 @@ type AlertRuleColumnDefinitions = ReturnType<
 @Component({
   selector: 'app-alert-rule-table',
   standalone: true,
-  imports: [AgGridModule, AlertRuleTableRowMenuButtonComponent],
+  imports: [AgGridModule],
   templateUrl: './alert-rule-table.component.html',
   styleUrl: './alert-rule-table.component.scss',
 })
 export class AlertRuleTableComponent implements OnInit {
-  gridApi: GridApi;
+  protected readonly agGridLocalizationService: AgGridLocalizationService =
+    inject(AgGridLocalizationService);
+  private readonly alertRulesService: AlertRulesService =
+    inject(AlertRulesService);
+  private readonly dialog: MatDialog = inject(MatDialog);
+  private readonly snackBarService: SnackbarService = inject(SnackbarService);
+  public readonly columnSettingsService: AlertRulesColumnSettingsService<
+    string,
+    AlertRuleColumnDefinitions
+  > = inject(
+    AlertRulesColumnSettingsService<string, AlertRuleColumnDefinitions>
+  );
+
+  @ViewChild('alertRulesGrid') grid!: AgGridAngular;
+
+  public gridApi: GridApi;
 
   protected gridOptions: GridOptions = {
     ...clientSideTableDefaultProps,
     sideBar,
-    // columnDefs: [...alertRuleColumnDefinitions],
   };
   protected rowData: AlertRule[];
   protected columnDefs: ColDef[];
 
-  constructor(
-    private readonly columnSettingsService: AlertRulesColumnSettingsService<
-      string,
-      AlertRuleColumnDefinitions
-    >,
-    protected readonly agGridLocalizationService: AgGridLocalizationService,
-    private readonly alertRulesService: AlertRulesService
-  ) {}
+  /**
+   * The edit modal is used in the parent and in the table, so we pass it from the parent
+   * in this component.
+   *
+   * @memberof AlertRuleTableComponent
+   */
+  public editAlertRuleCallback: InputSignal<(data?: AlertRule) => void> =
+    input.required<(data?: AlertRule) => void>();
 
-  ngOnInit(): void {
+  /**
+   * The table context to pass the getMenu method used in ActionsMenuCellRendererComponent.
+   *
+   * @protected
+   * @type {Record<string, any>}
+   * @memberof AlertRuleTableComponent
+   */
+  protected context: Record<string, any> = {
+    getMenu: (params: ICellRendererParams<any, AlertRule>) => [
+      {
+        text: translate('button.edit'),
+        onClick: () => this.editAlertRuleCallback()(params.data),
+      },
+      {
+        text: translate(
+          params.data.deactivated
+            ? 'alert_rules.action_menu.activate'
+            : 'alert_rules.action_menu.deactivate'
+        ),
+        onClick: () => this.toggleAlertRuleStatus(params),
+      },
+      {
+        text: translate('alert_rules.action_menu.delete'),
+        onClick: () => this.delete(params),
+      },
+    ],
+  };
+
+  public ngOnInit(): void {
     this.createColumnDefs();
-    this.getAlertRuleData();
+    this.setAlertRuleData();
+  }
+
+  /**
+   * Toggle the Alert Rule Status.
+   *
+   * @param {ICellRendererParams<any, AlertRule>} params
+   * @return
+   * @memberof AlertRuleTableComponent
+   */
+  public toggleAlertRuleStatus(params: ICellRendererParams<any, AlertRule>) {
+    if (!params.data) {
+      return;
+    }
+
+    const workflow = {
+      ...params.data,
+      deactivated: !params.data.deactivated,
+      // saveMultiAlertRules expects a local date, so we need to convert here
+      // This is because of the clipboard functionality of the multi modal. (Copy/Paste from Excel)
+      startDate: ValidationHelper.localeService.localizeDate(
+        params.data.startDate
+      ),
+      // saveMultiAlertRules expects a local date, so we need to convert here
+      // This is because of the clipboard functionality of the multi modal. (Copy/Paste from Excel)
+      endDate: ValidationHelper.localeService.localizeDate(params.data.endDate),
+    };
+
+    this.alertRulesService
+      .saveMultiAlertRules([workflow])
+      .pipe(
+        take(1),
+        tap((postResult) => {
+          const userMessage = singlePostResultToUserMessage(
+            postResult,
+            errorsFromSAPtoMessage,
+            translate(
+              params.data.deactivated
+                ? 'alert_rules.action_menu_activated'
+                : 'alert_rules.action_menu_deactivated',
+              {}
+            )
+          );
+
+          // TODO add variant like before... enqueueSnackbar(userMessage.message, { variant: userMessage.variant });
+          this.snackBarService.openSnackBar(userMessage.message);
+
+          if (userMessage.variant !== 'error') {
+            params.setValue(workflow);
+            params.api.getRowNode(params.node.id).updateData(workflow);
+            params.api.refreshCells();
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  /**
+   * Open the dialog modal for a single entry.
+   *
+   * @param {ICellRendererParams<any, AlertRule>} params
+   * @memberof AlertRuleTableComponent
+   */
+  public delete(params: ICellRendererParams<any, AlertRule>) {
+    this.dialog.open(AlertRuleDeleteSingleModalComponent, {
+      data: { gridApi: params.api, alertRule: params.data },
+      disableClose: true,
+      width: '600px',
+    });
   }
 
   onGridReady(event: GridReadyEvent): void {
     this.gridApi = event.api;
   }
 
-  getAlertRuleData() {
-    this.alertRulesService.getAlertRuleData().subscribe((data) => {
-      this.rowData = data?.content;
-      // TODO use grid api when ag-grid is updated to v31
-      // this.grid.api.setGridOption('rowData', data?.content);
-    });
+  private setAlertRuleData() {
+    this.alertRulesService
+      .getAlertRuleData()
+      .pipe(
+        tap((data) => {
+          this.rowData = data?.content;
+          // TODO use grid api when ag-grid is updated to v31
+          // this.grid.api.setGridOption('rowData', data?.content);
+        })
+      )
+      .subscribe();
   }
 
-  createColumnDefs() {
+  private createColumnDefs() {
     this.columnSettingsService
       .getColumnSettings()
-      .subscribe((columnSettings) => {
-        this.columnDefs = [
-          ...(columnSettings.map((col) => ({
-            ...getDefaultColDef(col.filter, col.filterParams),
-            key: col.colId,
-            colId: col.colId,
-            field: col.colId,
-            headerName: translate(col.title, {}),
-            filter: col.filter,
-            cellRenderer: col.cellRenderer,
-            hide: !col.visible,
-            sortable: col.sortable,
-            sort: col.sort,
-            lockVisible: col.alwaysVisible,
-            lockPinned: true,
-            valueFormatter: col.valueFormatter,
-          })) || []),
-          {
-            field: 'menu',
-            headerName: '',
-            cellRenderer: AlertRuleTableRowMenuButtonComponent,
-            lockVisible: true,
-            pinned: 'right',
-            lockPinned: true,
-            // cellRendererParams: {
-            //   onPerformAction: () => {
-            //     alertRuleData.refresh();
-            //   },
-            //   onDeleteAction: (data: AlertRule) => {
-            //     setSelectedAlertRuleForEdit({ ...data });
-            //     setOpenModal(AlertModal.DELETE_SINGLE);
-            //   },
-            //   onEditAction: (data: AlertRule) => {
-            //     // data comes form ag grid, we create a new object instance to prevent errors when working on the internal ag grid data structure
-            //     setSelectedAlertRuleForEdit({ ...data });
-            //     setAlertRuleModalTitle('edit');
-            //     setOpenModal(AlertModal.EDIT_SINGLE);
-            //   },
-            // },
-            suppressMenu: true,
-            maxWidth: 64,
-            // TODO cellstyle remove margin-right 16px --> Check where this come from...
-            suppressSizeToFit: true,
-          },
-        ] as ColDef[];
-        // TODO use grid api when ag-grid is updated to v31
-        // this.grid.api.setGridOption('columnDefs', columnDefs);
-      });
+      .pipe(
+        tap((columnSettings) => {
+          this.columnDefs = [
+            ...(columnSettings.map((col) => ({
+              ...getDefaultColDef(col.filter, col.filterParams),
+              key: col.colId,
+              colId: col.colId,
+              field: col.colId,
+              headerName: translate(col.title, {}),
+              filter: col.filter,
+              cellRenderer: col.cellRenderer,
+              hide: !col.visible,
+              sortable: col.sortable,
+              sort: col.sort,
+              lockVisible: col.alwaysVisible,
+              lockPinned: true,
+              valueFormatter: col.valueFormatter,
+            })) || []),
+            {
+              cellClass: ['fixed-action-column'],
+              field: 'menu',
+              headerName: '',
+              cellRenderer: ActionsMenuCellRendererComponent,
+              lockVisible: true,
+              pinned: 'right',
+              lockPinned: true,
+              suppressMenu: true,
+              maxWidth: 64,
+              suppressSizeToFit: true,
+            },
+          ] as ColDef[];
+          // TODO use grid api when ag-grid is updated to v31
+          // this.grid.api.setGridOption('columnDefs', columnDefs);
+        })
+      )
+      .subscribe();
+  }
+
+  /**
+   * Apply the stored filter
+   *
+   * @protected
+   * @param {FirstDataRenderedEvent} event
+   * @memberof AlertRuleTableComponent
+   */
+  protected onFirstDataRendered(event: FirstDataRenderedEvent): void {
+    this.columnSettingsService.applyStoredFilters(event.api);
   }
 }

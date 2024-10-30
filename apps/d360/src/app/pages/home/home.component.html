@@ -1,20 +1,18 @@
-<app-content-wrapper>
-  <div class="flex flex-col gap-6 mt-10">
-    <app-global-selection-criteria
-      (onGlobalSelectionChange)="onUpdateGlobalSelectionState($event)"
-    />
-    <app-forecast-chart
-      [columnFilters]="columnFilters"
-      [globalSelectionState]="globalSelectionCriteria"
-    />
+<div class="flex flex-col gap-6 mt-10">
+  <app-global-selection-criteria
+    (onGlobalSelectionChange)="onUpdateGlobalSelectionState($event)"
+  />
+  <app-forecast-chart
+    [columnFilters]="columnFilters"
+    [globalSelectionState]="globalSelectionCriteria"
+  />
 
-    <app-styled-section>
-      <app-styled-grid-section>
-        <app-material-customer-table
-          [selectionFilter]="globalSelectionCriteria"
-          (onColumnFilterChange)="onUpdateColumnFilter($event)"
-        />
-      </app-styled-grid-section>
-    </app-styled-section>
-  </div>
-</app-content-wrapper>
+  <app-styled-section>
+    <app-styled-grid-section>
+      <app-material-customer-table
+        [selectionFilter]="globalSelectionCriteria"
+        (onColumnFilterChange)="onUpdateColumnFilter($event)"
+      />
+    </app-styled-grid-section>
+  </app-styled-section>
+</div>

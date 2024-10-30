@@ -2,4 +2,30 @@
   .mat-mdc-dialog-surface {
     padding: 16px !important;
   }
+
+  .mat-mdc-dialog-panel {
+    .mat-mdc-dialog-title {
+      &.mat-mdc-dialog-title {
+        &::before {
+          height: auto;
+        }
+      }
+
+      + .mat-mdc-dialog-content {
+        padding-top: 6px;
+      }
+    }
+
+    &.form-dialog {
+      width: 100%;
+      min-width: 80vw;
+      min-height: 300px;
+
+      &.alert-rule {
+        .mat-mdc-dialog-content {
+          min-height: 300px;
+        }
+      }
+    }
+  }
 }

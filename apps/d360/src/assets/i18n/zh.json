@@ -671,7 +671,8 @@
   "alert_rules": {
     "title": "任务条件编辑器",
     "button": {
-      "new_rule": "新建规则"
+      "createRule": "建立規則",
+      "createMultipleRules": "建立多個規則"
     },
     "action_menu": {
       "activate": "激活",

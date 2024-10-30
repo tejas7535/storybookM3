@@ -1,3 +1,10 @@
+import 'moment/locale/de';
+import 'moment/locale/es';
+import 'moment/locale/fr';
+import 'moment/locale/it';
+import 'moment/locale/pt';
+import 'moment/locale/zh-cn';
+
 import {
   HTTP_INTERCEPTORS,
   provideHttpClient,

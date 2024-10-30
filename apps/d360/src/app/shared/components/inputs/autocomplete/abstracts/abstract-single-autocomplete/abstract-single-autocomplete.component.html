@@ -42,4 +42,15 @@
 
   <!-- Add an arrow, so it will look like a dropdown  -->
   <mat-icon matSuffix>arrow_drop_down</mat-icon>
+
+  @if (this.control().value && this.addClearButton()) {
+    <button matSuffix mat-icon-button aria-label="Clear" (click)="onClear()">
+      <mat-icon>close</mat-icon>
+    </button>
+  }
+
+  <!-- Error -->
+  @if (control().hasError('required')) {
+    <mat-error>{{ t('generic.validation.missing_fields') }}</mat-error>
+  }
 </mat-form-field>

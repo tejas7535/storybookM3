@@ -680,7 +680,8 @@
   "alert_rules": {
     "title": "Aufgaben Regel Editor",
     "button": {
-      "new_rule": "Neue Regel"
+      "createRule": "Regel erstellen",
+      "createMultipleRules": "Mehrere Regeln erstellen"
     },
     "action_menu": {
       "activate": "Aktivieren",

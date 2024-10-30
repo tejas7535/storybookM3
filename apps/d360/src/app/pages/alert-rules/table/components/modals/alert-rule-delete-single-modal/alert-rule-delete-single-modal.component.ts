@@ -10,6 +10,8 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 
+import { tap } from 'rxjs';
+
 import { translate } from '@jsverse/transloco';
 import { GridApi } from 'ag-grid-community';
 
@@ -53,22 +55,27 @@ export class AlertRuleDeleteSingleModalComponent {
     }
     this.alertRuleService
       .deleteSingleAlterRule(this.data.alertRule)
-      .subscribe((response) => {
-        const userMessage = singlePostResultToUserMessage(
-          response,
-          errorsFromSAPtoMessage,
-          translate('alert_rules.action_menu_deleted', {})
-        );
+      .pipe(
+        tap((response) => {
+          const userMessage = singlePostResultToUserMessage(
+            response,
+            errorsFromSAPtoMessage,
+            translate('alert_rules.action_menu_deleted', {})
+          );
 
-        this.snackBarService.openSnackBar(userMessage.message);
-        // TODO implement with variant...
-        // enqueueSnackbar(userMessage.message, { variant: userMessage.variant });
+          this.snackBarService.openSnackBar(userMessage.message);
+          // TODO implement with variant...
+          // enqueueSnackbar(userMessage.message, { variant: userMessage.variant });
 
-        if (userMessage.variant !== 'error') {
-          // TODO handle refresh of the ag-grid after deletion, check if this works...
-          this.data.gridApi.applyTransaction({ remove: [this.data.alertRule] });
-          this.dialogRef.close();
-        }
-      });
+          if (userMessage.variant !== 'error') {
+            // TODO handle refresh of the ag-grid after deletion, check if this works...
+            this.data.gridApi.applyTransaction({
+              remove: [this.data.alertRule],
+            });
+            this.dialogRef.close();
+          }
+        })
+      )
+      .subscribe();
   }
 }

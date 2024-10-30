@@ -1,8 +1,18 @@
 import { NgClass, NgFor } from '@angular/common';
-import { Component, effect, input, InputSignal, OnInit } from '@angular/core';
+import {
+  Component,
+  effect,
+  input,
+  InputSignal,
+  OnInit,
+  output,
+} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
   SelectableValue,
@@ -26,6 +36,8 @@ import { DisplayFunctions } from './../display-functions.utils';
     MatSelectModule,
     NgClass,
     NgFor,
+    SharedTranslocoModule,
+    MatIcon,
   ],
   templateUrl: './filter-dropdown.component.html',
 })
@@ -34,17 +46,25 @@ export class FilterDropdownComponent implements OnInit {
    * @inheritdoc
    */
   public ngOnInit(): void {
-    const values:
+    let value:
       | Partial<SelectableValue>
       | Partial<SelectableValue>[]
-      | string = this.control().getRawValue();
+      | string
+      | string[] = this.control().getRawValue();
+
+    value = (Array.isArray(value) ? value : [value]).map((option: any) =>
+      typeof option === 'string' || option === null ? option : option.id
+    );
+
+    if (!this.multiSelect()) {
+      value =
+        Array.isArray(value) && value.length > 0
+          ? (value[0] as SelectableValue | string)
+          : value;
+    }
 
     // run the onSelectionChange event to set the values during initialization
-    this.onSelectionChange({
-      value: (Array.isArray(values) ? values : [values]).map((option: any) =>
-        typeof option === 'string' ? option : option.id
-      ),
-    } as any);
+    this.onSelectionChange({ value } as any);
   }
 
   /**
@@ -125,6 +145,23 @@ export class FilterDropdownComponent implements OnInit {
   public multiSelect: InputSignal<boolean> = input(false);
 
   /**
+   * Add a clear button to the component.
+   *
+   * @type {InputSignal<boolean>}
+   * @memberof AbstractSingleAutocompleteComponent
+   */
+  public addClearButton: InputSignal<boolean> = input(false);
+
+  /**
+   * If you don't want to use valueChanges, bind to this output emitter
+   *
+   * @memberof FilterDropdownComponent
+   */
+  public onSelectionChangeEmitter = output<
+    Partial<SelectableValue> | Partial<SelectableValue>[] | string
+  >({ alias: 'selectionChange' });
+
+  /**
    * A callback to format the selected values
    *
    * @memberof FilterDropdownComponent
@@ -175,14 +212,15 @@ export class FilterDropdownComponent implements OnInit {
     const newValue = Array.isArray(newRaw)
       ? SelectableValueUtils.mapToOptionsIfPossible(newRaw, this.options()) ||
         []
-      : SelectableValueUtils.matchOptionIfPossible(newRaw, this.options()) || {
-          id: '',
-          text: '',
-        };
+      : SelectableValueUtils.matchOptionIfPossible(newRaw, this.options()) ||
+        null;
 
     // newValue has the correct type since the onChange of the Select component returns the correct
     // values based on the multiple prop
-    this.control().setValue(newValue);
+    this.control().setValue(newValue, { emitEvent: true });
+
+    // emit the value also to all connected components
+    this.onSelectionChangeEmitter.emit(newValue);
   }
 
   /**
@@ -200,7 +238,7 @@ export class FilterDropdownComponent implements OnInit {
 
     return (Array.isArray(values) ? values : [values])
       .map((element: any) =>
-        typeof element === 'string'
+        typeof element === 'string' || element === null
           ? {
               id: element,
               text: element,
@@ -209,5 +247,15 @@ export class FilterDropdownComponent implements OnInit {
       )
       .map((element: any) => this.formatSelectedValue()(element as any))
       .join(', ');
+  }
+
+  /**
+   * On Clear Button Action, to delete the current values and to emit the data.
+   *
+   * @protected
+   * @memberof FilterDropdownComponent
+   */
+  protected onClear(): void {
+    this.onSelectionChange({ value: this.multiSelect() ? [] : null } as any);
   }
 }
