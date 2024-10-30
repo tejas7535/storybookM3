@@ -62,6 +62,15 @@
           ],
           "outputHashing": "all"
         },
+        "qa": {
+          "statsJson": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/d360/src/environments/environment.ts",
+              "with": "apps/d360/src/environments/environment.qa.ts"
+            }
+          ]
+        },
         "dev": {
           "statsJson": true,
           "optimization": false,
@@ -75,21 +84,18 @@
             }
           ]
         },
-        "qa": {
-          "statsJson": true,
-          "fileReplacements": [
-            {
-              "replace": "apps/d360/src/environments/environment.ts",
-              "with": "apps/d360/src/environments/environment.qa.ts"
-            }
-          ]
-        },
         "local": {
           "statsJson": true,
           "optimization": false,
           "extractLicenses": false,
           "sourceMap": true,
-          "namedChunks": true
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/d360/src/environments/environment.ts",
+              "with": "apps/d360/src/environments/environment.dev.ts"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"
@@ -100,8 +106,8 @@
         "production": {
           "buildTarget": "d360:build:production"
         },
-        "development": {
-          "buildTarget": "d360:build:development",
+        "dev": {
+          "buildTarget": "d360:build:dev",
           "proxyConfig": "apps/d360/proxies/development-proxy.conf.json"
         },
         "local": {
