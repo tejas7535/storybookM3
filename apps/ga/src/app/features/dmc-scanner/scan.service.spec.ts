@@ -27,6 +27,7 @@ import { ScanService } from './scan.service';
 jest.mock('@capacitor/core', () => ({
   Capacitor: {
     isNativePlatform: jest.fn(() => true),
+    getPlatform: jest.fn(() => 'ios'),
   },
 }));
 

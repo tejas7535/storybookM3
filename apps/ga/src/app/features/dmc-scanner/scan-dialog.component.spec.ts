@@ -28,6 +28,7 @@ jest.mock('@capacitor-mlkit/barcode-scanning', () => ({
 jest.mock('@capacitor/core', () => ({
   Capacitor: {
     isNativePlatform: jest.fn(() => true),
+    getPlatform: jest.fn(() => 'ios'),
   },
 }));
 

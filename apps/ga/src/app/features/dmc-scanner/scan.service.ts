@@ -171,17 +171,25 @@ export class ScanService {
   }
 
   public async enableScanner() {
-    const googleModuleAvailable = await firstValueFrom(
-      this.scanningFacade.isGoogleBarcodeScannerModuleAvailable()
-    );
-    if (googleModuleAvailable.available) {
-      this.modalState.set({
-        name: 'Scanner',
-        method: Capacitor.isNativePlatform() ? 'native' : 'web',
-      });
-    } else {
-      this.handleAndroidDownload();
+    // The Google module is only needed for scanning on android,
+    // on iOS the scanning is handled by built in functionality
+    const shouldCheckGoogleModule =
+      Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'android';
+    if (shouldCheckGoogleModule) {
+      const googleModuleAvailable = await firstValueFrom(
+        this.scanningFacade.isGoogleBarcodeScannerModuleAvailable()
+      );
+
+      if (!googleModuleAvailable.available) {
+        this.handleAndroidDownload();
+        return;
+      }
     }
+
+    this.modalState.set({
+      name: 'Scanner',
+      method: Capacitor.isNativePlatform() ? 'native' : 'web',
+    });
   }
 
   public pushError(error: Error | string) {
