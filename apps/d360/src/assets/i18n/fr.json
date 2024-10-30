@@ -1,0 +1,1082 @@
+{
+  "header": {
+    "title": "Demand360",
+    "brand": {
+      "alt": "Logo du groupe Schaeffler"
+    }
+  },
+  "button": {
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "create": "Creation",
+    "export": "Exportation",
+    "load": "Charger",
+    "reset": "Réinitialiser",
+    "save": "Sauvegarder",
+    "validate": "Valider",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "yes": "Oui",
+    "no": "Non",
+    "change": "Modifier"
+  },
+  "error": {
+    "unknown": "Erreur non Connu",
+    "error_with_code": "Erreur {{code}}",
+    "network_error": "erreur de réseau. Vérifiez votre connexion internet, svp",
+    "too_many_values": "Trop de valeurs ont été saisies",
+    "not_valid": "Valeur non valide",
+    "letters": "Seules les lettres (A-Z) sans caractères spéciaux sont autorisées.",
+    "letters_numbers": "Seules les nombres et lettres (A-Z) sans caractères spéciaux sont autorisées.",
+    "numbers": {
+      "rootString": "Seules les nombres sont autorisés",
+      "COMMA": "Seules les nombres au fomat 1.000,00 sont autorisés",
+      "PERIOD": "Seules les nombres au fomat 1,000.00 sont autorisés"
+    },
+    "number_stars": "Seules les nombres ou caractéres (*) sont autorisés",
+    "wrong_length": "longueur incorrect, la saisie doit avoir le format suivant :{{targetLength}}",
+    "too_long": "Saisie trop longue, elle doit être au maximum :  {{maxLength}}",
+    "too_many_rows_selected": "Trop de lignes sélectionnées. Veuillez sélectionner au max 70 lignes séparément ou tout sélectionner.",
+    "no_given_name": "Prénom manquant",
+    "no_family_name": "Nom de famille Manquant",
+    "no_department": "Département Manquant",
+    "notValidSalesOrg": "{{formattedValue}} n'est pas une organisation commerciale valide.",
+    "notValidGkamNumber": "{{formattedValue}}  code Gkam existant.",
+    "notValidCustomerNumber": "{{formattedValue}} code client existant.",
+    "notValidMaterialNumber": "{{formattedValue}} code article existant.",
+    "sectorWrongBegin": "Les valeurs des secteurs doivent commencer par V.",
+    "save": {
+      "failed": "La sauvegarde a échoué"
+    },
+    "toDateAfterFromDate": "La date de fin est antérieure à la date de début.",
+    "date": {
+      "invalidFormat": "Format date non valid.",
+      "beforeMin": "La date est antérieure à la date la plus proche possible.",
+      "afterMax": "La date est postérieure à la date la plus tardive possible.",
+      "emptyDate": "La date ne peut pas être vide."
+    },
+    "unsaved_changes": "Les modifications non sauvegardées sont supprimées. Continuer?",
+    "loading_failed": "Échec du chargement",
+    "tooManyValues": "Veuillez saisir les valeurs maximales {{maxNumber}}.",
+    "valueUnknown": "Inconnu"
+  },
+  "hint": {
+    "selectData": "Veuillez utiliser les options de filtrage pour afficher les données.",
+    "noData": "Aucune donnée disponible.",
+    "errorLoadingData": "Erreur dans la sélection des données."
+  },
+  "drawer": {
+    "locale": {
+      "DE_de": "Allemand",
+      "EN_en": "Anglais"
+    },
+    "settings": "Paramètre",
+    "user-language-label": "Langue",
+    "user-currency-label": "Devise",
+    "user-locale-label": "Localisation",
+    "user-locale-helper": "Format dates & décimale",
+    "user-dateformat-label": "Format Date",
+    "user-decimal-separator-label": "Séparateur de décimal",
+    "user-decimal-COMMA": "Virgule: 123.456,78",
+    "user-decimal-PERIOD": "Point: 123,456.78",
+    "apply": "Appliquer",
+    "version": "Software-Version:"
+  },
+  "tabbar": {
+    "navigation": {
+      "label": "Navigation"
+    },
+    "start-page": {
+      "label": "Start page"
+    },
+    "functions": {
+      "label": "Fonctions"
+    },
+    "tasks": {
+      "label": "To Do's"
+    }
+  },
+  "traffic_light": {
+    "GREEN": "Vert",
+    "YELLOW": "Jaune",
+    "RED": "Rouge",
+    "GREY": "Vide"
+  },
+  "tabbarMenu": {
+    "validation-of-demand": {
+      "label": "Validation des besoins commerciaux"
+    },
+    "customer-material-portfolio": {
+      "label": "Liste des articles du client (portefeuille client)"
+    },
+    "internal-material-replacement": {
+      "label": "Central Phase In Phase Out"
+    },
+    "ap-portfolio-optimization": {
+      "label": "Optimisation du portefeuille AP"
+    },
+    "regional-ap-portfolio": {
+      "label": "Portefeuille AP régional"
+    },
+    "customer-specific-requirements": {
+      "label": "Exigence client pour le concept d'approvisionnement"
+    },
+    "alert-rule-editor": {
+      "label": "Éditeur de règles pour les tâches"
+    }
+  },
+  "globalSelection": {
+    "results": "Résultats de la recherche - Sélection et chargement des données",
+    "region": "Région (juridique)",
+    "sales_area": "Secteur de vente (marché)",
+    "sector_management": "gestion du secteur",
+    "gkam": "(G)KAM",
+    "gkam_name": {
+      "rootString": "code GKAM",
+      "entity_name": "code GKAM",
+      "entity_name_plural": "codes GKAM"
+    },
+    "sales_org": {
+      "rootString": "Organisation commerciale",
+      "entity_name": "Organisation commerciale",
+      "entity_name_plural": "Organisations commerciales"
+    },
+    "customer": {
+      "rootString": "Client",
+      "entity_name": "Client",
+      "entity_name_plural": "Clients"
+    },
+    "material": {
+      "rootString": "Code Article",
+      "entity_name": "Code Article",
+      "entity_name_plural": "Codes Articles"
+    },
+    "materialClassification": "Classification Article",
+    "sector": {
+      "rootString": "Secteur d'activité",
+      "entity_name": "Secteur d'activité",
+      "entity_name_plural": "Secteurs d'activité"
+    },
+    "production_segment": {
+      "rootString": "Segment de production",
+      "entity_name": "Segment de production",
+      "entity_name_plural": "Segments de production"
+    },
+    "dropdown": {
+      "loading": "Charger…",
+      "loading_error": "Erreur lors du chargement des options"
+    },
+    "productionPlant": {
+      "rootString": "Usine de production",
+      "entity_name": "Usine de production",
+      "entity_name_plural": "Usines de production"
+    },
+    "selection_empty": "Il est nécessaire de choisir au moins un critère de sélection.",
+    "tasks": "Tâches ouvertes",
+    "no_open_alert_types": "Aucune tâche ouverte"
+  },
+  "home": {
+    "chart": {
+      "title": "Synchronized Sales- and Demand Plan",
+      "pieces_option": "Pièces",
+      "select_to_load": "Veuillez sélectionner les données pour charger le graphique.",
+      "loading_failed": "Le chargement a échoué.",
+      "aria": {
+        "settings_button": "Paramètres des graphiques",
+        "daterange_button": "Plage de dates du graphique"
+      },
+      "legend": {
+        "orders": "Firm Business",
+        "deliveries": "Deliveries",
+        "demandPlan": "Validated Forecast",
+        "opportunities": "Opportunities",
+        "opAdjustment": "OP Adjustment",
+        "rollingSalesForecast": "Daily Rolling Sales Forecast"
+      }
+    }
+  },
+  "validation_of_demand": {
+    "customer": "Client",
+    "title": "Validation des besoins",
+    "vkorg": "Organisations commerciales",
+    "filter": {
+      "rootString": "Filtre ({{count}})",
+      "customerMaterialNumber": "Numéro d'article du client",
+      "product_line": "Ligne de produits",
+      "productionPlant": "Usine de production",
+      "production_line": "Ligne de production (train)",
+      "stochasticType": "Type de stochastique"
+    },
+    "date_picker": {
+      "end_date": "Date de Fin",
+      "error": "La date de fin ne peut pas être antérieure à la date de début",
+      "menu_item_month": "Mois",
+      "menu_item_week": "Semaine",
+      "months": "Mois",
+      "optional": "Optionnel",
+      "period_type_label": "Type de période:",
+      "period_type_only_months": "Type de periode ne peut pas être modifié en semaine",
+      "period_type": "Période",
+      "start_date": "Date de Début",
+      "sub_title": "Selection de la Periode (semaine/mois)",
+      "title": "Selection de la Date",
+      "weeks": "Semaine"
+    },
+    "upload_modal": {
+      "customer_material_number": "Référence client",
+      "customer_material": "code article client",
+      "error": {
+        "incomplete_row": "Entrée incomplète"
+      },
+      "material_number": "Code Article",
+      "material_type": {
+        "title": "Selection du type d'Article"
+      },
+      "material": "Code Article",
+      "paste": {
+        "month": "M",
+        "week": "W"
+      },
+      "save": {
+        "invalid_rows": "{{count}} ligne n'a pas pu être enregistrée. Veuillez vérifier votre saisie.,1,1,{{count}} ligne n'a pas pu être enregistrée. Veuillez vérifier votre entrée.",
+        "success": "Toutes les lignes ont été enregistrées."
+      },
+      "upload_failed": "Échec de l'importation : {{reason}}",
+      "validate": {
+        "invalid_rows": "{{count}} lignes n'ont pas pu être enregistrées. Veuillez vérifier vos entrées.,1,1,{{count}} ligne n'a pas pu être enregistrée. S'il vous plaît, vérifiez vos entrées.",
+        "success": "Toutes les lignes sont valide"
+      },
+      "list": {
+        "date_from": "Date de Début",
+        "forecast": "Prévision de ventes",
+        "menu_item_month": "Mois",
+        "menu_item_week": "Semaine",
+        "period_type": {
+          "title": "selection du type de période",
+          "rootString": "Période"
+        },
+        "title": "Validation de la liste des besoins"
+      },
+      "grid": {
+        "header": {
+          "calendar_week": "{{date}} -SEM {{week}}"
+        },
+        "period_type": "Type de période",
+        "title": "Validation grille des besoins",
+        "tooltip": {
+          "customer-material": "Référence client indiquée est incorrect",
+          "material": "Code article indiqué est incorrect"
+        }
+      }
+    },
+    "deletion_modal": {
+      "title": "Suppression des valeurs prévisionnelles validées",
+      "selection_not_complete": "Sélection non exhaustive.",
+      "confirm_deletion": "Voulez-vous vraiment supprimer les données ?",
+      "delete_button": "Supprimer",
+      "deletion_success": "Les données ont été supprimées avec succès."
+    },
+    "toolbar": {
+      "total_material_count": "En tout: {{count}}",
+      "toggle_filters": "Filtres"
+    },
+    "legend": {
+      "title": "Légende",
+      "current_date": "Aujourd'hui",
+      "frozen_zone": "Frozen Zone",
+      "replenishment_lead_time": "Délai de réapprovisionnement"
+    },
+    "menu_item": {
+      "deliveries": "Deliveries",
+      "firmBusiness": "Firm Business",
+      "opportunities": "Opportunities",
+      "forecastProposal": "Forecast Proposition (ADD*ONE)",
+      "forecastProposalDemandPlanner": "Forecast Proposition (Demand Planner)",
+      "demandPlan": "Demand Plan",
+      "indicativeDemandPlan": "Demand Plan (Previsionnel)",
+      "opAdjustment": "OP Adjustment",
+      "activeAndPredecessor": "Actuel & Précéndant",
+      "validatedForecast": "Validated Forecast"
+    },
+    "more_information": {
+      "material_and_text": "Article + Nom",
+      "packaging_size": "Taille de l'emballage",
+      "classification": "Classification",
+      "current_wbz_schaeffler": "Délai de Réappro Schaeffler actuel",
+      "production_line": "Ligne de Production (Train)",
+      "production_segment": "Segment de production",
+      "product_line_and_text": "Ligne de Production + Nom"
+    },
+    "supply_concept": {
+      "title": "Concept d'approvisionnement",
+      "C": {
+        "rootString": "C - Customer Specific Safety Stock ({{fixHor}}) and Safety Stock (0)",
+        "ss": "C - Customer Specific Safety Stock ({{fixHor}}) and Safety Stock ({{safetyStock}})",
+        "csss": "C - Customer Specific Safety Stock ({{fixHor}}) and Customer Specific Safety Stock ({{safetyStock}})"
+      },
+      "E": {
+        "rootString": "E - Extension of Orderbook ({{fixHor}})",
+        "ss": "E - Extension of Orderbook ({{fixHor}}) and Safety Stock ({{safetyStock}})",
+        "csss": "E - Extension of Orderbook ({{fixHor}}) and Customer Specific Safety Stock ({{safetyStock}})"
+      },
+      "F": {
+        "rootString": "F - Balance of Demand Fluctuations",
+        "ss": "F - Balance of Demand Fluctuations and Safety Stock ({{safetyStock}})",
+        "csss": "F - Balance of Demand Fluctuations and Customer Specific Safety Stock ({{safetyStock}})"
+      },
+      "S": {
+        "rootString": "S - Safety Stock (0)",
+        "ss": "S - Safety Stock ({{safetyStock}})",
+        "csss": "S - Customer Specific Safety Stock ({{safetyStock}})"
+      },
+      "U": {
+        "rootString": "U - Initial Stock (0)",
+        "ss": "U - Initial Stock ({{safetyStock}})",
+        "csss": "U - Initial Customer Specific Stock ({{safetyStock}})"
+      },
+      "M": {
+        "rootString": "M - Rolling Demand Planning",
+        "ss": "M - Rolling Demand Planning and Safety Stock ({{safetyStock}})",
+        "csss": "M - Rolling Demand Planning and Customer Specific Safety Stock ({{safetyStock}})"
+      },
+      "N": {
+        "rootString": "N - Rolling Planning (New Product)",
+        "ss": "N - Rolling Planning (New Product) and Safety Stock ({{safetyStock}})",
+        "csss": "N - Rolling Planning (New Product) and Customer Specific Safety Stock ({{safetyStock}})"
+      },
+      "ELSE": "Supply to Order and Rolling Capacity Forecast"
+    },
+    "planning_table": {
+      "kpi": "KPI",
+      "deliveries": "Deliveries (Active)",
+      "deliveries_combined": "Deliveries (Total)",
+      "deliveries_active": "Active",
+      "deliveries_predecessor": "Précédent",
+      "firm_business": "Firm Business (Actif)",
+      "firm_business_combined": "Firm Business (Total)",
+      "firm_business_active": "Actif",
+      "firm_business_predecessor": "Précédent",
+      "opportunities": "Opportunities",
+      "forecast_proposal": "Forecast Proposition (ADD*ONE)",
+      "forecast_proposal_demand_planner": "Forecast Proposition (Demand Planner)",
+      "validated_forecast": "Validated Forecast",
+      "indicative_demand_plan": "Demand Plan (Previsionnel)",
+      "demand_plan": "Demand Plan",
+      "calendar_week_table_header_kw": "SEM {{calendar_week}}",
+      "calendar_week_table_header_part_week": "({{days}}j)"
+    },
+    "export_modal": {
+      "title": "Exportation",
+      "button_export": "Exportation",
+      "selected_customer_headline": "Client selectionné",
+      "selected_customer": "{{number}} Client selectionné",
+      "date_headline": "Selection de la Date",
+      "selected_kpis": "KPI selectionné pour Exportation",
+      "download_started": "Exportation : Telecharment a commencé",
+      "in_progress": "Exportation en cours. Cela peut prendre plusieurs minutes.",
+      "excel_header_view": "Vue"
+    },
+    "error": {
+      "no_data": "Données non valide"
+    },
+    "save": {
+      "error_specific": " {{dates}}",
+      "success": "Sauvegardé avec succès",
+      "error_unspecific": "Une erreur est survenue."
+    },
+    "reset": {
+      "success": "Réinitialisation réussie."
+    },
+    "check": {
+      "success": "Toutes les données sont valides.",
+      "error_specific": " {{dates}}."
+    },
+    "confirm": {
+      "override_week_by_month": "Une prévision au niveau hebdomadaire a déjà été gérée pour le mois {{date}}. Si vous souhaitez gérer une valeur mensuelle à la place, confirmez ce message. La prévision au niveau hebdomadaire est alors supprimée."
+    }
+  },
+  "table": {
+    "toolbar": {
+      "material_count": "Sélection actuelle: {{count}}",
+      "filter_count": "Filtres actifs: {{count}}"
+    }
+  },
+  "customer_material_portfolio": {
+    "title": "Validation de la liste des articles client",
+    "toolbar": {
+      "expandAll": "déplier",
+      "collapseAll": "replier"
+    },
+    "material_info_text": {
+      "head_not_active": "Bouton de la chaîne de substitution n'est pas le matériau actif"
+    },
+    "modal": {
+      "text": "Entrez un client et un numéro d'article dans les champs et cliquez sur ajouter.",
+      "subheader": {
+        "substitution": "Substitution",
+        "phase_in": "Phase-In",
+        "phase_out": "Phase-Out"
+      },
+      "customer_number": "Code Client",
+      "material_number": "Code Article",
+      "material": "Code Article",
+      "start": "Start",
+      "phase_out": {
+        "label": "Date du (client)",
+        "warning": "Toutes les valeurs de prévision après la date de déphasage sont supprimées !"
+      },
+      "substitution": {
+        "label": "Date du (client)"
+      },
+      "datepicker": {
+        "monday": {
+          "hint": "Le jour sélectionné est automatiquement substituted par le lundi précédent."
+        }
+      },
+      "demand_characteristic": "Demande spécifique",
+      "add": "Ajouter",
+      "error": {
+        "no_status": "Erreur : l'article n'a pas de statut."
+      },
+      "accept": "Accepter",
+      "veto": "Veto",
+      "predecessor_material_number": "Matériel précédent",
+      "sucessor_material_number": "Matériel de suivi",
+      "substitution_time": "Date de substitution",
+      "substitution_phase_out": {
+        "button": "Phase-Out"
+      },
+      "substitution_inactive": {
+        "button": "Inactiver"
+      }
+    },
+    "phase_in_modal": {
+      "headline": "Ajouter le matériel du client"
+    },
+    "modal_headline": {
+      "EDIT_MODAL": "Traiter le matériel du client",
+      "STATUS_TO_PHASE_IN": "Changement de statut en phase-in",
+      "STATUS_TO_PHASE_OUT": "Changement de statut en phase-out",
+      "STATUS_TO_SUBSTITUTION": "Changement de statut en substitution(client)",
+      "STATUS_TO_INACTIVE": "Changement de statut en Inactif",
+      "STATUS_TO_ACTIVE": "Changement de statut en Actif",
+      "REVERT_SUBSTITUTION": "Annuler le substitution"
+    },
+    "select_a_customer": "Choisir un client",
+    "phase_in_out_modal": {
+      "save": "Enregistrer"
+    },
+    "replace_cm_modal": {
+      "save": "Enregistrer",
+      "valid_from": "Client Date du",
+      "material_number": "Numéro de matériau",
+      "forecast_text": "Les prévisions doivent-elles être reprises ?",
+      "yes": "Oui",
+      "no": "Non"
+    },
+    "inactive_modal": {
+      "headline": "Rendre l'article client inactif",
+      "deletion_warning": "Toutes les valeurs prévisionnelles seront supprimées dans le futur !",
+      "date_label": "Date Client à partir de",
+      "abort": "Annuler",
+      "confirm": "Confirmer"
+    },
+    "substitution_modal": {
+      "headline": "Contrôler la proposition de substitution"
+    },
+    "phase_in_out_single_modal": {
+      "save": {
+        "success": "Sauvegarde réussie."
+      },
+      "check": {
+        "success": "La valeur est valide."
+      }
+    }
+  },
+  "customer": {
+    "material_portfolio": {
+      "modal": {
+        "substitution": {
+          "successor": "Successeur",
+          "transfere_forecast": {
+            "rootString": "Reprise des prévisions sur le matériel de remplacement",
+            "hint": "Les prévisions du prédécesseur sont supprimées à partir de la date de remplacement.",
+            "delete": "Ne pas prendre en charge",
+            "copy": "Adopter",
+            "add": "Additionner"
+          },
+          "transfere_forecast_veto": {
+            "hint": "En cas de veto, aucune prévision n'est reprise ou ajoutée."
+          },
+          "revert": {
+            "confirmation": "Le substitution doit-il être annulé ?"
+          },
+          "warning": {
+            "add_material": "Attention, le matériel n'est pas inclus dans le portfolio du client. Faut-il l'ajouter ?"
+          }
+        },
+        "action": {
+          "EDIT": "Modifier la combinaison de base",
+          "INACTIVATION": "Inactiver la combinaison de base",
+          "PHASE-OUT": "Combinaison de base phase-out",
+          "SUBSTITUTION": "Substitude la combinaison de base",
+          "REACTIVATION": "Activer la combinaison de base",
+          "SUBSTITUTION-REVERT": "Annuler le substitut",
+          "SUBSTITUTION_PROPOSAL": "Contrôler la proposition de substitution",
+          "SUBSTITUTION_TO_SCHAEFFLER": "Changement de successeur chez Schaeffler"
+        },
+        "change_to_schaeffler": {
+          "text": "Pour le substitution à la demande du client ({{sucessor}}), faut-il passer au successeur interne de Schaeffler ({{schaefflerSuccessor}}) ?",
+          "hint": "Remarque : L'annulation du substitution initial à la demande du client n'est pas possible en raison du successeur de Schaeffler."
+        },
+        "reactivateion": {
+          "hint": "La combinaison de base doit-elle être réactivée ?"
+        }
+      }
+    }
+  },
+  "new-customer_material_portfolio": {
+    "modal": {
+      "headline": "Ajout nouvelle reference client",
+      "subheadline": "Veuillez insérer le numéro d'article et la date de phase-in manuellement ou copier les colonnes depuis Excel. Sélectionnez ensuite l'écran des besoins dans la liste déroulante.",
+      "successfullyAddBanner": "Création nouvelle combinaison article client"
+    }
+  },
+  "customer-material-portfolio": {
+    "upload_modal": {
+      "modal": {
+        "phase_in": "Date de phase d'entrée",
+        "demand_type": "Écran des besoins (série/sporadique)"
+      }
+    }
+  },
+  "demand_characterictics": {
+    "SE": "Série",
+    "SP": "Sporadiquement"
+  },
+  "alert": {
+    "customer_number": {
+      "column_header": "Client"
+    },
+    "customer_name": {
+      "column_header": "Nom du client"
+    },
+    "process": {
+      "column_header": "Process"
+    },
+    "function": {
+      "column_header": "Fonctions"
+    },
+    "material_number": {
+      "column_header": "Numéro de matériau"
+    },
+    "material_description": {
+      "column_header": "Description du matériau"
+    },
+    "category": {
+      "column_header": "Type de tâche",
+      "CHKDMP": "Validation des besoins(M)",
+      "DPLEOR": "Validation des besoins(A)",
+      "DMPFIN": "Les prévisions ont été mises à jour",
+      "DPOPDL": "Re-classification OP, Validée Prévision supprimée",
+      "CFPRAO": "Vérification des prévisions validées, substitution non effectuée",
+      "CFSUAO": "Vérification des prévisions validées, substitution non effectuée",
+      "PINWAO": "Phase-In, validation de la planification des ventes",
+      "PINWDP": "Phase-In à un moment donné",
+      "PIOCAO": "Date de phase d'entrée modifiée (commande client)",
+      "PIOCDP": "Date de phase d'entrée modifiée (commande client)",
+      "PINUAO": "Pas de commande/opportunité, validation du statut du portefeuille",
+      "PINUDP": "Phase-In sans commande/opportunité",
+      "PONWDP": "Phase Out à la date fixée",
+      "IAUSDP": "Date de sortie de phase modifiée (commande client)",
+      "IAUSAO": "Valider l'état du portefeuille et/ou demande",
+      "ACIADP": "Combinaison de base Inactif activé",
+      "SPNWAO": "Vérifier la proposition de substitution",
+      "SPSBDP": "Proposition de substitution bloquée",
+      "REUDAO": "Substitution annulé",
+      "REUSAO": "Vérifier la substitution, les ordres pour les prédécesseurs",
+      "RESEAO": "Substitution, validation de la demande",
+      "RESEDP": "Vérifier le substitution",
+      "SPCHDP": "Proposition de substitution modifiée",
+      "SPCHAO": "Proposition de substitution modifiée",
+      "DEVIFC": "Écart de quantité/de valeur Validated FC",
+      "SINWAO": "Substitution Schaeffler stagiaire activé"
+    },
+    "material_classification": {
+      "column_header": "Classification Article"
+    },
+    "customer_material_number": {
+      "column_header": "Référence client"
+    },
+    "report_date": {
+      "column_header": "Date de Création"
+    },
+    "due_date": {
+      "column_header": "Date d'échéance"
+    },
+    "comment": {
+      "column_header": "Commentaire"
+    },
+    "thresholdDeviation": {
+      "column_header": "Écart Valeur seuil"
+    },
+    "threshold1": {
+      "column_header": "Valeur Paramètre 1"
+    },
+    "threshold1Description": {
+      "column_header": "Description Paramètre 1"
+    },
+    "threshold2": {
+      "column_header": "Valeur Paramètre 2"
+    },
+    "threshold2Description": {
+      "column_header": "Description Paramètre 2"
+    },
+    "threshold3": {
+      "column_header": "Valeur Paramètre 3"
+    },
+    "threshold3Description": {
+      "column_header": "Description Paramètre 3"
+    },
+    "deactivate_selected": {
+      "menu_title": "Desactivation selectionné"
+    },
+    "delete_selected": {
+      "menu_title": "e"
+    },
+    "action_menu": {
+      "complete": "Conclure",
+      "deactivate": "Désactiver",
+      "activate": "Activer",
+      "goto_function": "Vers la fonction \\\"{{function}}\\\" avec...",
+      "base_combination": "Combinaison de base",
+      "customer_category": "Client & Type de tâche",
+      "customer": "Client",
+      "alert_completed": "Tâche conclu",
+      "alert_deactivated": "Tâche désactivée",
+      "alert_activated": "Tâche activée"
+    },
+    "new_data": "De nouvelles données sont disponibles.",
+    "refresh": "Actualiser",
+    "active_alerts": "{{count}} tâches ouvertes,1,1,{{count}} tâche ouverte",
+    "completed_alerts": "{{count}} tâches achevées,1,1,{{count}} tâche achevée",
+    "deactivated_alerts": "{{count}} tâches désactivées,1,1,{{count}} tâche désactivée",
+    "select": {
+      "label": "Statut",
+      "active": "Tâches ouvertes",
+      "completed": "Tâches achevées",
+      "deactivated": "Tâches désactivées"
+    }
+  },
+  "alert_rules": {
+    "title": "Éditeur de règles pour les tâches",
+    "button": {
+      "new_rule": "Nouvelle règle"
+    },
+    "action_menu": {
+      "activate": "Activez",
+      "deactivate": "Deactivate",
+      "delete": "Désactiver"
+    },
+    "table": {
+      "deactivated": {
+        "true": "Désactivé",
+        "false": "Activé"
+      },
+      "column": {
+        "usernameCreated": "Créé par",
+        "usernameLastChanged": "Dernièrement modifié par"
+      }
+    },
+    "action_menu_activated": "Règle activée",
+    "action_menu_deactivated": "Règle désactivée",
+    "action_menu_deleted": "Règle supprimée",
+    "edit_modal": {
+      "title": {
+        "create": "Créer une règle",
+        "edit": "Modifier la règle"
+      },
+      "label": {
+        "function": "Fonction",
+        "sales_area": "Secteur de vente (marché)",
+        "sales_org": "Organisations commerciales",
+        "customer": "Client",
+        "demandPlanner": "Planificateur de la demande",
+        "demandPlannerId": "ID du planificateur de la demande",
+        "material": "Matériau",
+        "materialClassification": "Classification Article",
+        "sector_management": "Gestion du secteur",
+        "production_line": "Ligne de Production (Train)",
+        "product_line": "Ligne de Production",
+        "gkam": "GKAM",
+        "gkamNumber": "Numéro GKAM",
+        "start": "Début",
+        "when": {
+          "rootString": "Lorsque",
+          "M01": "1. mois",
+          "M15": "15. mois",
+          "W6": "Samedi",
+          "D": "Tous les jours"
+        },
+        "interval": {
+          "rootString": "Intervalle",
+          "M1": "tous les mois",
+          "M2": "tous les 2 mois",
+          "M3": "tous les 3 mois",
+          "M6": "tous les 6 mois",
+          "W1": "Hebdomadaire",
+          "D1": "Tous les jours"
+        },
+        "end": "Fin",
+        "comment": "Commentaire",
+        "region": "Région",
+        "type": "Type d'alerte",
+        "none": "Désélectionner"
+      },
+      "success": {
+        "alert_rule_created": "Règle créée avec succès"
+      },
+      "data_selection": {
+        "dropdown": {
+          "loading": "Charger…"
+        }
+      },
+      "op_classified_material_not_allowed": "Règle Création impossible pour le matériel OP"
+    },
+    "multi_modal": {
+      "error": {
+        "execDay_not_valid": "La valeur ne correspond pas à l'intervalle saisi"
+      },
+      "new_rules": "Inscrire de nouvelles règles",
+      "delete_rules": "Supprimer des règles",
+      "customer": "Client",
+      "material": "Matériau"
+    },
+    "delete_modal": {
+      "confirmation_text": "Faut-il vraiment supprimer la règle ?"
+    }
+  },
+  "material_customer": {
+    "column": {
+      "region": "Region (Legal)",
+      "salesArea": "Secteur de vente (marché)",
+      "salesOrg": "Organisations commerciales",
+      "mainCustomerNumber": "Numéro de client principal",
+      "mainCustomerName": "Nom du client Principale",
+      "customerNumber": "code client",
+      "customerName": "nom du client",
+      "customerCountry": "Pays (client)",
+      "sector": "Secteur d'activité",
+      "sectorManagement": "Gestion du secteur",
+      "customerClassification": "Classification du client (Order Prio)",
+      "deliveryPlant": "usine de livraison",
+      "planningPlant": "usine de planification",
+      "materialNumber": "Article",
+      "materialDescription": "Description de l'Article",
+      "mrpGroup": "MRP Group",
+      "productionPlant": "Usine de production",
+      "productionPlantName": "Description usine de production",
+      "productionSegment": "Production Segment",
+      "productionLine": "Ligne de Production (Train)",
+      "packagingSize": "Taille de l'emballage",
+      "customerMaterialNumber": "Référence client",
+      "customerMaterialNumber_plural": "Références client",
+      "materialClassification": "Classification Article",
+      "demandPlanValue": "Ventes Nettes (12M)",
+      "demandCharacteristic": "Demande spécifique",
+      "currentRLTSchaeffler": "Délai de Réappro Schaeffler actuel",
+      "currentRLTCustomer": "Délai de Réappro Client actuel",
+      "portfolioStatus": "statuts du portefeuil",
+      "stochasticType": "Référence stochastique",
+      "successorSchaefflerMaterial": "Article Successeur (Schaeffler)",
+      "successorSchaefflerMaterialDescription": "Description de l'Article (Successeur schaeffler)",
+      "successorSchaefflerMaterialPackagingSize": "Taille de l'emballage (successeur Schaeffler)",
+      "successorMaterialClassificationSchaeffler": "Classification Article (Successeur Schaeffler)",
+      "successorMaterialCustomer": "Article Successeur (Client)",
+      "successorCustomerMaterialDescription": "Description de l'Article (Successeur Client)",
+      "successorMaterialClassificationCustomer": "Classification Article (Successeur Client)",
+      "successorCustomerMaterialPackagingSize": "Taille de l'emballage (successeur Client)",
+      "pfStatusAutoSwitch": "Changement d'état automatique",
+      "repDate": "Date de substitution",
+      "accountOwner": "Propriétaire du compte",
+      "accountOwnerID": "Identifiant du propriétaire du compte",
+      "internalSales": "Service commerciale interne",
+      "internalSalesID": "ID Service commerciale interne",
+      "demandPlanner": "Planificateur de la demande",
+      "gkam": "GKAM",
+      "gkamID": "Identitfiant GKAM",
+      "kam": "KAM",
+      "kamID": "Identifiant KAM",
+      "gkamNumber": "code GKAM",
+      "gkamName": "Nom du GKAM",
+      "subKeyAccount": "Sub Key Account",
+      "subKeyAccountName": "Sub Key Account nom",
+      "productLine": "Ligne de Production",
+      "productLineText": "Description Ligne de Production",
+      "productCluster": "Product Cluster",
+      "forecastMaintained": "Prévisions validées ?",
+      "forecastValidated": "Previsions de ventes validées (Pièces, 12M)",
+      "forecastValidatedFrom": "Validé à partir de",
+      "forecastValidatedTo": "Validé jusqu'au",
+      "forecastValidatedAt": "validé le",
+      "forecastValidatedBy": "Validé par",
+      "tooltipTextIA": "Article inactif",
+      "tooltipTextRE": "L'article est substituted",
+      "abcxClassification": "Classification A/B/C/X",
+      "gpsd": "GPSD",
+      "gpsdName": "GPSD Nom",
+      "successorMaterial": "Matériel de suivi validé (client)",
+      "successorMaterialDescription": "Désignation de l'article (successeur du client)",
+      "successorCustomerMaterialNumber": "Numéros d'article client (successeur du client)",
+      "successorMaterialPackagingSize": "Taille de l'emballage (client suivant)",
+      "successorMaterialClassification": "Classification des articles (client suivant)",
+      "successorStochasticType": "Type de stochastique (client successeur)",
+      "successorProductionPlant": "Division de production (successeur du client)",
+      "successorProductionSegment": "Segment de production (client successeur)",
+      "successorProductionLine": "Ligne de production (successeur du client)",
+      "successorProductLine": "Ligne de produits (successeur du client)",
+      "successorProductLineText": "Désignation de la ligne de produits (successeur du client)",
+      "deliveryQuantity18Months": "Livraison (STK, 18M)",
+      "orderQuantity": "Carnet de commandes (STK, ∞)",
+      "tlMessageType": "Statut de Substitution"
+    },
+    "portfolio_status": {
+      "AC": "Actif",
+      "IA": "inactif",
+      "SP": "Proposition de substitution",
+      "SE": "Substitution (Client)",
+      "SI": "substitution",
+      "SB": "Veto",
+      "PO": "Phase Out",
+      "PI": "Phase In",
+      "unknown": "Inconnu"
+    },
+    "toolbar": {
+      "toggle_filters": "Filtres",
+      "menu_label": "Plus",
+      "layout_title": "Layout",
+      "layout_1": "Layout 1",
+      "layout_2": "Layout 2",
+      "reset_layout": "Réinitialisation Conception / mise en page",
+      "load_layout": "Charger Conception / mise en page",
+      "overwrite_layout": "Ecraser Conception / mise en page",
+      "selected_row_count": "selection : {{row_count}}"
+    },
+    "export": {
+      "in_progress": "Exportation en cours. Cela peut prendre plusieurs minutes.",
+      "max_count_exceeded": "Vous ne pouvez pas exporter plus de {{max_count}} lignes.",
+      "download_started": "Exportation : le téléchargement a commencé",
+      "failed": "Échec de l'exportation : {{reason}}"
+    }
+  },
+  "field": {
+    "abcxClassification": {
+      "value": {
+        "A": "A_preferred",
+        "B": "B_unrestricted",
+        "C": "C_restricted",
+        "X": "X_not for new design",
+        "<empty>": "non spécifié"
+      }
+    },
+    "demandCharacteristic": {
+      "value": {
+        "SE": "Série (régulier)",
+        "SP": "Sporadiquement"
+      }
+    },
+    "forecastMaintained": {
+      "value": {
+        "true": "Oui",
+        "false": "Non"
+      }
+    }
+  },
+  "copy_to_clipboard": "Copier dans le presse-papiers",
+  "paste_from_clipboard": "Coller depuis le presse-papiers",
+  "multiselect": {
+    "add_to_selection": "Ajouter à la sélection",
+    "apply": "Appliquer",
+    "current_selection": "Selection Actuelle",
+    "clear_selection": "Supprimer la sélection actuelle",
+    "title": "selction multiple de {{entities}}",
+    "instructions": "Cliquez dans le champ pour saisir une valeur unique ou cliquez sur Coller depuis le Presse-papiers pour ajouter des {{entities}} à la sélection que vous avez copiée depuis une feuille de calcul.",
+    "error": {
+      "ignored_values": "Valeurs ignorées : {{values}}",
+      "value_already_selected": "Valeur déjà sélectionnée.",
+      "check_input": "Veuillez vérifier votre entrée."
+    }
+  },
+  "rules": {
+    "startDate": "Lancement",
+    "execDay": "Quand?",
+    "execInterval": "Cycle?",
+    "endDate": "Fin",
+    "deactivated": "Désactivé",
+    "activeCount": "Tâches actives",
+    "inactiveCount": "Tâches désactivés",
+    "completedCount": "Tâches achevées",
+    "threshold1": "Valeur Paramètre 1",
+    "threshold1Description": "Description Paramètre 1",
+    "threshold2": "Valeur Paramètre 2",
+    "threshold2Description": "Description Paramètre 2",
+    "threshold3": "Valeur Paramètre 3",
+    "threshold3Description": "Description Paramètre 3"
+  },
+  "internal_material_replacement": {
+    "title": {
+      "rootString": "Central Phase In Phase Out",
+      "newSubstitution": "Saisir un nouveau substitution",
+      "newDeletions": "Supprimer les remplacements",
+      "newSubstitutions": "Inscrire de nouveaux substitution",
+      "editSubstitution": "Modifier le substitution"
+    },
+    "column": {
+      "predecessorMaterial": "Matériel de suivi",
+      "successorMaterial": "Matériel à substitute",
+      "replacementDate": "Date de substitution",
+      "cutoverDate": "Date de transition",
+      "startOfProduction": "Début de la production",
+      "replacementType": "Tapez",
+      "lastChangeDate": "Date Annexe",
+      "lastChangeUser": "Créé/modifié par l'utilisateur",
+      "note": "Commentaire",
+      "statusMasterData": {
+        "rootString": "Statut des données de base SAP",
+        "GREEN": "Vert",
+        "YELLOW": "Jaune",
+        "RED": "Rouge"
+      },
+      "countBCTotal": "Nombre total de combinaisons de base concernées",
+      "countBCAutomaticAccepted": "Converties automatiquement",
+      "countBCManualAccepted": "Acceptées manuellement",
+      "countBCManualRejected": "Non acceptées manuellement",
+      "countBCVeto": "Veto",
+      "countBCOpen": "Ouvertes/Non vérifiées"
+    },
+    "helper_text": {
+      "startOfProduction": "Remarque : en cas de fin de série sans successeur, ce champ contient la dernière date de fabrication possible.",
+      "note": "Remarque : veuillez, si possible, remplir le formulaire en anglais."
+    },
+    "text": {
+      "deleteSubstitution": "Faut-il vraiment supprimer le substitution ?"
+    },
+    "error": {
+      "fielNotAllowed": "Le champ ne doit pas être renseigné pour le type sélectionné."
+    }
+  },
+  "replacement_type": {
+    "RELOCATION": "Projet de transfert",
+    "PARTIAL_RELOCATION": "Transfert partiel",
+    "PACKAGING_CHANGE": "Changement d'emballage",
+    "PRODUCT_DEVELOPMENT": "Développement de produits",
+    "DISCONTINUED": "Sortie sans successeur",
+    "CUSTOMER_DROPOUT": "Le client n'achète plus"
+  },
+  "generic": {
+    "validation": {
+      "missing_fields": "Champs obligatoires manquants",
+      "check_inputs": "Données incorrectes. Veuillez vérifier vos entrées",
+      "save": {
+        "success": "Sauvegarde réussie"
+      },
+      "at_least_one_of": "Au moins un des champs suivants doit être rempli : {{fieldlist}}.",
+      "upload": {
+        "too_many_entries": "La liste contient trop d'entrées. Il ne doit pas y avoir plus de {{maxRows}} entrées à télécharger en une seule étape.",
+        "no_entries": "Aucune entrée disponible.",
+        "save": {
+          "success": "{{count}} Les lignes ont pu être enregistrées avec succès.,1,1,Une ligne a pu être enregistrée avec succès.",
+          "error": "L'enregistrement de {{count}} a échoué. a échoué.,1,1,L'enregistrement d'une ligne a échoué."
+        },
+        "check": {
+          "success": "{{count}} Les lignes sont valides.,1,1,Une ligne est valide.",
+          "error": "{{count}} Les lignes ne sont pas valides.,1,1,Une ligne n'est pas valide."
+        }
+      }
+    }
+  },
+  "sap_message": {
+    "/D360/DEMAND_VALIDATION": {
+      "0": "Erreur non Connu"
+    },
+    "/SGD/DEMAND_VALIDATION": {
+      "1": "L'entrée se chevauche avec une autre entrée.",
+      "2": "SAP request timeout",
+      "3": "Il n'est pas possible d'affecter le numéro d'article du client sans ambiguïté. Les prévisions doivent être saisies avec le numéro d'article à 15 chiffres."
+    },
+    "error": "Message de classe {{messageClass}} et de numéro {{messageNumber}} introuvable.",
+    "/SGD/SCM_SOP_SALES": {
+      "0": "Le texte avec les valeurs suivantes n'a pas pu être trouvé : {{messageV1}}, {{messageV2}}, {{messageV3}}, {{messageV4}}.",
+      "1": "Code Client inexistant",
+      "2": "Combinaison article-client inexistante",
+      "3": "Type de Période non valide",
+      "4": "Les valeurs passées ne peuvent pas être enregistrées.",
+      "5": "Classification Article non valide (OP).",
+      "6": "Les valeurs négatives ne peuvent pas être sauvegardé.",
+      "7": "La prévision ne peut pas être enregistrée en raison d'une autorisation manquante. (Code 007)",
+      "10": "La modification/suppression de la prévision validée n'est pas possible pour ce client.",
+      "16": "Vous n'avez pas les autorisations nécessaires pour le client {{messageV1}}.",
+      "17": "Aucune entrée trouvée.",
+      "23": "Phase-Out en raison de commandes / opportunités changé à {{messageV1}}.",
+      "24": "Prévision supprimée pour {{messageV1}}.",
+      "25": "Le matériel {{messageV1}} n'existe pas.",
+      "26": "La division de livraison pour le matériel de substitution {{messageV1}} n'a pas pu être déterminée.",
+      "27": "Référence circulaire! Le successeur {{messageV1}} n'est pas autorisé !",
+      "28": "Erreur lors de la création de l'alerte !",
+      "29": "Action pour la copie de la prévision non définie",
+      "30": "Changement du statut du portefeuille de {{messageV1}} à {{messageV2}}, n'est pas autorisé.",
+      "31": "La proposition de substitution n'est pas adoptée",
+      "32": "La tête de la chaîne n'est pas le matériau actif",
+      "33": "Combinaison non créée, car il existe un matériau de substitution {{messageV1}}.",
+      "34": "Référence circulaire trouvée entre le matériau {{messageV1}} et le matériau {{messageV2}}.",
+      "37": "Proposition de substitution ouverte.",
+      "38": "Proposition de substitution bloquée.",
+      "39": "Le changement de statut vers {{messageV1}} n'est pas autorisé en raison de l'épuisement du type de substitution sans successeur !",
+      "40": "Statut ajusté à {{messageV1}} en raison des commandes/opportunités.",
+      "41": "Statut modifié à {{messageV1}}, date d'expiration atteinte.",
+      "42": "Statut fixé à {{messageV1}}, car aucun besoin futur ou historique.",
+      "100": "Le type de substitution {{messageV1}} n'est pas valide.",
+      "101": "Une région valide doit être passée. {messageV1}} n'est pas valide.",
+      "102": "L'enregistrement n'existe pas.",
+      "103": "Un article de substitution doit être géré pour le type de substitution {{messageV1}}.",
+      "104": "Le numéro de client ne doit pas être géré pour le type de substitution {{messageV1}}.",
+      "105": "L'organisation commerciale ne doit pas être gérée pour le type de substitution {{messageV1}}.",
+      "106": "Pour le type de substitution {{messageV1}}, le numéro de client doit être géré.",
+      "107": "Le prédécesseur et le successeur doivent avoir le même numéro à 13 chiffres.",
+      "108": "Le prédécesseur et le successeur doivent avoir un numéro à 13 chiffres différent.",
+      "109": "L'article de substitution ne doit pas être géré pour le type de substitution {{messageV1}}.",
+      "110": "Pour le type de substitution {{messageV1}}, l'article précédent doit être géré.",
+      "111": "L'article précédent ne doit pas être géré pour la catégorie de substitution {{messageV1}}.",
+      "112": "Aucune modification de l'ensemble des données déjà existantes.",
+      "113": "Il n'est pas permis de modifier le type de substitution.",
+      "114": "Le prédécesseur {{messageV1}} n'a pas le statut A à l'usine {{messageV2}}. Le statut est {{messageV3}}.",
+      "115": "Le prédécesseur {{messageV1}} doit avoir {{messageV2}} dans l'usine. STOTY = O. STOTY est {{messageV3}}",
+      "116": "Le prédécesseur {{messageV1}} doit avoir {{messageV2}} dans l'usine. STOTY = A. STOTY est {{messageV3}}",
+      "117": "Le successeur {{messageV1}} n'est présent dans aucune usine AP/OP du groupe DC {{messageV2}}.",
+      "118": "Le successeur de {{messageV1}} dans la division {{messageV2}} est différent dans MARC : {{messageV3}}.",
+      "119": "Le domaine commercial ne doit pas être géré pour le type de substitution {{messageV1}}."
+    }
+  },
+  "planing_type": {
+    "title": {
+      "REQUESTED": "Unconstrained",
+      "CONFIRMED": "Constrained"
+    }
+  },
+  "privacy_policy_page": {
+    "headline": "Politique de protection des données"
+  },
+  "cookie_policy_page": {
+    "headline": "Politique de cookies",
+    "open_settings_button": "Paramètres des cookies"
+  },
+  "imprint_page": {
+    "headline": "Imprimer"
+  },
+  "help_menu": {
+    "label": {
+      "service_now": "Service Now",
+      "help_center": "Centre d'aide"
+    }
+  }
+}

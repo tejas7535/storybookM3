@@ -1,0 +1,9 @@
+@mixin mat-general() {
+  .mat-app-background {
+    background: var(--ag-background-color);
+  }
+
+  .mdc-notched-outline__notch {
+    border-right: 0;
+  }
+}

@@ -1,0 +1,19 @@
+@mixin mat-chips() {
+  .mat-mdc-chip {
+    &.mat-mdc-standard-chip {
+      --mdc-chip-container-height: 24px;
+    }
+  }
+
+  mat-chip,
+  mat-chip-row {
+    padding: 0;
+    margin: 0 5px;
+    font-size: 12px;
+  }
+
+  .mat-mdc-chip-action-label,
+  .mdc-evolution-chip__action--primary {
+    overflow: hidden !important;
+  }
+}

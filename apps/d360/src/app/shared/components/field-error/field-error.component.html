@@ -1,0 +1,15 @@
+@if (errorMessages.length === 0 && nonErrorText) {
+  <div>
+    {{ nonErrorText }}
+  </div>
+}
+
+@if (errorMessages.length > 0) {
+  <div>
+    @for (msg of errorMessages; track msg) {
+      <mat-error>
+        {{ msg }}
+      </mat-error>
+    }
+  </div>
+}

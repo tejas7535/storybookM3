@@ -1,0 +1,15 @@
+<div *transloco="let t">
+  <button
+    class="styled-button"
+    mat-fab
+    [extended]="true"
+    (click)="openDemandValidationFilterModal()"
+  >
+    <mat-icon>filter_list</mat-icon>
+    {{
+      t('validation_of_demand.filter.rootString', {
+        count: activeFilterCount.toString()
+      })
+    }}
+  </button>
+</div>

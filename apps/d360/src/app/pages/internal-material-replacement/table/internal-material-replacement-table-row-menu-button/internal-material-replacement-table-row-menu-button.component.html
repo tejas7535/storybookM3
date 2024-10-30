@@ -1,0 +1,8 @@
+<app-row-menu [open]="false" *transloco="let t">
+  <button mat-menu-item (click)="edit()">
+    {{ t('button.edit', {}) }}
+  </button>
+  <button mat-menu-item (click)="delete()">
+    {{ t('button.delete', {}) }}
+  </button>
+</app-row-menu>

@@ -1,0 +1,7 @@
+.error-list {
+  @apply text-error text-subtitle-2 mt-2;
+
+  li {
+    @apply pl-4 list-inside list-disc;
+  }
+}

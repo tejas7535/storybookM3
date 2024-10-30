@@ -1,0 +1,19 @@
+@switch (statusToUse) {
+  @case ('PI') {
+    <app-phase-in-status-specific-content [props]="props()" />
+  }
+  @case ('PO') {
+    <app-phase-out-status-specific-content [props]="props()" />
+  }
+  @case ('SE') {
+    <app-substitution-status-specific-content [props]="props()" />
+  }
+  @case ('IA') {
+    <app-inactivate-status-specific-content [props]="props()" />
+  }
+}
+@if (statusToUse === 'NO') {
+  <div class="info-message" *transloco="let t">
+    {{ t('customer_material_portfolio.modal.error.no_status', {}) }}
+  </div>
+}

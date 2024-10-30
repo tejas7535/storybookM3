@@ -1,0 +1,22 @@
+<div *transloco="let t">
+  <div mat-dialog-title>
+    <h6 class="text-title-large">
+      {{ t('validation_of_demand.date_picker.title', {}) }}
+    </h6>
+    <p>{{ t('validation_of_demand.date_picker.sub_title', {}) }}</p>
+  </div>
+  <mat-dialog-content>
+    <div class="wrapper">
+      <app-demand-validation-date-picker
+        [controls]="dateControls"
+        [periodTypes]="periodTypes"
+      ></app-demand-validation-date-picker>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-flat-button color="primary" (click)="handleApplyDateRange()">
+      {{ t('button.save', {}) }}
+    </button>
+    <button mat-button (click)="handleOnClose()">Close</button>
+  </mat-dialog-actions>
+</div>

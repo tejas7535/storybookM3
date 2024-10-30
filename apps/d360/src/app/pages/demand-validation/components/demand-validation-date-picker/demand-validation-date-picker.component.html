@@ -1,0 +1,28 @@
+<div class="form" [formGroup]="controls.formGroup" *transloco="let t">
+  <div class="dp-container grid grid-cols-3 gap-4">
+    <app-date-picker
+      [dateControl]="controls.startDatePeriod1"
+    ></app-date-picker>
+    <app-date-picker [dateControl]="controls.endDatePeriod1"></app-date-picker>
+    <app-filter-dropdown
+      [options]="periodTypes"
+      [control]="controls.periodType1"
+      [form]="controls.formGroup"
+      [label]="t('validation_of_demand.date_picker.period_type', {})"
+      [formatOptionValue]="displayFnText"
+      [formatSelectedValue]="displayFnText"
+    ></app-filter-dropdown>
+  </div>
+  @if (
+    controls.periodType1.getRawValue()?.id === 'WEEKLY' && !disableOptionalDate
+  ) {
+    <div class="dp-container grid grid-cols-3 gap-4">
+      <app-date-picker
+        [dateControl]="controls.startDatePeriod2"
+      ></app-date-picker>
+      <app-date-picker
+        [dateControl]="controls.endDatePeriod2"
+      ></app-date-picker>
+    </div>
+  }
+</div>

@@ -1,0 +1,23 @@
+<div *transloco="let t" class="demand-validation-table-wrapper">
+  @if (!dataLoaded() && !kpiError()) {
+    <schaeffler-loading-spinner
+      [useBearingLoadingSpinner]="true"
+    ></schaeffler-loading-spinner>
+  }
+
+  @if (kpiError()) {
+    <app-data-hint [text]="kpiError()"></app-data-hint>
+  }
+
+  <app-styled-grid-section [hidden]="!dataLoaded() || Boolean(kpiError())">
+    <ag-grid-angular
+      [gridOptions]="gridOptions"
+      [defaultColDef]="defaultColDef"
+      [columnDefs]="columnDefs"
+      [rowData]="rowData"
+      [localeText]="agGridLocalizationService.lang()"
+    >
+    </ag-grid-angular>
+    Test grid soll angezeigt werden...
+  </app-styled-grid-section>
+</div>

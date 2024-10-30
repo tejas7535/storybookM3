@@ -1,0 +1,123 @@
+<div *transloco="let t" class="relative">
+  <!-- Dialog Header -->
+  <div mat-dialog-title>
+    <div class="flex justify-between items-center">
+      <!-- Dialog Title -->
+      <h5 class="font-bold">
+        {{ t('multiselect.title', { entities: data.entityNamePlural }) }}
+      </h5>
+
+      <!-- Close Button -->
+      <button mat-dialog-close mat-icon-button>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <mat-dialog-content class="my-10">
+    <!-- Dialog instructions -->
+    <p>
+      {{ t('multiselect.instructions', { entities: data.entityNamePlural }) }}
+    </p>
+
+    <div class="grid grid-cols-2 gap-10 mt-5">
+      <div>
+        <!-- Use the autocomplete to load the data via REST-Call -->
+        @if (data.urlBegin) {
+          <div>
+            <app-multi-autocomplete-on-type
+              [autocompleteLabel]="data.autocompleteLabel"
+              [control]="unsavedValues"
+              [form]="data.form"
+              [searchControl]="data.searchControl"
+              [getOptionLabelInTag]="data.getOptionLabelInTag"
+              [getOptionLabel]="data.getOptionLabel"
+              [optionsLoadingResult]="data.optionsLoadingResults!"
+              [urlBegin]="data.urlBegin"
+              [requestWithLang]="true"
+            />
+          </div>
+        } @else if (!data.urlBegin) {
+          <!-- Use the autocomplete to load the data via passed options -->
+          <div>
+            <app-multi-autocomplete-pre-loaded
+              [autocompleteLabel]="data.autocompleteLabel"
+              [control]="unsavedValues"
+              [form]="data.form"
+              [searchControl]="data.searchControl"
+              [getOptionLabelInTag]="data.getOptionLabelInTag"
+              [getOptionLabel]="data.getOptionLabel"
+              [optionsLoadingResult]="data.optionsLoadingResults!"
+            />
+          </div>
+        }
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <!-- copy from clipboard button -->
+        <button (click)="pasteFromClipboard()" mat-button mat-raised-button>
+          {{ t('paste_from_clipboard') }}
+        </button>
+
+        <!-- clear selection button -->
+        <button (click)="resetSelection()" mat-button mat-raised-button>
+          {{ t('multiselect.clear_selection') }}
+        </button>
+
+        <!-- render the error messages -->
+        <div class="error-list">
+          @if (clipboardErrors().messages.length > 0) {
+            <div>
+              <strong>{{ t('multiselect.error.check_input') }}</strong>
+            </div>
+            <ul>
+              @for (message of clipboardErrors().messages; track message) {
+                <li>{{ message }}</li>
+              }
+            </ul>
+          }
+        </div>
+
+        <!-- render the ignored values messages -->
+        <div class="error-list">
+          @if (clipboardErrors().messages.length > 0) {
+            <div>
+              {{
+                t('multiselect.error.ignored_values', {
+                  values: clipboardErrors().ignoredValues.join(', ')
+                })
+              }}
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <!-- Dialog Buttons -->
+  <mat-dialog-actions [align]="'end'">
+    <!-- Reset Selection Button -->
+    <button (click)="resetSelection()" mat-raised-button mat-dialog-close>
+      {{ t('button.cancel') }}
+    </button>
+
+    <!-- Apply to FormField Button -->
+    <button
+      (click)="applySelection()"
+      color="primary"
+      mat-dialog-close
+      mat-raised-button
+    >
+      {{ t('multiselect.apply') }}
+    </button>
+  </mat-dialog-actions>
+
+  <!-- The loading spinner -->
+  @if (loading()) {
+    <div
+      class="absolute top-0 left-0 w-full h-full bg-white bg-opacity-60 z-50"
+    >
+      <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
+    </div>
+  }
+</div>

@@ -1,0 +1,34 @@
+<div
+  *transloco="let t"
+  class="material-list-wrapper"
+  [ngClass]="{
+    flex: true,
+    'flex-col': true,
+    'overflow-visible': visible,
+    'overflow-hidden': !visible,
+    'mr-2.5': true
+  }"
+  [ngStyle]="{
+    'flex-basis': visible ? '730px' : '0%',
+    'border-right': visible ? '3px solid #e2e2e2' : '',
+    transition: 'all 0.25s ease-in-out',
+    'will-change': 'width'
+  }"
+>
+  <app-table-toolbar [grid]="gridApi" [rowCount]="rowCount"></app-table-toolbar>
+  <app-styled-grid-section>
+    <ag-grid-angular
+      #demandValidationMaterialListTable
+      class="ag-theme-material"
+      [gridOptions]="gridOptions"
+      (gridReady)="onGridReady($event)"
+      (cellClicked)="onCellClicked($event)"
+      [getRowId]="getRowId"
+      [defaultColDef]="defaultColDef"
+      [columnDefs]="columnDefs"
+      rowModelType="serverSide"
+      [tooltipShowDelay]="0"
+      [localeText]="agGridLocalizationService.lang()"
+    ></ag-grid-angular>
+  </app-styled-grid-section>
+</div>

@@ -1,0 +1,49 @@
+.global-selection-criteria-section {
+  border-radius: 3px;
+  background: #ffffff;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 3px 1px -2px,
+    rgba(0, 0, 0, 0.1) 0px 2px 2px 0px,
+    rgba(0, 0, 0, 0.08) 0px 1px 5px 0px;
+}
+
+.global-selection-criteria-container {
+  @apply sm:grid grid-cols-4 gap-5 w-full gap-y-0;
+  min-height: 200px;
+  padding: 0 8px 8px;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.global-selection-field-container {
+  padding-right: 40px;
+}
+
+mat-form-field {
+  @apply w-full;
+}
+
+.title-count {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  margin-right: 20px;
+
+  .title-text {
+    margin: 0;
+    font-weight: 500;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    letter-spacing: 0.0075em;
+  }
+
+  .filter-list-icon {
+    margin-right: 10px;
+  }
+}

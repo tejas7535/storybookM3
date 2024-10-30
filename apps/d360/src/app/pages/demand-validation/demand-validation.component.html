@@ -1,0 +1,56 @@
+<div *transloco="let t">
+  <!--  TODO add open property with false-->
+  <app-global-selection-criteria
+    (onGlobalSelectionChange)="onUpdateGlobalSelection($event)"
+  ></app-global-selection-criteria>
+  <app-styled-section [last]="true" [grow]="true" style="position: relative">
+    <h2>{{ pageTitle }}</h2>
+    @if (checkGlobalSelection()) {
+      @if (loading) {
+        <schaeffler-loading-spinner
+          [useBearingLoadingSpinner]="true"
+        ></schaeffler-loading-spinner>
+      }
+      @if (
+        globalSelectionStatus === GlobalSelectionStatus.DATA_AVAILABLE &&
+        customerData &&
+        selectedCustomer &&
+        globalSelection
+      ) {
+        <app-action-bar
+          [currentCustomer]="selectedCustomer"
+          [customerData]="customerData"
+          [planningView]="planningView"
+          [isMaterialListVisible]="materialListVisible"
+          (toggleMaterialListVisible)="handleMaterialListVisible($event)"
+          (dateRangeChanged)="handleKpiDateRangeChange($event)"
+        ></app-action-bar>
+        <div class="table-content-wrapper">
+          <app-material-list-table
+            [visible]="materialListVisible"
+            [selectedCustomer]="selectedCustomer"
+            (selectedMaterialListEntryChange)="
+              handleMaterialListEntrySelected($event)
+            "
+          ></app-material-list-table>
+          <app-demand-validation-table
+            [materialListEntry]="selectedMaterialListEntry"
+            [planningView]="planningView"
+            [dateExceptions]="kpiRangeExceptions"
+            [kpiDateRange]="dateRange"
+          ></app-demand-validation-table>
+        </div>
+      } @else if (
+        globalSelectionStatus === GlobalSelectionStatus.DATA_NO_RESULTS
+      ) {
+        <app-data-hint [text]="t('hint.noData', {})"></app-data-hint>
+      } @else if (
+        globalSelectionStatus === GlobalSelectionStatus.DATA_NOTHING_SELECTED
+      ) {
+        <app-data-hint [text]="t('hint.selectData', {})"></app-data-hint>
+      } @else if (globalSelectionStatus === GlobalSelectionStatus.DATA_ERROR) {
+        <app-data-hint [text]="t('hint.errorLoadingData', {})"></app-data-hint>
+      }
+    }
+  </app-styled-section>
+</div>

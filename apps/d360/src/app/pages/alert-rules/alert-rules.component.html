@@ -1,0 +1,36 @@
+<div *transloco="let t">
+  @if (loading$ | ngrxPush) {
+    <schaeffler-loading-spinner
+      [useBearingLoadingSpinner]="true"
+    ></schaeffler-loading-spinner>
+  } @else {
+    <h2>{{ t('alert_rules.title', {}) }}</h2>
+
+    <app-header-action-bar>
+      <div appHeaderActionBarButtons>
+        <app-action-button
+          (click)="handleCreateSingleAlertRule()"
+          color="primary"
+          variant="mat-fab"
+          icon="add"
+        >
+        </app-action-button>
+        <app-action-button
+          (click)="handleCreateMultiAlertRule()"
+          color="secondary"
+          variant="mat-fab"
+          icon="menu"
+        >
+        </app-action-button>
+        <app-action-button
+          (click)="handleDeleteMultiAlertRule()"
+          color="error"
+          variant="mat-fab"
+          icon="delete"
+        >
+        </app-action-button>
+      </div>
+    </app-header-action-bar>
+    <app-alert-rule-table #alertRuleTableComponent></app-alert-rule-table>
+  }
+</div>

@@ -1,0 +1,37 @@
+<app-home-table-toolbar
+  [gridApi]="api"
+  [columnApi]="columnApi"
+  [resetLayout]="resetLayout"
+  [saveLayout]="saveLayout"
+  [loadLayout]="loadLayout"
+  [currentLayoutId]="currentLayoutId"
+  [globalSelection]="selectionFilter"
+/>
+
+<ag-grid-angular
+  #materialCustomerGrid
+  [gridOptions]="gridOptions"
+  (gridReady)="onGridReady($event)"
+  [localeText]="agGridLocalizationService.lang()"
+  class="ag-theme-material"
+  [tooltipShowDelay]="0"
+  (filterChanged)="onFilterChange($event)"
+  [getRowStyle]="getVisibilityBackground"
+  [getRowId]="getIdForRow"
+  [defaultColDef]="defaultCol"
+  [suppressRowClickSelection]="true"
+  [suppressCopyRowsToClipboard]="true"
+  [sideBar]="sidebar"
+  [maxBlocksInCache]="20"
+  [blockLoadDebounceMillis]="50"
+  [stopEditingWhenCellsLoseFocus]="true"
+  [suppressColumnVirtualisation]="true"
+  [rowSelection]="'multiple'"
+  [headerHeight]="54"
+  [rowHeight]="42"
+  [enableRangeHandle]="true"
+  [enableRangeSelection]="true"
+  [suppressServerSideInfiniteScroll]="false"
+  rowModelType="serverSide"
+  (firstDataRendered)="onFirstDataRendered($event)"
+/>

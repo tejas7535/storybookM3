@@ -1,0 +1,61 @@
+<div *transloco="let t">
+  <h2 mat-dialog-title>
+    {{
+      t('validation_of_demand.filter.rootString', {
+        count: data.activeFilterCount.toString()
+      })
+    }}
+  </h2>
+  <mat-dialog-content>
+    <div class="grid grid-cols-1 xs:gap-1 md:gap-4">
+      <app-multi-autocomplete-on-type
+        [form]="data.formGroup"
+        [control]="data.customerMaterialControl"
+        [searchControl]="fvCustomerMaterial"
+        [autocompleteLabel]="
+          t('validation_of_demand.filter.customerMaterialNumber', {})
+        "
+        [getOptionLabelInTag]="displayFnId"
+        [getOptionLabel]="displayFnUnited"
+        urlBegin="global-selection/customer-material-numbers"
+      ></app-multi-autocomplete-on-type>
+      <app-multi-autocomplete-pre-loaded
+        [form]="data.formGroup"
+        [control]="data.productLineControl"
+        [searchControl]="fvProductLine"
+        [autocompleteLabel]="t('validation_of_demand.filter.product_line', {})"
+        [getOptionLabelInTag]="displayFnUnited"
+        [getOptionLabel]="displayFnUnited"
+        [optionsLoadingResult]="selectableOptionService.get('productLine')"
+      ></app-multi-autocomplete-pre-loaded>
+      <app-multi-autocomplete-on-type
+        [form]="data.formGroup"
+        [control]="data.productionLineControl"
+        [searchControl]="fvProductionLine"
+        [autocompleteLabel]="
+          t('validation_of_demand.filter.production_line', {})
+        "
+        [getOptionLabelInTag]="displayFnId"
+        [getOptionLabel]="displayFnUnited"
+        urlBegin="global-selection/search-production-line"
+      ></app-multi-autocomplete-on-type>
+      <app-multi-autocomplete-pre-loaded
+        [form]="data.formGroup"
+        [control]="data.stochhasticTypecontrol"
+        [searchControl]="fvStochasticType"
+        [autocompleteLabel]="
+          t('validation_of_demand.filter.stochasticType', {})
+        "
+        [getOptionLabelInTag]="displayFnUnited"
+        [optionsLoadingResult]="selectableOptionService.get('stochoasticType')"
+        [getOptionLabel]="displayFnUnited"
+      ></app-multi-autocomplete-pre-loaded>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-flat-button color="primary" (click)="handleApplyFilter()">
+      {{ t('button.save', {}) }}
+    </button>
+    <button mat-button (click)="handleOnClose()">Close</button>
+  </mat-dialog-actions>
+</div>

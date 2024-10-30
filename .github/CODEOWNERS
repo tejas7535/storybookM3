@@ -2,7 +2,7 @@
 
 # Default codeowners for the whole monorepository
 
-- @kauppfbi_SGGIT @krausrbe_SGGIT @berndcri_SGGIT @herpisef_SGGIT @soehnpsc_SGGIT
+- @kauppfbi_SGGIT @krausrbe_SGGIT @berndcri_SGGIT @herpisef_SGGIT @soehnpsc_SGGIT @schilmil_SGGIT
 
 ############
 
@@ -20,11 +20,11 @@ apps/sedo @soehnpsc_SGGIT @schlesni_SGGIT
 
 # GQ
 
-apps/gq @soehnpsc_SGGIT @herpisef_SGGIT @poltokzy_SGGIT @schlesni_SGGIT @panesrbe_SGGIT @szwajdmi_SGGIT
+apps/gq @soehnpsc_SGGIT @herpisef_SGGIT @poltokzy_SGGIT @schlesni_SGGIT @szwajdmi_SGGIT
 
 # MAC
 
-apps/mac @berndcri_SGGIT @krausrbe_SGGIT @konramic_SGGIT @yankordo_SGGIT
+apps/mac @berndcri_SGGIT @krausrbe_SGGIT @konramic_SGGIT
 
 # IA
 
@@ -53,3 +53,7 @@ apps/lsa-e2e @krausrbe_SGGIT @berndcri_SGGIT @konramic_SGGIT @grzegdmi_SGGIT @vo
 # HC
 
 apps/hc @krausrbe_SGGIT @berndcri_SGGIT @konramic_SGGIT @grzegdmi_SGGIT @vogelmor_SGGIT
+
+# D360
+
+apps/d360 @schilmil_SGGIT @herpisef_SGGIT @rieckpil_SGGIT @hanftmch_SGGIT

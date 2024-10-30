@@ -1,0 +1,45 @@
+<mat-form-field [formGroup]="form()" appearance="outline" *transloco="let t">
+  <!-- Label -->
+  <mat-label>{{ label() }}</mat-label>
+
+  <!-- Input field (search field) -->
+  <input
+    [attr.aria-label]="label()"
+    [formControl]="control()"
+    [matAutocomplete]="auto"
+    matInput
+    type="text"
+  />
+
+  <!-- The autocomplete -->
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    [displayWith]="displayFn()"
+    (optionSelected)="onOptionSelected()"
+  >
+    <!-- Render the options only, if there are no error and the data are not loading -->
+    @if (!loading() && !loadingError()) {
+      @for (option of filteredOptions(); track option.id) {
+        <mat-option [value]="option">{{ getOptionName()(option) }}</mat-option>
+      }
+    }
+
+    <!-- Show text for is loading -->
+    @if (loading()) {
+      <mat-option [disabled]="true">{{
+        t('globalSelection.dropdown.loading')
+      }}</mat-option>
+    } @else if (!loading() && filteredOptions().length === 0) {
+      <!-- Show text for no data available -->
+      <mat-option [disabled]="true">{{ t('hint.noData') }}</mat-option>
+    }
+
+    <!-- Show Loading Error -->
+    @if (loadingError()) {
+      <mat-error>{{ loadingError() }}</mat-error>
+    }
+  </mat-autocomplete>
+
+  <!-- Add an arrow, so it will look like a dropdown  -->
+  <mat-icon matSuffix>arrow_drop_down</mat-icon>
+</mat-form-field>

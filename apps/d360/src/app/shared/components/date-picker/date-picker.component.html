@@ -1,0 +1,10 @@
+<mat-form-field [appearance]="appearance" [color]="color">
+  <mat-label>{{ label }}</mat-label>
+  <input [formControl]="dateControl" [matDatepicker]="picker" matInput />
+  <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+  <mat-hint>{{ hint }}</mat-hint>
+  @if (dateControl.hasError('matDatepickerParse')) {
+    <mat-error>{{ errorMessage }}</mat-error>
+  }
+</mat-form-field>

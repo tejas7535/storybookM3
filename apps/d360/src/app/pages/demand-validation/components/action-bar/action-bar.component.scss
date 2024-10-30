@@ -1,0 +1,28 @@
+.layout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.part {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+}
+
+.action-divider {
+  height: 40px;
+  border-right: 1px solid #646464;
+}
+
+.vk-org-display {
+  display: inline-flex;
+  flex-direction: column;
+
+  > * {
+    white-space: nowrap;
+    line-height: unset;
+  }
+}

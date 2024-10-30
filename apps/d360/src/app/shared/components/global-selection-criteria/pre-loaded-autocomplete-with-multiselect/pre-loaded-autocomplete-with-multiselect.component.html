@@ -1,0 +1,15 @@
+<div class="global-selection-field-container flex flex-row items-start">
+  <app-multi-autocomplete-pre-loaded
+    [autocompleteLabel]="autocompleteLabel()"
+    [control]="control()"
+    [form]="form()"
+    [searchControl]="searchFormControl"
+    [getOptionLabelInTag]="getOptionLabelInTag()"
+    [getOptionLabel]="getOptionLabel()"
+    [optionsLoadingResult]="optionsLoadingResult()"
+    class="w-full"
+  />
+  <button (click)="openModal()" mat-icon-button>
+    <mat-icon>add</mat-icon>
+  </button>
+</div>

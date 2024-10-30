@@ -1,0 +1,22 @@
+.title-text {
+  margin: 0;
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  letter-spacing: 0.0075em;
+}
+
+.panel-wrapper {
+  @apply relative;
+  .panel {
+    @apply absolute right-2 top-12 drop-shadow-md p-5 z-30 bg-white rounded-sm;
+  }
+}
+
+.forecast-chart-render-container {
+  @apply min-h-[350px];
+}
+
+section {
+  @apply p-8;
+}

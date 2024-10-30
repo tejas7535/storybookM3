@@ -1,0 +1,215 @@
+import { translate } from '@jsverse/transloco';
+import { ColDef } from 'ag-grid-community';
+
+import {
+  ReplacementType,
+  replacementTypeValues,
+} from '../../../../feature/internal-material-replacement/model';
+import { TrafficLightCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/traffic-light-cell-renderer/traffic-light-cell-renderer.component';
+import {
+  trafficLightValueFormatter,
+  trafficLightValues,
+} from '../../../../shared/components/ag-grid/traffic-light-shared-functions';
+import { TrafficLightTooltipComponent } from '../../../../shared/components/ag-grid/traffic-light-tooltip/traffic-light-tooltip.component';
+import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
+
+export function getIMRColumnDefinitions(
+  agGridLocalizationService: AgGridLocalizationService
+): (ColDef & {
+  property: string;
+})[] {
+  return [
+    {
+      property: 'region',
+      colId: 'material_customer.column.region',
+      cellRenderer: undefined,
+      filter: undefined,
+      filterParams: undefined,
+      tooltipComponent: undefined,
+      tooltipField: undefined,
+    },
+    {
+      property: 'salesArea',
+      colId: 'material_customer.column.salesArea',
+      cellRenderer: undefined,
+      filter: 'agTextColumnFilter',
+      filterParams: undefined,
+      tooltipComponent: undefined,
+      tooltipField: undefined,
+    },
+    {
+      property: 'salesOrg',
+      colId: 'material_customer.column.salesOrg',
+      cellRenderer: undefined,
+      filter: 'agTextColumnFilter',
+      filterParams: undefined,
+      tooltipComponent: undefined,
+      tooltipField: undefined,
+    },
+    {
+      property: 'customerNumber',
+      colId: 'material_customer.column.customerNumber',
+      cellRenderer: undefined,
+      filter: 'agTextColumnFilter',
+      filterParams: undefined,
+      tooltipComponent: undefined,
+      tooltipField: undefined,
+    },
+    {
+      property: 'predecessorMaterial',
+      colId: 'internal_material_replacement.column.predecessorMaterial',
+      cellRenderer: undefined,
+      filter: 'agTextColumnFilter',
+      filterParams: undefined,
+      tooltipComponent: undefined,
+      tooltipField: undefined,
+    },
+    {
+      property: 'successorMaterial',
+      colId: 'internal_material_replacement.column.successorMaterial',
+      cellRenderer: undefined,
+      filter: 'agTextColumnFilter',
+      filterParams: undefined,
+      tooltipComponent: undefined,
+      tooltipField: undefined,
+    },
+    {
+      property: 'replacementDate',
+      colId: 'internal_material_replacement.column.replacementDate',
+      valueFormatter: agGridLocalizationService.dateFormatter,
+      filter: 'agDateColumnFilter',
+      filterParams: undefined,
+      tooltipComponent: undefined,
+      tooltipField: undefined,
+    },
+    {
+      property: 'cutoverDate',
+      colId: 'internal_material_replacement.column.cutoverDate',
+      valueFormatter: agGridLocalizationService.dateFormatter,
+      filter: 'agDateColumnFilter',
+      filterParams: undefined,
+      tooltipComponent: undefined,
+      tooltipField: undefined,
+    },
+    {
+      property: 'startOfProduction',
+      colId: 'internal_material_replacement.column.startOfProduction',
+      valueFormatter: agGridLocalizationService.dateFormatter,
+      filter: 'agDateColumnFilter',
+      filterParams: undefined,
+      tooltipComponent: undefined,
+      tooltipField: undefined,
+    },
+    {
+      property: 'replacementType',
+      colId: 'internal_material_replacement.column.replacementType',
+      valueFormatter: (params: any): string =>
+        translate(
+          `replacement_type.${params.value as ReplacementType}`,
+          {},
+          translate(`error.valueUnknown`, {})
+        ),
+      filter: 'agSetColumnFilter',
+      filterParams: {
+        values: replacementTypeValues,
+        valueFormatter: (params: any): string =>
+          translate(`replacement_type.${params.value as ReplacementType}`, {}),
+      },
+      tooltipComponent: undefined,
+      tooltipField: undefined,
+    },
+    {
+      property: 'lastChangeDate',
+      colId: 'internal_material_replacement.column.lastChangeDate',
+      valueFormatter: agGridLocalizationService.dateFormatter,
+      filter: 'agDateColumnFilter',
+      filterParams: undefined,
+      tooltipComponent: undefined,
+      tooltipField: undefined,
+    },
+    {
+      property: 'lastChangeUser',
+      colId: 'internal_material_replacement.column.lastChangeUser',
+      cellRenderer: undefined,
+      filter: 'agTextColumnFilter',
+      filterParams: undefined,
+      tooltipComponent: undefined,
+      tooltipField: undefined,
+    },
+    {
+      property: 'note',
+      colId: 'internal_material_replacement.column.note',
+      cellRenderer: undefined,
+      filter: 'agTextColumnFilter',
+      filterParams: undefined,
+      tooltipComponent: undefined,
+      tooltipField: undefined,
+    },
+    {
+      property: 'tlMessageType',
+      colId: 'internal_material_replacement.column.statusMasterData.rootString',
+      cellRenderer: TrafficLightCellRendererComponent,
+      filter: 'agSetColumnFilter',
+      filterParams: {
+        values: trafficLightValues,
+        valueFormatter: trafficLightValueFormatter,
+      },
+      tooltipComponent: TrafficLightTooltipComponent,
+      tooltipField: 'tlMessage',
+    },
+    {
+      property: 'countBCTotal',
+      colId: 'internal_material_replacement.column.countBCTotal',
+      valueFormatter: agGridLocalizationService.numberFormatter,
+      filter: 'agNumberColumnFilter',
+      filterParams: undefined,
+      tooltipComponent: undefined,
+      tooltipField: undefined,
+    },
+    {
+      property: 'countBCAutomaticAccepted',
+      colId: 'internal_material_replacement.column.countBCAutomaticAccepted',
+      valueFormatter: agGridLocalizationService.numberFormatter,
+      filter: 'agNumberColumnFilter',
+      filterParams: undefined,
+      tooltipComponent: undefined,
+      tooltipField: undefined,
+    },
+    {
+      property: 'countBCManualAccepted',
+      colId: 'internal_material_replacement.column.countBCManualAccepted',
+      valueFormatter: agGridLocalizationService.numberFormatter,
+      filter: 'agNumberColumnFilter',
+      filterParams: undefined,
+      tooltipComponent: undefined,
+      tooltipField: undefined,
+    },
+    {
+      property: 'countBCManualRejected',
+      colId: 'internal_material_replacement.column.countBCManualRejected',
+      valueFormatter: agGridLocalizationService.numberFormatter,
+      filter: 'agNumberColumnFilter',
+      filterParams: undefined,
+      tooltipComponent: undefined,
+      tooltipField: undefined,
+    },
+    {
+      property: 'countBCVeto',
+      colId: 'internal_material_replacement.column.countBCVeto',
+      valueFormatter: agGridLocalizationService.numberFormatter,
+      filter: 'agNumberColumnFilter',
+      filterParams: undefined,
+      tooltipComponent: undefined,
+      tooltipField: undefined,
+    },
+    {
+      property: 'countBCOpen',
+      colId: 'internal_material_replacement.column.countBCOpen',
+      valueFormatter: agGridLocalizationService.numberFormatter,
+      filter: 'agNumberColumnFilter',
+      filterParams: undefined,
+      tooltipComponent: undefined,
+      tooltipField: undefined,
+    },
+  ] as const;
+}

@@ -1,0 +1,87 @@
+<div *transloco="let t">
+  <h2 mat-dialog-title>{{ title }}</h2>
+  <mat-dialog-content>
+    @if (loading()) {
+      <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
+    } @else if (confirmationMessage()) {
+      <!--      TODO Probably with if and within this dialog? -->
+      <!--    @if (confirmationMessage) {-->
+      <!--      <Dialog open={Boolean(confirmationMessage)} onClose={() => setConfirmationMessage(undefined)}>-->
+      <!--    <DialogContent>-->
+      <!--      <DialogContentText>{confirmationMessage}</DialogContentText>-->
+      <!--    </DialogContent>-->
+      <!--    <DialogActions>-->
+      <!--      <Button onClick={() => setConfirmationMessage(undefined)}>{t('button.no', {})}</Button>-->
+      <!--      <Button-->
+      <!--        onClick={() => {-->
+      <!--      setConfirmationMessage(undefined);-->
+      <!--      onSaveModal(true)();-->
+      <!--      }}-->
+      <!--      autoFocus-->
+      <!--      >-->
+      <!--      {t('button.yes', {})}-->
+      <!--      </Button>-->
+      <!--    </DialogActions>-->
+      <!--    </Dialog>-->
+      <!--    }-->
+    } @else {
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4">
+        <div>
+          <mat-form-field>
+            <mat-label
+              >{{ t('customer_material_portfolio.modal.customer_number', {}) }}
+            </mat-label>
+            <input
+              matInput
+              [value]="data.cmpData.customerNumber || ''"
+              [disabled]="true"
+              type="text"
+              [attr.aria-label]="
+                t('customer_material_portfolio.modal.customer_number', {})
+              "
+            />
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-label
+              >{{ t('customer_material_portfolio.modal.material', {}) }}
+            </mat-label>
+            <input
+              matInput
+              [value]="data.cmpData.materialDescription || ''"
+              [disabled]="true"
+              type="text"
+              [attr.aria-label]="
+                t('customer_material_portfolio.modal.material', {})
+              "
+            />
+          </mat-form-field>
+        </div>
+        <div>
+          <app-error-handling-select
+            [fG]="formGroup"
+            [label]="
+              t('customer_material_portfolio.modal.demand_characteristic', {})
+            "
+            [fC]="demandCharacteristicControl"
+            [errorMessages]="errormessages"
+            [options]="demandCharacteristicsOptions"
+          >
+          </app-error-handling-select>
+        </div>
+      </div>
+      <!--      TODO implement -->
+      @if (changedCMPData()) {
+        <app-status-specific-content [props]="specifcContentProps" />
+      }
+    }
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button (click)="handleSave()" mat-flat-button color="primary">
+      {{ t('button.save', {}) }}
+    </button>
+    <button mat-button (click)="handleOnClose()">Close</button>
+  </mat-dialog-actions>
+</div>

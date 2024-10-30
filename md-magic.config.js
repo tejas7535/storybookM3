@@ -14,7 +14,7 @@ module.exports = {
       const pkgPath = path.resolve(process.cwd(), 'package.json');
       const pkg = require(pkgPath);
       const deps = { ...pkg.dependencies, ...pkg.devDependencies };
-      const duplicateMinus = (value) => value.replace('-', '--');
+      const duplicateMinus = (value) => !!value && value.replace('-', '--');
       const badges = targets
         .map((dep) => {
           return `![${dep}: ${

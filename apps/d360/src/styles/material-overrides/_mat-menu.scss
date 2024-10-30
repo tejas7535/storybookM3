@@ -1,0 +1,11 @@
+@mixin mat-menu() {
+  .mat-mdc-menu-item {
+    @apply text-body-2 #{!important};
+  }
+
+  .mdc-menu-surface {
+    &.mat-mdc-autocomplete-panel {
+      @apply py-0 #{!important};
+    }
+  }
+}

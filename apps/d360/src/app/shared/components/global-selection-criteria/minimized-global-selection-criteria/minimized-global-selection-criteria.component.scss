@@ -1,0 +1,19 @@
+:host {
+  flex: 1;
+  display: flex;
+  width: 85%;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.blurry-end {
+  position: relative;
+  padding: 0 25px;
+  left: -50px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
+}

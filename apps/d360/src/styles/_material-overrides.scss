@@ -1,0 +1,23 @@
+@import 'material-overrides/mat-general';
+@import 'material-overrides/mat-dialog';
+@import 'material-overrides/mat-tooltip';
+@import 'material-overrides/mat-snackbar';
+@import 'material-overrides/mat-tabs';
+@import 'material-overrides/mat-button';
+@import 'material-overrides/mat-menu';
+@import 'material-overrides/mat-forms';
+@import 'material-overrides/mat-expansion-panel';
+@import 'material-overrides/mat-chips';
+
+@mixin apply() {
+  @include mat-general;
+  @include mat-dialog;
+  @include mat-tooltip;
+  @include mat-snackbar;
+  @include mat-tabs;
+  @include mat-button;
+  @include mat-menu;
+  @include mat-forms;
+  @include mat-expansion-panel;
+  @include mat-chips;
+}

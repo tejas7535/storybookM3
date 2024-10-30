@@ -1,0 +1,19 @@
+import { GlobalSelectionStateService } from '../../shared/components/global-selection-criteria/global-selection-state.service';
+
+export interface CustomerEntry {
+  salesOrg?: string;
+  customerNumber: string;
+  customerName?: string;
+}
+
+export type GlobalSelectionCriteriaFilters = Partial<
+  Record<(typeof GlobalSelectionStateService.stateKeys)[number], string[]>
+>;
+
+export enum GlobalSelectionStatus {
+  DATA_AVAILABLE = 'DATA_AVAILABLE',
+  DATA_NO_RESULTS = 'DATA_NO_RESULTS',
+  DATA_LOADING = 'DATA_LOADING',
+  DATA_ERROR = 'DATA_ERROR',
+  DATA_NOTHING_SELECTED = 'DATA_NOTHING_SELECTED',
+}

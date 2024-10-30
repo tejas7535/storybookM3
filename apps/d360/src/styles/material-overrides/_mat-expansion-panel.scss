@@ -1,0 +1,6 @@
+@mixin mat-expansion-panel() {
+  .mat-expansion-panel-header {
+    @apply h-auto #{!important};
+    @apply py-3 #{!important};
+  }
+}

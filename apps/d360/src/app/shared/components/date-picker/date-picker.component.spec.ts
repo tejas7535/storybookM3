@@ -1,0 +1,69 @@
+import { CommonModule } from '@angular/common';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import {
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+  MomentDateAdapter,
+  provideMomentDateAdapter,
+} from '@angular/material-moment-adapter';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+
+import { DatePickerComponent } from './date-picker.component';
+
+describe('DatePickerComponent', () => {
+  let component: DatePickerComponent;
+  let spectator: Spectator<DatePickerComponent>;
+
+  const createComponent = createComponentFactory({
+    component: DatePickerComponent,
+    imports: [
+      DatePickerComponent,
+      CommonModule,
+      MatButtonModule,
+      MatInputModule,
+      MatDatepickerModule,
+      ReactiveFormsModule,
+      BrowserAnimationsModule,
+    ],
+    providers: [
+      provideMomentDateAdapter(),
+      {
+        provide: MomentDateAdapter,
+        useClass: MomentDateAdapter,
+        deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+      },
+    ],
+  });
+
+  beforeEach(() => {
+    spectator = createComponent();
+    component = spectator.component;
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should have correct inputs', () => {
+    component.label = 'Select Date';
+    component.appearance = 'fill';
+    component.color = 'accent';
+    component.hint = 'Select a date';
+    component.errorMessage = 'Invalid date';
+    component.dateControl = new FormControl();
+
+    spectator.detectChanges();
+
+    expect(component.label).toEqual('Select Date');
+    expect(component.appearance).toEqual('fill');
+    expect(component.color).toEqual('accent');
+    expect(component.hint).toEqual('Select a date');
+    expect(component.errorMessage).toEqual('Invalid date');
+    expect(component.dateControl).toBeInstanceOf(FormControl);
+  });
+});

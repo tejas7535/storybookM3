@@ -1,0 +1,11 @@
+<div
+  *transloco="let t"
+  class="p-2 w-92 flex flex-col items-center justify-center"
+>
+  <div class="relative w-32 h-32 flex items-center justify-center">
+    <schaeffler-loading-spinner
+      [useBearingLoadingSpinner]="true"
+    ></schaeffler-loading-spinner>
+  </div>
+  <p class="mt-2">{{ t('material_customer.export.in_progress', {}) }}</p>
+</div>

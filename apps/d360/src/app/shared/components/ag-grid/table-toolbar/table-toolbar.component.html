@@ -1,0 +1,17 @@
+<aside class="toolbar-container bg-secondary" *transloco="let t">
+  <button mat-raised-button color="secondary" (click)="toggleFloatingFilter()">
+    <mat-icon>filter_list</mat-icon>
+    {{ t('material_customer.toolbar.toggle_filters', {}) }}
+  </button>
+  @if (rowCount) {
+    <span class="mx-2 text-secondary">|</span>
+    <span class="text-secondary">
+      {{
+        t('table.toolbar.material_count', {
+          count: rowCount | translocoDecimal
+        })
+      }}
+    </span>
+  }
+  <ng-content></ng-content>
+</aside>

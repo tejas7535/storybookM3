@@ -1,0 +1,67 @@
+/***************************************************************************************************
+ * COMPONENTS AND THEMES
+ */
+
+/***************************************************************************************************
+  * DECLARATIONS
+  */
+
+@use 'ag-grid-community/styles' as ag;
+@use 'styles/material-overrides' as matOverrides;
+/*
+ * TailwindCSS, utility-first css framework
+ * see https://tailwindcss.com/docs
+ */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/***************************************************************************************************
+ * COMPONENTS AND THEMES
+ */
+
+/*
+ * Angular Material, material design components
+ * see https://material.angular.io
+ */
+@import 'lib/scss/m3-theme';
+
+@include ag.grid-styles(
+  (
+    theme: material,
+    material-primary-color: $primary,
+    material-accent-color: $info,
+    checkbox-checked-color: $primary,
+  )
+);
+
+/** Material overrides */
+body {
+  @include matOverrides.apply;
+}
+
+// Material Fixes
+
+.ag-theme-material {
+  --ag-font-family: 'Noto sans';
+  .ag-column-panel {
+    border-left: 1px solid ag-param(border-color);
+    border-right: 1px solid ag-param(border-color);
+  }
+  .ag-header-cell-text {
+    font-size: 14px;
+  }
+}
+
+.ag-row-group-indent-1 {
+  @apply ml-4 #{!important};
+  @apply pl-4 #{!important};
+}
+.ag-group-contracted,
+.ag-group-expanded {
+  @apply mr-2 #{!important};
+}
+
+.ag-root-wrapper {
+  min-height: 400px !important;
+}

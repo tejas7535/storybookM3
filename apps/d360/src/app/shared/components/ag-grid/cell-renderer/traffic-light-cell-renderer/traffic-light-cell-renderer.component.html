@@ -1,0 +1,13 @@
+<div class="traffic-light--container">
+  <div class="traffic-light">
+    @if (params.value === 'RED') {
+      <div class="traffic-light-item red"></div>
+    }
+    @if (params.value === 'YELLOW') {
+      <div class="traffic-light-item yellow"></div>
+    }
+    @if (params.value === 'GREEN') {
+      <div class="traffic-light-item green"></div>
+    }
+  </div>
+</div>

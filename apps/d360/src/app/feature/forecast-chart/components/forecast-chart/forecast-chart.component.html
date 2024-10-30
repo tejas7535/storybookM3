@@ -1,0 +1,162 @@
+<app-styled-section>
+  <div class="flex justify-between" *transloco="let t">
+    <h6 class="text-title-large">
+      {{ t('home.chart.title') }} |
+      {{ t('planing_type.title.' + typeForm.get('count').value, {}) }}
+    </h6>
+    <div class="flex">
+      @if (openPanelContent) {
+        <div class="panel-wrapper">
+          <button
+            mat-icon-button
+            (click)="togglePanel('date')"
+            [disabled]="controlsDisabled()"
+          >
+            <mat-icon>calendar_month_outline</mat-icon>
+          </button>
+
+          @if (openPanel === 'date') {
+            <div class="panel">
+              <p class="text-title-medium mb-4">
+                {{ t('validation_of_demand.date_picker.title') }}
+              </p>
+              <div class="flex gap-5">
+                <app-date-picker-month-year
+                  [dateControl]="dateForm.controls['startDate']"
+                  [placeholder]="
+                    t('validation_of_demand.date_picker.start_date')
+                  "
+                />
+                <app-date-picker-month-year
+                  [endOf]="true"
+                  [dateControl]="dateForm.controls['endDate']"
+                  [placeholder]="
+                    t('validation_of_demand.date_picker.start_date')
+                  "
+                />
+              </div>
+              <div>
+                <div class="flex justify-end">
+                  <button mat-flat-button (click)="onUpdateDateSettings()">
+                    {{ t('button.save') }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="panel-wrapper">
+          <button
+            mat-icon-button
+            (click)="togglePanel('type')"
+            [disabled]="controlsDisabled()"
+          >
+            <mat-icon>settings_outline</mat-icon>
+          </button>
+
+          @if (openPanel === 'type') {
+            <div class="panel">
+              <div [formGroup]="typeForm">
+                <mat-radio-group
+                  (change)="onChangeType($event)"
+                  formControlName="type"
+                >
+                  <mat-radio-button value="CURRENCY">EUR</mat-radio-button>
+                  <mat-radio-button value="QUANTITY"
+                    >{{ t('home.chart.pieces_option') }}
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+
+              <mat-divider class="!my-2" />
+
+              <div [formGroup]="typeForm">
+                <mat-radio-group
+                  (change)="onChangeCount($event)"
+                  formControlName="count"
+                >
+                  <mat-radio-button value="REQUESTED"
+                    >{{ t('planing_type.title.REQUESTED') }}
+                  </mat-radio-button>
+                  <mat-radio-button value="CONFIRMED"
+                    >{{ t('planing_type.title.CONFIRMED') }}
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="panel-wrapper">
+          <button
+            mat-icon-button
+            (click)="togglePanel('info')"
+            [disabled]="controlsDisabled()"
+          >
+            <mat-icon>info_outline</mat-icon>
+          </button>
+
+          @if (openPanel === 'info') {
+            <div class="panel">
+              <app-forecast-chart-legend />
+            </div>
+          }
+        </div>
+      }
+
+      <button mat-icon-button (click)="openPanelContent = !openPanelContent">
+        @if (openPanelContent) {
+          <mat-icon>keyboard_arrow_up</mat-icon>
+        } @else {
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        }
+      </button>
+    </div>
+  </div>
+
+  @if (openPanelContent) {
+    <div class="panel-content ml-3 mr-4">
+      <div class="relative" *transloco="let t">
+        <div
+          class="h-full flex items-center justify-center absolute top-0 left-0"
+        >
+          <div class="-rotate-90">
+            <span>
+              @if (typeForm.get('type').value === 'CURRENCY') {
+                EUR
+              } @else {
+                {{ t('home.chart.pieces_option') }}
+              }
+            </span>
+          </div>
+        </div>
+        <div echarts [options]="option" style="min-height: 350px"></div>
+
+        @if (isPreviewDataRendered() || isLoading()) {
+          <div
+            class="absolute top-0 left-0 w-full h-full bg-white/70 flex rounded-sm items-center justify-center z-40"
+          >
+            @if (isLoading()) {
+              <div>
+                <schaeffler-loading-spinner
+                  [useBearingLoadingSpinner]="true"
+                ></schaeffler-loading-spinner>
+              </div>
+            } @else {
+              <div class="bg-white p-8 rounded-sm">
+                <p>
+                  {{
+                    isError()
+                      ? t('home.chart.loading_failed', {})
+                      : t('home.chart.select_to_load', {})
+                  }}
+                </p>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
+</app-styled-section>

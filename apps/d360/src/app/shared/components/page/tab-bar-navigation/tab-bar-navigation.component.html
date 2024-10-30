@@ -1,0 +1,53 @@
+<div *transloco="let t">
+  <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+    <a
+      mat-tab-link
+      class="navigation-tab"
+      (click)="navigateTo(routeConfig.startPage.path)"
+      [routerLink]="routeConfig.startPage.path"
+      [active]="activeTab === 'start-page'"
+    >
+      {{ t(routeConfig.startPage.label) }}
+    </a>
+
+    <a
+      mat-tab-link
+      class="navigation-tab"
+      [matMenuTriggerFor]="functionsMenu"
+      (click)="activeTab = 'functions'"
+      [active]="activeTab === 'functions'"
+    >
+      {{ t('tabbar.functions.label') }}
+      <mat-icon>expand_more</mat-icon>
+    </a>
+
+    <a
+      mat-tab-link
+      class="navigation-tab"
+      (click)="navigateTo(routeConfig.tasks.path)"
+      [routerLink]="routeConfig.tasks.path"
+      [active]="activeTab === 'tasks'"
+    >
+      {{ t(routeConfig.tasks.label) }}
+    </a>
+  </nav>
+
+  <mat-menu #functionsMenu="matMenu">
+    @for (function of routeConfig.functions; track function) {
+      @if (function.visible) {
+        <button
+          mat-menu-item
+          (click)="navigateTo(function.path)"
+          [routerLink]="function.path"
+          [disabled]="(canNavigateTo$(function.data) | ngrxPush) === false"
+        >
+          {{ t(function.label) }}
+        </button>
+      }
+    }
+  </mat-menu>
+
+  <mat-tab-nav-panel #tabPanel>
+    <router-outlet></router-outlet>
+  </mat-tab-nav-panel>
+</div>

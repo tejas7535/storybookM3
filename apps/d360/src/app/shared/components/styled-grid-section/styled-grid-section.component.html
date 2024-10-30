@@ -1,0 +1,12 @@
+<div
+  [ngStyle]="{
+    opacity: hidden ? 0 : 1,
+    overflow: 'hidden',
+    'flex-grow': 1,
+    'min-height': smallHeight ? '10px' : '400px'
+  }"
+>
+  <div [ngStyle]="{ height: '100%' }" class="mat-app-background">
+    <ng-content></ng-content>
+  </div>
+</div>

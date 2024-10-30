@@ -1,0 +1,69 @@
+<mat-form-field
+  [formGroup]="form()"
+  appearance="outline"
+  class="full-width"
+  *transloco="let t"
+>
+  <!-- Label -->
+  <mat-label>{{ autocompleteLabel() || '' }}</mat-label>
+
+  <!-- The chip list to show the selected values -->
+  <mat-chip-grid #chipList>
+    @for (option of control().value; track option) {
+      <mat-chip-row (removed)="remove(option)">
+        <!-- Chip name -->
+        {{ getOptionName()(option) }}
+
+        <!-- Chip delete button -->
+        <button [attr.aria-label]="'remove ' + option.text" matChipRemove>
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+    }
+
+    <!-- Input field (search field) -->
+    <input
+      #multiAutocomplete
+      [matAutocomplete]="auto"
+      [matChipInputAddOnBlur]="true"
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      [formControl]="searchControl()"
+    />
+  </mat-chip-grid>
+
+  <!-- The autocomplete -->
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    (optionSelected)="onOptionSelected($event)"
+  >
+    <!-- Render the options only, if there are no error and the data are not loading -->
+    @if (!loading() && !loadingError()) {
+      @for (option of options(); track option) {
+        <mat-option [value]="option">
+          {{ getOptionLabel()(option) }}
+        </mat-option>
+      }
+    }
+
+    <!-- Show text for is loading -->
+    @if (loading()) {
+      <mat-option [disabled]="true">{{
+        t('globalSelection.dropdown.loading')
+      }}</mat-option>
+    } @else if (
+      !loading() && options()?.length === 0 && control()?.value?.length > 2
+    ) {
+      <!-- Show text for no data available -->
+      <mat-option [disabled]="true">{{ t('hint.noData') }}</mat-option>
+    }
+
+    <!-- Show Loading Error -->
+    @if (loadingError()) {
+      <mat-error>{{ loadingError() }}</mat-error>
+    }
+  </mat-autocomplete>
+
+  <!-- Add an arrow, so it will look like a dropdown  -->
+  <mat-icon matSuffix>arrow_drop_down</mat-icon>
+</mat-form-field>

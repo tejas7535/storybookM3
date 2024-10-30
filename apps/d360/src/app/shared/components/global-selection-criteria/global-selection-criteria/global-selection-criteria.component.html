@@ -1,0 +1,291 @@
+<section *transloco="let t" class="global-selection-criteria-section">
+  @if (optionsLoading$ | ngrxPush) {
+    <!--  loading spinner -->
+    <div class="global-selection-criteria-container mt-5 relative">
+      <div
+        class="absolute top-0 left-0 w-full h-full bg-white/70 flex rounded-sm items-center justify-center z-40"
+      >
+        <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
+      </div>
+    </div>
+  } @else {
+    <form [formGroup]="globalForm">
+      <div class="header-row">
+        <!-- title and count -->
+        <div class="title-count">
+          <i class="filter-list-icon"></i>
+          <h6 class="text-title-large">{{ text() }}</h6>
+        </div>
+
+        <!-- mini filter -->
+        @if (isCollapsed()) {
+          <app-minimized-global-selection-criteria
+            [form]="globalForm"
+            [filters]="globalSelectionStateService.getState()"
+            (selectionChanged)="saveFilters()"
+          />
+        }
+
+        <!-- toggle button -->
+        <button (click)="isCollapsed.set(!isCollapsed())" mat-icon-button>
+          <mat-icon
+            [innerHTML]="
+              isCollapsed() ? 'keyboard_arrow_down' : 'keyboard_arrow_up'
+            "
+          />
+        </button>
+      </div>
+
+      <!-- The form -->
+      @if (!isCollapsed()) {
+        <div class="global-selection-criteria-container mt-5">
+          <!-- Filter: region -->
+          <div class="global-selection-field-container">
+            <app-filter-dropdown
+              [control]="globalForm.controls.region"
+              [form]="globalForm"
+              [label]="t('globalSelection.region', {})"
+              [loadingError]="
+                selectableOptionsService.get('region')?.loadingError
+              "
+              [loading]="selectableOptionsService.get('region')?.loading"
+              [multiSelect]="true"
+              [formatSelectedValue]="displayFnId"
+              [options]="selectableOptionsService.get('region')?.options ?? []"
+            />
+          </div>
+
+          <!-- Filter: salesArea -->
+          <div class="global-selection-field-container">
+            <app-filter-dropdown
+              [control]="globalForm.controls.salesArea"
+              [form]="globalForm"
+              [label]="t('globalSelection.sales_area', {})"
+              [loadingError]="
+                this.selectableOptionsService.get('salesArea')?.loadingError
+              "
+              [loading]="
+                this.selectableOptionsService.get('salesArea')?.loading
+              "
+              [multiSelect]="true"
+              [options]="
+                this.selectableOptionsService.get('salesArea')?.options ?? []
+              "
+            />
+          </div>
+
+          <!-- Filter: sectorManagement -->
+          <div class="global-selection-field-container">
+            <app-filter-dropdown
+              [control]="globalForm.controls.sectorManagement"
+              [form]="globalForm"
+              [label]="t('globalSelection.sector_management', {})"
+              [loadingError]="
+                this.selectableOptionsService.get('sectorMgmt')?.loadingError
+              "
+              [loading]="
+                this.selectableOptionsService.get('sectorMgmt')?.loading
+              "
+              [multiSelect]="true"
+              [formatSelectedValue]="displayFnId"
+              [options]="
+                this.selectableOptionsService.get('sectorMgmt')?.options ?? []
+              "
+            />
+          </div>
+
+          <!-- Filter: salesOrg -->
+          <app-pre-loaded-autocomplete-with-multiselect
+            [control]="globalForm.controls.salesOrg"
+            [form]="globalForm"
+            [autocompleteLabel]="t('globalSelection.sales_org.rootString', {})"
+            [entityNamePlural]="
+              t('globalSelection.sales_org.entity_name_plural')
+            "
+            [entityName]="t('globalSelection.sales_org.entity_name')"
+            [getOptionLabel]="displayFnUnited"
+            [getOptionLabelInTag]="displayFnText"
+            [optionsLoadingResult]="
+              this.selectableOptionsService.get('salesOrg')
+            "
+            [resolveFunction]="
+              globalSelectionHelperService.resolveSalesOrg.bind(
+                globalSelectionHelperService
+              )
+            "
+          />
+
+          <!-- Filter: gkamNumber -->
+          <app-pre-loaded-autocomplete-with-multiselect
+            [control]="globalForm.controls.gkamNumber"
+            [form]="globalForm"
+            [autocompleteLabel]="t('globalSelection.gkam', {})"
+            [entityNamePlural]="
+              t('globalSelection.gkam_name.entity_name_plural')
+            "
+            [entityName]="t('globalSelection.gkam_name.entity_name')"
+            [getOptionLabel]="displayFnUnited"
+            [getOptionLabelInTag]="displayFnText"
+            [optionsLoadingResult]="this.selectableOptionsService.get('gkam')"
+            [resolveFunction]="
+              globalSelectionHelperService.resolveGkamNumber.bind(
+                globalSelectionHelperService
+              )
+            "
+          />
+
+          <!-- Filter: customerNumber -->
+          <app-on-type-autocomplete-with-multiselect
+            [autocompleteLabel]="t('globalSelection.customer.rootString', {})"
+            [entityNamePlural]="
+              t('globalSelection.customer.entity_name_plural')
+            "
+            [entityName]="t('globalSelection.customer.entity_name')"
+            [control]="globalForm.controls.customerNumber"
+            [form]="globalForm"
+            urlBegin="global-selection/search-customers"
+            [getOptionLabel]="displayFnUnited"
+            [getOptionLabelInTag]="displayFnText"
+            [resolveFunction]="
+              globalSelectionHelperService.resolveCustomerNumbers.bind(
+                globalSelectionHelperService
+              )
+            "
+          />
+
+          <!-- Filter: materialNumber -->
+          <app-on-type-autocomplete-with-multiselect
+            [autocompleteLabel]="t('globalSelection.material.rootString', {})"
+            [entityNamePlural]="
+              t('globalSelection.material.entity_name_plural')
+            "
+            [entityName]="t('globalSelection.material.entity_name')"
+            [control]="globalForm.controls.materialNumber"
+            [form]="globalForm"
+            [getOptionLabel]="displayFnUnited"
+            [getOptionLabelInTag]="displayFnText"
+            [resolveFunction]="
+              globalSelectionHelperService.resolveMaterialNumbers.bind(
+                globalSelectionHelperService
+              )
+            "
+            urlBegin="global-selection/search-materials"
+          />
+
+          <!-- Filter: materialClassification -->
+          <div class="global-selection-field-container">
+            <app-filter-dropdown
+              [control]="globalForm.controls.materialClassification"
+              [form]="globalForm"
+              [label]="t('globalSelection.materialClassification', {})"
+              [multiSelect]="true"
+              [loading]="false"
+              [loadingError]="null"
+              [options]="materialClassifications"
+              [formatSelectedValue]="displayFnId"
+            />
+          </div>
+
+          <!-- Filter: sector -->
+          <app-pre-loaded-autocomplete-with-multiselect
+            [control]="globalForm.controls.sector"
+            [form]="globalForm"
+            [autocompleteLabel]="t('globalSelection.sector.rootString', {})"
+            [entityNamePlural]="t('globalSelection.sector.entity_name_plural')"
+            [entityName]="t('globalSelection.sector.entity_name')"
+            [getOptionLabel]="displayFnUnited"
+            [getOptionLabelInTag]="displayFnText"
+            [optionsLoadingResult]="this.selectableOptionsService.get('sector')"
+            [resolveFunction]="
+              globalSelectionHelperService.resolveSectors.bind(
+                globalSelectionHelperService
+              )
+            "
+          />
+
+          <!-- Filter: productionPlant -->
+          <app-pre-loaded-autocomplete-with-multiselect
+            [control]="globalForm.controls.productionPlant"
+            [form]="globalForm"
+            [autocompleteLabel]="
+              t('globalSelection.productionPlant.rootString', {})
+            "
+            [entityNamePlural]="
+              t('globalSelection.productionPlant.entity_name_plural')
+            "
+            [entityName]="t('globalSelection.productionPlant.entity_name')"
+            [getOptionLabel]="displayFnUnited"
+            [getOptionLabelInTag]="displayFnText"
+            [optionsLoadingResult]="
+              this.selectableOptionsService.get('productionPlant')
+            "
+            [resolveFunction]="
+              globalSelectionHelperService.resolveProductionPlants.bind(
+                globalSelectionHelperService
+              )
+            "
+          />
+
+          <!-- Filter: productionSegment -->
+          <app-on-type-autocomplete-with-multiselect
+            [autocompleteLabel]="
+              t('globalSelection.production_segment.rootString', {})
+            "
+            [entityNamePlural]="
+              t('globalSelection.production_segment.entity_name_plural')
+            "
+            [entityName]="t('globalSelection.production_segment.entity_name')"
+            [control]="globalForm.controls.productionSegment"
+            [form]="globalForm"
+            [getOptionLabel]="displayFnUnited"
+            [getOptionLabelInTag]="displayFnText"
+            urlBegin="global-selection/production-segments"
+            [resolveFunction]="
+              globalSelectionHelperService.resolveProductionSegment.bind(
+                globalSelectionHelperService
+              )
+            "
+          />
+
+          <!-- Filter: alertType -->
+          <div class="global-selection-field-container">
+            <app-filter-dropdown
+              [control]="globalForm.controls.alertType"
+              [form]="globalForm"
+              [label]="t('globalSelection.tasks')"
+              [loadingError]="
+                this.selectableOptionsService.get('alertTypes').loadingError
+              "
+              [loading]="
+                this.selectableOptionsService.get('alertTypes').loading
+              "
+              [multiSelect]="true"
+              [options]="getAlertTypeValues()"
+              [formatSelectedValue]="displayFnText"
+            />
+          </div>
+
+          <!-- buttons -->
+          <div
+            class="col-span-4 flex justify-end gap-5 global-selection-field-container"
+          >
+            <!-- reset filters -->
+            <button class="w-auto" mat-raised-button (click)="resetFilters()">
+              {{ t('button.reset') }}
+            </button>
+
+            <!-- save filters -->
+            <button
+              class="w-auto"
+              color="primary"
+              mat-raised-button
+              (click)="saveFilters()"
+            >
+              {{ t('button.load') }}
+            </button>
+          </div>
+        </div>
+      }
+    </form>
+  }
+</section>

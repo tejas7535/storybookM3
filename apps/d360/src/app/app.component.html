@@ -1,0 +1,18 @@
+<schaeffler-app-shell
+  [appTitleLink]="titleLink"
+  [appTitle]="title"
+  [appVersion]="appVersion"
+  [footerLinks]="footerLinks"
+  [hasSidebarLeft]="true"
+  [userName]="username$ | ngrxPush"
+  [userImageUrl]="profileImage$ | ngrxPush"
+>
+  <ng-container sidenavBody>
+    <app-user-settings></app-user-settings>
+  </ng-container>
+  <ng-container mainContent>
+    <div class="h-full w-full">
+      <app-tab-bar-navigation></app-tab-bar-navigation>
+    </div>
+  </ng-container>
+</schaeffler-app-shell>

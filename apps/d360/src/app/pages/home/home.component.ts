@@ -1,0 +1,66 @@
+import { Component } from '@angular/core';
+
+import { ForecastChartComponent } from '../../feature/forecast-chart/components/forecast-chart/forecast-chart.component';
+import { ColumnFilters } from '../../shared/ag-grid/grid-filter-model';
+import { ActionButtonComponent } from '../../shared/components/action-button/action-button.component';
+import { ContentWrapperComponent } from '../../shared/components/content-wrapper/content-wrapper.component';
+import { GlobalSelectionCriteriaComponent } from '../../shared/components/global-selection-criteria/global-selection-criteria/global-selection-criteria.component';
+import { GlobalSelectionState } from '../../shared/components/global-selection-criteria/global-selection-state.service';
+import { HeaderActionBarComponent } from '../../shared/components/header-action-bar/header-action-bar.component';
+import { StyledGridSectionComponent } from '../../shared/components/styled-grid-section/styled-grid-section.component';
+import { StyledSectionComponent } from '../../shared/components/styled-section/styled-section.component';
+import { MaterialCustomerTableComponent } from './table/components/material-customer-table/material-customer-table.component';
+
+@Component({
+  selector: 'app-home',
+  standalone: true,
+  imports: [
+    GlobalSelectionCriteriaComponent,
+    ForecastChartComponent,
+    HeaderActionBarComponent,
+    ActionButtonComponent,
+    ContentWrapperComponent,
+    StyledSectionComponent,
+    MaterialCustomerTableComponent,
+    StyledGridSectionComponent,
+  ],
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
+})
+export class HomeComponent {
+  /**
+   * The current filter values.
+   *
+   * @type {GlobalSelectionState}
+   * @memberof HomeComponent
+   */
+  public globalSelectionCriteria: GlobalSelectionState = null;
+
+  /**
+   * The column filters.
+   *
+   * @type {ColumnFilters}
+   * @memberof HomeComponent
+   */
+  public columnFilters: ColumnFilters = {};
+
+  /**
+   * On filter update set the new values for the global selection state.
+   *
+   * @param {GlobalSelectionState} filter
+   * @memberof HomeComponent
+   */
+  onUpdateGlobalSelectionState(globalSelectionState: GlobalSelectionState) {
+    this.globalSelectionCriteria = globalSelectionState;
+  }
+
+  /**
+   * On filter update set the new values for the column filters.
+   *
+   * @param {ColumnFilters} columnFilters
+   * @memberof HomeComponent
+   */
+  onUpdateColumnFilter(columnFilters: ColumnFilters) {
+    this.columnFilters = columnFilters;
+  }
+}

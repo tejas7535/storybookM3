@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "target": "https://demand360-d.dev.dp.schaeffler",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

@@ -1,0 +1,10 @@
+:root {
+  --schaefflerColor: #0077c8;
+}
+
+.material-list-wrapper {
+  .ag-theme-material .ag-row-selected {
+    --ag-selected-row-background-color: #ffffff00;
+    color: var(--schaefflerColor);
+  }
+}

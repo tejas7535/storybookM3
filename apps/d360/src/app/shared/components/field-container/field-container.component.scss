@@ -1,0 +1,14 @@
+.field-container {
+  display: flex;
+  margin: 8px 0;
+  width: 50%;
+
+  &:nth-child(odd) {
+    padding-right: 20px;
+  }
+
+  @media (max-width: 680px) {
+    width: 100%;
+    padding-right: 0;
+  }
+}

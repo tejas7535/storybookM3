@@ -1,0 +1,12 @@
+@mixin mat-snackbar() {
+  .mat-mdc-snack-bar-container {
+    .mdc-snackbar__label {
+      @apply text-body-2 #{!important};
+    }
+
+    .mdc-snackbar__surface {
+      @apply bg-high-emphasis #{!important};
+      @apply text-white-high-emphasis #{!important};
+    }
+  }
+}

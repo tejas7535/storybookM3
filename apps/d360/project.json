@@ -1,0 +1,177 @@
+{
+  "name": "d360",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "generators": {
+    "@nx/angular:component": {
+      "style": "scss"
+    }
+  },
+  "prefix": "app",
+  "sourceRoot": "apps/d360/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/d360",
+        "index": "apps/d360/src/index.html",
+        "browser": "apps/d360/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/d360/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/d360/src/favicon.ico",
+          "apps/d360/src/assets",
+          {
+            "glob": "**/mitm.html",
+            "input": "./node_modules/streamsaver",
+            "output": "/"
+          },
+          {
+            "glob": "**/sw.js",
+            "input": "./node_modules/streamsaver",
+            "output": "/"
+          }
+        ],
+        "styles": [
+          "apps/d360/src/styles.scss",
+          "node_modules/@fontsource/material-icons/400.css",
+          "node_modules/@fontsource/noto-sans/400.css",
+          "node_modules/@fontsource/noto-sans/500.css"
+        ],
+        "scripts": [],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/shared/ui/styles/src"]
+        }
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "7mb",
+              "maximumError": "8mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "15kb",
+              "maximumError": "20kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "dev": {
+          "statsJson": true,
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/d360/src/environments/environment.ts",
+              "with": "apps/d360/src/environments/environment.dev.ts"
+            }
+          ]
+        },
+        "qa": {
+          "statsJson": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/d360/src/environments/environment.ts",
+              "with": "apps/d360/src/environments/environment.qa.ts"
+            }
+          ]
+        },
+        "local": {
+          "statsJson": true,
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "d360:build:production"
+        },
+        "development": {
+          "buildTarget": "d360:build:development",
+          "proxyConfig": "apps/d360/proxies/development-proxy.conf.json"
+        },
+        "local": {
+          "buildTarget": "d360:build:local",
+          "proxyConfig": "apps/d360/proxies/local-proxy.conf.json"
+        }
+      },
+      "defaultConfiguration": "local"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "d360:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/apps/d360"],
+      "options": {
+        "jestConfig": "apps/d360/jest.config.ts"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "d360:build",
+        "staticFilePath": "dist/apps/d360/browser"
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "push": true,
+        "preset": "conventional",
+        "baseBranch": "master",
+        "tagPrefix": "${target}-v",
+        "changelogHeader": "# Release Notes of Demand360",
+        "commitMessageFormat": "chore({projectName}): 🚀 release version ${version} [CI SKIP]",
+        "noVerify": true,
+        "postTargets": ["d360:github"]
+      }
+    },
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "${tag}",
+        "notes": "${notes}"
+      }
+    },
+    "zip": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "commands": [
+          "mkdir -p dist/zips/d360",
+          "cd dist/apps/d360/browser && zip -r ../../../zips/d360/next.zip *"
+        ],
+        "parallel": false
+      }
+    },
+    "transloco-optimize": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "pnpm transloco-optimize dist/apps/d360/browser/assets/i18n"
+      }
+    }
+  },
+  "implicitDependencies": ["shared-ui-styles"]
+}

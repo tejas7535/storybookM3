@@ -1,0 +1,9 @@
+.demand-validation-table-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  transition: all 0.25s ease-in-out;
+  will-change: width;
+}

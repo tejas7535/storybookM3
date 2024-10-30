@@ -1,0 +1,86 @@
+@switch (variant) {
+  @case ('mat-button') {
+    <button
+      [disabled]="disabled"
+      mat-button
+      matTooltip="{{ tooltip }}"
+      [color]="color"
+    >
+      @if (icon) {
+        <mat-icon>{{ icon }}</mat-icon>
+      }
+    </button>
+  }
+  @case ('mat-raised-button') {
+    <button
+      [disabled]="disabled"
+      mat-raised-button
+      matTooltip="{{ tooltip }}"
+      [color]="color"
+    >
+      @if (icon) {
+        <mat-icon>{{ icon }}</mat-icon>
+      }
+    </button>
+  }
+  @case ('mat-flat-button') {
+    <button
+      [disabled]="disabled"
+      mat-flat-button
+      matTooltip="{{ tooltip }}"
+      [color]="color"
+    >
+      @if (icon) {
+        <mat-icon>{{ icon }}</mat-icon>
+      }
+    </button>
+  }
+  @case ('mat-stroked-button') {
+    <button
+      [disabled]="disabled"
+      mat-stroked-button
+      matTooltip="{{ tooltip }}"
+      [color]="color"
+    >
+      @if (icon) {
+        <mat-icon>{{ icon }}</mat-icon>
+      }
+    </button>
+  }
+  @case ('mat-icon-button') {
+    <button
+      [disabled]="disabled"
+      mat-icon-button
+      matTooltip="{{ tooltip }}"
+      [color]="color"
+    >
+      @if (icon) {
+        <mat-icon>{{ icon }}</mat-icon>
+      }
+    </button>
+  }
+  @case ('mat-fab') {
+    <button
+      [disabled]="disabled"
+      mat-fab
+      matTooltip="{{ tooltip }}"
+      [color]="color"
+    >
+      @if (icon) {
+        <mat-icon>{{ icon }}</mat-icon>
+      }
+    </button>
+  }
+  @case ('mat-mini-fab') {
+    <button
+      [disabled]="disabled"
+      mat-mini-fab
+      matTooltip="{{ tooltip }}"
+      [color]="color"
+    >
+      @if (icon) {
+        <mat-icon>{{ icon }}</mat-icon>
+      }
+    </button>
+  }
+}

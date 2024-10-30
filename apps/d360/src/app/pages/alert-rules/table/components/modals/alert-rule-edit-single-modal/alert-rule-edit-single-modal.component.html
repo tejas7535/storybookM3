@@ -1,0 +1,265 @@
+<div *transloco="let t">
+  <h2 mat-dialog-title>{{ t(title) }}</h2>
+  <mat-dialog-content>
+    @if (loading | ngrxPush) {
+      <schaeffler-loading-spinner
+        [useBearingLoadingSpinner]="true"
+      ></schaeffler-loading-spinner>
+    } @else {
+      @if (saveOptionLoading) {
+        <schaeffler-loading-spinner
+          [useBearingLoadingSpinner]="true"
+        ></schaeffler-loading-spinner>
+      }
+      <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+        <div>
+          <!-- TODO set initial value and handle valueChange when app-single-autocomplete-pre-loaded component is fixed -->
+          <app-single-autocomplete-pre-loaded
+            [control]="alertTypeControl"
+            [form]="formGroup"
+            [label]="t('alert_rules.edit_modal.label.type', {})"
+            [optionsLoadingResult]="
+              selectableOptionsService.get('alertTypesForRuleEditor')
+            "
+            [getOptionLabelInTag]="displayFnText"
+            (selectionChange)="handleAlertTypeChange($event)"
+          ></app-single-autocomplete-pre-loaded>
+        </div>
+        <div>
+          <app-filter-dropdown
+            [form]="formGroup"
+            [control]="regionControl"
+            [label]="t('alert_rules.edit_modal.label.region', {})"
+            [options]="selectableOptionsService.get('region').options"
+            [formatOptionValue]="displayFnText"
+          ></app-filter-dropdown>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+        <div>
+          <app-filter-dropdown
+            [form]="formGroup"
+            [control]="salesAreaControl"
+            [label]="t('alert_rules.edit_modal.label.sales_area', {})"
+            [options]="selectableOptionsService.get('salesArea').options"
+          ></app-filter-dropdown>
+        </div>
+        <div>
+          <!-- TODO set initial value and handle valueChange when app-single-autocomplete-pre-loaded component is fixed -->
+          <app-single-autocomplete-pre-loaded
+            [control]="salesOrgControl"
+            [form]="formGroup"
+            [label]="t('alert_rules.edit_modal.label.sales_org', {})"
+            [optionsLoadingResult]="selectableOptionsService.get('salesOrg')"
+            (selectionChange)="handleSalesOrgChange($event)"
+          ></app-single-autocomplete-pre-loaded>
+        </div>
+        <div>
+          <app-filter-dropdown
+            [form]="formGroup"
+            [control]="sectorMgmtControl"
+            [label]="t('alert_rules.edit_modal.label.sector_management', {})"
+            [options]="selectableOptionsService.get('sectorMgmt').options"
+          ></app-filter-dropdown>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+        <div>
+          <!-- TODO set initial value and handle valueChange when app-single-autocomplete-pre-loaded component is fixed -->
+          <app-single-autocomplete-pre-loaded
+            [control]="demandPlannerControl"
+            [form]="formGroup"
+            [label]="t('alert_rules.edit_modal.label.demandPlanner', {})"
+            [optionsLoadingResult]="
+              selectableOptionsService.get('demandPlanners')
+            "
+            (selectionChange)="handleDemandPlannerChange($event)"
+          ></app-single-autocomplete-pre-loaded>
+        </div>
+        <div>
+          <app-single-autocomplete-pre-loaded
+            [control]="gkamControl"
+            [form]="formGroup"
+            [label]="t('alert_rules.edit_modal.label.gkam', {})"
+            [optionsLoadingResult]="selectableOptionsService.get('gkam')"
+            (selectionChange)="handleGkamChange($event)"
+          ></app-single-autocomplete-pre-loaded>
+        </div>
+        <div>
+          <app-single-autocomplete-on-type
+            [control]="customerNumberControl"
+            [form]="formGroup"
+            [label]="t('alert_rules.edit_modal.label.customer', {})"
+            urlBegin="global-selection/search-customers"
+            (selectionChange)="handleCustomerNumberChange($event)"
+          ></app-single-autocomplete-on-type>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+        <div>
+          <app-filter-dropdown
+            [form]="formGroup"
+            [control]="materialClassificationControl"
+            [label]="
+              t('alert_rules.edit_modal.label.materialClassification', {})
+            "
+            [options]="materialClassificationOptions"
+          ></app-filter-dropdown>
+        </div>
+        <div>
+          <app-single-autocomplete-pre-loaded
+            [form]="formGroup"
+            [control]="productLineControl"
+            [label]="t('alert_rules.edit_modal.label.product_line', {})"
+            [optionsLoadingResult]="selectableOptionsService.get('productLine')"
+            (selectionChange)="handleProductLineChange($event)"
+          ></app-single-autocomplete-pre-loaded>
+        </div>
+        <div>
+          <app-single-autocomplete-on-type
+            [form]="formGroup"
+            [control]="productionLineControl"
+            [label]="t('alert_rules.edit_modal.label.production_line', {})"
+            urlBegin="global-selection/search-production-line"
+            (selectionChange)="handleProductionLineChange($event)"
+          ></app-single-autocomplete-on-type>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+        <div>
+          <app-single-autocomplete-on-type
+            [control]="materialNumberControl"
+            [form]="formGroup"
+            [label]="t('alert_rules.edit_modal.label.material', {})"
+            urlBegin="global-selection/search-materials"
+            (selectionChange)="handleMaterialNumberChange($event)"
+          ></app-single-autocomplete-on-type>
+        </div>
+      </div>
+      @if (alertTypeDescriptionWithParameter) {
+        <hr />
+        <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+          @if (threshold1Required) {
+            <div>
+              <mat-form-field [formGroup]="formGroup" appearance="outline">
+                <mat-label>{{
+                  alertTypeDescriptionWithParameter.threshold1Description
+                }}</mat-label>
+                <input
+                  [attr.aria-label]="
+                    alertTypeDescriptionWithParameter.threshold1Description
+                  "
+                  matInput
+                  [formControl]="threshold1Control"
+                  type="number"
+                />
+              </mat-form-field>
+            </div>
+          }
+          @if (threshold2Required) {
+            <div>
+              <mat-form-field [formGroup]="formGroup" appearance="outline">
+                <mat-label>{{
+                  alertTypeDescriptionWithParameter.threshold2Description
+                }}</mat-label>
+                <input
+                  [attr.aria-label]="
+                    alertTypeDescriptionWithParameter.threshold2Description
+                  "
+                  matInput
+                  [formControl]="threshold2Control"
+                  type="number"
+                />
+              </mat-form-field>
+            </div>
+          }
+          @if (threshold3Required) {
+            <div>
+              <mat-form-field [formGroup]="formGroup" appearance="outline">
+                <mat-label>{{
+                  alertTypeDescriptionWithParameter.threshold3Description
+                }}</mat-label>
+                <input
+                  [attr.aria-label]="
+                    alertTypeDescriptionWithParameter.threshold3Description
+                  "
+                  matInput
+                  [formControl]="threshold3Control"
+                  type="number"
+                />
+              </mat-form-field>
+            </div>
+          }
+        </div>
+      }
+      <hr />
+      <div class="grid grid-cols-1 md:grid-cols-4 xs:gap-1 md:gap-4">
+        <div>
+          <!-- TODO add error handling date picker-->
+        </div>
+        <div class="styled-form-control">
+          <mat-form-field [formGroup]="formGroup" appearance="outline">
+            <mat-label>{{
+              t('alert_rules.edit_modal.label.interval.rootString', {})
+            }}</mat-label>
+            <mat-select
+              [aria-label]="
+                t('alert_rules.edit_modal.label.interval.rootString', {})
+              "
+              [formControl]="execIntervalControl"
+            >
+              @for (option of execIntervalOptions; track option) {
+                <mat-option [value]="option">
+                  {{ t('alert_rules.edit_modal.label.interval.' + option, {}) }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="styled-form-control">
+          <mat-form-field [formGroup]="formGroup" appearance="outline">
+            <mat-label>{{
+              t('alert_rules.edit_modal.label.when.rootString', {})
+            }}</mat-label>
+            <mat-select
+              [aria-label]="
+                t('alert_rules.edit_modal.label.when.rootString', {})
+              "
+              [formControl]="whenOptionsControl"
+            >
+              @for (option of whenOptions; track option) {
+                <mat-option [value]="option">
+                  {{ t('alert_rules.edit_modal.label.when.' + option, {}) }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div><!-- TODO add error handling date picker--></div>
+      </div>
+      <div class="grid grid-cols-1 xs:gap-1 md:gap-4">
+        <div class="styled-text-field">
+          <mat-form-field [formGroup]="formGroup" appearance="outline">
+            <mat-label>{{
+              t('alert_rules.edit_modal.label.comment', {})
+            }}</mat-label>
+            <textarea
+              matInput
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="4"
+              #autosize="cdkTextareaAutosize"
+              [formControl]="alertCommentControl"
+              rows="4"
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    }
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button (click)="handleSave()" mat-flat-button color="primary">
+      {{ t('button.save', {}) }}
+    </button>
+    <button mat-button (click)="handleOnClose()">Close</button>
+  </mat-dialog-actions>
+</div>

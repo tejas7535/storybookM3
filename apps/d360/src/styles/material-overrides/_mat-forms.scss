@@ -1,0 +1,44 @@
+@mixin mat-forms() {
+  // This fixes an ui issue when the form field is opened with appearance outline
+  // Note: class name is repeated to achieve sufficient specificity over the various MDC states.
+  // (hover, focus, etc.
+  .mat-mdc-form-field {
+    --mat-form-field-container-vertical-padding: 8px;
+    --mat-form-field-container-vertical-padding: 8px;
+    --mat-form-field-container-height: 40px;
+
+    &.mat-mdc-form-field {
+      &.mat-mdc-form-field {
+        &.mat-mdc-form-field {
+          &.mat-mdc-form-field {
+            .mdc-notched-outline__notch {
+              border-right: 1px solid transparent;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .mat-mdc-form-field-type-mat-select {
+    &.mat-form-field-appearance-outline {
+      .mdc-notched-outline__notch {
+        @apply max-w-full #{!important};
+      }
+    }
+  }
+
+  mat-error,
+  mat-hint {
+    @apply text-caption;
+    @apply text-medium-emphasis;
+  }
+
+  mat-form-field {
+    @apply w-full;
+  }
+
+  .mat-mdc-option {
+    min-height: 40px;
+  }
+}

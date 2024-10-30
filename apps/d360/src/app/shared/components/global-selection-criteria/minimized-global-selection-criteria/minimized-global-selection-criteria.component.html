@@ -1,0 +1,9 @@
+<div class="container">
+  @for (value of values(); track value.id) {
+    <mat-chip (removed)="remove(value)" [value]="value" class="styled">
+      {{ value.text }}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+  }
+</div>
+<div class="blurry-end"></div>

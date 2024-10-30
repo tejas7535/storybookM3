@@ -1,0 +1,20 @@
+<div *transloco="let t">
+  <h3 class="headline-second-part">
+    {{ t('customer_material_portfolio.modal.subheader.phase_out', {}) }}
+  </h3>
+  <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+    <!--      <div>&lt;!&ndash; TODO Implement ErrorHandlingDatePicker>&ndash;&gt;</div>-->
+    <div>
+      <app-date-picker
+        [dateControl]="phaseOutDateControl"
+        [label]="t('customer_material_portfolio.modal.phase_out.label', {})"
+      ></app-date-picker>
+    </div>
+  </div>
+  <div class="grid grid-cols-1">
+    <div>
+      <mat-icon fontIcon="warning" color="warning" [inline]="true"></mat-icon>
+      {{ t('customer_material_portfolio.modal.phase_out.warning', {}) }}
+    </div>
+  </div>
+</div>

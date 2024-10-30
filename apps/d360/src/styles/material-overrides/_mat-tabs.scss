@@ -1,0 +1,6 @@
+@mixin mat-tabs() {
+  .mdc-tab__content {
+    @apply text-button;
+    @apply leading-4;
+  }
+}

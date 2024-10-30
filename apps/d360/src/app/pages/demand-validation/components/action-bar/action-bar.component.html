@@ -1,0 +1,67 @@
+<div *transloco="let t" class="layout">
+  <div class="part">
+    <app-action-button
+      color="secondary"
+      icon="view_sidebar"
+      (click)="handleToggleMaterialListVisible()"
+      variant="mat-icon-button"
+    ></app-action-button>
+    <div class="action-divider"></div>
+    <app-action-buttons-demand-validation
+      [planningView]="planningView"
+    ></app-action-buttons-demand-validation>
+    <div class="action-divider"></div>
+    <span class="vk-org-display">
+      {{ t('validation_of_demand.vkorg', {}) }}<br />
+      {{ currentCustomer?.salesOrg ?? '' }}
+    </span>
+
+    <app-single-autocomplete-pre-loaded
+      [control]="customerControl"
+      [form]="formGroup"
+      [optionsLoadingResult]="customerSelectableValues"
+      [label]="t('validation_of_demand.customer', {})"
+      class="w-72"
+      [displayFn]="displayFn"
+      (selectionChange)="handleCustomerChange($event)"
+    ></app-single-autocomplete-pre-loaded>
+
+    <app-filter-demand-validation></app-filter-demand-validation>
+  </div>
+  <div class="part">
+    <app-action-button
+      color="secondary"
+      icon="date_range"
+      (click)="handleDateRangeClick()"
+      variant="mat-icon-button"
+    ></app-action-button>
+    <app-action-button
+      color="secondary"
+      icon="settings"
+      (click)="handleDemandValidationSettingsClick()"
+      variant="mat-icon-button"
+    ></app-action-button>
+    <div class="action-divider"></div>
+    <app-action-button
+      color="secondary"
+      icon="close"
+      (click)="handleOnDeleteUnsavedForecast()"
+      variant="mat-fab"
+      [disabled]="isDisabledForecastEditing"
+    ></app-action-button>
+    <app-action-button
+      color="secondary"
+      icon="check"
+      (click)="handleOnSaveForecast(true)"
+      variant="mat-fab"
+      [disabled]="isDisabledForecastEditing"
+    ></app-action-button>
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="handleOnSaveForecast(false)"
+    >
+      {{ t('button.save', {}) }}
+    </button>
+  </div>
+</div>

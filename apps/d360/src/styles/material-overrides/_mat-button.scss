@@ -1,0 +1,9 @@
+@mixin mat-button() {
+  button {
+    outline: none !important;
+  }
+
+  .mdc-button__label {
+    @apply whitespace-nowrap;
+  }
+}

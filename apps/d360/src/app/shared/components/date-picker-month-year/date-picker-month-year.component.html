@@ -1,0 +1,20 @@
+<mat-form-field [appearance]="appearance" [color]="color">
+  <mat-label>{{ placeholder }}</mat-label>
+  <input
+    [formControl]="dateControl"
+    [matDatepicker]="picker"
+    [min]="firstViewableDate()"
+    [max]="lastViewableDate()"
+    matInput
+  />
+  <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+  <mat-datepicker
+    #picker
+    startView="multi-year"
+    (monthSelected)="onSelectMonth($event, picker)"
+  ></mat-datepicker>
+  <mat-hint>{{ hint }}</mat-hint>
+  @if (dateControl.hasError('matDatepickerParse')) {
+    <mat-error>{{ errorMessage }}</mat-error>
+  }
+</mat-form-field>

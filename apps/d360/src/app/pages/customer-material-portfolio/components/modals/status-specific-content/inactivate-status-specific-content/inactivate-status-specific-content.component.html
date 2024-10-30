@@ -1,0 +1,19 @@
+<div *transloco="let t">
+  <h3 class="headline-second-part">
+    {{ t('customer_material_portfolio.inactive_modal.headline', {}) }}
+  </h3>
+  <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+    <div>
+      <app-date-picker
+        [dateControl]="inactivateDateControl"
+        [label]="t('customer_material_portfolio.inactive_modal.date_label', {})"
+      ></app-date-picker>
+    </div>
+  </div>
+  <div class="grid grid-cols-1">
+    <div>
+      <mat-icon fontIcon="warning" color="warning" [inline]="true"></mat-icon>
+      {{ t('customer_material_portfolio.inactive_modal.deletion_warning', {}) }}
+    </div>
+  </div>
+</div>

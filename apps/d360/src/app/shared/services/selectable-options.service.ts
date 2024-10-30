@@ -1,0 +1,201 @@
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+
+import {
+  BehaviorSubject,
+  finalize,
+  forkJoin,
+  map,
+  Observable,
+  take,
+} from 'rxjs';
+
+import { TranslocoService } from '@jsverse/transloco';
+
+import { environment } from '../../../environments/environment';
+import { SelectableValue } from '../components/inputs/autocomplete/selectable-values.utils';
+
+/**
+ * The OptionsLoadingResult Interface
+ *
+ * @export
+ * @interface OptionsLoadingResult
+ */
+export interface OptionsLoadingResult {
+  options: SelectableValue[];
+  loading?: boolean;
+  loadingError?: string | null;
+}
+
+/**
+ * An internal Interface used for the Map
+ *
+ * @interface OptionsTypes
+ */
+interface OptionsTypes {
+  alertTypesForRuleEditor: OptionsLoadingResult;
+  alertTypes: OptionsLoadingResult;
+  region: OptionsLoadingResult;
+  demandPlanners: OptionsLoadingResult;
+  sector: OptionsLoadingResult;
+  productionPlant: OptionsLoadingResult;
+  sectorMgmt: OptionsLoadingResult;
+  salesArea: OptionsLoadingResult;
+  salesOrg: OptionsLoadingResult;
+  gkam: OptionsLoadingResult;
+  productLine: OptionsLoadingResult;
+  stochoasticType: OptionsLoadingResult;
+}
+
+/**
+ * The SelectableOptionsService to preload all needed options
+ *
+ * @export
+ * @class SelectableOptionsService
+ */
+@Injectable({ providedIn: 'root' })
+export class SelectableOptionsService {
+  /**
+   * The current loading state indicator.
+   *
+   * @memberof SelectableOptionsService
+   */
+  public loading$ = new BehaviorSubject<boolean>(true);
+
+  /**
+   * This map holds all the preloaded options.
+   *
+   * @private
+   * @type {Map<keyof OptionsTypes, OptionsLoadingResult>}
+   * @memberof SelectableOptionsService
+   */
+  private readonly _data: Map<keyof OptionsTypes, OptionsLoadingResult> =
+    new Map();
+
+  /**
+   * The HttpClient instance.
+   *
+   * @private
+   * @memberof SelectableOptionsService
+   */
+  private readonly http = inject(HttpClient);
+
+  /**
+   * The TranslocoService instance
+   *
+   * @private
+   * @memberof SelectableOptionsService
+   */
+  private readonly translocoService = inject(TranslocoService);
+
+  /**
+   * Creates an instance of SelectableOptionsService.
+   *
+   * @memberof SelectableOptionsService
+   */
+  public constructor() {
+    this.preload();
+  }
+
+  /**
+   * Returns the already preloaded options to a given key.
+   *
+   * @param {keyof OptionsTypes} key
+   * @return {OptionsLoadingResult}
+   * @memberof SelectableOptionsService
+   */
+  public get(key: keyof OptionsTypes): OptionsLoadingResult {
+    return this._data.has(key) ? this._data.get(key) : { options: [] };
+  }
+
+  /**
+   * A method to load options from outside
+   *
+   * @param {string} urlBegin
+   * @param {string} searchTerm
+   * @param {boolean} [withLang=false]
+   * @return
+   * @memberof SelectableOptionsService
+   */
+  public getOptionsBySearchTerm(
+    urlBegin: string,
+    searchTerm: string,
+    withLang = false
+  ) {
+    const language: string | null = `&lang=${
+      withLang ? this.translocoService.getActiveLang() : null
+    }`;
+
+    return this.http.get<SelectableValue[]>(
+      `/api/${urlBegin}?search=${searchTerm}${language}`
+    );
+  }
+
+  /**
+   * This method build the call.
+   *
+   * @private
+   * @param {string} path
+   * @param {SelectableValue[]} [currentSelection]
+   * @return {Observable<OptionsLoadingResult>}
+   * @memberof SelectableOptionsService
+   */
+  private call(
+    path: string,
+    currentSelection?: SelectableValue[]
+  ): Observable<OptionsLoadingResult> {
+    return this.http
+      .get<SelectableValue[]>(`${environment.apiUrl}global-selection/${path}`)
+      .pipe(
+        map((data: SelectableValue[]) => {
+          const options = data ?? [];
+
+          if (currentSelection) {
+            currentSelection.forEach((selectedOption) => {
+              if (!options.some((v) => v.id === selectedOption.id)) {
+                options.push(selectedOption);
+              }
+            });
+          }
+
+          return { options, loading: false, loadingError: null };
+        })
+      );
+  }
+
+  /**
+   * This method loads all data.
+   *
+   * @private
+   * @memberof SelectableOptionsService
+   */
+  private preload() {
+    const language: string = this.translocoService.getActiveLang();
+
+    forkJoin({
+      alertTypesForRuleEditor: this.call(
+        `alert-types?language=${language}&isRuleEditor=true`
+      ),
+      alertTypes: this.call(`alert-types-open?language=${language}`),
+      region: this.call(`regions`),
+      demandPlanners: this.call(`demand-planners`),
+      sector: this.call(`sectors?language=${language}`),
+      productionPlant: this.call(`product-plants`),
+      sectorMgmt: this.call(`sector-mgmt`),
+      salesArea: this.call(`sales-areas`),
+      salesOrg: this.call(`sales-organisations?language=${language}`),
+      gkam: this.call(`key-accounts`),
+      productLine: this.call(`product-line`),
+      stochoasticType: this.call(`stochastic-types?language=${language}`),
+    })
+      .pipe(
+        take(1),
+        finalize(() => this.loading$.next(false))
+      )
+      .subscribe((data) => {
+        Object.keys(data).forEach((key) =>
+          this._data.set(key as any, (data as any)[key])
+        );
+      });
+  }
+}

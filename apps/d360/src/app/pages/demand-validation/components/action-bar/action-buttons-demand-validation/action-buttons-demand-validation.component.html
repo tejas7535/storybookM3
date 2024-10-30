@@ -1,0 +1,29 @@
+<div class="buttons">
+  <app-action-button
+    variant="mat-fab"
+    color="secondary"
+    icon="download"
+    (click)="handleDownloadButtonClicked()"
+  >
+  </app-action-button>
+  <app-action-button
+    [disabled]="!authorizedToChange || disableUpload"
+    variant="mat-fab"
+    color="primary"
+    icon="menu"
+    (click)="handleListModalClicked()"
+  ></app-action-button>
+  <app-action-button
+    [disabled]="!authorizedToChange || disableUpload"
+    variant="mat-fab"
+    color="primary"
+    icon="grid_view"
+    (click)="handleGridModalClicked()"
+  ></app-action-button>
+  <app-action-button
+    variant="mat-fab"
+    color="secondary"
+    icon="delete"
+    (click)="handleDeleteModalClicked()"
+  ></app-action-button>
+</div>
