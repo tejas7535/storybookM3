@@ -1,4 +1,11 @@
 # Release Notes of Grease App
+## [1.14.6](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.14.5...ga-v1.14.6) (2024-10-30)
+
+
+### Bug Fixes
+
+* **ga:** fix google module not available on iOS ([#6670](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6670)) ([81f55c4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/81f55c4ebd01e991edce53107312342bde30632b))
+
 ## [1.14.5](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.14.4...ga-v1.14.5) (2024-10-29)
 
 
