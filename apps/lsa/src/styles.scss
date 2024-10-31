@@ -38,6 +38,18 @@ lubricator-selection-assistant {
 @import './preflight';
 
 lubricator-selection-assistant {
+  @layer resets {
+    * {
+      font-family:
+        Noto Sans,
+        sans-serif !important;
+    }
+
+    .material-icons {
+      font-family: 'Material Icons' !important;
+    }
+  }
+
   .mat-mdc-mini-fab .mat-mdc-button-ripple {
     @apply hidden;
   }
