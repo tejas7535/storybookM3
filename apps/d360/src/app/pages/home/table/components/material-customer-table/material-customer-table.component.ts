@@ -36,6 +36,7 @@ import {
   HomeTableToolbarComponent,
   LayoutId,
 } from '../home-table-toolbar/home-table-toolbar.component';
+import { TextTooltipComponent } from '../text-tooltip/text-tooltip.component';
 
 @Component({
   selector: 'app-material-customer-table',
@@ -155,8 +156,8 @@ export class MaterialCustomerTableComponent implements OnInit {
           {}
         ),
         sortable: this.criteriaData?.sortableFields.includes(colId),
-        // tooltipComponent: CustomTooltipFeature,
         tooltipField: colId,
+        tooltipComponent: TextTooltipComponent,
         filter: getColFilter(colId, filter, this.criteriaData),
         cellRenderer,
         valueGetter,

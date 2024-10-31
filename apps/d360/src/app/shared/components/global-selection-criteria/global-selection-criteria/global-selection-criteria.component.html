@@ -270,17 +270,12 @@
             class="col-span-4 flex justify-end gap-5 global-selection-field-container"
           >
             <!-- reset filters -->
-            <button class="w-auto" mat-raised-button (click)="resetFilters()">
+            <button class="w-auto" mat-button (click)="resetFilters()">
               {{ t('button.reset') }}
             </button>
 
             <!-- save filters -->
-            <button
-              class="w-auto"
-              color="primary"
-              mat-raised-button
-              (click)="saveFilters()"
-            >
+            <button class="w-auto" mat-flat-button (click)="saveFilters()">
               {{ t('button.load') }}
             </button>
           </div>

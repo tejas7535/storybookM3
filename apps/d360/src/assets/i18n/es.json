@@ -550,7 +550,7 @@
       }
     }
   },
-  "demand_characterictics": {
+  "demand_characteristics": {
     "SE": "Serie",
     "SP": "Esporádico"
   },
@@ -839,7 +839,8 @@
       "successorProductLineText": "Designación de la línea de productos (cliente sucesor)",
       "deliveryQuantity18Months": "Entrega (STK, 18M)",
       "orderQuantity": "Cartera de pedidos (STK, ∞)",
-      "tlMessageType": "Estado de Sustitución"
+      "tlMessageType": "Estado de Sustitución",
+      "materialNumberS4": "Material S/4"
     },
     "portfolio_status": {
       "AC": "Activo",

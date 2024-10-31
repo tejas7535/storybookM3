@@ -550,7 +550,7 @@
       }
     }
   },
-  "demand_characterictics": {
+  "demand_characteristics": {
     "SE": "Série",
     "SP": "Sporadiquement"
   },
@@ -839,7 +839,8 @@
       "successorProductLineText": "Désignation de la ligne de produits (successeur du client)",
       "deliveryQuantity18Months": "Livraison (STK, 18M)",
       "orderQuantity": "Carnet de commandes (STK, ∞)",
-      "tlMessageType": "Statut de Substitution"
+      "tlMessageType": "Statut de Substitution",
+      "materialNumberS4": "Article S/4"
     },
     "portfolio_status": {
       "AC": "Actif",

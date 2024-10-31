@@ -3,7 +3,7 @@
   *transloco="let t"
 >
   <div class="flex items-center">
-    <button mat-flat-button (click)="onToggleFilter()">
+    <button mat-button (click)="onToggleFilter()">
       <mat-icon>filter_list</mat-icon>
       Filter
     </button>
@@ -29,12 +29,8 @@
   </div>
 
   <div class="flex items-center">
-    <button
-      mat-flat-button
-      [disabled]="isExportDisabled()"
-      (click)="openExport()"
-    >
-      <mat-icon>start</mat-icon>
+    <button mat-button [disabled]="isExportDisabled()" (click)="openExport()">
+      <mat-icon>swap_vert</mat-icon>
       {{ t('button.export') }}
     </button>
 

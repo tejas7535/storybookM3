@@ -102,6 +102,7 @@ export class HomeTableToolbarComponent {
           this.globalSelection()
         ),
       },
+      disableClose: true,
     });
   }
 }

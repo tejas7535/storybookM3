@@ -6,15 +6,17 @@ import {
   ValueGetterFunc,
 } from 'ag-grid-community';
 
-import {
-  PortfolioStatus,
-  portfolioStatusValues,
-} from '../../../feature/customer-material-portfolio/cmp-modal-types';
+import { portfolioStatusValues } from '../../../feature/customer-material-portfolio/cmp-modal-types';
 import {
   AbcxClassification,
   abcxClassifications,
+  demandCharacteristics,
   materialClassifications,
 } from '../../../feature/material-customer/model';
+import {
+  demandCharacteristicValueFormatter,
+  portfolioStatusValueFormatter,
+} from '../../../shared/ag-grid/grid-value-formatter';
 import { AgGridLocalizationService } from '../../../shared/services/ag-grid-localization.service';
 
 type CustomerMaterialColumnDefinitionExt<COL_ID extends string> =
@@ -63,7 +65,7 @@ function translateAbcxClassificationValue(value?: string) {
   );
 }
 
-function translateForecastMaintaindValue(value?: boolean) {
+function translateForecastMaintainedValue(value?: boolean) {
   return value
     ? translate(`field.forecastMaintained.value.true`, {})
     : translate(`field.forecastMaintained.value.false`, {});
@@ -129,9 +131,13 @@ export function columnDefinitions(
     }),
     colDef({
       colId: 'demandCharacteristic',
-      // cellRenderer: DemandCharacteristicCellRenderer,
+      valueFormatter: demandCharacteristicValueFormatter(),
       visible: true,
       alwaysVisible: true,
+      filterParams: {
+        values: demandCharacteristics,
+        valueFormatter: demandCharacteristicValueFormatter(),
+      },
     }),
     colDef({
       colId: 'currentRLTSchaeffler',
@@ -151,16 +157,11 @@ export function columnDefinitions(
       colId: 'portfolioStatus',
       visible: true,
       alwaysVisible: true,
-      // cellRenderer: 'portfolioStatusCellRenderer',
+      valueFormatter: portfolioStatusValueFormatter(),
       filter: 'agSetColumnFilter',
       filterParams: {
         values: portfolioStatusValues,
-        valueFormatter: (params: any): string =>
-          translate(
-            `material_customer.portfolio_status.${params.value as PortfolioStatus}`,
-            {},
-            ''
-          ),
+        valueFormatter: portfolioStatusValueFormatter(),
       },
     }),
     colDef({ colId: 'stochasticType', visible: true, alwaysVisible: false }),
@@ -228,12 +229,12 @@ export function columnDefinitions(
       visible: true,
       alwaysVisible: false,
       valueGetter: (params: any) =>
-        translateForecastMaintaindValue(params.data.forecastMaintained),
+        translateForecastMaintainedValue(params.data.forecastMaintained),
       filter: 'agSetColumnFilter',
       filterParams: {
         values: [true, false] as const,
         valueFormatter: (params: any) =>
-          translateForecastMaintaindValue(params.value),
+          translateForecastMaintainedValue(params.value),
       },
     }),
     colDef({

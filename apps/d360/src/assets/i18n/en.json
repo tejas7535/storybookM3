@@ -559,7 +559,7 @@
       }
     }
   },
-  "demand_characterictics": {
+  "demand_characteristics": {
     "SE": "Series",
     "SP": "Sporadic"
   },
@@ -848,7 +848,8 @@
       "successorProductLineText": "Product line designation (successor customer)",
       "deliveryQuantity18Months": "Delivery (STK, 18M)",
       "orderQuantity": "Order book (STK, ∞)",
-      "tlMessageType": "Substitution Status"
+      "tlMessageType": "Substitution Status",
+      "materialNumberS4": "Material S/4"
     },
     "portfolio_status": {
       "AC": "Active",

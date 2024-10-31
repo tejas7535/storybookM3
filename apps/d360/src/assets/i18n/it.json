@@ -550,7 +550,7 @@
       }
     }
   },
-  "demand_characterictics": {
+  "demand_characteristics": {
     "SE": "Serie",
     "SP": "Sporadico"
   },
@@ -839,7 +839,8 @@
       "successorProductLineText": "Designazione della linea di prodotto (cliente successivo)",
       "deliveryQuantity18Months": "Consegna (STK, 18M)",
       "orderQuantity": "Portafoglio ordini (STK, ∞)",
-      "tlMessageType": "Stato di Sostituzione"
+      "tlMessageType": "Stato di Sostituzione",
+      "materialNumberS4": "Materiale S/4"
     },
     "portfolio_status": {
       "AC": "Attivo",

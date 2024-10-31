@@ -550,7 +550,7 @@
       }
     }
   },
-  "demand_characterictics": {
+  "demand_characteristics": {
     "SE": "系列",
     "SP": "零星"
   },
@@ -839,7 +839,8 @@
       "successorProductLineText": "产品线名称（后续客户）",
       "deliveryQuantity18Months": "交货（STK，18M）",
       "orderQuantity": "积压订单 (STK, ∞)",
-      "tlMessageType": "更换情况"
+      "tlMessageType": "更换情况",
+      "materialNumberS4": "物料 S/4"
     },
     "portfolio_status": {
       "AC": "零星",
