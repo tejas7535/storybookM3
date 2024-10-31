@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -28,8 +29,13 @@ import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reduce
 import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
 import { SimulationService } from '@gq/process-case-view/quotation-details-table/services/simulation/simulation.service';
 import { PercentColumns } from '@gq/shared/ag-grid/constants/column-fields.enum';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
-import { parseLocalizedInputValue } from '@gq/shared/utils/misc.utils';
+import {
+  getNextHigherPossibleMultiple,
+  getNextLowerPossibleMultiple,
+  parseLocalizedInputValue,
+} from '@gq/shared/utils/misc.utils';
 import { multiplyAndRoundValues } from '@gq/shared/utils/pricing.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
@@ -56,6 +62,10 @@ export abstract class EditingModalComponent
   private readonly changeDetectorRef: ChangeDetectorRef =
     inject(ChangeDetectorRef);
 
+  private readonly featureToggleService: FeatureToggleConfigService = inject(
+    FeatureToggleConfigService
+  );
+
   @Input() modalData: EditingModal;
   @Input() isDialog = true;
   @Input() isDisabled = false;
@@ -65,6 +75,10 @@ export abstract class EditingModalComponent
   @Output() isInvalidOrUnchanged: EventEmitter<boolean> = new EventEmitter();
 
   @ViewChild('editInputField') editInputField: ElementRef;
+
+  readonly isNewCaseCreation = this.featureToggleService.isEnabled(
+    'createManualCaseAsView'
+  );
 
   readonly VALUE_FORM_CONTROL_NAME = 'valueInput';
   readonly IS_RELATIVE_PRICE_CONTROL_NAME = 'isRelativePriceChangeRadioGroup';
@@ -98,6 +112,11 @@ export abstract class EditingModalComponent
 
   protected readonly subscription: Subscription = new Subscription();
 
+  /**
+   * when true will display a hint under formControl based on the field
+   */
+  showFieldHint = false;
+
   ngOnInit(): void {
     this.editingFormGroup
       .get(this.VALUE_FORM_CONTROL_NAME)
@@ -128,6 +147,15 @@ export abstract class EditingModalComponent
 
     this.editInputField?.nativeElement.focus();
     this.changeDetectorRef.detectChanges();
+    if (this.isNewCaseCreation) {
+      const initialValue = this.getInitialValue?.(this.value);
+      if (initialValue) {
+        this.value = initialValue;
+        this.editingFormGroup
+          .get(this.VALUE_FORM_CONTROL_NAME)
+          .setValue(`${initialValue}`);
+      }
+    }
 
     // validate input initially
     this.validateInput(`${this.value}`);
@@ -143,24 +171,38 @@ export abstract class EditingModalComponent
    *
    * @param increment 1 to increment and -1 to decrement
    */
-  changeValueIncrementally(increment: -1 | 1): void {
+  changeValueIncrementally(increment: -1 | 1 | number): void {
     const value = parseLocalizedInputValue(
       this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME).value,
       this.translocoLocaleService.getLocale()
     );
 
     const shouldChange =
-      increment === 1
-        ? this.shouldIncrement(value)
-        : this.shouldDecrement(value);
+      increment > 0 ? this.shouldIncrement(value) : this.shouldDecrement(value);
 
     if (shouldChange) {
+      // next Value by multiple
+      let nextHigher = getNextHigherPossibleMultiple(value, this.incrementStep);
+      let nextLower = getNextLowerPossibleMultiple(value, this.incrementStep);
+
+      nextHigher =
+        nextHigher === value
+          ? getNextHigherPossibleMultiple(nextHigher + 1, this.incrementStep)
+          : nextHigher;
+      nextLower =
+        nextLower === value
+          ? getNextLowerPossibleMultiple(nextLower - 1, this.incrementStep)
+          : nextLower;
+      const newValue = increment > 0 ? nextHigher : nextLower;
+
       this.editingFormGroup
         .get(this.VALUE_FORM_CONTROL_NAME)
         .setValue(
           this.transformationService
             .transformNumber(
-              (value || this.value || 0) + increment,
+              this.incrementStep && this.decrementStep
+                ? newValue
+                : (value || this.value || 0) + increment,
               !Number.isInteger(value)
             )
             .toString()
@@ -367,12 +409,39 @@ export abstract class EditingModalComponent
   protected abstract validateInput(value: string): boolean;
 
   /**
+   * will override the current value from modalData and set to the formControl
+   * @param value The current value
+   */
+  abstract getInitialValue?(value: number): number;
+  /**
+   * parameter 1 for more specified error message
+   */
+  errorMsgParams1?: string;
+  /**
+   * parameter 2 for more specified error message
+   */
+  errorMsgParams2?: string;
+
+  /**
+   * parameter 1 for more specified hint message
+   */
+  hintMsgParams1?: string;
+  /**
+   * parameter 2 for more specified hint message
+   */
+  hintMsgParams2?: string;
+
+  /**
    * Check if the value should be incremented.
    *
    * @param value The current value. In some cases, incrementing is always possible and the current value does not need to be checked.
    * @returns true, if the value should be incremented, otherwise false.
    */
   protected abstract shouldIncrement(value?: number): boolean;
+  /**
+   * Increment step value
+   */
+  incrementStep?: number;
 
   /**
    * Check if the value should be decremented.
@@ -381,6 +450,10 @@ export abstract class EditingModalComponent
    * @returns true, if the value should be decremented, otherwise false.
    */
   protected abstract shouldDecrement(value: number): boolean;
+  /**
+   * Decrement step value
+   */
+  decrementStep?: number;
 
   /**
    * If true, "Relative" is disabled and it is not possible to select this price change type in the radio buttons group.

@@ -238,15 +238,30 @@ describe('Create Case Selector', () => {
       ).toBeTruthy();
     });
   });
+
   describe('getSelectedAutocompleteMaterialNumber', () => {
-    test('should return the selected AutoComplete CaseFilterItem of MaterialNumber', () => {
+    test('shall return the selected MaterialNumber', () => {
+      fakeState.case.requestingDialog = AutocompleteRequestDialog.ADD_ENTRY;
       expect(
-        createSelectors.getSelectedAutocompleteMaterialNumber.projector(
-          fakeState.case
-        )
+        createSelectors
+          .getSelectedAutocompleteMaterialNumber([
+            AutocompleteRequestDialog.ADD_ENTRY,
+          ])
+          .projector(fakeState.case)
       ).toEqual(new IdValue('2', '2', true));
     });
+    test('should return undefined when requestingDialog has no Autocompletes', () => {
+      fakeState.case.requestingDialog = AutocompleteRequestDialog.EDIT_MATERIAL;
+      expect(
+        createSelectors
+          .getSelectedAutocompleteMaterialNumber([
+            AutocompleteRequestDialog.ADD_ENTRY,
+          ])
+          .projector(fakeState.case)
+      ).toBe(undefined);
+    });
   });
+
   describe('getCreateCaseData', () => {
     test('should return data to create a case', () => {
       expect(

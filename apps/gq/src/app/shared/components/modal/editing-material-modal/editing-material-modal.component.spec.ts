@@ -3,6 +3,10 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 
+import { of } from 'rxjs';
+
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { LOCALE_DE } from '@gq/shared/constants';
 import { SAP_ERROR_MESSAGE_CODE } from '@gq/shared/models/quotation-detail';
@@ -43,6 +47,10 @@ describe('EditingMaterialModalComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
+      MockProvider(ActiveCaseFacade, {
+        quotationCustomer$: of({}),
+      } as unknown as ActiveCaseFacade),
+      MockProvider(CreateCaseFacade),
       MockProvider(TransformationService, {
         transformNumber: jest
           .fn()
@@ -87,9 +95,9 @@ describe('EditingMaterialModalComponent', () => {
     let materialDescriptionAutocomplete: AutocompleteInputComponent;
 
     beforeEach(() => {
-      jest.restoreAllMocks();
       editFormControlQuantity = {
         setValue: jest.fn(),
+        hasError: jest.fn(),
       } as any;
 
       editFormControlTargetPrice = {
@@ -111,7 +119,9 @@ describe('EditingMaterialModalComponent', () => {
       component.matNumberInput = materialNumberAutocomplete;
     });
     test('should set form values', () => {
+      component['cdref'].detectChanges = jest.fn();
       component.editFormGroup.get = jest.fn();
+      component.editFormGroup.hasError = jest.fn().mockReturnValue(false);
       const formGroupGetMock = (component.editFormGroup.get = jest.fn());
       when(formGroupGetMock)
         .calledWith(MaterialColumnFields.QUANTITY)
@@ -121,6 +131,7 @@ describe('EditingMaterialModalComponent', () => {
         .mockReturnValue(editFormControlTargetPrice);
 
       component.ngAfterViewInit();
+      expect(formGroupGetMock).toHaveBeenCalledTimes(2);
 
       expect(formGroupGetMock(MaterialColumnFields.QUANTITY)).toBe(
         editFormControlQuantity
@@ -408,13 +419,15 @@ describe('EditingMaterialModalComponent', () => {
 
   describe('closeDialog', () => {
     test('should close dialog', () => {
-      component.autoCompleteFacade.resetView = jest.fn();
+      component['autoCompleteFacade'].resetView = jest.fn();
 
       component['dialogRef'].close = jest.fn();
 
       component.closeDialog();
 
-      expect(component.autoCompleteFacade.resetView).toHaveBeenCalledTimes(1);
+      expect(component['autoCompleteFacade'].resetView).toHaveBeenCalledTimes(
+        1
+      );
       expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
     });
   });
@@ -430,6 +443,7 @@ describe('EditingMaterialModalComponent', () => {
           },
         },
         field: MaterialColumnFields.MATERIAL,
+        isCaseView: false,
       };
       component['dialogRef'].close = jest.fn();
       component.matDescInput = {
@@ -474,15 +488,34 @@ describe('EditingMaterialModalComponent', () => {
 
   describe('ngOnInit', () => {
     test('should init component', () => {
-      component.autoCompleteFacade.resetView = jest.fn();
-      component.autoCompleteFacade.initFacade = jest.fn();
+      component['autoCompleteFacade'].resetView = jest.fn();
+      component['autoCompleteFacade'].initFacade = jest.fn();
 
       component.ngOnInit();
 
-      expect(component.autoCompleteFacade.resetView).toHaveBeenCalledTimes(1);
-      expect(component.autoCompleteFacade.initFacade).toHaveBeenCalledWith(
+      expect(component['autoCompleteFacade'].resetView).toHaveBeenCalledTimes(
+        1
+      );
+      expect(component['autoCompleteFacade'].initFacade).toHaveBeenCalledWith(
         AutocompleteRequestDialog.EDIT_MATERIAL
       );
+    });
+
+    test('should set quantityValidator to FormControl', () => {
+      component.isQuantityValidation = true;
+      component.ngOnInit();
+      expect(
+        component.editFormGroup.get(MaterialColumnFields.QUANTITY)
+          .asyncValidator
+      ).toBeTruthy();
+    });
+    test('should NOT set quantityValidator to FormControl', () => {
+      component.isQuantityValidation = false;
+      component.ngOnInit();
+      expect(
+        component.editFormGroup.get(MaterialColumnFields.QUANTITY)
+          .asyncValidator
+      ).toBeFalsy();
     });
   });
 
@@ -490,6 +523,32 @@ describe('EditingMaterialModalComponent', () => {
     test('should init', () => {
       component.ngAfterViewInit();
       expect(true).toBeTruthy();
+    });
+  });
+
+  describe('autoComplete Methods', () => {
+    test('should call autocompleteFacade.autocomplete', () => {
+      component['autoCompleteFacade'].autocomplete = jest.fn();
+      component.autocomplete(expect.anything(), expect.anything());
+      expect(component['autoCompleteFacade'].autocomplete).toHaveBeenCalled();
+    });
+    test('should call autocompleteFacade.autocompleteSelectMaterialNumberOrDescription', () => {
+      component['autoCompleteFacade'].selectMaterialNumberOrDescription =
+        jest.fn();
+      component.autocompleteSelectMaterialNumberOrDescription(
+        expect.anything(),
+        expect.anything()
+      );
+      expect(
+        component['autoCompleteFacade'].selectMaterialNumberOrDescription
+      ).toHaveBeenCalled();
+    });
+    test('should call autocompleteFacade.unselectOptions', () => {
+      component['autoCompleteFacade'].unselectOptions = jest.fn();
+      component.autocompleteUnselectOptions(expect.anything());
+      expect(
+        component['autoCompleteFacade'].unselectOptions
+      ).toHaveBeenCalled();
     });
   });
 });

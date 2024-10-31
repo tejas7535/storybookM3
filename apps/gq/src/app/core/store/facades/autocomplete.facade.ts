@@ -41,7 +41,19 @@ export class AutoCompleteFacade {
     inject(FeatureToggleConfigService);
 
   public getSelectedAutocompleteMaterialNumber$: Observable<IdValue> =
-    this.store.select(getSelectedAutocompleteMaterialNumber);
+    this.store.select(
+      getSelectedAutocompleteMaterialNumber([
+        AutocompleteRequestDialog.ADD_ENTRY,
+        AutocompleteRequestDialog.CREATE_CASE,
+      ])
+    );
+
+  public getSelectedAutocompleteMaterialNumberForEditMaterial$: Observable<IdValue> =
+    this.store.select(
+      getSelectedAutocompleteMaterialNumber([
+        AutocompleteRequestDialog.EDIT_MATERIAL,
+      ])
+    );
 
   public materialDescForAddEntry$: Observable<CaseFilterItem> =
     this.store.select(getCaseMaterialDesc(AutocompleteRequestDialog.ADD_ENTRY));

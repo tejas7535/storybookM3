@@ -296,3 +296,41 @@ export const mapIdValueToMaterialAutoComplete = (
     }
   }
 };
+
+/**
+ * get the next higher possible multiple of a base value and a multiple
+ *
+ * @param value the base value to check whether it is a multiple of the multiple
+ * @param multiple the multiple to check
+ * @returns return the next possible multiple, of base value and multiple
+ */
+export const getNextHigherPossibleMultiple = (
+  value: number,
+  multiple: number
+): number => {
+  const nextMultiple = value && value > multiple ? value : multiple;
+
+  if (nextMultiple && multiple) {
+    return Math.ceil(nextMultiple / multiple) * multiple;
+  }
+
+  return value;
+};
+
+/**
+ * get the next lower possible multiple of a base value and a multiple
+ *
+ * @param value the base value to check whether it is a multiple of the multiple
+ * @param multiple the multiple to check
+ * @returns return the next lower possible multiple, of base value and multiple
+ */
+export const getNextLowerPossibleMultiple = (
+  value: number,
+  multiple: number
+): number => {
+  if (value && multiple) {
+    return Math.floor(value / multiple) * multiple;
+  }
+
+  return value;
+};

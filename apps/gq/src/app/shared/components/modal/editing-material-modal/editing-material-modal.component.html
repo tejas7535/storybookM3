@@ -5,12 +5,16 @@
   <gq-dialog-header [title]="t('title')" (closeDialog)="closeDialog()">
   </gq-dialog-header>
   <form [formGroup]="editFormGroup" class="mt-6 flex h-full flex-col">
-    <div class="flex flex-col">
+    <div
+      class="flex flex-col"
+      *ngrxLet="
+        isCaseView
+          ? customerIdentifierForCaseCreation$
+          : customerIdentifierForActiveCase$ as customerIdentifier
+      "
+    >
       <div class="flex flex-row gap-6">
-        @if (
-          autoCompleteFacade.materialDescForEditMaterial$ | ngrxPush;
-          as materialDesc
-        ) {
+        @if (materialDescForEditMaterial$ | ngrxPush; as materialDesc) {
           <div class="flex-1">
             <gq-autocomplete-input
               #materialDescInput
@@ -18,16 +22,14 @@
               [fitContent]="true"
               [options]="materialDesc.options"
               [autocompleteLoading]="
-                autoCompleteFacade.materialDescAutocompleteLoading$ | ngrxPush
+                materialDescAutocompleteLoading$ | ngrxPush
               "
-              (autocomplete)="autoCompleteFacade.autocomplete($event)"
+              (autocomplete)="autocomplete($event, customerIdentifier)"
               (inputContent)="materialHasInput($event)"
               (isValid)="materialInputValid($event)"
-              (unselected)="
-                autoCompleteFacade.unselectOptions(materialDesc.filter)
-              "
+              (unselected)="autocompleteUnselectOptions(materialDesc.filter)"
               (added)="
-                autoCompleteFacade.selectMaterialNumberOrDescription(
+                autocompleteSelectMaterialNumberOrDescription(
                   $event,
                   materialDesc.filter
                 )
@@ -35,10 +37,7 @@
             ></gq-autocomplete-input>
           </div>
         }
-        @if (
-          autoCompleteFacade.materialNumberForEditMaterial$ | ngrxPush;
-          as materialNumber
-        ) {
+        @if (materialNumberForEditMaterial$ | ngrxPush; as materialNumber) {
           <div class="flex-1">
             <gq-autocomplete-input
               #materialNumberInput
@@ -46,16 +45,14 @@
               [fitContent]="true"
               [options]="materialNumber.options"
               [autocompleteLoading]="
-                autoCompleteFacade.materialNumberAutocompleteLoading$ | ngrxPush
+                materialNumberAutocompleteLoading$ | ngrxPush
               "
               (isValid)="materialInputValid($event)"
-              (autocomplete)="autoCompleteFacade.autocomplete($event)"
+              (autocomplete)="autocomplete($event, customerIdentifier)"
               (inputContent)="materialHasInput($event)"
-              (unselected)="
-                autoCompleteFacade.unselectOptions(materialNumber.filter)
-              "
+              (unselected)="autocompleteUnselectOptions(materialNumber.filter)"
               (added)="
-                autoCompleteFacade.selectMaterialNumberOrDescription(
+                autocompleteSelectMaterialNumberOrDescription(
                   $event,
                   materialNumber.filter
                 )
@@ -65,7 +62,12 @@
         }
       </div>
       <div class="mt-4 flex flex-row gap-6">
-        <div class="flex-1">
+        <div
+          class="flex-1"
+          *ngrxLet="
+            selectedMaterialAutocomplete$ | ngrxPush as selectedMaterial
+          "
+        >
           <mat-form-field appearance="outline" class="w-full">
             <mat-label>
               {{ t('quantity.label') }}
@@ -76,12 +78,44 @@
               autocomplete="off"
               matInput
               #valueInput
-              min="1"
+              [min]="
+                (isQuantityValidation && selectedMaterial?.deliveryUnit) || 1
+              "
+              [step]="
+                (isQuantityValidation && selectedMaterial?.deliveryUnit) || 1
+              "
               type="number"
               formControlName="quantity"
               (keydown)="handleQuantityKeyDown($event)"
+              [attr.data-cy]="'edit-material-quantity'"
             />
-            <mat-hint>{{ t('quantity.hint') }}</mat-hint>
+
+            @if (!isQuantityValidation) {
+              <mat-hint>{{ t('quantity.hint') }}</mat-hint>
+            }
+            @if (selectedMaterial?.deliveryUnit && isQuantityValidation) {
+              <mat-hint>{{
+                t('quantity.hint', {
+                  unit: selectedMaterial.deliveryUnit,
+                  uom: selectedMaterial.uom | uom
+                })
+              }}</mat-hint>
+            }
+
+            @if (
+              isQuantityValidation &&
+              (editFormGroup.get('quantity').hasError('invalidDeliveryUnit') ||
+                editFormGroup.get('quantity').hasError('min'))
+            ) {
+              <mat-error>{{
+                selectedMaterial?.deliveryUnit
+                  ? t('quantity.errorDeliveryUnit', {
+                      unit: selectedMaterial.deliveryUnit,
+                      uom: selectedMaterial.uom | uom
+                    })
+                  : t('quantity.error')
+              }}</mat-error>
+            }
             @if (editFormGroup.get('quantity')?.errors?.required) {
               <mat-error>{{ t('quantity.error') }}</mat-error>
             }
@@ -101,6 +135,7 @@
                 #targetPriceInput
                 type="text"
                 formControlName="targetPrice"
+                [attr.data-cy]="'edit-material-targetPrice'"
               />
               <mat-hint>{{ t('targetPrice.hint') }}</mat-hint>
               @if (editFormGroup.get('targetPrice')?.errors?.invalidPrice) {
@@ -120,6 +155,7 @@
       mat-raised-button
       (click)="update()"
       [disabled]="!updateRowEnabled"
+      [attr.data-cy]="'edit-material-update_btn'"
     >
       <span> {{ t('update') | uppercase }} </span>
     </button>
@@ -128,6 +164,7 @@
       color="primary"
       (click)="closeDialog()"
       mat-stroked-button
+      [attr.data-cy]="'edit-material-cancel_btn'"
     >
       <span> {{ t('cancel') | uppercase }} </span>
     </button>

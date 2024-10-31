@@ -1,3 +1,5 @@
+import { FormControl, FormGroup } from '@angular/forms';
+
 import { QuotationDetailsTableValidationService } from '@gq/process-case-view/quotation-details-table/services/validation/quotation-details-table-validation.service';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
@@ -5,7 +7,6 @@ import * as constants from '@gq/shared/constants';
 import { LOCALE_EN } from '@gq/shared/constants';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as miscUtils from '@gq/shared/utils/misc.utils';
-import { translate } from '@jsverse/transloco';
 import {
   createComponentFactory,
   mockProvider,
@@ -17,6 +18,7 @@ import { MockPipe } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../../../testing/mocks';
+import { EditingModalComponent } from '../editing-modal.component';
 import { QuantityEditingModalComponent } from './quantity-editing-modal.component';
 
 jest.mock('../editing-modal.component', () => ({
@@ -59,7 +61,35 @@ describe('QuantityEditingModalComponent', () => {
   test('should create', () => {
     expect(component).toBeTruthy();
   });
+  describe('onInit', () => {
+    test('should call setHintTextParams', () => {
+      EditingModalComponent.prototype.ngOnInit = jest.fn();
+      component['setHintTextParams'] = jest.fn();
+      component.ngOnInit();
+      expect(component['setHintTextParams']).toHaveBeenCalled();
+    });
+    test('should call setIncrementsAndDecrementSteps', () => {
+      EditingModalComponent.prototype.ngOnInit = jest.fn();
+      Object.defineProperty(component, 'isNewCaseCreation', { value: true });
+      component['setIncrementsAndDecrementSteps'] = jest.fn();
+      component.ngOnInit();
+      expect(component['setIncrementsAndDecrementSteps']).toHaveBeenCalled();
+    });
+  });
 
+  describe('getInitialValue', () => {
+    test('should return the value if delivery unit is not set', () => {
+      component.modalData.quotationDetail.deliveryUnit = undefined;
+      const value = 100;
+
+      expect(component.getInitialValue(value)).toBe(value);
+    });
+    test('should return the next higher possible multiple', () => {
+      component.modalData.quotationDetail.deliveryUnit = 50;
+      const value = 101;
+      expect(component.getInitialValue(value)).toBe(150);
+    });
+  });
   test('should not show decimal places in input field placeholder', () => {
     const value = QUOTATION_DETAIL_MOCK.orderQuantity;
     const transformNumberSpy = jest.spyOn(
@@ -100,6 +130,14 @@ describe('QuantityEditingModalComponent', () => {
         QuotationDetailsTableValidationService,
         'isOrderQuantityInvalid'
       );
+
+      component['editingFormGroup'] = new FormGroup<{
+        valueInput: FormControl<string | undefined>;
+        isRelativePriceChangeRadioGroup?: FormControl<boolean>;
+      }>({ valueInput: new FormControl(undefined) });
+      Object.defineProperty(component, 'VALUE_FORM_CONTROL_NAME', {
+        value: 'valueInput',
+      });
     });
 
     test('input should be valid', () => {
@@ -113,19 +151,6 @@ describe('QuantityEditingModalComponent', () => {
       isOrderQuantityInvalidSpy.mockReturnValue(true);
 
       expect(component['validateInput']('0')).toBe(false);
-      expect(component.warningText).toBe('translate it');
-      expect(translate).toHaveBeenCalledWith(
-        'shared.validation.orderQuantityMustBeMultipleOf',
-        { deliveryUnit: QUOTATION_DETAIL_MOCK.deliveryUnit }
-      );
-    });
-
-    test('should remove warning if input is valid', () => {
-      component.warningText = 'test warning text';
-
-      isOrderQuantityInvalidSpy.mockReturnValue(false);
-      expect(component['validateInput']('100')).toBe(true);
-      expect(component.warningText).toBe(undefined);
     });
 
     test('should use quantity regex', () => {
@@ -135,6 +160,17 @@ describe('QuantityEditingModalComponent', () => {
       component['validateInput']('100');
 
       expect(getQuantityRegexSpy).toBeCalledWith(locale);
+    });
+
+    test('should set error when Validation Failed and isNewCaseCreation', () => {
+      isOrderQuantityInvalidSpy.mockReturnValue(true);
+      Object.defineProperty(component, 'isNewCaseCreation', { value: true });
+
+      component['validateInput']('12');
+
+      expect(component['editingFormGroup'].get('valueInput').errors).toEqual({
+        invalidInput: true,
+      });
     });
   });
 
@@ -158,6 +194,67 @@ describe('QuantityEditingModalComponent', () => {
     expect(component['buildUpdateQuotationDetail'](newQuantity)).toEqual({
       orderQuantity: newQuantity,
       gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+    });
+  });
+
+  describe('should set Increments And Decrement Steps', () => {
+    test('should set increment and decrement steps', () => {
+      component.incrementStep = undefined;
+      component.decrementStep = undefined;
+      component.modalData.quotationDetail.deliveryUnit = 5;
+
+      component['setIncrementsAndDecrementSteps']();
+      expect(component.incrementStep).toBe(5);
+      expect(component.decrementStep).toBe(-5);
+    });
+  });
+  describe('setHintTextParams', () => {
+    test('should set increment and decrement steps', () => {
+      component.modalData.quotationDetail.deliveryUnit = 5;
+      component.modalData.quotationDetail.material.baseUoM = 'm';
+      component.showFieldHint = false;
+      component.hintMsgParams1 = undefined;
+      component.hintMsgParams2 = undefined;
+      component['setHintTextParams']();
+      expect(component.showFieldHint).toBe(true);
+      expect(component.hintMsgParams1).toBe('5');
+      expect(component.hintMsgParams2).toBe('m');
+    });
+  });
+
+  describe('getNumberFromStringValue', () => {
+    test('should return the number from a transformed number string for EN', () => {
+      const locale = LOCALE_EN.id;
+      component['translocoLocaleService'] = {
+        getLocale: jest.fn().mockReturnValue(locale),
+      } as any;
+      const value = '123,000';
+
+      component['getNumberFromStringValue'](value);
+
+      expect(component['getNumberFromStringValue'](value)).toBe(123_000);
+    });
+
+    test('should return the number from a transformed number string for DE', () => {
+      const locale = constants.LOCALE_DE.id;
+      component['translocoLocaleService'] = {
+        getLocale: jest.fn().mockReturnValue(locale),
+      } as any;
+      const value = '123.000';
+
+      component['getNumberFromStringValue'](value);
+
+      expect(component['getNumberFromStringValue'](value)).toBe(123_000);
+    });
+
+    test('should return null, when the value did not met the regex', () => {
+      const locale = constants.LOCALE_DE.id;
+      component['translocoLocaleService'] = {
+        getLocale: jest.fn().mockReturnValue(locale),
+      } as any;
+      const value = 'a';
+
+      expect(component['getNumberFromStringValue'](value)).toBeNull();
     });
   });
 });

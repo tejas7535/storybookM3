@@ -66,12 +66,29 @@
             type="text"
             autocomplete="off"
             cdkTextareaAutosize
+            [step]="incrementStep ?? 1"
             matInput
             [attr.data-cy]="modalData.field + '-modal_value-input'"
             #editInputField
           />
-          <mat-hint>{{ t('hints.' + modalData.field) }}</mat-hint>
-          <mat-error>{{ t('errors.invalidInput') }}</mat-error>
+          @if (showFieldHint) {
+            <mat-hint>{{
+              t('hints.fieldHint', {
+                field: modalData.field,
+                param1: hintMsgParams1,
+                param2: hintMsgParams2
+              })
+            }}</mat-hint>
+          } @else {
+            <mat-hint>{{ t('hints.' + modalData.field) }}</mat-hint>
+          }
+          <mat-error>{{
+            t('errors.invalidInput', {
+              field: modalData.field,
+              param1: errorMsgParams1,
+              param2: errorMsgParams2
+            })
+          }}</mat-error>
         </mat-form-field>
         <div class="ml-4 mt-3 flex flex-col gap-2">
           <mat-icon
@@ -81,7 +98,7 @@
                 ? 'pointer-events-none cursor-default'
                 : 'cursor-pointer'
             "
-            (click)="changeValueIncrementally(1)"
+            (click)="changeValueIncrementally(incrementStep ?? 1)"
             >add
           </mat-icon>
           <mat-icon
@@ -91,7 +108,7 @@
                 ? 'pointer-events-none cursor-default'
                 : 'cursor-pointer'
             "
-            (click)="changeValueIncrementally(-1)"
+            (click)="changeValueIncrementally(decrementStep ?? -1)"
             >remove</mat-icon
           >
         </div>

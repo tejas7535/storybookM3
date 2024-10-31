@@ -48,14 +48,42 @@ describe('autocompleteFacade', () => {
           selectedAutocompleteMaterialNumber: { id: '1', value: 'Audi' },
         },
       });
-      mockStore.overrideSelector(getSelectedAutocompleteMaterialNumber, {
-        id: '1',
-        value: 'Audi',
-        selected: false,
-      });
+      mockStore.overrideSelector(
+        getSelectedAutocompleteMaterialNumber([
+          AutocompleteRequestDialog.CREATE_CASE,
+          AutocompleteRequestDialog.ADD_ENTRY,
+        ]),
+        {
+          id: '1',
+          value: 'Audi',
+          selected: false,
+        }
+      );
       service.getSelectedAutocompleteMaterialNumber$.subscribe((result) => {
         expect(result).toEqual({ id: '1', value: 'Audi' });
       });
+    });
+
+    test('getSelectedAutocompleteMaterialNumberForEditMaterial$', () => {
+      mockStore.setState({
+        case: {
+          selectedAutocompleteMaterialNumberForEditMaterial: {
+            id: '1',
+            value: 'Audi',
+          },
+        },
+      });
+      mockStore.overrideSelector(
+        getSelectedAutocompleteMaterialNumber([
+          AutocompleteRequestDialog.EDIT_MATERIAL,
+        ]),
+        { id: '1', value: 'Audi', selected: false }
+      );
+      service.getSelectedAutocompleteMaterialNumberForEditMaterial$.subscribe(
+        (result) => {
+          expect(result).toEqual({ id: '1', value: 'Audi' });
+        }
+      );
     });
     test(
       'shipToCustomerForEditCase$',

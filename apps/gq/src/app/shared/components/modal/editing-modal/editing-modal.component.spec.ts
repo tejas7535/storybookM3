@@ -38,6 +38,9 @@ class TestEditingModalComponent extends EditingModalComponent {
     return undefined;
   }
 
+  getInitialValue(): number {
+    return undefined;
+  }
   protected validateInput(): boolean {
     return undefined;
   }
@@ -221,6 +224,14 @@ describe('TestEditingModalComponent', () => {
       component.ngAfterViewInit();
 
       expect(component['validateInput']).toHaveBeenCalledWith('10');
+    });
+    test('should setInitialValue', () => {
+      Object.defineProperty(component, 'isNewCaseCreation', { value: true });
+      component.getInitialValue = jest.fn().mockReturnValue(10);
+      component.ngAfterViewInit();
+      expect(
+        component.editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value
+      ).toEqual('10');
     });
   });
 
@@ -465,6 +476,22 @@ describe('TestEditingModalComponent', () => {
       );
       expect(transformationService.transformNumber).toHaveBeenCalledTimes(2);
     });
+
+    test('should increment by 50', () => {
+      jest.spyOn(miscUtils, 'parseLocalizedInputValue').mockReturnValue(50);
+      component['shouldIncrement'] = jest.fn().mockReturnValue(true);
+
+      component.changeValueIncrementally(50);
+
+      expect(
+        component.editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value
+      ).toEqual('100');
+      expect(transformationService.transformNumber).toHaveBeenCalledWith(
+        100,
+        false
+      );
+      expect(transformationService.transformNumber).toHaveBeenCalledTimes(2);
+    });
   });
 
   describe('decrement', () => {
@@ -548,6 +575,75 @@ describe('TestEditingModalComponent', () => {
         true
       );
       expect(transformationService.transformNumber).toHaveBeenCalledTimes(2);
+    });
+
+    test('should decrement by 50', () => {
+      jest.spyOn(miscUtils, 'parseLocalizedInputValue').mockReturnValue(100);
+      component['shouldDecrement'] = jest.fn().mockReturnValue(true);
+
+      component.changeValueIncrementally(-50);
+
+      expect(
+        component.editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value
+      ).toEqual('50');
+      expect(transformationService.transformNumber).toHaveBeenCalledWith(
+        50,
+        false
+      );
+      expect(transformationService.transformNumber).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('increment/decrement by Step', () => {
+    test('should increment by 50', () => {
+      jest.spyOn(miscUtils, 'parseLocalizedInputValue').mockReturnValue(12);
+      component['shouldIncrement'] = jest.fn().mockReturnValue(true);
+      component['shouldDecrement'] = jest.fn().mockReturnValue(true);
+      component.incrementStep = 50;
+      component.decrementStep = 50;
+      component.changeValueIncrementally(50);
+
+      expect(
+        component.editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value
+      ).toEqual('50');
+    });
+
+    test('should decrement by 50', () => {
+      jest.spyOn(miscUtils, 'parseLocalizedInputValue').mockReturnValue(112);
+      component['shouldIncrement'] = jest.fn().mockReturnValue(true);
+      component['shouldDecrement'] = jest.fn().mockReturnValue(true);
+      component.incrementStep = 50;
+      component.decrementStep = 50;
+      component.changeValueIncrementally(-50);
+
+      expect(
+        component.editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value
+      ).toEqual('100');
+    });
+
+    test('should increment by 50 when value is already a multiple', () => {
+      jest.spyOn(miscUtils, 'parseLocalizedInputValue').mockReturnValue(50);
+      component['shouldIncrement'] = jest.fn().mockReturnValue(true);
+      component['shouldDecrement'] = jest.fn().mockReturnValue(true);
+      component.incrementStep = 50;
+      component.decrementStep = 50;
+      component.changeValueIncrementally(50);
+
+      expect(
+        component.editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value
+      ).toEqual('100');
+    });
+    test('should decrement by 50 when value is already a multiple', () => {
+      jest.spyOn(miscUtils, 'parseLocalizedInputValue').mockReturnValue(100);
+      component['shouldIncrement'] = jest.fn().mockReturnValue(true);
+      component['shouldDecrement'] = jest.fn().mockReturnValue(true);
+      component.incrementStep = 50;
+      component.decrementStep = 50;
+      component.changeValueIncrementally(-50);
+
+      expect(
+        component.editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value
+      ).toEqual('50');
     });
   });
 

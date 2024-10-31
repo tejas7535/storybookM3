@@ -470,4 +470,18 @@ describe('MiscUtils', () => {
       });
     });
   });
+
+  describe('getNextHigherPossibleMultiple', () => {
+    test('should return the next higher possible multiple', () => {
+      expect(miscUtils.getNextHigherPossibleMultiple(101, 50)).toBe(150);
+      expect(miscUtils.getNextHigherPossibleMultiple(100, 50)).toBe(100);
+    });
+  });
+
+  describe('getNextLowerPossibleMultiple', () => {
+    test('should return the next lower possible multiple', () => {
+      expect(miscUtils.getNextLowerPossibleMultiple(101, 50)).toBe(100);
+      expect(miscUtils.getNextLowerPossibleMultiple(100, 50)).toBe(100);
+    });
+  });
 });

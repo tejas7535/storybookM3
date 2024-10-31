@@ -13,6 +13,7 @@ import { EditingModalComponent } from '../editing-modal.component';
 export class TargetPriceEditingModalComponent extends EditingModalComponent {
   isPriceChangeTypeAvailable = true;
   handleInputFieldKeyDown: undefined;
+  getInitialValue: undefined;
 
   override getValue(): number {
     return 0;

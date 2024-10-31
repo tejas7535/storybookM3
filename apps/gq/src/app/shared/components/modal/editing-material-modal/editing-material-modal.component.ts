@@ -4,7 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Inject,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -21,17 +21,23 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
-import { Subscription } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { Customer, CustomerId } from '@gq/shared/models';
+import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import {
   parseNullableLocalizedInputValue,
   validateQuantityInputKeyPress,
 } from '@gq/shared/utils/misc.utils';
+import { quantityDeliveryUnitValidator } from '@gq/shared/validators/quantity-delivery-unit-validator';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import { PushPipe } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -44,6 +50,7 @@ import { priceValidator } from '../../../validators/price-validator';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
 import { DialogHeaderModule } from '../../header/dialog-header/dialog-header.module';
+import { EditMaterialModalData } from './edit-material-modal-data.model';
 
 const QUANTITY_FORM_CONTROL_NAME = 'quantity';
 const TARGET_PRICE_FORM_CONTROL_NAME = 'targetPrice';
@@ -63,17 +70,59 @@ const TARGET_PRICE_FORM_CONTROL_NAME = 'targetPrice';
     MatButtonModule,
     MatIconModule,
     SharedTranslocoModule,
+    LetDirective,
   ],
 })
 export class EditingMaterialModalComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  public editFormGroup: FormGroup;
-  public fields: MaterialColumnFields;
+  private readonly dialogRef: MatDialogRef<EditingMaterialModalComponent> =
+    inject(MatDialogRef);
+  private readonly cdref: ChangeDetectorRef = inject(ChangeDetectorRef);
+  private readonly translocoLocaleService: TranslocoLocaleService = inject(
+    TranslocoLocaleService
+  );
+  private readonly transformationService: TransformationService = inject(
+    TransformationService
+  );
+  private readonly autoCompleteFacade: AutoCompleteFacade =
+    inject(AutoCompleteFacade);
 
-  private readonly materialToEdit: MaterialTableItem;
-  private readonly fieldToFocus: MaterialColumnFields;
-  private readonly targetPrice: string;
+  modalData: EditMaterialModalData = inject(
+    MAT_DIALOG_DATA
+  ) as EditMaterialModalData;
+
+  private readonly featureToggleConfigService: FeatureToggleConfigService =
+    inject(FeatureToggleConfigService);
+
+  private readonly createCaseFacade = inject(CreateCaseFacade);
+  private readonly activeCaseFacade = inject(ActiveCaseFacade);
+
+  isQuantityValidation = this.featureToggleConfigService.isEnabled(
+    'createManualCaseAsView'
+  );
+  materialDescForEditMaterial$ =
+    this.autoCompleteFacade.materialDescForEditMaterial$;
+  materialDescAutocompleteLoading$ =
+    this.autoCompleteFacade.materialDescAutocompleteLoading$;
+  materialNumberForEditMaterial$ =
+    this.autoCompleteFacade.materialNumberForEditMaterial$;
+  materialNumberAutocompleteLoading$ =
+    this.autoCompleteFacade.materialNumberAutocompleteLoading$;
+  customerIdentifierForCaseCreation$: Observable<CustomerId> =
+    this.createCaseFacade.customerIdentifier$;
+  customerIdentifierForActiveCase$: Observable<CustomerId> =
+    this.activeCaseFacade.quotationCustomer$.pipe(
+      map((customer: Customer) => customer.identifier)
+    );
+
+  editFormGroup: FormGroup;
+  fields: MaterialColumnFields;
+  isCaseView: boolean;
+
+  private materialToEdit: MaterialTableItem;
+  private fieldToFocus: MaterialColumnFields;
+  private targetPrice: string;
 
   @ViewChild('materialNumberInput')
   public matNumberInput: AutocompleteInputComponent;
@@ -90,37 +139,32 @@ export class EditingMaterialModalComponent
   public updateRowEnabled = false;
   private readonly subscription: Subscription = new Subscription();
 
-  constructor(
-    public readonly autoCompleteFacade: AutoCompleteFacade,
-    @Inject(MAT_DIALOG_DATA)
-    public modalData: {
-      material: MaterialTableItem;
-      field: MaterialColumnFields;
-    },
-    private readonly dialogRef: MatDialogRef<EditingMaterialModalComponent>,
-    private readonly cdref: ChangeDetectorRef,
-    private readonly translocoLocaleService: TranslocoLocaleService,
-    private readonly transformationService: TransformationService
-  ) {
-    this.materialToEdit = modalData.material;
-    this.fieldToFocus = modalData.field;
+  selectedMaterialAutocomplete$: Observable<IdValue> =
+    this.autoCompleteFacade
+      .getSelectedAutocompleteMaterialNumberForEditMaterial$;
+
+  ngOnInit() {
+    this.isCaseView = this.modalData.isCaseView;
+    this.materialToEdit = this.modalData.material;
+    this.fieldToFocus = this.modalData.field;
     this.targetPrice = this.materialToEdit.targetPrice
       ? this.transformationService.transformNumber(
           this.materialToEdit.targetPrice,
           true
         )
       : undefined;
-  }
 
-  ngOnInit() {
     this.autoCompleteFacade.resetView();
     this.autoCompleteFacade.initFacade(AutocompleteRequestDialog.EDIT_MATERIAL);
 
     this.editFormGroup = new FormGroup({
-      quantity: new FormControl(undefined, [
-        Validators.required,
-        Validators.minLength(1),
-      ]),
+      quantity: new FormControl(
+        undefined,
+        [Validators.required],
+        this.isQuantityValidation
+          ? [quantityDeliveryUnitValidator(this.selectedMaterialAutocomplete$)]
+          : []
+      ),
       targetPrice: new FormControl(undefined, [
         priceValidator(this.translocoLocaleService.getLocale()).bind(this),
       ]),
@@ -153,6 +197,7 @@ export class EditingMaterialModalComponent
         })
     );
   }
+
   ngAfterViewInit(): void {
     this.editFormGroup
       .get(MaterialColumnFields.QUANTITY)
@@ -272,5 +317,26 @@ export class EditingMaterialModalComponent
       },
     };
     this.dialogRef.close(updatedMaterial);
+  }
+
+  autocomplete(
+    autocompleteSearch: AutocompleteSearch,
+    customerId: CustomerId
+  ): void {
+    this.autoCompleteFacade.autocomplete(autocompleteSearch, customerId);
+  }
+
+  autocompleteUnselectOptions(autocompleteFilter: string): void {
+    this.autoCompleteFacade.unselectOptions(autocompleteFilter);
+  }
+
+  autocompleteSelectMaterialNumberOrDescription(
+    option: IdValue,
+    autocompleteFilter: string
+  ): void {
+    this.autoCompleteFacade.selectMaterialNumberOrDescription(
+      option,
+      autocompleteFilter
+    );
   }
 }

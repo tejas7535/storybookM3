@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { ProcessCaseFacade } from '@gq/core/store/process-case';
+import { EditMaterialModalData } from '@gq/shared/components/modal/editing-material-modal/edit-material-modal-data.model';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { ICellRendererParams } from 'ag-grid-community';
 
@@ -71,7 +72,8 @@ export class EditCaseMaterialComponent {
         data: {
           material: this.params.data,
           field: this.params.colDef.field,
-        },
+          isCaseView: this.isCaseView,
+        } as EditMaterialModalData,
         autoFocus: false,
       })
       .afterClosed()

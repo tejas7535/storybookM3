@@ -183,6 +183,7 @@ describe('AddEntryComponent', () => {
     });
 
     test('should set the quantity to the next multiple of deliveryUnit when quantity < deliveryUnit', () => {
+      component.newCaseCreation = true;
       component.quantityFormControl.setValue('2');
       selectedMaterialAutocompleteSubject.next(
         new IdValue('MatNumber', 'MatDesc', true, null, 6, 'PC')
@@ -191,6 +192,7 @@ describe('AddEntryComponent', () => {
       expect(component.quantityFormControl.value).toEqual(6);
     });
     test('should set the quantity to the next multiple of deliveryUnit when quantity > deliveryUnit', () => {
+      component.newCaseCreation = true;
       component.quantityFormControl.setValue('8');
       selectedMaterialAutocompleteSubject.next(
         new IdValue('MatNumber', 'MatDesc', true, null, 6, 'PC')
@@ -199,12 +201,23 @@ describe('AddEntryComponent', () => {
       expect(component.quantityFormControl.value).toEqual(12);
     });
     test('should set the quantity to deliveryUnit when quantity is falsy', () => {
+      component.newCaseCreation = true;
       component.quantityFormControl.setValue('');
       selectedMaterialAutocompleteSubject.next(
         new IdValue('MatNumber', 'MatDesc', true, null, 6, 'PC')
       );
       component.ngOnInit();
       expect(component.quantityFormControl.value).toEqual(6);
+    });
+
+    test('should not adjust the quantity when deliveryUnit if not newCaseCreation', () => {
+      component.newCaseCreation = false;
+      component.quantityFormControl.setValue('8');
+      selectedMaterialAutocompleteSubject.next(
+        new IdValue('MatNumber', 'MatDesc', true, null, 6, 'PC')
+      );
+      component.ngOnInit();
+      expect(component.quantityFormControl.value).toEqual('8');
     });
   });
 

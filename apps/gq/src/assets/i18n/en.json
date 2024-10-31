@@ -482,10 +482,11 @@
         "gpi": "Change GPI",
         "gpm": "Change GPM",
         "discount": "Change discount",
-        "orderQuantity": "Change Quantity"
+        "orderQuantity": "Change Quantity",
+        "fieldHint": "{field, select, orderQuantity{Delivery Unit {{param1}} {{param2}}} other{}}"
       },
       "errors": {
-        "invalidInput": "Please enter a valid number"
+        "invalidInput": "{field,select,orderQuantity{Consider Delivery Unit {{param1}} {{param2}} } other{Enter a valid number}}"
       },
       "kpis": {
         "price": "Net Price",
@@ -503,7 +504,9 @@
       "update": "Update",
       "quantity": {
         "error": "Invalid Quantity",
-        "hint": "Enter a Quantity",
+        "errorDeliveryUnit": "Consider Delivery Unit {{unit}} {{uom}}",
+        "hintOld": "Enter a Quantity",
+        "hint": "Delivery Unit {{unit}} {{uom}}",
         "label": "Quantity"
       },
       "targetPrice": {
@@ -589,7 +592,7 @@
     "validation": {
       "priceLowerThanMsp": "Net Price is lower than MSP. Please request approval from Pricing.",
       "gpmOrGpiTooLow": "Current Net Price leads to a loss maker (margin < 25%). Please verify price setting.",
-      "orderQuantityMustBeMultipleOf": "Please consider Delivery Unit {{deliveryUnit}} PC for this item."
+      "orderQuantityMustBeMultipleOf": "Please consider Delivery Unit {{deliveryUnit}} {{uom}} for this item."
     },
     "duration": {
       "year": "year",

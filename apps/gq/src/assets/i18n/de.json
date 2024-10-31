@@ -481,10 +481,11 @@
         "gpi": "GPI ändern",
         "gpm": "GPM ändern",
         "discount": "Rabatt ändern",
-        "orderQuantity": "Menge ändern"
+        "orderQuantity": "Menge ändern",
+        "fieldHint": "{field, select, orderQuantity{Liefereinheit {{param1}} {{param2}}} other{}}"
       },
       "errors": {
-        "invalidInput": "Bitte eine gültige Zahl eingeben"
+        "invalidInput": "{field,select,orderQuantity{Beachte Liefereinheit {{param1}} {{param2}}} other {Bitte eine gültige Zahl eingeben}}"
       },
       "kpis": {
         "price": "Nettopreis",
@@ -503,8 +504,10 @@
       "update": "Aktualisieren",
       "quantity": {
         "error": "Invalide Menge",
+        "errorDeliveryUnit": "Beachte Liefereinheit {{unit}} {{uom}}",
         "label": "Menge",
-        "hint": "Geben Sie die Menge ein"
+        "hintOld": "Geben Sie die Menge ein",
+        "hint": "Liefereinheit {{unit}} {{uom}}"
       },
       "targetPrice": {
         "label": "Zielpreis",
@@ -588,7 +591,7 @@
     "validation": {
       "priceLowerThanMsp": "Nettopreis ist niedriger als MSP. Bitte beantragen Sie die Genehmigung der Preisgestaltung.",
       "gpmOrGpiTooLow": "Aktueller Nettopreis führt zu einem Loss Maker (Marge < 25%). Bitte Preisstellung überprüfen.",
-      "orderQuantityMustBeMultipleOf": "Bitte beachten Sie die Liefereinheit von {{deliveryUnit}} ST für diese Position."
+      "orderQuantityMustBeMultipleOf": "Bitte beachten Sie die Liefereinheit von {{deliveryUnit}} {{uom}} für diese Position."
     },
     "duration": {
       "year": "Jahr",

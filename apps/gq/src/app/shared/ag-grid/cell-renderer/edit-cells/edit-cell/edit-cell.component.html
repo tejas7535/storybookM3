@@ -10,7 +10,10 @@
     @if (isWarningEnabled) {
       <mat-icon
         [matTooltip]="
-          t(warningTooltip, { deliveryUnit: params.data.deliveryUnit })
+          t(warningTooltip, {
+            deliveryUnit: params.data.deliveryUnit,
+            uom: params.data.material?.baseUoM | uom
+          })
         "
         class="!text-caption mr-[10px] !w-3 cursor-help align-text-top"
         >warning_amber</mat-icon

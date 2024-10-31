@@ -32,6 +32,7 @@ import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import {
+  getNextHigherPossibleMultiple,
   parseNullableLocalizedInputValue,
   validateQuantityInputKeyPress,
 } from '@gq/shared/utils/misc.utils';
@@ -150,7 +151,9 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   quantityFormControl: FormControl = new FormControl(
     null,
     [],
-    [quantityDeliveryUnitValidator(this.selectedMaterialAutocomplete$)]
+    this.newCaseCreation
+      ? [quantityDeliveryUnitValidator(this.selectedMaterialAutocomplete$)]
+      : []
   );
   targetPriceFormControl: FormControl = new FormControl();
   targetPriceSourceFormControl: FormControl = new FormControl({
@@ -222,14 +225,16 @@ export class AddEntryComponent implements OnInit, OnDestroy {
         this.targetPriceFormControl.reset(null, { emitEvent: false });
       }
     });
-    this.selectedMaterialAutocomplete$
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        filter((material) => !!material)
-      )
-      .subscribe(({ deliveryUnit }) => {
-        this.adjustQuantityFormFieldToDeliveryUnit(deliveryUnit);
-      });
+    if (this.newCaseCreation) {
+      this.selectedMaterialAutocomplete$
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          filter((material) => !!material)
+        )
+        .subscribe(({ deliveryUnit }) => {
+          this.adjustQuantityFormFieldToDeliveryUnit(deliveryUnit);
+        });
+    }
     this.quantityFormControl.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
@@ -381,15 +386,13 @@ export class AddEntryComponent implements OnInit, OnDestroy {
    */
   private adjustQuantityFormFieldToDeliveryUnit(deliveryUnit: number): void {
     // find the next multiple of delivery unit starting from the quantity value
-    const quantity =
-      this.quantityFormControl.value &&
-      this.quantityFormControl.value > deliveryUnit
-        ? this.quantityFormControl.value
-        : deliveryUnit;
+    const nextMultiple = getNextHigherPossibleMultiple(
+      this.quantityFormControl.value,
+      deliveryUnit
+    );
 
-    if (quantity && deliveryUnit) {
-      const roundedQuantity = Math.ceil(quantity / deliveryUnit) * deliveryUnit;
-      this.quantityFormControl.setValue(roundedQuantity);
+    if (nextMultiple > this.quantityFormControl.value) {
+      this.quantityFormControl.setValue(nextMultiple);
       this.quantityFormControl.updateValueAndValidity();
     }
   }
