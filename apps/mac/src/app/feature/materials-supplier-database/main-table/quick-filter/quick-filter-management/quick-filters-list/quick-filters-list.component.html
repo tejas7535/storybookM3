@@ -62,17 +62,15 @@
             @if (!(action.shouldHide(quickFilter) | ngrxPush)) {
               <button
                 mat-icon-button
-                class="!w-8 !h-8 !leading-8 !flex !justify-center !items-center"
                 [matTooltip]="
                   t('table.buttons.' + action.tooltipTranslationKeySuffix)
                 "
                 [disabled]="action.shouldDisable(quickFilter) | ngrxPush"
                 (click)="action.onClick(quickFilter)"
               >
-                <mat-icon
-                  class="!w-6 !h-6 !leading-6 !text-[24px] enabled:text-[#00000099] absolute"
-                  >{{ action.icon }}</mat-icon
-                >
+                <mat-icon class="enabled:text-[#00000099]">{{
+                  action.icon
+                }}</mat-icon>
               </button>
             }
           }
