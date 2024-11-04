@@ -36,6 +36,8 @@ export class SapPriceComponent {
       this.isSelected = [
         PriceSource.SAP_STANDARD,
         PriceSource.SECTOR_DISCOUNT,
+        PriceSource.END_CUSTOMER_DISCOUNT,
+        PriceSource.ZKI1,
         PriceSource.SAP_SPECIAL,
         PriceSource.CAP_PRICE,
       ].includes(quotationDetail.priceSource);

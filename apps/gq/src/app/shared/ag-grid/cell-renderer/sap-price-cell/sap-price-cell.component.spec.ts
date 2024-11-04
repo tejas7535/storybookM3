@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { DetailRoutePath } from '@gq/detail-view/detail-route-path.enum';
+import { PriceSource } from '@gq/shared/models';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ICellRendererParams } from 'ag-grid-community';
@@ -52,6 +53,20 @@ describe('SapPriceCellComponent', () => {
       expect(component.url).toEqual(url);
       expect(component.value).toEqual('valueFormatted');
       expect(component.navigationExtras).toEqual(navigationExtras);
+    });
+    test('should set isDetailLinkVisible to false', () => {
+      component.agInit({
+        data: { priceSource: PriceSource.ZKI1 },
+      } as ICellRendererParams);
+
+      expect(component.isDetailLinkVisible).toBeFalsy();
+    });
+    test('should set isDetailLinkVisible to true', () => {
+      component.agInit({
+        data: { priceSource: PriceSource.SAP_STANDARD },
+      } as ICellRendererParams);
+
+      expect(component.isDetailLinkVisible).toBeTruthy();
     });
   });
   describe('navigate', () => {

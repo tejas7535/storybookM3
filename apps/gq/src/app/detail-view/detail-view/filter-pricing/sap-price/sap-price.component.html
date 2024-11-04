@@ -72,10 +72,12 @@
         </div>
       }
     </div>
-    <gq-detail-button
-      link
-      [text]="t('details')"
-      [path]="DetailRoutePath.SapPath"
-    ></gq-detail-button>
+    @if (quotationDetail.priceSource !== PriceSource.ZKI1) {
+      <gq-detail-button
+        link
+        [text]="t('details')"
+        [path]="DetailRoutePath.SapPath"
+      ></gq-detail-button>
+    }
   </gq-filter-pricing-card>
 </div>

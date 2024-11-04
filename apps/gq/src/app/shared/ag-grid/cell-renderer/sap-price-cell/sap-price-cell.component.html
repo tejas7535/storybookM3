@@ -1,7 +1,11 @@
-<a
-  [href]="url"
-  (click)="navigate($event)"
-  class="text-link hover:underline"
-  [ngClass]="{ 'pointer-events-none': value | isDashOrEmptyString }"
-  >{{ value }}</a
->
+@if (isDetailLinkVisible) {
+  <a
+    [href]="url"
+    (click)="navigate($event)"
+    class="text-link hover:underline"
+    [ngClass]="{ 'pointer-events-none': value | isDashOrEmptyString }"
+    >{{ value }}</a
+  >
+} @else {
+  <span>{{ value }}</span>
+}

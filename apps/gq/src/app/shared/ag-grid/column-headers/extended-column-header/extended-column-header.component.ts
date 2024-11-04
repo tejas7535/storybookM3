@@ -305,6 +305,7 @@ export class ExtendedColumnHeaderComponent
               PriceSource.SAP_STANDARD,
               PriceSource.SECTOR_DISCOUNT,
               PriceSource.END_CUSTOMER_DISCOUNT,
+              PriceSource.ZKI1,
               PriceSource.CAP_PRICE,
             ].includes(detail.priceSource)) ||
           (detail.targetPrice &&

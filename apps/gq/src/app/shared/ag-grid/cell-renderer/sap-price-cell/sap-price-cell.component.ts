@@ -1,22 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 
 import { DetailRoutePath } from '@gq/detail-view/detail-route-path.enum';
 import { ICellRendererParams } from 'ag-grid-community';
 
 import { AppRoutePath } from '../../../../../app/app-route-path.enum';
-import { QuotationDetail } from '../../../models/quotation-detail';
+import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
 
 @Component({
   selector: 'gq-sap-price-cell',
   templateUrl: './sap-price-cell.component.html',
 })
 export class SapPriceCellComponent {
+  private readonly router = inject(Router);
   value: string;
   url: string;
   navigationExtras: NavigationExtras;
-
-  constructor(private readonly router: Router) {}
+  isDetailLinkVisible = true;
 
   agInit(params: ICellRendererParams): void {
     this.value = params.valueFormatted;
@@ -34,6 +34,9 @@ export class SapPriceCellComponent {
         this.navigationExtras
       )
       .toString();
+
+    // Hide the detail link if the price source is ZKI1 (GQUOTE-4837)
+    this.isDetailLinkVisible = quotationDetail.priceSource !== PriceSource.ZKI1;
   }
 
   navigate(event: MouseEvent): void {
