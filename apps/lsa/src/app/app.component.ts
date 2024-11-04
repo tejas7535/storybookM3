@@ -2,20 +2,24 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 
 import { Subject, takeUntil } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 
+import { AddToCartService } from './core/services/add-to-cart.service';
 import { isLanguageAvailable } from './core/services/language-helpers';
 import { PriceAvailabilityService } from './core/services/price-availability.service';
 import { RestService } from './core/services/rest.service';
 import { FALLBACK_LANGUAGE } from './shared/constants/language';
-import { UserTier } from './shared/constants/user-tier';
+import { UserTier } from './shared/constants/user-tier.enum';
+import { AddToCartEventPayload } from './shared/models';
 import { AvailabilityRequestEvent } from './shared/models/price-availibility.model';
 
 @Component({
@@ -23,19 +27,22 @@ import { AvailabilityRequestEvent } from './shared/models/price-availibility.mod
   selector: 'lubricator-selection-assistant',
   templateUrl: './app.component.html',
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, OnDestroy, OnChanges {
   @Input() language: string | undefined;
 
-  @Input() userTier: UserTier;
-
   @Output() availabilityRequest = new EventEmitter<AvailabilityRequestEvent>();
+
+  @Output() addToCart = new EventEmitter<AddToCartEventPayload>();
+
+  @Input() userTier: UserTier;
 
   private readonly destroyed$ = new Subject<void>();
 
   constructor(
     private readonly translocoService: TranslocoService,
     private readonly restService: RestService,
-    private readonly priceAvailabilityService: PriceAvailabilityService
+    private readonly priceAvailabilityService: PriceAvailabilityService,
+    private readonly addToCartService: AddToCartService
   ) {}
 
   ngOnInit(): void {
@@ -46,7 +53,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.translocoService.setActiveLang(currentLanguage);
 
     this.listenForPriceAndAvailabilityRequests();
+    this.listenForAddToCartEvents();
     this.fetchGreases();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.userTier) {
+      this.addToCartService.setUserTier(this.userTier);
+    }
   }
 
   ngOnDestroy(): void {
@@ -63,6 +77,14 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe((event: AvailabilityRequestEvent) => {
         this.availabilityRequest.emit(event);
+      });
+  }
+
+  private listenForAddToCartEvents(): void {
+    this.addToCartService.addToCartEvent$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((event: AddToCartEventPayload) => {
+        this.addToCart.emit(event);
       });
   }
 }

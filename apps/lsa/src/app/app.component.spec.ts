@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, SimpleChanges } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 
 import { of, Subject } from 'rxjs';
@@ -10,8 +10,10 @@ import { MockModule } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppComponent } from './app.component';
+import { AddToCartService } from './core/services/add-to-cart.service';
 import { PriceAvailabilityService } from './core/services/price-availability.service';
 import { RestService } from './core/services/rest.service';
+import { UserTier } from './shared/constants/user-tier.enum';
 import { AvailabilityRequestEvent } from './shared/models/price-availibility.model';
 
 describe('AppComponent', () => {
@@ -39,6 +41,13 @@ describe('AppComponent', () => {
           priceAndAvailabilityRequest$: of({} as AvailabilityRequestEvent),
         },
       },
+      {
+        provide: AddToCartService,
+        useValue: {
+          addToCartEvent$: of({}),
+          setUserTier: jest.fn(),
+        },
+      },
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
@@ -61,6 +70,22 @@ describe('AppComponent', () => {
     spectator.detectChanges();
     const title = spectator.query('h1').textContent.trim();
     expect(title).toContain('appTitle');
+  });
+
+  describe('when userTier changes', () => {
+    it('should set userTier', () => {
+      component.userTier = UserTier.Business;
+
+      const changes = {
+        userTier: { currentValue: UserTier.Business },
+      } as unknown as Partial<SimpleChanges> as SimpleChanges;
+
+      component.ngOnChanges(changes);
+
+      expect(
+        spectator.inject(AddToCartService).setUserTier
+      ).toHaveBeenCalledWith(UserTier.Business);
+    });
   });
 
   describe('when initialized', () => {
@@ -107,6 +132,15 @@ describe('AppComponent', () => {
   describe('listenForPriceAndAvailabilityRequests', () => {
     it('should subscribe to priceAndAvailabilityRequest$ and emit availabilityRequest event', () => {
       const emitSpy = jest.spyOn(component.availabilityRequest, 'emit');
+      spectator.detectChanges();
+
+      expect(emitSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('listenForAddToCartEvent', () => {
+    it('should subscribe to addToCartEvent$ and emit addToCart event', () => {
+      const emitSpy = jest.spyOn(component.addToCart, 'emit');
       spectator.detectChanges();
 
       expect(emitSpy).toHaveBeenCalled();

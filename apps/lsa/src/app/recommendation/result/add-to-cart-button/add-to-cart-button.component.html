@@ -1,0 +1,9 @@
+<button
+  mat-flat-button
+  (click)="onAddToCart()"
+  [disabled]="disabled"
+  class="w-full md:w-auto"
+>
+  {{ label }}
+  <mat-icon>shopping_cart</mat-icon>
+</button>

@@ -11,7 +11,8 @@ createApp({
       configurations: {
         'lubricator-selection-assistant-local': {
           wrapperAppTitle: 'Lubricator Selection Assistant - Embedded App',
-          tag: '<lubricator-selection-assistant language="en" ></lubricator-selection-assistant>',
+          tag: '<lubricator-selection-assistant language="en" user-tier="anonymous"></lubricator-selection-assistant>',
+          //tag: '<lubricator-selection-assistant language="en" user-tier="business" ></lubricator-selection-assistant>',
           src: 'http://localhost:8000/lsa-webcomponent.js',
           height: 950,
           width: 1600,

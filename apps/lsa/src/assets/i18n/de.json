@@ -91,6 +91,7 @@
       "heading": "Teileliste für {{ designation }}",
       "share": "Teilen",
       "addToCart": "In den Warenkorb legen",
+      "addToCartMessage": "Produkte / Zubehör in den Warenkorb gelegt",
       "product": "Produkt",
       "actions": "Aktionen",
       "pieces": "Anzahl",

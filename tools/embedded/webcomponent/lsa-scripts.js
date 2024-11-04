@@ -39,6 +39,13 @@ function handleAvailabilityRequest(event) {
   }, 2000); // Delay of 1000 milliseconds (1 second)
 }
 
+function handleAddToCartEvent(event) {
+  const eventTextArea = document.getElementById('lsa-add-to-cart-events');
+
+  eventTextArea.value = 'Add to Cart Event received\n ';
+  eventTextArea.value += JSON.stringify(event.detail, undefined, 2);
+}
+
 function setUpLSAListeners() {
   const lubricatorElement = getLsaApp();
 
@@ -47,6 +54,8 @@ function setUpLSAListeners() {
       'availabilityRequest',
       handleAvailabilityRequest
     );
+
+    lubricatorElement.addEventListener('addToCart', handleAddToCartEvent);
 
     const lsaEventsContainer = document.getElementById('lsa-events-container');
     lsaEventsContainer.style.display = 'flex';

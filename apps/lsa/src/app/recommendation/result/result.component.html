@@ -36,10 +36,11 @@
           {{ t('share') }}
           <mat-icon>bookmark</mat-icon>
         </button>
-        <button mat-flat-button class="w-full md:w-auto">
-          {{ t('addToCart') }}
-          <mat-icon>shopping_cart</mat-icon>
-        </button>
+        <lsa-add-to-cart-button
+          [label]="t('addToCart')"
+          [snackbarMessage]="t('addToCartMessage')"
+          (addToCart)="onAddToCart()"
+        ></lsa-add-to-cart-button>
       </div>
     </div>
     <ng-content></ng-content>

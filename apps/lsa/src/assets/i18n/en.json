@@ -90,6 +90,7 @@
       "heading": "Parts list for {{ designation }}",
       "share": "Share",
       "addToCart": "Add to Cart",
+      "addToCartMessage": "Products / Accessories added to cart",
       "medium_general": "Medium",
       "product": "Product",
       "actions": "Actions",
