@@ -225,8 +225,181 @@ describe('GridMergeService', () => {
 
       expect(gridStateIn).toEqual(gridStateOut);
     });
+
+    test('shall move col2 to the correct index within the localStorage, but the neighborIndex must be considered', () => {
+      const columnIds = ['col1', 'col2', 'col3', 'col4', 'col5'];
+      const columnStatesInGridButNotInLocalStorage = [
+        { colId: 'col2' } as ColumnState,
+        { colId: 'col5' } as ColumnState,
+      ];
+      const activeViewId = 1;
+      const gridStateIn: GridState = {
+        initialColIds: columnIds,
+        customViews: [
+          {
+            id: 0,
+            title: 'default',
+            state: {
+              columnState: [],
+              filterState: [],
+            },
+          },
+          {
+            id: 1,
+            title: 'test',
+            state: {
+              columnState: [
+                { colId: 'col1' },
+                { colId: 'col3' },
+                { colId: 'col2' },
+                { colId: 'col5' },
+              ],
+            },
+          },
+        ],
+      } as GridState;
+      const gridStateOut: GridState = {
+        initialColIds: columnIds,
+        customViews: [
+          {
+            id: 0,
+            title: 'default',
+            state: {
+              columnState: [],
+              filterState: [],
+            },
+          },
+          {
+            id: 1,
+            title: 'test',
+            state: {
+              columnState: [
+                { colId: 'col1' },
+                { colId: 'col2' },
+                { colId: 'col3' },
+                { colId: 'col5' },
+              ],
+            },
+          },
+        ],
+      } as GridState;
+
+      service['moveColumnNotInLocalStorageToIndexConfigured'](
+        columnStatesInGridButNotInLocalStorage,
+        gridStateIn,
+        activeViewId,
+        columnIds
+      );
+
+      expect(gridStateIn).toEqual(gridStateOut);
+    });
   });
 
+  describe('getNextLowerNeighborIndexWithinConfiguredColumns', () => {
+    test('shall return newIndex based on the neighborIndex, direct next neighbor is found', () => {
+      // it is about 'col6'
+      const newIndex = 5;
+      const columnIds = [
+        'col1',
+        'col2',
+        'col3',
+        'col4',
+        'col5',
+        'col6',
+        'col7',
+        'col8',
+        'col9',
+        'col10',
+      ];
+      const userCurrentView: CustomView = {
+        id: 1,
+        title: 'test',
+        state: {
+          columnState: [
+            { colId: 'col1' },
+            { colId: 'col5' },
+            { colId: 'col7' },
+            { colId: 'col8' },
+            { colId: 'col9' },
+            { colId: 'col10' },
+          ],
+        },
+      } as CustomView;
+
+      const result = service[
+        'getNextLowerNeighborIndexWithinConfiguredColumns'
+      ](newIndex, columnIds, userCurrentView);
+      expect(result).toBe(2);
+    });
+    test('shall return newIndex based on the neighborIndex, 2nd left next neighbor is found', () => {
+      // it is about 'col6'
+      const newIndex = 5;
+      const columnIds = [
+        'col1',
+        'col2',
+        'col3',
+        'col4',
+        'col5',
+        'col6',
+        'col7',
+        'col8',
+        'col9',
+        'col10',
+      ];
+      const userCurrentView: CustomView = {
+        id: 1,
+        title: 'test',
+        state: {
+          columnState: [
+            { colId: 'col1' },
+            { colId: 'col7' },
+            { colId: 'col8' },
+            { colId: 'col9' },
+            { colId: 'col10' },
+          ],
+        },
+      } as CustomView;
+
+      const result = service[
+        'getNextLowerNeighborIndexWithinConfiguredColumns'
+      ](newIndex, columnIds, userCurrentView);
+      expect(result).toBe(1);
+    });
+
+    test('shall return newIndex based on the neighborIndex, no neighbor found new Index is 0', () => {
+      // it is about 'col6'
+      const newIndex = 5;
+      const columnIds = [
+        'col1',
+        'col2',
+        'col3',
+        'col4',
+        'col5',
+        'col6',
+        'col7',
+        'col8',
+        'col9',
+        'col10',
+      ];
+      const userCurrentView: CustomView = {
+        id: 1,
+        title: 'test',
+        state: {
+          columnState: [
+            { colId: 'col7' },
+            { colId: 'col8' },
+            { colId: 'col9' },
+            { colId: 'col10' },
+          ],
+        },
+      } as CustomView;
+
+      const result = service[
+        'getNextLowerNeighborIndexWithinConfiguredColumns'
+      ](newIndex, columnIds, userCurrentView);
+      expect(result).toBe(0);
+    });
+  });
   describe('addLocalStorageColumnToUserGridAtIndex', () => {
     test('shall add col2 to the correct index in the AppGrid from the localStorage', () => {
       const currentViewLocalStorage: CustomView = {

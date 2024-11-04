@@ -159,14 +159,57 @@ export class GridMergeService {
         (item) => item.colId === colDef.colId
       );
       const newIndex = columnIds.indexOf(colDef.colId);
-      if (recentIndex > -1 && newIndex > -1) {
-        userCurrentView.state.columnState.splice(
+      const indexNeighborConsidered =
+        this.getNextLowerNeighborIndexWithinConfiguredColumns(
           newIndex,
+          columnIds,
+          userCurrentView
+        );
+
+      if (recentIndex > -1 && newIndex > -1 && indexNeighborConsidered > -1) {
+        userCurrentView.state.columnState.splice(
+          indexNeighborConsidered,
           0,
           userCurrentView.state.columnState.splice(recentIndex, 1)[0]
         );
       }
     });
+  }
+
+  private getNextLowerNeighborIndexWithinConfiguredColumns(
+    newIndex: number,
+    columnIds: string[],
+    userCurrentView: CustomView
+  ): number {
+    if (newIndex <= 0) {
+      return newIndex;
+    }
+
+    // the newIndex ist based on the columnIds
+    // when one or multiple columns have been filtered out (e.g. lack of access) the newIndex does not match any longer.
+    // the column shall be placed right to the next possible left neighbor based on order within the configured columns
+    const neighborColId = columnIds[newIndex - 1];
+    // check if neighborColId is in GridView
+    const neighborIndex = columnIds.indexOf(neighborColId);
+
+    if (neighborIndex > -1) {
+      // find the index of neighborColumn in GridView
+      const neighborIndexInUserView =
+        userCurrentView.state.columnState.findIndex(
+          (item) => item.colId === neighborColId
+        );
+      if (neighborIndexInUserView > -1) {
+        // when neighborColumn is in Grid the newIndex of the Column to add is the neighborIndex + 1
+        return neighborIndexInUserView + 1;
+      }
+    }
+
+    // the next left neighbor is not in the Grid, check the next left neighbor ("2nd left neighbor") until a neighbor is found
+    return this.getNextLowerNeighborIndexWithinConfiguredColumns(
+      newIndex - 1,
+      columnIds,
+      userCurrentView
+    );
   }
 
   private addLocalStorageColumnToUserGridAtIndex(
