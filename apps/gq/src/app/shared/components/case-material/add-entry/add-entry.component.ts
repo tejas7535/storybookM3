@@ -135,6 +135,9 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   selectedMaterialAutocomplete$: Observable<IdValue> =
     this.autoCompleteFacade.getSelectedAutocompleteMaterialNumber$;
 
+  selectedAutocompleteRequestDialog$: Observable<AutocompleteRequestDialog> =
+    this.autoCompleteFacade.getSelectedAutocompleteRequestDialog$;
+
   newCaseCreation: boolean = this.featureToggleConfigService.isEnabled(
     'createManualCaseAsView'
   );
@@ -167,6 +170,16 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   ];
 
   public ngOnInit(): void {
+    if (this.newCaseCreation) {
+      this.selectedAutocompleteRequestDialog$
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          filter((dialog) => dialog === AutocompleteRequestDialog.EDIT_MATERIAL)
+        )
+        .subscribe(() => {
+          this.clearFields();
+        });
+    }
     if (this.newCaseCreation && this.isCaseView) {
       this.autoCompleteFacade.initFacade(AutocompleteRequestDialog.CREATE_CASE);
 

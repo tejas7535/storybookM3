@@ -19,6 +19,7 @@ import {
   getCaseCustomerAndShipToParty,
   getCaseMaterialDesc,
   getSelectedAutocompleteMaterialNumber,
+  getSelectedAutocompleteRequestDialog,
 } from '../selectors/create-case/create-case.selector';
 import { AutoCompleteFacade } from './autocomplete.facade';
 
@@ -42,6 +43,21 @@ describe('autocompleteFacade', () => {
   });
 
   describe('Observables', () => {
+    test('getSelectedAutocompleteRequestDialog$', () => {
+      mockStore.setState({
+        case: {
+          selectedAutocompleteRequestDialog:
+            AutocompleteRequestDialog.CREATE_CASE,
+        },
+      });
+      mockStore.overrideSelector(
+        getSelectedAutocompleteRequestDialog,
+        AutocompleteRequestDialog.CREATE_CASE
+      );
+      service.getSelectedAutocompleteRequestDialog$.subscribe((result) => {
+        expect(result).toEqual(AutocompleteRequestDialog.CREATE_CASE);
+      });
+    });
     test('getSelectedAutocompleteMaterialNumber$', () => {
       mockStore.setState({
         case: {

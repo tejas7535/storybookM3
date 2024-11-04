@@ -171,6 +171,12 @@ export const getSelectedAutocompleteMaterialNumber = (
       return (selectedOption = selectedOption || undefined);
     }
   );
+
+export const getSelectedAutocompleteRequestDialog = createSelector(
+  getCaseState,
+  (state: CreateCaseState): AutocompleteRequestDialog => state.requestingDialog
+);
+
 export const getCreateCaseData = (userHasOfferTypeAccess: boolean = false) =>
   createSelector(getCaseState, (state: CreateCaseState): CreateCase => {
     const { customerId, salesOrgs } = state.customer;

@@ -53,6 +53,11 @@ describe('AddEntryComponent', () => {
       uom: 'PC',
     });
 
+  const selectedAutocompleteRequestDialogSubject: BehaviorSubject<AutocompleteRequestDialog> =
+    new BehaviorSubject<AutocompleteRequestDialog>(
+      AutocompleteRequestDialog.CREATE_CASE
+    );
+
   const createComponent = createComponentFactory({
     component: AddEntryComponent,
     imports: [
@@ -78,6 +83,8 @@ describe('AddEntryComponent', () => {
         customerMaterialNumberForAddEntry$: of(null),
         getSelectedAutocompleteMaterialNumber$:
           selectedMaterialAutocompleteSubject.asObservable(),
+        getSelectedAutocompleteRequestDialog$:
+          selectedAutocompleteRequestDialogSubject.asObservable(),
         autocomplete: jest.fn(),
         unselectOptions: jest.fn(),
         selectMaterialNumberDescriptionOrCustomerMaterial: jest.fn(),
@@ -218,6 +225,36 @@ describe('AddEntryComponent', () => {
       );
       component.ngOnInit();
       expect(component.quantityFormControl.value).toEqual('8');
+    });
+
+    describe('changes on RequestDialog', () => {
+      beforeEach(() => {
+        customerIdForCaseCreationSubject.next(null);
+        selectedCustomerSalesOrgSubject.next(null);
+      });
+      test('should clear fields, when RequestDialog is EditMaterial', () => {
+        component.newCaseCreation = true;
+        component['clearFields'] = jest.fn();
+        selectedAutocompleteRequestDialogSubject.next(
+          AutocompleteRequestDialog.EDIT_MATERIAL
+        );
+        component.ngOnInit();
+        expect(component['clearFields']).toHaveBeenCalled();
+      });
+
+      test('should not clear fields, when RequestDialog is not EditMaterial', () => {
+        component.newCaseCreation = true;
+
+        component['clearFields'] = jest.fn();
+        selectedAutocompleteRequestDialogSubject.next(
+          AutocompleteRequestDialog.CREATE_CASE
+        );
+        component.ngOnInit();
+        selectedAutocompleteRequestDialogSubject.next(
+          AutocompleteRequestDialog.CREATE_CASE
+        );
+        expect(component['clearFields']).not.toHaveBeenCalled();
+      });
     });
   });
 

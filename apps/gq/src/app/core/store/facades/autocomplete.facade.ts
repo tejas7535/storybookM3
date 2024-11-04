@@ -30,6 +30,7 @@ import {
   getCaseMaterialNumberOrDesc,
   getCustomerMaterialNumber,
   getSelectedAutocompleteMaterialNumber,
+  getSelectedAutocompleteRequestDialog,
 } from '../selectors';
 
 @Injectable({
@@ -40,7 +41,10 @@ export class AutoCompleteFacade {
   private readonly featureToggleConfigService: FeatureToggleConfigService =
     inject(FeatureToggleConfigService);
 
-  public getSelectedAutocompleteMaterialNumber$: Observable<IdValue> =
+  getSelectedAutocompleteRequestDialog$: Observable<AutocompleteRequestDialog> =
+    this.store.select(getSelectedAutocompleteRequestDialog);
+
+  getSelectedAutocompleteMaterialNumber$: Observable<IdValue> =
     this.store.select(
       getSelectedAutocompleteMaterialNumber([
         AutocompleteRequestDialog.ADD_ENTRY,
@@ -48,63 +52,59 @@ export class AutoCompleteFacade {
       ])
     );
 
-  public getSelectedAutocompleteMaterialNumberForEditMaterial$: Observable<IdValue> =
+  getSelectedAutocompleteMaterialNumberForEditMaterial$: Observable<IdValue> =
     this.store.select(
       getSelectedAutocompleteMaterialNumber([
         AutocompleteRequestDialog.EDIT_MATERIAL,
       ])
     );
 
-  public materialDescForAddEntry$: Observable<CaseFilterItem> =
-    this.store.select(getCaseMaterialDesc(AutocompleteRequestDialog.ADD_ENTRY));
-  public materialDescForEditMaterial$: Observable<CaseFilterItem> =
-    this.store.select(
-      getCaseMaterialDesc(AutocompleteRequestDialog.EDIT_MATERIAL)
-    );
+  materialDescForAddEntry$: Observable<CaseFilterItem> = this.store.select(
+    getCaseMaterialDesc(AutocompleteRequestDialog.ADD_ENTRY)
+  );
+  materialDescForEditMaterial$: Observable<CaseFilterItem> = this.store.select(
+    getCaseMaterialDesc(AutocompleteRequestDialog.EDIT_MATERIAL)
+  );
 
-  public materialDescForCreateCase$: Observable<CaseFilterItem> =
-    this.store.select(
-      getCaseMaterialDesc(AutocompleteRequestDialog.CREATE_CASE)
-    );
+  materialDescForCreateCase$: Observable<CaseFilterItem> = this.store.select(
+    getCaseMaterialDesc(AutocompleteRequestDialog.CREATE_CASE)
+  );
 
-  public materialNumberForAddEntry$: Observable<CaseFilterItem> =
-    this.store.select(
-      getCaseMaterialNumber(AutocompleteRequestDialog.ADD_ENTRY)
-    );
-  public materialNumberForEditMaterial$: Observable<CaseFilterItem> =
+  materialNumberForAddEntry$: Observable<CaseFilterItem> = this.store.select(
+    getCaseMaterialNumber(AutocompleteRequestDialog.ADD_ENTRY)
+  );
+  materialNumberForEditMaterial$: Observable<CaseFilterItem> =
     this.store.select(
       getCaseMaterialNumber(AutocompleteRequestDialog.EDIT_MATERIAL)
     );
 
-  public materialNumberForCreateCase$: Observable<CaseFilterItem> =
-    this.store.select(
-      getCaseMaterialNumber(AutocompleteRequestDialog.CREATE_CASE)
-    );
+  materialNumberForCreateCase$: Observable<CaseFilterItem> = this.store.select(
+    getCaseMaterialNumber(AutocompleteRequestDialog.CREATE_CASE)
+  );
 
-  public materialNumberOrDescForGlobalSearch$: Observable<CaseFilterItem> =
+  materialNumberOrDescForGlobalSearch$: Observable<CaseFilterItem> =
     this.store.select(
       getCaseMaterialNumberOrDesc(AutocompleteRequestDialog.GLOBAL_SEARCH)
     );
 
-  public customerMaterialNumberForAddEntry$: Observable<CaseFilterItem> =
+  customerMaterialNumberForAddEntry$: Observable<CaseFilterItem> =
     this.store.select(
       getCustomerMaterialNumber(AutocompleteRequestDialog.ADD_ENTRY)
     );
 
-  public customerMaterialNumberForCreateCase$: Observable<CaseFilterItem> =
+  customerMaterialNumberForCreateCase$: Observable<CaseFilterItem> =
     this.store.select(
       getCustomerMaterialNumber(AutocompleteRequestDialog.CREATE_CASE)
     );
-  public shipToCustomerForEditCase$: Observable<CaseFilterItem> =
-    this.store.select(
-      getCaseCustomerAndShipToParty(AutocompleteRequestDialog.EDIT_CASE)
-    );
+  shipToCustomerForEditCase$: Observable<CaseFilterItem> = this.store.select(
+    getCaseCustomerAndShipToParty(AutocompleteRequestDialog.EDIT_CASE)
+  );
 
-  public shipToCustomerForCaseCreation$: Observable<CaseFilterItem> =
+  shipToCustomerForCaseCreation$: Observable<CaseFilterItem> =
     this.store.select(
       getCaseCustomerAndShipToParty(AutocompleteRequestDialog.CREATE_CASE)
     );
-  public createCaseCustomer$: Observable<CaseFilterItem> = this.store.select(
+  createCaseCustomer$: Observable<CaseFilterItem> = this.store.select(
     getCaseCustomer(
       this.featureToggleConfigService.isEnabled('createManualCaseAsView')
         ? AutocompleteRequestDialog.CREATE_CASE
@@ -112,49 +112,48 @@ export class AutoCompleteFacade {
     )
   );
 
-  public createCaseCustomerAddEntry$: Observable<CaseFilterItem> =
-    this.store.select(getCaseCustomer(AutocompleteRequestDialog.ADD_ENTRY));
+  createCaseCustomerAddEntry$: Observable<CaseFilterItem> = this.store.select(
+    getCaseCustomer(AutocompleteRequestDialog.ADD_ENTRY)
+  );
 
-  public materialNumberAutocompleteLoading$: Observable<boolean> =
-    this.store.select(getCaseAutocompleteLoading(FilterNames.MATERIAL_NUMBER));
+  materialNumberAutocompleteLoading$: Observable<boolean> = this.store.select(
+    getCaseAutocompleteLoading(FilterNames.MATERIAL_NUMBER)
+  );
 
-  public materialDescAutocompleteLoading$: Observable<boolean> =
-    this.store.select(
-      getCaseAutocompleteLoading(FilterNames.MATERIAL_DESCRIPTION)
-    );
+  materialDescAutocompleteLoading$: Observable<boolean> = this.store.select(
+    getCaseAutocompleteLoading(FilterNames.MATERIAL_DESCRIPTION)
+  );
 
-  public materialNumberOrDescAutocompleteLoading$: Observable<boolean> =
+  materialNumberOrDescAutocompleteLoading$: Observable<boolean> =
     this.store.select(
       getCaseAutocompleteLoading(FilterNames.MATERIAL_NUMBER_OR_DESCRIPTION)
     );
 
-  public customerLoading$: Observable<boolean> = this.store.select(
+  customerLoading$: Observable<boolean> = this.store.select(
     getCaseAutocompleteLoading(FilterNames.CUSTOMER)
   );
-  public customerAndShipToPartyLoading$: Observable<boolean> =
-    this.store.select(
-      getCaseAutocompleteLoading(FilterNames.CUSTOMER_AND_SHIP_TO_PARTY)
-    );
+  customerAndShipToPartyLoading$: Observable<boolean> = this.store.select(
+    getCaseAutocompleteLoading(FilterNames.CUSTOMER_AND_SHIP_TO_PARTY)
+  );
 
-  public customerMaterialNumberLoading$: Observable<boolean> =
-    this.store.select(
-      getCaseAutocompleteLoading(FilterNames.CUSTOMER_MATERIAL)
-    );
+  customerMaterialNumberLoading$: Observable<boolean> = this.store.select(
+    getCaseAutocompleteLoading(FilterNames.CUSTOMER_MATERIAL)
+  );
 
   /**
    * This Facades needs to be initialized
    *
    * @param dialog dialog to display the auto-completes
    */
-  public initFacade(dialog: AutocompleteRequestDialog): void {
+  initFacade(dialog: AutocompleteRequestDialog): void {
     this.store.dispatch(setRequestingAutoCompleteDialog({ dialog }));
   }
 
-  public resetAutocompleteMaterials(): void {
+  resetAutocompleteMaterials(): void {
     this.store.dispatch(resetAutocompleteMaterials());
   }
 
-  public autocomplete(
+  autocomplete(
     autocompleteSearch: AutocompleteSearch,
     customerId?: CustomerId
   ): void {
@@ -206,7 +205,7 @@ export class AutoCompleteFacade {
   }
 
   // see https://confluence.schaeffler.com/display/PARS/GQ+Autocomplete+Component
-  public unselectOptions(filter: string): void {
+  unselectOptions(filter: string): void {
     if (filter !== FilterNames.CUSTOMER_MATERIAL) {
       const resetFor = MATERIAL_FILTERS.filter((reset) => reset !== filter);
 
@@ -217,16 +216,16 @@ export class AutoCompleteFacade {
     this.store.dispatch(unselectAutocompleteOptions({ filter }));
   }
 
-  public resetView(): void {
+  resetView(): void {
     this.store.dispatch(resetAutocompleteMaterials());
     this.store.dispatch(resetRequestingAutoCompleteDialog());
   }
 
-  public setRequestDialog(dialog: AutocompleteRequestDialog): void {
+  setRequestDialog(dialog: AutocompleteRequestDialog): void {
     this.store.dispatch(setRequestingAutoCompleteDialog({ dialog }));
   }
 
-  public clearProcessCaseRowData(): void {
+  clearProcessCaseRowData(): void {
     this.store.dispatch(ProcessCaseActions.clearRowData());
   }
 }

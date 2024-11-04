@@ -262,6 +262,16 @@ describe('Create Case Selector', () => {
     });
   });
 
+  describe('getSelectedAutocompleteRequestDialog', () => {
+    test('should return requestingDialog', () => {
+      expect(
+        createSelectors.getSelectedAutocompleteRequestDialog.projector(
+          fakeState.case
+        )
+      ).toEqual(fakeState.case.requestingDialog);
+    });
+  });
+
   describe('getCreateCaseData', () => {
     test('should return data to create a case', () => {
       expect(
