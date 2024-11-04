@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
 import { catchError, EMPTY, Observable, of, switchMap, take } from 'rxjs';
@@ -8,6 +8,7 @@ import { ColumnApi, GridApi } from 'ag-grid-community';
 
 import { GlobalSelectionCriteriaFilters } from '../../../../feature/global-selection/model';
 import { formatFilterModelForBackend } from '../../../../shared/ag-grid/grid-filter-model';
+import { USE_DEFAULT_HTTP_ERROR_INTERCEPTOR } from '../../../../shared/interceptors/http-error.interceptor';
 import {
   CustomErrorMessages,
   getErrorMessage,
@@ -97,6 +98,10 @@ export class ExportMaterialCustomerService {
         {
           responseType: 'blob',
           observe: 'response',
+          context: new HttpContext().set(
+            USE_DEFAULT_HTTP_ERROR_INTERCEPTOR,
+            false
+          ),
         }
       )
       .pipe(

@@ -3,36 +3,19 @@ import { Injectable } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
-import { AgEvent, IServerSideDatasource } from 'ag-grid-community';
-
-import { formatFilterModelForBackend } from '../../shared/ag-grid/grid-filter-model';
-import {
-  DATA_FETCHED_EVENT,
-  FETCH_ERROR_EVENT,
-} from '../../shared/utils/datasources';
 import { CriteriaFields } from './model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MaterialCustomerService {
-  get rowCount(): number {
-    return this._rowCount;
-  }
-
   private readonly MATERIAL_CUSTOMER_API = 'api/material-customer';
   private readonly MATERIAL_CUSTOMER_CRITERIA_API =
     'api/material-customer/criteria-fields';
   private readonly MATERIAL_CUSTOMER_DATA_API =
     'api/material-customer/materials';
 
-  private _rowCount = 0;
-
   constructor(private readonly http: HttpClient) {}
-
-  setRowCount(value: number) {
-    this._rowCount = value;
-  }
 
   getTotalMaterialsCountOfCustomer(
     customerNumber: string | undefined = undefined
@@ -70,46 +53,5 @@ export class MaterialCustomerService {
       rows: { materialNumber: string; materialDescription: string }[];
       rowCount: number;
     }>(this.MATERIAL_CUSTOMER_DATA_API, selectedIds);
-  }
-
-  createMaterialCustomerDatasource(
-    selectionFilters: any,
-    predefinedColumnFilters: any,
-    materialCustomerService: MaterialCustomerService
-  ): IServerSideDatasource {
-    const httpClient = this.http;
-
-    return {
-      getRows: (params) => {
-        const { startRow, endRow, sortModel, filterModel } = params.request;
-        const columnFilters = formatFilterModelForBackend(filterModel);
-
-        httpClient
-          .post('api/material-customer', {
-            startRow,
-            endRow,
-            sortModel,
-            selectionFilters,
-            columnFilters: [predefinedColumnFilters, columnFilters].filter(
-              (x) => x && Object.keys(x).length > 0
-            ),
-          })
-          .subscribe({
-            next: (data: any) => {
-              params.success({ rowData: data.rows });
-              materialCustomerService.setRowCount(data.rowCount);
-              // dispatch custom event when data is loaded, so we can react to it
-              params.api.dispatchEvent({ type: DATA_FETCHED_EVENT });
-            },
-            error: (e) => {
-              params.fail();
-              params.api.dispatchEvent({
-                type: FETCH_ERROR_EVENT,
-                error: e,
-              } as AgEvent);
-            },
-          });
-      },
-    };
   }
 }

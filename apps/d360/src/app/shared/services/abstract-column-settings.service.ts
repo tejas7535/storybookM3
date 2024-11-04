@@ -49,7 +49,7 @@ export abstract class AbstractColumnSettingsService<
    * @type {DestroyRef}
    * @memberof AbstractColumnSettingsService
    */
-  private readonly destroyRef: DestroyRef = inject(DestroyRef);
+  protected readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   private readonly columnSettings = new BehaviorSubject<
     (ColumnSetting<COLUMN_KEYS> & COLDEF)[]
@@ -85,12 +85,18 @@ export abstract class AbstractColumnSettingsService<
       );
   }
 
-  private saveColumnSettings$(
+  saveColumnSettings$(
     settings: ColumnSetting<COLUMN_KEYS>[]
   ): Observable<ColumnSetting<COLUMN_KEYS>[]> {
     return this.http
       .post(`api/user-settings/tables/${this.tableName}/columns`, settings)
       .pipe(switchMap(() => this.refreshColumnSettings$()));
+  }
+
+  loadColumnSettings$(): Observable<ColumnSetting<COLUMN_KEYS>[]> {
+    return this.http.get<ColumnSetting<COLUMN_KEYS>[]>(
+      `api/user-settings/tables/${this.tableName}/columns`
+    );
   }
 
   saveFromAgGridEvent(

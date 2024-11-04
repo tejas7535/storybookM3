@@ -1,10 +1,18 @@
 import { MatDialog } from '@angular/material/dialog';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { of } from 'rxjs';
+
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 
 import { MaterialCustomerService } from '../../../../../feature/material-customer/material-customer.service';
 import { GlobalSelectionStateService } from '../../../../../shared/components/global-selection-criteria/global-selection-state.service';
 import { FilterDropdownComponent } from '../../../../../shared/components/inputs/filter-dropdown/filter-dropdown.component';
+import { MaterialCustomerTableService } from '../../services/material-customer-table.service';
 import { HomeTableToolbarComponent } from './home-table-toolbar.component';
 
 describe('HomeTableToolbar', () => {
@@ -13,24 +21,17 @@ describe('HomeTableToolbar', () => {
     component: HomeTableToolbarComponent,
     componentMocks: [FilterDropdownComponent],
     providers: [
-      {
-        provide: MaterialCustomerService,
-        useValue: {
-          closeAll: jest.fn(),
-        },
-      },
-      {
-        provide: GlobalSelectionStateService,
-        useValue: {
-          isEmpty: jest.fn(),
-        },
-      },
-      {
-        provide: MatDialog,
-        useValue: {
-          open: jest.fn(),
-        },
-      },
+      mockProvider(MaterialCustomerService),
+      mockProvider(MaterialCustomerTableService, {
+        getDataFetchedEvent: jest.fn().mockReturnValue(of({})),
+      }),
+      mockProvider(TranslocoLocaleService),
+      mockProvider(GlobalSelectionStateService, {
+        isEmpty: jest.fn(),
+      }),
+      mockProvider(MatDialog, {
+        open: jest.fn(),
+      }),
     ],
   });
 
@@ -40,7 +41,6 @@ describe('HomeTableToolbar', () => {
         resetLayout: jest.fn(),
         saveLayout: jest.fn(),
         loadLayout: jest.fn(),
-        currentLayoutId: '1',
         globalSelection: null,
         gridApi: null,
         columnApi: null,

@@ -26,19 +26,33 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (request.context.get(USE_DEFAULT_HTTP_ERROR_INTERCEPTOR)) {
-      return next.handle(request).pipe(
-        catchError((error: HttpErrorResponse) => {
-          // TODO determine what we need to put as detail instead of error.message in HttpError --> use methods from errors.ts and snackbar to display these errors
-          const httpError = new HttpError(error.status, error.message);
+    return next.handle(request).pipe(
+      catchError(async (error: HttpErrorResponse) => {
+        // When using Angular's HttpClient with a responseType != json, even error responses
+        // will be parsed in the desired format (e.g. Blob).
+        // Unfortunately the issue is known but there's no progress on the framework,
+        // see https://github.com/angular/angular/issues/19888
+        const contentType = error.headers.get('Content-Type');
 
-          // TODO discuss if it is good to open snackbar here
-          this.snackbarService.openSnackBar(httpError.details as string);
-          throw httpError;
-        })
-      );
-    }
+        let errorDetails = error.error;
+        if (
+          error.error instanceof Blob &&
+          (contentType === 'application/problem+json' ||
+            contentType === 'application/json')
+        ) {
+          try {
+            errorDetails = JSON.parse(await error.error.text());
+          } catch {
+            errorDetails = { message: 'Failed to parse error response' };
+          }
+        }
 
-    return next.handle(request);
+        if (request.context.get(USE_DEFAULT_HTTP_ERROR_INTERCEPTOR)) {
+          this.snackbarService.openSnackBar(error.message as string);
+        }
+
+        throw new HttpError(error.status, errorDetails);
+      })
+    );
   }
 }

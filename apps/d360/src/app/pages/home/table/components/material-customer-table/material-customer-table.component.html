@@ -1,11 +1,10 @@
 <app-home-table-toolbar
-  [gridApi]="api"
+  [gridApi]="gridApi"
   [columnApi]="columnApi"
   [resetLayout]="resetLayout"
   [saveLayout]="saveLayout"
   [loadLayout]="loadLayout"
-  [currentLayoutId]="currentLayoutId"
-  [globalSelection]="selectionFilter"
+  [globalSelection]="selectionFilter()"
 />
 
 <ag-grid-angular

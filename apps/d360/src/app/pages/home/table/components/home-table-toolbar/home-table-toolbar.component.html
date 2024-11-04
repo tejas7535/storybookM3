@@ -7,23 +7,18 @@
       <mat-icon>filter_list</mat-icon>
       Filter
     </button>
-    @if (materialCustomerService.rowCount > 0) {
+
+    @if (totalRowCount() > 0) {
       <div>
         <span class="separator">|</span>
-        <span class="count">{{
-          t('table.toolbar.material_count', {
-            count: materialCustomerService.rowCount
-          })
-        }}</span>
+        <span class="count">{{ getTotalRowCountText() }}</span>
       </div>
     }
 
     @if (getFilterCount() && getFilterCount() > 0) {
       <div>
         <span class="separator">|</span>
-        <span class="count">{{
-          t('table.toolbar.filter_count', { count: getFilterCount() })
-        }}</span>
+        <span class="count">{{ getFilterCountText() }}</span>
       </div>
     }
   </div>
@@ -35,38 +30,9 @@
     </button>
 
     <div class="relative">
-      <button mat-icon-button (click)="toggleLayoutOptions()">
+      <button mat-icon-button (click)="openColumnLayoutManagementModal($event)">
         <mat-icon>more_vert</mat-icon>
       </button>
-
-      @if (layoutOptions) {
-        <div
-          class="absolute right-3 top-10 bg-surface drop-shadow-md p-5 w-96 z-10"
-        >
-          <p class="text-title-medium mb-3">Layout</p>
-          <app-filter-dropdown
-            [form]="layoutForm"
-            [control]="layoutForm.controls['currentLayout']"
-            label="Layout"
-            [options]="[
-              { id: '0', text: 'Layout 01' },
-              { id: '1', text: 'Layout 02' }
-            ]"
-            [formatOptionValue]="formatValue"
-            [formatSelectedValue]="formatValue"
-          />
-          <mat-divider class="my-5" />
-          <div class="flex flex-col items-end pt-5">
-            <button mat-button (click)="loadLayout()">Layout laden</button>
-            <button mat-button (click)="saveLayout()">
-              Layout überschreiben
-            </button>
-            <button mat-button (click)="resetLayout()">
-              Layout zurücksetzen
-            </button>
-          </div>
-        </div>
-      }
     </div>
   </div>
 </div>

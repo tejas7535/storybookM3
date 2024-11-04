@@ -1,7 +1,16 @@
-import { Component, Input, OnInit, output, ViewChild } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  effect,
+  inject,
+  input,
+  OnInit,
+  output,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { TranslocoService } from '@jsverse/transloco';
-import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
+import { AgGridModule } from 'ag-grid-angular';
 import {
   ColumnApi,
   FilterChangedEvent,
@@ -24,43 +33,59 @@ import {
   formatFilterModelForAgGrid,
   formatFilterModelForBackend,
 } from '../../../../../shared/ag-grid/grid-filter-model';
-import { GlobalSelectionState } from '../../../../../shared/components/global-selection-criteria/global-selection-state.service';
+import {
+  GlobalSelectionState,
+  GlobalSelectionStateService,
+} from '../../../../../shared/components/global-selection-criteria/global-selection-state.service';
 import { AgGridLocalizationService } from '../../../../../shared/services/ag-grid-localization.service';
-import {
-  createEmptyDatasource,
-  DATA_FETCHED_EVENT,
-} from '../../../../../shared/utils/datasources';
 import { columnDefinitions } from '../../column-definition';
-import { MaterialCustomerColumnLayoutsService } from '../../services/material-customer-column-layout.service';
-import {
-  HomeTableToolbarComponent,
-  LayoutId,
-} from '../home-table-toolbar/home-table-toolbar.component';
+import { MaterialCustomerTableService } from '../../services/material-customer-table.service';
+import { LayoutId } from '../column-layout-management-modal/column-layout-management-modal.model';
+import { HomeTableToolbarComponent } from '../home-table-toolbar/home-table-toolbar.component';
 import { TextTooltipComponent } from '../text-tooltip/text-tooltip.component';
 
 @Component({
   selector: 'app-material-customer-table',
   standalone: true,
   imports: [AgGridModule, HomeTableToolbarComponent],
+  providers: [MaterialCustomerTableService],
   templateUrl: './material-customer-table.component.html',
   styleUrl: './material-customer-table.component.scss',
 })
 export class MaterialCustomerTableComponent implements OnInit {
-  @ViewChild('materialCustomerGrid') grid!: AgGridAngular;
+  selectionFilter = input.required<GlobalSelectionState>();
 
-  public api!: GridApi;
+  protected globalSelectionStateService = inject(GlobalSelectionStateService);
+  protected materialCustomerTableService = inject(MaterialCustomerTableService);
+  private readonly materialCustomerService = inject(MaterialCustomerService);
+  protected readonly agGridLocalizationService = inject(
+    AgGridLocalizationService
+  );
+  protected readonly translocoService = inject(TranslocoService);
+
+  public gridApi!: GridApi;
   public columnApi!: ColumnApi;
 
   public resetLayout: (layoutId: LayoutId) => any;
   public loadLayout: (layoutId: LayoutId) => any;
   public saveLayout: (layoutId: LayoutId) => any;
-  public currentLayoutId: any;
   public initialColumns: any;
 
   public filter: Record<string, any>;
   public criteriaData: CriteriaFields;
 
-  public rowCount: number;
+  protected readonly destroyRef = inject(DestroyRef);
+
+  constructor() {
+    effect(
+      () => {
+        this.setDataSource(this.selectionFilter());
+      },
+      {
+        allowSignalWrites: true,
+      }
+    );
+  }
 
   public gridOptions: GridOptions = {
     ...serverSideTableDefaultProps,
@@ -105,28 +130,14 @@ export class MaterialCustomerTableComponent implements OnInit {
    */
   public onColumnFilterChange = output<any>();
 
-  private _selectionFilter: GlobalSelectionState;
-  @Input() set selectionFilter(value: GlobalSelectionState) {
-    this._selectionFilter = value;
-    this.setDataSource();
-  }
-
-  get selectionFilter() {
-    return this._selectionFilter;
-  }
-
-  constructor(
-    private readonly materialCustomerLayoutService: MaterialCustomerColumnLayoutsService,
-    private readonly materialCustomerService: MaterialCustomerService,
-    private readonly translocoService: TranslocoService,
-    protected readonly agGridLocalizationService: AgGridLocalizationService
-  ) {}
-
   ngOnInit() {
-    this.materialCustomerService.getCriteriaData().subscribe((data) => {
-      this.criteriaData = data;
-      this.defaultColDef();
-    });
+    this.materialCustomerService
+      .getCriteriaData()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((data) => {
+        this.criteriaData = data;
+        this.defaultColDef();
+      });
   }
 
   defaultColDef = () => {
@@ -166,61 +177,49 @@ export class MaterialCustomerTableComponent implements OnInit {
       })
     );
 
-    this.api.setColumnDefs(colDef);
-    this.setDataSource();
+    this.gridApi?.setColumnDefs(colDef);
   };
 
   onGridReady = (event: GridReadyEvent) => {
-    this.api = event.api;
+    this.gridApi = event.api;
     this.columnApi = event.columnApi;
 
-    const {
-      resetLayout,
-      loadLayout,
-      saveLayout,
-      currentLayoutId,
-      initialColumns,
-    } = this.materialCustomerLayoutService.useMaterialCustomerColumnLayouts(
-      this.api,
-      this.columnApi
-    );
+    const { resetLayout, loadLayout, saveLayout } =
+      this.materialCustomerTableService.useMaterialCustomerColumnLayouts(
+        this.columnApi
+      );
 
-    this.resetLayout = resetLayout.bind(this.materialCustomerLayoutService);
-    this.loadLayout = loadLayout.bind(this.materialCustomerLayoutService);
-    this.saveLayout = saveLayout.bind(this.materialCustomerLayoutService);
-    this.currentLayoutId = currentLayoutId;
-    this.initialColumns = initialColumns;
+    this.resetLayout = resetLayout.bind(this.materialCustomerTableService);
+    this.loadLayout = loadLayout.bind(this.materialCustomerTableService);
+    this.saveLayout = saveLayout.bind(this.materialCustomerTableService);
 
     this.defaultColDef();
-
-    const fetchListener = () => {
-      const storeState = this.api.getServerSideGroupLevelState()[0];
-      this.rowCount = storeState.rowCount;
-    };
+    this.setDataSource(this.selectionFilter());
 
     const columnFilterListener = () => {
-      this.api.setFilterModel(formatFilterModelForAgGrid(this.filter));
+      this.gridApi.setFilterModel(formatFilterModelForAgGrid(this.filter));
     };
 
-    this.api.addEventListener(DATA_FETCHED_EVENT, fetchListener);
-    this.api.addEventListener('columnEverythingChanged', columnFilterListener);
+    this.gridApi.addEventListener(
+      'columnEverythingChanged',
+      columnFilterListener
+    );
 
     this.defaultColDef();
   };
 
-  setDataSource() {
-    if (this.selectionFilter) {
-      this.grid?.api.setServerSideDatasource(
-        this.materialCustomerService.createMaterialCustomerDatasource(
-          GlobalSelectionUtils.globalSelectionCriteriaToFilter(
-            this.selectionFilter
-          ),
-          [],
-          this.materialCustomerService
-        )
+  setDataSource(globalSelection?: GlobalSelectionState) {
+    if (this.globalSelectionStateService.isEmpty()) {
+      this.gridApi?.setServerSideDatasource(
+        this.materialCustomerTableService.createEmptyDatasource()
       );
     } else {
-      this.grid?.api.setServerSideDatasource(createEmptyDatasource());
+      this.gridApi?.setServerSideDatasource(
+        this.materialCustomerTableService.createMaterialCustomerDatasource(
+          GlobalSelectionUtils.globalSelectionCriteriaToFilter(globalSelection),
+          []
+        )
+      );
     }
   }
 
@@ -230,7 +229,7 @@ export class MaterialCustomerTableComponent implements OnInit {
   }
 
   getRowCount() {
-    return this.grid ? this.grid.api.getDisplayedRowCount() : null;
+    return this.gridApi ? this.gridApi.getDisplayedRowCount() : null;
   }
 
   getVisibilityBackground = (params: {
