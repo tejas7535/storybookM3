@@ -8,6 +8,7 @@ import {
   output,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatIconButton } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
@@ -38,6 +39,7 @@ import { DisplayFunctions } from './../display-functions.utils';
     NgFor,
     SharedTranslocoModule,
     MatIcon,
+    MatIconButton,
   ],
   templateUrl: './filter-dropdown.component.html',
 })
@@ -46,22 +48,13 @@ export class FilterDropdownComponent implements OnInit {
    * @inheritdoc
    */
   public ngOnInit(): void {
-    let value:
-      | Partial<SelectableValue>
-      | Partial<SelectableValue>[]
-      | string
-      | string[] = this.control().getRawValue();
+    const value: SelectableValue | SelectableValue[] =
+      SelectableValueUtils.toSelectableValueOrNull(
+        this.control().getRawValue(),
+        this.multiSelect()
+      );
 
-    value = (Array.isArray(value) ? value : [value]).map((option: any) =>
-      typeof option === 'string' || option === null ? option : option.id
-    );
-
-    if (!this.multiSelect()) {
-      value =
-        Array.isArray(value) && value.length > 0
-          ? (value[0] as SelectableValue | string)
-          : value;
-    }
+    this.control().setValue(value, { emitEvent: false });
 
     // run the onSelectionChange event to set the values during initialization
     this.onSelectionChange({ value } as any);
@@ -71,12 +64,12 @@ export class FilterDropdownComponent implements OnInit {
    * The form control.
    *
    * @type {(InputSignal<
-   *     FormControl<Partial<SelectableValue> | Partial<SelectableValue>[] | string>
+   *     FormControl<SelectableValue | SelectableValue[]>
    *   >)}
    * @memberof FilterDropdownComponent
    */
   public control: InputSignal<
-    FormControl<Partial<SelectableValue> | Partial<SelectableValue>[] | string>
+    FormControl<SelectableValue | SelectableValue[]>
   > = input.required();
 
   /**
@@ -208,12 +201,20 @@ export class FilterDropdownComponent implements OnInit {
       return;
     }
 
-    const newRaw = event.value;
-    const newValue = Array.isArray(newRaw)
-      ? SelectableValueUtils.mapToOptionsIfPossible(newRaw, this.options()) ||
-        []
-      : SelectableValueUtils.matchOptionIfPossible(newRaw, this.options()) ||
-        null;
+    const newRaw = SelectableValueUtils.toSelectableValueOrNull(
+      event.value,
+      this.multiSelect()
+    );
+
+    const newValue = this.multiSelect()
+      ? SelectableValueUtils.mapToOptionsIfPossible(
+          newRaw as SelectableValue[],
+          this.options()
+        ) || []
+      : SelectableValueUtils.matchOptionIfPossible(
+          newRaw as SelectableValue,
+          this.options()
+        ) || null;
 
     // newValue has the correct type since the onChange of the Select component returns the correct
     // values based on the multiple prop
@@ -231,19 +232,12 @@ export class FilterDropdownComponent implements OnInit {
    * @memberof FilterDropdownComponent
    */
   protected getSelectedValues(): string {
-    const values:
-      | Partial<SelectableValue>
-      | Partial<SelectableValue>[]
-      | string = this.control().getRawValue();
+    const values: Partial<SelectableValue> | Partial<SelectableValue>[] | null =
+      this.control().getRawValue();
 
     return (Array.isArray(values) ? values : [values])
       .map((element: any) =>
-        typeof element === 'string' || element === null
-          ? {
-              id: element,
-              text: element,
-            }
-          : element
+        element === null ? { id: element, text: element } : element
       )
       .map((element: any) => this.formatSelectedValue()(element as any))
       .join(', ');
@@ -257,5 +251,21 @@ export class FilterDropdownComponent implements OnInit {
    */
   protected onClear(): void {
     this.onSelectionChange({ value: this.multiSelect() ? [] : null } as any);
+  }
+
+  /**
+   * The compare method to check, if a SelectableValue is selected
+   *
+   * @protected
+   * @param {SelectableValue} value1
+   * @param {SelectableValue} value2
+   * @return {boolean}
+   * @memberof FilterDropdownComponent
+   */
+  protected compareFn(
+    value1: SelectableValue,
+    value2: SelectableValue
+  ): boolean {
+    return value1 && value2 ? value1.id === value2.id : value1 === value2;
   }
 }

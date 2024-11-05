@@ -402,12 +402,6 @@ export class AlertRuleEditSingleModalComponent implements OnInit {
         // set the defaults
         ...this.data.alertRule,
 
-        // type: filter-dropdown (special value mapping)
-        region: this.getInitialValue('region'),
-        salesArea: this.getInitialValue('salesArea'),
-        sectorManagement: this.getInitialValue('sectorManagement'),
-        materialClassification: this.getInitialValue('materialClassification'),
-
         // unused as visible form field
         currency: this.data.alertRule.currency || this.currentCurrency,
       },
@@ -452,22 +446,6 @@ export class AlertRuleEditSingleModalComponent implements OnInit {
   }
 
   /**
-   * Returns the initial values as SelectableValue or null
-   *
-   * @private
-   * @param {keyof AlertRule} key
-   * @return {(Partial<SelectableValue | null>)}
-   * @memberof AlertRuleEditSingleModalComponent
-   */
-  private getInitialValue(
-    key: keyof AlertRule
-  ): Partial<SelectableValue | null> {
-    return this.data.alertRule?.[key]
-      ? { id: String(this.data.alertRule[key]) }
-      : null;
-  }
-
-  /**
    * Add or remove the required validator, based on other input fields
    *
    * @private
@@ -476,19 +454,8 @@ export class AlertRuleEditSingleModalComponent implements OnInit {
   private setIsAtLeastOneRequireStatus(): void {
     // eslint-disable-next-line unicorn/no-array-reduce
     const isOptional: boolean = this.conditionalRequired.reduce(
-      (previousValue: boolean, key: string) => {
-        const value: any = this.formGroup.get(key)?.value;
-
-        // TODO: Refactor! It's possible to have different types here, this makes no sense
-        // @see this.setInitialValues() and all input types! we need definitely ONE input type + null
-        return (
-          previousValue ||
-          (Array.isArray(value) && value.length > 0) ||
-          (!Array.isArray(value) &&
-            ((typeof value === 'object' && !!value?.id) ||
-              (typeof value !== 'object' && !!value)))
-        );
-      },
+      (previousValue: boolean, key: string) =>
+        previousValue || !!this.formGroup.get(key)?.value,
       false
     );
 
@@ -538,11 +505,15 @@ export class AlertRuleEditSingleModalComponent implements OnInit {
    */
   private updateThresholds(): void {
     const data: AlertTypeDescription | undefined = this.alertTypeData.find(
-      (typeData) =>
-        // TODO: Refactor! It's possible to have different types here, this makes no sense
-        // @see this.setInitialValues() and all input types! we need definitely ONE input type + null
-        typeData.alertType === this.formGroup.get('type')?.value?.id ||
-        typeData.alertType === this.formGroup.get('type')?.value
+      (typeData) => {
+        const value: SelectableValue | null =
+          SelectableValueUtils.toSelectableValueOrNull(
+            this.formGroup.get('type')?.value,
+            false
+          ) as SelectableValue | null;
+
+        return typeData.alertType === value?.id;
+      }
     );
 
     const isRequired = (type: string) =>

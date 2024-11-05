@@ -107,4 +107,53 @@ export class SelectableValueUtils {
       ) || null
     );
   }
+
+  public static toSelectableValueOrNull(
+    value:
+      | SelectableValue
+      | SelectableValue[]
+      | Partial<SelectableValue>
+      | Partial<SelectableValue>[]
+      | string
+      | string[]
+      | null,
+    shouldBeArray: boolean
+  ): SelectableValue | SelectableValue[] | null {
+    const createSelectableValue = (
+      val: Partial<SelectableValue> | string | boolean
+    ): SelectableValue => {
+      if (typeof val === 'string') {
+        return { id: val, text: val };
+      }
+
+      return { id: '', text: '' };
+    };
+
+    if (value === null) {
+      return shouldBeArray ? [] : null; // Bei null bleibt null
+    }
+
+    if (Array.isArray(value)) {
+      const result: SelectableValue[] = value.map((val) => {
+        if (typeof val === 'object' && val !== null) {
+          return { ...createSelectableValue(val), ...val };
+        }
+
+        return createSelectableValue(val);
+      });
+
+      return shouldBeArray ? result : result[0];
+    }
+
+    if (value === null || value === undefined) {
+      return shouldBeArray ? [] : createSelectableValue('');
+    }
+
+    const singleValue =
+      typeof value === 'object'
+        ? { ...createSelectableValue(value), ...value }
+        : createSelectableValue(value);
+
+    return shouldBeArray ? [singleValue] : singleValue;
+  }
 }
