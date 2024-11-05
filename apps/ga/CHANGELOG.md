@@ -1,4 +1,11 @@
 # Release Notes of Grease App
+## [1.14.7](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.14.6...ga-v1.14.7) (2024-11-05)
+
+
+### Bug Fixes
+
+* **ga:** enhance mobile tracking for Grease DMC scan ([#6689](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6689)) ([622da9e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/622da9ed0de2e9c73faf6bf6b0a67be179f1143d))
+
 ## [1.14.6](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.14.5...ga-v1.14.6) (2024-10-30)
 
 
