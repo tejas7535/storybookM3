@@ -231,25 +231,15 @@
         />
 
         <!-- execInterval -->
-        <mat-form-field [formGroup]="formGroup" appearance="outline">
-          <mat-label>{{
-            t(translationStart + '.interval.rootString', {})
-          }}</mat-label>
-          <mat-select
-            [aria-label]="t(translationStart + '.interval.rootString', {})"
-            [formControl]="$any(formGroup.controls.execInterval)"
-            (selectionChange)="onIntervalSelectionChange($event)"
-          >
-            @for (option of execIntervalOptions; track option) {
-              <mat-option [value]="option">
-                {{ t(translationStart + '.interval.' + option, {}) }}
-              </mat-option>
-            }
-          </mat-select>
-          @if (formGroup.controls.execInterval.hasError('required')) {
-            <mat-error>{{ missingFields }}</mat-error>
-          }
-        </mat-form-field>
+        <app-filter-dropdown
+          [form]="formGroup"
+          [control]="$any(formGroup.controls.execInterval)"
+          [label]="t(translationStart + '.interval.rootString', {})"
+          [options]="execIntervalOptions.options"
+          [formatOptionValue]="displayFnText"
+          [formatSelectedValue]="displayFnText"
+          (selectionChange)="onIntervalSelectionChange($any($event))"
+        />
 
         <!-- execDay -->
         <mat-form-field [formGroup]="formGroup" appearance="outline">

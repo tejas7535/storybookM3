@@ -996,12 +996,12 @@
         "too_many_entries": "Die Liste enthält zu viele Einträge. Es dürfen maximal {{maxRows}} Einträge in einem Schritt hochgeladen werden.",
         "no_entries": "Keine Einträge vorhanden.",
         "save": {
-          "success": "{{count}} Zeilen konnten erfolgreich gespeichert werden.,1,1,Eine Zeile konnte erfolgreich gespeichert werden.",
-          "error": "Das Speichern von {{count}} Zeilen war nicht erfolgreich.,1,1,Das Speichern von einer Zeile war nicht erfolgreich."
+          "success": "{ count, plural, =1 {Eine Zeile konnte erfolgreich gespeichert werden.} other {# Zeilen konnten erfolgreich gespeichert werden.}}",
+          "error": "{ count, plural, =1 {Das Speichern von einer Zeile war nicht erfolgreich.} other {Das Speichern von # Zeilen war nicht erfolgreich.}}"
         },
         "check": {
-          "success": "{{count}} Zeilen sind gültig.,1,1,Eine Zeile ist gültig.",
-          "error": "{{count}} Zeilen sind nicht gültig.,1,1,Eine Zeile ist nicht gültig."
+          "success": "{ count, plural, =1 {Eine Zeile ist gültig.} other {# Zeilen sind gültig.}}",
+          "error": "{ count, plural, =1 {Eine Zeile ist nicht gültig.} other {# Zeilen sind nicht gültig.}}"
         }
       }
     }

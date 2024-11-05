@@ -987,12 +987,12 @@
         "too_many_entries": "La liste contient trop d'entrées. Il ne doit pas y avoir plus de {{maxRows}} entrées à télécharger en une seule étape.",
         "no_entries": "Aucune entrée disponible.",
         "save": {
-          "success": "{{count}} Les lignes ont pu être enregistrées avec succès.,1,1,Une ligne a pu être enregistrée avec succès.",
-          "error": "L'enregistrement de {{count}} a échoué. a échoué.,1,1,L'enregistrement d'une ligne a échoué."
+          "success": "{ count, plural, =1 {Une ligne a pu être enregistrée avec succès.} other {# les lignes ont pu être enregistrées avec succès.}}",
+          "error": "{ count, plural, =1 {L'enregistrement d'une ligne a échoué.} other {L'enregistrement de # a échoué.}}"
         },
         "check": {
-          "success": "{{count}} Les lignes sont valides.,1,1,Une ligne est valide.",
-          "error": "{{count}} Les lignes ne sont pas valides.,1,1,Une ligne n'est pas valide."
+          "success": "{ count, plural, =1 {Une ligne est valide.} other {# les lignes sont valides.}}",
+          "error": "{ count, plural, =1 {Une ligne n'est pas valide.} other {# les lignes ne sont pas valides.}}"
         }
       }
     }

@@ -987,12 +987,12 @@
         "too_many_entries": "L'elenco contiene troppe voci. È possibile caricare un massimo di {{maxRows}} voci in un'unica fase.",
         "no_entries": "Non ci sono voci disponibili.",
         "save": {
-          "success": "{{count}} Le righe sono state salvate con successo.,1,1,È stato possibile salvare una riga con successo.",
-          "error": "Il salvataggio di {{count}} non è andato a buon fine.,1,1,Il salvataggio di una riga non è riuscito."
+          "success": "{ count, plural, =1 {È stato possibile salvare una riga con successo.} other {# le righe sono state salvate con successo.}}",
+          "error": "{ count, plural, =1 {Il salvataggio di una riga non è riuscito.} other {Il salvataggio di # non è andato a buon fine.}}"
         },
         "check": {
-          "success": "{{count}} sono valide.,1,1,Una riga è valida.",
-          "error": "{{count}} Le righe non sono valide.,1,1,Una riga non è valida."
+          "success": "{ count, plural, =1 {Una riga è valida.} other {# sono valide.}}",
+          "error": "{ count, plural, =1 {Una riga non è valida.} other {# le righe non sono valide.}}"
         }
       }
     }

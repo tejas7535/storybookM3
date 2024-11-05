@@ -1,0 +1,65 @@
+<div *transloco="let t">
+  <!-- title -->
+  <div mat-dialog-title class="m-0 pt-0">
+    <div class="flex">
+      <h2 class="text-title-large flex-auto">{{ title }}</h2>
+
+      <!-- reset button -->
+      <button (click)="onReset()" [disabled]="loading()" mat-button>
+        <mat-icon>close</mat-icon>
+        {{ t('button.reset') }}
+      </button>
+
+      <!-- dry run button -->
+      <button (click)="onApplyData(true)" [disabled]="loading()" mat-button>
+        <mat-icon>check</mat-icon>
+        {{ t('button.validate') }}
+      </button>
+    </div>
+  </div>
+
+  <!-- content -->
+  <mat-dialog-content>
+    @if (loading()) {
+      <!-- loading spinner -->
+      <div>
+        <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
+      </div>
+    }
+    @if (description) {
+      <div>{{ description }}</div>
+    }
+
+    <ag-grid-angular
+      class="ag-theme-material"
+      domLayout="autoHeight"
+      [localeText]="agGridLocalizationService.lang()"
+      [defaultColDef]="defaultColDef"
+      [suppressRowHoverHighlight]="true"
+      [tooltipShowDelay]="500"
+      (gridReady)="onGridReady($event)"
+      [columnDefs]="columnDefs"
+      (cellEditingStopped)="addEmptyRow()"
+      (rowDataUpdated)="addEmptyRow()"
+      [processDataFromClipboard]="onClipboard.bind(this)"
+    />
+  </mat-dialog-content>
+
+  <!--  buttons -->
+  <mat-dialog-actions align="end" class="gap-3">
+    <!-- close button -->
+    <button
+      (click)="onClose()"
+      [disabled]="loading()"
+      mat-button
+      mat-dialog-close
+    >
+      {{ t('button.close') }}
+    </button>
+
+    <!-- save button -->
+    <button (click)="onApplyData(false)" mat-flat-button [disabled]="loading()">
+      {{ t(modalMode === 'save' ? 'button.save' : 'button.delete') }}
+    </button>
+  </mat-dialog-actions>
+</div>

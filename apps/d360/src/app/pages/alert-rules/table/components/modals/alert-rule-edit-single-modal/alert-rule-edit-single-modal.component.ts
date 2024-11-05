@@ -26,7 +26,7 @@ import {
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 
 import { combineLatest, map, tap } from 'rxjs';
 
@@ -72,7 +72,6 @@ import {
   ToastResult,
 } from './../../../../../../shared/utils/error-handling';
 import {
-  execIntervalOptions,
   possibleWhenOptions,
   thresholdTypeWithParameter,
 } from './alert-rule-options-config';
@@ -228,7 +227,8 @@ export class AlertRuleEditSingleModalComponent implements OnInit {
    * @protected
    * @memberof AlertRuleEditSingleModalComponent
    */
-  protected readonly execIntervalOptions = execIntervalOptions;
+  protected readonly execIntervalOptions =
+    this.selectableOptionsService.get('interval');
 
   /**
    * A helper function to render the options in the HTML
@@ -544,7 +544,7 @@ export class AlertRuleEditSingleModalComponent implements OnInit {
    */
   private setExecDays(): void {
     const execInterval: ExecInterval | null =
-      this.formGroup.get('execInterval')?.value ?? null;
+      this.formGroup.get('execInterval')?.value?.id ?? null;
 
     this.execDayOptions = possibleWhenOptions?.[execInterval] || [];
   }
@@ -553,13 +553,12 @@ export class AlertRuleEditSingleModalComponent implements OnInit {
    * On execInterval changes, we can set default values for execDay
    *
    * @protected
-   * @param {MatSelectChange} { value }
+   * @param {(SelectableValue | null)} value
    * @memberof AlertRuleEditSingleModalComponent
    */
-  protected onIntervalSelectionChange({ value }: MatSelectChange): void {
+  protected onIntervalSelectionChange(value: SelectableValue | null): void {
     // cast to use the correct type
-    const execInterval: ExecInterval = value as ExecInterval;
-
+    const execInterval: ExecInterval = value?.id as ExecInterval;
     // update ExecDays first
     this.setExecDays();
 

@@ -987,12 +987,12 @@
         "too_many_entries": "列表中包含太多条目。一次最多可上传 {{maxRows}} 个条目。",
         "no_entries": "没有可用的条目。",
         "save": {
-          "success": " {{count}} 行已被成功保存,1,1,该行已被成功保存",
-          "error": "保存{{count}} 行失败,1,1,保存该行失败"
+          "success": "{ count, plural, =1 {该行已被成功保存} other {# 行已被成功保存}}",
+          "error": "{ count, plural, =1 {保存该行失败} other {保存 # 行失败}}"
         },
         "check": {
-          "success": "{{count}} 行有效。行有效。,1,1,一行有效。",
-          "error": "{{count}}行行无效。,1,1,一行无效。"
+          "success": "{ count, plural, =1 {一行有效。} other {# 行有效。行有效。}}",
+          "error": "{ count, plural, =1 {一行无效。} other {# 行行无效。}}"
         }
       }
     }

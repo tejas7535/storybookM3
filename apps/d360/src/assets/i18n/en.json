@@ -996,12 +996,12 @@
         "too_many_entries": "The list contains too many entries. A maximum of {{maxRows}} entries may be uploaded in one step.",
         "no_entries": "No entries available.",
         "save": {
-          "success": "{{count}} Lines could be saved successfully.,1,1,One line could be saved successfully.",
-          "error": "The saving of {{count}} rows was not successful.,1,1,Saving one line was not successful."
+          "success": "{ count, plural, =1 {One line could be saved successfully.} other {# lines could be saved successfully.}}",
+          "error": "{ count, plural, =1 {Saving one line was not successful.} other {The saving of # rows was not successful.}}"
         },
         "check": {
-          "success": "{{count}} lines are valid.,1,1,One line is valid.",
-          "error": "{{count}} Lines are not valid.,1,1,One line is not valid."
+          "success": "{ count, plural, =1 {One line is valid.} other {# lines are valid.}}",
+          "error": "{ count, plural, =1 {One line is not valid.} other {# lines are not valid.}}"
         }
       }
     }

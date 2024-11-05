@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, signal } from '@angular/core';
+import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -60,6 +60,15 @@ export class CustomerMaterialPortfolioComponent {
   protected globalSelectionStatus: GlobalSelectionStatus;
   protected customerSelectableValues: OptionsLoadingResult;
 
+  /**
+   * The DestroyRef instance.
+   *
+   * @protected
+   * @type {DestroyRef}
+   * @memberof CustomerMaterialPortfolioComponent
+   */
+  protected readonly destroyRef: DestroyRef = inject(DestroyRef);
+
   constructor(
     private readonly globalSelectionService: GlobalSelectionHelperService,
     protected dialog: MatDialog
@@ -87,7 +96,7 @@ export class CustomerMaterialPortfolioComponent {
   private updateCustomerData() {
     this.globalSelectionService
       .getCustomersData(this.globalSelection)
-      .pipe(take(1), takeUntilDestroyed())
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
       .subscribe((data) => {
         this.customerData.set(data);
         if (this.customerData()) {

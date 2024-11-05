@@ -105,6 +105,6 @@ export const AVAILABLE_LOCALES: Locale[] = [
 
 export const DEFAULT_LOCALE: Locale = LOCALE_EN;
 
-export const geDefaultLocale = (): Locale =>
+export const getDefaultLocale = (): Locale =>
   AVAILABLE_LOCALES.find((locale) => locale.id === getBrowserCultureLang()) ||
   DEFAULT_LOCALE;

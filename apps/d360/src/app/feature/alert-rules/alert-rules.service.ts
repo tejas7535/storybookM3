@@ -1,7 +1,15 @@
 import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { catchError, map, Observable, of, shareReplay, switchMap } from 'rxjs';
+import {
+  catchError,
+  map,
+  Observable,
+  of,
+  ReplaySubject,
+  share,
+  switchMap,
+} from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 import { format, parse } from 'date-fns';
@@ -19,14 +27,21 @@ import {
   dataToAlertRuleRequest,
 } from './model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AlertRulesService {
   private readonly MULTI_ALERT_RULES_API = 'api/alert-rules/multi-alerts';
   private readonly SINGLE_ALERT_RULES_API = 'api/alert-rules/single-alert';
   private readonly ALERT_RULES_API = 'api/alert-rules';
   private readonly ALERT_TYPE_SET_API = 'api/alert-rules/alert-type-set';
+
+  /**
+   * This is the cached Observable that uses a ReplaySubject under the hood.
+   *
+   * @private
+   * @type {Observable<AlertTypeDescription[]>}
+   * @memberof AlertRulesService
+   */
+  private ruleTypeData$: Observable<AlertTypeDescription[]>;
 
   constructor(
     private readonly http: HttpClient,
@@ -34,21 +49,34 @@ export class AlertRulesService {
     private readonly translocoService: TranslocoService
   ) {}
 
-  // TODO change to BehaviourSubject to avoid multiple requests
-  getRuleTypeData(): Observable<AlertTypeDescription[]> {
-    return this.currencyService.getCurrentCurrency().pipe(
-      switchMap((currentCurrency) => {
-        const preferredLanguage = this.translocoService.getActiveLang();
-        const params = new HttpParams()
-          .set('language', preferredLanguage)
-          .set('currency', currentCurrency);
+  /**
+   * Read the rule type data only once and then cache the Observable
+   *
+   * @return {Observable<AlertTypeDescription[]>}
+   * @memberof AlertRulesService
+   */
+  public getRuleTypeData(): Observable<AlertTypeDescription[]> {
+    // Cache it once, if ruleTypeData$ is undefined
+    if (!this.ruleTypeData$) {
+      this.ruleTypeData$ = this.currencyService.getCurrentCurrency().pipe(
+        switchMap((currentCurrency) =>
+          this.http.get<AlertTypeDescription[]>(this.ALERT_TYPE_SET_API, {
+            params: new HttpParams()
+              .set('language', this.translocoService.getActiveLang())
+              .set('currency', currentCurrency),
+          })
+        ),
+        // this tells RxJS to keep the Observable alive
+        share({
+          connector: () => new ReplaySubject(1), // this tells RxJS to cache the latest emitted
+          resetOnError: true, // do not cache, if there was an error
+          resetOnComplete: false,
+          resetOnRefCountZero: false,
+        })
+      );
+    }
 
-        return this.http.get<AlertTypeDescription[]>(this.ALERT_TYPE_SET_API, {
-          params,
-        });
-      }),
-      shareReplay(1)
-    );
+    return this.ruleTypeData$;
   }
 
   getAlertRuleData(): Observable<AlertRuleResponse> {
@@ -117,7 +145,14 @@ export class AlertRulesService {
         response: [] as AlertRuleSaveResponse[],
       });
     }
-    const request = data.map((d) => dataToAlertRuleRequest(d));
+
+    const request = data.map((row) =>
+      dataToAlertRuleRequest({
+        ...row,
+        startDate: this.parse2Date(row.startDate),
+        endDate: this.parse2Date(row.endDate),
+      })
+    );
 
     return this.http
       .request<AlertRuleSaveResponse[]>('delete', this.MULTI_ALERT_RULES_API, {

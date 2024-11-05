@@ -30,6 +30,7 @@ import {
 import { MsalInterceptor } from '@azure/msal-angular';
 import { TranslocoService } from '@jsverse/transloco';
 import { provideTranslocoLocale } from '@jsverse/transloco-locale';
+import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat';
 import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -54,7 +55,7 @@ import {
 import { environment } from '../environments/environment';
 import { appRoutes } from './app.routes';
 import { AppRoutePath } from './app.routes.enum';
-import { geDefaultLocale } from './shared/constants/available-locales';
+import { getDefaultLocale } from './shared/constants/available-locales';
 import {
   AVAILABLE_LANGUAGES,
   FALLBACK_LANGUAGE,
@@ -96,7 +97,7 @@ export const appConfig: ApplicationConfig = {
     ),
     provideTranslocoLocale({
       ...sharedTranslocoLocaleConfig,
-      defaultLocale: geDefaultLocale().id,
+      defaultLocale: getDefaultLocale().id,
     }),
     provideTranslocoPersistLang({
       storageKey: LANGUAGE_STORAGE_KEY,
@@ -104,6 +105,7 @@ export const appConfig: ApplicationConfig = {
         useValue: localStorage,
       },
     }),
+    provideTranslocoMessageformat(),
     importProvidersFrom(
       SharedAzureAuthModule.forRoot(azureConfig),
       StoreModule.forRoot({}),

@@ -10,9 +10,13 @@ import {
   take,
 } from 'rxjs';
 
-import { TranslocoService } from '@jsverse/transloco';
+import { translate, TranslocoService } from '@jsverse/transloco';
 
 import { environment } from '../../../environments/environment';
+import {
+  execIntervalOptions,
+  whenOptions,
+} from '../../pages/alert-rules/table/components/modals/alert-rule-edit-single-modal/alert-rule-options-config';
 import { SelectableValue } from '../components/inputs/autocomplete/selectable-values.utils';
 
 /**
@@ -45,6 +49,8 @@ export interface OptionsTypes {
   gkam: OptionsLoadingResult;
   productLine: OptionsLoadingResult;
   stochoasticType: OptionsLoadingResult;
+  interval: OptionsLoadingResult;
+  execDay: OptionsLoadingResult;
 }
 
 /**
@@ -95,6 +101,7 @@ export class SelectableOptionsService {
    */
   public constructor() {
     this.preload();
+    this.setStatics();
   }
 
   /**
@@ -161,6 +168,32 @@ export class SelectableOptionsService {
           return { options, loading: false, loadingError: null };
         })
       );
+  }
+
+  /**
+   * This method sets some static data.
+   *
+   * @private
+   * @memberof SelectableOptionsService
+   */
+  private setStatics(): void {
+    this._data.set('interval', {
+      options: execIntervalOptions.map((option) => ({
+        id: option,
+        text: translate(`alert_rules.edit_modal.label.interval.${option}`),
+      })),
+      loading: false,
+      loadingError: null,
+    });
+
+    this._data.set('execDay', {
+      options: whenOptions.map((option) => ({
+        id: option,
+        text: translate(`alert_rules.edit_modal.label.when.${option}`),
+      })),
+      loading: false,
+      loadingError: null,
+    });
   }
 
   /**

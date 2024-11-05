@@ -88,7 +88,12 @@ export class SelectableValueUtils {
 
     // If it is already a SelectableValue, we don't need to have options
     if (SelectableValueUtils.isSelectableValue(initialValue)) {
-      return initialValue;
+      return initialValue.id === initialValue.text && !!options
+        ? // let's check, if we find a better version with different id/name pair otherwise return the initialValue
+          options.find((option) => option?.id === initialValue.id) ||
+            initialValue
+        : // otherwise return the initialValue
+          initialValue;
     }
 
     // If there are no options, return a SelectableValue with the string we have as both id and text
@@ -108,6 +113,21 @@ export class SelectableValueUtils {
     );
   }
 
+  /**
+   * Transforms an input to a SelectableValue, SelectableValue[] or null
+   *
+   * @static
+   * @param {(SelectableValue
+   *       | SelectableValue[]
+   *       | Partial<SelectableValue>
+   *       | Partial<SelectableValue>[]
+   *       | string
+   *       | string[]
+   *       | null)} value
+   * @param {boolean} shouldBeArray
+   * @return {(SelectableValue | SelectableValue[] | null)}
+   * @memberof SelectableValueUtils
+   */
   public static toSelectableValueOrNull(
     value:
       | SelectableValue
@@ -130,7 +150,7 @@ export class SelectableValueUtils {
     };
 
     if (value === null) {
-      return shouldBeArray ? [] : null; // Bei null bleibt null
+      return shouldBeArray ? [] : null;
     }
 
     if (Array.isArray(value)) {

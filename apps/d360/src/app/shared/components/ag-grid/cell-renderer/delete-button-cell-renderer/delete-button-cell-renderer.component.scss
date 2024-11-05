@@ -4,8 +4,15 @@
   align-items: center;
   width: 100%;
   height: 100%;
-}
 
-.icon-wrapper:hover {
-  color: #a31839; /* Replace with your error color */
+  .mat-mdc-icon-button {
+    transition: color ease-in-out 250ms;
+    padding: 0;
+  }
+
+  &:hover {
+    .mat-mdc-icon-button {
+      color: var(--error-color);
+    }
+  }
 }

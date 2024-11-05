@@ -35,4 +35,17 @@
       min-height: 400px !important;
     }
   }
+
+  .ag-theme-material .ag-rich-select-list {
+    width: 100% !important;
+    min-width: 200px !important;
+  }
+
+  .ag-popup-child:not(.ag-tooltip-custom) {
+    margin-left: 1px;
+  }
+
+  .ag-popup-editor .ag-rich-select-value {
+    min-width: 300px;
+  }
 }

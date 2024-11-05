@@ -1,0 +1,709 @@
+/* eslint-disable max-lines */
+import {
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  signal,
+  WritableSignal,
+} from '@angular/core';
+
+import { translate } from '@jsverse/transloco';
+import {
+  ColDef,
+  ColumnApi,
+  GridReadyEvent,
+  GridSizeChangedEvent,
+  IRowModel,
+  IRowNode,
+  ProcessDataFromClipboardParams,
+} from 'ag-grid-community';
+import { GridApi } from 'ag-grid-enterprise';
+
+import { ErrorMessage } from '../../../pages/alert-rules/table/components/modals/alert-rule-logic-helper';
+import { gridParseFromClipboard } from '../../ag-grid/grid-parse-from-clipboard';
+import { ensureEmptyRowAtBottom, resetGrid } from '../../ag-grid/grid-utils';
+import { AgGridLocalizationService } from '../../services/ag-grid-localization.service';
+import { textLight } from '../../styles/colors';
+import {
+  multiPostResultsToUserMessages,
+  PostResult,
+  ResponseWithResultMessage,
+} from '../../utils/error-handling';
+import { combineParseFunctionsForFields } from '../../utils/parse-values';
+import { SnackbarService } from '../../utils/service/snackbar.service';
+import { DeleteButtonCellRendererComponent } from '../ag-grid/cell-renderer/delete-button-cell-renderer/delete-button-cell-renderer.component';
+import {
+  buildValidationProps,
+  rowIsEmpty,
+} from '../ag-grid/validatation-functions';
+import { ColumnForUploadTable } from './models';
+
+/**
+ * The AbstractTableUploadModal Component.
+ *
+ * Used to wrap all shared logic for all table upload modals
+ *
+ * @export
+ * @abstract
+ * @class AbstractTableUploadModalComponent
+ * @implements {OnInit}
+ * @template T
+ * @template R
+ */
+@Component({ template: '' })
+export abstract class AbstractTableUploadModalComponent<
+  T,
+  R extends ResponseWithResultMessage,
+> implements OnInit
+{
+  /**
+   * The snackbar instance.
+   *
+   * @private
+   * @type {SnackbarService}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  private readonly snackbarService: SnackbarService = inject(SnackbarService);
+
+  /**
+   * The AgGridLocalizationService instance.
+   *
+   * @protected
+   * @type {AgGridLocalizationService}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected readonly agGridLocalizationService: AgGridLocalizationService =
+    inject(AgGridLocalizationService);
+
+  /**
+   * The DestroyRef instance.
+   *
+   * @protected
+   * @type {DestroyRef}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected readonly destroyRef: DestroyRef = inject(DestroyRef);
+
+  /**
+   * The loading indicator signal.
+   *
+   * @protected
+   * @type {WritableSignal<boolean>}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected readonly loading: WritableSignal<boolean> = signal(false);
+
+  /**
+   * The errors during the save / delete call.
+   *
+   * @private
+   * @type {WritableSignal<ErrorMessage<T>[]>}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  private readonly backendErrors: WritableSignal<ErrorMessage<T>[]> = signal(
+    []
+  );
+
+  /**
+   * The errors during the frontend validation.
+   *
+   * @private
+   * @type {WritableSignal<ErrorMessage<T>[]>}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  private readonly frontendErrors: WritableSignal<ErrorMessage<T>[]> = signal(
+    []
+  );
+
+  /**
+   * The grid api instance.
+   *
+   * @private
+   * @type {(WritableSignal<GridApi | null>)}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  private readonly gridApi: WritableSignal<GridApi | null> = signal(null);
+
+  /**
+   * The grid columnApi instance.
+   * TODO: columnApi was removed in later versions of the AG-Grid, use gridApi after upgrading
+   *
+   * @private
+   * @deprecated
+   * @type {(WritableSignal<ColumnApi | null>)}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  private readonly columnApi: WritableSignal<ColumnApi | null> = signal(null);
+
+  /**
+   * The default column definitions.
+   *
+   * @protected
+   * @type {ColDef}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected defaultColDef: ColDef = { suppressMenu: true };
+
+  /**
+   * The columnDefs to be used in the table.
+   *
+   * @protected
+   * @type {ColDef[]}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected columnDefs: ColDef[] = [];
+
+  /**
+   * An optional description text, rendered above the table
+   *
+   * @protected
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected description = '';
+
+  /**
+   * The dialog title
+   *
+   * @protected
+   * @abstract
+   * @type {string}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected abstract title: string;
+
+  /**
+   * The modal mode.
+   * Used to render save / delete buttons
+   *
+   * @protected
+   * @abstract
+   * @type {('save' | 'delete')}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected abstract modalMode: 'save' | 'delete';
+
+  /**
+   * The applyFunction triggered after clicking save or delete
+   *
+   * @protected
+   * @abstract
+   * @param {T[]} data
+   * @param {boolean} dryRun
+   * @return {Promise<PostResult<R>>}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected abstract applyFunction(
+    data: T[],
+    dryRun: boolean
+  ): Promise<PostResult<R>>;
+
+  /**
+   *
+   * Parse the existing Errors from a given PostResult.
+   */
+  protected abstract parseErrorsFromResult(
+    result: PostResult<R>
+  ): ErrorMessage<T>[];
+
+  /**
+   * The columnDefinitions used in this modal.
+   *
+   * @protected
+   * @abstract
+   * @type {ColumnForUploadTable<T>[]}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected abstract columnDefinitions: ColumnForUploadTable<T>[];
+
+  /**
+   * This method checks in the data for existing errors.
+   *
+   * @protected
+   * @abstract
+   * @param {T[]} data
+   * @return {ErrorMessage<T>[]}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected abstract checkDataForErrors(data: T[]): ErrorMessage<T>[];
+
+  /**
+   * This parse functions are used in the clipboard paste event.
+   *
+   * @protected
+   * @abstract
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected abstract specialParseFunctionsForFields: Map<
+    keyof T,
+    (value: string) => string
+  >;
+
+  /**
+   * The max allowed Rows for the table.
+   *
+   * @protected
+   * @abstract
+   * @type {number}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected abstract maxRows: number;
+
+  /**
+   * The onAdded callback.
+   *
+   * @protected
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected onAdded(): void {}
+
+  /**
+   * The onClose callback.
+   *
+   * @protected
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected onClose(): void {}
+
+  /** @inheritdoc */
+  public ngOnInit(): void {
+    this.columnDefs = [
+      ...this.columnDefinitions.map((colDef: ColumnForUploadTable<T>) => ({
+        ...colDef,
+        field: colDef.field.toString(),
+        headerName: colDef.headerNameFn(),
+        minWidth: colDef.minWidth ?? 200,
+        validationFn: undefined,
+        ...buildValidationProps(
+          this.validateFunctionWithErrors(colDef.validationFn),
+          true,
+          textLight
+        ),
+      })),
+      {
+        field: 'DELETE',
+        headerName: '',
+        cellRenderer: DeleteButtonCellRendererComponent,
+        minWidth: 68,
+        maxWidth: 68,
+      },
+    ];
+  }
+
+  /**
+   * Validate the values and set errors.
+   *
+   * @private
+   * @param {((value: string, rowData: IRowNode) => string | null | undefined)} [valFn]
+   * @return
+   * @memberof AbstractTableUploadModalComponent
+   */
+  private validateFunctionWithErrors(
+    valFn?: (value: string, rowData: IRowNode) => string | null | undefined
+  ) {
+    return (
+      value: string,
+      rowData: IRowNode,
+      colId?: string
+    ): string | null | undefined => {
+      if (valFn && value) {
+        const validationResult = valFn(value, rowData);
+        if (validationResult) {
+          return validationResult;
+        }
+      }
+
+      const allErrorMessages = [
+        ...this.backendErrors(),
+        ...this.frontendErrors(),
+      ];
+      if (allErrorMessages.length === 0) {
+        return undefined;
+      }
+
+      const matchingErrors = allErrorMessages.filter((errMsg) =>
+        this.isPartialDataMatching(errMsg.dataIdentifier, rowData.data)
+      );
+
+      if (matchingErrors.length === 0) {
+        return undefined;
+      }
+
+      const fieldError = matchingErrors.find(
+        (errMsg) => errMsg.specificField === colId
+      );
+
+      if (fieldError) {
+        return fieldError.errorMessage;
+      }
+
+      const rowError = matchingErrors.find(
+        (errMsg) => !errMsg.specificField || !colId
+      );
+
+      return rowError?.errorMessage || null;
+    };
+  }
+
+  /**
+   * This method is triggered after clicking save or delete.
+   *
+   * @protected
+   * @param {boolean} dryRun
+   * @return
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected async onApplyData(dryRun: boolean) {
+    this.backendErrors.set([]);
+    this.frontendErrors.set([]);
+
+    const rowModel = this.gridApi()?.getModel();
+    if (!rowModel) {
+      return;
+    }
+
+    const data: T[] = this.dataFromRowModel(rowModel);
+
+    if (this.checkForNoRows(data) || this.checkForTooManyRows(rowModel)) {
+      return;
+    }
+
+    this.loading.set(true);
+    const action = dryRun ? 'check' : 'save';
+
+    try {
+      const errorsFromValidation = this.getValidationErrors(
+        rowModel,
+        this.columnDefinitions
+      );
+      const errorsFromDataCheck = this.checkDataForErrors(data);
+      this.frontendErrors.set(errorsFromDataCheck);
+
+      const allErrorsFromValidations = [
+        ...errorsFromValidation,
+        ...errorsFromDataCheck,
+      ];
+
+      const validData = data.filter(
+        (row) =>
+          !allErrorsFromValidations.some((error) =>
+            this.isPartialDataMatching(error.dataIdentifier, row)
+          )
+      );
+
+      const errorRowCount = this.countErrorRows(allErrorsFromValidations);
+
+      if (validData.length === 0) {
+        this.snackbarService.openSnackBar(
+          this.getErrorMessageFn(action)(errorRowCount)
+        );
+
+        return;
+      }
+
+      const postResult = await this.applyFunction(validData, dryRun);
+
+      // Set error messages to show them in grid
+      this.backendErrors.set(this.parseErrorsFromResult(postResult));
+      if (this.backendErrors().length > 0 || this.frontendErrors().length > 0) {
+        this.ngOnInit();
+      }
+
+      const userMessages = multiPostResultsToUserMessages(
+        postResult,
+        this.getSuccessMessageFn(action),
+        this.getErrorMessageFn(action),
+        this.getErrorMessageFn(action),
+        errorRowCount
+      );
+
+      userMessages.forEach((msg) =>
+        this.snackbarService.openSnackBar(msg.message)
+      );
+
+      if (
+        userMessages.length === 1 &&
+        (userMessages[0].variant === 'success' ||
+          userMessages[0].variant === 'warning') &&
+        this.onAdded &&
+        !dryRun
+      ) {
+        this.onAdded();
+      }
+    } finally {
+      this.loading.set(false);
+    }
+  }
+
+  /**
+   * Returns the data in a row model.
+   *
+   * @private
+   * @param {IRowModel} rowModel
+   * @return {T[]}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  private dataFromRowModel(rowModel: IRowModel): T[] {
+    const rowData: T[] = [];
+    rowModel.forEachNode((row) => {
+      if (rowIsEmpty(row)) {
+        return;
+      }
+      rowData.push(row.data as T);
+    });
+
+    return rowData;
+  }
+
+  /**
+   * Checks for no rows in the table
+   *
+   * @private
+   * @param {T[]} data
+   * @return {boolean}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  private checkForNoRows(data: T[]): boolean {
+    // Check the data not the rows because rows can be empty
+    if (data.length === 0) {
+      this.snackbarService.openSnackBar(
+        translate('generic.validation.upload.no_entries', {})
+      );
+
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Checks for too many rows in the table.
+   *
+   * @private
+   * @param {IRowModel} rowModel
+   * @param {number} [maxAllowedRows=200]
+   * @return {boolean}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  private checkForTooManyRows(rowModel: IRowModel): boolean {
+    // More than max rows (@see this.maxRows) are not allowed because we would wait to long,
+    // one row is always empty at the end.
+    if (rowModel.getRowCount() > this.maxRows + 1) {
+      this.snackbarService.openSnackBar(
+        translate('generic.validation.upload.too_many_entries', {
+          maxRows: this.maxRows,
+        })
+      );
+
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Returns the validation errors in a row.
+   *
+   * @private
+   * @param {IRowModel} rowModel
+   * @param {ColumnForUploadTable<T>[]} columnDefinitions
+   * @return {ErrorMessage<T>[]}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  private getValidationErrors(
+    rowModel: IRowModel,
+    columnDefinitions: ColumnForUploadTable<T>[]
+  ): ErrorMessage<T>[] {
+    const errors: ErrorMessage<T>[] = [];
+
+    columnDefinitions.forEach((def) => {
+      const { validationFn, field } = def;
+
+      if (validationFn) {
+        rowModel.forEachNode((row) => {
+          const data = row.data;
+
+          if (field && data[field]) {
+            const errorMessage = validationFn(data[field], row);
+            if (errorMessage) {
+              errors.push({
+                dataIdentifier: data,
+                specificField: field,
+                errorMessage,
+              });
+            }
+          }
+        });
+      }
+    });
+
+    return errors;
+  }
+
+  /**
+   * This method counts and returns the error rows.
+   * (2 or more errors in a row results in one error)
+   *
+   * @private
+   * @param {ErrorMessage<T>[]} errors
+   * @return {number}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  private countErrorRows(errors: ErrorMessage<T>[]): number {
+    const uniqueRowIdentifiers = new Set<Partial<T>>();
+
+    for (const error of errors) {
+      if (
+        ![...uniqueRowIdentifiers].some((rowIdentifier) =>
+          this.isPartialDataMatching(rowIdentifier, error.dataIdentifier)
+        )
+      ) {
+        uniqueRowIdentifiers.add(error.dataIdentifier);
+      }
+    }
+
+    return uniqueRowIdentifiers.size;
+  }
+
+  /**
+   * Returns a new function to translate error messages including a count.
+   *
+   * @private
+   * @param {('save' | 'check')} action
+   * @return
+   * @memberof AbstractTableUploadModalComponent
+   */
+  private getErrorMessageFn(action: 'save' | 'check') {
+    return (count: number) =>
+      translate(`generic.validation.upload.${action}.error`, { count });
+  }
+
+  /**
+   * Returns a new function to translate success messages including a count.
+   *
+   * @private
+   * @param {('save' | 'check')} action
+   * @return
+   * @memberof AbstractTableUploadModalComponent
+   */
+  private getSuccessMessageFn(action: 'save' | 'check') {
+    return (count: number) =>
+      translate(`generic.validation.upload.${action}.success`, { count });
+  }
+
+  /**
+   * The AG-Grid onGridReady callback.
+   *
+   * @protected
+   * @param {GridReadyEvent} event
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected onGridReady(event: GridReadyEvent) {
+    this.gridApi.set(event.api);
+    this.columnApi.set(event.columnApi);
+    event.api.applyTransaction({ add: [{}] });
+    event.api.sizeColumnsToFit();
+  }
+
+  /**
+   * The AG-Grid onGridSizeChanged callback.
+   *
+   * @protected
+   * @param {GridSizeChangedEvent} event
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected onGridSizeChanged(event: GridSizeChangedEvent) {
+    event.api.sizeColumnsToFit();
+  }
+
+  /**
+   * The AG-Grid onClipboard callback.
+   *
+   * @protected
+   * @param {ProcessDataFromClipboardParams<T>} params
+   * @return {null}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected onClipboard(params: ProcessDataFromClipboardParams<T>): null {
+    gridParseFromClipboard(
+      this.gridApi(),
+      this.columnApi(),
+      params.data,
+      combineParseFunctionsForFields(this.specialParseFunctionsForFields)
+    );
+
+    // Check, for errors
+    const rowModel = this.gridApi()?.getModel();
+    if (!rowModel) {
+      return null;
+    }
+
+    this.frontendErrors.set(
+      this.checkDataForErrors(this.dataFromRowModel(rowModel))
+    );
+
+    return null;
+  }
+
+  /**
+   * Add a new empty row to the table.
+   *
+   * @protected
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected addEmptyRow(): void {
+    if (this.gridApi()) {
+      ensureEmptyRowAtBottom(this.gridApi());
+    }
+  }
+
+  /**
+   * The onReset callback, triggered after clicking on reset.
+   *
+   * @protected
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected onReset(): void {
+    this.backendErrors.set([]);
+    this.frontendErrors.set([]);
+    resetGrid(this.gridApi());
+  }
+
+  /**
+   * This method checks, if the data have a partial matching.
+   *
+   * @private
+   * @template DATA
+   * @param {Partial<DATA>} dataIdentifier
+   * @param {*} data
+   * @return {boolean}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  private isPartialDataMatching<DATA>(
+    dataIdentifier: Partial<DATA>,
+    data: any
+  ): boolean {
+    const propertiesIdentifier = Object.entries(dataIdentifier);
+
+    for (const [fieldName, fieldValue] of propertiesIdentifier) {
+      // SAP sends back empty strings for empty fields but agGrid just leaves the field out. So don't use it.
+      if (!fieldValue || fieldValue === '') {
+        continue;
+      }
+
+      // Use a single check for all conditions
+      if (
+        !(
+          fieldName in data &&
+          data[fieldName] !== undefined &&
+          data[fieldName].toString().replaceAll('-', '') ===
+            fieldValue.toString().replaceAll('-', '')
+        )
+      ) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+}

@@ -91,8 +91,8 @@ export function checkAlertRuleData(
   }
 
   if (alertRule.execInterval && alertRule.execDay) {
-    const allowedOptions = possibleWhenOptions[alertRule.execInterval];
-    if (!allowedOptions.includes(alertRule.execDay)) {
+    const allowedOptions = possibleWhenOptions?.[alertRule.execInterval];
+    if (!(allowedOptions || []).includes(alertRule.execDay)) {
       errors.push({
         dataIdentifier: alertRule,
         specificField: 'execDay',
@@ -191,11 +191,8 @@ export function getSpecialParseFunctions(
   demandPlannerOptions: OptionsLoadingResult,
   gkamOptions: OptionsLoadingResult,
   productLineOptions: OptionsLoadingResult,
-  intervalOpts: {
-    id: string;
-    text: string;
-  }[],
-  whenOpts: { id: string; text: string }[]
+  intervalOpts: OptionsLoadingResult,
+  whenOpts: OptionsLoadingResult
 ): Map<keyof AlertRule, (value: string) => string> {
   return new Map([
     ['type', parseSelectableValueIfPossible(alertTypes.options)],
@@ -212,11 +209,8 @@ export function getSpecialParseFunctions(
     ],
     ['gkamNumber', parseSelectableValueIfPossible(gkamOptions.options)],
     ['productLine', parseSelectableValueIfPossible(productLineOptions.options)],
-    ['execInterval', parseSelectableValueIfPossible(intervalOpts)],
-    ['execDay', parseSelectableValueIfPossible(whenOpts)],
-    // TODO try to handle this in the service / component
-    // ['startDate', parseDateIfPossible],
-    // ['endDate', parseDateIfPossible],
+    ['execInterval', parseSelectableValueIfPossible(intervalOpts.options)],
+    ['execDay', parseSelectableValueIfPossible(whenOpts.options)],
   ]);
 }
 

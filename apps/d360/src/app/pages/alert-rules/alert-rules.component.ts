@@ -124,22 +124,42 @@ export class AlertRulesComponent implements OnDestroy {
   handleCreateMultiAlertRule() {
     this.dialog
       .open(AlertRuleEditMultiModalComponent, {
-        // disableClose: true,
+        disableClose: true,
+        panelClass: ['table-dialog', 'alert-rule'],
+        autoFocus: false,
+        maxHeight: 'calc(100% - 64px)',
+        maxWidth: 'none',
+        width: 'calc(100% - 64px)',
       })
       .afterClosed()
-      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        // TODO implement updateData
-      });
+      .pipe(
+        take(1),
+        switchMap((reloadData: boolean) =>
+          reloadData ? this.reloadData$() : EMPTY
+        ),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   handleDeleteMultiAlertRule() {
     this.dialog
       .open(AlertRuleDeleteMultiModalComponent, {
-        // disableClose: true,
+        disableClose: true,
+        panelClass: ['table-dialog', 'alert-rule'],
+        autoFocus: false,
+        maxHeight: 'calc(100% - 64px)',
+        maxWidth: 'none',
+        width: 'calc(100% - 64px)',
       })
       .afterClosed()
-      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        take(1),
+        switchMap((reloadData: boolean) =>
+          reloadData ? this.reloadData$() : EMPTY
+        ),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe(() => {
         // TODO implement updateData
       });

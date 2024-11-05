@@ -987,12 +987,12 @@
         "too_many_entries": "La lista contiene demasiadas entradas. Se puede cargar un máximo de {{maxRows}} entradas en un solo paso.",
         "no_entries": "No hay entradas disponibles.",
         "save": {
-          "success": "{{count}} Las líneas se han guardado correctamente.,1,1,Se ha podido guardar una línea con éxito.",
-          "error": "El guardado de {{count}} no se ha guardado correctamente.,1,1,No se ha podido guardar una línea."
+          "success": "{ count, plural, =1 {Se ha podido guardar una línea con éxito.} other {# las líneas se han guardado correctamente.}}",
+          "error": "{ count, plural, =1 {No se ha podido guardar una línea.} other {El guardado de # no se ha guardado correctamente.}}"
         },
         "check": {
-          "success": "{{count}} líneas son válidas.,1,1,Una línea es válida.",
-          "error": "{{count}} Las líneas no son válidas.,1,1,Una línea no es válida."
+          "success": "{ count, plural, =1 {Una línea es válida.} other {# líneas son válidas.}}",
+          "error": "{ count, plural, =1 {Una línea no es válida.} other {# las líneas no son válidas.}}"
         }
       }
     }

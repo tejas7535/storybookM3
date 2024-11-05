@@ -2,7 +2,6 @@ import { HttpRequest, HttpResponse } from '@angular/common/http';
 
 import { of } from 'rxjs';
 
-import { TranslocoService } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { HeadersInterceptor } from './headers.interceptor';
@@ -12,7 +11,6 @@ describe('HeadersInterceptor', () => {
 
   const createService = createServiceFactory({
     service: HeadersInterceptor,
-    mocks: [TranslocoService],
   });
 
   const dummyRequest = {
