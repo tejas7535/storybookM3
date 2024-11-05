@@ -17,6 +17,11 @@ interface InteractionEvent {
   };
 }
 
+interface GenericEvent {
+  name: string;
+  params: { [key: string]: string | number };
+}
+
 enum InteractionType {
   Navigation = 'navigation',
   ShowInput = 'showInput',
@@ -31,20 +36,12 @@ enum InteractionType {
 })
 export class MobileFirebaseAnalyticsService {
   public logNavigationEvent(navigationUrl: string): void {
-    if (!this.isMobilePlatform()) {
-      return;
-    }
-
     const routingNavigationEvent: InteractionEvent =
       this.getRoutingNavigationEvent(navigationUrl);
     this.logEvent(routingNavigationEvent);
   }
 
   public logOpenExternalLinkEvent(productName: string) {
-    if (!this.isMobilePlatform()) {
-      return;
-    }
-
     const externalLinkEvent = {
       name: 'access_product_details',
       params: {
@@ -58,20 +55,12 @@ export class MobileFirebaseAnalyticsService {
   }
 
   public logInteractionEvent(eventType: InteractionEventType): void {
-    if (!this.isMobilePlatform()) {
-      return;
-    }
-
     const interactionEvent = this.getInteractionEventByType(eventType);
 
     this.logEvent(interactionEvent);
   }
 
   public logRawInteractionEvent(action: string, actionFormatted: string): void {
-    if (!this.isMobilePlatform()) {
-      return;
-    }
-
     const interactionEvent = this.createInteractionEvent(
       action,
       InteractionType.Interaction,
@@ -85,8 +74,8 @@ export class MobileFirebaseAnalyticsService {
     return Capacitor.isNativePlatform();
   }
 
-  private logEvent(event: InteractionEvent): void {
-    if (!event) {
+  public logEvent(event: InteractionEvent | GenericEvent): void {
+    if (!event || !this.isMobilePlatform()) {
       return;
     }
 

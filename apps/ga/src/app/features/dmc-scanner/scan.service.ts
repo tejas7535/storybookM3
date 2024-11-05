@@ -182,6 +182,7 @@ export class ScanService {
 
       if (!googleModuleAvailable.available) {
         this.handleAndroidDownload();
+
         return;
       }
     }

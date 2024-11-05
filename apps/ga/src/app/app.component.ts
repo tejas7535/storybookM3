@@ -27,6 +27,7 @@ import { ScanDialogComponent } from './features/dmc-scanner/scan-dialog.componen
 import { TRACKING_NAME_LANGUAGE } from './shared/constants';
 import { PartnerVersion } from './shared/models';
 import { AppAnalyticsService } from './shared/services/app-analytics-service/app-analytics-service';
+import { MobileFirebaseAnalyticsService } from './shared/services/mobile-firebase-analytics/mobile-firebase-analytics.service';
 
 @Component({
   selector: 'ga-root',
@@ -54,6 +55,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly store: Store,
     private readonly dialog: MatDialog,
     private readonly oneTrustMobileService: OneTrustMobileService,
+    private readonly firebaseAnalyticsService: MobileFirebaseAnalyticsService,
     @Optional() private readonly oneTrustService: OneTrustService,
     @Inject(DOCUMENT) private readonly document: Document
   ) {}
@@ -220,7 +222,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
     dialogRef.componentInstance.events.subscribe(({ name, ...payload }) => {
       this.applicationInsightsService.logEvent(name, payload);
-      this.appAnalyticsService.logRawInteractionEvent(name, name);
+      this.firebaseAnalyticsService.logEvent({
+        name,
+        params: payload,
+      });
     });
 
     dialogRef.componentInstance.selectDesignation.subscribe(

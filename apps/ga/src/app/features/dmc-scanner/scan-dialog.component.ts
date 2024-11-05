@@ -12,7 +12,6 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -22,7 +21,6 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 
 import {
   BehaviorSubject,
-  distinctUntilChanged,
   filter,
   firstValueFrom,
   map,
@@ -39,13 +37,13 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { BarcodeScannerFacade } from './barcode-scanner.facade';
-import { ScannedState, ScannerState } from './scan.models';
+import { ErrorState, ScannedState, ScannerState } from './scan.models';
 import { ScanService } from './scan.service';
 
 const DO_NOT_SHOW_STORAGE_KEY = 'camera-prompt-donotshow';
 
 interface EventData {
-  [key: string]: number | string | object | boolean;
+  [key: string]: number | string;
   name: string;
 }
 
@@ -95,13 +93,25 @@ export class ScanDialogComponent implements OnInit, OnDestroy {
   public readonly androidModelDownloadProgress = new BehaviorSubject(0);
 
   readonly scanResultTracker = effect(() => {
-    if (this.state().name === 'Scanned') {
-      const casted = this.state() as ScannedState;
-      this.track('scanned', {
-        flag: casted.codeFlag,
-        gaSupported: casted.greaseAppSupport,
-        productCode: casted.productCode,
-      });
+    // eslint-disable-next-line default-case
+    switch (this.state().name) {
+      case 'Scanned': {
+        const casted = this.state() as ScannedState;
+        this.track('scanned', {
+          flag: casted.codeFlag,
+          gaSupported: `${casted.greaseAppSupport}`,
+          productCode: casted.productCode,
+          designation: casted.pimData.bearingxDesignation,
+        });
+        break;
+      }
+      case 'Error': {
+        const errState = this.state() as ErrorState;
+        this.track('error', {
+          error: errState.title,
+        });
+        break;
+      }
     }
   });
 
@@ -117,8 +127,6 @@ export class ScanDialogComponent implements OnInit, OnDestroy {
 
   public destroy$ = new Subject();
 
-  private readonly trackingObservable = toObservable(this.trackingState);
-
   constructor(
     private readonly dialogRef: DialogRef,
     public readonly scanService: ScanService,
@@ -129,6 +137,7 @@ export class ScanDialogComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.dialogRef.addPanelClass(['w-full', '!max-w-3xl', 'scan-dialog']);
     this.dialogRef.config.disableClose = true;
+    this.track('scan_dialog_open');
     this.router.events
       .pipe(
         takeUntil(this.destroy$),
@@ -141,9 +150,6 @@ export class ScanDialogComponent implements OnInit, OnDestroy {
           this.scanService.reset();
         }
       });
-    this.trackingObservable
-      .pipe(distinctUntilChanged())
-      .subscribe((event) => this.track(event));
   }
 
   track(name: string, data?: Omit<EventData, 'name'>) {
