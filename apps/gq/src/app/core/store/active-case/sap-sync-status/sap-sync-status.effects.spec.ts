@@ -105,6 +105,41 @@ describe('SapSyncStatusEffects', () => {
         expect(quotationService.getSapSyncStatus).toHaveBeenCalledWith(123);
       })
     );
+    test(
+      'should return success and completed when REST call is successful for status partially synced',
+      marbles((m) => {
+        action = ActiveCaseActions.getSapSyncStatus();
+        store.overrideSelector(getGqId, 123);
+        store.overrideSelector(getSapId, '800000');
+
+        quotationService.getSapSyncStatus = jest.fn(() => response);
+        const responseObject: QuotationSapSyncStatusResult = {
+          sapSyncStatus: SAP_SYNC_STATUS.PARTIALLY_SYNCED,
+          quotationDetailSapSyncStatusList: [
+            { gqPositionId: '123', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
+          ],
+        };
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', { a: responseObject });
+        const expected = m.cold('--(bcd)', {
+          b: ActiveCaseActions.getSapSyncStatusSuccess({
+            result: responseObject,
+          }),
+          c: ActiveCaseActions.getSapSyncStatusSuccessFullyCompleted(),
+          d: ApprovalActions.getApprovalCockpitData({
+            sapId: '800000',
+            forceLoad: true,
+            hideLoadingSpinner: true,
+          }),
+        });
+
+        m.expect(effects.getSapSyncStatus$).toBeObservable(expected);
+        m.flush();
+        expect(quotationService.getSapSyncStatus).toHaveBeenCalledTimes(1);
+        expect(quotationService.getSapSyncStatus).toHaveBeenCalledWith(123);
+      })
+    );
     test('should return getSapSyncStatusFailure on REST error', () => {
       action = ActiveCaseActions.getSapSyncStatus();
       quotationService.getSapSyncStatus = jest.fn(() => response);

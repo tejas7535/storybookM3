@@ -28,10 +28,7 @@ export class SapSyncStatusEffects {
       switchMap(([_action, gqId, sapId]) =>
         this.quotationService.getSapSyncStatus(gqId).pipe(
           mergeMap((result: QuotationSapSyncStatusResult) => {
-            if (
-              result.sapSyncStatus === SAP_SYNC_STATUS.SYNCED ||
-              result.sapSyncStatus === SAP_SYNC_STATUS.SYNC_FAILED
-            ) {
+            if (result.sapSyncStatus !== SAP_SYNC_STATUS.SYNC_PENDING) {
               return [
                 ActiveCaseActions.getSapSyncStatusSuccess({ result }),
                 ActiveCaseActions.getSapSyncStatusSuccessFullyCompleted(),
