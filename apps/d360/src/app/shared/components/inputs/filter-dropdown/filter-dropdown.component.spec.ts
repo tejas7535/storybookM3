@@ -17,7 +17,6 @@ describe('SingleAutocompletePreLoadedComponent', () => {
         label: 'Dropdown',
         control: new FormControl({ id: '1', text: 'Option 1' }),
         form: new FormGroup({}),
-        disabled: false,
         options: [{ id: '1', text: 'Option 1' }],
         loading: false,
         multiSelect: false,

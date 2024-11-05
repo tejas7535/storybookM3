@@ -1,12 +1,5 @@
 import { NgClass, NgFor } from '@angular/common';
-import {
-  Component,
-  effect,
-  input,
-  InputSignal,
-  OnInit,
-  output,
-} from '@angular/core';
+import { Component, input, InputSignal, OnInit, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatIconButton } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -89,15 +82,6 @@ export class FilterDropdownComponent implements OnInit {
   public label: InputSignal<string> = input.required();
 
   /**
-   * Is the field is disabled?
-   * Hint: we use an effect here, to enable disable the form control.
-   *
-   * @type {InputSignal<boolean>}
-   * @memberof FilterDropdownComponent
-   */
-  public disabled: InputSignal<boolean> = input(false);
-
-  /**
    * A hint test to get rendered below the filter dropdown.
    *
    * @type {InputSignal<string>}
@@ -177,15 +161,6 @@ export class FilterDropdownComponent implements OnInit {
         ? DisplayFunctions.displayFnId(value)
         : DisplayFunctions.displayFnUnited(value)
     );
-
-  /**
-   * Creates an instance of FilterDropdownComponent.
-   *
-   * @memberof FilterDropdownComponent
-   */
-  public constructor() {
-    effect(() => this.control()[this.disabled() ? 'disable' : 'enable']());
-  }
 
   /**
    * Set the value after the selection was changed.
