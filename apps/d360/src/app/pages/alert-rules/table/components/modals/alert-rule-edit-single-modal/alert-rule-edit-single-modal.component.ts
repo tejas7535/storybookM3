@@ -610,6 +610,7 @@ export class AlertRuleEditSingleModalComponent implements OnInit {
       const startDate = formGroup.get('startDate')?.value;
       const endDate = formGroup.get('endDate')?.value;
       if (startDate && endDate && startDate > endDate) {
+        formGroup.get('endDate').setErrors({ toDateAfterFromDate: true });
         errors.endDate = ['end-before-start'];
       }
 

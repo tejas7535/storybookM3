@@ -92,19 +92,15 @@
     <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
       <!--      <div>&lt;!&ndash; TODO Implement ErrorHandlingDatePicker>&ndash;&gt;</div>-->
       <div>
-        <app-date-picker
-          [dateControl]="startOfProductionControl"
-        ></app-date-picker>
+        <app-date-picker [control]="startOfProductionControl"></app-date-picker>
       </div>
       <!--      <div>&lt;!&ndash; TODO Implement ErrorHandlingDatePicker>&ndash;&gt;</div>-->
       <div>
-        <app-date-picker [dateControl]="cutoverDateControl"></app-date-picker>
+        <app-date-picker [control]="cutoverDateControl"></app-date-picker>
       </div>
       <!--      <div>&lt;!&ndash; TODO Implement ErrorHandlingDatePicker>&ndash;&gt;</div>-->
       <div>
-        <app-date-picker
-          [dateControl]="replacementDateControl"
-        ></app-date-picker>
+        <app-date-picker [control]="replacementDateControl"></app-date-picker>
       </div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">

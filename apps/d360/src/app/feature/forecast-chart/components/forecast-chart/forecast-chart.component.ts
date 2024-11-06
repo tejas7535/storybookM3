@@ -11,7 +11,13 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidatorFn,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDivider } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -26,7 +32,7 @@ import { catchError, switchMap, tap } from 'rxjs/operators';
 
 import { translate, TranslocoModule } from '@jsverse/transloco';
 import { EChartsOption } from 'echarts';
-import moment from 'moment';
+import moment, { isMoment } from 'moment';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -41,6 +47,7 @@ import {
 } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
 import { StyledGridSectionComponent } from '../../../../shared/components/styled-grid-section/styled-grid-section.component';
 import { StyledSectionComponent } from '../../../../shared/components/styled-section/styled-section.component';
+import { ValidateForm } from '../../../../shared/decorators';
 import { dimmedGrey, schaefflerColor } from '../../../../shared/styles/colors';
 import { PlanningView } from '../../../demand-validation/planning-view';
 import { GlobalSelectionUtils } from '../../../global-selection/global-selection.utils';
@@ -110,10 +117,13 @@ export class ForecastChartComponent implements OnInit {
   private chartSettings: ChartSettings =
     this.chartSettingsService.defaultChartSettings;
 
-  public dateForm = new FormGroup({
-    startDate: new FormControl(''),
-    endDate: new FormControl(''),
-  });
+  public dateForm = new FormGroup(
+    {
+      startDate: new FormControl(''),
+      endDate: new FormControl(''),
+    },
+    { validators: this.crossFieldValidator() }
+  );
 
   public typeForm: FormGroup = new FormGroup<any>({
     count: new FormControl<PlanningView>(null),
@@ -377,7 +387,12 @@ export class ForecastChartComponent implements OnInit {
     this.updateAndSaveChartSettings();
   }
 
+  @ValidateForm('dateForm')
   onUpdateDateSettings() {
+    if (!this.dateForm.valid) {
+      return;
+    }
+
     this.chartSettings.startDate = moment(
       this.dateForm.get('startDate').value
     ).toISOString();
@@ -403,5 +418,49 @@ export class ForecastChartComponent implements OnInit {
 
   controlsDisabled(): boolean {
     return this.isLoading() || this.isPreviewDataRendered();
+  }
+
+  /**
+   * The form cross field validator to check the dates.
+   *
+   * @private
+   * @return {ValidatorFn}
+   * @memberof ForecastChartComponent
+   */
+  private crossFieldValidator(): ValidatorFn {
+    return (formGroup: AbstractControl) => {
+      const errors: { [key: string]: string[] } = {};
+
+      // touch start- / endDate, so we show directly all errors
+      formGroup.markAllAsTouched();
+
+      // start- / endDate
+      let startDate = formGroup.get('startDate')?.value;
+      let endDate = formGroup.get('endDate')?.value;
+
+      startDate = isMoment(startDate) ? startDate : moment(startDate);
+      endDate = isMoment(endDate) ? endDate : moment(endDate);
+
+      if (startDate && endDate && startDate > endDate) {
+        formGroup.get('endDate').setErrors({ toDateAfterFromDate: true });
+        errors.endDate = ['end-before-start'];
+      } else {
+        // we set the error manually, so we also need to clean up manually ;)
+        let fieldErrors = formGroup.get('endDate').errors;
+        if (fieldErrors?.['toDateAfterFromDate']) {
+          delete fieldErrors['toDateAfterFromDate'];
+
+          // if fieldErrors is {} (empty object) after deleting the key,
+          // we need to set null, otherwise it is still shown up as an error
+          fieldErrors =
+            Object.keys(fieldErrors).length === 0 ? null : fieldErrors;
+        }
+
+        // set the new error state
+        formGroup.get('endDate').setErrors(fieldErrors);
+      }
+
+      return Object.keys(errors).length > 0 ? errors : null;
+    };
   }
 }

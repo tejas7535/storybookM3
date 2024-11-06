@@ -22,17 +22,13 @@
               </p>
               <div class="flex gap-5">
                 <app-date-picker-month-year
-                  [dateControl]="dateForm.controls['startDate']"
-                  [placeholder]="
-                    t('validation_of_demand.date_picker.start_date')
-                  "
+                  [control]="dateForm.controls['startDate']"
+                  [label]="t('validation_of_demand.date_picker.start_date')"
                 />
                 <app-date-picker-month-year
                   [endOf]="true"
-                  [dateControl]="dateForm.controls['endDate']"
-                  [placeholder]="
-                    t('validation_of_demand.date_picker.start_date')
-                  "
+                  [control]="dateForm.controls['endDate']"
+                  [label]="t('validation_of_demand.date_picker.end_date')"
                 />
               </div>
               <div>

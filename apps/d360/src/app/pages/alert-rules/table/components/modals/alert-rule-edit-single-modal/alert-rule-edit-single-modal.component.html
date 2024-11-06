@@ -226,7 +226,7 @@
       <div class="grid grid-cols-1 md:grid-cols-4 xs:gap-1 md:gap-4">
         <!-- startDate-->
         <app-date-picker
-          [dateControl]="$any(formGroup.controls.startDate)"
+          [control]="$any(formGroup.controls.startDate)"
           [label]="t(translationStart + '.start')"
         />
 
@@ -269,15 +269,9 @@
 
         <!-- endDate -->
         <app-date-picker
-          [dateControl]="$any(formGroup.controls.endDate)"
+          [control]="$any(formGroup.controls.endDate)"
           [label]="t(translationStart + '.end')"
         />
-
-        @if (formGroup.hasError('endDate')) {
-          <div class="-mt-6">
-            <mat-error>{{ t('error.toDateAfterFromDate') }}</mat-error>
-          </div>
-        }
       </div>
 
       <!-- row 7 -->

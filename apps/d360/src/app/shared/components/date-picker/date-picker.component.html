@@ -1,9 +1,17 @@
-<mat-form-field [appearance]="appearance" [color]="color" *transloco="let t">
+<mat-form-field [appearance]="appearance()" *transloco="let t">
   <!-- label -->
-  <mat-label>{{ label }}</mat-label>
+  @if (label()) {
+    <mat-label>{{ label() }}</mat-label>
+  }
 
   <!-- input fields -->
-  <input [formControl]="dateControl" [matDatepicker]="picker" matInput />
+  <input
+    [formControl]="control()"
+    [matDatepicker]="picker"
+    matInput
+    [min]="minDate()"
+    [max]="maxDate()"
+  />
 
   <!-- picker toggle -->
   <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
@@ -12,15 +20,29 @@
   <mat-datepicker #picker></mat-datepicker>
 
   <!-- hint -->
-  <mat-hint>{{ hint }}</mat-hint>
-
-  <!-- custom errors -->
-  @if (dateControl.hasError('matDatepickerParse')) {
-    <mat-error>{{ errorMessage }}</mat-error>
+  @if (hint()) {
+    <mat-hint>{{ hint() }}</mat-hint>
   }
 
-  <!-- Error -->
-  @if (dateControl.hasError('required')) {
+  <!-- custom errors -->
+  @if (errorMessage()) {
+    <mat-error>{{ errorMessage() }}</mat-error>
+  }
+
+  <!-- Default automatic errors -->
+  @else if (control().hasError('matDatepickerParse')) {
+    <mat-error>{{ t('error.date.invalidFormat') }}</mat-error>
+  } @else if (control().hasError('required')) {
     <mat-error>{{ t('generic.validation.missing_fields') }}</mat-error>
+  } @else if (control().hasError('matDatepickerMin')) {
+    <mat-error>{{ t('error.date.beforeMin') }}</mat-error>
+  } @else if (control().hasError('matDatepickerMax')) {
+    <mat-error>{{ t('error.date.afterMax') }}</mat-error>
+  }
+
+  <!-- Default errors, set from outside -->
+  @else if (control().hasError('toDateAfterFromDate')) {
+    <!-- Hint: Needs to be set by the parent component (e.g.: dateControl.setError({ toDateAfterFromDate: true })) -->
+    <mat-error>{{ t('error.toDateAfterFromDate') }}</mat-error>
   }
 </mat-form-field>

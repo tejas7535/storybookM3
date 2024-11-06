@@ -15,9 +15,10 @@ import {
   importProvidersFrom,
   isDevMode,
 } from '@angular/core';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+  MAT_MOMENT_DATE_FORMATS,
   MatMomentDateModule,
   MomentDateAdapter,
 } from '@angular/material-moment-adapter';
@@ -140,6 +141,7 @@ export const appConfig: ApplicationConfig = {
       useClass: MomentDateAdapter,
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
     importProvidersFrom(MatMomentDateModule),
     provideAnimations(),
   ],

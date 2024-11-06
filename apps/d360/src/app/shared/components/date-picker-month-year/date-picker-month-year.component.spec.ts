@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
@@ -57,20 +58,18 @@ describe('DatePickerMonthYearComponent', () => {
   });
 
   it('should have correct inputs', () => {
-    component.placeholder = 'Select Date';
-    component.appearance = 'fill';
-    component.color = 'accent';
-    component.hint = 'Select a date';
-    component.errorMessage = 'Invalid date';
-    component.dateControl = new FormControl();
+    component['label'] = signal('Select Date') as any;
+    component['appearance'] = signal('fill') as any;
+    component['hint'] = signal('Select a date') as any;
+    component['errorMessage'] = signal('Invalid date') as any;
+    component['control'] = signal(new FormControl()) as any;
 
     spectator.detectChanges();
 
-    expect(component.placeholder).toEqual('Select Date');
-    expect(component.appearance).toEqual('fill');
-    expect(component.color).toEqual('accent');
-    expect(component.hint).toEqual('Select a date');
-    expect(component.errorMessage).toEqual('Invalid date');
-    expect(component.dateControl).toBeInstanceOf(FormControl);
+    expect(component['label']()).toEqual('Select Date');
+    expect(component['appearance']()).toEqual('fill');
+    expect(component['hint']()).toEqual('Select a date');
+    expect(component['errorMessage']()).toEqual('Invalid date');
+    expect(component['control']()).toBeInstanceOf(FormControl);
   });
 });
