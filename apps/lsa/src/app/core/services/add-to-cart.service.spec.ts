@@ -16,11 +16,13 @@ describe('AddToCartService', () => {
     {
       fifteen_digit: '123',
       matnr: '001',
+      pim_code: '001',
       qty: 0,
     } as Partial<Accessory> as Accessory,
     {
       fifteen_digit: '456',
       matnr: '002',
+      pim_code: '002',
       qty: 0,
     } as Partial<Accessory> as Accessory,
   ];

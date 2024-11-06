@@ -61,7 +61,7 @@ export class AddToCartService {
 
   private createCartItmems(accessories: Accessory[]): CartItem[] {
     return accessories.map((acc) => ({
-      productCode: acc.matnr,
+      productCode: acc.pim_code,
       packCode: this.getPackCode(acc.fifteen_digit),
       quantity: acc.qty,
     }));
