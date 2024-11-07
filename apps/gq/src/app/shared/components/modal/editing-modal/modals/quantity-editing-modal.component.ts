@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
 import { QuotationDetailsTableValidationService } from '@gq/process-case-view/quotation-details-table/services/validation/quotation-details-table-validation.service';
 import { getQuantityRegex, LOCALE_DE } from '@gq/shared/constants';
+import { UomPipe } from '@gq/shared/pipes/uom/uom.pipe';
 import {
   getNextHigherPossibleMultiple,
   validateQuantityInputKeyPress,
@@ -107,14 +108,14 @@ export class QuantityEditingModalComponent
   }
 
   private setHintTextParams() {
-    if (
-      this.modalData.quotationDetail.deliveryUnit &&
-      this.modalData.quotationDetail.deliveryUnit !== 1
-    ) {
+    if (this.modalData.quotationDetail.deliveryUnit) {
       this.showFieldHint = true;
       this.hintMsgParams1 =
         this.modalData.quotationDetail.deliveryUnit.toString();
-      this.hintMsgParams2 = this.modalData.quotationDetail.material.baseUoM;
+      const uomPipe = new UomPipe();
+      this.hintMsgParams2 = uomPipe.transform(
+        this.modalData.quotationDetail.material.baseUoM
+      );
     }
   }
 
