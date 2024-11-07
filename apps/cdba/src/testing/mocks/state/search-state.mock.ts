@@ -258,4 +258,8 @@ export const SEARCH_STATE_MOCK: SearchState = {
     paginationState: undefined,
     items: [REFERENCE_TYPE_MOCK, REFERENCE_TYPE_MOCK_WITHOUT_SALES_INFORMATION],
   },
+  export: {
+    loading: false,
+    errorMessage: undefined,
+  },
 };

@@ -1,7 +1,7 @@
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, provideHttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
@@ -10,6 +10,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { StringOption } from '@schaeffler/inputs';
 
+import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import { LocalStorageMock } from '@cdba/testing/mocks/storage/local-storage.mock';
 
 import {
@@ -26,7 +27,7 @@ describe('SearchService', () => {
 
   const createService = createServiceFactory({
     service: SearchService,
-    imports: [HttpClientTestingModule],
+    providers: [provideHttpClient(), provideHttpClientTesting()],
   });
 
   beforeEach(() => {
@@ -47,7 +48,7 @@ describe('SearchService', () => {
   });
 
   describe('getInitialFilters', () => {
-    test('should get initial filters', () => {
+    it('should get initial filters', () => {
       const mock: FilterItem[] = [];
 
       service.getInitialFilters().subscribe((response) => {
@@ -62,7 +63,7 @@ describe('SearchService', () => {
   });
 
   describe('search', () => {
-    test('should get search result', () => {
+    it('should get search result', () => {
       const mock = new SearchResult([], [], 0);
 
       const expectedParams = new HttpParams().set('language', 'en');
@@ -80,7 +81,7 @@ describe('SearchService', () => {
   });
 
   describe('autocomplete', () => {
-    test('should get autocomplete suggestions', () => {
+    it('should get autocomplete suggestions', () => {
       const searchFor = 'Audi';
       const filterName = 'customer';
       const mock = [{ id: 'audi', title: 'Audi' } as StringOption];
@@ -99,7 +100,7 @@ describe('SearchService', () => {
   });
 
   describe('textSearch', () => {
-    test('should get autocomplete suggestions', (done) => {
+    it('should get autocomplete suggestions', (done) => {
       const textSearch = {
         field: 'customer',
         value: 'Aud',
@@ -109,6 +110,45 @@ describe('SearchService', () => {
         expect(response).toEqual(new SearchResult([], [], 0));
         done();
       });
+    });
+  });
+
+  describe('exportBoms', () => {
+    it('should get exported boms', () => {
+      const identifiers = [new ReferenceTypeIdentifier('123', '123')];
+
+      const mockedResponse = {
+        filename: 'CDBA-Bills-of-Materials.xlsx',
+        content: new Blob([''], {
+          type: 'application/octet-stream',
+        }),
+      };
+
+      service.exportBoms(identifiers).subscribe((response) => {
+        expect(response.content instanceof Blob).toBeTruthy();
+        expect(response.filename).toBe('CDBA-Bills-of-Materials.xlsx');
+      });
+
+      const req = httpMock.expectOne('api/v1/bom/export');
+      expect(req.request.headers.get('Accept')).toBe(
+        'application/octet-stream'
+      );
+      expect(req.request.method).toBe('POST');
+      req.flush(mockedResponse.content, {
+        headers: {
+          'Content-Disposition':
+            'attachment; filename="CDBA-Bills-of-Materials.xlsx"',
+        },
+      });
+    });
+
+    it('should get filename from content-disposition header', () => {
+      const input = 'attachements; filename=CDBA-Bills-of-Materials.xlsx';
+      const expected = 'CDBA-Bills-of-Materials.xlsx';
+
+      const result = service['getFileName'](input);
+
+      expect(result).toEqual(expected);
     });
   });
 });

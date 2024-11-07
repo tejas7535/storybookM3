@@ -1,0 +1,18 @@
+<ng-container *transloco="let t; read: 'search.bomExport'">
+  <div
+    [matTooltip]="tooltip"
+    [matTooltipPosition]="'above'"
+    [matTooltipDisabled]="disabled"
+    class="inline-block"
+  >
+    <button
+      [disabled]="selectedNodeIds?.length < 1 || disabled"
+      mat-flat-button
+      color="primary"
+      class="!mr-4"
+      (click)="onClick()"
+    >
+      {{ t('label') }}
+    </button>
+  </div>
+</ng-container>

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Action, createReducer, on } from '@ngrx/store';
 
 import { DEFAULT_RESULTS_THRESHOLD } from '@cdba/shared/constants/reference-type';
@@ -11,6 +12,9 @@ import {
   autocompleteFailure,
   autocompleteSuccess,
   deselectReferenceType,
+  exportBoms,
+  exportBomsFailure,
+  exportBomsSuccess,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
@@ -56,6 +60,10 @@ export interface SearchState {
     paginationState: PaginationState;
     errorMessage: string;
   };
+  export: {
+    loading: boolean;
+    errorMessage: string;
+  };
 }
 
 export interface PaginationState {
@@ -88,6 +96,10 @@ export const initialState: SearchState = {
     tooManyResultsThreshold: DEFAULT_RESULTS_THRESHOLD,
     resultCount: 0,
     paginationState: undefined,
+    errorMessage: undefined,
+  },
+  export: {
+    loading: false,
     errorMessage: undefined,
   },
 };
@@ -345,7 +357,58 @@ export const searchReducer = createReducer(
           },
         }
       : state;
-  })
+  }),
+  on(
+    exportBoms,
+    (state: SearchState): SearchState => ({
+      ...state,
+      referenceTypes: {
+        ...state.referenceTypes,
+        paginationState: {
+          ...state.referenceTypes.paginationState,
+          isDisabled: true,
+        },
+      },
+      export: {
+        loading: true,
+        errorMessage: undefined,
+      },
+    })
+  ),
+  on(
+    exportBomsSuccess,
+    (state: SearchState): SearchState => ({
+      ...state,
+      referenceTypes: {
+        ...state.referenceTypes,
+        paginationState: {
+          ...state.referenceTypes.paginationState,
+          isDisabled: false,
+        },
+      },
+      export: {
+        loading: false,
+        errorMessage: undefined,
+      },
+    })
+  ),
+  on(
+    exportBomsFailure,
+    (state: SearchState, { errorMessage }): SearchState => ({
+      ...state,
+      referenceTypes: {
+        ...state.referenceTypes,
+        paginationState: {
+          ...state.referenceTypes.paginationState,
+          isDisabled: false,
+        },
+      },
+      export: {
+        loading: false,
+        errorMessage,
+      },
+    })
+  )
 );
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions

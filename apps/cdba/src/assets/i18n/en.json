@@ -321,10 +321,11 @@
   "http": {
     "error": {
       "message": {
-        "default": "We are experiencing server problems. Please try again later."
+        "default": "We are experiencing server problems. Please try again later.",
+        "validation": "Request validation failed. Please verify your input and try again."
       },
       "action": {
-        "default": "Contact Support"
+        "contactSupport": "Contact Support"
       }
     }
   },

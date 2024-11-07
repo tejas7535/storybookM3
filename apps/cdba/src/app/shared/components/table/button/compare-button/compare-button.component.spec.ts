@@ -1,7 +1,6 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter, Router } from '@angular/router';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetDirective } from '@ngrx/component';
@@ -27,10 +26,10 @@ describe('CompareButtonComponent', () => {
       MockDirective(LetDirective),
       MockModule(MatButtonModule),
       MockModule(MatTooltipModule),
-      RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
+      provideRouter([]),
       provideMockStore({
         initialState: {
           search: {

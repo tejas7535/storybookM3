@@ -22,17 +22,27 @@ import { isDetailRoute } from '@cdba/shared/utils';
   templateUrl: './compare-button.component.html',
 })
 export class CompareButtonComponent implements OnInit {
-  @Input() public gridApi: GridApi;
+  @Input() gridApi: GridApi;
 
   public selectedNodeIds$: Observable<string[]>;
   public appRoutePath = AppRoutePath;
   public minCount = COMPARE_ITEMS_MIN_COUNT;
   public maxCount = COMPARE_ITEMS_MAX_COUNT;
 
+  private _disabled: boolean;
+
   public constructor(
     private readonly router: Router,
     private readonly store: Store
   ) {}
+
+  get disabled(): boolean {
+    return this._disabled;
+  }
+
+  @Input() set disabled(disabled: boolean) {
+    this._disabled = disabled;
+  }
 
   public ngOnInit(): void {
     this.selectedNodeIds$ = this.router.routerState.snapshot.url.includes(

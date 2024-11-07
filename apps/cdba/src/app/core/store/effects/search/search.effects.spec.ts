@@ -1,5 +1,7 @@
 import { Router } from '@angular/router';
 
+import { of, throwError } from 'rxjs';
+
 import {
   createServiceFactory,
   mockProvider,
@@ -13,6 +15,7 @@ import { marbles } from 'rxjs-marbles/jest';
 
 import { StringOption } from '@schaeffler/inputs';
 
+import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import { REFERENCE_TYPE_MOCK } from '@cdba/testing/mocks';
 
 import { SearchService } from '../../../../search/services/search.service';
@@ -23,6 +26,9 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
+  exportBoms,
+  exportBomsFailure,
+  exportBomsSuccess,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
@@ -311,7 +317,6 @@ describe('Search Effects', () => {
   });
 
   describe('resetFilters$', () => {
-    // eslint-disable-next-line jest/expect-expect
     it(
       'should dispatch loadInitialFilters',
       marbles((m) => {
@@ -404,6 +409,50 @@ describe('Search Effects', () => {
         const expected = m.cold('-b', { b: result });
 
         m.expect(effects.resetPaginationState$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('exportBoms', () => {
+    beforeEach(() => {
+      action = exportBoms({
+        identifiers: [new ReferenceTypeIdentifier('123', '123')],
+      });
+
+      global.URL.createObjectURL = jest.fn();
+    });
+    it(
+      'should dispatch exportBomsSuccess when REST call is successful',
+      marbles((m) => {
+        const expected = exportBomsSuccess();
+
+        const exportBomsSpy = jest.spyOn(searchService, 'exportBoms');
+        exportBomsSpy.mockReturnValue(
+          of({ filename: '', content: new Blob(['']) })
+        );
+
+        actions$ = m.hot('-a', { a: action });
+
+        const result = effects.exportBoms$;
+
+        m.expect(result).toBeObservable('-c', { c: expected });
+      })
+    );
+    it(
+      'should dispatch exportBomsFailure on REST error',
+      marbles((m) => {
+        const expected = exportBomsFailure({ errorMessage });
+
+        const exportBomsSpy = jest.spyOn(searchService, 'exportBoms');
+        exportBomsSpy.mockReturnValue(
+          throwError(() => new Error(errorMessage))
+        );
+
+        actions$ = m.hot('-a', { a: action });
+
+        const result = effects.exportBoms$;
+
+        m.expect(result).toBeObservable('-c', { c: expected });
       })
     );
   });

@@ -5,6 +5,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { HttpErrorType } from '../models/http-error-type.model';
 import { HttpErrorService } from './http-error.service';
 
 describe('HttpErrorService', () => {
@@ -37,7 +38,7 @@ describe('HttpErrorService', () => {
     test('should open error snackbar', () => {
       const spySnackbarOpen = jest.spyOn(snackBar, 'open');
 
-      service.handleHttpErrorDefault();
+      service.handleHttpError(HttpErrorType.Default);
 
       expect(spySnackbarOpen).toHaveBeenCalled();
     });
@@ -46,7 +47,7 @@ describe('HttpErrorService', () => {
       const spySnackbarOpen = jest.spyOn(snackBar, 'open');
 
       service.snackBarIsOpen = true;
-      service.handleHttpErrorDefault();
+      service.handleHttpError(HttpErrorType.Default);
 
       expect(spySnackbarOpen).not.toHaveBeenCalled();
     });

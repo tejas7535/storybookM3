@@ -321,10 +321,11 @@
   "http": {
     "error": {
       "message": {
-        "default": "Es sind Serverprobleme aufgetreten. Bitte versuchen Sie es später noch einmal."
+        "default": "Es sind Serverprobleme aufgetreten. Bitte versuchen Sie es später noch einmal.",
+        "validation": "Es sind Validierungsfehler aufgetreten. Bitte überprüfen Sie Ihre Eingaben und versuchen Sie es erneut."
       },
       "action": {
-        "default": "Support kontaktieren"
+        "contactSupport": "Support kontaktieren"
       }
     }
   },

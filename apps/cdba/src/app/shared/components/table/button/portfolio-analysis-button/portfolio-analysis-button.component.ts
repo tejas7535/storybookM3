@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
@@ -25,10 +25,20 @@ export class PortfolioAnalysisButtonComponent implements OnInit {
   public minCount = PORTFOLIO_ANALYSIS_ITEMS_MIN_COUNT;
   public maxCount = PORTFOLIO_ANALYSIS_ITEMS_MAX_COUNT;
 
+  private _disabled: boolean;
+
   public constructor(
     private readonly router: Router,
     private readonly store: Store
   ) {}
+
+  get disabled(): boolean {
+    return this._disabled;
+  }
+
+  @Input() set disabled(disabled: boolean) {
+    this._disabled = disabled;
+  }
 
   public ngOnInit(): void {
     this.selectedNodeIds$ = this.router.routerState.snapshot.url.includes(

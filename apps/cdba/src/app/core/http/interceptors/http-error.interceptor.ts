@@ -6,6 +6,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ValidationErrors } from '@angular/forms';
 
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -13,6 +14,7 @@ import { catchError } from 'rxjs/operators';
 import { ProductDetailPath } from '@cdba/shared/constants/api';
 
 import { AUTH_URLS } from '../constants/urls';
+import { HttpErrorType } from '../models/http-error-type.model';
 import { HttpErrorService } from '../services/http-error.service';
 
 @Injectable()
@@ -25,8 +27,15 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((errorResponse: HttpErrorResponse) => {
+        if (errorResponse.url.includes(ProductDetailPath.BomExport)) {
+          this.httpErrorService.handleHttpError(HttpErrorType.Validation);
+
+          this.logValidationError(errorResponse);
+
+          return throwError(() => errorResponse);
+        }
         // don't use the interceptor for detail paths
-        if (
+        else if (
           Object.values<string>(ProductDetailPath).some((path) =>
             errorResponse.url.includes(`/${path}`)
           )
@@ -60,11 +69,19 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         if (
           !AUTH_URLS.some((authUrl) => errorResponse.url.startsWith(authUrl))
         ) {
-          this.httpErrorService.handleHttpErrorDefault();
+          this.httpErrorService.handleHttpError(HttpErrorType.Default);
         }
 
         return throwError(() => new Error(errorMessage));
       })
     );
+  }
+
+  private async logValidationError(
+    errorResponse: HttpErrorResponse
+  ): Promise<void> {
+    const message = await errorResponse.error.text();
+
+    console.error(JSON.parse(message) as ValidationErrors);
   }
 }

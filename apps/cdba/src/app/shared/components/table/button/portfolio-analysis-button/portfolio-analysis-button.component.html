@@ -6,8 +6,9 @@
         count: nodeIds?.length < minCount ? minCount : maxCount
       })
     "
+    [matTooltipPosition]="'above'"
     [matTooltipDisabled]="
-      nodeIds?.length >= minCount && nodeIds?.length <= maxCount
+      (nodeIds?.length >= minCount && nodeIds?.length <= maxCount) || disabled
     "
     class="inline-block"
   >
@@ -15,7 +16,9 @@
       mat-flat-button
       color="primary"
       class="!mr-4"
-      [disabled]="nodeIds?.length < minCount || nodeIds?.length > maxCount"
+      [disabled]="
+        nodeIds?.length < minCount || nodeIds?.length > maxCount || disabled
+      "
       [routerLink]="'/' + appRoutePath.PortfolioAnalysisPath"
     >
       {{ t('analysis') }}

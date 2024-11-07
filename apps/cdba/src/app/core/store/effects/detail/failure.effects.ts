@@ -9,6 +9,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { EmptyStatesPath } from '@cdba/core/empty-states/empty-states-path.enum';
+import { HttpErrorType } from '@cdba/core/http/models/http-error-type.model';
 import { HttpErrorService } from '@cdba/core/http/services/http-error.service';
 
 import {
@@ -38,7 +39,7 @@ export class FailureEffects {
               EmptyStatesPath.ForbiddenPath,
             ]);
           } else {
-            this.httpErrorService.handleHttpErrorDefault();
+            this.httpErrorService.handleHttpError(HttpErrorType.Default);
           }
         })
       ),

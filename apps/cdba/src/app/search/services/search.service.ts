@@ -1,14 +1,15 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, from, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { withCache } from '@ngneat/cashew';
 
-import { API } from '@cdba/shared/constants/api';
+import { API, ProductDetailPath } from '@cdba/shared/constants/api';
 import { HttpParamsEncoder } from '@cdba/shared/http';
+import { ReferenceTypeIdentifier } from '@cdba/shared/models/reference-type-identifier.model';
 
 import {
   FilterItem,
@@ -26,13 +27,12 @@ import { InitialFiltersResponse } from '../initial-filters-response.model';
 })
 export class SearchService {
   private readonly PARAM_LANGUAGE = 'language';
+  private readonly PARAM_SEARCH_FOR = 'search_for';
 
   private readonly INITIAL_FILTER = 'initial-filter';
-
   private readonly SEARCH = 'search';
-
   private readonly POSSIBLE_FILTER = 'possible-filter';
-  private readonly PARAM_SEARCH_FOR = 'search_for';
+  private readonly BOM_EXPORT = 'export';
 
   public constructor(
     private readonly httpClient: HttpClient,
@@ -53,7 +53,7 @@ export class SearchService {
       this.localStorage.getItem('language')
     );
 
-    const payload = this.preparePayload(filters);
+    const payload = this.prepareSearchPayload(filters);
 
     return this.httpClient.post<SearchResult>(
       `${API.v1}/${this.SEARCH}`,
@@ -86,7 +86,44 @@ export class SearchService {
     return of(new SearchResult([], [], 0));
   }
 
-  private preparePayload(
+  public exportBoms(
+    referenceTypesIdentifiers: ReferenceTypeIdentifier[]
+  ): Observable<{ filename: string; content: Blob }> {
+    const path = `${API.v1}/${ProductDetailPath.Bom}/${this.BOM_EXPORT}`;
+
+    const headers = new HttpHeaders({
+      responseType: 'blob',
+      Accept: 'application/octet-stream',
+      observe: 'response',
+    });
+
+    const response = firstValueFrom(
+      this.httpClient
+        .post(path, referenceTypesIdentifiers, {
+          headers,
+          observe: 'response',
+          responseType: 'blob',
+        })
+        .pipe(
+          map((res) => ({
+            filename: this.getFileName(res.headers.get('content-disposition')),
+            content: res.body,
+          }))
+        )
+    );
+
+    return from(response);
+  }
+
+  private getFileName(contentDispositionHeader: string): string {
+    return contentDispositionHeader
+      .split(';')[1]
+      .split('filename')[1]
+      .split('=')[1]
+      .trim();
+  }
+
+  private prepareSearchPayload(
     filters: FilterItem[]
   ): (FilterItemIdValueUpdate | FilterItemRangeUpdate)[] {
     return filters

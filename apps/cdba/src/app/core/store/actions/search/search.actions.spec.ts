@@ -1,5 +1,6 @@
 import { StringOption } from '@schaeffler/inputs';
 
+import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import { REFERENCE_TYPE_MOCK } from '@cdba/testing/mocks';
 
 import {
@@ -17,6 +18,9 @@ import {
   autocompleteFailure,
   autocompleteSuccess,
   deselectReferenceType,
+  exportBoms,
+  exportBomsFailure,
+  exportBomsSuccess,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
@@ -258,6 +262,38 @@ describe('Search Actions', () => {
       expect(action).toEqual({
         type: '[Search] Update Pagination State',
         paginationState: undefined,
+      });
+    });
+  });
+
+  describe('BOM Export Actions', () => {
+    test('exportBoms', () => {
+      const identifiers = [
+        new ReferenceTypeIdentifier('123', '123'),
+        new ReferenceTypeIdentifier('456', '456'),
+      ];
+      const action = exportBoms({ identifiers });
+
+      expect(action).toEqual({
+        type: '[Search] Export Boms',
+        identifiers,
+      });
+    });
+
+    test('exportBomsSuccess', () => {
+      const action = exportBomsSuccess();
+
+      expect(action).toEqual({
+        type: '[Search] Export Boms Success',
+      });
+    });
+
+    test('exportBomsFailure', () => {
+      const action = exportBomsFailure({ errorMessage });
+
+      expect(action).toEqual({
+        type: '[Search] Export Boms Failure',
+        errorMessage,
       });
     });
   });

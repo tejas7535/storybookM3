@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -6,6 +7,7 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { saveAs } from 'file-saver';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 
@@ -17,6 +19,9 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
+  exportBoms,
+  exportBomsFailure,
+  exportBomsSuccess,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
@@ -137,6 +142,28 @@ export class SearchEffects {
           updatePaginationState({
             paginationState: undefined,
           })
+        )
+      )
+    );
+  });
+
+  /**
+   * Trigger BOMs export
+   */
+  exportBoms$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(exportBoms),
+      map((action) => action.identifiers),
+      mergeMap((referenceTypeIdentifiers) =>
+        this.searchService.exportBoms(referenceTypeIdentifiers).pipe(
+          map((result: { filename: string; content: Blob }) => {
+            saveAs(result.content, result.filename);
+
+            return exportBomsSuccess();
+          }),
+          catchError((error: HttpErrorResponse) =>
+            of(exportBomsFailure({ errorMessage: error.message }))
+          )
         )
       )
     );

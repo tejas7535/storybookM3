@@ -8,6 +8,7 @@ import {
 import { TranslocoService } from '@jsverse/transloco';
 
 import { URL_SUPPORT } from '../constants/urls';
+import { HttpErrorType } from '../models/http-error-type.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,16 +22,16 @@ export class HttpErrorService {
     private readonly translocoService: TranslocoService
   ) {}
 
-  public handleHttpErrorDefault(): void {
-    this.openErrorSnackbar();
+  public handleHttpError(errorType: HttpErrorType): void {
+    this.openErrorSnackbar(errorType);
   }
 
-  private openErrorSnackbar(errorType: 'default' = 'default'): void {
+  private openErrorSnackbar(errorType: HttpErrorType): void {
     // prevent multiple popups of the same snackbar
     if (!this.snackBarIsOpen) {
       this.snackBarRef = this.snackBar.open(
         this.translocoService.translate(`http.error.message.${errorType}`),
-        this.translocoService.translate(`http.error.action.${errorType}`),
+        this.translocoService.translate(`http.error.action.contactSupport`),
         { duration: 5000 }
       );
 

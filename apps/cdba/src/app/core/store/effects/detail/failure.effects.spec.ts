@@ -107,7 +107,7 @@ describe('FailureEffects', () => {
     test(
       'should call default error service',
       marbles((m) => {
-        httpErrorService.handleHttpErrorDefault = jest.fn();
+        httpErrorService.handleHttpError = jest.fn();
 
         const loadBomServerFailureAction = loadBomFailure(serverError);
         const loadCalculationsServerFailureAction =
@@ -129,8 +129,8 @@ describe('FailureEffects', () => {
 
         m.expect(effects.loadFailure$).toBeObservable(actions$);
         m.flush();
-        expect(httpErrorService.handleHttpErrorDefault).toBeCalledTimes(5);
-        expect(httpErrorService.handleHttpErrorDefault).toHaveBeenCalled();
+        expect(httpErrorService.handleHttpError).toBeCalledTimes(5);
+        expect(httpErrorService.handleHttpError).toHaveBeenCalled();
       })
     );
   });

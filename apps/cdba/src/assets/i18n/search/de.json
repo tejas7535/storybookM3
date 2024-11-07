@@ -52,5 +52,12 @@
   },
   "limit": {
     "warning": "Bitte beachten Sie, dass eine Erhöhung des Grenzwerts über {{ stableThreshold }} Ergebnisse erhebliche Auswirkungen auf die Stabilität des CDBA haben kann. Ihr Browser verbraucht möglicherweise mehr Ressourcen als gewöhnlich."
+  },
+  "bomExport": {
+    "label": "BOM Export",
+    "tooltips": {
+      "default": "Wählen Sie mindestens ein Material für den Export aus.\nHinweis: Für PCM-Materialien liegt möglicherweise keine gültige Berechnung vor.",
+      "loading": "Export läuft.\nBitte warten."
+    }
   }
 }

@@ -1,4 +1,10 @@
 {
   "name": "cdba",
-  "version": "5.2.0"
+  "version": "5.2.0",
+  "dependencies": {
+    "file-saver": "2.0.5"
+  },
+  "devDependencies": {
+    "@types/file-saver": "^2.0.7"
+  }
 }

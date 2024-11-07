@@ -1,5 +1,7 @@
 import { createAction, props, union } from '@ngrx/store';
 
+import { ReferenceTypeIdentifier } from '@cdba/shared/models';
+
 import {
   FilterItem,
   SearchResult,
@@ -55,6 +57,18 @@ export const applyTextSearchFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
+export const exportBoms = createAction(
+  '[Search] Export Boms',
+  props<{ identifiers: ReferenceTypeIdentifier[] }>()
+);
+
+export const exportBomsSuccess = createAction('[Search] Export Boms Success');
+
+export const exportBomsFailure = createAction(
+  '[Search] Export Boms Failure',
+  props<{ errorMessage: string }>()
+);
+
 export const resetFilters = createAction('[Search] Reset All Filters');
 
 export const shareSearchResult = createAction('[Search] Share Search Result');
@@ -103,6 +117,9 @@ const all = union({
   selectReferenceTypes,
   deselectReferenceType,
   updatePaginationState,
+  exportBoms,
+  exportBomsSuccess,
+  exportBomsFailure,
 });
 
 export type SearchActions = typeof all;

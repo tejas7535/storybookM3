@@ -9,4 +9,5 @@ export enum ProductDetailPath {
   Calculations = 'calculations',
   Bom = 'bom',
   CostComponentSplit = 'cost-component-split',
+  BomExport = `${Bom}/export`,
 }

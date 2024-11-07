@@ -44,6 +44,7 @@
           }
         ],
         "@typescript-eslint/explicit-member-accessibility": "off",
+        "@typescript-eslint/member-ordering": "off",
         "unicorn/no-useless-undefined": "off"
       },
       "plugins": [

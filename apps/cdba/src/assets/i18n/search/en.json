@@ -52,5 +52,12 @@
   },
   "limit": {
     "warning": "Please be advised that increasing the limit above {{ stableThreshold }} results may significantly impact the CDBA's stability. Your browser may use more resources than usually."
+  },
+  "bomExport": {
+    "label": "BOM Export",
+    "tooltips": {
+      "default": "Select at least one Material for export.\nNote: PCM Materials might not have any valid Calculation.",
+      "loading": "Export in progress.\n Please wait."
+    }
   }
 }
