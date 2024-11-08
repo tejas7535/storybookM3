@@ -157,7 +157,7 @@ describe('BomExportButtonComponent', () => {
     });
     it('should disable the button when more than maximum ref types are selected', () => {
       const values = [];
-      for (let i = 0; i < 51; i += 1) {
+      for (let i = 0; i < 31; i += 1) {
         values.push(i.toString());
       }
       store.overrideSelector(getSelectedRefTypeNodeIds, values);

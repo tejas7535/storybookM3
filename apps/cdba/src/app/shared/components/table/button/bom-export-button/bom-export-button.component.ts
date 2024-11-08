@@ -5,7 +5,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Subscription } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
-import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { GridApi } from 'ag-grid-community';
 
@@ -26,7 +25,7 @@ import { ReferenceTypeIdentifier } from '@cdba/shared/models';
   selector: 'cdba-bom-export-button',
   templateUrl: './bom-export-button.component.html',
   standalone: true,
-  imports: [MatButtonModule, MatTooltipModule, SharedTranslocoModule, PushPipe],
+  imports: [MatButtonModule, MatTooltipModule, SharedTranslocoModule],
 })
 export class BomExportButtonComponent implements OnInit, OnDestroy {
   selectedNodeIds: string[] = [];
