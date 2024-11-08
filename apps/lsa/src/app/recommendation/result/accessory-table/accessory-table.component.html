@@ -20,7 +20,7 @@
       </tr>
     </thead>
     <tbody>
-      @for (group of accGroups | keyvalue; track group.key) {
+      @for (group of accGroups | SortedAccessoryList; track group.key) {
         <tr class="accessory-group">
           <th class="text-left">{{ group.value.groupTitle }}</th>
           <th>&nbsp;</th>

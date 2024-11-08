@@ -14,7 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Subject, takeUntil } from 'rxjs';
 
 import { environment } from '@lsa/environments/environment';
-import { Accessory } from '@lsa/shared/models';
+import { Accessory, AccessoryClassEntry } from '@lsa/shared/models';
 import { MediasCallbackResponse } from '@lsa/shared/models/price-availibility.model';
 import { PushPipe } from '@ngrx/component';
 
@@ -29,6 +29,7 @@ import {
   AccessoryTableFormGroup,
   TableGroupState,
 } from './accessory-table.model';
+import { SortedAccessoryListPipe } from './sorted-accessory-list.pipe';
 
 @Component({
   selector: 'lsa-accessory-table',
@@ -44,11 +45,15 @@ import {
     PushPipe,
     JsonPipe,
     SharedTranslocoModule,
+    SortedAccessoryListPipe,
   ],
 })
 export class AccessoryTableComponent implements OnChanges, OnDestroy {
   @Input()
   public readonly accessories: Accessory[];
+
+  @Input()
+  public readonly classPriorities: AccessoryClassEntry[];
 
   @Input()
   public priceAndAvailability: MediasCallbackResponse;
@@ -66,12 +71,17 @@ export class AccessoryTableComponent implements OnChanges, OnDestroy {
 
   private readonly destroy$ = new Subject<void>();
   private readonly formUpdate$ = new Subject<void>();
+  private readonly priorityMap = new Map<string, number>();
 
   public showEmptyState = true;
   public imagePlaceholder = `${environment.assetsPath}/images/placeholder.png`;
   public currency = 'EUR';
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes.classPriorities?.currentValue) {
+      this.transformPriorities();
+    }
+
     if (changes.accessories.currentValue) {
       this.formUpdate$.next();
       this.accGroups = {};
@@ -89,8 +99,20 @@ export class AccessoryTableComponent implements OnChanges, OnDestroy {
     this.destroy$.complete();
   }
 
+  /**
+   * Transforms the priorities on the class list field
+   * into an easier to look up map structure
+   **/
+  transformPriorities() {
+    this.classPriorities
+      .filter((classObj) => !this.isNaN(classObj.priority))
+      .forEach((classObj) =>
+        this.priorityMap.set(classObj.class, classObj.priority)
+      );
+  }
+
   generateAccessoriesForInput(): void {
-    this.accGroups = transformAccessories(this.accessories);
+    this.accGroups = transformAccessories(this.accessories, this.priorityMap);
     this.tableFormGroup = generateFormGroup(this.accGroups);
 
     this.tableFormGroup.valueChanges
@@ -147,7 +169,11 @@ export class AccessoryTableComponent implements OnChanges, OnDestroy {
         totalNetPrice += price;
       });
 
-      states[group] = { isOpen: true, totalQty, totalNetPrice };
+      states[group] = {
+        isOpen: totalQty > 0,
+        totalQty,
+        totalNetPrice,
+      };
 
       this.tableSummaryState.totalQty += totalQty;
       this.tableSummaryState.totalPrice += totalNetPrice;

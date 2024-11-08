@@ -6,6 +6,7 @@ export interface RecommendationResponse {
     recommendedLubricator: Lubricator;
     minimumRequiredLubricator: Lubricator;
   };
+  classes: AccessoryClassEntry[];
 }
 
 export class ErrorResponse extends Error {
@@ -40,8 +41,15 @@ export interface Accessory {
   designation: string;
   product_image: string;
   class: string | number;
+  class_id: string;
   price?: number;
   currency?: string;
   availability?: boolean;
   attributes: { [key: string]: string | number };
+}
+
+export interface AccessoryClassEntry {
+  class: string;
+  priority?: number;
+  title: string;
 }

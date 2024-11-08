@@ -59,6 +59,7 @@ describe('AccessoryTableComponent', () => {
       mockBaseTableGroups = {
         'Adapter for lubricator': {
           groupTitle: className,
+          groupClassId: '1',
           items: [
             {
               pim_code: '123456',

@@ -11,6 +11,8 @@ export interface CartSummary {
 
 export interface AccessoryTableGroup {
   groupTitle: string;
+  groupClassId: string;
+  groupClassPriority?: number;
   items: TableItem[];
 }
 

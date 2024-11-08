@@ -47,4 +47,8 @@ export const mockResponse: RecommendationResponse = {
       },
     },
   },
+  classes: [
+    { class: '12345', title: 'Sample Class 1' },
+    { class: '67890', title: 'Sample Class 2' },
+  ],
 };

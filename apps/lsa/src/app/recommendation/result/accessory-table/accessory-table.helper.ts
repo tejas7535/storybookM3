@@ -8,7 +8,10 @@ import {
   AccessoryTableGroup,
 } from './accessory-table.model';
 
-export function transformAccessories(accessories: Accessory[]): {
+export function transformAccessories(
+  accessories: Accessory[],
+  priorityLookup: Map<string, number>
+): {
   [key: string]: AccessoryTableGroup;
 } {
   const groups = new Map<string, Accessory[]>();
@@ -24,8 +27,12 @@ export function transformAccessories(accessories: Accessory[]): {
   const tableGroups = {} as { [key: string]: AccessoryTableGroup };
 
   for (const [key, items] of groups.entries()) {
+    const classId = items[0].class_id;
+    const keyFromMap = priorityLookup.get(classId);
     tableGroups[key] = {
       groupTitle: key,
+      groupClassId: classId,
+      groupClassPriority: keyFromMap || 0,
       items,
     };
   }
