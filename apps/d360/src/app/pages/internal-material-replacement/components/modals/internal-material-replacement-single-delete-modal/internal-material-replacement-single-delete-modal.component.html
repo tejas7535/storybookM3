@@ -2,9 +2,10 @@
   <mat-dialog-content>
     <p>{{ t('internal_material_replacement.text.deleteSubstitution', {}) }}</p>
   </mat-dialog-content>
+
   <mat-dialog-actions>
     <button mat-button mat-dialog-close>{{ t('button.no', {}) }}</button>
-    <button mat-button (click)="deleteEntry()" autofocus>
+    <button mat-flat-button (click)="deleteEntry()" autofocus>
       {{ t('button.yes', {}) }}
     </button>
   </mat-dialog-actions>

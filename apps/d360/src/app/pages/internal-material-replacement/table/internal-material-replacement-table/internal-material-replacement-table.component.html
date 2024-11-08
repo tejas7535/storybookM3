@@ -1,19 +1,18 @@
-<div class="table-wrapper">
-  <app-table-toolbar [rowCount]="rowCount" [grid]="gridApi">
+<div class="flex flex-col h-full">
+  <app-table-toolbar [rowCount]="rowCount()" [grid]="gridApi">
   </app-table-toolbar>
-  <app-styled-grid-section>
-    <ag-grid-angular
-      #internalMaterialReplacementGrid
-      class="ag-theme-material"
-      [gridOptions]="gridOptions"
-      [columnDefs]="columnDefs"
-      [tooltipShowDelay]="0"
-      [getRowId]="getRowId"
-      rowModelType="serverSide"
-      [noRowsOverlayComponent]="NoDataOverlayComponent"
-      (gridReady)="onGridReady($event)"
-      [localeText]="agGridLocalizationService.lang()"
-      (firstDataRendered)="onFirstDataRendered($event)"
-    />
-  </app-styled-grid-section>
+  <ag-grid-angular
+    #internalMaterialReplacementGrid
+    class="ag-theme-material grow"
+    [gridOptions]="gridOptions"
+    [columnDefs]="columnDefs"
+    [tooltipShowDelay]="0"
+    [getRowId]="getRowId"
+    [context]="context"
+    rowModelType="serverSide"
+    [noRowsOverlayComponent]="NoDataOverlayComponent"
+    (gridReady)="onGridReady($event)"
+    [localeText]="agGridLocalizationService.lang()"
+    (firstDataRendered)="onFirstDataRendered($event)"
+  />
 </div>

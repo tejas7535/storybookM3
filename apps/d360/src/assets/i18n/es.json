@@ -52,7 +52,9 @@
     "date": {
       "invalidFormat": "Formato de fecha inválido.",
       "beforeMin": "La fecha es anterior a la fecha más temprana posible.",
+      "beforeMinEditingExistingRecord": "La fecha debe coincidir con la fecha original ({{existingDate}}) o ser de la fecha más temprana posible ({{earliestPossibleDate}}).",
       "afterMax": "La fecha es posterior a la última fecha posible.",
+      "afterMaxEditingExistingRecord": "La fecha debe coincidir con la fecha original ({{existingDate}}) o ser anterior a la última fecha posible ({{latestPossibleDate}}).",
       "emptyDate": "La fecha no puede estar vacía."
     },
     "unsaved_changes": "Los cambios no guardados se descartan. ¿Continuar?",
@@ -958,13 +960,18 @@
     },
     "helper_text": {
       "startOfProduction": "Nota: En caso de interrupción sin sucesor, este campo contiene la última fecha de producción posible.",
-      "note": "Nota: Rellene en inglés si es posible."
+      "note": "Nota: Rellene en inglés si es posible.",
+      "replacementDate": "Nota: En caso de interrupción sin sucesor, este campo contiene la última fecha de producción posible."
     },
     "text": {
       "deleteSubstitution": "¿Debería suprimirse realmente la sustitución?"
     },
     "error": {
       "fielNotAllowed": "El campo no debe rellenarse para el tipo seleccionado."
+    },
+    "button": {
+      "createSubstitution": "Crear sustitución",
+      "createMultipleSubstitutions": "Crear varias sustituciones"
     }
   },
   "replacement_type": {

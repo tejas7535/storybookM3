@@ -1,7 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+
+import { take, tap } from 'rxjs';
 
 import { PushPipe } from '@ngrx/component';
 
@@ -26,6 +37,8 @@ import { InternalMaterialReplacementTableComponent } from './table/internal-mate
   standalone: true,
   imports: [
     CommonModule,
+    MatButtonModule,
+    MatIconModule,
     SharedTranslocoModule,
     StyledSectionComponent,
     HeaderActionBarComponent,
@@ -46,7 +59,6 @@ export class InternalMaterialReplacementComponent implements OnInit {
   protected loading$;
   protected selectedRegion: string;
 
-  // TODO check validators, not all fields are required
   protected regionControl = new FormControl<SelectableValue>(
     { id: '', text: '' },
     Validators.required
@@ -56,16 +68,13 @@ export class InternalMaterialReplacementComponent implements OnInit {
     region: this.regionControl,
   });
 
-  // Grid lives here to manage updates
-  // TODO check if this is necessary
-  // const [grid, setGrid] = useState<GridApis | undefined>();
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     protected readonly selectableOptionsService: SelectableOptionsService,
     private readonly dialog: MatDialog
   ) {
     this.loading$ = this.selectableOptionsService.loading$;
-    // console.log("Test " + this.selectableOptionsService.get('region')?.options);
   }
 
   ngOnInit(): void {
@@ -76,26 +85,38 @@ export class InternalMaterialReplacementComponent implements OnInit {
         );
       }
     });
-    this.regionControl.valueChanges.subscribe((option) => {
-      if (option) {
-        this.selectedRegion = option.id;
-        this.table?.setServerSideDatasource(this.selectedRegion);
-      }
-    });
+  }
+
+  updateRegion(event: Partial<SelectableValue>) {
+    if (event) {
+      this.selectedRegion = event.id;
+      this.table?.setServerSideDatasource(this.selectedRegion);
+    }
   }
 
   handleCreateSingleIMR() {
-    this.dialog.open(
-      InternalMaterialReplacementSingleSubstitutionModalComponent,
-      {
+    this.dialog
+      .open(InternalMaterialReplacementSingleSubstitutionModalComponent, {
         data: {
           substitution: this.newIMRSubstitution(this.regionControl.value.id),
           isNewSubstitution: true,
           gridApi: this.table.gridApi,
         },
+        panelClass: ['form-dialog', 'internal-material-replacement'],
+        autoFocus: false,
         disableClose: true,
-      }
-    );
+      })
+      .afterClosed()
+      .pipe(
+        take(1),
+        tap(({ reloadData, redefinedSubstitution }) => {
+          if (reloadData) {
+            this.table.addNewRow(redefinedSubstitution);
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   handleCreateMultiIMR() {

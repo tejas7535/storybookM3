@@ -1,27 +1,28 @@
-<div *transloco="let t">
+<div *transloco="let t" class="flex flex-col w-full h-full">
   @if (loading$ | ngrxPush) {
     <schaeffler-loading-spinner
       [useBearingLoadingSpinner]="true"
     ></schaeffler-loading-spinner>
   } @else {
-    <h2>{{ t('internal_material_replacement.title.rootString', {}) }}</h2>
-    <app-styled-section [grow]="true" style="position: relative">
+    <app-styled-section [grow]="true" class="flex flex-col h-full">
+      <h2 class="text-title-large">
+        {{ t('internal_material_replacement.title.rootString', {}) }}
+      </h2>
+
       <app-header-action-bar>
-        <div appHeaderActionBarButtons>
-          <app-action-button
-            (click)="handleCreateSingleIMR()"
-            color="primary"
-            variant="mat-fab"
-            icon="add"
-          >
-          </app-action-button>
-          <app-action-button
-            (click)="handleCreateMultiIMR()"
-            color="secondary"
-            variant="mat-fab"
-            icon="menu"
-          >
-          </app-action-button>
+        <div appHeaderActionBarButtons class="flex gap-3">
+          <button mat-flat-button (click)="handleCreateSingleIMR()">
+            <mat-icon>add</mat-icon>
+            {{ t('internal_material_replacement.button.createSubstitution') }}
+          </button>
+          <button mat-button (click)="handleCreateMultiIMR()">
+            <mat-icon>upload</mat-icon>
+            {{
+              t(
+                'internal_material_replacement.button.createMultipleSubstitutions'
+              )
+            }}
+          </button>
         </div>
         <div appHeaderActionBarChildren class="wrapper">
           <app-filter-dropdown
@@ -29,62 +30,17 @@
             [options]="selectableOptionsService.get('region').options"
             [form]="formGroup"
             [control]="regionControl"
+            (selectionChange)="updateRegion($any($event))"
           ></app-filter-dropdown>
         </div>
       </app-header-action-bar>
-      <!-- TODO check if this is right and the value is there, if not implement it in an other way...-->
+
+      @if (selectedRegion) {
+        <app-internal-material-replacement-table
+          #internalMaterialReplacementTableComponent
+          [selectedRegion]="selectedRegion"
+        ></app-internal-material-replacement-table>
+      }
     </app-styled-section>
-    @if (selectedRegion) {
-      <app-internal-material-replacement-table
-        #internalMaterialReplacementTableComponent
-        [selectedRegion]="selectedRegion"
-      ></app-internal-material-replacement-table>
-    }
   }
 </div>
-
-<!--{selectedRegion && (-->
-<!--<InternalMaterialReplacementTable-->
-<!--selectedRegion={selectedRegion}-->
-<!--openIMRModal={openIMRModal}-->
-<!--grid={grid}-->
-<!--setGrid={setGrid}-->
-<!--/>-->
-<!--)}-->
-<!--</StyledSection>-->
-
-<!--<MultiSubstitutionModal-->
-<!--  open={openModal == IMRModal.NEW_MULTI_SI}-->
-<!--  onClose={-->
-<!--() => setOpenModal(null)}-->
-<!--onAdded={closeModalAndUpdateTable}-->
-<!--/>-->
-
-<!--{selectedRegion && (-->
-<!--// New substitution-->
-<!--<SingleSubstitutionModal-->
-<!--open={openModal == IMRModal.NEW_SINGLE_SI}-->
-<!--isNewSubstitution={true}-->
-<!--onClose={() => setOpenModal(null)}-->
-<!--onSuccess={closeModalAndUpdateTable}-->
-<!--substitution={newIMRSubstitution(selectedRegion?.id)}-->
-<!--/>-->
-<!--)}-->
-<!--{selectedRegion && selectedEntry && (-->
-<!--// Edit substitution-->
-<!--<SingleSubstitutionModal-->
-<!--open={openModal == IMRModal.EDIT_SINGLE_SI}-->
-<!--isNewSubstitution={false}-->
-<!--onClose={() => setOpenModal(null)}-->
-<!--onSuccess={closeModalAndUpdateTable}-->
-<!--substitution={selectedEntry}-->
-<!--/>-->
-<!--)}-->
-<!--{selectedRegion && selectedEntry && (-->
-<!--<DeleteSubstitutionDialog-->
-<!--open={openModal == IMRModal.DELETE_SINGLE_SI}-->
-<!--seletedEntry={selectedEntry}-->
-<!--onClose={closeModalAndUpdateTable}-->
-<!--/>-->
-<!--)}-->
-<!--</Page>-->

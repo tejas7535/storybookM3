@@ -52,7 +52,9 @@
     "date": {
       "invalidFormat": "Format date non valid.",
       "beforeMin": "La date est antérieure à la date la plus proche possible.",
+      "beforeMinExistingRecord": "La date doit soit correspondre à la date initiale ({{existingDate}}), soit être à partir de la première date possible ({{earliestPossibleDate}}).",
       "afterMax": "La date est postérieure à la date la plus tardive possible.",
+      "afterMaxEditingExistingRecord": "La date doit soit correspondre à la date initiale ({{existingDate}}), soit être antérieure à la date la plus tardive possible ({{latestPossibleDate}}).",
       "emptyDate": "La date ne peut pas être vide."
     },
     "unsaved_changes": "Les modifications non sauvegardées sont supprimées. Continuer?",
@@ -958,13 +960,18 @@
     },
     "helper_text": {
       "startOfProduction": "Remarque : en cas de fin de série sans successeur, ce champ contient la dernière date de fabrication possible.",
-      "note": "Remarque : veuillez, si possible, remplir le formulaire en anglais."
+      "note": "Remarque : veuillez, si possible, remplir le formulaire en anglais.",
+      "replacementDate": "Remarque : en cas de fin de série sans successeur, ce champ contient la dernière date de fabrication possible."
     },
     "text": {
       "deleteSubstitution": "Faut-il vraiment supprimer le substitution ?"
     },
     "error": {
       "fielNotAllowed": "Le champ ne doit pas être renseigné pour le type sélectionné."
+    },
+    "button": {
+      "createSubstitution": "Créer une substitution",
+      "createMultipleSubstitutions": "Créer plusieurs substitutions"
     }
   },
   "replacement_type": {

@@ -1,13 +1,16 @@
 <div class="traffic-light--container">
   <div class="traffic-light">
-    @if (params.value === 'RED') {
-      <div class="traffic-light-item red"></div>
-    }
-    @if (params.value === 'YELLOW') {
-      <div class="traffic-light-item yellow"></div>
-    }
-    @if (params.value === 'GREEN') {
-      <div class="traffic-light-item green"></div>
-    }
+    <div
+      class="traffic-light-item"
+      [ngClass]="{ red: params.value === 'RED' }"
+    ></div>
+    <div
+      class="traffic-light-item"
+      [ngClass]="{ yellow: params.value === 'YELLOW' }"
+    ></div>
+    <div
+      class="traffic-light-item"
+      [ngClass]="{ green: params.value === 'GREEN' }"
+    ></div>
   </div>
 </div>

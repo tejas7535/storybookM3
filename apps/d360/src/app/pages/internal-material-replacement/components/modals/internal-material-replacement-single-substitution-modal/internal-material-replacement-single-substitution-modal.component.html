@@ -1,132 +1,152 @@
 <div *transloco="let t">
-  @if (data.isNewSubstitution) {
-    <h2 mat-dialog-title>
-      {{ t('internal_material_replacement.title.newSubstitution', {}) }}
-    </h2>
-  } @else {
-    <h2 mat-dialog-title>
-      {{ t('internal_material_replacement.title.editSubstitution', {}) }}
-    </h2>
-  }
+  <div mat-dialog-title class="m-0 pt-0">
+    @if (data.isNewSubstitution) {
+      <h2 class="text-title-large">
+        {{ t('internal_material_replacement.title.newSubstitution', {}) }}
+      </h2>
+    } @else {
+      <h2 class="text-title-large">
+        {{ t('internal_material_replacement.title.editSubstitution', {}) }}
+      </h2>
+    }
+  </div>
   <mat-dialog-content>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4">
-      <div class="wrapper">
-        <!-- TODO set disabled property as the react application does, form control could be used  implement ChangeEvent and ErrorMEssage-->
-        <app-error-handling-select
-          [label]="
-            t('internal_material_replacement.column.replacementType', {})
-          "
-          [fC]="replacementTypeControl"
-          [fG]="formGroup"
-          [options]="replacementTypeOptions"
-          [errorMessages]="
-            showValidation && !data.substitution.replacementType
-              ? [t('generic.validation.missing_fields', {})]
-              : []
-          "
-        ></app-error-handling-select>
-      </div>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+    @if (loading() || (selectableOptionsService.loading$ | ngrxPush)) {
       <div>
-        <app-single-autocomplete-pre-loaded
-          [control]="regionControl"
+        <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
+      </div>
+    } @else {
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4">
+        <!-- replacementType -->
+        <app-filter-dropdown
+          [form]="formGroup"
+          [control]="$any(formGroup.controls.replacementType)"
+          [label]="t(translationStart + '.replacementType', {})"
+          [options]="replacementTypeOptions"
+          (selectionChange)="updateForm($event)"
+          [formatOptionValue]="displayFnText"
+          [formatSelectedValue]="displayFnText"
+        />
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+        <!-- region -->
+        <app-filter-dropdown
+          [control]="$any(formGroup.controls.region)"
           [form]="formGroup"
           [label]="t('globalSelection.region', {})"
-          [optionsLoadingResult]="selectableOptionsService.get('region')"
-          (selectionChange)="handleRegionChange($event)"
-        ></app-single-autocomplete-pre-loaded>
-      </div>
-      <div>
-        <app-single-autocomplete-pre-loaded
-          [control]="salesAreaControl"
+          [options]="selectableOptionsService.get('region').options"
+          [formatOptionValue]="displayFnUnited"
+        ></app-filter-dropdown>
+
+        <!-- salesArea -->
+        <app-filter-dropdown
+          [control]="$any(formGroup.controls.salesArea)"
           [form]="formGroup"
           [label]="t('globalSelection.sales_area', {})"
-          [optionsLoadingResult]="selectableOptionsService.get('salesArea')"
-          (selectionChange)="handleSalesAreaChange($event)"
-        ></app-single-autocomplete-pre-loaded>
-      </div>
-      <div>
-        <app-single-autocomplete-pre-loaded
-          [control]="salesOrgControl"
+          [options]="selectableOptionsService.get('salesArea').options"
+          [formatOptionValue]="displayFnUnited"
+        ></app-filter-dropdown>
+
+        <!-- salesOrgControl -->
+        <app-filter-dropdown
+          [control]="$any(formGroup.controls.salesOrg)"
           [form]="formGroup"
           [label]="t('globalSelection.sales_org.rootString', {})"
-          [optionsLoadingResult]="selectableOptionsService.get('salesOrg')"
-          (selectionChange)="handleSalesOrgChange($event)"
-        ></app-single-autocomplete-pre-loaded>
+          [options]="selectableOptionsService.get('salesOrg').options"
+        ></app-filter-dropdown>
       </div>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
-      <div>
+      <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+        <!-- customer -->
         <app-single-autocomplete-on-type
           [label]="t('globalSelection.customer.rootString', {})"
           urlBegin="global-selection/search-customers"
           [form]="formGroup"
-          [control]="customerNumberControl"
-          (selectionChange)="handleCustomerChange($event)"
+          [control]="$any(formGroup.controls.customerNumber)"
         ></app-single-autocomplete-on-type>
-      </div>
-      <div>
+
+        <!-- predecessorMaterial -->
         <app-single-autocomplete-on-type
           [label]="
             t('internal_material_replacement.column.predecessorMaterial', {})
           "
           urlBegin="global-selection/search-materials"
           [form]="formGroup"
-          [control]="predecessorMaterialControl"
-          (selectionChange)="handlePredecessorChange($event)"
+          [control]="$any(formGroup.controls.predecessorMaterial)"
         ></app-single-autocomplete-on-type>
-      </div>
-      <div>
+
+        <!-- successorMaterial -->
         <app-single-autocomplete-on-type
           [label]="
             t('internal_material_replacement.column.successorMaterial', {})
           "
           urlBegin="global-selection/search-materials"
           [form]="formGroup"
-          [control]="successorMaterialControl"
-          (selectionChange)="handleSuccesorChange($event)"
+          [control]="$any(formGroup.controls.successorMaterial)"
         ></app-single-autocomplete-on-type>
       </div>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
-      <!--      <div>&lt;!&ndash; TODO Implement ErrorHandlingDatePicker>&ndash;&gt;</div>-->
-      <div>
-        <app-date-picker [control]="startOfProductionControl"></app-date-picker>
+      <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+        <!-- startOfProduction -->
+        <app-date-picker
+          [minDate]="this.data.isNewSubstitution ? TODAY : null"
+          [maxDate]="this.data.isNewSubstitution ? MAX_DATE : null"
+          [control]="$any(formGroup.controls.startOfProduction)"
+          [label]="t(translationStart + '.startOfProduction')"
+          [errorMessage]="startOfProductionCustomErrorMessage()"
+        ></app-date-picker>
+
+        <!-- cutOverDate -->
+        <app-date-picker
+          [minDate]="this.data.isNewSubstitution ? TODAY : null"
+          [maxDate]="this.data.isNewSubstitution ? MAX_DATE : null"
+          [control]="$any(formGroup.controls.cutoverDate)"
+          [label]="t(translationStart + '.cutoverDate')"
+          [errorMessage]="cutoverDateCustomErrorMessage()"
+        ></app-date-picker>
+
+        <!-- replacementDate -->
+        <app-date-picker
+          [minDate]="this.data.isNewSubstitution ? TODAY : null"
+          [maxDate]="this.data.isNewSubstitution ? MAX_DATE : null"
+          [control]="$any(formGroup.controls.replacementDate)"
+          [label]="t(translationStart + '.replacementDate')"
+          [errorMessage]="replacementDateCustomErrorMessage()"
+          [hint]="
+            t('internal_material_replacement.helper_text.replacementDate', {})
+          "
+        ></app-date-picker>
       </div>
-      <!--      <div>&lt;!&ndash; TODO Implement ErrorHandlingDatePicker>&ndash;&gt;</div>-->
-      <div>
-        <app-date-picker [control]="cutoverDateControl"></app-date-picker>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+        <div class="col-span-3 styled-text-field">
+          <mat-form-field [formGroup]="formGroup" appearance="outline">
+            <mat-label
+              >{{ t('alert_rules.edit_modal.label.comment', {}) }}
+            </mat-label>
+            <textarea
+              matInput
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="4"
+              #autosize="cdkTextareaAutosize"
+              [formControl]="$any(formGroup.controls.note)"
+            ></textarea>
+            <mat-hint
+              >{{ t('internal_material_replacement.helper_text.note', {}) }}
+            </mat-hint>
+          </mat-form-field>
+        </div>
       </div>
-      <!--      <div>&lt;!&ndash; TODO Implement ErrorHandlingDatePicker>&ndash;&gt;</div>-->
-      <div>
-        <app-date-picker [control]="replacementDateControl"></app-date-picker>
-      </div>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
-      <div class="col-span-3 styled-text-field">
-        <mat-form-field [formGroup]="formGroup" appearance="outline">
-          <mat-label
-            >{{ t('alert_rules.edit_modal.label.comment', {}) }}
-          </mat-label>
-          <textarea
-            matInput
-            cdkTextareaAutosize
-            cdkAutosizeMinRows="4"
-            #autosize="cdkTextareaAutosize"
-            [formControl]="replacementNoteControl"
-          ></textarea>
-          <mat-hint
-            >{{ t('internal_material_replacement.helper_text.note', {}) }}
-          </mat-hint>
-        </mat-form-field>
-      </div>
-    </div>
+    }
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button (click)="handleSave()" mat-flat-button color="primary">
+    <button mat-button mat-dialog-close (click)="handleOnClose(false, null)">
+      {{ t('button.close', {}) }}
+    </button>
+    <button
+      [disabled]="loading() || (selectableOptionsService.loading$ | ngrxPush)"
+      (click)="onSave()"
+      mat-flat-button
+    >
       {{ t('button.save', {}) }}
     </button>
-    <button mat-button (click)="handleOnClose()">Close</button>
   </mat-dialog-actions>
 </div>

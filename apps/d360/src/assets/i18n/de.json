@@ -61,7 +61,9 @@
     "date": {
       "invalidFormat": "Datumsformat falsch.",
       "beforeMin": "Datum liegt vor dem frühstmöglichen Datum.",
+      "beforeMinEditingExistingRecord": "Das das Datum muss entweder mit dem ursprünglichen Datum  ({{existingDate}}) übereinstimmen oder ab dem frühstmöglichen Datum ({{earliestPossibleDate}}) liegen.",
       "afterMax": "Datum liegt nach dem spätmöglichsten Datum.",
+      "afterMaxEditingExistingRecord": "Das Datum muss entweder mit dem ursprünglichen Datum ({{existingDate}}) übereinstimmen oder vor dem spätmöglichsten Datum ({{latestPossibleDate}}) liegen.",
       "emptyDate": "Datum darf nicht leer sein."
     },
     "unsaved_changes": "Ungespeicherte Änderungen werden verworfen. Fortfahren?",
@@ -967,13 +969,18 @@
     },
     "helper_text": {
       "startOfProduction": "Hinweis: Bei Auslauf ohne Nachfolger beinhaltet dieses Feld den letztmöglichen Fertigungstermin.",
-      "note": "Hinweis: Bitte möglichst in englischer Sprache ausfüllen."
+      "note": "Hinweis: Bitte möglichst in englischer Sprache ausfüllen.",
+      "replacementDate": "Hinweis: Bei Auslauf ohne Nachfolger beinhaltet dieses Feld den letztmöglichen Fertigungstermin."
     },
     "text": {
       "deleteSubstitution": "Soll die Ersetzung wirklich gelöscht werden?"
     },
     "error": {
       "fielNotAllowed": "Das Feld darf für den ausgewählten Typ nicht befüllt werden."
+    },
+    "button": {
+      "createSubstitution": "Ersetzung erstellen",
+      "createMultipleSubstitutions": "Mehrere Ersetzungen erstellen"
     }
   },
   "replacement_type": {

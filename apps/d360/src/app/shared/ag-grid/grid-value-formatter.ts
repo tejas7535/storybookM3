@@ -1,6 +1,7 @@
 import { translate } from '@jsverse/transloco';
 
 import { PortfolioStatus } from '../../feature/customer-material-portfolio/cmp-modal-types';
+import { ReplacementType } from '../../feature/internal-material-replacement/model';
 import { DemandCharacteristic } from '../../feature/material-customer/model';
 
 export function portfolioStatusValueFormatter() {
@@ -19,4 +20,9 @@ export function demandCharacteristicValueFormatter() {
       {},
       ''
     );
+}
+
+export function replacementTypeValueFormatter() {
+  return (params: any): string =>
+    translate(`replacement_type.${params.value as ReplacementType}`, {});
 }

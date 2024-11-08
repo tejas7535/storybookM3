@@ -52,7 +52,9 @@
     "date": {
       "invalidFormat": "日期格式无效。",
       "beforeMin": "日期早于最早的可能日期。",
+      "beforeMinEditingExistingRecord": "日期必须与原始日期（{{existingDate}}）一致，或者是最早的可能日期（{{earliestPossibleDate}}。",
       "afterMax": "日期在最晚的可能日期之后。",
+      "afterMaxEditingExistingRecord": "日期必须与原始日期（{{existingDate}}）一致，或者在可能的最晚日期（{{latestPossibleDate}}）之前。",
       "emptyDate": "日期不能为空。"
     },
     "unsaved_changes": "未保存的更改将被丢弃。是否继续？",
@@ -958,13 +960,18 @@
     },
     "helper_text": {
       "startOfProduction": "备注：由于缺失后续物料，本字段显示最后可能的生产日期。",
-      "note": "提示: 请填写英语"
+      "note": "提示: 请填写英语",
+      "replacementDate": "备注：由于缺失后续物料，本字段显示最后可能的生产日期。"
     },
     "text": {
       "deleteSubstitution": "您确实想删除该替换？"
     },
     "error": {
       "fielNotAllowed": "禁止该选项在此使用"
+    },
+    "button": {
+      "createSubstitution": "创建替代",
+      "createMultipleSubstitutions": "创建多个替换"
     }
   },
   "replacement_type": {

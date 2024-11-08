@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { DestroyRef, inject, Injectable } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { map, Observable, of, Subject } from 'rxjs';
+import { map, Observable, of, Subject, tap } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import {
@@ -31,6 +32,8 @@ export class IMRService {
     rowCount: number;
   }>();
   private readonly fetchErrorEvent = new Subject<any>();
+
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(private readonly http: HttpClient) {}
 
@@ -135,16 +138,20 @@ export class IMRService {
 
         this.http
           .post<{ rows: any[]; rowCount: number }>(this.IMR_API, request)
-          .subscribe({
-            next: ({ rows, rowCount }) => {
+          .pipe(
+            tap(({ rows, rowCount }) => {
               params.success({ rowData: rows, rowCount });
               this.dataFetchedEvent.next({ rowData: rows, rowCount });
-            },
-            error: (error) => {
+            }),
+            catchError((error) => {
               params.fail();
               this.fetchErrorEvent.next(error);
-            },
-          });
+
+              return of();
+            }),
+            takeUntilDestroyed(this.destroyRef)
+          )
+          .subscribe();
       },
     };
   }

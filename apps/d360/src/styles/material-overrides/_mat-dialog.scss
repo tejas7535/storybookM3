@@ -22,7 +22,8 @@
       min-width: 80vw;
       min-height: 300px;
 
-      &.alert-rule {
+      &.alert-rule,
+      &.internal-material-replacement {
         .mat-mdc-dialog-content {
           min-height: 300px;
         }

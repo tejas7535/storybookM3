@@ -52,7 +52,9 @@
     "date": {
       "invalidFormat": "Formato de data inválido.",
       "beforeMin": "A data é antes da data mais próxima possível.",
+      "beforeMinEditingExistingRecord": "A data tem de coincidir com a data original ({{existingDate}}) ou com a data mais antiga possível ({{earliestPossibleDate}}).",
       "afterMax": "A data é após a mais recente possível.",
+      "afterMaxEditingExistingRecord": "A data tem de corresponder à data original ({{existingDate}}) ou ser anterior à última data possível ({{latestPossibleDate}}).",
       "emptyDate": "A data não deve estar em branco."
     },
     "unsaved_changes": "As mudanças não salvas são descartadas. Continuar?",
@@ -958,13 +960,18 @@
     },
     "helper_text": {
       "startOfProduction": "Observação: no caso de descontinuação sem sucessor, esse campo contém a última data de produção possível.",
-      "note": "Observação: Preencha em inglês, se possível."
+      "note": "Observação: Preencha em inglês, se possível.",
+      "replacementDate": "Observação: no caso de descontinuação sem sucessor, esse campo contém a última data de produção possível."
     },
     "text": {
       "deleteSubstitution": "A substituição deve realmente ser excluída?"
     },
     "error": {
       "fielNotAllowed": "O campo não deve ser preenchido para o tipo selecionado."
+    },
+    "button": {
+      "createSubstitution": "Criar substituição",
+      "createMultipleSubstitutions": "Criar várias substituições"
     }
   },
   "replacement_type": {

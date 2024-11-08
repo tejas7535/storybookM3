@@ -1,10 +1,7 @@
-import { translate } from '@jsverse/transloco';
 import { ColDef } from 'ag-grid-community';
 
-import {
-  ReplacementType,
-  replacementTypeValues,
-} from '../../../../feature/internal-material-replacement/model';
+import { replacementTypeValues } from '../../../../feature/internal-material-replacement/model';
+import { replacementTypeValueFormatter } from '../../../../shared/ag-grid/grid-value-formatter';
 import { TrafficLightCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/traffic-light-cell-renderer/traffic-light-cell-renderer.component';
 import {
   trafficLightValueFormatter,
@@ -103,17 +100,11 @@ export function getIMRColumnDefinitions(
     {
       property: 'replacementType',
       colId: 'internal_material_replacement.column.replacementType',
-      valueFormatter: (params: any): string =>
-        translate(
-          `replacement_type.${params.value as ReplacementType}`,
-          {},
-          translate(`error.valueUnknown`, {})
-        ),
+      valueFormatter: replacementTypeValueFormatter(),
       filter: 'agSetColumnFilter',
       filterParams: {
         values: replacementTypeValues,
-        valueFormatter: (params: any): string =>
-          translate(`replacement_type.${params.value as ReplacementType}`, {}),
+        valueFormatter: replacementTypeValueFormatter(),
       },
       tooltipComponent: undefined,
       tooltipField: undefined,

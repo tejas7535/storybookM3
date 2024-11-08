@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, DestroyRef, Inject, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButton } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -8,6 +9,8 @@ import {
   MatDialogContent,
   MatDialogRef,
 } from '@angular/material/dialog';
+
+import { map, tap } from 'rxjs';
 
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 
@@ -36,9 +39,11 @@ import { SnackbarService } from '../../../../../shared/utils/service/snackbar.se
     './internal-material-replacement-single-delete-modal.component.scss',
 })
 export class InternalMaterialReplacementSingleDeleteModalComponent {
+  private readonly snackbarService = inject(SnackbarService);
+  private readonly imrService = inject(IMRService);
+  private readonly destroyRef = inject(DestroyRef);
+
   constructor(
-    private readonly snackBarService: SnackbarService,
-    private readonly imrService: IMRService,
     @Inject(MAT_DIALOG_DATA) public imrSubstitution: IMRSubstitution,
     public dialogRef: MatDialogRef<InternalMaterialReplacementSingleDeleteModalComponent>
   ) {}
@@ -49,20 +54,36 @@ export class InternalMaterialReplacementSingleDeleteModalComponent {
     }
     this.imrService
       .deleteIMRSubstitution(this.imrSubstitution, false)
-      .subscribe((response) => {
-        const userMessage = singlePostResultToUserMessage(
-          response,
-          errorsFromSAPtoMessage,
-          translate('generic.validation.save.success', {})
-        );
+      .pipe(
+        map((response) =>
+          singlePostResultToUserMessage(
+            response,
+            errorsFromSAPtoMessage,
+            translate('generic.validation.save.success', {})
+          )
+        ),
+        tap((userMessage) => {
+          this.snackbarService.openSnackBar(userMessage.message);
 
-        this.snackBarService.openSnackBar(userMessage.message);
-        // TODO implement with variant
-        // enqueueSnackbar(userMessage.message, { variant: userMessage.variant });
-        if (userMessage.variant === 'success') {
-          this.dialogRef.close(true);
-        }
-        this.dialogRef.close(false);
-      });
+          if (userMessage.variant === 'success') {
+            this.handleOnClose(true);
+          }
+
+          this.handleOnClose(false);
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+  }
+
+  /**
+   * Close the open dialogs
+   *
+   * @protected
+   * @param {boolean} reloadData
+   * @memberof InternalMaterialReplacementSingleDeleteModalComponent
+   */
+  protected handleOnClose(reloadData: boolean): void {
+    this.dialogRef.close(reloadData);
   }
 }

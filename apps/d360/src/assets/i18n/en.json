@@ -61,7 +61,9 @@
     "date": {
       "invalidFormat": "Invalid dateformat.",
       "beforeMin": "Date is before the earliest possible.",
+      "beforeMinEditingExistingRecord": "The date must either match the original date ({{existingDate}}) or be on or after the earliest possible date ({{earliestPossibleDate}}).",
       "afterMax": "Date is after the latest possible.",
+      "afterMaxEditingExistingRecord": "The date must either match the original date ({{existingDate}}) or be on or before the latest possible date ({{latestPossibleDate}}).",
       "emptyDate": "Date cannot be empty."
     },
     "unsaved_changes": "Unsaved changes are discarded. Continue?",
@@ -967,13 +969,18 @@
     },
     "helper_text": {
       "startOfProduction": "Note: For discontinuation without successor, this field contains the last possible production date.",
-      "note": "Note: Please complete in English if possible."
+      "note": "Note: Please complete in English if possible.",
+      "replacementDate": "Note: For discontinuation without successor, this field contains the last possible production date."
     },
     "text": {
       "deleteSubstitution": "Should the substitution really be deleted?"
     },
     "error": {
       "fielNotAllowed": "The field must not be filled for the selected type."
+    },
+    "button": {
+      "createSubstitution": "Create substitution",
+      "createMultipleSubstitutions": "Create multiple substitutions"
     }
   },
   "replacement_type": {
