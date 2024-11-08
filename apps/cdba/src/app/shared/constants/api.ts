@@ -9,5 +9,6 @@ export enum ProductDetailPath {
   Calculations = 'calculations',
   Bom = 'bom',
   CostComponentSplit = 'cost-component-split',
-  BomExport = `${Bom}/export`,
 }
+
+export const BomExportPath = 'bom/export';

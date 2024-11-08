@@ -11,7 +11,11 @@ import { MockModule, MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { exportBoms, getBomExportLoading } from '@cdba/core/store';
+import {
+  exportBoms,
+  getBomExportLoading,
+  getSelectedRefTypeNodeIds,
+} from '@cdba/core/store';
 import { SearchState } from '@cdba/core/store/reducers/search/search.reducer';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 
@@ -140,6 +144,25 @@ describe('BomExportButtonComponent', () => {
       component.onClick();
 
       expect(storeSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('isDisabled', () => {
+    it('should disable the button when less than minimum ref types are selected', () => {
+      store.overrideSelector(getSelectedRefTypeNodeIds, []);
+
+      component.ngOnInit();
+
+      expect(component.isDisabled()).toEqual(true);
+    });
+    it('should disable the button when more than maximum ref types are selected', () => {
+      const values = [];
+      for (let i = 0; i < 51; i += 1) {
+        values.push(i.toString());
+      }
+      store.overrideSelector(getSelectedRefTypeNodeIds, values);
+
+      expect(component.isDisabled()).toEqual(true);
     });
   });
 });

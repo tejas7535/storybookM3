@@ -56,7 +56,7 @@
   "bomExport": {
     "label": "BOM Export",
     "tooltips": {
-      "default": "Wählen Sie mindestens ein Material für den Export aus.\nHinweis: Für PCM-Materialien liegt möglicherweise keine gültige Berechnung vor.",
+      "default": "Bitte wählen Sie zwischen {{ bomExportMinCount }} und {{ bomExportMaxCount }} Material(ien) für den Export.\nHinweis: Für PCM-Materialien liegt möglicherweise keine gültige Berechnung vor.",
       "loading": "Export läuft.\nBitte warten."
     }
   }

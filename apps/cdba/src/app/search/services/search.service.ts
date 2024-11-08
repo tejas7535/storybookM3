@@ -2,12 +2,13 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 
 import { firstValueFrom, from, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, timeout } from 'rxjs/operators';
 
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { withCache } from '@ngneat/cashew';
 
-import { API, ProductDetailPath } from '@cdba/shared/constants/api';
+import { API, BomExportPath } from '@cdba/shared/constants/api';
+import { BOM_EXPORT_TIMEOUT } from '@cdba/shared/constants/table';
 import { HttpParamsEncoder } from '@cdba/shared/http';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models/reference-type-identifier.model';
 
@@ -32,7 +33,6 @@ export class SearchService {
   private readonly INITIAL_FILTER = 'initial-filter';
   private readonly SEARCH = 'search';
   private readonly POSSIBLE_FILTER = 'possible-filter';
-  private readonly BOM_EXPORT = 'export';
 
   public constructor(
     private readonly httpClient: HttpClient,
@@ -89,7 +89,7 @@ export class SearchService {
   public exportBoms(
     referenceTypesIdentifiers: ReferenceTypeIdentifier[]
   ): Observable<{ filename: string; content: Blob }> {
-    const path = `${API.v1}/${ProductDetailPath.Bom}/${this.BOM_EXPORT}`;
+    const path = `${API.v1}/${BomExportPath}`;
 
     const headers = new HttpHeaders({
       responseType: 'blob',
@@ -105,6 +105,7 @@ export class SearchService {
           responseType: 'blob',
         })
         .pipe(
+          timeout(BOM_EXPORT_TIMEOUT),
           map((res) => ({
             filename: this.getFileName(res.headers.get('content-disposition')),
             content: res.body,

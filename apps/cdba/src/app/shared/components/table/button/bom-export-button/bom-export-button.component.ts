@@ -16,6 +16,10 @@ import {
   getBomExportLoading,
   getSelectedRefTypeNodeIds,
 } from '@cdba/core/store/selectors/search/search.selector';
+import {
+  BOM_EXPORT_MAX_COUNT,
+  BOM_EXPORT_MIN_COUNT,
+} from '@cdba/shared/constants/table';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 
 @Component({
@@ -60,7 +64,11 @@ export class BomExportButtonComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.tooltip = this.transloco.translate(
-      'search.bomExport.tooltips.default'
+      'search.bomExport.tooltips.default',
+      {
+        bomExportMinCount: BOM_EXPORT_MIN_COUNT,
+        bomExportMaxCount: BOM_EXPORT_MAX_COUNT,
+      }
     );
 
     this.selectedNodeIdsSubscription = this.selectedNodeIds$.subscribe(
@@ -95,6 +103,14 @@ export class BomExportButtonComponent implements OnInit, OnDestroy {
     if (identifiers.length > 0) {
       this.store.dispatch(exportBoms({ identifiers }));
     }
+  }
+
+  isDisabled(): boolean {
+    return this.selectedNodeIds
+      ? this.selectedNodeIds?.length < BOM_EXPORT_MIN_COUNT ||
+          this.selectedNodeIds?.length > BOM_EXPORT_MAX_COUNT ||
+          this.disabled
+      : true;
   }
 
   private showOrHideOverlay(isLoading: boolean) {

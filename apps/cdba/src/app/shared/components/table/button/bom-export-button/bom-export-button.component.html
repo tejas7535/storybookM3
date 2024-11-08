@@ -6,7 +6,7 @@
     class="inline-block"
   >
     <button
-      [disabled]="selectedNodeIds?.length < 1 || disabled"
+      [disabled]="isDisabled()"
       mat-flat-button
       color="primary"
       class="!mr-4"

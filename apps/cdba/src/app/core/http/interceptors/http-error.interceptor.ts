@@ -4,6 +4,7 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
+  HttpStatusCode,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
@@ -11,7 +12,7 @@ import { ValidationErrors } from '@angular/forms';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { ProductDetailPath } from '@cdba/shared/constants/api';
+import { BomExportPath, ProductDetailPath } from '@cdba/shared/constants/api';
 
 import { AUTH_URLS } from '../constants/urls';
 import { HttpErrorType } from '../models/http-error-type.model';
@@ -27,7 +28,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((errorResponse: HttpErrorResponse) => {
-        if (errorResponse.url.includes(ProductDetailPath.BomExport)) {
+        if (
+          errorResponse.url.includes(BomExportPath) &&
+          errorResponse.status === HttpStatusCode.BadRequest
+        ) {
           this.httpErrorService.handleHttpError(HttpErrorType.Validation);
 
           this.logValidationError(errorResponse);
@@ -36,8 +40,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         }
         // don't use the interceptor for detail paths
         else if (
-          Object.values<string>(ProductDetailPath).some((path) =>
-            errorResponse.url.includes(`/${path}`)
+          Object.values<string>(ProductDetailPath).some(
+            (path) =>
+              errorResponse.url.includes(`/${path}`) &&
+              !errorResponse.url.includes(BomExportPath)
           )
         ) {
           return throwError(() => errorResponse);
