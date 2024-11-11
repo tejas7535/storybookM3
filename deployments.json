@@ -8,5 +8,6 @@
   "ga": "/CDAI2/bearinx-frontend/grease-app/frontend-deployment/master",
   "ea": "/CDAI2/bearinx-frontend/engineering-app/frontend-deployment/master",
   "lsa": "/CDAI2/bearinx-frontend/lubricator-selection-assistant/frontend-deployment/main",
-  "hc": "/CDAI2/material_app_center/Hardness-Converter/main"
+  "hc": "/CDAI2/material_app_center/Hardness-Converter/main",
+  "d360": "/akspriv-shared-cluster-namespaces/demand360/d360-frontend-deployment/main"
 }
