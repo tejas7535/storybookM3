@@ -12,7 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { addMonths, subMonths } from 'date-fns';
-import moment, { Moment } from 'moment';
+import moment, { isMoment, Moment } from 'moment';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -63,6 +63,12 @@ export class DatePickerMonthYearComponent implements OnInit {
    */
   public ngOnInit(): void {
     this.adapter.setLocale(this.translocoLocaleService.getLocale());
+
+    // convert to moment
+    const value = this.control().getRawValue();
+    if (value && !isMoment(value)) {
+      this.control().setValue(moment(value, 'LL'));
+    }
   }
 
   protected onSelectMonth(event: any, datepicker: MatDatepicker<Moment>) {

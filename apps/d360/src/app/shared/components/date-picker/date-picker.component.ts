@@ -7,7 +7,7 @@ import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import { Moment } from 'moment';
+import moment, { isMoment, Moment } from 'moment';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -45,5 +45,11 @@ export class DatePickerComponent implements OnInit {
    */
   public ngOnInit(): void {
     this.adapter.setLocale(this.translocoLocaleService.getLocale());
+
+    // convert to moment
+    const value = this.control().getRawValue();
+    if (value && !isMoment(value)) {
+      this.control().setValue(moment(value));
+    }
   }
 }

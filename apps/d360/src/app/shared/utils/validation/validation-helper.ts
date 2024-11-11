@@ -1,3 +1,5 @@
+import { FormGroup } from '@angular/forms';
+
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { isMatch, parse, startOfDay } from 'date-fns';
@@ -280,5 +282,42 @@ export class ValidationHelper {
     fn: (value: string) => string[] | null
   ): (value: string) => string | undefined {
     return (value: string) => fn(value)?.join(', ');
+  }
+
+  public static getStartEndDateValidationErrors(
+    formGroup: FormGroup,
+    touchFields: boolean = false
+  ) {
+    const errors: { [key: string]: string[] } = {};
+
+    // touch start- / endDate, so we show directly all errors
+    if (touchFields) {
+      formGroup.markAllAsTouched();
+    }
+
+    // start- / endDate
+    const startDate = formGroup.get('startDate')?.value;
+    const endDate = formGroup.get('endDate')?.value;
+
+    if (startDate && endDate && startDate > endDate) {
+      formGroup.get('endDate').setErrors({ toDateAfterFromDate: true });
+      errors.endDate = ['end-before-start'];
+    } else {
+      // we set the error manually, so we also need to clean up manually ;)
+      let fieldErrors = formGroup.get('endDate').errors;
+      if (fieldErrors?.['toDateAfterFromDate']) {
+        delete fieldErrors['toDateAfterFromDate'];
+
+        // if fieldErrors is {} (empty object) after deleting the key,
+        // we need to set null, otherwise it is still shown up as an error
+        fieldErrors =
+          Object.keys(fieldErrors).length === 0 ? null : fieldErrors;
+      }
+
+      // set the new error state
+      formGroup.get('endDate').setErrors(fieldErrors);
+    }
+
+    return Object.keys(errors).length > 0 ? errors : null;
   }
 }

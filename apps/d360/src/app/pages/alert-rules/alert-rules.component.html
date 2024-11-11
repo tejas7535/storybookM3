@@ -3,33 +3,35 @@
     <schaeffler-loading-spinner
       [useBearingLoadingSpinner]="true"
     ></schaeffler-loading-spinner>
-  } @else {
-    <h2 class="text-title-large">{{ t('alert_rules.title', {}) }}</h2>
-
-    <app-header-action-bar>
-      <div appHeaderActionBarButtons class="flex gap-3">
-        <button mat-flat-button (click)="handleCreateSingleAlertRule()">
-          <mat-icon>add</mat-icon>{{ t('alert_rules.button.createRule') }}
-        </button>
-
-        <button mat-button (click)="handleCreateMultiAlertRule()">
-          <mat-icon>upload</mat-icon>
-          {{ t('alert_rules.button.createMultipleRules') }}
-        </button>
-      </div>
-
-      <!-- <div class="flex-1"></div> -->
-      <div appHeaderActionBarRightChildren>
-        <button mat-icon-button (click)="handleDeleteMultiAlertRule()">
-          <mat-icon class="icon-button-primary">delete</mat-icon>
-        </button>
-      </div>
-    </app-header-action-bar>
-
-    <!-- Alert Rule Table  -->
-    <app-alert-rule-table
-      #alertRuleTableComponent
-      [editAlertRuleCallback]="handleCreateSingleAlertRule.bind(this)"
-    ></app-alert-rule-table>
   }
+
+  <h2 class="text-title-large">{{ t('alert_rules.title', {}) }}</h2>
+
+  <app-header-action-bar>
+    <div appHeaderActionBarButtons class="flex gap-3">
+      <button mat-flat-button (click)="handleCreateSingleAlertRule()">
+        <mat-icon>add</mat-icon>{{ t('alert_rules.button.createRule') }}
+      </button>
+
+      <button mat-button (click)="handleCreateMultiAlertRule()">
+        <mat-icon>upload</mat-icon>
+        {{ t('alert_rules.button.createMultipleRules') }}
+      </button>
+    </div>
+
+    <!-- <div class="flex-1"></div> -->
+    <div appHeaderActionBarRightChildren>
+      <button mat-icon-button (click)="handleDeleteMultiAlertRule()">
+        <mat-icon class="icon-button-primary">delete</mat-icon>
+      </button>
+    </div>
+  </app-header-action-bar>
+
+  <!-- Alert Rule Table  -->
+  <app-alert-rule-table
+    #alertRuleTableComponent
+    [editAlertRuleCallback]="handleCreateSingleAlertRule.bind(this)"
+    [loadData$]="loadData$.bind(this)"
+    (getApi)="getApi($event)"
+  ></app-alert-rule-table>
 </div>

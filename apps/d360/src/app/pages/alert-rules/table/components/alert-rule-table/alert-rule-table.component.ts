@@ -4,17 +4,20 @@ import {
   input,
   InputSignal,
   OnInit,
+  output,
+  OutputEmitterRef,
   ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { take, tap } from 'rxjs';
+import { Observable, of, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
   FirstDataRenderedEvent,
+  GetRowIdParams,
   GridApi,
   GridOptions,
   GridReadyEvent,
@@ -22,7 +25,10 @@ import {
 } from 'ag-grid-community';
 
 import { AlertRulesService } from '../../../../../feature/alert-rules/alert-rules.service';
-import { AlertRule } from '../../../../../feature/alert-rules/model';
+import {
+  AlertRule,
+  AlertRuleResponse,
+} from '../../../../../feature/alert-rules/model';
 import {
   clientSideTableDefaultProps,
   getDefaultColDef,
@@ -65,6 +71,8 @@ export class AlertRuleTableComponent implements OnInit {
     AlertRulesColumnSettingsService<string, AlertRuleColumnDefinitions>
   );
 
+  public getApi: OutputEmitterRef<GridApi> = output();
+
   @ViewChild('alertRulesGrid') grid!: AgGridAngular;
 
   public gridApi: GridApi;
@@ -72,6 +80,7 @@ export class AlertRuleTableComponent implements OnInit {
   protected gridOptions: GridOptions = {
     ...clientSideTableDefaultProps,
     sideBar,
+    getRowId: (params: GetRowIdParams<AlertRule>): string => params.data.id,
   };
   protected rowData: AlertRule[];
   protected columnDefs: ColDef[];
@@ -112,6 +121,10 @@ export class AlertRuleTableComponent implements OnInit {
       },
     ],
   };
+
+  public loadData$: InputSignal<() => Observable<AlertRuleResponse>> = input(
+    () => of({ count: 0, content: [] })
+  );
 
   public ngOnInit(): void {
     this.createColumnDefs();
@@ -188,11 +201,11 @@ export class AlertRuleTableComponent implements OnInit {
 
   onGridReady(event: GridReadyEvent): void {
     this.gridApi = event.api;
+    this.getApi.emit(event.api);
   }
 
   private setAlertRuleData() {
-    this.alertRulesService
-      .getAlertRuleData()
+    this.loadData$()()
       .pipe(
         tap((data) => {
           this.rowData = data?.content;

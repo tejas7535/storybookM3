@@ -7,6 +7,7 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { translate } from '@jsverse/transloco';
 import {
@@ -75,6 +76,16 @@ export abstract class AbstractTableUploadModalComponent<
    */
   protected readonly agGridLocalizationService: AgGridLocalizationService =
     inject(AgGridLocalizationService);
+
+  /**
+   * The AlertRulesService instance.
+   *
+   * @protected
+   * @type {MatDialogRef<AbstractTableUploadModalComponent<T, R>>}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected dialogRef: MatDialogRef<AbstractTableUploadModalComponent<T, R>> =
+    inject(MatDialogRef<AbstractTableUploadModalComponent<T, R>>);
 
   /**
    * The DestroyRef instance.
@@ -251,19 +262,33 @@ export abstract class AbstractTableUploadModalComponent<
 
   /**
    * The onAdded callback.
+   * Hint: override it, if you need a different behavior.
    *
    * @protected
    * @memberof AbstractTableUploadModalComponent
    */
-  protected onAdded(): void {}
+  protected onAdded(): void {
+    this.onClose();
+  }
+
+  /**
+   * Indicator, if we have changed data.
+   *
+   * @protected
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected hasChangedData = false;
 
   /**
    * The onClose callback.
+   * Hint: override it, if you need a different behavior.
    *
    * @protected
    * @memberof AbstractTableUploadModalComponent
    */
-  protected onClose(): void {}
+  protected onClose(): void {
+    this.dialogRef.close(this.hasChangedData);
+  }
 
   /** @inheritdoc */
   public ngOnInit(): void {
@@ -403,6 +428,13 @@ export abstract class AbstractTableUploadModalComponent<
 
       const postResult = await this.applyFunction(validData, dryRun);
 
+      // we set hasChangedData to true, if we have changed data.
+      this.hasChangedData =
+        this.hasChangedData ||
+        postResult.response.some(
+          (response) => response?.result?.messageType === 'SUCCESS'
+        );
+
       // Set error messages to show them in grid
       this.backendErrors.set(this.parseErrorsFromResult(postResult));
       if (this.backendErrors().length > 0 || this.frontendErrors().length > 0) {
@@ -425,7 +457,6 @@ export abstract class AbstractTableUploadModalComponent<
         userMessages.length === 1 &&
         (userMessages[0].variant === 'success' ||
           userMessages[0].variant === 'warning') &&
-        this.onAdded &&
         !dryRun
       ) {
         this.onAdded();

@@ -149,7 +149,7 @@ export class SelectableValueUtils {
       return { id: '', text: '' };
     };
 
-    if (value === null) {
+    if (value === null || value === '' || value === undefined) {
       return shouldBeArray ? [] : null;
     }
 

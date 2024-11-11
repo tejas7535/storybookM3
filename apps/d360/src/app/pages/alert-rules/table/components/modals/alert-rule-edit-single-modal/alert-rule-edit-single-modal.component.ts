@@ -64,6 +64,7 @@ import {
 } from '../../../../../../shared/services/selectable-options.service';
 import { SnackbarService } from '../../../../../../shared/utils/service/snackbar.service';
 import { ValidationHelper } from '../../../../../../shared/utils/validation/validation-helper';
+import { AlertRuleSaveResponse } from './../../../../../../feature/alert-rules/model';
 import { DisplayFunctions } from './../../../../../../shared/components/inputs/display-functions.utils';
 import { ValidateForm } from './../../../../../../shared/decorators';
 import {
@@ -603,19 +604,8 @@ export class AlertRuleEditSingleModalComponent implements OnInit {
    * @memberof AlertRuleEditSingleModalComponent
    */
   private crossFieldValidator(): ValidatorFn {
-    return (formGroup: AbstractControl) => {
-      const errors: { [key: string]: string[] } = {};
-
-      // start- / endDate
-      const startDate = formGroup.get('startDate')?.value;
-      const endDate = formGroup.get('endDate')?.value;
-      if (startDate && endDate && startDate > endDate) {
-        formGroup.get('endDate').setErrors({ toDateAfterFromDate: true });
-        errors.endDate = ['end-before-start'];
-      }
-
-      return Object.keys(errors).length > 0 ? errors : null;
-    };
+    return (formGroup: AbstractControl) =>
+      ValidationHelper.getStartEndDateValidationErrors(formGroup as FormGroup);
   }
 
   /**
@@ -678,27 +668,36 @@ export class AlertRuleEditSingleModalComponent implements OnInit {
       .saveMultiAlertRules([refinedAlertRule])
       .pipe(
         // Map result to ToastResult
-        map((postResult) =>
-          singlePostResultToUserMessage(
+        map((postResult) => ({
+          userMessage: singlePostResultToUserMessage(
             postResult,
             errorsFromSAPtoMessage,
             translate('alert_rules.edit_modal.success.alert_rule_created', {})
-          )
-        ),
+          ),
+          result: postResult.response,
+        })),
 
-        tap((userMessage: ToastResult) => {
-          // show SnackBar
-          this.snackbarService.openSnackBar(userMessage.message);
+        tap(
+          ({
+            userMessage,
+            result,
+          }: {
+            userMessage: ToastResult;
+            result: AlertRuleSaveResponse[];
+          }) => {
+            // show SnackBar
+            this.snackbarService.openSnackBar(userMessage.message);
 
-          if (userMessage.variant === 'error') {
-            this.loading.set(false);
+            if (userMessage.variant === 'error') {
+              this.loading.set(false);
 
-            return;
+              return;
+            }
+
+            // stop loader
+            this.handleOnClose(result);
           }
-
-          // stop loader
-          this.handleOnClose(true);
-        }),
+        ),
 
         takeUntilDestroyed(this.destroyRef)
       )
@@ -709,10 +708,10 @@ export class AlertRuleEditSingleModalComponent implements OnInit {
    * Close the open dialogs
    *
    * @protected
-   * @param {boolean} reloadData
+   * @param {AlertRuleSaveResponse[]} result
    * @memberof AlertRuleEditSingleModalComponent
    */
-  protected handleOnClose(reloadData: boolean): void {
-    this.dialogRef.close(reloadData);
+  protected handleOnClose(result: AlertRuleSaveResponse[]): void {
+    this.dialogRef.close(result);
   }
 }

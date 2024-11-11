@@ -15,6 +15,8 @@ import { AlertRuleTableComponent } from './alert-rule-table.component';
 
 describe('AlertRuleTableComponent', () => {
   let spectator: Spectator<AlertRuleTableComponent>;
+  let component: AlertRuleTableComponent;
+
   const createComponent = createComponentFactory({
     component: AlertRuleTableComponent,
     componentMocks: [],
@@ -35,9 +37,10 @@ describe('AlertRuleTableComponent', () => {
 
   beforeEach(() => {
     spectator = createComponent();
+    component = spectator.component;
   });
 
   it('should create', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });

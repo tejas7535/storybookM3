@@ -48,12 +48,7 @@
   <!--  buttons -->
   <mat-dialog-actions align="end" class="gap-3">
     <!-- close button -->
-    <button
-      (click)="onClose()"
-      [disabled]="loading()"
-      mat-button
-      mat-dialog-close
-    >
+    <button (click)="onClose()" [disabled]="loading()" mat-button>
       {{ t('button.close') }}
     </button>
 

@@ -4,7 +4,6 @@ import {
   inject,
   OnDestroy,
   signal,
-  ViewChild,
   WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -12,10 +11,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 
-import { EMPTY, Observable, switchMap, take, tap } from 'rxjs';
+import { catchError, EMPTY, Observable, switchMap, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
+import { GridApi } from 'ag-grid-community';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -54,10 +54,12 @@ import {
   styleUrl: './alert-rules.component.scss',
 })
 export class AlertRulesComponent implements OnDestroy {
-  @ViewChild('alertRuleTableComponent')
-  protected alertRuleTableComponent: AlertRuleTableComponent;
   private readonly alertRuleService: AlertRulesService =
     inject(AlertRulesService);
+  private readonly dialog: MatDialog = inject(MatDialog);
+  protected readonly selectableOptionsService: SelectableOptionsService =
+    inject(SelectableOptionsService);
+
   /**
    * The DestroyRef instance used for takeUntilDestroyed().
    *
@@ -75,16 +77,31 @@ export class AlertRulesComponent implements OnDestroy {
    */
   public loading: WritableSignal<boolean> = signal(false);
 
-  constructor(
-    private readonly dialog: MatDialog,
-    protected readonly selectableOptionsService: SelectableOptionsService
-  ) {}
+  /**
+   * The grid api instance.
+   *
+   * @private
+   * @type {(GridApi | null)}
+   * @memberof AlertRulesComponent
+   */
+  private gridApi: GridApi | null = null;
 
-  // TODO use as page title --> like Page does in the react application
-  protected readonly title = `${translate('tabbar.functions.label', {})} | ${translate(
+  // TODO: Move the translation strings for the page title (Browser Tabbar) to the Routes and implement a TitleStrategy to translate them
+  public readonly title = `${translate('tabbar.functions.label', {})} | ${translate(
     'tabbarMenu.alert-rule-editor.label',
     {}
   )}`;
+
+  /**
+   * Receive the grid api.
+   *
+   * @protected
+   * @param {GridApi} api
+   * @memberof AlertRulesComponent
+   */
+  protected getApi(api: GridApi): void {
+    this.gridApi = api;
+  }
 
   /**
    * Opens the AlertRuleEditSingleModal.
@@ -92,7 +109,7 @@ export class AlertRulesComponent implements OnDestroy {
    * @protected
    * @memberof AlertRulesComponent
    */
-  protected handleCreateSingleAlertRule(data?: AlertRule) {
+  protected handleCreateSingleAlertRule(data?: AlertRule): void {
     this.dialog
       .open(AlertRuleEditSingleModalComponent, {
         data: {
@@ -113,15 +130,23 @@ export class AlertRulesComponent implements OnDestroy {
       })
       .afterClosed()
       .pipe(
-        switchMap((reloadData: boolean) =>
-          reloadData ? this.reloadData$() : EMPTY
+        tap((response: AlertRuleResponse[]) =>
+          this.gridApi?.applyTransaction(
+            data?.id ? { update: response } : { add: response }
+          )
         ),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }
 
-  handleCreateMultiAlertRule() {
+  /**
+   * Opens the AlertRuleEditMultiModal.
+   *
+   * @protected
+   * @memberof AlertRulesComponent
+   */
+  protected handleCreateMultiAlertRule(): void {
     this.dialog
       .open(AlertRuleEditMultiModalComponent, {
         disableClose: true,
@@ -135,14 +160,20 @@ export class AlertRulesComponent implements OnDestroy {
       .pipe(
         take(1),
         switchMap((reloadData: boolean) =>
-          reloadData ? this.reloadData$() : EMPTY
+          reloadData ? this.loadData$() : EMPTY
         ),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }
 
-  handleDeleteMultiAlertRule() {
+  /**
+   * Open the AlertRuleDeleteMultiModal.
+   *
+   * @protected
+   * @memberof AlertRulesComponent
+   */
+  protected handleDeleteMultiAlertRule(): void {
     this.dialog
       .open(AlertRuleDeleteMultiModalComponent, {
         disableClose: true,
@@ -156,8 +187,9 @@ export class AlertRulesComponent implements OnDestroy {
       .pipe(
         take(1),
         switchMap((reloadData: boolean) =>
-          reloadData ? this.reloadData$() : EMPTY
+          reloadData ? this.loadData$() : EMPTY
         ),
+
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(() => {
@@ -176,19 +208,32 @@ export class AlertRulesComponent implements OnDestroy {
   /**
    * Reloads the data and sets them to the available grid
    *
-   * @private
+   * @protected
    * @return {Observable<AlertRuleResponse>}
    * @memberof AlertRulesComponent
    */
-  private reloadData$(): Observable<AlertRuleResponse> {
-    this.loading.set(true);
+  protected loadData$(): Observable<AlertRuleResponse> {
+    this.gridApi?.showLoadingOverlay();
+
+    // TODO: use setGridOption instead of showLoadingOverlay when ag-grid is updated to v31
+    // this.gridApi?.setGridOption('loading', true);
 
     return this.alertRuleService.getAlertRuleData().pipe(
       tap((response: AlertRuleResponse) => {
         if (response?.content) {
-          this.alertRuleTableComponent?.grid?.api?.setRowData(response.content);
+          this.gridApi?.setRowData(response.content);
         }
-        this.loading.set(false);
+        this.gridApi?.hideOverlay();
+
+        // TODO: use setGridOption instead of hideOverlay when ag-grid is updated to v31
+        // this.gridApi?.setGridOption('loading', false);
+      }),
+      catchError(() => {
+        this.gridApi?.hideOverlay();
+        // TODO: use setGridOption instead of hideOverlay when ag-grid is updated to v31
+        // this.gridApi?.setGridOption('loading', false);
+
+        return EMPTY;
       }),
       takeUntilDestroyed(this.destroyRef)
     );

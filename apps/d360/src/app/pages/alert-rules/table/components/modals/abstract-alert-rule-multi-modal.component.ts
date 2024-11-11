@@ -1,7 +1,6 @@
 /* eslint-disable max-lines */
 import { Component, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatDialogRef } from '@angular/material/dialog';
 
 import { lastValueFrom, Observable, take, tap } from 'rxjs';
 
@@ -80,16 +79,6 @@ export abstract class AbstractAlertRuleMultiModalComponent
     inject(AlertRulesService);
 
   /**
-   * The AlertRulesService instance.
-   *
-   * @type {MatDialogRef<AbstractAlertRuleMultiModalComponent>}
-   * @memberof AbstractAlertRuleMultiModalComponent
-   */
-  public dialogRef: MatDialogRef<AbstractAlertRuleMultiModalComponent> = inject(
-    MatDialogRef<AbstractAlertRuleMultiModalComponent>
-  );
-
-  /**
    * The available threshold requirements.
    *
    * @protected
@@ -129,15 +118,6 @@ export abstract class AbstractAlertRuleMultiModalComponent
     data: AlertRule[],
     dryRun: boolean
   ): Observable<PostResult<AlertRuleSaveResponse>>;
-
-  /**
-   * The onAdded callback.
-   *
-   * @memberof AbstractAlertRuleMultiModalComponent
-   */
-  protected override onAdded(): void {
-    this.dialogRef.close(true);
-  }
 
   /** @inheritdoc */
   protected applyFunction(

@@ -68,7 +68,6 @@ export class AlertRuleDeleteSingleModalComponent {
           // enqueueSnackbar(userMessage.message, { variant: userMessage.variant });
 
           if (userMessage.variant !== 'error') {
-            // TODO handle refresh of the ag-grid after deletion, check if this works...
             this.data.gridApi.applyTransaction({
               remove: [this.data.alertRule],
             });

@@ -32,7 +32,7 @@ import { catchError, switchMap, tap } from 'rxjs/operators';
 
 import { translate, TranslocoModule } from '@jsverse/transloco';
 import { EChartsOption } from 'echarts';
-import moment, { isMoment } from 'moment';
+import moment from 'moment';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -49,6 +49,7 @@ import { StyledGridSectionComponent } from '../../../../shared/components/styled
 import { StyledSectionComponent } from '../../../../shared/components/styled-section/styled-section.component';
 import { ValidateForm } from '../../../../shared/decorators';
 import { dimmedGrey, schaefflerColor } from '../../../../shared/styles/colors';
+import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
 import { PlanningView } from '../../../demand-validation/planning-view';
 import { GlobalSelectionUtils } from '../../../global-selection/global-selection.utils';
 import { ChartSettingsService } from '../../forecast-chart.service';
@@ -428,39 +429,10 @@ export class ForecastChartComponent implements OnInit {
    * @memberof ForecastChartComponent
    */
   private crossFieldValidator(): ValidatorFn {
-    return (formGroup: AbstractControl) => {
-      const errors: { [key: string]: string[] } = {};
-
-      // touch start- / endDate, so we show directly all errors
-      formGroup.markAllAsTouched();
-
-      // start- / endDate
-      let startDate = formGroup.get('startDate')?.value;
-      let endDate = formGroup.get('endDate')?.value;
-
-      startDate = isMoment(startDate) ? startDate : moment(startDate);
-      endDate = isMoment(endDate) ? endDate : moment(endDate);
-
-      if (startDate && endDate && startDate > endDate) {
-        formGroup.get('endDate').setErrors({ toDateAfterFromDate: true });
-        errors.endDate = ['end-before-start'];
-      } else {
-        // we set the error manually, so we also need to clean up manually ;)
-        let fieldErrors = formGroup.get('endDate').errors;
-        if (fieldErrors?.['toDateAfterFromDate']) {
-          delete fieldErrors['toDateAfterFromDate'];
-
-          // if fieldErrors is {} (empty object) after deleting the key,
-          // we need to set null, otherwise it is still shown up as an error
-          fieldErrors =
-            Object.keys(fieldErrors).length === 0 ? null : fieldErrors;
-        }
-
-        // set the new error state
-        formGroup.get('endDate').setErrors(fieldErrors);
-      }
-
-      return Object.keys(errors).length > 0 ? errors : null;
-    };
+    return (formGroup: AbstractControl) =>
+      ValidationHelper.getStartEndDateValidationErrors(
+        formGroup as FormGroup,
+        true
+      );
   }
 }
