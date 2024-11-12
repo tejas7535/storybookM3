@@ -1,9 +1,7 @@
 import { ColDef, GridOptions } from 'ag-grid-community';
 
-import { environment } from '../../../environments/environment';
 import { GlobalSelectionUtils } from '../../feature/global-selection/global-selection.utils';
 import { CustomerMaterialNumberCellRendererComponent } from '../components/ag-grid/cell-renderer/customer-material-number-cell-renderer/customer-material-number-cell-renderer.component';
-import { EnvironmentEnum } from '../models/environment-enum';
 
 export const defaultRowHeight = 42;
 
@@ -61,8 +59,10 @@ export const serverSideTableDefaultProps: GridOptions = {
   blockLoadDebounceMillis: 50,
   rowModelType: 'serverSide',
   suppressServerSideInfiniteScroll: false,
-  // render non-visible rows for tests
-  suppressRowVirtualisation: environment.environment === EnvironmentEnum.dev,
+  // Setting suppressRowVirtualisation to true results in eager-loading and rendering of non-visible rows.
+  // This brings a performance penalty as multiple HTTP calls are triggered and CPU resources are used to render non-visible rows.
+  // In the previous React app it was set to true to render non-visible rows for tests. Once we need this, we can conditionally enable it.
+  suppressRowVirtualisation: false,
 };
 
 export const clientSideTableDefaultProps = {

@@ -99,30 +99,6 @@ export class MaterialCustomerTableComponent implements OnInit {
     suppressHeaderMenuButton: true,
   };
 
-  public sidebar = {
-    toolPanels: [
-      {
-        id: 'columns',
-        labelDefault: 'Columns',
-        labelKey: 'columns',
-        iconKey: 'columns',
-        toolPanel: 'agColumnsToolPanel',
-        toolPanelParams: {
-          suppressRowGroups: true,
-          suppressValues: true,
-          suppressPivotMode: true,
-        },
-      },
-      {
-        id: 'filters',
-        labelDefault: 'Filters',
-        labelKey: 'filters',
-        iconKey: 'filter',
-        toolPanel: 'agFiltersToolPanel',
-      },
-    ],
-  };
-
   /**
    * The output event emitter to emit column filter changes to the parent.
    *
