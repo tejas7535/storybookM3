@@ -18,11 +18,14 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'LL',
+    dateInput: 'MM.YYYY',
   },
   display: {
-    dateInput: 'MM.YYYY', // this is the format showing on the input element
-    monthYearLabel: 'MM.YYYY', // this is showing on the calendar
+    dateInput: 'MM.YYYY',
+    monthLabel: 'MM.YYYY',
+    monthYearLabel: 'MM.YYYY',
+    dateA11yLabel: 'MM.YYYY',
+    monthYearA11yLabel: 'MM.YYYY',
   },
 };
 
