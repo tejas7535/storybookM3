@@ -10,6 +10,7 @@ import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade'
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { LOCALE_DE } from '@gq/shared/constants';
 import { SAP_ERROR_MESSAGE_CODE } from '@gq/shared/models/quotation-detail';
+import { IdValue } from '@gq/shared/models/search/id-value.model';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as miscUtils from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -516,6 +517,30 @@ describe('EditingMaterialModalComponent', () => {
         component.editFormGroup.get(MaterialColumnFields.QUANTITY)
           .asyncValidator
       ).toBeFalsy();
+    });
+
+    test('should adjust the quantity when isQuantityValidation is true considering the deliveryUnit of the selected Material', () => {
+      component.isQuantityValidation = true;
+      Object.defineProperty(
+        component.editFormGroup.controls['quantity'],
+        'value',
+        {
+          value: 4,
+          writable: true,
+        }
+      );
+
+      component.selectedMaterialAutocomplete$ = of({
+        id: '1',
+        value: '2',
+        deliveryUnit: 5,
+        selected: true,
+        uom: 'PC',
+        value2: null,
+      } as IdValue);
+      spectator.detectChanges();
+      component.ngOnInit();
+      expect(component.editFormGroup.get('quantity').value).toBe(5);
     });
   });
 

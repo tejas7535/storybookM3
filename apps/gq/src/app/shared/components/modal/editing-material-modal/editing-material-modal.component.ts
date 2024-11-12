@@ -3,12 +3,14 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   inject,
   OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormControl,
   FormGroup,
@@ -21,7 +23,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
-import { map, Observable, Subscription } from 'rxjs';
+import { filter, map, Observable, Subscription } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
@@ -32,6 +34,7 @@ import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import {
+  getNextHigherPossibleMultiple,
   parseNullableLocalizedInputValue,
   validateQuantityInputKeyPress,
 } from '@gq/shared/utils/misc.utils';
@@ -97,6 +100,7 @@ export class EditingMaterialModalComponent
 
   private readonly createCaseFacade = inject(CreateCaseFacade);
   private readonly activeCaseFacade = inject(ActiveCaseFacade);
+  private readonly destroyRef = inject(DestroyRef);
 
   isQuantityValidation = this.featureToggleConfigService.isEnabled(
     'createManualCaseAsView'
@@ -196,6 +200,16 @@ export class EditingMaterialModalComponent
           this.rowInputValid();
         })
     );
+    if (this.isQuantityValidation) {
+      this.selectedMaterialAutocomplete$
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          filter((material) => !!material)
+        )
+        .subscribe(({ deliveryUnit }) => {
+          this.adjustQuantityFormFieldToDeliveryUnit(deliveryUnit);
+        });
+    }
   }
 
   ngAfterViewInit(): void {
@@ -338,5 +352,27 @@ export class EditingMaterialModalComponent
       option,
       autocompleteFilter
     );
+  }
+
+  /**
+   * The quantity form Field will have a value that is a multiple of the delivery unit
+   * when the next possible multiple is higher than the current quantity Value, the next higher multiple will be taken
+   * the amount of delivery is the minimum quantity Value
+   * @param deliveryUnit deliveryUnit of the selected material
+   */
+  private adjustQuantityFormFieldToDeliveryUnit(deliveryUnit: number): void {
+    // find the next multiple of delivery unit starting from the quantity value
+    const quantityFormControl = this.editFormGroup.get(
+      QUANTITY_FORM_CONTROL_NAME
+    );
+    const nextMultiple = getNextHigherPossibleMultiple(
+      quantityFormControl.value,
+      deliveryUnit
+    );
+
+    if (nextMultiple > quantityFormControl.value) {
+      quantityFormControl.setValue(nextMultiple);
+      quantityFormControl.updateValueAndValidity();
+    }
   }
 }
