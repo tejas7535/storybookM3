@@ -1,6 +1,7 @@
+import { provideHttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 
 import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
@@ -10,6 +11,7 @@ import {
   QuotationStatus,
   SAP_SYNC_STATUS,
 } from '@gq/shared/models';
+import { SapCallInProgress } from '@gq/shared/models/quotation';
 import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
 import {
   createServiceFactory,
@@ -31,7 +33,8 @@ describe('QuotationService', () => {
 
   const createService = createServiceFactory({
     service: QuotationService,
-    imports: [HttpClientTestingModule],
+    imports: [],
+    providers: [provideHttpClient(), provideHttpClientTesting()],
   });
 
   beforeEach(() => {
@@ -117,6 +120,7 @@ describe('QuotationService', () => {
 
       const mock: QuotationSapSyncStatusResult = {
         sapSyncStatus: SAP_SYNC_STATUS.SYNC_PENDING,
+        sapCallInProgress: SapCallInProgress.MAINTAIN_QUOTATION_IN_PROGRESS,
         quotationDetailSapSyncStatusList: [
           { gqPositionId: '123', sapSyncStatus: SAP_SYNC_STATUS.SYNC_PENDING },
         ],

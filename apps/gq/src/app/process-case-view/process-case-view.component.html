@@ -53,19 +53,18 @@
         </ng-container>
       </schaeffler-subheader>
     }
-    @if (
-      !(quotation$ | ngrxPush).calculationInProgress &&
-      !(quotation$ | ngrxPush).sapCallInProgress
-    ) {
-      <gq-tabs-header class="grow" [tabs]="tabs$ | ngrxPush"></gq-tabs-header>
-    } @else {
-      <gq-calculation-in-progress
-        class="h-full"
-        [amountDetails]="(quotation$ | ngrxPush).quotationDetails.length"
-        [sapCallInProgress]="(quotation$ | ngrxPush).sapCallInProgress"
-      >
-      </gq-calculation-in-progress>
-    }
+    <ng-container *ngrxLet="quotation$ as quotation">
+      @if (showCalcInProgress) {
+        <gq-calculation-in-progress
+          class="h-full"
+          [amountDetails]="quotation.quotationDetails.length"
+          [sapCallInProgress]="quotation.sapCallInProgress"
+        >
+        </gq-calculation-in-progress>
+      } @else {
+        <gq-tabs-header class="grow" [tabs]="tabs$ | ngrxPush"></gq-tabs-header>
+      }
+    </ng-container>
   </div>
 } @else {
   <schaeffler-loading-spinner></schaeffler-loading-spinner>

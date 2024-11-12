@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
 
-import { from, of, switchMap, timer } from 'rxjs';
-import { catchError, mergeMap, takeUntil } from 'rxjs/operators';
+import { from, of, timer } from 'rxjs';
+import {
+  catchError,
+  concatMap,
+  mergeMap,
+  switchMap,
+  takeUntil,
+} from 'rxjs/operators';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import {
@@ -25,7 +31,7 @@ export class SapSyncStatusEffects {
         this.store.select(getGqId),
         this.store.select(getSapId),
       ]),
-      switchMap(([_action, gqId, sapId]) =>
+      concatMap(([_action, gqId, sapId]) =>
         this.quotationService.getSapSyncStatus(gqId).pipe(
           mergeMap((result: QuotationSapSyncStatusResult) => {
             if (result.sapSyncStatus !== SAP_SYNC_STATUS.SYNC_PENDING) {
@@ -54,9 +60,9 @@ export class SapSyncStatusEffects {
   quotationSapSyncStatusInterval$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ActiveCaseActions.getSapSyncStatusInInterval),
-      mergeMap(() =>
+      switchMap(() =>
         timer(0, 5000).pipe(
-          mergeMap(() =>
+          switchMap(() =>
             from([{ type: ActiveCaseActions.getSapSyncStatus.type }])
           ),
           takeUntil(

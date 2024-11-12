@@ -17,7 +17,7 @@ import { OfferTypeSelectComponent } from '@gq/shared/components/offer-type-selec
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
-import { PushPipe } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -75,6 +75,7 @@ import { CalculationInProgressComponent } from './tabs/single-quotes-tab/calcula
     SharedQuotationButtonComponent,
     OfferTypeSelectComponent,
     TagComponent,
+    LetDirective,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'process-case-view' }],
 })

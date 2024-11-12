@@ -1,10 +1,12 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { of, throwError } from 'rxjs';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { SapSyncStatusEffects } from '@gq/core/store/active-case/sap-sync-status/sap-sync-status.effects';
 import { SAP_SYNC_STATUS } from '@gq/shared/models';
+import { SapCallInProgress } from '@gq/shared/models/quotation';
 import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -28,8 +30,13 @@ describe('SapSyncStatusEffects', () => {
 
   const createService = createServiceFactory({
     service: SapSyncStatusEffects,
-    imports: [HttpClientTestingModule],
-    providers: [provideMockActions(() => actions$), provideMockStore()],
+
+    providers: [
+      provideHttpClient(),
+      provideHttpClientTesting(),
+      provideMockActions(() => actions$),
+      provideMockStore(),
+    ],
   });
 
   beforeEach(() => {
@@ -49,6 +56,7 @@ describe('SapSyncStatusEffects', () => {
         store.overrideSelector(getGqId, 123);
         const responseObject: QuotationSapSyncStatusResult = {
           sapSyncStatus: SAP_SYNC_STATUS.SYNC_PENDING,
+          sapCallInProgress: SapCallInProgress.MAINTAIN_QUOTATION_IN_PROGRESS,
           quotationDetailSapSyncStatusList: [
             {
               gqPositionId: '123',
@@ -80,6 +88,7 @@ describe('SapSyncStatusEffects', () => {
         quotationService.getSapSyncStatus = jest.fn(() => response);
         const responseObject: QuotationSapSyncStatusResult = {
           sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
+          sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
           quotationDetailSapSyncStatusList: [
             { gqPositionId: '123', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
           ],
@@ -115,6 +124,7 @@ describe('SapSyncStatusEffects', () => {
         quotationService.getSapSyncStatus = jest.fn(() => response);
         const responseObject: QuotationSapSyncStatusResult = {
           sapSyncStatus: SAP_SYNC_STATUS.PARTIALLY_SYNCED,
+          sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
           quotationDetailSapSyncStatusList: [
             { gqPositionId: '123', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
           ],
@@ -146,6 +156,7 @@ describe('SapSyncStatusEffects', () => {
       store.overrideSelector(getGqId, 123);
       const responseObject: QuotationSapSyncStatusResult = {
         sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
+        sapCallInProgress: SapCallInProgress.MAINTAIN_QUOTATION_IN_PROGRESS,
         quotationDetailSapSyncStatusList: [
           { gqPositionId: '123', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
         ],

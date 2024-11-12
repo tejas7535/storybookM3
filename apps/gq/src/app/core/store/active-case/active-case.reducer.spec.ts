@@ -8,6 +8,7 @@ import {
   SAP_SYNC_STATUS,
 } from '@gq/shared/models';
 import { SapCallInProgress } from '@gq/shared/models/quotation';
+import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
 import { Action } from '@ngrx/store';
 
 import {
@@ -942,6 +943,59 @@ describe('Active Case Feature Reducer', () => {
       const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
 
       expect(state.attachmentDeletionInProgress).toEqual(true);
+    });
+  });
+  describe('getSapSyncStatusSuccess/getSapSyncStatusFailure', () => {
+    test('shall map the result to the quotationDetails in store', () => {
+      const quotationDetails: QuotationDetail[] = [
+        {
+          gqPositionId: '123',
+          sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
+        } as QuotationDetail,
+      ];
+      const result: QuotationSapSyncStatusResult = {
+        sapCallInProgress: SapCallInProgress.MAINTAIN_QUOTATION_IN_PROGRESS,
+        quotationDetailSapSyncStatusList: [
+          {
+            gqPositionId: '123',
+            sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
+          },
+        ],
+        sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
+      };
+      const action = ActiveCaseActions.getSapSyncStatusSuccess({ result });
+      const mockState: ActiveCaseState = {
+        ...ACTIVE_CASE_STATE_MOCK,
+        quotation: {
+          ...ACTIVE_CASE_STATE_MOCK.quotation,
+          calculationInProgress: false,
+          sapCallInProgress: SapCallInProgress.MAINTAIN_QUOTATION_IN_PROGRESS,
+          sapSyncStatus: SAP_SYNC_STATUS.PARTIALLY_SYNCED,
+          quotationDetails,
+        },
+      };
+      const expectedQuotationDetails: QuotationDetail[] = [
+        {
+          gqPositionId: '123',
+          sapSyncStatus:
+            result.quotationDetailSapSyncStatusList[0].sapSyncStatus,
+        } as QuotationDetail,
+      ];
+      const state = activeCaseFeature.reducer(mockState, action);
+      expect(state.quotation.quotationDetails).toStrictEqual(
+        expectedQuotationDetails
+      );
+      expect(state.quotation.sapSyncStatus).toStrictEqual(result.sapSyncStatus);
+      expect(state.quotation.sapCallInProgress).toStrictEqual(
+        result.sapCallInProgress
+      );
+    });
+    test('should set the errorMessage', () => {
+      const action = ActiveCaseActions.getSapSyncStatusFailure({
+        errorMessage,
+      });
+      const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
+      expect(state.sapSyncStatusErrorMessage).toEqual(errorMessage);
     });
   });
 });
