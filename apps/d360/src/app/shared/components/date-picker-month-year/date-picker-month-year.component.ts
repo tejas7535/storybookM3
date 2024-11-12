@@ -30,7 +30,7 @@ export const MY_FORMATS = {
 };
 
 @Component({
-  selector: 'app-date-picker-month-year',
+  selector: 'd360-date-picker-month-year',
   standalone: true,
   imports: [
     MatButtonModule,

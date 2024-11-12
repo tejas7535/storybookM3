@@ -7,13 +7,13 @@ import {
 import { MatDividerModule } from '@angular/material/divider';
 
 @Directive({
-  selector: '[appHeaderActionBarButtons], [appHeaderActionBarChildren]',
+  selector: '[d360HeaderActionBarButtons], [d360HeaderActionBarChildren]',
   standalone: true,
 })
 export class ProjectedContendDirective {}
 
 @Component({
-  selector: 'app-header-action-bar',
+  selector: 'd360-header-action-bar',
   standalone: true,
   imports: [MatDividerModule],
   templateUrl: './header-action-bar.component.html',

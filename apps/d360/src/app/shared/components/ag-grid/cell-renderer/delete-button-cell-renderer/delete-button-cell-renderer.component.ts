@@ -6,7 +6,7 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
-  selector: 'app-delete-button-cell-renderer',
+  selector: 'd360-delete-button-cell-renderer',
   standalone: true,
   imports: [MatIconModule, MatIconButton],
   templateUrl: './delete-button-cell-renderer.component.html',

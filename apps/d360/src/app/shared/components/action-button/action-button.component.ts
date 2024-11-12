@@ -20,7 +20,7 @@ export type ButtonType =
  * @class ActionButtonComponent
  */
 @Component({
-  selector: 'app-action-button',
+  selector: 'd360-action-button',
   standalone: true,
   imports: [MatTooltipModule, MatButtonModule, MatIcon],
   templateUrl: './action-button.component.html',

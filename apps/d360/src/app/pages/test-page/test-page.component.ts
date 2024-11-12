@@ -8,7 +8,7 @@ import { SingleAutocompletePreLoadedComponent } from '../../shared/components/in
 import { OptionsLoadingResult } from '../../shared/services/selectable-options.service';
 
 @Component({
-  selector: 'app-test-page',
+  selector: 'd360-test-page',
   standalone: true,
   imports: [
     CommonModule,

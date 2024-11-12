@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
-  selector: 'app-data-hint',
+  selector: 'd360-data-hint',
   standalone: true,
   imports: [MatCardModule],
   templateUrl: './data-hint.component.html',

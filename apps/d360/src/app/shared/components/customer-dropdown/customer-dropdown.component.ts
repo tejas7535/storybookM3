@@ -8,7 +8,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { CustomerEntry } from '../../../feature/global-selection/model';
 
 @Component({
-  selector: 'app-customer-drop-down',
+  selector: 'd360-customer-drop-down',
   standalone: true,
   imports: [
     MatInputModule,

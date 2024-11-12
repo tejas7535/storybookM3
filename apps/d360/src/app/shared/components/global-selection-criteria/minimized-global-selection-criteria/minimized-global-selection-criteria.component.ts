@@ -34,7 +34,7 @@ interface SelectableFormValue {
  * @class MinimizedGlobalSelectionCriteriaComponent
  */
 @Component({
-  selector: 'app-minimized-global-selection-criteria',
+  selector: 'd360-minimized-global-selection-criteria',
   standalone: true,
   imports: [MatChipsModule, MatIconModule],
   templateUrl: './minimized-global-selection-criteria.component.html',

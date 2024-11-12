@@ -35,7 +35,7 @@ import { DemandValidationSettingModalComponent } from './demand-validation-setti
 import { FilterDemandValidationComponent } from './filter-demand-validation/filter-demand-validation.component';
 
 @Component({
-  selector: 'app-action-bar',
+  selector: 'd360-action-bar',
   standalone: true,
   imports: [
     CommonModule,

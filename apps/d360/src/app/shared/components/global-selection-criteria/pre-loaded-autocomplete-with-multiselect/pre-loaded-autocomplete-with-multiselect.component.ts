@@ -27,7 +27,7 @@ type ResolveFunction = (
  * @class PreLoadedAutocompleteWithMultiselectComponent
  */
 @Component({
-  selector: 'app-pre-loaded-autocomplete-with-multiselect',
+  selector: 'd360-pre-loaded-autocomplete-with-multiselect',
   standalone: true,
   imports: [
     MultiAutocompletePreLoadedComponent,

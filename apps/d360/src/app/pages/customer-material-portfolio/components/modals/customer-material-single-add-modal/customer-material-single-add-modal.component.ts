@@ -31,7 +31,7 @@ import { PhaseInStatusSpecificContentComponent } from '../status-specific-conten
 import { StatusSpecificContentProps } from '../status-specific-content/status-specific-content.component';
 
 @Component({
-  selector: 'app-customer-material-single-add-modal',
+  selector: 'd360-customer-material-single-add-modal',
   standalone: true,
   imports: [
     CommonModule,

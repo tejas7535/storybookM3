@@ -37,7 +37,7 @@ import {
 } from './table/components/modals/alert-rule-edit-single-modal/alert-rule-edit-single-modal.component';
 
 @Component({
-  selector: 'app-alert-rules',
+  selector: 'd360-alert-rules',
   standalone: true,
   imports: [
     AlertRuleTableComponent,

@@ -13,7 +13,7 @@ import {
 } from '../../../../../shared/utils/auth/roles';
 
 @Component({
-  selector: 'app-action-buttons-demand-validation',
+  selector: 'd360-action-buttons-demand-validation',
   standalone: true,
   imports: [CommonModule, ActionButtonComponent],
   templateUrl: './action-buttons-demand-validation.component.html',

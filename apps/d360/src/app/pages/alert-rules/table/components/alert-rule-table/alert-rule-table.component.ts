@@ -51,7 +51,7 @@ type AlertRuleColumnDefinitions = ReturnType<
 >[number];
 
 @Component({
-  selector: 'app-alert-rule-table',
+  selector: 'd360-alert-rule-table',
   standalone: true,
   imports: [AgGridModule],
   templateUrl: './alert-rule-table.component.html',

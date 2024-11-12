@@ -18,7 +18,7 @@ import { ICellRendererParams } from 'ag-grid-community';
 import { CustomerMaterialNumbersModalComponent } from './modal/customer-material-numbers-modal.component';
 
 @Component({
-  selector: 'app-customer-material-number-cell-renderer',
+  selector: 'd360-customer-material-number-cell-renderer',
   templateUrl: './customer-material-number-cell-renderer.component.html',
   styleUrls: ['./customer-material-number-cell-renderer.component.css'],
   standalone: true,

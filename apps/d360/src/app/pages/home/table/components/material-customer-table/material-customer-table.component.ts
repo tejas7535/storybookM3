@@ -45,7 +45,7 @@ import { HomeTableToolbarComponent } from '../home-table-toolbar/home-table-tool
 import { TextTooltipComponent } from '../text-tooltip/text-tooltip.component';
 
 @Component({
-  selector: 'app-material-customer-table',
+  selector: 'd360-material-customer-table',
   standalone: true,
   imports: [AgGridModule, HomeTableToolbarComponent],
   providers: [MaterialCustomerTableService],

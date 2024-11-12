@@ -20,7 +20,7 @@ export interface DemandValidationDatePickerFormControls {
 }
 
 @Component({
-  selector: 'app-demand-validation-date-picker',
+  selector: 'd360-demand-validation-date-picker',
   standalone: true,
   imports: [
     CommonModule,

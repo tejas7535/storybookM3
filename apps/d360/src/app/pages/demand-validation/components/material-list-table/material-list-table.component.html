@@ -15,8 +15,11 @@
     'will-change': 'width'
   }"
 >
-  <app-table-toolbar [grid]="gridApi" [rowCount]="rowCount"></app-table-toolbar>
-  <app-styled-grid-section>
+  <d360-table-toolbar
+    [grid]="gridApi"
+    [rowCount]="rowCount"
+  ></d360-table-toolbar>
+  <d360-styled-grid-section>
     <ag-grid-angular
       #demandValidationMaterialListTable
       class="ag-theme-material"
@@ -30,5 +33,5 @@
       [tooltipShowDelay]="0"
       [localeText]="agGridLocalizationService.lang()"
     ></ag-grid-angular>
-  </app-styled-grid-section>
+  </d360-styled-grid-section>
 </div>

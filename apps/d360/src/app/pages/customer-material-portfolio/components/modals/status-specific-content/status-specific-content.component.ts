@@ -22,7 +22,7 @@ export interface StatusSpecificContentProps {
 }
 
 @Component({
-  selector: 'app-status-specific-content',
+  selector: 'd360-status-specific-content',
   standalone: true,
   imports: [
     CommonModule,

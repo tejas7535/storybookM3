@@ -57,7 +57,7 @@ import { ValidationHelper } from './shared/utils/validation/validation-helper';
     MatTabsModule,
     CommonModule,
   ],
-  selector: 'app-root',
+  selector: 'd360-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })

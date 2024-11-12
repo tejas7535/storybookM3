@@ -10,7 +10,7 @@ import { ExportMaterialCustomerService } from '../../services/export-material-cu
 import { ExportTableDialogData } from './export-table-dialog.model';
 
 @Component({
-  selector: 'app-export-table-dialog',
+  selector: 'd360-export-table-dialog',
   standalone: true,
   imports: [LoadingSpinnerModule, TranslocoModule],
   templateUrl: './export-table-dialog.component.html',

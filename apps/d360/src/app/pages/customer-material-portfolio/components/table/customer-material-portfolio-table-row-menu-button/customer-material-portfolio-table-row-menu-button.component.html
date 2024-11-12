@@ -1,4 +1,4 @@
-<app-row-menu [open]="false" *transloco="let t">
+<d360-row-menu [open]="false" *transloco="let t">
   @for (action of statusActions; track action.name) {
     @if (action.isAllowed(currentStatus, hasSchaefflerSuccessor)) {
       <button
@@ -9,4 +9,4 @@
       </button>
     }
   }
-</app-row-menu>
+</d360-row-menu>

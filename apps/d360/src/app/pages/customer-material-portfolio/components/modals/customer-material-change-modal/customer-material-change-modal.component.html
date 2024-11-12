@@ -59,7 +59,7 @@
           </mat-form-field>
         </div>
         <div>
-          <app-error-handling-select
+          <d360-error-handling-select
             [fG]="formGroup"
             [label]="
               t('customer_material_portfolio.modal.demand_characteristic', {})
@@ -68,12 +68,12 @@
             [errorMessages]="errormessages"
             [options]="demandCharacteristicsOptions"
           >
-          </app-error-handling-select>
+          </d360-error-handling-select>
         </div>
       </div>
       <!--      TODO implement -->
       @if (changedCMPData()) {
-        <app-status-specific-content [props]="specifcContentProps" />
+        <d360-status-specific-content [props]="specifcContentProps" />
       }
     }
   </mat-dialog-content>

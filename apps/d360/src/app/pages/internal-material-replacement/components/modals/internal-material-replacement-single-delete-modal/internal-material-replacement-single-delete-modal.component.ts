@@ -23,7 +23,7 @@ import {
 import { SnackbarService } from '../../../../../shared/utils/service/snackbar.service';
 
 @Component({
-  selector: 'app-internal-material-replacement-single-delete-modal',
+  selector: 'd360-internal-material-replacement-single-delete-modal',
   standalone: true,
   imports: [
     CommonModule,

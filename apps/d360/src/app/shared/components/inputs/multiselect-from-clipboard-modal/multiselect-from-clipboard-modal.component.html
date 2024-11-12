@@ -25,7 +25,7 @@
         <!-- Use the autocomplete to load the data via REST-Call -->
         @if (data.urlBegin) {
           <div>
-            <app-multi-autocomplete-on-type
+            <d360-multi-autocomplete-on-type
               [autocompleteLabel]="data.autocompleteLabel"
               [control]="unsavedValues"
               [form]="data.form"
@@ -40,7 +40,7 @@
         } @else if (!data.urlBegin) {
           <!-- Use the autocomplete to load the data via passed options -->
           <div>
-            <app-multi-autocomplete-pre-loaded
+            <d360-multi-autocomplete-pre-loaded
               [autocompleteLabel]="data.autocompleteLabel"
               [control]="unsavedValues"
               [form]="data.form"

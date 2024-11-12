@@ -17,7 +17,7 @@ import { DisplayFunctions } from '../../../../../../shared/components/inputs/dis
 import { StatusSpecificContentProps } from '../status-specific-content.component';
 
 @Component({
-  selector: 'app-substitution-status-specific-content',
+  selector: 'd360-substitution-status-specific-content',
   standalone: true,
   imports: [
     CommonModule,

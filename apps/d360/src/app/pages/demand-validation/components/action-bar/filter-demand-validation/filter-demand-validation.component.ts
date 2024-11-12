@@ -15,7 +15,7 @@ import {
 } from './filter-demand-validation-modal/filter-demand-validation-modal.component';
 
 @Component({
-  selector: 'app-filter-demand-validation',
+  selector: 'd360-filter-demand-validation',
   standalone: true,
   imports: [
     CommonModule,

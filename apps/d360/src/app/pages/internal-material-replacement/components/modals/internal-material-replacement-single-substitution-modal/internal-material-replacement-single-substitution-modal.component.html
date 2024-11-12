@@ -18,7 +18,7 @@
     } @else {
       <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4">
         <!-- replacementType -->
-        <app-filter-dropdown
+        <d360-filter-dropdown
           [form]="formGroup"
           [control]="$any(formGroup.controls.replacementType)"
           [label]="t(translationStart + '.replacementType', {})"
@@ -30,81 +30,81 @@
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
         <!-- region -->
-        <app-filter-dropdown
+        <d360-filter-dropdown
           [control]="$any(formGroup.controls.region)"
           [form]="formGroup"
           [label]="t('globalSelection.region', {})"
           [options]="selectableOptionsService.get('region').options"
           [formatOptionValue]="displayFnUnited"
-        ></app-filter-dropdown>
+        ></d360-filter-dropdown>
 
         <!-- salesArea -->
-        <app-filter-dropdown
+        <d360-filter-dropdown
           [control]="$any(formGroup.controls.salesArea)"
           [form]="formGroup"
           [label]="t('globalSelection.sales_area', {})"
           [options]="selectableOptionsService.get('salesArea').options"
           [formatOptionValue]="displayFnUnited"
-        ></app-filter-dropdown>
+        ></d360-filter-dropdown>
 
         <!-- salesOrgControl -->
-        <app-filter-dropdown
+        <d360-filter-dropdown
           [control]="$any(formGroup.controls.salesOrg)"
           [form]="formGroup"
           [label]="t('globalSelection.sales_org.rootString', {})"
           [options]="selectableOptionsService.get('salesOrg').options"
-        ></app-filter-dropdown>
+        ></d360-filter-dropdown>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
         <!-- customer -->
-        <app-single-autocomplete-on-type
+        <d360-single-autocomplete-on-type
           [label]="t('globalSelection.customer.rootString', {})"
           urlBegin="global-selection/search-customers"
           [form]="formGroup"
           [control]="$any(formGroup.controls.customerNumber)"
-        ></app-single-autocomplete-on-type>
+        ></d360-single-autocomplete-on-type>
 
         <!-- predecessorMaterial -->
-        <app-single-autocomplete-on-type
+        <d360-single-autocomplete-on-type
           [label]="
             t('internal_material_replacement.column.predecessorMaterial', {})
           "
           urlBegin="global-selection/search-materials"
           [form]="formGroup"
           [control]="$any(formGroup.controls.predecessorMaterial)"
-        ></app-single-autocomplete-on-type>
+        ></d360-single-autocomplete-on-type>
 
         <!-- successorMaterial -->
-        <app-single-autocomplete-on-type
+        <d360-single-autocomplete-on-type
           [label]="
             t('internal_material_replacement.column.successorMaterial', {})
           "
           urlBegin="global-selection/search-materials"
           [form]="formGroup"
           [control]="$any(formGroup.controls.successorMaterial)"
-        ></app-single-autocomplete-on-type>
+        ></d360-single-autocomplete-on-type>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
         <!-- startOfProduction -->
-        <app-date-picker
+        <d360-date-picker
           [minDate]="this.data.isNewSubstitution ? TODAY : null"
           [maxDate]="this.data.isNewSubstitution ? MAX_DATE : null"
           [control]="$any(formGroup.controls.startOfProduction)"
           [label]="t(translationStart + '.startOfProduction')"
           [errorMessage]="startOfProductionCustomErrorMessage()"
-        ></app-date-picker>
+        ></d360-date-picker>
 
         <!-- cutOverDate -->
-        <app-date-picker
+        <d360-date-picker
           [minDate]="this.data.isNewSubstitution ? TODAY : null"
           [maxDate]="this.data.isNewSubstitution ? MAX_DATE : null"
           [control]="$any(formGroup.controls.cutoverDate)"
           [label]="t(translationStart + '.cutoverDate')"
           [errorMessage]="cutoverDateCustomErrorMessage()"
-        ></app-date-picker>
+        ></d360-date-picker>
 
         <!-- replacementDate -->
-        <app-date-picker
+        <d360-date-picker
           [minDate]="this.data.isNewSubstitution ? TODAY : null"
           [maxDate]="this.data.isNewSubstitution ? MAX_DATE : null"
           [control]="$any(formGroup.controls.replacementDate)"
@@ -113,7 +113,7 @@
           [hint]="
             t('internal_material_replacement.helper_text.replacementDate', {})
           "
-        ></app-date-picker>
+        ></d360-date-picker>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">

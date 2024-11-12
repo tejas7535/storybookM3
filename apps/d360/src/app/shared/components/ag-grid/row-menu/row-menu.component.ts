@@ -7,7 +7,7 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
-  selector: 'app-row-menu',
+  selector: 'd360-row-menu',
   standalone: true,
   imports: [MatMenuModule, MatButtonModule, MatIconModule],
   templateUrl: './row-menu.component.html',

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 
 @Component({
-  selector: 'app-field-error',
+  selector: 'd360-field-error',
   standalone: true,
   imports: [MatInputModule],
   templateUrl: './field-error.component.html',

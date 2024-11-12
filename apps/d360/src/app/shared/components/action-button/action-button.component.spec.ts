@@ -8,14 +8,14 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ActionButtonComponent } from './action-button.component';
 
 @Component({
-  selector: 'app-test-host-component',
+  selector: 'd360-test-host-component',
   standalone: true,
   imports: [ActionButtonComponent],
   template: `
-    <app-action-button
+    <d360-action-button
       [tooltip]="tooltip()"
       [disabled]="disabled()"
-    ></app-action-button>
+    ></d360-action-button>
   `,
 })
 class TestHostComponent {

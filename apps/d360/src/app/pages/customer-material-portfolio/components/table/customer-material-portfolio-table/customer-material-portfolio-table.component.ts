@@ -45,7 +45,7 @@ export interface FilterModel {
 }
 
 @Component({
-  selector: 'app-customer-material-portfolio-table',
+  selector: 'd360-customer-material-portfolio-table',
   standalone: true,
   imports: [
     CommonModule,

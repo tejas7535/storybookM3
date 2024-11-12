@@ -11,7 +11,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { CMPData } from '../../../../../feature/customer-material-portfolio/cmp-modal-types';
 
 @Component({
-  selector: 'app-customer-material-substitution-proposal-modal',
+  selector: 'd360-customer-material-substitution-proposal-modal',
   standalone: true,
   imports: [
     CommonModule,

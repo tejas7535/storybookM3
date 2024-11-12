@@ -23,7 +23,7 @@ type ResolveFunction = (
  * @class OnTypeAutocompleteWithMultiselectComponent
  */
 @Component({
-  selector: 'app-on-type-autocomplete-with-multiselect',
+  selector: 'd360-on-type-autocomplete-with-multiselect',
   standalone: true,
   imports: [
     MultiAutocompleteOnTypeComponent,

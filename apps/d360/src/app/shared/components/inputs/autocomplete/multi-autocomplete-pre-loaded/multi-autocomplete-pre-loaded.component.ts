@@ -21,7 +21,7 @@ import { SelectableValue } from '../selectable-values.utils';
  * @implements {OnInit}
  */
 @Component({
-  selector: 'app-multi-autocomplete-pre-loaded',
+  selector: 'd360-multi-autocomplete-pre-loaded',
   standalone: true,
   imports: [
     MatAutocompleteModule,

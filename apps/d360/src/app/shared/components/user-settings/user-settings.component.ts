@@ -15,7 +15,7 @@ import {
 } from '../../constants/available-locales';
 
 @Component({
-  selector: 'app-user-settings',
+  selector: 'd360-user-settings',
   standalone: true,
   imports: [
     CommonModule,

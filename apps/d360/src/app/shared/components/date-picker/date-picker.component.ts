@@ -12,7 +12,7 @@ import moment, { isMoment, Moment } from 'moment';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
-  selector: 'app-date-picker',
+  selector: 'd360-date-picker',
   standalone: true,
   imports: [
     MatButtonModule,

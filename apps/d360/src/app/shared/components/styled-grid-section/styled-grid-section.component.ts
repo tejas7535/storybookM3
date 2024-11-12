@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-styled-grid-section',
+  selector: 'd360-styled-grid-section',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './styled-grid-section.component.html',

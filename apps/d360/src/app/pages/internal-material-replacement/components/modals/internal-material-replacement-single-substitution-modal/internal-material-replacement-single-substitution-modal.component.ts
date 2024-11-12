@@ -83,7 +83,7 @@ export interface InternalMaterialReplacementModalProps {
 }
 
 @Component({
-  selector: 'app-internal-material-replacement-single-substitution-modal',
+  selector: 'd360-internal-material-replacement-single-substitution-modal',
   standalone: true,
   imports: [
     CommonModule,

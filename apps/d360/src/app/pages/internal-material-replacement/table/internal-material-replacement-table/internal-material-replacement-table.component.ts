@@ -37,8 +37,8 @@ import { InternalMaterialReplacementSingleSubstitutionModalComponent } from '../
 import { getIMRColumnDefinitions } from './column-definitions';
 
 @Component({
-  selector: 'app-no-data-overlay',
-  template: ` <app-data-hint [text]="text"></app-data-hint>`,
+  selector: 'd360-no-data-overlay',
+  template: ` <d360-data-hint [text]="text"></d360-data-hint>`,
   imports: [DataHintComponent],
   standalone: true,
 })
@@ -49,7 +49,7 @@ class NoDataOverlayComponent implements INoRowsOverlayAngularComp {
 }
 
 @Component({
-  selector: 'app-internal-material-replacement-table',
+  selector: 'd360-internal-material-replacement-table',
   standalone: true,
   imports: [
     CommonModule,

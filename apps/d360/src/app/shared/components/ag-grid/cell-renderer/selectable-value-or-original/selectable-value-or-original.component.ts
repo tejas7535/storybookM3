@@ -24,7 +24,7 @@ export interface AdditionalProps {
  * @template T
  */
 @Component({
-  selector: 'app-selectable-value-or-original-cell-renderer',
+  selector: 'd360-selectable-value-or-original-cell-renderer',
   standalone: true,
   imports: [MatTooltipModule, MatIconButton, MatIcon, MatMenuModule],
   template: `{{ value }}`,

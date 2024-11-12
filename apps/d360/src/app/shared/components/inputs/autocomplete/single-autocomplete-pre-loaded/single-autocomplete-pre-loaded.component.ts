@@ -33,7 +33,7 @@ import {
  * @implements {OnInit}
  */
 @Component({
-  selector: 'app-single-autocomplete-pre-loaded',
+  selector: 'd360-single-autocomplete-pre-loaded',
   standalone: true,
   imports: [
     MatAutocompleteModule,

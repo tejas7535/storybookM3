@@ -1,18 +1,18 @@
 <div class="flex flex-col gap-6">
-  <app-global-selection-criteria
+  <d360-global-selection-criteria
     (onGlobalSelectionChange)="onUpdateGlobalSelectionState($event)"
   />
-  <app-forecast-chart
+  <d360-forecast-chart
     [columnFilters]="columnFilters"
     [globalSelectionState]="globalSelectionCriteria"
   />
 
-  <app-styled-section>
-    <app-styled-grid-section>
-      <app-material-customer-table
+  <d360-styled-section>
+    <d360-styled-grid-section>
+      <d360-material-customer-table
         [selectionFilter]="globalSelectionCriteria"
         (onColumnFilterChange)="onUpdateColumnFilter($event)"
       />
-    </app-styled-grid-section>
-  </app-styled-section>
+    </d360-styled-grid-section>
+  </d360-styled-section>
 </div>

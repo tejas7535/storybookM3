@@ -33,7 +33,7 @@ import { CustomerMaterialSingleAddModalComponent } from './components/modals/cus
 import { CustomerMaterialPortfolioTableComponent } from './components/table/customer-material-portfolio-table/customer-material-portfolio-table.component';
 
 @Component({
-  selector: 'app-customer-material-portfolio',
+  selector: 'd360-customer-material-portfolio',
   standalone: true,
   imports: [
     CommonModule,

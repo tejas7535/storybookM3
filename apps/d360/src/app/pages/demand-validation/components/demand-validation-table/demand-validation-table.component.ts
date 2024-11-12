@@ -60,7 +60,7 @@ import {
 } from './column-definitions';
 
 @Component({
-  selector: 'app-demand-validation-table',
+  selector: 'd360-demand-validation-table',
   standalone: true,
   imports: [
     CommonModule,

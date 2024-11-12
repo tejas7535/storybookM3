@@ -7,7 +7,7 @@
       "style": "scss"
     }
   },
-  "prefix": "app",
+  "prefix": "d360",
   "sourceRoot": "apps/d360/src",
   "tags": [],
   "targets": {

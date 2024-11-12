@@ -9,7 +9,7 @@ import { DatePickerComponent } from '../../../../../../shared/components/date-pi
 import { StatusSpecificContentProps } from '../status-specific-content.component';
 
 @Component({
-  selector: 'app-phase-out-status-specific-content',
+  selector: 'd360-phase-out-status-specific-content',
   standalone: true,
   imports: [CommonModule, DatePickerComponent, MatIcon, SharedTranslocoModule],
   templateUrl: './phase-out-status-specific-content.component.html',

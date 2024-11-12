@@ -10,7 +10,7 @@ import { SingleAutocompleteOnTypeComponent } from '../../../../../../shared/comp
 import { StatusSpecificContentProps } from '../status-specific-content.component';
 
 @Component({
-  selector: 'app-inactivate-status-specific-content',
+  selector: 'd360-inactivate-status-specific-content',
   standalone: true,
   imports: [
     CommonModule,

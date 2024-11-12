@@ -19,7 +19,7 @@ import { TranslocoLocaleService } from '@jsverse/transloco-locale';
  * @class NumberSeparatorDirective
  */
 @Directive({
-  selector: '[appNumberSeparator]',
+  selector: '[d360NumberSeparator]',
   standalone: true,
 })
 export class NumberSeparatorDirective implements OnInit {

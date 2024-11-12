@@ -7,7 +7,7 @@ import { strictlyParseInteger, strictlyParseLocalFloat } from './number';
 import { ValidationHelper } from './validation/validation-helper';
 
 @Component({
-  selector: 'app-dummy',
+  selector: 'd360-dummy',
   standalone: true,
   template: '',
 })

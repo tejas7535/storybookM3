@@ -21,7 +21,7 @@ import {
 } from '../modals/alert-rule-edit-single-modal/alert-rule-edit-single-modal.component';
 
 @Component({
-  selector: 'app-alert-rule-table-row--menu-button',
+  selector: 'd360-alert-rule-table-row--menu-button',
   standalone: true,
   imports: [SharedTranslocoModule, RowMenuComponent, MatMenuItem],
   templateUrl: './alert-rule-table-row-menu-button.component.html',

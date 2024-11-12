@@ -5,7 +5,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { chartSeriesConfig } from '../../model';
 
 @Component({
-  selector: 'app-forecast-chart-legend',
+  selector: 'd360-forecast-chart-legend',
   standalone: true,
   imports: [TranslocoModule],
   templateUrl: './forecast-chart-legend.component.html',

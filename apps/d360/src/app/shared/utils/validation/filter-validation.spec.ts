@@ -10,7 +10,7 @@ import {
   validateSalesOrg,
 } from './filter-validation';
 @Component({
-  selector: 'app-dummy',
+  selector: 'd360-dummy',
   standalone: true,
   template: '',
 })

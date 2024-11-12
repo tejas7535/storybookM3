@@ -49,7 +49,7 @@ import { PreLoadedAutocompleteWithMultiselectComponent } from '../pre-loaded-aut
  * @implements {OnInit}
  */
 @Component({
-  selector: 'app-global-selection-criteria',
+  selector: 'd360-global-selection-criteria',
   standalone: true,
   imports: [
     MinimizedGlobalSelectionCriteriaComponent,

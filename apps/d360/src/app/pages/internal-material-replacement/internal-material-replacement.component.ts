@@ -33,7 +33,7 @@ import { InternalMaterialReplacementSingleSubstitutionModalComponent } from './c
 import { InternalMaterialReplacementTableComponent } from './table/internal-material-replacement-table/internal-material-replacement-table.component';
 
 @Component({
-  selector: 'app-internal-material-replacement',
+  selector: 'd360-internal-material-replacement',
   standalone: true,
   imports: [
     CommonModule,

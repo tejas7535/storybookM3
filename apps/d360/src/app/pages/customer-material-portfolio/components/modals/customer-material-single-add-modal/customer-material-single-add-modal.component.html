@@ -19,25 +19,25 @@
           "
         />
       </mat-form-field>
-      <app-single-autocomplete-on-type
+      <d360-single-autocomplete-on-type
         [form]="formGroup"
         [control]="materialControl"
         [label]="t('customer_material_portfolio.modal.material', {})"
         [getOptionLabelInTag]="displayFnText"
         urlBegin="global-selection/search-materials"
-      ></app-single-autocomplete-on-type>
-      <app-error-handling-select
+      ></d360-single-autocomplete-on-type>
+      <d360-error-handling-select
         [fG]="formGroup"
         [fC]="demandCharacteristicsControl"
         [label]="
           t('customer_material_portfolio.modal.demand_characteristic', {})
         "
         [options]="demandCharacteristicsOptions"
-      ></app-error-handling-select>
+      ></d360-error-handling-select>
     </div>
-    <app-phase-in-status-specific-content
+    <d360-phase-in-status-specific-content
       [props]="statusSpecificContentProps"
-    ></app-phase-in-status-specific-content>
+    ></d360-phase-in-status-specific-content>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button (click)="handleSave()" mat-flat-button color="primary">

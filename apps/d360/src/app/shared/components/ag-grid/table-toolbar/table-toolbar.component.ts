@@ -9,7 +9,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { showFloatingFilters } from '../../../ag-grid/grid-utils';
 
 @Component({
-  selector: 'app-table-toolbar',
+  selector: 'd360-table-toolbar',
   standalone: true,
   imports: [MatIconModule, MatButton, SharedTranslocoModule],
   templateUrl: './table-toolbar.component.html',

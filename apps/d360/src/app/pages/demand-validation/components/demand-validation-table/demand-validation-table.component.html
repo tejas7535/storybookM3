@@ -6,10 +6,10 @@
   }
 
   @if (kpiError()) {
-    <app-data-hint [text]="kpiError()"></app-data-hint>
+    <d360-data-hint [text]="kpiError()"></d360-data-hint>
   }
 
-  <app-styled-grid-section [hidden]="!dataLoaded() || Boolean(kpiError())">
+  <d360-styled-grid-section [hidden]="!dataLoaded() || Boolean(kpiError())">
     <ag-grid-angular
       [gridOptions]="gridOptions"
       [defaultColDef]="defaultColDef"
@@ -19,5 +19,5 @@
     >
     </ag-grid-angular>
     Test grid soll angezeigt werden...
-  </app-styled-grid-section>
+  </d360-styled-grid-section>
 </div>

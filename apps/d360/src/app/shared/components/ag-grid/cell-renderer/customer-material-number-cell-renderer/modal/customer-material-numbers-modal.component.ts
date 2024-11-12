@@ -19,7 +19,7 @@ export interface CustomerMaterialNumbersDialogData {
 }
 
 @Component({
-  selector: 'app-customer-material-numbers-modal',
+  selector: 'd360-customer-material-numbers-modal',
   templateUrl: './customer-material-numbers-modal.component.html',
   styleUrls: ['./customer-material-numbers-modal.component.css'],
   standalone: true,

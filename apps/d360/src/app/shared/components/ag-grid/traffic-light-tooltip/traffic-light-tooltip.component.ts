@@ -6,7 +6,7 @@ import { ITooltipParams } from 'ag-grid-community';
 import { messageFromSAP } from '../../../utils/sap-localisation';
 
 @Component({
-  selector: 'app-traffic-light-tooltip',
+  selector: 'd360-traffic-light-tooltip',
   standalone: true,
   imports: [],
   templateUrl: './traffic-light-tooltip.component.html',

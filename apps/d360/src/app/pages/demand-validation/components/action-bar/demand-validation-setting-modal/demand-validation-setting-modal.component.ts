@@ -18,7 +18,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { PlanningView } from '../../../../../feature/demand-validation/planning-view';
 
 @Component({
-  selector: 'app-demand-validation-setting-modal',
+  selector: 'd360-demand-validation-setting-modal',
   standalone: true,
   imports: [
     CommonModule,

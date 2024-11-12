@@ -11,7 +11,7 @@ import { StyledSectionComponent } from '../../shared/components/styled-section/s
 import { MaterialCustomerTableComponent } from './table/components/material-customer-table/material-customer-table.component';
 
 @Component({
-  selector: 'app-home',
+  selector: 'd360-home',
   standalone: true,
   imports: [
     GlobalSelectionCriteriaComponent,

@@ -1,15 +1,15 @@
 @switch (statusToUse) {
   @case ('PI') {
-    <app-phase-in-status-specific-content [props]="props()" />
+    <d360-phase-in-status-specific-content [props]="props()" />
   }
   @case ('PO') {
-    <app-phase-out-status-specific-content [props]="props()" />
+    <d360-phase-out-status-specific-content [props]="props()" />
   }
   @case ('SE') {
-    <app-substitution-status-specific-content [props]="props()" />
+    <d360-substitution-status-specific-content [props]="props()" />
   }
   @case ('IA') {
-    <app-inactivate-status-specific-content [props]="props()" />
+    <d360-inactivate-status-specific-content [props]="props()" />
   }
 }
 @if (statusToUse === 'NO') {

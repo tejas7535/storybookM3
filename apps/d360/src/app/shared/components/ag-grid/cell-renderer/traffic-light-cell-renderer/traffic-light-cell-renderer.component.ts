@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 
 @Component({
-  selector: 'app-traffic-light-cell-renderer',
+  selector: 'd360-traffic-light-cell-renderer',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './traffic-light-cell-renderer.component.html',

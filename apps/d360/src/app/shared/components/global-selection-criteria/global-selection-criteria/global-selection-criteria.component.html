@@ -19,7 +19,7 @@
 
         <!-- mini filter -->
         @if (isCollapsed()) {
-          <app-minimized-global-selection-criteria
+          <d360-minimized-global-selection-criteria
             [form]="globalForm"
             [filters]="globalSelectionStateService.getState()"
             (selectionChanged)="saveFilters()"
@@ -41,7 +41,7 @@
         <div class="global-selection-criteria-container mt-5">
           <!-- Filter: region -->
           <div class="global-selection-field-container">
-            <app-filter-dropdown
+            <d360-filter-dropdown
               [control]="globalForm.controls.region"
               [form]="globalForm"
               [label]="t('globalSelection.region', {})"
@@ -57,7 +57,7 @@
 
           <!-- Filter: salesArea -->
           <div class="global-selection-field-container">
-            <app-filter-dropdown
+            <d360-filter-dropdown
               [control]="globalForm.controls.salesArea"
               [form]="globalForm"
               [label]="t('globalSelection.sales_area', {})"
@@ -76,7 +76,7 @@
 
           <!-- Filter: sectorManagement -->
           <div class="global-selection-field-container">
-            <app-filter-dropdown
+            <d360-filter-dropdown
               [control]="globalForm.controls.sectorManagement"
               [form]="globalForm"
               [label]="t('globalSelection.sector_management', {})"
@@ -95,7 +95,7 @@
           </div>
 
           <!-- Filter: salesOrg -->
-          <app-pre-loaded-autocomplete-with-multiselect
+          <d360-pre-loaded-autocomplete-with-multiselect
             [control]="globalForm.controls.salesOrg"
             [form]="globalForm"
             [autocompleteLabel]="t('globalSelection.sales_org.rootString', {})"
@@ -116,7 +116,7 @@
           />
 
           <!-- Filter: gkamNumber -->
-          <app-pre-loaded-autocomplete-with-multiselect
+          <d360-pre-loaded-autocomplete-with-multiselect
             [control]="globalForm.controls.gkamNumber"
             [form]="globalForm"
             [autocompleteLabel]="t('globalSelection.gkam', {})"
@@ -135,7 +135,7 @@
           />
 
           <!-- Filter: customerNumber -->
-          <app-on-type-autocomplete-with-multiselect
+          <d360-on-type-autocomplete-with-multiselect
             [autocompleteLabel]="t('globalSelection.customer.rootString', {})"
             [entityNamePlural]="
               t('globalSelection.customer.entity_name_plural')
@@ -154,7 +154,7 @@
           />
 
           <!-- Filter: materialNumber -->
-          <app-on-type-autocomplete-with-multiselect
+          <d360-on-type-autocomplete-with-multiselect
             [autocompleteLabel]="t('globalSelection.material.rootString', {})"
             [entityNamePlural]="
               t('globalSelection.material.entity_name_plural')
@@ -174,7 +174,7 @@
 
           <!-- Filter: materialClassification -->
           <div class="global-selection-field-container">
-            <app-filter-dropdown
+            <d360-filter-dropdown
               [control]="globalForm.controls.materialClassification"
               [form]="globalForm"
               [label]="t('globalSelection.materialClassification', {})"
@@ -187,7 +187,7 @@
           </div>
 
           <!-- Filter: sector -->
-          <app-pre-loaded-autocomplete-with-multiselect
+          <d360-pre-loaded-autocomplete-with-multiselect
             [control]="globalForm.controls.sector"
             [form]="globalForm"
             [autocompleteLabel]="t('globalSelection.sector.rootString', {})"
@@ -204,7 +204,7 @@
           />
 
           <!-- Filter: productionPlant -->
-          <app-pre-loaded-autocomplete-with-multiselect
+          <d360-pre-loaded-autocomplete-with-multiselect
             [control]="globalForm.controls.productionPlant"
             [form]="globalForm"
             [autocompleteLabel]="
@@ -227,7 +227,7 @@
           />
 
           <!-- Filter: productionSegment -->
-          <app-on-type-autocomplete-with-multiselect
+          <d360-on-type-autocomplete-with-multiselect
             [autocompleteLabel]="
               t('globalSelection.production_segment.rootString', {})
             "
@@ -249,7 +249,7 @@
 
           <!-- Filter: alertType -->
           <div class="global-selection-field-container">
-            <app-filter-dropdown
+            <d360-filter-dropdown
               [control]="globalForm.controls.alertType"
               [form]="globalForm"
               [label]="t('globalSelection.tasks')"

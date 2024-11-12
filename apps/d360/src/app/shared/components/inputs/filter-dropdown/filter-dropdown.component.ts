@@ -22,7 +22,7 @@ import { DisplayFunctions } from './../display-functions.utils';
  * @implements {OnInit}
  */
 @Component({
-  selector: 'app-filter-dropdown',
+  selector: 'd360-filter-dropdown',
   standalone: true,
   imports: [
     ReactiveFormsModule,

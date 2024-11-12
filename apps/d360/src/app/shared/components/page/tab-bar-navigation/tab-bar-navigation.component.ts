@@ -17,7 +17,7 @@ import { AuthService } from '../../../utils/auth/auth.service';
 type TabItem = 'start-page' | 'functions' | 'tasks';
 
 @Component({
-  selector: 'app-tab-bar-navigation',
+  selector: 'd360-tab-bar-navigation',
   standalone: true,
   imports: [
     RouterModule,

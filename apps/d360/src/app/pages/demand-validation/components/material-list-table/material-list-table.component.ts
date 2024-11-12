@@ -32,7 +32,7 @@ import { disableColor } from '../../../../shared/styles/colors';
 import { getColumnDefinitions } from './column-definitions';
 
 @Component({
-  selector: 'app-material-list-table',
+  selector: 'd360-material-list-table',
   standalone: true,
   imports: [
     CommonModule,

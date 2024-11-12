@@ -5,11 +5,11 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ContentWrapperComponent } from './content-wrapper.component';
 
 @Component({
-  selector: 'app-test-host-component',
+  selector: 'd360-test-host-component',
   standalone: true,
   imports: [ContentWrapperComponent],
   template: `
-    <app-content-wrapper [fullHeight]="fullHeight"></app-content-wrapper>
+    <d360-content-wrapper [fullHeight]="fullHeight"></d360-content-wrapper>
   `,
 })
 class TestHostComponent {

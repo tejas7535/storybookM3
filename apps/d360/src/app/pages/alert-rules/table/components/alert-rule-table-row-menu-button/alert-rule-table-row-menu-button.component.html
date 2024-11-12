@@ -1,7 +1,7 @@
 <!-- TODO is aria-controls={open ? menuId : undefined}
         aria-haspopup={true}
         aria-expanded={open ? 'true' : undefined} from AlertRuleTableRowMenuButtonComponent necessary?  also check if list props like aria-labelledby is necessary or good? add styles from AlertRuleTableRowMenuButton -->
-<app-row-menu [open]="false" *transloco="let t">
+<d360-row-menu [open]="false" *transloco="let t">
   <button mat-menu-item (click)="edit()">
     {{ t('button.edit') }}
   </button>
@@ -18,4 +18,4 @@
   <button mat-menu-item (click)="delete()">
     {{ t('alert_rules.action_menu.delete') }}
   </button>
-</app-row-menu>
+</d360-row-menu>

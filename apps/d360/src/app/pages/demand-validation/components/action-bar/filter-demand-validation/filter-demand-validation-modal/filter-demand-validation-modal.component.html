@@ -8,7 +8,7 @@
   </h2>
   <mat-dialog-content>
     <div class="grid grid-cols-1 xs:gap-1 md:gap-4">
-      <app-multi-autocomplete-on-type
+      <d360-multi-autocomplete-on-type
         [form]="data.formGroup"
         [control]="data.customerMaterialControl"
         [searchControl]="fvCustomerMaterial"
@@ -18,8 +18,8 @@
         [getOptionLabelInTag]="displayFnId"
         [getOptionLabel]="displayFnUnited"
         urlBegin="global-selection/customer-material-numbers"
-      ></app-multi-autocomplete-on-type>
-      <app-multi-autocomplete-pre-loaded
+      ></d360-multi-autocomplete-on-type>
+      <d360-multi-autocomplete-pre-loaded
         [form]="data.formGroup"
         [control]="data.productLineControl"
         [searchControl]="fvProductLine"
@@ -27,8 +27,8 @@
         [getOptionLabelInTag]="displayFnUnited"
         [getOptionLabel]="displayFnUnited"
         [optionsLoadingResult]="selectableOptionService.get('productLine')"
-      ></app-multi-autocomplete-pre-loaded>
-      <app-multi-autocomplete-on-type
+      ></d360-multi-autocomplete-pre-loaded>
+      <d360-multi-autocomplete-on-type
         [form]="data.formGroup"
         [control]="data.productionLineControl"
         [searchControl]="fvProductionLine"
@@ -38,8 +38,8 @@
         [getOptionLabelInTag]="displayFnId"
         [getOptionLabel]="displayFnUnited"
         urlBegin="global-selection/search-production-line"
-      ></app-multi-autocomplete-on-type>
-      <app-multi-autocomplete-pre-loaded
+      ></d360-multi-autocomplete-on-type>
+      <d360-multi-autocomplete-pre-loaded
         [form]="data.formGroup"
         [control]="data.stochhasticTypecontrol"
         [searchControl]="fvStochasticType"
@@ -49,7 +49,7 @@
         [getOptionLabelInTag]="displayFnUnited"
         [optionsLoadingResult]="selectableOptionService.get('stochoasticType')"
         [getOptionLabel]="displayFnUnited"
-      ></app-multi-autocomplete-pre-loaded>
+      ></d360-multi-autocomplete-pre-loaded>
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">

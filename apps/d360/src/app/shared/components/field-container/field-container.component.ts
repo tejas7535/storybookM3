@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-field-container',
+  selector: 'd360-field-container',
   standalone: true,
   imports: [],
   templateUrl: './field-container.component.html',

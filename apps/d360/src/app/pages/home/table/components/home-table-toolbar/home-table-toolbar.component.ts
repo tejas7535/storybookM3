@@ -31,7 +31,7 @@ import { LayoutId } from '../column-layout-management-modal/column-layout-manage
 import { ExportTableDialogComponent } from '../export-table-dialog/export-table-dialog.component';
 
 @Component({
-  selector: 'app-home-table-toolbar',
+  selector: 'd360-home-table-toolbar',
   standalone: true,
   imports: [MatIcon, MatButton, TranslocoModule, MatIconButton, MatDivider],
   templateUrl: './home-table-toolbar.component.html',

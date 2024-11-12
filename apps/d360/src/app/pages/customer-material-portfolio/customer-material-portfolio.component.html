@@ -1,9 +1,9 @@
 <div *transloco="let t">
   <!--  TODO add open property with false-->
-  <app-global-selection-criteria
+  <d360-global-selection-criteria
     (onGlobalSelectionChange)="onUpdateGlobalSelection($event)"
-  ></app-global-selection-criteria>
-  <app-styled-section [last]="true" [grow]="true" style="position: relative">
+  ></d360-global-selection-criteria>
+  <d360-styled-section [last]="true" [grow]="true" style="position: relative">
     <h2>{{ t('customer_material_portfolio.title', {}) }}</h2>
     @if (
       globalSelectionStatus === GlobalSelectionStatus.DATA_AVAILABLE &&
@@ -11,25 +11,25 @@
       selectedCustomer() &&
       globalSelection
     ) {
-      <app-header-action-bar>
-        <div appHeaderActionBarButtons>
-          <app-action-button
+      <d360-header-action-bar>
+        <div d360HeaderActionBarButtons>
+          <d360-action-button
             (click)="handleSinglePhaseIn()"
             color="primary"
             variant="mat-fab"
             icon="add"
-          ></app-action-button>
-          <app-action-button
+          ></d360-action-button>
+          <d360-action-button
             (click)="handleMultiPhaseIn()"
             color="secondary"
             variant="mat-fab"
             icon="menu"
-          ></app-action-button>
+          ></d360-action-button>
         </div>
-        <div appHeaderActionBarChildren>
+        <div d360HeaderActionBarChildren>
           <!--          // TODO check if customer-drop down or app-single-autocomplete-pre-loaded should be used like in validation of demand action bar -->
-          <!--          <app-customer-drop-down [customers]="customerData" [fC]="customerControl" [fG]="formGroup"></app-customer-drop-down>-->
-          <app-single-autocomplete-pre-loaded
+          <!--          <d360-customer-drop-down [customers]="customerData" [fC]="customerControl" [fG]="formGroup"></d360-customer-drop-down>-->
+          <d360-single-autocomplete-pre-loaded
             [control]="customerControl"
             [form]="formGroup"
             [optionsLoadingResult]="customerSelectableValues"
@@ -38,14 +38,14 @@
             [displayFn]="displayFnUnited"
             (selectionChange)="handleCustomerChange($event)"
           >
-          </app-single-autocomplete-pre-loaded>
+          </d360-single-autocomplete-pre-loaded>
         </div>
-      </app-header-action-bar>
-      <app-customer-material-portfolio-table
+      </d360-header-action-bar>
+      <d360-customer-material-portfolio-table
         [filterModel]=""
         [selectedCustomer]="selectedCustomer()"
         [globalSelection]="globalSelection"
-      ></app-customer-material-portfolio-table>
+      ></d360-customer-material-portfolio-table>
     } @else if (
       globalSelectionStatus === GlobalSelectionStatus.DATA_LOADING || loading()
     ) {
@@ -55,13 +55,13 @@
     } @else if (
       globalSelectionStatus === GlobalSelectionStatus.DATA_NO_RESULTS
     ) {
-      <app-data-hint [text]="t('hint.noData', {})"></app-data-hint>
+      <d360-data-hint [text]="t('hint.noData', {})"></d360-data-hint>
     } @else if (
       globalSelectionStatus === GlobalSelectionStatus.DATA_NOTHING_SELECTED
     ) {
-      <app-data-hint [text]="t('hint.selectData', {})"></app-data-hint>
+      <d360-data-hint [text]="t('hint.selectData', {})"></d360-data-hint>
     } @else if (globalSelectionStatus === GlobalSelectionStatus.DATA_ERROR) {
-      <app-data-hint [text]="t('hint.errorLoadingData', {})"></app-data-hint>
+      <d360-data-hint [text]="t('hint.errorLoadingData', {})"></d360-data-hint>
     }
-  </app-styled-section>
+  </d360-styled-section>
 </div>

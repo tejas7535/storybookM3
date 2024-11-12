@@ -1,5 +1,5 @@
 <div *transloco="let t">
-  <app-table-toolbar [rowCount]="rowCount" [grid]="gridApi">
+  <d360-table-toolbar [rowCount]="rowCount" [grid]="gridApi">
     <div>
       {{ t('customer_material_portfolio.toolbar.collapseAll', {}) }}
       <mat-slide-toggle
@@ -9,8 +9,8 @@
       ></mat-slide-toggle>
       {{ t('customer_material_portfolio.toolbar.expandAll', {}) }}
     </div>
-  </app-table-toolbar>
-  <app-styled-grid-section>
+  </d360-table-toolbar>
+  <d360-styled-grid-section>
     <ag-grid-angular
       #customerPortfolioGrid
       class="ag-theme-material"
@@ -27,5 +27,5 @@
       (firstDataRendered)="onFirstDataRendered($event)"
     >
     </ag-grid-angular>
-  </app-styled-grid-section>
+  </d360-styled-grid-section>
 </div>

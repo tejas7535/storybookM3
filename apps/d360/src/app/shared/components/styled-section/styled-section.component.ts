@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-styled-section',
+  selector: 'd360-styled-section',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './styled-section.component.html',

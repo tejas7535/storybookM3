@@ -1,22 +1,24 @@
 <div class="form" [formGroup]="controls.formGroup" *transloco="let t">
   <div class="dp-container grid grid-cols-3 gap-4">
-    <app-date-picker [control]="controls.startDatePeriod1"></app-date-picker>
-    <app-date-picker [control]="controls.endDatePeriod1"></app-date-picker>
-    <app-filter-dropdown
+    <d360-date-picker [control]="controls.startDatePeriod1"></d360-date-picker>
+    <d360-date-picker [control]="controls.endDatePeriod1"></d360-date-picker>
+    <d360-filter-dropdown
       [options]="periodTypes"
       [control]="controls.periodType1"
       [form]="controls.formGroup"
       [label]="t('validation_of_demand.date_picker.period_type', {})"
       [formatOptionValue]="displayFnText"
       [formatSelectedValue]="displayFnText"
-    ></app-filter-dropdown>
+    ></d360-filter-dropdown>
   </div>
   @if (
     controls.periodType1.getRawValue()?.id === 'WEEKLY' && !disableOptionalDate
   ) {
     <div class="dp-container grid grid-cols-3 gap-4">
-      <app-date-picker [control]="controls.startDatePeriod2"></app-date-picker>
-      <app-date-picker [control]="controls.endDatePeriod2"></app-date-picker>
+      <d360-date-picker
+        [control]="controls.startDatePeriod2"
+      ></d360-date-picker>
+      <d360-date-picker [control]="controls.endDatePeriod2"></d360-date-picker>
     </div>
   }
 </div>

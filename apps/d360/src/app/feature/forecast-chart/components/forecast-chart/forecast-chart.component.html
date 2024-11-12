@@ -1,4 +1,4 @@
-<app-styled-section>
+<d360-styled-section>
   <div class="flex justify-between" *transloco="let t">
     <h6 class="text-title-large">
       {{ t('home.chart.title') }} |
@@ -21,11 +21,11 @@
                 {{ t('validation_of_demand.date_picker.title') }}
               </p>
               <div class="flex gap-5">
-                <app-date-picker-month-year
+                <d360-date-picker-month-year
                   [control]="dateForm.controls['startDate']"
                   [label]="t('validation_of_demand.date_picker.start_date')"
                 />
-                <app-date-picker-month-year
+                <d360-date-picker-month-year
                   [endOf]="true"
                   [control]="dateForm.controls['endDate']"
                   [label]="t('validation_of_demand.date_picker.end_date')"
@@ -95,7 +95,7 @@
 
           @if (openPanel === 'info') {
             <div class="panel">
-              <app-forecast-chart-legend />
+              <d360-forecast-chart-legend />
             </div>
           }
         </div>
@@ -155,4 +155,4 @@
       </div>
     </div>
   }
-</app-styled-section>
+</d360-styled-section>

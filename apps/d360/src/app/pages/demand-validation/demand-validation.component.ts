@@ -31,7 +31,7 @@ import { DemandValidationTableComponent } from './components/demand-validation-t
 import { MaterialListTableComponent } from './components/material-list-table/material-list-table.component';
 
 @Component({
-  selector: 'app-demand-validation',
+  selector: 'd360-demand-validation',
   standalone: true,
   imports: [
     CommonModule,

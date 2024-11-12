@@ -66,7 +66,7 @@ interface ClipboardErrors {
  * @class MultiselectFromClipboardModalComponent
  */
 @Component({
-  selector: 'app-multiselect-from-clipboard-modal',
+  selector: 'd360-multiselect-from-clipboard-modal',
   standalone: true,
   imports: [
     MatDialogModule,

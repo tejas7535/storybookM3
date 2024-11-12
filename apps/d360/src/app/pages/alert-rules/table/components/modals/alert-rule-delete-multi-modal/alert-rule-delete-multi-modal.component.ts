@@ -14,7 +14,7 @@ import { ActionButtonComponent } from '../../../../../../shared/components/actio
 import { AbstractAlertRuleMultiModalComponent } from '../abstract-alert-rule-multi-modal.component';
 
 @Component({
-  selector: 'app-alert-rule-delete-multi-modal',
+  selector: 'd360-alert-rule-delete-multi-modal',
   standalone: true,
   imports: [
     CommonModule,

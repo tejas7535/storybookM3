@@ -63,7 +63,7 @@ import {
 import { ForecastChartLegendComponent } from '../forecast-chart-legend/forecast-chart-legend.component';
 
 @Component({
-  selector: 'app-forecast-chart',
+  selector: 'd360-forecast-chart',
   standalone: true,
   imports: [
     CommonModule,

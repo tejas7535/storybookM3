@@ -5,7 +5,7 @@ import { ITooltipAngularComp } from 'ag-grid-angular';
 import { ITooltipParams } from 'ag-grid-community';
 
 @Component({
-  selector: 'app-text-tooltip',
+  selector: 'd360-text-tooltip',
   standalone: true,
   imports: [],
   templateUrl: './text-tooltip.component.html',

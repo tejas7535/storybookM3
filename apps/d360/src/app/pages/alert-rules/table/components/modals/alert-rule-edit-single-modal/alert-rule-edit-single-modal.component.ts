@@ -95,7 +95,7 @@ export interface AlertRuleModalProps {
  * @implements {OnInit}
  */
 @Component({
-  selector: 'app-alert-rule-edit-modal',
+  selector: 'd360-alert-rule-edit-modal',
   standalone: true,
   imports: [
     MatDialogModule,

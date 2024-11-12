@@ -22,7 +22,7 @@ import {
 } from '../../demand-validation-date-picker/demand-validation-date-picker.component';
 
 @Component({
-  selector: 'app-date-picker-setting-demand-validation-modal',
+  selector: 'd360-date-picker-setting-demand-validation-modal',
   standalone: true,
   imports: [
     CommonModule,

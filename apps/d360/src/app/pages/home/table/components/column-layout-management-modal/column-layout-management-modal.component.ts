@@ -29,7 +29,7 @@ export interface ColumnLayoutManagementModalData {
 }
 
 @Component({
-  selector: 'app-column-layout-management-modal',
+  selector: 'd360-column-layout-management-modal',
   standalone: true,
   imports: [
     MatDialogModule,

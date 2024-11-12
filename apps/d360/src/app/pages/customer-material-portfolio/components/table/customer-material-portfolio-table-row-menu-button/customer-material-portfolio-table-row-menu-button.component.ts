@@ -28,7 +28,7 @@ import {
 } from '../status-actions';
 
 @Component({
-  selector: 'app-customer-material-portfolio-table-row-menu-button',
+  selector: 'd360-customer-material-portfolio-table-row-menu-button',
   standalone: true,
   imports: [CommonModule, RowMenuComponent, SharedTranslocoModule, MatMenuItem],
   templateUrl:

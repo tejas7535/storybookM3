@@ -38,7 +38,7 @@ export interface CustomerMaterialChangeModalData {
 }
 
 @Component({
-  selector: 'app-customer-material-change-modal',
+  selector: 'd360-customer-material-change-modal',
   standalone: true,
   imports: [
     CommonModule,

@@ -4,13 +4,13 @@
       [useBearingLoadingSpinner]="true"
     ></schaeffler-loading-spinner>
   } @else {
-    <app-styled-section [grow]="true" class="flex flex-col h-full">
+    <d360-styled-section [grow]="true" class="flex flex-col h-full">
       <h2 class="text-title-large">
         {{ t('internal_material_replacement.title.rootString', {}) }}
       </h2>
 
-      <app-header-action-bar>
-        <div appHeaderActionBarButtons class="flex gap-3">
+      <d360-header-action-bar>
+        <div d360HeaderActionBarButtons class="flex gap-3">
           <button mat-flat-button (click)="handleCreateSingleIMR()">
             <mat-icon>add</mat-icon>
             {{ t('internal_material_replacement.button.createSubstitution') }}
@@ -24,23 +24,23 @@
             }}
           </button>
         </div>
-        <div appHeaderActionBarChildren class="wrapper">
-          <app-filter-dropdown
+        <div d360HeaderActionBarChildren class="wrapper">
+          <d360-filter-dropdown
             [label]="t('globalSelection.region', {})"
             [options]="selectableOptionsService.get('region').options"
             [form]="formGroup"
             [control]="regionControl"
             (selectionChange)="updateRegion($any($event))"
-          ></app-filter-dropdown>
+          ></d360-filter-dropdown>
         </div>
-      </app-header-action-bar>
+      </d360-header-action-bar>
 
       @if (selectedRegion) {
-        <app-internal-material-replacement-table
+        <d360-internal-material-replacement-table
           #internalMaterialReplacementTableComponent
           [selectedRegion]="selectedRegion"
-        ></app-internal-material-replacement-table>
+        ></d360-internal-material-replacement-table>
       }
-    </app-styled-section>
+    </d360-styled-section>
   }
 </div>

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-page',
+  selector: 'd360-page',
   standalone: true,
   imports: [],
   templateUrl: './page.component.html',

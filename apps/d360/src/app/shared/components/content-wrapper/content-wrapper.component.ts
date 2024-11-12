@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-content-wrapper',
+  selector: 'd360-content-wrapper',
   standalone: true,
   imports: [],
   templateUrl: './content-wrapper.component.html',
