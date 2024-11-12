@@ -13,7 +13,11 @@
 
   <ng-container mainContent>
     <div class="h-full w-full">
-      <app-tab-bar-navigation></app-tab-bar-navigation>
+      @if (isTabNavigationVisible$ | ngrxPush) {
+        <app-tab-bar-navigation></app-tab-bar-navigation>
+      } @else {
+        <router-outlet></router-outlet>
+      }
     </div>
   </ng-container>
 </schaeffler-app-shell>

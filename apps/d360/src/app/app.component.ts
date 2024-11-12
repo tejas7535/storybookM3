@@ -1,8 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
-import { RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 
-import { Observable, Subject } from 'rxjs';
+import { map, Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
 import {
@@ -37,6 +38,7 @@ import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import packageJson from '../../package.json';
+import { appRoutes } from './app.routes';
 import { AppRoutePath } from './app.routes.enum';
 import { TabBarNavigationComponent } from './shared/components/page/tab-bar-navigation/tab-bar-navigation.component';
 import { UserSettingsComponent } from './shared/components/user-settings/user-settings.component';
@@ -53,6 +55,7 @@ import { ValidationHelper } from './shared/utils/validation/validation-helper';
     UserSettingsComponent,
     TabBarNavigationComponent,
     MatTabsModule,
+    CommonModule,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -66,7 +69,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly authService: MsalService,
     private readonly msalBroadcastService: MsalBroadcastService,
     private readonly store: Store,
-    private readonly translocoLocaleService: TranslocoLocaleService
+    private readonly translocoLocaleService: TranslocoLocaleService,
+    private readonly router: Router
   ) {}
 
   isIframe = false;
@@ -80,11 +84,13 @@ export class AppComponent implements OnInit, OnDestroy {
   username$: Observable<string>;
   profileImage$: Observable<string>;
   isLoggedIn$: Observable<boolean>;
+  isTabNavigationVisible$: Observable<boolean>;
 
   ngOnInit(): void {
     this.username$ = this.store.select(getUsername);
     this.profileImage$ = this.store.select(getProfileImage);
     this.isLoggedIn$ = this.store.select(getIsLoggedIn);
+    this.isTabNavigationVisible$ = this.showTabNavigationOnPage$();
 
     this.authService.handleRedirectObservable().subscribe();
 
@@ -218,4 +224,23 @@ export class AppComponent implements OnInit, OnDestroy {
       external: true,
     },
   ];
+
+  private showTabNavigationOnPage$() {
+    const routesWithTabNavigation = [
+      appRoutes.startPage.path,
+      appRoutes.tasks.path,
+      ...appRoutes.functions.map((route) => route.path),
+    ];
+
+    return this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      map((event: NavigationEnd) => {
+        const currentUrl = event.url;
+
+        return routesWithTabNavigation.some(
+          (route) => currentUrl === route || currentUrl === `/${route}`
+        );
+      })
+    );
+  }
 }
