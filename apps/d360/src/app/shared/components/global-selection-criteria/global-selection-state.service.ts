@@ -1,6 +1,10 @@
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { NavigationExtras, Router } from '@angular/router';
 
+import { from, Observable } from 'rxjs';
+
+import { GlobalSelectionCriteriaFields } from '../../../feature/global-selection/model';
 import { SelectableValue } from '../inputs/autocomplete/selectable-values.utils';
 
 /**
@@ -56,6 +60,15 @@ export class GlobalSelectionStateService {
    * @memberof GlobalSelectionStateService
    */
   private readonly storage: Storage = sessionStorage;
+
+  /**
+   * The router instance to navigate within the application.
+   *
+   * @private
+   * @type {Router}
+   * @memberof GlobalSelectionStateService
+   */
+  private readonly router = inject(Router);
 
   /**
    * The static formGroup, this is needed to get the available keys.
@@ -170,6 +183,38 @@ export class GlobalSelectionStateService {
   }
 
   /**
+   * Navigates to a new page with updated global selection criteria.
+   *
+   * @param path - The route to navigate to.
+   * @param newGlobalSelection - The new selection criteria.
+   * @param extras - Optional navigation options.
+   */
+  public navigateWithGlobalSelection(
+    path: string,
+    newGlobalSelection: GlobalSelectionCriteriaFields | undefined,
+    extras?: NavigationExtras
+  ): Observable<boolean> {
+    const globalSelectionToStore =
+      newGlobalSelection &&
+      Object.values(newGlobalSelection).some((field) => field.length > 0)
+        ? newGlobalSelection
+        : undefined;
+
+    this.resetState();
+
+    if (globalSelectionToStore) {
+      this.overrideState(globalSelectionToStore);
+    }
+
+    const navigationExtras = {
+      ...extras,
+      state: { ...extras?.state, globalSelection: globalSelectionToStore },
+    };
+
+    return from(this.router.navigate([path], navigationExtras));
+  }
+
+  /**
    * Set the initial state.
    * - Read from Local-/Session Storage and pass the values to the formGroup.
    *
@@ -187,5 +232,24 @@ export class GlobalSelectionStateService {
 
       return current;
     });
+  }
+
+  /**
+   * Override the current state with the given state.
+   *
+   * @private
+   * @memberof GlobalSelectionStateService
+   */
+  private overrideState(globalSelectionToStore: GlobalSelectionCriteriaFields) {
+    this.form.update((current) => {
+      current.setValue({
+        ...current.getRawValue(),
+        ...globalSelectionToStore,
+      });
+
+      return current;
+    });
+
+    this.saveState();
   }
 }

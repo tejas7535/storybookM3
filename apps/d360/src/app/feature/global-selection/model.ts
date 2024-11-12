@@ -1,4 +1,5 @@
 import { GlobalSelectionStateService } from '../../shared/components/global-selection-criteria/global-selection-state.service';
+import { SelectableValue } from '../../shared/components/inputs/autocomplete/selectable-values.utils';
 
 export interface CustomerEntry {
   salesOrg?: string;
@@ -8,6 +9,13 @@ export interface CustomerEntry {
 
 export type GlobalSelectionCriteriaFilters = Partial<
   Record<(typeof GlobalSelectionStateService.stateKeys)[number], string[]>
+>;
+
+export type GlobalSelectionCriteriaFields = Partial<
+  Record<
+    (typeof GlobalSelectionStateService.stateKeys)[number],
+    SelectableValue[]
+  >
 >;
 
 export enum GlobalSelectionStatus {
