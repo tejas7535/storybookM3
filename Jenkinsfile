@@ -1142,9 +1142,9 @@ pipeline {
             }
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_FRONTEND_USER', passwordVariable: 'API_KEY', usernameVariable: 'USERNAME')]) {
+                    withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_FRONTEND_MONO_DEPLOYMENTS', passwordVariable: 'TOKEN', usernameVariable: 'USERNAME')]) {
                         def jsonString = sh(
-                            script: "curl --silent -H X-JFrog-Art-Api:${API_KEY} -X GET \"https://artifactory.schaeffler.com/artifactory/api/storage/${artifactoryBasePath}?list&deep=1&depth=10&listFolders=1&mdTimestamps=1&includeRootPath=1\"",
+                            script: "curl --silent -H \"Authorization: Bearer ${TOKEN}\" -X GET \"https://artifactory.schaeffler.com/artifactory/api/storage/${artifactoryBasePath}?list&deep=1&depth=10&listFolders=1&mdTimestamps=1&includeRootPath=1\"",
                             returnStdout: true
                         )
                         def artifactoryResponse = readJSON text: jsonString
@@ -1159,7 +1159,7 @@ pipeline {
                                 if (daysBetween > 60) {
                                     echo "${artifactoryFile}"
                                     echo 'IS GOING TO GET DELETED'
-                                    sh "curl --silent -H X-JFrog-Art-Api:${API_KEY} -X DELETE \"https://artifactory.schaeffler.com/artifactory/${artifactoryBasePath}${artifactoryFile.uri}\""
+                                    sh "curl --silent -H \"Authorization: Bearer ${TOKEN}\" -X DELETE \"https://artifactory.schaeffler.com/artifactory/${artifactoryBasePath}${artifactoryFile.uri}\""
                                 }
                             }
                         }
