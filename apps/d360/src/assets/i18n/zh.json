@@ -967,7 +967,7 @@
       "deleteSubstitution": "您确实想删除该替换？"
     },
     "error": {
-      "fielNotAllowed": "禁止该选项在此使用"
+      "fieldNotAllowed": "禁止该选项在此使用"
     },
     "button": {
       "createSubstitution": "创建替代",

@@ -1,6 +1,6 @@
 import { translate } from '@jsverse/transloco';
-import { formatISO } from 'date-fns';
 
+import { formatDateToISOString } from '../../shared/utils/parse-values';
 import { IMRSubstitution, IMRSubstitutionRequest } from './model';
 
 export function dataToIMRSubstitutionRequest(
@@ -18,21 +18,9 @@ export function dataToIMRSubstitutionRequest(
     customerNumber: data.customerNumber,
     predecessorMaterial: data.predecessorMaterial,
     successorMaterial: data.successorMaterial,
-    replacementDate: data.replacementDate
-      ? formatISO(data.replacementDate, {
-          representation: 'date',
-        })
-      : null,
-    cutoverDate: data.cutoverDate
-      ? formatISO(data.cutoverDate, {
-          representation: 'date',
-        })
-      : null,
-    startOfProduction: data.startOfProduction
-      ? formatISO(data.startOfProduction, {
-          representation: 'date',
-        })
-      : null,
+    replacementDate: formatDateToISOString(data.replacementDate),
+    cutoverDate: formatDateToISOString(data.cutoverDate),
+    startOfProduction: formatDateToISOString(data.startOfProduction),
     note: data.note,
   };
 }

@@ -35,10 +35,11 @@
         </div>
       </d360-header-action-bar>
 
-      @if (selectedRegion) {
+      @if (selectedRegion()) {
         <d360-internal-material-replacement-table
           #internalMaterialReplacementTableComponent
-          [selectedRegion]="selectedRegion"
+          [selectedRegion]="selectedRegion()"
+          (getApi)="getApi($event)"
         ></d360-internal-material-replacement-table>
       }
     </d360-styled-section>

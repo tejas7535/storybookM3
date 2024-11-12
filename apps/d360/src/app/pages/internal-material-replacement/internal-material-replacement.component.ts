@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  DestroyRef,
-  inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { take, tap } from 'rxjs';
 
 import { PushPipe } from '@ngrx/component';
+import { GridApi } from 'ag-grid-community';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -29,6 +24,7 @@ import { SelectableValue } from '../../shared/components/inputs/autocomplete/sel
 import { FilterDropdownComponent } from '../../shared/components/inputs/filter-dropdown/filter-dropdown.component';
 import { StyledSectionComponent } from '../../shared/components/styled-section/styled-section.component';
 import { SelectableOptionsService } from '../../shared/services/selectable-options.service';
+import { InternalMaterialReplacementMultiSubstitutionModalComponent } from './components/modals/internal-material-replacement-multi-substitution-modal/internal-material-replacement-multi-substitution-modal.component';
 import { InternalMaterialReplacementSingleSubstitutionModalComponent } from './components/modals/internal-material-replacement-single-substitution-modal/internal-material-replacement-single-substitution-modal.component';
 import { InternalMaterialReplacementTableComponent } from './table/internal-material-replacement-table/internal-material-replacement-table.component';
 
@@ -53,11 +49,10 @@ import { InternalMaterialReplacementTableComponent } from './table/internal-mate
   styleUrl: './internal-material-replacement.component.scss',
 })
 export class InternalMaterialReplacementComponent implements OnInit {
-  @ViewChild('internalMaterialReplacementTableComponent')
-  protected table: InternalMaterialReplacementTableComponent;
+  private gridApi: GridApi | null = null;
 
   protected loading$;
-  protected selectedRegion: string;
+  protected selectedRegion = signal<string>(null);
 
   protected regionControl = new FormControl<SelectableValue>(
     { id: '', text: '' },
@@ -87,10 +82,13 @@ export class InternalMaterialReplacementComponent implements OnInit {
     });
   }
 
+  protected getApi(api: GridApi): void {
+    this.gridApi = api;
+  }
+
   updateRegion(event: Partial<SelectableValue>) {
     if (event) {
-      this.selectedRegion = event.id;
-      this.table?.setServerSideDatasource(this.selectedRegion);
+      this.selectedRegion.set(event.id);
     }
   }
 
@@ -100,7 +98,7 @@ export class InternalMaterialReplacementComponent implements OnInit {
         data: {
           substitution: this.newIMRSubstitution(this.regionControl.value.id),
           isNewSubstitution: true,
-          gridApi: this.table.gridApi,
+          gridApi: this.gridApi,
         },
         panelClass: ['form-dialog', 'internal-material-replacement'],
         autoFocus: false,
@@ -109,9 +107,9 @@ export class InternalMaterialReplacementComponent implements OnInit {
       .afterClosed()
       .pipe(
         take(1),
-        tap(({ reloadData, redefinedSubstitution }) => {
+        tap(({ reloadData }) => {
           if (reloadData) {
-            this.table.addNewRow(redefinedSubstitution);
+            this.gridApi.refreshServerSide({ purge: true });
           }
         }),
         takeUntilDestroyed(this.destroyRef)
@@ -120,7 +118,26 @@ export class InternalMaterialReplacementComponent implements OnInit {
   }
 
   handleCreateMultiIMR() {
-    // TODO implement
+    this.dialog
+      .open(InternalMaterialReplacementMultiSubstitutionModalComponent, {
+        disableClose: true,
+        panelClass: ['table-dialog', 'internal-material-replacement'],
+        autoFocus: false,
+        maxHeight: 'calc(100% - 64px)',
+        maxWidth: 'none',
+        width: 'calc(100% - 64px)',
+      })
+      .afterClosed()
+      .pipe(
+        take(1),
+        tap((reloadData: boolean) => {
+          if (reloadData) {
+            this.gridApi.refreshServerSide({ purge: true });
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   private newIMRSubstitution(region: string): IMRSubstitution {

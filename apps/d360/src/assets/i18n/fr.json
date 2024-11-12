@@ -967,7 +967,7 @@
       "deleteSubstitution": "Faut-il vraiment supprimer le substitution ?"
     },
     "error": {
-      "fielNotAllowed": "Le champ ne doit pas être renseigné pour le type sélectionné."
+      "fieldNotAllowed": "Le champ ne doit pas être renseigné pour le type sélectionné."
     },
     "button": {
       "createSubstitution": "Créer une substitution",

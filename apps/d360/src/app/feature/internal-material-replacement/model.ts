@@ -28,9 +28,9 @@ export interface IMRSubstitution {
   customerNumber: string | null;
   predecessorMaterial: string | null;
   successorMaterial: string | null;
-  replacementDate: Date | null;
-  cutoverDate: Date | null;
-  startOfProduction: Date | null;
+  replacementDate: Date | string | null;
+  cutoverDate: Date | string | null;
+  startOfProduction: Date | string | null;
   note: string | null;
 }
 

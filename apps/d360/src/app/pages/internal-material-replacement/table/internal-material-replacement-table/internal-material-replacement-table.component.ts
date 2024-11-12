@@ -1,5 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, Input, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  effect,
+  inject,
+  input,
+  output,
+  OutputEmitterRef,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -62,10 +71,12 @@ class NoDataOverlayComponent implements INoRowsOverlayAngularComp {
   styleUrl: './internal-material-replacement-table.component.scss',
 })
 export class InternalMaterialReplacementTableComponent {
-  @Input({ required: true }) selectedRegion: string;
+  readonly selectedRegion = input.required<string>();
 
   public gridApi: GridApi;
   public columnApi: ColumnApi;
+
+  public getApi: OutputEmitterRef<GridApi> = output();
 
   protected readonly isGridAutoSized = signal(false);
   protected readonly rowCount = signal(0);
@@ -76,13 +87,21 @@ export class InternalMaterialReplacementTableComponent {
     protected readonly imrService: IMRService,
     protected readonly dialog: MatDialog,
     protected readonly agGridLocalizationService: AgGridLocalizationService
-  ) {}
+  ) {
+    effect(
+      () => {
+        this.setServerSideDatasource(this.selectedRegion());
+      },
+      { allowSignalWrites: true }
+    );
+  }
 
   onGridReady(event: GridReadyEvent): void {
     this.gridApi = event.api;
     this.columnApi = event.columnApi;
+    this.getApi.emit(event.api);
 
-    this.setServerSideDatasource(this.selectedRegion);
+    this.setServerSideDatasource(this.selectedRegion());
     if (this.gridApi) {
       this.imrService
         .getDataFetchedEvent()
@@ -236,14 +255,5 @@ export class InternalMaterialReplacementTableComponent {
 
   onFirstDataRendered($event: FirstDataRenderedEvent) {
     $event.columnApi.autoSizeAllColumns();
-  }
-
-  addNewRow(redefinedSubstitution: IMRSubstitution) {
-    this.gridApi.applyServerSideTransaction({
-      addIndex: 0,
-      add: [redefinedSubstitution],
-    });
-
-    this.rowCount.update((count) => count + 1);
   }
 }

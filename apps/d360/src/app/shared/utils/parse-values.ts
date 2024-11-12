@@ -1,5 +1,6 @@
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
+import { formatISO, parse } from 'date-fns';
 
 import {
   ReplacementType,
@@ -9,22 +10,41 @@ import {
   DemandCharacteristic,
   demandCharacteristics,
 } from '../../feature/material-customer/model';
+import { ValidationHelper } from './validation/validation-helper';
 
 /**
- * Parses the date if possible, otherwise returns the original string
+ * Parses the date which may contain time information as a date string, otherwise returns the original string
  * @param dateString The date string to parse
- * @param translocoLocaleService
  */
 export function parseDateIfPossible(
   dateString: string,
   translocoLocaleService: TranslocoLocaleService
 ): string {
-  // TODO check if this is ok if not declare a l10n service from l10n.ts file
   const parsed = translocoLocaleService.localizeDate(dateString, undefined, {
-    dateStyle: 'short',
+    dateStyle: 'medium',
   });
 
   return parsed ?? dateString;
+}
+
+/**
+ * Formats the date which may contain time information and/or may be a localized date string.
+ *
+ * @param date The date string to format
+ */
+export function formatDateToISOString(date: Date | string | null) {
+  if (typeof date === 'string' && date.trim() === '') {
+    return null;
+  }
+
+  const dateToParse =
+    typeof date === 'string'
+      ? parse(date, ValidationHelper.getDateFormat(), new Date())
+      : date;
+
+  return dateToParse
+    ? formatISO(dateToParse, { representation: 'date' })
+    : null;
 }
 
 /**

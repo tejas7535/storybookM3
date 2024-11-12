@@ -976,7 +976,7 @@
       "deleteSubstitution": "Should the substitution really be deleted?"
     },
     "error": {
-      "fielNotAllowed": "The field must not be filled for the selected type."
+      "fieldNotAllowed": "The field must not be filled for the selected type."
     },
     "button": {
       "createSubstitution": "Create substitution",

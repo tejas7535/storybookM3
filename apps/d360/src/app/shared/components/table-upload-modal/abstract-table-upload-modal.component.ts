@@ -292,6 +292,20 @@ export abstract class AbstractTableUploadModalComponent<
 
   /** @inheritdoc */
   public ngOnInit(): void {
+    this.updateColumnDefinitions();
+  }
+
+  /**
+   * Update the column definitions of our AG Grid.
+   *
+   * We manually trigger this function to also update the cell styles (e.g. show a red cell because of a validation error)
+   * of the grid from outside by calling the this.validateFunctionWithErrors function.
+   *
+   * TODO: Once we're on AG Grid > v31, we should use setGridOption('columnDefs', columnDefs); instead.
+   *
+   * @private
+   */
+  private updateColumnDefinitions() {
     this.columnDefs = [
       ...this.columnDefinitions.map((colDef: ColumnForUploadTable<T>) => ({
         ...colDef,
@@ -419,6 +433,10 @@ export abstract class AbstractTableUploadModalComponent<
       const errorRowCount = this.countErrorRows(allErrorsFromValidations);
 
       if (validData.length === 0) {
+        if (this.frontendErrors().length > 0) {
+          this.updateColumnDefinitions();
+        }
+
         this.snackbarService.openSnackBar(
           this.getErrorMessageFn(action)(errorRowCount)
         );
@@ -437,9 +455,9 @@ export abstract class AbstractTableUploadModalComponent<
 
       // Set error messages to show them in grid
       this.backendErrors.set(this.parseErrorsFromResult(postResult));
-      if (this.backendErrors().length > 0 || this.frontendErrors().length > 0) {
-        this.ngOnInit();
-      }
+
+      // render error hints and remove potentially fixed error hints from cells
+      this.updateColumnDefinitions();
 
       const userMessages = multiPostResultsToUserMessages(
         postResult,

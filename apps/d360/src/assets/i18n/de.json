@@ -976,7 +976,7 @@
       "deleteSubstitution": "Soll die Ersetzung wirklich gelöscht werden?"
     },
     "error": {
-      "fielNotAllowed": "Das Feld darf für den ausgewählten Typ nicht befüllt werden."
+      "fieldNotAllowed": "Das Feld darf für den ausgewählten Typ nicht befüllt werden."
     },
     "button": {
       "createSubstitution": "Ersetzung erstellen",

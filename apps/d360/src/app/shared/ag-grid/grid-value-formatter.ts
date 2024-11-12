@@ -1,8 +1,12 @@
 import { translate } from '@jsverse/transloco';
 
 import { PortfolioStatus } from '../../feature/customer-material-portfolio/cmp-modal-types';
-import { ReplacementType } from '../../feature/internal-material-replacement/model';
+import {
+  ReplacementType,
+  replacementTypeValues,
+} from '../../feature/internal-material-replacement/model';
 import { DemandCharacteristic } from '../../feature/material-customer/model';
+import { parseToStringLiteralTypeIfPossible } from '../utils/parse-values';
 
 export function portfolioStatusValueFormatter() {
   return (params: any): string =>
@@ -23,6 +27,29 @@ export function demandCharacteristicValueFormatter() {
 }
 
 export function replacementTypeValueFormatter() {
-  return (params: any): string =>
-    translate(`replacement_type.${params.value as ReplacementType}`, {});
+  return (params: any): string => {
+    if (params.value === null || params.value === undefined) {
+      return null;
+    }
+
+    const value = params.value;
+
+    if (value === undefined) {
+      return null;
+    }
+
+    const localizationKeyCreation = (val: ReplacementType) =>
+      translate(`replacement_type.${val}`, {});
+    const parsed = parseToStringLiteralTypeIfPossible<ReplacementType>(
+      value,
+      replacementTypeValues,
+      localizationKeyCreation
+    );
+
+    if (parsed === undefined) {
+      return value;
+    }
+
+    return translate(`replacement_type.${parsed}`, {});
+  };
 }

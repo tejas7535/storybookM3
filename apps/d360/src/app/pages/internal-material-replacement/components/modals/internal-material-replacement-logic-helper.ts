@@ -21,7 +21,7 @@ export function getReplacementTypeLogic(
     : getReplacementTypeLogicForEdit(replacementLogicForNew);
 }
 
-export function getReplacementTypeLogicForNewSubstitution(
+function getReplacementTypeLogicForNewSubstitution(
   replacementType: ReplacementType
 ): ReplacementTypeLogic {
   switch (replacementType) {
@@ -129,6 +129,58 @@ export function getReplacementTypeLogicForNewSubstitution(
       throw new Error(`Unknown replacement type: ${replacementType}`);
     }
   }
+}
+
+export function checkForbiddenFieldsForNewSubstitution(
+  substitution: IMRSubstitution
+): (keyof IMRSubstitution)[] | undefined {
+  if (!substitution.replacementType) {
+    return undefined;
+  }
+
+  const forbiddenFields = getReplacementTypeLogicForNewSubstitution(
+    substitution.replacementType
+  ).deactivatedFields;
+
+  const wronglyFilledFields: (keyof IMRSubstitution)[] = [];
+  forbiddenFields.forEach((field: keyof IMRSubstitution) => {
+    if (
+      Object.hasOwn(substitution, field) &&
+      substitution[field] &&
+      substitution[field] !== ''
+    ) {
+      wronglyFilledFields.push(field);
+    }
+  });
+
+  return wronglyFilledFields;
+}
+
+export function checkMissingFields(
+  substitution: IMRSubstitution
+): (keyof IMRSubstitution)[] | undefined {
+  if (!substitution.replacementType) {
+    return undefined;
+  }
+
+  // For mandatory fields it is not important if we editing or creating a new substitution, mandatory fields are still mandatory
+  const mandatoryFields = getReplacementTypeLogicForNewSubstitution(
+    substitution.replacementType
+  ).mandatoryFields;
+
+  const missingFields: (keyof IMRSubstitution)[] = [];
+  mandatoryFields.forEach((field: keyof IMRSubstitution) => {
+    try {
+      const value = substitution[field];
+      if (value == null || value === '' || value === undefined) {
+        missingFields.push(field);
+      }
+    } catch {
+      missingFields.push(field);
+    }
+  });
+
+  return missingFields;
 }
 
 function getReplacementTypeLogicForEdit(
