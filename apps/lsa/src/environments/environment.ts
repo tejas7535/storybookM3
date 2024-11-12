@@ -11,4 +11,5 @@ export const environment: Environment = {
   lsaApiBaseUrl:
     'https://lubricator-selection-assistant-d.dev.dp.schaeffler/api',
   // lsaApiBaseUrl: 'http://localhost:3000/api',
+  staticStorageUrl: 'https://frontend1apps.z1.web.core.windows.net',
 };

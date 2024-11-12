@@ -7,4 +7,5 @@ export const environment: Environment = {
     'https://lubricator-selection-assistant-d.dev.dp.schaeffler/assets',
   lsaApiBaseUrl:
     'https://lubricator-selection-assistant-d.dev.dp.schaeffler/api',
+  staticStorageUrl: 'https://frontend1apps.z1.web.core.windows.net',
 };

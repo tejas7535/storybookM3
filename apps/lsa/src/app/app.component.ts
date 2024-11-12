@@ -17,6 +17,7 @@ import { AddToCartService } from './core/services/add-to-cart.service';
 import { isLanguageAvailable } from './core/services/language-helpers';
 import { PriceAvailabilityService } from './core/services/price-availability.service';
 import { RestService } from './core/services/rest.service';
+import { StaticStorageService } from './core/services/static-storage';
 import { FALLBACK_LANGUAGE } from './shared/constants/language';
 import { UserTier } from './shared/constants/user-tier.enum';
 import { AddToCartEventPayload } from './shared/models';
@@ -42,7 +43,8 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
     private readonly translocoService: TranslocoService,
     private readonly restService: RestService,
     private readonly priceAvailabilityService: PriceAvailabilityService,
-    private readonly addToCartService: AddToCartService
+    private readonly addToCartService: AddToCartService,
+    private readonly staticStorageService: StaticStorageService
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +57,8 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
     this.listenForPriceAndAvailabilityRequests();
     this.listenForAddToCartEvents();
     this.fetchGreases();
+
+    this.staticStorageService.displayMaintenanceMessages();
   }
 
   ngOnChanges(changes: SimpleChanges): void {

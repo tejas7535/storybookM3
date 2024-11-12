@@ -6,12 +6,16 @@ import { MatDividerModule } from '@angular/material/divider';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { StoreModule } from '@ngrx/store';
+
+import { BannerModule } from '@schaeffler/banner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AppComponent } from './app.component';
 import { AppOverlayContainer } from './app-overlay.container';
 import { CoreModule } from './core/core.module';
 import { LsaAppService } from './core/services/lsa-app.service';
+import { StaticStorageService } from './core/services/static-storage';
 import { RecommendationContainerComponent } from './recommendation/recommendation-container.component';
 
 export const APP_ROOT = 'lubricator-selection-assistant';
@@ -21,8 +25,10 @@ export const APP_ROOT = 'lubricator-selection-assistant';
   providers: [
     { provide: OverlayContainer, useClass: AppOverlayContainer },
     LsaAppService,
+    StaticStorageService,
   ],
   imports: [
+    StoreModule.forRoot({}),
     BrowserModule,
     BrowserAnimationsModule,
     CoreModule,
@@ -30,6 +36,7 @@ export const APP_ROOT = 'lubricator-selection-assistant';
     MatDividerModule,
     CommonModule,
     RecommendationContainerComponent,
+    BannerModule,
   ],
 })
 export class AppModule implements DoBootstrap {

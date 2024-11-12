@@ -3,4 +3,5 @@ export interface Environment {
   localDev: boolean;
   assetsPath: string;
   lsaApiBaseUrl: string;
+  staticStorageUrl: string;
 }

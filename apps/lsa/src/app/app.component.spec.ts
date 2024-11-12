@@ -13,6 +13,7 @@ import { AppComponent } from './app.component';
 import { AddToCartService } from './core/services/add-to-cart.service';
 import { PriceAvailabilityService } from './core/services/price-availability.service';
 import { RestService } from './core/services/rest.service';
+import { StaticStorageService } from './core/services/static-storage';
 import { UserTier } from './shared/constants/user-tier.enum';
 import { AvailabilityRequestEvent } from './shared/models/price-availibility.model';
 
@@ -48,6 +49,12 @@ describe('AppComponent', () => {
           setUserTier: jest.fn(),
         },
       },
+      {
+        provide: StaticStorageService,
+        useValue: {
+          displayMaintenanceMessages: jest.fn(),
+        },
+      },
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
@@ -70,6 +77,23 @@ describe('AppComponent', () => {
     spectator.detectChanges();
     const title = spectator.query('h1').textContent.trim();
     expect(title).toContain('appTitle');
+  });
+
+  it('should render app-banner', () => {
+    spectator.detectChanges();
+    const banner = spectator.query('schaeffler-banner');
+    expect(banner).toBeTruthy();
+  });
+
+  it('should display maintenance messages', () => {
+    const displayMaintenanceMessagesSpy = jest.spyOn(
+      spectator.inject(StaticStorageService),
+      'displayMaintenanceMessages'
+    );
+
+    component.ngOnInit();
+
+    expect(displayMaintenanceMessagesSpy).toHaveBeenCalled();
   });
 
   describe('when userTier changes', () => {
