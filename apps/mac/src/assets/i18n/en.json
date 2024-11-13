@@ -1212,17 +1212,19 @@
     "implementation2": "department.",
     "linkedApplications": "Linked Apps",
     "links": {
-      "comparisonOfQuenchingMedia": "S-Connect - Comparison of quenching media",
-      "estimationOfMaterialProperties": "S-Connect - Estimation of material properties",
-      "globalBatchTraceability": "S-Connect - Global Batch Traceability",
-      "materials": "S-Connect - Materials",
-      "materialsAppCenter": "S-Connect - Materials App Center",
-      "materialsFaq": "S-Connect - Materials FAQ",
-      "materialsForRollingBearingTechnology": "S-Connect - TPI 226: Materials for Rolling Bearing Technology",
+      "materialsAppCenter": "Materials App Center (sharepoint.com)",
+      "materials": "Materials (sharepoint.com)",
+      "steelCleanlinessDataBase": "Steel Cleanliness Data Base (SCDB)",
+      "globalBatchTraceability": "Global Batch Traceability (sharepoint.com)",
+      "estimationOfMaterialProperties": "Estimation of material properties",
+      "materialsForRollingBearingTechnologyDe": "TPI 226: Materials for Rolling Bearing Technology (DE)",
+      "materialsForRollingBearingTechnologyEn": "TPI 226: Materials for Rolling Bearing Technology (EN)",
+      "materialsFaq": "Materials FAQ",
+      "comparisonOfQuenchingMedia": "Comparison of quenching media",
       "orderAMaterialsLabInvestigation": "Order a materials-lab investigation",
-      "searchForStandards": "Search for standards",
-      "steelCleanlinessDataBase": "S-Connect - Steel Cleanliness Data Base (SCDB)",
       "substanceInformationSystem": "Substance information system",
+      "searchForStandards": "Search for standards",
+      "unavailable": "[coming soon]",
       "title": "Links"
     },
     "macDescription1": "The Materials App Center gives access to services provided to you by Schaeffler",
@@ -1247,10 +1249,6 @@
           "description": "Convert hardness and tensile-strength values",
           "title": "Hardness Converter"
         },
-        "lifetimePredictor": {
-          "description": "Predict the conventional fatigue lifetime of metallic components",
-          "title": "Lifetime Predictor"
-        },
         "materialsSupplierDatabase": {
           "description": "Find released materials suppliers and their CO₂ footprints",
           "title": "Materials Supplier Database"
@@ -1261,10 +1259,6 @@
         "carbonitridingPrediction": {
           "description": "Predict carbonitriding profiles based on furnace parameters",
           "title": "Carbonitriding Prediction"
-        },
-        "lifetimeDocumenter": {
-          "description": "Document fatigue-testing parameters and results",
-          "title": "Lifetime Documenter"
         },
         "polyassist": {
           "description": "Perform a strength assessment for fiber reinforced polymers",
