@@ -105,11 +105,7 @@ export class ProcessCaseViewComponent implements OnInit, OnDestroy {
     this.quotation$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        filter(
-          (quotation: Quotation) =>
-            !!quotation &&
-            quotation.sapSyncStatus !== SAP_SYNC_STATUS.SYNC_PENDING
-        ),
+        filter((quotation: Quotation) => !!quotation),
         tap((quotation: Quotation) => {
           // when GQ call or SAP call is running the "we are syncing your case" will be shown only when sapSyncStatus is not SYNC_PENDING
           this.showCalcInProgress =

@@ -270,17 +270,6 @@ describe('ProcessCaseViewComponent', () => {
         component['approvalFacade'].getApprovalCockpitData
       ).not.toHaveBeenCalled();
     });
-    test('should not request approvalData when Status is sync_pending', () => {
-      quotationSubject.next({
-        sapId: 'testSapId',
-        sapSyncStatus: SAP_SYNC_STATUS.SYNC_PENDING,
-        customer: { enabledForApprovalWorkflow: true },
-      } as Quotation);
-      component.ngOnInit();
-      expect(
-        component['approvalFacade'].getApprovalCockpitData
-      ).not.toHaveBeenCalled();
-    });
     test('should showCalcInProgress', () => {
       quotationSubject.next({
         calculationInProgress: true,
