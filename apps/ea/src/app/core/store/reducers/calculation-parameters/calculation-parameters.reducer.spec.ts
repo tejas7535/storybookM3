@@ -53,7 +53,6 @@ describe('calculationParametersReducer', () => {
           operationConditions: expect.objectContaining(
             mockParameters.operationConditions
           ),
-          isInputInvalid: false,
         })
       );
     });

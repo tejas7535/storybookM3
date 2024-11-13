@@ -110,7 +110,6 @@ export const calculationParametersReducer = createReducer(
         ...state.operationConditions,
         ...operationConditions,
       },
-      isInputInvalid: false,
     })
   ),
 
