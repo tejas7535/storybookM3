@@ -1,3 +1,5 @@
+import { translate } from '@jsverse/transloco';
+
 import { ValidationHelper } from './validation-helper';
 
 export function validateSalesOrg(value: string): string[] | null {
@@ -37,7 +39,8 @@ export function validateMaterialNumber(value: string): string[] | null {
 
 export function validateSectors(value: string): string[] | null {
   const validLength = ValidationHelper.validateMaxLength(value, 4);
-  const firstChar = value[0] === 'V' ? null : 'error.sectorWrongBegin';
+  const firstChar =
+    value[0] === 'V' ? null : translate('error.sectorWrongBegin');
   const validTypes = ValidationHelper.validateForNumbers(value.slice(1));
 
   return ValidationHelper.condenseValidationResults([

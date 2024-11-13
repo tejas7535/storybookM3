@@ -14,8 +14,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { take } from 'rxjs';
+import { filter, map, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -63,6 +64,7 @@ import { PreLoadedAutocompleteWithMultiselectComponent } from '../pre-loaded-aut
     MatButtonModule,
     PushPipe,
     LoadingSpinnerModule,
+    MatTooltipModule,
   ],
   templateUrl: './global-selection-criteria.component.html',
   styleUrls: ['./global-selection-criteria.component.scss'],
@@ -159,14 +161,6 @@ export class GlobalSelectionCriteriaComponent implements OnInit {
     this.globalSelectionStateService.form();
 
   /**
-   * Are the Options currently loading?
-   *
-   * @protected
-   * @memberof GlobalSelectionCriteriaComponent
-   */
-  protected optionsLoading$ = this.selectableOptionsService.loading$;
-
-  /**
    * The Material Classification Options.
    *
    * @type {SelectableValue[]}
@@ -211,6 +205,9 @@ export class GlobalSelectionCriteriaComponent implements OnInit {
 
     // load count
     this.loadCount();
+
+    // handle open tasks logic
+    this.handleTasks();
   }
 
   /**
@@ -224,11 +221,7 @@ export class GlobalSelectionCriteriaComponent implements OnInit {
       this.selectableOptionsService.get('alertTypes')?.options ?? []
     )?.map((item) => ({
       id: item.id,
-      text: translate(
-        `alert.category.${item.id as AlertCategory}`,
-        {},
-        item.text
-      ),
+      text: translate(`alert.category.${item.id as AlertCategory}`),
     }));
   }
 
@@ -305,5 +298,31 @@ export class GlobalSelectionCriteriaComponent implements OnInit {
           });
       }
     }
+  }
+
+  /**
+   * Enables / disables the tasks dropdown based on found options.
+   *
+   * @private
+   * @memberof GlobalSelectionCriteriaComponent
+   */
+  private handleTasks(): void {
+    this.selectableOptionsService.loading$
+      .pipe(
+        filter((loading) => !loading),
+        map(
+          () =>
+            this.selectableOptionsService.get('alertTypes')?.options?.length > 0
+        ),
+        tap((hasOptions: boolean) => {
+          if (hasOptions) {
+            this.globalForm.controls.alertType.enable();
+          } else {
+            this.globalForm.controls.alertType.disable();
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 }

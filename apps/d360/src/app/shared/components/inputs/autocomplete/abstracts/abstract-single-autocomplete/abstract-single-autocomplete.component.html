@@ -16,6 +16,7 @@
     #auto="matAutocomplete"
     [displayWith]="displayFn()"
     (optionSelected)="onOptionSelected()"
+    [class]="panelClass()"
   >
     <!-- Render the options only, if there are no error and the data are not loading -->
     @if (!loading() && !loadingError()) {
@@ -41,7 +42,9 @@
   </mat-autocomplete>
 
   <!-- Add an arrow, so it will look like a dropdown  -->
-  <mat-icon matSuffix>arrow_drop_down</mat-icon>
+  @if (addDropdownIcon()) {
+    <mat-icon matSuffix>arrow_drop_down</mat-icon>
+  }
 
   @if (this.control().value && this.addClearButton()) {
     <button matSuffix mat-icon-button aria-label="Clear" (click)="onClear()">

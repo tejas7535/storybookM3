@@ -13,6 +13,7 @@
     [multiple]="multiSelect()"
     [formControl]="control()"
     [compareWith]="compareFn"
+    [panelClass]="panelClass()"
   >
     <!-- formatted selected values -->
     <mat-select-trigger>{{ getSelectedValues() }}</mat-select-trigger>

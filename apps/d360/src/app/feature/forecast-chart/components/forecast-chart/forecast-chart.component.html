@@ -1,8 +1,12 @@
 <d360-styled-section>
   <div class="flex justify-between" *transloco="let t">
     <h6 class="text-title-large">
-      {{ t('home.chart.title') }} |
-      {{ t('planing_type.title.' + typeForm.get('count').value, {}) }}
+      {{ t('home.chart.title') }}
+      {{
+        typeForm.get('count').value
+          ? ' | ' + t('planing_type.title.' + typeForm.get('count').value, {})
+          : ''
+      }}
     </h6>
     <div class="flex">
       @if (openPanelContent) {

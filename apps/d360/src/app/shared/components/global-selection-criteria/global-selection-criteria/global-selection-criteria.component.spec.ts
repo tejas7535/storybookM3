@@ -24,7 +24,7 @@ describe('GlobalSelectionCriteriaComponent', () => {
     component: GlobalSelectionCriteriaComponent,
     imports: [MockComponent(MinimizedGlobalSelectionCriteriaComponent)],
     providers: [
-      mockProvider(SelectableOptionsService),
+      mockProvider(SelectableOptionsService, { loading$: of(true) }),
       mockProvider(SnackbarService),
       mockProvider(TranslocoLocaleService),
       mockProvider(GlobalSelectionStateService, {

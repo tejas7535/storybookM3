@@ -611,7 +611,8 @@
       "SPCHDP": "Ersetzungsvorschlag geändert",
       "SPCHAO": "Ersetzungsvorschlag geändert",
       "DEVIFC": "Mengen-/Wertabweichung Validated FC",
-      "SINWAO": "Ersetzung Schaeffler intern aktiviert"
+      "SINWAO": "Ersetzung Schaeffler intern aktiviert",
+      "NPOSDP": "Neues Phase-Out für SP Material"
     },
     "material_classification": {
       "column_header": "Materialklassifizierung"

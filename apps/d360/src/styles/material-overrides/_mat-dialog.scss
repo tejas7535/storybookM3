@@ -1,13 +1,13 @@
 @mixin mat-dialog() {
   .mat-mdc-dialog-surface {
-    padding: 16px !important;
+    padding: 16px 0 8px !important;
   }
 
   .mat-mdc-dialog-panel {
     .mat-mdc-dialog-title {
       &.mat-mdc-dialog-title {
         &::before {
-          height: auto;
+          display: none;
         }
       }
 

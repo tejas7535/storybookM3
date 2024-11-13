@@ -50,6 +50,9 @@ export class PreLoadedAutocompleteWithMultiselectComponent {
     input.required<DisplayFunction>();
   public getOptionLabelInTag: InputSignal<DisplayFunction> =
     input.required<DisplayFunction>();
+  public panelClass: InputSignal<string | string[]> = input<string | string[]>(
+    ''
+  );
 
   // Clipboard
   public entityName: InputSignal<string> = input.required<string>();
@@ -101,6 +104,8 @@ export class PreLoadedAutocompleteWithMultiselectComponent {
         entityName: this.entityName(),
         entityNamePlural: this.entityNamePlural(),
       },
+      maxWidth: '600px',
+      autoFocus: false,
     });
   }
 }

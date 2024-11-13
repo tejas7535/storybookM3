@@ -52,21 +52,37 @@
   .mat-mdc-option {
     min-height: 40px;
   }
-}
 
-.cdk-overlay-pane {
-  &.mat-datepicker-popup {
-    .mat-calendar-controls {
-      .cdk-visually-hidden {
-        @apply w-[1px] h-[1px] absolute overflow-hidden;
-      }
+  @media screen and (min-width: 600px) and (max-width: 1024px) {
+    .mat-mdc-floating-label {
+      --mdc-outlined-text-field-label-text-size: 14px;
     }
 
-    .mat-calendar-body-cell {
-      &:focus {
-        .mat-focus-indicator {
-          &::before {
-            display: none;
+    .mat-mdc-standard-chip {
+      .mdc-evolution-chip__text-label {
+        --mdc-chip-label-text-size: 11px;
+      }
+    }
+  }
+
+  .cdk-overlay-pane {
+    @media screen and (min-width: 600px) and (max-width: 1024px) {
+      --mat-option-label-text-size: 14px;
+    }
+
+    &.mat-datepicker-popup {
+      .mat-calendar-controls {
+        .cdk-visually-hidden {
+          @apply w-[1px] h-[1px] absolute overflow-hidden;
+        }
+      }
+
+      .mat-calendar-body-cell {
+        &:focus {
+          .mat-focus-indicator {
+            &::before {
+              display: none;
+            }
           }
         }
       }

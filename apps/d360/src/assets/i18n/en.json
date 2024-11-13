@@ -611,7 +611,8 @@
       "SPCHDP": "Substitution proposal changed",
       "SPCHAO": "Substitution proposal changed",
       "DEVIFC": "Quantity-/Value deviation Validated FC",
-      "SINWAO": "Substitution Schaeffler intern activated"
+      "SINWAO": "Substitution Schaeffler intern activated",
+      "NPOSDP": "New Phase-Out for SP Material"
     },
     "material_classification": {
       "column_header": "Material Classification"

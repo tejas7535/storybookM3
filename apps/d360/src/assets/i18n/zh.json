@@ -602,7 +602,8 @@
       "SPCHDP": "替换提议已修改",
       "SPCHAO": "替换提议已修改",
       "DEVIFC": "数量/价值偏离预设值",
-      "SINWAO": "替代物料已激活"
+      "SINWAO": "替代物料已激活",
+      "NPOSDP": "新淘汰的 SP 材料"
     },
     "material_classification": {
       "column_header": "物料分类"

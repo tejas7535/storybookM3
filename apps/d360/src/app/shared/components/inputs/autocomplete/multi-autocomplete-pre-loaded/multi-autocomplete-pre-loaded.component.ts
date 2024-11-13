@@ -1,4 +1,4 @@
-import { Component, effect, OnInit } from '@angular/core';
+import { Component, effect, input, InputSignal, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
@@ -46,6 +46,12 @@ export class MultiAutocompletePreLoadedComponent
    * @inheritdoc
    */
   protected isPreloaded = true;
+
+  /**
+   * @inheritdoc
+   * @override
+   */
+  public override addClearButton: InputSignal<boolean> = input(true);
 
   /**
    * Creates an instance of SingleAutocompleteOnTypeComponent.

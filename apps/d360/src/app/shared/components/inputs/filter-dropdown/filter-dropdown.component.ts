@@ -90,6 +90,16 @@ export class FilterDropdownComponent implements OnInit {
   public hintText?: InputSignal<string> = input();
 
   /**
+   * A CSS Class to style the panel.
+   *
+   * @type {(InputSignal<string | string[]>)}
+   * @memberof FilterDropdownComponent
+   */
+  public panelClass: InputSignal<string | string[]> = input<string | string[]>(
+    ''
+  );
+
+  /**
    * The available options.
    *
    * @type {InputSignal<SelectableValue[]>}

@@ -1,5 +1,5 @@
 <section *transloco="let t" class="global-selection-criteria-section">
-  @if (optionsLoading$ | ngrxPush) {
+  @if (selectableOptionsService.loading$ | ngrxPush) {
     <!--  loading spinner -->
     <div class="global-selection-criteria-container mt-5 relative">
       <div
@@ -62,14 +62,12 @@
               [form]="globalForm"
               [label]="t('globalSelection.sales_area', {})"
               [loadingError]="
-                this.selectableOptionsService.get('salesArea')?.loadingError
+                selectableOptionsService.get('salesArea')?.loadingError
               "
-              [loading]="
-                this.selectableOptionsService.get('salesArea')?.loading
-              "
+              [loading]="selectableOptionsService.get('salesArea')?.loading"
               [multiSelect]="true"
               [options]="
-                this.selectableOptionsService.get('salesArea')?.options ?? []
+                selectableOptionsService.get('salesArea')?.options ?? []
               "
             />
           </div>
@@ -81,15 +79,13 @@
               [form]="globalForm"
               [label]="t('globalSelection.sector_management', {})"
               [loadingError]="
-                this.selectableOptionsService.get('sectorMgmt')?.loadingError
+                selectableOptionsService.get('sectorMgmt')?.loadingError
               "
-              [loading]="
-                this.selectableOptionsService.get('sectorMgmt')?.loading
-              "
+              [loading]="selectableOptionsService.get('sectorMgmt')?.loading"
               [multiSelect]="true"
               [formatSelectedValue]="displayFnId"
               [options]="
-                this.selectableOptionsService.get('sectorMgmt')?.options ?? []
+                selectableOptionsService.get('sectorMgmt')?.options ?? []
               "
             />
           </div>
@@ -105,9 +101,7 @@
             [entityName]="t('globalSelection.sales_org.entity_name')"
             [getOptionLabel]="displayFnUnited"
             [getOptionLabelInTag]="displayFnText"
-            [optionsLoadingResult]="
-              this.selectableOptionsService.get('salesOrg')
-            "
+            [optionsLoadingResult]="selectableOptionsService.get('salesOrg')"
             [resolveFunction]="
               globalSelectionHelperService.resolveSalesOrg.bind(
                 globalSelectionHelperService
@@ -126,7 +120,7 @@
             [entityName]="t('globalSelection.gkam_name.entity_name')"
             [getOptionLabel]="displayFnUnited"
             [getOptionLabelInTag]="displayFnText"
-            [optionsLoadingResult]="this.selectableOptionsService.get('gkam')"
+            [optionsLoadingResult]="selectableOptionsService.get('gkam')"
             [resolveFunction]="
               globalSelectionHelperService.resolveGkamNumber.bind(
                 globalSelectionHelperService
@@ -195,7 +189,7 @@
             [entityName]="t('globalSelection.sector.entity_name')"
             [getOptionLabel]="displayFnUnited"
             [getOptionLabelInTag]="displayFnText"
-            [optionsLoadingResult]="this.selectableOptionsService.get('sector')"
+            [optionsLoadingResult]="selectableOptionsService.get('sector')"
             [resolveFunction]="
               globalSelectionHelperService.resolveSectors.bind(
                 globalSelectionHelperService
@@ -217,7 +211,7 @@
             [getOptionLabel]="displayFnUnited"
             [getOptionLabelInTag]="displayFnText"
             [optionsLoadingResult]="
-              this.selectableOptionsService.get('productionPlant')
+              selectableOptionsService.get('productionPlant')
             "
             [resolveFunction]="
               globalSelectionHelperService.resolveProductionPlants.bind(
@@ -247,38 +241,41 @@
             "
           />
 
-          <!-- Filter: alertType -->
+          <!-- Filter: alertType (open tasks) -->
           <div class="global-selection-field-container">
             <d360-filter-dropdown
               [control]="globalForm.controls.alertType"
               [form]="globalForm"
               [label]="t('globalSelection.tasks')"
               [loadingError]="
-                this.selectableOptionsService.get('alertTypes').loadingError
+                selectableOptionsService.get('alertTypes').loadingError
               "
-              [loading]="
-                this.selectableOptionsService.get('alertTypes').loading
-              "
+              [loading]="selectableOptionsService.get('alertTypes').loading"
               [multiSelect]="true"
               [options]="getAlertTypeValues()"
               [formatSelectedValue]="displayFnText"
+              [formatOptionValue]="displayFnText"
+              [matTooltipDisabled]="
+                selectableOptionsService.get('alertTypes')?.options?.length > 0
+              "
+              [matTooltip]="t('globalSelection.no_open_alert_types', {})"
             />
           </div>
+        </div>
 
-          <!-- buttons -->
-          <div
-            class="col-span-4 flex justify-end gap-5 global-selection-field-container"
-          >
-            <!-- reset filters -->
-            <button class="w-auto" mat-button (click)="resetFilters()">
-              {{ t('button.reset') }}
-            </button>
+        <!-- buttons -->
+        <div
+          class="col-span-4 flex justify-end gap-5 global-selection-field-container"
+        >
+          <!-- reset filters -->
+          <button class="w-auto" mat-button (click)="resetFilters()">
+            {{ t('button.reset') }}
+          </button>
 
-            <!-- save filters -->
-            <button class="w-auto" mat-flat-button (click)="saveFilters()">
-              {{ t('button.load') }}
-            </button>
-          </div>
+          <!-- save filters -->
+          <button class="w-auto" mat-flat-button (click)="saveFilters()">
+            {{ t('button.load') }}
+          </button>
         </div>
       }
     </form>

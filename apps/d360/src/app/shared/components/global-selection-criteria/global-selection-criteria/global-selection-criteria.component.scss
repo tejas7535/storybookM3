@@ -11,7 +11,7 @@
 }
 
 .global-selection-criteria-container {
-  @apply sm:grid grid-cols-4 gap-5 w-full gap-y-0;
+  @apply sm:grid sm:grid-cols-3 md:grid-cols-4 gap-5 w-full gap-y-0;
   min-height: 200px;
   padding: 0 8px 8px;
 }

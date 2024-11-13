@@ -14,6 +14,8 @@ import {
   ResolveSelectableValueResult,
   SelectableValue,
 } from '../../shared/components/inputs/autocomplete/selectable-values.utils';
+import { PaginatedFilteredRequest } from '../../shared/models/paginated-filtered-request';
+import { SnackbarService } from '../../shared/utils/service/snackbar.service';
 import {
   validateCustomerNumber,
   validateGkamNumber,
@@ -42,6 +44,17 @@ export class GlobalSelectionHelperService {
     'api/global-selection/customers';
   private readonly GLOBAL_SELECTION_COUNT_API: string =
     'api/global-selection/count';
+  private readonly GLOBAL_SELECTION_PRODUCT_SEGMENTS_API: string =
+    'api/global-selection/production-segments';
+
+  /**
+   * The SnackbarService instance
+   *
+   * @private
+   * @type {SnackbarService}
+   * @memberof GlobalSelectionHelperService
+   */
+  private readonly snackbarService: SnackbarService = inject(SnackbarService);
 
   /**
    * The HttpClient instance
@@ -116,7 +129,6 @@ export class GlobalSelectionHelperService {
 
   /**
    * Returns the Result Count data
-   * TODO: Finalize
    *
    * @param {(GlobalSelectionState | undefined)} globalSelection
    * @return {(Observable<number | undefined>)}
@@ -129,12 +141,11 @@ export class GlobalSelectionHelperService {
       return of();
     }
 
-    // TODO: declare requestBody type for PaginatedFilteredRequest and remove as any[] afterwards
-    const requestBody = {
+    const requestBody: PaginatedFilteredRequest = {
       startRow: 0,
       endRow: 1,
-      sortModel: [] as any,
-      columnFilters: [] as any,
+      sortModel: [],
+      columnFilters: [],
       selectionFilters:
         GlobalSelectionUtils.globalSelectionCriteriaToFilter(globalSelection),
     };
@@ -149,7 +160,6 @@ export class GlobalSelectionHelperService {
 
   /**
    * Returns customer numbers based on global selection
-   * TODO: Finalize
    *
    * @param {(GlobalSelectionState | undefined)} globalSelection
    * @return {Observable<CustomerEntry[]>}
@@ -162,8 +172,7 @@ export class GlobalSelectionHelperService {
       return of([]);
     }
 
-    // TODO: declare requestBody type for PaginatedFilteredRequest and remove as any[] afterwards
-    const requestBody = {
+    const requestBody: PaginatedFilteredRequest = {
       startRow: 0,
       endRow: 1,
       sortModel: [] as any,
@@ -186,21 +195,24 @@ export class GlobalSelectionHelperService {
    * @param {string[]} values
    * @memberof GlobalSelectionHelperService
    */
-  resolveProductionSegment = (values: string[]) => {
+  public resolveProductionSegment(
+    values: string[]
+  ): Observable<ResolveSelectableValueResult[]> {
     if (values.length > 150) {
-      // @TODO: Add Snackbar with error
-      window.alert(translate('error.tooManyValues'));
+      this.snackbarService.openSnackBar(
+        translate('error.tooManyValues', { maxNumber: 150 })
+      );
 
       return of([]);
     }
 
     return GlobalSelectionUtils.resolveOptionsOnType({
       values,
-      urlBegin: 'global-selection/production-segments',
+      urlBegin: this.GLOBAL_SELECTION_PRODUCT_SEGMENTS_API,
       validateFunc: validateProductionSegment,
       http: this.http,
     });
-  };
+  }
 
   /**
    * Resolve the given values as GkamNumber
@@ -210,7 +222,7 @@ export class GlobalSelectionHelperService {
    * @return {Observable<ResolveSelectableValueResult[]>}
    * @memberof GlobalSelectionHelperService
    */
-  resolveGkamNumber(
+  public resolveGkamNumber(
     values: string[],
     options: SelectableValue[]
   ): Observable<ResolveSelectableValueResult[]> {
@@ -232,7 +244,7 @@ export class GlobalSelectionHelperService {
    * @return {Observable<ResolveSelectableValueResult[]>}
    * @memberof GlobalSelectionHelperService
    */
-  resolveSalesOrg(
+  public resolveSalesOrg(
     values: string[],
     options: SelectableValue[]
   ): Observable<ResolveSelectableValueResult[]> {
@@ -254,7 +266,7 @@ export class GlobalSelectionHelperService {
    * @return {Observable<ResolveSelectableValueResult[]>}
    * @memberof GlobalSelectionHelperService
    */
-  resolveSectors(
+  public resolveSectors(
     values: string[],
     options: SelectableValue[]
   ): Observable<ResolveSelectableValueResult[]> {
@@ -274,7 +286,7 @@ export class GlobalSelectionHelperService {
    * @return {Observable<ResolveSelectableValueResult[]>}
    * @memberof GlobalSelectionHelperService
    */
-  resolveProductionPlants(
+  public resolveProductionPlants(
     values: string[],
     options: SelectableValue[]
   ): Observable<ResolveSelectableValueResult[]> {
@@ -293,7 +305,7 @@ export class GlobalSelectionHelperService {
    * @return {Observable<ResolveSelectableValueResult[]>}
    * @memberof GlobalSelectionHelperService
    */
-  resolveCustomerNumbers(
+  public resolveCustomerNumbers(
     values: string[]
   ): Observable<ResolveSelectableValueResult[]> {
     const resolveResults: ResolveSelectableValueResult[] = values.map(
@@ -364,7 +376,7 @@ export class GlobalSelectionHelperService {
    * @return {Observable<ResolveSelectableValueResult[]>}
    * @memberof GlobalSelectionHelperService
    */
-  resolveMaterialNumbers(
+  public resolveMaterialNumbers(
     values: string[]
   ): Observable<ResolveSelectableValueResult[]> {
     const resolveResults: ResolveSelectableValueResult[] = values.map(

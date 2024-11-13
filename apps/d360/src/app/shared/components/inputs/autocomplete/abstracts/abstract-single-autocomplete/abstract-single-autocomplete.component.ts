@@ -124,6 +124,24 @@ export abstract class AbstractSingleAutocompleteComponent implements OnInit {
   public addClearButton: InputSignal<boolean> = input(false);
 
   /**
+   * Add a dropdown icon to the component.
+   *
+   * @type {InputSignal<boolean>}
+   * @memberof AbstractSingleAutocompleteComponent
+   */
+  public addDropdownIcon: InputSignal<boolean> = input(true);
+
+  /**
+   * A CSS Class to style the panel.
+   *
+   * @type {(InputSignal<string | string[]>)}
+   * @memberof AbstractSingleAutocompleteComponent
+   */
+  public panelClass: InputSignal<string | string[]> = input<string | string[]>(
+    ''
+  );
+
+  /**
    * A signal for the current loading state.
    *
    * @protected

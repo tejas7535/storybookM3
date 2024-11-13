@@ -59,6 +59,9 @@ export class OnTypeAutocompleteWithMultiselectComponent {
     input.required<DisplayFunction>();
   public optionsLoadingResult: InputSignal<OptionsLoadingResult> =
     input<OptionsLoadingResult>();
+  public panelClass: InputSignal<string | string[]> = input<string | string[]>(
+    ''
+  );
 
   // Clipboard
   public entityName: InputSignal<string> = input.required<string>();
@@ -84,6 +87,8 @@ export class OnTypeAutocompleteWithMultiselectComponent {
         entityNamePlural: this.entityNamePlural(),
         urlBegin: this.urlBegin(),
       },
+      maxWidth: '600px',
+      autoFocus: false,
     });
   }
 }

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 
-import { catchError, forkJoin, map, Observable, of } from 'rxjs';
+import { catchError, EMPTY, forkJoin, map, Observable, of } from 'rxjs';
 
 import {
   GlobalSelectionState,
@@ -142,28 +142,39 @@ export class GlobalSelectionUtils {
         return of(value);
       }
 
-      const idToSearch = value.id;
-      const url = generateUrlWithSearchTerm(urlBegin, idToSearch, language);
-
-      return http.get<ResolveSelectableValueResult[]>(url).pipe(
-        map((fetchedResults) =>
-          fetchedResults.length > 0
-            ? {
-                ...value,
-                selectableValue: fetchedResults[0] as SelectableValue,
-              }
-            : value
-        ),
-        // TODO: check if error handling here is correct
-        catchError((entry) =>
-          of({ id: entry.id, error: [`Resolving value ${entry.id} failed.`] })
-        )
-      );
+      return http
+        .get<
+          ResolveSelectableValueResult[]
+        >(generateUrlWithSearchTerm(urlBegin, value.id, language))
+        .pipe(
+          map((fetchedResults) =>
+            fetchedResults.length > 0
+              ? {
+                  ...value,
+                  selectableValue: fetchedResults[0] as SelectableValue,
+                }
+              : value
+          ),
+          catchError(() => EMPTY)
+        );
     });
 
-    return requests.length > 0
-      ? forkJoin(requests).pipe(map(() => validatedValues))
-      : of(validatedValues);
+    return (
+      requests.length > 0 ? forkJoin(requests) : of(validatedValues)
+    ).pipe(
+      map((entries) =>
+        entries.map((entry: ResolveSelectableValueResult) => {
+          if (
+            (!entry?.error || entry?.error === null) &&
+            (!entry?.selectableValue || entry?.selectableValue === null)
+          ) {
+            entry.error = [`Resolving value ${entry.id} failed.`];
+          }
+
+          return entry;
+        })
+      )
+    );
   }
 
   public static isGlobalSelectionCriteria(criteria: string) {

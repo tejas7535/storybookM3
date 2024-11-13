@@ -100,6 +100,32 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
   >('');
 
   /**
+   * A CSS Class to style the panel.
+   *
+   * @type {(InputSignal<string | string[]>)}
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  public panelClass: InputSignal<string | string[]> = input<string | string[]>(
+    ''
+  );
+
+  /**
+   * Add a clear button to the component.
+   *
+   * @type {InputSignal<boolean>}
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  public addClearButton: InputSignal<boolean> = input(false);
+
+  /**
+   * Add a dropdown icon to the component.
+   *
+   * @type {InputSignal<boolean>}
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  public addDropdownIcon: InputSignal<boolean> = input(true);
+
+  /**
    * The current input value (search string)
    *
    * @protected
@@ -192,6 +218,17 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
+  }
+
+  /**
+   * On Clear Button Action, to delete the current values and to emit the data.
+   *
+   * @protected
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  protected onClear(): void {
+    this.inputValue.set('');
+    this.control().patchValue([]);
   }
 
   /**

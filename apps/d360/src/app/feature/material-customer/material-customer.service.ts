@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
+import { PaginatedFilteredRequest } from '../../shared/models/paginated-filtered-request';
 import { CriteriaFields } from './model';
 
 @Injectable({
@@ -24,12 +25,11 @@ export class MaterialCustomerService {
       return new Observable<number>();
     }
 
-    // TODO declare requestBody type for PaginatedFilteredRequest and remove as any[] afterwards
-    const requestBody = {
+    const requestBody: PaginatedFilteredRequest = {
       startRow: 0,
       endRow: 1,
-      sortModel: [] as any[],
-      columnFilters: [] as any[],
+      sortModel: [],
+      columnFilters: [],
       selectionFilters: { customerNumber: [customerNumber] },
     };
 

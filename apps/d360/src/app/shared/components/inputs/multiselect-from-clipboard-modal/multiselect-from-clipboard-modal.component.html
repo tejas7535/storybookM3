@@ -6,11 +6,6 @@
       <h5 class="font-bold">
         {{ t('multiselect.title', { entities: data.entityNamePlural }) }}
       </h5>
-
-      <!-- Close Button -->
-      <button mat-dialog-close mat-icon-button>
-        <mat-icon>close</mat-icon>
-      </button>
     </div>
   </div>
 
@@ -20,7 +15,7 @@
       {{ t('multiselect.instructions', { entities: data.entityNamePlural }) }}
     </p>
 
-    <div class="grid grid-cols-2 gap-10 mt-5">
+    <div class="grid grid-cols-1 mt-5">
       <div>
         <!-- Use the autocomplete to load the data via REST-Call -->
         @if (data.urlBegin) {
@@ -35,6 +30,7 @@
               [optionsLoadingResult]="data.optionsLoadingResults!"
               [urlBegin]="data.urlBegin"
               [requestWithLang]="true"
+              [addClearButton]="true"
             />
           </div>
         } @else if (!data.urlBegin) {
@@ -48,25 +44,16 @@
               [getOptionLabelInTag]="data.getOptionLabelInTag"
               [getOptionLabel]="data.getOptionLabel"
               [optionsLoadingResult]="data.optionsLoadingResults!"
+              [addClearButton]="true"
             />
           </div>
         }
       </div>
 
       <div class="flex flex-col gap-2">
-        <!-- copy from clipboard button -->
-        <button (click)="pasteFromClipboard()" mat-button mat-raised-button>
-          {{ t('paste_from_clipboard') }}
-        </button>
-
-        <!-- clear selection button -->
-        <button (click)="resetSelection()" mat-button mat-raised-button>
-          {{ t('multiselect.clear_selection') }}
-        </button>
-
         <!-- render the error messages -->
-        <div class="error-list">
-          @if (clipboardErrors().messages.length > 0) {
+        @if (clipboardErrors().messages.length > 0) {
+          <div class="error-list">
             <div>
               <strong>{{ t('multiselect.error.check_input') }}</strong>
             </div>
@@ -75,29 +62,39 @@
                 <li>{{ message }}</li>
               }
             </ul>
-          }
-        </div>
+          </div>
+        }
 
         <!-- render the ignored values messages -->
-        <div class="error-list">
-          @if (clipboardErrors().messages.length > 0) {
-            <div>
-              {{
-                t('multiselect.error.ignored_values', {
-                  values: clipboardErrors().ignoredValues.join(', ')
-                })
-              }}
-            </div>
-          }
-        </div>
+        @if (clipboardErrors().messages.length > 0) {
+          <div class="error-list">
+            {{
+              t('multiselect.error.ignored_values', {
+                values: clipboardErrors().ignoredValues.join(', ')
+              })
+            }}
+          </div>
+        }
       </div>
     </div>
   </mat-dialog-content>
 
   <!-- Dialog Buttons -->
   <mat-dialog-actions [align]="'end'">
+    <!-- copy from clipboard button -->
+    <button
+      (click)="pasteFromClipboard()"
+      mat-button
+      class="justify-start w-full sm:justify-normal sm:w-auto"
+    >
+      <mat-icon>content_paste</mat-icon>
+      {{ t('paste_from_clipboard') }}
+    </button>
+
+    <div class="flex-grow"></div>
+
     <!-- Reset Selection Button -->
-    <button (click)="resetSelection()" mat-raised-button mat-dialog-close>
+    <button (click)="resetSelection()" mat-button mat-dialog-close>
       {{ t('button.cancel') }}
     </button>
 
@@ -106,7 +103,7 @@
       (click)="applySelection()"
       color="primary"
       mat-dialog-close
-      mat-raised-button
+      mat-flat-button
     >
       {{ t('multiselect.apply') }}
     </button>

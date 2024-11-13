@@ -89,6 +89,18 @@ export class SingleAutocompleteOnTypeComponent
   public urlBegin: InputSignal<string> = input.required<string>();
 
   /**
+   * @inheritdoc
+   * @override
+   */
+  public override addClearButton: InputSignal<boolean> = input(true);
+
+  /**
+   * @inheritdoc
+   * @override
+   */
+  public override addDropdownIcon: InputSignal<boolean> = input(false);
+
+  /**
    * The instance of SelectableOptionsService.
    *
    * @private
