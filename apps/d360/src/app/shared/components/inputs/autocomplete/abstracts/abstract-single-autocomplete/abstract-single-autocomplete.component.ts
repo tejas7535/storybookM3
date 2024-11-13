@@ -1,6 +1,7 @@
 import {
   Component,
   DestroyRef,
+  effect,
   inject,
   input,
   InputSignal,
@@ -165,10 +166,12 @@ export abstract class AbstractSingleAutocompleteComponent implements OnInit {
    * The current input value (search string).
    *
    * @protected
-   * @type {WritableSignal<string>}
+   * @type {WritableSignal<string | null>}
    * @memberof AbstractSingleAutocompleteComponent
    */
-  protected readonly inputValue: WritableSignal<string> = signal<string>('');
+  protected readonly inputValue: WritableSignal<string | null> = signal<
+    string | null
+  >(null);
 
   /**
    * The DestroyRef instance used for takeUntilDestroyed().
@@ -180,9 +183,48 @@ export abstract class AbstractSingleAutocompleteComponent implements OnInit {
   protected readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   /**
+   * Indicator for the first run.
+   *
+   * @protected
+   * @memberof AbstractSingleAutocompleteComponent
+   */
+  protected first = true;
+
+  /**
+   * Creates an instance of AbstractSingleAutocompleteComponent.
+   *
+   * @memberof AbstractSingleAutocompleteComponent
+   */
+  public constructor() {
+    effect(() => {
+      // the first time we receive data, we need to clean up the initial values
+      if (this.filteredOptions()?.length > 0 && this.first) {
+        this.control().setValue(
+          SelectableValueUtils.matchOptionIfPossible(
+            this.control().getRawValue(),
+            this.filteredOptions()
+          ) || null,
+          { emitEvent: false }
+        );
+
+        this.first = false;
+      }
+    });
+  }
+
+  /**
    * @inheritdoc
    */
   public ngOnInit(): void {
+    // convert to SelectableValue[]
+    this.control().setValue(
+      SelectableValueUtils.toSelectableValueOrNull(
+        this.control().getRawValue(),
+        false
+      ) as SelectableValue,
+      { emitEvent: false }
+    );
+
     this.control()
       .valueChanges.pipe(
         debounceTime(300),
@@ -223,7 +265,7 @@ export abstract class AbstractSingleAutocompleteComponent implements OnInit {
    * @memberof AbstractSingleAutocompleteComponent
    */
   protected onClear(): void {
-    this.inputValue.set('');
+    this.inputValue.set(null);
     this.control().patchValue(null);
     this.onSelectionChange.emit({ option: { id: null, text: null } });
   }

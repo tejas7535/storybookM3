@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -7,6 +8,7 @@ import { AbstractMultiAutocompleteComponent } from './abstract-multi-autocomplet
 class TestComponent extends AbstractMultiAutocompleteComponent {
   protected resetOptions(): void {}
   protected isPreloaded = false;
+  public control = signal(new FormControl(null)) as any;
 }
 
 describe('AbstractSingleAutocompleteComponent', () => {

@@ -2,6 +2,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import {
   Component,
   DestroyRef,
+  effect,
   ElementRef,
   inject,
   input,
@@ -97,7 +98,7 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
    */
   public autocompleteLabel: InputSignal<string | null | undefined> = input<
     string | null | undefined
-  >('');
+  >(null);
 
   /**
    * A CSS Class to style the panel.
@@ -129,10 +130,12 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
    * The current input value (search string)
    *
    * @protected
-   * @type {WritableSignal<string>}
+   * @type {WritableSignal<string | null>}
    * @memberof AbstractMultiAutocompleteComponent
    */
-  protected readonly inputValue: WritableSignal<string> = signal<string>('');
+  protected readonly inputValue: WritableSignal<string | null> = signal<
+    string | null
+  >(null);
 
   /**
    * The available options
@@ -198,9 +201,56 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
   protected abstract resetOptions(): void;
 
   /**
+   * Indicator for the first run.
+   *
+   * @protected
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  protected first = true;
+
+  /**
+   * Creates an instance of AbstractMultiAutocompleteComponent.
+   *
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  public constructor() {
+    effect(() => {
+      // the first time we receive data, we need to clean up the initial values
+      if (this.optionsLoadingResult()?.options?.length > 0 && this.first) {
+        const value = this.control().getRawValue();
+
+        this.control().setValue(
+          SelectableValueUtils.mapToOptionsIfPossible(
+            Array.isArray(value)
+              ? value
+              : // eslint-disable-next-line unicorn/no-nested-ternary
+                typeof value === 'string' && value.length > 0
+                ? [value]
+                : [],
+            this.optionsLoadingResult()?.options
+          ),
+          { emitEvent: false }
+        );
+
+        this.first = false;
+      }
+    });
+  }
+
+  /**
    * @inheritdoc
    */
   public ngOnInit(): void {
+    // convert to SelectableValue[]
+    this.control().setValue(
+      SelectableValueUtils.toSelectableValueOrNull(
+        this.control().getRawValue(),
+        true
+      ) as SelectableValue[],
+      { emitEvent: false }
+    );
+
+    // enable search field
     this.searchControl()
       .valueChanges.pipe(
         debounceTime(300),
@@ -227,7 +277,7 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
    * @memberof AbstractMultiAutocompleteComponent
    */
   protected onClear(): void {
-    this.inputValue.set('');
+    this.inputValue.set(null);
     this.control().patchValue([]);
   }
 
@@ -243,7 +293,7 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
       this.control().setValue([...this.control().value, event.option.value]);
     }
 
-    this.input.nativeElement.value = '';
+    this.input.nativeElement.value = null;
     this.searchControl().setValue(null);
     this.searchControl().reset();
 

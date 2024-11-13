@@ -82,7 +82,7 @@ export class SelectableValueUtils {
     initialValue: string | Partial<SelectableValue> | null | undefined,
     options: SelectableValue[] | undefined
   ): SelectableValue | null {
-    if (initialValue === undefined) {
+    if (initialValue === undefined || initialValue === null) {
       return null;
     }
 
