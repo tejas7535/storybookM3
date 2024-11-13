@@ -45,6 +45,7 @@ export enum ColumnFields {
   STRATEGIC_PL = 'material.strategicPL',
   SAP_VOLUME_SCALE = 'sapVolumeScale',
   TARGET_PRICE = 'targetPrice',
+  TARGET_PRICE_SOURCE = 'targetPriceSource',
   DELIVERY_UNIT = 'deliveryUnit',
   LEADING_PRICE_UNIT = 'leadingPriceUnit',
   CUSTOMER_MATERIAL = 'customerMaterial',

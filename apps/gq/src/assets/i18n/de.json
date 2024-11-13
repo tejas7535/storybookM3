@@ -136,6 +136,10 @@
       "sapVolumeScale": "SAP Volumen Staffel %",
       "targetPrice": "Zielpreis",
       "targetPriceInfoText": "Ausgewählter Zielpreis. Beim Senden an SAP wird der Zielpreis als ZMAN in das SAP-Angebot übernommen.",
+      "targetPriceSource": {
+        "columnHeader": "Zielpreisquelle",
+        "values": "{targetPriceSource, select, CUSTOMER{Kunde}INTERNAL{Intern} noEntry{Kein Eintrag} other{}}"
+      },
       "headers": {
         "priceSource": {
           "gqPriceSource": "GQ Preis",
@@ -190,8 +194,8 @@
           "hint": "Zielpreisquelle auswählen",
           "values": {
             "noEntry": "Kein Eintrag",
-            "customer": "Kunde",
-            "internal": "Intern"
+            "CUSTOMER": "Kunde",
+            "INTERNAL": "Intern"
           }
         },
         "customer": {

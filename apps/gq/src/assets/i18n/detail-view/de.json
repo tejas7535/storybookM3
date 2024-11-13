@@ -40,7 +40,8 @@
       "gpm": "GPM% (SAW)",
       "gpmRfq": "GPM% (RFQ)",
       "quantity": "Menge",
-      "priceUnit": "Preiseinheit"
+      "priceUnit": "Preiseinheit",
+      "targetPriceSource": "Zielpreisquelle"
     },
     "changeQuantity": {
       "title": "Menge ändern",

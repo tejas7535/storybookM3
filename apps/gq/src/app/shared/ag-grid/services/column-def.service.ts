@@ -1,6 +1,7 @@
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
+import { translateTargetPriceSourceValue } from '@gq/shared/utils/translate.utils';
 import { translate, TranslocoService } from '@jsverse/transloco';
 import {
   ColDef,
@@ -311,6 +312,25 @@ export class ColumnDefService {
         ),
         editableColumn: true,
       },
+    },
+    {
+      headerName: translate(
+        'shared.quotationDetailsTable.targetPriceSource.columnHeader'
+      ),
+      field: ColumnFields.TARGET_PRICE_SOURCE,
+      filterParams: {
+        ...FILTER_PARAMS,
+        valueFormatter: (params: ValueFormatterParams) =>
+          params.value
+            ? translateTargetPriceSourceValue(params.value)
+            : ColumnUtilityService.basicTransform(params),
+      },
+      valueFormatter: (params: ValueFormatterParams) =>
+        params.data.targetPriceSource
+          ? translateTargetPriceSourceValue(params.data.targetPriceSource)
+          : ColumnUtilityService.basicTransform({
+              value: params.data.targetPriceSource,
+            } as ValueFormatterParams),
     },
     {
       headerName: translate('shared.quotationDetailsTable.gpc'),

@@ -136,6 +136,10 @@
       "sapVolumeScale": "SAP Volume Scale %",
       "targetPrice": "Target Price",
       "targetPriceInfoText": "Selected Target Price. When sent to SAP the Target Price will be applied as ZMAN in the SAP Quotation.",
+      "targetPriceSource": {
+        "columnHeader": "Target Price Source",
+        "values": "{targetPriceSource, select, CUSTOMER{Customer}INTERNAL{Internal} noEntry{No Entry} other{}}"
+      },
       "headers": {
         "priceSource": {
           "gqPriceSource": "GQ Price",
@@ -190,8 +194,8 @@
           "hint": "Select a Target Price Source",
           "values": {
             "noEntry": "No Entry",
-            "customer": "Customer",
-            "internal": "Internal"
+            "CUSTOMER": "Customer",
+            "INTERNAL": "Internal"
           }
         },
         "customer": {

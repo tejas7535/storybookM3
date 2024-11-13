@@ -10,6 +10,7 @@ import { KpiStatusCardComponent } from '@gq/shared/components/kpi-status-card/kp
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { PriceSourcePipe } from '@gq/shared/pipes/price-source/price-source.pipe';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { TargetPriceSourcePipe } from '@gq/shared/pipes/target-price-source/target-price-source.pipe';
 import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
 
@@ -50,6 +51,7 @@ import { TargetPriceComponent } from './target-price/target-price.component';
     ContextMenuModule,
     KpiStatusCardComponent,
     PriceSourcePipe,
+    TargetPriceSourcePipe,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'detail-view' }],
   exports: [FilterPricingComponent],

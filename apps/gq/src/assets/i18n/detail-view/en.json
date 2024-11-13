@@ -40,7 +40,8 @@
       "gpm": "GPM% (SQV)",
       "gpmRfq": "GPM% (RFQ)",
       "quantity": "Quantity",
-      "priceUnit": "Price Unit"
+      "priceUnit": "Price Unit",
+      "targetPriceSource": "Target Price Source"
     },
     "changeQuantity": {
       "title": "Change Quantity",

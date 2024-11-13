@@ -13,6 +13,7 @@ import {
 } from '@gq/shared/models/quotation-detail';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
 import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
+import { TargetPriceSourcePipe } from '@gq/shared/pipes/target-price-source/target-price-source.pipe';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import {
   createComponentFactory,
@@ -43,7 +44,11 @@ describe('TargetPriceComponent', () => {
   const createComponent = createComponentFactory({
     component: TargetPriceComponent,
     detectChanges: false,
-    imports: [PushPipe, provideTranslocoTestingModule({ en: {} })],
+    imports: [
+      PushPipe,
+      provideTranslocoTestingModule({ en: {} }),
+      TargetPriceSourcePipe,
+    ],
     declarations: [MockPipe(NumberCurrencyPipe), MockPipe(PercentagePipe)],
     providers: [
       provideMockStore({

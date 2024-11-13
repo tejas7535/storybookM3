@@ -1,5 +1,5 @@
 export enum TargetPriceSource {
   NO_ENTRY = 'noEntry',
-  CUSTOMER = 'customer',
-  INTERNAL = 'internal',
+  CUSTOMER = 'CUSTOMER',
+  INTERNAL = 'INTERNAL',
 }
