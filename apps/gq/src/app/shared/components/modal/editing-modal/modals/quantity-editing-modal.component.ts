@@ -20,6 +20,7 @@ export class QuantityEditingModalComponent
   extends EditingModalComponent
   implements OnInit
 {
+  private readonly uomPipe = new UomPipe();
   handlePriceChangeTypeSwitch: undefined;
   protected shouldDisableRelativePriceChange: undefined;
 
@@ -67,7 +68,9 @@ export class QuantityEditingModalComponent
         .setErrors({ invalidInput: true });
 
       this.errorMsgParams1 = deliveryUnit.toString();
-      this.errorMsgParams2 = this.modalData.quotationDetail.material.baseUoM;
+      this.errorMsgParams2 = this.uomPipe.transform(
+        this.modalData.quotationDetail.material.baseUoM
+      );
 
       return !isOrderQuantityInvalid;
     }
@@ -112,8 +115,8 @@ export class QuantityEditingModalComponent
       this.showFieldHint = true;
       this.hintMsgParams1 =
         this.modalData.quotationDetail.deliveryUnit.toString();
-      const uomPipe = new UomPipe();
-      this.hintMsgParams2 = uomPipe.transform(
+
+      this.hintMsgParams2 = this.uomPipe.transform(
         this.modalData.quotationDetail.material.baseUoM
       );
     }
