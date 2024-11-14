@@ -106,7 +106,9 @@ describe('ReasonsForLeavingTableComponent', () => {
           } as EmployeeListDialogMeta,
         }
       );
-      expect(component.leaversRequested.emit).toHaveBeenCalledWith(78);
+      expect(component.leaversRequested.emit).toHaveBeenCalledWith({
+        reasonId: 78,
+      });
     });
   });
 
@@ -122,6 +124,67 @@ describe('ReasonsForLeavingTableComponent', () => {
 
       expect(component.showOrHideLoadingOverlay).toHaveBeenCalledWith(true);
       expect(component.gridApi).toEqual('gridApi');
+    });
+  });
+
+  describe('leaversData', () => {
+    test('should set leavers, employees and enoughRightsToShowAllEmployees', () => {
+      component.dialogMeta = {
+        employeesLoading: false,
+        employees: [],
+      } as EmployeeListDialogMeta;
+
+      component.leaversData = {
+        employees: [{ employeeKey: '123' } as EmployeeWithAction],
+        responseModified: false,
+      };
+
+      expect(component.leavers).toEqual([{ employeeKey: '123' }]);
+      expect(component.dialogMeta.employees).toEqual([{ employeeKey: '123' }]);
+      expect(component.dialogMeta.enoughRightsToShowAllEmployees).toBeTruthy();
+    });
+
+    test('should set leavers and enoughRightsToShowAllEmployees and unset employees', () => {
+      component.dialogMeta = {
+        employeesLoading: true,
+        employees: [],
+      } as EmployeeListDialogMeta;
+
+      component.leaversData = {
+        employees: [{ employeeKey: '123' } as EmployeeWithAction],
+        responseModified: false,
+      };
+
+      expect(component.leavers).toEqual([{ employeeKey: '123' }]);
+      expect(component.dialogMeta.employees).toBeUndefined();
+      expect(component.dialogMeta.enoughRightsToShowAllEmployees).toBeTruthy();
+    });
+
+    test('should set leavers and unset enoughRightsToShowAllEmployees and employees', () => {
+      component.dialogMeta = {
+        employeesLoading: true,
+        employees: [],
+      } as EmployeeListDialogMeta;
+
+      component.leaversData = {
+        employees: [{ employeeKey: '123' } as EmployeeWithAction],
+        responseModified: true,
+      };
+
+      expect(component.leavers).toEqual([{ employeeKey: '123' }]);
+      expect(component.dialogMeta.employees).toBeUndefined();
+      expect(component.dialogMeta.enoughRightsToShowAllEmployees).toBeFalsy();
+    });
+
+    test('should do nothing when undefined', () => {
+      component.dialogMeta = {
+        employeesLoading: true,
+        employees: [],
+      } as EmployeeListDialogMeta;
+
+      component.leaversData = undefined;
+
+      expect(component.dialogMeta).toBe(component.dialogMeta);
     });
   });
 

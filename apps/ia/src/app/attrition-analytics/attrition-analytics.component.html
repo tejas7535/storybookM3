@@ -2,7 +2,7 @@
   <div class="flex flex-col lg:grid lg:grid-cols-12 gap-4 pb-4">
     <div class="col-span-5 self-center mr-auto text-high-emphasis"></div>
   </div>
-  <ia-nav-buttons [items]="clusters | ngrxPush"></ia-nav-buttons>
+  <ia-nav-buttons [items]="clusters$ | ngrxPush"></ia-nav-buttons>
 
   <div class="lg:col-span-2 col-span-4 flex flex-col gap-4"></div>
 </ng-container>

@@ -15,5 +15,5 @@ import { getAvailableClusters } from './store/selectors/attrition-analytics.sele
 export class AttritionAnalyticsComponent {
   constructor(private readonly store: Store) {}
 
-  clusters: Observable<NavItem[]> = this.store.select(getAvailableClusters);
+  clusters$: Observable<NavItem[]> = this.store.select(getAvailableClusters);
 }

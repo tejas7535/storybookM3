@@ -15,6 +15,7 @@
         [children]="reasonsChildren$ | ngrxPush"
         [conductedInterviewsInfo]="conductedInterviewsInfo$ | ngrxPush"
         [selectedTab]="selectedTab$ | ngrxPush"
+        (selectedReason)="onSelectedReason($event)"
       ></ia-reasons-for-leaving-chart>
       <ia-reasons-for-leaving-table
         class="xl:w-4/5"
@@ -36,6 +37,7 @@
         [children]="comparedReasonsChildren$ | ngrxPush"
         [conductedInterviewsInfo]="comparedConductedInterviewsInfo$ | ngrxPush"
         [selectedTab]="selectedTab$ | ngrxPush"
+        (selectedReason)="onSelectedComparedReason($event)"
       ></ia-reasons-for-leaving-chart>
       <ia-reasons-for-leaving-table
         class="xl:w-4/5 xl:ml-auto"

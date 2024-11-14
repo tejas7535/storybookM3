@@ -43,13 +43,20 @@ export class ReasonsAndCounterMeasuresService {
   getLeaversByReason(
     employeesRequest: EmployeesRequest
   ): Observable<ExitEntryEmployeesResponse> {
-    const params =
-      this.paramsCreator.createHttpParamsForDimensionTimeRangeAndReason(
-        employeesRequest.filterDimension,
-        employeesRequest.value,
-        employeesRequest.timeRange,
-        employeesRequest.reasonId
-      );
+    const params = employeesRequest.detailedReasonId
+      ? this.paramsCreator.createHttpParamsForDimensionTimeRangeReasonAndDetailedReason(
+          employeesRequest.filterDimension,
+          employeesRequest.value,
+          employeesRequest.timeRange,
+          employeesRequest.reasonId,
+          employeesRequest.detailedReasonId
+        )
+      : this.paramsCreator.createHttpParamsForDimensionTimeRangeAndReason(
+          employeesRequest.filterDimension,
+          employeesRequest.value,
+          employeesRequest.timeRange,
+          employeesRequest.reasonId
+        );
 
     return this.http.get<ExitEntryEmployeesResponse>(
       `${ApiVersion.V1}/${this.REASONS_LEAVERS}`,

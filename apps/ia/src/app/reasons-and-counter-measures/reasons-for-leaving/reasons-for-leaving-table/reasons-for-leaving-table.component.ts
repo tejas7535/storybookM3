@@ -46,7 +46,10 @@ export class ReasonsForLeavingTableComponent implements OnInit {
   @Input() filters: EmployeeListDialogMetaFilters;
   @Input() timeRange: IdValue;
 
-  @Output() leaversRequested = new EventEmitter<number>();
+  @Output() leaversRequested = new EventEmitter<{
+    reasonId: number;
+    detailedReasonId: number;
+  }>();
 
   @Input() data: ReasonForLeavingRank[];
 
@@ -123,6 +126,8 @@ export class ReasonsForLeavingTableComponent implements OnInit {
           'reasonsAndCounterMeasures.reasonsForLeaving.table.actionReason'
         ),
         flex: 5,
+        valueGetter: (params) =>
+          params.data.detailedReason ?? params.data.reason,
       },
       {
         field: 'percentage',
@@ -163,7 +168,10 @@ export class ReasonsForLeavingTableComponent implements OnInit {
   }
 
   handleCellClick(params: CellClickedEvent): void {
-    this.leaversRequested.emit(params.data.reasonId);
+    this.leaversRequested.emit({
+      reasonId: params.data.reasonId,
+      detailedReasonId: params.data.detailedReasonId,
+    });
     const icon = 'person_add_disabled';
     const data: EmployeeListDialogMeta = this.dialogMeta;
     const timeframe = this.filters.timeRange;

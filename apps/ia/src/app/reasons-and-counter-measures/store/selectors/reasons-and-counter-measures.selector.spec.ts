@@ -47,6 +47,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
             ],
           },
           errorMessage: 'Fancy Error',
+          selectedReason: 'Reason 1',
         },
         comparedReasons: {
           loading: false,
@@ -125,17 +126,19 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       expect(getReasonsTableData(fakeState)).toEqual([
         {
           leavers: 1,
-          percentage: 50,
+          percentage: 100,
           rank: 1,
           reason: 'Reason 1',
           reasonId: 2,
         },
         {
+          detailedReason: 'Detailed Reason 1',
+          detailedReasonId: 12,
           leavers: 1,
-          percentage: 50,
-          rank: 1,
-          reason: 'Reason 1a',
-          reasonId: 3,
+          percentage: 100,
+          rank: 1.1,
+          reason: 'Reason 1',
+          reasonId: 2,
         },
       ]);
     });
@@ -144,17 +147,19 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       expect(getReasonsTableData(fakeStateTopReasons)).toEqual([
         {
           leavers: 1,
-          percentage: 50,
+          percentage: 100,
           rank: 1,
           reason: 'Reason 1',
           reasonId: 2,
         },
         {
+          detailedReason: 'Detailed Reason 1',
+          detailedReasonId: 12,
           leavers: 1,
-          percentage: 50,
-          rank: 1,
-          reason: 'Reason 1a',
-          reasonId: 3,
+          percentage: 100,
+          rank: 1.1,
+          reason: 'Reason 1',
+          reasonId: 2,
         },
       ]);
     });

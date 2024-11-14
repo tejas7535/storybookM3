@@ -53,12 +53,12 @@ describe('ReasonsAndCounterMeasuresService', () => {
         `api/v1/reasons-why-people-left?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=${timeRange}`
       );
       expect(req.request.method).toBe('GET');
-      req.flush(request);
+      req.flush(response);
     });
   });
 
   describe('getLeaversByReason', () => {
-    test('should call rest service', () => {
+    test('should call rest service without detailed reason id', () => {
       const orgUnit = 'Schaeffler1';
       const timeRange = '123-321';
       const reasonId = 1;
@@ -77,6 +77,32 @@ describe('ReasonsAndCounterMeasuresService', () => {
 
       const req = httpMock.expectOne(
         `api/v1/reasons-leavers?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=${timeRange}&reason_id=${reasonId}`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(response);
+    });
+
+    test('should call rest service with detailed reason id', () => {
+      const orgUnit = 'Schaeffler1';
+      const timeRange = '123-321';
+      const reasonId = 1;
+      const detailedReasonId = 102;
+      const request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: orgUnit,
+        timeRange,
+        reasonId,
+        detailedReasonId,
+      } as EmployeesRequest;
+
+      const response = [] as ReasonForLeavingStats[];
+
+      service.getLeaversByReason(request).subscribe((result) => {
+        expect(result).toEqual(response);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/reasons-leavers?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=${timeRange}&reason_id=${reasonId}&detailed_reason_id=${detailedReasonId}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(request);

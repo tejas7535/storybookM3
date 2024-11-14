@@ -1,7 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
+  Output,
   ViewChild,
 } from '@angular/core';
 
@@ -20,6 +22,7 @@ import { COLOR_PALETTE } from '../../store/selectors/reasons-and-counter-measure
 })
 export class ReasonsForLeavingChartComponent {
   config: SolidDoughnutChartConfig;
+  @Output() selectedReason = new EventEmitter<string>();
   @Input() data: DoughnutChartData[];
   @Input() isLoading: boolean;
   @Input() children: { reason: string; children: DoughnutChartData[] }[];
@@ -27,7 +30,9 @@ export class ReasonsForLeavingChartComponent {
   @ViewChild(SolidDoughnutChartComponent) chart: SolidDoughnutChartComponent;
 
   @Input() set selectedTab(_tab: ReasonForLeavingTab) {
-    this.chart?.resetChart();
+    if (this.chart) {
+      this.chart.resetChart();
+    }
   }
 
   @Input() set side(side: 'left' | 'right') {
@@ -62,5 +67,9 @@ export class ReasonsForLeavingChartComponent {
         ),
       };
     }
+  }
+
+  onSelectedReason(reason: string): void {
+    this.selectedReason.emit(reason);
   }
 }

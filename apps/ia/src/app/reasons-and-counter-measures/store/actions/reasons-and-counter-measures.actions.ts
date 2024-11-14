@@ -38,12 +38,12 @@ export const loadComparedReasonsWhyPeopleLeftFailure = createAction(
 
 export const loadLeaversByReason = createAction(
   '[ReasonsAndCounterMeasures] Load LeaversByReason',
-  props<{ reasonId: number }>()
+  props<{ reasonId: number; detailedReasonId?: number }>()
 );
 
 export const loadComparedLeaversByReason = createAction(
   '[ReasonsAndCounterMeasures] Load ComparedLeaversByReason',
-  props<{ reasonId: number }>()
+  props<{ reasonId: number; detailedReasonId?: number }>()
 );
 
 export const loadLeaversByReasonSuccess = createAction(
@@ -54,6 +54,16 @@ export const loadLeaversByReasonSuccess = createAction(
 export const loadLeaversByReasonFailure = createAction(
   '[ReasonsAndCounterMeasures] Load LeaversByReason Failure',
   props<{ errorMessage: string }>()
+);
+
+export const selectReason = createAction(
+  '[ReasonsAndCounterMeasures] Select Reason',
+  props<{ reason: string }>()
+);
+
+export const selectComparedReason = createAction(
+  '[ReasonsAndCounterMeasures] Select Compared Reason',
+  props<{ reason: string }>()
 );
 
 const all = union({

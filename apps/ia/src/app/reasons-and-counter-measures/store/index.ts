@@ -22,6 +22,8 @@ import {
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
+  selectComparedReason,
+  selectReason,
   selectReasonsForLeavingTab,
 } from './actions/reasons-and-counter-measures.actions';
 
@@ -44,11 +46,13 @@ export interface ReasonsAndCounterMeasuresState {
   reasonsForLeaving: {
     selectedTab: ReasonForLeavingTab;
     reasons: {
+      selectedReason?: string;
       data: ReasonForLeavingStats;
       loading: boolean;
       errorMessage: string;
     };
     comparedReasons: {
+      selectedReason?: string;
       data: ReasonForLeavingStats;
       loading: boolean;
       errorMessage: string;
@@ -65,11 +69,13 @@ export const initialState: ReasonsAndCounterMeasuresState = {
   reasonsForLeaving: {
     selectedTab: ReasonForLeavingTab.OVERALL_REASONS,
     reasons: {
+      selectedReason: undefined,
       data: undefined,
       loading: false,
       errorMessage: undefined,
     },
     comparedReasons: {
+      selectedReason: undefined,
       data: undefined,
       loading: undefined,
       errorMessage: undefined,
@@ -261,6 +267,38 @@ export const reasonsAndCounterMeasuresReducer = createReducer(
           data: undefined,
           errorMessage,
           loading: false,
+        },
+      },
+    })
+  ),
+  on(
+    selectReason,
+    (
+      state: ReasonsAndCounterMeasuresState,
+      { reason }
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        reasons: {
+          ...state.reasonsForLeaving.reasons,
+          selectedReason: reason,
+        },
+      },
+    })
+  ),
+  on(
+    selectComparedReason,
+    (
+      state: ReasonsAndCounterMeasuresState,
+      { reason }
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        comparedReasons: {
+          ...state.reasonsForLeaving.comparedReasons,
+          selectedReason: reason,
         },
       },
     })

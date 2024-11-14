@@ -16,6 +16,8 @@ import { ReasonForLeavingTab } from '../models';
 import {
   loadComparedLeaversByReason,
   loadLeaversByReason,
+  selectComparedReason,
+  selectReason,
   selectReasonsForLeavingTab,
 } from '../store/actions/reasons-and-counter-measures.actions';
 import {
@@ -175,7 +177,18 @@ describe('ReasonsForLeavingComponent', () => {
       const action = loadLeaversByReason({ reasonId });
       store.dispatch = jest.fn();
 
-      component.onLeaversRequested(reasonId);
+      component.onLeaversRequested({ reasonId });
+
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+
+    test('should dispatch loadLeaversByReason with detailed reason', () => {
+      const reasonId = 1;
+      const detailedReasonId = 2;
+      const action = loadLeaversByReason({ reasonId, detailedReasonId });
+      store.dispatch = jest.fn();
+
+      component.onLeaversRequested({ reasonId, detailedReasonId });
 
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
@@ -187,9 +200,47 @@ describe('ReasonsForLeavingComponent', () => {
       const action = loadComparedLeaversByReason({ reasonId });
       store.dispatch = jest.fn();
 
-      component.onComparedLeaversRequested(reasonId);
+      component.onComparedLeaversRequested({ reasonId });
 
       expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+
+    test('should dispatch loadComparedLeaversByReason with detailed reason id', () => {
+      const reasonId = 1;
+      const detailedReasonId = 2;
+      const action = loadComparedLeaversByReason({
+        reasonId,
+        detailedReasonId,
+      });
+      store.dispatch = jest.fn();
+
+      component.onComparedLeaversRequested({ reasonId, detailedReasonId });
+
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('onSelectedReason', () => {
+    test('should dispatch selectReason', () => {
+      const reason = 'reason';
+      store.dispatch = jest.fn();
+
+      component.onSelectedReason(reason);
+
+      expect(store.dispatch).toHaveBeenCalledWith(selectReason({ reason }));
+    });
+  });
+
+  describe('onSelectedComparedReason', () => {
+    test('should dispatch selectComparedReason', () => {
+      const reason = 'reason';
+      store.dispatch = jest.fn();
+
+      component.onSelectedComparedReason(reason);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        selectComparedReason({ reason })
+      );
     });
   });
 });

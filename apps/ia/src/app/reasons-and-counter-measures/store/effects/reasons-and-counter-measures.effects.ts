@@ -132,6 +132,7 @@ export class ReasonsAndCounterMeasuresEffects {
         ([action, request]): EmployeesRequest => ({
           ...request,
           reasonId: action.reasonId,
+          detailedReasonId: action.detailedReasonId,
         })
       ),
       switchMap((request: EmployeesRequest) =>
@@ -160,6 +161,7 @@ export class ReasonsAndCounterMeasuresEffects {
         ([action, request]): EmployeesRequest => ({
           ...request,
           reasonId: action.reasonId,
+          detailedReasonId: action.detailedReasonId,
         })
       ),
       switchMap((request: EmployeesRequest) =>

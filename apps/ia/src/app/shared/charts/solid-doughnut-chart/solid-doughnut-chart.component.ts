@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 
 import { ECharts, EChartsOption, SeriesOption } from 'echarts';
 
@@ -75,6 +81,8 @@ export class SolidDoughnutChartComponent extends ExternalLegend {
     }
   }
 
+  @Output() selectedReason: EventEmitter<string> = new EventEmitter<string>();
+
   onChartInit(ec: ECharts): void {
     super.onChartInit(ec);
     this.echartsInstance.on('click', (event: any) => {
@@ -138,6 +146,7 @@ export class SolidDoughnutChartComponent extends ExternalLegend {
     ) {
       return;
     }
+    this.selectedReason.emit(event.data.name);
 
     // get the detailed reasons for the clicked reason
     const children = this.children.find(
@@ -151,6 +160,7 @@ export class SolidDoughnutChartComponent extends ExternalLegend {
       this.mergeOptions.legend = {
         data: undefined,
       };
+      this.selectedReason.emit(undefined as string);
     } else {
       this.mergeOptions = {
         ...this.mergeOptions,
@@ -175,6 +185,7 @@ export class SolidDoughnutChartComponent extends ExternalLegend {
 
   resetChart(): void {
     this.manageOnClickEvent({ data: { name: this.selected } });
+    this.selectedReason.emit(undefined as string);
 
     const dataSize = (
       (this.mergeOptions.series as SeriesOption[])[0]

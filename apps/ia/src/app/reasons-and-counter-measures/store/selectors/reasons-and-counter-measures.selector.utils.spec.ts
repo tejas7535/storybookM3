@@ -158,7 +158,7 @@ describe('mapReasonsToTableData', () => {
         },
       ];
 
-      const result = utils.prepareReaonsForRanking(reasons);
+      const result = utils.prepareReasonsForRanking(reasons);
 
       expect(result).toEqual([
         {

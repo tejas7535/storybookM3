@@ -20,17 +20,34 @@ export const getReasonsData = createSelector(
     state.reasonsForLeaving.reasons.data
 );
 
+export const getSelectedReason = createSelector(
+  selectReasonsAndCounterMeasuresState,
+  (state: ReasonsAndCounterMeasuresState) =>
+    state.reasonsForLeaving.reasons.selectedReason
+);
+
+export const getComparedSelectedReason = createSelector(
+  selectReasonsAndCounterMeasuresState,
+  (state: ReasonsAndCounterMeasuresState) =>
+    state.reasonsForLeaving.comparedReasons.selectedReason
+);
+
 export const getReasonsTableData = createSelector(
   getCurrentTab,
   getReasonsData,
-  (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
+  getSelectedReason,
+  (
+    tab: ReasonForLeavingTab,
+    data: ReasonForLeavingStats,
+    selectedReason: string
+  ) => {
     if (data?.reasons) {
       const reasons =
         tab === ReasonForLeavingTab.TOP_REASONS
           ? utils.filterTopReasons(data.reasons)
           : data.reasons;
 
-      return utils.mapReasonsToTableData(reasons);
+      return utils.mapReasonsToTableData(reasons, selectedReason);
     } else {
       return [];
     }
@@ -100,14 +117,19 @@ export const getComparedReasonsData = createSelector(
 export const getComparedReasonsTableData = createSelector(
   getCurrentTab,
   getComparedReasonsData,
-  (tab: ReasonForLeavingTab, data: ReasonForLeavingStats) => {
+  getComparedSelectedReason,
+  (
+    tab: ReasonForLeavingTab,
+    data: ReasonForLeavingStats,
+    selectedReason: string
+  ) => {
     if (data?.reasons) {
       const reasons =
         tab === ReasonForLeavingTab.TOP_REASONS
           ? utils.filterTopReasons(data.reasons)
           : data.reasons;
 
-      return utils.mapReasonsToTableData(reasons);
+      return utils.mapReasonsToTableData(reasons, selectedReason);
     } else {
       return [];
     }

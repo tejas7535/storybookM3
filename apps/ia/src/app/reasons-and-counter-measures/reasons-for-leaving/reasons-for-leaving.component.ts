@@ -17,6 +17,8 @@ import { ReasonForLeavingRank, ReasonForLeavingTab } from '../models';
 import {
   loadComparedLeaversByReason,
   loadLeaversByReason,
+  selectComparedReason,
+  selectReason,
   selectReasonsForLeavingTab,
 } from '../store/actions/reasons-and-counter-measures.actions';
 import {
@@ -111,12 +113,28 @@ export class ReasonsForLeavingComponent implements OnInit {
     this.timeRange$ = this.store.select(getSelectedTimeRange);
   }
 
-  onLeaversRequested(reasonId: number): void {
-    this.store.dispatch(loadLeaversByReason({ reasonId }));
+  onLeaversRequested(reason: {
+    reasonId: number;
+    detailedReasonId?: number;
+  }): void {
+    this.store.dispatch(
+      loadLeaversByReason({
+        reasonId: reason.reasonId,
+        detailedReasonId: reason.detailedReasonId,
+      })
+    );
   }
 
-  onComparedLeaversRequested(reasonId: number): void {
-    this.store.dispatch(loadComparedLeaversByReason({ reasonId }));
+  onComparedLeaversRequested(reason: {
+    reasonId: number;
+    detailedReasonId?: number;
+  }): void {
+    this.store.dispatch(
+      loadComparedLeaversByReason({
+        reasonId: reason.reasonId,
+        detailedReasonId: reason.detailedReasonId,
+      })
+    );
   }
 
   onSelectedTabChange(selectedTab: string): void {
@@ -128,5 +146,13 @@ export class ReasonsForLeavingComponent implements OnInit {
         selectedTab: reasonType,
       })
     );
+  }
+
+  onSelectedReason(reason: string): void {
+    this.store.dispatch(selectReason({ reason }));
+  }
+
+  onSelectedComparedReason(reason: string): void {
+    this.store.dispatch(selectComparedReason({ reason }));
   }
 }

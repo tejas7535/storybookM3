@@ -6,14 +6,18 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
+import { marbles } from 'rxjs-marbles/marbles';
 
 import { LoadingSpinnerComponent } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { NavItem } from '../shared/nav-buttons/models';
+import { NavButtonsComponent } from '../shared/nav-buttons/nav-buttons.component';
 import { SelectInputModule } from '../shared/select-input/select-input.module';
 import { AttritionAnalyticsComponent } from './attrition-analytics.component';
 import { FeatureAnalysisComponent } from './feature-analysis/feature-analysis.component';
 import { initialState } from './store';
+import { getAvailableClusters } from './store/selectors/attrition-analytics.selector';
 
 describe('AttritionAnalyticsComponent', () => {
   let component: AttritionAnalyticsComponent;
@@ -23,7 +27,6 @@ describe('AttritionAnalyticsComponent', () => {
   const createComponent = createComponentFactory({
     component: AttritionAnalyticsComponent,
     imports: [
-      PushPipe,
       provideTranslocoTestingModule({ en: {} }),
       SelectInputModule,
       MatCardModule,
@@ -38,6 +41,10 @@ describe('AttritionAnalyticsComponent', () => {
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
     declarations: [
+      PushPipe,
+      MockComponent(FeatureAnalysisComponent),
+      MockComponent(LoadingSpinnerComponent),
+      MockComponent(NavButtonsComponent),
       MockComponent(FeatureAnalysisComponent),
       MockComponent(LoadingSpinnerComponent),
     ],
@@ -48,10 +55,29 @@ describe('AttritionAnalyticsComponent', () => {
     component = spectator.debugElement.componentInstance;
 
     store = spectator.inject(MockStore);
-    store.dispatch = jest.fn();
+    jest.spyOn(store, 'dispatch');
   });
 
-  it('should create', () => {
+  test('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('init observables', () => {
+    test(
+      'should select getAvailableClusters',
+      marbles((m) => {
+        const clusters: NavItem[] = [
+          {
+            label: 'abc',
+            translation: 'xx.yy.zz',
+          },
+        ];
+        store.overrideSelector(getAvailableClusters, clusters);
+
+        m.expect(component.clusters$).toBeObservable(
+          m.cold('a', { a: clusters })
+        );
+      })
+    );
   });
 });

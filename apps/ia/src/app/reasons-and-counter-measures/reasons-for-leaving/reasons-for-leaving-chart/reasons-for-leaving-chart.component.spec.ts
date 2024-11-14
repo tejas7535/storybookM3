@@ -80,4 +80,16 @@ describe('ReasonsForLeavingChartComponent', () => {
       );
     });
   });
+
+  describe('onSelectedReason', () => {
+    test('should emit selected reason', () => {
+      component.selectedReason = {
+        emit: jest.fn(),
+      } as unknown as any;
+
+      component.onSelectedReason('reason');
+
+      expect(component.selectedReason.emit).toHaveBeenCalledWith('reason');
+    });
+  });
 });

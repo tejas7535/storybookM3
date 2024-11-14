@@ -3,17 +3,49 @@ import { Color } from '../../../shared/models/color.enum';
 import { Reason, ReasonForLeavingRank, ReasonImpact } from '../../models';
 
 export function mapReasonsToTableData(
-  reasons: Reason[]
+  reasons: Reason[],
+  selectedReason?: string
 ): ReasonForLeavingRank[] {
   if (reasons.length === 0) {
     return [];
   }
-  const reasonsArray: ReasonForLeavingRank[] = prepareReaonsForRanking(reasons);
+  const filteredReasons = selectedReason
+    ? reasons.filter((item) => item.reason === selectedReason)
+    : reasons;
 
-  return rankReasons(reasonsArray);
+  const reasonsArray: ReasonForLeavingRank[] = prepareReasonsForRanking(
+    filteredReasons,
+    selectedReason ? 'detailedReasonId' : 'reasonId'
+  );
+
+  const rankedReasons = rankReasons(reasonsArray, !!selectedReason);
+
+  if (selectedReason && rankedReasons.length > 0) {
+    const mainReason = reasons.find((item) => item.reason === selectedReason);
+    rankedReasons.unshift(
+      new ReasonForLeavingRank(
+        1,
+        mainReason.reasonId,
+        mainReason.reason,
+        undefined,
+        undefined,
+        new Set(
+          reasons
+            .filter((item) => item.reason === selectedReason)
+            .map((reason) => reason.interviewId)
+        ).size,
+        100
+      )
+    );
+  }
+
+  return rankedReasons;
 }
 
-export function rankReasons(reasonsArray: ReasonForLeavingRank[]) {
+export function rankReasons(
+  reasonsArray: ReasonForLeavingRank[],
+  selectedReason = false
+): ReasonForLeavingRank[] {
   let currentRank = 1;
   let currentLeavers = reasonsArray[0].leavers;
   reasonsArray.forEach((item, index) => {
@@ -21,7 +53,7 @@ export function rankReasons(reasonsArray: ReasonForLeavingRank[]) {
       currentRank = index + 1;
       currentLeavers = item.leavers;
     }
-    item.rank = currentRank;
+    item.rank = selectedReason ? 1 + currentRank / 10 : currentRank;
   });
 
   return reasonsArray;
@@ -53,16 +85,17 @@ export function filterTopReasons(reasons: Reason[]): Reason[] {
   return topReasons;
 }
 
-export function prepareReaonsForRanking(
-  reasons: Reason[]
+export function prepareReasonsForRanking(
+  reasons: Reason[],
+  type: 'reasonId' | 'detailedReasonId' = 'reasonId'
 ): ReasonForLeavingRank[] {
   // key - reasonId, value - set of interview ids
   const reasonCountMap: Map<number, Set<number>> = new Map();
   reasons.forEach((item) => {
-    if (reasonCountMap.get(item.reasonId)) {
-      reasonCountMap.get(item.reasonId).add(item.interviewId);
+    if (reasonCountMap.get(item[type])) {
+      reasonCountMap.get(item[type]).add(item.interviewId);
     } else {
-      reasonCountMap.set(item.reasonId, new Set([item.interviewId]));
+      reasonCountMap.set(item[type], new Set([item.interviewId]));
     }
   });
 
@@ -72,16 +105,24 @@ export function prepareReaonsForRanking(
   );
 
   const reasonsArray: ReasonForLeavingRank[] = [...reasonCountMap.keys()].map(
-    (reasonId) => ({
-      reasonId: +reasonId,
-      reason: reasons.find((item) => item.reasonId === +reasonId)?.reason,
-      leavers: reasonCountMap.get(+reasonId).size,
-      rank: undefined,
-      percentage: getPercentageValue(
-        reasonCountMap.get(+reasonId).size,
-        totalReasons
-      ),
-    })
+    (reasonId) => {
+      const reason = reasons.find((item) => item[type] === +reasonId);
+
+      return {
+        reasonId: reason?.reasonId,
+        reason: reason?.reason,
+        detailedReasonId:
+          type === 'detailedReasonId' ? reason?.detailedReasonId : undefined,
+        detailedReason:
+          type === 'detailedReasonId' ? reason?.detailedReason : undefined,
+        leavers: reasonCountMap.get(+reasonId).size,
+        rank: undefined,
+        percentage: getPercentageValue(
+          reasonCountMap.get(+reasonId).size,
+          totalReasons
+        ),
+      };
+    }
   );
 
   reasonsArray.sort((a, b) => b.leavers - a.leavers);
@@ -90,7 +131,7 @@ export function prepareReaonsForRanking(
 }
 
 export function mapReasonsToChartData(reasons: Reason[]): DoughnutChartData[] {
-  const rankedReasons = prepareReaonsForRanking(reasons);
+  const rankedReasons = prepareReasonsForRanking(reasons);
   const totalReasons = rankedReasons.reduce(
     (acc, item) => acc + item.leavers,
     0

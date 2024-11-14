@@ -11,6 +11,8 @@ import {
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
+  selectComparedReason,
+  selectReason,
   selectReasonsForLeavingTab,
 } from './reasons-and-counter-measures.actions';
 
@@ -119,6 +121,28 @@ describe('Reasons and Counter Measures Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[ReasonsAndCounterMeasures] Load LeaversByReason Failure',
+    });
+  });
+
+  test('selectReason', () => {
+    const reason = 'reason';
+
+    const action = selectReason({ reason });
+
+    expect(action).toEqual({
+      reason,
+      type: '[ReasonsAndCounterMeasures] Select Reason',
+    });
+  });
+
+  test('selectComparedReason', () => {
+    const reason = 'reason';
+
+    const action = selectComparedReason({ reason });
+
+    expect(action).toEqual({
+      reason,
+      type: '[ReasonsAndCounterMeasures] Select Compared Reason',
     });
   });
 });
