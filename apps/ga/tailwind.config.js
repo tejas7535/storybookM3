@@ -46,6 +46,10 @@ module.exports = {
         ...overwriteColors,
       },
     },
+    screens: {
+      lg: '1170px',
+      ...schaefflerTailwindPreset.theme.screens,
+    },
   },
   safelist: [
     'partner-version',
