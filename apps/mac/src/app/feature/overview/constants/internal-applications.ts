@@ -2,6 +2,21 @@ import { OverviewCard } from '../../../shared/components/overview-card/overview-
 
 export const integratedApps: OverviewCard[] = [
   {
+    image: '../../../assets/img/app-preview/matgpt.png',
+    icon: '../../../assets/img/matgpt.svg',
+    title: 'MaterialsGPT Prototype',
+    description:
+      'Join the testing phase for the MaterialsGPT prototype and share feedback',
+    link: 'mailto:soniash@schaeffler.com?subject=Request%20Access%20to%20MaterialsGPT%20Prototype&cc=krausrbe@schaeffler.com&body=Dear%20MaterialsGPT-Team%2C%0A%0AI%20would%20like%20to%20request%20access%20to%20the%20MaterialsGPT%20prototype%20to%20provide%20feedback%20during%20the%20application%20development.%20%0A%0ABest%20regards',
+    learnMoreLink: '/learn-more/materials-gpt',
+    disableImageHoverEffect: false,
+    external: true,
+    learnMoreExternal: false,
+    inverted: true,
+    translationKey: 'internalApplications.materialsGPT',
+    highlighted: true,
+  },
+  {
     image: '../../../assets/img/app-preview/hc.jpg',
     icon: '../../../assets/img/hardness_converter.svg',
     title: 'Hardness Converter',

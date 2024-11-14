@@ -11,6 +11,7 @@ import {
   hardnessConverterLearnMoreData,
   insulationSolutionsLearnMoreData,
   materialPropertiesEstimatorLearnMoreData,
+  materialsGpt,
   materialSupplierDbLearnMoreData,
 } from '../config/';
 import { LearnMoreData } from '../models';
@@ -29,6 +30,9 @@ export class LearnMoreResolver {
     switch (id) {
       case RoutePath.HardnessConverterPath: {
         return hardnessConverterLearnMoreData;
+      }
+      case RoutePath.MaterialsGPT: {
+        return materialsGpt;
       }
       case RoutePath.AQMCalculatorPath: {
         return aqmCalculatorLearnMoreData;

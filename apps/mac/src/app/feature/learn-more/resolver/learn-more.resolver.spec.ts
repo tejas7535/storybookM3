@@ -8,6 +8,7 @@ import {
   aqmCalculatorLearnMoreData,
   insulationSolutionsLearnMoreData,
   materialPropertiesEstimatorLearnMoreData,
+  materialsGpt,
   materialSupplierDbLearnMoreData,
 } from '../config';
 import { hardnessConverterLearnMoreData } from '../config/hardness-converter';
@@ -47,6 +48,14 @@ describe('LearnMoreResolverResolver', () => {
       .mockReturnValue(RoutePath.HardnessConverterPath);
     const ret = resolver.resolve(mockBaseRoute, mockRouterState);
     expect(ret).toBe(hardnessConverterLearnMoreData);
+  });
+
+  it('should resolve matgpt', () => {
+    mockBaseRoute.paramMap.get = jest
+      .fn()
+      .mockReturnValue(RoutePath.MaterialsGPT);
+    const ret = resolver.resolve(mockBaseRoute, mockRouterState);
+    expect(ret).toBe(materialsGpt);
   });
 
   it('should resolve MSD', () => {

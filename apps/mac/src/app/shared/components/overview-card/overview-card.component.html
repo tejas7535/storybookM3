@@ -1,6 +1,7 @@
 <mat-card
   appearance="outlined"
-  class="h-full w-full border border-border !p-0 !shadow-none"
+  class="h-full w-full border !p-0 !shadow-none"
+  [ngClass]="{ 'border-border': !highlighted, '!border-primary': highlighted }"
   *transloco="let t; read: 'overview.overviewCard'"
 >
   <div class="flex h-full flex-col">

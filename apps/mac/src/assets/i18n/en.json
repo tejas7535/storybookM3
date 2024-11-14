@@ -374,6 +374,14 @@
       "subTitle": "Hardness converting tool",
       "title": "Hardness Converter"
     },
+    "materialsGPT": {
+      "title": "MaterialsGPT",
+      "subTitle": "Join the MaterialsGPT testing phase",
+      "content": [
+        "MaterialsGPT is in a preview phase and ready for testers to participate in the application development. You can request access to the application if you wish to be part of the testing phase of the application",
+        "%ASSETS/img/matgpt1.png"
+      ]
+    },
     "aqmCalculator": {
       "title": "AQM Calculator",
       "subTitle": "Calculate analytical QM value and sum value",
@@ -1252,6 +1260,10 @@
         "materialsSupplierDatabase": {
           "description": "Find released materials suppliers and their CO₂ footprints",
           "title": "Materials Supplier Database"
+        },
+        "materialsGPT": {
+          "description": "Join the testing phase for the MaterialsGPT prototype and share feedback",
+          "title": "Materials GPT (testing phase)"
         }
       },
       "learnMore": "Learn more",

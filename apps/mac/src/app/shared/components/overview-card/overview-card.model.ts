@@ -15,4 +15,5 @@ export interface OverviewCard {
   requiredRoles?: string[];
   inverted?: boolean;
   translationKey?: string;
+  highlighted?: boolean;
 }
