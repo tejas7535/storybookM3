@@ -1,6 +1,4 @@
-@if (
-  messages.errors.length || messages.warnings.length || messages.notes.length
-) {
+@if (messages.errors || messages.warnings || messages.notes) {
   <ng-container *transloco="let t; read: ''">
     <schaeffler-report-expansion-panel
       [title]="t('reportSectionWarnings')"
