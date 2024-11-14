@@ -162,6 +162,12 @@ export class ColumnUtilityService {
     );
   }
 
+  static filterTargetPriceSourceColumn(columnDefs: ColDef[]): ColDef[] {
+    return columnDefs.filter(
+      (colDef) => colDef.field !== ColumnFields.TARGET_PRICE_SOURCE
+    );
+  }
+
   static infoComparator(info1: any, info2: any): number {
     const valid1 = info1.valid;
     const valid2 = info2.valid;

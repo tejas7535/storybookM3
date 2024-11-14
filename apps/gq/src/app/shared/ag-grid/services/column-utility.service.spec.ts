@@ -309,6 +309,21 @@ describe('CreateColumnService', () => {
     });
   });
 
+  describe('filterTargetPriceSourceColumn', () => {
+    test('should remove targetPriceSource Column', () => {
+      const colDefs: ColDef[] = [
+        { field: ColumnFields.MATERIAL_NUMBER_15 },
+        { field: ColumnFields.TARGET_PRICE_SOURCE },
+        { field: ColumnFields.PRICE_DIFF_SAP },
+      ];
+      const res = ColumnUtilityService.filterTargetPriceSourceColumn(colDefs);
+      expect(res).toEqual([
+        { field: ColumnFields.MATERIAL_NUMBER_15 },
+        { field: ColumnFields.PRICE_DIFF_SAP },
+      ]);
+    });
+  });
+
   describe('filterRFQColumns', () => {
     const colDefs: ColDef[] = [
       { field: ColumnFields.MATERIAL_NUMBER_15 },
