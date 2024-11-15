@@ -1,6 +1,6 @@
 <ag-grid-angular
   oncontextmenu="return false;"
-  class="reference-pricing-table ag-theme-material h-full rounded-[4px] rounded-tl-none border border-border"
+  class="reference-pricing-table ag-theme-material h-full rounded-[4px] rounded-tl-none border border-border min-h-[250px]"
   [localeText]="localeText$ | ngrxPush"
   [columnDefs]="columnDefs"
   (columnMoved)="onColumnChange($event)"

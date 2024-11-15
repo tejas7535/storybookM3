@@ -328,8 +328,8 @@
         "totalNetValue": "Ges. Nettowert",
         "totalPriceDiff": "Ges. Preisdiff. %",
         "previousNetValue": "Vorheriger Nettowert",
-        "previousGPM": "Vorheriger GPM%",
-        "previousGPI": "Vorheriger GPI%",
+        "previousGPM": "Vorheriger GPM %",
+        "previousGPI": "Vorheriger GPI %",
         "previousPriceDiff": "Vorherige Preis Diff. %",
         "showAll": "Alle anzeigen",
         "modalTitle": "Tabelle Übersichtszahlen"
@@ -366,7 +366,7 @@
           "customerName": "Kundenname",
           "price": "Preis",
           "quantity": "Menge",
-          "profitMargin": "GPI%",
+          "profitMargin": "GPI %",
           "salesIndication": "Datenquelle",
           "year": "Jahr",
           "country": "Land",
@@ -388,8 +388,8 @@
           "partnerRoleNumber": "Endsektor / Endkundennummer",
           "partnerRoleName": "Endsektor / Endkunde",
           "quoteNetValue": "Angebotsnettowert",
-          "quoteWeightedAverageGPM": "Gesamt gew. ø GPI%",
-          "quoteWeightedAverageGPI": "Gesamt gew. ø GPI%",
+          "quoteWeightedAverageGPM": "Gesamt gew. ø GPI %",
+          "quoteWeightedAverageGPI": "Gesamt gew. ø GPI %",
           "quotePriceDifference": "Gesamte Preisdifferenz%",
           "currencyUsed": "Währung"
         },
@@ -399,7 +399,7 @@
           "subKeyAccount": "Sub-Key-Account",
           "netSalesClassification": "Umsatzklassifizierung",
           "netSales": "Fakturierter Wert",
-          "gpi": "GPI%",
+          "gpi": "GPI %",
           "country": "Land",
           "incoterms": "Incoterms"
         }

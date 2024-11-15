@@ -39,7 +39,7 @@
       "lostQuote": "Lost Quote",
       "order": "Orders on Hand (OoH)"
     },
-    "regression": "GQ Net Price GPI%",
+    "regression": "GQ Net Price GPI %",
     "tooltip": {
       "quantity": "Quantity",
       "profitMargin": "GPI",

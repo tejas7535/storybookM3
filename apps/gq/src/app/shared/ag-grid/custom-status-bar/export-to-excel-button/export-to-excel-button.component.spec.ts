@@ -1251,7 +1251,7 @@ describe('ExportToExcelButtonComponent', () => {
           subSector: 'Customer Subsector',
           price: 'Price',
           quantity: 'Quantity',
-          profitMargin: 'GPI%',
+          profitMargin: 'GPI %',
           salesIndication: 'Order Type',
           year: 'Year',
           country: 'Country',

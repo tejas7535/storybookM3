@@ -15,7 +15,7 @@
         ></gq-pricing-assistant-header>
 
         <!-- content and possible overlays -->
-        <div class="flex flex-col w-full h-full min-h-[inherit] relative">
+        <div class="flex flex-col w-full overflow-auto flex-1">
           @if (visibleOverlay === overlayToShowEnum.comparisonScreen) {
             <gq-overlay>
               <ng-container

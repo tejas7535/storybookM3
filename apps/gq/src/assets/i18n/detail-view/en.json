@@ -4,9 +4,9 @@
       "hint": "Enter a manual price",
       "label": "Manual Price",
       "title": "Manual Pricing",
-      "gpi": "GPI% (GPC)",
-      "gpm": "GPM% (SQV)",
-      "gpmRfq": "GPM% (RFQ)",
+      "gpi": "GPI % (GPC)",
+      "gpm": "GPM % (SQV)",
+      "gpmRfq": "GPM % (RFQ)",
       "quantity": "Quantity",
       "priceUnit": "Price Unit"
     },
@@ -14,9 +14,9 @@
       "title": "GQ Pricing",
       "priceLabel": "Net Price",
       "rating": "GQ Rating",
-      "gpi": "GPI% (GPC)",
-      "gpm": "GPM% (SQV)",
-      "gpmRfq": "GPM% (RFQ)",
+      "gpi": "GPI % (GPC)",
+      "gpm": "GPM % (SQV)",
+      "gpmRfq": "GPM % (RFQ)",
       "quantity": "Quantity",
       "details": "Details",
       "source": "Source",
@@ -27,18 +27,18 @@
       "priceLabel": "Net price (SAP)",
       "priceCondition": "Price Condition",
       "priceSource": "Price Source",
-      "gpi": "GPI% (GPC)",
-      "gpm": "GPM% (SQV)",
-      "gpmRfq": "GPM% (RFQ)",
+      "gpi": "GPI % (GPC)",
+      "gpm": "GPM % (SQV)",
+      "gpmRfq": "GPM % (RFQ)",
       "quantity": "Quantity",
       "details": "Details"
     },
     "targetPrice": {
       "title": "Target Pricing",
       "priceLabel": "Net price",
-      "gpi": "GPI% (GPC)",
-      "gpm": "GPM% (SQV)",
-      "gpmRfq": "GPM% (RFQ)",
+      "gpi": "GPI % (GPC)",
+      "gpm": "GPM % (SQV)",
+      "gpmRfq": "GPM % (RFQ)",
       "quantity": "Quantity",
       "priceUnit": "Price Unit",
       "targetPriceSource": "Target Price Source"
@@ -114,8 +114,8 @@
       "title": "Comparable Cost #{{number}}",
       "gpc": "GPC",
       "sqv": "SQV",
-      "gpi": "GPI% (GPC)",
-      "gpm": "GPM% (SQV)",
+      "gpi": "GPI % (GPC)",
+      "gpm": "GPM % (SQV)",
       "productionPlant": "Production Plant"
     },
     "supplyChainDetails": {
@@ -156,8 +156,8 @@
       "title": "Last Customer Price Information",
       "lastCustomerPrice": "Last Customer Price",
       "lastCustomerPriceQty": "Last Customer Price Qty",
-      "gpi": "GPI% (GPC)",
-      "gpm": "GPM% (SQV)"
+      "gpi": "GPI % (GPC)",
+      "gpm": "GPM % (SQV)"
     },
     "relocationCostDetails": {
       "title": "Relocation Cost",

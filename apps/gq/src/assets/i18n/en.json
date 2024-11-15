@@ -328,8 +328,8 @@
         "totalNetValue": "Total Net Value",
         "totalPriceDiff": "Total Price Diff. %",
         "previousNetValue": "Previous Net Value",
-        "previousGPM": "Previous GPM%",
-        "previousGPI": "Previous GPI%",
+        "previousGPM": "Previous GPM %",
+        "previousGPI": "Previous GPI %",
         "previousPriceDiff": "Previous Price Diff. %",
         "showAll": "Show All",
         "modalTitle": "Table Summary Figures"
@@ -365,7 +365,7 @@
           "customerName": "Customer Name",
           "price": "Price",
           "quantity": "Quantity",
-          "profitMargin": "GPI%",
+          "profitMargin": "GPI %",
           "salesIndication": "Data Source",
           "year": "Year",
           "country": "Country",
@@ -388,8 +388,8 @@
           "partnerRoleNumber": "End Sector / Customer number",
           "partnerRoleName": "End Sector / Customer",
           "quoteNetValue": "Quote Net Value",
-          "quoteWeightedAverageGPM": "Quote Weighted Average GPM%",
-          "quoteWeightedAverageGPI": "Quote Weighted Average GPI%",
+          "quoteWeightedAverageGPM": "Quote Weighted Average GPM %",
+          "quoteWeightedAverageGPI": "Quote Weighted Average GPI %",
           "quotePriceDifference": "Quote Price Difference%",
           "currencyUsed": "Currency Used"
         },
@@ -399,7 +399,7 @@
           "subKeyAccount": "Subkey Account",
           "netSalesClassification": "Invoice Value Classification",
           "netSales": "Invoiced Value",
-          "gpi": "GPI%",
+          "gpi": "GPI %",
           "country": "Country",
           "incoterms": "Incoterms"
         }
