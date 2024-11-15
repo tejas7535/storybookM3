@@ -1,5 +1,9 @@
 import { SapConditionType } from '@gq/core/store/reducers/sap-price-details/models';
-import { PriceSource, QuotationDetail } from '@gq/shared/models';
+import {
+  PriceSource,
+  QuotationDetail,
+  SapPriceCondition,
+} from '@gq/shared/models';
 
 export function getSapStandardPriceSource(
   detail: QuotationDetail
@@ -18,4 +22,20 @@ export function getSapStandardPriceSource(
       return PriceSource.SAP_STANDARD;
     }
   }
+}
+
+export function getSapPriceSource(
+  quotationDetail: QuotationDetail
+): PriceSource {
+  const sapPriceCondition = quotationDetail.sapPriceCondition;
+  if (sapPriceCondition === SapPriceCondition.STANDARD) {
+    // When price condition is Standard check for special SAP conditions
+    // before update price source to send proper type of SAP_STANDARD
+    return getSapStandardPriceSource(quotationDetail);
+  }
+  if (sapPriceCondition === SapPriceCondition.CAP_PRICE) {
+    return PriceSource.CAP_PRICE;
+  }
+
+  return PriceSource.SAP_SPECIAL;
 }

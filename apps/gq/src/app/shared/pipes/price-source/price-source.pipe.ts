@@ -5,7 +5,10 @@ import {
   QuotationDetail,
   SapPriceCondition,
 } from '@gq/shared/models';
-import { getSapStandardPriceSource } from '@gq/shared/utils/price-source.utils';
+import {
+  getSapPriceSource,
+  getSapStandardPriceSource,
+} from '@gq/shared/utils/price-source.utils';
 import { translate } from '@jsverse/transloco';
 
 @Pipe({
@@ -19,7 +22,7 @@ export class PriceSourcePipe implements PipeTransform {
     const priceSource =
       detail.sapPriceCondition === SapPriceCondition.STANDARD
         ? getSapStandardPriceSource(detail)
-        : detail.priceSource;
+        : getSapPriceSource(detail);
 
     return translate('shared.quotationDetailsTable.priceSourceLabel', {
       priceSource,
