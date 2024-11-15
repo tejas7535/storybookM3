@@ -30,7 +30,12 @@ import {
 } from '../../../../testing/mocks';
 import { LOCALE_DE, LOCALE_EN } from '../../constants';
 import { UserRoles } from '../../constants/user-roles.enum';
-import { Keyboard, Quotation, QuotationStatus } from '../../models';
+import {
+  Keyboard,
+  Quotation,
+  QuotationStatus,
+  SAP_SYNC_STATUS,
+} from '../../models';
 import {
   LastCustomerPriceCondition,
   PriceSource,
@@ -271,6 +276,17 @@ describe('CreateColumnService', () => {
 
     test('should keep SAP_STATUS Column if sapId is set', () => {
       const quotation = QUOTATION_MOCK;
+      const res = ColumnUtilityService.filterSAPColumns(colDefs, quotation);
+
+      expect(res).toEqual(colDefs);
+    });
+
+    test('should keep SAP_STATUS Column if sapId is not set but sap sync status is pending', () => {
+      const quotation = {
+        ...QUOTATION_MOCK,
+        sapId: undefined,
+        sapSyncStatus: SAP_SYNC_STATUS.SYNC_PENDING,
+      } as Quotation;
       const res = ColumnUtilityService.filterSAPColumns(colDefs, quotation);
 
       expect(res).toEqual(colDefs);

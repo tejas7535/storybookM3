@@ -337,10 +337,18 @@ export class ApprovalFacade {
 
   getApprovalCockpitData(
     sapId: string,
-    customerEnabledForQuotationWorkflow: boolean
+    customerEnabledForQuotationWorkflow: boolean,
+    forceLoad = false,
+    hideLoadingSpinner = false
   ): void {
     return sapId && customerEnabledForQuotationWorkflow
-      ? this.store.dispatch(ApprovalActions.getApprovalCockpitData({ sapId }))
+      ? this.store.dispatch(
+          ApprovalActions.getApprovalCockpitData({
+            sapId,
+            forceLoad,
+            hideLoadingSpinner,
+          })
+        )
       : this.store.dispatch(ApprovalActions.clearApprovalCockpitData());
   }
 

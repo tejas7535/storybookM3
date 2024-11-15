@@ -4,6 +4,7 @@ import { QuotationDetailSapSyncStatus } from '@gq/shared/models/quotation-detail
 import { SapCallInProgress } from './sap-call-in-progress.enum';
 
 export interface QuotationSapSyncStatusResult {
+  sapId: string;
   sapSyncStatus: SAP_SYNC_STATUS;
   sapCallInProgress: SapCallInProgress;
   quotationDetailSapSyncStatusList: QuotationDetailSapSyncStatus[];

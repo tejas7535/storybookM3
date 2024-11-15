@@ -15,7 +15,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
-import { ApprovalActions } from '../../approval/approval.actions';
 import { getGqId, getSapId } from '../active-case.selectors';
 
 describe('SapSyncStatusEffects', () => {
@@ -55,6 +54,7 @@ describe('SapSyncStatusEffects', () => {
         quotationService.getSapSyncStatus = jest.fn(() => response);
         store.overrideSelector(getGqId, 123);
         const responseObject: QuotationSapSyncStatusResult = {
+          sapId: '12345',
           sapSyncStatus: SAP_SYNC_STATUS.SYNC_PENDING,
           sapCallInProgress: SapCallInProgress.MAINTAIN_QUOTATION_IN_PROGRESS,
           quotationDetailSapSyncStatusList: [
@@ -87,6 +87,7 @@ describe('SapSyncStatusEffects', () => {
 
         quotationService.getSapSyncStatus = jest.fn(() => response);
         const responseObject: QuotationSapSyncStatusResult = {
+          sapId: '800000',
           sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
           sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
           quotationDetailSapSyncStatusList: [
@@ -96,16 +97,11 @@ describe('SapSyncStatusEffects', () => {
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-a|', { a: responseObject });
-        const expected = m.cold('--(bcd)', {
+        const expected = m.cold('--(bc)', {
           b: ActiveCaseActions.getSapSyncStatusSuccess({
             result: responseObject,
           }),
           c: ActiveCaseActions.getSapSyncStatusSuccessFullyCompleted(),
-          d: ApprovalActions.getApprovalCockpitData({
-            sapId: '800000',
-            forceLoad: true,
-            hideLoadingSpinner: true,
-          }),
         });
 
         m.expect(effects.getSapSyncStatus$).toBeObservable(expected);
@@ -123,6 +119,7 @@ describe('SapSyncStatusEffects', () => {
 
         quotationService.getSapSyncStatus = jest.fn(() => response);
         const responseObject: QuotationSapSyncStatusResult = {
+          sapId: '800000',
           sapSyncStatus: SAP_SYNC_STATUS.PARTIALLY_SYNCED,
           sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
           quotationDetailSapSyncStatusList: [
@@ -132,16 +129,11 @@ describe('SapSyncStatusEffects', () => {
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-a|', { a: responseObject });
-        const expected = m.cold('--(bcd)', {
+        const expected = m.cold('--(bc)', {
           b: ActiveCaseActions.getSapSyncStatusSuccess({
             result: responseObject,
           }),
           c: ActiveCaseActions.getSapSyncStatusSuccessFullyCompleted(),
-          d: ApprovalActions.getApprovalCockpitData({
-            sapId: '800000',
-            forceLoad: true,
-            hideLoadingSpinner: true,
-          }),
         });
 
         m.expect(effects.getSapSyncStatus$).toBeObservable(expected);
@@ -155,6 +147,7 @@ describe('SapSyncStatusEffects', () => {
       quotationService.getSapSyncStatus = jest.fn(() => response);
       store.overrideSelector(getGqId, 123);
       const responseObject: QuotationSapSyncStatusResult = {
+        sapId: '12345',
         sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
         sapCallInProgress: SapCallInProgress.MAINTAIN_QUOTATION_IN_PROGRESS,
         quotationDetailSapSyncStatusList: [

@@ -578,6 +578,7 @@ export const activeCaseFeature = createFeature({
         ...state,
         quotation: {
           ...state.quotation,
+          sapId: result.sapId,
           sapSyncStatus: result.sapSyncStatus,
           quotationDetails: state.quotation.quotationDetails.map((q) => {
             const detail = result.quotationDetailSapSyncStatusList.find(

@@ -28,12 +28,16 @@ import {
 
 import { getNumberFilterRegex, LOCALE_DE, LOCALE_EN } from '../../constants';
 import { UserRoles } from '../../constants/user-roles.enum';
-import { CASE_ORIGIN, Keyboard, Quotation } from '../../models';
+import {
+  CASE_ORIGIN,
+  Keyboard,
+  Quotation,
+  SAP_SYNC_STATUS,
+} from '../../models';
 import {
   LastCustomerPriceCondition,
   PriceSource,
   QuotationDetail,
-  SAP_SYNC_STATUS,
 } from '../../models/quotation-detail';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { MaterialClassificationSOPPipe } from '../../pipes/material-classification-sop/material-classification-sop.pipe';
@@ -130,9 +134,11 @@ export class ColumnUtilityService {
     columnDefs: ColDef[],
     quotation: Quotation
   ): ColDef[] {
+    // NOTE: If we don't have sapId and non sap process is going on,
+    // we don't need to show SAP related columns
     if (
       !quotation.sapId &&
-      quotation.sapSyncStatus !== SAP_SYNC_STATUS.SYNC_FAILED
+      quotation.sapSyncStatus !== SAP_SYNC_STATUS.SYNC_PENDING
     ) {
       return columnDefs.filter(
         (colDef: ColDef) => colDef.field !== ColumnFields.SAP_SYNC_STATUS

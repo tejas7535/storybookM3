@@ -954,6 +954,7 @@ describe('Active Case Feature Reducer', () => {
         } as QuotationDetail,
       ];
       const result: QuotationSapSyncStatusResult = {
+        sapId: '12345',
         sapCallInProgress: SapCallInProgress.MAINTAIN_QUOTATION_IN_PROGRESS,
         quotationDetailSapSyncStatusList: [
           {

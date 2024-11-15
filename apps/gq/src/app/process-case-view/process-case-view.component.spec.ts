@@ -247,18 +247,34 @@ describe('ProcessCaseViewComponent', () => {
     beforeEach(() => {
       jest.resetAllMocks();
     });
-    test('should call requestApprovalData', () => {
+    test('should call requestApprovalData when quotation is synced with SAP', () => {
       const sapId = 'testSapId';
       quotationSubject.next({
         sapId,
         customer: { enabledForApprovalWorkflow: true },
+        sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
       } as Quotation);
 
       component.ngOnInit();
 
       expect(
         component['approvalFacade'].getApprovalCockpitData
-      ).toHaveBeenCalledWith(sapId, true);
+      ).toHaveBeenCalledWith(sapId, true, true, true);
+    });
+
+    test('should not call requestApprovalData when quotation is not synced with SAP', () => {
+      const sapId = 'testSapId';
+      quotationSubject.next({
+        sapId,
+        customer: { enabledForApprovalWorkflow: true },
+        sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
+      } as Quotation);
+
+      component.ngOnInit();
+
+      expect(
+        component['approvalFacade'].getApprovalCockpitData
+      ).not.toHaveBeenCalled();
     });
 
     test('should not call requestApprovalData', () => {

@@ -15,7 +15,6 @@ import { RolesFacade } from '@gq/core/store/facades/roles.facade';
 import { Tab } from '@gq/shared/components/tabs-header/tab.model';
 import { ApprovalWorkflowInformation } from '@gq/shared/models/approval/approval-cockpit-data.model';
 import { Quotation } from '@gq/shared/models/quotation/quotation.model';
-import { SapCallInProgress } from '@gq/shared/models/quotation/sap-call-in-progress.enum';
 import { SAP_SYNC_STATUS } from '@gq/shared/models/quotation-detail/sap-sync-status.enum';
 import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
@@ -108,18 +107,21 @@ export class ProcessCaseViewComponent implements OnInit, OnDestroy {
         filter((quotation: Quotation) => !!quotation),
         tap((quotation: Quotation) => {
           // when GQ call or SAP call is running the "we are syncing your case" will be shown only when sapSyncStatus is not SYNC_PENDING
-          this.showCalcInProgress =
-            quotation.calculationInProgress ||
-            (quotation.sapCallInProgress !==
-              SapCallInProgress.NONE_IN_PROGRESS &&
-              quotation.sapSyncStatus !== SAP_SYNC_STATUS.SYNC_PENDING);
+          this.showCalcInProgress = quotation.calculationInProgress;
         }),
-        map((quotation: Quotation) =>
-          this.approvalFacade.getApprovalCockpitData(
-            quotation.sapId,
-            quotation.customer.enabledForApprovalWorkflow
-          )
-        )
+        map((quotation: Quotation) => {
+          if (quotation.sapSyncStatus === SAP_SYNC_STATUS.SYNCED) {
+            // if a quote was fully synced, the approval data should be reloaded because net value and gpm might have changed
+            const hideLoadingSpinner = true;
+            const forceLoad = true;
+            this.approvalFacade.getApprovalCockpitData(
+              quotation.sapId,
+              quotation.customer.enabledForApprovalWorkflow,
+              forceLoad,
+              hideLoadingSpinner
+            );
+          }
+        })
       )
       .subscribe();
   }

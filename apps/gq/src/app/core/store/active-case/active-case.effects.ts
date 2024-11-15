@@ -557,7 +557,8 @@ export class ActiveCaseEffects {
                 ];
 
                 if (
-                  quotation.sapCallInProgress ||
+                  quotation.sapCallInProgress ===
+                    SapCallInProgress.FETCH_DATA_IN_PROGRESS ||
                   quotation.calculationInProgress
                 ) {
                   // if the quotation calculation or sapCall is still in progress, set interval to refresh the quotation

@@ -119,6 +119,7 @@ describe('QuotationService', () => {
       const gqId = 1000;
 
       const mock: QuotationSapSyncStatusResult = {
+        sapId: '12345',
         sapSyncStatus: SAP_SYNC_STATUS.SYNC_PENDING,
         sapCallInProgress: SapCallInProgress.MAINTAIN_QUOTATION_IN_PROGRESS,
         quotationDetailSapSyncStatusList: [

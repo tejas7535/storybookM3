@@ -937,9 +937,18 @@ describe('ApprovalFacade', () => {
 
     test('should dispatch action getApprovalCockpitData', () => {
       mockStore.dispatch = jest.fn();
-      service.getApprovalCockpitData(expect.any(String), expect.any(Boolean));
+      service.getApprovalCockpitData(
+        expect.any(String),
+        expect.any(Boolean),
+        expect.any(Boolean),
+        expect.any(Boolean)
+      );
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        ApprovalActions.getApprovalCockpitData({ sapId: expect.any(String) })
+        ApprovalActions.getApprovalCockpitData({
+          sapId: expect.any(String),
+          forceLoad: expect.any(Boolean),
+          hideLoadingSpinner: expect.any(Boolean),
+        })
       );
     });
 
