@@ -4,17 +4,15 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnInit,
   Output,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
-import {
-  translate,
-  TranslocoModule,
-  TranslocoService,
-} from '@jsverse/transloco';
+import { translate, TranslocoService } from '@jsverse/transloco';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import deutsch from '../../assets/i18n/de.json';
 import english from '../../assets/i18n/en.json';
@@ -35,12 +33,11 @@ import { Message, SelectedFile } from './models';
     FileUploadMessageComponent,
     FileDropDirective,
     FileUploadFileComponent,
-    TranslocoModule,
+    SharedTranslocoModule,
   ],
-  providers: [TranslocoService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FileUploadComponent {
+export class FileUploadComponent implements OnInit {
   @Input() public loadingIndicator: 'spinner' | 'bar' = 'spinner';
   @Input() public maxFileCount = 1;
   @Input() public autoOverwriteOldestFile = false;
@@ -67,7 +64,9 @@ export class FileUploadComponent {
   public files: File[] = [];
   private readonly selectedFiles: SelectedFile[] = [];
 
-  public constructor(private readonly translocoService: TranslocoService) {
+  public constructor(private readonly translocoService: TranslocoService) {}
+
+  public ngOnInit(): void {
     this.translocoService.setTranslation(deutsch, 'de');
     this.translocoService.setTranslation(english, 'en');
   }
