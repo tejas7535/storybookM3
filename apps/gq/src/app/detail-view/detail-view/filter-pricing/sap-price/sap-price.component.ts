@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
+import { SapConditionType } from '@gq/core/store/reducers/sap-price-details/models';
 import {
   PriceSource,
   QuotationDetail,
@@ -61,6 +62,7 @@ export class SapPriceComponent {
   isSelected: boolean;
 
   PriceSource = PriceSource;
+  SapConditionType = SapConditionType;
   DetailRoutePath = DetailRoutePath;
 
   private _isLoading: boolean;

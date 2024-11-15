@@ -56,14 +56,14 @@ describe('SapPriceCellComponent', () => {
     });
     test('should set isDetailLinkVisible to false', () => {
       component.agInit({
-        data: { priceSource: PriceSource.ZKI1 },
+        data: { leadingSapConditionType: PriceSource.ZKI1 },
       } as ICellRendererParams);
 
       expect(component.isDetailLinkVisible).toBeFalsy();
     });
     test('should set isDetailLinkVisible to true', () => {
       component.agInit({
-        data: { priceSource: PriceSource.SAP_STANDARD },
+        data: { leadingSapConditionType: PriceSource.SAP_STANDARD },
       } as ICellRendererParams);
 
       expect(component.isDetailLinkVisible).toBeTruthy();

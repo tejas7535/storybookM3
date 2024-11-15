@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 
+import { SapConditionType } from '@gq/core/store/reducers/sap-price-details/models';
 import { DetailRoutePath } from '@gq/detail-view/detail-route-path.enum';
 import { ICellRendererParams } from 'ag-grid-community';
 
 import { AppRoutePath } from '../../../../../app/app-route-path.enum';
-import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
+import { QuotationDetail } from '../../../models/quotation-detail';
 
 @Component({
   selector: 'gq-sap-price-cell',
@@ -35,8 +36,9 @@ export class SapPriceCellComponent {
       )
       .toString();
 
-    // Hide the detail link if the price source is ZKI1 (GQUOTE-4837)
-    this.isDetailLinkVisible = quotationDetail.priceSource !== PriceSource.ZKI1;
+    // Hide the detail link if the leading sap condition type is ZKI1 (GQUOTE-4837)
+    this.isDetailLinkVisible =
+      quotationDetail.leadingSapConditionType !== SapConditionType.ZKI1;
   }
 
   navigate(event: MouseEvent): void {
