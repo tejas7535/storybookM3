@@ -1,14 +1,15 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { of, throwError } from 'rxjs';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { SapSyncStatusEffects } from '@gq/core/store/active-case/sap-sync-status/sap-sync-status.effects';
 import { SAP_SYNC_STATUS } from '@gq/shared/models';
-import { SapCallInProgress } from '@gq/shared/models/quotation';
 import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
+import { translate } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -24,12 +25,13 @@ describe('SapSyncStatusEffects', () => {
   let effects: SapSyncStatusEffects;
   let store: MockStore;
   let quotationService: QuotationService;
+  let snackBar: MatSnackBar;
 
   const errorMessage = 'An error occurred';
 
   const createService = createServiceFactory({
     service: SapSyncStatusEffects,
-
+    imports: [MatSnackBarModule],
     providers: [
       provideHttpClient(),
       provideHttpClientTesting(),
@@ -44,6 +46,7 @@ describe('SapSyncStatusEffects', () => {
     effects = spectator.inject(SapSyncStatusEffects);
     quotationService = spectator.inject(QuotationService);
     store = spectator.inject(MockStore);
+    snackBar = spectator.inject(MatSnackBar);
   });
 
   describe('getSapSyncStatus$', () => {
@@ -53,10 +56,10 @@ describe('SapSyncStatusEffects', () => {
         action = ActiveCaseActions.getSapSyncStatus();
         quotationService.getSapSyncStatus = jest.fn(() => response);
         store.overrideSelector(getGqId, 123);
+        effects['showUploadSelectionToast'] = jest.fn();
         const responseObject: QuotationSapSyncStatusResult = {
           sapId: '12345',
           sapSyncStatus: SAP_SYNC_STATUS.SYNC_PENDING,
-          sapCallInProgress: SapCallInProgress.MAINTAIN_QUOTATION_IN_PROGRESS,
           quotationDetailSapSyncStatusList: [
             {
               gqPositionId: '123',
@@ -76,6 +79,7 @@ describe('SapSyncStatusEffects', () => {
         m.flush();
         expect(quotationService.getSapSyncStatus).toHaveBeenCalledTimes(1);
         expect(quotationService.getSapSyncStatus).toHaveBeenCalledWith(123);
+        expect(effects['showUploadSelectionToast']).not.toHaveBeenCalled();
       })
     );
     test(
@@ -89,11 +93,11 @@ describe('SapSyncStatusEffects', () => {
         const responseObject: QuotationSapSyncStatusResult = {
           sapId: '800000',
           sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
-          sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
           quotationDetailSapSyncStatusList: [
             { gqPositionId: '123', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
           ],
         };
+        effects['showUploadSelectionToast'] = jest.fn();
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-a|', { a: responseObject });
@@ -101,13 +105,19 @@ describe('SapSyncStatusEffects', () => {
           b: ActiveCaseActions.getSapSyncStatusSuccess({
             result: responseObject,
           }),
-          c: ActiveCaseActions.getSapSyncStatusSuccessFullyCompleted(),
+          c: ActiveCaseActions.getSapSyncStatusSuccessFullyCompleted({
+            result: responseObject,
+          }),
         });
 
         m.expect(effects.getSapSyncStatus$).toBeObservable(expected);
         m.flush();
         expect(quotationService.getSapSyncStatus).toHaveBeenCalledTimes(1);
         expect(quotationService.getSapSyncStatus).toHaveBeenCalledWith(123);
+        expect(effects['showUploadSelectionToast']).toHaveBeenCalledTimes(1);
+        expect(effects['showUploadSelectionToast']).toHaveBeenCalledWith(
+          SAP_SYNC_STATUS.SYNCED
+        );
       })
     );
     test(
@@ -116,12 +126,12 @@ describe('SapSyncStatusEffects', () => {
         action = ActiveCaseActions.getSapSyncStatus();
         store.overrideSelector(getGqId, 123);
         store.overrideSelector(getSapId, '800000');
+        effects['showUploadSelectionToast'] = jest.fn();
 
         quotationService.getSapSyncStatus = jest.fn(() => response);
         const responseObject: QuotationSapSyncStatusResult = {
           sapId: '800000',
           sapSyncStatus: SAP_SYNC_STATUS.PARTIALLY_SYNCED,
-          sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
           quotationDetailSapSyncStatusList: [
             { gqPositionId: '123', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
           ],
@@ -133,13 +143,19 @@ describe('SapSyncStatusEffects', () => {
           b: ActiveCaseActions.getSapSyncStatusSuccess({
             result: responseObject,
           }),
-          c: ActiveCaseActions.getSapSyncStatusSuccessFullyCompleted(),
+          c: ActiveCaseActions.getSapSyncStatusSuccessFullyCompleted({
+            result: responseObject,
+          }),
         });
 
         m.expect(effects.getSapSyncStatus$).toBeObservable(expected);
         m.flush();
         expect(quotationService.getSapSyncStatus).toHaveBeenCalledTimes(1);
         expect(quotationService.getSapSyncStatus).toHaveBeenCalledWith(123);
+        expect(effects['showUploadSelectionToast']).toHaveBeenCalledTimes(1);
+        expect(effects['showUploadSelectionToast']).toHaveBeenCalledWith(
+          SAP_SYNC_STATUS.PARTIALLY_SYNCED
+        );
       })
     );
     test('should return getSapSyncStatusFailure on REST error', () => {
@@ -149,7 +165,6 @@ describe('SapSyncStatusEffects', () => {
       const responseObject: QuotationSapSyncStatusResult = {
         sapId: '12345',
         sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
-        sapCallInProgress: SapCallInProgress.MAINTAIN_QUOTATION_IN_PROGRESS,
         quotationDetailSapSyncStatusList: [
           { gqPositionId: '123', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
         ],
@@ -163,6 +178,38 @@ describe('SapSyncStatusEffects', () => {
       });
       expect(quotationService.getSapSyncStatus).toHaveBeenCalledTimes(1);
       expect(quotationService.getSapSyncStatus).toHaveBeenCalledWith(123);
+    });
+  });
+
+  describe('showUploadSelectionToast', () => {
+    test('should return failed toast message on default', () => {
+      snackBar.open = jest.fn();
+
+      effects['showUploadSelectionToast'](SAP_SYNC_STATUS.SYNC_FAILED);
+
+      expect(snackBar.open).toHaveBeenCalledWith(
+        translate(`shared.snackBarMessages.uploadToSapSync.failed`)
+      );
+    });
+
+    test('should return full toast message on SYNCED', () => {
+      snackBar.open = jest.fn();
+
+      effects['showUploadSelectionToast'](SAP_SYNC_STATUS.SYNCED);
+
+      expect(snackBar.open).toHaveBeenCalledWith(
+        translate(`shared.snackBarMessages.uploadToSapSync.full`)
+      );
+    });
+
+    test('should return partially toast message on PARTIALLY_SYNCED', () => {
+      snackBar.open = jest.fn();
+
+      effects['showUploadSelectionToast'](SAP_SYNC_STATUS.PARTIALLY_SYNCED);
+
+      expect(snackBar.open).toHaveBeenCalledWith(
+        translate(`shared.snackBarMessages.uploadToSapSync.partially`)
+      );
     });
   });
 });

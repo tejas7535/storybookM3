@@ -15,6 +15,7 @@ import {
   SAP_SYNC_STATUS,
 } from '@gq/shared/models';
 import { SapCallInProgress } from '@gq/shared/models/quotation';
+import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
 import { AttachmentsService } from '@gq/shared/services/rest/attachments/attachments.service';
 import { CustomerService } from '@gq/shared/services/rest/customer/customer.service';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
@@ -810,6 +811,67 @@ describe('ActiveCaseEffects', () => {
     );
   });
 
+  describe('getApprovalCockpitData$', () => {
+    test(
+      'should return approval cockpit action on getQuotationSuccess',
+      marbles((m) => {
+        const sapId = '2134';
+
+        action = ActiveCaseActions.getQuotationSuccess({
+          item: { sapId } as Quotation,
+        });
+        actions$ = m.hot('-a', { a: action });
+        const result = ApprovalActions.getApprovalCockpitData({
+          sapId,
+          forceLoad: true,
+          hideLoadingSpinner: true,
+        });
+
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.getApprovalCockpitData$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+
+    test(
+      'should return approval cockpit action on getSapSyncStatusSuccessFullyCompleted',
+      marbles((m) => {
+        const sapId = '2134';
+
+        action = ActiveCaseActions.getSapSyncStatusSuccessFullyCompleted({
+          result: { sapId } as QuotationSapSyncStatusResult,
+        });
+        actions$ = m.hot('-a', { a: action });
+        const result = ApprovalActions.getApprovalCockpitData({
+          sapId,
+          forceLoad: true,
+          hideLoadingSpinner: true,
+        });
+
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.getApprovalCockpitData$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+
+    test(
+      'should do nothing on non sap quotations',
+      marbles((m) => {
+        action = ActiveCaseActions.getSapSyncStatusSuccessFullyCompleted({
+          result: { sapId: undefined } as QuotationSapSyncStatusResult,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-', {});
+
+        m.expect(effects.getApprovalCockpitData$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
   describe('uploadSelectionToSap$', () => {
     const gqId = 123;
     beforeEach(() => {
@@ -817,7 +879,7 @@ describe('ActiveCaseEffects', () => {
     });
 
     test(
-      'should return uploadSelectionToSapSuccess when REST call is successful and status pending',
+      'should return uploadSelectionToSapSuccess and getSapSyncStatusInInterval when REST call is successful',
       marbles((m) => {
         snackBar.open = jest.fn();
 
@@ -826,7 +888,6 @@ describe('ActiveCaseEffects', () => {
         });
 
         quotationService.uploadSelectionToSap = jest.fn(() => response);
-        effects['showUploadSelectionToast'] = jest.fn();
 
         actions$ = m.hot('-a', { a: action });
         const quote = {
@@ -850,55 +911,6 @@ describe('ActiveCaseEffects', () => {
         expect(quotationService.uploadSelectionToSap).toHaveBeenCalledWith([
           '1',
         ]);
-        expect(effects['showUploadSelectionToast']).toHaveBeenCalledTimes(1);
-        expect(effects['showUploadSelectionToast']).toHaveBeenCalledWith(
-          quote,
-          ['1']
-        );
-      })
-    );
-
-    test(
-      'should return uploadSelectionToSapSuccess when REST call is successful',
-      marbles((m) => {
-        snackBar.open = jest.fn();
-
-        action = ActiveCaseActions.uploadSelectionToSap({
-          gqPositionIds: ['1'],
-        });
-
-        quotationService.uploadSelectionToSap = jest.fn(() => response);
-        effects['showUploadSelectionToast'] = jest.fn();
-
-        actions$ = m.hot('-a', { a: action });
-        const quote = {
-          ...QUOTATION_MOCK,
-          sapSyncStatus: SAP_SYNC_STATUS.PARTIALLY_SYNCED,
-        };
-
-        const response = m.cold('-a|', { a: quote });
-
-        const expected = m.cold('--(bc)', {
-          b: ActiveCaseActions.uploadSelectionToSapSuccess({
-            updatedQuotation: quote,
-          }),
-          c: ApprovalActions.getApprovalCockpitData({
-            sapId: quote.sapId,
-            forceLoad: true,
-          }),
-        });
-
-        m.expect(effects.uploadSelectionToSap$).toBeObservable(expected);
-        m.flush();
-        expect(quotationService.uploadSelectionToSap).toHaveBeenCalledTimes(1);
-        expect(quotationService.uploadSelectionToSap).toHaveBeenCalledWith([
-          '1',
-        ]);
-        expect(effects['showUploadSelectionToast']).toHaveBeenCalledTimes(1);
-        expect(effects['showUploadSelectionToast']).toHaveBeenCalledWith(
-          quote,
-          ['1']
-        );
       })
     );
 
@@ -1191,7 +1203,7 @@ describe('ActiveCaseEffects', () => {
     );
   });
 
-  describe('createSapQuote', () => {
+  describe('createSapQuote$', () => {
     const gqId = 123;
     beforeEach(() => {
       store.overrideSelector(getGqId, gqId);
@@ -1207,7 +1219,7 @@ describe('ActiveCaseEffects', () => {
         };
         snackBar.open = jest.fn();
         quotationService.createSapQuotation = jest.fn(() => response);
-        effects['showCreateSapQuoteToast'] = jest.fn();
+        effects['showErrorToastOnFailedRequest'] = jest.fn();
         actions$ = m.hot('-a', {
           a: ActiveCaseActions.createSapQuote({ gqPositionIds: ['12-12-12-'] }),
         });
@@ -1221,7 +1233,9 @@ describe('ActiveCaseEffects', () => {
 
         m.expect(effects.createSapQuote$).toBeObservable(expected);
         m.flush();
-        expect(effects['showCreateSapQuoteToast']).toHaveBeenCalledTimes(1);
+        expect(effects['showErrorToastOnFailedRequest']).toHaveBeenCalledTimes(
+          1
+        );
         expect(quotationService.createSapQuotation).toHaveBeenCalledTimes(1);
       })
     );
@@ -1236,7 +1250,7 @@ describe('ActiveCaseEffects', () => {
         };
         snackBar.open = jest.fn();
         quotationService.createSapQuotation = jest.fn(() => response);
-        effects['showCreateSapQuoteToast'] = jest.fn();
+        effects['showErrorToastOnFailedRequest'] = jest.fn();
         actions$ = m.hot('-a', {
           a: ActiveCaseActions.createSapQuote({ gqPositionIds: ['12-12-12-'] }),
         });
@@ -1249,7 +1263,9 @@ describe('ActiveCaseEffects', () => {
 
         m.expect(effects.createSapQuote$).toBeObservable(expected);
         m.flush();
-        expect(effects['showCreateSapQuoteToast']).toHaveBeenCalledTimes(1);
+        expect(effects['showErrorToastOnFailedRequest']).toHaveBeenCalledTimes(
+          1
+        );
         expect(quotationService.createSapQuotation).toHaveBeenCalledTimes(1);
       })
     );
@@ -1264,7 +1280,7 @@ describe('ActiveCaseEffects', () => {
         };
         snackBar.open = jest.fn();
         quotationService.createSapQuotation = jest.fn(() => response);
-        effects['showCreateSapQuoteToast'] = jest.fn();
+        effects['showErrorToastOnFailedRequest'] = jest.fn();
         actions$ = m.hot('-a', {
           a: ActiveCaseActions.createSapQuote({ gqPositionIds: ['12-12-12-'] }),
         });
@@ -1278,7 +1294,9 @@ describe('ActiveCaseEffects', () => {
 
         m.expect(effects.createSapQuote$).toBeObservable(expected);
         m.flush();
-        expect(effects['showCreateSapQuoteToast']).toHaveBeenCalledTimes(1);
+        expect(effects['showErrorToastOnFailedRequest']).toHaveBeenCalledTimes(
+          1
+        );
         expect(quotationService.createSapQuotation).toHaveBeenCalledTimes(1);
       })
     );
@@ -1293,7 +1311,7 @@ describe('ActiveCaseEffects', () => {
         };
         snackBar.open = jest.fn();
         quotationService.createSapQuotation = jest.fn(() => response);
-        effects['showCreateSapQuoteToast'] = jest.fn();
+        effects['showErrorToastOnFailedRequest'] = jest.fn();
         actions$ = m.hot('-a', {
           a: ActiveCaseActions.createSapQuote({ gqPositionIds: ['12-12-12-'] }),
         });
@@ -1307,7 +1325,9 @@ describe('ActiveCaseEffects', () => {
 
         m.expect(effects.createSapQuote$).toBeObservable(expected);
         m.flush();
-        expect(effects['showCreateSapQuoteToast']).toHaveBeenCalledTimes(1);
+        expect(effects['showErrorToastOnFailedRequest']).toHaveBeenCalledTimes(
+          1
+        );
         expect(quotationService.createSapQuotation).toHaveBeenCalledTimes(1);
       })
     );
@@ -1321,7 +1341,7 @@ describe('ActiveCaseEffects', () => {
         };
         snackBar.open = jest.fn();
         quotationService.createSapQuotation = jest.fn(() => response);
-        effects['showCreateSapQuoteToast'] = jest.fn();
+        effects['showErrorToastOnFailedRequest'] = jest.fn();
         actions$ = m.hot('-a', {
           a: ActiveCaseActions.createSapQuote({ gqPositionIds: ['12-12-12-'] }),
         });
@@ -1336,7 +1356,9 @@ describe('ActiveCaseEffects', () => {
 
         m.expect(effects.createSapQuote$).toBeObservable(expected);
         m.flush();
-        expect(effects['showCreateSapQuoteToast']).toHaveBeenCalledTimes(1);
+        expect(effects['showErrorToastOnFailedRequest']).toHaveBeenCalledTimes(
+          1
+        );
         expect(quotationService.createSapQuotation).toHaveBeenCalledTimes(1);
       })
     );
@@ -1356,203 +1378,42 @@ describe('ActiveCaseEffects', () => {
           b: result,
         });
         quotationService.createSapQuotation = jest.fn(() => response);
-        effects['showCreateSapQuoteToast'] = jest.fn();
+        effects['showErrorToastOnFailedRequest'] = jest.fn();
 
         m.expect(effects.createSapQuote$).toBeObservable(expected);
         m.flush();
-        expect(effects['showCreateSapQuoteToast']).toHaveBeenCalledTimes(0);
+        expect(effects['showErrorToastOnFailedRequest']).toHaveBeenCalledTimes(
+          0
+        );
         expect(quotationService.createSapQuotation).toHaveBeenCalledTimes(1);
       })
     );
   });
 
-  describe('showCreateSapQuoteToast', () => {
-    test('should show nothing in async mode', () => {
+  describe('showErrorToastOnFailedRequest', () => {
+    test('should show nothing when not failed', () => {
       effects['snackBar'].open = jest.fn();
 
-      const quotation = {
-        sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
-        sapCallInProgress: SapCallInProgress.FETCH_DATA_IN_PROGRESS,
-      } as Quotation;
-      effects['showCreateSapQuoteToast'](quotation);
+      const sapId = 'sapId123';
+
+      effects['showErrorToastOnFailedRequest'](sapId, SAP_SYNC_STATUS.SYNCED);
 
       expect(effects['snackBar'].open).toHaveBeenCalledTimes(0);
     });
-    test('should open snackbar with sync full', () => {
+    test('should open snackbar when sync failed', () => {
       effects['snackBar'].open = jest.fn();
 
-      const quotation = {
-        sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
-        sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
-        sapId: '123',
-      } as Quotation;
-      effects['showCreateSapQuoteToast'](quotation);
+      const sapId = 'sapId123';
 
-      expect(effects['snackBar'].open).toHaveBeenCalledTimes(1);
-      expect(translate).toHaveBeenCalledWith(
-        'shared.snackBarMessages.createSapQuoteSync.full',
-        { sapId: quotation.sapId }
+      effects['showErrorToastOnFailedRequest'](
+        sapId,
+        SAP_SYNC_STATUS.SYNC_FAILED
       );
-    });
-    test('should open snackbar with sync partially', () => {
-      effects['snackBar'].open = jest.fn();
-
-      const quotation = {
-        sapSyncStatus: SAP_SYNC_STATUS.PARTIALLY_SYNCED,
-        sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
-        sapId: '123',
-      } as Quotation;
-      effects['showCreateSapQuoteToast'](quotation);
-
-      expect(effects['snackBar'].open).toHaveBeenCalledTimes(1);
-      expect(translate).toHaveBeenCalledWith(
-        'shared.snackBarMessages.createSapQuoteSync.partially',
-        { sapId: quotation.sapId }
-      );
-    });
-
-    test('should open snackbar with sync partially when quotation status is SYNC_PENDING', () => {
-      effects['snackBar'].open = jest.fn();
-
-      const quotation = {
-        sapSyncStatus: SAP_SYNC_STATUS.SYNC_PENDING,
-        sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
-        sapId: '123',
-      } as Quotation;
-      effects['showCreateSapQuoteToast'](quotation);
-
-      expect(effects['snackBar'].open).toHaveBeenCalledTimes(1);
-      expect(translate).toHaveBeenCalledWith(
-        'shared.snackBarMessages.createSapQuoteSync.partially',
-        { sapId: quotation.sapId }
-      );
-    });
-
-    test('should open snackbar with sync failed', () => {
-      effects['snackBar'].open = jest.fn();
-
-      const quotation = {
-        sapSyncStatus: SAP_SYNC_STATUS.SYNC_FAILED,
-        sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
-        sapId: '123',
-      } as Quotation;
-      effects['showCreateSapQuoteToast'](quotation);
 
       expect(effects['snackBar'].open).toHaveBeenCalledTimes(1);
       expect(translate).toHaveBeenCalledWith(
         'shared.snackBarMessages.createSapQuoteSync.failed',
-        { sapId: quotation.sapId }
-      );
-    });
-  });
-
-  describe('showUploadSelectionToast', () => {
-    test('should show nothing in async mode', () => {
-      effects['snackBar'].open = jest.fn();
-
-      const syncedIds = ['1', '2'];
-      const allDetails = [
-        { gqPositionId: '1', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
-        { gqPositionId: '2', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
-        { gqPositionId: '3' },
-      ];
-
-      const quotation = {
-        quotationDetails: allDetails,
-        sapCallInProgress: SapCallInProgress.FETCH_DATA_IN_PROGRESS,
-      } as Quotation;
-
-      effects['showUploadSelectionToast'](quotation, syncedIds);
-
-      expect(effects['snackBar'].open).toHaveBeenCalledTimes(0);
-    });
-    test('should open snackbar with sync full', () => {
-      effects['snackBar'].open = jest.fn();
-
-      const syncedIds = ['1', '2'];
-      const allDetails = [
-        { gqPositionId: '1', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
-        { gqPositionId: '2', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
-        { gqPositionId: '3' },
-      ];
-
-      const quotation = {
-        quotationDetails: allDetails,
-        sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
-      } as Quotation;
-
-      effects['showUploadSelectionToast'](quotation, syncedIds);
-
-      expect(effects['snackBar'].open).toHaveBeenCalledTimes(1);
-      expect(translate).toHaveBeenLastCalledWith(
-        'shared.snackBarMessages.uploadToSapSync.full'
-      );
-    });
-    test('should open snackbar with sync partially', () => {
-      effects['snackBar'].open = jest.fn();
-
-      const syncedIds = ['1', '2'];
-      const allDetails = [
-        { gqPositionId: '1', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
-        { gqPositionId: '2', sapSyncStatus: SAP_SYNC_STATUS.SYNC_FAILED },
-        { gqPositionId: '3' },
-      ];
-
-      const quotation = {
-        quotationDetails: allDetails,
-        sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
-      } as Quotation;
-
-      effects['showUploadSelectionToast'](quotation, syncedIds);
-
-      expect(effects['snackBar'].open).toHaveBeenCalledTimes(1);
-      expect(translate).toHaveBeenLastCalledWith(
-        'shared.snackBarMessages.uploadToSapSync.partially'
-      );
-    });
-
-    test('should open snackbar with sync partially when quotationStatus is SYNC_PENDING', () => {
-      effects['snackBar'].open = jest.fn();
-
-      const syncedIds = ['1', '2'];
-      const allDetails = [
-        { gqPositionId: '1', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
-        { gqPositionId: '2', sapSyncStatus: SAP_SYNC_STATUS.SYNC_PENDING },
-        { gqPositionId: '3' },
-      ];
-
-      const quotation = {
-        quotationDetails: allDetails,
-        sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
-      } as Quotation;
-
-      effects['showUploadSelectionToast'](quotation, syncedIds);
-
-      expect(effects['snackBar'].open).toHaveBeenCalledTimes(1);
-      expect(translate).toHaveBeenLastCalledWith(
-        'shared.snackBarMessages.uploadToSapSync.partially'
-      );
-    });
-    test('should open snackbar with sync failed', () => {
-      effects['snackBar'].open = jest.fn();
-
-      const syncedIds = ['1', '2'];
-      const allDetails = [
-        { gqPositionId: '1', sapSyncStatus: SAP_SYNC_STATUS.SYNC_FAILED },
-        { gqPositionId: '2', sapSyncStatus: SAP_SYNC_STATUS.SYNC_FAILED },
-        { gqPositionId: '3' },
-      ];
-
-      const quotation = {
-        quotationDetails: allDetails,
-        sapCallInProgress: SapCallInProgress.NONE_IN_PROGRESS,
-      } as Quotation;
-
-      effects['showUploadSelectionToast'](quotation, syncedIds);
-
-      expect(effects['snackBar'].open).toHaveBeenCalledTimes(1);
-      expect(translate).toHaveBeenLastCalledWith(
-        'shared.snackBarMessages.uploadToSapSync.failed'
+        { sapId }
       );
     });
   });

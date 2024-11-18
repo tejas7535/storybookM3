@@ -955,7 +955,6 @@ describe('Active Case Feature Reducer', () => {
       ];
       const result: QuotationSapSyncStatusResult = {
         sapId: '12345',
-        sapCallInProgress: SapCallInProgress.MAINTAIN_QUOTATION_IN_PROGRESS,
         quotationDetailSapSyncStatusList: [
           {
             gqPositionId: '123',
@@ -987,9 +986,6 @@ describe('Active Case Feature Reducer', () => {
         expectedQuotationDetails
       );
       expect(state.quotation.sapSyncStatus).toStrictEqual(result.sapSyncStatus);
-      expect(state.quotation.sapCallInProgress).toStrictEqual(
-        result.sapCallInProgress
-      );
     });
     test('should set the errorMessage', () => {
       const action = ActiveCaseActions.getSapSyncStatusFailure({

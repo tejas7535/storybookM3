@@ -114,6 +114,10 @@ export class ActiveCaseFacade {
     getSimulationModeEnabled
   );
 
+  quotationCalculationInProgress$: Observable<boolean> = this.quotation$.pipe(
+    map((quotation) => quotation.calculationInProgress)
+  );
+
   simulatedField$: Observable<ColumnFields> =
     this.store.select(getSimulatedField);
 

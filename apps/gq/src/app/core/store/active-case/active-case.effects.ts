@@ -396,41 +396,42 @@ export class ActiveCaseEffects {
       mergeMap((gqPositionIds: string[]) =>
         this.quotationService.uploadSelectionToSap(gqPositionIds).pipe(
           tap((quotation) => {
-            this.showUploadSelectionToast(quotation, gqPositionIds);
-          }),
-          tap((quotation) => {
             addCalculationsForDetails(quotation.quotationDetails);
           }),
-          mergeMap((updatedQuotation: Quotation) => {
-            const actions: Action[] = [
-              ActiveCaseActions.uploadSelectionToSapSuccess({
-                updatedQuotation,
-              }),
-            ];
-
-            // ToDo: Always return getSapSyncStatusInInterval when feature toggle for async is removed (https://jira.schaeffler.com/browse/GQUOTE-4943)
-            if (
-              updatedQuotation.sapSyncStatus === SAP_SYNC_STATUS.SYNC_PENDING
-            ) {
-              // if quotation is pending, set interval to refresh the sap sync status
-              actions.push(ActiveCaseActions.getSapSyncStatusInInterval());
-            } else {
-              // if a quote was fully synced, the approval data should be reloaded because net value and gpm might have changed
-              actions.push(
-                ApprovalActions.getApprovalCockpitData({
-                  sapId: updatedQuotation.sapId,
-                  forceLoad: true,
-                })
-              );
-            }
-
-            return actions;
-          }),
+          mergeMap((updatedQuotation: Quotation) => [
+            ActiveCaseActions.uploadSelectionToSapSuccess({
+              updatedQuotation,
+            }),
+            ActiveCaseActions.getSapSyncStatusInInterval(), // get SAP sync status periodically
+          ]),
           catchError((errorMessage) =>
             of(ActiveCaseActions.uploadSelectionToSapFailure({ errorMessage }))
           )
         )
       )
+    );
+  });
+
+  // get approval data whenever we have a SAP quotation or the SAP quotation has been updated
+  getApprovalCockpitData$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(
+        ActiveCaseActions.getQuotationSuccess,
+        ActiveCaseActions.getSapSyncStatusSuccessFullyCompleted
+      ),
+      map((action) => {
+        return ActiveCaseActions.getQuotationSuccess.type === action.type
+          ? action.item.sapId
+          : action.result.sapId;
+      }),
+      filter((sapId) => sapId !== undefined),
+      mergeMap((sapId) => [
+        ApprovalActions.getApprovalCockpitData({
+          sapId,
+          forceLoad: true,
+          hideLoadingSpinner: true,
+        }),
+      ])
     );
   });
 
@@ -546,7 +547,10 @@ export class ActiveCaseEffects {
             .createSapQuotation(gqId, action.gqPositionIds)
             .pipe(
               tap((quotation: Quotation) => {
-                this.showCreateSapQuoteToast(quotation);
+                this.showErrorToastOnFailedRequest(
+                  quotation.sapId,
+                  quotation.sapSyncStatus
+                );
               }),
               tap((quotation) =>
                 addCalculationsForDetails(quotation.quotationDetails)
@@ -748,60 +752,19 @@ export class ActiveCaseEffects {
     );
   }
 
-  private showUploadSelectionToast(
-    quotation: Quotation,
-    syncedPositionIds: string[]
-  ): void {
-    if (!(quotation.sapCallInProgress === SapCallInProgress.NONE_IN_PROGRESS)) {
-      return;
+  private showErrorToastOnFailedRequest(
+    sapId: string,
+    sapSyncStatus: SAP_SYNC_STATUS
+  ) {
+    if (sapSyncStatus === SAP_SYNC_STATUS.SYNC_FAILED) {
+      const errorMessage = translate(
+        `shared.snackBarMessages.createSapQuoteSync.failed`,
+        {
+          sapId,
+        }
+      );
+      this.snackBar.open(errorMessage);
     }
-
-    const updatedDetails = quotation.quotationDetails.filter((detail) =>
-      syncedPositionIds.includes(detail.gqPositionId)
-    );
-    const syncInSapStatus = updatedDetails.map((e) => e.sapSyncStatus);
-    let translateKey;
-
-    if (syncInSapStatus.every((status) => status === SAP_SYNC_STATUS.SYNCED)) {
-      translateKey = 'full';
-    } else if (
-      syncInSapStatus.includes(SAP_SYNC_STATUS.SYNCED) ||
-      quotation.sapSyncStatus === SAP_SYNC_STATUS.SYNC_PENDING
-    ) {
-      translateKey = 'partially';
-    } else {
-      translateKey = 'failed';
-    }
-    const successMessage = translate(
-      `shared.snackBarMessages.uploadToSapSync.${translateKey}`
-    );
-    this.snackBar.open(successMessage);
-  }
-
-  private showCreateSapQuoteToast(quotation: Quotation) {
-    if (!(quotation.sapCallInProgress === SapCallInProgress.NONE_IN_PROGRESS)) {
-      return;
-    }
-
-    let translateKey;
-    if (quotation.sapSyncStatus === SAP_SYNC_STATUS.SYNCED) {
-      translateKey = 'full';
-    } else if (
-      quotation.sapSyncStatus === SAP_SYNC_STATUS.PARTIALLY_SYNCED ||
-      quotation.sapSyncStatus === SAP_SYNC_STATUS.SYNC_PENDING
-    ) {
-      translateKey = 'partially';
-    } else {
-      translateKey = 'failed';
-    }
-
-    const successMessage = translate(
-      `shared.snackBarMessages.createSapQuoteSync.${translateKey}`,
-      {
-        sapId: quotation.sapId,
-      }
-    );
-    this.snackBar.open(successMessage);
   }
 
   private showUpdateQuotationDetailToast(

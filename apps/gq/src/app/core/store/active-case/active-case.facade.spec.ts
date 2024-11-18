@@ -1,5 +1,6 @@
 import { of } from 'rxjs';
 
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import {
   DetailViewQueryParams,
   Quotation,
@@ -142,6 +143,25 @@ describe('ActiveCaseFacade', () => {
 
         m.expect(facade.quotationIdentifier$).toBeObservable(
           m.cold('a', { a: quotationIdentifier })
+        );
+      })
+    );
+  });
+
+  describe('quotationCalculationInProgress$', () => {
+    test(
+      'should select the quotation calculationInProgress',
+      marbles((m) => {
+        const quotation = {
+          calculationInProgress: true,
+        } as Quotation;
+        mockStore.overrideSelector(
+          activeCaseFeature.selectQuotation,
+          quotation
+        );
+
+        m.expect(facade.quotationCalculationInProgress$).toBeObservable(
+          m.cold('a', { a: true })
         );
       })
     );
@@ -322,6 +342,7 @@ describe('ActiveCaseFacade', () => {
       })
     );
   });
+
   describe('costsUpdating$', () => {
     test(
       'should select update costs loading',
@@ -864,6 +885,62 @@ describe('ActiveCaseFacade', () => {
       const spy = jest.spyOn(mockStore, 'dispatch');
 
       facade.uploadAttachments(files);
+
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('updateRfqInformation', () => {
+    test('should dispatch updateRFQInformation', () => {
+      const gqPosId = '123';
+      const action = ActiveCaseActions.updateRFQInformation({ gqPosId });
+      const spy = jest.spyOn(mockStore, 'dispatch');
+
+      facade.updateRfqInformation(gqPosId);
+
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('resetSimulatedQuotation', () => {
+    test('should dispatch resetSimulatedQuotation', () => {
+      const action = ActiveCaseActions.resetSimulatedQuotation();
+      const spy = jest.spyOn(mockStore, 'dispatch');
+
+      facade.resetSimulatedQuotation();
+
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('removeSimulatedQuotationDetail', () => {
+    test('should dispatch removeSimulatedQuotationDetail', () => {
+      const gqPositionId = '123';
+      const action = ActiveCaseActions.removeSimulatedQuotationDetail({
+        gqPositionId,
+      });
+      const spy = jest.spyOn(mockStore, 'dispatch');
+
+      facade.removeSimulatedQuotationDetail(gqPositionId);
+
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('addSimulatedQuotation', () => {
+    test('should dispatch addSimulatedQuotation', () => {
+      const gqId = 123;
+      const quotationDetails: QuotationDetail[] = [];
+      const simulatedField = {} as ColumnFields;
+
+      const action = ActiveCaseActions.addSimulatedQuotation({
+        gqId,
+        quotationDetails,
+        simulatedField,
+      });
+      const spy = jest.spyOn(mockStore, 'dispatch');
+
+      facade.addSimulatedQuotation(gqId, quotationDetails, simulatedField);
 
       expect(spy).toHaveBeenCalledWith(action);
     });

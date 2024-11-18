@@ -587,7 +587,6 @@ export const activeCaseFeature = createFeature({
 
             return detail ? { ...q, sapSyncStatus: detail.sapSyncStatus } : q;
           }),
-          sapCallInProgress: result.sapCallInProgress,
         },
       })
     ),

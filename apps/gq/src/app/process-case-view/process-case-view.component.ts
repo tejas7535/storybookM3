@@ -1,13 +1,7 @@
-import {
-  Component,
-  DestroyRef,
-  inject,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, DestroyRef, inject, OnDestroy } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { combineLatest, filter, map, Observable, tap } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
@@ -27,7 +21,7 @@ import { Breadcrumb } from '@schaeffler/breadcrumbs';
   templateUrl: './process-case-view.component.html',
   styleUrls: ['./process-case-view.component.scss'],
 })
-export class ProcessCaseViewComponent implements OnInit, OnDestroy {
+export class ProcessCaseViewComponent implements OnDestroy {
   private readonly approvalFacade: ApprovalFacade = inject(ApprovalFacade);
   private readonly breadCrumbsService: BreadcrumbsService =
     inject(BreadcrumbsService);
@@ -36,7 +30,7 @@ export class ProcessCaseViewComponent implements OnInit, OnDestroy {
     inject(ActiveCaseFacade);
 
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
-  showCalcInProgress = false;
+  showCalcInProgress$ = this.activeCaseFacade.quotationCalculationInProgress$;
   quotation$: Observable<Quotation> = this.activeCaseFacade.quotation$;
   sapStatus$: Observable<SAP_SYNC_STATUS> =
     this.activeCaseFacade.quotationSapSyncStatus$;
@@ -89,40 +83,11 @@ export class ProcessCaseViewComponent implements OnInit, OnDestroy {
   );
   readonly loggedInUserId$ = this.rolesFacade.loggedInUserId$;
 
-  ngOnInit(): void {
-    this.requestApprovalData();
-  }
-
   ngOnDestroy(): void {
     this.approvalFacade.stopApprovalCockpitDataPolling();
   }
 
   updateQuotation(updateQuotationRequest: UpdateQuotationRequest) {
     this.activeCaseFacade.updateQuotation(updateQuotationRequest);
-  }
-  private requestApprovalData(): void {
-    this.quotation$
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        filter((quotation: Quotation) => !!quotation),
-        tap((quotation: Quotation) => {
-          // when GQ call or SAP call is running the "we are syncing your case" will be shown only when sapSyncStatus is not SYNC_PENDING
-          this.showCalcInProgress = quotation.calculationInProgress;
-        }),
-        map((quotation: Quotation) => {
-          if (quotation.sapSyncStatus === SAP_SYNC_STATUS.SYNCED) {
-            // if a quote was fully synced, the approval data should be reloaded because net value and gpm might have changed
-            const hideLoadingSpinner = true;
-            const forceLoad = true;
-            this.approvalFacade.getApprovalCockpitData(
-              quotation.sapId,
-              quotation.customer.enabledForApprovalWorkflow,
-              forceLoad,
-              hideLoadingSpinner
-            );
-          }
-        })
-      )
-      .subscribe();
   }
 }

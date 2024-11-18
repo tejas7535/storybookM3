@@ -148,6 +148,8 @@ export const ActiveCaseActions = createActionGroup({
       result: QuotationSapSyncStatusResult;
     }>(),
     'Get Sap Sync Status Failure': props<{ errorMessage: string }>(),
-    'Get Sap Sync Status Success Fully Completed': emptyProps(),
+    'Get Sap Sync Status Success Fully Completed': props<{
+      result: QuotationSapSyncStatusResult;
+    }>(),
   },
 });

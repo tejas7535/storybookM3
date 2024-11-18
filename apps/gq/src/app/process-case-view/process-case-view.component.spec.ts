@@ -243,62 +243,6 @@ describe('ProcessCaseViewComponent', () => {
     );
   });
 
-  describe('requestApprovalData', () => {
-    beforeEach(() => {
-      jest.resetAllMocks();
-    });
-    test('should call requestApprovalData when quotation is synced with SAP', () => {
-      const sapId = 'testSapId';
-      quotationSubject.next({
-        sapId,
-        customer: { enabledForApprovalWorkflow: true },
-        sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
-      } as Quotation);
-
-      component.ngOnInit();
-
-      expect(
-        component['approvalFacade'].getApprovalCockpitData
-      ).toHaveBeenCalledWith(sapId, true, true, true);
-    });
-
-    test('should not call requestApprovalData when quotation is not synced with SAP', () => {
-      const sapId = 'testSapId';
-      quotationSubject.next({
-        sapId,
-        customer: { enabledForApprovalWorkflow: true },
-        sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
-      } as Quotation);
-
-      component.ngOnInit();
-
-      expect(
-        component['approvalFacade'].getApprovalCockpitData
-      ).not.toHaveBeenCalled();
-    });
-
-    test('should not call requestApprovalData', () => {
-      quotationSubject.next(undefined as Quotation);
-
-      component.ngOnInit();
-
-      expect(
-        component['approvalFacade'].getApprovalCockpitData
-      ).not.toHaveBeenCalled();
-    });
-    test('should showCalcInProgress', () => {
-      quotationSubject.next({
-        calculationInProgress: true,
-        sapCallInProgress: 0,
-        sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
-        customer: { enabledForApprovalWorkflow: true },
-      } as Quotation);
-      component.showCalcInProgress = false;
-      component.ngOnInit();
-      expect(component.showCalcInProgress).toBe(true);
-    });
-  });
-
   describe('ngOnDestroy', () => {
     test('should emit shutDown and stop approval cockpit data polling', () => {
       const stopApprovalCockpitDataPolling = jest.fn();

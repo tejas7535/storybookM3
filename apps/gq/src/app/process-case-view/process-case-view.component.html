@@ -54,7 +54,7 @@
       </schaeffler-subheader>
     }
     <ng-container *ngrxLet="quotation$ as quotation">
-      @if (showCalcInProgress) {
+      @if (showCalcInProgress$ | ngrxPush) {
         <gq-calculation-in-progress
           class="h-full"
           [amountDetails]="quotation.quotationDetails.length"
