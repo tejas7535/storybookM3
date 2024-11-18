@@ -368,6 +368,18 @@
           </mat-form-field>
         </div>
         <div class="flex flex-row gap-x-6">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('releaseRestrictions') }}</mat-label>
+            <textarea
+              matInput
+              [formControl]="releaseRestrictionsControl"
+              name="releaseRestrictions"
+              #dialogControl
+            ></textarea>
+            <mat-hint>{{ releaseRestrictionsHint }}</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-row gap-x-6">
           @switch (selectReleaseDateView()) {
             @case ('READONLY') {
               <mat-form-field appearance="outline" class="w-full">
@@ -706,9 +718,6 @@
             [formControl]="reportValidUntilControlMoment"
             readonly
           />
-          <mat-error class="text-caption">{{
-            t('invalidDateError')
-          }}</mat-error>
           <mat-datepicker-toggle matSuffix [for]="dateDatePicker">
             <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
           </mat-datepicker-toggle>
