@@ -15,6 +15,11 @@ import { MaterialClass, REFERENCE_DOCUMENT } from '../../../constants';
 import { EditCellRendererComponent } from './edit-cell-renderer.component';
 import { EditCellRendererParams } from './edit-cell-renderer-params.model';
 
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
+  translate: jest.fn((key) => key),
+}));
+
 describe('EditCellRendererComponent', () => {
   let component: EditCellRendererComponent;
   let spectator: Spectator<EditCellRendererComponent>;

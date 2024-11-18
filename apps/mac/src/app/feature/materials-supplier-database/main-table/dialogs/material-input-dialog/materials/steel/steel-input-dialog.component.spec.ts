@@ -1,4 +1,9 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Injectable, QueryList } from '@angular/core';
+import {
+  CUSTOM_ELEMENTS_SCHEMA,
+  Injectable,
+  NO_ERRORS_SCHEMA,
+  QueryList,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -21,10 +26,18 @@ import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockDirective, MockModule, MockPipe, MockProvider } from 'ng-mocks';
 
+import { SelectedFile } from '@schaeffler/file-upload';
 import { StringOption } from '@schaeffler/inputs';
 import { SelectComponent, SelectModule } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import {
+  NONE_OPTION,
+  SCHAEFFLER_EXPERTS_CALCULATION_TOOL_OPTION,
+  SCHAEFFLER_EXPERTS_OPTION,
+  SCHAEFFLER_EXPERTS_PCF_OPTION,
+  THIRD_PARTY_VERIFIED_OPTION,
+} from '@mac/feature/materials-supplier-database/constants/co2-classification-options';
 import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
 import {
   getHighestCo2Values,
@@ -42,7 +55,7 @@ import { createOption } from '@mac/testing/mocks/msd/material-generator.mock';
 import { assignDialogValues } from '@mac/testing/mocks/msd/mock-input-dialog-values.mocks';
 
 import * as en from '../../../../../../../../assets/i18n/en.json';
-import { DialogControlsService } from '../../services';
+import { DialogControlsService, FileService } from '../../services';
 import { ReleaseDateViewMode } from './constants/release-date-view-mode.enum';
 import { SteelInputDialogComponent } from './steel-input-dialog.component';
 
@@ -56,11 +69,17 @@ class MockDialogFacade extends DialogFacade {
   materialDialogConfirmed = jest.fn();
   resetSteelMakingProcessInUse = jest.fn();
   updateCreateMaterialDialogValues = jest.fn();
+  addCustomCo2Standard = jest.fn();
 }
 
 jest.mock(
   '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/material-input-dialog.component'
 );
+
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
+  translate: jest.fn((key) => key),
+}));
 
 const getMockControl = (disabled: boolean): FormControl =>
   new FormControl({ value: undefined, disabled });
@@ -132,6 +151,7 @@ describe('SteelInputDialogComponent', () => {
           getMockControl(disabled)
         ),
       }),
+      MockProvider(FileService),
       mockProvider(MsdDialogService),
       {
         provide: MatDialogRef,
@@ -145,7 +165,7 @@ describe('SteelInputDialogComponent', () => {
       },
       MockProvider(DialogFacade, MockDialogFacade, 'useClass'),
     ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     detectChanges: false,
   });
 
@@ -249,9 +269,11 @@ describe('SteelInputDialogComponent', () => {
     it('should assign the material form', () => {
       component.minDimControl.setValue(99);
 
-      expect(dialogFacade.updateCreateMaterialDialogValues).toBeCalledWith(
-        component.createMaterialForm.value
-      );
+      expect(dialogFacade.updateCreateMaterialDialogValues).toBeCalledWith({
+        ...component.createMaterialForm.value,
+        reportValidUntil: component.reportValidUntilControlMoment.value?.unix(),
+        co2UploadFile: undefined,
+      });
     });
   });
 
@@ -337,6 +359,105 @@ describe('SteelInputDialogComponent', () => {
       component.supplierPlantControl.patchValue(option);
       expect(component.isManufacturerControl.enabled).toBeTruthy();
       expect(component.isManufacturerControl.value).toBeFalsy();
+    });
+  });
+
+  describe('co2TotalControl', () => {
+    it('should not be required by default', () => {
+      expect(
+        component.co2TotalControl.hasValidator(Validators.required)
+      ).toBeFalsy();
+    });
+
+    it.each([
+      [1, undefined],
+      [undefined, 1],
+      [1, 1],
+    ])(
+      'should add the required validator if some CO2 values are entered | %s, %s',
+      (co2Core, co2Upstream) => {
+        component.co2CoreControl.setValue(co2Core);
+        component.co2UpstreamControl.setValue(co2Upstream);
+
+        expect(
+          component.co2TotalControl.hasValidator(Validators.required)
+        ).toBeTruthy();
+      }
+    );
+
+    it('should remove the required validator if both CO2 values are empty', () => {
+      component.co2TotalControl.addValidators(Validators.required);
+      component.co2CoreControl.setValue(undefined);
+      component.co2UpstreamControl.setValue(undefined);
+
+      expect(
+        component.co2TotalControl.hasValidator(Validators.required)
+      ).toBeFalsy();
+    });
+  });
+
+  describe('co2ClassificationNewControl', () => {
+    it('should be disabled by default', () => {
+      expect(component.co2ClassificationNewControl.disabled).toBeTruthy();
+    });
+
+    it('should be enabled if co2Total has a value', () => {
+      component.co2TotalControl.setValue(1);
+
+      expect(component.co2ClassificationNewControl.enabled).toBeTruthy();
+    });
+  });
+
+  describe('co2ClassificationNewDependants', () => {
+    it('should have the dependants disabled by default', () => {
+      expect(
+        component.co2ClassificationNewSecondaryControl.disabled
+      ).toBeTruthy();
+      expect(component.co2StandardControl.disabled).toBeTruthy();
+      expect(component.productCategoryRuleControl.disabled).toBeTruthy();
+      expect(component.dataQualityRatingControl.disabled).toBeTruthy();
+      expect(component.primaryDataShareControl.disabled).toBeTruthy();
+      expect(component.co2CommentControl.disabled).toBeTruthy();
+      expect(component.co2UploadFileControl.disabled).toBeTruthy();
+    });
+
+    it.each([[THIRD_PARTY_VERIFIED_OPTION], [SCHAEFFLER_EXPERTS_OPTION]])(
+      'should enable the dependants if co2ClassificationNew has a value other than NONE',
+      (value) => {
+        component.co2ClassificationNewControl.setValue(value);
+
+        expect(
+          component.co2ClassificationNewSecondaryControl.enabled
+        ).toBeTruthy();
+        expect(component.co2StandardControl.enabled).toBeTruthy();
+        expect(component.productCategoryRuleControl.enabled).toBeTruthy();
+        expect(component.dataQualityRatingControl.enabled).toBeTruthy();
+        expect(component.primaryDataShareControl.enabled).toBeTruthy();
+        expect(component.co2CommentControl.enabled).toBeTruthy();
+        expect(component.co2UploadFileControl.enabled).toBeTruthy();
+      }
+    );
+
+    it('should disable the dependants if co2ClassificationNew is set to NONE', () => {
+      component.co2ClassificationNewSecondaryControl.enable();
+      component.co2StandardControl.enable();
+      component.productCategoryRuleControl.enable();
+      component.dataQualityRatingControl.enable();
+      component.primaryDataShareControl.enable();
+      component.co2CommentControl.enable();
+      component.co2UploadFileControl.enable();
+
+      component.co2ClassificationNewControl.setValue(NONE_OPTION);
+
+      expect(
+        component.co2ClassificationNewSecondaryControl.disabled
+      ).toBeTruthy();
+      expect(component.co2StandardControl.disabled).toBeTruthy();
+      expect(component.productCategoryRuleControl.disabled).toBeTruthy();
+      expect(component.dataQualityRatingControl.disabled).toBeTruthy();
+      expect(component.primaryDataShareControl.disabled).toBeTruthy();
+      expect(component.co2CommentControl.disabled).toBeTruthy();
+      expect(component.co2UploadFileControl.disabled).toBeTruthy();
     });
   });
 
@@ -679,6 +800,47 @@ describe('SteelInputDialogComponent', () => {
     });
   });
 
+  describe('getCo2ClassificationsNew', () => {
+    it('should return the co2Classifications', () => {
+      const result = component.getCo2ClassificationsNew();
+      expect(result).toEqual([
+        THIRD_PARTY_VERIFIED_OPTION,
+        SCHAEFFLER_EXPERTS_OPTION,
+        NONE_OPTION,
+      ]);
+    });
+  });
+
+  describe('getCo2ClassificationsNewSecondary', () => {
+    it('should return the co2Classifications', () => {
+      const result = component.getCo2ClassificationsNewSecondary();
+      expect(result).toEqual([
+        SCHAEFFLER_EXPERTS_CALCULATION_TOOL_OPTION,
+        SCHAEFFLER_EXPERTS_PCF_OPTION,
+      ]);
+    });
+  });
+
+  describe('setFile', () => {
+    it('should set the co2UploadFileControl value if at least one file is selected and enable the reportValidUntilControl', () => {
+      const file = new File([''], 'filename');
+      const files: SelectedFile[] = [{ file } as SelectedFile];
+      component.setFile(files);
+      expect(component.co2UploadFileControl.value).toEqual(file);
+      expect(component.co2UploadFileControl.touched).toBe(true);
+      expect(component.reportValidUntilControl.enabled).toBe(true);
+    });
+
+    it('should reset the co2UploadFileControl value if no file is selected and disable the reportValidUntilControl', () => {
+      component.reportValidUntilControl.enable();
+
+      component.setFile([]);
+      expect(component.co2UploadFileControl.value).toBeNull();
+      expect(component.co2UploadFileControl.touched).toBe(false);
+      expect(component.reportValidUntilControl.disabled).toBe(true);
+    });
+  });
+
   describe('addReferenceDocument', () => {
     it('should add values to select', () => {
       const referenceDocument = 'string';
@@ -695,6 +857,16 @@ describe('SteelInputDialogComponent', () => {
       component.addCastingDiameter(castingDiameter);
       expect(dialogFacade.addCustomCastingDiameter).toHaveBeenCalledWith(
         castingDiameter
+      );
+    });
+  });
+
+  describe('addCo2Standard', () => {
+    it('should add values to select', () => {
+      const co2Standard = 'standard';
+      component.addCo2Standard(co2Standard);
+      expect(dialogFacade.addCustomCo2Standard).toHaveBeenCalledWith(
+        co2Standard
       );
     });
   });

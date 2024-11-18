@@ -181,6 +181,18 @@ export class MsdDataService {
     );
   }
 
+  public fetchCo2Standards(materialClass: MaterialClass) {
+    const body = {
+      select: ['co2ClassificationStandard'],
+      distinct: true,
+    };
+
+    return this.httpClient.post<string[]>(
+      `${this.BASE_URL}/materials/${materialClass}/query`,
+      body
+    );
+  }
+
   public getHistoryForProductCategoryRule(
     materialClass: MaterialClass,
     id: number
@@ -509,6 +521,30 @@ export class MsdDataService {
     );
   }
 
+  public formCreateMaterial(
+    material: (Material | MaterialRequest) & {
+      co2UploadFile?: File;
+      co2UploadFileId?: number;
+    },
+    materialClass: MaterialClass = MaterialClass.STEEL
+  ) {
+    const { co2UploadFile, ...materialWithoutFile } = material;
+
+    const formData = new FormData();
+    formData.append(
+      'material',
+      new Blob([JSON.stringify(materialWithoutFile)], {
+        type: 'application/json',
+      })
+    );
+    formData.append('file', co2UploadFile);
+
+    return this.httpClient.post<{ id: number }>(
+      `${this.BASE_URL}/materials/${materialClass}/form`,
+      formData
+    );
+  }
+
   public bulkEditMaterial(
     materials: MaterialRequest[],
     materialClass: MaterialClass = MaterialClass.STEEL
@@ -759,6 +795,43 @@ export class MsdDataService {
       ),
       co2Type: findProperty(materialResponse, 'co2Type'),
       materialSapId: findProperty(materialResponse, 'materialSapId'),
+      co2Upstream: findProperty(materialResponse, 'co2Upstream'),
+      co2Core: findProperty(materialResponse, 'co2Core'),
+      co2ClassificationNew: findProperty(
+        materialResponse,
+        'co2ClassificationNew'
+      ),
+      co2Standard: findProperty(materialResponse, 'co2ClassificationStandard'),
+      productCategoryRule: findProperty<ProductCategoryRule>(
+        materialResponse,
+        'co2Pcr'
+      ),
+      productCategoryRuleId: findProperty<ProductCategoryRule>(
+        materialResponse,
+        'co2Pcr'
+      )?.id,
+      productCategoryRuleTitle: findProperty<ProductCategoryRule>(
+        materialResponse,
+        'co2Pcr'
+      )?.title,
+      dataQualityRating: findProperty(
+        materialResponse,
+        'co2ClassificationDataQualityRating'
+      ),
+      primaryDataShare: findProperty(
+        materialResponse,
+        'co2ClassificationPrimaryDataShare'
+      ),
+      reportValidUntil: findProperty(materialResponse, 'co2ValidUntil'),
+      co2UploadFileId: findProperty<{ id: number }>(
+        materialResponse,
+        'co2UploadFile'
+      )?.id,
+      co2UploadFileFilename: findProperty<{ filename: string }>(
+        materialResponse,
+        'co2UploadFile'
+      )?.filename,
+      co2Comment: findProperty(materialResponse, 'co2Comment'),
 
       lastModified: materialResponse.timestamp,
       modifiedBy: materialResponse.modifiedBy,

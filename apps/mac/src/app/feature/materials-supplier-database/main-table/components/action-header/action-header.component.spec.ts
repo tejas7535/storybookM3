@@ -1,3 +1,4 @@
+import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { IHeaderParams, RowNode } from 'ag-grid-community';
@@ -6,6 +7,11 @@ import { MockPipe } from 'ng-mocks';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
 import { ActionHeaderComponent } from './action-header.component';
+
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
+  translate: jest.fn((string) => string.split('.').pop()),
+}));
 
 describe('ActionHeaderComponent', () => {
   let component: ActionHeaderComponent;

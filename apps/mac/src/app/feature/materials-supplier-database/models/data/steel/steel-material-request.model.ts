@@ -16,4 +16,15 @@ export interface SteelMaterialRequest extends BaseMaterialRequest {
   ratingChangeComment?: string;
   minRecyclingRate?: number;
   maxRecyclingRate?: number;
+  co2Upstream?: number;
+  co2Core?: number;
+  co2ClassificationNew?: string;
+  co2Standard?: string;
+  productCategoryRule?: string;
+  dataQualityRating?: number;
+  primaryDataShare?: number;
+  co2ValidUntil?: number | string;
+  co2UploadFile?: File;
+  co2UploadFileId?: number;
+  co2Comment?: string;
 }

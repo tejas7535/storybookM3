@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
+import { TranslocoModule } from '@jsverse/transloco';
 import {
   createComponentFactory,
   mockProvider,
@@ -19,6 +20,11 @@ import { DialogFacade } from '@mac/feature/materials-supplier-database/store/fac
 
 import * as en from '../../../../../../../../../assets/i18n/en.json';
 import { ReferenceDocumentBulkEditDialogComponent } from './reference-document-bulk-edit-dialog.component';
+
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
+  translate: jest.fn((string) => string.split('.').pop()),
+}));
 
 describe('ReferenceDocumentBulkEditDialogComponent', () => {
   let component: ReferenceDocumentBulkEditDialogComponent;

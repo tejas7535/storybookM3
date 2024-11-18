@@ -40,4 +40,17 @@ export interface DataResult {
   lastModified?: number;
   condition?: string;
   grade?: string;
+
+  co2Upstream?: number;
+  co2Core?: number;
+  co2ClassificationNew?: string;
+  co2Standard?: string;
+  co2Comment?: string;
+  productCategoryRuleId?: number;
+  productCategoryRuleTitle?: string;
+  reportValidUntil?: number;
+  dataQualityRating?: number;
+  primaryDataShare?: number;
+  co2UploadFileId?: number;
+  co2UploadFileFilename?: string;
 }

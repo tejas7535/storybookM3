@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import {
   AbstractControl,
+  FormArray,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -20,6 +21,7 @@ import {
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -27,19 +29,44 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {
+  MAT_MOMENT_DATE_FORMATS,
+  MatMomentDateModule,
+  provideMomentDateAdapter,
+} from '@angular/material-moment-adapter';
 
 import { BehaviorSubject, filter, map, takeUntil, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
+import moment from 'moment';
 
+import {
+  FileUploadComponent,
+  Message,
+  SelectedFile,
+} from '@schaeffler/file-upload';
 import { StringOption } from '@schaeffler/inputs';
 import { SelectComponent, SelectModule } from '@schaeffler/inputs/select';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
+import {
+  Co2Classification,
+  MaterialClass,
+} from '@mac/feature/materials-supplier-database/constants';
+import {
+  NONE_OPTION,
+  SCHAEFFLER_EXPERTS,
+  SCHAEFFLER_EXPERTS_CALCULATION_TOOL_OPTION,
+  SCHAEFFLER_EXPERTS_OPTION,
+  SCHAEFFLER_EXPERTS_PCF_OPTION,
+  THIRD_PARTY_VERIFIED_OPTION,
+} from '@mac/feature/materials-supplier-database/constants/co2-classification-options';
 import { MaterialInputDialogComponent } from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/material-input-dialog.component';
-import { DialogControlsService } from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/services';
+import {
+  DialogControlsService,
+  FileService,
+} from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/services';
 import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
 import { MsdSnackbarService } from '@mac/feature/materials-supplier-database/services/msd-snackbar';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
@@ -58,6 +85,14 @@ import { MaterialStandardComponent } from '../../components/material-standard/ma
 import { RecyclingRateComponent } from '../../components/recycline-rate/recycling-rate.component';
 import * as util from '../../util';
 import { ReleaseDateViewMode } from './constants/release-date-view-mode.enum';
+
+const DATE_FORMATS = {
+  parse: { dateInput: 'YYYY-MM-DD' },
+  display: {
+    ...MAT_MOMENT_DATE_FORMATS.display,
+    dateInput: 'YYYY-MM-DD',
+  },
+};
 
 @Component({
   selector: 'mac-steel-input-dialog',
@@ -82,16 +117,19 @@ import { ReleaseDateViewMode } from './constants/release-date-view-mode.enum';
     MatButtonModule,
     MatSnackBarModule,
     MatInputModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
     // forms
     ReactiveFormsModule,
     // libs
+    FileUploadComponent,
     SelectModule,
     SharedTranslocoModule,
     // ngrx
     PushPipe,
     LetDirective,
   ],
-  providers: [DialogControlsService],
+  providers: [DialogControlsService, provideMomentDateAdapter(DATE_FORMATS)],
 })
 export class SteelInputDialogComponent
   extends MaterialInputDialogComponent
@@ -101,6 +139,9 @@ export class SteelInputDialogComponent
   private readonly steelMakingProcessSelectQueryList: QueryList<SelectComponent>;
 
   public materialClass = MaterialClass.STEEL;
+  public SCHAEFFLER_EXPERTS = SCHAEFFLER_EXPERTS;
+  public SCHAEFFLER_EXPERTS_CALCULATION_TOOL: string =
+    Co2Classification.CHECKED_BY_SCHAEFFLER_EXPERTS_CALCULATION_TOOL;
 
   public castingModes$ = this.dialogFacade.castingModes$;
   public co2Classification$ = this.dialogFacade.co2Classification$;
@@ -109,6 +150,8 @@ export class SteelInputDialogComponent
   public steelMakingProcess$ = this.dialogFacade.steelMakingProcess$;
   public castingDiameters$ = this.dialogFacade.castingDiameters$;
   public referenceDocuments$ = this.dialogFacade.referenceDocuments$;
+  public productCategoryRules$ = this.dialogFacade.productCategoryRules$;
+  public co2Standards$ = this.dialogFacade.co2Standards$;
 
   public steelNumberControl = this.controlsService.getSteelNumberControl();
   public selfCertifiedControl = this.controlsService.getControl<boolean>(false);
@@ -153,12 +196,65 @@ export class SteelInputDialogComponent
     true
   );
 
+  // new co2 controls
+  public co2UpstreamControl = this.controlsService.getNumberControl();
+  public co2CoreControl = this.controlsService.getNumberControl();
+  public co2ClassificationNewControl =
+    this.controlsService.getControl<StringOption>(NONE_OPTION, true);
+  public co2ClassificationNewSecondaryControl =
+    this.controlsService.getControl<StringOption>(
+      SCHAEFFLER_EXPERTS_PCF_OPTION,
+      true
+    );
+  public co2StandardControl = this.controlsService.getControl<StringOption>(
+    undefined,
+    true
+  );
+  public productCategoryRuleControl =
+    this.controlsService.getControl<StringOption>(undefined, true);
+  public reportValidUntilControl = this.controlsService.getControl<
+    string | number
+  >(undefined, true);
+  public reportValidUntilControlMoment =
+    this.controlsService.getControl<moment.Moment>(
+      moment().add(1, 'year'),
+      true
+    );
+  public dataQualityRatingControl = this.controlsService.getControl<number>(
+    undefined,
+    true
+  );
+  public primaryDataShareControl = this.controlsService.getControl<number>(
+    undefined,
+    true
+  );
+  public co2UploadFileControl = this.controlsService.getControl<File>(
+    undefined,
+    true
+  );
+  public co2UploadFileIdControl = this.controlsService.getControl<number>(
+    undefined,
+    false
+  );
+  public co2UploadFileFilenameControl = this.controlsService.getControl<string>(
+    undefined,
+    true
+  );
+
+  public co2CommentControl = this.controlsService.getControl<string>(
+    undefined,
+    true
+  );
+
   // steel making processes
   public steelMakingProcessesInUse: string[] = [];
 
   // releasedate year & month
   public years: number[];
   public months: number[];
+
+  // utility for parsing error message
+  public readonly getErrorMessage = util.getErrorMessage;
 
   // casting diameter dependencies
   castingDiameterDep: FormGroup<{
@@ -170,6 +266,7 @@ export class SteelInputDialogComponent
   // co2 dependencies
   private readonly co2ValuesForSupplierSteelMakingProcess$ =
     this.dialogFacade.co2ValuesForSupplierSteelMakingProcess$;
+  private co2Controls: FormArray<FormControl<number>>;
 
   // autofiller for steelMakingprocess
   private readonly steelMakingProcessesInUse$ =
@@ -177,6 +274,7 @@ export class SteelInputDialogComponent
 
   public constructor(
     readonly controlsService: DialogControlsService,
+    readonly fileService: FileService,
     readonly dialogFacade: DialogFacade,
     readonly dataFacade: DataFacade,
     readonly dialogRef: MatDialogRef<MaterialInputDialogComponent>,
@@ -213,11 +311,28 @@ export class SteelInputDialogComponent
       manufacturerSupplierId: this.manufacturerSupplierIdControl,
       materialStandardId: this.materialStandardIdControl,
       productCategory: this.categoriesControl,
+
       co2Scope1: this.co2Scope1Control,
       co2Scope2: this.co2Scope2Control,
       co2Scope3: this.co2Scope3Control,
+
+      co2Upstream: this.co2UpstreamControl,
+      co2Core: this.co2CoreControl,
+
       co2PerTon: this.co2TotalControl,
       co2Classification: this.co2ClassificationControl,
+      co2ClassificationNew: this.co2ClassificationNewControl,
+      co2ClassificationNewSecondary: this.co2ClassificationNewSecondaryControl,
+      co2Standard: this.co2StandardControl,
+      productCategoryRule: this.productCategoryRuleControl,
+      reportValidUntil: this.reportValidUntilControl,
+      dataQualityRating: this.dataQualityRatingControl,
+      primaryDataShare: this.primaryDataShareControl,
+      co2UploadFile: this.co2UploadFileControl,
+      co2UploadFileId: this.co2UploadFileIdControl,
+      co2UploadFileFilename: this.co2UploadFileFilenameControl,
+      co2Comment: this.co2CommentControl,
+
       releaseRestrictions: this.releaseRestrictionsControl,
 
       // these controls are not used for creating a material, only for materialStandards or manufacturerSuppliers
@@ -289,6 +404,63 @@ export class SteelInputDialogComponent
         } else {
           this.castingModesControl.disable();
         }
+      });
+
+    this.co2Controls = new FormArray([
+      this.co2UpstreamControl,
+      this.co2CoreControl,
+    ]);
+    this.co2TotalControl.addValidators(
+      this.scopeTotalValidatorFn(this.co2Controls)
+    );
+
+    // if co2Total is not required by default, it is required once one of the scope fields is filled out.
+    this.co2Controls.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((scopes) => {
+        // if any of the scopes is filled, co2Total is required
+        if (scopes.some((v) => !!v)) {
+          this.co2TotalControl.addValidators(Validators.required);
+        } else {
+          this.co2TotalControl.removeValidators(Validators.required);
+        }
+        this.co2TotalControl.updateValueAndValidity();
+      });
+
+    this.co2TotalControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) =>
+        value
+          ? this.co2ClassificationNewControl.enable({ emitEvent: false })
+          : this.co2ClassificationNewControl.disable({ emitEvent: false })
+      );
+
+    // co2 fields enable disable
+    this.co2ClassificationNewControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(({ id }) => {
+        if (id) {
+          this.co2ClassificationNewSecondaryControl.enable();
+          this.co2StandardControl.enable();
+          this.productCategoryRuleControl.enable();
+          this.dataQualityRatingControl.enable();
+          this.primaryDataShareControl.enable();
+          this.co2CommentControl.enable();
+          this.co2UploadFileControl.enable();
+        } else {
+          this.co2ClassificationNewSecondaryControl.disable();
+          this.co2StandardControl.disable();
+          this.productCategoryRuleControl.disable();
+          this.reportValidUntilControl.disable();
+          this.reportValidUntilControlMoment.disable();
+          this.dataQualityRatingControl.disable();
+          this.primaryDataShareControl.disable();
+          this.co2UploadFileControl.disable();
+          this.co2CommentControl.disable();
+        }
+        this.createMaterialForm.updateValueAndValidity({
+          emitEvent: false,
+        });
       });
 
     // fetch casting diameters from selected supplier
@@ -414,8 +586,20 @@ export class SteelInputDialogComponent
         }
       });
 
+    this.reportValidUntilControlMoment.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) => {
+        this.reportValidUntilControl.setValue(value?.unix());
+      });
+
     this.createMaterialForm.valueChanges.subscribe((val) => {
-      this.dialogFacade.updateCreateMaterialDialogValues(val);
+      const cleanedValue = {
+        ...val,
+        reportValidUntil: this.reportValidUntilControlMoment.value?.unix(),
+        co2UploadFile: undefined,
+      };
+
+      this.dialogFacade.updateCreateMaterialDialogValues(cleanedValue);
     });
 
     if (this.dialogData.editDialogInformation?.selectedRows?.length > 1) {
@@ -454,6 +638,66 @@ export class SteelInputDialogComponent
           );
         });
     }
+
+    this.reportValidUntilControl.setValue(
+      this.reportValidUntilControlMoment.value?.format('YYYY-MM-DD')
+    );
+  }
+
+  public getCo2ClassificationsNew(): StringOption[] {
+    return [
+      THIRD_PARTY_VERIFIED_OPTION,
+      SCHAEFFLER_EXPERTS_OPTION,
+      NONE_OPTION,
+    ];
+  }
+
+  public getCo2ClassificationsNewSecondary(): StringOption[] {
+    return [
+      SCHAEFFLER_EXPERTS_CALCULATION_TOOL_OPTION,
+      SCHAEFFLER_EXPERTS_PCF_OPTION,
+    ];
+  }
+
+  public setFile(files: SelectedFile[]): void {
+    if (files.length !== 1) {
+      this.co2UploadFileControl.reset();
+      this.fileService.setCo2UploadFile();
+      if (!this.co2UploadFileIdControl.value) {
+        this.reportValidUntilControl.disable();
+        this.reportValidUntilControlMoment.disable();
+      }
+
+      return;
+    }
+    this.co2UploadFileControl.setValue(files[0].file);
+    this.co2UploadFileIdControl.reset();
+    this.fileService.setCo2UploadFile(files[0].file);
+    this.co2UploadFileControl.markAsTouched();
+    this.reportValidUntilControl.enable();
+    this.reportValidUntilControlMoment.enable();
+  }
+
+  public getUploadMessages(): Message[] {
+    return this.co2UploadFileIdControl.value
+      ? [
+          {
+            type: 'info',
+            title: translate(
+              'materialsSupplierDatabase.mainTable.dialog.fileExists'
+            ),
+            description: translate(
+              'materialsSupplierDatabase.mainTable.dialog.fileExistsDescription',
+              {
+                filename: this.co2UploadFileFilenameControl.value,
+                validUntil: moment(this.reportValidUntilControl.value).format(
+                  'YYYY-MM-DD'
+                ),
+              }
+            ),
+          },
+        ]
+      : undefined;
   }
 
   public selectReleaseDateView() {
@@ -475,6 +719,10 @@ export class SteelInputDialogComponent
 
   public addCastingDiameter(castingDiameter: string): void {
     this.dialogFacade.addCustomCastingDiameter(castingDiameter);
+  }
+
+  public addCo2Standard(co2Standard: string): void {
+    this.dialogFacade.addCustomCo2Standard(co2Standard);
   }
 
   public steelMakingProcessFilterFn = (
@@ -504,6 +752,7 @@ export class SteelInputDialogComponent
       this.selfCertifiedControl.enable();
       this.castingDiameterControl.enable();
       this.co2ClassificationControl.enable();
+      this.co2ClassificationNewControl.enable();
     }
   }
 
@@ -572,4 +821,36 @@ export class SteelInputDialogComponent
       return undefined;
     };
   }
+
+  // special validator that compares entered scope values with co2total
+  private readonly scopeTotalValidatorFn =
+    (values: FormArray<FormControl<number>>): ValidatorFn =>
+    (control: AbstractControl<number>): ValidationErrors | null => {
+      if (control.value) {
+        const current = control.value || 0;
+        const min = values.value
+          // replace unfilled values with 0
+          .map((value) => value || 0)
+          // create sum of all scope values
+          .reduce((sum, value) => sum + value, 0);
+        const max = values.value
+          // replace unfilled values with MAX
+          .map((value) => value || Number.MAX_VALUE)
+          // create sum of all scope values
+          .reduce((sum, value) => sum + value, 0);
+
+        // return error if total value is less than sum of scopes
+        if (current < min) {
+          return { scopeTotalLowerThanSingleScopes: { min, current } };
+        }
+        // return error if total value is more than sum of all 3 scopes (all 3 need to be filled out)
+        if (current > max) {
+          return { scopeTotalHigherThanSingleScopes: { max, current } };
+        }
+
+        return undefined;
+      }
+
+      return undefined;
+    };
 }

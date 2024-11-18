@@ -13,6 +13,11 @@ import { initialState } from '@mac/msd/store/reducers/data/data.reducer';
 import { MsdAgGridConfigService } from './msd-ag-grid-config.service';
 import { MsdAgGridStateService } from './msd-ag-grid-state.service';
 
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
+  translate: jest.fn((key) => key),
+}));
+
 describe('MsdAgGridConfigService', () => {
   let spectator: SpectatorService<MsdAgGridConfigService>;
   let service: MsdAgGridConfigService;

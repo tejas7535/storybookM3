@@ -27,6 +27,11 @@ import * as en from '../../../../../../assets/i18n/en.json';
 import { QuickfilterDialogComponent } from '../quickfilter-dialog/quickfilter-dialog.component';
 import { QuickFilterManagementComponent } from './quick-filter-management.component';
 
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
+  translate: jest.fn((key) => key),
+}));
+
 describe('QuickFilterManagementComponent', () => {
   let component: QuickFilterManagementComponent;
   let spectator: Spectator<QuickFilterManagementComponent>;

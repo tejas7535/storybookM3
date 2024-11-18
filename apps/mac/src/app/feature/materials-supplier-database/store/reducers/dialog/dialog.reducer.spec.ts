@@ -6,6 +6,7 @@ import {
   ManufacturerSupplier,
   MaterialFormValue,
   MaterialStandard,
+  ProductCategoryRule,
   SapMaterialsDatabaseUploadStatus,
   SapMaterialsUpload,
 } from '@mac/msd/models';
@@ -761,6 +762,7 @@ describe('dialogReducer', () => {
         customManufacturerSupplierNames: ['1'],
         customManufacturerSupplierPlants: ['1'],
         customMaterialStandardNames: ['1'],
+        customCo2Standards: ['1'],
         // reset loading fields
         co2Values: [
           {
@@ -774,6 +776,8 @@ describe('dialogReducer', () => {
         steelMakingProcessesInUse: ['1'],
         castingDiameters: ['1'],
         referenceDocuments: ['1'],
+        co2Standards: ['1'],
+        productCategoryRules: [{} as ProductCategoryRule],
         error: true,
       },
     };
@@ -789,11 +793,14 @@ describe('dialogReducer', () => {
         customManufacturerSupplierNames: undefined,
         customManufacturerSupplierPlants: undefined,
         customMaterialStandardNames: undefined,
+        customCo2Standards: undefined,
         // reset loading fields
         co2Values: undefined,
         steelMakingProcessesInUse: [],
         castingDiameters: undefined,
         referenceDocuments: undefined,
+        co2Standards: undefined,
+        productCategoryRules: undefined,
         error: undefined,
       },
       // other fields
@@ -1183,6 +1190,30 @@ describe('dialogReducer', () => {
       });
     });
   });
+
+  it('should add a custom co2Standard', () => {
+    const action = DialogActions.addCustomCo2Standard({
+      co2Standard: 'new',
+    });
+    const newState = dialogReducer(
+      {
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customCo2Standards: ['old'],
+        },
+      },
+      action
+    );
+    expect(newState).toEqual({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        customCo2Standards: ['new', 'old'],
+      },
+    });
+  });
+
   it('should set the editMaterial', () => {
     const action = DialogActions.openEditDialog({
       row: {} as DataResult,
@@ -1886,6 +1917,156 @@ describe('dialogReducer', () => {
         ...state.dialogOptions,
         dataOwners: undefined,
         dataOwnersLoading: undefined,
+        error: true,
+      },
+    });
+  });
+
+  it('should reset the productCategoryRules and set loading true on fetchProductCategoryRules', () => {
+    const action = DialogActions.fetchProductCategoryRules();
+    const newState = dialogReducer(
+      {
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          productCategoryRules: [],
+          productCategoryRulesLoading: false,
+        },
+      },
+      action
+    );
+
+    expect(newState).toEqual({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        productCategoryRules: undefined,
+        productCategoryRulesLoading: true,
+      },
+    });
+  });
+
+  it('shoud set the ProductCategoryRules and loading false on success', () => {
+    const productCategoryRules = [{} as ProductCategoryRule];
+    const action = DialogActions.fetchProductCategoryRulesSuccess({
+      productCategoryRules,
+    });
+    const newState = dialogReducer(
+      {
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          productCategoryRules: undefined,
+          productCategoryRulesLoading: true,
+        },
+      },
+      action
+    );
+
+    expect(newState).toEqual({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        productCategoryRules,
+        productCategoryRulesLoading: false,
+      },
+    });
+  });
+
+  it('should reset productCategoryRules and set loading undefined and error true on failure', () => {
+    const action = DialogActions.fetchProductCategoryRulesFailure();
+    const newState = dialogReducer(
+      {
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          productCategoryRules: [{} as ProductCategoryRule],
+          productCategoryRulesLoading: true,
+        },
+      },
+      action
+    );
+
+    expect(newState).toEqual({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        productCategoryRules: undefined,
+        productCategoryRulesLoading: undefined,
+        error: true,
+      },
+    });
+  });
+
+  it('should set co2Standards undefined and loading true on fetchCo2Standards', () => {
+    const action = DialogActions.fetchCo2Standards();
+    const newState = dialogReducer(
+      {
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          co2Standards: [],
+          co2StandardsLoading: false,
+        },
+      },
+      action
+    );
+
+    expect(newState).toEqual({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        co2Standards: undefined,
+        co2StandardsLoading: true,
+      },
+    });
+  });
+
+  it('should set co2Standards and loading false on fetchCo2StandardsSuccess', () => {
+    const co2Standards = ['standard'];
+    const action = DialogActions.fetchCo2StandardsSuccess({ co2Standards });
+    const newState = dialogReducer(
+      {
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          co2Standards: undefined,
+          co2StandardsLoading: true,
+        },
+      },
+      action
+    );
+
+    expect(newState).toEqual({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        co2Standards,
+        co2StandardsLoading: false,
+      },
+    });
+  });
+
+  it('should reset co2Standards and set loading undefined and error true on fetchCo2StandardsFailure', () => {
+    const action = DialogActions.fetchCo2StandardsFailure();
+    const newState = dialogReducer(
+      {
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          co2Standards: ['standard'],
+          co2StandardsLoading: true,
+        },
+      },
+      action
+    );
+
+    expect(newState).toEqual({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        co2Standards: undefined,
+        co2StandardsLoading: undefined,
         error: true,
       },
     });

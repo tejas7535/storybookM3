@@ -10,6 +10,7 @@ import {
   MaterialFormValue,
   MaterialRequest,
   MaterialStandard,
+  ProductCategoryRule,
   SapMaterialsDatabaseUploadStatusResponse,
   SapMaterialsUpload,
 } from '@mac/msd/models';
@@ -260,6 +261,11 @@ export const addCustomDataOwner = createAction(
   props<{ dataOwner: string }>()
 );
 
+export const addCustomCo2Standard = createAction(
+  '[MSD - Dialog] Add Custom CO2 Standard',
+  props<{ co2Standard: string }>()
+);
+
 export const postMaterial = createAction(
   '[MSD - Dialog] Post Material',
   props<{ record: CreateMaterialRecord }>()
@@ -346,6 +352,32 @@ export const fetchDataOwnersSuccess = createAction(
 
 export const fetchDataOwnersFailure = createAction(
   '[MSD - Dialog] Fetch Data Owners Failure'
+);
+
+export const fetchProductCategoryRules = createAction(
+  '[MSD - Dialog] Fetch Product Category Rules'
+);
+
+export const fetchProductCategoryRulesSuccess = createAction(
+  '[MSD - Dialog] Fetch Product Category Rules Success',
+  props<{ productCategoryRules: ProductCategoryRule[] }>()
+);
+
+export const fetchProductCategoryRulesFailure = createAction(
+  '[MSD - Dialog] Fetch Product Category Rules Failure'
+);
+
+export const fetchCo2Standards = createAction(
+  '[MSD - Dialog] Fetch CO2 Standards'
+);
+
+export const fetchCo2StandardsSuccess = createAction(
+  '[MSD - Dialog] Fetch CO2 Standards Success',
+  props<{ co2Standards: string[] }>()
+);
+
+export const fetchCo2StandardsFailure = createAction(
+  '[MSD - Dialog] Fetch CO2 Standards Failure'
 );
 
 export const editDialogLoadingFailure = createAction(

@@ -12,6 +12,7 @@ import {
   ManufacturerSupplier,
   MaterialFormValue,
   MaterialStandard,
+  ProductCategoryRule,
   SapMaterialsDatabaseUploadStatus,
 } from '@mac/msd/models';
 import {
@@ -1002,6 +1003,152 @@ describe('DialogSelectors', () => {
         customs
       )
     ).toEqual(expected);
+  });
+
+  it('should return the productCategoryRules', () => {
+    const productCategoryRules = [
+      {
+        id: 1,
+        name: '1',
+        description: '1',
+      },
+      {
+        id: 2,
+        name: '2',
+        description: '2',
+      },
+    ];
+    expect(
+      DialogSelectors.getMaterialDialogProductCategoryRules.projector({
+        productCategoryRules,
+      } as any)
+    ).toEqual(productCategoryRules);
+  });
+
+  it('should return the productCategoryRules as filtered StringOptions', () => {
+    const productCategoryRules = [
+      undefined,
+      {
+        id: 2,
+        title: '2',
+      },
+      {
+        id: 1,
+        title: '1',
+      },
+    ];
+    const expected = [
+      {
+        id: 1,
+        title: '1',
+        tooltip: '1',
+        tooltipDelay: 1500,
+        data: {
+          id: 1,
+          title: '1',
+        },
+      },
+      {
+        id: 2,
+        title: '2',
+        tooltip: '2',
+        tooltipDelay: 1500,
+        data: {
+          id: 2,
+          title: '2',
+        },
+      },
+    ];
+    expect(
+      DialogSelectors.getMaterialDialogProductCategoryRulesStringOptions.projector(
+        productCategoryRules as unknown as ProductCategoryRule[]
+      )
+    ).toEqual(expected);
+  });
+
+  it('should return an empty array if the pcrs are undefined', () => {
+    expect(
+      DialogSelectors.getMaterialDialogProductCategoryRulesStringOptions.projector(
+        // eslint-disable-next-line unicorn/no-useless-undefined
+        undefined
+      )
+    ).toEqual([]);
+  });
+
+  it('should return the productCategoryRules loading state', () => {
+    expect(
+      DialogSelectors.getMaterialDialogProductCategoryRulesLoading.projector({
+        productCategoryRulesLoading: true,
+      } as any)
+    ).toEqual(true);
+  });
+
+  it('should return the co2 standards', () => {
+    const mockco2Standards = ['1', '2'];
+    expect(
+      DialogSelectors.getMaterialDialogCo2Standards.projector({
+        co2Standards: mockco2Standards,
+      } as any)
+    ).toEqual(mockco2Standards);
+  });
+
+  it('shoulld return the custom co2 standards', () => {
+    const mockCustomCo2Standards = ['custom1', 'custom2'];
+    expect(
+      DialogSelectors.getMaterialDialogCustomCo2Standards.projector({
+        customCo2Standards: mockCustomCo2Standards,
+      } as any)
+    ).toEqual(mockCustomCo2Standards);
+  });
+
+  it('should return the co2 standards as StringOptions merged with custom ones', () => {
+    const mockCo2Classifications = [undefined, '1', '2'];
+    const mockCustomCo2Standards = ['custom1', 'custom2'];
+    const expected: StringOption[] = [
+      {
+        id: 'custom1',
+        title: 'custom1',
+        tooltip: 'custom1',
+        tooltipDelay: 1500,
+      },
+      {
+        id: 'custom2',
+        title: 'custom2',
+        tooltip: 'custom2',
+        tooltipDelay: 1500,
+      },
+      {
+        id: '1',
+        title: '1',
+        tooltip: '1',
+        tooltipDelay: 1500,
+      },
+      {
+        id: '2',
+        title: '2',
+        tooltip: '2',
+        tooltipDelay: 1500,
+      },
+    ];
+
+    const result =
+      DialogSelectors.getMaterialDialogCo2StandardsStringOptions.projector(
+        mockCo2Classifications,
+        mockCustomCo2Standards
+      );
+
+    expect(result).toEqual(expected);
+  });
+
+  it('should return empty arrays merged if co2Standards are undefined', () => {
+    const result =
+      DialogSelectors.getMaterialDialogCo2StandardsStringOptions.projector(
+        // eslint-disable-next-line unicorn/no-useless-undefined
+        undefined,
+        undefined
+      );
+
+    expect(result).toEqual([]);
   });
 
   it('should return a string list as StringOptions', () => {

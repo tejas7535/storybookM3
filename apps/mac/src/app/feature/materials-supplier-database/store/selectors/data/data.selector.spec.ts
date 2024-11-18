@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
+import { TranslocoModule } from '@jsverse/transloco';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
@@ -12,6 +13,11 @@ import {
 
 import { MSDState } from '../../reducers';
 import * as DataSelectors from './data.selector';
+
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
+  translate: jest.fn((string) => string.split('.').pop()),
+}));
 
 describe('DataSelectors', () => {
   it('should get dataState', () => {

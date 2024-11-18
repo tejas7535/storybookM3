@@ -12,6 +12,11 @@ import { MsdDialogService } from '@mac/feature/materials-supplier-database/servi
 import * as en from '../../../../../../assets/i18n/en.json';
 import { GreenSteelCellRendererComponent } from './green-steel-cell-renderer.component';
 
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
+  translate: jest.fn((key) => key),
+}));
+
 describe('GreenSteelCellRendererComponent', () => {
   let component: GreenSteelCellRendererComponent;
   let spectator: Spectator<GreenSteelCellRendererComponent>;

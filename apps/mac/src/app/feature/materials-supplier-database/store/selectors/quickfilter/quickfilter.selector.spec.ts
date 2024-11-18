@@ -1,3 +1,5 @@
+import { TranslocoModule } from '@jsverse/transloco';
+
 import {
   MaterialClass,
   NavigationLevel,
@@ -9,6 +11,11 @@ import {
 
 import { MSDState } from '../../reducers';
 import * as QuickFilterSelectors from './quickfilter.selectors';
+
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
+  translate: jest.fn((string) => string.split('.').pop()),
+}));
 
 describe('QuickfilterSelectors', () => {
   it('should get state', () => {

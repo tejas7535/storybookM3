@@ -2,6 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { of } from 'rxjs';
 
+import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ICellRendererParams } from 'ag-grid-community';
 
@@ -17,6 +18,11 @@ import { RecentStatusCellRendererComponent } from './recent-status-cell-renderer
 jest.mock('@mac/msd/main-table/util', () => ({
   ...jest.requireActual('@mac/msd/main-table/util'),
   getRecentlyChanged: jest.fn(),
+}));
+
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
+  translate: jest.fn((string) => string.split('.').pop()),
 }));
 
 describe('EditCellRendererComponent', () => {

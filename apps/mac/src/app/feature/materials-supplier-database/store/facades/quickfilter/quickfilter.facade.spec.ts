@@ -16,6 +16,11 @@ import { initialState } from '@mac/msd/store/reducers/quickfilter/quickfilter.re
 
 import { QuickFilterFacade } from './quickfilter.facade';
 
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
+  translate: jest.fn((key) => key),
+}));
+
 describe('QuickfilterFacade', () => {
   let spectator: SpectatorService<QuickFilterFacade>;
   let facade: QuickFilterFacade;

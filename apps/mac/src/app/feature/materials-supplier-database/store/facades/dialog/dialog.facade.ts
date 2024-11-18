@@ -25,7 +25,11 @@ import {
   getMaterialDialogCastingDiameterStringOptions,
   getMaterialDialogCastingModes,
   getMaterialDialogCo2Classifications,
+  getMaterialDialogCo2StandardsLoading,
+  getMaterialDialogCo2StandardsStringOptions,
   getMaterialDialogOptionsLoading,
+  getMaterialDialogProductCategoryRulesLoading,
+  getMaterialDialogProductCategoryRulesStringOptions,
   getMaterialDialogProductionProcesses,
   getMaterialDialogRatings,
   getMaterialDialogReferenceDocumentsLoading,
@@ -103,6 +107,18 @@ export class DialogFacade {
   );
   referenceDocumentsLoading$ = this.store.select(
     getMaterialDialogReferenceDocumentsLoading
+  );
+
+  productCategoryRules$ = this.store.select(
+    getMaterialDialogProductCategoryRulesStringOptions
+  );
+  productCategoryRulesLoading$ = this.store.select(
+    getMaterialDialogProductCategoryRulesLoading
+  );
+
+  co2Standards$ = this.store.select(getMaterialDialogCo2StandardsStringOptions);
+  co2StandardsLoading$ = this.store.select(
+    getMaterialDialogCo2StandardsLoading
   );
 
   steelMakingProcessesInUse$ = this.store.select(getSteelMakingProcessesInUse);
@@ -220,6 +236,10 @@ export class DialogFacade {
     this.store.dispatch(
       DialogActions.addCustomMaterialStandardName({ materialName })
     );
+  }
+
+  addCustomCo2Standard(co2Standard: string): void {
+    this.store.dispatch(DialogActions.addCustomCo2Standard({ co2Standard }));
   }
 
   manufacturerSupplierDialogOpened(): void {

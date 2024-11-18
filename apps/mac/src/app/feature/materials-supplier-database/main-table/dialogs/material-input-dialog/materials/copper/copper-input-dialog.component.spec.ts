@@ -32,6 +32,11 @@ import * as en from '../../../../../../../../assets/i18n/en.json';
 import { DialogControlsService } from '../../services';
 import { CopperInputDialogComponent } from './copper-input-dialog.component';
 
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
+  translate: jest.fn((key) => key),
+}));
+
 @Injectable()
 class MockDialogFacade extends DialogFacade {
   fetchCastingDiameters = jest.fn();

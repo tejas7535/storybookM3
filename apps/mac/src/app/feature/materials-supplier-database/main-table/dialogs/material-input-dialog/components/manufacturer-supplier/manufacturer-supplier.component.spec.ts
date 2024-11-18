@@ -3,6 +3,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { of } from 'rxjs';
 
+import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -20,6 +21,11 @@ import { initialState as initialDialogState } from '@mac/msd/store/reducers/dial
 
 import * as en from '../../../../../../../../assets/i18n/en.json';
 import { ManufacturerSupplierComponent } from './manufacturer-supplier.component';
+
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
+  translate: jest.fn((string) => string.split('.').pop()),
+}));
 
 const initialState = {
   msd: {

@@ -22,5 +22,19 @@ export interface SteelMaterialForm extends BaseMaterialForm {
   minRecyclingRate: FormControl<number>;
   maxRecyclingRate: FormControl<number>;
 
+  co2Upstream: FormControl<number>;
+  co2Core: FormControl<number>;
+  co2ClassificationNew: FormControl<StringOption>;
+  co2ClassificationNewSecondary: FormControl<StringOption>;
+  co2Standard: FormControl<StringOption>;
+  productCategoryRule: FormControl<StringOption>;
+  dataQualityRating: FormControl<number>;
+  primaryDataShare: FormControl<number>;
+  reportValidUntil: FormControl<string | number>;
+  co2UploadFile: FormControl<File>;
+  co2UploadFileId: FormControl<number>;
+  co2UploadFileFilename: FormControl<string>;
+  co2Comment: FormControl<string>;
+
   selfCertified: FormControl<boolean>;
 }

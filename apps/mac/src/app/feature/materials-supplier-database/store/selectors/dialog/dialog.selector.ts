@@ -567,6 +567,77 @@ export const getMaterialStandardDocumentStringOptionsMerged = createSelector(
   }
 );
 
+export const getMaterialDialogProductCategoryRules = createSelector(
+  getMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.productCategoryRules
+);
+
+export const getMaterialDialogProductCategoryRulesStringOptions =
+  createSelector(
+    getMaterialDialogProductCategoryRules,
+    (productCategoryRules) => {
+      const options: StringOption[] = (productCategoryRules || [])
+        .filter(Boolean)
+        .map((pcr) => ({
+          id: pcr.id,
+          title: pcr.title,
+          tooltip: pcr.title,
+          data: pcr,
+          tooltipDelay: TOOLTIP_DELAY,
+        }))
+        .sort(stringOptionsSortFn);
+
+      return options;
+    }
+  );
+
+export const getMaterialDialogProductCategoryRulesLoading = createSelector(
+  getMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.productCategoryRulesLoading
+);
+
+export const getMaterialDialogCo2Standards = createSelector(
+  getMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.co2Standards
+);
+
+export const getMaterialDialogCustomCo2Standards = createSelector(
+  getMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.customCo2Standards
+);
+
+export const getMaterialDialogCo2StandardsStringOptions = createSelector(
+  getMaterialDialogCo2Standards,
+  getMaterialDialogCustomCo2Standards,
+  (co2Standards, customCo2Standards) => {
+    const options: StringOption[] = (co2Standards || [])
+      .filter(Boolean)
+      .map((standard) => ({
+        id: standard,
+        title: standard,
+        tooltip: standard,
+        tooltipDelay: TOOLTIP_DELAY,
+      }))
+      .sort(stringOptionsSortFn);
+    const customOptions: StringOption[] = (customCo2Standards || []).map(
+      (standard) => ({
+        id: standard,
+        title: standard,
+        tooltip: standard,
+        tooltipDelay: TOOLTIP_DELAY,
+      })
+    );
+    options.unshift(...customOptions);
+
+    return options;
+  }
+);
+
+export const getMaterialDialogCo2StandardsLoading = createSelector(
+  getMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.co2StandardsLoading
+);
+
 export const getCreateMaterialLoading = createSelector(
   getDialogState,
   (materialDialog) =>

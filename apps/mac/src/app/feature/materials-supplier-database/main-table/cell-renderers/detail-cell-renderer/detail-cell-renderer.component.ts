@@ -44,6 +44,8 @@ export class DetailCellRendererComponent implements ICellRendererAngularComp {
     'lastModified',
     'modifiedBy',
     'productCategory',
+    'co2UploadFileId',
+    'co2UploadFileFilename',
     'uploadFileId',
   ]);
 

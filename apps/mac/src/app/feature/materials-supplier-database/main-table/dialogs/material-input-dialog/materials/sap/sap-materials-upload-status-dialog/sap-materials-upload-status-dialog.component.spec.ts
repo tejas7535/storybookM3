@@ -19,6 +19,11 @@ import { DialogFacade } from '@mac/feature/materials-supplier-database/store/fac
 
 import { SapMaterialsUploadStatusDialogComponent } from './sap-materials-upload-status-dialog.component';
 
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
+  translate: jest.fn((key) => key),
+}));
+
 describe('SapMaterialsUploadStatusDialogComponent', () => {
   let component: SapMaterialsUploadStatusDialogComponent;
   let spectator: Spectator<SapMaterialsUploadStatusDialogComponent>;

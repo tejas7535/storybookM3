@@ -15,6 +15,11 @@ import {
 import { EditCellRendererParams } from '../edit-cell-renderer/edit-cell-renderer-params.model';
 import { PcfMaturityCo2CellRendererComponent } from './pcf-maturity-co2-cell-renderer.component';
 
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
+  translate: jest.fn((key) => key),
+}));
+
 describe('PcfMaturityCo2CellRendererComponent', () => {
   let component: PcfMaturityCo2CellRendererComponent;
   let spectator: Spectator<PcfMaturityCo2CellRendererComponent>;

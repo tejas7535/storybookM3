@@ -9,12 +9,14 @@ import {
   MaterialFormValue,
   MaterialRequest,
   MaterialStandard,
+  ProductCategoryRule,
   SapMaterialsDatabaseUploadStatus,
   SapMaterialsUpload,
 } from '@mac/msd/models';
 
 import {
   addCustomCastingDiameter,
+  addCustomCo2Standard,
   addCustomDataOwner,
   addCustomMaterialStandardDocument,
   addCustomMaterialStandardName,
@@ -43,6 +45,9 @@ import {
   fetchCo2Classifications,
   fetchCo2ClassificationsFailure,
   fetchCo2ClassificationsSuccess,
+  fetchCo2Standards,
+  fetchCo2StandardsFailure,
+  fetchCo2StandardsSuccess,
   fetchCo2ValuesForSupplierSteelMakingProcess,
   fetchCo2ValuesForSupplierSteelMakingProcessFailure,
   fetchCo2ValuesForSupplierSteelMakingProcessSuccess,
@@ -70,6 +75,9 @@ import {
   fetchProductCategories,
   fetchProductCategoriesFailure,
   fetchProductCategoriesSuccess,
+  fetchProductCategoryRules,
+  fetchProductCategoryRulesFailure,
+  fetchProductCategoryRulesSuccess,
   fetchProductionProcesses,
   fetchProductionProcessesFailure,
   fetchProductionProcessesSuccess,
@@ -119,6 +127,11 @@ import {
   uploadSapMaterialsFailure,
   uploadSapMaterialsSuccess,
 } from './dialog.actions';
+
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
+  translate: jest.fn((key) => key),
+}));
 
 describe('Dialog Actions', () => {
   describe('Material Dialog Opened', () => {
@@ -660,6 +673,62 @@ describe('Dialog Actions', () => {
     });
   });
 
+  describe('fetch Product Category Rules', () => {
+    it('fetchProductCategoryRules', () => {
+      const action = fetchProductCategoryRules();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Product Category Rules',
+      });
+    });
+
+    it('fetchProductCategoryRulesSuccess', () => {
+      const productCategoryRules = [{} as ProductCategoryRule];
+      const action = fetchProductCategoryRulesSuccess({ productCategoryRules });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Product Category Rules Success',
+        productCategoryRules,
+      });
+    });
+
+    it('fetchProductCategoryRulesFailure', () => {
+      const action = fetchProductCategoryRulesFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Product Category Rules Failure',
+      });
+    });
+  });
+
+  describe('fetch CO2 Standards', () => {
+    it('fetchCo2Standards', () => {
+      const action = fetchCo2Standards();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch CO2 Standards',
+      });
+    });
+
+    it('fetchCo2StandardsSuccess', () => {
+      const co2Standards = ['1', '2'];
+      const action = fetchCo2StandardsSuccess({ co2Standards });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch CO2 Standards Success',
+        co2Standards,
+      });
+    });
+
+    it('fetchCo2StandardsFailure', () => {
+      const action = fetchCo2StandardsFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch CO2 Standards Failure',
+      });
+    });
+  });
+
   describe('Add Custom Casting Diameter', () => {
     it('addCustomCastingDiameter', () => {
       const action = addCustomCastingDiameter({ castingDiameter: '200x200' });
@@ -746,6 +815,18 @@ describe('Dialog Actions', () => {
       expect(action).toEqual({
         type: '[MSD - Dialog] Add Custom Data Owner',
         dataOwner,
+      });
+    });
+  });
+
+  describe('Add Custom CO2 Standard', () => {
+    it('addCustomCo2Standard', () => {
+      const co2Standard = 'Standard';
+      const action = addCustomCo2Standard({ co2Standard });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Add Custom CO2 Standard',
+        co2Standard,
       });
     });
   });

@@ -18,6 +18,11 @@ import { DataFacade } from '@mac/msd/store/facades/data';
 
 import { ActionCellRendererComponent } from './action-cell-renderer.component';
 
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
+  translate: jest.fn((key) => key),
+}));
+
 describe('ActionCellRendererComponent', () => {
   let component: ActionCellRendererComponent;
   let spectator: Spectator<ActionCellRendererComponent>;

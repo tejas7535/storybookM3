@@ -27,6 +27,11 @@ class MockDataFacade extends DataFacade {
   openMultiEditDialog = jest.fn();
 }
 
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
+  translate: jest.fn((key) => key),
+}));
+
 describe('MsdDialogService', () => {
   let spectator: SpectatorService<MsdDialogService>;
   let service: MsdDialogService;

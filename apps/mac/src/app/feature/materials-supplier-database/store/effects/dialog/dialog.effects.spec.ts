@@ -14,11 +14,27 @@ import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import moment from 'moment';
 import { MockProvider } from 'ng-mocks';
-import { marbles } from 'rxjs-marbles/jest';
+import { Context, marbles } from 'rxjs-marbles/jest';
 
 import { StringOption } from '@schaeffler/inputs';
 
-import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
+import {
+  NONE_OPTION,
+  SCHAEFFLER_EXPERTS_CALCULATION_TOOL_OPTION,
+  SCHAEFFLER_EXPERTS_OPTION,
+  SCHAEFFLER_EXPERTS_PCF_OPTION,
+  THIRD_PARTY_VERIFIED_OPTION,
+} from '@mac/feature/materials-supplier-database/constants/co2-classification-options';
+import { FileService } from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/services';
+import {
+  asStringOption,
+  asStringOptionOrUndefined,
+} from '@mac/feature/materials-supplier-database/util';
+import {
+  Co2Classification,
+  MaterialClass,
+  NavigationLevel,
+} from '@mac/msd/constants';
 import {
   CreateMaterialErrorState,
   CreateMaterialRecord,
@@ -27,6 +43,7 @@ import {
   MaterialFormValue,
   MaterialRequest,
   MaterialStandard,
+  ProductCategoryRule,
   SAPMaterial,
   SapMaterialsDatabaseUploadStatus,
   SapMaterialsUpload,
@@ -59,6 +76,9 @@ import {
   fetchCo2Classifications,
   fetchCo2ClassificationsFailure,
   fetchCo2ClassificationsSuccess,
+  fetchCo2Standards,
+  fetchCo2StandardsFailure,
+  fetchCo2StandardsSuccess,
   fetchCo2ValuesForSupplierSteelMakingProcess,
   fetchCo2ValuesForSupplierSteelMakingProcessFailure,
   fetchCo2ValuesForSupplierSteelMakingProcessSuccess,
@@ -86,6 +106,9 @@ import {
   fetchProductCategories,
   fetchProductCategoriesFailure,
   fetchProductCategoriesSuccess,
+  fetchProductCategoryRules,
+  fetchProductCategoryRulesFailure,
+  fetchProductCategoryRulesSuccess,
   fetchProductionProcesses,
   fetchProductionProcessesFailure,
   fetchProductionProcessesSuccess,
@@ -145,6 +168,7 @@ describe('Dialog Effects', () => {
   let actions$: any;
   let effects: DialogEffects;
   let spectator: SpectatorService<DialogEffects>;
+  let fileService: FileService;
   let msdDataService: MsdDataService;
   let msdDataFacade: DataFacade;
   let msdDialogFacade: DialogFacade;
@@ -168,6 +192,7 @@ describe('Dialog Effects', () => {
           errorSnackBar: jest.fn(),
         },
       },
+      MockProvider(FileService),
       MockProvider(DialogFacade),
     ],
   });
@@ -176,6 +201,7 @@ describe('Dialog Effects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(DialogEffects);
+    fileService = spectator.inject(FileService);
     msdDataService = spectator.inject(MsdDataService);
     msdDataFacade = spectator.inject(DataFacade);
     msdDialogFacade = spectator.inject(DialogFacade);
@@ -194,7 +220,7 @@ describe('Dialog Effects', () => {
         action = materialDialogOpened();
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-(bcdefghi)', {
+        const expected = m.cold('-(bcdefghijk)', {
           b: fetchMaterialStandards(),
           c: fetchCo2Classifications(),
           d: fetchManufacturerSuppliers(),
@@ -203,6 +229,8 @@ describe('Dialog Effects', () => {
           g: fetchSteelMakingProcesses(),
           h: fetchCastingModes(),
           i: fetchReferenceDocuments(),
+          j: fetchProductCategoryRules(),
+          k: fetchCo2Standards(),
         });
 
         m.expect(effects.materialDialogOpened$).toBeObservable(expected);
@@ -829,6 +857,101 @@ describe('Dialog Effects', () => {
     );
   });
 
+  describe('fetchProductCategoryRules$', () => {
+    it(
+      'should fetch product category rules and return success action on success',
+      marbles((m) => {
+        action = fetchProductCategoryRules();
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock: ProductCategoryRule[] = [
+          { id: 1 } as ProductCategoryRule,
+          { id: 2 } as ProductCategoryRule,
+        ];
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.fetchProductCategoryRules = jest.fn(() => response);
+
+        const result = fetchProductCategoryRulesSuccess({
+          productCategoryRules: resultMock,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.fetchProductCategoryRules$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchProductCategoryRules).toHaveBeenCalledWith(
+          MaterialClass.STEEL
+        );
+      })
+    );
+
+    it(
+      'should fetch product category rules and return failure action on failure',
+      marbles((m) => {
+        action = fetchProductCategoryRules();
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.fetchProductCategoryRules = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+
+        const result = fetchProductCategoryRulesFailure();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.fetchProductCategoryRules$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchProductCategoryRules).toHaveBeenCalledWith(
+          MaterialClass.STEEL
+        );
+      })
+    );
+  });
+
+  describe('fetchCo2Standards$', () => {
+    it(
+      'should fetch co2 standards and filter undefined and return success action on success',
+      marbles((m) => {
+        action = fetchCo2Standards();
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock: string[] = ['1', '2'];
+        const response = m.cold('-a|', { a: [undefined, ...resultMock] });
+        msdDataService.fetchCo2Standards = jest.fn(() => response);
+
+        const result = fetchCo2StandardsSuccess({
+          co2Standards: resultMock,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.fetchCo2Standards$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchCo2Standards).toHaveBeenCalled();
+      })
+    );
+
+    it(
+      'should fetch co2 standards and return failure action on failure',
+      marbles((m) => {
+        action = fetchCo2Standards();
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.fetchCo2Standards = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+
+        const result = fetchCo2StandardsFailure();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.fetchCo2Standards$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchCo2Standards).toHaveBeenCalled();
+      })
+    );
+  });
+
   describe('materialDialogConfirmed$', () => {
     it(
       'should call post material standard (without materialClass)',
@@ -1339,6 +1462,62 @@ describe('Dialog Effects', () => {
           record.material,
           record.materialClass
         );
+      })
+    );
+
+    it(
+      'should use multipart form data for file upload',
+      marbles((m) => {
+        const record = {
+          ...recordMock,
+          material: {
+            ...recordMock.material,
+          },
+        } as CreateMaterialRecord;
+        action = postMaterial({ record });
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock = { id: 42 };
+        const response = m.cold('-a|', { a: resultMock });
+        fileService.getCo2UploadFile = jest.fn(() => new File([], 'test.pdf'));
+        msdDataService.formCreateMaterial = jest.fn(() => response);
+
+        effects.postMaterial$.subscribe(() => {
+          expect(msdDataService.formCreateMaterial).toHaveBeenCalledWith(
+            record.material,
+            record.materialClass
+          );
+        });
+
+        m.flush();
+      })
+    );
+
+    it(
+      'should use multipart form data if the co2UploadFileId is present',
+      marbles((m) => {
+        const record = {
+          ...recordMock,
+          material: {
+            ...recordMock.material,
+            co2UploadFileId: 1,
+          },
+        } as CreateMaterialRecord;
+        action = postMaterial({ record });
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock = { id: 42 };
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.formCreateMaterial = jest.fn(() => response);
+
+        effects.postMaterial$.subscribe(() => {
+          expect(msdDataService.formCreateMaterial).toHaveBeenCalledWith(
+            record.material,
+            record.materialClass
+          );
+        });
+
+        m.flush();
       })
     );
 
@@ -2155,143 +2334,215 @@ describe('Dialog Effects', () => {
   });
 
   describe('parseMaterialFormValue$', () => {
-    const toStrOpt = (id: string) => ({ id, title: id }) as StringOption;
-    it(
-      'should return set material form value action',
-      marbles((m) => {
-        const row = {
-          id: 1,
-          materialClass: 'st',
-          materialClassText: 'Steel',
-          materialStandardId: 2,
-          materialStandardMaterialName: 'material',
-          materialStandardStandardDocument: 'document',
-          manufacturerSupplierId: 1,
-          manufacturerSupplierName: 'supplier',
-          manufacturerSupplierPlant: 'plant',
-          manufacturerSupplierCountry: 'country',
-          selfCertified: true,
-          productCategory: 'brightBar',
-          productCategoryText: 'Bright Bar',
-          referenceDoc: ['reference'],
-          co2Scope1: 1,
-          co2Scope2: 1,
-          co2Scope3: 1,
-          co2PerTon: 3,
-          co2Classification: 'C1',
-          releaseDateYear: 1,
-          releaseDateMonth: 1,
-          releaseRestrictions: 'restriction',
-          blocked: false,
-          castingMode: 'mode',
-          castingDiameter: 'diameter',
-          minDimension: 1,
-          maxDimension: 1,
-          steelMakingProcess: 'process',
-          rating: 'rating',
-          ratingRemark: 'remark',
-          ratingChangeComment: 'comment',
-          manufacturer: false,
-          condition: 'condition',
-          maxRecyclingRate: 44,
-          minRecyclingRate: 44,
-        } as DataResult;
-
-        const expectedFormValue: Partial<MaterialFormValue> = {
-          manufacturerSupplierId: 1,
-          materialStandardId: 2,
-          productCategory: toStrOpt('brightBar'),
-          referenceDoc: [toStrOpt('reference')],
-          co2Scope1: 1,
-          co2Scope2: 1,
-          co2Scope3: 1,
-          co2PerTon: 3,
-          materialNumber: undefined,
-          co2Classification: {
-            id: 'C1',
-            title: 'c1',
-          },
-          releaseDateYear: 1,
-          releaseDateMonth: 1,
-          releaseRestrictions: 'restriction',
-          blocked: false,
-          castingMode: 'mode',
-          castingDiameter: toStrOpt('diameter'),
-          maxDimension: 1,
-          minDimension: 1,
-          steelMakingProcess: toStrOpt('process'),
-          productionProcess: undefined,
-          rating: toStrOpt('rating'),
-          ratingRemark: 'remark',
-          selfCertified: true,
-          minRecyclingRate: 44,
-          maxRecyclingRate: 44,
-          standardDocument: {
+    it.each([
+      // co2ClassificationNew, expectedClassification, expectedClassificationSecondary, co2Standard, expectedStandard, productCategoryRule, expectedPcr
+      [
+        Co2Classification.THIRD_PARTY_VERIFIED,
+        THIRD_PARTY_VERIFIED_OPTION,
+        SCHAEFFLER_EXPERTS_PCF_OPTION,
+        'standard',
+        asStringOptionOrUndefined('standard'),
+        { id: 1, title: 'pcr' } as ProductCategoryRule,
+        asStringOptionOrUndefined(1, 'pcr', 'pcr'),
+      ],
+      [
+        Co2Classification.CHECKED_BY_SCHAEFFLER_EXPERTS_CALCULATION_TOOL,
+        SCHAEFFLER_EXPERTS_OPTION,
+        SCHAEFFLER_EXPERTS_CALCULATION_TOOL_OPTION,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+      ],
+      [
+        Co2Classification.CHECKED_BY_SCHAEFFLER_EXPERTS_PCF,
+        SCHAEFFLER_EXPERTS_OPTION,
+        SCHAEFFLER_EXPERTS_PCF_OPTION,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+      ],
+      [
+        undefined,
+        NONE_OPTION,
+        SCHAEFFLER_EXPERTS_PCF_OPTION,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+      ],
+    ])(
+      'should return set material form value action | %s, %s, %s, %s, %s, %s, %s',
+      marbles(
+        (
+          m: Context,
+          co2ClassificationNew: any,
+          expectedClassification: any,
+          expectedClassificationSecondary: any,
+          co2Standard: any,
+          expectedStandard: any,
+          productCategoryRule: any,
+          expectedPcr: any
+        ): any => {
+          const row = {
             id: 1,
-            title: 'document',
-            data: {
-              materialNames: [
-                { id: 1, materialName: '1' },
-                { id: 2, materialName: '2' },
-              ],
+            materialClass: 'st',
+            materialClassText: 'Steel',
+            materialStandardId: 2,
+            materialStandardMaterialName: 'material',
+            materialStandardStandardDocument: 'document',
+            manufacturerSupplierId: 1,
+            manufacturerSupplierName: 'supplier',
+            manufacturerSupplierPlant: 'plant',
+            manufacturerSupplierCountry: 'country',
+            selfCertified: true,
+            productCategory: 'brightBar',
+            productCategoryText: 'Bright Bar',
+            referenceDoc: ['reference'],
+            co2Scope1: 1,
+            co2Scope2: 1,
+            co2Scope3: 1,
+            co2PerTon: 3,
+            co2Classification: 'C1',
+            releaseDateYear: 1,
+            releaseDateMonth: 1,
+            releaseRestrictions: 'restriction',
+            blocked: false,
+            castingMode: 'mode',
+            castingDiameter: 'diameter',
+            minDimension: 1,
+            maxDimension: 1,
+            steelMakingProcess: 'process',
+            rating: 'rating',
+            ratingRemark: 'remark',
+            ratingChangeComment: 'comment',
+            manufacturer: false,
+            condition: 'condition',
+            maxRecyclingRate: 44,
+            minRecyclingRate: 44,
+            co2Upstream: 1,
+            co2Core: 1,
+            co2Comment: 'comment',
+            reportValidUntil: 1,
+            dataQualityRating: 1,
+            primaryDataShare: 1,
+            co2UploadFileId: 1,
+            co2UploadFileFilename: 'filename',
+            productCategoryRuleId: productCategoryRule?.id,
+            productCategoryRuleTitle: productCategoryRule?.title,
+            co2ClassificationNew,
+            co2Standard,
+          } as DataResult;
+
+          const expectedFormValue: Partial<MaterialFormValue> = {
+            manufacturerSupplierId: 1,
+            materialStandardId: 2,
+            productCategory: asStringOptionOrUndefined('brightBar'),
+            referenceDoc: [asStringOptionOrUndefined('reference')],
+            co2Scope1: 1,
+            co2Scope2: 1,
+            co2Scope3: 1,
+            co2PerTon: 3,
+            materialNumber: undefined,
+            co2Classification: {
+              id: 'C1',
+              title: 'c1',
             },
-          },
-          materialName: {
-            id: 1,
-            title: 'material',
-            data: {
-              standardDocuments: [
-                { id: 1, standardDocument: '1' },
-                { id: 2, standardDocument: '2' },
-              ],
+            releaseDateYear: 1,
+            releaseDateMonth: 1,
+            releaseRestrictions: 'restriction',
+            blocked: false,
+            castingMode: 'mode',
+            castingDiameter: asStringOptionOrUndefined('diameter'),
+            maxDimension: 1,
+            minDimension: 1,
+            steelMakingProcess: asStringOptionOrUndefined('process'),
+            productionProcess: undefined,
+            rating: asStringOption('rating'),
+            ratingRemark: 'remark',
+            selfCertified: true,
+            minRecyclingRate: 44,
+            maxRecyclingRate: 44,
+            standardDocument: {
+              id: 1,
+              title: 'document',
+              data: {
+                materialNames: [
+                  { id: 1, materialName: '1' },
+                  { id: 2, materialName: '2' },
+                ],
+              },
             },
-          },
-          supplier: {
-            id: 1,
-            title: 'supplier',
-          },
-          supplierPlant: {
-            id: 'plant',
-            title: 'plant',
-            data: {
-              supplierId: 1,
-              supplierName: 'supplier',
-              supplierCountry: 'country',
+            materialName: {
+              id: 1,
+              title: 'material',
+              data: {
+                standardDocuments: [
+                  { id: 1, standardDocument: '1' },
+                  { id: 2, standardDocument: '2' },
+                ],
+              },
             },
-          },
-          supplierCountry: toStrOpt('country'),
-          manufacturer: false,
-          condition: toStrOpt('condition'),
-        };
+            supplier: {
+              id: 1,
+              title: 'supplier',
+            },
+            supplierPlant: {
+              id: 'plant',
+              title: 'plant',
+              data: {
+                supplierId: 1,
+                supplierName: 'supplier',
+                supplierCountry: 'country',
+              },
+            },
+            supplierCountry: asStringOptionOrUndefined('country'),
+            manufacturer: false,
+            condition: asStringOptionOrUndefined('condition'),
+            co2Upstream: 1,
+            co2Core: 1,
+            co2Comment: 'comment',
+            reportValidUntil: 1,
+            dataQualityRating: 1,
+            primaryDataShare: 1,
+            co2UploadFileId: 1,
+            co2UploadFileFilename: 'filename',
+            productCategoryRule: expectedPcr,
+            co2ClassificationNew: expectedClassification,
+            co2ClassificationNewSecondary: expectedClassificationSecondary,
+            co2Standard: expectedStandard,
+          };
 
-        const editMaterial: any = {
-          row,
-          parsedMaterial: undefined,
-          column: 'column',
-          materialNames: [
-            { id: 1, materialName: '1' },
-            { id: 2, materialName: '2' },
-          ],
-          standardDocuments: [
-            { id: 1, standardDocument: '1' },
-            { id: 2, standardDocument: '2' },
-          ],
-          supplierIds: [1, 2],
-        };
+          const editMaterial: any = {
+            row,
+            parsedMaterial: undefined,
+            column: 'column',
+            materialNames: [
+              { id: 1, materialName: '1' },
+              { id: 2, materialName: '2' },
+            ],
+            standardDocuments: [
+              { id: 1, standardDocument: '1' },
+              { id: 2, standardDocument: '2' },
+            ],
+            supplierIds: [1, 2],
+          };
 
-        effects['dataFacade'].editMaterial = of(editMaterial);
+          effects['dataFacade'].editMaterial = of(editMaterial);
 
-        action = parseMaterialFormValue();
-        actions$ = m.hot('-a', { a: action });
+          action = parseMaterialFormValue();
+          actions$ = m.hot('-a', { a: action });
 
-        const result = setMaterialFormValue({
-          parsedMaterial: expectedFormValue,
-        });
-        const expected = m.cold('-b', { b: result });
+          const result = setMaterialFormValue({
+            parsedMaterial: expectedFormValue,
+          });
+          const expected = m.cold('-b', { b: result });
 
-        m.expect(effects.parseMaterialFormValue$).toBeObservable(expected);
-        m.flush();
-      })
+          m.expect(effects.parseMaterialFormValue$).toBeObservable(expected);
+          m.flush();
+        }
+      )
     );
 
     it(
@@ -2336,8 +2587,8 @@ describe('Dialog Effects', () => {
         const expectedFormValue: Partial<MaterialFormValue> = {
           manufacturerSupplierId: 1,
           materialStandardId: 1,
-          productCategory: toStrOpt('brightBar'),
-          referenceDoc: [toStrOpt('reference')],
+          productCategory: asStringOptionOrUndefined('brightBar'),
+          referenceDoc: [asStringOptionOrUndefined('reference')],
           co2Scope1: 1,
           co2Scope2: 1,
           co2Scope3: 1,
@@ -2355,8 +2606,8 @@ describe('Dialog Effects', () => {
           maxDimension: 1,
           minDimension: 1,
           steelMakingProcess: undefined,
-          productionProcess: toStrOpt('something'),
-          rating: { id: undefined, title: 'none' },
+          productionProcess: asStringOptionOrUndefined('something'),
+          rating: asStringOption(undefined, 'none'),
           ratingRemark: 'remark',
           materialNumber: '1, 2',
           selfCertified: false,
@@ -2385,9 +2636,21 @@ describe('Dialog Effects', () => {
               supplierCountry: 'country',
             },
           },
-          supplierCountry: toStrOpt('country'),
+          supplierCountry: asStringOptionOrUndefined('country'),
           manufacturer: false,
-          condition: toStrOpt('condition'),
+          condition: asStringOptionOrUndefined('condition'),
+          co2ClassificationNew: NONE_OPTION,
+          co2ClassificationNewSecondary: SCHAEFFLER_EXPERTS_PCF_OPTION,
+          co2Standard: undefined,
+          co2Comment: undefined,
+          co2Core: undefined,
+          co2Upstream: undefined,
+          reportValidUntil: undefined,
+          dataQualityRating: undefined,
+          primaryDataShare: undefined,
+          co2UploadFileId: undefined,
+          co2UploadFileFilename: undefined,
+          productCategoryRule: undefined,
         };
 
         const editMaterial: any = {

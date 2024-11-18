@@ -45,6 +45,10 @@ export const SAP_MATERIAL_ID = 'materialSapId';
 export const CO2TYPE = 'co2Type';
 export const CONDITION = 'conditionText';
 export const PRODUCTION_PROCESS = 'productionProcessText';
+export const CO2_CLASSIFICATION_NEW = 'co2ClassificationNew';
+export const CO2_STANDARD = 'co2Standard';
+export const CO2_COMMENT = 'co2Comment';
+export const PRODUCT_CATEGORY_RULE = 'productCategoryRuleTitle';
 
 /* SAP columns */
 export const MATERIAL_NUMBER = 'materialNumber';

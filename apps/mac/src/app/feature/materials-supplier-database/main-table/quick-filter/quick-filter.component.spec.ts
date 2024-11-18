@@ -33,6 +33,11 @@ import { QuickFilterFacade } from '../../store/facades/quickfilter';
 import { STEEL_STATIC_QUICKFILTERS } from './config/steel';
 import { QuickFilterComponent } from './quick-filter.component';
 
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
+  translate: jest.fn((key) => key),
+}));
+
 describe('QuickFilterComponent', () => {
   let component: QuickFilterComponent;
   let spectator: Spectator<QuickFilterComponent>;

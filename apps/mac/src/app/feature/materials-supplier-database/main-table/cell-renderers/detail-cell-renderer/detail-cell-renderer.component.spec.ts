@@ -20,6 +20,11 @@ import { ChangeHistoryItem } from './models/change-history-item';
 import { CHANGE_STATUS } from './models/change-status';
 import { PropertyChange } from './models/property-change';
 
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
+  translate: jest.fn((key) => key),
+}));
+
 describe('DetailCellRendererComponent', () => {
   let component: DetailCellRendererComponent;
   let spectator: Spectator<DetailCellRendererComponent>;

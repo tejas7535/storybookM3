@@ -52,6 +52,11 @@ class LocalStorageMock {
   }
 }
 
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
+  translate: jest.fn((key) => key),
+}));
+
 describe('MsdAgGridStateService', () => {
   let spectator: SpectatorService<MsdAgGridStateService>;
   let service: MsdAgGridStateService;

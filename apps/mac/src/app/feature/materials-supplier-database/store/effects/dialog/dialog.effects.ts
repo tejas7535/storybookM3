@@ -25,13 +25,23 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { StringOption } from '@schaeffler/inputs';
 
 import {
+  Co2Classification,
   MaterialClass,
   NavigationLevel,
 } from '@mac/feature/materials-supplier-database/constants';
+import { FileService } from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/services';
+import {
+  asStringOption,
+  asStringOptionOrUndefined,
+  determineCo2ClassificationNew,
+  determineCo2ClassificationNewSecondary,
+  useFormData,
+} from '@mac/feature/materials-supplier-database/util';
 import {
   CreateMaterialErrorState,
   DataResult,
   ManufacturerSupplier,
+  Material,
   MaterialFormValue,
   MaterialRequest,
   MaterialStandard,
@@ -82,6 +92,8 @@ export class DialogEffects {
               DialogActions.fetchSteelMakingProcesses(),
               DialogActions.fetchCastingModes(),
               DialogActions.fetchReferenceDocuments(),
+              DialogActions.fetchProductCategoryRules(),
+              DialogActions.fetchCo2Standards(),
             ];
           }
           case MaterialClass.CERAMIC: {
@@ -313,6 +325,47 @@ export class DialogEffects {
     );
   });
 
+  public fetchProductCategoryRules$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.fetchProductCategoryRules),
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([_action, materialClass]) =>
+        this.msdDataService.fetchProductCategoryRules(materialClass).pipe(
+          map((productCategoryRules) =>
+            DialogActions.fetchProductCategoryRulesSuccess({
+              productCategoryRules,
+            })
+          ),
+          catchError(() =>
+            // TODO: implement proper error handling
+            of(DialogActions.fetchProductCategoryRulesFailure())
+          )
+        )
+      )
+    );
+  });
+
+  public fetchCo2Standards$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.fetchCo2Standards),
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([_action, materialClass]) =>
+        this.msdDataService.fetchCo2Standards(materialClass).pipe(
+          map((co2Standards) =>
+            DialogActions.fetchCo2StandardsSuccess({
+              co2Standards:
+                co2Standards.filter((standard: string) => !!standard) ?? [],
+            })
+          ),
+          catchError(() =>
+            // TODO: implement proper error handling
+            of(DialogActions.fetchCo2StandardsFailure())
+          )
+        )
+      )
+    );
+  });
+
   public materialDialogConfirmed$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.materialDialogConfirmed),
@@ -516,24 +569,66 @@ export class DialogEffects {
     return this.actions$.pipe(
       ofType(DialogActions.postMaterial),
       switchMap(({ record }) =>
-        this.msdDataService
-          .createMaterial(record.material, record.materialClass)
-          .pipe(
-            map(() => DialogActions.createMaterialComplete({ record })),
-            catchError((e: HttpErrorResponse) =>
-              of(
-                DialogActions.createMaterialComplete({
-                  record: {
-                    ...record,
-                    error: {
-                      code: e.status,
-                      state: CreateMaterialErrorState.MaterialCreationFailed,
-                    },
-                  },
-                })
+        record.materialClass === MaterialClass.STEEL &&
+        useFormData(
+          (
+            record.material as (Material | MaterialRequest) & {
+              co2UploadFileId: number;
+            }
+          ).co2UploadFileId,
+          (
+            record.material as (Material | MaterialRequest) & {
+              co2UploadFile: File;
+            }
+          ).co2UploadFile
+        )
+          ? this.msdDataService
+              .formCreateMaterial(
+                {
+                  ...(record.material as (Material | MaterialRequest) & {
+                    co2UploadFile: File;
+                    co2UploadFileId: number;
+                  }),
+                  co2UploadFile: this.fileService.getCo2UploadFile(),
+                },
+                record.materialClass
               )
-            )
-          )
+              .pipe(
+                map(() => DialogActions.createMaterialComplete({ record })),
+                catchError((e: HttpErrorResponse) =>
+                  of(
+                    DialogActions.createMaterialComplete({
+                      record: {
+                        ...record,
+                        error: {
+                          code: e.status,
+                          state:
+                            CreateMaterialErrorState.MaterialCreationFailed,
+                        },
+                      },
+                    })
+                  )
+                )
+              )
+          : this.msdDataService
+              .createMaterial(record.material, record.materialClass)
+              .pipe(
+                map(() => DialogActions.createMaterialComplete({ record })),
+                catchError((e: HttpErrorResponse) =>
+                  of(
+                    DialogActions.createMaterialComplete({
+                      record: {
+                        ...record,
+                        error: {
+                          code: e.status,
+                          state:
+                            CreateMaterialErrorState.MaterialCreationFailed,
+                        },
+                      },
+                    })
+                  )
+                )
+              )
       )
     );
   });
@@ -893,24 +988,22 @@ export class DialogEffects {
     return this.actions$.pipe(
       ofType(DialogActions.parseMaterialFormValue),
       concatLatestFrom(() => this.dataFacade.editMaterial),
+      // eslint-disable-next-line complexity
       map(([_nothing, editMaterial]) => {
         const material: DataResult = editMaterial.row;
 
         const parsedMaterial: Partial<MaterialFormValue> = {
           manufacturerSupplierId: material.manufacturerSupplierId,
           materialStandardId: material.materialStandardId,
-          productCategory: material.productCategory
-            ? {
-                id: material.productCategory,
-                title: translate(
-                  `materialsSupplierDatabase.productCategoryValues.${material.productCategory}`
-                ),
-              }
-            : undefined,
-          referenceDoc: material.referenceDoc?.map((document: string) => ({
-            id: document,
-            title: document,
-          })),
+          productCategory: asStringOptionOrUndefined(
+            material.productCategory,
+            translate(
+              `materialsSupplierDatabase.productCategoryValues.${material.productCategory}`
+            )
+          ),
+          referenceDoc: material.referenceDoc?.map((document: string) =>
+            asStringOptionOrUndefined(document)
+          ),
           co2Scope1: material.co2Scope1,
           co2Scope2: material.co2Scope2,
           co2Scope3: material.co2Scope3,
@@ -928,38 +1021,25 @@ export class DialogEffects {
           releaseRestrictions: material.releaseRestrictions,
           blocked: material.blocked,
           castingMode: material.castingMode,
-          castingDiameter: material.castingDiameter
-            ? {
-                id: material.castingDiameter,
-                title: material.castingDiameter,
-              }
-            : undefined,
+          castingDiameter: asStringOptionOrUndefined(material.castingDiameter),
           maxDimension: material.maxDimension,
           minDimension: material.minDimension,
-          steelMakingProcess: material.steelMakingProcess
-            ? {
-                id: material.steelMakingProcess,
-                title: material.steelMakingProcess,
-              }
-            : undefined,
-          productionProcess: material.productionProcess
-            ? {
-                id: material.productionProcess,
-                title: translate(
-                  `materialsSupplierDatabase.productionProcessValues.${material.materialClass}.${material.productionProcess}`
-                ),
-              }
-            : undefined,
+          steelMakingProcess: asStringOptionOrUndefined(
+            material.steelMakingProcess
+          ),
+          productionProcess: asStringOptionOrUndefined(
+            material.productionProcess,
+            translate(
+              `materialsSupplierDatabase.productionProcessValues.${material.materialClass}.${material.productionProcess}`
+            )
+          ),
           minRecyclingRate: material.minRecyclingRate,
           maxRecyclingRate: material.maxRecyclingRate,
-          rating: material.rating
-            ? { id: material.rating, title: material.rating }
-            : {
-                id: undefined,
-                title: translate(
-                  'materialsSupplierDatabase.mainTable.dialog.none'
-                ),
-              },
+          rating: asStringOption(
+            material.rating,
+            material.rating ||
+              translate('materialsSupplierDatabase.mainTable.dialog.none')
+          ),
           ratingRemark: material.ratingRemark,
           materialNumber: material.materialNumbers
             ? material.materialNumbers.join(', ')
@@ -1005,20 +1085,37 @@ export class DialogEffects {
               supplierCountry: material.manufacturerSupplierCountry,
             },
           },
-          supplierCountry: {
-            id: material.manufacturerSupplierCountry,
-            title: material.manufacturerSupplierCountry,
-          },
+          supplierCountry: asStringOptionOrUndefined(
+            material.manufacturerSupplierCountry
+          ),
           manufacturer: material.manufacturer,
           selfCertified: material.selfCertified,
-          condition: material.condition
-            ? {
-                id: material.condition,
-                title: translate(
-                  `materialsSupplierDatabase.condition.${material.materialClass}.${material.condition}`
-                ),
-              }
-            : undefined,
+          condition: asStringOptionOrUndefined(
+            material.condition,
+            translate(
+              `materialsSupplierDatabase.condition.${material.materialClass}.${material.condition}`
+            )
+          ),
+          co2Upstream: material.co2Upstream,
+          co2Core: material.co2Core,
+          co2ClassificationNew: determineCo2ClassificationNew(
+            material.co2ClassificationNew as Co2Classification
+          ),
+          co2ClassificationNewSecondary: determineCo2ClassificationNewSecondary(
+            material.co2ClassificationNew as Co2Classification
+          ),
+          co2Standard: asStringOptionOrUndefined(material.co2Standard),
+          co2Comment: material.co2Comment,
+          productCategoryRule: asStringOptionOrUndefined(
+            material.productCategoryRuleId,
+            material.productCategoryRuleTitle,
+            material.productCategoryRuleTitle
+          ),
+          reportValidUntil: material.reportValidUntil,
+          dataQualityRating: material.dataQualityRating,
+          primaryDataShare: material.primaryDataShare,
+          co2UploadFileId: material.co2UploadFileId,
+          co2UploadFileFilename: material.co2UploadFileFilename,
         };
 
         return DialogActions.setMaterialFormValue({ parsedMaterial });
@@ -1303,6 +1400,7 @@ export class DialogEffects {
 
   constructor(
     private readonly actions$: Actions,
+    private readonly fileService: FileService,
     private readonly msdDataService: MsdDataService,
     private readonly dataFacade: DataFacade,
     private readonly dialogFacade: DialogFacade,

@@ -1,3 +1,5 @@
+import { TranslocoModule } from '@jsverse/transloco';
+
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import {
   DataResult,
@@ -8,6 +10,11 @@ import {
 import * as DataActions from '@mac/msd/store/actions/data';
 
 import { dataReducer, DataState, initialState } from './data.reducer';
+
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
+  translate: jest.fn((string) => string.split('.').pop()),
+}));
 
 describe('dataReducer', () => {
   describe('reducer', () => {

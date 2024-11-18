@@ -1,3 +1,4 @@
+export * from './co2-classification.enum';
 export * from './columns';
 export * from './material-class.enum';
 export * from './material-emission-classification-colors';

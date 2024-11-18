@@ -23,6 +23,11 @@ jest.mock('@mac/shared/change-favicon', () => ({
   changeFavicon: jest.fn(() => {}),
 }));
 
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
+  translate: jest.fn((key) => key),
+}));
+
 describe('MaterialsSupplierDatabaseComponent', () => {
   let component: MaterialsSupplierDatabaseComponent;
   let spectator: Spectator<MaterialsSupplierDatabaseComponent>;

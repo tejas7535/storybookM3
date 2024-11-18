@@ -1,3 +1,4 @@
+import { TranslocoModule } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
@@ -17,6 +18,11 @@ import * as DataActions from '../../actions/data';
 import { openMultiEditDialog } from '../../actions/dialog';
 import { getSAPResult } from '../../selectors';
 import { DataFacade } from '.';
+
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
+  translate: jest.fn((string) => string.split('.').pop()),
+}));
 
 describe('DataFacade', () => {
   let spectator: SpectatorService<DataFacade>;

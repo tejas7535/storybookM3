@@ -6,6 +6,7 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 
+import { TranslocoModule } from '@jsverse/transloco';
 import {
   createComponentFactory,
   mockProvider,
@@ -24,6 +25,11 @@ import { DataFacade } from '@mac/feature/materials-supplier-database/store/facad
 
 import * as en from '../../../../../../assets/i18n/en.json';
 import { QuickfilterDialogComponent } from './quickfilter-dialog.component';
+
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
+  translate: jest.fn((string) => string.split('.').pop()),
+}));
 
 describe('QuickfilterDialogComponent', () => {
   let component: QuickfilterDialogComponent;

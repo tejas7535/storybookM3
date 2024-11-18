@@ -10,6 +10,7 @@ import {
   ManufacturerSupplier,
   MaterialFormValue,
   MaterialStandard,
+  ProductCategoryRule,
   SapMaterialsDatabaseUploadStatus,
   SapMaterialsDatabaseUploadStatusResponse,
 } from '@mac/msd/models';
@@ -58,6 +59,11 @@ export interface DialogState {
     customCastingDiameters: string[];
     dataOwnersLoading: boolean;
     dataOwners: string[];
+    productCategoryRules: ProductCategoryRule[];
+    productCategoryRulesLoading: boolean;
+    co2Standards: string[];
+    customCo2Standards: string[];
+    co2StandardsLoading: boolean;
     co2Values: {
       co2PerTon: number;
       co2Scope1: number;
@@ -139,6 +145,8 @@ export const dialogReducer = createReducer(
         dataOwners: undefined,
         co2Values: undefined,
         steelMakingProcessesInUse: [],
+        productCategoryRules: undefined,
+        co2Standards: undefined,
         error: undefined,
       },
       editMaterial: undefined,
@@ -563,6 +571,76 @@ export const dialogReducer = createReducer(
   ),
 
   on(
+    DialogActions.fetchProductCategoryRules,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        productCategoryRulesLoading: true,
+        productCategoryRules: undefined,
+      },
+    })
+  ),
+  on(
+    DialogActions.fetchProductCategoryRulesSuccess,
+    (state, { productCategoryRules }): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        productCategoryRules,
+        productCategoryRulesLoading: false,
+      },
+    })
+  ),
+  on(
+    DialogActions.fetchProductCategoryRulesFailure,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        productCategoryRules: undefined,
+        productCategoryRulesLoading: undefined,
+        error: true,
+      },
+    })
+  ),
+
+  on(
+    DialogActions.fetchCo2Standards,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        co2StandardsLoading: true,
+        co2Standards: undefined,
+      },
+    })
+  ),
+  on(
+    DialogActions.fetchCo2StandardsSuccess,
+    (state, { co2Standards }): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        co2Standards,
+        co2StandardsLoading: false,
+      },
+    })
+  ),
+  on(
+    DialogActions.fetchCo2StandardsFailure,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        co2Standards: undefined,
+        co2StandardsLoading: undefined,
+        error: true,
+      },
+    })
+  ),
+
+  on(
     DialogActions.materialDialogConfirmed,
     (state): DialogState => ({
       ...state,
@@ -632,11 +710,14 @@ export const dialogReducer = createReducer(
         customManufacturerSupplierPlants: undefined,
         customManufacturerSupplierBusinessPartnerIds: undefined,
         customMaterialStandardNames: undefined,
+        customCo2Standards: undefined,
         // reset loading fields
         co2Values: undefined,
         steelMakingProcessesInUse: [],
         castingDiameters: undefined,
         referenceDocuments: undefined,
+        productCategoryRules: undefined,
+        co2Standards: undefined,
         error: undefined,
       },
       // other fields
@@ -788,6 +869,25 @@ export const dialogReducer = createReducer(
       },
     };
   }),
+
+  on(
+    DialogActions.addCustomCo2Standard,
+    (state, { co2Standard }): DialogState => {
+      const co2Standards = state.dialogOptions.customCo2Standards
+        ? [...state.dialogOptions.customCo2Standards]
+        : [];
+
+      co2Standards.unshift(co2Standard);
+
+      return {
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          customCo2Standards: co2Standards,
+        },
+      };
+    }
+  ),
 
   on(
     DialogActions.openEditDialog,

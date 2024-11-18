@@ -28,6 +28,11 @@ class MockDataFacade extends DataFacade {
   setNavigation = jest.fn();
 }
 
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
+  translate: jest.fn((key) => key),
+}));
+
 describe('MsdNavigationComponent', () => {
   let component: MsdNavigationComponent;
   let spectator: Spectator<MsdNavigationComponent>;

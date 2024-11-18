@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
+import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -25,6 +26,11 @@ import { assignDialogValues } from '@mac/testing/mocks/msd/mock-input-dialog-val
 import * as en from '../../../../../../../../assets/i18n/en.json';
 import { DialogControlsService } from '../../services';
 import { CeramicInputDialogComponent } from './ceramic-input-dialog.component';
+
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
+  translate: jest.fn((string) => string.split('.').pop()),
+}));
 
 @Injectable()
 class MockDialogFacade extends DialogFacade {

@@ -12,6 +12,11 @@ import {
 import { ClassificationClass } from '../../components/material-emission-classification/material-emission-classification.component';
 import { MaterialEmissionClassificationColorPipe } from './material-emission-classification-color.pipe';
 
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
+  translate: jest.fn((key) => key),
+}));
+
 describe('MaterialEmissionClassificationColorPipe', () => {
   let spectator: SpectatorPipe<MaterialEmissionClassificationColorPipe>;
   const createPipe = createPipeFactory(MaterialEmissionClassificationColorPipe);

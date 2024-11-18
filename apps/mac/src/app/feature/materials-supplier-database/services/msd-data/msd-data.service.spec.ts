@@ -396,6 +396,22 @@ describe('MsdDataService', () => {
     });
   });
 
+  describe('fetchCo2Standards', () => {
+    it('should return a list of co2 standards', (done) => {
+      const mockResponse: string[] = ['standard1', 'standard2'];
+      service.fetchCo2Standards(MaterialClass.STEEL).subscribe((result) => {
+        expect(result).toEqual(mockResponse);
+        done();
+      });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/query`
+      );
+      expect(req.request.method).toBe('POST');
+      req.flush(mockResponse);
+    });
+  });
+
   describe('fetchRatings', () => {
     it('should return a list of ratings', (done) => {
       const mockResponse: string[] = ['good', 'gooder', 'goodest'];
@@ -721,6 +737,68 @@ describe('MsdDataService', () => {
 
       const req = httpMock.expectOne(`${service['BASE_URL']}/materials/al`);
       expect(req.request.method).toBe('POST');
+      req.flush(mockResponse);
+    });
+  });
+
+  describe('formCreateMaterial', () => {
+    it('should post a form material with file (steel)', (done) => {
+      const mockInput = {
+        id: 1,
+        co2UploadFile: new File([], 'test.pdf'),
+      };
+      const { co2UploadFile, ...mockMaterialWithoutFile } = mockInput;
+
+      const formData = new FormData();
+      formData.append(
+        'material',
+        new Blob([JSON.stringify(mockMaterialWithoutFile)], {
+          type: 'application/json',
+        })
+      );
+      formData.append('file', co2UploadFile);
+
+      const mockResponse = { id: 1 };
+      service.formCreateMaterial(mockInput as Material).subscribe((result) => {
+        expect(result).toEqual(mockResponse);
+        done();
+      });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/form`
+      );
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual(formData);
+      req.flush(mockResponse);
+    });
+
+    it('should post a form material with id (steel)', (done) => {
+      const mockInput = {
+        id: 1,
+        co2UploadFileId: 1,
+      };
+
+      const formData = new FormData();
+      formData.append(
+        'material',
+        new Blob([JSON.stringify(mockInput)], {
+          type: 'application/json',
+        })
+      );
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      formData.append('file', undefined);
+
+      const mockResponse = { id: 1 };
+      service.formCreateMaterial(mockInput as Material).subscribe((result) => {
+        expect(result).toEqual(mockResponse);
+        done();
+      });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/form`
+      );
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual(formData);
       req.flush(mockResponse);
     });
   });

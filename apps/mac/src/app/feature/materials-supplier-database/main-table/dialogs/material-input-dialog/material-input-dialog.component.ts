@@ -449,8 +449,34 @@ export class MaterialInputDialogComponent
       co2Scope1: baseMaterial.co2Scope1,
       co2Scope2: baseMaterial.co2Scope2,
       co2Scope3: baseMaterial.co2Scope3,
+
+      co2Upstream: findProperty(baseMaterial, 'co2Upstream'),
+      co2Core: findProperty(baseMaterial, 'co2Core'),
+
       co2PerTon: baseMaterial.co2PerTon,
       co2Classification: baseMaterial.co2Classification?.id as string,
+
+      co2ClassificationNew:
+        findProperty<StringOption>(baseMaterial, 'co2ClassificationNew')?.id ===
+        'SCHAEFFLER_EXPERTS'
+          ? (findProperty<StringOption>(
+              baseMaterial,
+              'co2ClassificationNewSecondary'
+            )?.id as string)
+          : (findProperty<StringOption>(baseMaterial, 'co2ClassificationNew')
+              ?.id as string),
+      co2Standard: findProperty<StringOption>(baseMaterial, 'co2Standard')
+        ?.id as string,
+      productCategoryRule: findProperty<StringOption>(
+        baseMaterial,
+        'productCategoryRule'
+      )?.id as string,
+      co2ValidUntil: findProperty(baseMaterial, 'reportValidUntil'),
+      dataQualityRating: findProperty(baseMaterial, 'dataQualityRating'),
+      primaryDataShare: findProperty(baseMaterial, 'primaryDataShare'),
+      co2UploadFileId: findProperty(baseMaterial, 'co2UploadFileId'),
+      co2Comment: findProperty(baseMaterial, 'co2Comment'),
+
       releaseDateYear: findProperty(baseMaterial, 'releaseDateYear'),
       releaseDateMonth: findProperty(baseMaterial, 'releaseDateMonth'),
       releaseRestrictions: baseMaterial.releaseRestrictions,

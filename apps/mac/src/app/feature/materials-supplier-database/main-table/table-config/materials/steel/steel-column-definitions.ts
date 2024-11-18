@@ -3,7 +3,11 @@ import { ColDef } from 'ag-grid-enterprise';
 import {
   CASTING_DIAMETER,
   CASTING_MODE,
+  CO2_CLASSIFICATION,
+  CO2_CLASSIFICATION_NEW,
+  CO2_COMMENT,
   CO2_PER_TON,
+  CO2_STANDARD,
   MANUFACTURER,
   MANUFACTURER_SUPPLIER_NAME,
   MANUFACTURER_SUPPLIER_PLANT,
@@ -15,6 +19,7 @@ import {
   MAX_DIMENSION,
   MIN_DIMENSION,
   PRODUCT_CATEGORY,
+  PRODUCT_CATEGORY_RULE,
   RATING,
   RATING_REMARK,
   RECENT_STATUS,
@@ -59,7 +64,7 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     ],
     // 'recentStatus' is replaced by 'releasedStatus'
     excludeColumn(
-      [RECENT_STATUS],
+      [RECENT_STATUS, CO2_CLASSIFICATION],
       // CO2, materstandard get replaced so they keep their position!
       replaceColumn(
         [
@@ -217,6 +222,38 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: REFERENCE_DOCUMENT,
     headerName: REFERENCE_DOCUMENT,
+    filterParams: FILTER_PARAMS,
+    hide: true,
+    cellRenderer: EditCellRendererComponent,
+  },
+  {
+    field: CO2_CLASSIFICATION_NEW,
+    headerName: CO2_CLASSIFICATION_NEW,
+    filterParams: FILTER_PARAMS,
+    hide: true,
+    cellRenderer: EditCellRendererComponent,
+    valueFormatter: TRANSLATE_VALUE_FORMATTER_FACTORY(
+      'materialsSupplierDatabase.mainTable.dialog.co2ClassificationNew',
+      false
+    ),
+  },
+  {
+    field: CO2_STANDARD,
+    headerName: CO2_STANDARD,
+    filterParams: FILTER_PARAMS,
+    hide: true,
+    cellRenderer: EditCellRendererComponent,
+  },
+  {
+    field: CO2_COMMENT,
+    headerName: CO2_COMMENT,
+    filterParams: FILTER_PARAMS,
+    hide: true,
+    cellRenderer: EditCellRendererComponent,
+  },
+  {
+    field: PRODUCT_CATEGORY_RULE,
+    headerName: PRODUCT_CATEGORY_RULE,
     filterParams: FILTER_PARAMS,
     hide: true,
     cellRenderer: EditCellRendererComponent,

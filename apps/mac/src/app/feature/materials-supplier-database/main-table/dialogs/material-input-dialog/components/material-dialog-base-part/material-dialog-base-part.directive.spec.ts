@@ -8,6 +8,7 @@ import { FormControl } from '@angular/forms';
 
 import { of } from 'rxjs';
 
+import { TranslocoModule } from '@jsverse/transloco';
 import {
   createDirectiveFactory,
   SpectatorDirective,
@@ -36,6 +37,11 @@ import { MaterialDialogBasePartDirective } from './material-dialog-base-part.dir
 jest.mock('../../util', () => ({
   ...jest.requireActual('../../util'),
   focusSelectedElement: jest.fn(),
+}));
+
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
+  translate: jest.fn((string) => string.split('.').pop()),
 }));
 
 @Component({

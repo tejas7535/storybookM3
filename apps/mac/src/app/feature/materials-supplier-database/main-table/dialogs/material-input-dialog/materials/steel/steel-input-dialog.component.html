@@ -31,9 +31,9 @@
         </div>
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-full">
-            <mat-label>{{ t('steelNumber') }}</mat-label>
+            <mat-label class="leading-6">{{ t('steelNumber') }}</mat-label>
             @if (isEditDialog() && !isCopyDialog()) {
-              <mat-label>&nbsp;{{ t('readonly') }}</mat-label>
+              <mat-label class="leading-6">&nbsp;{{ t('readonly') }}</mat-label>
             }
             <input
               matInput
@@ -109,7 +109,7 @@
         ></mac-manufacturer-supplier>
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-full">
-            <mat-label>{{ t('castingMode') }}</mat-label>
+            <mat-label class="leading-6">{{ t('castingMode') }}</mat-label>
             <mat-select
               [formControl]="castingModesControl"
               name="castingMode"
@@ -157,7 +157,7 @@
         </div>
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-auto">
-            <mat-label>{{ t('supplierRating') }}</mat-label>
+            <mat-label class="leading-6">{{ t('supplierRating') }}</mat-label>
             <mat-select
               [formControl]="ratingsControl"
               [compareWith]="compareWithId"
@@ -180,7 +180,9 @@
             }
           </mat-form-field>
           <mat-form-field appearance="outline" class="w-full">
-            <mat-label>{{ t('supplierRatingRemark') }}</mat-label>
+            <mat-label class="leading-6">{{
+              t('supplierRatingRemark')
+            }}</mat-label>
             <input
               matInput
               [formControl]="ratingRemarkControl"
@@ -194,7 +196,9 @@
         </div>
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-full">
-            <mat-label>{{ t('ratingChangeComment') }}</mat-label>
+            <mat-label class="leading-6">{{
+              t('ratingChangeComment')
+            }}</mat-label>
             <textarea
               matInput
               [formControl]="ratingChangeCommentControl"
@@ -242,11 +246,11 @@
         </div>
         <!-- CO2 Block -->
         <div class="text-subtitle-2 text-high-emphasis">
-          {{ t('co2AndProductInformationTitle') }}
+          {{ t('productInformationTitle') }}
         </div>
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-full">
-            <mat-label>{{ t('maxDim') }}</mat-label>
+            <mat-label class="leading-6">{{ t('maxDim') }}</mat-label>
             <input
               matInput
               [formControl]="maxDimControl"
@@ -267,7 +271,7 @@
             }
           </mat-form-field>
           <mat-form-field appearance="outline" class="w-full">
-            <mat-label>{{ t('minDim') }}</mat-label>
+            <mat-label class="leading-6">{{ t('minDim') }}</mat-label>
             <input
               matInput
               [formControl]="minDimControl"
@@ -325,7 +329,7 @@
             #steelMakingProcessSelect
           ></schaeffler-select>
           <mat-form-field appearance="outline" class="w-1/5">
-            <mat-label>{{ t('minRecyclingRate') }}</mat-label>
+            <mat-label class="leading-6">{{ t('minRecyclingRate') }}</mat-label>
             <input
               matInput
               [formControl]="minRecyclingRateControl"
@@ -344,7 +348,7 @@
             }
           </mat-form-field>
           <mat-form-field appearance="outline" class="w-1/5">
-            <mat-label>{{ t('maxRecyclingRate') }}</mat-label>
+            <mat-label class="leading-6">{{ t('maxRecyclingRate') }}</mat-label>
             <input
               matInput
               [formControl]="maxRecyclingRateControl"
@@ -363,28 +367,6 @@
             }
           </mat-form-field>
         </div>
-        <mac-co2-component
-          [co2Scope1Control]="co2Scope1Control"
-          [co2Scope2Control]="co2Scope2Control"
-          [co2Scope3Control]="co2Scope3Control"
-          [co2TotalControl]="co2TotalControl"
-          [co2ClassificationControl]="co2ClassificationControl"
-          [releaseRestrictionsControl]="releaseRestrictionsControl"
-          [co2Scope1Hint]="getHint(hintData, 'co2Scope1')"
-          [co2Scope2Hint]="getHint(hintData, 'co2Scope2')"
-          [co2Scope3Hint]="getHint(hintData, 'co2Scope3')"
-          [co2TotalHint]="getHint(hintData, 'co2PerTon')"
-          [co2ClassificationHint]="getHint(hintData, 'co2Classification')"
-          [releaseRestrictionsHint]="getHint(hintData, 'releaseRestrictions')"
-          [column]="getColumn()"
-          macMaterialDialogBasePart
-        >
-          @if (isBulkEditDialog() && !(isCo2Valid$ | ngrxPush)) {
-            <mat-error afterCo2Scope class="text-caption text-center"
-              >{{ t('error.co2BulkEdit') }}
-            </mat-error>
-          }
-        </mac-co2-component>
         <div class="flex flex-row gap-x-6">
           @switch (selectReleaseDateView()) {
             @case ('READONLY') {
@@ -432,7 +414,9 @@
             <!-- DEFAULT == EDIT-->
             @default {
               <mat-form-field appearance="outline" class="w-full">
-                <mat-label>{{ t('releaseDateYear') }}</mat-label>
+                <mat-label class="leading-6">{{
+                  t('releaseDateYear')
+                }}</mat-label>
                 <mat-select
                   [formControl]="releaseYearControl"
                   name="releaseDate"
@@ -454,7 +438,9 @@
                 }
               </mat-form-field>
               <mat-form-field appearance="outline" class="w-full">
-                <mat-label>{{ t('releaseDateMonth') }}</mat-label>
+                <mat-label class="leading-6">{{
+                  t('releaseDateMonth')
+                }}</mat-label>
                 <mat-select
                   [formControl]="releaseMonthControl"
                   name="releaseDateMonth"
@@ -497,6 +483,249 @@
           </mat-checkbox>
         </div>
       </ng-container>
+      <div class="text-subtitle-2 text-high-emphasis">
+        {{ t('co2InformationTitle') }}
+      </div>
+      <div class="flex flex-row">
+        <mat-form-field appearance="outline" class="w-1/3 pr-6">
+          <mat-label class="leading-6">{{ t('co2Upstream') }}</mat-label>
+          <input
+            matInput
+            [formControl]="co2UpstreamControl"
+            type="number"
+            name="co2Upstream"
+            #dialogControl
+          />
+          <span matSuffix class="text-caption !block !w-16 pt-1">{{
+            t('co2PerTon')
+          }}</span>
+          <mat-hint>{{ co2UpstreamHint }}</mat-hint>
+          @if (co2UpstreamControl.invalid) {
+            <mat-error class="text-caption">{{
+              getErrorMessage(co2UpstreamControl.errors)
+            }}</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-1/3 pr-6">
+          <mat-label class="leading-6">{{ t('co2Core') }}</mat-label>
+          <input
+            matInput
+            [formControl]="co2CoreControl"
+            type="number"
+            name="co2Core"
+            #dialogControl
+          />
+          <span matSuffix class="text-caption !block !w-16 pt-1">{{
+            t('co2PerTon')
+          }}</span>
+          <mat-hint>{{ co2CoreHint }}</mat-hint>
+          @if (co2CoreControl.invalid) {
+            <mat-error class="text-caption">{{
+              getErrorMessage(co2CoreControl.errors)
+            }}</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-1/3">
+          <mat-label class="leading-6">{{ t('co2Total') }}</mat-label>
+          <input
+            matInput
+            [formControl]="co2TotalControl"
+            type="number"
+            name="co2PerTon"
+            #dialogControl
+          />
+          <span matSuffix class="text-caption !block !w-16 pt-1">{{
+            t('co2PerTon')
+          }}</span>
+          <mat-hint>{{ co2TotalHint }}</mat-hint>
+          @if (co2TotalControl.invalid) {
+            <mat-error
+              class="text-caption"
+              [matTooltip]="
+                co2TotalControl.errors?.scopeTotalLowerThanSingleScopes ||
+                co2TotalControl.errors?.scopeTotalHigherThanSingleScopes
+                  ? t('error.co2Scopes')
+                  : ''
+              "
+            >
+              {{ getErrorMessage(co2TotalControl.errors) }}
+              <mat-icon inline="true" class="!leading-3 cursor-help"
+                >info_outline</mat-icon
+              >
+            </mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="flex w-full flex-row">
+        <schaeffler-select
+          appearance="outline"
+          class="w-full"
+          [stringOptions]="getCo2ClassificationsNew()"
+          [control]="co2ClassificationNewControl"
+          [filterFn]="filterFn"
+          [label]="t('co2Classification')"
+          [resetButton]="false"
+          [showTriggerTooltip]="true"
+          triggerTooltipDelay="1500"
+          tooltipPosition="right"
+          name="co2ClassificationNew"
+          #dialogControl
+        >
+        </schaeffler-select>
+      </div>
+      @if (co2ClassificationNewControl.value?.id === SCHAEFFLER_EXPERTS) {
+        <div class="flex w-full flex-row">
+          <schaeffler-select
+            appearance="outline"
+            class="w-full"
+            [stringOptions]="getCo2ClassificationsNewSecondary()"
+            [control]="co2ClassificationNewSecondaryControl"
+            [filterFn]="filterFn"
+            [label]="t('co2Classification')"
+            [resetButton]="false"
+            [showTriggerTooltip]="true"
+            triggerTooltipDelay="1500"
+            tooltipPosition="right"
+            name="co2ClassificationNewSecondary"
+            #dialogControl
+          >
+          </schaeffler-select>
+        </div>
+      }
+      <div class="flex w-full flex-row justify-between gap-6">
+        <div class="content-center pb-6 max-w-[230px]">
+          {{
+            co2ClassificationNewSecondaryControl.value?.id ===
+            SCHAEFFLER_EXPERTS_CALCULATION_TOOL
+              ? t('pcfCalculationToolValidatedAccordingTo')
+              : t('pcfValidatedAccordingTo')
+          }}:
+        </div>
+        <schaeffler-select
+          appearance="outline"
+          class="w-3/5"
+          [stringOptions]="co2Standards$ | ngrxPush"
+          [control]="co2StandardControl"
+          [filterFn]="filterFn"
+          [label]="t('co2Standard')"
+          [addEntry]="true"
+          [resetButton]="false"
+          (entryAdded)="addCo2Standard($event)"
+          [showTriggerTooltip]="true"
+          triggerTooltipDelay="1500"
+          tooltipPosition="right"
+          name="co2Standard"
+          #dialogControl
+        >
+        </schaeffler-select>
+      </div>
+      <div class="flex flex-col w-full">
+        <div class="flex w-full flex-row justify-between gap-6">
+          <div class="content-center pb-6 max-w-[230px]">
+            {{ t('appliedPcr') }}:
+          </div>
+          <schaeffler-select
+            appearance="outline"
+            class="w-3/5"
+            [stringOptions]="productCategoryRules$ | ngrxPush"
+            [control]="productCategoryRuleControl"
+            [filterFn]="filterFn"
+            [label]="t('productCategoryRule')"
+            [resetButton]="false"
+            [showTriggerTooltip]="true"
+            triggerTooltipDelay="1500"
+            tooltipPosition="right"
+            name="productCategoryRule"
+            #dialogControl
+          >
+          </schaeffler-select>
+        </div>
+        <div class="-ml-2 flex flex-row gap-x-6 justify-end">
+          <mat-checkbox
+            class="text-caption text-high-emphasis cursor-not-allowed"
+            color="primary"
+            name="blocked"
+            [checked]="
+              productCategoryRuleControl.value?.data?.allocationToSideProducts
+            "
+            [class.mat-mdc-checkbox-disabled]="
+              !co2ClassificationNewControl.value?.id
+            "
+            disabled
+          >
+            {{ t('pcrAllocatesCo2ToSideProducts') }}
+          </mat-checkbox>
+        </div>
+      </div>
+      <div class="flex w-full flex-row gap-6">
+        <mat-form-field appearance="outline" class="w-1/2">
+          <mat-label class="leading-6">{{ t('dataQualityRating') }}</mat-label>
+          <input
+            matInput
+            [formControl]="dataQualityRatingControl"
+            type="number"
+            name="dataQualityRating"
+            #dialogControl
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-1/2">
+          <mat-label class="leading-6">{{ t('primaryDataShare') }}</mat-label>
+          <input
+            matInput
+            [formControl]="primaryDataShareControl"
+            type="number"
+            name="primaryDataShare"
+            #dialogControl
+          />
+        </mat-form-field>
+      </div>
+      <!-- file -->
+      <div class="flex flex-row w-full">
+        <schaeffler-file-upload
+          class="w-full [&>div>div]:py-4"
+          [displayMaxFileCountError]="false"
+          [autoOverwriteOldestFile]="true"
+          [fileHint]="t('pcfProofFileHint')"
+          acceptTypeString="application/pdf"
+          (filesChanged)="setFile($event)"
+          [messages]="getUploadMessages()"
+        ></schaeffler-file-upload>
+      </div>
+      <div class="w-full flex flex-row justify-between gap-6">
+        <div class="content-center pb-6 max-w-[230px]">
+          {{ t('reportValidUntil') }}:
+        </div>
+        <!-- date picker -->
+        <mat-form-field appearance="outline" class="w-3/5">
+          <mat-label>{{ t('date') }}</mat-label>
+          <input
+            matInput
+            autocomplete="off"
+            [matDatepicker]="dateDatePicker"
+            name="reportValidUntil"
+            [formControl]="reportValidUntilControlMoment"
+            readonly
+          />
+          <mat-error class="text-caption">{{
+            t('invalidDateError')
+          }}</mat-error>
+          <mat-datepicker-toggle matSuffix [for]="dateDatePicker">
+            <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #dateDatePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="flex flex-row gap-x-6">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label class="leading-6">{{ t('co2Comment') }}</mat-label>
+          <textarea
+            matInput
+            [formControl]="co2CommentControl"
+            name="co2Comment"
+            #dialogControl
+          ></textarea>
+        </mat-form-field>
+      </div>
     }
   </div>
 </mac-base-dialog>
