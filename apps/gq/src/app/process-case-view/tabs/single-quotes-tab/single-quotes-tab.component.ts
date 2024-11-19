@@ -1,16 +1,20 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 
-import { map, Observable, take } from 'rxjs';
+import { combineLatest, map, take } from 'rxjs';
 
-import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { ColumnDefService } from '@gq/shared/ag-grid/services';
 import { FILTER_PARAM_INDICATOR } from '@gq/shared/constants';
 import { Quotation } from '@gq/shared/models';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { translate } from '@jsverse/transloco';
-import { Store } from '@ngrx/store';
 
 import { ViewToggle } from '@schaeffler/view-toggle';
 
@@ -23,31 +27,59 @@ import { DeleteCustomViewModalComponent } from './delete-custom-view-modal/delet
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SingleQuotesTabComponent implements OnInit {
-  quotation$: Observable<Quotation>;
-  updateLoading$: Observable<boolean>;
-  customViews$: Observable<ViewToggle[]>;
+  private readonly activeCaseFacade: ActiveCaseFacade =
+    inject(ActiveCaseFacade);
+  private readonly colDefService: ColumnDefService = inject(ColumnDefService);
+  private readonly gridStateService: AgGridStateService =
+    inject(AgGridStateService);
+  private readonly dialog: MatDialog = inject(MatDialog);
+  private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
   private readonly ADD_VIEW_ID = 9999;
   private readonly EDIT_ICON = 'edit';
   private readonly ADD_ICON = 'add';
   private readonly DELETE_ICON = 'delete';
-  private routeSnapShot: ActivatedRouteSnapshot;
+  private readonly routeSnapShot: ActivatedRouteSnapshot =
+    this.activatedRoute.snapshot;
 
-  constructor(
-    private readonly store: Store,
-    private readonly dialog: MatDialog,
-    private readonly gridStateService: AgGridStateService,
-    private readonly activatedRoute: ActivatedRoute,
-    private readonly colDefService: ColumnDefService
-  ) {}
+  dataLoading$ = combineLatest([
+    this.activeCaseFacade.quotationDetailUpdating$,
+    this.activeCaseFacade.quotationLoading$,
+  ]).pipe(
+    map(
+      ([updateLoading, quotationLoading]) => updateLoading || quotationLoading
+    )
+  );
+  quotation$ = this.activeCaseFacade.quotation$;
+  customViews$ = this.gridStateService.views.asObservable().pipe(
+    map((views: ViewToggle[]) => {
+      const viewsWithIcons = views.map((view: ViewToggle) => {
+        if (view.id === this.gridStateService.DEFAULT_VIEW_ID) {
+          return {
+            ...view,
+            title: translate('shared.quotationDetailsTable.defaultView'),
+          };
+        }
+
+        return {
+          ...view,
+          icons: [{ name: this.EDIT_ICON }, { name: this.DELETE_ICON }],
+        };
+      });
+
+      return [
+        ...viewsWithIcons,
+        {
+          id: this.ADD_VIEW_ID,
+          disabled: true,
+          active: false,
+          icons: [{ name: this.ADD_ICON }],
+        },
+      ];
+    })
+  );
 
   ngOnInit(): void {
-    this.routeSnapShot = this.activatedRoute.snapshot;
-
-    this.quotation$ = this.store.select(activeCaseFeature.selectQuotation);
-    this.updateLoading$ = this.store.select(
-      activeCaseFeature.selectUpdateLoading
-    );
     this.gridStateService.init(
       'process_case',
       null,
@@ -56,34 +88,6 @@ export class SingleQuotesTabComponent implements OnInit {
 
     this.gridStateService.setActiveView(this.gridStateService.DEFAULT_VIEW_ID);
     this.gridStateService.clearDefaultViewColumnAndFilterState();
-
-    this.customViews$ = this.gridStateService.views.asObservable().pipe(
-      map((views: ViewToggle[]) => {
-        const viewsWithIcons = views.map((view: ViewToggle) => {
-          if (view.id === this.gridStateService.DEFAULT_VIEW_ID) {
-            return {
-              ...view,
-              title: translate('shared.quotationDetailsTable.defaultView'),
-            };
-          }
-
-          return {
-            ...view,
-            icons: [{ name: this.EDIT_ICON }, { name: this.DELETE_ICON }],
-          };
-        });
-
-        return [
-          ...viewsWithIcons,
-          {
-            id: this.ADD_VIEW_ID,
-            disabled: true,
-            active: false,
-            icons: [{ name: this.ADD_ICON }],
-          },
-        ];
-      })
-    );
 
     this.applyFilterFromQueryParams();
   }

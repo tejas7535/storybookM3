@@ -78,6 +78,7 @@ describe('QuotationDetailsTableComponent', () => {
         removeSimulatedQuotationDetail: jest.fn(),
         resetSimulatedQuotation: jest.fn(),
         addSimulatedQuotation: jest.fn(),
+        quotation$: of(QUOTATION_MOCK),
       }),
       provideMockStore({
         initialState: {
@@ -129,9 +130,9 @@ describe('QuotationDetailsTableComponent', () => {
             field: ColumnFields.DATE_NEXT_FREE_ATP,
           },
         ];
-        component.tableContext = {
-          quotation: { sapId: undefined } as Quotation,
-        };
+        component['activeCaseFacade'].quotation$ = of({
+          sapId: undefined,
+        } as Quotation);
 
         component['columnDefinitionService'].COLUMN_DEFS = mockColDefs;
         store.setState({
@@ -169,9 +170,9 @@ describe('QuotationDetailsTableComponent', () => {
             field: ColumnFields.DATE_NEXT_FREE_ATP,
           },
         ];
-        component.tableContext = {
-          quotation: { sapId: '12' } as Quotation,
-        };
+        component['activeCaseFacade'].quotation$ = of({
+          sapId: '12',
+        } as Quotation);
 
         component['columnDefinitionService'].COLUMN_DEFS = mockColDefs;
         store.setState({

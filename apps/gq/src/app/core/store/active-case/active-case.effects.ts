@@ -429,7 +429,6 @@ export class ActiveCaseEffects {
         ApprovalActions.getApprovalCockpitData({
           sapId,
           forceLoad: true,
-          hideLoadingSpinner: true,
         }),
       ])
     );

@@ -459,15 +459,15 @@ describe('ActiveCaseFacade', () => {
     });
   });
 
-  describe('attachmentsGetting$', () => {
+  describe('attachmentsLoading$', () => {
     test(
-      'should select attachments getting',
+      'should select attachments loading',
       marbles((m) => {
         mockStore.overrideSelector(
-          activeCaseFeature.selectAttachmentsGetting,
+          activeCaseFeature.selectAttachmentsLoading,
           true
         );
-        m.expect(facade.attachmentsGetting$).toBeObservable(
+        m.expect(facade.attachmentsLoading$).toBeObservable(
           m.cold('a', { a: true })
         );
       })

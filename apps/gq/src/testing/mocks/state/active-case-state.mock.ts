@@ -22,7 +22,7 @@ export const ACTIVE_CASE_STATE_MOCK: ActiveCaseState = {
   updateCostsLoading: false,
   updateRfqInformationLoading: false,
   attachmentsUploading: false,
-  attachmentsGetting: false,
+  attachmentsLoading: false,
   attachments: [],
   attachmentErrorMessage: undefined,
   attachmentDeletionInProgress: false,

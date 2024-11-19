@@ -234,9 +234,9 @@ export const approvalFeature = createFeature({
     ),
     on(
       ApprovalActions.getApprovalCockpitData,
-      (state: ApprovalState, { hideLoadingSpinner }): ApprovalState => ({
+      (state: ApprovalState): ApprovalState => ({
         ...state,
-        approvalCockpitLoading: !hideLoadingSpinner,
+        approvalCockpitLoading: true,
         error: undefined,
       })
     ),

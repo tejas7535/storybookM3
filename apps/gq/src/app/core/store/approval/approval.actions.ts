@@ -39,7 +39,6 @@ export const ApprovalActions = createActionGroup({
     'Get Approval Cockpit Data': props<{
       sapId: string;
       forceLoad?: boolean;
-      hideLoadingSpinner?: boolean;
     }>(),
     'Get Approval Cockpit Data Success': props<{
       approvalCockpit: ApprovalCockpitData;

@@ -824,7 +824,6 @@ describe('ActiveCaseEffects', () => {
         const result = ApprovalActions.getApprovalCockpitData({
           sapId,
           forceLoad: true,
-          hideLoadingSpinner: true,
         });
 
         const expected = m.cold('-b', { b: result });
@@ -846,7 +845,6 @@ describe('ActiveCaseEffects', () => {
         const result = ApprovalActions.getApprovalCockpitData({
           sapId,
           forceLoad: true,
-          hideLoadingSpinner: true,
         });
 
         const expected = m.cold('-b', { b: result });

@@ -1,32 +1,37 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ActivatedRoute, provideRouter } from '@angular/router';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
-import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
+import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { ColumnDefService } from '@gq/shared/ag-grid/services';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
+import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { ViewToggle } from '@schaeffler/view-toggle';
 
-import {
-  PROCESS_CASE_STATE_MOCK,
-  QUOTATION_MOCK,
-} from '../../../../testing/mocks';
+import { AddCustomViewModalComponent } from './add-custom-view-modal/add-custom-view-modal.component';
 import { SingleQuotesTabComponent } from './single-quotes-tab.component';
+
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
+
 describe('SingleQuotesTab', () => {
   const viewsSubject = new BehaviorSubject<ViewToggle[]>([]);
   describe('SingleQuotesTabComponent', () => {
     let component: SingleQuotesTabComponent;
     let spectator: Spectator<SingleQuotesTabComponent>;
-    let store: MockStore;
+    let matDialog: MatDialog;
+    const quotationDetailUpdating$ = new BehaviorSubject<boolean>(false);
+    const quotationLoading$ = new BehaviorSubject<boolean>(false);
 
     const createComponent = createComponentFactory({
       component: SingleQuotesTabComponent,
@@ -36,11 +41,9 @@ describe('SingleQuotesTab', () => {
         MatDialogModule,
       ],
       providers: [
-        provideMockStore({
-          initialState: {
-            processCase: PROCESS_CASE_STATE_MOCK,
-            'azure-auth': {},
-          },
+        MockProvider(ActiveCaseFacade, {
+          quotationDetailUpdating$,
+          quotationLoading$,
         }),
         {
           provide: ActivatedRoute,
@@ -81,41 +84,15 @@ describe('SingleQuotesTab', () => {
     beforeEach(() => {
       spectator = createComponent();
       component = spectator.debugElement.componentInstance;
-      store = spectator.inject(MockStore);
+      matDialog = spectator.inject(MatDialog);
+
+      quotationDetailUpdating$.next(false);
+      quotationLoading$.next(false);
+      viewsSubject.next([]);
     });
 
     it('should create', () => {
       expect(component).toBeTruthy();
-    });
-
-    describe('ngOnInit', () => {
-      test(
-        'should set quotation$',
-        marbles((m) => {
-          store.overrideSelector(
-            activeCaseFeature.selectQuotation,
-            QUOTATION_MOCK
-          );
-
-          component.ngOnInit();
-
-          m.expect(component.quotation$).toBeObservable(
-            m.cold('a', { a: QUOTATION_MOCK })
-          );
-        })
-      );
-      test(
-        'should set updateLoading$',
-        marbles((m) => {
-          store.overrideSelector(activeCaseFeature.selectUpdateLoading, true);
-
-          component.ngOnInit();
-
-          m.expect(component.updateLoading$).toBeObservable(
-            m.cold('a', { a: true })
-          );
-        })
-      );
     });
 
     describe('onViewToggle', () => {
@@ -142,6 +119,105 @@ describe('SingleQuotesTab', () => {
         expect(
           component['gridStateService'].setActiveView
         ).toHaveBeenCalledWith(2);
+      });
+    });
+
+    describe('openCustomViewModal', () => {
+      test('should open add custom view modal', () => {
+        const dialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
+          afterClosed: jest.fn().mockReturnValue(of(null)),
+        } as any);
+
+        component.openCustomViewModal(9999, true);
+
+        expect(dialogSpy).toHaveBeenCalledWith(
+          AddCustomViewModalComponent,
+          expect.anything()
+        );
+      });
+
+      test('should handle modal result correctly - createViewFromScratch', () => {
+        component['gridStateService'].createViewFromScratch = jest.fn();
+        component['gridStateService'].createViewFromCurrentView = jest.fn();
+        component['gridStateService'].updateViewName = jest.fn();
+        const dialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
+          afterClosed: jest
+            .fn()
+            .mockReturnValue(
+              of({ createNewView: true, name: 'hi', createFromDefault: true })
+            ),
+        } as any);
+
+        component.openCustomViewModal(9999, true);
+
+        expect(dialogSpy).toHaveBeenCalledWith(
+          AddCustomViewModalComponent,
+          expect.anything()
+        );
+        expect(
+          component['gridStateService'].createViewFromScratch
+        ).toHaveBeenCalled();
+      });
+
+      test('should handle modal result correctly - updateViewName', () => {
+        component['gridStateService'].createViewFromScratch = jest.fn();
+        component['gridStateService'].createViewFromCurrentView = jest.fn();
+        component['gridStateService'].updateViewName = jest.fn();
+        const dialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
+          afterClosed: jest
+            .fn()
+            .mockReturnValue(of({ createNewView: false, name: 'hi' })),
+        } as any);
+
+        component.openCustomViewModal(9999, true);
+
+        expect(dialogSpy).toHaveBeenCalledWith(
+          AddCustomViewModalComponent,
+          expect.anything()
+        );
+        expect(component['gridStateService'].updateViewName).toHaveBeenCalled();
+      });
+    });
+
+    describe('onViewToggleIconClicked', () => {
+      test('should handle add icon', () => {
+        component['openCustomViewModal'] = jest.fn();
+        component['gridStateService'].getCurrentViewId = jest
+          .fn()
+          .mockReturnValue(2);
+
+        component.onViewToggleIconClicked({ viewId: 9999, iconName: 'add' });
+
+        expect(component['openCustomViewModal']).toHaveBeenCalled();
+      });
+
+      test('should handle edit icon', () => {
+        component['openCustomViewModal'] = jest.fn();
+        component['gridStateService'].getViewNameById = jest
+          .fn()
+          .mockReturnValue('Custom View');
+
+        component.onViewToggleIconClicked({ viewId: 2, iconName: 'edit' });
+
+        expect(component['openCustomViewModal']).toHaveBeenCalledWith(
+          2,
+          false,
+          false,
+          'Custom View'
+        );
+      });
+
+      test('should handle delete icon', () => {
+        component['gridStateService'].deleteView = jest.fn();
+        matDialog.open = jest.fn().mockReturnValue({
+          afterClosed: jest.fn().mockReturnValue(of({ delete: true })),
+        });
+
+        component.onViewToggleIconClicked({ viewId: 2, iconName: 'delete' });
+
+        expect(component['gridStateService'].deleteView).toHaveBeenCalledWith(
+          2
+        );
       });
     });
 
@@ -179,6 +255,103 @@ describe('SingleQuotesTab', () => {
         });
       });
     });
+
+    describe('dataLoading$', () => {
+      test(
+        'should emit true when any loading is true',
+        marbles((m) => {
+          quotationDetailUpdating$.next(true);
+          quotationLoading$.next(false);
+
+          m.expect(component.dataLoading$).toBeObservable('a', {
+            a: true,
+          });
+        })
+      );
+      test(
+        'should emit true when any loadin is true (2)',
+        marbles((m) => {
+          quotationDetailUpdating$.next(false);
+          quotationLoading$.next(true);
+
+          m.expect(component.dataLoading$).toBeObservable('a', {
+            a: true,
+          });
+        })
+      );
+
+      test(
+        'should emit false when both loadings are false',
+        marbles((m) => {
+          quotationDetailUpdating$.next(false);
+          quotationLoading$.next(false);
+
+          m.expect(component.dataLoading$).toBeObservable('a', {
+            a: false,
+          });
+        })
+      );
+    });
+
+    describe('customViews$', () => {
+      test(
+        'should emit view with icons and add view',
+        marbles((m) => {
+          const mockViews: ViewToggle[] = [
+            { id: 1, title: 'View 1', active: false },
+            { id: 2, title: 'View 2', active: false },
+            { id: 3, title: 'View 3', active: false },
+          ];
+          viewsSubject.next(mockViews);
+
+          m.expect(component.customViews$).toBeObservable('a', {
+            a: [
+              {
+                id: 1,
+                title: 'translate it',
+                active: false,
+              },
+              {
+                id: 2,
+                title: 'View 2',
+                active: false,
+                icons: [{ name: 'edit' }, { name: 'delete' }],
+              },
+              {
+                id: 3,
+                title: 'View 3',
+                active: false,
+                icons: [{ name: 'edit' }, { name: 'delete' }],
+              },
+              {
+                id: 9999,
+                disabled: true,
+                active: false,
+                icons: [{ name: 'add' }],
+              },
+            ],
+          });
+        })
+      );
+
+      test(
+        'should handle empty views array',
+        marbles((m) => {
+          viewsSubject.next([]);
+
+          m.expect(component.customViews$).toBeObservable('a', {
+            a: [
+              {
+                id: 9999,
+                disabled: true,
+                active: false,
+                icons: [{ name: 'add' }],
+              },
+            ],
+          });
+        })
+      );
+    });
   });
 
   describe('SingleQuotesTab Without Filter params', () => {
@@ -194,12 +367,7 @@ describe('SingleQuotesTab', () => {
       ],
       providers: [
         provideRouter([]),
-        provideMockStore({
-          initialState: {
-            processCase: PROCESS_CASE_STATE_MOCK,
-            'azure-auth': {},
-          },
-        }),
+        MockProvider(ActiveCaseFacade),
         {
           provide: ActivatedRoute,
           useValue: {

@@ -171,8 +171,8 @@ export class ActiveCaseFacade {
     activeCaseFeature.selectAttachments
   );
 
-  attachmentsGetting$: Observable<boolean> = this.store.select(
-    activeCaseFeature.selectAttachmentsGetting
+  attachmentsLoading$: Observable<boolean> = this.store.select(
+    activeCaseFeature.selectAttachmentsLoading
   );
 
   attachmentsGettingSuccess$: Observable<void> = this.actions$.pipe(

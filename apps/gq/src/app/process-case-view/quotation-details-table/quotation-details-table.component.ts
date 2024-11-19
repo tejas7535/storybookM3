@@ -118,33 +118,42 @@ export class QuotationDetailsTableComponent implements OnInit {
       this.activeCaseFacade.quotationHasFNumberMaterials$,
       this.activeCaseFacade.quotationHasRfqMaterials$,
       this.activeCaseFacade.isSapSyncPending$,
+      this.activeCaseFacade.quotation$,
     ]).pipe(
       takeUntilDestroyed(this.destroyRef),
-      map(([columnDefs, hasFNumberMaterials, hasRfqMaterials, syncPending]) => {
-        let columnDef = ColumnUtilityService.filterSAPColumns(
+      map(
+        ([
           columnDefs,
-          this.tableContext.quotation
-        );
+          hasFNumberMaterials,
+          hasRfqMaterials,
+          syncPending,
+          quotation,
+        ]) => {
+          let columnDef = ColumnUtilityService.filterSAPColumns(
+            columnDefs,
+            quotation
+          );
 
-        columnDef = this.featureToggleService.isEnabled('sapPriceDiffColumn')
-          ? columnDef
-          : ColumnUtilityService.filterSapPriceDiffColumn(columnDef);
-
-        columnDef = this.featureToggleService.isEnabled(
-          'targetPriceSourceColumn'
-        )
-          ? columnDef
-          : ColumnUtilityService.filterTargetPriceSourceColumn(columnDef);
-
-        columnDef =
-          hasFNumberMaterials && !syncPending
+          columnDef = this.featureToggleService.isEnabled('sapPriceDiffColumn')
             ? columnDef
-            : ColumnUtilityService.filterPricingAssistantColumns(columnDef);
+            : ColumnUtilityService.filterSapPriceDiffColumn(columnDef);
 
-        return hasRfqMaterials
-          ? columnDef
-          : ColumnUtilityService.filterRfqColumns(columnDef);
-      })
+          columnDef = this.featureToggleService.isEnabled(
+            'targetPriceSourceColumn'
+          )
+            ? columnDef
+            : ColumnUtilityService.filterTargetPriceSourceColumn(columnDef);
+
+          columnDef =
+            hasFNumberMaterials && !syncPending
+              ? columnDef
+              : ColumnUtilityService.filterPricingAssistantColumns(columnDef);
+
+          return hasRfqMaterials
+            ? columnDef
+            : ColumnUtilityService.filterRfqColumns(columnDef);
+        }
+      )
     );
 
     this.localeText$ = this.localizationService.locale$;

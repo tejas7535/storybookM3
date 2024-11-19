@@ -1,58 +1,54 @@
-@if (dataLoadingComplete$ | ngrxPush) {
+@if (quotation$ | ngrxPush; as quotation) {
   <div class="flex h-full flex-col">
-    @if (quotation$ | ngrxPush; as quotation) {
-      <schaeffler-subheader
-        [subheaderTitle]="
-          quotation.caseName
-            ? quotation.caseName
-            : (quotation.gqId | gqQuotation)
-        "
-        [breadcrumbs]="breadcrumbs$ | ngrxPush"
-      >
-        <ng-container subheaderStatusIcon>
-          <schaeffler-tag
-            [type]="tagType$ | ngrxPush"
-            class="subheader-status-icon"
-          ></schaeffler-tag>
-        </ng-container>
-        <ng-container subheaderTitleContent>
-          <div class="flex flex-row items-center">
-            @if (quotation.sapId) {
-              <span class="ml-4 text-low-emphasis">{{
-                quotation.sapId | sapQuotation
-              }}</span>
-            }
-            <gq-header-content
-              [quotation]="quotation"
-              (updateQuotation)="updateQuotation($event)"
-            ></gq-header-content>
-          </div>
-        </ng-container>
-        <ng-container subheaderInlineContent>
-          @if ((loggedInUserId$ | ngrxPush) !== quotation.gqCreatedByUser.id) {
-            <gq-shared-quotation-button
-              class="pr-3"
-              [quotationId]="quotation.gqId"
-            ></gq-shared-quotation-button>
+    <schaeffler-subheader
+      [subheaderTitle]="
+        quotation.caseName ? quotation.caseName : (quotation.gqId | gqQuotation)
+      "
+      [breadcrumbs]="breadcrumbs$ | ngrxPush"
+    >
+      <ng-container subheaderStatusIcon>
+        <schaeffler-tag
+          [type]="tagType$ | ngrxPush"
+          class="subheader-status-icon"
+        ></schaeffler-tag>
+      </ng-container>
+      <ng-container subheaderTitleContent>
+        <div class="flex flex-row items-center">
+          @if (quotation.sapId) {
+            <span class="ml-4 text-low-emphasis">{{
+              quotation.sapId | sapQuotation
+            }}</span>
           }
-          <schaeffler-share-button
-            class="pr-1 !text-medium-emphasis"
-          ></schaeffler-share-button>
-          <gq-release-button [quotation]="quotation"></gq-release-button>
-          <gq-cancel-workflow-button
-            [quotationStatus]="quotation?.status"
-          ></gq-cancel-workflow-button>
-        </ng-container>
-        <ng-container subheaderBlockContent>
-          <gq-status-customer-info-header
-            [customer]="quotation.customer"
-            [sapStatus$]="sapStatus$"
-            [statusOfQuotation]="quotation.status"
-            [showStatus]="true"
-          ></gq-status-customer-info-header>
-        </ng-container>
-      </schaeffler-subheader>
-    }
+          <gq-header-content
+            [quotation]="quotation"
+            (updateQuotation)="updateQuotation($event)"
+          ></gq-header-content>
+        </div>
+      </ng-container>
+      <ng-container subheaderInlineContent>
+        @if ((loggedInUserId$ | ngrxPush) !== quotation.gqCreatedByUser.id) {
+          <gq-shared-quotation-button
+            class="pr-3"
+            [quotationId]="quotation.gqId"
+          ></gq-shared-quotation-button>
+        }
+        <schaeffler-share-button
+          class="pr-1 !text-medium-emphasis"
+        ></schaeffler-share-button>
+        <gq-release-button [quotation]="quotation"></gq-release-button>
+        <gq-cancel-workflow-button
+          [quotationStatus]="quotation?.status"
+        ></gq-cancel-workflow-button>
+      </ng-container>
+      <ng-container subheaderBlockContent>
+        <gq-status-customer-info-header
+          [customer]="quotation.customer"
+          [sapStatus$]="sapStatus$"
+          [statusOfQuotation]="quotation.status"
+          [showStatus]="true"
+        ></gq-status-customer-info-header>
+      </ng-container>
+    </schaeffler-subheader>
     <ng-container *ngrxLet="quotation$ as quotation">
       @if (showCalcInProgress$ | ngrxPush) {
         <gq-calculation-in-progress

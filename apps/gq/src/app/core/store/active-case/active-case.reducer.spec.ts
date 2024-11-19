@@ -870,7 +870,7 @@ describe('Active Case Feature Reducer', () => {
       const action = ActiveCaseActions.getAllAttachments();
       const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
 
-      expect(state.attachmentsGetting).toEqual(true);
+      expect(state.attachmentsLoading).toEqual(true);
     });
     test('should set attachmentsGetting to false and overwrite attachments', () => {
       const fakeState: ActiveCaseState = {
@@ -886,7 +886,7 @@ describe('Active Case Feature Reducer', () => {
       });
       const state = activeCaseFeature.reducer(fakeState, action);
 
-      expect(state.attachmentsGetting).toEqual(false);
+      expect(state.attachmentsLoading).toEqual(false);
       expect(state.attachments).toEqual(attachmentsOfResponse);
     });
 
@@ -896,7 +896,7 @@ describe('Active Case Feature Reducer', () => {
       });
       const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
 
-      expect(state.attachmentsGetting).toEqual(false);
+      expect(state.attachmentsLoading).toEqual(false);
     });
   });
 

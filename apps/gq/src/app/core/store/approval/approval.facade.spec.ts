@@ -940,14 +940,12 @@ describe('ApprovalFacade', () => {
       service.getApprovalCockpitData(
         expect.any(String),
         expect.any(Boolean),
-        expect.any(Boolean),
         expect.any(Boolean)
       );
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         ApprovalActions.getApprovalCockpitData({
           sapId: expect.any(String),
           forceLoad: expect.any(Boolean),
-          hideLoadingSpinner: expect.any(Boolean),
         })
       );
     });

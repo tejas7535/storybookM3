@@ -47,7 +47,16 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
   pricingInformation$: Observable<QuotationPricingOverview> = NEVER;
   quotationCurrency$: Observable<string> = NEVER;
 
-  allApproversLoading$ = this.approvalFacade.allApproversLoading$;
+  dataLoading$ = combineLatest([
+    this.approvalFacade.allApproversLoading$,
+    this.approvalFacade.approvalCockpitLoading$,
+    this.activeCaseFacade.attachmentsLoading$,
+  ]).pipe(
+    map(
+      ([allApproversLoading, approvalCockpitLoading, attachmentsLoading]) =>
+        allApproversLoading || approvalCockpitLoading || attachmentsLoading
+    )
+  );
   workflowInProgress$ = this.approvalFacade.workflowInProgress$;
   quotationFullyApproved$ = this.approvalFacade.quotationFullyApproved$;
   hasAnyApprovalEvent$ = this.approvalFacade.hasAnyApprovalEvent$;

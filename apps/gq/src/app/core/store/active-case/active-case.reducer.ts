@@ -44,7 +44,7 @@ export interface ActiveCaseState {
   updateCostsLoading: boolean;
   updateRfqInformationLoading: boolean;
   attachmentsUploading: boolean;
-  attachmentsGetting: boolean;
+  attachmentsLoading: boolean;
   attachments: QuotationAttachment[];
   attachmentErrorMessage: string;
   attachmentDeletionInProgress: boolean;
@@ -72,7 +72,7 @@ export const initialState: ActiveCaseState = {
   updateCostsLoading: false,
   updateRfqInformationLoading: false,
   attachmentsUploading: false,
-  attachmentsGetting: false,
+  attachmentsLoading: false,
   attachmentErrorMessage: undefined,
   attachments: [],
   attachmentDeletionInProgress: false,
@@ -531,7 +531,7 @@ export const activeCaseFeature = createFeature({
       ActiveCaseActions.getAllAttachments,
       (state: ActiveCaseState): ActiveCaseState => ({
         ...state,
-        attachmentsGetting: true,
+        attachmentsLoading: true,
       })
     ),
     on(
@@ -539,14 +539,14 @@ export const activeCaseFeature = createFeature({
       (state: ActiveCaseState, { attachments }): ActiveCaseState => ({
         ...state,
         attachments: [...attachments],
-        attachmentsGetting: false,
+        attachmentsLoading: false,
       })
     ),
     on(
       ActiveCaseActions.getAllAttachmentsFailure,
       (state: ActiveCaseState): ActiveCaseState => ({
         ...state,
-        attachmentsGetting: false,
+        attachmentsLoading: false,
       })
     ),
     on(
