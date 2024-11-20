@@ -134,11 +134,9 @@ export class ColumnUtilityService {
     columnDefs: ColDef[],
     quotation: Quotation
   ): ColDef[] {
-    // NOTE: If we don't have sapId and non sap process is going on,
-    // we don't need to show SAP related columns
     if (
       !quotation.sapId &&
-      quotation.sapSyncStatus !== SAP_SYNC_STATUS.SYNC_PENDING
+      quotation.sapSyncStatus !== SAP_SYNC_STATUS.SYNC_FAILED
     ) {
       return columnDefs.filter(
         (colDef: ColDef) => colDef.field !== ColumnFields.SAP_SYNC_STATUS

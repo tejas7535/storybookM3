@@ -281,11 +281,11 @@ describe('CreateColumnService', () => {
       expect(res).toEqual(colDefs);
     });
 
-    test('should keep SAP_STATUS Column if sapId is not set but sap sync status is pending', () => {
+    test('should keep SAP_STATUS Column if sapId is not set but sap sync status is failed', () => {
       const quotation = {
         ...QUOTATION_MOCK,
         sapId: undefined,
-        sapSyncStatus: SAP_SYNC_STATUS.SYNC_PENDING,
+        sapSyncStatus: SAP_SYNC_STATUS.SYNC_FAILED,
       } as Quotation;
       const res = ColumnUtilityService.filterSAPColumns(colDefs, quotation);
 
