@@ -463,10 +463,12 @@ describe('Create Actions', () => {
       const materialValidations: any[] = [];
       const action = validateMaterialsOnCustomerAndSalesOrgSuccess({
         materialValidations,
+        isNewCaseCreation: false,
       });
 
       expect(action).toEqual({
         materialValidations,
+        isNewCaseCreation: false,
         type: '[Create Case] Get Validation for RowData on Customer and SalesOrg: Validation Success',
       });
     });

@@ -1,10 +1,9 @@
-import { SAP_ERROR_MESSAGE_CODE } from '@gq/shared/models/quotation-detail';
-
 import { MATERIAL_TABLE_ITEM_MOCK } from '../../../../testing/mocks';
 import {
   MaterialQuantities,
   MaterialTableItem,
   MaterialValidation,
+  VALIDATION_CODE,
   ValidationDescription,
 } from '../../models/table';
 import { TableService } from './table.service';
@@ -135,7 +134,7 @@ describe('TableService', () => {
           id: 1,
           info: {
             description: [ValidationDescription.Duplicate],
-            errorCodes: [SAP_ERROR_MESSAGE_CODE.SDG1000],
+            codes: [VALIDATION_CODE.SDG102],
             valid: true,
           },
         },
@@ -153,7 +152,7 @@ describe('TableService', () => {
           currency: undefined,
           info: {
             description: [ValidationDescription.Not_Validated],
-            errorCodes: undefined,
+            codes: undefined,
             valid: false,
           },
         },
@@ -162,7 +161,7 @@ describe('TableService', () => {
           currency: undefined,
           info: {
             description: [ValidationDescription.Not_Validated],
-            errorCodes: undefined,
+            codes: undefined,
             valid: false,
           },
         },
@@ -184,7 +183,7 @@ describe('TableService', () => {
           currency: 'EUR',
           info: {
             description: [ValidationDescription.Not_Validated],
-            errorCodes: undefined,
+            codes: undefined,
             valid: false,
           },
         } as MaterialTableItem,
@@ -193,7 +192,7 @@ describe('TableService', () => {
           currency: 'EUR',
           info: {
             description: [ValidationDescription.Not_Validated],
-            errorCodes: undefined,
+            codes: undefined,
             valid: false,
           },
         } as MaterialTableItem,
@@ -258,6 +257,7 @@ describe('TableService', () => {
         },
       };
       const rowData: MaterialValidation = {
+        id: 1,
         materialNumber15: '23457',
         materialDescription: 'desc',
         valid: true,
@@ -281,6 +281,7 @@ describe('TableService', () => {
         },
       };
       const rowData: MaterialValidation = {
+        id: 1,
         materialNumber15: '23457',
         materialDescription: 'desc',
         valid: false,
@@ -307,6 +308,7 @@ describe('TableService', () => {
         },
       };
       const rowData: MaterialValidation = {
+        id: 1,
         materialNumber15: '23457',
         materialDescription: 'desc',
         valid: false,
@@ -355,6 +357,7 @@ describe('TableService', () => {
         },
       };
       const rowData: MaterialValidation = {
+        id: 1,
         materialNumber15: '23457',
         materialDescription: 'desc',
         valid: true,
@@ -382,6 +385,7 @@ describe('TableService', () => {
         },
       };
       const rowData: MaterialValidation = {
+        id: 1,
         materialNumber15: '23457',
         materialDescription: 'desc',
         valid: true,
@@ -406,6 +410,7 @@ describe('TableService', () => {
         },
       };
       const rowData: MaterialValidation = {
+        id: 1,
         materialNumber15: '23457',
         materialDescription: 'desc',
         valid: true,
@@ -429,22 +434,25 @@ describe('TableService', () => {
         materialNumber15: '23457',
         materialDescription: 'desc',
         valid: true,
-      } as unknown as MaterialValidation;
+      } as MaterialValidation;
 
       const result = TableService.validateData(materialNumber, rowData);
-      expect(result.info.errorCodes).toBeUndefined();
+      expect(result.info.codes).toBeUndefined();
     });
     test('should set the errorCode if present', () => {
-      const materialNumber: MaterialTableItem = {};
+      const materialNumber: MaterialTableItem = {
+        id: 1,
+      };
       const rowData: MaterialValidation = {
+        id: 1,
         materialNumber15: '23457',
         materialDescription: 'desc',
         valid: true,
-        errorCodes: [SAP_ERROR_MESSAGE_CODE.SDG1000],
-      } as unknown as MaterialValidation;
+        validationCodes: [{ code: VALIDATION_CODE.SDG101 }],
+      } as MaterialValidation;
 
       const result = TableService.validateData(materialNumber, rowData);
-      expect(result.info.errorCodes).toEqual([SAP_ERROR_MESSAGE_CODE.SDG1000]);
+      expect(result.info.codes).toEqual([VALIDATION_CODE.SDG101]);
     });
 
     test('should set priceUnit and UoM if target price present', () => {

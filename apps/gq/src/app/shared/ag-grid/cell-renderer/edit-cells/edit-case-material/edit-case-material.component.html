@@ -1,9 +1,22 @@
-<div>
-  <span class="float-left mr-[10px]">
+<div
+  *transloco="let t; read: 'shared.caseMaterial.table.info.customerValidation'"
+  class="flex flex-row items-center gap-2"
+>
+  <!--show warning icon if needed-->
+  @if (displayWarning) {
+    <ng-container *featureToggle="'createManualCaseAsView'">
+      <mat-icon
+        [matTooltip]="t(toolTipKey)"
+        class="float-left cursor-pointer align-text-top !w-4 !h-4 !text-[16px] text-info"
+        >info_outline</mat-icon
+      ></ng-container
+    >
+  }
+  <span>
     {{ cellValue }}
   </span>
   <mat-icon
-    class="cursor-pointer align-text-top !text-[16px] text-medium-emphasis"
+    class="cursor-pointer align-text-top !w-4 !h-4 !text-[16px] text-medium-emphasis"
     (click)="onIconClick()"
     >mode_edit</mat-icon
   >

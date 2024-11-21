@@ -12,12 +12,18 @@ import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
 import {
   MaterialTableItem,
   MaterialValidation,
+  VALIDATION_CODE,
   ValidationDescription,
 } from '@gq/shared/models/table';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { CustomerService } from '@gq/shared/services/rest/customer/customer.service';
 import { CustomerSalesOrgsCurrenciesResponse } from '@gq/shared/services/rest/customer/models/customer-sales-orgs-currencies-response.model';
 import { MaterialService } from '@gq/shared/services/rest/material/material.service';
-import { MaterialValidationRequest } from '@gq/shared/services/rest/material/models';
+import {
+  AddDetailsValidationRequest,
+  AddDetailsValidationResponse,
+  Severity,
+} from '@gq/shared/services/rest/material/models';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { PLsSeriesRequest } from '@gq/shared/services/rest/search/models/pls-series-request.model';
 import { PLsSeriesResponse } from '@gq/shared/services/rest/search/models/pls-series-response.model';
@@ -108,6 +114,9 @@ describe('Create Case Effects', () => {
       }),
       MockProvider(RolesFacade, {
         userHasRegionWorldOrGreaterChinaRole$: of(true),
+      }),
+      MockProvider(FeatureToggleConfigService, {
+        isEnabled: jest.fn().mockReturnValue(false),
       }),
     ],
   });
@@ -371,7 +380,10 @@ describe('Create Case Effects', () => {
   describe('validateMaterialsOnCustomerAndSalesOrg$', () => {
     const tableData: MaterialTableItem[] = [
       {
+        id: 1,
         materialNumber: '1234',
+        materialDescription: 'matDESC',
+        customerMaterialNumber: '1234_customer',
         quantity: 20,
         info: {
           valid: false,
@@ -380,9 +392,18 @@ describe('Create Case Effects', () => {
       },
     ];
 
-    const request: MaterialValidationRequest = {
+    const request: AddDetailsValidationRequest = {
       customerId: { customerId: '12345', salesOrg: '0615' },
-      materialNumbers: ['1234'],
+      details: [
+        {
+          id: 1,
+          data: {
+            materialNumber15: '1234',
+            customerMaterial: '1234_customer',
+            quantity: 20,
+          },
+        },
+      ],
     };
     beforeEach(() => {
       store.overrideSelector(getCaseRowData, tableData);
@@ -398,28 +419,76 @@ describe('Create Case Effects', () => {
       marbles((m) => {
         action = validateMaterialsOnCustomerAndSalesOrg();
 
-        const materialValidations: MaterialValidation[] = [];
+        const materialValidations: MaterialValidation[] = [
+          {
+            id: 1,
+            valid: true,
+            materialNumber15: tableData[0].materialNumber,
+            materialDescription: tableData[0].materialDescription,
+            materialPriceUnit: 1,
+            materialUoM: 'PC',
+            customerMaterial: tableData[0].customerMaterialNumber,
+            correctedQuantity: 7,
+            validationCodes: [
+              {
+                code: VALIDATION_CODE.QDV001,
+                description: 'quantatiy updated',
+                severity: Severity.INFO,
+              },
+            ],
+          },
+        ];
         const result = validateMaterialsOnCustomerAndSalesOrgSuccess({
           materialValidations,
+          isNewCaseCreation: false,
         });
+        const correctedQuantity = 7;
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-a|', {
           a: {
-            customerId: { customerId: '1234', salesOrg: '0815' },
-            validatedMaterials: materialValidations,
-          },
+            customerId: { customerId: '12345', salesOrg: '0615' },
+            validatedDetails: [
+              {
+                id: 1,
+                userInput: {
+                  materialNumber15: tableData[0].materialNumber,
+                  quantity: tableData[0].quantity,
+                  customerMaterial: tableData[0].customerMaterialNumber,
+                },
+                materialData: {
+                  materialNumber15: tableData[0].materialNumber,
+                  materialDescription: tableData[0].materialDescription,
+                  materialPriceUnit: 1,
+                  materialUoM: 'PC',
+                },
+                customerData: {
+                  correctedQuantity,
+                  customerMaterial: tableData[0].customerMaterialNumber,
+                  deliveryUnit: 5,
+                },
+                valid: true,
+                validationCodes: [
+                  {
+                    code: VALIDATION_CODE.QDV001,
+                    description: 'quantatiy updated',
+                    severity: Severity.INFO,
+                  },
+                ],
+              },
+            ],
+          } as AddDetailsValidationResponse,
         });
 
-        validationService.validateMaterials = jest.fn(() => response);
+        validationService.validateDetailsToAdd = jest.fn(() => response);
         const expected = m.cold('--b', { b: result });
         m.expect(
           effects.validateMaterialsOnCustomerAndSalesOrg$
         ).toBeObservable(expected);
         m.flush();
 
-        expect(validationService.validateMaterials).toHaveBeenCalledTimes(1);
-        expect(validationService.validateMaterials).toHaveBeenCalledWith(
+        expect(validationService.validateDetailsToAdd).toHaveBeenCalledTimes(1);
+        expect(validationService.validateDetailsToAdd).toHaveBeenCalledWith(
           request
         );
       })
@@ -435,14 +504,14 @@ describe('Create Case Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        validationService.validateMaterials = jest.fn(() => response);
+        validationService.validateDetailsToAdd = jest.fn(() => response);
 
         m.expect(
           effects.validateMaterialsOnCustomerAndSalesOrg$
         ).toBeObservable(expected);
         m.flush();
 
-        expect(validationService.validateMaterials).toHaveBeenCalledTimes(1);
+        expect(validationService.validateDetailsToAdd).toHaveBeenCalledTimes(1);
       })
     );
   });

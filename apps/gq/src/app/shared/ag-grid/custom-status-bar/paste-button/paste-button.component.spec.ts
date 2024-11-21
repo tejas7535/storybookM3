@@ -2,9 +2,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
+import { of } from 'rxjs';
+
+import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module';
 import { PasteMaterialsService } from '@gq/shared/services/paste-materials/paste-materials.service';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -30,6 +37,9 @@ describe('PasteButtonComponent', () => {
     ],
     providers: [
       { provide: PasteMaterialsService, useValue: pasteMaterialsService },
+      mockProvider(CreateCaseFacade, {
+        customerIdForCaseCreation$: of(),
+      }),
     ],
   });
 

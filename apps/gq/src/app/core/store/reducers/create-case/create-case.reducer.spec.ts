@@ -1,9 +1,9 @@
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
-import { SAP_ERROR_MESSAGE_CODE } from '@gq/shared/models/quotation-detail';
 import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
 import {
   MaterialTableItem,
   MaterialValidation,
+  VALIDATION_CODE,
   ValidationDescription,
 } from '@gq/shared/models/table';
 import { Action } from '@ngrx/store';
@@ -899,11 +899,22 @@ describe('Create Case Reducer', () => {
     describe('validateMaterialsOnCustomerAndSalesOrgSuccess', () => {
       test('should validate rowData', () => {
         const materialValidations: MaterialValidation[] = [
-          { materialNumber15: '20', materialDescription: 'desc', valid: true },
-          { materialNumber15: '30', materialDescription: 'desc', valid: false },
+          {
+            id: 1,
+            materialNumber15: '20',
+            materialDescription: 'desc',
+            valid: true,
+          },
+          {
+            id: 2,
+            materialNumber15: '30',
+            materialDescription: 'desc',
+            valid: false,
+          },
         ];
         const fakeData: MaterialTableItem[] = [
           {
+            id: 1,
             materialNumber: '20',
             materialDescription: 'desc',
             quantity: 10,
@@ -913,6 +924,7 @@ describe('Create Case Reducer', () => {
             },
           },
           {
+            id: 2,
             materialNumber: '30',
             materialDescription: 'desc',
             quantity: -10,
@@ -938,6 +950,7 @@ describe('Create Case Reducer', () => {
         ];
         const action = validateMaterialsOnCustomerAndSalesOrgSuccess({
           materialValidations,
+          isNewCaseCreation: false,
         });
 
         const state = createCaseReducer(fakeState, action);
@@ -1064,7 +1077,7 @@ describe('Create Case Reducer', () => {
               info: {
                 valid: true,
                 description: [ValidationDescription.Duplicate],
-                errorCodes: [SAP_ERROR_MESSAGE_CODE.SDG101],
+                codes: [VALIDATION_CODE.SDG101],
               },
             },
           ],
@@ -1076,7 +1089,7 @@ describe('Create Case Reducer', () => {
             info: {
               valid: false,
               description: [ValidationDescription.Not_Validated],
-              errorCodes: undefined as unknown,
+              codes: undefined as unknown,
             },
           } as MaterialTableItem,
         ];
@@ -1162,7 +1175,7 @@ describe('Create Case Reducer', () => {
             info: {
               valid: true,
               description: [ValidationDescription.Duplicate],
-              errorCodes: [SAP_ERROR_MESSAGE_CODE.SDG101],
+              codes: [VALIDATION_CODE.SDG101],
             },
           },
         ],
@@ -1201,7 +1214,7 @@ describe('Create Case Reducer', () => {
             info: {
               valid: true,
               description: [ValidationDescription.Duplicate],
-              errorCodes: [SAP_ERROR_MESSAGE_CODE.SDG101],
+              codes: [VALIDATION_CODE.SDG101],
             },
             currency: undefined,
           },

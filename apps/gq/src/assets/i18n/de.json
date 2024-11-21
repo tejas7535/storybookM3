@@ -244,6 +244,10 @@
             "quantityInValid": "Die Menge ist invalide",
             "valid": "Das Material ist valide",
             "validationFailure": "Validierung fehlgeschlagen, versuche es erneut"
+          },
+          "customerValidation": {
+            "QDV001": "Menge gemäß Liefereinheit angepasst",
+            "QDV002": "mehrere Kundenmaterialien verfürgbar"
           }
         },
         "materialDescription": "Materialbeschreibung",

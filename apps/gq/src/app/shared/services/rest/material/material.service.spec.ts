@@ -13,9 +13,9 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { ApiVersion } from '../../../models';
 import { MaterialService } from './material.service';
 import {
+  AddDetailsValidationRequest,
   MaterialAutoComplete,
   MaterialAutoCompleteResponse,
-  MaterialValidationRequest,
 } from './models';
 describe('MaterialService', () => {
   let httpMock: HttpTestingController;
@@ -36,32 +36,50 @@ describe('MaterialService', () => {
     httpMock.verify();
   });
 
-  describe('validateMaterials', () => {
+  describe('validateDetailsToAdd', () => {
     test('should call', () => {
-      const request: MaterialValidationRequest = {
+      const request: AddDetailsValidationRequest = {
         customerId: { customerId: '12345', salesOrg: '0815' },
-        materialNumbers: ['1234'],
+        details: [
+          {
+            id: 1,
+            data: {
+              materialNumber15: '1234',
+              quantity: 1,
+            },
+          },
+        ],
       };
 
-      service.validateMaterials(request).subscribe((response) => {
+      service.validateDetailsToAdd(request).subscribe((response) => {
         expect(response).toEqual([]);
       });
 
-      const req = httpMock.expectOne(`${ApiVersion.V1}/materials/validation`);
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${service['PATH_ADD_DETAILS_VALIDATION']}`
+      );
       expect(req.request.method).toBe('POST');
       req.flush(request);
     });
     test('should extract materialNumbers', () => {
-      const request: MaterialValidationRequest = {
+      const request: AddDetailsValidationRequest = {
         customerId: { customerId: '12345', salesOrg: '0815' },
-        materialNumbers: ['1234'],
+        details: [
+          {
+            id: 1,
+            data: {
+              materialNumber15: '1234',
+              quantity: 1,
+            },
+          },
+        ],
       };
       service['http'].post = jest.fn();
 
-      service.validateMaterials(request);
+      service.validateDetailsToAdd(request);
 
       expect(service['http'].post).toHaveBeenCalledWith(
-        `${ApiVersion.V1}/${service['PATH_VALIDATION']}`,
+        `${ApiVersion.V1}/${service['PATH_ADD_DETAILS_VALIDATION']}`,
         request
       );
     });

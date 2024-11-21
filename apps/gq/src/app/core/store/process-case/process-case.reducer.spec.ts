@@ -238,6 +238,7 @@ describe('Process Case Reducer', () => {
       test('should validate AddMaterials Successful', () => {
         const materialValidations: MaterialValidation[] = [
           {
+            id: 1,
             materialNumber15: '123465',
             materialDescription: 'desc',
             valid: true,
@@ -245,12 +246,14 @@ describe('Process Case Reducer', () => {
         ];
         const action = ProcessCaseActions.validateMaterialTableItemsSuccess({
           materialValidations,
+          isNewCaseCreation: false,
         });
 
         const fakeState = {
           ...PROCESS_CASE_STATE_MOCK,
           addMaterialRowData: [
             {
+              id: 1,
               materialDescription: 'desc',
               materialNumber: '123465',
               quantity: 100,
@@ -263,6 +266,7 @@ describe('Process Case Reducer', () => {
           ...PROCESS_CASE_STATE_MOCK,
           addMaterialRowData: [
             {
+              id: 1,
               materialNumber: '123465',
               materialDescription: 'desc',
               quantity: 100,

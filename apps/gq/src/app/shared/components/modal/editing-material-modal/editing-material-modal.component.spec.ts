@@ -9,7 +9,6 @@ import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade'
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { LOCALE_DE } from '@gq/shared/constants';
-import { SAP_ERROR_MESSAGE_CODE } from '@gq/shared/models/quotation-detail';
 import { IdValue } from '@gq/shared/models/search/id-value.model';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as miscUtils from '@gq/shared/utils/misc.utils';
@@ -28,7 +27,7 @@ import {
   PROCESS_CASE_STATE_MOCK,
 } from '../../../../../testing/mocks';
 import { MaterialColumnFields } from '../../../ag-grid/constants/column-fields.enum';
-import { ValidationDescription } from '../../../models/table';
+import { VALIDATION_CODE, ValidationDescription } from '../../../models/table';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
 import { EditingMaterialModalComponent } from './editing-material-modal.component';
@@ -440,7 +439,7 @@ describe('EditingMaterialModalComponent', () => {
           ...MATERIAL_TABLE_ITEM_MOCK,
           info: {
             ...MATERIAL_TABLE_ITEM_MOCK.info,
-            errorCodes: [SAP_ERROR_MESSAGE_CODE.SDG101],
+            codes: [VALIDATION_CODE.SDG101],
           },
         },
         field: MaterialColumnFields.MATERIAL,
@@ -481,7 +480,7 @@ describe('EditingMaterialModalComponent', () => {
         info: {
           valid: true,
           description: [ValidationDescription.Valid],
-          errorCodes: [SAP_ERROR_MESSAGE_CODE.SDG101],
+          codes: [VALIDATION_CODE.SDG101],
         },
       });
     });

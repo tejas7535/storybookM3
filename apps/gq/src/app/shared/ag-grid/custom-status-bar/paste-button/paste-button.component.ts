@@ -4,9 +4,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+import { Observable } from 'rxjs';
+
+import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { InfoIconModule } from '@gq/shared/components/info-icon/info-icon.module';
 import { PasteMaterialsService } from '@gq/shared/services/paste-materials/paste-materials.service';
 import { translate, TranslocoModule } from '@jsverse/transloco';
+import { PushPipe } from '@ngrx/component';
 
 import { isCaseViewParams } from '../../models/is-case-view-params.model';
 
@@ -19,6 +23,7 @@ import { isCaseViewParams } from '../../models/is-case-view-params.model';
     MatButtonModule,
     TranslocoModule,
     InfoIconModule,
+    PushPipe,
   ],
   standalone: true,
 })
@@ -27,8 +32,13 @@ export class PasteButtonComponent {
     PasteMaterialsService
   );
   private readonly matSnackBar: MatSnackBar = inject(MatSnackBar);
+
+  private readonly createCaseFacade: CreateCaseFacade =
+    inject(CreateCaseFacade);
   isCaseView: boolean;
   isNewCaseCreationView: boolean;
+  customerIdentifier$: Observable<string> =
+    this.createCaseFacade.customerIdForCaseCreation$;
 
   agInit(params: isCaseViewParams): void {
     this.isCaseView = params.isCaseView;

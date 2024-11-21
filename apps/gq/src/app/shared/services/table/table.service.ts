@@ -99,7 +99,7 @@ export class TableService {
         currency,
         info: {
           valid: false,
-          errorCodes: undefined,
+          codes: undefined,
           description: [ValidationDescription.Not_Validated],
         },
       };
@@ -129,11 +129,37 @@ export class TableService {
 
   static validateData(
     el: MaterialTableItem,
-    materialValidation: MaterialValidation
+    materialValidation: MaterialValidation,
+    // TODO: condition can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
+    isNewCaseCreation: boolean = false
   ): MaterialTableItem {
     const updatedRow = { ...el };
     updatedRow.materialDescription = materialValidation?.materialDescription;
+    updatedRow.priceUnit = materialValidation?.materialPriceUnit;
+    updatedRow.UoM = materialValidation?.materialUoM;
+    updatedRow.customerMaterialNumber = materialValidation?.customerMaterial;
 
+    TableService.validateInfoAndErrorCodes(materialValidation, updatedRow);
+    TableService.validateQuantity(
+      isNewCaseCreation,
+      materialValidation,
+      updatedRow
+    );
+
+    if (updatedRow.info.description.length === 0) {
+      updatedRow.info.description = TableService.addDesc(
+        updatedRow.info.description,
+        ValidationDescription.Valid
+      );
+    }
+
+    return updatedRow;
+  }
+
+  private static validateInfoAndErrorCodes(
+    materialValidation: MaterialValidation,
+    updatedRow: MaterialTableItem
+  ) {
     const valid = materialValidation ? materialValidation.valid : false;
     updatedRow.info = {
       valid,
@@ -145,24 +171,31 @@ export class TableService {
           ),
     };
 
-    if (materialValidation?.errorCodes) {
-      updatedRow.info.errorCodes = materialValidation.errorCodes;
+    if (materialValidation?.validationCodes) {
+      updatedRow.info.codes = materialValidation.validationCodes.map(
+        (valCode) => valCode.code
+      );
     }
+  }
 
-    updatedRow.priceUnit = materialValidation?.materialPriceUnit;
-    updatedRow.UoM = materialValidation?.materialUoM;
+  private static validateQuantity(
+    isNewCaseCreation: boolean,
+    materialValidation: MaterialValidation,
+    updatedRow: MaterialTableItem
+  ) {
+    // if materialValidation has correctedQuantity, useIt when FeatureToggle is enabled
+    const quantityToUse = isNewCaseCreation
+      ? materialValidation?.correctedQuantity ?? updatedRow.quantity
+      : updatedRow.quantity;
 
-    const quantity =
-      typeof updatedRow.quantity === 'number'
-        ? // eslint-disable-next-line unicorn/no-nested-ternary
-          updatedRow.quantity > 0
-          ? updatedRow.quantity
-          : false
+    const hasQuantity =
+      typeof quantityToUse === 'number' && quantityToUse > 0
+        ? quantityToUse
         : false;
 
-    if (quantity) {
+    if (hasQuantity) {
       // Covers an edge case, to convert f.e quantity 50* into 50 (* = wildcard)
-      updatedRow.quantity = quantity;
+      updatedRow.quantity = hasQuantity;
     } else {
       updatedRow.info.valid = false;
       updatedRow.info.description = TableService.addDesc(
@@ -170,15 +203,6 @@ export class TableService {
         ValidationDescription.QuantityInValid
       );
     }
-
-    if (updatedRow.info.description.length === 0) {
-      updatedRow.info.description = TableService.addDesc(
-        updatedRow.info.description,
-        ValidationDescription.Valid
-      );
-    }
-
-    return updatedRow;
   }
 
   private static addDesc(

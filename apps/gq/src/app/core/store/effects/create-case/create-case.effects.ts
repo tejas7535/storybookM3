@@ -11,6 +11,7 @@ import { MATERIAL_FILTERS } from '@gq/shared/constants/material-filters.const';
 import { Quotation } from '@gq/shared/models';
 import { IdValue } from '@gq/shared/models/search';
 import { MaterialTableItem } from '@gq/shared/models/table';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { CustomerService } from '@gq/shared/services/rest/customer/customer.service';
 import {
   CustomerSalesOrgsCurrenciesResponse,
@@ -18,12 +19,17 @@ import {
 } from '@gq/shared/services/rest/customer/models/customer-sales-orgs-currencies-response.model';
 import { MaterialService } from '@gq/shared/services/rest/material/material.service';
 import {
-  MaterialValidationRequest,
-  MaterialValidationResponse,
+  AddDetailsValidationRequest,
+  AddDetailsValidationResponse,
+  ValidatedDetail,
 } from '@gq/shared/services/rest/material/models';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { PLsSeriesResponse } from '@gq/shared/services/rest/search/models/pls-series-response.model';
 import { SearchService } from '@gq/shared/services/rest/search/search.service';
+import {
+  mapToAddDetailsValidationRequest,
+  mapValidatedDetailToMaterialValidation,
+} from '@gq/shared/utils/misc.utils';
 import { translate } from '@jsverse/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -92,6 +98,9 @@ export class CreateCaseEffects {
   private readonly sectorGpsdFacade: SectorGpsdFacade =
     inject(SectorGpsdFacade);
   private readonly rolesFacade: RolesFacade = inject(RolesFacade);
+  private readonly featureToggleService: FeatureToggleConfigService = inject(
+    FeatureToggleConfigService
+  );
 
   /**
    * Get possible values for a form field
@@ -193,6 +202,7 @@ export class CreateCaseEffects {
         this.store.select(getSelectedCustomerId),
         this.store.select(getSelectedSalesOrg),
       ]),
+      filter(([_action, tableData]) => !!tableData && tableData.length > 0),
       mergeMap(
         ([_action, tableData, customerId, salesOrg]: [
           ReturnType<typeof validateMaterialsOnCustomerAndSalesOrg>,
@@ -200,19 +210,29 @@ export class CreateCaseEffects {
           string,
           SalesOrg,
         ]) => {
-          const request: MaterialValidationRequest = {
-            customerId: { customerId, salesOrg: salesOrg?.id },
-            materialNumbers: [
-              ...new Set(tableData.map((el) => el.materialNumber)),
-            ],
-          };
+          const request: AddDetailsValidationRequest =
+            mapToAddDetailsValidationRequest(
+              { customerId, salesOrg: salesOrg.id },
+              tableData
+            );
 
-          return this.materialService.validateMaterials(request).pipe(
-            map((response: MaterialValidationResponse) =>
-              validateMaterialsOnCustomerAndSalesOrgSuccess({
-                materialValidations: response?.validatedMaterials,
-              })
-            ),
+          return this.materialService.validateDetailsToAdd(request).pipe(
+            map((response: AddDetailsValidationResponse) => {
+              // map the new Response to the MaterialValidation Model
+              const materialValidations = response.validatedDetails.map(
+                (detail: ValidatedDetail) => {
+                  return mapValidatedDetailToMaterialValidation(detail);
+                }
+              );
+
+              return validateMaterialsOnCustomerAndSalesOrgSuccess({
+                materialValidations,
+                // TODO: condition can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
+                isNewCaseCreation: this.featureToggleService.isEnabled(
+                  'createManualCaseAsView'
+                ),
+              });
+            }),
             catchError((_e) =>
               of(validateMaterialsOnCustomerAndSalesOrgFailure())
             )

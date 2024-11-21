@@ -2,6 +2,7 @@ import { Params } from '@angular/router';
 
 import { FILTER_PARAM_INDICATOR, LOCALE_DE } from '@gq/shared/constants';
 import {
+  CustomerId,
   Duration,
   Keyboard,
   QuotationStatus,
@@ -16,7 +17,14 @@ import { SearchbarGridContext } from '../components/global-search-bar/config/sea
 import { MaterialsCriteriaSelection } from '../components/global-search-bar/materials-result-table/material-criteria-selection.enum';
 import { Rating } from '../models/rating.enum';
 import { IdValue } from '../models/search/id-value.model';
-import { MaterialAutoComplete } from '../services/rest/material/models';
+import { MaterialTableItem, MaterialValidation } from '../models/table';
+import {
+  AddDetailsValidationRequest,
+  MaterialAutoComplete,
+  ValidatedDetail,
+  ValidationDetail,
+  ValidationDetailData,
+} from '../services/rest/material/models';
 export const getCurrentYear = (): number => new Date().getFullYear();
 
 export const getLastYear = (): number => getCurrentYear() - 1;
@@ -333,4 +341,45 @@ export const getNextLowerPossibleMultiple = (
   }
 
   return value;
+};
+
+export const mapToAddDetailsValidationRequest = (
+  customerId: CustomerId,
+  tableData: MaterialTableItem[]
+): AddDetailsValidationRequest => ({
+  customerId,
+  details: tableData.map(
+    (el) =>
+      ({
+        id: el.id,
+        data: {
+          materialNumber15: el.materialNumber,
+          quantity: el.quantity,
+          customerMaterial: el.customerMaterialNumber,
+        } as ValidationDetailData,
+      }) as ValidationDetail
+  ),
+});
+
+export const mapValidatedDetailToMaterialValidation = (
+  detail: ValidatedDetail
+) => {
+  const validatedMaterial: MaterialValidation = {
+    id: detail.id,
+    valid: detail.valid,
+    materialNumber15: detail.materialData.materialNumber15,
+    materialDescription: detail.materialData.materialDescription,
+    materialPriceUnit: detail.materialData.materialPriceUnit,
+    materialUoM: detail.materialData.materialUoM,
+    // TODO: check customerMaterial condition when GQUOTE-4797 will be implemented
+    customerMaterial:
+      detail.userInput.customerMaterial ===
+      detail.customerData?.customerMaterial
+        ? detail.userInput.customerMaterial
+        : detail.customerData?.customerMaterial,
+    correctedQuantity: detail.customerData?.correctedQuantity,
+    validationCodes: detail.validationCodes,
+  };
+
+  return validatedMaterial;
 };

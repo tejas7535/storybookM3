@@ -1,10 +1,13 @@
-import { SAP_ERROR_MESSAGE_CODE } from '../quotation-detail/sap-error-message-code.enum';
+import { ValidationCode } from '@gq/shared/services/rest/material/models/add-details-validation-response.interface';
 
 export interface MaterialValidation {
+  id: number;
   materialNumber15: string;
   valid: boolean;
+  correctedQuantity?: number;
   materialDescription?: string;
   materialPriceUnit?: number;
   materialUoM?: string;
-  errorCodes?: SAP_ERROR_MESSAGE_CODE[];
+  customerMaterial?: string;
+  validationCodes?: ValidationCode[];
 }

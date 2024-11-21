@@ -85,7 +85,10 @@ export const validateMaterialsOnCustomerAndSalesOrgFailure = createAction(
 
 export const validateMaterialsOnCustomerAndSalesOrgSuccess = createAction(
   '[Create Case] Get Validation for RowData on Customer and SalesOrg: Validation Success',
-  props<{ materialValidations: MaterialValidation[] }>()
+  props<{
+    materialValidations: MaterialValidation[];
+    isNewCaseCreation: boolean;
+  }>()
 );
 
 export const createCase = createAction(
