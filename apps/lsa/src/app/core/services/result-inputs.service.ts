@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import { TranslocoService } from '@jsverse/transloco';
+import { translate, TranslocoService } from '@jsverse/transloco';
 import { LubricantType, PowerSupply } from '@lsa/shared/constants';
+import { PipeLength } from '@lsa/shared/constants/tube-length.enum';
 import {
   LubricantFormValue,
   RecommendationFormValue,
+  RecommendationResponse,
 } from '@lsa/shared/models';
 import {
   LubricationInput,
@@ -20,6 +22,7 @@ const TRANSLATIONS = {
   optimeTitle: 'inputs.optimeTitle',
   lubricantTitle: 'pages.lubricant.title',
   lubricationPointsTitle: 'pages.lubricationPoints.title',
+  numberLubricationPoints: 'inputs.lubricationPoints',
   lubricationOptions: 'recommendation.lubrication.options',
   lubricationPointsOptime: 'recommendation.lubricationPoints.optime',
   relubricationQuantityTitle: 'inputs.relubricationQuantity.title',
@@ -29,6 +32,8 @@ const TRANSLATIONS = {
   powerNoPreferenceOption:
     'recommendation.application.powerOptions.noPreference',
 };
+
+const PIPE_LENGTH_PATH = 'recommendation.lubricationPoints.pipeLengthOptions';
 
 @Injectable({
   providedIn: 'root',
@@ -54,13 +59,16 @@ export class ResultInputsService {
 
   constructor(private readonly translocoService: TranslocoService) {}
 
-  public getResultInputs(form: RecommendationFormValue): ResultInputModel {
+  public getResultInputs(
+    form: RecommendationFormValue,
+    remoteInput?: RecommendationResponse['input']
+  ): ResultInputModel {
     return {
       sections: [
         {
           title: this.translate(TRANSLATIONS.lubricationPointsTitle),
           stepIndex: 0,
-          inputs: this.getLubricationPointsInputs(form),
+          inputs: this.getLubricationPointsInputs(form, remoteInput),
         },
         {
           title: this.translate(TRANSLATIONS.lubricantTitle),
@@ -77,7 +85,8 @@ export class ResultInputsService {
   }
 
   private getLubricationPointsInputs(
-    form: RecommendationFormValue
+    form: RecommendationFormValue,
+    remote: RecommendationResponse['input']
   ): LubricationInput[] {
     const {
       lubricationPoints,
@@ -88,7 +97,7 @@ export class ResultInputsService {
     } = form.lubricationPoints;
 
     const lubricationPointsTitle = this.translate(
-      TRANSLATIONS.lubricationPointsTitle
+      TRANSLATIONS.numberLubricationPoints
     );
     const relubricationQuantityTitle = this.translate(
       TRANSLATIONS.relubricationQuantityTitle
@@ -101,10 +110,53 @@ export class ResultInputsService {
       }
     );
     const maxPipeLengthTitle = this.translate(TRANSLATIONS.maxPipeLength);
+    let pipeLenghtTranslation;
+    switch (pipeLength) {
+      case PipeLength.Direct:
+        pipeLenghtTranslation = translate(`${PIPE_LENGTH_PATH}.directMontage`);
+        break;
+      case PipeLength.HalfMeter:
+        pipeLenghtTranslation = translate(`${PIPE_LENGTH_PATH}.lessThan`, {
+          value: 0.5,
+        });
+        break;
+      case PipeLength.Meter:
+        pipeLenghtTranslation = translate(`${PIPE_LENGTH_PATH}.lessThan`, {
+          value: 1,
+        });
+        break;
+      case PipeLength.OneToThreeMeter:
+        pipeLenghtTranslation = translate(`${PIPE_LENGTH_PATH}.between`, {
+          from: 0,
+          to: 3,
+        });
+        break;
+      case PipeLength.ThreeToFiveMeter:
+        pipeLenghtTranslation = translate(`${PIPE_LENGTH_PATH}.between`, {
+          from: 3,
+          to: 5,
+        });
+        break;
+      case PipeLength.FiveTotenMeter:
+        pipeLenghtTranslation = translate(`${PIPE_LENGTH_PATH}.between`, {
+          from: 5,
+          to: 10,
+        });
+        break;
+      default:
+        pipeLenghtTranslation = 'unkown';
+        break;
+    }
+
     const optimeTitle = this.translate(TRANSLATIONS.optimeTitle);
     const optimeValue = this.translate(
       `${TRANSLATIONS.lubricationPointsOptime}.${optime}`
     );
+    const remoteOptime = remote
+      ? this.translate(
+          `${TRANSLATIONS.lubricationPointsOptime}.${remote.optime}`
+        )
+      : optimeValue;
 
     return [
       {
@@ -117,11 +169,12 @@ export class ResultInputsService {
       },
       {
         title: maxPipeLengthTitle,
-        value: pipeLength.title,
+        value: pipeLenghtTranslation,
       },
       {
         title: optimeTitle,
         value: optimeValue,
+        remoteValue: remoteOptime,
       },
     ];
   }

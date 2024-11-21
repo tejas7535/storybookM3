@@ -95,8 +95,12 @@
 
                 @if (item?.availability === false) {
                   <div class="flex flex-col items-center space-y-1">
-                    <div class="aspect-square w-3 h-3 rounded-full bg-error">
-                      <div class="sr-only">Availability indicator red</div>
+                    <div
+                      class="aspect-square w-3 h-3 rounded-full bg-[#c1c0c0]"
+                    >
+                      <div class="sr-only">
+                        Availability indicator unavailable
+                      </div>
                     </div>
                     <span
                       class="text-body-small text-medium-emphasis text-center"
@@ -108,9 +112,7 @@
               @if (shouldShowPriceColumn()) {
                 <td>
                   <div class="text-center flex flex-col justify-center h-full">
-                    <span
-                      class="text-body-small text-medium inline-block first-letter:pr-1"
-                    >
+                    <span class="text-body-small text-medium inline-block">
                       {{ item?.currency }}{{ item?.price }}
                     </span>
                     <span

@@ -6,19 +6,60 @@ import {
   LubricationPointsFormValue,
   RecommendationFormValue,
 } from '@lsa/shared/models';
+import { SESSION_STORAGE } from '@ng-web-apis/common';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { LsaFormService } from './lsa-form.service';
 
+class SessionStorageMock {
+  public store: { [key: string]: string } = {};
+
+  // eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
+  setStore(store: { [key: string]: string }): void {
+    this.store = store;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
+  clear(): void {
+    this.store = {};
+  }
+
+  // eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
+  getItem(key: string): string {
+    // eslint-disable-next-line unicorn/no-null
+    return this.store[key] || null;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
+  setItem(key: string, value: string): void {
+    this.store[key] = value;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
+  removeItem(key: string): void {
+    delete this.store[key];
+  }
+}
+
 describe('LsaFormService', () => {
   let spectator: SpectatorService<LsaFormService>;
   let service: LsaFormService;
+  let sessionStorage: Storage;
 
-  const createService = createServiceFactory(LsaFormService);
+  const createService = createServiceFactory({
+    service: LsaFormService,
+    providers: [
+      {
+        provide: SESSION_STORAGE,
+        useClass: SessionStorageMock,
+      },
+    ],
+  });
 
   beforeEach(() => {
     spectator = createService();
     service = spectator.service;
+    sessionStorage = spectator.inject(SESSION_STORAGE) as unknown as Storage;
   });
 
   it('should create', () => {
@@ -27,8 +68,6 @@ describe('LsaFormService', () => {
 
   describe('isValid', () => {
     it('should return form valid', () => {
-      expect(service.isValid).toBe(false);
-
       service.recommendationForm = { valid: true } as FormGroup;
 
       expect(service.isValid).toBe(true);
@@ -38,6 +77,28 @@ describe('LsaFormService', () => {
       service.recommendationForm = { valid: false } as FormGroup;
 
       expect(service.isValid).toBe(false);
+    });
+  });
+
+  describe('restoreSession', () => {
+    it('should log an error when the JSON is invalid', () => {
+      const consoleSpy = jest.spyOn(console, 'error');
+      const formSpy = jest.spyOn(service.recommendationForm, 'patchValue');
+      sessionStorage.getItem = jest.fn(() => 'hello world');
+
+      service.restoreSession();
+      expect(sessionStorage.getItem).toHaveBeenCalled();
+      expect(formSpy).not.toHaveBeenCalled();
+      expect(consoleSpy).toHaveBeenCalled();
+    });
+
+    it('should call patchValue with the value from the store', () => {
+      sessionStorage.getItem = jest.fn(() => '{"test": "1-3"}');
+      const formSpy = jest.spyOn(service.recommendationForm, 'patchValue');
+      service.restoreSession();
+
+      expect(sessionStorage.getItem).toHaveBeenCalled();
+      expect(formSpy).toHaveBeenCalled();
     });
   });
 

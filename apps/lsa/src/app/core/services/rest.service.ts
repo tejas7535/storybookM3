@@ -1,7 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { catchError, map, ReplaySubject, take, throwError } from 'rxjs';
+import {
+  catchError,
+  map,
+  ReplaySubject,
+  Subject,
+  take,
+  throwError,
+} from 'rxjs';
 
 import { environment } from '@lsa/environments/environment';
 import {
@@ -12,12 +19,20 @@ import {
 } from '@lsa/shared/models';
 import { GreaseRequest } from '@lsa/shared/models/grease-request.model';
 
+// The fake delay is used to make sure the user sees the spinner when updating
+// the result page and can be confident the result is up to date
+// it is only needed because the recommendation eendpoint is very fast as of now
+// if future developments slow down the recommendation procedure, it can be removed
+const FAKE_DELAY = 250;
+
 @Injectable({ providedIn: 'root' })
 export class RestService {
   public greases$ = new ReplaySubject<Grease[]>(1);
   public recommendation$ = new ReplaySubject<
     RecommendationResponse | ErrorResponse
   >(1);
+
+  public readonly recommendationLoading$$ = new Subject<boolean>();
 
   private readonly BASE_URL = environment.lsaApiBaseUrl;
 
@@ -39,6 +54,7 @@ export class RestService {
   }
 
   public getLubricatorRecommendation(request: RecommendationRequest): void {
+    this.recommendationLoading$$.next(true);
     this.http
       .post<RecommendationResponse>(`${this.BASE_URL}/recommendation`, request)
       .pipe(
@@ -53,9 +69,17 @@ export class RestService {
         })
       )
       .subscribe({
-        next: (recommendation) => this.recommendation$.next(recommendation),
+        next: (recommendation) => {
+          this.recommendation$.next(recommendation);
+          setTimeout(() => {
+            this.recommendationLoading$$.next(false);
+          }, FAKE_DELAY);
+        },
         error: (errResponse) => {
           this.recommendation$.next(errResponse);
+          setTimeout(() => {
+            this.recommendationLoading$$.next(false);
+          }, FAKE_DELAY);
         },
       });
   }

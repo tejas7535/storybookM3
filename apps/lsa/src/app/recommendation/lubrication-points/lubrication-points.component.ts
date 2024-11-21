@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
@@ -17,14 +12,11 @@ import {
   Optime,
   RelubricationInterval,
 } from '@lsa/shared/constants';
-import { LSAInterval, LubricationPointsForm } from '@lsa/shared/models';
+import { PipeLength } from '@lsa/shared/constants/tube-length.enum';
+import { LubricationPointsForm } from '@lsa/shared/models';
 
 const translatePath = 'recommendation.lubricationPoints';
-
-interface PipeOption {
-  value: LSAInterval;
-  name: string;
-}
+const PIPE_LENGTH_PATH = `${translatePath}.pipeLengthOptions`;
 
 @Component({
   selector: 'lsa-lubrication-points',
@@ -41,7 +33,7 @@ interface PipeOption {
   templateUrl: './lubrication-points.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LubricationPointsComponent implements OnInit {
+export class LubricationPointsComponent {
   @Input()
   public readonly lubricationPointsForm: FormGroup<LubricationPointsForm>;
 
@@ -117,40 +109,30 @@ export class LubricationPointsComponent implements OnInit {
     },
   ];
 
-  public readonly pipeLengthOptions: PipeOption[] = [
-    { min: 0, max: 0 },
-    { min: 0, max: 0.5 },
-    { min: 0, max: 1 },
-    { min: 1, max: 3 },
-    { min: 3, max: 5 },
-    { min: 5, max: 10 },
-  ].map(({ min, max }) => this.createPipeOption(min, max));
-
-  ngOnInit() {
-    this.lubricationPointsForm
-      .get('pipeLength')
-      .setValue(this.pipeLengthOptions[0].value);
-  }
-
-  private createPipeOption(min: number, max: number): PipeOption {
-    const path = `${translatePath}.pipeLengthOptions`;
-    let title = '';
-
-    if (max === 0) {
-      title = translate(`${path}.directMontage`);
-    } else if (min === 0) {
-      title = translate(`${path}.lessThan`, { value: max });
-    } else {
-      title = translate(`${path}.between`, { from: min, to: max });
-    }
-
-    return {
-      value: {
-        min,
-        max,
-        title,
-      },
-      name: title,
-    };
-  }
+  public readonly pipeLengthOptions: { value: PipeLength; name: string }[] = [
+    {
+      value: PipeLength.Direct,
+      name: translate(`${PIPE_LENGTH_PATH}.directMontage`),
+    },
+    {
+      value: PipeLength.HalfMeter,
+      name: translate(`${PIPE_LENGTH_PATH}.lessThan`, { value: 0.5 }),
+    },
+    {
+      value: PipeLength.Meter,
+      name: translate(`${PIPE_LENGTH_PATH}.lessThan`, { value: 1 }),
+    },
+    {
+      value: PipeLength.OneToThreeMeter,
+      name: translate(`${PIPE_LENGTH_PATH}.between`, { from: 0, to: 3 }),
+    },
+    {
+      value: PipeLength.ThreeToFiveMeter,
+      name: translate(`${PIPE_LENGTH_PATH}.between`, { from: 3, to: 5 }),
+    },
+    {
+      value: PipeLength.FiveTotenMeter,
+      name: translate(`${PIPE_LENGTH_PATH}.between`, { from: 5, to: 10 }),
+    },
+  ];
 }

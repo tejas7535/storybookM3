@@ -170,7 +170,7 @@ export class AccessoryTableComponent implements OnChanges, OnDestroy {
       });
 
       states[group] = {
-        isOpen: totalQty > 0,
+        isOpen: false,
         totalQty,
         totalNetPrice,
       };

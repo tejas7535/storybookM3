@@ -11,6 +11,7 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
 import { AddToCartService } from '@lsa/core/services/add-to-cart.service';
+import { LsaFormService } from '@lsa/core/services/lsa-form.service';
 import { ErrorResponse, RecommendationResponse } from '@lsa/shared/models';
 import { RecommendationTableDataPipe } from '@lsa/shared/pipes/recommendation-table-data.pipe';
 
@@ -18,6 +19,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AccessoryTableComponent } from './accessory-table/accessory-table.component';
 import { AddToCartButtonComponent } from './add-to-cart-button/add-to-cart-button.component';
+import { ErrorContainerComponent } from './error-container/error-container.component';
 import { RecommendationTableComponent } from './recommendation-table/recommendation-table.component';
 
 @Component({
@@ -34,6 +36,7 @@ import { RecommendationTableComponent } from './recommendation-table/recommendat
     MatIconModule,
     SharedTranslocoModule,
     AddToCartButtonComponent,
+    ErrorContainerComponent,
   ],
   templateUrl: './result.component.html',
 })
@@ -47,7 +50,10 @@ export class ResultComponent implements OnChanges {
   validResult?: RecommendationResponse;
   errorInstance: ErrorResponse;
 
-  constructor(private readonly addToCartService: AddToCartService) {}
+  constructor(
+    private readonly addToCartService: AddToCartService,
+    private readonly formService: LsaFormService
+  ) {}
 
   onRecommendedSelectedChange(isRecommendedSelected: boolean): void {
     this.isRecommendedSelected = isRecommendedSelected;
@@ -59,7 +65,10 @@ export class ResultComponent implements OnChanges {
       this.errorInstance = this.recommendationResult as ErrorResponse;
       this.validResult = undefined;
     } else {
+      this.isRecommendedSelected =
+        !!this.recommendationResult.lubricators.recommendedLubricator;
       this.validResult = this.recommendationResult as RecommendationResponse;
+      this.errorInstance = undefined;
       this.isRecommendedSelected =
         !!this.validResult.lubricators.recommendedLubricator;
     }
@@ -70,5 +79,9 @@ export class ResultComponent implements OnChanges {
       [...this.accessoryTableComponent.accessories],
       this.accessoryTableComponent.tableFormGroup
     );
+  }
+
+  resetForm() {
+    this.formService.reset();
   }
 }

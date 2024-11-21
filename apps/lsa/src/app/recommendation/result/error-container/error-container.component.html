@@ -1,0 +1,22 @@
+<ng-container *ngrxLet="errorMessage as error">
+  @if (error) {
+    <div class="w-full">
+      <div
+        class="mx-auto max-w-xl rounded-lg border-border border px-2 py-3 flex flex-col shadow-low-emphasis"
+      >
+        <h2 class="text-on-surface-variant text-title-large mb-2">
+          {{ error.title }}
+        </h2>
+        <p>
+          {{ error.body }}
+        </p>
+        <!-- Clicks onto this link should be tracked as soon as the tracking is implemented-->
+        @if (error.cta) {
+          <a [href]="error.ctaUrl" mat-flat-button class="mt-4 ml-auto mr-0">
+            {{ error.cta }}
+          </a>
+        }
+      </div>
+    </div>
+  }
+</ng-container>

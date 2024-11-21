@@ -5,6 +5,7 @@ import {
   PowerSupply,
   RelubricationInterval,
 } from '@lsa/shared/constants';
+import { PipeLength } from '@lsa/shared/constants/tube-length.enum';
 import {
   ApplicationFormValue,
   LubricantFormValue,
@@ -15,11 +16,7 @@ export const mockLubricationPointsInput: LubricationPointsFormValue = {
   lubricationPoints: LubricationPoints.TwoToFour,
   lubricationInterval: RelubricationInterval.Year,
   lubricationQty: 60,
-  pipeLength: {
-    min: 1,
-    max: 3,
-    title: '1 - 3m',
-  },
+  pipeLength: PipeLength.Direct,
   optime: Optime.No,
 };
 

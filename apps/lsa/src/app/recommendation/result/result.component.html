@@ -3,6 +3,20 @@
     class="grid grid-cols-1 min-[1320px]:grid-cols-2 flex-col lg:flex-row gap-4 md:justify-between"
     *transloco="let t; read: 'recommendation.result'"
   >
+    <div class="flex flex-col space-y-1 min-[1320px]:col-span-2">
+      @for (notice of validResult.notices; track notice.titleId) {
+        <div class="rounded-md border-info bg-info text-info px-4 py-2">
+          {{ t(notice.titleId) }}
+        </div>
+      }
+      @for (warning of validResult.warnings; track warning.titleId) {
+        <div
+          class="rounded-md border-warning bg-warning text-warning px-4 py-2"
+        >
+          {{ t(warning.titleId) }}
+        </div>
+      }
+    </div>
     <div class="flex flex-col gap-4 xl:mr-auto">
       <lsa-recommendation-table
         [data]="validResult.lubricators | lsaRecommendationTableData"
@@ -31,11 +45,11 @@
         class="w-full flex flex-col md:flex-row justify-end space-y-2 md:space-y-0 md:space-x-4 mt-4"
       >
         <button
-          mat-flat-button
-          class="w-full md:w-auto tertiary-button bg-secondary-legacy-500"
+          (click)="resetForm()"
+          mat-icon-button
+          class="inline-flex flex-row items-center"
         >
-          {{ t('share') }}
-          <mat-icon>bookmark</mat-icon>
+          <mat-icon>restart_alt</mat-icon>
         </button>
         <lsa-add-to-cart-button
           [label]="t('addToCart')"
@@ -47,22 +61,5 @@
     <ng-content></ng-content>
   </div>
 } @else {
-  <ng-container *transloco="let t; read: 'recommendation.result.error'">
-    <div class="w-full">
-      <div
-        class="mx-auto max-w-xl rounded-lg border-border border px-2 py-3 flex flex-col shadow-low-emphasis"
-      >
-        <h2 class="text-on-surface-variant text-title-large mb-2">
-          {{ t('heading') }}
-        </h2>
-        <p>
-          {{ t('body') }}
-        </p>
-        <!-- Clicks onto this link should be tracked as soon as the tracking is implemented-->
-        <a [href]="t('ctaLink')" mat-flat-button class="mt-4 ml-auto mr-0">
-          {{ t('ctaText') }}
-        </a>
-      </div>
-    </div>
-  </ng-container>
+  <lsa-error-container [response]="errorInstance" />
 }

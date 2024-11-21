@@ -1,4 +1,5 @@
 import { Medium } from '../constants';
+import { RecommendationRequest } from './recommendation-request.model';
 
 export interface RecommendationResponse {
   timestamp: number;
@@ -7,10 +8,17 @@ export interface RecommendationResponse {
     minimumRequiredLubricator: Lubricator;
   };
   classes: AccessoryClassEntry[];
+  notices?: CalculationInfo[];
+  warnings?: CalculationInfo[];
+  input: RecommendationRequest;
 }
 
 export class ErrorResponse extends Error {
   message: string;
+}
+export interface CalculationInfo {
+  titleId: string;
+  description: string;
 }
 
 export interface Lubricator {

@@ -97,7 +97,7 @@
       "pieces": "Anzahl",
       "availability": "Verfügbarkeit",
       "quantity": "Menge",
-      "totalPieces": "Gesamtstücke",
+      "totalPieces": "Gesamt",
       "totalPrice": "Gesamtwert netto",
       "inStock": "verfügbar",
       "notInStock": "nicht verfügbar",
@@ -128,14 +128,15 @@
   "inputs": {
     "title": "Ihre Eingaben",
     "relubricationQuantity": {
-      "title": "Nachschmiermenge pro Punkt",
+      "title": "Nachschmiermenge pro Schmierstelle",
       "value": "< {{quantity}} ccm pro {{interval}}"
     },
     "temperature": {
       "title": "Umgebungstemperatur in der Anwendung",
       "value": "{{min}}°C bis {{max}}°C"
     },
-    "maxPipeLengthTitle": "Max. Rohrlänge",
+    "lubricationPoints": "Anzahl an Schmierstellen",
+    "maxPipeLengthTitle": "Max. Länge Schmierstoffleitung",
     "powerSupplyTitle": "Stromversorgung",
     "optimeTitle": "OPTIME-Integration"
   }

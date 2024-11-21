@@ -38,7 +38,7 @@ export class ApplicationComponent {
   public applicationForm: FormGroup<ApplicationForm>;
 
   public readonly minTemperature = -15;
-  public readonly maxTemperature = 35;
+  public readonly maxTemperature = 70;
 
   public readonly powerSupplyRadioOptions: {
     value: PowerSupply;

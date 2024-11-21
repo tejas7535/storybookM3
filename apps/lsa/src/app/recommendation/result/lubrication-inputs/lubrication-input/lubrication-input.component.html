@@ -1,4 +1,10 @@
 <div>
   <p class="text-low-emphasis text-title-small font-bold">{{ title }}</p>
-  <p class="text-medium-emphasis text-body-medium">{{ value }}</p>
+  <p class="text-medium-emphasis text-body-medium">
+    @if (comparisonValue && comparisonValue !== value) {
+      <lsa-remote-change-info [original]="value" [new]="comparisonValue" />
+    } @else {
+      {{ value }}
+    }
+  </p>
 </div>

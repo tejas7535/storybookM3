@@ -1,14 +1,22 @@
 import { CdkStepperModule, StepperSelectionEvent } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, OnDestroy, ViewChild } from '@angular/core';
+import {
+  Component,
+  forwardRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import {
   BehaviorSubject,
   combineLatest,
   debounceTime,
+  firstValueFrom,
   map,
   Subject,
+  takeUntil,
 } from 'rxjs';
 
 import { LsaStepperComponent } from '@lsa/core/lsa-stepper/lsa-stepper.component';
@@ -18,6 +26,7 @@ import { LsaFormService } from '@lsa/core/services/lsa-form.service';
 import { PriceAvailabilityService } from '@lsa/core/services/price-availability.service';
 import { RestService } from '@lsa/core/services/rest.service';
 import { ResultInputsService } from '@lsa/core/services/result-inputs.service';
+import { environment } from '@lsa/environments/environment';
 import {
   Accessory,
   ErrorResponse,
@@ -29,6 +38,7 @@ import { MediasCallbackResponse } from '@lsa/shared/models/price-availibility.mo
 import { ResultInputModel } from '@lsa/shared/models/result-inputs.model';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { ApplicationComponent } from './application/application.component';
@@ -52,11 +62,13 @@ import { ResultComponent } from './result/result.component';
     CdkStepperModule,
     SharedTranslocoModule,
     LubricationInputsComponent,
+    LoadingSpinnerModule,
   ],
   templateUrl: './recommendation-container.component.html',
 })
-export class RecommendationContainerComponent implements OnDestroy {
+export class RecommendationContainerComponent implements OnDestroy, OnInit {
   @ViewChild(LsaStepperComponent) private readonly stepper: LsaStepperComponent;
+  public readonly showDebugJson = environment.showDebugJson;
 
   public readonly currentStep$ = new BehaviorSubject<number>(0);
   public readonly DEBOUNCE_TIME_DEFAULT = 0; // debounce time required for slider in Application to render properly at the first load.
@@ -72,6 +84,8 @@ export class RecommendationContainerComponent implements OnDestroy {
   public readonly lubricantForm = this.formService.getLubricantForm();
   public readonly applicationForm = this.formService.getApplicationForm();
   public readonly pages: Page[] = this.lsaAppService.getPages();
+
+  public readonly loading$ = this.restService.recommendationLoading$$;
 
   greases$ = this.restService.greases$;
 
@@ -102,6 +116,11 @@ export class RecommendationContainerComponent implements OnDestroy {
     private readonly priceAvailabilityService: PriceAvailabilityService
   ) {}
 
+  ngOnInit() {
+    this.formService.restoreSession();
+    this.handleFormPersistence();
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
@@ -122,13 +141,16 @@ export class RecommendationContainerComponent implements OnDestroy {
     }
   }
 
-  fetchResult(): void {
-    this.resultInputs = this.resultInputService.getResultInputs(
-      this.form.getRawValue()
-    );
-
+  async fetchResult() {
     this.restService.getLubricatorRecommendation(
       transformFormValue(this.form.getRawValue())
+    );
+    const recommendation = await firstValueFrom(this.recommendation$);
+    this.resultInputs = this.resultInputService.getResultInputs(
+      this.form.getRawValue(),
+      (recommendation as ErrorResponse).name
+        ? undefined
+        : (recommendation as RecommendationResponse).input
     );
   }
 
@@ -152,25 +174,18 @@ export class RecommendationContainerComponent implements OnDestroy {
 
     const updatedRecommendation = {
       ...recommendation,
-      lubricators: {
-        ...recommendation.lubricators,
-        minimumRequiredLubricator: {
-          ...recommendation.lubricators.minimumRequiredLubricator,
-          bundle: [
-            ...recommendation.lubricators.minimumRequiredLubricator.bundle,
-          ],
-        },
-        recommendedLubricator: {
-          ...recommendation.lubricators.recommendedLubricator,
-          bundle: [...recommendation.lubricators.recommendedLubricator.bundle],
-        },
-      },
     };
 
-    updateItems(
-      updatedRecommendation.lubricators.minimumRequiredLubricator.bundle
-    );
-    updateItems(updatedRecommendation.lubricators.recommendedLubricator.bundle);
+    if (updatedRecommendation.lubricators.minimumRequiredLubricator) {
+      updateItems(
+        updatedRecommendation.lubricators.minimumRequiredLubricator.bundle
+      );
+    }
+    if (updatedRecommendation.lubricators.recommendedLubricator) {
+      updateItems(
+        updatedRecommendation.lubricators.recommendedLubricator.bundle
+      );
+    }
 
     return updatedRecommendation;
   }
@@ -191,5 +206,11 @@ export class RecommendationContainerComponent implements OnDestroy {
     response: RecommendationResponse | ErrorResponse
   ): response is ErrorResponse {
     return (response as ErrorResponse).message !== undefined;
+  }
+
+  private handleFormPersistence() {
+    this.formService.recommendationForm.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.formService.saveForm());
   }
 }

@@ -6,6 +6,7 @@ import {
   Optime,
   PowerSupply,
 } from '../constants';
+import { PipeLength } from '../constants/tube-length.enum';
 import { Grease } from './grease.model';
 import { LSAInterval } from './recommendation-form-value.model';
 
@@ -15,11 +16,17 @@ export interface RecommendationForm {
   application: FormGroup<ApplicationForm>;
 }
 
+export interface RecommendationModels {
+  lubricationPoints: LubricationPointsForm;
+  lubricant: LubricantForm;
+  application: ApplicationForm;
+}
+
 export interface LubricationPointsForm {
   lubricationPoints: FormControl<LubricationPoints>;
   lubricationInterval: FormControl<string>;
   lubricationQty: FormControl<number>;
-  pipeLength: FormControl<LSAInterval>;
+  pipeLength: FormControl<PipeLength>;
   optime: FormControl<Optime>;
 }
 

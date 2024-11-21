@@ -11,4 +11,5 @@ export interface LubricationInputSection {
 export interface LubricationInput {
   title: string;
   value: string | number;
+  remoteValue?: string | number;
 }

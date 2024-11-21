@@ -6,7 +6,7 @@ Object {
     Object {
       "inputs": Array [
         Object {
-          "title": "pages.lubricationPoints.title",
+          "title": "inputs.lubricationPoints",
           "value": "2-4",
         },
         Object {
@@ -15,9 +15,10 @@ Object {
         },
         Object {
           "title": "inputs.maxPipeLengthTitle",
-          "value": "1 - 3m",
+          "value": "recommendation.lubricationPoints.pipeLengthOptions.directMontage",
         },
         Object {
+          "remoteValue": "recommendation.lubricationPoints.optime.0",
           "title": "inputs.optimeTitle",
           "value": "recommendation.lubricationPoints.optime.0",
         },
@@ -59,7 +60,7 @@ Object {
     Object {
       "inputs": Array [
         Object {
-          "title": "pages.lubricationPoints.title",
+          "title": "inputs.lubricationPoints",
           "value": "2-4",
         },
         Object {
@@ -68,9 +69,10 @@ Object {
         },
         Object {
           "title": "inputs.maxPipeLengthTitle",
-          "value": "1 - 3m",
+          "value": "recommendation.lubricationPoints.pipeLengthOptions.directMontage",
         },
         Object {
+          "remoteValue": "recommendation.lubricationPoints.optime.0",
           "title": "inputs.optimeTitle",
           "value": "recommendation.lubricationPoints.optime.0",
         },

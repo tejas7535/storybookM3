@@ -49,6 +49,7 @@ lubricator-selection-assistant {
       font-family: 'Material Icons' !important;
     }
   }
+  @apply bg-white;
 
   .mat-mdc-mini-fab .mat-mdc-button-ripple {
     @apply hidden;

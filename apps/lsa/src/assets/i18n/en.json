@@ -111,6 +111,29 @@
         "body": "We could not find a device that matches the application criteria you provided. To get help with your search for a suitable lubrication solution, please get in contact with our experts at the technical support",
         "ctaLink": "https://medias.schaeffler.de/en/stc",
         "ctaText": "Schaeffler Technical Support"
+      },
+      "errors": {
+        "compatability": {
+          "pressure": {
+            "title": "Pressure requirements are too high",
+            "body": "The calculated pressure requirements for your configuration are to high. Try placing the lubricator closer to the lubrication points to reduce the tube length"
+          }
+        },
+        "lubrication": {
+          "quantityLow": {
+            "title": "Lubrication quantity low",
+            "body": "Your configuration indicates a very low lubrication quantity. For quantities this low, lubricants may exceed their design lifespan. Consider using manual lubrication instead"
+          },
+          "quantityHigh": {
+            "title": "Lubrication quantity high",
+            "body": "The lubrication quantity for your configuration exceeds the capabilities of our product portfolio"
+          }
+        }
+      },
+      "warning": {
+        "adjustedAutomatically": "We could not find a suitable solution within the optime ecosystem. We can provide the following alternatives without Optime functionality",
+        "noRecommendation": "We could not automatically provide a suitable recommendation for your input parameters. Please get in touch with Schaeffler technical support for specific consultation",
+        "usedFallbackGrease": "We cannot provide a detailed recommendation for market available greases. We used a widely compatible Grease from the Schaeffler Arcanol Portfolio for our calculation. Please ensure your Grease in use is comparable in its properties"
       }
     }
   },
@@ -137,8 +160,10 @@
       "title": "Ambient temperature in application",
       "value": "{{min}}°C to {{max}}°C"
     },
+    "lubricationPoints": "No. Lubrication Points",
     "maxPipeLengthTitle": "Max. pipe length",
     "powerSupplyTitle": "Power supply",
-    "optimeTitle": "OPTIME integration"
+    "optimeTitle": "OPTIME integration",
+    "remoteChanged": "Your initial request with {{original}} did not bring up any valid results. We automatically retried with {{new}} as a possible alternative. Please review to make sure this is compatible with your usecase!"
   }
 }

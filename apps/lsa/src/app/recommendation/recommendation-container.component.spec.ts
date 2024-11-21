@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { waitForAsync } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
 
-import { of } from 'rxjs';
+import { of, ReplaySubject, Subject } from 'rxjs';
 
 import { LsaStepperComponent } from '@lsa/core/lsa-stepper/lsa-stepper.component';
 import { LsaAppService } from '@lsa/core/services/lsa-app.service';
@@ -11,6 +11,7 @@ import { LsaFormService } from '@lsa/core/services/lsa-form.service';
 import { PriceAvailabilityService } from '@lsa/core/services/price-availability.service';
 import { RestService } from '@lsa/core/services/rest.service';
 import { ResultInputsService } from '@lsa/core/services/result-inputs.service';
+import { ErrorResponse, RecommendationResponse } from '@lsa/shared/models';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { MockComponent, MockModule } from 'ng-mocks';
@@ -22,6 +23,10 @@ import { RecommendationContainerComponent } from './recommendation-container.com
 jest.mock('@lsa/core/services/form-helper', () => ({
   transformFormValue: jest.fn(),
 }));
+
+const recommendationMockSubject = new Subject<
+  RecommendationResponse | ErrorResponse
+>();
 
 describe('RecommendationContainerComponent', () => {
   let spectator: Spectator<RecommendationContainerComponent>;
@@ -44,6 +49,7 @@ describe('RecommendationContainerComponent', () => {
         provide: RestService,
         useValue: {
           getLubricatorRecommendation: jest.fn(),
+          recommendation$: recommendationMockSubject.asObservable(),
         },
       },
       {
@@ -64,6 +70,12 @@ describe('RecommendationContainerComponent', () => {
           getLubricationPointsForm: jest.fn(() => ({}) as unknown as FormGroup),
           getLubricantForm: jest.fn(() => ({}) as unknown as FormGroup),
           getApplicationForm: jest.fn(() => ({}) as unknown as FormGroup),
+          restoreSession: jest.fn(),
+          recommendationForm: {
+            valueChanges: of(),
+          },
+          stepCompletionStream$$: new ReplaySubject<number>(),
+          resetStepState$$: new Subject<void>(),
         },
       },
       {
@@ -96,6 +108,10 @@ describe('RecommendationContainerComponent', () => {
     expect(component).toBeTruthy();
   }));
 
+  it('should call restore session on initialization', () => {
+    expect(component['formService'].restoreSession).toHaveBeenCalled();
+  });
+
   describe('ngOnDestroy', () => {
     it('should complete the observable', () => {
       component['destroy$'].next = jest.fn();
@@ -119,15 +135,15 @@ describe('RecommendationContainerComponent', () => {
       );
     });
 
-    it('should call getResultInputs', () => {
+    it('should call getResultInputs', waitForAsync(async () => {
       component.form.getRawValue = jest.fn();
-      component.fetchResult();
+      await component.fetchResult();
 
       expect(component.form.getRawValue).toHaveBeenCalled();
       expect(
         component['resultInputService'].getResultInputs
       ).toHaveBeenCalledWith(component.form.getRawValue());
-    });
+    }));
   });
 
   describe('when stepper is initialized', () => {

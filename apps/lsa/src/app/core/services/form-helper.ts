@@ -10,7 +10,7 @@ export const transformFormValue = (
   lubricationPoints: formValue.lubricationPoints.lubricationPoints,
   lubricationInterval: formValue.lubricationPoints.lubricationInterval,
   lubricationQty: formValue.lubricationPoints.lubricationQty,
-  pipeLength: formValue.lubricationPoints.pipeLength?.max,
+  pipeLength: Number(formValue.lubricationPoints.pipeLength),
   optime: formValue.lubricationPoints.optime,
   medium:
     formValue.lubricant.lubricantType === LubricantType.Oil
@@ -24,3 +24,32 @@ export const transformFormValue = (
   maxTemp: formValue.application.temperature.max,
   battery: formValue.application.battery,
 });
+
+export const objectCompare = <T extends object>(a: T, b: T): boolean => {
+  const keysA = Object.keys(a);
+  const keysB = Object.keys(b);
+
+  if (keysA.length !== keysB.length) {
+    return false;
+  }
+
+  return Object.entries(a).every(([kA, valA]) => {
+    if (!Object.hasOwn(b, kA)) {
+      return false;
+    }
+
+    const valB = b[kA as keyof typeof b];
+
+    // eslint-disable-next-line unicorn/prefer-ternary
+    if (
+      typeof valA === 'object' &&
+      typeof valB === 'object' &&
+      valA !== null &&
+      valB !== null
+    ) {
+      return objectCompare(valA, valB);
+    } else {
+      return valA === valB;
+    }
+  });
+};
