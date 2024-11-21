@@ -33,11 +33,21 @@
       "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
-          "format": "checkstyle",
-          "outputFile": "checkstyle/libs/shared/ui/share-button/checkstyle.xml",
+          "format": "json",
+          "outputFile": "eslint/libs/shared/ui/share-button/eslint.json",
           "force": true
         }
       }
+    },
+    "sonar": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "sonar-scanner -Dsonar.token=${SONAR_TOKEN} -Dproject.settings=libs/shared/ui/share-button/sonar-project.properties"
+        ],
+        "parallel": false
+      },
+      "outputs": []
     },
     "publish": {
       "executor": "nx:run-commands",

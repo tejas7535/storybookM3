@@ -9,8 +9,8 @@
       "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
-          "format": "checkstyle",
-          "outputFile": "checkstyle/libs/shared/cypress-utils/checkstyle.xml",
+          "format": "json",
+          "outputFile": "eslint/libs/shared/cypress-utils/eslint.json",
           "force": true
         }
       }
