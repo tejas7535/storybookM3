@@ -7,6 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { UserInteractionEffects } from '@cdba/core/store';
 import { SearchEffects } from '@cdba/core/store/effects/search/search.effects';
 import { BlockUiModule } from '@cdba/shared/components';
 
@@ -21,7 +22,7 @@ import { SearchRoutingModule } from './search-routing.module';
     PushPipe,
     SharedTranslocoModule,
     SearchRoutingModule,
-    EffectsModule.forFeature([SearchEffects]),
+    EffectsModule.forFeature([SearchEffects, UserInteractionEffects]),
     ReferenceTypesFiltersModule,
     BlockUiModule,
   ],

@@ -11,7 +11,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { HttpErrorService } from '@cdba/core/http/services/http-error.service';
+import { UserInteractionService } from '@cdba/shared/services';
 import { COMPARE_STATE_MOCK } from '@cdba/testing/mocks';
 
 import {
@@ -27,7 +27,7 @@ describe('FailureEffects', () => {
   let actions$: any;
   let effects: FailureEffects;
   let metadata: EffectsMetadata<FailureEffects>;
-  let httpErrorService: HttpErrorService;
+  let userInteractionService: UserInteractionService;
   let router: Router;
 
   const index = 0;
@@ -47,7 +47,7 @@ describe('FailureEffects', () => {
           compare: COMPARE_STATE_MOCK,
         },
       }),
-      mockProvider(HttpErrorService),
+      mockProvider(UserInteractionService),
     ],
   });
 
@@ -56,7 +56,7 @@ describe('FailureEffects', () => {
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(FailureEffects);
     metadata = getEffectsMetadata(effects);
-    httpErrorService = spectator.inject(HttpErrorService);
+    userInteractionService = spectator.inject(UserInteractionService);
     router = spectator.inject(Router);
   });
 
@@ -120,7 +120,7 @@ describe('FailureEffects', () => {
     test(
       'should call default error service',
       marbles((m) => {
-        httpErrorService.handleHttpError = jest.fn();
+        userInteractionService.interact = jest.fn();
 
         const loadBomServerFailureAction = loadBomFailure({
           index,
@@ -155,7 +155,7 @@ describe('FailureEffects', () => {
 
         m.expect(effects.loadFailure$).toBeObservable(actions$);
         m.flush();
-        expect(httpErrorService.handleHttpError).toBeCalledTimes(4);
+        expect(userInteractionService.interact).toBeCalledTimes(4);
       })
     );
   });

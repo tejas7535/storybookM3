@@ -1,14 +1,13 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 
-import { firstValueFrom, from, Observable, of } from 'rxjs';
-import { map, timeout } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { withCache } from '@ngneat/cashew';
 
 import { API, BomExportPath } from '@cdba/shared/constants/api';
-import { BOM_EXPORT_TIMEOUT } from '@cdba/shared/constants/table';
 import { HttpParamsEncoder } from '@cdba/shared/http';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models/reference-type-identifier.model';
 
@@ -88,40 +87,12 @@ export class SearchService {
 
   public exportBoms(
     referenceTypesIdentifiers: ReferenceTypeIdentifier[]
-  ): Observable<{ filename: string; content: Blob }> {
+  ): Observable<HttpResponse<void>> {
     const path = `${API.v1}/${BomExportPath}`;
 
-    const headers = new HttpHeaders({
-      responseType: 'blob',
-      Accept: 'application/octet-stream',
+    return this.httpClient.post<void>(path, referenceTypesIdentifiers, {
       observe: 'response',
     });
-
-    const response = firstValueFrom(
-      this.httpClient
-        .post(path, referenceTypesIdentifiers, {
-          headers,
-          observe: 'response',
-          responseType: 'blob',
-        })
-        .pipe(
-          timeout(BOM_EXPORT_TIMEOUT),
-          map((res) => ({
-            filename: this.getFileName(res.headers.get('content-disposition')),
-            content: res.body,
-          }))
-        )
-    );
-
-    return from(response);
-  }
-
-  private getFileName(contentDispositionHeader: string): string {
-    return contentDispositionHeader
-      .split(';')[1]
-      .split('filename')[1]
-      .split('=')[1]
-      .trim();
   }
 
   private prepareSearchPayload(
