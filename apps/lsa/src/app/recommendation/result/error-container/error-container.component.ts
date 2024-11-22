@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 
 import { map, Observable, of, ReplaySubject, switchMap } from 'rxjs';
 
@@ -21,6 +28,8 @@ export const BASE_TRANSLATION_PATH = 'recommendation.result';
 })
 export class ErrorContainerComponent implements OnChanges {
   @Input() response: ErrorResponse;
+
+  @Output() readonly errorLinkClicked = new EventEmitter<void>();
 
   private readonly responseSubject = new ReplaySubject<Error>();
 
@@ -67,5 +76,9 @@ export class ErrorContainerComponent implements OnChanges {
     if ('response' in changes) {
       this.responseSubject.next(changes.response.currentValue);
     }
+  }
+
+  onErrorLinkClick(): void {
+    this.errorLinkClicked.emit();
   }
 }

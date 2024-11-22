@@ -61,5 +61,8 @@
     <ng-content></ng-content>
   </div>
 } @else {
-  <lsa-error-container [response]="errorInstance" />
+  <lsa-error-container
+    [response]="errorInstance"
+    (errorLinkClicked)="onSupportLinkClick()"
+  />
 }

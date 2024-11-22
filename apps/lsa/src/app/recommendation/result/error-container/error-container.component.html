@@ -10,9 +10,14 @@
         <p>
           {{ error.body }}
         </p>
-        <!-- Clicks onto this link should be tracked as soon as the tracking is implemented-->
         @if (error.cta) {
-          <a [href]="error.ctaUrl" mat-flat-button class="mt-4 ml-auto mr-0">
+          <a
+            [href]="error.ctaUrl"
+            target="_blank"
+            (click)="onErrorLinkClick()"
+            mat-flat-button
+            class="mt-4 ml-auto mr-0"
+          >
             {{ error.cta }}
           </a>
         }

@@ -60,4 +60,12 @@ describe('ErrorContainerComponent', () => {
     expect(message.title).toEqual(`Hello World`);
     expect(message.body).toEqual(`Hello World`);
   }));
+
+  it('should emit errorLinkClicked event when onErrorLinkClick is called', () => {
+    const emitSpy = jest.spyOn(spectator.component.errorLinkClicked, 'emit');
+
+    spectator.component.onErrorLinkClick();
+
+    expect(emitSpy).toHaveBeenCalled();
+  });
 });

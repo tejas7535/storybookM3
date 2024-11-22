@@ -1,4 +1,5 @@
 import { AddToCartService } from '@lsa/core/services/add-to-cart.service';
+import { GoogleAnalyticsService } from '@lsa/core/services/google-analytics';
 import { Lubricator, RecommendationResponse } from '@lsa/shared/models';
 import { RecommendationTableDataPipe } from '@lsa/shared/pipes/recommendation-table-data.pipe';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -8,12 +9,14 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AccessoryTableComponent } from './accessory-table/accessory-table.component';
 import { AddToCartButtonComponent } from './add-to-cart-button/add-to-cart-button.component';
+import { ErrorContainerComponent } from './error-container/error-container.component';
 import { RecommendationTableComponent } from './recommendation-table/recommendation-table.component';
 import { ResultComponent } from './result.component';
 
 describe('ResultComponent', () => {
   let component: ResultComponent;
   let spectator: Spectator<ResultComponent>;
+  let googleAnalyticsService: GoogleAnalyticsService;
 
   const createComponent = createComponentFactory({
     component: ResultComponent,
@@ -22,6 +25,7 @@ describe('ResultComponent', () => {
       MockComponent(AccessoryTableComponent),
       MockComponent(RecommendationTableComponent),
       MockComponent(AddToCartButtonComponent),
+      MockComponent(ErrorContainerComponent),
       MockPipe(RecommendationTableDataPipe),
     ],
     providers: [
@@ -31,12 +35,19 @@ describe('ResultComponent', () => {
           addToCartEvent: jest.fn(),
         },
       },
+      {
+        provide: GoogleAnalyticsService,
+        useValue: {
+          logEvent: jest.fn(),
+        },
+      },
     ],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
+    googleAnalyticsService = spectator.inject(GoogleAnalyticsService);
   });
 
   it('should create', () => {
@@ -50,6 +61,14 @@ describe('ResultComponent', () => {
       component.onRecommendedSelectedChange(false);
 
       expect(component.isRecommendedSelected).toEqual(false);
+
+      expect(googleAnalyticsService.logEvent).toHaveBeenCalledWith({
+        action: 'Product Selection',
+        event: 'lsa_related_interaction',
+        selected_product_type: 'Minimum',
+        step: 4,
+        step_name: 'Result',
+      });
     });
   });
 
@@ -58,7 +77,14 @@ describe('ResultComponent', () => {
       lubricators: {
         recommendedLubricator: {
           fifteen_digit: '123',
-          matnr: '001',
+          matNr: '001',
+          qty: 0,
+          name: 'Test Lubricator',
+          bundle: [],
+        } as Partial<Lubricator> as Lubricator,
+        minimumRequiredLubricator: {
+          fifteen_digit: '123',
+          matNr: '001',
           qty: 0,
           name: 'Test Lubricator',
           bundle: [],
@@ -77,6 +103,13 @@ describe('ResultComponent', () => {
         component.recommendationResult as RecommendationResponse
       );
       expect(component.validResult).toBeUndefined();
+
+      expect(googleAnalyticsService.logEvent).toHaveBeenCalledWith({
+        action: 'Step Load Fail',
+        event: 'lsa_related_interaction',
+        step: 4,
+        step_name: 'Result',
+      });
     });
 
     it('should set validResult when name is not in recommendationResult', () => {
@@ -88,6 +121,21 @@ describe('ResultComponent', () => {
         component.recommendationResult as RecommendationResponse
       );
       expect(component.isRecommendedSelected).toBeTruthy();
+
+      expect(googleAnalyticsService.logEvent).toHaveBeenCalledWith({
+        action: 'Step Load',
+        event: 'lsa_related_interaction',
+        min_prod: {
+          id: '001',
+          name: 'Test Lubricator',
+        },
+        recom_prod: {
+          id: '001',
+          name: 'Test Lubricator',
+        },
+        step: 4,
+        step_name: 'Result',
+      });
     });
 
     describe('when adding to cart', () => {
@@ -110,6 +158,29 @@ describe('ResultComponent', () => {
           [...accessoryTableComponent.accessories],
           accessoryTableComponent.tableFormGroup
         );
+
+        expect(googleAnalyticsService.logEvent).toHaveBeenCalledWith({
+          action: 'Add to Cart',
+          event: 'lsa_related_interaction',
+          product_parts: [],
+          selected_product_quantity: 1,
+          selected_product_type: 'Recommended',
+          step: 4,
+          step_name: 'Result',
+        });
+      });
+    });
+
+    it('should log link to support click', () => {
+      const errorContainer = spectator.query(ErrorContainerComponent);
+
+      errorContainer.errorLinkClicked.emit();
+
+      expect(googleAnalyticsService.logEvent).toHaveBeenCalledWith({
+        action: 'Click to Support',
+        event: 'lsa_related_interaction',
+        step: 4,
+        step_name: 'Result',
       });
     });
   });

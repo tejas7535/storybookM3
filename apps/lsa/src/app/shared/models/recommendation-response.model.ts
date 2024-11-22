@@ -47,6 +47,7 @@ export interface Accessory {
   fifteen_digit: string;
   pim_code: string;
   designation: string;
+  is_recommendation: boolean;
   product_image: string;
   class: string | number;
   class_id: string;
