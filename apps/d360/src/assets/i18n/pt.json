@@ -409,6 +409,10 @@
       "expandAll": "desdobrar",
       "collapseAll": "dobrar"
     },
+    "button": {
+      "addCustomerMaterial": "Adicionar material do cliente",
+      "addMultipleCustomerMaterials": "Adicionar vários materiais de cliente"
+    },
     "material_info_text": {
       "head_not_active": "O botão da cadeia de substituição não é o material ativo"
     },
@@ -459,7 +463,7 @@
       "EDIT_MODAL": "Editar material do cliente",
       "STATUS_TO_PHASE_IN": "Mudança de status para Phase-In",
       "STATUS_TO_PHASE_OUT": "Mudança de status para eliminação gradual",
-      "STATUS_TO_SUBSTITUTION": "Mudança de status para substituição(cliente)",
+      "STATUS_TO_SUBSTITUTION": "Mudança de status para substituição (cliente)",
       "STATUS_TO_INACTIVE": "Mudança de status para Inativo",
       "STATUS_TO_ACTIVE": "Mudança de status para ativo",
       "REVERT_SUBSTITUTION": "Retirada de substituição"

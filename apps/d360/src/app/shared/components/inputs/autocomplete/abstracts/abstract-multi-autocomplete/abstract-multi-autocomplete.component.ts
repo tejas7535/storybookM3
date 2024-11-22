@@ -209,6 +209,15 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
   protected first = true;
 
   /**
+   * A custom error message, if needed.
+   *
+   * @protected
+   * @type {InputSignal<string>}
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  protected errorMessage: InputSignal<string> = input('');
+
+  /**
    * Creates an instance of AbstractMultiAutocompleteComponent.
    *
    * @memberof AbstractMultiAutocompleteComponent

@@ -9,6 +9,7 @@ import { defineGlobalsInjections } from '@ngneat/spectator';
 import { sharedTranslocoLocaleConfig } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { setupGridLicense } from './app/shared/ag-grid/grid-setup-license';
 import { getDefaultLocale } from './app/shared/constants/available-locales';
 import { LANGUAGE_STORAGE_KEY } from './app/shared/constants/language';
 
@@ -19,6 +20,8 @@ globalThis.ngJest = {
     errorOnUnknownProperties: true,
   },
 };
+
+setupGridLicense();
 
 defineGlobalsInjections({
   imports: [

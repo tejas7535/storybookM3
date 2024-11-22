@@ -409,6 +409,10 @@
       "expandAll": "折叠出来",
       "collapseAll": "折叠"
     },
+    "button": {
+      "addCustomerMaterial": "新增客戶材料",
+      "addMultipleCustomerMaterials": "新增多個客戶材料"
+    },
     "material_info_text": {
       "head_not_active": "更换链按钮不是活跃物料"
     },

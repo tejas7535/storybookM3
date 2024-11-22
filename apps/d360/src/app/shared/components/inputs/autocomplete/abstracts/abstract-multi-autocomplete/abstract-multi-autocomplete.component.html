@@ -80,4 +80,9 @@
   @if (control().hasError('required')) {
     <mat-error>{{ t('generic.validation.missing_fields') }}</mat-error>
   }
+
+  <!-- custom errors -->
+  @if (errorMessage()) {
+    <mat-error>{{ errorMessage() }}</mat-error>
+  }
 </mat-form-field>

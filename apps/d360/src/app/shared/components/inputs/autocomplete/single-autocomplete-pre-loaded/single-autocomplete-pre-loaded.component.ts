@@ -114,6 +114,15 @@ export class SingleAutocompletePreLoadedComponent
       },
       { allowSignalWrites: true }
     );
+
+    effect(
+      () => {
+        if (this.optionsLoadingResult()) {
+          this.extractOptions();
+        }
+      },
+      { allowSignalWrites: true }
+    );
   }
 
   /**
@@ -121,10 +130,7 @@ export class SingleAutocompletePreLoadedComponent
    * @inheritdoc
    */
   public ngOnInit(): void {
-    this.extractOptions();
-
     this.transformInputToSelectableValue();
-
     super.ngOnInit();
   }
 

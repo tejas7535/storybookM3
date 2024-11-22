@@ -4,9 +4,9 @@ import { ColDef } from 'ag-grid-community';
 import { portfolioStatusValues } from '../../../feature/customer-material-portfolio/cmp-modal-types';
 import {
   AbcxClassification,
-  abcxClassifications,
-  demandCharacteristics,
-  materialClassifications,
+  abcxClassificationOptions,
+  demandCharacteristicOptions,
+  materialClassificationOptions,
 } from '../../../feature/material-customer/model';
 import {
   demandCharacteristicValueFormatter,
@@ -16,15 +16,14 @@ import { AgGridLocalizationService } from '../../../shared/services/ag-grid-loca
 
 function translateAbcxClassificationValue(value?: string) {
   return translate(
-    `field.abcxClassification.value.${(value as AbcxClassification) || '<empty>'}`,
-    {}
+    `field.abcxClassification.value.${(value as AbcxClassification) || '<empty>'}`
   );
 }
 
 function translateForecastMaintainedValue(value?: boolean) {
   return value
-    ? translate(`field.forecastMaintained.value.true`, {})
-    : translate(`field.forecastMaintained.value.false`, {});
+    ? translate(`field.forecastMaintained.value.true`)
+    : translate(`field.forecastMaintained.value.false`);
 }
 
 export function columnDefinitions(
@@ -85,7 +84,7 @@ export function columnDefinitions(
       alwaysVisible: true,
       filter: 'agSetColumnFilter',
       filterParams: {
-        values: materialClassifications,
+        values: materialClassificationOptions,
       },
     },
     {
@@ -94,7 +93,7 @@ export function columnDefinitions(
       visible: true,
       alwaysVisible: true,
       filterParams: {
-        values: demandCharacteristics,
+        values: demandCharacteristicOptions,
         valueFormatter: demandCharacteristicValueFormatter(),
       },
     },
@@ -247,7 +246,7 @@ export function columnDefinitions(
         translateAbcxClassificationValue(params.data.abcxClassification),
       filter: 'agSetColumnFilter',
       filterParams: {
-        values: abcxClassifications,
+        values: abcxClassificationOptions,
         // FYI: here, '' value becomes null in agGrid :-(
         valueFormatter: (params: any) =>
           translateAbcxClassificationValue(params.value),

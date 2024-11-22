@@ -21,16 +21,6 @@
       }
     }
 
-    &-row-group-indent-1 {
-      @apply ml-4 #{!important};
-      @apply pl-4 #{!important};
-    }
-
-    &-group-contracted,
-    &-group-expanded {
-      @apply mr-2 #{!important};
-    }
-
     &-root-wrapper {
       min-height: 400px !important;
     }

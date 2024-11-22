@@ -418,6 +418,10 @@
       "expandAll": "ausklappen",
       "collapseAll": "einklappen"
     },
+    "button": {
+      "addCustomerMaterial": "Kundenmaterial hinzufügen",
+      "addMultipleCustomerMaterials": "Mehrere Kundenmaterialien hinzufügen"
+    },
     "material_info_text": {
       "head_not_active": "Knopf der Ersetzungskette ist nicht das aktive Material"
     },
@@ -468,7 +472,7 @@
       "EDIT_MODAL": "Kundenmaterial bearbeiten",
       "STATUS_TO_PHASE_IN": "Statuswechsel zu Phase-In",
       "STATUS_TO_PHASE_OUT": "Statuswechsel zu Phase-Out",
-      "STATUS_TO_SUBSTITUTION": "Statuswechsel zu Ersetzung(Kunde)",
+      "STATUS_TO_SUBSTITUTION": "Statuswechsel zu Ersetzung (Kunde)",
       "STATUS_TO_INACTIVE": "Statuswechsel zu Inaktiv",
       "STATUS_TO_ACTIVE": "Statuswechsel zu Aktiv",
       "REVERT_SUBSTITUTION": "Ersetzung Rückgängigmachen"

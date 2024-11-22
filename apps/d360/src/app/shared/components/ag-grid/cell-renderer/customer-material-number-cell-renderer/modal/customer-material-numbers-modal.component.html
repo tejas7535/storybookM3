@@ -1,37 +1,44 @@
-<div *transloco="let t" class="w-96">
-  <div class="flex justify-between items-center">
-    <h2 mat-dialog-title class="text-title-large">
-      {{ t('material_customer.column.customerMaterialNumber_plural') }}
-    </h2>
-  </div>
+<div *transloco="let t" class="w-98">
+  <h2 mat-dialog-title class="text-title-large">
+    {{ t('material_customer.column.customerMaterialNumber_plural') }}
+  </h2>
+
   <mat-dialog-content>
     @if (isLoading()) {
-      <div class="w-32 h-32 flex items-center justify-center">
-        <schaeffler-loading-spinner
-          [useBearingLoadingSpinner]="true"
-        ></schaeffler-loading-spinner>
+      <div class="h-20 flex items-center justify-center">
+        <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
       </div>
     } @else {
-      @for (
-        customerMaterialNumber of customerMaterialNumbers();
-        track customerMaterialNumber
-      ) {
-        <p class="text-label-large-prominent">{{ customerMaterialNumber }}</p>
-      }
+      <div>
+        <ul class="list-disc ml-5 mt-3 mb-3">
+          @for (
+            customerMaterialNumber of customerMaterialNumbers();
+            track customerMaterialNumber
+          ) {
+            <li class="text-label-large-prominent">
+              {{ customerMaterialNumber }}
+            </li>
+          }
+        </ul>
+      </div>
     }
   </mat-dialog-content>
-  <div class="flex justify-between">
-    <button
-      [disabled]="isLoading()"
-      (click)="copyCustomerMaterialNumbersToClipboard()"
-      mat-button
-      class="items-start"
-    >
-      <mat-icon>content_paste</mat-icon>
-      {{ t('copy_to_clipboard') }}
-    </button>
-    <button mat-flat-button mat-dialog-close class="items-end">
-      {{ t('button.close') }}
-    </button>
-  </div>
+
+  <mat-dialog-actions>
+    <div class="flex justify-between w-full">
+      <button
+        [disabled]="isLoading()"
+        (click)="copyCustomerMaterialNumbersToClipboard()"
+        mat-button
+        class="items-start"
+      >
+        <mat-icon>content_paste</mat-icon>
+        {{ t('copy_to_clipboard') }}
+      </button>
+
+      <button mat-flat-button mat-dialog-close class="items-end">
+        {{ t('button.close') }}
+      </button>
+    </div>
+  </mat-dialog-actions>
 </div>

@@ -6,7 +6,7 @@ import {
 } from '../../../feature/internal-material-replacement/model';
 import {
   DemandCharacteristic,
-  demandCharacteristics,
+  demandCharacteristicOptions,
 } from '../../../feature/material-customer/model';
 import { SelectableValue } from '../../components/inputs/autocomplete/selectable-values.utils';
 import { DisplayFunctions } from '../../components/inputs/display-functions.utils';
@@ -30,15 +30,14 @@ export function validateReplacementType(value: string): string | undefined {
 export function validateDemandCharacteristicType(
   value: string
 ): string | undefined {
-  const localizationKeyCreation = (val: DemandCharacteristic) =>
-    translate(`demand_characterictics.${val}`, {});
-  const parsedValue = parseToStringLiteralTypeIfPossible(
-    value,
-    demandCharacteristics,
-    localizationKeyCreation
-  );
-  if (!parsedValue) {
-    return translate('generic.validation.check_inputs', {});
+  if (
+    !parseToStringLiteralTypeIfPossible(
+      value,
+      demandCharacteristicOptions,
+      (val: DemandCharacteristic) => translate(`demand_characteristics.${val}`)
+    )
+  ) {
+    return translate('generic.validation.check_inputs');
   }
 
   return undefined;

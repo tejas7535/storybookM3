@@ -304,13 +304,13 @@ export abstract class AbstractTableUploadModalComponent<
    * TODO: Once we're on AG Grid > v31, we should use setGridOption('columnDefs', columnDefs); instead.
    *
    * @private
+   * @memberof AbstractTableUploadModalComponent
    */
-  private updateColumnDefinitions() {
+  private updateColumnDefinitions(): void {
     this.columnDefs = [
       ...this.columnDefinitions.map((colDef: ColumnForUploadTable<T>) => ({
         ...colDef,
         field: colDef.field.toString(),
-        headerName: colDef.headerNameFn(),
         minWidth: colDef.minWidth ?? 200,
         validationFn: undefined,
         ...buildValidationProps(

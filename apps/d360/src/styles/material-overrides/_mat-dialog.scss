@@ -22,11 +22,16 @@
       min-width: 80vw;
       min-height: 300px;
 
+      &.customer-material-portfolio,
       &.alert-rule,
       &.internal-material-replacement {
         .mat-mdc-dialog-content {
           min-height: 300px;
         }
+      }
+
+      &.customer-material-portfolio {
+        min-width: 0;
       }
     }
   }

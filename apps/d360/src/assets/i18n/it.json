@@ -409,6 +409,10 @@
       "expandAll": "ripiegare",
       "collapseAll": "ripiegare in"
     },
+    "button": {
+      "addCustomerMaterial": "Aggiungi materiale del cliente",
+      "addMultipleCustomerMaterials": "Aggiungere più materiali del cliente"
+    },
     "material_info_text": {
       "head_not_active": "Il pulsante della catena di sostituzione non è il materiale attivo"
     },
@@ -459,7 +463,7 @@
       "EDIT_MODAL": "Modifica del materiale del cliente",
       "STATUS_TO_PHASE_IN": "Cambiamento di stato in Phase-In",
       "STATUS_TO_PHASE_OUT": "Cambiamento di stato verso l'eliminazione graduale",
-      "STATUS_TO_SUBSTITUTION": "Cambio di stato in sostituzione(cliente)",
+      "STATUS_TO_SUBSTITUTION": "Cambio di stato in sostituzione (cliente)",
       "STATUS_TO_INACTIVE": "Cambiamento di stato in Inattivo",
       "STATUS_TO_ACTIVE": "Cambiamento di stato in attivo",
       "REVERT_SUBSTITUTION": "Ritirare la sostituzione"

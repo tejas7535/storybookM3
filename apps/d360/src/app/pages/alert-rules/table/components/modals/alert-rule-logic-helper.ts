@@ -1,8 +1,10 @@
 import { translate } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 import { AlertRule } from '../../../../../feature/alert-rules/model';
 import { SelectableValue } from '../../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { OptionsLoadingResult } from '../../../../../shared/services/selectable-options.service';
+import { parseDateIfPossible } from '../../../../../shared/utils/parse-values';
 import {
   possibleWhenOptions,
   thresholdAlerts,
@@ -192,7 +194,8 @@ export function getSpecialParseFunctions(
   gkamOptions: OptionsLoadingResult,
   productLineOptions: OptionsLoadingResult,
   intervalOpts: OptionsLoadingResult,
-  whenOpts: OptionsLoadingResult
+  whenOpts: OptionsLoadingResult,
+  translocoLocaleService: TranslocoLocaleService
 ): Map<keyof AlertRule, (value: string) => string> {
   return new Map([
     ['type', parseSelectableValueIfPossible(alertTypes.options)],
@@ -211,6 +214,14 @@ export function getSpecialParseFunctions(
     ['productLine', parseSelectableValueIfPossible(productLineOptions.options)],
     ['execInterval', parseSelectableValueIfPossible(intervalOpts.options)],
     ['execDay', parseSelectableValueIfPossible(whenOpts.options)],
+    [
+      'startDate',
+      (value: string) => parseDateIfPossible(value, translocoLocaleService),
+    ],
+    [
+      'endDate',
+      (value: string) => parseDateIfPossible(value, translocoLocaleService),
+    ],
   ]);
 }
 

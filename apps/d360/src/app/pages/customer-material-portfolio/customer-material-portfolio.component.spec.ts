@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
@@ -17,6 +18,7 @@ describe('CustomerMaterialPortfolioComponent', () => {
     component: CustomerMaterialPortfolioComponent,
     providers: [
       mockProvider(MatDialog),
+      mockProvider(HttpClient, { get: () => of([]) }),
       mockProvider(GlobalSelectionHelperService, {
         getCustomersData: jest.fn().mockReturnValue(of([])),
       }),

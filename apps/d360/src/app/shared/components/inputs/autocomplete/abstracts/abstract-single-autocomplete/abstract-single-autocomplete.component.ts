@@ -191,6 +191,15 @@ export abstract class AbstractSingleAutocompleteComponent implements OnInit {
   protected first = true;
 
   /**
+   * A custom error message, if needed.
+   *
+   * @protected
+   * @type {InputSignal<string>}
+   * @memberof AbstractSingleAutocompleteComponent
+   */
+  protected errorMessage: InputSignal<string> = input('');
+
+  /**
    * Creates an instance of AbstractSingleAutocompleteComponent.
    *
    * @memberof AbstractSingleAutocompleteComponent

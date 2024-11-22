@@ -18,9 +18,10 @@ describe('CustomerDropDownComponent', () => {
   beforeEach(async () => {
     spectator = createComponent({
       props: {
-        customers: [],
-        fC: new FormControl(),
-        fG: new FormGroup({}),
+        control: new FormControl(),
+        form: new FormGroup({}),
+        optionsLoadingResult: { options: [] },
+        customer: null,
       },
     });
     component = spectator.debugElement.componentInstance;

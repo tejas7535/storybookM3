@@ -409,6 +409,10 @@
       "expandAll": "desplegar",
       "collapseAll": "plegar"
     },
+    "button": {
+      "addCustomerMaterial": "Añadir material de cliente",
+      "addMultipleCustomerMaterials": "Añadir varios materiales de cliente"
+    },
     "material_info_text": {
       "head_not_active": "El botón de la cadena de sustitución no es el material activo"
     },
@@ -459,7 +463,7 @@
       "EDIT_MODAL": "Editar el material del cliente",
       "STATUS_TO_PHASE_IN": "Cambio de estado a Phase-In",
       "STATUS_TO_PHASE_OUT": "Cambio de estado a eliminación progresiva",
-      "STATUS_TO_SUBSTITUTION": "Cambio de estado a sustitución(cliente)",
+      "STATUS_TO_SUBSTITUTION": "Cambio de estado a sustitución (cliente)",
       "STATUS_TO_INACTIVE": "Cambio de estado a Inactivo",
       "STATUS_TO_ACTIVE": "Cambio de estado a activo",
       "REVERT_SUBSTITUTION": "Retirar la sustitución"

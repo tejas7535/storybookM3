@@ -38,7 +38,6 @@ import { SnackbarService } from '../../../../../../shared/utils/service/snackbar
     MatDialogClose,
   ],
   templateUrl: './alert-rule-delete-single-modal.component.html',
-  styleUrl: './alert-rule-delete-single-modal.component.scss',
 })
 export class AlertRuleDeleteSingleModalComponent {
   constructor(

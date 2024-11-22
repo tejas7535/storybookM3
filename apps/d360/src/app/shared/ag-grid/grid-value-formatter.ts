@@ -1,29 +1,41 @@
-import { translate } from '@jsverse/transloco';
+import { HashMap, translate, TranslateParams } from '@jsverse/transloco';
 
-import { PortfolioStatus } from '../../feature/customer-material-portfolio/cmp-modal-types';
 import {
   ReplacementType,
   replacementTypeValues,
 } from '../../feature/internal-material-replacement/model';
-import { DemandCharacteristic } from '../../feature/material-customer/model';
 import { parseToStringLiteralTypeIfPossible } from '../utils/parse-values';
 
 export function portfolioStatusValueFormatter() {
   return (params: any): string =>
-    translate(
-      `material_customer.portfolio_status.${params.value as PortfolioStatus}`,
-      {},
-      ''
+    translateOr(
+      `material_customer.portfolio_status.${params.value}`,
+      undefined,
+      translate('material_customer.portfolio_status.unknown')
     );
 }
 
 export function demandCharacteristicValueFormatter() {
   return (params: any): string =>
-    translate(
-      `demand_characteristics.${params.value as DemandCharacteristic}`,
-      {},
-      ''
+    translateOr(
+      `demand_characteristics.${params.value}`,
+      undefined,
+      translate('error.valueUnknown')
     );
+}
+
+export function translateOr(
+  key: TranslateParams,
+  params?: HashMap,
+  alternative?: string
+) {
+  const translated: string = translate(key, params);
+
+  if (translated === key && typeof alternative === 'string') {
+    return alternative;
+  }
+
+  return translated;
 }
 
 export function replacementTypeValueFormatter() {

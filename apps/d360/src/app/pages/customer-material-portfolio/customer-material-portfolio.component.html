@@ -1,67 +1,91 @@
-<div *transloco="let t">
-  <!--  TODO add open property with false-->
+<div *transloco="let t" class="flex h-full w-full flex-col gap-5">
+  <!-- Global Selection -->
   <d360-global-selection-criteria
-    (onGlobalSelectionChange)="onUpdateGlobalSelection($event)"
-  ></d360-global-selection-criteria>
-  <d360-styled-section [last]="true" [grow]="true" style="position: relative">
-    <h2>{{ t('customer_material_portfolio.title', {}) }}</h2>
+    (onGlobalSelectionChange)="onUpdateGlobalSelectionState($event)"
+  />
+
+  <!-- Table Section -->
+  <d360-styled-section [grow]="true" class="contents">
+    <!-- Headline -->
+    <h2 class="text-title-large">
+      {{ t('customer_material_portfolio.title', {}) }}
+    </h2>
+
     @if (
-      globalSelectionStatus === GlobalSelectionStatus.DATA_AVAILABLE &&
+      globalSelectionStatus() === GlobalSelectionStatus.DATA_AVAILABLE &&
       customerData() &&
       selectedCustomer() &&
-      globalSelection
+      globalSelectionState()
     ) {
+      <!-- Header -->
       <d360-header-action-bar>
-        <div d360HeaderActionBarButtons>
-          <d360-action-button
-            (click)="handleSinglePhaseIn()"
-            color="primary"
-            variant="mat-fab"
-            icon="add"
-          ></d360-action-button>
-          <d360-action-button
-            (click)="handleMultiPhaseIn()"
-            color="secondary"
-            variant="mat-fab"
-            icon="menu"
-          ></d360-action-button>
+        <!-- Left Side -->
+        <div d360HeaderActionBarButtons class="flex gap-3">
+          <!-- Open Single Modal -->
+          <button mat-flat-button (click)="openSingleDialog(null, null, null)">
+            <mat-icon>add</mat-icon>
+            {{ t('customer_material_portfolio.button.addCustomerMaterial') }}
+          </button>
+
+          <!-- Open Multi Modal -->
+          <button mat-button (click)="handleMultiPhaseIn()">
+            <mat-icon>menu</mat-icon>
+            {{
+              t(
+                'customer_material_portfolio.button.addMultipleCustomerMaterials'
+              )
+            }}
+          </button>
         </div>
+
+        <!-- Ride Side -->
         <div d360HeaderActionBarChildren>
-          <!--          // TODO check if customer-drop down or app-single-autocomplete-pre-loaded should be used like in validation of demand action bar -->
-          <!--          <d360-customer-drop-down [customers]="customerData" [fC]="customerControl" [fG]="formGroup"></d360-customer-drop-down>-->
-          <d360-single-autocomplete-pre-loaded
-            [control]="customerControl"
+          <!-- Customer Selection -->
+          <d360-customer-dropdown
+            [control]="$any(formGroup.get('customerControl'))"
             [form]="formGroup"
-            [optionsLoadingResult]="customerSelectableValues"
-            [label]="t('validation_of_demand.customer', {})"
-            class="w-72"
-            [displayFn]="displayFnUnited"
+            [optionsLoadingResult]="customerSelectableValues()"
+            [customer]="selectedCustomer()"
             (selectionChange)="handleCustomerChange($event)"
-          >
-          </d360-single-autocomplete-pre-loaded>
+          />
+          <div>
+            <!-- Empty div to let d360HeaderActionBarChildren render a divider automatically -->
+          </div>
         </div>
       </d360-header-action-bar>
+
+      <!-- Table -->
       <d360-customer-material-portfolio-table
+        class="contents"
         [filterModel]=""
         [selectedCustomer]="selectedCustomer()"
-        [globalSelection]="globalSelection"
-      ></d360-customer-material-portfolio-table>
-    } @else if (
-      globalSelectionStatus === GlobalSelectionStatus.DATA_LOADING || loading()
+        [globalSelection]="globalSelectionState()"
+        [refreshCounter]="refreshCounter()"
+        [openSingleDialog]="openSingleDialog.bind(this)"
+      />
+    }
+    <!-- Loading Spinner -->
+    @else if (
+      globalSelectionStatus() === GlobalSelectionStatus.DATA_LOADING ||
+      loading()
     ) {
-      <schaeffler-loading-spinner
-        [useBearingLoadingSpinner]="true"
-      ></schaeffler-loading-spinner>
-    } @else if (
-      globalSelectionStatus === GlobalSelectionStatus.DATA_NO_RESULTS
-    ) {
-      <d360-data-hint [text]="t('hint.noData', {})"></d360-data-hint>
-    } @else if (
-      globalSelectionStatus === GlobalSelectionStatus.DATA_NOTHING_SELECTED
-    ) {
-      <d360-data-hint [text]="t('hint.selectData', {})"></d360-data-hint>
-    } @else if (globalSelectionStatus === GlobalSelectionStatus.DATA_ERROR) {
-      <d360-data-hint [text]="t('hint.errorLoadingData', {})"></d360-data-hint>
+      @if ((selectableOptionsService.loading$ | async) === false) {
+        <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
+      }
+    }
+    <!-- Data Hint -->
+    @else {
+      <d360-data-hint
+        [text]="
+          t(
+            globalSelectionStatus() === GlobalSelectionStatus.DATA_NO_RESULTS
+              ? 'hint.noData'
+              : globalSelectionStatus() === GlobalSelectionStatus.DATA_ERROR
+                ? 'hint.errorLoadingData'
+                : 'hint.selectData'
+          )
+        "
+      />
     }
   </d360-styled-section>
 </div>

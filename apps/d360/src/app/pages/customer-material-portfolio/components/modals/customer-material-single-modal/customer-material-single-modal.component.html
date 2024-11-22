@@ -1,0 +1,353 @@
+<div *transloco="let t">
+  @if (loading()) {
+    <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
+  }
+
+  <!-- title -->
+  <div mat-dialog-title class="m-0 pt-0">
+    <h2 class="text-title-large">{{ data.title }}</h2>
+  </div>
+
+  <!-- content -->
+  <mat-dialog-content>
+    @if (data.description) {
+      <p class="mb-4 text-high-emphasis">{{ t(data.description) }}</p>
+    }
+
+    <!-- Modal with forms (all except Schaeffler Substitution) -->
+    @if (hasForm()) {
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4">
+        <!-- customer number -->
+        <d360-single-autocomplete-on-type
+          [form]="formGroup"
+          [control]="$any(formGroup.get('customerNumber'))"
+          [label]="t('customer_material_portfolio.modal.customer_number')"
+          urlBegin="global-selection/search-customers"
+          [addClearButton]="false"
+          [displayFn]="displayFnUnited"
+        />
+
+        @if (data.type !== types.SubstitutionProposal) {
+          <!-- material number -->
+          <ng-container
+            *ngTemplateOutlet="
+              materialNumber;
+              context: {
+                label: t('customer_material_portfolio.modal.material'),
+                displayFn: displayFnText
+              }
+            "
+          />
+
+          <!-- demand characteristic -->
+          <d360-single-autocomplete-pre-loaded
+            [form]="formGroup"
+            [control]="$any(formGroup.get('demandCharacteristic'))"
+            [label]="
+              t('customer_material_portfolio.modal.demand_characteristic')
+            "
+            [getOptionLabelInTag]="displayFnText"
+            [optionsLoadingResult]="
+              selectableOptionsService.get('demandCharacteristics')
+            "
+          />
+        }
+      </div>
+
+      <!-- -----------------------------------------------
+      --              Specific content                --
+      ----------------------------------------------- -->
+      <!-- PhaseIn, PhaseOut and Status -->
+      @if ([types.PhaseIn, types.PhaseOut, types.Status].includes(data.type)) {
+        <!-- header -->
+        @if (data?.subtitle) {
+          <h3 class="text-title-small mt-2 mb-3">
+            {{ t(data?.subtitle) }}
+          </h3>
+        }
+
+        <!-- form elements -->
+        <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+          <!-- autoSwitchDate -->
+          <d360-date-picker
+            [control]="$any(formGroup.get('autoSwitchDate'))"
+            [label]="
+              t(
+                data.type === types.PhaseIn
+                  ? 'customer_material_portfolio.modal.start'
+                  : data.type === types.PhaseOut
+                    ? 'customer_material_portfolio.modal.phase_out.label'
+                    : 'customer_material_portfolio.inactive_modal.date_label'
+              )
+            "
+            [minDate]="today"
+          />
+        </div>
+
+        <!-- warning (for PhaseOut and Status only)-->
+        @if ([types.PhaseOut, types.Status].includes(data.type)) {
+          <ng-container
+            *ngTemplateOutlet="
+              warning;
+              context: {
+                message: t(
+                  data.type === types.PhaseOut
+                    ? 'customer_material_portfolio.modal.phase_out.warning'
+                    : 'customer_material_portfolio.inactive_modal.deletion_warning'
+                )
+              }
+            "
+          />
+        }
+      } @else if (data.type === types.SubstitutionProposal) {
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4">
+          <!-- material number -->
+          <ng-container
+            *ngTemplateOutlet="
+              materialNumber;
+              context: {
+                label: t(
+                  'customer_material_portfolio.modal.predecessor_material_number'
+                ),
+                displayFn: displayFnId
+              }
+            "
+          />
+
+          <!-- successor material -->
+          <ng-container
+            *ngTemplateOutlet="
+              successorMaterial;
+              context: {
+                label: t(
+                  'customer_material_portfolio.modal.sucessor_material_number'
+                ),
+                displayFn: displayFnUnited
+              }
+            "
+          />
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+          <!-- rep date -->
+          <ng-container
+            *ngTemplateOutlet="
+              repDate;
+              context: {
+                label: t('customer_material_portfolio.modal.substitution_time')
+              }
+            "
+          />
+        </div>
+        <div class="grid grid-cols-1 xs:gap-1 mt-3">
+          <!-- Radio Group: Forecast -->
+          <ng-container *ngTemplateOutlet="radioGroupForecast" />
+
+          <!-- Additional Veto Hint -->
+          <div class="text-body-small mt-1">
+            {{
+              t(
+                'customer.material_portfolio.modal.substitution.transfere_forecast_veto.hint'
+              )
+            }}
+          </div>
+        </div>
+      } @else if (data.type === types.Substitution) {
+        <!-- header -->
+        <h3 class="text-title-small mt-2 mb-3">
+          {{ t('customer_material_portfolio.modal.subheader.substitution') }}
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+          <!-- successor material -->
+          <ng-container
+            *ngTemplateOutlet="
+              successorMaterial;
+              context: {
+                label: t(
+                  'customer.material_portfolio.modal.substitution.successor'
+                ),
+                displayFn: displayFnText
+              }
+            "
+          />
+
+          <!-- rep date -->
+          <ng-container
+            *ngTemplateOutlet="
+              repDate;
+              context: {
+                label: t('customer_material_portfolio.modal.substitution.label')
+              }
+            "
+          />
+        </div>
+
+        <div class="grid grid-cols-1 xs:gap-1 mt-3">
+          <!-- Radio Group: Forecast -->
+          <ng-container *ngTemplateOutlet="radioGroupForecast" />
+        </div>
+      } @else if (data.type === types.Error) {
+        <!-- error message -->
+        <div class="mt-5 mb-3">
+          {{ t('customer_material_portfolio.modal.error.no_status') }}
+        </div>
+      }
+    }
+
+    <!-- Modals with Text only -->
+    @else {
+      <!-- change to schaeffler hint -->
+      <div class="text-body-small mt-2">
+        {{ t('customer.material_portfolio.modal.change_to_schaeffler.hint') }}
+      </div>
+    }
+  </mat-dialog-content>
+
+  <!-- buttons -->
+  <mat-dialog-actions align="end">
+    <!-- Modal with forms -->
+    @if (hasForm()) {
+      @if (editButtonVisible()) {
+        <!-- edit button -->
+        <button mat-button (click)="substitutionProposalEdit.set(true)">
+          {{ t('button.edit') }}
+        </button>
+
+        <div class="flex-1"></div>
+      }
+
+      <!-- close button -->
+      <button mat-button (click)="onClose()">
+        {{ t('button.close') }}
+      </button>
+
+      <!-- veto button -->
+      @if (
+        data.type === types.SubstitutionProposal && !substitutionProposalEdit()
+      ) {
+        <button mat-button (click)="onSave('veto')">
+          {{ t('customer_material_portfolio.modal.veto') }}
+        </button>
+      }
+
+      <!-- create / save button -->
+      <button
+        mat-flat-button
+        (click)="
+          onSave(
+            data.type === types.SubstitutionProposal
+              ? substitutionProposalEdit()
+                ? 'change'
+                : 'accept'
+              : null
+          )
+        "
+        color="primary"
+      >
+        {{ t(this.getSaveButton()) }}
+      </button>
+    }
+
+    <!-- Modals with Text only -->
+    @else {
+      <!-- button no -->
+      <button mat-button mat-dialog-close (click)="onClose()">
+        {{ t('button.no') }}
+      </button>
+
+      <!-- button yes -->
+      <button mat-flat-button (click)="onSave(null)">
+        {{ t('button.yes') }}
+      </button>
+    }
+  </mat-dialog-actions>
+</div>
+
+<!-- ----------------------------------------
+  --              Templates                --
+  ---------------------------------------- -->
+
+<!-- warning -->
+<ng-template #warning let-message="message">
+  <div class="mt-4 flex gap-2 items-center">
+    <mat-icon fontIcon="warning" class="text-warning"></mat-icon>
+    {{ message }}
+  </div>
+</ng-template>
+
+<!-- RepDate Datepicker -->
+<ng-template #repDate let-label="label">
+  <d360-date-picker
+    [label]="label"
+    [control]="$any(formGroup.get('repDate'))"
+    [minDate]="today"
+  />
+</ng-template>
+
+<!-- Material Number Autocomplete -->
+<ng-template #materialNumber let-label="label" let-displayFn="displayFn">
+  <d360-single-autocomplete-on-type
+    [form]="formGroup"
+    [control]="$any(formGroup.get('materialNumber'))"
+    [label]="label"
+    [getOptionLabelInTag]="displayFnText"
+    urlBegin="global-selection/search-materials"
+    [displayFn]="displayFn"
+  />
+</ng-template>
+
+<!-- Successor Material Autocomplete -->
+<ng-template #successorMaterial let-label="label" let-displayFn="displayFn">
+  <d360-single-autocomplete-on-type
+    [form]="formGroup"
+    [control]="$any(formGroup.get('successorMaterial'))"
+    urlBegin="global-selection/search-materials"
+    [label]="label"
+    [getOptionLabelInTag]="displayFnUnited"
+    [displayFn]="displayFn"
+    (selectionChange)="onSuccessorChange()"
+  />
+</ng-template>
+
+<!-- radio group substitution -->
+<ng-template #radioGroupForecast>
+  <ng-container *transloco="let t">
+    <!-- Label -->
+    <label id="demandPlanLabel"
+      >{{
+        t(
+          'customer.material_portfolio.modal.substitution.transfere_forecast.rootString'
+        )
+      }}*</label
+    >
+
+    <!-- Radio Group -->
+    <mat-radio-group
+      aria-labelledby="demandPlanLabel"
+      [formControl]="$any(formGroup.get('demandPlanAdoption'))"
+    >
+      @for (option of demandPlanAdoptionOptions; track option) {
+        <mat-radio-button [value]="option" [disabled]="isRadioDisabled(option)">
+          {{ t(getTranslationKey(option)) }}
+        </mat-radio-button>
+      }
+
+      @if (
+        formGroup.get('demandPlanAdoption').hasError('required') &&
+        formGroup.get('demandPlanAdoption').touched
+      ) {
+        <mat-error>{{ t('generic.validation.missing_fields') }}</mat-error>
+      }
+    </mat-radio-group>
+
+    <!-- Hint -->
+    <div class="text-body-small mt-2">
+      {{
+        t(
+          'customer.material_portfolio.modal.substitution.transfere_forecast.hint'
+        )
+      }}
+    </div>
+  </ng-container>
+</ng-template>

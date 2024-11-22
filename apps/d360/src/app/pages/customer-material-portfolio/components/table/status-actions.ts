@@ -45,7 +45,7 @@ export interface CMPAction {
 export const statusActions: CMPAction[] = [
   {
     name: CMPActionName.EDIT,
-    modal: CMPChangeModalFlavor[CMPChangeModalFlavor.EDIT_MODAL],
+    modal: CMPChangeModalFlavor.EDIT_MODAL,
     changeToStatus: undefined,
     isAllowed: isEditAllowed,
   },
@@ -57,37 +57,37 @@ export const statusActions: CMPAction[] = [
   },
   {
     name: CMPActionName.INACTIVATION,
-    modal: CMPChangeModalFlavor[CMPChangeModalFlavor.STATUS_TO_INACTIVE],
+    modal: CMPChangeModalFlavor.STATUS_TO_INACTIVE,
     changeToStatus: 'IA',
     isAllowed: isInactictivationAllowed,
   },
   {
     name: CMPActionName.PHASE_OUT,
-    modal: CMPChangeModalFlavor[CMPChangeModalFlavor.STATUS_TO_PHASE_OUT],
+    modal: CMPChangeModalFlavor.STATUS_TO_PHASE_OUT,
     changeToStatus: 'PO',
     isAllowed: isPhaseOutAllowed,
   },
   {
     name: CMPActionName.SUBSTITUTION,
-    modal: CMPChangeModalFlavor[CMPChangeModalFlavor.STATUS_TO_SUBSTITUTION],
+    modal: CMPChangeModalFlavor.STATUS_TO_SUBSTITUTION,
     changeToStatus: 'SE',
     isAllowed: isSubstitutionAllowed,
   },
   {
     name: CMPActionName.REACTIVATION,
-    modal: CMPChangeModalFlavor[CMPChangeModalFlavor.STATUS_TO_ACTIVE],
+    modal: CMPChangeModalFlavor.STATUS_TO_ACTIVE,
     changeToStatus: 'AC',
     isAllowed: isReactivationAllowed,
   },
   {
     name: CMPActionName.SUBSTITUTION_REVERT,
-    modal: CMPChangeModalFlavor[CMPChangeModalFlavor.REVERT_SUBSTITUTION],
+    modal: CMPChangeModalFlavor.REVERT_SUBSTITUTION,
     changeToStatus: 'AC',
     isAllowed: isSubstitutionRevertAllowed,
   },
   {
     name: CMPActionName.SUBSTITUTION_TO_SCHAEFFLER,
-    modal: CMPSpecificModal[CMPSpecificModal.SCHAEFFLER_SUBSTITUTION],
+    modal: CMPSpecificModal.SCHAEFFLER_SUBSTITUTION,
     changeToStatus: 'SI',
     isAllowed: isSubstitutionChangeToSchaefflerAllowed,
   },

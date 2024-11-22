@@ -418,6 +418,10 @@
       "expandAll": "fold out",
       "collapseAll": "fold"
     },
+    "button": {
+      "addCustomerMaterial": "Add customer material",
+      "addMultipleCustomerMaterials": "Add multiple customer materials"
+    },
     "material_info_text": {
       "head_not_active": "Button of the substitution chain is not the active material"
     },

@@ -111,8 +111,9 @@ export class InternalMaterialReplacementMultiSubstitutionModalComponent
     return [
       {
         field: 'replacementType',
-        headerNameFn: () =>
-          translate('internal_material_replacement.column.replacementType', {}),
+        headerName: translate(
+          'internal_material_replacement.column.replacementType'
+        ),
         editable: true,
         validationFn: validateReplacementType,
         valueFormatter: replacementTypeValueFormatter(),
@@ -124,23 +125,22 @@ export class InternalMaterialReplacementMultiSubstitutionModalComponent
       },
       {
         field: 'region',
-        headerNameFn: () => translate('material_customer.column.region', {}),
+        headerName: translate('material_customer.column.region'),
         editable: true,
       },
       {
         field: 'salesArea',
-        headerNameFn: () => translate('material_customer.column.salesArea', {}),
+        headerName: translate('material_customer.column.salesArea'),
         editable: true,
       },
       {
         field: 'salesOrg',
-        headerNameFn: () => translate('material_customer.column.salesOrg', {}),
+        headerName: translate('material_customer.column.salesOrg'),
         editable: true,
       },
       {
         field: 'customerNumber',
-        headerNameFn: () =>
-          translate('material_customer.column.customerNumber', {}),
+        headerName: translate('material_customer.column.customerNumber'),
         editable: true,
         validationFn: ValidationHelper.condenseErrorsFromValidation(
           validateCustomerNumber
@@ -148,11 +148,9 @@ export class InternalMaterialReplacementMultiSubstitutionModalComponent
       },
       {
         field: 'predecessorMaterial',
-        headerNameFn: () =>
-          translate(
-            'internal_material_replacement.column.predecessorMaterial',
-            {}
-          ),
+        headerName: translate(
+          'internal_material_replacement.column.predecessorMaterial'
+        ),
         editable: true,
         validationFn: ValidationHelper.condenseErrorsFromValidation(
           validateMaterialNumber
@@ -160,11 +158,9 @@ export class InternalMaterialReplacementMultiSubstitutionModalComponent
       },
       {
         field: 'successorMaterial',
-        headerNameFn: () =>
-          translate(
-            'internal_material_replacement.column.successorMaterial',
-            {}
-          ),
+        headerName: translate(
+          'internal_material_replacement.column.successorMaterial'
+        ),
         editable: true,
         validationFn: ValidationHelper.condenseErrorsFromValidation(
           validateMaterialNumber
@@ -172,35 +168,34 @@ export class InternalMaterialReplacementMultiSubstitutionModalComponent
       },
       {
         field: 'startOfProduction',
-        headerNameFn: () =>
-          translate(
-            'internal_material_replacement.column.startOfProduction',
-            {}
-          ),
+        headerName: translate(
+          'internal_material_replacement.column.startOfProduction'
+        ),
         editable: true,
         validationFn:
           ValidationHelper.validateDateFormatAndGreaterEqualThanToday,
       },
       {
         field: 'cutoverDate',
-        headerNameFn: () =>
-          translate('internal_material_replacement.column.cutoverDate', {}),
+        headerName: translate(
+          'internal_material_replacement.column.cutoverDate'
+        ),
         editable: true,
         validationFn:
           ValidationHelper.validateDateFormatAndGreaterEqualThanToday,
       },
       {
         field: 'replacementDate',
-        headerNameFn: () =>
-          translate('internal_material_replacement.column.replacementDate', {}),
+        headerName: translate(
+          'internal_material_replacement.column.replacementDate'
+        ),
         editable: true,
         validationFn:
           ValidationHelper.validateDateFormatAndGreaterEqualThanToday,
       },
       {
         field: 'note',
-        headerNameFn: () =>
-          translate('internal_material_replacement.column.note', {}),
+        headerName: translate('internal_material_replacement.column.note'),
         editable: true,
       },
     ];

@@ -409,6 +409,10 @@
       "expandAll": "déplier",
       "collapseAll": "replier"
     },
+    "button": {
+      "addCustomerMaterial": "Ajouter un article client",
+      "addMultipleCustomerMaterials": "Ajouter plusieurs articles de clients"
+    },
     "material_info_text": {
       "head_not_active": "Bouton de la chaîne de substitution n'est pas le matériau actif"
     },
@@ -459,7 +463,7 @@
       "EDIT_MODAL": "Traiter le matériel du client",
       "STATUS_TO_PHASE_IN": "Changement de statut en phase-in",
       "STATUS_TO_PHASE_OUT": "Changement de statut en phase-out",
-      "STATUS_TO_SUBSTITUTION": "Changement de statut en substitution(client)",
+      "STATUS_TO_SUBSTITUTION": "Changement de statut en substitution (client)",
       "STATUS_TO_INACTIVE": "Changement de statut en Inactif",
       "STATUS_TO_ACTIVE": "Changement de statut en Actif",
       "REVERT_SUBSTITUTION": "Annuler le substitution"

@@ -1,4 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
+import { of } from 'rxjs';
 
 import {
   createComponentFactory,
@@ -7,17 +10,18 @@ import {
 } from '@ngneat/spectator/jest';
 import { MockProvider } from 'ng-mocks';
 
-import { CustomerMaterialSingleAddModalComponent } from './customer-material-single-add-modal.component';
+import { CustomerMaterialSingleModalComponent } from './customer-material-single-modal.component';
 
-describe('CustomerMaterialSingleAddModalComponent', () => {
-  let spectator: Spectator<CustomerMaterialSingleAddModalComponent>;
+describe('CustomerMaterialSingleModalComponent', () => {
+  let spectator: Spectator<CustomerMaterialSingleModalComponent>;
   const createComponent = createComponentFactory({
-    component: CustomerMaterialSingleAddModalComponent,
+    component: CustomerMaterialSingleModalComponent,
     providers: [
       MockProvider(MAT_DIALOG_DATA, {
         customerNumber: '42',
       }),
-      mockProvider(MatDialogRef<CustomerMaterialSingleAddModalComponent>),
+      mockProvider(MatDialogRef<CustomerMaterialSingleModalComponent>),
+      mockProvider(HttpClient, { get: () => of({}) }),
     ],
   });
 

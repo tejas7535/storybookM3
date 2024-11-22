@@ -21,7 +21,7 @@ export interface CustomerMaterialNumbersDialogData {
 @Component({
   selector: 'd360-customer-material-numbers-modal',
   templateUrl: './customer-material-numbers-modal.component.html',
-  styleUrls: ['./customer-material-numbers-modal.component.css'],
+  styleUrls: ['./customer-material-numbers-modal.component.scss'],
   standalone: true,
   imports: [
     MatIconModule,

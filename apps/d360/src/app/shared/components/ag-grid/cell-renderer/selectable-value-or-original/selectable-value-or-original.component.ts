@@ -6,7 +6,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ICellRendererParams } from 'ag-grid-community';
 
-import { SelectableValue } from '../../../inputs/autocomplete/selectable-values.utils';
+import {
+  SelectableValue,
+  SelectableValueUtils,
+} from '../../../inputs/autocomplete/selectable-values.utils';
 import { DisplayFunctions } from '../../../inputs/display-functions.utils';
 import { AbstractBaseCellRendererComponent } from '../abstract-cell-renderer.component';
 
@@ -51,9 +54,18 @@ export class SelectableValueOrOriginalCellRendererComponent<
       return;
     }
 
-    const foundValue = (params?.options || []).find((option) =>
+    let foundValue = (params?.options || []).find((option) =>
       DisplayFunctions.displayFnUnited(option).includes(value)
     );
+
+    // Fallback
+    if (
+      !params?.options &&
+      !foundValue &&
+      SelectableValueUtils.isSelectableValue(params.value)
+    ) {
+      foundValue = params.value;
+    }
 
     if (foundValue) {
       this.value = getLabel(foundValue);

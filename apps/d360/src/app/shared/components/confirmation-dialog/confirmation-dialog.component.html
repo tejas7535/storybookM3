@@ -1,0 +1,30 @@
+<ng-container *transloco="let t">
+  <!-- dialog content -->
+  <mat-dialog-content>
+    <!-- title, if exists -->
+    @if (data?.title) {
+      <h3 class="text-title-large">{{ t(data.title) }}</h3>
+    }
+
+    <!-- description -->
+    <p>{{ t(data.description) }}</p>
+
+    <!-- hint -->
+    @if (data?.hint) {
+      <div class="text-body-small mt-2">{{ t(data.hint) }}</div>
+    }
+  </mat-dialog-content>
+
+  <!-- buttons -->
+  <mat-dialog-actions>
+    <!-- button no -->
+    <button mat-button mat-dialog-close (click)="onClick(false)">
+      {{ t(data?.buttonNo || 'button.no') }}
+    </button>
+
+    <!-- button yes -->
+    <button mat-flat-button (click)="onClick(true)">
+      {{ t(data?.buttonYes || 'button.yes') }}
+    </button>
+  </mat-dialog-actions>
+</ng-container>

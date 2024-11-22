@@ -13,6 +13,7 @@ import {
 import { translate, TranslocoService } from '@jsverse/transloco';
 
 import { environment } from '../../../environments/environment';
+import { demandCharacteristicOptions } from '../../feature/material-customer/model';
 import {
   execIntervalOptions,
   whenOptions,
@@ -51,6 +52,7 @@ export interface OptionsTypes {
   stochoasticType: OptionsLoadingResult;
   interval: OptionsLoadingResult;
   execDay: OptionsLoadingResult;
+  demandCharacteristics: OptionsLoadingResult;
 }
 
 /**
@@ -177,22 +179,39 @@ export class SelectableOptionsService {
    * @memberof SelectableOptionsService
    */
   private setStatics(): void {
-    this._data.set('interval', {
-      options: execIntervalOptions.map((option) => ({
-        id: option,
-        text: translate(`alert_rules.edit_modal.label.interval.${option}`),
-      })),
-      loading: false,
-      loadingError: null,
-    });
+    const optionsData: {
+      key: keyof OptionsTypes;
+      options: string[];
+      translateKey: string;
+    }[] = [
+      {
+        key: 'interval',
+        options: execIntervalOptions,
+        translateKey: 'alert_rules.edit_modal.label.interval.',
+      },
+      {
+        key: 'execDay',
+        options: whenOptions,
+        translateKey: 'alert_rules.edit_modal.label.when.',
+      },
+      {
+        key: 'demandCharacteristics',
+        options: demandCharacteristicOptions,
+        translateKey: 'field.demandCharacteristic.value.',
+      },
+    ];
 
-    this._data.set('execDay', {
-      options: whenOptions.map((option) => ({
+    optionsData.forEach((data) => {
+      const optionsWithText = data.options.map((option) => ({
         id: option,
-        text: translate(`alert_rules.edit_modal.label.when.${option}`),
-      })),
-      loading: false,
-      loadingError: null,
+        text: translate(`${data.translateKey}${option}`),
+      }));
+
+      this._data.set(data.key, {
+        options: optionsWithText,
+        loading: false,
+        loadingError: null,
+      });
     });
   }
 

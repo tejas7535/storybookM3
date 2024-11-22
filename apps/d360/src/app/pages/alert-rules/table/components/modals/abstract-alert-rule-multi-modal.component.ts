@@ -5,7 +5,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { lastValueFrom, Observable, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
-import { IRowNode } from 'ag-grid-community';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
+import { IRowNode, ValueFormatterParams } from 'ag-grid-community';
 
 import { valueParserForSelectableOptions } from '../../../../../feature/alert-rules/alert-rule-value-parser';
 import { AlertRulesService } from '../../../../../feature/alert-rules/alert-rules.service';
@@ -23,6 +24,7 @@ import {
   errorsFromSAPtoMessage,
   PostResult,
 } from '../../../../../shared/utils/error-handling';
+import { parseDateIfPossible } from '../../../../../shared/utils/parse-values';
 import { validateSelectableOptions } from '../../../../../shared/utils/validation/data-validation';
 import {
   validateCustomerNumber,
@@ -77,6 +79,17 @@ export abstract class AbstractAlertRuleMultiModalComponent
    */
   protected readonly alertRuleService: AlertRulesService =
     inject(AlertRulesService);
+
+  /**
+   * The TranslocoLocaleService instance.
+   *
+   * @protected
+   * @type {TranslocoLocaleService}
+   * @memberof AbstractAlertRuleMultiModalComponent
+   */
+  protected readonly translocoLocaleService: TranslocoLocaleService = inject(
+    TranslocoLocaleService
+  );
 
   /**
    * The available threshold requirements.
@@ -204,7 +217,8 @@ export abstract class AbstractAlertRuleMultiModalComponent
     this.optionsService.get('gkam'),
     this.optionsService.get('productLine'),
     this.optionsService.get('interval'),
-    this.optionsService.get('execDay')
+    this.optionsService.get('execDay'),
+    this.translocoLocaleService
   );
 
   /**
@@ -240,7 +254,7 @@ export abstract class AbstractAlertRuleMultiModalComponent
     return [
       {
         field: 'type',
-        headerNameFn: () => translate('alert_rules.edit_modal.label.type'),
+        headerName: translate('alert_rules.edit_modal.label.type'),
         valueParser: valueParserForSelectableOptions(options.alertType),
         editable: true,
         validationFn: validateSelectableOptions(options.alertType),
@@ -259,7 +273,7 @@ export abstract class AbstractAlertRuleMultiModalComponent
       },
       {
         field: 'region',
-        headerNameFn: () => translate('alert_rules.edit_modal.label.region'),
+        headerName: translate('alert_rules.edit_modal.label.region'),
         editable: true,
         valueParser: valueParserForSelectableOptions(options.region),
         validationFn: validateSelectableOptions(options.region),
@@ -268,8 +282,7 @@ export abstract class AbstractAlertRuleMultiModalComponent
       },
       {
         field: 'salesArea',
-        headerNameFn: () =>
-          translate('alert_rules.edit_modal.label.sales_area'),
+        headerName: translate('alert_rules.edit_modal.label.sales_area'),
         valueParser: valueParserForSelectableOptions(options.salesArea),
         editable: true,
         validationFn: validateSelectableOptions(options.salesArea),
@@ -281,7 +294,7 @@ export abstract class AbstractAlertRuleMultiModalComponent
       },
       {
         field: 'salesOrg',
-        headerNameFn: () => translate('alert_rules.edit_modal.label.sales_org'),
+        headerName: translate('alert_rules.edit_modal.label.sales_org'),
         valueParser: valueParserForSelectableOptions(options.salesOrg),
         editable: true,
         validationFn: validateSelectableOptions(options.salesOrg),
@@ -294,8 +307,7 @@ export abstract class AbstractAlertRuleMultiModalComponent
 
       {
         field: 'sectorManagement',
-        headerNameFn: () =>
-          translate('alert_rules.edit_modal.label.sector_management'),
+        headerName: translate('alert_rules.edit_modal.label.sector_management'),
         valueParser: valueParserForSelectableOptions(options.sectorManagement),
         editable: true,
         validationFn: validateSelectableOptions(options.sectorManagement),
@@ -308,8 +320,7 @@ export abstract class AbstractAlertRuleMultiModalComponent
 
       {
         field: 'demandPlannerId',
-        headerNameFn: () =>
-          translate('alert_rules.edit_modal.label.demandPlannerId'),
+        headerName: translate('alert_rules.edit_modal.label.demandPlannerId'),
         valueParser: valueParserForSelectableOptions(options.demandPlanner),
         editable: true,
         validationFn: validateSelectableOptions(options.demandPlanner),
@@ -321,8 +332,7 @@ export abstract class AbstractAlertRuleMultiModalComponent
       },
       {
         field: 'gkamNumber',
-        headerNameFn: () =>
-          translate('alert_rules.edit_modal.label.gkamNumber'),
+        headerName: translate('alert_rules.edit_modal.label.gkamNumber'),
         valueParser: valueParserForSelectableOptions(options.gkam),
         editable: true,
         validationFn: validateSelectableOptions(options.gkam),
@@ -334,7 +344,7 @@ export abstract class AbstractAlertRuleMultiModalComponent
       },
       {
         field: 'customerNumber',
-        headerNameFn: () => translate('alert_rules.multi_modal.customer'),
+        headerName: translate('alert_rules.multi_modal.customer'),
         editable: true,
         validationFn: ValidationHelper.condenseErrorsFromValidation(
           validateCustomerNumber
@@ -342,14 +352,14 @@ export abstract class AbstractAlertRuleMultiModalComponent
       },
       {
         field: 'materialClassification',
-        headerNameFn: () =>
-          translate('alert_rules.edit_modal.label.materialClassification'),
+        headerName: translate(
+          'alert_rules.edit_modal.label.materialClassification'
+        ),
         editable: true,
       },
       {
         field: 'productLine',
-        headerNameFn: () =>
-          translate('alert_rules.edit_modal.label.product_line'),
+        headerName: translate('alert_rules.edit_modal.label.product_line'),
         valueParser: valueParserForSelectableOptions(options.productLine),
         editable: true,
         validationFn: validateSelectableOptions(options.productLine),
@@ -361,13 +371,12 @@ export abstract class AbstractAlertRuleMultiModalComponent
       },
       {
         field: 'productionLine',
-        headerNameFn: () =>
-          translate('alert_rules.edit_modal.label.production_line'),
+        headerName: translate('alert_rules.edit_modal.label.production_line'),
         editable: true,
       },
       {
         field: 'materialNumber',
-        headerNameFn: () => translate('alert_rules.multi_modal.material'),
+        headerName: translate('alert_rules.multi_modal.material'),
         editable: true,
         validationFn: ValidationHelper.condenseErrorsFromValidation(
           validateMaterialNumber
@@ -375,36 +384,41 @@ export abstract class AbstractAlertRuleMultiModalComponent
       },
       {
         field: 'threshold1',
-        headerNameFn: () => translate('rules.threshold1'),
+        headerName: translate('rules.threshold1'),
         validationFn: (value: string, _rowData: IRowNode) =>
           ValidationHelper.detectLocaleAndValidateForLocalFloat(value),
         editable: true,
       },
       {
         field: 'threshold2',
-        headerNameFn: () => translate('rules.threshold2'),
+        headerName: translate('rules.threshold2'),
         validationFn: (value: string, _rowData: IRowNode) =>
           ValidationHelper.detectLocaleAndValidateForLocalFloat(value),
         editable: true,
       },
       {
         field: 'threshold3',
-        headerNameFn: () => translate('rules.threshold3'),
+        headerName: translate('rules.threshold3'),
         validationFn: (value: string, _rowData: IRowNode) =>
           ValidationHelper.detectLocaleAndValidateForLocalFloat(value),
         editable: true,
       },
       {
         field: 'startDate',
-        headerNameFn: () => translate('alert_rules.edit_modal.label.start'),
+        headerName: translate('alert_rules.edit_modal.label.start'),
         editable: true,
         validationFn:
           ValidationHelper.validateDateFormatAndGreaterEqualThanToday,
+        valueFormatter: (params: ValueFormatterParams) =>
+          params.value
+            ? parseDateIfPossible(params.value, this.translocoLocaleService)
+            : null,
       },
       {
         field: 'execInterval',
-        headerNameFn: () =>
-          translate('alert_rules.edit_modal.label.interval.rootString'),
+        headerName: translate(
+          'alert_rules.edit_modal.label.interval.rootString'
+        ),
         valueParser: valueParserForSelectableOptions(options.interval),
         editable: true,
         validationFn: validateSelectableOptions(options.interval),
@@ -416,8 +430,7 @@ export abstract class AbstractAlertRuleMultiModalComponent
       },
       {
         field: 'execDay',
-        headerNameFn: () =>
-          translate('alert_rules.edit_modal.label.when.rootString'),
+        headerName: translate('alert_rules.edit_modal.label.when.rootString'),
         valueParser: valueParserForSelectableOptions(options.execDay),
         editable: true,
         validationFn: validateSelectableOptions(options.execDay),
@@ -429,14 +442,18 @@ export abstract class AbstractAlertRuleMultiModalComponent
       },
       {
         field: 'endDate',
-        headerNameFn: () => translate('alert_rules.edit_modal.label.end'),
+        headerName: translate('alert_rules.edit_modal.label.end'),
         editable: true,
         validationFn:
           ValidationHelper.validateDateFormatAndGreaterEqualThanToday,
+        valueFormatter: (params: ValueFormatterParams) =>
+          params.value
+            ? parseDateIfPossible(params.value, this.translocoLocaleService)
+            : null,
       },
       {
         field: 'alertComment',
-        headerNameFn: () => translate('alert_rules.edit_modal.label.comment'),
+        headerName: translate('alert_rules.edit_modal.label.comment'),
         editable: true,
       },
     ];
