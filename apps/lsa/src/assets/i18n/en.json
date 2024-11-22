@@ -84,7 +84,7 @@
       "millilitre": "ml",
       "tempRange": "Temperature range",
       "voltage": "Operating voltage",
-      "dimensions": "Dimensions",
+      "dimensions": "Dimensions (mm)",
       "yes": "Yes",
       "no": "No",
       "heading": "Parts list for {{ designation }}",

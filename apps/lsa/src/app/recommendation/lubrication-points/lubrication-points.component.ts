@@ -124,7 +124,7 @@ export class LubricationPointsComponent {
     },
     {
       value: PipeLength.OneToThreeMeter,
-      name: translate(`${PIPE_LENGTH_PATH}.between`, { from: 0, to: 3 }),
+      name: translate(`${PIPE_LENGTH_PATH}.between`, { from: 1, to: 3 }),
     },
     {
       value: PipeLength.ThreeToFiveMeter,

@@ -7,7 +7,6 @@
 * see https://material.angular.io
 */
 @import 'libs/shared/ui/styles/src/lib/scss/m3-theme';
-
 /***************************************************************************************************
   * UTILITIES
   */
@@ -16,7 +15,6 @@
   * TailwindCSS, utility-first css framework
   * see https://tailwindcss.com/docs
   */
-@tailwind base;
 
 /*
  *  Officially nesting layers like this is not suported by tailwind and results in an error upon generation of the CSS files by PostCSS
@@ -28,10 +26,11 @@
  * ========
  */
 lubricator-selection-assistant {
+  @tailwind base;
   @tailwind components;
 }
-@tailwind utilities;
 
+@tailwind utilities;
 /*
  * Tailwind preflight modified with application scope only
  */
