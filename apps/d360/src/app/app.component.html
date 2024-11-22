@@ -8,15 +8,15 @@
   [userImageUrl]="profileImage$ | ngrxPush"
 >
   <ng-container sidenavBody>
-    <d360-user-settings></d360-user-settings>
+    <d360-user-settings />
   </ng-container>
 
   <ng-container mainContent>
     <div class="h-full w-full">
       @if (isTabNavigationVisible$ | ngrxPush) {
-        <d360-tab-bar-navigation></d360-tab-bar-navigation>
+        <d360-tab-bar-navigation [activeUrl]="activeUrl()" />
       } @else {
-        <router-outlet></router-outlet>
+        <router-outlet />
       }
     </div>
   </ng-container>
