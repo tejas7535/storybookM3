@@ -30,6 +30,7 @@ import { environment } from '@lsa/environments/environment';
 import {
   Accessory,
   ErrorResponse,
+  Lubricator,
   Page,
   RecommendationForm,
   RecommendationResponse,
@@ -172,8 +173,21 @@ export class RecommendationContainerComponent implements OnDestroy, OnInit {
       );
     };
 
+    const recommendedLubricator =
+      this.getRecommendedLubricatorCopy(recommendation);
+
     const updatedRecommendation = {
       ...recommendation,
+      lubricators: {
+        ...recommendation.lubricators,
+        minimumRequiredLubricator: {
+          ...recommendation.lubricators.minimumRequiredLubricator,
+          bundle: [
+            ...recommendation.lubricators.minimumRequiredLubricator.bundle,
+          ],
+        },
+        recommendedLubricator,
+      },
     };
 
     if (updatedRecommendation.lubricators.minimumRequiredLubricator) {
@@ -188,6 +202,21 @@ export class RecommendationContainerComponent implements OnDestroy, OnInit {
     }
 
     return updatedRecommendation;
+  }
+
+  private getRecommendedLubricatorCopy(
+    recommendation: RecommendationResponse
+  ): Lubricator | undefined {
+    let recommendedLubricator;
+
+    if (recommendation.lubricators.recommendedLubricator) {
+      recommendedLubricator = {
+        ...recommendation.lubricators.recommendedLubricator,
+        bundle: [...recommendation.lubricators.recommendedLubricator.bundle],
+      } as Lubricator;
+    }
+
+    return recommendedLubricator;
   }
 
   private updateItemProperties(
