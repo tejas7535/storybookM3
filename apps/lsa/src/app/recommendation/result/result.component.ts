@@ -2,6 +2,7 @@ import {
   Component,
   Input,
   OnChanges,
+  OnInit,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -53,7 +54,7 @@ import { RecommendationTableComponent } from './recommendation-table/recommendat
   ],
   templateUrl: './result.component.html',
 })
-export class ResultComponent implements OnChanges {
+export class ResultComponent implements OnChanges, OnInit {
   @Input() recommendationResult: RecommendationResponse | ErrorResponse;
 
   @ViewChild(AccessoryTableComponent)
@@ -68,6 +69,12 @@ export class ResultComponent implements OnChanges {
     private readonly formService: LsaFormService,
     private readonly googleAnalyticsService: GoogleAnalyticsService
   ) {}
+
+  ngOnInit(): void {
+    if (this.validResult) {
+      this.logResultPageLoadEvent();
+    }
+  }
 
   onRecommendedSelectedChange(isRecommendedSelected: boolean): void {
     this.isRecommendedSelected = isRecommendedSelected;
@@ -85,9 +92,6 @@ export class ResultComponent implements OnChanges {
         !!this.recommendationResult.lubricators.recommendedLubricator;
       this.validResult = this.recommendationResult as RecommendationResponse;
       this.errorInstance = undefined;
-      this.isRecommendedSelected =
-        !!this.validResult.lubricators.recommendedLubricator;
-      this.logResultPageLoadEvent();
     }
   }
 

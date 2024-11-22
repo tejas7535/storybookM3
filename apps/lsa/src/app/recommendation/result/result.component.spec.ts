@@ -18,6 +18,10 @@ describe('ResultComponent', () => {
   let spectator: Spectator<ResultComponent>;
   let googleAnalyticsService: GoogleAnalyticsService;
 
+  const googleAnalyticsServiceMock = {
+    logEvent: jest.fn(),
+  };
+
   const createComponent = createComponentFactory({
     component: ResultComponent,
     imports: [
@@ -37,9 +41,7 @@ describe('ResultComponent', () => {
       },
       {
         provide: GoogleAnalyticsService,
-        useValue: {
-          logEvent: jest.fn(),
-        },
+        useValue: googleAnalyticsServiceMock,
       },
     ],
   });
@@ -121,20 +123,43 @@ describe('ResultComponent', () => {
         component.recommendationResult as RecommendationResponse
       );
       expect(component.isRecommendedSelected).toBeTruthy();
+    });
 
-      expect(googleAnalyticsService.logEvent).toHaveBeenCalledWith({
-        action: 'Step Load',
-        event: 'lsa_related_interaction',
-        min_prod: {
-          id: '001',
-          name: 'Test Lubricator',
-        },
-        recom_prod: {
-          id: '001',
-          name: 'Test Lubricator',
-        },
-        step: 4,
-        step_name: 'Result',
+    describe('when on init is called', () => {
+      describe('when validResult is defined', () => {
+        beforeEach(() => {
+          component.validResult = validResult;
+          component.ngOnInit();
+        });
+
+        it('should log result page load event', () => {
+          expect(googleAnalyticsService.logEvent).toHaveBeenCalledWith({
+            action: 'Step Load',
+            event: 'lsa_related_interaction',
+            min_prod: {
+              id: '001',
+              name: 'Test Lubricator',
+            },
+            recom_prod: {
+              id: '001',
+              name: 'Test Lubricator',
+            },
+            step: 4,
+            step_name: 'Result',
+          });
+        });
+      });
+
+      describe('when validResult is udefined', () => {
+        beforeEach(() => {
+          googleAnalyticsServiceMock.logEvent.mockReset();
+          component.validResult = undefined;
+          component.ngOnInit();
+        });
+
+        it('should not log result page load event', () => {
+          expect(googleAnalyticsService.logEvent).not.toBeCalled();
+        });
       });
     });
 
