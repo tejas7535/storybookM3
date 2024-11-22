@@ -38,7 +38,7 @@ import {
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
 @Injectable()
 export class ReasonsAndCounterMeasuresEffects {
-  readonly REASONS_AND_COUNTER_MEASURES_URL = `/${AppRoutePath.ReasonsAndCounterMeasuresPath}`;
+  readonly REASONS_AND_COUNTER_MEASURES_URL = `/${AppRoutePath.ReasonsForLeavingPath}`;
 
   filterChange$ = createEffect(() =>
     this.actions$.pipe(

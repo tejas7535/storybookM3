@@ -169,7 +169,7 @@ export const getComparedReasonsChildren = createSelector(
           ? utils.filterTopReasons(data.reasons)
           : data.reasons;
 
-      return data ? utils.mapReasonsToChildren(reasons) : [];
+      return data?.reasons ? utils.mapReasonsToChildren(reasons) : [];
     } else {
       return [];
     }

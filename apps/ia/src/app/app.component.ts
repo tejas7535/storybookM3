@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
     },
     {
       label: 'reasonsAndCounterMeasures',
-      path: AppRoutePath.ReasonsAndCounterMeasuresPath,
+      path: AppRoutePath.ReasonsForLeavingPath,
       disabled: getEnv().environment === EnvironmentEnum.prod,
     },
     {

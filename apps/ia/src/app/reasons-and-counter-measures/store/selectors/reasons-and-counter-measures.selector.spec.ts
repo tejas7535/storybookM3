@@ -11,6 +11,7 @@ import {
   getCurrentTab,
   getLeaversByReasonData,
   getReasonsChartData,
+  getReasonsChildren,
   getReasonsLoading,
   getReasonsTableData,
 } from './reasons-and-counter-measures.selector';
@@ -198,6 +199,33 @@ describe('ReasonsAndCounterMeasures Selector', () => {
           name: 'Reason 1a',
           value: 1,
           percent: 50,
+        },
+      ]);
+    });
+  });
+
+  describe('getReasonsChildren', () => {
+    test('should return reasons children', () => {
+      expect(getReasonsChildren(fakeState)).toEqual([
+        {
+          reason: 'Reason 1',
+          children: [
+            {
+              name: 'Detailed Reason 1',
+              value: 1,
+              percent: 100,
+            },
+          ],
+        },
+        {
+          reason: 'Reason 1a',
+          children: [
+            {
+              name: 'Detailed Reason 1',
+              value: 1,
+              percent: 100,
+            },
+          ],
         },
       ]);
     });

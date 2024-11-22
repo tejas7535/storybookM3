@@ -30,6 +30,7 @@ import {
   getSelectedMomentTimeRange,
   getSelectedTimePeriod,
   getTimePeriods,
+  showBenchmarkFilter,
 } from '../core/store/selectors';
 import { DimensionFilterModule } from '../shared/dimension-filter/dimension-filter.module';
 import { DimensionFilterTranslation } from '../shared/dimension-filter/models';
@@ -116,6 +117,19 @@ describe('FilterSectionComponent', () => {
 
         m.expect(component.availableDimensions$).toBeObservable(
           m.cold('a', { a: expected })
+        );
+      })
+    );
+
+    test(
+      'should set showBenchmarkFilter',
+      marbles((m) => {
+        store.overrideSelector(showBenchmarkFilter, true);
+
+        component.ngOnInit();
+
+        m.expect(component.showBenchmarkFilter$).toBeObservable(
+          m.cold('a', { a: true })
         );
       })
     );

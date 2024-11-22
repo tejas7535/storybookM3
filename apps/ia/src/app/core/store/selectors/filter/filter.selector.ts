@@ -3,6 +3,7 @@ import { RouterReducerState } from '@ngrx/router-store';
 import { createSelector } from '@ngrx/store';
 import moment from 'moment';
 
+import { AppRoutePath } from '../../../../app-route-path.enum';
 import {
   DATA_IMPORT_DAY,
   DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS,
@@ -25,6 +26,13 @@ import {
   FilterState,
   selectAllSelectedFilters,
 } from '../../reducers/filter/filter.reducer';
+
+export const showBenchmarkFilter = createSelector(
+  selectRouterState,
+  (router: RouterReducerState<RouterStateUrl>) =>
+    `/${AppRoutePath.OverviewPath}` === router?.state.url ||
+    `/${AppRoutePath.ReasonsForLeavingPath}` === router?.state.url
+);
 
 export const getSelectedDimension = createSelector(
   selectFilterState,

@@ -1,3 +1,4 @@
+import { AppRoutePath } from '../../../../app-route-path.enum';
 import {
   EmployeesRequest,
   FilterDimension,
@@ -33,6 +34,7 @@ import {
   getSelectedTimeRange,
   getTimePeriods,
   getTimeRangeForAllAvailableData,
+  showBenchmarkFilter,
 } from './filter.selector';
 
 describe('Filter Selector', () => {
@@ -94,10 +96,54 @@ describe('Filter Selector', () => {
     } as unknown as FilterState,
     router: {
       state: {
-        url: '/overview',
+        url: `/${AppRoutePath.OverviewPath}`,
       },
     },
   };
+
+  describe('shouldShowBenchmarkFilter', () => {
+    test('should return true when url overview', () => {
+      expect(showBenchmarkFilter(fakeState)).toBeTruthy();
+    });
+
+    test('should return true when url reasons for leaving', () => {
+      expect(
+        showBenchmarkFilter({
+          ...fakeState,
+          router: { state: { url: `/${AppRoutePath.ReasonsForLeavingPath}` } },
+        })
+      ).toBeTruthy();
+    });
+
+    test('should return false when url loss of skill', () => {
+      expect(
+        showBenchmarkFilter({
+          ...fakeState,
+          router: { state: { url: `/${AppRoutePath.LossOfSkillPath}` } },
+        })
+      ).toBeFalsy();
+    });
+
+    test('should return false when url drill down', () => {
+      expect(
+        showBenchmarkFilter({
+          ...fakeState,
+          router: { state: { url: `/${AppRoutePath.DrillDownPath}` } },
+        })
+      ).toBeFalsy();
+    });
+
+    test('should return false when url fluctuation analytics', () => {
+      expect(
+        showBenchmarkFilter({
+          ...fakeState,
+          router: {
+            state: { url: `/${AppRoutePath.FluctuationAnalyticsPath}` },
+          },
+        })
+      ).toBeFalsy();
+    });
+  });
 
   describe('getSelectedDimension', () => {
     test('should return selected dimension', () => {

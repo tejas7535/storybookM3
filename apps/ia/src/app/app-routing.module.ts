@@ -33,7 +33,7 @@ export const appRoutePaths: Routes = [
           ),
       },
       {
-        path: AppRoutePath.ReasonsAndCounterMeasuresPath,
+        path: AppRoutePath.ReasonsForLeavingPath,
         loadChildren: () =>
           import(
             './reasons-and-counter-measures/reasons-and-counter-measures.module'
