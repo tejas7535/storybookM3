@@ -1,5 +1,5 @@
 #!/usr/bin/env groovy
-@Library('adp-shared-library@1.51.0')
+@Library('adp-shared-library@1.43.0')
 
 // Imports
 import groovy.transform.Field
@@ -137,10 +137,8 @@ void defineIsPreReleaseTrigger(isMain) {
 
         if (isPreReleaseTrigger) {
             // throw error if pre-release branch already exists
-            withCredentials([usernamePassword(credentialsId: 'SVC_MONO_FRONTEND_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                def branchName = preReleaseBranchPrefix + params.RELEASE_SCOPE
-                verifyNonExistingBranch("${branchName}", "Pre release already in progress for ${params.RELEASE_SCOPE}")
-            }
+            def branchName = preReleaseBranchPrefix + params.RELEASE_SCOPE
+            verifyNonExistingBranch("${branchName}", "Pre release already in progress for ${params.RELEASE_SCOPE}")
         }
     }
 }
@@ -153,22 +151,23 @@ def defineIsHotfixTrigger() {
         if (isHotfixTrigger) {
             echo 'Verify hotfix and pre-release branches...'
             // throw error if hotfix-base branch or pre-release already exists
-            withCredentials([usernamePassword(credentialsId: 'SVC_MONO_FRONTEND_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                def preReleaseBranchName = preReleaseBranchPrefix + params.RELEASE_SCOPE
-                verifyNonExistingBranch("${preReleaseBranchName}", "Pre release already in progress for ${params.RELEASE_SCOPE}")
+            
+            def preReleaseBranchName = preReleaseBranchPrefix + params.RELEASE_SCOPE
+            verifyNonExistingBranch("${preReleaseBranchName}", "Pre release already in progress for ${params.RELEASE_SCOPE}")
 
-                def hotfixBaseBranchName = hotfixBaseBranchPrefix + env.RELEASE_SCOPE
-                verifyNonExistingBranch("${hotfixBaseBranchName}", "Hotfix base already exists for ${params.RELEASE_SCOPE}")
-            }
+            def hotfixBaseBranchName = hotfixBaseBranchPrefix + env.RELEASE_SCOPE
+            verifyNonExistingBranch("${hotfixBaseBranchName}", "Hotfix base already exists for ${params.RELEASE_SCOPE}")
         }
     }
 }
 
 def setupGitCredentials() {
-    sh(script: """
-      #!/bin/sh
-      git config --global credential.helper '!f() { sleep 1; echo "username=${env.GIT_USERNAME}"; echo "password=${env.GIT_PASSWORD}"; }; f'
-    """)
+    withCredentials([usernamePassword(credentialsId: 'SVC_MONO_FRONTEND_USER', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+        sh(script: """
+        #!/bin/sh
+        git config --global credential.helper '!f() { sleep 1; echo "username=${env.GIT_USERNAME}"; echo "password=${env.GIT_PASSWORD}"; }; f'
+        """)
+    }
 }
 
 def verifyNonExistingBranch(branchName, errorMsg) {
