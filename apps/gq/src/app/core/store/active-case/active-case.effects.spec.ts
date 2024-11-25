@@ -855,14 +855,14 @@ describe('ActiveCaseEffects', () => {
     );
 
     test(
-      'should do nothing on non sap quotations',
+      'should clear ApprovalCockpit data, when Quote is a non SAP Quote',
       marbles((m) => {
-        action = ActiveCaseActions.getSapSyncStatusSuccessFullyCompleted({
-          result: { sapId: undefined } as QuotationSapSyncStatusResult,
+        action = ActiveCaseActions.getQuotationSuccess({
+          item: { sapId: undefined } as Quotation,
         });
         actions$ = m.hot('-a', { a: action });
-
-        const expected = m.cold('-', {});
+        const result = ApprovalActions.clearApprovalCockpitData();
+        const expected = m.cold('-b', { b: result });
 
         m.expect(effects.getApprovalCockpitData$).toBeObservable(expected);
         m.flush();

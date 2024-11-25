@@ -424,12 +424,13 @@ export class ActiveCaseEffects {
           ? action.item.sapId
           : action.result.sapId;
       }),
-      filter((sapId) => sapId !== undefined),
       mergeMap((sapId) => [
-        ApprovalActions.getApprovalCockpitData({
-          sapId,
-          forceLoad: true,
-        }),
+        sapId === undefined
+          ? ApprovalActions.clearApprovalCockpitData()
+          : ApprovalActions.getApprovalCockpitData({
+              sapId,
+              forceLoad: true,
+            }),
       ])
     );
   });
