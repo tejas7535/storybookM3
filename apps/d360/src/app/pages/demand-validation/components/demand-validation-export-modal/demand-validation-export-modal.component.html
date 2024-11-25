@@ -1,0 +1,124 @@
+<div *transloco="let t">
+  <div mat-dialog-title class="m-0 pt-0">
+    <div class="flex">
+      <h2 class="text-title-large flex-auto">
+        {{ t('validation_of_demand.export_modal.title') }}
+      </h2>
+    </div>
+  </div>
+  <mat-dialog-content>
+    <!-- KPI Selection -->
+    <div class="flex flex-col">
+      <div class="pr-12">
+        <p class="text-body-large font-bold mb-3">
+          {{
+            t('validation_of_demand.export_modal.selected_customer_headline')
+          }}
+        </p>
+        <p class="text-body-large">
+          {{
+            t('validation_of_demand.export_modal.selected_customer', {
+              number: data.customerData.length
+            })
+          }}
+        </p>
+      </div>
+      <div class="flex flex-col">
+        <p class="text-body-large font-bold mt-3">
+          {{ t('validation_of_demand.export_modal.selected_kpis') }}
+        </p>
+        <form [formGroup]="kpiFormGroup">
+          <div class="flex flex-row mb-3">
+            <div class="flex flex-col gap-2 w-1/2">
+              <p class="text-body-large mt-3">
+                {{ t('planing_type.title.REQUESTED') }}
+              </p>
+
+              @for (
+                requestedToggleType of requestedToggleTypes;
+                track requestedToggleType
+              ) {
+                <mat-slide-toggle
+                  [hideIcon]="true"
+                  formControlName="{{ requestedToggleType }}"
+                >
+                  @if (requestedToggleType === 'currentDemandPlan') {
+                    {{ t('validation_of_demand.menu_item.demandPlan') }}
+                    / {{ t('validation_of_demand.menu_item.opAdjustment') }}
+                  } @else {
+                    {{
+                      t('validation_of_demand.menu_item.' + requestedToggleType)
+                    }}
+                  }
+                </mat-slide-toggle>
+              }
+            </div>
+
+            <!-- Confirmed KPIs -->
+            <div class="flex flex-col gap-2 w-1/2">
+              <p class="text-body-large mt-3">
+                {{ t('planing_type.title.CONFIRMED') }}
+              </p>
+
+              @for (
+                confirmedToggleType of confirmedToggleTypes;
+                track confirmedToggleType
+              ) {
+                <mat-slide-toggle
+                  [hideIcon]="true"
+                  formControlName="{{ confirmedToggleType }}"
+                >
+                  {{ translateConfirmedToggleType(confirmedToggleType) }}
+                </mat-slide-toggle>
+              }
+            </div>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <!-- Additional Options -->
+          <div class="flex flex-col gap-2 mt-3">
+            <mat-slide-toggle
+              [hideIcon]="true"
+              formControlName="activeAndPredecessor"
+            >
+              {{ t('validation_of_demand.menu_item.activeAndPredecessor') }}
+            </mat-slide-toggle>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div>
+      <div class="pt-5">
+        <p class="text-body-large font-bold">
+          {{ t('validation_of_demand.export_modal.date_headline') }}
+        </p>
+
+        <d360-demand-validation-date-picker
+          [formGroup]="dateSelectionFormGroup"
+          [startDatePeriod1]="dateSelectionFormGroup.controls.startDatePeriod1"
+          [endDatePeriod1]="dateSelectionFormGroup.controls.endDatePeriod1"
+          [periodType1]="dateSelectionFormGroup.controls.periodType1"
+          [startDatePeriod2]="dateSelectionFormGroup.controls.startDatePeriod2"
+          [endDatePeriod2]="dateSelectionFormGroup.controls.endDatePeriod2"
+          [periodType2]="dateSelectionFormGroup.controls.periodType2"
+          [periodTypes]="periodTypeOptions"
+        ></d360-demand-validation-date-picker>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="gap-3">
+    <button (click)="onClose()" mat-button>
+      {{ t('button.close') }}
+    </button>
+    <button
+      mat-flat-button
+      (click)="handleExcelExport()"
+      [disabled]="demandValidationDatePickerHasError()"
+    >
+      {{ t('validation_of_demand.export_modal.button_export') }}
+    </button>
+  </mat-dialog-actions>
+</div>

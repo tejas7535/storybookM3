@@ -6,7 +6,8 @@
     'flex-col': true,
     'overflow-visible': visible,
     'overflow-hidden': !visible,
-    'mr-2.5': true
+    'mr-2.5': true,
+    'h-full': true
   }"
   [ngStyle]="{
     'flex-basis': visible ? '730px' : '0%',
@@ -22,7 +23,7 @@
   <d360-styled-grid-section>
     <ag-grid-angular
       #demandValidationMaterialListTable
-      class="ag-theme-material"
+      class="ag-theme-material grow"
       [gridOptions]="gridOptions"
       (gridReady)="onGridReady($event)"
       (cellClicked)="onCellClicked($event)"

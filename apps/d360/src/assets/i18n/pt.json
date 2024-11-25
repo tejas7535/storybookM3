@@ -18,7 +18,8 @@
     "delete": "Excluir",
     "yes": "Sim",
     "no": "Não",
-    "change": "Mudança"
+    "change": "Mudança",
+    "download": "Download"
   },
   "error": {
     "unknown": "Erro desconhecido",
@@ -201,6 +202,10 @@
     "customer": "Cliente",
     "title": "Validação da demanda",
     "vkorg": "Organização de vendas",
+    "action_bar": {
+      "edit_as_list": "Editar como Lista",
+      "edit_as_grid": "Editar como Grade"
+    },
     "filter": {
       "rootString": "Filtro ({{count}})",
       "customerMaterialNumber": "Número do material do cliente",

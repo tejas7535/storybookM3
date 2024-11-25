@@ -192,3 +192,13 @@ export interface DemandMaterialCustomerRequest {
   endRow: number;
   sortModel: object[];
 }
+
+export const SUPPLY_CONCEPT_SUPPORTED_STOCHASTIC_TYPES = [
+  'C',
+  'E',
+  'F',
+  'S',
+  'U',
+  'M',
+  'N',
+] as const;

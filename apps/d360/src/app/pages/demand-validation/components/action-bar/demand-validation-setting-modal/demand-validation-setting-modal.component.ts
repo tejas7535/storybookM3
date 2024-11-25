@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -33,10 +33,10 @@ import { PlanningView } from '../../../../../feature/demand-validation/planning-
   styleUrl: './demand-validation-setting-modal.component.scss',
 })
 export class DemandValidationSettingModalComponent {
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: PlanningView,
-    public dialogRef: MatDialogRef<DemandValidationSettingModalComponent>
-  ) {}
+  protected data = inject(MAT_DIALOG_DATA);
+  private readonly dialogRef = inject(
+    MatDialogRef<DemandValidationSettingModalComponent>
+  );
 
   handleSave() {
     this.dialogRef.close(this.data);

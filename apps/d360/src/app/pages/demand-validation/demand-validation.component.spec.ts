@@ -5,6 +5,10 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { GlobalSelectionHelperService } from '../../feature/global-selection/global-selection.service';
 import { DemandValidationComponent } from './demand-validation.component';
 
+jest.mock('@jsverse/transloco', () => ({
+  translate: jest.fn((key, _) => `${key} mocked`),
+}));
+
 describe('DemandValidationComponent', () => {
   let component: DemandValidationComponent;
   let spectator: Spectator<DemandValidationComponent>;

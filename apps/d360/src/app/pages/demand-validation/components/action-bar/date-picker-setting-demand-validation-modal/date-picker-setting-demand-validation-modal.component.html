@@ -8,8 +8,14 @@
   <mat-dialog-content>
     <div class="wrapper">
       <d360-demand-validation-date-picker
-        [controls]="dateControls"
-        [periodTypes]="periodTypes"
+        [formGroup]="formGroup"
+        [startDatePeriod1]="formGroup.controls.startDatePeriod1"
+        [endDatePeriod1]="formGroup.controls.endDatePeriod1"
+        [periodType1]="formGroup.controls.periodType1"
+        [startDatePeriod2]="formGroup.controls.startDatePeriod2"
+        [endDatePeriod2]="formGroup.controls.endDatePeriod2"
+        [periodType2]="formGroup.controls.periodType2"
+        [periodTypes]="defaultPeriodTypes"
       ></d360-demand-validation-date-picker>
     </div>
   </mat-dialog-content>

@@ -5,3 +5,8 @@
   border-top: 3px solid #e2e2e2;
   margin-top: 20px;
 }
+
+:host {
+  @apply flex;
+  @apply h-full;
+}

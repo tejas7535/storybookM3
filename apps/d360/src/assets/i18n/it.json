@@ -18,7 +18,8 @@
     "delete": "Cancellare",
     "yes": "Sì",
     "no": "No",
-    "change": "Cambiamento"
+    "change": "Cambiamento",
+    "download": "Scarica"
   },
   "error": {
     "unknown": "Errore sconosciuto",
@@ -201,6 +202,10 @@
     "customer": "Cliente",
     "title": "Visualizzazione del Fabbisogno in pezzi",
     "vkorg": "Organizzazione Commerciale",
+    "action_bar": {
+      "edit_as_list": "Modifica come Lista",
+      "edit_as_grid": "Modifica come Griglia"
+    },
     "filter": {
       "rootString": "Filtro ({{count}})",
       "customerMaterialNumber": "Numero di materiale del cliente",

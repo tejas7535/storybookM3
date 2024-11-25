@@ -27,7 +27,8 @@
     "delete": "Delete",
     "yes": "Yes",
     "no": "No",
-    "change": "Change"
+    "change": "Change",
+    "download": "Download"
   },
   "error": {
     "unknown": "Unknown error",
@@ -210,6 +211,10 @@
     "customer": "Customer",
     "title": "Validation of demand",
     "vkorg": "Sales Organisation",
+    "action_bar": {
+      "edit_as_list": "Edit as List",
+      "edit_as_grid": "Edit as Grid"
+    },
     "filter": {
       "rootString": "Filter ({{count}})",
       "customerMaterialNumber": "Customer material number",

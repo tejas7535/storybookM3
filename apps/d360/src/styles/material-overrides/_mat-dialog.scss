@@ -24,10 +24,15 @@
 
       &.customer-material-portfolio,
       &.alert-rule,
-      &.internal-material-replacement {
+      &.internal-material-replacement,
+      &.demand-validation-export {
         .mat-mdc-dialog-content {
           min-height: 300px;
         }
+      }
+
+      &.demand-validation-export {
+        min-width: 30vw;
       }
 
       &.customer-material-portfolio {

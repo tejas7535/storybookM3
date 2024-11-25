@@ -18,7 +18,8 @@
     "delete": "Supprimer",
     "yes": "Oui",
     "no": "Non",
-    "change": "Modifier"
+    "change": "Modifier",
+    "download": "Télécharger"
   },
   "error": {
     "unknown": "Erreur non Connu",
@@ -201,6 +202,10 @@
     "customer": "Client",
     "title": "Validation des besoins",
     "vkorg": "Organisations commerciales",
+    "action_bar": {
+      "edit_as_list": "Éditer en Liste",
+      "edit_as_grid": "Éditer en Grille"
+    },
     "filter": {
       "rootString": "Filtre ({{count}})",
       "customerMaterialNumber": "Numéro d'article du client",

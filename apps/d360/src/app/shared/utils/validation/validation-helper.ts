@@ -286,7 +286,9 @@ export class ValidationHelper {
 
   public static getStartEndDateValidationErrors(
     formGroup: FormGroup,
-    touchFields: boolean = false
+    touchFields: boolean = false,
+    startDateControlName: string = 'startDate',
+    endDateControlName: string = 'endDate'
   ) {
     const errors: { [key: string]: string[] } = {};
 
@@ -296,15 +298,17 @@ export class ValidationHelper {
     }
 
     // start- / endDate
-    const startDate = formGroup.get('startDate')?.value;
-    const endDate = formGroup.get('endDate')?.value;
+    const startDate = formGroup.get(startDateControlName)?.value;
+    const endDate = formGroup.get(endDateControlName)?.value;
 
     if (startDate && endDate && startDate > endDate) {
-      formGroup.get('endDate').setErrors({ toDateAfterFromDate: true });
+      formGroup
+        .get(endDateControlName)
+        .setErrors({ toDateAfterFromDate: true });
       errors.endDate = ['end-before-start'];
     } else {
       // we set the error manually, so we also need to clean up manually ;)
-      let fieldErrors = formGroup.get('endDate').errors;
+      let fieldErrors = formGroup.get(endDateControlName).errors;
       if (fieldErrors?.['toDateAfterFromDate']) {
         delete fieldErrors['toDateAfterFromDate'];
 
@@ -315,7 +319,7 @@ export class ValidationHelper {
       }
 
       // set the new error state
-      formGroup.get('endDate').setErrors(fieldErrors);
+      formGroup.get(endDateControlName).setErrors(fieldErrors);
     }
 
     return Object.keys(errors).length > 0 ? errors : null;

@@ -10,6 +10,10 @@ import { MockComponent, MockProvider } from 'ng-mocks';
 import { DemandValidationDatePickerComponent } from '../../demand-validation-date-picker/demand-validation-date-picker.component';
 import { DatePickerSettingDemandValidationModalComponent } from './date-picker-setting-demand-validation-modal.component';
 
+jest.mock('@jsverse/transloco', () => ({
+  translate: jest.fn((key, _) => `${key} mocked`),
+}));
+
 describe('DatePickerSettingDemandValidationModalComponent', () => {
   let spectator: Spectator<DatePickerSettingDemandValidationModalComponent>;
 

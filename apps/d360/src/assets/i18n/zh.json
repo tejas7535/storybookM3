@@ -18,7 +18,8 @@
     "delete": "删除",
     "yes": "是",
     "no": "不",
-    "change": "变更"
+    "change": "变更",
+    "download": "下载"
   },
   "error": {
     "unknown": "未知错误",
@@ -201,6 +202,10 @@
     "customer": "客户",
     "title": "需求验证",
     "vkorg": "销售组织",
+    "action_bar": {
+      "edit_as_list": "以列表编辑",
+      "edit_as_grid": "以网格编辑"
+    },
     "filter": {
       "rootString": "过滤器 ({{count}})",
       "customerMaterialNumber": "客户物料号",

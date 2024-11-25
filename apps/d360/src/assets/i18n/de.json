@@ -27,7 +27,8 @@
     "delete": "Löschen",
     "yes": "Ja",
     "no": "Nein",
-    "change": "Ändern"
+    "change": "Ändern",
+    "download": "Download"
   },
   "error": {
     "unknown": "Unbekannter Fehler",
@@ -210,6 +211,10 @@
     "customer": "Kunde",
     "title": "Validierung Absatzplanung",
     "vkorg": "Verkaufsorganisation",
+    "action_bar": {
+      "edit_as_list": "Als Liste bearbeiten",
+      "edit_as_grid": "Als Grid bearbeiten"
+    },
     "filter": {
       "rootString": "Filter ({{count}})",
       "customerMaterialNumber": "Kundenmaterialnummer",
