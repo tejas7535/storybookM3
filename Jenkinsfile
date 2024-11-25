@@ -1,5 +1,5 @@
 #!/usr/bin/env groovy
-@Library('adp-shared-library@1.51.0')
+@Library('adp-shared-library@1.43.0')
 
 // Imports
 import groovy.transform.Field
