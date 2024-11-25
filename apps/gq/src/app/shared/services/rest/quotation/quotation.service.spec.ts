@@ -8,6 +8,7 @@ import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab
 import { CreateCase, SalesIndication } from '@gq/core/store/reducers/models';
 import {
   ApiVersion,
+  CustomerId,
   QuotationStatus,
   SAP_SYNC_STATUS,
 } from '@gq/shared/models';
@@ -20,6 +21,7 @@ import {
 
 import { CUSTOMER_MOCK } from '../../../../../testing/mocks';
 import { CreateCustomerCase } from '../search/models/create-customer-case.model';
+import { GetQuotationToDateResponse } from './models/get-quotation-to-date-response.interface';
 import { QuotationPaths } from './models/quotation-paths.enum';
 import { ShipToParty } from './models/ship-to-party';
 import { UpdateQuotationRequest } from './models/update-quotation-request.model';
@@ -320,6 +322,43 @@ describe('QuotationService', () => {
         `${ApiVersion.V1}/${QuotationPaths.OFFER_TYPES}`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
+    });
+  });
+
+  describe('getQuotationToDateForCaseCreation', () => {
+    test('should call the service', () => {
+      const customerId: CustomerId = {
+        customerId: '12345',
+        salesOrg: '0615',
+      };
+
+      service
+        .getQuotationToDateForCaseCreation(customerId)
+        .subscribe((res) => expect(res).toBeTruthy());
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${QuotationPaths.QUOTATION_TO_DATE}`
+      );
+
+      expect(req.request.method).toBe(HttpMethod.POST);
+      req.flush('a string');
+    });
+
+    test('should map the response', () => {
+      const customerId: CustomerId = {
+        customerId: '12345',
+        salesOrg: '0615',
+      };
+      const todayDate = '2014-01-01T15:13:15.112Z';
+      const response: GetQuotationToDateResponse = { extendedDate: todayDate };
+
+      service
+        .getQuotationToDateForCaseCreation(customerId)
+        .subscribe((res) => expect(res).toBe(todayDate));
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${QuotationPaths.QUOTATION_TO_DATE}`
+      );
+
+      req.flush(response);
     });
   });
 });

@@ -46,6 +46,7 @@ class TestCaseHeaderInformationComponent
   }
   reset(): void {}
   isEditMode = false;
+  quotationToChangedByUser = false;
 
   ngOnInit(): void {
     this.headerInfoForm = new FormGroup({
@@ -404,16 +405,11 @@ describe('CaseHeaderInformationComponent', () => {
       );
       component.headerInfoForm.controls.quotationToDate.updateValueAndValidity =
         jest.fn();
-      component.headerInfoForm.controls.quotationToDate.markAsTouched =
-        jest.fn();
 
       component['validateInquiryDateDependentDates']();
 
       expect(
         component.headerInfoForm.controls.quotationToDate.updateValueAndValidity
-      ).toHaveBeenCalled();
-      expect(
-        component.headerInfoForm.controls.quotationToDate.markAsTouched
       ).toHaveBeenCalled();
     });
   });

@@ -4,6 +4,7 @@ import { combineLatest, map, Observable } from 'rxjs';
 
 import { CustomerId } from '@gq/shared/models/customer/customer-ids.model';
 import { MaterialTableItem } from '@gq/shared/models/table/material-table-item-model';
+import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { Store } from '@ngrx/store';
 
 import {
@@ -38,6 +39,9 @@ export class CreateCaseFacade {
   private readonly store: Store = inject(Store);
   private readonly sectorGpsdFacade: SectorGpsdFacade =
     inject(SectorGpsdFacade);
+
+  private readonly quotationService: QuotationService =
+    inject(QuotationService);
 
   customerIdForCaseCreation$ = this.store.select(getSelectedCustomerId);
   customerSalesOrgs$ = this.store.select(getSalesOrgs);
@@ -91,5 +95,9 @@ export class CreateCaseFacade {
   updateCurrencyOfPositionItems(currency: string): void {
     this.store.dispatch(setRowDataCurrency({ currency }));
     this.store.dispatch(updateCurrencyOfPositionItems());
+  }
+
+  getQuotationToDate(customerId: CustomerId): Observable<string> {
+    return this.quotationService.getQuotationToDateForCaseCreation(customerId);
   }
 }

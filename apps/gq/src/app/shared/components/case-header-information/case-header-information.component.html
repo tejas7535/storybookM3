@@ -187,6 +187,7 @@
               matInput
               autocomplete="off"
               formControlName="quotationToDate"
+              [required]="true"
               [matDatepicker]="quotationToDatePicker"
               [attr.data-cy]="'case-header-information_quotation-to-date-input'"
             />
@@ -194,6 +195,13 @@
               ><mat-icon matDatepickerToggleIcon> calendar_today </mat-icon>
             </mat-datepicker-toggle>
             <mat-datepicker #quotationToDatePicker></mat-datepicker>
+            @if (headerInfoForm.get('quotationToDate')?.errors?.required) {
+              <mat-error>{{
+                t('requiredFieldValidationMessage', {
+                  field: t('quotationToDateLabel')
+                })
+              }}</mat-error>
+            }
             @if (
               headerInfoForm.get('quotationToDate')?.errors
                 ?.smallerThanInquiryDate

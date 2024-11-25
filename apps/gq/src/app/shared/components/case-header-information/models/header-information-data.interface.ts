@@ -13,6 +13,7 @@ export interface HeaderInformationData {
   partnerRoleType?: SectorGpsd;
   purchaseOrderType?: PurchaseOrderType;
   quotationToDate?: Moment;
+  quotationToManualInput?: boolean;
   requestedDeliveryDate?: Moment;
   shipToParty?: ShipToParty;
 }
