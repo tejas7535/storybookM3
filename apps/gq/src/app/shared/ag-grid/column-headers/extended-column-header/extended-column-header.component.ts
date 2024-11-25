@@ -105,9 +105,16 @@ export class ExtendedColumnHeaderComponent
           filter((newVal: string | undefined | null) => newVal !== undefined)
         )
         .subscribe((newVal: string | null) => {
+          let newValue = newVal;
+          // If the input value is a percentage, we need to convert it to the same format
+          // as BE returns percentage values (e.g. BE returns 49,45% as 0.4945)
+          if (this.params.isPercentageInputValue) {
+            newValue = (+newVal / 100).toString();
+          }
+
           this.updateMaterialSimulation(
             parseLocalizedInputValue(
-              newVal,
+              newValue,
               this.translocoLocaleService.getLocale()
             ) || 0
           );

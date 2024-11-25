@@ -12,6 +12,7 @@ import { of } from 'rxjs';
 import { getIsQuotationStatusActive } from '@gq/core/store/active-case/active-case.selectors';
 import { RolesFacade } from '@gq/core/store/facades/roles.facade';
 import { UserRoles } from '@gq/shared/constants';
+import * as miscUtils from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createComponentFactory,
@@ -897,6 +898,34 @@ describe('ExtendedColumnHeaderComponent', () => {
       const infoIcon = spectator.query('gq-info-icon');
 
       expect(infoIcon).toBeFalsy();
+    });
+  });
+
+  describe('editFormControl', () => {
+    test('should convert input value based on given input value type', () => {
+      component['translocoLocaleService'].getLocale = jest.fn(() => 'en');
+      component['updateMaterialSimulation'] = jest.fn();
+      component.addSubscriptions();
+      component.params = {
+        isPercentageInputValue: true,
+      } as ExtendedColumnHeaderComponentParams;
+
+      const spy = jest.spyOn(miscUtils, 'parseLocalizedInputValue');
+
+      component.editFormControl.setValue('3');
+      expect(spy).toHaveBeenCalledWith('0.03', 'en');
+    });
+
+    test('should not convert input value when input value type is not specified', () => {
+      component['translocoLocaleService'].getLocale = jest.fn(() => 'en');
+      component['updateMaterialSimulation'] = jest.fn();
+      component.addSubscriptions();
+      component.params = {} as ExtendedColumnHeaderComponentParams;
+
+      const spy = jest.spyOn(miscUtils, 'parseLocalizedInputValue');
+
+      component.editFormControl.setValue('3');
+      expect(spy).toHaveBeenCalledWith('3', 'en');
     });
   });
 });

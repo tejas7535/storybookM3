@@ -284,6 +284,7 @@ export class ColumnDefService {
           'shared.quotationDetailsTable.discountInfoText'
         ),
         editableColumn: true,
+        isPercentageInputValue: true,
       },
     },
     {
@@ -396,6 +397,7 @@ export class ColumnDefService {
           'shared.quotationDetailsTable.gpiInfoText'
         ),
         editableColumn: true,
+        isPercentageInputValue: true,
       },
     },
     {
@@ -415,6 +417,7 @@ export class ColumnDefService {
           'shared.quotationDetailsTable.gpmInfoText'
         ),
         editableColumn: true,
+        isPercentageInputValue: true,
       },
     },
     {
