@@ -54,7 +54,7 @@
       "priceInfoText": "Ausgewählter Nettopreis, der angeboten wird",
       "priceDiff": "Preisunterschied %",
       "priceDiffInfoText": "Nettopreis vs. Letzter Kundenpreis",
-      "priceDiffSAP": "Preisunterschied SAP %",
+      "priceDiffSAP": "SAP Preisunterschied %",
       "priceDiffSAPInfoText": "SAP Nettopreis vs. Letzter Kundenpreis",
       "gqRating": "GQ Rating",
       "gqRatingInfoText": "Zeigt die Verlässlichkeit des GQ Preises",
