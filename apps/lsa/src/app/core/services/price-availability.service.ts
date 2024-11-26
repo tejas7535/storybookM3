@@ -47,29 +47,52 @@ export class PriceAvailabilityService implements OnDestroy {
   }
 
   private handleRecommendationResponse(response: RecommendationResponse): void {
-    const minimumRequiredPimCodes = this.getLubricatorPimCodes(
-      response.lubricators.minimumRequiredLubricator
-    );
-    const recommendedPimCodes = this.getLubricatorPimCodes(
-      response.lubricators.recommendedLubricator
-    );
+    const { minimumRequiredLubricator, recommendedLubricator } =
+      response.lubricators;
 
-    const pimCodesSet = new Set<string>([
-      ...minimumRequiredPimCodes,
-      ...recommendedPimCodes,
+    const pimCodesWithNullQty = new Set<string>([
+      ...this.getLubricatorPimCodesWithNullQty(minimumRequiredLubricator),
+      ...this.getLubricatorPimCodesWithNullQty(recommendedLubricator),
     ]);
 
-    this.fetchPriceAndAvailability([...pimCodesSet]);
+    const pimCodesWithQty = new Set<string>([
+      ...this.getLubricatorPimCodesWithQty(minimumRequiredLubricator),
+      ...this.getLubricatorPimCodesWithQty(recommendedLubricator),
+    ]);
+
+    this.fetchPriceAndAvailability([...pimCodesWithQty]);
+
+    // cam be used to simulate delay from backend
+    // setTimeout(() => {
+    //   this.fetchPriceAndAvailability([...pimCodesWithNullQty]);
+    // }, 5000);
+
+    this.fetchPriceAndAvailability([...pimCodesWithNullQty]);
   }
 
-  private getLubricatorPimCodes(lubricator: Lubricator): Set<string> {
+  private getPimCodes(
+    lubricator: Lubricator,
+    filterQty: (qty: number) => boolean
+  ): Set<string> {
     const pimCodesSet = new Set<string>();
 
-    lubricator?.bundle.forEach((item) => {
-      pimCodesSet.add(item.pim_code);
-    });
+    lubricator?.bundle
+      .filter((item) => filterQty(item.qty))
+      .forEach((item) => {
+        pimCodesSet.add(item.pim_code);
+      });
 
     return pimCodesSet;
+  }
+
+  private getLubricatorPimCodesWithQty(lubricator: Lubricator): Set<string> {
+    return this.getPimCodes(lubricator, (qty) => qty > 0);
+  }
+
+  private getLubricatorPimCodesWithNullQty(
+    lubricator: Lubricator
+  ): Set<string> {
+    return this.getPimCodes(lubricator, (qty) => qty === 0);
   }
 
   private isRecommendationResponse(

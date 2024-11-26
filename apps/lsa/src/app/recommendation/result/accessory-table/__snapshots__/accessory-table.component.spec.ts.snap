@@ -29,3 +29,33 @@ Object {
   },
 }
 `;
+
+exports[`AccessoryTableComponent when setting priceAvailabiltyResponses should update accessory with price and availability 1`] = `
+Array [
+  Object {
+    "availability": true,
+    "class": "Adapter for lubricator",
+    "currency": "USD",
+    "id": 1,
+    "isPriceAndAvailabilityUpdated": true,
+    "matnr": "789666050000010",
+    "name": "Accessory 1",
+    "pim_code": "123456",
+    "price": 100,
+  },
+]
+`;
+
+exports[`AccessoryTableComponent when setting priceAvailabiltyResponses should update price and availability 1`] = `
+Object {
+  "123456": Object {
+    "available": true,
+    "currency": "USD",
+    "price": 100,
+  },
+  "7890321": Object {
+    "available": false,
+    "currency": "USD",
+  },
+}
+`;

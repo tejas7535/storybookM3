@@ -10,7 +10,7 @@
         <th>
           <span class="sr-only">{{ t('availability') }}</span>
         </th>
-        @if (shouldShowPriceColumn()) {
+        @if (isBusinessUser) {
           <th class="text-center">Price</th>
         }
         <th class="w-11 md:w-20">{{ t('quantity') }}</th>
@@ -25,7 +25,7 @@
           <th class="text-left">{{ group.value.groupTitle }}</th>
           <th>&nbsp;</th>
 
-          @if (shouldShowPriceColumn()) {
+          @if (isBusinessUser) {
             <th class="text-center">
               <span class="inline-block first-letter:pr-1">
                 {{
@@ -81,47 +81,107 @@
                 </div>
               </td>
               <td>
-                @if (item?.availability === true) {
-                  <div class="flex flex-col items-center space-y-1">
-                    <div class="aspect-square w-3 h-3 rounded-full bg-primary">
-                      <div class="sr-only">Availability indicator green</div>
+                @if (isBusinessUser) {
+                  @if (item?.availability === true) {
+                    <div class="flex flex-col items-center space-y-1">
+                      <div
+                        class="aspect-square w-3 h-3 rounded-full bg-primary"
+                      >
+                        <div class="sr-only">Availability indicator green</div>
+                      </div>
+                      <span
+                        class="text-body-small text-medium-emphasis text-center"
+                        >{{ t('inStock') }}</span
+                      >
                     </div>
-                    <span
-                      class="text-body-small text-medium-emphasis text-center"
-                      >{{ t('inStock') }}</span
-                    >
-                  </div>
-                }
+                  }
 
-                @if (item?.availability === false) {
-                  <div class="flex flex-col items-center space-y-1">
-                    <div
-                      class="aspect-square w-3 h-3 rounded-full bg-[#c1c0c0]"
-                    >
-                      <div class="sr-only">
-                        Availability indicator unavailable
+                  @if (item?.availability === false) {
+                    <div class="flex flex-col items-center space-y-1">
+                      <div
+                        class="aspect-square w-3 h-3 rounded-full bg-[#c1c0c0]"
+                      >
+                        <div class="sr-only">
+                          Availability indicator unavailable
+                        </div>
+                      </div>
+                      <span
+                        class="text-body-small text-medium-emphasis text-center"
+                        >{{ t('notInStock') }}</span
+                      >
+                    </div>
+                  }
+
+                  @if (!item.isPriceAndAvailabilityUpdated) {
+                    <div class="rounded-md p-4 max-w-sm w-full mx-auto">
+                      <div class="animate-pulse flex space-x-4">
+                        <div class="flex-1 space-y-6 py-1">
+                          <div class="space-y-3">
+                            <div class="flex flex-col gap-4">
+                              <div
+                                class="h-2 bg-surface-container-highest rounded col-span-2"
+                              ></div>
+                              <div
+                                class="h-2 bg-surface-container-highest rounded col-span-2"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <span
-                      class="text-body-small text-medium-emphasis text-center"
-                      >{{ t('notInStock') }}</span
-                    >
-                  </div>
+                  }
+
+                  @if (
+                    item.isPriceAndAvailabilityUpdated &&
+                    item?.availability === undefined
+                  ) {
+                    <div class="flex flex-col items-center space-y-1">-</div>
+                  }
                 }
               </td>
-              @if (shouldShowPriceColumn()) {
+              @if (isBusinessUser) {
                 <td>
                   <div class="text-center flex flex-col justify-center h-full">
-                    <span class="text-body-small text-medium inline-block">
-                      {{ item?.currency }}{{ item?.price }}
-                    </span>
-                    <span
-                      class="text-body-small mt-1 text=[12px] text-medium-emphasis"
-                      >per Piece</span
-                    >
+                    @if (item?.price !== null && item?.price !== undefined) {
+                      <span
+                        class="text-body-small text-medium inline-block first-letter:pr-1"
+                      >
+                        {{ item?.price | currency: currency }}
+                      </span>
+                      <span
+                        class="text-body-small mt-1 text=[12px] text-medium-emphasis"
+                        >per Piece</span
+                      >
+                    } @else if (!item.isPriceAndAvailabilityUpdated) {
+                      <div
+                        class="text-center flex flex-col justify-center h-full"
+                      >
+                        <div class="rounded-md p-4 max-w-sm w-full mx-auto">
+                          <div class="animate-pulse flex space-x-4">
+                            <div class="flex-1 space-y-6 py-1">
+                              <div class="space-y-3">
+                                <div class="flex flex-col gap-4">
+                                  <div
+                                    class="h-2 bg-surface-container-highest rounded col-span-2"
+                                  ></div>
+                                  <div
+                                    class="h-2 bg-surface-container-highest rounded col-span-2"
+                                  ></div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    } @else {
+                      <span class="text-body-small text-medium inline-block">
+                        -
+                      </span>
+                    }
                   </div>
                 </td>
               }
+
               <td colspan="2" class="px-2">
                 <div>
                   <span class="text-body-small">{{ t('pieces') }}</span>

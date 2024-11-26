@@ -55,6 +55,7 @@ export interface Accessory {
   currency?: string;
   availability?: boolean;
   attributes: { [key: string]: string | number };
+  isPriceAndAvailabilityUpdated?: boolean;
 }
 
 export interface AccessoryClassEntry {

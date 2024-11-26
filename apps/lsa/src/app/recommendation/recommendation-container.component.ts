@@ -11,7 +11,6 @@ import { FormGroup } from '@angular/forms';
 
 import {
   BehaviorSubject,
-  combineLatest,
   debounceTime,
   firstValueFrom,
   map,
@@ -28,14 +27,11 @@ import { RestService } from '@lsa/core/services/rest.service';
 import { ResultInputsService } from '@lsa/core/services/result-inputs.service';
 import { environment } from '@lsa/environments/environment';
 import {
-  Accessory,
   ErrorResponse,
-  Lubricator,
   Page,
   RecommendationForm,
   RecommendationResponse,
 } from '@lsa/shared/models';
-import { MediasCallbackResponse } from '@lsa/shared/models/price-availibility.model';
 import { ResultInputModel } from '@lsa/shared/models/result-inputs.model';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
@@ -93,16 +89,14 @@ export class RecommendationContainerComponent implements OnDestroy, OnInit {
   priceAvailability$ =
     this.priceAvailabilityService.priceAndAvailabilityResponse$;
 
-  recommendation$ = combineLatest([
-    this.restService.recommendation$,
-    this.priceAvailability$,
-  ]).pipe(
-    map(([recommendation, priceAndAvailability]) =>
-      this.updateRecommendationWithPriceAndAvailability(
-        recommendation,
-        priceAndAvailability
-      )
-    )
+  recommendation$ = this.restService.recommendation$.pipe(
+    map((recommendation) => {
+      if (this.isErrorResponse(recommendation)) {
+        return recommendation;
+      }
+
+      return recommendation;
+    })
   );
 
   public resultInputs: ResultInputModel;
@@ -157,78 +151,6 @@ export class RecommendationContainerComponent implements OnDestroy, OnInit {
 
   navigateToStep(step: number): void {
     this.stepper.selectStepByIndex(step);
-  }
-
-  private updateRecommendationWithPriceAndAvailability(
-    recommendation: RecommendationResponse | ErrorResponse,
-    mediasCallbackResponse: MediasCallbackResponse
-  ): RecommendationResponse | ErrorResponse {
-    if (!mediasCallbackResponse || this.isErrorResponse(recommendation)) {
-      return recommendation;
-    }
-
-    const updateItems = (items: Accessory[]) => {
-      items.forEach((item) =>
-        this.updateItemProperties(item, mediasCallbackResponse)
-      );
-    };
-
-    const recommendedLubricator =
-      this.getRecommendedLubricatorCopy(recommendation);
-
-    const updatedRecommendation = {
-      ...recommendation,
-      lubricators: {
-        ...recommendation.lubricators,
-        minimumRequiredLubricator: {
-          ...recommendation.lubricators.minimumRequiredLubricator,
-          bundle: [
-            ...recommendation.lubricators.minimumRequiredLubricator.bundle,
-          ],
-        },
-        recommendedLubricator,
-      },
-    };
-
-    if (updatedRecommendation.lubricators.minimumRequiredLubricator) {
-      updateItems(
-        updatedRecommendation.lubricators.minimumRequiredLubricator.bundle
-      );
-    }
-    if (updatedRecommendation.lubricators.recommendedLubricator) {
-      updateItems(
-        updatedRecommendation.lubricators.recommendedLubricator.bundle
-      );
-    }
-
-    return updatedRecommendation;
-  }
-
-  private getRecommendedLubricatorCopy(
-    recommendation: RecommendationResponse
-  ): Lubricator | undefined {
-    let recommendedLubricator;
-
-    if (recommendation.lubricators.recommendedLubricator) {
-      recommendedLubricator = {
-        ...recommendation.lubricators.recommendedLubricator,
-        bundle: [...recommendation.lubricators.recommendedLubricator.bundle],
-      } as Lubricator;
-    }
-
-    return recommendedLubricator;
-  }
-
-  private updateItemProperties(
-    accessory: Accessory,
-    response: MediasCallbackResponse
-  ) {
-    const responseItem = response.items[accessory.pim_code];
-    if (responseItem) {
-      accessory.price = responseItem.price ?? accessory.price;
-      accessory.currency = responseItem.currency ?? accessory.currency;
-      accessory.availability = responseItem.available ?? accessory.availability;
-    }
   }
 
   private isErrorResponse(

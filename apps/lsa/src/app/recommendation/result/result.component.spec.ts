@@ -1,3 +1,5 @@
+import { SimpleChanges } from '@angular/core';
+
 import { AddToCartService } from '@lsa/core/services/add-to-cart.service';
 import { GoogleAnalyticsService } from '@lsa/core/services/google-analytics';
 import { Lubricator, RecommendationResponse } from '@lsa/shared/models';
@@ -37,6 +39,7 @@ describe('ResultComponent', () => {
         provide: AddToCartService,
         useValue: {
           addToCartEvent: jest.fn(),
+          getUserTier: jest.fn(),
         },
       },
       {
@@ -99,7 +102,15 @@ describe('ResultComponent', () => {
         name: 'Error',
       } as Partial<RecommendationResponse> as RecommendationResponse;
 
-      component.ngOnChanges({});
+      const simpleChanges: SimpleChanges = {
+        recommendationResult: {
+          currentValue: component.recommendationResult,
+          firstChange: false,
+          previousValue: component.recommendationResult,
+          isFirstChange: () => false,
+        },
+      };
+      component.ngOnChanges(simpleChanges);
 
       expect(component.errorInstance).toEqual(
         component.recommendationResult as RecommendationResponse
@@ -116,8 +127,11 @@ describe('ResultComponent', () => {
 
     it('should set validResult when name is not in recommendationResult', () => {
       component.recommendationResult = validResult;
+      const changes: SimpleChanges = {
+        recommendationResult: {},
+      } as unknown as Partial<SimpleChanges> as SimpleChanges;
 
-      component.ngOnChanges({});
+      component.ngOnChanges(changes);
 
       expect(component.validResult).toEqual(
         component.recommendationResult as RecommendationResponse
@@ -207,6 +221,26 @@ describe('ResultComponent', () => {
         step: 4,
         step_name: 'Result',
       });
+    });
+  });
+
+  describe('when setting price and availability responses multiple times', () => {
+    it('should set price and availability responses as an combined result', () => {
+      spectator.setInput('priceAndAvailabilityResponses', {
+        items: {
+          '123456': {},
+          '654321': {},
+        },
+      });
+
+      spectator.setInput('priceAndAvailabilityResponses', {
+        items: {
+          '2222': {},
+          '3333': {},
+        },
+      });
+
+      expect(component.pricesAndAvailability).toMatchSnapshot();
     });
   });
 });

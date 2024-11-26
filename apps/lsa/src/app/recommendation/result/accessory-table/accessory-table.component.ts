@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/member-ordering */
-import { CommonModule, JsonPipe, KeyValuePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectorRef,
   Component,
   Input,
   OnChanges,
@@ -16,7 +17,6 @@ import { Subject, takeUntil } from 'rxjs';
 import { environment } from '@lsa/environments/environment';
 import { Accessory, AccessoryClassEntry } from '@lsa/shared/models';
 import { MediasCallbackResponse } from '@lsa/shared/models/price-availibility.model';
-import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -38,12 +38,9 @@ import { SortedAccessoryListPipe } from './sorted-accessory-list.pipe';
   imports: [
     CommonModule,
     MatIconModule,
-    KeyValuePipe,
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
-    PushPipe,
-    JsonPipe,
     SharedTranslocoModule,
     SortedAccessoryListPipe,
   ],
@@ -56,7 +53,10 @@ export class AccessoryTableComponent implements OnChanges, OnDestroy {
   public readonly classPriorities: AccessoryClassEntry[];
 
   @Input()
-  public priceAndAvailability: MediasCallbackResponse;
+  public isBusinessUser: boolean;
+
+  @Input()
+  public priceAndAvailabilityResponses: MediasCallbackResponse['items'];
 
   public tableFormGroup!: AccessoryTableFormGroup;
 
@@ -75,20 +75,31 @@ export class AccessoryTableComponent implements OnChanges, OnDestroy {
 
   public showEmptyState = true;
   public imagePlaceholder = `${environment.assetsPath}/images/placeholder.png`;
-  public currency = 'EUR';
+  public currency = '€';
+
+  constructor(private readonly changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.classPriorities?.currentValue) {
       this.transformPriorities();
     }
 
-    if (changes.accessories.currentValue) {
+    if (changes.accessories?.currentValue) {
       this.formUpdate$.next();
       this.accGroups = {};
       this.tableGroupStates = {};
       this.tableSummaryState = { totalQty: 0 };
       this.generateAccessoriesForInput();
       this.showEmptyState = false;
+    } else if (changes.priceAndAvailabilityResponses) {
+      this.tableSummaryState = { totalQty: 0 };
+      this.updateAccessoryithPriceAndAvailability();
+
+      if (this.tableGroupStates) {
+        this.calculateTableState();
+      }
+
+      this.changeDetectorRef.detectChanges();
     } else {
       this.showEmptyState = true;
     }
@@ -122,21 +133,8 @@ export class AccessoryTableComponent implements OnChanges, OnDestroy {
         this.tableSummaryState.totalPrice = 0;
 
         for (const [key, value] of Object.entries(newValue)) {
-          const qty = Object.values(value).reduce(
-            (curr, next) => curr + next,
-            0
-          );
-
-          let totalNetPrice = 0;
-          for (const [itemKey, itemValue] of Object.entries(value)) {
-            if (itemValue > 0) {
-              const currentItem = this.accGroups[key].items.find(
-                (item) => item.fifteen_digit === itemKey
-              );
-
-              totalNetPrice += currentItem.price * itemValue;
-            }
-          }
+          const qty = this.getGroupItemsQuantity(value);
+          const totalNetPrice = this.getGroupTotal(value, key);
 
           this.tableSummaryState.totalPrice += totalNetPrice;
           this.tableSummaryState.totalQty += qty;
@@ -213,14 +211,65 @@ export class AccessoryTableComponent implements OnChanges, OnDestroy {
     );
   }
 
-  private setCurrency(currency: string): void {
-    if (currency === '€') {
-      this.currency = 'EUR';
-    } else if (currency === '$') {
-      this.currency = 'USD';
-    } else {
-      // fallback to EUR
-      this.currency = 'EUR';
+  private calculateTableState(): void {
+    this.tableSummaryState.totalQty = 0;
+    this.tableSummaryState.totalPrice = 0;
+
+    Object.entries(this.tableFormGroup.value).forEach(([group, value]) => {
+      const groupTotalNetValue = this.getGroupTotal(value, group);
+      const groupItemsQuantity = this.getGroupItemsQuantity(value);
+
+      this.tableGroupStates[group].totalQty = groupItemsQuantity;
+      this.tableGroupStates[group].totalNetPrice = groupTotalNetValue;
+
+      this.tableSummaryState.totalPrice += groupTotalNetValue;
+      this.tableSummaryState.totalQty += groupItemsQuantity;
+    });
+  }
+
+  private getGroupTotal(
+    value: { [key: string]: number },
+    group: string
+  ): number {
+    let totalNetPrice = 0;
+    for (const [itemKey, itemValue] of Object.entries(value)) {
+      if (itemValue > 0) {
+        const currentItem = this.accGroups[group].items.find(
+          (item) => item.fifteen_digit === itemKey
+        );
+
+        const price = currentItem.price || 0;
+        this.setCurrency(currentItem.currency);
+
+        totalNetPrice += price * itemValue;
+      }
     }
+
+    return totalNetPrice;
+  }
+
+  private getGroupItemsQuantity(value: { [key: string]: number }): number {
+    const qty = Object.values(value).reduce((curr, next) => curr + next, 0);
+
+    return qty;
+  }
+
+  private setCurrency(currency: string): void {
+    this.currency = currency;
+  }
+
+  private updateAccessoryithPriceAndAvailability(): void {
+    this.accessories.forEach((accessory) => {
+      const responseItem =
+        this.priceAndAvailabilityResponses[accessory.pim_code];
+
+      if (responseItem) {
+        accessory.isPriceAndAvailabilityUpdated = true;
+        accessory.price = responseItem.price ?? accessory.price;
+        accessory.currency = responseItem.currency ?? accessory.currency;
+        accessory.availability =
+          responseItem.available ?? accessory.availability;
+      }
+    });
   }
 }

@@ -22,11 +22,13 @@ import {
   StepResultSupportLinkEvent,
 } from '@lsa/core/services/google-analytics';
 import { LsaFormService } from '@lsa/core/services/lsa-form.service';
+import { UserTier } from '@lsa/shared/constants/user-tier.enum';
 import {
   Accessory,
   ErrorResponse,
   RecommendationResponse,
 } from '@lsa/shared/models';
+import { MediasCallbackResponse } from '@lsa/shared/models/price-availibility.model';
 import { RecommendationTableDataPipe } from '@lsa/shared/pipes/recommendation-table-data.pipe';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -60,9 +62,14 @@ export class ResultComponent implements OnChanges, OnInit {
   @ViewChild(AccessoryTableComponent)
   accessoryTableComponent: AccessoryTableComponent;
 
+  public readonly businessUserTier = UserTier.Business;
+
   isRecommendedSelected = true;
   validResult?: RecommendationResponse;
   errorInstance: ErrorResponse;
+  userTier: UserTier;
+
+  public pricesAndAvailability: MediasCallbackResponse['items'];
 
   constructor(
     private readonly addToCartService: AddToCartService,
@@ -70,10 +77,20 @@ export class ResultComponent implements OnChanges, OnInit {
     private readonly googleAnalyticsService: GoogleAnalyticsService
   ) {}
 
+  @Input()
+  set priceAndAvailabilityResponses(value: MediasCallbackResponse) {
+    this.pricesAndAvailability = {
+      ...this.pricesAndAvailability,
+      ...value.items,
+    };
+  }
+
   ngOnInit(): void {
     if (this.validResult) {
       this.logResultPageLoadEvent();
     }
+
+    this.userTier = this.addToCartService.getUserTier();
   }
 
   onRecommendedSelectedChange(isRecommendedSelected: boolean): void {
@@ -82,16 +99,18 @@ export class ResultComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(_changes: SimpleChanges): void {
-    if ('name' in this.recommendationResult) {
-      // TODO: Build error handling logic
-      this.errorInstance = this.recommendationResult as ErrorResponse;
-      this.validResult = undefined;
-      this.logResultPageLoadFailEvent();
-    } else {
-      this.isRecommendedSelected =
-        !!this.recommendationResult.lubricators.recommendedLubricator;
-      this.validResult = this.recommendationResult as RecommendationResponse;
-      this.errorInstance = undefined;
+    if (_changes.recommendationResult) {
+      if ('name' in this.recommendationResult) {
+        // TODO: Build error handling logic
+        this.errorInstance = this.recommendationResult as ErrorResponse;
+        this.validResult = undefined;
+        this.logResultPageLoadFailEvent();
+      } else {
+        this.isRecommendedSelected =
+          !!this.recommendationResult.lubricators.recommendedLubricator;
+        this.validResult = this.recommendationResult as RecommendationResponse;
+        this.errorInstance = undefined;
+      }
     }
   }
 

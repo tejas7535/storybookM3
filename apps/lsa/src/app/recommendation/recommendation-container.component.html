@@ -33,7 +33,12 @@
                   <schaeffler-loading-spinner />
                 } @else {
                   <ng-container *ngrxLet="recommendation$ as recommendation">
-                    <lsa-result [recommendationResult]="recommendation">
+                    <lsa-result
+                      [recommendationResult]="recommendation"
+                      [priceAndAvailabilityResponses]="
+                        priceAvailability$ | ngrxPush
+                      "
+                    >
                       <lsa-lubrication-inputs
                         [inputs]="resultInputs"
                         (navigateToStep)="navigateToStep($event)"
