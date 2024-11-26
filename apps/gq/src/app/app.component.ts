@@ -55,8 +55,8 @@ export class AppComponent implements OnInit {
       external: false,
     },
     {
-      link: 'https://sconnect.schaeffler.com/groups/guided-quoting',
-      title: 'GQ@SConnect',
+      link: 'https://worksite.sharepoint.com/sites/Bearings-Industrial-Solutions-Sales-Management-Marketing/SitePages/Guided-Quoting.aspx',
+      title: 'GQ@MySchaeffler',
       external: true,
     },
     {
