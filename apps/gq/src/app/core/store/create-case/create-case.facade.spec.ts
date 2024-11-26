@@ -14,6 +14,7 @@ import {
   clearPurchaseOrderType,
   clearSectorGpsd,
   clearShipToParty,
+  navigateToCaseOverView,
   resetAllAutocompleteOptions,
   setRowDataCurrency,
   updateCurrencyOfPositionItems,
@@ -138,6 +139,7 @@ describe('CreateCaseFacade', () => {
       mockStore.dispatch = jest.fn();
       facade.resetCaseCreationInformation();
 
+      expect(mockStore.dispatch).toHaveBeenCalledWith(navigateToCaseOverView());
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         resetAllAutocompleteOptions()
       );

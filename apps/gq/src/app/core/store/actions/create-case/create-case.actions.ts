@@ -232,6 +232,9 @@ export const updateCurrencyOfPositionItems = createAction(
   '[Create Case] Update Currency of Position Items'
 );
 
+export const navigateToCaseOverView = createAction(
+  '[Create Case] Back to Case Overview'
+);
 const all = union({
   addRowDataItems,
   duplicateRowDataItem,
@@ -260,6 +263,7 @@ const all = union({
   clearSectorGpsd,
   setRowDataCurrency,
   updateCurrencyOfPositionItems,
+  navigateToCaseOverView,
 });
 
 export type createCaseActions = typeof all;

@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
-import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, delay, filter, map, mergeMap, tap } from 'rxjs/operators';
 
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
 import { MATERIAL_FILTERS } from '@gq/shared/constants/material-filters.const';
@@ -55,6 +55,7 @@ import {
   importCase,
   importCaseFailure,
   importCaseSuccess,
+  navigateToCaseOverView,
   selectAutocompleteOption,
   selectSalesOrg,
   setSelectedAutocompleteOption,
@@ -405,6 +406,17 @@ export class CreateCaseEffects {
       )
     );
   });
+
+  navigateBackToCaseOverviewPage$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(navigateToCaseOverView),
+        delay(200),
+        map(() => this.router.navigate([AppRoutePath.CaseViewPath]))
+      );
+    },
+    { dispatch: false }
+  );
 
   navigateAfterCaseCreate(
     customerId: string,

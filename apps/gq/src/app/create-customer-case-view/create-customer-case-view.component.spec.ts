@@ -1,17 +1,15 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
 
 import { BehaviorSubject } from 'rxjs';
 
+import { MaterialSelectionComponent } from '@gq/case-view/case-creation/create-customer-case/material-selection/material-selection.component';
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { CreateCaseHeaderInformationComponent } from '@gq/shared/components/case-header-information/create-case-header-information/create-case-header-information.component';
 import { HeaderInformationData } from '@gq/shared/components/case-header-information/models/header-information-data.interface';
-import { AddEntryComponent } from '@gq/shared/components/case-material/add-entry/add-entry.component';
-import { InputTableComponent } from '@gq/shared/components/case-material/input-table/input-table.component';
+import { AdditionalFiltersComponent } from '@gq/shared/components/case-material/additional-filters/additional-filters.component';
 import { EVENT_NAMES } from '@gq/shared/models';
-import { MaterialTableItem } from '@gq/shared/models/table/material-table-item-model';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
@@ -24,22 +22,17 @@ import { marbles } from 'rxjs-marbles';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { CreateManualCaseViewComponent } from './create-manual-case-view.component';
+import { CreateCustomerCaseViewComponent } from './create-customer-case-view.component';
 
-describe('manualCaseViewComponent', () => {
-  let component: CreateManualCaseViewComponent;
-  let spectator: Spectator<CreateManualCaseViewComponent>;
-  let router: Router;
-  const customerConditionsValid$$: BehaviorSubject<boolean> =
+describe('CreateCustomerCaseViewComponent', () => {
+  let component: CreateCustomerCaseViewComponent;
+
+  let spectator: Spectator<CreateCustomerCaseViewComponent>;
+  const getCreateCustomerCaseDisabled$$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(true);
-  const rowData$$: BehaviorSubject<MaterialTableItem[]> = new BehaviorSubject<
-    MaterialTableItem[]
-  >([]);
-
   const createComponent = createComponentFactory({
-    component: CreateManualCaseViewComponent,
+    component: CreateCustomerCaseViewComponent,
     imports: [
-      RouterModule.forRoot([]),
       StoreModule.forRoot({}),
       EffectsModule.forRoot([]),
       PushPipe,
@@ -57,15 +50,15 @@ describe('manualCaseViewComponent', () => {
         },
       },
       MockProvider(CreateCaseFacade, {
-        customerConditionsValid$: customerConditionsValid$$.asObservable(),
-        newCaseRowData$: rowData$$.asObservable(),
+        getCreateCustomerCaseDisabled$:
+          getCreateCustomerCaseDisabled$$.asObservable(),
         resetCaseCreationInformation: jest.fn(),
       }),
     ],
     declarations: [
       MockComponent(CreateCaseHeaderInformationComponent),
-      MockComponent(AddEntryComponent),
-      MockComponent(InputTableComponent),
+      MockComponent(MaterialSelectionComponent),
+      MockComponent(AdditionalFiltersComponent),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     detectChanges: false,
@@ -74,11 +67,9 @@ describe('manualCaseViewComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
-    router = spectator.inject(Router);
-    router.navigate = jest.fn();
   });
 
-  test('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
@@ -104,35 +95,22 @@ describe('manualCaseViewComponent', () => {
     );
 
     test(
-      'should return true if customerConditionsValid$ is false',
+      'should return true if getCreateCustomerCaseDisabled$ is true',
       marbles((m) => {
         component['headerInformationHasChangesSubject$$'].next(true);
         component['headerInformationIsValidSubject$$'].next(true);
-        customerConditionsValid$$.next(false);
+        getCreateCustomerCaseDisabled$$.next(true);
         const expected = m.cold('a', { a: true });
         m.expect(component.createCaseButtonDisabled$).toBeObservable(expected);
       })
     );
 
     test(
-      'should return true when rowData.length === 0',
+      'should return false if getCreateCustomerCaseDisabled$ is false',
       marbles((m) => {
         component['headerInformationHasChangesSubject$$'].next(true);
         component['headerInformationIsValidSubject$$'].next(true);
-        customerConditionsValid$$.next(true);
-        rowData$$.next([]);
-
-        const expected = m.cold('a', { a: true });
-        m.expect(component.createCaseButtonDisabled$).toBeObservable(expected);
-      })
-    );
-    test(
-      'should return false if headerInformationHasChanges$ and headerInformationIsValid$, customerConditionsValid$ are true, and rowData.length > 0',
-      marbles((m) => {
-        component['headerInformationHasChangesSubject$$'].next(true);
-        component['headerInformationIsValidSubject$$'].next(true);
-        customerConditionsValid$$.next(true);
-        rowData$$.next([{ materialNumber: '123' }]);
+        getCreateCustomerCaseDisabled$$.next(false);
         const expected = m.cold('a', { a: false });
         m.expect(component.createCaseButtonDisabled$).toBeObservable(expected);
       })

@@ -1,5 +1,4 @@
 /* eslint-disable max-lines */
-
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -7,6 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 
 import { of } from 'rxjs';
 
+import { AppRoutePath } from '@gq/app-route-path.enum';
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
 import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
 import {
@@ -58,6 +58,7 @@ import {
   importCase,
   importCaseFailure,
   importCaseSuccess,
+  navigateToCaseOverView,
   selectAutocompleteOption,
   selectSalesOrg,
   setSelectedAutocompleteOption,
@@ -911,6 +912,28 @@ describe('Create Case Effects', () => {
         expect(quotationService.createCustomerCase).toHaveBeenCalledTimes(1);
       });
     });
+  });
+
+  describe('navigateBackToCaseOverviewPage', () => {
+    test(
+      'should navigate to case overview page',
+      marbles((m) => {
+        router.navigate = jest.fn();
+        action = navigateToCaseOverView();
+        actions$ = m.hot('a', { a: action });
+        const expected = m.cold('200ms b', { b: undefined });
+
+        m.expect(effects.navigateBackToCaseOverviewPage$).toBeObservable(
+          expected
+        );
+
+        m.flush();
+        expect(router.navigate).toHaveBeenCalledTimes(1);
+        expect(router.navigate).toHaveBeenCalledWith([
+          AppRoutePath.CaseViewPath,
+        ]);
+      })
+    );
   });
   describe('navigateAfterCaseCreate', () => {
     beforeEach(() => {

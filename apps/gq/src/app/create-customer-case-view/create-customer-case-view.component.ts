@@ -11,9 +11,8 @@ import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade'
 import { CurrencyModule } from '@gq/core/store/currency/currency.module';
 import { CreateCaseHeaderInformationComponent } from '@gq/shared/components/case-header-information/create-case-header-information/create-case-header-information.component';
 import { HeaderInformationData } from '@gq/shared/components/case-header-information/models/header-information-data.interface';
-import { AddEntryComponent } from '@gq/shared/components/case-material/add-entry/add-entry.component';
-import { InputTableComponent } from '@gq/shared/components/case-material/input-table/input-table.component';
-import { MaterialTableItem } from '@gq/shared/models/table/material-table-item-model';
+import { AdditionalFiltersComponent } from '@gq/shared/components/case-material/additional-filters/additional-filters.component';
+import { MaterialSelectionComponent } from '@gq/shared/components/case-material/material-selection/material-selection.component';
 import {
   CASE_CREATION_TYPES,
   CaseCreationEventParams,
@@ -26,11 +25,13 @@ import { PushPipe } from '@ngrx/component';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
+
 type typeAnimation = 'fade-in' | 'fade-out';
+
 @Component({
   standalone: true,
-  selector: 'gq-create-manual-case-view',
-  templateUrl: './create-manual-case-view.component.html',
+  selector: 'gq-create-customer-case-view',
+  templateUrl: './create-customer-case-view.component.html',
   imports: [
     CommonModule,
     SharedTranslocoModule,
@@ -40,20 +41,22 @@ type typeAnimation = 'fade-in' | 'fade-out';
     CreateCaseHeaderInformationComponent,
     PushPipe,
     CurrencyModule,
-    AddEntryComponent,
     ActiveCaseModule,
-    InputTableComponent,
     SharedPipesModule,
+    MaterialSelectionComponent,
+    AdditionalFiltersComponent,
   ],
   providers: [
-    { provide: TRANSLOCO_SCOPE, useValue: 'create-manual-case-view' },
+    { provide: TRANSLOCO_SCOPE, useValue: 'create-customer-case-view' },
   ],
 })
-export class CreateManualCaseViewComponent implements AfterViewInit {
+export class CreateCustomerCaseViewComponent implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
+
   private readonly insightsService: ApplicationInsightsService = inject(
     ApplicationInsightsService
   );
+
   private readonly createCaseFacade = inject(CreateCaseFacade);
   private readonly headerInformationIsValidSubject$$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
@@ -70,33 +73,27 @@ export class CreateManualCaseViewComponent implements AfterViewInit {
   headerInformationIsValid$: Observable<boolean> =
     this.headerInformationIsValidSubject$$.asObservable();
 
-  rowData$: Observable<MaterialTableItem[]> =
-    this.createCaseFacade.newCaseRowData$;
-  customerConditionsValid$: Observable<boolean> =
-    this.createCaseFacade.customerConditionsValid$;
-
   createCaseButtonDisabled$: Observable<boolean> = combineLatest([
     this.headerInformationHasChanges$,
     this.headerInformationIsValid$,
-    this.customerConditionsValid$,
-    this.rowData$,
+    this.createCaseFacade.getCreateCustomerCaseDisabled$,
   ]).pipe(
     takeUntilDestroyed(this.destroyRef),
     map(
-      ([hasChanges, isValid, customerConditionValid, rowData]) =>
-        !hasChanges ||
-        !isValid ||
-        !customerConditionValid ||
-        rowData.length === 0
+      ([hasChanges, isValid, customerDataInvalid]) =>
+        !hasChanges || !isValid || customerDataInvalid
     )
   );
 
   createCase(): void {
+    // fetch the data for case creation
+    // and provide it to the create case facade
     this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_FINISHED, {
-      type: CASE_CREATION_TYPES.MANUAL,
+      type: CASE_CREATION_TYPES.FROM_CUSTOMER,
     } as CaseCreationEventParams);
     console.log('createCase');
   }
+
   ngAfterViewInit() {
     this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_STARTED, {
       type: CASE_CREATION_TYPES.MANUAL,
@@ -110,7 +107,7 @@ export class CreateManualCaseViewComponent implements AfterViewInit {
   backToCaseOverView(): void {
     this.animationType = 'fade-out';
     this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_CANCELLED, {
-      type: CASE_CREATION_TYPES.MANUAL,
+      type: CASE_CREATION_TYPES.FROM_CUSTOMER,
     } as CaseCreationEventParams);
 
     this.createCaseFacade.resetCaseCreationInformation();

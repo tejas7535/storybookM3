@@ -1,0 +1,10 @@
+{
+  "title": "Create Case from Customer",
+  "headerInformation": "Header Information",
+  "positionFilter": "Filter for Positions",
+  "mandatoryField": "*Mandatory Input",
+  "includeMaterials": "Materials Included",
+  "additionalFilter": "Additional Filters",
+  "createCase": "Create Case",
+  "cancelButton": "Cancel"
+}

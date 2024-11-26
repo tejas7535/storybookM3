@@ -1,0 +1,40 @@
+@if (title && items) {
+  <div>
+    <mat-form-field
+      [formGroup]="form"
+      class="w-full"
+      *transloco="let t; read: 'additionalFilters'"
+    >
+      <mat-label>{{ title }}</mat-label>
+      <mat-select
+        multiple
+        formControlName="items"
+        (selectionChange)="selectionChange($event)"
+      >
+        @if (form?.value?.items) {
+          <mat-select-trigger>
+            <span>
+              {{ form.value.items | multiSelect }}
+            </span>
+          </mat-select-trigger>
+        }
+        @if (items.length > 0) {
+          <mat-option #allSelected (click)="toggleAllSelection()" [value]="0">
+            <span class="pl-4"> {{ t('selectAll') }} </span>
+            <hr class="opacity-[12%]" />
+          </mat-option>
+        }
+        @for (item of items; track item; let i = $index) {
+          <mat-option [value]="item.value">
+            <span class="pl-4">
+              {{ item.value }}
+              @if (item.name) {
+                <span>| {{ item.name }}</span>
+              }
+            </span>
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+}

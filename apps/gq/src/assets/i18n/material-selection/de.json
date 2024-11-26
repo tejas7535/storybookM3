@@ -1,0 +1,8 @@
+{
+  "materialSelection": "Materialauswahl",
+  "lastYears": "{years, plural, =1 {Aktuelles Jahr} other {Letzte {{ years }} Jahre}}",
+  "salesHistory": "Verkaufte Materialien",
+  "ordersOnHand": "Materialien aus aktuellem Auftragsbestand",
+  "lostQuotes": "Materialien mit Absagegrund 'Preis zu hoch'",
+  "openQuotes": "Materialien aus aktuell offenen Angeboten"
+}
