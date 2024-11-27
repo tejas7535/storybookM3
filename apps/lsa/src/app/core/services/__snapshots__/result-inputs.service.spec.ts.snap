@@ -1,109 +1,57 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ResultInputsService when getting non arcanol inputs should return result inputs 1`] = `
-Object {
-  "sections": Array [
-    Object {
-      "inputs": Array [
-        Object {
-          "title": "inputs.lubricationPoints",
-          "value": "2-4",
-        },
-        Object {
-          "title": "inputs.relubricationQuantity.title",
-          "value": "inputs.relubricationQuantity.value",
-        },
-        Object {
-          "title": "inputs.maxPipeLengthTitle",
-          "value": "recommendation.lubricationPoints.pipeLengthOptions.directMontage",
-        },
-        Object {
-          "remoteValue": "recommendation.lubricationPoints.optime.0",
-          "title": "inputs.optimeTitle",
-          "value": "recommendation.lubricationPoints.optime.0",
-        },
-      ],
-      "stepIndex": 0,
-      "title": "pages.lubricationPoints.title",
-    },
-    Object {
-      "inputs": Array [
-        Object {
-          "title": "pages.lubricant.title",
-          "value": "recommendation.lubrication.options.grease",
-        },
-      ],
-      "stepIndex": 1,
-      "title": "pages.lubricant.title",
-    },
-    Object {
-      "inputs": Array [
-        Object {
-          "title": "inputs.temperature.title",
-          "value": "inputs.temperature.value",
-        },
-        Object {
-          "title": "inputs.powerSupplyTitle",
-          "value": "recommendation.application.powerOptions.external",
-        },
-      ],
-      "stepIndex": 2,
-      "title": "pages.application.title",
-    },
-  ],
-}
+exports[`ResultInputsService when getting non arcanol inputs should return Lubricant inputs observable translation 1`] = `
+Array [
+  Object {
+    "title": "translated: pages.lubricant.title",
+    "value": "translated: recommendation.lubrication.options.grease",
+  },
+]
 `;
 
-exports[`ResultInputsService when getting result inputs should return result inputs 1`] = `
-Object {
-  "sections": Array [
-    Object {
-      "inputs": Array [
-        Object {
-          "title": "inputs.lubricationPoints",
-          "value": "2-4",
-        },
-        Object {
-          "title": "inputs.relubricationQuantity.title",
-          "value": "inputs.relubricationQuantity.value",
-        },
-        Object {
-          "title": "inputs.maxPipeLengthTitle",
-          "value": "recommendation.lubricationPoints.pipeLengthOptions.directMontage",
-        },
-        Object {
-          "remoteValue": "recommendation.lubricationPoints.optime.0",
-          "title": "inputs.optimeTitle",
-          "value": "recommendation.lubricationPoints.optime.0",
-        },
-      ],
-      "stepIndex": 0,
-      "title": "pages.lubricationPoints.title",
-    },
-    Object {
-      "inputs": Array [
-        Object {
-          "title": "pages.lubricant.title",
-          "value": "Arcanol MULTI2",
-        },
-      ],
-      "stepIndex": 1,
-      "title": "pages.lubricant.title",
-    },
-    Object {
-      "inputs": Array [
-        Object {
-          "title": "inputs.temperature.title",
-          "value": "inputs.temperature.value",
-        },
-        Object {
-          "title": "inputs.powerSupplyTitle",
-          "value": "recommendation.application.powerOptions.external",
-        },
-      ],
-      "stepIndex": 2,
-      "title": "pages.application.title",
-    },
-  ],
-}
+exports[`ResultInputsService when getting non arcanol inputs should return application inputs observable translation 1`] = `
+Array [
+  Object {
+    "title": "translated: inputs.temperature.title",
+    "value": "translated: inputs.temperature.value",
+  },
+  Object {
+    "title": "translated: inputs.powerSupplyTitle",
+    "value": "translated: recommendation.application.powerOptions.external",
+  },
+]
 `;
+
+exports[`ResultInputsService when getting non arcanol inputs should return title observable translation 1`] = `"translated: pages.lubricationPoints.title"`;
+
+exports[`ResultInputsService when getting non arcanol inputs should return title observable translation 2`] = `"translated: pages.lubricant.title"`;
+
+exports[`ResultInputsService when getting non arcanol inputs should return title observable translation 3`] = `"translated: pages.application.title"`;
+
+exports[`ResultInputsService when getting result inputs should return Lubricant observable translation 1`] = `
+Array [
+  Object {
+    "title": "translated: pages.lubricant.title",
+    "value": "Arcanol MULTI2",
+  },
+]
+`;
+
+exports[`ResultInputsService when getting result inputs should return application observable translation 1`] = `
+Array [
+  Object {
+    "title": "translated: inputs.temperature.title",
+    "value": "translated: inputs.temperature.value",
+  },
+  Object {
+    "title": "translated: inputs.powerSupplyTitle",
+    "value": "translated: recommendation.application.powerOptions.external",
+  },
+]
+`;
+
+exports[`ResultInputsService when getting result inputs should return title observable translation 1`] = `"translated: pages.lubricationPoints.title"`;
+
+exports[`ResultInputsService when getting result inputs should return title observable translation 2`] = `"translated: pages.lubricant.title"`;
+
+exports[`ResultInputsService when getting result inputs should return title observable translation 3`] = `"translated: pages.application.title"`;

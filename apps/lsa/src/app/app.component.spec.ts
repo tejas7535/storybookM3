@@ -1,9 +1,10 @@
-import { CUSTOM_ELEMENTS_SCHEMA, SimpleChanges } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 
 import { of, Subject } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
+import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockModule } from 'ng-mocks';
 
@@ -22,6 +23,9 @@ describe('AppComponent', () => {
   let component: AppComponent;
   let restService: RestService;
   let translocoService: TranslocoService;
+  const localStorageMock = {
+    setItem: jest.fn(),
+  };
 
   const createComponent = createComponentFactory({
     component: AppComponent,
@@ -30,6 +34,10 @@ describe('AppComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
+      {
+        provide: LOCAL_STORAGE,
+        useValue: localStorageMock,
+      },
       {
         provide: RestService,
         useValue: {
@@ -98,13 +106,7 @@ describe('AppComponent', () => {
 
   describe('when userTier changes', () => {
     it('should set userTier', () => {
-      component.userTier = UserTier.Business;
-
-      const changes = {
-        userTier: { currentValue: UserTier.Business },
-      } as unknown as Partial<SimpleChanges> as SimpleChanges;
-
-      component.ngOnChanges(changes);
+      spectator.setInput('userTier', UserTier.Business);
 
       expect(
         spectator.inject(AddToCartService).setUserTier
@@ -112,36 +114,22 @@ describe('AppComponent', () => {
     });
   });
 
-  describe('when initialized', () => {
-    let languageSelectionSpy: jest.SpyInstance;
-    beforeEach(() => {
-      languageSelectionSpy = jest.spyOn(translocoService, 'setActiveLang');
-    });
+  describe('when language changes', () => {
+    it('should set language in localStorage', () => {
+      const language = 'en';
+      const languageSelectionSpy = jest.spyOn(
+        translocoService,
+        'setActiveLang'
+      );
 
-    describe('when language is available', () => {
-      beforeEach(() => {
-        component.language = 'de';
-      });
+      spectator.setInput('language', language);
 
-      it('should set provided language', () => {
-        spectator.detectChanges();
-        expect(languageSelectionSpy).toHaveBeenCalledWith('de');
-      });
-    });
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        'language',
+        language
+      );
 
-    describe('when language is not available', () => {
-      it('should set fallback language', () => {
-        spectator.detectChanges();
-        expect(languageSelectionSpy).toHaveBeenCalledWith('en');
-      });
-    });
-
-    it('should fetch greases', () => {
-      component.fetchGreases = jest.fn();
-
-      component.ngOnInit();
-
-      expect(component.fetchGreases).toHaveBeenCalled();
+      expect(languageSelectionSpy).toHaveBeenCalledWith(language);
     });
   });
 

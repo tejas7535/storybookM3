@@ -7,7 +7,7 @@
       {{ t('questionLubricantType') }}</span
     >
     <lsa-radio-button-group
-      [options]="lubricantRadioOptions"
+      [options]="lubricantRadioOptions | ngrxPush"
       [control]="lubricantForm.controls.lubricantType"
     ></lsa-radio-button-group>
   </div>

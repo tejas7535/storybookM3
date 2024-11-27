@@ -11,12 +11,16 @@
   </mat-expansion-panel-header>
   <div>
     <div class="flex flex-col">
-      @for (section of inputs.sections; let last = $last; track section.title) {
+      @for (
+        section of inputs.sections;
+        let last = $last;
+        track section.stepIndex
+      ) {
         <div
           class="text-on-surface-variant text-title-small font-bold flex items-center"
         >
           <p>
-            {{ section.title }}
+            {{ section.title$ | ngrxPush }}
           </p>
           <button
             class="ml-3"
@@ -29,7 +33,7 @@
         </div>
 
         <div class="flex flex-col md:flex-row gap-4 md:gap-10">
-          @for (input of section.inputs; track input.title) {
+          @for (input of section.inputs$ | ngrxPush; track input.title) {
             <lsa-lubrication-input
               [title]="input.title"
               [value]="input.value"

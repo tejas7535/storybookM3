@@ -45,6 +45,7 @@ export class LsaFormService {
 
   readonly stepCompletionStream$$ = new ReplaySubject<number>();
   readonly resetStepState$$ = new Subject<void>();
+  readonly resetStepStateObservable$ = this.resetStepState$$.asObservable();
 
   constructor(
     @Inject(SESSION_STORAGE) private readonly sessionStorage: Storage

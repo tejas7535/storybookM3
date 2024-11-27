@@ -57,6 +57,7 @@
             type="number"
             [min]="minTemperature"
             [max]="applicationForm.controls.temperature.value.max"
+            step="5"
             [(ngModel)]="applicationForm.controls.temperature.value.min"
           />
           <div class="relative" matSuffix>°C</div>
@@ -69,6 +70,7 @@
             [min]="applicationForm.controls.temperature.value.min"
             [max]="maxTemperature"
             [(ngModel)]="applicationForm.controls.temperature.value.max"
+            step="5"
           />
           <div class="relative" matSuffix>°C</div>
         </mat-form-field>
@@ -82,7 +84,7 @@
       {{ t('questionPowerType') }}</span
     >
     <lsa-radio-button-group
-      [options]="powerSupplyRadioOptions"
+      [options]="powerSupplyRadioOptions | ngrxPush"
       [control]="applicationForm.controls.battery"
     ></lsa-radio-button-group>
   </div>

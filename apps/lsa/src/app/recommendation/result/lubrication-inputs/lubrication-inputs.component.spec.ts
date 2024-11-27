@@ -1,3 +1,5 @@
+import { of } from 'rxjs';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -17,9 +19,9 @@ describe('LubricationInputsComponent', () => {
       props: {
         inputs: {
           sections: [
-            { title: 'Section 1', stepIndex: 0, inputs: [] },
-            { title: 'Section 2', stepIndex: 1, inputs: [] },
-            { title: 'Section 3', stepIndex: 2, inputs: [] },
+            { title$: of('Section 1'), stepIndex: 0, inputs$: of([]) },
+            { title$: of('Section 2'), stepIndex: 1, inputs$: of([]) },
+            { title$: of('Section 3'), stepIndex: 2, inputs$: of([]) },
           ],
         },
       },

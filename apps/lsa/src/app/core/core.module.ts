@@ -5,6 +5,7 @@ import {
 import { NgModule } from '@angular/core';
 
 import { TranslocoService } from '@jsverse/transloco';
+import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
 import { environment } from '@lsa/environments/environment';
 import {
   AVAILABLE_LANGUAGES,
@@ -34,7 +35,15 @@ const assetPath = environment.assetsPath;
       `${assetPath}/i18n/`
     ),
   ],
-  providers: [provideHttpClient(withInterceptorsFromDi())],
+  providers: [
+    provideTranslocoPersistLang({
+      storageKey: LANGUAGE_STORAGE_KEY,
+      storage: {
+        useValue: localStorage,
+      },
+    }),
+    provideHttpClient(withInterceptorsFromDi()),
+  ],
 })
 export class CoreModule {
   public constructor(private readonly translocoService: TranslocoService) {
