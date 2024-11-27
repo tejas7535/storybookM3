@@ -16,10 +16,11 @@ import { showFloatingFilters } from '../../../ag-grid/grid-utils';
   styleUrls: ['./table-toolbar.component.scss'],
 })
 export class TableToolbarComponent {
-  rowCount = input.required<number | undefined>();
-  grid = input.required<GridApi>();
+  public rowCount = input.required<number | undefined>();
+  public grid = input.required<GridApi>();
+  public renderFloatingFilter = input<boolean>(true);
 
-  showFloatingFilters = false;
+  protected showFloatingFilters = false;
 
   toggleFloatingFilter() {
     this.showFloatingFilters = !this.showFloatingFilters;

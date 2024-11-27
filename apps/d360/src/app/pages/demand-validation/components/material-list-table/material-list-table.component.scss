@@ -1,10 +1,11 @@
-:root {
-  --schaefflerColor: #0077c8;
-}
-
 .material-list-wrapper {
-  .ag-theme-material .ag-row-selected {
-    --ag-selected-row-background-color: #ffffff00;
-    color: var(--schaefflerColor);
+  transition: flex-basis 0.25s ease-in-out;
+  will-change: width;
+  flex-basis: 0;
+  border-right: none;
+
+  &.open {
+    flex-basis: 730px;
+    border-right: 3px solid #e2e2e2;
   }
 }

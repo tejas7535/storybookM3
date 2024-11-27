@@ -15,23 +15,30 @@
       globalSelection
     ) {
       <d360-action-bar
-        [currentCustomer]="selectedCustomer"
+        [currentCustomer]="selectedCustomer()"
         [customerData]="customerData"
         [planningView]="planningView"
-        [isMaterialListVisible]="materialListVisible"
+        [isMaterialListVisible]="materialListVisible()"
         (toggleMaterialListVisible)="handleMaterialListVisible($event)"
         (dateRangeChanged)="handleKpiDateRangeChange($event)"
+        (customerChange)="handleCustomerChange($event)"
       ></d360-action-bar>
-      <div class="table-content-wrapper">
+      <div class="table-content-wrapper flex flex-row mb-5 h-full">
         <d360-material-list-table
-          [visible]="materialListVisible"
-          [selectedCustomer]="selectedCustomer"
+          class="flex grow"
+          [visible]="materialListVisible()"
+          [selectedCustomerNumber]="selectedCustomer().customerNumber"
+          [demandValidationFilters]="demandValidationFilters()"
+          [confirmContinueAndLooseUnsavedChanges]="
+            confirmContinueAndLooseUnsavedChanges.bind(this)
+          "
           (selectedMaterialListEntryChange)="
             handleMaterialListEntrySelected($event)
           "
         ></d360-material-list-table>
         <d360-demand-validation-table
-          [materialListEntry]="selectedMaterialListEntry"
+          class="flex grow"
+          [materialListEntry]="selectedMaterialListEntry()"
           [planningView]="planningView"
           [dateExceptions]="kpiRangeExceptions"
           [kpiDateRange]="dateRange"

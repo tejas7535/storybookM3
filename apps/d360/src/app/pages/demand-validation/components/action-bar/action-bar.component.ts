@@ -76,23 +76,26 @@ import { FilterDemandValidationComponent } from './filter-demand-validation/filt
   styleUrl: './action-bar.component.scss',
 })
 export class ActionBarComponent implements OnInit {
-  private readonly dialog = inject(MatDialog);
-  private readonly store = inject(Store);
-
   public currentCustomer = input.required<CustomerEntry>();
   public customerData = input.required<CustomerEntry[]>();
   public planningView = input.required<PlanningView>();
   public isMaterialListVisible = input<boolean>(true);
 
-  public backendRoles = toSignal(this.store.select(getBackendRoles));
-  public authorizedToChange = computed(() =>
+  public customerChange = output<CustomerEntry>();
+  public toggleMaterialListVisible = output<{ open: boolean }>();
+  public dateRangeChanged = output<KpiDateRanges>();
+
+  private readonly dialog = inject(MatDialog);
+  private readonly store = inject(Store);
+  private readonly destroyRef = inject(DestroyRef);
+
+  private readonly backendRoles = toSignal(this.store.select(getBackendRoles));
+
+  protected authorizedToChange = computed(() =>
     this.backendRoles()
       ? checkRoles(this.backendRoles(), demandValidationChangeAllowedRoles)
       : false
   );
-
-  public toggleMaterialListVisible = output<{ open: boolean }>();
-  public dateRangeChanged = output<KpiDateRanges>();
 
   // TODO: Properly handle initialization of this property, will it be passed from outside? Fetched from service?
   protected selectedCustomer = signal<CustomerEntry>(null);
@@ -118,7 +121,6 @@ export class ActionBarComponent implements OnInit {
   // TODO handle and initialize this property
   protected isDisabledForecastEditing = true;
 
-  private readonly destroyRef = inject(DestroyRef);
   private readonly localStorageTimeRange = readLocalStorageTimeRange();
   private readonly defaultDateRange: KpiDateRanges = {
     range1: {
@@ -167,7 +169,9 @@ export class ActionBarComponent implements OnInit {
   }
 
   protected handleToggleMaterialListVisible() {
-    this.toggleMaterialListVisible.emit({ open: !this.isMaterialListVisible });
+    this.toggleMaterialListVisible.emit({
+      open: !this.isMaterialListVisible(),
+    });
   }
 
   protected handleDateRangeClick() {
@@ -216,11 +220,13 @@ export class ActionBarComponent implements OnInit {
   }
 
   protected handleCustomerChange($event: SingleAutocompleteSelectedEvent) {
-    this.selectedCustomer.set(
+    const newSelectedCustomer =
       this.customerData().find(
         (customer) => customer.customerNumber === $event.option.id
-      ) ?? null
-    );
+      ) ?? null;
+
+    this.selectedCustomer.set(newSelectedCustomer);
+    this.customerChange.emit(newSelectedCustomer);
   }
 
   protected handleDeleteModalClicked() {

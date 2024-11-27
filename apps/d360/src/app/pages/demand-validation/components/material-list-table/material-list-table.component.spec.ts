@@ -37,9 +37,7 @@ describe('MaterialListTableComponent', () => {
     spectator = createComponent({
       props: {
         visible: true,
-        selectedCustomer: {
-          customerNumber: '42',
-        },
+        selectedCustomerNumber: '42',
       },
     });
   });

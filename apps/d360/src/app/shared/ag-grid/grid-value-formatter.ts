@@ -65,3 +65,18 @@ export function replacementTypeValueFormatter() {
     return translate(`replacement_type.${parsed}`, {});
   };
 }
+
+export function listUploadPeriodTypeValueFormatter() {
+  return (params: any): string => {
+    if (params.value === null || params.value === undefined) {
+      return null;
+    }
+
+    const value = params.value;
+
+    return translate(
+      `validation_of_demand.upload_modal.list.menu_item_${value}`,
+      {}
+    );
+  };
+}

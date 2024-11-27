@@ -38,4 +38,9 @@
   .ag-popup-editor .ag-rich-select-value {
     min-width: 300px;
   }
+
+  .ag-theme-material .ag-row-selected {
+    --ag-selected-row-background-color: #ffffff00;
+    color: var(--primary-color-hex);
+  }
 }
