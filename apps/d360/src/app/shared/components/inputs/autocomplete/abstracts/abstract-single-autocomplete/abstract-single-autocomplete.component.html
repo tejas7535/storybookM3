@@ -30,7 +30,11 @@
       <mat-option [disabled]="true">{{
         t('globalSelection.dropdown.loading')
       }}</mat-option>
-    } @else if (!loading() && filteredOptions().length === 0) {
+    } @else if (
+      !loading() &&
+      filteredOptions().length === 0 &&
+      (isPreloaded || notEmpty())
+    ) {
       <!-- Show text for no data available -->
       <mat-option [disabled]="true">{{ t('hint.noData') }}</mat-option>
     }
@@ -46,7 +50,7 @@
     <mat-icon matSuffix>arrow_drop_down</mat-icon>
   }
 
-  @if (this.control().value && this.addClearButton()) {
+  @if (control().value && addClearButton()) {
     <button matSuffix mat-icon-button aria-label="Clear" (click)="onClear()">
       <mat-icon>close</mat-icon>
     </button>

@@ -167,7 +167,8 @@
     },
     "dropdown": {
       "loading": "Carregando…",
-      "loading_error": "Erro ao carregar as opções"
+      "loading_error": "Erro ao carregar as opções",
+      "minOne": "Digite pelo menos dois caracteres"
     },
     "productionPlant": {
       "rootString": "Planta de produção",

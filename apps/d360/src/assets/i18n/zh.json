@@ -167,7 +167,8 @@
     },
     "dropdown": {
       "loading": "加载中…",
-      "loading_error": "加载选项时出错"
+      "loading_error": "加载选项时出错",
+      "minOne": "请输入至少两个字符"
     },
     "productionPlant": {
       "rootString": "生产工厂",

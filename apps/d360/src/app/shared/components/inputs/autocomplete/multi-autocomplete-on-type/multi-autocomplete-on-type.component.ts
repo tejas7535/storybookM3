@@ -1,6 +1,5 @@
 import {
   Component,
-  effect,
   inject,
   input,
   InputSignal,
@@ -15,7 +14,15 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
-import { catchError, finalize, tap } from 'rxjs';
+import {
+  catchError,
+  filter,
+  finalize,
+  Observable,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -120,18 +127,6 @@ export class MultiAutocompleteOnTypeComponent
   public requestWithLang: InputSignal<boolean> = input<boolean>(false);
 
   /**
-   * Creates an instance of SingleAutocompleteOnTypeComponent.
-   *
-   * @memberof MultiAutocompleteOnTypeComponent
-   */
-  public constructor() {
-    super();
-    effect(() => this.fetchOptions(this.inputValue()), {
-      allowSignalWrites: true,
-    });
-  }
-
-  /**
    * @override
    * @inheritdoc
    */
@@ -161,39 +156,45 @@ export class MultiAutocompleteOnTypeComponent
    * @param {boolean} [setFormControlValue=false]
    * @memberof MultiAutocompleteOnTypeComponent
    */
-  private fetchOptions(searchString: string): void {
-    if (searchString && searchString.length >= 2) {
-      this.selectableOptionsService
-        .getOptionsBySearchTerm(
+
+  /** @inheritdoc */
+  public onSearchControlChange$(searchString: string): Observable<unknown> {
+    return of(searchString).pipe(
+      filter((value) => {
+        if (value && value.length > 1) {
+          return true;
+        }
+
+        this.resetOptions();
+
+        return false;
+      }),
+      tap(() => this.loading.set(true)),
+      switchMap(() =>
+        this.selectableOptionsService.getOptionsBySearchTerm(
           this.urlBegin(),
           searchString,
           this.requestWithLang()
         )
-        .pipe(
-          catchError((error) => {
-            this.loadingError.set(error);
+      ),
+      catchError((error) => {
+        this.loadingError.set(error);
 
-            return [];
-          }),
-          tap((data) => {
-            const allOptions: SelectableValue[] = [
-              ...(data as SelectableValue[]),
-            ];
+        return of([]);
+      }),
+      tap((data) => {
+        const allOptions: SelectableValue[] = [...(data as SelectableValue[])];
 
-            const selectedIds: Set<string> = new Set<string>(
-              this.control().value.map((option: SelectableValue) => option.id)
-            );
+        const selectedIds: Set<string> = new Set<string>(
+          this.control().value.map((option: SelectableValue) => option.id)
+        );
 
-            this.options.set(
-              allOptions.filter((option) => !selectedIds.has(option.id))
-            );
-          }),
-          finalize(() => this.loading.set(false)),
-          takeUntilDestroyed(this.destroyRef)
-        )
-        .subscribe();
-    } else {
-      this.resetOptions();
-    }
+        this.options.set(
+          allOptions.filter((option) => !selectedIds.has(option.id))
+        );
+      }),
+      finalize(() => this.loading.set(false)),
+      takeUntilDestroyed(this.destroyRef)
+    );
   }
 }

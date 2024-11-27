@@ -181,7 +181,8 @@
     },
     "dropdown": {
       "loading": "Laden…",
-      "loading_error": "Fehler beim Laden der Optionen"
+      "loading_error": "Fehler beim Laden der Optionen",
+      "minOne": "Bitte min. zwei Zeichen eingeben"
     },
     "selection_empty": "Es ist erforderlich, mindestens ein Selektionskriterium zu wählen.",
     "tasks": "Offene Aufgaben",

@@ -1,12 +1,20 @@
 import { InputSignal, Signal, signal } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
+import { Observable, of } from 'rxjs';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { SelectableValue } from '../../selectable-values.utils';
 import { AbstractSingleAutocompleteComponent } from './abstract-single-autocomplete.component';
 
 class TestComponent extends AbstractSingleAutocompleteComponent {
+  public onSearchControlChange$(
+    _value: string,
+    _setFormControlValue?: boolean
+  ): Observable<unknown | void> {
+    return of();
+  }
   public isPreloaded = false;
   public filteredOptions: Signal<SelectableValue[]> = signal([]);
   public displayFn:

@@ -167,7 +167,8 @@
     },
     "dropdown": {
       "loading": "caricamento in corso…",
-      "loading_error": "Errore durante il caricamento"
+      "loading_error": "Errore durante il caricamento",
+      "minOne": "Si prega di inserire almeno due caratteri"
     },
     "productionPlant": {
       "rootString": "Impianto di produzione",

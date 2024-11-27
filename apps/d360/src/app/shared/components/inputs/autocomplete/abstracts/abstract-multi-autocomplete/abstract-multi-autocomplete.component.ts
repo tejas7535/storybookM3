@@ -16,7 +16,15 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
-import { debounceTime, distinctUntilChanged, filter, map, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  debounceTime,
+  distinctUntilChanged,
+  EMPTY,
+  Observable,
+  of,
+  switchMap,
+} from 'rxjs';
 
 import {
   DisplayFunction,
@@ -127,17 +135,6 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
   public addDropdownIcon: InputSignal<boolean> = input(true);
 
   /**
-   * The current input value (search string)
-   *
-   * @protected
-   * @type {WritableSignal<string | null>}
-   * @memberof AbstractMultiAutocompleteComponent
-   */
-  protected readonly inputValue: WritableSignal<string | null> = signal<
-    string | null
-  >(null);
-
-  /**
    * The available options
    *
    * @protected
@@ -162,6 +159,18 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
    */
   public optionsLoadingResult: InputSignal<OptionsLoadingResult> =
     input<OptionsLoadingResult>();
+
+  /**
+   * Abstract method to handle the search control change.
+   *
+   * @abstract
+   * @param {string} value
+   * @return {(Observable<unknown | void>)}
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  public abstract onSearchControlChange$(
+    value: string
+  ): Observable<unknown | void>;
 
   /**
    * The native element of the autocomplete
@@ -218,6 +227,14 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
   protected errorMessage: InputSignal<string> = input('');
 
   /**
+   * A BehaviorSubject that holds the temporary search string value
+   *
+   * @private
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  private readonly tempSearchString$ = new BehaviorSubject(null);
+
+  /**
    * Creates an instance of AbstractMultiAutocompleteComponent.
    *
    * @memberof AbstractMultiAutocompleteComponent
@@ -246,11 +263,9 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
     });
   }
 
-  /**
-   * @inheritdoc
-   */
+  /** @inheritdoc */
   public ngOnInit(): void {
-    // convert to SelectableValue[]
+    // Convert the raw value from the form control to SelectableValue[] and set it back to the form control
     this.control().setValue(
       SelectableValueUtils.toSelectableValueOrNull(
         this.control().getRawValue(),
@@ -259,24 +274,61 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
       { emitEvent: false }
     );
 
-    // enable search field
+    // Subscribe to value changes of the search control and handle them accordingly
     this.searchControl()
       .valueChanges.pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        filter((value) => !SelectableValueUtils.isSelectableValue(value)),
-        map((value) => value as string),
-        tap((value) => {
-          // set loading state
-          if (!this.isPreloaded && value) {
-            this.loading.set(true);
-          }
+        switchMap((value) =>
+          // If the value is a SelectableValue, ignore it; otherwise, handle as a search value change
+          SelectableValueUtils.isSelectableValue(value)
+            ? EMPTY
+            : this.handleSearchValueChange(String(value))
+        ),
 
-          this.inputValue.set(value);
-        }),
+        // Handle the search control changes
+        switchMap(this.onSearchControlChange$.bind(this)),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
+  }
+
+  /**
+   * Handles the change in the search value and returns an Observable<string> that emits the updated search string
+   *
+   * @private
+   * @param {string} next - The new search string value
+   * @return {Observable<string>}
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  private handleSearchValueChange(next: string): Observable<string> {
+    if (this.isPreloaded) {
+      // If the data is already preloaded, return the new search string as an observable
+      return of(next);
+    } else {
+      // If the new search string has more than one character, set loading state to true
+      if (next.length > 1) {
+        this.loading.set(true);
+      }
+
+      // Update the temporary search string subject with the new value
+      this.tempSearchString$.next(next);
+
+      // Return an observable that emits the debounced and distinct search strings
+      return this.debounce$();
+    }
+  }
+
+  /**
+   * Returns an Observable that emits the debounced and distinct search string from the temporary search string subject
+   *
+   * @private
+   * @return {Observable<string>}
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  private debounce$(): Observable<string> {
+    return this.tempSearchString$.pipe(
+      debounceTime(250),
+      distinctUntilChanged()
+    );
   }
 
   /**
@@ -286,7 +338,6 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
    * @memberof AbstractMultiAutocompleteComponent
    */
   protected onClear(): void {
-    this.inputValue.set(null);
     this.control().patchValue([]);
   }
 

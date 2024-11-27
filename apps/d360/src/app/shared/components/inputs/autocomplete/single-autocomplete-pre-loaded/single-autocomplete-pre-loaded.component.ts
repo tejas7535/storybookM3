@@ -12,6 +12,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
+import { Observable, of } from 'rxjs';
+
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { OptionsLoadingResult } from '../../../../services/selectable-options.service';
@@ -102,21 +104,6 @@ export class SingleAutocompletePreLoadedComponent
 
     effect(
       () => {
-        this.filteredOptions.set(
-          this.inputValue()
-            ? this.options().filter((option) =>
-                DisplayFunctions.displayFnUnited(option)
-                  .toLowerCase()
-                  .includes(this.inputValue().toLowerCase())
-              )
-            : this.options()
-        );
-      },
-      { allowSignalWrites: true }
-    );
-
-    effect(
-      () => {
         if (this.optionsLoadingResult()) {
           this.extractOptions();
         }
@@ -132,6 +119,21 @@ export class SingleAutocompletePreLoadedComponent
   public ngOnInit(): void {
     this.transformInputToSelectableValue();
     super.ngOnInit();
+  }
+
+  /** @inheritdoc */
+  public onSearchControlChange$(searchString: string): Observable<void> {
+    this.filteredOptions.set(
+      searchString
+        ? this.options().filter((option) =>
+            DisplayFunctions.displayFnUnited(option)
+              .toLowerCase()
+              .includes(searchString.toLowerCase())
+          )
+        : this.options()
+    );
+
+    return of();
   }
 
   /**

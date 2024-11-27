@@ -15,8 +15,8 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { debounceTime, distinctUntilChanged, map } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, Observable } from 'rxjs';
+import { filter, switchMap } from 'rxjs/operators';
 
 import {
   DisplayFunction,
@@ -222,6 +222,20 @@ export abstract class AbstractSingleAutocompleteComponent implements OnInit {
   }
 
   /**
+   * Abstract method to handle the search control change.
+   *
+   * @abstract
+   * @param {string} value
+   * @param {boolean} [setFormControlValue]
+   * @return {(Observable<unknown | void>)}
+   * @memberof AbstractSingleAutocompleteComponent
+   */
+  public abstract onSearchControlChange$(
+    value: string,
+    setFormControlValue?: boolean
+  ): Observable<unknown | void>;
+
+  /**
    * @inheritdoc
    */
   public ngOnInit(): void {
@@ -236,18 +250,11 @@ export abstract class AbstractSingleAutocompleteComponent implements OnInit {
 
     this.control()
       .valueChanges.pipe(
-        debounceTime(300),
+        debounceTime(250),
         distinctUntilChanged(),
         filter((value) => !SelectableValueUtils.isSelectableValue(value)),
         map((value) => (value ? String(value) : null)),
-        tap((value) => {
-          // set loading state
-          if (!this.isPreloaded && value) {
-            this.loading.set(true);
-          }
-
-          this.inputValue.set(value);
-        }),
+        switchMap((value) => this.onSearchControlChange$(value, false)),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
@@ -265,6 +272,19 @@ export abstract class AbstractSingleAutocompleteComponent implements OnInit {
         option: this.control().value as SelectableValue,
       });
     }
+  }
+
+  /**
+   * Returns, if the current value is not empty.
+   *
+   * @protected
+   * @return {boolean}
+   * @memberof AbstractSingleAutocompleteComponent
+   */
+  protected notEmpty(): boolean {
+    return SelectableValueUtils.isSelectableValue(this.control().value)
+      ? (this.control()?.value as SelectableValue)?.id?.length > 0
+      : (this.control()?.value as string)?.length > 1;
   }
 
   /**

@@ -16,10 +16,8 @@
       class="mb-3"
       mat-flat-button
       (click)="
-        this.data.loadLayout(
-          layoutForm.controls['currentLayout'].getRawValue().id
-        );
-        this.dialog.closeAll()
+        data.loadLayout(layoutForm.controls['currentLayout'].getRawValue().id);
+        dialog.closeAll()
       "
     >
       <mat-icon>download_2</mat-icon>
@@ -29,10 +27,8 @@
       class="mb-3"
       mat-button
       (click)="
-        this.data.saveLayout(
-          layoutForm.controls['currentLayout'].getRawValue().id
-        );
-        this.dialog.closeAll()
+        data.saveLayout(layoutForm.controls['currentLayout'].getRawValue().id);
+        dialog.closeAll()
       "
     >
       <mat-icon>restart_alt</mat-icon>
@@ -41,10 +37,8 @@
     <button
       mat-button
       (click)="
-        this.data.resetLayout(
-          layoutForm.controls['currentLayout'].getRawValue().id
-        );
-        this.dialog.closeAll()
+        data.resetLayout(layoutForm.controls['currentLayout'].getRawValue().id);
+        dialog.closeAll()
       "
     >
       <mat-icon>undo</mat-icon>

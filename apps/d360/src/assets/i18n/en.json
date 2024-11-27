@@ -181,7 +181,8 @@
     },
     "dropdown": {
       "loading": "Loading…",
-      "loading_error": "Error loading options"
+      "loading_error": "Error loading options",
+      "minOne": "Please enter at least two characters"
     },
     "selection_empty": "It is necessary to choose at least one selection criterion.",
     "tasks": "Open tasks",

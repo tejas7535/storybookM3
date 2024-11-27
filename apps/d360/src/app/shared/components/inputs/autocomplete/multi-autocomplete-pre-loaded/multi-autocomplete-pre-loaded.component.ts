@@ -1,9 +1,11 @@
-import { Component, effect, input, InputSignal, OnInit } from '@angular/core';
+import { Component, input, InputSignal, OnInit } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+
+import { Observable, of } from 'rxjs';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -54,20 +56,6 @@ export class MultiAutocompletePreLoadedComponent
   public override addClearButton: InputSignal<boolean> = input(true);
 
   /**
-   * Creates an instance of SingleAutocompleteOnTypeComponent.
-   *
-   * @memberof MultiAutocompletePreLoadedComponent
-   */
-  public constructor() {
-    super();
-
-    effect(() => this.filterOptions(this.inputValue()), {
-      // we allow writing signals here, because we are not in an endless loop
-      allowSignalWrites: true,
-    });
-  }
-
-  /**
    * @override
    * @inheritdoc
    */
@@ -75,6 +63,13 @@ export class MultiAutocompletePreLoadedComponent
     this.extractOptions();
 
     super.ngOnInit();
+  }
+
+  /** @inheritdoc */
+  public onSearchControlChange$(searchString: string): Observable<void> {
+    this.filterOptions(searchString);
+
+    return of();
   }
 
   /**
