@@ -5,8 +5,10 @@ import { translate } from '@jsverse/transloco';
 import {
   CellClickedEvent,
   ColDef,
+  ColumnApi,
   GridApi,
   GridReadyEvent,
+  ValueGetterParams,
 } from 'ag-grid-community';
 
 import { ExitEntryEmployeesResponse } from '../../../overview/models';
@@ -36,8 +38,11 @@ import { ReasonForLeavingRank } from '../../models';
   ],
 })
 export class ReasonsForLeavingTableComponent implements OnInit {
+  private readonly answersColumnId = 'answers';
+  private _data: ReasonForLeavingRank[];
   private _loading: boolean;
   gridApi: GridApi<ReasonForLeavingRank[]>;
+  columnApi: ColumnApi;
   leavers: EmployeeWithAction[];
   components = {
     AmountCellRendererComponent,
@@ -51,11 +56,18 @@ export class ReasonsForLeavingTableComponent implements OnInit {
     detailedReasonId: number;
   }>();
 
-  @Input() data: ReasonForLeavingRank[];
+  @Input() set data(data: ReasonForLeavingRank[]) {
+    this._data = data;
+    this.showOrHideAnswersColumn();
+  }
+
+  get data(): ReasonForLeavingRank[] {
+    return this._data;
+  }
 
   @Input() set loading(loading: boolean) {
     this._loading = loading;
-    this.showOrHideLoadingOverlay(loading);
+    this.showOrHideLoadingOverlay();
   }
 
   get loading(): boolean {
@@ -126,8 +138,7 @@ export class ReasonsForLeavingTableComponent implements OnInit {
           'reasonsAndCounterMeasures.reasonsForLeaving.table.actionReason'
         ),
         flex: 5,
-        valueGetter: (params) =>
-          params.data.detailedReason ?? params.data.reason,
+        valueGetter: (params) => this.getReasonValueGetter(params),
       },
       {
         field: 'percentage',
@@ -137,7 +148,7 @@ export class ReasonsForLeavingTableComponent implements OnInit {
         type: 'numericColumn',
         headerClass: [this.headerClass, 'ia-ag-header-align-right'],
         filter: 'agNumberColumnFilter',
-        valueGetter: (params) => params.data.percentage.toFixed(1),
+        valueGetter: (params) => this.getPercentageValueGetter(params),
         minWidth: 82,
       },
       {
@@ -150,21 +161,74 @@ export class ReasonsForLeavingTableComponent implements OnInit {
         filter: 'agNumberColumnFilter',
         cellClass: 'amount-cell',
         cellRenderer: AmountCellRendererComponent,
-        onCellClicked: (params) => this.handleCellClick(params),
-        valueGetter: (params) => ({
-          count: params.data.leavers,
-          restrictedAccess: false,
-        }),
+        onCellClicked: (params) =>
+          params.data.detailedReasonId
+            ? undefined
+            : this.handleCellClick(params),
+        valueGetter: (params) => this.getLeaversValueGetter(params),
         comparator: countComparator,
-        minWidth: 130,
+        minWidth: 100,
+      },
+      {
+        colId: this.answersColumnId,
+        field: 'leavers',
+        headerName: translate(
+          'reasonsAndCounterMeasures.reasonsForLeaving.table.answers'
+        ),
+        type: 'numericColumn',
+        headerClass: [this.headerClass, 'ia-ag-header-align-right'],
+        filter: 'agNumberColumnFilter',
+        cellClass: 'amount-cell',
+        cellRenderer: AmountCellRendererComponent,
+        onCellClicked: (params) =>
+          params.data.detailedReasonId
+            ? this.handleCellClick(params)
+            : undefined,
+        valueGetter: (params) => this.getAnswersValueGetter(params),
+        comparator: countComparator,
+        initialHide: true,
+        minWidth: 100,
       },
     ];
   }
 
+  getAnswersValueGetter(
+    params: ValueGetterParams<ReasonForLeavingRank, string>
+  ): { count: number; restrictedAccess: boolean } {
+    return params.data.detailedReasonId
+      ? {
+          count: params.data.leavers,
+          restrictedAccess: false,
+        }
+      : undefined;
+  }
+
+  getLeaversValueGetter(
+    params: ValueGetterParams<ReasonForLeavingRank, string>
+  ): { count: number; restrictedAccess: boolean } {
+    return params.data.detailedReasonId
+      ? undefined
+      : {
+          count: params.data.leavers,
+          restrictedAccess: false,
+        };
+  }
+
+  getPercentageValueGetter(
+    params: ValueGetterParams<ReasonForLeavingRank, string>
+  ): string {
+    return params.data.percentage.toFixed(1);
+  }
+
+  getReasonValueGetter(params: ValueGetterParams): string {
+    return params.data.detailedReason ?? params.data.reason;
+  }
+
   onGridReady(event: GridReadyEvent<ReasonForLeavingRank[]>): void {
     this.gridApi = event.api;
+    this.columnApi = event.columnApi;
 
-    this.showOrHideLoadingOverlay(this.loading);
+    this.showOrHideLoadingOverlay();
   }
 
   handleCellClick(params: CellClickedEvent): void {
@@ -200,11 +264,19 @@ export class ReasonsForLeavingTableComponent implements OnInit {
     });
   }
 
-  showOrHideLoadingOverlay(loading: boolean) {
-    if (loading) {
+  showOrHideLoadingOverlay(): void {
+    if (this.loading) {
       this.gridApi?.showLoadingOverlay();
     } else {
       this.gridApi?.hideOverlay();
+    }
+  }
+
+  showOrHideAnswersColumn(): void {
+    if (this.data.some((reason) => reason.detailedReasonId)) {
+      this.columnApi?.setColumnVisible(this.answersColumnId, true);
+    } else {
+      this.columnApi?.setColumnVisible(this.answersColumnId, false);
     }
   }
 }

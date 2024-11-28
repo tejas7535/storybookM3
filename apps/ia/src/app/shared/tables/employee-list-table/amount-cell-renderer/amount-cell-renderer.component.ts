@@ -21,8 +21,8 @@ export class AmountCellRendererComponent implements ICellRendererAngularComp {
   constructor(private readonly translocoService: TranslocoService) {}
 
   agInit(params: ICellRendererParams): void {
-    this.amount = params.value.count;
-    this.restrictedAccess = params.value.restrictedAccess;
+    this.amount = params.value?.count;
+    this.restrictedAccess = params.value?.restrictedAccess;
     this.setTooltip();
   }
 

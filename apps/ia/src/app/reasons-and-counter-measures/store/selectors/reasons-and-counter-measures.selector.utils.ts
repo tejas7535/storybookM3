@@ -46,6 +46,9 @@ export function rankReasons(
   reasonsArray: ReasonForLeavingRank[],
   selectedReason = false
 ): ReasonForLeavingRank[] {
+  if (reasonsArray.length === 0) {
+    return [];
+  }
   let currentRank = 1;
   let currentLeavers = reasonsArray[0].leavers;
   reasonsArray.forEach((item, index) => {

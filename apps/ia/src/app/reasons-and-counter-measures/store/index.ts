@@ -113,6 +113,7 @@ export const reasonsAndCounterMeasuresReducer = createReducer(
         ...state.reasonsForLeaving,
         reasons: {
           ...state.reasonsForLeaving.reasons,
+          selectedReason: undefined,
           loading: true,
         },
       },
@@ -163,6 +164,7 @@ export const reasonsAndCounterMeasuresReducer = createReducer(
         ...state.reasonsForLeaving,
         comparedReasons: {
           ...state.reasonsForLeaving.comparedReasons,
+          selectedReason: undefined,
           loading: true,
         },
       },

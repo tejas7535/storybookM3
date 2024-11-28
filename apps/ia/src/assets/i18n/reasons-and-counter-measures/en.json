@@ -18,6 +18,7 @@
       "actionReason": "Reason",
       "percentage": "%",
       "leavers": "Leavers",
+      "answers": "Answers",
       "popup": {
         "titleLeavers": "Leavers"
       }

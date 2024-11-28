@@ -1,6 +1,12 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { AgGridModule } from 'ag-grid-angular';
-import { CellClickedEvent, GridApi, GridReadyEvent } from 'ag-grid-community';
+import {
+  CellClickedEvent,
+  ColumnApi,
+  GridApi,
+  GridReadyEvent,
+  ValueGetterParams,
+} from 'ag-grid-community';
 
 import { EmployeeListDialogComponent } from '../../../shared/dialogs/employee-list-dialog/employee-list-dialog.component';
 import {
@@ -36,8 +42,50 @@ describe('ReasonsForLeavingTableComponent', () => {
 
       component.ngOnInit();
 
-      expect(component.columnDefs.length).toEqual(4);
+      expect(component.columnDefs.length).toEqual(5);
     });
+  });
+
+  test('leavers should not handle cell click when detailed reason', () => {
+    component.handleCellClick = jest.fn();
+    component.ngOnInit();
+
+    component.columnDefs[3].onCellClicked({
+      data: { detailedReasonId: 12 },
+    } as CellClickedEvent);
+
+    expect(component.handleCellClick).not.toHaveBeenCalled();
+  });
+
+  test('leavers should handle cell click when no detailed reason', () => {
+    component.handleCellClick = jest.fn();
+    component.ngOnInit();
+
+    component.columnDefs[3].onCellClicked({ data: {} } as CellClickedEvent);
+
+    expect(component.handleCellClick).toHaveBeenCalled();
+  });
+
+  test('answers should not handle cell click when no detailed reason', () => {
+    component.handleCellClick = jest.fn();
+    component.ngOnInit();
+
+    component.columnDefs[4].onCellClicked({
+      data: {},
+    } as CellClickedEvent);
+
+    expect(component.handleCellClick).not.toHaveBeenCalled();
+  });
+
+  test('answers should handle cell click when detailed reason', () => {
+    component.handleCellClick = jest.fn();
+    component.ngOnInit();
+
+    component.columnDefs[4].onCellClicked({
+      data: { detailedReasonId: 12 },
+    } as CellClickedEvent);
+
+    expect(component.handleCellClick).toHaveBeenCalled();
   });
 
   describe('leaversLoading', () => {
@@ -122,7 +170,7 @@ describe('ReasonsForLeavingTableComponent', () => {
 
       component.onGridReady(event);
 
-      expect(component.showOrHideLoadingOverlay).toHaveBeenCalledWith(true);
+      expect(component.showOrHideLoadingOverlay).toHaveBeenCalled();
       expect(component.gridApi).toEqual('gridApi');
     });
   });
@@ -194,8 +242,9 @@ describe('ReasonsForLeavingTableComponent', () => {
         showLoadingOverlay: jest.fn(),
         hideOverlay: jest.fn(),
       } as unknown as GridApi<ReasonForLeavingRank[]>;
+      component.loading = true;
 
-      component.showOrHideLoadingOverlay(true);
+      component.showOrHideLoadingOverlay();
 
       expect(component.gridApi.showLoadingOverlay).toHaveBeenCalled();
       expect(component.gridApi.hideOverlay).not.toHaveBeenCalled();
@@ -206,8 +255,9 @@ describe('ReasonsForLeavingTableComponent', () => {
         showLoadingOverlay: jest.fn(),
         hideOverlay: jest.fn(),
       } as unknown as GridApi<ReasonForLeavingRank[]>;
+      component.loading = false;
 
-      component.showOrHideLoadingOverlay(false);
+      component.showOrHideLoadingOverlay();
 
       expect(component.gridApi.showLoadingOverlay).not.toHaveBeenCalled();
       expect(component.gridApi.hideOverlay).toHaveBeenCalled();
@@ -219,7 +269,115 @@ describe('ReasonsForLeavingTableComponent', () => {
       component.showOrHideLoadingOverlay = jest.fn();
       component.loading = true;
 
-      expect(component.showOrHideLoadingOverlay).toHaveBeenCalledWith(true);
+      expect(component.showOrHideLoadingOverlay).toHaveBeenCalled();
+    });
+  });
+
+  describe('getReasonValueGetter', () => {
+    test('reason should get detailed reason if detailed reason defined', () => {
+      const params = {
+        data: { detailedReason: 'detailed reason' },
+      } as ValueGetterParams<ReasonForLeavingRank, string>;
+      const result = component.getReasonValueGetter(params);
+
+      expect(result).toEqual('detailed reason');
+    });
+
+    test('reason should get reason if detailed reason undefined', () => {
+      const params = { data: { reason: 'reason' } } as ValueGetterParams<
+        ReasonForLeavingRank,
+        string
+      >;
+      const result = component.getReasonValueGetter(params);
+
+      expect(result).toEqual('reason');
+    });
+  });
+
+  describe('getPercentageValueGetter', () => {
+    test('should return percentage', () => {
+      const params = {
+        data: { percentage: 12.345 },
+      } as ValueGetterParams<ReasonForLeavingRank, string>;
+      const result = component.getPercentageValueGetter(params);
+
+      expect(result).toEqual('12.3');
+    });
+  });
+
+  describe('getLeaversValueGetter', () => {
+    test('should return count and restrictedAccess if detailed reason undefined', () => {
+      const params = {
+        data: { detailedReasonId: undefined, leavers: 123 },
+      } as ValueGetterParams<ReasonForLeavingRank, string>;
+      const result = component.getLeaversValueGetter(params);
+
+      expect(result).toEqual({ count: 123, restrictedAccess: false });
+    });
+
+    test('should return undefined if detailed reason defined', () => {
+      const params = {
+        data: { detailedReasonId: 12, leavers: 123 },
+      } as ValueGetterParams<ReasonForLeavingRank, string>;
+      const result = component.getLeaversValueGetter(params);
+
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('getAnswersValueGetter', () => {
+    test('should return count and restrictedAccess if detailed reason defined', () => {
+      const params = {
+        data: { detailedReasonId: 12, leavers: 123 },
+      } as ValueGetterParams<ReasonForLeavingRank, string>;
+      const result = component.getAnswersValueGetter(params);
+
+      expect(result).toEqual({ count: 123, restrictedAccess: false });
+    });
+
+    test('should return undefined if detailed reason undefined', () => {
+      const params = {
+        data: { detailedReasonId: undefined, leavers: 123 },
+      } as ValueGetterParams<ReasonForLeavingRank, string>;
+      const result = component.getAnswersValueGetter(params);
+
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('showOrHideAnswersColumn', () => {
+    test('should show answers column when at least one detailed reason', () => {
+      component['_data'] = [
+        { detailedReasonId: 12 },
+        { detailedReasonId: undefined },
+      ] as ReasonForLeavingRank[];
+      component.columnApi = {
+        setColumnVisible: jest.fn(),
+      } as unknown as ColumnApi;
+
+      component.showOrHideAnswersColumn();
+
+      expect(component.columnApi.setColumnVisible).toHaveBeenCalledWith(
+        'answers',
+        true
+      );
+    });
+
+    test('should hide answers column when no detailed reason', () => {
+      component['_data'] = [
+        { detailedReasonId: undefined },
+        { detailedReasonId: undefined },
+      ] as ReasonForLeavingRank[];
+      component.columnApi = {
+        setColumnVisible: jest.fn(),
+      } as unknown as ColumnApi;
+
+      component.showOrHideAnswersColumn();
+
+      expect(component.columnApi.setColumnVisible).toHaveBeenCalledWith(
+        'answers',
+        false
+      );
     });
   });
 });

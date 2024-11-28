@@ -46,6 +46,51 @@ describe('SolidDoughnutChartComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('ngOnInit', () => {
+    test('should reset item styles', () => {
+      component.resetItemStyles = jest.fn();
+
+      component.ngOnInit();
+
+      expect(component.resetItemStyles).toHaveBeenCalled();
+    });
+  });
+
+  describe('onChartInit', () => {
+    let echartsInstance: ECharts;
+    beforeEach(() => {
+      echartsInstance = {
+        showLoading: jest.fn(),
+        hideLoading: jest.fn(),
+        on: jest.fn(),
+      } as unknown as ECharts;
+    });
+
+    test('should call on method', () => {
+      component.onChartInit(echartsInstance);
+
+      expect(echartsInstance.on).toHaveBeenCalled();
+    });
+
+    test('should show loading when loading is true', () => {
+      component.isLoading = true;
+
+      component.onChartInit(echartsInstance);
+
+      expect(component.echartsInstance.showLoading).toHaveBeenCalledWith(
+        component.loadingOpts
+      );
+    });
+
+    test('should hide loading when loading is false', () => {
+      component.isLoading = false;
+
+      component.onChartInit(echartsInstance);
+
+      expect(component.echartsInstance.hideLoading).toHaveBeenCalled();
+    });
+  });
+
   describe('initialConfig', () => {
     test('should set base options', () => {
       const config: SolidDoughnutChartConfig = {
@@ -425,6 +470,22 @@ describe('SolidDoughnutChartComponent', () => {
         dataIndex: 1,
       });
       expect(component.echartsInstance.dispatchAction).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('resetItemStyles', () => {
+    test('should reset item styles', () => {
+      component._data = [
+        { value: 21, itemStyle: { color: 'red' } },
+        { value: 45, itemStyle: { color: 'yellow' } },
+        { value: 11 },
+      ];
+
+      component.resetItemStyles();
+
+      expect(component.data[0].itemStyle).toBeUndefined();
+      expect(component.data[1].itemStyle).toBeUndefined();
+      expect(component.data[2].itemStyle).toBeUndefined();
     });
   });
 });
