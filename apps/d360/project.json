@@ -124,7 +124,14 @@
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint"
+      "executor": "@nx/eslint:lint",
+      "configurations": {
+        "ci": {
+          "format": "json",
+          "outputFile": "eslint/apps/d360/eslint.json",
+          "force": true
+        }
+      }
     },
     "test": {
       "executor": "@nx/jest:jest",
@@ -132,6 +139,16 @@
       "options": {
         "jestConfig": "apps/d360/jest.config.ts"
       }
+    },
+    "sonar": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "sonar-scanner -Dsonar.token=${SONAR_TOKEN} -Dproject.settings=apps/d360/sonar-project.properties"
+        ],
+        "parallel": false
+      },
+      "outputs": []
     },
     "serve-static": {
       "executor": "@nx/web:file-server",
