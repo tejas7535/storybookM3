@@ -1,0 +1,42 @@
+<div
+  *transloco="let t; read: 'disclaimer'"
+  class="flex gap-1 text-medium-emphasis"
+>
+  <div class="flex items-center">
+    <mat-icon> info_outline</mat-icon>
+  </div>
+  <div class="disclaimer-block">
+    @if (showFullText) {
+      {{ disclaimer }}
+      <a
+        class="text-primary underline"
+        target="_blank"
+        rel="noopener"
+        href="{{ t('link') }}"
+      >
+        {{ t('linkText') }}
+        <mat-icon class="align-bottom"> open_in_new </mat-icon></a
+      >
+    } @else {
+      {{ shortDisclaimer }}
+
+      <button
+        class="text-primary underline align-baseline"
+        (click)="toggleDisclaimerLength()"
+      >
+        {{ t('showMore') }}
+      </button>
+    }
+
+    @if (showFullText) {
+      <p>
+        <button
+          class="text-primary underline"
+          (click)="toggleDisclaimerLength()"
+        >
+          {{ t('showLess') }}
+        </button>
+      </p>
+    }
+  </div>
+</div>

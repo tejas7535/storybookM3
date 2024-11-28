@@ -90,6 +90,7 @@
       "no": "Nein",
       "heading": "Teileliste für {{ designation }}",
       "share": "Teilen",
+      "reset": "Eingaben zurücksetzen",
       "addToCart": "In den Warenkorb legen",
       "addToCartMessage": "Produkte / Zubehör in den Warenkorb gelegt",
       "product": "Produkt",
@@ -138,6 +139,14 @@
     "lubricationPoints": "Anzahl an Schmierstellen",
     "maxPipeLengthTitle": "Max. Länge Schmierstoffleitung",
     "powerSupplyTitle": "Stromversorgung",
-    "optimeTitle": "OPTIME-Integration"
+    "optimeTitle": "OPTIME-Integration",
+    "remoteChanged": "Für Ihre ursprüngliche Anfrage mit {{original}} konnten keine Ergebnisse gefunden werden. Wir haben automatisch eine erneute Anfrage mit {{new}} als mögliche Alternative erstellt. Bitte überprüfen Sie, ob dies mit Ihrem Anwendungsfall kompatibel ist."
+  },
+  "disclaimer": {
+    "text": "Our details take into account those risks which were apparent to us on the basis of your requirements as made available to us. The results shown in the document have been worked out carefully and in accordance with the state of the art, but do not constitute an express or implied guaranty as to quality or durability in the legal sense. You are not dispensed thereby from checking the suitability of the products for your intended use. We shall be liable for the details provided in the recommendation only in the event of willful intent or negligence. In case of questions regarding the product, the recommendation or the suitability of the product, please ",
+    "linkText": "kontaktieren Sie bitte unsere Experten",
+    "link": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=de",
+    "showMore": "Mehr anzeigen",
+    "showLess": "Weniger anzeigen"
   }
 }
