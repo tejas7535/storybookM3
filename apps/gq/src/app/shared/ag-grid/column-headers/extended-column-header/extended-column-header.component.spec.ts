@@ -12,7 +12,6 @@ import { of } from 'rxjs';
 import { getIsQuotationStatusActive } from '@gq/core/store/active-case/active-case.selectors';
 import { RolesFacade } from '@gq/core/store/facades/roles.facade';
 import { UserRoles } from '@gq/shared/constants';
-import * as miscUtils from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createComponentFactory,
@@ -902,30 +901,24 @@ describe('ExtendedColumnHeaderComponent', () => {
   });
 
   describe('editFormControl', () => {
-    test('should convert input value based on given input value type', () => {
+    test('should convert input value to percentage format', () => {
       component['translocoLocaleService'].getLocale = jest.fn(() => 'en');
-      component['updateMaterialSimulation'] = jest.fn();
-      component.addSubscriptions();
       component.params = {
+        ...DEFAULT_PARAMS,
         isPercentageInputValue: true,
       } as ExtendedColumnHeaderComponentParams;
-
-      const spy = jest.spyOn(miscUtils, 'parseLocalizedInputValue');
-
-      component.editFormControl.setValue('3');
-      expect(spy).toHaveBeenCalledWith('0.03', 'en');
-    });
-
-    test('should not convert input value when input value type is not specified', () => {
-      component['translocoLocaleService'].getLocale = jest.fn(() => 'en');
-      component['updateMaterialSimulation'] = jest.fn();
       component.addSubscriptions();
-      component.params = {} as ExtendedColumnHeaderComponentParams;
-
-      const spy = jest.spyOn(miscUtils, 'parseLocalizedInputValue');
 
       component.editFormControl.setValue('3');
-      expect(spy).toHaveBeenCalledWith('3', 'en');
+      expect(component.value).toEqual(0.03);
+    });
+    test('should not convert input value to percentage format', () => {
+      component['translocoLocaleService'].getLocale = jest.fn(() => 'en');
+      component.params = DEFAULT_PARAMS;
+      component.addSubscriptions();
+
+      component.editFormControl.setValue('3');
+      expect(component.value).toEqual(3);
     });
   });
 });

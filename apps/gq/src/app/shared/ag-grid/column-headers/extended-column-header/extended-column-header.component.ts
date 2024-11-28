@@ -105,19 +105,20 @@ export class ExtendedColumnHeaderComponent
           filter((newVal: string | undefined | null) => newVal !== undefined)
         )
         .subscribe((newVal: string | null) => {
-          let newValue = newVal;
+          let parsedValue =
+            parseLocalizedInputValue(
+              newVal,
+              this.translocoLocaleService.getLocale()
+            ) || 0;
+
           // If the input value is a percentage, we need to convert it to the same format
           // as BE returns percentage values (e.g. BE returns 49,45% as 0.4945)
+          // Value is converted on "parent level" cause is used in multiple places
           if (this.params.isPercentageInputValue) {
-            newValue = (+newVal / 100).toString();
+            parsedValue = parsedValue / 100;
           }
 
-          this.updateMaterialSimulation(
-            parseLocalizedInputValue(
-              newValue,
-              this.translocoLocaleService.getLocale()
-            ) || 0
-          );
+          this.updateMaterialSimulation(parsedValue);
         })
     );
   }
