@@ -4,7 +4,6 @@ import { ForecastChartComponent } from '../../feature/forecast-chart/components/
 import { ColumnFilters } from '../../shared/ag-grid/grid-filter-model';
 import { GlobalSelectionCriteriaComponent } from '../../shared/components/global-selection-criteria/global-selection-criteria/global-selection-criteria.component';
 import { GlobalSelectionState } from '../../shared/components/global-selection-criteria/global-selection-state.service';
-import { StyledGridSectionComponent } from '../../shared/components/styled-grid-section/styled-grid-section.component';
 import { StyledSectionComponent } from '../../shared/components/styled-section/styled-section.component';
 import { MaterialCustomerTableComponent } from './table/components/material-customer-table/material-customer-table.component';
 
@@ -16,7 +15,6 @@ import { MaterialCustomerTableComponent } from './table/components/material-cust
     ForecastChartComponent,
     StyledSectionComponent,
     MaterialCustomerTableComponent,
-    StyledGridSectionComponent,
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],

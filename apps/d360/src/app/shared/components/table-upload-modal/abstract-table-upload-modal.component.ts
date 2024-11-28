@@ -25,7 +25,7 @@ import { ErrorMessage } from '../../../pages/alert-rules/table/components/modals
 import { gridParseFromClipboard } from '../../ag-grid/grid-parse-from-clipboard';
 import { ensureEmptyRowAtBottom, resetGrid } from '../../ag-grid/grid-utils';
 import { AgGridLocalizationService } from '../../services/ag-grid-localization.service';
-import { textLight } from '../../styles/colors';
+import { transparent } from '../../styles/colors';
 import {
   multiPostResultsToUserMessages,
   PostResult,
@@ -316,7 +316,7 @@ export abstract class AbstractTableUploadModalComponent<
         ...buildValidationProps(
           this.validateFunctionWithErrors(colDef.validationFn),
           true,
-          textLight
+          transparent
         ),
       })),
       {

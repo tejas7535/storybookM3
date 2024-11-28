@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-6 h-full">
   <d360-global-selection-criteria
     (onGlobalSelectionChange)="onUpdateGlobalSelectionState($event)"
   />
@@ -7,12 +7,11 @@
     [globalSelectionState]="globalSelectionCriteria"
   />
 
-  <d360-styled-section>
-    <d360-styled-grid-section>
-      <d360-material-customer-table
-        [selectionFilter]="globalSelectionCriteria"
-        (onColumnFilterChange)="onUpdateColumnFilter($event)"
-      />
-    </d360-styled-grid-section>
+  <d360-styled-section [grow]="true" class="flex flex-col h-full">
+    <d360-material-customer-table
+      class="contents"
+      [selectionFilter]="globalSelectionCriteria"
+      (onColumnFilterChange)="onUpdateColumnFilter($event)"
+    />
   </d360-styled-section>
 </div>
