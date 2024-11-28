@@ -228,8 +228,8 @@
       "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
-          "format": "checkstyle",
-          "outputFile": "checkstyle/apps/lsa/checkstyle.xml",
+          "format": "json",
+          "outputFile": "eslint/apps/lsa/eslint.json",
           "force": true
         }
       }
@@ -240,6 +240,16 @@
       "options": {
         "jestConfig": "apps/lsa/jest.config.ts"
       }
+    },
+    "sonar": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "sonar-scanner -Dsonar.token=${SONAR_TOKEN} -Dproject.settings=apps/lsa/sonar-project.properties"
+        ],
+        "parallel": false
+      },
+      "outputs": []
     },
     "version": {
       "executor": "@jscutlery/semver:version",
