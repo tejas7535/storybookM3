@@ -318,12 +318,17 @@ describe('AddEntryComponent', () => {
       });
       test('should not set set the TargetPriceSource when targetPriceFormControl is NOT valid', () => {
         component.targetPriceFormControl.setValue(null);
+        component.targetPriceSourceFormControl.setValue(
+          TargetPriceSource.NO_ENTRY
+        );
         component.targetPriceSourceFormControl.setValue = jest.fn();
         component.addSubscriptions();
         component.targetPriceFormControl.setValue('sdf');
         expect(
           component.targetPriceSourceFormControl.setValue
-        ).not.toHaveBeenCalled();
+        ).toHaveBeenCalledWith(TargetPriceSource.NO_ENTRY, {
+          emitEvent: false,
+        });
       });
       test('should not update the targetPriceSource when it is already set to <> No_ENTRY when targetPrice is set/changed', () => {
         component.targetPriceFormControl.setValue(null);
@@ -333,9 +338,7 @@ describe('AddEntryComponent', () => {
         component.targetPriceSourceFormControl.setValue = jest.fn();
         component.addSubscriptions();
         component.targetPriceFormControl.setValue('123');
-        expect(
-          component.targetPriceSourceFormControl.setValue
-        ).not.toHaveBeenCalled();
+
         expect(component.targetPriceSourceFormControl.value).toEqual(
           TargetPriceSource.CUSTOMER
         );
@@ -353,12 +356,12 @@ describe('AddEntryComponent', () => {
       });
       test('should reset targetPriceFormControl when targetPriceSource is NO_ENTRY', () => {
         component.targetPriceFormControl.setValue('123');
-        component.targetPriceFormControl.reset = jest.fn();
+        component.targetPriceFormControl.setValue = jest.fn();
         component.addSubscriptions();
         component.targetPriceSourceFormControl.setValue(
           TargetPriceSource.NO_ENTRY
         );
-        expect(component.targetPriceFormControl.reset).toHaveBeenCalledWith(
+        expect(component.targetPriceFormControl.setValue).toHaveBeenCalledWith(
           null,
           {
             emitEvent: false,

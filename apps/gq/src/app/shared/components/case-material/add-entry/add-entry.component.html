@@ -3,210 +3,206 @@
   *transloco="let t; read: 'shared.caseMaterial.addEntry'"
 >
   @if (newCaseCreation) {
-    <div
-      class="flex gap-4 items-center @[0px]/addEntry:flex-col @[0px]/addEntry:gap-8 @[0px]/addEntry:mb-4 @4xl/addEntry:flex-row @4xl/addEntry:gap-4 @4xl/addEntry:mb-6"
-      *ngrxLet="
-        isCaseView
-          ? customerIdentifierForCaseCreation$
-          : customerIdentifierForActiveCase$ as customerIdentifier
-      "
-    >
-      <div class="flex flex-1 w-full">
-        <div class="w-full pt-2 grid grid-cols-3 gap-4">
-          <ng-container
-            *ngrxLet="
-              isCaseView &&
-              !(customerIdForCaseCreation$ | ngrxPush) as isAutoCompleteDisabled
-            "
-          >
-            <div
-              *ngrxLet="
-                isCaseView
-                  ? materialDescForCreateCase$
-                  : materialDescForAddEntry$ as materialDesc
-              "
-            >
-              <gq-autocomplete-input
-                #materialDescInput
-                [filterName]="materialDesc.filter"
-                [fitContent]="true"
-                [options]="materialDesc.options"
-                (inputContent)="materialHasInput($event)"
-                (unselected)="autocompleteUnselectOptions(materialDesc.filter)"
-                (added)="
-                  autocompleteSelectMaterialNumberDescriptionOrCustomerMaterial(
-                    $event,
-                    materialDesc.filter
-                  )
-                "
-                (isValid)="materialInputValid($event)"
-                [autocompleteLoading]="
-                  materialDescAutocompleteLoading$ | ngrxPush
-                "
-                (autocomplete)="autocomplete($event, customerIdentifier)"
-                [isDisabled]="isAutoCompleteDisabled"
-              ></gq-autocomplete-input>
-            </div>
-
-            <div
-              *ngrxLet="
-                isCaseView
-                  ? materialNumberForCreateCase$
-                  : materialNumberForAddEntry$ as materialNumber
-              "
-            >
-              <gq-autocomplete-input
-                #materialNumberInput
-                [filterName]="materialNumber.filter"
-                [fitContent]="true"
-                [options]="materialNumber.options"
-                (inputContent)="materialHasInput($event)"
-                (unselected)="
-                  autocompleteUnselectOptions(materialNumber.filter)
-                "
-                (added)="
-                  autocompleteSelectMaterialNumberDescriptionOrCustomerMaterial(
-                    $event,
-                    materialNumber.filter
-                  )
-                "
-                (isValid)="materialInputValid($event)"
-                [autocompleteLoading]="
-                  materialNumberAutocompleteLoading$ | ngrxPush
-                "
-                (autocomplete)="autocomplete($event, customerIdentifier)"
-                [isDisabled]="isAutoCompleteDisabled"
-              ></gq-autocomplete-input>
-            </div>
-
-            <div
-              *ngrxLet="
-                isCaseView
-                  ? customerMaterialNumberForCreateCase$
-                  : customerMaterialNumberForAddEntry$ as customerMaterialNumber
-              "
-            >
-              <gq-autocomplete-input
-                #customerMaterialNumberInput
-                [filterName]="customerMaterialNumber.filter"
-                [fitContent]="true"
-                [options]="customerMaterialNumber.options"
-                (unselected)="
-                  autocompleteUnselectOptions(customerMaterialNumber.filter)
-                "
-                (added)="
-                  autocompleteSelectMaterialNumberDescriptionOrCustomerMaterial(
-                    $event,
-                    customerMaterialNumber.filter
-                  )
-                "
-                [autocompleteLoading]="
-                  customerMaterialNumberLoading$ | ngrxPush
-                "
-                (autocomplete)="autocomplete($event, customerIdentifier)"
-                [maxLength]="CUSTOMER_MATERIAL_MAX_LENGTH"
-                [isDisabled]="isAutoCompleteDisabled"
-              ></gq-autocomplete-input>
-            </div>
-            <div
-              *ngrxLet="
-                selectedMaterialAutocomplete$ | ngrxPush as selectedMaterial
-              "
-            >
-              <mat-form-field appearance="outline" class="w-full">
-                <mat-label>
-                  {{ t('quantity.label') }}
-                </mat-label>
-                <input
-                  (keydown)="onQuantityKeyPress($event)"
-                  class="text-overline"
-                  autocomplete="off"
-                  matInput
-                  #valueInput
-                  [min]="selectedMaterial?.deliveryUnit ?? 1"
-                  type="number"
-                  [step]="selectedMaterial?.deliveryUnit ?? 1"
-                  [formControl]="quantityFormControl"
-                  [attr.data-cy]="'add-entry-quantity'"
-                />
-                @if (selectedMaterial?.deliveryUnit) {
-                  <mat-hint>{{
-                    t('quantity.hint', {
-                      unit: selectedMaterial.deliveryUnit,
-                      uom: selectedMaterial.uom | uom
-                    })
-                  }}</mat-hint>
-                }
-
-                @if (quantityFormControl.hasError('invalidInput')) {
-                  <mat-error>{{ t('quantity.error') }}</mat-error>
-                }
-                @if (
-                  quantityFormControl.hasError('invalidDeliveryUnit') ||
-                  quantityFormControl.hasError('min')
-                ) {
-                  <mat-error>{{
-                    selectedMaterial?.deliveryUnit
-                      ? t('quantity.errorDeliveryUnit', {
-                          unit: selectedMaterial.deliveryUnit,
-                          uom: selectedMaterial.uom | uom
-                        })
-                      : t('quantity.error')
-                  }}</mat-error>
-                }
-              </mat-form-field>
-            </div>
-            <div>
-              <mat-form-field appearance="outline" class="w-full">
-                <mat-label>
-                  {{ t('targetPrice.label') }}
-                </mat-label>
-                <input
-                  class="text-overline"
-                  autocomplete="off"
-                  matInput
-                  type="text"
-                  [formControl]="targetPriceFormControl"
-                  [attr.data-cy]="'add-entry-target-price'"
-                />
-                <mat-hint>{{ t('targetPrice.hint') }}</mat-hint>
-                @if (targetPriceFormControl.hasError('invalidPrice')) {
-                  <mat-error>{{ t('targetPrice.error') }}</mat-error>
-                }
-              </mat-form-field>
-            </div>
-            <div>
-              <mat-form-field appearance="outline" class="w-full">
-                <mat-label>{{ t('targetPriceSource.label') }}</mat-label>
-                <mat-select
-                  [formControl]="targetPriceSourceFormControl"
-                  [attr.data-cy]="'add-entry-target-price-source'"
-                >
-                  @for (source of targetPriceSources; track $index) {
-                    <mat-option [value]="source">{{
-                      t('targetPriceSource.values.' + source)
-                    }}</mat-option>
-                  }
-                </mat-select>
-                <mat-hint>{{ t('targetPriceSource.hint') }}</mat-hint>
-              </mat-form-field>
-            </div>
-          </ng-container>
-        </div>
-      </div>
-
-      <button
-        mat-button
-        (click)="addRow()"
-        [disabled]="!addRowEnabled"
-        color="primary"
-        class="h-12 flex justify-center items-center px-4 text-button font-medium text-medium-emphasis @[0px]/addEntry:!mb-0 @4xl:!mb-6"
-        [attr.data-cy]="'add-entry-add-position-btn'"
+    <form [formGroup]="addEntryFormGroup">
+      <div
+        class="flex gap-4 items-center @[0px]/addEntry:flex-col @[0px]/addEntry:gap-8 @[0px]/addEntry:mb-4 @4xl/addEntry:flex-row @4xl/addEntry:gap-4 @4xl/addEntry:mb-6"
+        *ngrxLet="
+          isCaseView
+            ? customerIdentifierForCaseCreation$
+            : customerIdentifierForActiveCase$ as customerIdentifier
+        "
       >
-        <mat-icon> add</mat-icon>
-        {{ t('addPosition') | uppercase }}
-      </button>
-    </div>
+        <div class="flex flex-1 w-full">
+          <div class="w-full pt-2 grid grid-cols-3 gap-4">
+            <ng-container
+              *ngrxLet="
+                isCaseView &&
+                !(
+                  customerIdForCaseCreation$ | ngrxPush
+                ) as isAutoCompleteDisabled
+              "
+            >
+              <div
+                *ngrxLet="
+                  isCaseView
+                    ? materialDescForCreateCase$
+                    : materialDescForAddEntry$ as materialDesc
+                "
+              >
+                <gq-autocomplete-input
+                  #materialDescInput
+                  [filterName]="materialDesc.filter"
+                  [fitContent]="true"
+                  [options]="materialDesc.options"
+                  (inputContent)="materialHasInput($event)"
+                  (unselected)="
+                    autocompleteUnselectOptions(materialDesc.filter)
+                  "
+                  (added)="
+                    autocompleteSelectMaterialNumberDescriptionOrCustomerMaterial(
+                      $event,
+                      materialDesc.filter
+                    )
+                  "
+                  (isValid)="materialInputValid($event)"
+                  [autocompleteLoading]="
+                    materialDescAutocompleteLoading$ | ngrxPush
+                  "
+                  (autocomplete)="autocomplete($event, customerIdentifier)"
+                  [isDisabled]="isAutoCompleteDisabled"
+                ></gq-autocomplete-input>
+              </div>
+
+              <div
+                *ngrxLet="
+                  isCaseView
+                    ? materialNumberForCreateCase$
+                    : materialNumberForAddEntry$ as materialNumber
+                "
+              >
+                <gq-autocomplete-input
+                  #materialNumberInput
+                  [filterName]="materialNumber.filter"
+                  [fitContent]="true"
+                  [options]="materialNumber.options"
+                  (inputContent)="materialHasInput($event)"
+                  (unselected)="
+                    autocompleteUnselectOptions(materialNumber.filter)
+                  "
+                  (added)="
+                    autocompleteSelectMaterialNumberDescriptionOrCustomerMaterial(
+                      $event,
+                      materialNumber.filter
+                    )
+                  "
+                  (isValid)="materialInputValid($event)"
+                  [autocompleteLoading]="
+                    materialNumberAutocompleteLoading$ | ngrxPush
+                  "
+                  (autocomplete)="autocomplete($event, customerIdentifier)"
+                  [isDisabled]="isAutoCompleteDisabled"
+                ></gq-autocomplete-input>
+              </div>
+
+              <div
+                *ngrxLet="
+                  isCaseView
+                    ? customerMaterialNumberForCreateCase$
+                    : customerMaterialNumberForAddEntry$ as customerMaterialNumber
+                "
+              >
+                <gq-autocomplete-input
+                  #customerMaterialNumberInput
+                  [filterName]="customerMaterialNumber.filter"
+                  [fitContent]="true"
+                  [options]="customerMaterialNumber.options"
+                  (unselected)="
+                    autocompleteUnselectOptions(customerMaterialNumber.filter)
+                  "
+                  (added)="
+                    autocompleteSelectMaterialNumberDescriptionOrCustomerMaterial(
+                      $event,
+                      customerMaterialNumber.filter
+                    )
+                  "
+                  [autocompleteLoading]="
+                    customerMaterialNumberLoading$ | ngrxPush
+                  "
+                  (autocomplete)="autocomplete($event, customerIdentifier)"
+                  [maxLength]="CUSTOMER_MATERIAL_MAX_LENGTH"
+                  [isDisabled]="isAutoCompleteDisabled"
+                ></gq-autocomplete-input>
+              </div>
+              <div
+                *ngrxLet="
+                  selectedMaterialAutocomplete$ | ngrxPush as selectedMaterial
+                "
+              >
+                <mat-form-field appearance="outline" class="w-full">
+                  <mat-label>
+                    {{ t('quantity.label') }}
+                  </mat-label>
+                  <input
+                    (keydown)="onQuantityKeyPress($event)"
+                    class="text-overline"
+                    autocomplete="off"
+                    matInput
+                    #valueInput
+                    [min]="selectedMaterial?.deliveryUnit ?? 1"
+                    type="number"
+                    [step]="selectedMaterial?.deliveryUnit ?? 1"
+                    [formControl]="quantityFormControl"
+                    [attr.data-cy]="'add-entry-quantity'"
+                  />
+                  @if (selectedMaterial?.deliveryUnit) {
+                    <mat-hint>{{
+                      t('quantity.hint', {
+                        unit: selectedMaterial.deliveryUnit,
+                        uom: selectedMaterial.uom | uom
+                      })
+                    }}</mat-hint>
+                  }
+
+                  @if (quantityFormControl.hasError('invalidInput')) {
+                    <mat-error>{{ t('quantity.error') }}</mat-error>
+                  }
+                  @if (
+                    quantityFormControl.hasError('invalidDeliveryUnit') ||
+                    quantityFormControl.hasError('min')
+                  ) {
+                    <mat-error>{{
+                      selectedMaterial?.deliveryUnit
+                        ? t('quantity.errorDeliveryUnit', {
+                            unit: selectedMaterial.deliveryUnit,
+                            uom: selectedMaterial.uom | uom
+                          })
+                        : t('quantity.error')
+                    }}</mat-error>
+                  }
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field appearance="outline" class="w-full">
+                  <mat-label>
+                    {{ t('targetPrice.label') }}
+                  </mat-label>
+                  <input
+                    class="text-overline"
+                    autocomplete="off"
+                    matInput
+                    type="text"
+                    [formControl]="targetPriceFormControl"
+                    [attr.data-cy]="'add-entry-target-price'"
+                  />
+                  <mat-hint>{{ t('targetPrice.hint') }}</mat-hint>
+                  @if (targetPriceFormControl.hasError('invalidPrice')) {
+                    <mat-error>{{ t('targetPrice.error') }}</mat-error>
+                  }
+                </mat-form-field>
+              </div>
+
+              <gq-target-price-source-select
+                class="w-full"
+                [appearance]="'outline'"
+                formControlName="targetPriceSourceFormControl"
+              ></gq-target-price-source-select>
+            </ng-container>
+          </div>
+        </div>
+
+        <button
+          mat-button
+          (click)="addRow()"
+          [disabled]="!addRowEnabled"
+          color="primary"
+          class="h-12 flex justify-center items-center px-4 text-button font-medium text-medium-emphasis @[0px]/addEntry:!mb-0 @4xl:!mb-6"
+          [attr.data-cy]="'add-entry-add-position-btn'"
+        >
+          <mat-icon> add</mat-icon>
+          {{ t('addPosition') | uppercase }}
+        </button>
+      </div>
+    </form>
   } @else {
     @if (isCaseView) {
       <div>

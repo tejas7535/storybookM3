@@ -246,6 +246,7 @@ const all = union({
   createCaseFailure,
   createCaseSuccess,
   deleteRowDataItem,
+  setSelectedAutocompleteOption,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
   validateMaterialsOnCustomerAndSalesOrg,

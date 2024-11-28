@@ -11,7 +11,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -33,6 +33,8 @@ import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import {
   getNextHigherPossibleMultiple,
+  getTargetPriceSourceValue,
+  getTargetPriceValue,
   parseNullableLocalizedInputValue,
   validateQuantityInputKeyPress,
 } from '@gq/shared/utils/misc.utils';
@@ -51,12 +53,14 @@ import { priceValidator } from '../../../validators/price-validator';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
 import { InfoIconModule } from '../../info-icon/info-icon.module';
+import { TargetPriceSourceSelectComponent } from '../../target-price-source-select/target-price-source-select.component';
 @Component({
   selector: 'gq-add-entry',
   templateUrl: './add-entry.component.html',
   standalone: true,
   imports: [
     AutocompleteInputComponent,
+    TargetPriceSourceSelectComponent,
     MatInputModule,
     MatButtonModule,
     MatCardModule,
@@ -151,6 +155,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   customerMaterialInput: boolean;
   materialInputIsValid = false;
   addRowEnabled = false;
+
   quantityFormControl: FormControl = new FormControl(
     null,
     [],
@@ -163,11 +168,11 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     value: TargetPriceSource.NO_ENTRY,
     disabled: false,
   });
-  targetPriceSources: string[] = [
-    TargetPriceSource.NO_ENTRY,
-    TargetPriceSource.INTERNAL,
-    TargetPriceSource.CUSTOMER,
-  ];
+  addEntryFormGroup: FormGroup = new FormGroup({
+    quantityFormControl: this.quantityFormControl,
+    targetPriceFormControl: this.targetPriceFormControl,
+    targetPriceSourceFormControl: this.targetPriceSourceFormControl,
+  });
 
   public ngOnInit(): void {
     if (this.newCaseCreation) {
@@ -208,35 +213,21 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     ]);
     this.targetPriceFormControl.markAllAsTouched();
     this.targetPriceFormControl.valueChanges.subscribe((data) => {
-      if (
-        data &&
-        this.targetPriceSourceFormControl.value ===
-          TargetPriceSource.NO_ENTRY &&
-        this.targetPriceFormControl.valid
-      ) {
-        this.targetPriceSourceFormControl.setValue(TargetPriceSource.INTERNAL, {
-          emitEvent: false,
-        });
-
-        return;
-      }
-      if (!data || data === '') {
-        this.targetPriceSourceFormControl.setValue(TargetPriceSource.NO_ENTRY, {
-          emitEvent: false,
-        });
-
-        return;
-      }
+      this.targetPriceSourceFormControl.setValue(
+        getTargetPriceSourceValue(
+          data,
+          this.targetPriceFormControl.valid,
+          this.targetPriceSourceFormControl.value
+        ),
+        { emitEvent: false }
+      );
     });
 
     this.targetPriceSourceFormControl.valueChanges.subscribe((data) => {
-      if (
-        data &&
-        data === TargetPriceSource.NO_ENTRY &&
-        this.targetPriceFormControl.value
-      ) {
-        this.targetPriceFormControl.reset(null, { emitEvent: false });
-      }
+      this.targetPriceFormControl.setValue(
+        getTargetPriceValue(data, this.targetPriceFormControl.value),
+        { emitEvent: false }
+      );
     });
     if (this.newCaseCreation) {
       this.selectedMaterialAutocomplete$

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
@@ -23,18 +24,21 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
-import { filter, map, Observable, Subscription } from 'rxjs';
+import { filter, map, Observable, scan, Subscription, take } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
-import { AutoCompleteFacade } from '@gq/core/store/facades';
+import { AutoCompleteFacade } from '@gq/core/store/facades/autocomplete.facade';
 import { Customer, CustomerId } from '@gq/shared/models';
+import { TargetPriceSource } from '@gq/shared/models/quotation/target-price-source.enum';
 import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import {
   getNextHigherPossibleMultiple,
+  getTargetPriceSourceValue,
+  getTargetPriceValue,
   parseNullableLocalizedInputValue,
   validateQuantityInputKeyPress,
 } from '@gq/shared/utils/misc.utils';
@@ -52,11 +56,14 @@ import {
 import { priceValidator } from '../../../validators/price-validator';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
+import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import { DialogHeaderModule } from '../../header/dialog-header/dialog-header.module';
+import { TargetPriceSourceSelectComponent } from '../../target-price-source-select/target-price-source-select.component';
 import { EditMaterialModalData } from './edit-material-modal-data.model';
 
 const QUANTITY_FORM_CONTROL_NAME = 'quantity';
 const TARGET_PRICE_FORM_CONTROL_NAME = 'targetPrice';
+const TARGET_PRICE_SOURCE_FORM_CONTROL_NAME = 'targetPriceSource';
 @Component({
   selector: 'gq-editing-material-modal',
   templateUrl: './editing-material-modal.component.html',
@@ -74,6 +81,7 @@ const TARGET_PRICE_FORM_CONTROL_NAME = 'targetPrice';
     MatIconModule,
     SharedTranslocoModule,
     LetDirective,
+    TargetPriceSourceSelectComponent,
   ],
 })
 export class EditingMaterialModalComponent
@@ -102,7 +110,7 @@ export class EditingMaterialModalComponent
   private readonly activeCaseFacade = inject(ActiveCaseFacade);
   private readonly destroyRef = inject(DestroyRef);
 
-  isQuantityValidation = this.featureToggleConfigService.isEnabled(
+  isNewCaseCreation = this.featureToggleConfigService.isEnabled(
     'createManualCaseAsView'
   );
   materialDescForEditMaterial$ =
@@ -120,9 +128,14 @@ export class EditingMaterialModalComponent
       map((customer: Customer) => customer.identifier)
     );
 
+  customerMaterialForEditMaterial$ =
+    this.autoCompleteFacade.customerMaterialNumberForEditMaterial$;
+  customerMaterialAutocompleteLoading$ =
+    this.autoCompleteFacade.customerMaterialNumberLoading$;
   editFormGroup: FormGroup;
   fields: MaterialColumnFields;
   isCaseView: boolean;
+  CUSTOMER_MATERIAL_MAX_LENGTH = 35;
 
   private materialToEdit: MaterialTableItem;
   private fieldToFocus: MaterialColumnFields;
@@ -132,10 +145,14 @@ export class EditingMaterialModalComponent
   public matNumberInput: AutocompleteInputComponent;
   @ViewChild('materialDescInput')
   public matDescInput: AutocompleteInputComponent;
+  @ViewChild('customerMaterialInput')
+  public customerMaterialInput: AutocompleteInputComponent;
   @ViewChild('valueInput')
   public valueInput: ElementRef<HTMLInputElement>;
   @ViewChild('targetPriceInput')
   public targetPriceInput: ElementRef<HTMLInputElement>;
+  @ViewChild('targetPriceSourceInput')
+  public targetPriceSourceInput: TargetPriceSourceSelectComponent;
 
   public materialInputIsValid = false;
   public materialNumberInput: boolean;
@@ -165,13 +182,14 @@ export class EditingMaterialModalComponent
       quantity: new FormControl(
         undefined,
         [Validators.required],
-        this.isQuantityValidation
+        this.isNewCaseCreation
           ? [quantityDeliveryUnitValidator(this.selectedMaterialAutocomplete$)]
           : []
       ),
       targetPrice: new FormControl(undefined, [
         priceValidator(this.translocoLocaleService.getLocale()).bind(this),
       ]),
+      targetPriceSource: new FormControl(TargetPriceSource.NO_ENTRY),
     });
     this.addSubscriptions();
     this.editFormGroup.markAllAsTouched();
@@ -193,14 +211,45 @@ export class EditingMaterialModalComponent
     this.subscription.add(
       this.editFormGroup
         .get(TARGET_PRICE_FORM_CONTROL_NAME)
-        .valueChanges.subscribe(() => {
+        .valueChanges.subscribe((data) => {
           this.editFormGroup
             .get(TARGET_PRICE_FORM_CONTROL_NAME)
             .updateValueAndValidity({ emitEvent: false });
           this.rowInputValid();
+
+          this.editFormGroup
+            .get(TARGET_PRICE_SOURCE_FORM_CONTROL_NAME)
+            .setValue(
+              getTargetPriceSourceValue(
+                data,
+                this.editFormGroup.get(TARGET_PRICE_FORM_CONTROL_NAME).valid,
+                this.editFormGroup.get(TARGET_PRICE_SOURCE_FORM_CONTROL_NAME)
+                  .value
+              ),
+              { emitEvent: false }
+            );
         })
     );
-    if (this.isQuantityValidation) {
+
+    this.subscription.add(
+      this.editFormGroup
+        .get(TARGET_PRICE_SOURCE_FORM_CONTROL_NAME)
+        .valueChanges.subscribe((data) => {
+          this.editFormGroup
+            .get(TARGET_PRICE_FORM_CONTROL_NAME)
+            .setValue(
+              getTargetPriceValue(
+                data,
+                this.editFormGroup.get(TARGET_PRICE_FORM_CONTROL_NAME).value
+              ),
+              { emitEvent: false }
+            );
+
+          this.rowInputValid();
+        })
+    );
+
+    if (this.isNewCaseCreation) {
       this.selectedMaterialAutocomplete$
         .pipe(
           takeUntilDestroyed(this.destroyRef),
@@ -213,6 +262,46 @@ export class EditingMaterialModalComponent
   }
 
   ngAfterViewInit(): void {
+    this.matDescInput.searchFormControl.setValue(
+      this.materialToEdit.materialDescription
+    );
+
+    this.matNumberInput.searchFormControl.setValue(
+      this.materialToEdit.materialNumber
+    );
+
+    if (this.materialToEdit.customerMaterialNumber) {
+      // when a customerMaterial is set within the materialToEdit object, it must be assigned last
+      // customerMaterial may initially be a manual input, but it will be overwritten by materialNumber or materialDescription after calling formControl's setValue()
+      // the customerMaterial field will be initialized after autocomplete options for MatNumber and MatDescription have been selected
+      // it will be set only once; if another material is selected, the customerMaterial can be overwritten.
+
+      this.subscription.add(
+        this.autoCompleteFacade.optionSelectedForAutoCompleteFilter$
+          .pipe(
+            scan(
+              (acc, val) => {
+                if (val.filter === FilterNames.MATERIAL_NUMBER) {
+                  acc.hasNumberInit = true;
+                } else if (val.filter === FilterNames.MATERIAL_DESCRIPTION) {
+                  acc.hasDescriptionInit = true;
+                }
+
+                return acc;
+              },
+              { hasNumberInit: false, hasDescriptionInit: false }
+            ),
+            filter((state) => state.hasNumberInit && state.hasDescriptionInit),
+            take(1)
+          )
+          .subscribe(() => {
+            this.customerMaterialInput.searchFormControl.setValue(
+              this.materialToEdit.customerMaterialNumber
+            );
+          })
+      );
+    }
+
     this.editFormGroup
       .get(MaterialColumnFields.QUANTITY)
       .setValue(this.materialToEdit.quantity);
@@ -221,25 +310,28 @@ export class EditingMaterialModalComponent
       .get(MaterialColumnFields.TARGET_PRICE)
       .setValue(this.targetPrice);
 
-    this.matDescInput.searchFormControl.setValue(
-      this.materialToEdit.materialDescription
-    );
-    this.matNumberInput.searchFormControl.setValue(
-      this.materialToEdit.materialNumber
-    );
+    this.editFormGroup
+      .get(MaterialColumnFields.TARGET_PRICE_SOURCE)
+      .setValue(
+        this.materialToEdit?.targetPriceSource ?? TargetPriceSource.NO_ENTRY
+      );
 
-    if (!this.fieldToFocus) {
-      return;
-    }
     switch (this.fieldToFocus) {
-      case MaterialColumnFields.MATERIAL: {
-        this.matNumberInput.focus();
-        break;
-      }
       case MaterialColumnFields.MATERIAL_DESCRIPTION: {
         this.matDescInput.focus();
+
         break;
       }
+      case MaterialColumnFields.MATERIAL: {
+        this.matNumberInput.focus();
+
+        break;
+      }
+      case MaterialColumnFields.CUSTOMER_MATERIAL_NUMBER: {
+        this.customerMaterialInput.focus();
+        break;
+      }
+
       case MaterialColumnFields.QUANTITY: {
         this.valueInput.nativeElement.focus();
         break;
@@ -248,9 +340,11 @@ export class EditingMaterialModalComponent
         this.targetPriceInput.nativeElement.focus();
         break;
       }
-      default: {
+      case MaterialColumnFields.TARGET_PRICE_SOURCE: {
+        this.targetPriceSourceInput.focus();
         break;
       }
+      // no default
     }
 
     this.cdref.detectChanges();
@@ -266,6 +360,9 @@ export class EditingMaterialModalComponent
     this.rowInputValid();
   }
 
+  customerMaterialHasInput(): void {
+    this.rowInputValid();
+  }
   rowInputValid(): void {
     this.updateRowEnabled =
       this.materialInputIsValid &&
@@ -283,20 +380,39 @@ export class EditingMaterialModalComponent
       this.materialToEdit.materialNumber !==
       this.matNumberInput.valueInput.nativeElement.value;
 
+    const customerMaterial =
+      this.customerMaterialInput?.valueInput.nativeElement.value === ''
+        ? null
+        : this.customerMaterialInput.valueInput.nativeElement.value;
+    const customerMaterialChanged =
+      this.materialToEdit.customerMaterialNumber !== customerMaterial;
+
+    const targetPriceSourceChanged =
+      this.materialToEdit.targetPriceSource !==
+      this.editFormGroup.get('targetPriceSource')?.value;
+
     const quantityChanged =
       this.materialToEdit.quantity !==
       this.editFormGroup.get(QUANTITY_FORM_CONTROL_NAME).value;
 
+    const targetPriceFormValue = this.editFormGroup.get(
+      TARGET_PRICE_FORM_CONTROL_NAME
+    ).value;
     const targetPriceChanged =
       this.targetPrice !==
-      this.editFormGroup.get(TARGET_PRICE_FORM_CONTROL_NAME).value;
+      (targetPriceFormValue === '' ? undefined : targetPriceFormValue);
 
-    return (
-      materialDescriptionChanged ||
-      materialNumberChanged ||
-      quantityChanged ||
-      targetPriceChanged
-    );
+    return this.isNewCaseCreation
+      ? materialDescriptionChanged ||
+          materialNumberChanged ||
+          customerMaterialChanged ||
+          quantityChanged ||
+          targetPriceChanged ||
+          targetPriceSourceChanged
+      : materialDescriptionChanged ||
+          materialNumberChanged ||
+          quantityChanged ||
+          targetPriceChanged;
   }
 
   handleQuantityKeyDown(event: KeyboardEvent): void {
@@ -316,6 +432,9 @@ export class EditingMaterialModalComponent
     const updatedMaterial: MaterialTableItem = {
       materialDescription: this.matDescInput.valueInput.nativeElement.value,
       materialNumber: this.matNumberInput.valueInput.nativeElement.value,
+      customerMaterialNumber: this.isNewCaseCreation
+        ? this.customerMaterialInput?.valueInput.nativeElement.value
+        : undefined,
       quantity: this.editFormGroup.get(QUANTITY_FORM_CONTROL_NAME).value,
       targetPrice: parseNullableLocalizedInputValue(
         this.editFormGroup
@@ -323,6 +442,9 @@ export class EditingMaterialModalComponent
           .value?.toString(),
         this.translocoLocaleService.getLocale()
       ),
+      targetPriceSource: this.isNewCaseCreation
+        ? this.editFormGroup.get('targetPriceSource')?.value
+        : undefined,
       id: this.modalData.material.id,
       info: {
         valid: true,
@@ -344,7 +466,7 @@ export class EditingMaterialModalComponent
     this.autoCompleteFacade.unselectOptions(autocompleteFilter);
   }
 
-  autocompleteSelectMaterialNumberOrDescription(
+  autocompleteSelectMaterialNumberDescriptionOrCustomerMaterial(
     option: IdValue,
     autocompleteFilter: string
   ): void {

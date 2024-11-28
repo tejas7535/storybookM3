@@ -79,7 +79,7 @@ export class EditCaseMaterialComponent {
     const previousData = this.params.data;
     this.dialog
       .open(EditingMaterialModalComponent, {
-        width: '660px',
+        width: this.newCaseCreation ? '990px' : '660px',
         data: {
           material: this.params.data,
           field: this.params.colDef.field,

@@ -8,6 +8,7 @@ import { MATERIAL_FILTERS } from '@gq/shared/constants';
 import { CustomerId } from '@gq/shared/models';
 import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
+import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import {
@@ -38,6 +39,7 @@ import {
 })
 export class AutoCompleteFacade {
   private readonly store: Store = inject(Store);
+  private readonly actions$: Actions = inject(Actions);
   private readonly featureToggleConfigService: FeatureToggleConfigService =
     inject(FeatureToggleConfigService);
 
@@ -96,6 +98,12 @@ export class AutoCompleteFacade {
     this.store.select(
       getCustomerMaterialNumber(AutocompleteRequestDialog.CREATE_CASE)
     );
+
+  customerMaterialNumberForEditMaterial$: Observable<CaseFilterItem> =
+    this.store.select(
+      getCustomerMaterialNumber(AutocompleteRequestDialog.EDIT_MATERIAL)
+    );
+
   shipToCustomerForEditCase$: Observable<CaseFilterItem> = this.store.select(
     getCaseCustomerAndShipToParty(AutocompleteRequestDialog.EDIT_CASE)
   );
@@ -138,6 +146,10 @@ export class AutoCompleteFacade {
 
   customerMaterialNumberLoading$: Observable<boolean> = this.store.select(
     getCaseAutocompleteLoading(FilterNames.CUSTOMER_MATERIAL)
+  );
+
+  optionSelectedForAutoCompleteFilter$ = this.actions$.pipe(
+    ofType(setSelectedAutocompleteOption)
   );
 
   /**

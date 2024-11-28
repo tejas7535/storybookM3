@@ -167,7 +167,7 @@ describe('EditCaseMaterialComponent', () => {
       expect(matDialogSpyObject.open).toHaveBeenCalledWith(
         EditingMaterialModalComponent,
         {
-          width: '660px',
+          width: '990px',
           data: {
             material: MATERIAL_TABLE_ITEM_MOCK,
             field: MaterialColumnFields.MATERIAL,

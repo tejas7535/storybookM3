@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Params } from '@angular/router';
 
 import { FILTER_PARAM_INDICATOR, LOCALE_DE } from '@gq/shared/constants';
@@ -15,6 +16,7 @@ import { ColumnFields } from '../ag-grid/constants/column-fields.enum';
 import { FilterNames } from '../components/autocomplete-input/filter-names.enum';
 import { SearchbarGridContext } from '../components/global-search-bar/config/searchbar-grid-context.interface';
 import { MaterialsCriteriaSelection } from '../components/global-search-bar/materials-result-table/material-criteria-selection.enum';
+import { TargetPriceSource } from '../models/quotation/target-price-source.enum';
 import { Rating } from '../models/rating.enum';
 import { IdValue } from '../models/search/id-value.model';
 import { MaterialTableItem, MaterialValidation } from '../models/table';
@@ -382,4 +384,38 @@ export const mapValidatedDetailToMaterialValidation = (
   };
 
   return validatedMaterial;
+};
+export const getTargetPriceSourceValue = (
+  targetPrice: any,
+  targetPriceFormControlValid: boolean,
+  targetPriceSourceValue: TargetPriceSource
+): TargetPriceSource => {
+  if (
+    targetPrice &&
+    (targetPriceSourceValue === TargetPriceSource.NO_ENTRY ||
+      targetPriceSourceValue === undefined) &&
+    targetPriceFormControlValid
+  ) {
+    return TargetPriceSource.INTERNAL;
+  }
+  if (!targetPrice || targetPrice === '') {
+    return TargetPriceSource.NO_ENTRY;
+  }
+
+  return targetPriceSourceValue ?? TargetPriceSource.NO_ENTRY;
+};
+
+export const getTargetPriceValue = (
+  targetPriceSourceValue: any,
+  targetPriceValue: number
+): number => {
+  if (
+    (targetPriceSourceValue === TargetPriceSource.NO_ENTRY ||
+      targetPriceSourceValue === undefined) &&
+    targetPriceValue
+  ) {
+    return null;
+  }
+
+  return targetPriceValue;
 };

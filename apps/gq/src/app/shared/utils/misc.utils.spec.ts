@@ -6,6 +6,7 @@ import { SearchbarGridContext } from '../components/global-search-bar/config/sea
 import { MaterialsCriteriaSelection } from '../components/global-search-bar/materials-result-table/material-criteria-selection.enum';
 import { FILTER_PARAM_INDICATOR } from '../constants/filter-from-query-params.const';
 import { Keyboard, QuotationStatus, SAP_SYNC_STATUS } from '../models';
+import { TargetPriceSource } from '../models/quotation/target-price-source.enum';
 import { MaterialValidation } from '../models/table';
 import { VALIDATION_CODE } from '../models/table/customer-validation-info.enum';
 import { ValidationDescription } from '../models/table/validation-description.enum';
@@ -575,6 +576,50 @@ describe('MiscUtils', () => {
       const result =
         miscUtils.mapValidatedDetailToMaterialValidation(validatedDetail);
       expect(result).toEqual(expected);
+    });
+  });
+  describe('getTargetPriceSourceValue', () => {
+    test('should return Internal when targetPrice is set', () => {
+      const result = miscUtils.getTargetPriceSourceValue(
+        '1',
+        true,
+        TargetPriceSource.NO_ENTRY
+      );
+      expect(result).toEqual(TargetPriceSource.INTERNAL);
+    });
+
+    test('should still return Customer when already been set', () => {
+      const result = miscUtils.getTargetPriceSourceValue(
+        '1',
+        true,
+        TargetPriceSource.CUSTOMER
+      );
+      expect(result).toEqual(TargetPriceSource.CUSTOMER);
+    });
+
+    test('should return No_Entry when target Price is not set', () => {
+      const result = miscUtils.getTargetPriceSourceValue(
+        '',
+        true,
+        TargetPriceSource.INTERNAL
+      );
+      expect(result).toEqual(TargetPriceSource.NO_ENTRY);
+    });
+  });
+  describe('getTargetPriceValue', () => {
+    test('should return null when TargetPriceSOurce is net To no_Entry', () => {
+      const result = miscUtils.getTargetPriceValue(
+        TargetPriceSource.NO_ENTRY,
+        null
+      );
+      expect(result).toBeNull();
+    });
+    test('should return targetPriceValue when TargetPriceSource is not no_Entry', () => {
+      const result = miscUtils.getTargetPriceValue(
+        TargetPriceSource.INTERNAL,
+        100
+      );
+      expect(result).toBe(100);
     });
   });
 });

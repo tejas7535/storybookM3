@@ -15,6 +15,7 @@ import {
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -28,6 +29,7 @@ describe('CreateCustomerCaseComponent', () => {
   let spectator: Spectator<CreateCustomerCaseComponent>;
   let mockStore: MockStore;
   let applicationInsightsService: ApplicationInsightsService;
+  let actions$: any;
 
   const createComponent = createComponentFactory({
     component: CreateCustomerCaseComponent,
@@ -36,6 +38,7 @@ describe('CreateCustomerCaseComponent', () => {
       provideMockStore({
         initialState: { case: VIEW_CASE_STATE_MOCK },
       }),
+      provideMockActions(() => actions$),
       {
         provide: MatDialogRef,
         useValue: {},
