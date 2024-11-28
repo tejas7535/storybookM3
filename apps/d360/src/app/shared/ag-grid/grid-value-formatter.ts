@@ -68,15 +68,14 @@ export function replacementTypeValueFormatter() {
 
 export function listUploadPeriodTypeValueFormatter() {
   return (params: any): string => {
-    if (params.value === null || params.value === undefined) {
+    if ([null, undefined].includes(params.value)) {
       return null;
     }
 
     const value = params.value;
 
     return translate(
-      `validation_of_demand.upload_modal.list.menu_item_${value}`,
-      {}
+      `validation_of_demand.upload_modal.list.menu_item_${value}`
     );
   };
 }

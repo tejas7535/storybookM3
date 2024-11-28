@@ -50,6 +50,7 @@ import {
   demandValidationChangeAllowedRoles,
 } from '../../../../shared/utils/auth/roles';
 import { DemandValidationExportModalComponent } from '../demand-validation-export-modal/demand-validation-export-modal.component';
+import { DemandValidationMultiListConfigurationModalComponent } from '../demand-validation-multi-list-configuration-modal/demand-validation-multi-list-configuration-modal.component';
 import { DatePickerSettingDemandValidationModalComponent } from './date-picker-setting-demand-validation-modal/date-picker-setting-demand-validation-modal.component';
 import { DemandValidationSettingModalComponent } from './demand-validation-setting-modal/demand-validation-setting-modal.component';
 import { FilterDemandValidationComponent } from './filter-demand-validation/filter-demand-validation.component';
@@ -99,7 +100,9 @@ export class ActionBarComponent implements OnInit {
 
   // TODO: Properly handle initialization of this property, will it be passed from outside? Fetched from service?
   protected selectedCustomer = signal<CustomerEntry>(null);
-  protected disableUpload = signal(true);
+  protected disableUpload = computed(
+    () => this.planningView() === PlanningView.CONFIRMED
+  );
   protected demandValidationFilters = signal<DemandValidationFilter[]>(null);
 
   protected customerSelectableValues: WritableSignal<OptionsLoadingResult> =
@@ -143,8 +146,6 @@ export class ActionBarComponent implements OnInit {
         text: customer.customerName,
       })),
     });
-
-    this.disableUpload.set(this.planningView() !== PlanningView.REQUESTED);
   }
 
   protected handleDownloadButtonClicked() {
@@ -161,7 +162,13 @@ export class ActionBarComponent implements OnInit {
   }
 
   protected handleListModalClicked() {
-    // TODO implement
+    this.dialog.open(DemandValidationMultiListConfigurationModalComponent, {
+      data: {
+        customerName: this.currentCustomer().customerName,
+        customerNumber: this.currentCustomer().customerNumber,
+      },
+      autoFocus: false,
+    });
   }
 
   protected handleGridModalClicked() {

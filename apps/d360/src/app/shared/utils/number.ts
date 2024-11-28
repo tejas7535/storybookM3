@@ -11,15 +11,6 @@ export function strictlyParseInteger(value: string): number {
   return Number.NaN;
 }
 
-// TODO this should use TranslocoLocaleService --> Also ./validation/validation-helper must be implemented
-// /**
-//  * Parses a string to a float.
-//  * @param value The value to parse
-//  */
-// export const strictlyParseFloat = (value: string): number =>
-//   strictlyParseLocalFloat(value, preferredDecimalSeparator);
-//
-
 /**
  * Parses a string to a float.
  * @param value The value to parse

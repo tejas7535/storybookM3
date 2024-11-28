@@ -361,7 +361,10 @@ export abstract class AbstractTableUploadModalComponent<
       }
 
       const matchingErrors = allErrorMessages.filter((errMsg) =>
-        this.isPartialDataMatching(errMsg.dataIdentifier, rowData.data)
+        this.isPartialDataMatching(
+          errMsg.dataIdentifier,
+          this.getTypedRowData(rowData)
+        )
       );
 
       if (matchingErrors.length === 0) {
@@ -498,10 +501,23 @@ export abstract class AbstractTableUploadModalComponent<
       if (rowIsEmpty(row)) {
         return;
       }
-      rowData.push(row.data as T);
+
+      rowData.push(this.getTypedRowData(row));
     });
 
     return rowData;
+  }
+
+  /**
+   * Get a single row for the given data format.
+   *
+   * @private
+   * @param {RowNode} rowNode
+   * @return {T}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected getTypedRowData(rowNode: IRowNode): T {
+    return rowNode.data as T;
   }
 
   /**

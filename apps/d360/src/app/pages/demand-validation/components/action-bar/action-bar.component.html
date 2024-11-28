@@ -50,7 +50,7 @@
         <button
           mat-button
           color="primary"
-          [disabled]="!authorizedToChange || disableUpload"
+          [disabled]="!authorizedToChange() || disableUpload()"
           (click)="handleListModalClicked()"
         >
           <mat-icon>list</mat-icon>
@@ -60,7 +60,7 @@
         <button
           mat-button
           color="primary"
-          [disabled]="!authorizedToChange || disableUpload"
+          [disabled]="!authorizedToChange() || disableUpload()"
           (click)="handleGridModalClicked()"
         >
           <mat-icon>grid_view</mat-icon>

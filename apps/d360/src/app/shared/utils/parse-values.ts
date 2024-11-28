@@ -48,31 +48,6 @@ export function formatDateToISOString(date: Date | string | null) {
 }
 
 /**
- * Parses the demand validation period type if possible, otherwise returns undefined
- * @param value The demand validation period type string to parse
- */
-export function parseDemandValidationPeriodTypeIfPossible(
-  value: string
-): string {
-  const uppercasedInput = value.toUpperCase();
-  if (
-    uppercasedInput ===
-    translate(`validation_of_demand.upload_modal.paste.month`, {}).toUpperCase()
-  ) {
-    return 'month';
-  }
-
-  if (
-    uppercasedInput ===
-    translate(`validation_of_demand.upload_modal.paste.week`, {}).toUpperCase()
-  ) {
-    return 'week';
-  }
-
-  return undefined;
-}
-
-/**
  * Parses the demand characteristic if possible, otherwise returns the original string
  * @param value The demand characteristic string to parse
  */
@@ -160,4 +135,24 @@ export function combineParseFunctionsForFields(
 
     return value;
   };
+}
+
+/**
+ * Parses the demand validation period type if possible, otherwise returns undefined
+ * @param value The demand validation period type string to parse
+ */
+export function parseDemandValidationPeriodTypeIfPossible(
+  value: string
+): string | undefined {
+  const uppercasedInput = value.toUpperCase();
+
+  return (
+    ['month', 'week'].find(
+      (option) =>
+        uppercasedInput ===
+        translate(
+          `validation_of_demand.upload_modal.paste.${option}`
+        ).toUpperCase()
+    ) ?? undefined
+  );
 }

@@ -25,6 +25,19 @@ export class ValidationHelper {
   ] as const;
 
   /**
+   * Gets the decimal separator for the active locale.
+   *
+   * @return {AvailableDecimalSeparators}
+   */
+  public static getDecimalSeparatorForActiveLocale(): AvailableDecimalSeparators {
+    return ValidationHelper.localeService
+      .localizeNumber(1000.5, 'decimal')
+      .split(/(\.)/g)[0] === '1'
+      ? 'COMMA'
+      : 'PERIOD';
+  }
+
+  /**
    * Validates a string for letter chars (case insensitive without umlauts).
    * An empty string is an error.
    *
@@ -56,20 +69,12 @@ export class ValidationHelper {
     return valid ? null : translate('error.numbers.rootString');
   }
 
-  // public static validateForFloat(value: string): string | null {
-  //   return validateForLocalFloat(value, preferredDecimalSeparator);
-  // }
-
   public static detectLocaleAndValidateForLocalFloat(
     value: string
   ): string | null {
     return ValidationHelper.validateForLocalFloat(
       value,
-      ValidationHelper.localeService
-        .localizeNumber(1000.5, 'decimal')
-        .split(/(\.)/g)[0] === '1'
-        ? 'COMMA'
-        : 'PERIOD'
+      ValidationHelper.getDecimalSeparatorForActiveLocale()
     );
   }
 

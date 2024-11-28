@@ -1,19 +1,20 @@
 import { DateRange, DateRangePeriod } from '../../shared/utils/date-range';
-import {
-  ResponseWithResultMessage,
-  ResultMessage,
-} from '../../shared/utils/error-handling';
+import { ResponseWithResultMessage } from '../../shared/utils/error-handling';
 import { GlobalSelectionCriteriaFilters } from '../global-selection/model';
 import { DemandValidationStringFilter } from './demand-validation-filters';
 
-export type ValidatedDemandBatchErrorMessages = Record<
-  string,
-  ResultMessage[] | undefined
->;
+export type DemandValidationBatchResponse = {
+  id: string;
+  customerNumber: string;
+  materialNumber: string;
+} & ResponseWithResultMessage;
 
-export interface ValidatedDemandBatchResult {
-  savedCount: number;
-  errorMessages: ValidatedDemandBatchErrorMessages;
+export interface DemandValidationBatch {
+  id: string;
+  material: string;
+  dateString: string;
+  forecast: string;
+  periodType: string;
 }
 
 export interface BucketRequest {

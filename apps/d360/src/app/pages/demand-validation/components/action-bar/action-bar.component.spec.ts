@@ -28,7 +28,7 @@ describe('ActionBarComponent', () => {
         open: jest.fn(),
       }),
       mockProvider(Store, {
-        select: jest.fn().mockReturnValue(of({})),
+        select: jest.fn().mockReturnValue(of([])),
       }),
     ],
   });
