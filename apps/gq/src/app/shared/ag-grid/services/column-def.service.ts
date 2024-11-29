@@ -1,6 +1,7 @@
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
+import { roundToTwoDecimals } from '@gq/shared/utils/pricing.utils';
 import { translateTargetPriceSourceValue } from '@gq/shared/utils/translate.utils';
 import { translate, TranslocoService } from '@jsverse/transloco';
 import {
@@ -93,6 +94,8 @@ export class ColumnDefService {
       field: ColumnFields.PRICE,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.PRICE]),
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: false },
@@ -178,6 +181,8 @@ export class ColumnDefService {
       field: ColumnFields.NET_VALUE,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.NET_VALUE]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       cellRenderer: 'EditCellComponent',
@@ -196,6 +201,8 @@ export class ColumnDefService {
       field: ColumnFields.RECOMMENDED_PRICE,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.RECOMMENDED_PRICE]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       cellRenderer: GqPriceCellComponent,
@@ -222,6 +229,8 @@ export class ColumnDefService {
       field: ColumnFields.SAP_PRICE,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.SAP_PRICE]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       cellRenderer: SapPriceCellComponent,
@@ -237,6 +246,8 @@ export class ColumnDefService {
       field: ColumnFields.RSP,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.RSP]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentParams: {
@@ -250,6 +261,8 @@ export class ColumnDefService {
       field: ColumnFields.MSP,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.MSP]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentParams: {
@@ -263,6 +276,8 @@ export class ColumnDefService {
       field: ColumnFields.SAP_GROSS_PRICE,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.SAP_GROSS_PRICE]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
     },
@@ -304,6 +319,8 @@ export class ColumnDefService {
       field: ColumnFields.TARGET_PRICE,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.TARGET_PRICE]),
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: false },
@@ -342,6 +359,8 @@ export class ColumnDefService {
       field: ColumnFields.GPC,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.GPC]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentParams: {
@@ -355,6 +374,8 @@ export class ColumnDefService {
       field: ColumnFields.SQV,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.SQV]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentParams: {
@@ -368,6 +389,8 @@ export class ColumnDefService {
       field: ColumnFields.SQV_RFQ,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.SQV_RFQ]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
     },
@@ -376,6 +399,8 @@ export class ColumnDefService {
       field: ColumnFields.RELOCATION_COST,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.RELOCATION_COST]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentParams: {
@@ -489,6 +514,8 @@ export class ColumnDefService {
       field: ColumnFields.LAST_CUSTOMER_PRICE,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.LAST_CUSTOMER_PRICE]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentParams: {
@@ -628,6 +655,8 @@ export class ColumnDefService {
       filterParams: this.columnUtilityService.numberFilterParams,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data?.lastOfferDetail?.lastOfferPrice),
       filter: NUMBER_COLUMN_FILTER,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
