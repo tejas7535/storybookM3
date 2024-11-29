@@ -1,6 +1,6 @@
 <div class="h-5/6" *transloco="let t; read: 'additionalFilters'">
   @if ((plsAndSeriesLoading$ | ngrxPush) === false) {
-    <div *ngrxLet="plsAndSeries$ as plsAndSeries">
+    <div *ngrxLet="plsAndSeries$ as plsAndSeries" class="flex flex-col gap-4">
       <gq-filter-selection
         [title]="productLineTitle$ | ngrxPush"
         [items]="plsAndSeries?.pls || []"
@@ -8,14 +8,12 @@
       >
       </gq-filter-selection>
       <gq-filter-selection
-        class="mt-11"
         [title]="seriesTitle$ | ngrxPush"
         [items]="plsAndSeries?.series || []"
         (selection)="selectSeries($event)"
       >
       </gq-filter-selection>
       <gq-filter-selection
-        class="mt-11"
         [title]="gpsdGroupTitle$ | ngrxPush"
         [items]="plsAndSeries?.gpsdGroupIds || []"
         (selection)="selectGpsdGroups($event)"
@@ -24,7 +22,7 @@
       @if (
         plsAndSeries?.series.length === 0 && plsAndSeries?.pls.length === 0
       ) {
-        <div class="mt-6">
+        <div>
           <span class="text-error">{{ t('nothingFound') }}</span>
         </div>
       }

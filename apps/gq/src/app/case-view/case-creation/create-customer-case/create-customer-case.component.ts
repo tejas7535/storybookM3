@@ -73,7 +73,7 @@ export class CreateCustomerCaseComponent implements OnInit {
     );
 
     this.isNewCaseCreation = this.featureToggleConfigService.isEnabled(
-      'createManualCaseAsView'
+      'createCustomerCaseAsView'
     );
     this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_STARTED, {
       type: CASE_CREATION_TYPES.FROM_CUSTOMER,

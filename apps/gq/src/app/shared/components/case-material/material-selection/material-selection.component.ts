@@ -13,7 +13,7 @@ import { SalesIndication } from '@gq/core/store/reducers/models';
 import { CustomerId } from '@gq/shared/models';
 import { PLsSeriesRequest } from '@gq/shared/services/rest/search/models/pls-series-request.model';
 import { provideTranslocoScope } from '@jsverse/transloco';
-import { LetDirective } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -28,6 +28,7 @@ import { Selection } from './models/selection.model';
     MatSelectModule,
     SharedTranslocoModule,
     LetDirective,
+    PushPipe,
   ],
   providers: [provideTranslocoScope('material-selection')],
 })
@@ -74,6 +75,7 @@ export class MaterialSelectionComponent {
   customerIdentifier$: Observable<CustomerId> =
     this.createCaseFacade.customerIdentifier$.pipe(
       takeUntilDestroyed(this.destroyRef),
+
       filter(
         (customerIdentifier) =>
           !!customerIdentifier.customerId && !!customerIdentifier.salesOrg

@@ -2,14 +2,14 @@
   class="rounded-[4px] border-[1px] border-solid border-border"
   *transloco="let t; read: 'materialSelection'"
 >
-  <ng-container *ngrxLet="customerIdentifier$ as customerIdentifier">
+  <ng-container *ngrxLet="customerIdentifier$ | ngrxPush as customerIdentifier">
     <div class="border-b-[1px] border-border">
       <div class="flex items-center justify-between p-4">
         <div>
           <mat-checkbox
             color="primary"
             [indeterminate]="someComplete"
-            [disabled]="!customerIdentifier$"
+            [disabled]="!customerIdentifier"
             [checked]="allComplete"
             (change)="selectAll($event)"
           >

@@ -112,9 +112,11 @@ export class AutoCompleteFacade {
     this.store.select(
       getCaseCustomerAndShipToParty(AutocompleteRequestDialog.CREATE_CASE)
     );
+
   createCaseCustomer$: Observable<CaseFilterItem> = this.store.select(
     getCaseCustomer(
-      this.featureToggleConfigService.isEnabled('createManualCaseAsView')
+      this.featureToggleConfigService.isEnabled('createManualCaseAsView') ||
+        this.featureToggleConfigService.isEnabled('createCustomerCaseAsView')
         ? AutocompleteRequestDialog.CREATE_CASE
         : AutocompleteRequestDialog.ADD_ENTRY
     )
