@@ -8,6 +8,7 @@ import { StoreModule } from '@ngrx/store';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { SharedDirectivesModule } from '../shared/directives/shared-directives.module';
 import { SharedModule } from '../shared/shared.module';
 import { LossOfSkillComponent } from './loss-of-skill.component';
 import { LossOfSkillRoutingModule } from './loss-of-skill-routing.module';
@@ -31,6 +32,7 @@ import { LossOfSkillEffects } from './store/effects/loss-of-skill.effects';
     PmgmModule,
     MatCardModule,
     PushPipe,
+    SharedDirectivesModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'loss-of-skill' }],
 })

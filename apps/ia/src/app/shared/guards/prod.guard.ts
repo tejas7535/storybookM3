@@ -1,17 +1,30 @@
-import {
-  ActivatedRouteSnapshot,
-  CanActivateFn,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { Injectable } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
 
-import { EnvironmentEnum } from '../../shared/models';
+import { map, Observable, of } from 'rxjs';
+
+import { EnvironmentEnum } from '../models';
 import { getEnv } from './../../../environments/environments.provider';
 
-export const prodGuard: CanActivateFn = (
-  _next: ActivatedRouteSnapshot,
-  _state: RouterStateSnapshot
-): boolean => {
-  const env = getEnv();
+@Injectable({
+  providedIn: 'root',
+})
+export class ProdGuard implements CanActivate {
+  constructor(private readonly router: Router) {}
 
-  return env.environment !== EnvironmentEnum.prod;
-};
+  canActivate(): Observable<boolean> {
+    return this.checkCondition().pipe(
+      map((canActivate) => {
+        if (!canActivate) {
+          this.router.navigate(['/empty-states']);
+        }
+
+        return canActivate;
+      })
+    );
+  }
+
+  checkCondition(): Observable<boolean> {
+    return of(getEnv().environment !== EnvironmentEnum.prod);
+  }
+}

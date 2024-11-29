@@ -25,6 +25,7 @@ describe('Directive: DisableOnProdDirective', () => {
     spectator = createDirective('<div *disableOnProd></div>');
     directive = spectator.directive;
   });
+
   it('should create an instance', () => {
     expect(directive).toBeTruthy();
   });

@@ -1,8 +1,11 @@
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Router } from '@angular/router';
+
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { marbles } from 'rxjs-marbles/marbles';
 
 import { Environment } from '../../../environments/environment.model';
 import { EnvironmentEnum } from '../models';
-import { prodGuard } from './';
+import { ProdGuard } from './prod.guard';
 
 let environment: EnvironmentEnum;
 
@@ -11,37 +14,48 @@ jest.mock('./../../../environments/environments.provider', () => ({
   getEnv: jest.fn(() => ({ environment }) as Environment),
 }));
 
-describe('prodGuard', () => {
-  test('should return true when dev environment', () => {
-    environment = EnvironmentEnum.dev;
+describe('ProdGuard', () => {
+  let spectator: SpectatorService<ProdGuard>;
+  let guard: ProdGuard;
 
-    expect(
-      prodGuard(
-        undefined as ActivatedRouteSnapshot,
-        undefined as RouterStateSnapshot
-      )
-    ).toBeTruthy();
+  const createGuardInstance = createServiceFactory({
+    service: ProdGuard,
+    providers: [
+      {
+        provide: Router,
+        useValue: { navigate: jest.fn() },
+      },
+    ],
   });
 
-  test('should return true when qa environment', () => {
-    environment = EnvironmentEnum.qa;
-
-    expect(
-      prodGuard(
-        undefined as ActivatedRouteSnapshot,
-        undefined as RouterStateSnapshot
-      )
-    ).toBeTruthy();
+  beforeEach(() => {
+    spectator = createGuardInstance();
+    guard = spectator.inject(ProdGuard);
   });
 
-  test('should return false when prod environment', () => {
-    environment = EnvironmentEnum.prod;
-
-    expect(
-      prodGuard(
-        undefined as ActivatedRouteSnapshot,
-        undefined as RouterStateSnapshot
-      )
-    ).toBeFalsy();
+  test('should be created', () => {
+    expect(guard).toBeTruthy();
   });
+
+  test(
+    'should navigate to empty-states if environment is production',
+    marbles((m) => {
+      environment = EnvironmentEnum.prod;
+
+      const canActivate$ = guard.canActivate();
+
+      m.expect(canActivate$).toBeObservable('(a|)', { a: false });
+    })
+  );
+
+  test(
+    'should allow activation if environment is not production',
+    marbles((m) => {
+      environment = EnvironmentEnum.prod;
+
+      const canActivate$ = guard.canActivate();
+
+      m.expect(canActivate$).toBeObservable('(a|)', { a: false });
+    })
+  );
 });
