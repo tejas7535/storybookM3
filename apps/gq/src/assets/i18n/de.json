@@ -540,7 +540,7 @@
       "customerInquiryDateLabel": "Anfragedatum",
       "bindingPeriodValidityEndDateLabel": "Gültig bis",
       "dateBeforeTodayValidationMessage": "Zukünftiges Datum wählen.",
-      "smallerThanInquiryDateValidationMessage": "Datum muss größer oder gleich dem Anfragedatum sein.",
+      "smallerThanInquiryDateValidationMessage": "Wähle Anfragedatum oder nachfolgendes.",
       "requiredFieldValidationMessage": "{{field}} erforderlich",
       "dateInFutureValidationMessage": "{date,select,today{Wähle heutiges oder vergangenes Datum.} caseCreation {Wähle Datum bis einschließlich 'Case Erstellt Am'.} other {Wähle vergangenes Datum.}}",
       "dateInPastValidationMessage": "{date,select,today{Wähle heutiges oder zukünftiges Datum.} caseCreation {Wähle ein Datum ab einschließlich 'Case Erstellt Am'.} other {Wähle zukünftiges Datum.}}",

@@ -541,7 +541,7 @@
       "customerInquiryDateLabel": "Inquiry Date",
       "bindingPeriodValidityEndDateLabel": "Valid to",
       "dateBeforeTodayValidationMessage": "Select Date in the future.",
-      "smallerThanInquiryDateValidationMessage": "Date must be equal to or greater than Inquiry Date.",
+      "smallerThanInquiryDateValidationMessage": "Select inquiry date or future date.",
       "requiredFieldValidationMessage": "{{field}} required",
       "dateInFutureValidationMessage": "{date,select, today{Select today or past date.} caseCreation{Select date up to and including 'Case Created On'.} other{Select today or past date.}}",
       "dateInPastValidationMessage": "{date,select, today{Select today or future date.} caseCreation{ Select date from and including 'Case Created On'.} other{Select today or future date.}}",
