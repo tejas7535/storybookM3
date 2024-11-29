@@ -433,7 +433,7 @@ export class ColumnDefService {
       valueFormatter: (params) =>
         this.columnUtilityService.percentageFormatter(params, false),
       filterValueGetter: (params: ValueGetterParams) =>
-        roundPercentageToTwoDecimals(params.data[ColumnFields.GPM_RFQ]),
+        roundPercentageToTwoDecimals(params.data?.rfqData?.gpm),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentParams: {
