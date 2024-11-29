@@ -27,7 +27,7 @@ export class InputTableColumnDefService {
       filterValueGetter: (params) =>
         this.columnUtilityService.buildMaterialInfoText(
           params.data.info.description,
-          params.data.info.errorCodes
+          params.data.info.codes
         ),
       comparator: ColumnUtilityService.infoComparator,
     },

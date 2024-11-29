@@ -27,7 +27,9 @@
                 [customer]="quotation.customer"
                 [sapStatus$]="sapStatusPosition$"
                 [statusOfQuotation]="quotation.status"
-                [errorCode]="(quotationDetail$ | ngrxPush)?.sapSyncErrorCode"
+                [errorCode]="
+                  (quotationDetail$ | ngrxPush)?.sapSyncErrorCode?.code
+                "
                 [showStatus]="true"
               ></gq-status-customer-info-header>
             </ng-container>

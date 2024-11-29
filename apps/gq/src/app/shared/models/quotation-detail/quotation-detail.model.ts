@@ -2,6 +2,7 @@ import {
   SapConditionType,
   SapPriceConditionDetail,
 } from '@gq/core/store/reducers/models';
+import { Severity } from '@gq/shared/services/rest/material/models';
 
 import { AbcxClassification } from '../quotation/abcx-classification.enum';
 import { TargetPriceSource } from '../quotation/target-price-source.enum';
@@ -65,7 +66,7 @@ export class QuotationDetail {
   strategicMaterial: string;
   sapSyncStatus: SAP_SYNC_STATUS;
   deliveryUnit: number;
-  sapSyncErrorCode: SAP_ERROR_MESSAGE_CODE;
+  sapSyncErrorCode: SapSyncError;
   sapPriceUnit: number;
   leadingPriceUnit: number;
   abcxClassification: AbcxClassification;
@@ -89,4 +90,11 @@ export class QuotationDetail {
   msp: number;
   rsp: number;
   sapVolumeScale: number;
+}
+
+export interface SapSyncError {
+  code: SAP_ERROR_MESSAGE_CODE;
+  description: string;
+  sapErrorMessageCode: string;
+  severity: Severity;
 }

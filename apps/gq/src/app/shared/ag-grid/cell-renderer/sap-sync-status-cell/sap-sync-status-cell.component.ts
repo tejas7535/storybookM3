@@ -19,7 +19,7 @@ export class SapStatusCellComponent {
 
   agInit(params: ICellRendererParams): void {
     this.syncedStatus = params.value || SAP_SYNC_STATUS.NOT_SYNCED;
-    this.errorCode = params?.data?.sapSyncErrorCode ?? undefined;
+    this.errorCode = params?.data?.sapSyncErrorCode?.code ?? undefined;
     this.tagType = getTagTypeByStatus(this.syncedStatus);
   }
 }

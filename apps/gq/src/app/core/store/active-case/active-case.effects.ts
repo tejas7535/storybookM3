@@ -284,7 +284,7 @@ export class ActiveCaseEffects {
             )?.quotationDetails
               ?.map(
                 (quotationDetail: QuotationDetail) =>
-                  quotationDetail.sapSyncErrorCode
+                  quotationDetail.sapSyncErrorCode?.code
               )
               .filter((errorCode: string) => !!errorCode);
 

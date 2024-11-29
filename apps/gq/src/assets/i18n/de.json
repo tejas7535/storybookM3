@@ -276,6 +276,7 @@
         "SDG101": "Das Material steht in Sales Org / Vertriebskanal nicht zur Verfügung",
         "SDG102": "Material hat Status T (tot) und wird nicht mehr verkauft",
         "SDG103": "Das Material ist aufgrund von Kundenschutz gesperrt",
+        "SDG104": "Material hat den Status L: Typ entfällt, Abverkauf prüfen",
         "SDG999": "Fehler beim Löschen der Position in SAP",
         "SDG1000": "Fehler bei der Synchronisierung mit SAP",
         "DISCONTINUED": "Material hat den Status L: Typ entfällt, Abverkauf prüfen"
