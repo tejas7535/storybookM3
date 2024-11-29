@@ -8,6 +8,7 @@ import {
 } from '@gq/core/store/reducers/models';
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
+import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -47,12 +48,12 @@ import {
   CaseTableColumnFields,
   ColumnFields,
 } from '../constants/column-fields.enum';
+import * as colUtils from '../services/column-utility.service';
 import {
   ColumnUtilityService,
   getValueOfFocusedCell,
   openInNew,
 } from '../services/column-utility.service';
-import * as colUtils from '../services/column-utility.service';
 
 describe('CreateColumnService', () => {
   let service: ColumnUtilityService;
@@ -1004,6 +1005,17 @@ describe('CreateColumnService', () => {
       expect(
         service.determineCaseNavigationPath(QuotationStatus.APPROVED, false)
       ).toEqual([AppRoutePath.ProcessCaseViewPath]);
+    });
+  });
+
+  describe('getPercentageFilterValue', () => {
+    test('should return null when value is 0', () => {
+      expect(service.getPercentageFilterValue(0)).toBe(null);
+    });
+    test('should return value when value is not 0', () => {
+      const spy = jest.spyOn(pricingUtils, 'roundPercentageToTwoDecimals');
+      service.getPercentageFilterValue(0.1);
+      expect(spy).toHaveBeenCalled();
     });
   });
 });
