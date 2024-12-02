@@ -31,6 +31,7 @@
               >
                 <gq-autocomplete-input
                   #materialDescInput
+                  [showFieldHint]="false"
                   [filterName]="materialDesc.filter"
                   [fitContent]="true"
                   [options]="materialDesc.options"
@@ -93,6 +94,7 @@
               >
                 <gq-autocomplete-input
                   #customerMaterialNumberInput
+                  [showFieldHint]="false"
                   [filterName]="customerMaterialNumber.filter"
                   [fitContent]="true"
                   [options]="customerMaterialNumber.options"
@@ -174,7 +176,6 @@
                     [formControl]="targetPriceFormControl"
                     [attr.data-cy]="'add-entry-target-price'"
                   />
-                  <mat-hint>{{ t('targetPrice.hint') }}</mat-hint>
                   @if (targetPriceFormControl.hasError('invalidPrice')) {
                     <mat-error>{{ t('targetPrice.error') }}</mat-error>
                   }

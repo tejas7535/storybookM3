@@ -18,6 +18,7 @@
           <div class="flex-1">
             <gq-autocomplete-input
               #materialDescInput
+              [showFieldHint]="false"
               [filterName]="materialDesc.filter"
               [fitContent]="true"
               [options]="materialDesc.options"
@@ -67,6 +68,7 @@
           >
             <gq-autocomplete-input
               #customerMaterialInput
+              [showFieldHint]="false"
               [filterName]="customerMaterial.filter"
               [fitContent]="true"
               [options]="customerMaterial.options"
@@ -163,7 +165,7 @@
                 formControlName="targetPrice"
                 [attr.data-cy]="'edit-material-targetPrice'"
               />
-              <mat-hint>{{ t('targetPrice.hint') }}</mat-hint>
+
               @if (editFormGroup.get('targetPrice')?.errors?.invalidPrice) {
                 <mat-error>{{ t('targetPrice.error') }}</mat-error>
               }

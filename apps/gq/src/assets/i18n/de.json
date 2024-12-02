@@ -178,7 +178,7 @@
           "action": "Anleitungsvideo"
         },
         "quantity": {
-          "error": "Invalide Menge",
+          "error": "Gib valide Menge ein",
           "errorDeliveryUnit": "Beachte Liefereinheit {{unit}} {{uom}}",
           "label": "Menge*",
           "hint": "Liefereinheit {{unit}} {{uom}}",
@@ -186,12 +186,10 @@
         },
         "targetPrice": {
           "label": "Zielpreis",
-          "hint": "Geben Sie einen Zielpreis ein",
-          "error": "Invalider Zielpreis"
+          "error": "Gib validen Zielpreis ein"
         },
         "targetPriceSource": {
           "label": "Zielpreisquelle",
-          "hint": "Zielpreisquelle auswählen",
           "values": {
             "noEntry": "Kein Eintrag",
             "CUSTOMER": "Kunde",
@@ -199,34 +197,34 @@
           }
         },
         "customer": {
-          "hint": "Geben Sie eine Kundennummer oder einen Kundennamen ein",
+          "hint": "Kundennummer oder Kundennamen eingeben",
           "label": "Kunde*",
           "nothingFound": "Keine Ergebnisse",
-          "wrongInput": "Bitte geben sie einen validen Kundennamen oder Kundenummer ein"
+          "wrongInput": "Gib valide Kundenummer oder Kundennamen ein"
         },
         "materialNumber": {
-          "hint": "Geben Sie eine 15-stellige Materialnummer ein",
+          "hint": "15-stellige Materialnummer eingeben",
           "label": "Materialnummer*",
           "nothingFound": "Keine Ergebnisse",
-          "wrongInput": "Bitte geben Sie eine valide Materialnummer ein"
+          "wrongInput": "Gib valide Materialnummer ein"
         },
         "materialDescription": {
-          "hint": "Geben Sie eine Materialbeschreibung ein",
+          "hint": "Materialbeschreibung eingeben",
           "label": "Materialbeschreibung*",
           "nothingFound": "Nichts gefunden",
-          "wrongInput": "Bitte geben sie eine valide Materialbeschreibung ein"
+          "wrongInput": "Gib valide Materialbeschreibung ein"
         },
         "sap-quotation": {
-          "hint": "Geben Sie eine SAP Angebotsnummer ein",
+          "hint": "SAP Angebotsnummer eingeben",
           "label": "Angebotsnummer",
           "nothingFound": "Keine Ergebnisse",
-          "wrongInput": "Bitte geben Sie eine valide Angebotsnummer ein"
+          "wrongInput": "Gib valide Angebotsnummer ein"
         },
         "customerMaterial": {
           "hint": "Kundenmaterialnummer eingeben",
           "label": "Kundenmaterialnummer",
           "nothingFound": "Keine Ergebnisse",
-          "wrongInput": "Bitte valide Kundenmaterialnummer eingeben"
+          "wrongInput": "Gib valide Kundenmaterialnummer eingeben"
         },
         "button": "Hinzufügen",
         "deleteInvalid": {
@@ -512,7 +510,7 @@
       "cancel": "Abbrechen",
       "update": "Aktualisieren",
       "quantity": {
-        "error": "Invalide Menge",
+        "error": "Gib valide Menge ein",
         "errorDeliveryUnit": "Beachte Liefereinheit {{unit}} {{uom}}",
         "label": "Menge",
         "hintOld": "Geben Sie die Menge ein",
@@ -520,8 +518,8 @@
       },
       "targetPrice": {
         "label": "Zielpreis",
-        "hint": "Geben Sie einen Zielpreis ein",
-        "error": "Invalider Zielpreis"
+        "hint": "Zielpreis eingeben",
+        "error": "Gib validen Zielpreis ein"
       }
     },
     "caseHeaderInformation": {

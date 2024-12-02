@@ -23,7 +23,9 @@
     @if (autocompleteLoading) {
       <mat-spinner matSuffix [diameter]="18"></mat-spinner>
     }
-    <mat-hint>{{ t(filterName + '.hint') }}</mat-hint>
+    @if (showFieldHint) {
+      <mat-hint>{{ t(filterName + '.hint') }}</mat-hint>
+    }
     @if (maxLength) {
       <mat-hint align="end">{{
         (searchFormControl.value?.length?.toString() || '0') +
