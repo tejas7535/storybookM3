@@ -1,4 +1,34 @@
 # Release Notes of Insight Attrition
+## [1.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.2.0...ia-v1.3.0) (2024-12-02)
+
+
+### Features
+
+* **ia:** add detailed reasons (IA-1443) ([#6522](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6522)) ([975efa3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/975efa33af8f4de4dd7663354a28ed22ffdc63d3))
+* **ia:** add new column (IA-1497) ([#6766](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6766)) ([66374aa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/66374aa518732648cea5b61c4c71fdda5e2032e8))
+* **ia:** add reset button to filters  (IA-1415) ([#6511](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6511)) ([58a88b4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/58a88b4d2cd04746da9bc2da458b31975d960c4a))
+* **ia:** add responsive design to overview and global filters (IA-1418) ([#6633](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6633)) ([f2da42f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f2da42f340d3bb96ccee350f6b912df346964ec3))
+* **ia:** change interviews message (IA-1471) ([#6576](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6576)) ([5781dfe](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5781dfe302cf56a287d32515127333909db41ec9))
+* **ia:** change label inside reasons charts (IA-1501) ([#6788](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6788)) ([e2e75ab](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e2e75ab6e8c296442f47f0c3103cd139474c5ff6))
+* **ia:** clean up fluctuation analytics (IA-1455) ([#6575](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6575)) ([db3f767](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/db3f7679e6f6cdbaa3acf7d7167cf85e6e90b0da))
+* **ia:** create tooltip for top reasons (IA-1472) ([#6622](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6622)) ([e833604](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e8336048290612426808cb526e32fa136d1a41de))
+* **ia:** disable dev features (IA-1486) ([#6768](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6768)) ([35fe183](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/35fe18355d832b784eba85ebaf1e074b15edafb5))
+* **ia:** display full dates (IA-1414) ([#6510](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6510)) ([62cbfaa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/62cbfaa4aeaf2b8379f9de1fd2aa65063e57173f))
+* **ia:** fix loading spinner for reasons (IA-1477) ([#6625](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6625)) ([a16dd56](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a16dd5618f12797bfcbd485496cc1f85311cc8b0))
+* **ia:** get leavers by reason (IA-1447) ([#6569](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6569)) ([65a328d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/65a328d888073eba9c7caa7b45f450e1e15f313c))
+* **ia:** load detailed reasons to table (IA-1476) ([#6685](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6685)) ([d4131cb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d4131cbf08bae3ad04c29d4ac5855a1b09d02ab6))
+* **ia:** replace secondary color ([#6446](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6446)) ([83adc8e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/83adc8e6901803f264b7b086cd2267600f3cf1ab))
+* **ia:** set bold text for main reason (IA-1467) ([#6577](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6577)) ([b943532](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b943532fb1273cb8fdf77d3676fb8949f5aa87e4))
+* **ia:** show new dei reasons (IA-1442) ([#6506](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6506)) ([ac053ab](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ac053abdee9585d9c5fef31f525dc9398016d949))
+* **ia:** show or hide benchmark filters (IA-1416) ([#6686](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6686)) ([37dde90](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/37dde9041d2331f8f5c179ffc740ba1c72857831))
+* **ia:** show pmgm data (IA-1408) ([#6350](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6350)) ([be32e78](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/be32e78a360281e9d9fa69789848311df8e78ea0))
+* **ia:** update bg-surface color to legacy one ([#6549](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6549)) ([06ee2e7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/06ee2e7bb28dda708c38248f8fe16bb20d9d7b5e))
+
+
+### Bug Fixes
+
+* **ia:** set benchmark time range (IA-1452) ([#6532](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6532)) ([dde33a1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/dde33a1f26cfc3a6bb6559ebea502bd700f9e79b))
+
 ## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.1.0...ia-v1.2.0) (2024-07-05)
 
 
