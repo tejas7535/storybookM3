@@ -5,7 +5,8 @@ import {
   FILTER_PARAMS,
   NUMBER_COLUMN_FILTER,
 } from '@gq/shared/ag-grid/constants/filters';
-import { Keyboard } from '@gq/shared/models';
+import { Keyboard, SAP_ERROR_MESSAGE_CODE } from '@gq/shared/models';
+import { VALIDATION_CODE } from '@gq/shared/models/table/customer-validation-info.enum';
 import { translate } from '@jsverse/transloco';
 import { ColDef, ValueFormatterParams } from 'ag-grid-enterprise';
 
@@ -24,11 +25,20 @@ export class InputTableColumnDefService {
       flex: 0.15,
       sortable: true,
       filterParams: FILTER_PARAMS,
-      filterValueGetter: (params) =>
-        this.columnUtilityService.buildMaterialInfoText(
+      filterValueGetter: (params) => {
+        // the info column only considers SAP Codes, CustomerValidation needs to be ignored
+        const sapCodes = params?.data?.info?.codes?.filter(
+          (code: VALIDATION_CODE) =>
+            Object.values(SAP_ERROR_MESSAGE_CODE).includes(
+              code as unknown as SAP_ERROR_MESSAGE_CODE
+            )
+        );
+
+        return this.columnUtilityService.buildMaterialInfoText(
           params.data.info.description,
-          params.data.info.codes
-        ),
+          sapCodes
+        );
+      },
       comparator: ColumnUtilityService.infoComparator,
     },
     {

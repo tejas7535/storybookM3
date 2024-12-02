@@ -379,7 +379,10 @@ export const mapValidatedDetailToMaterialValidation = (
       detail.customerData?.customerMaterial
         ? detail.userInput.customerMaterial
         : detail.customerData?.customerMaterial,
-    correctedQuantity: detail.customerData?.correctedQuantity,
+    correctedQuantity:
+      detail.customerData?.correctedQuantity > 0
+        ? detail.customerData?.correctedQuantity
+        : null,
     validationCodes: detail.validationCodes,
   };
 

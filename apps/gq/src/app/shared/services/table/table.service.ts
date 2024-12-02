@@ -184,10 +184,9 @@ export class TableService {
     updatedRow: MaterialTableItem
   ) {
     // if materialValidation has correctedQuantity and customerMaterial, useIt when FeatureToggle is enabled
-    const quantityToUse =
-      isNewCaseCreation && materialValidation.customerMaterial
-        ? materialValidation?.correctedQuantity ?? updatedRow.quantity
-        : updatedRow.quantity;
+    const quantityToUse = isNewCaseCreation
+      ? materialValidation?.correctedQuantity ?? updatedRow.quantity
+      : updatedRow.quantity;
 
     const hasQuantity =
       typeof quantityToUse === 'number' && quantityToUse > 0
