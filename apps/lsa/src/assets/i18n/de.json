@@ -105,6 +105,16 @@
       "configSummary": "Konfigurationsübersicht",
       "increaseOne": "Menge um eins erhöhen",
       "decreaseOne": "Menge um eins verringern",
+      "category": {
+        "lubricantApplication": "Schmierstoffauftrag",
+        "cartridge": "Kartuschen",
+        "gateway": "Gateway",
+        "subDistributors": "Unterverteiler",
+        "accessories": "Zubehör",
+        "fittings": "Fittings",
+        "lubricator": "Schmierstoffgeber",
+        "hoses": "Schläuche"
+      },
       "error": {
         "heading": "Kein kompatibles Gerät verfügbar",
         "body": "Basierend auf Ihren angaben konnte kein passendes Produkt gefunden werden. Kontaktieren Sie den technischen Support um Hilfe bei der Auswahl einer geeigneten Schmierlösung zu erhalten.",

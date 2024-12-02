@@ -107,6 +107,16 @@
       "decreaseOne": "Decrease quantity by one",
       "func_principle": "Functional principle",
       "mounting_position": "Mounting position",
+      "category": {
+        "lubricantApplication": "Lubricant application",
+        "cartridge": "Cartridge",
+        "gateway": "Gateway",
+        "subDistributors": "Sub-distributors",
+        "accessories": "Accessories",
+        "fittings": "Fittings",
+        "lubricator": "Lubricator",
+        "hoses": "Hoses"
+      },
       "error": {
         "heading": "No compatible device",
         "body": "We could not find a device that matches the application criteria you provided. To get help with your search for a suitable lubrication solution, please get in contact with our experts at the technical support",

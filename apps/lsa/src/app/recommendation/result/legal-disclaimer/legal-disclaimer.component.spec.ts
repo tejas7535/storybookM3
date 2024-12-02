@@ -31,31 +31,32 @@ describe('LegalDisclaimerComponent', () => {
     expect(spectator.component).toBeTruthy();
   });
 
-  it('should display short disclaimer initially', () => {
+  it('should display full disclaimer initially', () => {
     spectator.detectChanges();
-    expect(spectator.component.shortDisclaimer).toBe(
-      `${disclaimerText.slice(0, 160)}...`
-    );
+    expect(spectator.query('.disclaimer-block')).toHaveText(disclaimerText);
   });
 
   it('should toggle disclaimer length', () => {
     spectator.detectChanges();
     spectator.component.toggleDisclaimerLength();
     spectator.detectChanges();
-    expect(spectator.component.showFullText).toBe(true);
-    expect(spectator.query('.disclaimer-block')).toHaveText(disclaimerText);
+    expect(spectator.component.showFullText).toBe(false);
+
+    expect(spectator.query('.disclaimer-block')).toHaveText(
+      `${disclaimerText.slice(0, 160)}...`
+    );
   });
 
-  it('should display "Show More" initially', () => {
+  it('should display "Show Less" initially', () => {
     spectator.detectChanges();
 
-    expect(spectator.query('button')).toHaveText('disclaimer.showMore');
+    expect(spectator.query('button')).toHaveText('disclaimer.showLess');
   });
 
-  it('should display "Show Less" after toggling', () => {
+  it('should display "Show More" after toggling', () => {
     spectator.detectChanges();
     spectator.component.toggleDisclaimerLength();
     spectator.detectChanges();
-    expect(spectator.query('button')).toHaveText('disclaimer.showLess');
+    expect(spectator.query('button')).toHaveText('disclaimer.showMore');
   });
 });

@@ -14,7 +14,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
   imports: [SharedTranslocoModule, MatIconModule, MatButtonModule],
 })
 export class LegalDisclaimerComponent implements OnInit {
-  showFullText = false;
+  showFullText = true;
   maxLength = 160;
   public disclaimer = '';
   private readonly translocoService = inject(TranslocoService);
