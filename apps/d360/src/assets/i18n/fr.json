@@ -246,12 +246,12 @@
         "week": "W"
       },
       "save": {
-        "invalid_rows": "{{count}} ligne n'a pas pu être enregistrée. Veuillez vérifier votre saisie.,1,1,{{count}} ligne n'a pas pu être enregistrée. Veuillez vérifier votre entrée.",
+        "invalid_rows": "{count, plural, one {{count} ligne n'a pas pu être enregistrée. Veuillez vérifier votre entrée.} other {{count} ligne n'a pas pu être enregistrée. Veuillez vérifier votre saisie.}}",
         "success": "Toutes les lignes ont été enregistrées."
       },
       "upload_failed": "Échec de l'importation : {{reason}}",
       "validate": {
-        "invalid_rows": "{{count}} lignes n'ont pas pu être enregistrées. Veuillez vérifier vos entrées.,1,1,{{count}} ligne n'a pas pu être enregistrée. S'il vous plaît, vérifiez vos entrées.",
+        "invalid_rows": "{count, plural, one {{count} ligne n'a pas pu être enregistrée. S'il vous plaît, vérifiez vos entrées.} other {{count} lignes n'ont pas pu être enregistrées. Veuillez vérifier vos entrées.}}",
         "success": "Toutes les lignes sont valide"
       },
       "list": {

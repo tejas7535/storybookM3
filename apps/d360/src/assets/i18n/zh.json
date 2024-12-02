@@ -246,12 +246,12 @@
         "week": "周"
       },
       "save": {
-        "invalid_rows": "无法保存 {{count}} 行。请检查您的输入。,1,1,无法保存 {{count}} 行。请检查您的输入。",
+        "invalid_rows": "{count, plural, one {无法保存 {count} 行。请检查您的输入。} other {无法保存 {count} 行。请检查您的输入。}}",
         "success": "保存所有行。"
       },
       "upload_failed": "上传失败：{{reason}}",
       "validate": {
-        "invalid_rows": "{{count}} 行无效。请检查您的输入。,1,1,{{count}} 行无效。请检查您的输入。",
+        "invalid_rows": "{count, plural, one {{count} 行无效。请检查您的输入。} other {{count}  行无效。请检查您的输入。}}",
         "success": "所有行均有效。"
       },
       "list": {
@@ -1051,7 +1051,7 @@
       "34": "材料 {{messageV1}}和材料{{messageV2}}具有循环引用.",
       "37": "替代提议开放",
       "38": "替代提议已锁",
-      "39": "由于 \\\"替换类型 \\\"超时，不允许将状态更改为{{messageV1}}！",
+      "39": "由于 \"替换类型 \"超时，不允许将状态更改为{{messageV1}}！",
       "40": "状态已变更为{{messageV1}} 因为订单或销售机会的原因",
       "41": "状态已变更为{{messageV1}}, 因为已经到期",
       "42": "状态已变更为{{messageV1}}, 因为没有未来或历史需求",

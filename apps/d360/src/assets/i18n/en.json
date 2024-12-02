@@ -255,12 +255,12 @@
         "week": "W"
       },
       "save": {
-        "invalid_rows": "{{count}} row could not be saved. Please check your input.,1,1,{{count}} row could not be saved. Please check your input.",
+        "invalid_rows": "{count, plural, one {{count} row could not be saved. Please check your input.} other {{count} rows could not be saved. Please check your input.}}",
         "success": "All rows saved."
       },
       "upload_failed": "Upload failed: {{reason}}",
       "validate": {
-        "invalid_rows": "{{count}} rows invalid. Please check your input.,1,1,{{count}} row invalid. Please check your input.",
+        "invalid_rows": "{count, plural, one {{count} row invalid. Please check your input.} other {{count} rows invalid. Please check your input.}}",
         "success": "All rows valid."
       },
       "list": {

@@ -246,12 +246,12 @@
         "week": "W"
       },
       "save": {
-        "invalid_rows": "{{count}} filas no se han podido guardar. Compruebe su entrada.,1,1,{{count}} filas no se han podido guardar. Compruebe su entrada.",
+        "invalid_rows": "{count, plural, one {{count} filas no se han podido guardar. Compruebe su entrada.} other {{count} filas no se han podido guardar. Compruebe su entrada.}}",
         "success": "Se han guardado todas las filas."
       },
       "upload_failed": "La carga ha fallado. {{reason}}",
       "validate": {
-        "invalid_rows": "{{count}} filas inválidas. Compruebe su entrada.,1,1,{{count}} filas inválidas. Compruebe su entrada.",
+        "invalid_rows": "{count, plural, one {{count} filas inválidas. Compruebe su entrada.} other {{count} filas inválidas. Compruebe su entrada.}}",
         "success": "Todas las filas son válidas."
       },
       "list": {

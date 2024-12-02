@@ -246,12 +246,12 @@
         "week": "W"
       },
       "save": {
-        "invalid_rows": "Impossibile salvare {{count}} righe. Per favore controlla le tue voci.,1,1,{{count}} riga non può essere salvata. Si prega di controllare le voci inserite.",
+        "invalid_rows": "{count, plural, one {{count} riga non può essere salvata. Si prega di controllare le voci inserite.} other {Impossibile salvare {count} righe. Per favore controlla le tue voci.}}",
         "success": "Tutte le righe sono state salvate."
       },
       "upload_failed": "Caricamento non riuscito: {{reason}}",
       "validate": {
-        "invalid_rows": "{{count}} righe non valide. Si prega di controllare le voci.,1,1,{{count}} Riga non valida. Si prega di controllare le voci",
+        "invalid_rows": "{count, plural, one {{count} Riga non valida. Si prega di controllare le voci.} other {{count} righe non valide. Si prega di controllare le voci.}}",
         "success": "Tutte le righe valide."
       },
       "list": {
