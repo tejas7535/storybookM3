@@ -153,6 +153,7 @@ describe('CreateCaseHeaderInformationComponent', () => {
     test('should init all form controls with value undefined', () => {
       selectedSalesOrgSubject$$.next(null);
       selectedCustomerSubject$$.next(null);
+      component['modifyInputs'] = jest.fn();
       component.ngOnInit();
       expect(component.headerInfoForm.get('customer')?.value).toBeUndefined();
       expect(component.headerInfoForm.get('salesOrg')?.value).toBeUndefined();
@@ -242,6 +243,36 @@ describe('CreateCaseHeaderInformationComponent', () => {
         ?.setValue(moment(Date.now()));
       expect(component.quotationToChangedByUser).toBeTruthy();
     });
+    test('should modify inputs and disable initially', () => {
+      component['modifyInputs'] = jest.fn();
+      component.ngOnInit();
+      expect(component['modifyInputs']).toHaveBeenCalledWith(
+        'disable',
+        expect.anything()
+      );
+    });
+    test('should modifyInputs and enable inputs when customer has been selected', () => {
+      component['modifyInputs'] = jest.fn();
+      selectedCustomerSubject$$.next({ customerId: '12345', salesOrg: '0615' });
+      expect(component['modifyInputs']).toHaveBeenCalled();
+      expect(component['modifyInputs']).toHaveBeenCalledWith(
+        'enable',
+        expect.anything()
+      );
+    });
+    test('should modifyInputs and disable inputs when customer has been deselected', () => {
+      component['modifyInputs'] = jest.fn();
+      selectedCustomerSubject$$.next(null);
+      expect(component['modifyInputs']).toHaveBeenCalled();
+      expect(component['modifyInputs']).toHaveBeenCalledWith(
+        'disable',
+        expect.anything()
+      );
+      expect(component['modifyInputs']).toHaveBeenCalledWith(
+        'reset',
+        expect.anything()
+      );
+    });
   });
 
   describe('ngOnDestroy', () => {
@@ -264,6 +295,23 @@ describe('CreateCaseHeaderInformationComponent', () => {
         component['createCaseFacade'].getQuotationToDate
       ).toHaveBeenCalled();
       expect(component.quotationToChangedByUser).toBeFalsy();
+    });
+  });
+
+  describe('modifyInputs', () => {
+    test('should enable FormControl', () => {
+      component['modifyInputs']('enable', ['caseName']);
+      expect(component.headerInfoForm.get('caseName')?.enabled).toBeTruthy();
+    });
+    test('should disable FormControl', () => {
+      component['modifyInputs']('disable', ['caseName']);
+      expect(component.headerInfoForm.get('caseName')?.disabled).toBeTruthy();
+    });
+
+    test('should reset FormControl', () => {
+      component.headerInfoForm.get('caseName').reset = jest.fn();
+      component['modifyInputs']('reset', ['caseName']);
+      expect(component.headerInfoForm.get('caseName').reset).toHaveBeenCalled();
     });
   });
 });

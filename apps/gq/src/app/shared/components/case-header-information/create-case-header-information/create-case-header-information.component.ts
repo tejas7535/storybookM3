@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -111,6 +112,20 @@ export class CreateCaseHeaderInformationComponent
   isEditMode = false;
   quotationToChangedByUser = false;
 
+  private readonly controlsToModify = [
+    'salesOrg',
+    'currency',
+    'caseName',
+    'purchaseOrderType',
+    'partnerRoleType',
+    'offerType',
+    'shipToParty',
+    'quotationToDate',
+    'requestedDeliveryDate',
+    'customerInquiryDate',
+    'bindingPeriodValidityEndDate',
+  ];
+
   reset(): void {
     this.createCaseFacade.resetCaseCreationInformation();
   }
@@ -186,6 +201,7 @@ export class CreateCaseHeaderInformationComponent
     this.autocomplete.initFacade(AutocompleteRequestDialog.CREATE_CASE);
 
     super.ngOnInit();
+    this.modifyInputs('disable', this.controlsToModify);
     // when the customer sales orgs are loading, reset the partner role type
     this.createCaseFacade.customerSalesOrgs$
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -209,11 +225,11 @@ export class CreateCaseHeaderInformationComponent
         takeUntilDestroyed(this.destroyRef),
         distinctUntilChanged(),
         tap((customerId: CustomerId) => {
-          if (!customerId?.customerId) {
-            this.headerInfoForm
-              .get('quotationToDate')
-              ?.reset(undefined, { emitEvent: false, onlySelf: true });
-
+          if (customerId?.customerId) {
+            this.modifyInputs('enable', this.controlsToModify);
+          } else {
+            this.modifyInputs('reset', this.controlsToModify);
+            this.modifyInputs('disable', this.controlsToModify);
             this.quotationToChangedByUser = false;
           }
         }),
@@ -273,5 +289,35 @@ export class CreateCaseHeaderInformationComponent
             emitEvent: false,
           });
       });
+  }
+
+  // Common function to handle enabling/disabling/resetting controls
+  private modifyInputs(
+    action: 'disable' | 'enable' | 'reset',
+    controls: string[]
+  ): void {
+    controls.forEach((control) => {
+      const formControl = this.headerInfoForm.controls[control];
+      if (formControl) {
+        switch (action) {
+          case 'disable': {
+            formControl.disable();
+
+            break;
+          }
+          case 'enable': {
+            formControl.enable();
+
+            break;
+          }
+          case 'reset': {
+            formControl.reset(undefined, { emitEvent: false, onlySelf: true });
+
+            break;
+          }
+          // No default
+        }
+      }
+    });
   }
 }

@@ -157,16 +157,19 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   addRowEnabled = false;
 
   quantityFormControl: FormControl = new FormControl(
-    null,
+    { value: null, disabled: true },
     [],
     this.newCaseCreation
       ? [quantityDeliveryUnitValidator(this.selectedMaterialAutocomplete$)]
       : []
   );
-  targetPriceFormControl: FormControl = new FormControl();
+  targetPriceFormControl: FormControl = new FormControl({
+    value: undefined,
+    disabled: true,
+  });
   targetPriceSourceFormControl: FormControl = new FormControl({
     value: TargetPriceSource.NO_ENTRY,
-    disabled: false,
+    disabled: true,
   });
   addEntryFormGroup: FormGroup = new FormGroup({
     quantityFormControl: this.quantityFormControl,
@@ -192,13 +195,14 @@ export class AddEntryComponent implements OnInit, OnDestroy {
         this.createCaseFacade.customerIdForCaseCreation$,
         this.createCaseFacade.selectedCustomerSalesOrg$,
       ])
-        .pipe(
-          takeUntilDestroyed(this.destroyRef),
-          filter(([id, salesOrg]) => !!id || !!salesOrg)
-        )
-        .subscribe(() => {
-          this.autoCompleteFacade.resetAutocompleteMaterials();
-          this.clearFields();
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(([id, salesOrg]) => {
+          if (!!id || !!salesOrg) {
+            this.autoCompleteFacade.resetAutocompleteMaterials();
+            this.clearFields();
+          } else {
+            this.enableNonAutoCompleteFields();
+          }
         });
     } else {
       this.autoCompleteFacade.initFacade(AutocompleteRequestDialog.ADD_ENTRY);
@@ -244,6 +248,16 @@ export class AddEntryComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.quantityFormControl.markAsTouched();
         this.rowInputValid();
+      });
+
+    this.customerIdForCaseCreation$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((customerId) => {
+        if (customerId) {
+          this.enableNonAutoCompleteFields();
+        } else {
+          this.disableNonAutoCompleteFields();
+        }
       });
   }
 
@@ -372,6 +386,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     this.matDescInput.clearInput();
 
     this.quantityFormControl.reset();
+
     this.targetPriceFormControl.reset();
 
     this.materialInputIsValid = false;
@@ -382,6 +397,21 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     }
   }
 
+  private enableNonAutoCompleteFields(): void {
+    this.quantityFormControl.enable();
+    this.targetPriceFormControl.enable();
+    if (this.newCaseCreation) {
+      this.targetPriceSourceFormControl.enable();
+    }
+  }
+
+  private disableNonAutoCompleteFields(): void {
+    this.quantityFormControl.disable();
+    this.targetPriceFormControl.disable();
+    if (this.newCaseCreation) {
+      this.targetPriceSourceFormControl.disable();
+    }
+  }
   /**
    * The quantity form Field will have a value that is a multiple of the delivery unit
    * when the next possible multiple is higher than the current quantity Value, the next higher multiple will be taken
