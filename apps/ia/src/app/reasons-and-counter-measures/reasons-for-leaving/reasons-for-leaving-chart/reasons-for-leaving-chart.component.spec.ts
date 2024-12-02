@@ -2,6 +2,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockComponent } from 'ng-mocks';
 
 import { SolidDoughnutChartComponent } from '../../../shared/charts/solid-doughnut-chart/solid-doughnut-chart.component';
+import { Color } from '../../../shared/models';
 import { ReasonForLeavingTab } from '../../models';
 import { ReasonsForLeavingChartComponent } from './reasons-for-leaving-chart.component';
 
@@ -15,7 +16,7 @@ jest.mock('@jsverse/transloco', () => ({
     } else if (
       key === 'reasonsAndCounterMeasures.reasonsForLeaving.chart.conductedInfo'
     ) {
-      return `conductedInfo, conducted: ${params.conducted}, percentage: ${params.percentage}`;
+      return `conductedInfo, conducted: ${params.conducted}`;
     } else {
       return '';
     }
@@ -72,12 +73,19 @@ describe('ReasonsForLeavingChartComponent', () => {
     test('should set config and subTitle', () => {
       component.conductedInterviewsInfo = {
         conducted: 1,
-        percentage: 2,
       };
 
-      expect(component.config.subTitle).toBe(
-        'conductedInfo, conducted: 1, percentage: 2'
-      );
+      expect(component.config.subTitle).toEqual({
+        formatter: `conductedInfo, conducted: 1 {icon|\uE88E}`,
+        rich: {
+          icon: {
+            fontFamily: 'Material Icons',
+            fontSize: 14,
+            color: Color.TEXT_HIGH_EMPHASIS,
+            padding: [0, 0, 2, 0],
+          },
+        },
+      });
     });
   });
 

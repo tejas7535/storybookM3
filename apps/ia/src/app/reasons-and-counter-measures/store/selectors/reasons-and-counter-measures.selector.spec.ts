@@ -26,7 +26,6 @@ describe('ReasonsAndCounterMeasures Selector', () => {
         reasons: {
           loading: false,
           data: {
-            totalInterviews: 32,
             conductedInterviews: 14,
             reasons: [
               {
@@ -53,7 +52,6 @@ describe('ReasonsAndCounterMeasures Selector', () => {
         comparedReasons: {
           loading: false,
           data: {
-            totalInterviews: 32,
             conductedInterviews: 14,
             reasons: [
               {
@@ -235,7 +233,6 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     test('should return conducted interviews info', () => {
       expect(getConductedInterviewsInfo(fakeState)).toEqual({
         conducted: 14,
-        percentage: 43.8,
       });
     });
   });
@@ -245,7 +242,6 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       const result = getComparedReasonsData(fakeState);
 
       expect(result).toEqual({
-        totalInterviews: 32,
         conductedInterviews: 14,
         reasons: [
           {
@@ -356,7 +352,6 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     test('should return conducted interviews info', () => {
       expect(getComparedConductedInterviewsInfo(fakeState)).toEqual({
         conducted: 14,
-        percentage: 43.8,
       });
     });
   });

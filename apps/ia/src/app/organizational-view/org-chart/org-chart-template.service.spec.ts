@@ -1,10 +1,10 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
+import { Color } from '../../shared/models';
 import { OrgChartNode } from './models';
 import { OrgChartTemplateService } from './org-chart-template.service';
 
 describe('OrgChartTemplateService', () => {
-  const HIGHLIGHT_COLOR = 'rgba(0, 0, 0, 0.87)';
   let service: OrgChartTemplateService;
   let spectator: SpectatorService<OrgChartTemplateService>;
 
@@ -195,23 +195,32 @@ describe('OrgChartTemplateService', () => {
     test('should get highlighted border when node is highlighted up to the root', () => {
       const data = { _upToTheRootHighlighted: true } as OrgChartNode;
 
-      const result = service.getRectBorderStyles(data, HIGHLIGHT_COLOR);
+      const result = service.getRectBorderStyles(
+        data,
+        Color.TEXT_HIGH_EMPHASIS
+      );
 
-      expect(result).toEqual(`border: 2px solid ${HIGHLIGHT_COLOR}`);
+      expect(result).toEqual(`border: 2px solid ${Color.TEXT_HIGH_EMPHASIS}`);
     });
 
     test('should get highlighted border when single node is highlighted', () => {
       const data = { _highlighted: true } as OrgChartNode;
 
-      const result = service.getRectBorderStyles(data, HIGHLIGHT_COLOR);
+      const result = service.getRectBorderStyles(
+        data,
+        Color.TEXT_HIGH_EMPHASIS
+      );
 
-      expect(result).toEqual(`border: 2px solid ${HIGHLIGHT_COLOR}`);
+      expect(result).toEqual(`border: 2px solid ${Color.TEXT_HIGH_EMPHASIS}`);
     });
 
     test('should get normal border when node is not highlighted', () => {
       const data = { _upToTheRootHighlighted: false } as OrgChartNode;
 
-      const result = service.getRectBorderStyles(data, HIGHLIGHT_COLOR);
+      const result = service.getRectBorderStyles(
+        data,
+        Color.TEXT_HIGH_EMPHASIS
+      );
 
       expect(result).toEqual(`border: 1px solid rgba(0, 0, 0, 0.32)`);
     });
@@ -221,23 +230,32 @@ describe('OrgChartTemplateService', () => {
     test('should get highlighted border when node is highlighted up to the root', () => {
       const data = { _upToTheRootHighlighted: true } as OrgChartNode;
 
-      const result = service.getHeaderBorderStyles(data, HIGHLIGHT_COLOR);
+      const result = service.getHeaderBorderStyles(
+        data,
+        Color.TEXT_HIGH_EMPHASIS
+      );
 
-      expect(result).toEqual(`border: 1px solid ${HIGHLIGHT_COLOR}`);
+      expect(result).toEqual(`border: 1px solid ${Color.TEXT_HIGH_EMPHASIS}`);
     });
 
     test('should get highlighted border when single node is highlighted', () => {
       const data = { _highlighted: true } as OrgChartNode;
 
-      const result = service.getHeaderBorderStyles(data, HIGHLIGHT_COLOR);
+      const result = service.getHeaderBorderStyles(
+        data,
+        Color.TEXT_HIGH_EMPHASIS
+      );
 
-      expect(result).toEqual(`border: 1px solid ${HIGHLIGHT_COLOR}`);
+      expect(result).toEqual(`border: 1px solid ${Color.TEXT_HIGH_EMPHASIS}`);
     });
 
     test('should unset border when node is not highlighted', () => {
       const data = { _upToTheRootHighlighted: false } as OrgChartNode;
 
-      const result = service.getHeaderBorderStyles(data, HIGHLIGHT_COLOR);
+      const result = service.getHeaderBorderStyles(
+        data,
+        Color.TEXT_HIGH_EMPHASIS
+      );
 
       expect(result).toEqual(`border: none`);
     });

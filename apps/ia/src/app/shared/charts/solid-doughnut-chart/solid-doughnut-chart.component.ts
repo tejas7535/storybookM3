@@ -52,7 +52,8 @@ export class SolidDoughnutChartComponent
 
     const series: SeriesOption[] = createSolidDoughnutChartSeries(
       config.side,
-      config.subTitle
+      config.subTitle,
+      config.titleTooltip
     );
     this.options = {
       ...baseOptions,

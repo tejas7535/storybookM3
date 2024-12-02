@@ -11,13 +11,18 @@ import {
 
 describe('solid-doughnut-chart config', () => {
   describe('createSolidDoughnutChartBaseOptions', () => {
-    test('should create base options', () => {
-      const config: SolidDoughnutChartConfig = {
+    let config: SolidDoughnutChartConfig;
+
+    beforeEach(() => {
+      config = {
         title: 'Top 5 reasons',
-        subTitle: '2021',
+        subTitle: {},
         color: [Color.COLORFUL_CHART_1],
         side: 'left',
       };
+    });
+
+    test('should create base options', () => {
       const expectedResult = {
         backgroundColor: Color.WHITE,
         color: [Color.COLORFUL_CHART_1],
@@ -25,7 +30,7 @@ describe('solid-doughnut-chart config', () => {
           text: config.title,
           textStyle: {
             fontFamily: 'Noto Sans',
-            color: 'rgba(0, 0, 0, 0.60)',
+            color: Color.TEXT_MEDIUM_EMPHASIS,
             fontStyle: 'normal',
             fontWeight: 400,
             align: 'center',
@@ -53,11 +58,25 @@ describe('solid-doughnut-chart config', () => {
 
       expect(result).toEqual(expectedResult);
     });
+
+    test('should cut labels in legend if it is too long', () => {
+      const longMessage =
+        'Some very long label that should be cut in the legend';
+      const expected =
+        'Some very long label that should \nbe cut in the legend';
+
+      const baseOptions = createSolidDoughnutChartBaseOptions(config);
+
+      expect((baseOptions.legend as any).formatter(longMessage)).toEqual(
+        expected
+      );
+    });
   });
 
   describe('createSolidDoughnutChartSeries', () => {
     test('should create chart series', () => {
-      const title = 'Top 5 reasons';
+      const title = {};
+      const subTitle = 'Some detailes';
       const expected: EChartsOption[] = [
         {
           id: 'reasons',
@@ -110,7 +129,6 @@ describe('solid-doughnut-chart config', () => {
           avoidLabelOverlap: true,
           label: {
             position: 'center',
-            formatter: title,
           },
           emphasis: { disabled: true },
           labelLine: {
@@ -124,12 +142,39 @@ describe('solid-doughnut-chart config', () => {
             },
           ],
           tooltip: {
-            show: false,
+            show: true,
+            formatter: subTitle,
           },
         },
       ];
 
-      const result = createSolidDoughnutChartSeries('left', title);
+      const result = createSolidDoughnutChartSeries('left', title, subTitle);
+
+      expect(result).toEqual(expected);
+    });
+
+    test('should reasons formatter return percentage', () => {
+      const params = {
+        data: { percent: 50 },
+      };
+      const expected = '50.0%';
+
+      const result = (
+        createSolidDoughnutChartSeries('left', {}, '')[0].label.formatter as any
+      )(params as unknown as CallbackDataParams);
+
+      expect(result).toEqual(expected);
+    });
+
+    test('should detailedReasons formatter return percentage', () => {
+      const params = {
+        data: { percent: 50 },
+      };
+      const expected = '50.0%';
+
+      const result = (
+        createSolidDoughnutChartSeries('left', {}, '')[1].label.formatter as any
+      )(params as unknown as CallbackDataParams);
 
       expect(result).toEqual(expected);
     });

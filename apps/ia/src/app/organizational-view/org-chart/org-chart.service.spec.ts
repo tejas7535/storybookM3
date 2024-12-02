@@ -1,6 +1,6 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { FilterDimension, HeatType } from '../../shared/models';
+import { Color, FilterDimension, HeatType } from '../../shared/models';
 import { FluctuationType } from '../../shared/tables/employee-list-table/models';
 import { DimensionFluctuationData, OrgChartFluctuationRate } from '../models';
 import { BUTTON_CSS, OrgChartNode } from './models';
@@ -430,7 +430,7 @@ describe('OrgChartService', () => {
 
       expect(highlightedLink.setAttribute).toHaveBeenCalledWith(
         'stroke',
-        service.HIGHLIGHT_COLOR
+        Color.TEXT_HIGH_EMPHASIS
       );
       expect(highlightedLink.setAttribute).toHaveBeenCalledWith(
         'stroke-width',

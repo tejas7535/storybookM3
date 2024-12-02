@@ -93,11 +93,14 @@ describe('SolidDoughnutChartComponent', () => {
 
   describe('initialConfig', () => {
     test('should set base options', () => {
-      const config: SolidDoughnutChartConfig = {
-        title: '2021',
-        subTitle: 'Top 5 Reasons why people left',
-        side: 'left',
-      };
+      const config = new SolidDoughnutChartConfig(
+        '2021',
+        {},
+        undefined,
+        undefined,
+        undefined,
+        'left'
+      );
 
       component.setCurrentData = jest.fn();
 
@@ -105,7 +108,7 @@ describe('SolidDoughnutChartComponent', () => {
 
       expect(
         doughnutConfig.createSolidDoughnutChartSeries
-      ).toHaveBeenCalledWith('left', config.subTitle);
+      ).toHaveBeenCalledWith('left', config.subTitle, undefined);
       expect(
         doughnutConfig.createSolidDoughnutChartBaseOptions
       ).toHaveBeenCalledWith(config);
