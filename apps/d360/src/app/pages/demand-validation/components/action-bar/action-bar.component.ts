@@ -50,6 +50,7 @@ import {
   demandValidationChangeAllowedRoles,
 } from '../../../../shared/utils/auth/roles';
 import { DemandValidationExportModalComponent } from '../demand-validation-export-modal/demand-validation-export-modal.component';
+import { DemandValidationMultiDeleteModalComponent } from '../demand-validation-multi-delete-modal/demand-validation-multi-delete-modal.component';
 import { DemandValidationMultiListConfigurationModalComponent } from '../demand-validation-multi-list-configuration-modal/demand-validation-multi-list-configuration-modal.component';
 import { DatePickerSettingDemandValidationModalComponent } from './date-picker-setting-demand-validation-modal/date-picker-setting-demand-validation-modal.component';
 import { DemandValidationSettingModalComponent } from './demand-validation-setting-modal/demand-validation-setting-modal.component';
@@ -237,6 +238,22 @@ export class ActionBarComponent implements OnInit {
   }
 
   protected handleDeleteModalClicked() {
-    // TODO implement
+    this.dialog.open(DemandValidationMultiDeleteModalComponent, {
+      data: {
+        customerName: this.currentCustomer().customerName,
+        customerNumber: this.currentCustomer().customerNumber,
+        onSave: this.onSaveInModal('[Validated Sales Planning] Delete List'),
+      },
+      disableClose: true,
+      autoFocus: false,
+      panelClass: ['form-dialog', 'demand-validation-multi-delete'],
+    });
   }
+
+  private readonly onSaveInModal = (_: string) => () => {
+    // TODO: Implement reloading of KPI data for the right table (SFT-1952)
+    // reloadData();
+    // TODO: Implement once we have the AppInsights setup (SFT-1863)
+    // appInsights.trackEvent({ name: eventName, });
+  };
 }

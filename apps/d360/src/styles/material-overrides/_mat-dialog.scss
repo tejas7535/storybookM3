@@ -45,8 +45,11 @@
         }
       }
 
-      &.demand-validation-export {
+      &.demand-validation-export,
+      &.demand-validation-multi-delete {
         min-width: 30vw;
+        width: auto;
+        max-width: 80vw;
       }
 
       &.customer-material-portfolio {

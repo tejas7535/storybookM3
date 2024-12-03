@@ -34,11 +34,11 @@ import { toNativeDate } from '../../../../shared/utils/date-format';
 export class DemandValidationDatePickerComponent implements OnInit {
   public formGroup = input.required<FormGroup>();
   public periodType1 = input.required<FormControl>();
-  public periodType2 = input.required<FormControl>();
+  public periodType2 = input<FormControl>();
   public startDatePeriod1 = input.required<FormControl>();
-  public startDatePeriod2 = input.required<FormControl>();
+  public startDatePeriod2 = input<FormControl>();
   public endDatePeriod1 = input.required<FormControl>();
-  public endDatePeriod2 = input.required<FormControl>();
+  public endDatePeriod2 = input<FormControl>();
   public periodTypes = input.required<SelectableValue[]>();
 
   public minDate = input<Date>(firstViewableDate());
@@ -53,7 +53,7 @@ export class DemandValidationDatePickerComponent implements OnInit {
 
   ngOnInit() {
     this.midDateEndDatePeriod2 = [undefined, null].includes(
-      this.endDatePeriod2().getRawValue()
+      this.endDatePeriod2()?.getRawValue()
     )
       ? firstViewableDate()
       : startOfMonth(addMonths(toNativeDate(this.endDatePeriod1().value), 1));

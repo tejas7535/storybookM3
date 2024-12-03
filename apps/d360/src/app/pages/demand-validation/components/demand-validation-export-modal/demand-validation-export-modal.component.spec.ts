@@ -9,11 +9,10 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { MockComponent, MockModule } from 'ng-mocks';
-
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { MockComponent } from 'ng-mocks';
 
 import { SingleAutocompletePreLoadedComponent } from '../../../../shared/components/inputs/autocomplete/single-autocomplete-pre-loaded/single-autocomplete-pre-loaded.component';
+import { ExportDemandValidationService } from '../../services/export-demand-validation.service';
 import { DemandValidationDatePickerComponent } from '../demand-validation-date-picker/demand-validation-date-picker.component';
 import { DemandValidationExportModalComponent } from './demand-validation-export-modal.component';
 
@@ -27,7 +26,6 @@ describe('DemandValidationExportModalComponent', () => {
   const createComponent = createComponentFactory({
     component: DemandValidationExportModalComponent,
     imports: [
-      MockModule(LoadingSpinnerModule),
       MockComponent(DemandValidationDatePickerComponent),
       MockComponent(SingleAutocompletePreLoadedComponent),
     ],
@@ -46,6 +44,7 @@ describe('DemandValidationExportModalComponent', () => {
           demandValidationFilters: {},
         },
       },
+      mockProvider(ExportDemandValidationService),
       mockProvider(MatDialogRef, {
         close: jest.fn(),
       }),

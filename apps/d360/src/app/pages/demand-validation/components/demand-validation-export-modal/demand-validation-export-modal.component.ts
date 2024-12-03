@@ -42,8 +42,9 @@ import { SingleAutocompletePreLoadedComponent } from '../../../../shared/compone
 import { toNativeDate } from '../../../../shared/utils/date-format';
 import { DateRangePeriod } from '../../../../shared/utils/date-range';
 import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
+import { ExportDemandValidationService } from '../../services/export-demand-validation.service';
 import { DemandValidationDatePickerComponent } from '../demand-validation-date-picker/demand-validation-date-picker.component';
-import { DemandValidationExportLoadingModalComponent } from '../demand-validation-export-loading-modal/demand-validation-export-loading-modal.component';
+import { DemandValidationLoadingModalComponent } from '../demand-validation-loading-modal/demand-validation-loading-modal.component';
 
 export interface DemandValidationExportModalProps {
   customerData: CustomerEntry[];
@@ -72,6 +73,10 @@ export interface DemandValidationExportModalProps {
 })
 export class DemandValidationExportModalComponent {
   private readonly dialog = inject(MatDialog);
+
+  private readonly exportDemandValidationService = inject(
+    ExportDemandValidationService
+  );
 
   protected readonly dialogRef: MatDialogRef<DemandValidationExportModalComponent> =
     inject(MatDialogRef<DemandValidationExportModalComponent>);
@@ -175,16 +180,33 @@ export class DemandValidationExportModalComponent {
     );
 
     if (filledRange) {
-      this.dialog.open(DemandValidationExportLoadingModalComponent, {
+      this.dialog.open(DemandValidationLoadingModalComponent, {
         data: {
-          selectedKpis,
-          filledRange,
-          demandValidationFilters: this.data.demandValidationFilters,
+          onInit: () =>
+            this.triggerExport(
+              selectedKpis,
+              filledRange,
+              this.data.demandValidationFilters
+            ),
+          onClose: () => this.dialogRef.close(),
+          textWhileLoading: translate('material_customer.export.in_progress'),
         },
         disableClose: true,
         autoFocus: false,
       });
     }
+  }
+
+  protected triggerExport(
+    selectedKpis: SelectedKpis,
+    filledRange: KpiDateRanges,
+    demandValidationFilters: DemandValidationFilter
+  ) {
+    return this.exportDemandValidationService.triggerExport(
+      selectedKpis,
+      filledRange,
+      demandValidationFilters
+    );
   }
 
   protected onClose() {
