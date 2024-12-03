@@ -96,7 +96,8 @@ export class LsaFormService {
   public reset() {
     this.sessionStorage.removeItem(SESSION_KEY);
     this.resetStepState$$.next();
-    this.recommendationForm.patchValue(DEFAULT_FORM_VALS);
+    const formValuesCopy = structuredClone(DEFAULT_FORM_VALS); // make sure that default Forms Vals are not mutated
+    this.recommendationForm.patchValue(formValuesCopy);
   }
 
   public getLubricationPointsForm(): FormGroup<LubricationPointsForm> {
@@ -161,7 +162,7 @@ export class LsaFormService {
 
     this.applicationForm = new FormGroup<ApplicationForm>({
       temperature: this.createFormControl<LSAInterval>(
-        { min: 5, max: 15, title: '' },
+        { min: 0, max: 30, title: '' },
         true
       ),
       battery: this.createFormControl<PowerSupply>(

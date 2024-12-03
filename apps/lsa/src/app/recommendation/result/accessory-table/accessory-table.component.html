@@ -11,7 +11,7 @@
           <span class="sr-only">{{ t('availability') }}</span>
         </th>
         @if (isBusinessUser) {
-          <th class="text-center">Price</th>
+          <th class="text-center">{{ t('price') }}</th>
         }
         <th class="w-11 md:w-20">{{ t('quantity') }}</th>
         <th>
@@ -152,7 +152,7 @@
                       </span>
                       <span
                         class="text-body-small mt-1 text=[12px] text-medium-emphasis"
-                        >per Piece</span
+                        >{{ t('perPiece') }}</span
                       >
                     } @else if (!item.isPriceAndAvailabilityUpdated) {
                       <div

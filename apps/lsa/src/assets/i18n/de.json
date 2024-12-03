@@ -98,6 +98,8 @@
       "pieces": "Anzahl",
       "availability": "Verfügbarkeit",
       "quantity": "Menge",
+      "price": "Preis",
+      "perPiece": "pro Stück",
       "totalPieces": "Gesamt",
       "totalPrice": "Gesamtwert netto",
       "inStock": "verfügbar",

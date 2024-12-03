@@ -21,7 +21,7 @@ export const DEFAULT_FORM_VALS = {
     grease: { id: 'ARCANOL_MULTI2', title: 'Arcanol MULTI2' },
   },
   application: {
-    temperature: { min: 5, max: 15, title: '' } as LSAInterval,
+    temperature: { min: 0, max: 30, title: '' } as LSAInterval,
     battery: PowerSupply.NoPreference,
   },
 };

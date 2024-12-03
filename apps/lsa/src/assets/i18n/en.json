@@ -98,6 +98,8 @@
       "pieces": "Pieces",
       "availability": "Availability",
       "quantity": "Quantity",
+      "price": "Price",
+      "perPiece": "per Piece",
       "totalPieces": "Total pieces",
       "totalPrice": "Total net value",
       "configSummary": "Configuration summary",
