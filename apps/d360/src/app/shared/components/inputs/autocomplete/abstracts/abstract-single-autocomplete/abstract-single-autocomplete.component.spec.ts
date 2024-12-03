@@ -9,14 +9,17 @@ import { SelectableValue } from '../../selectable-values.utils';
 import { AbstractSingleAutocompleteComponent } from './abstract-single-autocomplete.component';
 
 class TestComponent extends AbstractSingleAutocompleteComponent {
-  public onSearchControlChange$(
+  protected onSearchControlChange$(
     _value: string,
     _setFormControlValue?: boolean
   ): Observable<unknown | void> {
     return of();
   }
-  public isPreloaded = false;
-  public filteredOptions: Signal<SelectableValue[]> = signal([]);
+  protected resetOptions() {}
+  protected onOptionSelected() {}
+
+  protected isPreloaded = false;
+  protected filteredOptions: Signal<SelectableValue[]> = signal([]);
   public displayFn:
     | InputSignal<(option: SelectableValue | string) => string>
     | InputSignal<(option?: SelectableValue) => string> = signal(

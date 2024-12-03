@@ -18,6 +18,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, map, Observable } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 
+import { isEqual } from '../../../../../../shared/utils/validation/data-validation';
 import {
   DisplayFunction,
   DisplayFunctions,
@@ -200,6 +201,16 @@ export abstract class AbstractSingleAutocompleteComponent implements OnInit {
   protected errorMessage: InputSignal<string> = input('');
 
   /**
+   * This is the current selected value, not the string visible in the search field.
+   * It's just needed for some internal checks.
+   *
+   * @protected
+   * @type {SelectableValue}
+   * @memberof AbstractSingleAutocompleteComponent
+   */
+  protected value: SelectableValue;
+
+  /**
    * Creates an instance of AbstractSingleAutocompleteComponent.
    *
    * @memberof AbstractSingleAutocompleteComponent
@@ -215,6 +226,7 @@ export abstract class AbstractSingleAutocompleteComponent implements OnInit {
           ) || null,
           { emitEvent: false }
         );
+        this.value = this.getTypedValue();
 
         this.first = false;
       }
@@ -224,13 +236,14 @@ export abstract class AbstractSingleAutocompleteComponent implements OnInit {
   /**
    * Abstract method to handle the search control change.
    *
+   * @protected
    * @abstract
    * @param {string} value
    * @param {boolean} [setFormControlValue]
    * @return {(Observable<unknown | void>)}
    * @memberof AbstractSingleAutocompleteComponent
    */
-  public abstract onSearchControlChange$(
+  protected abstract onSearchControlChange$(
     value: string,
     setFormControlValue?: boolean
   ): Observable<unknown | void>;
@@ -247,6 +260,7 @@ export abstract class AbstractSingleAutocompleteComponent implements OnInit {
       ) as SelectableValue,
       { emitEvent: false }
     );
+    this.value = this.getTypedValue();
 
     this.control()
       .valueChanges.pipe(
@@ -261,18 +275,49 @@ export abstract class AbstractSingleAutocompleteComponent implements OnInit {
   }
 
   /**
-   * After an option was selected, emit the new value.
+   * A method to reset the filtered options.
+   * Hint: Needs to be implemented, if needed.
+   *
+   * @protected
+   * @abstract
+   * @memberof AbstractSingleAutocompleteComponent
+   */
+  protected abstract resetOptions(): void;
+
+  /**
+   * On blur we need to reset the search field, if there was no selection made.
    *
    * @protected
    * @memberof AbstractSingleAutocompleteComponent
    */
-  protected onOptionSelected(): void {
-    if (SelectableValueUtils.isSelectableValue(this.control().value)) {
-      this.onSelectionChange.emit({
-        option: this.control().value as SelectableValue,
-      });
+  protected onSearchFieldBlur(): void {
+    if (!isEqual(this.getTypedValue(), this.value) && !!this.value) {
+      setTimeout(() => {
+        this.control().setValue(this.value);
+        this.resetOptions();
+      }, 250);
     }
   }
+
+  /**
+   * Returns a typed value of type SelectableValue
+   *
+   * @protected
+   * @return {SelectableValue}
+   * @memberof AbstractSingleAutocompleteComponent
+   */
+  protected getTypedValue(): SelectableValue {
+    return this.control().getRawValue() as SelectableValue;
+  }
+
+  /**
+   * After an option was selected, emit the new value.
+   *
+   * @protected
+   * @abstract
+   * @memberof AbstractSingleAutocompleteComponent
+   */
+  protected abstract onOptionSelected(): void;
 
   /**
    * Returns, if the current value is not empty.
@@ -297,5 +342,6 @@ export abstract class AbstractSingleAutocompleteComponent implements OnInit {
     this.inputValue.set(null);
     this.control().patchValue(null);
     this.onSelectionChange.emit({ option: { id: null, text: null } });
+    this.value = null;
   }
 }

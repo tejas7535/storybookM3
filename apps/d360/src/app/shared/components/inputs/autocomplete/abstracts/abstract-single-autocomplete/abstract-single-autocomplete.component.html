@@ -9,6 +9,9 @@
     [matAutocomplete]="auto"
     matInput
     type="text"
+    #input
+    (focus)="input.select()"
+    (blur)="onSearchFieldBlur()"
   />
 
   <!-- The autocomplete -->

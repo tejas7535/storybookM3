@@ -158,7 +158,7 @@ export class MultiAutocompleteOnTypeComponent
    */
 
   /** @inheritdoc */
-  public onSearchControlChange$(searchString: string): Observable<unknown> {
+  protected onSearchControlChange$(searchString: string): Observable<unknown> {
     return of(searchString).pipe(
       filter((value) => {
         if (value && value.length > 1) {

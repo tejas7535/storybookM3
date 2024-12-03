@@ -13,6 +13,7 @@
       --ag-header-foreground-color: var(--scrim-color);
       --ag-data-color: var(--on-surface-variant-color);
       --ag-font-weight-bold: 500;
+      --ag-side-bar-panel-width: 240px;
 
       .ag-filter-toolpanel-header,
       .ag-filter-toolpanel-search,
@@ -35,6 +36,11 @@
       .ag-row-selected {
         --ag-selected-row-background-color: #ffffff00;
         color: var(--primary-color-hex);
+      }
+
+      .ag-tool-panel-wrapper,
+      .ag-menu {
+        @apply bg-surface-container-high;
       }
     }
 

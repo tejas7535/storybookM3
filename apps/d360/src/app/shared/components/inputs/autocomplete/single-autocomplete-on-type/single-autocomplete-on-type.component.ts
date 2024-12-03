@@ -119,13 +119,14 @@ export class SingleAutocompleteOnTypeComponent
   );
 
   /**
-   * Creates an instance of SingleAutocompleteOnTypeComponent.
+   * The current available options for the last search.
+   * Hint: Important - this options are only set, after the user clicks on an option!
    *
+   * @private
+   * @type {SelectableValue[]}
    * @memberof SingleAutocompleteOnTypeComponent
    */
-  public constructor() {
-    super();
-  }
+  private options: SelectableValue[] = [];
 
   /**
    * @override
@@ -134,7 +135,7 @@ export class SingleAutocompleteOnTypeComponent
   public ngOnInit(): void {
     if (!SelectableValueUtils.isSelectableValue(this.control().value)) {
       this.onSearchControlChange$(this.control().value as string, true)
-        .pipe(take(1))
+        .pipe(take(1), takeUntilDestroyed(this.destroyRef))
         .subscribe();
     }
 
@@ -142,7 +143,17 @@ export class SingleAutocompleteOnTypeComponent
   }
 
   /** @inheritdoc */
-  public onSearchControlChange$(
+  protected onOptionSelected(): void {
+    if (SelectableValueUtils.isSelectableValue(this.control().value)) {
+      this.onSelectionChange.emit({ option: this.getTypedValue() });
+      this.value = this.getTypedValue();
+
+      this.options = this.filteredOptions();
+    }
+  }
+
+  /** @inheritdoc */
+  protected onSearchControlChange$(
     searchString: string,
     setFormControlValue: boolean = false
   ): Observable<unknown> {
@@ -178,10 +189,16 @@ export class SingleAutocompleteOnTypeComponent
 
         if (setFormControlValue) {
           this.control().setValue(this.filteredOptions()[0]);
+          this.value = this.getTypedValue();
         }
       }),
       finalize(() => this.loading.set(false)),
       takeUntilDestroyed(this.destroyRef)
     );
+  }
+
+  /** @inheritdoc */
+  protected resetOptions(): void {
+    this.filteredOptions.set(this.options);
   }
 }

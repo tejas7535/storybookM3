@@ -66,7 +66,7 @@ export class MultiAutocompletePreLoadedComponent
   }
 
   /** @inheritdoc */
-  public onSearchControlChange$(searchString: string): Observable<void> {
+  protected onSearchControlChange$(searchString: string): Observable<void> {
     this.filterOptions(searchString);
 
     return of();

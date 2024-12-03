@@ -163,12 +163,13 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
   /**
    * Abstract method to handle the search control change.
    *
+   * @protected
    * @abstract
    * @param {string} value
    * @return {(Observable<unknown | void>)}
    * @memberof AbstractMultiAutocompleteComponent
    */
-  public abstract onSearchControlChange$(
+  protected abstract onSearchControlChange$(
     value: string
   ): Observable<unknown | void>;
 

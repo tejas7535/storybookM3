@@ -8,7 +8,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { AbstractMultiAutocompleteComponent } from './abstract-multi-autocomplete.component';
 
 class TestComponent extends AbstractMultiAutocompleteComponent {
-  public onSearchControlChange$(_value: string): Observable<unknown | void> {
+  protected onSearchControlChange$(_value: string): Observable<unknown | void> {
     return of();
   }
   protected resetOptions(): void {}
