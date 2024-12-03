@@ -311,6 +311,10 @@ export class ColumnDefService {
       field: ColumnFields.SAP_VOLUME_SCALE,
       valueFormatter: (params) =>
         this.columnUtilityService.percentageFormatter(params, false),
+      filterValueGetter: (params: ValueGetterParams) =>
+        this.columnUtilityService.getPercentageFilterValue(
+          params.data[ColumnFields.SAP_VOLUME_SCALE]
+        ),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
     },

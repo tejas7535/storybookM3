@@ -528,7 +528,7 @@ export class ColumnUtilityService {
 
   getPercentageFilterValue(value: number): number {
     // In AG Grid filtering 0 value is not considered as "blank". So we need to return null for 0 value.
-    if (value === 0 || value === null) {
+    if (!value) {
       return null;
     }
 

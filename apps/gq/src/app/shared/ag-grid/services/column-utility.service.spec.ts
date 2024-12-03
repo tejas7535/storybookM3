@@ -1015,6 +1015,9 @@ describe('CreateColumnService', () => {
     test('should return null when value is null', () => {
       expect(service.getPercentageFilterValue(null)).toBe(null);
     });
+    test('should return null when value is undefined', () => {
+      expect(service.getPercentageFilterValue(undefined as any)).toBe(null);
+    });
     test('should return value when value is not 0', () => {
       const spy = jest.spyOn(pricingUtils, 'roundPercentageToTwoDecimals');
       service.getPercentageFilterValue(0.1);
