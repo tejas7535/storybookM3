@@ -394,7 +394,7 @@ export class ColumnDefService {
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
       filterValueGetter: (params: ValueGetterParams) =>
-        roundToTwoDecimals(params.data[ColumnFields.SQV_RFQ]),
+        roundToTwoDecimals(params.data?.rfqData?.sqv),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
     },
