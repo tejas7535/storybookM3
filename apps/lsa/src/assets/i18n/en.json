@@ -180,8 +180,8 @@
     "remoteChanged": "Your initial request with {{original}} did not bring up any valid results. We automatically retried with {{new}} as a possible alternative. Please review to make sure this is compatible with your usecase!"
   },
   "disclaimer": {
-    "text": "Our details take into account those risks which were apparent to us on the basis of your requirements as made available to us. The results shown in the document have been worked out carefully and in accordance with the state of the art, but do not constitute an express or implied guaranty as to quality or durability in the legal sense. You are not dispensed thereby from checking the suitability of the products for your intended use. We shall be liable for the details provided in the recommendation only in the event of willful intent or negligence. In case of questions regarding the product, the recommendation or the suitability of the product, please ",
-    "linkText": "contact our experts",
+    "text": "Our details take into account those risks which were apparent to us on the basis of your requirements as made available to us. The results shown in the document have been worked out carefully and in accordance with the state of the art, but do not constitute an express or implied guaranty as to quality or durability in the legal sense. You are not dispensed thereby from checking the suitability of the products for your intended use. We shall be liable for the details provided in the recommendation only in the event of willful intent or negligence. In case of questions regarding the product, the recommendation or the suitability of the product, please contact here: ",
+    "linkText": "contact us",
     "link": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
     "showMore": "Show More",
     "showLess": "Show Less"

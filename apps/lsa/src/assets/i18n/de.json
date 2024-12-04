@@ -122,6 +122,29 @@
         "body": "Basierend auf Ihren angaben konnte kein passendes Produkt gefunden werden. Kontaktieren Sie den technischen Support um Hilfe bei der Auswahl einer geeigneten Schmierlösung zu erhalten.",
         "ctaLink": "https://medias.schaeffler.de/de/stc",
         "ctaText": "Schaeffler Technischer Support"
+      },
+      "errors": {
+        "compatability": {
+          "pressure": {
+            "title": "Druckanforderungen sind zu hoch",
+            "body": "Die berechneten Druckanforderungen für Ihre Konfiguration sind zu hoch. Versuchen Sie, den Schmierstoffgeber näher an die Schmierpunkte zu bringen, um die Schlauchlänge zu reduzieren."
+          }
+        },
+        "lubrication": {
+          "quantityLow": {
+            "title": "Schmiermenge niedrig",
+            "body": "Ihre Konfiguration zeigt eine sehr niedrige Schmiermenge an. Bei solch niedrigen Mengen können die Schmierstoffe ihre vorgesehene Lebensdauer überschreiten. Ziehen Sie in Betracht, manuelle Schmierung zu verwenden."
+          },
+          "quantityHigh": {
+            "title": "Schmiermenge hoch",
+            "body": "Die Schmiermenge für Ihre Konfiguration überschreitet die Fähigkeiten unseres Produktportfolios."
+          }
+        }
+      },
+      "warning": {
+        "adjustedAutomatically": "Wir konnten keine geeignete Lösung innerhalb des Optime-Ökosystems finden. Wir können die folgenden Alternativen ohne Optime-Funktionalität anbieten.",
+        "noRecommendation": "Wir konnten Ihnen nicht automatisch eine geeignete Empfehlung für Ihre Eingabeparameter geben. Bitte wenden Sie sich an den technischen Support von Schaeffler für eine spezifische Beratung.",
+        "usedFallbackGrease": "Wir können keine detaillierte Empfehlung für auf dem Markt verfügbare Fette geben. Wir haben ein weitgehend kompatibles Fett aus dem Schaeffler Arcanol-Sortiment für unsere Berechnung verwendet. Bitte stellen Sie sicher, dass Ihr verwendetes Fett in seinen Eigenschaften vergleichbar ist."
       }
     }
   },
@@ -155,8 +178,8 @@
     "remoteChanged": "Für Ihre ursprüngliche Anfrage mit {{original}} konnten keine Ergebnisse gefunden werden. Wir haben automatisch eine erneute Anfrage mit {{new}} als mögliche Alternative erstellt. Bitte überprüfen Sie, ob dies mit Ihrem Anwendungsfall kompatibel ist."
   },
   "disclaimer": {
-    "text": "Our details take into account those risks which were apparent to us on the basis of your requirements as made available to us. The results shown in the document have been worked out carefully and in accordance with the state of the art, but do not constitute an express or implied guaranty as to quality or durability in the legal sense. You are not dispensed thereby from checking the suitability of the products for your intended use. We shall be liable for the details provided in the recommendation only in the event of willful intent or negligence. In case of questions regarding the product, the recommendation or the suitability of the product, please ",
-    "linkText": "kontaktieren Sie bitte unsere Experten",
+    "text": "Unsere Angaben berücksichtigen diejenigen Risiken, die uns auf Grund der von Ihnen zur Verfügung gestellten Vorgaben erkennbar waren. Die Erarbeitung der Unterlage erfolgt ausschließlich im Zusammenhang mit dem Erwerb unserer Produkte. Die Ergebnisse der Unterlage sind sorgfältig und nach dem Stand der Technik erarbeitet, stellen jedoch im juristischen Sinne keine Beschaffenheits- oder Haltbarkeitsgarantie dar und ersetzen nicht die von Ihnen zu verifizierende Eignung. Wir haften für die Angaben in der Unterlage nur im Falle von Vorsatz und Fahrlässigkeit. Bei Fragen zum Produkt, zur Empfehlung oder zur Eignung des Produktes melden Sie sich bitte unter folgendem Link bei uns: ",
+    "linkText": "Kontakt",
     "link": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=de",
     "showMore": "Mehr anzeigen",
     "showLess": "Weniger anzeigen"
