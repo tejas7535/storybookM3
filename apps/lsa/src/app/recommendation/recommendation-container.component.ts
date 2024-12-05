@@ -9,14 +9,7 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import {
-  BehaviorSubject,
-  debounceTime,
-  firstValueFrom,
-  map,
-  Subject,
-  takeUntil,
-} from 'rxjs';
+import { BehaviorSubject, debounceTime, Subject, takeUntil } from 'rxjs';
 
 import { LsaStepperComponent } from '@lsa/core/lsa-stepper/lsa-stepper.component';
 import { transformFormValue } from '@lsa/core/services/form-helper';
@@ -26,12 +19,7 @@ import { PriceAvailabilityService } from '@lsa/core/services/price-availability.
 import { RestService } from '@lsa/core/services/rest.service';
 import { ResultInputsService } from '@lsa/core/services/result-inputs.service';
 import { environment } from '@lsa/environments/environment';
-import {
-  ErrorResponse,
-  Page,
-  RecommendationForm,
-  RecommendationResponse,
-} from '@lsa/shared/models';
+import { Page, RecommendationForm } from '@lsa/shared/models';
 import { ResultInputModel } from '@lsa/shared/models/result-inputs.model';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
@@ -89,15 +77,7 @@ export class RecommendationContainerComponent implements OnDestroy, OnInit {
   priceAvailability$ =
     this.priceAvailabilityService.priceAndAvailabilityResponse$;
 
-  recommendation$ = this.restService.recommendation$.pipe(
-    map((recommendation) => {
-      if (this.isErrorResponse(recommendation)) {
-        return recommendation;
-      }
-
-      return recommendation;
-    })
-  );
+  recommendation$ = this.restService.recommendation$;
 
   public resultInputs: ResultInputModel;
 
@@ -140,23 +120,14 @@ export class RecommendationContainerComponent implements OnDestroy, OnInit {
     this.restService.getLubricatorRecommendation(
       transformFormValue(this.form.getRawValue())
     );
-    const recommendation = await firstValueFrom(this.recommendation$);
+
     this.resultInputs = this.resultInputService.getResultInputs(
-      this.form.getRawValue(),
-      (recommendation as ErrorResponse).name
-        ? undefined
-        : (recommendation as RecommendationResponse).input
+      this.form.getRawValue()
     );
   }
 
   navigateToStep(step: number): void {
     this.stepper.selectStepByIndex(step);
-  }
-
-  private isErrorResponse(
-    response: RecommendationResponse | ErrorResponse
-  ): response is ErrorResponse {
-    return (response as ErrorResponse).message !== undefined;
   }
 
   private handleFormPersistence() {

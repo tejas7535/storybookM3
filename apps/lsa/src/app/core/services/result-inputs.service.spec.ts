@@ -1,8 +1,13 @@
-import { combineLatest, of } from 'rxjs';
+import { combineLatest, of, ReplaySubject } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
-import { LubricantType } from '@lsa/shared/constants';
-import { RecommendationFormValue } from '@lsa/shared/models';
+import { LubricantType, Optime } from '@lsa/shared/constants';
+import { PipeLength } from '@lsa/shared/constants/tube-length.enum';
+import {
+  ErrorResponse,
+  RecommendationFormValue,
+  RecommendationResponse,
+} from '@lsa/shared/models';
 import { ResultInputModel } from '@lsa/shared/models/result-inputs.model';
 import {
   mockApplicationInput,
@@ -13,14 +18,29 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { RestService } from './rest.service';
 import { ResultInputsService } from './result-inputs.service';
 
 describe('ResultInputsService', () => {
   let spectator: SpectatorService<ResultInputsService>;
 
+  const recommendationSubject$ = new ReplaySubject<
+    RecommendationResponse | ErrorResponse
+  >(1);
+
+  const recommendations$ = recommendationSubject$.asObservable();
+
   const createService = createServiceFactory({
     service: ResultInputsService,
     imports: [provideTranslocoTestingModule({ en: {} })],
+    providers: [
+      {
+        provide: RestService,
+        useValue: {
+          recommendation$: recommendations$,
+        },
+      },
+    ],
     mocks: [TranslocoService],
   });
 
@@ -41,12 +61,17 @@ describe('ResultInputsService', () => {
     let result: ResultInputModel;
 
     beforeEach(() => {
-      // eslint-disable-next-line unicorn/numeric-separators-style
       mockFormValue = {
         lubricationPoints: mockLubricationPointsInput,
         lubricant: mockLubricantInput,
         application: mockApplicationInput,
       };
+
+      recommendationSubject$.next({
+        input: {
+          optime: Optime.No,
+        },
+      } as RecommendationResponse);
       result = spectator.service.getResultInputs(mockFormValue);
     });
 
@@ -85,6 +110,28 @@ describe('ResultInputsService', () => {
         done();
       });
     });
+
+    describe('when remote optime returns error', () => {
+      beforeEach(() => {
+        recommendationSubject$.next({
+          message: 'some error',
+        } as ErrorResponse);
+        result = spectator.service.getResultInputs({
+          ...mockFormValue,
+          lubricationPoints: {
+            ...mockFormValue.lubricationPoints,
+            pipeLength: PipeLength.FiveTotenMeter,
+          },
+        });
+      });
+
+      it('should return lubrication Points observable translation based on form value', (done) => {
+        result.sections[0].inputs$.subscribe((lubricationPointsInputs) => {
+          expect(lubricationPointsInputs).toMatchSnapshot();
+          done();
+        });
+      });
+    });
   });
 
   describe('when getting non arcanol inputs', () => {
@@ -93,7 +140,10 @@ describe('ResultInputsService', () => {
 
     beforeEach(() => {
       mockFormValue = {
-        lubricationPoints: mockLubricationPointsInput,
+        lubricationPoints: {
+          ...mockLubricationPointsInput,
+          pipeLength: PipeLength.HalfMeter,
+        },
         lubricant: {
           ...mockLubricantInput,
           lubricantType: LubricantType.Grease,

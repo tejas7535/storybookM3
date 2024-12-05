@@ -34,7 +34,7 @@ Array [
   },
   Object {
     "title": "translated: inputs.maxPipeLengthTitle",
-    "value": "translated: recommendation.lubricationPoints.pipeLengthOptions.directMontage",
+    "value": "translated: recommendation.lubricationPoints.pipeLengthOptions.lessThan",
   },
   Object {
     "remoteValue": "translated: recommendation.lubricationPoints.optime.0",
@@ -53,6 +53,28 @@ exports[`ResultInputsService when getting non arcanol inputs should return title
 exports[`ResultInputsService when getting result inputs should return Lubricant observable translation 1`] = `
 Array [
   Object {
+    "title": "translated: inputs.lubricationPoints",
+    "value": "2-4",
+  },
+  Object {
+    "title": "translated: inputs.relubricationQuantity.title",
+    "value": "translated: inputs.relubricationQuantity.value",
+  },
+  Object {
+    "title": "translated: inputs.maxPipeLengthTitle",
+    "value": "translated: recommendation.lubricationPoints.pipeLengthOptions.directMontage",
+  },
+  Object {
+    "remoteValue": "translated: recommendation.lubricationPoints.optime.0",
+    "title": "translated: inputs.optimeTitle",
+    "value": "translated: recommendation.lubricationPoints.optime.0",
+  },
+]
+`;
+
+exports[`ResultInputsService when getting result inputs should return Lubricant observable translation 2`] = `
+Array [
+  Object {
     "title": "translated: pages.lubricant.title",
     "value": "Arcanol MULTI2",
   },
@@ -60,6 +82,28 @@ Array [
 `;
 
 exports[`ResultInputsService when getting result inputs should return application observable translation 1`] = `
+Array [
+  Object {
+    "title": "translated: inputs.lubricationPoints",
+    "value": "2-4",
+  },
+  Object {
+    "title": "translated: inputs.relubricationQuantity.title",
+    "value": "translated: inputs.relubricationQuantity.value",
+  },
+  Object {
+    "title": "translated: inputs.maxPipeLengthTitle",
+    "value": "translated: recommendation.lubricationPoints.pipeLengthOptions.directMontage",
+  },
+  Object {
+    "remoteValue": "translated: recommendation.lubricationPoints.optime.0",
+    "title": "translated: inputs.optimeTitle",
+    "value": "translated: recommendation.lubricationPoints.optime.0",
+  },
+]
+`;
+
+exports[`ResultInputsService when getting result inputs should return application observable translation 2`] = `
 Array [
   Object {
     "title": "translated: inputs.temperature.title",
@@ -99,3 +143,69 @@ exports[`ResultInputsService when getting result inputs should return title obse
 exports[`ResultInputsService when getting result inputs should return title observable translation 2`] = `"translated: pages.lubricant.title"`;
 
 exports[`ResultInputsService when getting result inputs should return title observable translation 3`] = `"translated: pages.application.title"`;
+
+exports[`ResultInputsService when getting result inputs when remote optime returns error should return lubrication Points observable translation based on form value 1`] = `
+Array [
+  Object {
+    "title": "translated: inputs.lubricationPoints",
+    "value": "2-4",
+  },
+  Object {
+    "title": "translated: inputs.relubricationQuantity.title",
+    "value": "translated: inputs.relubricationQuantity.value",
+  },
+  Object {
+    "title": "translated: inputs.maxPipeLengthTitle",
+    "value": "translated: recommendation.lubricationPoints.pipeLengthOptions.directMontage",
+  },
+  Object {
+    "remoteValue": "translated: recommendation.lubricationPoints.optime.0",
+    "title": "translated: inputs.optimeTitle",
+    "value": "translated: recommendation.lubricationPoints.optime.0",
+  },
+]
+`;
+
+exports[`ResultInputsService when getting result inputs when remote optime returns error should return lubrication Points observable translation based on form value 2`] = `
+Array [
+  Object {
+    "title": "translated: inputs.lubricationPoints",
+    "value": "2-4",
+  },
+  Object {
+    "title": "translated: inputs.relubricationQuantity.title",
+    "value": "translated: inputs.relubricationQuantity.value",
+  },
+  Object {
+    "title": "translated: inputs.maxPipeLengthTitle",
+    "value": "translated: recommendation.lubricationPoints.pipeLengthOptions.directMontage",
+  },
+  Object {
+    "remoteValue": "translated: recommendation.lubricationPoints.optime.0",
+    "title": "translated: inputs.optimeTitle",
+    "value": "translated: recommendation.lubricationPoints.optime.0",
+  },
+]
+`;
+
+exports[`ResultInputsService when getting result inputs when remote optime returns error should return lubrication Points observable translation based on form value 3`] = `
+Array [
+  Object {
+    "title": "translated: inputs.lubricationPoints",
+    "value": "2-4",
+  },
+  Object {
+    "title": "translated: inputs.relubricationQuantity.title",
+    "value": "translated: inputs.relubricationQuantity.value",
+  },
+  Object {
+    "title": "translated: inputs.maxPipeLengthTitle",
+    "value": "translated: recommendation.lubricationPoints.pipeLengthOptions.between",
+  },
+  Object {
+    "remoteValue": "translated: recommendation.lubricationPoints.optime.0",
+    "title": "translated: inputs.optimeTitle",
+    "value": "translated: recommendation.lubricationPoints.optime.0",
+  },
+]
+`;

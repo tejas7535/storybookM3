@@ -7,6 +7,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 
 import { map, Observable, of, ReplaySubject, switchMap } from 'rxjs';
 
@@ -24,7 +25,7 @@ export const BASE_TRANSLATION_PATH = 'recommendation.result';
   selector: 'lsa-error-container',
   standalone: true,
   templateUrl: './error-container.component.html',
-  imports: [SharedTranslocoModule, CommonModule, LetDirective],
+  imports: [SharedTranslocoModule, CommonModule, LetDirective, MatButtonModule],
 })
 export class ErrorContainerComponent implements OnChanges {
   @Input() response: ErrorResponse;
@@ -51,11 +52,13 @@ export class ErrorContainerComponent implements OnChanges {
     this.responseSubject.pipe(
       map((errResponse) => {
         const basePath = `${BASE_TRANSLATION_PATH}.errors.${errResponse.name}`;
+        const ctaPath = `${BASE_TRANSLATION_PATH}.error`;
 
         return {
           title: this.transloco.translate(`${basePath}.title`),
           body: this.transloco.translate(`${basePath}.body`),
-          cta: this.transloco.translate(`${basePath}.cta`),
+          cta: this.transloco.translate(`${ctaPath}.ctaText`),
+          ctaUrl: this.transloco.translate(`${ctaPath}.ctaLink`),
         } as ErrorMessage;
       }),
       switchMap((message) =>
@@ -63,9 +66,6 @@ export class ErrorContainerComponent implements OnChanges {
           ? this.defaultError
           : of({
               ...message,
-              cta: message.cta.startsWith(BASE_TRANSLATION_PATH)
-                ? undefined
-                : message.cta,
             })
       )
     );

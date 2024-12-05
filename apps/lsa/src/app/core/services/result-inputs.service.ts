@@ -6,6 +6,7 @@ import { TranslocoService } from '@jsverse/transloco';
 import { LubricantType, PowerSupply } from '@lsa/shared/constants';
 import { PipeLength } from '@lsa/shared/constants/tube-length.enum';
 import {
+  ErrorResponse,
   LubricantFormValue,
   RecommendationFormValue,
   RecommendationResponse,
@@ -14,6 +15,8 @@ import {
   LubricationInput,
   ResultInputModel,
 } from '@lsa/shared/models/result-inputs.model';
+
+import { RestService } from './rest.service';
 
 const TRANSLATIONS = {
   applicationTitle: 'pages.application.title',
@@ -41,18 +44,18 @@ const PIPE_LENGTH_PATH = 'recommendation.lubricationPoints.pipeLengthOptions';
   providedIn: 'root',
 })
 export class ResultInputsService {
-  constructor(private readonly translocoService: TranslocoService) {}
+  constructor(
+    private readonly translocoService: TranslocoService,
+    private readonly restService: RestService
+  ) {}
 
-  public getResultInputs(
-    form: RecommendationFormValue,
-    remoteInput?: RecommendationResponse['input']
-  ): ResultInputModel {
+  public getResultInputs(form: RecommendationFormValue): ResultInputModel {
     return {
       sections: [
         {
           title$: this.translate(TRANSLATIONS.lubricationPointsTitle),
           stepIndex: 0,
-          inputs$: this.getLubricationPointsInputs(form, remoteInput),
+          inputs$: this.getLubricationPointsInputs(form),
         },
         {
           title$: this.translate(TRANSLATIONS.lubricantTitle),
@@ -69,8 +72,7 @@ export class ResultInputsService {
   }
 
   private getLubricationPointsInputs(
-    form: RecommendationFormValue,
-    remote: RecommendationResponse['input']
+    form: RecommendationFormValue
   ): Observable<LubricationInput[]> {
     const {
       lubricationPoints,
@@ -91,12 +93,7 @@ export class ResultInputsService {
       this.getPipeLengthTranslation(pipeLength),
       this.translate(TRANSLATIONS.optimeTitle),
       this.translate(`${TRANSLATIONS.lubricationPointsOptime}.${optime}`),
-      remote
-        ? this.translate(
-            `${TRANSLATIONS.lubricationPointsOptime}.${remote.optime}`
-          )
-        : // eslint-disable-next-line unicorn/no-useless-undefined
-          of(undefined),
+      this.restService.recommendation$,
     ]).pipe(
       map(
         ([
@@ -107,28 +104,48 @@ export class ResultInputsService {
           pipeLengthTranslation,
           optimeTitle,
           optimeValue,
-          remoteOptime,
-        ]) => [
-          {
-            title: lubricationPointsTitle,
-            value: lubricationPoints,
-          },
-          {
-            title: relubricationQuantityTitle,
-            value: relubricationQuantityValue,
-          },
-          {
-            title: maxPipeLengthTitle,
-            value: pipeLengthTranslation,
-          },
-          {
-            title: optimeTitle,
-            value: optimeValue,
-            remoteValue: remoteOptime || optimeValue,
-          },
-        ]
+          recommendations,
+        ]) => {
+          const recommendationResult = this.isErrorResponse(recommendations)
+            ? undefined
+            : (recommendations as RecommendationResponse).input;
+
+          let remoteOptimeValue;
+
+          if (recommendationResult) {
+            remoteOptimeValue = this.translocoService.translate(
+              `${TRANSLATIONS.lubricationPointsOptime}.${recommendationResult.optime}`
+            );
+          }
+
+          return [
+            {
+              title: lubricationPointsTitle,
+              value: lubricationPoints,
+            },
+            {
+              title: relubricationQuantityTitle,
+              value: relubricationQuantityValue,
+            },
+            {
+              title: maxPipeLengthTitle,
+              value: pipeLengthTranslation,
+            },
+            {
+              title: optimeTitle,
+              value: optimeValue,
+              remoteValue: remoteOptimeValue || optimeValue,
+            },
+          ];
+        }
       )
     );
+  }
+
+  private isErrorResponse(
+    recommendations: RecommendationResponse | ErrorResponse
+  ): recommendations is ErrorResponse {
+    return (recommendations as ErrorResponse).message !== undefined;
   }
 
   private getPipeLengthTranslation(pipeLength: PipeLength): Observable<string> {
