@@ -232,7 +232,12 @@ export abstract class CaseHeaderInformationComponent implements OnInit {
   protected validateInquiryDateDependentDates = () => {
     const quotationToDateControl = this.headerInfoForm.get('quotationToDate');
     quotationToDateControl?.updateValueAndValidity({ emitEvent: false });
-    quotationToDateControl?.markAsUntouched();
+
+    if (this.quotationToChangedByUser) {
+      quotationToDateControl.markAsTouched();
+    } else {
+      quotationToDateControl?.markAsUntouched();
+    }
   };
 
   protected validateDateGreaterOrEqualInquiryDate: ValidatorFn = (

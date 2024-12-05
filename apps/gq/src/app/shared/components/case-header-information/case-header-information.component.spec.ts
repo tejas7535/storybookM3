@@ -394,7 +394,7 @@ describe('CaseHeaderInformationComponent', () => {
     });
   });
   describe('validateInquiryDateDependentDates', () => {
-    test('should update validity of dependent dates when customerInquiryDate Date has changed', () => {
+    test('should update validity of dependent dates when customerInquiryDate Date has changed and markAsTouched', () => {
       component.ngOnInit();
       component.headerInfoForm.controls.customerInquiryDate.setValue(
         moment('2019-01-01T00:00:00.000Z')
@@ -405,11 +405,41 @@ describe('CaseHeaderInformationComponent', () => {
       );
       component.headerInfoForm.controls.quotationToDate.updateValueAndValidity =
         jest.fn();
+      component.headerInfoForm.controls.quotationToDate.markAsTouched =
+        jest.fn();
+      component.quotationToChangedByUser = true;
 
       component['validateInquiryDateDependentDates']();
 
       expect(
         component.headerInfoForm.controls.quotationToDate.updateValueAndValidity
+      ).toHaveBeenCalled();
+      expect(
+        component.headerInfoForm.controls.quotationToDate.markAsTouched
+      ).toHaveBeenCalled();
+    });
+    test('should update validity of dependent dates when customerInquiryDate Date has changed and mark as ontouched', () => {
+      component.ngOnInit();
+      component.headerInfoForm.controls.customerInquiryDate.setValue(
+        moment('2019-01-01T00:00:00.000Z')
+      );
+
+      component.headerInfoForm.controls.quotationToDate.setValue(
+        moment('2019-01-02T00:00:00.000Z')
+      );
+      component.headerInfoForm.controls.quotationToDate.updateValueAndValidity =
+        jest.fn();
+      component.headerInfoForm.controls.quotationToDate.markAsUntouched =
+        jest.fn();
+      component.quotationToChangedByUser = false;
+
+      component['validateInquiryDateDependentDates']();
+
+      expect(
+        component.headerInfoForm.controls.quotationToDate.updateValueAndValidity
+      ).toHaveBeenCalled();
+      expect(
+        component.headerInfoForm.controls.quotationToDate.markAsUntouched
       ).toHaveBeenCalled();
     });
   });
