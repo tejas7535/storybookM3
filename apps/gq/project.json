@@ -115,6 +115,7 @@
           ]
         },
         "qa-priv": {
+          "outputPath": "dist/apps/gq-priv",
           "outputHashing": "bundles",
           "statsJson": true,
           "fileReplacements": [
@@ -125,6 +126,7 @@
           ]
         },
         "pre-release-priv": {
+          "outputPath": "dist/apps/gq-priv",
           "outputHashing": "bundles",
           "statsJson": true,
           "fileReplacements": [
@@ -135,6 +137,7 @@
           ]
         },
         "production-priv": {
+          "outputPath": "dist/apps/gq-priv",
           "outputHashing": "bundles",
           "sourceMap": true,
           "fileReplacements": [
