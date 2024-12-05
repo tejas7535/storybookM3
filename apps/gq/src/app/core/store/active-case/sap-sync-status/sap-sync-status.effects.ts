@@ -54,7 +54,7 @@ export class SapSyncStatusEffects {
       ofType(ActiveCaseActions.getSapSyncStatusInInterval),
       switchMap(() =>
         timer(0, 5000).pipe(
-          switchMap(() =>
+          concatMap(() =>
             from([{ type: ActiveCaseActions.getSapSyncStatus.type }])
           ),
           takeUntil(
