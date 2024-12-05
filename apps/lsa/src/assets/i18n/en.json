@@ -129,7 +129,7 @@
         "compatability": {
           "pressure": {
             "title": "Pressure requirements are too high",
-            "body": "The calculated pressure requirements for your configuration are to high. Try placing the lubricator closer to the lubrication points to reduce the tube length"
+            "body": "The calculated pressure requirements for your configuration are too high. Try placing the lubricator closer to the lubrication points to reduce the tube length"
           }
         },
         "lubrication": {

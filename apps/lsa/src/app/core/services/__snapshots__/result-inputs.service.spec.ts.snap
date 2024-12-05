@@ -22,6 +22,28 @@ Array [
 ]
 `;
 
+exports[`ResultInputsService when getting non arcanol inputs should return lubrication Points inputs observable translation 1`] = `
+Array [
+  Object {
+    "title": "translated: inputs.lubricationPoints",
+    "value": "2-4",
+  },
+  Object {
+    "title": "translated: inputs.relubricationQuantity.title",
+    "value": "translated: inputs.relubricationQuantity.value",
+  },
+  Object {
+    "title": "translated: inputs.maxPipeLengthTitle",
+    "value": "translated: recommendation.lubricationPoints.pipeLengthOptions.directMontage",
+  },
+  Object {
+    "remoteValue": "translated: recommendation.lubricationPoints.optime.0",
+    "title": "translated: inputs.optimeTitle",
+    "value": "translated: recommendation.lubricationPoints.optime.0",
+  },
+]
+`;
+
 exports[`ResultInputsService when getting non arcanol inputs should return title observable translation 1`] = `"translated: pages.lubricationPoints.title"`;
 
 exports[`ResultInputsService when getting non arcanol inputs should return title observable translation 2`] = `"translated: pages.lubricant.title"`;
@@ -46,6 +68,28 @@ Array [
   Object {
     "title": "translated: inputs.powerSupplyTitle",
     "value": "translated: recommendation.application.powerOptions.external",
+  },
+]
+`;
+
+exports[`ResultInputsService when getting result inputs should return lubrication Points observable translation 1`] = `
+Array [
+  Object {
+    "title": "translated: inputs.lubricationPoints",
+    "value": "2-4",
+  },
+  Object {
+    "title": "translated: inputs.relubricationQuantity.title",
+    "value": "translated: inputs.relubricationQuantity.value",
+  },
+  Object {
+    "title": "translated: inputs.maxPipeLengthTitle",
+    "value": "translated: recommendation.lubricationPoints.pipeLengthOptions.directMontage",
+  },
+  Object {
+    "remoteValue": "translated: recommendation.lubricationPoints.optime.0",
+    "title": "translated: inputs.optimeTitle",
+    "value": "translated: recommendation.lubricationPoints.optime.0",
   },
 ]
 `;

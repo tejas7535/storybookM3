@@ -65,8 +65,7 @@ describe('ResultInputsService', () => {
       );
     });
 
-    // getting timeout on test, need to investigate after release
-    it.skip('should return lubrication Points observable translation', (done) => {
+    it('should return lubrication Points observable translation', (done) => {
       result.sections[0].inputs$.subscribe((lubricationPointsInputs) => {
         expect(lubricationPointsInputs).toMatchSnapshot();
         done();
@@ -119,8 +118,7 @@ describe('ResultInputsService', () => {
       );
     });
 
-    // getting timeout on test, need to investigate after release
-    it.skip('should return lubrication Points inputs observable translation', (done) => {
+    it('should return lubrication Points inputs observable translation', (done) => {
       result.sections[0].inputs$.subscribe((lubricationPointsInputs) => {
         expect(lubricationPointsInputs).toMatchSnapshot();
         done();

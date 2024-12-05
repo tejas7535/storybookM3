@@ -95,7 +95,8 @@ export class ResultInputsService {
         ? this.translate(
             `${TRANSLATIONS.lubricationPointsOptime}.${remote.optime}`
           )
-        : of(),
+        : // eslint-disable-next-line unicorn/no-useless-undefined
+          of(undefined),
     ]).pipe(
       map(
         ([
