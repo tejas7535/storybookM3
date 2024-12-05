@@ -99,6 +99,50 @@
               "with": "apps/gq/src/environments/environment.prod.ts"
             }
           ]
+        },
+        "dev-priv": {
+          "outputPath": "dist/apps/gq-priv",
+          "outputHashing": "bundles",
+          "statsJson": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/gq/src/environments/environment.ts",
+              "with": "apps/gq/src/environments/environment-priv.dev.ts"
+            }
+          ]
+        },
+        "qa-priv": {
+          "outputHashing": "bundles",
+          "statsJson": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/gq/src/environments/environment.ts",
+              "with": "apps/gq/src/environments/environment-priv.qa.ts"
+            }
+          ]
+        },
+        "pre-release-priv": {
+          "outputHashing": "bundles",
+          "statsJson": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/gq/src/environments/environment.ts",
+              "with": "apps/gq/src/environments/environment-priv.pre-release.ts"
+            }
+          ]
+        },
+        "production-priv": {
+          "outputHashing": "bundles",
+          "sourceMap": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/gq/src/environments/environment.ts",
+              "with": "apps/gq/src/environments/environment-priv.prod.ts"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"
