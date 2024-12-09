@@ -47,6 +47,8 @@ export class DetailCellRendererComponent implements ICellRendererAngularComp {
     'co2UploadFileId',
     'co2UploadFileFilename',
     'uploadFileId',
+    'productCategoryRule',
+    'productCategoryRuleId',
   ]);
 
   private materialClass: MaterialClass;

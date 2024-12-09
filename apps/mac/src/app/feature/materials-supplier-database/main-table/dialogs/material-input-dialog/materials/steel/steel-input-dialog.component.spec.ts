@@ -271,7 +271,8 @@ describe('SteelInputDialogComponent', () => {
 
       expect(dialogFacade.updateCreateMaterialDialogValues).toBeCalledWith({
         ...component.createMaterialForm.value,
-        reportValidUntil: component.reportValidUntilControlMoment.value?.unix(),
+        reportValidUntil:
+          component.reportValidUntilControlMoment.value?.format('YYYY-MM-DD'),
         co2UploadFile: undefined,
       });
     });
@@ -405,6 +406,39 @@ describe('SteelInputDialogComponent', () => {
       component.co2TotalControl.setValue(1);
 
       expect(component.co2ClassificationNewControl.enabled).toBeTruthy();
+    });
+  });
+
+  describe('modify co2UploadFileIdControl', () => {
+    it('should enable the reportValidUntil control if id is defined', () => {
+      component.uploadMessages$.next = jest.fn();
+      component.reportValidUntilControl.enable = jest.fn();
+      component.reportValidUntilControlMoment.enable = jest.fn();
+      component.getUploadMessages = jest.fn();
+
+      component.co2UploadFileIdControl.setValue(1);
+
+      expect(component.reportValidUntilControl.enable).toHaveBeenCalled();
+      expect(component.reportValidUntilControlMoment.enable).toHaveBeenCalled();
+      expect(component.uploadMessages$.next).toHaveBeenCalled();
+      expect(component.getUploadMessages).toHaveBeenCalled();
+    });
+
+    it('should disable the reportValidUntil control if id and uploadFile are undefined', () => {
+      component.uploadMessages$.next = jest.fn();
+      component.reportValidUntilControl.disable = jest.fn();
+      component.reportValidUntilControlMoment.disable = jest.fn();
+      component.getUploadMessages = jest.fn();
+
+      component.co2UploadFileControl.setValue(undefined, { emitEvent: false });
+      component.co2UploadFileIdControl.setValue(undefined);
+
+      expect(component.reportValidUntilControl.disable).toHaveBeenCalled();
+      expect(
+        component.reportValidUntilControlMoment.disable
+      ).toHaveBeenCalled();
+      expect(component.uploadMessages$.next).toHaveBeenCalled();
+      expect(component.getUploadMessages).toHaveBeenCalled();
     });
   });
 
@@ -818,6 +852,45 @@ describe('SteelInputDialogComponent', () => {
         SCHAEFFLER_EXPERTS_CALCULATION_TOOL_OPTION,
         SCHAEFFLER_EXPERTS_PCF_OPTION,
       ]);
+    });
+  });
+
+  describe('getUploadMessages', () => {
+    it('should return the filename control value if the fileId control value is defined', () => {
+      component.co2UploadFileIdControl.setValue(1, { emitEvent: false });
+      component.co2UploadFileFilenameControl.setValue('test', {
+        emitEvent: false,
+      });
+
+      const result = component.getUploadMessages();
+
+      expect(result.length).toBe(1);
+    });
+
+    it('should return the row filename value if the fileId control value is defined, but the name control has no value', () => {
+      component.co2UploadFileIdControl.setValue(1, { emitEvent: false });
+      component.co2UploadFileFilenameControl.setValue(undefined, {
+        emitEvent: false,
+      });
+      component.dialogData.editDialogInformation = {
+        row: {
+          co2UploadFileFilename: 'test',
+        } as any,
+      } as any;
+
+      const result = component.getUploadMessages();
+
+      expect(result.length).toBe(1);
+    });
+
+    it('should return undefined if the id control is undefined', () => {
+      component.co2UploadFileIdControl.setValue(undefined, {
+        emitEvent: false,
+      });
+
+      const result = component.getUploadMessages();
+
+      expect(result).toBe(undefined);
     });
   });
 
