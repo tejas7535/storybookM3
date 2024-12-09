@@ -185,5 +185,10 @@
     "link": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
     "showMore": "Show More",
     "showLess": "Show Less"
+  },
+  "feedback": {
+    "text": "Your feedback helps us to continuously improve our product.",
+    "button": "Feedback",
+    "surveyUrl": "https://schaefflertech.qualtrics.com/jfe/form/SV_6J4IWTJrKCo6nY2?Q_Language="
   }
 }

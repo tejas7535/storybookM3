@@ -17,6 +17,7 @@ import { CoreModule } from './core/core.module';
 import { LsaAppService } from './core/services/lsa-app.service';
 import { StaticStorageService } from './core/services/static-storage';
 import { RecommendationContainerComponent } from './recommendation/recommendation-container.component';
+import { FeedbackBannerComponent } from '@schaeffler/feedback-banner';
 
 export const APP_ROOT = 'lubricator-selection-assistant';
 
@@ -37,6 +38,7 @@ export const APP_ROOT = 'lubricator-selection-assistant';
     CommonModule,
     RecommendationContainerComponent,
     BannerModule,
+    FeedbackBannerComponent,
   ],
 })
 export class AppModule implements DoBootstrap {

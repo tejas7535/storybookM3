@@ -11,5 +11,14 @@
     <mat-divider class="mb-3 sm:mb-9"></mat-divider>
     <schaeffler-banner></schaeffler-banner>
     <lsa-recommendation-container></lsa-recommendation-container>
+    <div class="w-full min-w-full flex flex-row justify-center">
+      <schaeffler-feedback-banner
+        class="w-full max-w-2xl"
+        [surveyUrl]="t('feedback.surveyUrl')"
+        [infoText]="t('feedback.text')"
+        [providedLanguages]="['de', 'en']"
+        [feedbackButtonText]="t('feedback.button')"
+      />
+    </div>
   </div>
 </div>
