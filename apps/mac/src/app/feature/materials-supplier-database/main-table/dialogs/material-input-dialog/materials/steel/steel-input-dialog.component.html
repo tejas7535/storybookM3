@@ -700,7 +700,7 @@
           [fileHint]="t('pcfProofFileHint')"
           acceptTypeString="application/pdf"
           (filesChanged)="setFile($event)"
-          [messages]="getUploadMessages()"
+          [messages]="uploadMessagesObs$ | ngrxPush"
         ></schaeffler-file-upload>
       </div>
       <div class="w-full flex flex-row justify-between gap-6">

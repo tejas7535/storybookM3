@@ -35,7 +35,14 @@ import {
   provideMomentDateAdapter,
 } from '@angular/material-moment-adapter';
 
-import { BehaviorSubject, filter, map, takeUntil, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  distinctUntilChanged,
+  filter,
+  map,
+  takeUntil,
+  tap,
+} from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
@@ -255,6 +262,13 @@ export class SteelInputDialogComponent
 
   // utility for parsing error message
   public readonly getErrorMessage = util.getErrorMessage;
+
+  public readonly uploadMessages$ = new BehaviorSubject<Message[] | undefined>(
+    undefined
+  );
+  public readonly uploadMessagesObs$ = this.uploadMessages$.pipe(
+    distinctUntilChanged()
+  );
 
   // casting diameter dependencies
   castingDiameterDep: FormGroup<{
@@ -589,18 +603,32 @@ export class SteelInputDialogComponent
     this.reportValidUntilControlMoment.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((value) => {
-        this.reportValidUntilControl.setValue(value?.unix());
+        this.reportValidUntilControl.setValue(value?.format('YYYY-MM-DD'));
       });
 
     this.createMaterialForm.valueChanges.subscribe((val) => {
       const cleanedValue = {
         ...val,
-        reportValidUntil: this.reportValidUntilControlMoment.value?.unix(),
+        reportValidUntil:
+          this.reportValidUntilControlMoment.value?.format('YYYY-MM-DD'),
         co2UploadFile: undefined,
       };
 
       this.dialogFacade.updateCreateMaterialDialogValues(cleanedValue);
     });
+
+    this.co2UploadFileIdControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((id) => {
+        if (id) {
+          this.reportValidUntilControl.enable();
+          this.reportValidUntilControlMoment.enable();
+        } else if (!id && !this.co2UploadFileControl.value) {
+          this.reportValidUntilControl.disable();
+          this.reportValidUntilControlMoment.disable();
+        }
+        this.uploadMessages$.next(this.getUploadMessages());
+      });
 
     if (this.dialogData.editDialogInformation?.selectedRows?.length > 1) {
       this.referenceDocumentControl.disable();
@@ -639,9 +667,11 @@ export class SteelInputDialogComponent
         });
     }
 
-    this.reportValidUntilControl.setValue(
-      this.reportValidUntilControlMoment.value?.format('YYYY-MM-DD')
-    );
+    if (this.dialogData.editDialogInformation?.row?.reportValidUntil) {
+      this.reportValidUntilControlMoment.setValue(
+        moment(this.dialogData.editDialogInformation.row.reportValidUntil)
+      );
+    }
   }
 
   public getCo2ClassificationsNew(): StringOption[] {
@@ -689,7 +719,10 @@ export class SteelInputDialogComponent
             description: translate(
               'materialsSupplierDatabase.mainTable.dialog.fileExistsDescription',
               {
-                filename: this.co2UploadFileFilenameControl.value,
+                filename:
+                  this.co2UploadFileFilenameControl.value ||
+                  this.dialogData.editDialogInformation?.row
+                    ?.co2UploadFileFilename,
                 validUntil: moment(this.reportValidUntilControl.value).format(
                   'YYYY-MM-DD'
                 ),
