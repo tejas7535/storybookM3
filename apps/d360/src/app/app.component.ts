@@ -1,11 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatTabsModule } from '@angular/material/tabs';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Params,
+  Router,
+  RouterModule,
+} from '@angular/router';
 
 import { map, Observable, Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import {
   MSAL_GUARD_CONFIG,
@@ -41,6 +46,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import packageJson from '../../package.json';
 import { appRoutes } from './app.routes';
 import { AppRoutePath } from './app.routes.enum';
+import { GlobalSelectionStateService } from './shared/components/global-selection-criteria/global-selection-state.service';
 import { TabBarNavigationComponent } from './shared/components/page/tab-bar-navigation/tab-bar-navigation.component';
 import { UserSettingsComponent } from './shared/components/user-settings/user-settings.component';
 import { ValidationHelper } from './shared/utils/validation/validation-helper';
@@ -73,9 +79,11 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly msalBroadcastService: MsalBroadcastService,
     private readonly store: Store,
     private readonly translocoLocaleService: TranslocoLocaleService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly globalSelectionStateService: GlobalSelectionStateService
   ) {
-    this.router.events.pipe(takeUntilDestroyed()).subscribe((event) => {
+    this.router.events.pipe(takeUntil(this._destroying$)).subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.activeUrl.set(event.url);
       }
@@ -137,6 +145,17 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // add translocoLocaleService to static class.
     ValidationHelper.localeService = this.translocoLocaleService;
+
+    this.activatedRoute.queryParams
+      .pipe(
+        switchMap((params: Params) =>
+          this.globalSelectionStateService.handleQueryParams$(params)
+        ),
+        tap(() => this.router.navigateByUrl(this.router.url.split('?')[0])),
+
+        takeUntil(this._destroying$)
+      )
+      .subscribe();
   }
 
   setLoginDisplay() {
@@ -234,7 +253,7 @@ export class AppComponent implements OnInit, OnDestroy {
     },
   ];
 
-  private showTabNavigationOnPage$() {
+  private showTabNavigationOnPage$(): Observable<boolean> {
     const routesWithTabNavigation = [
       appRoutes.startPage.path,
       appRoutes.tasks.path,

@@ -6,10 +6,7 @@ import { catchError, forkJoin, map, Observable, of } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 
-import {
-  GlobalSelectionState,
-  GlobalSelectionStateService,
-} from '../../shared/components/global-selection-criteria/global-selection-state.service';
+import { GlobalSelectionState } from '../../shared/components/global-selection-criteria/global-selection-state.service';
 import {
   ResolveSelectableValueResult,
   SelectableValue,
@@ -17,7 +14,10 @@ import {
 import { PaginatedFilteredRequest } from '../../shared/models/paginated-filtered-request';
 import { SnackbarService } from '../../shared/utils/service/snackbar.service';
 import {
+  validateAlertTypes,
   validateCustomerNumber,
+  validateFor2Characters,
+  validateForText,
   validateGkamNumber,
   validateMaterialNumber,
   validateProductionPlants,
@@ -28,7 +28,7 @@ import {
 import { ValidationHelper } from '../../shared/utils/validation/validation-helper';
 import { MaterialCustomerService } from '../material-customer/material-customer.service';
 import { GlobalSelectionUtils } from './global-selection.utils';
-import { CustomerEntry, GlobalSelectionStatus } from './model';
+import { CustomerEntry } from './model';
 
 /**
  * The GlobalSelectionHelper Service
@@ -75,57 +75,6 @@ export class GlobalSelectionHelperService {
   private readonly materialCustomerService: MaterialCustomerService = inject(
     MaterialCustomerService
   );
-
-  /**
-   * The GlobalSelectionStateService instance
-   *
-   * @private
-   * @type {GlobalSelectionStateService}
-   * @memberof GlobalSelectionHelperService
-   */
-  private readonly globalSelectionStateService: GlobalSelectionStateService =
-    inject(GlobalSelectionStateService);
-
-  /**
-   * Returns the current GlobalSelectionState.
-   *
-   * @deprecated use GlobalSelectionStateService.getState() instead
-   * @return {(GlobalSelectionState | undefined)}
-   * @memberof GlobalSelectionHelperService
-   */
-  public getGlobalSelection(): GlobalSelectionState | undefined {
-    return this.globalSelectionStateService.getState();
-  }
-
-  /**
-   * Returns the current GlobalSelectionStatus.
-   *
-   * @param {({ data: CustomerEntry[] | undefined })} customerData
-   * @param {(CustomerEntry | undefined)} selectedCustomer
-   * @return {GlobalSelectionStatus}
-   * @memberof GlobalSelectionHelperService
-   */
-  public getGlobalSelectionStatus(
-    customerData: { data: CustomerEntry[] | undefined },
-    selectedCustomer: CustomerEntry | undefined
-  ): GlobalSelectionStatus {
-    const currentState: GlobalSelectionState =
-      this.globalSelectionStateService.getState();
-
-    if (!currentState || this.globalSelectionStateService.isEmpty()) {
-      return GlobalSelectionStatus.DATA_NOTHING_SELECTED;
-    } else if (
-      currentState &&
-      customerData.data &&
-      customerData.data.length === 0
-    ) {
-      return GlobalSelectionStatus.DATA_NO_RESULTS;
-    } else if (selectedCustomer && customerData.data) {
-      return GlobalSelectionStatus.DATA_AVAILABLE;
-    }
-
-    return GlobalSelectionStatus.DATA_ERROR;
-  }
 
   /**
    * Returns the Result Count data
@@ -295,6 +244,66 @@ export class GlobalSelectionHelperService {
       options,
       formatFunc: undefined,
       validateFunc: (value) => validateProductionPlants(value),
+    });
+  }
+
+  /**
+   * Resolve the given values as AlertTypes (open tasks)
+   *
+   * @param {string[]} values
+   * @param {SelectableValue[]} options
+   * @return {Observable<ResolveSelectableValueResult[]>}
+   * @memberof GlobalSelectionHelperService
+   */
+  public resolveAlertTypes(
+    values: string[],
+    options: SelectableValue[]
+  ): Observable<ResolveSelectableValueResult[]> {
+    return GlobalSelectionUtils.resolveOptions({
+      values,
+      options,
+      formatFunc: undefined,
+      validateFunc: (value) => validateAlertTypes(value),
+    });
+  }
+
+  /**
+   * Resolve the given values as Text
+   *
+   * @param {string[]} values
+   * @param {SelectableValue[]} options
+   * @return {Observable<ResolveSelectableValueResult[]>}
+   * @memberof GlobalSelectionHelperService
+   */
+  public resolveForText(
+    values: string[],
+    options: SelectableValue[]
+  ): Observable<ResolveSelectableValueResult[]> {
+    return GlobalSelectionUtils.resolveOptions({
+      values,
+      options,
+      formatFunc: undefined,
+      validateFunc: (value) => validateForText(value),
+    });
+  }
+
+  /**
+   * Resolve the given values as Text with exact 2 Characters
+   *
+   * @param {string[]} values
+   * @param {SelectableValue[]} options
+   * @return {Observable<ResolveSelectableValueResult[]>}
+   * @memberof GlobalSelectionHelperService
+   */
+  public resolveFor2Characters(
+    values: string[],
+    options: SelectableValue[]
+  ): Observable<ResolveSelectableValueResult[]> {
+    return GlobalSelectionUtils.resolveOptions({
+      values,
+      options,
+      formatFunc: undefined,
+      validateFunc: (value) => validateFor2Characters(value),
     });
   }
 

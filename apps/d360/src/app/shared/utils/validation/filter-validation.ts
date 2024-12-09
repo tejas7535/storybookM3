@@ -63,3 +63,23 @@ export function validateProductionPlants(value: string): string[] | null {
 
   return ValidationHelper.condenseValidationResults([validLength, validTypes]);
 }
+
+export function validateAlertTypes(value: string): string[] | null {
+  const validLength = ValidationHelper.validateExactLength(value, 6);
+  const validTypes = ValidationHelper.validateForLetters(value);
+
+  return ValidationHelper.condenseValidationResults([validLength, validTypes]);
+}
+
+export function validateFor2Characters(value: string): string[] | null {
+  const validLength = ValidationHelper.validateExactLength(value, 2);
+  const validTypes = ValidationHelper.validateForLetters(value);
+
+  return ValidationHelper.condenseValidationResults([validLength, validTypes]);
+}
+
+export function validateForText(value: string): string[] | null {
+  const validTypes = ValidationHelper.validateForLetters(value);
+
+  return ValidationHelper.condenseValidationResults([validTypes]);
+}

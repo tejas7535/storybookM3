@@ -43,7 +43,7 @@ describe('MaterialCustomerTableComponent', () => {
       mockProvider(AgGridLocalizationService, {
         lang: jest.fn(),
       }),
-      mockProvider(HttpClient),
+      mockProvider(HttpClient, { get: () => of({}) }),
     ],
   });
   beforeEach(() => {

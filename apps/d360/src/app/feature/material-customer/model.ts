@@ -99,12 +99,7 @@ export interface MaterialCustomerCustomerRequest {
   sortModel: object[];
 }
 
-export const materialClassificationOptions = [
-  'AP',
-  'SPs',
-  'SPc',
-  'OP',
-] as const;
+export const materialClassificationOptions = ['AP', 'SPs', 'SPc', 'OP'];
 
 export type MaterialClassification =
   (typeof materialClassificationOptions)[number];

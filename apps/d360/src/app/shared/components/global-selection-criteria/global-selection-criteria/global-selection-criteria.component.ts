@@ -25,12 +25,9 @@ import { PushPipe } from '@ngrx/component';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { AlertCategory } from '../../../../feature/alerts/model';
 import { GlobalSelectionHelperService } from '../../../../feature/global-selection/global-selection.service';
-import { materialClassificationOptions } from '../../../../feature/material-customer/model';
 import { SelectableOptionsService } from '../../../services/selectable-options.service';
 import { SnackbarService } from '../../../utils/service/snackbar.service';
-import { SelectableValue } from '../../inputs/autocomplete/selectable-values.utils';
 import { DisplayFunctions } from '../../inputs/display-functions.utils';
 import { FilterDropdownComponent } from '../../inputs/filter-dropdown/filter-dropdown.component';
 import {
@@ -161,15 +158,6 @@ export class GlobalSelectionCriteriaComponent implements OnInit {
     this.globalSelectionStateService.form();
 
   /**
-   * The Material Classification Options.
-   *
-   * @type {SelectableValue[]}
-   * @memberof GlobalSelectionCriteriaComponent
-   */
-  public materialClassifications: SelectableValue[] =
-    materialClassificationOptions.map((id) => ({ id, text: id }));
-
-  /**
    * The current loaded count
    *
    * @type {WritableSignal<number>}
@@ -208,21 +196,6 @@ export class GlobalSelectionCriteriaComponent implements OnInit {
 
     // handle open tasks logic
     this.handleTasks();
-  }
-
-  /**
-   * Returns the preloaded Alert Types and translates them.
-   *
-   * @return {SelectableValue[]}
-   * @memberof GlobalSelectionCriteriaComponent
-   */
-  public getAlertTypeValues(): SelectableValue[] {
-    return (
-      this.selectableOptionsService.get('alertTypes')?.options ?? []
-    )?.map((item) => ({
-      id: item.id,
-      text: translate(`alert.category.${item.id as AlertCategory}`),
-    }));
   }
 
   /**

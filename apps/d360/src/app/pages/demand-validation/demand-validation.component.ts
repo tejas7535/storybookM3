@@ -110,7 +110,7 @@ export class DemandValidationComponent {
             this.customerData ? this.customerData[0] : undefined
           );
           this.globalSelectionStatus.set(
-            this.globalSelectionService.getGlobalSelectionStatus(
+            this.globalSelectionStateService.getGlobalSelectionStatus(
               { data: this.customerData },
               this.selectedCustomer()
             )

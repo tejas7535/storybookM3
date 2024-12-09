@@ -1,11 +1,34 @@
+/* eslint-disable max-lines */
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { NavigationExtras, Router } from '@angular/router';
+import { NavigationExtras, Params, Router } from '@angular/router';
 
-import { from, Observable } from 'rxjs';
+import {
+  combineLatest,
+  filter,
+  from,
+  map,
+  Observable,
+  of,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 
-import { GlobalSelectionCriteriaFields } from '../../../feature/global-selection/model';
-import { SelectableValue } from '../inputs/autocomplete/selectable-values.utils';
+import { GlobalSelectionHelperService } from '../../../feature/global-selection/global-selection.service';
+import {
+  CustomerEntry,
+  GlobalSelectionCriteriaFields,
+  GlobalSelectionStatus,
+} from '../../../feature/global-selection/model';
+import {
+  OptionsTypes,
+  SelectableOptionsService,
+} from '../../services/selectable-options.service';
+import {
+  ResolveSelectableValueResult,
+  SelectableValue,
+} from '../inputs/autocomplete/selectable-values.utils';
 
 /**
  * An internal interface for the Global form structure
@@ -68,7 +91,29 @@ export class GlobalSelectionStateService {
    * @type {Router}
    * @memberof GlobalSelectionStateService
    */
-  private readonly router = inject(Router);
+  private readonly router: Router = inject(Router);
+
+  /**
+   * The GlobalSelectionHelperService instance.
+   *
+   * @private
+   * @type {GlobalSelectionHelperService}
+   * @memberof GlobalSelectionStateService
+   */
+  private readonly helperService: GlobalSelectionHelperService = inject(
+    GlobalSelectionHelperService
+  );
+
+  /**
+   * The SelectableOptionsService instance.
+   *
+   * @private
+   * @type {SelectableOptionsService}
+   * @memberof GlobalSelectionStateService
+   */
+  private readonly optionsService: SelectableOptionsService = inject(
+    SelectableOptionsService
+  );
 
   /**
    * The static formGroup, this is needed to get the available keys.
@@ -183,11 +228,42 @@ export class GlobalSelectionStateService {
   }
 
   /**
+   * Returns the current GlobalSelectionStatus.
+   *
+   * @param {({ data: CustomerEntry[] | undefined })} customerData
+   * @param {(CustomerEntry | undefined)} selectedCustomer
+   * @return {GlobalSelectionStatus}
+   * @memberof GlobalSelectionHelperService
+   */
+  public getGlobalSelectionStatus(
+    customerData: { data: CustomerEntry[] | undefined },
+    selectedCustomer: CustomerEntry | undefined
+  ): GlobalSelectionStatus {
+    const currentState: GlobalSelectionState = this.getState();
+
+    if (!currentState || this.isEmpty()) {
+      return GlobalSelectionStatus.DATA_NOTHING_SELECTED;
+    } else if (
+      currentState &&
+      customerData.data &&
+      customerData.data.length === 0
+    ) {
+      return GlobalSelectionStatus.DATA_NO_RESULTS;
+    } else if (selectedCustomer && customerData.data) {
+      return GlobalSelectionStatus.DATA_AVAILABLE;
+    }
+
+    return GlobalSelectionStatus.DATA_ERROR;
+  }
+
+  /**
    * Navigates to a new page with updated global selection criteria.
    *
-   * @param path - The route to navigate to.
-   * @param newGlobalSelection - The new selection criteria.
-   * @param extras - Optional navigation options.
+   * @param {string} path - The route to navigate to.
+   * @param {(GlobalSelectionCriteriaFields | undefined)} newGlobalSelection - The new selection criteria.
+   * @param {NavigationExtras} [extras] - Optional navigation options.
+   * @returns {Observable<boolean>}
+   * @memberof GlobalSelectionStateService
    */
   public navigateWithGlobalSelection(
     path: string,
@@ -215,6 +291,131 @@ export class GlobalSelectionStateService {
   }
 
   /**
+   * Handle the Global Selection values in the URL
+   *
+   * @param {Params} params
+   * @return {Observable<boolean>}
+   * @memberof GlobalSelectionStateService
+   */
+  public handleQueryParams$(params: Params): Observable<boolean> {
+    const allowedKeys: GlobalSelectionStateKeys[] =
+      GlobalSelectionStateService.stateKeys;
+    const globalSelections: Partial<GlobalSelectionCriteriaFields> = {};
+
+    return this.optionsService.loading$.pipe(
+      filter((loading) => !loading),
+      take(1),
+      switchMap(() => {
+        const observables$: Observable<Partial<GlobalSelectionState>>[] =
+          Object.entries(params)
+            .filter(([key, _value]) =>
+              allowedKeys.includes(key as GlobalSelectionStateKeys)
+            )
+            .map(([key, value]) =>
+              this.resolveIds$(
+                key as GlobalSelectionStateKeys,
+                Array.isArray(value) ? value : [value]
+              )
+            );
+
+        return combineLatest(observables$);
+      }),
+      tap((results: Partial<GlobalSelectionState>[]) => {
+        results.forEach((result) => Object.assign(globalSelections, result));
+        this.overrideState(globalSelections);
+      }),
+      map(() => true)
+    );
+  }
+
+  /**
+   * Resolve ids to the needed Selected Values.
+   * Hint: If we want to enable aliases too, we just need to extend 'resolveFnMap', 'optionsMap' and 'resolveWithoutOptions'
+   *
+   * Currently allowed keys are:
+   * - alertType
+   * - customerNumber
+   * - gkamNumber
+   * - materialClassification
+   * - materialNumber
+   * - productionPlant
+   * - productionSegment
+   * - region
+   * - salesArea
+   * - salesOrg
+   * - sector
+   * - sectorManagement
+   *
+   * @private
+   * @param {GlobalSelectionStateKeys} key
+   * @param {string[]} ids
+   * @return {Observable<Partial<GlobalSelectionState>>}
+   * @memberof GlobalSelectionStateService
+   */
+  private resolveIds$(
+    key: GlobalSelectionStateKeys,
+    ids: string[]
+  ): Observable<Partial<GlobalSelectionState>> {
+    // prettier-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    const resolveFnMap: Record<string, Function> = {
+      alertType: this.helperService.resolveAlertTypes.bind(this.helperService),
+      customerNumber: this.helperService.resolveCustomerNumbers.bind(this.helperService),
+      gkamNumber: this.helperService.resolveGkamNumber.bind(this.helperService),
+      materialClassification: this.helperService.resolveFor2Characters.bind(this.helperService),
+      materialNumber: this.helperService.resolveMaterialNumbers.bind(this.helperService),
+      productionPlant: this.helperService.resolveProductionPlants.bind(this.helperService),
+      productionSegment: this.helperService.resolveProductionSegment.bind(this.helperService),
+      region: this.helperService.resolveFor2Characters.bind(this.helperService),
+      salesArea: this.helperService.resolveForText.bind(this.helperService),
+      salesOrg: this.helperService.resolveSalesOrg.bind(this.helperService),
+      sector: this.helperService.resolveSectors.bind(this.helperService),
+      sectorManagement: this.helperService.resolveFor2Characters.bind(this.helperService),
+    };
+
+    const optionsMap: Record<string, string> = {
+      alertType: 'alertTypes',
+      gkamNumber: 'gkam',
+      materialClassification: 'materialClassification',
+      materialNumber: 'materialNumber',
+      productionPlant: 'productionPlant',
+      region: 'region',
+      salesArea: 'salesArea',
+      salesOrg: 'salesOrg',
+      sector: 'sector',
+      sectorManagement: 'sectorMgmt',
+    };
+
+    const resolveWithoutOptions: string[] = [
+      'customerNumber',
+      'productionSegment',
+    ];
+
+    let resolvedData$: Observable<ResolveSelectableValueResult[]>;
+
+    if (resolveWithoutOptions.includes(key)) {
+      resolvedData$ = resolveFnMap[key](ids);
+    } else if (resolveFnMap[key] && optionsMap[key]) {
+      resolvedData$ = resolveFnMap[key](
+        ids,
+        this.optionsService.get(optionsMap[key] as keyof OptionsTypes).options
+      );
+    } else {
+      resolvedData$ = of(null);
+    }
+
+    return resolvedData$.pipe(
+      map((data) => {
+        const values: SelectableValue[] = data
+          .filter((result) => !!result && result.selectableValue)
+          .map((result) => result.selectableValue);
+
+        return { [key]: values };
+      })
+    );
+  }
+
+  /**
    * Set the initial state.
    * - Read from Local-/Session Storage and pass the values to the formGroup.
    *
@@ -238,10 +439,13 @@ export class GlobalSelectionStateService {
    * Override the current state with the given state.
    *
    * @private
+   * @param {GlobalSelectionCriteriaFields} globalSelectionToStore
    * @memberof GlobalSelectionStateService
    */
   private overrideState(globalSelectionToStore: GlobalSelectionCriteriaFields) {
-    this.form.update((current) => {
+    this.resetState();
+
+    this.form.update((current: FormGroup<GlobalSelectionFilters>) => {
       current.setValue({
         ...current.getRawValue(),
         ...globalSelectionToStore,

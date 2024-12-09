@@ -175,7 +175,10 @@
               [multiSelect]="true"
               [loading]="false"
               [loadingError]="null"
-              [options]="materialClassifications"
+              [options]="
+                selectableOptionsService.get('materialClassification')
+                  ?.options ?? []
+              "
               [formatSelectedValue]="displayFnId"
             />
           </div>
@@ -252,7 +255,9 @@
               "
               [loading]="selectableOptionsService.get('alertTypes').loading"
               [multiSelect]="true"
-              [options]="getAlertTypeValues()"
+              [options]="
+                selectableOptionsService.get('alertTypes')?.options ?? []
+              "
               [formatSelectedValue]="displayFnText"
               [formatOptionValue]="displayFnText"
               [matTooltipDisabled]="

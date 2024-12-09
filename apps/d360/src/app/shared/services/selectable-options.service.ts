@@ -1,19 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
-import {
-  BehaviorSubject,
-  finalize,
-  forkJoin,
-  map,
-  Observable,
-  take,
-} from 'rxjs';
+import { BehaviorSubject, forkJoin, map, Observable, take, tap } from 'rxjs';
 
 import { translate, TranslocoService } from '@jsverse/transloco';
 
 import { environment } from '../../../environments/environment';
-import { demandCharacteristicOptions } from '../../feature/material-customer/model';
+import { AlertCategory } from '../../feature/alerts/model';
+import {
+  demandCharacteristicOptions,
+  materialClassificationOptions,
+} from '../../feature/material-customer/model';
 import {
   execIntervalOptions,
   whenOptions,
@@ -53,6 +50,7 @@ export interface OptionsTypes {
   interval: OptionsLoadingResult;
   execDay: OptionsLoadingResult;
   demandCharacteristics: OptionsLoadingResult;
+  materialClassification: OptionsLoadingResult;
 }
 
 /**
@@ -199,6 +197,11 @@ export class SelectableOptionsService {
         options: demandCharacteristicOptions,
         translateKey: 'field.demandCharacteristic.value.',
       },
+      {
+        key: 'materialClassification',
+        options: materialClassificationOptions,
+        translateKey: '',
+      },
     ];
 
     optionsData.forEach((data) => {
@@ -242,12 +245,24 @@ export class SelectableOptionsService {
     })
       .pipe(
         take(1),
-        finalize(() => this.loading$.next(false))
+        tap((data) => {
+          Object.keys(data).forEach((key) => {
+            const value = (data as any)[key];
+
+            if (key === 'alertTypes') {
+              value.options = ((data as any)[key]?.options ?? [])?.map(
+                (item: any) => ({
+                  id: item.id,
+                  text: translate(`alert.category.${item.id as AlertCategory}`),
+                })
+              );
+            }
+
+            this._data.set(key as keyof OptionsTypes, value);
+          });
+          this.loading$.next(false);
+        })
       )
-      .subscribe((data) => {
-        Object.keys(data).forEach((key) =>
-          this._data.set(key as any, (data as any)[key])
-        );
-      });
+      .subscribe();
   }
 }

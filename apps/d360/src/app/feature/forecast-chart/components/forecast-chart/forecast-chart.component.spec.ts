@@ -1,3 +1,5 @@
+import { HttpClient } from '@angular/common/http';
+
 import { of } from 'rxjs';
 
 import {
@@ -15,6 +17,7 @@ describe('ForecastChartComponent', () => {
     component: ForecastChartComponent,
     imports: [],
     providers: [
+      mockProvider(HttpClient, { get: () => of({}) }),
       mockProvider(ChartSettingsService, {
         getChartSettings: jest.fn().mockReturnValue(of({})),
       }),
