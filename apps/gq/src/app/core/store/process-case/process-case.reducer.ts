@@ -80,15 +80,17 @@ export const processCaseFeature = createFeature({
     ),
     on(
       ProcessCaseActions.validateMaterialTableItemsSuccess,
-      (state: ProcessCaseState, { materialValidations }): ProcessCaseState => ({
+      (
+        state: ProcessCaseState,
+        { materialValidations, isNewCaseCreation }
+      ): ProcessCaseState => ({
         ...state,
         errorMessage: undefined,
         addMaterialRowData: [...state.addMaterialRowData].map((el) =>
           TableService.validateData(
             { ...el },
-            materialValidations.find(
-              (item) => item.materialNumber15 === el.materialNumber
-            )
+            materialValidations.find((item) => item.id === el.id),
+            isNewCaseCreation
           )
         ),
         validationLoading: false,

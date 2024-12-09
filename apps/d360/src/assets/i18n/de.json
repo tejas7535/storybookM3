@@ -27,7 +27,8 @@
     "delete": "Löschen",
     "yes": "Ja",
     "no": "Nein",
-    "change": "Ändern"
+    "change": "Ändern",
+    "download": "Download"
   },
   "error": {
     "unknown": "Unbekannter Fehler",
@@ -180,7 +181,8 @@
     },
     "dropdown": {
       "loading": "Laden…",
-      "loading_error": "Fehler beim Laden der Optionen"
+      "loading_error": "Fehler beim Laden der Optionen",
+      "minOne": "Bitte min. zwei Zeichen eingeben"
     },
     "selection_empty": "Es ist erforderlich, mindestens ein Selektionskriterium zu wählen.",
     "tasks": "Offene Aufgaben",
@@ -210,6 +212,10 @@
     "customer": "Kunde",
     "title": "Validierung Absatzplanung",
     "vkorg": "Verkaufsorganisation",
+    "action_bar": {
+      "edit_as_list": "Als Liste bearbeiten",
+      "edit_as_grid": "Als Grid bearbeiten"
+    },
     "filter": {
       "rootString": "Filter ({{count}})",
       "customerMaterialNumber": "Kundenmaterialnummer",
@@ -249,12 +255,12 @@
         "week": "W"
       },
       "save": {
-        "invalid_rows": "{{count}} Zeilen konnten nicht gespeichert werden. Bitte prüfen Sie Ihre Eingaben.,1,1,{{count}} Zeile konnten nicht gespeichert werden. Bitte prüfen Sie Ihre Eingaben.",
+        "invalid_rows": "{count, plural, one {{count} Zeile konnten nicht gespeichert werden. Bitte prüfen Sie Ihre Eingaben.} other {{count} Zeilen konnten nicht gespeichert werden. Bitte prüfen Sie Ihre Eingaben.}}",
         "success": "Es wurden alle Zeilen gespeichert."
       },
       "upload_failed": "Upload fehlgeschlagen: {{reason}}",
       "validate": {
-        "invalid_rows": "{{count}} Zeilen ungültig. Bitte prüfen Sie Ihre Eingaben.,1,1,{{count}} Zeile ungültig. Bitte prüfen Sie Ihre Eingaben.",
+        "invalid_rows": "{count, plural, one {{count} Zeile ungültig. Bitte prüfen Sie Ihre Eingaben.} other {{count} Zeilen ungültig. Bitte prüfen Sie Ihre Eingaben.}}",
         "success": "Alle Zeilen gültig."
       },
       "list": {
@@ -418,6 +424,10 @@
       "expandAll": "ausklappen",
       "collapseAll": "einklappen"
     },
+    "button": {
+      "addCustomerMaterial": "Kundenmaterial hinzufügen",
+      "addMultipleCustomerMaterials": "Mehrere Kundenmaterialien hinzufügen"
+    },
     "material_info_text": {
       "head_not_active": "Knopf der Ersetzungskette ist nicht das aktive Material"
     },
@@ -468,7 +478,7 @@
       "EDIT_MODAL": "Kundenmaterial bearbeiten",
       "STATUS_TO_PHASE_IN": "Statuswechsel zu Phase-In",
       "STATUS_TO_PHASE_OUT": "Statuswechsel zu Phase-Out",
-      "STATUS_TO_SUBSTITUTION": "Statuswechsel zu Ersetzung(Kunde)",
+      "STATUS_TO_SUBSTITUTION": "Statuswechsel zu Ersetzung (Kunde)",
       "STATUS_TO_INACTIVE": "Statuswechsel zu Inaktiv",
       "STATUS_TO_ACTIVE": "Statuswechsel zu Aktiv",
       "REVERT_SUBSTITUTION": "Ersetzung Rückgängigmachen"

@@ -12,6 +12,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 
 import { ResultInputModel } from '@lsa/shared/models/result-inputs.model';
+import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -29,6 +30,7 @@ import { LubricationInputComponent } from './lubrication-input/lubrication-input
     MatIconModule,
     MatDividerModule,
     SharedTranslocoModule,
+    PushPipe,
   ],
 })
 export class LubricationInputsComponent {

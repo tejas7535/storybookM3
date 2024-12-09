@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppRoutePath } from './app-route-path.enum';
-import { prodGuard } from './shared/guards';
+import { ProdGuard } from './shared/guards';
 
 export const appRoutePaths: Routes = [
   {
@@ -33,12 +33,11 @@ export const appRoutePaths: Routes = [
           ),
       },
       {
-        path: AppRoutePath.ReasonsAndCounterMeasuresPath,
+        path: AppRoutePath.ReasonsForLeavingPath,
         loadChildren: () =>
           import(
             './reasons-and-counter-measures/reasons-and-counter-measures.module'
           ).then((m) => m.ReasonsAndCounterMeasuresModule),
-        canActivate: [prodGuard],
       },
       {
         path: AppRoutePath.FluctuationAnalyticsPath,
@@ -46,6 +45,7 @@ export const appRoutePaths: Routes = [
           import('./attrition-analytics/attrition-analytics.module').then(
             (m) => m.AttritionAnalyticsModule
           ),
+        canActivate: [ProdGuard],
       },
     ],
   },

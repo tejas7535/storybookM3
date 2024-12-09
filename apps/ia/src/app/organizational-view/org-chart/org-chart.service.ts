@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { ECActionEvent } from 'echarts/types/src/util/types';
 
-import { FilterDimension, HeatType } from '../../shared/models';
+import { Color, FilterDimension, HeatType } from '../../shared/models';
 import { FluctuationType } from '../../shared/tables/employee-list-table/models';
 import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
 import { DimensionFluctuationData, OrgChartFluctuationRate } from '../models';
@@ -14,7 +14,6 @@ import { OrgChartTemplateService } from './org-chart-template.service';
 })
 export class OrgChartService {
   readonly ROOT_ID = 'ROOT';
-  readonly HIGHLIGHT_COLOR = 'rgba(0, 0, 0, 0.87)';
 
   constructor(
     private readonly orgChartTemplateService: OrgChartTemplateService
@@ -184,7 +183,7 @@ export class OrgChartService {
   updateLinkStyles(links: any[]): void {
     links.forEach((elem: any) => {
       if (elem.__data__.data._upToTheRootHighlighted) {
-        elem.setAttribute('stroke', this.HIGHLIGHT_COLOR);
+        elem.setAttribute('stroke', Color.TEXT_HIGH_EMPHASIS);
         elem.setAttribute('stroke-width', '2px');
       } else {
         elem.setAttribute('stroke', 'rgba(0,0,0,0.11)');
@@ -215,7 +214,7 @@ export class OrgChartService {
       data,
       width,
       height,
-      this.HIGHLIGHT_COLOR
+      Color.TEXT_HIGH_EMPHASIS
     );
 
   getGeneralNodeContent = (
@@ -227,7 +226,7 @@ export class OrgChartService {
       data,
       width,
       height,
-      this.HIGHLIGHT_COLOR
+      Color.TEXT_HIGH_EMPHASIS
     );
 
   setFluctuationRatesToDisplay(

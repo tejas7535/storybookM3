@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { map, mergeMap, Observable, of } from 'rxjs';
 
@@ -10,17 +10,14 @@ import { mapMaterialAutocompleteToIdValue } from '@gq/shared/utils/misc.utils';
 
 import { ApiVersion } from '../../../models';
 import { PlantMaterialDetail } from '../../../models/quotation-detail';
-import {
-  MaterialAutoCompleteResponse,
-  MaterialValidationRequest,
-  MaterialValidationResponse,
-} from './models';
+import { MaterialAutoCompleteResponse } from './models';
+import { AddDetailsValidationRequest } from './models/add-details-validation-request.interface';
+import { AddDetailsValidationResponse } from './models/add-details-validation-response.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MaterialService {
-  private readonly PATH_VALIDATION = 'materials/validation';
   private readonly PATH_MATERIAL_STOCK = 'materials/material-stock-status';
   private readonly PRODUCTION_PLANT_PARAM_KEY = 'production_plant_id';
   private readonly PLANT_ID_PARAM_KEY = 'plant_id';
@@ -33,19 +30,20 @@ export class MaterialService {
   private readonly PARAM_LIMIT = 'limit';
   private readonly PARAM_CUSTOMER_ID = 'customer_id';
   private readonly PARAM_SALES_ORG = 'sales_org';
+  private readonly PATH_ADD_DETAILS_VALIDATION = 'validation/add-details';
 
-  constructor(private readonly http: HttpClient) {}
+  private readonly http: HttpClient = inject(HttpClient);
 
-  public validateMaterials(
-    validateMaterialData: MaterialValidationRequest
-  ): Observable<MaterialValidationResponse> {
-    return this.http.post<MaterialValidationResponse>(
-      `${ApiVersion.V1}/${this.PATH_VALIDATION}`,
-      validateMaterialData
+  validateDetailsToAdd(
+    addDetailsValidationData: AddDetailsValidationRequest
+  ): Observable<AddDetailsValidationResponse> {
+    return this.http.post<AddDetailsValidationResponse>(
+      `${ApiVersion.V1}/${this.PATH_ADD_DETAILS_VALIDATION}`,
+      addDetailsValidationData
     );
   }
 
-  public getMaterialStock(
+  getMaterialStock(
     productionPlantId: string,
     materialNumber15: string
   ): Observable<MaterialStock> {
@@ -59,7 +57,7 @@ export class MaterialService {
     );
   }
 
-  public getPlantMaterialDetails(
+  getPlantMaterialDetails(
     materialNumber15: string,
     plantIds: string[]
   ): Observable<PlantMaterialDetail[]> {
@@ -73,7 +71,7 @@ export class MaterialService {
       .pipe(mergeMap((result: any) => of([...result.plantMaterialDetailDtos])));
   }
 
-  public getMaterialCostDetails(
+  getMaterialCostDetails(
     productionPlantId: string,
     plantId: string,
     materialNumber15: string,

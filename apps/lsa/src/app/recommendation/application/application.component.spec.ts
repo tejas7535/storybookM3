@@ -55,8 +55,8 @@ describe('ApplicationComponent', () => {
     });
 
     it('should have min and max values defined', () => {
-      expect(matSlider.max).toBe(35);
-      expect(matSlider.min).toBe(-15);
+      expect(matSlider.max).toBe(component['maxTemperature']);
+      expect(matSlider.min).toBe(component['minTemperature']);
     });
 
     it('should have values thumbs defined', () => {

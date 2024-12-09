@@ -1,16 +1,20 @@
-<div *transloco="let t">
-  <div class="vkorg-display">
-    <span>{{ t('validation_of_demand.vkorg') }}</span>
-    <span>{{ fC.value ? fC.value.salesOrg ?? '' : '' }}</span>
-  </div>
-  <mat-form-field appearance="outline" class="customer-number-select">
-    <mat-label>{{ t('validation_of_demand.customer') }}</mat-label>
-    <mat-select [formControl]="fC" [disabled]="fC.disabled">
-      @for (customer of customers; track customer.customerNumber) {
-        <mat-option [value]="customer">
-          {{ customer.customerNumber }} - {{ customer.customerName ?? '' }}
-        </mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-</div>
+<ng-container *transloco="let t">
+  <!-- Sales Org Info -->
+  <p>
+    <span class="block text-body-small text-medium-emphasis">{{
+      t('validation_of_demand.vkorg')
+    }}</span>
+    <span class="text-body-medium">{{ customer()?.salesOrg || '' }}</span>
+  </p>
+
+  <!-- Customer Select -->
+  <d360-single-autocomplete-pre-loaded
+    [control]="$any(control())"
+    [form]="form()"
+    [optionsLoadingResult]="optionsLoadingResult()"
+    [label]="t('validation_of_demand.customer')"
+    class="w-72 compact"
+    [displayFn]="displayFnUnited"
+    (selectionChange)="onChange($event)"
+  />
+</ng-container>

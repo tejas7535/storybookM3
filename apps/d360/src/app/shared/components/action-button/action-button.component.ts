@@ -3,7 +3,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-export type ButtonColor = 'primary' | 'secondary' | 'error' | '';
 export type ButtonType =
   | 'mat-button'
   | 'mat-raised-button'

@@ -11,6 +11,6 @@ Object {
   "medium": "Grease",
   "minTemp": 5,
   "optime": 0,
-  "pipeLength": 3,
+  "pipeLength": 0,
 }
 `;

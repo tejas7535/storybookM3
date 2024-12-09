@@ -1,6 +1,7 @@
 @mixin mat-dialog() {
   .mat-mdc-dialog-surface {
     padding: 16px 0 8px !important;
+    --mdc-dialog-container-color: var(--surface-container-high-color);
   }
 
   .mat-mdc-dialog-panel {
@@ -16,17 +17,43 @@
       }
     }
 
+    .mat-mdc-dialog-content {
+      scrollbar-color: #c1c1c1 var(--surface-container-high-color);
+    }
+
     &.table-dialog,
     &.form-dialog {
       width: 100%;
       min-width: 80vw;
       min-height: 300px;
 
+      .ag-body-horizontal-scroll-viewport,
+      .ag-body-vertical-scroll-viewport {
+        scrollbar-color: #c1c1c1 var(--surface-container-high-color);
+
+        &:hover {
+          scrollbar-color: #818181 var(--surface-container-high-color);
+        }
+      }
+
+      &.customer-material-portfolio,
       &.alert-rule,
-      &.internal-material-replacement {
+      &.internal-material-replacement,
+      &.demand-validation-export {
         .mat-mdc-dialog-content {
           min-height: 300px;
         }
+      }
+
+      &.demand-validation-export,
+      &.demand-validation-multi-delete {
+        min-width: 30vw;
+        width: auto;
+        max-width: 80vw;
+      }
+
+      &.customer-material-portfolio {
+        min-width: 0;
       }
     }
   }

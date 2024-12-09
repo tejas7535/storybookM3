@@ -10,14 +10,18 @@ import { SHOW_DEFAULT_SNACKBAR_ACTION } from '@gq/shared/http/http-error.interce
 import { OfferTypeResponse } from '@gq/shared/models/offer-type.interface';
 import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
 import { GetQuotationsCountResponse } from '@gq/shared/services/rest/quotation/models/get-quotations-count-response.interface';
+import { getMomentUtcStartOfDayDate } from '@gq/shared/utils/misc.utils';
 
 import {
   ApiVersion,
+  CustomerId,
   PurchaseOrderType,
   Quotation,
   QuotationStatus,
 } from '../../../models';
 import { CreateCustomerCase } from '../search/models/create-customer-case.model';
+import { GetQuotationToDateRequest } from './models/get-quotation-to-date-request.interface';
+import { GetQuotationToDateResponse } from './models/get-quotation-to-date-response.interface';
 import { GetQuotationsResponse } from './models/get-quotations-response.interface';
 import { QuotationPaths } from './models/quotation-paths.enum';
 import { UpdateQuotationRequest } from './models/update-quotation-request.model';
@@ -201,5 +205,29 @@ export class QuotationService {
     return this.#http.get<OfferTypeResponse>(
       `${ApiVersion.V1}/${QuotationPaths.OFFER_TYPES}`
     );
+  }
+
+  getQuotationToDateForCaseCreation(
+    customerId: CustomerId
+  ): Observable<string> {
+    const requestBody: GetQuotationToDateRequest = {
+      customer: {
+        ...customerId,
+      },
+      inputDate: getMomentUtcStartOfDayDate(
+        new Date(Date.now()).toISOString()
+      ).toISOString(),
+    };
+
+    return this.#http
+      .post<GetQuotationToDateResponse>(
+        `${ApiVersion.V1}/${QuotationPaths.QUOTATION_TO_DATE}`,
+        requestBody
+      )
+      .pipe(
+        map(
+          (quotationTo: GetQuotationToDateResponse) => quotationTo.extendedDate
+        )
+      );
   }
 }

@@ -11,6 +11,7 @@ import {
   getCurrentTab,
   getLeaversByReasonData,
   getReasonsChartData,
+  getReasonsChildren,
   getReasonsLoading,
   getReasonsTableData,
 } from './reasons-and-counter-measures.selector';
@@ -25,7 +26,6 @@ describe('ReasonsAndCounterMeasures Selector', () => {
         reasons: {
           loading: false,
           data: {
-            totalInterviews: 32,
             conductedInterviews: 14,
             reasons: [
               {
@@ -52,7 +52,6 @@ describe('ReasonsAndCounterMeasures Selector', () => {
         comparedReasons: {
           loading: false,
           data: {
-            totalInterviews: 32,
             conductedInterviews: 14,
             reasons: [
               {
@@ -203,11 +202,37 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     });
   });
 
+  describe('getReasonsChildren', () => {
+    test('should return reasons children', () => {
+      expect(getReasonsChildren(fakeState)).toEqual([
+        {
+          reason: 'Reason 1',
+          children: [
+            {
+              name: 'Detailed Reason 1',
+              value: 1,
+              percent: 100,
+            },
+          ],
+        },
+        {
+          reason: 'Reason 1a',
+          children: [
+            {
+              name: 'Detailed Reason 1',
+              value: 1,
+              percent: 100,
+            },
+          ],
+        },
+      ]);
+    });
+  });
+
   describe('getConductedInterviewsInfo', () => {
     test('should return conducted interviews info', () => {
       expect(getConductedInterviewsInfo(fakeState)).toEqual({
         conducted: 14,
-        percentage: 43.8,
       });
     });
   });
@@ -217,7 +242,6 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       const result = getComparedReasonsData(fakeState);
 
       expect(result).toEqual({
-        totalInterviews: 32,
         conductedInterviews: 14,
         reasons: [
           {
@@ -328,7 +352,6 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     test('should return conducted interviews info', () => {
       expect(getComparedConductedInterviewsInfo(fakeState)).toEqual({
         conducted: 14,
-        percentage: 43.8,
       });
     });
   });

@@ -1,17 +1,17 @@
 import {
   Component,
   EventEmitter,
+  Inject,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 
 import { Subject, takeUntil } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
+import { LOCAL_STORAGE } from '@ng-web-apis/common';
 
 import { AddToCartService } from './core/services/add-to-cart.service';
 import { isLanguageAvailable } from './core/services/language-helpers';
@@ -28,15 +28,12 @@ import { AvailabilityRequestEvent } from './shared/models/price-availibility.mod
   selector: 'lubricator-selection-assistant',
   templateUrl: './app.component.html',
 })
-export class AppComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() language: string | undefined;
-
+export class AppComponent implements OnInit, OnDestroy {
   @Output() availabilityRequest = new EventEmitter<AvailabilityRequestEvent>();
 
   @Output() addToCart = new EventEmitter<AddToCartEventPayload>();
 
-  @Input() userTier: UserTier;
-
+  private _language: string | undefined;
   private readonly destroyed$ = new Subject<void>();
 
   constructor(
@@ -44,27 +41,26 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
     private readonly restService: RestService,
     private readonly priceAvailabilityService: PriceAvailabilityService,
     private readonly addToCartService: AddToCartService,
-    private readonly staticStorageService: StaticStorageService
+    private readonly staticStorageService: StaticStorageService,
+    @Inject(LOCAL_STORAGE) private readonly localStorage: Storage
   ) {}
 
+  @Input() set language(value: string | undefined) {
+    if (value) {
+      this.setLanguageInLocalStorage(value);
+    }
+  }
+
+  @Input() set userTier(value: UserTier) {
+    this.addToCartService.setUserTier(value);
+  }
+
   ngOnInit(): void {
-    const currentLanguage = isLanguageAvailable(this.language)
-      ? this.language
-      : FALLBACK_LANGUAGE.id;
-
-    this.translocoService.setActiveLang(currentLanguage);
-
     this.listenForPriceAndAvailabilityRequests();
     this.listenForAddToCartEvents();
     this.fetchGreases();
 
     this.staticStorageService.displayMaintenanceMessages();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.userTier) {
-      this.addToCartService.setUserTier(this.userTier);
-    }
   }
 
   ngOnDestroy(): void {
@@ -74,6 +70,18 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
 
   fetchGreases(): void {
     this.restService.getGreases();
+  }
+
+  private setLanguageInLocalStorage(lang: string): void {
+    const currentLanguage = this.getLanguage(lang);
+    this._language = currentLanguage;
+
+    this.translocoService.setActiveLang(this._language);
+    this.localStorage.setItem('language', this._language);
+  }
+
+  private getLanguage(lang: string): string {
+    return isLanguageAvailable(lang) ? lang : FALLBACK_LANGUAGE.id;
   }
 
   private listenForPriceAndAvailabilityRequests(): void {

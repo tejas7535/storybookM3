@@ -1,54 +1,65 @@
 <div *transloco="let t">
-  <h6 class="text-headline-small mb-6">
-    {{ t('material_customer.toolbar.layout_title') }}
-  </h6>
-  <d360-filter-dropdown
-    [form]="layoutForm"
-    [control]="layoutForm.controls['currentLayout']"
-    label="Layout"
-    [options]="options"
-    [formatOptionValue]="displayFnText"
-    [formatSelectedValue]="displayFnText"
-  />
-  <mat-divider class="my-5" />
-  <div class="flex flex-col items-start pt-5">
-    <button
-      class="mb-3"
-      mat-flat-button
-      (click)="
-        this.data.loadLayout(
-          layoutForm.controls['currentLayout'].getRawValue().id
-        );
-        this.dialog.closeAll()
-      "
-    >
-      <mat-icon>download_2</mat-icon>
-      {{ t('material_customer.toolbar.load_layout') }}
-    </button>
-    <button
-      class="mb-3"
-      mat-button
-      (click)="
-        this.data.saveLayout(
-          layoutForm.controls['currentLayout'].getRawValue().id
-        );
-        this.dialog.closeAll()
-      "
-    >
-      <mat-icon>restart_alt</mat-icon>
-      {{ t('material_customer.toolbar.overwrite_layout') }}
-    </button>
-    <button
-      mat-button
-      (click)="
-        this.data.resetLayout(
-          layoutForm.controls['currentLayout'].getRawValue().id
-        );
-        this.dialog.closeAll()
-      "
-    >
-      <mat-icon>undo</mat-icon>
-      {{ t('material_customer.toolbar.reset_layout') }}
-    </button>
+  <!-- title -->
+  <div mat-dialog-title class="m-0 pt-0 mb-6">
+    <h2 class="text-title-large">
+      {{ t('material_customer.toolbar.layout_title') }}
+    </h2>
   </div>
+
+  <!-- content -->
+  <mat-dialog-content>
+    <!-- layout dropdown -->
+    <d360-filter-dropdown
+      [form]="layoutForm"
+      [control]="layoutForm.controls['currentLayout']"
+      label="Layout"
+      [options]="options"
+      [formatOptionValue]="displayFnText"
+      [formatSelectedValue]="displayFnText"
+    />
+
+    <!-- buttons -->
+    <div class="flex flex-col items-start pt-5">
+      <button
+        class="mb-3"
+        mat-flat-button
+        (click)="
+          data.loadLayout(
+            layoutForm.controls['currentLayout'].getRawValue().id
+          );
+          dialog.closeAll()
+        "
+      >
+        <mat-icon>download_2</mat-icon>
+        {{ t('material_customer.toolbar.load_layout') }}
+      </button>
+
+      <button
+        class="mb-3"
+        mat-button
+        (click)="
+          data.saveLayout(
+            layoutForm.controls['currentLayout'].getRawValue().id
+          );
+          dialog.closeAll()
+        "
+      >
+        <mat-icon>restart_alt</mat-icon>
+        {{ t('material_customer.toolbar.overwrite_layout') }}
+      </button>
+
+      <button
+        mat-button
+        (click)="
+          data.resetLayout(
+            layoutForm.controls['currentLayout'].getRawValue().id
+          );
+          dialog.closeAll()
+        "
+      >
+        <mat-icon>undo</mat-icon>
+        {{ t('material_customer.toolbar.reset_layout') }}
+      </button>
+    </div>
+  </mat-dialog-content>
 </div>

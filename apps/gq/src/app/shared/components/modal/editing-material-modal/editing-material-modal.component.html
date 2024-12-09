@@ -18,6 +18,7 @@
           <div class="flex-1">
             <gq-autocomplete-input
               #materialDescInput
+              [showFieldHint]="false"
               [filterName]="materialDesc.filter"
               [fitContent]="true"
               [options]="materialDesc.options"
@@ -29,7 +30,7 @@
               (isValid)="materialInputValid($event)"
               (unselected)="autocompleteUnselectOptions(materialDesc.filter)"
               (added)="
-                autocompleteSelectMaterialNumberOrDescription(
+                autocompleteSelectMaterialNumberDescriptionOrCustomerMaterial(
                   $event,
                   materialDesc.filter
                 )
@@ -52,11 +53,40 @@
               (inputContent)="materialHasInput($event)"
               (unselected)="autocompleteUnselectOptions(materialNumber.filter)"
               (added)="
-                autocompleteSelectMaterialNumberOrDescription(
+                autocompleteSelectMaterialNumberDescriptionOrCustomerMaterial(
                   $event,
                   materialNumber.filter
                 )
               "
+            ></gq-autocomplete-input>
+          </div>
+        }
+        @if (isNewCaseCreation) {
+          <div
+            *ngrxLet="customerMaterialForEditMaterial$ as customerMaterial"
+            class="flex-1"
+          >
+            <gq-autocomplete-input
+              #customerMaterialInput
+              [showFieldHint]="false"
+              [filterName]="customerMaterial.filter"
+              [fitContent]="true"
+              [options]="customerMaterial.options"
+              (unselected)="
+                autocompleteUnselectOptions(customerMaterial.filter)
+              "
+              (added)="
+                autocompleteSelectMaterialNumberDescriptionOrCustomerMaterial(
+                  $event,
+                  customerMaterial.filter
+                )
+              "
+              [autocompleteLoading]="
+                customerMaterialAutocompleteLoading$ | ngrxPush
+              "
+              (inputContent)="customerMaterialHasInput()"
+              (autocomplete)="autocomplete($event, customerIdentifier)"
+              [maxLength]="CUSTOMER_MATERIAL_MAX_LENGTH"
             ></gq-autocomplete-input>
           </div>
         }
@@ -78,11 +108,9 @@
               autocomplete="off"
               matInput
               #valueInput
-              [min]="
-                (isQuantityValidation && selectedMaterial?.deliveryUnit) || 1
-              "
+              [min]="(isNewCaseCreation && selectedMaterial?.deliveryUnit) || 1"
               [step]="
-                (isQuantityValidation && selectedMaterial?.deliveryUnit) || 1
+                (isNewCaseCreation && selectedMaterial?.deliveryUnit) || 1
               "
               type="number"
               formControlName="quantity"
@@ -90,10 +118,10 @@
               [attr.data-cy]="'edit-material-quantity'"
             />
 
-            @if (!isQuantityValidation) {
+            @if (!isNewCaseCreation) {
               <mat-hint>{{ t('quantity.hint') }}</mat-hint>
             }
-            @if (selectedMaterial?.deliveryUnit && isQuantityValidation) {
+            @if (selectedMaterial?.deliveryUnit && isNewCaseCreation) {
               <mat-hint>{{
                 t('quantity.hint', {
                   unit: selectedMaterial.deliveryUnit,
@@ -103,7 +131,7 @@
             }
 
             @if (
-              isQuantityValidation &&
+              isNewCaseCreation &&
               (editFormGroup.get('quantity').hasError('invalidDeliveryUnit') ||
                 editFormGroup.get('quantity').hasError('min'))
             ) {
@@ -137,13 +165,21 @@
                 formControlName="targetPrice"
                 [attr.data-cy]="'edit-material-targetPrice'"
               />
-              <mat-hint>{{ t('targetPrice.hint') }}</mat-hint>
+
               @if (editFormGroup.get('targetPrice')?.errors?.invalidPrice) {
                 <mat-error>{{ t('targetPrice.error') }}</mat-error>
               }
             </mat-form-field>
           </div></ng-container
         >
+        @if (isNewCaseCreation) {
+          <gq-target-price-source-select
+            #targetPriceSourceInput
+            class="flex-1"
+            [appearance]="'outline'"
+            formControlName="targetPriceSource"
+          ></gq-target-price-source-select>
+        }
       </div>
     </div>
   </form>

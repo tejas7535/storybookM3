@@ -1,6 +1,9 @@
 import { EChartsOption, PieSeriesOption } from 'echarts';
 import { CallbackDataParams } from 'echarts/types/dist/shared';
-import { OptionDataItem } from 'echarts/types/src/util/types';
+import {
+  OptionDataItem,
+  SeriesLabelOption,
+} from 'echarts/types/src/util/types';
 
 import { Color } from '../../models/color.enum';
 import { SolidDoughnutChartConfig } from '../models/solid-doughnut-chart-config.model';
@@ -14,7 +17,7 @@ export function createSolidDoughnutChartBaseOptions(
       text: config.title,
       textStyle: {
         fontFamily: 'Noto Sans',
-        color: 'rgba(0, 0, 0, 0.60)',
+        color: Color.TEXT_MEDIUM_EMPHASIS,
         fontStyle: 'normal',
         fontWeight: 400,
         align: 'center',
@@ -71,7 +74,8 @@ export const tooltipFormatter = (params: CallbackDataParams) =>
 
 export function createSolidDoughnutChartSeries(
   side: 'left' | 'right',
-  title: string
+  title: SeriesLabelOption,
+  titleTooltip: string
 ): PieSeriesOption[] {
   return [
     {
@@ -127,10 +131,7 @@ export function createSolidDoughnutChartSeries(
       center: side === 'left' ? ['70%', '50%'] : ['30%', '50%'],
       top: 0,
       avoidLabelOverlap: true,
-      label: {
-        position: 'center',
-        formatter: title,
-      },
+      label: { ...title, position: 'center' },
       emphasis: { disabled: true },
       labelLine: {
         show: false,
@@ -143,7 +144,8 @@ export function createSolidDoughnutChartSeries(
         },
       ],
       tooltip: {
-        show: false,
+        show: true,
+        formatter: titleTooltip,
       },
     },
   ];

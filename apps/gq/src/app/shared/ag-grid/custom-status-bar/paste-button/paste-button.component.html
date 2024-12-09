@@ -7,6 +7,9 @@
     class="!pl-4 !pr-4"
     mat-stroked-button
     color="primary"
+    [disabled]="
+      isNewCaseCreationView && isCaseView && !(customerIdentifier$ | ngrxPush)
+    "
     (click)="pasteFromClipboard()"
   >
     <mat-icon>content_paste</mat-icon>

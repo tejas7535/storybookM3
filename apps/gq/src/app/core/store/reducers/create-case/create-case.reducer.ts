@@ -414,14 +414,13 @@ export const createCaseReducer = createReducer(
   ),
   on(
     validateMaterialsOnCustomerAndSalesOrgSuccess,
-    (state: CreateCaseState, { materialValidations }) => ({
+    (state: CreateCaseState, { materialValidations, isNewCaseCreation }) => ({
       ...state,
       rowData: [...state.rowData].map((el) =>
         TableService.validateData(
           { ...el },
-          materialValidations.find(
-            (item) => item.materialNumber15 === el.materialNumber
-          )
+          materialValidations.find((item) => item.id === el.id),
+          isNewCaseCreation
         )
       ),
       validationLoading: false,

@@ -24,7 +24,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { MATERIAL_TABLE_ITEM_MOCK } from '../../../../../../testing/mocks';
 import { AutocompleteRequestDialog } from '../../../../components/autocomplete-input/autocomplete-request-dialog.enum';
 import { EditingMaterialModalComponent } from '../../../../components/modal/editing-material-modal/editing-material-modal.component';
-import { MaterialTableItem } from '../../../../models/table';
+import { MaterialTableItem, VALIDATION_CODE } from '../../../../models/table';
 import { MaterialColumnFields } from '../../../constants/column-fields.enum';
 import { EditCaseMaterialComponent } from './edit-case-material.component';
 
@@ -81,22 +81,25 @@ describe('EditCaseMaterialComponent', () => {
   describe('agInit', () => {
     test('should determine isCaseView to true when caseViewPath', () => {
       routerUrlSubject.next(`/${AppRoutePath.CaseViewPath}`);
-      component.agInit({} as any);
+      component.agInit({ colDef: { field: 'field' } } as any);
       expect(component.isCaseView).toBeTruthy();
     });
     test('should determine isCaseView to true when caseViewPath+ /anyFollowingString', () => {
       routerUrlSubject.next(`/${AppRoutePath.CaseViewPath}/anyFollowingString`);
-      component.agInit({} as any);
+      component.agInit({ colDef: { field: 'field' } } as any);
       expect(component.isCaseView).toBeTruthy();
     });
     test('should determine isCaseView to true when createManualCasePath', () => {
       routerUrlSubject.next(`/${AppRoutePath.CreateManualCasePath}`);
-      component.agInit({} as any);
+      component.agInit({ colDef: { field: 'field' } } as any);
       expect(component.isCaseView).toBeTruthy();
     });
     test('should set params and cellValue', () => {
       const params = {
         value: 'test',
+        colDef: {
+          field: 'field',
+        },
       } as any as ICellRendererParams;
       component.getValueToDisplay = jest.fn(() => 'value');
 
@@ -104,6 +107,13 @@ describe('EditCaseMaterialComponent', () => {
 
       expect(component.params).toEqual(params);
       expect(component.cellValue).toEqual('value');
+    });
+
+    test('should check if a warning is to be displayed', () => {
+      component['checkForWarning'] = jest.fn(() => false);
+      component.agInit({ colDef: { field: 'field' } } as any);
+
+      expect(component['checkForWarning']).toHaveBeenCalled();
     });
   });
 
@@ -157,7 +167,7 @@ describe('EditCaseMaterialComponent', () => {
       expect(matDialogSpyObject.open).toHaveBeenCalledWith(
         EditingMaterialModalComponent,
         {
-          width: '660px',
+          width: '990px',
           data: {
             material: MATERIAL_TABLE_ITEM_MOCK,
             field: MaterialColumnFields.MATERIAL,
@@ -338,6 +348,62 @@ describe('EditCaseMaterialComponent', () => {
       expect(
         component['processCaseFacade'].validateMaterialTableItems
       ).toHaveBeenCalled();
+    });
+  });
+
+  describe('checkForWarning', () => {
+    test('should return true for customerMaterialNumber', () => {
+      component['tableItem'] = {
+        info: {
+          codes: [VALIDATION_CODE.QDV002],
+          valid: false,
+          description: [],
+        },
+      };
+      const result = component['checkForWarning']('customerMaterialNumber');
+      expect(result).toBeTruthy();
+    });
+    test('should return true for quantity', () => {
+      component['tableItem'] = {
+        info: {
+          codes: [VALIDATION_CODE.QDV001],
+          valid: false,
+          description: [],
+        },
+      };
+      const result = component['checkForWarning']('quantity');
+      expect(result).toBeTruthy();
+    });
+    test('should return false for default', () => {
+      const result = component['checkForWarning']('default');
+      expect(result).toBeFalsy();
+    });
+  });
+
+  describe('isWarningPresent', () => {
+    test('should set toolTipKey and return true', () => {
+      component['tableItem'] = {
+        info: {
+          codes: [VALIDATION_CODE.QDV002],
+          valid: false,
+          description: [],
+        },
+      };
+      const result = component['isWarningPresent'](VALIDATION_CODE.QDV002);
+      expect(component['toolTipKey']).toEqual(VALIDATION_CODE.QDV002);
+      expect(result).toBeTruthy();
+    });
+    test('should set toolTipKey and return false', () => {
+      component['tableItem'] = {
+        info: {
+          codes: [VALIDATION_CODE.QDV002],
+          valid: false,
+          description: [],
+        },
+      };
+      const result = component['isWarningPresent'](VALIDATION_CODE.QDV001);
+      expect(component['toolTipKey']).toEqual(VALIDATION_CODE.QDV001);
+      expect(result).toBeFalsy();
     });
   });
 });

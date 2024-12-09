@@ -17,8 +17,10 @@ import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { Environment } from '../environments/environment.model';
 import { AppComponent } from './app.component';
 import { FilterSectionModule } from './filter-section/filter-section.module';
+import { EnvironmentEnum } from './shared/models';
 import { SystemMessageBannerComponent } from './user/system-message/system-message-banner/system-message-banner.component';
 
 const eventSubject = new ReplaySubject<RouterEvent>(1);
@@ -28,7 +30,10 @@ const routerMock = {
   events: eventSubject.asObservable(),
   url: '/legal/foo',
 };
-
+jest.mock('../environments/environments.provider', () => ({
+  ...jest.requireActual('../environments/environments.provider'),
+  getEnv: jest.fn(() => ({ environment: EnvironmentEnum.prod }) as Environment),
+}));
 describe('AppComponent', () => {
   let component: AppComponent;
   let spectator: Spectator<AppComponent>;
@@ -175,5 +180,15 @@ describe('AppComponent', () => {
         );
       })
     );
+  });
+
+  describe('fluctuation analytics', () => {
+    test('should disable fluctuation analytics tab on prod', () => {
+      const tab = component.tabs.find(
+        (t) => t.label === 'fluctuationAnalytics'
+      );
+
+      expect(tab.disabled).toBeTruthy();
+    });
   });
 });

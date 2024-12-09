@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -33,12 +34,14 @@ import {
   MomentDateAdapter,
 } from '@angular/material-moment-adapter';
 
-import { distinctUntilChanged, filter, Observable } from 'rxjs';
+import { distinctUntilChanged, filter, Observable, take, tap } from 'rxjs';
 
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { SalesOrg } from '@gq/core/store/reducers/create-case/models/sales-orgs.model';
 import { CaseFilterItem } from '@gq/core/store/reducers/models';
 import { DATE_FORMATS } from '@gq/shared/constants/date-formats';
+import { CustomerId } from '@gq/shared/models/customer/customer-ids.model';
+import { getMomentUtcStartOfDayDate } from '@gq/shared/utils/misc.utils';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -103,10 +106,25 @@ export class CreateCaseHeaderInformationComponent
     this.createCaseFacade.shipToPartySalesOrgs$;
   selectedCustomerSalesOrg$: Observable<SalesOrg> =
     this.createCaseFacade.selectedCustomerSalesOrg$;
-
+  selectedCustomerIdentifier$ = this.createCaseFacade.customerIdentifier$;
   shipToParty$: Observable<CaseFilterItem> =
     this.autocomplete.shipToCustomerForCaseCreation$;
   isEditMode = false;
+  quotationToChangedByUser = false;
+
+  private readonly controlsToModify = [
+    'salesOrg',
+    'currency',
+    'caseName',
+    'purchaseOrderType',
+    'partnerRoleType',
+    'offerType',
+    'shipToParty',
+    'quotationToDate',
+    'requestedDeliveryDate',
+    'customerInquiryDate',
+    'bindingPeriodValidityEndDate',
+  ];
 
   reset(): void {
     this.createCaseFacade.resetCaseCreationInformation();
@@ -183,6 +201,7 @@ export class CreateCaseHeaderInformationComponent
     this.autocomplete.initFacade(AutocompleteRequestDialog.CREATE_CASE);
 
     super.ngOnInit();
+    this.modifyInputs('disable', this.controlsToModify);
     // when the customer sales orgs are loading, reset the partner role type
     this.createCaseFacade.customerSalesOrgs$
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -201,6 +220,28 @@ export class CreateCaseHeaderInformationComponent
         this.headerInfoForm.get('currency')?.setValue(salesOrg.currency);
       });
 
+    this.selectedCustomerIdentifier$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        distinctUntilChanged(),
+        tap((customerId: CustomerId) => {
+          if (customerId?.customerId) {
+            this.modifyInputs('enable', this.controlsToModify);
+          } else {
+            this.modifyInputs('reset', this.controlsToModify);
+            this.modifyInputs('disable', this.controlsToModify);
+            this.quotationToChangedByUser = false;
+          }
+        }),
+        filter(
+          (customerId: CustomerId) =>
+            !!customerId?.customerId && !!customerId?.salesOrg
+        )
+      )
+      .subscribe((customerId: CustomerId) => {
+        this.requestQuotationToDate(customerId);
+      });
+
     this.headerInfoForm
       .get('currency')
       ?.valueChanges.pipe(
@@ -210,6 +251,17 @@ export class CreateCaseHeaderInformationComponent
       )
       .subscribe((currency: string) => {
         this.createCaseFacade.updateCurrencyOfPositionItems(currency);
+      });
+
+    this.headerInfoForm
+      .get('quotationToDate')
+      ?.valueChanges.pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((quotationToDate: Date) => !!quotationToDate),
+        distinctUntilChanged()
+      )
+      .subscribe(() => {
+        this.quotationToChangedByUser = true;
       });
 
     this.headerInfoFormChanged$
@@ -223,5 +275,49 @@ export class CreateCaseHeaderInformationComponent
 
   ngOnDestroy(): void {
     this.reset();
+  }
+
+  private requestQuotationToDate(customerId: CustomerId): void {
+    this.createCaseFacade
+      .getQuotationToDate(customerId)
+      .pipe(take(1))
+      .subscribe((quotationToDate) => {
+        this.quotationToChangedByUser = false;
+        this.headerInfoForm
+          .get('quotationToDate')
+          ?.setValue(getMomentUtcStartOfDayDate(quotationToDate), {
+            emitEvent: false,
+          });
+      });
+  }
+
+  // Common function to handle enabling/disabling/resetting controls
+  private modifyInputs(
+    action: 'disable' | 'enable' | 'reset',
+    controls: string[]
+  ): void {
+    controls.forEach((control) => {
+      const formControl = this.headerInfoForm.controls[control];
+      if (formControl) {
+        switch (action) {
+          case 'disable': {
+            formControl.disable();
+
+            break;
+          }
+          case 'enable': {
+            formControl.enable();
+
+            break;
+          }
+          case 'reset': {
+            formControl.reset(undefined, { emitEvent: false, onlySelf: true });
+
+            break;
+          }
+          // No default
+        }
+      }
+    });
   }
 }

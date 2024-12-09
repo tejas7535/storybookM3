@@ -27,7 +27,8 @@
     "delete": "Delete",
     "yes": "Yes",
     "no": "No",
-    "change": "Change"
+    "change": "Change",
+    "download": "Download"
   },
   "error": {
     "unknown": "Unknown error",
@@ -180,7 +181,8 @@
     },
     "dropdown": {
       "loading": "Loading…",
-      "loading_error": "Error loading options"
+      "loading_error": "Error loading options",
+      "minOne": "Please enter at least two characters"
     },
     "selection_empty": "It is necessary to choose at least one selection criterion.",
     "tasks": "Open tasks",
@@ -210,6 +212,10 @@
     "customer": "Customer",
     "title": "Validation of demand",
     "vkorg": "Sales Organisation",
+    "action_bar": {
+      "edit_as_list": "Edit as List",
+      "edit_as_grid": "Edit as Grid"
+    },
     "filter": {
       "rootString": "Filter ({{count}})",
       "customerMaterialNumber": "Customer material number",
@@ -249,12 +255,12 @@
         "week": "W"
       },
       "save": {
-        "invalid_rows": "{{count}} row could not be saved. Please check your input.,1,1,{{count}} row could not be saved. Please check your input.",
+        "invalid_rows": "{count, plural, one {{count} row could not be saved. Please check your input.} other {{count} rows could not be saved. Please check your input.}}",
         "success": "All rows saved."
       },
       "upload_failed": "Upload failed: {{reason}}",
       "validate": {
-        "invalid_rows": "{{count}} rows invalid. Please check your input.,1,1,{{count}} row invalid. Please check your input.",
+        "invalid_rows": "{count, plural, one {{count} row invalid. Please check your input.} other {{count} rows invalid. Please check your input.}}",
         "success": "All rows valid."
       },
       "list": {
@@ -417,6 +423,10 @@
     "toolbar": {
       "expandAll": "fold out",
       "collapseAll": "fold"
+    },
+    "button": {
+      "addCustomerMaterial": "Add customer material",
+      "addMultipleCustomerMaterials": "Add multiple customer materials"
     },
     "material_info_text": {
       "head_not_active": "Button of the substitution chain is not the active material"

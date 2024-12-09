@@ -25,7 +25,7 @@ import { ErrorMessage } from '../../../pages/alert-rules/table/components/modals
 import { gridParseFromClipboard } from '../../ag-grid/grid-parse-from-clipboard';
 import { ensureEmptyRowAtBottom, resetGrid } from '../../ag-grid/grid-utils';
 import { AgGridLocalizationService } from '../../services/ag-grid-localization.service';
-import { textLight } from '../../styles/colors';
+import { transparent } from '../../styles/colors';
 import {
   multiPostResultsToUserMessages,
   PostResult,
@@ -304,19 +304,19 @@ export abstract class AbstractTableUploadModalComponent<
    * TODO: Once we're on AG Grid > v31, we should use setGridOption('columnDefs', columnDefs); instead.
    *
    * @private
+   * @memberof AbstractTableUploadModalComponent
    */
-  private updateColumnDefinitions() {
+  private updateColumnDefinitions(): void {
     this.columnDefs = [
       ...this.columnDefinitions.map((colDef: ColumnForUploadTable<T>) => ({
         ...colDef,
         field: colDef.field.toString(),
-        headerName: colDef.headerNameFn(),
         minWidth: colDef.minWidth ?? 200,
         validationFn: undefined,
         ...buildValidationProps(
           this.validateFunctionWithErrors(colDef.validationFn),
           true,
-          textLight
+          transparent
         ),
       })),
       {
@@ -361,7 +361,10 @@ export abstract class AbstractTableUploadModalComponent<
       }
 
       const matchingErrors = allErrorMessages.filter((errMsg) =>
-        this.isPartialDataMatching(errMsg.dataIdentifier, rowData.data)
+        this.isPartialDataMatching(
+          errMsg.dataIdentifier,
+          this.getTypedRowData(rowData)
+        )
       );
 
       if (matchingErrors.length === 0) {
@@ -498,10 +501,23 @@ export abstract class AbstractTableUploadModalComponent<
       if (rowIsEmpty(row)) {
         return;
       }
-      rowData.push(row.data as T);
+
+      rowData.push(this.getTypedRowData(row));
     });
 
     return rowData;
+  }
+
+  /**
+   * Get a single row for the given data format.
+   *
+   * @private
+   * @param {RowNode} rowNode
+   * @return {T}
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected getTypedRowData(rowNode: IRowNode): T {
+    return rowNode.data as T;
   }
 
   /**

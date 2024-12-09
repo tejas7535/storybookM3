@@ -1,4 +1,5 @@
 import {
+  HttpContextToken,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
@@ -11,6 +12,10 @@ import { Observable } from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';
 
 import { environment } from '../../../environments/environment';
+
+export const AUTO_CONFIGURE_APPLICATION_JSON_HEADER = new HttpContextToken(
+  () => true
+);
 
 @Injectable()
 export class HeadersInterceptor implements HttpInterceptor {
@@ -25,28 +30,26 @@ export class HeadersInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const requestWithContentTypeHeader = request.clone({
-      headers: request.headers.set(
+    const clonedRequest = request.clone();
+
+    if (request.context.get(AUTO_CONFIGURE_APPLICATION_JSON_HEADER)) {
+      clonedRequest.headers.set(
         this.HEADER_CONTENT_TYPE,
         this.HEADER_CONTENT_TYPE_JSON
-      ),
-    });
+      );
+    }
 
     const activeLang = this.translocoService.getActiveLang();
+
     if (
       request.url?.startsWith(`/${environment.apiUrl}`) ||
       request.url?.startsWith(environment.apiUrl)
     ) {
-      const newRequest = requestWithContentTypeHeader.clone({
-        headers: requestWithContentTypeHeader.headers
-          .set(this.HEADER_LANGUAGE_KEY, activeLang)
-          .set(this.HEADER_ACCEPT_LANGUAGE, activeLang)
-          .set(this.HEADER_CONTENT_TYPE, this.HEADER_CONTENT_TYPE_JSON),
-      });
-
-      return next.handle(newRequest);
+      clonedRequest.headers
+        .set(this.HEADER_LANGUAGE_KEY, activeLang)
+        .set(this.HEADER_ACCEPT_LANGUAGE, activeLang);
     }
 
-    return next.handle(requestWithContentTypeHeader);
+    return next.handle(clonedRequest);
   }
 }

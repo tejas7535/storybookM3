@@ -2,6 +2,8 @@ import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-in
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
 import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
@@ -18,6 +20,7 @@ import { ProcessCaseActions } from '../process-case';
 import {
   getCaseCustomerAndShipToParty,
   getCaseMaterialDesc,
+  getCustomerMaterialNumber,
   getSelectedAutocompleteMaterialNumber,
   getSelectedAutocompleteRequestDialog,
 } from '../selectors/create-case/create-case.selector';
@@ -27,10 +30,11 @@ describe('autocompleteFacade', () => {
   let service: AutoCompleteFacade;
   let spectator: SpectatorService<AutoCompleteFacade>;
   let mockStore: MockStore;
+  let actions$: Actions;
 
   const createService = createServiceFactory({
     service: AutoCompleteFacade,
-    providers: [provideMockStore({})],
+    providers: [provideMockStore({}), provideMockActions(() => actions$)],
   });
   beforeEach(() => {
     spectator = createService();
@@ -101,6 +105,37 @@ describe('autocompleteFacade', () => {
         }
       );
     });
+
+    describe('customerMaterialNumberForEditMaterial$', () => {
+      test(
+        'should provide customerMaterialNumberForEditMaterial$',
+        marbles((m) => {
+          mockStore.setState({
+            case: {
+              autocompleteItems: [
+                {
+                  filter: FilterNames.CUSTOMER_MATERIAL,
+                  options: [],
+                },
+              ],
+              requestingDialog: AutocompleteRequestDialog.EDIT_MATERIAL,
+            },
+          });
+          mockStore.overrideSelector(
+            getCustomerMaterialNumber(AutocompleteRequestDialog.EDIT_MATERIAL),
+            { filter: FilterNames.CUSTOMER_MATERIAL, options: [] }
+          );
+          m.expect(
+            service.customerMaterialNumberForEditMaterial$
+          ).toBeObservable(
+            m.cold('a', {
+              a: { filter: FilterNames.CUSTOMER_MATERIAL, options: [] },
+            })
+          );
+        })
+      );
+    });
+
     test(
       'shipToCustomerForEditCase$',
       marbles((m) => {
@@ -251,6 +286,25 @@ describe('autocompleteFacade', () => {
           m.cold('a', {
             a: { filter: FilterNames.CUSTOMER, options: [] },
           })
+        );
+      })
+    );
+
+    test(
+      'should provide optionSelectedForAutoCompleteFilter$',
+      marbles((m) => {
+        const action = setSelectedAutocompleteOption({
+          filter: FilterNames.MATERIAL_NUMBER,
+          option: new IdValue('1', 'Audi', true),
+        });
+        const expected = m.cold('b', {
+          b: action,
+        });
+
+        actions$ = m.hot('a', { a: action });
+
+        m.expect(service.optionSelectedForAutoCompleteFilter$).toBeObservable(
+          expected as any
         );
       })
     );

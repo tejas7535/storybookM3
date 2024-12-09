@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 
 import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
@@ -154,6 +154,7 @@ export class LossOfSkillEffects {
   loadPmgmData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadPmgmData),
+      filter(() => isDevMode()),
       map((action) => action.request),
       switchMap((request: EmployeesRequest) =>
         this.lossOfSkillService.getPmgmData(request).pipe(

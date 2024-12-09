@@ -1,7 +1,9 @@
+/* eslint-disable max-lines */
 import { Params } from '@angular/router';
 
 import { FILTER_PARAM_INDICATOR, LOCALE_DE } from '@gq/shared/constants';
 import {
+  CustomerId,
   Duration,
   Keyboard,
   QuotationStatus,
@@ -14,9 +16,17 @@ import { ColumnFields } from '../ag-grid/constants/column-fields.enum';
 import { FilterNames } from '../components/autocomplete-input/filter-names.enum';
 import { SearchbarGridContext } from '../components/global-search-bar/config/searchbar-grid-context.interface';
 import { MaterialsCriteriaSelection } from '../components/global-search-bar/materials-result-table/material-criteria-selection.enum';
+import { TargetPriceSource } from '../models/quotation/target-price-source.enum';
 import { Rating } from '../models/rating.enum';
 import { IdValue } from '../models/search/id-value.model';
-import { MaterialAutoComplete } from '../services/rest/material/models';
+import { MaterialTableItem, MaterialValidation } from '../models/table';
+import {
+  AddDetailsValidationRequest,
+  MaterialAutoComplete,
+  ValidatedDetail,
+  ValidationDetail,
+  ValidationDetailData,
+} from '../services/rest/material/models';
 export const getCurrentYear = (): number => new Date().getFullYear();
 
 export const getLastYear = (): number => getCurrentYear() - 1;
@@ -333,4 +343,82 @@ export const getNextLowerPossibleMultiple = (
   }
 
   return value;
+};
+
+export const mapToAddDetailsValidationRequest = (
+  customerId: CustomerId,
+  tableData: MaterialTableItem[]
+): AddDetailsValidationRequest => ({
+  customerId,
+  details: tableData.map(
+    (el) =>
+      ({
+        id: el.id,
+        data: {
+          materialNumber15: el.materialNumber,
+          quantity: el.quantity,
+          customerMaterial: el.customerMaterialNumber,
+        } as ValidationDetailData,
+      }) as ValidationDetail
+  ),
+});
+
+export const mapValidatedDetailToMaterialValidation = (
+  detail: ValidatedDetail
+) => {
+  const validatedMaterial: MaterialValidation = {
+    id: detail.id,
+    valid: detail.valid,
+    materialNumber15: detail.materialData.materialNumber15,
+    materialDescription: detail.materialData.materialDescription,
+    materialPriceUnit: detail.materialData.materialPriceUnit,
+    materialUoM: detail.materialData.materialUoM,
+    // TODO: check customerMaterial condition when GQUOTE-4797 will be implemented
+    customerMaterial:
+      detail.userInput.customerMaterial ===
+      detail.customerData?.customerMaterial
+        ? detail.userInput.customerMaterial
+        : detail.customerData?.customerMaterial,
+    correctedQuantity:
+      detail.customerData?.correctedQuantity > 0
+        ? detail.customerData?.correctedQuantity
+        : null,
+    validationCodes: detail.validationCodes,
+  };
+
+  return validatedMaterial;
+};
+export const getTargetPriceSourceValue = (
+  targetPrice: any,
+  targetPriceFormControlValid: boolean,
+  targetPriceSourceValue: TargetPriceSource
+): TargetPriceSource => {
+  if (
+    targetPrice &&
+    (targetPriceSourceValue === TargetPriceSource.NO_ENTRY ||
+      targetPriceSourceValue === undefined) &&
+    targetPriceFormControlValid
+  ) {
+    return TargetPriceSource.INTERNAL;
+  }
+  if (!targetPrice || targetPrice === '') {
+    return TargetPriceSource.NO_ENTRY;
+  }
+
+  return targetPriceSourceValue ?? TargetPriceSource.NO_ENTRY;
+};
+
+export const getTargetPriceValue = (
+  targetPriceSourceValue: any,
+  targetPriceValue: number
+): number => {
+  if (
+    (targetPriceSourceValue === TargetPriceSource.NO_ENTRY ||
+      targetPriceSourceValue === undefined) &&
+    targetPriceValue
+  ) {
+    return null;
+  }
+
+  return targetPriceValue;
 };

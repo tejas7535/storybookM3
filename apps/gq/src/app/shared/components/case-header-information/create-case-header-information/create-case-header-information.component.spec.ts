@@ -10,8 +10,10 @@ import { AutoCompleteFacade } from '@gq/core/store/facades/autocomplete.facade';
 import { RolesFacade } from '@gq/core/store/facades/roles.facade';
 import { CaseFilterItem, SalesOrg } from '@gq/core/store/reducers/models';
 import { SectorGpsdFacade } from '@gq/core/store/sector-gpsd/sector-gpsd.facade';
+import { CustomerId } from '@gq/shared/models';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import moment from 'moment';
 import { MockComponent, MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
@@ -33,6 +35,8 @@ describe('CreateCaseHeaderInformationComponent', () => {
     new BehaviorSubject<SalesOrg[]>([]);
   const selectedSalesOrgSubject$$: BehaviorSubject<SalesOrg> =
     new BehaviorSubject<SalesOrg>({} as SalesOrg);
+  const selectedCustomerSubject$$: BehaviorSubject<CustomerId> =
+    new BehaviorSubject<CustomerId>({} as CustomerId);
 
   const createComponent = createComponentFactory({
     component: CreateCaseHeaderInformationComponent,
@@ -48,8 +52,10 @@ describe('CreateCaseHeaderInformationComponent', () => {
         shipToPartySalesOrgs$: of([]),
         customerSalesOrgs$: customerSalesOrgSubject$$.asObservable(),
         selectedCustomerSalesOrg$: selectedSalesOrgSubject$$.asObservable(),
+        customerIdentifier$: selectedCustomerSubject$$.asObservable(),
         resetCaseCreationInformation: jest.fn(),
         updateCurrencyOfPositionItems: jest.fn(),
+        getQuotationToDate: jest.fn().mockReturnValue(of('2014-01-01')),
       }),
       MockProvider(TranslocoLocaleService),
       {
@@ -119,6 +125,21 @@ describe('CreateCaseHeaderInformationComponent', () => {
       );
     })
   );
+
+  test(
+    'should provide selectedCustomerIdentifier$',
+    marbles((m) => {
+      const customerId: CustomerId = {
+        customerId: '12345',
+        salesOrg: '0615',
+      };
+      selectedCustomerSubject$$.next(customerId);
+      m.expect(component.selectedCustomerIdentifier$).toBeObservable(
+        m.cold('a', { a: customerId })
+      );
+    })
+  );
+
   describe('reset', () => {
     test('should call resetCaseCreationInformation', () => {
       component['createCaseFacade'].resetCaseCreationInformation = jest.fn();
@@ -131,6 +152,8 @@ describe('CreateCaseHeaderInformationComponent', () => {
   describe('ngOnInit', () => {
     test('should init all form controls with value undefined', () => {
       selectedSalesOrgSubject$$.next(null);
+      selectedCustomerSubject$$.next(null);
+      component['modifyInputs'] = jest.fn();
       component.ngOnInit();
       expect(component.headerInfoForm.get('customer')?.value).toBeUndefined();
       expect(component.headerInfoForm.get('salesOrg')?.value).toBeUndefined();
@@ -141,7 +164,7 @@ describe('CreateCaseHeaderInformationComponent', () => {
       ).toBeUndefined();
       expect(
         component.headerInfoForm.get('quotationToDate')?.value
-      ).toBeUndefined();
+      ).toBeFalsy();
       expect(
         component.headerInfoForm.get('requestedDeliveryDate')?.value
       ).toBeUndefined();
@@ -206,6 +229,50 @@ describe('CreateCaseHeaderInformationComponent', () => {
       expect(component.isValid.emit).toHaveBeenCalled();
       expect(component.data.emit).toHaveBeenCalled();
     });
+
+    test('should request quotationToDate when customer has been selected', () => {
+      component['requestQuotationToDate'] = jest.fn();
+      selectedCustomerSubject$$.next({ customerId: '12345', salesOrg: '0615' });
+      expect(component['requestQuotationToDate']).toHaveBeenCalled();
+    });
+
+    test('should set quotationToChangedByUser to true when quotationToDate changes', () => {
+      component.quotationToChangedByUser = false;
+      component.headerInfoForm
+        .get('quotationToDate')
+        ?.setValue(moment(Date.now()));
+      expect(component.quotationToChangedByUser).toBeTruthy();
+    });
+    test('should modify inputs and disable initially', () => {
+      component['modifyInputs'] = jest.fn();
+      component.ngOnInit();
+      expect(component['modifyInputs']).toHaveBeenCalledWith(
+        'disable',
+        expect.anything()
+      );
+    });
+    test('should modifyInputs and enable inputs when customer has been selected', () => {
+      component['modifyInputs'] = jest.fn();
+      selectedCustomerSubject$$.next({ customerId: '12345', salesOrg: '0615' });
+      expect(component['modifyInputs']).toHaveBeenCalled();
+      expect(component['modifyInputs']).toHaveBeenCalledWith(
+        'enable',
+        expect.anything()
+      );
+    });
+    test('should modifyInputs and disable inputs when customer has been deselected', () => {
+      component['modifyInputs'] = jest.fn();
+      selectedCustomerSubject$$.next(null);
+      expect(component['modifyInputs']).toHaveBeenCalled();
+      expect(component['modifyInputs']).toHaveBeenCalledWith(
+        'disable',
+        expect.anything()
+      );
+      expect(component['modifyInputs']).toHaveBeenCalledWith(
+        'reset',
+        expect.anything()
+      );
+    });
   });
 
   describe('ngOnDestroy', () => {
@@ -213,6 +280,38 @@ describe('CreateCaseHeaderInformationComponent', () => {
       component.reset = jest.fn();
       component.ngOnDestroy();
       expect(component.reset).toHaveBeenCalled();
+    });
+  });
+
+  describe('requestQuotationToDate', () => {
+    test('should call getQuotationToDate', () => {
+      component.quotationToChangedByUser = true;
+      component['requestQuotationToDate']({
+        customerId: '12345',
+        salesOrg: '0615',
+      });
+      component['requestQuotationToDate']({} as any);
+      expect(
+        component['createCaseFacade'].getQuotationToDate
+      ).toHaveBeenCalled();
+      expect(component.quotationToChangedByUser).toBeFalsy();
+    });
+  });
+
+  describe('modifyInputs', () => {
+    test('should enable FormControl', () => {
+      component['modifyInputs']('enable', ['caseName']);
+      expect(component.headerInfoForm.get('caseName')?.enabled).toBeTruthy();
+    });
+    test('should disable FormControl', () => {
+      component['modifyInputs']('disable', ['caseName']);
+      expect(component.headerInfoForm.get('caseName')?.disabled).toBeTruthy();
+    });
+
+    test('should reset FormControl', () => {
+      component.headerInfoForm.get('caseName').reset = jest.fn();
+      component['modifyInputs']('reset', ['caseName']);
+      expect(component.headerInfoForm.get('caseName').reset).toHaveBeenCalled();
     });
   });
 });

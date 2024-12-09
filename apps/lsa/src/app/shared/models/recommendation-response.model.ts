@@ -1,4 +1,5 @@
 import { Medium } from '../constants';
+import { RecommendationRequest } from './recommendation-request.model';
 
 export interface RecommendationResponse {
   timestamp: number;
@@ -7,10 +8,17 @@ export interface RecommendationResponse {
     minimumRequiredLubricator: Lubricator;
   };
   classes: AccessoryClassEntry[];
+  notices?: CalculationInfo[];
+  warnings?: CalculationInfo[];
+  input: RecommendationRequest;
 }
 
 export class ErrorResponse extends Error {
   message: string;
+}
+export interface CalculationInfo {
+  titleId: string;
+  description: string;
 }
 
 export interface Lubricator {
@@ -39,6 +47,7 @@ export interface Accessory {
   fifteen_digit: string;
   pim_code: string;
   designation: string;
+  is_recommendation: boolean;
   product_image: string;
   class: string | number;
   class_id: string;
@@ -46,6 +55,7 @@ export interface Accessory {
   currency?: string;
   availability?: boolean;
   attributes: { [key: string]: string | number };
+  isPriceAndAvailabilityUpdated?: boolean;
 }
 
 export interface AccessoryClassEntry {

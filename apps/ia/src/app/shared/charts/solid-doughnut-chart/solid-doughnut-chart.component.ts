@@ -3,6 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnInit,
   Output,
 } from '@angular/core';
 
@@ -23,7 +24,10 @@ import {
   templateUrl: './solid-doughnut-chart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SolidDoughnutChartComponent extends ExternalLegend {
+export class SolidDoughnutChartComponent
+  extends ExternalLegend
+  implements OnInit
+{
   options: EChartsOption;
   mergeOptions: EChartsOption;
   _data: DoughnutChartData[];
@@ -48,7 +52,8 @@ export class SolidDoughnutChartComponent extends ExternalLegend {
 
     const series: SeriesOption[] = createSolidDoughnutChartSeries(
       config.side,
-      config.subTitle
+      config.subTitle,
+      config.titleTooltip
     );
     this.options = {
       ...baseOptions,
@@ -82,6 +87,10 @@ export class SolidDoughnutChartComponent extends ExternalLegend {
   }
 
   @Output() selectedReason: EventEmitter<string> = new EventEmitter<string>();
+
+  ngOnInit(): void {
+    this.resetItemStyles();
+  }
 
   onChartInit(ec: ECharts): void {
     super.onChartInit(ec);
@@ -199,5 +208,11 @@ export class SolidDoughnutChartComponent extends ExternalLegend {
         dataIndex: i,
       });
     }
+  }
+
+  resetItemStyles(): void {
+    this.data.forEach((dataPoint) => {
+      dataPoint.itemStyle = undefined;
+    });
   }
 }

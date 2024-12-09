@@ -18,7 +18,7 @@ function handleAvailabilityRequest(event) {
         acc[pimId] = {
           available: Math.random() >= 0.5,
           price: getRandomPrice(),
-          currency: '€',
+          currency: 'EUR',
         };
         return acc;
       },

@@ -1,3 +1,6 @@
+import { of } from 'rxjs';
+
+import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -11,6 +14,7 @@ import {
   clearPurchaseOrderType,
   clearSectorGpsd,
   clearShipToParty,
+  navigateToCaseOverView,
   resetAllAutocompleteOptions,
   setRowDataCurrency,
   updateCurrencyOfPositionItems,
@@ -41,6 +45,7 @@ describe('CreateCaseFacade', () => {
       MockProvider(SectorGpsdFacade, {
         resetAllSectorGpsds: jest.fn(),
       }),
+      MockProvider(QuotationService),
     ],
   });
 
@@ -134,6 +139,7 @@ describe('CreateCaseFacade', () => {
       mockStore.dispatch = jest.fn();
       facade.resetCaseCreationInformation();
 
+      expect(mockStore.dispatch).toHaveBeenCalledWith(navigateToCaseOverView());
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         resetAllAutocompleteOptions()
       );
@@ -157,6 +163,23 @@ describe('CreateCaseFacade', () => {
           updateCurrencyOfPositionItems()
         );
       });
+    });
+
+    describe('getQuotationToDate', () => {
+      test(
+        'request the service to get the quotation to date',
+        marbles((m) => {
+          const date = '2024-10-10T15:12:14.215Z';
+          const customerId = { customerId: 'customerId', salesOrg: 'salesOrg' };
+          facade['quotationService'].getQuotationToDateForCaseCreation = jest
+            .fn()
+            .mockReturnValue(of(date));
+          facade.getQuotationToDate(customerId);
+          m.expect(facade.getQuotationToDate(customerId)).toBeObservable(
+            m.cold('(a|)', { a: date })
+          );
+        })
+      );
     });
   });
 });

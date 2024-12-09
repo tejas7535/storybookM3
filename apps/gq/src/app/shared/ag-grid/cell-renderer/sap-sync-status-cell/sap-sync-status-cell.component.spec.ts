@@ -50,7 +50,10 @@ describe('SapStatusCellComponent', () => {
     });
 
     test('should set error code when data is present', () => {
-      component.agInit({ ...cellParams, data: { sapSyncErrorCode: '123' } });
+      component.agInit({
+        ...cellParams,
+        data: { sapSyncErrorCode: { code: '123' } },
+      });
       expect(component.errorCode).toBe('123');
     });
 

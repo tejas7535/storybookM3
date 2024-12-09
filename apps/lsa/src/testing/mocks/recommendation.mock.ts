@@ -51,4 +51,16 @@ export const mockResponse: RecommendationResponse = {
     { class: '12345', title: 'Sample Class 1' },
     { class: '67890', title: 'Sample Class 2' },
   ],
+  input: {
+    battery: 2,
+    greaseId: 'ARCALUB_MULTI2',
+    lubricationInterval: 'year',
+    lubricationPoints: '1',
+    lubricationQty: 60,
+    maxTemp: 20,
+    minTemp: 5,
+    medium: 'Grease',
+    optime: 2,
+    pipeLength: 0,
+  },
 };

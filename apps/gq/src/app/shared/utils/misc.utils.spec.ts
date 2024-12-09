@@ -6,6 +6,11 @@ import { SearchbarGridContext } from '../components/global-search-bar/config/sea
 import { MaterialsCriteriaSelection } from '../components/global-search-bar/materials-result-table/material-criteria-selection.enum';
 import { FILTER_PARAM_INDICATOR } from '../constants/filter-from-query-params.const';
 import { Keyboard, QuotationStatus, SAP_SYNC_STATUS } from '../models';
+import { TargetPriceSource } from '../models/quotation/target-price-source.enum';
+import { MaterialValidation } from '../models/table';
+import { VALIDATION_CODE } from '../models/table/customer-validation-info.enum';
+import { ValidationDescription } from '../models/table/validation-description.enum';
+import { Severity, ValidatedDetail } from '../services/rest/material/models';
 import * as miscUtils from './misc.utils';
 
 describe('MiscUtils', () => {
@@ -482,6 +487,139 @@ describe('MiscUtils', () => {
     test('should return the next lower possible multiple', () => {
       expect(miscUtils.getNextLowerPossibleMultiple(101, 50)).toBe(100);
       expect(miscUtils.getNextLowerPossibleMultiple(100, 50)).toBe(100);
+    });
+  });
+
+  describe('mapToAddDetailsValidationRequest', () => {
+    test('create AddDetailsValidationRequest', () => {
+      const customer = { customerId: '12345', salesOrg: '0615' };
+      const tableData = [
+        {
+          id: 1,
+          materialNumber: '1234',
+          materialDescription: 'matDESC',
+          customerMaterialNumber: '1234_customer',
+          quantity: 20,
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
+          },
+        },
+      ];
+      const expected = {
+        customerId: customer,
+        details: [
+          {
+            id: 1,
+            data: {
+              materialNumber15: '1234',
+              customerMaterial: '1234_customer',
+              quantity: 20,
+            },
+          },
+        ],
+      };
+      const result = miscUtils.mapToAddDetailsValidationRequest(
+        customer,
+        tableData
+      );
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('mapValidatedDetailToMaterialValidation', () => {
+    test('map ValidatedDetail to MaterialValidation', () => {
+      const validatedDetail = {
+        id: 1,
+        userInput: {
+          materialNumber15: 'MatNummer',
+          quantity: 4,
+          customerMaterial: 'CustMatNummer',
+        },
+        materialData: {
+          materialNumber15: 'MatNummer',
+          materialDescription: 'MatDesc',
+          materialPriceUnit: 1,
+          materialUoM: 'PC',
+        },
+        customerData: {
+          correctedQuantity: 7,
+          customerMaterial: 'CustMatNummer',
+          deliveryUnit: 5,
+        },
+        valid: true,
+        validationCodes: [
+          {
+            code: VALIDATION_CODE.QDV001,
+            description: 'quantatiy updated',
+            severity: Severity.INFO,
+          },
+        ],
+      } as ValidatedDetail;
+      const expected = {
+        id: 1,
+        valid: true,
+        materialNumber15: 'MatNummer',
+        customerMaterial: 'CustMatNummer',
+        correctedQuantity: 7,
+        materialDescription: 'MatDesc',
+        materialPriceUnit: 1,
+        materialUoM: 'PC',
+        validationCodes: [
+          {
+            code: VALIDATION_CODE.QDV001,
+            description: 'quantatiy updated',
+            severity: Severity.INFO,
+          },
+        ],
+      } as MaterialValidation;
+      const result =
+        miscUtils.mapValidatedDetailToMaterialValidation(validatedDetail);
+      expect(result).toEqual(expected);
+    });
+  });
+  describe('getTargetPriceSourceValue', () => {
+    test('should return Internal when targetPrice is set', () => {
+      const result = miscUtils.getTargetPriceSourceValue(
+        '1',
+        true,
+        TargetPriceSource.NO_ENTRY
+      );
+      expect(result).toEqual(TargetPriceSource.INTERNAL);
+    });
+
+    test('should still return Customer when already been set', () => {
+      const result = miscUtils.getTargetPriceSourceValue(
+        '1',
+        true,
+        TargetPriceSource.CUSTOMER
+      );
+      expect(result).toEqual(TargetPriceSource.CUSTOMER);
+    });
+
+    test('should return No_Entry when target Price is not set', () => {
+      const result = miscUtils.getTargetPriceSourceValue(
+        '',
+        true,
+        TargetPriceSource.INTERNAL
+      );
+      expect(result).toEqual(TargetPriceSource.NO_ENTRY);
+    });
+  });
+  describe('getTargetPriceValue', () => {
+    test('should return null when TargetPriceSOurce is net To no_Entry', () => {
+      const result = miscUtils.getTargetPriceValue(
+        TargetPriceSource.NO_ENTRY,
+        null
+      );
+      expect(result).toBeNull();
+    });
+    test('should return targetPriceValue when TargetPriceSource is not no_Entry', () => {
+      const result = miscUtils.getTargetPriceValue(
+        TargetPriceSource.INTERNAL,
+        100
+      );
+      expect(result).toBe(100);
     });
   });
 });

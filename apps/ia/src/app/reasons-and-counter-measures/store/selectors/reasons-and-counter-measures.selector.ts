@@ -7,7 +7,6 @@ import {
   selectReasonsAndCounterMeasuresState,
 } from '..';
 import * as utils from './reasons-and-counter-measures.selector.utils';
-import { getPercentageValue } from './reasons-and-counter-measures.selector.utils';
 
 export const getCurrentTab = createSelector(
   selectReasonsAndCounterMeasuresState,
@@ -100,10 +99,6 @@ export const getConductedInterviewsInfo = createSelector(
     data
       ? {
           conducted: data.conductedInterviews,
-          percentage: getPercentageValue(
-            data.conductedInterviews,
-            data.totalInterviews
-          ),
         }
       : undefined
 );
@@ -169,7 +164,7 @@ export const getComparedReasonsChildren = createSelector(
           ? utils.filterTopReasons(data.reasons)
           : data.reasons;
 
-      return data ? utils.mapReasonsToChildren(reasons) : [];
+      return data?.reasons ? utils.mapReasonsToChildren(reasons) : [];
     } else {
       return [];
     }
@@ -182,10 +177,6 @@ export const getComparedConductedInterviewsInfo = createSelector(
     data
       ? {
           conducted: data.conductedInterviews,
-          percentage: getPercentageValue(
-            data.conductedInterviews,
-            data.totalInterviews
-          ),
         }
       : undefined
 );

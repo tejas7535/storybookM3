@@ -1,4 +1,6 @@
-import { SAP_ERROR_MESSAGE_CODE } from '../quotation-detail';
+import { Severity } from '@gq/shared/services/rest/material/models/add-details-validation-response.interface';
+
+import { VALIDATION_CODE } from './customer-validation-info.enum';
 import { ValidationDescription } from './validation-description.enum';
 
 export class MaterialTableItem {
@@ -15,6 +17,7 @@ export class MaterialTableItem {
   info?: {
     valid: boolean;
     description: ValidationDescription[];
-    errorCodes?: SAP_ERROR_MESSAGE_CODE[];
+    codes?: VALIDATION_CODE[];
+    severity?: Severity;
   };
 }

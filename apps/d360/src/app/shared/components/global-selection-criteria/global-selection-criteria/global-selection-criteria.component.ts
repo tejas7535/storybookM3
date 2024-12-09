@@ -27,7 +27,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AlertCategory } from '../../../../feature/alerts/model';
 import { GlobalSelectionHelperService } from '../../../../feature/global-selection/global-selection.service';
-import { materialClassifications } from '../../../../feature/material-customer/model';
+import { materialClassificationOptions } from '../../../../feature/material-customer/model';
 import { SelectableOptionsService } from '../../../services/selectable-options.service';
 import { SnackbarService } from '../../../utils/service/snackbar.service';
 import { SelectableValue } from '../../inputs/autocomplete/selectable-values.utils';
@@ -167,7 +167,7 @@ export class GlobalSelectionCriteriaComponent implements OnInit {
    * @memberof GlobalSelectionCriteriaComponent
    */
   public materialClassifications: SelectableValue[] =
-    materialClassifications.map((id) => ({ id, text: id }));
+    materialClassificationOptions.map((id) => ({ id, text: id }));
 
   /**
    * The current loaded count

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 
 import { catchError, filter, map, mergeMap, of, switchMap } from 'rxjs';
 
@@ -47,6 +47,7 @@ export class AttritionAnalyticsEffects {
   loadAvailableClusters$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadAvailableClusters),
+      filter(() => isDevMode()),
       concatLatestFrom(() => this.store.select(getCurrentFilters)),
       map(([_action, request]) => request),
       filter((request) => !!(request.timeRange && request.value)),

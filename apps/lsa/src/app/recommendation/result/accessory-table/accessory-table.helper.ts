@@ -30,7 +30,7 @@ export function transformAccessories(
     const classId = items[0].class_id;
     const keyFromMap = priorityLookup.get(classId);
     tableGroups[key] = {
-      groupTitle: key,
+      groupTitle: toCamelCase(key),
       groupClassId: classId,
       groupClassPriority: keyFromMap || 0,
       items,
@@ -56,4 +56,17 @@ export function generateFormGroup(
   }
 
   return new FormGroup(newFormGroup);
+}
+
+export function toCamelCase(str: string): string {
+  return str
+    .split(/[\s-_]+/) // Split by spaces, hyphens, or underscores
+    .map((word, index) => {
+      if (index === 0) {
+        return word.toLowerCase();
+      }
+
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join('');
 }

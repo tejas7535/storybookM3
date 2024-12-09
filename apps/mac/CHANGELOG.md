@@ -1,4 +1,20 @@
 # Release Notes of Material App Center
+## [1.26.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.25.0...mac-v1.26.0) (2024-11-22)
+
+
+### Features
+
+* **mac:** add MaterialsGPT preview - UFTABI-8256 ([#6729](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6729)) ([50551f8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/50551f8ba439f8037ff9b9078d696b83bb93ae08))
+* **mac:** add new co2information in steel dialog ([#6716](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6716)) (UFTABI-8061) ([569698f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/569698f59de9327f66f1c614a935fd1438c264dc))
+* **mac:** adjust matgpt learn more text and icon ([#6745](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6745)) ([70264b9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/70264b942d4e505bb39a6ce659015cf092383035))
+
+
+### Bug Fixes
+
+* **mac): update image for green steel classification (#6681) fix(mac:** update css for icons for quickfilter ([6a478f2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6a478f2c0a531b5d418f84c6aee48ef34911dfa1)), closes [#6681](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6681)
+* **mac:** add release restrictions back to dialog ([#6738](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6738)) ([c083f24](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c083f2468782baf41d3846e9a5d66f87c9006f78))
+* **mac:** replace s-connect links on overview page (UFTABI-8086) ([#6698](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6698)) ([270c1d1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/270c1d1d2c55ea39258d1e19a0e7e677eb221bf6))
+
 ## [1.25.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.24.0...mac-v1.25.0) (2024-10-25)
 
 

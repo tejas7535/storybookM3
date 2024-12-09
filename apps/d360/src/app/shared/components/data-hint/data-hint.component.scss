@@ -2,6 +2,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  margin: auto;
 }
 
 .hint-card {
@@ -10,5 +11,5 @@
 }
 
 .hint {
-  color: #999; /* Replace with your light grey color */
+  @apply text-medium-emphasis;
 }

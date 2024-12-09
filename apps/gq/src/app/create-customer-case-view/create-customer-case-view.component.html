@@ -1,0 +1,104 @@
+<div
+  *transloco="let t; read: 'createCustomerCaseView'"
+  class="flex w-full flex-col h-full transition-opacity"
+  [ngClass]="animationType === 'fade-in' ? 'animate-fadeIn' : 'animate-fadeOut'"
+>
+  <schaeffler-subheader
+    class="pt-5"
+    [showBackButton]="true"
+    (backButtonClicked)="backToCaseOverView()"
+  >
+    <ng-container subheaderTitleContent>
+      <div class="flex flex-col justify-center">
+        <h6 class="leading-6">{{ t('title') }}</h6>
+      </div>
+    </ng-container>
+  </schaeffler-subheader>
+
+  <div class="flex overflow-auto flex-1 w-full px-4 py-4">
+    <div
+      class="h-full flex flex-col gap-2 lg:gap-4 transition-[width] duration-300 ease-in-out"
+      [ngClass]="{
+        'w-[40%]': displayHeader,
+        'w-[5%]': !displayHeader
+      }"
+    >
+      <div class="flex flex-row justify-between items-center">
+        <div class="flex flex-row justify-start items-center gap-2">
+          <mat-icon class="text-medium-emphasis">article</mat-icon>
+          @if (displayHeader) {
+            <span class="text-high-emphasis gq-text-5">
+              {{ t('headerInformation') }}
+            </span>
+          }
+        </div>
+        <button
+          class="text-medium-emphasis flex items-center"
+          (click)="toggleHeader()"
+        >
+          <mat-icon class="text-medium-emphasis">{{
+            displayHeader ? 'arrow_back' : 'arrow_forward'
+          }}</mat-icon>
+        </button>
+      </div>
+      <div
+        class="overflow-y-auto h-full pr-4"
+        [ngClass]="{ hidden: !displayHeader }"
+      >
+        <gq-create-case-header-information
+          class="pr-4"
+          (hasChanges)="handleHeaderInformationHasChanges($event)"
+          (isValid)="handleHeaderInformationIsValid($event)"
+          (data)="handleHeaderInformationData($event)"
+        ></gq-create-case-header-information>
+      </div>
+    </div>
+
+    <div class="vertical-divider mx-4 w-px h-full bg-selected-overlay"></div>
+    <div class="w-full h-full flex flex-col pl-4 gap-2 lg:gap-4">
+      <div class="flex flex-row justify-between">
+        <div class="flex flex-row justify-start items-center gap-2">
+          <img src="assets/png/bearing.png" width="24" height="24" />
+          <span class="gq-text-5">
+            {{ t('positionFilter') }}
+          </span>
+        </div>
+        <div class="flex items-center">
+          <span class="text-medium-emphasis text-caption">{{
+            t('mandatoryField')
+          }}</span>
+        </div>
+      </div>
+      <div class="overflow-y-auto h-full flex flex-col pr-4 gap-4">
+        <gq-material-selection class="pt-2"></gq-material-selection>
+
+        <span class="text-medium-emphasis pt-2">
+          {{ t('additionalFilter') }}</span
+        >
+        <gq-additional-filters></gq-additional-filters>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer px-4 py-4">
+    <button
+      class="!pl-4 !pr-4"
+      mat-raised-button
+      [disabled]="createCaseButtonDisabled$ | ngrxPush"
+      (click)="createCase()"
+      color="primary"
+    >
+      <span class="font-medium">
+        {{ t('createCase') }}
+      </span>
+    </button>
+    <button
+      color="primary"
+      class="!ml-4 text-button font-medium"
+      mat-stroked-button
+      (click)="backToCaseOverView()"
+    >
+      {{ t('cancelButton') | uppercase }}
+    </button>
+  </div>
+</div>

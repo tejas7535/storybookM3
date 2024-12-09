@@ -1,0 +1,17 @@
+<ng-container *transloco="let t; read: 'shared.caseMaterial.addEntry'">
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>{{ t('targetPriceSource.label') }}</mat-label>
+    <mat-select
+      #valueInput
+      [formControl]="targetPriceSourceFormControl"
+      (selectionChange)="selectionChange($event)"
+      [attr.data-cy]="'target-price-source-select'"
+    >
+      @for (source of targetPriceSources; track $index) {
+        <mat-option [value]="source">{{
+          t('targetPriceSource.values.' + source)
+        }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field></ng-container
+>

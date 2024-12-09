@@ -102,6 +102,7 @@ export class EditCaseHeaderInformationComponent
   shipToParty$: Observable<CaseFilterItem> =
     this.autocomplete.shipToCustomerForEditCase$;
   isEditMode = true;
+  quotationToChangedByUser = false;
 
   private userHasOfferTypeAccess = false;
 

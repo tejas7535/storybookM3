@@ -7,6 +7,7 @@ export const MATERIAL_TABLE_ITEM_MOCK: MaterialTableItem = {
   id: 1,
   materialDescription: 'matDesc',
   materialNumber: 'matNumber',
+  customerMaterialNumber: 'customerMatNumber',
   quantity: 1,
   targetPrice: 10,
   info: {

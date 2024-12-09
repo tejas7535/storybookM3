@@ -1,3 +1,8 @@
 :host {
   display: block;
 }
+
+.divider {
+  height: 48px;
+  border-right: 1px solid var(--outline-variant-color);
+}

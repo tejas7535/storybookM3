@@ -2,7 +2,7 @@ import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { AbcxClassification } from '@gq/shared/models/quotation';
 import { TargetPriceSource } from '@gq/shared/models/quotation/target-price-source.enum';
 
-import { SimulatedQuotation } from '../../../app/shared/models';
+import { SapSyncError, SimulatedQuotation } from '../../../app/shared/models';
 import {
   LastCustomerPriceCondition,
   MaterialDetails,
@@ -99,7 +99,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   strategicMaterial: 'Y-PT',
   sapVolumeScale: 0.5,
   deliveryUnit: 1,
-  sapSyncErrorCode: SAP_ERROR_MESSAGE_CODE.SDG1000,
+  sapSyncErrorCode: { code: SAP_ERROR_MESSAGE_CODE.SDG1000 } as SapSyncError,
   sapPriceUnit: 1,
   leadingPriceUnit: 1,
 };

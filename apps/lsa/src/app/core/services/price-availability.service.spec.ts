@@ -44,6 +44,15 @@ describe('PriceAvailabilityService', () => {
           bundle: [
             {
               pim_code: '123',
+              qty: 5,
+            } as Partial<Accessory> as Accessory,
+            {
+              pim_code: '555',
+              qty: 0,
+            } as Partial<Accessory> as Accessory,
+            {
+              pim_code: '666',
+              qty: 0,
             } as Partial<Accessory> as Accessory,
           ],
         } as Partial<Lubricator> as Lubricator,
@@ -51,9 +60,15 @@ describe('PriceAvailabilityService', () => {
           bundle: [
             {
               pim_code: '123',
+              qty: 5,
             } as Partial<Accessory> as Accessory,
             {
               pim_code: '456',
+              qty: 1,
+            } as Partial<Accessory> as Accessory,
+            {
+              pim_code: '666',
+              qty: 0,
             } as Partial<Accessory> as Accessory,
           ],
         } as Partial<Lubricator> as Lubricator,
@@ -71,7 +86,7 @@ describe('PriceAvailabilityService', () => {
       expect(handleRecommendationResponseSpy).toHaveBeenCalledWith(response);
     });
 
-    it('should handle price and availability request with unique values', () => {
+    it('should handle price and availability request with unique values for accessories with quantity', () => {
       const fetchPriceAndAvailabilitySpy = jest.spyOn(
         service as any,
         'fetchPriceAndAvailability'
@@ -80,6 +95,17 @@ describe('PriceAvailabilityService', () => {
       recommendation$.next(response);
 
       expect(fetchPriceAndAvailabilitySpy).toHaveBeenCalledWith(['123', '456']);
+    });
+
+    it('should handle price and availability request with unique values for accessories without quantity', () => {
+      const fetchPriceAndAvailabilitySpy = jest.spyOn(
+        service as any,
+        'fetchPriceAndAvailability'
+      );
+
+      recommendation$.next(response);
+
+      expect(fetchPriceAndAvailabilitySpy).toHaveBeenCalledWith(['555', '666']);
     });
 
     it('should fetch price and availability', (done) => {

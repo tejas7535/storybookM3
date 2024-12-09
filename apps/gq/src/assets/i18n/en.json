@@ -178,20 +178,18 @@
           "action": "instruction video"
         },
         "quantity": {
-          "error": "Invalid Quantity",
+          "error": "Enter valid Quantity",
           "errorDeliveryUnit": "Consider Delivery Unit {{unit}} {{uom}}",
           "hint": "Delivery Unit {{unit}} {{uom}}",
-          "hintOld": "Enter a Quantity",
+          "hintOld": "Enter Quantity",
           "label": "Quantity*"
         },
         "targetPrice": {
           "label": "Target Price",
-          "hint": "Enter a Target Price",
-          "error": "Invalid Target Price"
+          "error": "Enter valid Target Price"
         },
         "targetPriceSource": {
           "label": "Target Price Source",
-          "hint": "Select a Target Price Source",
           "values": {
             "noEntry": "No Entry",
             "CUSTOMER": "Customer",
@@ -199,34 +197,34 @@
           }
         },
         "customer": {
-          "hint": "Enter a Customer Number or a Customer Name",
+          "hint": "Enter Customer Number or Customer Name",
           "label": "Customer*",
           "nothingFound": "Nothing found",
-          "wrongInput": "Please enter a valid customer name or customer number"
+          "wrongInput": "Enter valid Customer Number or Customer Name"
         },
         "materialNumber": {
-          "hint": "Enter a 15-digit Material Number",
+          "hint": "Enter 15-digit Material Number",
           "label": "Material Number*",
           "nothingFound": "Nothing found",
-          "wrongInput": "Please enter a valid Material Number"
+          "wrongInput": "Enter valid Material Number"
         },
         "materialDescription": {
-          "hint": "Enter a Material Description",
+          "hint": "Enter Material Description",
           "label": "Material Description*",
           "nothingFound": "Nothing found",
-          "wrongInput": "Please enter a valid Material Description"
+          "wrongInput": "Enter valid Material Description"
         },
         "sap-quotation": {
-          "hint": "Please enter the SAP Number of the quote you want to add",
+          "hint": "Enter SAP Number of the quote to be imported",
           "label": "Quotation Number",
           "nothingFound": "Nothing found",
-          "wrongInput": "Please enter a valid quotation number"
+          "wrongInput": "Enter valid SAP Number"
         },
         "customerMaterial": {
-          "hint": "Enter a Customer Material Number",
+          "hint": "Enter Customer Material Number",
           "label": "Customer Material Number",
           "nothingFound": "Nothing found",
-          "wrongInput": "Please enter a valid Customer Material Number"
+          "wrongInput": "Enter valid Customer Material Number"
         },
         "button": "Add entry",
         "deleteInvalid": {
@@ -244,6 +242,10 @@
             "quantityInValid": "The Quantity is invalid",
             "valid": "Material is valid",
             "validationFailure": "Validation failed, try again"
+          },
+          "customerValidation": {
+            "QDV001": "Quantity adjusted per Delivery Unit",
+            "QDV002": "Several Customer Materials available"
           }
         },
         "materialDescription": "Material Description",
@@ -272,6 +274,7 @@
         "SDG101": "Material is not available in Sales Org / Distr. Channel",
         "SDG102": "Material has status T (dead) and is not available for sale",
         "SDG103": "Material is blocked due to customer protection",
+        "SDG104": "Material with status L: Type discontinued, check sales availability",
         "SDG999": "Error on deleting the detail from SAP",
         "SDG1000": "Error syncing with SAP",
         "DISCONTINUED": "Material with status L: Type discontinued, check sales availability"
@@ -507,7 +510,7 @@
       "cancel": "Cancel",
       "update": "Update",
       "quantity": {
-        "error": "Invalid Quantity",
+        "error": "Enter valid Quantity",
         "errorDeliveryUnit": "Consider Delivery Unit {{unit}} {{uom}}",
         "hintOld": "Enter a Quantity",
         "hint": "Delivery Unit {{unit}} {{uom}}",
@@ -516,7 +519,7 @@
       "targetPrice": {
         "label": "Target Price",
         "hint": "Enter a Target Price",
-        "error": "Invalid Target Price"
+        "error": "Enter valid Target Price"
       }
     },
     "caseHeaderInformation": {
@@ -536,7 +539,7 @@
       "customerInquiryDateLabel": "Inquiry Date",
       "bindingPeriodValidityEndDateLabel": "Valid to",
       "dateBeforeTodayValidationMessage": "Select Date in the future.",
-      "smallerThanInquiryDateValidationMessage": "Date must be equal to or greater than Inquiry Date.",
+      "smallerThanInquiryDateValidationMessage": "Select inquiry date or future date.",
       "requiredFieldValidationMessage": "{{field}} required",
       "dateInFutureValidationMessage": "{date,select, today{Select today or past date.} caseCreation{Select date up to and including 'Case Created On'.} other{Select today or past date.}}",
       "dateInPastValidationMessage": "{date,select, today{Select today or future date.} caseCreation{ Select date from and including 'Case Created On'.} other{Select today or future date.}}",

@@ -1,37 +1,26 @@
 <div
   *transloco="let t"
-  class="material-list-wrapper"
-  [ngClass]="{
-    flex: true,
-    'flex-col': true,
-    'overflow-visible': visible,
-    'overflow-hidden': !visible,
-    'mr-2.5': true
-  }"
-  [ngStyle]="{
-    'flex-basis': visible ? '730px' : '0%',
-    'border-right': visible ? '3px solid #e2e2e2' : '',
-    transition: 'all 0.25s ease-in-out',
-    'will-change': 'width'
-  }"
+  class="material-list-wrapper flex flex-col h-full mr-2.5"
+  [class.overflow-visible]="visible()"
+  [class.overflow-hidden]="!visible()"
+  [class.open]="visible()"
 >
   <d360-table-toolbar
     [grid]="gridApi"
-    [rowCount]="rowCount"
+    [rowCount]="rowCount()"
+    [renderFloatingFilter]="false"
   ></d360-table-toolbar>
-  <d360-styled-grid-section>
-    <ag-grid-angular
-      #demandValidationMaterialListTable
-      class="ag-theme-material"
-      [gridOptions]="gridOptions"
-      (gridReady)="onGridReady($event)"
-      (cellClicked)="onCellClicked($event)"
-      [getRowId]="getRowId"
-      [defaultColDef]="defaultColDef"
-      [columnDefs]="columnDefs"
-      rowModelType="serverSide"
-      [tooltipShowDelay]="0"
-      [localeText]="agGridLocalizationService.lang()"
-    ></ag-grid-angular>
-  </d360-styled-grid-section>
+  <ag-grid-angular
+    #demandValidationMaterialListTable
+    class="ag-theme-material grow h-full"
+    [gridOptions]="gridOptions"
+    (gridReady)="onGridReady($event)"
+    (cellClicked)="onCellClicked($event)"
+    [getRowId]="getRowId"
+    [defaultColDef]="defaultColDef"
+    [columnDefs]="columnDefs"
+    rowModelType="serverSide"
+    [tooltipShowDelay]="0"
+    [localeText]="agGridLocalizationService.lang()"
+  ></ag-grid-angular>
 </div>

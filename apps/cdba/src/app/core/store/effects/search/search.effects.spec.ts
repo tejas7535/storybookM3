@@ -1,3 +1,4 @@
+import { HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { of, throwError } from 'rxjs';
@@ -15,6 +16,7 @@ import { marbles } from 'rxjs-marbles/jest';
 
 import { StringOption } from '@schaeffler/inputs';
 
+import { BOM_EXPORT_LOADING_TIMEOUT } from '@cdba/shared/constants/table';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import { REFERENCE_TYPE_MOCK } from '@cdba/testing/mocks';
 
@@ -409,6 +411,7 @@ describe('Search Effects', () => {
         const expected = m.cold('-b', { b: result });
 
         m.expect(effects.resetPaginationState$).toBeObservable(expected);
+        m.flush();
       })
     );
   });
@@ -418,31 +421,31 @@ describe('Search Effects', () => {
       action = exportBoms({
         identifiers: [new ReferenceTypeIdentifier('123', '123')],
       });
-
-      global.URL.createObjectURL = jest.fn();
     });
     it(
       'should dispatch exportBomsSuccess when REST call is successful',
       marbles((m) => {
-        const expected = exportBomsSuccess();
-
         const exportBomsSpy = jest.spyOn(searchService, 'exportBoms');
         exportBomsSpy.mockReturnValue(
-          of({ filename: '', content: new Blob(['']) })
+          of(new HttpResponse<void>({ status: HttpStatusCode.Created }))
         );
 
         actions$ = m.hot('-a', { a: action });
 
         const result = effects.exportBoms$;
 
-        m.expect(result).toBeObservable('-c', { c: expected });
+        m.expect(result).toBeObservable(
+          `-${'-'.repeat(BOM_EXPORT_LOADING_TIMEOUT)}b`,
+          { b: exportBomsSuccess() }
+        );
+        m.flush();
+        expect(searchService.exportBoms).toHaveBeenCalled();
       })
     );
+
     it(
       'should dispatch exportBomsFailure on REST error',
       marbles((m) => {
-        const expected = exportBomsFailure({ errorMessage });
-
         const exportBomsSpy = jest.spyOn(searchService, 'exportBoms');
         exportBomsSpy.mockReturnValue(
           throwError(() => new Error(errorMessage))
@@ -452,7 +455,10 @@ describe('Search Effects', () => {
 
         const result = effects.exportBoms$;
 
-        m.expect(result).toBeObservable('-c', { c: expected });
+        m.expect(result).toBeObservable('-b', {
+          b: exportBomsFailure({ errorMessage }),
+        });
+        m.flush();
       })
     );
   });

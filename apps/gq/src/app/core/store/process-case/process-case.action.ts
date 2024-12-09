@@ -16,6 +16,7 @@ export const ProcessCaseActions = createActionGroup({
     'Validate Material Table Items Failure': props<{ errorMessage: string }>(),
     'Validate Material Table Items Success': props<{
       materialValidations: MaterialValidation[];
+      isNewCaseCreation: boolean;
     }>(),
   },
 });

@@ -1,8 +1,10 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockComponent } from 'ng-mocks';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 
-import { SingleAutocompleteOnTypeComponent } from '../../shared/components/inputs/autocomplete/single-autocomplete-on-type/single-autocomplete-on-type.component';
-import { SingleAutocompletePreLoadedComponent } from '../../shared/components/inputs/autocomplete/single-autocomplete-pre-loaded/single-autocomplete-pre-loaded.component';
+import { SelectableOptionsService } from '../../shared/services/selectable-options.service';
 import { TestPageComponent } from './test-page.component';
 
 describe('TestPageComponent', () => {
@@ -10,10 +12,7 @@ describe('TestPageComponent', () => {
 
   const createComponent = createComponentFactory({
     component: TestPageComponent,
-    imports: [
-      MockComponent(SingleAutocompletePreLoadedComponent),
-      MockComponent(SingleAutocompleteOnTypeComponent),
-    ],
+    providers: [mockProvider(SelectableOptionsService)],
   });
 
   beforeEach(() => {

@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, delay, map, mergeMap, tap } from 'rxjs/operators';
 
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { saveAs } from 'file-saver';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
+import { BOM_EXPORT_LOADING_TIMEOUT } from '@cdba/shared/constants/table';
 
 import { SearchService } from '../../../../search/services/search.service';
 import {
@@ -38,7 +38,7 @@ import {
 } from '../../selectors';
 
 /**
- * Effect class for all tagging related actions which trigger side effects
+ * Effects class for all tagging related actions which trigger side effects
  */
 @Injectable()
 export class SearchEffects {
@@ -156,13 +156,17 @@ export class SearchEffects {
       map((action) => action.identifiers),
       mergeMap((referenceTypeIdentifiers) =>
         this.searchService.exportBoms(referenceTypeIdentifiers).pipe(
-          map((result: { filename: string; content: Blob }) => {
-            saveAs(result.content, result.filename);
-
-            return exportBomsSuccess();
-          }),
+          mergeMap(() =>
+            // BOM export invokes async logic in the BE
+            // delay is needed for UI to draw the loading overlay
+            of(exportBomsSuccess()).pipe(delay(BOM_EXPORT_LOADING_TIMEOUT))
+          ),
           catchError((error: HttpErrorResponse) =>
-            of(exportBomsFailure({ errorMessage: error.message }))
+            of(
+              exportBomsFailure({
+                errorMessage: error.message,
+              })
+            )
           )
         )
       )

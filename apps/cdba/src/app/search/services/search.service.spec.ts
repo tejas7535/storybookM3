@@ -1,4 +1,8 @@
-import { HttpParams, provideHttpClient } from '@angular/common/http';
+import {
+  HttpParams,
+  HttpStatusCode,
+  provideHttpClient,
+} from '@angular/common/http';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -117,38 +121,14 @@ describe('SearchService', () => {
     it('should get exported boms', () => {
       const identifiers = [new ReferenceTypeIdentifier('123', '123')];
 
-      const mockedResponse = {
-        filename: 'CDBA-Bills-of-Materials.xlsx',
-        content: new Blob([''], {
-          type: 'application/octet-stream',
-        }),
-      };
-
       service.exportBoms(identifiers).subscribe((response) => {
-        expect(response.content instanceof Blob).toBeTruthy();
-        expect(response.filename).toBe('CDBA-Bills-of-Materials.xlsx');
+        expect(response).toBeTruthy();
+        expect(response.status).toBe(HttpStatusCode.Created);
       });
 
       const req = httpMock.expectOne('api/v1/bom/export');
-      expect(req.request.headers.get('Accept')).toBe(
-        'application/octet-stream'
-      );
       expect(req.request.method).toBe('POST');
-      req.flush(mockedResponse.content, {
-        headers: {
-          'Content-Disposition':
-            'attachment; filename="CDBA-Bills-of-Materials.xlsx"',
-        },
-      });
-    });
-
-    it('should get filename from content-disposition header', () => {
-      const input = 'attachements; filename=CDBA-Bills-of-Materials.xlsx';
-      const expected = 'CDBA-Bills-of-Materials.xlsx';
-
-      const result = service['getFileName'](input);
-
-      expect(result).toEqual(expected);
+      req.flush({ status: HttpStatusCode.Created });
     });
   });
 });

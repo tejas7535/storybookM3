@@ -1,5 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
+import { DestroyRef, inject, Injectable } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { catchError, map, Observable, of, Subject } from 'rxjs';
 
@@ -8,9 +9,17 @@ import {
   IServerSideDatasource,
   IServerSideGetRowsParams,
 } from 'ag-grid-community';
-import { formatISO } from 'date-fns';
+import { format, formatISO } from 'date-fns';
 
-import { errorsFromSAPtoMessage } from '../../shared/utils/error-handling';
+import { AUTO_CONFIGURE_APPLICATION_JSON_HEADER } from '../../shared/interceptors/headers.interceptor';
+import {
+  errorsFromSAPtoMessage,
+  PostResult,
+  ResultMessage,
+} from '../../shared/utils/error-handling';
+import { getErrorMessage } from '../../shared/utils/errors';
+import { strictlyParseLocalFloat } from '../../shared/utils/number';
+import { ValidationHelper } from '../../shared/utils/validation/validation-helper';
 import { GlobalSelectionCriteriaFilters } from '../global-selection/model';
 import { DemandValidationStringFilter } from './demand-validation-filters';
 import {
@@ -18,15 +27,16 @@ import {
   DeleteKpiDataRequest,
   DeleteKpiDataResponse,
   DemandMaterialCustomerRequest,
+  DemandValidationBatch,
+  DemandValidationBatchResponse,
   ForecastInfo,
   KpiBucket,
+  KpiBucketType,
   KpiData,
   KpiDataRequest,
   KpiDateRanges,
   MaterialListEntry,
   MaterialType,
-  ValidatedDemandBatchErrorMessages,
-  ValidatedDemandBatchResult,
   WriteKpiData,
   WriteKpiDataResponse,
 } from './model';
@@ -47,13 +57,17 @@ export class DemandValidationService {
   }>();
   private readonly fetchErrorEvent = new Subject<any>();
 
-  constructor(private readonly http: HttpClient) {}
+  private readonly http = inject(HttpClient);
+  private readonly destroyRef = inject(DestroyRef);
 
-  getDataFetchedEvent(): Observable<{ rowData: any[]; rowCount: number }> {
+  public getDataFetchedEvent(): Observable<{
+    rowData: any[];
+    rowCount: number;
+  }> {
     return this.dataFetchedEvent.asObservable();
   }
 
-  getFetchErrorEvent(): Observable<any> {
+  public getFetchErrorEvent(): Observable<any> {
     return this.fetchErrorEvent.asObservable();
   }
 
@@ -69,13 +83,32 @@ export class DemandValidationService {
     });
   }
 
-  saveValidatedDemandBatch(
-    data: WriteKpiData[],
+  public saveValidatedDemandBatch(
+    data: DemandValidationBatch[],
+    customerNumber: string,
     dryRun: boolean,
     materialType: MaterialType
-  ): Observable<ValidatedDemandBatchResult> {
+  ): Observable<PostResult<DemandValidationBatchResponse>> {
+    const writeKpiData: WriteKpiData[] = data.map((entry) => ({
+      ids: [entry.id],
+      customerNumber,
+      materialNumber: entry.material,
+      kpiEntries: [
+        {
+          fromDate: format(entry.dateString, 'yyyy-MM-dd'),
+          bucketType: (entry.periodType === 'month'
+            ? 'MONTH'
+            : 'WEEK') as KpiBucketType,
+          validatedForecast: strictlyParseLocalFloat(
+            entry.forecast,
+            ValidationHelper.getDecimalSeparatorForActiveLocale()
+          ),
+        },
+      ],
+    }));
+
     const formData = new FormData();
-    const jsonBlob = new Blob([JSON.stringify(data)], {
+    const jsonBlob = new Blob([JSON.stringify(writeKpiData)], {
       type: 'application/json',
     });
     formData.append('data', jsonBlob);
@@ -88,50 +121,57 @@ export class DemandValidationService {
     return this.http
       .patch<WriteKpiDataResponse[]>(this.DEMAND_VALIDATION_API, formData, {
         params,
-        // In order for a multipart to work, the browser needs to automatically deduce the
-        // content type and set the correct header with a boundary, hence we need to turn the autoHeader off.
-        headers: { 'Content-Type': 'multipart/form-data' },
+        context: new HttpContext().set(
+          AUTO_CONFIGURE_APPLICATION_JSON_HEADER,
+          false
+        ),
       })
       .pipe(
-        map((resData) => {
-          const errorMessages: ValidatedDemandBatchErrorMessages = {};
+        map((response) => {
+          const batchResponse: DemandValidationBatchResponse[] = [];
 
-          resData.forEach((entry) => {
+          response.forEach((entry) => {
             if (entry.ids) {
-              const resultMessages = entry.results
-                .map((result) => result.result)
-                .filter((message) => message.messageType !== 'SUCCESS');
-              const deduplicatedResultMessages = resultMessages.filter(
-                (value, index) => {
-                  const _value = JSON.stringify(value);
-
-                  return (
-                    index ===
-                    resultMessages.findIndex(
-                      (obj) => JSON.stringify(obj) === _value
-                    )
-                  );
-                }
+              const messageStrings = entry.results.map((message) =>
+                JSON.stringify(message)
               );
 
+              const deduplicatedMessageStrings = [...new Set(messageStrings)];
+
+              const deduplicatedResultMessages: ResultMessage[] =
+                deduplicatedMessageStrings.map((str) => JSON.parse(str).result);
+
               entry.ids.forEach((id) => {
-                errorMessages[id] =
-                  deduplicatedResultMessages.length > 0
-                    ? deduplicatedResultMessages
-                    : undefined;
+                batchResponse.push({
+                  id,
+                  customerNumber: entry.customerNumber,
+                  materialNumber: entry.materialNumber,
+                  // TODO: Only fill one error message for now, as we can only handle one error message per row
+                  // the entire functionality will be refactored in the future and we get a better allocation from
+                  // error message and the row
+                  result:
+                    deduplicatedResultMessages?.length > 0
+                      ? deduplicatedResultMessages[0]
+                      : null,
+                });
               });
             }
           });
 
-          const savedCount = Object.values(errorMessages).filter(
-            (entry) => entry === undefined || entry.length === 0
-          ).length;
-
           return {
-            savedCount,
-            errorMessages,
-          };
-        })
+            overallStatus: 'SUCCESS',
+            overallErrorMsg: null,
+            response: batchResponse,
+          } as PostResult<DemandValidationBatchResponse>;
+        }),
+        catchError((error) =>
+          of({
+            overallStatus: 'ERROR',
+            overallErrorMsg: getErrorMessage(error),
+            response: [],
+          } as PostResult<DemandValidationBatchResponse>)
+        ),
+        takeUntilDestroyed(this.destroyRef)
       );
   }
 

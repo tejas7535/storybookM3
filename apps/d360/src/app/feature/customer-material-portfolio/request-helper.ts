@@ -1,7 +1,8 @@
 import { translate } from '@jsverse/transloco';
 import { formatISO } from 'date-fns';
+import { isMoment } from 'moment';
 
-import { demandCharacteristics } from '../material-customer/model';
+import { demandCharacteristicOptions } from '../material-customer/model';
 import { CMPData } from './cmp-modal-types';
 import { CMPWriteRequest } from './model';
 
@@ -10,18 +11,21 @@ export function dataToCMPWriteRequest(cmpData: CMPData): CMPWriteRequest {
     throw new Error(translate('error.unknown', {}));
   }
 
-  const autoSwitchDate = cmpData.autoSwitchDate; // TODO check if this is still necessary, cause startDate can't be a string anymore...
-  // typeof cmpData.autoSwitchDate == 'string'
-  //   ? parseDate(cmpData.autoSwitchDate)
-  //   : cmpData.autoSwitchDate;
+  const toDate = (input: any): Date | null =>
+    input
+      ? // eslint-disable-next-line unicorn/no-nested-ternary
+        isMoment(input)
+        ? input.toDate()
+        : null
+      : null;
 
-  const repDate = cmpData.repDate; // TODO check if this is still necessary, cause startDate can't be a string anymore...
-  // typeof cmpData.repDate == 'string' ? parseDate(cmpData.repDate) : cmpData.repDate;
+  const autoSwitchDate = toDate(cmpData.autoSwitchDate);
+  const repDate = toDate(cmpData.repDate);
 
-  // Somtimes SAP sends us empty strings, we want to send null to the backend if that happens
+  // Sometimes SAP sends us empty strings, we want to send null to the backend if that happens
   const demandChar =
     cmpData.demandCharacteristic &&
-    demandCharacteristics.includes(cmpData.demandCharacteristic)
+    demandCharacteristicOptions.includes(cmpData.demandCharacteristic)
       ? cmpData.demandCharacteristic
       : null;
 

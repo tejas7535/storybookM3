@@ -4,17 +4,26 @@ import {
   input,
   InputSignal,
   OnInit,
+  Signal,
   signal,
+  viewChildren,
   WritableSignal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {
+  MatAutocompleteModule,
+  MatOption,
+} from '@angular/material/autocomplete';
 import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+
+import { Observable, of, take, tap } from 'rxjs';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { OptionsLoadingResult } from '../../../../services/selectable-options.service';
+import { isEqual } from '../../../../utils/validation/data-validation';
 import { DisplayFunctions } from '../../display-functions.utils';
 import { AbstractSingleAutocompleteComponent } from '../abstracts/abstract-single-autocomplete/abstract-single-autocomplete.component';
 import {
@@ -93,6 +102,25 @@ export class SingleAutocompletePreLoadedComponent
   >([]);
 
   /**
+   * A temp variable to check, if a result has changes or not.
+   *
+   * @private
+   * @type {OptionsLoadingResult}
+   * @memberof SingleAutocompletePreLoadedComponent
+   */
+  private tempOptionsLoadingResult: OptionsLoadingResult = { options: [] };
+
+  /**
+   * The current available MatOptions.
+   *
+   * @private
+   * @type {Signal<readonly}
+   * @memberof SingleAutocompletePreLoadedComponent
+   */
+  private readonly htmlOptions: Signal<readonly MatOption[]> =
+    viewChildren(MatOption);
+
+  /**
    * Creates an instance of SingleAutocompletePreLoadedComponent.
    *
    * @memberof SingleAutocompletePreLoadedComponent
@@ -102,15 +130,19 @@ export class SingleAutocompletePreLoadedComponent
 
     effect(
       () => {
-        this.filteredOptions.set(
-          this.inputValue()
-            ? this.options().filter((option) =>
-                DisplayFunctions.displayFnUnited(option)
-                  .toLowerCase()
-                  .includes(this.inputValue().toLowerCase())
-              )
-            : this.options()
-        );
+        const newOptions = this.optionsLoadingResult();
+        if (
+          (this.tempOptionsLoadingResult.options.length === 0 &&
+            newOptions.options.length > 0) ||
+          !isEqual(this.tempOptionsLoadingResult.options, newOptions.options)
+        ) {
+          this.tempOptionsLoadingResult = newOptions;
+          this.extractOptions();
+
+          return;
+        }
+
+        this.fixSelectedOption();
       },
       { allowSignalWrites: true }
     );
@@ -121,11 +153,39 @@ export class SingleAutocompletePreLoadedComponent
    * @inheritdoc
    */
   public ngOnInit(): void {
-    this.extractOptions();
-
     this.transformInputToSelectableValue();
-
     super.ngOnInit();
+  }
+
+  /** @inheritdoc */
+  protected onSearchControlChange$(searchString: string): Observable<boolean> {
+    this.filteredOptions.set(
+      searchString
+        ? this.options().filter((option) =>
+            DisplayFunctions.displayFnUnited(option)
+              .toLowerCase()
+              .includes(searchString.toLowerCase())
+          )
+        : this.options()
+    );
+
+    return of(true);
+  }
+
+  /**
+   * This method sets the current MatOption as selected.
+   *
+   * @private
+   * @memberof SingleAutocompletePreLoadedComponent
+   */
+  private fixSelectedOption(): void {
+    this.htmlOptions().forEach(
+      (option: MatOption) =>
+        !!option.value?.id &&
+        !!this.getTypedValue()?.id &&
+        option.value?.id === this.getTypedValue()?.id &&
+        option.select(true)
+    );
   }
 
   /**
@@ -141,6 +201,29 @@ export class SingleAutocompletePreLoadedComponent
     this.options.set(options);
     this.loading.set(loading ?? false);
     this.loadingError.set(loadingError ?? null);
+
+    this.resetOptions();
+  }
+
+  /** @inheritdoc */
+  protected resetOptions(): void {
+    this.onSearchControlChange$('')
+      .pipe(
+        take(1),
+        tap(() => this.fixSelectedOption()),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+  }
+
+  /** @inheritdoc */
+  protected onOptionSelected(): void {
+    if (SelectableValueUtils.isSelectableValue(this.getTypedValue())) {
+      this.onSelectionChange.emit({ option: this.getTypedValue() });
+      this.value = this.getTypedValue();
+
+      this.filteredOptions.set(this.options());
+    }
   }
 
   /**
@@ -150,7 +233,7 @@ export class SingleAutocompletePreLoadedComponent
    * @memberof SingleAutocompletePreLoadedComponent
    */
   private transformInputToSelectableValue(): void {
-    if (typeof this.control().value === 'string') {
+    if (typeof this.control().getRawValue() === 'string') {
       const value = SelectableValueUtils.matchOptionIfPossible(
         this.control().getRawValue(),
         this.options()
@@ -158,6 +241,7 @@ export class SingleAutocompletePreLoadedComponent
 
       if (value) {
         this.control().setValue(value);
+        this.value = this.getTypedValue();
       }
     }
   }

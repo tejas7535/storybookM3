@@ -82,7 +82,7 @@ describe('ReasonsAndCounterMeasures Effects', () => {
       marbles((m) => {
         store.overrideSelector(selectRouterState, {
           state: {
-            url: `/${AppRoutePath.ReasonsAndCounterMeasuresPath}`,
+            url: `/${AppRoutePath.ReasonsForLeavingPath}`,
           },
         } as RouterReducerState<RouterStateUrl>);
         action = filterSelected({
@@ -101,7 +101,7 @@ describe('ReasonsAndCounterMeasures Effects', () => {
       marbles((m) => {
         store.overrideSelector(selectRouterState, {
           state: {
-            url: `/${AppRoutePath.ReasonsAndCounterMeasuresPath}`,
+            url: `/${AppRoutePath.ReasonsForLeavingPath}`,
           },
         } as RouterReducerState<RouterStateUrl>);
         action = timePeriodSelected({
@@ -120,7 +120,7 @@ describe('ReasonsAndCounterMeasures Effects', () => {
       marbles((m) => {
         store.overrideSelector(selectRouterState, {
           state: {
-            url: `/${AppRoutePath.ReasonsAndCounterMeasuresPath}`,
+            url: `/${AppRoutePath.ReasonsForLeavingPath}`,
           },
         } as RouterReducerState<RouterStateUrl>);
         action = loadReasonsWhyPeopleLeft();
@@ -153,7 +153,7 @@ describe('ReasonsAndCounterMeasures Effects', () => {
       marbles((m) => {
         store.overrideSelector(selectRouterState, {
           state: {
-            url: `/${AppRoutePath.ReasonsAndCounterMeasuresPath}`,
+            url: `/${AppRoutePath.ReasonsForLeavingPath}`,
           },
         } as RouterReducerState<RouterStateUrl>);
         action = benchmarkFilterSelected({
@@ -174,7 +174,7 @@ describe('ReasonsAndCounterMeasures Effects', () => {
       marbles((m) => {
         store.overrideSelector(selectRouterState, {
           state: {
-            url: `/${AppRoutePath.ReasonsAndCounterMeasuresPath}`,
+            url: `/${AppRoutePath.ReasonsForLeavingPath}`,
           },
         } as RouterReducerState<RouterStateUrl>);
         action = timePeriodSelected({
@@ -195,7 +195,7 @@ describe('ReasonsAndCounterMeasures Effects', () => {
       marbles((m) => {
         store.overrideSelector(selectRouterState, {
           state: {
-            url: `/${AppRoutePath.ReasonsAndCounterMeasuresPath}`,
+            url: `/${AppRoutePath.ReasonsForLeavingPath}`,
           },
         } as RouterReducerState<RouterStateUrl>);
         action = loadComparedReasonsWhyPeopleLeft();

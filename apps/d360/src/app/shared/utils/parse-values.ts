@@ -8,7 +8,7 @@ import {
 } from '../../feature/internal-material-replacement/model';
 import {
   DemandCharacteristic,
-  demandCharacteristics,
+  demandCharacteristicOptions,
 } from '../../feature/material-customer/model';
 import { ValidationHelper } from './validation/validation-helper';
 
@@ -24,7 +24,7 @@ export function parseDateIfPossible(
     dateStyle: 'medium',
   });
 
-  return parsed ?? dateString;
+  return parsed || dateString;
 }
 
 /**
@@ -52,11 +52,12 @@ export function formatDateToISOString(date: Date | string | null) {
  * @param value The demand characteristic string to parse
  */
 export function parseDemandCharacteristicIfPossible(value: string): string {
-  const localizationKeyCreation = (val: DemandCharacteristic) =>
-    translate(`demand_characterictics.${val}`, {});
+  const localizationKeyCreation = (key: DemandCharacteristic) =>
+    translate(`demand_characteristics.${key}`);
+
   const parsed = parseToStringLiteralTypeIfPossible<DemandCharacteristic>(
     value,
-    demandCharacteristics,
+    demandCharacteristicOptions,
     localizationKeyCreation
   );
 
@@ -134,4 +135,24 @@ export function combineParseFunctionsForFields(
 
     return value;
   };
+}
+
+/**
+ * Parses the demand validation period type if possible, otherwise returns undefined
+ * @param value The demand validation period type string to parse
+ */
+export function parseDemandValidationPeriodTypeIfPossible(
+  value: string
+): string | undefined {
+  const uppercasedInput = value.toUpperCase();
+
+  return (
+    ['month', 'week'].find(
+      (option) =>
+        uppercasedInput ===
+        translate(
+          `validation_of_demand.upload_modal.paste.${option}`
+        ).toUpperCase()
+    ) ?? undefined
+  );
 }

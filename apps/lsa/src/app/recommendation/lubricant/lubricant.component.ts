@@ -3,11 +3,14 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MAT_SELECT_CONFIG } from '@angular/material/select';
 
-import { translate, TranslocoModule } from '@jsverse/transloco';
+import { combineLatest, map, Observable } from 'rxjs';
+
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { InfoTooltipComponent } from '@lsa/shared/components/info-tooltip/info-tooltip.component';
 import { RadioButtonGroupComponent } from '@lsa/shared/components/radio-button-group/radio-button-group.component';
 import { LubricantType } from '@lsa/shared/constants';
 import { Grease, LubricantForm } from '@lsa/shared/models';
+import { PushPipe } from '@ngrx/component';
 
 import { StringOption } from '@schaeffler/inputs';
 import { SelectModule } from '@schaeffler/inputs/select';
@@ -24,6 +27,7 @@ const translatePath = 'recommendation.lubrication';
     ReactiveFormsModule,
     SelectModule,
     InfoTooltipComponent,
+    PushPipe,
   ],
   templateUrl: './lubricant.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,32 +43,40 @@ export class LubricantComponent {
   public lubricantForm: FormGroup<LubricantForm>;
 
   @Input() greases: Grease[];
+  public readonly arcanolType: LubricantType = LubricantType.Arcanol;
 
-  public readonly lubricantRadioOptions: {
-    value: LubricantType;
-    name: string;
-  }[] = [
-    {
-      value: LubricantType.Arcanol,
-      name: translate(
+  constructor(private readonly translocoService: TranslocoService) {}
+
+  public get lubricantRadioOptions(): Observable<
+    { value: LubricantType; name: string }[]
+  > {
+    return combineLatest([
+      this.translocoService.selectTranslate(
         `${translatePath}.options.${LubricantType.Arcanol.toLowerCase()}`
       ),
-    },
-    {
-      value: LubricantType.Grease,
-      name: translate(
+      this.translocoService.selectTranslate(
         `${translatePath}.options.${LubricantType.Grease.toLowerCase()}`
       ),
-    },
-    {
-      value: LubricantType.Oil,
-      name: translate(
+      this.translocoService.selectTranslate(
         `${translatePath}.options.${LubricantType.Oil.toLowerCase()}`
       ),
-    },
-  ];
-
-  public readonly arcanolType: LubricantType = LubricantType.Arcanol;
+    ]).pipe(
+      map(([arcanol, grease, oil]) => [
+        {
+          value: LubricantType.Arcanol,
+          name: arcanol,
+        },
+        {
+          value: LubricantType.Grease,
+          name: grease,
+        },
+        {
+          value: LubricantType.Oil,
+          name: oil,
+        },
+      ])
+    );
+  }
 
   public filterFn = (option?: StringOption, value?: string) => {
     if (!value) {

@@ -1,6 +1,5 @@
 import {
   Component,
-  effect,
   inject,
   input,
   InputSignal,
@@ -14,7 +13,15 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
-import { catchError, finalize, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import {
+  catchError,
+  filter,
+  finalize,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -112,14 +119,14 @@ export class SingleAutocompleteOnTypeComponent
   );
 
   /**
-   * Creates an instance of SingleAutocompleteOnTypeComponent.
+   * The current available options for the last search.
+   * Hint: Important - this options are only set, after the user clicks on an option!
    *
+   * @private
+   * @type {SelectableValue[]}
    * @memberof SingleAutocompleteOnTypeComponent
    */
-  public constructor() {
-    super();
-    effect(() => this.fetchOptions(this.inputValue()));
-  }
+  private options: SelectableValue[] = [];
 
   /**
    * @override
@@ -127,44 +134,71 @@ export class SingleAutocompleteOnTypeComponent
    */
   public ngOnInit(): void {
     if (!SelectableValueUtils.isSelectableValue(this.control().value)) {
-      this.fetchOptions(this.control().value as string, true);
+      this.onSearchControlChange$(this.control().value as string, true)
+        .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+        .subscribe();
     }
 
     super.ngOnInit();
   }
 
-  /**
-   * Fetch the options by a passed search string and set the first found value.
-   *
-   * @private
-   * @param {string} searchString
-   * @param {boolean} [setFormControlValue=false]
-   * @memberof SingleAutocompleteOnTypeComponent
-   */
-  private fetchOptions(
+  /** @inheritdoc */
+  protected onOptionSelected(): void {
+    if (SelectableValueUtils.isSelectableValue(this.control().value)) {
+      this.onSelectionChange.emit({ option: this.getTypedValue() });
+      this.value = this.getTypedValue();
+
+      this.options = this.filteredOptions();
+    }
+  }
+
+  /** @inheritdoc */
+  protected onSearchControlChange$(
     searchString: string,
     setFormControlValue: boolean = false
-  ): void {
-    if (searchString) {
-      this.selectableOptionsService
-        .getOptionsBySearchTerm(this.urlBegin(), searchString)
-        .pipe(
-          catchError((error) => {
-            this.loadingError.set(error);
+  ): Observable<unknown> {
+    return of(searchString).pipe(
+      filter((value) => {
+        if (value && value.length > 1) {
+          return true;
+        }
 
-            return [];
-          }),
-          tap((data) => {
-            this.filteredOptions.set([...(data as SelectableValue[])]);
+        this.filteredOptions.set([]);
 
-            if (setFormControlValue) {
-              this.control().setValue(this.filteredOptions()[0]);
-            }
-          }),
-          finalize(() => this.loading.set(false)),
-          takeUntilDestroyed(this.destroyRef)
+        return false;
+      }),
+      tap(() => this.loading.set(true)),
+      switchMap(() =>
+        this.selectableOptionsService.getOptionsBySearchTerm(
+          this.urlBegin(),
+          searchString
         )
-        .subscribe();
-    }
+      ),
+      catchError((error) => {
+        this.loadingError.set(error);
+
+        return of([]);
+      }),
+      tap((data) => {
+        // if it is not the initial search, we disable the override
+        if (this.first && !setFormControlValue) {
+          this.first = false;
+        }
+
+        this.filteredOptions.set([...(data as SelectableValue[])]);
+
+        if (setFormControlValue) {
+          this.control().setValue(this.filteredOptions()[0]);
+          this.value = this.getTypedValue();
+        }
+      }),
+      finalize(() => this.loading.set(false)),
+      takeUntilDestroyed(this.destroyRef)
+    );
+  }
+
+  /** @inheritdoc */
+  protected resetOptions(): void {
+    this.filteredOptions.set(this.options);
   }
 }

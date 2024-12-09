@@ -5,7 +5,6 @@ import { Router, RouterModule } from '@angular/router';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { AppRoutePath } from '@gq/app-route-path.enum';
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { CreateCaseHeaderInformationComponent } from '@gq/shared/components/case-header-information/create-case-header-information/create-case-header-information.component';
 import { HeaderInformationData } from '@gq/shared/components/case-header-information/models/header-information-data.interface';
@@ -161,16 +160,11 @@ describe('manualCaseViewComponent', () => {
 
   describe('backToCaseOverview', () => {
     test('should navigate to case view', () => {
-      jest.useFakeTimers();
       component.backToCaseOverView();
-      jest.advanceTimersByTime(200);
-      jest.runAllTimers();
-      expect(router.navigate).toHaveBeenCalledWith([AppRoutePath.CaseViewPath]);
+
       expect(
         component['createCaseFacade'].resetCaseCreationInformation
       ).toHaveBeenCalled();
-      jest.clearAllTimers();
-      jest.useRealTimers();
     });
   });
 

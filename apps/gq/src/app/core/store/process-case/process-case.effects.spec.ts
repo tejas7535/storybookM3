@@ -6,10 +6,16 @@ import { Customer } from '@gq/shared/models/customer';
 import {
   MaterialTableItem,
   MaterialValidation,
+  VALIDATION_CODE,
   ValidationDescription,
 } from '@gq/shared/models/table';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { MaterialService } from '@gq/shared/services/rest/material/material.service';
-import { MaterialValidationRequest } from '@gq/shared/services/rest/material/models';
+import {
+  AddDetailsValidationRequest,
+  AddDetailsValidationResponse,
+  Severity,
+} from '@gq/shared/services/rest/material/models';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -40,6 +46,9 @@ describe('ProcessCaseEffects', () => {
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockActions(() => actions$),
       provideMockStore(),
+      MockProvider(FeatureToggleConfigService, {
+        isEnabled: jest.fn().mockReturnValue(false),
+      }),
     ],
   });
 
@@ -71,7 +80,10 @@ describe('ProcessCaseEffects', () => {
   describe('validateMaterialsOnCustomerAndSalesOrg$', () => {
     const tableData: MaterialTableItem[] = [
       {
+        id: 1,
         materialNumber: '1234',
+        materialDescription: 'matDESC',
+        customerMaterialNumber: '1234_customer',
         quantity: 20,
         info: {
           valid: false,
@@ -80,14 +92,23 @@ describe('ProcessCaseEffects', () => {
       },
     ];
 
-    const request: MaterialValidationRequest = {
-      customerId: { customerId: '12345', salesOrg: '0815' },
-      materialNumbers: ['1234'],
+    const request: AddDetailsValidationRequest = {
+      customerId: { customerId: '12345', salesOrg: '0615' },
+      details: [
+        {
+          id: 1,
+          data: {
+            materialNumber15: '1234',
+            customerMaterial: '1234_customer',
+            quantity: 20,
+          },
+        },
+      ],
     };
     beforeEach(() => {
       store.overrideSelector(getAddMaterialRowData, tableData);
       store.overrideSelector(activeCaseFeature.selectCustomer, {
-        identifier: { customerId: '12345', salesOrg: '0815' },
+        identifier: { customerId: '12345', salesOrg: '0615' },
       } as Customer);
     });
 
@@ -96,18 +117,68 @@ describe('ProcessCaseEffects', () => {
       marbles((m) => {
         action = ProcessCaseActions.validateMaterialTableItems();
 
-        effects['materialService'].validateMaterials = jest.fn(() => response);
-        const materialValidations: MaterialValidation[] = [];
+        effects['materialService'].validateDetailsToAdd = jest.fn(
+          () => response
+        );
+
+        const materialValidations: MaterialValidation[] = [
+          {
+            id: 1,
+            valid: true,
+            materialNumber15: tableData[0].materialNumber,
+            materialDescription: tableData[0].materialDescription,
+            materialPriceUnit: 1,
+            materialUoM: 'PC',
+            customerMaterial: tableData[0].customerMaterialNumber,
+            correctedQuantity: 7,
+            validationCodes: [
+              {
+                code: VALIDATION_CODE.QDV001,
+                description: 'quantatiy updated',
+                severity: Severity.INFO,
+              },
+            ],
+          },
+        ];
         const result = ProcessCaseActions.validateMaterialTableItemsSuccess({
           materialValidations,
+          isNewCaseCreation: false,
         });
-
+        const correctedQuantity = 7;
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-a|', {
           a: {
-            customerId: { customerId: '1234', salesOrg: '0815' },
-            validatedMaterials: materialValidations,
-          },
+            customerId: { customerId: '12345', salesOrg: '0615' },
+            validatedDetails: [
+              {
+                id: 1,
+                userInput: {
+                  materialNumber15: tableData[0].materialNumber,
+                  quantity: tableData[0].quantity,
+                  customerMaterial: tableData[0].customerMaterialNumber,
+                },
+                materialData: {
+                  materialNumber15: tableData[0].materialNumber,
+                  materialDescription: tableData[0].materialDescription,
+                  materialPriceUnit: 1,
+                  materialUoM: 'PC',
+                },
+                customerData: {
+                  correctedQuantity,
+                  customerMaterial: tableData[0].customerMaterialNumber,
+                  deliveryUnit: 5,
+                },
+                valid: true,
+                validationCodes: [
+                  {
+                    code: VALIDATION_CODE.QDV001,
+                    description: 'quantatiy updated',
+                    severity: Severity.INFO,
+                  },
+                ],
+              },
+            ],
+          } as AddDetailsValidationResponse,
         });
         const expected = m.cold('--b', { b: result });
         m.expect(
@@ -115,10 +186,10 @@ describe('ProcessCaseEffects', () => {
         ).toBeObservable(expected);
         m.flush();
         expect(
-          effects['materialService'].validateMaterials
+          effects['materialService'].validateDetailsToAdd
         ).toHaveBeenCalledTimes(1);
         expect(
-          effects['materialService'].validateMaterials
+          effects['materialService'].validateDetailsToAdd
         ).toHaveBeenCalledWith(request);
       })
     );
@@ -134,14 +205,16 @@ describe('ProcessCaseEffects', () => {
         const response = m.cold('-#|', undefined, errorMessage);
         const expected = m.cold('--b', { b: result });
 
-        effects['materialService'].validateMaterials = jest.fn(() => response);
+        effects['materialService'].validateDetailsToAdd = jest.fn(
+          () => response
+        );
 
         m.expect(
           effects.validateMaterialsOnCustomerAndSalesOrg$
         ).toBeObservable(expected);
         m.flush();
         expect(
-          effects['materialService'].validateMaterials
+          effects['materialService'].validateDetailsToAdd
         ).toHaveBeenCalledTimes(1);
       })
     );

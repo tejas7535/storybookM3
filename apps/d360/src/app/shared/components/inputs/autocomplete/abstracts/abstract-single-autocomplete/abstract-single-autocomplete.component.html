@@ -9,6 +9,9 @@
     [matAutocomplete]="auto"
     matInput
     type="text"
+    #input
+    (focus)="input.select()"
+    (blur)="onSearchFieldBlur()"
   />
 
   <!-- The autocomplete -->
@@ -30,7 +33,11 @@
       <mat-option [disabled]="true">{{
         t('globalSelection.dropdown.loading')
       }}</mat-option>
-    } @else if (!loading() && filteredOptions().length === 0) {
+    } @else if (
+      !loading() &&
+      filteredOptions().length === 0 &&
+      (isPreloaded || notEmpty())
+    ) {
       <!-- Show text for no data available -->
       <mat-option [disabled]="true">{{ t('hint.noData') }}</mat-option>
     }
@@ -46,7 +53,7 @@
     <mat-icon matSuffix>arrow_drop_down</mat-icon>
   }
 
-  @if (this.control().value && this.addClearButton()) {
+  @if (control().value && addClearButton()) {
     <button matSuffix mat-icon-button aria-label="Clear" (click)="onClear()">
       <mat-icon>close</mat-icon>
     </button>
@@ -55,5 +62,10 @@
   <!-- Error -->
   @if (control().hasError('required')) {
     <mat-error>{{ t('generic.validation.missing_fields') }}</mat-error>
+  }
+
+  <!-- custom errors -->
+  @if (errorMessage()) {
+    <mat-error>{{ errorMessage() }}</mat-error>
   }
 </mat-form-field>

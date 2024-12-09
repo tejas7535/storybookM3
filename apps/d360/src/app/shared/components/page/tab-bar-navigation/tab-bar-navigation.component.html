@@ -5,7 +5,7 @@
       class="navigation-tab"
       (click)="navigateTo(routeConfig.startPage.path)"
       [routerLink]="routeConfig.startPage.path"
-      [active]="activeTab === 'start-page'"
+      [active]="activeTab() === 'start-page'"
     >
       {{ t(routeConfig.startPage.label) }}
     </a>
@@ -14,8 +14,8 @@
       mat-tab-link
       class="navigation-tab"
       [matMenuTriggerFor]="functionsMenu"
-      (click)="activeTab = 'functions'"
-      [active]="activeTab === 'functions'"
+      (click)="activeTab.set('functions')"
+      [active]="activeTab() === 'functions'"
     >
       {{ t('tabbar.functions.label') }}
       <mat-icon>expand_more</mat-icon>
@@ -26,7 +26,7 @@
       class="navigation-tab"
       (click)="navigateTo(routeConfig.tasks.path)"
       [routerLink]="routeConfig.tasks.path"
-      [active]="activeTab === 'tasks'"
+      [active]="activeTab() === 'tasks'"
     >
       {{ t(routeConfig.tasks.label) }}
     </a>

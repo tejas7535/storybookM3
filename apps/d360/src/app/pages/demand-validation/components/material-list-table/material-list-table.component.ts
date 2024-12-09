@@ -1,5 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import { tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { AgGridModule } from 'ag-grid-angular';
@@ -12,20 +23,24 @@ import {
   GridApi,
   GridOptions,
   GridReadyEvent,
+  IRowNode,
 } from 'ag-grid-community';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { DemandValidationService } from '../../../../feature/demand-validation/demand-validation.service';
+import {
+  DemandValidationFilter,
+  demandValidationFilterToStringFilter,
+} from '../../../../feature/demand-validation/demand-validation-filters';
 import { MaterialListEntry } from '../../../../feature/demand-validation/model';
-import { GlobalSelectionHelperService } from '../../../../feature/global-selection/global-selection.service';
 import { GlobalSelectionUtils } from '../../../../feature/global-selection/global-selection.utils';
-import { CustomerEntry } from '../../../../feature/global-selection/model';
 import {
   getDefaultColDef,
   serverSideTableDefaultProps,
 } from '../../../../shared/ag-grid/grid-defaults';
 import { TableToolbarComponent } from '../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
+import { GlobalSelectionStateService } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
 import { StyledGridSectionComponent } from '../../../../shared/components/styled-grid-section/styled-grid-section.component';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { disableColor } from '../../../../shared/styles/colors';
@@ -45,77 +60,112 @@ import { getColumnDefinitions } from './column-definitions';
   styleUrl: './material-list-table.component.scss',
 })
 export class MaterialListTableComponent {
-  @Input({ required: true }) visible: boolean;
-  @Input({ required: true }) selectedCustomer: CustomerEntry;
-  // TODO handle selectedMaterialListEntry when new data is loading or filtered. Always select the first entry
-  // when clicked on a new entry select that entry.
-  @Output() selectedMaterialListEntryChange =
-    new EventEmitter<MaterialListEntry>();
+  private readonly demandValidationService = inject(DemandValidationService);
+  private readonly globalSelectionStateService = inject(
+    GlobalSelectionStateService
+  );
+  private readonly destoryRef = inject(DestroyRef);
+  protected readonly agGridLocalizationService = inject(
+    AgGridLocalizationService
+  );
 
-  gridApi: GridApi;
+  public visible = input.required<boolean>();
+  public selectedCustomerNumber = input.required<string>();
+  public demandValidationFilters = input.required<DemandValidationFilter>();
+  public confirmContinueAndLooseUnsavedChanges = input<() => boolean>();
+  public selectedMaterialListEntryChange = output<MaterialListEntry>();
 
-  constructor(
-    private readonly demandValidationService: DemandValidationService,
-    private readonly globalSelectionService: GlobalSelectionHelperService,
-    protected readonly agGridLocalizationService: AgGridLocalizationService
-  ) {}
+  protected rowCount = signal<number>(0);
+  protected gridOptions: GridOptions = { ...serverSideTableDefaultProps };
 
-  onGridReady(event: GridReadyEvent) {
+  protected selectedMaterialListEntry = signal<MaterialListEntry>(null);
+  protected gridApi: GridApi;
+
+  constructor() {
+    effect(
+      () => {
+        this.refreshGridData(
+          this.selectedCustomerNumber(),
+          this.demandValidationFilters()
+        );
+      },
+      { allowSignalWrites: true }
+    );
+  }
+
+  protected onGridReady(event: GridReadyEvent) {
     this.gridApi = event.api;
-    this.setServerSideDatasource();
+
     if (this.gridApi) {
-      this.demandValidationService.getDataFetchedEvent().subscribe((value) => {
-        this.rowCount = value.rowCount;
-        if (this.rowCount === 0) {
-          this.gridApi.showNoRowsOverlay();
-        } else {
-          this.gridApi.hideOverlay();
-        }
+      this.setServerSideDatasource(
+        this.selectedCustomerNumber(),
+        this.demandValidationFilters()
+      );
 
-        const nodes = this.gridApi.getRenderedNodes();
+      this.demandValidationService
+        .getDataFetchedEvent()
+        .pipe(
+          tap((value) => {
+            this.rowCount.set(value.rowCount);
+            if (this.rowCount() === 0) {
+              this.gridApi.showNoRowsOverlay();
+            } else {
+              this.gridApi.hideOverlay();
+            }
 
-        if (nodes?.length) {
-          this.gridApi.deselectAll();
-          nodes[0].setExpanded(true);
-          this.selectedMaterialListEntryChange.emit(nodes[0].data);
-        }
-      });
+            const nodes = this.gridApi.getRenderedNodes();
+
+            if (nodes?.length) {
+              this.gridApi.deselectAll();
+              this.selectGridRow(nodes[0]);
+            }
+          }),
+          takeUntilDestroyed(this.destoryRef)
+        )
+        .subscribe();
     }
   }
 
-  onCellClicked(_: CellClickedEvent) {
-    // TODO implement
-    // if (!$event.data) {
-    //   return;
-    // }
-    // if (
-    //   $event.data.customerMaterialNumber &&
-    //   $event.data.customerMaterialNumberCount > 1 &&
-    //   $event.column.getColId() === 'customerMaterialNumber'
-    // ) {
-    //   // we cannot prevent clicking on a column, so we handle it here. The customerMaterialNumber column
-    //   // opens a pop up to show all material numbers.
-    //   // Maybe, in the future a check is required to prevent the click if more than one number exists only.
-    //   return;
-    // }
-    // if (
-    //   $event.data.materialNumber === props.selectedMaterialListEntry?.materialNumber ||
-    //   !props.confirmContinueAndLooseUnsavedChanges()
-    // ) {
-    //   return;
-    // }
-    // $event.node.setSelected(true, true);
-    // props.setSelectedMaterialListEntry($event.data);
+  protected onCellClicked($event: CellClickedEvent) {
+    if (!$event.data) {
+      return;
+    }
+    if (
+      $event.data.customerMaterialNumber &&
+      $event.data.customerMaterialNumberCount > 1 &&
+      $event.column.getColId() === 'customerMaterialNumber'
+    ) {
+      // When more than one customerMaterialNumbers exists and the user clicks the customerMaterialNumber column
+      // we prevent the selection of the row to rather open the modal to show all customer material numbers
+      return;
+    }
+    if (
+      $event.data.materialNumber ===
+        this.selectedMaterialListEntry()?.materialNumber ||
+      !this.confirmContinueAndLooseUnsavedChanges()()
+    ) {
+      return;
+    }
+
+    this.selectGridRow($event.node);
+  }
+
+  private selectGridRow(selectedNode: IRowNode) {
+    selectedNode.setSelected(true, true);
+    this.selectedMaterialListEntry.set(selectedNode.data);
+    this.selectedMaterialListEntryChange.emit(selectedNode.data);
   }
 
   protected getRowId: GetRowIdFunc = (params: GetRowIdParams) =>
     params.data.materialNumber as string;
+
   protected defaultColDef: ColDef | undefined = {
     sortable: true,
     suppressMovable: true,
     lockVisible: true,
     menuTabs: [],
   };
+
   protected columnDefs = getColumnDefinitions(
     this.agGridLocalizationService
   ).map((def) => ({
@@ -133,25 +183,38 @@ export class MaterialListTableComponent {
       return {};
     },
   }));
-  protected rowCount = 0;
-  protected gridOptions: GridOptions = { ...serverSideTableDefaultProps };
 
-  private setServerSideDatasource() {
-    this.rowCount = 0;
+  private setServerSideDatasource(
+    customerNumber: string,
+    demandValidationFilters: DemandValidationFilter
+  ) {
+    this.rowCount.set(0);
     this.gridApi.setServerSideDatasource(
       this.demandValidationService.createDemandMaterialCustomerDatasource(
-        this.getSelectionFilters()
+        this.getSelectionFilters(customerNumber, demandValidationFilters)
       )
     );
   }
 
-  private getSelectionFilters() {
+  private getSelectionFilters(
+    customerNumber: string,
+    demandValidationFilters: DemandValidationFilter
+  ) {
     return {
       ...GlobalSelectionUtils.globalSelectionCriteriaToFilter(
-        this.globalSelectionService.getGlobalSelection()
+        this.globalSelectionStateService.getState()
       ),
-      // TODO add demandvalidationfilter from action bar
-      customerNumber: [this.selectedCustomer.customerNumber],
+      ...demandValidationFilterToStringFilter(demandValidationFilters),
+      customerNumber: [customerNumber],
     };
+  }
+
+  private refreshGridData(
+    customerNumber: string,
+    demandValidationFilters: DemandValidationFilter
+  ) {
+    if (this.gridApi) {
+      this.setServerSideDatasource(customerNumber, demandValidationFilters);
+    }
   }
 }

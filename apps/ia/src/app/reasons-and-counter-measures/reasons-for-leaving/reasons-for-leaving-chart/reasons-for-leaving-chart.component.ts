@@ -12,6 +12,7 @@ import { translate } from '@jsverse/transloco';
 import { DoughnutChartData } from '../../../shared/charts/models';
 import { SolidDoughnutChartConfig } from '../../../shared/charts/models/solid-doughnut-chart-config.model';
 import { SolidDoughnutChartComponent } from '../../../shared/charts/solid-doughnut-chart/solid-doughnut-chart.component';
+import { Color } from '../../../shared/models';
 import { ReasonForLeavingTab } from '../../models';
 import { COLOR_PALETTE } from '../../store/selectors/reasons-and-counter-measures.selector.utils';
 
@@ -51,20 +52,33 @@ export class ReasonsForLeavingChartComponent {
     };
   }
 
-  @Input() set conductedInterviewsInfo(info: {
-    conducted: number;
-    percentage: number;
-  }) {
+  @Input() set conductedInterviewsInfo(info: { conducted: number }) {
+    const title = translate(
+      'reasonsAndCounterMeasures.reasonsForLeaving.chart.conductedInfo',
+      {
+        conducted: info?.conducted,
+      }
+    );
+    const titleTooltip = `<div style="max-width: 200px; white-space: normal;">
+    ${translate(
+      'reasonsAndCounterMeasures.reasonsForLeaving.chart.conductedInfoTooltip'
+    )}</div>`;
+
     if (info) {
       this.config = {
         ...this.config,
-        subTitle: translate(
-          'reasonsAndCounterMeasures.reasonsForLeaving.chart.conductedInfo',
-          {
-            conducted: info.conducted,
-            percentage: info.percentage,
-          }
-        ),
+        subTitle: {
+          formatter: `${title} {icon|\uE88E}`,
+          rich: {
+            icon: {
+              fontFamily: 'Material Icons',
+              fontSize: 14,
+              color: Color.TEXT_HIGH_EMPHASIS,
+              padding: [0, 0, 2, 0],
+            },
+          },
+        },
+        titleTooltip,
       };
     }
   }

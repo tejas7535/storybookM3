@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ResultComponent when setting price and availability responses multiple times should set price and availability responses as an combined result 1`] = `
+Object {
+  "123456": Object {},
+  "2222": Object {},
+  "3333": Object {},
+  "654321": Object {},
+}
+`;

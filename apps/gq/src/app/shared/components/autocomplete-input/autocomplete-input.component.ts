@@ -83,7 +83,7 @@ export class AutocompleteInputComponent
   implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor
 {
   @Input() autocompleteLoading = false;
-
+  @Input() showFieldHint = true;
   @Input() filterName: string;
   @Input() maxLength: number;
 

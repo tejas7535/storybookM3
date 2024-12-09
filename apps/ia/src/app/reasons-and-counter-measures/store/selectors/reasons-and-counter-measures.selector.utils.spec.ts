@@ -1,5 +1,5 @@
 import { DoughnutChartData } from '../../../shared/charts/models';
-import { Reason, ReasonImpact } from '../../models';
+import { Reason, ReasonForLeavingRank, ReasonImpact } from '../../models';
 import * as utils from './reasons-and-counter-measures.selector.utils';
 
 describe('mapReasonsToTableData', () => {
@@ -350,6 +350,80 @@ describe('mapReasonsToTableData', () => {
       const result = utils.getPercentageValue(part, total);
 
       expect(result).toEqual(0);
+    });
+  });
+
+  describe('rankReasons', () => {
+    test('should rank reasons', () => {
+      const reasons: ReasonForLeavingRank[] = [
+        {
+          reason: 'Reason A',
+          leavers: 2,
+          percentage: 50,
+          reasonId: 1,
+          rank: undefined,
+          detailedReasonId: 1,
+          detailedReason: 'Detailed Reason A',
+        },
+        {
+          reason: 'Reason B',
+          leavers: 1,
+          percentage: 25,
+          reasonId: 2,
+          rank: undefined,
+          detailedReasonId: 2,
+          detailedReason: 'Detailed Reason B',
+        },
+        {
+          reason: 'Reason C',
+          leavers: 1,
+          percentage: 25,
+          reasonId: 3,
+          rank: undefined,
+          detailedReasonId: 3,
+          detailedReason: 'Detailed Reason C',
+        },
+      ];
+
+      const result = utils.rankReasons(reasons);
+
+      expect(result).toEqual([
+        {
+          reason: 'Reason A',
+          leavers: 2,
+          percentage: 50,
+          reasonId: 1,
+          rank: 1,
+          detailedReasonId: 1,
+          detailedReason: 'Detailed Reason A',
+        },
+        {
+          reason: 'Reason B',
+          leavers: 1,
+          percentage: 25,
+          reasonId: 2,
+          rank: 2,
+          detailedReasonId: 2,
+          detailedReason: 'Detailed Reason B',
+        },
+        {
+          reason: 'Reason C',
+          leavers: 1,
+          percentage: 25,
+          reasonId: 3,
+          rank: 2,
+          detailedReasonId: 3,
+          detailedReason: 'Detailed Reason C',
+        },
+      ]);
+    });
+
+    test('should return empty array', () => {
+      const reasons: ReasonForLeavingRank[] = [];
+
+      const result = utils.rankReasons(reasons);
+
+      expect(result).toEqual([]);
     });
   });
 });

@@ -1,58 +1,59 @@
-<div *transloco="let t">
-  <!--  TODO add open property with false-->
+<div *transloco="let t" class="flex flex-col gap-6 w-full h-full">
   <d360-global-selection-criteria
     (onGlobalSelectionChange)="onUpdateGlobalSelection($event)"
   ></d360-global-selection-criteria>
-  <d360-styled-section [last]="true" [grow]="true" style="position: relative">
-    <h2>{{ pageTitle }}</h2>
-    @if (checkGlobalSelection()) {
-      @if (loading) {
-        <schaeffler-loading-spinner
-          [useBearingLoadingSpinner]="true"
-        ></schaeffler-loading-spinner>
-      }
-      @if (
-        globalSelectionStatus === GlobalSelectionStatus.DATA_AVAILABLE &&
-        customerData &&
-        selectedCustomer &&
-        globalSelection
-      ) {
-        <d360-action-bar
-          [currentCustomer]="selectedCustomer"
-          [customerData]="customerData"
+
+  <d360-styled-section [grow]="true" class="flex flex-col h-full">
+    <h2 class="text-title-large">{{ pageTitle }}</h2>
+    @if (loading()) {
+      <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
+    }
+    @if (
+      globalSelectionStatus() === GlobalSelectionStatus.DATA_AVAILABLE &&
+      customerData &&
+      selectedCustomer &&
+      globalSelection
+    ) {
+      <d360-action-bar
+        [currentCustomer]="selectedCustomer()"
+        [customerData]="customerData"
+        [planningView]="planningView"
+        [isMaterialListVisible]="materialListVisible()"
+        (toggleMaterialListVisible)="handleMaterialListVisible($event)"
+        (dateRangeChanged)="handleKpiDateRangeChange($event)"
+        (customerChange)="handleCustomerChange($event)"
+      ></d360-action-bar>
+      <div class="table-content-wrapper flex flex-row mb-5 h-full">
+        <d360-material-list-table
+          class="flex grow"
+          [visible]="materialListVisible()"
+          [selectedCustomerNumber]="selectedCustomer().customerNumber"
+          [demandValidationFilters]="demandValidationFilters()"
+          [confirmContinueAndLooseUnsavedChanges]="
+            confirmContinueAndLooseUnsavedChanges.bind(this)
+          "
+          (selectedMaterialListEntryChange)="
+            handleMaterialListEntrySelected($event)
+          "
+        ></d360-material-list-table>
+        <d360-demand-validation-table
+          class="flex grow"
+          [materialListEntry]="selectedMaterialListEntry()"
           [planningView]="planningView"
-          [isMaterialListVisible]="materialListVisible"
-          (toggleMaterialListVisible)="handleMaterialListVisible($event)"
-          (dateRangeChanged)="handleKpiDateRangeChange($event)"
-        ></d360-action-bar>
-        <div class="table-content-wrapper">
-          <d360-material-list-table
-            [visible]="materialListVisible"
-            [selectedCustomer]="selectedCustomer"
-            (selectedMaterialListEntryChange)="
-              handleMaterialListEntrySelected($event)
-            "
-          ></d360-material-list-table>
-          <d360-demand-validation-table
-            [materialListEntry]="selectedMaterialListEntry"
-            [planningView]="planningView"
-            [dateExceptions]="kpiRangeExceptions"
-            [kpiDateRange]="dateRange"
-          ></d360-demand-validation-table>
-        </div>
-      } @else if (
-        globalSelectionStatus === GlobalSelectionStatus.DATA_NO_RESULTS
-      ) {
-        <d360-data-hint [text]="t('hint.noData', {})"></d360-data-hint>
-      } @else if (
-        globalSelectionStatus === GlobalSelectionStatus.DATA_NOTHING_SELECTED
-      ) {
-        <d360-data-hint [text]="t('hint.selectData', {})"></d360-data-hint>
-      } @else if (globalSelectionStatus === GlobalSelectionStatus.DATA_ERROR) {
-        <d360-data-hint
-          [text]="t('hint.errorLoadingData', {})"
-        ></d360-data-hint>
-      }
+          [dateExceptions]="kpiRangeExceptions"
+          [kpiDateRange]="dateRange"
+        ></d360-demand-validation-table>
+      </div>
+    } @else if (
+      globalSelectionStatus() === GlobalSelectionStatus.DATA_NO_RESULTS
+    ) {
+      <d360-data-hint [text]="t('hint.noData', {})"></d360-data-hint>
+    } @else if (
+      globalSelectionStatus() === GlobalSelectionStatus.DATA_NOTHING_SELECTED
+    ) {
+      <d360-data-hint [text]="t('hint.selectData', {})"></d360-data-hint>
+    } @else if (globalSelectionStatus() === GlobalSelectionStatus.DATA_ERROR) {
+      <d360-data-hint [text]="t('hint.errorLoadingData', {})"></d360-data-hint>
     }
   </d360-styled-section>
 </div>

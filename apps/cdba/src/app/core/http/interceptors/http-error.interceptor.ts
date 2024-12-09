@@ -7,20 +7,20 @@ import {
   HttpStatusCode,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ValidationErrors } from '@angular/forms';
 
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { BomExportPath, ProductDetailPath } from '@cdba/shared/constants/api';
-
-import { AUTH_URLS } from '../constants/urls';
-import { HttpErrorType } from '../models/http-error-type.model';
-import { HttpErrorService } from '../services/http-error.service';
+import { AUTH_URLS } from '@cdba/shared/constants/urls';
+import { Interaction } from '@cdba/shared/services/user-interaction/interaction-type.model';
+import { UserInteractionService } from '@cdba/shared/services/user-interaction/user-interaction.service';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
-  public constructor(private readonly httpErrorService: HttpErrorService) {}
+  public constructor(
+    private readonly userInteractionService: UserInteractionService
+  ) {}
 
   public intercept(
     request: HttpRequest<any>,
@@ -32,11 +32,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           errorResponse.url.includes(BomExportPath) &&
           errorResponse.status === HttpStatusCode.BadRequest
         ) {
-          this.httpErrorService.handleHttpError(HttpErrorType.Validation);
-
-          this.logValidationError(errorResponse);
-
-          return throwError(() => errorResponse);
+          this.userInteractionService.interact(
+            Interaction.HTTP_GENERAL_VALIDATION_ERROR
+          );
         }
         // don't use the interceptor for detail paths
         else if (
@@ -75,19 +73,11 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         if (
           !AUTH_URLS.some((authUrl) => errorResponse.url.startsWith(authUrl))
         ) {
-          this.httpErrorService.handleHttpError(HttpErrorType.Default);
+          this.userInteractionService.interact(Interaction.HTTP_GENERAL_ERROR);
         }
 
         return throwError(() => new Error(errorMessage));
       })
     );
-  }
-
-  private async logValidationError(
-    errorResponse: HttpErrorResponse
-  ): Promise<void> {
-    const message = await errorResponse.error.text();
-
-    console.error(JSON.parse(message) as ValidationErrors);
   }
 }

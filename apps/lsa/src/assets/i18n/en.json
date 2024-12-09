@@ -84,11 +84,12 @@
       "millilitre": "ml",
       "tempRange": "Temperature range",
       "voltage": "Operating voltage",
-      "dimensions": "Dimensions",
+      "dimensions": "Dimensions (mm)",
       "yes": "Yes",
       "no": "No",
       "heading": "Parts list for {{ designation }}",
       "share": "Share",
+      "reset": "Reset inputs",
       "addToCart": "Add to Cart",
       "addToCartMessage": "Products / Accessories added to cart",
       "medium_general": "Medium",
@@ -97,6 +98,8 @@
       "pieces": "Pieces",
       "availability": "Availability",
       "quantity": "Quantity",
+      "price": "Price",
+      "perPiece": "per Piece",
       "totalPieces": "Total pieces",
       "totalPrice": "Total net value",
       "configSummary": "Configuration summary",
@@ -106,11 +109,44 @@
       "decreaseOne": "Decrease quantity by one",
       "func_principle": "Functional principle",
       "mounting_position": "Mounting position",
+      "category": {
+        "lubricantApplication": "Lubricant application",
+        "cartridge": "Cartridge",
+        "gateway": "Gateway",
+        "subDistributors": "Sub-distributors",
+        "accessories": "Accessories",
+        "fittings": "Fittings",
+        "lubricator": "Lubricator",
+        "hoses": "Hoses"
+      },
       "error": {
         "heading": "No compatible device",
         "body": "We could not find a device that matches the application criteria you provided. To get help with your search for a suitable lubrication solution, please get in contact with our experts at the technical support",
-        "ctaLink": "https://medias.schaeffler.de/en/stc",
+        "ctaLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
         "ctaText": "Schaeffler Technical Support"
+      },
+      "errors": {
+        "compatability": {
+          "pressure": {
+            "title": "Pressure requirements are too high",
+            "body": "The calculated pressure requirements for your configuration are too high. Try placing the lubricator closer to the lubrication points to reduce the tube length"
+          }
+        },
+        "lubrication": {
+          "quantityLow": {
+            "title": "Lubrication quantity low",
+            "body": "Your configuration indicates a very low lubrication quantity. For quantities this low, lubricants may exceed their design lifespan. Consider using manual lubrication instead"
+          },
+          "quantityHigh": {
+            "title": "Lubrication quantity high",
+            "body": "The lubrication quantity for your configuration exceeds the capabilities of our product portfolio"
+          }
+        }
+      },
+      "warning": {
+        "adjustedAutomatically": "We could not find a suitable solution within the optime ecosystem. We can provide the following alternatives without Optime functionality",
+        "noRecommendation": "We could not automatically provide a suitable recommendation for your input parameters. Please get in touch with Schaeffler technical support for specific consultation",
+        "usedFallbackGrease": "We cannot provide a detailed recommendation for market available greases. We used a widely compatible Grease from the Schaeffler Arcanol Portfolio for our calculation. Please ensure your Grease in use is comparable in its properties"
       }
     }
   },
@@ -137,8 +173,17 @@
       "title": "Ambient temperature in application",
       "value": "{{min}}°C to {{max}}°C"
     },
+    "lubricationPoints": "No. Lubrication Points",
     "maxPipeLengthTitle": "Max. pipe length",
     "powerSupplyTitle": "Power supply",
-    "optimeTitle": "OPTIME integration"
+    "optimeTitle": "OPTIME integration",
+    "remoteChanged": "Your initial request with {{original}} did not bring up any valid results. We automatically retried with {{new}} as a possible alternative. Please review to make sure this is compatible with your usecase!"
+  },
+  "disclaimer": {
+    "text": "Our details take into account those risks which were apparent to us on the basis of your requirements as made available to us. The results shown in the document have been worked out carefully and in accordance with the state of the art, but do not constitute an express or implied guaranty as to quality or durability in the legal sense. You are not dispensed thereby from checking the suitability of the products for your intended use. We shall be liable for the details provided in the recommendation only in the event of willful intent or negligence. In case of questions regarding the product, the recommendation or the suitability of the product, please contact here: ",
+    "linkText": "contact us",
+    "link": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
+    "showMore": "Show More",
+    "showLess": "Show Less"
   }
 }

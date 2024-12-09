@@ -1,0 +1,16 @@
+<div
+  *transloco="let t"
+  class="p-2 w-92 flex flex-col items-center justify-center"
+>
+  <mat-dialog-content>
+    <div class="flex flex-col items-center justify-center">
+      <div class="w-32 h-32">
+        <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
+      </div>
+
+      @if (data.textWhileLoading) {
+        <p class="mt-6">{{ data.textWhileLoading }}</p>
+      }
+    </div>
+  </mat-dialog-content>
+</div>

@@ -619,11 +619,6 @@ pipeline {
                     sh "pnpm nx affected:lint --base=${buildBase} --configuration=ci --parallel=3"
                 }
             }
-            post {
-                always {
-                    recordIssues(tools: [checkStyle(pattern: 'checkstyle/**/checkstyle.xml')], enabledForFailure: true)
-                }
-            }
         }
 
         stage('Test:Unit') {
@@ -681,7 +676,7 @@ pipeline {
             }
         }
 
-        stage('Sonar:Scan'){
+        stage('Sonar:Scan') {
             when {
                 expression {
                     return runQualityStage
@@ -691,7 +686,7 @@ pipeline {
                 echo 'Run Sonar Scan'
                 script {
                     withCredentials([string(credentialsId: 'SONARQUBE_TOKEN', variable: 'SONAR_TOKEN')]) {  
-                        sh "NX_SONAR_TOKEN=${SONAR_TOKEN} pnpm nx affected --base=${buildBase} --target sonar  --parallel=1"
+                        sh "NX_SONAR_TOKEN=${SONAR_TOKEN} pnpm nx affected --base=${buildBase} --target sonar  --parallel=3"
                     }
                 }
             }

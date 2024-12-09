@@ -1,0 +1,10 @@
+{
+  "title": "Case auf Kundenbasis erstellen",
+  "headerInformation": "Kopfdaten",
+  "positionFilter": "Positionsfilter",
+  "mandatoryField": "*Pflichtfeld",
+  "includeMaterials": "einbezogene Materialien",
+  "additionalFilter": "zusätzliche Filteroptionen",
+  "createCase": "Case erstellen",
+  "cancelButton": "Abbrechen"
+}

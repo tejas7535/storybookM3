@@ -6,7 +6,6 @@ import {
   MatDialog,
   MatDialogModule,
 } from '@angular/material/dialog';
-import { MatDivider } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
 
 import { translate } from '@jsverse/transloco';
@@ -35,7 +34,6 @@ export interface ColumnLayoutManagementModalData {
     MatDialogModule,
     FilterDropdownComponent,
     MatButton,
-    MatDivider,
     MatIcon,
     SharedTranslocoModule,
   ],

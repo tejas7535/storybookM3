@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 
 import { translate } from '@jsverse/transloco';
 import {
+  GridApi,
   IServerSideDatasource,
   IServerSideGetRowsParams,
   SortModelItem,
@@ -41,8 +42,6 @@ export class CMPService {
     'api/customer-material-portfolio/criteria-fields';
   private readonly CMP_CFCR_ACTION_API =
     'api/customer-material-portfolio/cfcr-action';
-  private readonly CMP_SINGLE_SUBSTITUTION_API =
-    'api/customer-material-portfolio/single-substitution';
   private readonly CMP_BULK_PHASE_IN_API =
     'api/customer-material-portfolio/bulk-phase-in';
   private readonly CMP_DATA_API = 'api/customer-material-portfolio/';
@@ -80,55 +79,7 @@ export class CMPService {
     return this.http.get<CriteriaFields>(this.CMP_CRITERIA_DATA_API);
   }
 
-  // this method originally from src/domain/customerMaterialPortfolio/saveSubstitution.ts
-  saveSubstitution(
-    cmpData: CMPData,
-    dryRun: boolean,
-    confirmation?: boolean
-  ): Observable<PostResult<CMPSingleSubstitutionResponse>> {
-    const request: CMPWriteRequest = dataToCMPWriteRequest(cmpData);
-    let params = new HttpParams().set('dryRun', dryRun.toString());
-    if (confirmation !== undefined) {
-      params = params.set('addMaterial', confirmation.toString());
-    }
-
-    return this.http
-      .post<CMPSingleSubstitutionResponse>(
-        this.CMP_SINGLE_SUBSTITUTION_API,
-        request,
-        { params }
-      )
-      .pipe(
-        map((response) => {
-          if (response.confirmationNeeded) {
-            return {
-              overallStatus: 'WARNING',
-              overallErrorMsg: translate(
-                'customer.material_portfolio.modal.substitution.warning.add_material',
-                {}
-              ),
-              response: [],
-            } as PostResult<CMPSingleSubstitutionResponse>;
-          }
-
-          return {
-            overallStatus: 'SUCCESS',
-            overallErrorMsg: null,
-            response: [response],
-          } as PostResult<CMPSingleSubstitutionResponse>;
-        }),
-        catchError((error) =>
-          of({
-            overallStatus: 'ERROR',
-            overallErrorMsg: getErrorMessage(error),
-            response: [],
-          } as PostResult<CMPSingleSubstitutionResponse>)
-        )
-      );
-  }
-
-  // this method originally from src/domain/customerMaterialPortfolio/saveBulkPhaseIn.tsx
-  saveBulkPhaseIn(
+  public saveBulkPhaseIn(
     phaseIn: CMPBulkPhaseInRequest,
     dryRun: boolean
   ): Observable<PostResult<CMPMaterialPhaseInResponse>> {
@@ -157,24 +108,53 @@ export class CMPService {
       );
   }
 
-  saveCMPChange(
+  public saveCMPChange(
     cmpData: CMPData,
     dryRun: boolean,
-    actionURL: string
+    actionURL: string | null,
+    confirmed?: boolean
   ): Observable<PostResult<CMPWriteResponse>> {
+    if (!actionURL) {
+      return of({
+        overallStatus: 'ERROR',
+        overallErrorMsg: translate('error.unknown'),
+        response: [],
+      } as PostResult<CMPWriteResponse>);
+    }
+
     const request: CMPWriteRequest = dataToCMPWriteRequest(cmpData);
-    const params = new HttpParams().set('dryRun', dryRun.toString());
+    let params: Record<string, string> = { dryRun: dryRun.toString() };
     const url = encodeURI(`api/customer-material-portfolio/${actionURL}`);
 
+    if (confirmed) {
+      params = {
+        ...params,
+        addMaterial: confirmed.toString(),
+      };
+    }
+
     return this.http.post<CMPWriteResponse>(url, request, { params }).pipe(
-      map(
-        (response) =>
-          ({
-            overallStatus: 'SUCCESS',
-            overallErrorMsg: null,
+      map((response) => {
+        if (
+          cmpData.portfolioStatus === 'SE' &&
+          'confirmationNeeded' in response &&
+          (response as CMPSingleSubstitutionResponse).confirmationNeeded
+        ) {
+          return {
+            overallStatus: 'WARNING',
+            overallErrorMsg: translate(
+              'customer.material_portfolio.modal.substitution.warning.add_material'
+            ),
             response: [response],
-          }) as PostResult<CMPWriteResponse>
-      ),
+          } as PostResult<CMPWriteResponse>;
+        }
+
+        return {
+          overallStatus: 'SUCCESS',
+          overallErrorMsg: null,
+          response: [response],
+        } as PostResult<CMPWriteResponse>;
+      }),
       catchError((error) =>
         of({
           overallStatus: 'ERROR',
@@ -185,59 +165,11 @@ export class CMPService {
     );
   }
 
-  acceptSubstitution(
-    cmpData: CMPData,
-    dryRun: boolean
-  ): Observable<PostResult<CMPWriteResponse>> {
-    return this.saveCMPChange(cmpData, dryRun, 'accept-substitution');
-  }
-
-  saveInactive(
-    cmpData: CMPData,
-    dryRun: boolean
-  ): Observable<PostResult<CMPWriteResponse>> {
-    return this.saveCMPChange(cmpData, dryRun, 'single-inactivation');
-  }
-
-  saveReactivation(
-    cmpData: CMPData,
-    dryRun: boolean
-  ): Observable<PostResult<CMPWriteResponse>> {
-    return this.saveCMPChange(cmpData, dryRun, 'single-reactivation');
-  }
-
-  saveEdit(
-    cmpData: CMPData,
-    dryRun: boolean
-  ): Observable<PostResult<CMPWriteResponse>> {
-    return this.saveCMPChange(cmpData, dryRun, 'update');
-  }
-
-  savePhaseIn(
-    cmpData: CMPData,
-    dryRun: boolean
-  ): Observable<PostResult<CMPWriteResponse>> {
-    return this.saveCMPChange(cmpData, dryRun, 'single-phase-in');
-  }
-
-  savePhaseOut(
-    cmpData: CMPData,
-    dryRun: boolean
-  ): Observable<PostResult<CMPWriteResponse>> {
-    return this.saveCMPChange(cmpData, dryRun, 'single-phase-out');
-  }
-
-  saveVeto(
-    cmpData: CMPData,
-    dryRun: boolean
-  ): Observable<PostResult<CMPWriteResponse>> {
-    return this.saveCMPChange(cmpData, dryRun, 'veto-substitution');
-  }
-
   createCustomerMaterialPortfolioDatasource(
     selectedCustomer: CustomerEntry,
     globalSelectionCriteriaFields: GlobalSelectionState,
-    childMaterialsCache: Map<string, CMPEntry[]>
+    childMaterialsCache: Map<string, CMPEntry[]>,
+    gridApi: GridApi | null
   ): IServerSideDatasource {
     return {
       // SAP returns the head and child materials. However, AGGRid does not support providing both at the same time.
@@ -245,6 +177,11 @@ export class CMPService {
       // containing the child materials of the first request. After some edit operations, parts of the cache must be
       // invalidated. Therefore, the cache is hold outside the data source.
       getRows: (params) => {
+        gridApi?.showLoadingOverlay();
+
+        // TODO: use setGridOption instead of showLoadingOverlay when ag-grid is updated to v31
+        // gridApi?.setGridOption('loading', true);
+
         const { startRow, endRow, sortModel, filterModel, groupKeys } =
           params.request;
 
@@ -256,7 +193,8 @@ export class CMPService {
             endRow,
             sortModel,
             selectedCustomer.customerNumber,
-            params
+            params,
+            gridApi
           );
         } else {
           const columnFilters = formatFilterModelForBackend(filterModel);
@@ -284,10 +222,17 @@ export class CMPService {
                 rowCount: headMaterials.rowCount,
               });
               this.dataFetchedEvent.next(data);
+              gridApi?.redrawRows();
+              gridApi?.hideOverlay();
+              // TODO: use setGridOption instead of hideOverlay when ag-grid is updated to v31
+              // gridApi?.setGridOption('loading', false);
             },
             error: (error) => {
               params.fail();
               this.fetchErrorEvent.next(error);
+              gridApi?.hideOverlay();
+              // TODO: use setGridOption instead of hideOverlay when ag-grid is updated to v31
+              // gridApi?.setGridOption('loading', false);
             },
           });
         }
@@ -302,7 +247,8 @@ export class CMPService {
     endRow: number | undefined,
     sortModel: SortModelItem[],
     selectedCustomer: string,
-    params: IServerSideGetRowsParams
+    params: IServerSideGetRowsParams,
+    gridApi: GridApi | null
   ) {
     const headMaterialNumberOfGroup = groupKeys[0];
     if (childMaterialsCache.has(headMaterialNumberOfGroup)) {
@@ -312,6 +258,10 @@ export class CMPService {
         rowData: childMaterials,
         rowCount: childMaterials.length,
       });
+
+      gridApi?.hideOverlay();
+      // TODO: use setGridOption instead of hideOverlay when ag-grid is updated to v31
+      // gridApi?.setGridOption('loading', false);
     } else {
       this.fetchData(
         startRow || 0,
@@ -337,10 +287,18 @@ export class CMPService {
             rowCount: childMaterials.length,
           });
           this.dataFetchedEvent.next(data);
+
+          gridApi?.hideOverlay();
+          // TODO: use setGridOption instead of hideOverlay when ag-grid is updated to v31
+          // gridApi?.setGridOption('loading', false);
         },
         error: (error) => {
           params.fail();
           this.fetchErrorEvent.next(error);
+
+          gridApi?.hideOverlay();
+          // TODO: use setGridOption instead of hideOverlay when ag-grid is updated to v31
+          // gridApi?.setGridOption('loading', false);
         },
       });
     }

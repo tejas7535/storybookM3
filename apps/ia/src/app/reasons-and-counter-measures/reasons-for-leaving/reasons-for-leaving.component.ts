@@ -66,7 +66,6 @@ export class ReasonsForLeavingComponent implements OnInit {
   >;
   conductedInterviewsInfo$: Observable<{
     conducted: number;
-    percentage: number;
   }>;
   comparedReasonsLoading$: Observable<boolean>;
   comparedReasonsTableData$: Observable<ReasonForLeavingRank[]>;
@@ -76,7 +75,6 @@ export class ReasonsForLeavingComponent implements OnInit {
   >;
   comparedConductedInterviewsInfo$: Observable<{
     conducted: number;
-    percentage: number;
   }>;
   leaversLoading$: Observable<boolean>;
   leaversData$: Observable<ExitEntryEmployeesResponse>;

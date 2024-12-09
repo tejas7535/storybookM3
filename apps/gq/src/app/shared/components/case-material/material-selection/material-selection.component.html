@@ -1,0 +1,52 @@
+<div
+  class="rounded-[4px] border-[1px] border-solid border-border"
+  *transloco="let t; read: 'materialSelection'"
+>
+  <ng-container *ngrxLet="customerIdentifier$ | ngrxPush as customerIdentifier">
+    <div class="border-b-[1px] border-border">
+      <div class="flex items-center justify-between p-4">
+        <div>
+          <mat-checkbox
+            color="primary"
+            [indeterminate]="someComplete"
+            [disabled]="!customerIdentifier"
+            [checked]="allComplete"
+            (change)="selectAll($event)"
+          >
+          </mat-checkbox>
+          <span class="pl-6">{{ t('materialSelection') }} </span>
+        </div>
+
+        <div class="w-52">
+          <mat-select
+            (selectionChange)="onHistoricalDataLimitChanged($event)"
+            [disabled]="!customerIdentifier"
+            [value]="numberOfYears"
+          >
+            @for (years of availableYears; track years) {
+              <mat-option [value]="years">{{
+                t('lastYears', { years: years + 1 })
+              }}</mat-option>
+            }
+          </mat-select>
+        </div>
+      </div>
+    </div>
+    <div class="m-4">
+      @for (item of selectionItems; track item) {
+        <div class="mt-4">
+          <span class="flex items-center">
+            <mat-checkbox
+              [checked]="item.checked"
+              [disabled]="!customerIdentifier"
+              color="primary"
+              (change)="updateSelection($event, item.id)"
+            >
+            </mat-checkbox>
+            <span class="ml-6 flex">{{ t(item.translation) }}</span>
+          </span>
+        </div>
+      }
+    </div>
+  </ng-container>
+</div>

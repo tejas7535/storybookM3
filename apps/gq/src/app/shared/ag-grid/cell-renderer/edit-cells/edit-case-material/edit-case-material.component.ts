@@ -1,12 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { ProcessCaseFacade } from '@gq/core/store/process-case';
 import { EditMaterialModalData } from '@gq/shared/components/modal/editing-material-modal/edit-material-modal-data.model';
+import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { ICellRendererParams } from 'ag-grid-community';
 
@@ -15,22 +17,26 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { AppRoutePath } from '../../../../../app-route-path.enum';
 import { AutocompleteRequestDialog } from '../../../../components/autocomplete-input/autocomplete-request-dialog.enum';
 import { EditingMaterialModalComponent } from '../../../../components/modal/editing-material-modal/editing-material-modal.component';
-import { MaterialTableItem } from '../../../../models/table';
+import { MaterialTableItem, VALIDATION_CODE } from '../../../../models/table';
 
 @Component({
   selector: 'gq-edit-case-material',
   standalone: true,
   imports: [
     MatIconModule,
-    EditingMaterialModalComponent,
     SharedTranslocoModule,
+    MatTooltipModule,
+    SharedDirectivesModule,
   ],
   templateUrl: './edit-case-material.component.html',
 })
 export class EditCaseMaterialComponent {
-  public params: ICellRendererParams;
-  public cellValue: string;
-  public isCaseView: boolean;
+  params: ICellRendererParams;
+
+  cellValue: string;
+  isCaseView: boolean;
+  displayWarning: boolean;
+  toolTipKey: string;
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly router: Router = inject(Router);
   private readonly autoCompleteFacade: AutoCompleteFacade =
@@ -44,6 +50,7 @@ export class EditCaseMaterialComponent {
   newCaseCreation: boolean = this.featureToggleConfigService.isEnabled(
     'createManualCaseAsView'
   );
+  private tableItem: MaterialTableItem;
 
   agInit(params: ICellRendererParams): void {
     this.isCaseView =
@@ -52,6 +59,10 @@ export class EditCaseMaterialComponent {
     this.params = params;
 
     this.cellValue = this.getValueToDisplay(params);
+    // check whether a warning sign needs to be displayed
+    // SAP ErrorCodes will be handled within the infoCell component
+    this.tableItem = this.params.data;
+    this.displayWarning = this.checkForWarning(this.params.colDef.field);
   }
 
   refresh(params: ICellRendererParams): boolean {
@@ -68,7 +79,7 @@ export class EditCaseMaterialComponent {
     const previousData = this.params.data;
     this.dialog
       .open(EditingMaterialModalComponent, {
-        width: '660px',
+        width: this.newCaseCreation ? '990px' : '660px',
         data: {
           material: this.params.data,
           field: this.params.colDef.field,
@@ -126,5 +137,27 @@ export class EditCaseMaterialComponent {
     return this.isCaseView
       ? this.createCaseFacade.validateMaterialsOnCustomerAndSalesOrg()
       : this.processCaseFacade.validateMaterialTableItems();
+  }
+
+  private checkForWarning(field: string): boolean {
+    switch (field) {
+      case 'customerMaterialNumber': {
+        return this.isWarningPresent(VALIDATION_CODE.QDV002);
+      }
+
+      case 'quantity': {
+        return this.isWarningPresent(VALIDATION_CODE.QDV001);
+      }
+
+      default: {
+        return false;
+      }
+    }
+  }
+
+  private isWarningPresent(warningKey: VALIDATION_CODE): boolean {
+    this.toolTipKey = warningKey;
+
+    return this.tableItem.info?.codes?.includes(warningKey);
   }
 }

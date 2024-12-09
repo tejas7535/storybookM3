@@ -1,7 +1,7 @@
 .panel-wrapper {
   @apply relative;
   .panel {
-    @apply absolute right-2 top-12 drop-shadow-md p-5 z-30 bg-white rounded-sm;
+    @apply absolute right-2 top-12 drop-shadow-md p-5 z-30 bg-surface-container-high rounded-sm;
   }
 }
 

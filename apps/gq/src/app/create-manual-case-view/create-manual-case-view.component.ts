@@ -3,11 +3,9 @@ import { AfterViewInit, Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Router, RouterModule } from '@angular/router';
 
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 
-import { AppRoutePath } from '@gq/app-route-path.enum';
 import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module';
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { CurrencyModule } from '@gq/core/store/currency/currency.module';
@@ -46,7 +44,6 @@ type typeAnimation = 'fade-in' | 'fade-out';
     ActiveCaseModule,
     InputTableComponent,
     SharedPipesModule,
-    RouterModule,
   ],
   providers: [
     { provide: TRANSLOCO_SCOPE, useValue: 'create-manual-case-view' },
@@ -54,7 +51,6 @@ type typeAnimation = 'fade-in' | 'fade-out';
 })
 export class CreateManualCaseViewComponent implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
-  private readonly router: Router = inject(Router);
   private readonly insightsService: ApplicationInsightsService = inject(
     ApplicationInsightsService
   );
@@ -96,6 +92,9 @@ export class CreateManualCaseViewComponent implements AfterViewInit {
   );
 
   createCase(): void {
+    this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_FINISHED, {
+      type: CASE_CREATION_TYPES.MANUAL,
+    } as CaseCreationEventParams);
     console.log('createCase');
   }
   ngAfterViewInit() {
@@ -114,10 +113,7 @@ export class CreateManualCaseViewComponent implements AfterViewInit {
       type: CASE_CREATION_TYPES.MANUAL,
     } as CaseCreationEventParams);
 
-    setTimeout(() => {
-      this.router.navigate([AppRoutePath.CaseViewPath]);
-      this.createCaseFacade.resetCaseCreationInformation();
-    }, 200);
+    this.createCaseFacade.resetCaseCreationInformation();
   }
 
   handleHeaderInformationHasChanges(

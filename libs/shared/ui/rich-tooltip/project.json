@@ -22,8 +22,8 @@
       "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
-          "format": "checkstyle",
-          "outputFile": "checkstyle/libs/shared/ui/rich-tooltip/checkstyle.xml",
+          "format": "json",
+          "outputFile": "eslint/libs/shared/ui/rich-tooltip/eslint.json",
           "force": true
         }
       }
@@ -34,6 +34,16 @@
       "options": {
         "jestConfig": "libs/shared/ui/rich-tooltip/jest.config.ts"
       }
+    },
+    "sonar": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "sonar-scanner -Dsonar.token=${SONAR_TOKEN} -Dproject.settings=libs/shared/ui/rich-tooltip/sonar-project.properties"
+        ],
+        "parallel": false
+      },
+      "outputs": []
     },
     "publish": {
       "executor": "nx:run-commands",

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { Color } from '../../shared/models';
 import { BUTTON_CSS, OrgChartNode } from './models';
 
 @Injectable({
@@ -50,7 +51,7 @@ export class OrgChartTemplateService {
                 <span ${switchDimension} class="hover:text-link" style="font-size: 14px; line-height: 20px; letter-spacing: 0.25px;">${data.organization}</span>
               </div> 
               <div class="${headerClass}">
-                <span class="${headerClass}" style="font-size: 14px; line-height: 20px; letter-spacing: 0.25px; color: rgba(0, 0, 0, 0.6)">
+                <span class="${headerClass}" style="font-size: 14px; line-height: 20px; letter-spacing: 0.25px; color: ${Color.TEXT_MEDIUM_EMPHASIS};">
                   ${data.dimensionKey}
                 </span>
               </div>
@@ -60,7 +61,7 @@ export class OrgChartTemplateService {
                   padding-left: 8px; margin-right: 8px; width: 100%; cursor: pointer;" class="hover:bg-gray-300 rounded group">
                 <span ${peopleNodeId} style="display: flex; align-items: center; justify-content: center; font-size: 14px; letter-spacing: 0.25px;">
                   ${peopleIconSvg}
-                  <span ${peopleNodeId} style="margin-left: 4px; color: rgba(0, 0, 0, 0.60); line-height: 20px;">${data.textEmployees}</span>
+                  <span ${peopleNodeId} style="margin-left: 4px; color: ${Color.TEXT_MEDIUM_EMPHASIS}; line-height: 20px;">${data.textEmployees}</span>
                 </span>
                 <span ${peopleNodeId} style="display: flex; justify-content: center; font-size: 20px; line-height: 24px; letter-spacing: 0.25px;">
                   ${data.directSubordinates}
@@ -71,7 +72,7 @@ export class OrgChartTemplateService {
                   padding-right: 8px; margin-left: 8px; width: 100%; cursor: pointer;" class="hover:bg-gray-300 rounded group">
                 <span ${fluctuationNodeId} style="display: flex; align-items: center; justify-content: center; font-size: 14px; letter-spacing: 0.25px;">
                   ${fluctuationIconSvg}
-                  <span ${fluctuationNodeId} style="margin-left: 4px; color: rgba(0, 0, 0, 0.60); line-height: 20px;">${data.textFluctuation}</span>
+                  <span ${fluctuationNodeId} style="margin-left: 4px; color: ${Color.TEXT_MEDIUM_EMPHASIS}; line-height: 20px;">${data.textFluctuation}</span>
                 </span>
                 <span ${fluctuationNodeId} class="${BUTTON_CSS.attrition}" style="display: flex; justify-content: center; font-size: 20px; line-height: 24px; letter-spacing: 0.25px;">
               ${
@@ -178,7 +179,7 @@ export class OrgChartTemplateService {
             <span ${switchDimension} class="hover:text-link" style="font-size: 14px; line-height: 20px; letter-spacing: 0.25px;">${data.organization}</span>
           </div>
           <div class="${headerClass}">
-            <span class="${headerClass}" style="font-size: 14px; line-height: 20px; letter-spacing: 0.25px; color: rgba(0, 0, 0, 0.6)">
+            <span class="${headerClass}" style="font-size: 14px; line-height: 20px; letter-spacing: 0.25px; color: ${Color.TEXT_MEDIUM_EMPHASIS};">
               ${data.organizationLongName}
             </span>
           </div>
@@ -191,7 +192,7 @@ export class OrgChartTemplateService {
               padding-left: 8px; margin-right: 8px; width: 100%; cursor: pointer;" class="hover:bg-gray-300 rounded group">
             <span ${peopleNodeId} style="display: flex; align-items: center; justify-content: center; font-size: 14px; letter-spacing: 0.25px;">
               ${peopleIconSvg}
-              <span ${peopleNodeId} style="margin-left: 4px; color: rgba(0, 0, 0, 0.60); line-height: 20px;">${data.textEmployees}</span>
+              <span ${peopleNodeId} style="margin-left: 4px; color: ${Color.TEXT_MEDIUM_EMPHASIS}; line-height: 20px;">${data.textEmployees}</span>
             </span>
             <span ${peopleNodeId} style="display: flex; justify-content: center; font-size: 20px; line-height: 24px; letter-spacing: 0.25px;">
               ${data.directSubordinates}&nbsp;/&nbsp;${data.totalSubordinates}
@@ -203,7 +204,7 @@ export class OrgChartTemplateService {
               class="${BUTTON_CSS.attrition} hover:bg-gray-300 rounded group">
             <span ${fluctuationNodeId} style="display: flex; align-items: center; justify-content: center; font-size: 14px; letter-spacing: 0.25px;">
               ${fluctuationIconSvg}
-              <span ${fluctuationNodeId} class="${BUTTON_CSS.attrition}" style="margin-left: 4px; color: rgba(0, 0, 0, 0.60); line-height: 20px;">${data.textFluctuation}</span>
+              <span ${fluctuationNodeId} class="${BUTTON_CSS.attrition}" style="margin-left: 4px; color: ${Color.TEXT_MEDIUM_EMPHASIS}; line-height: 20px;">${data.textFluctuation}</span>
             </span>
             <span ${fluctuationNodeId} class="${BUTTON_CSS.attrition}" style="display: flex; justify-content: center; font-size: 20px; line-height: 24px; letter-spacing: 0.25px;">
               ${
@@ -276,7 +277,7 @@ export class OrgChartTemplateService {
   getPeopleIconSvg(nodeId: string): string {
     return `
     <svg ${nodeId} xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
-      <path ${nodeId} class="group-hover:fill-primary" fill-rule="evenodd" clip-rule="evenodd" d="M7.82663 5.33331C7.82663 6.43998 6.93996 7.33331 5.83329 7.33331C4.72663 7.33331 3.83329 6.43998 3.83329 5.33331C3.83329 4.22665 4.72663 3.33331 5.83329 3.33331C6.93996 3.33331 7.82663 4.22665 7.82663 5.33331ZM13.16 5.33331C13.16 6.43998 12.2733 7.33331 11.1666 7.33331C10.06 7.33331 9.16663 6.43998 9.16663 5.33331C9.16663 4.22665 10.06 3.33331 11.1666 3.33331C12.2733 3.33331 13.16 4.22665 13.16 5.33331ZM5.83329 8.66665C4.27996 8.66665 1.16663 9.44665 1.16663 11V12.6666H10.5V11C10.5 9.44665 7.38663 8.66665 5.83329 8.66665ZM10.52 8.69998C10.7533 8.67998 10.9733 8.66665 11.1666 8.66665C12.72 8.66665 15.8333 9.44665 15.8333 11V12.6666H11.8333V11C11.8333 10.0133 11.2933 9.25998 10.52 8.69998Z" fill="rgba(0, 0, 0, 0.60)"/>
+      <path ${nodeId} class="group-hover:fill-primary" fill-rule="evenodd" clip-rule="evenodd" d="M7.82663 5.33331C7.82663 6.43998 6.93996 7.33331 5.83329 7.33331C4.72663 7.33331 3.83329 6.43998 3.83329 5.33331C3.83329 4.22665 4.72663 3.33331 5.83329 3.33331C6.93996 3.33331 7.82663 4.22665 7.82663 5.33331ZM13.16 5.33331C13.16 6.43998 12.2733 7.33331 11.1666 7.33331C10.06 7.33331 9.16663 6.43998 9.16663 5.33331C9.16663 4.22665 10.06 3.33331 11.1666 3.33331C12.2733 3.33331 13.16 4.22665 13.16 5.33331ZM5.83329 8.66665C4.27996 8.66665 1.16663 9.44665 1.16663 11V12.6666H10.5V11C10.5 9.44665 7.38663 8.66665 5.83329 8.66665ZM10.52 8.69998C10.7533 8.67998 10.9733 8.66665 11.1666 8.66665C12.72 8.66665 15.8333 9.44665 15.8333 11V12.6666H11.8333V11C11.8333 10.0133 11.2933 9.25998 10.52 8.69998Z" fill="${Color.TEXT_MEDIUM_EMPHASIS}"/>
     </svg>
     `;
   }
@@ -284,7 +285,7 @@ export class OrgChartTemplateService {
   getFluctuationIconSvg(nodeId: string): string {
     return `
     <svg ${nodeId} xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <path ${nodeId} class="group-hover:fill-primary" fill-rule="evenodd" clip-rule="evenodd" d="M3.33333 2H12.6667C13.4 2 14 2.6 14 3.33333V12.6667C14 13.4 13.4 14 12.6667 14H3.33333C2.6 14 2 13.4 2 12.6667V3.33333C2 2.6 2.6 2 3.33333 2ZM4.66667 11.3333H6V6.66667H4.66667V11.3333ZM8.66667 11.3333H7.33333V4.66667H8.66667V11.3333ZM10 11.3333H11.3333V8.66667H10V11.3333Z" fill="rgba(0, 0, 0, 0.60)"/>
+      <path ${nodeId} class="group-hover:fill-primary" fill-rule="evenodd" clip-rule="evenodd" d="M3.33333 2H12.6667C13.4 2 14 2.6 14 3.33333V12.6667C14 13.4 13.4 14 12.6667 14H3.33333C2.6 14 2 13.4 2 12.6667V3.33333C2 2.6 2.6 2 3.33333 2ZM4.66667 11.3333H6V6.66667H4.66667V11.3333ZM8.66667 11.3333H7.33333V4.66667H8.66667V11.3333ZM10 11.3333H11.3333V8.66667H10V11.3333Z" fill="${Color.TEXT_MEDIUM_EMPHASIS}"/>
     </svg>
     `;
   }

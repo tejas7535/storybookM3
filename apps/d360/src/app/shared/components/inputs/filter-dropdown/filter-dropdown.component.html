@@ -31,7 +31,7 @@
     <mat-hint>{{ hintText() }}</mat-hint>
   }
 
-  @if (this.control().value && this.addClearButton()) {
+  @if (control().value && addClearButton()) {
     <button matSuffix mat-icon-button aria-label="Clear" (click)="onClear()">
       <mat-icon>close</mat-icon>
     </button>

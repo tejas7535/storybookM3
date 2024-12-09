@@ -4,4 +4,5 @@ export interface Environment {
   assetsPath: string;
   lsaApiBaseUrl: string;
   staticStorageUrl: string;
+  showDebugJson: boolean;
 }

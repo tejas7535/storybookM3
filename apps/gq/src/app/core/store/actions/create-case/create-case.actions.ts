@@ -85,7 +85,10 @@ export const validateMaterialsOnCustomerAndSalesOrgFailure = createAction(
 
 export const validateMaterialsOnCustomerAndSalesOrgSuccess = createAction(
   '[Create Case] Get Validation for RowData on Customer and SalesOrg: Validation Success',
-  props<{ materialValidations: MaterialValidation[] }>()
+  props<{
+    materialValidations: MaterialValidation[];
+    isNewCaseCreation: boolean;
+  }>()
 );
 
 export const createCase = createAction(
@@ -229,6 +232,9 @@ export const updateCurrencyOfPositionItems = createAction(
   '[Create Case] Update Currency of Position Items'
 );
 
+export const navigateToCaseOverView = createAction(
+  '[Create Case] Back to Case Overview'
+);
 const all = union({
   addRowDataItems,
   duplicateRowDataItem,
@@ -240,6 +246,7 @@ const all = union({
   createCaseFailure,
   createCaseSuccess,
   deleteRowDataItem,
+  setSelectedAutocompleteOption,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
   validateMaterialsOnCustomerAndSalesOrg,
@@ -257,6 +264,7 @@ const all = union({
   clearSectorGpsd,
   setRowDataCurrency,
   updateCurrencyOfPositionItems,
+  navigateToCaseOverView,
 });
 
 export type createCaseActions = typeof all;

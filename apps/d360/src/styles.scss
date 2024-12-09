@@ -43,3 +43,8 @@ html {
   /** Ag-Grid overrides */
   @include agGridOverrides.apply;
 }
+
+/** Here we define our global CSS vars */
+:root {
+  --app-font-family: 'Noto sans';
+}

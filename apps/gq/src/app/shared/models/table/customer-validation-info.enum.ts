@@ -1,0 +1,15 @@
+import { SAP_ERROR_MESSAGE_CODE } from '../quotation-detail';
+
+enum CustomerValidationInfo {
+  QDV001 = 'QDV001',
+  QDV002 = 'QDV002',
+}
+
+export enum VALIDATION_CODE {
+  SDG101 = SAP_ERROR_MESSAGE_CODE.SDG101,
+  SDG102 = SAP_ERROR_MESSAGE_CODE.SDG102,
+  SDG103 = SAP_ERROR_MESSAGE_CODE.SDG103,
+  SDG104 = SAP_ERROR_MESSAGE_CODE.SDG104,
+  QDV001 = CustomerValidationInfo.QDV001,
+  QDV002 = CustomerValidationInfo.QDV002,
+}

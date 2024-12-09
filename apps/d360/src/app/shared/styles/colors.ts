@@ -23,3 +23,4 @@ export const errorColor = '#A31839';
 export const errorColorLight = '#F7D4D4';
 export const secondaryColor = dimmedGrey;
 export const grayBackgroundColor = '#DEE3E7';
+export const transparent = 'transparent';

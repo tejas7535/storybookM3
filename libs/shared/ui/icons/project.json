@@ -21,8 +21,8 @@
       "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
-          "format": "checkstyle",
-          "outputFile": "checkstyle/libs/shared/ui/icons/checkstyle.xml",
+          "format": "json",
+          "outputFile": "eslint/libs/shared/ui/icons/eslint.json",
           "force": true
         }
       }
@@ -33,6 +33,16 @@
         "jestConfig": "libs/shared/ui/icons/jest.config.ts"
       },
       "outputs": ["{workspaceRoot}/coverage/libs/shared/ui/icons"]
+    },
+    "sonar": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "sonar-scanner -Dsonar.token=${SONAR_TOKEN} -Dproject.settings=libs/shared/ui/icons/sonar-project.properties"
+        ],
+        "parallel": false
+      },
+      "outputs": []
     },
     "publish": {
       "executor": "nx:run-commands",

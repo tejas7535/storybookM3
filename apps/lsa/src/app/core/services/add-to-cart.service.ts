@@ -23,6 +23,10 @@ export class AddToCartService {
     this.userTier = userTier;
   }
 
+  public getUserTier(): UserTier {
+    return this.userTier;
+  }
+
   public addToCartEvent(
     accessories: Accessory[],
     formGroup: AccessoryTableFormGroup

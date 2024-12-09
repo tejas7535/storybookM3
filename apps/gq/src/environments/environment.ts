@@ -15,7 +15,7 @@ export const environment: Environment = {
   oneTrustId: '769f7370-251f-48bd-abe1-cf7907e49189',
   applicationInsights: {
     applicationInsightsConfig: {
-      instrumentationKey: 'f05bb411-2544-4614-816c-ba9f772dd3b0',
+      instrumentationKey: '9a6280ad-3b08-4429-bf4a-541dad9532b8',
       disableCookiesUsage: false,
       autoTrackPageVisitTime: true,
     },

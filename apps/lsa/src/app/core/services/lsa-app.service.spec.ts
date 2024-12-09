@@ -1,20 +1,38 @@
 import { Pages } from '@lsa/shared/constants/pages.enum';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
+import { GoogleAnalyticsService } from './google-analytics';
 import { LsaAppService } from './lsa-app.service';
 
 describe('LsaAppService', () => {
   let spectator: SpectatorService<LsaAppService>;
   let service: LsaAppService;
-  const createService = createServiceFactory(LsaAppService);
+  let googleAnalyticsService: GoogleAnalyticsService;
+
+  const createService = createServiceFactory({
+    service: LsaAppService,
+    providers: [
+      {
+        provide: GoogleAnalyticsService,
+        useValue: {
+          logStepLoadEvent: jest.fn(),
+        },
+      },
+    ],
+  });
 
   beforeEach(() => {
     spectator = createService();
     service = spectator.service;
+    googleAnalyticsService = spectator.inject(GoogleAnalyticsService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should log intial step event', () => {
+    expect(googleAnalyticsService.logStepLoadEvent).toHaveBeenCalledWith(1);
   });
 
   it('should return pages', () => {
@@ -34,6 +52,10 @@ describe('LsaAppService', () => {
 
     it('should return selected page', () => {
       expect(service.getSelectedPage()).toBe(Pages.Lubricant);
+    });
+
+    it('should log step event', () => {
+      expect(googleAnalyticsService.logStepLoadEvent).toHaveBeenCalledWith(2);
     });
   });
 

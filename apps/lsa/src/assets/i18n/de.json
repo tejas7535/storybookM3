@@ -78,7 +78,7 @@
       "smallerEqual": "≤",
       "tempRange": "Temperaturbereich",
       "voltage": "Betriebsspannung",
-      "dimensions": "Abmessungen",
+      "dimensions": "Abmessungen (mm)",
       "meter": "m",
       "centimeter": "cm",
       "cubiccentimeter": "cm³",
@@ -90,6 +90,7 @@
       "no": "Nein",
       "heading": "Teileliste für {{ designation }}",
       "share": "Teilen",
+      "reset": "Eingaben zurücksetzen",
       "addToCart": "In den Warenkorb legen",
       "addToCartMessage": "Produkte / Zubehör in den Warenkorb gelegt",
       "product": "Produkt",
@@ -97,18 +98,53 @@
       "pieces": "Anzahl",
       "availability": "Verfügbarkeit",
       "quantity": "Menge",
-      "totalPieces": "Gesamtstücke",
+      "price": "Preis",
+      "perPiece": "pro Stück",
+      "totalPieces": "Gesamt",
       "totalPrice": "Gesamtwert netto",
       "inStock": "verfügbar",
       "notInStock": "nicht verfügbar",
       "configSummary": "Konfigurationsübersicht",
       "increaseOne": "Menge um eins erhöhen",
       "decreaseOne": "Menge um eins verringern",
+      "category": {
+        "lubricantApplication": "Schmierstoffauftrag",
+        "cartridge": "Kartuschen",
+        "gateway": "Gateway",
+        "subDistributors": "Unterverteiler",
+        "accessories": "Zubehör",
+        "fittings": "Fittings",
+        "lubricator": "Schmierstoffgeber",
+        "hoses": "Schläuche"
+      },
       "error": {
         "heading": "Kein kompatibles Gerät verfügbar",
         "body": "Basierend auf Ihren angaben konnte kein passendes Produkt gefunden werden. Kontaktieren Sie den technischen Support um Hilfe bei der Auswahl einer geeigneten Schmierlösung zu erhalten.",
-        "ctaLink": "https://medias.schaeffler.de/de/stc",
+        "ctaLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=de",
         "ctaText": "Schaeffler Technischer Support"
+      },
+      "errors": {
+        "compatability": {
+          "pressure": {
+            "title": "Druckanforderungen sind zu hoch",
+            "body": "Die berechneten Druckanforderungen für Ihre Konfiguration sind zu hoch. Versuchen Sie, den Schmierstoffgeber näher an die Schmierpunkte zu bringen, um die Schlauchlänge zu reduzieren."
+          }
+        },
+        "lubrication": {
+          "quantityLow": {
+            "title": "Schmiermenge niedrig",
+            "body": "Ihre Konfiguration zeigt eine sehr niedrige Schmiermenge an. Bei solch niedrigen Mengen können die Schmierstoffe ihre vorgesehene Lebensdauer überschreiten. Ziehen Sie in Betracht, manuelle Schmierung zu verwenden."
+          },
+          "quantityHigh": {
+            "title": "Schmiermenge hoch",
+            "body": "Die Schmiermenge für Ihre Konfiguration überschreitet die Fähigkeiten unseres Produktportfolios."
+          }
+        }
+      },
+      "warning": {
+        "adjustedAutomatically": "Wir konnten keine geeignete Lösung innerhalb des Optime-Ökosystems finden. Wir können die folgenden Alternativen ohne Optime-Funktionalität anbieten.",
+        "noRecommendation": "Wir konnten Ihnen nicht automatisch eine geeignete Empfehlung für Ihre Eingabeparameter geben. Bitte wenden Sie sich an den technischen Support von Schaeffler für eine spezifische Beratung.",
+        "usedFallbackGrease": "Wir können keine detaillierte Empfehlung für auf dem Markt verfügbare Fette geben. Wir haben ein weitgehend kompatibles Fett aus dem Schaeffler Arcanol-Sortiment für unsere Berechnung verwendet. Bitte stellen Sie sicher, dass Ihr verwendetes Fett in seinen Eigenschaften vergleichbar ist."
       }
     }
   },
@@ -128,15 +164,24 @@
   "inputs": {
     "title": "Ihre Eingaben",
     "relubricationQuantity": {
-      "title": "Nachschmiermenge pro Punkt",
+      "title": "Nachschmiermenge pro Schmierstelle",
       "value": "< {{quantity}} ccm pro {{interval}}"
     },
     "temperature": {
       "title": "Umgebungstemperatur in der Anwendung",
       "value": "{{min}}°C bis {{max}}°C"
     },
-    "maxPipeLengthTitle": "Max. Rohrlänge",
+    "lubricationPoints": "Anzahl an Schmierstellen",
+    "maxPipeLengthTitle": "Max. Länge Schmierstoffleitung",
     "powerSupplyTitle": "Stromversorgung",
-    "optimeTitle": "OPTIME-Integration"
+    "optimeTitle": "OPTIME-Integration",
+    "remoteChanged": "Für Ihre ursprüngliche Anfrage mit {{original}} konnten keine Ergebnisse gefunden werden. Wir haben automatisch eine erneute Anfrage mit {{new}} als mögliche Alternative erstellt. Bitte überprüfen Sie, ob dies mit Ihrem Anwendungsfall kompatibel ist."
+  },
+  "disclaimer": {
+    "text": "Unsere Angaben berücksichtigen diejenigen Risiken, die uns auf Grund der von Ihnen zur Verfügung gestellten Vorgaben erkennbar waren. Die Erarbeitung der Unterlage erfolgt ausschließlich im Zusammenhang mit dem Erwerb unserer Produkte. Die Ergebnisse der Unterlage sind sorgfältig und nach dem Stand der Technik erarbeitet, stellen jedoch im juristischen Sinne keine Beschaffenheits- oder Haltbarkeitsgarantie dar und ersetzen nicht die von Ihnen zu verifizierende Eignung. Wir haften für die Angaben in der Unterlage nur im Falle von Vorsatz und Fahrlässigkeit. Bei Fragen zum Produkt, zur Empfehlung oder zur Eignung des Produktes melden Sie sich bitte unter folgendem Link bei uns: ",
+    "linkText": "Kontakt",
+    "link": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=de",
+    "showMore": "Mehr anzeigen",
+    "showLess": "Weniger anzeigen"
   }
 }

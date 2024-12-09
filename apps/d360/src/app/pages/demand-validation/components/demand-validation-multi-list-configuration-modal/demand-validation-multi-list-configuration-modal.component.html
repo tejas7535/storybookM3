@@ -1,0 +1,35 @@
+<div *transloco="let t">
+  <div mat-dialog-title class="m-0 pt-0">
+    <h2 class="text-title-large">
+      {{ t('validation_of_demand.upload_modal.list.title', {}) }} -
+      {{ this.data.customerName }}
+    </h2>
+  </div>
+
+  <mat-dialog-content class="min-h-[100px]">
+    <div class="flex-col flex h-full">
+      <p class="mb-3">
+        {{ t('validation_of_demand.upload_modal.material_type.title') }}
+      </p>
+
+      <div [formGroup]="listEditConfigurationForm">
+        <mat-radio-group formControlName="materialType">
+          <mat-radio-button value="schaeffler">{{
+            t('validation_of_demand.upload_modal.material')
+          }}</mat-radio-button>
+          <mat-radio-button value="customer">
+            {{ t('validation_of_demand.upload_modal.customer_material') }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>{{ t('button.close') }}</button>
+
+    <button mat-flat-button (click)="continueToMultiEdit()">
+      {{ t('button.create') }}
+    </button>
+  </mat-dialog-actions>
+</div>

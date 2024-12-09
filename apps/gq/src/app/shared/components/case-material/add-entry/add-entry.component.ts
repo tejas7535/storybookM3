@@ -11,7 +11,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -33,6 +33,8 @@ import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import {
   getNextHigherPossibleMultiple,
+  getTargetPriceSourceValue,
+  getTargetPriceValue,
   parseNullableLocalizedInputValue,
   validateQuantityInputKeyPress,
 } from '@gq/shared/utils/misc.utils';
@@ -51,12 +53,14 @@ import { priceValidator } from '../../../validators/price-validator';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
 import { InfoIconModule } from '../../info-icon/info-icon.module';
+import { TargetPriceSourceSelectComponent } from '../../target-price-source-select/target-price-source-select.component';
 @Component({
   selector: 'gq-add-entry',
   templateUrl: './add-entry.component.html',
   standalone: true,
   imports: [
     AutocompleteInputComponent,
+    TargetPriceSourceSelectComponent,
     MatInputModule,
     MatButtonModule,
     MatCardModule,
@@ -151,23 +155,27 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   customerMaterialInput: boolean;
   materialInputIsValid = false;
   addRowEnabled = false;
+
   quantityFormControl: FormControl = new FormControl(
-    null,
+    { value: null, disabled: true },
     [],
     this.newCaseCreation
       ? [quantityDeliveryUnitValidator(this.selectedMaterialAutocomplete$)]
       : []
   );
-  targetPriceFormControl: FormControl = new FormControl();
+  targetPriceFormControl: FormControl = new FormControl({
+    value: undefined,
+    disabled: true,
+  });
   targetPriceSourceFormControl: FormControl = new FormControl({
     value: TargetPriceSource.NO_ENTRY,
-    disabled: false,
+    disabled: true,
   });
-  targetPriceSources: string[] = [
-    TargetPriceSource.NO_ENTRY,
-    TargetPriceSource.INTERNAL,
-    TargetPriceSource.CUSTOMER,
-  ];
+  addEntryFormGroup: FormGroup = new FormGroup({
+    quantityFormControl: this.quantityFormControl,
+    targetPriceFormControl: this.targetPriceFormControl,
+    targetPriceSourceFormControl: this.targetPriceSourceFormControl,
+  });
 
   public ngOnInit(): void {
     if (this.newCaseCreation) {
@@ -187,13 +195,14 @@ export class AddEntryComponent implements OnInit, OnDestroy {
         this.createCaseFacade.customerIdForCaseCreation$,
         this.createCaseFacade.selectedCustomerSalesOrg$,
       ])
-        .pipe(
-          takeUntilDestroyed(this.destroyRef),
-          filter(([id, salesOrg]) => !!id || !!salesOrg)
-        )
-        .subscribe(() => {
-          this.autoCompleteFacade.resetAutocompleteMaterials();
-          this.clearFields();
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(([id, salesOrg]) => {
+          if (!!id || !!salesOrg) {
+            this.autoCompleteFacade.resetAutocompleteMaterials();
+            this.clearFields();
+          } else {
+            this.enableNonAutoCompleteFields();
+          }
         });
     } else {
       this.autoCompleteFacade.initFacade(AutocompleteRequestDialog.ADD_ENTRY);
@@ -208,35 +217,21 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     ]);
     this.targetPriceFormControl.markAllAsTouched();
     this.targetPriceFormControl.valueChanges.subscribe((data) => {
-      if (
-        data &&
-        this.targetPriceSourceFormControl.value ===
-          TargetPriceSource.NO_ENTRY &&
-        this.targetPriceFormControl.valid
-      ) {
-        this.targetPriceSourceFormControl.setValue(TargetPriceSource.INTERNAL, {
-          emitEvent: false,
-        });
-
-        return;
-      }
-      if (!data || data === '') {
-        this.targetPriceSourceFormControl.setValue(TargetPriceSource.NO_ENTRY, {
-          emitEvent: false,
-        });
-
-        return;
-      }
+      this.targetPriceSourceFormControl.setValue(
+        getTargetPriceSourceValue(
+          data,
+          this.targetPriceFormControl.valid,
+          this.targetPriceSourceFormControl.value
+        ),
+        { emitEvent: false }
+      );
     });
 
     this.targetPriceSourceFormControl.valueChanges.subscribe((data) => {
-      if (
-        data &&
-        data === TargetPriceSource.NO_ENTRY &&
-        this.targetPriceFormControl.value
-      ) {
-        this.targetPriceFormControl.reset(null, { emitEvent: false });
-      }
+      this.targetPriceFormControl.setValue(
+        getTargetPriceValue(data, this.targetPriceFormControl.value),
+        { emitEvent: false }
+      );
     });
     if (this.newCaseCreation) {
       this.selectedMaterialAutocomplete$
@@ -253,6 +248,16 @@ export class AddEntryComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.quantityFormControl.markAsTouched();
         this.rowInputValid();
+      });
+
+    this.customerIdForCaseCreation$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((customerId) => {
+        if (customerId) {
+          this.enableNonAutoCompleteFields();
+        } else {
+          this.disableNonAutoCompleteFields();
+        }
       });
   }
 
@@ -381,6 +386,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     this.matDescInput.clearInput();
 
     this.quantityFormControl.reset();
+
     this.targetPriceFormControl.reset();
 
     this.materialInputIsValid = false;
@@ -391,6 +397,21 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     }
   }
 
+  private enableNonAutoCompleteFields(): void {
+    this.quantityFormControl.enable();
+    this.targetPriceFormControl.enable();
+    if (this.newCaseCreation) {
+      this.targetPriceSourceFormControl.enable();
+    }
+  }
+
+  private disableNonAutoCompleteFields(): void {
+    this.quantityFormControl.disable();
+    this.targetPriceFormControl.disable();
+    if (this.newCaseCreation) {
+      this.targetPriceSourceFormControl.disable();
+    }
+  }
   /**
    * The quantity form Field will have a value that is a multiple of the delivery unit
    * when the next possible multiple is higher than the current quantity Value, the next higher multiple will be taken

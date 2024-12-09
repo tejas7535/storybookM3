@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 
@@ -62,6 +63,8 @@ import { ValidationHelper } from './shared/utils/validation/validation-helper';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
+  protected activeUrl = signal('/');
+
   constructor(
     private readonly translocoService: TranslocoService,
     @Inject(MSAL_GUARD_CONFIG)
@@ -71,7 +74,13 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly store: Store,
     private readonly translocoLocaleService: TranslocoLocaleService,
     private readonly router: Router
-  ) {}
+  ) {
+    this.router.events.pipe(takeUntilDestroyed()).subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.activeUrl.set(event.url);
+      }
+    });
+  }
 
   isIframe = false;
   loginDisplay = false;

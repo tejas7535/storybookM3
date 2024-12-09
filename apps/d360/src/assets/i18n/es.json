@@ -18,7 +18,8 @@
     "delete": "Borrar",
     "yes": "Sí",
     "no": "No",
-    "change": "Cambia"
+    "change": "Cambia",
+    "download": "Descargar"
   },
   "error": {
     "unknown": "Error desconocido",
@@ -166,7 +167,8 @@
     },
     "dropdown": {
       "loading": "Proceso de carga...",
-      "loading_error": "Error en la carga de las opciones"
+      "loading_error": "Error en la carga de las opciones",
+      "minOne": "Introduzca al menos dos caracteres"
     },
     "productionPlant": {
       "rootString": "Planta de producción",
@@ -201,6 +203,10 @@
     "customer": "Cliente",
     "title": "Validación de la planificación comercial",
     "vkorg": "Organización comercial",
+    "action_bar": {
+      "edit_as_list": "Editar como Lista",
+      "edit_as_grid": "Editar como Cuadrícula"
+    },
     "filter": {
       "rootString": "Filtro ({{count}})",
       "customerMaterialNumber": "Número de material del cliente",
@@ -240,12 +246,12 @@
         "week": "W"
       },
       "save": {
-        "invalid_rows": "{{count}} filas no se han podido guardar. Compruebe su entrada.,1,1,{{count}} filas no se han podido guardar. Compruebe su entrada.",
+        "invalid_rows": "{count, plural, one {{count} filas no se han podido guardar. Compruebe su entrada.} other {{count} filas no se han podido guardar. Compruebe su entrada.}}",
         "success": "Se han guardado todas las filas."
       },
       "upload_failed": "La carga ha fallado. {{reason}}",
       "validate": {
-        "invalid_rows": "{{count}} filas inválidas. Compruebe su entrada.,1,1,{{count}} filas inválidas. Compruebe su entrada.",
+        "invalid_rows": "{count, plural, one {{count} filas inválidas. Compruebe su entrada.} other {{count} filas inválidas. Compruebe su entrada.}}",
         "success": "Todas las filas son válidas."
       },
       "list": {
@@ -409,6 +415,10 @@
       "expandAll": "desplegar",
       "collapseAll": "plegar"
     },
+    "button": {
+      "addCustomerMaterial": "Añadir material de cliente",
+      "addMultipleCustomerMaterials": "Añadir varios materiales de cliente"
+    },
     "material_info_text": {
       "head_not_active": "El botón de la cadena de sustitución no es el material activo"
     },
@@ -459,7 +469,7 @@
       "EDIT_MODAL": "Editar el material del cliente",
       "STATUS_TO_PHASE_IN": "Cambio de estado a Phase-In",
       "STATUS_TO_PHASE_OUT": "Cambio de estado a eliminación progresiva",
-      "STATUS_TO_SUBSTITUTION": "Cambio de estado a sustitución(cliente)",
+      "STATUS_TO_SUBSTITUTION": "Cambio de estado a sustitución (cliente)",
       "STATUS_TO_INACTIVE": "Cambio de estado a Inactivo",
       "STATUS_TO_ACTIVE": "Cambio de estado a activo",
       "REVERT_SUBSTITUTION": "Retirar la sustitución"

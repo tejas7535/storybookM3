@@ -248,4 +248,85 @@ describe('AccessoryTableComponent', () => {
       expect(component.isNaN('123')).toBe(false);
     });
   });
+
+  describe('when setting priceAvailabiltyResponses', () => {
+    let mockFormGroup: FormGroup;
+    const firstFifteenDigit = '789666050000010';
+    const secondFifteenDigit = '123466050000010';
+    const className = 'Adapter for lubricator';
+    let mockBaseTableGroups: { [key: string]: AccessoryTableGroup };
+
+    beforeEach(() => {
+      mockBaseTableGroups = {
+        'Adapter for lubricator': {
+          groupTitle: className,
+          groupClassId: '1',
+          items: [
+            {
+              pim_code: '123456',
+              fifteen_digit: firstFifteenDigit,
+              class: 'Adapter',
+            } as Partial<TableItem> as TableItem,
+            {
+              pim_code: '7890321',
+              fifteen_digit: secondFifteenDigit,
+              class: 'Adapter',
+            } as Partial<TableItem> as TableItem,
+          ],
+        },
+      };
+
+      const mockTableGroups = {
+        'Adapter for lubricator': {
+          groupTitle: className,
+          items: [
+            {
+              ...mockBaseTableGroups[className].items[0],
+            },
+            {
+              ...mockBaseTableGroups[className].items[1],
+            },
+          ],
+        },
+      };
+
+      (transformAccessories as jest.Mock).mockReturnValue(mockTableGroups);
+
+      mockFormGroup = new FormGroup({
+        'Adapter for lubricator': new FormGroup({
+          [firstFifteenDigit]: new FormControl<number>(1),
+          [secondFifteenDigit]: new FormControl<number>(2),
+        }),
+      });
+
+      (generateFormGroup as jest.Mock).mockReturnValue(mockFormGroup);
+
+      spectator.setInput('accessories', [
+        {
+          id: 1,
+          matnr: firstFifteenDigit,
+          pim_code: '123456',
+          name: 'Accessory 1',
+          class: 'Adapter for lubricator',
+        },
+      ]);
+
+      spectator.setInput('priceAndAvailabilityResponses', {
+        '123456': { available: true, price: 100, currency: 'USD' },
+        '7890321': { available: false, currency: 'USD' },
+      });
+    });
+
+    it('should update price and availability', () => {
+      spectator.detectChanges();
+
+      expect(component.priceAndAvailabilityResponses).toMatchSnapshot();
+    });
+
+    it('should update accessory with price and availability', () => {
+      spectator.detectChanges();
+
+      expect(component.accessories).toMatchSnapshot();
+    });
+  });
 });

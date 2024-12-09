@@ -48,6 +48,7 @@ export abstract class CaseHeaderInformationComponent implements OnInit {
   abstract shipToParty$: Observable<CaseFilterItem>;
 
   abstract isEditMode: boolean;
+  abstract quotationToChangedByUser: boolean;
   // values for the Form after initialization, needed to Check whether the form has changes or not
   private initialFormValues: HeaderInformationData;
 
@@ -93,6 +94,7 @@ export abstract class CaseHeaderInformationComponent implements OnInit {
     this.currencyFacade.availableCurrencies$;
 
   ngOnInit(): void {
+    this.quotationToChangedByUser = false;
     const locale = this.translocoLocaleService.getLocale();
     this.adapter.setLocale(locale || 'en-US');
     this.initialFormValues = cloneDeep(this.headerInfoForm.getRawValue());
@@ -119,9 +121,10 @@ export abstract class CaseHeaderInformationComponent implements OnInit {
           this.validateInquiryDateDependentDates();
         }
 
-        this.headerInfoFormChanged$$.next(
-          mappedFormValues as HeaderInformationData
-        );
+        this.headerInfoFormChanged$$.next({
+          ...(mappedFormValues as HeaderInformationData),
+          quotationToManualInput: this.quotationToChangedByUser,
+        });
       });
 
     this.headerInfoForm
@@ -229,7 +232,12 @@ export abstract class CaseHeaderInformationComponent implements OnInit {
   protected validateInquiryDateDependentDates = () => {
     const quotationToDateControl = this.headerInfoForm.get('quotationToDate');
     quotationToDateControl?.updateValueAndValidity({ emitEvent: false });
-    quotationToDateControl?.markAsTouched();
+
+    if (this.quotationToChangedByUser) {
+      quotationToDateControl.markAsTouched();
+    } else {
+      quotationToDateControl?.markAsUntouched();
+    }
   };
 
   protected validateDateGreaterOrEqualInquiryDate: ValidatorFn = (

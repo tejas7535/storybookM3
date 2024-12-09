@@ -378,6 +378,8 @@
       "title": "MaterialsGPT",
       "subTitle": "Join the MaterialsGPT testing phase",
       "content": [
+        "<b>Introducing MaterialsGPT: Revolutionizing Material Knowledge Access at Schaeffler</b>",
+        "In the fast-paced world of material development, having quick and reliable access to critical information is essential. Currently, Schaeffler employees face challenges in retrieving knowledge stored in document-based files, especially when it comes to specifications standards for testing, heat treatment, and technical delivery conditions. This often results in excessive time spent searching for specific queries, while the BYOD platform also proves inefficient in providing the desired answers.<br>Enter MaterialsGPT, a groundbreaking tool being developed collaboratively by Schaeffler’s Digital Solutions Department and the Materials Development Department. This innovative solution promises to transform how employees access and utilize materials knowledge. With MaterialsGPT, users can enjoy quicker and more confident access to standards-based information, significantly reducing the time spent on manual searches.<br>Designed with user-friendliness in mind, MaterialsGPT serves as an invaluable learning portal for new and inexperienced employees, ensuring they can easily find and understand the information they need. By minimizing the risk of incorrect information being shared, this tool enhances overall efficiency and accuracy within the department.<br>Moreover, the benefits of MaterialsGPT extend beyond material specifications, as it can be applied to other Schaeffler standards, making it a versatile and indispensable resource. Say goodbye to the frustration of endless searches and hello to a smarter, more efficient way of working with MaterialsGPT.",
         "MaterialsGPT is in a preview phase and ready for testers to participate in the application development. You can request access to the application if you wish to be part of the testing phase of the application",
         "%ASSETS/img/matgpt1.png"
       ]
@@ -1130,7 +1132,8 @@
       "extrudedBar": "Extrudet bar",
       "drawnBar": "Drawn bar",
       "ball": "Ball",
-      "roller": "Roller"
+      "roller": "Roller",
+      "duro": "Duroplastics"
     },
     "productionProcessValues": {
       "cu": {

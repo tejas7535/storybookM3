@@ -1,11 +1,16 @@
 <aside class="toolbar-container" *transloco="let t">
-  <button mat-button (click)="toggleFloatingFilter()">
-    <mat-icon>filter_list</mat-icon>
-    {{ t('material_customer.toolbar.toggle_filters', {}) }}
-  </button>
+  @if (renderFloatingFilter()) {
+    <button mat-button (click)="toggleFloatingFilter()">
+      <mat-icon>filter_list</mat-icon>
+      {{ t('material_customer.toolbar.toggle_filters') }}
+    </button>
+  }
+
   @if (rowCount() > 0) {
-    <span class="mx-2">|</span>
-    <span>
+    @if (renderFloatingFilter()) {
+      <span class="mx-2">|</span>
+    }
+    <span class="text-body-medium">
       {{
         t('table.toolbar.material_count', {
           count: rowCount() | translocoDecimal

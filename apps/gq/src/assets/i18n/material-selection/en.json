@@ -1,0 +1,8 @@
+{
+  "materialSelection": "Material Selection",
+  "lastYears": "{years, plural, =1 {Current year} other {Last {{ years }} years}}",
+  "salesHistory": "Materials from Sales History",
+  "ordersOnHand": "Materials from Orders on Hand (Current Orders)",
+  "lostQuotes": "Materials from Lost Quotes",
+  "openQuotes": "Materials from current Open Quotes"
+}

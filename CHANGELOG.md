@@ -4,6 +4,14 @@
 
 ## 12/9/2024
 * gq: [5.3.0](./apps/gq/CHANGELOG.md)
+## 12/2/2024
+* ia: [1.3.0](./apps/ia/CHANGELOG.md)
+
+## 11/26/2024
+* d360: [0.1.0](./apps/d360/CHANGELOG.md)
+
+## 11/22/2024
+* mac: [1.26.0](./apps/mac/CHANGELOG.md)
 
 ## 11/8/2024
 * ga: [1.14.8](./apps/ga/CHANGELOG.md)

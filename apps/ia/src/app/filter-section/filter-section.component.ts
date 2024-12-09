@@ -30,6 +30,7 @@ import {
   getSelectedMomentTimeRange,
   getSelectedTimePeriod,
   getTimePeriods,
+  showBenchmarkFilter,
 } from '../core/store/selectors';
 import { FILTER_DIMENSIONS } from '../shared/constants';
 import { DimensionFilterTranslation } from '../shared/dimension-filter/models';
@@ -49,6 +50,7 @@ import {
 export class FilterSectionComponent implements OnInit {
   isExpanded = true;
 
+  showBenchmarkFilter$: Observable<boolean>;
   availableDimensions$: Observable<IdValue[]>;
   activeDimension$: Observable<FilterDimension>;
   activeBenchmarkDimension$: Observable<FilterDimension>;
@@ -77,6 +79,7 @@ export class FilterSectionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.showBenchmarkFilter$ = this.store.select(showBenchmarkFilter);
     this.availableDimensions$ = this.translocoService
       .selectTranslateObject('filters.dimension.availableDimensions')
       .pipe(

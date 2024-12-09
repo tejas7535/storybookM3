@@ -22,8 +22,8 @@
       "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
-          "format": "checkstyle",
-          "outputFile": "checkstyle/libs/shared/ui/label-value/checkstyle.xml"
+          "format": "json",
+          "outputFile": "eslint/libs/shared/ui/label-value/eslint.json"
         }
       }
     },
@@ -33,6 +33,16 @@
         "jestConfig": "libs/shared/ui/label-value/jest.config.ts"
       },
       "outputs": ["{workspaceRoot}/coverage/libs/shared/ui/label-value"]
+    },
+    "sonar": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "sonar-scanner -Dsonar.token=${SONAR_TOKEN} -Dproject.settings=libs/shared/ui/label-value/sonar-project.properties"
+        ],
+        "parallel": false
+      },
+      "outputs": []
     },
     "publish": {
       "executor": "nx:run-commands",

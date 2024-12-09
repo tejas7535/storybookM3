@@ -6,7 +6,7 @@ Object {
   "lubricationPoints": "1",
   "lubricationQty": 60,
   "optime": 2,
-  "pipeLength": null,
+  "pipeLength": 0,
 }
 `;
 
@@ -24,8 +24,8 @@ exports[`LsaFormService init should init the form with defaults 3`] = `
 Object {
   "battery": 2,
   "temperature": Object {
-    "max": 15,
-    "min": 5,
+    "max": 30,
+    "min": 0,
     "title": "",
   },
 }
@@ -36,8 +36,8 @@ Object {
   "application": Object {
     "battery": 2,
     "temperature": Object {
-      "max": 15,
-      "min": 5,
+      "max": 30,
+      "min": 0,
       "title": "",
     },
   },
@@ -53,7 +53,7 @@ Object {
     "lubricationPoints": "1",
     "lubricationQty": 60,
     "optime": 2,
-    "pipeLength": null,
+    "pipeLength": 0,
   },
 }
 `;

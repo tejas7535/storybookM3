@@ -8,6 +8,7 @@ import { LegalRoute } from '@schaeffler/legal-pages';
 
 import { AppRoutePath } from './app-route-path.enum';
 import { ProdGuard, RoleGuard } from './core/guards';
+import { CreateCustomerCaseGuard } from './core/guards/create-customer-case.guard';
 import { CreateManualCaseGuard } from './core/guards/create-manual-case.guard';
 import { FORBIDDEN_ACTION } from './shared/constants';
 
@@ -65,11 +66,19 @@ export const appRoutePaths: Routes = [
   },
   {
     path: AppRoutePath.CreateManualCasePath,
-    loadChildren: () =>
+    loadComponent: () =>
       import(
-        './create-manual-case-view/create-manual-case-view-routing.module'
-      ).then((m) => m.CreateManualCaseViewRoutingModule),
+        './create-manual-case-view/create-manual-case-view.component'
+      ).then((m) => m.CreateManualCaseViewComponent),
     canActivateChild: [CreateManualCaseGuard],
+  },
+  {
+    path: AppRoutePath.CreateCaseFromCustomerPath,
+    loadComponent: () =>
+      import(
+        './create-customer-case-view/create-customer-case-view.component'
+      ).then((m) => m.CreateCustomerCaseViewComponent),
+    canActivateChild: [CreateCustomerCaseGuard],
   },
   {
     path: AppRoutePath.FeatureToggleConfig,

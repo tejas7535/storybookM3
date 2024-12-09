@@ -99,18 +99,24 @@ export interface MaterialCustomerCustomerRequest {
   sortModel: object[];
 }
 
-export const materialClassifications = ['AP', 'SPs', 'SPc', 'OP'] as const;
+export const materialClassificationOptions = [
+  'AP',
+  'SPs',
+  'SPc',
+  'OP',
+] as const;
 
-export type MaterialClassification = (typeof materialClassifications)[number];
+export type MaterialClassification =
+  (typeof materialClassificationOptions)[number];
 
-export const abcxClassifications = ['A', 'B', 'C', 'X', ''] as const;
+export const abcxClassificationOptions = ['A', 'B', 'C', 'X', ''] as const;
 
-export type AbcxClassification = (typeof abcxClassifications)[number];
+export type AbcxClassification = (typeof abcxClassificationOptions)[number];
 
 /**
  * SE - series
  * SP - sporadic
  */
-export const demandCharacteristics = ['SE', 'SP'] as const;
+export const demandCharacteristicOptions = ['SE', 'SP'];
 
-export type DemandCharacteristic = (typeof demandCharacteristics)[number];
+export type DemandCharacteristic = (typeof demandCharacteristicOptions)[number];

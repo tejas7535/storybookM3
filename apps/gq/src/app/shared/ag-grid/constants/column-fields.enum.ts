@@ -80,9 +80,11 @@ export enum CaseTableColumnFields {
 export enum MaterialColumnFields {
   MATERIAL = 'materialNumber',
   MATERIAL_DESCRIPTION = 'materialDescription',
+  CUSTOMER_MATERIAL_NUMBER = 'customerMaterialNumber',
   QUANTITY = 'quantity',
   INFO = 'info',
   TARGET_PRICE = 'targetPrice',
+  TARGET_PRICE_SOURCE = 'targetPriceSource',
 }
 
 export enum ReferencePricingColumnFields {

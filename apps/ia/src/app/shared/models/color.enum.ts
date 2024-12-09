@@ -1,4 +1,7 @@
 export enum Color {
+  TEXT_LOW_EMPHASIS = 'rgba(0, 0, 0, 0.38)',
+  TEXT_MEDIUM_EMPHASIS = 'rgba(0, 0, 0, 0.60)',
+  TEXT_HIGH_EMPHASIS = 'rgba(0, 0, 0, 0.87)',
   BLACK = '#000',
   WHITE = '#fff',
   GREY = '#ebeef0',

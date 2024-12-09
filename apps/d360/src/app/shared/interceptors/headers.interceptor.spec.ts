@@ -1,10 +1,13 @@
-import { HttpRequest, HttpResponse } from '@angular/common/http';
+import { HttpContext, HttpRequest, HttpResponse } from '@angular/common/http';
 
 import { of } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { HeadersInterceptor } from './headers.interceptor';
+import {
+  AUTO_CONFIGURE_APPLICATION_JSON_HEADER,
+  HeadersInterceptor,
+} from './headers.interceptor';
 
 describe('HeadersInterceptor', () => {
   let spectator: SpectatorService<HeadersInterceptor>;
@@ -15,7 +18,11 @@ describe('HeadersInterceptor', () => {
 
   const dummyRequest = {
     headers: { set: jest.fn() },
-    clone: jest.fn(),
+    clone: () => dummyRequest,
+    context: new HttpContext().set(
+      AUTO_CONFIGURE_APPLICATION_JSON_HEADER,
+      true
+    ),
   } as unknown as HttpRequest<any>;
 
   const interceptWithResponse = (response: HttpResponse<any>) => {

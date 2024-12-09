@@ -1,14 +1,9 @@
-import { translate } from '@jsverse/transloco';
 import { ColDef } from 'ag-grid-community';
 
+import { portfolioStatusValues } from '../../../../../feature/customer-material-portfolio/cmp-modal-types';
 import {
-  PortfolioStatus,
-  portfolioStatusValues,
-} from '../../../../../feature/customer-material-portfolio/cmp-modal-types';
-import {
-  DemandCharacteristic,
-  demandCharacteristics,
-  materialClassifications,
+  demandCharacteristicOptions,
+  materialClassificationOptions,
 } from '../../../../../feature/material-customer/model';
 import { TrafficLightCellRendererComponent } from '../../../../../shared/components/ag-grid/cell-renderer/traffic-light-cell-renderer/traffic-light-cell-renderer.component';
 import {
@@ -16,6 +11,11 @@ import {
   trafficLightValues,
 } from '../../../../../shared/components/ag-grid/traffic-light-shared-functions';
 import { AgGridLocalizationService } from '../../../../../shared/services/ag-grid-localization.service';
+import {
+  demandCharacteristicValueFormatter,
+  portfolioStatusValueFormatter,
+} from './../../../../../shared/ag-grid/grid-value-formatter';
+import { TrafficLightTooltipComponent } from './../../../../../shared/components/ag-grid/traffic-light-tooltip/traffic-light-tooltip.component';
 
 export type colType = (ColDef & {
   visible: boolean;
@@ -41,8 +41,7 @@ export function columnDefinitions(
         values: trafficLightValues,
         valueFormatter: trafficLightValueFormatter,
       },
-      // TODO implement
-      // tooltipComponent: TrafficLightTooltip,
+      tooltipComponent: TrafficLightTooltipComponent,
       tooltipField: 'tlMessage',
     },
     {
@@ -50,17 +49,11 @@ export function columnDefinitions(
       visible: true,
       alwaysVisible: true,
       filter: 'agSetColumnFilter',
+      valueFormatter: portfolioStatusValueFormatter(),
       filterParams: {
         values: portfolioStatusValues,
-        valueFormatter: (params: any): string =>
-          translate(
-            `material_customer.portfolio_status.${params.value as PortfolioStatus}`,
-            {},
-            ''
-          ),
+        valueFormatter: portfolioStatusValueFormatter(),
       },
-      // TODO implement
-      // cellRenderer: PortfolioStatusCellRenderer,
     },
     {
       colId: 'materialDescription',
@@ -86,7 +79,7 @@ export function columnDefinitions(
       alwaysVisible: false,
       filter: 'agSetColumnFilter',
       filterParams: {
-        values: materialClassifications,
+        values: materialClassificationOptions,
       },
     },
     {
@@ -123,18 +116,12 @@ export function columnDefinitions(
       colId: 'demandCharacteristic',
       visible: true,
       alwaysVisible: true,
+      valueFormatter: demandCharacteristicValueFormatter(),
       filter: 'agSetColumnFilter',
       filterParams: {
-        values: demandCharacteristics,
-        valueFormatter: (params: any): string =>
-          translate(
-            `demand_characterictics.${params.value as DemandCharacteristic}`,
-            {},
-            ''
-          ),
+        values: demandCharacteristicOptions,
+        valueFormatter: demandCharacteristicValueFormatter(),
       },
-      // TODO implement
-      // cellRenderer: DemandCharacteristicCellRenderer,
     },
     {
       colId: 'pfStatusAutoSwitch',

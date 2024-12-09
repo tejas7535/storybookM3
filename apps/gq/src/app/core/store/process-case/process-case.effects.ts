@@ -1,16 +1,22 @@
 import { inject, Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap } from 'rxjs/operators';
 
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { Customer } from '@gq/shared/models/customer';
 import { MaterialTableItem } from '@gq/shared/models/table';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { MaterialService } from '@gq/shared/services/rest/material/material.service';
 import {
-  MaterialValidationRequest,
-  MaterialValidationResponse,
+  AddDetailsValidationRequest,
+  AddDetailsValidationResponse,
+  ValidatedDetail,
 } from '@gq/shared/services/rest/material/models';
+import {
+  mapToAddDetailsValidationRequest,
+  mapValidatedDetailToMaterialValidation,
+} from '@gq/shared/utils/misc.utils';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
@@ -22,6 +28,9 @@ export class ProcessCaseEffects {
   private readonly actions$: Actions = inject(Actions);
   private readonly store: Store = inject(Store);
   private readonly materialService: MaterialService = inject(MaterialService);
+  private readonly featureToggleService: FeatureToggleConfigService = inject(
+    FeatureToggleConfigService
+  );
 
   validateAfterItemAdded$ = createEffect(() => {
     return this.actions$.pipe(
@@ -40,25 +49,33 @@ export class ProcessCaseEffects {
         this.store.select(getAddMaterialRowData),
         this.store.select(activeCaseFeature.selectCustomer),
       ]),
+      filter(([_action, tableData]) => !!tableData && tableData.length > 0),
       mergeMap(
         ([_action, tableData, customer]: [
           ReturnType<typeof ProcessCaseActions.validateMaterialTableItems>,
           MaterialTableItem[],
           Customer,
         ]) => {
-          const request: MaterialValidationRequest = {
-            customerId: customer.identifier,
-            materialNumbers: [
-              ...new Set(tableData.map((el) => el.materialNumber)),
-            ],
-          };
+          const request: AddDetailsValidationRequest =
+            mapToAddDetailsValidationRequest(customer.identifier, tableData);
 
-          return this.materialService.validateMaterials(request).pipe(
-            map((response: MaterialValidationResponse) =>
-              ProcessCaseActions.validateMaterialTableItemsSuccess({
-                materialValidations: response?.validatedMaterials,
-              })
-            ),
+          return this.materialService.validateDetailsToAdd(request).pipe(
+            map((response: AddDetailsValidationResponse) => {
+              // map the new Response to the MaterialValidation Model
+              const materialValidations = response.validatedDetails.map(
+                (detail: ValidatedDetail) => {
+                  return mapValidatedDetailToMaterialValidation(detail);
+                }
+              );
+
+              return ProcessCaseActions.validateMaterialTableItemsSuccess({
+                materialValidations,
+                // TODO: condition can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
+                isNewCaseCreation: this.featureToggleService.isEnabled(
+                  'createManualCaseAsView'
+                ),
+              });
+            }),
             catchError((errorMessage) =>
               of(
                 ProcessCaseActions.validateMaterialTableItemsFailure({

@@ -1,6 +1,10 @@
 import { Component, DestroyRef, Inject, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogContent,
+} from '@angular/material/dialog';
 
 import { TranslocoModule } from '@jsverse/transloco';
 
@@ -12,7 +16,7 @@ import { ExportTableDialogData } from './export-table-dialog.model';
 @Component({
   selector: 'd360-export-table-dialog',
   standalone: true,
-  imports: [LoadingSpinnerModule, TranslocoModule],
+  imports: [LoadingSpinnerModule, TranslocoModule, MatDialogContent],
   templateUrl: './export-table-dialog.component.html',
   styleUrl: './export-table-dialog.component.scss',
 })

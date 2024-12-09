@@ -1,0 +1,53 @@
+<div *transloco="let t">
+  <div mat-dialog-title class="m-0 pt-0">
+    <div class="flex">
+      <h2 class="text-title-large flex-auto">
+        {{ t('validation_of_demand.deletion_modal.title') }} -
+        {{ data.customerName }}
+      </h2>
+    </div>
+  </div>
+  <mat-dialog-content>
+    <div class="flex flex-col w-full">
+      <d360-demand-validation-date-picker
+        [formGroup]="formGroup"
+        [startDatePeriod1]="formGroup.controls.startDate"
+        [endDatePeriod1]="formGroup.controls.endDate"
+        [periodType1]="formGroup.controls.periodType"
+        [periodTypes]="periodTypeOptions"
+        [disableOptionalDate]="true"
+        [minDate]="firstEditableDate"
+      />
+
+      <d360-on-type-autocomplete-with-multiselect
+        class="w-1/2"
+        [autocompleteLabel]="t('globalSelection.material.rootString')"
+        [entityNamePlural]="t('globalSelection.material.entity_name_plural')"
+        [entityName]="t('globalSelection.material.entity_name')"
+        [control]="formGroup.controls.materialNumbers"
+        [form]="formGroup"
+        [getOptionLabel]="DisplayFunctions.displayFnUnited"
+        [getOptionLabelInTag]="DisplayFunctions.displayFnText"
+        [resolveFunction]="
+          globalSelectionHelperService.resolveMaterialNumbers.bind(
+            globalSelectionHelperService
+          )
+        "
+        urlBegin="global-selection/search-materials"
+      />
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="gap-3">
+    <button (click)="onClose()" mat-dialog-close mat-button>
+      {{ t('button.close') }}
+    </button>
+    <button
+      mat-flat-button
+      [disabled]="isFormInvalid()"
+      (click)="deleteOnConfirmation()"
+    >
+      {{ t('validation_of_demand.deletion_modal.delete_button') }}
+    </button>
+  </mat-dialog-actions>
+</div>

@@ -128,6 +128,9 @@ describe('AddEntryComponent', () => {
   });
 
   describe('ngOnInit', () => {
+    beforeEach(() => {
+      component['clearFields'] = jest.fn();
+    });
     test('should set quantityValid if when quantityFormControl valueChanges', () => {
       component.rowInputValid = jest.fn();
       component.quantityFormControl.markAsTouched = jest.fn();
@@ -189,7 +192,21 @@ describe('AddEntryComponent', () => {
       );
     });
 
+    test('should enable nonAutocompleteFields when CustomerId is set', () => {
+      component.newCaseCreation = true;
+      Object.defineProperty(component, 'isCaseView', {
+        value: true,
+        writable: true,
+      });
+      component['enableNonAutoCompleteFields'] = jest.fn();
+      customerIdForCaseCreationSubject.next('555');
+      selectedCustomerSalesOrgSubject.next({ id: '0816', selected: true });
+      component.ngOnInit();
+      expect(component['enableNonAutoCompleteFields']).toHaveBeenCalled();
+    });
+
     test('should set the quantity to the next multiple of deliveryUnit when quantity < deliveryUnit', () => {
+      component['clearFields'] = jest.fn();
       component.newCaseCreation = true;
       component.quantityFormControl.setValue('2');
       selectedMaterialAutocompleteSubject.next(
@@ -304,12 +321,13 @@ describe('AddEntryComponent', () => {
       });
       test('should set the targetPriceSource to INTERNAL when targetPriceSource is NO_ENTRY and targetPriceFormControl is valid', () => {
         component.targetPriceFormControl.setValue(null);
-        component.targetPriceSourceFormControl.setValue(
-          TargetPriceSource.NO_ENTRY
-        );
         component.targetPriceSourceFormControl.setValue = jest.fn();
         component.addSubscriptions();
+        Object.defineProperty(component.targetPriceFormControl, 'valid', {
+          value: true,
+        });
         component.targetPriceFormControl.setValue('123');
+
         expect(
           component.targetPriceSourceFormControl.setValue
         ).toHaveBeenCalledWith(TargetPriceSource.INTERNAL, {
@@ -318,12 +336,14 @@ describe('AddEntryComponent', () => {
       });
       test('should not set set the TargetPriceSource when targetPriceFormControl is NOT valid', () => {
         component.targetPriceFormControl.setValue(null);
-        component.targetPriceSourceFormControl.setValue = jest.fn();
+        component.targetPriceSourceFormControl.setValue(
+          TargetPriceSource.NO_ENTRY
+        );
         component.addSubscriptions();
         component.targetPriceFormControl.setValue('sdf');
-        expect(
-          component.targetPriceSourceFormControl.setValue
-        ).not.toHaveBeenCalled();
+        expect(component.targetPriceSourceFormControl.value).toBe(
+          TargetPriceSource.NO_ENTRY
+        );
       });
       test('should not update the targetPriceSource when it is already set to <> No_ENTRY when targetPrice is set/changed', () => {
         component.targetPriceFormControl.setValue(null);
@@ -333,9 +353,6 @@ describe('AddEntryComponent', () => {
         component.targetPriceSourceFormControl.setValue = jest.fn();
         component.addSubscriptions();
         component.targetPriceFormControl.setValue('123');
-        expect(
-          component.targetPriceSourceFormControl.setValue
-        ).not.toHaveBeenCalled();
         expect(component.targetPriceSourceFormControl.value).toEqual(
           TargetPriceSource.CUSTOMER
         );
@@ -353,12 +370,12 @@ describe('AddEntryComponent', () => {
       });
       test('should reset targetPriceFormControl when targetPriceSource is NO_ENTRY', () => {
         component.targetPriceFormControl.setValue('123');
-        component.targetPriceFormControl.reset = jest.fn();
+        component.targetPriceFormControl.setValue = jest.fn();
         component.addSubscriptions();
         component.targetPriceSourceFormControl.setValue(
           TargetPriceSource.NO_ENTRY
         );
-        expect(component.targetPriceFormControl.reset).toHaveBeenCalledWith(
+        expect(component.targetPriceFormControl.setValue).toHaveBeenCalledWith(
           null,
           {
             emitEvent: false,
@@ -382,6 +399,22 @@ describe('AddEntryComponent', () => {
       expect(component.materialInputIsValid).toBeTruthy();
       expect(component.rowInputValid).toHaveBeenCalledTimes(1);
     });
+
+    test('should enableNonAutocompleteFields when CustomerId is present', () => {
+      component.newCaseCreation = true;
+      component['enableNonAutoCompleteFields'] = jest.fn();
+      customerIdForCaseCreationSubject.next('555');
+      component.addSubscriptions();
+      expect(component['enableNonAutoCompleteFields']).toHaveBeenCalled();
+    });
+
+    test('should call disableNonAutocompleteFields when CustomerId is not present', () => {
+      component.newCaseCreation = true;
+      component['disableNonAutoCompleteFields'] = jest.fn();
+      customerIdForCaseCreationSubject.next(null);
+      component.addSubscriptions();
+      expect(component['disableNonAutoCompleteFields']).toHaveBeenCalled();
+    });
   });
 
   describe('rowInputValid', () => {
@@ -394,8 +427,14 @@ describe('AddEntryComponent', () => {
       selectedMaterialAutocompleteSubject.next(
         new IdValue('MatNumber', 'MatDesc', true, null, 5, 'PC')
       );
-      component.quantityFormControl.setValue(10);
+      component.quantityFormControl = {
+        valid: true,
+        value: 'x',
+      } as FormControl;
 
+      component.targetPriceFormControl = {
+        valid: true,
+      } as FormControl;
       component.rowInputValid();
       expect(component.addRowEnabled).toBeTruthy();
     });
@@ -413,18 +452,31 @@ describe('AddEntryComponent', () => {
     test('should set addRowEnabled to false when targetPriceFormControl is not Valid', () => {
       component.materialInputIsValid = true;
       component.materialNumberInput = true;
-      component.targetPriceFormControl.setValue('abc');
+
+      component.targetPriceFormControl = {
+        valid: false,
+      } as FormControl;
+
       component.rowInputValid();
       expect(component.addRowEnabled).toBeFalsy();
     });
     test('should set addRowEnabled to false when quantityFormControl is not Valid', () => {
       component.materialInputIsValid = true;
       component.materialNumberInput = true;
-      component.targetPriceFormControl.setValue('1');
+
       selectedMaterialAutocompleteSubject.next(
         new IdValue('MatNumber', 'MatDesc', true, null, 5, 'PC')
       );
-      component.quantityFormControl.setValue(6);
+
+      component.quantityFormControl = {
+        valid: false,
+        value: 'x',
+      } as FormControl;
+
+      component.targetPriceFormControl = {
+        valid: true,
+      } as FormControl;
+
       component.rowInputValid();
       expect(component.addRowEnabled).toBeFalsy();
     });

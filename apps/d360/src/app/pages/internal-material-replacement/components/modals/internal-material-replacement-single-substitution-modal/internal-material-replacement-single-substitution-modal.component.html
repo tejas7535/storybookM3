@@ -87,8 +87,8 @@
       <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
         <!-- startOfProduction -->
         <d360-date-picker
-          [minDate]="this.data.isNewSubstitution ? TODAY : null"
-          [maxDate]="this.data.isNewSubstitution ? MAX_DATE : null"
+          [minDate]="data.isNewSubstitution ? TODAY : null"
+          [maxDate]="data.isNewSubstitution ? MAX_DATE : null"
           [control]="$any(formGroup.controls.startOfProduction)"
           [label]="t(translationStart + '.startOfProduction')"
           [errorMessage]="startOfProductionCustomErrorMessage()"
@@ -96,8 +96,8 @@
 
         <!-- cutOverDate -->
         <d360-date-picker
-          [minDate]="this.data.isNewSubstitution ? TODAY : null"
-          [maxDate]="this.data.isNewSubstitution ? MAX_DATE : null"
+          [minDate]="data.isNewSubstitution ? TODAY : null"
+          [maxDate]="data.isNewSubstitution ? MAX_DATE : null"
           [control]="$any(formGroup.controls.cutoverDate)"
           [label]="t(translationStart + '.cutoverDate')"
           [errorMessage]="cutoverDateCustomErrorMessage()"
@@ -105,8 +105,8 @@
 
         <!-- replacementDate -->
         <d360-date-picker
-          [minDate]="this.data.isNewSubstitution ? TODAY : null"
-          [maxDate]="this.data.isNewSubstitution ? MAX_DATE : null"
+          [minDate]="data.isNewSubstitution ? TODAY : null"
+          [maxDate]="data.isNewSubstitution ? MAX_DATE : null"
           [control]="$any(formGroup.controls.replacementDate)"
           [label]="t(translationStart + '.replacementDate')"
           [errorMessage]="replacementDateCustomErrorMessage()"

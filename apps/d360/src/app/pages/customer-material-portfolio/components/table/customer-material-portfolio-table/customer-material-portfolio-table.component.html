@@ -1,31 +1,41 @@
-<div *transloco="let t">
-  <d360-table-toolbar [rowCount]="rowCount" [grid]="gridApi">
-    <div>
-      {{ t('customer_material_portfolio.toolbar.collapseAll', {}) }}
-      <mat-slide-toggle
-        [checked]="showChains"
-        color=""
-        (change)="handleExpandAllChange($event)"
-      ></mat-slide-toggle>
-      {{ t('customer_material_portfolio.toolbar.expandAll', {}) }}
-    </div>
-  </d360-table-toolbar>
-  <d360-styled-grid-section>
-    <ag-grid-angular
-      #customerPortfolioGrid
-      class="ag-theme-material"
-      [gridOptions]="gridOptions"
-      (gridReady)="onGridReady($event)"
-      [columnDefs]="columnDefs"
-      [autoGroupColumnDef]="autoGroupColumnDef"
-      [treeData]="true"
-      [getRowId]="getRowIdFn"
-      [isServerSideGroup]="getServerSideGroup"
-      [isServerSideGroupOpenByDefault]="getServerSideGroupOpenByDefault"
-      [getServerSideGroupKey]="getServerSideGroupKey"
-      [localeText]="agGridLocalizationService.lang()"
-      (firstDataRendered)="onFirstDataRendered($event)"
-    >
-    </ag-grid-angular>
-  </d360-styled-grid-section>
-</div>
+<ng-container *transloco="let t">
+  @if (gridApi) {
+    <!-- table tool bar -->
+    <d360-table-toolbar [rowCount]="rowCount" [grid]="gridApi">
+      <!-- move content to the right -->
+      <div class="flex-1"></div>
+
+      <!-- Row expansion toggle -->
+      <div class="text-body-medium capitalize">
+        @if (showChains) {
+          {{ t('customer_material_portfolio.toolbar.collapseAll', {}) }}
+        } @else {
+          {{ t('customer_material_portfolio.toolbar.expandAll', {}) }}
+        }
+        <mat-slide-toggle
+          class="ml-1"
+          [checked]="showChains"
+          (change)="handleExpandAllChange($event)"
+        />
+      </div>
+    </d360-table-toolbar>
+  }
+
+  <!-- table -->
+  <ag-grid-angular
+    #customerPortfolioGrid
+    class="ag-theme-material h-full"
+    [gridOptions]="gridOptions"
+    (gridReady)="onGridReady($event)"
+    [columnDefs]="columnDefs"
+    [autoGroupColumnDef]="autoGroupColumnDef"
+    [treeData]="true"
+    [getRowId]="getRowIdFn"
+    [isServerSideGroup]="getServerSideGroup"
+    [isServerSideGroupOpenByDefault]="getServerSideGroupOpenByDefault"
+    [getServerSideGroupKey]="getServerSideGroupKey"
+    [localeText]="agGridLocalizationService.lang()"
+    (firstDataRendered)="onFirstDataRendered($event)"
+    [context]="context"
+  />
+</ng-container>

@@ -15,6 +15,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
+import { ReplaySubject } from 'rxjs';
+
 import { LsaFormService } from '../services/lsa-form.service';
 import { LsaStepperComponent } from './lsa-stepper.component';
 
@@ -35,6 +37,7 @@ describe('LsaStepperComponent', () => {
                   getRawValue: jest.fn(),
                 }) as unknown as FormGroup
             ),
+            stepCompletionStream$$: new ReplaySubject<number>(),
           },
         },
       ],

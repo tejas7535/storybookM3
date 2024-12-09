@@ -21,8 +21,8 @@
       "executor": "@nx/eslint:lint",
       "configurations": {
         "ci": {
-          "format": "checkstyle",
-          "outputFile": "checkstyle/libs/shared/ui/stepper/checkstyle.xml",
+          "format": "json",
+          "outputFile": "eslint/libs/shared/ui/stepper/eslint.json",
           "force": true
         }
       }
@@ -33,6 +33,16 @@
       "options": {
         "jestConfig": "libs/shared/ui/stepper/jest.config.ts"
       }
+    },
+    "sonar": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "sonar-scanner -Dsonar.token=${SONAR_TOKEN} -Dproject.settings=libs/shared/ui/stepper/sonar-project.properties"
+        ],
+        "parallel": false
+      },
+      "outputs": []
     },
     "publish": {
       "executor": "nx:run-commands",

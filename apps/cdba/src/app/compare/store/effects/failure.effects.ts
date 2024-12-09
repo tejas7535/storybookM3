@@ -8,9 +8,9 @@ import { tap } from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
-import { HttpErrorService } from '@cdba/core//http/services/http-error.service';
 import { EmptyStatesPath } from '@cdba/core/empty-states/empty-states-path.enum';
-import { HttpErrorType } from '@cdba/core/http/models/http-error-type.model';
+import { Interaction } from '@cdba/shared/services/user-interaction/interaction-type.model';
+import { UserInteractionService } from '@cdba/shared/services/user-interaction/user-interaction.service';
 
 import {
   loadBomFailure,
@@ -37,7 +37,9 @@ export class FailureEffects {
               EmptyStatesPath.ForbiddenPath,
             ]);
           } else {
-            this.httpErrorService.handleHttpError(HttpErrorType.Default);
+            this.userInteractionService.interact(
+              Interaction.HTTP_GENERAL_ERROR
+            );
           }
         })
       ),
@@ -47,6 +49,6 @@ export class FailureEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly router: Router,
-    private readonly httpErrorService: HttpErrorService
+    private readonly userInteractionService: UserInteractionService
   ) {}
 }

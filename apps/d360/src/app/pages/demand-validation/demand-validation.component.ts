@@ -1,14 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { take } from 'rxjs';
+import { take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { DemandValidationFilter } from '../../feature/demand-validation/demand-validation-filters';
 import {
   KpiDateRanges,
   MaterialListEntry,
@@ -51,13 +58,20 @@ export class DemandValidationComponent {
   protected planningView: PlanningView = PlanningView.REQUESTED;
   protected pageTitle = `${translate('validation_of_demand.title', {})} | ${translate(`planing_type.title.${this.planningView}`, {})}`;
   protected globalSelection: GlobalSelectionState;
-  protected loading: boolean;
+  // TODO: consider both properties below as signal
   protected customerData: CustomerEntry[];
-  protected selectedCustomer: CustomerEntry;
-  protected globalSelectionStatus: GlobalSelectionStatus;
-  protected selectedMaterialListEntry: MaterialListEntry;
 
-  protected materialListVisible = true;
+  selectedCustomer = signal<CustomerEntry>(null);
+  globalSelectionStatus: WritableSignal<GlobalSelectionStatus> = signal(null);
+  loading: WritableSignal<boolean> = signal(false);
+  selectedMaterialListEntry = signal<MaterialListEntry>(null);
+  unsavedChanges = signal(false);
+
+  protected materialListVisible = signal(true);
+
+  protected demandValidationFilters = signal<DemandValidationFilter>(null);
+
+  protected readonly destroyRef = inject(DestroyRef);
 
   /**
    * The GlobalSelectionStateService instance
@@ -72,52 +86,78 @@ export class DemandValidationComponent {
   constructor(
     private readonly globalSelectionService: GlobalSelectionHelperService
   ) {
-    this.globalSelection = this.globalSelectionService.getGlobalSelection();
-    this.loading = true;
+    this.globalSelection = this.globalSelectionStateService.getState();
+    this.loading.set(true);
     this.updateCustomerData();
   }
 
   onUpdateGlobalSelection($event: GlobalSelectionState) {
     this.globalSelection = $event;
-    this.loading = true;
+    this.loading.set(true);
     this.updateCustomerData();
   }
 
   private updateCustomerData() {
+    this.globalSelectionStatus.set(null);
+
     this.globalSelectionService
       .getCustomersData(this.globalSelection)
-      .pipe(take(1), takeUntilDestroyed())
-      .subscribe((data) => {
-        this.customerData = data;
-        this.selectedCustomer = this.customerData
-          ? this.customerData[0]
-          : undefined;
-        this.globalSelectionStatus =
-          this.globalSelectionService.getGlobalSelectionStatus(
-            { data: this.customerData },
-            this.selectedCustomer
+      .pipe(
+        take(1),
+        tap((data) => {
+          this.customerData = data;
+          this.selectedCustomer.set(
+            this.customerData ? this.customerData[0] : undefined
           );
-        this.loading = false;
-      });
-  }
-
-  checkGlobalSelection(): boolean {
-    return this.globalSelection && !this.globalSelectionStateService.isEmpty();
+          this.globalSelectionStatus.set(
+            this.globalSelectionService.getGlobalSelectionStatus(
+              { data: this.customerData },
+              this.selectedCustomer()
+            )
+          );
+          this.loading.set(false);
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   protected readonly GlobalSelectionStatus = GlobalSelectionStatus;
   protected kpiRangeExceptions: Date[] = []; // TODO move to demand-validation-table.component.ts
   protected dateRange: KpiDateRanges;
 
+  confirmContinueAndLooseUnsavedChanges() {
+    const message = translate('error.unsaved_changes');
+    const beforeUnloadHandler = (event: BeforeUnloadEvent): string => {
+      event.preventDefault();
+
+      return message;
+    };
+
+    window.removeEventListener('beforeunload', beforeUnloadHandler);
+
+    if (this.unsavedChanges()) {
+      window.addEventListener('beforeunload', beforeUnloadHandler);
+
+      return confirm(message);
+    }
+
+    return true;
+  }
+
   handleMaterialListVisible($event: { open: boolean }) {
-    this.materialListVisible = $event.open;
+    this.materialListVisible.set($event.open);
   }
 
   handleMaterialListEntrySelected($event: MaterialListEntry) {
-    this.selectedMaterialListEntry = $event;
+    this.selectedMaterialListEntry.set($event);
   }
 
   handleKpiDateRangeChange($event: KpiDateRanges) {
     this.dateRange = $event;
+  }
+
+  handleCustomerChange($event: CustomerEntry) {
+    this.selectedCustomer.set($event);
   }
 }

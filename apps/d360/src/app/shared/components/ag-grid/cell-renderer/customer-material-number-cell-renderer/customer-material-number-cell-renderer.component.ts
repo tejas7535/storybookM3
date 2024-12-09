@@ -20,7 +20,7 @@ import { CustomerMaterialNumbersModalComponent } from './modal/customer-material
 @Component({
   selector: 'd360-customer-material-number-cell-renderer',
   templateUrl: './customer-material-number-cell-renderer.component.html',
-  styleUrls: ['./customer-material-number-cell-renderer.component.css'],
+  styleUrls: ['./customer-material-number-cell-renderer.component.scss'],
   standalone: true,
   imports: [MatIconModule, MatDialogModule],
 })
@@ -83,6 +83,7 @@ export class CustomerMaterialNumberCellRendererComponent
         customerMaterialNumbers: this.customerMaterialNumbers,
         isLoading: this.isLoading,
       },
+      width: '500px',
     });
   }
 }

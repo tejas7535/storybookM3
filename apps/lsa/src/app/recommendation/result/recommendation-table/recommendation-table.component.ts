@@ -17,6 +17,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { TAILWIND_SCREENS } from '@lsa/shared/constants';
 import { RecommendationTableData } from '@lsa/shared/models';
 
+import { LegalDisclaimerComponent } from '../legal-disclaimer/legal-disclaimer.component';
 import { RecommendationSelectionMobileComponent } from '../recommendation-selection-mobile/recommendation-selection-mobile';
 import { LubricatorHeaderComponent } from './lubricator-header/lubricator-header.component';
 import { RecommendationTableCellComponent } from './recommendation-table-cell/recommendation-table-cell.component';
@@ -32,6 +33,7 @@ import { RecommendationTableCellComponent } from './recommendation-table-cell/re
     TranslocoModule,
     RecommendationSelectionMobileComponent,
     MatRadioModule,
+    LegalDisclaimerComponent,
   ],
   templateUrl: './recommendation-table.component.html',
 })

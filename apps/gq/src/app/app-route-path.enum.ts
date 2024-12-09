@@ -6,5 +6,6 @@ export enum AppRoutePath {
   DetailViewPath = 'detail-view',
   ProcessCaseViewPath = 'process-case',
   CreateManualCasePath = 'create-manual-case',
+  CreateCaseFromCustomerPath = 'create-customer-case',
   FeatureToggleConfig = 'feature-toggle-config',
 }

@@ -15,7 +15,7 @@
           <mat-divider class="w-3 h-3" [vertical]="true"></mat-divider>
         </div>
         <div
-          class="hidden sm:flex flex-col sm:ml-[20%] min-[720px]:ml-[22%] md:ml-[6.5rem]"
+          class="hidden sm:flex flex-col sm:ml-[8%] min-[720px]:ml-[11%] md:ml-[2.6rem]"
         >
           <p>0°C</p>
           <mat-divider class="w-3 h-3" [vertical]="true">></mat-divider>
@@ -27,7 +27,6 @@
       </div>
       <div class="flex items-center">
         <mat-slider
-          step="5"
           discrete
           thumbLabel
           class="flex-1 ml-0"
@@ -82,7 +81,7 @@
       {{ t('questionPowerType') }}</span
     >
     <lsa-radio-button-group
-      [options]="powerSupplyRadioOptions"
+      [options]="powerSupplyRadioOptions | ngrxPush"
       [control]="applicationForm.controls.battery"
     ></lsa-radio-button-group>
   </div>

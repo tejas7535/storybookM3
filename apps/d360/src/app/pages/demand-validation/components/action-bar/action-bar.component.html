@@ -1,67 +1,101 @@
-<div *transloco="let t" class="layout">
-  <div class="part">
-    <d360-action-button
-      color="secondary"
-      icon="view_sidebar"
-      (click)="handleToggleMaterialListVisible()"
-      variant="mat-icon-button"
-    ></d360-action-button>
-    <div class="action-divider"></div>
-    <d360-action-buttons-demand-validation
-      [planningView]="planningView"
-    ></d360-action-buttons-demand-validation>
-    <div class="action-divider"></div>
-    <span class="vk-org-display">
-      {{ t('validation_of_demand.vkorg', {}) }}<br />
-      {{ currentCustomer?.salesOrg ?? '' }}
-    </span>
+<div *transloco="let t">
+  <div class="flex flex-col gap-4">
+    <div class="flex justify-between items-center pt-6">
+      <div class="flex gap-6 items-center">
+        <d360-customer-dropdown
+          class="flex-row-reverse"
+          [control]="$any(formGroup.controls.customerControl)"
+          [form]="formGroup"
+          [optionsLoadingResult]="customerSelectableValues()"
+          [customer]="selectedCustomer()"
+          (selectionChange)="handleCustomerChange($event)"
+        />
 
-    <d360-single-autocomplete-pre-loaded
-      [control]="customerControl"
-      [form]="formGroup"
-      [optionsLoadingResult]="customerSelectableValues"
-      [label]="t('validation_of_demand.customer', {})"
-      class="w-72"
-      [displayFn]="displayFn"
-      (selectionChange)="handleCustomerChange($event)"
-    ></d360-single-autocomplete-pre-loaded>
+        <d360-filter-demand-validation></d360-filter-demand-validation>
+      </div>
 
-    <d360-filter-demand-validation></d360-filter-demand-validation>
+      <div class="flex gap-3 items-center">
+        <d360-action-button
+          icon="date_range"
+          (click)="handleDateRangeClick()"
+          variant="mat-icon-button"
+        ></d360-action-button>
+        <d360-action-button
+          icon="settings"
+          (click)="handleDemandValidationSettingsClick()"
+          variant="mat-icon-button"
+        ></d360-action-button>
+      </div>
+    </div>
   </div>
-  <div class="part">
-    <d360-action-button
-      color="secondary"
-      icon="date_range"
-      (click)="handleDateRangeClick()"
-      variant="mat-icon-button"
-    ></d360-action-button>
-    <d360-action-button
-      color="secondary"
-      icon="settings"
-      (click)="handleDemandValidationSettingsClick()"
-      variant="mat-icon-button"
-    ></d360-action-button>
-    <div class="action-divider"></div>
-    <d360-action-button
-      color="secondary"
-      icon="close"
-      (click)="handleOnDeleteUnsavedForecast()"
-      variant="mat-fab"
-      [disabled]="isDisabledForecastEditing"
-    ></d360-action-button>
-    <d360-action-button
-      color="secondary"
-      icon="check"
-      (click)="handleOnSaveForecast(true)"
-      variant="mat-fab"
-      [disabled]="isDisabledForecastEditing"
-    ></d360-action-button>
-    <button
-      mat-flat-button
-      color="primary"
-      (click)="handleOnSaveForecast(false)"
-    >
-      {{ t('button.save', {}) }}
-    </button>
+
+  <div class="flex flex-col gap-4 mb-3">
+    <div class="flex justify-between items-center pt-6">
+      <div class="flex gap-3 items-center">
+        <button mat-icon-button (click)="handleToggleMaterialListVisible()">
+          <mat-icon>view_sidebar</mat-icon>
+        </button>
+
+        <mat-divider [vertical]="true" />
+
+        <button
+          mat-button
+          color="primary"
+          (click)="handleDownloadButtonClicked()"
+        >
+          <mat-icon>download_2</mat-icon>
+          {{ t('button.download') }}
+        </button>
+
+        <button
+          mat-button
+          color="primary"
+          [disabled]="!authorizedToChange() || disableUpload()"
+          (click)="handleListModalClicked()"
+        >
+          <mat-icon>list</mat-icon>
+          {{ t('validation_of_demand.action_bar.edit_as_list') }}
+        </button>
+
+        <button
+          mat-button
+          color="primary"
+          [disabled]="!authorizedToChange() || disableUpload()"
+          (click)="handleGridModalClicked()"
+        >
+          <mat-icon>grid_view</mat-icon>
+          {{ t('validation_of_demand.action_bar.edit_as_grid') }}
+        </button>
+      </div>
+      <div class="flex gap-3 items-center">
+        <button mat-button (click)="handleDeleteModalClicked()">
+          <mat-icon class="icon-button-primary">delete</mat-icon>
+          {{ t('button.delete') }}
+        </button>
+
+        <button
+          mat-button
+          (click)="handleOnDeleteUnsavedForecast()"
+          [disabled]="isDisabledForecastEditing"
+        >
+          <mat-icon class="icon-button">history</mat-icon>
+          {{ t('button.reset') }}
+        </button>
+
+        <button
+          mat-button
+          (click)="handleOnSaveForecast(true)"
+          [disabled]="isDisabledForecastEditing"
+        >
+          <mat-icon class="icon-button">check</mat-icon>
+          {{ t('button.validate') }}
+        </button>
+
+        <button mat-flat-button (click)="handleOnSaveForecast(false)">
+          <mat-icon class="icon-button">save</mat-icon>
+          {{ t('button.save') }}
+        </button>
+      </div>
+    </div>
   </div>
 </div>

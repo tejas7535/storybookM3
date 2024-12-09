@@ -3,7 +3,7 @@
 exports[`AccessoryTableComponent ngOnChanges should provide pricing information with euro 1`] = `
 Object {
   "Adapter for lubricator": Object {
-    "isOpen": true,
+    "isOpen": false,
     "totalNetPrice": 0.68,
     "totalQty": 1,
   },
@@ -13,7 +13,7 @@ Object {
 exports[`AccessoryTableComponent ngOnChanges should provide state with pricing information 1`] = `
 Object {
   "Adapter for lubricator": Object {
-    "isOpen": true,
+    "isOpen": false,
     "totalNetPrice": 0.68,
     "totalQty": 1,
   },
@@ -23,9 +23,39 @@ Object {
 exports[`AccessoryTableComponent ngOnChanges when values are changing should recalculates the totalQty and totalPrice 1`] = `
 Object {
   "Adapter for lubricator": Object {
-    "isOpen": true,
+    "isOpen": false,
     "totalNetPrice": 6.46,
     "totalQty": 12,
+  },
+}
+`;
+
+exports[`AccessoryTableComponent when setting priceAvailabiltyResponses should update accessory with price and availability 1`] = `
+Array [
+  Object {
+    "availability": true,
+    "class": "Adapter for lubricator",
+    "currency": "USD",
+    "id": 1,
+    "isPriceAndAvailabilityUpdated": true,
+    "matnr": "789666050000010",
+    "name": "Accessory 1",
+    "pim_code": "123456",
+    "price": 100,
+  },
+]
+`;
+
+exports[`AccessoryTableComponent when setting priceAvailabiltyResponses should update price and availability 1`] = `
+Object {
+  "123456": Object {
+    "available": true,
+    "currency": "USD",
+    "price": 100,
+  },
+  "7890321": Object {
+    "available": false,
+    "currency": "USD",
   },
 }
 `;

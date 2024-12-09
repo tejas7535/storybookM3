@@ -64,13 +64,13 @@ export class AppComponent implements OnInit {
     },
     {
       label: 'reasonsAndCounterMeasures',
-      path: AppRoutePath.ReasonsAndCounterMeasuresPath,
-      disabled: getEnv().environment === EnvironmentEnum.prod,
+      path: AppRoutePath.ReasonsForLeavingPath,
+      disabled: false,
     },
     {
       label: 'fluctuationAnalytics',
       path: AppRoutePath.FluctuationAnalyticsPath,
-      disabled: false,
+      disabled: getEnv().environment === EnvironmentEnum.prod,
     },
   ];
 

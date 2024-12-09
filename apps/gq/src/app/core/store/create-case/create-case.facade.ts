@@ -4,6 +4,8 @@ import { combineLatest, map, Observable } from 'rxjs';
 
 import { CustomerId } from '@gq/shared/models/customer/customer-ids.model';
 import { MaterialTableItem } from '@gq/shared/models/table/material-table-item-model';
+import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
+import { PLsSeriesRequest } from '@gq/shared/services/rest/search/models/pls-series-request.model';
 import { Store } from '@ngrx/store';
 
 import {
@@ -14,8 +16,15 @@ import {
   clearPurchaseOrderType,
   clearSectorGpsd,
   clearShipToParty,
+  getPLsAndSeries,
+  navigateToCaseOverView,
   resetAllAutocompleteOptions,
+  resetPLsAndSeries,
+  resetProductLineAndSeries,
   setRowDataCurrency,
+  setSelectedGpsdGroups,
+  setSelectedProductLines,
+  setSelectedSeries,
   updateCurrencyOfPositionItems,
   updateRowDataItem,
   validateMaterialsOnCustomerAndSalesOrg,
@@ -24,7 +33,10 @@ import { SalesOrg } from '../reducers/create-case/models/sales-orgs.model';
 import { SectorGpsdFacade } from '../sector-gpsd/sector-gpsd.facade';
 import {
   getCaseRowData,
+  getCreateCustomerCaseDisabled,
   getCustomerConditionsValid,
+  getProductLinesAndSeries,
+  getProductLinesAndSeriesLoading,
   getSalesOrgs,
   getSalesOrgsOfShipToParty,
   getSelectedCustomerId,
@@ -38,6 +50,9 @@ export class CreateCaseFacade {
   private readonly store: Store = inject(Store);
   private readonly sectorGpsdFacade: SectorGpsdFacade =
     inject(SectorGpsdFacade);
+
+  private readonly quotationService: QuotationService =
+    inject(QuotationService);
 
   customerIdForCaseCreation$ = this.store.select(getSelectedCustomerId);
   customerSalesOrgs$ = this.store.select(getSalesOrgs);
@@ -55,8 +70,16 @@ export class CreateCaseFacade {
   );
 
   newCaseRowData$ = this.store.select(getCaseRowData);
-
   customerConditionsValid$ = this.store.select(getCustomerConditionsValid);
+
+  getProductLinesAndSeries$ = this.store.select(getProductLinesAndSeries);
+  getProductLinesAndSeriesLoading$ = this.store.select(
+    getProductLinesAndSeriesLoading
+  );
+
+  getCreateCustomerCaseDisabled$ = this.store.select(
+    getCreateCustomerCaseDisabled
+  );
 
   // #####################################################################################
   // ###############################     methods     #####################################
@@ -77,6 +100,7 @@ export class CreateCaseFacade {
   }
 
   resetCaseCreationInformation(): void {
+    this.store.dispatch(navigateToCaseOverView());
     this.store.dispatch(resetAllAutocompleteOptions());
     this.store.dispatch(clearCustomer());
     this.store.dispatch(clearShipToParty());
@@ -85,11 +109,34 @@ export class CreateCaseFacade {
     this.store.dispatch(clearPurchaseOrderType());
     this.sectorGpsdFacade.resetAllSectorGpsds();
     this.store.dispatch(clearCreateCaseRowData());
+
+    this.store.dispatch(resetPLsAndSeries());
+    this.store.dispatch(resetProductLineAndSeries());
     this.store.dispatch(setRowDataCurrency({ currency: undefined }));
   }
 
   updateCurrencyOfPositionItems(currency: string): void {
     this.store.dispatch(setRowDataCurrency({ currency }));
     this.store.dispatch(updateCurrencyOfPositionItems());
+  }
+
+  getQuotationToDate(customerId: CustomerId): Observable<string> {
+    return this.quotationService.getQuotationToDateForCaseCreation(customerId);
+  }
+
+  getPLsAndSeries(customerFilters: PLsSeriesRequest): void {
+    this.store.dispatch(getPLsAndSeries({ customerFilters }));
+  }
+
+  selectProductLines(selectedProductLines: string[]): void {
+    this.store.dispatch(setSelectedProductLines({ selectedProductLines }));
+  }
+
+  selectSeries(selectedSeries: string[]): void {
+    this.store.dispatch(setSelectedSeries({ selectedSeries }));
+  }
+
+  selectGpsdGroups(selectedGpsdGroups: string[]) {
+    this.store.dispatch(setSelectedGpsdGroups({ selectedGpsdGroups }));
   }
 }

@@ -1,51 +1,69 @@
 @mixin apply() {
   .fixed-action-column {
-    @apply pl-0;
-    @apply pr-0;
-    @apply flex;
-    justify-content: center;
+    @apply pl-0 pr-0 flex justify-center;
     gap: 8px;
   }
 
   .ag {
     &-theme-material {
-      --ag-font-family: 'Noto sans';
+      --ag-font-family: var(--app-font-family);
+      --ag-font-size: 14px;
+      --ag-background-color: transparent;
+      --ag-header-background-color: transparent;
+      --ag-header-foreground-color: var(--scrim-color);
+      --ag-data-color: var(--on-surface-variant-color);
+      --ag-font-weight-bold: 500;
+      --ag-side-bar-panel-width: 240px;
 
-      .ag-column-panel {
-        border-left: 1px solid ag-param(border-color);
-        border-right: 1px solid ag-param(border-color);
+      .ag-filter-toolpanel-header,
+      .ag-filter-toolpanel-search,
+      .ag-status-bar,
+      .ag-header-row,
+      .ag-panel-title-bar-title,
+      .ag-multi-filter-group-title-bar {
+        font-weight: var(--ag-font-weight-bold);
       }
 
       .ag-header-cell-text {
-        font-size: 14px;
+        font-size: var(--ag-font-size);
+      }
+
+      .ag-rich-select-list {
+        width: 100% !important;
+        min-width: 200px !important;
+      }
+
+      .ag-row-selected {
+        --ag-selected-row-background-color: #ffffff00;
+        color: var(--primary-color-hex);
+      }
+
+      .ag-tool-panel-wrapper,
+      .ag-menu {
+        @apply bg-surface-container-high;
       }
     }
 
-    &-row-group-indent-1 {
-      @apply ml-4 #{!important};
-      @apply pl-4 #{!important};
-    }
-
-    &-group-contracted,
-    &-group-expanded {
-      @apply mr-2 #{!important};
+    &-rich-select-value,
+    &-rich-select-list,
+    &-cell-inline-editing {
+      background: var(--surface-container-high-color) !important;
     }
 
     &-root-wrapper {
       min-height: 400px !important;
     }
-  }
 
-  .ag-theme-material .ag-rich-select-list {
-    width: 100% !important;
-    min-width: 200px !important;
-  }
+    &-popup-child {
+      &:not(.ag-tooltip-custom) {
+        margin-left: 1px;
+      }
+    }
 
-  .ag-popup-child:not(.ag-tooltip-custom) {
-    margin-left: 1px;
-  }
-
-  .ag-popup-editor .ag-rich-select-value {
-    min-width: 300px;
+    &-popup-editor {
+      .ag-rich-select-value {
+        min-width: 300px;
+      }
+    }
   }
 }

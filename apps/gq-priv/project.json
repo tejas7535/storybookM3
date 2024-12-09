@@ -1,0 +1,124 @@
+{
+  "name": "gq-priv",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "generators": {
+    "@nx/angular:component": {
+      "style": "scss"
+    }
+  },
+  "sourceRoot": "apps/gq/src",
+  "prefix": "gq",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["nx build gq"]
+      },
+      "configurations": {
+        "local": {
+          "commands": ["nx run gq:build:local"]
+        },
+        "dev": {
+          "commands": ["nx run gq:build:dev-priv"]
+        },
+        "qa": {
+          "commands": ["nx run gq:build:qa-priv"]
+        },
+        "production": {
+          "commands": ["nx run gq:build:production-priv"]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "echo 'No operation performed for lint target in app-priv'"
+        ],
+        "parallel": false
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "echo 'No operation performed for test target in app-priv'"
+        ],
+        "parallel": false
+      }
+    },
+    "sonar": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "echo 'No operation performed for sonar target in app-priv'"
+        ],
+        "parallel": false
+      },
+      "outputs": []
+    },
+    "serve": {
+      "executor": "@nx/angular:dev-server",
+      "options": {
+        "buildTarget": "gq:build"
+      },
+      "configurations": {
+        "local": {
+          "proxyConfig": "apps/gq/proxy.conf.js",
+          "buildTarget": "gq:build:local"
+        }
+      },
+      "defaultConfiguration": "local"
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "push": true,
+        "preset": "conventional",
+        "baseBranch": "master",
+        "tagPrefix": "${target}-v",
+        "changelogHeader": "# Release Notes of Guided Quoting",
+        "commitMessageFormat": "chore({projectName}): 🚀 release version ${version} [CI SKIP]",
+        "noVerify": true
+      }
+    },
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "${tag}",
+        "notes": "${notes}"
+      }
+    },
+    "zip": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "commands": [
+          "mkdir -p dist/zips/gq-priv",
+          "cd dist/apps/gq-priv && zip -r ../../zips/gq-priv/next.zip *"
+        ],
+        "parallel": false
+      }
+    },
+    "analyze-bundle": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "echo 'No operation performed for analyze-bundle target in app-priv'"
+        ],
+        "parallel": false
+      }
+    },
+    "transloco-optimize": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": "pnpm transloco-optimize dist/apps/gq-priv/assets/i18n"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["shared-ui-styles", "gq"]
+}

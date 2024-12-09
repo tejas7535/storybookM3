@@ -11,13 +11,15 @@
     "chart": {
       "others": "Others",
       "noData": "No data for selected filters",
-      "conductedInfo": "{conducted} interviews\r\nconducted\r\n\r\n(equals {percentage}% of all\r\nterminations received)"
+      "conductedInfo": "{conducted} interviews\r\nconducted",
+      "conductedInfoTooltip": "Interview information is visible once the employee has left the company, and can be viewed according to the selected time range."
     },
     "table": {
       "position": "#",
       "actionReason": "Reason",
       "percentage": "%",
       "leavers": "Leavers",
+      "answers": "Answers",
       "popup": {
         "titleLeavers": "Leavers"
       }
