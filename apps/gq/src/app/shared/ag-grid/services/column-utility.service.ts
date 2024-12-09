@@ -14,7 +14,10 @@ import { ValidationDescription } from '@gq/shared/models/table';
 import { MaterialNumberService } from '@gq/shared/services/material-number/material-number.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { parseLocalizedInputValue } from '@gq/shared/utils/misc.utils';
-import { roundToFourDecimals } from '@gq/shared/utils/pricing.utils';
+import {
+  roundPercentageToTwoDecimals,
+  roundToFourDecimals,
+} from '@gq/shared/utils/pricing.utils';
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
@@ -134,11 +137,9 @@ export class ColumnUtilityService {
     columnDefs: ColDef[],
     quotation: Quotation
   ): ColDef[] {
-    // NOTE: If we don't have sapId and non sap process is going on,
-    // we don't need to show SAP related columns
     if (
       !quotation.sapId &&
-      quotation.sapSyncStatus !== SAP_SYNC_STATUS.SYNC_PENDING
+      quotation.sapSyncStatus !== SAP_SYNC_STATUS.SYNC_FAILED
     ) {
       return columnDefs.filter(
         (colDef: ColDef) => colDef.field !== ColumnFields.SAP_SYNC_STATUS
@@ -523,6 +524,15 @@ export class ColumnUtilityService {
         quotationStatus === QuotationStatus.REJECTED)
       ? [AppRoutePath.ProcessCaseViewPath, ProcessCaseRoutePath.OverviewPath]
       : [AppRoutePath.ProcessCaseViewPath];
+  }
+
+  getPercentageFilterValue(value: number): number {
+    // In AG Grid filtering 0 value is not considered as "blank". So we need to return null for 0 value.
+    if (!value) {
+      return null;
+    }
+
+    return roundPercentageToTwoDecimals(value);
   }
 }
 

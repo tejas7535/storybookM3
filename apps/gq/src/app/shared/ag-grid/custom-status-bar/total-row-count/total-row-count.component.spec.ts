@@ -44,15 +44,15 @@ describe('TotalRowCountComponent', () => {
       component.agInit(params);
 
       expect(component['params']).toEqual(params);
-      expect(component['params'].api.addEventListener).toHaveBeenCalledTimes(3);
+      expect(component['params'].api.addEventListener).toHaveBeenCalledTimes(4);
       expect(component.simulationModeEnabled$).toBeDefined();
     });
   });
 
-  describe('onGridReady', () => {
+  describe('onRowDataChange', () => {
     test('should set totalRows', () => {
       component['params'] = params;
-      component.onGridReady();
+      component.onRowDataChange();
 
       expect(
         component['params'].api.getDisplayedRowCount

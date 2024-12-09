@@ -899,4 +899,26 @@ describe('ExtendedColumnHeaderComponent', () => {
       expect(infoIcon).toBeFalsy();
     });
   });
+
+  describe('editFormControl', () => {
+    test('should convert input value to percentage format', () => {
+      component['translocoLocaleService'].getLocale = jest.fn(() => 'en');
+      component.params = {
+        ...DEFAULT_PARAMS,
+        isPercentageInputValue: true,
+      } as ExtendedColumnHeaderComponentParams;
+      component.addSubscriptions();
+
+      component.editFormControl.setValue('3');
+      expect(component.value).toEqual(0.03);
+    });
+    test('should not convert input value to percentage format', () => {
+      component['translocoLocaleService'].getLocale = jest.fn(() => 'en');
+      component.params = DEFAULT_PARAMS;
+      component.addSubscriptions();
+
+      component.editFormControl.setValue('3');
+      expect(component.value).toEqual(3);
+    });
+  });
 });

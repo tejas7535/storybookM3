@@ -30,7 +30,10 @@ export class TotalRowCountComponent {
 
   agInit(params: IStatusPanelParams): void {
     this.params = params;
-    this.params.api.addEventListener('gridReady', this.onGridReady.bind(this));
+    this.params.api.addEventListener(
+      'gridReady',
+      this.onRowDataChange.bind(this)
+    );
     this.params.api.addEventListener(
       'selectionChanged',
       this.onSelectionChange.bind(this)
@@ -39,11 +42,15 @@ export class TotalRowCountComponent {
       'filterChanged',
       this.onFilterChange.bind(this)
     );
+    this.params.api.addEventListener(
+      'rowDataUpdated',
+      this.onRowDataChange.bind(this)
+    );
 
     this.simulationModeEnabled$ = this.store.select(getSimulationModeEnabled);
   }
 
-  onGridReady(): void {
+  onRowDataChange(): void {
     this.totalRowCount = this.params.api.getDisplayedRowCount();
   }
   onSelectionChange(): void {

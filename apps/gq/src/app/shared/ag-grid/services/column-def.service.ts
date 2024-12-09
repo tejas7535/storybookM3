@@ -1,6 +1,7 @@
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
+import { roundToTwoDecimals } from '@gq/shared/utils/pricing.utils';
 import { translateTargetPriceSourceValue } from '@gq/shared/utils/translate.utils';
 import { translate, TranslocoService } from '@jsverse/transloco';
 import {
@@ -93,6 +94,8 @@ export class ColumnDefService {
       field: ColumnFields.PRICE,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.PRICE]),
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: false },
@@ -178,6 +181,8 @@ export class ColumnDefService {
       field: ColumnFields.NET_VALUE,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.NET_VALUE]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       cellRenderer: 'EditCellComponent',
@@ -196,6 +201,8 @@ export class ColumnDefService {
       field: ColumnFields.RECOMMENDED_PRICE,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.RECOMMENDED_PRICE]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       cellRenderer: GqPriceCellComponent,
@@ -222,6 +229,8 @@ export class ColumnDefService {
       field: ColumnFields.SAP_PRICE,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.SAP_PRICE]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       cellRenderer: SapPriceCellComponent,
@@ -237,6 +246,8 @@ export class ColumnDefService {
       field: ColumnFields.RSP,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.RSP]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentParams: {
@@ -250,6 +261,8 @@ export class ColumnDefService {
       field: ColumnFields.MSP,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.MSP]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentParams: {
@@ -263,6 +276,8 @@ export class ColumnDefService {
       field: ColumnFields.SAP_GROSS_PRICE,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.SAP_GROSS_PRICE]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
     },
@@ -271,6 +286,10 @@ export class ColumnDefService {
       field: ColumnFields.DISCOUNT,
       valueFormatter: (params) =>
         this.columnUtilityService.percentageFormatter(params, false),
+      filterValueGetter: (params: ValueGetterParams) =>
+        this.columnUtilityService.getPercentageFilterValue(
+          params.data[ColumnFields.DISCOUNT]
+        ),
       editable: true,
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
@@ -284,6 +303,7 @@ export class ColumnDefService {
           'shared.quotationDetailsTable.discountInfoText'
         ),
         editableColumn: true,
+        isPercentageInputValue: true,
       },
     },
     {
@@ -291,6 +311,10 @@ export class ColumnDefService {
       field: ColumnFields.SAP_VOLUME_SCALE,
       valueFormatter: (params) =>
         this.columnUtilityService.percentageFormatter(params, false),
+      filterValueGetter: (params: ValueGetterParams) =>
+        this.columnUtilityService.getPercentageFilterValue(
+          params.data[ColumnFields.SAP_VOLUME_SCALE]
+        ),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
     },
@@ -299,6 +323,8 @@ export class ColumnDefService {
       field: ColumnFields.TARGET_PRICE,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.TARGET_PRICE]),
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: false },
@@ -337,6 +363,8 @@ export class ColumnDefService {
       field: ColumnFields.GPC,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.GPC]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentParams: {
@@ -350,6 +378,8 @@ export class ColumnDefService {
       field: ColumnFields.SQV,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.SQV]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentParams: {
@@ -363,6 +393,8 @@ export class ColumnDefService {
       field: ColumnFields.SQV_RFQ,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data?.rfqData?.sqv),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
     },
@@ -371,6 +403,8 @@ export class ColumnDefService {
       field: ColumnFields.RELOCATION_COST,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.RELOCATION_COST]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentParams: {
@@ -384,6 +418,10 @@ export class ColumnDefService {
       field: ColumnFields.GPI,
       valueFormatter: (params) =>
         this.columnUtilityService.percentageFormatter(params, false),
+      filterValueGetter: (params: ValueGetterParams) =>
+        this.columnUtilityService.getPercentageFilterValue(
+          params.data[ColumnFields.GPI]
+        ),
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: true, conditionField: ColumnFields.GPC },
@@ -396,6 +434,7 @@ export class ColumnDefService {
           'shared.quotationDetailsTable.gpiInfoText'
         ),
         editableColumn: true,
+        isPercentageInputValue: true,
       },
     },
     {
@@ -403,6 +442,10 @@ export class ColumnDefService {
       field: ColumnFields.GPM,
       valueFormatter: (params) =>
         this.columnUtilityService.percentageFormatter(params, false),
+      filterValueGetter: (params: ValueGetterParams) =>
+        this.columnUtilityService.getPercentageFilterValue(
+          params.data[ColumnFields.GPM]
+        ),
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: true, conditionField: ColumnFields.SQV },
@@ -415,6 +458,7 @@ export class ColumnDefService {
           'shared.quotationDetailsTable.gpmInfoText'
         ),
         editableColumn: true,
+        isPercentageInputValue: true,
       },
     },
     {
@@ -422,6 +466,10 @@ export class ColumnDefService {
       field: ColumnFields.GPM_RFQ,
       valueFormatter: (params) =>
         this.columnUtilityService.percentageFormatter(params, false),
+      filterValueGetter: (params: ValueGetterParams) =>
+        this.columnUtilityService.getPercentageFilterValue(
+          params.data?.rfqData?.gpm
+        ),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentParams: {
@@ -448,6 +496,10 @@ export class ColumnDefService {
       field: ColumnFields.RLM,
       valueFormatter: (params) =>
         this.columnUtilityService.percentageFormatter(params, false),
+      filterValueGetter: (params: ValueGetterParams) =>
+        this.columnUtilityService.getPercentageFilterValue(
+          params.data[ColumnFields.RLM]
+        ),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       cellRenderer: 'EditCellComponent',
@@ -466,6 +518,8 @@ export class ColumnDefService {
       field: ColumnFields.LAST_CUSTOMER_PRICE,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data[ColumnFields.LAST_CUSTOMER_PRICE]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentParams: {
@@ -496,6 +550,10 @@ export class ColumnDefService {
       field: ColumnFields.LAST_CUSTOMER_PRICE_GPI,
       valueFormatter: (params) =>
         this.columnUtilityService.percentageFormatter(params, false),
+      filterValueGetter: (params: ValueGetterParams) =>
+        this.columnUtilityService.getPercentageFilterValue(
+          params.data[ColumnFields.LAST_CUSTOMER_PRICE_GPI]
+        ),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentParams: {
@@ -511,6 +569,10 @@ export class ColumnDefService {
       field: ColumnFields.LAST_CUSTOMER_PRICE_GPM,
       valueFormatter: (params) =>
         this.columnUtilityService.percentageFormatter(params, false),
+      filterValueGetter: (params: ValueGetterParams) =>
+        this.columnUtilityService.getPercentageFilterValue(
+          params.data[ColumnFields.LAST_CUSTOMER_PRICE_GPM]
+        ),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       headerComponentParams: {
@@ -555,6 +617,10 @@ export class ColumnDefService {
       },
       valueFormatter: (params) =>
         this.columnUtilityService.percentageFormatter(params, false),
+      filterValueGetter: (params: ValueGetterParams) =>
+        this.columnUtilityService.getPercentageFilterValue(
+          params.data[ColumnFields.PRICE_DIFF]
+        ),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       cellRenderer: 'EditCellComponent',
@@ -574,6 +640,10 @@ export class ColumnDefService {
       },
       valueFormatter: (params) =>
         this.columnUtilityService.percentageFormatter(params, false),
+      filterValueGetter: (params: ValueGetterParams) =>
+        this.columnUtilityService.getPercentageFilterValue(
+          params.data[ColumnFields.PRICE_DIFF_SAP]
+        ),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
       cellRenderer: 'EditCellComponent',
@@ -589,6 +659,8 @@ export class ColumnDefService {
       filterParams: this.columnUtilityService.numberFilterParams,
       valueFormatter: (params) =>
         this.columnUtilityService.numberCurrencyFormatter(params),
+      filterValueGetter: (params: ValueGetterParams) =>
+        roundToTwoDecimals(params.data?.lastOfferDetail?.lastOfferPrice),
       filter: NUMBER_COLUMN_FILTER,
       headerComponentParams: {
         tooltipText: this.translocoService.translate(

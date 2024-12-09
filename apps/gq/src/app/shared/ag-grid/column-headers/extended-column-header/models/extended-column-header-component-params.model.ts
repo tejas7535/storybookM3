@@ -6,6 +6,7 @@ export type ExtendedColumnHeaderComponentParams = IHeaderParams & {
   editableColumn: boolean;
   editingRole?: UserRoles;
   regionalRestrictions?: RegionalRestrictionRoles;
+  isPercentageInputValue?: boolean;
 };
 
 export interface RegionalRestrictionRoles {
