@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { from, of, timer } from 'rxjs';
+import { of } from 'rxjs';
 import {
   catchError,
   concatMap,
+  delay,
+  expand,
   mergeMap,
-  switchMap,
-  takeUntil,
+  takeWhile,
 } from 'rxjs/operators';
 
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
@@ -23,44 +24,34 @@ import { Store } from '@ngrx/store';
 export class SapSyncStatusEffects {
   getSapSyncStatus$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(ActiveCaseActions.getSapSyncStatus),
-      concatLatestFrom(() => [this.store.select(getGqId)]),
+      ofType(ActiveCaseActions.getSapSyncStatusInInterval),
+      concatLatestFrom(() => this.store.select(getGqId)),
       concatMap(([_action, gqId]) =>
         this.quotationService.getSapSyncStatus(gqId).pipe(
+          expand((result) => {
+            return result.sapSyncStatus === SAP_SYNC_STATUS.SYNC_PENDING
+              ? this.quotationService.getSapSyncStatus(gqId).pipe(delay(5000))
+              : of(); // stop expanding further (complete)
+          }),
+          takeWhile(
+            (result) => result.sapSyncStatus === SAP_SYNC_STATUS.SYNC_PENDING,
+            true
+          ),
           mergeMap((result: QuotationSapSyncStatusResult) => {
-            if (result.sapSyncStatus !== SAP_SYNC_STATUS.SYNC_PENDING) {
-              this.showUploadSelectionToast(result.sapSyncStatus);
-
-              return [
-                ActiveCaseActions.getSapSyncStatusSuccess({ result }),
-                ActiveCaseActions.getSapSyncStatusSuccessFullyCompleted({
-                  result,
-                }),
-              ];
+            if (result.sapSyncStatus === SAP_SYNC_STATUS.SYNC_PENDING) {
+              return [ActiveCaseActions.getSapSyncStatusSuccess({ result })];
             }
+            this.showUploadSelectionToast(result.sapSyncStatus);
 
-            return [ActiveCaseActions.getSapSyncStatusSuccess({ result })];
+            return [
+              ActiveCaseActions.getSapSyncStatusSuccess({ result }),
+              ActiveCaseActions.getSapSyncStatusSuccessFullyCompleted({
+                result,
+              }),
+            ];
           }),
           catchError((errorMessage) =>
             of(ActiveCaseActions.getSapSyncStatusFailure({ errorMessage }))
-          )
-        )
-      )
-    );
-  });
-
-  quotationSapSyncStatusInterval$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(ActiveCaseActions.getSapSyncStatusInInterval),
-      switchMap(() =>
-        timer(0, 5000).pipe(
-          concatMap(() =>
-            from([{ type: ActiveCaseActions.getSapSyncStatus.type }])
-          ),
-          takeUntil(
-            this.actions$.pipe(
-              ofType(ActiveCaseActions.getSapSyncStatusSuccessFullyCompleted)
-            )
           )
         )
       )

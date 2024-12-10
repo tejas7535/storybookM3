@@ -51,9 +51,9 @@ describe('SapSyncStatusEffects', () => {
 
   describe('getSapSyncStatus$', () => {
     test(
-      'should return getSapSyncStatusSuccess when REST call is successful',
+      'should return getSapSyncStatusSuccess when REST call is successful on the second call',
       marbles((m) => {
-        action = ActiveCaseActions.getSapSyncStatus();
+        action = ActiveCaseActions.getSapSyncStatusInInterval();
         quotationService.getSapSyncStatus = jest.fn(() => response);
         store.overrideSelector(getGqId, 123);
         effects['showUploadSelectionToast'] = jest.fn();
@@ -67,25 +67,45 @@ describe('SapSyncStatusEffects', () => {
             },
           ],
         };
-        const result = ActiveCaseActions.getSapSyncStatusSuccess({
-          result: responseObject,
-        });
+        const finalResponseObject: QuotationSapSyncStatusResult = {
+          sapId: '12345',
+          sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
+          quotationDetailSapSyncStatusList: [
+            {
+              gqPositionId: '123',
+              sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
+            },
+          ],
+        };
 
         actions$ = m.hot('-a', { a: action });
-        const response = m.cold('-a|', { a: responseObject });
-        const expected = m.cold('--b', { b: result });
+        const response = m.cold('-ab|', {
+          a: responseObject,
+          b: finalResponseObject,
+        });
+        const expected = m.cold('--a(bc)', {
+          a: ActiveCaseActions.getSapSyncStatusSuccess({
+            result: responseObject,
+          }),
+          b: ActiveCaseActions.getSapSyncStatusSuccess({
+            result: finalResponseObject,
+          }),
+          c: ActiveCaseActions.getSapSyncStatusSuccessFullyCompleted({
+            result: finalResponseObject,
+          }),
+        });
 
         m.expect(effects.getSapSyncStatus$).toBeObservable(expected);
         m.flush();
-        expect(quotationService.getSapSyncStatus).toHaveBeenCalledTimes(1);
+        expect(quotationService.getSapSyncStatus).toHaveBeenCalledTimes(2);
         expect(quotationService.getSapSyncStatus).toHaveBeenCalledWith(123);
-        expect(effects['showUploadSelectionToast']).not.toHaveBeenCalled();
+        expect(effects['showUploadSelectionToast']).toHaveBeenCalledTimes(1);
       })
     );
     test(
       'should return success and completed when REST call is successful',
       marbles((m) => {
-        action = ActiveCaseActions.getSapSyncStatus();
+        action = ActiveCaseActions.getSapSyncStatusInInterval();
         store.overrideSelector(getGqId, 123);
         store.overrideSelector(getSapId, '800000');
 
@@ -123,7 +143,7 @@ describe('SapSyncStatusEffects', () => {
     test(
       'should return success and completed when REST call is successful for status partially synced',
       marbles((m) => {
-        action = ActiveCaseActions.getSapSyncStatus();
+        action = ActiveCaseActions.getSapSyncStatusInInterval();
         store.overrideSelector(getGqId, 123);
         store.overrideSelector(getSapId, '800000');
         effects['showUploadSelectionToast'] = jest.fn();
@@ -159,7 +179,7 @@ describe('SapSyncStatusEffects', () => {
       })
     );
     test('should return getSapSyncStatusFailure on REST error', () => {
-      action = ActiveCaseActions.getSapSyncStatus();
+      action = ActiveCaseActions.getSapSyncStatusInInterval();
       quotationService.getSapSyncStatus = jest.fn(() => response);
       store.overrideSelector(getGqId, 123);
       const responseObject: QuotationSapSyncStatusResult = {

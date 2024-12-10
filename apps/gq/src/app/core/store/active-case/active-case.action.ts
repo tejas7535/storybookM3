@@ -143,7 +143,6 @@ export const ActiveCaseActions = createActionGroup({
     'Delete Attachment Failed': props<{ errorMessage: string }>(),
 
     'Get Sap Sync Status in Interval': emptyProps(),
-    'Get Sap Sync Status': emptyProps(),
     'Get Sap Sync Status Success': props<{
       result: QuotationSapSyncStatusResult;
     }>(),
