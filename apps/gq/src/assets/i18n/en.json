@@ -598,7 +598,7 @@
     },
     "validation": {
       "priceLowerThanMsp": "Net Price is lower than MSP. Please request approval from Pricing.",
-      "gpmOrGpiTooLow": "Current Net Price leads to a loss maker (margin < 25%). Please verify price setting.",
+      "gpmOrGpiTooLow": "Current Net Price leads to a loss maker (margin < 30%). Please verify price setting.",
       "orderQuantityMustBeMultipleOf": "Please consider Delivery Unit {{deliveryUnit}} {{uom}} for this item."
     },
     "duration": {

@@ -597,7 +597,7 @@
     },
     "validation": {
       "priceLowerThanMsp": "Nettopreis ist niedriger als MSP. Bitte beantragen Sie die Genehmigung der Preisgestaltung.",
-      "gpmOrGpiTooLow": "Aktueller Nettopreis führt zu einem Loss Maker (Marge < 25%). Bitte Preisstellung überprüfen.",
+      "gpmOrGpiTooLow": "Aktueller Nettopreis führt zu einem Loss Maker (Marge < 30%). Bitte Preisstellung überprüfen.",
       "orderQuantityMustBeMultipleOf": "Bitte beachten Sie die Liefereinheit von {{deliveryUnit}} {{uom}} für diese Position."
     },
     "duration": {
