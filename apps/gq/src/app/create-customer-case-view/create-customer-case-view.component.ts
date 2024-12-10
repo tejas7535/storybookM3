@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, DestroyRef, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  DestroyRef,
+  inject,
+  ViewChild,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -51,6 +57,8 @@ type typeAnimation = 'fade-in' | 'fade-out';
   ],
 })
 export class CreateCustomerCaseViewComponent implements AfterViewInit {
+  @ViewChild('materialSelection') materialSelection: MaterialSelectionComponent;
+
   private readonly destroyRef = inject(DestroyRef);
 
   private readonly insightsService: ApplicationInsightsService = inject(
@@ -111,6 +119,10 @@ export class CreateCustomerCaseViewComponent implements AfterViewInit {
     } as CaseCreationEventParams);
 
     this.createCaseFacade.resetCaseCreationInformation();
+  }
+
+  resetAll(): void {
+    this.materialSelection.resetAll();
   }
 
   handleHeaderInformationHasChanges(

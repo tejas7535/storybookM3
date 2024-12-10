@@ -171,4 +171,16 @@ describe('CreateCustomerCaseViewComponent', () => {
       expect(component.headerInformationData).toEqual(data);
     });
   });
+
+  describe('resetAll', () => {
+    test('should trigger reset', () => {
+      component.materialSelection = {
+        resetAll: jest.fn(),
+      } as any;
+
+      component.resetAll();
+
+      expect(component.materialSelection.resetAll).toHaveBeenCalledTimes(1);
+    });
+  });
 });

@@ -6,5 +6,6 @@
   "includeMaterials": "einbezogene Materialien",
   "additionalFilter": "Zusätzliche Filteroptionen",
   "createCase": "Case erstellen",
-  "cancelButton": "Abbrechen"
+  "cancelButton": "Abbrechen",
+  "resetButton": "Zurücksetzen"
 }

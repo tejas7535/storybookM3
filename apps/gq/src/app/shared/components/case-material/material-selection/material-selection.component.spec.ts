@@ -91,11 +91,17 @@ describe('MaterialSelectionComponent', () => {
 
   describe('resetAll', () => {
     test('should resetAll', () => {
+      component.numberOfYears = 5;
+      component.triggerPLsAndSeriesRequest = jest.fn();
       component.resetAll();
 
       expect(component.allComplete).toBeFalsy();
       expect(component.someComplete).toBeTruthy();
+      expect(component.numberOfYears).toEqual(
+        component['DEFAULT_SELECTED_YEARS']
+      );
       expect(component.selectionItems).toEqual(component.defaultSelection);
+      expect(component.triggerPLsAndSeriesRequest).toHaveBeenCalledTimes(1);
     });
   });
 

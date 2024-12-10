@@ -34,6 +34,7 @@ import { Selection } from './models/selection.model';
 })
 export class MaterialSelectionComponent {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
+  private readonly DEFAULT_SELECTED_YEARS = 2;
   private readonly createCaseFacade: CreateCaseFacade =
     inject(CreateCaseFacade);
 
@@ -66,7 +67,7 @@ export class MaterialSelectionComponent {
   allComplete = false;
   someComplete = true;
   selectionItems: Selection[] = this.createDefaultSelectionCopy();
-  numberOfYears = 2;
+  numberOfYears = this.DEFAULT_SELECTED_YEARS;
   // The first year where data for gq is available is 2018, so we only count all years
   // from 2018 to the current year, including the current (not yet finished) year (GQUOTE-721)
   availableYears: number[] = this.getAvailableYears();
@@ -112,7 +113,10 @@ export class MaterialSelectionComponent {
     this.selectionItems = this.createDefaultSelectionCopy();
     this.allComplete = false;
     this.someComplete = true;
+    this.numberOfYears = this.DEFAULT_SELECTED_YEARS;
+    this.triggerPLsAndSeriesRequest();
   }
+
   triggerPLsAndSeriesRequest(): void {
     if (this.customerIdentifier && this.selectionItems.length > 0) {
       const includeQuotationHistory = this.selectionItems.find(

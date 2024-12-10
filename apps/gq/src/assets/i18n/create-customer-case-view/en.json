@@ -6,5 +6,6 @@
   "includeMaterials": "Materials Included",
   "additionalFilter": "Additional Filters",
   "createCase": "Create Case",
-  "cancelButton": "Cancel"
+  "cancelButton": "Cancel",
+  "resetButton": "Reset All"
 }
