@@ -6,7 +6,7 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -14,13 +14,19 @@ import { catchError } from 'rxjs/operators';
 import { HttpError } from '../utils/http-client';
 import { SnackbarService } from '../utils/service/snackbar.service';
 
+const NO_ERROR_URLS = [
+  'https://login.microsoftonline',
+  'https://login.partner.microsoftonline',
+  'https://graph.microsoft.com',
+];
+
 export const USE_DEFAULT_HTTP_ERROR_INTERCEPTOR = new HttpContextToken(
   () => true
 );
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
-  public constructor(private readonly snackbarService: SnackbarService) {}
+  private readonly snackbarService: SnackbarService = inject(SnackbarService);
 
   intercept(
     request: HttpRequest<any>,
@@ -47,7 +53,11 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           }
         }
 
-        if (request.context.get(USE_DEFAULT_HTTP_ERROR_INTERCEPTOR)) {
+        if (
+          request.context.get(USE_DEFAULT_HTTP_ERROR_INTERCEPTOR) &&
+          // only show toasts for errors not triggered by photo API
+          !NO_ERROR_URLS.some((url) => error.url.startsWith(url))
+        ) {
           this.snackbarService.openSnackBar(error.message as string);
         }
 
