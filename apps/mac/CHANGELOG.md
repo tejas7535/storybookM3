@@ -1,4 +1,12 @@
 # Release Notes of Material App Center
+## [1.26.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.26.0...mac-v1.26.1) (2024-12-11)
+
+
+### Bug Fixes
+
+* **mac:** add translation for duroplastics ([#6772](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6772)) ([4afa3f4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4afa3f461e0f50dae60a8a1d46c33f9d0a64a0eb))
+* **mac:** fix edit dialog in msd ([#6813](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6813)) ([7787b0b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7787b0bfac8ced70a547ef9eb040224489bee4f2))
+
 ## [1.26.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.25.0...mac-v1.26.0) (2024-11-22)
 
 
