@@ -1,5 +1,7 @@
 import { Params } from '@angular/router';
 
+import { SelectableValue } from '@gq/shared/models/selectable-value.model';
+
 import { ColumnFields } from '../ag-grid/constants/column-fields.enum';
 import { FilterNames } from '../components/autocomplete-input/filter-names.enum';
 import { SearchbarGridContext } from '../components/global-search-bar/config/searchbar-grid-context.interface';
@@ -620,6 +622,33 @@ describe('MiscUtils', () => {
         100
       );
       expect(result).toBe(100);
+    });
+  });
+
+  describe('displaySelectableValue', () => {
+    test('should return empty string when no selectable value', () => {
+      expect(miscUtils.displaySelectableValue(null)).toBe('');
+    });
+
+    test('should return formated value when selectable value2 is present', () => {
+      const selectableValue: SelectableValue = {
+        id: '12345',
+        value: 'Value 1',
+        value2: 'Value2',
+      };
+      expect(miscUtils.displaySelectableValue(selectableValue)).toBe(
+        '12345 | Value 1 | Value2'
+      );
+    });
+
+    test('should return formated value when selectable value2 is not present', () => {
+      const selectableValue: SelectableValue = {
+        id: '12345',
+        value: 'Value 1',
+      };
+      expect(miscUtils.displaySelectableValue(selectableValue)).toBe(
+        '12345 | Value 1'
+      );
     });
   });
 });

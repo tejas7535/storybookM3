@@ -704,6 +704,11 @@
     "notAvailable": "Not available",
     "standardValue": "Standard Pricing"
   },
+  "autocompleteSelection": {
+    "loading": "Loading...",
+    "noResults": "No results found",
+    "error": "Enter valid {{ fieldName }}"
+  },
   "pricingDetails": {
     "materialDetails": {
       "materialNumber": "Material Number (15-Digit)",

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { catchError, delay, filter, map, mergeMap, tap } from 'rxjs/operators';
 
+import { ShipToPartyFacade } from '@gq/core/store/ship-to-party/ship-to-party.facade';
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
 import { MATERIAL_FILTERS } from '@gq/shared/constants/material-filters.const';
 import { Quotation } from '@gq/shared/models';
@@ -102,6 +103,8 @@ export class CreateCaseEffects {
   private readonly featureToggleService: FeatureToggleConfigService = inject(
     FeatureToggleConfigService
   );
+  private readonly shipToPartyFacade: ShipToPartyFacade =
+    inject(ShipToPartyFacade);
 
   /**
    * Get possible values for a form field
@@ -180,6 +183,27 @@ export class CreateCaseEffects {
               action.salesOrgId
             )
         )
+      );
+    },
+    { dispatch: false }
+  );
+
+  loadShipToPartyByCustomerAndSalesOrg$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(selectSalesOrg.type, getSalesOrgsSuccess.type),
+        concatLatestFrom(() => [
+          this.store.select(getSelectedCustomerId),
+          this.store.select(getSelectedSalesOrg),
+        ]),
+        map(([_action, customerId, salesOrg]) => {
+          if (customerId && salesOrg) {
+            this.shipToPartyFacade.loadShipToPartyByCustomerAndSalesOrg(
+              customerId,
+              salesOrg.id
+            );
+          }
+        })
       );
     },
     { dispatch: false }

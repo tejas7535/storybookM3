@@ -1003,4 +1003,56 @@ describe('Create Case Effects', () => {
       expect(result).toEqual(expected);
     });
   });
+
+  describe('load ship to parties', () => {
+    test(
+      'should trigger facade method when "getSalesOrgsSuccess" action has been emitted',
+      marbles((m) => {
+        action = getSalesOrgsSuccess({ salesOrgs: [] });
+        store.overrideSelector(getSelectedCustomerId, '1234');
+        store.overrideSelector(getSelectedSalesOrg, {
+          id: '0615',
+          selected: true,
+        });
+
+        effects['shipToPartyFacade'].loadShipToPartyByCustomerAndSalesOrg =
+          jest.fn();
+
+        actions$ = m.hot('-a', { a: action });
+
+        effects.loadShipToPartyByCustomerAndSalesOrg$.subscribe(() => {
+          expect(
+            effects['shipToPartyFacade'].loadShipToPartyByCustomerAndSalesOrg
+          ).toHaveBeenCalledTimes(1);
+        });
+
+        m.flush();
+      })
+    );
+
+    test(
+      'should trigger facade method when "selectSalesOrg" action has been emitted',
+      marbles((m) => {
+        action = selectSalesOrg({ salesOrgId: '1' });
+        store.overrideSelector(getSelectedCustomerId, '1234');
+        store.overrideSelector(getSelectedSalesOrg, {
+          id: '0615',
+          selected: true,
+        });
+
+        effects['shipToPartyFacade'].loadShipToPartyByCustomerAndSalesOrg =
+          jest.fn();
+
+        actions$ = m.hot('-a', { a: action });
+
+        effects.loadShipToPartyByCustomerAndSalesOrg$.subscribe(() => {
+          expect(
+            effects['shipToPartyFacade'].loadShipToPartyByCustomerAndSalesOrg
+          ).toHaveBeenCalledTimes(1);
+        });
+
+        m.flush();
+      })
+    );
+  });
 });

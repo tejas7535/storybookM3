@@ -49,67 +49,17 @@
                 formControlName="offerType"
               ></gq-offer-type-select>
             }
-            <mat-form-field
+
+            <gq-autocomplete-selection
               class="@[0rem]/caseHeader:col-span-1 @sm/caseHeader:col-span-2"
-              appearance="outline"
+              formControlName="shipToParty"
+              [label]="t('shipToParty')"
+              [options]="shipToPartySelectableValues$ | ngrxPush"
+              [isLoading]="shipToPartiesLoading$ | ngrxPush"
+              [attr.data-cy]="'case-header-information_ship-to-party-selection'"
             >
-              <mat-label>{{ t('shipToParty') }}</mat-label>
-              <input
-                matInput
-                color="primary"
-                class="!mx-2 w-full !max-w-[90%] truncate leading-7 !outline-none"
-                type="text"
-                formControlName="shipToParty"
-                [matAutocomplete]="auto"
-                #shipToPartyInput
-                pinDropDown="matAutocompleteTrigger"
-                [attr.data-cy]="'case-header-information_ship-to-party-input'"
-              />
+            </gq-autocomplete-selection>
 
-              @if (!(autocomplete.customerAndShipToPartyLoading$ | ngrxPush)) {
-                <mat-icon
-                  matSuffix
-                  class="absolute bottom-1 right-2"
-                  (click)="shipToPartyInput.select()"
-                  [ngClass]="{
-                    'text-low-emphasis':
-                      headerInfoForm.get('shipToParty').disabled
-                  }"
-                >
-                  edit
-                </mat-icon>
-              }
-              @if (autocomplete.customerAndShipToPartyLoading$ | ngrxPush) {
-                <mat-spinner
-                  matSuffix
-                  class="absolute bottom-1 right-2"
-                  [diameter]="18"
-                  [attr.data-cy]="
-                    'case-header-information_ship-to-party-spinner'
-                  "
-                ></mat-spinner>
-              }
-
-              <mat-autocomplete
-                #auto="matAutocomplete"
-                [displayWith]="formatAutocompleteResult"
-                (optionSelected)="
-                  autocomplete.selectCustomer($event.option.value, filterName)
-                "
-              >
-                @for (
-                  idValue of (shipToParty$ | ngrxPush)?.options;
-                  track idValue
-                ) {
-                  <mat-option [value]="idValue">
-                    <span> {{ idValue.id }} | {{ idValue.value }}</span>
-                    @if (idValue.value2) {
-                      <span> | {{ idValue.value2 }}</span>
-                    }
-                  </mat-option>
-                }
-              </mat-autocomplete>
-            </mat-form-field>
             <mat-form-field
               class="@[0rem]/caseHeader:col-span-1 @sm/caseHeader:col-span-2"
               appearance="outline"

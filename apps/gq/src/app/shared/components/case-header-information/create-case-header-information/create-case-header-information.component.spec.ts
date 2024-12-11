@@ -10,9 +10,12 @@ import { AutoCompleteFacade } from '@gq/core/store/facades/autocomplete.facade';
 import { RolesFacade } from '@gq/core/store/facades/roles.facade';
 import { CaseFilterItem, SalesOrg } from '@gq/core/store/reducers/models';
 import { SectorGpsdFacade } from '@gq/core/store/sector-gpsd/sector-gpsd.facade';
+import { ShipToPartyFacade } from '@gq/core/store/ship-to-party/ship-to-party.facade';
+import { AutocompleteSelectionComponent } from '@gq/shared/components/autocomplete-selection/autocomplete-selection.component';
 import { CustomerId } from '@gq/shared/models';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { Store } from '@ngrx/store';
 import moment from 'moment';
 import { MockComponent, MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
@@ -45,6 +48,7 @@ describe('CreateCaseHeaderInformationComponent', () => {
       MockComponent(SectorGpsdSelectComponent),
       MockComponent(OfferTypeSelectComponent),
       MockComponent(SelectSalesOrgComponent),
+      MockComponent(AutocompleteSelectionComponent),
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
@@ -81,6 +85,10 @@ describe('CreateCaseHeaderInformationComponent', () => {
         userHasRegionWorldOrGreaterChinaRole$: of(),
       }),
       MockProvider(SectorGpsdFacade),
+      MockProvider(ShipToPartyFacade),
+      MockProvider(Store, {
+        select: jest.fn().mockReturnValue(of({})),
+      }),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
@@ -99,14 +107,6 @@ describe('CreateCaseHeaderInformationComponent', () => {
     marbles((m) => {
       m.expect(component.shipToPartySalesOrgs$).toBeObservable(
         m.cold('(a|)', { a: [] })
-      );
-    })
-  );
-  test(
-    'should provide shipToParty$',
-    marbles((m) => {
-      m.expect(component.shipToParty$).toBeObservable(
-        m.cold('(a|)', { a: {} as CaseFilterItem })
       );
     })
   );

@@ -10,10 +10,13 @@ import { CurrencyFacade } from '@gq/core/store/currency/currency.facade';
 import { AutoCompleteFacade, RolesFacade } from '@gq/core/store/facades';
 import { CaseFilterItem, SalesOrg } from '@gq/core/store/reducers/models';
 import { SectorGpsdFacade } from '@gq/core/store/sector-gpsd/sector-gpsd.facade';
+import { ShipToPartyFacade } from '@gq/core/store/ship-to-party/ship-to-party.facade';
+import { AutocompleteSelectionComponent } from '@gq/shared/components/autocomplete-selection/autocomplete-selection.component';
 import { Customer, PurchaseOrderType } from '@gq/shared/models';
 import { getMomentUtcStartOfDayDate } from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { Store } from '@ngrx/store';
 import moment from 'moment';
 import { MockComponent, MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
@@ -42,6 +45,7 @@ describe('EditCaseHeaderInformationComponent', () => {
       MockComponent(SectorGpsdSelectComponent),
       MockComponent(OfferTypeSelectComponent),
       MockComponent(SelectSalesOrgComponent),
+      MockComponent(AutocompleteSelectionComponent),
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
@@ -98,6 +102,10 @@ describe('EditCaseHeaderInformationComponent', () => {
           enableSapFieldEditing: true,
         },
       },
+      MockProvider(ShipToPartyFacade),
+      MockProvider(Store, {
+        select: jest.fn().mockReturnValue(of({})),
+      }),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
@@ -114,14 +122,6 @@ describe('EditCaseHeaderInformationComponent', () => {
     marbles((m) => {
       m.expect(component.shipToPartySalesOrgs$).toBeObservable(
         m.cold('a', { a: [] })
-      );
-    })
-  );
-  test(
-    'should provide shipToParty$',
-    marbles((m) => {
-      m.expect(component.shipToParty$).toBeObservable(
-        m.cold('(a|)', { a: {} as CaseFilterItem })
       );
     })
   );

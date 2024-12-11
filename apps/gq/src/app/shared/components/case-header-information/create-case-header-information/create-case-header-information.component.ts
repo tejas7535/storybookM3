@@ -38,9 +38,12 @@ import { distinctUntilChanged, filter, Observable, take, tap } from 'rxjs';
 
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { SalesOrg } from '@gq/core/store/reducers/create-case/models/sales-orgs.model';
-import { CaseFilterItem } from '@gq/core/store/reducers/models';
+import { ShipToPartyFacade } from '@gq/core/store/ship-to-party/ship-to-party.facade';
+import { ShipToPartyModule } from '@gq/core/store/ship-to-party/ship-to-party.module';
+import { AutocompleteSelectionComponent } from '@gq/shared/components/autocomplete-selection/autocomplete-selection.component';
 import { DATE_FORMATS } from '@gq/shared/constants/date-formats';
 import { CustomerId } from '@gq/shared/models/customer/customer-ids.model';
+import { SelectableValue } from '@gq/shared/models/selectable-value.model';
 import { getMomentUtcStartOfDayDate } from '@gq/shared/utils/misc.utils';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
@@ -81,6 +84,8 @@ import { HeaderInformationData } from '../models/header-information-data.interfa
     AutocompleteInputComponent,
     SelectSalesOrgComponent,
     StatusCustomerInfoHeaderModule,
+    AutocompleteSelectionComponent,
+    ShipToPartyModule,
   ],
   providers: [
     {
@@ -106,9 +111,14 @@ export class CreateCaseHeaderInformationComponent
     this.createCaseFacade.shipToPartySalesOrgs$;
   selectedCustomerSalesOrg$: Observable<SalesOrg> =
     this.createCaseFacade.selectedCustomerSalesOrg$;
+
+  private readonly shipToPartyFacade: ShipToPartyFacade =
+    inject(ShipToPartyFacade);
+  shipToPartySelectableValues$: Observable<SelectableValue[]> =
+    this.shipToPartyFacade.shipToPartiesAsSelectableValues$;
+  shipToPartiesLoading$: Observable<boolean> =
+    this.shipToPartyFacade.shipToPartiesLoading$;
   selectedCustomerIdentifier$ = this.createCaseFacade.customerIdentifier$;
-  shipToParty$: Observable<CaseFilterItem> =
-    this.autocomplete.shipToCustomerForCaseCreation$;
   isEditMode = false;
   quotationToChangedByUser = false;
 
@@ -270,6 +280,13 @@ export class CreateCaseHeaderInformationComponent
         this.hasChanges.emit(this.hasHeaderInfoFormChange);
         this.isValid.emit(this.headerInfoForm.valid);
         this.data.emit(formValues);
+      });
+
+    this.headerInfoForm
+      .get('shipToParty')
+      .valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((selectedValue) => {
+        this.shipToPartyFacade.selectShipToParty(selectedValue);
       });
   }
 

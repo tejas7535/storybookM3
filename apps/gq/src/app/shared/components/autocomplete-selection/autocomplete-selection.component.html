@@ -1,0 +1,56 @@
+<mat-form-field
+  class="w-full"
+  [appearance]="appearance()"
+  *transloco="let t; read: 'autocompleteSelection'"
+>
+  <!-- Label -->
+  <mat-label>{{ label() }}</mat-label>
+
+  <!-- Input field (search field) -->
+  <input
+    [attr.aria-label]="label()"
+    [matAutocomplete]="auto"
+    [formControl]="formControl"
+    matInput
+    type="text"
+  />
+
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    (optionSelected)="onOptionSelected($event)"
+    [displayWith]="displayFn"
+  >
+    <!-- Options -->
+    @for (idValue of filteredOptions(); track idValue) {
+      <mat-option [value]="idValue">
+        <span> {{ idValue | displaySelectableValue }} </span>
+      </mat-option>
+    } @empty {
+      <!-- Show text for no data available -->
+      <mat-option [disabled]="true">{{ t('noResults') }}</mat-option>
+    }
+
+    <!-- Show text for is loading -->
+    @if (isLoading()) {
+      <mat-option [disabled]="true">{{ t('loading') }}</mat-option>
+    }
+  </mat-autocomplete>
+
+  <!-- Spinner -->
+  @if (isLoading()) {
+    <mat-spinner matSuffix [diameter]="18"></mat-spinner>
+  }
+
+  <!-- Add an arrow, so it will look like a dropdown  -->
+  @if (!isLoading()) {
+    <mat-icon matSuffix>arrow_drop_down</mat-icon>
+  }
+
+  @if (this.ngControl.control.invalid) {
+    <mat-error>{{
+      t('error', {
+        fieldName: label()
+      })
+    }}</mat-error>
+  }
+</mat-form-field>

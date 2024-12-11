@@ -20,7 +20,6 @@ import { CurrencyFacade } from '@gq/core/store/currency/currency.facade';
 import { AutoCompleteFacade } from '@gq/core/store/facades/autocomplete.facade';
 import { RolesFacade } from '@gq/core/store/facades/roles.facade';
 import { SalesOrg } from '@gq/core/store/reducers/create-case/models/sales-orgs.model';
-import { CaseFilterItem } from '@gq/core/store/reducers/models';
 import { SectorGpsdFacade } from '@gq/core/store/sector-gpsd/sector-gpsd.facade';
 import { IdValue } from '@gq/shared/models/search';
 import { getMomentUtcStartOfDayDate } from '@gq/shared/utils/misc.utils';
@@ -45,7 +44,6 @@ export abstract class CaseHeaderInformationComponent implements OnInit {
    * Observable that emits the sales orgs of the ship to party
    */
   abstract shipToPartySalesOrgs$: Observable<SalesOrg[]>;
-  abstract shipToParty$: Observable<CaseFilterItem>;
 
   abstract isEditMode: boolean;
   abstract quotationToChangedByUser: boolean;

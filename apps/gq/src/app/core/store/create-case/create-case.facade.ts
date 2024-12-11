@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { combineLatest, map, Observable } from 'rxjs';
 
+import { ShipToPartyFacade } from '@gq/core/store/ship-to-party/ship-to-party.facade';
 import { CustomerId } from '@gq/shared/models/customer/customer-ids.model';
 import { MaterialTableItem } from '@gq/shared/models/table/material-table-item-model';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
@@ -50,6 +51,8 @@ export class CreateCaseFacade {
   private readonly store: Store = inject(Store);
   private readonly sectorGpsdFacade: SectorGpsdFacade =
     inject(SectorGpsdFacade);
+  private readonly shipToPartyFacade: ShipToPartyFacade =
+    inject(ShipToPartyFacade);
 
   private readonly quotationService: QuotationService =
     inject(QuotationService);
@@ -113,6 +116,7 @@ export class CreateCaseFacade {
     this.store.dispatch(resetPLsAndSeries());
     this.store.dispatch(resetProductLineAndSeries());
     this.store.dispatch(setRowDataCurrency({ currency: undefined }));
+    this.shipToPartyFacade.resetAllShipToParties();
   }
 
   updateCurrencyOfPositionItems(currency: string): void {

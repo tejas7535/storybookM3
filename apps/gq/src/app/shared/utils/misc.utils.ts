@@ -9,6 +9,7 @@ import {
   QuotationStatus,
   SAP_SYNC_STATUS,
 } from '@gq/shared/models';
+import { SelectableValue } from '@gq/shared/models/selectable-value.model';
 // eslint-disable-next-line unicorn/prefer-node-protocol
 import moment from 'moment';
 
@@ -421,4 +422,16 @@ export const getTargetPriceValue = (
   }
 
   return targetPriceValue;
+};
+
+export const displaySelectableValue = (value: SelectableValue) => {
+  if (!value) {
+    return '';
+  }
+
+  if (value.value2) {
+    return `${value.id} | ${value.value} | ${value.value2}`;
+  }
+
+  return `${value.id} | ${value.value}`;
 };

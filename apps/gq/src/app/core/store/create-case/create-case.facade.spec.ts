@@ -1,3 +1,4 @@
+import { ShipToPartyFacade } from '@gq/core/store/ship-to-party/ship-to-party.facade';
 import { of } from 'rxjs';
 
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
@@ -46,6 +47,9 @@ describe('CreateCaseFacade', () => {
         resetAllSectorGpsds: jest.fn(),
       }),
       MockProvider(QuotationService),
+      MockProvider(ShipToPartyFacade, {
+        resetAllShipToParties: jest.fn(),
+      }),
     ],
   });
 
@@ -149,6 +153,9 @@ describe('CreateCaseFacade', () => {
       expect(mockStore.dispatch).toHaveBeenCalledWith(clearOfferType());
       expect(mockStore.dispatch).toHaveBeenCalledWith(clearPurchaseOrderType());
       expect(facade['sectorGpsdFacade'].resetAllSectorGpsds).toHaveBeenCalled();
+      expect(
+        facade['shipToPartyFacade'].resetAllShipToParties
+      ).toHaveBeenCalled();
     });
 
     describe('updateCurrencyOfPositionItems', () => {
