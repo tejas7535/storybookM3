@@ -242,13 +242,13 @@ export class AppComponent implements OnInit, OnDestroy {
       external: false,
     },
     {
-      link: 'https://sconnect.schaeffler.com/docs/DOC-368621',
-      title: 'D360@SConnect',
+      link: 'https://worksite.sharepoint.com/:u:/r/sites/Bearings-Industrial-Solutions-Sales-Operations-Planning/SitePages/Synchronized-Sales-%26-Demand-Planning---Overview.aspx?csf=1&web=1&e=Gal3OO',
+      title: 'Planning360@Sharepoint',
       external: true,
     },
     {
       link: 'https://schaefflerprod.service-now.com/sup?id=sc_cat_item&sys_id=2d1e91cfdb5ba20038c2b6bffe961953&sysparm_category=19634e32dbb73e00d624b14ffe961977',
-      title: 'D360@ServiceNow',
+      title: 'Planning360@ServiceNow',
       external: true,
     },
   ];
