@@ -18,6 +18,8 @@ import { LsaAppService } from './core/services/lsa-app.service';
 import { StaticStorageService } from './core/services/static-storage';
 import { RecommendationContainerComponent } from './recommendation/recommendation-container.component';
 import { FeedbackBannerComponent } from '@schaeffler/feedback-banner';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LSALanguageInterceptor } from './shared/interceptors/language.interceptor';
 
 export const APP_ROOT = 'lubricator-selection-assistant';
 
@@ -27,6 +29,11 @@ export const APP_ROOT = 'lubricator-selection-assistant';
     { provide: OverlayContainer, useClass: AppOverlayContainer },
     LsaAppService,
     StaticStorageService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LSALanguageInterceptor,
+      multi: true,
+    },
   ],
   imports: [
     StoreModule.forRoot({}),
