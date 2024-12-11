@@ -380,10 +380,7 @@ export class EditingMaterialModalComponent
       this.materialToEdit.materialNumber !==
       this.matNumberInput.valueInput.nativeElement.value;
 
-    const customerMaterial =
-      this.customerMaterialInput?.valueInput.nativeElement.value === ''
-        ? null
-        : this.customerMaterialInput.valueInput.nativeElement.value;
+    const customerMaterial = this.getCustomerMaterialNumber();
     const customerMaterialChanged =
       this.materialToEdit.customerMaterialNumber !== customerMaterial;
 
@@ -433,7 +430,7 @@ export class EditingMaterialModalComponent
       materialDescription: this.matDescInput.valueInput.nativeElement.value,
       materialNumber: this.matNumberInput.valueInput.nativeElement.value,
       customerMaterialNumber: this.isNewCaseCreation
-        ? this.customerMaterialInput?.valueInput.nativeElement.value
+        ? this.getCustomerMaterialNumber()
         : undefined,
       quantity: this.editFormGroup.get(QUANTITY_FORM_CONTROL_NAME).value,
       targetPrice: parseNullableLocalizedInputValue(
@@ -496,5 +493,11 @@ export class EditingMaterialModalComponent
       quantityFormControl.setValue(nextMultiple);
       quantityFormControl.updateValueAndValidity();
     }
+  }
+
+  private getCustomerMaterialNumber() {
+    return this.customerMaterialInput?.valueInput.nativeElement.value === ''
+      ? null
+      : this.customerMaterialInput.valueInput.nativeElement.value;
   }
 }

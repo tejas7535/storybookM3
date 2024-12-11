@@ -28,7 +28,11 @@ import {
   PROCESS_CASE_STATE_MOCK,
 } from '../../../../../testing/mocks';
 import { MaterialColumnFields } from '../../../ag-grid/constants/column-fields.enum';
-import { VALIDATION_CODE, ValidationDescription } from '../../../models/table';
+import {
+  MaterialTableItem,
+  VALIDATION_CODE,
+  ValidationDescription,
+} from '../../../models/table';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
 import { EditingMaterialModalComponent } from './editing-material-modal.component';
 
@@ -499,6 +503,52 @@ describe('EditingMaterialModalComponent', () => {
           .mockReturnValue({ value: MATERIAL_TABLE_ITEM_MOCK.quantity });
 
         expect(component.inputHasChanged()).toBeTruthy();
+      });
+      test('should return false for unchanged customerMaterialNumber', () => {
+        const materialToUpdate: MaterialTableItem = {
+          ...MATERIAL_TABLE_ITEM_MOCK,
+          customerMaterialNumber: null,
+        };
+        Object.defineProperty(component, 'materialToEdit', {
+          value: materialToUpdate,
+        });
+        component.matDescInput = {
+          valueInput: {
+            nativeElement: {
+              value: MATERIAL_TABLE_ITEM_MOCK.materialDescription,
+            },
+          },
+        } as any;
+        component.matNumberInput = {
+          valueInput: {
+            nativeElement: {
+              value: MATERIAL_TABLE_ITEM_MOCK.materialNumber,
+            },
+          },
+        } as any;
+        component.customerMaterialInput = {
+          valueInput: {
+            nativeElement: {
+              value: '',
+            },
+          },
+        } as any;
+        const formGroupGetMock = (component.editFormGroup.get = jest.fn());
+        when(formGroupGetMock)
+          .calledWith(MaterialColumnFields.QUANTITY)
+          .mockReturnValue({ value: MATERIAL_TABLE_ITEM_MOCK.quantity });
+        when(formGroupGetMock)
+          .calledWith(MaterialColumnFields.TARGET_PRICE)
+          .mockReturnValue({
+            value: MATERIAL_TABLE_ITEM_MOCK.targetPrice.toString(),
+          });
+        when(formGroupGetMock)
+          .calledWith(MaterialColumnFields.TARGET_PRICE_SOURCE)
+          .mockReturnValue({
+            value: MATERIAL_TABLE_ITEM_MOCK.targetPriceSource,
+          });
+
+        expect(component.inputHasChanged()).toBeFalsy();
       });
       test('should return true for changed quantity', () => {
         component.matDescInput = {
