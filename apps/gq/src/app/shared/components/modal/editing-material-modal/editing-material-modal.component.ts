@@ -496,8 +496,8 @@ export class EditingMaterialModalComponent
   }
 
   private getCustomerMaterialNumber() {
-    return this.customerMaterialInput?.valueInput.nativeElement.value === ''
-      ? null
-      : this.customerMaterialInput.valueInput.nativeElement.value;
+    const value = this.customerMaterialInput?.valueInput.nativeElement.value;
+
+    return value === '' ? null : value;
   }
 }
