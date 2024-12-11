@@ -243,7 +243,7 @@ export class AppComponent implements OnInit, OnDestroy {
     },
     {
       link: 'https://worksite.sharepoint.com/:u:/r/sites/Bearings-Industrial-Solutions-Sales-Operations-Planning/SitePages/Synchronized-Sales-%26-Demand-Planning---Overview.aspx?csf=1&web=1&e=Gal3OO',
-      title: 'Planning360@Sharepoint',
+      title: 'Planning360@MySchaeffler',
       external: true,
     },
     {
