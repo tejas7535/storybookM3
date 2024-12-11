@@ -25,7 +25,6 @@ export function transformAccessories(
   }
 
   const tableGroups = {} as { [key: string]: AccessoryTableGroup };
-
   for (const [key, items] of groups.entries()) {
     const classId = items[0].class_id;
     const keyFromMap = priorityLookup.get(classId);
@@ -33,7 +32,7 @@ export function transformAccessories(
       groupTitle: toCamelCase(key),
       groupClassId: classId,
       groupClassPriority: keyFromMap || 0,
-      items,
+      items: items.sort((a) => (a.is_recommendation ? -1 : 0)),
     };
   }
 

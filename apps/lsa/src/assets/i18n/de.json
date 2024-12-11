@@ -1,5 +1,5 @@
 {
-  "appTitle": "Lubricator Selection Assistant",
+  "appTitle": "Schmierstoffgeber-Auswahlassistent",
   "pages": {
     "lubricationPoints": {
       "title": "Schmierstellen"
@@ -107,6 +107,8 @@
       "configSummary": "Konfigurationsübersicht",
       "increaseOne": "Menge um eins erhöhen",
       "decreaseOne": "Menge um eins verringern",
+      "func_principle": "Funktionsprinzip",
+      "mounting_position": "Montageposition",
       "category": {
         "lubricantApplication": "Schmierstoffauftrag",
         "cartridge": "Kartuschen",
