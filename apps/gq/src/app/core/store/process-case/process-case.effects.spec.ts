@@ -56,7 +56,6 @@ describe('ProcessCaseEffects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(ProcessCaseEffects);
-    // materialService = spectator.inject(MaterialService);
     store = spectator.inject(MockStore);
   });
 
@@ -131,6 +130,7 @@ describe('ProcessCaseEffects', () => {
             materialUoM: 'PC',
             customerMaterial: tableData[0].customerMaterialNumber,
             correctedQuantity: 7,
+            deliveryUnit: 5,
             validationCodes: [
               {
                 code: VALIDATION_CODE.QDV001,

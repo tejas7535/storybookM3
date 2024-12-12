@@ -138,6 +138,7 @@ export class TableService {
     updatedRow.priceUnit = materialValidation?.materialPriceUnit;
     updatedRow.UoM = materialValidation?.materialUoM;
     updatedRow.customerMaterialNumber = materialValidation?.customerMaterial;
+    updatedRow.deliveryUnit = materialValidation?.deliveryUnit;
 
     TableService.validateInfoAndErrorCodes(materialValidation, updatedRow);
     TableService.validateQuantity(

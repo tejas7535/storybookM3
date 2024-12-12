@@ -561,6 +561,7 @@ describe('MiscUtils', () => {
       const expected = {
         id: 1,
         valid: true,
+        deliveryUnit: 5,
         materialNumber15: 'MatNummer',
         customerMaterial: 'CustMatNummer',
         correctedQuantity: 7,

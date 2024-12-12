@@ -4,6 +4,7 @@ export interface MaterialValidation {
   id: number;
   materialNumber15: string;
   valid: boolean;
+  deliveryUnit?: number;
   correctedQuantity?: number;
   materialDescription?: string;
   materialPriceUnit?: number;

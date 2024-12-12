@@ -14,6 +14,7 @@ export class MaterialTableItem {
   priceUnit?: number;
   UoM?: string;
   currency?: string;
+  deliveryUnit?: number;
   info?: {
     valid: boolean;
     description: ValidationDescription[];

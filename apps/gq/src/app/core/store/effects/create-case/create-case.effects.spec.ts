@@ -424,6 +424,7 @@ describe('Create Case Effects', () => {
           {
             id: 1,
             valid: true,
+            deliveryUnit: 5,
             materialNumber15: tableData[0].materialNumber,
             materialDescription: tableData[0].materialDescription,
             materialPriceUnit: 1,

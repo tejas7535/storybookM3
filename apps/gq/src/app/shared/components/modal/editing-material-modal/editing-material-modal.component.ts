@@ -24,7 +24,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
-import { filter, map, Observable, scan, Subscription, take } from 'rxjs';
+import { filter, map, Observable, Subscription } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
@@ -262,45 +262,19 @@ export class EditingMaterialModalComponent
   }
 
   ngAfterViewInit(): void {
-    this.matDescInput.searchFormControl.setValue(
-      this.materialToEdit.materialDescription
+    // set the state for the selected material, this will automatically populate all related input fields without triggering additional actions
+    const option: IdValue = {
+      id: this.materialToEdit.materialNumber,
+      value: this.materialToEdit.materialDescription,
+      value2: this.materialToEdit.customerMaterialNumber,
+      deliveryUnit: this.materialToEdit.deliveryUnit,
+      uom: this.materialToEdit.UoM,
+      selected: true,
+    };
+    this.autoCompleteFacade.selectMaterialNumberDescriptionOrCustomerMaterial(
+      option,
+      FilterNames.MATERIAL_NUMBER
     );
-
-    this.matNumberInput.searchFormControl.setValue(
-      this.materialToEdit.materialNumber
-    );
-
-    if (this.materialToEdit.customerMaterialNumber) {
-      // when a customerMaterial is set within the materialToEdit object, it must be assigned last
-      // customerMaterial may initially be a manual input, but it will be overwritten by materialNumber or materialDescription after calling formControl's setValue()
-      // the customerMaterial field will be initialized after autocomplete options for MatNumber and MatDescription have been selected
-      // it will be set only once; if another material is selected, the customerMaterial can be overwritten.
-
-      this.subscription.add(
-        this.autoCompleteFacade.optionSelectedForAutoCompleteFilter$
-          .pipe(
-            scan(
-              (acc, val) => {
-                if (val.filter === FilterNames.MATERIAL_NUMBER) {
-                  acc.hasNumberInit = true;
-                } else if (val.filter === FilterNames.MATERIAL_DESCRIPTION) {
-                  acc.hasDescriptionInit = true;
-                }
-
-                return acc;
-              },
-              { hasNumberInit: false, hasDescriptionInit: false }
-            ),
-            filter((state) => state.hasNumberInit && state.hasDescriptionInit),
-            take(1)
-          )
-          .subscribe(() => {
-            this.customerMaterialInput.searchFormControl.setValue(
-              this.materialToEdit.customerMaterialNumber
-            );
-          })
-      );
-    }
 
     this.editFormGroup
       .get(MaterialColumnFields.QUANTITY)

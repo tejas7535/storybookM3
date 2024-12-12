@@ -10,6 +10,7 @@ export const MATERIAL_TABLE_ITEM_MOCK: MaterialTableItem = {
   customerMaterialNumber: 'customerMatNumber',
   quantity: 1,
   targetPrice: 10,
+  deliveryUnit: 5,
   info: {
     valid: true,
     description: [ValidationDescription.Valid],

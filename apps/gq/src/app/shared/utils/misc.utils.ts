@@ -384,6 +384,8 @@ export const mapValidatedDetailToMaterialValidation = (
       detail.customerData?.correctedQuantity > 0
         ? detail.customerData?.correctedQuantity
         : null,
+    deliveryUnit: detail.customerData?.deliveryUnit,
+
     validationCodes: detail.validationCodes,
   };
 

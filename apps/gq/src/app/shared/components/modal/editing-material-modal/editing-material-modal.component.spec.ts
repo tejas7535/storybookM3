@@ -34,6 +34,7 @@ import {
   ValidationDescription,
 } from '../../../models/table';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
+import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import { EditingMaterialModalComponent } from './editing-material-modal.component';
 
 describe('EditingMaterialModalComponent', () => {
@@ -156,6 +157,9 @@ describe('EditingMaterialModalComponent', () => {
       component['cdref'].detectChanges = jest.fn();
       component.editFormGroup.get = jest.fn();
       component.editFormGroup.hasError = jest.fn().mockReturnValue(false);
+      component[
+        'autoCompleteFacade'
+      ].selectMaterialNumberDescriptionOrCustomerMaterial = jest.fn();
       const formGroupGetMock = (component.editFormGroup.get = jest.fn());
       when(formGroupGetMock)
         .calledWith(MaterialColumnFields.QUANTITY)
@@ -189,17 +193,23 @@ describe('EditingMaterialModalComponent', () => {
         MATERIAL_TABLE_ITEM_MOCK.targetPrice.toString()
       );
       expect(
-        materialDescriptionAutocomplete.searchFormControl.setValue
+        component['autoCompleteFacade']
+          .selectMaterialNumberDescriptionOrCustomerMaterial
       ).toBeCalledTimes(1);
       expect(
-        materialDescriptionAutocomplete.searchFormControl.setValue
-      ).toHaveBeenCalledWith(MATERIAL_TABLE_ITEM_MOCK.materialDescription);
-      expect(
-        materialNumberAutocomplete.searchFormControl.setValue
-      ).toBeCalledTimes(1);
-      expect(
-        materialNumberAutocomplete.searchFormControl.setValue
-      ).toHaveBeenCalledWith(MATERIAL_TABLE_ITEM_MOCK.materialNumber);
+        component['autoCompleteFacade']
+          .selectMaterialNumberDescriptionOrCustomerMaterial
+      ).toHaveBeenCalledWith(
+        {
+          id: component['materialToEdit'].materialNumber,
+          value: component['materialToEdit'].materialDescription,
+          value2: component['materialToEdit'].customerMaterialNumber,
+          deliveryUnit: component['materialToEdit'].deliveryUnit,
+          uom: component['materialToEdit'].UoM,
+          selected: true,
+        },
+        FilterNames.MATERIAL_NUMBER
+      );
     });
     test('should detect changes', () => {
       component['cdref'].detectChanges = jest.fn();
