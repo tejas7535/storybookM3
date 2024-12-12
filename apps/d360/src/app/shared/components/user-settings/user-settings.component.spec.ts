@@ -1,3 +1,5 @@
+import { of } from 'rxjs';
+
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createComponentFactory,
@@ -5,6 +7,7 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 
+import { CurrencyService } from '../../../feature/info/currency.service';
 import { UserSettingsComponent } from './user-settings.component';
 
 describe('UserSettingsComponent', () => {
@@ -12,7 +15,13 @@ describe('UserSettingsComponent', () => {
 
   const createComponent = createComponentFactory({
     component: UserSettingsComponent,
-    providers: [mockProvider(TranslocoLocaleService)],
+    providers: [
+      mockProvider(CurrencyService, {
+        getCurrentCurrency: jest.fn().mockReturnValue(of('EUR')),
+        getAvailableCurrencies: jest.fn().mockReturnValue(of([])),
+      }),
+      mockProvider(TranslocoLocaleService),
+    ],
   });
 
   beforeEach(() => {

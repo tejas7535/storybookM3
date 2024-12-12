@@ -62,7 +62,9 @@
                   (change)="onChangeType($event)"
                   formControlName="type"
                 >
-                  <mat-radio-button value="CURRENCY">EUR</mat-radio-button>
+                  <mat-radio-button value="CURRENCY">{{
+                    currencyService.getCurrentCurrency() | ngrxPush
+                  }}</mat-radio-button>
                   <mat-radio-button value="QUANTITY"
                     >{{ t('home.chart.pieces_option') }}
                   </mat-radio-button>
@@ -124,7 +126,7 @@
           <div class="-rotate-90">
             <span>
               @if (typeForm.get('type').value === 'CURRENCY') {
-                EUR
+                {{ currencyService.getCurrentCurrency() | ngrxPush }}
               } @else {
                 {{ t('home.chart.pieces_option') }}
               }

@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { DestroyRef, inject, Injectable } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,45 +14,48 @@ export class CurrencyService {
     localStorage.getItem('currency') || this.DEFAULT_CURRENCY
   );
   private readonly availableCurrencies = new BehaviorSubject<string[]>([]);
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   constructor(private readonly http: HttpClient) {
     this.fetchAvailableCurrencies();
-    this.checkStoredCurrency();
   }
 
-  getCurrentCurrency() {
+  public getCurrentCurrency() {
     return this.currentCurrency.asObservable();
   }
 
-  getAvailableCurrencies() {
+  public getAvailableCurrencies() {
     return this.availableCurrencies.asObservable();
   }
 
-  setCurrentCurrency(currency: string) {
-    if (this.availableCurrencies.getValue().includes(currency)) {
-      this.currentCurrency.next(currency);
-      localStorage.setItem('currency', currency);
-    } else {
-      throw new Error('Saving currency failed.');
+  public setCurrentCurrency(currency: string) {
+    if (this.currentCurrency.getValue() !== currency) {
+      if (this.availableCurrencies.getValue().includes(currency)) {
+        localStorage.setItem('currency', currency);
+        // This is the future. For now we do full page reload and do not need a reactive currency.
+        // Until we implement the general solution for locale and language settings.
+        // this.currentCurrency.next(currency);
+        location.reload();
+      } else {
+        throw new Error('Saving currency failed.');
+      }
     }
   }
 
   private fetchAvailableCurrencies() {
-    this.http.get<string[]>(this.CURRENT_CURRENCY_API).subscribe({
-      next: (data) => this.availableCurrencies.next(data),
-      error: () => this.availableCurrencies.next([this.DEFAULT_CURRENCY]),
-    });
-  }
+    this.http
+      .get<string[]>(this.CURRENT_CURRENCY_API)
+      .pipe(
+        tap((data) => {
+          this.availableCurrencies.next(data);
+        }),
+        catchError(() => {
+          this.availableCurrencies.next([this.DEFAULT_CURRENCY]);
 
-  private checkStoredCurrency() {
-    const storedCurrency = localStorage.getItem('currency');
-    if (
-      storedCurrency &&
-      this.availableCurrencies.getValue().includes(storedCurrency)
-    ) {
-      this.currentCurrency.next(storedCurrency);
-    } else {
-      this.currentCurrency.next(this.DEFAULT_CURRENCY);
-    }
+          return EMPTY;
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 }

@@ -31,6 +31,7 @@ import { EMPTY, Observable } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 
 import { translate, TranslocoModule } from '@jsverse/transloco';
+import { PushPipe } from '@ngrx/component';
 import { EChartsOption } from 'echarts';
 import moment from 'moment';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -39,19 +40,18 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
 import { previewData } from '../../../../pages/home/chart/preview-data';
 import { ColumnFilters } from '../../../../shared/ag-grid/grid-filter-model';
-import { DatePickerComponent } from '../../../../shared/components/date-picker/date-picker.component';
 import { DatePickerMonthYearComponent } from '../../../../shared/components/date-picker-month-year/date-picker-month-year.component';
 import {
   GlobalSelectionState,
   GlobalSelectionStateService,
 } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
-import { StyledGridSectionComponent } from '../../../../shared/components/styled-grid-section/styled-grid-section.component';
 import { StyledSectionComponent } from '../../../../shared/components/styled-section/styled-section.component';
 import { ValidateForm } from '../../../../shared/decorators';
 import { dimmedGrey, schaefflerColor } from '../../../../shared/styles/colors';
 import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
 import { PlanningView } from '../../../demand-validation/planning-view';
 import { GlobalSelectionUtils } from '../../../global-selection/global-selection.utils';
+import { CurrencyService } from '../../../info/currency.service';
 import { ChartSettingsService } from '../../forecast-chart.service';
 import {
   ChartEntry,
@@ -69,10 +69,8 @@ import { ForecastChartLegendComponent } from '../forecast-chart-legend/forecast-
     CommonModule,
     NgxEchartsModule,
     StyledSectionComponent,
-    StyledGridSectionComponent,
     MatButtonModule,
     MatIconModule,
-    DatePickerComponent,
     DatePickerMonthYearComponent,
     MatRadioGroup,
     MatRadioButton,
@@ -81,6 +79,7 @@ import { ForecastChartLegendComponent } from '../forecast-chart-legend/forecast-
     TranslocoModule,
     LoadingSpinnerModule,
     ForecastChartLegendComponent,
+    PushPipe,
   ],
   templateUrl: './forecast-chart.component.html',
   styleUrl: './forecast-chart.component.scss',
@@ -90,9 +89,10 @@ export class ForecastChartComponent implements OnInit {
     inject(ChartSettingsService);
   private readonly globalSelectionStateService: GlobalSelectionStateService =
     inject(GlobalSelectionStateService);
+  protected readonly currencyService: CurrencyService = inject(CurrencyService);
 
-  globalSelectionState = input.required<GlobalSelectionState>();
-  columnFilters = input<ColumnFilters>();
+  public globalSelectionState = input.required<GlobalSelectionState>();
+  public columnFilters = input<ColumnFilters>();
 
   private readonly destroy = inject(DestroyRef);
 
@@ -110,7 +110,7 @@ export class ForecastChartComponent implements OnInit {
     );
   }
 
-  option: EChartsOption;
+  protected option: EChartsOption;
 
   public openPanel: string | null = null;
   public openPanelContent = true;
@@ -137,7 +137,7 @@ export class ForecastChartComponent implements OnInit {
   public isPreviewDataRendered: WritableSignal<boolean> =
     signal<boolean>(false);
 
-  ngOnInit() {
+  public ngOnInit() {
     this.loadChartSettings()
       .pipe(
         switchMap(() =>
@@ -148,7 +148,7 @@ export class ForecastChartComponent implements OnInit {
       .subscribe();
   }
 
-  loadChartSettings(): Observable<ChartSettings> {
+  private loadChartSettings(): Observable<ChartSettings> {
     return this.chartSettingsService.getChartSettings().pipe(
       tap((response) => {
         this.chartSettings = response;
@@ -166,7 +166,7 @@ export class ForecastChartComponent implements OnInit {
     );
   }
 
-  loadData$(
+  private loadData$(
     globalSelectionState: GlobalSelectionState,
     columnFilters: Record<string, any>
   ): Observable<ForecastChartData> {
@@ -207,7 +207,7 @@ export class ForecastChartComponent implements OnInit {
     }
   }
 
-  generateChartOptions(data: ForecastChartData): EChartsOption {
+  private generateChartOptions(data: ForecastChartData): EChartsOption {
     return {
       grid: {
         left: '120px',
@@ -275,7 +275,7 @@ export class ForecastChartComponent implements OnInit {
     };
   }
 
-  setChartData(data: ForecastChartData): any {
+  private setChartData(data: ForecastChartData): any {
     return [
       {
         name: translate('home.chart.legend.deliveries'),
@@ -372,24 +372,24 @@ export class ForecastChartComponent implements OnInit {
     ];
   }
 
-  togglePanel(id: string) {
+  protected togglePanel(id: string) {
     this.openPanel = this.openPanel === id ? null : id;
   }
 
-  onChangeCount(event: MatRadioChange) {
+  protected onChangeCount(event: MatRadioChange) {
     this.typeForm.get('count').setValue(event.value);
     this.chartSettings.planningView = event.value;
     this.updateAndSaveChartSettings();
   }
 
-  onChangeType(event: MatRadioChange) {
+  protected onChangeType(event: MatRadioChange) {
     this.typeForm.get('type').setValue(event.value);
     this.chartSettings.chartUnitMode = event.value;
     this.updateAndSaveChartSettings();
   }
 
   @ValidateForm('dateForm')
-  onUpdateDateSettings() {
+  public onUpdateDateSettings() {
     if (!this.dateForm.valid) {
       return;
     }
@@ -404,7 +404,7 @@ export class ForecastChartComponent implements OnInit {
     this.updateAndSaveChartSettings();
   }
 
-  updateAndSaveChartSettings() {
+  private updateAndSaveChartSettings() {
     this.chartSettingsService
       .updateChartSettings(this.chartSettings)
       .pipe(
@@ -417,7 +417,7 @@ export class ForecastChartComponent implements OnInit {
     this.openPanel = null;
   }
 
-  controlsDisabled(): boolean {
+  protected controlsDisabled(): boolean {
     return this.isLoading() || this.isPreviewDataRendered();
   }
 

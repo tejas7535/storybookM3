@@ -8,6 +8,7 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 
+import { CurrencyService } from '../../../info/currency.service';
 import { ChartSettingsService } from '../../forecast-chart.service';
 import { ForecastChartComponent } from './forecast-chart.component';
 
@@ -17,6 +18,7 @@ describe('ForecastChartComponent', () => {
     component: ForecastChartComponent,
     imports: [],
     providers: [
+      mockProvider(CurrencyService),
       mockProvider(HttpClient, { get: () => of({}) }),
       mockProvider(ChartSettingsService, {
         getChartSettings: jest.fn().mockReturnValue(of({})),

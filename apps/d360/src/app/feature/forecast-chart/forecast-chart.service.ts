@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { catchError, map, Observable } from 'rxjs';
 
@@ -21,16 +22,12 @@ import {
 export class ChartSettingsService {
   private readonly USER_CHART_SETTINGS_API = 'api/user-settings/chart';
   private readonly FORECASTCHART_DATA_API = 'api/forecast-chart';
-  private currency: string;
 
-  constructor(
-    private readonly http: HttpClient,
-    private readonly currencyService: CurrencyService
-  ) {
-    this.currencyService.getCurrentCurrency().subscribe((value) => {
-      this.currency = value;
-    });
-  }
+  private readonly http = inject(HttpClient);
+  private readonly currencyService = inject(CurrencyService);
+  private readonly currentCurrency = toSignal(
+    this.currencyService.getCurrentCurrency()
+  );
 
   readonly defaultChartSettings: ChartSettings = {
     startDate: startOfYear(Date.now()), // agreed upon default start date
@@ -56,7 +53,7 @@ export class ChartSettingsService {
     const request = {
       startDate: formatISO(chartSettings.startDate, { representation: 'date' }),
       endDate: formatISO(chartSettings.endDate, { representation: 'date' }),
-      currency: this.currency,
+      currency: this.currentCurrency(),
       chartUnitMode: chartSettings.chartUnitMode,
       planningView: chartSettings.planningView,
       selectionFilters: globalSelectionFilters,

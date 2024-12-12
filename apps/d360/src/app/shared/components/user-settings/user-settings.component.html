@@ -1,13 +1,20 @@
-<div class="py-4 px-5">
-  <schaeffler-language-select
-    [reloadOnLanguageChange]="true"
-  ></schaeffler-language-select>
+<div class="py-4 px-5" *transloco="let t">
+  <schaeffler-language-select [reloadOnLanguageChange]="true" />
   <div>
     <schaeffler-locale-select
       class="mt-4 block"
-      [reloadOnLocaleChange]="true"
       [availableLocales]="availableLocales"
       [defaultLocale]="defaultLocale"
-    ></schaeffler-locale-select>
+      [reloadOnLocaleChange]="true"
+    />
+  </div>
+  <div class="w-full mt-8">
+    <d360-filter-dropdown
+      [control]="currencyControl"
+      [label]="t('drawer.user-currency-label')"
+      [form]="currencyForm"
+      [options]="availableCurrencies"
+      (selectionChange)="onCurrencySelectionChange($any($event))"
+    />
   </div>
 </div>
