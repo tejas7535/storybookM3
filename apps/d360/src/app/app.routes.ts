@@ -110,7 +110,10 @@ export const appRoutes: RouteConfig = {
     label: 'tabbar.tasks.label',
     canActivate: [MsalGuard],
     visible: true,
-    loadComponent: () => null, // TODO implement component
+    loadComponent: () =>
+      import('../app/pages/alerts/alerts.component').then(
+        (m) => m.AlertsComponent
+      ),
   },
   others: [
     {

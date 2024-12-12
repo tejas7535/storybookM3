@@ -1,0 +1,27 @@
+<div class="flex flex-col h-full" *transloco="let t">
+  <d360-table-toolbar [rowCount]="rowCount()" [grid]="gridApi">
+    @if (getFilterCount()) {
+      <div class="text-body-medium">
+        <span class="mx-2">|</span>
+        <span>{{
+          t('table.toolbar.filter_count', { count: getFilterCount() })
+        }}</span>
+      </div>
+    }
+  </d360-table-toolbar>
+  <ag-grid-angular
+    #alertTable
+    class="ag-theme-material grow"
+    rowModelType="serverSide"
+    [gridOptions]="gridOptions"
+    [columnDefs]="columnDefs"
+    [tooltipShowDelay]="0"
+    [serverSideDatasource]="datasource"
+    [localeText]="agGridLocalizationService.lang()"
+    [context]="context"
+    (gridReady)="onGridReady($event)"
+    (firstDataRendered)="onFirstDataRendered($event)"
+    [noRowsOverlayComponent]="NoDataOverlayComponent"
+    [getRowId]="getRowId"
+  />
+</div>

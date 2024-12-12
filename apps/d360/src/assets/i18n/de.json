@@ -670,7 +670,7 @@
       "complete": "Schließen",
       "deactivate": "Deaktivieren",
       "activate": "Aktivieren",
-      "goto_function": "Zur Funktion \\\"{{function}}\\\" mit...",
+      "goto_function": "Zur Funktion \"{{function}}\" mit...",
       "base_combination": "Basiskombination",
       "customer_category": "Kunde & Aufgaben-Typ",
       "customer": "Kunde",
@@ -680,15 +680,16 @@
     },
     "new_data": "Es sind neue Daten verfügbar.",
     "refresh": "Aktualisieren",
-    "active_alerts": "{{count}} offene Aufgaben,1,1,{{count}} offene Aufgabe",
-    "completed_alerts": "{{count}} abgeschlossene Aufgaben,1,1,{{count}} abgeschlossene Aufgabe",
-    "deactivated_alerts": "{{count}} deaktivierte Aufgaben,1,1,{{count}} deaktivierte Aufgabe",
+    "active_alerts": "{count, plural, one {1 offene Aufgabe} other {{count} offene Aufgaben}}",
+    "completed_alerts": "{count, plural, one {1 abgeschlossene Aufgabe} other {{count} abgeschlossene Aufgaben}}",
+    "deactivated_alerts": "{count, plural, one {1 deaktivierte Aufgabe} other {{count} deaktivierte Aufgaben}}",
     "select": {
       "label": "Status",
       "active": "Offene Aufgaben",
       "completed": "Abgeschlossene Aufgaben",
       "deactivated": "Deaktivierte Aufgaben"
-    }
+    },
+    "loading": "Laden…"
   },
   "alert_rules": {
     "title": "Aufgaben Regel Editor",

@@ -14,11 +14,13 @@ import { Data, Router, RouterModule } from '@angular/router';
 
 import { Observable, of } from 'rxjs';
 
-import { PushPipe } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { appRoutes } from '../../../../app.routes';
+import { AlertService } from '../../../../feature/alerts/alert.service';
+import { AlertNotificationCount } from '../../../../feature/alerts/model';
 import { AuthService } from '../../../utils/auth/auth.service';
 
 type TabItem = 'start-page' | 'functions' | 'tasks';
@@ -39,13 +41,18 @@ type TabItem = 'start-page' | 'functions' | 'tasks';
     MatMenuModule,
     MatIconModule,
     PushPipe,
+    LetDirective,
   ],
   templateUrl: './tab-bar-navigation.component.html',
   styleUrl: './tab-bar-navigation.component.scss',
 })
 export class TabBarNavigationComponent {
+  private readonly alertService: AlertService = inject(AlertService);
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
+
+  protected notificationCount$: Observable<AlertNotificationCount> =
+    this.alertService.getNotificationCount();
 
   /**
    * Reference to route configuration

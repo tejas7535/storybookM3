@@ -661,7 +661,7 @@
       "complete": "Conclure",
       "deactivate": "Désactiver",
       "activate": "Activer",
-      "goto_function": "Vers la fonction \\\"{{function}}\\\" avec...",
+      "goto_function": "Vers la fonction \"{{function}}\" avec...",
       "base_combination": "Combinaison de base",
       "customer_category": "Client & Type de tâche",
       "customer": "Client",
@@ -671,15 +671,16 @@
     },
     "new_data": "De nouvelles données sont disponibles.",
     "refresh": "Actualiser",
-    "active_alerts": "{{count}} tâches ouvertes,1,1,{{count}} tâche ouverte",
-    "completed_alerts": "{{count}} tâches achevées,1,1,{{count}} tâche achevée",
-    "deactivated_alerts": "{{count}} tâches désactivées,1,1,{{count}} tâche désactivée",
+    "active_alerts": "{count, plural, one {1 tâche ouverte} other {{count} tâches ouvertes}}",
+    "completed_alerts": "{count, plural, one {1 tâche achevée} other {{count} tâches achevées}}",
+    "deactivated_alerts": "{count, plural, one {1 tâche désactivée} other {{count} tâches désactivées}}",
     "select": {
       "label": "Statut",
       "active": "Tâches ouvertes",
       "completed": "Tâches achevées",
       "deactivated": "Tâches désactivées"
-    }
+    },
+    "loading": "Charger…"
   },
   "alert_rules": {
     "title": "Éditeur de règles pour les tâches",

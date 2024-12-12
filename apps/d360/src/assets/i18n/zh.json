@@ -661,7 +661,7 @@
       "complete": "关闭",
       "deactivate": "停用",
       "activate": "激活",
-      "goto_function": "转到 \\\"{{function}}\\\" 缓解 .....",
+      "goto_function": "转到 \"{{function}}\" 缓解 .....",
       "base_combination": "基础组合",
       "customer_category": "客户&类别",
       "customer": "客户",
@@ -671,15 +671,16 @@
     },
     "new_data": "新数据可用。",
     "refresh": "刷新",
-    "active_alerts": "{{count}}已开启的任务,1,1,{{count}}已开启的任务",
-    "completed_alerts": "{{count}}已完成的任务,1,1,{{count}}已完成的任务",
-    "deactivated_alerts": "{{count}}停用的任务,1,1,{{count}}停用的任务",
+    "active_alerts": "{count, plural, one {1 已开启的任务} other {{count} 已开启的任务}}",
+    "completed_alerts": "{count, plural, one {1 已完成的任务} other {{count} 已完成的任务}}",
+    "deactivated_alerts": "{count, plural, one {1 停用的任务} other {{count} 停用的任务}}",
     "select": {
       "label": "状态",
       "active": "已开启的任务",
       "completed": "已完成的任务",
       "deactivated": "已停用的任务"
-    }
+    },
+    "loading": "加载中…"
   },
   "alert_rules": {
     "title": "任务条件编辑器",

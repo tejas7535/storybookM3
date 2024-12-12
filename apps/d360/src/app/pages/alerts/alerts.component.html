@@ -1,0 +1,28 @@
+<div class="flex flex-col h-full w-full" *transloco="let t">
+  @if (loading$ | ngrxPush) {
+    <schaeffler-loading-spinner
+      [useBearingLoadingSpinner]="true"
+    ></schaeffler-loading-spinner>
+  } @else {
+    <d360-styled-section [grow]="true" class="flex flex-col h-full">
+      <d360-header-action-bar>
+        <div d360HeaderActionBarChildren class="wrapper">
+          <d360-filter-dropdown
+            class="compact"
+            [label]="t('alert.select.label', {})"
+            [options]="alertStatus"
+            [form]="formGroup"
+            [control]="statusControl"
+            (selectionChange)="updateStatus($any($event))"
+            [formatSelectedValue]="DisplayFunctions.displayFnText"
+            [formatOptionValue]="DisplayFunctions.displayFnText"
+          ></d360-filter-dropdown>
+        </div>
+      </d360-header-action-bar>
+      <d360-alert-table
+        (getApi)="getApi($event)"
+        (onUpdateAlert)="refreshCounter()"
+      ></d360-alert-table>
+    </d360-styled-section>
+  }
+</div>

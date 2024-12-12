@@ -32,7 +32,6 @@
         width: 100% !important;
         min-width: 200px !important;
       }
-
       .ag-row-selected {
         --ag-selected-row-background-color: #ffffff00;
         color: var(--primary-color-hex);
@@ -41,6 +40,24 @@
       .ag-tool-panel-wrapper,
       .ag-menu {
         @apply bg-surface-container-high;
+      }
+
+      .ag-center-cols-container {
+        .is-active {
+          border-left: 6px solid #f5a623;
+        }
+
+        .is-critical {
+          border-left: 6px solid #e47280;
+        }
+
+        .is-deactivated {
+          border-left: 6px solid #646464;
+        }
+
+        .is-closed {
+          border-left: 6px solid #00893d;
+        }
       }
     }
 

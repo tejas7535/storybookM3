@@ -8,6 +8,7 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 
+import { AlertService } from '../../../../feature/alerts/alert.service';
 import { AuthService } from '../../../utils/auth/auth.service';
 import { TabBarNavigationComponent } from './tab-bar-navigation.component';
 
@@ -22,7 +23,11 @@ describe('TabBarNavigationComponent', () => {
 
   const createComponent = createComponentFactory({
     component: TabBarNavigationComponent,
-    providers: [mockProvider(Router, mockRouter), mockProvider(AuthService)],
+    providers: [
+      mockProvider(Router, mockRouter),
+      mockProvider(AuthService),
+      mockProvider(AlertService),
+    ],
   });
 
   beforeEach(() => {

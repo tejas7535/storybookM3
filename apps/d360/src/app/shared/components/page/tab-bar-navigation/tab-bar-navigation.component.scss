@@ -1,5 +1,20 @@
 :host {
   display: contents;
+  .alert {
+    .notification-count {
+      display: flex;
+      position: absolute;
+      right: 0;
+    }
+    .non-critical {
+      @apply bg-[#e9b300];
+    }
+    ::ng-deep {
+      .mdc-tab__content {
+        width: 100%;
+      }
+    }
+  }
 }
 
 .navigation-tab {

@@ -661,7 +661,7 @@
       "complete": "Fechar",
       "deactivate": "Desativar",
       "activate": "Ativar",
-      "goto_function": "Para a função \\\"{{função}}\\\" com...",
+      "goto_function": "Para a função \"{{função}}\" com...",
       "base_combination": "Combinação básica",
       "customer_category": "Cliente e Tipo de tarefa",
       "customer": "Cliente",
@@ -671,15 +671,16 @@
     },
     "new_data": "Novos dados estão disponíveis.",
     "refresh": "Atualização",
-    "active_alerts": "{{count}} tarefas em aberto,1,1,{{count}} tarefa aberta",
-    "completed_alerts": "{{count}} tarefas concluídas,1,1,{{count}} tarefa concluída",
-    "deactivated_alerts": "{{count}} tarefas desativadas,1,1,{{count}} tarefa desativada",
+    "active_alerts": "{count, plural, one {1 tarefa aberta} other {{count} tarefas em aberto}}",
+    "completed_alerts": "{count, plural, one {1 tarefa concluída} other {{count} tarefas concluídas}}",
+    "deactivated_alerts": "{count, plural, one {1 tarefa desativada} other {{count} tarefas desativadas}}",
     "select": {
       "label": "Estado",
       "active": "Tarefas abertas",
       "completed": "Tarefas concluídas",
       "deactivated": "Tarefas desativadas"
-    }
+    },
+    "loading": "Carregando…"
   },
   "alert_rules": {
     "title": "Tarefas Editor de regras",

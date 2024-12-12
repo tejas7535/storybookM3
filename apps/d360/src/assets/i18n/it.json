@@ -661,7 +661,7 @@
       "complete": "Chiudere",
       "deactivate": "Disattivare",
       "activate": "Attivare",
-      "goto_function": "Alla funzione \\\"{{funzione}}\\\" con...",
+      "goto_function": "Alla funzione \"{{funzione}}\" con...",
       "base_combination": "Combinazione di base",
       "customer_category": "Cliente e Tipo di compito",
       "customer": "Cliente",
@@ -671,15 +671,16 @@
     },
     "new_data": "Sono disponibili nuovi dati.",
     "refresh": "Aggiornamento",
-    "active_alerts": "{{count}} attività aperte,1,1,{{count}} compito aperto",
-    "completed_alerts": "{{count}} attività completate,1,1,{{count}} attività completata",
-    "deactivated_alerts": "{{count}} attività disattivate,1,1,{{count}} compito disattivato",
+    "active_alerts": "{count, plural, one {1 compito aperto} other {{count} attività aperte}}",
+    "completed_alerts": "{count, plural, one {1 attività completata} other {{count} attività completate}}",
+    "deactivated_alerts": "{count, plural, one {1 compito disattivato} other {{count} attività disattivate}}",
     "select": {
       "label": "Stato",
       "active": "Attività aperte",
       "completed": "Attività completate",
       "deactivated": "Attività disattivate"
-    }
+    },
+    "loading": "caricamento in corso…"
   },
   "alert_rules": {
     "title": "Editor delle regole dei compiti",

@@ -23,12 +23,20 @@
 
     <a
       mat-tab-link
-      class="navigation-tab"
+      class="navigation-tab alert"
       (click)="navigateTo(routeConfig.tasks.path)"
       [routerLink]="routeConfig.tasks.path"
       [active]="activeTab() === 'tasks'"
     >
-      {{ t(routeConfig.tasks.label) }}
+      <span class="label">{{ t(routeConfig.tasks.label) }}</span>
+      <span *ngrxLet="notificationCount$ as count" class="notification-count">
+        <span class="mx-2 px-2 py-1 rounded-xl text-white non-critical">
+          {{ count?.openNonCritical }}
+        </span>
+        <span class="px-2 py-1 rounded-xl text-white bg-error">
+          {{ count?.openCritical }}
+        </span>
+      </span>
     </a>
   </nav>
 

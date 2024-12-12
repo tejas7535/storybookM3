@@ -670,7 +670,7 @@
       "complete": "Close",
       "deactivate": "Deactivate",
       "activate": "Activate",
-      "goto_function": "Goto function \\\"{{function}}\\\" ...",
+      "goto_function": "Goto function \"{{function}}\" ...",
       "base_combination": "Base combination",
       "customer_category": "Customer & Task type",
       "customer": "Customer",
@@ -680,15 +680,16 @@
     },
     "new_data": "New data is available.",
     "refresh": "Refresh",
-    "active_alerts": "{{count}} open tasks,1,1,{{count} open task",
-    "completed_alerts": "{{count}} completed tasks,1,1,{{count}} completed task",
-    "deactivated_alerts": "{{count}} deactivated tasks,1,1,{{count}} deactivated task",
+    "active_alerts": "{count, plural, one {1 open task} other {{count} open tasks}}",
+    "completed_alerts": "{count, plural, one {1 completed task} other {{count} completed tasks}}",
+    "deactivated_alerts": "{count, plural, one {1 deactivated task} other {{count} deactivated tasks}}",
     "select": {
       "label": "Status",
       "active": "Open tasks",
       "completed": "Completed tasks",
       "deactivated": "Deactivated tasks"
-    }
+    },
+    "loading": "Loading…"
   },
   "alert_rules": {
     "title": "Tasks Rule Editor",

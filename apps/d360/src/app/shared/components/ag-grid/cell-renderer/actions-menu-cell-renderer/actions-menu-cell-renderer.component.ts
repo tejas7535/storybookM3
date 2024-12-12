@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
+import { MatDivider } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -16,6 +17,7 @@ export interface MenuItem {
   onClick: () => void;
   text: string;
   icon?: string;
+  submenu?: MenuItem[];
 }
 
 /**
@@ -29,20 +31,14 @@ export interface MenuItem {
 @Component({
   selector: 'd360-actions-menu-cell-renderer',
   standalone: true,
-  imports: [MatTooltipModule, MatIconButton, MatIcon, MatMenuModule],
-  template: `
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-      <mat-icon class="text-icon-link">more_vert</mat-icon>
-    </button>
-
-    <mat-menu #menu="matMenu">
-      @for (item of value; track item) {
-        <button mat-menu-item (click)="item.onClick()">
-          {{ item.text }}
-        </button>
-      }
-    </mat-menu>
-  `,
+  imports: [
+    MatTooltipModule,
+    MatIconButton,
+    MatIcon,
+    MatMenuModule,
+    MatDivider,
+  ],
+  templateUrl: './actions-menu-cell-renderer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './actions-menu-cell-renderer.component.scss',
 })

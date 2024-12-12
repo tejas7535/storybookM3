@@ -1,0 +1,20 @@
+<button mat-icon-button [matMenuTriggerFor]="menu">
+  <mat-icon class="text-icon-link">more_vert</mat-icon>
+</button>
+<mat-menu #menu="matMenu" class="action-menu">
+  @for (item of value; track item) {
+    @if (item.submenu) {
+      <span class="px-3 py-2 uppercase headline">{{ item.text }}</span>
+      @for (subitem of item.submenu; track subitem) {
+        <button class="pl-5" mat-menu-item (click)="subitem.onClick()">
+          <span class="pl-5">{{ subitem.text }}</span>
+        </button>
+      }
+      <mat-divider></mat-divider>
+    } @else {
+      <button mat-menu-item (click)="item.onClick()">
+        {{ item.text }}
+      </button>
+    }
+  }
+</mat-menu>

@@ -661,7 +661,7 @@
       "complete": "Cerradura",
       "deactivate": "Desactivar",
       "activate": "Activar",
-      "goto_function": "A la función \\\"{{función}}\\\" con...",
+      "goto_function": "A la función \"{{función}}\" con...",
       "base_combination": "Combinación básica",
       "customer_category": "Cliente y Tipo de tarea",
       "customer": "Cliente",
@@ -671,15 +671,16 @@
     },
     "new_data": "Se dispone de nuevos datos.",
     "refresh": "Actualización",
-    "active_alerts": "{{count}} tareas pendientes,1,1,{{count}} tarea abierta",
-    "completed_alerts": "{{count}} tareas completadas,1,1,{{count}} tarea completada",
-    "deactivated_alerts": "{{count}} tareas desactivadas,1,1,{{count}} tarea desactivada",
+    "active_alerts": "{count, plural, one {1 tarea abierta} other {{count} tareas pendientes}}",
+    "completed_alerts": "{count, plural, one {1 tarea completada} other {{count} tareas completadas}}",
+    "deactivated_alerts": "{count, plural, one {1 tarea desactivada} other {{count} tareas desactivadas}}",
     "select": {
       "label": "Estado",
       "active": "Tareas pendientes",
       "completed": "Tareas completadas",
       "deactivated": "Tareas desactivadas"
-    }
+    },
+    "loading": "Proceso de carga…"
   },
   "alert_rules": {
     "title": "Editor de reglas de tareas",
