@@ -35,13 +35,11 @@ import {
   asStringOptionOrUndefined,
   determineCo2ClassificationNew,
   determineCo2ClassificationNewSecondary,
-  useFormData,
 } from '@mac/feature/materials-supplier-database/util';
 import {
   CreateMaterialErrorState,
   DataResult,
   ManufacturerSupplier,
-  Material,
   MaterialFormValue,
   MaterialRequest,
   MaterialStandard,
@@ -369,30 +367,25 @@ export class DialogEffects {
   public materialDialogConfirmed$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.materialDialogConfirmed),
-      concatLatestFrom(() => this.dataFacade.materialClass$),
-      switchMap(
-        ([{ standard, supplier, material, isBulkEdit }, materialClass]) =>
-          isBulkEdit
-            ? [
-                DialogActions.postBulkMaterial({
-                  record: {
-                    standard,
-                    supplier,
-                    material,
-                    materialClass,
-                  },
-                }),
-              ]
-            : [
-                DialogActions.postMaterialStandard({
-                  record: {
-                    standard,
-                    supplier,
-                    material,
-                    materialClass,
-                  },
-                }),
-              ]
+      switchMap(({ standard, supplier, material, isBulkEdit }) =>
+        // check if file has been uploaded
+        this.fileService.getCo2UploadFile()
+          ? [
+              DialogActions.uploadPcrMaterialDocument({
+                standard,
+                supplier,
+                material,
+                isBulkEdit,
+              }),
+            ]
+          : [
+              DialogActions.checkForBulkEdit({
+                standard,
+                supplier,
+                material,
+                isBulkEdit,
+              }),
+            ]
       )
     );
   });
@@ -483,6 +476,83 @@ export class DialogEffects {
     );
   });
 
+  public uploadPcrMaterialDocument$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.uploadPcrMaterialDocument),
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(
+        ([{ standard, supplier, material, isBulkEdit }, materialClass]) =>
+          this.msdDataService
+            .uploadMaterialDocument(
+              this.fileService.getCo2UploadFile(),
+              'pcrMaterial',
+              materialClass
+            )
+            .pipe(
+              map((response) =>
+                DialogActions.checkForBulkEdit({
+                  standard,
+                  supplier,
+                  material: {
+                    ...material,
+                    co2UploadFileId: response.id,
+                  },
+                  isBulkEdit,
+                })
+              ),
+              catchError((e: HttpErrorResponse) =>
+                of(
+                  DialogActions.createMaterialComplete({
+                    record: {
+                      standard,
+                      supplier,
+                      material,
+                      materialClass,
+                      error: {
+                        code: e.status,
+                        state:
+                          CreateMaterialErrorState.MaterialProofCreationFailed,
+                      },
+                    },
+                  })
+                )
+              )
+            )
+      )
+    );
+  });
+
+  public checkForBulkEdit$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DialogActions.checkForBulkEdit),
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(
+        ([{ standard, supplier, material, isBulkEdit }, materialClass]) =>
+          isBulkEdit
+            ? [
+                DialogActions.postBulkMaterial({
+                  record: {
+                    standard,
+                    supplier,
+                    material,
+                    materialClass,
+                  },
+                }),
+              ]
+            : [
+                DialogActions.postMaterialStandard({
+                  record: {
+                    standard,
+                    supplier,
+                    material,
+                    materialClass,
+                  },
+                }),
+              ]
+      )
+    );
+  });
+
   public postMaterialStandard$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.postMaterialStandard),
@@ -568,67 +638,27 @@ export class DialogEffects {
   public postMaterial$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.postMaterial),
-      switchMap(({ record }) =>
-        record.materialClass === MaterialClass.STEEL &&
-        useFormData(
-          (
-            record.material as (Material | MaterialRequest) & {
-              co2UploadFileId: number;
-            }
-          ).co2UploadFileId,
-          (
-            record.material as (Material | MaterialRequest) & {
-              co2UploadFile: File;
-            }
-          ).co2UploadFile
-        )
-          ? this.msdDataService
-              .formCreateMaterial(
-                {
-                  ...(record.material as (Material | MaterialRequest) & {
-                    co2UploadFile: File;
-                    co2UploadFileId: number;
-                  }),
-                  co2UploadFile: this.fileService.getCo2UploadFile(),
-                },
-                record.materialClass
-              )
-              .pipe(
-                map(() => DialogActions.createMaterialComplete({ record })),
-                catchError((e: HttpErrorResponse) =>
-                  of(
-                    DialogActions.createMaterialComplete({
-                      record: {
-                        ...record,
-                        error: {
-                          code: e.status,
-                          state:
-                            CreateMaterialErrorState.MaterialCreationFailed,
-                        },
+      switchMap(
+        ({ record }) =>
+          record.materialClass === MaterialClass.STEEL &&
+          this.msdDataService
+            .createMaterial(record.material, record.materialClass)
+            .pipe(
+              map(() => DialogActions.createMaterialComplete({ record })),
+              catchError((e: HttpErrorResponse) =>
+                of(
+                  DialogActions.createMaterialComplete({
+                    record: {
+                      ...record,
+                      error: {
+                        code: e.status,
+                        state: CreateMaterialErrorState.MaterialCreationFailed,
                       },
-                    })
-                  )
+                    },
+                  })
                 )
               )
-          : this.msdDataService
-              .createMaterial(record.material, record.materialClass)
-              .pipe(
-                map(() => DialogActions.createMaterialComplete({ record })),
-                catchError((e: HttpErrorResponse) =>
-                  of(
-                    DialogActions.createMaterialComplete({
-                      record: {
-                        ...record,
-                        error: {
-                          code: e.status,
-                          state:
-                            CreateMaterialErrorState.MaterialCreationFailed,
-                        },
-                      },
-                    })
-                  )
-                )
-              )
+            )
       )
     );
   });
@@ -660,25 +690,28 @@ export class DialogEffects {
           return newRow;
         });
 
-        return this.msdDataService
-          .bulkEditMaterial(materials, record.materialClass)
-          .pipe(
-            map(() => DialogActions.createMaterialComplete({ record })),
-            catchError((e: HttpErrorResponse) =>
-              of(
-                DialogActions.createMaterialComplete({
-                  record: {
-                    ...record,
-                    error: {
-                      code: e.status,
-                      state: CreateMaterialErrorState.MaterialCreationFailed,
-                      detail: this.parseBulkErrors(e.error, materials),
+        return (
+          record.materialClass === MaterialClass.STEEL &&
+          this.msdDataService
+            .bulkEditMaterial(materials, record.materialClass)
+            .pipe(
+              map(() => DialogActions.createMaterialComplete({ record })),
+              catchError((e: HttpErrorResponse) =>
+                of(
+                  DialogActions.createMaterialComplete({
+                    record: {
+                      ...record,
+                      error: {
+                        code: e.status,
+                        state: CreateMaterialErrorState.MaterialCreationFailed,
+                        detail: this.parseBulkErrors(e.error, materials),
+                      },
                     },
-                  },
-                })
+                  })
+                )
               )
             )
-          );
+        );
       })
     );
   });

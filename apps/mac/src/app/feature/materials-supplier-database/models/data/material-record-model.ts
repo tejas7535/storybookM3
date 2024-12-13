@@ -25,4 +25,5 @@ export enum CreateMaterialErrorState {
   MaterialStandardCreationFailed = 'matStandard',
   ManufacturerSupplierCreationFailed = 'supplier',
   MaterialCreationFailed = 'material',
+  MaterialProofCreationFailed = 'pcrMaterial',
 }

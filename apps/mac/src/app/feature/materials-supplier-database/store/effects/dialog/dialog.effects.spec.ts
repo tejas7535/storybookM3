@@ -59,6 +59,7 @@ import {
   bulkEditMaterials,
   bulkEditMaterialsFailure,
   bulkEditMaterialsSuccess,
+  checkForBulkEdit,
   clearRejectedSapMaterials,
   clearRejectedSapMaterialsFailure,
   clearRejectedSapMaterialsSuccess,
@@ -149,6 +150,7 @@ import {
   setSapMaterialsFileUploadProgress,
   startPollingSapMaterialsDatabaseUploadStatus,
   stopPollingSapMaterialsDatabaseUploadStatus,
+  uploadPcrMaterialDocument,
   uploadSapMaterials,
   uploadSapMaterialsFailure,
   uploadSapMaterialsSuccess,
@@ -952,7 +954,53 @@ describe('Dialog Effects', () => {
     );
   });
 
-  describe('materialDialogConfirmed$', () => {
+  describe('materialDialogConfirmed', () => {
+    it(
+      'should invoke material document createion',
+      marbles((m) => {
+        const props = {
+          material: {} as MaterialRequest,
+          standard: {} as MaterialStandard,
+          supplier: {} as ManufacturerSupplier,
+          isBulkEdit: false,
+        };
+        fileService.getCo2UploadFile = jest.fn(() => new File([], 'test.pdf'));
+
+        action = materialDialogConfirmed(props);
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-(b)', {
+          b: uploadPcrMaterialDocument(props),
+        });
+
+        m.expect(effects.materialDialogConfirmed$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+
+    it(
+      'should not invoke material document createion',
+      marbles((m) => {
+        const props = {
+          material: {} as MaterialRequest,
+          standard: {} as MaterialStandard,
+          supplier: {} as ManufacturerSupplier,
+          isBulkEdit: false,
+        };
+        fileService.getCo2UploadFile = jest.fn();
+
+        action = materialDialogConfirmed(props);
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-(b)', {
+          b: checkForBulkEdit(props),
+        });
+
+        m.expect(effects.materialDialogConfirmed$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
+  describe('checkForBulkEdit$', () => {
     it(
       'should call post material standard (without materialClass)',
       marbles((m) => {
@@ -960,7 +1008,7 @@ describe('Dialog Effects', () => {
         const mockStandard = {} as MaterialStandard;
         const mockSupplier = {} as ManufacturerSupplier;
 
-        action = materialDialogConfirmed({
+        action = checkForBulkEdit({
           material: mockMaterial,
           standard: mockStandard,
           supplier: mockSupplier,
@@ -978,7 +1026,7 @@ describe('Dialog Effects', () => {
           }),
         });
 
-        m.expect(effects.materialDialogConfirmed$).toBeObservable(expected);
+        m.expect(effects.checkForBulkEdit$).toBeObservable(expected);
         m.flush();
       })
     );
@@ -991,7 +1039,7 @@ describe('Dialog Effects', () => {
         const mockSupplier = {} as ManufacturerSupplier;
         msdDataFacade.materialClass$ = of(MaterialClass.ALUMINUM);
 
-        action = materialDialogConfirmed({
+        action = checkForBulkEdit({
           material: mockMaterial,
           standard: mockStandard,
           supplier: mockSupplier,
@@ -1009,7 +1057,7 @@ describe('Dialog Effects', () => {
           }),
         });
 
-        m.expect(effects.materialDialogConfirmed$).toBeObservable(expected);
+        m.expect(effects.checkForBulkEdit$).toBeObservable(expected);
         m.flush();
       })
     );
@@ -1022,7 +1070,7 @@ describe('Dialog Effects', () => {
         const mockSupplier = {} as ManufacturerSupplier;
         msdDataFacade.materialClass$ = of(MaterialClass.ALUMINUM);
 
-        action = materialDialogConfirmed({
+        action = checkForBulkEdit({
           material: mockMaterial,
           standard: mockStandard,
           supplier: mockSupplier,
@@ -1040,7 +1088,7 @@ describe('Dialog Effects', () => {
           }),
         });
 
-        m.expect(effects.materialDialogConfirmed$).toBeObservable(expected);
+        m.expect(effects.checkForBulkEdit$).toBeObservable(expected);
         m.flush();
       })
     );
@@ -1214,6 +1262,76 @@ describe('Dialog Effects', () => {
           mockSupplier,
           MaterialClass.STEEL
         );
+      })
+    );
+  });
+
+  describe('uploadPcrMaterialDocument', () => {
+    it(
+      'should upload the pcr material document',
+      marbles((m) => {
+        const props = {
+          material: {} as MaterialRequest,
+          standard: {} as MaterialStandard,
+          supplier: {} as ManufacturerSupplier,
+          isBulkEdit: false,
+        };
+        const response = m.cold('-a|', { a: { id: 32 } });
+        msdDataService.uploadMaterialDocument = jest.fn(() => response);
+        fileService.getCo2UploadFile = jest.fn();
+
+        action = uploadPcrMaterialDocument(props);
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('--(b)', {
+          b: checkForBulkEdit({
+            ...props,
+            material: {
+              ...props.material,
+              co2UploadFileId: 32,
+            },
+          }),
+        });
+        // const expected = m.cold('--(b)', {
+        // b: createMaterialComplete(props),
+        // });
+
+        m.expect(effects.uploadPcrMaterialDocument$).toBeObservable(expected);
+        m.flush();
+        expect(msdDataService.uploadMaterialDocument).toHaveBeenCalled();
+      })
+    );
+    it(
+      'should fail to upload the pcr material document',
+      marbles((m) => {
+        const props = {
+          material: {} as MaterialRequest,
+          standard: {} as MaterialStandard,
+          supplier: {} as ManufacturerSupplier,
+        };
+        msdDataService.uploadMaterialDocument = jest
+          .fn()
+          .mockReturnValue(
+            throwError(() => new HttpErrorResponse({ status: 407 }))
+          );
+        fileService.getCo2UploadFile = jest.fn();
+        action = uploadPcrMaterialDocument(props);
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', {
+          b: createMaterialComplete({
+            record: {
+              ...props,
+              materialClass: MaterialClass.STEEL,
+              error: {
+                code: 407,
+                state: CreateMaterialErrorState.MaterialProofCreationFailed,
+              },
+            },
+          }),
+        });
+
+        m.expect(effects.uploadPcrMaterialDocument$).toBeObservable(expected);
+        m.flush();
+        expect(msdDataService.uploadMaterialDocument).toHaveBeenCalled();
       })
     );
   });
@@ -1462,62 +1580,6 @@ describe('Dialog Effects', () => {
           record.material,
           record.materialClass
         );
-      })
-    );
-
-    it(
-      'should use multipart form data for file upload',
-      marbles((m) => {
-        const record = {
-          ...recordMock,
-          material: {
-            ...recordMock.material,
-          },
-        } as CreateMaterialRecord;
-        action = postMaterial({ record });
-        actions$ = m.hot('-a', { a: action });
-
-        const resultMock = { id: 42 };
-        const response = m.cold('-a|', { a: resultMock });
-        fileService.getCo2UploadFile = jest.fn(() => new File([], 'test.pdf'));
-        msdDataService.formCreateMaterial = jest.fn(() => response);
-
-        effects.postMaterial$.subscribe(() => {
-          expect(msdDataService.formCreateMaterial).toHaveBeenCalledWith(
-            record.material,
-            record.materialClass
-          );
-        });
-
-        m.flush();
-      })
-    );
-
-    it(
-      'should use multipart form data if the co2UploadFileId is present',
-      marbles((m) => {
-        const record = {
-          ...recordMock,
-          material: {
-            ...recordMock.material,
-            co2UploadFileId: 1,
-          },
-        } as CreateMaterialRecord;
-        action = postMaterial({ record });
-        actions$ = m.hot('-a', { a: action });
-
-        const resultMock = { id: 42 };
-        const response = m.cold('-a|', { a: resultMock });
-        msdDataService.formCreateMaterial = jest.fn(() => response);
-
-        effects.postMaterial$.subscribe(() => {
-          expect(msdDataService.formCreateMaterial).toHaveBeenCalledWith(
-            record.material,
-            record.materialClass
-          );
-        });
-
-        m.flush();
       })
     );
 

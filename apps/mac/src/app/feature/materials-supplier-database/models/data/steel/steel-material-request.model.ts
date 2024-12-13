@@ -24,7 +24,5 @@ export interface SteelMaterialRequest extends BaseMaterialRequest {
   dataQualityRating?: number;
   primaryDataShare?: number;
   co2ValidUntil?: number | string;
-  co2UploadFile?: File;
-  co2UploadFileId?: number;
   co2Comment?: string;
 }

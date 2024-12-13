@@ -11,7 +11,7 @@
             matInput
             [value]="supplierControl.value?.title || ''"
             name="manufacturerSupplierName"
-            [matTooltip]="supplierControl.value.title"
+            [matTooltip]="supplierControl.value?.title"
             [matTooltipShowDelay]="1500"
             #dialogControl
             readonly="true"
@@ -23,7 +23,7 @@
             matInput
             [value]="supplierPlantControl.value?.title || ''"
             name="manufacturerSupplierPlant"
-            [matTooltip]="supplierPlantControl.value.title"
+            [matTooltip]="supplierPlantControl.value?.title"
             [matTooltipShowDelay]="1500"
             #dialogControl
             readonly="true"
@@ -35,7 +35,7 @@
             matInput
             [value]="supplierCountryControl.value?.title || ''"
             name="manufacturerSupplierCountry"
-            [matTooltip]="supplierCountryControl.value.title"
+            [matTooltip]="supplierCountryControl.value?.title"
             [matTooltipShowDelay]="1500"
             #dialogControl
             readonly="true"

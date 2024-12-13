@@ -521,30 +521,6 @@ export class MsdDataService {
     );
   }
 
-  public formCreateMaterial(
-    material: (Material | MaterialRequest) & {
-      co2UploadFile?: File;
-      co2UploadFileId?: number;
-    },
-    materialClass: MaterialClass = MaterialClass.STEEL
-  ) {
-    const { co2UploadFile, ...materialWithoutFile } = material;
-
-    const formData = new FormData();
-    formData.append(
-      'material',
-      new Blob([JSON.stringify(materialWithoutFile)], {
-        type: 'application/json',
-      })
-    );
-    formData.append('file', co2UploadFile);
-
-    return this.httpClient.post<{ id: number }>(
-      `${this.BASE_URL}/materials/${materialClass}/form`,
-      formData
-    );
-  }
-
   public bulkEditMaterial(
     materials: MaterialRequest[],
     materialClass: MaterialClass = MaterialClass.STEEL
@@ -552,6 +528,20 @@ export class MsdDataService {
     return this.httpClient.post(
       `${this.BASE_URL}/materials/${materialClass}/bulk`,
       materials
+    );
+  }
+
+  public uploadMaterialDocument(
+    document: File,
+    type: 'pcr' | 'pcrMaterial',
+    materialClass: MaterialClass = MaterialClass.STEEL
+  ) {
+    const formData = new FormData();
+    formData.append('file', document);
+
+    return this.httpClient.post<{ id: number }>(
+      `${this.BASE_URL}/materials/${materialClass}/document/${type}`,
+      formData
     );
   }
 

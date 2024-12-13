@@ -2,6 +2,7 @@ export interface BaseMaterialRequest {
   id: number;
   materialStandardId: number;
   manufacturerSupplierId: number;
+  co2UploadFileId?: number;
 
   co2Scope1?: number;
   co2Scope2?: number;

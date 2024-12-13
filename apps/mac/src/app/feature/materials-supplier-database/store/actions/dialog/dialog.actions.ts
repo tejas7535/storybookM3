@@ -549,3 +549,23 @@ export const bulkEditMaterialsSuccess = createAction(
 export const bulkEditMaterialsFailure = createAction(
   '[MSD - Dialog] Bulk Edit Materials Failure'
 );
+
+export const uploadPcrMaterialDocument = createAction(
+  '[MSD - Dialog] upload pcrMaterial Document',
+  props<{
+    standard: MaterialStandard;
+    supplier: ManufacturerSupplier;
+    material: MaterialRequest;
+    isBulkEdit?: boolean;
+  }>()
+);
+
+export const checkForBulkEdit = createAction(
+  '[MSD - Dialog] check for Bulk Edit',
+  props<{
+    standard: MaterialStandard;
+    supplier: ManufacturerSupplier;
+    material: MaterialRequest;
+    isBulkEdit?: boolean;
+  }>()
+);

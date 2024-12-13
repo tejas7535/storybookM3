@@ -27,6 +27,7 @@ import {
   bulkEditMaterials,
   bulkEditMaterialsFailure,
   bulkEditMaterialsSuccess,
+  checkForBulkEdit,
   clearRejectedSapMaterials,
   clearRejectedSapMaterialsFailure,
   clearRejectedSapMaterialsSuccess,
@@ -123,6 +124,7 @@ import {
   setSapMaterialsFileUploadProgress,
   startPollingSapMaterialsDatabaseUploadStatus,
   stopPollingSapMaterialsDatabaseUploadStatus,
+  uploadPcrMaterialDocument,
   uploadSapMaterials,
   uploadSapMaterialsFailure,
   uploadSapMaterialsSuccess,
@@ -1369,6 +1371,52 @@ describe('Dialog Actions', () => {
 
       expect(action).toEqual({
         type: '[MSD - Dialog] Clear Rejected SAP Materials Failure',
+      });
+    });
+  });
+
+  describe('prepare material request', () => {
+    it('uploadPcrMaterialDocument', () => {
+      const standard = {} as MaterialStandard;
+      const supplier = {} as ManufacturerSupplier;
+      const material = {} as MaterialRequest;
+      const isBulkEdit = true;
+
+      const action = uploadPcrMaterialDocument({
+        standard,
+        supplier,
+        material,
+        isBulkEdit,
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] upload pcrMaterial Document',
+        standard,
+        supplier,
+        material,
+        isBulkEdit,
+      });
+    });
+
+    it('checkForBulkEdit', () => {
+      const standard = {} as MaterialStandard;
+      const supplier = {} as ManufacturerSupplier;
+      const material = {} as MaterialRequest;
+      const isBulkEdit = true;
+
+      const action = checkForBulkEdit({
+        standard,
+        supplier,
+        material,
+        isBulkEdit,
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] check for Bulk Edit',
+        standard,
+        supplier,
+        material,
+        isBulkEdit,
       });
     });
   });

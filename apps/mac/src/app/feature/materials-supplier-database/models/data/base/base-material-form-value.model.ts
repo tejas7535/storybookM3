@@ -10,6 +10,8 @@ export interface BaseMaterialFormValue {
   co2PerTon: number;
   co2Classification: StringOption;
   releaseRestrictions: string;
+  co2UploadFile?: File;
+  co2UploadFileId?: number;
 
   standardDocument: StringOption;
   materialName: StringOption;
