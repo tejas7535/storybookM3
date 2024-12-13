@@ -126,6 +126,7 @@ export class SelectSalesOrgComponent implements ControlValueAccessor {
       this.disabledByParent = true;
     } else {
       this.salesOrgFormControl.enable();
+      this.disabledByParent = false;
     }
   }
 }

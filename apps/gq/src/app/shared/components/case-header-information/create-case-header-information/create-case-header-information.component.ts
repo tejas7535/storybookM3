@@ -237,6 +237,9 @@ export class CreateCaseHeaderInformationComponent
         tap((customerId: CustomerId) => {
           if (customerId?.customerId) {
             this.modifyInputs('enable', this.controlsToModify);
+            this.headerInfoForm
+              .get('customerInquiryDate')
+              ?.setValue(this.today);
           } else {
             this.modifyInputs('reset', this.controlsToModify);
             this.modifyInputs('disable', this.controlsToModify);

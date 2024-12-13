@@ -54,4 +54,17 @@ describe('SelectSalesOrgComponent', () => {
       expect(mockStore.dispatch).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('setDisabledState', () => {
+    test('should set disabled', () => {
+      component.setDisabledState(true);
+      expect(component.salesOrgFormControl.disabled).toBe(true);
+      expect(component.salesOrgFormControl.enabled).toBe(false);
+    });
+    test('should set enabled', () => {
+      component.setDisabledState(false);
+      expect(component.salesOrgFormControl.disabled).toBe(false);
+      expect(component.salesOrgFormControl.enabled).toBe(true);
+    });
+  });
 });
