@@ -1035,6 +1035,7 @@ pipeline {
                         try {
                             sh "git merge ${env.BRANCH_NAME}"
                             github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', 'git push')
+                            github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', "git push -d origin ${env.BRANCH_NAME}")
                         } catch(error) {
                             sh "git reset --hard HEAD"
                             sh "git checkout ${env.BRANCH_NAME}"
