@@ -1,4 +1,11 @@
 # Release Notes of Lubricator selection assistant
+## [0.0.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/lsa-v0.0.1...lsa-v0.0.2) (2024-12-16)
+
+
+### Bug Fixes
+
+* **lsa:** fix currency issues ([#6836](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6836)) ([d458adf](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d458adf0b0905c903e2d4b01b1d1dea8f53425c1))
+
 ## 0.0.1 (2024-12-12)
 
 
