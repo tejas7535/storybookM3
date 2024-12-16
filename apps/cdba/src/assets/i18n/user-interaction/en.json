@@ -22,8 +22,8 @@
   "feature": {
     "bomExport": {
       "notify": {
-        "success": "Bill of Materials Export is Ready!",
-        "failure": "Bill of Materials Export failed"
+        "success": "Bill of Materials Export file is ready",
+        "failure": "A network error occurred while tracking the Bill of Materials export. Please update the status manually in the bottom menu"
       },
       "status": {
         "loadingFailed": "CDBA could not load the BOM Export status"

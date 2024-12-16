@@ -22,8 +22,8 @@
   "feature": {
     "bomExport": {
       "notify": {
-        "success": "Stückliste exportieren ist bereit!",
-        "failure": "Stückliste exportieren fehlgeschlagen"
+        "success": "Die Stücklisten-Exportdatei ist fertig",
+        "failure": "Beim Verfolgen des Stücklistenexports ist ein Netzwerkfehler aufgetreten. Bitte aktualisieren Sie den Status manuell im unteren Menü."
       },
       "status": {
         "loadingFailed": "CDBA konnte den BOM-Exportstatus nicht laden"

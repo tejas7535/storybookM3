@@ -262,11 +262,11 @@ export class ReferenceTypesTableComponent
       updatePaginationState({
         paginationState: {
           isVisible: true,
-          isDisabled: this.rowData.length <= MIN_PAGE_SIZE,
+          isDisabled: this.rowData?.length <= MIN_PAGE_SIZE,
           currentPage: 0,
           pageSize,
-          totalPages: Math.ceil(this.rowData.length / pageSize),
-          totalRange: this.rowData.length,
+          totalPages: Math.ceil(this.rowData?.length / pageSize),
+          totalRange: this.rowData?.length,
         } as PaginationState,
       })
     );
