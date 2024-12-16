@@ -22,11 +22,11 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AlertRulesService } from '../../feature/alert-rules/alert-rules.service';
 import { AlertRule, AlertRuleResponse } from '../../feature/alert-rules/model';
-import { ActionButtonComponent } from '../../shared/components/action-button/action-button.component';
 import {
   HeaderActionBarComponent,
   ProjectedContendDirective,
 } from '../../shared/components/header-action-bar/header-action-bar.component';
+import { StyledSectionComponent } from '../../shared/components/styled-section/styled-section.component';
 import { SelectableOptionsService } from '../../shared/services/selectable-options.service';
 import { AlertRuleTableComponent } from './table/components/alert-rule-table/alert-rule-table.component';
 import { AlertRuleDeleteMultiModalComponent } from './table/components/modals/alert-rule-delete-multi-modal/alert-rule-delete-multi-modal.component';
@@ -44,11 +44,11 @@ import {
     SharedTranslocoModule,
     HeaderActionBarComponent,
     MatButtonModule,
-    ActionButtonComponent,
     ProjectedContendDirective,
     MatIcon,
     PushPipe,
     LoadingSpinnerModule,
+    StyledSectionComponent,
   ],
   templateUrl: './alert-rules.component.html',
   styleUrl: './alert-rules.component.scss',

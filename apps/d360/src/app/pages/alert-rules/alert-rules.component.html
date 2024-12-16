@@ -5,32 +5,34 @@
     ></schaeffler-loading-spinner>
   }
 
-  <h2 class="text-title-large">{{ t('alert_rules.title', {}) }}</h2>
+  <d360-styled-section [grow]="true" class="flex flex-col h-full">
+    <h2 class="text-title-large">{{ t('alert_rules.title', {}) }}</h2>
 
-  <d360-header-action-bar>
-    <div d360HeaderActionBarButtons class="flex gap-3">
-      <button mat-flat-button (click)="handleCreateSingleAlertRule()">
-        <mat-icon>add</mat-icon>{{ t('alert_rules.button.createRule') }}
-      </button>
+    <d360-header-action-bar>
+      <div d360HeaderActionBarButtons class="flex gap-3">
+        <button mat-flat-button (click)="handleCreateSingleAlertRule()">
+          <mat-icon>add</mat-icon>{{ t('alert_rules.button.createRule') }}
+        </button>
 
-      <button mat-button (click)="handleCreateMultiAlertRule()">
-        <mat-icon>upload</mat-icon>
-        {{ t('alert_rules.button.createMultipleRules') }}
-      </button>
-    </div>
+        <button mat-button (click)="handleCreateMultiAlertRule()">
+          <mat-icon>upload</mat-icon>
+          {{ t('alert_rules.button.createMultipleRules') }}
+        </button>
+      </div>
 
-    <div d360HeaderActionBarRightChildren>
-      <button mat-icon-button (click)="handleDeleteMultiAlertRule()">
-        <mat-icon class="icon-button-primary">delete</mat-icon>
-      </button>
-    </div>
-  </d360-header-action-bar>
+      <div d360HeaderActionBarRightChildren>
+        <button mat-icon-button (click)="handleDeleteMultiAlertRule()">
+          <mat-icon class="icon-button-primary">delete</mat-icon>
+        </button>
+      </div>
+    </d360-header-action-bar>
 
-  <!-- Alert Rule Table  -->
-  <d360-alert-rule-table
-    #alertRuleTableComponent
-    [editAlertRuleCallback]="handleCreateSingleAlertRule.bind(this)"
-    [loadData$]="loadData$.bind(this)"
-    (getApi)="getApi($event)"
-  ></d360-alert-rule-table>
+    <!-- Alert Rule Table  -->
+    <d360-alert-rule-table
+      #alertRuleTableComponent
+      [editAlertRuleCallback]="handleCreateSingleAlertRule.bind(this)"
+      [loadData$]="loadData$.bind(this)"
+      (getApi)="getApi($event)"
+    ></d360-alert-rule-table>
+  </d360-styled-section>
 </div>
