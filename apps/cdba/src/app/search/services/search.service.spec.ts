@@ -121,7 +121,7 @@ describe('SearchService', () => {
     it('should get exported boms', () => {
       const identifiers = [new ReferenceTypeIdentifier('123', '123')];
 
-      service.exportBoms(identifiers).subscribe((response) => {
+      service.requestBomExport(identifiers).subscribe((response) => {
         expect(response).toBeTruthy();
         expect(response.status).toBe(HttpStatusCode.Created);
       });

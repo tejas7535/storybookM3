@@ -1,3 +1,5 @@
+import { HttpStatusCode } from '@angular/common/http';
+
 import { StringOption } from '@schaeffler/inputs';
 
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
@@ -18,12 +20,12 @@ import {
   autocompleteFailure,
   autocompleteSuccess,
   deselectReferenceType,
-  exportBoms,
-  exportBomsFailure,
-  exportBomsSuccess,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
+  requestBomExport,
+  requestBomExportFailure,
+  requestBomExportSuccess,
   resetFilters,
   search,
   searchFailure,
@@ -267,32 +269,36 @@ describe('Search Actions', () => {
   });
 
   describe('BOM Export Actions', () => {
-    test('exportBoms', () => {
-      const identifiers = [
+    test('requestBomExport', () => {
+      const ids = [
         new ReferenceTypeIdentifier('123', '123'),
         new ReferenceTypeIdentifier('456', '456'),
       ];
-      const action = exportBoms({ identifiers });
+      const action = requestBomExport({ ids });
 
       expect(action).toEqual({
-        type: '[Search] Export Boms',
-        identifiers,
+        type: '[Search] Request Bill Of Materials Export',
+        ids,
       });
     });
 
-    test('exportBomsSuccess', () => {
-      const action = exportBomsSuccess();
+    test('requestBomExportSuccess', () => {
+      const action = requestBomExportSuccess();
 
       expect(action).toEqual({
-        type: '[Search] Export Boms Success',
+        type: '[Search] Request Bill Of Materials Export Success',
       });
     });
 
-    test('exportBomsFailure', () => {
-      const action = exportBomsFailure({ errorMessage });
+    test('requestBomExportFailure', () => {
+      const action = requestBomExportFailure({
+        statusCode: HttpStatusCode.BadRequest,
+        errorMessage,
+      });
 
       expect(action).toEqual({
-        type: '[Search] Export Boms Failure',
+        type: '[Search] Request Bill Of Materials Export Failure',
+        statusCode: HttpStatusCode.BadRequest,
         errorMessage,
       });
     });

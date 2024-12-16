@@ -65,6 +65,7 @@
     "@jsverse/transloco-messageformat": "7.0.0",
     "@jsverse/transloco-persist-lang": "7.0.0",
     "@microsoft/applicationinsights-web": "2.8.18",
+    "@microsoft/fetch-event-source": "^2.0.1",
     "@ng-web-apis/common": "2.2.0",
     "@ngneat/cashew": "3.1.0",
     "@ngrx/component": "17.0.1",
@@ -81,13 +82,14 @@
     "d3-org-chart": "2.6.0",
     "date-fns": "3.6.0",
     "echarts": "5.4.0",
+    "eventsource": "^2.0.2",
     "jwt-decode": "3.1.2",
     "moment": "2.29.4",
     "ngx-echarts": "14.0.0",
     "rxjs": "7.8.1",
     "streamsaver": "2.0.6",
-    "web-streams-polyfill": "4.0.0",
     "tslib": "2.4.0",
+    "web-streams-polyfill": "4.0.0",
     "zone.js": "0.14.7"
   },
   "devDependencies": {

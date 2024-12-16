@@ -85,7 +85,7 @@ export class SearchService {
     return of(new SearchResult([], [], 0));
   }
 
-  public exportBoms(
+  public requestBomExport(
     referenceTypesIdentifiers: ReferenceTypeIdentifier[]
   ): Observable<HttpResponse<void>> {
     const path = `${API.v1}/${BomExportPath}`;

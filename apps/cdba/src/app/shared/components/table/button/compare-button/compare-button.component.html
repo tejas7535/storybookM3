@@ -8,7 +8,7 @@
     "
     [matTooltipPosition]="'above'"
     [matTooltipDisabled]="
-      (nodeIds?.length >= minCount && nodeIds?.length <= maxCount) || disabled
+      nodeIds?.length >= minCount && nodeIds?.length <= maxCount
     "
     class="inline-block"
   >
@@ -16,10 +16,8 @@
       mat-flat-button
       color="primary"
       class="!mr-4"
-      [disabled]="
-        nodeIds?.length < minCount || nodeIds?.length > maxCount || disabled
-      "
-      (click)="showCompareView(nodeIds)"
+      [disabled]="nodeIds?.length < minCount || nodeIds?.length > maxCount"
+      (click)="showCompareView()"
     >
       {{ t('compare') }}
     </button>

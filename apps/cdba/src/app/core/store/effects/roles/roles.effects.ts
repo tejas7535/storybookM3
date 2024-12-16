@@ -53,6 +53,6 @@ export class RolesEffects implements OnInitEffects {
       )
       .subscribe();
 
-    return { type: 'NO_ACTION' };
+    return { type: 'NO_ACTION' } as Action;
   }
 }

@@ -170,11 +170,6 @@ export const getMaterialDesignationOfSelectedRefType = createSelector(
       : undefined
 );
 
-export const getBomExportLoading = createSelector(
-  getSearchState,
-  (state: SearchState) => state.export.loading
-);
-
 export const getPortfolioAnalysisDataForSelectedNodes = createSelector(
   getReferenceTypes,
   getSelectedRefTypeNodeIds,

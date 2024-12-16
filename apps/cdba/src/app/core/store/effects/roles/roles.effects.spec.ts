@@ -10,8 +10,7 @@ import {
 import { SpyObject } from '@ngneat/spectator/jest/lib/mock';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store } from '@ngrx/store';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { getIsLoggedIn } from '@schaeffler/azure-auth';
 
@@ -32,7 +31,7 @@ import { RolesEffects } from './roles.effects';
 describe('RolesEffects', () => {
   let spectator: SpectatorService<RolesEffects>;
   let actions$: any;
-  let store: any;
+  let store: MockStore;
   let effects: RolesEffects;
   let roleDescriptionsService: SpyObject<RoleDescriptionsService>;
 
@@ -49,7 +48,7 @@ describe('RolesEffects', () => {
   beforeEach(() => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
-    store = spectator.inject(Store);
+    store = spectator.inject(MockStore);
     effects = spectator.inject(RolesEffects);
     roleDescriptionsService = spectator.inject(RoleDescriptionsService);
 

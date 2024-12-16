@@ -11,11 +11,9 @@ import { environment } from '@cdba/environments/environment';
 
 import * as fromCompare from '../../../compare/store/reducers/compare.reducer';
 import * as fromDetail from './detail/detail.reducer';
-import { RolesState } from './roles/models/roles-state.model';
-import { rolesReducer } from './roles/roles.reducer';
+import * as fromRoles from './roles/roles.reducer';
 import * as fromSearch from './search/search.reducer';
-
-export { DetailState } from './detail/detail.reducer';
+import * as fromUserInteraction from './user-interaction/user-interaction.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -26,13 +24,15 @@ export interface RouterStateUrl {
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
   search: fromSearch.SearchState;
-  roles: RolesState;
+  roles: fromRoles.RolesState;
+  userInteraction: fromUserInteraction.UserInteractionState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
   search: fromSearch.searchReducer,
-  roles: rolesReducer,
+  roles: fromRoles.rolesReducer,
+  userInteraction: fromUserInteraction.userInteractionReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = environment.production
@@ -53,7 +53,13 @@ export const getDetailState =
 export const getCompareState =
   createFeatureSelector<fromCompare.CompareState>('compare');
 
-export const getRolesState = createFeatureSelector<RolesState>('roles');
+export const getRolesState =
+  createFeatureSelector<fromRoles.RolesState>('roles');
+
+export const getUserInteractionState =
+  createFeatureSelector<fromUserInteraction.UserInteractionState>(
+    'userInteraction'
+  );
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl>

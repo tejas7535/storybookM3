@@ -1,0 +1,10 @@
+<div class="h-4 pb-8" *transloco="let t; read: 'userInteraction'">
+  <button
+    mat-icon-button
+    [matTooltip]="t('tooltip.dialog.open')"
+    [matTooltipPosition]="'above'"
+    (click)="openDialog()"
+  >
+    <mat-icon>eject</mat-icon>
+  </button>
+</div>

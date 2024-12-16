@@ -5,7 +5,6 @@ import { provideRouter, Router } from '@angular/router';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetDirective } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import { GridApi, RowNode } from 'ag-grid-enterprise';
 import { MockDirective, MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
@@ -89,68 +88,12 @@ describe('CompareButtonComponent', () => {
   });
 
   describe('showCompareView', () => {
-    let mockSelections: RowNode[];
+    it('should emit showCompareViewEvent', () => {
+      const emitSpy = jest.spyOn(component.showCompareViewEvent, 'emit');
 
-    beforeEach(() => {
-      mockSelections = undefined;
-      jest.spyOn(router, 'navigate');
-      component['gridApi'] = {
-        getRowNode: jest.fn((id) =>
-          mockSelections.find((selection) => selection.id === id)
-        ),
-      } as unknown as GridApi;
-    });
-    test('should add node id and should route to compare screen if coming from detail page', () => {
-      mockSelections = [
-        {
-          id: '0',
-          data: { materialNumber: '1234', plant: '0060' },
-        } as unknown as RowNode,
-        {
-          id: '1',
-          data: { materialNumber: '5678', plant: '0076' },
-        } as unknown as RowNode,
-      ];
+      component.showCompareView();
 
-      router.routerState.snapshot.url = '/detail/detail';
-
-      component.showCompareView(['0', '1']);
-
-      expect(router.navigate).toHaveBeenCalledWith(['compare'], {
-        queryParams: {
-          material_number_item_1: '1234',
-          plant_item_1: '0060',
-          node_id_item_1: '0',
-          material_number_item_2: '5678',
-          plant_item_2: '0076',
-          node_id_item_2: '1',
-        },
-      });
-    });
-
-    test('should not add node id and should route to compare screen if coming from results page', () => {
-      mockSelections = [
-        {
-          id: '0',
-          data: { materialNumber: '1234', plant: '0060' },
-        } as unknown as RowNode,
-        {
-          id: '1',
-          data: { materialNumber: '5678', plant: '0076' },
-        } as unknown as RowNode,
-      ];
-
-      router.routerState.snapshot.url = '/results';
-      component.showCompareView(['0', '1']);
-
-      expect(router.navigate).toHaveBeenCalledWith(['compare'], {
-        queryParams: {
-          material_number_item_1: '1234',
-          plant_item_1: '0060',
-          material_number_item_2: '5678',
-          plant_item_2: '0076',
-        },
-      });
+      expect(emitSpy).toHaveBeenCalled();
     });
   });
 });

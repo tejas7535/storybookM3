@@ -37,7 +37,7 @@ describe('CalculationsEffects', () => {
   let actions$: any;
   let effects: CalculationsEffects;
   let productDetailService: ProductDetailService;
-  let store: any;
+  let store: MockStore;
 
   const error = new HttpErrorResponse({
     status: HttpStatusCode.BadRequest,

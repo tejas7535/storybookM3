@@ -12,12 +12,12 @@ import {
   autocompleteFailure,
   autocompleteSuccess,
   deselectReferenceType,
-  exportBoms,
-  exportBomsFailure,
-  exportBomsSuccess,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
+  requestBomExport,
+  requestBomExportFailure,
+  requestBomExportSuccess,
   resetFilters,
   search,
   searchFailure,
@@ -60,10 +60,6 @@ export interface SearchState {
     paginationState: PaginationState;
     errorMessage: string;
   };
-  export: {
-    loading: boolean;
-    errorMessage: string;
-  };
 }
 
 export interface PaginationState {
@@ -96,10 +92,6 @@ export const initialState: SearchState = {
     tooManyResultsThreshold: DEFAULT_RESULTS_THRESHOLD,
     resultCount: 0,
     paginationState: undefined,
-    errorMessage: undefined,
-  },
-  export: {
-    loading: false,
     errorMessage: undefined,
   },
 };
@@ -359,7 +351,7 @@ export const searchReducer = createReducer(
       : state;
   }),
   on(
-    exportBoms,
+    requestBomExport,
     (state: SearchState): SearchState => ({
       ...state,
       referenceTypes: {
@@ -369,14 +361,10 @@ export const searchReducer = createReducer(
           isDisabled: true,
         },
       },
-      export: {
-        loading: true,
-        errorMessage: undefined,
-      },
     })
   ),
   on(
-    exportBomsSuccess,
+    requestBomExportSuccess,
     (state: SearchState): SearchState => ({
       ...state,
       referenceTypes: {
@@ -386,15 +374,11 @@ export const searchReducer = createReducer(
           isDisabled: false,
         },
       },
-      export: {
-        loading: false,
-        errorMessage: undefined,
-      },
     })
   ),
   on(
-    exportBomsFailure,
-    (state: SearchState, { errorMessage }): SearchState => ({
+    requestBomExportFailure,
+    (state: SearchState): SearchState => ({
       ...state,
       referenceTypes: {
         ...state.referenceTypes,
@@ -402,10 +386,6 @@ export const searchReducer = createReducer(
           ...state.referenceTypes.paginationState,
           isDisabled: false,
         },
-      },
-      export: {
-        loading: false,
-        errorMessage,
       },
     })
   )

@@ -28,10 +28,13 @@
     </ng-container>
     <ng-container mainContent>
       <div
-        class="w-full"
+        class="w-full flex flex-col items-center bg-surface-legacy"
         [ngClass]="{ 'h-full': !(showCookiesSettings$ | ngrxPush) }"
       >
-        <router-outlet></router-outlet>
+        <div class="h-full w-full">
+          <router-outlet></router-outlet>
+        </div>
+        <cdba-user-interaction></cdba-user-interaction>
       </div>
       <cdba-browser-support-detector></cdba-browser-support-detector>
       <div

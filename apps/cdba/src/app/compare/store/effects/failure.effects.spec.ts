@@ -1,18 +1,14 @@
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter, Router } from '@angular/router';
 
-import {
-  createServiceFactory,
-  mockProvider,
-  SpectatorService,
-} from '@ngneat/spectator/jest';
-import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { UserInteractionService } from '@cdba/shared/services';
+import { showSnackBar } from '@cdba/core/store/actions/user-interaction/user-interaction.actions';
 import { COMPARE_STATE_MOCK } from '@cdba/testing/mocks';
+import { InteractionType } from '@cdba/user-interaction/model/interaction-type.enum';
 
 import {
   loadBomFailure,
@@ -26,8 +22,6 @@ describe('FailureEffects', () => {
   let spectator: SpectatorService<FailureEffects>;
   let actions$: any;
   let effects: FailureEffects;
-  let metadata: EffectsMetadata<FailureEffects>;
-  let userInteractionService: UserInteractionService;
   let router: Router;
 
   const index = 0;
@@ -39,15 +33,14 @@ describe('FailureEffects', () => {
 
   const createService = createServiceFactory({
     service: FailureEffects,
-    imports: [RouterTestingModule],
     providers: [
+      provideRouter([]),
       provideMockActions(() => actions$),
       provideMockStore({
         initialState: {
           compare: COMPARE_STATE_MOCK,
         },
       }),
-      mockProvider(UserInteractionService),
     ],
   });
 
@@ -55,9 +48,9 @@ describe('FailureEffects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(FailureEffects);
-    metadata = getEffectsMetadata(effects);
-    userInteractionService = spectator.inject(UserInteractionService);
     router = spectator.inject(Router);
+
+    router.navigate = jest.fn(() => Promise.resolve(true));
   });
 
   test('should be created', () => {
@@ -65,18 +58,9 @@ describe('FailureEffects', () => {
   });
 
   describe('loadFailure$', () => {
-    test('should not return an action', () => {
-      expect(metadata.loadFailure$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
-
     test(
       'should navigate to forbidden page',
       marbles((m) => {
-        router.navigate = jest.fn().mockImplementation();
-
         const loadBomForbiddenFailureAction = loadBomFailure({
           index,
           ...forbiddenError,
@@ -107,7 +91,9 @@ describe('FailureEffects', () => {
           d: loadCostComponentSplitForbiddenFailureAction,
         });
 
-        m.expect(effects.loadFailure$).toBeObservable(actions$);
+        const expected = m.cold('');
+
+        m.expect(effects.loadFailure$).toBeObservable(expected);
         m.flush();
         expect(router.navigate).toBeCalledTimes(4);
         expect(router.navigate).toHaveBeenCalledWith([
@@ -118,28 +104,27 @@ describe('FailureEffects', () => {
     );
 
     test(
-      'should call default error service',
+      'should trigger snackbar on server error',
       marbles((m) => {
-        userInteractionService.interact = jest.fn();
+        const showSnackBarAction = showSnackBar({
+          interactionType: InteractionType.HTTP_GENERAL_ERROR,
+        });
 
         const loadBomServerFailureAction = loadBomFailure({
           index,
           ...serverError,
         });
-
         const loadCalculationHistoryServerFailureAction =
           loadCalculationHistoryFailure({
             index,
             ...serverError,
           });
-
         const loadProductDetailsServerFailureAction = loadProductDetailsFailure(
           {
             index,
             ...serverError,
           }
         );
-
         const loadCostComponentSplitServerFailureAction =
           loadCostComponentSplitFailure({
             index,
@@ -153,9 +138,10 @@ describe('FailureEffects', () => {
           d: loadCostComponentSplitServerFailureAction,
         });
 
-        m.expect(effects.loadFailure$).toBeObservable(actions$);
+        const expected = m.cold('-a-a-a-a', { a: showSnackBarAction });
+
+        m.expect(effects.loadFailure$).toBeObservable(expected);
         m.flush();
-        expect(userInteractionService.interact).toBeCalledTimes(4);
       })
     );
   });

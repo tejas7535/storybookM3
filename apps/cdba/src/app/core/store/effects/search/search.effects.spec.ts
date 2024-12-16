@@ -1,7 +1,11 @@
-import { HttpResponse, HttpStatusCode } from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpResponse,
+  HttpStatusCode,
+} from '@angular/common/http';
 import { Router } from '@angular/router';
 
-import { of, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 
 import {
   createServiceFactory,
@@ -10,13 +14,11 @@ import {
 } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store } from '@ngrx/store';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
 import { StringOption } from '@schaeffler/inputs';
 
-import { BOM_EXPORT_LOADING_TIMEOUT } from '@cdba/shared/constants/table';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import { REFERENCE_TYPE_MOCK } from '@cdba/testing/mocks';
 
@@ -28,12 +30,12 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
-  exportBoms,
-  exportBomsFailure,
-  exportBomsSuccess,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
+  requestBomExport,
+  requestBomExportFailure,
+  requestBomExportSuccess,
   resetFilters,
   search,
   searchFailure,
@@ -59,7 +61,7 @@ describe('Search Effects', () => {
   let spectator: SpectatorService<SearchEffects>;
   let action: any;
   let actions$: any;
-  let store: any;
+  let store: MockStore;
   let effects: SearchEffects;
   let searchService: SearchService;
 
@@ -83,7 +85,7 @@ describe('Search Effects', () => {
   beforeEach(() => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
-    store = spectator.inject(Store);
+    store = spectator.inject(MockStore);
     effects = spectator.inject(SearchEffects);
     searchService = spectator.inject(SearchService);
 
@@ -416,49 +418,57 @@ describe('Search Effects', () => {
     );
   });
 
-  describe('exportBoms', () => {
+  describe('requestBomExport$', () => {
     beforeEach(() => {
-      action = exportBoms({
-        identifiers: [new ReferenceTypeIdentifier('123', '123')],
+      action = requestBomExport({
+        ids: [new ReferenceTypeIdentifier('123', '123')],
       });
     });
     it(
-      'should dispatch exportBomsSuccess when REST call is successful',
+      'should dispatch requestBomExportSuccess when REST call is successful',
       marbles((m) => {
-        const exportBomsSpy = jest.spyOn(searchService, 'exportBoms');
-        exportBomsSpy.mockReturnValue(
-          of(new HttpResponse<void>({ status: HttpStatusCode.Created }))
-        );
+        const result = requestBomExportSuccess();
+        const expected = m.cold('-a', {
+          a: result,
+        });
 
         actions$ = m.hot('-a', { a: action });
 
-        const result = effects.exportBoms$;
+        const response = m.cold('(-a|)', {
+          a: new HttpResponse<void>({ status: HttpStatusCode.Created }),
+        });
+        searchService.requestBomExport = jest.fn(() => response);
 
-        m.expect(result).toBeObservable(
-          `-${'-'.repeat(BOM_EXPORT_LOADING_TIMEOUT)}b`,
-          { b: exportBomsSuccess() }
-        );
+        m.expect(effects.requestBomExport$).toBeObservable(expected);
         m.flush();
-        expect(searchService.exportBoms).toHaveBeenCalled();
+        expect(searchService.requestBomExport).toHaveBeenCalled();
       })
     );
 
     it(
-      'should dispatch exportBomsFailure on REST error',
+      'should dispatch requestBomExportFailure on REST error',
       marbles((m) => {
-        const exportBomsSpy = jest.spyOn(searchService, 'exportBoms');
-        exportBomsSpy.mockReturnValue(
-          throwError(() => new Error(errorMessage))
-        );
+        const result = requestBomExportFailure({
+          statusCode: HttpStatusCode.BadRequest,
+          errorMessage: `Http failure response for (unknown url): 400 ${errorMessage}`,
+        });
+        const expected = m.cold('-a', { a: result });
 
         actions$ = m.hot('-a', { a: action });
 
-        const result = effects.exportBoms$;
+        searchService.requestBomExport = jest.fn(() =>
+          throwError(
+            () =>
+              new HttpErrorResponse({
+                status: HttpStatusCode.BadRequest,
+                statusText: errorMessage,
+              })
+          )
+        );
 
-        m.expect(result).toBeObservable('-b', {
-          b: exportBomsFailure({ errorMessage }),
-        });
+        m.expect(effects.requestBomExport$).toBeObservable(expected);
         m.flush();
+        expect(searchService.requestBomExport).toHaveBeenCalled();
       })
     );
   });

@@ -2,6 +2,7 @@ import {
   HTTP_INTERCEPTORS,
   HttpClient,
   HttpErrorResponse,
+  HttpStatusCode,
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
@@ -12,7 +13,6 @@ import {
 import { Injectable } from '@angular/core';
 import { waitForAsync } from '@angular/core/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Observable } from 'rxjs';
@@ -20,6 +20,8 @@ import { Observable } from 'rxjs';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { UserInteractionService } from '@cdba/user-interaction/service/user-interaction.service';
 
 import { HttpErrorInterceptor } from './http-error.interceptor';
 
@@ -38,19 +40,27 @@ class ExampleService {
   public getPosts(): Observable<string> {
     return this.http.get<string>(`${this.apiUrl}/test`);
   }
+
+  public getBomStatus(): Observable<string> {
+    return this.http.get<string>(`${this.apiUrl}/bom/status`);
+  }
+
+  public getDetails(): Observable<string> {
+    return this.http.get<string>(`${this.apiUrl}/details`);
+  }
 }
 
 describe(`HttpErrorInterceptor`, () => {
   let service: ExampleService;
   let spectator: SpectatorService<ExampleService>;
   let httpMock: HttpTestingController;
-  let snackBar: MatSnackBar;
+  let userInteractionService: UserInteractionService;
 
   const createService = createServiceFactory({
     service: ExampleService,
     imports: [
       NoopAnimationsModule,
-      MatSnackBarModule,
+      UserInteractionService,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
@@ -73,7 +83,7 @@ describe(`HttpErrorInterceptor`, () => {
     spectator = createService();
     service = spectator.service;
     httpMock = spectator.inject(HttpTestingController);
-    snackBar = spectator.inject(MatSnackBar);
+    userInteractionService = spectator.inject(UserInteractionService);
     console.error = jest.fn();
   });
 
@@ -159,13 +169,87 @@ describe(`HttpErrorInterceptor`, () => {
       CUSTOM_TIMEOUT
     );
 
-    it('should show snackbar error message in error case', () => {
+    it(
+      'should not use interceptor for details paths',
+      waitForAsync(() => {
+        service.getDetails().subscribe({
+          next: () => {
+            expect(true).toEqual(false);
+          },
+          error: (response) => {
+            expect(response).toBeTruthy();
+            expect(response).toBeInstanceOf(HttpErrorResponse);
+            expect(response.status).toEqual(HttpStatusCode.BadRequest);
+            expect(response.error).toEqual({
+              statusText: 'Service Unavailable',
+              message: 'Damn monkey',
+              url: 'https://cdba-d.dev.dp.schaeffler/detail/detail?material_number=084950943000014&plant=0083',
+            });
+          },
+        });
+
+        const httpRequest = httpMock.expectOne(
+          `${environment.baseUrl}/details`
+        );
+
+        expect(httpRequest.request.method).toEqual('GET');
+
+        httpRequest.flush(
+          {
+            statusText: 'Service Unavailable',
+            message: 'Damn monkey',
+            url: 'https://cdba-d.dev.dp.schaeffler/detail/detail?material_number=084950943000014&plant=0083',
+          } as HttpErrorResponse,
+          { status: 400, statusText: 'Bad Request' }
+        );
+      }),
+      CUSTOM_TIMEOUT
+    );
+
+    it(
+      'should not use interceptor for export paths',
+      waitForAsync(() => {
+        service.getBomStatus().subscribe({
+          next: () => {
+            expect(true).toEqual(false);
+          },
+          error: (response) => {
+            expect(response).toBeTruthy();
+            expect(response).toBeInstanceOf(HttpErrorResponse);
+            expect(response.status).toEqual(HttpStatusCode.BadRequest);
+            expect(response.error).toEqual({
+              statusText: 'Service Unavailable',
+              message: 'Damn monkey',
+              url: 'https://cdba-d.dev.dp.schaeffler/bom/export/status',
+            });
+          },
+        });
+
+        const httpRequest = httpMock.expectOne(
+          `${environment.baseUrl}/bom/status`
+        );
+
+        expect(httpRequest.request.method).toEqual('GET');
+
+        httpRequest.flush(
+          {
+            statusText: 'Service Unavailable',
+            message: 'Damn monkey',
+            url: 'https://cdba-d.dev.dp.schaeffler/bom/export/status',
+          } as HttpErrorResponse,
+          { status: 400, statusText: 'Bad Request' }
+        );
+      }),
+      CUSTOM_TIMEOUT
+    );
+
+    it('should dispatch showSnackBar error message in error case', () => {
       service.getPosts().subscribe({
         next: () => {
           expect(true).toEqual(false);
         },
         error: (_response) => {
-          expect(snackBar.open).toHaveBeenCalled();
+          expect(userInteractionService.interact).toHaveBeenCalledTimes(1);
         },
       });
 
@@ -182,13 +266,13 @@ describe(`HttpErrorInterceptor`, () => {
       );
     });
 
-    it('should not show snackbar error message in login case', () => {
+    it('should not dispatch showSnackBar error message in login case', () => {
       service.getPosts().subscribe({
         next: () => {
           expect(true).toEqual(false);
         },
         error: (_response) => {
-          expect(snackBar.open).toHaveBeenCalledTimes(0);
+          expect(userInteractionService.interact).toHaveBeenCalledTimes(0);
         },
       });
 

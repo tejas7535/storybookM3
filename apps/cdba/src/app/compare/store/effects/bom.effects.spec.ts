@@ -43,7 +43,7 @@ describe('BomEffects', () => {
   let effects: BomEffects;
   let productDetailService: ProductDetailService;
   let betaFeatureService: BetaFeatureService;
-  let store: any;
+  let store: MockStore;
 
   const error = new HttpErrorResponse({
     status: HttpStatusCode.BadRequest,

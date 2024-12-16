@@ -4,7 +4,6 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpStatusCode,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -13,35 +12,22 @@ import { catchError } from 'rxjs/operators';
 
 import { BomExportPath, ProductDetailPath } from '@cdba/shared/constants/api';
 import { AUTH_URLS } from '@cdba/shared/constants/urls';
-import { Interaction } from '@cdba/shared/services/user-interaction/interaction-type.model';
-import { UserInteractionService } from '@cdba/shared/services/user-interaction/user-interaction.service';
+import { InteractionType } from '@cdba/user-interaction/model/interaction-type.enum';
+import { UserInteractionService } from '@cdba/user-interaction/service/user-interaction.service';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
-  public constructor(
-    private readonly userInteractionService: UserInteractionService
-  ) {}
-
   public intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((errorResponse: HttpErrorResponse) => {
+        // don't use the interceptor for detail paths or bom export paths
         if (
-          errorResponse.url.includes(BomExportPath) &&
-          errorResponse.status === HttpStatusCode.BadRequest
-        ) {
-          this.userInteractionService.interact(
-            Interaction.HTTP_GENERAL_VALIDATION_ERROR
-          );
-        }
-        // don't use the interceptor for detail paths
-        else if (
-          Object.values<string>(ProductDetailPath).some(
-            (path) =>
-              errorResponse.url.includes(`/${path}`) &&
-              !errorResponse.url.includes(BomExportPath)
+          errorResponse.url.includes(BomExportPath) ||
+          Object.values<string>(ProductDetailPath).some((path) =>
+            errorResponse.url.includes(`/${path}`)
           )
         ) {
           return throwError(() => errorResponse);
@@ -73,11 +59,17 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         if (
           !AUTH_URLS.some((authUrl) => errorResponse.url.startsWith(authUrl))
         ) {
-          this.userInteractionService.interact(Interaction.HTTP_GENERAL_ERROR);
+          this.userInteractionService.interact(
+            InteractionType.HTTP_GENERAL_ERROR
+          );
         }
 
         return throwError(() => new Error(errorMessage));
       })
     );
   }
+
+  constructor(
+    private readonly userInteractionService: UserInteractionService
+  ) {}
 }

@@ -12,3 +12,5 @@ export enum ProductDetailPath {
 }
 
 export const BomExportPath = 'bom/export';
+export const BomExportStatusPath = `${BomExportPath}/status`;
+export const BomExportStatusLivePath = `${BomExportStatusPath}/live`;

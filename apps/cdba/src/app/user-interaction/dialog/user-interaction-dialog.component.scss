@@ -1,0 +1,15 @@
+.dialog-title {
+  @apply flex justify-between items-center;
+}
+
+.dialog-content {
+  @apply flex flex-col justify-center gap-4 p-2;
+}
+
+.dialog-content-feature {
+  @apply flex flex-row items-center justify-between;
+}
+
+.dialog-content-download-expiry {
+  @apply text-center;
+}

@@ -6,18 +6,19 @@ import { Subscription } from 'rxjs';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { GridApi } from 'ag-grid-community';
 import { MockModule, MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
-  exportBoms,
-  getBomExportLoading,
+  getBomExportFeature,
   getSelectedRefTypeNodeIds,
+  isBomExportFeatureRunning,
 } from '@cdba/core/store';
 import { SearchState } from '@cdba/core/store/reducers/search/search.reducer';
-import { ReferenceTypeIdentifier } from '@cdba/shared/models';
+import { BomExportFeature } from '@cdba/core/store/reducers/user-interaction/user-interaction.reducer';
+import { BomExportStatus } from '@cdba/user-interaction/model/feature/bom-export/bom-export-status.model';
+import { BomExportProgress } from '@cdba/user-interaction/model/feature/bom-export/bom-export-status-enum.model';
 
 import { BomExportButtonComponent } from './bom-export-button.component';
 
@@ -42,33 +43,40 @@ describe('BomExportButtonComponent', () => {
             referenceTypes: {
               selectedNodeIds: ['1', '2'],
             },
-            export: {
-              loading: false,
-            },
           },
         } as unknown as SearchState,
+        selectors: [
+          {
+            selector: getBomExportFeature,
+            value: {
+              loading: false,
+              errorMessage: '',
+              status: {
+                requestedBy: '',
+                downloadUrl: '',
+                downloadUrlExpiry: undefined,
+                progress: BomExportProgress.FINISHED,
+                started: '',
+                stopped: '',
+              } as BomExportStatus,
+            } as BomExportFeature,
+          },
+        ],
       }),
     ],
   });
-
-  const gridApi = {
-    hideOverlay: jest.fn(),
-    showLoadingOverlay: jest.fn(),
-    getRowNode: jest.fn((nodeId: string) =>
-      nodeId === '1'
-        ? { data: { materialNumber: '123-456', plant: '123' } }
-        : { data: { materialNumber: '456-789', plant: '456' } }
-    ),
-  } as unknown as GridApi;
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
     store = spectator.inject(MockStore);
 
-    component.gridApi = gridApi;
-
-    spectator.setInput('gridApi', gridApi);
+    component['selectedNodeIdsSubscription'] = {
+      unsubscribe: jest.fn(),
+    } as unknown as Subscription;
+    component['isExportRunningSubscription'] = {
+      unsubscribe: jest.fn(),
+    } as unknown as Subscription;
   });
 
   it('should create', () => {
@@ -76,74 +84,43 @@ describe('BomExportButtonComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should setup component when not loading', () => {
+    it('should setup component when waiting', () => {
       component.ngOnInit();
 
       expect(component.selectedNodeIds).toEqual(['1', '2']);
       expect(component.tooltip).toEqual('search.bomExport.tooltips.default');
-      expect(component.gridApi.hideOverlay).toHaveBeenCalled();
     });
 
-    it('should setup component when loading', () => {
-      store.overrideSelector(getBomExportLoading, true);
+    it('should setup component when running', () => {
+      store.overrideSelector(isBomExportFeatureRunning, true);
 
       component.ngOnInit();
 
       expect(component.selectedNodeIds).toEqual(['1', '2']);
-      expect(component.tooltip).toEqual('search.bomExport.tooltips.default');
-      expect(component.gridApi.showLoadingOverlay).toHaveBeenCalled();
+      expect(component.tooltip).toEqual('search.bomExport.tooltips.running');
     });
   });
 
   describe('ngOnDestroy', () => {
     it('should unsubscribe from subscriptions', () => {
-      component['selectedNodeIdsSubscription'] = {
-        unsubscribe: jest.fn(),
-      } as unknown as Subscription;
-      component['isLoadingSubscription'] = {
-        unsubscribe: jest.fn(),
-      } as unknown as Subscription;
-
       component.ngOnDestroy();
 
       expect(
         component['selectedNodeIdsSubscription'].unsubscribe
       ).toHaveBeenCalled();
-      expect(component['isLoadingSubscription'].unsubscribe).toHaveBeenCalled();
+      expect(
+        component['isExportRunningSubscription'].unsubscribe
+      ).toHaveBeenCalled();
     });
   });
 
-  describe('onClick', () => {
-    it('should dispatch exportBoms with identifiers', () => {
-      const storeSpy = jest.spyOn(component['store'], 'dispatch');
+  describe('onRequestBomExport', () => {
+    it('should emit selectedNodeIds', () => {
+      const emitSpy = jest.spyOn(component.bomExportEvent, 'emit');
 
-      component.onClick();
+      component.onRequestBomExport();
 
-      expect(storeSpy).toHaveBeenCalledWith(
-        exportBoms({
-          identifiers: [
-            {
-              materialNumber: '123456',
-              plant: '123',
-            } as ReferenceTypeIdentifier,
-            {
-              materialNumber: '456789',
-              plant: '456',
-            } as ReferenceTypeIdentifier,
-          ],
-        })
-      );
-    });
-
-    it('should not dispatch exportBoms when there are no identifiers', () => {
-      component.gridApi = {
-        getRowNode: jest.fn(() => {}),
-      } as unknown as GridApi;
-      const storeSpy = jest.spyOn(component['store'], 'dispatch');
-
-      component.onClick();
-
-      expect(storeSpy).not.toHaveBeenCalled();
+      expect(emitSpy).toHaveBeenCalledWith([]);
     });
   });
 

@@ -1,10 +1,10 @@
 import { MatDividerModule } from '@angular/material/divider';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockModule } from 'ng-mocks';
+import { MockModule, MockPipe } from 'ng-mocks';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -19,6 +19,7 @@ import {
 import { ROLES_STATE_SUCCESS_MOCK } from '@cdba/testing/mocks';
 
 import { AppComponent } from './app.component';
+import { UserInteractionModule } from './user-interaction/user-interaction.module';
 
 describe('AppComponent', () => {
   let spectator: Spectator<AppComponent>;
@@ -28,8 +29,7 @@ describe('AppComponent', () => {
   const createComponent = createComponentFactory({
     component: AppComponent,
     imports: [
-      RouterTestingModule,
-      PushPipe,
+      MockPipe(PushPipe),
       MockModule(MatDividerModule),
       MockModule(AppShellModule),
       MockModule(BetaFeatureModule),
@@ -37,9 +37,11 @@ describe('AppComponent', () => {
       MockModule(LoadingSpinnerModule),
       MockModule(RoleDescriptionsModule),
       MockModule(UserSettingsModule),
+      MockModule(UserInteractionModule),
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
+      provideRouter([]),
       provideMockStore({
         initialState: {
           'azure-auth': {

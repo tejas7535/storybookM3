@@ -1,0 +1,81 @@
+<div *transloco="let t; read: 'userInteraction.tooltip.dialog'">
+  <div mat-dialog-title class="dialog-title">
+    <p>
+      {{ t('welcome', { username: (username$ | ngrxPush) }) }}
+    </p>
+    <button mat-icon-button mat-dialog-close disableRipple (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <mat-dialog-content>
+    <div class="dialog-content">
+      <div class="dialog-content-feature">
+        <p>{{ t('bomExport') }}</p>
+        <div
+          [matTooltip]="t('refreshStatusBtn')"
+          [matTooltipPosition]="'after'"
+        >
+          <button
+            mat-icon-button
+            [disabled]="refreshStatusBtnDisabled"
+            (click)="refreshProgress()"
+          >
+            <mat-icon>refresh</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div>
+        <p>
+          {{ t('currentProgress', { progress: userFriendlyProgress }) }}
+        </p>
+        <mat-progress-bar
+          [mode]="'buffer'"
+          [value]="progressBarValue"
+        ></mat-progress-bar>
+      </div>
+      <div>
+        <p>
+          {{
+            t('started', {
+              dateTime:
+                (status?.started | date: 'medium' | undefinedAttributeFallback)
+            })
+          }}
+        </p>
+        <p>
+          {{
+            t('stopped', {
+              dateTime:
+                (status?.stopped | date: 'medium' | undefinedAttributeFallback)
+            })
+          }}
+        </p>
+      </div>
+      <div class="dialog-content-download-expiry">
+        @if (status?.progress === 'FINISHED') {
+          <p>
+            {{
+              t('downloadExpires', {
+                dateTime:
+                  (status?.downloadUrlExpiry
+                  | date: 'medium'
+                  | undefinedAttributeFallback)
+              })
+            }}
+          </p>
+        }
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button
+      mat-flat-button
+      color="primary"
+      class="!mr-4"
+      [disabled]="status?.progress !== 'FINISHED'"
+      (click)="onDownload()"
+    >
+      {{ t('download') }}
+    </button>
+  </mat-dialog-actions>
+</div>

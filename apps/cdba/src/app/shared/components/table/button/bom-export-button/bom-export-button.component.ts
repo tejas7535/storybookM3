@@ -1,4 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -6,20 +12,15 @@ import { Subscription } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
-import { GridApi } from 'ag-grid-community';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { exportBoms } from '@cdba/core/store';
-import {
-  getBomExportLoading,
-  getSelectedRefTypeNodeIds,
-} from '@cdba/core/store/selectors/search/search.selector';
+import { isBomExportFeatureRunning } from '@cdba/core/store';
+import { getSelectedRefTypeNodeIds } from '@cdba/core/store/selectors/search/search.selector';
 import {
   BOM_EXPORT_MAX_COUNT,
   BOM_EXPORT_MIN_COUNT,
 } from '@cdba/shared/constants/table';
-import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 
 @Component({
   selector: 'cdba-bom-export-button',
@@ -28,80 +29,49 @@ import { ReferenceTypeIdentifier } from '@cdba/shared/models';
   imports: [MatButtonModule, MatTooltipModule, SharedTranslocoModule],
 })
 export class BomExportButtonComponent implements OnInit, OnDestroy {
+  @Output()
+  bomExportEvent = new EventEmitter<string[]>();
+
   selectedNodeIds: string[] = [];
   tooltip: string;
+  disabled: boolean;
 
   selectedNodeIds$ = this.store.select(getSelectedRefTypeNodeIds);
-  isLoading$ = this.store.select(getBomExportLoading);
+  isExportRunning$ = this.store.select(isBomExportFeatureRunning);
 
+  private isExportRunningSubscription: Subscription;
   private selectedNodeIdsSubscription = new Subscription();
-  private isLoadingSubscription = new Subscription();
-  private _gridApi: GridApi;
-  private _disabled: boolean;
 
   public constructor(
     private readonly store: Store,
     private readonly transloco: TranslocoService
   ) {}
 
-  get gridApi(): GridApi {
-    return this._gridApi;
-  }
-
-  @Input()
-  set gridApi(gridApi: GridApi) {
-    this._gridApi = gridApi;
-  }
-
-  get disabled(): boolean {
-    return this._disabled;
-  }
-
-  @Input() set disabled(disabled: boolean) {
-    this._disabled = disabled;
-  }
-
   ngOnInit(): void {
-    this.tooltip = this.transloco.translate(
-      'search.bomExport.tooltips.default',
-      {
-        bomExportMinCount: BOM_EXPORT_MIN_COUNT,
-        bomExportMaxCount: BOM_EXPORT_MAX_COUNT,
-      }
-    );
-
     this.selectedNodeIdsSubscription = this.selectedNodeIds$.subscribe(
       (selectedNodeIds) => (this.selectedNodeIds = selectedNodeIds)
     );
 
-    this.isLoadingSubscription = this.isLoading$.subscribe((isLoading) => {
-      this.showOrHideOverlay(isLoading);
-    });
+    this.isExportRunningSubscription = this.isExportRunning$.subscribe(
+      (isExportRunning) => {
+        this.disabled = isExportRunning;
+        this.tooltip = isExportRunning
+          ? this.transloco.translate('search.bomExport.tooltips.running')
+          : this.transloco.translate('search.bomExport.tooltips.default', {
+              bomExportMinCount: BOM_EXPORT_MIN_COUNT,
+              bomExportMaxCount: BOM_EXPORT_MAX_COUNT,
+            });
+      }
+    );
   }
 
   ngOnDestroy(): void {
     this.selectedNodeIdsSubscription.unsubscribe();
-    this.isLoadingSubscription.unsubscribe();
+    this.isExportRunningSubscription.unsubscribe();
   }
 
-  onClick(): void {
-    const identifiers: ReferenceTypeIdentifier[] = [];
-
-    this.selectedNodeIds.forEach((nodeId) => {
-      const rowValue = this.gridApi.getRowNode(nodeId);
-
-      if (rowValue) {
-        let materialNumber = rowValue.data.materialNumber as string;
-        materialNumber = materialNumber.replace('-', '');
-        const plant = rowValue.data.plant;
-
-        identifiers.push(new ReferenceTypeIdentifier(materialNumber, plant));
-      }
-    });
-
-    if (identifiers.length > 0) {
-      this.store.dispatch(exportBoms({ identifiers }));
-    }
+  onRequestBomExport(): void {
+    this.bomExportEvent.emit(this.selectedNodeIds);
   }
 
   isDisabled(): boolean {
@@ -110,13 +80,5 @@ export class BomExportButtonComponent implements OnInit, OnDestroy {
           this.selectedNodeIds?.length > BOM_EXPORT_MAX_COUNT ||
           this.disabled
       : true;
-  }
-
-  private showOrHideOverlay(isLoading: boolean) {
-    if (this.gridApi && isLoading) {
-      this.gridApi.showLoadingOverlay();
-    } else {
-      this.gridApi.hideOverlay();
-    }
   }
 }

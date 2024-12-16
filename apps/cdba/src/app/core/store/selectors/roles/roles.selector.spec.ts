@@ -6,8 +6,10 @@ import { marbles } from 'rxjs-marbles/jest';
 import { AuthState } from '@schaeffler/azure-auth';
 
 import { AuthRoles } from '@cdba/core/auth/models/auth.models';
-import { RolesState } from '@cdba/core/store/reducers/roles/models/roles-state.model';
-import { initialState as initialStateRoles } from '@cdba/core/store/reducers/roles/roles.reducer';
+import {
+  initialState as initialStateRoles,
+  RolesState,
+} from '@cdba/core/store/reducers/roles/roles.reducer';
 import {
   ACCOUNT_INFO_MOCK,
   AUTH_STATE_MOCK,

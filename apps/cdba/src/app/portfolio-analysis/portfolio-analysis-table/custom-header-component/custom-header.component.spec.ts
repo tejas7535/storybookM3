@@ -15,7 +15,7 @@ import { CustomHeaderComponent } from './custom-header.component';
 describe('CustomHeaderComponent', () => {
   let spectator: Spectator<CustomHeaderComponent>;
   let component: CustomHeaderComponent;
-  let store: any;
+  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: CustomHeaderComponent,

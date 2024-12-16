@@ -1,28 +1,14 @@
 <div class="inline-flex items-center">
   <div class="button-wrapper--outer" cdbaInView>
-    <div
-      class="button-wrapper--inner"
-      [matTooltip]="bomExportLoadingTooltip"
-      [matTooltipPosition]="'above'"
-      [matTooltipDisabled]="!(isBomExportLoading$ | ngrxPush)"
-    >
+    <div class="button-wrapper--inner">
       <cdba-compare-button
-        [disabled]="isBomExportLoading$ | ngrxPush"
-        [gridApi]="gridApi"
+        (showCompareViewEvent)="showCompareView()"
       ></cdba-compare-button>
-      <cdba-portfolio-analysis-button
-        [disabled]="isBomExportLoading$ | ngrxPush"
-      ></cdba-portfolio-analysis-button>
+      <cdba-portfolio-analysis-button></cdba-portfolio-analysis-button>
       <cdba-bom-export-button
-        [disabled]="isBomExportLoading$ | ngrxPush"
-        [gridApi]="gridApi"
+        (bomExportEvent)="requestBomExport()"
       ></cdba-bom-export-button>
     </div>
   </div>
-  <cdba-pagination-controls
-    [matTooltip]="bomExportLoadingTooltip"
-    [matTooltipPosition]="'above'"
-    [matTooltipDisabled]="!(isBomExportLoading$ | ngrxPush)"
-    [gridApi]="gridApi"
-  ></cdba-pagination-controls>
+  <cdba-pagination-controls [gridApi]="gridApi"></cdba-pagination-controls>
 </div>

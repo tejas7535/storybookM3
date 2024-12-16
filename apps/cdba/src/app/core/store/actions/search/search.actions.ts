@@ -1,9 +1,10 @@
-import { createAction, props, union } from '@ngrx/store';
+import { HttpStatusCode } from '@angular/common/http';
 
-import { ReferenceTypeIdentifier } from '@cdba/shared/models';
+import { createAction, props, union } from '@ngrx/store';
 
 import {
   FilterItem,
+  ReferenceTypeIdentifier,
   SearchResult,
   TextSearch,
 } from '../../reducers/search/models';
@@ -57,18 +58,6 @@ export const applyTextSearchFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
-export const exportBoms = createAction(
-  '[Search] Export Boms',
-  props<{ identifiers: ReferenceTypeIdentifier[] }>()
-);
-
-export const exportBomsSuccess = createAction('[Search] Export Boms Success');
-
-export const exportBomsFailure = createAction(
-  '[Search] Export Boms Failure',
-  props<{ errorMessage: string }>()
-);
-
 export const resetFilters = createAction('[Search] Reset All Filters');
 
 export const shareSearchResult = createAction('[Search] Share Search Result');
@@ -98,6 +87,20 @@ export const deselectReferenceType = createAction(
   props<{ nodeId: string }>()
 );
 
+export const requestBomExport = createAction(
+  '[Search] Request Bill Of Materials Export',
+  props<{ ids: ReferenceTypeIdentifier[] }>()
+);
+
+export const requestBomExportSuccess = createAction(
+  '[Search] Request Bill Of Materials Export Success'
+);
+
+export const requestBomExportFailure = createAction(
+  '[Search] Request Bill Of Materials Export Failure',
+  props<{ statusCode: HttpStatusCode; errorMessage: string }>()
+);
+
 const all = union({
   loadInitialFilters,
   loadInitialFiltersSuccess,
@@ -117,9 +120,9 @@ const all = union({
   selectReferenceTypes,
   deselectReferenceType,
   updatePaginationState,
-  exportBoms,
-  exportBomsSuccess,
-  exportBomsFailure,
+  requestBomExport,
+  requestBomExportSuccess,
+  requestBomExportFailure,
 });
 
 export type SearchActions = typeof all;

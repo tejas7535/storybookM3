@@ -1,10 +1,19 @@
 import { createReducer, on } from '@ngrx/store';
 
+import { RoleDescriptions } from '@cdba/core/auth/models/roles.models';
+
 import {
   loadRoleDescriptionsFailure,
   loadRoleDescriptionsSuccess,
 } from '../../actions/roles/roles.actions';
-import { RolesState } from './models/roles-state.model';
+
+export interface RolesState {
+  roleDescriptions: {
+    loaded: boolean;
+    items: RoleDescriptions;
+    errorMessage: string;
+  };
+}
 
 export const initialState: RolesState = {
   roleDescriptions: {

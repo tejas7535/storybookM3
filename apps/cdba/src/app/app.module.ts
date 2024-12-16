@@ -34,6 +34,7 @@ import {
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { UserInteractionModule } from './user-interaction/user-interaction.module';
 
 export function DynamicDataPrivacy(
   translocoService: TranslocoService
@@ -62,6 +63,7 @@ export function DynamicTermsOfUse(translocoService: TranslocoService) {
     BrowserSupportModule,
     AppShellModule,
     UserSettingsModule,
+    UserInteractionModule,
     RoleDescriptionsModule,
     SharedTranslocoModule,
   ],

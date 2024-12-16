@@ -2,7 +2,6 @@
   <div
     [matTooltip]="tooltip"
     [matTooltipPosition]="'above'"
-    [matTooltipDisabled]="disabled"
     class="inline-block"
   >
     <button
@@ -10,7 +9,7 @@
       mat-flat-button
       color="primary"
       class="!mr-4"
-      (click)="onClick()"
+      (click)="onRequestBomExport()"
     >
       {{ t('label') }}
     </button>

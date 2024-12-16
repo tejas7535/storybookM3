@@ -1,5 +1,7 @@
-import { RolesState } from '@cdba/core/store/reducers/roles/models/roles-state.model';
-import { initialState } from '@cdba/core/store/reducers/roles/roles.reducer';
+import {
+  initialState,
+  RolesState,
+} from '@cdba/core/store/reducers/roles/roles.reducer';
 
 import {
   EMPTY_ROLE_DESCRIPTIONS_MOCK,

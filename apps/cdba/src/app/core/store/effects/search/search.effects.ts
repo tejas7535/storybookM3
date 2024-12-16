@@ -3,13 +3,12 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
-import { catchError, delay, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
-import { BOM_EXPORT_LOADING_TIMEOUT } from '@cdba/shared/constants/table';
 
 import { SearchService } from '../../../../search/services/search.service';
 import {
@@ -19,12 +18,12 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
-  exportBoms,
-  exportBomsFailure,
-  exportBomsSuccess,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
+  requestBomExport,
+  requestBomExportFailure,
+  requestBomExportSuccess,
   resetFilters,
   search,
   searchFailure,
@@ -150,20 +149,17 @@ export class SearchEffects {
   /**
    * Trigger BOMs export
    */
-  exportBoms$ = createEffect(() => {
+  requestBomExport$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(exportBoms),
-      map((action) => action.identifiers),
+      ofType(requestBomExport),
+      map((action) => action.ids),
       mergeMap((referenceTypeIdentifiers) =>
-        this.searchService.exportBoms(referenceTypeIdentifiers).pipe(
-          mergeMap(() =>
-            // BOM export invokes async logic in the BE
-            // delay is needed for UI to draw the loading overlay
-            of(exportBomsSuccess()).pipe(delay(BOM_EXPORT_LOADING_TIMEOUT))
-          ),
+        this.searchService.requestBomExport(referenceTypeIdentifiers).pipe(
+          mergeMap(() => of(requestBomExportSuccess())),
           catchError((error: HttpErrorResponse) =>
             of(
-              exportBomsFailure({
+              requestBomExportFailure({
+                statusCode: error.status,
                 errorMessage: error.message,
               })
             )

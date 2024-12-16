@@ -1,0 +1,33 @@
+{
+  "tooltip": {
+    "dialog": {
+      "welcome": "Hallo {{username}} 👋🏻",
+      "bomExport": "Stückliste exportieren",
+      "refreshStatusBtn": "Status aktualisieren",
+      "download": "BOM Export herunterzuladen",
+      "downloadExpires": "Download läuft ab am: {{dateTime}}",
+      "currentProgress": "Aktueller Fortschritt: {{progress}}",
+      "progress": {
+        "waiting": "Warten auf Start",
+        "inProgress": "In Bearbeitung",
+        "finished": "Fertig",
+        "failed": "Fehlgeschlagen"
+      },
+      "started": "Gestartet am: {{dateTime}}",
+      "stopped": "Gestoppt am: {{dateTime}}",
+      "open": "Öffnen, um den Fortschritt anzuzeigen",
+      "close": "Schließen"
+    }
+  },
+  "feature": {
+    "bomExport": {
+      "notify": {
+        "success": "Stückliste exportieren ist bereit!",
+        "failure": "Stückliste exportieren fehlgeschlagen"
+      },
+      "status": {
+        "loadingFailed": "CDBA konnte den BOM-Exportstatus nicht laden"
+      }
+    }
+  }
+}

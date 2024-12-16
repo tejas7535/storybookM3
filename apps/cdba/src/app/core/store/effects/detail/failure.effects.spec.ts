@@ -1,18 +1,18 @@
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter, Router } from '@angular/router';
 
 import {
   createServiceFactory,
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
-import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
+import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { UserInteractionService } from '@cdba/shared/services';
 import { COMPARE_STATE_MOCK } from '@cdba/testing/mocks';
+import { InteractionType } from '@cdba/user-interaction/model/interaction-type.enum';
+import { UserInteractionService } from '@cdba/user-interaction/service/user-interaction.service';
 
 import {
   loadBomFailure,
@@ -20,6 +20,7 @@ import {
   loadCostComponentSplitFailure,
   loadDrawingsFailure,
   loadReferenceTypeFailure,
+  showSnackBar,
 } from '../../actions';
 import { FailureEffects } from './failure.effects';
 
@@ -27,8 +28,6 @@ describe('FailureEffects', () => {
   let spectator: SpectatorService<FailureEffects>;
   let actions$: any;
   let effects: FailureEffects;
-  let metadata: EffectsMetadata<FailureEffects>;
-  let userInteractionService: UserInteractionService;
   let router: Router;
 
   const forbiddenError = { statusCode: 403, errorMessage: 'Forbidden Action' };
@@ -39,8 +38,8 @@ describe('FailureEffects', () => {
 
   const createService = createServiceFactory({
     service: FailureEffects,
-    imports: [RouterTestingModule],
     providers: [
+      provideRouter([]),
       provideMockActions(() => actions$),
       provideMockStore({
         initialState: {
@@ -55,9 +54,9 @@ describe('FailureEffects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(FailureEffects);
-    metadata = getEffectsMetadata(effects);
-    userInteractionService = spectator.inject(UserInteractionService);
     router = spectator.inject(Router);
+
+    router.navigate = jest.fn(() => Promise.resolve(true));
   });
 
   test('should be created', () => {
@@ -65,17 +64,9 @@ describe('FailureEffects', () => {
   });
 
   describe('loadFailure$', () => {
-    test('should not return an action', () => {
-      expect(metadata.loadFailure$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
-
     test(
       'should navigate to forbidden page',
       marbles((m) => {
-        router.navigate = jest.fn().mockImplementation();
         const loadBomForbiddenFailureAction = loadBomFailure(forbiddenError);
         const loadCalculationsForbiddenFailureAction =
           loadCalculationsFailure(forbiddenError);
@@ -94,7 +85,9 @@ describe('FailureEffects', () => {
           e: loadCostComponentSplitFailureAction,
         });
 
-        m.expect(effects.loadFailure$).toBeObservable(actions$);
+        const expected = m.cold('');
+
+        m.expect(effects.loadFailure$).toBeObservable(expected);
         m.flush();
         expect(router.navigate).toBeCalledTimes(5);
         expect(router.navigate).toHaveBeenCalledWith([
@@ -105,9 +98,11 @@ describe('FailureEffects', () => {
     );
 
     test(
-      'should call default error service',
+      'should trigger snackbar on server error',
       marbles((m) => {
-        userInteractionService.interact = jest.fn();
+        const showSnackBarAction = showSnackBar({
+          interactionType: InteractionType.HTTP_GENERAL_ERROR,
+        });
 
         const loadBomServerFailureAction = loadBomFailure(serverError);
         const loadCalculationsServerFailureAction =
@@ -127,10 +122,10 @@ describe('FailureEffects', () => {
           e: loadCostComponentSplitFailureAction,
         });
 
-        m.expect(effects.loadFailure$).toBeObservable(actions$);
+        const expected = m.cold('-a-a-a-a-a', { a: showSnackBarAction });
+
+        m.expect(effects.loadFailure$).toBeObservable(expected);
         m.flush();
-        expect(userInteractionService.interact).toBeCalledTimes(5);
-        expect(userInteractionService.interact).toHaveBeenCalled();
       })
     );
   });

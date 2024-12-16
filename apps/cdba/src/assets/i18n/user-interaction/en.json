@@ -1,0 +1,33 @@
+{
+  "tooltip": {
+    "dialog": {
+      "welcome": "Hi {{username}} 👋🏻",
+      "bomExport": "Bill of Materials Export",
+      "refreshStatusBtn": "Refresh status",
+      "download": "Download BOM EXPORT",
+      "downloadExpires": "Download expires on: {{dateTime}}",
+      "currentProgress": "Current progress: {{progress}}",
+      "progress": {
+        "waiting": "Waiting to start",
+        "inProgress": "In Progress",
+        "finished": "Finished",
+        "failed": "Failed"
+      },
+      "started": "Started at: {{dateTime}}",
+      "stopped": "Stopped at: {{dateTime}}",
+      "open": "Open to see the progress",
+      "close": "Close"
+    }
+  },
+  "feature": {
+    "bomExport": {
+      "notify": {
+        "success": "Bill of Materials Export is Ready!",
+        "failure": "Bill of Materials Export failed"
+      },
+      "status": {
+        "loadingFailed": "CDBA could not load the BOM Export status"
+      }
+    }
+  }
+}

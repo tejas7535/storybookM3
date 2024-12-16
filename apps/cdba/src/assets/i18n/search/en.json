@@ -55,13 +55,14 @@
   },
   "bomExport": {
     "label": "BOM Export",
-    "outcome": {
-      "success": "Your BOM export request was successful and may take up to one hour depending on the data size. Please check your inbox periodically for the file.",
-      "failure": "BOM export request failed. Please try again later."
+    "request": {
+      "success": "Your Bill of Materials export request was successful. Please check the bottom menu for current status.",
+      "validation": "Please verify material numbers and plants in selected Materials",
+      "failure": "Bill of Materials export request failed. Please try again later."
     },
     "tooltips": {
       "default": "Please select between {{ bomExportMinCount }} and {{ bomExportMaxCount }} Material(s) for export.\nNote: PCM Materials might not have any valid Calculation.",
-      "loading": "Export in progress.\n Please wait."
+      "running": "Export is running.\n Please wait."
     }
   }
 }
