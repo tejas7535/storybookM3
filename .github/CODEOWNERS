@@ -47,8 +47,8 @@ apps/ea-e2e @krausrbe_SGGIT @berndcri_SGGIT @konramic_SGGIT @grzegdmi_SGGIT @vog
 
 # LSA
 
-apps/lsa @krausrbe_SGGIT @berndcri_SGGIT @konramic_SGGIT @grzegdmi_SGGIT @vogelmor_SGGIT
-apps/lsa-e2e @krausrbe_SGGIT @berndcri_SGGIT @konramic_SGGIT @grzegdmi_SGGIT @vogelmor_SGGIT
+apps/lsa @krausrbe_SGGIT @berndcri_SGGIT @konramic_SGGIT @grzegdmi_SGGIT @vogelmor_SGGIT @przybmci_SGGIT
+apps/lsa-e2e @krausrbe_SGGIT @berndcri_SGGIT @konramic_SGGIT @grzegdmi_SGGIT @vogelmor_SGGIT @przybmci_SGGIT
 
 # HC
 
