@@ -60,14 +60,19 @@ export class MaterialCustomerTableService<
     const currentLayoutId: LayoutId = this.getStoredLayout() || '1';
     this.tableName = `customer-material-${currentLayoutId}`;
 
-    this.loadColumnSettings$().subscribe((settings) => {
-      if (settings) {
-        applyColumnSettings(columnApi, settings);
-      }
-    });
+    this.loadColumnSettings$()
+      .pipe(
+        tap((settings) => {
+          if (settings) {
+            applyColumnSettings(columnApi, settings);
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
 
     return {
-      resetLayout: (newLayoutId: LayoutId): any => {
+      resetLayout: (newLayoutId: LayoutId) => {
         this.tableName = `customer-material-${newLayoutId}`;
         applyColumnSettings(columnApi, this.getDefaultColumnSettings());
 
@@ -75,7 +80,7 @@ export class MaterialCustomerTableService<
           .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe();
       },
-      saveLayout: (newLayoutId: LayoutId): any => {
+      saveLayout: (newLayoutId: LayoutId) => {
         this.tableName = `customer-material-${newLayoutId}`;
 
         return this.saveColumnSettings$(
@@ -87,13 +92,17 @@ export class MaterialCustomerTableService<
           )
           .subscribe();
       },
-      loadLayout: (newLayoutId: LayoutId): any => {
+      loadLayout: (newLayoutId: LayoutId) => {
         this.tableName = `customer-material-${newLayoutId}`;
 
         this.loadColumnSettings$()
           .pipe(
             tap((settings) => {
-              applyColumnSettings(columnApi, settings);
+              if (settings) {
+                applyColumnSettings(columnApi, settings);
+              } else {
+                applyColumnSettings(columnApi, this.getDefaultColumnSettings());
+              }
               localStorage.setItem(LOCALSTORAGE_LAYOUT, newLayoutId);
             }),
             takeUntilDestroyed(this.destroyRef)

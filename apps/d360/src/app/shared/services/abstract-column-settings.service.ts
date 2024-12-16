@@ -93,8 +93,8 @@ export abstract class AbstractColumnSettingsService<
       .pipe(switchMap(() => this.refreshColumnSettings$()));
   }
 
-  loadColumnSettings$(): Observable<ColumnSetting<COLUMN_KEYS>[]> {
-    return this.http.get<ColumnSetting<COLUMN_KEYS>[]>(
+  loadColumnSettings$() {
+    return this.http.get<ColumnSetting<COLUMN_KEYS>[] | null>(
       `api/user-settings/tables/${this.tableName}/columns`
     );
   }
