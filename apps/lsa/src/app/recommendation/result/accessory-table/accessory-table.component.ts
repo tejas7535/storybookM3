@@ -17,6 +17,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { environment } from '@lsa/environments/environment';
 import { Accessory, AccessoryClassEntry } from '@lsa/shared/models';
 import { MediasCallbackResponse } from '@lsa/shared/models/price-availibility.model';
+import { LsaCurrencyPipe } from '@lsa/shared/pipes/lsa-currency.pipe';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -43,6 +44,7 @@ import { SortedAccessoryListPipe } from './sorted-accessory-list.pipe';
     MatButtonModule,
     SharedTranslocoModule,
     SortedAccessoryListPipe,
+    LsaCurrencyPipe,
   ],
 })
 export class AccessoryTableComponent implements OnChanges, OnDestroy {
@@ -75,7 +77,7 @@ export class AccessoryTableComponent implements OnChanges, OnDestroy {
 
   public showEmptyState = true;
   public imagePlaceholder = `${environment.assetsPath}/images/placeholder.png`;
-  public currency = '€';
+  public currency: string;
 
   constructor(private readonly changeDetectorRef: ChangeDetectorRef) {}
 

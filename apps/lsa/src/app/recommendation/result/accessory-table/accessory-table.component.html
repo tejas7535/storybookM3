@@ -29,13 +29,22 @@
 
           @if (isBusinessUser) {
             <th class="text-center">
-              <span class="inline-block first-letter:pr-1">
-                {{
-                  tableGroupStates[group.key].totalNetPrice | currency: currency
-                }}
-              </span>
+              @if (currency) {
+                <span class="inline-block">
+                  {{
+                    tableGroupStates[group.key].totalNetPrice
+                      | currency: currency
+                      | lsaCustomCurrency
+                  }}
+                </span>
+              } @else {
+                <span class="inline-block">
+                  {{
+                    tableGroupStates[group.key].totalNetPrice | number: '1.2-2'
+                  }}
+                </span>
+              }
             </th>
-            <!--- integrate as soon as medias API is available -->
           }
           <th>{{ tableGroupStates[group.key].totalQty }} pcs</th>
           <th class="w-12">
@@ -145,10 +154,10 @@
                 <td>
                   <div class="text-center flex flex-col justify-center h-full">
                     @if (item?.price !== null && item?.price !== undefined) {
-                      <span
-                        class="text-body-small text-medium inline-block first-letter:pr-1"
-                      >
-                        {{ item?.price | currency: currency }}
+                      <span class="text-body-small text-medium inline-block">
+                        {{
+                          item?.price | currency: currency | lsaCustomCurrency
+                        }}
                       </span>
                       <span
                         class="text-body-small mt-1 text=[12px] text-medium-emphasis"
@@ -234,11 +243,15 @@
         <th scope="row" colspan="2">
           <span class="sr-only">{{ t('configSummary') }}</span>
         </th>
-        @if (!isNaN(tableSummaryState.totalPrice)) {
+        @if (!isNaN(tableSummaryState.totalPrice) && isBusinessUser) {
           <td>
-            <div class="flex flex-col px-2">
-              <span class="font-semibold inline-block first-letter:pr-1">
-                {{ tableSummaryState.totalPrice | currency: currency }}</span
+            <div class="flex flex-col px-2 text-center">
+              <span class="font-semibold inline-block">
+                {{
+                  tableSummaryState.totalPrice
+                    | currency: currency
+                    | lsaCustomCurrency
+                }}</span
               >
               <span class="font-light text-body-small">{{
                 t('totalPrice')
