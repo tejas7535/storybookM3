@@ -1,4 +1,4 @@
-import { FilterDimension, TimePeriod } from '../models';
+import { Color, FilterDimension, TimePeriod } from '../models';
 
 export const LOCAL_STORAGE_APP_KEY = 'ia';
 export const COMPANY_NAME = 'Schaeffler';
@@ -68,3 +68,10 @@ export const GEOGRAPHICAL_ROLES_PREFIXES = ['HR_PA'];
 
 export const BASIC_LIST_ITEM_HEIGHT = 120;
 export const EXTENDED_LIST_ITEM_HEIGHT = 150;
+
+/** loading spinner for echarts **/
+export const LOADING_OPTS = {
+  text: '',
+  color: Color.GREEN,
+  zlevel: 0,
+};

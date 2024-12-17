@@ -1,38 +1,13 @@
-<div class="relative" *transloco="let t; read: 'attritionAnalytics'">
+<div class="my-4" *transloco="let t; read: 'attritionAnalytics'">
   <div
     class="drag-list grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 flex-wrap gap-4 border-none lg:flex-nowrap"
-    cdkDropList
-    cdkDropListOrientation="horizontal"
-    (cdkDropListDropped)="drop($event)"
   >
     @for (config of barChartConfigs; track $index) {
-      <div
-        cdkDrag
-        cdkDragLockAxis="x"
-        cdkDragBoundary=".drag-list"
-        class="flex w-full flex-col bg-white border border-border rounded"
-      >
-        <div
-          *cdkDragPlaceholder
-          class="w-full h-full opacity-0 border-collapse"
-        ></div>
+      <div class="flex w-full flex-col bg-white border border-border rounded">
+        <div class="w-full h-full opacity-0 border-collapse"></div>
         <div class="relative bg-white">
-          <div
-            class="flex flex-row gap-2 justify-end items-center relative z-20"
-          >
-            <mat-icon
-              class="text-medium-emphasis cursor-move m-4"
-              mat-icon-button
-              cdkDragHandle
-              [attr.aria-label]="t('move')"
-              [matTooltip]="t('move')"
-              >drag_indicator</mat-icon
-            >
-          </div>
-          <ia-bar-chart
-            class="block -mt-[52px] z-10"
-            [config]="config"
-          ></ia-bar-chart>
+          <div class="flex flex-row gap-2 justify-end items-center"></div>
+          <ia-bar-chart [config]="config" [loading]="loading"></ia-bar-chart>
         </div>
       </div>
     }

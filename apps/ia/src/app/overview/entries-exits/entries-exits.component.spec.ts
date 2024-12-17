@@ -18,7 +18,7 @@ import { DoughnutConfig } from '../../shared/charts/models/doughnut-config.model
 import { DoughnutSeriesConfig } from '../../shared/charts/models/doughnut-series-config.model';
 import { KpiModule } from '../../shared/kpi/kpi.module';
 import { FilterDimension } from '../../shared/models';
-import { Color } from '../../shared/models/color.enum';
+import { Color } from '../../shared/models/color';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { SharedModule } from '../../shared/shared.module';
 import { initialState } from '../store';

@@ -5,7 +5,7 @@ import {
   SeriesLabelOption,
 } from 'echarts/types/src/util/types';
 
-import { Color } from '../../models/color.enum';
+import { Color } from '../../models/color';
 import { SolidDoughnutChartConfig } from '../models/solid-doughnut-chart-config.model';
 
 export function createSolidDoughnutChartBaseOptions(

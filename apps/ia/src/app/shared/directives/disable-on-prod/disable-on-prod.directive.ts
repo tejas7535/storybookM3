@@ -1,10 +1,11 @@
 import {
   Directive,
-  isDevMode,
   OnInit,
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
+
+import { isFeatureEnabled } from '../../guards/is-feature-enabled';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -18,7 +19,7 @@ export class DisableOnProdDirective implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (isDevMode()) {
+    if (isFeatureEnabled()) {
       this.viewContainer.createEmbeddedView(this.templateRef);
     } else {
       this.viewContainer.clear();

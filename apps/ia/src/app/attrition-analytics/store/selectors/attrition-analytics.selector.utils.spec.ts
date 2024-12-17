@@ -1,165 +1,93 @@
-import { EmployeeAnalytics } from '../../models/employee-analytics.model';
-import { FeatureParams } from '../../models/feature-params.model';
-import { FeatureSelector } from '../../models/feature-selector.model';
+import { TimePeriod } from '../../../shared/models';
 import {
   createAgeFeature,
   createBarchartConfigForAge,
   createDummyBarChartSerie,
-  createDummyFeature,
 } from './attrition-analytics.selector.spec.factory';
 import {
-  doFeatureParamsMatchFeature,
   mapEmployeeAnalyticsFeatureToBarChartConfig,
-  mapToFeatureSelectors,
+  sortFeature,
 } from './attrition-analytics.selector.utils';
 
 describe('attrition analytics selector utils', () => {
   describe('mapEmployeeAnalyticsFeatureToBarChartConfig', () => {
-    test('should map employee analytics feature to bar chart config', () => {
+    test('should map employee analytics feature to bar chart config when time period month', () => {
       const feature = createAgeFeature();
       const color = '#000';
       const serie = createDummyBarChartSerie(color);
-      const expectedResult = createBarchartConfigForAge(serie);
+      const expectedResult = createBarchartConfigForAge(serie, 5);
 
       const result = mapEmployeeAnalyticsFeatureToBarChartConfig(
-        [{ ...feature }],
-        0.45,
-        color
+        feature,
+        color,
+        TimePeriod.MONTH
       );
 
       expect(result).toEqual(expectedResult);
     });
 
-    test('should map multpile employee analytics features to bar chart config', () => {
-      const ageFeature = createAgeFeature();
-      const positionFeature = createDummyFeature('Position');
+    test('should map employee analytics feature to bar chart config when time period last 12 months', () => {
+      const feature = createAgeFeature();
       const color = '#000';
+      const serie = createDummyBarChartSerie(color);
+      const expectedResult = createBarchartConfigForAge(serie, 20);
 
       const result = mapEmployeeAnalyticsFeatureToBarChartConfig(
-        [ageFeature, positionFeature],
-        0.5,
-        color
+        feature,
+        color,
+        TimePeriod.LAST_12_MONTHS
       );
 
-      expect(result.series.length).toEqual(1);
-      expect(result.series[0].values.length).toEqual(6);
+      expect(result).toEqual(expectedResult);
     });
   });
-});
 
-describe('mapToFeatureSelectors', () => {
-  test('should map features to features selectors', () => {
-    const ageFeature = { feature: 'Age' } as FeatureParams;
-    const positionFeature = { feature: 'Position' } as FeatureParams;
-    const genderFeature = { feature: 'Gender' } as FeatureParams;
-    const familyFeature = { feature: 'Family' } as FeatureParams;
-
-    const all: FeatureParams[] = [
-      ageFeature,
-      positionFeature,
-      genderFeature,
-      familyFeature,
-    ];
-    const selected = [positionFeature, familyFeature];
-
-    const expectedResult = [
-      new FeatureSelector(ageFeature, false),
-      new FeatureSelector(genderFeature, false),
-      new FeatureSelector(positionFeature, true),
-      new FeatureSelector(familyFeature, true),
-    ];
-
-    const result = mapToFeatureSelectors(all, selected);
-
-    expect(result).toEqual(expectedResult);
-  });
-
-  test('should return all feature selectors when selected undefined', () => {
-    const ageFeature = { feature: 'Age' } as FeatureParams;
-    const positionFeature = { feature: 'Position' } as FeatureParams;
-    const genderFeature = { feature: 'Gender' } as FeatureParams;
-    const familyFeature = { feature: 'Family' } as FeatureParams;
-
-    const all: FeatureParams[] = [
-      ageFeature,
-      positionFeature,
-      genderFeature,
-      familyFeature,
-    ];
-
-    const expectedResult = [
-      new FeatureSelector(ageFeature, false),
-      new FeatureSelector(positionFeature, false),
-      new FeatureSelector(genderFeature, false),
-      new FeatureSelector(familyFeature, false),
-    ];
-
-    const result = mapToFeatureSelectors(all, undefined as FeatureParams[]);
-
-    expect(result).toEqual(expectedResult);
-  });
-
-  describe('isParamsRelatedToFeature', () => {
-    let params: FeatureParams;
-    let analyticsFeature: EmployeeAnalytics;
-
-    beforeEach(() => {
-      const feature = 'Service Length';
-      const region = 'Texas';
-      const year = 2021;
-      const month = 1;
-
-      params = {
-        feature,
-        region,
-        year,
-        month,
+  describe('sortFeature', () => {
+    test('should sort feature by headcount', () => {
+      const feature = createAgeFeature();
+      const expectedResult = {
+        feature: 'translate it',
+        overallFluctuationRate: 0.045,
+        headcount: [59, 50, 49],
+        values: ['20', '18', '19'],
+        fluctuation: [7, 2, 5],
+        names: ['c', 'a', 'b'],
+        order: [1, 2, 3],
       };
 
-      analyticsFeature = {
-        feature,
-        region,
-        year,
-        month,
-        overallAttritionRate: 0.034,
-        values: ['1', '2'],
-        attritionCount: [2, 4],
-        employeeCount: [20, 25],
+      const result = sortFeature(feature);
+
+      expect(result).toEqual(expectedResult);
+    });
+
+    test('should return empty config if feature is undefined', () => {
+      const result = sortFeature(undefined as any);
+
+      expect(result).toBeUndefined();
+    });
+
+    test('should return empty config if feature is empty', () => {
+      const feature = {
+        feature: 'translate it',
+        overallFluctuationRate: 0.045,
+        fluctuation: [] as number[],
+        headcount: [] as number[],
+        values: [] as string[],
+        names: [] as string[],
+        order: [] as number[],
       };
-    });
 
-    test('should return true when params related to feature', () => {
-      expect(
-        doFeatureParamsMatchFeature(params, analyticsFeature)
-      ).toBeTruthy();
-    });
+      const result = sortFeature(feature);
 
-    test('should return false when feature different', () => {
-      params.feature = 'Age';
-      expect(doFeatureParamsMatchFeature(params, analyticsFeature)).toBeFalsy();
-    });
-
-    test('should return false when region different', () => {
-      params.region = 'California';
-      expect(doFeatureParamsMatchFeature(params, analyticsFeature)).toBeFalsy();
-    });
-
-    test('should return false when year different', () => {
-      params.year = 2019;
-      expect(doFeatureParamsMatchFeature(params, analyticsFeature)).toBeFalsy();
-    });
-
-    test('should return false when month different', () => {
-      params.month = 10;
-      expect(doFeatureParamsMatchFeature(params, analyticsFeature)).toBeFalsy();
-    });
-
-    test('should return false when all params different', () => {
-      params.feature = 'Age';
-      params.region = 'California';
-      params.year = 2019;
-      params.month = 10;
-      expect(doFeatureParamsMatchFeature(params, analyticsFeature)).toBeFalsy();
+      expect(result).toEqual({
+        feature: 'translate it',
+        overallFluctuationRate: 0.045,
+        fluctuation: [] as number[],
+        headcount: [] as number[],
+        names: [] as string[],
+        values: [] as string[],
+        order: [] as number[],
+      });
     });
   });
 });

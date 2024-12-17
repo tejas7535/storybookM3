@@ -1,4 +1,4 @@
-import { Color } from '../../models/color.enum';
+import { Color } from '../../models/color';
 import {
   createPieChartBaseOptions,
   createPieChartSeries,

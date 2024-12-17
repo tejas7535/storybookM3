@@ -1,7 +1,7 @@
 import { EChartsOption } from 'echarts';
 import { CallbackDataParams } from 'echarts/types/dist/shared';
 
-import { Color } from '../../models/color.enum';
+import { Color } from '../../models/color';
 import { SolidDoughnutChartConfig } from '../models';
 import {
   createSolidDoughnutChartBaseOptions,
@@ -17,7 +17,7 @@ describe('solid-doughnut-chart config', () => {
       config = {
         title: 'Top 5 reasons',
         subTitle: {},
-        color: [Color.COLORFUL_CHART_1],
+        color: [Color.GREEN],
         side: 'left',
       };
     });
@@ -25,7 +25,7 @@ describe('solid-doughnut-chart config', () => {
     test('should create base options', () => {
       const expectedResult = {
         backgroundColor: Color.WHITE,
-        color: [Color.COLORFUL_CHART_1],
+        color: [Color.GREEN],
         title: {
           text: config.title,
           textStyle: {

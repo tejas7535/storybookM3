@@ -4,7 +4,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { Color } from '../../models/color.enum';
+import { Color } from '../../models/color';
 import { SharedModule } from '../../shared.module';
 import { LegendSelectAction } from '../models';
 import { DoughnutConfig } from '../models/doughnut-config.model';

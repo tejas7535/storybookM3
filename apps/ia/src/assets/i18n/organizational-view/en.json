@@ -21,8 +21,7 @@
       "zoomIn": "Zoom In",
       "zoomOut": "Zoom Out",
       "zoomToFit": "Fit To Screen"
-    },
-    "noData": "No Data Available."
+    }
   },
   "worldMap": {
     "chartLegend": {

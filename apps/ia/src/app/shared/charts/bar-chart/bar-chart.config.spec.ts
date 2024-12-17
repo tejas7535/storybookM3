@@ -17,7 +17,7 @@ import {
   TextCommonOption,
 } from 'echarts/types/src/util/types';
 
-import { Color } from '../../models/color.enum';
+import { Color } from '../../models/color';
 import { BarChartConfig } from '../models/bar-chart-config.model';
 import {
   addSeries,
@@ -29,9 +29,11 @@ import {
 describe('Bar Chart Config', () => {
   const config: BarChartConfig = {
     title: 'Age',
-    referenceValue: 35,
-    aboveReferenceValueText: 'Above average',
-    belowReferenceValueText: 'Below average',
+    referenceValue: {
+      value: 35,
+      aboveText: 'Above average',
+      belowText: 'Below average',
+    },
     categories: [
       '18',
       '19',
@@ -44,6 +46,10 @@ describe('Bar Chart Config', () => {
       '26',
       '27',
       '28',
+      '29',
+      '30',
+      '31',
+      '32',
     ],
     series: [
       {
@@ -61,6 +67,10 @@ describe('Bar Chart Config', () => {
           [10, 100],
           [60, 600],
           [60, 600],
+          [60, 600],
+          [60, 600],
+          [60, 600],
+          [60, 600],
         ],
       },
     ],
@@ -73,7 +83,7 @@ describe('Bar Chart Config', () => {
       expect(result).toBeDefined();
       expect((result.title as TitleOption).text).toEqual(config.title);
       expect((result.series as SeriesOption[])[0].data).toEqual([
-        7, 9, 35, 10, 60, 7, 9, 35, 10, 60, 60,
+        7, 9, 35, 10, 60, 7, 9, 35, 10, 60, 60, 60, 60, 60, 60,
       ]);
       expect((result.yAxis as YAXisOption).type).toEqual('category');
       expect((result.yAxis as CategoryAxisBaseOption).data.length).toEqual(
@@ -96,16 +106,16 @@ describe('Bar Chart Config', () => {
       ).toEqual(2);
       expect(
         (result.visualMap as PiecewiseVisualMapOption[])[0].pieces[0].label
-      ).toEqual(config.belowReferenceValueText);
+      ).toEqual(config.referenceValue.belowText);
       expect(
         (result.visualMap as PiecewiseVisualMapOption[])[0].pieces[1].label
-      ).toEqual(config.aboveReferenceValueText);
+      ).toEqual(config.referenceValue.aboveText);
       expect(
         (result.visualMap as PiecewiseVisualMapOption[])[0].pieces[0].lte
-      ).toEqual(config.referenceValue);
+      ).toEqual(config.referenceValue.value);
       expect(
         (result.visualMap as PiecewiseVisualMapOption[])[0].pieces[1].gt
-      ).toEqual(config.referenceValue);
+      ).toEqual(config.referenceValue.value);
       expect((result.dataZoom as DataZoomComponentOption[]).length).toEqual(2);
       expect((result.dataZoom as DataZoomComponentOption[])[0].type).toEqual(
         'slider'
@@ -124,7 +134,7 @@ describe('Bar Chart Config', () => {
 
       expect((option.series as SeriesOption[]).length).toEqual(1);
       expect((option.series as SeriesOption[])[0].data).toEqual([
-        7, 9, 35, 10, 60, 7, 9, 35, 10, 60, 60,
+        7, 9, 35, 10, 60, 7, 9, 35, 10, 60, 60, 60, 60, 60, 60,
       ]);
       expect((option.series as SeriesOption[])[0].color).toEqual(
         config.series[0].color
@@ -145,7 +155,7 @@ describe('Bar Chart Config', () => {
           ((option.series as BarSeriesOption[])[0].markLine as MarkLineOption)
             .data[0] as { xAxis: number }
         ).xAxis
-      ).toEqual(config.referenceValue);
+      ).toEqual(config.referenceValue.value);
     });
   });
 
@@ -166,17 +176,17 @@ describe('Bar Chart Config', () => {
         padding: 16,
         pieces: [
           {
-            label: config.belowReferenceValueText,
+            label: config.referenceValue.belowText,
             colorAlpha: 0.3,
             color: config.series[0].color,
-            lte: config.referenceValue,
+            lte: config.referenceValue.value,
             symbol: 'circle',
           },
           {
-            label: config.aboveReferenceValueText,
+            label: config.referenceValue.aboveText,
             colorAlpha: 1,
             color: config.series[0].color,
-            gt: config.referenceValue,
+            gt: config.referenceValue.value,
             symbol: 'circle',
           },
         ],
@@ -214,7 +224,7 @@ describe('Bar Chart Config', () => {
           backgroundColor: 'white',
           showDataShadow: false,
           showDetail: false,
-          minValueSpan: 9,
+          minValueSpan: 13,
           filterMode: 'none',
           moveHandleIcon: 'image://data:image/gif;base64',
           moveHandleStyle: {

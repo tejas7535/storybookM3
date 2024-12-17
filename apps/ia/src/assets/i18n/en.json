@@ -1,7 +1,8 @@
 {
   "shared": {
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "noData": "No data for selected filters"
   },
   "banner": {
     "dismiss": "Dismiss",

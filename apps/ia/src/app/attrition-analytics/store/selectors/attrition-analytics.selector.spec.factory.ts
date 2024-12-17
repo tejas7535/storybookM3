@@ -1,3 +1,4 @@
+import { ReferenceValue } from '../../../shared/charts/models';
 import { BarChartConfig } from '../../../shared/charts/models/bar-chart-config.model';
 import { BarChartSerie } from '../../../shared/charts/models/bar-chart-serie.model';
 import { EmployeeAnalytics } from '../../models';
@@ -10,13 +11,13 @@ export function createFakeState(): AttritionAnalyticsState {
         data: [
           {
             name: 'Personal',
-            allFeatures: 10,
-            availableFeatures: 7,
+            allFeaturesCount: 10,
+            color: 'red',
           },
           {
             name: 'Time Management',
-            allFeatures: 7,
-            availableFeatures: 3,
+            allFeaturesCount: 7,
+            color: 'red',
           },
         ],
         errorMessage: undefined,
@@ -24,53 +25,67 @@ export function createFakeState(): AttritionAnalyticsState {
       },
       selected: 'Personal',
     },
+    employeeAnalytics: {
+      data: [
+        {
+          feature: 'Age',
+          overallFluctuationRate: 0.045,
+          headcount: [50, 49, 59],
+          values: ['18', '19', '20'],
+          fluctuation: [2, 5, 7],
+          names: ['a', 'b', 'c'],
+          order: [2, 3, 1],
+        },
+      ],
+      errorMessage: undefined,
+      loading: false,
+    },
   };
 }
 export function createDummyFeature(name: string): EmployeeAnalytics {
   return {
     feature: name,
-    region: 'Greater China',
-    overallAttritionRate: 0.045,
-    year: 2021,
-    month: 12,
-    employeeCount: [50, 49, 59],
+    overallFluctuationRate: 0.045,
+    headcount: [50, 49, 59],
     values: ['18', '19', '20'],
-    attritionCount: [2, 5, 7],
+    fluctuation: [2, 5, 7],
+    names: ['a', 'b', 'c'],
+    order: [2, 3, 1],
   };
 }
 
 export function createAgeFeature(): EmployeeAnalytics {
-  return createDummyFeature('Age');
+  return createDummyFeature('translate it');
 }
 
 export function createDummyBarchartConfig(
   name: string,
-  serie: BarChartSerie
+  serie: BarChartSerie,
+  xAxisSize: number = 20
 ): BarChartConfig {
   return new BarChartConfig(
     name,
     [serie],
-    ['18', '19', '20'],
-    45,
-    'translate it',
-    'translate it',
-    'translate it'
+    ['c', 'a', 'b'],
+    new ReferenceValue(0.045, 'translate it', 'translate it', 'translate it'),
+    xAxisSize
   );
 }
 
 export function createBarchartConfigForAge(
-  serie: BarChartSerie
+  serie: BarChartSerie,
+  xAxisSize: number = 20
 ): BarChartConfig {
-  return createDummyBarchartConfig('translate it', serie);
+  return createDummyBarchartConfig(serie.names[0], serie, xAxisSize);
 }
 
 export function createDummyBarChartSerie(color: string): BarChartSerie {
   return new BarChartSerie(
     ['translate it', 'translate it', 'translate it'],
     [
+      [11.9, 59, 7],
       [4, 50, 2],
       [10.2, 49, 5],
-      [11.9, 59, 7],
     ],
     color
   );

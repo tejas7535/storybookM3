@@ -12,7 +12,7 @@ import * as echarts from 'echarts';
 
 import worldJson from '../../../assets/world.json';
 import { HeatType } from '../../shared/models';
-import { Color } from '../../shared/models/color.enum';
+import { Color } from '../../shared/models/color';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
 import { ChartType } from '../models';

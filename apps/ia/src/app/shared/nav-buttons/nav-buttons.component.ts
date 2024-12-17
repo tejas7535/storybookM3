@@ -3,6 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   Output,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -28,13 +29,26 @@ import { NavItem } from './models';
   styleUrl: './nav-buttons.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavButtonsComponent {
-  selectedIndex = 0;
+export class NavButtonsComponent implements OnDestroy {
+  selectedIndex: number;
   @Input() items: NavItem[];
+  @Input() set selectedTab(selectedTab: string) {
+    if (selectedTab) {
+      this.selectedIndex = this.items.findIndex(
+        (item) => item.label === selectedTab
+      );
+    }
+  }
   @Output() selectedTabChange = new EventEmitter<string>();
 
-  onSelectedIndexChange(index: number) {
+  onSelectedIndexChange(index: number): void {
     this.selectedIndex = index;
-    this.selectedTabChange.emit(this.items[index].label);
+    if (index > -1) {
+      this.selectedTabChange.emit(this.items[index].label);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.selectedIndex = undefined;
   }
 }

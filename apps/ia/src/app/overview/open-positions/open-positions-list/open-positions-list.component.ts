@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { Color } from '../../../shared/models/color.enum';
+import { Color } from '../../../shared/models/color';
 import { OpenApplication } from '../../models/open-application.model';
 
 @Component({

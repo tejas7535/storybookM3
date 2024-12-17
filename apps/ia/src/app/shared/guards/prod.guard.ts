@@ -3,8 +3,7 @@ import { CanActivate, Router } from '@angular/router';
 
 import { map, Observable, of } from 'rxjs';
 
-import { EnvironmentEnum } from '../models';
-import { getEnv } from './../../../environments/environments.provider';
+import { isFeatureEnabled } from './is-feature-enabled';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +24,6 @@ export class ProdGuard implements CanActivate {
   }
 
   checkCondition(): Observable<boolean> {
-    return of(getEnv().environment !== EnvironmentEnum.prod);
+    return of(isFeatureEnabled());
   }
 }

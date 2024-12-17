@@ -115,6 +115,25 @@ describe('ReasonsForLeavingTableComponent', () => {
     });
   });
 
+  describe('leaversData', () => {
+    test('should set leavers data', () => {
+      component.dialogMeta = {
+        employeesLoading: false,
+        employees: [],
+        enoughRightsToShowAllEmployees: true,
+      } as EmployeeListDialogMeta;
+
+      component.leaversData = {
+        employees: [{ userId: 'abc' } as EmployeeWithAction],
+        responseModified: true,
+      };
+
+      expect(component.leavers).toEqual([{ userId: 'abc' }]);
+      expect(component.dialogMeta.employees).toEqual([{ userId: 'abc' }]);
+      expect(component.dialogMeta.enoughRightsToShowAllEmployees).toBeFalsy();
+    });
+  });
+
   describe('handleCellClick', () => {
     test('should emit event and open employees dialog', () => {
       const params = { data: { reasonId: 78 } } as CellClickedEvent;

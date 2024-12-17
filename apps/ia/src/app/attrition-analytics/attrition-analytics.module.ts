@@ -6,18 +6,18 @@ import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { NavButtonsComponent } from '../shared/nav-buttons/nav-buttons.component';
 import { SharedPipesModule } from '../shared/pipes/shared-pipes.module';
 import { SelectInputModule } from '../shared/select-input/select-input.module';
 import { SharedModule } from '../shared/shared.module';
 import { AttritionAnalyticsComponent } from './attrition-analytics.component';
 import { AttritionAnalyticsRoutingModule } from './attrition-analytics.routing.module';
 import { FeatureAnalysisModule } from './feature-analysis/feature-analysis.module';
-import { FeaturesDialogModule } from './features-dialog/features-dialog.module';
 import * as fromAttritionAnalytics from './store';
 import { AttritionAnalyticsEffects } from './store/effects/attrition-analytics.effects';
-import { NavButtonsComponent } from '../shared/nav-buttons/nav-buttons.component';
 
 @NgModule({
   declarations: [AttritionAnalyticsComponent],
@@ -31,8 +31,8 @@ import { NavButtonsComponent } from '../shared/nav-buttons/nav-buttons.component
     ),
     EffectsModule.forFeature([AttritionAnalyticsEffects]),
     SharedTranslocoModule,
+    LoadingSpinnerModule,
     FeatureAnalysisModule,
-    FeaturesDialogModule,
     NavButtonsComponent,
     SelectInputModule,
     MatIconModule,

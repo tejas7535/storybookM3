@@ -1,10 +1,16 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
-import { EmployeeCluster } from '../models';
+import { CHART_COLOR_PALETTE } from '../../shared/models';
+import { EmployeeAnalytics, EmployeeCluster } from '../models';
 import {
+  clearEmployeeAnalytics,
   loadAvailableClusters,
   loadAvailableClustersFailure,
   loadAvailableClustersSuccess,
+  loadEmployeeAnalytics,
+  loadEmployeeAnalyticsFailure,
+  loadEmployeeAnalyticsSuccess,
+  selectCluster,
 } from './actions/attrition-analytics.action';
 
 export const attrtionAnalyticsFeatureKey = 'attritionAnalytics';
@@ -18,6 +24,11 @@ export interface AttritionAnalyticsState {
     };
     selected: string;
   };
+  employeeAnalytics: {
+    data: EmployeeAnalytics[];
+    loading: boolean;
+    errorMessage: string;
+  };
 }
 
 export const initialState: AttritionAnalyticsState = {
@@ -28,6 +39,11 @@ export const initialState: AttritionAnalyticsState = {
       errorMessage: undefined,
     },
     selected: undefined,
+  },
+  employeeAnalytics: {
+    data: undefined,
+    loading: false,
+    errorMessage: undefined,
   },
 };
 
@@ -44,6 +60,10 @@ export const attritionAnalyticsReducer = createReducer(
           loading: true,
         },
       },
+      employeeAnalytics: {
+        ...state.employeeAnalytics,
+        data: undefined,
+      },
     })
   ),
   on(
@@ -53,7 +73,10 @@ export const attritionAnalyticsReducer = createReducer(
       clusters: {
         ...state.clusters,
         data: {
-          data,
+          data: data.map((d, index) => ({
+            ...d,
+            color: Object.values(CHART_COLOR_PALETTE)[index],
+          })),
           loading: false,
           errorMessage: undefined,
         },
@@ -74,6 +97,62 @@ export const attritionAnalyticsReducer = createReducer(
           loading: false,
           errorMessage,
         },
+      },
+    })
+  ),
+  on(
+    loadEmployeeAnalytics,
+    (state: AttritionAnalyticsState): AttritionAnalyticsState => ({
+      ...state,
+      employeeAnalytics: {
+        ...state.employeeAnalytics,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadEmployeeAnalyticsSuccess,
+    (state: AttritionAnalyticsState, { data }): AttritionAnalyticsState => ({
+      ...state,
+      employeeAnalytics: {
+        ...state.employeeAnalytics,
+        data,
+        loading: false,
+        errorMessage: undefined,
+      },
+    })
+  ),
+  on(
+    loadEmployeeAnalyticsFailure,
+    (
+      state: AttritionAnalyticsState,
+      { errorMessage }
+    ): AttritionAnalyticsState => ({
+      ...state,
+      employeeAnalytics: {
+        ...state.employeeAnalytics,
+        loading: false,
+        errorMessage,
+      },
+    })
+  ),
+  on(
+    selectCluster,
+    (state: AttritionAnalyticsState, { cluster }): AttritionAnalyticsState => ({
+      ...state,
+      clusters: {
+        ...state.clusters,
+        selected: cluster,
+      },
+    })
+  ),
+  on(
+    clearEmployeeAnalytics,
+    (state: AttritionAnalyticsState): AttritionAnalyticsState => ({
+      ...state,
+      employeeAnalytics: {
+        ...state.employeeAnalytics,
+        data: undefined,
       },
     })
   )

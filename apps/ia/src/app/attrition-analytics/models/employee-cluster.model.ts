@@ -1,5 +1,5 @@
 export interface EmployeeCluster {
   name: string;
-  availableFeatures: number;
-  allFeatures: number;
+  allFeaturesCount: number;
+  color: string;
 }

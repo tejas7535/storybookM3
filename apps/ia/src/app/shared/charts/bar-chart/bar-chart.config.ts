@@ -9,12 +9,15 @@ import { Color } from '../../models';
 import { BarChartSerie } from '../models';
 import { BarChartConfig } from '../models/bar-chart-config.model';
 
+const MAX_BARS_DISPLAYED_WITHOUT_SCROLLING = 14;
+const FRACTION_DIGITS = 1;
+
 export function createBarChartOption(config: BarChartConfig): EChartsOption {
   const option: EChartsOption = {
     title: {
       text: config.title,
       padding: 16,
-      subtext: 'Sort by: Number of employees ⏷',
+      subtext: 'Sort by: Custom order ⏷',
       textStyle: {
         fontWeight: 500,
         lineHeight: 24,
@@ -41,7 +44,7 @@ export function createBarChartOption(config: BarChartConfig): EChartsOption {
     },
     xAxis: {
       type: 'value',
-      max: 20,
+      max: config.xAxisSize ?? 20,
       boundaryGap: [0, 0.1],
       axisLabel: {
         formatter: '{value}%',
@@ -104,7 +107,7 @@ export function addSeries(config: BarChartConfig, option: EChartsOption): void {
       },
       data: [
         {
-          xAxis: config.referenceValue,
+          xAxis: config.referenceValue.value,
           lineStyle: {
             color: serie.color,
           },
@@ -113,8 +116,8 @@ export function addSeries(config: BarChartConfig, option: EChartsOption): void {
       tooltip: {
         formatter: `<table>
             <tr>
-              <td class="px-2 text-medium-emphasis">${config.referenceValueText}</td>
-              <td class="px-2 text-high-emphasis">{c0}%</td>
+              <td class="px-2 text-medium-emphasis">${config.referenceValue.text}</td>
+              <td class="px-2 text-high-emphasis">${config.referenceValue.value.toFixed(FRACTION_DIGITS)}%</td>
             </tr
           </table>
           `,
@@ -129,7 +132,7 @@ export function addSeries(config: BarChartConfig, option: EChartsOption): void {
       %3C/style%3E%3C/svg%3E`,
       symbolSize: 16,
       symbolOffset: ['-50%', 0],
-      data: createMaxDataPoints(serie, config.categories),
+      data: createMaxDataPoints(serie, config.xAxisSize),
       tooltip: {
         show: false,
       },
@@ -143,15 +146,15 @@ export function addSeries(config: BarChartConfig, option: EChartsOption): void {
           <table>
             <tr>
               <td class="text-medium-emphasis">${param.dimensionNames[0]}</td>
-              <td class="pl-4 text-high-emphasis text-center">${values[0]}%</td>
+              <td class="pl-4 text-high-emphasis text-center">${values[0].toFixed(FRACTION_DIGITS)}%</td>
             </tr>
             <tr>
               <td class="text-medium-emphasis">${param.dimensionNames[2]}</td>
-              <td class="pl-4 text-high-emphasis text-center">${values[2]}</td>
+              <td class="pl-4 text-high-emphasis text-center">${values[2] ?? 0}</td>
             </tr>
             <tr>
               <td class="text-medium-emphasis">${param.dimensionNames[1]}</td>
-              <td class="pl-4 text-high-emphasis text-center">${values[1]}</td>
+              <td class="pl-4 text-high-emphasis text-center">${values[1].toFixed(FRACTION_DIGITS)}</td>
             </tr>
           </table>
         `;
@@ -186,17 +189,17 @@ export function addVisualMap(
     textGap: 8,
     pieces: [
       {
-        label: config.belowReferenceValueText,
+        label: config.referenceValue.belowText,
         colorAlpha: 0.3,
         color: serie.color,
-        lte: config.referenceValue,
+        lte: config.referenceValue.value,
         symbol: 'circle',
       },
       {
-        label: config.aboveReferenceValueText,
+        label: config.referenceValue.aboveText,
         colorAlpha: 1,
         color: serie.color,
-        gt: config.referenceValue,
+        gt: config.referenceValue.value,
         symbol: 'circle',
       },
     ],
@@ -205,8 +208,8 @@ export function addVisualMap(
 }
 
 export function addSlider(config: BarChartConfig, option: EChartsOption): void {
-  if (config.series[0].values.length > 10) {
-    // add scrolling when more than 10 y-axis entries exist
+  if (config.series[0].values.length > MAX_BARS_DISPLAYED_WITHOUT_SCROLLING) {
+    // add scrolling when more than MAX y-axis entries exist
     option.dataZoom = [
       {
         type: 'slider',
@@ -222,7 +225,7 @@ export function addSlider(config: BarChartConfig, option: EChartsOption): void {
         backgroundColor: 'white',
         showDataShadow: false,
         showDetail: false,
-        minValueSpan: 9,
+        minValueSpan: MAX_BARS_DISPLAYED_WITHOUT_SCROLLING - 1,
         filterMode: 'none',
         moveHandleIcon: 'image://data:image/gif;base64',
         moveHandleStyle: {
@@ -261,14 +264,14 @@ export function formatCategories(config: BarChartConfig): {
 
 export function createMaxDataPoints(
   serie: BarChartSerie,
-  _categories: string[]
-): any[] {
+  xAxisSize: number
+): { name: string; xAxis: number; yAxis: number }[] {
   const dataPoints = [];
   for (let index = 0; index < serie.values.length; index += 1) {
-    if (serie.values[index][0] > 20) {
+    if (serie.values[index][0] > xAxisSize) {
       const point = {
         name: `point${index}`,
-        xAxis: 20,
+        xAxis: xAxisSize,
         yAxis: index,
       };
       dataPoints.push(point);

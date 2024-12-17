@@ -1,17 +1,14 @@
-/* tslint:disable:no-unused-variable */
-
-import * as angularCore from '@angular/core';
-
 import {
   createDirectiveFactory,
   SpectatorDirective,
 } from '@ngneat/spectator/jest';
 
+import * as utils from '../../guards/is-feature-enabled';
 import { DisableOnProdDirective } from './disable-on-prod.directive';
 
-jest.mock('@angular/core', () => ({
-  ...jest.requireActual('@angular/core'),
-  isDevMode: jest.fn(),
+jest.mock('../../guards/is-feature-enabled', () => ({
+  ...jest.requireActual('../../guards/is-feature-enabled'),
+  isFeatureEnabled: jest.fn(),
 }));
 
 describe('Directive: DisableOnProdDirective', () => {
@@ -32,7 +29,7 @@ describe('Directive: DisableOnProdDirective', () => {
 
   test('should create view if not prod mode', () => {
     jest.spyOn(directive['viewContainer'], 'createEmbeddedView');
-    jest.spyOn(angularCore, 'isDevMode').mockReturnValue(true);
+    jest.spyOn(utils, 'isFeatureEnabled').mockReturnValue(true);
 
     directive.ngOnInit();
     expect(directive['viewContainer'].createEmbeddedView).toHaveBeenCalled();
@@ -40,7 +37,7 @@ describe('Directive: DisableOnProdDirective', () => {
 
   test('should clear view if feature is enabled', () => {
     jest.spyOn(directive['viewContainer'], 'clear');
-    jest.spyOn(angularCore, 'isDevMode').mockReturnValue(false);
+    jest.spyOn(utils, 'isFeatureEnabled').mockReturnValue(false);
 
     directive.ngOnInit();
     expect(directive['viewContainer'].clear).toHaveBeenCalled();

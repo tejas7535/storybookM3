@@ -1,6 +1,6 @@
 export * from './api-version.enum';
 export * from './attrition-over-time.model';
-export * from './color.enum';
+export * from './color';
 export * from './employee';
 export * from './employees-request.model';
 export * from './environment-enum';
@@ -11,4 +11,3 @@ export * from './monthly-fluctuation-over-time.enum';
 export * from './pageable';
 export * from './position.model';
 export * from './rest-response.model';
-export * from './tailwind-color.enum';

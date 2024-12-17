@@ -4,4 +4,5 @@ export * from './doughnut-chart-data.model';
 export * from './doughnut-config.model';
 export * from './doughnut-series-config.model';
 export * from './legend-select-action.model';
+export * from './reference-value.model';
 export * from './solid-doughnut-chart-config.model';

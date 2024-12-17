@@ -9,6 +9,7 @@ export class EmployeesRequest {
     public jobKey?: string,
     public type?: MonthlyFluctuationOverTime[],
     public reasonId?: number,
-    public detailedReasonId?: number
+    public detailedReasonId?: number,
+    public cluster?: string
   ) {}
 }

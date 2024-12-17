@@ -15,6 +15,7 @@ export class ParamsCreatorService {
   readonly PARAM_JOB_KEY = 'job_key';
   readonly PARAM_TYPE = 'type';
   readonly PARAM_REASON_ID = 'reason_id';
+  readonly PARAM_CLUSTER = 'cluster';
   readonly PARAM_DETAILED_REASON_ID = 'detailed_reason_id';
 
   createHttpParamsForAutoCompleteOrgUnits(
@@ -63,6 +64,19 @@ export class ParamsCreatorService {
       .set(this.PARAM_FILTER_DIMENSION, filterDimension)
       .set(this.PARAM_FILTER_VALUE, value)
       .set(this.PARAM_TIME_RANGE, timeRange);
+  }
+
+  createHttpParamsForDimensionTimeRangeAndCluster(
+    filterDimension: FilterDimension,
+    value: string,
+    timeRange: string,
+    cluster: string
+  ) {
+    return new HttpParams()
+      .set(this.PARAM_FILTER_DIMENSION, filterDimension)
+      .set(this.PARAM_FILTER_VALUE, value)
+      .set(this.PARAM_TIME_RANGE, timeRange)
+      .set(this.PARAM_CLUSTER, cluster);
   }
 
   createHttpParamsForDimensionTimeRangeAndReason(

@@ -1,6 +1,6 @@
 import { EChartsOption } from 'echarts';
 
-import { Color } from '../../models/color.enum';
+import { Color } from '../../models/color';
 
 export const createPieChartBaseOptions = (
   legend: string[],

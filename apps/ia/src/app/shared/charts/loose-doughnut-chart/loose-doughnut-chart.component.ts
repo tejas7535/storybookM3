@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { EChartsOption, SeriesOption } from 'echarts';
 
-import { Color } from '../../models/color.enum';
+import { Color } from '../../models/color';
 import { ExternalLegend } from '../external-legend';
 import { LegendSelectAction } from '../models';
 import { DoughnutConfig } from '../models/doughnut-config.model';

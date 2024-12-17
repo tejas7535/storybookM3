@@ -1,23 +1,16 @@
 {
   "cluster": {
-    "moreFeaturesAvailableTooltip": "More features are available"
+    "moreFeaturesAvailableTooltip": "More tiles are available! They can be viewed by adjusting the global filters."
   },
   "unforcedFluctuationAnalytics": {
-    "title": "Unforced Fluctuation",
-    "filter": {
-      "label": "Region or subregion",
-      "hint": "Select a region or subregion"
-    },
-    "editButtonTitle": "Edit feature selection"
+    "title": "Unforced Fluctuation"
   },
-  "edit": "Edit",
-  "move": "Move",
   "barChart": {
-    "belowOverall": "below average",
-    "aboveOverall": "above average",
-    "overallAttritionRate": "Overall unforced fluctuation",
-    "attritionRate": "Unforced fluctuation",
-    "totalEmployees": "Total employees",
+    "belowAverage": "below average",
+    "aboveAverage": "above average",
+    "overallUnforcedFluctuation": "Overall unforced fluctuation",
+    "unforcedFluctuation": "Unforced fluctuation",
+    "headcount": "Headcount",
     "totalUnforcedLeavers": "Total unforced leavers"
   }
 }

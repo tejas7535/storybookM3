@@ -1,10 +1,9 @@
 export interface EmployeeAnalytics {
-  region: string;
   feature: string;
-  year: number;
-  month: number;
-  overallAttritionRate: number;
+  overallFluctuationRate: number;
   values: string[];
-  attritionCount: number[];
-  employeeCount: number[];
+  names: string[];
+  headcount: number[];
+  fluctuation: number[];
+  order: number[];
 }

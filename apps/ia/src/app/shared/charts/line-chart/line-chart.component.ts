@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { ECharts, EChartsOption, LineSeriesOption } from 'echarts';
 
+import { LOADING_OPTS } from '../../constants';
 import { Color } from '../../models';
 import { LINE_CHART_BASE_OPTIONS } from './line-chart.config';
 
@@ -12,11 +13,7 @@ import { LINE_CHART_BASE_OPTIONS } from './line-chart.config';
 })
 export class LineChartComponent {
   readonly DATE_FORMAT = 'MM.YYYY';
-  loadingOpts = {
-    text: '',
-    color: Color.GREEN,
-    zlevel: 0,
-  };
+  readonly loadingOpts = LOADING_OPTS;
   echartsInstance: ECharts;
   options: EChartsOption;
 

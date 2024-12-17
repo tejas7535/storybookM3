@@ -127,6 +127,25 @@ describe('ParamsCreatorService', () => {
     expect(result.get(service.PARAM_TIME_PERIOD)).toBe(timePeriod);
   });
 
+  test('createHttpParamsForDimensionTimeRangeAndCluster', () => {
+    const filterDimension = FilterDimension.FUNCTION;
+    const value = 'value';
+    const timeRange = 'timeRange';
+    const cluster = 'cluster';
+
+    const result = service.createHttpParamsForDimensionTimeRangeAndCluster(
+      filterDimension,
+      value,
+      timeRange,
+      cluster
+    );
+
+    expect(result.get(service.PARAM_FILTER_DIMENSION)).toBe(filterDimension);
+    expect(result.get(service.PARAM_FILTER_VALUE)).toBe(value);
+    expect(result.get(service.PARAM_TIME_RANGE)).toBe(timeRange);
+    expect(result.get(service.PARAM_CLUSTER)).toBe(cluster);
+  });
+
   test('createHttpParamsForDimensionTimeRangeReasonAndDetailedReason', () => {
     const filterDimension = FilterDimension.FUNCTION;
     const value = 'value';
@@ -150,24 +169,5 @@ describe('ParamsCreatorService', () => {
     expect(result.get(service.PARAM_DETAILED_REASON_ID)).toBe(
       detailedReasonId.toString()
     );
-  });
-
-  test('createHttpParamsForDimensionTimeRangeAndReason', () => {
-    const filterDimension = FilterDimension.FUNCTION;
-    const value = 'value';
-    const timeRange = 'timeRange';
-    const reasonId = 1;
-
-    const result = service.createHttpParamsForDimensionTimeRangeAndReason(
-      filterDimension,
-      value,
-      timeRange,
-      reasonId
-    );
-
-    expect(result.get(service.PARAM_FILTER_DIMENSION)).toBe(filterDimension);
-    expect(result.get(service.PARAM_FILTER_VALUE)).toBe(value);
-    expect(result.get(service.PARAM_TIME_RANGE)).toBe(timeRange);
-    expect(result.get(service.PARAM_REASON_ID)).toBe(reasonId.toString());
   });
 });

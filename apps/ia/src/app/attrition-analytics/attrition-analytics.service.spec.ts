@@ -41,12 +41,31 @@ describe('AttritionAnalyticsService', () => {
   describe('getAvailableClusters', () => {
     test('should get available clusters', () => {
       const mock: EmployeeCluster[] = [];
-      service.getAvailableClusters(employeeRequest).subscribe((response) => {
+      service.getAvailableClusters().subscribe((response) => {
         expect(response).toEqual(mock);
       });
 
+      const req = httpMock.expectOne(`api/v1/available-clusters`);
+      expect(req.request.method).toBe('GET');
+      req.flush(mock);
+    });
+  });
+
+  describe('getEmployeeAnalytics', () => {
+    test('should get employee analytics', () => {
+      const employeeRequestWithCluster = {
+        ...employeeRequest,
+        cluster: 'Test',
+      };
+      const mock: EmployeeCluster[] = [];
+      service
+        .getEmployeeAnalytics(employeeRequestWithCluster)
+        .subscribe((response) => {
+          expect(response).toEqual(mock);
+        });
+
       const req = httpMock.expectOne(
-        `api/v1/available-clusters?dimension=BOARD&value=Test&time_range=123%7C321`
+        `api/v1/employee-analytics?dimension=BOARD&value=Test&time_range=123%7C321&cluster=Test`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

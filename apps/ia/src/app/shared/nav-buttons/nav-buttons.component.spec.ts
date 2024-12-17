@@ -39,4 +39,30 @@ describe('NavButtonsComponent', () => {
       expect(component.selectedTabChange.emit).toHaveBeenCalledWith('B');
     });
   });
+
+  describe('set selectedTab', () => {
+    test('should set selectedIndex', () => {
+      component.items = [
+        new NavItem('A', 'xyz.a'),
+        new NavItem('B', 'xyz.b'),
+        new NavItem('C', 'xyz.c'),
+      ];
+
+      component.selectedTab = 'B';
+
+      expect(component.selectedIndex).toBe(1);
+    });
+
+    test('should not set selectedIndex', () => {
+      component.items = [
+        new NavItem('A', 'xyz.a'),
+        new NavItem('B', 'xyz.b'),
+        new NavItem('C', 'xyz.c'),
+      ];
+
+      component.selectedTab = 'D';
+
+      expect(component.selectedIndex).toBe(-1);
+    });
+  });
 });

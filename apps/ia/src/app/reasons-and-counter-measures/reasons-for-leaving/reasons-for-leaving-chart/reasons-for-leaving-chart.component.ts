@@ -12,9 +12,8 @@ import { translate } from '@jsverse/transloco';
 import { DoughnutChartData } from '../../../shared/charts/models';
 import { SolidDoughnutChartConfig } from '../../../shared/charts/models/solid-doughnut-chart-config.model';
 import { SolidDoughnutChartComponent } from '../../../shared/charts/solid-doughnut-chart/solid-doughnut-chart.component';
-import { Color } from '../../../shared/models';
+import { CHART_COLOR_PALETTE, Color } from '../../../shared/models';
 import { ReasonForLeavingTab } from '../../models';
-import { COLOR_PALETTE } from '../../store/selectors/reasons-and-counter-measures.selector.utils';
 
 @Component({
   selector: 'ia-reasons-for-leaving-chart',
@@ -40,7 +39,7 @@ export class ReasonsForLeavingChartComponent {
     this.config = {
       ...this.config,
       title: '',
-      color: COLOR_PALETTE,
+      color: Object.values(CHART_COLOR_PALETTE),
       side,
     };
   }

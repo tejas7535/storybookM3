@@ -16,9 +16,8 @@ import {
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
-import { getEnv } from '../environments/environments.provider';
 import { AppRoutePath } from './app-route-path.enum';
-import { EnvironmentEnum } from './shared/models';
+import { isFeatureEnabled } from './shared/guards/is-feature-enabled';
 import { SystemMessage } from './shared/models/system-message';
 import { getSystemMessage } from './user/store/selectors/user.selector';
 
@@ -70,7 +69,7 @@ export class AppComponent implements OnInit {
     {
       label: 'fluctuationAnalytics',
       path: AppRoutePath.FluctuationAnalyticsPath,
-      disabled: getEnv().environment === EnvironmentEnum.prod,
+      disabled: !isFeatureEnabled(),
     },
   ];
 

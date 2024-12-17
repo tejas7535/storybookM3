@@ -1,4 +1,4 @@
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
@@ -15,6 +15,7 @@ import {
   getCurrentFilters,
 } from '../../../core/store/selectors';
 import { ExitEntryEmployeesResponse } from '../../../overview/models';
+import { isFeatureEnabled } from '../../../shared/guards/is-feature-enabled';
 import { EmployeesRequest } from '../../../shared/models';
 import { updateUserSettingsSuccess } from '../../../user/store/actions/user.action';
 import { LossOfSkillService } from '../../loss-of-skill.service';
@@ -154,7 +155,7 @@ export class LossOfSkillEffects {
   loadPmgmData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadPmgmData),
-      filter(() => isDevMode()),
+      filter(() => isFeatureEnabled()),
       map((action) => action.request),
       switchMap((request: EmployeesRequest) =>
         this.lossOfSkillService.getPmgmData(request).pipe(
