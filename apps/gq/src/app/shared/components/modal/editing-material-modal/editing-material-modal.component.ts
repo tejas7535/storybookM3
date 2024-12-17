@@ -217,39 +217,41 @@ export class EditingMaterialModalComponent
             .updateValueAndValidity({ emitEvent: false });
           this.rowInputValid();
 
-          this.editFormGroup
-            .get(TARGET_PRICE_SOURCE_FORM_CONTROL_NAME)
-            .setValue(
-              getTargetPriceSourceValue(
-                data,
-                this.editFormGroup.get(TARGET_PRICE_FORM_CONTROL_NAME).valid,
-                this.editFormGroup.get(TARGET_PRICE_SOURCE_FORM_CONTROL_NAME)
-                  .value
-              ),
-              { emitEvent: false }
-            );
-        })
-    );
-
-    this.subscription.add(
-      this.editFormGroup
-        .get(TARGET_PRICE_SOURCE_FORM_CONTROL_NAME)
-        .valueChanges.subscribe((data) => {
-          this.editFormGroup
-            .get(TARGET_PRICE_FORM_CONTROL_NAME)
-            .setValue(
-              getTargetPriceValue(
-                data,
-                this.editFormGroup.get(TARGET_PRICE_FORM_CONTROL_NAME).value
-              ),
-              { emitEvent: false }
-            );
-
-          this.rowInputValid();
+          if (this.isNewCaseCreation) {
+            this.editFormGroup
+              .get(TARGET_PRICE_SOURCE_FORM_CONTROL_NAME)
+              .setValue(
+                getTargetPriceSourceValue(
+                  data,
+                  this.editFormGroup.get(TARGET_PRICE_FORM_CONTROL_NAME).valid,
+                  this.editFormGroup.get(TARGET_PRICE_SOURCE_FORM_CONTROL_NAME)
+                    .value
+                ),
+                { emitEvent: false }
+              );
+          }
         })
     );
 
     if (this.isNewCaseCreation) {
+      this.subscription.add(
+        this.editFormGroup
+          .get(TARGET_PRICE_SOURCE_FORM_CONTROL_NAME)
+          .valueChanges.subscribe((data) => {
+            this.editFormGroup
+              .get(TARGET_PRICE_FORM_CONTROL_NAME)
+              .setValue(
+                getTargetPriceValue(
+                  data,
+                  this.editFormGroup.get(TARGET_PRICE_FORM_CONTROL_NAME).value
+                ),
+                { emitEvent: false }
+              );
+
+            this.rowInputValid();
+          })
+      );
+
       this.selectedMaterialAutocomplete$
         .pipe(
           takeUntilDestroyed(this.destroyRef),

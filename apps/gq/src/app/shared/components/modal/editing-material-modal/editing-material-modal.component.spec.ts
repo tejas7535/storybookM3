@@ -109,6 +109,59 @@ describe('EditingMaterialModalComponent', () => {
     jest.restoreAllMocks();
   });
 
+  describe('addSubscriptions', () => {
+    test('should subscribe to targetPriceSource for new case creation', () => {
+      component.isNewCaseCreation = true;
+      const control = {
+        setValue: jest.fn(),
+        valueChanges: of(undefined as any),
+        updateValueAndValidity: jest.fn(),
+      };
+      const getTargetPriceValue = jest.spyOn(miscUtils, 'getTargetPriceValue');
+      const getTargetPriceSourceValue = jest.spyOn(
+        miscUtils,
+        'getTargetPriceSourceValue'
+      );
+
+      component.editFormGroup = {
+        get: jest.fn(() => control),
+      } as any;
+      component.rowInputValid = jest.fn();
+
+      component.addSubscriptions();
+
+      expect(component.rowInputValid).toHaveBeenCalled();
+      expect(getTargetPriceValue).toHaveBeenCalledTimes(1);
+      expect(getTargetPriceSourceValue).toHaveBeenCalledTimes(1);
+      expect(control.updateValueAndValidity).toHaveBeenCalledTimes(2);
+    });
+
+    test('should not subscribe to targetPriceSource for old case creation', () => {
+      component.isNewCaseCreation = false;
+      const control = {
+        setValue: jest.fn(),
+        valueChanges: of(undefined as any),
+        updateValueAndValidity: jest.fn(),
+      };
+      const getTargetPriceValue = jest.spyOn(miscUtils, 'getTargetPriceValue');
+      const getTargetPriceSourceValue = jest.spyOn(
+        miscUtils,
+        'getTargetPriceSourceValue'
+      );
+
+      component.editFormGroup = {
+        get: jest.fn(() => control),
+      } as any;
+      component.rowInputValid = jest.fn();
+
+      component.addSubscriptions();
+
+      expect(component.rowInputValid).toHaveBeenCalled();
+      expect(getTargetPriceValue).not.toHaveBeenCalled();
+      expect(getTargetPriceSourceValue).not.toHaveBeenCalled();
+      expect(control.updateValueAndValidity).toHaveBeenCalledTimes(2);
+    });
+  });
   describe('ngAfterViewInit', () => {
     let editFormControlQuantity: FormControl;
     let editFormControlTargetPrice: FormControl;
