@@ -53,7 +53,7 @@ import { TextTooltipComponent } from '../text-tooltip/text-tooltip.component';
   styleUrl: './material-customer-table.component.scss',
 })
 export class MaterialCustomerTableComponent implements OnInit {
-  selectionFilter = input.required<GlobalSelectionState>();
+  public selectionFilter = input.required<GlobalSelectionState>();
 
   protected globalSelectionStateService = inject(GlobalSelectionStateService);
   protected materialCustomerTableService = inject(MaterialCustomerTableService);
@@ -77,14 +77,9 @@ export class MaterialCustomerTableComponent implements OnInit {
   protected readonly destroyRef = inject(DestroyRef);
 
   constructor() {
-    effect(
-      () => {
-        this.setDataSource(this.selectionFilter());
-      },
-      {
-        allowSignalWrites: true,
-      }
-    );
+    effect(() => {
+      this.setDataSource(this.selectionFilter());
+    });
   }
 
   public gridOptions: GridOptions = {
@@ -184,8 +179,9 @@ export class MaterialCustomerTableComponent implements OnInit {
     this.defaultColDef();
   };
 
-  setDataSource(globalSelection?: GlobalSelectionState) {
+  private setDataSource(globalSelection?: GlobalSelectionState) {
     if (this.globalSelectionStateService.isEmpty()) {
+      this.gridApi?.setFilterModel(null);
       this.gridApi?.setServerSideDatasource(
         this.materialCustomerTableService.createEmptyDatasource()
       );
