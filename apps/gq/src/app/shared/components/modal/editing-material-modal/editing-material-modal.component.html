@@ -186,10 +186,11 @@
 
   <div class="pt-8">
     <button
+      *ngrxLet="selectedMaterialAutocomplete$ | ngrxPush as selectedMaterial"
       class="!pl-4 !pr-4"
       color="primary"
       mat-raised-button
-      (click)="update()"
+      (click)="update(selectedMaterial?.deliveryUnit)"
       [disabled]="!updateRowEnabled"
       [attr.data-cy]="'edit-material-update_btn'"
     >

@@ -802,11 +802,12 @@ describe('EditingMaterialModalComponent', () => {
         .calledWith(MaterialColumnFields.TARGET_PRICE_SOURCE)
         .mockReturnValue({ value: MATERIAL_TABLE_ITEM_MOCK.targetPriceSource });
 
-      component.update();
+      component.update(5);
 
       expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
       expect(component['dialogRef'].close).toHaveBeenCalledWith({
         materialDescription: 'newDesc',
+        deliveryUnit: 5,
         materialNumber: 'newNumber',
         quantity: MATERIAL_TABLE_ITEM_MOCK.quantity,
         customerMaterialNumber: MATERIAL_TABLE_ITEM_MOCK.customerMaterialNumber,

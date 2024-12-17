@@ -400,9 +400,10 @@ export class EditingMaterialModalComponent
   /**
    *  edit the material to update data and return MaterialTableItem as DialogResult
    */
-  update(): void {
+  update(deliveryUnit: number): void {
     this.autoCompleteFacade.resetView();
     const updatedMaterial: MaterialTableItem = {
+      deliveryUnit,
       materialDescription: this.matDescInput.valueInput.nativeElement.value,
       materialNumber: this.matNumberInput.valueInput.nativeElement.value,
       customerMaterialNumber: this.isNewCaseCreation
