@@ -133,6 +133,9 @@
     "customer-specific-requirements": {
       "label": "Requirements for Supply Concept"
     },
+    "sales-planning": {
+      "label": "Sales Planning"
+    },
     "alert-rule-editor": {
       "label": "Tasks Rule Editor"
     }
@@ -193,6 +196,8 @@
       "title": "Synchronized Sales- and Demand Plan",
       "pieces_option": "Pieces",
       "select_to_load": "Please select data to load the chart.",
+      "monthly_option": "Monthly",
+      "yearly_option": "Yearly",
       "loading_failed": "Loading failed.",
       "aria": {
         "settings_button": "Chart Settings",
@@ -201,10 +206,11 @@
       "legend": {
         "orders": "Firm Business",
         "deliveries": "Deliveries",
-        "demandPlan": "Validated Forecast",
         "opportunities": "Opportunities",
-        "opAdjustment": "OP Adjustment",
-        "rollingSalesForecast": "Daily Rolling Sales Forecast"
+        "rollingSalesForecast": "Daily Rolling Sales Forecast",
+        "onTopCapacityForecast": "On Top Capacity Forecast",
+        "onTopOrder": "On Top Order",
+        "salesAmbition": "Sales Ambition"
       }
     }
   },
@@ -512,6 +518,34 @@
       "check": {
         "success": "Value is valid."
       }
+    }
+  },
+  "sales_planning": {
+    "title": "Sales Planning",
+    "customer": "Customer / Account",
+    "customer_info_modal": {
+      "customer": "Customer",
+      "owner": "Owner",
+      "globalCustomerNumber": "Global Customer Number",
+      "region": "Region (Legal)",
+      "salesOrg": "Sales Org",
+      "salesArea": "Sales Area (Market)",
+      "country": "Country",
+      "sector": "Sector",
+      "keyAccount": "Key Account",
+      "subKeyAccount": "Sub Key Account",
+      "planningCurrency": "Planning Currency",
+      "accountOwner": "Account Owner",
+      "internalSales": "Internal Sales",
+      "demandPlanner": "Demand Planner",
+      "gkam": "GKAM",
+      "kam": "KAM"
+    },
+    "chart": {
+      "title": "Synchronized Sales- and Demand Plan",
+      "pieces_option": "TBD",
+      "select_to_load": "TBD",
+      "loading_failed": "TBD"
     }
   },
   "customer": {

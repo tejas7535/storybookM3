@@ -1,0 +1,5 @@
+@mixin mat-paginator() {
+  .mat-mdc-paginator {
+    --mat-paginator-container-background-color: var(--bg);
+  }
+}

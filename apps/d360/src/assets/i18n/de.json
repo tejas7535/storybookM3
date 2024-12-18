@@ -135,6 +135,9 @@
     },
     "alert-rule-editor": {
       "label": "Aufgaben Regel Editor"
+    },
+    "sales-planning": {
+      "label": "Umsatzplanung"
     }
   },
   "globalSelection": {
@@ -512,6 +515,28 @@
       "check": {
         "success": "Wert ist gültig."
       }
+    }
+  },
+  "sales_planning": {
+    "title": "Umsatzplanung",
+    "customer": "Kunde",
+    "customer_info_modal": {
+      "customer": "Kunde",
+      "owner": "Owner",
+      "globalCustomerNumber": "Globale Kundennummer",
+      "region": "Region (Legal)",
+      "salesOrg": "Verkaufsorganisation",
+      "salesArea": "Sales Area (Markt)",
+      "country": "Land (Kunde)",
+      "sector": "Branche",
+      "keyAccount": "Key Account",
+      "subKeyAccount": "Sub Key Account",
+      "planningCurrency": "Planungswährung",
+      "accountOwner": "Account Owner",
+      "internalSales": "Vertriebsinnendienst",
+      "demandPlanner": "Demand Planner",
+      "gkam": "GKAM",
+      "kam": "KAM"
     }
   },
   "customer": {

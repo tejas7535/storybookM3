@@ -129,6 +129,14 @@ export class SingleAutocompleteOnTypeComponent
   private options: SelectableValue[] = [];
 
   /**
+   * Should the request include the language?
+   *
+   * @type {InputSignal<boolean>}
+   * @memberof SingleAutocompleteOnTypeComponent
+   */
+  public requestWithLang: InputSignal<boolean> = input<boolean>(false);
+
+  /**
    * @override
    * @inheritdoc
    */
@@ -171,7 +179,8 @@ export class SingleAutocompleteOnTypeComponent
       switchMap(() =>
         this.selectableOptionsService.getOptionsBySearchTerm(
           this.urlBegin(),
-          searchString
+          searchString,
+          this.requestWithLang()
         )
       ),
       catchError((error) => {

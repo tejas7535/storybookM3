@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 import { catchError, map, Observable } from 'rxjs';
 
@@ -8,12 +7,12 @@ import { addYears, endOfYear, formatISO, startOfYear } from 'date-fns';
 
 import { PlanningView } from '../demand-validation/planning-view';
 import { GlobalSelectionCriteriaFilters } from '../global-selection/model';
-import { CurrencyService } from '../info/currency.service';
 import {
   ChartSettings,
   ChartSettingsStored,
   ChartUnitMode,
   ForecastChartData,
+  PeriodType,
 } from './model';
 
 @Injectable({
@@ -24,36 +23,39 @@ export class ChartSettingsService {
   private readonly FORECASTCHART_DATA_API = 'api/forecast-chart';
 
   private readonly http = inject(HttpClient);
-  private readonly currencyService = inject(CurrencyService);
-  private readonly currentCurrency = toSignal(
-    this.currencyService.getCurrentCurrency()
-  );
 
-  readonly defaultChartSettings: ChartSettings = {
-    startDate: startOfYear(Date.now()), // agreed upon default start date
-    endDate: endOfYear(addYears(Date.now(), 1)), // agreed upon default end date
-    planningView: PlanningView.REQUESTED,
-    chartUnitMode: ChartUnitMode.CURRENCY,
-  };
+  public defaultChartSettings(defaultPeriodType: PeriodType) {
+    return {
+      startDate: startOfYear(Date.now()), // agreed upon default start date
+      endDate: endOfYear(addYears(Date.now(), 1)), // agreed upon default end date
+      planningView: PlanningView.REQUESTED,
+      chartUnitMode: ChartUnitMode.CURRENCY,
+      periodType: defaultPeriodType ?? PeriodType.MONTHLY,
+    };
+  }
 
-  parseChartSettings(raw: ChartSettingsStored): ChartSettings {
+  private parseChartSettings(raw: ChartSettingsStored): ChartSettings {
     return {
       startDate: new Date(Date.parse(raw.startDate)),
       endDate: new Date(Date.parse(raw.endDate)),
       planningView: raw.planningView as PlanningView,
       chartUnitMode: raw.chartUnitMode as ChartUnitMode,
+      periodType: raw.periodType as PeriodType,
     };
   }
 
-  getForecastChartData(
+  public getForecastChartData(
     globalSelectionFilters: GlobalSelectionCriteriaFilters | undefined,
     columnFilters: Record<string, any>,
-    chartSettings: ChartSettings
+    chartSettings: ChartSettings,
+    startDate: string,
+    endDate: string,
+    currency: string
   ): Observable<ForecastChartData> | null {
     const request = {
-      startDate: formatISO(chartSettings.startDate, { representation: 'date' }),
-      endDate: formatISO(chartSettings.endDate, { representation: 'date' }),
-      currency: this.currentCurrency(),
+      startDate,
+      endDate,
+      currency,
       chartUnitMode: chartSettings.chartUnitMode,
       planningView: chartSettings.planningView,
       selectionFilters: globalSelectionFilters,
@@ -65,23 +67,35 @@ export class ChartSettingsService {
       : null;
   }
 
-  getChartSettings(): Observable<ChartSettings> {
+  public getChartSettings(
+    chartIdentifier: string,
+    defaultPeriodType: PeriodType
+  ): Observable<ChartSettings> {
     return this.http
-      .get<ChartSettingsStored>(this.USER_CHART_SETTINGS_API)
+      .get<ChartSettingsStored>(
+        `${this.USER_CHART_SETTINGS_API}?chartIdentifier=${chartIdentifier}`
+      )
       .pipe(
         map((response) => this.parseChartSettings(response)),
-        catchError(async () => this.defaultChartSettings)
+        catchError(async () => this.defaultChartSettings(defaultPeriodType))
       );
   }
 
-  updateChartSettings(chartSettings: ChartSettings): Observable<void> {
+  public updateChartSettings(
+    chartSettings: ChartSettings,
+    chartIdentifier: string
+  ) {
     const request = {
       startDate: formatISO(chartSettings.startDate, { representation: 'date' }),
       endDate: formatISO(chartSettings.endDate, { representation: 'date' }),
       chartUnitMode: chartSettings.chartUnitMode,
       planningView: chartSettings.planningView,
+      periodType: chartSettings.periodType,
     };
 
-    return this.http.post<void>(this.USER_CHART_SETTINGS_API, request);
+    return this.http.post<void>(
+      `${this.USER_CHART_SETTINGS_API}?chartIdentifier=${chartIdentifier}`,
+      request
+    );
   }
 }

@@ -11,6 +11,7 @@ import { RoleGuard } from './shared/utils/auth/role-guard.service';
 import {
   apPortfolioAllowedRoles,
   internalMaterialReplacementAllowedRoles,
+  salesPlanningAllowedRoles,
   workflowManagementAllowedRoles,
 } from './shared/utils/auth/roles';
 
@@ -78,6 +79,19 @@ export const appRoutes: RouteConfig = {
       loadComponent: () =>
         import('../app/pages/alert-rules/alert-rules.component').then(
           (m) => m.AlertRulesComponent
+        ),
+    },
+    {
+      path: AppRoutePath.SalesPlanningPage,
+      label: 'tabbarMenu.sales-planning.label',
+      canActivate: [MsalGuard, RoleGuard],
+      visible: true,
+      data: {
+        allowedRoles: salesPlanningAllowedRoles,
+      },
+      loadComponent: () =>
+        import('../app/pages/sales-planning/sales-planning.component').then(
+          (m) => m.SalesPlanningComponent
         ),
     },
     {

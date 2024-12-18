@@ -126,6 +126,9 @@
     },
     "alert-rule-editor": {
       "label": "任务条件编辑器"
+    },
+    "sales-planning": {
+      "label": "销售规划"
     }
   },
   "globalSelection": {
@@ -503,6 +506,28 @@
       "check": {
         "success": "值有效。"
       }
+    }
+  },
+  "sales_planning": {
+    "title": "销售规划",
+    "customer": "客户",
+    "customer_info_modal": {
+      "customer": "客户",
+      "owner": "所有者",
+      "globalCustomerNumber": "全球客户编号",
+      "region": "区域（公司）",
+      "salesOrg": "销售组织",
+      "salesArea": "销售区域（市场）",
+      "country": "国家（客户）",
+      "sector": "行业",
+      "keyAccount": "关键账户",
+      "subKeyAccount": "次级账户",
+      "planningCurrency": "规划货币",
+      "accountOwner": "帐户所有者",
+      "internalSales": "I内部销售",
+      "demandPlanner": "需求规划者",
+      "gkam": "GKAM",
+      "kam": "KAM"
     }
   },
   "customer": {

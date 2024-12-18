@@ -8,7 +8,6 @@ import {
   input,
   OnInit,
   signal,
-  WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -30,37 +29,36 @@ import {
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 
-import { translate, TranslocoModule } from '@jsverse/transloco';
-import { PushPipe } from '@ngrx/component';
-import { EChartsOption } from 'echarts';
+import { TranslocoModule } from '@jsverse/transloco';
+import { formatISO, startOfYear } from 'date-fns';
 import moment from 'moment';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
-import { previewData } from '../../../../pages/home/chart/preview-data';
+import {
+  previewDataMonthly,
+  previewDataYearly,
+} from '../../../../pages/home/chart/preview-data';
 import { ColumnFilters } from '../../../../shared/ag-grid/grid-filter-model';
 import { DatePickerMonthYearComponent } from '../../../../shared/components/date-picker-month-year/date-picker-month-year.component';
-import {
-  GlobalSelectionState,
-  GlobalSelectionStateService,
-} from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
-import { StyledSectionComponent } from '../../../../shared/components/styled-section/styled-section.component';
+import { GlobalSelectionState } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
 import { ValidateForm } from '../../../../shared/decorators';
-import { dimmedGrey, schaefflerColor } from '../../../../shared/styles/colors';
+import { disabledGrey } from '../../../../shared/styles/colors';
 import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
 import { PlanningView } from '../../../demand-validation/planning-view';
 import { GlobalSelectionUtils } from '../../../global-selection/global-selection.utils';
-import { CurrencyService } from '../../../info/currency.service';
 import { ChartSettingsService } from '../../forecast-chart.service';
 import {
-  ChartEntry,
   chartSeriesConfig,
   ChartSettings,
   ChartUnitMode,
   ForecastChartData,
+  MonthlyChartEntry,
+  PeriodType,
 } from '../../model';
-import { ForecastChartLegendComponent } from '../forecast-chart-legend/forecast-chart-legend.component';
+import { MonthlyForecastChartComponent } from '../monthly-forecast-chart/monthly-forecast-chart.component';
+import { YearlyForecastChartComponent } from '../yearly-forecast-chart/yearly-forecast-chart.component';
 
 @Component({
   selector: 'd360-forecast-chart',
@@ -68,7 +66,6 @@ import { ForecastChartLegendComponent } from '../forecast-chart-legend/forecast-
   imports: [
     CommonModule,
     NgxEchartsModule,
-    StyledSectionComponent,
     MatButtonModule,
     MatIconModule,
     DatePickerMonthYearComponent,
@@ -78,31 +75,48 @@ import { ForecastChartLegendComponent } from '../forecast-chart-legend/forecast-
     MatDivider,
     TranslocoModule,
     LoadingSpinnerModule,
-    ForecastChartLegendComponent,
-    PushPipe,
+    YearlyForecastChartComponent,
+    MonthlyForecastChartComponent,
   ],
   templateUrl: './forecast-chart.component.html',
   styleUrl: './forecast-chart.component.scss',
 })
 export class ForecastChartComponent implements OnInit {
-  private readonly chartSettingsService: ChartSettingsService =
-    inject(ChartSettingsService);
-  private readonly globalSelectionStateService: GlobalSelectionStateService =
-    inject(GlobalSelectionStateService);
-  protected readonly currencyService: CurrencyService = inject(CurrencyService);
-
+  public currency = input.required<string>();
   public globalSelectionState = input.required<GlobalSelectionState>();
-  public columnFilters = input<ColumnFilters>();
+  public columnFilters = input.required<ColumnFilters>();
+  public chartIdentifier = input.required<string>();
+  public defaultPeriodType = input.required<PeriodType>();
 
   private readonly destroy = inject(DestroyRef);
+  private readonly chartSettingsService: ChartSettingsService =
+    inject(ChartSettingsService);
+
+  protected readonly chartSeriesConfig = chartSeriesConfig;
+  protected readonly disabledGray = disabledGrey;
+
+  protected readonly kpiTypes = Object.entries(chartSeriesConfig)
+    .sort(([, a], [, b]) => a.order - b.order)
+    .map(([key]) => key) as (keyof typeof chartSeriesConfig)[];
+
+  protected toggledKpis = signal<any>({
+    salesAmbition: false,
+    opportunities: false,
+    onTopCapacityForecast: false,
+    onTopOrder: false,
+  });
+
+  protected chartSettingsInitialized = signal<boolean>(false);
 
   constructor() {
     effect(
       () => {
-        this.loadData$(
-          this.globalSelectionState(),
-          this.columnFilters()
-        ).subscribe();
+        if (this.chartSettingsInitialized()) {
+          this.loadData$(
+            this.globalSelectionState(),
+            this.columnFilters()
+          ).subscribe();
+        }
       },
       {
         allowSignalWrites: true,
@@ -110,13 +124,12 @@ export class ForecastChartComponent implements OnInit {
     );
   }
 
-  protected option: EChartsOption;
+  protected chartData = signal<MonthlyChartEntry[]>([]);
 
-  public openPanel: string | null = null;
-  public openPanelContent = true;
+  protected readonly openPanel = signal<string>(null);
+  protected readonly openPanelContent = signal(true);
 
-  private chartSettings: ChartSettings =
-    this.chartSettingsService.defaultChartSettings;
+  private chartSettings: ChartSettings;
 
   public dateForm = new FormGroup(
     {
@@ -129,13 +142,12 @@ export class ForecastChartComponent implements OnInit {
   public typeForm: FormGroup = new FormGroup<any>({
     count: new FormControl<PlanningView>(null),
     type: new FormControl<ChartUnitMode>(null),
+    period: new FormControl<PeriodType>(null),
   });
 
-  public isLoading: WritableSignal<boolean> = signal<boolean>(false);
-  public isError: WritableSignal<boolean> = signal<boolean>(false);
-
-  public isPreviewDataRendered: WritableSignal<boolean> =
-    signal<boolean>(false);
+  protected isLoading = signal<boolean>(false);
+  protected isError = signal<boolean>(false);
+  protected isPreviewDataRendered = signal<boolean>(false);
 
   public ngOnInit() {
     this.loadChartSettings()
@@ -149,21 +161,30 @@ export class ForecastChartComponent implements OnInit {
   }
 
   private loadChartSettings(): Observable<ChartSettings> {
-    return this.chartSettingsService.getChartSettings().pipe(
-      tap((response) => {
-        this.chartSettings = response;
+    return this.chartSettingsService
+      .getChartSettings(this.chartIdentifier(), this.defaultPeriodType())
+      .pipe(
+        tap((response) => {
+          this.chartSettings = response;
 
-        this.dateForm
-          .get('startDate')
-          .setValue(new Date(response.startDate).toISOString());
-        this.dateForm
-          .get('endDate')
-          .setValue(new Date(response.endDate).toISOString());
+          this.dateForm
+            .get('startDate')
+            .setValue(new Date(response.startDate).toISOString());
+          this.dateForm
+            .get('endDate')
+            .setValue(new Date(response.endDate).toISOString());
 
-        this.typeForm.get('count').setValue(response.planningView);
-        this.typeForm.get('type').setValue(response.chartUnitMode);
-      })
-    );
+          this.typeForm.get('count').setValue(response.planningView);
+          this.typeForm.get('type').setValue(response.chartUnitMode);
+          this.typeForm.get('period').setValue(response.periodType);
+
+          this.chartSettingsInitialized.set(true);
+        })
+      );
+  }
+
+  protected isYearlyChartSelected() {
+    return this.typeForm.get('period').value === PeriodType.YEARLY;
   }
 
   private loadData$(
@@ -173,29 +194,50 @@ export class ForecastChartComponent implements OnInit {
     this.isLoading.set(true);
     this.isError.set(false);
 
-    if (this.globalSelectionStateService.isEmpty()) {
-      this.option = this.generateChartOptions(previewData);
+    if (
+      Object.values(globalSelectionState).every((value) => value.length === 0)
+    ) {
+      this.chartData.set(
+        this.isYearlyChartSelected()
+          ? previewDataYearly.chartEntries
+          : previewDataMonthly.chartEntries
+      );
       this.isPreviewDataRendered.set(true);
       this.isLoading.set(false);
 
       return EMPTY;
     } else {
+      let startDate;
+      let endDate;
+
+      if (this.isYearlyChartSelected()) {
+        const currentYear = new Date().getFullYear();
+
+        startDate = startOfYear(new Date(currentYear - 2, 0, 1));
+        endDate = startOfYear(new Date(currentYear + 3, 0, 1));
+      } else {
+        startDate = this.chartSettings.startDate;
+        endDate = this.chartSettings.endDate;
+      }
+
       return this.chartSettingsService
         .getForecastChartData(
           GlobalSelectionUtils.globalSelectionCriteriaToFilter(
             globalSelectionState
           ),
           columnFilters,
-          this.chartSettings
+          this.chartSettings,
+          formatISO(startDate, { representation: 'date' }),
+          formatISO(endDate, { representation: 'date' }),
+          this.currency()
         )
         .pipe(
-          tap((chart) => {
-            this.option = this.generateChartOptions(chart);
+          tap((forecastChartData) => {
+            this.chartData.set(forecastChartData.chartEntries);
             this.isLoading.set(false);
             this.isPreviewDataRendered.set(false);
           }),
           catchError((_) => {
-            this.option = this.generateChartOptions(previewData);
             this.isLoading.set(false);
             this.isPreviewDataRendered.set(true);
             this.isError.set(true);
@@ -207,184 +249,28 @@ export class ForecastChartComponent implements OnInit {
     }
   }
 
-  private generateChartOptions(data: ForecastChartData): EChartsOption {
-    return {
-      grid: {
-        left: '120px',
-        right: '30px',
-        top: '10px',
-        bottom: '30px',
-      },
-      animationDuration: 1500,
-      axisPointer: {
-        lineStyle: {
-          type: 'solid',
-        },
-      },
-      xAxis: [
-        {
-          type: 'category',
-          boundaryGap: false,
-          data: data.chartEntries.map((c: ChartEntry) =>
-            moment(c.yearMonth).format('MM.YYYY').toString()
-          ),
-          splitLine: {
-            show: true,
-            lineStyle: {
-              type: 'dotted',
-              color: dimmedGrey,
-              opacity: 0.2,
-            },
-          },
-        },
-      ],
-      tooltip: {
-        trigger: 'axis',
-        alwaysShowContent: false,
-        axisPointer: {
-          axis: 'auto',
-          type: 'line',
-          label: {
-            backgroundColor: '#fff',
-          },
-        },
-      },
-      toolbox: {
-        feature: {},
-      },
-      yAxis: [
-        {
-          type: 'value',
-          axisLine: {
-            show: true,
-            lineStyle: {
-              color: dimmedGrey,
-            },
-          },
-          splitLine: {
-            show: true,
-            lineStyle: {
-              type: 'dotted',
-              color: dimmedGrey,
-              opacity: 0.2,
-            },
-          },
-        },
-      ],
-      series: this.setChartData(data),
-    };
-  }
-
-  private setChartData(data: ForecastChartData): any {
-    return [
-      {
-        name: translate('home.chart.legend.deliveries'),
-        type: 'line',
-        stack: 'Total',
-        color: chartSeriesConfig.deliveries.color,
-        areaStyle: { opacity: 1 },
-        symbol: 'none',
-        data: data.chartEntries.map((c: ChartEntry) => c.deliveries),
-        zlevel: -1,
-        z: 100,
-      },
-      {
-        name: translate('home.chart.legend.orders'),
-        type: 'line',
-        stack: 'Total',
-        color: chartSeriesConfig.orders.color,
-        symbol: 'none',
-        areaStyle: { opacity: 1 },
-        data: data.chartEntries.map((c: ChartEntry) => c.orders),
-        zlevel: -1,
-        z: 90,
-      },
-      {
-        name: translate('home.chart.legend.demandPlan'),
-        type: 'line',
-        stack: 'Total',
-        color: chartSeriesConfig.demandPlan.color,
-        symbol: 'none',
-        areaStyle: { opacity: 1 },
-        data: data.chartEntries.map((c: ChartEntry) => c.demandPlan),
-        zlevel: -1,
-        z: 80,
-      },
-      {
-        name: translate('home.chart.legend.opAdjustment'),
-        type: 'line',
-        stack: 'Total',
-        color: chartSeriesConfig.opAdjustment.color,
-        symbol: 'none',
-        areaStyle: { opacity: 1 },
-        data: data.chartEntries.map((c: ChartEntry) => c.opAdjustment),
-        zlevel: -1,
-        z: 70,
-      },
-      {
-        name: translate('home.chart.legend.opportunities'),
-        type: 'line',
-        stack: 'Total',
-        color: chartSeriesConfig.opportunities.color,
-        symbol: 'none',
-        areaStyle: { opacity: 1 },
-        data: data.chartEntries.map((c: ChartEntry) => c.opportunities),
-        zlevel: -1,
-        z: 60,
-      },
-      {
-        name: translate('home.chart.legend.rollingSalesForecast'),
-        color: chartSeriesConfig.rollingSalesForecast.color,
-        type: 'line',
-        lineStyle: {
-          normal: {
-            color: chartSeriesConfig.rollingSalesForecast.color,
-            width: 1,
-            type: [5, 5],
-          },
-        },
-        data: data.chartEntries.map((c: ChartEntry) => c.rollingSalesForecast),
-        zlevel: 2,
-      },
-      {
-        type: 'line',
-        itemStyle: { normal: { color: schaefflerColor, showLabel: false } },
-        zlevel: 1,
-        markLine: {
-          label: {
-            show: false,
-            showLabel: false,
-          },
-          lineStyle: {
-            dashOffset: '0',
-            width: 1,
-            type: 'solid',
-          },
-          symbol: 'none',
-          data: [
-            {
-              symbol: 'none',
-              xAxis: moment(new Date()).format('MM.YYYY').toString(),
-            },
-          ],
-        },
-      },
-    ];
-  }
-
   protected togglePanel(id: string) {
-    this.openPanel = this.openPanel === id ? null : id;
+    this.openPanel.set(this.openPanel() === id ? null : id);
   }
 
   protected onChangeCount(event: MatRadioChange) {
-    this.typeForm.get('count').setValue(event.value);
     this.chartSettings.planningView = event.value;
-    this.updateAndSaveChartSettings();
+    this.onChartSettingChange('count', event.value);
   }
 
   protected onChangeType(event: MatRadioChange) {
-    this.typeForm.get('type').setValue(event.value);
     this.chartSettings.chartUnitMode = event.value;
+    this.onChartSettingChange('type', event.value);
+  }
+
+  public onPeriodChange(event: MatRadioChange) {
+    this.chartSettings.periodType = event.value;
+    this.onChartSettingChange('period', event.value);
+  }
+
+  private onChartSettingChange(settingType: string, value: any) {
+    this.typeForm.get(settingType).setValue(value);
+
     this.updateAndSaveChartSettings();
   }
 
@@ -406,7 +292,7 @@ export class ForecastChartComponent implements OnInit {
 
   private updateAndSaveChartSettings() {
     this.chartSettingsService
-      .updateChartSettings(this.chartSettings)
+      .updateChartSettings(this.chartSettings, this.chartIdentifier())
       .pipe(
         switchMap(() =>
           this.loadData$(this.globalSelectionState(), this.columnFilters())
@@ -414,11 +300,15 @@ export class ForecastChartComponent implements OnInit {
         takeUntilDestroyed(this.destroy)
       )
       .subscribe();
-    this.openPanel = null;
+    this.openPanel.set(null);
   }
 
-  protected controlsDisabled(): boolean {
+  public settingsDisabled(): boolean {
     return this.isLoading() || this.isPreviewDataRendered();
+  }
+
+  protected dateSelectionDisabled(): boolean {
+    return this.settingsDisabled() || this.isYearlyChartSelected();
   }
 
   /**
@@ -434,5 +324,12 @@ export class ForecastChartComponent implements OnInit {
         formGroup as FormGroup,
         true
       );
+  }
+
+  public updateToggledKpis(kpi: keyof typeof chartSeriesConfig) {
+    this.toggledKpis.set({
+      ...this.toggledKpis(),
+      [kpi]: !this.toggledKpis()[kpi],
+    });
   }
 }

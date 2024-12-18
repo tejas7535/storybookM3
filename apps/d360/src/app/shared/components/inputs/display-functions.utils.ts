@@ -71,6 +71,26 @@ export class DisplayFunctions {
 
     return '-';
   }
+
+  /**
+   * Combine the id and the text. When the option is null, return an empty string.
+   *
+   * @static
+   * @param {(SelectableValue | string)} option
+   * @return {string}
+   * @memberof DisplayFunctions
+   */
+  public static displayFnUnitedNullable(
+    option: SelectableValue | string
+  ): string {
+    if (typeof option === 'string') {
+      return option;
+    } else if (SelectableValueUtils.isSelectableValue(option)) {
+      return `${option?.id} - ${option?.text}` || '-';
+    }
+
+    return '';
+  }
 }
 
 /**

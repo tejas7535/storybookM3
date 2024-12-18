@@ -1,5 +1,5 @@
-<d360-styled-section>
-  <div class="flex justify-between" *transloco="let t">
+<div *transloco="let t">
+  <div class="flex justify-between">
     <h6 class="text-title-large">
       {{ t('home.chart.title') }}
       {{
@@ -9,17 +9,17 @@
       }}
     </h6>
     <div class="flex">
-      @if (openPanelContent) {
+      @if (openPanelContent()) {
         <div class="panel-wrapper">
           <button
             mat-icon-button
             (click)="togglePanel('date')"
-            [disabled]="controlsDisabled()"
+            [disabled]="dateSelectionDisabled()"
           >
             <mat-icon>calendar_month_outline</mat-icon>
           </button>
 
-          @if (openPanel === 'date') {
+          @if (openPanel() === 'date') {
             <div class="panel">
               <p class="text-title-medium mb-4">
                 {{ t('validation_of_demand.date_picker.title') }}
@@ -49,21 +49,37 @@
           <button
             mat-icon-button
             (click)="togglePanel('type')"
-            [disabled]="controlsDisabled()"
+            [disabled]="settingsDisabled()"
           >
             <mat-icon>settings_outline</mat-icon>
           </button>
 
-          @if (openPanel === 'type') {
+          @if (openPanel() === 'type') {
             <div class="panel">
+              <div [formGroup]="typeForm">
+                <mat-radio-group
+                  (change)="onPeriodChange($event)"
+                  formControlName="period"
+                >
+                  <mat-radio-button value="YEARLY"
+                    >{{ t('home.chart.yearly_option') }}
+                  </mat-radio-button>
+                  <mat-radio-button value="MONTHLY"
+                    >{{ t('home.chart.monthly_option') }}
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+
+              <mat-divider class="!my-2" />
+
               <div [formGroup]="typeForm">
                 <mat-radio-group
                   (change)="onChangeType($event)"
                   formControlName="type"
                 >
-                  <mat-radio-button value="CURRENCY">{{
-                    currencyService.getCurrentCurrency() | ngrxPush
-                  }}</mat-radio-button>
+                  <mat-radio-button value="CURRENCY"
+                    >{{ currency() }}
+                  </mat-radio-button>
                   <mat-radio-button value="QUANTITY"
                     >{{ t('home.chart.pieces_option') }}
                   </mat-radio-button>
@@ -88,26 +104,13 @@
             </div>
           }
         </div>
-
-        <div class="panel-wrapper">
-          <button
-            mat-icon-button
-            (click)="togglePanel('info')"
-            [disabled]="controlsDisabled()"
-          >
-            <mat-icon>info_outline</mat-icon>
-          </button>
-
-          @if (openPanel === 'info') {
-            <div class="panel">
-              <d360-forecast-chart-legend />
-            </div>
-          }
-        </div>
       }
 
-      <button mat-icon-button (click)="openPanelContent = !openPanelContent">
-        @if (openPanelContent) {
+      <button
+        mat-icon-button
+        (click)="openPanelContent.set(!openPanelContent())"
+      >
+        @if (openPanelContent()) {
           <mat-icon>keyboard_arrow_up</mat-icon>
         } @else {
           <mat-icon>keyboard_arrow_down</mat-icon>
@@ -116,48 +119,89 @@
     </div>
   </div>
 
-  @if (openPanelContent) {
-    <div class="panel-content ml-3 mr-4">
-      <div class="relative" *transloco="let t">
-        <div
-          class="h-full flex items-center justify-center absolute top-0 left-0"
-        >
-          <div class="-rotate-90">
-            <span>
-              @if (typeForm.get('type').value === 'CURRENCY') {
-                {{ currencyService.getCurrentCurrency() | ngrxPush }}
-              } @else {
-                {{ t('home.chart.pieces_option') }}
-              }
+  @if (openPanelContent()) {
+    @if (chartData().length > 0 && !isPreviewDataRendered()) {
+      <div class="flex flex-row my-4 gap-6">
+        @for (kpi of kpiTypes; track kpi) {
+          <div
+            class="flex gap-2 items-center"
+            [class.cursor-pointer]="chartSeriesConfig[kpi].isToggleable"
+            (click)="
+              chartSeriesConfig[kpi].isToggleable
+                ? updateToggledKpis(kpi)
+                : null
+            "
+          >
+            <div
+              class="h-4 w-4 rounded-3xl"
+              [style.background-color]="
+                toggledKpis()[kpi] ? disabledGray : chartSeriesConfig[kpi].color
+              "
+            ></div>
+            <span
+              class="text-body-small text-gray-900"
+              [style.color]="toggledKpis()[kpi] ? 'gray' : ''"
+            >
+              {{ t('home.chart.legend.' + kpi) }}
             </span>
           </div>
-        </div>
-        <div echarts [options]="option" style="min-height: 350px"></div>
-
-        @if (isPreviewDataRendered() || isLoading()) {
+        }
+      </div>
+    }
+    <div class="panel-content ml-3 mr-4">
+      <div class="relative">
+        @if (chartSettingsInitialized()) {
           <div
-            class="absolute top-0 left-0 w-full h-full bg-white/70 flex rounded-sm items-center justify-center z-40"
+            class="h-full flex items-center justify-center absolute top-0 left-0"
           >
-            @if (isLoading()) {
-              <div>
-                <schaeffler-loading-spinner
-                  [useBearingLoadingSpinner]="true"
-                ></schaeffler-loading-spinner>
-              </div>
-            } @else {
-              <div class="bg-white p-8 rounded-sm">
-                <p>
-                  {{
-                    isError()
-                      ? t('home.chart.loading_failed', {})
-                      : t('home.chart.select_to_load', {})
-                  }}
-                </p>
-              </div>
-            }
+            <div class="-rotate-90">
+              <span>
+                @if (typeForm.get('type').value === 'CURRENCY') {
+                  {{ currency() }}
+                } @else {
+                  {{ t('home.chart.pieces_option') }}
+                }
+              </span>
+            </div>
           </div>
+
+          @if (isYearlyChartSelected()) {
+            <d360-yearly-forecast-chart
+              [data]="chartData()"
+              [toggledKpis]="toggledKpis()"
+            />
+          } @else {
+            <d360-monthly-forecast-chart
+              [data]="chartData()"
+              [toggledKpis]="toggledKpis()"
+            />
+          }
+
+          @if (isPreviewDataRendered() || isLoading()) {
+            <div
+              class="absolute top-0 left-0 w-full h-full bg-white/40 flex rounded-sm items-center justify-center z-40"
+            >
+              @if (isLoading()) {
+                <div>
+                  <schaeffler-loading-spinner
+                    [useBearingLoadingSpinner]="true"
+                  />
+                </div>
+              } @else {
+                <div class="bg-white p-8 rounded-sm">
+                  <p>
+                    {{
+                      isError()
+                        ? t('home.chart.loading_failed', {})
+                        : t('home.chart.select_to_load', {})
+                    }}
+                  </p>
+                </div>
+              }
+            </div>
+          }
         }
       </div>
     </div>
   }
-</d360-styled-section>
+</div>

@@ -8,6 +8,8 @@
 @import 'material-overrides/mat-forms';
 @import 'material-overrides/mat-expansion-panel';
 @import 'material-overrides/mat-chips';
+@import 'material-overrides/mat-paginator';
+@import 'material-overrides/mat-card';
 
 @mixin apply() {
   @include mat-general;
@@ -20,4 +22,6 @@
   @include mat-forms;
   @include mat-expansion-panel;
   @include mat-chips;
+  @include mat-paginator;
+  @include mat-card;
 }

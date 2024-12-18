@@ -126,6 +126,9 @@
     },
     "alert-rule-editor": {
       "label": "Editor delle regole dei compiti"
+    },
+    "sales-planning": {
+      "label": "Pianificazione delle vendite"
     }
   },
   "globalSelection": {
@@ -503,6 +506,28 @@
       "check": {
         "success": "Il valore è valido."
       }
+    }
+  },
+  "sales_planning": {
+    "title": "Pianificazione delle vendite",
+    "customer": "Cliente",
+    "customer_info_modal": {
+      "customer": "Cliente",
+      "owner": "Proprietario",
+      "globalCustomerNumber": "Numero cliente globale",
+      "region": "Regione (Legal)",
+      "salesOrg": "Organizzazione Commerciale",
+      "salesArea": "Area Vendite (Market)",
+      "country": "Paese (Cliente)",
+      "sector": "Settore",
+      "keyAccount": "Key Account",
+      "subKeyAccount": "Sub Key Account",
+      "planningCurrency": "Pianificazione della valuta",
+      "accountOwner": "Proprietario del cliente",
+      "internalSales": "Vendite interne",
+      "demandPlanner": "Pianificatore della domanda",
+      "gkam": "GKAM",
+      "kam": "KAM"
     }
   },
   "customer": {

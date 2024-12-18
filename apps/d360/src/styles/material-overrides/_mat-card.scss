@@ -1,0 +1,7 @@
+@mixin mat-card() {
+  .mat-mdc-card {
+    --mdc-elevated-card-container-shape: 4px;
+    box-shadow: none;
+    border: 1px solid var(--outline-variant-color);
+  }
+}

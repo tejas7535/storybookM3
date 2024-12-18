@@ -1,0 +1,73 @@
+<div *transloco="let t">
+  <div mat-dialog-title class="m-0 pt-0">
+    <div class="flex">
+      <h2 class="text-headline-small flex-auto">
+        {{ title }}
+      </h2>
+    </div>
+  </div>
+
+  <mat-dialog-content class="!px-6 !py-1.5">
+    <div class="grid grid-cols-2 gap-2">
+      <mat-card class="p-4">
+        <div class="flex flex-col gap-2">
+          <h2 class="text-title-large flex-auto">
+            {{ t('sales_planning.customer_info_modal.customer') }}
+          </h2>
+          @for (
+            attribute of Object.keys(customerAttributesToDisplay);
+            track attribute
+          ) {
+            <div>
+              <span class="text-on-surface-variant"
+                >{{
+                  t('sales_planning.customer_info_modal.' + attribute)
+                }}:</span
+              >
+              <span class="text-body-medium">
+                {{ getCustomerAttribute(attribute, pageIndex()) }}</span
+              >
+            </div>
+          }
+        </div>
+      </mat-card>
+
+      <mat-card class="p-4">
+        <div class="flex flex-col gap-2">
+          <h2 class="text-title-large flex-auto">
+            {{ t('sales_planning.customer_info_modal.owner') }}
+          </h2>
+          @for (attribute of ownerAttributesToDisplay; track attribute) {
+            <div>
+              <span class="text-on-surface-variant"
+                >{{
+                  t('sales_planning.customer_info_modal.' + attribute)
+                }}:</span
+              >
+              <span class="text-body-medium">
+                {{ getOwnerAttribute(attribute, pageIndex()) }}</span
+              >
+            </div>
+          }
+        </div>
+      </mat-card>
+    </div>
+
+    @if (data.customerInfo.length > 1) {
+      <mat-paginator
+        (page)="handlePageEvent($event)"
+        [length]="pageLength()"
+        [showFirstLastButtons]="true"
+        [hidePageSize]="true"
+        [pageSize]="1"
+        [pageIndex]="pageIndex()"
+      />
+    }
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="gap-3 mt-2">
+    <button (click)="onClose()" mat-button>
+      {{ t('button.close') }}
+    </button>
+  </mat-dialog-actions>
+</div>

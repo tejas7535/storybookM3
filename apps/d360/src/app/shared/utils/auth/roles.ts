@@ -8,6 +8,8 @@ const RoleMapping = {
   readOnly: ['SD-D360_RO'],
   readOnlyRestricted: ['SD-D360_RO_RESTRICTED'],
   superUser: ['SD-D360_ADMIN'],
+  masterPlannerReadOnly: ['SD-D360_RO_MP'],
+  supplyChainManagementReadOnly: ['SD-D360_RO_SCM'],
 };
 
 export type Role = keyof typeof RoleMapping;
@@ -46,6 +48,15 @@ export const internalMaterialReplacementAllowedRoles: Role[] = [
 ];
 
 export const workflowManagementAllowedRoles: Role[] = [
+  'demandPlanning',
+  'superUser',
+];
+
+export const salesPlanningAllowedRoles: Role[] = [
+  'salesUser',
+  'salesManagement',
+  'readOnly',
+  'readOnlyRestricted',
   'demandPlanning',
   'superUser',
 ];

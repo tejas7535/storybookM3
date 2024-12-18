@@ -9,6 +9,7 @@ export enum AppRoutePath {
   AlertRuleManagementPage = 'taskRules', // TODO original AlertRuleManagement is used without Page
   AlertPage = 'tasks', // TODO original Alerts is used without Page
   ForbiddenPath = 'forbidden',
+  SalesPlanningPage = 'salesPlanning',
 }
 
 export type TabItem = 'home' | 'functions' | 'tasks';

@@ -126,6 +126,9 @@
     },
     "alert-rule-editor": {
       "label": "Editor de reglas de tareas"
+    },
+    "sales-planning": {
+      "label": "Planificación de ventas"
     }
   },
   "globalSelection": {
@@ -503,6 +506,28 @@
       "check": {
         "success": "El valor es válido."
       }
+    }
+  },
+  "sales_planning": {
+    "title": "Planificación de ventas",
+    "customer": "Cliente",
+    "customer_info_modal": {
+      "customer": "Cliente",
+      "owner": "Titular",
+      "globalCustomerNumber": "Número global de cliente",
+      "region": "Región (legal)",
+      "salesOrg": "Organización comercial",
+      "salesArea": "Área comercial (mercado)",
+      "country": "País (cliente)",
+      "sector": "Sector",
+      "keyAccount": "Key Account",
+      "subKeyAccount": "Sub Key Account",
+      "planningCurrency": "Moneda de planificación",
+      "accountOwner": "Titular de la cuenta",
+      "internalSales": "Ventas internas",
+      "demandPlanner": "Planificador de la demanda",
+      "gkam": "GKAM",
+      "kam": "KAM"
     }
   },
   "customer": {

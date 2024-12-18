@@ -1,0 +1,133 @@
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+
+import { translate } from '@jsverse/transloco';
+import { getYear } from 'date-fns';
+import { SeriesOption } from 'echarts';
+import { NgxEchartsModule } from 'ngx-echarts';
+
+import {
+  chartSeriesConfig,
+  MonthlyChartEntry,
+  YearlyChartEntry,
+} from '../../model';
+import { BaseForecastChartComponent } from '../base-forecast-chart.component';
+
+@Component({
+  selector: 'd360-yearly-forecast-chart',
+  standalone: true,
+  imports: [CommonModule, NgxEchartsModule],
+  templateUrl: '../base-forecast-chart.component.html',
+  styleUrl: '../base-forecast-chart.component.scss',
+})
+export class YearlyForecastChartComponent extends BaseForecastChartComponent {
+  protected boundaryGap = true;
+
+  protected formatXAxisData(data: MonthlyChartEntry[]) {
+    return [...new Set(data.map((entry) => getYear(entry.yearMonth)))];
+  }
+
+  protected createSeries(data: MonthlyChartEntry[]): SeriesOption[] {
+    const yearlyAggregation = this.aggregateByYear(data);
+
+    return [
+      this.createBarSeries('deliveries', yearlyAggregation),
+      this.createBarSeries('orders', yearlyAggregation),
+      this.createBarSeries('onTopOrder', yearlyAggregation),
+      this.createBarSeries('onTopCapacityForecast', yearlyAggregation),
+      this.createBarSeries('salesAmbition', yearlyAggregation),
+      this.createBarSeries('opportunities', yearlyAggregation),
+      {
+        name: translate('home.chart.legend.rollingSalesForecast'),
+        kpi: 'rollingSalesForecast',
+        type: 'bar',
+        data: yearlyAggregation.map((entry) => entry.rollingSalesForecast),
+        barGap: '-100%',
+        itemStyle: {
+          color: 'transparent',
+          borderColor: chartSeriesConfig.rollingSalesForecast.color,
+          borderWidth: 1,
+          borderType: 'dashed',
+        },
+        tooltip: {
+          // not showing this dataset in the tooltip as its color is transparent.
+          // We use the dummy dataset below to render the rollingSalesForecast
+          // entry in the tooltip properly
+          show: false,
+        },
+        z: 100,
+      },
+      this.createDummyRollingSalesForecastSeries(yearlyAggregation),
+    ];
+  }
+
+  private aggregateByYear(entries: MonthlyChartEntry[]): YearlyChartEntry[] {
+    // To favor readability & concise code, we use map/reduce to aggregate the data by year.
+    // eslint-disable-next-line unicorn/no-array-reduce
+    const aggregationByYear = entries.reduce((acc, entry) => {
+      const year = new Date(entry.yearMonth).getFullYear();
+      if (!acc.has(year)) {
+        acc.set(year, {
+          year,
+          orders: 0,
+          deliveries: 0,
+          opportunities: 0,
+          salesAmbition: 0,
+          onTopCapacityForecast: 0,
+          onTopOrder: 0,
+          rollingSalesForecast: 0,
+        });
+      }
+
+      const agg = acc.get(year);
+      agg.orders += entry.orders;
+      agg.deliveries += entry.deliveries;
+      agg.opportunities += entry.opportunities;
+      agg.salesAmbition += entry.salesAmbition;
+      agg.onTopCapacityForecast += entry.onTopCapacityForecast;
+      agg.onTopOrder += entry.onTopOrder;
+      agg.rollingSalesForecast += entry.rollingSalesForecast ?? 0;
+
+      return acc;
+    }, new Map<number, YearlyChartEntry>());
+
+    return [...aggregationByYear.values()];
+  }
+
+  private createBarSeries(
+    kpi: keyof typeof chartSeriesConfig,
+    data: YearlyChartEntry[]
+  ): any {
+    return {
+      name: translate(`home.chart.legend.${kpi}`),
+      kpi,
+      type: 'bar',
+      stack: 'Total',
+      color: chartSeriesConfig[kpi].color,
+      data: data.map((entry) => entry[kpi]),
+    };
+  }
+
+  /**
+   * Creates a dummy series to render the rollingSalesForecast entry in the tooltip.
+   * The actual data set is not visible in the chart due to opacity set to '0'.
+   *
+   * However, it properly appears in the tooltip with the correct color.
+   *
+   * @param yearlyAggregation
+   * @private
+   */
+  private createDummyRollingSalesForecastSeries(
+    yearlyAggregation: YearlyChartEntry[]
+  ): any {
+    return {
+      name: translate('home.chart.legend.rollingSalesForecast'),
+      type: 'bar',
+      color: chartSeriesConfig.rollingSalesForecast.color,
+      data: yearlyAggregation.map((entry) => entry.rollingSalesForecast),
+      itemStyle: {
+        opacity: 0,
+      },
+    };
+  }
+}

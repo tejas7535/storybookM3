@@ -3,6 +3,7 @@ export const dimmedBlue = '#A4CADE';
 export const dimmedYellow = '#E3D07D';
 export const dimmedGrey = '#646464';
 export const dimmedGreen = '#7EA69B';
+export const dimmedPurple = '#A4ACDE';
 export const disabledGrey = '#00000042';
 
 export const schaefflerColor = '#00893D';

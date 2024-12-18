@@ -1,6 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+
+import { PushPipe } from '@ngrx/component';
 
 import { ForecastChartComponent } from '../../feature/forecast-chart/components/forecast-chart/forecast-chart.component';
+import { PeriodType } from '../../feature/forecast-chart/model';
+import { CurrencyService } from '../../feature/info/currency.service';
 import { ColumnFilters } from '../../shared/ag-grid/grid-filter-model';
 import { GlobalSelectionCriteriaComponent } from '../../shared/components/global-selection-criteria/global-selection-criteria/global-selection-criteria.component';
 import { GlobalSelectionState } from '../../shared/components/global-selection-criteria/global-selection-state.service';
@@ -15,11 +20,30 @@ import { MaterialCustomerTableComponent } from './table/components/material-cust
     ForecastChartComponent,
     StyledSectionComponent,
     MaterialCustomerTableComponent,
+    PushPipe,
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
+  /**
+   * The CurrencyService.
+   *
+   * @type {CurrencyService}
+   * @memberof HomeComponent
+   */
+  private readonly currencyService: CurrencyService = inject(CurrencyService);
+
+  /**
+   * The user currency.
+   *
+   * @type {Signal<string>}
+   * @protected
+   */
+  protected userCurrency: Signal<string> = toSignal(
+    this.currencyService.getCurrentCurrency()
+  );
+
   /**
    * The current filter values.
    *
@@ -55,4 +79,6 @@ export class HomeComponent {
   onUpdateColumnFilter(columnFilters: ColumnFilters) {
     this.columnFilters = columnFilters;
   }
+
+  protected readonly PeriodType = PeriodType;
 }

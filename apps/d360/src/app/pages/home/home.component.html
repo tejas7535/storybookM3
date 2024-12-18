@@ -2,10 +2,15 @@
   <d360-global-selection-criteria
     (onGlobalSelectionChange)="onUpdateGlobalSelectionState($event)"
   />
-  <d360-forecast-chart
-    [columnFilters]="columnFilters"
-    [globalSelectionState]="globalSelectionCriteria"
-  />
+  <d360-styled-section>
+    <d360-forecast-chart
+      [currency]="userCurrency()"
+      [columnFilters]="columnFilters"
+      [globalSelectionState]="globalSelectionCriteria"
+      [chartIdentifier]="'start-page'"
+      [defaultPeriodType]="PeriodType.MONTHLY"
+    />
+  </d360-styled-section>
 
   <d360-styled-section [grow]="true" class="flex flex-col h-full">
     <d360-material-customer-table

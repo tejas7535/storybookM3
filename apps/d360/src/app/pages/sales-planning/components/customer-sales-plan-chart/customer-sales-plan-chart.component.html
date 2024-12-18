@@ -1,0 +1,9 @@
+<section class="p-4" *transloco="let t">
+  <d360-forecast-chart
+    [currency]="planningCurrency()"
+    [columnFilters]="{}"
+    [globalSelectionState]="globalSelectionState()"
+    [chartIdentifier]="'sales-planning'"
+    [defaultPeriodType]="PeriodType.YEARLY"
+  />
+</section>
