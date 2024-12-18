@@ -265,6 +265,7 @@ export class ForecastChartComponent implements OnInit {
 
   public onPeriodChange(event: MatRadioChange) {
     this.chartSettings.periodType = event.value;
+    this.chartData.set([]);
     this.onChartSettingChange('period', event.value);
   }
 
