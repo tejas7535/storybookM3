@@ -30,13 +30,12 @@
                   [label]="t('validation_of_demand.date_picker.start_date')"
                 />
                 <d360-date-picker-month-year
-                  [endOf]="true"
                   [control]="dateForm.controls['endDate']"
                   [label]="t('validation_of_demand.date_picker.end_date')"
                 />
               </div>
               <div>
-                <div class="flex justify-end">
+                <div class="flex justify-end mt-4">
                   <button mat-flat-button (click)="onUpdateDateSettings()">
                     {{ t('button.save') }}
                   </button>
