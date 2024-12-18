@@ -85,8 +85,9 @@ export class AutocompleteSelectionComponent
     input.required<SelectableValue[]>();
   readonly appearance: InputSignal<Appearance> = input<Appearance>('outline');
   readonly isLoading: InputSignal<boolean> = input<boolean>(true);
+  readonly isEditMode: InputSignal<boolean> = input<boolean>(false);
 
-  defaultSelection: Signal<SelectableValue> = computed(() =>
+  readonly defaultSelection: Signal<SelectableValue> = computed(() =>
     this.options()?.find((option) => option.defaultSelection)
   );
   readonly defaultSelection$ = toObservable(this.defaultSelection);
@@ -114,11 +115,15 @@ export class AutocompleteSelectionComponent
     this.defaultSelection$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((defaultSelection) => {
-        if (!this.selectedValue() && defaultSelection) {
+        if (
+          !this.isEditMode() &&
+          !this.getSelectedValue() &&
+          defaultSelection
+        ) {
           this.selectedValue.set(defaultSelection);
-          this.formControl.setValue(defaultSelection);
-          this.onChange(defaultSelection);
         }
+        this.formControl.setValue(this.getSelectedValue());
+        this.onChange(this.getSelectedValue());
       });
 
     this.formControl.valueChanges
@@ -146,9 +151,7 @@ export class AutocompleteSelectionComponent
           })
         );
 
-        const error =
-          this.filteredOptions().length === 0 ? { notFound: true } : null;
-        this.formControl.setErrors(error);
+        this.handleErrors(value);
       });
   }
 
@@ -157,6 +160,10 @@ export class AutocompleteSelectionComponent
    * Writes a new value to the formControl
    */
   writeValue(value: SelectableValue): void {
+    if (!value?.id) {
+      // eslint-disable-next-line no-param-reassign
+      value = null;
+    }
     this.selectedValue.set(value);
   }
 
@@ -192,5 +199,29 @@ export class AutocompleteSelectionComponent
 
   displayFn(value: SelectableValue) {
     return displaySelectableValue(value);
+  }
+
+  getSelectedValue() {
+    return this.selectedValue();
+  }
+
+  handleErrors(value: string | SelectableValue) {
+    const error = this.valueNotFound(value) ? { notFound: true } : null;
+    if (error) {
+      // Force to mark as touched to display an error for example for wrong initial values
+      this.formControl.markAsTouched();
+    }
+    this.formControl.setErrors(error);
+  }
+
+  private valueNotFound(value: string | SelectableValue) {
+    const emptyFilteredOptions = this.filteredOptions().length === 0;
+    if (typeof value !== 'string' && value !== null) {
+      const includesOption = this.options().includes(value);
+
+      return emptyFilteredOptions || !includesOption;
+    }
+
+    return emptyFilteredOptions;
   }
 }

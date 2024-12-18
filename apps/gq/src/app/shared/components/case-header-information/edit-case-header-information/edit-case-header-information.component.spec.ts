@@ -102,7 +102,9 @@ describe('EditCaseHeaderInformationComponent', () => {
           enableSapFieldEditing: true,
         },
       },
-      MockProvider(ShipToPartyFacade),
+      MockProvider(ShipToPartyFacade, {
+        loadShipToPartyByCustomerAndSalesOrg: jest.fn(),
+      }),
       MockProvider(Store, {
         select: jest.fn().mockReturnValue(of({})),
       }),
@@ -227,6 +229,14 @@ describe('EditCaseHeaderInformationComponent', () => {
         id: '6000036',
         name: 'MRO Mining',
       });
+    });
+    test('should request sectorGpsd data', () => {
+      component['shipToPartyFacade'].loadShipToPartyByCustomerAndSalesOrg =
+        jest.fn();
+      component.ngOnInit();
+      expect(
+        component['shipToPartyFacade'].loadShipToPartyByCustomerAndSalesOrg
+      ).toHaveBeenCalled();
     });
   });
   describe('closeDialog', () => {

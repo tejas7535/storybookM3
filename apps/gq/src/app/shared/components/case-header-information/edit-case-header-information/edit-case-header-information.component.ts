@@ -35,11 +35,9 @@ import { Observable } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { SalesOrg } from '@gq/core/store/reducers/models';
-import { ShipToPartyFacade } from '@gq/core/store/ship-to-party/ship-to-party.facade';
 import { ShipToPartyModule } from '@gq/core/store/ship-to-party/ship-to-party.module';
 import { AutocompleteSelectionComponent } from '@gq/shared/components/autocomplete-selection/autocomplete-selection.component';
 import { DATE_FORMATS } from '@gq/shared/constants/date-formats';
-import { SelectableValue } from '@gq/shared/models/selectable-value.model';
 import { ShipToParty } from '@gq/shared/services/rest/quotation/models/ship-to-party';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
 import { getMomentUtcStartOfDayDate } from '@gq/shared/utils/misc.utils';
@@ -108,13 +106,6 @@ export class EditCaseHeaderInformationComponent
   isEditMode = true;
   quotationToChangedByUser = false;
 
-  private readonly shipToPartyFacade: ShipToPartyFacade =
-    inject(ShipToPartyFacade);
-  shipToPartySelectableValues$: Observable<SelectableValue[]> =
-    this.shipToPartyFacade.shipToPartiesAsSelectableValues$;
-  shipToPartiesLoading$: Observable<boolean> =
-    this.shipToPartyFacade.shipToPartiesLoading$;
-
   private userHasOfferTypeAccess = false;
 
   reset(): void {
@@ -131,6 +122,11 @@ export class EditCaseHeaderInformationComponent
 
     if (this.modalData?.caseCustomer) {
       this.sectorGpsdFacade.loadSectorGpsdByCustomerAndSalesOrg(
+        this.modalData?.caseCustomer?.identifier?.customerId,
+        this.modalData?.caseCustomer?.identifier?.salesOrg
+      );
+
+      this.shipToPartyFacade.loadShipToPartyByCustomerAndSalesOrg(
         this.modalData?.caseCustomer?.identifier?.customerId,
         this.modalData?.caseCustomer?.identifier?.salesOrg
       );

@@ -16,6 +16,7 @@ import { AutoCompleteFacade } from '@gq/core/store/facades/autocomplete.facade';
 import { RolesFacade } from '@gq/core/store/facades/roles.facade';
 import { CaseFilterItem, SalesOrg } from '@gq/core/store/reducers/models';
 import { SectorGpsdFacade } from '@gq/core/store/sector-gpsd/sector-gpsd.facade';
+import { ShipToPartyFacade } from '@gq/core/store/ship-to-party/ship-to-party.facade';
 import { IdValue } from '@gq/shared/models/search/id-value.model';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -188,6 +189,12 @@ describe('CaseHeaderInformationComponent', () => {
           resetAllSectorGpsds: jest.fn(),
         },
       },
+      {
+        provide: ShipToPartyFacade,
+        useValue: {
+          selectShipToParty: jest.fn(),
+        },
+      },
     ],
   });
 
@@ -245,32 +252,9 @@ describe('CaseHeaderInformationComponent', () => {
       expect(component.hasHeaderInfoFormChange).toBeTruthy();
       expect(component['validateInquiryDateDependentDates']).toHaveBeenCalled();
     });
-    test('should handle autocomplete resetAutocompleteMaterials', () => {
-      Object.defineProperty(component, 'autocomplete', {
-        value: {
-          autocomplete: jest.fn(),
-          resetAutocompleteMaterials: jest.fn(),
-        },
-      });
-
+    test('should call shipToPartyFacade selectShipToParty method', () => {
       component.headerInfoForm.get('shipToParty').setValue('s');
-      expect(
-        component.autocomplete.resetAutocompleteMaterials
-      ).toHaveBeenCalled();
-    });
-
-    test('should handle autocomplete empty string', () => {
-      Object.defineProperty(component, 'autocomplete', {
-        value: {
-          autocomplete: jest.fn(),
-          resetAutocompleteMaterials: jest.fn(),
-        },
-      });
-
-      component.headerInfoForm.get('shipToParty').setValue('');
-      expect(
-        component.autocomplete.resetAutocompleteMaterials
-      ).toHaveBeenCalled();
+      expect(component.shipToPartyFacade.selectShipToParty).toHaveBeenCalled();
     });
   });
 

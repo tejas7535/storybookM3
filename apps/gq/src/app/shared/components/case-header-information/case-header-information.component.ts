@@ -14,14 +14,16 @@ import {
 } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 
-import { BehaviorSubject, debounce, EMPTY, Observable, tap, timer } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { CurrencyFacade } from '@gq/core/store/currency/currency.facade';
 import { AutoCompleteFacade } from '@gq/core/store/facades/autocomplete.facade';
 import { RolesFacade } from '@gq/core/store/facades/roles.facade';
 import { SalesOrg } from '@gq/core/store/reducers/create-case/models/sales-orgs.model';
 import { SectorGpsdFacade } from '@gq/core/store/sector-gpsd/sector-gpsd.facade';
+import { ShipToPartyFacade } from '@gq/core/store/ship-to-party/ship-to-party.facade';
 import { IdValue } from '@gq/shared/models/search';
+import { SelectableValue } from '@gq/shared/models/selectable-value.model';
 import { getMomentUtcStartOfDayDate } from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import _ from 'lodash';
@@ -32,6 +34,7 @@ import moment, { Moment } from 'moment';
 import { FilterNames } from '../autocomplete-input/filter-names.enum';
 import { EditCaseModalData } from '../modal/edit-case-modal/edit-case-modal-data.model';
 import { HeaderInformationData } from './models/header-information-data.interface';
+
 @Directive()
 export abstract class CaseHeaderInformationComponent implements OnInit {
   submitDialog?(): void;
@@ -61,6 +64,12 @@ export abstract class CaseHeaderInformationComponent implements OnInit {
   private readonly rolesFacade: RolesFacade = inject(RolesFacade);
   private readonly changeDetectorRef: ChangeDetectorRef =
     inject(ChangeDetectorRef);
+
+  readonly shipToPartyFacade: ShipToPartyFacade = inject(ShipToPartyFacade);
+  shipToPartySelectableValues$: Observable<SelectableValue[]> =
+    this.shipToPartyFacade.shipToPartiesAsSelectableValues$;
+  shipToPartiesLoading$: Observable<boolean> =
+    this.shipToPartyFacade.shipToPartiesLoading$;
 
   readonly autocomplete: AutoCompleteFacade = inject(AutoCompleteFacade);
   readonly destroyRef: DestroyRef = inject(DestroyRef);
@@ -127,31 +136,9 @@ export abstract class CaseHeaderInformationComponent implements OnInit {
 
     this.headerInfoForm
       .get('shipToParty')
-      .valueChanges.pipe(
-        takeUntilDestroyed(this.destroyRef),
-        tap((value: string) => {
-          if (value?.length < this.MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE) {
-            this.autocomplete.resetAutocompleteMaterials();
-          }
-        }),
-        debounce((value: string) =>
-          value?.length >= this.MIN_INPUT_STRING_LENGTH_FOR_AUTOCOMPLETE
-            ? timer(this.DEBOUNCE_TIME_DEFAULT)
-            : EMPTY
-        )
-      )
-      .subscribe((searchVal: string) => {
-        if (searchVal === '') {
-          this.autocomplete.resetAutocompleteMaterials();
-
-          return;
-        }
-
-        this.autocomplete.autocomplete({
-          filter: FilterNames.CUSTOMER_AND_SHIP_TO_PARTY,
-          searchFor: searchVal,
-          limit: 5,
-        });
+      .valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((selectedValue) => {
+        this.shipToPartyFacade.selectShipToParty(selectedValue);
       });
 
     this.shipToPartySalesOrgs$

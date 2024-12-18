@@ -206,4 +206,52 @@ describe('AutocompleteSelectionComponent', () => {
       }, component['debounceTime']);
     });
   });
+
+  describe('writeValue function', () => {
+    test('should set value to null when id is not present', () => {
+      const value: SelectableValue = {
+        id: undefined,
+        value: 'value',
+        value2: 'value2',
+      };
+      component.writeValue(value);
+      expect(component.getSelectedValue()).toEqual(null);
+    });
+    test('should set selected value to null when null is passed', () => {
+      component.writeValue(null);
+      expect(component.getSelectedValue()).toEqual(null);
+    });
+  });
+  describe('handleErrors', () => {
+    test('should set error when value is not found', () => {
+      component.filteredOptions.set([]);
+      component.handleErrors('test');
+      expect(component.formControl.errors).toEqual({ notFound: true });
+    });
+    test('should set error when value object is not found', () => {
+      const value: SelectableValue = {
+        id: '1',
+        value: 'value',
+        value2: 'value2',
+      };
+      component.filteredOptions.set([value]);
+      const searchValue: SelectableValue = {
+        id: '2',
+        value: 'value',
+        value2: 'value2',
+      };
+      component.handleErrors(searchValue);
+      expect(component.formControl.errors).toEqual({ notFound: true });
+    });
+    test('should set error to null when value is found', () => {
+      const value: SelectableValue = {
+        id: '1',
+        value: 'value',
+        value2: 'value2',
+      };
+      component.filteredOptions.set([value]);
+      component.handleErrors('value');
+      expect(component.formControl.errors).toEqual(null);
+    });
+  });
 });

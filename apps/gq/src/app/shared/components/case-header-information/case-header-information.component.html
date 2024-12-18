@@ -56,6 +56,7 @@
               [label]="t('shipToParty')"
               [options]="shipToPartySelectableValues$ | ngrxPush"
               [isLoading]="shipToPartiesLoading$ | ngrxPush"
+              [isEditMode]="isEditMode"
               [attr.data-cy]="'case-header-information_ship-to-party-selection'"
             >
             </gq-autocomplete-selection>
