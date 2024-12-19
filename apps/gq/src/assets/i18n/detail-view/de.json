@@ -1,5 +1,9 @@
 {
   "filterPricing": {
+    "sqvCostReference": {
+      "cost": "Kosten",
+      "costSource": "Kostenquelle"
+    },
     "manualPrice": {
       "title": "Manueller Preis",
       "label": "Manueller Preis",

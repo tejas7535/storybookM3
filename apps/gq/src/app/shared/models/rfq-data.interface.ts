@@ -1,4 +1,4 @@
-import { QuotationRfqData } from './quotation-detail/quotation-rfq-data.interface';
+import { QuotationRfqData } from './quotation-detail/rfq-data/quotation-rfq-data.interface';
 
 export interface RfqData extends Omit<QuotationRfqData, 'productionPlant'> {
   sapId: string;

@@ -35,10 +35,10 @@ import {
 import { AppRoutePath } from '@gq/app-route-path.enum';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
-import { TextareaFormFieldComponent } from '@gq/shared/components/textarea-form-field/textarea-form-field.component';
 import { UserSelectComponent } from '@gq/process-case-view/user-select/user-select.component';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { InfoBannerComponent } from '@gq/shared/components/info-banner/info-banner.component';
+import { TextareaFormFieldComponent } from '@gq/shared/components/textarea-form-field/textarea-form-field.component';
 import {
   ActiveDirectoryUser,
   ApprovalLevel,

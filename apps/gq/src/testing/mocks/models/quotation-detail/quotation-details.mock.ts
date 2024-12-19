@@ -1,29 +1,33 @@
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { AbcxClassification } from '@gq/shared/models/quotation';
 import { TargetPriceSource } from '@gq/shared/models/quotation/target-price-source.enum';
+import { MaterialDetails } from '@gq/shared/models/quotation-detail/material';
 
-import { SapSyncError, SimulatedQuotation } from '../../../app/shared/models';
+import {
+  SapSyncError,
+  SimulatedQuotation,
+} from '../../../../app/shared/models';
 import {
   LastCustomerPriceCondition,
-  MaterialDetails,
   PriceSource,
   QuotationDetail,
   SAP_ERROR_MESSAGE_CODE,
   SAP_SYNC_STATUS,
   SapPriceCondition,
-} from '../../../app/shared/models/quotation-detail';
-import { LAST_OFFER_DETAIL_MOCK } from './last-offer-detail.mock';
-import { MATERIAL_STOCK_BY_PLANT_MOCK } from './material-stock-by-plant.mock';
-import { MRP_DATA_MOCK } from './mrp-data.mock';
-import { PLANT_MOCK } from './plant.mock';
-import { QUOTATION_F_PRICING_MOCK } from './quotation-f-pricing.mock';
-import { QUOTATION_RFQ_DATA_MOCK } from './quotation-rfq-data-mock';
+} from '../../../../app/shared/models/quotation-detail';
+import { LAST_OFFER_DETAIL_MOCK } from '../last-offer-detail.mock';
+import { MATERIAL_STOCK_BY_PLANT_MOCK } from '../material-stock-by-plant.mock';
+import { MRP_DATA_MOCK } from '../mrp-data.mock';
+import { PLANT_MOCK } from '../plant.mock';
+import { QUOTATION_F_PRICING_MOCK } from '../quotation-f-pricing.mock';
 import {
   SAP_PRICE_DETAIL_ZEVO_MOCK,
   SAP_PRICE_DETAIL_ZMIN_MOCK,
   SAP_PRICE_DETAIL_ZRTU_MOCK,
-} from './sap-price-condition-detail.mock';
-import { STATUS_BAR_PROPERTIES_MOCK } from './status-bar.mock';
+} from '../sap-price-condition-detail.mock';
+import { STATUS_BAR_PROPERTIES_MOCK } from '../status-bar.mock';
+import { QUOTATION_DETAIL_COSTS_MOCK } from './cost/quotation-detail-costs.mock';
+import { QUOTATION_RFQ_DATA_MOCK } from './rfq-data/quotation-rfq-data-mock';
 
 export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   quotationId: '123456',
@@ -61,6 +65,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   mrpData: MRP_DATA_MOCK,
   rfqData: QUOTATION_RFQ_DATA_MOCK,
   fPricing: QUOTATION_F_PRICING_MOCK,
+  detailCosts: QUOTATION_DETAIL_COSTS_MOCK,
 
   priceDiff: 0.1765,
   priceDiffSap: 0,

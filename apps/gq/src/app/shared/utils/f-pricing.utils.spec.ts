@@ -1,4 +1,8 @@
-import { MaterialDetails, ProductType, QuotationDetail } from '../models';
+import { QuotationDetail } from '../models';
+import {
+  MaterialDetails,
+  ProductType,
+} from '../models/quotation-detail/material';
 import {
   addNumbers,
   addTwoNumbers,

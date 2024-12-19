@@ -1,11 +1,11 @@
 import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 import { TableItem } from '@gq/f-pricing/pricing-assistant-modal/models/table-item';
-import { ProductType } from '@gq/shared/models';
 import {
   FPricingData,
   UpdateFPricingDataResponse,
 } from '@gq/shared/models/f-pricing';
 import { MaterialComparisonResponse } from '@gq/shared/models/f-pricing/material-comparison.interface';
+import { ProductType } from '@gq/shared/models/quotation-detail/material';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 import { FPricingComparableMaterials } from '../transactions/models/f-pricing-comparable-materials.interface';

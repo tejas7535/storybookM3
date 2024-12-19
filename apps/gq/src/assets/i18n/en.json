@@ -608,6 +608,13 @@
       "months": "months",
       "day": "day",
       "days": "days"
+    },
+    "sqvCheckSource": {
+      "RELOCATION": "Relocation",
+      "RFQ_SQV": "Rfq",
+      "SQV_SAP": "SAP",
+      "OPEN_RFQ": "Rfq",
+      "ACVA": "ACVA"
     }
   },
   "legal": {

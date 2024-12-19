@@ -4,13 +4,14 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
-import { ApiVersion, ProductType } from '@gq/shared/models';
+import { ApiVersion } from '@gq/shared/models';
 import {
   FPricingCalculationsRequest,
   UpdateFPricingDataRequest,
   UpdateFPricingDataResponse,
 } from '@gq/shared/models/f-pricing';
 import { MaterialComparisonResponse } from '@gq/shared/models/f-pricing/material-comparison.interface';
+import { ProductType } from '@gq/shared/models/quotation-detail/material';
 import {
   createServiceFactory,
   HttpMethod,

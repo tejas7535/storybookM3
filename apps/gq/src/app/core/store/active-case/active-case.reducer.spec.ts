@@ -1039,6 +1039,14 @@ describe('Active Case Feature Selector', () => {
     });
   });
 
+  describe('getSelectedQuotationDetailCosts', () => {
+    test('should return cost', () => {
+      expect(
+        activeCaseFeature.getSelectedQuotationDetailCosts(fakeState)
+      ).toEqual(QUOTATION_DETAIL_MOCK.detailCosts);
+    });
+  });
+
   describe('getPriceUnitOfSelectedQuotationDetail', () => {
     test('should return price unit', () => {
       expect(

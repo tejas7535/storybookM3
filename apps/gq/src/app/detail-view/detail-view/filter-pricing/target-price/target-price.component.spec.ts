@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { EditingModalService } from '@gq/shared/components/modal/editing-modal/editing-modal.service';
+import { FeatureToggleDirective } from '@gq/shared/directives/feature-toggle/feature-toggle.directive';
 import { QuotationStatus } from '@gq/shared/models';
 import {
   PriceSource,
@@ -45,6 +46,7 @@ describe('TargetPriceComponent', () => {
     component: TargetPriceComponent,
     detectChanges: false,
     imports: [
+      FeatureToggleDirective,
       PushPipe,
       provideTranslocoTestingModule({ en: {} }),
       TargetPriceSourcePipe,

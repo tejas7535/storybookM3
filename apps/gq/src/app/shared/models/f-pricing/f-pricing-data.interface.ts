@@ -1,4 +1,4 @@
-import { ProductType } from '../quotation-detail/product-type.enum';
+import { ProductType } from '../quotation-detail/material/product-type.enum';
 import { MarketValueDriver } from './market-value-driver.interface';
 import { SanityCheckMargins } from './sanity-check-margins.interface';
 import { TechnicalValueDriver } from './technical-value-driver.interface';

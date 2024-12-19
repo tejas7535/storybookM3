@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-status.enum';
+import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-data/rfq-status.enum';
 import { translate } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { CellClassParams } from 'ag-grid-community';

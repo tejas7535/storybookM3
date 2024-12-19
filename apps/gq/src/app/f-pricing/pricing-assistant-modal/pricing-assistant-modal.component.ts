@@ -22,7 +22,7 @@ import { EditingModal } from '@gq/shared/components/modal/editing-modal/models/e
 import { KpiValue } from '@gq/shared/components/modal/editing-modal/models/kpi-value.model';
 import { PriceSource, QuotationDetail } from '@gq/shared/models';
 import { MaterialToCompare } from '@gq/shared/models/f-pricing/material-to-compare.interface';
-import { MaterialDetails } from '@gq/shared/models/quotation-detail/material-details.model';
+import { MaterialDetails } from '@gq/shared/models/quotation-detail/material';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 
 import { MaterialDetailsComponent } from './material-details/material-details.component';

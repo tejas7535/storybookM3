@@ -1,5 +1,5 @@
-import { ProductType } from '@gq/shared/models';
 import { MarketValueDriver } from '@gq/shared/models/f-pricing';
+import { ProductType } from '@gq/shared/models/quotation-detail/material';
 
 /**
  * ALL OF the Mock refer to each other. All of them have the same "BASIS" just differently MAPPED

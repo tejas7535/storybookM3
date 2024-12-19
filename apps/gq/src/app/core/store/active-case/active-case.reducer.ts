@@ -7,6 +7,7 @@ import {
   QuotationDetail,
   SimulatedQuotation,
 } from '@gq/shared/models';
+import { QuotationDetailCosts } from '@gq/shared/models/quotation-detail/cost';
 import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
@@ -616,6 +617,12 @@ export const activeCaseFeature = createFeature({
             detail.gqPositionId === selectedQuotationDetail
         )
     );
+
+    const getSelectedQuotationDetailCosts = createSelector(
+      getSelectedQuotationDetail,
+      (detail: QuotationDetail): QuotationDetailCosts => detail?.detailCosts
+    );
+
     const getPriceUnitOfSelectedQuotationDetail = createSelector(
       getSelectedQuotationDetail,
       (detail: QuotationDetail): number => detail?.leadingPriceUnit
@@ -653,6 +660,7 @@ export const activeCaseFeature = createFeature({
 
     return {
       getSelectedQuotationDetail,
+      getSelectedQuotationDetailCosts,
       getPriceUnitOfSelectedQuotationDetail,
       getDetailViewQueryParams,
       getQuotationSalesOrgIsGreaterChina,

@@ -1,8 +1,8 @@
 import { Plant } from '@gq/shared/models/quotation-detail/plant.model';
-import { QuotationRfqData } from '@gq/shared/models/quotation-detail/quotation-rfq-data.interface';
-import { RfqDataDeliveryUnit } from '@gq/shared/models/quotation-detail/rfq-data-delivery-unit.enum';
-import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-status.enum';
-import { RfqType } from '@gq/shared/models/quotation-detail/rfq-type.enum';
+import { QuotationRfqData } from '@gq/shared/models/quotation-detail/rfq-data/quotation-rfq-data.interface';
+import { RfqDataDeliveryUnit } from '@gq/shared/models/quotation-detail/rfq-data/rfq-data-delivery-unit.enum';
+import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-data/rfq-status.enum';
+import { RfqType } from '@gq/shared/models/quotation-detail/rfq-data/rfq-type.enum';
 
 export const QUOTATION_RFQ_DATA_MOCK: QuotationRfqData = {
   rfqId: 'rfq-1245',

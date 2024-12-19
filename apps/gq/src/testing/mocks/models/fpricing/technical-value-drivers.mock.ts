@@ -1,6 +1,6 @@
 import { TableItem } from '@gq/f-pricing/pricing-assistant-modal/models/table-item';
-import { ProductType } from '@gq/shared/models';
 import { TechnicalValueDriver } from '@gq/shared/models/f-pricing/technical-value-driver.interface';
+import { ProductType } from '@gq/shared/models/quotation-detail/material';
 
 export const TECHNICAL_VALUE_DRIVERS_MOCK: TechnicalValueDriver = {
   productType: ProductType.CRB,

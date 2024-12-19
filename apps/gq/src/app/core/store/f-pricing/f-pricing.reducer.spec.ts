@@ -1,9 +1,10 @@
-import { ProductType, QuotationDetail } from '@gq/shared/models';
+import { QuotationDetail } from '@gq/shared/models';
 import {
   FPricingCalculationsRequest,
   UpdateFPricingDataRequest,
 } from '@gq/shared/models/f-pricing';
 import { SanityCheckMargins } from '@gq/shared/models/f-pricing/sanity-check-margins.interface';
+import { ProductType } from '@gq/shared/models/quotation-detail/material';
 
 import { F_PRICING_CALCULATIONS_MOCK } from '../../../../testing/mocks/models/fpricing/f-pricing-calculations.mock';
 import {

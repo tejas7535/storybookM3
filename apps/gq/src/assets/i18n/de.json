@@ -607,6 +607,13 @@
       "months": "Monate",
       "day": "Tag",
       "days": "Tage"
+    },
+    "sqvCheckSource": {
+      "RELOCATION": "Zukünftige Kosten",
+      "RFQ_SQV": "Rfq",
+      "SQV_SAP": "SAP",
+      "OPEN_RFQ": "Rfq",
+      "ACVA": "ACVA"
     }
   },
   "legal": {

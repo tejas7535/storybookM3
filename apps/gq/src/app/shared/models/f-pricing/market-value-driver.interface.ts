@@ -1,4 +1,4 @@
-import { ProductType } from '../quotation-detail';
+import { ProductType } from '../quotation-detail/material';
 
 export interface MarketValueDriver {
   questionId: number;

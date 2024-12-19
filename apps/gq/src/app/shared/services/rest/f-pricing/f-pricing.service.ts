@@ -13,9 +13,10 @@ import {
 } from '@gq/shared/models/f-pricing';
 import { MaterialComparisonResponse } from '@gq/shared/models/f-pricing/material-comparison.interface';
 
-import { ApiVersion, ProductType } from '../../../models';
+import { ApiVersion } from '../../../models';
 import { ComparableKNumbers } from '../../../models/f-pricing/comparable-k-numbers.interface';
 import { FPricingData } from '../../../models/f-pricing/f-pricing-data.interface';
+import { ProductType } from '../../../models/quotation-detail/material';
 import { FPricingPaths } from './f-pricing.paths.enum';
 
 @Injectable({
@@ -43,7 +44,8 @@ export class FPricingService {
           marketValueDrivers: data.marketValueDrivers.map(
             (mvd: MarketValueDriver) => ({
               ...mvd,
-              productType: ProductType[mvd.productType],
+              productType:
+                ProductType[mvd.productType as keyof typeof ProductType],
             })
           ),
         }))

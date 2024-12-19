@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 
 import { MaterialInformationExtended } from '@gq/core/store/f-pricing/models/material-information-extended.interface';
-import { MaterialDetails } from '@gq/shared/models';
 import { MaterialToCompare } from '@gq/shared/models/f-pricing/material-to-compare.interface';
+import { MaterialDetails } from '@gq/shared/models/quotation-detail/material';
 
 @Component({
   selector: 'gq-product-comparison',

@@ -13,8 +13,8 @@ import {
 import { MarketValueDriverSelection } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver.selection';
 import { MarketValueDriverDisplayItem } from '@gq/f-pricing/pricing-assistant-modal/models/market-value-driver-display-item.interface';
 import { TableItem } from '@gq/f-pricing/pricing-assistant-modal/models/table-item';
-import { ProductType } from '@gq/shared/models';
 import { MaterialToCompare } from '@gq/shared/models/f-pricing/material-to-compare.interface';
+import { ProductType } from '@gq/shared/models/quotation-detail/material';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { Actions, ofType } from '@ngrx/effects';

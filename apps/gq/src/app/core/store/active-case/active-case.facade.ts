@@ -16,6 +16,7 @@ import {
   QuotationStatus,
   SAP_SYNC_STATUS,
 } from '@gq/shared/models';
+import { QuotationDetailCosts } from '@gq/shared/models/quotation-detail/cost';
 import { MaterialComparableCost } from '@gq/shared/models/quotation-detail/material-comparable-cost.model';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
@@ -99,6 +100,9 @@ export class ActiveCaseFacade {
   selectedQuotationDetail$: Observable<QuotationDetail> = this.store.select(
     activeCaseFeature.getSelectedQuotationDetail
   );
+
+  selectedQuotationDetailCosts$: Observable<QuotationDetailCosts> =
+    this.store.select(activeCaseFeature.getSelectedQuotationDetailCosts);
 
   selectedQuotationDetailIds$: Observable<string[]> = this.store.select(
     activeCaseFeature.selectSelectedQuotationDetails

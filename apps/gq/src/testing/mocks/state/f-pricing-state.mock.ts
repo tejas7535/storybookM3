@@ -1,5 +1,5 @@
 import { FPricingState } from '@gq/core/store/f-pricing/f-pricing.reducer';
-import { ProductType } from '@gq/shared/models';
+import { ProductType } from '@gq/shared/models/quotation-detail/material';
 
 import { F_PRICING_CALCULATIONS_MOCK } from '../models/fpricing/f-pricing-calculations.mock';
 import { MARKET_VALUE_DRIVERS_MOCK } from '../models/fpricing/market-value-drivers.mock';

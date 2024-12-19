@@ -1,6 +1,6 @@
-import { ShipToPartyFacade } from '@gq/core/store/ship-to-party/ship-to-party.facade';
 import { of } from 'rxjs';
 
+import { ShipToPartyFacade } from '@gq/core/store/ship-to-party/ship-to-party.facade';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';

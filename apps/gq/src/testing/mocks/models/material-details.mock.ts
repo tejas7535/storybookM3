@@ -1,4 +1,4 @@
-import { MaterialDetails } from '../../../app/shared/models/quotation-detail';
+import { MaterialDetails } from '../../../app/shared/models/quotation-detail/material';
 
 export const MATERIAL_DETAILS_MOCK: MaterialDetails = {
   baseUoM: 'ST',

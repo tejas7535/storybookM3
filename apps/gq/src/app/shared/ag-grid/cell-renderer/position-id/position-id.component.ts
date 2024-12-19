@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 
-import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-status.enum';
+import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-data/rfq-status.enum';
 import { translate } from '@jsverse/transloco';
 import { CellClassParams } from 'ag-grid-enterprise';
 

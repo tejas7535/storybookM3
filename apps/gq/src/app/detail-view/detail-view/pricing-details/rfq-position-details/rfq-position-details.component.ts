@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { RfqModalData } from '@gq/detail-view/detail-view/pricing-details/rfq-position-details/models/rfq-modal-data.model';
 import { UpdateRfqPositionDetailsComponent } from '@gq/detail-view/detail-view/pricing-details/rfq-position-details/update-rfq-position-details/update-rfq-position-details.component';
-import { QuotationRfqData } from '@gq/shared/models/quotation-detail/quotation-rfq-data.interface';
+import { QuotationRfqData } from '@gq/shared/models/quotation-detail/rfq-data';
 
 @Component({
   selector: 'gq-rfq-position-details',

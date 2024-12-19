@@ -7,87 +7,97 @@
     [isLoading]="isLoading"
     [isDisabled]="isDisabled"
   >
-    <div content class="flex w-full flex-col flex-wrap sm:flex-row">
-      <div class="min-w-[8rem] max-w-[25%] grow pt-2">
-        <div class="text-body-2 text-medium-emphasis mb-1">
-          {{ t('priceLabel') }}:
+    <div content>
+      <div class="flex w-full flex-col flex-wrap sm:flex-row">
+        <div class="min-w-[8rem] max-w-[25%] grow pt-2">
+          <div>
+            <div class="text-body-2 text-medium-emphasis mb-1">
+              {{ t('priceLabel') }}:
+            </div>
+            <span class="font-bold">{{
+              quotationDetail.recommendedPrice | numberCurrency: currency
+            }}</span>
+          </div>
         </div>
-        <span class="font-bold">{{
-          quotationDetail.recommendedPrice | numberCurrency: currency
-        }}</span>
+        @if (userHasGPCRole) {
+          <div class="min-w-[8rem] pt-2">
+            <div class="text-body-2 text-medium-emphasis mb-1">
+              {{ t('gpi') }}:
+            </div>
+            <div>
+              <span class="font-bold">{{ gpi | percentage: false }}</span>
+            </div>
+          </div>
+        }
+        @if (userHasSQVRole) {
+          <div class="min-w-[8rem] pt-2">
+            <div class="text-body-2 text-medium-emphasis mb-1">
+              {{ t('gpm') }}:
+            </div>
+            <div>
+              <span class="font-bold">{{ gpm | percentage: false }}</span>
+            </div>
+          </div>
+        }
+        @if (gpmRfq) {
+          <div class="min-w-[8rem] pt-2">
+            <div class="text-body-2 text-medium-emphasis mb-1">
+              {{ t('gpmRfq') }}:
+            </div>
+            <div>
+              <span class="font-bold">{{ gpmRfq | percentage: false }}</span>
+            </div>
+          </div>
+        }
+        <div class="min-w-[8rem] pt-2">
+          <div class="text-body-2 text-medium-emphasis mb-1">
+            {{ t('quantity') }}:
+          </div>
+          <gq-quantity-display
+            [quotationDetail]="quotationDetail"
+          ></gq-quantity-display>
+        </div>
+        @if (quotationDetail.gqRating) {
+          <div class="min-w-[8rem] pt-2">
+            <div class="text-body-2 text-medium-emphasis mb-1">
+              {{ t('rating') }}:
+            </div>
+            <div>
+              @for (
+                i of [].constructor(quotationDetail.gqRating);
+                track $index
+              ) {
+                <mat-icon class="text-link mr-1">star</mat-icon>
+              }
+              @for (
+                i of [].constructor(3 - quotationDetail.gqRating);
+                track $index
+              ) {
+                <mat-icon class="text-link mr-1">star_border</mat-icon>
+              }
+            </div>
+          </div>
+        } @else {
+          <div class="min-w-[8rem] pt-2">
+            <div class="text-body-2 text-medium-emphasis mb-1">
+              {{ t('source') }}:
+            </div>
+            <div>
+              <span class="font-bold"> {{ t('strategic') }}</span>
+            </div>
+          </div>
+        }
+        @if (isDetailsButtonVisible) {
+          <gq-detail-button
+            link
+            [text]="t('details')"
+            [path]="DetailRoutePath.TransactionsPath"
+          ></gq-detail-button>
+        }
       </div>
-      @if (userHasGPCRole) {
-        <div class="min-w-[8rem] pt-2">
-          <div class="text-body-2 text-medium-emphasis mb-1">
-            {{ t('gpi') }}:
-          </div>
-          <div>
-            <span class="font-bold">{{ gpi | percentage: false }}</span>
-          </div>
-        </div>
-      }
-      @if (userHasSQVRole) {
-        <div class="min-w-[8rem] pt-2">
-          <div class="text-body-2 text-medium-emphasis mb-1">
-            {{ t('gpm') }}:
-          </div>
-          <div>
-            <span class="font-bold">{{ gpm | percentage: false }}</span>
-          </div>
-        </div>
-      }
-      @if (gpmRfq) {
-        <div class="min-w-[8rem] pt-2">
-          <div class="text-body-2 text-medium-emphasis mb-1">
-            {{ t('gpmRfq') }}:
-          </div>
-          <div>
-            <span class="font-bold">{{ gpmRfq | percentage: false }}</span>
-          </div>
-        </div>
-      }
-      <div class="min-w-[8rem] pt-2">
-        <div class="text-body-2 text-medium-emphasis mb-1">
-          {{ t('quantity') }}:
-        </div>
-        <gq-quantity-display
-          [quotationDetail]="quotationDetail"
-        ></gq-quantity-display>
-      </div>
-      @if (quotationDetail.gqRating) {
-        <div class="min-w-[8rem] pt-2">
-          <div class="text-body-2 text-medium-emphasis mb-1">
-            {{ t('rating') }}:
-          </div>
-          <div>
-            @for (i of [].constructor(quotationDetail.gqRating); track $index) {
-              <mat-icon class="text-link mr-1">star</mat-icon>
-            }
-            @for (
-              i of [].constructor(3 - quotationDetail.gqRating);
-              track $index
-            ) {
-              <mat-icon class="text-link mr-1">star_border</mat-icon>
-            }
-          </div>
-        </div>
-      } @else {
-        <div class="min-w-[8rem] pt-2">
-          <div class="text-body-2 text-medium-emphasis mb-1">
-            {{ t('source') }}:
-          </div>
-          <div>
-            <span class="font-bold"> {{ t('strategic') }}</span>
-          </div>
-        </div>
-      }
+      <!-- Will be added when sqv check result is used for gq price calcultion-->
+      <!-- <gq-sqv-cost-reference *featureToggle="'displaySqvChecks'">
+      </gq-sqv-cost-reference> -->
     </div>
-    @if (isDetailsButtonVisible) {
-      <gq-detail-button
-        link
-        [text]="t('details')"
-        [path]="DetailRoutePath.TransactionsPath"
-      ></gq-detail-button>
-    }
   </gq-filter-pricing-card>
 </div>

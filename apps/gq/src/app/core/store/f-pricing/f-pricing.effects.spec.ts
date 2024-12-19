@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
-import { PriceSource, ProductType } from '@gq/shared/models';
+import { PriceSource } from '@gq/shared/models';
 import {
   FPricingCalculationsRequest,
   FPricingCalculationsResponse,
@@ -11,6 +11,7 @@ import {
 } from '@gq/shared/models/f-pricing';
 import { ComparableKNumbers } from '@gq/shared/models/f-pricing/comparable-k-numbers.interface';
 import { MaterialComparisonResponse } from '@gq/shared/models/f-pricing/material-comparison.interface';
+import { ProductType } from '@gq/shared/models/quotation-detail/material';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';

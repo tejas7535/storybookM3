@@ -5,90 +5,100 @@
   [isSelected]="quotationDetail?.priceSource === PriceSource.MANUAL"
   [isLoading]="isLoading"
 >
-  <div class="flex w-full flex-col flex-wrap sm:flex-row" content>
-    <div class="min-w-[8rem] max-w-[25%] grow pt-2">
-      <div class="text-body-2 text-medium-emphasis mb-1">
-        <span>{{ t('label') }}:</span>
-      </div>
-      <div>
-        <div class="flex-1">
-          <span class="font-bold">{{ price | numberCurrency: currency }}</span>
-          @if (!price) {
-            <span class="font-bold"> {{ currency }}</span>
-          }
-          <ng-container *hideIfQuotationNotActiveOrPending>
-            @if (userHasManualPriceRole) {
-              <mat-icon
-                class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
-                (click)="openEditing(ColumnFields.PRICE)"
-                >mode_edit</mat-icon
-              >
-            }
-          </ng-container>
+  <div content>
+    <div class="flex w-full flex-col flex-wrap sm:flex-row">
+      <div class="min-w-[8rem] max-w-[25%] grow pt-2">
+        <div class="text-body-2 text-medium-emphasis mb-1">
+          <span>{{ t('label') }}:</span>
         </div>
-      </div>
-    </div>
-    @if (userHasGPCRole) {
-      <div class="min-w-[8rem] pt-2">
-        <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpi') }}:</div>
         <div>
-          <span class="font-bold">{{ gpi | percentage: false }}</span>
-          <ng-container *hideIfQuotationNotActiveOrPending>
-            @if (userHasManualPriceRole) {
-              <mat-icon
-                class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
-                (click)="openEditing(ColumnFields.GPI)"
-                >mode_edit</mat-icon
-              >
+          <div class="flex-1">
+            <span class="font-bold">{{
+              price | numberCurrency: currency
+            }}</span>
+            @if (!price) {
+              <span class="font-bold"> {{ currency }}</span>
             }
-          </ng-container>
+            <ng-container *hideIfQuotationNotActiveOrPending>
+              @if (userHasManualPriceRole) {
+                <mat-icon
+                  class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
+                  (click)="openEditing(ColumnFields.PRICE)"
+                  >mode_edit</mat-icon
+                >
+              }
+            </ng-container>
+          </div>
         </div>
       </div>
-    }
-    @if (userHasSQVRole) {
-      <div class="min-w-[8rem] pt-2">
-        <div class="text-body-2 text-medium-emphasis mb-1">{{ t('gpm') }}:</div>
-        <div>
-          <span class="font-bold">{{ gpm | percentage: false }}</span>
-          <ng-container *hideIfQuotationNotActiveOrPending>
-            @if (userHasManualPriceRole) {
-              <mat-icon
-                class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
-                (click)="openEditing(ColumnFields.GPM)"
-                >mode_edit</mat-icon
-              >
-            }
-          </ng-container>
+      @if (userHasGPCRole) {
+        <div class="min-w-[8rem] pt-2">
+          <div class="text-body-2 text-medium-emphasis mb-1">
+            {{ t('gpi') }}:
+          </div>
+          <div>
+            <span class="font-bold">{{ gpi | percentage: false }}</span>
+            <ng-container *hideIfQuotationNotActiveOrPending>
+              @if (userHasManualPriceRole) {
+                <mat-icon
+                  class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
+                  (click)="openEditing(ColumnFields.GPI)"
+                  >mode_edit</mat-icon
+                >
+              }
+            </ng-container>
+          </div>
         </div>
-      </div>
-    }
-    @if (quotationDetail.rfqData) {
+      }
+      @if (userHasSQVRole) {
+        <div class="min-w-[8rem] pt-2">
+          <div class="text-body-2 text-medium-emphasis mb-1">
+            {{ t('gpm') }}:
+          </div>
+          <div>
+            <span class="font-bold">{{ gpm | percentage: false }}</span>
+            <ng-container *hideIfQuotationNotActiveOrPending>
+              @if (userHasManualPriceRole) {
+                <mat-icon
+                  class="!text-body-1 text-medium-emphasis ml-1 cursor-pointer align-bottom !leading-6"
+                  (click)="openEditing(ColumnFields.GPM)"
+                  >mode_edit</mat-icon
+                >
+              }
+            </ng-container>
+          </div>
+        </div>
+      }
+      @if (quotationDetail.rfqData) {
+        <div class="min-w-[8rem] pt-2">
+          <div class="text-body-2 text-medium-emphasis mb-1">
+            {{ t('gpmRfq') }}:
+          </div>
+          <div>
+            <span class="font-bold">{{ gpmRfq | percentage: false }}</span>
+          </div>
+        </div>
+      }
       <div class="min-w-[8rem] pt-2">
         <div class="text-body-2 text-medium-emphasis mb-1">
-          {{ t('gpmRfq') }}:
+          {{ t('quantity') }}:
+        </div>
+        <gq-quantity-display
+          [quotationDetail]="quotationDetail"
+        ></gq-quantity-display>
+      </div>
+      <div class="min-w-[8rem] pt-2">
+        <div class="text-body-2 text-medium-emphasis mb-1">
+          {{ t('priceUnit') }}:
         </div>
         <div>
-          <span class="font-bold">{{ gpmRfq | percentage: false }}</span>
+          <span class="font-bold">{{
+            quotationDetail.leadingPriceUnit | number
+          }}</span>
         </div>
       </div>
-    }
-    <div class="min-w-[8rem] pt-2">
-      <div class="text-body-2 text-medium-emphasis mb-1">
-        {{ t('quantity') }}:
-      </div>
-      <gq-quantity-display
-        [quotationDetail]="quotationDetail"
-      ></gq-quantity-display>
     </div>
-    <div class="min-w-[8rem] pt-2">
-      <div class="text-body-2 text-medium-emphasis mb-1">
-        {{ t('priceUnit') }}:
-      </div>
-      <div>
-        <span class="font-bold">{{
-          quotationDetail.leadingPriceUnit | number
-        }}</span>
-      </div>
-    </div>
+    <gq-sqv-cost-reference *featureToggle="'displaySqvChecks'">
+    </gq-sqv-cost-reference>
   </div>
 </gq-filter-pricing-card>

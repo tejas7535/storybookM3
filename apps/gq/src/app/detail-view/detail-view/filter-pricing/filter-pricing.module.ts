@@ -24,6 +24,7 @@ import { GqPriceComponent } from './gq-price/gq-price.component';
 import { ManualPriceComponent } from './manual-price/manual-price.component';
 import { QuantityDisplayComponent } from './quantity/quantity-display/quantity-display.component';
 import { SapPriceComponent } from './sap-price/sap-price.component';
+import { SqvCostReferenceComponent } from './sqv-cost-reference/sqv-cost-reference.component';
 import { TargetPriceComponent } from './target-price/target-price.component';
 
 @NgModule({
@@ -52,6 +53,7 @@ import { TargetPriceComponent } from './target-price/target-price.component';
     KpiStatusCardComponent,
     PriceSourcePipe,
     TargetPriceSourcePipe,
+    SqvCostReferenceComponent,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'detail-view' }],
   exports: [FilterPricingComponent],

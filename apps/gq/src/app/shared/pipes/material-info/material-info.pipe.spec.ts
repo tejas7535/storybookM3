@@ -1,6 +1,6 @@
 import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator/jest';
 
-import { MaterialDetails } from '../../models/quotation-detail';
+import { MaterialDetails } from '../../models/quotation-detail/material';
 import { MaterialNumberService } from '../../services/material-number/material-number.service';
 import { MaterialInfoPipe } from './material-info.pipe';
 

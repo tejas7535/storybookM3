@@ -5,7 +5,7 @@ import { SapCallInProgress } from '../../../app/shared/models/quotation';
 import { QuotationStatus } from '../../../app/shared/models/quotation/quotation-status.enum';
 import { SAP_SYNC_STATUS } from '../../../app/shared/models/quotation-detail';
 import { CUSTOMER_MOCK } from './customer.mock';
-import { QUOTATION_DETAIL_MOCK } from './quotation-details.mock';
+import { QUOTATION_DETAIL_MOCK } from './quotation-detail/quotation-details.mock';
 
 export const QUOTATION_MOCK: Quotation = {
   gqId: 12_345,

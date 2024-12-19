@@ -1,5 +1,5 @@
 import { RfqData } from '@gq/shared/models';
-import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-status.enum';
+import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-data/rfq-status.enum';
 
 import {
   QUOTATION_DETAIL_MOCK,

@@ -1,12 +1,8 @@
 import { AppRoutePath } from '@gq/app-route-path.enum';
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
-import {
-  ProductType,
-  Quotation,
-  QuotationDetail,
-  SAP_SYNC_STATUS,
-} from '@gq/shared/models';
-import { QuotationRfqData } from '@gq/shared/models/quotation-detail/quotation-rfq-data.interface';
+import { Quotation, QuotationDetail, SAP_SYNC_STATUS } from '@gq/shared/models';
+import { ProductType } from '@gq/shared/models/quotation-detail/material/';
+import { QuotationRfqData } from '@gq/shared/models/quotation-detail/rfq-data';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 
 import {

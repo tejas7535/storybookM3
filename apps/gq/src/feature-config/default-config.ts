@@ -4,6 +4,7 @@ export const DEFAULT_CONFIG: GqFeatureToggleConfig = {
   createCustomerCaseAsView: false,
   sapPriceDiffColumn: false,
   targetPriceSourceColumn: false,
+  displaySqvChecks: false,
 };
 
 export interface GqFeatureToggleConfig {
@@ -12,4 +13,5 @@ export interface GqFeatureToggleConfig {
   createCustomerCaseAsView: boolean;
   sapPriceDiffColumn: boolean;
   targetPriceSourceColumn: boolean;
+  displaySqvChecks: boolean;
 }

@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { MaterialDetails } from '../../models/quotation-detail';
+import { MaterialDetails } from '../../models/quotation-detail/material';
 import { MaterialNumberService } from '../../services/material-number/material-number.service';
 
 @Pipe({

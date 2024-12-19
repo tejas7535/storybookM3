@@ -1,6 +1,6 @@
-import { RfqDataDeliveryUnit } from '@gq/shared/models/quotation-detail/rfq-data-delivery-unit.enum';
-import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-status.enum';
-import { RfqType } from '@gq/shared/models/quotation-detail/rfq-type.enum';
+import { RfqDataDeliveryUnit } from '@gq/shared/models/quotation-detail/rfq-data/rfq-data-delivery-unit.enum';
+import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-data/rfq-status.enum';
+import { RfqType } from '@gq/shared/models/quotation-detail/rfq-data/rfq-type.enum';
 import { RfqData } from '@gq/shared/models/rfq-data.interface';
 
 export const RFQ_DATA_MOCK: RfqData = {

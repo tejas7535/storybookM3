@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { MaterialDetails } from '@gq/shared/models';
+import { MaterialDetails } from '@gq/shared/models/quotation-detail/material';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
