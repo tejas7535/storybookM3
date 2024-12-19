@@ -19,6 +19,7 @@
       [ngClass]="
         (hasAnyApprovalEvent$ | ngrxPush) ? 'col-span-2' : 'col-span-3'
       "
+      *ngrxLet="pricingInformation$ as pricingInformation"
     >
       <gq-kpi-status-card
         class="col-span-2"
@@ -28,13 +29,25 @@
             currency: (quotationCurrency$ | ngrxPush)
           })
         "
-        [kpiValue]="
-          (pricingInformation$ | ngrxPush)?.netValue.value
-            | numberCurrency: (quotationCurrency$ | ngrxPush)
-        "
-        [warning]="(pricingInformation$ | ngrxPush)?.netValue.warning"
+        [warning]="pricingInformation?.netValue.warning"
         [warningInfo]="t('tabs.overview.netValueCardTitleWarning')"
       >
+        <div class="flex gap-y-2 gap-x-8 items-end flex-wrap pt-4">
+          <div class="text-h4">
+            {{
+              pricingInformation?.netValue.value
+                | numberCurrency: (quotationCurrency$ | ngrxPush)
+            }}
+          </div>
+          @if (
+            pricingInformation?.currency !== 'EUR' &&
+            pricingInformation.netValueEur
+          ) {
+            <div class="text-h6 leading-9">
+              {{ pricingInformation.netValueEur | numberCurrency: 'EUR' }}
+            </div>
+          }
+        </div>
       </gq-kpi-status-card>
       <div class="col-span-2">
         <gq-quotation-by-product-line-or-gpsd></gq-quotation-by-product-line-or-gpsd>
@@ -65,8 +78,8 @@
           "
           [title]="t('tabs.overview.gpiCardTitle')"
           [subtitle]="t('tabs.overview.gpiCardSubtitle')"
-          [kpiValue]="(pricingInformation$ | ngrxPush)?.gpi.value | percentage"
-          [rating]="getRating((pricingInformation$ | ngrxPush)?.gpi.value)"
+          [kpiValue]="pricingInformation?.gpi.value | percentage"
+          [rating]="getRating(pricingInformation?.gpi.value)"
         >
         </gq-kpi-status-card>
       }
@@ -76,7 +89,7 @@
         [subtitle]="t('tabs.overview.ratingCardSubtitle')"
         ><div class="pt-6">
           <gq-star-rating
-            [rating]="(pricingInformation$ | ngrxPush)?.avgGqRating.value"
+            [rating]="pricingInformation?.avgGqRating.value"
           ></gq-star-rating>
         </div>
       </gq-kpi-status-card>
@@ -85,10 +98,9 @@
         [title]="t('tabs.overview.priceDeviationCardTitle')"
         [subtitle]="t('tabs.overview.priceDeviationCardSubtitle')"
         [kpiValue]="
-          (pricingInformation$ | ngrxPush)?.deviation.value
-            | percentage: undefined : true
+          pricingInformation?.deviation.value | percentage: undefined : true
         "
-        [warning]="(pricingInformation$ | ngrxPush)?.deviation.warning"
+        [warning]="pricingInformation?.deviation.warning"
         [warningInfo]="t('tabs.overview.deviationCardTitleWarning')"
       >
       </gq-kpi-status-card>

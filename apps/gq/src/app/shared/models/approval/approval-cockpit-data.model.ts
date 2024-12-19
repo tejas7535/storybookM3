@@ -17,6 +17,7 @@ export interface ApprovalWorkflowInformation
   autoApproval: boolean;
   thirdApproverRequired: boolean;
   totalNetValue: number;
+  totalNetValueEur: number;
   gpm: number;
   priceDeviation: number;
   nextApprover?: string;

@@ -251,6 +251,7 @@ describe('ApprovalService', () => {
         autoApproval: undefined,
         thirdApproverRequired: undefined,
         totalNetValue: undefined,
+        totalNetValueEur: undefined,
         gpm: undefined,
         priceDeviation: undefined,
         approvalLevel: undefined,

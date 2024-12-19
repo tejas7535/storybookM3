@@ -96,6 +96,7 @@ export const APPROVAL_STATE_MOCK: ApprovalState = {
       comment: 'Test Approval Use Case 3',
       projectInformation: 'Test Project Information',
       totalNetValue: 662_975.08,
+      totalNetValueEur: 662_975.08,
       gpm: 54.09,
       priceDeviation: 0.2,
       currency: 'EUR',

@@ -165,6 +165,8 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
               approvalInformation.totalNetValue &&
               approvalInformation.totalNetValue !== gqPricing.netValue.value,
           },
+          netValueEur: approvalInformation.totalNetValueEur,
+          currency: approvalInformation.currency,
           avgGqRating: gqPricing.avgGqRating,
           gpi: gqPricing.gpi,
           gpm: {

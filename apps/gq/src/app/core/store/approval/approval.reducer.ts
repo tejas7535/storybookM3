@@ -60,6 +60,7 @@ export const initialState: ApprovalState = {
       thirdApprover: undefined,
       thirdApproverRequired: undefined,
       totalNetValue: undefined,
+      totalNetValueEur: undefined,
     },
   },
   error: undefined,

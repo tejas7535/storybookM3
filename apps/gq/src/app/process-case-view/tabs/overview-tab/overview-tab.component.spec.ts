@@ -105,6 +105,11 @@ describe('OverviewTabComponent', () => {
               APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.totalNetValue,
             warning: true,
           },
+          currency:
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.currency,
+          netValueEur:
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+              .totalNetValueEur,
           avgGqRating: {
             value: mockQuotationOverviewInformation.avgGqRating.value,
           },
@@ -205,6 +210,8 @@ describe('OverviewTabComponent', () => {
             value: mockQuotationOverviewInformation.netValue.value,
             warning: undefined,
           },
+          currency: mockQuotationOverviewInformation.currency,
+          netValueEur: mockQuotationOverviewInformation.netValueEur,
           avgGqRating: {
             value: mockQuotationOverviewInformation.avgGqRating.value,
             warning: undefined,
@@ -260,6 +267,8 @@ describe('OverviewTabComponent', () => {
             value: mockQuotationOverviewInformation.netValue.value,
             warning: undefined,
           },
+          netValueEur: mockQuotationOverviewInformation.netValueEur,
+          currency: mockQuotationOverviewInformation.currency,
           avgGqRating: {
             value: mockQuotationOverviewInformation.avgGqRating.value,
             warning: undefined,
@@ -314,6 +323,8 @@ describe('OverviewTabComponent', () => {
             value: mockQuotationOverviewInformation.netValue.value,
             warning: undefined,
           },
+          netValueEur: mockQuotationOverviewInformation.netValueEur,
+          currency: mockQuotationOverviewInformation.currency,
           avgGqRating: {
             value: mockQuotationOverviewInformation.avgGqRating.value,
             warning: undefined,
@@ -368,6 +379,8 @@ describe('OverviewTabComponent', () => {
             value: mockQuotationOverviewInformation.netValue.value,
             warning: undefined,
           },
+          netValueEur: mockQuotationOverviewInformation.netValueEur,
+          currency: mockQuotationOverviewInformation.currency,
           avgGqRating: {
             value: mockQuotationOverviewInformation.avgGqRating.value,
             warning: undefined,
@@ -422,6 +435,8 @@ describe('OverviewTabComponent', () => {
             value: mockQuotationOverviewInformation.netValue.value,
             warning: undefined,
           },
+          netValueEur: mockQuotationOverviewInformation.netValueEur,
+          currency: mockQuotationOverviewInformation.currency,
           avgGqRating: {
             value: mockQuotationOverviewInformation.avgGqRating.value,
             warning: undefined,

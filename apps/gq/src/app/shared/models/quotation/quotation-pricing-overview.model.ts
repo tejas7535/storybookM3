@@ -1,5 +1,7 @@
 export interface QuotationPricingOverview {
   netValue: NumberWarning;
+  netValueEur?: number;
+  currency?: string;
   gpi: NumberWarning;
   gpm: NumberWarning;
   avgGqRating: NumberWarning;
