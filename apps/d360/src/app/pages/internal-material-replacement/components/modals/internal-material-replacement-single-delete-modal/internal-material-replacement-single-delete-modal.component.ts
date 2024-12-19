@@ -64,12 +64,11 @@ export class InternalMaterialReplacementSingleDeleteModalComponent {
         ),
         tap((userMessage) => {
           this.snackbarService.openSnackBar(userMessage.message);
-
           if (userMessage.variant === 'success') {
             this.handleOnClose(true);
+          } else {
+            this.handleOnClose(false);
           }
-
-          this.handleOnClose(false);
         }),
         takeUntilDestroyed(this.destroyRef)
       )

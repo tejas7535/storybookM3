@@ -34,7 +34,7 @@ import {
   PostResult,
 } from '../../../../../shared/utils/error-handling';
 import {
-  formatDateToISOString,
+  formatISODateToISODateString,
   parseDateIfPossible,
   parseDemandCharacteristicIfPossible,
 } from '../../../../../shared/utils/parse-values';
@@ -159,7 +159,7 @@ export class CustomerMaterialMultiModalComponent extends AbstractTableUploadModa
               (row) =>
                 ({
                   materialNumber: row.materialNumber || null,
-                  phaseInDate: formatDateToISOString(row.phaseInDate),
+                  phaseInDate: formatISODateToISODateString(row.phaseInDate),
                   demandCharacteristic: row.demandCharacteristic || null,
                 }) as CMPBulkPhaseInEntity
             ),
