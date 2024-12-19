@@ -18,9 +18,9 @@
       globalSelectionState()
     ) {
       <!-- Header -->
-      <d360-header-action-bar>
+      <d360-header-action-bar [wrapLeft]="true">
         <!-- Left Side -->
-        <div d360HeaderActionBarButtons class="flex gap-3">
+        <div d360HeaderActionBarButtons>
           <!-- Open Single Modal -->
           <button mat-flat-button (click)="openSingleDialog(null, null, null)">
             <mat-icon>add</mat-icon>
@@ -42,8 +42,10 @@
         <div d360HeaderActionBarChildren>
           <!-- Customer Selection -->
           <d360-customer-dropdown
+            class="flex flex-wrap"
             [control]="$any(formGroup.get('customerControl'))"
             [form]="formGroup"
+            className="w-96"
             [optionsLoadingResult]="customerSelectableValues()"
             [customer]="selectedCustomer()"
             (selectionChange)="handleCustomerChange($event)"

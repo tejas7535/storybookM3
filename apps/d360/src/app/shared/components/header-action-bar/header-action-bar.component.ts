@@ -2,6 +2,8 @@ import {
   Component,
   ContentChildren,
   Directive,
+  input,
+  InputSignal,
   QueryList,
 } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
@@ -20,10 +22,13 @@ export class ProjectedContendDirective {}
   styleUrls: ['./header-action-bar.component.scss'],
 })
 export class HeaderActionBarComponent {
-  @ContentChildren(ProjectedContendDirective)
-  projectedContent: QueryList<ProjectedContendDirective>;
+  public wrapLeft: InputSignal<boolean> = input(false);
+  public wrapRight: InputSignal<boolean> = input(false);
 
-  get shouldRenderDivider(): boolean {
+  @ContentChildren(ProjectedContendDirective)
+  protected projectedContent: QueryList<ProjectedContendDirective>;
+
+  protected get shouldRenderDivider(): boolean {
     return this.projectedContent && this.projectedContent.length === 2;
   }
 }

@@ -258,7 +258,6 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
       this.gridApi?.collapseAll();
     }
   }
-
   /**
    * Handle AG-Grid's gridReady event, set up data source and handle events
    *
@@ -303,6 +302,11 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
         this.gridApi?.showNoRowsOverlay();
       } else {
         this.gridApi?.hideOverlay();
+
+        // if the rows are expanded, we need to expand the reloaded data too.
+        if (this.showChains) {
+          this.gridApi?.expandAll();
+        }
       }
     });
   }

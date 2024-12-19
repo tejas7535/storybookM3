@@ -9,11 +9,11 @@
       </div>
     </div>
   } @else {
-    <form [formGroup]="globalForm">
+    <form [formGroup]="globalForm" class="overflow-hidden">
       <div class="header-row">
         <!-- title and count -->
         <div class="title-count">
-          <i class="filter-list-icon"></i>
+          <mat-icon class="filter-list-icon">filter_list</mat-icon>
           <h6 class="text-title-large">{{ text() }}</h6>
         </div>
 

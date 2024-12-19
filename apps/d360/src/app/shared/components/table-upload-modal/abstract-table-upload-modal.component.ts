@@ -350,6 +350,10 @@ export abstract class AbstractTableUploadModalComponent<
         if (validationResult) {
           return validationResult;
         }
+        // else {
+        //   FIXME: Temporary fix. (PART 2) => Ticket: SFT-1999
+        //   Delete the FE error from this.frontendErrors(), after we have a rowId and SAP is also using this id.
+        // }
       }
 
       const allErrorMessages = [
@@ -703,9 +707,22 @@ export abstract class AbstractTableUploadModalComponent<
       return null;
     }
 
-    this.frontendErrors.set(
-      this.checkDataForErrors(this.dataFromRowModel(rowModel))
-    );
+    // FIXME: Temporary fix. (PART 1) => Ticket: SFT-1999
+    // We disabled the live error validation for now, because we can't match the FE-Errors to BE-Errors in a later step.
+    // This happens because of 2 things:
+    // 1. SAP does not get all data (only the ones without FE-Errors)
+    // 2. We do not add a rowId to each error, so if one error occurs to a field all combinations to that field will have this error.
+    //    So, it's not possible to delete this error, after a correct value was entered.
+
+    // this.frontendErrors.set(
+    //   this.checkDataForErrors(this.dataFromRowModel(rowModel))
+    // );
+
+    // TODO: After or together with SFT-1999 we should also discuss, if we show directly the errors instead of waiting until
+    // the user clicks save or validate
+    // if (this.frontendErrors().length > 0) {
+    //   this.updateColumnDefinitions();
+    // }
 
     return null;
   }

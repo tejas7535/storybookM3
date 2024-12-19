@@ -369,6 +369,7 @@ export class CustomerMaterialPortfolioComponent {
     title: string;
     edit: boolean;
     subtitle?: string;
+    modal?: CMPModal;
   } {
     switch (modal) {
       case CMPSpecificModal.SCHAEFFLER_SUBSTITUTION:
@@ -426,6 +427,7 @@ export class CustomerMaterialPortfolioComponent {
           ),
           subtitle: 'customer_material_portfolio.modal.subheader.phase_in',
           edit: false,
+          modal: CMPChangeModalFlavor.STATUS_TO_PHASE_IN,
         };
       }
     }

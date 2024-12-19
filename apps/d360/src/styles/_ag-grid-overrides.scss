@@ -61,10 +61,16 @@
       }
     }
 
+    // high color (overlay)
     &-rich-select-value,
     &-rich-select-list,
     &-cell-inline-editing {
       background: var(--surface-container-high-color) !important;
+    }
+
+    // highest color (overlay in overlay)
+    &-select-list {
+      background: var(--surface-container-highest-color) !important;
     }
 
     &-root-wrapper {

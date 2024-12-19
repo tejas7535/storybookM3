@@ -584,7 +584,8 @@ export class CustomerMaterialSingleModalComponent implements OnInit {
           // If the requested successor is not already in the portfolio of this customer,
           // the user has to confirm adding it. After confirmation, the request can run again with the confirmed param set.
           if (
-            requestData.portfolioStatus === 'SE' &&
+            (requestData.portfolioStatus === 'SE' ||
+              this.data.modal === CMPSpecificModal.SUBSTITUTION_PROPOSAL) &&
             result.overallStatus === 'WARNING' &&
             result.overallErrorMsg ===
               translate(

@@ -136,7 +136,6 @@ export class CMPService {
     return this.http.post<CMPWriteResponse>(url, request, { params }).pipe(
       map((response) => {
         if (
-          cmpData.portfolioStatus === 'SE' &&
           'confirmationNeeded' in response &&
           (response as CMPSingleSubstitutionResponse).confirmationNeeded
         ) {

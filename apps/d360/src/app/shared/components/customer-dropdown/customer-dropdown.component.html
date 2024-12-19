@@ -13,7 +13,7 @@
     [form]="form()"
     [optionsLoadingResult]="optionsLoadingResult()"
     [label]="t('validation_of_demand.customer')"
-    class="w-72 compact"
+    class="{{ className() }} compact"
     [displayFn]="displayFnUnited"
     (selectionChange)="onChange($event)"
   />

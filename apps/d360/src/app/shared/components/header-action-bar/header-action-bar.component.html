@@ -1,14 +1,14 @@
-<!-- TODO: Let's talk about a responsive solution -->
 <div class="flex flex-col gap-4">
   <div class="flex justify-between items-center pt-6">
-    <div class="flex gap-3 items-center">
+    <div class="flex gap-3 items-center" [class.flex-wrap]="wrapLeft()">
       <ng-content select="[d360HeaderActionBarButtons]"></ng-content>
       @if (shouldRenderDivider) {
-        <div class="divider"></div>
+        <div class="divider hidden sm:block"></div>
       }
       <ng-content select="[d360HeaderActionBarChildren]"></ng-content>
     </div>
-    <div class="flex gap-3 items-center">
+
+    <div class="flex gap-3 items-center" [class.flex-wrap]="wrapRight()">
       <ng-content select="[d360HeaderActionBarRightChildren]"></ng-content>
     </div>
   </div>

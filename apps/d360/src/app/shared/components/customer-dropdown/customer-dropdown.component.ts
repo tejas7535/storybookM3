@@ -46,6 +46,14 @@ export class CustomerDropDownComponent {
   public form: InputSignal<FormGroup> = input.required();
 
   /**
+   * The className added to the dropdown e.g. to give them a width.
+   *
+   * @type {InputSignal<string>}
+   * @memberof CustomerDropDownComponent
+   */
+  public className: InputSignal<string> = input('w-72');
+
+  /**
    * The result of loading options for the customer dropdown.
    *
    * @type {InputSignal<OptionsLoadingResult>}
