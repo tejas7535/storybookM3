@@ -77,7 +77,7 @@ describe('EditingMaterialModalComponent', () => {
         resetView: jest.fn(),
         initFacade: jest.fn(),
         autocomplete: jest.fn(),
-        selectMaterialNumberOrDescription: jest.fn(),
+        selectMaterialNumberDescriptionOrCustomerMaterial: jest.fn(),
         unselectOptions: jest.fn(),
       } as unknown as AutoCompleteFacade),
       provideMockStore({
@@ -881,7 +881,8 @@ describe('EditingMaterialModalComponent', () => {
         expect.anything()
       );
       expect(
-        component['autoCompleteFacade'].selectMaterialNumberOrDescription
+        component['autoCompleteFacade']
+          .selectMaterialNumberDescriptionOrCustomerMaterial
       ).toHaveBeenCalled();
     });
     test('should call autocompleteFacade.unselectOptions', () => {

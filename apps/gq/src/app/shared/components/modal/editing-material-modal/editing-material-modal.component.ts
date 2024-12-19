@@ -444,7 +444,7 @@ export class EditingMaterialModalComponent
     option: IdValue,
     autocompleteFilter: string
   ): void {
-    this.autoCompleteFacade.selectMaterialNumberOrDescription(
+    this.autoCompleteFacade.selectMaterialNumberDescriptionOrCustomerMaterial(
       option,
       autocompleteFilter
     );
