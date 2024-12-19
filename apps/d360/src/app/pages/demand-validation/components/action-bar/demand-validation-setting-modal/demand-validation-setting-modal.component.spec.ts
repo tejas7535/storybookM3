@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockProvider } from 'ng-mocks';
 
+import { PlanningView } from '../../../../../feature/demand-validation/planning-view';
 import { DemandValidationSettingModalComponent } from './demand-validation-setting-modal.component';
 
 describe('DemandValidationSettingModalComponent', () => {
@@ -20,7 +21,12 @@ describe('DemandValidationSettingModalComponent', () => {
   });
 
   beforeEach(() => {
-    spectator = createComponent();
+    spectator = createComponent({
+      props: {
+        data: PlanningView.CONFIRMED,
+        close: () => {},
+      },
+    });
   });
 
   it('should create', () => {

@@ -5,8 +5,11 @@ import {
   DestroyRef,
   inject,
   input,
+  InputSignal,
+  model,
   OnInit,
   output,
+  Signal,
   signal,
   WritableSignal,
 } from '@angular/core';
@@ -16,42 +19,41 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { take, tap } from 'rxjs';
 
+import { translate } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
-import { addMonths, startOfDay } from 'date-fns';
+import { addMonths, format, startOfDay } from 'date-fns';
 
 import { getBackendRoles } from '@schaeffler/azure-auth';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { DemandValidationFilter } from '../../../../feature/demand-validation/demand-validation-filters';
-import { KpiDateRanges } from '../../../../feature/demand-validation/model';
+import {
+  KpiDateRanges,
+  WriteKpiData,
+} from '../../../../feature/demand-validation/model';
 import { PlanningView } from '../../../../feature/demand-validation/planning-view';
-import {
-  readLocalStorageTimeRange,
-  saveLocalStorageTimeRange,
-} from '../../../../feature/demand-validation/time-range';
+import { readLocalStorageTimeRange } from '../../../../feature/demand-validation/time-range';
 import { CustomerEntry } from '../../../../feature/global-selection/model';
-import { ActionButtonComponent } from '../../../../shared/components/action-button/action-button.component';
 import { CustomerDropDownComponent } from '../../../../shared/components/customer-dropdown/customer-dropdown.component';
-import {
-  HeaderActionBarComponent,
-  ProjectedContendDirective,
-} from '../../../../shared/components/header-action-bar/header-action-bar.component';
 import { SingleAutocompleteSelectedEvent } from '../../../../shared/components/inputs/autocomplete/model';
 import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
-import { SingleAutocompleteOnTypeComponent } from '../../../../shared/components/inputs/autocomplete/single-autocomplete-on-type/single-autocomplete-on-type.component';
-import { SingleAutocompletePreLoadedComponent } from '../../../../shared/components/inputs/autocomplete/single-autocomplete-pre-loaded/single-autocomplete-pre-loaded.component';
 import { DisplayFunctions } from '../../../../shared/components/inputs/display-functions.utils';
 import { OptionsLoadingResult } from '../../../../shared/services/selectable-options.service';
 import {
   checkRoles,
   demandValidationChangeAllowedRoles,
 } from '../../../../shared/utils/auth/roles';
+import { strictlyParseLocalFloat } from '../../../../shared/utils/number';
+import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
 import { DemandValidationExportModalComponent } from '../demand-validation-export-modal/demand-validation-export-modal.component';
 import { DemandValidationMultiDeleteModalComponent } from '../demand-validation-multi-delete-modal/demand-validation-multi-delete-modal.component';
 import { DemandValidationMultiListConfigurationModalComponent } from '../demand-validation-multi-list-configuration-modal/demand-validation-multi-list-configuration-modal.component';
+import { DemandValidationService } from './../../../../feature/demand-validation/demand-validation.service';
+import { SnackbarService } from './../../../../shared/utils/service/snackbar.service';
 import { DatePickerSettingDemandValidationModalComponent } from './date-picker-setting-demand-validation-modal/date-picker-setting-demand-validation-modal.component';
 import { DemandValidationSettingModalComponent } from './demand-validation-setting-modal/demand-validation-setting-modal.component';
 import { FilterDemandValidationComponent } from './filter-demand-validation/filter-demand-validation.component';
@@ -62,17 +64,15 @@ import { FilterDemandValidationComponent } from './filter-demand-validation/filt
   imports: [
     CommonModule,
     SharedTranslocoModule,
-    ActionButtonComponent,
-    SingleAutocompletePreLoadedComponent,
-    SingleAutocompleteOnTypeComponent,
     FilterDemandValidationComponent,
     MatButton,
     MatIcon,
     MatIconButton,
     MatDividerModule,
-    HeaderActionBarComponent,
-    ProjectedContendDirective,
     CustomerDropDownComponent,
+    MatMenuModule,
+    DatePickerSettingDemandValidationModalComponent,
+    DemandValidationSettingModalComponent,
   ],
   templateUrl: './action-bar.component.html',
   styleUrl: './action-bar.component.scss',
@@ -80,16 +80,21 @@ import { FilterDemandValidationComponent } from './filter-demand-validation/filt
 export class ActionBarComponent implements OnInit {
   public currentCustomer = input.required<CustomerEntry>();
   public customerData = input.required<CustomerEntry[]>();
-  public planningView = input.required<PlanningView>();
+  public planningView = model.required<PlanningView>();
   public isMaterialListVisible = input<boolean>(true);
+  public changedKPIs: InputSignal<WriteKpiData | null> = input.required();
 
   public customerChange = output<CustomerEntry>();
   public toggleMaterialListVisible = output<{ open: boolean }>();
   public dateRangeChanged = output<KpiDateRanges>();
+  public reloadValidationTable = output<boolean | null>();
 
   private readonly dialog = inject(MatDialog);
   private readonly store = inject(Store);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly demandValidationService = inject(DemandValidationService);
+  private readonly snackbarService: SnackbarService = inject(SnackbarService);
+  // private readonly appInsights = inject(ApplicationInsights); // TODO: add ApplicationInsights
 
   private readonly backendRoles = toSignal(this.store.select(getBackendRoles));
 
@@ -122,8 +127,9 @@ export class ActionBarComponent implements OnInit {
   });
   protected readonly DisplayFunctions = DisplayFunctions;
 
-  // TODO handle and initialize this property
-  protected isDisabledForecastEditing = true;
+  protected isDisabledForecastEditing: Signal<boolean> = computed(
+    () => !this.changedKPIs()
+  );
 
   private readonly localStorageTimeRange = readLocalStorageTimeRange();
   private readonly defaultDateRange: KpiDateRanges = {
@@ -135,7 +141,7 @@ export class ActionBarComponent implements OnInit {
     range2: undefined,
   };
 
-  private readonly dateRange =
+  protected readonly dateRange =
     this.localStorageTimeRange ?? this.defaultDateRange;
 
   ngOnInit(): void {
@@ -182,49 +188,65 @@ export class ActionBarComponent implements OnInit {
     });
   }
 
-  protected handleDateRangeClick() {
-    const dialogRef = this.dialog.open(
-      DatePickerSettingDemandValidationModalComponent,
-      {
-        data: this.dateRange,
-        disableClose: true,
-      }
-    );
-    dialogRef.afterClosed().subscribe((data) => {
-      if (data) {
-        saveLocalStorageTimeRange(data.range1, data.range2);
-        this.dateRangeChanged.emit(data);
-      }
-    });
-  }
-
-  protected handleDemandValidationSettingsClick() {
-    const dialogRef = this.dialog.open(DemandValidationSettingModalComponent, {
-      data: this.planningView(),
-      disableClose: true,
-    });
-    dialogRef
-      .afterClosed()
-      .pipe(
-        take(1),
-        tap((value) => {
-          if (value) {
-            // TODO: still to be implemented
-            // update planningView and propagate to parent
-            this.planningView = value;
-          }
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
+  protected handleDemandValidationSettingsChange(value: PlanningView) {
+    this.planningView.set(value);
   }
 
   protected handleOnDeleteUnsavedForecast() {
     // TODO implement
   }
 
-  protected handleOnSaveForecast(_dryRun: boolean) {
-    // TODO implement
+  protected handleOnSaveForecast(dryRun: boolean) {
+    this.reloadValidationTable.emit(true);
+
+    if (!dryRun) {
+      // TODO: Add ApplicationInsights
+      // this.appInsights.trackEvent({
+      //   name: '[Validated Sales Planning] Upload Single Entries',
+      // });
+    }
+
+    const errors = new Set<string>();
+
+    this.changedKPIs().kpiEntries.forEach((entry) => {
+      const parsed = strictlyParseLocalFloat(
+        entry.validatedForecast,
+        ValidationHelper.getDecimalSeparatorForActiveLocale()
+      );
+
+      if (
+        entry.validatedForecast !== null &&
+        (Number.isNaN(parsed) || parsed < 0)
+      ) {
+        errors.add(format(entry.fromDate, 'MM.yyyy'));
+
+        // TODO: Use the following code after https://github.com/Schaeffler-Group/frontend-schaeffler/pull/6770 was merged
+        // errors.add(format(
+        //   entry.fromDate,
+        //   getMonthYearDateFormatByCode(
+        //     this.localeService.getLocale() as LocaleType
+        //   ).display.dateInput
+        // ));
+      }
+    });
+
+    this.demandValidationService
+      .saveValidatedDemandSingleMcc(this.changedKPIs(), errors, dryRun)
+      .pipe(
+        take(1),
+        tap((result) => {
+          this.reloadValidationTable.emit(false);
+          this.snackbarService.openSnackBar(
+            result ||
+              translate(
+                `validation_of_demand.${dryRun ? 'check' : 'save'}.success`
+              )
+          );
+        }),
+        tap(() => !dryRun && this.reloadValidationTable.emit(null)),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   protected handleCustomerChange($event: SingleAutocompleteSelectedEvent) {

@@ -1,12 +1,12 @@
 <div class="form" [formGroup]="formGroup()" *transloco="let t">
-  <div class="py-5 grid grid-cols-3 gap-4">
+  <div class="pt-6 pb-4 grid grid-cols-3 gap-4">
     @if (periodType1().getRawValue()?.id === 'MONTHLY') {
       <d360-date-picker-month-year
         [label]="t('validation_of_demand.date_picker.start_date')"
         [control]="startDatePeriod1()"
         [minDate]="minDate()"
         [maxDate]="maxDate()"
-      ></d360-date-picker-month-year>
+      />
     }
 
     @if (periodType1().getRawValue()?.id === 'WEEKLY') {
@@ -15,8 +15,7 @@
         [control]="startDatePeriod1()"
         [minDate]="minDate()"
         [maxDate]="maxDate()"
-      >
-      </d360-date-picker>
+      />
     }
 
     @if (periodType1().getRawValue()?.id === 'MONTHLY') {
@@ -25,7 +24,7 @@
         [minDate]="minDateEndDatePeriod1"
         [maxDate]="maxDate()"
         [control]="endDatePeriod1()"
-      ></d360-date-picker-month-year>
+      />
     }
 
     @if (periodType1().getRawValue()?.id === 'WEEKLY') {
@@ -34,18 +33,18 @@
         [control]="endDatePeriod1()"
         [minDate]="minDateEndDatePeriod1"
         [maxDate]="maxDate()"
-      ></d360-date-picker>
+      />
     }
 
     <d360-filter-dropdown
       [options]="periodTypes()"
       [control]="periodType1()"
       [form]="formGroup()"
-      [label]="t('validation_of_demand.date_picker.period_type', {})"
+      [label]="t('validation_of_demand.date_picker.period_type')"
       [formatOptionValue]="DisplayFunctions.displayFnText"
       [formatSelectedValue]="DisplayFunctions.displayFnText"
       (selectionChange)="onPeriodTypeChange($any($event))"
-    ></d360-filter-dropdown>
+    />
   </div>
 
   @if (periodType1().getRawValue()?.id === 'WEEKLY' && !disableOptionalDate()) {
@@ -56,23 +55,23 @@
       <d360-date-picker-month-year
         [label]="t('validation_of_demand.date_picker.start_date')"
         [control]="startDatePeriod2()"
-      ></d360-date-picker-month-year>
+      />
 
       <d360-date-picker-month-year
         [label]="t('validation_of_demand.date_picker.end_date')"
         [control]="endDatePeriod2()"
         [minDate]="midDateEndDatePeriod2"
         [maxDate]="lastViewableDate()"
-      ></d360-date-picker-month-year>
+      />
 
       <d360-filter-dropdown
         [options]="periodTypes()"
         [control]="periodType2()"
         [form]="formGroup()"
-        [label]="t('validation_of_demand.date_picker.period_type', {})"
+        [label]="t('validation_of_demand.date_picker.period_type')"
         [formatOptionValue]="DisplayFunctions.displayFnText"
         [formatSelectedValue]="DisplayFunctions.displayFnText"
-      ></d360-filter-dropdown>
+      />
     </div>
   }
 </div>

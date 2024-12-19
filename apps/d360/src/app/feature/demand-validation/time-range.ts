@@ -159,13 +159,13 @@ export function fillGapBetweenRanges(
 
 export const defaultMonthlyPeriodTypeOption = {
   id: 'MONTHLY',
-  text: translate('validation_of_demand.date_picker.menu_item_month', {}),
+  text: translate('validation_of_demand.date_picker.menu_item_month'),
 };
 
 export const defaultPeriodTypes: SelectableValue[] = [
   {
     id: 'WEEKLY',
-    text: translate('validation_of_demand.date_picker.menu_item_week', {}),
+    text: translate('validation_of_demand.date_picker.menu_item_week'),
   },
-  defaultMonthlyPeriodTypeOption,
+  { ...defaultMonthlyPeriodTypeOption },
 ];

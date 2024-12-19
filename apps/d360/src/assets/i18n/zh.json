@@ -294,8 +294,8 @@
     "legend": {
       "title": "图标",
       "current_date": "T今天",
-      "frozen_zone": "冻结区",
-      "replenishment_lead_time": "补货周期"
+      "frozen_zone": "冻结区 (包括 运输时间)",
+      "replenishment_lead_time": "补货周期 (包括 运输时间)"
     },
     "menu_item": {
       "deliveries": "已交货订单",

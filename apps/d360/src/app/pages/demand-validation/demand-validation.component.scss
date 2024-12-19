@@ -1,7 +1,16 @@
 .table-content-wrapper {
-  border-top: 3px solid #e2e2e2;
+  border-top: 3px solid var(--border-color-light-gray);
 }
 
 :host {
   @apply flex h-full;
+}
+
+.w-0 {
+  transition: flex 0.25s ease-in-out;
+  flex: 0;
+}
+
+.w-50p {
+  flex: 0 0 50%;
 }

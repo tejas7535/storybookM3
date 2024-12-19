@@ -292,10 +292,10 @@
       "toggle_filters": "Filtro"
     },
     "legend": {
-      "title": "Leyenda:",
+      "title": "Leyenda",
       "current_date": "Hoy",
-      "frozen_zone": "Frozen Zone",
-      "replenishment_lead_time": "Tiempo de reaprovisionamiento (TDR)"
+      "frozen_zone": "Frozen Zone (incl. tiempo de tránsito)",
+      "replenishment_lead_time": "Tiempo de reaprovisionamiento (incl. tiempo de tránsito)"
     },
     "menu_item": {
       "deliveries": "Deliveries",

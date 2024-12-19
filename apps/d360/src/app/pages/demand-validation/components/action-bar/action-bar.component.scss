@@ -16,3 +16,13 @@
     line-height: unset;
   }
 }
+
+:host {
+  .action-bar {
+    ::ng-deep {
+      .mat-mdc-icon-button {
+        display: flex !important;
+      }
+    }
+  }
+}

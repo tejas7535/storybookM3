@@ -301,10 +301,10 @@
       "toggle_filters": "Filter"
     },
     "legend": {
-      "title": "Legende:",
+      "title": "Legende",
       "current_date": "Heute",
-      "frozen_zone": "Frozen Zone",
-      "replenishment_lead_time": "Wiederbeschaffungszeit"
+      "frozen_zone": "Frozen Zone (inkl. Transitzeit)",
+      "replenishment_lead_time": "Wiederbeschaffungszeit (inkl. Transitzeit)"
     },
     "menu_item": {
       "deliveries": "Deliveries",

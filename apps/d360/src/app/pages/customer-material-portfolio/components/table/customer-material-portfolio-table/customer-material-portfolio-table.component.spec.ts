@@ -40,6 +40,7 @@ describe('CustomerMaterialPortfolioTableComponent', () => {
         },
         globalSelection: {} as GlobalSelectionState,
         filterModel: {},
+        refreshCounter: 0,
       },
     });
   });

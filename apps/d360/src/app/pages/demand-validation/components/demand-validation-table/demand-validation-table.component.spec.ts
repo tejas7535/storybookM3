@@ -41,10 +41,10 @@ describe('DemandValidationTableComponent', () => {
       props: {
         materialListEntry: {},
         planningView: PlanningView.REQUESTED,
-        kpiDateRange: {
-          range1: null,
-        },
-        dateExceptions: [],
+        kpiDateRange: { range1: null },
+        reloadRequired: 0,
+        showLoader: false,
+        confirmContinueAndLooseUnsavedChanges: () => false,
       },
     });
   });

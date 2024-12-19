@@ -21,7 +21,7 @@ export function strictlyParseLocalFloat(
   value: string | number,
   decimalSeparator: AvailableDecimalSeparators
 ): number {
-  if (typeof value == 'number') {
+  if (typeof value === 'number') {
     return value;
   }
 

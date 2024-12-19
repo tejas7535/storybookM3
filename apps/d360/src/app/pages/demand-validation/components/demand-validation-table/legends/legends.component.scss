@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 48px;
+  max-width: none;
+
+  .legends {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .legend {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      padding: 0 8px;
+      min-width: 0;
+    }
+
+    .line {
+      display: inline-block;
+      content: ' ';
+      margin-inline: 8px;
+      width: 40px;
+      height: 1px;
+      border-bottom: 3px dashed;
+
+      &.schaeffler-color {
+        border-bottom-color: #00893d;
+      }
+
+      &.error-color {
+        border-bottom-color: #a31839;
+      }
+
+      &.warning-color {
+        border-bottom-color: #f5a623;
+      }
+    }
+
+    .text {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+}

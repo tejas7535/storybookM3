@@ -31,7 +31,11 @@ describe('TabBarNavigationComponent', () => {
   });
 
   beforeEach(() => {
-    spectator = createComponent();
+    spectator = createComponent({
+      props: {
+        activeUrl: '',
+      },
+    });
   });
 
   it('should create', () => {

@@ -25,6 +25,7 @@ describe('DatePickerSettingDemandValidationModalComponent', () => {
         range1: {
           from: new Date(),
           to: new Date(),
+          period: 'WEEKLY',
         },
       }),
       mockProvider(
@@ -36,7 +37,18 @@ describe('DatePickerSettingDemandValidationModalComponent', () => {
     ],
   });
   beforeEach(() => {
-    spectator = createComponent({});
+    spectator = createComponent({
+      props: {
+        data: {
+          range1: {
+            from: new Date(),
+            to: new Date(),
+            period: 'WEEKLY',
+          },
+        },
+        close: () => {},
+      },
+    });
   });
 
   it('should create', () => {

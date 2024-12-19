@@ -304,10 +304,10 @@
       "toggle_filters": "Filter"
     },
     "legend": {
-      "title": "Legend:",
+      "title": "Legend",
       "current_date": "Today",
-      "frozen_zone": "Frozen Zone",
-      "replenishment_lead_time": "Replenishment Lead Time"
+      "frozen_zone": "Frozen Zone (incl. transit time)",
+      "replenishment_lead_time": "Replenishment Lead Time (incl. transit time)"
     },
     "menu_item": {
       "deliveries": "Deliveries",

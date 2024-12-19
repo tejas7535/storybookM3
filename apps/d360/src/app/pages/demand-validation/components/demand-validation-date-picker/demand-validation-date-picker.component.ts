@@ -1,8 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, input, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-import { addMonths, startOfMonth } from 'date-fns';
+import { tap } from 'rxjs';
+
+import { addMonths, endOfMonth, startOfMonth } from 'date-fns';
+import { isMoment, Moment } from 'moment';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -32,15 +36,19 @@ import { toNativeDate } from '../../../../shared/utils/date-format';
   styleUrl: './demand-validation-date-picker.component.scss',
 })
 export class DemandValidationDatePickerComponent implements OnInit {
-  public formGroup = input.required<FormGroup>();
-  public periodType1 = input.required<FormControl>();
-  public periodType2 = input<FormControl>();
-  public startDatePeriod1 = input.required<FormControl>();
-  public startDatePeriod2 = input<FormControl>();
-  public endDatePeriod1 = input.required<FormControl>();
-  public endDatePeriod2 = input<FormControl>();
-  public periodTypes = input.required<SelectableValue[]>();
+  private readonly destroyRef = inject(DestroyRef);
 
+  public formGroup = input.required<FormGroup>();
+
+  public periodType1 = input.required<FormControl>();
+  public startDatePeriod1 = input.required<FormControl>();
+  public endDatePeriod1 = input.required<FormControl>();
+
+  public periodType2 = input<FormControl>();
+  public startDatePeriod2 = input<FormControl>();
+  public endDatePeriod2 = input<FormControl>();
+
+  public periodTypes = input.required<SelectableValue[]>();
   public minDate = input<Date>(firstViewableDate());
   public maxDate = input<Date>(lastViewableDate());
   public disableOptionalDate = input<boolean>(false);
@@ -51,7 +59,7 @@ export class DemandValidationDatePickerComponent implements OnInit {
   protected minDateEndDatePeriod1: Date;
   protected midDateEndDatePeriod2: Date;
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.midDateEndDatePeriod2 = [undefined, null].includes(
       this.endDatePeriod2()?.getRawValue()
     )
@@ -59,13 +67,34 @@ export class DemandValidationDatePickerComponent implements OnInit {
       : startOfMonth(addMonths(toNativeDate(this.endDatePeriod1().value), 1));
 
     this.minDateEndDatePeriod1 = this.startDatePeriod1().getRawValue();
+
+    this.endDatePeriod1()
+      .valueChanges.pipe(
+        tap(this._endDatePeriod1Change.bind(this)),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
-  onPeriodTypeChange(event: SelectableValue) {
+  protected onPeriodTypeChange(event: SelectableValue): void {
     if (event.id === 'WEEKLY' && !this.disableOptionalDate()) {
+      this._endDatePeriod1Change(this.endDatePeriod1().getRawValue());
       this.endDatePeriod2().setValue(null);
       this.periodType2().disable({ emitEvent: false });
       this.startDatePeriod2().disable({ emitEvent: false });
+    }
+  }
+
+  private _endDatePeriod1Change(value: Moment | Date): void {
+    const endDate = endOfMonth(isMoment(value) ? value.toDate() : value);
+    this.endDatePeriod1().setValue(endDate);
+
+    if (
+      !this.disableOptionalDate() &&
+      this.periodType1().getRawValue()?.id === 'WEEKLY' &&
+      this.startDatePeriod2()
+    ) {
+      this.startDatePeriod2().setValue(addMonths(endDate, 1));
     }
   }
 }

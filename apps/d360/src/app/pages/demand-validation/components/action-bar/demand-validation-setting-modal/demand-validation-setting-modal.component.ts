@@ -1,17 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { MatButton } from '@angular/material/button';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogActions,
-  MatDialogContent,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import {
-  MatRadioButton,
-  MatRadioChange,
-  MatRadioGroup,
-} from '@angular/material/radio';
+import { Component, input, model, output } from '@angular/core';
+import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -20,31 +9,18 @@ import { PlanningView } from '../../../../../feature/demand-validation/planning-
 @Component({
   selector: 'd360-demand-validation-setting-modal',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatDialogContent,
-    MatDialogActions,
-    MatButton,
-    SharedTranslocoModule,
-    MatRadioGroup,
-    MatRadioButton,
-  ],
+  imports: [CommonModule, SharedTranslocoModule, MatRadioModule],
   templateUrl: './demand-validation-setting-modal.component.html',
   styleUrl: './demand-validation-setting-modal.component.scss',
 })
 export class DemandValidationSettingModalComponent {
-  protected data = inject(MAT_DIALOG_DATA);
-  private readonly dialogRef = inject(
-    MatDialogRef<DemandValidationSettingModalComponent>
-  );
-
-  handleSave() {
-    this.dialogRef.close(this.data);
-  }
+  public readonly data = model.required<PlanningView>();
+  public readonly close = input.required<() => void>();
+  public selectionChange = output<PlanningView>();
 
   protected readonly PlanningView = PlanningView;
 
-  handleSettingsChange(event: MatRadioChange) {
-    this.data = event.value;
+  protected handleSettingsChange(event: MatRadioChange) {
+    this.selectionChange.emit(event.value);
   }
 }

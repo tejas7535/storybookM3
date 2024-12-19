@@ -1,0 +1,66 @@
+<section
+  *transloco="let t"
+  class="grid grid-cols-2 md:grid-cols-4 xs:gap-1 md:gap-4 text-body-medium py-4"
+>
+  <div class="item">
+    <div class="header">
+      {{ t('validation_of_demand.more_information.material_and_text') }}
+    </div>
+    <p>
+      {{ forecastInfo()?.materialNumber || '-' }} <br />
+      {{ forecastInfo()?.materialDescription || '-' }}
+    </p>
+  </div>
+
+  <div class="item">
+    <div class="header">
+      {{ t('validation_of_demand.more_information.classification') }}
+    </div>
+    <p>{{ forecastInfo()?.materialClassification || '-' }}</p>
+  </div>
+
+  <div class="item">
+    <div class="header">
+      {{ t('validation_of_demand.more_information.packaging_size') }}
+    </div>
+    <p>{{ forecastInfo()?.packagingSize || '-' }}</p>
+  </div>
+
+  <div class="item">
+    <div class="header">
+      {{ t('validation_of_demand.more_information.product_line_and_text') }}
+    </div>
+    <p>
+      {{ forecastInfo()?.productLine || '-' }}
+      {{ forecastInfo()?.productLineText || '-' }}
+    </p>
+  </div>
+
+  <div class="item">
+    <div class="header">
+      {{ t('validation_of_demand.more_information.production_line') }}
+    </div>
+    <p>{{ forecastInfo()?.productionLine || '-' }}</p>
+  </div>
+
+  <div class="item">
+    <div class="header">
+      {{ t('validation_of_demand.more_information.production_segment') }}
+    </div>
+    <p>{{ forecastInfo()?.productionSegment || '-' }}</p>
+  </div>
+
+  <div class="item">
+    <div class="header">
+      {{ t('validation_of_demand.more_information.current_wbz_schaeffler') }}
+    </div>
+    <p>{{ forecastInfo()?.currentRLTSchaeffler || '-' }}</p>
+  </div>
+
+  <div class="item">
+    <div class="header">
+      {{ t('validation_of_demand.supply_concept.title') }}
+    </div>
+    <p>{{ supplyConcept() }}</p>
+  </div>
+</section>

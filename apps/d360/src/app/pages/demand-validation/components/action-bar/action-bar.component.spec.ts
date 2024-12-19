@@ -1,3 +1,5 @@
+import { HttpClient } from '@angular/common/http';
+import { DateAdapter } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
@@ -8,10 +10,12 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { Store } from '@ngrx/store';
+import { MockComponent } from 'ng-mocks';
 
 import { PlanningView } from '../../../../feature/demand-validation/planning-view';
 import { CustomerEntry } from '../../../../feature/global-selection/model';
 import { ActionBarComponent } from './action-bar.component';
+import { DatePickerSettingDemandValidationModalComponent } from './date-picker-setting-demand-validation-modal/date-picker-setting-demand-validation-modal.component';
 
 jest.mock('@jsverse/transloco', () => ({
   translate: jest.fn((key, _) => `${key} mocked`),
@@ -22,14 +26,18 @@ describe('ActionBarComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ActionBarComponent,
-    componentMocks: [],
+    componentMocks: [
+      MockComponent(DatePickerSettingDemandValidationModalComponent),
+    ],
     providers: [
       mockProvider(MatDialog, {
         open: jest.fn(),
       }),
+      mockProvider(DateAdapter),
       mockProvider(Store, {
         select: jest.fn().mockReturnValue(of([])),
       }),
+      mockProvider(HttpClient, { get: () => of({}) }),
     ],
   });
 
@@ -40,6 +48,7 @@ describe('ActionBarComponent', () => {
         customerData: [],
         planningView: PlanningView.REQUESTED,
         isMaterialListVisible: true,
+        changedKPIs: null,
       },
     });
   });

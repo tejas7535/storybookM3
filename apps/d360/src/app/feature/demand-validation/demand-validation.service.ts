@@ -49,6 +49,8 @@ export class DemandValidationService {
   private readonly DEMAND_VALIDATION_BUCKETS_API =
     'api/demand-validation/buckets';
   private readonly DEMAND_VALIDATION_KPI_API = 'api/demand-validation/kpis';
+  private readonly DEMAND_VALIDATION_MATERIAL_INFO_API =
+    'api/demand-validation/material-infos';
   private readonly DEMAND_VALIDATION_CUSTOMER_MATERIAL_LIST_API =
     'api/demand-validation/material-customer-list';
   private readonly dataFetchedEvent = new Subject<{
@@ -71,7 +73,7 @@ export class DemandValidationService {
     return this.fetchErrorEvent.asObservable();
   }
 
-  deleteValidatedDemandBatch(
+  public deleteValidatedDemandBatch(
     data: DeleteKpiDataRequest,
     dryRun: boolean
   ): Observable<DeleteKpiDataResponse> {
@@ -175,17 +177,17 @@ export class DemandValidationService {
       );
   }
 
-  saveValidatedDemandSingleMcc(
-    validatedDemandToWrite: WriteKpiData | null,
-    errorInputIdentifiers: Set<string>,
+  public saveValidatedDemandSingleMcc(
+    kpiData: WriteKpiData | null,
+    errors: Set<string>,
     dryRun: boolean
   ): Observable<string | null> {
-    if (!validatedDemandToWrite) {
+    if (!kpiData) {
       return of(translate('validation_of_demand.error.no_data'));
     }
 
-    if (errorInputIdentifiers.size > 0) {
-      const dates = [...errorInputIdentifiers.values()].join(', ');
+    if (errors.size > 0) {
+      const dates = [...errors.values()].join(', ');
 
       return of(
         translate(
@@ -195,11 +197,12 @@ export class DemandValidationService {
       );
     }
 
-    const body = JSON.stringify(validatedDemandToWrite);
     const params = new HttpParams().set('dryRun', dryRun.toString());
 
     return this.http
-      .post<WriteKpiDataResponse>(this.DEMAND_VALIDATION_API, body, { params })
+      .post<WriteKpiDataResponse>(this.DEMAND_VALIDATION_API, kpiData, {
+        params,
+      })
       .pipe(
         map((result) => {
           if (
@@ -218,9 +221,7 @@ export class DemandValidationService {
 
             return translate(
               `validation_of_demand.${dryRun ? 'check' : 'save'}.error_specific`,
-              {
-                dates: errorDatesAndCauses,
-              }
+              { dates: errorDatesAndCauses }
             );
           }
         }),
@@ -230,21 +231,18 @@ export class DemandValidationService {
       );
   }
 
-  getForecastInfo(
+  public getForecastInfo(
     customerNumber: string | undefined,
     materialNumber: string | undefined
-  ): Observable<ForecastInfo> {
-    if (!customerNumber || !materialNumber) {
-      // TODO improve error handling here react doesn't handle this
-      throw new Error('Customer number and material number must be provided');
-    }
-
-    return this.http.get<ForecastInfo>(
-      `api/demand-validation/material-infos/${customerNumber}/${materialNumber}`
-    );
+  ): Observable<ForecastInfo | null> {
+    return !customerNumber || !materialNumber
+      ? of(null)
+      : this.http.get<ForecastInfo>(
+          `${this.DEMAND_VALIDATION_MATERIAL_INFO_API}/${customerNumber}/${materialNumber}`
+        );
   }
 
-  getKpiBuckets(kpiDateRanges: KpiDateRanges): Observable<KpiBucket[]> {
+  public getKpiBuckets(kpiDateRanges: KpiDateRanges): Observable<KpiBucket[]> {
     const requestParams: BucketRequest = {
       range1: {
         from: formatISO(kpiDateRanges.range1.from, { representation: 'date' }),
@@ -268,11 +266,11 @@ export class DemandValidationService {
     );
   }
 
-  getKpiData(
+  public getKpiData(
     materialListEntry: MaterialListEntry | undefined,
     kpiDateRanges: KpiDateRanges,
     exceptions: Date[]
-  ): Observable<KpiData> {
+  ): Observable<KpiData | null> {
     const requestParams: KpiDataRequest | undefined =
       materialListEntry?.materialNumber && materialListEntry?.customerNumber
         ? {
@@ -320,10 +318,10 @@ export class DemandValidationService {
 
     return requestParams
       ? this.http.post<KpiData>(this.DEMAND_VALIDATION_KPI_API, requestParams)
-      : undefined;
+      : of(null);
   }
 
-  createDemandMaterialCustomerDatasource(
+  public createDemandMaterialCustomerDatasource(
     selectionFilters: GlobalSelectionCriteriaFilters &
       DemandValidationStringFilter
   ): IServerSideDatasource {

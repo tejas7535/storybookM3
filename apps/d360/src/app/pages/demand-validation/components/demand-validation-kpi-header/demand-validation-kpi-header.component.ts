@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 import { translate } from '@jsverse/transloco';
-import { TranslocoDatePipe } from '@jsverse/transloco-locale';
 import { IHeaderAngularComp } from 'ag-grid-angular';
 import { IHeaderParams } from 'ag-grid-community';
 import {
@@ -14,7 +13,6 @@ import {
   nextMonday,
   parseISO,
 } from 'date-fns';
-import { de } from 'date-fns/locale';
 
 import {
   KpiBucketType,
@@ -23,24 +21,24 @@ import {
 
 export interface ICustomHeaderParams extends IHeaderParams {
   kpiEntry: KpiEntry;
-  // onClickHeader(entry: KpiEntry): void;
+  onClickHeader(entry: KpiEntry): void;
 }
 
 @Component({
   selector: 'd360-demand-validation-kpi-header',
   standalone: true,
-  imports: [CommonModule, TranslocoDatePipe],
+  imports: [CommonModule],
   templateUrl: './demand-validation-kpi-header.component.html',
   styleUrl: './demand-validation-kpi-header.component.scss',
 })
 export class DemandValidationKpiHeaderComponent implements IHeaderAngularComp {
   @Input({ required: true }) params!: ICustomHeaderParams;
 
-  agInit(params: ICustomHeaderParams): void {
+  public agInit(params: ICustomHeaderParams): void {
     this.params = params;
   }
 
-  refresh(_: ICustomHeaderParams): boolean {
+  public refresh(_: ICustomHeaderParams): boolean {
     return false;
   }
 
@@ -71,10 +69,23 @@ export class DemandValidationKpiHeaderComponent implements IHeaderAngularComp {
     return kw + partWeek;
   }
 
-  private readonly getCalendarWeek = (date: Date) =>
-    format(date, 'ww', { locale: de });
+  protected getDate(input: any): string {
+    return format(input, 'MM.yyyy');
 
-  handleHeaderClick() {
-    // TODO implement
+    // TODO: Use the following code after https://github.com/Schaeffler-Group/frontend-schaeffler/pull/6770 was merged
+    // return format(
+    //   input,
+    //   getMonthYearDateFormatByCode(
+    //     this.localeService.getLocale() as LocaleType
+    //   ).display.dateInput
+    // );
+  }
+
+  protected handleHeaderClick() {
+    this.params.onClickHeader(this.params.kpiEntry);
+  }
+
+  private getCalendarWeek(date: Date): string {
+    return format(date, 'ww');
   }
 }

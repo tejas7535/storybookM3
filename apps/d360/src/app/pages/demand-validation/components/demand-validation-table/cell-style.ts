@@ -4,7 +4,7 @@
  * replenishment lead time border gets calculated by adding currentRLTSchaeffler to the current date.
  * it might occur that both of the borders are at the same month, this edge case needs to be clarified.
  */
-import { CellStyle, CellStyleFunc } from 'ag-grid-community';
+import { CellClassFunc } from 'ag-grid-community';
 import { addDays, addMonths, isSameMonth, isSameWeek } from 'date-fns';
 import { de } from 'date-fns/locale';
 
@@ -12,23 +12,28 @@ import {
   ForecastInfo,
   KpiBucketType,
 } from '../../../../feature/demand-validation/model';
-import {
-  errorColor,
-  schaefflerColor,
-  warningColor,
-} from '../../../../shared/styles/colors';
 
-export const getCellStyleFunc =
-  (
-    periodType: KpiBucketType,
-    currentRLTSchaeffler?: string,
-    materialClassification?: string,
-    forecastInfo?: ForecastInfo
-  ): CellStyleFunc =>
-  (params): CellStyle => {
+/**
+ * Generates a cell class function based on the provided parameters to apply specific styles to cells in a data grid.
+ *
+ * @param {KpiBucketType} periodType - The type of time period to consider for styling (e.g., 'WEEK', 'MONTH').
+ * @param {string} [currentRLTSchaeffler] - Optional. Current RLT Schaeffler value as a string.
+ * @param {string} [materialClassification] - Optional. Material classification type.
+ * @param {ForecastInfo} [forecastInfo] - Optional. Forecast information containing transit times.
+ * @returns {CellClassFunc} A cell class function to be used in a data grid for applying styles to cells based on the provided parameters.
+ */
+export function getCellClass(
+  periodType: KpiBucketType,
+  currentRLTSchaeffler?: string,
+  materialClassification?: string,
+  forecastInfo?: ForecastInfo
+): CellClassFunc {
+  return (params): string | string[] | null | undefined => {
     if (!materialClassification) {
-      return {};
+      return null;
     }
+
+    const classes: string[] = [];
 
     const monthsUntilFrozenZoneForMaterial: { [k: string]: number } = {
       SPc: 2,
@@ -78,20 +83,17 @@ export const getCellStyleFunc =
     }
 
     if (dateIsInBucket(startOfBucket, today)) {
-      return {
-        borderLeft: `1px dashed ${schaefflerColor}`,
-      };
-    }
-    if (rltDate && dateIsInBucket(startOfBucket, rltDate)) {
-      return {
-        borderRight: `1px dashed ${warningColor}`,
-      };
-    }
-    if (dateIsInBucket(startOfBucket, frozenZone)) {
-      return {
-        borderRight: `1px dashed ${errorColor}`,
-      };
+      classes.push('schaeffler-border-left');
     }
 
-    return {};
+    if (rltDate && dateIsInBucket(startOfBucket, rltDate)) {
+      classes.push('warning-border-right');
+    }
+
+    if (dateIsInBucket(startOfBucket, frozenZone)) {
+      classes.push('error-border-right');
+    }
+
+    return classes;
   };
+}

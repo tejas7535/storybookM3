@@ -8,12 +8,10 @@
         <span>{{
           getWeekHeader(params.kpiEntry.fromDate, params.kpiEntry.bucketType)
         }}</span>
-        <!--        TODO check if format is ok and week starts on monday for every locale-->
-        <span>{{ params.kpiEntry.fromDate | translocoDate }}</span>
+        <span>{{ getDate(params.kpiEntry.fromDate) }}</span>
       </div>
     } @else {
-      <!--      TODO check if this is necessary and if format is ok-->
-      {{ params.kpiEntry.fromDate | translocoDate }}
+      {{ getDate(params.kpiEntry.fromDate) }}
     }
   </div>
 }

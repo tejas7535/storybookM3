@@ -59,7 +59,7 @@ describe('numbers', () => {
     ${'1.200,5'} | ${'PERIOD'}      | ${false}
     ${'1,200.5'} | ${'COMMA'}       | ${false}
     ${'1,200.5'} | ${'PERIOD'}      | ${true}
-    ${'-5'}      | ${'COMMA'}       | ${false}
+    ${'-5'}      | ${'COMMA'}       | ${true}
     ${'1,1,3'}   | ${'COMMA'}       | ${false}
     ${'1.1.3'}   | ${'COMMA'}       | ${false}
     ${'eins'}    | ${'COMMA'}       | ${false}

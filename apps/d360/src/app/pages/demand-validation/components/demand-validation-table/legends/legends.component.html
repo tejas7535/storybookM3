@@ -1,0 +1,11 @@
+<div class="container text-body-medium" *transloco="let t">
+  <span>{{ t('validation_of_demand.legend.title') }}</span>
+  <div class="legends">
+    @for (item of items; track $index) {
+      <div class="legend">
+        <span class="line {{ item.class }}"></span>
+        <span class="text">{{ t(item.text) }}</span>
+      </div>
+    }
+  </div>
+</div>

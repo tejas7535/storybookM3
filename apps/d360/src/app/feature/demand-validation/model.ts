@@ -203,3 +203,6 @@ export const SUPPLY_CONCEPT_SUPPORTED_STOCHASTIC_TYPES = [
   'M',
   'N',
 ] as const;
+
+export type SupplyConceptsStochasticType =
+  (typeof SUPPLY_CONCEPT_SUPPORTED_STOCHASTIC_TYPES)[number];

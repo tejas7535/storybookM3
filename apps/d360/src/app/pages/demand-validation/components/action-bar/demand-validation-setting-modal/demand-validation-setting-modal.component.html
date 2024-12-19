@@ -1,23 +1,21 @@
 <div *transloco="let t">
-  <mat-dialog-content>
-    <div>
-      <mat-radio-group [value]="data" (change)="handleSettingsChange($event)">
-        <mat-radio-button
-          [value]="PlanningView.REQUESTED"
-          [aria-label]="t('planing_type.title.REQUESTED')"
-          >{{ t('planing_type.title.REQUESTED') }}
-        </mat-radio-button>
-        <mat-radio-button
-          [value]="PlanningView.CONFIRMED"
-          [aria-label]="t('planing_type.title.CONFIRMED')"
-          >{{ t('planing_type.title.CONFIRMED') }}
-        </mat-radio-button>
-      </mat-radio-group>
-    </div>
-  </mat-dialog-content>
-  <mat-dialog-actions align="end">
-    <button mat-flat-button color="primary" (click)="handleSave()">
-      {{ t('button.save') }}
-    </button>
-  </mat-dialog-actions>
+  <mat-radio-group
+    [value]="data()"
+    (change)="handleSettingsChange($event)"
+    class="flex flex-col"
+  >
+    <mat-radio-button
+      [value]="PlanningView.REQUESTED"
+      [aria-label]="t('planing_type.title.REQUESTED')"
+    >
+      {{ t('planing_type.title.REQUESTED') }}
+    </mat-radio-button>
+
+    <mat-radio-button
+      [value]="PlanningView.CONFIRMED"
+      [aria-label]="t('planing_type.title.CONFIRMED')"
+    >
+      {{ t('planing_type.title.CONFIRMED') }}
+    </mat-radio-button>
+  </mat-radio-group>
 </div>

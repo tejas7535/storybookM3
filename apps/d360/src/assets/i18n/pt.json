@@ -292,10 +292,10 @@
       "toggle_filters": "Filtro"
     },
     "legend": {
-      "title": "Legenda:",
+      "title": "Legenda",
       "current_date": "Hoje",
-      "frozen_zone": "Frozen Zone",
-      "replenishment_lead_time": "Prazo de Reabastecimento"
+      "frozen_zone": "Frozen Zone (incluindo tempo de trânsito)",
+      "replenishment_lead_time": "Prazo de Reabastecimento (incluindo tempo de trânsito)"
     },
     "menu_item": {
       "deliveries": "Deliveries",

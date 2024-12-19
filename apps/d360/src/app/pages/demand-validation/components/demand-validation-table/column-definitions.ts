@@ -1,16 +1,5 @@
-/* eslint-disable max-lines */
-
 import { ColDef } from 'ag-grid-community';
 
-import {
-  dimmedBlue,
-  dimmedGreen,
-  dimmedGrey,
-  dimmedRed,
-  dimmedYellow,
-} from '../../../../shared/styles/colors';
-
-// TODO move to toolbar-kpi-table file after implementation
 export interface FilterValues {
   deliveries: boolean;
   firmBusiness: boolean;
@@ -22,288 +11,41 @@ export interface FilterValues {
   activeAndPredecessor: boolean;
 }
 
-// export function getKpiColumnDefinitionsRequested(): (ColDef & {
-//   key: (options: any) => string,
-//   title: (options: any) => string,
-//   visible: (options: any) => boolean,
-//   titleStyle: (options: any) => string,
-//   color?: (materialClassification?: string) => string,
-// })[] {
-//   return [
-//     {
-//       key: (options: FilterValues) =>
-//         options.activeAndPredecessor
-//           ? ('deliveriesCombined' as const)
-//           : ('deliveriesActive' as const),
-//       title: (options: FilterValues) =>
-//         options.activeAndPredecessor
-//           ? ('validation_of_demand.planning_table.deliveries_combined' as const)
-//           : ('validation_of_demand.planning_table.deliveries' as const),
-//       visible: (options: FilterValues) => options.deliveries,
-//       titleStyle: () => 'fontWeightBold',
-//       editable: false,
-//       color: () => dimmedGrey,
-//     },
-//     {
-//       key: () => 'deliveriesActive' as const,
-//       title: () => 'validation_of_demand.planning_table.deliveries_active' as const,
-//       visible: (options: FilterValues) => options.deliveries && options.activeAndPredecessor,
-//       titleStyle: () => 'indented',
-//       editable: false,
-//
-//     },
-//     {
-//       key: () => 'deliveriesPredecessor' as const,
-//       title: () => 'validation_of_demand.planning_table.deliveries_predecessor' as const,
-//       visible: (options: FilterValues) => options.deliveries && options.activeAndPredecessor,
-//       titleStyle: () => 'indented',
-//       editable: false,
-//
-//     },
-//     {
-//       key: (options: FilterValues) =>
-//         options.activeAndPredecessor
-//           ? ('firmBusinessCombined' as const)
-//           : ('firmBusinessActive' as const),
-//       title: (options: FilterValues) =>
-//         options.activeAndPredecessor
-//           ? ('validation_of_demand.planning_table.firm_business_combined' as const)
-//           : ('validation_of_demand.planning_table.firm_business' as const),
-//       visible: (options: FilterValues) => options.firmBusiness,
-//       titleStyle: () => 'fontWeightBold',
-//       editable: false,
-//       color: () => dimmedYellow,
-//     },
-//     {
-//       key: () => 'firmBusinessActive' as const,
-//       title: () => 'validation_of_demand.planning_table.firm_business_active' as const,
-//       visible: (options: FilterValues) => options.firmBusiness && options.activeAndPredecessor,
-//       titleStyle: () => 'indented',
-//       editable: false,
-//
-//     },
-//     {
-//       key: () => 'firmBusinessPredecessor' as const,
-//       title: () => 'validation_of_demand.planning_table.firm_business_predecessor' as const,
-//       visible: (options: FilterValues) => options.firmBusiness && options.activeAndPredecessor,
-//       titleStyle: () => 'indented',
-//       editable: false,
-//
-//     },
-//     {
-//       key: () => 'opportunities' as const,
-//       title: () => 'validation_of_demand.planning_table.opportunities' as const,
-//       visible: (options: FilterValues) => options.opportunities,
-//       titleStyle: () => 'fontWeightBold',
-//       editable: false,
-//       color: () => dimmedRed,
-//     },
-//     {
-//       key: () => 'forecastProposal' as const,
-//       title: () => 'validation_of_demand.planning_table.forecast_proposal' as const,
-//       visible: (options: FilterValues) => options.forecastProposal,
-//       titleStyle: () => 'fontWeightBold',
-//       editable: false,
-//
-//     },
-//     {
-//       key: () => 'forecastProposalDemandPlanner' as const,
-//       title: () => 'validation_of_demand.planning_table.forecast_proposal_demand_planner' as const,
-//       visible: (options: FilterValues) => options.forecastProposalDemandPlanner,
-//       titleStyle: () => 'fontWeightBold',
-//       editable: false,
-//
-//     },
-//     {
-//       key: () => 'validatedForecast' as const,
-//       title: () => 'validation_of_demand.planning_table.validated_forecast' as const,
-//       visible: () => true,
-//       titleStyle: () => 'highlighted',
-//       editable: true,
-//
-//     },
-//     {
-//       key: () => 'indicativeDemandPlan' as const,
-//       title: () => 'validation_of_demand.planning_table.indicative_demand_plan' as const,
-//       visible: (options: FilterValues) => options.indicativeDemandPlanning,
-//       titleStyle: () => 'fontWeightBold',
-//       editable: false,
-//
-//     },
-//     {
-//       key: () => 'currentDemandPlan' as const,
-//       title: (_options: FilterValues, materialClassification?: string) =>
-//         materialClassification === 'OP'
-//           ? ('validation_of_demand.menu_item.opAdjustment' as const)
-//           : ('validation_of_demand.planning_table.demand_plan' as const),
-//       visible: (options: FilterValues) => options.currentDemandPlan,
-//       titleStyle: () => 'fontWeightBold',
-//       editable: false,
-//       color: (materialClassification?: string) =>
-//         materialClassification === 'OP' ? dimmedBlue : dimmedGreen,
-//     },
-//   ];
-// }
-//
-// export function getKpiColumnDefinitionsConfirmed(): (ColDef & {
-//   key: (options: any) => string,
-//   title: (options: any) => string,
-//   visible: (options: any) => boolean,
-//   titleStyle: (options: any) => string,
-//   color?: (materialClassification?: string) => string,
-// })[] {
-//   return [
-//     {
-//       key: (options: FilterValues) =>
-//         options.activeAndPredecessor
-//           ? ('confirmedDeliveriesCombined' as const)
-//           : ('confirmedDeliveriesActive' as const),
-//       title: (options: FilterValues) =>
-//         options.activeAndPredecessor
-//           ? ('validation_of_demand.planning_table.deliveries_combined' as const)
-//           : ('validation_of_demand.planning_table.deliveries' as const),
-//       visible: (options: FilterValues) => options.deliveries,
-//       titleStyle: () => 'fontWeightBold',
-//       editable: false,
-//       color: () => dimmedGrey,
-//     },
-//     {
-//       key: () => 'confirmedDeliveriesActive' as const,
-//       title: () => 'validation_of_demand.planning_table.deliveries_active' as const,
-//       visible: (options: FilterValues) => options.deliveries && options.activeAndPredecessor,
-//       titleStyle: () => 'indented',
-//       editable: false,
-//
-//     },
-//     {
-//       key: () => 'confirmedDeliveriesPredecessor' as const,
-//       title: () => 'validation_of_demand.planning_table.deliveries_predecessor' as const,
-//       visible: (options: FilterValues) => options.deliveries && options.activeAndPredecessor,
-//       titleStyle: () => 'indented',
-//       editable: false,
-//
-//     },
-//     {
-//       key: (options: FilterValues) =>
-//         options.activeAndPredecessor
-//           ? ('confirmedFirmBusinessCombined' as const)
-//           : ('confirmedFirmBusinessActive' as const),
-//       title: (options: FilterValues) =>
-//         options.activeAndPredecessor
-//           ? ('validation_of_demand.planning_table.firm_business_combined' as const)
-//           : ('validation_of_demand.planning_table.firm_business' as const),
-//       visible: (options: FilterValues) => options.firmBusiness,
-//       titleStyle: () => 'fontWeightBold',
-//       editable: false,
-//       color: () => dimmedYellow,
-//     },
-//     {
-//       key: () => 'confirmedFirmBusinessActive' as const,
-//       title: () => 'validation_of_demand.planning_table.firm_business_active' as const,
-//       visible: (options: FilterValues) => options.firmBusiness && options.activeAndPredecessor,
-//       titleStyle: () => 'indented',
-//       editable: false,
-//
-//     },
-//     {
-//       key: () => 'confirmedFirmBusinessPredecessor' as const,
-//       title: () => 'validation_of_demand.planning_table.firm_business_predecessor' as const,
-//       visible: (options: FilterValues) => options.firmBusiness && options.activeAndPredecessor,
-//       titleStyle: () => 'indented',
-//       editable: false,
-//
-//     },
-//     {
-//       key: () => '',
-//       title: () => 'validation_of_demand.planning_table.opportunities' as const,
-//       visible: (options: FilterValues) => options.opportunities,
-//       titleStyle: () => 'gray',
-//       editable: false,
-//
-//     },
-//     {
-//       key: () => '',
-//       title: () => 'validation_of_demand.planning_table.forecast_proposal' as const,
-//       visible: (options: FilterValues) => options.forecastProposal,
-//       titleStyle: () => 'gray',
-//       editable: false,
-//
-//     },
-//     {
-//       key: () => '',
-//       title: () => 'validation_of_demand.planning_table.forecast_proposal_demand_planner' as const,
-//       visible: (options: FilterValues) => options.forecastProposalDemandPlanner,
-//       titleStyle: () => 'gray',
-//       editable: false,
-//
-//     },
-//     {
-//       key: () => '',
-//       title: () => 'validation_of_demand.planning_table.validated_forecast' as const,
-//       visible: () => true,
-//       titleStyle: () => 'gray',
-//       editable: false,
-//
-//     },
-//     {
-//       key: () => '',
-//       title: () => 'validation_of_demand.planning_table.indicative_demand_plan' as const,
-//       visible: (options: FilterValues) => options.indicativeDemandPlanning,
-//       titleStyle: () => 'gray',
-//       editable: false,
-//
-//     },
-//     {
-//       key: (materialClassification?: string) =>
-//         materialClassification === 'OP' ? undefined : ('confirmedDemandPlan' as const),
-//       title: (materialClassification?: string) =>
-//         materialClassification === 'OP'
-//           ? ('validation_of_demand.menu_item.opAdjustment' as const)
-//           : ('validation_of_demand.planning_table.demand_plan' as const),
-//       visible: (options: FilterValues) => options.currentDemandPlan,
-//       titleStyle: (materialClassification?: string) =>
-//         materialClassification === 'OP' ? ('gray' as const) : ('fontWeightBold' as const),
-//       editable: false,
-//       color: (materialClassification?: string) =>
-//         materialClassification === 'OP' ? undefined : dimmedGreen,
-//     },
-//   ];
-// }
-
-export const kpiColumnDefinitionsRequested: (ColDef & {
-  key: (options: FilterValues, materialClassification?: string) => string;
+export type DemandValidationTableColDef = ColDef & {
+  key: (
+    options: FilterValues,
+    materialClassification?: string
+  ) => string | undefined;
   title: (options: FilterValues, materialClassification?: string) => string;
   visible: (options: FilterValues, materialClassification?: string) => boolean;
   titleStyle: () => string;
   color?: (materialClassification?: string) => string;
-})[] = [
+};
+
+export const kpiColumnDefinitionsRequested: DemandValidationTableColDef[] = [
   {
     key: (options: FilterValues) =>
-      options.activeAndPredecessor
-        ? ('deliveriesCombined' as const)
-        : ('deliveriesActive' as const),
+      options.activeAndPredecessor ? 'deliveriesCombined' : 'deliveriesActive',
     title: (options: FilterValues) =>
       options.activeAndPredecessor
-        ? ('validation_of_demand.planning_table.deliveries_combined' as const)
-        : ('validation_of_demand.planning_table.deliveries' as const),
+        ? 'validation_of_demand.planning_table.deliveries_combined'
+        : 'validation_of_demand.planning_table.deliveries',
     visible: (options: FilterValues) => options.deliveries,
-    titleStyle: () => 'fontWeightBold',
+    titleStyle: () => 'font-weight-bold',
     editable: false,
-    color: () => dimmedGrey,
+    color: () => 'dimmed-grey',
   },
   {
-    key: () => 'deliveriesActive' as const,
-    title: () =>
-      'validation_of_demand.planning_table.deliveries_active' as const,
+    key: () => 'deliveriesActive',
+    title: () => 'validation_of_demand.planning_table.deliveries_active',
     visible: (options: FilterValues) =>
       options.deliveries && options.activeAndPredecessor,
     titleStyle: () => 'indented',
     editable: false,
   },
   {
-    key: () => 'deliveriesPredecessor' as const,
-    title: () =>
-      'validation_of_demand.planning_table.deliveries_predecessor' as const,
+    key: () => 'deliveriesPredecessor',
+    title: () => 'validation_of_demand.planning_table.deliveries_predecessor',
     visible: (options: FilterValues) =>
       options.deliveries && options.activeAndPredecessor,
     titleStyle: () => 'indented',
@@ -312,123 +54,111 @@ export const kpiColumnDefinitionsRequested: (ColDef & {
   {
     key: (options: FilterValues) =>
       options.activeAndPredecessor
-        ? ('firmBusinessCombined' as const)
-        : ('firmBusinessActive' as const),
+        ? 'firmBusinessCombined'
+        : 'firmBusinessActive',
     title: (options: FilterValues) =>
       options.activeAndPredecessor
-        ? ('validation_of_demand.planning_table.firm_business_combined' as const)
-        : ('validation_of_demand.planning_table.firm_business' as const),
+        ? 'validation_of_demand.planning_table.firm_business_combined'
+        : 'validation_of_demand.planning_table.firm_business',
     visible: (options: FilterValues) => options.firmBusiness,
-    titleStyle: () => 'fontWeightBold',
+    titleStyle: () => 'font-weight-bold',
     editable: false,
-    color: () => dimmedYellow,
+    color: () => 'dimmed-yellow',
   },
   {
-    key: () => 'firmBusinessActive' as const,
-    title: () =>
-      'validation_of_demand.planning_table.firm_business_active' as const,
+    key: () => 'firmBusinessActive',
+    title: () => 'validation_of_demand.planning_table.firm_business_active',
     visible: (options: FilterValues) =>
       options.firmBusiness && options.activeAndPredecessor,
     titleStyle: () => 'indented',
     editable: false,
   },
   {
-    key: () => 'firmBusinessPredecessor' as const,
+    key: () => 'firmBusinessPredecessor',
     title: () =>
-      'validation_of_demand.planning_table.firm_business_predecessor' as const,
+      'validation_of_demand.planning_table.firm_business_predecessor',
     visible: (options: FilterValues) =>
       options.firmBusiness && options.activeAndPredecessor,
     titleStyle: () => 'indented',
     editable: false,
   },
   {
-    key: () => 'opportunities' as const,
-    title: () => 'validation_of_demand.planning_table.opportunities' as const,
+    key: () => 'opportunities',
+    title: () => 'validation_of_demand.planning_table.opportunities',
     visible: (options: FilterValues) => options.opportunities,
-    titleStyle: () => 'fontWeightBold',
+    titleStyle: () => 'font-weight-bold',
     editable: false,
-    color: () => dimmedRed,
+    color: () => 'dimmed-red',
   },
   {
-    key: () => 'forecastProposal' as const,
-    title: () =>
-      'validation_of_demand.planning_table.forecast_proposal' as const,
+    key: () => 'forecastProposal',
+    title: () => 'validation_of_demand.planning_table.forecast_proposal',
     visible: (options: FilterValues) => options.forecastProposal,
-    titleStyle: () => 'fontWeightBold',
+    titleStyle: () => 'font-weight-bold',
     editable: false,
   },
   {
-    key: () => 'forecastProposalDemandPlanner' as const,
+    key: () => 'forecastProposalDemandPlanner',
     title: () =>
-      'validation_of_demand.planning_table.forecast_proposal_demand_planner' as const,
+      'validation_of_demand.planning_table.forecast_proposal_demand_planner',
     visible: (options: FilterValues) => options.forecastProposalDemandPlanner,
-    titleStyle: () => 'fontWeightBold',
+    titleStyle: () => 'font-weight-bold',
     editable: false,
   },
   {
-    key: () => 'validatedForecast' as const,
-    title: () =>
-      'validation_of_demand.planning_table.validated_forecast' as const,
+    key: () => 'validatedForecast',
+    title: () => 'validation_of_demand.planning_table.validated_forecast',
     visible: () => true,
     titleStyle: () => 'highlighted',
     editable: true,
   },
   {
-    key: () => 'indicativeDemandPlan' as const,
-    title: () =>
-      'validation_of_demand.planning_table.indicative_demand_plan' as const,
+    key: () => 'indicativeDemandPlan',
+    title: () => 'validation_of_demand.planning_table.indicative_demand_plan',
     visible: (options: FilterValues) => options.indicativeDemandPlanning,
-    titleStyle: () => 'fontWeightBold',
+    titleStyle: () => 'font-weight-bold',
     editable: false,
   },
   {
-    key: () => 'currentDemandPlan' as const,
+    key: () => 'currentDemandPlan',
     title: (_: FilterValues, materialClassification?: string) =>
       materialClassification === 'OP'
-        ? ('validation_of_demand.menu_item.opAdjustment' as const)
-        : ('validation_of_demand.planning_table.demand_plan' as const),
+        ? 'validation_of_demand.menu_item.opAdjustment'
+        : 'validation_of_demand.planning_table.demand_plan',
     visible: (options: FilterValues) => options.currentDemandPlan,
-    titleStyle: () => 'fontWeightBold',
+    titleStyle: () => 'font-weight-bold',
     editable: false,
     color: (materialClassification?: string) =>
-      materialClassification === 'OP' ? dimmedBlue : dimmedGreen,
+      materialClassification === 'OP' ? 'dimmed-blue' : 'dimmed-green',
   },
-] as const;
+];
 
-export const kpiColumnDefinitionsConfirmed: (ColDef & {
-  key: (options: FilterValues, materialClassification?: string) => string;
-  title: (options: FilterValues, materialClassification?: string) => string;
-  visible: (options: FilterValues, materialClassification?: string) => boolean;
-  titleStyle: (materialClassification?: string) => string;
-  color?: (materialClassification?: string) => string;
-})[] = [
+export const kpiColumnDefinitionsConfirmed: DemandValidationTableColDef[] = [
   {
     key: (options: FilterValues) =>
       options.activeAndPredecessor
-        ? ('confirmedDeliveriesCombined' as const)
-        : ('confirmedDeliveriesActive' as const),
+        ? 'confirmedDeliveriesCombined'
+        : 'confirmedDeliveriesActive',
     title: (options: FilterValues) =>
       options.activeAndPredecessor
-        ? ('validation_of_demand.planning_table.deliveries_combined' as const)
-        : ('validation_of_demand.planning_table.deliveries' as const),
+        ? 'validation_of_demand.planning_table.deliveries_combined'
+        : 'validation_of_demand.planning_table.deliveries',
     visible: (options: FilterValues) => options.deliveries,
-    titleStyle: () => 'fontWeightBold',
+    titleStyle: () => 'font-weight-bold',
     editable: false,
-    color: () => dimmedGrey,
+    color: () => 'dimmed-grey',
   },
   {
-    key: () => 'confirmedDeliveriesActive' as const,
-    title: () =>
-      'validation_of_demand.planning_table.deliveries_active' as const,
+    key: () => 'confirmedDeliveriesActive',
+    title: () => 'validation_of_demand.planning_table.deliveries_active',
     visible: (options: FilterValues) =>
       options.deliveries && options.activeAndPredecessor,
     titleStyle: () => 'indented',
     editable: false,
   },
   {
-    key: () => 'confirmedDeliveriesPredecessor' as const,
-    title: () =>
-      'validation_of_demand.planning_table.deliveries_predecessor' as const,
+    key: () => 'confirmedDeliveriesPredecessor',
+    title: () => 'validation_of_demand.planning_table.deliveries_predecessor',
     visible: (options: FilterValues) =>
       options.deliveries && options.activeAndPredecessor,
     titleStyle: () => 'indented',
@@ -437,30 +167,29 @@ export const kpiColumnDefinitionsConfirmed: (ColDef & {
   {
     key: (options: FilterValues) =>
       options.activeAndPredecessor
-        ? ('confirmedFirmBusinessCombined' as const)
-        : ('confirmedFirmBusinessActive' as const),
+        ? 'confirmedFirmBusinessCombined'
+        : 'confirmedFirmBusinessActive',
     title: (options: FilterValues) =>
       options.activeAndPredecessor
-        ? ('validation_of_demand.planning_table.firm_business_combined' as const)
-        : ('validation_of_demand.planning_table.firm_business' as const),
+        ? 'validation_of_demand.planning_table.firm_business_combined'
+        : 'validation_of_demand.planning_table.firm_business',
     visible: (options: FilterValues) => options.firmBusiness,
-    titleStyle: () => 'fontWeightBold',
+    titleStyle: () => 'font-weight-bold',
     editable: false,
-    color: () => dimmedYellow,
+    color: () => 'dimmed-yellow',
   },
   {
-    key: () => 'confirmedFirmBusinessActive' as const,
-    title: () =>
-      'validation_of_demand.planning_table.firm_business_active' as const,
+    key: () => 'confirmedFirmBusinessActive',
+    title: () => 'validation_of_demand.planning_table.firm_business_active',
     visible: (options: FilterValues) =>
       options.firmBusiness && options.activeAndPredecessor,
     titleStyle: () => 'indented',
     editable: false,
   },
   {
-    key: () => 'confirmedFirmBusinessPredecessor' as const,
+    key: () => 'confirmedFirmBusinessPredecessor',
     title: () =>
-      'validation_of_demand.planning_table.firm_business_predecessor' as const,
+      'validation_of_demand.planning_table.firm_business_predecessor',
     visible: (options: FilterValues) =>
       options.firmBusiness && options.activeAndPredecessor,
     titleStyle: () => 'indented',
@@ -468,15 +197,14 @@ export const kpiColumnDefinitionsConfirmed: (ColDef & {
   },
   {
     key: undefined,
-    title: () => 'validation_of_demand.planning_table.opportunities' as const,
+    title: () => 'validation_of_demand.planning_table.opportunities',
     visible: (options: FilterValues) => options.opportunities,
     titleStyle: () => 'gray',
     editable: false,
   },
   {
     key: undefined,
-    title: () =>
-      'validation_of_demand.planning_table.forecast_proposal' as const,
+    title: () => 'validation_of_demand.planning_table.forecast_proposal',
     visible: (options: FilterValues) => options.forecastProposal,
     titleStyle: () => 'gray',
     editable: false,
@@ -484,43 +212,37 @@ export const kpiColumnDefinitionsConfirmed: (ColDef & {
   {
     key: undefined,
     title: () =>
-      'validation_of_demand.planning_table.forecast_proposal_demand_planner' as const,
+      'validation_of_demand.planning_table.forecast_proposal_demand_planner',
     visible: (options: FilterValues) => options.forecastProposalDemandPlanner,
     titleStyle: () => 'gray',
     editable: false,
   },
   {
     key: undefined,
-    title: () =>
-      'validation_of_demand.planning_table.validated_forecast' as const,
+    title: () => 'validation_of_demand.planning_table.validated_forecast',
     visible: () => true,
     titleStyle: () => 'gray',
     editable: false,
   },
   {
     key: undefined,
-    title: () =>
-      'validation_of_demand.planning_table.indicative_demand_plan' as const,
+    title: () => 'validation_of_demand.planning_table.indicative_demand_plan',
     visible: (options: FilterValues) => options.indicativeDemandPlanning,
     titleStyle: () => 'gray',
     editable: false,
   },
   {
     key: (_: FilterValues, materialClassification?: string) =>
-      materialClassification === 'OP'
-        ? undefined
-        : ('confirmedDemandPlan' as const),
+      materialClassification === 'OP' ? undefined : 'confirmedDemandPlan',
     title: (_: FilterValues, materialClassification?: string) =>
       materialClassification === 'OP'
-        ? ('validation_of_demand.menu_item.opAdjustment' as const)
-        : ('validation_of_demand.planning_table.demand_plan' as const),
+        ? 'validation_of_demand.menu_item.opAdjustment'
+        : 'validation_of_demand.planning_table.demand_plan',
     visible: (options: FilterValues) => options.currentDemandPlan,
     titleStyle: (materialClassification?: string) =>
-      materialClassification === 'OP'
-        ? ('gray' as const)
-        : ('fontWeightBold' as const),
+      materialClassification === 'OP' ? 'gray' : 'font-weight-bold',
     editable: false,
     color: (materialClassification?: string) =>
-      materialClassification === 'OP' ? undefined : dimmedGreen,
+      materialClassification === 'OP' ? '' : 'dimmed-green',
   },
-] as const;
+];

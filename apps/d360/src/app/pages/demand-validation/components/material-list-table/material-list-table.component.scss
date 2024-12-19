@@ -1,11 +1,17 @@
 .material-list-wrapper {
-  transition: flex-basis 0.25s ease-in-out;
-  will-change: width;
-  flex-basis: 0;
-  border-right: none;
+  transition: border-right 0.25s ease-in-out;
+  border-right: 0;
+  width: 100%;
 
   &.open {
-    flex-basis: 730px;
-    border-right: 3px solid #e2e2e2;
+    border-right: 3px solid var(--border-color-light-gray);
+  }
+
+  ::ng-deep {
+    d360-table-toolbar {
+      span {
+        padding-left: 24px;
+      }
+    }
   }
 }

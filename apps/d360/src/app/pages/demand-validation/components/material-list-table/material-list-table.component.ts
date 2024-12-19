@@ -18,12 +18,14 @@ import {
   CellClassParams,
   CellClickedEvent,
   ColDef,
+  FirstDataRenderedEvent,
   GetRowIdFunc,
   GetRowIdParams,
   GridApi,
   GridOptions,
   GridReadyEvent,
   IRowNode,
+  NewColumnsLoadedEvent,
 } from 'ag-grid-community';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -41,7 +43,6 @@ import {
 } from '../../../../shared/ag-grid/grid-defaults';
 import { TableToolbarComponent } from '../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
 import { GlobalSelectionStateService } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
-import { StyledGridSectionComponent } from '../../../../shared/components/styled-grid-section/styled-grid-section.component';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { disableColor } from '../../../../shared/styles/colors';
 import { getColumnDefinitions } from './column-definitions';
@@ -53,7 +54,6 @@ import { getColumnDefinitions } from './column-definitions';
     CommonModule,
     SharedTranslocoModule,
     TableToolbarComponent,
-    StyledGridSectionComponent,
     AgGridModule,
   ],
   templateUrl: './material-list-table.component.html',
@@ -76,7 +76,13 @@ export class MaterialListTableComponent {
   public selectedMaterialListEntryChange = output<MaterialListEntry>();
 
   protected rowCount = signal<number>(0);
-  protected gridOptions: GridOptions = { ...serverSideTableDefaultProps };
+  protected gridOptions: GridOptions = {
+    ...serverSideTableDefaultProps,
+    onFirstDataRendered: (event: FirstDataRenderedEvent) =>
+      event.columnApi.autoSizeAllColumns(true),
+    onNewColumnsLoaded: (event: NewColumnsLoadedEvent) =>
+      event.columnApi.autoSizeAllColumns(true),
+  };
 
   protected selectedMaterialListEntry = signal<MaterialListEntry>(null);
   protected gridApi: GridApi;

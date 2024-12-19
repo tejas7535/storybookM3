@@ -1,3 +1,11 @@
+@mixin pseudo {
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 100%;
+  top: 0;
+}
+
 @mixin apply() {
   .fixed-action-column {
     @apply pl-0 pr-0 flex justify-center;
@@ -6,14 +14,19 @@
 
   .ag {
     &-theme-material {
+      --ag-row-height: 42px !important;
       --ag-font-family: var(--app-font-family);
       --ag-font-size: 14px;
       --ag-background-color: transparent;
       --ag-header-background-color: transparent;
       --ag-header-foreground-color: var(--scrim-color);
       --ag-data-color: var(--on-surface-variant-color);
-      --ag-font-weight-bold: 500;
+      --ag-font-weight-bold: var(--font-weight-bold);
       --ag-side-bar-panel-width: 240px;
+
+      .ag-row {
+        height: var(--ag-row-height) !important;
+      }
 
       .ag-filter-toolpanel-header,
       .ag-filter-toolpanel-search,
@@ -32,6 +45,7 @@
         width: 100% !important;
         min-width: 200px !important;
       }
+
       .ag-row-selected {
         --ag-selected-row-background-color: #ffffff00;
         color: var(--primary-color-hex);
@@ -40,6 +54,23 @@
       .ag-tool-panel-wrapper,
       .ag-menu {
         @apply bg-surface-container-high;
+      }
+
+      .ag-cell-inline-editing {
+        height: calc(var(--ag-row-height));
+        padding-top: 0;
+        padding-bottom: 0;
+
+        input[class^='ag-']:not([type]),
+        input[class^='ag-'][type='text'],
+        input[class^='ag-'][type='number'],
+        input[class^='ag-'][type='tel'],
+        input[class^='ag-'][type='date'],
+        input[class^='ag-'][type='datetime-local'],
+        textarea[class^='ag-'] {
+          padding-bottom: 0;
+          border-bottom: 0;
+        }
       }
 
       .ag-center-cols-container {
@@ -52,7 +83,7 @@
         }
 
         .is-deactivated {
-          border-left: 6px solid #646464;
+          border-left: 6px solid var(--on-surface-variant-color);
         }
 
         .is-closed {
@@ -86,6 +117,32 @@
     &-popup-editor {
       .ag-rich-select-value {
         min-width: 300px;
+      }
+    }
+
+    &-cell {
+      &.schaeffler-border-left {
+        &::before {
+          @include pseudo;
+          left: 0;
+          border-left: 1px dashed #00893d;
+        }
+      }
+
+      &.warning-border-right {
+        &::before {
+          @include pseudo;
+          right: 3px;
+          border-right: 1px dashed #f5a623;
+        }
+      }
+
+      &.error-border-right {
+        &::after {
+          @include pseudo;
+          right: 0;
+          border-right: 1px dashed #a31839;
+        }
       }
     }
   }

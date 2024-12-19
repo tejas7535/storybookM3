@@ -1,31 +1,49 @@
 <div *transloco="let t" class="flex flex-col gap-6 w-full h-full">
+  <!-- global selection -->
   <d360-global-selection-criteria
     (onGlobalSelectionChange)="onUpdateGlobalSelection($event)"
-  ></d360-global-selection-criteria>
+  />
 
   <d360-styled-section [grow]="true" class="flex flex-col h-full">
-    <h2 class="text-title-large">{{ pageTitle }}</h2>
+    <!-- headline -->
+    <h2 class="text-title-large">
+      {{
+        t('validation_of_demand.title') +
+          ' | ' +
+          t('planing_type.title.' + planningView)
+      }}
+    </h2>
+
+    <!-- loading spinner -->
     @if (loading()) {
       <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
     }
+
     @if (
       globalSelectionStatus() === GlobalSelectionStatus.DATA_AVAILABLE &&
       customerData &&
       selectedCustomer &&
       globalSelection
     ) {
+      <!-- action bar -->
       <d360-action-bar
         [currentCustomer]="selectedCustomer()"
         [customerData]="customerData"
-        [planningView]="planningView"
+        [(planningView)]="planningView"
         [isMaterialListVisible]="materialListVisible()"
         (toggleMaterialListVisible)="handleMaterialListVisible($event)"
         (dateRangeChanged)="handleKpiDateRangeChange($event)"
         (customerChange)="handleCustomerChange($event)"
-      ></d360-action-bar>
-      <div class="table-content-wrapper flex flex-row mb-5 h-full">
+        (reloadValidationTable)="reloadValidationTable($event)"
+        [changedKPIs]="changedKPIs()"
+      />
+
+      <!-- tables -->
+      <div class="table-content-wrapper flex flex-col md:flex-row h-full">
+        <!-- material list table -->
         <d360-material-list-table
-          class="flex grow"
+          class="flex grow md:w-0"
+          [class.w-50p]="materialListVisible()"
           [visible]="materialListVisible()"
           [selectedCustomerNumber]="selectedCustomer().customerNumber"
           [demandValidationFilters]="demandValidationFilters()"
@@ -35,25 +53,32 @@
           (selectedMaterialListEntryChange)="
             handleMaterialListEntrySelected($event)
           "
-        ></d360-material-list-table>
+        />
+
+        <!-- validation table -->
         <d360-demand-validation-table
-          class="flex grow"
+          class="flex grow w-full"
+          [reloadRequired]="reloadRequired()"
           [materialListEntry]="selectedMaterialListEntry()"
           [planningView]="planningView"
-          [dateExceptions]="kpiRangeExceptions"
-          [kpiDateRange]="dateRange"
-        ></d360-demand-validation-table>
+          [kpiDateRange]="dateRange()"
+          [confirmContinueAndLooseUnsavedChanges]="
+            confirmContinueAndLooseUnsavedChanges.bind(this)
+          "
+          (valuesChanged)="onValuesChanged($event)"
+          [showLoader]="showLoader()"
+        />
       </div>
     } @else if (
       globalSelectionStatus() === GlobalSelectionStatus.DATA_NO_RESULTS
     ) {
-      <d360-data-hint [text]="t('hint.noData', {})"></d360-data-hint>
+      <d360-data-hint [text]="t('hint.noData')" />
     } @else if (
       globalSelectionStatus() === GlobalSelectionStatus.DATA_NOTHING_SELECTED
     ) {
-      <d360-data-hint [text]="t('hint.selectData', {})"></d360-data-hint>
+      <d360-data-hint [text]="t('hint.selectData')" />
     } @else if (globalSelectionStatus() === GlobalSelectionStatus.DATA_ERROR) {
-      <d360-data-hint [text]="t('hint.errorLoadingData', {})"></d360-data-hint>
+      <d360-data-hint [text]="t('hint.errorLoadingData')" />
     }
   </d360-styled-section>
 </div>

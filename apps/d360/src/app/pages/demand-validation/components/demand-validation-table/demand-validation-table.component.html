@@ -1,23 +1,132 @@
 <div *transloco="let t" class="demand-validation-table-wrapper">
-  @if (!dataLoaded() && !kpiError()) {
-    <schaeffler-loading-spinner
-      [useBearingLoadingSpinner]="true"
-    ></schaeffler-loading-spinner>
+  @if (!dataLoaded() && kpiError().length === 0) {
+    <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
   }
 
-  @if (kpiError()) {
-    <d360-data-hint [text]="kpiError()"></d360-data-hint>
-  }
+  <div class="flex-1 flex flex-col relative">
+    <!-- show errors -->
+    @if (kpiError().length > 0) {
+      <d360-data-hint [text]="kpiError()" />
+    }
 
-  <d360-styled-grid-section [hidden]="!dataLoaded() || Boolean(kpiError())">
-    <ag-grid-angular
-      class="grow"
-      [gridOptions]="gridOptions"
-      [defaultColDef]="defaultColDef"
-      [columnDefs]="columnDefs"
-      [rowData]="rowData"
-      [localeText]="agGridLocalizationService.lang()"
-    >
-    </ag-grid-angular>
-  </d360-styled-grid-section>
+    <!-- show table -->
+    @if (dataLoaded() && kpiError().length === 0) {
+      <!-- legends + row selection menu -->
+      <div class="flex legends">
+        <!-- legends -->
+        <d360-legends class="flex grow place-content-end" />
+
+        <!-- row selection menu -->
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" class="no-ripple menu-with-slide-toggles">
+          <div mat-menu-item (click)="$event.stopPropagation()">
+            <mat-slide-toggle
+              (change)="onSlideToggleChange($event, 'deliveries')"
+              [checked]="filterValues().deliveries"
+            >
+              {{ t('validation_of_demand.menu_item.deliveries') }}
+            </mat-slide-toggle>
+          </div>
+
+          <div mat-menu-item (click)="$event.stopPropagation()">
+            <mat-slide-toggle
+              (change)="onSlideToggleChange($event, 'firmBusiness')"
+              [checked]="filterValues().firmBusiness"
+            >
+              {{ t('validation_of_demand.menu_item.firmBusiness') }}
+            </mat-slide-toggle>
+          </div>
+
+          <div mat-menu-item (click)="$event.stopPropagation()">
+            <mat-slide-toggle
+              (change)="onSlideToggleChange($event, 'opportunities')"
+              [checked]="filterValues().opportunities"
+            >
+              {{ t('validation_of_demand.menu_item.opportunities') }}
+            </mat-slide-toggle>
+          </div>
+
+          <div mat-menu-item (click)="$event.stopPropagation()">
+            <mat-slide-toggle
+              (change)="onSlideToggleChange($event, 'forecastProposal')"
+              [checked]="filterValues().forecastProposal"
+            >
+              {{ t('validation_of_demand.menu_item.forecastProposal') }}
+            </mat-slide-toggle>
+          </div>
+
+          <div mat-menu-item (click)="$event.stopPropagation()">
+            <mat-slide-toggle
+              (change)="
+                onSlideToggleChange($event, 'forecastProposalDemandPlanner')
+              "
+              [checked]="filterValues().forecastProposalDemandPlanner"
+            >
+              {{
+                t(
+                  'validation_of_demand.menu_item.forecastProposalDemandPlanner'
+                )
+              }}
+            </mat-slide-toggle>
+          </div>
+
+          <div mat-menu-item (click)="$event.stopPropagation()">
+            <mat-slide-toggle
+              (change)="onSlideToggleChange($event, 'indicativeDemandPlanning')"
+              [checked]="filterValues().indicativeDemandPlanning"
+            >
+              {{ t('validation_of_demand.menu_item.indicativeDemandPlan') }}
+            </mat-slide-toggle>
+          </div>
+
+          <div mat-menu-item (click)="$event.stopPropagation()">
+            <mat-slide-toggle
+              (change)="onSlideToggleChange($event, 'currentDemandPlan')"
+              [checked]="filterValues().currentDemandPlan"
+            >
+              {{
+                t('validation_of_demand.menu_item.demandPlan') +
+                  ' / ' +
+                  t('validation_of_demand.menu_item.opAdjustment')
+              }}
+            </mat-slide-toggle>
+          </div>
+
+          <mat-divider />
+
+          <div mat-menu-item (click)="$event.stopPropagation()">
+            <mat-slide-toggle
+              (change)="onSlideToggleChange($event, 'activeAndPredecessor')"
+              [checked]="filterValues().activeAndPredecessor"
+            >
+              {{ t('validation_of_demand.menu_item.activeAndPredecessor') }}
+            </mat-slide-toggle>
+          </div>
+        </mat-menu>
+      </div>
+
+      <!-- table -->
+      <ag-grid-angular
+        class="ag-theme-material grow"
+        [gridOptions]="gridOptions"
+        [defaultColDef]="defaultColDef"
+        [columnDefs]="columnDefs()"
+        [rowData]="rowData()"
+        [localeText]="agGridLocalizationService.lang()"
+      />
+
+      <!-- special table loader -->
+      @if (loading() || showLoader()) {
+        <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
+      }
+
+      <!-- selected material box -->
+      <d360-more-information
+        [selectedMaterial]="materialListEntry()"
+        [forecastInfo]="forecastInfo()"
+      />
+    }
+  </div>
 </div>

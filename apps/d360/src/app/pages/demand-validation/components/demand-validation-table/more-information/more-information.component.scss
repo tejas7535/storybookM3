@@ -1,0 +1,8 @@
+:host {
+  @apply px-4 -mx-4;
+  border-top: 3px solid var(--border-color-light-gray);
+
+  .header {
+    color: var(--on-surface-variant-color);
+  }
+}

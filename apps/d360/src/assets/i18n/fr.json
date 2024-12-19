@@ -294,8 +294,8 @@
     "legend": {
       "title": "Légende",
       "current_date": "Aujourd'hui",
-      "frozen_zone": "Frozen Zone",
-      "replenishment_lead_time": "Délai de réapprovisionnement"
+      "frozen_zone": "Frozen Zone (compris le temps de transit)",
+      "replenishment_lead_time": "Délai de réapprovisionnement (compris le temps de transit)"
     },
     "menu_item": {
       "deliveries": "Deliveries",

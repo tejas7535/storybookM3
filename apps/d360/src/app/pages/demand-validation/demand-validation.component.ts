@@ -19,6 +19,7 @@ import { DemandValidationFilter } from '../../feature/demand-validation/demand-v
 import {
   KpiDateRanges,
   MaterialListEntry,
+  WriteKpiData,
 } from '../../feature/demand-validation/model';
 import { PlanningView } from '../../feature/demand-validation/planning-view';
 import { GlobalSelectionHelperService } from '../../feature/global-selection/global-selection.service';
@@ -56,18 +57,19 @@ import { MaterialListTableComponent } from './components/material-list-table/mat
 })
 export class DemandValidationComponent {
   protected planningView: PlanningView = PlanningView.REQUESTED;
-  protected pageTitle = `${translate('validation_of_demand.title', {})} | ${translate(`planing_type.title.${this.planningView}`, {})}`;
   protected globalSelection: GlobalSelectionState;
   // TODO: consider both properties below as signal
   protected customerData: CustomerEntry[];
 
-  selectedCustomer = signal<CustomerEntry>(null);
-  globalSelectionStatus: WritableSignal<GlobalSelectionStatus> = signal(null);
-  loading: WritableSignal<boolean> = signal(false);
-  selectedMaterialListEntry = signal<MaterialListEntry>(null);
-  unsavedChanges = signal(false);
+  protected selectedCustomer = signal<CustomerEntry>(null);
+  protected globalSelectionStatus: WritableSignal<GlobalSelectionStatus> =
+    signal(null);
+  protected loading: WritableSignal<boolean> = signal(false);
+  protected selectedMaterialListEntry = signal<MaterialListEntry>(null);
+  protected unsavedChanges = signal(false);
 
   protected materialListVisible = signal(true);
+  protected changedKPIs = signal(null);
 
   protected demandValidationFilters = signal<DemandValidationFilter>(null);
 
@@ -83,7 +85,7 @@ export class DemandValidationComponent {
   private readonly globalSelectionStateService: GlobalSelectionStateService =
     inject(GlobalSelectionStateService);
 
-  constructor(
+  public constructor(
     private readonly globalSelectionService: GlobalSelectionHelperService
   ) {
     this.globalSelection = this.globalSelectionStateService.getState();
@@ -91,7 +93,7 @@ export class DemandValidationComponent {
     this.updateCustomerData();
   }
 
-  onUpdateGlobalSelection($event: GlobalSelectionState) {
+  protected onUpdateGlobalSelection($event: GlobalSelectionState) {
     this.globalSelection = $event;
     this.loading.set(true);
     this.updateCustomerData();
@@ -99,6 +101,7 @@ export class DemandValidationComponent {
 
   private updateCustomerData() {
     this.globalSelectionStatus.set(null);
+    this.loading.set(true);
 
     this.globalSelectionService
       .getCustomersData(this.globalSelection)
@@ -123,10 +126,24 @@ export class DemandValidationComponent {
   }
 
   protected readonly GlobalSelectionStatus = GlobalSelectionStatus;
-  protected kpiRangeExceptions: Date[] = []; // TODO move to demand-validation-table.component.ts
-  protected dateRange: KpiDateRanges;
+  protected dateRange: WritableSignal<KpiDateRanges> = signal(null);
+  protected reloadRequired: WritableSignal<number> = signal(0);
+  protected showLoader: WritableSignal<boolean> = signal(false);
 
-  confirmContinueAndLooseUnsavedChanges() {
+  /**
+   * Show loader or refresh table
+   *
+   * @param showLoaderOnly - true: show loader, false: hide loader, null: reload table
+   */
+  protected reloadValidationTable(showLoaderOnly: boolean | null): void {
+    if (showLoaderOnly === null) {
+      this.reloadRequired.set(this.reloadRequired() + 1);
+    } else {
+      this.showLoader.set(showLoaderOnly);
+    }
+  }
+
+  protected confirmContinueAndLooseUnsavedChanges() {
     const message = translate('error.unsaved_changes');
     const beforeUnloadHandler = (event: BeforeUnloadEvent): string => {
       event.preventDefault();
@@ -145,19 +162,25 @@ export class DemandValidationComponent {
     return true;
   }
 
-  handleMaterialListVisible($event: { open: boolean }) {
-    this.materialListVisible.set($event.open);
+  protected handleMaterialListVisible({ open }: { open: boolean }) {
+    this.materialListVisible.set(open);
   }
 
-  handleMaterialListEntrySelected($event: MaterialListEntry) {
+  protected handleMaterialListEntrySelected($event: MaterialListEntry) {
     this.selectedMaterialListEntry.set($event);
   }
 
-  handleKpiDateRangeChange($event: KpiDateRanges) {
-    this.dateRange = $event;
+  protected handleKpiDateRangeChange($event: KpiDateRanges) {
+    this.dateRange.set($event);
   }
 
-  handleCustomerChange($event: CustomerEntry) {
+  protected handleCustomerChange($event: CustomerEntry) {
     this.selectedCustomer.set($event);
+    this.selectedMaterialListEntry.set(null);
+  }
+
+  protected onValuesChanged(data: WriteKpiData | null): void {
+    this.changedKPIs.set(data);
+    this.unsavedChanges.set(!!data);
   }
 }

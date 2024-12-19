@@ -1,22 +1,26 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ValidatorFn } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
+import { Component, input, OnInit, output } from '@angular/core';
 import {
-  MAT_DIALOG_DATA,
-  MatDialogActions,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle,
-} from '@angular/material/dialog';
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+
+import moment, { isMoment, Moment } from 'moment';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { KpiDateRanges } from '../../../../../feature/demand-validation/model';
 import {
   defaultMonthlyPeriodTypeOption,
   defaultPeriodTypes,
 } from '../../../../../feature/demand-validation/time-range';
 import { SelectableValue } from '../../../../../shared/components/inputs/autocomplete/selectable-values.utils';
+import { ValidateForm } from '../../../../../shared/decorators';
+import { ValidationHelper } from '../../../../../shared/utils/validation/validation-helper';
 import { DemandValidationDatePickerComponent } from '../../demand-validation-date-picker/demand-validation-date-picker.component';
 
 @Component({
@@ -25,64 +29,93 @@ import { DemandValidationDatePickerComponent } from '../../demand-validation-dat
   imports: [
     CommonModule,
     SharedTranslocoModule,
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
     MatButton,
     DemandValidationDatePickerComponent,
   ],
   templateUrl: './date-picker-setting-demand-validation-modal.component.html',
-  styleUrl: './date-picker-setting-demand-validation-modal.component.scss',
 })
-export class DatePickerSettingDemandValidationModalComponent {
-  private readonly dialogRef = inject(
-    MatDialogRef<DatePickerSettingDemandValidationModalComponent>
-  );
-
-  protected readonly data = inject(MAT_DIALOG_DATA);
+export class DatePickerSettingDemandValidationModalComponent implements OnInit {
+  public readonly data = input.required<KpiDateRanges>();
+  public readonly close = input.required<() => void>();
+  public selectionChange = output<KpiDateRanges>();
 
   public defaultPeriodTypes = defaultPeriodTypes;
 
-  protected formGroup = new FormGroup(
-    {
-      startDatePeriod1: new FormControl<Date>(this.data.range1.from),
-      endDatePeriod1: new FormControl<Date>(this.data.range1.to),
-      periodType1: new FormControl<SelectableValue>(
-        this.defaultPeriodTypes.find(
-          (pt) => pt.id === this.data.range1.period
-        ) && defaultMonthlyPeriodTypeOption
-      ),
-      startDatePeriod2: new FormControl<Date>(this.data.range2?.from),
-      endDatePeriod2: new FormControl<Date>(this.data.range2?.to),
-      periodType2: new FormControl<SelectableValue>(
-        this.defaultPeriodTypes.find(
-          (pt) => pt.id === this.data.range2?.period
-        ) && defaultMonthlyPeriodTypeOption
-      ),
-    },
-    this.validatorFunction
-  );
+  protected formGroup: FormGroup = null;
 
-  private validatorFunction(): ValidatorFn {
-    // TODO implement
-    return null;
+  public ngOnInit() {
+    this.formGroup = new FormGroup(
+      {
+        startDatePeriod1: new FormControl(this.data().range1.from, {
+          validators: Validators.required,
+        }),
+        endDatePeriod1: new FormControl(this.data().range1.to, {
+          validators: Validators.required,
+        }),
+        periodType1: new FormControl<SelectableValue>(
+          this.defaultPeriodTypes.find(
+            (pt) => pt.id === this.data().range1.period
+          ) || defaultMonthlyPeriodTypeOption,
+          { validators: Validators.required }
+        ),
+        startDatePeriod2: new FormControl(this.data().range2?.from),
+        endDatePeriod2: new FormControl(this.data().range2?.to),
+        periodType2: new FormControl<SelectableValue>(
+          this.defaultPeriodTypes.find(
+            (pt) => pt.id === this.data().range2?.period
+          ) || defaultMonthlyPeriodTypeOption
+        ),
+      },
+      {
+        validators: [
+          this.crossFieldValidator('startDatePeriod1', 'endDatePeriod1'),
+          this.crossFieldValidator('startDatePeriod2', 'endDatePeriod2'),
+        ],
+      }
+    );
   }
 
+  private crossFieldValidator(
+    startDateControlName: string,
+    endDateControlName: string
+  ): ValidatorFn {
+    return (formGroup: AbstractControl) =>
+      ValidationHelper.getStartEndDateValidationErrors(
+        formGroup as FormGroup,
+        true,
+        startDateControlName,
+        endDateControlName
+      );
+  }
+
+  private getDate(value: any): Date {
+    // TODO: check date-fns after the date-fns branch was merged
+    return (isMoment(value) ? value : (moment(value) as Moment)).toDate();
+  }
+
+  @ValidateForm('formGroup')
   protected handleApplyDateRange() {
-    // TODO implement
     if (this.formGroup.valid) {
-      this.dialogRef.close({
+      this.selectionChange.emit({
         range1: {
-          from: this.formGroup.controls.startDatePeriod1.getRawValue(),
-          to: this.formGroup.controls.endDatePeriod1.getRawValue(),
+          from: this.getDate(
+            this.formGroup.controls.startDatePeriod1.getRawValue()
+          ),
+          to: this.getDate(
+            this.formGroup.controls.endDatePeriod1.getRawValue()
+          ),
           period: this.formGroup.controls.periodType1.getRawValue().id,
         },
         range2:
           this.formGroup.controls.periodType1.getRawValue().id === 'WEEKLY' &&
           this.formGroup.controls.endDatePeriod2.getRawValue()
             ? {
-                from: this.formGroup.controls.startDatePeriod2.getRawValue(),
-                to: this.formGroup.controls.endDatePeriod2.getRawValue(),
+                from: this.getDate(
+                  this.formGroup.controls.startDatePeriod2.getRawValue()
+                ),
+                to: this.getDate(
+                  this.formGroup.controls.endDatePeriod2.getRawValue()
+                ),
                 period: this.formGroup.controls.periodType2.getRawValue().id,
               }
             : undefined,
@@ -91,7 +124,6 @@ export class DatePickerSettingDemandValidationModalComponent {
   }
 
   protected handleOnClose() {
-    // TODO implement
-    this.dialogRef.close();
+    this.close()();
   }
 }

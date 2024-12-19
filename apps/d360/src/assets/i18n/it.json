@@ -292,10 +292,10 @@
       "toggle_filters": "Filtrare"
     },
     "legend": {
-      "title": "Legenda:",
+      "title": "Legenda",
       "current_date": "Oggi",
-      "frozen_zone": "Periodo di congelamento dati",
-      "replenishment_lead_time": "Tempi di consegna - Lead Time"
+      "frozen_zone": "Periodo di congelamento dati (incluso il tempo di transito)",
+      "replenishment_lead_time": "Tempi di consegna - Lead Time (incluso il tempo di transito)"
     },
     "menu_item": {
       "deliveries": "Deliveries",
