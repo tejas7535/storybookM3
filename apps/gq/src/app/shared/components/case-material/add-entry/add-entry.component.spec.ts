@@ -408,8 +408,17 @@ describe('AddEntryComponent', () => {
       expect(component['enableNonAutoCompleteFields']).toHaveBeenCalled();
     });
 
+    test('should enableNonAutocompleteFields when CustomerId is present on active case', () => {
+      component.newCaseCreation = true;
+      component['isCaseView'] = false;
+      component['enableNonAutoCompleteFields'] = jest.fn();
+      component.addSubscriptions();
+      expect(component['enableNonAutoCompleteFields']).toHaveBeenCalled();
+    });
+
     test('should call disableNonAutocompleteFields when CustomerId is not present', () => {
       component.newCaseCreation = true;
+      component['isCaseView'] = true;
       component['disableNonAutoCompleteFields'] = jest.fn();
       customerIdForCaseCreationSubject.next(null);
       component.addSubscriptions();

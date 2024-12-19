@@ -19,7 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { combineLatest, filter, map, Observable } from 'rxjs';
+import { combineLatest, filter, iif, map, Observable } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
@@ -77,7 +77,7 @@ import { TargetPriceSourceSelectComponent } from '../../target-price-source-sele
   ],
 })
 export class AddEntryComponent implements OnInit, OnDestroy {
-  @Input() readonly isCaseView: boolean;
+  @Input() isCaseView: boolean;
   @ViewChild('materialNumberInput')
   matNumberInput: AutocompleteInputComponent;
   @ViewChild('materialDescInput')
@@ -250,10 +250,15 @@ export class AddEntryComponent implements OnInit, OnDestroy {
         this.rowInputValid();
       });
 
-    this.customerIdForCaseCreation$
+    // get the customer depending on the page
+    iif(
+      () => this.isCaseView,
+      this.customerIdForCaseCreation$,
+      this.customerIdentifierForActiveCase$
+    )
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((customerId) => {
-        if (customerId) {
+      .subscribe((customer: string | CustomerId) => {
+        if (customer) {
           this.enableNonAutoCompleteFields();
         } else {
           this.disableNonAutoCompleteFields();
