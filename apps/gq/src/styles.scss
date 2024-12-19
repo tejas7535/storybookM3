@@ -161,8 +161,10 @@ button {
   line-height: normal;
 }
 
-.create-manual-case-modal {
-  .mat-mdc-button-base .mdc-button__label {
+.create-manual-case-modal,
+.add-material-dialog {
+  .mat-mdc-button-base .mdc-button__label,
+  .mat-mdc-button-base .mat-icon {
     z-index: 0;
   }
 }
