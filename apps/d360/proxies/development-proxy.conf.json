@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "https://demand360-d.dev.dp.schaeffler",
+    "target": "https://planning360.de-d.aks.schaeffler.com",
     "secure": false,
     "changeOrigin": true
   }
