@@ -10,7 +10,6 @@ import { MockComponent, MockProvider } from 'ng-mocks';
 import { IMRService } from '../../../../../feature/internal-material-replacement/imr.service';
 import { DatePickerComponent } from '../../../../../shared/components/date-picker/date-picker.component';
 import { SingleAutocompleteOnTypeComponent } from '../../../../../shared/components/inputs/autocomplete/single-autocomplete-on-type/single-autocomplete-on-type.component';
-import { SingleAutocompletePreLoadedComponent } from '../../../../../shared/components/inputs/autocomplete/single-autocomplete-pre-loaded/single-autocomplete-pre-loaded.component';
 import { FilterDropdownComponent } from '../../../../../shared/components/inputs/filter-dropdown/filter-dropdown.component';
 import { SelectableOptionsService } from '../../../../../shared/services/selectable-options.service';
 import { InternalMaterialReplacementSingleSubstitutionModalComponent } from './internal-material-replacement-single-substitution-modal.component';
@@ -22,7 +21,8 @@ describe('InternalMaterialReplacementSingleSubstitutionModalComponent', () => {
     component: InternalMaterialReplacementSingleSubstitutionModalComponent,
     imports: [
       MockComponent(SingleAutocompleteOnTypeComponent),
-      MockComponent(SingleAutocompletePreLoadedComponent),
+      // Comment out until https://github.com/help-me-mom/ng-mocks/issues/8634 is fixed
+      // MockComponent(SingleAutocompletePreLoadedComponent),
       MockComponent(DatePickerComponent),
       MockComponent(FilterDropdownComponent),
     ],

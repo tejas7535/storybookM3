@@ -24,8 +24,8 @@
           [label]="t(translationStart + '.replacementType', {})"
           [options]="replacementTypeOptions"
           (selectionChange)="updateForm($event)"
-          [formatOptionValue]="displayFnText"
-          [formatSelectedValue]="displayFnText"
+          [formatOptionValue]="DisplayFunctions.displayFnText"
+          [formatSelectedValue]="DisplayFunctions.displayFnText"
         />
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
@@ -35,25 +35,28 @@
           [form]="formGroup"
           [label]="t('globalSelection.region', {})"
           [options]="selectableOptionsService.get('region').options"
-          [formatOptionValue]="displayFnUnited"
+          [formatOptionValue]="DisplayFunctions.displayFnUnited"
         ></d360-filter-dropdown>
 
         <!-- salesArea -->
-        <d360-filter-dropdown
-          [control]="$any(formGroup.controls.salesArea)"
+        <d360-single-autocomplete-pre-loaded
           [form]="formGroup"
+          [control]="$any(formGroup.controls.salesArea)"
           [label]="t('globalSelection.sales_area', {})"
-          [options]="selectableOptionsService.get('salesArea').options"
-          [formatOptionValue]="displayFnUnited"
-        ></d360-filter-dropdown>
+          [optionsLoadingResult]="selectableOptionsService.get('salesArea')"
+          [getOptionLabelInTag]="DisplayFunctions.displayFnUnited"
+          [displayFn]="DisplayFunctions.displayFnUnitedNullable"
+        />
 
         <!-- salesOrgControl -->
-        <d360-filter-dropdown
-          [control]="$any(formGroup.controls.salesOrg)"
+        <d360-single-autocomplete-pre-loaded
           [form]="formGroup"
-          [label]="t('globalSelection.sales_org.rootString', {})"
-          [options]="selectableOptionsService.get('salesOrg').options"
-        ></d360-filter-dropdown>
+          [control]="$any(formGroup.controls.salesOrg)"
+          [label]="t('globalSelection.sales_org.rootString')"
+          [optionsLoadingResult]="selectableOptionsService.get('salesOrg')"
+          [getOptionLabelInTag]="DisplayFunctions.displayFnUnited"
+          [displayFn]="DisplayFunctions.displayFnUnitedNullable"
+        />
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
         <!-- customer -->

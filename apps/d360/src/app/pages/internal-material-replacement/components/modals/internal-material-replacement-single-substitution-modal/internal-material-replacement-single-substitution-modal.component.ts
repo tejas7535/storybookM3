@@ -54,7 +54,6 @@ import {
   replacementTypeValues,
 } from '../../../../../feature/internal-material-replacement/model';
 import { DatePickerComponent } from '../../../../../shared/components/date-picker/date-picker.component';
-import { ErrorHandlingSelectComponent } from '../../../../../shared/components/error-handling-select/error-handling-select.component';
 import {
   SelectableValue,
   SelectableValueUtils,
@@ -92,7 +91,6 @@ export interface InternalMaterialReplacementModalProps {
     MatDialogActions,
     MatButton,
     MatDialogClose,
-    ErrorHandlingSelectComponent,
     SingleAutocompletePreLoadedComponent,
     SingleAutocompleteOnTypeComponent,
     SharedTranslocoModule,
@@ -137,8 +135,7 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
   );
   protected readonly destroyRef = inject(DestroyRef);
 
-  protected readonly displayFnText = DisplayFunctions.displayFnText;
-  protected readonly displayFnUnited = DisplayFunctions.displayFnUnited;
+  protected readonly DisplayFunctions = DisplayFunctions;
 
   protected loading = signal(false);
 
@@ -332,6 +329,7 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
    * an already valid date while editing an existing (but older) record.
    *
    * @param preFilledValue
+   * @param errorMessage
    */
   validateAgainstExistingDate(
     preFilledValue: any,
