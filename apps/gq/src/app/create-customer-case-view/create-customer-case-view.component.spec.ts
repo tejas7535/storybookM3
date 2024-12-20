@@ -30,6 +30,9 @@ describe('CreateCustomerCaseViewComponent', () => {
   let spectator: Spectator<CreateCustomerCaseViewComponent>;
   const getCreateCustomerCaseDisabled$$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(true);
+
+  const customerIdForCaseCreation$$: BehaviorSubject<string> =
+    new BehaviorSubject<string>('custId');
   const createComponent = createComponentFactory({
     component: CreateCustomerCaseViewComponent,
     imports: [
@@ -53,6 +56,7 @@ describe('CreateCustomerCaseViewComponent', () => {
         getCreateCustomerCaseDisabled$:
           getCreateCustomerCaseDisabled$$.asObservable(),
         resetCaseCreationInformation: jest.fn(),
+        customerIdForCaseCreation$: customerIdForCaseCreation$$.asObservable(),
       }),
     ],
     declarations: [
@@ -71,6 +75,45 @@ describe('CreateCustomerCaseViewComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('resetButtonDisabled', () => {
+    test(
+      'should return false if featureToggleConfig.isEnabled is false',
+      marbles((m) => {
+        m.expect(component.resetButtonDisabled$).toBeObservable(
+          m.cold('a', { a: false })
+        );
+      })
+    );
+
+    test(
+      'should return false if featureToggleConfig.isEnabled is true and customer set',
+      marbles((m) => {
+        component['featureToggleConfig'].isEnabled = jest
+          .fn()
+          .mockReturnValue(true);
+        customerIdForCaseCreation$$.next('id');
+
+        m.expect(component.resetButtonDisabled$).toBeObservable(
+          m.cold('a', { a: false })
+        );
+      })
+    );
+
+    test(
+      'should return true if featureToggleConfig.isEnabled is true and no customer',
+      marbles((m) => {
+        component['featureToggleConfig'].isEnabled = jest
+          .fn()
+          .mockReturnValue(true);
+        customerIdForCaseCreation$$.next(undefined as any);
+
+        m.expect(component.resetButtonDisabled$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
   });
 
   describe('createCaseButtonDisabled$', () => {

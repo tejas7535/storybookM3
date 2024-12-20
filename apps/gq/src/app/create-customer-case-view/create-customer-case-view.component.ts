@@ -10,7 +10,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable, of } from 'rxjs';
 
 import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module';
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
@@ -25,6 +25,7 @@ import {
   EVENT_NAMES,
 } from '@gq/shared/models/tracking/gq-events';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
 
@@ -60,12 +61,12 @@ export class CreateCustomerCaseViewComponent implements AfterViewInit {
   @ViewChild('materialSelection') materialSelection: MaterialSelectionComponent;
 
   private readonly destroyRef = inject(DestroyRef);
-
   private readonly insightsService: ApplicationInsightsService = inject(
     ApplicationInsightsService
   );
-
   private readonly createCaseFacade = inject(CreateCaseFacade);
+  private readonly featureToggleConfig = inject(FeatureToggleConfigService);
+
   private readonly headerInformationIsValidSubject$$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
   private readonly headerInformationHasChangesSubject$$: BehaviorSubject<boolean> =
@@ -73,13 +74,19 @@ export class CreateCustomerCaseViewComponent implements AfterViewInit {
 
   animationType: typeAnimation = 'fade-in';
   displayHeader = true;
-
   headerInformationData: HeaderInformationData;
 
   headerInformationHasChanges$: Observable<boolean> =
     this.headerInformationHasChangesSubject$$.asObservable();
   headerInformationIsValid$: Observable<boolean> =
     this.headerInformationIsValidSubject$$.asObservable();
+
+  resetButtonDisabled$: Observable<boolean> = combineLatest([
+    of(this.featureToggleConfig.isEnabled('createCustomerCaseAsView')),
+    this.createCaseFacade.customerIdForCaseCreation$,
+  ]).pipe(
+    map(([isManualCaseAsView, customerId]) => isManualCaseAsView && !customerId)
+  );
 
   createCaseButtonDisabled$: Observable<boolean> = combineLatest([
     this.headerInformationHasChanges$,

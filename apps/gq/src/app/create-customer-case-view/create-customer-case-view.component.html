@@ -79,8 +79,13 @@
           {{ t('additionalFilter') }}</span
         >
         <gq-additional-filters></gq-additional-filters>
-        <div class="flex justify-end h-full items-end" (click)="resetAll()">
-          <button color="primary" mat-stroked-button>
+        <div class="flex justify-end h-full items-end">
+          <button
+            color="primary"
+            [disabled]="resetButtonDisabled$ | ngrxPush"
+            (click)="resetAll()"
+            mat-stroked-button
+          >
             <mat-icon>delete</mat-icon>
             <span> {{ t('resetButton') }}</span>
           </button>

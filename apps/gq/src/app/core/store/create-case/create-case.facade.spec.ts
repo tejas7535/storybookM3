@@ -10,6 +10,7 @@ import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import {
+  clearCreateCaseRowData,
   clearCustomer,
   clearOfferType,
   clearPurchaseOrderType,
@@ -168,6 +169,17 @@ describe('CreateCaseFacade', () => {
         );
         expect(mockStore.dispatch).toHaveBeenCalledWith(
           updateCurrencyOfPositionItems()
+        );
+      });
+    });
+
+    describe('clearCreateCaseRowData', () => {
+      test('should dispatch clearCreateCaseRowData action', () => {
+        mockStore.dispatch = jest.fn();
+        facade.clearCreateCaseRowData();
+
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          clearCreateCaseRowData()
         );
       });
     });

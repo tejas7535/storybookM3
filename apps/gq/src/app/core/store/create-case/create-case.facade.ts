@@ -143,4 +143,8 @@ export class CreateCaseFacade {
   selectGpsdGroups(selectedGpsdGroups: string[]) {
     this.store.dispatch(setSelectedGpsdGroups({ selectedGpsdGroups }));
   }
+
+  clearCreateCaseRowData(): void {
+    this.store.dispatch(clearCreateCaseRowData());
+  }
 }

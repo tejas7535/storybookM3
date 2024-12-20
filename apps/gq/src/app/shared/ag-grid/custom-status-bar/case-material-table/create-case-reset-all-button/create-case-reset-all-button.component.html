@@ -4,6 +4,7 @@
   mat-stroked-button
   color="primary"
   (click)="resetAll()"
+  [disabled]="buttonDisabled$ | ngrxPush"
 >
   <mat-icon>delete</mat-icon>
 

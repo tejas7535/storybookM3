@@ -120,7 +120,7 @@ export class FeatureToggleConfigService {
    *
    * @param name name of the feature to check
    */
-  isEnabled(name: string) {
+  isEnabled(name: string): boolean {
     if (this.Config['*']) {
       return true;
     }

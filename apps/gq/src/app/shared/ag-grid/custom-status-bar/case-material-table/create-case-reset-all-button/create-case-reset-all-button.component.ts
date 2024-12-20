@@ -1,16 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
-import { clearCreateCaseRowData } from '@gq/core/store/actions';
-import { Store } from '@ngrx/store';
+import { combineLatest, map, Observable, of } from 'rxjs';
+
+import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
+import { PushPipe } from '@ngrx/component';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'gq-create-case-reset-all-button',
+  standalone: true,
+  imports: [MatButtonModule, SharedTranslocoModule, MatIconModule, PushPipe],
   templateUrl: './create-case-reset-all-button.component.html',
 })
 export class CreateCaseResetAllButtonComponent {
-  constructor(private readonly store: Store) {}
+  private readonly createCaseFacade = inject(CreateCaseFacade);
+  private readonly featureToggleConfig = inject(FeatureToggleConfigService);
+
+  buttonDisabled$: Observable<boolean> = combineLatest([
+    of(this.featureToggleConfig.isEnabled('createManualCaseAsView')),
+    this.createCaseFacade.customerIdForCaseCreation$,
+  ]).pipe(
+    map(
+      ([isCreateManualCaseAsView, customerId]) =>
+        isCreateManualCaseAsView && !customerId
+    )
+  );
+
   agInit(): void {}
   resetAll(): void {
-    this.store.dispatch(clearCreateCaseRowData());
+    this.createCaseFacade.clearCreateCaseRowData();
   }
 }
