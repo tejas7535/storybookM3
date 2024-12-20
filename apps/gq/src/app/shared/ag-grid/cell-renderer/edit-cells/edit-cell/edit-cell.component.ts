@@ -117,10 +117,13 @@ export class EditCellComponent implements ICellRendererAngularComp {
     gpi: number,
     gpm: number
   ): void {
-    this.isInvalidPriceError = price < msp;
+    if (msp) {
+      this.isInvalidPriceError = price < msp;
+    }
+
     const isInvalidMargin =
-      gpi < PRICE_VALIDITY_MARGIN_THRESHOLD ||
-      gpm < PRICE_VALIDITY_MARGIN_THRESHOLD;
+      (gpi && gpi < PRICE_VALIDITY_MARGIN_THRESHOLD) ||
+      (gpm && gpm < PRICE_VALIDITY_MARGIN_THRESHOLD);
 
     if (this.isInvalidPriceError) {
       this.warningTooltip = 'priceLowerThanMsp';
@@ -140,6 +143,7 @@ export class EditCellComponent implements ICellRendererAngularComp {
 
     if (isOrderQuantityInvalid) {
       this.warningTooltip = 'orderQuantityMustBeMultipleOf';
+
       this.isWarningEnabled = true;
     }
   }

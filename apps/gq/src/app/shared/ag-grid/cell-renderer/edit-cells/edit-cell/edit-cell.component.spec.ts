@@ -456,6 +456,12 @@ describe('EditCellComponent', () => {
       expect(component.isInvalidPriceError).toBeFalsy();
       expect(component.isWarningEnabled).toBeFalsy();
     });
+
+    test('should not set on null', () => {
+      component.checkPriceValidity(0.3, null, null, null);
+
+      expect(component.isWarningEnabled).toBeFalsy();
+    });
   });
 
   describe('checkQuantityValidity', () => {
