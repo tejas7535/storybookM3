@@ -233,6 +233,13 @@ export class AddEntryComponent implements OnInit, OnDestroy {
         { emitEvent: false }
       );
     });
+    this.quantityFormControl.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.quantityFormControl.markAsTouched();
+        this.rowInputValid();
+      });
+
     if (this.newCaseCreation) {
       this.selectedMaterialAutocomplete$
         .pipe(
@@ -242,28 +249,24 @@ export class AddEntryComponent implements OnInit, OnDestroy {
         .subscribe(({ deliveryUnit }) => {
           this.adjustQuantityFormFieldToDeliveryUnit(deliveryUnit);
         });
-    }
-    this.quantityFormControl.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        this.quantityFormControl.markAsTouched();
-        this.rowInputValid();
-      });
 
-    // get the customer depending on the page
-    iif(
-      () => this.isCaseView,
-      this.customerIdForCaseCreation$,
-      this.customerIdentifierForActiveCase$
-    )
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((customer: string | CustomerId) => {
-        if (customer) {
-          this.enableNonAutoCompleteFields();
-        } else {
-          this.disableNonAutoCompleteFields();
-        }
-      });
+      // get the customer depending on the page
+      iif(
+        () => this.isCaseView,
+        this.customerIdForCaseCreation$,
+        this.customerIdentifierForActiveCase$
+      )
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((customer: string | CustomerId) => {
+          if (customer) {
+            this.enableNonAutoCompleteFields();
+          } else {
+            this.disableNonAutoCompleteFields();
+          }
+        });
+    } else {
+      this.enableNonAutoCompleteFields();
+    }
   }
 
   ngOnDestroy(): void {

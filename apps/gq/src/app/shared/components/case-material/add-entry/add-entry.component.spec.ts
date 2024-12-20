@@ -400,29 +400,38 @@ describe('AddEntryComponent', () => {
       expect(component.rowInputValid).toHaveBeenCalledTimes(1);
     });
 
-    test('should enableNonAutocompleteFields when CustomerId is present', () => {
-      component.newCaseCreation = true;
-      component['enableNonAutoCompleteFields'] = jest.fn();
-      customerIdForCaseCreationSubject.next('555');
-      component.addSubscriptions();
-      expect(component['enableNonAutoCompleteFields']).toHaveBeenCalled();
-    });
+    describe('enableNonAutoCompleteFields', () => {
+      test('should enableNonAutocompleteFields when CustomerId is present', () => {
+        component.newCaseCreation = true;
+        component['enableNonAutoCompleteFields'] = jest.fn();
+        customerIdForCaseCreationSubject.next('555');
+        component.addSubscriptions();
+        expect(component['enableNonAutoCompleteFields']).toHaveBeenCalled();
+      });
 
-    test('should enableNonAutocompleteFields when CustomerId is present on active case', () => {
-      component.newCaseCreation = true;
-      component['isCaseView'] = false;
-      component['enableNonAutoCompleteFields'] = jest.fn();
-      component.addSubscriptions();
-      expect(component['enableNonAutoCompleteFields']).toHaveBeenCalled();
-    });
+      test('should enableNonAutocompleteFields when CustomerId is present on active case', () => {
+        component.newCaseCreation = true;
+        component['isCaseView'] = false;
+        component['enableNonAutoCompleteFields'] = jest.fn();
+        component.addSubscriptions();
+        expect(component['enableNonAutoCompleteFields']).toHaveBeenCalled();
+      });
 
-    test('should call disableNonAutocompleteFields when CustomerId is not present', () => {
-      component.newCaseCreation = true;
-      component['isCaseView'] = true;
-      component['disableNonAutoCompleteFields'] = jest.fn();
-      customerIdForCaseCreationSubject.next(null);
-      component.addSubscriptions();
-      expect(component['disableNonAutoCompleteFields']).toHaveBeenCalled();
+      test('should call disableNonAutocompleteFields when CustomerId is not present', () => {
+        component.newCaseCreation = true;
+        component['isCaseView'] = true;
+        component['disableNonAutoCompleteFields'] = jest.fn();
+        customerIdForCaseCreationSubject.next(null);
+        component.addSubscriptions();
+        expect(component['disableNonAutoCompleteFields']).toHaveBeenCalled();
+      });
+      test('should call enableNonAutoCompleteFields for oldCaseCreation', () => {
+        component.newCaseCreation = false;
+        component['enableNonAutoCompleteFields'] = jest.fn();
+        customerIdForCaseCreationSubject.next(null);
+        component.addSubscriptions();
+        expect(component['enableNonAutoCompleteFields']).toHaveBeenCalled();
+      });
     });
   });
 
