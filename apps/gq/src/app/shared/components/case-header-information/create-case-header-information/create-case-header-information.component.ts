@@ -34,9 +34,16 @@ import {
   MomentDateAdapter,
 } from '@angular/material-moment-adapter';
 
-import { distinctUntilChanged, filter, Observable, take, tap } from 'rxjs';
+import {
+  combineLatest,
+  distinctUntilChanged,
+  filter,
+  Observable,
+  tap,
+} from 'rxjs';
 
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
+import { QuotationToDateStoreModule } from '@gq/core/store/quotation-to-date/quotation-to-date.module';
 import { SalesOrg } from '@gq/core/store/reducers/create-case/models/sales-orgs.model';
 import { ShipToPartyModule } from '@gq/core/store/ship-to-party/ship-to-party.module';
 import { AutocompleteSelectionComponent } from '@gq/shared/components/autocomplete-selection/autocomplete-selection.component';
@@ -84,6 +91,7 @@ import { HeaderInformationData } from '../models/header-information-data.interfa
     StatusCustomerInfoHeaderModule,
     AutocompleteSelectionComponent,
     ShipToPartyModule,
+    QuotationToDateStoreModule,
   ],
   providers: [
     {
@@ -244,7 +252,7 @@ export class CreateCaseHeaderInformationComponent
         )
       )
       .subscribe((customerId: CustomerId) => {
-        this.requestQuotationToDate(customerId);
+        this.createCaseFacade.getQuotationToDate(customerId);
       });
 
     this.headerInfoForm
@@ -283,24 +291,33 @@ export class CreateCaseHeaderInformationComponent
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
+
+    combineLatest([
+      this.createCaseFacade.newCaseRowData$,
+      this.createCaseFacade.quotationToDate$,
+    ])
+      .pipe(
+        filter(
+          ([_rowData, quotationToDate]) =>
+            quotationToDate && !this.quotationToChangedByUser
+        ),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(([rowData, quotationToDate]) => {
+        let quotationTo = quotationToDate.extendedDate;
+        if (rowData.length >= quotationToDate.manyItemsDateThreshold) {
+          quotationTo = quotationToDate.extendedDateForManyItems;
+        }
+        this.headerInfoForm
+          .get('quotationToDate')
+          ?.setValue(getMomentUtcStartOfDayDate(quotationTo), {
+            emitEvent: false,
+          });
+      });
   }
 
   ngOnDestroy(): void {
     this.reset();
-  }
-
-  private requestQuotationToDate(customerId: CustomerId): void {
-    this.createCaseFacade
-      .getQuotationToDate(customerId)
-      .pipe(take(1))
-      .subscribe((quotationToDate) => {
-        this.quotationToChangedByUser = false;
-        this.headerInfoForm
-          .get('quotationToDate')
-          ?.setValue(getMomentUtcStartOfDayDate(quotationToDate), {
-            emitEvent: false,
-          });
-      });
   }
 
   // Common function to handle enabling/disabling/resetting controls

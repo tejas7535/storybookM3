@@ -209,7 +209,7 @@ export class QuotationService {
 
   getQuotationToDateForCaseCreation(
     customerId: CustomerId
-  ): Observable<string> {
+  ): Observable<GetQuotationToDateResponse> {
     const requestBody: GetQuotationToDateRequest = {
       customer: {
         ...customerId,
@@ -219,15 +219,9 @@ export class QuotationService {
       ).toISOString(),
     };
 
-    return this.#http
-      .post<GetQuotationToDateResponse>(
-        `${ApiVersion.V1}/${QuotationPaths.QUOTATION_TO_DATE}`,
-        requestBody
-      )
-      .pipe(
-        map(
-          (quotationTo: GetQuotationToDateResponse) => quotationTo.extendedDate
-        )
-      );
+    return this.#http.post<GetQuotationToDateResponse>(
+      `${ApiVersion.V1}/${QuotationPaths.QUOTATION_TO_DATE}`,
+      requestBody
+    );
   }
 }

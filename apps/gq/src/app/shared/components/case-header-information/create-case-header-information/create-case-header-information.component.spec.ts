@@ -8,11 +8,14 @@ import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade'
 import { CurrencyFacade } from '@gq/core/store/currency/currency.facade';
 import { AutoCompleteFacade } from '@gq/core/store/facades/autocomplete.facade';
 import { RolesFacade } from '@gq/core/store/facades/roles.facade';
+import { QuotationToDate } from '@gq/core/store/quotation-to-date/quotation-to-date.model';
 import { CaseFilterItem, SalesOrg } from '@gq/core/store/reducers/models';
 import { SectorGpsdFacade } from '@gq/core/store/sector-gpsd/sector-gpsd.facade';
 import { ShipToPartyFacade } from '@gq/core/store/ship-to-party/ship-to-party.facade';
 import { AutocompleteSelectionComponent } from '@gq/shared/components/autocomplete-selection/autocomplete-selection.component';
 import { CustomerId } from '@gq/shared/models';
+import { MaterialTableItem } from '@gq/shared/models/table';
+import { getMomentUtcStartOfDayDate } from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { Store } from '@ngrx/store';
@@ -40,6 +43,10 @@ describe('CreateCaseHeaderInformationComponent', () => {
     new BehaviorSubject<SalesOrg>({} as SalesOrg);
   const selectedCustomerSubject$$: BehaviorSubject<CustomerId> =
     new BehaviorSubject<CustomerId>({} as CustomerId);
+  const quotationToDateSubject$$: BehaviorSubject<QuotationToDate> =
+    new BehaviorSubject<QuotationToDate>(null);
+  const newCaseRowDataSubject$$: BehaviorSubject<MaterialTableItem[]> =
+    new BehaviorSubject<MaterialTableItem[]>([]);
 
   const createComponent = createComponentFactory({
     component: CreateCaseHeaderInformationComponent,
@@ -59,7 +66,15 @@ describe('CreateCaseHeaderInformationComponent', () => {
         customerIdentifier$: selectedCustomerSubject$$.asObservable(),
         resetCaseCreationInformation: jest.fn(),
         updateCurrencyOfPositionItems: jest.fn(),
-        getQuotationToDate: jest.fn().mockReturnValue(of('2014-01-01')),
+        getQuotationToDate: jest.fn().mockReturnValue(
+          of({
+            extendedDate: '2014-01-01',
+            extendedDateForManyItems: '2014-01-01',
+            manyItemsDateThreshold: 20,
+          })
+        ),
+        quotationToDate$: quotationToDateSubject$$.asObservable(),
+        newCaseRowData$: newCaseRowDataSubject$$.asObservable(),
       }),
       MockProvider(TranslocoLocaleService),
       {
@@ -230,12 +245,6 @@ describe('CreateCaseHeaderInformationComponent', () => {
       expect(component.data.emit).toHaveBeenCalled();
     });
 
-    test('should request quotationToDate when customer has been selected', () => {
-      component['requestQuotationToDate'] = jest.fn();
-      selectedCustomerSubject$$.next({ customerId: '12345', salesOrg: '0615' });
-      expect(component['requestQuotationToDate']).toHaveBeenCalled();
-    });
-
     test('should set quotationToChangedByUser to true when quotationToDate changes', () => {
       component.quotationToChangedByUser = false;
       component.headerInfoForm
@@ -283,21 +292,6 @@ describe('CreateCaseHeaderInformationComponent', () => {
     });
   });
 
-  describe('requestQuotationToDate', () => {
-    test('should call getQuotationToDate', () => {
-      component.quotationToChangedByUser = true;
-      component['requestQuotationToDate']({
-        customerId: '12345',
-        salesOrg: '0615',
-      });
-      component['requestQuotationToDate']({} as any);
-      expect(
-        component['createCaseFacade'].getQuotationToDate
-      ).toHaveBeenCalled();
-      expect(component.quotationToChangedByUser).toBeFalsy();
-    });
-  });
-
   describe('modifyInputs', () => {
     test('should enable FormControl', () => {
       component['modifyInputs']('enable', ['caseName']);
@@ -312,6 +306,66 @@ describe('CreateCaseHeaderInformationComponent', () => {
       component.headerInfoForm.get('caseName').reset = jest.fn();
       component['modifyInputs']('reset', ['caseName']);
       expect(component.headerInfoForm.get('caseName').reset).toHaveBeenCalled();
+    });
+  });
+
+  describe('quotationToDate form field', () => {
+    test('should set quotationToDate when quotationToDate$ emits', () => {
+      quotationToDateSubject$$.next({
+        extendedDate: '2014-01-01',
+        extendedDateForManyItems: '2014-01-01',
+        manyItemsDateThreshold: 20,
+      });
+      component.ngOnInit();
+      expect(component.headerInfoForm.get('quotationToDate')?.value).toEqual(
+        getMomentUtcStartOfDayDate('2014-01-01')
+      );
+    });
+    test('should set quotationToDate when number of rows has changed', () => {
+      quotationToDateSubject$$.next({
+        extendedDate: '2014-01-01',
+        extendedDateForManyItems: '2014-01-02',
+        manyItemsDateThreshold: 2,
+      });
+      newCaseRowDataSubject$$.next([
+        {} as MaterialTableItem,
+        {} as MaterialTableItem,
+      ]);
+      component.ngOnInit();
+      expect(component.headerInfoForm.get('quotationToDate')?.value).toEqual(
+        getMomentUtcStartOfDayDate('2014-01-02')
+      );
+    });
+    test('should set expectedDate when manyItemsDateThreshold is not defined', () => {
+      quotationToDateSubject$$.next({
+        extendedDate: '2014-01-01',
+        extendedDateForManyItems: '2014-01-02',
+        manyItemsDateThreshold: undefined,
+      });
+      newCaseRowDataSubject$$.next([
+        {} as MaterialTableItem,
+        {} as MaterialTableItem,
+      ]);
+      component.ngOnInit();
+      expect(component.headerInfoForm.get('quotationToDate')?.value).toEqual(
+        getMomentUtcStartOfDayDate('2014-01-01')
+      );
+    });
+    test('should not set quotationToDate when quotationToChangedByUser is true', () => {
+      quotationToDateSubject$$.next({
+        extendedDate: '2014-01-01',
+        extendedDateForManyItems: '2014-01-02',
+        manyItemsDateThreshold: 2,
+      });
+      newCaseRowDataSubject$$.next([
+        {} as MaterialTableItem,
+        {} as MaterialTableItem,
+      ]);
+      component.quotationToChangedByUser = true;
+      const control = component.headerInfoForm.get('quotationToDate');
+      const spy = jest.spyOn(control, 'setValue');
+      component.ngOnInit();
+      expect(spy).toHaveBeenCalledTimes(0);
     });
   });
 });

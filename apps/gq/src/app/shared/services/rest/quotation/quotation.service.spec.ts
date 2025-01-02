@@ -349,7 +349,11 @@ describe('QuotationService', () => {
         salesOrg: '0615',
       };
       const todayDate = '2014-01-01T15:13:15.112Z';
-      const response: GetQuotationToDateResponse = { extendedDate: todayDate };
+      const response: GetQuotationToDateResponse = {
+        extendedDate: todayDate,
+        extendedDateForManyItems: todayDate,
+        manyItemsDateThreshold: 20,
+      };
 
       service
         .getQuotationToDateForCaseCreation(customerId)

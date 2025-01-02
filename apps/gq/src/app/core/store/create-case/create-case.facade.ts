@@ -2,10 +2,11 @@ import { inject, Injectable } from '@angular/core';
 
 import { combineLatest, map, Observable } from 'rxjs';
 
+import { QuotationToDateActions } from '@gq/core/store/quotation-to-date/quotation-to-date.actions';
+import { quotationToDateFeature } from '@gq/core/store/quotation-to-date/quotation-to-date.reducer';
 import { ShipToPartyFacade } from '@gq/core/store/ship-to-party/ship-to-party.facade';
 import { CustomerId } from '@gq/shared/models/customer/customer-ids.model';
 import { MaterialTableItem } from '@gq/shared/models/table/material-table-item-model';
-import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { PLsSeriesRequest } from '@gq/shared/services/rest/search/models/pls-series-request.model';
 import { Store } from '@ngrx/store';
 
@@ -54,13 +55,13 @@ export class CreateCaseFacade {
   private readonly shipToPartyFacade: ShipToPartyFacade =
     inject(ShipToPartyFacade);
 
-  private readonly quotationService: QuotationService =
-    inject(QuotationService);
-
   customerIdForCaseCreation$ = this.store.select(getSelectedCustomerId);
   customerSalesOrgs$ = this.store.select(getSalesOrgs);
   selectedCustomerSalesOrg$ = this.store.select(getSelectedSalesOrg);
   shipToPartySalesOrgs$ = this.store.select(getSalesOrgsOfShipToParty);
+  quotationToDate$ = this.store.select(
+    quotationToDateFeature.selectQuotationToDate
+  );
 
   customerIdentifier$: Observable<CustomerId> = combineLatest([
     this.customerIdForCaseCreation$,
@@ -124,8 +125,10 @@ export class CreateCaseFacade {
     this.store.dispatch(updateCurrencyOfPositionItems());
   }
 
-  getQuotationToDate(customerId: CustomerId): Observable<string> {
-    return this.quotationService.getQuotationToDateForCaseCreation(customerId);
+  getQuotationToDate(customerId: CustomerId) {
+    return this.store.dispatch(
+      QuotationToDateActions.getQuotationToDate({ customerId })
+    );
   }
 
   getPLsAndSeries(customerFilters: PLsSeriesRequest): void {

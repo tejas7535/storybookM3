@@ -1,7 +1,5 @@
-import { of } from 'rxjs';
-
+import { QuotationToDateActions } from '@gq/core/store/quotation-to-date/quotation-to-date.actions';
 import { ShipToPartyFacade } from '@gq/core/store/ship-to-party/ship-to-party.facade';
-import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -47,7 +45,6 @@ describe('CreateCaseFacade', () => {
       MockProvider(SectorGpsdFacade, {
         resetAllSectorGpsds: jest.fn(),
       }),
-      MockProvider(QuotationService),
       MockProvider(ShipToPartyFacade, {
         resetAllShipToParties: jest.fn(),
       }),
@@ -185,20 +182,19 @@ describe('CreateCaseFacade', () => {
     });
 
     describe('getQuotationToDate', () => {
-      test(
-        'request the service to get the quotation to date',
-        marbles((m) => {
-          const date = '2024-10-10T15:12:14.215Z';
-          const customerId = { customerId: 'customerId', salesOrg: 'salesOrg' };
-          facade['quotationService'].getQuotationToDateForCaseCreation = jest
-            .fn()
-            .mockReturnValue(of(date));
-          facade.getQuotationToDate(customerId);
-          m.expect(facade.getQuotationToDate(customerId)).toBeObservable(
-            m.cold('(a|)', { a: date })
-          );
-        })
-      );
+      test('should dispatch getQuotationToDate action', () => {
+        mockStore.dispatch = jest.fn();
+        facade.getQuotationToDate({
+          customerId: 'customerId',
+          salesOrg: 'salesOrg',
+        });
+
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          QuotationToDateActions.getQuotationToDate({
+            customerId: { customerId: 'customerId', salesOrg: 'salesOrg' },
+          })
+        );
+      });
     });
   });
 });
