@@ -117,7 +117,6 @@ export class EditCaseHeaderInformationComponent
       this.userHasOfferTypeAccess = hasAccess;
     });
 
-    this.shipToPartySalesOrg = this.modalData?.shipToPartySalesOrg;
     this.isSapCase = this.modalData?.isSapCase;
 
     if (this.modalData?.caseCustomer) {
@@ -130,6 +129,9 @@ export class EditCaseHeaderInformationComponent
         this.modalData?.caseCustomer?.identifier?.customerId,
         this.modalData?.caseCustomer?.identifier?.salesOrg
       );
+
+      this.shipToPartySalesOrg =
+        this.modalData?.caseCustomer?.identifier?.salesOrg;
     }
 
     this.headerInfoForm = new FormGroup({

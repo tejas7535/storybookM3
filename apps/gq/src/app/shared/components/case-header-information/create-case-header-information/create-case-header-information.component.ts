@@ -276,6 +276,13 @@ export class CreateCaseHeaderInformationComponent
         this.isValid.emit(this.headerInfoForm.valid);
         this.data.emit(formValues);
       });
+
+    this.headerInfoForm.statusChanges
+      .pipe(
+        tap(() => this.isValid.emit(this.headerInfoForm.valid)),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   ngOnDestroy(): void {

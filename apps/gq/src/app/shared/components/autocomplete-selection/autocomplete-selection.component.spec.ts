@@ -205,6 +205,19 @@ describe('AutocompleteSelectionComponent', () => {
         done();
       }, component['debounceTime']);
     });
+    test('should set option automatically when only one option is available', (done) => {
+      component.ngOnInit();
+      component.formControl.setValue('value');
+      setTimeout(() => {
+        expect(component.formControl.value).toEqual({
+          id: '1',
+          value: 'value',
+          value2: 'value2',
+          defaultSelection: true,
+        });
+        done();
+      }, component['debounceTime']);
+    });
   });
 
   describe('writeValue function', () => {
@@ -252,6 +265,42 @@ describe('AutocompleteSelectionComponent', () => {
       component.filteredOptions.set([value]);
       component.handleErrors('value');
       expect(component.formControl.errors).toEqual(null);
+    });
+  });
+  describe('onBlur', () => {
+    beforeEach(() => {
+      component['onTouched'] = jest.fn();
+    });
+    test('should set error on blur when selection is a string', () => {
+      component.formControl.setValue('test');
+      component.onBlur();
+      expect(component.formControl.errors).toEqual({ wrongSelection: true });
+      expect(component['onTouched']).toHaveBeenCalled();
+    });
+    test('should not set error on blur when input value is empty', () => {
+      component.formControl.setValue('');
+      component.onBlur();
+      expect(component.formControl.errors).toEqual(null);
+      expect(component['onTouched']).toHaveBeenCalled();
+    });
+    test('should not set error on blur when object is selected', () => {
+      const value = component.options()[0];
+      component.filteredOptions.set([value]);
+      component.formControl.setValue(value);
+      component.onBlur();
+      expect(component.formControl.errors).toEqual(null);
+      expect(component['onTouched']).toHaveBeenCalled();
+    });
+    test('should set error on blur when selected object is not found', () => {
+      const value: SelectableValue = {
+        id: '1',
+        value: 'valueNotFound',
+        value2: 'value2NotFound',
+      };
+      component.formControl.setValue(value);
+      component.onBlur();
+      expect(component.formControl.errors).toEqual({ wrongSelection: true });
+      expect(component['onTouched']).toHaveBeenCalled();
     });
   });
 });

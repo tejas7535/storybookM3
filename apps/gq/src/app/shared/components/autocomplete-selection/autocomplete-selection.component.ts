@@ -137,22 +137,32 @@ export class AutocompleteSelectionComponent
         this.filteredOptions.set(
           this.options()?.filter((option) => {
             if (typeof value === 'string') {
-              const searchValue = (value as string).toLowerCase();
+              const searchValue = value.toLowerCase();
 
-              return (
-                option.id.toLowerCase().includes(searchValue) ||
-                option.value.toLowerCase().includes(searchValue) ||
-                (option.value2 &&
-                  option.value2.toLowerCase().includes(searchValue))
-              );
+              return this.includesOption(option, searchValue);
             }
 
             return option;
           })
         );
 
+        // If only one option left during filtering - set it automatically
+        if (this.filteredOptions().length === 1) {
+          const option = this.filteredOptions()[0];
+          this.formControl.setValue(option);
+          this.selectedValue.set(option);
+        }
+
         this.handleErrors(value);
       });
+  }
+
+  private includesOption(option: SelectableValue, searchValue: string) {
+    return (
+      option.id.toLowerCase().includes(searchValue) ||
+      option.value.toLowerCase().includes(searchValue) ||
+      (option.value2 && option.value2.toLowerCase().includes(searchValue))
+    );
   }
 
   /**
@@ -215,13 +225,28 @@ export class AutocompleteSelectionComponent
   }
 
   private valueNotFound(value: string | SelectableValue) {
-    const emptyFilteredOptions = this.filteredOptions().length === 0;
     if (typeof value !== 'string' && value !== null) {
-      const includesOption = this.options().includes(value);
-
-      return emptyFilteredOptions || !includesOption;
+      return !this.options().some(
+        (option) =>
+          option.id === value.id &&
+          option.value === value.value &&
+          option?.value2 === value?.value2
+      );
     }
 
-    return emptyFilteredOptions;
+    return this.filteredOptions().length === 0;
+  }
+
+  onBlur() {
+    let error = null;
+    const value = this.formControl.value;
+    if (
+      (typeof value === 'string' && value !== '') ||
+      this.valueNotFound(value)
+    ) {
+      error = { wrongSelection: true };
+    }
+    this.formControl.setErrors(error);
+    this.onTouched();
   }
 }

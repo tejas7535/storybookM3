@@ -177,7 +177,6 @@ describe('EditCaseHeaderInformationComponent', () => {
 
     test('should set salesOrg from modalData if subscription is empty', () => {
       component.modalData = {
-        shipToPartySalesOrg: '0269',
         caseCustomer: {
           identifier: { customerId: '123456', salesOrg: '0815' },
         },
@@ -186,7 +185,7 @@ describe('EditCaseHeaderInformationComponent', () => {
 
       shipToPartySalesOrgSubject$$.next([]);
 
-      expect(component.shipToPartySalesOrg).toEqual('0269');
+      expect(component.shipToPartySalesOrg).toEqual('0815');
     });
 
     test('should set salesOrg from array', () => {
