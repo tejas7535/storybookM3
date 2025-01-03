@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { combineLatest, map, Observable } from 'rxjs';
 
+import { ShipToPartyFacade } from '@gq/core/store/ship-to-party/ship-to-party.facade';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { Tab } from '@gq/shared/components/tabs-header/tab.model';
 import {
@@ -84,6 +85,8 @@ export class ActiveCaseFacade {
   private readonly sapPriceDetailsFacade = inject(SapPriceDetailsFacade);
   private readonly sectorGpsdFacade: SectorGpsdFacade =
     inject(SectorGpsdFacade);
+  private readonly shipToPartyFacade: ShipToPartyFacade =
+    inject(ShipToPartyFacade);
 
   quotation$: Observable<Quotation> = this.store.select(
     activeCaseFeature.selectQuotation
@@ -393,5 +396,6 @@ export class ActiveCaseFacade {
     this.store.dispatch(clearOfferType());
     this.store.dispatch(clearPurchaseOrderType());
     this.sectorGpsdFacade.resetAllSectorGpsds();
+    this.shipToPartyFacade.resetAllShipToParties();
   }
 }

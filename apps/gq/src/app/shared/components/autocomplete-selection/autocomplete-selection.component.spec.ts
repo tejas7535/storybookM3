@@ -7,7 +7,6 @@ import {
 import { MatOption } from '@angular/material/core';
 
 import { SelectableValue } from '@gq/shared/models/selectable-value.model';
-import * as miscUtils from '@gq/shared/utils/misc.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -100,56 +99,6 @@ describe('AutocompleteSelectionComponent', () => {
     });
   });
 
-  describe('onOptionSelected', () => {
-    test('should call onChange', () => {
-      component['onChange'] = jest.fn();
-      component['onTouched'] = jest.fn();
-
-      const args: MatAutocompleteSelectedEvent = {
-        source: {} as MatAutocomplete,
-        option: {
-          value: {
-            id: '1',
-            value: 'value',
-          } as SelectableValue,
-        } as MatOption<SelectableValue>,
-      };
-      component.onOptionSelected(args);
-      expect(component['onChange']).toHaveBeenCalled();
-      expect(component['onTouched']).toHaveBeenCalled();
-    });
-  });
-
-  describe('displayFn', () => {
-    test('should call displaySelectableValue function', () => {
-      const spy = jest.spyOn(miscUtils, 'displaySelectableValue');
-
-      const selectableValue: SelectableValue = {
-        id: '1',
-        value: 'value',
-      };
-
-      component.displayFn(selectableValue);
-      expect(spy).toHaveBeenCalledWith(selectableValue);
-    });
-  });
-
-  describe('defaultSelection$', () => {
-    test('should set form control value to defaultSelection', (done) => {
-      const defaultValue: SelectableValue = {
-        id: '1',
-        value: 'value',
-        value2: 'value2',
-        defaultSelection: true,
-      };
-
-      component.defaultSelection$.subscribe((val) => {
-        expect(val).toEqual(defaultValue);
-        done();
-      });
-    });
-  });
-
   describe('formControl', () => {
     test('should set filteredOptions and set error', (done) => {
       component.ngOnInit();
@@ -219,7 +168,6 @@ describe('AutocompleteSelectionComponent', () => {
       }, component['debounceTime']);
     });
   });
-
   describe('writeValue function', () => {
     test('should set value to null when id is not present', () => {
       const value: SelectableValue = {
@@ -301,6 +249,42 @@ describe('AutocompleteSelectionComponent', () => {
       component.onBlur();
       expect(component.formControl.errors).toEqual({ wrongSelection: true });
       expect(component['onTouched']).toHaveBeenCalled();
+    });
+  });
+
+  describe('onOptionSelected', () => {
+    test('should call onChange', () => {
+      component['onChange'] = jest.fn();
+      component['onTouched'] = jest.fn();
+
+      const args: MatAutocompleteSelectedEvent = {
+        source: {} as MatAutocomplete,
+        option: {
+          value: {
+            id: '1',
+            value: 'value',
+          } as SelectableValue,
+        } as MatOption<SelectableValue>,
+      };
+      component.onOptionSelected(args);
+      expect(component['onChange']).toHaveBeenCalled();
+      expect(component['onTouched']).toHaveBeenCalled();
+    });
+  });
+
+  describe('defaultSelection$', () => {
+    test('should set form control value to defaultSelection', (done) => {
+      const defaultValue: SelectableValue = {
+        id: '1',
+        value: 'value',
+        value2: 'value2',
+        defaultSelection: true,
+      };
+
+      component.defaultSelection$.subscribe((val) => {
+        expect(val).toEqual(defaultValue);
+        done();
+      });
     });
   });
 });

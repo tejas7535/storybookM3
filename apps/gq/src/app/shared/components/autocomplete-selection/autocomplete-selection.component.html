@@ -19,7 +19,7 @@
   <mat-autocomplete
     #auto="matAutocomplete"
     (optionSelected)="onOptionSelected($event)"
-    [displayWith]="displayFn"
+    [displayWith]="displaySelectableValue"
   >
     <!-- Options -->
     @for (idValue of filteredOptions(); track idValue) {

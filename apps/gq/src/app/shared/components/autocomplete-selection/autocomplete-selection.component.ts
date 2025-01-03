@@ -11,6 +11,7 @@ import {
   Self,
   Signal,
   signal,
+  ViewChild,
   WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
@@ -72,6 +73,9 @@ export type Appearance = 'fill' | 'outline';
 export class AutocompleteSelectionComponent
   implements ControlValueAccessor, OnInit
 {
+  @ViewChild(MatAutocompleteTrigger)
+  private readonly autocomplete: MatAutocompleteTrigger;
+
   // Declare Functions for ControlValueAccessor when Component is defined as a formControl in ParentComponent
   private onChange: (value: SelectableValue) => void;
   private onTouched: () => void;
@@ -91,6 +95,7 @@ export class AutocompleteSelectionComponent
     this.options()?.find((option) => option.defaultSelection)
   );
   readonly defaultSelection$ = toObservable(this.defaultSelection);
+  readonly options$ = toObservable(this.options);
 
   filteredOptions: WritableSignal<SelectableValue[]> = signal([]);
   isDisabled = false;
@@ -126,6 +131,12 @@ export class AutocompleteSelectionComponent
         this.onChange(this.getSelectedValue());
       });
 
+    this.options$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((options) => {
+        this.filteredOptions.set(options);
+      });
+
     this.formControl.valueChanges
       .pipe(
         debounceTime(this.debounceTime),
@@ -147,10 +158,11 @@ export class AutocompleteSelectionComponent
         );
 
         // If only one option left during filtering - set it automatically
-        if (this.filteredOptions().length === 1) {
+        if (this.filteredOptions().length === 1 && value !== '') {
           const option = this.filteredOptions()[0];
           this.formControl.setValue(option);
           this.selectedValue.set(option);
+          this.autocomplete.closePanel();
         }
 
         this.handleErrors(value);
@@ -158,11 +170,9 @@ export class AutocompleteSelectionComponent
   }
 
   private includesOption(option: SelectableValue, searchValue: string) {
-    return (
-      option.id.toLowerCase().includes(searchValue) ||
-      option.value.toLowerCase().includes(searchValue) ||
-      (option.value2 && option.value2.toLowerCase().includes(searchValue))
-    );
+    return this.displaySelectableValue(option)
+      .toLowerCase()
+      .includes(searchValue);
   }
 
   /**
@@ -207,7 +217,7 @@ export class AutocompleteSelectionComponent
     this.onTouched();
   }
 
-  displayFn(value: SelectableValue) {
+  displaySelectableValue(value: SelectableValue) {
     return displaySelectableValue(value);
   }
 

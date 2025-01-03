@@ -1,5 +1,6 @@
 import { of } from 'rxjs';
 
+import { ShipToPartyFacade } from '@gq/core/store/ship-to-party/ship-to-party.facade';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import {
   DetailViewQueryParams,
@@ -37,6 +38,7 @@ import { TransactionsFacade } from '../transactions/transactions.facade';
 import { ActiveCaseActions } from './active-case.action';
 import { ActiveCaseFacade } from './active-case.facade';
 import { activeCaseFeature } from './active-case.reducer';
+import * as fromActiveCaseSelectors from './active-case.selectors';
 import {
   getCoefficients,
   getIsQuotationStatusActive,
@@ -50,7 +52,6 @@ import {
   getSimulationModeEnabled,
   getTabsForProcessCaseView,
 } from './active-case.selectors';
-import * as fromActiveCaseSelectors from './active-case.selectors';
 import { QuotationIdentifier, UpdateQuotationDetail } from './models';
 
 describe('ActiveCaseFacade', () => {
@@ -95,6 +96,9 @@ describe('ActiveCaseFacade', () => {
       }),
       MockProvider(SectorGpsdFacade, {
         resetAllSectorGpsds: jest.fn(),
+      }),
+      MockProvider(ShipToPartyFacade, {
+        resetAllShipToParties: jest.fn(),
       }),
     ],
   });
@@ -1085,6 +1089,9 @@ describe('ActiveCaseFacade', () => {
       expect(spy).toHaveBeenCalledWith(clearPurchaseOrderType());
       expect(spy).toHaveBeenCalledWith(clearOfferType());
       expect(facade['sectorGpsdFacade'].resetAllSectorGpsds).toHaveBeenCalled();
+      expect(
+        facade['shipToPartyFacade'].resetAllShipToParties
+      ).toHaveBeenCalled();
     });
   });
 });
