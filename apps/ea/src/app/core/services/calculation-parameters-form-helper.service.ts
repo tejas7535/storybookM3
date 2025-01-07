@@ -45,6 +45,29 @@ export class CalculationParametersFormHelperService {
     });
   }
 
+  public getLocalizedLoadCaseTimePortion(
+    operatingTimeInHours: number | undefined,
+    loadcasePercentage: number | undefined
+  ): string {
+    if (!operatingTimeInHours || !loadcasePercentage) {
+      return '';
+    }
+
+    const percentageOfOperatingTime =
+      (loadcasePercentage / 100) * operatingTimeInHours;
+
+    const loadcaseTime = Math.round(percentageOfOperatingTime);
+
+    return this.translocoService.translate(
+      'operationConditions.loadCaseTimePortion',
+      {
+        loadcasePercentage,
+        totalTime: operatingTimeInHours,
+        loadcaseTime,
+      }
+    );
+  }
+
   private prepareDialogData(): ConfirmationDialogData {
     return {
       title: this.getDialogTranslationForKey('title'),

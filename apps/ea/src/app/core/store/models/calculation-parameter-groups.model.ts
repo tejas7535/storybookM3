@@ -4,6 +4,8 @@ export type CalculationParameterGroup =
   | 'contamination'
   | 'operatingTemperature'
   | 'ambientTemperature'
+  | 'time'
+  | 'energySource'
   | 'rotatingCondition'
   | 'externalHeatflow'
   | 'conditionOfRotation'

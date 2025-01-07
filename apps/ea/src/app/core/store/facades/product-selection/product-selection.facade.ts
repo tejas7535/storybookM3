@@ -22,6 +22,7 @@ import {
   getTemplateItem,
   getTemplates,
   isBearingSupported,
+  isCo2DownstreamCalculationPossible,
 } from '../../selectors/product-selection/product-selection.selector';
 
 @Injectable({
@@ -47,6 +48,9 @@ export class ProductSelectionFacade {
   );
   public isBearingSupported$ = this.store.select(isBearingSupported);
   public templates$ = this.store.select(getTemplates);
+  public isCo2DownstreamCalculationPossible$ = this.store.select(
+    isCo2DownstreamCalculationPossible
+  );
 
   constructor(private readonly store: Store) {}
 

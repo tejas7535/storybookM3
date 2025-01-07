@@ -61,16 +61,25 @@
     "prototypeWarning": "Los valores que se muestran en este prototipo de desarrollo son hipotéticos y no deben utilizarse en la producción",
     "showPresetCalculationParameters": "Mostrar parámetros de cálculo predefinidos",
     "addLoadCase": "Añadir caso de carga",
+    "co2Downstream": {
+      "notPossibleTitle": "En proceso para {{ selectedBearing }}",
+      "subTitle": "CO₂e causado por la fricción durante la operación",
+      "text": "Información completa con cálculos inmediatos de las emisiones de CO2e de nuestros productos rotativos en varios escenarios de aplicación.",
+      "textAvailable": "Schaeffler ahora ofrece información completa con cálculos inmediatos de las emisiones de CO2e de nuestros productos rotativos en varios escenarios de aplicación.",
+      "title": "Nuevo"
+    },
     "loads": "Carga",
     "radialLoad": "Carga radial",
     "axialLoad": "Carga axial",
     "totalAmountOfTime": "Tiempo total:",
+    "loadCaseTimePortionDescription": "Para el cálculo de fricción / CO₂e:",
+    "loadCaseTimePortion": "{{ loadcasePercentage }}% de {{ totalTime }}h equivale a {{ loadcaseTime }}h",
     "loadCaseName": "Caso de carga {{number}}",
     "generalInputsTitle": "Entradas generales",
     "generalInputsTitleTooltip": "Esto se aplica a todos los casos de carga",
     "emptyState": "Seleccione el cálculo que desea realizar de la lista de cálculos disponibles",
     "operatingTime": {
-      "title": "Tiempo de funcionamiento",
+      "title": "Porción de tiempo",
       "label": "Porcentaje"
     },
     "presetParameters": {
@@ -126,9 +135,9 @@
       "notAvailable": "Este tipo de lubricación no está disponible para el rodamiento seleccionado.",
       "options": {
         "grease": "Grasa",
-        "oilBath": "Lubricación en baño de aceite",
-        "oilMist": "Lubricación por vapor de aceite",
-        "recirculatingOil": "Lubricación por recirculación de aceite"
+        "oilBath": "baño de aceite",
+        "oilMist": "vapor de aceite",
+        "recirculatingOil": "recirculación de aceite"
       },
       "grease": {
         "typeOfGrease": {
@@ -195,6 +204,54 @@
         "rotatingOuterring": "Anillo exterior rotatorio",
         "rotatingInnerring": "Anillo interior rotatorio"
       }
+    },
+    "time": {
+      "title": "Tiempo de operación",
+      "operatingTime": {
+        "label": "Tiempo total de operación",
+        "description": "8766 horas equivalen a un uso 24/7 durante un año",
+        "unit": "h"
+      }
+    },
+    "energySource": {
+      "title": "Fuente de energía",
+      "options": {
+        "electricity": "Energía eléctrica",
+        "fossil": "Energía fósil"
+      },
+      "fossilOrigin": "Origen fósil",
+      "electricityRegion": "Región de producción de electricidad",
+      "electricityChipText": "Electricidad en {{region}}",
+      "electricityRegionOption": {
+        "argentina": "Argentina",
+        "australia": "Australia",
+        "brazil": "Brasil",
+        "canada": "Canadá",
+        "china": "China",
+        "europeanUnion": "Unión Europea",
+        "france": "Francia",
+        "germany": "Alemania",
+        "greatBritain": "Gran Bretaña",
+        "india": "India",
+        "indonesia": "Indonesia",
+        "italy": "Italia",
+        "japan": "Japón",
+        "mexico": "México",
+        "russianFederation": "Federación Rusa",
+        "southAfrica": "Sudáfrica",
+        "southKorea": "Corea del Sur",
+        "turkey": "Turquía",
+        "usa": "EE.UU."
+      },
+      "fossilOriginOptions": {
+        "gasoline": "Gasolina",
+        "diesel": "Diésel",
+        "e10": "Gasolina E10",
+        "dieselB7": "Diésel B7",
+        "lpg": "GLP (Gas Licuado de Petróleo)",
+        "cng": "GNC (Gas Natural Comprimido)",
+        "cngBiomethane": "GNC con Biometano (Gas Natural Comprimido)"
+      }
     }
   },
   "calculation": {
@@ -215,14 +272,89 @@
     "overrollingFrequency": "Frecuencias de exposición al paso de los elementos rodantes",
     "overrollingFrequencySubtitle": "Frecuencia en el anillo interior (BPFI)",
     "frictionalPowerloss": "Pérdida de potencia por fricción",
-    "frictionalPowerlossSubtitle": "Par de fricción total (MR)",
+    "frictionalPowerlossSubtitle": "Pérdida de potencia por fricción total (W)",
     "frictionalPowerlossUnavailable": "Este cálculo no está disponible para el rodamiento seleccionado.",
     "production": "Para producción",
-    "productionTooltip": "Es la suma de todos los equivalentes de CO₂ emitidos para la producción del rodamiento, incluidos los recursos y la energía necesarios."
+    "productionTooltip": "Es la suma de todos los equivalentes de CO₂ emitidos para la producción del rodamiento, incluidos los recursos y la energía necesarios.",
+    "usage": "Durante el uso",
+    "usageTooltip": "Emisiones totales de CO2 causadas por la pérdida de energía.",
+    "downstreamErrors": {
+      "modelNotExisting": "No hay un cálculo de CO2 disponible para este rodamiento.",
+      "modelLubricationNotSupported": "No hay un cálculo de CO2 disponible para este rodamiento con este tipo de lubricación.",
+      "sumOfTimePortionsBelow_100Percent": "La suma de las porciones operativas es menor del 100%. Por lo tanto, no está disponible ningún cálculo de fricción.",
+      "sumOfTimePortionsExceeds_100Percent": "La suma de las porciones operativas excede el 100%. Por lo tanto, no está disponible ningún cálculo de fricción.",
+      "invalidMovementType": "En al menos un caso de carga, el tipo de movimiento no es rotativo. Por lo tanto, no está disponible ningún cálculo de fricción.",
+      "operatingTemperatureBelowLimit": "La temperatura de funcionamiento es demasiado baja. Por lo tanto, no está disponible ningún cálculo de fricción.",
+      "operatingTemperatureExceedsLimit": "La temperatura de funcionamiento es demasiado alta. Por lo tanto, no está disponible ningún cálculo de fricción.",
+      "invalidViscosityDefinition": "La definición de viscosidad del lubricante no es válida para el cálculo de fricción.",
+      "invalidLubricationMethod": "La definición del tipo de lubricación no es válida para el cálculo de fricción.",
+      "invalidGreaseSelection": "La grasa seleccionada no es válida para el cálculo de fricción. Por lo tanto, no está disponible ningún cálculo de fricción.",
+      "invalidViscosityClass": "La clase de viscosidad especificada del lubricante no es válida para el cálculo de fricción.",
+      "ny100ExceedsNy40": "La viscosidad del lubricante a 100 ℃ es mayor que la viscosidad a 40 ℃. Por favor, revise su entrada.",
+      "ny40BelowLimit": "La viscosidad del lubricante a 40 ℃ es demasiado baja. Por lo tanto, no está disponible ningún cálculo de fricción.",
+      "ny40ExceedsLimit": "La viscosidad del lubricante a 40 ℃ es demasiado alta. Por lo tanto, no está disponible ningún cálculo de fricción.",
+      "ny100BelowLimit": "La viscosidad del lubricante a 100 ℃ es demasiado baja. Por lo tanto, no está disponible ningún cálculo de fricción.",
+      "ny100ExceedsLimit": "La viscosidad del lubricante a 100 ℃ es demasiado alta. Por lo tanto, no está disponible ningún cálculo de fricción.",
+      "speedBelowThreshold": "La velocidad es demasiado baja. Por lo tanto, no está disponible ningún cálculo de fricción.",
+      "speedExceedsLimitingSpeed": "La velocidad es mayor que la velocidad límite. Por lo tanto, no está disponible ningún cálculo de fricción.",
+      "p0BelowC0Min": "La carga estática equivalente P0 es menor que la carga mínima. Por lo tanto, no está disponible ningún cálculo de fricción.",
+      "p0ExceedsC0": "La carga estática equivalente P0 es mayor que la carga estática de referencia C0. Por lo tanto, no está disponible ningún cálculo de fricción.",
+      "loadAngleBelowNominalContactAngle": "El ángulo de carga es menor que el ángulo de contacto nominal. Las fuerzas axiales internas resultantes son, por lo tanto, mayores que las fuerzas axiales externas que actúan. La sujeción axial, por lo tanto, ya no está garantizada.",
+      "operatingViscosityBelowLimit": "La viscosidad de funcionamiento resultante del lubricante y la temperatura de funcionamiento es demasiado baja. Por lo tanto, no está disponible ningún cálculo de fricción.",
+      "operatingViscosityExceedsLimit": "La viscosidad de funcionamiento resultante del lubricante y la temperatura de funcionamiento es demasiado alta. Por lo tanto, no está disponible ningún cálculo de fricción.",
+      "viscosityRatioBelowLimit": "La relación de viscosidad Kappa es demasiado grande. Por lo tanto, no está disponible ningún cálculo de fricción.",
+      "viscosityRatioExceedsLimit": "La relación de viscosidad Kappa es demasiado pequeña. Por lo tanto, no está disponible ningún cálculo de fricción.",
+      "radialLoadBelowLimit": "La carga radial no puede ser negativa.",
+      "radialLoadNotSupported": "Este rodamiento no es adecuado para soportar cargas radiales.",
+      "axialLoadBelowLimit": "La carga axial no puede ser negativa.",
+      "axialLoadBelowMinimum": "La carga axial es menor que la carga axial mínima requerida.",
+      "axialLoadExceedsLimit": "La carga axial excede la carga axial máxima.",
+      "axialLoadNotSupported": "Este rodamiento no es adecuado para soportar cargas axiales.",
+      "loadRatioTooSmall": "La relación entre la carga axial y radial es demasiado pequeña para este tipo de rodamiento.",
+      "loadRatioTooLarge": "La relación entre la carga axial y radial es demasiado grande para este tipo de rodamiento.",
+      "referenceViscosityIsZero": "El valor de la viscosidad de referencia es 0. Por lo tanto, no está disponible ningún cálculo de fricción.",
+      "meanDiameterIsZero": "El diámetro del círculo de rodadura es 0. Por lo tanto, no está disponible ningún cálculo de fricción.",
+      "unsupportedEmissionFactor": "El factor de emisión no es compatible.",
+      "genericError": "Ha ocurrido un error. El cálculo ha fallado."
+    }
   },
   "calculationResultReport": {
     "dialogTitle": "Informe del rodamiento {{bearingDesignation}}",
     "reportSectionInput": "Entrada",
+    "downstreamInputs": {
+      "bearing": {
+        "bearingTitle": "Rodamiento",
+        "designation": "Designación",
+        "dynamicLoadRating": "Capacidad de carga dinámica básica",
+        "fatigueLoadLimit": "Límite de carga de fatiga",
+        "innerDiameter": "Diámetro interior",
+        "limitingSpeedGrease": "Velocidad límite, grasa",
+        "limitingSpeedOil": "Velocidad límite, aceite",
+        "outerDiameter": "Diámetro exterior",
+        "staticLoadRating": "Capacidad de carga estática básica",
+        "width": "Anchura"
+      },
+      "otherConditions": {
+        "conditionsTitle": "Otras condiciones",
+        "temperature": "Temperatura ambiente",
+        "lubricationMethod": "Tipo de lubricación",
+        "greaseType": "Tipo de grasa",
+        "operatingTimeInHours": "Tiempo de operación en horas",
+        "svgClass": "Clase ISO VG",
+        "viscosity": "Introducir viscosidad",
+        "ny40": "Viscosidad a 40°C",
+        "ny100": "Viscosidad a 100°C"
+      },
+      "load": {
+        "loadTitle": "Carga",
+        "timePortion": "Porción de tiempo",
+        "typeOfMotion": "Tipo de movimiento",
+        "speed": "Velocidad",
+        "operatingTemperature": "Temperatura media de operación",
+        "axialLoad": "Carga axial",
+        "radialLoad": "Carga radial"
+      }
+    },
     "reportSectionWarnings": "Errores/Advertencias/Notas",
     "calculationNotAvailable": {
       "line1": "Este cálculo no es posible para el rodamiento seleccionado.",
@@ -231,14 +363,28 @@
       "link": "https://medias.schaeffler.es/es/stc"
     },
     "co2Emissions": {
-      "title": "Estimación de las emisiones de CO₂e por unidad",
+      "title": "Estimación de las emisiones de CO₂e por pieza",
       "unit": "CO₂e",
-      "upstreamTitle": "CO₂e emitido para la producción* (en fases anteriores)",
-      "upstreamHint": "*Valor estimado basado en supuestos durante la producción",
+      "upstreamTitle": "CO₂e emitido para la producción* (Upstream)",
+      "upstreamHint": "*Valor estimado basado en suposiciones durante la producción",
       "upstreamHintLinkText": "Más información.",
-      "calculationHint": "¿Desea obtener más información sobre CO₂ en Schaeffler?",
-      "calculationHintLink": "https://medias.schaeffler.es/es/co2-tool",
-      "calculationHintLinkText": "Haga clic aquí"
+      "calculationHint": "¿Quieres saber más sobre CO₂ en Schaeffler?",
+      "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
+      "calculationHintLinkText": "Haga clic aquí",
+      "co2EmissionChartTitle": "Valor total de CO₂e",
+      "downstreamTitle": "CO₂e causado por fricción durante la operación (fase de uso, parte de Downstream)",
+      "totalDownstreamButton": "Total",
+      "co2EmissionPercentageLabel": "Porcentaje del total de emisiones de CO₂e",
+      "co2EmissionOperatingHours": "Horas de operación",
+      "downstreamHint": "Así es como calculamos los valores:",
+      "downstreamHintLinkText": "Más información.",
+      "downstreamHintLink": "",
+      "chartDownstream": "Downstream",
+      "downstreamComingSoon": "Próximamente para {{ bearingDesignation }}",
+      "downstreamComingSoonTitle": "CO₂e causado por fricción durante la operación",
+      "downstreamComingSoonText": "Información completa con cálculos inmediatos de las emisiones de CO2e de nuestros productos rotativos en varios escenarios de aplicación.",
+      "chartDescription": "Emisión de CO₂e",
+      "chartUpstream": "Upstream"
     },
     "lubrication": {
       "title": "Parámetros de lubricación",
@@ -255,8 +401,8 @@
     },
     "frictionalPowerloss": {
       "title": "Pérdida de potencia por fricción",
-      "totalFrictionalTorque": "Par de fricción total",
-      "totalFrictionalPowerLoss": "Pérdida de potencia por fricción total",
+      "totalFrictionalTorque": "Par de fricción",
+      "totalFrictionalPowerLoss": "Pérdida de potencia por fricción",
       "speedDependentFrictionalTorque": "Par de fricción variable en función de la velocidad",
       "loadDependentFrictionalTorque": "Par de fricción variable en función de la carga",
       "thermallySafeOperatingSpeed": "Velocidad de funcionamiento con seguridad térmica"
@@ -307,7 +453,8 @@
       "ratingLife": "Vida útil nominal",
       "lubrication": "Parámetro de lubricación",
       "frictionalPowerloss": "Pérdida de potencia por fricción",
-      "co2": "Emisiones de CO₂e para la producción",
+      "co2": "Emisiones de CO₂e",
+      "co2ForProduction": "Emisiones de CO₂e para la producción",
       "overrollingFrequency": "Frecuencias de exposición al paso de los elementos rodantes"
     },
     "basicFrequency": "Frecuencias básicas",

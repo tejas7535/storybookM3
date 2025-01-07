@@ -9,11 +9,13 @@ import {
   CalculationParametersState,
   CatalogCalculationResultState,
   CO2UpstreamCalculationResultState,
+  DownstreamCalculationState,
   ProductSelectionState,
   SettingsState,
 } from '../models';
 import { calculationParametersReducer } from './calculation-parameters/calculation-parameters.reducer';
 import { catalogCalculationResultReducer } from './calculation-result/catalog-calculation-result.reducer';
+import { co2downstreamCalculationReducer } from './calculation-result/co2-downstream.reducer';
 import { co2UpstreamCalculationResultReducer } from './calculation-result/co2-upstream-calculation-result.reducer';
 import { productSelectionReducer } from './product-selection/product-selection.reducer';
 import { settingsReducer } from './settings/settings.reducer';
@@ -24,6 +26,7 @@ export interface AppState {
   settings: SettingsState;
   co2UpstreamCalculationResult: CO2UpstreamCalculationResultState;
   catalogCalculationResult: CatalogCalculationResultState;
+  downstreamCalculationState: DownstreamCalculationState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -32,6 +35,7 @@ export const reducers: ActionReducerMap<AppState> = {
   settings: settingsReducer,
   co2UpstreamCalculationResult: co2UpstreamCalculationResultReducer,
   catalogCalculationResult: catalogCalculationResultReducer,
+  downstreamCalculationState: co2downstreamCalculationReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = environment.production
@@ -55,4 +59,9 @@ export const getCO2UpstreamCalculationResultState =
 export const getCatalogCalculationResultState =
   createFeatureSelector<CatalogCalculationResultState>(
     'catalogCalculationResult'
+  );
+
+export const getDownstreamCalculationState =
+  createFeatureSelector<DownstreamCalculationState>(
+    'downstreamCalculationState'
   );

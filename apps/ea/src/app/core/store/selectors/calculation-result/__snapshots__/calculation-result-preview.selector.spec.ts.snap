@@ -21,6 +21,34 @@ Object {
 exports[`Calculation Result Selector getCalculationResultPreviewData should return the result preview data 1`] = `
 Array [
   Object {
+    "svgIcon": "co2",
+    "title": "emissions",
+    "titleTooltip": "emissionsTooltip",
+    "values": Array [
+      Object {
+        "calculationError": undefined,
+        "isLoading": false,
+        "title": "production",
+        "titleTooltip": "productionTooltip",
+        "unit": "kg",
+        "value": 2,
+      },
+      Object {
+        "additionalData": Object {
+          "operatingTimeInHours": undefined,
+        },
+        "calculationError": undefined,
+        "displayNewBadge": true,
+        "isLoading": false,
+        "title": "usage",
+        "titleTooltip": "usageTooltip",
+        "unit": "kg",
+        "value": undefined,
+        "valueLoadcaseName": "Workload",
+      },
+    ],
+  },
+  Object {
     "icon": "compress",
     "loadcaseName": "Workload",
     "title": "frictionalPowerloss",
@@ -30,11 +58,16 @@ Array [
         "calculationWarning": undefined,
         "isLoading": false,
         "title": "frictionalPowerlossSubtitle",
-        "unit": undefined,
+        "unit": "W",
         "value": undefined,
       },
     ],
   },
+]
+`;
+
+exports[`Calculation Result Selector isCalculationResultReportAvailable when all selected calculation result are available when all calculations are selected should return preview data for all calculation types 1`] = `
+Array [
   Object {
     "svgIcon": "co2",
     "title": "emissions",
@@ -48,13 +81,21 @@ Array [
         "unit": "kg",
         "value": 2,
       },
+      Object {
+        "additionalData": Object {
+          "operatingTimeInHours": undefined,
+        },
+        "calculationError": undefined,
+        "displayNewBadge": true,
+        "isLoading": false,
+        "title": "usage",
+        "titleTooltip": "usageTooltip",
+        "unit": "kg",
+        "value": undefined,
+        "valueLoadcaseName": "Workload",
+      },
     ],
   },
-]
-`;
-
-exports[`Calculation Result Selector isCalculationResultReportAvailable when all selected calculation result are available when all calculations are selected should return preview data for all calculation types 1`] = `
-Array [
   Object {
     "icon": "animation",
     "title": "ratingLife",
@@ -85,8 +126,8 @@ Array [
         "calculationWarning": "frictionalPowerlossUnavailable",
         "isLoading": false,
         "title": undefined,
-        "unit": "N mm",
-        "value": 3.4,
+        "unit": "W",
+        "value": undefined,
       },
     ],
   },
@@ -101,21 +142,6 @@ Array [
         "title": "lubricationSubtitle",
         "unit": undefined,
         "value": 0.29,
-      },
-    ],
-  },
-  Object {
-    "svgIcon": "co2",
-    "title": "emissions",
-    "titleTooltip": "emissionsTooltip",
-    "values": Array [
-      Object {
-        "calculationError": undefined,
-        "isLoading": false,
-        "title": "production",
-        "titleTooltip": "productionTooltip",
-        "unit": "kg",
-        "value": 2,
       },
     ],
   },

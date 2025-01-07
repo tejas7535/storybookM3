@@ -1,10 +1,10 @@
 import { createSelector } from '@ngrx/store';
 
 import {
-  BasicCalculationResultState,
   CalculationResultPreviewData,
   CalculationResultPreviewItem,
   OverrollingPreviewKeys,
+  ResultStateWithValue,
 } from '../../models';
 import { CalculationResultReportCalculationTypeSelection } from '../../models/calculation-result-report.model';
 import {
@@ -12,6 +12,7 @@ import {
   getSelectedLoadcaseId,
 } from '../calculation-parameters/calculation-parameters.selector';
 import { getCalculationTypes } from '../calculation-parameters/calculation-types.selector';
+import { isCo2DownstreamCalculationPossible } from '../product-selection/product-selection.selector';
 import {
   getOverrollingFrequencies,
   getSelectedCalculations,
@@ -25,15 +26,15 @@ import {
 } from './catalog-calculation-result.selector';
 import { getLubricationDataFromBehavior } from './catalog-result-helper';
 import {
+  getDownstreamCalculationStateResult,
+  getDownstreamErrors,
+  isDownstreamCalculationLoading,
+} from './co2-downstream-calculation-result.selector';
+import {
   getCalculationResult as co2UpstreamCalculationResult,
   getError as co2UpstreamError,
   isLoading as co2UpstreamIsLoading,
 } from './co2-upstream-calculation-result.selector';
-
-type ResultStateWithValue = BasicCalculationResultState & {
-  value?: number | string;
-  unit?: string;
-};
 
 export const co2Upstream = createSelector(
   co2UpstreamCalculationResult,
@@ -42,22 +43,6 @@ export const co2Upstream = createSelector(
   (result, isLoading, error): ResultStateWithValue => ({
     unit: result?.unit,
     value: result?.upstreamEmissionTotal,
-    calculationError: error,
-    isLoading,
-  })
-);
-
-export const friction = createSelector(
-  catalogCalculationResult,
-  catalogCalculationIsLoading,
-  catalogCalculationError,
-  getSelectedLoadcaseId,
-  (result, isLoading, error, selectedLoadcase): ResultStateWithValue => ({
-    value:
-      result?.loadcaseFriction?.[selectedLoadcase]?.totalFrictionalTorque
-        ?.value,
-    unit: result?.loadcaseFriction?.[selectedLoadcase]?.totalFrictionalTorque
-      ?.unit,
     calculationError: error,
     isLoading,
   })
@@ -124,27 +109,105 @@ export const lubricationParameter = createSelector(
   })
 );
 
+export const co2DownstreamEmissionValue = createSelector(
+  getDownstreamCalculationStateResult,
+  isDownstreamCalculationLoading,
+  getSelectedLoadcase,
+  getDownstreamErrors,
+  (result, isDownstreamLoading, loadcase, errors): ResultStateWithValue => {
+    const value =
+      result?.loadcaseEmissions?.[loadcase?.loadCaseName]?.co2Emissions;
+    const time =
+      result?.loadcaseEmissions?.[loadcase?.loadCaseName]?.operatingTimeInHours;
+    const operatingTimeInHours = time ? Math.round(time) : undefined;
+    const valueLoadcaseName = loadcase?.loadCaseName;
+
+    return {
+      isLoading: isDownstreamLoading,
+      calculationError: errors?.[0],
+      unit: 'kg',
+      value,
+      valueLoadcaseName,
+      additionalData: { operatingTimeInHours },
+    };
+  }
+);
+
+export const downstreamFrictionalPowerlossValue = createSelector(
+  getDownstreamCalculationStateResult,
+  isDownstreamCalculationLoading,
+  getSelectedLoadcase,
+  (result, isDownstreamLoading, loadcase): ResultStateWithValue => {
+    const value =
+      result?.loadcaseEmissions?.[loadcase?.loadCaseName]
+        ?.totalFrictionalPowerLoss;
+
+    return {
+      isLoading: isDownstreamLoading,
+      calculationError: undefined,
+      unit: 'W',
+      value,
+    };
+  }
+);
+
 export const getCalculationResultPreviewData = createSelector(
   getCalculationTypes,
   catalogCalculation,
   co2Upstream,
-  friction,
   overrollingFrequencies,
   lubricationParameter,
   getSelectedLoadcase,
   getCalculationResult,
+  co2DownstreamEmissionValue,
+  downstreamFrictionalPowerlossValue,
+  isCo2DownstreamCalculationPossible,
   (
     calculationTypes,
     catalogCalculationPreviewResult,
     co2UpstreamResult,
-    frictionResult,
     overrollingResult,
     lubricationParameterResult,
     loadcase,
-    result
+    result,
+    co2DownstreamEmission,
+    frictionalPowerloss,
+    co2DownstreamCalculationPossible
   ): CalculationResultPreviewData => {
     const previewData: CalculationResultPreviewData = [];
     const loadcaseName = loadcase?.loadCaseName;
+
+    if (calculationTypes.emission.selected) {
+      const values: CalculationResultPreviewItem['values'] =
+        co2DownstreamCalculationPossible
+          ? [
+              {
+                title: 'production',
+                titleTooltip: 'productionTooltip',
+                ...co2UpstreamResult,
+              },
+              {
+                title: 'usage',
+                titleTooltip: 'usageTooltip',
+                displayNewBadge: true,
+                ...co2DownstreamEmission,
+              },
+            ]
+          : [
+              {
+                title: 'production',
+                titleTooltip: 'productionTooltip',
+                ...co2UpstreamResult,
+              },
+            ];
+
+      previewData.push({
+        title: 'emissions',
+        titleTooltip: 'emissionsTooltip',
+        svgIcon: 'co2',
+        values,
+      });
+    }
 
     if (calculationTypes.ratingLife.selected) {
       previewData.push({
@@ -166,7 +229,8 @@ export const getCalculationResultPreviewData = createSelector(
             calculationWarning: calculationTypes.frictionalPowerloss.disabled
               ? 'frictionalPowerlossUnavailable'
               : undefined,
-            ...frictionResult,
+
+            ...frictionalPowerloss,
           },
         ],
         loadcaseName,
@@ -197,23 +261,6 @@ export const getCalculationResultPreviewData = createSelector(
           loadcaseName,
         });
       }
-    }
-
-    if (calculationTypes.emission.selected) {
-      const values: CalculationResultPreviewItem['values'] = [
-        {
-          title: 'production',
-          titleTooltip: 'productionTooltip',
-          ...co2UpstreamResult,
-        },
-      ];
-
-      previewData.push({
-        title: 'emissions',
-        titleTooltip: 'emissionsTooltip',
-        svgIcon: 'co2',
-        values,
-      });
     }
 
     if (calculationTypes.overrollingFrequency.selected) {

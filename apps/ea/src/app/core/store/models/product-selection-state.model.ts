@@ -19,6 +19,7 @@ export interface ProductSelectionState {
     catalogApi?: string;
     moduleInfoApi?: string;
   };
+  co2DownstreamAvailable?: boolean;
   loadcaseTemplate?: ProductSelectionTemplate[];
   operatingConditionsTemplate?: ProductSelectionTemplate[];
 }

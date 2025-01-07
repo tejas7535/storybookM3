@@ -29,6 +29,9 @@ export const DefaultDocumentColors = {
   darkGreenColor: '#00893D',
   secondaryTextColor: '#000000',
   tableBorderTextColor: '#C9C5C4',
+  mediumEmphasisTextColor: '#646464',
+  lowEmphasisTextColor: '#7D7D7D',
+  onErrorContainerColor: '#500800',
 } as const;
 
 export const DocumentFonts = {
@@ -92,6 +95,31 @@ export interface Notices {
   };
 }
 
+export interface Emissions {
+  upstreamEmission: ResultReportLargeItem[];
+  downstreamEmissions?: {
+    totalEmission: ResultReportLargeItem[];
+    loadcases: { items: ResultReportLargeItem[] }[];
+    commingSoonSection?: ComingSoonSection;
+    error?: DownstreamError;
+  };
+  chart: {
+    value?: string;
+    title: string;
+  };
+}
+
+export interface ComingSoonSection {
+  bearingTitle: string;
+  title: string;
+  description: string;
+}
+
+export interface DownstreamError {
+  title: string;
+  error: string;
+}
+
 export interface Spacing {
   left: number;
   right: number;
@@ -109,7 +137,7 @@ export interface ResultReport {
   designation: string;
   calculationMethods: string[];
   calculationInput: CalculationResultReportInput[];
-  upstreamEmissions?: ResultBlock<ResultReportLargeItem>;
+  emissions?: ResultBlock<Emissions>;
   frictionalPowerloss?: ResultBlock<any>;
   lubricationInfo?: ResultBlock<ResultReportLargeItem[]>;
   overrollingFrequency?: ResultBlock<ResultReportLargeItem[]>;

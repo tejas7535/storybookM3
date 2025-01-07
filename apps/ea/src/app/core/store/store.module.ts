@@ -10,6 +10,7 @@ import {
   CalculationParametersEffects,
   CatalogCalculationResultEffects,
   CO2UpstreamCalculationResultEffects,
+  DownstreamCalculationEffects,
 } from './effects';
 import { ProductSelectionEffects } from './effects/product-selection';
 import { StorageMessagesEffects } from './effects/storage-messages/storage-messages.effects';
@@ -31,6 +32,7 @@ import { metaReducers, reducers } from './reducers';
       CO2UpstreamCalculationResultEffects,
       CatalogCalculationResultEffects,
       StorageMessagesEffects,
+      DownstreamCalculationEffects,
     ]),
     environment.devToolsEnabled
       ? StoreDevtoolsModule.instrument({

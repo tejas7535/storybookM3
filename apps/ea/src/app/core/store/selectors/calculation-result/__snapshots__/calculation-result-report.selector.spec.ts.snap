@@ -2,12 +2,43 @@
 
 exports[`Calculation Result Selector emptry result getCO2EmissionReport should return the co2 emission report data 1`] = `
 Object {
+  "co2_downstream": Object {
+    "emission": 10.296,
+    "emissionPercentage": 67.31171548117155,
+    "loadcases": Array [
+      Object {
+        "emission": 2.848,
+        "emissionPercentage": 18.619246861924683,
+        "id": "Loadcase 1",
+        "operatingTimeInHours": 3506,
+        "unit": "kg",
+      },
+      Object {
+        "emission": 7.4478,
+        "emissionPercentage": 48.69116108786611,
+        "id": "Loadcase 2",
+        "operatingTimeInHours": 5260,
+        "unit": "kg",
+      },
+    ],
+  },
   "co2_upstream": 5,
+  "co2_upstreamEmissionPercentage": 32.68828451882845,
+  "totalEmission": 15.296,
 }
 `;
 
 exports[`Calculation Result Selector emptry result getCalculationWithResult should return the calculations with result 1`] = `
 Array [
+  Object {
+    "disabled": true,
+    "label": "calculationTypes.co2ForProduction",
+    "name": "emission",
+    "resultAvailable": true,
+    "selected": true,
+    "svgIcon": "co2",
+    "visible": true,
+  },
   Object {
     "disabled": false,
     "icon": "compress",
@@ -17,17 +48,10 @@ Array [
     "selected": true,
     "visible": true,
   },
-  Object {
-    "disabled": true,
-    "label": "calculationTypes.co2",
-    "name": "emission",
-    "resultAvailable": true,
-    "selected": true,
-    "svgIcon": "co2",
-    "visible": true,
-  },
 ]
 `;
+
+exports[`Calculation Result Selector emptry result getReportDownstreamErrors should return report downstream errors 1`] = `Array []`;
 
 exports[`Calculation Result Selector emptry result getReportErrors should return report errors 1`] = `
 Array [
@@ -59,6 +83,15 @@ Array [
 exports[`Calculation Result Selector emptry result getSelectedCalculations should return the selected calculations 1`] = `
 Array [
   Object {
+    "disabled": true,
+    "label": "calculationTypes.co2ForProduction",
+    "name": "emission",
+    "resultAvailable": true,
+    "selected": true,
+    "svgIcon": "co2",
+    "visible": true,
+  },
+  Object {
     "disabled": false,
     "icon": "compress",
     "label": "calculationTypes.frictionalPowerloss",
@@ -67,42 +100,61 @@ Array [
     "selected": true,
     "visible": true,
   },
-  Object {
-    "disabled": true,
-    "label": "calculationTypes.co2",
-    "name": "emission",
-    "resultAvailable": true,
-    "selected": true,
-    "svgIcon": "co2",
-    "visible": true,
-  },
+]
+`;
+
+exports[`Calculation Result Selector full result getAllErrors should return report errors 1`] = `
+Array [
+  "Calculation failed for some of the reason",
 ]
 `;
 
 exports[`Calculation Result Selector full result getCO2EmissionReport should return the co2 emission report data 1`] = `
 Object {
+  "co2_downstream": Object {
+    "emission": 10.296,
+    "emissionPercentage": 67.31171548117155,
+    "loadcases": Array [
+      Object {
+        "emission": 2.848,
+        "emissionPercentage": 18.619246861924683,
+        "id": "Loadcase 1",
+        "operatingTimeInHours": 3506,
+        "unit": "kg",
+      },
+      Object {
+        "emission": 7.4478,
+        "emissionPercentage": 48.69116108786611,
+        "id": "Loadcase 2",
+        "operatingTimeInHours": 5260,
+        "unit": "kg",
+      },
+    ],
+  },
   "co2_upstream": 5,
+  "co2_upstreamEmissionPercentage": 32.68828451882845,
+  "totalEmission": 15.296,
 }
 `;
 
 exports[`Calculation Result Selector full result getCalculationWithResult should return the calculations with result 1`] = `
 Array [
   Object {
+    "disabled": true,
+    "label": "calculationTypes.co2ForProduction",
+    "name": "emission",
+    "resultAvailable": true,
+    "selected": true,
+    "svgIcon": "co2",
+    "visible": true,
+  },
+  Object {
     "disabled": false,
     "icon": "compress",
     "label": "calculationTypes.frictionalPowerloss",
     "name": "frictionalPowerloss",
     "resultAvailable": true,
     "selected": true,
-    "visible": true,
-  },
-  Object {
-    "disabled": true,
-    "label": "calculationTypes.co2",
-    "name": "emission",
-    "resultAvailable": true,
-    "selected": true,
-    "svgIcon": "co2",
     "visible": true,
   },
 ]
@@ -114,124 +166,36 @@ Array [
     "loadcaseValues": Array [
       Object {
         "loadcaseName": "Loadcase 1",
-        "value": 3.4,
+        "value": 3,
       },
       Object {
         "loadcaseName": "Loadcase 2",
-        "value": 16.9,
-      },
-      Object {
-        "loadcaseName": "Loadcase 3",
-        "value": 16.9,
-      },
-      Object {
-        "loadcaseName": "Loadcase 4",
-        "value": 16.9,
-      },
-    ],
-    "short": "MR",
-    "title": "totalFrictionalTorque",
-    "unit": "N mm",
-    "warning": undefined,
-  },
-  Object {
-    "loadcaseValues": Array [
-      Object {
-        "loadcaseName": "Loadcase 1",
-        "value": 0,
-      },
-      Object {
-        "loadcaseName": "Loadcase 2",
-        "value": 0,
-      },
-      Object {
-        "loadcaseName": "Loadcase 3",
-        "value": 0,
-      },
-      Object {
-        "loadcaseName": "Loadcase 4",
-        "value": 0,
+        "value": 5,
       },
     ],
     "short": "NR",
     "title": "totalFrictionalPowerLoss",
-    "unit": "kW",
-    "warning": undefined,
+    "unit": "W",
   },
   Object {
     "loadcaseValues": Array [
       Object {
         "loadcaseName": "Loadcase 1",
-        "value": 2.8,
+        "value": 0.03,
       },
       Object {
         "loadcaseName": "Loadcase 2",
-        "value": 9,
-      },
-      Object {
-        "loadcaseName": "Loadcase 3",
-        "value": 9,
-      },
-      Object {
-        "loadcaseName": "Loadcase 4",
-        "value": 9,
+        "value": 0.041,
       },
     ],
-    "short": "M0",
-    "title": "speedDependentFrictionalTorque",
-    "unit": "N mm",
-    "warning": undefined,
-  },
-  Object {
-    "loadcaseValues": Array [
-      Object {
-        "loadcaseName": "Loadcase 1",
-        "value": 0.6,
-      },
-      Object {
-        "loadcaseName": "Loadcase 2",
-        "value": 7.9,
-      },
-      Object {
-        "loadcaseName": "Loadcase 3",
-        "value": 7.9,
-      },
-      Object {
-        "loadcaseName": "Loadcase 4",
-        "value": 7.9,
-      },
-    ],
-    "short": "M1",
-    "title": "loadDependentFrictionalTorque",
-    "unit": "N mm",
-    "warning": undefined,
-  },
-  Object {
-    "loadcaseValues": Array [
-      Object {
-        "loadcaseName": "Loadcase 1",
-        "value": 13000,
-      },
-      Object {
-        "loadcaseName": "Loadcase 2",
-        "value": 6000,
-      },
-      Object {
-        "loadcaseName": "Loadcase 3",
-        "value": 6000,
-      },
-      Object {
-        "loadcaseName": "Loadcase 4",
-        "value": 6000,
-      },
-    ],
-    "short": "n_theta",
-    "title": "thermallySafeOperatingSpeed",
-    "unit": "1/min",
-    "warning": undefined,
+    "short": "MR",
+    "title": "totalFrictionalTorque",
+    "unit": "N m",
   },
 ]
 `;
+
+exports[`Calculation Result Selector full result getFrictionalPowerlossReport should return null result if no value frictionalPowerloss 1`] = `null`;
 
 exports[`Calculation Result Selector full result getLubricationReport should return lubrication 1`] = `
 Array [
@@ -931,21 +895,21 @@ Array [
 exports[`Calculation Result Selector full result getSelectedCalculations should return the selected calculations 1`] = `
 Array [
   Object {
+    "disabled": true,
+    "label": "calculationTypes.co2ForProduction",
+    "name": "emission",
+    "resultAvailable": true,
+    "selected": true,
+    "svgIcon": "co2",
+    "visible": true,
+  },
+  Object {
     "disabled": false,
     "icon": "compress",
     "label": "calculationTypes.frictionalPowerloss",
     "name": "frictionalPowerloss",
     "resultAvailable": true,
     "selected": true,
-    "visible": true,
-  },
-  Object {
-    "disabled": true,
-    "label": "calculationTypes.co2",
-    "name": "emission",
-    "resultAvailable": true,
-    "selected": true,
-    "svgIcon": "co2",
     "visible": true,
   },
 ]

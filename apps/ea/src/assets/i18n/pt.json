@@ -61,10 +61,19 @@
     "prototypeWarning": "Os valores apresentados neste protótipo em desenvolvimento são hipotéticos e não devem ser utilizados na produção",
     "showPresetCalculationParameters": "Visualizar parâmetros de cálculo predefinidos",
     "addLoadCase": "Adicionar caso de carga",
+    "co2Downstream": {
+      "notPossibleTitle": "Em andamento para {{ selectedBearing }}",
+      "subTitle": "CO₂e causado pela fricção durante a operação",
+      "text": "Informações abrangentes com cálculos imediatos das emissões de CO2e dos nossos produtos rotativos em vários cenários de aplicação.",
+      "textAvailable": "A Schaeffler agora oferece informações abrangentes com cálculos imediatos das emissões de CO2e dos nossos produtos rotativos em vários cenários de aplicação.",
+      "title": "Novo"
+    },
     "loads": "Carga",
     "radialLoad": "Carga radial",
     "axialLoad": "Carga axial",
     "totalAmountOfTime": "Tempo total:",
+    "loadCaseTimePortionDescription": "Para cálculo de fricção / CO₂e:",
+    "loadCaseTimePortion": "{{ loadcasePercentage }}% de {{ totalTime }}h equivale a {{ loadcaseTime }}h",
     "loadCaseName": "Caso de carga {{number}}",
     "generalInputsTitle": "Entradas gerais",
     "generalInputsTitleTooltip": "Isto aplica-se a todos os casos de carga",
@@ -126,9 +135,9 @@
       "notAvailable": "Este tipo de lubrificação não se encontra disponível para o rolamento selecionado.",
       "options": {
         "grease": "Massa lubrificante",
-        "oilBath": "Lubrificação por banho de óleo",
-        "oilMist": "Lubrificação por névoa de óleo",
-        "recirculatingOil": "Lubrificação por recirculação de óleo"
+        "oilBath": "banho de óleo",
+        "oilMist": "névoa de óleo",
+        "recirculatingOil": "óleo de recirculação"
       },
       "grease": {
         "typeOfGrease": {
@@ -195,6 +204,54 @@
         "rotatingOuterring": "Anel exterior rotativo",
         "rotatingInnerring": "Anel interior rotativo"
       }
+    },
+    "time": {
+      "title": "Tempo de operação",
+      "operatingTime": {
+        "label": "Tempo total de operação",
+        "description": "8766 horas equivalem ao uso 24/7 durante um ano",
+        "unit": "h"
+      }
+    },
+    "energySource": {
+      "title": "Fonte de Energia",
+      "options": {
+        "electricity": "Energia Elétrica",
+        "fossil": "Energia Fóssil"
+      },
+      "fossilOrigin": "Origem Fóssil",
+      "electricityRegion": "Região de produção de eletricidade",
+      "electricityChipText": "Eletricidade em {{region}}",
+      "electricityRegionOption": {
+        "argentina": "Argentina",
+        "australia": "Austrália",
+        "brazil": "Brasil",
+        "canada": "Canadá",
+        "china": "China",
+        "europeanUnion": "União Europeia",
+        "france": "França",
+        "germany": "Alemanha",
+        "greatBritain": "Grã-Bretanha",
+        "india": "Índia",
+        "indonesia": "Indonésia",
+        "italy": "Itália",
+        "japan": "Japão",
+        "mexico": "México",
+        "russianFederation": "Federação Russa",
+        "southAfrica": "África do Sul",
+        "southKorea": "Coreia do Sul",
+        "turkey": "Turquia",
+        "usa": "EUA"
+      },
+      "fossilOriginOptions": {
+        "gasoline": "Gasolina",
+        "diesel": "Diesel",
+        "e10": "Gasolina E10",
+        "dieselB7": "Diesel B7",
+        "lpg": "GLP (Gás Liquefeito de Petróleo)",
+        "cng": "GNV (Gás Natural Comprimido)",
+        "cngBiomethane": "GNV com Biometano (Gás Natural Comprimido)"
+      }
     }
   },
   "calculation": {
@@ -215,14 +272,89 @@
     "overrollingFrequency": "Frequências de rolamento excessivo",
     "overrollingFrequencySubtitle": "Frequência no anel interior (BPFI)",
     "frictionalPowerloss": "Perda de potência por fricção",
-    "frictionalPowerlossSubtitle": "Binário de fricção total (MR)",
+    "frictionalPowerlossSubtitle": "Perda de potência por fricção total (W)",
     "frictionalPowerlossUnavailable": "Este cálculo não se encontra disponível para o rolamento selecionado.",
     "production": "Para produção",
-    "productionTooltip": "Trata-se da soma de todos os equivalentes de CO₂ emitidos para a produção do rolamento, incluindo os recursos e a energia necessários."
+    "productionTooltip": "Trata-se da soma de todos os equivalentes de CO₂ emitidos para a produção do rolamento, incluindo os recursos e a energia necessários.",
+    "usage": "Durante o uso",
+    "usageTooltip": "Emissões totais de CO2 causadas pela perda de energia.",
+    "downstreamErrors": {
+      "modelNotExisting": "Não há cálculo de CO2 disponível para este rolamento.",
+      "modelLubricationNotSupported": "Não há cálculo de CO2 disponível para este rolamento com este tipo de lubrificação.",
+      "sumOfTimePortionsBelow_100Percent": "A soma das porções operativas é inferior a 100%. Portanto, nenhum cálculo de atrito está disponível.",
+      "sumOfTimePortionsExceeds_100Percent": "A soma das porções operativas excede 100%. Portanto, nenhum cálculo de atrito está disponível.",
+      "invalidMovementType": "Em pelo menos um caso de carga, o tipo de movimento não é rotativo. Portanto, nenhum cálculo de atrito está disponível.",
+      "operatingTemperatureBelowLimit": "A temperatura de funcionamento é muito baixa. Portanto, nenhum cálculo de atrito está disponível.",
+      "operatingTemperatureExceedsLimit": "A temperatura de funcionamento é muito alta. Portanto, nenhum cálculo de atrito está disponível.",
+      "invalidViscosityDefinition": "A definição de viscosidade do lubrificante não é válida para o cálculo de atrito.",
+      "invalidLubricationMethod": "A definição do tipo de lubrificação não é válida para o cálculo de atrito.",
+      "invalidGreaseSelection": "A graxa selecionada não é válida para o cálculo de atrito. Portanto, nenhum cálculo de atrito está disponível.",
+      "invalidViscosityClass": "A classe de viscosidade especificada do lubrificante não é válida para o cálculo de atrito.",
+      "ny100ExceedsNy40": "A viscosidade do lubrificante a 100 °C é maior que a viscosidade a 40 °C. Por favor, verifique sua entrada.",
+      "ny40BelowLimit": "A viscosidade do lubrificante a 40 °C é muito baixa. Portanto, nenhum cálculo de atrito está disponível.",
+      "ny40ExceedsLimit": "A viscosidade do lubrificante a 40 °C é muito alta. Portanto, nenhum cálculo de atrito está disponível.",
+      "ny100BelowLimit": "A viscosidade do lubrificante a 100 °C é muito baixa. Portanto, nenhum cálculo de atrito está disponível.",
+      "ny100ExceedsLimit": "A viscosidade do lubrificante a 100 °C é muito alta. Portanto, nenhum cálculo de atrito está disponível.",
+      "speedBelowThreshold": "A velocidade está muito baixa. Portanto, nenhum cálculo de atrito está disponível.",
+      "speedExceedsLimitingSpeed": "A velocidade é maior que a velocidade limite. Portanto, nenhum cálculo de atrito está disponível.",
+      "p0BelowC0Min": "A carga estática equivalente P0 é inferior à carga mínima. Portanto, nenhum cálculo de atrito está disponível.",
+      "p0ExceedsC0": "A carga estática equivalente P0 é maior que a carga estática de classificação C0. Portanto, nenhum cálculo de atrito está disponível.",
+      "loadAngleBelowNominalContactAngle": "O ângulo de carga é menor que o ângulo de contato nominal. As forças axiais internas resultantes são, portanto, maiores do que as forças axiais externas atuantes. O suporte axial, portanto, não é mais garantido.",
+      "operatingViscosityBelowLimit": "A viscosidade de operação resultante do lubrificante e da temperatura de operação é muito baixa. Portanto, nenhum cálculo de atrito está disponível.",
+      "operatingViscosityExceedsLimit": "A viscosidade de operação resultante do lubrificante e da temperatura de operação é muito alta. Portanto, nenhum cálculo de atrito está disponível.",
+      "viscosityRatioBelowLimit": "A relação de viscosidade Kappa é muito grande. Portanto, nenhum cálculo de atrito está disponível.",
+      "viscosityRatioExceedsLimit": "A relação de viscosidade Kappa é muito pequena. Portanto, nenhum cálculo de atrito está disponível.",
+      "radialLoadBelowLimit": "A carga radial não pode ser negativa.",
+      "radialLoadNotSupported": "Este rolamento não é adequado para suportar cargas radiais.",
+      "axialLoadBelowLimit": "A carga axial não pode ser negativa.",
+      "axialLoadBelowMinimum": "A carga axial é menor do que a carga axial mínima exigida.",
+      "axialLoadExceedsLimit": "A carga axial excede a carga axial máxima.",
+      "axialLoadNotSupported": "Este rolamento não é adequado para suportar cargas axiais.",
+      "loadRatioTooSmall": "A relação entre carga axial e radial é muito pequena para este tipo de rolamento.",
+      "loadRatioTooLarge": "A relação entre carga axial e radial é muito grande para este tipo de rolamento.",
+      "referenceViscosityIsZero": "O valor da viscosidade de referência é 0. Portanto, nenhum cálculo de atrito está disponível.",
+      "meanDiameterIsZero": "O diâmetro do círculo de rotação é 0. Portanto, nenhum cálculo de atrito está disponível.",
+      "unsupportedEmissionFactor": "O fator de emissão não é suportado.",
+      "genericError": "Ocorreu um erro. O cálculo falhou."
+    }
   },
   "calculationResultReport": {
     "dialogTitle": "Relatório para o rolamento {{bearingDesignation}}",
     "reportSectionInput": "Entrada",
+    "downstreamInputs": {
+      "bearing": {
+        "bearingTitle": "Rolamento",
+        "designation": "Designação",
+        "dynamicLoadRating": "Capacidade de carga dinâmica básica",
+        "fatigueLoadLimit": "Limite de carga de fadiga",
+        "innerDiameter": "Diâmetro interno",
+        "limitingSpeedGrease": "Velocidade limite, graxa",
+        "limitingSpeedOil": "Velocidade limite, óleo",
+        "outerDiameter": "Diâmetro externo",
+        "staticLoadRating": "Capacidade de carga estática básica",
+        "width": "Largura"
+      },
+      "otherConditions": {
+        "conditionsTitle": "Outras condições",
+        "temperature": "Temperatura ambiente",
+        "lubricationMethod": "Tipo de lubrificação",
+        "greaseType": "Tipo de graxa",
+        "operatingTimeInHours": "Parte do tempo",
+        "svgClass": "Classe ISO VG",
+        "viscosity": "Insira a viscosidade",
+        "ny40": "Viscosidade a 40°C",
+        "ny100": "Viscosidade a 100°C"
+      },
+      "load": {
+        "loadTitle": "Carga",
+        "timePortion": "Porção de tempo",
+        "typeOfMotion": "Tipo de movimento",
+        "speed": "Velocidade",
+        "operatingTemperature": "Temperatura média de operação",
+        "axialLoad": "Carga axial",
+        "radialLoad": "Carga radial"
+      }
+    },
     "reportSectionWarnings": "Erros/alertas/notas",
     "calculationNotAvailable": {
       "line1": "Não é possível efetuar este cálculo para o rolamento selecionado.",
@@ -233,12 +365,26 @@
     "co2Emissions": {
       "title": "Estimativa de emissões de CO₂e por peça",
       "unit": "CO₂e",
-      "upstreamTitle": "Emissões de CO₂e para produção* (a montante)",
+      "upstreamTitle": "CO₂e emitido para produção* (Upstream)",
       "upstreamHint": "*Valor estimado com base em suposições durante a produção",
       "upstreamHintLinkText": "Mais informações.",
-      "calculationHint": "Pretende saber mais sobre o CO₂ na Schaeffler?",
+      "calculationHint": "Quer saber mais sobre CO₂ na Schaeffler?",
       "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
-      "calculationHintLinkText": "Clique aqui"
+      "calculationHintLinkText": "Clique aqui",
+      "co2EmissionChartTitle": "Valor total de CO₂e",
+      "downstreamTitle": "CO₂e causado por atrito durante a operação (fase de uso, parte do Downstream)",
+      "totalDownstreamButton": "Total",
+      "co2EmissionPercentageLabel": "Percentual do total de emissões de CO₂e",
+      "co2EmissionOperatingHours": "Horas de operação",
+      "downstreamHint": "Assim calculamos os valores:",
+      "downstreamHintLinkText": "Mais informações.",
+      "downstreamHintLink": "",
+      "chartDownstream": "Downstream",
+      "downstreamComingSoon": "Em breve para {{ bearingDesignation }}",
+      "downstreamComingSoonTitle": "CO₂e causado por atrito durante a operação",
+      "downstreamComingSoonText": "Informações abrangentes com cálculos imediatos das emissões de CO2e dos nossos produtos rotativos em vários cenários de aplicação.",
+      "chartDescription": "Emissão de CO₂e",
+      "chartUpstream": "Upstream"
     },
     "lubrication": {
       "title": "Parâmetros de lubrificação",
@@ -255,8 +401,8 @@
     },
     "frictionalPowerloss": {
       "title": "Perda de potência por fricção",
-      "totalFrictionalTorque": "Binário de fricção total",
-      "totalFrictionalPowerLoss": "Perda de potência por fricção total",
+      "totalFrictionalTorque": "Torque de fricção",
+      "totalFrictionalPowerLoss": "Perda de potência por fricção",
       "speedDependentFrictionalTorque": "Binário de fricção dependente da velocidade",
       "loadDependentFrictionalTorque": "Binário de fricção dependente da carga",
       "thermallySafeOperatingSpeed": "Velocidade de funcionamento termicamente segura"
@@ -307,7 +453,8 @@
       "ratingLife": "Tempo de vida útil nominal",
       "lubrication": "Parâmetro de lubrificação",
       "frictionalPowerloss": "Perda de potência por fricção",
-      "co2": "Emissões de CO₂e para produção",
+      "co2": "Emissões de CO₂e",
+      "co2ForProduction": "Emissões de CO₂e para produção",
       "overrollingFrequency": "Frequências de rolamento excessivo"
     },
     "basicFrequency": "Frequências básicas",

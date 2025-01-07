@@ -33,6 +33,15 @@ export const setCalculationModuleInfo = createAction(
   }>()
 );
 
+export const fetchCanCalculate = createAction(
+  '[Product Selection] Fetch Can Calculate'
+);
+
+export const setCanCalculate = createAction(
+  '[Product Selection] Set Can Calculate',
+  props<{ co2DownstreamAvailable: boolean }>()
+);
+
 export const searchBearing = createAction(
   '[Product Selection] Search Bearing',
   props<{ query: string }>()

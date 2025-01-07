@@ -2,16 +2,19 @@ import {
   APP_STATE_MOCK,
   CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK,
 } from '@ea/testing/mocks';
+import { DOWNSTREAM_STATE_MOCK } from '@ea/testing/mocks/store/downstream-calculation-state.mock';
 
 import { AppState } from '../../reducers';
 import {
   combineLoadcaseResultItemValuesByKey,
+  getAllErrors,
   getCalculationsWithResult,
   getCO2EmissionReport,
   getFrictionalalPowerlossReport,
   getLubricationReport,
   getOverrollingFrequencies,
   getRatingLifeResultReport,
+  getReportDownstreamErrors,
   getReportErrors,
   getReportNotes,
   getReportWarnings,
@@ -138,6 +141,12 @@ describe('Calculation Result Selector', () => {
       });
     });
 
+    describe('getReportDownstreamErrors', () => {
+      it('should return report downstream errors', () => {
+        expect(getReportDownstreamErrors(mockState)).toMatchSnapshot();
+      });
+    });
+
     describe('getReportWarnings', () => {
       it('should return report warnings', () => {
         expect(getReportWarnings(mockState)).toMatchSnapshot();
@@ -196,9 +205,18 @@ describe('Calculation Result Selector', () => {
         expect(
           getFrictionalalPowerlossReport({
             ...mockState,
-            catalogCalculationResult: {
-              ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK,
+            downstreamCalculationState: {
+              ...DOWNSTREAM_STATE_MOCK,
             },
+          })
+        ).toMatchSnapshot();
+      });
+
+      it('should return null result if no value frictionalPowerloss', () => {
+        expect(
+          getFrictionalalPowerlossReport({
+            ...mockState,
+            downstreamCalculationState: {},
           })
         ).toMatchSnapshot();
       });
@@ -260,6 +278,19 @@ describe('Calculation Result Selector', () => {
       it('should return report errors', () => {
         expect(
           getReportErrors({
+            ...mockState,
+            catalogCalculationResult: {
+              ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK,
+            },
+          })
+        ).toMatchSnapshot();
+      });
+    });
+
+    describe('getAllErrors', () => {
+      it('should return report errors', () => {
+        expect(
+          getAllErrors({
             ...mockState,
             catalogCalculationResult: {
               ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK,

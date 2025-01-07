@@ -1,10 +1,11 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { of } from 'rxjs';
 
 import { CalculationModuleInfoService } from '@ea/core/services/calculation-module-info.service';
 import { CatalogService } from '@ea/core/services/catalog.service';
 import { CO2UpstreamService } from '@ea/core/services/co2-upstream.service';
+import { DownstreamCalculationService } from '@ea/core/services/downstream-calculation.service';
 import {
   APP_STATE_MOCK,
   CALCULATION_PARAMETERS_STATE_MOCK,
@@ -43,6 +44,10 @@ const calculationModuleInfoServiceMock = {
   getCalculationInfo: jest.fn(),
 };
 
+const downstreamCalculationServiceMock = {
+  getCanCalculate: jest.fn(),
+};
+
 describe('Product Selection Effects', () => {
   let action: any;
   let actions$: any;
@@ -51,8 +56,8 @@ describe('Product Selection Effects', () => {
 
   const createService = createServiceFactory({
     service: ProductSelectionEffects,
-    imports: [HttpClientTestingModule],
     providers: [
+      provideHttpClientTesting(),
       provideMockActions(() => actions$),
       provideMockStore({
         initialState: {
@@ -76,7 +81,12 @@ describe('Product Selection Effects', () => {
         useValue: {
           bearingDesignation$: of('modelId-123'),
           bearingId$: of(undefined),
+          isCo2DownstreamCalculationPossible$: of(true),
         },
+      },
+      {
+        provide: DownstreamCalculationService,
+        useValue: downstreamCalculationServiceMock,
       },
     ],
   });
@@ -150,6 +160,34 @@ describe('Product Selection Effects', () => {
         });
 
         m.expect(effects.fetchLoadcaseTemplate$).toBeObservable(expected);
+        m.flush();
+
+        expect(serviceSpy).toHaveBeenCalled();
+      })();
+    });
+  });
+
+  describe('fetchCanCalculate$', () => {
+    beforeEach(() => {
+      downstreamCalculationServiceMock.getCanCalculate.mockReset();
+    });
+
+    it('should fetch can calculate and write it to store', () => {
+      const serviceSpy = jest
+        .spyOn(downstreamCalculationServiceMock, 'getCanCalculate')
+        .mockImplementation(() => of(true));
+
+      return marbles((m) => {
+        action = ProductSelectionActions.fetchCanCalculate();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', {
+          b: ProductSelectionActions.setCanCalculate({
+            co2DownstreamAvailable: true,
+          }),
+        });
+
+        m.expect(effects.fetchCanCalculate$).toBeObservable(expected);
         m.flush();
 
         expect(serviceSpy).toHaveBeenCalled();

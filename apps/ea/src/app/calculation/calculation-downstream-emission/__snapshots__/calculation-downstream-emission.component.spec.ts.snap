@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CalculationDownstreamEmissionComponent when setting up emission should set downstream emission 1`] = `
+Array [
+  Object {
+    "emission": 123,
+    "emissionPercentage": 50,
+    "id": "calculationResultReport.co2Emissions.totalDownstreamButton",
+    "operatingTimeInHours": 400,
+  },
+  Object {
+    "emission": 0.49,
+    "emissionPercentage": 7.89,
+    "id": "Loadcase 1",
+    "operatingTimeInHours": 150,
+    "unit": "kg",
+  },
+  Object {
+    "emission": 0.51,
+    "emissionPercentage": 8.01,
+    "id": "Loadcase 2",
+    "operatingTimeInHours": 250,
+    "unit": "kg",
+  },
+]
+`;
+
+exports[`CalculationDownstreamEmissionComponent when there is not emission should handle it gracefully 1`] = `
+Array [
+  Object {
+    "emission": 0,
+    "emissionPercentage": 0,
+    "id": "calculationResultReport.co2Emissions.totalDownstreamButton",
+    "operatingTimeInHours": undefined,
+  },
+]
+`;

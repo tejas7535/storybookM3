@@ -9,6 +9,7 @@ import {
   getTemplateItem,
   getTemplates,
   isBearingSupported,
+  isCo2DownstreamCalculationPossible,
 } from './product-selection.selector';
 
 describe('Product Selection Selector', () => {
@@ -100,6 +101,24 @@ describe('Product Selection Selector', () => {
         operatingConditionsTemplate:
           PRODUCT_SELECTION_STATE_MOCK.operatingConditionsTemplate,
       });
+    });
+  });
+
+  describe('isCo2DownstreamCalculationPossible', () => {
+    it('should return true if frictionCalculation in moduleInfo is true and model exists for designation', () => {
+      expect(
+        isCo2DownstreamCalculationPossible({
+          ...mockState,
+          productSelection: {
+            ...mockState.productSelection,
+            bearingDesignation: 'designation',
+            calculationModuleInfo: {
+              frictionCalculation: true,
+            },
+            co2DownstreamAvailable: true,
+          },
+        })
+      ).toEqual(true);
     });
   });
 

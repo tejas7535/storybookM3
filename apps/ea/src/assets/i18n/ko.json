@@ -61,16 +61,25 @@
     "prototypeWarning": "이 개발 프로토타입에 표시된 값은 가상의 값이므로 생산에 사용해서는 안 됩니다.",
     "showPresetCalculationParameters": "사전 설정 계산 매개 변수 표시",
     "addLoadCase": "하중 케이스 추가",
+    "co2Downstream": {
+      "notPossibleTitle": "{{ selectedBearing }}을(를) 위해 작업 중",
+      "subTitle": "작동 중 마찰로 인한 CO₂e",
+      "text": "포괄적인 정보와 다양한 적용 시나리오에서 우리의 회전 제품의 CO2e 배출량에 대한 즉각적인 계산이 제공됩니다.",
+      "textAvailable": "Schaeffler는 이제 다양한 적용 시나리오에서 우리의 회전 제품의 CO2e 배출에 대한 즉각적인 계산이 포함된 포괄적인 정보를 제공합니다.",
+      "title": "새로운"
+    },
     "loads": "하중",
     "radialLoad": "경방향 하중",
     "axialLoad": "축방향 하중",
     "totalAmountOfTime": "총 시간:",
+    "loadCaseTimePortionDescription": "마찰 / CO₂e 계산을 위해:",
+    "loadCaseTimePortion": "{{ loadcasePercentage }}% 의 {{ totalTime }}시간은 {{ loadcaseTime }}시간에 해당합니다",
     "loadCaseName": "하중 케이스 {{number}}",
     "generalInputsTitle": "일반 입력",
     "generalInputsTitleTooltip": "이는 모든 하중 케이스에 적용됩니다.",
     "emptyState": "사용 가능한 계산 목록에서 수행할 계산을 선택하십시오.",
     "operatingTime": {
-      "title": "작동 시간",
+      "title": "시간 부분",
       "label": "백분율"
     },
     "presetParameters": {
@@ -126,9 +135,9 @@
       "notAvailable": "선택한 베어링에는 이 유형의 윤활을 사용할 수 없습니다.",
       "options": {
         "grease": "그리스",
-        "oilBath": "오일 배스 윤활",
-        "oilMist": "오일 미스트 윤활",
-        "recirculatingOil": "재순환 오일 윤활"
+        "oilBath": "오일 배스",
+        "oilMist": "오일 미스트",
+        "recirculatingOil": "순환유"
       },
       "grease": {
         "typeOfGrease": {
@@ -195,6 +204,54 @@
         "rotatingOuterring": "회전 외륜",
         "rotatingInnerring": "회전 내륜"
       }
+    },
+    "time": {
+      "title": "운영 시간",
+      "operatingTime": {
+        "label": "총 운영 시간",
+        "description": "8766시간은 1년 동안 24/7 사용과 같습니다",
+        "unit": "h"
+      }
+    },
+    "energySource": {
+      "title": "에너지 소스",
+      "options": {
+        "electricity": "전기 에너지",
+        "fossil": "화석 에너지"
+      },
+      "fossilOrigin": "화석 기원",
+      "electricityRegion": "전기 생산 지역",
+      "electricityChipText": "{{region}}의 전기",
+      "electricityRegionOption": {
+        "argentina": "아르헨티나",
+        "australia": "호주",
+        "brazil": "브라질",
+        "canada": "캐나다",
+        "china": "중국",
+        "europeanUnion": "유럽 연합",
+        "france": "프랑스",
+        "germany": "독일",
+        "greatBritain": "영국",
+        "india": "인도",
+        "indonesia": "인도네시아",
+        "italy": "이탈리아",
+        "japan": "일본",
+        "mexico": "멕시코",
+        "russianFederation": "러시아 연방",
+        "southAfrica": "남아프리카",
+        "southKorea": "대한민국",
+        "turkey": "터키",
+        "usa": "미국"
+      },
+      "fossilOriginOptions": {
+        "gasoline": "가솔린",
+        "diesel": "디젤",
+        "e10": "가솔린 E10",
+        "dieselB7": "디젤 B7",
+        "lpg": "LPG (액화석유가스)",
+        "cng": "CNG (압축천연가스)",
+        "cngBiomethane": "바이오메탄을 포함한 CNG (압축천연가스)"
+      }
     }
   },
   "calculation": {
@@ -215,14 +272,89 @@
     "overrollingFrequency": "오버롤링 주파수",
     "overrollingFrequencySubtitle": "내륜의 주파수(BPFI)",
     "frictionalPowerloss": "마찰 전력 손실",
-    "frictionalPowerlossSubtitle": "총 마찰 토크(MR)",
+    "frictionalPowerlossSubtitle": "총 마찰 전력 손실 (W)",
     "frictionalPowerlossUnavailable": "선택한 베어링의 경우 이 계산을 사용할 수 없습니다.",
     "production": "생산용",
-    "productionTooltip": "이는 필요한 자원과 에너지를 포함하여 롤링 베어링 생산을 위해 배출되는 모든 CO₂ 당량의 합계입니다."
+    "productionTooltip": "이는 필요한 자원과 에너지를 포함하여 롤링 베어링 생산을 위해 배출되는 모든 CO₂ 당량의 합계입니다.",
+    "usage": "사용 중",
+    "usageTooltip": "전력 손실로 인한 전체 CO2 배출량.",
+    "downstreamErrors": {
+      "modelNotExisting": "이 베어링에 대한 CO2 계산이 제공되지 않습니다.",
+      "modelLubricationNotSupported": "이 윤활 유형을 가진 베어링에 대한 CO2 계산이 제공되지 않습니다.",
+      "sumOfTimePortionsBelow_100Percent": "운전 비율의 합계가 100%보다 작습니다. 따라서 마찰 계산이 제공되지 않습니다.",
+      "sumOfTimePortionsExceeds_100Percent": "운전 비율의 합계가 100%를 초과합니다. 따라서 마찰 계산이 제공되지 않습니다.",
+      "invalidMovementType": "최소한 하나의 하중 케이스에서 운동 타입이 회전하지 않습니다. 따라서 마찰 계산이 제공되지 않습니다.",
+      "operatingTemperatureBelowLimit": "운전 온도가 너무 낮습니다. 따라서 마찰 계산이 제공되지 않습니다.",
+      "operatingTemperatureExceedsLimit": "운전 온도가 너무 높습니다. 따라서 마찰 계산이 제공되지 않습니다.",
+      "invalidViscosityDefinition": "윤활유의 점도 정의가 마찰 계산에 대해 유효하지 않습니다.",
+      "invalidLubricationMethod": "윤활 유형 정의가 마찰 계산에 대해 유효하지 않습니다.",
+      "invalidGreaseSelection": "선택한 그리스가 마찰 계산에 대해 유효하지 않습니다. 따라서 마찰 계산이 제공되지 않습니다.",
+      "invalidViscosityClass": "지정된 윤활유의 점도 등급이 마찰 계산에 대해 유효하지 않습니다.",
+      "ny100ExceedsNy40": "100℃에서의 윤활유 점도가 40℃에서의 점도보다 큽니다. 입력을 확인하세요.",
+      "ny40BelowLimit": "40℃에서의 윤활유 점도가 너무 낮습니다. 따라서 마찰 계산이 제공되지 않습니다.",
+      "ny40ExceedsLimit": "40℃에서의 윤활유 점도가 너무 높습니다. 따라서 마찰 계산이 제공되지 않습니다.",
+      "ny100BelowLimit": "100℃에서의 윤활유 점도가 너무 낮습니다. 따라서 마찰 계산이 제공되지 않습니다.",
+      "ny100ExceedsLimit": "100℃에서의 윤활유 점도가 너무 높습니다. 따라서 마찰 계산이 제공되지 않습니다.",
+      "speedBelowThreshold": "회전 속도가 너무 낮습니다. 따라서 마찰 계산이 제공되지 않습니다.",
+      "speedExceedsLimitingSpeed": "회전 속도가 제한 속도를 초과합니다. 따라서 마찰 계산이 제공되지 않습니다.",
+      "p0BelowC0Min": "동등한 정적 베어링 하중 P0가 최소 하중보다 낮습니다. 따라서 마찰 계산이 제공되지 않습니다.",
+      "p0ExceedsC0": "동등한 정적 베어링 하중 P0가 정적 하중 정격 C0를 초과합니다. 따라서 마찰 계산이 제공되지 않습니다.",
+      "loadAngleBelowNominalContactAngle": "하중 각도가 명목 접촉 각도보다 작습니다. 따라서 내부 축 방향 힘이 작용하중 외부 축 방향 힘보다 큽니다. 따라서 축 방향 지지가 더 이상 보장되지 않습니다.",
+      "operatingViscosityBelowLimit": "윤활유 및 작동 온도에서 발생하는 작동 점도가 너무 낮습니다. 따라서 마찰 계산이 제공되지 않습니다.",
+      "operatingViscosityExceedsLimit": "윤활유 및 작동 온도에서 발생하는 작동 점도가 너무 높습니다. 따라서 마찰 계산이 제공되지 않습니다.",
+      "viscosityRatioBelowLimit": "점도 비율 카파가 너무 큽니다. 따라서 마찰 계산이 제공되지 않습니다.",
+      "viscosityRatioExceedsLimit": "점도 비율 카파가 너무 작습니다. 따라서 마찰 계산이 제공되지 않습니다.",
+      "radialLoadBelowLimit": "방사 하중은 음수일 수 없습니다.",
+      "radialLoadNotSupported": "이 베어링은 방사 하중을 지탱할 수 없습니다.",
+      "axialLoadBelowLimit": "축 하중은 음수일 수 없습니다.",
+      "axialLoadBelowMinimum": "축 하중이 필요한 최소 축 하중보다 작습니다.",
+      "axialLoadExceedsLimit": "축 하중이 최대 축 하중을 초과합니다.",
+      "axialLoadNotSupported": "이 베어링은 축 하중을 지탱할 수 없습니다.",
+      "loadRatioTooSmall": "축 하중과 방사 하중의 비율이 이 베어링 타입에는 너무 작습니다.",
+      "loadRatioTooLarge": "축 하중과 방사 하중의 비율이 이 베어링 타입에는 너무 큽니다.",
+      "referenceViscosityIsZero": "참조 점도의 값이 0입니다. 따라서 마찰 계산이 제공되지 않습니다.",
+      "meanDiameterIsZero": "구름 원의 직경이 0입니다. 따라서 마찰 계산이 제공되지 않습니다.",
+      "unsupportedEmissionFactor": "배출 계수가 지원되지 않습니다.",
+      "genericError": "오류가 발생했습니다. 계산이 실패했습니다."
+    }
   },
   "calculationResultReport": {
     "dialogTitle": "베어링 {{bearingDesignation}} 보고서",
     "reportSectionInput": "입력",
+    "downstreamInputs": {
+      "bearing": {
+        "bearingTitle": "베어링",
+        "designation": "지정",
+        "dynamicLoadRating": "기본 동적 하중 정격",
+        "fatigueLoadLimit": "피로 한계 하중",
+        "innerDiameter": "내경",
+        "limitingSpeedGrease": "제한 속도, 그리스",
+        "limitingSpeedOil": "제한 속도, 오일",
+        "outerDiameter": "외경",
+        "staticLoadRating": "기본 정적 하중 정격",
+        "width": "폭"
+      },
+      "otherConditions": {
+        "conditionsTitle": "기타 조건",
+        "temperature": "주위 온도",
+        "lubricationMethod": "윤활 유형",
+        "greaseType": "그리스 유형",
+        "operatingTimeInHours": "작동 시간(시간)",
+        "svgClass": "ISO VG 등급",
+        "viscosity": "점도 입력",
+        "ny40": "40°C에서의 점도",
+        "ny100": "100°C에서의 점도"
+      },
+      "load": {
+        "loadTitle": "하중",
+        "timePortion": "시간 비율",
+        "typeOfMotion": "운동 유형",
+        "speed": "속도",
+        "operatingTemperature": "평균 작동 온도",
+        "axialLoad": "축 방향 하중",
+        "radialLoad": "방사형 하중"
+      }
+    },
     "reportSectionWarnings": "오류/경고/메모",
     "calculationNotAvailable": {
       "line1": "선택한 베어링의 경우 이 계산이 불가능합니다.",
@@ -231,14 +363,28 @@
       "link": "https://medias.schaeffler.de/en/stc"
     },
     "co2Emissions": {
-      "title": "개당 CO₂e 배출량 추정",
+      "title": "조각당 CO₂e 배출량 추정",
       "unit": "CO₂e",
-      "upstreamTitle": "생산을 위해 배출되는 CO₂e*(업스트림)",
-      "upstreamHint": "*생산 중 가정에 근거한 추정치",
-      "upstreamHintLinkText": "추가 정보.",
-      "calculationHint": "Schaeffler의 CO₂에 대해 자세히 알아보시겠습니까?",
+      "upstreamTitle": "생산 중 배출되는 CO₂e* (상류)",
+      "upstreamHint": "*생산 중 가정에 근거한 추정값",
+      "upstreamHintLinkText": "더 많은 정보.",
+      "calculationHint": "Schaeffler의 CO₂에 대해 더 알고 싶으신가요?",
       "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
-      "calculationHintLinkText": "여기를 클릭"
+      "calculationHintLinkText": "여기를 클릭하세요",
+      "co2EmissionChartTitle": "CO₂e의 총 가치",
+      "downstreamTitle": "운영 중 마찰로 인한 CO₂e (사용 단계, 하류의 일부)",
+      "totalDownstreamButton": "전체",
+      "co2EmissionPercentageLabel": "전체 CO₂e 배출량 중 비율",
+      "co2EmissionOperatingHours": "운영 시간",
+      "downstreamHint": "이 값들을 계산한 방법은 다음과 같습니다:",
+      "downstreamHintLinkText": "더 많은 정보.",
+      "downstreamHintLink": "",
+      "chartDownstream": "하류",
+      "downstreamComingSoon": "{{ bearingDesignation }}을(를) 위한 곧 공개됩니다",
+      "downstreamComingSoonTitle": "운영 중 마찰로 인한 CO₂e",
+      "downstreamComingSoonText": "포괄적인 정보와 다양한 적용 시나리오에서 우리의 회전 제품의 CO2e 배출량에 대한 즉각적인 계산이 제공됩니다.",
+      "chartDescription": "CO₂e 배출량",
+      "chartUpstream": "상류"
     },
     "lubrication": {
       "title": "윤활 매개 변수",
@@ -255,8 +401,8 @@
     },
     "frictionalPowerloss": {
       "title": "마찰 전력 손실",
-      "totalFrictionalTorque": "총 마찰 토크",
-      "totalFrictionalPowerLoss": "총 마찰 전력 손실",
+      "totalFrictionalTorque": "마찰 토크",
+      "totalFrictionalPowerLoss": "마찰 전력 손실",
       "speedDependentFrictionalTorque": "속도에 따른 마찰 토크",
       "loadDependentFrictionalTorque": "하중에 따른 마찰 토크",
       "thermallySafeOperatingSpeed": "열 안전 작동 속도"
@@ -307,7 +453,8 @@
       "ratingLife": "정격 수명",
       "lubrication": "윤활 매개 변수",
       "frictionalPowerloss": "마찰 전력 손실",
-      "co2": "생산을 위한 CO₂e 배출량",
+      "co2": "CO₂e 배출량",
+      "co2ForProduction": "생산을 위한 CO₂e 배출량",
       "overrollingFrequency": "오버롤링 주파수"
     },
     "basicFrequency": "기본 주파수",

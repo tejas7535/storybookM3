@@ -15,11 +15,12 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
-import { MockModule } from 'ng-mocks';
+import { MockComponent, MockModule } from 'ng-mocks';
 
 import { sharedTranslocoLocaleConfig } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { CalculationResultReportEmissionComponent } from '../calculation-result-report-emission/calculation-result-report-emission.component';
 import { CalculationResultReportSelectionComponent } from '../calculation-result-report-selection/calculation-result-report-selection.component';
 import { CalculationResultReportComponent } from './calculation-result-report.component';
 
@@ -37,6 +38,7 @@ describe('CalculationResultReportComponent', () => {
       MatIconTestingModule,
       MockModule(DialogModule),
       provideTranslocoTestingModule({ en: {} }),
+      MockComponent(CalculationResultReportEmissionComponent),
     ],
     providers: [
       provideMockStore({

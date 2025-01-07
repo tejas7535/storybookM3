@@ -33,19 +33,49 @@ export class CalculationResultPreviewErrorsComponent {
   @Output() public expandedChange = new EventEmitter<boolean>();
 
   public inlineErrors = '';
+  public inlineDownstreamErrors = '';
   public catalogCalculationData: CalculationResultPreviewItem[] = [];
+  public downstreamCalculationData: CalculationResultPreviewItem[] = [];
+  public affectedItems: CalculationResultPreviewItem[] = [];
+
   @Input() set errors(errors: string[]) {
     this.inlineErrors = '';
-    if (errors.length > 0) {
+    if (errors?.length > 0) {
       this.inlineErrors = errors.join(' ');
+    }
+  }
+  @Input() set downstreamErrors(errors: string[]) {
+    this.inlineDownstreamErrors = '';
+    if (errors.length > 0) {
+      this.inlineDownstreamErrors = errors.join(' ');
     }
   }
 
   @Input()
   set overlayData(data: CalculationResultPreviewItem[]) {
+    const downstreamItems = new Set(['emissions', 'frictionalPowerloss']);
     this.catalogCalculationData = data.filter(
-      (item) => !item.title.includes('emissions')
+      (item) => !downstreamItems.has(item.title)
     );
+    this.downstreamCalculationData = data.filter((item) =>
+      downstreamItems.has(item.title)
+    );
+  }
+
+  public getAffectedItems(): CalculationResultPreviewItem[] {
+    const items: CalculationResultPreviewItem[] = [];
+    if (this.inlineErrors) {
+      items.push(...this.catalogCalculationData);
+    }
+    if (this.inlineDownstreamErrors) {
+      items.push(...this.downstreamCalculationData);
+    }
+
+    return items;
+  }
+
+  public getCombinedInlineErrors(): string {
+    return [this.inlineErrors, this.inlineDownstreamErrors].join(' ');
   }
 
   toggleErrors() {

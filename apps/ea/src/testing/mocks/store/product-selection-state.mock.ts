@@ -21,6 +21,7 @@ export const PRODUCT_SELECTION_STATE_MOCK: ProductSelectionState = {
     catalogueCalculation: true,
     frictionCalculation: false,
   },
+  co2DownstreamAvailable: true,
   loadcaseTemplate: [{ ...TEMPLATE_ITEM }],
   operatingConditionsTemplate: [{ ...TEMPLATE_ITEM }],
 };

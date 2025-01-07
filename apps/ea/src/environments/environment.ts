@@ -15,6 +15,7 @@ export const environment: Environment = {
   groupId: '111ab140-8e82-4ac4-a424-81edf0167301',
   assetsPath: '/assets',
   oneTrustId: '7046149d-287b-4943-823f-02838a51a445-test',
+  downstreamCo2ApiUrl: 'https://bearinx-d.schaeffler.com/co2/api/v2/',
   oneTrustMobileStorageLocation: 'cdn.cookielaw.org',
   oneTrustAndroidId: '01922318-86c1-787f-93f9-87b5102311d9-test',
   oneTrustiOSId: '0192231a-96ab-779d-9f23-ab558c7ff673-test',

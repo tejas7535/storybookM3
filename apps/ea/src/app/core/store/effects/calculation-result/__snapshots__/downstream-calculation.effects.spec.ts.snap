@@ -1,0 +1,254 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DownstreamCalculationEffects fetchDownstreamCalculation when grease lubrication type is selected should fetch the downstream calculation 1`] = `
+Array [
+  Array [
+    "bearing-123",
+    Object {
+      "loadcases": Array [],
+      "operatingConditions": Object {
+        "electricEmissionFactor": undefined,
+        "emissionFactor": "LB_FOSSIL_ENERGY",
+        "externalHeatFlow": undefined,
+        "fossilEmissionFactor": "LB_DIESEL_FOSSIL",
+        "greaseType": "LB_FAG_MULTI_2",
+        "isoVgClass": undefined,
+        "isoVgClassCalculated": undefined,
+        "lubricationMethod": "LB_GREASE_LUBRICATION",
+        "ny100": undefined,
+        "ny40": undefined,
+        "oilFlow": undefined,
+        "oilTemperatureRise": undefined,
+        "operatingTimeInHours": 786,
+        "temperature": 50,
+        "viscosityDefinition": "LB_ARCANOL_GREASE",
+      },
+    },
+  ],
+]
+`;
+
+exports[`DownstreamCalculationEffects fetchDownstreamCalculation when multiple loadcases are provided should fetch the downstream calculation 1`] = `
+Array [
+  Array [
+    "bearing-123",
+    Object {
+      "loadcases": Array [
+        Object {
+          "axialLoad": 20,
+          "designation": "",
+          "movementType": "LB_ROTATING",
+          "operatingTemperature": 70,
+          "radialLoad": 30,
+          "speed": 0,
+          "timePortion": 40,
+        },
+        Object {
+          "axialLoad": 0,
+          "designation": "",
+          "movementType": "LB_ROTATING",
+          "operatingTemperature": 70,
+          "radialLoad": 0,
+          "speed": 0,
+          "timePortion": 40,
+        },
+      ],
+      "operatingConditions": Object {
+        "electricEmissionFactor": undefined,
+        "emissionFactor": "LB_FOSSIL_ENERGY",
+        "externalHeatFlow": undefined,
+        "fossilEmissionFactor": "LB_DIESEL_FOSSIL",
+        "greaseType": undefined,
+        "isoVgClass": "LB_ISO_VG_10",
+        "isoVgClassCalculated": undefined,
+        "lubricationMethod": "LB_GREASE_LUBRICATION",
+        "ny100": undefined,
+        "ny40": undefined,
+        "oilFlow": undefined,
+        "oilTemperatureRise": undefined,
+        "operatingTimeInHours": 786,
+        "temperature": 50,
+        "viscosityDefinition": "LB_ISO_VG_CLASS",
+      },
+    },
+  ],
+]
+`;
+
+exports[`DownstreamCalculationEffects fetchDownstreamCalculation when oilBath lubrication type is selected should fetch the downstream calculation 1`] = `
+Array [
+  Array [
+    "bearing-123",
+    Object {
+      "loadcases": Array [],
+      "operatingConditions": Object {
+        "electricEmissionFactor": undefined,
+        "emissionFactor": "LB_FOSSIL_ENERGY",
+        "externalHeatFlow": undefined,
+        "fossilEmissionFactor": "LB_DIESEL_FOSSIL",
+        "greaseType": undefined,
+        "isoVgClass": undefined,
+        "isoVgClassCalculated": undefined,
+        "lubricationMethod": "LB_OIL_BATH_LUBRICATION",
+        "ny100": undefined,
+        "ny40": undefined,
+        "oilFlow": undefined,
+        "oilTemperatureRise": undefined,
+        "operatingTimeInHours": 786,
+        "temperature": 50,
+        "viscosityDefinition": undefined,
+      },
+    },
+  ],
+]
+`;
+
+exports[`DownstreamCalculationEffects fetchDownstreamCalculation when oilMist lubrication type is selected should fetch the downstream calculation 1`] = `
+Array [
+  Array [
+    "bearing-123",
+    Object {
+      "loadcases": Array [],
+      "operatingConditions": Object {
+        "electricEmissionFactor": undefined,
+        "emissionFactor": "LB_FOSSIL_ENERGY",
+        "externalHeatFlow": undefined,
+        "fossilEmissionFactor": "LB_DIESEL_FOSSIL",
+        "greaseType": undefined,
+        "isoVgClass": undefined,
+        "isoVgClassCalculated": undefined,
+        "lubricationMethod": "LB_OIL_MIST_LUBRICATION",
+        "ny100": undefined,
+        "ny40": undefined,
+        "oilFlow": undefined,
+        "oilTemperatureRise": undefined,
+        "operatingTimeInHours": 786,
+        "temperature": 50,
+        "viscosityDefinition": undefined,
+      },
+    },
+  ],
+]
+`;
+
+exports[`DownstreamCalculationEffects fetchDownstreamCalculation when recirculatingOil lubrication type is selected should fetch the downstream calculation 1`] = `
+Array [
+  Array [
+    "bearing-123",
+    Object {
+      "loadcases": Array [],
+      "operatingConditions": Object {
+        "electricEmissionFactor": undefined,
+        "emissionFactor": "LB_FOSSIL_ENERGY",
+        "externalHeatFlow": 45,
+        "fossilEmissionFactor": "LB_DIESEL_FOSSIL",
+        "greaseType": undefined,
+        "isoVgClass": undefined,
+        "isoVgClassCalculated": undefined,
+        "lubricationMethod": "LB_RECIRCULATING_OIL_LUBRICATION",
+        "ny100": undefined,
+        "ny40": undefined,
+        "oilFlow": 20,
+        "oilTemperatureRise": 50,
+        "operatingTimeInHours": 786,
+        "temperature": 50,
+        "viscosityDefinition": "LB_ENTER_VISCOSITIES",
+      },
+    },
+  ],
+]
+`;
+
+exports[`DownstreamCalculationEffects fetchDownstreamCalculation when recirculatingOil lubrication type with isoVGClas and electic sources is selected should fetch the downstream calculation 1`] = `
+Array [
+  Array [
+    "bearing-123",
+    Object {
+      "loadcases": Array [],
+      "operatingConditions": Object {
+        "electricEmissionFactor": "LB_ARGENTINA",
+        "emissionFactor": "LB_ELECTRIC_ENERGY",
+        "externalHeatFlow": 15,
+        "fossilEmissionFactor": undefined,
+        "greaseType": undefined,
+        "isoVgClass": "LB_ISO_VG_50",
+        "isoVgClassCalculated": undefined,
+        "lubricationMethod": "LB_RECIRCULATING_OIL_LUBRICATION",
+        "ny100": undefined,
+        "ny40": undefined,
+        "oilFlow": 20,
+        "oilTemperatureRise": 30,
+        "operatingTimeInHours": 786,
+        "temperature": 50,
+        "viscosityDefinition": "LB_ISO_VG_CLASS",
+      },
+    },
+  ],
+]
+`;
+
+exports[`DownstreamCalculationEffects fetchDownstreamCalculation when single loadcase is provided should fetch the downstream calculation 1`] = `
+Array [
+  Array [
+    "bearing-123",
+    Object {
+      "loadcases": Array [
+        Object {
+          "axialLoad": 20,
+          "designation": "",
+          "movementType": "LB_ROTATING",
+          "operatingTemperature": 70,
+          "radialLoad": 30,
+          "speed": 0,
+          "timePortion": 100,
+        },
+      ],
+      "operatingConditions": Object {
+        "electricEmissionFactor": undefined,
+        "emissionFactor": "LB_FOSSIL_ENERGY",
+        "externalHeatFlow": undefined,
+        "fossilEmissionFactor": "LB_DIESEL_FOSSIL",
+        "greaseType": "LB_FAG_MULTI_2",
+        "isoVgClass": undefined,
+        "isoVgClassCalculated": undefined,
+        "lubricationMethod": "LB_GREASE_LUBRICATION",
+        "ny100": undefined,
+        "ny40": undefined,
+        "oilFlow": undefined,
+        "oilTemperatureRise": undefined,
+        "operatingTimeInHours": 786,
+        "temperature": 50,
+        "viscosityDefinition": "LB_ARCANOL_GREASE",
+      },
+    },
+  ],
+]
+`;
+
+exports[`DownstreamCalculationEffects fetchDownstreamCalculation when type is undefined should handle gracefully 1`] = `
+Array [
+  Array [
+    "bearing-123",
+    Object {
+      "loadcases": Array [],
+      "operatingConditions": Object {
+        "electricEmissionFactor": undefined,
+        "emissionFactor": "LB_FOSSIL_ENERGY",
+        "externalHeatFlow": undefined,
+        "fossilEmissionFactor": "LB_DIESEL_FOSSIL",
+        "greaseType": undefined,
+        "isoVgClass": undefined,
+        "isoVgClassCalculated": undefined,
+        "lubricationMethod": undefined,
+        "ny100": undefined,
+        "ny40": undefined,
+        "oilFlow": undefined,
+        "oilTemperatureRise": undefined,
+        "operatingTimeInHours": 786,
+        "temperature": 50,
+        "viscosityDefinition": undefined,
+      },
+    },
+  ],
+]
+`;

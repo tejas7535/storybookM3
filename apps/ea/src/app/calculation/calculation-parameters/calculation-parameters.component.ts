@@ -20,6 +20,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -47,6 +48,14 @@ import {
 
 import { AppRoutePath } from '@ea/app-route-path.enum';
 import { LocalStorageService } from '@ea/core/local-storage';
+import { getAssetsPath } from '@ea/core/services/assets-path-resolver/assets-path-resolver.helper';
+import {
+  CalculationChip,
+  CalculationParametersChipsService,
+  ElectricityRegionOption,
+  FossilOriginOption,
+  SelectOption,
+} from '@ea/core/services/calculation-parameters';
 import { CalculationParametersFormHelperService } from '@ea/core/services/calculation-parameters-form-helper.service';
 import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
 import {
@@ -56,11 +65,13 @@ import {
 import {
   CalculationParametersActions,
   CatalogCalculationResultActions,
+  CO2DownstreamCalculationActions,
 } from '@ea/core/store/actions';
 import { setSelectedLoadcase } from '@ea/core/store/actions/calculation-parameters/calculation-parameters.actions';
 import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection/product-selection.facade';
 import {
   CalculationParameterGroup,
+  CalculationParametersEnergySource,
   CalculationParametersOperationConditions,
   LoadCaseData,
 } from '@ea/core/store/models';
@@ -90,6 +101,10 @@ import { BasicFrequenciesComponent } from '../basic-frequencies/basic-frequencie
 import { CalculationParametersFormDevDebugComponent } from '../calculation-parameters-form-dev-debug/calculation-parameters-form-dev-debug.component';
 import { CalculationTypesSelectionComponent } from '../calculation-types-selection/calculation-types-selection.component';
 import { getContaminationOptions } from './contamination.options';
+import {
+  getElectricityRegionOptions,
+  getFossilOriginOptions,
+} from './energy-source.options';
 import { getEnvironmentalInfluenceOptions } from './environmental-influence.options';
 import {
   anyLoadGroupValidator,
@@ -141,6 +156,7 @@ import { ParameterTemplateDirective } from './parameter-template.directive';
     SubheaderModule,
     LetDirective,
     AppStoreButtonsComponent,
+    MatCardModule,
   ],
 })
 export class CalculationParametersComponent
@@ -155,6 +171,8 @@ export class CalculationParametersComponent
   public DEBOUNCE_TIME_DEFAULT = 200;
   public readonly isProduction = environment.production;
   public showPresetParameters = false;
+
+  public readonly downstreamImagePath = `${getAssetsPath()}/images/downstream-coming-soon.png`;
 
   public parameterTemplates$:
     | Observable<{
@@ -185,9 +203,10 @@ export class CalculationParametersComponent
   public readonly lubricationMethodsAvailable$ =
     this.productSelectionFacade.availableLubricationMethods$;
 
-  public presetChips$:
-    | Observable<{ text: string; label?: string; icon: string }[]>
-    | undefined;
+  public readonly isCo2DownstreamCalculationPossible$ =
+    this.productSelectionFacade.isCo2DownstreamCalculationPossible$;
+
+  public presetChips$: Observable<CalculationChip[]> | undefined;
   public operationConditionsForm = new FormGroup({
     loadCaseData: new FormArray(
       [this.createLoadCaseDataFormGroup('load case')],
@@ -319,6 +338,22 @@ export class CalculationParametersComponent
       [Validators.required],
       [this.productSelectionFacade.templateValidator('IDSLC_TEMPERATURE')]
     ),
+    time: new FormControl<number>(undefined, [Validators.required]),
+    energySource: new FormGroup({
+      type: new FormControl<'fossil' | 'electric'>(undefined, [
+        FormSelectValidatorSwitcher(),
+      ]),
+      fossil: new FormGroup({
+        fossilOrigin: new FormControl<
+          CalculationParametersEnergySource['fossil']['fossilOrigin']
+        >(undefined, [Validators.required]),
+      }),
+      electric: new FormGroup({
+        electricityRegion: new FormControl<
+          CalculationParametersEnergySource['electric']['electricityRegion']
+        >(undefined, [Validators.required]),
+      }),
+    }),
     conditionOfRotation: new FormControl<
       CalculationParametersOperationConditions['conditionOfRotation']
     >(undefined, [Validators.required]),
@@ -340,19 +375,13 @@ export class CalculationParametersComponent
   public typeOfMotionsAvailable$:
     | Observable<LoadCaseData['rotation']['typeOfMotion'][]>
     | undefined;
-  public contaminationOptions$:
-    | Observable<{ label: string; value: string }[]>
-    | undefined;
-  public fossilOriginOptions$:
-    | Observable<{ label: string; value: string }[]>
-    | undefined;
+  public contaminationOptions$: Observable<SelectOption[]> | undefined;
+  public fossilOriginOptions$: Observable<FossilOriginOption[]> | undefined;
   public electricityRegionOptions$:
-    | Observable<{ label: string; value: string }[]>
+    | Observable<ElectricityRegionOption[]>
     | undefined;
 
-  public environmentalInfluenceOptions$:
-    | Observable<{ label: string; value: string }[]>
-    | undefined;
+  public environmentalInfluenceOptions$: Observable<SelectOption[]> | undefined;
 
   public readonly hasCalculationSelected$ =
     this.calculationParametersFacade.hasCalculation$;
@@ -372,7 +401,8 @@ export class CalculationParametersComponent
     private readonly router: Router,
     private readonly analyticsService: TrackingService,
     private readonly changeDetectionRef: ChangeDetectorRef,
-    private readonly localStorageService: LocalStorageService
+    private readonly localStorageService: LocalStorageService,
+    private readonly chipsService: CalculationParametersChipsService
   ) {}
 
   get operatingTemperature(): FormControl {
@@ -390,6 +420,13 @@ export class CalculationParametersComponent
   get totalOperatingTime(): number {
     return this.calculationParametersFormHelperService.getTotalOperatingTimeForLoadcases(
       this.operationConditionsForm.controls['loadCaseData'].controls
+    );
+  }
+
+  getLoadCaseTimePortion(loadcasePercentage: number): string {
+    return this.calculationParametersFormHelperService.getLocalizedLoadCaseTimePortion(
+      this.operationConditionsForm.controls.time.value,
+      loadcasePercentage
     );
   }
 
@@ -464,6 +501,7 @@ export class CalculationParametersComponent
 
         if (!this.form.valid) {
           this.resetCatalogCalculationResults();
+          this.resetDownstreamCalculationResults();
         }
       });
 
@@ -566,6 +604,11 @@ export class CalculationParametersComponent
       });
 
     this.contaminationOptions$ = getContaminationOptions(this.translocoService);
+    this.electricityRegionOptions$ = getElectricityRegionOptions(
+      this.translocoService
+    );
+    this.fossilOriginOptions$ = getFossilOriginOptions(this.translocoService);
+
     this.environmentalInfluenceOptions$ = getEnvironmentalInfluenceOptions(
       this.translocoService
     );
@@ -585,98 +628,110 @@ export class CalculationParametersComponent
       ),
       this.calculationParametersFacade.getCalculationFieldsConfig$,
       this.contaminationOptions$,
+      this.fossilOriginOptions$,
+      this.electricityRegionOptions$,
     ]).pipe(
       takeUntil(this.destroy$),
-      map(([changes, { preset }, contaminationOptions]) => {
-        const chips = [...preset];
-        if (preset.includes('operatingTemperature')) {
-          chips.push('ambientTemperature');
+      map(
+        ([
+          changes,
+          { preset },
+          contaminationOptions,
+          fossilOriginOptions,
+          electricityRegionOptions,
+        ]) => {
+          const chips = [...preset];
+          if (preset.includes('operatingTemperature')) {
+            chips.push('ambientTemperature');
+          }
+
+          const valueMappers: { [Key: string]: () => CalculationChip } = {
+            contamination: () =>
+              this.chipsService.getContaminationChip(
+                contaminationOptions,
+                changes.contamination
+              ),
+            energySource: () =>
+              this.chipsService.getEnergySourceChip(
+                changes.energySource.type,
+                changes.energySource?.fossil?.fossilOrigin,
+                changes.energySource?.electric?.electricityRegion,
+                fossilOriginOptions,
+                electricityRegionOptions
+              ),
+            time: () => this.chipsService.getTimeChip(changes.time),
+            conditionOfRotation: () => ({
+              text: this.translocoService.translate(
+                `operatingConditions.rotatingCondition.options.${changes.conditionOfRotation}`
+              ),
+              icon: 'flip_camera_android',
+            }),
+            ambientTemperature: () => ({
+              text: `${changes.ambientTemperature}°C`,
+              label: this.translocoService.translate(
+                'operationConditions.temperature.ambientTemperature.label'
+              ),
+              icon: 'device_thermostat',
+            }),
+            operatingTemperature: () => ({
+              label: this.translocoService.translate(
+                'operationConditions.temperature.operatingTemperature.label'
+              ),
+              text:
+                changes.loadCaseData.length === 1
+                  ? `${changes.loadCaseData[0].operatingTemperature}°C`
+                  : undefined,
+              icon: 'device_thermostat',
+            }),
+            lubrication: () => {
+              let text;
+              const data = changes.lubrication;
+              const sel = changes.lubrication.lubricationSelection;
+              const greasing = data[sel];
+              const greaseSelection = greasing.selection;
+
+              const [title, value] = Object.entries(greasing).find(
+                ([key, _]) => key === greaseSelection
+              );
+
+              const label = this.translocoService.translate(
+                `operationConditions.lubrication.options.${sel}`
+              );
+
+              // eslint-disable-next-line default-case
+              switch (title) {
+                case 'viscosity':
+                  text = 'Custom viscosity';
+                  break;
+
+                case 'isoVgClass':
+                  text = value.isoVgClass
+                    ? `ISO VG ${value.isoVgClass}`
+                    : undefined;
+                  break;
+
+                case 'typeOfGrease':
+                  text = Greases.find(
+                    (g) => g.value === value.typeOfGrease
+                  ).label;
+                  break;
+              }
+
+              return { text, label, icon: 'water_drop' };
+            },
+          };
+
+          return chips
+            .map((key) => ({ key, func: valueMappers[key] }))
+            .filter((obj) => obj.func)
+            .map((b) => ({ ...b.func() }))
+            .filter((a) => a.text) as {
+            text: string;
+            label: string;
+            icon: string;
+          }[];
         }
-
-        const valueMappers: {
-          [Key: string]: () => { text?: string; label?: string; icon: string };
-        } = {
-          contamination: () => ({
-            text: contaminationOptions.find(
-              (opt) => opt.value === changes.contamination
-            ).label,
-            label: this.translocoService.translate(
-              'operationConditions.contamination.title'
-            ),
-            icon: 'mop',
-          }),
-
-          conditionOfRotation: () => ({
-            text: this.translocoService.translate(
-              `operatingConditions.rotatingCondition.options.${changes.conditionOfRotation}`
-            ),
-            icon: 'flip_camera_android',
-          }),
-          ambientTemperature: () => ({
-            text: `${changes.ambientTemperature}°C`,
-            label: this.translocoService.translate(
-              'operationConditions.temperature.ambientTemperature.label'
-            ),
-            icon: 'device_thermostat',
-          }),
-          operatingTemperature: () => ({
-            label: this.translocoService.translate(
-              'operationConditions.temperature.operatingTemperature.label'
-            ),
-            text:
-              changes.loadCaseData.length === 1
-                ? `${changes.loadCaseData[0].operatingTemperature}°C`
-                : undefined,
-            icon: 'device_thermostat',
-          }),
-          lubrication: () => {
-            let text;
-            const data = changes.lubrication;
-            const sel = changes.lubrication.lubricationSelection;
-            const greasing = data[sel];
-            const greaseSelection = greasing.selection;
-
-            const [title, value] = Object.entries(greasing).find(
-              ([key, _]) => key === greaseSelection
-            );
-
-            const label = this.translocoService.translate(
-              `operationConditions.lubrication.options.${sel}`
-            );
-
-            // eslint-disable-next-line default-case
-            switch (title) {
-              case 'viscosity':
-                text = 'Custom viscosity';
-                break;
-
-              case 'isoVgClass':
-                text = value.isoVgClass
-                  ? `ISO VG ${value.isoVgClass}`
-                  : undefined;
-                break;
-
-              case 'typeOfGrease':
-                text = Greases.find(
-                  (g) => g.value === value.typeOfGrease
-                ).label;
-                break;
-            }
-
-            return { text, label, icon: 'water_drop' };
-          },
-        };
-
-        return chips
-          .map((key) => ({ key, func: valueMappers[key] }))
-          .filter((obj) => obj.func)
-          .map((b) => ({ ...b.func() }))
-          .filter((a) => a.text) as {
-          text: string;
-          label: string;
-          icon: string;
-        }[];
-      })
+      )
     );
   }
 
@@ -695,6 +750,7 @@ export class CalculationParametersComponent
       CalculationParametersActions.resetCalculationParameters()
     );
     this.resetCatalogCalculationResults();
+    this.resetDownstreamCalculationResults();
   }
 
   public onShowBasicFrequenciesDialogClick(): void {
@@ -781,6 +837,12 @@ export class CalculationParametersComponent
   private resetCatalogCalculationResults(): void {
     this.calculationResultFacade.dispatch(
       CatalogCalculationResultActions.resetCalculationResult()
+    );
+  }
+
+  private resetDownstreamCalculationResults(): void {
+    this.calculationResultFacade.dispatch(
+      CO2DownstreamCalculationActions.resetDownstreamCalculation()
     );
   }
 

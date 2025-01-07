@@ -52,6 +52,16 @@ export const CALCULATION_PARAMETERS_STATE_MOCK: CalculationParametersState = {
     contamination: 'LB_STANDARD_CLEANLINESS',
     conditionOfRotation: 'innerring',
     selectedLoadcase: 0,
+    time: 2000,
+    energySource: {
+      type: 'fossil',
+      electric: {
+        electricityRegion: 'LB_GERMANY',
+      },
+      fossil: {
+        fossilOrigin: 'LB_GASOLINE_E10',
+      },
+    },
   },
 
   calculationTypes: {

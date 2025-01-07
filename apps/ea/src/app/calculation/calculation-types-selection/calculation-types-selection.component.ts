@@ -25,7 +25,10 @@ import { firstValueFrom, Subject } from 'rxjs';
 
 import { CalculationTypeChangeEvent } from '@ea/core/services/google-analytics';
 import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
-import { CalculationParametersFacade } from '@ea/core/store';
+import {
+  CalculationParametersFacade,
+  ProductSelectionFacade,
+} from '@ea/core/store';
 import { CalculationTypesActions } from '@ea/core/store/actions';
 import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/models';
 import { PushPipe } from '@ngrx/component';
@@ -64,11 +67,15 @@ export class CalculationTypesSelectionComponent implements OnDestroy {
     this.calculationParametersFacade.getCalculationTypesConfig$;
   public getCalculationTypesGlobalSelection$ =
     this.calculationParametersFacade.getCalculationTypesGlobalSelection$;
+  public isCo2DownstreamCalculationPossible$ =
+    this.productSelectionFacade.isCo2DownstreamCalculationPossible$;
+  public readonly CALCULATION_TYPE_CO2 = 'emission';
 
   private readonly destroy$ = new Subject<void>();
 
   constructor(
     private readonly calculationParametersFacade: CalculationParametersFacade,
+    private readonly productSelectionFacade: ProductSelectionFacade,
     private readonly matDialog: MatDialog,
     private readonly trackingService: TrackingService,
     @Optional()

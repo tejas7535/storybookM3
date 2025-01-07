@@ -31,7 +31,7 @@
     }
     <section
       class="flex flex-col"
-      [ngClass]="{ 'w-56': !isInDialog, 'max-w-2xl': isInDialog }"
+      [ngClass]="{ 'w-64': !isInDialog, 'max-w-2xl': isInDialog }"
     >
       @if (!isInDialog) {
         @if (
@@ -64,7 +64,7 @@
       @if (calculationTypesConfig$ | ngrxPush; as calculationTypesConfig) {
         <div class="flex">
           <ul>
-            @for (config of calculationTypesConfig; track config) {
+            @for (config of calculationTypesConfig; track config.name) {
               <li
                 class="md:mt-4 mt-2"
                 [matTooltip]="t('typeUnavailable')"
@@ -100,7 +100,19 @@
                       >{{ config.icon }}</mat-icon
                     >
                     <div class="text-title-small whitespace-normal">
-                      {{ t(config.label) }}
+                      @if (
+                        config.name === CALCULATION_TYPE_CO2 &&
+                          isCo2DownstreamCalculationPossible$ | ngrxPush
+                      ) {
+                        {{ t('calculationTypes.co2') }}
+                        <mat-icon
+                          class="!text-primary align-bottom"
+                          svgIcon="new_badge"
+                          >new_badge</mat-icon
+                        >
+                      } @else {
+                        {{ t(config.label) }}
+                      }
                     </div>
                   </div>
                 </mat-checkbox>
@@ -120,7 +132,8 @@
       <div
         class="py-4 mt-4 mx-auto border-border border-t text-medium-emphasis text-center text-body-medium"
       >
-        {{ 'general.poweredBy' | transloco: { name: 'Bearinx 2023.2' } }}
+        <!-- Version from Bearinx removed on request of Henrik on 16.12.2024, they would like to be added in spring when new version available -->
+        {{ 'general.poweredBy' | transloco: { name: 'Bearinx' } }}
       </div>
     </div>
   } @else {

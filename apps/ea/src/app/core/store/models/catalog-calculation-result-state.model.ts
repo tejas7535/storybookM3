@@ -49,8 +49,6 @@ export interface CatalogCalculationResult {
   }[];
 }
 
-export const FrictionKeys: string[] = ['MR', 'NR', 'M0', 'M1', 'n_theta'];
-
 export const OverrollingFrequencyKeys: string[] = [
   'BPFI',
   'BPFO',

@@ -31,33 +31,121 @@ describe('CalculationResultPreviewErrorsComponent', () => {
   });
 
   describe('data display', () => {
-    beforeEach(() => {
-      spectator.setInput('overlayData', [
-        {
-          title: 'rating life',
-          values: [{ unit: 'abc', title: 'abc', value: 1, isLoading: false }],
-        },
-        {
-          title: 'emissions',
-          values: [{ unit: 'abc', title: 'abc', value: 1, isLoading: false }],
-        },
-        {
-          title: 'some other',
-          values: [{ unit: 'abc', title: 'abc', value: 1, isLoading: false }],
-        },
+    describe('errors', () => {
+      beforeEach(() => {
+        spectator.setInput('overlayData', [
+          {
+            title: 'rating life',
+            values: [{ unit: 'abc', title: 'abc', value: 1, isLoading: false }],
+          },
+          {
+            title: 'emissions',
+            values: [{ unit: 'abc', title: 'abc', value: 1, isLoading: false }],
+          },
+          {
+            title: 'some other',
+            values: [{ unit: 'abc', title: 'abc', value: 1, isLoading: false }],
+          },
+        ]);
+
+        spectator.setInput('errors', ['error1', 'error2', 'error3']);
+      });
+
+      it('should combine errors', () => {
+        spectator.detectChanges();
+        expect(spectator.component.inlineErrors).toBe('error1 error2 error3');
+      });
+
+      it('should show titles', () => {
+        spectator.detectChanges();
+        expect(spectator.queryAll('.text-body-small').length).toBe(2);
+      });
+    });
+
+    describe('downstreamErrors', () => {
+      beforeEach(() => {
+        spectator.setInput('overlayData', [
+          {
+            title: 'rating life',
+            values: [{ unit: 'abc', title: 'abc', value: 1, isLoading: false }],
+          },
+          {
+            title: 'emissions',
+            values: [{ unit: 'abc', title: 'abc', value: 1, isLoading: false }],
+          },
+          {
+            title: 'some other',
+            values: [{ unit: 'abc', title: 'abc', value: 1, isLoading: false }],
+          },
+        ]);
+
+        spectator.setInput('downstreamErrors', ['error1', 'error2', 'error3']);
+      });
+
+      it('should combine errors', () => {
+        spectator.detectChanges();
+        expect(spectator.component.inlineDownstreamErrors).toBe(
+          'error1 error2 error3'
+        );
+      });
+
+      it('should show titles', () => {
+        spectator.detectChanges();
+        expect(spectator.queryAll('.text-body-small').length).toBe(1);
+      });
+    });
+  });
+
+  describe('getAffectedItems', () => {
+    it('should return catalog items', () => {
+      spectator.component.inlineErrors = 'error';
+      spectator.component.inlineDownstreamErrors = '';
+      spectator.component.catalogCalculationData = [
+        { title: 'rating life', values: [] },
+      ];
+      spectator.component.downstreamCalculationData = [
+        { title: 'emissions', values: [] },
+      ];
+
+      spectator.detectChanges();
+
+      const result = spectator.component.getAffectedItems();
+      expect(result).toEqual([{ title: 'rating life', values: [] }]);
+    });
+
+    it('should return downstream items', () => {
+      spectator.component.inlineErrors = '';
+      spectator.component.inlineDownstreamErrors = 'error';
+      spectator.component.catalogCalculationData = [
+        { title: 'rating life', values: [] },
+      ];
+      spectator.component.downstreamCalculationData = [
+        { title: 'emissions', values: [] },
+      ];
+
+      spectator.detectChanges();
+
+      const result = spectator.component.getAffectedItems();
+      expect(result).toEqual([{ title: 'emissions', values: [] }]);
+    });
+
+    it('should return both catalog and downstream items', () => {
+      spectator.component.inlineErrors = 'error';
+      spectator.component.inlineDownstreamErrors = 'error';
+      spectator.component.catalogCalculationData = [
+        { title: 'rating life', values: [] },
+      ];
+      spectator.component.downstreamCalculationData = [
+        { title: 'emissions', values: [] },
+      ];
+
+      spectator.detectChanges();
+
+      const result = spectator.component.getAffectedItems();
+      expect(result).toEqual([
+        { title: 'rating life', values: [] },
+        { title: 'emissions', values: [] },
       ]);
-
-      spectator.setInput('errors', ['error1', 'error2', 'error3']);
-    });
-
-    it('should combine errors', () => {
-      spectator.detectChanges();
-      expect(spectator.component.inlineErrors).toBe('error1 error2 error3');
-    });
-
-    it('should show titles', () => {
-      spectator.detectChanges();
-      expect(spectator.queryAll('.text-body-small').length).toBe(2);
     });
   });
 

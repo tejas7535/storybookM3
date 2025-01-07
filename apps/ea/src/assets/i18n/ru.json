@@ -61,16 +61,25 @@
     "prototypeWarning": "Значения, отображаемые в этом экспериментальном образце, являются гипотетическими и не должны использоваться при производстве",
     "showPresetCalculationParameters": "Показать предварительно заданные параметры расчета",
     "addLoadCase": "Добавить расчетный вариант нагрузки",
+    "co2Downstream": {
+      "notPossibleTitle": "В разработке для {{ selectedBearing }}",
+      "subTitle": "CO₂e, вызванный трением в процессе работы",
+      "text": "Полная информация с немедленными расчетами выбросов CO2e наших ротационных продуктов в различных сценариях применения.",
+      "textAvailable": "Теперь Schaeffler предлагает полную информацию с немедленными расчетами выбросов CO2e наших ротационных продуктов в различных сценариях применения.",
+      "title": "Новый"
+    },
     "loads": "Нагрузка",
     "radialLoad": "Радиальная нагрузка",
     "axialLoad": "Осевая нагрузка",
+    "loadCaseTimePortionDescription": "Для расчета трения / CO₂e:",
+    "loadCaseTimePortion": "{{ loadcasePercentage }}% от {{ totalTime }} часов равно {{ loadcaseTime }} часов",
     "totalAmountOfTime": "Общее количество времени:",
     "loadCaseName": "Расчетный вариант нагрузки {{number}}",
     "generalInputsTitle": "Общие входы",
     "generalInputsTitleTooltip": "Это относится ко всем расчетным вариантам нагрузки",
     "emptyState": "Выберите расчет, который вы желаете выполнить, из списка доступных расчетов",
     "operatingTime": {
-      "title": "Время работы",
+      "title": "Временная часть",
       "label": "Процент"
     },
     "presetParameters": {
@@ -126,9 +135,9 @@
       "notAvailable": "Этот тип смазки недоступен для выбранного вами подшипника.",
       "options": {
         "grease": "Смазка",
-        "oilBath": "Смазка в масляной ванной",
-        "oilMist": "Смазка с масляным туманом",
-        "recirculatingOil": "Смазка циркуляционным маслом"
+        "oilBath": "масляная ванна",
+        "oilMist": "масляный туман",
+        "recirculatingOil": "циркулирующее масло"
       },
       "grease": {
         "typeOfGrease": {
@@ -195,6 +204,54 @@
         "rotatingOuterring": "Вращающееся наружное кольцо",
         "rotatingInnerring": "Вращающееся внутреннее кольцо"
       }
+    },
+    "time": {
+      "title": "Время работы",
+      "operatingTime": {
+        "label": "Общее время работы",
+        "description": "8766 часов эквивалентно использованию 24/7 в течение одного года",
+        "unit": "ч"
+      }
+    },
+    "energySource": {
+      "title": "Источник энергии",
+      "options": {
+        "electricity": "Электрическая энергия",
+        "fossil": "Ископаемое топливо"
+      },
+      "fossilOrigin": "Происхождение ископаемого топлива",
+      "electricityRegion": "Регион производства электроэнергии",
+      "electricityChipText": "Электричество в {{region}}",
+      "electricityRegionOption": {
+        "argentina": "Аргентина",
+        "australia": "Австралия",
+        "brazil": "Бразилия",
+        "canada": "Канада",
+        "china": "Китай",
+        "europeanUnion": "Европейский Союз",
+        "france": "Франция",
+        "germany": "Германия",
+        "greatBritain": "Великобритания",
+        "india": "Индия",
+        "indonesia": "Индонезия",
+        "italy": "Италия",
+        "japan": "Япония",
+        "mexico": "Мексика",
+        "russianFederation": "Российская Федерация",
+        "southAfrica": "Южная Африка",
+        "southKorea": "Южная Корея",
+        "turkey": "Турция",
+        "usa": "США"
+      },
+      "fossilOriginOptions": {
+        "gasoline": "Бензин",
+        "diesel": "Дизель",
+        "e10": "Бензин Е10",
+        "dieselB7": "Дизель B7",
+        "lpg": "СУГ (Сжиженный нефтяной газ)",
+        "cng": "СПГ (Сжатый природный газ)",
+        "cngBiomethane": "СПГ с биометаном (Сжатый природный газ)"
+      }
     }
   },
   "calculation": {
@@ -215,14 +272,89 @@
     "overrollingFrequency": "Частота перекатывания",
     "overrollingFrequencySubtitle": "Частота перекатывания по внутреннему кольцу (BPFI)",
     "frictionalPowerloss": "Потеря мощности вследствие трения",
-    "frictionalPowerlossSubtitle": "Общий момент трения (MR)",
+    "frictionalPowerlossSubtitle": "Общая потеря мощности вследствие трения (W)",
     "frictionalPowerlossUnavailable": "Этот расчет недоступен для выбранного подшипника.",
     "production": "Для производства",
-    "productionTooltip": "Это сумма выбросов всех эквивалентов CO₂ при производстве подшипника качения, включая необходимые ресурсы и энергию."
+    "productionTooltip": "Это сумма выбросов всех эквивалентов CO₂ при производстве подшипника качения, включая необходимые ресурсы и энергию.",
+    "usage": "Во время использования",
+    "usageTooltip": "Общие выбросы CO2, вызванные потерей мощности.",
+    "downstreamErrors": {
+      "modelNotExisting": "Для этого подшипника нет доступных расчетов CO2.",
+      "modelLubricationNotSupported": "Для этого подшипника с этим типом смазки нет доступных расчетов CO2.",
+      "sumOfTimePortionsBelow_100Percent": "Сумма рабочих долей меньше 100%. Поэтому расчет трения недоступен.",
+      "sumOfTimePortionsExceeds_100Percent": "Сумма рабочих долей превышает 100%. Поэтому расчет трения недоступен.",
+      "invalidMovementType": "В как минимум одном случае нагрузки тип движения не является вращательным. Поэтому расчет трения недоступен.",
+      "operatingTemperatureBelowLimit": "Температура эксплуатации слишком низкая. Поэтому расчет трения недоступен.",
+      "operatingTemperatureExceedsLimit": "Температура эксплуатации слишком высокая. Поэтому расчет трения недоступен.",
+      "invalidViscosityDefinition": "Определение вязкости смазки недопустимо для расчета трения.",
+      "invalidLubricationMethod": "Определение типа смазки недопустимо для расчета трения.",
+      "invalidGreaseSelection": "Выбранная смазка недопустима для расчета трения. Поэтому расчет трения недоступен.",
+      "invalidViscosityClass": "Указанный класс вязкости смазки недопустим для расчета трения.",
+      "ny100ExceedsNy40": "Вязкость смазки при 100 °C больше вязкости при 40 °C. Пожалуйста, проверьте свой ввод.",
+      "ny40BelowLimit": "Вязкость смазки при 40 °C слишком низкая. Поэтому расчет трения недоступен.",
+      "ny40ExceedsLimit": "Вязкость смазки при 40 °C слишком высока. Поэтому расчет трения недоступен.",
+      "ny100BelowLimit": "Вязкость смазки при 100 °C слишком низкая. Поэтому расчет трения недоступен.",
+      "ny100ExceedsLimit": "Вязкость смазки при 100 °C слишком высока. Поэтому расчет трения недоступен.",
+      "speedBelowThreshold": "Обороты слишком низкие. Поэтому расчет трения недоступен.",
+      "speedExceedsLimitingSpeed": "Обороты превышают лимит. Поэтому расчет трения недоступен.",
+      "p0BelowC0Min": "Эквивалентная статическая нагрузка подшипника P0 ниже минимальной нагрузки. Поэтому расчет трения недоступен.",
+      "p0ExceedsC0": "Эквивалентная статическая нагрузка подшипника P0 превышает статический предел нагрузки C0. Поэтому расчет трения недоступен.",
+      "loadAngleBelowNominalContactAngle": "Угол нагрузки меньше номинального угла контакта. В результате внутренние осевые силы больше, чем внешние осевые силы, действующие на подшипник. Поэтому осевая поддержка больше не обеспечивается.",
+      "operatingViscosityBelowLimit": "Рабочая вязкость, определяемая смазкой и температурой эксплуатации, слишком низкая. Поэтому расчет трения недоступен.",
+      "operatingViscosityExceedsLimit": "Рабочая вязкость, определяемая смазкой и температурой эксплуатации, слишком высокая. Поэтому расчет трения недоступен.",
+      "viscosityRatioBelowLimit": "Отношение вязкости Каппа слишком велико. Поэтому расчет трения недоступен.",
+      "viscosityRatioExceedsLimit": "Отношение вязкости Каппа слишком мало. Поэтому расчет трения недоступен.",
+      "radialLoadBelowLimit": "Радиальная нагрузка не может быть отрицательной.",
+      "radialLoadNotSupported": "Этот подшипник не подходит для радиальных нагрузок.",
+      "axialLoadBelowLimit": "Осевая нагрузка не может быть отрицательной.",
+      "axialLoadBelowMinimum": "Осевая нагрузка меньше минимально допустимой.",
+      "axialLoadExceedsLimit": "Осевая нагрузка превышает максимальную осевую нагрузку.",
+      "axialLoadNotSupported": "Этот подшипник не подходит для осевых нагрузок.",
+      "loadRatioTooSmall": "Отношение осевой нагрузки к радиальной слишком мало для данного типа подшипника.",
+      "loadRatioTooLarge": "Отношение осевой нагрузки к радиальной слишком велико для данного типа подшипника.",
+      "referenceViscosityIsZero": "Значение базовой вязкости равно 0. Поэтому расчет трения недоступен.",
+      "meanDiameterIsZero": "Диаметр качания равен 0. Поэтому расчет трения недоступен.",
+      "unsupportedEmissionFactor": "Фактор эмиссии не поддерживается.",
+      "genericError": "Произошла ошибка. Расчет завершился неудачно."
+    }
   },
   "calculationResultReport": {
     "dialogTitle": "Отчет для подшипника {{bearingDesignation}}",
     "reportSectionInput": "Ввод",
+    "downstreamInputs": {
+      "bearing": {
+        "bearingTitle": "Подшипник",
+        "designation": "Обозначение",
+        "dynamicLoadRating": "Номинальная динамическая нагрузка",
+        "fatigueLoadLimit": "Предел усталостной нагрузки",
+        "innerDiameter": "Внутренний диаметр",
+        "limitingSpeedGrease": "Предельная скорость, смазка",
+        "limitingSpeedOil": "Предельная скорость, масло",
+        "outerDiameter": "Внешний диаметр",
+        "staticLoadRating": "Номинальная статическая нагрузка",
+        "width": "Ширина"
+      },
+      "otherConditions": {
+        "conditionsTitle": "Другие условия",
+        "temperature": "Температура окружающей среды",
+        "lubricationMethod": "Тип смазки",
+        "greaseType": "Тип смазки",
+        "operatingTimeInHours": "Время работы в часах",
+        "svgClass": "Класс ISO VG",
+        "viscosity": "Введите вязкость",
+        "ny40": "Вязкость при 40°C",
+        "ny100": "Вязкость при 100°C"
+      },
+      "load": {
+        "loadTitle": "Нагрузка",
+        "timePortion": "Доля времени",
+        "typeOfMotion": "Тип движения",
+        "speed": "Скорость",
+        "operatingTemperature": "Средняя рабочая температура",
+        "axialLoad": "Осевая нагрузка",
+        "radialLoad": "Радиальная нагрузка"
+      }
+    },
     "reportSectionWarnings": "Ошибки/Предупреждения/Примечания",
     "calculationNotAvailable": {
       "line1": "Этот расчет невозможен для выбранного подшипника.",
@@ -231,14 +363,28 @@
       "link": "https://medias.schaeffler.de/en/stc"
     },
     "co2Emissions": {
-      "title": "Оценка объема выбросов CO₂e в расчете на единицу",
+      "title": "Оценка выбросов CO₂e на единицу",
       "unit": "CO₂e",
-      "upstreamTitle": "Выбросы CO₂e для производства* (выше по технологической цепочке)",
-      "upstreamHint": "*Оценочное значение на основе предположений во время производства",
-      "upstreamHintLinkText": "Подробнее.",
+      "upstreamTitle": "CO₂e, выбрасываемые при производстве* (Вверх по цепочке)",
+      "upstreamHint": "*Оценочное значение, основанное на предположениях во время производства",
+      "upstreamHintLinkText": "Дополнительная информация.",
       "calculationHint": "Хотите узнать больше о CO₂ в Schaeffler?",
       "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
-      "calculationHintLinkText": "Нажмите здесь"
+      "calculationHintLinkText": "Нажмите здесь",
+      "co2EmissionChartTitle": "Общая стоимость CO₂e",
+      "downstreamTitle": "CO₂e, вызванные трением во время эксплуатации (фаза использования, часть Вниз по цепочке)",
+      "totalDownstreamButton": "Всего",
+      "co2EmissionPercentageLabel": "Доля от общего объема выбросов СО₂e",
+      "co2EmissionOperatingHours": "Часы работы",
+      "downstreamHint": "Вот как мы рассчитывали значения:",
+      "downstreamHintLinkText": "Дополнительная информация.",
+      "downstreamHintLink": "",
+      "chartDownstream": "Вниз по цепочке",
+      "downstreamComingSoon": "Скоро для {{ bearingDesignation }}",
+      "downstreamComingSoonTitle": "CO₂e, вызванные трением во время эксплуатации",
+      "downstreamComingSoonText": "Полная информация с немедленными расчетами выбросов CO2e наших ротационных продуктов в различных сценариях применения.",
+      "chartDescription": "Выброс CO₂e",
+      "chartUpstream": "Вверх по цепочке"
     },
     "lubrication": {
       "title": "Параметры смазки",
@@ -255,8 +401,8 @@
     },
     "frictionalPowerloss": {
       "title": "Потеря мощности вследствие трения",
-      "totalFrictionalTorque": "Общий момент трения",
-      "totalFrictionalPowerLoss": "Общая потеря мощности вследствие трения",
+      "totalFrictionalTorque": "Момент трения",
+      "totalFrictionalPowerLoss": "Потери мощности на трение",
       "speedDependentFrictionalTorque": "Момент трения в зависимости от скорости",
       "loadDependentFrictionalTorque": "Момент трения в зависимости от нагрузки",
       "thermallySafeOperatingSpeed": "Рабочая скорость без риска перегрева"
@@ -307,7 +453,8 @@
       "ratingLife": "Номинальный срок службы",
       "lubrication": "Параметр смазки",
       "frictionalPowerloss": "Потеря мощности вследствие трения",
-      "co2": "Выбросы CO₂e при производстве",
+      "co2": "Выбросы CO₂e",
+      "co2ForProduction": "Выбросы CO₂e при производстве",
       "overrollingFrequency": "Частота перекатывания"
     },
     "basicFrequency": "Основные частоты",

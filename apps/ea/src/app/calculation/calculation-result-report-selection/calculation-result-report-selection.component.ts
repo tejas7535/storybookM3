@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -11,18 +12,27 @@ import { TranslocoModule } from '@jsverse/transloco';
   templateUrl: './calculation-result-report-selection.component.html',
   standalone: true,
   selector: 'ea-calculation-result-report-selection',
-  imports: [MatDividerModule, MatIconModule, TranslocoModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    MatDividerModule,
+    MatIconModule,
+    TranslocoModule,
+    MatButtonModule,
+  ],
 })
 export class CalculationResultReportSelectionComponent {
   @Input()
   calculationResultTypeSelection: CalculationResultReportCalculationTypeSelection;
   @Input() isDownloadDisabled: boolean;
   @Input() isDownloadButtonHidden: boolean;
+  @Input() hasDownstreamResult: boolean;
 
   @Output() readonly downloadClicked: EventEmitter<void> = new EventEmitter();
   @Output() readonly calculationTypeClicked: EventEmitter<
     CalculationParametersCalculationTypeConfig['name']
   > = new EventEmitter();
+
+  public readonly CALCULATION_TYPE_CO2 = 'emission';
 
   onDownloadAction(): void {
     this.downloadClicked.emit();

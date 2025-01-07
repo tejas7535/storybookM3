@@ -1,0 +1,124 @@
+@if (downstreamEmission.length > 1) {
+  <!-- Mobile resolution -->
+  <div class="sm:hidden">
+    <div class="w-full overflow-hidden relative flex flex-col">
+      @for (
+        value of downstreamEmission;
+        track value;
+        let i = $index;
+        let isFirst = $first;
+        let isLast = $last
+      ) {
+        <div [ngClass]="{ hidden: i !== selectedIndex }">
+          <div class="flex justify-center mb-2">
+            @if (!isFirst) {
+              <button
+                mat-icon-button
+                class="flex items-center !text-high-emphasis absolute left-0"
+                (click)="previousItem()"
+              >
+                <mat-icon class="mr-1 text-outline-variant"
+                  >arrow_back</mat-icon
+                >
+              </button>
+            }
+            <button
+              mat-button
+              class="flex items-center !text-high-emphasis bg-surface-container"
+            >
+              @if (!isFirst) {
+                <mat-icon
+                  class="mr-1"
+                  [ngStyle]="{
+                    color: chartColors[i % chartColors.length]
+                  }"
+                  >circle</mat-icon
+                >
+              }
+              {{ value.id }}
+            </button>
+
+            @if (!isLast) {
+              <button
+                mat-icon-button
+                class="flex items-center !text-high-emphasis absolute right-0"
+                (click)="nextItem()"
+              >
+                <mat-icon class="mr-1 text-outline-variant"
+                  >arrow_forward</mat-icon
+                >
+              </button>
+            }
+          </div>
+
+          @if (i === selectedIndex) {
+            <div [@swipe]="getSwipeParams()">
+              <ea-report-emissions-values
+                [co2Emission]="value.emission"
+                [co2EmissionPercentage]="value.emissionPercentage"
+                [operatingHours]="value.operatingTimeInHours"
+                [downstreamError]="downstreamError"
+              ></ea-report-emissions-values>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="dots-container flex justify-center mt-2">
+      @for (value of downstreamEmission; track value; let i = $index) {
+        <span
+          class="dot h-1.5 w-1.5 my-0 mx-1 bg-surface-container-highest inline-block rounded-full transition duration-500 easy"
+          [ngClass]="{
+            'bg-outline-variant h-2 w-2': i === selectedIndex,
+            'bg-surface-container-highest': i !== selectedIndex
+          }"
+        ></span>
+      }
+    </div>
+  </div>
+
+  <!-- Desktop resolution -->
+
+  <div class="mb-3 hidden sm:flex flex-wrap">
+    @for (
+      loadcase of downstreamEmission;
+      track loadcase.id;
+      let i = $index;
+      let isFirst = $first
+    ) {
+      <button
+        (click)="selectItem(i)"
+        mat-button
+        class="flex items-center !text-high-emphasis"
+        [ngClass]="{ 'bg-surface-container': i === selectedIndex }"
+      >
+        @if (!isFirst) {
+          <mat-icon
+            class="mr-1"
+            [ngStyle]="{
+              color: chartColors[i % chartColors.length]
+            }"
+            >circle</mat-icon
+          >
+        }
+        {{ loadcase.id }}
+      </button>
+    }
+  </div>
+}
+
+@if (downstreamEmission.length > 0) {
+  <ea-report-emissions-values
+    class="sm:block"
+    [ngClass]="{
+      hidden: downstreamEmission.length > 1
+    }"
+    [co2Emission]="downstreamEmission[selectedIndex].emission"
+    [co2EmissionPercentage]="
+      downstreamEmission[selectedIndex].emissionPercentage
+    "
+    [operatingHours]="downstreamEmission[selectedIndex].operatingTimeInHours"
+    [downstreamError]="downstreamError"
+  ></ea-report-emissions-values>
+}

@@ -1,0 +1,23 @@
+// based on https://zeroheight.com/4a06fad55/v/latest/p/875610-chart-colors
+export const CHARTS_COLORS = [
+  '#619685',
+  '#AFC2C7',
+  '#C9DEA5',
+  '#67898F',
+  '#20617C',
+  '#94BF99',
+  '#237864',
+  '#8DA8BC',
+  '#8CBFD3',
+  '#476E75',
+  '#73B281',
+  '#00445F',
+  '#1C98B5',
+  '#95B7AB',
+  '#D6C7A4',
+  '#B86300',
+  '#A1C861',
+  '#522C00',
+  '#F7D52A',
+  '#C4A200',
+];

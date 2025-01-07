@@ -61,16 +61,25 @@
     "prototypeWarning": "Các giá trị hiển thị trong nguyên mẫu phát triển này chỉ là giả thuyết và không được sử dụng trong sản xuất",
     "showPresetCalculationParameters": "Hiển thị thông số tính toán đặt sẵn",
     "addLoadCase": "Thêm trường hợp tải",
+    "co2Downstream": {
+      "notPossibleTitle": "Đang thực hiện cho {{ selectedBearing }}",
+      "subTitle": "CO₂e do ma sát trong quá trình hoạt động gây ra",
+      "text": "Thông tin toàn diện với tính toán ngay lập tức về các khí thải CO2e của các sản phẩm quay của chúng tôi trong các kịch bản ứng dụng khác nhau.",
+      "textAvailable": "Schaeffler hiện cung cấp thông tin toàn diện với tính toán ngay lập tức về các khí thải CO2e của các sản phẩm quay của chúng tôi trong các kịch bản ứng dụng khác nhau.",
+      "title": "Mới"
+    },
     "loads": "Tải",
     "radialLoad": "Tải hướng tâm",
     "axialLoad": "Tải hướng trục",
     "totalAmountOfTime": "Tổng thời gian:",
+    "loadCaseTimePortionDescription": "Để tính ma sát / CO₂e:",
+    "loadCaseTimePortion": "{{ loadcasePercentage }}% của {{ totalTime }} giờ bằng {{ loadcaseTime }} giờ",
     "loadCaseName": "Trường hợp tải {{number}}",
     "generalInputsTitle": "Đầu vào chung",
     "generalInputsTitleTooltip": "Điều này áp dụng cho tất cả các trường hợp tải",
     "emptyState": "Vui lòng chọn phép tính bạn muốn thực hiện từ danh sách các phép tính sẵn có",
     "operatingTime": {
-      "title": "Thời gian hoạt động",
+      "title": "Phần thời gian",
       "label": "Tỷ lệ phần trăm"
     },
     "presetParameters": {
@@ -126,9 +135,9 @@
       "notAvailable": "Loại bôi trơn này không có sẵn cho vòng bi bạn đã chọn.",
       "options": {
         "grease": "Mỡ",
-        "oilBath": "Bôi trơn bể dầu",
-        "oilMist": "Bôi trơn sương dầu",
-        "recirculatingOil": "Bôi trơn dầu tuần hoàn"
+        "oilBath": "Bể dầu",
+        "oilMist": "Sương dầu",
+        "recirculatingOil": "Dầu tuần hoàn"
       },
       "grease": {
         "typeOfGrease": {
@@ -195,6 +204,54 @@
         "rotatingOuterring": "Vòng ngoài xoay",
         "rotatingInnerring": "Vòng trong xoay"
       }
+    },
+    "time": {
+      "title": "Thời gian hoạt động",
+      "operatingTime": {
+        "label": "Tổng thời gian hoạt động",
+        "description": "8766 giờ tương đương với việc sử dụng 24/7 trong một năm",
+        "unit": "giờ"
+      }
+    },
+    "energySource": {
+      "title": "Nguồn năng lượng",
+      "options": {
+        "electricity": "Năng lượng điện",
+        "fossil": "Năng lượng hóa thạch"
+      },
+      "fossilOrigin": "Nguồn gốc hóa thạch",
+      "electricityRegion": "Khu vực sản xuất điện",
+      "electricityChipText": "Điện ở {{region}}",
+      "electricityRegionOption": {
+        "argentina": "Argentina",
+        "australia": "Úc",
+        "brazil": "Brazil",
+        "canada": "Canada",
+        "china": "Trung Quốc",
+        "europeanUnion": "Liên minh Châu Âu",
+        "france": "Pháp",
+        "germany": "Đức",
+        "greatBritain": "Anh",
+        "india": "Ấn Độ",
+        "indonesia": "Indonesia",
+        "italy": "Ý",
+        "japan": "Nhật Bản",
+        "mexico": "Mexico",
+        "russianFederation": "Liên bang Nga",
+        "southAfrica": "Nam Phi",
+        "southKorea": "Hàn Quốc",
+        "turkey": "Thổ Nhĩ Kỳ",
+        "usa": "Mỹ"
+      },
+      "fossilOriginOptions": {
+        "gasoline": "Xăng",
+        "diesel": "Dầu diesel",
+        "e10": "Xăng E10",
+        "dieselB7": "Dầu diesel B7",
+        "lpg": "LPG (Khí dầu mỏ hóa lỏng)",
+        "cng": "CNG (Khí tự nhiên nén)",
+        "cngBiomethane": "CNG với Biometan (Khí tự nhiên nén)"
+      }
     }
   },
   "calculation": {
@@ -215,14 +272,89 @@
     "overrollingFrequency": "Tần suất lăn quá mức",
     "overrollingFrequencySubtitle": "Tần số ở vòng trong (BPFI)",
     "frictionalPowerloss": "Tổn thất công suất do ma sát",
-    "frictionalPowerlossSubtitle": "Tổng mô-men xoắn ma sát (MR)",
+    "frictionalPowerlossSubtitle": "Tổng tổn thất công suất do ma sát (W)",
     "frictionalPowerlossUnavailable": "Đối với vòng bi đã chọn, phép tính này không khả dụng.",
     "production": "Dành cho sản xuất",
-    "productionTooltip": "Đây là tổng lượng CO₂ tương đương thải ra trong quá trình sản xuất vòng bi, bao gồm cả các tài nguyên và năng lượng cần thiết."
+    "productionTooltip": "Đây là tổng lượng CO₂ tương đương thải ra trong quá trình sản xuất vòng bi, bao gồm cả các tài nguyên và năng lượng cần thiết.",
+    "usage": "Trong quá trình sử dụng",
+    "usageTooltip": "Tổng lượng phát thải CO2 do mất điện năng.",
+    "downstreamErrors": {
+      "modelNotExisting": "Không có phép tính CO2 cho ổ đỡ này.",
+      "modelLubricationNotSupported": "Không có phép tính CO2 cho ổ đỡ này với loại bôi trơn này.",
+      "sumOfTimePortionsBelow_100Percent": "Tổng thời gian hoạt động nhỏ hơn 100%. Do đó, không có phép tính ma sát nào khả dụng.",
+      "sumOfTimePortionsExceeds_100Percent": "Tổng thời gian hoạt động vượt quá 100%. Do đó, không có phép tính ma sát nào khả dụng.",
+      "invalidMovementType": "Trong ít nhất một trường hợp tải, loại chuyển động không phải là quay. Do đó, không có phép tính ma sát nào khả dụng.",
+      "operatingTemperatureBelowLimit": "Nhiệt độ hoạt động quá thấp. Do đó, không có phép tính ma sát nào khả dụng.",
+      "operatingTemperatureExceedsLimit": "Nhiệt độ hoạt động quá cao. Do đó, không có phép tính ma sát nào khả dụng.",
+      "invalidViscosityDefinition": "Định nghĩa về độ nhớt của chất bôi trơn không hợp lệ cho phép tính ma sát.",
+      "invalidLubricationMethod": "Định nghĩa về loại bôi trơn không hợp lệ cho phép tính ma sát.",
+      "invalidGreaseSelection": "Mỡ được chọn không hợp lệ cho phép tính ma sát. Do đó, không có phép tính ma sát nào khả dụng.",
+      "invalidViscosityClass": "Lớp độ nhớt được chỉ định của chất bôi trơn không hợp lệ cho phép tính ma sát.",
+      "ny100ExceedsNy40": "Độ nhớt của chất bôi trơn ở 100°C lớn hơn độ nhớt ở 40°C. Vui lòng kiểm tra đầu vào của bạn.",
+      "ny40BelowLimit": "Độ nhớt của chất bôi trơn ở 40°C quá thấp. Do đó, không có phép tính ma sát nào khả dụng.",
+      "ny40ExceedsLimit": "Độ nhớt của chất bôi trơn ở 40°C quá cao. Do đó, không có phép tính ma sát nào khả dụng.",
+      "ny100BelowLimit": "Độ nhớt của chất bôi trơn ở 100°C quá thấp. Do đó, không có phép tính ma sát nào khả dụng.",
+      "ny100ExceedsLimit": "Độ nhớt của chất bôi trơn ở 100°C quá cao. Do đó, không có phép tính ma sát nào khả dụng.",
+      "speedBelowThreshold": "Tốc độ quá thấp. Do đó, không có phép tính ma sát nào khả dụng.",
+      "speedExceedsLimitingSpeed": "Tốc độ lớn hơn tốc độ giới hạn. Do đó, không có phép tính ma sát nào khả dụng.",
+      "p0BelowC0Min": "Tải trọng tĩnh tương đương P0 thấp hơn tải trọng tối thiểu. Do đó, không có phép tính ma sát nào khả dụng.",
+      "p0ExceedsC0": "Tải trọng tĩnh tương đương P0 lớn hơn tải trọng tĩnh C0. Do đó, không có phép tính ma sát nào khả dụng.",
+      "loadAngleBelowNominalContactAngle": "Góc tải trọng nhỏ hơn góc tiếp xúc danh nghĩa. Do đó các lực trục nội bộ lớn hơn các lực trục bên ngoài đang hoạt động. Do đó, hỗ trợ trục không còn được đảm bảo.",
+      "operatingViscosityBelowLimit": "Độ nhớt hoạt động do chất bôi trơn và nhiệt độ làm việc gây ra quá thấp. Do đó, không có phép tính ma sát nào khả dụng.",
+      "operatingViscosityExceedsLimit": "Độ nhớt hoạt động do chất bôi trơn và nhiệt độ làm việc gây ra quá cao. Do đó, không có phép tính ma sát nào khả dụng.",
+      "viscosityRatioBelowLimit": "Tỉ lệ độ nhớt Kappa quá lớn. Do đó, không có phép tính ma sát nào khả dụng.",
+      "viscosityRatioExceedsLimit": "Tỉ lệ độ nhớt Kappa quá nhỏ. Do đó, không có phép tính ma sát nào khả dụng.",
+      "radialLoadBelowLimit": "Tải trọng hướng tâm không được phép âm.",
+      "radialLoadNotSupported": "Ổ này không phù hợp để mang tải trọng hướng tâm.",
+      "axialLoadBelowLimit": "Tải trọng trục không được phép âm.",
+      "axialLoadBelowMinimum": "Tải trọng trục nhỏ hơn tải trọng tối thiểu yêu cầu.",
+      "axialLoadExceedsLimit": "Tải trọng trục vượt quá tải trọng tối đa.",
+      "axialLoadNotSupported": "Ổ này không phù hợp để mang tải trọng trục.",
+      "loadRatioTooSmall": "Tỉ lệ giữa tải trọng trục và tải trọng hướng tâm quá nhỏ cho loại ổ này.",
+      "loadRatioTooLarge": "Tỉ lệ giữa tải trọng trục và tải trọng hướng tâm quá lớn cho loại ổ này.",
+      "referenceViscosityIsZero": "Giá trị cho độ nhớt tham khảo là 0. Do đó, không có phép tính ma sát nào khả dụng.",
+      "meanDiameterIsZero": "Đường kính của vòng lăn là 0. Do đó, không có phép tính ma sát nào khả dụng.",
+      "unsupportedEmissionFactor": "Hệ số phát thải không được hỗ trợ.",
+      "genericError": "Đã xảy ra lỗi. Tính toán không thành công."
+    }
   },
   "calculationResultReport": {
     "dialogTitle": "Báo cáo về vòng bi {{bearDesignation}}",
     "reportSectionInput": "Thông tin đầu vào",
+    "downstreamInputs": {
+      "bearing": {
+        "bearingTitle": "Vòng bi",
+        "designation": "Sự chỉ định",
+        "dynamicLoadRating": "Khả năng tải động cơ bản",
+        "fatigueLoadLimit": "Giới hạn tải trọng mỏi",
+        "innerDiameter": "Đường kính trong",
+        "limitingSpeedGrease": "Tốc độ giới hạn, mỡ bôi trơn",
+        "limitingSpeedOil": "Tốc độ giới hạn, dầu",
+        "outerDiameter": "Đường kính ngoài",
+        "staticLoadRating": "Khả năng tải tĩnh cơ bản",
+        "width": "Chiều rộng"
+      },
+      "otherConditions": {
+        "conditionsTitle": "Điều kiện khác",
+        "temperature": "Nhiệt độ môi trường",
+        "lubricationMethod": "Loại bôi trơn",
+        "greaseType": "Loại mỡ bôi trơn",
+        "operatingTimeInHours": "Thời gian vận hành tính bằng giờ",
+        "svgClass": "Lớp ISO VG",
+        "viscosity": "Nhập độ nhớt",
+        "ny40": "Độ nhớt ở 40°C",
+        "ny100": "Độ nhớt ở 100°C"
+      },
+      "load": {
+        "loadTitle": "Tải trọng",
+        "timePortion": "Phần thời gian",
+        "typeOfMotion": "Loại chuyển động",
+        "speed": "Tốc độ",
+        "operatingTemperature": "Nhiệt độ vận hành trung bình",
+        "axialLoad": "Tải trọng dọc trục",
+        "radialLoad": "Tải trọng hướng kính"
+      }
+    },
     "reportSectionWarnings": "Lỗi/Cảnh báo/Ghi chú",
     "calculationNotAvailable": {
       "line1": "Đối với vòng bi đã chọn, phép tính này không khả thi.",
@@ -231,14 +363,28 @@
       "link": "https://medias.schaeffler.de/en/stc"
     },
     "co2Emissions": {
-      "title": "Ước tính lượng khí thải CO₂e trên mỗi sản phẩm",
+      "title": "Ước tính khí thải CO₂e mỗi sản phẩm",
       "unit": "CO₂e",
-      "upstreamTitle": "Lượng khí thải CO₂e cho sản xuất* (Khâu đầu)",
-      "upstreamHint": "*Giá trị ước tính dựa trên giả định trong quá trình sản xuất",
-      "upstreamHintLinkText": "Xem thêm thông tin.",
-      "calculationHint": "Bạn muốn tìm hiểu thêm về CO₂ tại Schaeffler?",
+      "upstreamTitle": "CO₂e thải ra trong sản xuất* (Nguyên liệu đầu vào)",
+      "upstreamHint": "*Giá trị ước tính dựa trên các giả định trong quá trình sản xuất",
+      "upstreamHintLinkText": "Thông tin thêm.",
+      "calculationHint": "Bạn muốn biết thêm về CO₂ tại Schaeffler?",
       "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
-      "calculationHintLinkText": "Nhấp vào đây"
+      "calculationHintLinkText": "Nhấp vào đây",
+      "co2EmissionChartTitle": "Giá trị tổng CO₂e",
+      "downstreamTitle": "CO₂e phát sinh do ma sát trong quá trình vận hành (giai đoạn sử dụng, phần của Hạ nguồn)",
+      "totalDownstreamButton": "Tổng cộng",
+      "co2EmissionPercentageLabel": "Tỷ lệ phát thải CO₂e tổng cộng",
+      "co2EmissionOperatingHours": "Giờ vận hành",
+      "downstreamHint": "Đây là cách chúng tôi tính toán các giá trị:",
+      "downstreamHintLinkText": "Thông tin thêm.",
+      "downstreamHintLink": "",
+      "chartDownstream": "Hạ nguồn",
+      "downstreamComingSoon": "Sẽ có sớm cho {{ bearingDesignation }}",
+      "downstreamComingSoonTitle": "CO₂e phát sinh do ma sát trong quá trình vận hành",
+      "downstreamComingSoonText": "Thông tin toàn diện với tính toán ngay lập tức về các khí thải CO2e của các sản phẩm quay của chúng tôi trong các kịch bản ứng dụng khác nhau.",
+      "chartDescription": "Khí thải CO₂e",
+      "chartUpstream": "Nguyên liệu đầu vào"
     },
     "lubrication": {
       "title": "Thông số bôi trơn",
@@ -255,8 +401,8 @@
     },
     "frictionalPowerloss": {
       "title": "Tổn thất công suất do ma sát",
-      "totalFrictionalTorque": "Tổng mô-men xoắn ma sát",
-      "totalFrictionalPowerLoss": "Tổng tổn thất công suất do ma sát",
+      "totalFrictionalTorque": "Mô-men xoắn do ma sát",
+      "totalFrictionalPowerLoss": "Tổn thất công suất do ma sát",
       "speedDependentFrictionalTorque": "Mô-men xoắn ma sát phụ thuộc vào tốc độ",
       "loadDependentFrictionalTorque": "Mô-men xoắn ma sát phụ thuộc vào tải",
       "thermallySafeOperatingSpeed": "Tốc độ vận hành an toàn về nhiệt"
@@ -307,7 +453,8 @@
       "ratingLife": "Tuổi thọ định mức",
       "lubrication": "Thông số bôi trơn",
       "frictionalPowerloss": "Tổn thất công suất do ma sát",
-      "co2": "Lượng khí thải CO₂e cho sản xuất",
+      "co2": "Lượng phát thải CO₂e",
+      "co2ForProduction": "Lượng khí thải CO₂e cho sản xuất",
       "overrollingFrequency": "Tần suất lăn quá mức"
     },
     "basicFrequency": "Tần số cơ bản",

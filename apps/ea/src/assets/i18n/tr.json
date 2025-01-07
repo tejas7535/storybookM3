@@ -61,16 +61,25 @@
     "prototypeWarning": "Bu geliştirme prototipinde gösterilen değerler varsayıma dayalıdır ve üretimde kullanılmamalıdır",
     "showPresetCalculationParameters": "Ön ayar hesaplama parametrelerini göster",
     "addLoadCase": "Yük durumu ekle",
+    "co2Downstream": {
+      "notPossibleTitle": "{{ selectedBearing }} için çalışılıyor",
+      "subTitle": "İşlem sırasında sürtünme nedeniyle oluşan CO₂e",
+      "text": "Kapsama bilgileri, çeşitli uygulama senaryolarında döner ürünlerimizin CO2e emisyonlarının anında hesaplamalarıyla birlikte.",
+      "textAvailable": "Schaeffler artık çeşitli uygulama senaryolarında döner ürünlerimizin CO2e emisyonlarının anında hesaplamalarıyla birlikte kapsamlı bilgiler sunmaktadır.",
+      "title": "Yeni"
+    },
     "loads": "Yük",
     "radialLoad": "Radyal yük",
     "axialLoad": "Eksenel yük",
     "totalAmountOfTime": "Toplam süre:",
+    "loadCaseTimePortionDescription": "Sürtünme / CO₂e hesabı için:",
+    "loadCaseTimePortion": "{{ loadcasePercentage }}% of {{ totalTime }}saat eşittir {{ loadcaseTime }}saat",
     "loadCaseName": "Yük durumu {{number}}",
     "generalInputsTitle": "Genel Girişler",
     "generalInputsTitleTooltip": "Bu, tüm yük durumları için geçerlidir",
     "emptyState": "Lütfen mevcut hesaplamalar listesinden gerçekleştirmek istediğiniz hesaplamayı seçin",
     "operatingTime": {
-      "title": "Çalışma süresi",
+      "title": "Zaman bölümü",
       "label": "Yüzde"
     },
     "presetParameters": {
@@ -126,9 +135,9 @@
       "notAvailable": "Bu tür yağlama, seçtiğiniz rulman için mevcut değildir.",
       "options": {
         "grease": "Gres",
-        "oilBath": "Banyo yağlaması",
-        "oilMist": "Püskürtmeli yağlama",
-        "recirculatingOil": "Sirkülasyonlu yağlama"
+        "oilBath": "Yağ banyosu",
+        "oilMist": "Yağ buharı",
+        "recirculatingOil": "Dolaşımlı yağ"
       },
       "grease": {
         "typeOfGrease": {
@@ -195,6 +204,54 @@
         "rotatingOuterring": "Döner dış halka",
         "rotatingInnerring": "Döner iç halka"
       }
+    },
+    "time": {
+      "title": "Çalışma süresi",
+      "operatingTime": {
+        "label": "Toplam çalışma süresi",
+        "description": "8766 saat, bir yıl boyunca 24/7 kullanıma eşittir",
+        "unit": "saat"
+      }
+    },
+    "energySource": {
+      "title": "Enerji Kaynağı",
+      "options": {
+        "electricity": "Elektrik Enerjisi",
+        "fossil": "Fosil Enerji"
+      },
+      "fossilOrigin": "Fosil Kaynağı",
+      "electricityRegion": "Elektrik üretim bölgesi",
+      "electricityChipText": "{{region}} bölgesindeki elektrik",
+      "electricityRegionOption": {
+        "argentina": "Arjantin",
+        "australia": "Avustralya",
+        "brazil": "Brezilya",
+        "canada": "Kanada",
+        "china": "Çin",
+        "europeanUnion": "Avrupa Birliği",
+        "france": "Fransa",
+        "germany": "Almanya",
+        "greatBritain": "Birleşik Krallık",
+        "india": "Hindistan",
+        "indonesia": "Endonezya",
+        "italy": "İtalya",
+        "japan": "Japonya",
+        "mexico": "Meksika",
+        "russianFederation": "Rusya Federasyonu",
+        "southAfrica": "Güney Afrika",
+        "southKorea": "Güney Kore",
+        "turkey": "Türkiye",
+        "usa": "ABD"
+      },
+      "fossilOriginOptions": {
+        "gasoline": "Benzin",
+        "diesel": "Dizel",
+        "e10": "Benzin E10",
+        "dieselB7": "Dizel B7",
+        "lpg": "LPG (Sıvılaştırılmış Petrol Gazı)",
+        "cng": "CNG (Sıkıştırılmış Doğal Gaz)",
+        "cngBiomethane": "Biyometanlı CNG (Sıkıştırılmış Doğal Gaz)"
+      }
     }
   },
   "calculation": {
@@ -215,14 +272,89 @@
     "overrollingFrequency": "Aşırı yuvarlanma frekansları",
     "overrollingFrequencySubtitle": "İç halkadaki frekans (BPFI)",
     "frictionalPowerloss": "Sürtünme gücü kaybı",
-    "frictionalPowerlossSubtitle": "Toplam Sürtünme Torku (MR)",
+    "frictionalPowerlossSubtitle": "Toplam sürtünme gücü kaybı (W)",
     "frictionalPowerlossUnavailable": "Seçilen rulman için bu hesaplama kullanılamaz.",
     "production": "Üretim için",
-    "productionTooltip": "Bu, gerekli kaynaklar ve enerji de dahil olmak üzere makaralı rulmanın üretimi için yayılan tüm CO₂ eş değerlerinin toplamıdır."
+    "productionTooltip": "Bu, gerekli kaynaklar ve enerji de dahil olmak üzere makaralı rulmanın üretimi için yayılan tüm CO₂ eş değerlerinin toplamıdır.",
+    "usage": "Kullanım sırasında",
+    "usageTooltip": "Güç kaybından kaynaklanan toplam CO2 emisyonları.",
+    "downstreamErrors": {
+      "modelNotExisting": "Bu yatak için CO2 hesaplaması mevcut değil.",
+      "modelLubricationNotSupported": "Bu yağlama türüne sahip bu yatak için CO2 hesaplaması mevcut değil.",
+      "sumOfTimePortionsBelow_100Percent": "Çalışma paylarının toplamı %100'den az. Bu nedenle sürtünme hesaplaması mevcut değil.",
+      "sumOfTimePortionsExceeds_100Percent": "Çalışma paylarının toplamı %100'ü aşıyor. Bu nedenle sürtünme hesaplaması mevcut değil.",
+      "invalidMovementType": "En az bir yük durumunda hareket türü döngüsel değil. Bu nedenle sürtünme hesaplaması mevcut değil.",
+      "operatingTemperatureBelowLimit": "Çalışma sıcaklığı çok düşük. Bu nedenle sürtünme hesaplaması mevcut değil.",
+      "operatingTemperatureExceedsLimit": "Çalışma sıcaklığı çok yüksek. Bu nedenle sürtünme hesaplaması mevcut değil.",
+      "invalidViscosityDefinition": "Yağlayıcının viskozite tanımı sürtünme hesaplaması için geçersiz.",
+      "invalidLubricationMethod": "Yağlama türü tanımı sürtünme hesaplaması için geçersiz.",
+      "invalidGreaseSelection": "Seçilen gres, sürtünme hesaplaması için geçerli değil. Bu nedenle sürtünme hesaplaması mevcut değil.",
+      "invalidViscosityClass": "Verilen yağlayıcının viskozite sınıfı sürtünme hesaplaması için geçerli değil.",
+      "ny100ExceedsNy40": "Yağlayıcının 100°C'deki viskozitesi, 40°C'deki viskoziteden büyüktür. Lütfen girişinizi kontrol edin.",
+      "ny40BelowLimit": "Yağlayıcının 40°C'deki viskozitesi çok düşük. Bu nedenle sürtünme hesaplaması mevcut değil.",
+      "ny40ExceedsLimit": "Yağlayıcının 40°C'deki viskozitesi çok yüksek. Bu nedenle sürtünme hesaplaması mevcut değil.",
+      "ny100BelowLimit": "Yağlayıcının 100°C'deki viskozitesi çok düşük. Bu nedenle sürtünme hesaplaması mevcut değil.",
+      "ny100ExceedsLimit": "Yağlayıcının 100°C'deki viskozitesi çok yüksek. Bu nedenle sürtünme hesaplaması mevcut değil.",
+      "speedBelowThreshold": "Dönme hızı çok düşük. Bu nedenle sürtünme hesaplaması mevcut değil.",
+      "speedExceedsLimitingSpeed": "Dönme hızı sınırlayıcı hızdan yüksektir. Bu nedenle sürtünme hesaplaması mevcut değil.",
+      "p0BelowC0Min": "Eşdeğer statik yatak yükü P0, minimum yükten daha düşüktür. Bu nedenle sürtünme hesaplaması mevcut değil.",
+      "p0ExceedsC0": "Eşdeğer statik yatak yükü P0, statik yük kapasitesi C0'dan büyüktür. Bu nedenle sürtünme hesaplaması mevcut değil.",
+      "loadAngleBelowNominalContactAngle": "Yük açısı, nominal temas açısından daha küçüktür. Oluşan iç eksenel kuvvetler, dış eksenel kuvvetlerden daha büyüktür. Bu nedenle eksenel destek artık garanti edilmez.",
+      "operatingViscosityBelowLimit": "Yağlayıcı ve çalışma sıcaklığından kaynaklanan çalışma viskozitesi çok düşük. Bu nedenle sürtünme hesaplaması mevcut değil.",
+      "operatingViscosityExceedsLimit": "Yağlayıcı ve çalışma sıcaklığından kaynaklanan çalışma viskozitesi çok yüksek. Bu nedenle sürtünme hesaplaması mevcut değil.",
+      "viscosityRatioBelowLimit": "Viskozite oranı Kappa çok büyük. Bu nedenle sürtünme hesaplaması mevcut değil.",
+      "viscosityRatioExceedsLimit": "Viskozite oranı Kappa çok düşük. Bu nedenle sürtünme hesaplaması mevcut değil.",
+      "radialLoadBelowLimit": "Eksenel yük negatif olamaz.",
+      "radialLoadNotSupported": "Bu yatak, radyal yük taşıma için uygun değildir.",
+      "axialLoadBelowLimit": "Aksiyel yük negatif olamaz.",
+      "axialLoadBelowMinimum": "Aksiyel yük, gereken minimum aksiyel yükten daha küçüktür.",
+      "axialLoadExceedsLimit": "Aksiyel yük maksimum aksiyel yükü aşmaktadır.",
+      "axialLoadNotSupported": "Bu yatak, eksenel yükleri taşımakta uygun değildir.",
+      "loadRatioTooSmall": "Aksiyel ve radyal yük arasındaki oran, bu yatak tipi için çok küçüktür.",
+      "loadRatioTooLarge": "Aksiyel ve radyal yük arasındaki oran, bu yatak tipi için çok büyüktür.",
+      "referenceViscosityIsZero": "Referans viskozite için değer 0. Bu nedenle sürtünme hesaplaması mevcut değil.",
+      "meanDiameterIsZero": "Yuvarlanma çapı 0'dır. Bu nedenle sürtünme hesaplaması mevcut değil.",
+      "unsupportedEmissionFactor": "Emisyon faktörü desteklenmiyor.",
+      "genericError": "Bir hata oluştu. Hesaplama başarısız oldu."
+    }
   },
   "calculationResultReport": {
     "dialogTitle": "Rulman {{bearingDesignation}} için rapor",
     "reportSectionInput": "Giriş",
+    "downstreamInputs": {
+      "bearing": {
+        "bearingTitle": "Rulman",
+        "designation": "Tanım",
+        "dynamicLoadRating": "Temel dinamik yük kapasitesi",
+        "fatigueLoadLimit": "Yorulma yük sınırı",
+        "innerDiameter": "İç çap",
+        "limitingSpeedGrease": "Sınırlayıcı hız, gres",
+        "limitingSpeedOil": "Sınırlayıcı hız, yağ",
+        "outerDiameter": "Dış çap",
+        "staticLoadRating": "Temel statik yük kapasitesi",
+        "width": "Genişlik"
+      },
+      "otherConditions": {
+        "conditionsTitle": "Diğer koşullar",
+        "temperature": "Ortam sıcaklığı",
+        "lubricationMethod": "Yağlama tipi",
+        "greaseType": "Gres türü",
+        "operatingTimeInHours": "Çalışma süresi (saat olarak)",
+        "svgClass": "ISO VG sınıfı",
+        "viscosity": "Viskozite girin",
+        "ny40": "40°C'de viskozite",
+        "ny100": "100°C'de viskozite"
+      },
+      "load": {
+        "loadTitle": "Yük",
+        "timePortion": "Zaman dilimi",
+        "typeOfMotion": "Hareket türü",
+        "speed": "Hız",
+        "operatingTemperature": "Ortalama çalışma sıcaklığı",
+        "axialLoad": "Eksenel yük",
+        "radialLoad": "Radyal yük"
+      }
+    },
     "reportSectionWarnings": "Hatalar/Uyarılar/Notlar",
     "calculationNotAvailable": {
       "line1": "Seçilen rulman için bu hesaplama yapılamaz.",
@@ -231,14 +363,28 @@
       "link": "https://medias.schaeffler.de/en/stc"
     },
     "co2Emissions": {
-      "title": "Parça başına CO₂e emisyonları tahmini",
+      "title": "Parça başına CO₂e emisyon tahmini",
       "unit": "CO₂e",
-      "upstreamTitle": "Üretim için yayılan CO₂e* (Yukarı)",
-      "upstreamHint": "*Üretim sırasındaki varsayımlara dayalı tahmini değer",
+      "upstreamTitle": "Üretim için salınan CO₂e* (Akışın başlangıcı)",
+      "upstreamHint": "*Üretim sırasında yapılan varsayımlara dayanan tahmini değer",
       "upstreamHintLinkText": "Daha fazla bilgi.",
-      "calculationHint": "Schaeffler&apos;de CO₂ hakkında daha fazla bilgi edinmek ister misiniz?",
+      "calculationHint": "Schaeffler'de CO₂ hakkında daha fazla bilgi mi istiyorsunuz?",
       "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
-      "calculationHintLinkText": "Buraya tıklayın"
+      "calculationHintLinkText": "Buraya tıklayın",
+      "co2EmissionChartTitle": "CO₂e'nin toplam değeri",
+      "downstreamTitle": "İşletme sırasında sürtünme nedeniyle oluşan CO₂e (kullanım aşaması, Akışın bir parçası)",
+      "totalDownstreamButton": "Toplam",
+      "co2EmissionPercentageLabel": "Toplam CO₂e emisyonlarının payı",
+      "co2EmissionOperatingHours": "Çalışma saatleri",
+      "downstreamHint": "Değerleri bu şekilde hesaplayarak:",
+      "downstreamHintLinkText": "Daha fazla bilgi.",
+      "downstreamHintLink": "",
+      "chartDownstream": "Akışın sonu",
+      "downstreamComingSoon": "{{ bearingDesignation }} için yakında geliyor",
+      "downstreamComingSoonTitle": "İşletme sırasında sürtünme nedeniyle oluşan CO₂e",
+      "downstreamComingSoonText": "Kapsama bilgileri, çeşitli uygulama senaryolarında döner ürünlerimizin CO2e emisyonlarının anında hesaplamalarıyla birlikte.",
+      "chartDescription": "CO₂e emisyonu",
+      "chartUpstream": "Akışın başlangıcı"
     },
     "lubrication": {
       "title": "Yağlama Parametreleri",
@@ -255,8 +401,8 @@
     },
     "frictionalPowerloss": {
       "title": "Sürtünme gücü kaybı",
-      "totalFrictionalTorque": "Toplam sürtünme torku",
-      "totalFrictionalPowerLoss": "Toplam sürtünme gücü kaybı",
+      "totalFrictionalTorque": "Sürtünme momenti",
+      "totalFrictionalPowerLoss": "Sürtünme gücü kaybı",
       "speedDependentFrictionalTorque": "Hıza bağlı sürtünme torku",
       "loadDependentFrictionalTorque": "Yüke bağlı sürtünme torku",
       "thermallySafeOperatingSpeed": "Termal olarak güvenli çalışma hızı"
@@ -307,7 +453,8 @@
       "ratingLife": "Nominal Ömür",
       "lubrication": "Yağlama parametresi",
       "frictionalPowerloss": "Sürtünme gücü kaybı",
-      "co2": "Üretim için CO₂e emisyonları",
+      "co2": "CO₂e emisyonları",
+      "co2ForProduction": "Üretim için CO₂e emisyonları",
       "overrollingFrequency": "Aşırı yuvarlanma frekansları"
     },
     "basicFrequency": "Basit Frekanslar",

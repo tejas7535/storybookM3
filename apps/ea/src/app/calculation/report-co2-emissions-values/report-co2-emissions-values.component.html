@@ -1,0 +1,80 @@
+<ng-container *transloco="let t; read: 'calculationResultReport.co2Emissions'">
+  <div class="flex w-full flex-row">
+    @if (co2Emission || co2EmissionPercentage) {
+      <div class="flex flex-col">
+        <div class="flex flex-row items-center justify-center py-2 pr-4">
+          <div class="text-body-large sm:text-title-large text-high-emphasis">
+            {{ (co2Emission | number: '1.2-2') || '-' }}
+          </div>
+          <div
+            class="text-body-small sm:text-body-medium text-high-emphasis pl-1"
+          >
+            kg
+          </div>
+        </div>
+        <div class="text-medium-emphasis pt-1 px-4">CO₂e</div>
+      </div>
+
+      <mat-divider [vertical]="true"></mat-divider>
+      <div class="flex flex-col">
+        <div class="flex flex-row items-center justify-center py-2 pl-4">
+          <div class="text-body-large sm:text-title-large text-high-emphasis">
+            {{ (co2EmissionPercentage | number: '1.2-2') || '-' }}
+          </div>
+          <div
+            class="text-body-small sm:text-body-medium text-high-emphasis pl-1"
+          >
+            %
+          </div>
+        </div>
+        <div class="text-medium-emphasis pt-1 px-4">
+          {{ t('co2EmissionPercentageLabel') }}
+        </div>
+      </div>
+
+      @if (operatingHours) {
+        <mat-divider [vertical]="true"></mat-divider>
+        <div class="flex flex-col">
+          <div class="flex flex-row items-center justify-center py-2 pl-4">
+            <div class="text-body-large sm:text-title-large text-high-emphasis">
+              {{ operatingHours }}
+            </div>
+            <div
+              class="text-body-small sm:text-body-medium text-high-emphasis pl-1"
+            >
+              h
+            </div>
+          </div>
+          <div class="text-medium-emphasis pt-1 px-4">
+            {{ t('co2EmissionOperatingHours') }}
+          </div>
+        </div>
+      }
+    } @else if (downstreamError) {
+      <div class="flex flex-row gap-2">
+        <div>
+          <mat-icon class="text-on-error-container">error_outline</mat-icon>
+        </div>
+        <div class="text-body-small text-on-error-container">
+          {{ downstreamError }}
+        </div>
+      </div>
+    } @else {
+      <div class="flex flex-row gap-2">
+        <div class="flex flex-col flex-1 gap-2">
+          <div class="text-title-small text-high-emphasis">
+            {{ t('downstreamComingSoonTitle') }}
+          </div>
+          <div class="text-body-small">
+            {{ t('downstreamComingSoonText') }}
+          </div>
+        </div>
+        <img
+          class="hidden md:block h-28 border border-border"
+          [src]="getImagePath('downstream-coming-soon.png')"
+          alt="Downstream Calculation is coming soon"
+        />
+      </div>
+    }
+  </div>
+</ng-container>

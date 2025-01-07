@@ -3,6 +3,22 @@
 exports[`Calculation Fields Selector getCalculationFieldsConfig should return the fields config 1`] = `
 Object {
   "preset": Array [
+    "energySource",
+    "time",
+    "operatingTemperature",
+    "contamination",
+  ],
+  "required": Array [
+    "load",
+    "rotatingCondition",
+    "lubrication",
+  ],
+}
+`;
+
+exports[`Calculation Fields Selector getCalculationFieldsConfig should return the fields config without downstream fields 1`] = `
+Object {
+  "preset": Array [
     "operatingTemperature",
     "contamination",
   ],

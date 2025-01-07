@@ -2,6 +2,7 @@ import {
   CatalogServiceLoadCaseData,
   CatalogServiceOperatingConditions,
 } from '@ea/core/services/catalog.service.interface';
+import { DownstreamOperatingConditions } from '@ea/core/services/downstream-calculation.service.interface';
 import { Greases } from '@ea/shared/constants/greases';
 
 export interface CalculationParametersState {
@@ -10,13 +11,23 @@ export interface CalculationParametersState {
   isInputInvalid: boolean;
 }
 
+export interface CalculationParametersEnergySource {
+  type: 'fossil' | 'electric';
+  fossil?: {
+    fossilOrigin: DownstreamOperatingConditions['fossilEmissionFactor'];
+  };
+  electric?: {
+    electricityRegion: DownstreamOperatingConditions['electricEmissionFactor'];
+  };
+}
+
 export interface CalculationParametersOperationConditions {
   ambientTemperature: number;
 
   loadCaseData: LoadCaseData[];
 
   contamination: CatalogServiceOperatingConditions['IDL_CLEANESS_VALUE'];
-
+  energySource: CalculationParametersEnergySource;
   lubrication: {
     lubricationSelection: 'grease' | 'oilBath' | 'oilMist' | 'recirculatingOil';
     grease: {
@@ -71,6 +82,7 @@ export interface CalculationParametersOperationConditions {
     };
   };
 
+  time: number;
   conditionOfRotation: 'innerring' | 'outerring';
 
   selectedLoadcase: number;

@@ -61,16 +61,25 @@
     "prototypeWarning": "Hodnoty uvedené v tomto vývojovém prototypu jsou hypotetické a nesmí být použity ve výrobě",
     "showPresetCalculationParameters": "Zobrazit přednastavené parametry výpočtu",
     "addLoadCase": "Přidat skupinu zatížení",
+    "co2Downstream": {
+      "notPossibleTitle": "Ve zpracování pro {{ selectedBearing }}",
+      "subTitle": "CO₂e způsobený třením během provozu",
+      "text": "Komplexní informace s okamžitými výpočty emisí CO2e našich rotačních produktů v různých aplikačních scénářích.",
+      "textAvailable": "Schaeffler nyní nabízí komplexní informace s okamžitými výpočty emisí CO2e našich rotačních produktů v různých aplikačních scénářích.",
+      "title": "Nový"
+    },
     "loads": "Zatížení",
     "radialLoad": "Radiální zatížení",
     "axialLoad": "Axiální zatížení",
     "totalAmountOfTime": "Celkové množství času:",
+    "loadCaseTimePortionDescription": "Pro výpočet tření / CO₂e:",
+    "loadCaseTimePortion": "{{ loadcasePercentage }}% z {{ totalTime }}h odpovídá {{ loadcaseTime }}h",
     "loadCaseName": "Skupina zatížení {{number}}",
     "generalInputsTitle": "Obecné vstupy",
     "generalInputsTitleTooltip": "To platí pro všechny skupiny zatížení",
     "emptyState": "Vyberte ze seznamu dostupných výpočtů ten, který chcete provést",
     "operatingTime": {
-      "title": "Provozní doba",
+      "title": "Časová část",
       "label": "Procento"
     },
     "presetParameters": {
@@ -195,6 +204,54 @@
         "rotatingOuterring": "Otáčející se vnější kroužek",
         "rotatingInnerring": "Otáčející se vnitřní kroužek"
       }
+    },
+    "time": {
+      "title": "Provozní doba",
+      "operatingTime": {
+        "label": "Celková provozní doba",
+        "description": "8766 hodin odpovídá nepřetržitému provozu po dobu jednoho roku",
+        "unit": "h"
+      }
+    },
+    "energySource": {
+      "title": "Zdroj energie",
+      "options": {
+        "electricity": "Elektrická energie",
+        "fossil": "Fosilní energie"
+      },
+      "fossilOrigin": "Fosilní původ",
+      "electricityRegion": "Region výroby elektřiny",
+      "electricityChipText": "Elektrická energie v {{region}}",
+      "electricityRegionOption": {
+        "argentina": "Argentina",
+        "australia": "Austrálie",
+        "brazil": "Brazílie",
+        "canada": "Kanada",
+        "china": "Čína",
+        "europeanUnion": "Evropská unie",
+        "france": "Francie",
+        "germany": "Německo",
+        "greatBritain": "Velká Británie",
+        "india": "Indie",
+        "indonesia": "Indonésie",
+        "italy": "Itálie",
+        "japan": "Japonsko",
+        "mexico": "Mexiko",
+        "russianFederation": "Ruská federace",
+        "southAfrica": "Jihoafrická republika",
+        "southKorea": "Jižní Korea",
+        "turkey": "Turecko",
+        "usa": "USA"
+      },
+      "fossilOriginOptions": {
+        "gasoline": "Benzín",
+        "diesel": "Nafta",
+        "e10": "Benzín E10",
+        "dieselB7": "Nafta B7",
+        "lpg": "LPG (zkapalněný ropný plyn)",
+        "cng": "CNG (stlačený zemní plyn)",
+        "cngBiomethane": "CNG s biometanem (stlačený zemní plyn)"
+      }
     }
   },
   "calculation": {
@@ -215,14 +272,89 @@
     "overrollingFrequency": "Frekvence převalování",
     "overrollingFrequencySubtitle": "Frekvence na vnitřním kroužku (BPFI)",
     "frictionalPowerloss": "Třecí ztráty výkonu",
-    "frictionalPowerlossSubtitle": "Celkový třecí moment (MR)",
+    "frictionalPowerlossSubtitle": "Celkové třecí ztráty výkonu (W)",
     "frictionalPowerlossUnavailable": "Pro vybrané ložisko není tento výpočet k dispozici.",
     "production": "Při výrobě",
-    "productionTooltip": "Jedná se o součet všech ekvivalentů CO₂ vypuštěných při výrobě valivého ložiska, včetně potřebných zdrojů a energie."
+    "productionTooltip": "Jedná se o součet všech ekvivalentů CO₂ vypuštěných při výrobě valivého ložiska, včetně potřebných zdrojů a energie.",
+    "usage": "Během používání",
+    "usageTooltip": "Celkové emise CO2 způsobené ztrátou výkonu.",
+    "downstreamErrors": {
+      "modelNotExisting": "Pro toto ložisko není k dispozici výpočet CO2.",
+      "modelLubricationNotSupported": "Pro toto ložisko s tímto typem mazání není k dispozici výpočet CO2.",
+      "sumOfTimePortionsBelow_100Percent": "Součet provozních podílů je menší než 100 %. Proto není k dispozici výpočet tření.",
+      "sumOfTimePortionsExceeds_100Percent": "Součet provozních podílů překračuje 100 %. Proto není k dispozici výpočet tření.",
+      "invalidMovementType": "V alespoň jednom zatěžovacím případě není typ pohybu otáčející. Proto není k dispozici výpočet tření.",
+      "operatingTemperatureBelowLimit": "Provozní teplota je příliš nízká. Proto není k dispozici výpočet tření.",
+      "operatingTemperatureExceedsLimit": "Provozní teplota je příliš vysoká. Proto není k dispozici výpočet tření.",
+      "invalidViscosityDefinition": "Definice viskozity maziva není platná pro výpočet tření.",
+      "invalidLubricationMethod": "Definice typu mazání není platná pro výpočet tření.",
+      "invalidGreaseSelection": "Vybrané mazivo není platné pro výpočet tření. Proto není k dispozici výpočet tření.",
+      "invalidViscosityClass": "Zadaná viskózní třída maziva není platná pro výpočet tření.",
+      "ny100ExceedsNy40": "Viskozita maziva při 100 °C je větší než viskozita při 40 °C. Zkontrolujte svůj vstup.",
+      "ny40BelowLimit": "Viskozita maziva při 40 °C je příliš nízká. Proto není k dispozici výpočet tření.",
+      "ny40ExceedsLimit": "Viskozita maziva při 40 °C je příliš vysoká. Proto není k dispozici výpočet tření.",
+      "ny100BelowLimit": "Viskozita maziva při 100 °C je příliš nízká. Proto není k dispozici výpočet tření.",
+      "ny100ExceedsLimit": "Viskozita maziva při 100 °C je příliš vysoká. Proto není k dispozici výpočet tření.",
+      "speedBelowThreshold": "Rychlost je příliš nízká. Proto není k dispozici výpočet tření.",
+      "speedExceedsLimitingSpeed": "Rychlost je větší než mezní rychlost. Proto není k dispozici výpočet tření.",
+      "p0BelowC0Min": "Ekvivalentní statická ložisková zatížení P0 je nižší než minimální zatížení. Proto není k dispozici výpočet tření.",
+      "p0ExceedsC0": "Ekvivalentní statická ložisková zatížení P0 je větší než statická zatížení C0. Proto není k dispozici výpočet tření.",
+      "loadAngleBelowNominalContactAngle": "Úhel zatížení je menší než nominální kontakt. Výsledné vnitřní axiální síly jsou proto větší než působící externí axiální síly. Axiální podpora proto již není zaručena.",
+      "operatingViscosityBelowLimit": "Provozní viskozita vyplývající z maziva a provozní teploty je příliš nízká. Proto není k dispozici výpočet tření.",
+      "operatingViscosityExceedsLimit": "Provozní viskozita vyplývající z maziva a provozní teploty je příliš vysoká. Proto není k dispozici výpočet tření.",
+      "viscosityRatioBelowLimit": "Poměr viskozity Kappa je příliš velký. Proto není k dispozici výpočet tření.",
+      "viscosityRatioExceedsLimit": "Poměr viskozity Kappa je příliš malý. Proto není k dispozici výpočet tření.",
+      "radialLoadBelowLimit": "Radiální zatížení nemůže být negativní.",
+      "radialLoadNotSupported": "Toto ložisko není schopné zatížení radiálním zatížením.",
+      "axialLoadBelowLimit": "Axiální zatížení nemůže být negativní.",
+      "axialLoadBelowMinimum": "Axiální zatížení je menší než požadované minimální axiální zatížení.",
+      "axialLoadExceedsLimit": "Axiální zatížení překračuje maximální axiální zatížení.",
+      "axialLoadNotSupported": "Toto ložisko není schopné zatížení axiálním zatížením.",
+      "loadRatioTooSmall": "Poměr mezi axiálním a radiálním zatížením je pro tento typ ložiska příliš malý.",
+      "loadRatioTooLarge": "Poměr mezi axiálním a radiálním zatížením je pro tento typ ložiska příliš velký.",
+      "referenceViscosityIsZero": "Hodnota pro referenční viskozitu je 0. Proto není k dispozici výpočet tření.",
+      "meanDiameterIsZero": "Průměr válečkového kruhu je 0. Proto není k dispozici výpočet tření.",
+      "unsupportedEmissionFactor": "Emisní faktor není podporován.",
+      "genericError": "Došlo k chybě. Výpočet selhal."
+    }
   },
   "calculationResultReport": {
     "dialogTitle": "Zpráva pro ložisko {{bearingDesignation}}",
     "reportSectionInput": "Vstup",
+    "downstreamInputs": {
+      "bearing": {
+        "bearingTitle": "Ložisko",
+        "designation": "Označení",
+        "dynamicLoadRating": "Základní dynamická únosnost",
+        "fatigueLoadLimit": "Mez únavového zatížení",
+        "innerDiameter": "Vnitřní průměr",
+        "limitingSpeedGrease": "Mezní rychlost, tuk",
+        "limitingSpeedOil": "Mezní rychlost, olej",
+        "outerDiameter": "Vnější průměr",
+        "staticLoadRating": "Základní statická únosnost",
+        "width": "Šířka"
+      },
+      "otherConditions": {
+        "conditionsTitle": "Další podmínky",
+        "temperature": "Okolní teplota",
+        "lubricationMethod": "Typ mazání",
+        "greaseType": "Typ tuku",
+        "operatingTimeInHours": "Provozní doba v hodinách",
+        "svgClass": "ISO VG třída",
+        "viscosity": "Zadejte viskozitu",
+        "ny40": "Viskozita při 40°C",
+        "ny100": "Viskozita při 100°C"
+      },
+      "load": {
+        "loadTitle": "Zatížení",
+        "timePortion": "Časová porce",
+        "typeOfMotion": "Typ pohybu",
+        "speed": "Rychlost",
+        "operatingTemperature": "Průměrná provozní teplota",
+        "axialLoad": "Axiální zatížení",
+        "radialLoad": "Radiální zatížení"
+      }
+    },
     "reportSectionWarnings": "Chyby/varování/poznámky",
     "calculationNotAvailable": {
       "line1": "Pro vybrané ložisko není tento výpočet možný.",
@@ -233,12 +365,26 @@
     "co2Emissions": {
       "title": "Odhad emisí CO₂e na kus",
       "unit": "CO₂e",
-      "upstreamTitle": "Emise CO₂e vypouštěné při výrobě* (materiálové vstupy)",
-      "upstreamHint": "*Odhadovaná hodnota na základě předpokladů při výrobě",
-      "upstreamHintLinkText": "Další informace.",
-      "calculationHint": "Chcete se dozvědět více o CO₂ ve společnosti Schaeffler?",
+      "upstreamTitle": "CO₂e emitované při výrobě* (Vstupní)",
+      "upstreamHint": "*Odhadovaná hodnota založená na předpokladech během výroby",
+      "upstreamHintLinkText": "Více informací.",
+      "calculationHint": "Chcete vědět více o CO₂ ve společnosti Schaeffler?",
       "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
-      "calculationHintLinkText": "Klikněte sem"
+      "calculationHintLinkText": "Klikněte zde",
+      "co2EmissionChartTitle": "Celková hodnota CO₂e",
+      "downstreamTitle": "CO₂e způsobené třením během provozu (fáze použití, část Výstupní)",
+      "totalDownstreamButton": "Celkem",
+      "co2EmissionPercentageLabel": "Podíl celkových emisí CO₂e",
+      "co2EmissionOperatingHours": "Provozní hodiny",
+      "downstreamHint": "Toto je způsob, jak jsme vypočítali hodnoty:",
+      "downstreamHintLinkText": "Více informací.",
+      "downstreamHintLink": "",
+      "chartDownstream": "Výstupní",
+      "downstreamComingSoon": "Brzy pro {{ bearingDesignation }}",
+      "downstreamComingSoonTitle": "CO₂e způsobené třením během provozu",
+      "downstreamComingSoonText": "Komplexní informace s okamžitými výpočty emisí CO2e našich rotačních produktů v různých aplikačních scénářích.",
+      "chartDescription": "Emise CO₂e",
+      "chartUpstream": "Vstupní"
     },
     "lubrication": {
       "title": "Parametry mazání",
@@ -255,8 +401,8 @@
     },
     "frictionalPowerloss": {
       "title": "Třecí ztráty výkonu",
-      "totalFrictionalTorque": "Celkový třecí moment",
-      "totalFrictionalPowerLoss": "Celkové třecí ztráty výkonu",
+      "totalFrictionalTorque": "Třecí moment",
+      "totalFrictionalPowerLoss": "Ztráta výkonu třením",
       "speedDependentFrictionalTorque": "Třecí moment závislý na rychlosti",
       "loadDependentFrictionalTorque": "Třecí moment závislý na zatížení",
       "thermallySafeOperatingSpeed": "Tepelně bezpečná provozní rychlost"
@@ -307,7 +453,8 @@
       "ratingLife": "Životnost",
       "lubrication": "Parametr mazání",
       "frictionalPowerloss": "Třecí ztráty výkonu",
-      "co2": "Emise CO₂e při výrobě",
+      "co2": "Emise CO₂e",
+      "co2ForProduction": "Emise CO₂e při výrobě",
       "overrollingFrequency": "Frekvence převalování"
     },
     "basicFrequency": "Základní frekvence",

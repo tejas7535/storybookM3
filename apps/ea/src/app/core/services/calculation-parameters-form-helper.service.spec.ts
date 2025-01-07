@@ -123,4 +123,42 @@ describe('CalculationParametersFormHelperService', () => {
       });
     });
   });
+
+  describe('getLocalizedLoadCaseTimePortion', () => {
+    describe('when operatingTimeInHours and loadcasePercentage are not provided', () => {
+      it('should return empty string', () => {
+        const result =
+          calculationParametersFormHelperService.getLocalizedLoadCaseTimePortion(
+            undefined,
+            undefined
+          );
+
+        expect(result).toBe('');
+      });
+    });
+
+    describe('when operatingTimeInHours and loadcasePercentage are provided', () => {
+      it('should return localized load case time portion', () => {
+        const operatingTimeInHours = 100;
+        const loadcasePercentage = 25;
+        const expectedLoadcaseTime = 25;
+        const expectedTranslation = 'operationConditions.loadCaseTimePortion';
+
+        const result = spectator.service.getLocalizedLoadCaseTimePortion(
+          operatingTimeInHours,
+          loadcasePercentage
+        );
+
+        expect(translocoServiceSpy).toHaveBeenCalledWith(
+          'operationConditions.loadCaseTimePortion',
+          {
+            loadcasePercentage,
+            totalTime: operatingTimeInHours,
+            loadcaseTime: expectedLoadcaseTime,
+          }
+        );
+        expect(result).toBe(expectedTranslation);
+      });
+    });
+  });
 });

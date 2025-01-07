@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CalculationParametersChipsService getContaminationChip should return a CalculationChip with correct values 1`] = `
+Object {
+  "icon": "mop",
+  "label": "operationConditions.contamination.title",
+  "text": "Standard Cleanliness",
+}
+`;
+
+exports[`CalculationParametersChipsService getEnergySourceChip when type is electric should return a CalculationChip with correct values 1`] = `
+Object {
+  "icon": "bolt",
+  "label": "operationConditions.energySource.title",
+  "newTag": true,
+  "text": "operationConditions.energySource.electricityChipText",
+}
+`;
+
+exports[`CalculationParametersChipsService getEnergySourceChip when type is electric should return correct value for European union 1`] = `
+Object {
+  "icon": "bolt",
+  "label": "operationConditions.energySource.title",
+  "newTag": true,
+  "text": "operationConditions.energySource.electricityChipText",
+}
+`;
+
+exports[`CalculationParametersChipsService getEnergySourceChip when type is electric should return empty for non option value 1`] = `
+Object {
+  "icon": "bolt",
+  "label": "operationConditions.energySource.title",
+  "newTag": true,
+  "text": "operationConditions.energySource.electricityChipText",
+}
+`;
+
+exports[`CalculationParametersChipsService getEnergySourceChip when type is fossil should return a CalculationChip with correct values 1`] = `
+Object {
+  "icon": "bolt",
+  "label": "operationConditions.energySource.title",
+  "newTag": true,
+  "text": "Gasoline E10",
+}
+`;
+
+exports[`CalculationParametersChipsService getEnergySourceChip when type is fossil should return empty value for non option value 1`] = `
+Object {
+  "icon": "bolt",
+  "label": "operationConditions.energySource.title",
+  "newTag": true,
+  "text": "",
+}
+`;
+
+exports[`CalculationParametersChipsService getTimeChip should return a CalculationChip with correct values 1`] = `
+Object {
+  "icon": "acute",
+  "label": "operationConditions.time.title",
+  "newTag": true,
+  "text": "2000 h",
+}
+`;

@@ -14,7 +14,6 @@ import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { CalculationResultPreviewEmissionsTooltipComponent } from '../calculation-result-preview-emissions-tooltip/calculation-result-preview-emissions-tooltip.component';
 import { CalculationResultPreviewErrorsComponent } from '../calculation-result-preview-errors/calculation-result-preview-errors.component';
 import { CalculationResultPreviewItemComponent } from '../calculation-result-preview-item/calculation-result-preview-item.component';
 import { CalculationResultReportComponent } from '../calculation-result-report/calculation-result-report.component';
@@ -32,9 +31,9 @@ import { OverrollingFrequenciesPreviewItemComponent } from '../overrolling-frequ
     MatDividerModule,
     CalculationResultPreviewItemComponent,
     OverrollingFrequenciesPreviewItemComponent,
+
     SharedTranslocoModule,
     MatProgressSpinnerModule,
-    CalculationResultPreviewEmissionsTooltipComponent,
     LetDirective,
     CalculationResultPreviewErrorsComponent,
   ],
@@ -59,6 +58,8 @@ export class CalculationResultPreviewComponent {
     this.calculationParametersFacade.getSelectedLoadcase$;
   public calculationErrors$ =
     this.calculationResultFacade.calculationReportErrors$;
+  public calculationDownstreamErrors$ =
+    this.calculationResultFacade.calculationReportDownstreamErrors$;
   public calculationGeneralError$ =
     this.calculationResultFacade.isCalculationGeneralError$;
 

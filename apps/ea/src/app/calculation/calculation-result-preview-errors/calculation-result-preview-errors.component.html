@@ -4,7 +4,7 @@
     [class.expanded-container]="expanded"
   >
     <div class="flex flex-row flex-wrap gap-1 md:gap-4 justify-center">
-      @for (item of catalogCalculationData; track item; let isLast = $last) {
+      @for (item of getAffectedItems(); track item; let isLast = $last) {
         <div class="flex gap-1 md:gap-3 text-medium-emphasis text-body-small">
           <span>
             {{ t(item.title) }}
@@ -24,12 +24,12 @@
       <div class="flex flex-shrink-0 mr-3">
         <mat-icon class="text-error">warning</mat-icon>
       </div>
-      @if (inlineErrors) {
+      @if (inlineErrors || inlineDownstreamErrors) {
         <div
           class="text-body-medium text-high-emphasis flex max-h-12 overflow-hidden transition-all duration-500 ease-in-out"
           [class.expanded-errors-content]="expanded"
         >
-          {{ inlineErrors }}
+          {{ getCombinedInlineErrors() }}
         </div>
       }
       <button

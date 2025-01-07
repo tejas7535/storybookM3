@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EnergySourceOptions getElectricityRegionOptions 1`] = `
+Array [
+  Object {
+    "label": "operationConditions.energySource.electricityRegionOption.argentina",
+    "value": "LB_ARGENTINA",
+  },
+  Object {
+    "label": "operationConditions.energySource.electricityRegionOption.australia",
+    "value": "LB_AUSTRALIA",
+  },
+  Object {
+    "label": "operationConditions.energySource.electricityRegionOption.brazil",
+    "value": "LB_BRAZIL",
+  },
+  Object {
+    "label": "operationConditions.energySource.electricityRegionOption.canada",
+    "value": "LB_CANADA",
+  },
+  Object {
+    "label": "operationConditions.energySource.electricityRegionOption.china",
+    "value": "LB_CHINA",
+  },
+  Object {
+    "label": "operationConditions.energySource.electricityRegionOption.europeanUnion",
+    "value": "LB_EUROPEAN_UNION",
+  },
+  Object {
+    "label": "operationConditions.energySource.electricityRegionOption.france",
+    "value": "LB_FRANCE",
+  },
+  Object {
+    "label": "operationConditions.energySource.electricityRegionOption.germany",
+    "value": "LB_GERMANY",
+  },
+  Object {
+    "label": "operationConditions.energySource.electricityRegionOption.greatBritain",
+    "value": "LB_GREAT_BRITAIN",
+  },
+  Object {
+    "label": "operationConditions.energySource.electricityRegionOption.india",
+    "value": "LB_INDIA",
+  },
+  Object {
+    "label": "operationConditions.energySource.electricityRegionOption.indonesia",
+    "value": "LB_INDONESIA",
+  },
+  Object {
+    "label": "operationConditions.energySource.electricityRegionOption.italy",
+    "value": "LB_ITALY",
+  },
+  Object {
+    "label": "operationConditions.energySource.electricityRegionOption.japan",
+    "value": "LB_JAPAN",
+  },
+  Object {
+    "label": "operationConditions.energySource.electricityRegionOption.mexico",
+    "value": "LB_MEXICO",
+  },
+  Object {
+    "label": "operationConditions.energySource.electricityRegionOption.russianFederation",
+    "value": "LB_RUSSIAN_FEDERATION",
+  },
+  Object {
+    "label": "operationConditions.energySource.electricityRegionOption.southAfrica",
+    "value": "LB_SOUTH_AFRICA",
+  },
+  Object {
+    "label": "operationConditions.energySource.electricityRegionOption.southKorea",
+    "value": "LB_SOUTH_KOREA",
+  },
+  Object {
+    "label": "operationConditions.energySource.electricityRegionOption.turkey",
+    "value": "LB_TURKEY",
+  },
+  Object {
+    "label": "operationConditions.energySource.electricityRegionOption.usa",
+    "value": "LB_USA",
+  },
+]
+`;
+
+exports[`EnergySourceOptions getFossilOriginOptions 1`] = `
+Array [
+  Object {
+    "label": "operationConditions.energySource.fossilOriginOptions.gasoline",
+    "value": "LB_GASOLINE_FOSSIL",
+  },
+  Object {
+    "label": "operationConditions.energySource.fossilOriginOptions.diesel",
+    "value": "LB_DIESEL_FOSSIL",
+  },
+  Object {
+    "label": "operationConditions.energySource.fossilOriginOptions.e10",
+    "value": "LB_GASOLINE_E10",
+  },
+  Object {
+    "label": "operationConditions.energySource.fossilOriginOptions.dieselB7",
+    "value": "LB_DIESEL_B7",
+  },
+  Object {
+    "label": "operationConditions.energySource.fossilOriginOptions.lpg",
+    "value": "LB_LPG",
+  },
+  Object {
+    "label": "operationConditions.energySource.fossilOriginOptions.cng",
+    "value": "LB_CNG",
+  },
+  Object {
+    "label": "operationConditions.energySource.fossilOriginOptions.cngBiomethane",
+    "value": "LB_CNG_BIOMETHANE",
+  },
+]
+`;

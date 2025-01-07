@@ -11,6 +11,8 @@ import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { CalculationResultPreviewEmissionsTooltipComponent } from '../calculation-result-preview-emissions-tooltip/calculation-result-preview-emissions-tooltip.component';
+
 @Component({
   selector: 'ea-calculation-result-preview-item',
   templateUrl: './calculation-result-preview-item.component.html',
@@ -25,6 +27,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
     MatProgressSpinnerModule,
     MatDividerModule,
     MeaningfulRoundPipe,
+    CalculationResultPreviewEmissionsTooltipComponent,
   ],
 })
 export class CalculationResultPreviewItemComponent {
@@ -32,6 +35,7 @@ export class CalculationResultPreviewItemComponent {
 
   public _item: CalculationResultPreviewItem;
   public isSingleItem = false;
+  public readonly yearlyEmissionUsageInHours = 8766;
 
   @Input() set item(item: CalculationResultPreviewItem) {
     this._item = item;

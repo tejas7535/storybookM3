@@ -61,16 +61,25 @@
     "prototypeWarning": "この開発プロトタイプに示されている値は仮定に基づいており、実際の生産現場で使用することはできません",
     "showPresetCalculationParameters": "プリセット計算パラメータの表示",
     "addLoadCase": "荷重条件の追加",
+    "co2Downstream": {
+      "notPossibleTitle": "{{ selectedBearing }} のために作成中",
+      "subTitle": "運転中の摩擦により発生する CO₂e",
+      "text": "包括立即计算我们旋转产品在各种应用场景下的CO2e排放的综合信息。",
+      "textAvailable": "Schaeffler 现在提供包括立即计算我们旋转产品在各种应用场景下的CO2e排放的综合信息。",
+      "title": "新しい"
+    },
     "loads": "荷重",
     "radialLoad": "ラジアル荷重",
     "axialLoad": "アキシアル荷重",
     "totalAmountOfTime": "合計時間：",
+    "loadCaseTimePortionDescription": "摩擦 / CO₂e 計算のため:",
+    "loadCaseTimePortion": "{{ loadcasePercentage }}% の {{ totalTime }} 時間は {{ loadcaseTime }} 時間に相当します",
     "loadCaseName": "荷重条件 {{number}}",
     "generalInputsTitle": "一般条件入力",
     "generalInputsTitleTooltip": "こちらはすべての荷重条件に適用されます",
     "emptyState": "使用可能な計算のリストから実行する計算を選択してください",
     "operatingTime": {
-      "title": "動作時間",
+      "title": "時間部分",
       "label": "パーセンテージ"
     },
     "presetParameters": {
@@ -126,9 +135,9 @@
       "notAvailable": "この潤滑の種類は、選択したベアリングには使用できません。",
       "options": {
         "grease": "グリース",
-        "oilBath": "オイルバス潤滑",
-        "oilMist": "オイルミスト潤滑",
-        "recirculatingOil": "循環オイル潤滑"
+        "oilBath": "オイルバス",
+        "oilMist": "オイルミスト",
+        "recirculatingOil": "循環油"
       },
       "grease": {
         "typeOfGrease": {
@@ -195,6 +204,54 @@
         "rotatingOuterring": "外輪の回転",
         "rotatingInnerring": "内輪の回転"
       }
+    },
+    "time": {
+      "title": "稼働時間",
+      "operatingTime": {
+        "label": "総稼働時間",
+        "description": "8766時間は年間24/7の使用に相当します",
+        "unit": "h"
+      }
+    },
+    "energySource": {
+      "title": "エネルギー源",
+      "options": {
+        "electricity": "電気エネルギー",
+        "fossil": "化石エネルギー"
+      },
+      "fossilOrigin": "化石エネルギーの起源",
+      "electricityRegion": "電力生産地域",
+      "electricityChipText": "{{region}}の電力",
+      "electricityRegionOption": {
+        "argentina": "アルゼンチン",
+        "australia": "オーストラリア",
+        "brazil": "ブラジル",
+        "canada": "カナダ",
+        "china": "中国",
+        "europeanUnion": "欧州連合",
+        "france": "フランス",
+        "germany": "ドイツ",
+        "greatBritain": "イギリス",
+        "india": "インド",
+        "indonesia": "インドネシア",
+        "italy": "イタリア",
+        "japan": "日本",
+        "mexico": "メキシコ",
+        "russianFederation": "ロシア連邦",
+        "southAfrica": "南アフリカ",
+        "southKorea": "韓国",
+        "turkey": "トルコ",
+        "usa": "アメリカ合衆国"
+      },
+      "fossilOriginOptions": {
+        "gasoline": "ガソリン",
+        "diesel": "ディーゼル",
+        "e10": "ガソリン E10",
+        "dieselB7": "ディーゼル B7",
+        "lpg": "LPG（液化石油ガス）",
+        "cng": "CNG（圧縮天然ガス）",
+        "cngBiomethane": "バイオメタンを含むCNG（圧縮天然ガス）"
+      }
     }
   },
   "calculation": {
@@ -215,14 +272,89 @@
     "overrollingFrequency": "オーバーロール周波数",
     "overrollingFrequencySubtitle": "内輪の周波数（BPFI）",
     "frictionalPowerloss": "摩擦力損失",
-    "frictionalPowerlossSubtitle": "合計摩擦トルク（MR）",
+    "frictionalPowerlossSubtitle": "合計摩擦力損失（W）",
     "frictionalPowerlossUnavailable": "選択したベアリングにこの計算は使用できません。",
     "production": "製造関連",
-    "productionTooltip": "これは、転がり軸受の製造に必要な資源とエネルギーを含む、排出されるすべてのガスの CO₂ 換算値です。"
+    "productionTooltip": "これは、転がり軸受の製造に必要な資源とエネルギーを含む、排出されるすべてのガスの CO₂ 換算値です。",
+    "usage": "使用中",
+    "usageTooltip": "電力損失による総CO2排出量。",
+    "downstreamErrors": {
+      "modelNotExisting": "このベアリングにはCO2計算が利用できません。",
+      "modelLubricationNotSupported": "この潤滑タイプを持つベアリングにはCO2計算が利用できません。",
+      "sumOfTimePortionsBelow_100Percent": "稼働比率の合計が100%未満です。そのため、摩擦計算は利用できません。",
+      "sumOfTimePortionsExceeds_100Percent": "稼働比率の合計が100%を超えています。そのため、摩擦計算は利用できません。",
+      "invalidMovementType": "少なくとも1つの荷重ケースで、動作タイプが回転していません。そのため、摩擦計算は利用できません。",
+      "operatingTemperatureBelowLimit": "作動温度が低すぎます。そのため、摩擦計算は利用できません。",
+      "operatingTemperatureExceedsLimit": "作動温度が高すぎます。そのため、摩擦計算は利用できません。",
+      "invalidViscosityDefinition": "潤滑剤の粘度の定義は摩擦計算に対して無効です。",
+      "invalidLubricationMethod": "潤滑タイプの定義は摩擦計算に対して無効です。",
+      "invalidGreaseSelection": "選択したグリースは摩擦計算に対して無効です。そのため、摩擦計算は利用できません。",
+      "invalidViscosityClass": "指定された潤滑剤の粘度クラスは摩擦計算に対して無効です。",
+      "ny100ExceedsNy40": "100°Cでの潤滑剤の粘度が40°Cでの粘度を上回っています。入力を確認してください。",
+      "ny40BelowLimit": "40°Cでの潤滑剤の粘度が低すぎます。そのため、摩擦計算は利用できません。",
+      "ny40ExceedsLimit": "40°Cでの潤滑剤の粘度が高すぎます。そのため、摩擦計算は利用できません。",
+      "ny100BelowLimit": "100°Cでの潤滑剤の粘度が低すぎます。そのため、摩擦計算は利用できません。",
+      "ny100ExceedsLimit": "100°Cでの潤滑剤の粘度が高すぎます。そのため、摩擦計算は利用できません。",
+      "speedBelowThreshold": "回転速度が低すぎます。そのため、摩擦計算は利用できません。",
+      "speedExceedsLimitingSpeed": "回転速度が限界回転速度を上回っています。そのため、摩擦計算は利用できません。",
+      "p0BelowC0Min": "等価静的ベアリング荷重P0が最小荷重よりも低いです。そのため、摩擦計算は利用できません。",
+      "p0ExceedsC0": "等価静的ベアリング荷重P0が静的定格荷重C0を超えています。そのため、摩擦計算は利用できません。",
+      "loadAngleBelowNominalContactAngle": "負荷角が名目接触角未満です。結果として、内部の軸方向力が作用する外部軸方向力よりも大きくなっています。したがって、軸方向の支持は保証されません。",
+      "operatingViscosityBelowLimit": "潤滑剤と運転温度から生じる運転粘度が低すぎます。そのため、摩擦計算は利用できません。",
+      "operatingViscosityExceedsLimit": "潤滑剤と運転温度から生じる運転粘度が高すぎます。そのため、摩擦計算は利用できません。",
+      "viscosityRatioBelowLimit": "粘度比Kappaが大きすぎます。そのため、摩擦計算は利用できません。",
+      "viscosityRatioExceedsLimit": "粘度比Kappaが小さすぎます。そのため、摩擦計算は利用できません。",
+      "radialLoadBelowLimit": "ラジアル荷重は負であってはなりません。",
+      "radialLoadNotSupported": "このベアリングはラジアル荷重に対応していません。",
+      "axialLoadBelowLimit": "軸方向荷重は負であってはなりません。",
+      "axialLoadBelowMinimum": "軸方向荷重が必要な最小軸方向荷重よりも小さいです。",
+      "axialLoadExceedsLimit": "軸方向荷重は最大軸方向荷重を超えています。",
+      "axialLoadNotSupported": "このベアリングは軸方向荷重に対応していません。",
+      "loadRatioTooSmall": "軸方向とラジアル荷重の比率がこのベアリングタイプには小さすぎます。",
+      "loadRatioTooLarge": "軸方向とラジアル荷重の比率がこのベアリングタイプには大きすぎます。",
+      "referenceViscosityIsZero": "参照粘度の値が0です。そのため、摩擦計算は利用できません。",
+      "meanDiameterIsZero": "転がり円直径が0です。そのため、摩擦計算は利用できません。",
+      "unsupportedEmissionFactor": "排出係数はサポートされていません。",
+      "genericError": "エラーが発生しました。計算に失敗しました."
+    }
   },
   "calculationResultReport": {
     "dialogTitle": "ベアリング {{bearingDesignation}} のレポート",
     "reportSectionInput": "入力",
+    "downstreamInputs": {
+      "bearing": {
+        "bearingTitle": "ベアリング",
+        "designation": "指定",
+        "dynamicLoadRating": "基本動定格荷重",
+        "fatigueLoadLimit": "疲労限界荷重",
+        "innerDiameter": "内径",
+        "limitingSpeedGrease": "限界速度、グリース",
+        "limitingSpeedOil": "限界速度、オイル",
+        "outerDiameter": "外径",
+        "staticLoadRating": "基本静定格荷重",
+        "width": "幅"
+      },
+      "otherConditions": {
+        "conditionsTitle": "その他の条件",
+        "temperature": "周囲温度",
+        "lubricationMethod": "潤滑方法",
+        "greaseType": "グリースの種類",
+        "operatingTimeInHours": "稼働時間（時間）",
+        "svgClass": "ISO VG クラス",
+        "viscosity": "粘度を入力",
+        "ny40": "40°Cでの粘度",
+        "ny100": "100°Cでの粘度"
+      },
+      "load": {
+        "loadTitle": "荷重",
+        "timePortion": "時間の割合",
+        "typeOfMotion": "運動の種類",
+        "speed": "速度",
+        "operatingTemperature": "平均運転温度",
+        "axialLoad": "軸方向荷重",
+        "radialLoad": "ラジアル荷重"
+      }
+    },
     "reportSectionWarnings": "エラー/警告/メモ",
     "calculationNotAvailable": {
       "line1": "選択したベアリングにこの計算は使用できません。",
@@ -231,14 +363,28 @@
       "link": "https://medias.schaeffler.de/en/stc"
     },
     "co2Emissions": {
-      "title": "1 個あたりの CO₂e 排出量の推定値",
+      "title": "一個あたりのCO₂e排出量の推定",
       "unit": "CO₂e",
-      "upstreamTitle": "製造における Co₂e 排出量*（上流）",
-      "upstreamHint": "*製造時の仮定に基づく推定値",
+      "upstreamTitle": "生産時に排出されるCO₂e* (アップストリーム)",
+      "upstreamHint": "*生産中の仮定に基づく推定値",
       "upstreamHintLinkText": "詳細情報。",
-      "calculationHint": "シェフラーにおける CO₂ についてもっと知りたいですか？",
+      "calculationHint": "SchaefflerのCO₂についてもっと知りたいですか？",
       "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
-      "calculationHintLinkText": "ここをクリックしてください"
+      "calculationHintLinkText": "こちらをクリック",
+      "co2EmissionChartTitle": "CO₂eの総価値",
+      "downstreamTitle": "運用中の摩擦によって引き起こされるCO₂e (使用段階、ダウンストリームの一部)",
+      "totalDownstreamButton": "合計",
+      "co2EmissionPercentageLabel": "総CO₂e排出量の割合",
+      "co2EmissionOperatingHours": "稼働時間",
+      "downstreamHint": "値を計算した方法は次のとおりです：",
+      "downstreamHintLinkText": "詳細情報。",
+      "downstreamHintLink": "",
+      "chartDownstream": "ダウンストリーム",
+      "downstreamComingSoon": "{{ bearingDesignation }}のために近日公開",
+      "downstreamComingSoonTitle": "運用中の摩擦によって引き起こされるCO₂e",
+      "downstreamComingSoonText": "包括立即计算我们旋转产品在各种应用场景下的CO2e排放的综合信息。",
+      "chartDescription": "CO₂e排出量",
+      "chartUpstream": "アップストリーム"
     },
     "lubrication": {
       "title": "潤滑パラメータ",
@@ -255,8 +401,8 @@
     },
     "frictionalPowerloss": {
       "title": "摩擦力損失",
-      "totalFrictionalTorque": "合計摩擦トルク",
-      "totalFrictionalPowerLoss": "合計摩擦力損失",
+      "totalFrictionalTorque": "摩擦トルク",
+      "totalFrictionalPowerLoss": "摩擦による電力損失",
       "speedDependentFrictionalTorque": "速度依存摩擦トルク",
       "loadDependentFrictionalTorque": "負荷依存摩擦トルク",
       "thermallySafeOperatingSpeed": "熱的に安全な動作速度"
@@ -307,7 +453,8 @@
       "ratingLife": "定格寿命",
       "lubrication": "潤滑パラメータ",
       "frictionalPowerloss": "摩擦力損失",
-      "co2": "製造における CO₂e 排出量",
+      "co2": "CO₂e排出量",
+      "co2ForProduction": "製造における CO₂e 排出量",
       "overrollingFrequency": "オーバーロール周波数"
     },
     "basicFrequency": "基本周波数",

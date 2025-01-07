@@ -99,6 +99,26 @@ describe('ProductSelectionReducer', () => {
     });
   });
 
+  describe('setCanCalculate', () => {
+    it('should set the co2DownstreamAvailable', () => {
+      const originalState: ProductSelectionState = {
+        ...initialState,
+      };
+
+      const newState = productSelectionReducer(
+        originalState,
+        ProductSelectionActions.setCanCalculate({
+          co2DownstreamAvailable: true,
+        })
+      );
+
+      expect(newState).toEqual({
+        ...initialState,
+        co2DownstreamAvailable: true,
+      });
+    });
+  });
+
   describe('setProductFetchFailure', () => {
     it('should set the error', () => {
       const originalState: ProductSelectionState = {

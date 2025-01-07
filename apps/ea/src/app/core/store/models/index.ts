@@ -5,5 +5,6 @@ export * from './calculation-result-report-input.model';
 export * from './calculation-result-state.model';
 export * from './catalog-calculation-result-state.model';
 export * from './co2-upstream-calculation-result-state.model';
+export * from './downstream-calculation-result-state.model';
 export * from './product-selection-state.model';
 export * from './settings-state.model';

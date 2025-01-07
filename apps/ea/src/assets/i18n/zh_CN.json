@@ -61,16 +61,25 @@
     "prototypeWarning": "此开发原型中显示的值是假设值，不得用于生产",
     "showPresetCalculationParameters": "显示预设的计算参数",
     "addLoadCase": "添加载荷状况",
+    "co2Downstream": {
+      "notPossibleTitle": "正在为{{ selectedBearing }}进行",
+      "subTitle": "在操作中因摩擦而产生的 CO₂e",
+      "text": "全面信息，立即计算我们旋转产品在各种应用场景下的 CO2e 排放。",
+      "textAvailable": "Schaeffler 现在提供全面信息，立即计算我们旋转产品在各种应用场景下的 CO2e 排放。",
+      "title": "新"
+    },
     "loads": "载荷",
     "radialLoad": "径向载荷",
     "axialLoad": "轴向载荷",
     "totalAmountOfTime": "总时间：",
+    "loadCaseTimePortionDescription": "用于摩擦 / CO₂e 计算：",
+    "loadCaseTimePortion": "{{ loadcasePercentage }}% 的 {{ totalTime }}小时 等于 {{ loadcaseTime }}小时",
     "loadCaseName": "载荷状况 {{number}}",
     "generalInputsTitle": "一般输入",
     "generalInputsTitleTooltip": "这适用于所有载荷状况",
     "emptyState": "请从可用计算列表中选择要执行的计算",
     "operatingTime": {
-      "title": "工作时间",
+      "title": "时间部分",
       "label": "百分比"
     },
     "presetParameters": {
@@ -126,9 +135,9 @@
       "notAvailable": "这种类型的润滑不适用于您所选的轴承。",
       "options": {
         "grease": "润滑脂",
-        "oilBath": "油浴润滑",
-        "oilMist": "油雾润滑",
-        "recirculatingOil": "循环油润滑"
+        "oilBath": "油浴",
+        "oilMist": "油雾",
+        "recirculatingOil": "循环油"
       },
       "grease": {
         "typeOfGrease": {
@@ -195,6 +204,54 @@
         "rotatingOuterring": "外圈旋转",
         "rotatingInnerring": "内圈旋转"
       }
+    },
+    "time": {
+      "title": "运行时间",
+      "operatingTime": {
+        "label": "总运行时间",
+        "description": "8766小时相当于一年中的全天候使用",
+        "unit": "小时"
+      }
+    },
+    "energySource": {
+      "title": "能源来源",
+      "options": {
+        "electricity": "电能",
+        "fossil": "化石能源"
+      },
+      "fossilOrigin": "化石能源来源",
+      "electricityRegion": "发电区域",
+      "electricityChipText": "{{region}}的电力",
+      "electricityRegionOption": {
+        "argentina": "阿根廷",
+        "australia": "澳大利亚",
+        "brazil": "巴西",
+        "canada": "加拿大",
+        "china": "中国",
+        "europeanUnion": "欧盟",
+        "france": "法国",
+        "germany": "德国",
+        "greatBritain": "英国",
+        "india": "印度",
+        "indonesia": "印度尼西亚",
+        "italy": "意大利",
+        "japan": "日本",
+        "mexico": "墨西哥",
+        "russianFederation": "俄罗斯联邦",
+        "southAfrica": "南非",
+        "southKorea": "韩国",
+        "turkey": "土耳其",
+        "usa": "美国"
+      },
+      "fossilOriginOptions": {
+        "gasoline": "汽油",
+        "diesel": "柴油",
+        "e10": "乙醇汽油E10",
+        "dieselB7": "柴油 B7",
+        "lpg": "LPG（液化石油气）",
+        "cng": "CNG（压缩天然气）",
+        "cngBiomethane": "含生物甲烷的CNG（压缩天然气）"
+      }
     }
   },
   "calculation": {
@@ -215,14 +272,89 @@
     "overrollingFrequency": "碾压频率",
     "overrollingFrequencySubtitle": "内圈滚动频率 (BPFI)",
     "frictionalPowerloss": "摩擦功率损耗",
-    "frictionalPowerlossSubtitle": "总摩擦力矩 (MR)",
+    "frictionalPowerlossSubtitle": "总摩擦功率损耗 (W)",
     "frictionalPowerlossUnavailable": "对于所选轴承，无法进行此计算。",
     "production": "用于轴承生产",
-    "productionTooltip": "这是为生产滚动轴承而排放的所有 CO₂ 当量的总和，包括必要的资源和能源。"
+    "productionTooltip": "这是为生产滚动轴承而排放的所有 CO₂ 当量的总和，包括必要的资源和能源。",
+    "usage": "使用期间",
+    "usageTooltip": "由于功率损失导致的总体CO2排放量。",
+    "downstreamErrors": {
+      "modelNotExisting": "此轴承没有可用的CO2计算。",
+      "modelLubricationNotSupported": "此轴承的此润滑类型没有可用的CO2计算。",
+      "sumOfTimePortionsBelow_100Percent": "操作比例的总和小于100%。因此，没有可用的摩擦计算。",
+      "sumOfTimePortionsExceeds_100Percent": "操作比例的总和超过100%。因此，没有可用的摩擦计算。",
+      "invalidMovementType": "在至少一个负载情况下，运动类型不是旋转的。因此，没有可用的摩擦计算。",
+      "operatingTemperatureBelowLimit": "操作温度过低。因此，没有可用的摩擦计算。",
+      "operatingTemperatureExceedsLimit": "操作温度过高。因此，没有可用的摩擦计算。",
+      "invalidViscosityDefinition": "润滑剂的粘度定义对摩擦计算无效。",
+      "invalidLubricationMethod": "润滑类型定义对摩擦计算无效。",
+      "invalidGreaseSelection": "选择的润滑脂对摩擦计算无效。没有可用的摩擦计算。",
+      "invalidViscosityClass": "指定的润滑剂粘度等级对摩擦计算无效。",
+      "ny100ExceedsNy40": "100°C时润滑剂的粘度大于40°C时的粘度。请检查您的输入。",
+      "ny40BelowLimit": "润滑剂在40°C的粘度过低。因此，没有可用的摩擦计算。",
+      "ny40ExceedsLimit": "润滑剂在40°C的粘度过高。因此，没有可用的摩擦计算。",
+      "ny100BelowLimit": "润滑剂在100°C的粘度过低。因此，没有可用的摩擦计算。",
+      "ny100ExceedsLimit": "润滑剂在100°C的粘度过高。因此，没有可用的摩擦计算。",
+      "speedBelowThreshold": "转速过低。因此，没有可用的摩擦计算。",
+      "speedExceedsLimitingSpeed": "转速超过极限转速。因此，没有可用的摩擦计算。",
+      "p0BelowC0Min": "等效的静态承载P0低于最小负载。因此，没有可用的摩擦计算。",
+      "p0ExceedsC0": "等效的静态承载P0高于静态额定载荷C0。因此，没有可用的摩擦计算。",
+      "loadAngleBelowNominalContactAngle": "负载角小于名义接触角。结果是内部轴向力大于作用的外部轴向力。因此，轴向支撑不再得到保证。",
+      "operatingViscosityBelowLimit": "润滑剂和操作温度导致的操作粘度过低。因此，没有可用的摩擦计算。",
+      "operatingViscosityExceedsLimit": "润滑剂和操作温度导致的操作粘度过高。因此，没有可用的摩擦计算。",
+      "viscosityRatioBelowLimit": "粘度比Kappa过大。因此，没有可用的摩擦计算。",
+      "viscosityRatioExceedsLimit": "粘度比Kappa过小。因此，没有可用的摩擦计算。",
+      "radialLoadBelowLimit": "径向载荷不允许为负数。",
+      "radialLoadNotSupported": "此轴承不适合承受径向载荷。",
+      "axialLoadBelowLimit": "轴向载荷不允许为负数。",
+      "axialLoadBelowMinimum": "轴向载荷小于所需的最小轴向载荷。",
+      "axialLoadExceedsLimit": "轴向载荷超过最大轴向载荷。",
+      "axialLoadNotSupported": "此轴承不适合承受轴向载荷。",
+      "loadRatioTooSmall": "轴向载荷与径向载荷的比率对于该类型的轴承过小。",
+      "loadRatioTooLarge": "轴向载荷与径向载荷的比率对于该类型的轴承过大。",
+      "referenceViscosityIsZero": "参考粘度的值为0。因此，没有可用的摩擦计算。",
+      "meanDiameterIsZero": "滚动圈的直径为0。因此，没有可用的摩擦计算。",
+      "unsupportedEmissionFactor": "不支持的排放因子。",
+      "genericError": "出现了一个错误。计算失败。"
+    }
   },
   "calculationResultReport": {
     "dialogTitle": "轴承 {{bearingDesignation}} 的报告",
     "reportSectionInput": "输入",
+    "downstreamInputs": {
+      "bearing": {
+        "bearingTitle": "轴承",
+        "designation": "标识",
+        "dynamicLoadRating": "基本动载荷额定值",
+        "fatigueLoadLimit": "疲劳极限载荷",
+        "innerDiameter": "内径",
+        "limitingSpeedGrease": "限速, 润滑脂",
+        "limitingSpeedOil": "限速, 润滑油",
+        "outerDiameter": "外径",
+        "staticLoadRating": "基本静载荷额定值",
+        "width": "宽度"
+      },
+      "otherConditions": {
+        "conditionsTitle": "其他条件",
+        "temperature": "环境温度",
+        "lubricationMethod": "润滑类型",
+        "greaseType": "润滑脂类型",
+        "operatingTimeInHours": "运行时间（小时）",
+        "svgClass": "ISO VG等级",
+        "viscosity": "输入粘度",
+        "ny40": "40°C时的粘度",
+        "ny100": "100°C时的粘度"
+      },
+      "load": {
+        "loadTitle": "载荷",
+        "timePortion": "时间份额",
+        "typeOfMotion": "运动类型",
+        "speed": "速度",
+        "operatingTemperature": "平均工作温度",
+        "axialLoad": "轴向载荷",
+        "radialLoad": "径向载荷"
+      }
+    },
     "reportSectionWarnings": "错误/报警/操作员记录",
     "calculationNotAvailable": {
       "line1": "对于所选轴承，无法进行此计算。",
@@ -231,14 +363,28 @@
       "link": "https://medias.schaeffler.de/en/stc"
     },
     "co2Emissions": {
-      "title": "每件轴承的 CO₂ 当量排放估计值",
-      "unit": "CO₂ 当量",
-      "upstreamTitle": "因生产而排放的 CO₂ 当量*（上游）",
-      "upstreamHint": "*基于生产过程中的假设所得出的估计值",
-      "upstreamHintLinkText": "了解更多信息。",
-      "calculationHint": "您想了解更多关于 Schaeffler CO₂ 的信息吗？",
+      "title": "每件产品的CO₂e排放估计",
+      "unit": "CO₂e",
+      "upstreamTitle": "生产中排放的CO₂e* (上游)",
+      "upstreamHint": "*基于生产期间假设的估计值",
+      "upstreamHintLinkText": "更多信息。",
+      "calculationHint": "想了解更多关于Schaeffler的CO₂吗？",
       "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
-      "calculationHintLinkText": "点击此处"
+      "calculationHintLinkText": "点击这里",
+      "co2EmissionChartTitle": "CO₂e的总值",
+      "downstreamTitle": "运营过程中由于摩擦造成的CO₂e（使用阶段，下游的一部分）",
+      "totalDownstreamButton": "总计",
+      "co2EmissionPercentageLabel": "占总CO₂e排放量的比例",
+      "co2EmissionOperatingHours": "运行小时数",
+      "downstreamHint": "这是我们计算这些值的方法：",
+      "downstreamHintLinkText": "更多信息。",
+      "downstreamHintLink": "",
+      "chartDownstream": "下游",
+      "downstreamComingSoon": "即将推出：{{ bearingDesignation }}",
+      "downstreamComingSoonTitle": "运营过程中由于摩擦造成的CO₂e",
+      "downstreamComingSoonText": "全面信息，立即计算我们旋转产品在各种应用场景下的 CO2e 排放。",
+      "chartDescription": "CO₂e排放",
+      "chartUpstream": "上游"
     },
     "lubrication": {
       "title": "润滑参数",
@@ -255,8 +401,8 @@
     },
     "frictionalPowerloss": {
       "title": "摩擦功率损耗",
-      "totalFrictionalTorque": "总摩擦力矩",
-      "totalFrictionalPowerLoss": "总摩擦功率损耗",
+      "totalFrictionalTorque": "摩擦力矩",
+      "totalFrictionalPowerLoss": "摩擦功率损失",
       "speedDependentFrictionalTorque": "取决于速度的摩擦力矩",
       "loadDependentFrictionalTorque": "取决于载荷的摩擦力矩",
       "thermallySafeOperatingSpeed": "热安全工作转速"
@@ -307,7 +453,8 @@
       "ratingLife": "额定寿命",
       "lubrication": "润滑参数",
       "frictionalPowerloss": "摩擦功率损耗",
-      "co2": "因生产而排放的 CO₂ 当量",
+      "co2": "CO₂e排放量",
+      "co2ForProduction": "因生产而排放的 CO₂ 当量",
       "overrollingFrequency": "碾压频率"
     },
     "basicFrequency": "基础频率",

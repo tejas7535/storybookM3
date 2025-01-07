@@ -16,6 +16,7 @@ import {
   setSelectedLoadcase,
 } from '@ea/core/store/actions/calculation-parameters/calculation-parameters.actions';
 import { resetCalculationResult } from '@ea/core/store/actions/calculation-result/catalog-calculation-result.actions';
+import { resetDownstreamCalculation } from '@ea/core/store/actions/calculation-result/downnstream-calculation.actions';
 import { ProductSelectionTemplate } from '@ea/core/store/models';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
 import { translate } from '@jsverse/transloco';
@@ -123,6 +124,7 @@ describe('CalculationParametersComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(resetCalculationParameters());
       expect(store.dispatch).toHaveBeenCalledWith(resetCalculationResult());
+      expect(store.dispatch).toHaveBeenCalledWith(resetDownstreamCalculation());
     });
   });
 

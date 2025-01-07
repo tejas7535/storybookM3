@@ -2,17 +2,17 @@ import { ResultReportLargeItem } from '@ea/calculation/calculation-result-report
 import { CalculationResultReportInput } from '@ea/core/store/models';
 import jsPDF from 'jspdf';
 
-import { Notices, ResultBlock } from '../data';
+import { Emissions, Notices, ResultBlock } from '../data';
 import { renderCalculationMethods } from './calculation-methods';
 import { renderNotices } from './calculation-notices';
+import { renderEmissions } from './emission-result';
 import { renderInputTable } from './input-table';
 import { renderResultGrid } from './result-grid';
-import { renderUpstream } from './upstream-result';
 
 export type LayoutBlocks =
   | 'inputs'
   | 'resultgrid'
-  | 'upstream'
+  | 'emissions'
   | 'notices'
   | 'methods';
 
@@ -60,13 +60,13 @@ export type ReportRenderFn<T> = (
 export interface ReportRenderers {
   inputs: ReportRenderFn<CalculationResultReportInput[]>;
   resultgrid: ReportRenderFn<ResultBlock<ResultReportLargeItem[]>>;
-  upstream: ReportRenderFn<ResultBlock<ResultReportLargeItem>>;
+  emissions: ReportRenderFn<ResultBlock<Emissions>>;
   notices: ReportRenderFn<ResultBlock<Notices>>;
   methods: ReportRenderFn<string[]>;
 }
 
 export const renderers: Partial<ReportRenderers> = {
-  upstream: renderUpstream,
+  emissions: renderEmissions,
   methods: renderCalculationMethods,
   notices: renderNotices,
   inputs: renderInputTable,

@@ -1,0 +1,357 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DownstreamCalculationInputsService should format downstream fossil energy source inputs 1`] = `
+Object {
+  "bearing": Object {
+    "hasNestedStructure": false,
+    "subItems": Array [
+      Object {
+        "abbreviation": undefined,
+        "designation": "calculationResultReport.downstreamInputs.bearing.designation",
+        "hasNestedStructure": false,
+        "unit": undefined,
+        "value": "NKI38/20-XL",
+      },
+      Object {
+        "abbreviation": "d",
+        "designation": "calculationResultReport.downstreamInputs.bearing.innerDiameter",
+        "hasNestedStructure": false,
+        "unit": "mm",
+        "value": 38,
+      },
+      Object {
+        "abbreviation": "D",
+        "designation": "calculationResultReport.downstreamInputs.bearing.outerDiameter",
+        "hasNestedStructure": false,
+        "unit": "mm",
+        "value": 53,
+      },
+      Object {
+        "abbreviation": "B",
+        "designation": "calculationResultReport.downstreamInputs.bearing.width",
+        "hasNestedStructure": false,
+        "unit": "mm",
+        "value": 20,
+      },
+      Object {
+        "abbreviation": "C",
+        "designation": "calculationResultReport.downstreamInputs.bearing.dynamicLoadRating",
+        "hasNestedStructure": false,
+        "unit": "N",
+        "value": 30500,
+      },
+      Object {
+        "abbreviation": "C0",
+        "designation": "calculationResultReport.downstreamInputs.bearing.staticLoadRating",
+        "hasNestedStructure": false,
+        "unit": "N",
+        "value": 51000,
+      },
+      Object {
+        "abbreviation": "Cu",
+        "designation": "calculationResultReport.downstreamInputs.bearing.fatigueLoadLimit",
+        "hasNestedStructure": false,
+        "unit": "N",
+        "value": 9100,
+      },
+      Object {
+        "abbreviation": "n_lim_o",
+        "designation": "calculationResultReport.downstreamInputs.bearing.limitingSpeedOil",
+        "hasNestedStructure": false,
+        "unit": "1/min",
+        "value": 10700,
+      },
+      Object {
+        "abbreviation": "n_lim_g",
+        "designation": "calculationResultReport.downstreamInputs.bearing.limitingSpeedGrease",
+        "hasNestedStructure": false,
+        "unit": "1/min",
+        "value": 6400,
+      },
+    ],
+    "title": "calculationResultReport.downstreamInputs.bearing.bearingTitle",
+  },
+  "load": Object {
+    "hasNestedStructure": true,
+    "loadCases": Array [
+      Object {
+        "hasNestedStructure": false,
+        "subItems": Array [
+          Object {
+            "abbreviation": "q",
+            "designation": "calculationResultReport.downstreamInputs.load.timePortion",
+            "hasNestedStructure": false,
+            "unit": "%",
+            "value": 100,
+          },
+          Object {
+            "abbreviation": undefined,
+            "designation": "operationConditions.rotatingCondition.typeOfMotion",
+            "hasNestedStructure": false,
+            "unit": undefined,
+            "value": "operationConditions.rotatingCondition.options.LB_ROTATING",
+          },
+          Object {
+            "abbreviation": "n_i",
+            "designation": "calculationResultReport.downstreamInputs.load.speed",
+            "hasNestedStructure": false,
+            "unit": "1/min",
+            "value": 950,
+          },
+          Object {
+            "abbreviation": "T",
+            "designation": "calculationResultReport.downstreamInputs.load.operatingTemperature",
+            "hasNestedStructure": false,
+            "unit": "°C",
+            "value": 70,
+          },
+          Object {
+            "abbreviation": "Fa",
+            "designation": "calculationResultReport.downstreamInputs.load.axialLoad",
+            "hasNestedStructure": false,
+            "unit": "N",
+            "value": "0",
+          },
+          Object {
+            "abbreviation": "Fr",
+            "designation": "calculationResultReport.downstreamInputs.load.radialLoad",
+            "hasNestedStructure": false,
+            "unit": "N",
+            "value": "950",
+          },
+        ],
+        "title": "",
+      },
+    ],
+    "title": "calculationResultReport.downstreamInputs.load.loadTitle",
+  },
+  "operatingConditions": Object {
+    "baseConditions": Array [
+      Object {
+        "abbreviation": "t",
+        "designation": "calculationResultReport.downstreamInputs.otherConditions.temperature",
+        "hasNestedStructure": false,
+        "unit": "°C",
+        "value": 20,
+      },
+      Object {
+        "abbreviation": undefined,
+        "designation": "calculationResultReport.downstreamInputs.otherConditions.lubricationMethod",
+        "hasNestedStructure": false,
+        "unit": undefined,
+        "value": "grease",
+      },
+      Object {
+        "abbreviation": undefined,
+        "designation": "calculationResultReport.downstreamInputs.otherConditions.greaseType",
+        "hasNestedStructure": false,
+        "unit": undefined,
+        "value": "Arcanol MULTI2",
+      },
+    ],
+    "downstreamConditions": Array [
+      Object {
+        "abbreviation": undefined,
+        "designation": "operationConditions.energySource.title",
+        "hasNestedStructure": false,
+        "unit": undefined,
+        "value": "operationConditions.energySource.options.fossil",
+      },
+      Object {
+        "abbreviation": undefined,
+        "designation": "operationConditions.energySource.fossilOrigin",
+        "hasNestedStructure": false,
+        "unit": undefined,
+        "value": "operationConditions.energySource.fossilOriginOptions.e10",
+      },
+      Object {
+        "abbreviation": undefined,
+        "designation": "calculationResultReport.downstreamInputs.otherConditions.operatingTimeInHours",
+        "hasNestedStructure": false,
+        "unit": "h",
+        "value": 8766,
+      },
+    ],
+    "hasNestedStructure": false,
+    "title": "calculationResultReport.downstreamInputs.otherConditions.conditionsTitle",
+  },
+}
+`;
+
+exports[`DownstreamCalculationInputsService should format downstream inputs correctly 1`] = `
+Object {
+  "bearing": Object {
+    "hasNestedStructure": false,
+    "subItems": Array [
+      Object {
+        "abbreviation": undefined,
+        "designation": "calculationResultReport.downstreamInputs.bearing.designation",
+        "hasNestedStructure": false,
+        "unit": undefined,
+        "value": "NKI38/20-XL",
+      },
+      Object {
+        "abbreviation": "d",
+        "designation": "calculationResultReport.downstreamInputs.bearing.innerDiameter",
+        "hasNestedStructure": false,
+        "unit": "mm",
+        "value": 38,
+      },
+      Object {
+        "abbreviation": "D",
+        "designation": "calculationResultReport.downstreamInputs.bearing.outerDiameter",
+        "hasNestedStructure": false,
+        "unit": "mm",
+        "value": 53,
+      },
+      Object {
+        "abbreviation": "B",
+        "designation": "calculationResultReport.downstreamInputs.bearing.width",
+        "hasNestedStructure": false,
+        "unit": "mm",
+        "value": 20,
+      },
+      Object {
+        "abbreviation": "C",
+        "designation": "calculationResultReport.downstreamInputs.bearing.dynamicLoadRating",
+        "hasNestedStructure": false,
+        "unit": "N",
+        "value": 30500,
+      },
+      Object {
+        "abbreviation": "C0",
+        "designation": "calculationResultReport.downstreamInputs.bearing.staticLoadRating",
+        "hasNestedStructure": false,
+        "unit": "N",
+        "value": 51000,
+      },
+      Object {
+        "abbreviation": "Cu",
+        "designation": "calculationResultReport.downstreamInputs.bearing.fatigueLoadLimit",
+        "hasNestedStructure": false,
+        "unit": "N",
+        "value": 9100,
+      },
+      Object {
+        "abbreviation": "n_lim_o",
+        "designation": "calculationResultReport.downstreamInputs.bearing.limitingSpeedOil",
+        "hasNestedStructure": false,
+        "unit": "1/min",
+        "value": 10700,
+      },
+      Object {
+        "abbreviation": "n_lim_g",
+        "designation": "calculationResultReport.downstreamInputs.bearing.limitingSpeedGrease",
+        "hasNestedStructure": false,
+        "unit": "1/min",
+        "value": 6400,
+      },
+    ],
+    "title": "calculationResultReport.downstreamInputs.bearing.bearingTitle",
+  },
+  "load": Object {
+    "hasNestedStructure": true,
+    "loadCases": Array [
+      Object {
+        "hasNestedStructure": false,
+        "subItems": Array [
+          Object {
+            "abbreviation": "q",
+            "designation": "calculationResultReport.downstreamInputs.load.timePortion",
+            "hasNestedStructure": false,
+            "unit": "%",
+            "value": 100,
+          },
+          Object {
+            "abbreviation": undefined,
+            "designation": "operationConditions.rotatingCondition.typeOfMotion",
+            "hasNestedStructure": false,
+            "unit": undefined,
+            "value": "operationConditions.rotatingCondition.options.LB_ROTATING",
+          },
+          Object {
+            "abbreviation": "n_i",
+            "designation": "calculationResultReport.downstreamInputs.load.speed",
+            "hasNestedStructure": false,
+            "unit": "1/min",
+            "value": 950,
+          },
+          Object {
+            "abbreviation": "T",
+            "designation": "calculationResultReport.downstreamInputs.load.operatingTemperature",
+            "hasNestedStructure": false,
+            "unit": "°C",
+            "value": 70,
+          },
+          Object {
+            "abbreviation": "Fa",
+            "designation": "calculationResultReport.downstreamInputs.load.axialLoad",
+            "hasNestedStructure": false,
+            "unit": "N",
+            "value": "0",
+          },
+          Object {
+            "abbreviation": "Fr",
+            "designation": "calculationResultReport.downstreamInputs.load.radialLoad",
+            "hasNestedStructure": false,
+            "unit": "N",
+            "value": "950",
+          },
+        ],
+        "title": "",
+      },
+    ],
+    "title": "calculationResultReport.downstreamInputs.load.loadTitle",
+  },
+  "operatingConditions": Object {
+    "baseConditions": Array [
+      Object {
+        "abbreviation": "t",
+        "designation": "calculationResultReport.downstreamInputs.otherConditions.temperature",
+        "hasNestedStructure": false,
+        "unit": "°C",
+        "value": 20,
+      },
+      Object {
+        "abbreviation": undefined,
+        "designation": "calculationResultReport.downstreamInputs.otherConditions.lubricationMethod",
+        "hasNestedStructure": false,
+        "unit": undefined,
+        "value": "grease",
+      },
+      Object {
+        "abbreviation": undefined,
+        "designation": "calculationResultReport.downstreamInputs.otherConditions.greaseType",
+        "hasNestedStructure": false,
+        "unit": undefined,
+        "value": "Arcanol MULTI2",
+      },
+    ],
+    "downstreamConditions": Array [
+      Object {
+        "abbreviation": undefined,
+        "designation": "operationConditions.energySource.title",
+        "hasNestedStructure": false,
+        "unit": undefined,
+        "value": "operationConditions.energySource.options.electricity",
+      },
+      Object {
+        "abbreviation": undefined,
+        "designation": "operationConditions.energySource.electricityRegion",
+        "hasNestedStructure": false,
+        "unit": undefined,
+        "value": "operationConditions.energySource.electricityRegionOption.europeanUnion",
+      },
+      Object {
+        "abbreviation": undefined,
+        "designation": "calculationResultReport.downstreamInputs.otherConditions.operatingTimeInHours",
+        "hasNestedStructure": false,
+        "unit": "h",
+        "value": 8766,
+      },
+    ],
+    "hasNestedStructure": false,
+    "title": "calculationResultReport.downstreamInputs.otherConditions.conditionsTitle",
+  },
+}
+`;

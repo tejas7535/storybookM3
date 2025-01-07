@@ -48,6 +48,14 @@ export class CalculationResultFacade {
     CalculationResultReportSelector.getReportErrors
   );
 
+  public readonly calculationReportDownstreamErrors$ = this.store.select(
+    CalculationResultReportSelector.getReportDownstreamErrors
+  );
+
+  public readonly getAllErrors$ = this.store.select(
+    CalculationResultReportSelector.getAllErrors
+  );
+
   public readonly calculationReportWarnings$ = this.store.select(
     CalculationResultReportSelector.getReportWarnings
   );

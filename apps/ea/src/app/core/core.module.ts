@@ -18,6 +18,8 @@ import {
   LANGUAGE_STORAGE_KEY,
 } from '@ea/shared/constants/language';
 import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
+import * as echarts from 'echarts';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -44,7 +46,11 @@ const assetsPath = getAssetsPath();
       undefined,
       `${assetsPath}/i18n/`
     ),
+    NgxEchartsModule.forRoot({
+      echarts,
+    }),
   ],
+
   providers: [
     provideTranslocoPersistLang({
       storageKey: LANGUAGE_STORAGE_KEY,
@@ -95,6 +101,7 @@ export class CoreModule {
       water_drop: 'icon_water_drop.svg',
       grease_app: 'icon_grease_app.svg',
       mounting_manager: 'icon_mounting_manager.svg',
+      new_badge: 'icon_new_badge.svg',
     };
     for (const [name, url] of Object.entries(iconSet)) {
       const setUrl = this.sanitizer.bypassSecurityTrustResourceUrl(

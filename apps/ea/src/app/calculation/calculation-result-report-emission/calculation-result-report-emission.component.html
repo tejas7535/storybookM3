@@ -1,0 +1,168 @@
+<ng-container *transloco="let t; read: 'calculationResultReport.co2Emissions'">
+  <div
+    class="text-body-2 border-border flex w-full flex-col lg:flex-row border-t"
+  >
+    <!-- Chart -->
+    <div
+      class="border-border flex flex-shrink-0 flex-col items-center border-r pt-2 sm:pt-4 lg:pt-8 pb-0"
+    >
+      <div class="text-high-emphasis mb-2">
+        {{ t('co2EmissionChartTitle') }}
+      </div>
+      @if (co2EmissionOptions) {
+        <div
+          echarts
+          (chartInit)="onChartInit($event)"
+          (chartRendered)="onChartRendered()"
+          class="h-[200px] w-[200px]"
+          [options]="co2EmissionOptions"
+          [initOpts]="{
+            width: 200,
+            height: 200
+          }"
+        ></div>
+      }
+
+      <div class="text-medium-emphasis mh-2 min-h-[3rem]">
+        @if (selectedIndex === 0) {
+          <p>
+            {{ t('chartUpstream') + ':' }}
+          </p>
+          <p>
+            {{ (co2Emission?.co2_upstream | number: '1.2-2') || '-' }}
+            {{ 'kg' }}
+          </p>
+        }
+        @if (
+          selectedIndex === 1 &&
+          co2Emission?.co2_downstream.loadcases.length === 1
+        ) {
+          <p>
+            {{ t('chartDownstream') + ':' }}
+          </p>
+          <p>
+            {{
+              (co2Emission?.co2_downstream.emission | number: '1.2-2') || '-'
+            }}
+            {{ 'kg' }}
+          </p>
+        }
+
+        @if (
+          co2Emission?.co2_downstream.loadcases.length > 1 && selectedIndex > 0
+        ) {
+          <p>
+            {{
+              co2Emission.co2_downstream.loadcases[selectedIndex - 1].id + ':'
+            }}
+          </p>
+          <p>
+            {{
+              (co2Emission.co2_downstream.loadcases[selectedIndex - 1].emission
+                | number: '1.2-2') || '-'
+            }}
+            {{ co2Emission.co2_downstream.loadcases[selectedIndex - 1].unit }}
+          </p>
+        }
+      </div>
+    </div>
+    <div class="flex flex-grow flex-col">
+      <!-- Upstream -->
+      <div class="border-border w-full border-b p-4 md:px-8">
+        <div class="text-high-emphasis flex flex-row items-center pb-4">
+          <mat-icon
+            class="mr-2 flex-shrink-0"
+            [ngStyle]="{ color: chartColors[0] }"
+            >circle</mat-icon
+          >
+          {{ t('upstreamTitle') }}
+        </div>
+        <ea-report-emissions-values
+          [co2Emission]="co2Emission?.co2_upstream"
+          [co2EmissionPercentage]="co2Emission?.co2_upstreamEmissionPercentage"
+        ></ea-report-emissions-values>
+
+        <div class="text-medium-emphasis pt-4">
+          {{ t('upstreamHint') }} -
+          <button
+            class="text-primary"
+            (click)="showCalculationDisclaimerDialog()"
+            target="_blank"
+          >
+            {{ t('upstreamHintLinkText') }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Downstream -->
+      <div class="w-full p-4 md:px-8">
+        <div class="text-high-emphasis flex flex-row items-center pb-4">
+          @if (
+            co2Emission?.co2_downstream.emission ||
+            co2Emission?.co2_downstream.emissionPercentage ||
+            downstreamError
+          ) {
+            @if (co2Emission?.co2_downstream.loadcases.length === 1) {
+              <mat-icon
+                class="mr-2 flex-shrink-0"
+                [ngStyle]="{ color: chartColors[1] }"
+                >circle</mat-icon
+              >
+            }
+            {{ t('downstreamTitle') }}
+            <mat-icon class="!text-primary ml-1" svgIcon="new_badge"
+              >new_badge</mat-icon
+            >
+          } @else {
+            <div
+              class="text-primary bg-primary-variant w-fit py-1 px-3 rounded-2xl text-label-small"
+            >
+              <mat-icon
+                class="inline-block align-bottom h-4 w-4 mr-1"
+                svgIcon="co2"
+                >co2</mat-icon
+              >
+              {{ t('downstreamComingSoon', { bearingDesignation }) }}
+            </div>
+          }
+        </div>
+
+        <ea-calculation-downstream-emission
+          [downstreamEmission]="co2Emission?.co2_downstream"
+          [selectedIndex]="selectedIndex"
+          [downstreamError]="downstreamError"
+          (selectedIndexChange)="handleLoadcaseSelection($event)"
+        >
+        </ea-calculation-downstream-emission>
+
+        @if (co2Emission?.co2_downstream.emission) {
+          <div class="text-medium-emphasis pt-4">
+            {{ t('downstreamHint') }} -
+            <a
+              class="text-primary"
+              [href]="t('downstreamHintLink')"
+              target="_blank"
+              rel="noopener"
+              >{{ t('downstreamHintLinkText') }}</a
+            >
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+  <div class="border-border flex flex-row items-center border-t px-4 py-2">
+    <div class="mr-2 flex-shrink-0">
+      <mat-icon color="primary">info</mat-icon>
+    </div>
+    <div class="text-body-2 text-medium-emphasis">
+      {{ t('calculationHint') }} -
+      <a
+        class="text-primary"
+        [href]="t('calculationHintLink')"
+        target="_blank"
+        rel="noopener"
+        >{{ t('calculationHintLinkText') }}</a
+      >
+    </div>
+  </div>
+</ng-container>

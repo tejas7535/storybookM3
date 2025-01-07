@@ -26,20 +26,36 @@ export interface CalculationResultPreviewItem {
   /**
    * Value(s) to display
    */
-  values: (BasicCalculationResultState & {
-    /**
-     * Transloco key
-     */
-    title: string;
+  values: ResultStateWithValue[];
+}
 
-    /**
-     * Transloco key
-     */
-    titleTooltip?: string;
+export interface ResultStateWithValue extends BasicCalculationResultState {
+  /**
+   * Transloco key
+   */
+  title?: string;
 
-    value?: number | string;
-    unit?: string;
-  })[];
+  /**
+   * Transloco key
+   */
+  titleTooltip?: string;
+
+  value?: number | string;
+  unit?: string;
+
+  /**
+   * loadcase name for single value
+   */
+  valueLoadcaseName?: string;
+
+  additionalData?: {
+    [key: string]: string | number;
+  };
+
+  /**
+   * flag for displaying the new badge
+   */
+  displayNewBadge?: boolean;
 }
 
 export type CalculationResultPreviewData = CalculationResultPreviewItem[];

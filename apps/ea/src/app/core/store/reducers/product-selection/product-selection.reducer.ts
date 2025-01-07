@@ -61,6 +61,13 @@ export const productSelectionReducer = createReducer(
     })
   ),
   on(
+    ProductSelectionActions.setCanCalculate,
+    (state, { co2DownstreamAvailable }): ProductSelectionState => ({
+      ...state,
+      co2DownstreamAvailable,
+    })
+  ),
+  on(
     ProductSelectionActions.setProductFetchFailure,
     (state, { error }): ProductSelectionState => ({
       ...state,

@@ -62,16 +62,25 @@
     "prototypeWarning": "Die in diesem Entwicklungsprototyp gezeigten Werte sind hypothetisch und dürfen nicht in der Produktion verwendet werden",
     "showPresetCalculationParameters": "Voreingestellte Berechnungsparameter anzeigen",
     "addLoadCase": "Lastfall hinzufügen",
+    "co2Downstream": {
+      "notPossibleTitle": "In Arbeit für {{ selectedBearing }}",
+      "subTitle": "Durch Reibung während des Betriebs verursachtes CO₂e",
+      "text": "Umfassende Informationen mit sofortigen Berechnungen der CO2e-Emissionen unserer Rotationsprodukte in verschiedenen Anwendungsszenarien.",
+      "textAvailable": "Schaeffler bietet ab sofort umfassende Informationen mit sofortigen Berechnungen der CO2e-Emissionen unserer rotativen Produkte in verschiedenen Anwendungsszenarien an.",
+      "title": "Neu"
+    },
     "loads": "Belastung",
     "radialLoad": "Radiallast",
     "axialLoad": "Axiallast",
     "totalAmountOfTime": "Gesamtzeit:",
+    "loadCaseTimePortionDescription": "Für Reibungs- / CO₂e-Berechnung:",
+    "loadCaseTimePortion": "{{ loadcasePercentage }}% von {{ totalTime }}h entspricht {{ loadcaseTime }}h",
     "loadCaseName": "Lastfall {{number}}",
     "generalInputsTitle": "Allgemeine Eingaben",
     "generalInputsTitleTooltip": "Dies gilt für alle Lastfälle",
     "emptyState": "Bitte wählen Sie die gewünschten Berechnungen aus der Liste der verfügbaren Berechnungsmethoden aus.",
     "operatingTime": {
-      "title": "Betriebszeit",
+      "title": "Zeitabschnitt",
       "label": "Prozentsatz"
     },
     "presetParameters": {
@@ -197,6 +206,54 @@
         "rotatingOuterring": "Rotierender Außenring",
         "rotatingInnerring": "Rotierender Innenring"
       }
+    },
+    "time": {
+      "title": "Betriebszeit",
+      "operatingTime": {
+        "label": "Gesamtbetriebszeit",
+        "description": "8766 Stunden entsprechen der Nutzung rund um die Uhr für ein Jahr",
+        "unit": "h"
+      }
+    },
+    "energySource": {
+      "title": "Energiequelle",
+      "options": {
+        "electricity": "Elektrische Energie",
+        "fossil": "Fossile Energie"
+      },
+      "fossilOrigin": "Fossiler Ursprung",
+      "electricityRegion": "Region der Elektrizitätserzeugung",
+      "electricityChipText": "Elektrizität in {{region}}",
+      "electricityRegionOption": {
+        "argentina": "Argentinien",
+        "australia": "Australien",
+        "brazil": "Brasilien",
+        "canada": "Kanada",
+        "china": "China",
+        "europeanUnion": "Europäische Union",
+        "france": "Frankreich",
+        "germany": "Deutschland",
+        "greatBritain": "Großbritannien",
+        "india": "Indien",
+        "indonesia": "Indonesien",
+        "italy": "Italien",
+        "japan": "Japan",
+        "mexico": "Mexiko",
+        "russianFederation": "Russische Föderation",
+        "southAfrica": "Südafrika",
+        "southKorea": "Südkorea",
+        "turkey": "Türkei",
+        "usa": "USA"
+      },
+      "fossilOriginOptions": {
+        "gasoline": "Benzin",
+        "diesel": "Diesel",
+        "e10": "Benzin E10",
+        "dieselB7": "Diesel B7",
+        "lpg": "LPG (Flüssiggas)",
+        "cng": "CNG (komprimiertes Erdgas)",
+        "cngBiomethane": "CNG mit Biomethan (komprimiertes Erdgas)"
+      }
     }
   },
   "calculation": {
@@ -222,14 +279,89 @@
     "overrollingFrequency": "Überrollfrequenzen bei Betriebsdrehzahl",
     "overrollingFrequencySubtitle": "Frequenz am Innenring (BPFI)",
     "frictionalPowerloss": "Reibungsverlustleistung",
-    "frictionalPowerlossSubtitle": "Gesamtes Reibmoment (MR)",
+    "frictionalPowerlossSubtitle": "Gesamte Reibleistung (W)",
     "frictionalPowerlossUnavailable": "Für das ausgewählte Lager ist diese Berechnung nicht verfügbar.",
     "production": "Für die Produktion",
-    "productionTooltip": "Dies ist die Summe aller CO₂-Äquivalente, die für die Herstellung des Wälzlagers, einschließlich notwendiger Ressourcen und Energie, ausgestoßen wurden."
+    "productionTooltip": "Dies ist die Summe aller CO₂-Äquivalente, die für die Herstellung des Wälzlagers, einschließlich notwendiger Ressourcen und Energie, ausgestoßen wurden.",
+    "usage": "Für den Betrieb",
+    "usageTooltip": "Gesamte durch Reibung verursachte CO₂-Emissionen.",
+    "downstreamErrors": {
+      "modelNotExisting": "Für dieses Lager steht keine CO2-Berechnung zur Verfügung.",
+      "modelLubricationNotSupported": "Für dieses Lager mit diesen Schmierungstyp steht keine CO2-Berechnung zur Verfügung.",
+      "sumOfTimePortionsBelow_100Percent": "Die Summe der Betriebsanteile ist kleiner als 100%. Daher steht keine Reibungsberechnung zur Verfügung.",
+      "sumOfTimePortionsExceeds_100Percent": "Die Summe der Betriebsanteile überschreitet 100%. Daher steht keine Reibungsberechnung zur Verfügung.",
+      "invalidMovementType": "In mindestens einem Lastfall ist die Bewegungsart nicht rotierend. Daher steht keine Reibungsberechnung zur Verfügung.",
+      "operatingTemperatureBelowLimit": "Die Betriebstemperatur ist zu niedrig. Daher steht keine Reibungsberechnung zur Verfügung.",
+      "operatingTemperatureExceedsLimit": "Die Betriebstemperatur ist zu hoch. Daher steht keine Reibungsberechnung zur Verfügung.",
+      "invalidViscosityDefinition": "Die Definition der Viskosität des Schmierstoffs ist für die Reibungsberechnung nicht zulässig.",
+      "invalidLubricationMethod": "Die Definition des Schmierungstyps ist für die Reibungsberechnung nicht zulässig.",
+      "invalidGreaseSelection": "Das gewählte Fett ist für die Reibungsberechnung nicht zulässig. Daher steht keine Reibungsberechnung zur Verfügung.",
+      "invalidViscosityClass": "Die angegbene Viskositätsklasse des Schmierstoffs ist für die Reibungsberechnung nicht zulässig.",
+      "ny100ExceedsNy40": "Die Viskosität des Schmierstoffs bei 100°C ist größer als die Viskosität bei 40°C. Bitte prüfen Sie ihre Eingabe.",
+      "ny40BelowLimit": "Die Viskosität des Schmierstoffs bei 40°C ist zu niedrig. Daher steht keine Reibungsberechnung zur Verfügung.",
+      "ny40ExceedsLimit": "Die Viskosität des Schmierstoffs bei 40°C ist zu groß. Daher steht keine Reibungsberechnung zur Verfügung.",
+      "ny100BelowLimit": "Die Viskosität des Schmierstoffs bei 100°C ist zu niedrig. Daher steht keine Reibungsberechnung zur Verfügung.",
+      "ny100ExceedsLimit": "Die Viskosität des Schmierstoffs bei 100°C ist zu groß. Daher steht keine Reibungsberechnung zur Verfügung.",
+      "speedBelowThreshold": "Die Drehzahl ist zu niedrig. Daher steht keine Reibungsberechnung zur Verfügung.",
+      "speedExceedsLimitingSpeed": "Die Drehzahl ist größer als die Grenzdrehzahl. Daher steht keine Reibungsberechnung zur Verfügung.",
+      "p0BelowC0Min": "Die äquivalente statische Lagerlast P0 ist niedriger als die Mindestbelastung. Daher steht keine Reibungsberechnung zur Verfügung.",
+      "p0ExceedsC0": "Die äquivalente statische Lagerlast P0 ist größer als die statische Tragzahl C0. Daher steht keine Reibungsberechnung zur Verfügung.",
+      "loadAngleBelowNominalContactAngle": "Der Lastwinkel ist kleiner als der Nenndruckwinkel. Die resultierenden internen Axialkräfte sind daher größer als die wirkenden externen Axialkräfte. Die axiale Abstützung ist daher nicht mehr gewährleistet.",
+      "operatingViscosityBelowLimit": "Die aus Schmierstoff und Betriebstemperatur resultierende Betriebsviskosität ist zu niedrig. Daher steht keine Reibungsberechnung zur Verfügung.",
+      "operatingViscosityExceedsLimit": "Die aus Schmierstoff und Betriebstemperatur resultierende Betriebsviskosität ist zu groß. Daher steht keine Reibungsberechnung zur Verfügung.",
+      "viscosityRatioBelowLimit": "Das Viskositätsverhältnis Kappa ist zu groß. Daher steht keine Reibungsberechnung zur Verfügung.",
+      "viscosityRatioExceedsLimit": "Das Viskositätsverhältnis Kappa ist zu gering. Daher steht keine Reibungsberechnung zur Verfügung.",
+      "radialLoadBelowLimit": "The radial load is not allowed to be negative.",
+      "radialLoadNotSupported": "This bearing is not suited for carrying radial loads.",
+      "axialLoadBelowLimit": "The axial load is not allowed to be negative.",
+      "axialLoadBelowMinimum": "The axial load is smaller than the required minimum axial load.",
+      "axialLoadExceedsLimit": "The axial load exceeds the maximum axial load.",
+      "axialLoadNotSupported": "This bearing is not suited for carrying axial loads.",
+      "loadRatioTooSmall": "The ratio between axial and radial load is too small for this bearing type.",
+      "loadRatioTooLarge": "The ratio between axial and radial load is too large for this bearing type.",
+      "referenceViscosityIsZero": "Der Werte für die Referenzviscosität ist 0. Daher steht keine Reibungsberechnung zur Verfügung.",
+      "meanDiameterIsZero": "Der Wälzkreisdurchmesser ist 0. Daher steht keine Reibungsberechnung zur Verfügung.",
+      "unsupportedEmissionFactor": "Der Emissionsfaktor wird nicht unterstützt.",
+      "genericError": "Ein Fehler ist aufgetreten. Die Berechnung ist fehlgeschlagen."
+    }
   },
   "calculationResultReport": {
     "dialogTitle": "Bericht für Lager {{bearingDesignation}}",
     "reportSectionInput": "Eingabe",
+    "downstreamInputs": {
+      "bearing": {
+        "bearingTitle": "Lager",
+        "designation": "Bezeichnung",
+        "dynamicLoadRating": "Dynamische Tragzah",
+        "fatigueLoadLimit": "Ermüdungsgrenzbelastung",
+        "innerDiameter": "Innendurchmesser",
+        "limitingSpeedGrease": "Grenzdrehzahl Fett",
+        "limitingSpeedOil": "Grenzdrehzahl Öl",
+        "outerDiameter": "Außendurchmesser",
+        "staticLoadRating": "Statische Tragzah",
+        "width": "Breite"
+      },
+      "otherConditions": {
+        "conditionsTitle": "Sonstige Bedingungen",
+        "temperature": "Umgebungstemperatur",
+        "lubricationMethod": "Art der Schmierung",
+        "greaseType": "Fettart",
+        "operatingTimeInHours": "Betriebszeit in Stunden",
+        "svgClass": "ISO VG Klasse",
+        "viscosity": "Viskosität eingeben",
+        "ny40": "Viskosität bei 40°C",
+        "ny100": "Viskosität bei 100°C"
+      },
+      "load": {
+        "loadTitle": "Belastung",
+        "timePortion": "Zeitanteil",
+        "typeOfMotion": "Art der Bewegung",
+        "speed": "Drehzahl",
+        "operatingTemperature": "Mittlere Betriebstemperatur",
+        "axialLoad": "Axiallast",
+        "radialLoad": "Radiallast"
+      }
+    },
     "reportSectionWarnings": "Fehler/Warnungen/Hinweise",
     "errors": "Fehler",
     "warnings": "Warnungen",
@@ -237,12 +369,26 @@
     "co2Emissions": {
       "title": "Schätzung der CO₂e-Emissionen pro Stück",
       "unit": "CO₂e",
-      "upstreamTitle": "CO₂e Emissionen für die Produktion* (Upstream)",
+      "upstreamTitle": "CO₂e, das bei der Produktion* (Upstream)",
       "upstreamHint": "*Geschätzter Wert basierend auf Annahmen während der Produktion",
       "upstreamHintLinkText": "Mehr Informationen.",
       "calculationHint": "Wollen Sie mehr über CO₂ bei Schaeffler erfahren?",
-      "calculationHintLink": "https://medias.schaeffler.de/de/co2-tool",
-      "calculationHintLinkText": "Klicken Sie hier"
+      "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
+      "calculationHintLinkText": "Klicken Sie hier",
+      "co2EmissionChartTitle": "Gesamtwert der CO₂e",
+      "downstreamTitle": "CO₂e, das durch Reibung während des Betriebs verursacht wird (Nutzungsphase, Teil von Downstream)",
+      "totalDownstreamButton": "Gesamt",
+      "co2EmissionPercentageLabel": "Anteil an den gesamten CO₂e Emissionen",
+      "co2EmissionOperatingHours": "Betriebsstunden",
+      "downstreamHint": "So haben wir die Werte berechnet:",
+      "downstreamHintLinkText": "Mehr Informationen.",
+      "downstreamHintLink": "",
+      "chartDownstream": "Downstream",
+      "downstreamComingSoon": "In Arbeit für {{ bearingDesignation }}",
+      "downstreamComingSoonTitle": "CO₂e, das durch Reibung während des Betriebs verursacht wird",
+      "downstreamComingSoonText": "Umfassende Informationen mit sofortigen Berechnungen der CO2e-Emissionen unserer Rotationsprodukte in verschiedenen Anwendungsszenarien.",
+      "chartDescription": "CO₂e-Emission",
+      "chartUpstream": "Upstream"
     },
     "lubrication": {
       "title": "Schmierparameter",
@@ -259,8 +405,8 @@
     },
     "frictionalPowerloss": {
       "title": "Reibungsverluste",
-      "totalFrictionalTorque": "Gesamtes Reibmoment",
-      "totalFrictionalPowerLoss": "Gesamte Reibleistung",
+      "totalFrictionalTorque": "Reibmoment",
+      "totalFrictionalPowerLoss": "Reibleistung",
       "speedDependentFrictionalTorque": "Drehzahlabhängiges Reibmoment",
       "loadDependentFrictionalTorque": "Lastabhängiges Reibmoment",
       "thermallySafeOperatingSpeed": "thermisch zulässige Drehzahl",
@@ -317,7 +463,8 @@
       "ratingLife": "Lebensdauer",
       "lubrication": "Schmierparameter",
       "frictionalPowerloss": "Reibungsverluste",
-      "co2": "CO₂e-Emissionen für die Produktion",
+      "co2": "CO₂e-Emissionen",
+      "co2ForProduction": "CO₂e-Emissionen für die Produktion",
       "overrollingFrequency": "Überrollfrequenzen"
     },
     "basicFrequency": "Grundfrequenzen",

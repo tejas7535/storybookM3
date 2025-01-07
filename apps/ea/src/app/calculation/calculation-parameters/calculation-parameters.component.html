@@ -2,16 +2,16 @@
 <ng-container *transloco="let t; read: 'operationConditions'">
   <div class="flex w-full flex-col md:w-[660px] lg:w-[850px]">
     <div class="flex flex-1 flex-col items-center gap-10">
-      <div class="flex flex-col gap-0 w-full sm:gap-6 lg:grid">
-        <ea-qualtrics-info-banner
-          [bearingDesingation]="bearingDesignation$ | ngrxPush"
-        ></ea-qualtrics-info-banner>
+      <div
+        *ngrxLet="bearingDesignation$ as selectedBearing"
+        class="flex flex-col gap-0 w-full sm:gap-6 lg:grid"
+      >
         <schaeffler-subheader
-          *ngrxLet="bearingDesignation$ as selectedBearing"
           [hideLine]="true"
           [breakTitle]="true"
           [showBackButton]="isStandalone"
           (backButtonClicked)="navigateBack()"
+          class="[&>div]:pb-1"
         >
           <ng-container subheaderTitleContent>
             <span
@@ -23,27 +23,73 @@
             }}</span>
           </ng-container>
         </schaeffler-subheader>
-        @if (!isProduction) {
+        <!-- @if (!isProduction) {
           <div class="py-2 flex flex-col gap-y-2">
             <ea-info-banner
               [isWarning]="true"
               [infoText]="t('prototypeWarning')"
             ></ea-info-banner>
           </div>
-        }
-        <div class="flex-row items-end w-full mb-4 flex min-[1100px]:hidden">
-          <button
-            (click)="onShowBasicFrequenciesDialogClick()"
-            mat-button
-            class="ml-auto"
-          >
-            {{ 'basicFrequencies.showBasicFrequencies' | transloco }}
-          </button>
-        </div>
+        } -->
+
+        <ng-container
+          *ngrxLet="
+            isCo2DownstreamCalculationPossible$ as co2DownstreamCalculationPossible
+          "
+        >
+          <mat-card class="bg-surface-container-low">
+            <mat-card-content class="!py-0">
+              <div class="flex flex-row">
+                <div class="flex flex-col flex-shrink-1 py-2">
+                  <div
+                    class="flex"
+                    [ngClass]="{
+                      'flex-col': !co2DownstreamCalculationPossible,
+                      'flex-row': co2DownstreamCalculationPossible
+                    }"
+                  >
+                    <div
+                      class="text-primary bg-primary-variant w-fit py-1 px-3 mr-1 mb-1 rounded-2xl text-label-small"
+                    >
+                      {{
+                        co2DownstreamCalculationPossible
+                          ? t('co2Downstream.title')
+                          : t('co2Downstream.notPossibleTitle', {
+                              selectedBearing
+                            })
+                      }}
+                    </div>
+                    <div
+                      class="text-on-surface text-label-medium-prominent content-center mb-1"
+                    >
+                      {{ t('co2Downstream.subTitle') }}
+                    </div>
+                  </div>
+                  <div class="text-on-surface-variant text-label-small">
+                    {{
+                      co2DownstreamCalculationPossible
+                        ? t('co2Downstream.textAvailable')
+                        : t('co2Downstream.text')
+                    }}
+                  </div>
+                </div>
+                <div
+                  class="hidden md:flex flex-col min-w-fit flex-shrink-0 overflow-y-hidden max-h-24"
+                >
+                  <img
+                    [src]="downstreamImagePath"
+                    alt="Downstream"
+                    class="flex-1 overflow-y-auto w-52 object-center object-cover"
+                  />
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </ng-container>
 
         <div
           *transloco="let h; read: 'calculationSelection'"
-          class="flex flex-row items-center min-[1100px]:hidden justify-between mb-4"
+          class="flex-row items-end w-full mb-2 sm:mb-1 flex min-[1100px]:hidden content-between"
         >
           <!-- Mobile Empty state-->
           @if (!(hasSelection$ | ngrxPush)) {
@@ -57,23 +103,31 @@
             </div>
           }
 
-          <button
-            mat-fab
-            extended
-            (click)="onShowCalculationTypesClick()"
-            class="ml-auto mr-2 h-8 px-4 gap-1"
+          <div
+            class="flex-row items-center w-full mt-2 sm:mt-0 sm:-mb-4 flex min-[1100px]:hidden"
           >
-            <mat-icon class="!m-auto">tune</mat-icon>
-            {{ h('calculations') }}
-          </button>
+            <button (click)="onShowBasicFrequenciesDialogClick()" mat-button>
+              {{ 'basicFrequencies.showBasicFrequencies' | transloco }}
+            </button>
+
+            <button
+              mat-fab
+              extended
+              (click)="onShowCalculationTypesClick()"
+              class="mr-2 h-8 px-4 gap-1 tonal-button ml-auto"
+            >
+              <mat-icon class="!m-auto">tune</mat-icon>
+              {{ h('calculations') }}
+            </button>
+          </div>
         </div>
 
         <!-- DEV STUFF form debug component -->
-        <ea-calculation-parameters-form-dev-debug
+        <!-- <ea-calculation-parameters-form-dev-debug
           [operationConditionsForm]="operationConditionsForm"
           [validationErrors]="formErrors$ | ngrxPush"
         >
-        </ea-calculation-parameters-form-dev-debug>
+        </ea-calculation-parameters-form-dev-debug> -->
 
         <!-- Desktop Empty state-->
         @if (!(hasSelection$ | ngrxPush)) {
@@ -95,7 +149,7 @@
                 .controls;
               track loadDataItem
             ) {
-              <div class="flex-row items-start w-full mb-4 flex">
+              <div class="flex-row items-start w-full mb-2 flex">
                 <button (click)="onAddLoadCaseClick()" mat-button>
                   <mat-icon>add</mat-icon>
                   {{ 'operationConditions.addLoadCase' | transloco }}
@@ -208,9 +262,7 @@
           <div [hidden]="(presetChips$ | ngrxPush)?.length === 0">
             <div class="flex w-full justify-between items-center mb-3">
               <div class="flex flex-row">
-                <div
-                  class="text-title-small text-body-medium text-medium-emphasis py-2"
-                >
+                <div class="text-body-medium text-medium-emphasis py-2">
                   {{ t('presetParameters.headline') }}
                 </div>
                 <ea-info-button
@@ -238,26 +290,42 @@
             >
               @for (
                 chip of presetChips$ | ngrxPush;
-                track chip;
+                track chip.text;
                 let isLast = $last;
                 let isOdd = $odd
               ) {
                 <div
-                  class="w-auto border-r chip flex flex-col space-y-2 border-b md:border-b-0 border-border px-3 py-2 md:py-0"
+                  class="w-auto border-r chip flex flex-col gap-y-2 border-b md:border-b-0 border-border px-3 py-2 md:py-0"
                   [ngClass]="{
                     'md:border-r-0': isLast,
                     'border-r-0 md:border-r': isOdd
                   }"
                 >
-                  <mat-icon
-                    class="hidden md:block !text-medium-emphasis"
-                    [svgIcon]="chip.icon"
-                    >{{ chip.icon }}</mat-icon
-                  >
-                  <span
-                    class="font-bold text-title-small text-medium-emphasis"
-                    >{{ chip.text }}</span
-                  >
+                  <div class="hidden md:flex flex-row justify-between gap-2">
+                    <mat-icon
+                      class="!text-medium-emphasis"
+                      [svgIcon]="chip.icon"
+                      >{{ chip.icon }}</mat-icon
+                    >
+                    @if (chip.newTag) {
+                      <mat-icon class="!text-primary" svgIcon="new_badge"
+                        >new_badge</mat-icon
+                      >
+                    }
+                  </div>
+                  <div class="flex flex-row justify-between gap-2 flex-1">
+                    <span
+                      class="font-bold text-title-small text-medium-emphasis flex-1 content-center md:content-normal"
+                      >{{ chip.text }}
+                    </span>
+                    @if (chip.newTag) {
+                      <mat-icon
+                        class="md:hidden leading-3 !text-primary"
+                        svgIcon="new_badge"
+                        >new_badge</mat-icon
+                      >
+                    }
+                  </div>
                   <span class="text-low-emphasis text-body-medium">{{
                     chip.label
                   }}</span>
@@ -303,6 +371,10 @@
           [title]="'appStoreButtonsTitle' | transloco"
           (appStoreClick)="sendClickEvent($event)"
         ></ea-app-store-buttons>
+
+        <ea-qualtrics-info-banner
+          [bearingDesingation]="bearingDesignation$ | ngrxPush"
+        ></ea-qualtrics-info-banner>
       </div>
     </div>
   </div>
@@ -452,6 +524,18 @@
             [onlyPositive]="true"
             [customErrors]="[{ name: 'operatingTimeValueTotal' }]"
           ></ea-input-number>
+          @if (loadCase.controls.operatingTime.value) {
+            <p class="text-body-2 text-medium-emphasis">
+              {{
+                'operationConditions.loadCaseTimePortionDescription' | transloco
+              }}
+            </p>
+            <p class="text-title-small text-high-emphasis pt-2">
+              {{
+                getLoadCaseTimePortion(loadCase.controls.operatingTime.value)
+              }}
+            </p>
+          }
         </div>
       </ea-input-group>
       <ea-input-group
@@ -864,6 +948,69 @@
         optionTemplate="outerring"
         [label]="t('options.rotatingOuterring')"
       >
+      </ng-template>
+    </ea-tabbed-options>
+  </ea-input-group>
+</ng-template>
+
+<!-- TIME -->
+<ng-template parameterTemplate="time">
+  <ea-input-group
+    [title]="t('title')"
+    svgIcon="acute"
+    [isMandatory]="true"
+    *transloco="let t; read: 'operationConditions.time'"
+  >
+    <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
+      <ea-input-number
+        [formControl]="operationConditionsForm.controls.time"
+        [label]="t('operatingTime.label')"
+        [unit]="t('operatingTime.unit')"
+        [hint]="t('operatingTime.description')"
+        [placeholder]="
+          'operationConditions.pleaseEnter'
+            | transloco: { label: t('operatingTime.label') }
+        "
+        [onlyPositive]="true"
+      ></ea-input-number>
+    </div>
+  </ea-input-group>
+</ng-template>
+
+<!-- ENERGY SOURCE -->
+<ng-template parameterTemplate="energySource">
+  <ea-input-group
+    [title]="t('title')"
+    svgIcon="bolt"
+    [isMandatory]="true"
+    *transloco="let t; read: 'operationConditions.energySource'"
+    [formGroup]="operationConditionsForm.controls.energySource"
+  >
+    <ea-tabbed-options formControlName="type">
+      <ng-template optionTemplate="fossil" [label]="t('options.fossil')">
+        <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4 w-full">
+          <!-- FOSSIL ENERGY -->
+          <ng-container formGroupName="fossil">
+            <ea-input-select
+              formControlName="fossilOrigin"
+              [label]="t('fossilOrigin')"
+              [options]="fossilOriginOptions$ | ngrxPush"
+            ></ea-input-select>
+          </ng-container>
+        </div>
+      </ng-template>
+
+      <ng-template optionTemplate="electric" [label]="t('options.electricity')">
+        <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4 w-full">
+          <!-- ELECTIRCAL ENERGY -->
+          <ng-container formGroupName="electric">
+            <ea-input-select
+              formControlName="electricityRegion"
+              [label]="t('electricityRegion')"
+              [options]="electricityRegionOptions$ | ngrxPush"
+            ></ea-input-select>
+          </ng-container>
+        </div>
       </ng-template>
     </ea-tabbed-options>
   </ea-input-group>

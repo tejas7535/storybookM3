@@ -35,13 +35,8 @@ export class PDFREport {
       });
     }
 
-    if (
-      this.data.upstreamEmissions &&
-      this.data.upstreamEmissions.data !== undefined
-    ) {
-      verticalLayout.add('upstream', this.data.upstreamEmissions, {
-        props: { disclaimer: this.docSettings.co2disclaimer },
-      });
+    if (this.data.emissions && this.data.emissions.data !== undefined) {
+      verticalLayout.add('emissions', this.data.emissions);
     }
 
     if (this.data.ratingLife && this.data.ratingLife.data.length > 0) {

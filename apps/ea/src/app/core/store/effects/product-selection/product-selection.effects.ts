@@ -9,6 +9,7 @@ import { ModuleCalculationModuleInfoResult } from '@ea/core/services/calculation
 import { CalculationModuleInfoService } from '@ea/core/services/calculation-module-info.service';
 import { CatalogService } from '@ea/core/services/catalog.service';
 import { CO2UpstreamService } from '@ea/core/services/co2-upstream.service';
+import { DownstreamCalculationService } from '@ea/core/services/downstream-calculation.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
 import {
@@ -33,6 +34,7 @@ export class ProductSelectionEffects {
       mergeMap(() => [
         ProductSelectionActions.fetchBearingCapabilities(),
         ProductSelectionActions.fetchCalculationModuleInfo(),
+        ProductSelectionActions.fetchCanCalculate(),
       ])
     );
   });
@@ -47,35 +49,42 @@ export class ProductSelectionEffects {
           .pipe(
             concatLatestFrom(() => [
               this.calculationParametersFacade.getCalculationTypes$,
+              this.productSelectionFacade.isCo2DownstreamCalculationPossible$,
             ]),
-            switchMap(([capabilities, calculationConfig]) => {
-              const newCalculationTypes: CalculationParametersCalculationTypes =
-                {
-                  ...calculationConfig,
-                  frictionalPowerloss: {
-                    ...calculationConfig.frictionalPowerloss,
-                    disabled: !capabilities.capabilityInfo.frictionCalculation,
-                    selected: capabilities.capabilityInfo.frictionCalculation
-                      ? calculationConfig.frictionalPowerloss.selected
-                      : false,
-                  },
-                };
+            switchMap(
+              ([capabilities, calculationConfig, co2DownstreamPossible]) => {
+                const newCalculationTypes: CalculationParametersCalculationTypes =
+                  {
+                    ...calculationConfig,
+                    frictionalPowerloss: {
+                      ...calculationConfig.frictionalPowerloss,
+                      disabled:
+                        !capabilities.capabilityInfo.frictionCalculation ||
+                        !co2DownstreamPossible,
+                      selected:
+                        capabilities.capabilityInfo.frictionCalculation &&
+                        co2DownstreamPossible
+                          ? calculationConfig.frictionalPowerloss.selected
+                          : false,
+                    },
+                  };
 
-              return [
-                ProductSelectionActions.setBearingId({
-                  bearingId: capabilities.productInfo.id,
-                }),
-                ProductSelectionActions.setBearingProductClass({
-                  productClass: capabilities.productInfo.bearinxClass,
-                }),
-                ProductSelectionActions.fetchLoadcaseTemplate(),
-                CO2UpstreamCalculationResultActions.fetchResult(),
-                ProductSelectionActions.fetchOperatingConditionsTemplate(),
-                CalculationTypesActions.setCalculationTypes({
-                  calculationTypes: newCalculationTypes,
-                }),
-              ];
-            }),
+                return [
+                  ProductSelectionActions.setBearingId({
+                    bearingId: capabilities.productInfo.id,
+                  }),
+                  ProductSelectionActions.setBearingProductClass({
+                    productClass: capabilities.productInfo.bearinxClass,
+                  }),
+                  ProductSelectionActions.fetchLoadcaseTemplate(),
+                  CO2UpstreamCalculationResultActions.fetchResult(),
+                  ProductSelectionActions.fetchOperatingConditionsTemplate(),
+                  CalculationTypesActions.setCalculationTypes({
+                    calculationTypes: newCalculationTypes,
+                  }),
+                ];
+              }
+            ),
             catchError((err: HttpErrorResponse) => {
               return of(
                 ProductSelectionActions.setProductFetchFailure({
@@ -120,49 +129,76 @@ export class ProductSelectionEffects {
             }),
             concatLatestFrom(() => [
               this.calculationParametersFacade.getCalculationTypes$,
+              this.productSelectionFacade.isCo2DownstreamCalculationPossible$,
             ]),
-            switchMap(([result, calculationTypes]) => {
-              const updatedTypes: CalculationParametersCalculationTypes = {
-                emission: {
-                  ...calculationTypes.emission,
-                  disabled: false, // special case, stays enabled since we are still able to calculate upstream
-                },
-                // should not change the value as long as the new friciion api isn't implemented in the frontend
-                frictionalPowerloss: {
-                  ...calculationTypes.frictionalPowerloss,
-                },
-                lubrication: {
-                  ...calculationTypes.lubrication,
-                  disabled: !result.catalogueCalculation,
-                  selected: result.catalogueCalculation
-                    ? calculationTypes.lubrication.selected
-                    : false,
-                },
-                overrollingFrequency: {
-                  ...calculationTypes.overrollingFrequency,
-                  disabled: !result.catalogueCalculation,
-                  selected: result.catalogueCalculation
-                    ? calculationTypes.overrollingFrequency.selected
-                    : false,
-                },
-                ratingLife: {
-                  ...calculationTypes.ratingLife,
-                  disabled: !result.catalogueCalculation,
-                  selected: result.catalogueCalculation
-                    ? calculationTypes.ratingLife.selected
-                    : false,
-                },
-              };
+            switchMap(
+              ([
+                result,
+                calculationTypes,
+                isCo2DownstreamCalculationPossible,
+              ]) => {
+                const updatedTypes: CalculationParametersCalculationTypes = {
+                  emission: {
+                    ...calculationTypes.emission,
+                    disabled: false, // special case, stays enabled since we are still able to calculate upstream
+                  },
+                  // should not change the value as long as the new friciion api isn't implemented in the frontend
+                  frictionalPowerloss: {
+                    ...calculationTypes.frictionalPowerloss,
+                    // the downstream endpoint also provides the friction result, therefore the canCalculate now determines if it is enabled
+                    disabled: !isCo2DownstreamCalculationPossible,
+                  },
+                  lubrication: {
+                    ...calculationTypes.lubrication,
+                    disabled: !result.catalogueCalculation,
+                    selected: result.catalogueCalculation
+                      ? calculationTypes.lubrication.selected
+                      : false,
+                  },
+                  overrollingFrequency: {
+                    ...calculationTypes.overrollingFrequency,
+                    disabled: !result.catalogueCalculation,
+                    selected: result.catalogueCalculation
+                      ? calculationTypes.overrollingFrequency.selected
+                      : false,
+                  },
+                  ratingLife: {
+                    ...calculationTypes.ratingLife,
+                    disabled: !result.catalogueCalculation,
+                    selected: result.catalogueCalculation
+                      ? calculationTypes.ratingLife.selected
+                      : false,
+                  },
+                };
 
-              return [
-                ProductSelectionActions.setCalculationModuleInfo({
-                  calculationModuleInfo: result,
-                }),
-                CalculationTypesActions.setCalculationTypes({
-                  calculationTypes: updatedTypes,
-                }),
-              ];
-            })
+                return [
+                  ProductSelectionActions.setCalculationModuleInfo({
+                    calculationModuleInfo: result,
+                  }),
+                  CalculationTypesActions.setCalculationTypes({
+                    calculationTypes: updatedTypes,
+                  }),
+                ];
+              }
+            )
+          );
+      })
+    );
+  });
+
+  public fetchCanCalculate$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ProductSelectionActions.fetchCanCalculate),
+      concatLatestFrom(() => [this.productSelectionFacade.bearingDesignation$]),
+      switchMap(([_, designation]) => {
+        return this.downstreamCalculationService
+          .getCanCalculate(designation)
+          .pipe(
+            map((co2DownstreamAvailable) =>
+              ProductSelectionActions.setCanCalculate({
+                co2DownstreamAvailable,
+              })
+            )
           );
       })
     );
@@ -241,6 +277,7 @@ export class ProductSelectionEffects {
     private readonly productSelectionFacade: ProductSelectionFacade,
     private readonly calculationParametersFacade: CalculationParametersFacade,
     private readonly router: Router,
-    private readonly co2Service: CO2UpstreamService
+    private readonly co2Service: CO2UpstreamService,
+    private readonly downstreamCalculationService: DownstreamCalculationService
   ) {}
 }

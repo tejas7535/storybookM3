@@ -61,16 +61,25 @@
     "prototypeWarning": "ค่าที่แสดงในต้นแบบการพัฒนานี้เป็นเพียงสมมติฐานเท่านั้น และไม่ควรถูกนำไปใช้ในการผลิต",
     "showPresetCalculationParameters": "แสดงพารามิเตอร์การคำนวณค่าที่กำหนดมาล่วงหน้า",
     "addLoadCase": "เพิ่มโหลดเคส",
+    "co2Downstream": {
+      "notPossibleTitle": "อยู่ในระหว่างดำเนินการสำหรับ {{ selectedBearing }}",
+      "subTitle": "CO₂e ที่เกิดจากแรงเสียดทานระหว่างการทำงาน",
+      "text": "ข้อมูลที่ครอบคลุมพร้อมการคำนวณโดยทันทีของการปล่อย CO2e ของผลิตภัณฑ์หมุนเวียนของเราในสถานการณ์การใช้งานที่แตกต่างกัน。",
+      "textAvailable": "ตอนนี้ Schaeffler มีข้อมูลที่ครอบคลุมพร้อมการคำนวณโดยทันทีของการปล่อย CO2e ของผลิตภัณฑ์หมุนเวียนของเราในสถานการณ์การใช้งานที่แตกต่างกัน。",
+      "title": "ใหม่"
+    },
     "loads": "โหลด",
     "radialLoad": "โหลดแนวรัศมี",
     "axialLoad": "โหลดเชิงแกน",
     "totalAmountOfTime": "เวลารวมทั้งหมด:",
+    "loadCaseTimePortionDescription": "สำหรับการคำนวณแรงเสียดทาน / CO₂e:",
+    "loadCaseTimePortion": "{{ loadcasePercentage }}% ของ {{ totalTime }} ชั่วโมง เท่ากับ {{ loadcaseTime }} ชั่วโมง",
     "loadCaseName": "โหลดเคส {{number}}",
     "generalInputsTitle": "อินพุตทั่วไป",
     "generalInputsTitleTooltip": "สิ่งนี้ใช้กับโหลดเคสทั้งหมด",
     "emptyState": "โปรดเลือกการคำนวณที่คุณต้องการทำจากรายการการคำนวณที่มีให้เลือก",
     "operatingTime": {
-      "title": "เวลาการทำงาน",
+      "title": "ส่วนของเวลา",
       "label": "เปอร์เซ็นต์"
     },
     "presetParameters": {
@@ -126,9 +135,9 @@
       "notAvailable": "การหล่อลื่นประเภทนี้ไม่สามารถใช้กับตลับลูกปืนที่คุณเลือกได้",
       "options": {
         "grease": "จาระบี",
-        "oilBath": "การหล่อลื่นด้วยการอาบน้ำมัน",
-        "oilMist": "การหล่อลื่นด้วยการพ่นน้ำมัน",
-        "recirculatingOil": "การหล่อลื่นด้วยน้ำมันแบบหมุนเวียน"
+        "oilBath": "อ่างน้ำมัน",
+        "oilMist": "ละอองน้ำมัน",
+        "recirculatingOil": "น้ำมันหมุนเวียน"
       },
       "grease": {
         "typeOfGrease": {
@@ -195,6 +204,54 @@
         "rotatingOuterring": "การหมุนวงนอก",
         "rotatingInnerring": "การหมุนวงใน"
       }
+    },
+    "time": {
+      "title": "เวลาการทำงาน",
+      "operatingTime": {
+        "label": "เวลาการทำงานทั้งหมด",
+        "description": "8766 ชั่วโมงเท่ากับการใช้งาน 24/7 ตลอดหนึ่งปี",
+        "unit": "ชม."
+      }
+    },
+    "energySource": {
+      "title": "แหล่งพลังงาน",
+      "options": {
+        "electricity": "พลังงานไฟฟ้า",
+        "fossil": "พลังงานฟอสซิล"
+      },
+      "fossilOrigin": "แหล่งกำเนิดฟอสซิล",
+      "electricityRegion": "ภูมิภาคการผลิตไฟฟ้า",
+      "electricityChipText": "ไฟฟ้าใน {{region}}",
+      "electricityRegionOption": {
+        "argentina": "อาร์เจนตินา",
+        "australia": "ออสเตรเลีย",
+        "brazil": "บราซิล",
+        "canada": "แคนาดา",
+        "china": "จีน",
+        "europeanUnion": "สหภาพยุโรป",
+        "france": "ฝรั่งเศส",
+        "germany": "เยอรมนี",
+        "greatBritain": "สหราชอาณาจักร",
+        "india": "อินเดีย",
+        "indonesia": "อินโดนีเซีย",
+        "italy": "อิตาลี",
+        "japan": "ญี่ปุ่น",
+        "mexico": "เม็กซิโก",
+        "russianFederation": "สหพันธรัฐรัสเซีย",
+        "southAfrica": "แอฟริกาใต้",
+        "southKorea": "เกาหลีใต้",
+        "turkey": "ตุรกี",
+        "usa": "สหรัฐอเมริกา"
+      },
+      "fossilOriginOptions": {
+        "gasoline": "น้ำมันเบนซิน",
+        "diesel": "ดีเซล",
+        "e10": "น้ำมันเบนซิน E10",
+        "dieselB7": "ดีเซล B7",
+        "lpg": "ก๊าซหุงต้ม (LPG)",
+        "cng": "ก๊าซธรรมชาติอัด (CNG)",
+        "cngBiomethane": "ก๊าซธรรมชาติอัดที่มีไบโอมีเทน (CNG)"
+      }
     }
   },
   "calculation": {
@@ -215,14 +272,89 @@
     "overrollingFrequency": "ความถี่การโอเวอร์โรล",
     "overrollingFrequencySubtitle": "ความถี่วงใน (BPFI)",
     "frictionalPowerloss": "การสูญเสียงแรงเนื่องจากแรงเสียดทาน",
-    "frictionalPowerlossSubtitle": "แรงบิดเสียดทานรวม (MR)",
+    "frictionalPowerlossSubtitle": "การสูญเสียงแรงเนื่องจากแรงเสียดทานรวม (W)",
     "frictionalPowerlossUnavailable": "การคำนวณนี้ไม่พร้อมใช้งานสำหรับตลับลูกปืนที่เลือก",
     "production": "สำหรับการผลิต",
-    "productionTooltip": "นี่คือผลรวมของ CO₂ เทียบเท่าทั้งหมดที่ปล่อยออกมาสำหรับการผลิตตลับลูกปืนเม็ดลูกกลิ้ง ซึ่งรวมถึงทรัพยากรและพลังงานที่จำเป็น"
+    "productionTooltip": "นี่คือผลรวมของ CO₂ เทียบเท่าทั้งหมดที่ปล่อยออกมาสำหรับการผลิตตลับลูกปืนเม็ดลูกกลิ้ง ซึ่งรวมถึงทรัพยากรและพลังงานที่จำเป็น",
+    "usage": "ระหว่างการใช้งาน",
+    "usageTooltip": "การปล่อย CO2 โดยรวมที่เกิดจากการสูญเสียพลังงาน",
+    "downstreamErrors": {
+      "modelNotExisting": "ไม่มีการคำนวณ CO2 สำหรับตลับลูกปืนนี้",
+      "modelLubricationNotSupported": "ไม่มีการคำนวณ CO2 สำหรับตลับลูกปืนนี้กับประเภทการหล่อลื่นนี้",
+      "sumOfTimePortionsBelow_100Percent": "ผลรวมของสัดส่วนการทำงานน้อยกว่า 100% ดังนั้นไม่สามารถคำนวณการเสียดสีได้",
+      "sumOfTimePortionsExceeds_100Percent": "ผลรวมของสัดส่วนการทำงานมีค่ามากกว่า 100% ดังนั้นไม่สามารถคำนวณการเสียดสีได้",
+      "invalidMovementType": "ในกรณีโหลดอย่างน้อย 1 กรณีประเภทการเคลื่อนไหวไม่ได้หมุน ดังนั้นไม่สามารถคำนวณการเสียดสีได้",
+      "operatingTemperatureBelowLimit": "อุณหภูมิการทำงานต่ำเกินไป ดังนั้นไม่สามารถคำนวณการเสียดสีได้",
+      "operatingTemperatureExceedsLimit": "อุณหภูมิการทำงานสูงเกินไป ดังนั้นไม่สามารถคำนวณการเสียดสีได้",
+      "invalidViscosityDefinition": "การกำหนดค่าความหนืดของสารหล่อลื่นไม่ถูกต้องสำหรับการคำนวณการเสียดสี",
+      "invalidLubricationMethod": "การกำหนดประเภทการหล่อลื่นไม่ถูกต้องสำหรับการคำนวณการเสียดสี",
+      "invalidGreaseSelection": "เกรดที่เลือกไม่ถูกต้องสำหรับการคำนวณการเสียดสี ดังนั้นไม่สามารถคำนวณการเสียดสีได้",
+      "invalidViscosityClass": "คลาสความหนืดที่ระบุไม่ถูกต้องสำหรับการคำนวณการเสียดสี",
+      "ny100ExceedsNy40": "ความหนืดของสารหล่อลื่นที่ 100°C สูงกว่าความหนืดที่ 40°C กรุณาตรวจสอบข้อมูลที่ป้อน",
+      "ny40BelowLimit": "ความหนืดของสารหล่อลื่นที่ 40°C ต่ำเกินไป ดังนั้นไม่สามารถคำนวณการเสียดสีได้",
+      "ny40ExceedsLimit": "ความหนืดของสารหล่อลื่นที่ 40°C สูงเกินไป ดังนั้นไม่สามารถคำนวณการเสียดสีได้",
+      "ny100BelowLimit": "ความหนืดของสารหล่อลื่นที่ 100°C ต่ำเกินไป ดังนั้นไม่สามารถคำนวณการเสียดสีได้",
+      "ny100ExceedsLimit": "ความหนืดของสารหล่อลื่นที่ 100°C สูงเกินไป ดังนั้นไม่สามารถคำนวณการเสียดสีได้",
+      "speedBelowThreshold": "ความเร็วต่ำเกินไป ดังนั้นไม่สามารถคำนวณการเสียดสีได้",
+      "speedExceedsLimitingSpeed": "ความเร็วสูงกว่าความเร็วที่จำกัด ดังนั้นไม่สามารถคำนวณการเสียดสีได้",
+      "p0BelowC0Min": "แรงกดนิ่งเทียบเท่า P0 ต่ำกว่าค่าต่ำสุด ดังนั้นไม่สามารถคำนวณการเสียดสีได้",
+      "p0ExceedsC0": "แรงกดนิ่งเทียบเท่า P0 สูงกว่าแรงกดที่นิ่งของ C0 ดังนั้นไม่สามารถคำนวณการเสียดสีได้",
+      "loadAngleBelowNominalContactAngle": "มุมโหลดน้อยกว่ามุมสัมผัสตามมาตรฐาน ดังนั้นแรงแกนภายในจึงสูงกว่าแรงแกนภายนอกที่ทำงานอยู่ และการสนับสนุนแกนจึงไม่รับประกันอีกต่อไป",
+      "operatingViscosityBelowLimit": "ความหนืดในขณะปฏิบัติงานเป็นผลมาจากสารหล่อลื่นกับอุณหภูมิที่ทำงานต่ำเกินไป ดังนั้นไม่สามารถคำนวณการเสียดสีได้",
+      "operatingViscosityExceedsLimit": "ความหนืดในขณะปฏิบัติงานเป็นผลมาจากสารหล่อลื่นกับอุณหภูมิที่ทำงานสูงเกินไป ดังนั้นไม่สามารถคำนวณการเสียดสีได้",
+      "viscosityRatioBelowLimit": "อัตราส่วนความหนืด Kappa สูงเกินไป ดังนั้นไม่สามารถคำนวณการเสียดสีได้",
+      "viscosityRatioExceedsLimit": "อัตราส่วนความหนืด Kappa ต่ำเกินไป ดังนั้นไม่สามารถคำนวณการเสียดสีได้",
+      "radialLoadBelowLimit": "แรงดันเรเดียลต้องไม่เป็นค่าลบ",
+      "radialLoadNotSupported": "ตลับลูกปืนนี้ไม่เหมาะสำหรับรับแรงดันเรเดียล",
+      "axialLoadBelowLimit": "แรงทางแกนนั้นไม่ควรเป็นค่าลบ",
+      "axialLoadBelowMinimum": "แรงทางแกนต่ำกว่าค่าต่ำสุดที่กำหนด",
+      "axialLoadExceedsLimit": "แรงทางแกนสูงเกินกว่าค่ามากที่สุดที่กำหนด",
+      "axialLoadNotSupported": "ตลับลูกปืนนี้ไม่เหมาะสำหรับรับแรงทางแกน",
+      "loadRatioTooSmall": "อัตราส่วนระหว่างแรงทางแกนกับแรงเรเดียลนั้นเล็กเกินไปสำหรับตัวตลับลูกปืนประเภทนี้",
+      "loadRatioTooLarge": "อัตราส่วนระหว่างแรงทางแกนกับแรงเรเดียลนั้นใหญ่เกินไปสำหรับตัวตลับลูกปืนประเภทนี้",
+      "referenceViscosityIsZero": "ค่าที่อ้างอิงความหนืดเป็น 0 ดังนั้นการคำนวณการเสียดสีจึงไม่พร้อมใช้งาน",
+      "meanDiameterIsZero": "เส้นผ่านศูนย์กลางวงกลมทอผ้าศูนย์กลางเป็น 0 ดังนั้นการคำนวณการเสียดสีจึงไม่พร้อมใช้งาน",
+      "unsupportedEmissionFactor": "ปัจจัยการปล่อยมลพิษไม่ได้รับการสนับสนุน",
+      "genericError": "เกิดข้อผิดพลาด การคำนวณล้มเหลว"
+    }
   },
   "calculationResultReport": {
     "dialogTitle": "รายงานสำหรับตลับลูกปืน {{bearingDesignation}}",
     "reportSectionInput": "อินพุต",
+    "downstreamInputs": {
+      "bearing": {
+        "bearingTitle": "ตลับลูกปืน",
+        "designation": "การกำหนด",
+        "dynamicLoadRating": "พิกัดโหลดไดนามิกพื้นฐาน",
+        "fatigueLoadLimit": "จำกัดโหลดความล้า",
+        "innerDiameter": "เส้นผ่านศูนย์กลางภายใน",
+        "limitingSpeedGrease": "ความเร็วจำกัด, จาระบี",
+        "limitingSpeedOil": "ความเร็วจำกัด, น้ำมัน",
+        "outerDiameter": "เส้นผ่านศูนย์กลางภายนอก",
+        "staticLoadRating": "พิกัดโหลดสถิตพื้นฐาน",
+        "width": "ความกว้าง"
+      },
+      "otherConditions": {
+        "conditionsTitle": "เงื่อนไขอื่นๆ",
+        "temperature": "อุณหภูมิแวดล้อม",
+        "lubricationMethod": "ประเภทของการหล่อลื่น",
+        "greaseType": "ประเภทของจาระบี",
+        "operatingTimeInHours": "เวลาในการปฏิบัติการ (ชั่วโมง)",
+        "svgClass": "ชั้น ISO VG",
+        "viscosity": "ป้อนความหนืด",
+        "ny40": "ความหนืดที่ 40°C",
+        "ny100": "ความหนืดที่ 100°C"
+      },
+      "load": {
+        "loadTitle": "โหลด",
+        "timePortion": "ส่วนของเวลา",
+        "typeOfMotion": "ประเภทของการเคลื่อนที่",
+        "speed": "ความเร็ว",
+        "operatingTemperature": "อุณหภูมิการปฏิบัติการเฉลี่ย",
+        "axialLoad": "โหลดตามแนวแกน",
+        "radialLoad": "โหลดตามแนวรัศมี"
+      }
+    },
     "reportSectionWarnings": "ข้อผิดพลาด/คำเตือน/หมายเหตุ",
     "calculationNotAvailable": {
       "line1": "ไม่สามารถทำการคำนวณนี้กับตลับลูกปืนที่เลือกได้",
@@ -231,14 +363,28 @@
       "link": "https://medias.schaeffler.de/en/stc"
     },
     "co2Emissions": {
-      "title": "การปล่อย CO₂e โดยประมาณต่อชิ้น",
+      "title": "การประเมินการปล่อย CO₂e ต่อชิ้น",
       "unit": "CO₂e",
-      "upstreamTitle": "CO₂e ที่ปล่อยสำหรับการผลิต* (ต้นน้ำ)",
-      "upstreamHint": "*ค่าประมาณที่อ้างอิงจากการสันนิษฐานระหว่างการผลิต",
-      "upstreamHintLinkText": "ข้อมูลเพิ่มเติม",
-      "calculationHint": "อบากทราบข้อมูลเพิ่มเติมเกี่ยวกับ CO₂ ที่แชฟฟ์เลอร์ใช่ไหม",
+      "upstreamTitle": "CO₂e ที่ปล่อยออกมาสำหรับการผลิต* (ต้นน้ำ)",
+      "upstreamHint": "*ค่าประมาณตามสมมติฐานในระหว่างการผลิต",
+      "upstreamHintLinkText": "ข้อมูลเพิ่มเติม.",
+      "calculationHint": "ต้องการทราบข้อมูลเพิ่มเติมเกี่ยวกับ CO₂ ที่ Schaeffler หรือไม่?",
       "calculationHintLink": "https://medias.schaeffler.de/en/co2-tool",
-      "calculationHintLinkText": "คลิกที่นี่"
+      "calculationHintLinkText": "คลิกที่นี่",
+      "co2EmissionChartTitle": "มูลค่ารวมของ CO₂e",
+      "downstreamTitle": "CO₂e ที่เกิดจากแรงเสียดทานระหว่างการใช้งาน (ระยะการใช้ ต่อจากต้นน้ำ)",
+      "totalDownstreamButton": "ทั้งหมด",
+      "co2EmissionPercentageLabel": "สัดส่วนของการปล่อยก๊าซ CO₂e ทั้งหมด",
+      "co2EmissionOperatingHours": "ชั่วโมงการทำงาน",
+      "downstreamHint": "นี่คือวิธีที่เราคำนวณค่า:",
+      "downstreamHintLinkText": "ข้อมูลเพิ่มเติม.",
+      "downstreamHintLink": "",
+      "chartDownstream": "ต้นน้ำ",
+      "downstreamComingSoon": "เร็วๆ นี้สำหรับ {{ bearingDesignation }}",
+      "downstreamComingSoonTitle": "CO₂e ที่เกิดจากแรงเสียดทานระหว่างการใช้งาน",
+      "downstreamComingSoonText": "ข้อมูลที่ครอบคลุมพร้อมการคำนวณโดยทันทีของการปล่อย CO2e ของผลิตภัณฑ์หมุนเวียนของเราในสถานการณ์การใช้งานที่แตกต่างกัน",
+      "chartDescription": "การปล่อย CO₂e",
+      "chartUpstream": "ต้นน้ำ"
     },
     "lubrication": {
       "title": "พารามิเตอร์การหล่อลื่น",
@@ -255,8 +401,8 @@
     },
     "frictionalPowerloss": {
       "title": "การสูญเสียงแรงเนื่องจากแรงเสียดทาน",
-      "totalFrictionalTorque": "แรงบิดเสียดทานรวม",
-      "totalFrictionalPowerLoss": "การสูญเสียงแรงเนื่องจากแรงเสียดทานรวม",
+      "totalFrictionalTorque": "แรงบิดเสียดทาน",
+      "totalFrictionalPowerLoss": "การสูญเสียพลังงานจากแรงเสียดทาน",
       "speedDependentFrictionalTorque": "แรงบิดเสียดทานตามความเร็ว",
       "loadDependentFrictionalTorque": "แรงบิดเสียดทานตามโหลด",
       "thermallySafeOperatingSpeed": "ความเร็วการทำงานที่ปลอดภัยด้านความร้อน"
@@ -307,7 +453,8 @@
       "ratingLife": "พิกัดการอายุการใช้งาน",
       "lubrication": "พารามิเตอร์การหล่อลื่น",
       "frictionalPowerloss": "การสูญเสียงแรงเนื่องจากแรงเสียดทาน",
-      "co2": "การปล่อย CO₂e สำหรับการผลิต",
+      "co2": "การปล่อยก๊าซ CO₂e",
+      "co2ForProduction": "การปล่อย CO₂e สำหรับการผลิต",
       "overrollingFrequency": "ความถี่การโอเวอร์โรล"
     },
     "basicFrequency": "ความถี่พื้นฐาน",

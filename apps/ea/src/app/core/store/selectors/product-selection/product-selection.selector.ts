@@ -84,6 +84,11 @@ export const getTemplates = createSelector(
   })
 );
 
+export const isCo2DownstreamCalculationPossible = createSelector(
+  getProductSelectionState,
+  ({ co2DownstreamAvailable }) => co2DownstreamAvailable
+);
+
 export const getTemplateItem = (props: { itemId: string }) =>
   createSelector(
     getLoadcaseTemplate,

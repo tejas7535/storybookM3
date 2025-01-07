@@ -67,6 +67,16 @@ export const initialState: CalculationParametersState = {
     contamination: 'LB_STANDARD_CLEANLINESS',
     conditionOfRotation: 'innerring',
     selectedLoadcase: 0,
+    time: 8766,
+    energySource: {
+      type: 'electric',
+      electric: {
+        electricityRegion: 'LB_EUROPEAN_UNION',
+      },
+      fossil: {
+        fossilOrigin: 'LB_GASOLINE_E10',
+      },
+    },
   },
 
   calculationTypes: {

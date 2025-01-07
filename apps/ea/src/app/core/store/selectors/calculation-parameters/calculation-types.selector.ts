@@ -33,6 +33,12 @@ export const getCalculationTypesConfig = createSelector(
   (state): CalculationParametersCalculationTypeConfig[] =>
     [
       {
+        name: 'emission' as const,
+        ...state.emission,
+        svgIcon: 'co2',
+        label: 'calculationTypes.co2ForProduction',
+      },
+      {
         name: 'ratingLife' as const,
         ...state.ratingLife,
         icon: 'animation',
@@ -49,12 +55,6 @@ export const getCalculationTypesConfig = createSelector(
         ...state.lubrication,
         svgIcon: 'water_drop',
         label: 'calculationTypes.lubrication',
-      },
-      {
-        name: 'emission' as const,
-        ...state.emission,
-        svgIcon: 'co2',
-        label: 'calculationTypes.co2',
       },
       {
         name: 'overrollingFrequency' as const,

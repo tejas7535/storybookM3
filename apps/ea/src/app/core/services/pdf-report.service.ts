@@ -1,9 +1,11 @@
+/* eslint-disable max-lines */
 // ts
 import { Injectable } from '@angular/core';
 
-import { firstValueFrom, map } from 'rxjs';
+import { combineLatest, firstValueFrom, map } from 'rxjs';
 
 import { ResultReportLargeItem } from '@ea/calculation/calculation-result-report-large-items/result-report-large-item';
+import { CHARTS_COLORS } from '@ea/shared/constants/charts-colors';
 import {
   CO2Icon,
   FrictionIcon,
@@ -19,7 +21,13 @@ import { CalculationResultFacade, ProductSelectionFacade } from '../store';
 import { CalculationResultReportInput } from '../store/models';
 import { CatalogCalculationInputFormatterService } from './catalog-calculation-input-formatter.service';
 import { FontsLoaderService } from './fonts-loader.service';
-import { Notices, ResultBlock, ResultReport } from './pdfreport/data';
+import {
+  ComingSoonSection,
+  DownstreamError,
+  Notices,
+  ResultBlock,
+  ResultReport,
+} from './pdfreport/data';
 import { PDFDocumentSettingsService } from './pdfreport/pdf-document-settings.service';
 import { PDFREport } from './pdfreport/pdf-report';
 
@@ -36,10 +44,10 @@ export class PDFReportService {
     private readonly catalogCalculationInputFormatterService: CatalogCalculationInputFormatterService
   ) {}
 
-  async generate() {
+  async generate(emissionChartImage?: string) {
     const languageCode = this.translocoService.getActiveLang();
 
-    const data = await this.fetchResultData(languageCode);
+    const data = await this.fetchResultData(languageCode, emissionChartImage);
 
     const report = new PDFREport(
       this.documentSettingsService.generateDocumentSettings(data),
@@ -66,7 +74,10 @@ export class PDFReportService {
     return filename;
   }
 
-  private async fetchResultData(languageCode: string) {
+  private async fetchResultData(
+    languageCode: string,
+    emissionChartImage?: string
+  ) {
     const calculationMethods = await firstValueFrom(
       this.resultFacade.getSelectedCalculations$.pipe(
         map((selection) =>
@@ -79,9 +90,7 @@ export class PDFReportService {
     );
 
     const calculationInput = await this.loadInputData();
-    const errors = await firstValueFrom(
-      this.resultFacade.calculationReportErrors$
-    );
+    const errors = await firstValueFrom(this.resultFacade.getAllErrors$);
 
     const warnings = await firstValueFrom(
       this.resultFacade.calculationReportWarnings$
@@ -214,28 +223,191 @@ export class PDFReportService {
           );
           this.localizeNumberFormats(data.frictionalPowerloss);
           break;
-
         case 'emission':
-          data.upstreamEmissions = {
+          data.emissions = {
             header: this.translocoService.translate(
               'calculationResultReport.co2Emissions.title'
             ),
             icon: CO2Icon,
             data: await firstValueFrom(
-              this.resultFacade.calculationReportCO2Emission$.pipe(
-                map(
-                  (emissions) =>
-                    ({
-                      title: this.translocoService.translate(
-                        'calculationResultReport.co2Emissions.upstreamTitle',
-                        {},
+              combineLatest([
+                this.resultFacade.calculationReportCO2Emission$,
+                this.resultFacade.calculationReportDownstreamErrors$,
+                this.selectionFacade.bearingDesignation$,
+              ]).pipe(
+                map(([emissions, downstreamErrors, bearingDesignation]) => {
+                  const totalOperatingTime = emissions?.co2_downstream.loadcases
+                    .map((loadcase) => loadcase.operatingTimeInHours)
+                    .reduce((total, time) => total + time, 0);
+
+                  const totalTitle = this.translateEmission(
+                    'totalDownstreamButton',
+                    languageCode
+                  );
+
+                  const emissionPercentLabel = this.translateEmission(
+                    'co2EmissionPercentageLabel',
+                    languageCode
+                  );
+
+                  const downstreamDisclaimer = this.translateEmission(
+                    'downstreamTitle',
+                    languageCode
+                  );
+
+                  const hasMultipleLoadcases =
+                    emissions.co2_downstream.loadcases?.length > 1;
+
+                  const total: ResultReportLargeItem[] = emissions
+                    .co2_downstream.emission
+                    ? [
+                        {
+                          title: totalTitle,
+                          value: this.roundPipe.transform(
+                            emissions.co2_downstream.emission
+                          ),
+                          unit: 'kg',
+                          short: 'CO₂e',
+                          titleTooltip: hasMultipleLoadcases
+                            ? ''
+                            : CHARTS_COLORS[1],
+                          warning: hasMultipleLoadcases
+                            ? ''
+                            : downstreamDisclaimer,
+                        },
+                        {
+                          title: totalTitle,
+                          value: this.roundPipe.transform(
+                            emissions.co2_downstream.emissionPercentage
+                          ),
+                          unit: '%',
+                          short: emissionPercentLabel,
+                        },
+                        {
+                          title: totalTitle,
+                          value: totalOperatingTime,
+                          unit: 'h',
+                          short: this.translateEmission(
+                            'co2EmissionOperatingHours',
+                            languageCode
+                          ),
+                        },
+                      ]
+                    : undefined;
+
+                  let commingSoonSection: ComingSoonSection;
+                  if (
+                    downstreamErrors?.length === 0 &&
+                    !emissions.co2_downstream.emission
+                  ) {
+                    commingSoonSection = {
+                      bearingTitle: this.translateEmission(
+                        'downstreamComingSoon',
+                        languageCode,
+                        { bearingDesignation }
+                      ),
+                      title: this.translateEmission(
+                        'downstreamComingSoonTitle',
                         languageCode
                       ),
-                      value: this.roundPipe.transform(emissions.co2_upstream),
-                      unit: 'kg',
-                      short: 'CO2e',
-                    }) as ResultReportLargeItem
-                )
+                      description: this.translateEmission(
+                        'downstreamComingSoonText',
+                        languageCode
+                      ),
+                    };
+                  }
+
+                  const error: DownstreamError =
+                    downstreamErrors?.length > 0
+                      ? {
+                          title: downstreamDisclaimer,
+                          error: downstreamErrors[0],
+                        }
+                      : undefined;
+
+                  const loadcases: { items: ResultReportLargeItem[] }[] =
+                    emissions.co2_downstream.loadcases?.length > 1
+                      ? emissions.co2_downstream.loadcases.map(
+                          (loadcase, index, array) => ({
+                            items: [
+                              {
+                                title: loadcase.id,
+                                value: this.roundPipe.transform(
+                                  loadcase.emission
+                                ),
+                                unit: 'kg',
+                                short: 'CO₂e',
+                                titleTooltip: CHARTS_COLORS[index + 1],
+                                warning:
+                                  index === array.length - 1
+                                    ? downstreamDisclaimer
+                                    : '',
+                              },
+                              {
+                                title: loadcase.id,
+                                value: this.roundPipe.transform(
+                                  loadcase.emissionPercentage
+                                ),
+                                unit: '%',
+                                short: emissionPercentLabel,
+                              },
+                              {
+                                title: loadcase.id,
+                                value: loadcase.operatingTimeInHours,
+                                unit: 'h',
+                                short: this.translateEmission(
+                                  'co2EmissionOperatingHours',
+                                  languageCode
+                                ),
+                              },
+                            ],
+                          })
+                        )
+                      : [];
+
+                  return {
+                    upstreamEmission: [
+                      {
+                        title: this.translateEmission(
+                          'upstreamTitle',
+                          languageCode
+                        ),
+                        value: this.roundPipe.transform(emissions.co2_upstream),
+                        unit: 'kg',
+                        short: 'CO₂e',
+                        titleTooltip: CHARTS_COLORS[0],
+                        warning: this.translateEmission(
+                          'upstreamHint',
+                          languageCode
+                        ),
+                      },
+                      {
+                        title: this.translateEmission(
+                          'upstreamTitle',
+                          languageCode
+                        ),
+                        value: this.roundPipe.transform(
+                          emissions.co2_upstreamEmissionPercentage
+                        ),
+                        unit: '%',
+                        short: emissionPercentLabel,
+                      },
+                    ],
+                    downstreamEmissions: {
+                      totalEmission: total,
+                      loadcases: [...loadcases],
+                      commingSoonSection,
+                      error,
+                    },
+                    chart: {
+                      value: emissionChartImage,
+                      title: this.translateEmission(
+                        'co2EmissionChartTitle',
+                        languageCode
+                      ),
+                    },
+                  };
+                })
               )
             ),
           };
@@ -252,6 +424,20 @@ export class PDFReportService {
     );
 
     return data;
+  }
+
+  private translateEmission(
+    key: string,
+    language: string,
+    params = {}
+  ): string {
+    const basekey = 'calculationResultReport.co2Emissions.';
+
+    return this.translocoService.translate(
+      `${basekey}${key}`,
+      params,
+      language
+    );
   }
 
   private async loadInputData() {

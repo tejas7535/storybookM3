@@ -3,19 +3,19 @@
 exports[`Calculation Types Selector getCalculationTypesConfig should return the operation conditions 1`] = `
 Array [
   Object {
+    "disabled": true,
+    "label": "calculationTypes.co2ForProduction",
+    "name": "emission",
+    "selected": true,
+    "svgIcon": "co2",
+    "visible": true,
+  },
+  Object {
     "disabled": false,
     "icon": "compress",
     "label": "calculationTypes.frictionalPowerloss",
     "name": "frictionalPowerloss",
     "selected": true,
-    "visible": true,
-  },
-  Object {
-    "disabled": true,
-    "label": "calculationTypes.co2",
-    "name": "emission",
-    "selected": true,
-    "svgIcon": "co2",
     "visible": true,
   },
 ]

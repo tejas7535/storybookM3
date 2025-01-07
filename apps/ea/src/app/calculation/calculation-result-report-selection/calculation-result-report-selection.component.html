@@ -36,9 +36,18 @@
             <mat-icon class="mr-2 flex-shrink-0" [svgIcon]="config.svgIcon">{{
               config.icon
             }}</mat-icon>
-            <div class="text-title-small whitespace-normal">
-              {{ t(config.label) }}
-            </div>
+            @if (config.name === CALCULATION_TYPE_CO2 && hasDownstreamResult) {
+              <div class="text-title-small whitespace-normal">
+                {{ t('calculationTypes.co2') }}
+              </div>
+              <mat-icon class="!text-primary align-bottom" svgIcon="new_badge"
+                >new_badge</mat-icon
+              >
+            } @else {
+              <div class="text-title-small whitespace-normal">
+                {{ t(config.label) }}
+              </div>
+            }
           </div>
         }
       </div>

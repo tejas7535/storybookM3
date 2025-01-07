@@ -15,17 +15,22 @@
           class="text-body-small text-medium-emphasis inline-flex flex-shrink-0 font-medium"
         >
           {{ t(_item.title) }}
-          @if (_item.titleTooltip) {
-            <ea-info-button
-              class="ml-1"
-              [inline]="true"
-              [tooltip]="t(_item.titleTooltip)"
-            ></ea-info-button>
-          }
         </div>
+        @if (_item.titleTooltip) {
+          <ea-info-button
+            class="ml-1 h-4 text-body-small text-medium-emphasis font-medium"
+            [inline]="true"
+            [tooltip]="t(_item.titleTooltip)"
+          ></ea-info-button>
+        }
       </div>
       <div class="flex flex-row">
-        @for (value of _item.values; track value; let last = $last) {
+        @for (
+          value of _item.values;
+          track value;
+          let last = $last;
+          let first = $first
+        ) {
           <div
             class="flex flex-col md:pt-2 px-2 sm:px-4"
             [class.items-center]="isSingleItem"
@@ -35,6 +40,13 @@
               [class.text-center]="isSingleItem"
             >
               {{ value.title && t(value.title) }}
+              @if (value.displayNewBadge) {
+                <mat-icon
+                  class="!text-primary !h-4 align-bottom"
+                  svgIcon="new_badge"
+                  >new_badge</mat-icon
+                >
+              }
               @if (value.titleTooltip) {
                 <ea-info-button
                   class="inline-flex align-bottom"
@@ -49,12 +61,33 @@
                   <div class="text-body-medium text-high-emphasis">
                     {{ (value.value | meaningfulRound) || '-' }}
                   </div>
-                  @if (value.unit) {
+
+                  @if (
+                    value.title === 'usage' &&
+                    value?.additionalData?.operatingTimeInHours &&
+                    value?.additionalData?.operatingTimeInHours !==
+                      yearlyEmissionUsageInHours
+                  ) {
                     <div class="text-body-medium text-high-emphasis pl-1">
-                      {{ value.unit }}
+                      {{
+                        t('hourlyEmssionInfo', {
+                          unit: value.unit,
+                          hours: value.additionalData.operatingTimeInHours
+                        })
+                      }}
                     </div>
+                  } @else {
+                    @if (value.unit) {
+                      <div class="text-body-medium text-high-emphasis pl-1">
+                        {{ value.unit }}
+                      </div>
+                    }
                   }
-                  <ng-content></ng-content>
+
+                  @if (value.title === 'production') {
+                    <ea-calculation-result-preview-emissions-tooltip>
+                    </ea-calculation-result-preview-emissions-tooltip>
+                  }
                 } @else {
                   @if (value.calculationError) {
                     <ng-container [ngTemplateOutlet]="error"> </ng-container>
@@ -101,6 +134,21 @@
                 <mat-spinner diameter="16"></mat-spinner>
               </div>
             }
+
+            @if (value.valueLoadcaseName && value.valueLoadcaseName !== '') {
+              <div class="text-body-small text-medium-emphasis py-2">
+                {{ value.valueLoadcaseName }}
+              </div>
+            } @else if (
+              value?.additionalData?.operatingTimeInHours &&
+              value?.additionalData?.operatingTimeInHours ===
+                yearlyEmissionUsageInHours
+            ) {
+              <div class="text-body-small text-medium-emphasis py-2">
+                {{ t('yearlyEmissionInfo') }}
+              </div>
+            }
+
             @if (_item.loadcaseName && _item.loadcaseName !== '') {
               <div class="text-body-small text-medium-emphasis py-2">
                 {{ _item.loadcaseName }}

@@ -15,6 +15,7 @@ export const environment: Environment = {
   groupId: 'c4c115f9-a73a-4761-a7d1-daa07e6deda1',
   assetsPath: 'https://medias-easycalc.com/assets',
   oneTrustId: '018e319b-539e-71d4-81ef-009e587d0bf9',
+  downstreamCo2ApiUrl: 'https://bearinx.schaeffler.com/co2/api/v2/',
   oneTrustMobileStorageLocation: 'cdn.cookielaw.org',
   oneTrustAndroidId: '01922318-86c1-787f-93f9-87b5102311d9',
   oneTrustiOSId: '0192231a-96ab-779d-9f23-ab558c7ff673',

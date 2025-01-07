@@ -1,6 +1,6 @@
 import { DialogModule, DialogRef } from '@angular/cdk/dialog';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
@@ -17,13 +17,13 @@ import {
   CalculationResultFacade,
   SettingsFacade,
 } from '@ea/core/store';
+import { Co2DownstreamFacade } from '@ea/core/store/facades/calculation-result/co2-downstream.facade';
 import { ProductSelectionFacade } from '@ea/core/store/facades/product-selection/product-selection.facade';
 import { CalculationParametersCalculationTypeConfig } from '@ea/core/store/models';
 import { AppStoreButtonsComponent } from '@ea/shared/app-store-buttons/app-store-buttons.component';
 import { InfoBannerComponent } from '@ea/shared/info-banner/info-banner.component';
 import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 import { QualtricsInfoBannerComponent } from '@ea/shared/qualtrics-info-banner/qualtrics-info-banner.component';
-import { TagComponent } from '@ea/shared/tag/tag.component';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { TranslocoDecimalPipe } from '@jsverse/transloco-locale';
 import { LetDirective, PushPipe } from '@ngrx/component';
@@ -35,9 +35,9 @@ import {
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CalculationDisclaimerComponent } from '../calculation-disclaimer/calculation-disclaimer.component';
+import { CalculationResultReportEmissionComponent } from '../calculation-result-report-emission/calculation-result-report-emission.component';
 import { CalculationResultReportLargeItemsComponent } from '../calculation-result-report-large-items/calculation-result-report-large-items.component';
 import { CalculationResultReportSelectionComponent } from '../calculation-result-report-selection/calculation-result-report-selection.component';
-import { CalculationTypesSelectionComponent } from '../calculation-types-selection/calculation-types-selection.component';
 
 @Component({
   templateUrl: './calculation-result-report.component.html',
@@ -50,11 +50,8 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
     MatButtonModule,
     MatProgressSpinnerModule,
     SharedTranslocoModule,
-    TagComponent,
     LetDirective,
-    MeaningfulRoundPipe,
     TranslocoModule,
-    CalculationTypesSelectionComponent,
     ReportExpansionPanelComponent,
     InfoBannerComponent,
     CalculationResultReportLargeItemsComponent,
@@ -63,10 +60,14 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
     CalculationResultReportSelectionComponent,
     ResultReportComponent,
     AppStoreButtonsComponent,
+    CalculationResultReportEmissionComponent,
   ],
   providers: [TranslocoDecimalPipe, MeaningfulRoundPipe],
 })
 export class CalculationResultReportComponent {
+  @ViewChild(CalculationResultReportEmissionComponent, { static: false })
+  private readonly emissionComponent?: CalculationResultReportEmissionComponent;
+
   public co2ResultItem$ =
     this.calculationResultFacade.calculationReportCO2Emission$.pipe(
       map((result) => {
@@ -91,10 +92,15 @@ export class CalculationResultReportComponent {
     );
 
   public bearingDesignation$ = this.productSelectionFacade.bearingDesignation$;
+  public downstreamErrors$ = this.downstreamCalculationFacade.downstreamErrors$;
+
+  public reportErrors$ = this.calculationResultFacade.getAllErrors$;
+
   constructor(
     public readonly calculationResultFacade: CalculationResultFacade,
     public readonly productSelectionFacade: ProductSelectionFacade,
     public readonly calculationParametersFacade: CalculationParametersFacade,
+    public readonly downstreamCalculationFacade: Co2DownstreamFacade,
     public readonly dialogRef: DialogRef<CalculationResultReportComponent>,
     public readonly settingsFacade: SettingsFacade,
     private readonly dialog: MatDialog,
@@ -126,7 +132,10 @@ export class CalculationResultReportComponent {
 
   async downloadPdfReport() {
     this.trackingService.logDownloadReport();
-    const report = await this.reportService.generate();
+
+    const chartImage = this.emissionComponent?.chartImageWithoutSelection;
+
+    const report = await this.reportService.generate(chartImage);
     const reportName = await this.reportService.generateFilename();
 
     this.pdfFileSaveService.saveAndOpenFile(report.document, reportName);
