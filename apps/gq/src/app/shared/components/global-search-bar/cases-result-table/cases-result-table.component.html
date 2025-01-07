@@ -77,6 +77,7 @@
       (sortChanged)="onColumnChange($event)"
       (filterChanged)="onFilterChanged($event)"
       (rowDoubleClicked)="onRowDoubleClicked($event)"
+      (columnPinned)="onColumnChange($event)"
       rowSelection="single"
       [rowData]="casesResults"
       [postSortRows]="searchbarColUtilsService.postSortRows"

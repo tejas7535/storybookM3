@@ -80,6 +80,7 @@
       (sortChanged)="onColumnChange($event)"
       (filterChanged)="onFilterChanged($event)"
       (rowDoubleClicked)="onRowDoubleClicked($event)"
+      (columnPinned)="onColumnChange($event)"
       rowSelection="single"
       [rowData]="materialsResults"
       [postSortRows]="searchbarColUtilsService.postSortRows"
