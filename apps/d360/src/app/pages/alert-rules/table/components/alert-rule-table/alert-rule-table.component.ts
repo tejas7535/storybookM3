@@ -1,5 +1,6 @@
 import {
   Component,
+  DestroyRef,
   inject,
   input,
   InputSignal,
@@ -8,6 +9,7 @@ import {
   OutputEmitterRef,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Observable, of, take, tap } from 'rxjs';
@@ -64,6 +66,7 @@ export class AlertRuleTableComponent implements OnInit {
     inject(AlertRulesService);
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly snackBarService: SnackbarService = inject(SnackbarService);
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
   public readonly columnSettingsService: AlertRulesColumnSettingsService<
     string,
     AlertRuleColumnDefinitions
@@ -172,7 +175,7 @@ export class AlertRuleTableComponent implements OnInit {
             )
           );
 
-          // TODO add variant like before... enqueueSnackbar(userMessage.message, { variant: userMessage.variant });
+          // TODO: add variant like before... enqueueSnackbar(userMessage.message, { variant: userMessage.variant });
           this.snackBarService.openSnackBar(userMessage.message);
 
           if (userMessage.variant !== 'error') {
@@ -199,7 +202,7 @@ export class AlertRuleTableComponent implements OnInit {
     });
   }
 
-  onGridReady(event: GridReadyEvent): void {
+  protected onGridReady(event: GridReadyEvent): void {
     this.gridApi = event.api;
     this.getApi.emit(event.api);
   }
@@ -209,7 +212,7 @@ export class AlertRuleTableComponent implements OnInit {
       .pipe(
         tap((data) => {
           this.rowData = data?.content;
-          // TODO use grid api when ag-grid is updated to v31
+          // TODO: use grid api when ag-grid is updated to v31
           // this.grid.api.setGridOption('rowData', data?.content);
         })
       )
@@ -221,6 +224,13 @@ export class AlertRuleTableComponent implements OnInit {
       .getColumnSettings()
       .pipe(
         tap((columnSettings) => {
+          const floatingFilter =
+            // eslint-disable-next-line unicorn/no-array-reduce
+            columnSettings.reduce(
+              (current, next) => current || !!next.filterModel,
+              false
+            );
+
           this.columnDefs = [
             ...(columnSettings.map((col) => ({
               ...getDefaultColDef(col.filter, col.filterParams),
@@ -236,6 +246,7 @@ export class AlertRuleTableComponent implements OnInit {
               lockVisible: col.alwaysVisible,
               lockPinned: true,
               valueFormatter: col.valueFormatter,
+              floatingFilter,
             })) || []),
             {
               cellClass: ['fixed-action-column'],
@@ -250,9 +261,10 @@ export class AlertRuleTableComponent implements OnInit {
               suppressSizeToFit: true,
             },
           ] as ColDef[];
-          // TODO use grid api when ag-grid is updated to v31
+          // TODO: use grid api when ag-grid is updated to v31
           // this.grid.api.setGridOption('columnDefs', columnDefs);
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }

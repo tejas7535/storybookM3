@@ -328,17 +328,11 @@ export class AlertTableComponent {
         .subscribe();
     }
   }
+
   protected getRowId: GetRowIdFunc = (params: GetRowIdParams<Alert>) =>
     params.data.id;
+
   protected onFirstDataRendered($event: FirstDataRenderedEvent) {
     $event.columnApi.autoSizeAllColumns();
-  }
-
-  protected getFilterCount() {
-    if (!this.gridApi) {
-      return 0;
-    }
-
-    return Object.keys(this.gridApi.getFilterModel()).length;
   }
 }

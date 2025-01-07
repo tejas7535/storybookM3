@@ -287,10 +287,6 @@
       "delete_button": "删除",
       "deletion_success": "已成功删除数据。"
     },
-    "toolbar": {
-      "total_material_count": "总计：{{count}}",
-      "toggle_filters": "过滤器"
-    },
     "legend": {
       "title": "图标",
       "current_date": "T今天",
@@ -408,8 +404,10 @@
   },
   "table": {
     "toolbar": {
-      "material_count": "当前选择：{{count}}",
-      "filter_count": "当前过滤器：{{count}}"
+      "toggleFilters": "過濾器",
+      "currentCount": "当前选择: {{count}}",
+      "activeFilterCount": "当前过滤器: {{count}}",
+      "resetFilters": "重設所有篩選條件"
     }
   },
   "customer_material_portfolio": {
@@ -893,7 +891,6 @@
       "unknown": "未知"
     },
     "toolbar": {
-      "toggle_filters": "过滤器",
       "menu_label": "更多",
       "layout_title": "布局",
       "layout_1": "布局1",

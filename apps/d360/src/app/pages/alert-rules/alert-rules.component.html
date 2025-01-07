@@ -27,6 +27,12 @@
       </div>
     </d360-header-action-bar>
 
+    <d360-table-toolbar
+      [rowCount]="gridApi?.getDisplayedRowCount()"
+      [grid]="gridApi"
+      [openFloatingFilters]="gridApi && hasFilters()"
+    />
+
     <!-- Alert Rule Table  -->
     <d360-alert-rule-table
       #alertRuleTableComponent

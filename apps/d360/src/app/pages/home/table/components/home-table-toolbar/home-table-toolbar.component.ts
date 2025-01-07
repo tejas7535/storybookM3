@@ -9,7 +9,6 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { MatDivider } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
 
 import { tap } from 'rxjs';
@@ -33,19 +32,19 @@ import { ExportTableDialogComponent } from '../export-table-dialog/export-table-
 @Component({
   selector: 'd360-home-table-toolbar',
   standalone: true,
-  imports: [MatIcon, MatButton, TranslocoModule, MatIconButton, MatDivider],
+  imports: [MatIcon, MatButton, TranslocoModule, MatIconButton],
   templateUrl: './home-table-toolbar.component.html',
   styleUrl: './home-table-toolbar.component.scss',
 })
 export class HomeTableToolbarComponent implements OnInit {
-  resetLayout = input.required<(layoutId: LayoutId) => any>();
-  saveLayout = input.required<(layoutId: LayoutId) => any>();
-  loadLayout = input.required<(layoutId: LayoutId) => any>();
-  globalSelection = input.required<GlobalSelectionState>();
-  gridApi = input.required<GridApi>();
-  columnApi = input.required<ColumnApi>();
+  public resetLayout = input.required<(layoutId: LayoutId) => any>();
+  public saveLayout = input.required<(layoutId: LayoutId) => any>();
+  public loadLayout = input.required<(layoutId: LayoutId) => any>();
+  public globalSelection = input.required<GlobalSelectionState>();
+  public gridApi = input.required<GridApi>();
+  public columnApi = input.required<ColumnApi>();
 
-  totalRowCount = signal<number>(0);
+  protected readonly totalRowCount = signal<number>(0);
 
   private showFloatingFilter = false;
 
@@ -67,7 +66,7 @@ export class HomeTableToolbarComponent implements OnInit {
 
   readonly destroyRef = inject(DestroyRef);
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.materialCustomerTableService
       .getDataFetchedEvent()
       .pipe(
@@ -79,7 +78,7 @@ export class HomeTableToolbarComponent implements OnInit {
       .subscribe();
   }
 
-  onToggleFilter() {
+  protected onToggleFilter(): void {
     this.showFloatingFilter = !this.showFloatingFilter;
 
     const colDefs = this.gridApi().getColumnDefs();
@@ -90,11 +89,11 @@ export class HomeTableToolbarComponent implements OnInit {
     this.gridApi().setColumnDefs(colDefs);
   }
 
-  isExportDisabled() {
+  protected isExportDisabled(): boolean {
     return this.globalSelectionStateService.isEmpty();
   }
 
-  getFilterCount() {
+  protected getFilterCount(): number {
     if (!this.gridApi()) {
       return 0;
     }
@@ -102,7 +101,7 @@ export class HomeTableToolbarComponent implements OnInit {
     return Object.keys(this.gridApi().getFilterModel()).length;
   }
 
-  openExport() {
+  protected openExport(): void {
     this.dialog.open(ExportTableDialogComponent, {
       data: {
         columnApi: this.columnApi(),
@@ -115,8 +114,8 @@ export class HomeTableToolbarComponent implements OnInit {
     });
   }
 
-  getTotalRowCountText(): string {
-    return translate('table.toolbar.material_count', {
+  protected getTotalRowCountText(): string {
+    return translate('table.toolbar.currentCount', {
       count: this.translocoLocaleService.localizeNumber(
         this.totalRowCount(),
         'decimal'
@@ -124,8 +123,8 @@ export class HomeTableToolbarComponent implements OnInit {
     });
   }
 
-  getFilterCountText(): string {
-    return translate('table.toolbar.filter_count', {
+  protected getFilterCountText(): string {
+    return translate('table.toolbar.activeFilterCount', {
       count: this.translocoLocaleService.localizeNumber(
         this.getFilterCount(),
         'decimal'
@@ -133,7 +132,11 @@ export class HomeTableToolbarComponent implements OnInit {
     });
   }
 
-  openColumnLayoutManagementModal(event: MouseEvent) {
+  protected onResetFilters(): void {
+    this.gridApi()?.setFilterModel(null);
+  }
+
+  protected openColumnLayoutManagementModal(event: MouseEvent): void {
     const button = event.currentTarget as HTMLElement;
     const rect = button.getBoundingClientRect();
 

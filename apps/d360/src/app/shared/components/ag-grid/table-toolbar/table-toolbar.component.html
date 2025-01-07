@@ -2,21 +2,38 @@
   @if (renderFloatingFilter()) {
     <button mat-button (click)="toggleFloatingFilter()">
       <mat-icon>filter_list</mat-icon>
-      {{ t('material_customer.toolbar.toggle_filters') }}
+      {{ t('table.toolbar.toggleFilters') }}
     </button>
   }
 
-  @if (rowCount() > 0) {
-    @if (renderFloatingFilter()) {
+  @if (getFilterCount() && getFilterCount() > 0) {
+    <div>
       <span class="mx-2">|</span>
-    }
-    <span class="text-body-medium">
-      {{
-        t('table.toolbar.material_count', {
-          count: rowCount() | translocoDecimal
-        })
-      }}
-    </span>
+      <span class="text-body-medium">{{ getFilterCountText() }}</span>
+    </div>
   }
+
+  @if (rowCount() > 0) {
+    <div>
+      @if (renderFloatingFilter()) {
+        <span class="mx-2">|</span>
+      }
+      <span class="text-body-medium">
+        {{
+          t('table.toolbar.currentCount', {
+            count: rowCount() | translocoDecimal
+          })
+        }}
+      </span>
+    </div>
+  }
+
+  <div class="flex grow"></div>
+
+  <button mat-button (click)="onResetFilters()" [disabled]="!getFilterCount()">
+    <mat-icon>clear</mat-icon>
+    {{ t('table.toolbar.resetFilters') }}
+  </button>
+
   <ng-content></ng-content>
 </aside>

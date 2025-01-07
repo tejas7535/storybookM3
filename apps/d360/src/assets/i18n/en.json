@@ -299,10 +299,6 @@
       "delete_button": "Delete",
       "deletion_success": "The data has been successfully deleted."
     },
-    "toolbar": {
-      "total_material_count": "Total: {{count}}",
-      "toggle_filters": "Filter"
-    },
     "legend": {
       "title": "Legend",
       "current_date": "Today",
@@ -420,8 +416,10 @@
   },
   "table": {
     "toolbar": {
-      "material_count": "Current selection: {{count}}",
-      "filter_count": "Current filter: {{count}}"
+      "toggleFilters": "Filters",
+      "currentCount": "Current selection: {{count}}",
+      "activeFilterCount": "Current filter: {{count}}",
+      "resetFilters": "Reset all filters"
     }
   },
   "customer_material_portfolio": {
@@ -911,7 +909,6 @@
       "unknown": "Unknown"
     },
     "toolbar": {
-      "toggle_filters": "Filters",
       "menu_label": "More",
       "layout_title": "Layout",
       "layout_1": "Layout 1",

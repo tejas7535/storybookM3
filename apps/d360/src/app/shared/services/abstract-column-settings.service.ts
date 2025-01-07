@@ -28,6 +28,7 @@ export interface ColumnSetting<COLUMN_KEYS extends string> {
   visible: boolean;
   sort?: 'asc' | 'desc' | null;
   filterModel?: any;
+  filter?: any;
 }
 
 export interface ColumnDefinition<COLUMN_KEYS extends string> {
@@ -75,13 +76,11 @@ export abstract class AbstractColumnSettingsService<
         ColumnSetting<COLUMN_KEYS>[]
       >(`api/user-settings/tables/${this.tableName}/columns`)
       .pipe(
-        tap((data) => {
-          if (data) {
-            this.columnSettings.next(this.ensureColumnSettingsValidity(data));
-          } else {
-            this.columnSettings.next(this.ensureColumnSettingsValidity([]));
-          }
-        })
+        tap((data) =>
+          this.columnSettings.next(
+            this.ensureColumnSettingsValidity(data || [])
+          )
+        )
       );
   }
 
@@ -115,7 +114,7 @@ export abstract class AbstractColumnSettingsService<
         colId: col.colId,
         visible: !col.hide,
         sort: col.sort,
-        filterModel: filterModel && filterModel[col.colId],
+        filter: filterModel && filterModel[col.colId],
       }))
     )
       .pipe(
@@ -180,7 +179,7 @@ export abstract class AbstractColumnSettingsService<
         sortMap[col.colId].visible =
           sortMap[col.colId].alwaysVisible || col.visible;
         sortMap[col.colId].sort = col.sort;
-        sortMap[col.colId].filterModel = col.filterModel;
+        sortMap[col.colId].filterModel = col.filter;
       });
 
     return Object.values(sortMap).sort(

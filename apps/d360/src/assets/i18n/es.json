@@ -287,10 +287,6 @@
       "delete_button": "Borrar",
       "deletion_success": "Los datos se han borrado correctamente."
     },
-    "toolbar": {
-      "total_material_count": "Considerándolo todo: {{count}}",
-      "toggle_filters": "Filtro"
-    },
     "legend": {
       "title": "Leyenda",
       "current_date": "Hoy",
@@ -408,8 +404,10 @@
   },
   "table": {
     "toolbar": {
-      "material_count": "Selección actual: {{count}}",
-      "filter_count": "Filtros actual: {{count}}"
+      "toggleFilters": "Filtros",
+      "currentCount": "Selección actual: {{count}}",
+      "activeFilterCount": "Filtros actual: {{count}}",
+      "resetFilters": "Restablecer todos los filtros"
     }
   },
   "customer_material_portfolio": {
@@ -893,7 +891,6 @@
       "unknown": "Desconocido"
     },
     "toolbar": {
-      "toggle_filters": "Filtros",
       "menu_label": "Más",
       "layout_title": "Diseño",
       "layout_1": "Diseño 1",

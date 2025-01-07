@@ -22,6 +22,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AlertRulesService } from '../../feature/alert-rules/alert-rules.service';
 import { AlertRule, AlertRuleResponse } from '../../feature/alert-rules/model';
+import { TableToolbarComponent } from '../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
 import {
   HeaderActionBarComponent,
   ProjectedContendDirective,
@@ -49,6 +50,7 @@ import {
     PushPipe,
     LoadingSpinnerModule,
     StyledSectionComponent,
+    TableToolbarComponent,
   ],
   templateUrl: './alert-rules.component.html',
   styleUrl: './alert-rules.component.scss',
@@ -80,17 +82,25 @@ export class AlertRulesComponent implements OnDestroy {
   /**
    * The grid api instance.
    *
-   * @private
+   * @protected
    * @type {(GridApi | null)}
    * @memberof AlertRulesComponent
    */
-  private gridApi: GridApi | null = null;
+  protected gridApi: GridApi | null = null;
 
   // TODO: Move the translation strings for the page title (Browser Tabbar) to the Routes and implement a TitleStrategy to translate them
   public readonly title = `${translate('tabbar.functions.label', {})} | ${translate(
     'tabbarMenu.alert-rule-editor.label',
     {}
   )}`;
+
+  protected hasFilters(): boolean {
+    if (!this.gridApi) {
+      return false;
+    }
+
+    return Object.keys(this.gridApi.getFilterModel()).length > 0;
+  }
 
   /**
    * Receive the grid api.

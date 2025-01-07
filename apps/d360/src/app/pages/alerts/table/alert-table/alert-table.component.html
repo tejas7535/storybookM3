@@ -1,14 +1,5 @@
 <div class="flex flex-col h-full" *transloco="let t">
-  <d360-table-toolbar [rowCount]="rowCount()" [grid]="gridApi">
-    @if (getFilterCount()) {
-      <div class="text-body-medium">
-        <span class="mx-2">|</span>
-        <span>{{
-          t('table.toolbar.filter_count', { count: getFilterCount() })
-        }}</span>
-      </div>
-    }
-  </d360-table-toolbar>
+  <d360-table-toolbar [rowCount]="rowCount()" [grid]="gridApi" />
   <ag-grid-angular
     #alertTable
     class="ag-theme-material grow"

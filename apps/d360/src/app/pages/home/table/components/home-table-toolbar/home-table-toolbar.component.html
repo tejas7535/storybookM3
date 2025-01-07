@@ -5,25 +5,34 @@
   <div class="flex items-center">
     <button mat-button (click)="onToggleFilter()">
       <mat-icon>filter_list</mat-icon>
-      Filter
+      {{ t('table.toolbar.toggleFilters') }}
     </button>
-
-    @if (totalRowCount() > 0) {
-      <div>
-        <span class="separator">|</span>
-        <span class="count">{{ getTotalRowCountText() }}</span>
-      </div>
-    }
 
     @if (getFilterCount() && getFilterCount() > 0) {
       <div>
         <span class="separator">|</span>
-        <span class="count">{{ getFilterCountText() }}</span>
+        <span class="count text-body-medium">{{ getFilterCountText() }}</span>
+      </div>
+    }
+
+    @if (totalRowCount() > 0) {
+      <div>
+        <span class="separator">|</span>
+        <span class="count text-body-medium">{{ getTotalRowCountText() }}</span>
       </div>
     }
   </div>
 
   <div class="flex items-center">
+    <button
+      mat-button
+      (click)="onResetFilters()"
+      [disabled]="!getFilterCount()"
+    >
+      <mat-icon>clear</mat-icon>
+      {{ t('table.toolbar.resetFilters') }}
+    </button>
+
     <button mat-button [disabled]="isExportDisabled()" (click)="openExport()">
       <mat-icon>swap_vert</mat-icon>
       {{ t('button.export') }}
