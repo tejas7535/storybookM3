@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import {
   Component,
@@ -14,7 +15,10 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import {
+  MatAutocompleteSelectedEvent,
+  MatAutocompleteTrigger,
+} from '@angular/material/autocomplete';
 
 import {
   BehaviorSubject,
@@ -135,6 +139,24 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
   public addDropdownIcon: InputSignal<boolean> = input(true);
 
   /**
+   * Indicator, if the autocomplete dropdown is open.
+   * Hint: Needed to show only 2 chips for non focused fields.
+   *
+   * @protected
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  protected isAutocompleteOpen = false;
+
+  /**
+   * Indicator, if the autocomplete input is focused.
+   * Hint: Needed to show only 2 chips for non focused fields.
+   *
+   * @protected
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  protected isInputFocused = false;
+
+  /**
    * The available options
    *
    * @protected
@@ -182,6 +204,16 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
    */
   @ViewChild('multiAutocomplete', { static: false })
   private readonly input!: ElementRef<HTMLInputElement>;
+
+  /**
+   * The trigger element of the autocomplete
+   *
+   * @private
+   * @type {ElementRef<HTMLInputElement>}
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  @ViewChild(MatAutocompleteTrigger)
+  private readonly trigger: MatAutocompleteTrigger;
 
   /**
    * The possible keyboard keys.
@@ -241,27 +273,33 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
    * @memberof AbstractMultiAutocompleteComponent
    */
   public constructor() {
-    effect(() => {
-      // the first time we receive data, we need to clean up the initial values
-      if (this.optionsLoadingResult()?.options?.length > 0 && this.first) {
-        const value = this.control().getRawValue();
+    effect(
+      () => {
+        // the first time we receive data, we need to clean up the initial values
+        if (this.optionsLoadingResult()?.options?.length > 0 && this.first) {
+          const value = this.control().getRawValue();
 
-        this.control().setValue(
-          SelectableValueUtils.mapToOptionsIfPossible(
-            Array.isArray(value)
-              ? value
-              : // eslint-disable-next-line unicorn/no-nested-ternary
-                typeof value === 'string' && value.length > 0
-                ? [value]
-                : [],
-            this.optionsLoadingResult()?.options
-          ),
-          { emitEvent: false }
-        );
+          this.control().setValue(
+            SelectableValueUtils.mapToOptionsIfPossible(
+              Array.isArray(value)
+                ? value
+                : // eslint-disable-next-line unicorn/no-nested-ternary
+                  typeof value === 'string' && value.length > 0
+                  ? [value]
+                  : [],
+              this.optionsLoadingResult()?.options
+            ),
+            { emitEvent: false }
+          );
 
-        this.first = false;
-      }
-    });
+          // reset the initial options based on current selected values
+          this.resetOptions();
+
+          this.first = false;
+        }
+      },
+      { allowSignalWrites: true }
+    );
   }
 
   /** @inheritdoc */
@@ -274,6 +312,9 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
       ) as SelectableValue[],
       { emitEvent: false }
     );
+
+    // reset the initial options based on current selected values
+    this.resetOptions();
 
     // Subscribe to value changes of the search control and handle them accordingly
     this.searchControl()
@@ -340,6 +381,9 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
    */
   protected onClear(): void {
     this.control().patchValue([]);
+    this.isInputFocused = false;
+
+    this.trigger.closePanel();
   }
 
   /**
@@ -352,6 +396,7 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
   protected onOptionSelected(event: MatAutocompleteSelectedEvent): void {
     if (this.control().value) {
       this.control().setValue([...this.control().value, event.option.value]);
+      this.isInputFocused = true;
     }
 
     this.input.nativeElement.value = null;
@@ -377,5 +422,58 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
     }
 
     this.resetOptions();
+  }
+
+  /**
+   * On focus callback for the dropdown search field.
+   *
+   * @protected
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  protected onFocus(): void {
+    this.isInputFocused = true;
+  }
+
+  /**
+   * On blur callback for the dropdown search field.
+   *
+   * @protected
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  protected onBlur(): void {
+    // we need a short timeout here to avoid a race condition.
+    setTimeout(() => (this.isInputFocused = false), 100);
+  }
+
+  /**
+   * On input click callback for the dropdown search field.
+   *
+   * @protected
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  protected onInputClick(): void {
+    if (!this.isAutocompleteOpen) {
+      this.onAutocompleteOpened();
+    }
+  }
+
+  /**
+   * Callback triggered after the dropdown was opened.
+   *
+   * @protected
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  protected onAutocompleteOpened(): void {
+    this.isAutocompleteOpen = true;
+  }
+
+  /**
+   * Callback triggered after the dropdown was closed.
+   *
+   * @protected
+   * @memberof AbstractMultiAutocompleteComponent
+   */
+  protected onAutocompleteClosed(): void {
+    this.isAutocompleteOpen = false;
   }
 }

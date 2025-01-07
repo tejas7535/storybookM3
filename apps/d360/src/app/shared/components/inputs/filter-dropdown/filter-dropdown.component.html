@@ -32,7 +32,13 @@
   }
 
   @if (control().value && addClearButton()) {
-    <button matSuffix mat-icon-button aria-label="Clear" (click)="onClear()">
+    <button
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="onClear()"
+      class="clear"
+    >
       <mat-icon>close</mat-icon>
     </button>
   }

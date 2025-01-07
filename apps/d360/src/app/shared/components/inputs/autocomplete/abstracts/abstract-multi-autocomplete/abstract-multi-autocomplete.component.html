@@ -1,7 +1,8 @@
 <mat-form-field
   [formGroup]="form()"
   appearance="outline"
-  class="full-width"
+  class="full-width auto-hide-chips"
+  [class.show-hidden]="isInputFocused || isAutocompleteOpen"
   *transloco="let t"
 >
   <!-- Label -->
@@ -9,7 +10,7 @@
 
   <!-- The chip list to show the selected values -->
   <mat-chip-grid #chipList>
-    @for (option of control().value; track option) {
+    @for (option of control().value; track option.id) {
       <mat-chip-row (removed)="remove(option)">
         <!-- Chip name -->
         {{ getOptionName()(option) }}
@@ -21,6 +22,10 @@
       </mat-chip-row>
     }
 
+    @if (control().value.length > 2) {
+      <span class="hidden-count">+{{ control().value.length - 2 }}</span>
+    }
+
     <!-- Input field (search field) -->
     <input
       #multiAutocomplete
@@ -30,18 +35,23 @@
       [matChipInputFor]="chipList"
       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
       [formControl]="searchControl()"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      (click)="onInputClick()"
     />
   </mat-chip-grid>
 
   <!-- The autocomplete -->
   <mat-autocomplete
     #auto="matAutocomplete"
+    (opened)="onAutocompleteOpened()"
+    (closed)="onAutocompleteClosed()"
     (optionSelected)="onOptionSelected($event)"
     [class]="panelClass()"
   >
     <!-- Render the options only, if there are no error and the data are not loading -->
     @if (!loading() && !loadingError()) {
-      @for (option of options(); track option) {
+      @for (option of options(); track option.id) {
         <mat-option [value]="option">
           {{ getOptionLabel()(option) }}
         </mat-option>

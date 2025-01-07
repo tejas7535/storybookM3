@@ -35,6 +35,7 @@ import { DisplayFunctions } from './../display-functions.utils';
     MatIconButton,
   ],
   templateUrl: './filter-dropdown.component.html',
+  styleUrl: './filter-dropdown.component.scss',
 })
 export class FilterDropdownComponent implements OnInit {
   /**

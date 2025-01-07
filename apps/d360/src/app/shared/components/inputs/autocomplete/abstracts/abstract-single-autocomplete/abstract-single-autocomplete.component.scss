@@ -2,4 +2,14 @@
   .mat-icon {
     padding: 0;
   }
+
+  .mat-mdc-form-field:active,
+  .mat-mdc-form-field:focus,
+  .mat-focused {
+    &:not(.mat-form-field-invalid) {
+      .dropdown {
+        color: var(--schaeffler-color);
+      }
+    }
+  }
 }
