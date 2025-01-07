@@ -2,60 +2,70 @@
   <h2 mat-dialog-title>
     {{
       t('validation_of_demand.filter.rootString', {
-        count: data.activeFilterCount.toString()
+        count: data?.activeFilterFn(data.formGroup).toString()
       })
     }}
   </h2>
+
   <mat-dialog-content>
     <div class="grid grid-cols-1 xs:gap-1 md:gap-4">
       <d360-multi-autocomplete-on-type
-        [form]="data.formGroup"
-        [control]="data.customerMaterialControl"
-        [searchControl]="fvCustomerMaterial"
         [autocompleteLabel]="
-          t('validation_of_demand.filter.customerMaterialNumber', {})
+          t('validation_of_demand.filter.customerMaterialNumber')
         "
-        [getOptionLabelInTag]="displayFnId"
-        [getOptionLabel]="displayFnUnited"
-        urlBegin="global-selection/customer-material-numbers"
-      ></d360-multi-autocomplete-on-type>
-      <d360-multi-autocomplete-pre-loaded
+        [control]="$any(data.formGroup.get('customerMaterialNumber'))"
         [form]="data.formGroup"
-        [control]="data.productLineControl"
-        [searchControl]="fvProductLine"
-        [autocompleteLabel]="t('validation_of_demand.filter.product_line', {})"
+        [searchControl]="searchCustomerMaterial"
+        [getOptionLabelInTag]="displayFnId"
+        [getOptionLabel]="displayFnId"
+        urlBegin="global-selection/customer-material-numbers"
+      />
+
+      <d360-multi-autocomplete-pre-loaded
+        [autocompleteLabel]="t('validation_of_demand.filter.product_line')"
+        [control]="$any(data.formGroup.get('productLine'))"
+        [form]="data.formGroup"
+        [searchControl]="searchProductLine"
         [getOptionLabelInTag]="displayFnUnited"
         [getOptionLabel]="displayFnUnited"
         [optionsLoadingResult]="selectableOptionService.get('productLine')"
-      ></d360-multi-autocomplete-pre-loaded>
+      />
+
       <d360-multi-autocomplete-on-type
+        [autocompleteLabel]="t('validation_of_demand.filter.production_line')"
+        [control]="$any(data.formGroup.get('productionLine'))"
         [form]="data.formGroup"
-        [control]="data.productionLineControl"
-        [searchControl]="fvProductionLine"
-        [autocompleteLabel]="
-          t('validation_of_demand.filter.production_line', {})
-        "
+        [searchControl]="searchProductionLine"
         [getOptionLabelInTag]="displayFnId"
-        [getOptionLabel]="displayFnUnited"
+        [getOptionLabel]="displayFnId"
         urlBegin="global-selection/search-production-line"
-      ></d360-multi-autocomplete-on-type>
+      />
+
       <d360-multi-autocomplete-pre-loaded
+        [autocompleteLabel]="t('validation_of_demand.filter.stochasticType')"
+        [control]="$any(data.formGroup.get('stochasticType'))"
         [form]="data.formGroup"
-        [control]="data.stochhasticTypecontrol"
-        [searchControl]="fvStochasticType"
-        [autocompleteLabel]="
-          t('validation_of_demand.filter.stochasticType', {})
-        "
+        [searchControl]="searchStochasticType"
         [getOptionLabelInTag]="displayFnUnited"
-        [optionsLoadingResult]="selectableOptionService.get('stochoasticType')"
         [getOptionLabel]="displayFnUnited"
-      ></d360-multi-autocomplete-pre-loaded>
+        [optionsLoadingResult]="selectableOptionService.get('stochasticType')"
+      />
     </div>
   </mat-dialog-content>
+
   <mat-dialog-actions align="end">
-    <button mat-flat-button color="primary" (click)="handleApplyFilter()">
-      {{ t('button.save', {}) }}
+    <button mat-button (click)="close()">
+      {{ t('button.close') }}
     </button>
-    <button mat-button (click)="handleOnClose()">Close</button>
+
+    <div class="flex-1"></div>
+
+    <button mat-button (click)="handleReset()">
+      {{ t('button.reset') }}
+    </button>
+
+    <button mat-flat-button color="primary" (click)="handleApplyFilter()">
+      {{ t('button.load') }}
+    </button>
   </mat-dialog-actions>
 </div>

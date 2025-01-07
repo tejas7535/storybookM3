@@ -7,4 +7,5 @@ export type ColumnForUploadTable<T> = {
     value: string,
     rowData: IRowNode
   ) => string | null | undefined;
+  bgColorFn?: () => string | null | undefined;
 } & Partial<ColDef<T>>;

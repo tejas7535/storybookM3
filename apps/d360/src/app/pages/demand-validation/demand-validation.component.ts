@@ -58,9 +58,8 @@ import { MaterialListTableComponent } from './components/material-list-table/mat
 export class DemandValidationComponent {
   protected planningView: PlanningView = PlanningView.REQUESTED;
   protected globalSelection: GlobalSelectionState;
-  // TODO: consider both properties below as signal
-  protected customerData: CustomerEntry[];
 
+  protected customerData = signal<CustomerEntry[]>([]);
   protected selectedCustomer = signal<CustomerEntry>(null);
   protected globalSelectionStatus: WritableSignal<GlobalSelectionStatus> =
     signal(null);
@@ -108,13 +107,13 @@ export class DemandValidationComponent {
       .pipe(
         take(1),
         tap((data) => {
-          this.customerData = data;
+          this.customerData.set(data);
           this.selectedCustomer.set(
-            this.customerData ? this.customerData[0] : undefined
+            this.customerData ? this.customerData()[0] : undefined
           );
           this.globalSelectionStatus.set(
             this.globalSelectionStateService.getGlobalSelectionStatus(
-              { data: this.customerData },
+              { data: this.customerData() },
               this.selectedCustomer()
             )
           );
@@ -176,6 +175,11 @@ export class DemandValidationComponent {
 
   protected handleCustomerChange($event: CustomerEntry) {
     this.selectedCustomer.set($event);
+    this.selectedMaterialListEntry.set(null);
+  }
+
+  protected demandValidationFilterChange($event: DemandValidationFilter) {
+    this.demandValidationFilters.set($event);
     this.selectedMaterialListEntry.set(null);
   }
 

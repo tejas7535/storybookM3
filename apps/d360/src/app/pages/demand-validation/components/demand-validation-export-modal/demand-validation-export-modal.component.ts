@@ -17,8 +17,6 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { MatDivider } from '@angular/material/divider';
-import { MatFormField } from '@angular/material/form-field';
-import { MatIcon } from '@angular/material/icon';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 
 import { translate } from '@jsverse/transloco';
@@ -38,7 +36,6 @@ import {
 } from '../../../../feature/demand-validation/time-range';
 import { CustomerEntry } from '../../../../feature/global-selection/model';
 import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
-import { SingleAutocompletePreLoadedComponent } from '../../../../shared/components/inputs/autocomplete/single-autocomplete-pre-loaded/single-autocomplete-pre-loaded.component';
 import { toNativeDate } from '../../../../shared/utils/date-format';
 import { DateRangePeriod } from '../../../../shared/utils/date-range';
 import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
@@ -61,12 +58,9 @@ export interface DemandValidationExportModalProps {
     MatSlideToggle,
     MatDialogModule,
     MatDivider,
-    MatIcon,
     MatDialogActions,
     MatButton,
-    MatFormField,
     ReactiveFormsModule,
-    SingleAutocompletePreLoadedComponent,
     DemandValidationDatePickerComponent,
   ],
   templateUrl: './demand-validation-export-modal.component.html',

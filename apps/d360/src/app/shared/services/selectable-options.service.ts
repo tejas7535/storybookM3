@@ -46,7 +46,7 @@ export interface OptionsTypes {
   salesOrg: OptionsLoadingResult;
   gkam: OptionsLoadingResult;
   productLine: OptionsLoadingResult;
-  stochoasticType: OptionsLoadingResult;
+  stochasticType: OptionsLoadingResult;
   interval: OptionsLoadingResult;
   execDay: OptionsLoadingResult;
   demandCharacteristics: OptionsLoadingResult;
@@ -241,7 +241,7 @@ export class SelectableOptionsService {
       salesOrg: this.call(`sales-organisations?language=${language}`),
       gkam: this.call(`key-accounts`),
       productLine: this.call(`product-line`),
-      stochoasticType: this.call(`stochastic-types?language=${language}`),
+      stochasticType: this.call(`stochastic-types?language=${language}`),
     })
       .pipe(
         take(1),

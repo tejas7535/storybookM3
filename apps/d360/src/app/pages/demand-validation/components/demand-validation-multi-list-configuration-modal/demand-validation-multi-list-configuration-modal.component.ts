@@ -60,7 +60,7 @@ export class DemandValidationMultiListConfigurationModalComponent {
           materialType:
             this.listEditConfigurationForm.controls.materialType.getRawValue(),
         },
-        panelClass: ['form-dialog', 'demand-validation-multi-list-edit'],
+        panelClass: ['form-dialog', 'demand-validation-multi-edit'],
         autoFocus: false,
         disableClose: true,
       })
@@ -69,6 +69,6 @@ export class DemandValidationMultiListConfigurationModalComponent {
         finalize(() => this.dialogRef.close()),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe(() => {});
+      .subscribe();
   }
 }

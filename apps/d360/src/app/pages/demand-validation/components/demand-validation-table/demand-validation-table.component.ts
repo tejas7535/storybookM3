@@ -66,7 +66,10 @@ import {
   checkRoles,
   demandValidationChangeAllowedRoles,
 } from '../../../../shared/utils/auth/roles';
-import { strictlyParseLocalFloat } from '../../../../shared/utils/number';
+import {
+  parseAndFormatNumber,
+  strictlyParseLocalFloat,
+} from '../../../../shared/utils/number';
 import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
 import { DemandValidationKpiHeaderComponent } from '../demand-validation-kpi-header/demand-validation-kpi-header.component';
 import { firstEditableDateForBucket } from './../../../../feature/demand-validation/limits';
@@ -303,26 +306,7 @@ export class DemandValidationTableComponent {
    * @memberof DemandValidationTableComponent
    */
   private parseAndFormatNumber(params: ValueFormatterParams): string {
-    switch (typeof params.value) {
-      case 'string': {
-        const parsed = strictlyParseLocalFloat(
-          params.value,
-          ValidationHelper.getDecimalSeparatorForActiveLocale()
-        );
-
-        return Number.isNaN(parsed)
-          ? params.value
-          : this.agGridLocalizationService.numberFormatter(params);
-      }
-
-      case 'number': {
-        return this.agGridLocalizationService.numberFormatter(params);
-      }
-
-      default: {
-        return params.value;
-      }
-    }
+    return parseAndFormatNumber(params, this.agGridLocalizationService);
   }
 
   /**
@@ -386,6 +370,8 @@ export class DemandValidationTableComponent {
           takeUntilDestroyed(this.destroyRef)
         )
         .subscribe();
+    } else {
+      this.kpiError.set(translate('hint.noData'));
     }
   }
 

@@ -51,6 +51,7 @@ import { strictlyParseLocalFloat } from '../../../../shared/utils/number';
 import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
 import { DemandValidationExportModalComponent } from '../demand-validation-export-modal/demand-validation-export-modal.component';
 import { DemandValidationMultiDeleteModalComponent } from '../demand-validation-multi-delete-modal/demand-validation-multi-delete-modal.component';
+import { DemandValidationMultiGridComponent } from '../demand-validation-multi-grid/demand-validation-multi-grid.component';
 import { DemandValidationMultiListConfigurationModalComponent } from '../demand-validation-multi-list-configuration-modal/demand-validation-multi-list-configuration-modal.component';
 import { DemandValidationService } from './../../../../feature/demand-validation/demand-validation.service';
 import { SnackbarService } from './../../../../shared/utils/service/snackbar.service';
@@ -78,9 +79,10 @@ import { FilterDemandValidationComponent } from './filter-demand-validation/filt
   styleUrl: './action-bar.component.scss',
 })
 export class ActionBarComponent implements OnInit {
-  public currentCustomer = input.required<CustomerEntry>();
+  public selectedCustomer = input.required<CustomerEntry>();
   public customerData = input.required<CustomerEntry[]>();
   public planningView = model.required<PlanningView>();
+  public demandValidationFilters = input.required<DemandValidationFilter>();
   public isMaterialListVisible = input<boolean>(true);
   public changedKPIs: InputSignal<WriteKpiData | null> = input.required();
 
@@ -88,6 +90,7 @@ export class ActionBarComponent implements OnInit {
   public toggleMaterialListVisible = output<{ open: boolean }>();
   public dateRangeChanged = output<KpiDateRanges>();
   public reloadValidationTable = output<boolean | null>();
+  public demandValidationFilterChange = output<DemandValidationFilter>();
 
   private readonly dialog = inject(MatDialog);
   private readonly store = inject(Store);
@@ -104,24 +107,16 @@ export class ActionBarComponent implements OnInit {
       : false
   );
 
-  // TODO: Properly handle initialization of this property, will it be passed from outside? Fetched from service?
-  protected selectedCustomer = signal<CustomerEntry>(null);
   protected disableUpload = computed(
     () => this.planningView() === PlanningView.CONFIRMED
   );
-  protected demandValidationFilters = signal<DemandValidationFilter[]>(null);
 
   protected customerSelectableValues: WritableSignal<OptionsLoadingResult> =
     signal({ options: [] });
 
   protected formGroup = new FormGroup({
-    customerControl: new FormControl<SelectableValue | string>(
-      this.selectedCustomer()
-        ? {
-            id: this.selectedCustomer().customerNumber,
-            text: this.selectedCustomer().customerName,
-          }
-        : '',
+    customerControl: new FormControl<SelectableValue>(
+      null,
       Validators.required
     ),
   });
@@ -153,6 +148,15 @@ export class ActionBarComponent implements OnInit {
         text: customer.customerName,
       })),
     });
+
+    this.formGroup.controls.customerControl.setValue(
+      this.selectedCustomer()
+        ? {
+            id: this.selectedCustomer().customerNumber,
+            text: this.selectedCustomer().customerName,
+          }
+        : null
+    );
   }
 
   protected handleDownloadButtonClicked() {
@@ -171,15 +175,35 @@ export class ActionBarComponent implements OnInit {
   protected handleListModalClicked() {
     this.dialog.open(DemandValidationMultiListConfigurationModalComponent, {
       data: {
-        customerName: this.currentCustomer().customerName,
-        customerNumber: this.currentCustomer().customerNumber,
+        customerName: this.selectedCustomer().customerName,
+        customerNumber: this.selectedCustomer().customerNumber,
       },
+      width: '600px',
+      maxWidth: '600px',
       autoFocus: false,
+      disableClose: true,
     });
   }
 
   protected handleGridModalClicked() {
-    // TODO implement
+    this.dialog
+      .open(DemandValidationMultiGridComponent, {
+        data: {
+          customerName: this.selectedCustomer().customerName,
+          customerNumber: this.selectedCustomer().customerNumber,
+        },
+        width: '900px',
+        maxWidth: '900px',
+        autoFocus: false,
+        disableClose: true,
+      })
+      .afterClosed()
+      .pipe(
+        tap(
+          (reload: boolean) => reload && this.reloadValidationTable.emit(null)
+        )
+      )
+      .subscribe();
   }
 
   protected handleToggleMaterialListVisible() {
@@ -193,7 +217,7 @@ export class ActionBarComponent implements OnInit {
   }
 
   protected handleOnDeleteUnsavedForecast() {
-    // TODO implement
+    this.reloadValidationTable.emit(null);
   }
 
   protected handleOnSaveForecast(dryRun: boolean) {
@@ -255,15 +279,14 @@ export class ActionBarComponent implements OnInit {
         (customer) => customer.customerNumber === $event.option.id
       ) ?? null;
 
-    this.selectedCustomer.set(newSelectedCustomer);
     this.customerChange.emit(newSelectedCustomer);
   }
 
   protected handleDeleteModalClicked() {
     this.dialog.open(DemandValidationMultiDeleteModalComponent, {
       data: {
-        customerName: this.currentCustomer().customerName,
-        customerNumber: this.currentCustomer().customerNumber,
+        customerName: this.selectedCustomer().customerName,
+        customerNumber: this.selectedCustomer().customerNumber,
         onSave: this.onSaveInModal('[Validated Sales Planning] Delete List'),
       },
       disableClose: true,
@@ -272,10 +295,10 @@ export class ActionBarComponent implements OnInit {
     });
   }
 
-  private readonly onSaveInModal = (_: string) => () => {
-    // TODO: Implement reloading of KPI data for the right table (SFT-1952)
-    // reloadData();
+  private readonly onSaveInModal = (_eventName: string) => () => {
+    this.reloadValidationTable.emit(null);
+
     // TODO: Implement once we have the AppInsights setup (SFT-1863)
-    // appInsights.trackEvent({ name: eventName, });
+    // this.appInsights.trackEvent({ name: _eventName, });
   };
 }

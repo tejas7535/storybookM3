@@ -1,4 +1,4 @@
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import {
@@ -26,11 +26,7 @@ describe('FilterDemandValidationModalComponent', () => {
       mockProvider(SelectableOptionsService),
       MockProvider(MAT_DIALOG_DATA, {
         formGroup: new FormGroup({}),
-        productionLineControl: new FormControl(),
-        productLineControl: new FormControl(),
-        customerMaterialControl: new FormControl(),
-        stochhasticTypecontrol: new FormControl(),
-        activeFilterCount: 0,
+        activeFilterFn: jest.fn().mockReturnValue(1),
       }),
       mockProvider(MatDialogRef<FilterDemandValidationModalComponent>),
     ],

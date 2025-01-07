@@ -14,26 +14,26 @@ import { IRowNode } from 'ag-grid-community';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { DemandValidationService } from '../../../../feature/demand-validation/demand-validation.service';
+import { DemandValidationService } from '../../../../../feature/demand-validation/demand-validation.service';
 import {
   DemandValidationBatch,
   DemandValidationBatchResponse,
   MaterialType,
-} from '../../../../feature/demand-validation/model';
-import { listUploadPeriodTypeValueFormatter } from '../../../../shared/ag-grid/grid-value-formatter';
-import { AbstractTableUploadModalComponent } from '../../../../shared/components/table-upload-modal/abstract-table-upload-modal.component';
-import { ColumnForUploadTable } from '../../../../shared/components/table-upload-modal/models';
+} from '../../../../../feature/demand-validation/model';
+import { listUploadPeriodTypeValueFormatter } from '../../../../../shared/ag-grid/grid-value-formatter';
+import { AbstractTableUploadModalComponent } from '../../../../../shared/components/table-upload-modal/abstract-table-upload-modal.component';
+import { ColumnForUploadTable } from '../../../../../shared/components/table-upload-modal/models';
 import {
   errorsFromSAPtoMessage,
   PostResult,
-} from '../../../../shared/utils/error-handling';
+} from '../../../../../shared/utils/error-handling';
 import {
   parseDateIfPossible,
   parseDemandValidationPeriodTypeIfPossible,
-} from '../../../../shared/utils/parse-values';
-import { validateMaterialNumber } from '../../../../shared/utils/validation/filter-validation';
-import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
-import { ErrorMessage } from '../../../alert-rules/table/components/modals/alert-rule-logic-helper';
+} from '../../../../../shared/utils/parse-values';
+import { validateMaterialNumber } from '../../../../../shared/utils/validation/filter-validation';
+import { ValidationHelper } from '../../../../../shared/utils/validation/validation-helper';
+import { ErrorMessage } from '../../../../alert-rules/table/components/modals/alert-rule-logic-helper';
 
 interface DemandValidationMultiListEditModalProps {
   customerName: string;
@@ -54,9 +54,9 @@ interface DemandValidationMultiListEditModalProps {
     LoadingSpinnerModule,
   ],
   templateUrl:
-    './../../../../shared/components/table-upload-modal/abstract-table-upload-modal.component.html',
+    './../../../../../shared/components/table-upload-modal/abstract-table-upload-modal.component.html',
   styleUrl:
-    './../../../../shared/components/table-upload-modal/abstract-table-upload-modal.component.scss',
+    './../../../../../shared/components/table-upload-modal/abstract-table-upload-modal.component.scss',
 })
 export class DemandValidationMultiListEditModalComponent extends AbstractTableUploadModalComponent<
   DemandValidationBatch,

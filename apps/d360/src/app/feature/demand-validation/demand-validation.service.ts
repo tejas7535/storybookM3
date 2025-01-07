@@ -95,7 +95,7 @@ export class DemandValidationService {
       ids: [entry.id],
       customerNumber,
       materialNumber: entry.material,
-      kpiEntries: [
+      kpiEntries: entry?.kpiEntries ?? [
         {
           fromDate: format(entry.dateString, 'yyyy-MM-dd'),
           bucketType: (entry.periodType === 'month'
@@ -115,10 +115,12 @@ export class DemandValidationService {
     });
     formData.append('data', jsonBlob);
 
-    const params = new HttpParams().set('dryRun', dryRun.toString());
-    if (materialType === 'customer') {
-      params.set('useCustomerMaterials', 'true');
-    }
+    const params = new HttpParams()
+      .set('dryRun', dryRun.toString())
+      .set(
+        'useCustomerMaterials',
+        materialType === 'customer' ? 'true' : 'false'
+      );
 
     return this.http
       .patch<WriteKpiDataResponse[]>(this.DEMAND_VALIDATION_API, formData, {

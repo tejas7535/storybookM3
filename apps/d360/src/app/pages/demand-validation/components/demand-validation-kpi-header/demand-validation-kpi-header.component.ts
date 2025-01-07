@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { translate } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { IHeaderAngularComp } from 'ag-grid-angular';
 import { IHeaderParams } from 'ag-grid-community';
 import {
@@ -21,6 +22,7 @@ import {
 
 export interface ICustomHeaderParams extends IHeaderParams {
   kpiEntry: KpiEntry;
+  disableClick?: boolean;
   onClickHeader(entry: KpiEntry): void;
 }
 
@@ -32,7 +34,8 @@ export interface ICustomHeaderParams extends IHeaderParams {
   styleUrl: './demand-validation-kpi-header.component.scss',
 })
 export class DemandValidationKpiHeaderComponent implements IHeaderAngularComp {
-  @Input({ required: true }) params!: ICustomHeaderParams;
+  protected readonly translocoLocaleService = inject(TranslocoLocaleService);
+  protected params!: ICustomHeaderParams;
 
   public agInit(params: ICustomHeaderParams): void {
     this.params = params;
@@ -42,13 +45,15 @@ export class DemandValidationKpiHeaderComponent implements IHeaderAngularComp {
     return false;
   }
 
+  protected getCalendarWeek(date: Date): string {
+    return format(date, 'ww');
+  }
+
   protected getWeekHeader(date: string, bucketType: KpiBucketType) {
     const fromDate = parseISO(date);
     const kw = translate(
       'validation_of_demand.planning_table.calendar_week_table_header_kw',
-      {
-        calendar_week: this.getCalendarWeek(fromDate),
-      }
+      { calendar_week: this.getCalendarWeek(fromDate) }
     );
 
     const partWeek =
@@ -69,23 +74,29 @@ export class DemandValidationKpiHeaderComponent implements IHeaderAngularComp {
     return kw + partWeek;
   }
 
-  protected getDate(input: any): string {
-    return format(input, 'MM.yyyy');
+  protected getDate(input: string, bucketType: KpiBucketType): string {
+    if (bucketType === 'MONTH') {
+      return format(input, 'MM.yyyy');
 
-    // TODO: Use the following code after https://github.com/Schaeffler-Group/frontend-schaeffler/pull/6770 was merged
-    // return format(
-    //   input,
-    //   getMonthYearDateFormatByCode(
-    //     this.localeService.getLocale() as LocaleType
-    //   ).display.dateInput
-    // );
+      // TODO: Use the following code after https://github.com/Schaeffler-Group/frontend-schaeffler/pull/6770 was merged
+      // return format(
+      //   input,
+      //   getMonthYearDateFormatByCode(
+      //     this.localeService.getLocale() as LocaleType
+      //   ).display.dateInput
+      // );
+    }
+
+    return this.translocoLocaleService.localizeDate(input, undefined, {
+      dateStyle: 'short',
+    });
   }
 
-  protected handleHeaderClick() {
-    this.params.onClickHeader(this.params.kpiEntry);
-  }
+  protected handleHeaderClick(): void {
+    if (this.params?.disableClick) {
+      return;
+    }
 
-  private getCalendarWeek(date: Date): string {
-    return format(date, 'ww');
+    this.params.onClickHeader(this.params?.kpiEntry);
   }
 }

@@ -22,20 +22,20 @@ export function buildValidationProps(
   ) => string | null | undefined,
   validateEmptyValues = false,
   defaultColor: string | null = null
-): Partial<ColDef> {
+): Partial<ColDef> | undefined {
   const validate = (params: ITooltipParams | CellClassParams) => {
-    if (!params.node) {
+    if (!params.node || (!params.value && !validateEmptyValues)) {
       // eslint-disable-next-line unicorn/no-useless-undefined
       return undefined;
     }
-    if (!params.value && !validateEmptyValues) {
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      return undefined;
-    }
-    const colId = getColumIdFromColumnDef(params.colDef);
 
-    return valFn(params.value || '', params.node, colId);
+    return valFn(
+      params.value || '',
+      params.node,
+      getColumIdFromColumnDef(params.colDef)
+    );
   };
+
   const defaultStyle = defaultColor
     ? { backgroundColor: defaultColor }
     : undefined;

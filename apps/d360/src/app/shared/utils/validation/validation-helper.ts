@@ -85,8 +85,8 @@ export class ValidationHelper {
     // only allow digits and . and , (no negative values or other special things)
     const regex =
       decimalSeparator === 'COMMA'
-        ? /^[\d|-]+(\.\d{3})*(,\d+)?$/
-        : /^[\d|-]+(,\d{3})*(\.\d+)?$/;
+        ? /^\d+(\.\d{3})*(,\d+)?$/
+        : /^\d+(,\d{3})*(\.\d+)?$/;
     const valid = regex.test(value);
 
     return valid ? null : translate(`error.numbers.${decimalSeparator}`);

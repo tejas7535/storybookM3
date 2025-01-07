@@ -32,7 +32,7 @@ export function demandValidationFilterToStringFilter(
   let filterValuesObject: DemandValidationStringFilter = {};
   Object.entries(filter).forEach(
     ([key, filterValues]: [string, SelectableValue[]]) => {
-      if (filterValues.length > 0) {
+      if (filterValues?.length > 0) {
         filterValuesObject = {
           ...filterValuesObject,
           [key]: filterValues.map((v) => v.id),
@@ -42,10 +42,4 @@ export function demandValidationFilterToStringFilter(
   );
 
   return filterValuesObject;
-}
-
-export function getEmptyDemandValidationFilter(): DemandValidationFilter {
-  const arr = DEMAND_VALIDATION_FILTER_NAMES.map((name) => [name, []]);
-
-  return Object.fromEntries(arr);
 }

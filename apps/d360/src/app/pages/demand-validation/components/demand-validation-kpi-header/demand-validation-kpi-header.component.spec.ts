@@ -13,17 +13,16 @@ describe('DemandValidationKpiHeaderComponent', () => {
   });
 
   beforeEach(() => {
-    spectator = createComponent({
-      props: {
-        params: {
-          displayName: '',
-          kpiEntry: {
-            fromDate: '2024-12-12',
-            bucketType: 'WEEK',
-          },
-        } as ICustomHeaderParams,
+    spectator = createComponent();
+
+    spectator.component['params'] = {
+      disableClick: false,
+      onClickHeader: jest.fn(),
+      kpiEntry: {
+        fromDate: '2024-12-12',
+        bucketType: 'WEEK',
       },
-    });
+    } as unknown as ICustomHeaderParams;
   });
 
   it('should create', () => {

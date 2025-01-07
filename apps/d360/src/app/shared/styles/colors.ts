@@ -7,7 +7,7 @@ export const dimmedPurple = '#A4ACDE';
 export const disabledGrey = '#00000042';
 
 export const schaefflerColor = '#00893D';
-export const demandValidationPartialWeekColor = '#EBEEF0';
+export const demandValidationPartialWeekColor = 'lightgray';
 export const demandValidationEditableColor = '#CCE8D9';
 export const demandValidationToSmallColor = '#FDE7A3';
 export const demandValidationWrongInputColor = '#DFADB9';

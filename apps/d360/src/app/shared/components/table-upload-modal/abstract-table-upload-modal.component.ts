@@ -303,22 +303,25 @@ export abstract class AbstractTableUploadModalComponent<
    *
    * TODO: Once we're on AG Grid > v31, we should use setGridOption('columnDefs', columnDefs); instead.
    *
-   * @private
+   * @protected
    * @memberof AbstractTableUploadModalComponent
    */
-  private updateColumnDefinitions(): void {
+  protected updateColumnDefinitions(): void {
     this.columnDefs = [
-      ...this.columnDefinitions.map((colDef: ColumnForUploadTable<T>) => ({
-        ...colDef,
-        field: colDef.field.toString(),
-        minWidth: colDef.minWidth ?? 200,
-        validationFn: undefined,
-        ...buildValidationProps(
-          this.validateFunctionWithErrors(colDef.validationFn),
-          true,
-          transparent
-        ),
-      })),
+      ...this.columnDefinitions.map(
+        (colDef: ColumnForUploadTable<T>) =>
+          ({
+            ...colDef,
+            field: colDef.field.toString(),
+            minWidth: colDef.minWidth ?? 200,
+            validationFn: undefined,
+            ...buildValidationProps(
+              this.validateFunctionWithErrors(colDef.validationFn),
+              true,
+              colDef?.bgColorFn ? colDef.bgColorFn() : transparent
+            ),
+          }) as ColumnForUploadTable<T>
+      ),
       {
         field: 'DELETE',
         headerName: '',
@@ -326,7 +329,7 @@ export abstract class AbstractTableUploadModalComponent<
         minWidth: 68,
         maxWidth: 68,
       },
-    ];
+    ] as ColDef[];
   }
 
   /**
@@ -778,7 +781,7 @@ export abstract class AbstractTableUploadModalComponent<
         !(
           fieldName in data &&
           data[fieldName] !== undefined &&
-          data[fieldName].toString().replaceAll('-', '') ===
+          (data[fieldName] ?? '').toString().replaceAll('-', '') ===
             fieldValue.toString().replaceAll('-', '')
         )
       ) {

@@ -202,9 +202,7 @@ export class AlertRulesComponent implements OnDestroy {
 
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe(() => {
-        // TODO implement updateData
-      });
+      .subscribe();
   }
 
   /**

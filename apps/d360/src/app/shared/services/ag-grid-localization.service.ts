@@ -64,9 +64,7 @@ export class AgGridLocalizationService {
     return this.translocoLocaleService.localizeDate(
       new Date(params.value),
       this.translocoLocaleService.getLocale(),
-      {
-        dateStyle: 'short',
-      }
+      { dateStyle: 'short' }
     );
   };
 }

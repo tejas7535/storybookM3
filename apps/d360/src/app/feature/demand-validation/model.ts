@@ -15,6 +15,7 @@ export interface DemandValidationBatch {
   dateString: string;
   forecast: string;
   periodType: string;
+  kpiEntries?: WriteKpiEntry[];
 }
 
 export interface BucketRequest {

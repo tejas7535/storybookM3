@@ -3,7 +3,7 @@
     <mat-icon>filter_list</mat-icon>
     {{
       t('validation_of_demand.filter.rootString', {
-        count: activeFilterCount.toString()
+        count: getCount(formGroup).toString()
       })
     }}
   </button>

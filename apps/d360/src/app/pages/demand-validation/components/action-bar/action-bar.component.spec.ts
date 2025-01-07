@@ -44,7 +44,7 @@ describe('ActionBarComponent', () => {
   beforeEach(() => {
     spectator = createComponent({
       props: {
-        currentCustomer: {} as CustomerEntry,
+        selectedCustomer: {} as CustomerEntry,
         customerData: [],
         planningView: PlanningView.REQUESTED,
         isMaterialListVisible: true,

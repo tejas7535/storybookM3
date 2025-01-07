@@ -27,8 +27,8 @@
     ) {
       <!-- action bar -->
       <d360-action-bar
-        [currentCustomer]="selectedCustomer()"
-        [customerData]="customerData"
+        [selectedCustomer]="selectedCustomer()"
+        [customerData]="customerData()"
         [(planningView)]="planningView"
         [isMaterialListVisible]="materialListVisible()"
         (toggleMaterialListVisible)="handleMaterialListVisible($event)"
@@ -36,10 +36,14 @@
         (customerChange)="handleCustomerChange($event)"
         (reloadValidationTable)="reloadValidationTable($event)"
         [changedKPIs]="changedKPIs()"
+        (demandValidationFilterChange)="demandValidationFilterChange($event)"
+        [demandValidationFilters]="demandValidationFilters()"
       />
 
       <!-- tables -->
-      <div class="table-content-wrapper flex flex-col md:flex-row h-full">
+      <div
+        class="grid grid-cols-1 gap-4 md:gap-0 md:flex md:flex-row md:h-full b-top"
+      >
         <!-- material list table -->
         <d360-material-list-table
           class="flex grow md:w-0"

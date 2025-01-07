@@ -1,17 +1,22 @@
-@if (params.kpiEntry) {
+@if (params?.kpiEntry) {
   <div class="header-div" (click)="handleHeaderClick()">
     @if (
-      params.kpiEntry.bucketType === 'WEEK' ||
-      params.kpiEntry.bucketType === 'PARTIAL_WEEK'
+      params?.kpiEntry?.bucketType === 'WEEK' ||
+      params?.kpiEntry?.bucketType === 'PARTIAL_WEEK'
     ) {
       <div class="header-wrapper">
         <span>{{
-          getWeekHeader(params.kpiEntry.fromDate, params.kpiEntry.bucketType)
+          getWeekHeader(
+            params?.kpiEntry?.fromDate,
+            params?.kpiEntry?.bucketType
+          )
         }}</span>
-        <span>{{ getDate(params.kpiEntry.fromDate) }}</span>
+        <span>{{
+          getDate(params?.kpiEntry?.fromDate, params?.kpiEntry?.bucketType)
+        }}</span>
       </div>
     } @else {
-      {{ getDate(params.kpiEntry.fromDate) }}
+      {{ getDate(params?.kpiEntry?.fromDate, params?.kpiEntry?.bucketType) }}
     }
   </div>
 }
