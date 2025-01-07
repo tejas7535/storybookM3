@@ -225,9 +225,6 @@ export class AgGridStateService {
     this.gridLocalStorageService.renameQuotationIdToActionItemForProcessCaseState();
   }
 
-  /**
-   * clears the columnState and filterState of the default view
-   */
   public clearDefaultViewColumnAndFilterState() {
     const gridState = this.gridLocalStorageService.getGridState(
       this.activeTableKey
@@ -317,31 +314,59 @@ export class AgGridStateService {
   }
 
   private saveGridState(gridState: GridState) {
-    const currentViewState = this.gridLocalStorageService.getViewById(
+    const currentCustomView = this.getCustomViewOfActiveView(
+      gridState,
+      this.activeViewId
+    );
+
+    const storedCustomView = this.gridLocalStorageService.getViewById(
       this.activeTableKey,
       this.activeViewId
     );
 
+    const oldColumnState = storedCustomView?.state?.columnState ?? [];
+    const newColumnState = currentCustomView?.state.columnState ?? [];
+
     if (
-      currentViewState?.state?.columnState?.length > 0 &&
+      oldColumnState.length > 0 &&
+      !this.containSameColIds(oldColumnState, newColumnState) &&
+      newColumnState.length > 0 &&
       this.activeViewId !== this.DEFAULT_VIEW_ID &&
       this.columnIds?.length > 0
     ) {
-      this.gridMergeService.handleAdjustments(
-        gridState,
-        this.activeViewId,
-        this.columnIds,
-        this.gridLocalStorageService.getViewById(
-          this.activeTableKey,
-          this.activeViewId
-        )
+      const updatedColumnState = this.gridMergeService.mergeAndReorderColumns(
+        oldColumnState,
+        newColumnState
       );
+      currentCustomView.state.columnState = updatedColumnState;
+      gridState.initialColIds = updatedColumnState.map((col) => col.colId);
     }
 
     this.gridLocalStorageService.setGridState(this.activeTableKey, gridState);
     this.updateViews();
     this.updateColumnState();
     this.updateFilterState();
+  }
+
+  private getCustomViewOfActiveView(
+    gridState: GridState,
+    activeViewId: number
+  ) {
+    return gridState.customViews.find((item) => item.id === activeViewId);
+  }
+
+  private containSameColIds(
+    oldColumnState: ColumnState[],
+    newColumnState: ColumnState[]
+  ) {
+    // extract the colId values from each ColumnState in the arrays
+    const oldColIds = oldColumnState.map((columnState) => columnState.colId);
+    const newColIds = newColumnState.map((columnState) => columnState.colId);
+
+    const sortedOldColIds = oldColIds.sort();
+    const sortedNewColIds = newColIds.sort();
+
+    return JSON.stringify(sortedOldColIds) === JSON.stringify(sortedNewColIds);
   }
 
   private updateViews() {

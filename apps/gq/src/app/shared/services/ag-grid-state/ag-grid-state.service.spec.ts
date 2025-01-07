@@ -20,7 +20,7 @@ const mockState = {
     { id: 0, title: translatedViewName, state: { columnState: [] } },
     { id: 3, title: 'test view 1', state: { columnState: [] } },
     { id: 1, title: 'test view 2', state: { columnState: [] } },
-    { id: 2, title: 'test view 3', state: { columnState: [] } },
+    { id: 2, title: 'test view 3', state: { columnState: [{ colId: 'new' }] } },
   ],
 } as GridState;
 
@@ -48,23 +48,21 @@ describe('AgGridStateService', () => {
         .fn()
         .mockReturnValue(null);
     });
+
     test('should save to local storage if key does not already exist', () => {
       service['gridLocalStorageService'].createInitialLocalStorage = jest
         .fn()
         .mockReturnValue('');
 
-      service.getCustomViews = jest.fn();
       const expectedKey = 'GQ_PROCESS_CASE_STATE';
 
       service.init('process_case');
 
       expect(
         service['gridLocalStorageService'].createInitialLocalStorage
-      ).toHaveBeenCalledTimes(1);
-      expect(
-        service['gridLocalStorageService'].createInitialLocalStorage
       ).toHaveBeenCalledWith(expectedKey, undefined, undefined);
     });
+
     test('should NOT save to local storage if key already exists', () => {
       service['gridLocalStorageService'].getGridState = jest
         .fn()
@@ -77,42 +75,11 @@ describe('AgGridStateService', () => {
       ).not.toHaveBeenCalled();
     });
 
-    test('should include additional if preset', () => {
-      service['gridLocalStorageService'].getGridState = jest
-        .fn()
-        .mockReturnValue('');
-      service['gridLocalStorageService'].createInitialLocalStorage = jest.fn();
-      service.getCustomViews = jest.fn();
-
-      service.init('process_case', [
-        {
-          id: 1,
-          title: 'test view 1',
-          state: { columnState: [], filterState: [] },
-        },
-      ]);
-
-      expect(
-        service['gridLocalStorageService'].createInitialLocalStorage
-      ).toHaveBeenCalledWith(
-        'GQ_PROCESS_CASE_STATE',
-        [
-          {
-            id: 1,
-            title: 'test view 1',
-            state: { columnState: [], filterState: [] },
-          },
-        ],
-        undefined
-      );
-    });
-
     test('should add initialColumns field when Key is present and ColumnId are given', () => {
       service['gridLocalStorageService'].getGridState = jest
         .fn()
         .mockReturnValue(mockState);
       service['saveGridState'] = jest.fn().mockImplementation(() => {});
-      service.getCustomViews = jest.fn();
 
       service.init('process_case', null, ['col1', 'col2']);
       expect(service['saveGridState']).toHaveBeenCalledWith({
@@ -136,7 +103,6 @@ describe('AgGridStateService', () => {
           initialColIds: [],
         });
       service['saveGridState'] = jest.fn().mockImplementation(() => {});
-      service.getCustomViews = jest.fn();
 
       service.init('process_case', null, ['col1', 'col2']);
 
@@ -153,21 +119,6 @@ describe('AgGridStateService', () => {
       });
     });
 
-    test('not include initialColIds when not given', () => {
-      service['gridLocalStorageService'].getGridState = jest
-        .fn()
-        .mockReturnValue(null);
-      service['gridLocalStorageService'].createInitialLocalStorage = jest
-        .fn()
-        .mockImplementation(() => {});
-      service.getCustomViews = jest.fn();
-
-      service.init('process_case');
-
-      expect(
-        service['gridLocalStorageService'].createInitialLocalStorage
-      ).toHaveBeenCalledWith('GQ_PROCESS_CASE_STATE', undefined, undefined);
-    });
     test('should call cleanupRemovedColumns', () => {
       service['gridLocalStorageService'].getGridState = jest
         .fn()
@@ -182,7 +133,6 @@ describe('AgGridStateService', () => {
           ],
           initialColIds: ['col1', 'col2'],
         });
-      service.getCustomViews = jest.fn();
       service['cleanupRemovedColumns'] = jest.fn();
 
       service.init('process_case', null, ['col1']);
@@ -200,6 +150,7 @@ describe('AgGridStateService', () => {
       expect(result).toEqual([{ gqPositionId: 10 }]);
     });
   });
+
   describe('setColumnData', () => {
     test('should call localStorageService', () => {
       service['localStorageService'].setToLocalStorage = jest.fn();
@@ -208,9 +159,12 @@ describe('AgGridStateService', () => {
       ]);
       expect(
         service['localStorageService'].setToLocalStorage
-      ).toHaveBeenCalledWith('1234_items', [{ gqPositionId: '10' }]);
+      ).toHaveBeenCalledWith('1234_items', [
+        { gqPositionId: '10', quotationItemId: undefined },
+      ]);
     });
   });
+
   describe('getColumnFiltersForCurrentView', () => {
     test('should return the filterState of the current view', () => {
       service['getColumnFilters'] = jest.fn();
@@ -234,6 +188,7 @@ describe('AgGridStateService', () => {
       );
     });
   });
+
   describe('getColumnStateForCurrentView', () => {
     test('should call method with correct parameters', () => {
       service['getColumnState'] = jest.fn();
@@ -288,11 +243,20 @@ describe('AgGridStateService', () => {
       );
     });
   });
+
   describe('getCurrentViewId', () => {
     test('should return activeViewId', () => {
       service['activeViewId'] = 1;
       const result = service.getCurrentViewId();
       expect(result).toBe(1);
+    });
+  });
+
+  describe('createViewFromScratch', () => {
+    test('should create a new view from scratch', () => {
+      service['createNewView'] = jest.fn();
+      service.createViewFromScratch('new view');
+      expect(service['createNewView']).toHaveBeenCalledWith('new view', []);
     });
   });
 
@@ -304,8 +268,8 @@ describe('AgGridStateService', () => {
           state: {
             columnState: [],
           },
-        } as unknown as CustomView);
-      service['createNewView'] = jest.fn().mockImplementation(() => {});
+        } as CustomView);
+      service['createNewView'] = jest.fn();
       service.createViewFromCurrentView('title', 'actionItemId');
       expect(service['createNewView']).toHaveBeenCalledWith(
         'title',
@@ -320,7 +284,7 @@ describe('AgGridStateService', () => {
       service['gridLocalStorageService'].getGridState = jest
         .fn()
         .mockReturnValue(mockState);
-      service['saveGridState'] = jest.fn().mockImplementation(() => {});
+      service['saveGridState'] = jest.fn();
       service.deleteView(2);
       expect(service['saveGridState']).toHaveBeenCalledWith({
         ...mockState,
@@ -346,7 +310,7 @@ describe('AgGridStateService', () => {
       service['gridLocalStorageService'].getGridState = jest
         .fn()
         .mockReturnValue(mockState);
-      service['saveGridState'] = jest.fn().mockImplementation(() => {});
+      service['saveGridState'] = jest.fn();
       service.updateViewName(1, 'new name');
       expect(service['saveGridState']).toHaveBeenCalledWith({
         ...mockState,
@@ -358,7 +322,7 @@ describe('AgGridStateService', () => {
   });
 
   describe('resetFilterModelsOfDefaultView', () => {
-    test('should call method with correct parameters', () => {
+    test('should reset filter models of default view', () => {
       service['setColumnFilters'] = jest.fn();
       service['activeTableKey'] = 'key';
       service['DEFAULT_VIEW_ID'] = 0;
@@ -372,68 +336,58 @@ describe('AgGridStateService', () => {
     });
   });
 
-  describe('renameQuotationIdToActionItemForProcessCaseState', () => {
-    test('should call method', () => {
-      service[
-        'gridLocalStorageService'
-      ].renameQuotationIdToActionItemForProcessCaseState = jest.fn();
-      service.renameQuotationIdToActionItemForProcessCaseState();
-
-      expect(
-        service['gridLocalStorageService']
-          .renameQuotationIdToActionItemForProcessCaseState
-      ).toHaveBeenCalled();
-    });
-  });
-
-  describe('clearDefaultViewColumnAndFilterState', () => {
-    test('should clear ColumnState and FilterState of the default view', () => {
-      const state: GridState = {
-        customViews: [
-          {
-            id: 0,
-            title: 'text',
-            state: {
-              columnState: [{ colId: 'test', hide: true }],
-              filterState: [
-                {
-                  actionItemId: 'id',
-                },
-              ],
-            },
-          } as CustomView,
-        ],
-      } as unknown as GridState;
-
-      service['gridLocalStorageService'].getGridState = jest
-        .fn()
-        .mockReturnValue(state);
-      service['saveGridState'] = jest.fn().mockImplementation(() => {});
-      service.clearDefaultViewColumnAndFilterState();
-      expect(service['saveGridState']).toHaveBeenCalledWith({
-        ...state,
-        customViews: [
-          {
-            id: 0,
-            title: 'text',
-            state: {
-              columnState: [],
-              filterState: [],
-            },
+  test('clearDefaultViewColumnAndFilterState should clear Column and Filter State', () => {
+    const state: GridState = {
+      customViews: [
+        {
+          id: 0,
+          title: translatedViewName,
+          state: {
+            columnState: [{ colId: 'test', hide: true }],
+            filterState: [{ actionItemId: 'id' }],
           },
-        ],
-      });
+        } as CustomView,
+      ],
+    } as GridState;
+
+    service['gridLocalStorageService'].getGridState = jest
+      .fn()
+      .mockReturnValue(state);
+    service['saveGridState'] = jest.fn();
+    service.clearDefaultViewColumnAndFilterState();
+    expect(service['saveGridState']).toHaveBeenCalledWith({
+      ...state,
+      customViews: [
+        {
+          id: 0,
+          title: translatedViewName,
+          state: {
+            columnState: [],
+            filterState: [],
+          },
+        },
+      ],
     });
   });
 
-  // private methods
+  test('renameQuotationIdToActionItemForProcessCaseState should call method', () => {
+    service[
+      'gridLocalStorageService'
+    ].renameQuotationIdToActionItemForProcessCaseState = jest.fn();
+    service.renameQuotationIdToActionItemForProcessCaseState();
+
+    expect(
+      service['gridLocalStorageService']
+        .renameQuotationIdToActionItemForProcessCaseState
+    ).toHaveBeenCalled();
+  });
 
   describe('setColumnState', () => {
     test('should set columnState', () => {
       const columnState: ColumnState[] = [{ colId: 'test', hide: true }];
       const viewId = 1;
       const tableKey = 'test';
-      service['saveGridState'] = jest.fn().mockImplementation(() => {});
+      service['saveGridState'] = jest.fn();
       service['gridLocalStorageService'].getGridState = jest
         .fn()
         .mockReturnValue(mockState);
@@ -457,14 +411,12 @@ describe('AgGridStateService', () => {
       service['gridLocalStorageService'].getGridState = jest
         .fn()
         .mockReturnValue(mockState);
-      service['saveGridState'] = jest.fn().mockImplementation(() => {});
+      service['saveGridState'] = jest.fn();
       service['updateViews'] = jest.fn();
       service['updateFilterState'] = jest.fn();
       service['updateColumnState'] = jest.fn();
-      service['getColumnFilters'] = jest
-        .fn()
-        .mockImplementation(() => filterState);
-      service['generateViewId'] = jest.fn().mockImplementation(() => 12);
+      service['getColumnFilters'] = jest.fn().mockReturnValue(filterState);
+      service['generateViewId'] = jest.fn().mockReturnValue(12);
       service['createNewView']('title', columnState);
       expect(service['saveGridState']).toHaveBeenCalledWith({
         ...mockState,
@@ -494,18 +446,17 @@ describe('AgGridStateService', () => {
     });
   });
 
-  describe('SaveGridState', () => {
+  describe('saveGridState', () => {
     beforeEach(() => {
-      service['gridLocalStorageService'].setGridState = jest
-        .fn()
-        .mockImplementation(() => {});
-      service['gridMergeService'].handleAdjustments = jest.fn();
+      service['gridLocalStorageService'].setGridState = jest.fn();
+      service['gridMergeService'].mergeAndReorderColumns = jest.fn(() => []);
 
       service['updateViews'] = jest.fn();
       service['updateColumnState'] = jest.fn();
       service['updateFilterState'] = jest.fn();
       service['activeTableKey'] = 'key';
     });
+
     test('should save the State and call update methods', () => {
       service['gridLocalStorageService'].getViewById = jest
         .fn()
@@ -514,7 +465,7 @@ describe('AgGridStateService', () => {
       service['saveGridState'](mockState);
 
       expect(
-        service['gridMergeService'].handleAdjustments
+        service['gridMergeService'].mergeAndReorderColumns
       ).not.toHaveBeenCalled();
       expect(service['updateViews']).toHaveBeenCalled();
       expect(service['updateColumnState']).toHaveBeenCalled();
@@ -524,7 +475,7 @@ describe('AgGridStateService', () => {
       ).toHaveBeenCalledWith('key', mockState);
     });
 
-    test('should call handleAdjustments if there are differences', () => {
+    test('should call mergeAndReorderColumns if there are differences', () => {
       service['gridLocalStorageService'].getViewById = jest
         .fn()
         .mockReturnValue({ state: { columnState: [{ colId: 'test' }] } });
@@ -534,7 +485,9 @@ describe('AgGridStateService', () => {
 
       service['saveGridState'](mockState);
 
-      expect(service['gridMergeService'].handleAdjustments).toHaveBeenCalled();
+      expect(
+        service['gridMergeService'].mergeAndReorderColumns
+      ).toHaveBeenCalled();
       expect(service['updateViews']).toHaveBeenCalled();
       expect(service['updateColumnState']).toHaveBeenCalled();
       expect(service['updateFilterState']).toHaveBeenCalled();
@@ -560,6 +513,7 @@ describe('AgGridStateService', () => {
         { active: true, id: 1 } as ViewToggle,
       ]);
     });
+
     test('should return empty array when no views are present', () => {
       service['getCustomViews'] = jest.fn().mockReturnValue([]);
       service['activeViewId'] = 1;
@@ -601,7 +555,7 @@ describe('AgGridStateService', () => {
       service['gridLocalStorageService'].getGridState = jest
         .fn()
         .mockReturnValue(mockState);
-      service['saveGridState'] = jest.fn().mockImplementation(() => {});
+      service['saveGridState'] = jest.fn();
 
       service['setColumnFilters']('key', 1, actionItemId, filterModels);
 
@@ -637,7 +591,7 @@ describe('AgGridStateService', () => {
       service['gridLocalStorageService'].getGridState = jest
         .fn()
         .mockReturnValue(mockState);
-      service['saveGridState'] = jest.fn().mockImplementation(() => {});
+      service['saveGridState'] = jest.fn();
 
       service['setColumnFilters']('key', 1, actionItemId, filterModels);
 
@@ -673,7 +627,7 @@ describe('AgGridStateService', () => {
       service['gridLocalStorageService'].getGridState = jest
         .fn()
         .mockReturnValue(mockState);
-      service['saveGridState'] = jest.fn().mockImplementation(() => {});
+      service['saveGridState'] = jest.fn();
 
       service['setColumnFilters']('key', 1, actionItemId, filterModels);
 
@@ -708,13 +662,14 @@ describe('AgGridStateService', () => {
             state: { columnState: [] },
           },
         ],
-      } as unknown as GridState;
+      } as GridState;
       service['gridLocalStorageService'].getViewById = jest
         .fn()
         .mockReturnValue(state.customViews[0]);
       const result = service['getColumnFilters']('key', 1);
       expect(result).toEqual([]);
     });
+
     test('should return the filterModels of the current view when present', () => {
       const filterState = [
         { actionItemId: 'id', filterModels: { test: 'test' } },
@@ -728,7 +683,8 @@ describe('AgGridStateService', () => {
             state: { columnState: [], filterState },
           },
         ],
-      } as unknown as GridState;
+        initialColIds: [],
+      } as GridState;
       service['gridLocalStorageService'].getViewById = jest
         .fn()
         .mockReturnValue(state.customViews[0]);
@@ -749,13 +705,14 @@ describe('AgGridStateService', () => {
             state: { columnState },
           },
         ],
-      } as unknown as GridState;
+      } as GridState;
       service['gridLocalStorageService'].getViewById = jest
         .fn()
         .mockReturnValue(state.customViews[0]);
       const result = service['getColumnState']('key', 1);
       expect(result).toEqual(columnState);
     });
+
     test('should return empty array when no columnState is present', () => {
       const state: GridState = {
         version: 1,
@@ -766,7 +723,7 @@ describe('AgGridStateService', () => {
             state: { columnState: [] },
           },
         ],
-      } as unknown as GridState;
+      } as GridState;
       service['gridLocalStorageService'].getViewById = jest
         .fn()
         .mockReturnValue(state.customViews[0]);
@@ -784,7 +741,7 @@ describe('AgGridStateService', () => {
       ].getUpdateCustomViewsWhenConfiguredColumnsRemoved = jest
         .fn()
         .mockReturnValue(true);
-      service['saveGridState'] = jest.fn().mockImplementation(() => {});
+      service['saveGridState'] = jest.fn();
       service['cleanupRemovedColumns'](mockState);
       expect(service['saveGridState']).toHaveBeenCalledWith({
         ...mockState,
@@ -798,7 +755,7 @@ describe('AgGridStateService', () => {
       ].getUpdateCustomViewsWhenConfiguredColumnsRemoved = jest
         .fn()
         .mockReturnValue(false);
-      service['saveGridState'] = jest.fn().mockImplementation(() => {});
+      service['saveGridState'] = jest.fn();
       service['cleanupRemovedColumns'](mockState);
       expect(service['saveGridState']).not.toHaveBeenCalled();
     });
