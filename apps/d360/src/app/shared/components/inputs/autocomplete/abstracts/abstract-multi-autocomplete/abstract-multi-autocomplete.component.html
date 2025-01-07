@@ -24,6 +24,7 @@
     <!-- Input field (search field) -->
     <input
       #multiAutocomplete
+      #trigger="matAutocompleteTrigger"
       [matAutocomplete]="auto"
       [matChipInputAddOnBlur]="true"
       [matChipInputFor]="chipList"
@@ -74,7 +75,9 @@
 
   <!-- Add an arrow, so it will look like a dropdown  -->
   @if (addDropdownIcon()) {
-    <mat-icon matSuffix>arrow_drop_down</mat-icon>
+    <mat-icon matSuffix (click)="trigger.openPanel()" class="dropdown">
+      arrow_drop_down
+    </mat-icon>
   }
 
   @if (control().value?.length > 0 && addClearButton()) {

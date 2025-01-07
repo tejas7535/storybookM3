@@ -1,5 +1,12 @@
 :host {
   .mat-icon {
     padding: 0;
+    cursor: pointer;
+  }
+
+  .mat-focused {
+    .dropdown {
+      color: var(--schaeffler-color);
+    }
   }
 }
