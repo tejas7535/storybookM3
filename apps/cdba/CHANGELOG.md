@@ -1,4 +1,19 @@
 # Release Notes of Cost Database Analytics
+## [5.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v5.2.0...cdba-v5.3.0) (2025-01-08)
+
+
+### Features
+
+* **cdba:** added timeout ([#6700](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6700)) ([0cbcb2b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0cbcb2b88cb4bce8874d85985931e5daa5dba15c))
+* **cdba:** bom export ([#6640](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6640)) ([1d19015](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1d19015ffa50fd0b67d8f83ab1f9091bfeec9973))
+* **cdba:** dynamic bom export status tracking ([#6798](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6798)) ([e4c5f98](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e4c5f9865d7fae8c879ae204226f1869d294f503))
+* **cdba:** update bg-surface color to legacy one ([#6550](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6550)) ([b9b54cb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b9b54cbc1a3a65138df4e045f28148be66fc2279))
+
+
+### Bug Fixes
+
+* **cdba:** decrease bom limit to prevent export crashes ([#6703](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6703)) ([98357d3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/98357d37fb0396810ec198ebbd1b995d93184169))
+
 ## [5.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v5.1.0...cdba-v5.2.0) (2024-08-26)
 
 
