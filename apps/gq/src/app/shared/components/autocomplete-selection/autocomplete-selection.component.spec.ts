@@ -167,6 +167,22 @@ describe('AutocompleteSelectionComponent', () => {
         done();
       }, component['debounceTime']);
     });
+    test('should not set option automatically when only one option is available but passed value is null', (done) => {
+      component.ngOnInit();
+      component.formControl.setValue(null);
+      setTimeout(() => {
+        expect(component.formControl.value).toEqual(null);
+        done();
+      }, component['debounceTime']);
+    });
+    test('should not set option automatically when only one option is available but passed value is empty string', (done) => {
+      component.ngOnInit();
+      component.formControl.setValue('');
+      setTimeout(() => {
+        expect(component.formControl.value).toEqual('');
+        done();
+      }, component['debounceTime']);
+    });
   });
   describe('writeValue function', () => {
     test('should set value to null when id is not present', () => {

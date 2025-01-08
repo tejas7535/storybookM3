@@ -158,7 +158,7 @@ export class AutocompleteSelectionComponent
         );
 
         // If only one option left during filtering - set it automatically
-        if (this.filteredOptions().length === 1 && value !== '') {
+        if (this.filteredOptions().length === 1 && value && value !== '') {
           const option = this.filteredOptions()[0];
           this.formControl.setValue(option);
           this.selectedValue.set(option);
