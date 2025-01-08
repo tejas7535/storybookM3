@@ -9,7 +9,7 @@
 
   ::ng-deep {
     d360-table-toolbar {
-      span {
+      span:not(.mdc-button__label) {
         padding-left: 24px;
       }
     }

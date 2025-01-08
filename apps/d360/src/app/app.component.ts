@@ -85,7 +85,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     this.router.events.pipe(takeUntil(this._destroying$)).subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.activeUrl.set(event.url);
+        this.activeUrl.set(this.getRelativeUrl(event.url));
       }
     });
   }
@@ -263,12 +263,27 @@ export class AppComponent implements OnInit, OnDestroy {
     return this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
       map((event: NavigationEnd) => {
-        const currentUrl = event.url;
+        const currentUrl = this.getRelativeUrl(event.url);
 
-        return routesWithTabNavigation.some(
-          (route) => currentUrl === route || currentUrl === `/${route}`
+        return routesWithTabNavigation.some((route) =>
+          new RegExp(route).test(currentUrl)
         );
       })
     );
+  }
+
+  /**
+   * Strip everything from the given url expect the path.
+   *
+   * @private
+   * @param {string} url
+   * @return {string}
+   * @memberof AppComponent
+   */
+  private getRelativeUrl(url: string): string {
+    return url
+      .toLowerCase()
+      .replace(/^(?:\/\/|[^/]+)*\//, '')
+      .split('?')[0];
   }
 }
