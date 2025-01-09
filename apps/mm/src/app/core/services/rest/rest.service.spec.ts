@@ -4,14 +4,15 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 
+import { CalculationRequestPayload } from '@mm/shared/models/calculation-request/calculation-request.model';
 import { withCache } from '@ngneat/cashew';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import {
   MMBearingPreflightResponse,
-  MMBearingsMaterialResponse,
   MMResponseVariants,
   PreflightRequestBody,
+  ShaftMaterialResponse,
 } from '../../../shared/models';
 import { BearinxOnlineResult } from '../bearinx-result.interface';
 import { environment } from './../../../../environments/environment';
@@ -80,7 +81,9 @@ describe('RestService', () => {
   describe('#getBearingCalculationResult', () => {
     it('should send a bearing calculation request with given form properties', (done) => {
       service
-        .getBearingCalculationResult('some form properties i guess')
+        .getBearingCalculationResult(
+          {} as Partial<CalculationRequestPayload> as CalculationRequestPayload
+        )
         .subscribe((result: SearchResult) => {
           expect(result).toEqual(BEARING_CALCULATION_RESULT_MOCK);
           done();
@@ -116,7 +119,7 @@ describe('RestService', () => {
       const mockShaftMaterial = 'material1';
       service
         .getBearingsMaterialResponse(mockShaftMaterial)
-        .subscribe((result: MMBearingsMaterialResponse) => {
+        .subscribe((result: ShaftMaterialResponse) => {
           expect(result).toEqual(BEARING_MATERIAL_RESPONSE_MOCK);
           done();
         });

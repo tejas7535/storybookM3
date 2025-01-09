@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CalculationOptionsActions should create an action to fetch preflight options 1`] = `
+Object {
+  "type": "[CalculationOptions] Fetch preflight options",
+}
+`;
+
+exports[`CalculationOptionsActions should create an action to set preflight options 1`] = `
+Object {
+  "options": Object {
+    "innerRingExpansion": "0.35",
+  },
+  "type": "[CalculationOptions] Set Options",
+}
+`;

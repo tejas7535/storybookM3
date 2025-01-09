@@ -13,11 +13,10 @@
   "form": {
     "select": "{{fieldname}} выбрать",
     "calculateResults": "Начать расчет",
-    "searchManually": "или настроить вручную",
     "chooseOption": "Выбрать подшипник",
     "searchLoading": "Загрузка данных...",
     "searchNoResults": "Нет результатов",
-    "selected": "выбранный"
+    "selected": "Выбранный"
   },
   "dialog": {
     "bearing": "Подшипник",
@@ -32,8 +31,10 @@
     "measuringAndMounting": "измерения и монтажа",
     "measuringMethod": "Метод измерения",
     "mounting": "монтажа",
+    "selectMountingLabel": "Способ монтажа выбрать",
     "mountingMethod": "Способ монтажа",
     "calculationOptions": "Варианты расчета",
+    "calculationOptionsTitle": "монтажа & Данные вала",
     "hydraulicNutType": "Тип гидравлической гайки",
     "previousMountings": "Количество предыдущих монтажей",
     "previousMountingsListValues": {

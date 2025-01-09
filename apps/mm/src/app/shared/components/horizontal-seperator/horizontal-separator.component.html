@@ -1,12 +1,12 @@
 <div class="flex items-center gap-4">
   <div
     class="mr-4 h-px w-full bg-selected-overlay"
-    [class.md:hidden]="!alwaysCentered"
+    [class.md:hidden]="!alwaysCentered()"
   ></div>
   <span
     class="flex-1 text-center text-label-small font-medium text-medium-emphasis sm:flex-none"
   >
-    {{ text }}
+    {{ text() }}
   </span>
   <ng-content></ng-content>
   <div class="h-px w-full bg-selected-overlay"></div>

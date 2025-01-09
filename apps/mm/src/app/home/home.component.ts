@@ -1,387 +1,109 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Inject,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-  ViewChildren,
-} from '@angular/core';
-import {
-  UntypedFormArray,
-  UntypedFormControl,
-  UntypedFormGroup,
-} from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
+import { CdkStepperModule, StepperSelectionEvent } from '@angular/cdk/stepper';
+import { CommonModule } from '@angular/common';
+import { Component, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatStepperModule } from '@angular/material/stepper';
 
-import {
-  map,
-  pairwise,
-  startWith,
-  Subject,
-  take,
-  takeUntil,
-  tap,
-  withLatestFrom,
-} from 'rxjs';
+import { debounceTime } from 'rxjs';
 
-import { DynamicFormTemplateContext, Model } from '@caeonline/dynamic-forms';
-import { TranslocoService } from '@jsverse/transloco';
-import { Environment } from '@mm/environments/environment.model';
-import { ENV } from '@mm/environments/environments.provider';
+import { detectAppDelivery } from '@mm/core/helpers/settings-helpers';
+import { CalculationOptionsFacade } from '@mm/core/store/facades/calculation-options/calculation-options.facade';
+import { CalculationSelectionFacade } from '@mm/core/store/facades/calculation-selection/calculation-selection.facade';
+import { BearingSearchComponent } from '@mm/home/bearing-search/bearing-search.component';
+import { AppStoreButtonsComponent } from '@mm/shared/components/app-store-buttons/app-store-buttons.component';
+import { QualtricsInfoBannerComponent } from '@mm/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import { AppDelivery } from '@mm/shared/models';
+import { BearingSeatStepComponent } from '@mm/steps/bearing-seat-step/bearing-seat-step.component';
+import { CalculationOptionsStepComponent } from '@mm/steps/calculation-options-step/calculation-options-step.component';
+import { MeasuringAndMountingStepComponent } from '@mm/steps/measuring-and-mounting-step/measuring-and-mounting-step.component';
 
-import { DIALOG } from '../../mock';
-import { PagesStepperComponent } from '../core/components/pages-stepper/pages-stepper.component';
-import { detectAppDelivery } from '../core/helpers/settings-helpers';
-import {
-  LocaleService,
-  MMLocales,
-  MMSeparator,
-  ModelTransformer,
-  RestService,
-} from '../core/services';
-import {
-  bearingMembers,
-  bearingSeatMembers,
-  calculationOptionsMembers,
-  IDMM_MEASSURING_METHOD,
-  IDMM_MOUNTING_METHOD,
-  measuringAndMountingMembers,
-  PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS,
-  PAGE_MOUNTING_MANAGER_SEAT,
-  PAGE_RESULT,
-  PROPERTY_PAGE_MOUNTING,
-  PROPERTY_PAGE_MOUNTING_SITUATION,
-  PROPERTY_PAGE_MOUNTING_SITUATION_SUB,
-  RSY_BEARING,
-  RSY_BEARING_SERIES,
-  RSY_BEARING_TYPE,
-  RSY_PAGE_BEARING_TYPE,
-} from '../shared/constants/dialog-constant';
-import {
-  FormValue,
-  FormValueProperty,
-} from './../shared/models/home/form-value.model';
-import { HomeStore } from './home.component.store';
-import { PagedMeta } from './home.model';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { ReportResultPageComponent } from './report-result-page/report-result-page.component';
 import { ResultPageComponent } from './result-page/result-page.component';
 
-// TODO use ComponentStore
 @Component({
-  selector: 'mm-home',
+  selector: 'mm-home-new',
   templateUrl: './home.component.html',
-  providers: [ModelTransformer, HomeStore],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    SharedTranslocoModule,
+    CdkStepperModule,
+    CommonModule,
+    MatStepperModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSlideToggleModule,
+    BearingSearchComponent,
+    BearingSeatStepComponent,
+    MeasuringAndMountingStepComponent,
+    CalculationOptionsStepComponent,
+    QualtricsInfoBannerComponent,
+    AppStoreButtonsComponent,
+    ReportResultPageComponent,
+    ResultPageComponent,
+  ],
+  standalone: true,
 })
-export class HomeComponent implements OnInit, OnDestroy {
-  @ViewChildren('inBoxControl')
-  public readonly inBoxTemplates: TemplateRef<any>[];
-  @ViewChild('stepper') private readonly stepper: PagesStepperComponent;
-  @ViewChild('resultPage') private readonly resultPage: ResultPageComponent;
-
-  public isProduction = false;
-  public showCompactView = true;
-
-  public readonly PAGE_MOUNTING_MANAGER_SEAT = PAGE_MOUNTING_MANAGER_SEAT;
-  public readonly RSY_PAGE_BEARING_TYPE = RSY_PAGE_BEARING_TYPE;
-  public readonly RSY_BEARING_TYPE = RSY_BEARING_TYPE;
-  public readonly RSY_BEARING_SERIES = RSY_BEARING_SERIES;
-  public readonly RSY_BEARING = RSY_BEARING;
-  public readonly IDMM_MEASSURING_METHOD = IDMM_MEASSURING_METHOD;
-  public readonly IDMM_MOUNTING_METHOD = IDMM_MOUNTING_METHOD;
-  public readonly PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS =
-    PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS;
-
-  public dialog = DIALOG;
-
+export class HomeComponent {
+  public readonly DEBOUNCE_TIME_DEFAULT = 0; // debounce time required for slider in Application to render properly at the first load.
   public isAppDeliveryEmbedded = detectAppDelivery() === AppDelivery.Embedded;
+  public showCompactView = signal(true);
+  selectedBearing = toSignal(this.selectionFacade.getBearing$());
+  bearingSeats = toSignal(this.selectionFacade.bearingSeats$);
+  selectedBearingOption = toSignal(this.selectionFacade.selectedBearingOption$);
+  measurementMethods = toSignal(this.selectionFacade.measurementMethods$);
+  mountingMethds = toSignal(this.selectionFacade.mountingMethods$);
+  preflighData = toSignal(this.optionsFacade.options$);
 
-  public model: Model = {
-    rootObject: {
-      id: '',
-      type: '',
-      properties: [],
-      children: [],
-    },
-  };
+  steps = toSignal(this.selectionFacade.steps$);
+  currentStep = toSignal(
+    this.selectionFacade.currentStep$.pipe(
+      debounceTime(this.DEBOUNCE_TIME_DEFAULT)
+    )
+  );
 
-  public object = this.model.rootObject;
-  public manualBearing = false;
-
-  public readonly pagedMetas$ = this.homeStore.pagedMetas$;
-  public readonly activePageId$ = this.homeStore.activePageId$;
-  public readonly activePageName$ = this.homeStore.activePageName$;
-  public readonly maxPageId$ = this.homeStore.maxPageId$;
-  public readonly inactivePageId$ = this.homeStore.inactivePageId$;
-  public readonly activeBearing$ = this.homeStore.activeBearing$;
-  public readonly bearingParams$ = this.homeStore.bearingParams$;
-  public readonly selectedBearingOption$ =
-    this.homeStore.selectedBearingOption$;
-
-  private readonly destroy$ = new Subject<void>();
-
-  private form: UntypedFormGroup;
+  public readonly preflighData$ = this.optionsFacade.options$;
 
   public constructor(
-    private readonly cdRef: ChangeDetectorRef,
-    private readonly route: ActivatedRoute,
-    private readonly translocoService: TranslocoService,
-    private readonly localeService: LocaleService,
-    private readonly restService: RestService,
-    private readonly homeStore: HomeStore,
-    @Inject(ENV) private readonly env: Environment
-  ) {
-    this.isProduction = this.env.production;
-  }
+    private readonly selectionFacade: CalculationSelectionFacade,
+    private readonly optionsFacade: CalculationOptionsFacade
+  ) {}
 
-  public ngOnInit(): void {
-    this.translocoService.langChanges$.subscribe((lang: string) => {
-      this.restService.setCurrentLanguage(lang);
-    });
-    this.handleRouteParams();
-  }
+  async selectStep(_event: StepperSelectionEvent): Promise<void> {
+    const items = this.steps();
 
-  public ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    const targetRoute = items.find(
+      ({ index }) => index === _event.selectedIndex
+    );
+
+    if (!targetRoute.enabled) {
+      return;
+    }
+
+    this.selectionFacade.setCurrentStep(targetRoute.index);
   }
 
   public selectBearing(id: string): void {
-    // eslint-disable-next-line unicorn/no-useless-undefined
-    this.homeStore.setBearing(undefined);
-    this.getBearingRelations(id);
-    this.handleActivePageIdChange(PAGE_MOUNTING_MANAGER_SEAT);
+    this.selectionFacade.fetchBearingData(id);
   }
 
-  public dynamicFormLoaded({ nestedMetas, form }: DynamicFormTemplateContext) {
-    this.form = form;
-    this.form.valueChanges
-      .pipe(
-        startWith(false),
-        pairwise(),
-        withLatestFrom(this.activePageId$, this.pagedMetas$)
-      )
-      .subscribe(
-        ([[prev, next], activePageId, pagedMetas]: [
-          [FormValue, FormValue],
-          any,
-          PagedMeta[],
-        ]) => {
-          if (
-            activePageId === PROPERTY_PAGE_MOUNTING_SITUATION ||
-            activePageId === PAGE_RESULT ||
-            !prev ||
-            !next
-          ) {
-            return;
-          }
-          this.checkTriggerNext(activePageId, pagedMetas);
-          this.resetFormValue(prev, next);
-        }
-      );
-
-    this.homeStore.setPageMetas(nestedMetas);
+  public selectBearingSeatOption(bearingSeatId: string): void {
+    this.selectionFacade.setBearingSeat(bearingSeatId);
+    this.selectionFacade.setCurrentStep(2);
   }
 
-  public checkTriggerNext(activePageId: string, pagedMetas: PagedMeta[]): void {
-    const currentPagedMeta: PagedMeta = pagedMetas.find(
-      (pagedMeta: PagedMeta) => pagedMeta.page.id === activePageId
-    );
-
-    const currentPageTouched = currentPagedMeta?.controls.find(
-      ({ pristine }: UntypedFormControl) => !pristine
-    );
-
-    if (
-      currentPagedMeta &&
-      (currentPagedMeta.page.id === PAGE_MOUNTING_MANAGER_SEAT ||
-        currentPagedMeta.page.id ===
-          PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS)
-    ) {
-      currentPagedMeta.valid$.pipe(take(1)).subscribe((valid: any) => {
-        if (valid && currentPageTouched) {
-          this.next(currentPagedMeta.page.id, pagedMetas, this.stepper);
-          if (this.stepper.hasResultNext && !this.showCompactView) {
-            this.resultPage.send(this.form);
-          }
-        }
-      });
-    }
+  public selectMountingMethod(mountingMethod: string): void {
+    this.selectionFacade.updateMountingMethodAndCurrentStep(mountingMethod);
   }
 
-  public next(
-    currentPageId: string,
-    pagedMetas: PagedMeta[],
-    stepper: PagesStepperComponent
-  ): void {
-    const currentIndex = pagedMetas.findIndex(
-      (meta) => meta.page.id === currentPageId
-    );
-    if (currentIndex < 0) {
-      return;
-    }
-    const nextPage = pagedMetas[currentIndex + 1];
-    if (!nextPage) {
-      return;
-    }
-
-    stepper.next();
-  }
-
-  public isCalculationOptions(pageID: string) {
-    return pageID === PROPERTY_PAGE_MOUNTING_SITUATION;
-  }
-
-  public handleActivePageIdChange(id: string) {
-    this.homeStore.setActivePageId(id);
-
-    if (id !== RSY_PAGE_BEARING_TYPE) {
-      this.homeStore.getBearing(this.bearingParams$);
-    }
-  }
-
-  public hasHeadline(pageId?: string, memberId?: string): boolean {
-    const noHeadlineIds = new Set([
-      RSY_BEARING_TYPE,
-      IDMM_MOUNTING_METHOD,
-      PAGE_MOUNTING_MANAGER_SEAT,
-      PROPERTY_PAGE_MOUNTING_SITUATION_SUB,
-      PROPERTY_PAGE_MOUNTING,
-    ]);
-    if (noHeadlineIds.has(pageId) || noHeadlineIds.has(memberId)) {
-      return false;
-    }
-
-    return true;
-  }
-
-  public measuringMethodSet(): boolean {
-    const currentValue: FormValue = this.form.value;
-    const measuringMethodProperty = currentValue.objects[0].properties.find(
-      (property: FormValueProperty) => property.name === IDMM_MEASSURING_METHOD
-    );
-
-    return measuringMethodProperty.value ? true : false;
-  }
-
-  private resetFormValue(prev: FormValue, next: FormValue): void {
-    if (prev === next) {
-      return;
-    }
-    const prevProperties = prev.objects[0].properties;
-    const nextProperties = next.objects[0].properties;
-    const changedProperty = nextProperties.find(
-      (property: FormValueProperty) => {
-        const prevValue = prevProperties.find(
-          (prevProperty) => prevProperty.name === property.name
-        );
-
-        return prevValue && property.value !== prevValue.value;
-      }
-    );
-
-    const resetMembers: string[] = [];
-
-    if (!changedProperty) {
-      return;
-    }
-
-    switch (true) {
-      case bearingMembers.includes(changedProperty.name):
-        resetMembers.push(
-          ...bearingSeatMembers,
-          ...measuringAndMountingMembers,
-          ...calculationOptionsMembers
-        );
-        break;
-      case bearingSeatMembers.includes(changedProperty.name):
-        resetMembers.push(
-          ...measuringAndMountingMembers,
-          ...calculationOptionsMembers
-        );
-        break;
-      case measuringAndMountingMembers.includes(changedProperty.name):
-        resetMembers.push(...calculationOptionsMembers);
-        break;
-      default:
-        break;
-    }
-
-    (this.form.get('objects.0.properties') as UntypedFormArray).controls
-      .map((control) => control as UntypedFormGroup)
-      .map((control: UntypedFormGroup) => {
-        const initialValue = control.get('initialValue').value;
-        const name = control.get('name');
-        if (resetMembers.includes(name.value)) {
-          control
-            .get('value')
-            .patchValue(initialValue, { onlySelf: false, emitEvent: false });
-        }
-        control.get('value').markAsUntouched();
-        control.get('value').markAsPristine();
-      });
-  }
-
-  private handleRouteParams(): void {
-    this.route.params
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(({ id, language, separator }: Params): void => {
-        if (id) {
-          // Todo handling of wrong IDs and inital 404 call
-          // could be done by httpInterceptor
-          this.selectBearing(id);
-          this.homeStore.setActivePageId(PAGE_MOUNTING_MANAGER_SEAT);
-          this.homeStore.setInactivePageId(RSY_PAGE_BEARING_TYPE);
-        }
-        if (language) {
-          this.localeService.setLocale(language as MMLocales);
-          this.translocoService.setDefaultLang(language);
-          this.translocoService.setActiveLang(language);
-        }
-        if (separator) {
-          this.localeService.setSeparator(
-            separator === 'comma' ? MMSeparator.Comma : MMSeparator.Point
-          );
-        }
-      });
-  }
-
-  private getBearingRelations(id: string): void {
-    this.restService
-      .getBearingRelations(id)
-      .pipe(
-        map((response: any) => response.data),
-        tap((data: any) => {
-          const model: Model = {
-            rootObject: {
-              id: '',
-              type: '',
-              children: [],
-              properties: [
-                {
-                  name: RSY_BEARING_TYPE,
-                  value: +data.type.data.id,
-                },
-                {
-                  name: RSY_BEARING_SERIES,
-                  value: data.series.data.id,
-                },
-                {
-                  name: RSY_BEARING,
-                  value: data.bearing.data.id,
-                },
-              ],
-            },
-          };
-          this.model = model;
-          this.object = this.model.rootObject;
-
-          this.cdRef.markForCheck();
-        })
-      )
-      .subscribe();
+  public selectMeasurementMethod(measurementMethod: string): void {
+    this.selectionFacade.setMeasurementMethod(measurementMethod);
   }
 }

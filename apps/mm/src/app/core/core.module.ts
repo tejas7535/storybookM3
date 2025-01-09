@@ -25,12 +25,9 @@ import {
   CustomProps,
 } from '@schaeffler/application-insights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
-import { LanguageSelectModule } from '@schaeffler/transloco/components';
 
 import { environment } from '../../environments/environment';
 import { HttpLocaleInterceptor } from '../shared/interceptors/http-locale.interceptor';
-import { SharedModule } from '../shared/shared.module';
-import { SettingsComponent } from './components/settings/settings.component';
 import { detectAppDelivery } from './helpers/settings-helpers';
 import { ConsentValues } from './services/tracking/one-trust.interface';
 import { OneTrustMobileService } from './services/tracking/one-trust-mobile.service';
@@ -141,15 +138,12 @@ if (detectAppDelivery() !== AppDelivery.Standalone || environment.localDev) {
 }
 
 @NgModule({
-  declarations: [SettingsComponent],
-  exports: [SettingsComponent],
+  declarations: [],
+  exports: [],
   imports: [
     CommonModule,
     RouterModule,
     AppShellModule,
-    // UI Modules
-    SharedModule,
-    // Translation
     SharedTranslocoModule.forRoot(
       environment.production,
       [
@@ -166,7 +160,6 @@ if (detectAppDelivery() !== AppDelivery.Standalone || environment.localDev) {
       true,
       !environment.localDev
     ),
-    LanguageSelectModule,
     // Monitoring
     ...Tracking,
     HttpCacheInterceptorModule.forRoot(),

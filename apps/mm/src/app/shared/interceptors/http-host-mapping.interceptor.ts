@@ -19,10 +19,14 @@ export class HttpHostMappingInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const wrongURL = 'http://10.0.1.22:80/MountingManager/v1';
+    const wrongHostPattern =
+      /^http:\/\/10\.0\.\d+\.\d+:80\/MountingManager\/v1/;
 
-    if (request.url.includes(wrongURL)) {
-      const modifiedUrl = request.url.replace(wrongURL, environment.baseUrl);
+    if (wrongHostPattern.test(request.url)) {
+      const modifiedUrl = request.url.replace(
+        wrongHostPattern,
+        environment.baseUrl
+      );
 
       const modifiedReq = request.clone({
         url: modifiedUrl,

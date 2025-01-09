@@ -13,7 +13,6 @@
   "form": {
     "select": "选择 {{fieldname}}",
     "calculateResults": "计算结果",
-    "searchManually": "或手动配置",
     "chooseOption": "选择选项",
     "searchLoading": "正在获取数据...",
     "searchNoResults": "没有结果",
@@ -32,8 +31,10 @@
     "measuringAndMounting": "测量&安装方法",
     "measuringMethod": "测量方法",
     "mounting": "安装",
+    "selectMountingLabel": "选择 安装方法",
     "mountingMethod": "安装方法",
     "calculationOptions": "计算方法选择",
+    "calculationOptionsTitle": "安装 & 轴数据",
     "hydraulicNutType": "液压螺母类型",
     "previousMountings": "安装数量",
     "previousMountingsListValues": {

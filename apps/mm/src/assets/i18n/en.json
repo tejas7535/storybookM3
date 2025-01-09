@@ -2,11 +2,10 @@
   "form": {
     "select": "Select {{fieldname}}",
     "calculateResults": "Calculate Results",
-    "searchManually": "or configure manually",
     "chooseOption": "Choose an option",
     "searchLoading": "Fetching data...",
     "searchNoResults": "No Results",
-    "selected": "selected"
+    "selected": "Selected"
   },
   "sidebar": {
     "language": {
@@ -32,8 +31,10 @@
     "measuringAndMounting": "Measuring & mounting",
     "measuringMethod": "Measuring method",
     "mounting": "Mounting",
+    "selectMountingLabel": "Select Mounting Method",
     "mountingMethod": "Mounting Method",
     "calculationOptions": "Calculation options",
+    "calculationOptionsTitle": "Mounting & Shaft Data",
     "hydraulicNutType": "Hydraulic nut type",
     "previousMountings": "Number of previous mountings",
     "previousMountingsListValues": {

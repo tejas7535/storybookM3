@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CalculationSelectionOptions getMountingOptions 1`] = `
+Array [
+  Object {
+    "label": "dialog.mountingOptionsListValues.radialClearanceReduction",
+    "value": "LB_RADIAL_CLEARANCE_REDUCTION",
+  },
+  Object {
+    "label": "dialog.mountingOptionsListValues.innerRingExpansion",
+    "value": "LB_INNER_RING_EXPANSION",
+  },
+]
+`;
+
+exports[`CalculationSelectionOptions getNumberOfPreviousMountingOptions 1`] = `
+Array [
+  Object {
+    "label": "dialog.previousMountingsListValues.zeroToOne",
+    "value": "LB_ZERO_TO_ONE",
+  },
+  Object {
+    "label": "dialog.previousMountingsListValues.two",
+    "value": "LB_TWO",
+  },
+  Object {
+    "label": "dialog.previousMountingsListValues.three",
+    "value": "LB_THREE",
+  },
+  Object {
+    "label": "dialog.previousMountingsListValues.four",
+    "value": "LB_FOUR",
+  },
+  Object {
+    "label": "dialog.previousMountingsListValues.five",
+    "value": "LB_FIVE",
+  },
+  Object {
+    "label": "dialog.previousMountingsListValues.sixPlus",
+    "value": "LB_SIX_PLUS",
+  },
+]
+`;
+
+exports[`CalculationSelectionOptions getShaftMaterialsOptions 1`] = `
+Array [
+  Object {
+    "label": "dialog.shaftMaterialListValues.steel",
+    "value": "STEEL_20_DEGREE",
+  },
+  Object {
+    "label": "dialog.shaftMaterialListValues.100Cr6",
+    "value": "STEEL_100_CR_6",
+  },
+  Object {
+    "label": "dialog.shaftMaterialListValues.C45",
+    "value": "STEEL_C_45",
+  },
+  Object {
+    "label": "dialog.shaftMaterialListValues.16MnCr5",
+    "value": "CAST_IRON_GG14",
+  },
+  Object {
+    "label": "dialog.shaftMaterialListValues.castIronGG26",
+    "value": "CAST_IRON_GG26",
+  },
+  Object {
+    "label": "dialog.shaftMaterialListValues.castIronGGG",
+    "value": "CAST_IRON_GGG",
+  },
+  Object {
+    "label": "dialog.shaftMaterialListValues.brass",
+    "value": "BRASS",
+  },
+  Object {
+    "label": "dialog.shaftMaterialListValues.bronze",
+    "value": "BRONZE",
+  },
+  Object {
+    "label": "dialog.shaftMaterialListValues.alloyAluminium",
+    "value": "ALLOY_ALUMINIUM",
+  },
+  Object {
+    "label": "dialog.shaftMaterialListValues.userDefinedMaterial",
+    "value": "USER_DEFINED_MATERIAL",
+  },
+]
+`;

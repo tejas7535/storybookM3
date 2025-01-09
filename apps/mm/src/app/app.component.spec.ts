@@ -1,6 +1,9 @@
 /* eslint-disable @nx/enforce-module-boundaries */
-import { ReactiveFormsModule } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -14,7 +17,7 @@ import {
 } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import { MockModule } from 'ng-mocks';
+import { MockComponent, MockModule } from 'ng-mocks';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import {
@@ -33,7 +36,6 @@ import { SettingsComponent } from './core/components/settings/settings.component
 import { detectAppDelivery } from './core/helpers/settings-helpers';
 import { InternalDetectionService } from './core/services/internal-detection/internal-detection.service';
 import { OneTrustMobileService } from './core/services/tracking/one-trust-mobile.service';
-import { MaterialModule } from './shared/material.module';
 import { AppDelivery } from './shared/models';
 
 jest.mock('./core/helpers/settings-helpers');
@@ -53,13 +55,15 @@ describe('AppComponent', () => {
       MockModule(AppShellModule),
       MockModule(LanguageSelectModule),
       MockModule(BannerModule),
+      MockModule(MatSlideToggleModule),
+      MockModule(MatSidenavModule),
+      MockModule(MatIconModule),
+      MockComponent(SettingsComponent),
+      MatIconTestingModule,
       RouterTestingModule,
       PushPipe,
       provideTranslocoTestingModule({ en: {} }),
 
-      // TOOD: remove when sidebar component has its module
-      ReactiveFormsModule,
-      MaterialModule,
       ApplicationInsightsModule.forRoot(environment.applicationInsights),
       OneTrustModule.forRoot({
         cookiesGroups: COOKIE_GROUPS,
@@ -78,7 +82,7 @@ describe('AppComponent', () => {
         getInternalHelloEndpoint: () => of(true),
       }),
     ],
-    declarations: [AppComponent, SettingsComponent],
+    declarations: [AppComponent],
   });
 
   beforeEach(() => {

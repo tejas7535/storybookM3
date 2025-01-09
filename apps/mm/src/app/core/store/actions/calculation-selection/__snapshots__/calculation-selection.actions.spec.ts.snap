@@ -1,0 +1,152 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CalculationSelectionActions should create an action to search bearing list 1`] = `
+Object {
+  "query": "220",
+  "type": "[CalculationSelection] Search Bearing list",
+}
+`;
+
+exports[`CalculationSelectionActions should create fetchBearingData action 1`] = `
+Object {
+  "bearingId": "123",
+  "type": "[CalculationSelection] Fetch Bearing data",
+}
+`;
+
+exports[`CalculationSelectionActions should create fetchMeasurementMethods action 1`] = `
+Object {
+  "type": "[CalculationSelection] Fetch measurement methods",
+}
+`;
+
+exports[`CalculationSelectionActions should create fetchMountingMethods action 1`] = `
+Object {
+  "type": "[CalculationSelection] Fetch mounting methods",
+}
+`;
+
+exports[`CalculationSelectionActions should create fetchPreflightOptions action 1`] = `
+Object {
+  "type": "[CalculationSelection] Fetch preflight options",
+}
+`;
+
+exports[`CalculationSelectionActions should create resetBearing action 1`] = `
+Object {
+  "type": "[CalculationSelection] Reset Bearing",
+}
+`;
+
+exports[`CalculationSelectionActions should create searchBearingSuccess action 1`] = `
+Object {
+  "resultList": Array [
+    Object {
+      "id": "1",
+      "title": "Bearing 1",
+    },
+  ],
+  "type": "[CalculationSelection] Search Bearing Success",
+}
+`;
+
+exports[`CalculationSelectionActions should create setBearing action 1`] = `
+Object {
+  "bearingId": "123",
+  "title": "Bearing Title",
+  "type": "[CalculationSelection] Set Bearing",
+}
+`;
+
+exports[`CalculationSelectionActions should create setBearingSeat action 1`] = `
+Object {
+  "bearingSeatId": "seat123",
+  "type": "[CalculationSelection] Set Bearing Seat",
+}
+`;
+
+exports[`CalculationSelectionActions should create setBearingSeats action 1`] = `
+Object {
+  "bearingSeats": Array [
+    Object {
+      "id": "1",
+      "text": "Seat 1",
+    },
+  ],
+  "type": "[CalculationSelection] Set bearing seats",
+}
+`;
+
+exports[`CalculationSelectionActions should create setBearingSeries action 1`] = `
+Object {
+  "seriesId": "series123",
+  "title": "Series Title",
+  "type": "[CalculationSelection] Set Bearing Series",
+}
+`;
+
+exports[`CalculationSelectionActions should create setBearingType action 1`] = `
+Object {
+  "title": "Type Title",
+  "type": "[CalculationSelection] Set Bearing Type",
+  "typeId": "type123",
+}
+`;
+
+exports[`CalculationSelectionActions should create setCurrentStep action 1`] = `
+Object {
+  "step": 1,
+  "type": "[CalculationSelection] Set Current Step",
+}
+`;
+
+exports[`CalculationSelectionActions should create setMeasurementMethod action 1`] = `
+Object {
+  "measurementMethod": "method123",
+  "type": "[CalculationSelection] Set Measurement Method",
+}
+`;
+
+exports[`CalculationSelectionActions should create setMeasurementMethods action 1`] = `
+Object {
+  "measurementMethods": Array [
+    Object {
+      "id": "1",
+      "text": "Method 1",
+    },
+  ],
+  "type": "[CalculationSelection] Set measurement methods",
+}
+`;
+
+exports[`CalculationSelectionActions should create setMountingMethod action 1`] = `
+Object {
+  "mountingMethod": "method123",
+  "type": "[CalculationSelection] Set Mounting Method",
+}
+`;
+
+exports[`CalculationSelectionActions should create setMountingMethods action 1`] = `
+Object {
+  "mountingMethods": Array [
+    Object {
+      "id": "1",
+      "text": "Method 1",
+    },
+  ],
+  "type": "[CalculationSelection] Set mounting methods",
+}
+`;
+
+exports[`CalculationSelectionActions should create setPreflightOptions action 1`] = `
+Object {
+  "type": "[CalculationSelection] set preflight options",
+}
+`;
+
+exports[`CalculationSelectionActions should create updateMountingMethodAndCurrentStep action 1`] = `
+Object {
+  "mountingMethod": "method123",
+  "type": "[CalculationSelection] Update Mounting Method and Current Step",
+}
+`;

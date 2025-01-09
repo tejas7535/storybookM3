@@ -22,7 +22,9 @@ describe('CalculationResultSelector', () => {
   describe('getCalculationInputs', () => {
     describe('when inputs are not defined', () => {
       it('should return undefined', () => {
-        expect(getCalculationInputs(state)).toBeUndefined();
+        const result = getCalculationInputs.projector(state);
+
+        expect(result).toBeUndefined();
       });
     });
 
@@ -49,7 +51,8 @@ describe('CalculationResultSelector', () => {
   describe('getMountingRecommendations', () => {
     describe('when mounting recommendations are not defined', () => {
       it('should return empty array', () => {
-        expect(getMountingRecommendations(state)).toEqual([]);
+        const result = getMountingRecommendations.projector(state);
+        expect(result).toEqual([]);
       });
     });
 
@@ -73,8 +76,9 @@ describe('CalculationResultSelector', () => {
 
   describe('getMountingTools', () => {
     describe('when mounting tools are not defined', () => {
-      it('should return empty array', () => {
-        expect(getMountingTools(state)).toBeUndefined();
+      it('should return empty object', () => {
+        const result = getMountingTools.projector(state);
+        expect(result).toBeUndefined();
       });
     });
 
@@ -105,7 +109,8 @@ describe('CalculationResultSelector', () => {
   describe('getCalculationMessages', () => {
     describe('when messages are not defined', () => {
       it('should return default messages', () => {
-        expect(getCalculationMessages(state)).toEqual({
+        const result = getCalculationMessages.projector(state);
+        expect(result).toEqual({
           errors: [],
           notes: [],
           warnings: [],
@@ -135,7 +140,8 @@ describe('CalculationResultSelector', () => {
   describe('isResultAvailable', () => {
     describe('when result is not available', () => {
       it('should return false', () => {
-        expect(isResultAvailable(state)).toBe(false);
+        const result = isResultAvailable.projector(state);
+        expect(result).toBe(false);
       });
     });
 

@@ -1,48 +1,28 @@
-@if (active) {
-  <ng-container *transloco="let t; read: 'result'">
-    @if (result$ | ngrxPush; as result) {
-      <schaeffler-html-report
-        [htmlReportUrl]="result.htmlReportUrl | mmHostMapping"
-        [downloadReport]="result.pdfReportUrl | mmHostMapping"
-        [errorMsg]="errorMsg"
-        [actionText]="actionText"
-        [reportSelector]="reportSelector"
-      >
-        <div class="flex flex-col py-4 md:flex-row">
-          <a
-            mat-flat-button
-            color="primary"
-            class="m-2 grow uppercase"
-            [href]="result.pdfReportUrl | mmHostMapping"
-            [disabled]="!(pdfReportReady$ | ngrxPush)"
-          >
-            <div class="flex-row flex items-center justify-center">
-              <span>
-                {{ t('downloadReport') }}
-              </span>
-              @if (!(pdfReportReady$ | ngrxPush)) {
-                <div class="pl-2">
-                  <mat-spinner [diameter]="20"></mat-spinner>
-                </div>
-              }
-            </div>
-          </a>
-          <button
-            mat-button
-            class="m-2 grow uppercase text-link"
-            (click)="resetWizard()"
-          >
-            {{ t('startNewCalculation') }}
-          </button>
-        </div>
-      </schaeffler-html-report>
-    }
-    @if (!((result$ | ngrxPush) || (error$ | ngrxPush))) {
-      <div
-        class="w-full h-full flex flex-row justify-around items-center relative flex-1 flex-grow mt-[20%]"
-      >
-        <schaeffler-loading-spinner></schaeffler-loading-spinner>
+<ng-container *transloco="let t; read: 'result'">
+  @if (reportBodyURL()) {
+    <schaeffler-html-report
+      [htmlReportUrl]="reportBodyURL() | mmHostMapping"
+      [downloadReport]="''"
+      [errorMsg]="errorMsg"
+      [actionText]="actionText"
+      [reportSelector]="reportSelector"
+    >
+      <div class="flex flex-col py-4 md:flex-row">
+        <button
+          mat-button
+          class="m-2 grow uppercase text-link"
+          (click)="resetWizard()"
+        >
+          {{ t('startNewCalculation') }}
+        </button>
       </div>
-    }
-  </ng-container>
-}
+    </schaeffler-html-report>
+  }
+  @if (!reportBodyURL()) {
+    <div
+      class="w-full h-full flex flex-row justify-around items-center relative flex-1 flex-grow mt-[20%]"
+    >
+      <schaeffler-loading-spinner></schaeffler-loading-spinner>
+    </div>
+  }
+</ng-container>

@@ -1,5 +1,3 @@
-import { ObjectProperty } from '@caeonline/dynamic-forms';
-
 export interface Report {
   rel: string;
   href: string;
@@ -16,6 +14,13 @@ export interface RawValueContent {
   value: string | number;
 }
 
-export interface RawValue extends ObjectProperty {
+// todo remove once report result is fixed
+export interface RawValue {
   initialValue?: string | number;
+  name: string;
+  value: any;
+  visualizationValue?: any;
+  dimension1?: any;
+  dimension2?: any;
+  dimension3?: any;
 }

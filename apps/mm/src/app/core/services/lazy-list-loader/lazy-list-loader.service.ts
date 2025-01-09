@@ -2,20 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
-import { BearinxListValue, LazyListLoader } from '@caeonline/dynamic-forms';
+import { ListValue } from '@mm/shared/models/lazy-list-loader/mm-list-value.model';
 
 import { environment } from '../../../../environments/environment';
 import {
-  IDCO_DESIGNATION,
-  IDMM_HYDRAULIC_NUT_TYPE,
-  RSY_BEARING,
-} from '../../../shared/constants/dialog-constant';
-import {
-  MMBearingPreflightField,
   MMComplexResponse,
   MMResponseVariants,
   MMSimpleResponse,
-  PreflightRequestBody,
 } from '../../../shared/models';
 import { RestService } from '../';
 
@@ -29,18 +22,15 @@ const isSimple = (response: MMResponseVariants): response is MMSimpleResponse =>
 @Injectable({
   providedIn: 'root',
 })
-export class LazyListLoaderService implements LazyListLoader {
+export class LazyListLoaderService {
+  public baseImageURL = environment.baseUrl.replace('/v1', '');
+
   public constructor(private readonly restService: RestService) {}
 
   public loadOptions(
     url: string,
     values: { name: string; value: string | number }[]
-  ): Observable<BearinxListValue[]> {
-    if (url.endsWith(environment.preflightPath)) {
-      return this.preflight(values);
-    }
-
-    // TODO: check lint rules
+  ): Observable<ListValue[]> {
     // eslint-disable-next-line unicorn/no-array-reduce
     const requestUrl = values.reduce(
       (filledUrl, { name, value }) =>
@@ -55,13 +45,13 @@ export class LazyListLoaderService implements LazyListLoader {
             ({ _media, data: { id, title } }) => ({
               id,
               title,
-              image: _media[0].href,
+              image: this.getImageUrl(_media[0].href),
             })
           );
         }
         if (isSimple(response)) {
           return response.data.map(({ _media, data }) => ({
-            image: _media ? _media[0]?.href : undefined,
+            image: _media ? this.getImageUrl(_media[0]?.href) : undefined,
             ...data,
           }));
         }
@@ -78,41 +68,15 @@ export class LazyListLoaderService implements LazyListLoader {
     );
   }
 
-  private preflight(
-    values: { name: string; value: string | number }[]
-  ): Observable<BearinxListValue[]> {
-    // TODO: check lint rules
-    // eslint-disable-next-line unicorn/no-array-reduce
-    const postData = values.reduce(
-      (data, { name, value }) => ({
-        ...data,
-        [name === RSY_BEARING ? IDCO_DESIGNATION : name]: value,
-      }),
-      {}
-    );
+  private getImageUrl(wrongImageUrl: string): string {
+    const fileName = this.extractFilename(wrongImageUrl);
 
-    return this.restService
-      .getBearingPreflightResponse(postData as PreflightRequestBody)
-      .pipe(
-        map(({ data: { input } }) => {
-          // TODO reduce code reuse between this and runtime requester
-          // TODO: check lint rules
-          // eslint-disable-next-line unicorn/no-array-reduce
-          const allFields: MMBearingPreflightField[] = input.reduce(
-            (inputs, { fields }) => [...inputs, ...fields],
-            []
-          );
+    return `${this.baseImageURL}/Images/${fileName}`;
+  }
 
-          const nutField = allFields.find(
-            ({ id }) => id === IDMM_HYDRAULIC_NUT_TYPE
-          );
+  private extractFilename(url: string): string {
+    const filename = url.slice(Math.max(0, url.lastIndexOf('/') + 1));
 
-          if (!nutField || !nutField.range) {
-            throw new Error(`Cannot find ${IDMM_HYDRAULIC_NUT_TYPE} field`);
-          }
-
-          return nutField.range.map(({ id, title: text }) => ({ id, text }));
-        })
-      );
+    return filename;
   }
 }

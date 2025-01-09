@@ -1,215 +1,106 @@
 <ng-container *transloco="let t">
-  <cae-dynamic-form
-    [description]="dialog"
-    [model]="model"
-    [object]="object"
-    (loaded)="dynamicFormLoaded($event)"
+  <mm-qualtrics-info-banner
+    class="block m-6 mb-3 mr-2"
+  ></mm-qualtrics-info-banner>
+  <mat-horizontal-stepper
+    schaefflerSeperatedSteps
+    (selectionChange)="selectStep($event)"
+    [selectedIndex]="currentStep()"
+    linear="true"
+    #stepper
   >
-    <div
-      *caeLayout="let metaArray; let pages = pages; let form = form"
-      class="content"
-    >
-      <div class="-ml-4">
-        <mm-pages-stepper
-          #stepper
-          [pages]="pages"
-          [maxPageId]="maxPageId$ | ngrxPush"
-          [activePageId]="activePageId$ | ngrxPush"
-          [inactivePageId]="inactivePageId$ | ngrxPush"
-          (activePageIdChange)="handleActivePageIdChange($event)"
-        >
-        </mm-pages-stepper>
-      </div>
-      @if (activeBearing$ | ngrxPush; as activeBearing) {
-        <div class="mb-4">
-          <span class="text-title-medium">
-            {{ activeBearing }}
-          </span>
-        </div>
-      }
-      <div class="w-full">
-        @if ((activePageId$ | ngrxPush) === RSY_PAGE_BEARING_TYPE) {
-          <div class="mt-8 mb-4 max-w-sm sm:mb-8">
-            <mm-bearing-search
-              (bearing)="selectBearing($event)"
-              [selectedBearing]="selectedBearingOption$ | ngrxPush"
-            ></mm-bearing-search>
-          </div>
-          <div class="mb-4">
-            <mm-horizontal-separator [text]="t('form.searchManually')">
-              <mat-slide-toggle
-                color="primary"
-                [(ngModel)]="manualBearing"
-              ></mat-slide-toggle
-            ></mm-horizontal-separator>
-          </div>
-        }
-        @for (
-          pagedMeta of pagedMetas$ | ngrxPush;
-          track pagedMeta;
-          let pageIndex = $index
-        ) {
-          @if (pagedMeta.page.id === (activePageId$ | ngrxPush)) {
-            <div
-              [ngClass]="{
-                hidden:
-                  !manualBearing && pagedMeta.page.id === RSY_PAGE_BEARING_TYPE
-              }"
-            >
-              @for (meta of pagedMeta.metas; track meta) {
-                @if (
-                  meta.member.id !== RSY_BEARING_SERIES &&
-                  meta.member.id !== RSY_BEARING
-                ) {
-                  @if (
-                    meta.page.visible &&
-                    !isCalculationOptions(pagedMeta.page.id)
-                  ) {
-                    <div>
-                      <div
-                        [ngClass]="{
-                          'mt-8 max-w-md rounded border border-border p-4 sm:w-[26rem]':
-                            meta.member.id === IDMM_MEASSURING_METHOD
-                        }"
-                      >
-                        @if (
-                          meta.member.text &&
-                          hasHeadline(meta.page.id, meta.member.id)
-                        ) {
-                          <h6>
-                            {{ t(meta.member.text) }}
-                          </h6>
-                        }
-                        <div
-                          [ngClass]="{
-                            '-mb-5 mt-4':
-                              meta.member.id === IDMM_MEASSURING_METHOD
-                          }"
-                        >
-                          @if (meta.member.id === IDMM_MOUNTING_METHOD) {
-                            <div class="mt-4">
-                              @if (measuringMethodSet()) {
-                                <mm-horizontal-separator
-                                  [text]="
-                                    t('form.select', {
-                                      fieldname: meta.member.text | transloco
-                                    })
-                                  "
-                                ></mm-horizontal-separator>
-                              }
-                            </div>
-                          }
-                          <cae-member-control
-                            [class.wide]="!meta.member.text"
-                            [meta]="meta"
-                          ></cae-member-control>
-                        </div>
-                      </div>
-                    </div>
-                  }
-                } @else {
-                  <ng-template #inBoxControl>
-                    @if (
-                      meta.page.visible &&
-                      meta.member.text &&
-                      hasHeadline(meta.page.id, meta.member.id)
-                    ) {
-                      <h6>
-                        {{ t(meta.member.text) }}
-                      </h6>
-                    }
-                    <cae-member-control
-                      [class.wide]="!meta.member.text"
-                      [meta]="meta"
-                    ></cae-member-control>
-                  </ng-template>
-                }
-              }
-              <div
-                [ngClass]="{
-                  'mt-8 w-full rounded border border-border p-4':
-                    isCalculationOptions(pagedMeta.page.id)
-                }"
-              >
-                <div
-                  [ngClass]="{
-                    'mt-8 rounded border border-border p-4 sm:max-w-xs':
-                      pagedMeta.page.id === RSY_PAGE_BEARING_TYPE &&
-                      form.value.objects[0].properties[0].value
-                  }"
-                >
-                  @for (template of inBoxTemplates; track template) {
-                    <ng-container [ngTemplateOutlet]="template"></ng-container>
-                  }
-                  @if (isCalculationOptions(pagedMeta.page.id)) {
-                    <div class="mb-4">
-                      <mm-calculation-options
-                        [pageMeta]="pagedMeta"
-                      ></mm-calculation-options>
-                    </div>
-                  }
-                  <ng-container *ngrxLet="pagedMetas$ as pagedMetas">
-                    @if (
-                      stepper.hasNext &&
-                      (pagedMeta.valid$ | ngrxPush) &&
-                      pagedMeta.page.id !== PAGE_MOUNTING_MANAGER_SEAT &&
-                      pagedMeta.page.id !==
-                        PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS
-                    ) {
-                      <button
-                        mat-raised-button
-                        [disabled]="!(pagedMeta.valid$ | ngrxPush)"
-                        color="primary"
-                        (click)="next(pagedMeta.page.id, pagedMetas, stepper)"
-                        class="w-full uppercase md:max-w-xs"
-                      >
-                        {{
-                          stepper.hasResultNext
-                            ? t('form.calculateResults')
-                            : t('form.select', {
-                                fieldname:
-                                  activePageName$ | ngrxPush | transloco
-                              })
-                        }}
-                      </button>
-                    }
-                  </ng-container>
-                </div>
+    <ng-container>
+      @for (step of steps(); track step.name; let index = $index) {
+        <mat-step
+          state="number"
+          [editable]="step.editable"
+          [completed]="step.complete"
+          optional="false"
+          ><ng-template matStepLabel>{{ t(step.text) }}</ng-template>
+
+          @switch (index) {
+            @case (0) {
+              <h5>{{ t(step.text) }}</h5>
+              <div class="mt-8 mb-4 max-w-sm sm:mb-8">
+                <mm-bearing-search
+                  (bearing)="selectBearing($event)"
+                  [selectedBearing]="selectedBearingOption()"
+                ></mm-bearing-search>
               </div>
-            </div>
+            }
+            @case (1) {
+              @if (index === currentStep()) {
+                <h5>{{ t(step.text) }}</h5>
+                <mm-bearing-seat-step
+                  [bearingSeats]="bearingSeats()"
+                  [bearing]="selectedBearing()"
+                  (selectedOption)="selectBearingSeatOption($event)"
+                ></mm-bearing-seat-step>
+              }
+            }
+            @case (2) {
+              @if (index === currentStep()) {
+                <h5>{{ t(step.text) }}</h5>
+                <mm-measuring-and-mounting-step
+                  [measurementMethods]="measurementMethods()"
+                  [mountingMethods]="mountingMethds()"
+                  [bearing]="selectedBearing()"
+                  [mountingMethodSelectionLabel]="
+                    t('dialog.selectMountingLabel')
+                  "
+                  [measuringMethodLabel]="t('dialog.measuringMethod')"
+                  (selectedOption)="selectMountingMethod($event)"
+                  (selectedMeasurementMethod)="selectMeasurementMethod($event)"
+                ></mm-measuring-and-mounting-step>
+              }
+            }
+            @case (3) {
+              @if (index === currentStep()) {
+                <mm-calculation-options-step [preflightData]="preflighData()">
+                </mm-calculation-options-step>
+              }
+            }
+            @case (4) {
+              <div class="mb-4 flex w-full justify-end">
+                <mat-slide-toggle
+                  color="primary"
+                  labelPosition="before"
+                  [(ngModel)]="showCompactView"
+                >
+                  {{ 'show compact view' }}
+                </mat-slide-toggle>
+              </div>
+
+              @if (showCompactView()) {
+                <mm-report-result-page> </mm-report-result-page>
+              } @else {
+                <mm-result-page></mm-result-page>
+              }
+            }
+            @default {
+              <p>Default content</p>
+            }
           }
+        </mat-step>
+
+        @if (isAppDeliveryEmbedded) {
+          <mm-app-store-buttons
+            class="flex justify-center mb-8"
+            [title]="t('shared.appStoreButtonsTitle')"
+          ></mm-app-store-buttons>
         }
 
-        @if (!stepper.hasNext && !isProduction) {
-          <div class="mb-4 flex w-full justify-end">
-            <mat-slide-toggle
-              color="primary"
-              labelPosition="before"
-              [(ngModel)]="showCompactView"
-            >
-              {{ 'show compact view' }}
-            </mat-slide-toggle>
-          </div>
-        }
-
-        <mm-result-page
-          [active]="!stepper.hasNext && !showCompactView"
-          [bearing]="activeBearing$ | ngrxPush"
-          [form]="form"
-          #resultPage
-        ></mm-result-page>
-
-        @if (!stepper.hasNext && showCompactView) {
-          <mm-report-result-page [form]="form"> </mm-report-result-page>
-        }
-      </div>
-    </div>
-  </cae-dynamic-form>
-
-  @if (isAppDeliveryEmbedded) {
-    <mm-app-store-buttons
-      class="flex justify-center mb-8"
-      [title]="t('shared.appStoreButtonsTitle')"
-    ></mm-app-store-buttons>
-  }
+        <!-- [aria-labelledby]="
+        step.enabled
+          ? step.index === (currentStep$ | ngrxPush)
+            ? 'active'
+            : 'enabled'
+          : 'disabled'
+      " -->
+      }
+    </ng-container>
+    <ng-template matStepperIcon="edit" let-index="index">
+      {{ index + 1 }}
+    </ng-template>
+  </mat-horizontal-stepper>
 </ng-container>

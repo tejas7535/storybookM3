@@ -17,6 +17,13 @@ export const calculationResultReducer = createReducer(
     })
   ),
   on(
+    CalculationResultActions.calculateResult,
+    (state): CalculationResultState => ({
+      ...state,
+      isLoading: true,
+    })
+  ),
+  on(
     CalculationResultActions.fetchCalculationJsonResult,
     (state): CalculationResultState => ({
       ...state,
@@ -36,6 +43,14 @@ export const calculationResultReducer = createReducer(
     (state): CalculationResultState => ({
       ...state,
       isLoading: false,
+    })
+  ),
+  on(
+    CalculationResultActions.setCalculationHtmlBodyUrlResult,
+    (state, { htmlBodyUrl }): CalculationResultState => ({
+      ...state,
+      isLoading: false,
+      htmlBodyUrl,
     })
   )
 );

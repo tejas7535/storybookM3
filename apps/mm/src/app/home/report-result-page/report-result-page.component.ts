@@ -1,17 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 import { CalculationResultFacade } from '@mm/core/store/facades/calculation-result.facade';
-import { CalculationParameters } from '@mm/core/store/models/calculation-parameters-state.model';
 import { ResultTypeConfig } from '@mm/core/store/models/calculation-result-state.model';
-import { RawValue, RawValueContent } from '@mm/shared/models';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { ResultReportComponent } from '@schaeffler/result-report';
@@ -43,9 +34,7 @@ import { SleeveConnectorComponent } from './sleeve-connector/sleeve-connector.co
     ReportSelectionComponent,
   ],
 })
-export class ReportResultPageComponent implements OnChanges {
-  @Input() public form: UntypedFormGroup;
-
+export class ReportResultPageComponent {
   public readonly inputs$ = this.calculationResultFacade.getCalculationInputs$;
   public readonly mountingRecommendations$ =
     this.calculationResultFacade.mountingRecommendations$;
@@ -68,43 +57,11 @@ export class ReportResultPageComponent implements OnChanges {
     private readonly calculationResultFacade: CalculationResultFacade
   ) {}
 
-  ngOnChanges(_changes: SimpleChanges): void {
-    this.fetchCalculationResultLinks(this.form);
-  }
-
   scrollIntoView(itemName: ResultTypeConfig['name']) {
     const scrollOptions: ScrollIntoViewOptions = {
       behavior: 'smooth',
       block: 'start',
     };
     document.querySelector(`#${itemName}`)?.scrollIntoView(scrollOptions);
-  }
-
-  private fetchCalculationResultLinks(form: UntypedFormGroup): void {
-    const formProperties = form
-      .getRawValue()
-      // eslint-disable-next-line unicorn/no-array-reduce
-      .objects[0].properties.reduce(
-        (
-          {
-            dimension1: _dimension1,
-            initialValue: _initialValue,
-            ...prevEntry
-          }: RawValue,
-          { name, value }: RawValueContent
-        ) => {
-          const key = name === 'RSY_BEARING' ? 'IDCO_DESIGNATION' : name;
-
-          return {
-            ...prevEntry,
-            [key]: value,
-          };
-        },
-        {}
-      );
-
-    this.calculationResultFacade.fetchCalculationResultResourcesLinks(
-      formProperties as CalculationParameters
-    );
   }
 }

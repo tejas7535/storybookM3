@@ -27,14 +27,19 @@ export const isResultAvailable = createSelector(
   (state) => !!state?.result && !state.isLoading
 );
 
+export const isLoading = createSelector(
+  getCalculationResultState,
+  (state) => state.isLoading
+);
+
 export const getMountingRecommendations = createSelector(
   getCalculationResultState,
-  (state) => state?.result.mountingRecommendations || []
+  (state) => state?.result?.mountingRecommendations || []
 );
 
 export const getMountingTools = createSelector(
   getCalculationResultState,
-  (state) => state?.result.mountingTools
+  (state) => state?.result?.mountingTools
 );
 
 export const hasMountingTools = createSelector(
@@ -82,4 +87,9 @@ export const getReportSelectionTypes = createSelector(
 
     return reportSelectionTypes;
   }
+);
+
+export const getHtmlBodyUrl = createSelector(
+  getCalculationResultState,
+  (state) => state?.htmlBodyUrl
 );

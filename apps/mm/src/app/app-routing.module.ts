@@ -21,12 +21,14 @@ export const appRoutePaths: Routes = [
   },
   {
     path: `${RoutePath.HomePath}/:step/:id/:language/:separator/:head/:iframe`,
-    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+    loadComponent: () =>
+      import('./home/home.component').then((m) => m.HomeComponent),
     canActivate: [LanguageGuard],
   },
   {
     path: RoutePath.HomePath,
-    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+    loadComponent: () =>
+      import('./home/home.component').then((m) => m.HomeComponent),
     canActivate: [LanguageGuard],
   },
 

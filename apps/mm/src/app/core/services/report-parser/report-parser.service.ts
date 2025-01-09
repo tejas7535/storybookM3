@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
 import { CalculationResultReportInput } from '@mm/core/store/models/calculation-result-report-input.model';

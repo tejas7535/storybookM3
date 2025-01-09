@@ -6,5 +6,6 @@ export const APP_STATE_MOCK: AppState = {
     navigationId: 0,
   },
   calculationResult: undefined,
-  calculationParameters: undefined,
+  calculationSelection: undefined,
+  calculationOptions: undefined,
 };

@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -7,19 +8,21 @@ import {
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 
-import { map, Observable, of, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
+
+import { CalculationSelectionFacade } from '@mm/core/store/facades/calculation-selection/calculation-selection.facade';
+import { PushPipe } from '@ngrx/component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { StringOption } from '@schaeffler/inputs';
 import { SearchModule } from '@schaeffler/inputs/search';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { BEARING } from '../../shared/constants/tracking-names';
-import { BearingOption, SearchEntry } from '../../shared/models';
-import { SharedModule } from '../../shared/shared.module';
-import { RestService } from './../../core/services/rest/rest.service';
+import { BearingOption } from '../../shared/models';
 @Component({
   standalone: true,
-  imports: [SharedModule, SearchModule],
+  imports: [SearchModule, PushPipe, SharedTranslocoModule],
   selector: 'mm-bearing-search',
   templateUrl: './bearing-search.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,29 +32,38 @@ export class BearingSearchComponent {
   @Output() public bearing = new EventEmitter<string | undefined>();
 
   public myControl = new UntypedFormControl('');
-  public options$: Observable<StringOption[]> = of([]);
-  public loading = false;
+
+  public bearingSelectionLoading$ = this.calculationSelectionFacade.isLoading$;
+
+  public bearingResultList$: Observable<StringOption[]> =
+    this.calculationSelectionFacade.bearingResultList$.pipe(
+      map((bearingDesignation) => {
+        if (!bearingDesignation) {
+          return [];
+        }
+        const options: StringOption[] = bearingDesignation.map((result) => ({
+          id: result.id,
+          title: result.title,
+        }));
+
+        return options;
+      })
+    );
+
+  private readonly minimumChars = 2;
 
   public constructor(
-    private readonly restService: RestService,
-    private readonly applicationInsightsService: ApplicationInsightsService
+    private readonly calculationSelectionFacade: CalculationSelectionFacade,
+    private readonly applicationInsightsService: ApplicationInsightsService,
+    private readonly changeDetector: ChangeDetectorRef
   ) {}
 
   public getBearings(searchQuery: string): void {
-    if (searchQuery) {
-      this.loading = true;
-
-      this.options$ = this.restService.getBearingSearch(searchQuery).pipe(
-        map((response) =>
-          response.data.map(({ data: { title, id } }: SearchEntry) => ({
-            title,
-            id,
-          }))
-        ),
-        tap(() => (this.loading = false))
-      );
+    if (searchQuery?.length >= this.minimumChars) {
+      this.calculationSelectionFacade.searchBearing(searchQuery);
+      this.changeDetector.detectChanges();
     } else {
-      this.options$ = of([]);
+      this.calculationSelectionFacade.resetBearingSelection();
     }
   }
 

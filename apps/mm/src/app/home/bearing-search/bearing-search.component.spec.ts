@@ -1,37 +1,26 @@
-import { ReactiveFormsModule } from '@angular/forms';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-
 import { of } from 'rxjs';
 
+import { CalculationSelectionFacade } from '@mm/core/store/facades/calculation-selection/calculation-selection.facade';
+import { BEARING } from '@mm/shared/constants/tracking-names';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { StringOption } from '@schaeffler/inputs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { BEARING } from '../../shared/constants/tracking-names';
-import { BEARING_SEARCH_RESULT_MOCK } from './../../../testing/mocks/rest.service.mock';
-import { RestService } from './../../core/services/rest/rest.service';
 import { BearingSearchComponent } from './bearing-search.component';
 
 describe('BearingSearchComponent', () => {
-  let component: BearingSearchComponent;
   let spectator: Spectator<BearingSearchComponent>;
+  let component: BearingSearchComponent;
+  let calculationSelectionFacade: CalculationSelectionFacade;
+  let applicationInsightsService: ApplicationInsightsService;
 
   const createComponent = createComponentFactory({
     component: BearingSearchComponent,
-    imports: [
-      ReactiveFormsModule,
-      PushPipe,
-      provideTranslocoTestingModule({ en: {} }),
-    ],
+    imports: [PushPipe, provideTranslocoTestingModule({ en: {} })],
     providers: [
-      {
-        provide: RestService,
-        useValue: {
-          getBearingSearch: jest.fn(() => of(BEARING_SEARCH_RESULT_MOCK)),
-        },
-      },
       {
         provide: ApplicationInsightsService,
         useValue: {
@@ -39,82 +28,72 @@ describe('BearingSearchComponent', () => {
         },
       },
       {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
+        provide: CalculationSelectionFacade,
+        useValue: {
+          bearingResultList$: of([
+            { id: '1', title: 'Bearing 1' },
+            { id: '2', title: 'Bearing 2' },
+          ]),
+          resetBearingSelection: jest.fn(),
+          searchBearing: jest.fn(),
+        },
       },
     ],
+    mocks: [ApplicationInsightsService],
   });
 
   beforeEach(() => {
     spectator = createComponent();
-    component = spectator.debugElement.componentInstance;
+    component = spectator.component;
+    calculationSelectionFacade = spectator.inject(CalculationSelectionFacade);
+    applicationInsightsService = spectator.inject(ApplicationInsightsService);
   });
 
-  it('should create', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('#getBearings', () => {
-    it('should call getBearings at restService', () => {
-      const mockSearchQuery = 'irgendNQuatsch';
-
-      component.getBearings(mockSearchQuery);
-
-      component.options$.subscribe((value) =>
-        expect(value).toEqual([{ title: 'entryTitle', id: 'entryId' }])
-      );
-
-      expect(component['restService'].getBearingSearch).toHaveBeenCalledWith(
-        mockSearchQuery
-      );
+  it('should initialize bearingResultList$ correctly', () => {
+    component.bearingResultList$.subscribe((result) => {
+      expect(result).toEqual([
+        { id: '1', title: 'Bearing 1' },
+        { id: '2', title: 'Bearing 2' },
+      ]);
     });
   });
 
-  describe('#onOptionSelected', () => {
-    it('should emit the bearing and track Bearing select event', () => {
-      const mockSelectionId = 'mockAutoCompleteId';
-      const mockBearingName = 'mockBearingName';
-
-      component.myControl.setValue({
-        title: mockBearingName,
-        id: mockSelectionId,
-      });
-
-      const spy = jest.spyOn(component.bearing, 'emit');
-      const trackBearingSelectionSpy = jest.spyOn(
-        component,
-        'trackBearingSelection'
-      );
-
-      component.onOptionSelected({
-        id: mockSelectionId,
-        title: mockBearingName,
-      });
-
-      expect(spy).toHaveBeenCalledWith('mockAutoCompleteId');
-      expect(trackBearingSelectionSpy).toHaveBeenCalledWith(
-        mockBearingName,
-        mockSelectionId
-      );
-    });
+  it('should call searchBearing when getBearings is called with valid query', () => {
+    const searchQuery = 'bearing';
+    component.getBearings(searchQuery);
+    expect(calculationSelectionFacade.searchBearing).toHaveBeenCalledWith(
+      searchQuery
+    );
   });
 
-  describe('#trackBearingSelection', () => {
-    it('should call the logEvent method', () => {
-      const mockSelectionId = 'mockAutoCompleteId';
-      const mockBearingName = 'mockBearingName';
+  it('should call resetBearingSelection when getBearings is called with invalid query', () => {
+    const searchQuery = 'b';
+    component.getBearings(searchQuery);
+    expect(calculationSelectionFacade.resetBearingSelection).toHaveBeenCalled();
+  });
 
-      const trackingSpy = jest.spyOn(
-        component['applicationInsightsService'],
-        'logEvent'
-      );
+  it('should emit bearing id when onOptionSelected is called', () => {
+    const selection: StringOption = { id: '1', title: 'Bearing 1' };
+    jest.spyOn(component.bearing, 'emit');
 
-      component.trackBearingSelection(mockBearingName, mockSelectionId);
+    component.onOptionSelected(selection);
 
-      expect(trackingSpy).toHaveBeenCalledWith(BEARING, {
-        name: mockBearingName,
-        id: mockSelectionId,
-      });
+    expect(component.bearing.emit).toHaveBeenCalledWith('1');
+  });
+
+  it('should log event when trackBearingSelection is called', () => {
+    const bearing = 'Bearing 1';
+    const selectionId = '1';
+
+    component.trackBearingSelection(bearing, selectionId);
+
+    expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(BEARING, {
+      name: bearing,
+      id: selectionId,
     });
   });
 });

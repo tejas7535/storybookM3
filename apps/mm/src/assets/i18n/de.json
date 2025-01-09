@@ -1,12 +1,11 @@
 {
   "form": {
-    "select": "{{fieldname}} auswählen",
+    "select": "Auswählen",
     "calculateResults": "Berechnung starten",
-    "searchManually": "oder manuell konfigurieren",
     "chooseOption": "Lager auswählen",
     "searchLoading": "Lade Daten...",
     "searchNoResults": "Keine Ergebnisse",
-    "selected": "ausgewählt"
+    "selected": "Ausgewählt"
   },
   "sidebar": {
     "language": {
@@ -32,6 +31,8 @@
     "measuringAndMounting": "Messen & Montage",
     "measuringMethod": "Messmethode",
     "mounting": "Montage",
+    "selectMountingLabel": "Montagemethode auswählen",
+    "calculationOptionsTitle": "Montage & Wellendaten",
     "mountingMethod": "Montagemethode",
     "calculationOptions": "Berechnungsoptionen",
     "hydraulicNutType": "Typ der Hydraulikmutter",

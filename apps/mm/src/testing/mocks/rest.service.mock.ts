@@ -8,11 +8,11 @@ import {
 import {
   MMBaseResponse,
   MMBearingPreflightResponse,
-  MMBearingsMaterialResponse,
   MMComplexResponse,
   MMSimpleResponse,
   Report,
   SearchResult,
+  ShaftMaterialResponse,
 } from './../../app/shared/models';
 
 export const BEARING_SEARCH_RESULT_MOCK: SearchResult = {
@@ -77,10 +77,10 @@ export const BEARING_PREFLIGHT_RESPONSE_MOCK: MMBearingPreflightResponse = {
   },
 };
 
-export const BEARING_MATERIAL_RESPONSE_MOCK: MMBearingsMaterialResponse = {
+export const BEARING_MATERIAL_RESPONSE_MOCK: ShaftMaterialResponse = {
   id: 'the id',
-  IDMM_MODULUS_OF_ELASTICITY: 'some value',
-  IDMM_POISSON_RATIO: 'some value',
+  emodul: 'some value',
+  nue: 'some value',
 };
 
 export const LOAD_OPTIONS_RESPONSE_MOCK: MMBaseResponse = {
@@ -99,7 +99,7 @@ export const LOAD_OPTIONS_RESPONSE_MOCK_SIMPLE: MMSimpleResponse = {
         id: 'mockId',
         title: 'mockTitle',
       },
-      _media: [{ href: 'testHref' }],
+      _media: [{ href: 'path/image.png' }],
     },
     {
       data: {
@@ -118,7 +118,7 @@ export const LOAD_OPTIONS_RESPONSE_MOCK_COMPLEX: MMComplexResponse = {
           id: 'mockId',
           title: 'mockTitle',
         },
-        _media: [{ href: 'mockHref' }],
+        _media: [{ href: 'path/image.png' }],
       },
     ],
   },

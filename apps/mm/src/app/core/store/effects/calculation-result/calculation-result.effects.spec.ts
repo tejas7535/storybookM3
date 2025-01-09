@@ -3,14 +3,16 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 
 import { ReportParserService } from '@mm/core/services/report-parser/report-parser.service';
-import { ResultPageService } from '@mm/home/result-page/result-page.service';
+import { ResultPageService } from '@mm/core/services/result-page/result-page.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { CalculationResultActions } from '../../actions/calculation-result';
-import { CalculationParametersFacade } from '../../facades/calculation-parameters/calculation-parameters.facade';
+import { CalculationSelectionActions } from '../../actions/calculation-selection';
+import { CalculationSelectionFacade } from '../../facades/calculation-selection/calculation-selection.facade';
 import { CalculationResultEffects } from './calculation-result.effects';
 
 describe('CalculationResultEffects', () => {
@@ -27,20 +29,21 @@ describe('CalculationResultEffects', () => {
     parseResponse: jest.fn(),
   };
 
-  const calculationParametersFacadeMock = {
-    getCalculationParameters$: of({}),
-    setCalculationParameters: jest.fn(),
-  };
-
   const createService = createServiceFactory({
     service: CalculationResultEffects,
     providers: [
+      provideMockStore(),
       provideMockActions(() => actions$),
       { provide: ResultPageService, useValue: resultPageServiceMock },
       { provide: ReportParserService, useValue: reportParserServiceMock },
+
       {
-        provide: CalculationParametersFacade,
-        useValue: calculationParametersFacadeMock,
+        provide: CalculationSelectionFacade,
+        useValue: {
+          getBearing$: jest.fn(),
+          getBearingSeatId$: jest.fn(),
+          getCurrentStep$: jest.fn(),
+        },
       },
     ],
   });
@@ -52,71 +55,6 @@ describe('CalculationResultEffects', () => {
 
   it('should be created', () => {
     expect(effects).toBeTruthy();
-  });
-
-  describe('fetchCalculationResultResourcesLinks$', () => {
-    it('should fetch calculation result resources links', () => {
-      const getResultSpy = jest
-        .spyOn(resultPageServiceMock, 'getResult')
-        .mockImplementation(() =>
-          of({ jsonReportUrl: 'https://bearing-api/report.json' })
-        );
-
-      return marbles((m) => {
-        const action =
-          CalculationResultActions.fetchCalculationResultResourcesLinks({
-            formProperties: {} as any,
-          });
-
-        actions$ = m.hot('-a', { a: action });
-
-        const expected = m.cold('-b', {
-          b: CalculationResultActions.fetchCalculationJsonResult({
-            jsonReportUrl: 'https://bearing-api/report.json',
-          }),
-        });
-
-        m.expect(effects.fetchCalculationResultResourcesLinks$).toBeObservable(
-          expected
-        );
-        m.flush();
-
-        expect(getResultSpy).toHaveBeenCalled();
-      })();
-    });
-
-    it('should handle failure', () => {
-      const errorResponse = new HttpErrorResponse({
-        error: { detail: 'Error detail' },
-        status: 500,
-      });
-
-      jest
-        .spyOn(resultPageServiceMock, 'getResult')
-        .mockImplementation(() => throwError(() => errorResponse));
-
-      return marbles((m) => {
-        const action =
-          CalculationResultActions.fetchCalculationResultResourcesLinks({
-            formProperties: {} as any,
-          });
-
-        actions$ = m.hot('-a', { a: action });
-
-        const expected = m.cold('-b', {
-          b: CalculationResultActions.fetchCalculationResultResourcesLinksFailure(
-            {
-              error: 'Error detail',
-            }
-          ),
-        });
-
-        m.expect(effects.fetchCalculationResultResourcesLinks$).toBeObservable(
-          expected
-        );
-        m.flush();
-      })();
-    });
   });
 
   describe('fetchCalculationJsonResult$', () => {
@@ -138,10 +76,11 @@ describe('CalculationResultEffects', () => {
 
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-b', {
+        const expected = m.cold('-(bc)', {
           b: CalculationResultActions.setCalculationJsonResult({
             result: 'parsed-result-from-service' as any,
           }),
+          c: CalculationSelectionActions.setCurrentStep({ step: 4 }),
         });
 
         m.expect(effects.fetchCalculationJsonResult$).toBeObservable(expected);

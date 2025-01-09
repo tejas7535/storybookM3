@@ -13,11 +13,10 @@
   "form": {
     "select": "Seleccione el {{fieldname}}",
     "calculateResults": "Calcular los resultados",
-    "searchManually": "o configurar manualmente",
     "chooseOption": "Elija una opción",
     "searchLoading": "Obtención de datos...",
     "searchNoResults": "No hay resultados",
-    "selected": "seleccionado"
+    "selected": "Seleccionado"
   },
   "dialog": {
     "bearing": "Rodamiento",
@@ -32,8 +31,10 @@
     "measuringAndMounting": "medición & de montaje",
     "measuringMethod": "Método de medición",
     "mounting": "Montaje",
+    "selectMountingLabel": "Seleccione el Método de montaje",
     "mountingMethod": "Método de montaje",
     "calculationOptions": "Opciones de cálculo",
+    "calculationOptionsTitle": "Montaje & Datos del eje",
     "hydraulicNutType": "Tipo de tuerca hidráulica",
     "previousMountings": "Número de montajes previos",
     "previousMountingsListValues": {

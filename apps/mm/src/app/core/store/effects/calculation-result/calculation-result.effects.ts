@@ -2,63 +2,83 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, mergeMap, switchMap } from 'rxjs/operators';
 
 import { ReportParserService } from '@mm/core/services/report-parser/report-parser.service';
-import { ResultPageService } from '@mm/home/result-page/result-page.service';
+import { ResultPageService } from '@mm/core/services/result-page/result-page.service';
 import { Result } from '@mm/shared/models';
+import { CalculationRequestPayload } from '@mm/shared/models/calculation-request/calculation-request.model';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
 import { CalculationResultActions } from '../../actions/calculation-result';
-import { CalculationParametersFacade } from '../../facades/calculation-parameters/calculation-parameters.facade';
+import { CalculationSelectionActions } from '../../actions/calculation-selection';
+import { CalculationOptionsFacade } from '../../facades/calculation-options/calculation-options.facade';
+import { CalculationSelectionFacade } from '../../facades/calculation-selection/calculation-selection.facade';
 import { CalculationResult } from '../../models/calculation-result-state.model';
 
 @Injectable()
 export class CalculationResultEffects {
-  public fetchCalculationResultResourcesLinks$ = createEffect(() => {
+  public calculateResult$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(CalculationResultActions.fetchCalculationResultResourcesLinks),
+      ofType(CalculationResultActions.calculateResult),
       concatLatestFrom(() => [
-        this.calculationParametersFacade.getCalculationParameters$,
+        this.calculationSelectionFacade.getBearing$(),
+        this.calculationSelectionFacade.getBearingSeatId$(),
+        this.calculationSelectionFacade.getMeasurementMethod$(),
+        this.calculationSelectionFacade.getMountingMethod$(),
+        this.calculationOptionsFacade.options$,
       ]),
-      switchMap(([_action, previousCalculationParameters]) => {
-        if (previousCalculationParameters) {
-          /* 
-          parameters should be compared here and return cached value if they are the same, so we will save 
-          currently there are 2 noticed problems.
-            - selected parameters are different from the cached ones but the result is the same ( even selecting the same elements on the UI)
-            naming IDMM_RADIAL_CLEARANCE_REDUCTION and IDMM_RADIAL_CLEARANCE_REDUCTION
-            - with the third attempt of the same choices there is a crtical issue which breaks the application https://jira.schaeffler.com/browse/UFTABI-8047
+      switchMap(
+        ([
+          _action,
+          bearing,
+          seatId,
+          measurementMethod,
+          mountingMethod,
+          options,
+        ]) => {
+          const requestPayload: CalculationRequestPayload = {
+            IDCO_DESIGNATION: bearing.bearingId,
+            IDMM_BEARING_SEAT: seatId,
+            IDMM_CLEARANCE_REDUCTION_INPUT: options.mountingOption,
+            IDMM_HYDRAULIC_NUT_TYPE: options.hudraulicNutType.value,
+            IDMM_INNER_RING_EXPANSION: options.innerRingExpansion,
+            IDMM_INNER_SHAFT_DIAMETER: options.shaftDiameter,
+            IDMM_MEASSURING_METHOD: measurementMethod,
+            IDMM_MODULUS_OF_ELASTICITY: options.modulusOfElasticity,
+            IDMM_MOUNTING_METHOD: mountingMethod,
+            IDMM_NUMBER_OF_PREVIOUS_MOUNTINGS:
+              options.numberOfPreviousMountings,
+            IDMM_POISSON_RATIO: options.poissonRatio,
+            IDMM_RADIAL_CLEARANCE_REDUCTION: options.radialClearanceReduction,
+            IDMM_SHAFT_MATERIAL: options.shaftMaterial,
+            RSY_BEARING_SERIES: bearing.series.seriesId,
+            RSY_BEARING_TYPE: bearing.type.typeId,
+          };
 
-            console.log('are parameters the same?');
-          console.log(
-            JSON.stringify(previousCalculationParameters) ===
-              JSON.stringify(_action.formProperties)
-          );
-          */
-        }
-
-        this.calculationParametersFacade.setCalculationParameters(
-          _action.formProperties
-        );
-
-        return this.resultPageService.getResult(_action.formProperties).pipe(
-          map((data: Result) => {
-            return CalculationResultActions.fetchCalculationJsonResult({
-              jsonReportUrl: data.jsonReportUrl,
-            });
-          }),
-          catchError((_error: HttpErrorResponse) =>
-            of(
-              CalculationResultActions.fetchCalculationResultResourcesLinksFailure(
-                {
-                  error: _error.error.detail,
-                }
+          return this.resultPageService.getResult(requestPayload).pipe(
+            mergeMap((data: Result) => {
+              return of(
+                CalculationResultActions.fetchCalculationJsonResult({
+                  jsonReportUrl: data.jsonReportUrl,
+                }),
+                CalculationResultActions.setCalculationHtmlBodyUrlResult({
+                  htmlBodyUrl: data.htmlReportUrl,
+                })
+              );
+            }),
+            catchError((_error: HttpErrorResponse) =>
+              of(
+                CalculationResultActions.fetchCalculationResultResourcesLinksFailure(
+                  {
+                    error: _error.error.detail,
+                  }
+                )
               )
             )
-          )
-        );
-      })
+          );
+        }
+      )
     );
   });
 
@@ -67,13 +87,16 @@ export class CalculationResultEffects {
       ofType(CalculationResultActions.fetchCalculationJsonResult),
       switchMap((action) => {
         return this.resultPageService.getJsonReport(action.jsonReportUrl).pipe(
-          map((data) => {
+          mergeMap((data) => {
             const calculationResult: CalculationResult =
               this.reportParserService.parseResponse(data);
 
-            return CalculationResultActions.setCalculationJsonResult({
-              result: calculationResult,
-            });
+            return of(
+              CalculationResultActions.setCalculationJsonResult({
+                result: calculationResult,
+              }),
+              CalculationSelectionActions.setCurrentStep({ step: 4 })
+            );
           }),
           catchError((_error: HttpErrorResponse) =>
             of(
@@ -91,6 +114,7 @@ export class CalculationResultEffects {
     private readonly actions$: Actions,
     private readonly resultPageService: ResultPageService,
     private readonly reportParserService: ReportParserService,
-    private readonly calculationParametersFacade: CalculationParametersFacade
+    private readonly calculationSelectionFacade: CalculationSelectionFacade,
+    private readonly calculationOptionsFacade: CalculationOptionsFacade
   ) {}
 }

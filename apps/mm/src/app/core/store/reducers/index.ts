@@ -8,10 +8,12 @@ import {
 } from '@ngrx/store';
 
 import { environment } from '../../../../environments/environment';
-import { CalculationParametersState } from '../models/calculation-parameters-state.model';
+import { CalculationOptionsState } from '../models/calculation-options-state.model';
 import { CalculationResultState } from '../models/calculation-result-state.model';
-import { calculationParametersReducer } from './calculation-parameters/calculation-parameters.reducer';
+import { CalculationSelectionState } from '../models/calculation-selection-state.model';
+import { calculationOptionsReducer } from './calculation-options/calculation-options.reducer';
 import { calculationResultReducer } from './calculation-result/calculation-result.reducer';
+import { calculationSelectionReducer } from './calculation-selection/calculation-selection.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -21,14 +23,16 @@ export interface RouterStateUrl {
 
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
+  calculationSelection: CalculationSelectionState;
   calculationResult: CalculationResultState;
-  calculationParameters: CalculationParametersState;
+  calculationOptions: CalculationOptionsState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
+  calculationSelection: calculationSelectionReducer,
   calculationResult: calculationResultReducer,
-  calculationParameters: calculationParametersReducer,
+  calculationOptions: calculationOptionsReducer,
 };
 
 // eslint-disable-next-line unicorn/no-negated-condition
@@ -36,11 +40,14 @@ export const metaReducers: MetaReducer<AppState>[] = !environment.production
   ? []
   : /* istanbul ignore next: very difficult */ [];
 
+export const getCalculationSelectionState =
+  createFeatureSelector<CalculationSelectionState>('calculationSelection');
+
+export const getCalculationOptionsSelectionState =
+  createFeatureSelector<CalculationOptionsState>('calculationOptions');
+
 export const getCalculationResultState =
   createFeatureSelector<CalculationResultState>('calculationResult');
-
-export const getCalculationParametersState =
-  createFeatureSelector<CalculationParametersState>('calculationParameters');
 
 export const getRouterState =
   createFeatureSelector<fromRouter.RouterReducerState<RouterStateUrl>>(

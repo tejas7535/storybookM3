@@ -1,5 +1,4 @@
 import { waitForAsync } from '@angular/core/testing';
-import { UntypedFormGroup } from '@angular/forms';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 import { BehaviorSubject } from 'rxjs';
@@ -29,7 +28,6 @@ import { ReportSelectionComponent } from './report-selection/report-selection.co
 describe('ReportResultPageComponent', () => {
   let spectator: Spectator<ReportResultPageComponent>;
   let component: ReportResultPageComponent;
-  let calculationResultFacade: CalculationResultFacade;
 
   const inputsSubject = new BehaviorSubject<CalculationResultReportInput[]>([]);
   const messagesSubject = new BehaviorSubject<ReportMessages>({
@@ -85,7 +83,6 @@ describe('ReportResultPageComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
-    calculationResultFacade = spectator.inject(CalculationResultFacade);
   });
 
   it('should create the component', () => {
@@ -172,42 +169,6 @@ describe('ReportResultPageComponent', () => {
             });
           });
         });
-      });
-    });
-  });
-
-  describe('when onChanges is called', () => {
-    it('should call fetchCalculationResultLinks', () => {
-      const form: UntypedFormGroup = {
-        getRawValue: jest.fn().mockReturnValue({
-          objects: [
-            {
-              properties: [
-                {
-                  name: 'RSY_BEARING',
-                  value: 'some series',
-                },
-                {
-                  name: 'SOME_OTHER_NAME',
-                  value: 'some other value',
-                },
-              ],
-            },
-          ],
-        }),
-      } as Partial<UntypedFormGroup> as UntypedFormGroup;
-
-      spectator.setInput({
-        form,
-      });
-
-      spectator.component.ngOnChanges({});
-
-      expect(
-        calculationResultFacade.fetchCalculationResultResourcesLinks
-      ).toHaveBeenCalledWith({
-        IDCO_DESIGNATION: 'some series',
-        SOME_OTHER_NAME: 'some other value',
       });
     });
   });

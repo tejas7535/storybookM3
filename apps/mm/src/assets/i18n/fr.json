@@ -13,11 +13,10 @@
   "form": {
     "select": "Sélectionner le {{fieldname}}",
     "calculateResults": "Calculer les résultats",
-    "searchManually": "ou configurer manuellement",
     "chooseOption": "Choisissez une option",
     "searchLoading": "Récupération des données...",
     "searchNoResults": "Aucun résultat",
-    "selected": "sélectionné"
+    "selected": "Sélectionné"
   },
   "dialog": {
     "bearing": "Roulement",
@@ -32,8 +31,10 @@
     "measuringAndMounting": "Mesure et de montage",
     "measuringMethod": "Méthode de mesure",
     "mounting": "Montage",
+    "selectMountingLabel": "Sélectionner le Méthode de montage",
     "mountingMethod": "Méthode de montage",
     "calculationOptions": "Options de calcul",
+    "calculationOptionsTitle": "Montage & Caractéristiques de l'arbre",
     "hydraulicNutType": "Type d’écrou hydraulique",
     "previousMountings": "Nombre de montages antérieurs",
     "previousMountingsListValues": {

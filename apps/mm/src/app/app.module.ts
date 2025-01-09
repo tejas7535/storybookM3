@@ -1,5 +1,8 @@
 /* eslint-disable @nx/enforce-module-boundaries */
 import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslocoService } from '@jsverse/transloco';
@@ -15,10 +18,10 @@ import {
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { SettingsComponent } from './core/components/settings/settings.component';
 import { CoreModule } from './core/core.module';
 import { StoreModule } from './core/store/store.module';
 import { responsiblePerson } from './shared/constants/legal-constants';
-import { MaterialModule } from './shared/material.module';
 
 export function DynamicPurpose(translocoService: TranslocoService) {
   return translocoService.selectTranslateObject('legal.purpose');
@@ -36,9 +39,12 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
     CoreModule,
     StoreModule,
     AppShellModule,
-    MaterialModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatSlideToggleModule,
     PushPipe,
     BannerModule,
+    SettingsComponent,
   ],
   providers: [
     {

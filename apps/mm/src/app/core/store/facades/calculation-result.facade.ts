@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
+import { CalculationOptionsActions } from '../actions';
 import { CalculationResultActions } from '../actions/calculation-result';
 import { CalculationParameters } from '../models/calculation-parameters-state.model';
 import { CalculationResultSelector } from '../selectors';
@@ -22,6 +23,10 @@ export class CalculationResultFacade {
     CalculationResultSelector.isResultAvailable
   );
 
+  public readonly isLoading$ = this.store.select(
+    CalculationResultSelector.isLoading
+  );
+
   public readonly mountingRecommendations$ = this.store.select(
     CalculationResultSelector.getMountingRecommendations
   );
@@ -36,6 +41,10 @@ export class CalculationResultFacade {
 
   public readonly reportSelectionTypes$ = this.store.select(
     CalculationResultSelector.getReportSelectionTypes
+  );
+
+  public readonly htmlBodyReportUrl$ = this.store.select(
+    CalculationResultSelector.getHtmlBodyUrl
   );
 
   constructor(private readonly store: Store) {}
@@ -54,5 +63,9 @@ export class CalculationResultFacade {
     this.store.dispatch(
       CalculationResultActions.fetchCalculationJsonResult({ jsonReportUrl })
     );
+  }
+
+  calculateResultFromForm(): void {
+    this.store.dispatch(CalculationOptionsActions.calculateResultFromOptions());
   }
 }

@@ -1,0 +1,13 @@
+@if (bearingSeats()?.values?.length > 0) {
+  <div class="text-subtitle-1">{{ bearing()?.title }}</div>
+  <mm-selection-cards
+    [options]="bearingSeats().values"
+    [selectedId]="bearingSeats()?.selectedValueId"
+    (selectedOption)="cardAction($event)"
+  >
+  </mm-selection-cards>
+} @else {
+  <div>
+    <schaeffler-loading-spinner [relative]="true"></schaeffler-loading-spinner>
+  </div>
+}

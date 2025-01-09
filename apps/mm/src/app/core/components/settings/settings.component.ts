@@ -1,12 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 import { Subscription } from 'rxjs';
 
 import { OneTrustService } from '@altack/ngx-onetrust';
 import { TranslocoService } from '@jsverse/transloco';
 
-import { LanguageSelectComponent } from '@schaeffler/transloco/components';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+import {
+  LanguageSelectComponent,
+  LanguageSelectModule,
+} from '@schaeffler/transloco/components';
 
 import { LocaleService } from '../../services/locale/locale.service';
 import { MMSeparator } from '../../services/locale/separator.enum';
@@ -19,6 +25,14 @@ interface AvailableOption {
 @Component({
   selector: 'mm-settings',
   templateUrl: './settings.component.html',
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    MatSelectModule,
+    CommonModule,
+    LanguageSelectModule,
+    SharedTranslocoModule,
+  ],
 })
 export class SettingsComponent implements OnInit, OnDestroy {
   @Input() public embedded = false;

@@ -1,0 +1,33 @@
+<div class="text-subtitle-1">{{ bearing()?.title }}</div>
+<form [formGroup]="measurementForm">
+  @if (measurementMethods?.values.length > 0) {
+    <div class="mt-8 max-w-md rounded border border-border p-4 flex flex-col">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ measuringMethodLabel() }}</mat-label>
+        <mat-select
+          formControlName="measurementMethod"
+          (ngModelChange)="onMeasurementMethodChange($event)"
+        >
+          @for (method of measurementMethods.values; track method.id) {
+            <mat-option [value]="method.id">{{ method.text }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  }
+
+  @if (mountingMethods()?.values.length > 0) {
+    <div class="mt-2 uppercase">
+      <mm-horizontal-separator
+        [text]="mountingMethodSelectionLabel()"
+      ></mm-horizontal-separator>
+    </div>
+
+    <mm-selection-cards
+      [options]="mountingMethods().values"
+      [selectedId]="mountingMethods().selectedValueId"
+      (selectedOption)="cardAction($event)"
+    >
+    </mm-selection-cards>
+  }
+</form>

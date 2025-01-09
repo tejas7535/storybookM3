@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PreflightDataParserService should format preflight data correctly 1`] = `
+Object {
+  "hudraulicNutType": Object {
+    "options": Array [
+      Object {
+        "label": "HYDNUT1000-E",
+        "value": "LB_HYDNUT1000_E",
+      },
+    ],
+    "value": "LB_HYDNUT1000_E",
+  },
+  "innerRingExpansion": "0.450",
+  "modulusOfElasticity": "210000",
+  "mountingOption": "LB_RADIAL_CLEARANCE_REDUCTION",
+  "numberOfPreviousMountings": "LB_ZERO_TO_ONE",
+  "poissonRatio": "0.3",
+  "radialClearanceReduction": "450.0",
+  "shaftDiameter": "0",
+  "shaftMaterial": "STEEL_20_DEGREE",
+}
+`;
