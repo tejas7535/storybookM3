@@ -247,6 +247,10 @@ export class AlertRuleTableComponent implements OnInit {
               lockPinned: true,
               valueFormatter: col.valueFormatter,
               floatingFilter,
+              maxWidth: col?.maxWidth,
+              tooltipComponent: col?.tooltipComponent,
+              tooltipComponentParams: col?.tooltipComponentParams,
+              tooltipField: col?.tooltipField,
             })) || []),
             {
               cellClass: ['fixed-action-column'],

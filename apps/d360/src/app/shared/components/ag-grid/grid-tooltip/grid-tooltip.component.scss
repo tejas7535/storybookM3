@@ -3,10 +3,23 @@
   height: 100%;
   background-color: #666;
   border-radius: 4px;
-  padding: 6px 3px;
+  padding: 8px 12px;
+
+  &.wide {
+    width: 100%;
+    max-width: 500px;
+  }
 
   .tooltip-text {
     color: #fff;
     text-align: center;
+
+    &.line-breaks {
+      white-space: pre-line;
+    }
+
+    &.text-left {
+      text-align: left;
+    }
   }
 }

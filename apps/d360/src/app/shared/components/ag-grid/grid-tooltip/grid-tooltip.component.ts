@@ -3,6 +3,12 @@ import { Component } from '@angular/core';
 import { ITooltipAngularComp } from 'ag-grid-angular';
 import { ITooltipParams } from 'ag-grid-community';
 
+export interface ToolTipParameter extends ITooltipParams {
+  wide?: boolean;
+  lineBreaks?: boolean;
+  textLeft?: boolean;
+}
+
 @Component({
   selector: 'd360-grid-tooltip',
   standalone: true,
@@ -11,9 +17,9 @@ import { ITooltipParams } from 'ag-grid-community';
   styleUrls: ['./grid-tooltip.component.scss'],
 })
 export class GridTooltipComponent implements ITooltipAngularComp {
-  public params!: ITooltipParams;
+  public params!: ToolTipParameter;
 
-  agInit(params: ITooltipParams): void {
+  public agInit(params: ToolTipParameter): void {
     this.params = params;
   }
 }

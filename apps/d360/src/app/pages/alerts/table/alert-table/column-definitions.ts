@@ -89,7 +89,7 @@ export const getAlertTableColumnDefinitions = (
     {
       property: 'comment',
       colId: 'alert.comment.column_header',
-      cellRenderer: 'undefined',
+      cellRenderer: undefined,
       maxWidth: 375,
       sortable: false,
       tooltipValueGetter: (value) => value,

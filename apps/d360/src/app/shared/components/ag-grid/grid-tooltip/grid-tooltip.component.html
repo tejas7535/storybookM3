@@ -1,3 +1,9 @@
-<div class="tooltip-wrapper">
-  <div class="tooltip-text">{{ params.value }}</div>
+<div class="tooltip-wrapper" [class.wide]="params?.wide">
+  <div
+    class="tooltip-text"
+    [class.line-breaks]="params?.lineBreaks"
+    [class.text-left]="params?.textLeft"
+  >
+    {{ params.value }}
+  </div>
 </div>

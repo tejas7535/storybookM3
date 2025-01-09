@@ -20,4 +20,24 @@ describe('GridTooltipComponent', () => {
   it('should create', () => {
     expect(spectator.component).toBeTruthy();
   });
+
+  describe('agInit', () => {
+    it('sets correct data', () => {
+      spectator.component.agInit({
+        wide: true,
+        lineBreaks: true,
+        textLeft: true,
+        location: 'UNKNOWN',
+        value: '123',
+      } as any);
+
+      expect(spectator.component.params).toEqual({
+        wide: true,
+        lineBreaks: true,
+        textLeft: true,
+        location: 'UNKNOWN',
+        value: '123',
+      });
+    });
+  });
 });
