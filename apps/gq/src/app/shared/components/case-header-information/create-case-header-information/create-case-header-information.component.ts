@@ -266,17 +266,6 @@ export class CreateCaseHeaderInformationComponent
         this.createCaseFacade.updateCurrencyOfPositionItems(currency);
       });
 
-    this.headerInfoForm
-      .get('quotationToDate')
-      ?.valueChanges.pipe(
-        takeUntilDestroyed(this.destroyRef),
-        filter((quotationToDate: Date) => !!quotationToDate),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.quotationToChangedByUser = true;
-      });
-
     this.headerInfoFormChanged$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((formValues) => {

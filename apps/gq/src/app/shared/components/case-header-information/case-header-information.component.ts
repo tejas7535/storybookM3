@@ -268,4 +268,10 @@ export abstract class CaseHeaderInformationComponent implements OnInit {
       value.value2 ? `| ${value.value2}` : ''
     }`;
   }
+
+  /* Mark that quotationToDate was modified by user only
+   when user manually did the change */
+  onQuotationToDateChange() {
+    this.quotationToChangedByUser = true;
+  }
 }

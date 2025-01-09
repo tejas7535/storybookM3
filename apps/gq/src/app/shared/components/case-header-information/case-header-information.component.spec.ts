@@ -543,4 +543,10 @@ describe('CaseHeaderInformationComponent', () => {
       expect(formattedResult).toBe('');
     });
   });
+  describe('onQuotationToDateChange', () => {
+    test('should set quotationToChangedByUser to true', () => {
+      component.onQuotationToDateChange();
+      expect(component.quotationToChangedByUser).toBeTruthy();
+    });
+  });
 });

@@ -19,7 +19,6 @@ import { getMomentUtcStartOfDayDate } from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { Store } from '@ngrx/store';
-import moment from 'moment';
 import { MockComponent, MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
@@ -243,14 +242,6 @@ describe('CreateCaseHeaderInformationComponent', () => {
       expect(component.hasChanges.emit).toHaveBeenCalled();
       expect(component.isValid.emit).toHaveBeenCalled();
       expect(component.data.emit).toHaveBeenCalled();
-    });
-
-    test('should set quotationToChangedByUser to true when quotationToDate changes', () => {
-      component.quotationToChangedByUser = false;
-      component.headerInfoForm
-        .get('quotationToDate')
-        ?.setValue(moment(Date.now()));
-      expect(component.quotationToChangedByUser).toBeTruthy();
     });
     test('should modify inputs and disable initially', () => {
       component['modifyInputs'] = jest.fn();

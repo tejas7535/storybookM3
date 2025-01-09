@@ -136,6 +136,7 @@
             <mat-label>{{ t('quotationToDateLabel') }}</mat-label>
             <input
               matInput
+              (dateChange)="onQuotationToDateChange()"
               autocomplete="off"
               formControlName="quotationToDate"
               [required]="true"
