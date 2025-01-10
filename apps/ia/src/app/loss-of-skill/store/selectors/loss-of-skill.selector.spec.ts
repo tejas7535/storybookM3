@@ -1,4 +1,4 @@
-import { PmgmData } from '../../models';
+import { PmgmDataResponse } from '../../models';
 import { LossOfSkillState } from '..';
 import {
   getJobProfilesData,
@@ -42,7 +42,10 @@ describe('LossOfSkill Selector', () => {
         loading: false,
       },
       pmgm: {
-        data: [{ employee: 'Helmans' } as PmgmData],
+        data: {
+          pmgmData: [{ employee: 'Helmans' }],
+          responseModified: true,
+        } as PmgmDataResponse,
         errorMessage: undefined,
         loading: false,
       },
@@ -113,7 +116,7 @@ describe('LossOfSkill Selector', () => {
     test('should get data', () => {
       const result = getPmgmData(fakeState);
 
-      expect(result).toBe(fakeState.lossOfSkill.pmgm.data);
+      expect(result).toBe(fakeState.lossOfSkill.pmgm.data.pmgmData);
     });
   });
 });

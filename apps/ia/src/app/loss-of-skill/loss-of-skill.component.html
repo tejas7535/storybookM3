@@ -2,7 +2,10 @@
   <ng-container *disableOnProd>
     <mat-card class="mt-4">
       <h5 class="mb-5 font-bold">{{ t('pmgm.title') }}</h5>
-      <ia-pmgm [data]="pmgmData$ | ngrxPush"></ia-pmgm>
+      <ia-pmgm
+        [data]="pmgmData$ | ngrxPush"
+        [enoughRightsToShowAllEmployees]="enoughRightsToAllPmgmData$ | ngrxPush"
+      ></ia-pmgm>
     </mat-card>
   </ng-container>
   <mat-card class="mt-4">

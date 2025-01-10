@@ -135,6 +135,8 @@ export class PmgmComponent {
     },
   ];
 
+  @Input() enoughRightsToShowAllEmployees = false;
+
   private _data: PmgmData[] = [];
 
   @Input() set data(data: PmgmData[]) {

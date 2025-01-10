@@ -2,7 +2,7 @@ import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { EmployeesRequest } from '../../../shared/models';
 import {
   LostJobProfilesResponse,
-  PmgmData,
+  PmgmDataResponse,
   WorkforceResponse,
 } from '../../models';
 import {
@@ -134,7 +134,7 @@ describe('LossOfSkill Actions', () => {
 
   describe('loadPmgmDataSuccess', () => {
     test('should create an action', () => {
-      const data = [] as PmgmData[];
+      const data = {} as PmgmDataResponse;
       const action = loadPmgmDataSuccess({ data });
 
       expect(action).toEqual({

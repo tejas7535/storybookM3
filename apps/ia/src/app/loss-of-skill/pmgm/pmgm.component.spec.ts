@@ -62,6 +62,12 @@ describe('PmgmComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('enoughRightsToShowAllEmployees', () => {
+    test('should be false as default', () => {
+      expect(component.enoughRightsToShowAllEmployees).toBeFalsy();
+    });
+  });
+
   describe('columnDefs', () => {
     test('should return columnDefs', () => {
       expect(component.columnDefs[0].field).toEqual('employee');

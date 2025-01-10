@@ -21,7 +21,7 @@ import { updateUserSettingsSuccess } from '../../../user/store/actions/user.acti
 import { LossOfSkillService } from '../../loss-of-skill.service';
 import {
   LostJobProfilesResponse,
-  PmgmDataDto,
+  PmgmDataDtoResponse,
   WorkforceResponse,
 } from '../../models';
 import { PmgmMapperService } from '../../pmgm/pmgm-mapper.service';
@@ -159,9 +159,14 @@ export class LossOfSkillEffects {
       map((action) => action.request),
       switchMap((request: EmployeesRequest) =>
         this.lossOfSkillService.getPmgmData(request).pipe(
-          map((data: PmgmDataDto[]) =>
+          map((data: PmgmDataDtoResponse) =>
             loadPmgmDataSuccess({
-              data: this.pmgmMapperService.mapPmgmDataDtoToPmgmData(data),
+              data: {
+                pmgmData: this.pmgmMapperService.mapPmgmDataResponseToPmgmData(
+                  data.pmgmData
+                ),
+                responseModified: data.responseModified,
+              },
             })
           ),
           catchError((error) =>

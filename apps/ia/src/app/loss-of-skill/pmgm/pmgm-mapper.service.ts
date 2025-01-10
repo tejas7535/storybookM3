@@ -12,8 +12,8 @@ import {
   providedIn: 'root',
 })
 export class PmgmMapperService {
-  mapPmgmDataDtoToPmgmData(pmgmDataDto: PmgmDataDto[]): PmgmData[] {
-    return pmgmDataDto.map((dto) => {
+  mapPmgmDataResponseToPmgmData(pmgmData: PmgmDataDto[]): PmgmData[] {
+    return pmgmData.map((dto) => {
       const assessment = this.calculateAssessment(dto);
       const managerChange = this.calculateManagerChange(
         dto.isManager,

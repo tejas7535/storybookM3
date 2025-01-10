@@ -39,5 +39,10 @@ export const getLossOfSkillLeaversLoading = createSelector(
 
 export const getPmgmData = createSelector(
   selectLossOfSkillState,
-  (state: LossOfSkillState) => state.pmgm.data
+  (state: LossOfSkillState) => state.pmgm.data?.pmgmData
+);
+
+export const getHasUserEnoughRightsToPmgmData = createSelector(
+  selectLossOfSkillState,
+  (state: LossOfSkillState) => !state.pmgm.data?.responseModified
 );

@@ -10,7 +10,7 @@ import { ParamsCreatorService } from '../shared/http/params-creator.service';
 import { ApiVersion, EmployeesRequest } from '../shared/models';
 import {
   LostJobProfilesResponse,
-  PmgmDataDto,
+  PmgmDataDtoResponse,
   WorkforceResponse,
 } from './models';
 
@@ -85,16 +85,21 @@ export class LossOfSkillService {
     );
   }
 
-  getPmgmData(employeesRequest: EmployeesRequest): Observable<PmgmDataDto[]> {
+  getPmgmData(
+    employeesRequest: EmployeesRequest
+  ): Observable<PmgmDataDtoResponse> {
     const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
       employeesRequest.filterDimension,
       employeesRequest.value,
       employeesRequest.timeRange
     );
 
-    return this.http.get<PmgmDataDto[]>(`${ApiVersion.V1}/${this.PMGM_DATA}`, {
-      params,
-      context: withCache(),
-    });
+    return this.http.get<PmgmDataDtoResponse>(
+      `${ApiVersion.V1}/${this.PMGM_DATA}`,
+      {
+        params,
+        context: withCache(),
+      }
+    );
   }
 }

@@ -4,7 +4,7 @@ import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { EmployeesRequest } from '../../../shared/models';
 import {
   LostJobProfilesResponse,
-  PmgmData,
+  PmgmDataResponse,
   WorkforceResponse,
 } from '../../models';
 
@@ -68,7 +68,7 @@ export const loadPmgmData = createAction(
 
 export const loadPmgmDataSuccess = createAction(
   '[Loss of Skill] Load PMGM Data Success',
-  props<{ data: PmgmData[] }>()
+  props<{ data: PmgmDataResponse }>()
 );
 
 export const loadPmgmDataFailure = createAction(

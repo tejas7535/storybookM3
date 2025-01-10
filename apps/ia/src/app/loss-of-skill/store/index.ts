@@ -3,7 +3,7 @@ import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { ExitEntryEmployeesResponse } from '../../overview/models';
 import {
   LostJobProfilesResponse,
-  PmgmData,
+  PmgmDataResponse,
   WorkforceResponse,
 } from '../models';
 import {
@@ -42,7 +42,7 @@ export interface LossOfSkillState {
   };
   pmgm: {
     loading: boolean;
-    data: PmgmData[];
+    data: PmgmDataResponse;
     errorMessage: string;
   };
 }

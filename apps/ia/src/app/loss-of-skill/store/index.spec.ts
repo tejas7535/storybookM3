@@ -7,6 +7,7 @@ import {
   PmgmArrow,
   PmgmAssessment,
   PmgmData,
+  PmgmDataResponse,
   WorkforceResponse,
 } from '../models';
 import { initialState, lossOfSkillReducer, LossOfSkillState, reducer } from '.';
@@ -259,7 +260,7 @@ describe('LossOfSkill Reducer', () => {
       const fakeState: LossOfSkillState = {
         ...initialState,
         pmgm: {
-          data: {} as PmgmData[],
+          data: {} as PmgmDataResponse,
           errorMessage: undefined,
           loading: false,
         },
@@ -284,11 +285,14 @@ describe('LossOfSkill Reducer', () => {
           assessment: PmgmAssessment.GREEN,
         } as unknown as PmgmData,
       ];
-      const action = loadPmgmDataSuccess({ data });
+      const response = { pmgmData: data, responseModified: true };
+      const action = loadPmgmDataSuccess({
+        data: response,
+      });
       const fakeState: LossOfSkillState = {
         ...initialState,
         pmgm: {
-          data: {} as PmgmData[],
+          data: {} as PmgmDataResponse,
           errorMessage: undefined,
           loading: true,
         },
@@ -297,7 +301,7 @@ describe('LossOfSkill Reducer', () => {
       const state = lossOfSkillReducer(fakeState, action);
 
       expect(state.pmgm.loading).toBeFalsy();
-      expect(state.pmgm.data).toBe(data);
+      expect(state.pmgm.data).toBe(response);
     });
   });
 
@@ -309,7 +313,7 @@ describe('LossOfSkill Reducer', () => {
       const fakeState: LossOfSkillState = {
         ...initialState,
         pmgm: {
-          data: {} as PmgmData[],
+          data: {} as PmgmDataResponse,
           errorMessage: undefined,
           loading: true,
         },

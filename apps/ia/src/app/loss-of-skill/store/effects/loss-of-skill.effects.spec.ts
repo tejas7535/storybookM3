@@ -514,17 +514,22 @@ describe('LossOfSkill Effects', () => {
     test(
       'should load pmgm data',
       marbles((m) => {
-        pmgmMapperService.mapPmgmDataDtoToPmgmData = jest.fn(() => mappedData);
+        pmgmMapperService.mapPmgmDataResponseToPmgmData = jest.fn(
+          () => mappedData
+        );
         action = loadPmgmData({ request });
 
         const result = loadPmgmDataSuccess({
-          data: mappedData,
+          data: { pmgmData: mappedData, responseModified: true },
         });
 
         actions$ = m.hot('-a', { a: action });
 
         const response = m.cold('-a|', {
-          a: data,
+          a: {
+            pmgmData: data,
+            responseModified: true,
+          },
         });
         const expected = m.cold('--b', { b: result });
 
@@ -533,9 +538,9 @@ describe('LossOfSkill Effects', () => {
         m.expect(effects.loadPmgmData$).toBeObservable(expected);
         m.flush();
         expect(lossOfSkillService.getPmgmData).toHaveBeenCalledWith(request);
-        expect(pmgmMapperService.mapPmgmDataDtoToPmgmData).toHaveBeenCalledWith(
-          data
-        );
+        expect(
+          pmgmMapperService.mapPmgmDataResponseToPmgmData
+        ).toHaveBeenCalledWith(data);
       })
     );
 

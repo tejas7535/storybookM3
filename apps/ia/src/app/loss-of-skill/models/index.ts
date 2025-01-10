@@ -5,5 +5,7 @@ export * from './pmgm-arrow.enum';
 export * from './pmgm-assessment.enum';
 export * from './pmgm-data.model';
 export * from './pmgm-data-dto.model';
+export * from './pmgm-data-dto-response.model';
+export * from './pmgm-data-response.model';
 export * from './workforce.model';
 export * from './workforce-response.model';

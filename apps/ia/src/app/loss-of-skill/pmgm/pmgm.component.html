@@ -15,3 +15,11 @@
   (gridReady)="onGridReady($event)"
 >
 </ag-grid-angular>
+@if (data && !enoughRightsToShowAllEmployees) {
+  <span
+    class="text-warning !pt-0"
+    *transloco="let t; read: 'employeeListDialog'"
+  >
+    {{ t('enoughRightsToShowAllEmployees') }}
+  </span>
+}

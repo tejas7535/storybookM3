@@ -52,7 +52,7 @@ describe('PmgmMapperService', () => {
       service.calculateOverallRatingChange = jest.fn(() => PmgmArrow.DOWN);
       service.calculateLossIndicatorChange = jest.fn(() => PmgmArrow.RIGHT);
 
-      const result = service.mapPmgmDataDtoToPmgmData(dto);
+      const result = service.mapPmgmDataResponseToPmgmData(dto);
 
       expect(result).toEqual([
         {

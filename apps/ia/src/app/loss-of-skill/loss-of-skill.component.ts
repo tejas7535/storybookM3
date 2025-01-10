@@ -18,6 +18,7 @@ import {
   loadLossOfSkillWorkforce,
 } from './store/actions/loss-of-skill.actions';
 import {
+  getHasUserEnoughRightsToPmgmData,
   getJobProfilesData,
   getJobProfilesLoading,
   getLossOfSkillLeaversData,
@@ -42,6 +43,7 @@ export class LossOfSkillComponent implements OnInit {
   lossOfSkillLeaversData$: Observable<ExitEntryEmployeesResponse>;
   lossOfSkillLeaversLoading$: Observable<boolean>;
   pmgmData$: Observable<PmgmData[]>;
+  enoughRightsToAllPmgmData$: Observable<boolean>;
 
   constructor(private readonly store: Store) {}
 
@@ -64,6 +66,9 @@ export class LossOfSkillComponent implements OnInit {
       getLossOfSkillLeaversLoading
     );
     this.pmgmData$ = this.store.select(getPmgmData);
+    this.enoughRightsToAllPmgmData$ = this.store.select(
+      getHasUserEnoughRightsToPmgmData
+    );
   }
 
   triggerLoadWorkforce(jobKey: string): void {

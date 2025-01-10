@@ -7,7 +7,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { EmployeesRequest, FilterDimension } from '../shared/models';
 import { LossOfSkillService } from './loss-of-skill.service';
-import { JobProfile } from './models';
+import { JobProfile, PmgmDataResponse } from './models';
 
 describe('LossOfSkillService', () => {
   let httpMock: HttpTestingController;
@@ -112,6 +112,32 @@ describe('LossOfSkillService', () => {
 
       const req = httpMock.expectOne(
         `api/v1/leavers?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=${timeRange}&job_key=${jobKey}`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(mock);
+    });
+  });
+
+  describe('getPmgmData', () => {
+    test('should get pmgm data', () => {
+      const orgUnit = 'Schaeffler12';
+      const timeRange = '1-1';
+      const request = {
+        filterDimension: FilterDimension.ORG_UNIT,
+        value: orgUnit,
+        timeRange,
+      } as EmployeesRequest;
+      const mock: PmgmDataResponse = {
+        pmgmData: [],
+        responseModified: false,
+      };
+
+      service.getPmgmData(request).subscribe((response) => {
+        expect(response).toEqual(mock);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/pmgm-data?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=${timeRange}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
