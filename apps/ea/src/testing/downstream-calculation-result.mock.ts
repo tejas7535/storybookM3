@@ -22,6 +22,7 @@ export const DOWNSTREAM_API_RESULT_MOCK: DownstreamAPIResponse = {
       emissionFactor: 'LB_ELECTRIC_ENERGY',
       fossilEmissionFactor: 'LB_GASOLINE_E10',
       electricEmissionFactor: 'LB_EUROPEAN_UNION',
+      rotationType: 'LB_ROTATING_INNERRING',
     },
     loadcases: [
       {

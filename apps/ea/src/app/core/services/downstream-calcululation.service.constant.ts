@@ -3,6 +3,7 @@ import {
   EmissionFactor,
   FossilFactor,
   LubricationMethodType,
+  RotationType,
 } from './downstream-calculation.service.interface';
 
 function createInvertedMap<K, V>(map: Map<K, V>): Map<V, K> {
@@ -21,6 +22,14 @@ export const ENERGY_SOURCES_TYPES = new Map<EmissionFactor, string>([
 
 export const ENERGY_SOURCES_VALUES = createInvertedMap(ENERGY_SOURCES_TYPES);
 
+export const CONDITION_OF_ROTATION_TYPES = new Map<RotationType, string>([
+  ['LB_ROTATING_INNERRING', 'innerring'], // only valid option for downstream calculation, other selection returns error.
+  ['LB_ROTATING_OUTERRING', 'outerring'],
+]);
+
+export const CONDITION_OF_ROTATION_VALUES = createInvertedMap(
+  CONDITION_OF_ROTATION_TYPES
+);
 export const LUBRICATION_METHOD_KEY_MAPPING = new Map<
   LubricationMethodType,
   string

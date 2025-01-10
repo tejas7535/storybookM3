@@ -96,7 +96,8 @@ export class PDFREport {
       this.data.ratingLife ||
       this.data.frictionalPowerloss ||
       this.data.lubricationInfo ||
-      this.data.overrollingFrequency;
+      this.data.overrollingFrequency ||
+      this.data.emissions;
 
     return hasBearinxCalculation;
   }

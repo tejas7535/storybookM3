@@ -271,9 +271,7 @@ export class PDFReportService {
                           titleTooltip: hasMultipleLoadcases
                             ? ''
                             : CHARTS_COLORS[1],
-                          warning: hasMultipleLoadcases
-                            ? ''
-                            : downstreamDisclaimer,
+                          warning: downstreamDisclaimer,
                         },
                         {
                           title: totalTitle,
@@ -328,7 +326,7 @@ export class PDFReportService {
                   const loadcases: { items: ResultReportLargeItem[] }[] =
                     emissions.co2_downstream.loadcases?.length > 1
                       ? emissions.co2_downstream.loadcases.map(
-                          (loadcase, index, array) => ({
+                          (loadcase, index) => ({
                             items: [
                               {
                                 title: loadcase.id,
@@ -338,10 +336,6 @@ export class PDFReportService {
                                 unit: 'kg',
                                 short: 'CO₂e',
                                 titleTooltip: CHARTS_COLORS[index + 1],
-                                warning:
-                                  index === array.length - 1
-                                    ? downstreamDisclaimer
-                                    : '',
                               },
                               {
                                 title: loadcase.id,

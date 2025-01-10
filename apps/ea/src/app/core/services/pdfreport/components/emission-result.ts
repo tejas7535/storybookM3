@@ -31,6 +31,7 @@ const DefaultUpstreamResultOptions: ResultTableAttributes = {
 
 const emmisionResultSpacing = {
   blockMargin: 12,
+  smallBlockMargin: 6,
   spaceBetweenItems: 40,
 };
 
@@ -81,6 +82,7 @@ function renderError(
   const currentColor = doc.getTextColor();
   doc.setTextColor(DefaultDocumentColors.mediumEmphasisTextColor);
   doc.setFontSize(12);
+  itemYPos += emmisionResultSpacing.smallBlockMargin;
 
   const titleLines: string[] = doc.splitTextToSize(error.title, 350);
 
@@ -184,16 +186,47 @@ function renderResultReportLargeItem(
   index: number,
   xPosition: number,
   yPosition: number,
-  isDryRun: boolean
-): { w: number; h: number; itemsHeight: number } {
+  isDryRun: boolean,
+  containsMultipleItems: boolean = false,
+  isLoadcase: boolean = false,
+  warningTop: boolean = false
+): { w: number; h: number; itemsHeight: number; startYPosition: number } {
   let itemYPos = yPosition;
+  let startYPosition = yPosition;
   let itemXPos = xPosition;
   let itemsHeight = 0;
 
   const valSeparator = 4;
   const isFirst = index === 0;
-  doc.setFontSize(12);
 
+  const indicatorXOffset = 10;
+
+  if (item.warning && warningTop) {
+    doc.setFontSize(10);
+    const color = doc.getTextColor();
+    doc.setTextColor(DefaultDocumentColors.lowEmphasisTextColor);
+
+    const lines: string[] = doc.splitTextToSize(item.warning, 400);
+    const disclaimerResult = renderMultipleLineText(
+      lines,
+      doc,
+      itemXPos + indicatorXOffset,
+      itemYPos,
+      isDryRun
+    );
+
+    itemYPos = disclaimerResult.h + emmisionResultSpacing.smallBlockMargin;
+    itemsHeight +=
+      disclaimerResult.itemsHeight + emmisionResultSpacing.smallBlockMargin;
+
+    doc.setTextColor(color);
+
+    startYPosition =
+      disclaimerResult.h + emmisionResultSpacing.smallBlockMargin;
+    resetFont(doc);
+  }
+  const titleFontSize = containsMultipleItems ? 10 : 12;
+  doc.setFontSize(titleFontSize);
   const [_itemTitleWidth, itemTitleHeight] = estimateTextDimensions(
     doc,
     `${item.title}`,
@@ -209,7 +242,6 @@ function renderResultReportLargeItem(
       doc.circle(circleXPos, circleYPos, circleRadius, 'F');
     }
 
-    const indicatorXOffset = 10;
     itemXPos += indicatorXOffset;
 
     const color = doc.getTextColor();
@@ -222,7 +254,12 @@ function renderResultReportLargeItem(
 
   resetFont(doc);
 
-  doc.setFontSize(14);
+  const itemFontSize = isLoadcase ? 10 : 14;
+  const spacingBelowTitle = isLoadcase
+    ? emmisionResultSpacing.smallBlockMargin
+    : emmisionResultSpacing.blockMargin;
+
+  doc.setFontSize(itemFontSize);
 
   const [itemValueWidth, itemValueHeight] = estimateTextDimensions(
     doc,
@@ -230,7 +267,7 @@ function renderResultReportLargeItem(
     { fontSize: doc.getFontSize() }
   );
 
-  itemYPos += itemTitleHeight + emmisionResultSpacing.blockMargin;
+  itemYPos += itemTitleHeight + spacingBelowTitle;
   itemsHeight += itemValueHeight;
 
   if (!isDryRun) {
@@ -251,7 +288,11 @@ function renderResultReportLargeItem(
     doc.text(item.unit, unitXPos, itemYPos);
   }
 
-  itemYPos += itemValueHeight + emmisionResultSpacing.blockMargin;
+  const spacingBelowValue = containsMultipleItems
+    ? emmisionResultSpacing.smallBlockMargin
+    : emmisionResultSpacing.blockMargin;
+
+  itemYPos += itemValueHeight + spacingBelowValue;
   if (!isDryRun) {
     const color = doc.getTextColor();
     doc.setTextColor(DefaultDocumentColors.lowEmphasisTextColor);
@@ -266,9 +307,10 @@ function renderResultReportLargeItem(
   );
 
   itemsHeight += itemShortHeight;
+  itemYPos += itemShortHeight;
 
-  if (item.warning) {
-    itemYPos += itemShortHeight + emmisionResultSpacing.blockMargin;
+  if (item.warning && !warningTop) {
+    itemYPos += emmisionResultSpacing.blockMargin;
     const color = doc.getTextColor();
     doc.setTextColor(DefaultDocumentColors.lowEmphasisTextColor);
 
@@ -295,7 +337,12 @@ function renderResultReportLargeItem(
 
   itemXPos += maxWidthPosition + emmisionResultSpacing.spaceBetweenItems;
 
-  return { w: itemXPos, h: itemYPos, itemsHeight };
+  return {
+    w: itemXPos,
+    h: itemYPos,
+    itemsHeight,
+    startYPosition,
+  };
 }
 
 function renderChartImage(
@@ -306,9 +353,9 @@ function renderChartImage(
 ) {
   const chart = block?.data?.data.chart;
   if (chart?.value) {
-    doc.text(chart.title, xPos + 5, yPos);
+    doc.text(chart.title, xPos + 50, yPos, { align: 'center' });
 
-    doc.addImage(chart.value, 'png', xPos, yPos + 5, 80, 80);
+    doc.addImage(chart.value, 'png', xPos + 15, yPos + 5, 80, 80);
   }
 }
 
@@ -328,6 +375,7 @@ export const renderEmissions = (
   const startX = block.constraints.pageMargin;
   const headerHeight = headerDivierY - y;
   const isDryRun = block.dryRun;
+
   doc.setFont(style.fonts.family, style.fonts.style.bold);
   doc.setFontSize(10);
   if (!block.dryRun) {
@@ -361,12 +409,6 @@ export const renderEmissions = (
 
   const chartOffset = 100;
 
-  let contentHeight = bodyHeight + headerHeight;
-
-  let printY = headerDivierY + 15;
-
-  contentHeight += 15;
-
   const chartXPos = startX + options.headerSpacing.left;
 
   const upstreamYPositions = [];
@@ -375,8 +417,15 @@ export const renderEmissions = (
   let upstreamXPos = canvasX;
 
   const upstreamEmissions = block.data.data?.upstreamEmission;
+  const downstreamEmission = block.data.data?.downstreamEmissions;
 
+  const hasMultipleLoadcases = downstreamEmission?.loadcases?.length > 0;
+  let printY = upstreamEmissions ? headerDivierY + 15 : headerDivierY;
+  let contentHeight = upstreamEmissions
+    ? bodyHeight + headerHeight
+    : headerHeight;
   if (upstreamEmissions) {
+    contentHeight += 15;
     if (!isDryRun) {
       renderChartImage(doc, block, chartXPos, printY);
     }
@@ -388,7 +437,8 @@ export const renderEmissions = (
         index,
         upstreamXPos,
         printY,
-        isDryRun
+        isDryRun,
+        hasMultipleLoadcases
       );
 
       upstreamXPos = w;
@@ -396,39 +446,44 @@ export const renderEmissions = (
       itemsHeights.push(itemsHeight);
     }
     printY = Math.max(...upstreamYPositions);
-    printY += blockMargin;
-    contentHeight += Math.max(...itemsHeights) + blockMargin;
+
+    contentHeight += Math.max(...itemsHeights);
 
     if (!isDryRun) {
       doc.line(canvasX, printY, width, printY);
     }
 
-    printY += 2 * options.divierSpacing.top;
+    printY += options.divierSpacing.top;
 
-    contentHeight += 2 * options.divierSpacing.top;
+    contentHeight += options.divierSpacing.top;
   }
 
-  const totalDownstreamEmission =
-    block.data.data?.downstreamEmissions.totalEmission;
+  const totalDownstreamEmission = downstreamEmission.totalEmission;
 
   if (totalDownstreamEmission) {
     let itemXPos = canvasX;
-    const itemYPos = printY;
+    let itemYPos = printY + emmisionResultSpacing.smallBlockMargin;
+    contentHeight += emmisionResultSpacing.smallBlockMargin;
 
     const itemsYPositions = [];
     const totalItemHeights = [];
-
+    const isLoadcaseItem = false;
     for (const [index, item] of totalDownstreamEmission.entries()) {
-      const { w, h, itemsHeight } = renderResultReportLargeItem(
+      const { w, h, itemsHeight, startYPosition } = renderResultReportLargeItem(
         item,
         doc,
         index,
         itemXPos,
         itemYPos,
-        isDryRun
+        isDryRun,
+        hasMultipleLoadcases,
+        isLoadcaseItem,
+        true
       );
 
       itemXPos = w;
+
+      itemYPos = startYPosition;
       itemsYPositions.push(h);
       totalItemHeights.push(itemsHeight);
     }
@@ -511,19 +566,11 @@ export const renderEmissions = (
   };
 
   let nonFittingHeights = 0;
-
+  const minimumNumberOfLoadcasesInOneBlock = 4;
   for (const [_loadcaseIndex, loadcase] of loadcases.entries()) {
     let loadcaseXPos = canvasX;
     const firstLoadcaseOnlyItem =
       _loadcaseIndex === 0 && !totalDownstreamEmission;
-
-    if (firstLoadcaseOnlyItem) {
-      loadcaseYPos -= 16;
-      contentHeight -= 16;
-    } else {
-      loadcaseYPos += blockMargin;
-      contentHeight += blockMargin;
-    }
 
     if (!isDryRun && !firstLoadcaseOnlyItem) {
       doc.line(canvasX, loadcaseYPos, width, loadcaseYPos);
@@ -537,6 +584,8 @@ export const renderEmissions = (
     const loadcaseYPositions = [];
     const loadcasesHeight = [];
 
+    const isLoadcase = true;
+
     for (const [index, item] of loadcase.items.entries()) {
       const { w, h, itemsHeight } = renderResultReportLargeItem(
         item,
@@ -544,7 +593,9 @@ export const renderEmissions = (
         index,
         loadcaseXPos,
         loadcaseYPos,
-        isDryRun
+        isDryRun,
+        hasMultipleLoadcases,
+        isLoadcase
       );
 
       loadcaseXPos = w;
@@ -555,6 +606,21 @@ export const renderEmissions = (
     loadcaseYPos = Math.max(...loadcaseYPositions);
     contentHeight += Math.max(...loadcasesHeight);
 
+    // check if minimum number of loadcases can fit into single page block
+    if (
+      downstreamEmission.totalEmission &&
+      _loadcaseIndex < minimumNumberOfLoadcasesInOneBlock &&
+      !willContentFit(contentHeight, block.maxHeight) &&
+      isDryRun
+    ) {
+      return [
+        {
+          canFit: false,
+          data: block.data,
+        },
+      ];
+    }
+
     if (!willContentFit(contentHeight, block.maxHeight) && isDryRun) {
       nonFittingItems.downstreamEmissions.loadcases.push(loadcase);
       nonFittingHeights = +nonFittingHeights;
@@ -564,7 +630,6 @@ export const renderEmissions = (
   }
 
   printY = loadcaseYPos;
-  bodyHeight += contentHeight;
 
   if (!isDryRun) {
     const lineYStart = y + headerHeight;
@@ -576,10 +641,12 @@ export const renderEmissions = (
     doc.roundedRect(startX, y, width, contentHeight, 6, 6, 'S');
   }
 
+  const offSetMagicNumber = 30;
   const ret: LayoutEvaluationResult<typeof block.data>[] = [
     {
       canFit: true,
-      verticalShift: block.yStart + headerHeight + contentHeight,
+      verticalShift:
+        block.yStart + headerHeight + contentHeight - offSetMagicNumber,
       data: {
         ...block.data,
         data: successfulFits,

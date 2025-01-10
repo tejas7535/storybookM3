@@ -3,11 +3,8 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
-  OnDestroy,
-  OnInit,
   Output,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,6 +17,7 @@ import { TranslocoService } from '@jsverse/transloco';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { ReportCo2EmissionsValuesComponent } from '../report-co2-emissions-values/report-co2-emissions-values.component';
+import { CalculationDowstreamSwipeDirective } from './calculation-downstream-swipe.directive';
 
 interface ResultItem {
   id: string;
@@ -39,6 +37,7 @@ interface ResultItem {
     SharedTranslocoModule,
     MatIconModule,
     MatButtonModule,
+    CalculationDowstreamSwipeDirective,
   ],
   animations: [
     trigger('swipe', [
@@ -58,9 +57,7 @@ interface ResultItem {
     ]),
   ],
 })
-export class CalculationDownstreamEmissionComponent
-  implements OnInit, OnDestroy
-{
+export class CalculationDownstreamEmissionComponent {
   @Input()
   public downstreamError?: string;
 
@@ -72,13 +69,7 @@ export class CalculationDownstreamEmissionComponent
 
   private _selectedIndex: number | undefined;
 
-  private touchStartX = 0;
-  private touchEndX = 0;
-
-  constructor(
-    private readonly translocoService: TranslocoService,
-    private readonly el: ElementRef
-  ) {}
+  constructor(private readonly translocoService: TranslocoService) {}
 
   get selectedIndex(): number {
     return this._selectedIndex;
@@ -116,44 +107,6 @@ export class CalculationDownstreamEmissionComponent
   // eslint-disable-next-line @typescript-eslint/member-ordering
   get downstreamEmission(): ResultItem[] {
     return this._downstreamEmission;
-  }
-
-  ngOnInit() {
-    this.el.nativeElement.addEventListener(
-      'touchstart',
-      this.onTouchStart.bind(this),
-      { passive: true }
-    );
-    this.el.nativeElement.addEventListener(
-      'touchmove',
-      this.onTouchMove.bind(this),
-      { passive: true }
-    );
-    this.el.nativeElement.addEventListener(
-      'touchend',
-      this.onTouchEnd.bind(this),
-      { passive: true }
-    );
-  }
-
-  onTouchStart(event: TouchEvent): void {
-    this.touchStartX = event.changedTouches[0].screenX;
-  }
-
-  onTouchMove(event: TouchEvent): void {
-    this.touchEndX = event.changedTouches[0].screenX;
-  }
-
-  onTouchEnd(): void {
-    const swipeThreshold = 30; // Minimum swipe distance in pixels
-
-    if (Math.abs(this.touchEndX - this.touchStartX) > swipeThreshold) {
-      if (this.touchEndX < this.touchStartX) {
-        this.nextItem();
-      } else if (this.touchEndX > this.touchStartX) {
-        this.previousItem();
-      }
-    }
   }
 
   previousItem(): void {
@@ -195,11 +148,5 @@ export class CalculationDownstreamEmissionComponent
       value: '',
       params: directions[this.swipeDirection],
     };
-  }
-
-  ngOnDestroy() {
-    this.el.nativeElement.removeEventListener('touchstart', this.onTouchStart);
-    this.el.nativeElement.removeEventListener('touchmove', this.onTouchMove);
-    this.el.nativeElement.removeEventListener('touchend', this.onTouchEnd);
   }
 }

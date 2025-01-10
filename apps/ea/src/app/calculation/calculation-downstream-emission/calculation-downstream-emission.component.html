@@ -52,7 +52,12 @@
           </div>
 
           @if (i === selectedIndex) {
-            <div [@swipe]="getSwipeParams()">
+            <div
+              contentSwipe
+              (swipeLeft)="previousItem()"
+              (swipeRight)="nextItem()"
+              [@swipe]="getSwipeParams()"
+            >
               <ea-report-emissions-values
                 [co2Emission]="value.emission"
                 [co2EmissionPercentage]="value.emissionPercentage"

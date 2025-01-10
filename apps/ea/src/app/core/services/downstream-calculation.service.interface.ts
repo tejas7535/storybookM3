@@ -38,6 +38,8 @@ export type FossilFactor =
 
 export type MovementType = 'LB_ROTATING' | 'LB_OSCILLATING';
 
+export type RotationType = 'LB_ROTATING_INNERRING' | 'LB_ROTATING_OUTERRING';
+
 export interface DownstreamOperatingConditions {
   operatingTimeInHours: number;
   lubricationMethod: LubricationMethodType;
@@ -77,6 +79,7 @@ export interface DownstreamOperatingConditions {
     | 'LB_ARCANOL_GREASE';
   emissionFactor: EmissionFactor;
   electricEmissionFactor: ElectricityRegion;
+  rotationType: RotationType;
 }
 
 interface DownstreamLoadcase {

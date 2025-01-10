@@ -12,6 +12,7 @@ import {
 } from '@ea/core/services/downstream-calculation.service.interface';
 import { DownstreamCalculationInputsService } from '@ea/core/services/downstream-calculation-inputs.service';
 import {
+  CONDITION_OF_ROTATION_VALUES,
   ENERGY_SOURCES_VALUES,
   LUBRICATION_METHOD_VALUE_MAPPING,
 } from '@ea/core/services/downstream-calcululation.service.constant';
@@ -52,6 +53,10 @@ export class DownstreamCalculationEffects {
         const externalHeatFlow = recirculatingOil.externalHeatFlow;
         const oilTempRise = recirculatingOil.oilTemperatureDifference;
 
+        const rotationType = CONDITION_OF_ROTATION_VALUES.get(
+          operatingConditions.conditionOfRotation
+        );
+
         const calcRequest: DownstreamAPIRequest = {
           operatingConditions: {
             electricEmissionFactor: energySource.electric?.electricityRegion,
@@ -69,6 +74,7 @@ export class DownstreamCalculationEffects {
             greaseType,
             viscosityDefinition,
             isoVgClass,
+            rotationType,
           },
           loadcases: loadcases.flatMap((lc) => {
             const conditions = operatingConditions.loadCaseData[lc.index];

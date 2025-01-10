@@ -85,6 +85,7 @@ describe('DownstreamCalculationEffects', () => {
       },
       time: 786,
       ambientTemperature: 50,
+      conditionOfRotation: 'innerring',
     }) as unknown as Partial<CalculationParametersOperationConditions> as CalculationParametersOperationConditions;
 
   const loadcaseData: LoadCaseData = {
