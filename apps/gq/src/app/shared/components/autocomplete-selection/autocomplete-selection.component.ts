@@ -94,8 +94,8 @@ export class AutocompleteSelectionComponent
   readonly defaultSelection: Signal<SelectableValue> = computed(() =>
     this.options()?.find((option) => option.defaultSelection)
   );
+  options$ = toObservable(this.options);
   readonly defaultSelection$ = toObservable(this.defaultSelection);
-  readonly options$ = toObservable(this.options);
 
   filteredOptions: WritableSignal<SelectableValue[]> = signal([]);
   isDisabled = false;
@@ -117,6 +117,15 @@ export class AutocompleteSelectionComponent
   ngOnInit(): void {
     this.formControl = this.ngControl.control as FormControl;
 
+    this.options$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((options) => {
+        this.filteredOptions.set(options);
+        if (!this.isEditMode()) {
+          this.setSelectedValue(null);
+        }
+      });
+
     this.defaultSelection$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((defaultSelection) => {
@@ -125,16 +134,10 @@ export class AutocompleteSelectionComponent
           !this.getSelectedValue() &&
           defaultSelection
         ) {
-          this.selectedValue.set(defaultSelection);
+          this.setSelectedValue(defaultSelection);
         }
         this.formControl.setValue(this.getSelectedValue());
         this.onChange(this.getSelectedValue());
-      });
-
-    this.options$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((options) => {
-        this.filteredOptions.set(options);
       });
 
     this.formControl.valueChanges
@@ -161,7 +164,7 @@ export class AutocompleteSelectionComponent
         if (this.filteredOptions().length === 1 && value && value !== '') {
           const option = this.filteredOptions()[0];
           this.formControl.setValue(option);
-          this.selectedValue.set(option);
+          this.setSelectedValue(option);
           this.autocomplete.closePanel();
         }
 
@@ -184,7 +187,7 @@ export class AutocompleteSelectionComponent
       // eslint-disable-next-line no-param-reassign
       value = null;
     }
-    this.selectedValue.set(value);
+    this.setSelectedValue(value);
   }
 
   /**
@@ -223,6 +226,10 @@ export class AutocompleteSelectionComponent
 
   getSelectedValue() {
     return this.selectedValue();
+  }
+
+  setSelectedValue(value: SelectableValue) {
+    this.selectedValue.set(value);
   }
 
   handleErrors(value: string | SelectableValue) {

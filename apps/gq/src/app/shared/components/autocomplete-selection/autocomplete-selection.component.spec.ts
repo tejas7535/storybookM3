@@ -28,6 +28,7 @@ class MockNgControl extends NgControl {
 describe('AutocompleteSelectionComponent', () => {
   let component: AutocompleteSelectionComponent;
   let spectator: Spectator<AutocompleteSelectionComponent>;
+  let option: SelectableValue;
 
   const createComponent = createComponentFactory({
     component: AutocompleteSelectionComponent,
@@ -53,7 +54,7 @@ describe('AutocompleteSelectionComponent', () => {
 
   beforeEach(() => {
     jest.resetAllMocks();
-    const value: SelectableValue = {
+    option = {
       id: '1',
       value: 'value',
       value2: 'value2',
@@ -63,7 +64,8 @@ describe('AutocompleteSelectionComponent', () => {
     spectator = createComponent({
       props: {
         label: 'Label',
-        options: [value],
+        options: [option],
+        isEditMode: false,
       },
     });
 
@@ -126,7 +128,7 @@ describe('AutocompleteSelectionComponent', () => {
         done();
       }, component['debounceTime']);
     });
-    test('should set filteredOptions when value is passed', (done) => {
+    test('should set filteredOptions when option is passed', (done) => {
       component.ngOnInit();
       component.formControl.setValue('value');
       setTimeout(() => {
@@ -167,7 +169,7 @@ describe('AutocompleteSelectionComponent', () => {
         done();
       }, component['debounceTime']);
     });
-    test('should not set option automatically when only one option is available but passed value is null', (done) => {
+    test('should not set option automatically when only one option is available but passed option is null', (done) => {
       component.ngOnInit();
       component.formControl.setValue(null);
       setTimeout(() => {
@@ -175,7 +177,7 @@ describe('AutocompleteSelectionComponent', () => {
         done();
       }, component['debounceTime']);
     });
-    test('should not set option automatically when only one option is available but passed value is empty string', (done) => {
+    test('should not set option automatically when only one option is available but passed option is empty string', (done) => {
       component.ngOnInit();
       component.formControl.setValue('');
       setTimeout(() => {
@@ -185,7 +187,7 @@ describe('AutocompleteSelectionComponent', () => {
     });
   });
   describe('writeValue function', () => {
-    test('should set value to null when id is not present', () => {
+    test('should set option to null when id is not present', () => {
       const value: SelectableValue = {
         id: undefined,
         value: 'value',
@@ -194,18 +196,18 @@ describe('AutocompleteSelectionComponent', () => {
       component.writeValue(value);
       expect(component.getSelectedValue()).toEqual(null);
     });
-    test('should set selected value to null when null is passed', () => {
+    test('should set selected option to null when null is passed', () => {
       component.writeValue(null);
       expect(component.getSelectedValue()).toEqual(null);
     });
   });
   describe('handleErrors', () => {
-    test('should set error when value is not found', () => {
+    test('should set error when option is not found', () => {
       component.filteredOptions.set([]);
       component.handleErrors('test');
       expect(component.formControl.errors).toEqual({ notFound: true });
     });
-    test('should set error when value object is not found', () => {
+    test('should set error when option object is not found', () => {
       const value: SelectableValue = {
         id: '1',
         value: 'value',
@@ -220,7 +222,7 @@ describe('AutocompleteSelectionComponent', () => {
       component.handleErrors(searchValue);
       expect(component.formControl.errors).toEqual({ notFound: true });
     });
-    test('should set error to null when value is found', () => {
+    test('should set error to null when option is found', () => {
       const value: SelectableValue = {
         id: '1',
         value: 'value',
@@ -241,7 +243,7 @@ describe('AutocompleteSelectionComponent', () => {
       expect(component.formControl.errors).toEqual({ wrongSelection: true });
       expect(component['onTouched']).toHaveBeenCalled();
     });
-    test('should not set error on blur when input value is empty', () => {
+    test('should not set error on blur when input option is empty', () => {
       component.formControl.setValue('');
       component.onBlur();
       expect(component.formControl.errors).toEqual(null);
@@ -289,7 +291,7 @@ describe('AutocompleteSelectionComponent', () => {
   });
 
   describe('defaultSelection$', () => {
-    test('should set form control value to defaultSelection', (done) => {
+    test('should set form control option to defaultSelection', (done) => {
       const defaultValue: SelectableValue = {
         id: '1',
         value: 'value',
@@ -301,6 +303,17 @@ describe('AutocompleteSelectionComponent', () => {
         expect(val).toEqual(defaultValue);
         done();
       });
+    });
+  });
+
+  describe('options$', () => {
+    test('should set filtered options to options and set selected option to null when edit mode is false', () => {
+      component.filteredOptions.set = jest.fn();
+      component.setSelectedValue = jest.fn();
+      component.ngOnInit();
+
+      expect(component.filteredOptions.set).toHaveBeenCalledWith([option]);
+      expect(component.setSelectedValue).toHaveBeenCalledWith(null);
     });
   });
 });
