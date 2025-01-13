@@ -1,5 +1,7 @@
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { SeriesOption } from 'echarts';
+import { YAXisOption } from 'echarts/types/dist/shared';
 import { NGX_ECHARTS_CONFIG, NgxEchartsModule } from 'ngx-echarts';
 import ResizeObserver from 'resize-observer-polyfill';
 
@@ -20,6 +22,29 @@ describe('MonthlyForecastChartComponent', () => {
     ],
   });
 
+  const testData = [
+    {
+      yearMonth: '2021-01',
+      deliveries: 100,
+      orders: 200,
+      onTopOrder: 50,
+      salesAmbition: 300,
+      onTopCapacityForecast: 400,
+      opportunities: 150,
+      rollingSalesForecast: 250,
+    },
+    {
+      yearMonth: '2021-02',
+      deliveries: 110,
+      orders: 210,
+      onTopOrder: 60,
+      salesAmbition: 310,
+      onTopCapacityForecast: 410,
+      opportunities: 160,
+      rollingSalesForecast: 260,
+    },
+  ];
+
   it('should create the component', () => {
     spectator = createComponent({
       props: {
@@ -31,32 +56,9 @@ describe('MonthlyForecastChartComponent', () => {
   });
 
   it('should generate chartOptions when data is provided', () => {
-    const mockData = [
-      {
-        yearMonth: '2021-01',
-        deliveries: 100,
-        orders: 200,
-        onTopOrder: 50,
-        salesAmbition: 300,
-        onTopCapacityForecast: 400,
-        opportunities: 150,
-        rollingSalesForecast: 250,
-      },
-      {
-        yearMonth: '2021-02',
-        deliveries: 110,
-        orders: 210,
-        onTopOrder: 60,
-        salesAmbition: 310,
-        onTopCapacityForecast: 410,
-        opportunities: 160,
-        rollingSalesForecast: 260,
-      },
-    ];
-
     spectator = createComponent({
       props: {
-        data: mockData,
+        data: testData,
         toggledKpis: {},
       },
     });
@@ -78,29 +80,6 @@ describe('MonthlyForecastChartComponent', () => {
   });
 
   it('should filter out toggled KPIs from the chart series', () => {
-    const mockData = [
-      {
-        yearMonth: '2021-01',
-        deliveries: 100,
-        orders: 200,
-        onTopOrder: 50,
-        salesAmbition: 300,
-        onTopCapacityForecast: 400,
-        opportunities: 150,
-        rollingSalesForecast: 250,
-      },
-      {
-        yearMonth: '2021-02',
-        deliveries: 110,
-        orders: 210,
-        onTopOrder: 60,
-        salesAmbition: 310,
-        onTopCapacityForecast: 410,
-        opportunities: 160,
-        rollingSalesForecast: 260,
-      },
-    ];
-
     // Toggling 'orders' KPI to hide it
     const toggledKpis = {
       orders: true,
@@ -108,7 +87,7 @@ describe('MonthlyForecastChartComponent', () => {
 
     spectator = createComponent({
       props: {
-        data: mockData,
+        data: testData,
         toggledKpis,
       },
     });
@@ -119,6 +98,50 @@ describe('MonthlyForecastChartComponent', () => {
 
     const deliveriesSeries = series.find((s: any) => s.kpi === 'deliveries');
     expect(deliveriesSeries).toBeDefined();
+  });
+
+  it('renders localized data on the yAxis with default EN locale', () => {
+    spectator = createComponent({
+      props: {
+        data: testData,
+        toggledKpis: {},
+      },
+    });
+
+    const options = spectator.component['chartOptions'];
+
+    const yAxisOptions = options.yAxis as YAXisOption;
+    // @ts-expect-error TS doesn't correctly infer the type of axisLabel
+    expect(yAxisOptions?.axisLabel['formatter']).toBeDefined();
+
+    // @ts-expect-error TS doesn't correctly infer the type of axisLabel
+    const formatter = yAxisOptions.axisLabel['formatter'];
+    const result = formatter(1234.56);
+    expect(result).toMatch('1,234.56');
+  });
+
+  it('renders localized data on the yAxis with DE locale', () => {
+    spectator = createComponent({
+      props: {
+        data: testData,
+        toggledKpis: {},
+      },
+    });
+
+    const translocoLocaleService = spectator.inject(TranslocoLocaleService);
+
+    translocoLocaleService.setLocale('de-DE');
+
+    const options = spectator.component['chartOptions'];
+
+    const yAxisOptions = options.yAxis as YAXisOption;
+    // @ts-expect-error TS doesn't correctly infer the type of axisLabel
+    expect(yAxisOptions?.axisLabel['formatter']).toBeDefined();
+
+    // @ts-expect-error TS doesn't correctly infer the type of axisLabel
+    const formatter = yAxisOptions.axisLabel['formatter'];
+    const result = formatter(1234.56);
+    expect(result).toMatch('1.234,56');
   });
 
   it('should update chartOptions when inputs change', () => {

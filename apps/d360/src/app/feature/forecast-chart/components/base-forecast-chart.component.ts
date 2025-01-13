@@ -118,6 +118,10 @@ export abstract class BaseForecastChartComponent {
           color: dimmedGrey,
         },
       },
+      axisLabel: {
+        formatter: (value) =>
+          this.translocoLocaleService.localizeNumber(value, 'decimal'),
+      },
       splitLine: {
         show: true,
         lineStyle: {
