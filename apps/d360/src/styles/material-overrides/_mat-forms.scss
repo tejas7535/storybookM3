@@ -39,20 +39,31 @@
     }
   }
 
-  .compact {
-    .mat-mdc-form-field-subscript-wrapper {
-      display: none;
-    }
-  }
-
   mat-error,
   mat-hint {
     @apply text-caption;
     @apply text-medium-emphasis;
   }
 
-  mat-form-field {
+  .mat-mdc-form-field {
     @apply w-full;
+    margin-bottom: 20px;
+    margin-top: 20px;
+
+    .mat-mdc-text-field-wrapper,
+    .mat-mdc-subscript-wrapper {
+      margin-top: -20px;
+    }
+  }
+
+  .compact .mat-mdc-form-field,
+  .compact.mat-mdc-form-field {
+    margin-bottom: 0;
+    margin-top: 0;
+    .mat-mdc-text-field-wrapper,
+    .mat-mdc-subscript-wrapper {
+      margin-top: 0;
+    }
   }
 
   .mat-mdc-option {

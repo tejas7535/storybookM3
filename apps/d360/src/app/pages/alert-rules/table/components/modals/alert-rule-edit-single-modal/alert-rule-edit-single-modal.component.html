@@ -12,8 +12,8 @@
         <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
       </div>
     } @else {
-      <!-- row 1 -->
-      <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 md:gap-x-4">
+        <!-- row 1 -->
         <!-- alertType -->
         <d360-single-autocomplete-pre-loaded
           [form]="formGroup"
@@ -38,10 +38,7 @@
             )
           "
         />
-      </div>
-
-      <!-- row 2 -->
-      <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+        <!-- row 2 -->
         <!-- salesArea -->
         <d360-filter-dropdown
           [form]="formGroup"
@@ -55,6 +52,7 @@
             )
           "
           [addClearButton]="true"
+          class="col-start-1 col-end-1"
         />
 
         <!-- salesOrg -->
@@ -81,10 +79,7 @@
           "
           [addClearButton]="true"
         />
-      </div>
-
-      <!-- row 3 -->
-      <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+        <!-- row 3 -->
         <!-- demandPlanner -->
         <d360-single-autocomplete-pre-loaded
           [form]="formGroup"
@@ -114,10 +109,7 @@
           (selectionChange)="updateForm($event, 'customerNumber')"
           [addClearButton]="true"
         />
-      </div>
-
-      <!-- row 4 -->
-      <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+        <!-- row 4 -->
         <!-- materialClassification -->
         <d360-filter-dropdown
           [form]="formGroup"
@@ -152,10 +144,8 @@
           (selectionChange)="updateForm($event, 'productionLine')"
           [addClearButton]="true"
         />
-      </div>
 
-      <!-- row 4 -->
-      <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+        <!-- row 5 -->
         <!-- materialNumber -->
         <d360-single-autocomplete-on-type
           [control]="$any(formGroup.controls.materialNumber)"
@@ -165,139 +155,149 @@
           (selectionChange)="updateForm($event, 'materialNumber')"
           [addClearButton]="true"
         />
-      </div>
 
-      <!-- row 5 (not always visible) -->
-      @if (alertTypeDescription) {
-        <hr />
-        <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
-          <!-- threshold1 -->
-          @if (formGroup.controls.threshold1.enabled) {
+        <!-- row 6 (not always visible) -->
+        @if (alertTypeDescription) {
+          <div
+            class="grid grid-cols-subgrid md:col-span-3 md:grid-cols-3 md:gap-4 md:gap-y-6"
+          >
+            <div class="col-span-1 md:col-span-3 mt-4 mb-8 md:mb-3">
+              <hr />
+            </div>
+            <!-- threshold1 -->
+            @if (formGroup.controls.threshold1.enabled) {
+              <mat-form-field [formGroup]="formGroup" appearance="outline">
+                <mat-label>{{ getThresholdDescription(1) }}</mat-label>
+                <input
+                  [attr.aria-label]="getThresholdDescription(1)"
+                  matInput
+                  [formControl]="$any(formGroup.controls.threshold1)"
+                  d360NumberSeparator
+                />
+                @if (formGroup.controls.threshold1.hasError('required')) {
+                  <mat-error>{{ missingFields }}</mat-error>
+                }
+              </mat-form-field>
+            }
+
+            <!-- threshold2 -->
+            @if (formGroup.controls.threshold2.enabled) {
+              <mat-form-field [formGroup]="formGroup" appearance="outline">
+                <mat-label>{{ getThresholdDescription(2) }}</mat-label>
+                <input
+                  [attr.aria-label]="getThresholdDescription(2)"
+                  matInput
+                  [formControl]="$any(formGroup.controls.threshold2)"
+                  d360NumberSeparator
+                />
+                @if (formGroup.controls.threshold2.hasError('required')) {
+                  <mat-error>{{ missingFields }}</mat-error>
+                }
+              </mat-form-field>
+            }
+
+            <!-- threshold3 -->
+            @if (formGroup.controls.threshold3.enabled) {
+              <mat-form-field [formGroup]="formGroup" appearance="outline">
+                <mat-label>{{ getThresholdDescription(3) }}</mat-label>
+                <input
+                  [attr.aria-label]="getThresholdDescription(3)"
+                  matInput
+                  [formControl]="$any(formGroup.controls.threshold3)"
+                  d360NumberSeparator
+                />
+                @if (formGroup.controls.threshold3.hasError('required')) {
+                  <mat-error>{{ missingFields }}</mat-error>
+                }
+              </mat-form-field>
+            }
+          </div>
+        }
+
+        <!-- row 7 -->
+        <div
+          class="grid grid-cols-subgrid md:col-span-3 md:grid-cols-4 md:gap-4 md:gap-y-6"
+        >
+          <div class="col-span-1 md:col-span-4 mt-4 mb-8 md:mb-4">
+            <hr />
+          </div>
+          <!-- startDate-->
+          <d360-date-picker
+            [control]="$any(formGroup.controls.startDate)"
+            [label]="t(translationStart + '.start')"
+          />
+
+          <!-- execInterval -->
+          <d360-filter-dropdown
+            [form]="formGroup"
+            [control]="$any(formGroup.controls.execInterval)"
+            [label]="t(translationStart + '.interval.rootString', {})"
+            [options]="execIntervalOptions.options"
+            [formatOptionValue]="displayFnText"
+            [formatSelectedValue]="displayFnText"
+            (selectionChange)="onIntervalSelectionChange($any($event))"
+          />
+
+          <!-- execDay -->
+          <div>
             <mat-form-field [formGroup]="formGroup" appearance="outline">
-              <mat-label>{{ getThresholdDescription(1) }}</mat-label>
-              <input
-                [attr.aria-label]="getThresholdDescription(1)"
-                matInput
-                [formControl]="$any(formGroup.controls.threshold1)"
-                d360NumberSeparator
-              />
-              @if (formGroup.controls.threshold1.hasError('required')) {
+              <mat-label>{{
+                t(translationStart + '.when.rootString', {})
+              }}</mat-label>
+              <mat-select
+                [aria-label]="t(translationStart + '.when.rootString', {})"
+                [formControl]="$any(formGroup.controls.execDay)"
+                (selectionChange)="
+                  updateForm(
+                    { option: $any({ id: formGroup.controls.execDay.value }) },
+                    'execDay'
+                  )
+                "
+              >
+                @for (option of execDayOptions; track option) {
+                  <mat-option [value]="option">
+                    {{ t(translationStart + '.when.' + option, {}) }}
+                  </mat-option>
+                }
+              </mat-select>
+              @if (formGroup.controls.execDay.hasError('required')) {
                 <mat-error>{{ missingFields }}</mat-error>
               }
             </mat-form-field>
-          }
-
-          <!-- threshold2 -->
-          @if (formGroup.controls.threshold2.enabled) {
-            <mat-form-field [formGroup]="formGroup" appearance="outline">
-              <mat-label>{{ getThresholdDescription(2) }}</mat-label>
-              <input
-                [attr.aria-label]="getThresholdDescription(2)"
-                matInput
-                [formControl]="$any(formGroup.controls.threshold2)"
-                d360NumberSeparator
-              />
-              @if (formGroup.controls.threshold2.hasError('required')) {
-                <mat-error>{{ missingFields }}</mat-error>
-              }
-            </mat-form-field>
-          }
-
-          <!-- threshold3 -->
-          @if (formGroup.controls.threshold3.enabled) {
-            <mat-form-field [formGroup]="formGroup" appearance="outline">
-              <mat-label>{{ getThresholdDescription(3) }}</mat-label>
-              <input
-                [attr.aria-label]="getThresholdDescription(3)"
-                matInput
-                [formControl]="$any(formGroup.controls.threshold3)"
-                d360NumberSeparator
-              />
-              @if (formGroup.controls.threshold3.hasError('required')) {
-                <mat-error>{{ missingFields }}</mat-error>
-              }
-            </mat-form-field>
-          }
+          </div>
+          <!-- endDate -->
+          <d360-date-picker
+            [control]="$any(formGroup.controls.endDate)"
+            [label]="t(translationStart + '.end')"
+          />
         </div>
-      }
 
-      <hr />
-      <!-- row 6 -->
-      <div class="grid grid-cols-1 md:grid-cols-4 xs:gap-1 md:gap-4">
-        <!-- startDate-->
-        <d360-date-picker
-          [control]="$any(formGroup.controls.startDate)"
-          [label]="t(translationStart + '.start')"
-        />
+        <!-- row 8 -->
+        <!-- alertComment -->
 
-        <!-- execInterval -->
-        <d360-filter-dropdown
-          [form]="formGroup"
-          [control]="$any(formGroup.controls.execInterval)"
-          [label]="t(translationStart + '.interval.rootString', {})"
-          [options]="execIntervalOptions.options"
-          [formatOptionValue]="displayFnText"
-          [formatSelectedValue]="displayFnText"
-          (selectionChange)="onIntervalSelectionChange($any($event))"
-        />
-
-        <!-- execDay -->
-        <mat-form-field [formGroup]="formGroup" appearance="outline">
-          <mat-label>{{
-            t(translationStart + '.when.rootString', {})
-          }}</mat-label>
-          <mat-select
-            [aria-label]="t(translationStart + '.when.rootString', {})"
-            [formControl]="$any(formGroup.controls.execDay)"
-            (selectionChange)="
+        <mat-form-field
+          [formGroup]="formGroup"
+          appearance="outline"
+          class="compact styled-text-field md:col-span-3"
+        >
+          <mat-label>{{ t(translationStart + '.comment', {}) }}</mat-label>
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="4"
+            #autosize="cdkTextareaAutosize"
+            [formControl]="$any(formGroup.controls.alertComment)"
+            rows="4"
+            (blur)="
               updateForm(
-                { option: $any({ id: formGroup.controls.execDay.value }) },
-                'execDay'
+                {
+                  option: $any({ id: formGroup.controls.alertComment.value })
+                },
+                'alertComment'
               )
             "
-          >
-            @for (option of execDayOptions; track option) {
-              <mat-option [value]="option">
-                {{ t(translationStart + '.when.' + option, {}) }}
-              </mat-option>
-            }
-          </mat-select>
-          @if (formGroup.controls.execDay.hasError('required')) {
-            <mat-error>{{ missingFields }}</mat-error>
-          }
+          ></textarea>
         </mat-form-field>
-
-        <!-- endDate -->
-        <d360-date-picker
-          [control]="$any(formGroup.controls.endDate)"
-          [label]="t(translationStart + '.end')"
-        />
-      </div>
-
-      <!-- row 7 -->
-      <div class="grid grid-cols-1 xs:gap-1 md:gap-4">
-        <!-- alertComment -->
-        <div class="styled-text-field">
-          <mat-form-field [formGroup]="formGroup" appearance="outline">
-            <mat-label>{{ t(translationStart + '.comment', {}) }}</mat-label>
-            <textarea
-              matInput
-              cdkTextareaAutosize
-              cdkAutosizeMinRows="4"
-              #autosize="cdkTextareaAutosize"
-              [formControl]="$any(formGroup.controls.alertComment)"
-              rows="4"
-              (blur)="
-                updateForm(
-                  {
-                    option: $any({ id: formGroup.controls.alertComment.value })
-                  },
-                  'alertComment'
-                )
-              "
-            ></textarea>
-          </mat-form-field>
-        </div>
       </div>
     }
   </mat-dialog-content>

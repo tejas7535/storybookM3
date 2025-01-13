@@ -16,7 +16,7 @@
         <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
       </div>
     } @else {
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-x-4">
         <!-- replacementType -->
         <d360-filter-dropdown
           [form]="formGroup"
@@ -27,14 +27,14 @@
           [formatOptionValue]="DisplayFunctions.displayFnText"
           [formatSelectedValue]="DisplayFunctions.displayFnText"
         />
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+
         <!-- region -->
         <d360-filter-dropdown
           [control]="$any(formGroup.controls.region)"
           [form]="formGroup"
           [label]="t('globalSelection.region', {})"
           [options]="selectableOptionsService.get('region').options"
+          class="col-start-1 col-end-1"
           [formatOptionValue]="DisplayFunctions.displayFnUnited"
         ></d360-filter-dropdown>
 
@@ -52,13 +52,12 @@
         <d360-single-autocomplete-pre-loaded
           [form]="formGroup"
           [control]="$any(formGroup.controls.salesOrg)"
-          [label]="t('globalSelection.sales_org.rootString')"
+          [label]="t('globalSelection.sales_org.rootString', {})"
           [optionsLoadingResult]="selectableOptionsService.get('salesOrg')"
           [getOptionLabelInTag]="DisplayFunctions.displayFnUnited"
           [displayFn]="DisplayFunctions.displayFnUnitedNullable"
         />
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+
         <!-- customer -->
         <d360-single-autocomplete-on-type
           [label]="t('globalSelection.customer.rootString', {})"
@@ -86,8 +85,7 @@
           [form]="formGroup"
           [control]="$any(formGroup.controls.successorMaterial)"
         ></d360-single-autocomplete-on-type>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
+
         <!-- startOfProduction -->
         <d360-date-picker
           [minDate]="data.isNewSubstitution ? TODAY : null"
@@ -117,26 +115,27 @@
             t('internal_material_replacement.helper_text.replacementDate', {})
           "
         ></d360-date-picker>
-      </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 xs:gap-1 md:gap-4">
-        <div class="col-span-3 styled-text-field">
-          <mat-form-field [formGroup]="formGroup" appearance="outline">
-            <mat-label
-              >{{ t('alert_rules.edit_modal.label.comment', {}) }}
-            </mat-label>
-            <textarea
-              matInput
-              cdkTextareaAutosize
-              cdkAutosizeMinRows="4"
-              #autosize="cdkTextareaAutosize"
-              [formControl]="$any(formGroup.controls.note)"
-            ></textarea>
-            <mat-hint
-              >{{ t('internal_material_replacement.helper_text.note', {}) }}
-            </mat-hint>
-          </mat-form-field>
-        </div>
+        <!-- comment -->
+        <mat-form-field
+          [formGroup]="formGroup"
+          appearance="outline"
+          class="md:col-span-3"
+        >
+          <mat-label
+            >{{ t('alert_rules.edit_modal.label.comment', {}) }}
+          </mat-label>
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="4"
+            #autosize="cdkTextareaAutosize"
+            [formControl]="$any(formGroup.controls.note)"
+          ></textarea>
+          <mat-hint
+            >{{ t('internal_material_replacement.helper_text.note', {}) }}
+          </mat-hint>
+        </mat-form-field>
       </div>
     }
   </mat-dialog-content>

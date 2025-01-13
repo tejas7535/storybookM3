@@ -23,8 +23,8 @@ import {
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
+import { MatDivider } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
@@ -41,6 +41,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { AlertRulesService } from '../../../../../../feature/alert-rules/alert-rules.service';
 import {
   AlertRule,
+  AlertRuleSaveResponse,
   AlertTypeDescription,
   ExecDay,
   ExecInterval,
@@ -54,24 +55,22 @@ import {
 } from '../../../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { SingleAutocompleteOnTypeComponent } from '../../../../../../shared/components/inputs/autocomplete/single-autocomplete-on-type/single-autocomplete-on-type.component';
 import { SingleAutocompletePreLoadedComponent } from '../../../../../../shared/components/inputs/autocomplete/single-autocomplete-pre-loaded/single-autocomplete-pre-loaded.component';
+import { DisplayFunctions } from '../../../../../../shared/components/inputs/display-functions.utils';
 import { FilterDropdownComponent } from '../../../../../../shared/components/inputs/filter-dropdown/filter-dropdown.component';
-import { StyledGridSectionComponent } from '../../../../../../shared/components/styled-grid-section/styled-grid-section.component';
+import { ValidateForm } from '../../../../../../shared/decorators';
 import { NumberSeparatorDirective } from '../../../../../../shared/directives';
 import {
   OptionsLoadingResult,
   OptionsTypes,
   SelectableOptionsService,
 } from '../../../../../../shared/services/selectable-options.service';
-import { SnackbarService } from '../../../../../../shared/utils/service/snackbar.service';
-import { ValidationHelper } from '../../../../../../shared/utils/validation/validation-helper';
-import { AlertRuleSaveResponse } from './../../../../../../feature/alert-rules/model';
-import { DisplayFunctions } from './../../../../../../shared/components/inputs/display-functions.utils';
-import { ValidateForm } from './../../../../../../shared/decorators';
 import {
   errorsFromSAPtoMessage,
   singlePostResultToUserMessage,
   ToastResult,
-} from './../../../../../../shared/utils/error-handling';
+} from '../../../../../../shared/utils/error-handling';
+import { SnackbarService } from '../../../../../../shared/utils/service/snackbar.service';
+import { ValidationHelper } from '../../../../../../shared/utils/validation/validation-helper';
 import {
   possibleWhenOptions,
   thresholdTypeWithParameter,
@@ -101,7 +100,6 @@ export interface AlertRuleModalProps {
     MatDialogModule,
     MatButtonModule,
     MatGridListModule,
-    StyledGridSectionComponent,
     LoadingSpinnerModule,
     SingleAutocompletePreLoadedComponent,
     SharedTranslocoModule,
@@ -115,7 +113,7 @@ export interface AlertRuleModalProps {
     CdkTextareaAutosize,
     DatePickerComponent,
     NumberSeparatorDirective,
-    MatIcon,
+    MatDivider,
   ],
   templateUrl: './alert-rule-edit-single-modal.component.html',
   styleUrl: './alert-rule-edit-single-modal.component.scss',
