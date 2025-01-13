@@ -297,11 +297,16 @@ export class CreateCaseHeaderInformationComponent
         if (rowData.length >= quotationToDate.manyItemsDateThreshold) {
           quotationTo = quotationToDate.extendedDateForManyItems;
         }
-        this.headerInfoForm
-          .get('quotationToDate')
-          ?.setValue(getMomentUtcStartOfDayDate(quotationTo), {
-            emitEvent: false,
-          });
+        const quotationToDateControl =
+          this.headerInfoForm.get('quotationToDate');
+        if (quotationToDateControl.enabled) {
+          quotationToDateControl?.setValue(
+            getMomentUtcStartOfDayDate(quotationTo),
+            {
+              emitEvent: false,
+            }
+          );
+        }
       });
   }
 

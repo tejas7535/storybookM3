@@ -302,17 +302,20 @@ describe('CreateCaseHeaderInformationComponent', () => {
 
   describe('quotationToDate form field', () => {
     test('should set quotationToDate when quotationToDate$ emits', () => {
+      component.ngOnInit();
+      component.headerInfoForm.get('quotationToDate').enable();
       quotationToDateSubject$$.next({
         extendedDate: '2014-01-01',
         extendedDateForManyItems: '2014-01-01',
         manyItemsDateThreshold: 20,
       });
-      component.ngOnInit();
       expect(component.headerInfoForm.get('quotationToDate')?.value).toEqual(
         getMomentUtcStartOfDayDate('2014-01-01')
       );
     });
     test('should set quotationToDate when number of rows has changed', () => {
+      component.ngOnInit();
+      component.headerInfoForm.get('quotationToDate').enable();
       quotationToDateSubject$$.next({
         extendedDate: '2014-01-01',
         extendedDateForManyItems: '2014-01-02',
@@ -322,12 +325,13 @@ describe('CreateCaseHeaderInformationComponent', () => {
         {} as MaterialTableItem,
         {} as MaterialTableItem,
       ]);
-      component.ngOnInit();
       expect(component.headerInfoForm.get('quotationToDate')?.value).toEqual(
         getMomentUtcStartOfDayDate('2014-01-02')
       );
     });
     test('should set expectedDate when manyItemsDateThreshold is not defined', () => {
+      component.ngOnInit();
+      component.headerInfoForm.get('quotationToDate').enable();
       quotationToDateSubject$$.next({
         extendedDate: '2014-01-01',
         extendedDateForManyItems: '2014-01-02',
@@ -337,7 +341,6 @@ describe('CreateCaseHeaderInformationComponent', () => {
         {} as MaterialTableItem,
         {} as MaterialTableItem,
       ]);
-      component.ngOnInit();
       expect(component.headerInfoForm.get('quotationToDate')?.value).toEqual(
         getMomentUtcStartOfDayDate('2014-01-01')
       );
@@ -356,6 +359,23 @@ describe('CreateCaseHeaderInformationComponent', () => {
       const control = component.headerInfoForm.get('quotationToDate');
       const spy = jest.spyOn(control, 'setValue');
       component.ngOnInit();
+      expect(spy).toHaveBeenCalledTimes(0);
+    });
+    test('should not set quotationToDate when control is disabled', () => {
+      component.ngOnInit();
+      const control = component.headerInfoForm.get('quotationToDate');
+      control.disable();
+      quotationToDateSubject$$.next({
+        extendedDate: '2014-01-01',
+        extendedDateForManyItems: '2014-01-02',
+        manyItemsDateThreshold: 2,
+      });
+      newCaseRowDataSubject$$.next([
+        {} as MaterialTableItem,
+        {} as MaterialTableItem,
+      ]);
+
+      const spy = jest.spyOn(control, 'setValue');
       expect(spy).toHaveBeenCalledTimes(0);
     });
   });
