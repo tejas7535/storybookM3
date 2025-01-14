@@ -26,6 +26,8 @@ import {
   ProductCategoryRuleTableValue,
   SAPMaterialsRequest,
   SAPMaterialsResponse,
+  ServerSideMaterialsRequest,
+  VitescoMaterialsResponse,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services';
 import {
@@ -55,6 +57,9 @@ import {
   fetchSAPMaterials,
   fetchSAPMaterialsFailure,
   fetchSAPMaterialsSuccess,
+  fetchVitescoMaterials,
+  fetchVitescoMaterialsFailure,
+  fetchVitescoMaterialsSuccess,
   infoSnackBar,
   setAgGridFilter,
   setAgGridFilterForNavigation,
@@ -123,6 +128,7 @@ describe('Data Effects', () => {
       [NavigationLevel.SUPPLIER, fetchManufacturerSuppliers],
       [NavigationLevel.STANDARD, fetchMaterialStandards],
       [NavigationLevel.MATERIAL, undefined, MaterialClass.SAP_MATERIAL],
+      [NavigationLevel.MATERIAL, undefined, MaterialClass.VITESCO],
       [undefined, undefined],
       [NavigationLevel.PRODUCT_CATEGORY_RULES, fetchProductCategoryRules],
     ])(
@@ -152,7 +158,7 @@ describe('Data Effects', () => {
     );
   });
 
-  describe('fetchMaterials$', () => {
+  describe('fetchRawMaterials$', () => {
     it(
       'should fetch materials and return success action on success',
       marbles((m) => {
@@ -173,7 +179,7 @@ describe('Data Effects', () => {
         });
         const expected = m.cold('--b', { b: result });
 
-        m.expect(effects.fetchMaterials$).toBeObservable(expected);
+        m.expect(effects.fetchRawMaterials$).toBeObservable(expected);
         m.flush();
 
         expect(msdDataService.getMaterials).toHaveBeenCalledWith(
@@ -202,7 +208,7 @@ describe('Data Effects', () => {
         const result = fetchMaterialsFailure();
         const expected = m.cold('-b', { b: result });
 
-        m.expect(effects.fetchMaterials$).toBeObservable(expected);
+        m.expect(effects.fetchRawMaterials$).toBeObservable(expected);
         m.flush();
 
         expect(msdDataService.getMaterials).toHaveBeenCalledWith(
@@ -210,6 +216,9 @@ describe('Data Effects', () => {
         );
       })
     );
+  });
+
+  describe('fetchSapMaterials$', () => {
     it(
       'should fetch sap materials and return success action on success',
       marbles((m) => {
@@ -235,7 +244,7 @@ describe('Data Effects', () => {
         const result = fetchSAPMaterialsSuccess({ ...resultMock, startRow: 0 });
         const expected = m.cold('--b', { b: result });
 
-        m.expect(effects.fetchMaterials$).toBeObservable(expected);
+        m.expect(effects.fetchSapMaterials$).toBeObservable(expected);
         m.flush();
 
         expect(msdDataService.fetchSAPMaterials).toHaveBeenCalledWith({
@@ -270,10 +279,85 @@ describe('Data Effects', () => {
         });
         const expected = m.cold('-b', { b: result });
 
-        m.expect(effects.fetchMaterials$).toBeObservable(expected);
+        m.expect(effects.fetchSapMaterials$).toBeObservable(expected);
         m.flush();
 
         expect(msdDataService.fetchSAPMaterials).toHaveBeenCalledWith({
+          startRow: 0,
+          retryCount: 2,
+        } as SAPMaterialsRequest);
+      })
+    );
+  });
+
+  describe('fetchVitescoMaterials$', () => {
+    it(
+      'should fetch sap materials and return success action on success',
+      marbles((m) => {
+        msdDataFacade.navigation$ = of({
+          materialClass: MaterialClass.VITESCO,
+          navigationLevel: NavigationLevel.MATERIAL,
+        });
+
+        action = fetchVitescoMaterials({
+          request: { startRow: 0 } as ServerSideMaterialsRequest,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock: VitescoMaterialsResponse = {
+          data: [],
+          lastRow: -1,
+          totalRows: 300,
+          subTotalRows: 100,
+        };
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.fetchVitescoMaterials = jest.fn(() => response);
+
+        const result = fetchVitescoMaterialsSuccess({
+          ...resultMock,
+          startRow: 0,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.fetchVitescoMaterials$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchVitescoMaterials).toHaveBeenCalledWith({
+          startRow: 0,
+        } as SAPMaterialsRequest);
+      })
+    );
+
+    it(
+      'should fetch sap materials and return failure action on failure',
+      marbles((m) => {
+        msdDataFacade.navigation$ = of({
+          materialClass: MaterialClass.SAP_MATERIAL,
+          navigationLevel: NavigationLevel.MATERIAL,
+        });
+
+        action = fetchVitescoMaterials({
+          request: { startRow: 0, retryCount: 2 } as SAPMaterialsRequest,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.fetchVitescoMaterials = jest
+          .fn()
+          .mockReturnValue(
+            throwError(() => new HttpErrorResponse({ status: 404 }))
+          );
+
+        const result = fetchVitescoMaterialsFailure({
+          startRow: 0,
+          errorCode: 404,
+          retryCount: 2,
+        });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.fetchVitescoMaterials$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchVitescoMaterials).toHaveBeenCalledWith({
           startRow: 0,
           retryCount: 2,
         } as SAPMaterialsRequest);

@@ -6,6 +6,7 @@ import {
   ManufacturerSupplierTableValue,
   MaterialStandardTableValue,
   SAPMaterialsRequest,
+  ServerSideMaterialsRequest,
 } from '@mac/msd/models';
 import * as DataActions from '@mac/msd/store/actions/data';
 
@@ -96,6 +97,111 @@ describe('dataReducer', () => {
             materials: undefined,
           },
         },
+      });
+    });
+
+    describe('fetchVitescoMaterials', () => {
+      it('should reset result on fetchVitescoMaterials', () => {
+        const action = DataActions.fetchVitescoMaterials({
+          request: {} as ServerSideMaterialsRequest,
+        });
+        const newState = dataReducer(
+          {
+            ...state,
+            vitescoMaterialsRows: {
+              startRow: 0,
+            },
+            result: {
+              ...state.result,
+              [MaterialClass.VITESCO]: {
+                materials: [],
+              },
+            },
+          },
+          action
+        );
+
+        expect(newState).toEqual({
+          ...initialState,
+          vitescoMaterialsRows: {
+            lastRow: undefined,
+            startRow: undefined,
+          },
+          result: {
+            ...initialState.result,
+            [MaterialClass.VITESCO]: {
+              materials: undefined,
+            },
+          },
+        });
+      });
+
+      it('should set vitescoMaterialRows and result', () => {
+        const action = DataActions.fetchVitescoMaterialsSuccess({
+          data: [],
+          lastRow: -1,
+          totalRows: 300,
+          subTotalRows: 100,
+          startRow: 0,
+        });
+        const newState = dataReducer({ ...state }, action);
+
+        expect(newState).toEqual({
+          ...initialState,
+          vitescoMaterialsRows: {
+            lastRow: -1,
+            totalRows: 300,
+            subTotalRows: 100,
+            startRow: 0,
+          },
+          result: {
+            ...initialState.result,
+            [MaterialClass.VITESCO]: {
+              ...initialState.result[MaterialClass.VITESCO],
+              materials: [],
+            },
+          },
+        });
+      });
+
+      it('should set the startRow and unset the result', () => {
+        const action = DataActions.fetchVitescoMaterialsFailure({
+          startRow: 0,
+          errorCode: 1,
+          retryCount: 2,
+        });
+        const newState = dataReducer(
+          {
+            ...state,
+            vitescoMaterialsRows: {
+              startRow: 100,
+              lastRow: 100,
+              totalRows: 100,
+              subTotalRows: 100,
+            },
+            result: {
+              ...state.result,
+              [MaterialClass.VITESCO]: {
+                materials: [],
+              },
+            },
+          },
+          action
+        );
+
+        expect(newState).toEqual({
+          ...initialState,
+          vitescoMaterialsRows: {
+            startRow: 0,
+            errorCode: 1,
+            retryCount: 2,
+          },
+          result: {
+            [MaterialClass.VITESCO]: {
+              materials: undefined,
+            },
+          },
+        });
       });
     });
 

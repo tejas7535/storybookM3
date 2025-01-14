@@ -12,6 +12,7 @@ import {
   DataResult,
   SAPMaterialsRequest,
 } from '@mac/feature/materials-supplier-database/models';
+import { ServerSideMaterialsRequest } from '@mac/feature/materials-supplier-database/models/data/vitesco-material/vitesco-materials-request.model';
 import {
   getAgGridColumns,
   getAgGridFilter,
@@ -30,6 +31,7 @@ import {
   getSAPResult,
   getSelectedMaterialData,
   getShareQueryParams,
+  getVitescoResult,
   isBulkEditAllowed,
 } from '@mac/msd/store/selectors';
 
@@ -50,6 +52,7 @@ export class DataFacade {
   sapResult$ = this.store.select(getSAPResult);
   resultCount$ = this.store.select(getResultCount);
   sapMaterialsRows$ = this.store.select(getSAPMaterialsRows);
+  vitescoResult$ = this.store.select(getVitescoResult);
 
   hasEditorRole$ = this.store.pipe(hasIdTokenRole(this.EDITOR_ROLE));
   hasMatnrUploaderRole$ = this.store.pipe(
@@ -97,6 +100,10 @@ export class DataFacade {
 
   fetchSAPMaterials(request: SAPMaterialsRequest) {
     this.store.dispatch(DataActions.fetchSAPMaterials({ request }));
+  }
+
+  fetchVitescoMaterials(request: ServerSideMaterialsRequest) {
+    this.store.dispatch(DataActions.fetchVitescoMaterials({ request }));
   }
 
   openMultiEditDialog(rows: DataResult[], combinedRows: DataResult) {

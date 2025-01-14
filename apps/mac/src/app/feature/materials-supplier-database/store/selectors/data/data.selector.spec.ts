@@ -5,7 +5,11 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
-import { DataResult, SAPMaterialsResponse } from '@mac/msd/models';
+import {
+  DataResult,
+  SAPMaterialsResponse,
+  VitescoMaterialsResponse,
+} from '@mac/msd/models';
 import {
   DataState,
   initialState,
@@ -111,7 +115,11 @@ describe('DataSelectors', () => {
           ...initialState,
           materialClasses: [MaterialClass.STEEL],
         })
-      ).toEqual([MaterialClass.STEEL, MaterialClass.SAP_MATERIAL]);
+      ).toEqual([
+        MaterialClass.STEEL,
+        MaterialClass.SAP_MATERIAL,
+        MaterialClass.VITESCO,
+      ]);
     });
   });
 
@@ -245,45 +253,87 @@ describe('DataSelectors', () => {
     expect(result).toEqual(0);
   });
 
-  it('should get sap material rows', () => {
-    expect(DataSelectors.getSAPMaterialsRows.projector(initialState)).toEqual(
-      undefined
-    );
-  });
+  describe('SAPMaterials', () => {
+    it('should get sap material rows', () => {
+      expect(DataSelectors.getSAPMaterialsRows.projector(initialState)).toEqual(
+        undefined
+      );
+    });
 
-  it('should get sap material rows and result', () => {
-    expect(
-      DataSelectors.getSAPResult.projector(
-        {
-          ...initialState,
-          result: {
-            [MaterialClass.SAP_MATERIAL]: {
-              materials: [],
+    it('should get sap material rows and result', () => {
+      expect(
+        DataSelectors.getSAPResult.projector(
+          {
+            ...initialState,
+            result: {
+              [MaterialClass.SAP_MATERIAL]: {
+                materials: [],
+              },
             },
           },
-        },
-        {
-          lastRow: -1,
-          totalRows: 300,
-          subTotalRows: 100,
-          startRow: 0,
-        }
-      )
-    ).toEqual({
-      data: [],
-      lastRow: -1,
-      totalRows: 300,
-      subTotalRows: 100,
-      startRow: 0,
-    } as SAPMaterialsResponse);
+          {
+            lastRow: -1,
+            totalRows: 300,
+            subTotalRows: 100,
+            startRow: 0,
+          }
+        )
+      ).toEqual({
+        data: [],
+        lastRow: -1,
+        totalRows: 300,
+        subTotalRows: 100,
+        startRow: 0,
+      } as SAPMaterialsResponse);
+    });
+
+    it('should return undefined if sap material rows are undefined', () => {
+      expect(
+        DataSelectors.getSAPResult.projector(undefined, [] as any)
+      ).toEqual(undefined);
+    });
   });
 
-  it('should return undefined if sap material rows are undefined', () => {
-    expect(DataSelectors.getSAPResult.projector(undefined, [] as any)).toEqual(
-      undefined
-    );
-  });
+  describe('Vitesco', () => {
+    it('should get vitesco material rows', () => {
+      expect(
+        DataSelectors.getVitescoMaterialsRows.projector(initialState)
+      ).toEqual(undefined);
+    });
 
+    it('should get vitesco material rows and result', () => {
+      expect(
+        DataSelectors.getVitescoResult.projector(
+          {
+            ...initialState,
+            result: {
+              [MaterialClass.VITESCO]: {
+                materials: [],
+              },
+            },
+          },
+          {
+            lastRow: -1,
+            totalRows: 300,
+            subTotalRows: 100,
+            startRow: 0,
+          }
+        )
+      ).toEqual({
+        data: [],
+        lastRow: -1,
+        totalRows: 300,
+        subTotalRows: 100,
+        startRow: 0,
+      } as VitescoMaterialsResponse);
+    });
+
+    it('should return undefined if vitesco material rows are undefined', () => {
+      expect(
+        DataSelectors.getVitescoResult.projector(undefined, [] as any)
+      ).toEqual(undefined);
+    });
+  });
   it('should get allowance for bulk edit', () => {
     expect(
       DataSelectors.isBulkEditAllowed.projector({

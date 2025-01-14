@@ -13,11 +13,9 @@
     *ngrxLet="navigation$ as navigation"
   >
     <ng-container>
-      <!-- @if (navigation.navigationLevel !== 'productCategoryRules') { -->
       <mac-quick-filter
         (managementTabSelected)="quickFilterManagementTabActive = $event"
       ></mac-quick-filter>
-      <!-- } -->
 
       <div class="flex w-full h-[calc(100%-33px)] flex-1">
         <div class="h-full w-full">
@@ -27,211 +25,25 @@
             ></mac-quick-filter-management>
           }
           <div [hidden]="quickFilterManagementTabActive" class="h-full w-full">
-            @if (navigation.materialClass !== 'sap') {
-              <ag-grid-angular
-                class="ag-theme-material border-border h-full border"
-                [masterDetail]="true"
-                [detailCellRenderer]="detailCellRenderer"
-                [detailRowAutoHeight]="true"
-                [suppressCellFocus]="true"
-                [columnDefs]="columnDefs"
-                [defaultColDef]="defaultColDef"
-                [sideBar]="sidebar"
-                [enableCellTextSelection]="true"
-                [rowData]="result$ | ngrxPush"
-                [tooltipShowDelay]="agGridTooltipDelay"
-                rowSelection="multiple"
-                [suppressRowClickSelection]="true"
-                (gridReady)="onGridReady($event)"
-                (filterChanged)="onFilterChange($event)"
-                (firstDataRendered)="setAgGridFilter($event)"
-                [rowClass]="['!border-l-0', '!border-t-0']"
-                [rowClassRules]="{
-                  '!bg-opacity-5 !bg-[#cb0b15]': isBlockedRow,
-                  '!bg-opacity-5 !bg-nordic-blue': isRecentlyChangedRow
-                }"
-                (columnVisible)="onColumnChange($event)"
-                (columnMoved)="onColumnChange($event)"
-                (columnResized)="onColumnChange($event)"
-                (sortChanged)="onColumnChange($event)"
-              ></ag-grid-angular>
+            @if (navigation.materialClass === 'sap') {
+              <mac-sap-material-datagrid></mac-sap-material-datagrid>
+            } @else if (navigation.materialClass === 'vitesco') {
+              <mac-vitesco-material-datagrid></mac-vitesco-material-datagrid>
             } @else {
-              <ag-grid-angular
-                class="ag-theme-material border-border h-full border"
-                [masterDetail]="true"
-                [detailCellRenderer]="detailCellRenderer"
-                [loadingCellRenderer]="loadingCellRenderer"
-                [excelStyles]="excelStyles"
-                [suppressContextMenu]="true"
-                [detailRowAutoHeight]="true"
-                rowModelType="serverSide"
-                [columnDefs]="columnDefs"
-                [defaultColDef]="defaultColDef"
-                [serverSideInfiniteScroll]="true"
-                [serverSideFilterOnServer]="true"
-                [serverSideSortOnServer]="true"
-                [suppressCellFocus]="true"
-                [sideBar]="sidebar"
-                [rowData]="serverSideRowData"
-                [enableCellTextSelection]="true"
-                [tooltipShowDelay]="agGridTooltipDelay"
-                [rowClass]="['!border-l-0', '!border-t-0']"
-                [rowClassRules]="{
-                  '!bg-opacity-5 !bg-[#cb0b15]': isBlockedRow,
-                  '!bg-opacity-5 !bg-nordic-blue': isRecentlyChangedRow
-                }"
-                [cacheBlockSize]="DEFAULT_BLOCK_SIZE"
-                [maxBlocksInCache]="4"
-                [blockLoadDebounceMillis]="500"
-                [maxConcurrentDatasourceRequests]="1"
-                [context]="{ dataService }"
-                (gridReady)="onGridReady($event, true)"
-                (filterChanged)="onFilterChange($event)"
-                (columnVisible)="onColumnChange($event)"
-                (columnMoved)="onColumnChange($event)"
-                (columnResized)="onColumnChange($event)"
-                (sortChanged)="onColumnChange($event)"
-              ></ag-grid-angular>
+              <mac-raw-material-datagrid></mac-raw-material-datagrid>
             }
           </div>
         </div>
       </div>
     </ng-container>
     @if (!quickFilterManagementTabActive) {
-      <div
-        class="flex flex-col items-center justify-start gap-4 p-4 pl-0 md:flex-row"
-      >
-        @if (navigation.materialClass !== materialClass.SAP_MATERIAL) {
-          @if (!(hasMinimizedDialog$ | ngrxPush)) {
-            <button
-              mat-raised-button
-              color="primary"
-              [disabled]="
-                !(hasEditorRole$ | ngrxPush) ||
-                !editableClass(navigation.materialClass) ||
-                navigation.navigationLevel === 'productCategoryRules'
-              "
-              (click)="openDialog(false)"
-            >
-              <mat-icon class="material-icons-outlined">add</mat-icon>
-              <span>{{ t('addItem') }}</span>
-            </button>
-            @if (countSelectedNodes() >= 2) {
-              <button
-                mat-raised-button
-                class="!bg-nordic-blue"
-                (click)="openDialogMultiEdit()"
-              >
-                <mat-icon class="material-icons-outlined">edit</mat-icon>
-                <span class="text-white">{{
-                  t('multiEdit', { count: countSelectedNodes() })
-                }}</span>
-              </button>
-            }
-          } @else {
-            <button
-              mat-raised-button
-              class="!bg-nordic-blue"
-              [disabled]="
-                !(hasEditorRole$ | ngrxPush) ||
-                !editableClass(navigation.materialClass) ||
-                navigation.navigationLevel === 'productCategoryRules'
-              "
-              (click)="resumeDialog()"
-            >
-              <mat-icon class="text-white">play_arrow</mat-icon>
-              <span class="text-white">{{ t('resume') }}</span>
-            </button>
-          }
-          <button
-            mat-button
-            color="primary"
-            (click)="exportExcelRawMaterials()"
-          >
-            <mat-icon class="material-icons-outlined">download</mat-icon>
-            <span>{{ t('export') }}</span>
-          </button>
-        } @else {
-          <button
-            mat-raised-button
-            [disabled]="!(hasMatnrUploaderRole$ | ngrxPush)"
-            color="primary"
-            (click)="openSapMaterialsUploadDialog()"
-          >
-            <mat-icon class="material-icons-outlined">add</mat-icon>
-            <span>{{ t('uploadItem') }}</span>
-          </button>
-          <button
-            class="!pointer-events-auto"
-            *ngrxLet="sapMaterialsRows$ as sapMaterialsRows"
-            mat-button
-            color="primary"
-            (click)="exportExcelSapMaterials()"
-            [matTooltip]="t('mainTable.excelExport.matNrTooltip')"
-            [disabled]="
-              !(hasMatnrUploaderRole$ | ngrxPush) ||
-              sapMaterialsRows?.subTotalRows > EXPORT_BLOCK_SIZE
-            "
-          >
-            <mat-icon class="material-icons-outlined">download</mat-icon>
-            <span>{{ t('export') }}</span>
-          </button>
-        }
-        <button
-          mat-button
-          color="primary"
-          [disabled]="isDefaultAgGridFilter()"
-          (click)="resetForm()"
-        >
-          <mat-icon class="material-icons-outlined">sync</mat-icon>
-          <span>{{ t('resetTable') }}</span>
-        </button>
-        <div
-          class="flex flex-grow flex-row items-center justify-start gap-4"
-          *ngrxLet="sapMaterialsRows$ as sapMaterialsRows"
-        >
-          <div class="flex flex-col">
-            <div class="text-caption text-low-emphasis">
-              {{
-                t('allClass', {
-                  class: t(navigation.navigationLevel)
-                })
-              }}
-            </div>
-            <div class="text-caption text-high-emphasis">
-              {{
-                (navigation.materialClass !== 'sap'
-                  ? (resultCount$ | ngrxPush)
-                  : sapMaterialsRows?.totalRows) || 0
-              }}
-            </div>
-          </div>
-          <div class="flex flex-col">
-            <div class="text-caption text-low-emphasis">
-              {{ t('subtotal') }}
-            </div>
-            <div class="text-caption text-high-emphasis">
-              {{
-                (navigation.materialClass !== 'sap'
-                  ? agGridApi?.getDisplayedRowCount()
-                  : sapMaterialsRows?.subTotalRows) || 0
-              }}
-            </div>
-          </div>
-        </div>
-        <button
-          mat-button
-          color="primary"
-          (click)="
-            navigation.materialClass !== 'sap'
-              ? fetchResult()
-              : refreshServerSide()
-          "
-        >
-          <mat-icon class="material-icons-outlined">refresh</mat-icon>
-          <span>{{ t('reload') }}</span>
-        </button>
-      </div>
+      @if (navigation.materialClass === 'sap') {
+        <mac-sap-material-control-panel></mac-sap-material-control-panel>
+      } @else if (navigation.materialClass === 'vitesco') {
+        <mac-vitesco-material-control-panel></mac-vitesco-material-control-panel>
+      } @else {
+        <mac-raw-material-control-panel></mac-raw-material-control-panel>
+      }
     }
   </div>
   @if (

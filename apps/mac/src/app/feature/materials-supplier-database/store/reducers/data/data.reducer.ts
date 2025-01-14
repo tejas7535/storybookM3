@@ -27,6 +27,9 @@ import {
   fetchSAPMaterials,
   fetchSAPMaterialsFailure,
   fetchSAPMaterialsSuccess,
+  fetchVitescoMaterials,
+  fetchVitescoMaterialsFailure,
+  fetchVitescoMaterialsSuccess,
   resetResult,
   setAgGridColumns,
   setAgGridFilterForNavigation,
@@ -61,6 +64,14 @@ export interface DataState {
     errorCode?: number;
     retryCount?: number;
   };
+  vitescoMaterialsRows: {
+    lastRow?: number;
+    totalRows?: number;
+    subTotalRows?: number;
+    startRow: number;
+    errorCode?: number;
+    retryCount?: number;
+  };
   result: {
     [key in MaterialClass]?: {
       [NavigationLevel.MATERIAL]?: Material[];
@@ -84,6 +95,7 @@ export const initialState: DataState = {
   materialClasses: [],
   materialClassLoading: undefined,
   sapMaterialsRows: undefined,
+  vitescoMaterialsRows: undefined,
   result: {},
 };
 
@@ -123,6 +135,24 @@ export const dataReducer = createReducer(
         ...state.result,
         [MaterialClass.SAP_MATERIAL]: {
           ...state.result[MaterialClass.SAP_MATERIAL],
+          materials: undefined,
+        },
+      },
+    })
+  ),
+  on(
+    fetchVitescoMaterials,
+    (state): DataState => ({
+      ...state,
+      vitescoMaterialsRows: {
+        ...state.vitescoMaterialsRows,
+        lastRow: undefined,
+        startRow: undefined,
+      },
+      result: {
+        ...state.result,
+        [MaterialClass.VITESCO]: {
+          ...state.result[MaterialClass.VITESCO],
           materials: undefined,
         },
       },
@@ -190,6 +220,46 @@ export const dataReducer = createReducer(
         ...state.result,
         [MaterialClass.SAP_MATERIAL]: {
           ...state.result[MaterialClass.SAP_MATERIAL],
+          materials: undefined,
+        },
+      },
+    })
+  ),
+  on(
+    fetchVitescoMaterialsSuccess,
+    (
+      state,
+      { data, lastRow, totalRows, subTotalRows, startRow }
+    ): DataState => ({
+      ...state,
+      vitescoMaterialsRows: {
+        lastRow,
+        totalRows,
+        subTotalRows,
+        startRow,
+      },
+      result: {
+        ...state.result,
+        [MaterialClass.VITESCO]: {
+          ...state.result[MaterialClass.VITESCO],
+          materials: data,
+        },
+      },
+    })
+  ),
+  on(
+    fetchVitescoMaterialsFailure,
+    (state, { startRow, errorCode, retryCount }): DataState => ({
+      ...state,
+      vitescoMaterialsRows: {
+        startRow,
+        errorCode,
+        retryCount,
+      },
+      result: {
+        ...state.result,
+        [MaterialClass.VITESCO]: {
+          ...state.result[MaterialClass.VITESCO],
           materials: undefined,
         },
       },

@@ -62,6 +62,7 @@ import {
   SteelMaterialStandardTableValue,
   SteelProductCategoryRule,
   SteelProductCategoryRuleTableValue,
+  VitescoMaterial,
 } from '@mac/msd/models';
 
 export type Material =
@@ -71,6 +72,7 @@ export type Material =
   | CopperMaterial
   | CeramicMaterial
   | SAPMaterial
+  | VitescoMaterial
   | LubricantMaterial;
 export type MaterialResponse =
   | AluminumMaterialResponse

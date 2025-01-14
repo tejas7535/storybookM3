@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import { CommonModule, DatePipe } from '@angular/common';
 import {
   AfterViewInit,
@@ -9,89 +8,31 @@ import {
   OnInit,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subject } from 'rxjs';
-import { filter, take, takeUntil } from 'rxjs/operators';
 
-import { translate } from '@jsverse/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
-import { AgGridModule } from 'ag-grid-angular';
-import {
-  ColDef,
-  ColumnApi,
-  ColumnState,
-  ExcelCell,
-  ExcelRow,
-  ExcelStyle,
-  GridApi,
-  IRowNode,
-  IServerSideDatasource,
-  IServerSideGetRowsParams,
-  ProcessCellForExportParams,
-  ProcessRowGroupForExportParams,
-  RowClassParams,
-  SideBarDef,
-  ValueGetterParams,
-} from 'ag-grid-enterprise';
 
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { StringOption } from '@schaeffler/inputs';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import {
-  ACTION,
-  EMISSION_FACTOR_KG,
-  EMISSION_FACTOR_PC,
-  HISTORY,
-  LAST_MODIFIED,
-  MANUFACTURER_SUPPLIER_SAPID,
-  MaterialClass,
-  NavigationLevel,
-  RECENT_STATUS,
-  RELEASE_DATE,
-  RELEASED_STATUS,
-  Status,
-} from '@mac/msd/constants';
-import {
-  DEFAULT_COLUMN_DEFINITION,
-  SIDE_BAR_CONFIG,
-} from '@mac/msd/main-table/table-config';
-import {
-  RELEASE_DATE_VALUE_GETTER,
-  STATUS_VALUE_GETTER,
-} from '@mac/msd/main-table/table-config/helpers';
-import {
-  ActiveNavigationLevel,
-  DataResult,
-  SAPMaterial,
-  SapMaterialsDatabaseUploadStatus,
-  SapMaterialsDatabaseUploadStatusResponse,
-} from '@mac/msd/models';
-import {
-  MsdAgGridConfigService,
-  MsdAgGridReadyService,
-  MsdAgGridStateService,
-  MsdDataService,
-  MsdDialogService,
-} from '@mac/msd/services';
+import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
+import { ActiveNavigationLevel } from '@mac/msd/models';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
-import { EDITABLE_MATERIAL_CLASSES } from '../constants/editable-material-classes';
-import { DialogFacade } from '../store/facades/dialog';
 import { QuickFilterFacade } from '../store/facades/quickfilter';
-import { DetailCellRendererComponent } from './cell-renderers/detail-cell-renderer/detail-cell-renderer.component';
-import { LoadingCellRendererComponent } from './components/loading-cell-renderer/loading-cell-renderer.component';
 import { MsdNavigationComponent } from './components/msd-navigation/msd-navigation.component';
+import { RawMaterialControlPanelComponent } from './control-panel/raw-material-control-panel/raw-material-control-panel.component';
+import { SapMaterialControlPanelComponent } from './control-panel/sap-material-control-panel/sap-material-control-panel.component';
+import { VitescoMaterialControlPanelComponent } from './control-panel/vitesco-material-control-panel/vitesco-material-control-panel.component';
+import { RawMaterialDatagridComponent } from './datagrid/raw-material-datagrid/raw-material-datagrid.component';
+import { SapMaterialDatagridComponent } from './datagrid/sap-material-datagrid/sap-material-datagrid.component';
+import { VitescoMaterialDatagridComponent } from './datagrid/vitesco-material-datagrid/vitesco-material-datagrid.component';
 import { QuickFilterComponent } from './quick-filter/quick-filter.component';
 import { QuickFilterManagementComponent } from './quick-filter/quick-filter-management/quick-filter-management.component';
-import { excelStyles } from './table-config/materials/sap-materials/sap-excel-styles';
-import { getStatus } from './util';
 
-/* eslint-disable max-lines */
 @Component({
   selector: 'mac-main-table',
   templateUrl: './main-table.component.html',
@@ -103,144 +44,45 @@ import { getStatus } from './util';
     MsdNavigationComponent,
     QuickFilterComponent,
     QuickFilterManagementComponent,
+    SapMaterialDatagridComponent,
+    VitescoMaterialDatagridComponent,
+    RawMaterialDatagridComponent,
+    RawMaterialControlPanelComponent,
+    SapMaterialControlPanelComponent,
+    VitescoMaterialControlPanelComponent,
     // angular material
     MatIconModule,
     MatButtonModule,
-    MatDialogModule,
     MatProgressSpinnerModule,
     // libs
     SharedTranslocoModule,
     // ngrx
     PushPipe,
     LetDirective,
-    // ag grid
-    AgGridModule,
   ],
   providers: [DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
-  public readonly materialClass = MaterialClass;
-  public readonly DEFAULT_BLOCK_SIZE = 100;
-  public readonly EXPORT_BLOCK_SIZE = 100_000;
-
-  // master detail cell renderer
-  public detailCellRenderer = DetailCellRendererComponent;
-  // loading cell renderer
-  public loadingCellRenderer = LoadingCellRendererComponent;
+  public activeNavigationLevel: ActiveNavigationLevel;
+  public navigation$ = this.dataFacade.navigation$;
+  public quickFilterManagementTabActive = false;
 
   public optionsLoading$ = this.dataFacade.optionsLoading$;
   public resultLoading$ = this.dataFacade.resultLoading$;
   public quickFiltersLoading$ = this.quickFilterFacade.isLoading$;
-
-  public result$ = this.dataFacade.result$;
-  public resultCount$ = this.dataFacade.resultCount$;
-  public sapMaterialsRows$ = this.dataFacade.sapMaterialsRows$;
-
-  public hasEditorRole$ = this.dataFacade.hasEditorRole$;
-  public hasMatnrUploaderRole$ = this.dataFacade.hasMatnrUploaderRole$;
-  public isBulkEditAllowed$ = this.dataFacade.isBulkEditAllowed$;
-
-  public hasMinimizedDialog$ = this.dataFacade.hasMinimizedDialog$;
-
-  public selectedClass: string;
-
   public destroy$ = new Subject<void>();
-
-  public hasEditorRole: boolean;
-  public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
-  public defaultColumnDefs: ColDef[];
-  public columnDefs: ColDef[];
-  public sidebar: SideBarDef = SIDE_BAR_CONFIG;
-  public navigation$ = this.dataFacade.navigation$;
-  public activeNavigationLevel: ActiveNavigationLevel;
-
-  public agGridTooltipDelay = 500;
-
-  public serverSideRowData!: SAPMaterial[];
-  public excelStyles: ExcelStyle[] = excelStyles;
-
-  public quickFilterManagementTabActive = false;
-
-  private agGridApi!: GridApi;
-  private agGridColumnApi!: ColumnApi;
-
-  private restoredColumnState: ColumnState[];
-
-  private visibleColumns: string[];
-
-  // collect columns which are not really in the dataset but rendered by ag grid
-  private readonly META_COLUMNS = [
-    RELEASED_STATUS,
-    RECENT_STATUS,
-    HISTORY,
-    ACTION,
-  ];
-  private readonly NON_EXCEL_COLUMNS = new Set([
-    '',
-    RECENT_STATUS,
-    HISTORY,
-    ACTION,
-  ]);
 
   public constructor(
     private readonly dataFacade: DataFacade,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly agGridStateService: MsdAgGridStateService,
-    private readonly agGridReadyService: MsdAgGridReadyService,
-    private readonly datePipe: DatePipe,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly applicationInsightsService: ApplicationInsightsService,
-    private readonly dialogService: MsdDialogService,
-    public readonly dataService: MsdDataService,
-    private readonly agGridConfigService: MsdAgGridConfigService,
-    private readonly dialogFacade: DialogFacade,
     private readonly quickFilterFacade: QuickFilterFacade
   ) {}
 
   public ngOnInit(): void {
-    this.hasEditorRole$
-      .pipe(take(1))
-      .subscribe((hasEditorRole) => (this.hasEditorRole = hasEditorRole));
-
     this.dataFacade.fetchClassOptions();
-
-    this.dataFacade.agGridFilter$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((filterModel: { [key: string]: any }) => {
-        if (this.agGridApi && filterModel) {
-          this.agGridApi.setFilterModel(filterModel);
-        }
-      });
-
-    this.agGridConfigService.columnDefinitions$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(({ defaultColumnDefinitions, savedColumnState }) => {
-        // restore state from last session
-        // ignore the previous state of all 'lockVisible' columns, those have a default!
-        const locked = new Set(
-          defaultColumnDefinitions
-            .filter((c) => c.lockVisible)
-            .map((c) => c.field)
-        );
-        this.restoredColumnState = savedColumnState?.map((s) =>
-          locked.has(s.colId) ? { ...s, hide: false } : s
-        );
-
-        this.defaultColumnDefs = defaultColumnDefinitions;
-        this.columnDefs = this.getColumnDefs(this.hasEditorRole);
-        if (this.agGridColumnApi) {
-          setTimeout(() =>
-            this.agGridColumnApi.applyColumnState({
-              state: this.restoredColumnState,
-              applyOrder: true,
-            })
-          );
-        }
-      });
-
-    this.reloadDataOnSapMaterialsDatabaseUploadSuccess();
   }
 
   public ngAfterViewInit(): void {
@@ -250,322 +92,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  public editableClass = (materialClass: MaterialClass): boolean =>
-    EDITABLE_MATERIAL_CLASSES.includes(materialClass);
-
-  public getColumnDefs = (hasEditorRole: boolean): ColDef[] =>
-    this.defaultColumnDefs?.map((columnDef) => ({
-      ...columnDef,
-      headerName: translate(
-        `materialsSupplierDatabase.mainTable.columns.${columnDef.headerName}`
-      ),
-      cellRendererParams: {
-        hasEditorRole,
-      },
-    })) ?? [];
-
-  public isBlockedRow(params: RowClassParams): boolean {
-    return (
-      getStatus(params.data?.blocked, params.data?.lastModified) ===
-      Status.BLOCKED
-    );
-  }
-
-  public isRecentlyChangedRow(params: RowClassParams): boolean {
-    return (
-      getStatus(params.data?.blocked, params.data?.lastModified) ===
-      Status.CHANGED
-    );
-  }
-
-  public resumeDialog(): void {
-    this.openDialog(true);
-  }
-
-  public openDialog(isResumeDialog?: boolean): void {
-    this.dialogService.openDialog(isResumeDialog);
-  }
-
-  public openSapMaterialsUploadDialog(): void {
-    this.dialogService
-      .openSapMaterialsUploadDialog()
-      .afterClosed()
-      .pipe(take(1))
-      .subscribe(({ openStatusDialog }: { openStatusDialog: boolean }) => {
-        if (openStatusDialog) {
-          this.openSapMaterialsUploadStatusDialog();
-        }
-      });
-  }
-
-  public openSapMaterialsUploadStatusDialog(): void {
-    this.dialogService
-      .openSapMaterialsUploadStatusDialog()
-      .afterClosed()
-      .pipe(take(1))
-      .subscribe(({ openNewDialog }: { openNewDialog: boolean }) => {
-        if (openNewDialog) {
-          this.openSapMaterialsUploadDialog();
-        }
-      });
-  }
-
-  public createServerSideDataSource(
-    service: MsdAgGridReadyService
-  ): IServerSideDatasource {
-    return {
-      getRows: (params: IServerSideGetRowsParams<SAPMaterial>): void => {
-        service.setParams(params);
-      },
-      destroy: () => {
-        service.unsetParams();
-      },
-    } as IServerSideDatasource;
-  }
-
-  public refreshServerSide(): void {
-    this.agGridApi?.refreshServerSide();
-  }
-
-  public countSelectedNodes(): number {
-    return this.agGridApi?.getSelectedNodes().length;
-  }
-
-  public openDialogMultiEdit() {
-    this.dialogService.openBulkEditDialog(this.agGridApi.getSelectedNodes());
-  }
-
-  public onFilterChange({ api }: { api: GridApi }): void {
-    const filterModel = api.getFilterModel();
-
-    this.dataFacade.setAgGridFilter(filterModel);
-  }
-
-  public setAgGridFilter({ api }: { api: GridApi }): void {
-    this.agGridApi = api;
-    this.dataFacade.agGridFilter$
-      .pipe(take(1))
-      .subscribe((filterModel: { [key: string]: any }) => {
-        if (filterModel) {
-          api.setFilterModel(filterModel);
-        }
-      });
-  }
-
-  public compareStringOptions(a: StringOption, b: StringOption) {
-    return !!a && !!b && a.id === b.id && a.title === b.title;
-  }
-
-  public fetchResult(): void {
-    this.dataFacade.fetchResult();
-  }
-
-  public onGridReady(
-    {
-      api,
-      columnApi,
-    }: {
-      api: GridApi;
-      columnApi: ColumnApi;
-    },
-    serverSide = false
-  ): void {
-    this.agGridApi = api;
-    this.agGridColumnApi = columnApi;
-
-    this.setAgGridFilter({ api });
-    this.setVisibleColumns();
-
-    this.agGridReadyService.agGridApiready(
-      this.agGridApi,
-      this.agGridColumnApi
-    );
-
-    if (this.restoredColumnState) {
-      columnApi.applyColumnState({
-        state: this.restoredColumnState,
-        applyOrder: true,
-      });
-    }
-    if (serverSide) {
-      const datasource = this.createServerSideDataSource(
-        this.agGridReadyService
-      );
-      api.setServerSideDatasource(datasource);
-    }
-  }
-
-  public onColumnChange({ columnApi }: { columnApi: ColumnApi }): void {
-    const agGridColumns = columnApi
-      .getColumnState()
-      .filter((cs) => !this.META_COLUMNS.includes(cs.colId));
-    this.agGridStateService.setColumnState(agGridColumns);
-    this.dataFacade.setAgGridColumns(JSON.stringify(agGridColumns));
-
-    this.setVisibleColumns();
-  }
-
-  public resetAgGridFilter(): void {
-    if (this.agGridApi) {
-      // eslint-disable-next-line unicorn/no-null
-      this.agGridApi.setFilterModel(null);
-      this.agGridApi.onFilterChanged();
-    }
-  }
-
-  public resetAgGridColumnConfiguration(): void {
-    if (this.agGridColumnApi) {
-      this.hasEditorRole$.pipe(take(1)).subscribe((hasEditorRole) => {
-        const state = this.getColumnDefs(hasEditorRole).map(
-          (column: ColDef) =>
-            ({
-              colId: column.field,
-            }) as ColumnState
-        );
-        this.agGridColumnApi.applyColumnState({ state, applyOrder: true });
-        this.setVisibleColumns();
-      });
-    }
-  }
-
-  public applyAgGridFilter(column: string, fullValues: string[]): void {
-    const values: string[] = fullValues.filter(Boolean);
-    if (this.agGridApi) {
-      const filterInstance = this.agGridApi.getFilterInstance(column);
-      // eslint-disable-next-line unicorn/no-null
-      let filterValue: { values: string[] } = null;
-      if (values.length > 0) {
-        filterValue = { values };
-      }
-      filterInstance.setModel(filterValue);
-      this.agGridApi.onFilterChanged();
-    }
-  }
-
-  public resetForm(): void {
-    if (!this.isDefaultAgGridFilter()) {
-      this.resetAgGridFilter();
-    }
-  }
-
-  public isDefaultAgGridFilter(): boolean {
-    return !(
-      this.agGridApi &&
-      this.agGridApi.getFilterModel() &&
-      Object.keys(this.agGridApi.getFilterModel()).length > 0
-    );
-  }
-
-  public exportExcelRawMaterials(): void {
-    if (!this.agGridApi) {
-      return;
-    }
-    this.applicationInsightsService.logEvent('[MAC - MSD] Export Excel');
-
-    const dateString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-    const columns = this.visibleColumns.filter(
-      (columnName) => !this.NON_EXCEL_COLUMNS.has(columnName)
-    );
-
-    // add additional content only if column is visible
-    const isSapIdVisible = columns.includes(MANUFACTURER_SUPPLIER_SAPID);
-
-    this.agGridApi.exportDataAsExcel({
-      author: translate(
-        'materialsSupplierDatabase.mainTable.excelExport.author'
-      ),
-      fileName: `${dateString}${translate(
-        'materialsSupplierDatabase.mainTable.excelExport.fileNameSuffix'
-      )}`,
-      sheetName: translate(
-        'materialsSupplierDatabase.mainTable.excelExport.sheetName'
-      ),
-      columnKeys: columns,
-      // split rows and add sap data
-      getCustomContentBelowRow: isSapIdVisible
-        ? this.splitRowsForMultipleSapIdsInExportFactory(this.getCellValue)
-        : undefined,
-      processCellCallback: isSapIdVisible
-        ? this.excelExportRawProcessCellCallbackFactory(this.getCellValue)
-        : undefined,
-    });
-  }
-
-  public exportExcelSapMaterials(): void {
-    if (!this.agGridApi) {
-      return;
-    }
-    this.applicationInsightsService.logEvent('[MAC - MSD] Export Excel');
-    // event handler function to create the excel file
-    let hasMatnrUploaderRoleValue = false;
-    this.hasMatnrUploaderRole$
-      .pipe(take(1))
-      .subscribe((v) => (hasMatnrUploaderRoleValue = v));
-    const eventHandler = () => {
-      this.agGridApi.removeEventListener('modelUpdated', eventHandler);
-      // get a sorted list of all columns, starting with visible columns
-      const columnList: ColDef[] = [
-        ...this.visibleColumns.map((col) => this.agGridApi.getColumnDef(col)),
-        ...this.agGridApi
-          .getColumnDefs()
-          .filter(
-            (column: ColDef) => !this.visibleColumns.includes(column.field)
-          ),
-      ].filter((column: ColDef) => !this.NON_EXCEL_COLUMNS.has(column.field));
-      // list of columns to add to export
-      const columnKeys = columnList.map((column) => column.field);
-      // get list of column headers (translated)
-      const headerCells = columnList
-        .map((column) => column.headerName)
-        .map(this.toExcelCell('header'));
-      // get second header row, column descriptions
-      const descriptionCells = columnList
-        .map((column) =>
-          column.headerTooltip
-            ? translate(
-                `materialsSupplierDatabase.mainTable.tooltip.${column.headerTooltip}`
-              )
-            : undefined
-        )
-        .map(this.toExcelCell('hint'));
-
-      // Create the excel file
-      const dateString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-      this.agGridApi.exportDataAsExcel({
-        columnKeys,
-        prependContent: [{ cells: headerCells }, { cells: descriptionCells }],
-        skipColumnHeaders: true,
-        author: translate(
-          'materialsSupplierDatabase.mainTable.excelExport.author'
-        ),
-        fileName: `${dateString}${translate(
-          'materialsSupplierDatabase.mainTable.excelExport.matNrFileNameSuffix'
-        )}`,
-        sheetName: translate(
-          'materialsSupplierDatabase.mainTable.excelExport.matNrSheetName'
-        ),
-        processCellCallback: hasMatnrUploaderRoleValue
-          ? undefined
-          : this.excelExportSapProcessCell,
-      });
-      // reset default block size
-      this.agGridApi.setCacheBlockSize(this.DEFAULT_BLOCK_SIZE);
-    };
-    // increasing block size, forcing a data reload
-    this.agGridApi.setCacheBlockSize(this.EXPORT_BLOCK_SIZE);
-    // once data is available, create the excel file
-    this.agGridApi.addEventListener('modelUpdated', eventHandler);
-  }
-
-  private toExcelCell(style: string): (value: string) => ExcelCell {
-    // transform text to ExcelCell Objects
-    return (value: string) =>
-      ({
-        data: { type: 'String', value },
-        styleId: style,
-      }) as ExcelCell;
   }
 
   private parseQueryParams(): void {
@@ -600,156 +126,5 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
     this.dataFacade.setAgGridFilter(filterModel);
-  }
-
-  private setVisibleColumns(): void {
-    if (!this.agGridColumnApi) {
-      return;
-    }
-    this.visibleColumns = this.agGridColumnApi
-      .getColumnState()
-      .filter((columnState: ColumnState) => !columnState.hide)
-      .map((columnState: ColumnState) => columnState.colId);
-  }
-
-  private splitRowsForMultipleSapIdsInExportFactory(
-    getCellValueFn: (columnName: string, value?: any) => string
-  ) {
-    return (params: ProcessRowGroupForExportParams): ExcelRow[] => {
-      const rowNode: IRowNode = params.node;
-      const data = rowNode.data;
-
-      const result: ExcelRow[] = [];
-
-      if (data[MANUFACTURER_SUPPLIER_SAPID]?.length > 1) {
-        for (let i = 1; i < data[MANUFACTURER_SUPPLIER_SAPID].length; i += 1) {
-          const cells: ExcelCell[] = [];
-          const keys = [
-            ...this.META_COLUMNS.filter(
-              (column) => !this.NON_EXCEL_COLUMNS.has(column)
-            ),
-            ...Object.keys(data),
-          ]
-            // since the raw object does not have the RELEASE_DATE key we insert it in place of the year in case it is visible
-            .map((key) => (key === 'releaseDateYear' ? RELEASE_DATE : key))
-            .filter((key) => this.visibleColumns.includes(key))
-            .sort(
-              (a: string, b: string) =>
-                this.visibleColumns.indexOf(a) - this.visibleColumns.indexOf(b)
-            );
-          for (const key of keys) {
-            switch (key) {
-              case MANUFACTURER_SUPPLIER_SAPID: {
-                cells.push({
-                  data: {
-                    type: 'String',
-                    value: getCellValueFn(key, data[key][i]),
-                  },
-                });
-                break;
-              }
-              case RELEASE_DATE: {
-                cells.push({
-                  data: {
-                    type: 'String',
-                    value: getCellValueFn(
-                      key,
-                      RELEASE_DATE_VALUE_GETTER({
-                        data,
-                      } as ValueGetterParams<DataResult>)
-                    ),
-                  },
-                });
-                break;
-              }
-              case RELEASED_STATUS: {
-                cells.push({
-                  data: {
-                    type: 'String',
-                    value: getCellValueFn(
-                      key,
-                      STATUS_VALUE_GETTER({
-                        data,
-                      } as ValueGetterParams<DataResult>)
-                    ),
-                  },
-                });
-                break;
-              }
-              default: {
-                cells.push({
-                  data: {
-                    type: 'String',
-                    value: getCellValueFn(key, data[key]),
-                  },
-                });
-              }
-            }
-          }
-          const row: ExcelRow = { cells };
-          result.push(row);
-        }
-      }
-
-      return result;
-    };
-  }
-
-  private excelExportRawProcessCellCallbackFactory(
-    getCellValueFn: (columnName: string, value?: any) => string
-  ) {
-    return (params: ProcessCellForExportParams) => {
-      const columnName = params.column.getColId();
-
-      const value =
-        columnName === MANUFACTURER_SUPPLIER_SAPID &&
-        params.node.data[MANUFACTURER_SUPPLIER_SAPID]?.length > 1
-          ? params.node.data[MANUFACTURER_SUPPLIER_SAPID][0]
-          : params.value;
-
-      return getCellValueFn(columnName, value);
-    };
-  }
-
-  private excelExportSapProcessCell(params: ProcessCellForExportParams) {
-    const columnName = params.column.getColId();
-
-    return (columnName === EMISSION_FACTOR_KG ||
-      columnName === EMISSION_FACTOR_PC) &&
-      params.node.data['maturity'] < 5
-      ? '---'
-      : params.value;
-  }
-
-  private getCellValue(columnName: string, value?: any): string {
-    switch (columnName) {
-      case RELEASED_STATUS: {
-        return value?.toString() || Status.DEFAULT.toString();
-      }
-      case LAST_MODIFIED: {
-        return value
-          ? new Date(value * 1000).toLocaleDateString('en-GB').toString()
-          : '';
-      }
-      case RELEASE_DATE: {
-        return value ? new Date(value)?.toLocaleDateString('en-GB') || '' : '';
-      }
-      default: {
-        return value?.toString() || '';
-      }
-    }
-  }
-
-  private reloadDataOnSapMaterialsDatabaseUploadSuccess(): void {
-    this.dialogFacade.sapMaterialsDatabaseUploadStatus$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter(
-          (databaseUploadStatus: SapMaterialsDatabaseUploadStatusResponse) =>
-            databaseUploadStatus?.status ===
-            SapMaterialsDatabaseUploadStatus.DONE
-        )
-      )
-      .subscribe(() => this.refreshServerSide());
   }
 }

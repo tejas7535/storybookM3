@@ -2,6 +2,8 @@ import { createAction, props } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
 
+import { VitescoMaterial } from '@mac/feature/materials-supplier-database/models/data/vitesco-material/vitesco-material.model';
+import { ServerSideMaterialsRequest } from '@mac/feature/materials-supplier-database/models/data/vitesco-material/vitesco-materials-request.model';
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import {
   DataResult,
@@ -45,6 +47,11 @@ export const fetchSAPMaterials = createAction(
   props<{ request: SAPMaterialsRequest }>()
 );
 
+export const fetchVitescoMaterials = createAction(
+  '[MSD - Data] Fetch Vitesco Materials',
+  props<{ request: ServerSideMaterialsRequest }>()
+);
+
 export const fetchMaterialsSuccess = createAction(
   '[MSD - Data] Fetch Materials Success',
   props<{
@@ -64,12 +71,32 @@ export const fetchSAPMaterialsSuccess = createAction(
   }>()
 );
 
+export const fetchVitescoMaterialsSuccess = createAction(
+  '[MSD - Data] Fetch Vitesco Materials Success',
+  props<{
+    data: VitescoMaterial[];
+    lastRow: number;
+    totalRows: number;
+    subTotalRows: number;
+    startRow: number;
+  }>()
+);
+
 export const fetchMaterialsFailure = createAction(
   '[MSD - Data] Fetch Materials Failure'
 );
 
 export const fetchSAPMaterialsFailure = createAction(
   '[MSD - Data] Fetch SAP Materials Failure',
+  props<{
+    startRow: number;
+    errorCode: number;
+    retryCount: number;
+  }>()
+);
+
+export const fetchVitescoMaterialsFailure = createAction(
+  '[MSD - Data] Fetch Vitesco Materials Failure',
   props<{
     startRow: number;
     errorCode: number;

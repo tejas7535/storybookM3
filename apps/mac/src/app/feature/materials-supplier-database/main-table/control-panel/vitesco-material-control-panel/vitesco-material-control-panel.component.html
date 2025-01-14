@@ -1,0 +1,45 @@
+<ng-container *transloco="let t; read: 'materialsSupplierDatabase'">
+  <div
+    class="flex flex-col items-center justify-start gap-4 p-4 pl-0 md:flex-row"
+    *ngrxLet="navigation$ as navigation"
+  >
+    <button
+      mat-button
+      color="primary"
+      [disabled]="resetFormDisabled"
+      (click)="resetForm()"
+    >
+      <mat-icon class="material-icons-outlined">sync</mat-icon>
+      <span>{{ t('resetTable') }}</span>
+    </button>
+    <div
+      class="flex flex-grow flex-row items-center justify-start gap-4"
+      *ngrxLet="rowData$ as rowData"
+    >
+      <div class="flex flex-col">
+        <div class="text-caption text-low-emphasis">
+          {{
+            t('allClass', {
+              class: t(navigation.navigationLevel)
+            })
+          }}
+        </div>
+        <div class="text-caption text-high-emphasis">
+          {{ rowData?.totalRows || 0 }}
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div class="text-caption text-low-emphasis">
+          {{ t('subtotal') }}
+        </div>
+        <div class="text-caption text-high-emphasis">
+          {{ rowData?.subTotalRows || 0 }}
+        </div>
+      </div>
+    </div>
+    <button mat-button color="primary" (click)="reload()">
+      <mat-icon class="material-icons-outlined">refresh</mat-icon>
+      <span>{{ t('reload') }}</span>
+    </button>
+  </div>
+</ng-container>

@@ -93,7 +93,9 @@ export class MsdNavigationComponent implements OnInit, OnChanges {
   }
 
   public hasNavigationLevels(materialClass: MaterialClass): boolean {
-    return materialClass !== MaterialClass.SAP_MATERIAL;
+    return ![MaterialClass.SAP_MATERIAL, MaterialClass.VITESCO].includes(
+      materialClass
+    );
   }
 
   private updateNavigationLevel(

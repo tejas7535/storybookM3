@@ -11,3 +11,4 @@ export * from './polymer';
 export * from './sap-materials';
 export * from './steel';
 export * from './types';
+export * from './vitesco-material';

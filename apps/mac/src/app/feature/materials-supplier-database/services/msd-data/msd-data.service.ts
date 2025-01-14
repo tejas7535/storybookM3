@@ -33,6 +33,8 @@ import {
   SapMaterialsUpload,
   SapMaterialsUploadResponse,
   SapValueWithText,
+  ServerSideMaterialsRequest,
+  VitescoMaterialsResponse,
 } from '@mac/msd/models';
 
 import {
@@ -575,6 +577,13 @@ export class MsdDataService {
   public fetchSAPMaterials(request: SAPMaterialsRequest) {
     return this.httpClient.post<SAPMaterialsResponse>(
       `${this.BASE_URL_SAP}/emissionfactor/query`,
+      request
+    );
+  }
+
+  public fetchVitescoMaterials(request: ServerSideMaterialsRequest) {
+    return this.httpClient.post<VitescoMaterialsResponse>(
+      `${this.BASE_URL_SAP}/vitesco/query`,
       request
     );
   }

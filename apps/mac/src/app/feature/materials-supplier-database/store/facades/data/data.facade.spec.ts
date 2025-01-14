@@ -10,6 +10,7 @@ import {
   DataResult,
   MaterialFormValue,
   SAPMaterialsRequest,
+  ServerSideMaterialsRequest,
   SteelMaterial,
 } from '@mac/msd/models';
 import { initialState } from '@mac/msd/store/reducers/data/data.reducer';
@@ -85,6 +86,12 @@ describe('DataFacade', () => {
                 subTotalRows: 100,
                 startRow: 0,
               },
+              vitescoMaterialsRows: {
+                lastRow: -1,
+                totalRows: 300,
+                subTotalRows: 100,
+                startRow: 0,
+              },
               result: {
                 st: {
                   materials: mockResult,
@@ -138,7 +145,11 @@ describe('DataFacade', () => {
       'should provide material class options',
       marbles((m) => {
         const expected = m.cold('a', {
-          a: [...mockMaterialClassOptions, MaterialClass.SAP_MATERIAL],
+          a: [
+            ...mockMaterialClassOptions,
+            MaterialClass.SAP_MATERIAL,
+            MaterialClass.VITESCO,
+          ],
         });
 
         m.expect(facade.materialClassOptions$).toBeObservable(expected);
@@ -241,6 +252,25 @@ describe('DataFacade', () => {
         });
 
         m.expect(facade.sapMaterialsRows$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('vitescoResult$', () => {
+    it(
+      'should provide the result length',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: {
+            data: undefined,
+            lastRow: -1,
+            totalRows: 300,
+            subTotalRows: 100,
+            startRow: 0,
+          },
+        });
+
+        m.expect(facade.vitescoResult$).toBeObservable(expected);
       })
     );
   });
@@ -511,6 +541,18 @@ describe('DataFacade', () => {
       const request = { startRow: 0, endRow: 100 } as SAPMaterialsRequest;
       const action = DataActions.fetchSAPMaterials({ request });
       facade.fetchSAPMaterials(request);
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('fetchVitescoMaterials', () => {
+    it('should dispatch fetchVitescoMaterials action', () => {
+      const request = {
+        startRow: 0,
+        endRow: 100,
+      } as ServerSideMaterialsRequest;
+      const action = DataActions.fetchVitescoMaterials({ request });
+      facade.fetchVitescoMaterials(request);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
   });

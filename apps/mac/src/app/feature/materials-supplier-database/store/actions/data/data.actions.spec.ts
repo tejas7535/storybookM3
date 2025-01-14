@@ -5,6 +5,8 @@ import {
   MaterialStandardTableValue,
   ProductCategoryRuleTableValue,
   SAPMaterialsRequest,
+  ServerSideMaterialsRequest,
+  VitescoMaterial,
 } from '@mac/msd/models';
 
 import {
@@ -28,6 +30,9 @@ import {
   fetchSAPMaterials,
   fetchSAPMaterialsFailure,
   fetchSAPMaterialsSuccess,
+  fetchVitescoMaterials,
+  fetchVitescoMaterialsFailure,
+  fetchVitescoMaterialsSuccess,
   infoSnackBar,
   resetResult,
   setAgGridColumns,
@@ -113,6 +118,49 @@ describe('Data Actions', () => {
       });
     });
   });
+
+  describe('Fetch Vitesco Materials', () => {
+    it('fetchVitescoMaterials', () => {
+      const action = fetchVitescoMaterials({
+        request: {} as ServerSideMaterialsRequest,
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Data] Fetch Vitesco Materials',
+        request: {} as ServerSideMaterialsRequest,
+      });
+    });
+    it('fetchVitescoMaterialsSuccess', () => {
+      const props = {
+        data: [] as VitescoMaterial[],
+        lastRow: -1,
+        totalRows: 144,
+        subTotalRows: 23,
+        startRow: 84,
+      };
+      const action = fetchVitescoMaterialsSuccess(props);
+
+      expect(action).toEqual({
+        type: '[MSD - Data] Fetch Vitesco Materials Success',
+        ...props,
+      });
+    });
+    it('fetchVitescoMaterialsFailure', () => {
+      const action = fetchVitescoMaterialsFailure({
+        startRow: 1,
+        errorCode: 2,
+        retryCount: 0,
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Data] Fetch Vitesco Materials Failure',
+        startRow: 1,
+        errorCode: 2,
+        retryCount: 0,
+      });
+    });
+  });
+
   describe('Fetch Materials Success', () => {
     it('fetchMaterialsSuccess', () => {
       const result: DataResult[] = [{} as DataResult];

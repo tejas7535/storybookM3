@@ -34,9 +34,11 @@ import {
   SAPMaterialsResponse,
   SapMaterialsUpload,
   SapMaterialsUploadResponse,
+  ServerSideMaterialsRequest,
   SteelManufacturerSupplier,
   SteelMaterial,
   SteelMaterialStandard,
+  VitescoMaterialsResponse,
 } from '@mac/msd/models';
 import {
   msdServiceAluminumMockResponse,
@@ -1434,6 +1436,28 @@ describe('MsdDataService', () => {
 
       const req = httpMock.expectOne(
         `${service['BASE_URL_SAP']}/emissionfactor/query`
+      );
+      expect(req.request.method).toBe('POST');
+      req.flush(mockResponse);
+    });
+  });
+  describe('fetchVitescoMaterials', () => {
+    it('should fetch Vitesco materials', (done) => {
+      const mockRequest = {} as ServerSideMaterialsRequest;
+      const mockResponse = {
+        data: [],
+        lastRow: -1,
+        totalRows: 300,
+        subTotalRows: 100,
+      } as VitescoMaterialsResponse;
+
+      service.fetchVitescoMaterials(mockRequest).subscribe((result: any) => {
+        expect(result).toEqual(mockResponse);
+        done();
+      });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL_SAP']}/vitesco/query`
       );
       expect(req.request.method).toBe('POST');
       req.flush(mockResponse);

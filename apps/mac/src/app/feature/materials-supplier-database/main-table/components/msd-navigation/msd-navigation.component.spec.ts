@@ -280,5 +280,11 @@ describe('MsdNavigationComponent', () => {
 
       expect(result).toBe(false);
     });
+
+    it('should return false if class is vitesco', () => {
+      const result = component.hasNavigationLevels(MaterialClass.VITESCO);
+
+      expect(result).toBe(false);
+    });
   });
 });

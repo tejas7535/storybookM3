@@ -34,6 +34,7 @@ import {
   STEEL_PRODUCT_CATEGORY_RULES_COLUMN_DEFINITION,
   STEEL_SUPPLIERS_COLUMN_DEFINITIONS,
 } from './steel';
+import { VITESCO_MATERIALS_COLUMN_DEFINITIONS } from './vitesco-materials';
 
 export interface MsdColumnDefinitionsMapping {
   materials: {
@@ -81,6 +82,9 @@ export const COLUMN_DEFINITIONS_MAPPING: MsdColumnDefinitionsMapping = {
     },
     [MaterialClass.SAP_MATERIAL]: {
       [NavigationLevel.MATERIAL]: SAP_MATERIALS_COLUMN_DEFINITIONS,
+    },
+    [MaterialClass.VITESCO]: {
+      [NavigationLevel.MATERIAL]: VITESCO_MATERIALS_COLUMN_DEFINITIONS,
     },
   },
 };

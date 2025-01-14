@@ -113,3 +113,4 @@ export const FILENAME = 'filename';
 export const ALLOCATION_TO_SIDE_PRODUCTS = 'allocationToSideProducts';
 export const VERSION = 'version';
 export const TITLE = 'title';
+export const PACKAGE_TYPE = 'packageType';

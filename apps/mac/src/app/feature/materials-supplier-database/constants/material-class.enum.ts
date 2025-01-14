@@ -7,6 +7,7 @@ export enum MaterialClass {
   LUBRICANTS = 'lu',
 
   SAP_MATERIAL = 'sap',
+  VITESCO = 'vitesco',
 }
 
 export const SupportedMaterialClasses = Object.values(MaterialClass);

@@ -19,8 +19,8 @@ import {
   MaterialStandardTableValue,
   ProductCategoryRule,
   ProductCategoryRuleTableValue,
-  SAPMaterialsRequest,
   SAPMaterialsResponse,
+  VitescoMaterialsResponse,
 } from '@mac/msd/models';
 import { MsdDataService } from '@mac/msd/services/msd-data';
 import { MsdSnackbarService } from '@mac/msd/services/msd-snackbar';
@@ -35,7 +35,11 @@ export class DataEffects {
       ofType(DataActions.fetchResult),
       concatLatestFrom(() => this.dataFacade.navigation$),
       switchMap(([_action, { navigationLevel, materialClass }]) => {
-        if (materialClass === MaterialClass.SAP_MATERIAL) {
+        if (
+          [MaterialClass.SAP_MATERIAL, MaterialClass.VITESCO].includes(
+            materialClass
+          )
+        ) {
           return [];
         }
         switch (navigationLevel) {
@@ -82,41 +86,70 @@ export class DataEffects {
     { dispatch: false }
   );
 
-  public fetchMaterials$ = createEffect(() => {
+  public fetchRawMaterials$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(DataActions.fetchMaterials, DataActions.fetchSAPMaterials),
+      ofType(DataActions.fetchMaterials),
       concatLatestFrom(() => this.dataFacade.navigation$),
-      switchMap(([action, { materialClass }]) => {
-        if (materialClass !== MaterialClass.SAP_MATERIAL) {
-          return this.msdDataService.getMaterials(materialClass).pipe(
-            map((result: DataResult[] | Material[]) =>
-              DataActions.fetchMaterialsSuccess({
-                materialClass,
-                result,
-              })
-            ),
-            catchError((e: HttpErrorResponse) =>
-              this.handleError(e, DataActions.fetchMaterialsFailure())
-            )
-          );
-        }
+      switchMap(([_action, { materialClass }]) => {
+        return this.msdDataService.getMaterials(materialClass).pipe(
+          map((result: DataResult[] | Material[]) =>
+            DataActions.fetchMaterialsSuccess({
+              materialClass,
+              result,
+            })
+          ),
+          catchError((e: HttpErrorResponse) =>
+            this.handleError(e, DataActions.fetchMaterialsFailure())
+          )
+        );
+      })
+    );
+  });
 
-        const sapAction = action as { request: SAPMaterialsRequest };
-
-        return this.msdDataService.fetchSAPMaterials(sapAction.request).pipe(
+  public fetchSapMaterials$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DataActions.fetchSAPMaterials),
+      switchMap((action) => {
+        return this.msdDataService.fetchSAPMaterials(action.request).pipe(
           map((result: SAPMaterialsResponse) =>
             DataActions.fetchSAPMaterialsSuccess({
               ...result,
-              startRow: sapAction.request.startRow,
+              startRow: action.request.startRow,
             })
           ),
           catchError((e: HttpErrorResponse) =>
             this.handleError(
               e,
               DataActions.fetchSAPMaterialsFailure({
-                startRow: sapAction.request.startRow,
+                startRow: action.request.startRow,
                 errorCode: e.status || 0,
-                retryCount: sapAction.request.retryCount || 0,
+                retryCount: action.request.retryCount || 0,
+              })
+            )
+          )
+        );
+      })
+    );
+  });
+
+  public fetchVitescoMaterials$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DataActions.fetchVitescoMaterials),
+      switchMap((action) => {
+        return this.msdDataService.fetchVitescoMaterials(action.request).pipe(
+          map((result: VitescoMaterialsResponse) =>
+            DataActions.fetchVitescoMaterialsSuccess({
+              ...result,
+              startRow: action.request.startRow,
+            })
+          ),
+          catchError((e: HttpErrorResponse) =>
+            this.handleError(
+              e,
+              DataActions.fetchVitescoMaterialsFailure({
+                startRow: action.request.startRow,
+                errorCode: e.status || 0,
+                retryCount: action.request.retryCount || 0,
               })
             )
           )

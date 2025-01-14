@@ -83,5 +83,10 @@ export const STATIC_QUICKFILTERS_MAPPING: MsdStaticQuickFiltersMapping = {
       [NavigationLevel.SUPPLIER]: [],
       [NavigationLevel.STANDARD]: [],
     },
+    [MaterialClass.VITESCO]: {
+      [NavigationLevel.MATERIAL]: [],
+      [NavigationLevel.SUPPLIER]: [],
+      [NavigationLevel.STANDARD]: [],
+    },
   },
 };

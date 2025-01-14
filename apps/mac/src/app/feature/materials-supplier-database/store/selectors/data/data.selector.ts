@@ -52,7 +52,11 @@ export const getMaterialClassOptions = createSelector(
   getDataState,
   (dataState) =>
     dataState.materialClasses && dataState.materialClasses.length > 0
-      ? [...dataState.materialClasses, MaterialClass.SAP_MATERIAL]
+      ? [
+          ...dataState.materialClasses,
+          MaterialClass.SAP_MATERIAL,
+          MaterialClass.VITESCO,
+        ]
       : undefined
 );
 
@@ -83,6 +87,11 @@ export const getSAPMaterialsRows = createSelector(
   (state) => state.sapMaterialsRows
 );
 
+export const getVitescoMaterialsRows = createSelector(
+  getDataState,
+  (state) => state.vitescoMaterialsRows
+);
+
 export const getSAPResult = createSelector(
   getDataState,
   getSAPMaterialsRows,
@@ -107,6 +116,33 @@ export const getSAPResult = createSelector(
             NavigationLevel.MATERIAL
           ],
           ...sapMaterialsRows,
+        }
+);
+
+export const getVitescoResult = createSelector(
+  getDataState,
+  getVitescoMaterialsRows,
+  (
+    state,
+    vitescoMaterialsRows
+  ):
+    | {
+        data?: Material[];
+        lastRow?: number;
+        totalRows?: number;
+        subTotalRows?: number;
+        startRow?: number;
+        errorCode?: number;
+        retryCount?: number;
+      }
+    | undefined =>
+    vitescoMaterialsRows?.startRow === undefined
+      ? undefined
+      : {
+          data: state.result?.[MaterialClass.VITESCO]?.[
+            NavigationLevel.MATERIAL
+          ],
+          ...vitescoMaterialsRows,
         }
 );
 

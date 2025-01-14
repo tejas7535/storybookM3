@@ -1,0 +1,26 @@
+<ag-grid-angular
+  class="ag-theme-material border-border h-full border"
+  [masterDetail]="true"
+  [detailCellRenderer]="detailCellRenderer"
+  [detailRowAutoHeight]="true"
+  [suppressCellFocus]="true"
+  [columnDefs]="columnDefs"
+  [defaultColDef]="defaultColDef"
+  [sideBar]="sidebar"
+  [enableCellTextSelection]="true"
+  [rowData]="result$ | ngrxPush"
+  [tooltipShowDelay]="500"
+  rowSelection="multiple"
+  [suppressRowClickSelection]="true"
+  (gridReady)="onGridReady($event)"
+  (filterChanged)="onFilterChange($event)"
+  [rowClass]="['!border-l-0', '!border-t-0']"
+  [rowClassRules]="{
+    '!bg-opacity-5 !bg-[#cb0b15]': isBlockedRow,
+    '!bg-opacity-5 !bg-nordic-blue': isRecentlyChangedRow
+  }"
+  (columnVisible)="onColumnChange($event)"
+  (columnMoved)="onColumnChange($event)"
+  (columnResized)="onColumnChange($event)"
+  (sortChanged)="onColumnChange($event)"
+></ag-grid-angular>

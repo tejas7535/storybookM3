@@ -560,6 +560,7 @@
         "allocationToSideProducts": "Allocation to side products",
         "version": "Version",
         "date": "Date",
+        "packageType": "Package",
 
         "co2Upstream": "CO₂ Upstream",
         "co2Core": "CO₂ Core",
@@ -1083,7 +1084,8 @@
       "cu": "Copper",
       "ce": "Ceramic",
       "lu": "Lubricants",
-      "sap": "SAP Materials"
+      "sap": "SAP Materials",
+      "vitesco": "Vitesco Materials"
     },
     "materialClassValuesNavigation": {
       "st": "Steel",
@@ -1092,7 +1094,8 @@
       "cu": "Copper alloys",
       "ce": "Ceramics",
       "lu": "Lubricants",
-      "sap": "SAP material numbers"
+      "sap": "SAP material numbers",
+      "vitesco": "Vitesco Materials"
     },
     "status": {
       "statusValues": {

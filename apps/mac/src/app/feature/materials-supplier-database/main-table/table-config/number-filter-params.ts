@@ -11,5 +11,5 @@ export const NUMBER_FILTER_PARAMS = {
   ],
   buttons: ['apply', 'reset'],
   closeOnApply: true,
-  suppressAndOrCondition: true,
+  maxNumConditions: 1,
 };
