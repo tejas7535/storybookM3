@@ -1001,7 +1001,8 @@
       "deleteSubstitution": "您确实想删除该替换？"
     },
     "error": {
-      "fieldNotAllowed": "禁止该选项在此使用"
+      "fieldNotAllowed": "禁止该选项在此使用",
+      "check_replacement_type": "类型不正确。请选择有效值。"
     },
     "button": {
       "createSubstitution": "创建替代",

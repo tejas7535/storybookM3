@@ -1001,7 +1001,8 @@
       "deleteSubstitution": "¿Debería suprimirse realmente la sustitución?"
     },
     "error": {
-      "fieldNotAllowed": "El campo no debe rellenarse para el tipo seleccionado."
+      "fieldNotAllowed": "El campo no debe rellenarse para el tipo seleccionado.",
+      "check_replacement_type": "Tipo incorrecto. Por favor, seleccione un valor válido."
     },
     "button": {
       "createSubstitution": "Crear sustitución",

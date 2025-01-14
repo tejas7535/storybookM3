@@ -1010,7 +1010,8 @@
       "deleteSubstitution": "Soll die Ersetzung wirklich gelöscht werden?"
     },
     "error": {
-      "fieldNotAllowed": "Das Feld darf für den ausgewählten Typ nicht befüllt werden."
+      "fieldNotAllowed": "Das Feld darf für den ausgewählten Typ nicht befüllt werden.",
+      "check_replacement_type": "Typ fehlerhaft. Bitte wählen Sie einen gültigen Wert aus."
     },
     "button": {
       "createSubstitution": "Ersetzung erstellen",

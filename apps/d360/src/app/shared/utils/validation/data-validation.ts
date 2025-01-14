@@ -14,14 +14,16 @@ import { parseToStringLiteralTypeIfPossible } from '../parse-values';
 
 export function validateReplacementType(value: string): string | undefined {
   const localizationKeyCreation = (val: ReplacementType) =>
-    translate(`replacement_type.${val}`, {});
+    translate(`replacement_type.${val}`);
   const parsedValue = parseToStringLiteralTypeIfPossible(
     value,
     replacementTypeValues,
     localizationKeyCreation
   );
   if (!parsedValue) {
-    return translate('generic.validation.check_inputs', {});
+    return translate(
+      'internal_material_replacement.error.check_replacement_type'
+    );
   }
 
   return undefined;
@@ -50,7 +52,7 @@ export const validateSelectableOptions =
       DisplayFunctions.displayFnUnited(option).includes(value)
     );
     if (!foundValue) {
-      return translate('generic.validation.check_inputs', {});
+      return translate('generic.validation.check_inputs');
     }
 
     return undefined;

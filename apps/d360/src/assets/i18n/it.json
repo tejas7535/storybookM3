@@ -1001,7 +1001,8 @@
       "deleteSubstitution": "La sostituzione deve essere davvero cancellata?"
     },
     "error": {
-      "fieldNotAllowed": "Il campo non deve essere compilato per il tipo selezionato."
+      "fieldNotAllowed": "Il campo non deve essere compilato per il tipo selezionato.",
+      "check_replacement_type": "Tipo non corretto. Selezionare un valore valido."
     },
     "button": {
       "createSubstitution": "Creare una sostituzione",
