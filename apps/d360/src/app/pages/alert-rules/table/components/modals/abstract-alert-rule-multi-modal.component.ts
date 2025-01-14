@@ -453,7 +453,7 @@ export abstract class AbstractAlertRuleMultiModalComponent
       },
       {
         field: 'alertComment',
-        headerName: translate('alert_rules.edit_modal.label.comment'),
+        headerName: translate('alert_rules.edit_modal.label.remark'),
         editable: true,
       },
     ];

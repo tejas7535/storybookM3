@@ -784,7 +784,7 @@
           "D1": "Daily"
         },
         "end": "End",
-        "comment": "Comment",
+        "remark": "Comment",
         "region": "Region",
         "type": "Alert type",
         "none": "Deselect"

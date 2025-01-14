@@ -18,7 +18,7 @@
         <d360-single-autocomplete-pre-loaded
           [form]="formGroup"
           [control]="$any(formGroup.controls.type)"
-          [label]="t(translationStart + '.type', {})"
+          [label]="t(translationStart + '.type')"
           [optionsLoadingResult]="getOptions('alertTypesForRuleEditor')"
           [getOptionLabelInTag]="displayFnText"
           (selectionChange)="updateForm($event, 'type')"
@@ -28,7 +28,7 @@
         <d360-filter-dropdown
           [form]="formGroup"
           [control]="$any(formGroup.controls.region)"
-          [label]="t(translationStart + '.region', {})"
+          [label]="t(translationStart + '.region')"
           [options]="getOptions('region').options"
           [formatOptionValue]="displayFnText"
           (selectionChange)="
@@ -43,7 +43,7 @@
         <d360-filter-dropdown
           [form]="formGroup"
           [control]="$any(formGroup.controls.salesArea)"
-          [label]="t(translationStart + '.sales_area', {})"
+          [label]="t(translationStart + '.sales_area')"
           [options]="getOptions('salesArea').options"
           (selectionChange)="
             updateForm(
@@ -59,7 +59,7 @@
         <d360-single-autocomplete-pre-loaded
           [form]="formGroup"
           [control]="$any(formGroup.controls.salesOrg)"
-          [label]="t(translationStart + '.sales_org', {})"
+          [label]="t(translationStart + '.sales_org')"
           [optionsLoadingResult]="getOptions('salesOrg')"
           (selectionChange)="updateForm($event, 'salesOrg')"
           [addClearButton]="true"
@@ -69,7 +69,7 @@
         <d360-filter-dropdown
           [form]="formGroup"
           [control]="$any(formGroup.controls.sectorManagement)"
-          [label]="t(translationStart + '.sector_management', {})"
+          [label]="t(translationStart + '.sector_management')"
           [options]="getOptions('sectorMgmt').options"
           (selectionChange)="
             updateForm(
@@ -84,7 +84,7 @@
         <d360-single-autocomplete-pre-loaded
           [form]="formGroup"
           [control]="$any(formGroup.controls.demandPlannerId)"
-          [label]="t(translationStart + '.demandPlanner', {})"
+          [label]="t(translationStart + '.demandPlanner')"
           [optionsLoadingResult]="getOptions('demandPlanners')"
           (selectionChange)="updateForm($event, 'demandPlannerId')"
           [addClearButton]="true"
@@ -94,7 +94,7 @@
         <d360-single-autocomplete-pre-loaded
           [form]="formGroup"
           [control]="$any(formGroup.controls.gkamNumber)"
-          [label]="t(translationStart + '.gkam', {})"
+          [label]="t(translationStart + '.gkam')"
           [optionsLoadingResult]="getOptions('gkam')"
           (selectionChange)="updateForm($event, 'gkamNumber')"
           [addClearButton]="true"
@@ -104,7 +104,7 @@
         <d360-single-autocomplete-on-type
           [form]="formGroup"
           [control]="$any(formGroup.controls.customerNumber)"
-          [label]="t(translationStart + '.customer', {})"
+          [label]="t(translationStart + '.customer')"
           urlBegin="global-selection/search-customers"
           (selectionChange)="updateForm($event, 'customerNumber')"
           [addClearButton]="true"
@@ -114,7 +114,7 @@
         <d360-filter-dropdown
           [form]="formGroup"
           [control]="$any(formGroup.controls.materialClassification)"
-          [label]="t(translationStart + '.materialClassification', {})"
+          [label]="t(translationStart + '.materialClassification')"
           [options]="materialClassificationOptions"
           (selectionChange)="
             updateForm(
@@ -129,7 +129,7 @@
         <d360-single-autocomplete-pre-loaded
           [form]="formGroup"
           [control]="$any(formGroup.controls.productLine)"
-          [label]="t(translationStart + '.product_line', {})"
+          [label]="t(translationStart + '.product_line')"
           [optionsLoadingResult]="getOptions('productLine')"
           (selectionChange)="updateForm($event, 'productLine')"
           [addClearButton]="true"
@@ -139,7 +139,7 @@
         <d360-single-autocomplete-on-type
           [form]="formGroup"
           [control]="$any(formGroup.controls.productionLine)"
-          [label]="t(translationStart + '.production_line', {})"
+          [label]="t(translationStart + '.production_line')"
           urlBegin="global-selection/search-production-line"
           (selectionChange)="updateForm($event, 'productionLine')"
           [addClearButton]="true"
@@ -150,7 +150,7 @@
         <d360-single-autocomplete-on-type
           [control]="$any(formGroup.controls.materialNumber)"
           [form]="formGroup"
-          [label]="t(translationStart + '.material', {})"
+          [label]="t(translationStart + '.material')"
           urlBegin="global-selection/search-materials"
           (selectionChange)="updateForm($event, 'materialNumber')"
           [addClearButton]="true"
@@ -231,7 +231,7 @@
           <d360-filter-dropdown
             [form]="formGroup"
             [control]="$any(formGroup.controls.execInterval)"
-            [label]="t(translationStart + '.interval.rootString', {})"
+            [label]="t(translationStart + '.interval.rootString')"
             [options]="execIntervalOptions.options"
             [formatOptionValue]="displayFnText"
             [formatSelectedValue]="displayFnText"
@@ -241,11 +241,11 @@
           <!-- execDay -->
           <div>
             <mat-form-field [formGroup]="formGroup" appearance="outline">
-              <mat-label>{{
-                t(translationStart + '.when.rootString', {})
-              }}</mat-label>
+              <mat-label
+                >{{ t(translationStart + '.when.rootString') }}
+              </mat-label>
               <mat-select
-                [aria-label]="t(translationStart + '.when.rootString', {})"
+                [aria-label]="t(translationStart + '.when.rootString')"
                 [formControl]="$any(formGroup.controls.execDay)"
                 (selectionChange)="
                   updateForm(
@@ -256,7 +256,7 @@
               >
                 @for (option of execDayOptions; track option) {
                   <mat-option [value]="option">
-                    {{ t(translationStart + '.when.' + option, {}) }}
+                    {{ t(translationStart + '.when.' + option) }}
                   </mat-option>
                 }
               </mat-select>
@@ -265,6 +265,7 @@
               }
             </mat-form-field>
           </div>
+
           <!-- endDate -->
           <d360-date-picker
             [control]="$any(formGroup.controls.endDate)"
@@ -274,13 +275,12 @@
 
         <!-- row 8 -->
         <!-- alertComment -->
-
         <mat-form-field
           [formGroup]="formGroup"
           appearance="outline"
           class="compact styled-text-field md:col-span-3"
         >
-          <mat-label>{{ t(translationStart + '.comment', {}) }}</mat-label>
+          <mat-label>{{ t(translationStart + '.remark') }}</mat-label>
           <textarea
             matInput
             cdkTextareaAutosize

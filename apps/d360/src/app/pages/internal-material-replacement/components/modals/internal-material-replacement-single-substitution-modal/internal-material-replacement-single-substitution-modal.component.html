@@ -2,11 +2,11 @@
   <div mat-dialog-title class="m-0 pt-0">
     @if (data.isNewSubstitution) {
       <h2 class="text-title-large">
-        {{ t('internal_material_replacement.title.newSubstitution', {}) }}
+        {{ t('internal_material_replacement.title.newSubstitution') }}
       </h2>
     } @else {
       <h2 class="text-title-large">
-        {{ t('internal_material_replacement.title.editSubstitution', {}) }}
+        {{ t('internal_material_replacement.title.editSubstitution') }}
       </h2>
     }
   </div>
@@ -21,7 +21,7 @@
         <d360-filter-dropdown
           [form]="formGroup"
           [control]="$any(formGroup.controls.replacementType)"
-          [label]="t(translationStart + '.replacementType', {})"
+          [label]="t(translationStart + '.replacementType')"
           [options]="replacementTypeOptions"
           (selectionChange)="updateForm($event)"
           [formatOptionValue]="DisplayFunctions.displayFnText"
@@ -32,7 +32,7 @@
         <d360-filter-dropdown
           [control]="$any(formGroup.controls.region)"
           [form]="formGroup"
-          [label]="t('globalSelection.region', {})"
+          [label]="t('globalSelection.region')"
           [options]="selectableOptionsService.get('region').options"
           class="col-start-1 col-end-1"
           [formatOptionValue]="DisplayFunctions.displayFnUnited"
@@ -42,7 +42,7 @@
         <d360-single-autocomplete-pre-loaded
           [form]="formGroup"
           [control]="$any(formGroup.controls.salesArea)"
-          [label]="t('globalSelection.sales_area', {})"
+          [label]="t('globalSelection.sales_area')"
           [optionsLoadingResult]="selectableOptionsService.get('salesArea')"
           [getOptionLabelInTag]="DisplayFunctions.displayFnUnited"
           [displayFn]="DisplayFunctions.displayFnUnitedNullable"
@@ -60,7 +60,7 @@
 
         <!-- customer -->
         <d360-single-autocomplete-on-type
-          [label]="t('globalSelection.customer.rootString', {})"
+          [label]="t('globalSelection.customer.rootString')"
           urlBegin="global-selection/search-customers"
           [form]="formGroup"
           [control]="$any(formGroup.controls.customerNumber)"
@@ -69,7 +69,7 @@
         <!-- predecessorMaterial -->
         <d360-single-autocomplete-on-type
           [label]="
-            t('internal_material_replacement.column.predecessorMaterial', {})
+            t('internal_material_replacement.column.predecessorMaterial')
           "
           urlBegin="global-selection/search-materials"
           [form]="formGroup"
@@ -78,9 +78,7 @@
 
         <!-- successorMaterial -->
         <d360-single-autocomplete-on-type
-          [label]="
-            t('internal_material_replacement.column.successorMaterial', {})
-          "
+          [label]="t('internal_material_replacement.column.successorMaterial')"
           urlBegin="global-selection/search-materials"
           [form]="formGroup"
           [control]="$any(formGroup.controls.successorMaterial)"
@@ -112,7 +110,7 @@
           [label]="t(translationStart + '.replacementDate')"
           [errorMessage]="replacementDateCustomErrorMessage()"
           [hint]="
-            t('internal_material_replacement.helper_text.replacementDate', {})
+            t('internal_material_replacement.helper_text.replacementDate')
           "
         ></d360-date-picker>
 
@@ -122,9 +120,7 @@
           appearance="outline"
           class="md:col-span-3"
         >
-          <mat-label
-            >{{ t('alert_rules.edit_modal.label.comment', {}) }}
-          </mat-label>
+          <mat-label>{{ t('alert_rules.edit_modal.label.remark') }} </mat-label>
           <textarea
             matInput
             cdkTextareaAutosize
@@ -141,14 +137,14 @@
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close (click)="handleOnClose(false, null)">
-      {{ t('button.close', {}) }}
+      {{ t('button.close') }}
     </button>
     <button
       [disabled]="loading() || (selectableOptionsService.loading$ | ngrxPush)"
       (click)="onSave()"
       mat-flat-button
     >
-      {{ t('button.save', {}) }}
+      {{ t('button.save') }}
     </button>
   </mat-dialog-actions>
 </div>

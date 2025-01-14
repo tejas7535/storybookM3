@@ -766,7 +766,7 @@
           "D1": "Diariamente"
         },
         "end": "Fim",
-        "comment": "Comentário",
+        "remark": "Comentário",
         "region": "Região",
         "type": "Tipo de alerta",
         "none": "Deselecione"

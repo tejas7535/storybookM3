@@ -23,7 +23,6 @@ import {
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { MatDivider } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -113,7 +112,6 @@ export interface AlertRuleModalProps {
     CdkTextareaAutosize,
     DatePickerComponent,
     NumberSeparatorDirective,
-    MatDivider,
   ],
   templateUrl: './alert-rule-edit-single-modal.component.html',
   styleUrl: './alert-rule-edit-single-modal.component.scss',

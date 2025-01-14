@@ -766,7 +766,7 @@
           "D1": "Tous les jours"
         },
         "end": "Fin",
-        "comment": "Commentaire",
+        "remark": "Commentaire",
         "region": "Région",
         "type": "Type d'alerte",
         "none": "Désélectionner"

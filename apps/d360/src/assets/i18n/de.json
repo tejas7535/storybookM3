@@ -775,7 +775,7 @@
           "D1": "Täglich"
         },
         "end": "Ende",
-        "comment": "Kommentar",
+        "remark": "Kommentar",
         "region": "Region",
         "type": "Alerttyp",
         "none": "Abwählen"

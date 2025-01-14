@@ -127,7 +127,7 @@ export function alertRuleColumnDefinitions(
     {
       ...getDefaultColumn(),
       colId: 'alertComment',
-      title: 'alert_rules.edit_modal.label.comment',
+      title: 'alert_rules.edit_modal.label.remark',
       filter: undefined,
       sortable: false,
       maxWidth: 375,
