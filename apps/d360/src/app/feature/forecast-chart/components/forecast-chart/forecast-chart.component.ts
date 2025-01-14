@@ -199,8 +199,8 @@ export class ForecastChartComponent implements OnInit {
     ) {
       this.chartData.set(
         this.isYearlyChartSelected()
-          ? previewDataYearly.chartEntries
-          : previewDataMonthly.chartEntries
+          ? previewDataYearly().chartEntries
+          : previewDataMonthly().chartEntries
       );
       this.isPreviewDataRendered.set(true);
       this.isLoading.set(false);

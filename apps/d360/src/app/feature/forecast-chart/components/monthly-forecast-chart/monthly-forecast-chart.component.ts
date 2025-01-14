@@ -32,8 +32,8 @@ export class MonthlyForecastChartComponent extends BaseForecastChartComponent {
       this.createLineSeries('deliveries', data),
       this.createLineSeries('orders', data),
       this.createLineSeries('onTopOrder', data),
-      this.createLineSeries('salesAmbition', data),
       this.createLineSeries('onTopCapacityForecast', data),
+      this.createLineSeries('salesAmbition', data),
       this.createLineSeries('opportunities', data),
       {
         name: translate('home.chart.legend.rollingSalesForecast'),
