@@ -514,6 +514,7 @@
         "category": "Category",
         "plant": "Plant",
         "businessPartnerId": "BusinessPartnerId",
+        "supplierIdText": "Supplier",
         "supplierCountry": "Supplier Country",
         "supplierRegion": "Supplier Region",
         "dataDate": "Date",

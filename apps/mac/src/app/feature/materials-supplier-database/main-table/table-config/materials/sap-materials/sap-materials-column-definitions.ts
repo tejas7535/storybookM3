@@ -164,6 +164,12 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     },
   },
   {
+    field: SUPPLIER_ID_TEXT,
+    headerName: SUPPLIER_ID_TEXT,
+    filter: 'agTextColumnFilter',
+    filterParams: TEXT_FILTER_PARAMS,
+  },
+  {
     field: RAW_MATERIAL_MANUFACTURER,
     headerName: RAW_MATERIAL_MANUFACTURER,
     filter: 'agTextColumnFilter',
