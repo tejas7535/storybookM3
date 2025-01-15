@@ -1098,7 +1098,8 @@
       "116": "Il predecessore {{messaggioV1}} deve avere in fabbrica {{messaggioV2}} STOTY = A. STOTY è {{messaggioV3}}",
       "117": "Il successore {{messaggioV1}} non è presente in nessun impianto AP/OP del gruppo DC {{messaggioV2}}.",
       "118": "Il successore di {{messaggioV1}} nell'opera {{messaggioV2}} è diverso in MARC: {{messaggioV3}}.",
-      "119": "L'area di vendita non deve essere mantenuta per il tipo di sostituzione {{messaggioV1}}."
+      "119": "L'area di vendita non deve essere mantenuta per il tipo di sostituzione {{messaggioV1}}.",
+      "123": "Non è consentita la data SOP prima della data di cutover"
     }
   },
   "planing_type": {

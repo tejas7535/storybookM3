@@ -1098,7 +1098,8 @@
       "116": "O predecessor {{messageV1}} deve ter na fábrica {{messageV2}} STOTY = A. STOTY é {{messageV3}}",
       "117": "O sucessor {{messageV1}} não está presente em nenhuma planta AP/OP do grupo DC {{messageV2}}.",
       "118": "O sucessor de {{messageV1}} na obra {{messageV2}} é diferente no MARC: {{messageV3}}.",
-      "119": "A área de vendas não deve ser atualizada para o tipo de substituição {{messageV1}}."
+      "119": "A área de vendas não deve ser atualizada para o tipo de substituição {{messageV1}}.",
+      "123": "Não é permitida uma data SOP anterior à data de transferência"
     }
   },
   "planing_type": {

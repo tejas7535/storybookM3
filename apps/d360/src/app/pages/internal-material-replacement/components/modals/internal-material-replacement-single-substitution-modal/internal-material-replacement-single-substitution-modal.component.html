@@ -74,6 +74,7 @@
           urlBegin="global-selection/search-materials"
           [form]="formGroup"
           [control]="$any(formGroup.controls.predecessorMaterial)"
+          [errorMessage]="materialCustomErrorMessage()"
         ></d360-single-autocomplete-on-type>
 
         <!-- successorMaterial -->
@@ -82,6 +83,7 @@
           urlBegin="global-selection/search-materials"
           [form]="formGroup"
           [control]="$any(formGroup.controls.successorMaterial)"
+          [errorMessage]="materialCustomErrorMessage()"
         ></d360-single-autocomplete-on-type>
 
         <!-- startOfProduction -->

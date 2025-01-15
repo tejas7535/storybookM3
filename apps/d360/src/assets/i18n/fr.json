@@ -1098,7 +1098,8 @@
       "116": "Le prédécesseur {{messageV1}} doit avoir {{messageV2}} dans l'usine. STOTY = A. STOTY est {{messageV3}}",
       "117": "Le successeur {{messageV1}} n'est présent dans aucune usine AP/OP du groupe DC {{messageV2}}.",
       "118": "Le successeur de {{messageV1}} dans la division {{messageV2}} est différent dans MARC : {{messageV3}}.",
-      "119": "Le domaine commercial ne doit pas être géré pour le type de substitution {{messageV1}}."
+      "119": "Le domaine commercial ne doit pas être géré pour le type de substitution {{messageV1}}.",
+      "123": "La date du PIC avant la date de transition n'est pas autorisée"
     }
   },
   "planing_type": {

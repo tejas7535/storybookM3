@@ -1098,7 +1098,8 @@
       "116": "前续{{messageV1}} 必须在工厂 {{messageV2}}具有 STOTY = A. STOTY 是 {{messageV3}}",
       "117": "DC 组别{{messageV2}}的任何 AP/OP 工厂中都不存在后续{{messageV1}}。",
       "118": "在MARC中{{messageV1}}的后续在工厂{{messageV2}}是不同的：{{messageV3}}",
-      "119": "禁止维护该 {{messageV1}} 替换类型在本销售领域内"
+      "119": "禁止维护该 {{messageV1}} 替换类型在本销售领域内",
+      "123": "不允许 SOP 日期早于切换日期"
     }
   },
   "planing_type": {

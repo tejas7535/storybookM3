@@ -1116,7 +1116,8 @@
       "116": "The predecessor {{messageV1}} must have in the factory {{messageV2}} STOTY = A. STOTY is {{messageV3}}",
       "117": "Successor {{messageV1}} is not present in any AP/OP plant of DC group {{messageV2}}.",
       "118": "Successor for {{messageV1}} in plant {{messageV2}} is different in MARC: {{messageV3}}.",
-      "119": "The sales area must not be maintained for the {{messageV1}} substitution type."
+      "119": "The sales area must not be maintained for the {{messageV1}} substitution type.",
+      "123": "SOP date before cutover date is not allowed"
     }
   },
   "planing_type": {

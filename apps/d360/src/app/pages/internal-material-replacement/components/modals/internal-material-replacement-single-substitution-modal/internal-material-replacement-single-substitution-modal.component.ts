@@ -70,6 +70,7 @@ import {
   ToastResult,
 } from '../../../../../shared/utils/error-handling';
 import { SnackbarService } from '../../../../../shared/utils/service/snackbar.service';
+import { ValidationHelper } from '../../../../../shared/utils/validation/validation-helper';
 import {
   getReplacementTypeLogic,
   ReplacementTypeLogic,
@@ -144,11 +145,32 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
   protected cutoverDateCustomErrorMessage = signal<string | null>(null);
   protected startOfProductionCustomErrorMessage = signal<string | null>(null);
   protected replacementDateCustomErrorMessage = signal<string | null>(null);
+  protected materialCustomErrorMessage = signal<string | null>(null);
 
   protected MAX_DATE = new Date(9999, 12, 31);
   protected TODAY = new Date();
 
   ngOnInit(): void {
+    this.predecessorMaterialControl.valueChanges
+      .pipe(
+        tap(() => {
+          this.successorMaterialControl.updateValueAndValidity({
+            emitEvent: false,
+          });
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+    this.successorMaterialControl.valueChanges
+      .pipe(
+        tap(() => {
+          this.predecessorMaterialControl.updateValueAndValidity({
+            emitEvent: false,
+          });
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
     this.enableAllFields();
     this.setInitialValues();
 
@@ -200,40 +222,102 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
       );
   }
 
-  protected formGroup = new FormGroup({
-    replacementType: new FormControl(null, { validators: Validators.required }),
-    region: new FormControl(null),
-    salesArea: new FormControl(null),
-    salesOrg: new FormControl(null),
-    customerNumber: new FormControl(null),
-    predecessorMaterial: new FormControl(null),
-    successorMaterial: new FormControl(null),
-    replacementDate: new FormControl(null, {
-      validators: this.data.isNewSubstitution
-        ? []
-        : this.validateAgainstExistingDate(
-            this.data.substitution.replacementDate,
-            this.replacementDateCustomErrorMessage
-          ),
-    }),
-    startOfProduction: new FormControl(null, {
-      validators: this.data.isNewSubstitution
-        ? []
-        : this.validateAgainstExistingDate(
-            this.data.substitution.startOfProduction,
-            this.startOfProductionCustomErrorMessage
-          ),
-    }),
-    cutoverDate: new FormControl(null, {
-      validators: this.data.isNewSubstitution
-        ? []
-        : this.validateAgainstExistingDate(
-            this.data.substitution.cutoverDate,
-            this.cutoverDateCustomErrorMessage
-          ),
-    }),
-    note: new FormControl(null),
+  protected predecessorMaterialControl = new FormControl(null, {
+    validators: this.keepMaterialOnPackagingChange('successorMaterial'),
   });
+  protected successorMaterialControl = new FormControl(null, {
+    validators: this.keepMaterialOnPackagingChange('predecessorMaterial'),
+  });
+  protected formGroup = new FormGroup(
+    {
+      replacementType: new FormControl(null, {
+        validators: Validators.required,
+      }),
+      region: new FormControl(null),
+      salesArea: new FormControl(null),
+      salesOrg: new FormControl(null),
+      customerNumber: new FormControl(null),
+      predecessorMaterial: this.predecessorMaterialControl,
+      successorMaterial: this.successorMaterialControl,
+      replacementDate: new FormControl(null, {
+        validators: this.data.isNewSubstitution
+          ? []
+          : this.validateAgainstExistingDate(
+              this.data.substitution.replacementDate,
+              this.replacementDateCustomErrorMessage
+            ),
+      }),
+      startOfProduction: new FormControl(null, {
+        validators: this.data.isNewSubstitution
+          ? []
+          : this.validateAgainstExistingDate(
+              this.data.substitution.startOfProduction,
+              this.startOfProductionCustomErrorMessage
+            ),
+      }),
+      cutoverDate: new FormControl(null, {
+        validators: this.data.isNewSubstitution
+          ? []
+          : this.validateAgainstExistingDate(
+              this.data.substitution.cutoverDate,
+              this.cutoverDateCustomErrorMessage
+            ),
+      }),
+      note: new FormControl(null),
+    },
+    {
+      validators: [this.cutoverDateBeforeSOP()],
+      updateOn: 'change',
+    }
+  );
+
+  private keepMaterialOnPackagingChange(opponent: string): ValidatorFn {
+    return (materialControl: AbstractControl) => {
+      const type = materialControl.parent
+        ?.get('replacementType')
+        ?.getRawValue()?.id;
+      const material = materialControl?.getRawValue()?.id;
+      const opponentMaterialControl = materialControl.parent?.get(opponent);
+      const opponentMaterial = opponentMaterialControl?.getRawValue()?.id;
+
+      if (
+        type === 'PACKAGING_CHANGE' &&
+        material &&
+        opponentMaterial &&
+        material !== opponentMaterial
+      ) {
+        this.materialCustomErrorMessage.set(
+          translate('sap_message./SGD/SCM_SOP_SALES.107')
+        );
+
+        return { keepMaterialOnPackagingChange: true };
+      }
+      this.materialCustomErrorMessage.set(null);
+
+      return null;
+    };
+  }
+
+  private cutoverDateBeforeSOP(): ValidatorFn {
+    return (formGroup: AbstractControl) => {
+      const errors = ValidationHelper.getStartEndDateValidationErrors(
+        formGroup as FormGroup,
+        false,
+        'cutoverDate',
+        'startOfProduction'
+      );
+
+      if (errors && errors['endDate']) {
+        this.startOfProductionCustomErrorMessage.set(
+          translate('sap_message./SGD/SCM_SOP_SALES.123')
+        );
+        this.formGroup.get('cutoverDate').markAsTouched();
+        this.formGroup.get('startOfProduction').markAsTouched();
+      }
+
+      return errors;
+    };
+  }
 
   protected updateForm(event: any): void {
     if (event !== null) {

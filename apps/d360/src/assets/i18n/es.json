@@ -1098,7 +1098,8 @@
       "116": "El predecesor {{mensajeV1}} debe tener en la fábrica {{mensajeV2}} STOTY = A. STOTY es {{messageV3}}",
       "117": "El sucesor {{mensajeV1}} no está presente en ninguna planta AP/OP del grupo DC {{mensajeV2}}.",
       "118": "El sucesor de {{mensajeV1}} en la obra {{mensajeV2}} es diferente en MARC: {{mensajeV3}}.",
-      "119": "La superficie de venta no debe actualizarse para el tipo de sustitución {{messageV1}}."
+      "119": "La superficie de venta no debe actualizarse para el tipo de sustitución {{messageV1}}.",
+      "123": "No se permite la fecha SOP anterior a la fecha de corte"
     }
   },
   "planing_type": {

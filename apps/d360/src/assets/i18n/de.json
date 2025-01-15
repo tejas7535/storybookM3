@@ -1107,7 +1107,8 @@
       "116": "Der Vorgänger {{messageV1}} muss im Werk {{messageV2}} STOTY = A haben. STOTY ist {{messageV3}}",
       "117": "Nachfolger {{messageV1}} ist in keinem AP/OP-Werk der DC-Gruppe {{messageV2}} vorhanden.",
       "118": "Nachfolger für {{messageV1}} in Werk {{messageV2}} ist anders in MARC: {{messageV3}}.",
-      "119": "Der Vertriebsbereich darf nicht für den Ersetzungstyp {{messageV1}} gepflegt werden."
+      "119": "Der Vertriebsbereich darf nicht für den Ersetzungstyp {{messageV1}} gepflegt werden.",
+      "123": "SOP Datum darf nicht vor dem cutover Datum liegen"
     }
   },
   "planing_type": {
