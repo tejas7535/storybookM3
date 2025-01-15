@@ -3,7 +3,7 @@ import {
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
-import { ValueGetterParams } from 'ag-grid-community';
+import { ValueGetterParams } from 'ag-grid-enterprise';
 
 import { ColumnUtilsService } from '@cdba/shared/components/table';
 import { ValueGetterFunction } from '@cdba/testing/types';

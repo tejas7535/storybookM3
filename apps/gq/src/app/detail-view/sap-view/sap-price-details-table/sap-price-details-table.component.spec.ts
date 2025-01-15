@@ -39,7 +39,7 @@ describe('SapConditionsTableComponent', () => {
   describe('onColumnChange', () => {
     test('should set column state', () => {
       const event = {
-        columnApi: {
+        api: {
           getColumnState: jest.fn(),
         },
       } as any;
@@ -54,7 +54,7 @@ describe('SapConditionsTableComponent', () => {
   describe('onGridReady', () => {
     test('should set columnState', () => {
       const event = {
-        columnApi: {
+        api: {
           applyColumnState: jest.fn(),
         },
       } as any;
@@ -66,11 +66,11 @@ describe('SapConditionsTableComponent', () => {
       expect(
         component['agGridStateService'].getColumnStateForCurrentView
       ).toHaveBeenCalledTimes(1);
-      expect(event.columnApi.applyColumnState).toHaveBeenCalledTimes(1);
+      expect(event.api.applyColumnState).toHaveBeenCalledTimes(1);
     });
     test('should not set columnState', () => {
       const event = {
-        columnApi: {
+        api: {
           applyColumnState: jest.fn(),
         },
       } as any;
@@ -79,7 +79,7 @@ describe('SapConditionsTableComponent', () => {
       expect(
         component['agGridStateService'].getColumnStateForCurrentView
       ).toHaveBeenCalledTimes(1);
-      expect(event.columnApi.applyColumnState).toHaveBeenCalledTimes(0);
+      expect(event.api.applyColumnState).toHaveBeenCalledTimes(0);
     });
   });
 });

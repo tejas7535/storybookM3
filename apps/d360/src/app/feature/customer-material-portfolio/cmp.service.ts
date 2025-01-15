@@ -10,7 +10,7 @@ import {
   IServerSideDatasource,
   IServerSideGetRowsParams,
   SortModelItem,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 
 import { formatFilterModelForBackend } from '../../shared/ag-grid/grid-filter-model';
 import { GlobalSelectionState } from '../../shared/components/global-selection-criteria/global-selection-state.service';
@@ -176,10 +176,7 @@ export class CMPService {
       // containing the child materials of the first request. After some edit operations, parts of the cache must be
       // invalidated. Therefore, the cache is hold outside the data source.
       getRows: (params) => {
-        gridApi?.showLoadingOverlay();
-
-        // TODO: use setGridOption instead of showLoadingOverlay when ag-grid is updated to v31
-        // gridApi?.setGridOption('loading', true);
+        gridApi?.setGridOption('loading', true);
 
         const { startRow, endRow, sortModel, filterModel, groupKeys } =
           params.request;
@@ -222,16 +219,12 @@ export class CMPService {
               });
               this.dataFetchedEvent.next(data);
               gridApi?.redrawRows();
-              gridApi?.hideOverlay();
-              // TODO: use setGridOption instead of hideOverlay when ag-grid is updated to v31
-              // gridApi?.setGridOption('loading', false);
+              gridApi?.setGridOption('loading', false);
             },
             error: (error) => {
               params.fail();
               this.fetchErrorEvent.next(error);
-              gridApi?.hideOverlay();
-              // TODO: use setGridOption instead of hideOverlay when ag-grid is updated to v31
-              // gridApi?.setGridOption('loading', false);
+              gridApi?.setGridOption('loading', false);
             },
           });
         }
@@ -258,9 +251,7 @@ export class CMPService {
         rowCount: childMaterials.length,
       });
 
-      gridApi?.hideOverlay();
-      // TODO: use setGridOption instead of hideOverlay when ag-grid is updated to v31
-      // gridApi?.setGridOption('loading', false);
+      gridApi?.setGridOption('loading', false);
     } else {
       this.fetchData(
         startRow || 0,
@@ -287,17 +278,13 @@ export class CMPService {
           });
           this.dataFetchedEvent.next(data);
 
-          gridApi?.hideOverlay();
-          // TODO: use setGridOption instead of hideOverlay when ag-grid is updated to v31
-          // gridApi?.setGridOption('loading', false);
+          gridApi?.setGridOption('loading', false);
         },
         error: (error) => {
           params.fail();
           this.fetchErrorEvent.next(error);
 
-          gridApi?.hideOverlay();
-          // TODO: use setGridOption instead of hideOverlay when ag-grid is updated to v31
-          // gridApi?.setGridOption('loading', false);
+          gridApi?.setGridOption('loading', false);
         },
       });
     }

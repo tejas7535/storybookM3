@@ -3,7 +3,7 @@ import {
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
-import { ValueFormatterParams, ValueGetterParams } from 'ag-grid-community';
+import { ValueFormatterParams, ValueGetterParams } from 'ag-grid-enterprise';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

@@ -12,14 +12,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { translate } from '@jsverse/transloco';
 import {
   ColDef,
-  ColumnApi,
+  GridApi,
   GridReadyEvent,
   GridSizeChangedEvent,
-  IRowModel,
   IRowNode,
   ProcessDataFromClipboardParams,
-} from 'ag-grid-community';
-import { GridApi } from 'ag-grid-enterprise';
+} from 'ag-grid-enterprise';
 
 import { ErrorMessage } from '../../../pages/alert-rules/table/components/modals/alert-rule-logic-helper';
 import { gridParseFromClipboard } from '../../ag-grid/grid-parse-from-clipboard';
@@ -137,33 +135,16 @@ export abstract class AbstractTableUploadModalComponent<
   private readonly gridApi: WritableSignal<GridApi | null> = signal(null);
 
   /**
-   * The grid columnApi instance.
-   * TODO: columnApi was removed in later versions of the AG-Grid, use gridApi after upgrading
-   *
-   * @private
-   * @deprecated
-   * @type {(WritableSignal<ColumnApi | null>)}
-   * @memberof AbstractTableUploadModalComponent
-   */
-  private readonly columnApi: WritableSignal<ColumnApi | null> = signal(null);
-
-  /**
    * The default column definitions.
    *
    * @protected
    * @type {ColDef}
    * @memberof AbstractTableUploadModalComponent
    */
-  protected defaultColDef: ColDef = { suppressMenu: true };
-
-  /**
-   * The columnDefs to be used in the table.
-   *
-   * @protected
-   * @type {ColDef[]}
-   * @memberof AbstractTableUploadModalComponent
-   */
-  protected columnDefs: ColDef[] = [];
+  protected defaultColDef: ColDef = {
+    suppressHeaderMenuButton: true,
+    suppressHeaderFilterButton: true,
+  };
 
   /**
    * An optional description text, rendered above the table
@@ -301,13 +282,11 @@ export abstract class AbstractTableUploadModalComponent<
    * We manually trigger this function to also update the cell styles (e.g. show a red cell because of a validation error)
    * of the grid from outside by calling the this.validateFunctionWithErrors function.
    *
-   * TODO: Once we're on AG Grid > v31, we should use setGridOption('columnDefs', columnDefs); instead.
-   *
    * @protected
    * @memberof AbstractTableUploadModalComponent
    */
   protected updateColumnDefinitions(): void {
-    this.columnDefs = [
+    this.gridApi()?.setGridOption('columnDefs', [
       ...this.columnDefinitions.map(
         (colDef: ColumnForUploadTable<T>) =>
           ({
@@ -329,7 +308,7 @@ export abstract class AbstractTableUploadModalComponent<
         minWidth: 68,
         maxWidth: 68,
       },
-    ] as ColDef[];
+    ] as ColDef[]);
   }
 
   /**
@@ -406,14 +385,9 @@ export abstract class AbstractTableUploadModalComponent<
     this.backendErrors.set([]);
     this.frontendErrors.set([]);
 
-    const rowModel = this.gridApi()?.getModel();
-    if (!rowModel) {
-      return;
-    }
+    const data: T[] = this.dataFromRowModel();
 
-    const data: T[] = this.dataFromRowModel(rowModel);
-
-    if (this.checkForNoRows(data) || this.checkForTooManyRows(rowModel)) {
+    if (this.checkForNoRows(data) || this.checkForTooManyRows()) {
       return;
     }
 
@@ -422,7 +396,6 @@ export abstract class AbstractTableUploadModalComponent<
 
     try {
       const errorsFromValidation = this.getValidationErrors(
-        rowModel,
         this.columnDefinitions
       );
       const errorsFromDataCheck = this.checkDataForErrors(data);
@@ -498,13 +471,12 @@ export abstract class AbstractTableUploadModalComponent<
    * Returns the data in a row model.
    *
    * @private
-   * @param {IRowModel} rowModel
    * @return {T[]}
    * @memberof AbstractTableUploadModalComponent
    */
-  private dataFromRowModel(rowModel: IRowModel): T[] {
+  private dataFromRowModel(): T[] {
     const rowData: T[] = [];
-    rowModel.forEachNode((row) => {
+    this.gridApi().forEachNode((row) => {
       if (rowIsEmpty(row)) {
         return;
       }
@@ -552,15 +524,14 @@ export abstract class AbstractTableUploadModalComponent<
    * Checks for too many rows in the table.
    *
    * @private
-   * @param {IRowModel} rowModel
    * @param {number} [maxAllowedRows=200]
    * @return {boolean}
    * @memberof AbstractTableUploadModalComponent
    */
-  private checkForTooManyRows(rowModel: IRowModel): boolean {
+  private checkForTooManyRows(): boolean {
     // More than max rows (@see this.maxRows) are not allowed because we would wait to long,
     // one row is always empty at the end.
-    if (rowModel.getRowCount() > this.maxRows + 1) {
+    if (this.gridApi()?.getDisplayedRowCount() > this.maxRows + 1) {
       this.snackbarService.openSnackBar(
         translate('generic.validation.upload.too_many_entries', {
           maxRows: this.maxRows,
@@ -577,13 +548,11 @@ export abstract class AbstractTableUploadModalComponent<
    * Returns the validation errors in a row.
    *
    * @private
-   * @param {IRowModel} rowModel
    * @param {ColumnForUploadTable<T>[]} columnDefinitions
    * @return {ErrorMessage<T>[]}
    * @memberof AbstractTableUploadModalComponent
    */
   private getValidationErrors(
-    rowModel: IRowModel,
     columnDefinitions: ColumnForUploadTable<T>[]
   ): ErrorMessage<T>[] {
     const errors: ErrorMessage<T>[] = [];
@@ -592,7 +561,7 @@ export abstract class AbstractTableUploadModalComponent<
       const { validationFn, field } = def;
 
       if (validationFn) {
-        rowModel.forEachNode((row) => {
+        this.gridApi()?.forEachNode((row) => {
           const data = row.data;
 
           if (field && data[field]) {
@@ -672,7 +641,7 @@ export abstract class AbstractTableUploadModalComponent<
    */
   protected onGridReady(event: GridReadyEvent) {
     this.gridApi.set(event.api);
-    this.columnApi.set(event.columnApi);
+    this.updateColumnDefinitions();
     event.api.applyTransaction({ add: [{}] });
     event.api.sizeColumnsToFit();
   }
@@ -699,16 +668,9 @@ export abstract class AbstractTableUploadModalComponent<
   protected onClipboard(params: ProcessDataFromClipboardParams<T>): null {
     gridParseFromClipboard(
       this.gridApi(),
-      this.columnApi(),
       params.data,
       combineParseFunctionsForFields(this.specialParseFunctionsForFields)
     );
-
-    // Check, for errors
-    const rowModel = this.gridApi()?.getModel();
-    if (!rowModel) {
-      return null;
-    }
 
     // FIXME: Temporary fix. (PART 1) => Ticket: SFT-1999
     // We disabled the live error validation for now, because we can't match the FE-Errors to BE-Errors in a later step.

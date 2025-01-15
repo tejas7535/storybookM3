@@ -12,13 +12,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslocoService } from '@jsverse/transloco';
 import { AgGridModule } from 'ag-grid-angular';
 import {
-  ColumnApi,
+  ColDef,
   FilterChangedEvent,
   FirstDataRenderedEvent,
   GridApi,
   GridOptions,
   GridReadyEvent,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 
 import { GlobalSelectionUtils } from '../../../../../feature/global-selection/global-selection.utils';
 import { MaterialCustomerService } from '../../../../../feature/material-customer/material-customer.service';
@@ -64,7 +64,6 @@ export class MaterialCustomerTableComponent implements OnInit {
   protected readonly translocoService = inject(TranslocoService);
 
   public gridApi!: GridApi;
-  public columnApi!: ColumnApi;
 
   public resetLayout: (layoutId: LayoutId) => any;
   public loadLayout: (layoutId: LayoutId) => any;
@@ -89,9 +88,10 @@ export class MaterialCustomerTableComponent implements OnInit {
     alwaysShowHorizontalScroll: true,
   };
 
-  public defaultCol: any = {
+  public defaultCol: ColDef = {
     menuTabs: ['filterMenuTab', 'generalMenuTab'],
     suppressHeaderMenuButton: true,
+    suppressHeaderFilterButton: true,
   };
 
   /**
@@ -116,7 +116,7 @@ export class MaterialCustomerTableComponent implements OnInit {
       this.initialColumns = columnDefinitions(this.agGridLocalizationService);
     }
 
-    const colDef = columnDefinitions(this.agGridLocalizationService).map(
+    const columnDefs = columnDefinitions(this.agGridLocalizationService).map(
       ({
         filter,
         colId,
@@ -148,16 +148,15 @@ export class MaterialCustomerTableComponent implements OnInit {
       })
     );
 
-    this.gridApi?.setColumnDefs(colDef);
+    this.gridApi?.setGridOption('columnDefs', columnDefs);
   };
 
   onGridReady = (event: GridReadyEvent) => {
     this.gridApi = event.api;
-    this.columnApi = event.columnApi;
 
     const { resetLayout, loadLayout, saveLayout } =
       this.materialCustomerTableService.useMaterialCustomerColumnLayouts(
-        this.columnApi
+        this.gridApi
       );
 
     this.resetLayout = resetLayout.bind(this.materialCustomerTableService);
@@ -182,11 +181,13 @@ export class MaterialCustomerTableComponent implements OnInit {
   private setDataSource(globalSelection?: GlobalSelectionState) {
     if (this.globalSelectionStateService.isEmpty()) {
       this.gridApi?.setFilterModel(null);
-      this.gridApi?.setServerSideDatasource(
+      this.gridApi?.setGridOption(
+        'serverSideDatasource',
         this.materialCustomerTableService.createEmptyDatasource()
       );
     } else {
-      this.gridApi?.setServerSideDatasource(
+      this.gridApi?.setGridOption(
+        'serverSideDatasource',
         this.materialCustomerTableService.createMaterialCustomerDatasource(
           GlobalSelectionUtils.globalSelectionCriteriaToFilter(globalSelection),
           []
@@ -226,6 +227,6 @@ export class MaterialCustomerTableComponent implements OnInit {
   }
 
   onFirstDataRendered($event: FirstDataRenderedEvent) {
-    $event.columnApi.autoSizeAllColumns();
+    $event.api.autoSizeAllColumns();
   }
 }

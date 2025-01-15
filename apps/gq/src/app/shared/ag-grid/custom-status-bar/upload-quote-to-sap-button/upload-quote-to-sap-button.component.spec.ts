@@ -9,7 +9,7 @@ import * as statusbarUtils from '@gq/shared/ag-grid/custom-status-bar/statusbar.
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { IStatusPanelParams } from 'ag-grid-community';
+import { IStatusPanelParams } from 'ag-grid-enterprise';
 import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';

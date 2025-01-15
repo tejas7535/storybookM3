@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { ICellRendererParams } from 'ag-grid-community';
+import { ICellRendererParams } from 'ag-grid-enterprise';
 
 @Component({
   selector: 'gq-reference-material-group-cell',

@@ -6,7 +6,7 @@ import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { RolesFacade } from '@gq/core/store/facades';
 import { DetailRoutePath } from '@gq/detail-view/detail-route-path.enum';
 import { isFNumber } from '@gq/shared/utils/f-pricing.utils';
-import { ICellRendererParams } from 'ag-grid-community';
+import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { AppRoutePath } from '../../../../../app/app-route-path.enum';
 import { QuotationDetail } from '../../../models/quotation-detail';

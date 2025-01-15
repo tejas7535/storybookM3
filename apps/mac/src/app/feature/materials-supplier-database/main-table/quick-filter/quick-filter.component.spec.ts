@@ -12,7 +12,7 @@ import {
 } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import { Column, ColumnApi, ColumnState, GridApi } from 'ag-grid-community';
+import { Column, ColumnState, GridApi } from 'ag-grid-community';
 import { MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -181,17 +181,15 @@ describe('QuickFilterComponent', () => {
 
     it('should init localStoreage and subscribe to agGrid event', () => {
       const gridApi = {} as GridApi;
-      const columnApi = {} as ColumnApi;
       const sub = new BehaviorSubject<{
         gridApi: GridApi;
-        columnApi: ColumnApi;
       }>(undefined);
       component['msdAgGridReadyService'].agGridApi$ = sub;
       component['onAgGridReady'] = jest.fn();
 
       component.ngOnInit();
-      sub.next({ gridApi, columnApi });
-      expect(component['onAgGridReady']).toBeCalledWith(gridApi, columnApi);
+      sub.next({ gridApi });
+      expect(component['onAgGridReady']).toBeCalledWith(gridApi);
     });
 
     it('should set active filter on publishQuickFilterSucceeded', () => {
@@ -253,8 +251,7 @@ describe('QuickFilterComponent', () => {
       columns: ['a', 'b'],
     };
     const gridApi = {} as undefined as GridApi;
-    const columnApi = {} as undefined as ColumnApi;
-    columnApi.getColumnState = jest.fn(() => [
+    gridApi.getColumnState = jest.fn(() => [
       { colId: 'a', hide: false },
       { colId: 'b', hide: false },
     ]);
@@ -265,7 +262,7 @@ describe('QuickFilterComponent', () => {
       component['dataFacade'].agGridColumns$ = of('');
       component['dataFacade'].agGridFilter$ = of(quickfilter.filter);
 
-      component['onAgGridReady'](gridApi, columnApi);
+      component['onAgGridReady'](gridApi);
 
       expect(component['onChange']).not.toBeCalled();
     });
@@ -279,7 +276,7 @@ describe('QuickFilterComponent', () => {
       component['dataFacade'].agGridColumns$ = of('');
       component['dataFacade'].agGridFilter$ = new Observable();
 
-      component['onAgGridReady'](gridApi, columnApi);
+      component['onAgGridReady'](gridApi);
 
       expect(component['onChange']).not.toBeCalled();
     });
@@ -289,14 +286,14 @@ describe('QuickFilterComponent', () => {
       component['dataFacade'].agGridColumns$ = of('');
       component['dataFacade'].agGridFilter$ = of({});
 
-      component['onAgGridReady'](gridApi, columnApi);
+      component['onAgGridReady'](gridApi);
 
       expect(component['onChange']).not.toBeCalled();
     });
     it('subscriptions should react to updates of agGrid columns', () => {
       component.active = quickfilter;
       component['onChange'] = jest.fn();
-      columnApi.getColumnState = jest.fn(() => [
+      gridApi.getColumnState = jest.fn(() => [
         { colId: 'a', hide: true },
         { colId: 'b', hide: false },
       ]);
@@ -304,7 +301,7 @@ describe('QuickFilterComponent', () => {
       component['dataFacade'].agGridColumns$ = of('');
       component['dataFacade'].agGridFilter$ = of(quickfilter.filter);
 
-      component['onAgGridReady'](gridApi, columnApi);
+      component['onAgGridReady'](gridApi);
 
       expect(component['onChange']).toBeCalled();
     });
@@ -315,7 +312,7 @@ describe('QuickFilterComponent', () => {
       component['dataFacade'].agGridColumns$ = of('');
       component['dataFacade'].agGridFilter$ = of({ col: 'newvalue' });
 
-      component['onAgGridReady'](gridApi, columnApi);
+      component['onAgGridReady'](gridApi);
 
       expect(component['onChange']).toBeCalled();
     });
@@ -421,7 +418,14 @@ describe('QuickFilterComponent', () => {
           name: string,
           visible: boolean,
           lockVisible = false
-        ) => new Column({ hide: !visible, lockVisible }, {}, name, true);
+        ) =>
+          ({
+            colId: name,
+            hide: !visible,
+            lockVisible,
+            getColId: jest.fn(() => name),
+            getColDef: jest.fn(() => ({ colId: name, lockVisible })),
+          }) as unknown as Column;
         const columns: Column[] = [
           createCol('col1', false),
           createCol('col2', true),
@@ -440,17 +444,16 @@ describe('QuickFilterComponent', () => {
         ];
 
         component['agGridApi'] = {} as GridApi;
-        component['agGridColumnApi'] = {} as ColumnApi;
         component['agGridApi'].setFilterModel = jest.fn();
-        component['agGridColumnApi'].applyColumnState = jest.fn();
-        component['agGridColumnApi'].getColumns = jest.fn(() => columns);
+        component['agGridApi'].applyColumnState = jest.fn();
+        component['agGridApi'].getColumns = jest.fn(() => columns);
 
         component['applyQuickFilter'](quickfilter);
-        expect(component['agGridColumnApi'].getColumns).toBeCalled();
+        expect(component['agGridApi'].getColumns).toBeCalled();
         expect(component['agGridApi'].setFilterModel).toBeCalledWith(
           quickfilter.filter
         );
-        expect(component['agGridColumnApi'].applyColumnState).toBeCalledWith({
+        expect(component['agGridApi'].applyColumnState).toBeCalledWith({
           state: expState,
           applyOrder: true,
         });
@@ -475,8 +478,8 @@ describe('QuickFilterComponent', () => {
       ];
       const expected = ['1', '3'];
 
-      component['agGridColumnApi'] = {} as ColumnApi;
-      component['agGridColumnApi'].getColumnState = jest.fn(() => response);
+      component['agGridApi'] = {} as GridApi;
+      component['agGridApi'].getColumnState = jest.fn(() => response);
 
       expect(component['getCurrentColumns']()).toStrictEqual(expected);
     });
@@ -488,8 +491,8 @@ describe('QuickFilterComponent', () => {
       ];
       const expected: string[] = [];
 
-      component['agGridColumnApi'] = {} as ColumnApi;
-      component['agGridColumnApi'].getColumnState = jest.fn(() => response);
+      component['agGridApi'] = {} as GridApi;
+      component['agGridApi'].getColumnState = jest.fn(() => response);
 
       expect(component['getCurrentColumns']()).toStrictEqual(expected);
     });
@@ -501,8 +504,8 @@ describe('QuickFilterComponent', () => {
       ];
       const expected: string[] = ['1', '2'];
 
-      component['agGridColumnApi'] = {} as ColumnApi;
-      component['agGridColumnApi'].getColumnState = jest.fn(() => response);
+      component['agGridApi'] = {} as GridApi;
+      component['agGridApi'].getColumnState = jest.fn(() => response);
 
       expect(component['getCurrentColumns']()).toStrictEqual(expected);
     });

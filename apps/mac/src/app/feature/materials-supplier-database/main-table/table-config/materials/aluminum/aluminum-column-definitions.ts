@@ -1,4 +1,4 @@
-import { ColDef } from 'ag-grid-enterprise';
+import { ColDef } from 'ag-grid-community';
 
 import { MATERIAL_STANDARD_STOFF_ID, RECYCLING_RATE } from '@mac/msd/constants';
 import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';

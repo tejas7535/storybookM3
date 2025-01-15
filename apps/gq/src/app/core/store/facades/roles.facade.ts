@@ -14,7 +14,7 @@ import {
 } from '@gq/core/store/selectors';
 import { UserRoles } from '@gq/shared/constants';
 import { Store } from '@ngrx/store';
-import { ColDef } from 'ag-grid-community';
+import { ColDef } from 'ag-grid-enterprise';
 
 import { getRoles, getUserUniqueIdentifier } from '@schaeffler/azure-auth';
 

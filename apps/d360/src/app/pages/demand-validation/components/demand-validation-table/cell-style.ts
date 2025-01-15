@@ -4,7 +4,7 @@
  * replenishment lead time border gets calculated by adding currentRLTSchaeffler to the current date.
  * it might occur that both of the borders are at the same month, this edge case needs to be clarified.
  */
-import { CellClassFunc } from 'ag-grid-community';
+import { CellClassFunc } from 'ag-grid-enterprise';
 import { addDays, addMonths, isSameMonth, isSameWeek } from 'date-fns';
 import { de } from 'date-fns/locale';
 

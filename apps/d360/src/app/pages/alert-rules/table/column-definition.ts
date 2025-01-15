@@ -3,7 +3,7 @@ import {
   ColDef,
   ICellRendererParams,
   ValueFormatterParams,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 import { parseISO } from 'date-fns';
 
 import { GridTooltipComponent } from '../../../shared/components/ag-grid/grid-tooltip/grid-tooltip.component';

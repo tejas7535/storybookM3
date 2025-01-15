@@ -1,4 +1,4 @@
-import { SortModelItem } from 'ag-grid-community';
+import { SortModelItem } from 'ag-grid-enterprise';
 
 import { ResponseWithResultMessage } from '../../shared/utils/error-handling';
 import {

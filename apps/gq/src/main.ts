@@ -15,6 +15,9 @@ if (environment.production) {
 }
 
 platformBrowserDynamic()
-  .bootstrapModule(AppModule)
+  .bootstrapModule(AppModule, {
+    ngZoneEventCoalescing: true,
+    ngZoneRunCoalescing: true,
+  })
   // eslint-disable-next-line unicorn/prefer-top-level-await
   .catch((error) => console.error(error));

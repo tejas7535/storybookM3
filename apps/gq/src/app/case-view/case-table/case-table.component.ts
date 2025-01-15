@@ -20,6 +20,7 @@ import { ViewQuotation } from '@gq/shared/models/quotation';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import {
   ColDef,
+  ColumnEvent,
   ColumnState,
   FilterChangedEvent,
   GetContextMenuItemsParams,
@@ -28,10 +29,11 @@ import {
   MenuItemDef,
   RowDoubleClickedEvent,
   RowSelectedEvent,
+  SelectionColumnDef,
   SortChangedEvent,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 
-import { COMPONENTS, DEFAULT_COLUMN_DEFS } from './config';
+import { COMPONENTS, DEFAULT_COLUMN_DEFS, ROW_SELECTION } from './config';
 import { ColumnDefService } from './config/column-def.service';
 import {
   CASE_TABLE_CUSTOM_VIEWS_CONFIG,
@@ -48,8 +50,12 @@ export class CaseTableComponent implements OnInit, OnDestroy {
   @Input() activeTab: QuotationTab;
 
   defaultColumnDefs = DEFAULT_COLUMN_DEFS;
+  rowSelection = ROW_SELECTION;
   columnDefs: ColDef[];
   components = COMPONENTS;
+  selectionColumnDef: SelectionColumnDef = {
+    pinned: 'left',
+  };
   localeText$: Observable<AgGridLocale>;
   selectedRows: number[] = [];
   unsubscribe$: Subject<boolean> = new Subject<boolean>();
@@ -105,8 +111,8 @@ export class CaseTableComponent implements OnInit, OnDestroy {
       this.unsubscribe$.unsubscribe();
     }
   }
-  public onColumnChange(event: SortChangedEvent): void {
-    const columnState: ColumnState[] = event.columnApi.getColumnState();
+  public onColumnChange(event: SortChangedEvent | ColumnEvent): void {
+    const columnState: ColumnState[] = event.api.getColumnState();
 
     this.agGridStateService.setColumnStateForCurrentView(columnState);
   }
@@ -128,7 +134,7 @@ export class CaseTableComponent implements OnInit, OnDestroy {
 
     const state = this.agGridStateService.getColumnStateForCurrentView();
     if (state) {
-      event.columnApi.applyColumnState({ state, applyOrder: true });
+      event.api.applyColumnState({ state, applyOrder: true });
     }
 
     // apply filters

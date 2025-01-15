@@ -1,4 +1,4 @@
-import { ColumnApi, GridApi } from 'ag-grid-community';
+import { GridApi } from 'ag-grid-enterprise';
 
 import { ColumnSetting } from '../services/abstract-column-settings.service';
 
@@ -6,11 +6,9 @@ export function showFloatingFilters(gridApi: GridApi, visible: boolean) {
   const columnDefs = gridApi.getColumnDefs();
 
   if (columnDefs) {
-    gridApi.setColumnDefs(
-      columnDefs.map((col) => ({
-        ...col,
-        floatingFilter: visible,
-      }))
+    gridApi.setGridOption(
+      'columnDefs',
+      columnDefs.map((col) => ({ ...col, floatingFilter: visible }))
     );
   }
 
@@ -18,19 +16,19 @@ export function showFloatingFilters(gridApi: GridApi, visible: boolean) {
 }
 
 export function getColumnSettingsFromGrid<ColId extends string>(
-  columnApi: ColumnApi
+  gridApi: GridApi
 ): ColumnSetting<ColId>[] {
-  return columnApi.getColumnState().map(({ colId, hide }) => ({
+  return gridApi.getColumnState().map(({ colId, hide }) => ({
     colId: colId as ColId, // it has to be a ColId since we filtered out undefined
     visible: !hide,
   }));
 }
 
 export function applyColumnSettings<ColId extends string>(
-  columnApi: ColumnApi,
+  gridApi: GridApi,
   columnDefinitions: ColumnSetting<ColId>[]
 ) {
-  columnApi.applyColumnState({
+  gridApi.applyColumnState({
     state: columnDefinitions.map((col) => ({
       colId: col.colId,
       hide: !col.visible,
@@ -45,13 +43,13 @@ export function resetGrid(gridApi: GridApi) {
     return;
   }
 
-  gridApi.setRowData([{}]);
+  gridApi.setGridOption('rowData', [{}]);
 }
 
 export function ensureEmptyRowAtBottom(gridApi: GridApi) {
-  const rowCount = gridApi.getModel().getRowCount();
+  const rowCount = gridApi.getDisplayedRowCount();
 
-  const lastRow = gridApi.getModel().getRow(rowCount - 1);
+  const lastRow = gridApi.getDisplayedRowAtIndex(rowCount - 1);
   const lastRowHasData = Object.values(lastRow?.data || {}).some(Boolean);
 
   if (lastRowHasData || lastRow === undefined) {
@@ -59,11 +57,7 @@ export function ensureEmptyRowAtBottom(gridApi: GridApi) {
   }
 }
 
-export function addRowsFromClipboard(
-  gridApi: GridApi,
-  columnApi: ColumnApi,
-  data: string[][]
-): any {
+export function addRowsFromClipboard(gridApi: GridApi, data: string[][]): any {
   const focusedCell = gridApi.getFocusedCell();
   if (!focusedCell) {
     return null;
@@ -81,7 +75,7 @@ export function addRowsFromClipboard(
 
       newRow[fieldName] = columnData;
 
-      const nextColumn = columnApi.getDisplayedColAfter(currColumn);
+      const nextColumn = gridApi.getDisplayedColAfter(currColumn);
       if (!nextColumn) {
         return;
       } // no more in row -> cancel

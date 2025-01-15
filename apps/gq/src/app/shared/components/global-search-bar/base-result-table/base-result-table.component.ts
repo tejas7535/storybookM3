@@ -14,12 +14,13 @@ import { QuotationSearchResultByMaterials } from '@gq/shared/models/quotation/qu
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { addMaterialFilterToQueryParams } from '@gq/shared/utils/misc.utils';
 import {
+  ColumnEvent,
+  ColumnState,
   FilterChangedEvent,
   GridReadyEvent,
   RowDoubleClickedEvent,
   SortChangedEvent,
-} from 'ag-grid-community/dist/lib/events';
-import { ColumnState } from 'ag-grid-enterprise';
+} from 'ag-grid-enterprise';
 
 import { ColumnUtilityService as searchbarColUtilsService } from '../config/column-utility.service';
 import { SearchbarGridContext } from '../config/searchbar-grid-context.interface';
@@ -53,7 +54,7 @@ export class BaseResultTableComponent {
     // if so, for gq Id the pinned property should be set to 'left'
 
     if (state) {
-      event.columnApi.applyColumnState({ state, applyOrder: true });
+      event.api.applyColumnState({ state, applyOrder: true });
     }
 
     // update pinned=left for GQId
@@ -62,13 +63,13 @@ export class BaseResultTableComponent {
         (colState) => colState.colId === 'gqId' && colState.pinned === null
       )
     ) {
-      event.columnApi.setColumnPinned(
-        SearchByCasesOrMaterialsColumnFields.GQ_ID,
+      event.api.setColumnsPinned(
+        [SearchByCasesOrMaterialsColumnFields.GQ_ID],
         'left'
       );
 
       this.agGridStateService.setColumnStateForCurrentView(
-        event.columnApi.getColumnState()
+        event.api.getColumnState()
       );
     }
 
@@ -82,8 +83,8 @@ export class BaseResultTableComponent {
       });
   }
 
-  onColumnChange(event: SortChangedEvent): void {
-    const columnState: ColumnState[] = event.columnApi.getColumnState();
+  onColumnChange(event: SortChangedEvent | ColumnEvent): void {
+    const columnState: ColumnState[] = event.api.getColumnState();
 
     this.agGridStateService.setColumnStateForCurrentView(columnState);
   }

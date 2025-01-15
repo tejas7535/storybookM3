@@ -15,7 +15,7 @@ import { lastValueFrom, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { AgGridModule } from 'ag-grid-angular';
-import { IRowNode, ValueFormatterParams } from 'ag-grid-community';
+import { IRowNode, ValueFormatterParams } from 'ag-grid-enterprise';
 import { format, parseISO } from 'date-fns';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';

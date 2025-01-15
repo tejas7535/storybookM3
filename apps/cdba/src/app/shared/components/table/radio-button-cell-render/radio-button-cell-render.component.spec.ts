@@ -1,7 +1,7 @@
 import { MatRadioModule } from '@angular/material/radio';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ICellRendererParams } from 'ag-grid-community/dist/lib/rendering/cellRenderers/iCellRenderer';
+import { ICellRendererParams } from 'ag-grid-enterprise';
 import { MockModule } from 'ng-mocks';
 
 import { RadioButtonCellRenderComponent } from './radio-button-cell-render.component';

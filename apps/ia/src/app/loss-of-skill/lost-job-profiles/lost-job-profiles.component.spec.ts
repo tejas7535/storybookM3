@@ -271,16 +271,15 @@ describe('LostJobProfilesComponent', () => {
   describe('onGridReady', () => {
     test('should set grid api', () => {
       const params = {
-        api: {},
-        columnApi: {
-          autoSizeColumn: jest.fn(),
+        api: {
+          autoSizeColumns: jest.fn(),
         },
       } as unknown as GridReadyEvent;
 
       component.onGridReady(params);
 
       expect(component.gridApi).toBeDefined();
-      expect(params.columnApi.autoSizeColumn).toHaveBeenCalled();
+      expect(params.api.autoSizeColumns).toHaveBeenCalled();
     });
   });
 });

@@ -17,7 +17,6 @@ describe('ColumnLayoutManagementModalComponent', () => {
     providers: [
       MockProvider(MAT_DIALOG_DATA, {
         gridApi: {},
-        columnApi: {},
         filter: {},
       }),
       mockProvider(MatDialog, {

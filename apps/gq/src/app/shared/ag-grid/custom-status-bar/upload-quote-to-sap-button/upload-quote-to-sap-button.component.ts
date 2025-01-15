@@ -12,7 +12,7 @@ import {
 import { getTooltipTextKeyByQuotationStatus } from '@gq/shared/ag-grid/custom-status-bar/statusbar.utils';
 import { QuotationStatus } from '@gq/shared/models';
 import { Store } from '@ngrx/store';
-import { IStatusPanelParams } from 'ag-grid-community';
+import { IStatusPanelParams } from 'ag-grid-enterprise';
 
 import { QuotationDetail } from '../../../models/quotation-detail';
 

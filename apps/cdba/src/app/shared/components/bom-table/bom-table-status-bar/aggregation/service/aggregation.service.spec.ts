@@ -16,7 +16,7 @@ describe('AggregationService', () => {
     service: AggregationService,
   });
 
-  const mockedGetRow = jest.fn().mockImplementation((i) => {
+  const getDisplayedRowAtIndex = jest.fn().mockImplementation((i) => {
     switch (i) {
       case 0: {
         return { rowIndex: 0 };
@@ -207,10 +207,6 @@ describe('AggregationService', () => {
 
   describe('extractSelectedCells', () => {
     it('should extract number cells in two ranges without value repetitions from cell ranges', () => {
-      const rowModel = {
-        getRow: mockedGetRow,
-      };
-
       const cellRanges = [
         {
           startRow: { rowIndex: 0 },
@@ -238,8 +234,8 @@ describe('AggregationService', () => {
         },
       ] as unknown as CellRange[];
       const api = {
-        getModel: jest.fn(() => rowModel),
-        getValue: jest.fn().mockReturnValue(1),
+        getDisplayedRowAtIndex,
+        getCellValue: jest.fn().mockReturnValue(1),
       } as unknown as GridApi;
 
       const expectedCells = new Map<string, number>();
@@ -266,10 +262,6 @@ describe('AggregationService', () => {
       );
     });
     it('should extract number cells in two seperate ranges from cell ranges', () => {
-      const rowModel = {
-        getRow: mockedGetRow,
-      };
-
       const cellRanges = [
         {
           startRow: { rowIndex: 0 },
@@ -300,8 +292,8 @@ describe('AggregationService', () => {
         },
       ] as unknown as CellRange[];
       const api = {
-        getModel: jest.fn(() => rowModel),
-        getValue: jest.fn().mockReturnValue(1),
+        getDisplayedRowAtIndex,
+        getCellValue: jest.fn().mockReturnValue(1),
       } as unknown as GridApi;
 
       const expectedCells = new Map<string, number>();
@@ -333,15 +325,6 @@ describe('AggregationService', () => {
       );
     });
     it('should extract number cells in a range from cell ranges', () => {
-      const rowModel = {
-        getRow: jest
-          .fn()
-          .mockReturnValueOnce({ rowIndex: 0 })
-          .mockReturnValueOnce({ rowIndex: 0 })
-          .mockReturnValueOnce({ rowIndex: 1 })
-          .mockReturnValueOnce({ rowIndex: 1 }),
-      };
-
       const cellRanges = [
         {
           startRow: { rowIndex: 0 },
@@ -357,8 +340,8 @@ describe('AggregationService', () => {
         },
       ] as unknown as CellRange[];
       const api = {
-        getModel: jest.fn(() => rowModel),
-        getValue: jest
+        getDisplayedRowAtIndex,
+        getCellValue: jest
           .fn()
           .mockReturnValueOnce(1)
           .mockReturnValueOnce(2)
@@ -377,10 +360,6 @@ describe('AggregationService', () => {
       );
     });
     it('should extract number cells in a row from cell ranges', () => {
-      const rowModel = {
-        getRow: jest.fn().mockReturnValue({ rowIndex: 1 }),
-      };
-
       const cellRanges = [
         {
           startRow: { rowIndex: 0 },
@@ -398,8 +377,10 @@ describe('AggregationService', () => {
         },
       ] as unknown as CellRange[];
       const api = {
-        getModel: jest.fn(() => rowModel),
-        getValue: jest
+        getDisplayedRowAtIndex: jest
+          .fn()
+          .mockImplementation(() => ({ rowIndex: 1 })),
+        getCellValue: jest
           .fn()
           .mockReturnValueOnce(1)
           .mockReturnValueOnce(2)
@@ -419,15 +400,6 @@ describe('AggregationService', () => {
     });
 
     it('should extract selected number cells in a column from cell ranges', () => {
-      const rowModel = {
-        getRow: jest
-          .fn()
-          .mockReturnValueOnce({ rowIndex: 0 })
-          .mockReturnValueOnce({ rowIndex: 1 })
-          .mockReturnValueOnce({ rowIndex: 2 })
-          .mockReturnValueOnce({ rowIndex: 3 }),
-      };
-
       const cellRanges = [
         {
           startRow: { rowIndex: 0 },
@@ -436,8 +408,13 @@ describe('AggregationService', () => {
         },
       ] as unknown as CellRange[];
       const api = {
-        getModel: jest.fn(() => rowModel),
-        getValue: jest
+        getDisplayedRowAtIndex: jest
+          .fn()
+          .mockReturnValueOnce({ rowIndex: 0 })
+          .mockReturnValueOnce({ rowIndex: 1 })
+          .mockReturnValueOnce({ rowIndex: 2 })
+          .mockReturnValueOnce({ rowIndex: 3 }),
+        getCellValue: jest
           .fn()
           .mockReturnValueOnce(1)
           .mockReturnValueOnce(2)
@@ -456,10 +433,6 @@ describe('AggregationService', () => {
       );
     });
     it('should extract string cells in two ranges without value repetitions from cell ranges', () => {
-      const rowModel = {
-        getRow: mockedGetRow,
-      };
-
       const cellRanges = [
         {
           startRow: { rowIndex: 0 },
@@ -487,8 +460,8 @@ describe('AggregationService', () => {
         },
       ] as unknown as CellRange[];
       const api = {
-        getModel: jest.fn(() => rowModel),
-        getValue: jest.fn().mockReturnValue('test'),
+        getDisplayedRowAtIndex,
+        getCellValue: jest.fn().mockReturnValue('test'),
       } as unknown as GridApi;
 
       const expectedCells = new Map<string, string>();
@@ -515,10 +488,6 @@ describe('AggregationService', () => {
       );
     });
     it('should extract string cells in two seperate ranges from cell ranges', () => {
-      const rowModel = {
-        getRow: mockedGetRow,
-      };
-
       const cellRanges = [
         {
           startRow: { rowIndex: 0 },
@@ -549,8 +518,8 @@ describe('AggregationService', () => {
         },
       ] as unknown as CellRange[];
       const api = {
-        getModel: jest.fn(() => rowModel),
-        getValue: jest.fn().mockReturnValue('test'),
+        getDisplayedRowAtIndex,
+        getCellValue: jest.fn().mockReturnValue('test'),
       } as unknown as GridApi;
 
       const expectedCells = new Map<string, string>();
@@ -582,15 +551,6 @@ describe('AggregationService', () => {
       );
     });
     it('should extract string cells in a range from cell ranges', () => {
-      const rowModel = {
-        getRow: jest
-          .fn()
-          .mockReturnValueOnce({ rowIndex: 0 })
-          .mockReturnValueOnce({ rowIndex: 0 })
-          .mockReturnValueOnce({ rowIndex: 1 })
-          .mockReturnValueOnce({ rowIndex: 1 }),
-      };
-
       const cellRanges = [
         {
           startRow: { rowIndex: 0 },
@@ -606,8 +566,8 @@ describe('AggregationService', () => {
         },
       ] as unknown as CellRange[];
       const api = {
-        getModel: jest.fn(() => rowModel),
-        getValue: jest
+        getDisplayedRowAtIndex,
+        getCellValue: jest
           .fn()
           .mockReturnValueOnce('test0')
           .mockReturnValueOnce('test1')
@@ -626,10 +586,6 @@ describe('AggregationService', () => {
       );
     });
     it('should extract string cells in a row from cell ranges', () => {
-      const rowModel = {
-        getRow: jest.fn().mockReturnValue({ rowIndex: 1 }),
-      };
-
       const cellRanges = [
         {
           startRow: { rowIndex: 0 },
@@ -647,8 +603,10 @@ describe('AggregationService', () => {
         },
       ] as unknown as CellRange[];
       const api = {
-        getModel: jest.fn(() => rowModel),
-        getValue: jest
+        getDisplayedRowAtIndex: jest
+          .fn()
+          .mockImplementation(() => ({ rowIndex: 1 })),
+        getCellValue: jest
           .fn()
           .mockReturnValueOnce('test0')
           .mockReturnValueOnce('test1')
@@ -668,15 +626,6 @@ describe('AggregationService', () => {
     });
 
     it('should extract selected string cells in a column from cell ranges', () => {
-      const rowModel = {
-        getRow: jest
-          .fn()
-          .mockReturnValueOnce({ rowIndex: 0 })
-          .mockReturnValueOnce({ rowIndex: 1 })
-          .mockReturnValueOnce({ rowIndex: 2 })
-          .mockReturnValueOnce({ rowIndex: 3 }),
-      };
-
       const cellRanges = [
         {
           startRow: { rowIndex: 0 },
@@ -685,8 +634,8 @@ describe('AggregationService', () => {
         },
       ] as unknown as CellRange[];
       const api = {
-        getModel: jest.fn(() => rowModel),
-        getValue: jest
+        getDisplayedRowAtIndex,
+        getCellValue: jest
           .fn()
           .mockReturnValueOnce('test0')
           .mockReturnValueOnce('test1')

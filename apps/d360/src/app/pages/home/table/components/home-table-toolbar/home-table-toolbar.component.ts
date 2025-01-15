@@ -15,7 +15,7 @@ import { tap } from 'rxjs';
 
 import { translate, TranslocoModule } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import { ColumnApi, GridApi } from 'ag-grid-community';
+import { GridApi } from 'ag-grid-enterprise';
 
 import { GlobalSelectionUtils } from '../../../../../feature/global-selection/global-selection.utils';
 import { MaterialCustomerService } from '../../../../../feature/material-customer/material-customer.service';
@@ -37,12 +37,11 @@ import { ExportTableDialogComponent } from '../export-table-dialog/export-table-
   styleUrl: './home-table-toolbar.component.scss',
 })
 export class HomeTableToolbarComponent implements OnInit {
-  public resetLayout = input.required<(layoutId: LayoutId) => any>();
-  public saveLayout = input.required<(layoutId: LayoutId) => any>();
-  public loadLayout = input.required<(layoutId: LayoutId) => any>();
-  public globalSelection = input.required<GlobalSelectionState>();
-  public gridApi = input.required<GridApi>();
-  public columnApi = input.required<ColumnApi>();
+  resetLayout = input.required<(layoutId: LayoutId) => any>();
+  saveLayout = input.required<(layoutId: LayoutId) => any>();
+  loadLayout = input.required<(layoutId: LayoutId) => any>();
+  globalSelection = input.required<GlobalSelectionState>();
+  gridApi = input.required<GridApi>();
 
   protected readonly totalRowCount = signal<number>(0);
 
@@ -81,12 +80,12 @@ export class HomeTableToolbarComponent implements OnInit {
   protected onToggleFilter(): void {
     this.showFloatingFilter = !this.showFloatingFilter;
 
-    const colDefs = this.gridApi().getColumnDefs();
-    colDefs.forEach((colDef: any) => {
-      colDef.floatingFilter = !colDef.floatingFilter;
-    });
+    const columnDefs = this.gridApi().getColumnDefs();
+    columnDefs.forEach(
+      (colDef: any) => (colDef.floatingFilter = !colDef.floatingFilter)
+    );
 
-    this.gridApi().setColumnDefs(colDefs);
+    this.gridApi().setGridOption('columnDefs', columnDefs);
   }
 
   protected isExportDisabled(): boolean {
@@ -104,7 +103,6 @@ export class HomeTableToolbarComponent implements OnInit {
   protected openExport(): void {
     this.dialog.open(ExportTableDialogComponent, {
       data: {
-        columnApi: this.columnApi(),
         gridApi: this.gridApi(),
         filter: GlobalSelectionUtils.globalSelectionCriteriaToFilter(
           this.globalSelection()

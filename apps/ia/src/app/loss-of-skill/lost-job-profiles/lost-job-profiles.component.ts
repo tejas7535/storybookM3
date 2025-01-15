@@ -137,7 +137,7 @@ export class LostJobProfilesComponent {
     filter: true,
     floatingFilter: true,
     resizable: true,
-    suppressMenu: true,
+    suppressHeaderMenuButton: true,
     flex: 1,
     headerClass: () => 'bg-selected-overlay',
     filterParams: {
@@ -223,7 +223,7 @@ export class LostJobProfilesComponent {
 
   onGridReady(params: GridReadyEvent) {
     this.gridApi = params.api;
-    params.columnApi.autoSizeColumn('openPositions');
+    this.gridApi.autoSizeColumns(['openPositions']);
   }
 
   displayOrHideLoadingOverlay(loading: boolean) {

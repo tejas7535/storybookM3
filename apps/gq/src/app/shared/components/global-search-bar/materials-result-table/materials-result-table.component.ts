@@ -16,12 +16,9 @@ import { AgGridLocale } from '@gq/shared/ag-grid/models/ag-grid-locale.interface
 import { BaseResultTableComponent } from '@gq/shared/components/global-search-bar/base-result-table/base-result-table.component';
 import { QuotationSearchResultByMaterials } from '@gq/shared/models/quotation/quotation-search-result-by-materials.interface';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
-import {
-  FilterChangedEvent,
-  GridReadyEvent,
-} from 'ag-grid-community/dist/lib/events';
-import { ColDef } from 'ag-grid-enterprise';
+import { ColDef, FilterChangedEvent, GridReadyEvent } from 'ag-grid-enterprise';
 
+import { ROW_SELECTION } from '../config/row-selection.config';
 import { MaterialsCriteriaSelection } from './material-criteria-selection.enum';
 
 @Component({
@@ -56,7 +53,7 @@ export class MaterialsResultTableComponent
         : this.columnDefService.MATERIALS_TABLE_COLUMN_DEFS_WITHOUT_GPI
     )
   );
-
+  rowSelection = ROW_SELECTION;
   defaultColDef = this.columnDefService.DEFAULT_COL_DEF;
   components = this.columnDefService.COMPONENTS;
   gridOptions = this.columnDefService.GRID_OPTIONS;

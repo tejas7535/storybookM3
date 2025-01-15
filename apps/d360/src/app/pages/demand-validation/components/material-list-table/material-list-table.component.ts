@@ -26,7 +26,7 @@ import {
   GridReadyEvent,
   IRowNode,
   NewColumnsLoadedEvent,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -79,9 +79,9 @@ export class MaterialListTableComponent {
   protected gridOptions: GridOptions = {
     ...serverSideTableDefaultProps,
     onFirstDataRendered: (event: FirstDataRenderedEvent) =>
-      event.columnApi.autoSizeAllColumns(true),
+      event.api.autoSizeAllColumns(true),
     onNewColumnsLoaded: (event: NewColumnsLoadedEvent) =>
-      event.columnApi.autoSizeAllColumns(true),
+      event.api.autoSizeAllColumns(true),
   };
 
   protected selectedMaterialListEntry = signal<MaterialListEntry>(null);
@@ -103,6 +103,8 @@ export class MaterialListTableComponent {
     this.gridApi = event.api;
 
     if (this.gridApi) {
+      this.updateColumnDefs();
+
       this.setServerSideDatasource(
         this.selectedCustomerNumber(),
         this.demandValidationFilters()
@@ -172,30 +174,33 @@ export class MaterialListTableComponent {
     menuTabs: [],
   };
 
-  protected columnDefs = getColumnDefinitions(
-    this.agGridLocalizationService
-  ).map((def) => ({
-    ...getDefaultColDef(),
-    ...def,
-    field: def.colId,
-    headerName: translate(`material_customer.column.${def.colId}`, {}),
-    headerTooltip: translate(`material_customer.column.${def.colId}`, {}),
-    suppressMenu: true,
-    cellStyle: (cellParams: CellClassParams) => {
-      if (cellParams.data.materialClassification === 'OP') {
-        return { backgroundColor: `${disableColor}` };
-      }
+  private updateColumnDefs(): void {
+    this.gridApi?.setGridOption('columnDefs', [
+      ...(getColumnDefinitions(this.agGridLocalizationService).map((def) => ({
+        ...getDefaultColDef(),
+        ...def,
+        field: def.colId,
+        headerName: translate(`material_customer.column.${def.colId}`, {}),
+        headerTooltip: translate(`material_customer.column.${def.colId}`, {}),
+        suppressHeaderMenuButton: true,
+        cellStyle: (cellParams: CellClassParams) => {
+          if (cellParams.data.materialClassification === 'OP') {
+            return { backgroundColor: `${disableColor}` };
+          }
 
-      return {};
-    },
-  }));
+          return {};
+        },
+      })) as ColDef[]),
+    ]);
+  }
 
   private setServerSideDatasource(
     customerNumber: string,
     demandValidationFilters: DemandValidationFilter
   ) {
     this.rowCount.set(0);
-    this.gridApi.setServerSideDatasource(
+    this.gridApi.setGridOption(
+      'serverSideDatasource',
       this.demandValidationService.createDemandMaterialCustomerDatasource(
         this.getSelectionFilters(customerNumber, demandValidationFilters)
       )

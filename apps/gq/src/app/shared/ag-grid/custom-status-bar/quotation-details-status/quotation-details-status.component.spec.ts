@@ -13,7 +13,7 @@ import {
 } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import { IStatusPanelParams } from 'ag-grid-community';
+import { IStatusPanelParams } from 'ag-grid-enterprise';
 import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';

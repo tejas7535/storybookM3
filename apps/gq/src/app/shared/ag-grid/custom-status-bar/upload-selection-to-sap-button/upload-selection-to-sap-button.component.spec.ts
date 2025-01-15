@@ -12,7 +12,7 @@ import { QuotationStatus, SAP_SYNC_STATUS } from '@gq/shared/models';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import { IStatusPanelParams } from 'ag-grid-community';
+import { IStatusPanelParams } from 'ag-grid-enterprise';
 import { MockDirective, MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 

@@ -19,7 +19,7 @@ import {
   FilterChangedEvent,
   GridApi,
   SortChangedEvent,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 
 import { formatFilterModelForBackend } from '../ag-grid/grid-filter-model';
 
@@ -110,7 +110,7 @@ export abstract class AbstractColumnSettingsService<
       rawFilterModel && formatFilterModelForBackend(rawFilterModel);
 
     of(
-      event.columnApi.getColumnState().map((col: any) => ({
+      event.api.getColumnState().map((col: any) => ({
         colId: col.colId,
         visible: !col.hide,
         sort: col.sort,

@@ -1,4 +1,4 @@
-import { ColDef } from 'ag-grid-community';
+import { ColDef } from 'ag-grid-enterprise';
 
 export interface FilterValues {
   deliveries: boolean;

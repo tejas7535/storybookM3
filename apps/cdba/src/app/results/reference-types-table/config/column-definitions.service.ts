@@ -26,25 +26,6 @@ import { CurrencyService } from '@cdba/shared/services/currency/currency.service
 export class ColumnDefinitionService {
   COLUMN_DEFINITIONS: ColDef[] = [
     {
-      checkboxSelection: true,
-      headerCheckboxSelection: true,
-      headerCheckboxSelectionFilteredOnly: true,
-      sortable: false,
-      filter: false,
-      resizable: false,
-      enablePivot: false,
-      enableRowGroup: false,
-      filterParams: false,
-      suppressMenu: true,
-      width: 0,
-      maxWidth: 50,
-      pinned: 'left',
-      suppressColumnsToolPanel: true,
-      suppressMovable: true,
-      lockPosition: true,
-      lockVisible: true,
-    },
-    {
       field: 'materialDesignation',
       headerName: translate(
         'results.referenceTypesTable.headers.materialDesignation'
@@ -54,10 +35,11 @@ export class ColumnDefinitionService {
       ),
       valueFormatter: scrambleMaterialDesignation,
       cellRenderer: 'materialDesignationCellRender',
-      pinned: 'left',
       suppressColumnsToolPanel: true,
       suppressMovable: true,
-      lockPosition: true,
+      pinned: 'left',
+      lockPosition: 'left',
+      lockPinned: true,
       lockVisible: true,
     },
     {

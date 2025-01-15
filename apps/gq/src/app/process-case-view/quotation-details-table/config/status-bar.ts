@@ -1,6 +1,6 @@
 import { DeleteItemsButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/delete-items-button/delete-items-button.component';
 import { UploadQuoteToSapButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/upload-quote-to-sap-button/upload-quote-to-sap-button.component';
-import { StatusPanelDef } from 'ag-grid-community';
+import { StatusPanelDef } from 'ag-grid-enterprise';
 
 export const STATUS_BAR_CONFIG: {
   statusPanels: StatusPanelDef[];

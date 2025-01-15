@@ -7,7 +7,7 @@ import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { FilterChangedEvent } from 'ag-grid-community';
+import { FilterChangedEvent } from 'ag-grid-enterprise';
 import { MockProvider } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -61,7 +61,7 @@ describe('ComparableTransactionsComponent', () => {
   describe('columnChange', () => {
     test('should set column state', () => {
       const event = {
-        columnApi: {
+        api: {
           getColumnState: jest.fn(),
         },
       } as any;
@@ -76,7 +76,7 @@ describe('ComparableTransactionsComponent', () => {
   describe('onGridReady', () => {
     test('should set columnState', () => {
       const event = {
-        columnApi: {
+        api: {
           applyColumnState: jest.fn(),
         },
       } as any;
@@ -88,11 +88,11 @@ describe('ComparableTransactionsComponent', () => {
       expect(
         component['agGridStateService'].getColumnStateForCurrentView
       ).toHaveBeenCalledTimes(1);
-      expect(event.columnApi.applyColumnState).toHaveBeenCalledTimes(1);
+      expect(event.api.applyColumnState).toHaveBeenCalledTimes(1);
     });
     test('should not set columnState', () => {
       const event = {
-        columnApi: {
+        api: {
           applyColumnState: jest.fn(),
         },
       } as any;
@@ -101,7 +101,7 @@ describe('ComparableTransactionsComponent', () => {
       expect(
         component['agGridStateService'].getColumnStateForCurrentView
       ).toHaveBeenCalledTimes(1);
-      expect(event.columnApi.applyColumnState).toHaveBeenCalledTimes(0);
+      expect(event.api.applyColumnState).toHaveBeenCalledTimes(0);
     });
   });
   describe('onFirstDataRendered', () => {
@@ -111,16 +111,16 @@ describe('ComparableTransactionsComponent', () => {
         getColId: jest.fn(() => id),
       };
       const params = {
-        columnApi: {
-          getAllColumns: jest.fn(() => [element]),
-          autoSizeColumn: jest.fn(),
+        api: {
+          autoSizeColumns: jest.fn(),
+          getColumns: jest.fn(() => [element]),
         },
       } as any;
 
       component.onFirstDataRendered(params);
 
-      expect(params.columnApi.autoSizeColumn).toHaveBeenCalledTimes(1);
-      expect(params.columnApi.autoSizeColumn).toBeCalledWith(id, true);
+      expect(params.api.autoSizeColumns).toHaveBeenCalledTimes(1);
+      expect(params.api.autoSizeColumns).toBeCalledWith([id], true);
     });
     test('should autoSize without skipHeader', () => {
       const id = 'any';
@@ -128,16 +128,16 @@ describe('ComparableTransactionsComponent', () => {
         getColId: jest.fn(() => id),
       };
       const params = {
-        columnApi: {
-          getAllColumns: jest.fn(() => [element]),
-          autoSizeColumn: jest.fn(),
+        api: {
+          autoSizeColumns: jest.fn(),
+          getColumns: jest.fn(() => [element]),
         },
       } as any;
 
       component.onFirstDataRendered(params);
 
-      expect(params.columnApi.autoSizeColumn).toHaveBeenCalledTimes(1);
-      expect(params.columnApi.autoSizeColumn).toBeCalledWith(id, false);
+      expect(params.api.autoSizeColumns).toHaveBeenCalledTimes(1);
+      expect(params.api.autoSizeColumns).toBeCalledWith([id], false);
     });
   });
 
@@ -150,7 +150,7 @@ describe('ComparableTransactionsComponent', () => {
         afterDataChange: false,
         afterFloatingFilter: false,
         columns: [],
-        columnApi: {},
+        api: {},
       } as FilterChangedEvent;
       component.onFilterChanged(mockEvent);
 

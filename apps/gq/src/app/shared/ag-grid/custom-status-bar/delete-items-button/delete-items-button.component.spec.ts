@@ -13,7 +13,7 @@ import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.
 import { Quotation, QuotationDetail } from '@gq/shared/models';
 import { translate } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { IStatusPanelParams } from 'ag-grid-community';
+import { IStatusPanelParams } from 'ag-grid-enterprise';
 import { MockDirective, MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 

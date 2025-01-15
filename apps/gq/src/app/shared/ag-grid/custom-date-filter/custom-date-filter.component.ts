@@ -6,7 +6,7 @@ import {
   IAfterGuiAttachedParams,
   IDoesFilterPassParams,
   IFilterParams,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 import { Moment } from 'moment';
 
 @Component({

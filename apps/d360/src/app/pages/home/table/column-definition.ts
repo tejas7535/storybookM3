@@ -1,5 +1,5 @@
 import { translate } from '@jsverse/transloco';
-import { ColDef } from 'ag-grid-community';
+import { ColDef } from 'ag-grid-enterprise';
 
 import { portfolioStatusValues } from '../../../feature/customer-material-portfolio/cmp-modal-types';
 import {

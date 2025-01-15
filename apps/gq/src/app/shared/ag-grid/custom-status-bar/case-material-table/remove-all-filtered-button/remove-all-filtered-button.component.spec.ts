@@ -8,7 +8,7 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { GridApi } from 'ag-grid-community';
+import { GridApi } from 'ag-grid-enterprise';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

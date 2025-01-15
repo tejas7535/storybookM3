@@ -33,9 +33,6 @@ import { DateFilterParamService } from './date-filter-param/date-filter-param.se
 export class ColumnDefService {
   COLUMN_DEFS: ColDef[] = [
     {
-      headerCheckboxSelection: true,
-      headerCheckboxSelectionFilteredOnly: true,
-      checkboxSelection: true,
       headerName: translate('shared.quotationDetailsTable.item'),
       field: ColumnFields.QUOTATION_ITEM_ID,
       cellRenderer: 'PositionIdComponent',

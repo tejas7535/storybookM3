@@ -1,5 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { IDoesFilterPassParams, IFilterParams } from 'ag-grid-community';
+import { IDoesFilterPassParams, IFilterParams } from 'ag-grid-enterprise';
 import moment from 'moment';
 
 import { CustomDateFilterComponent } from './custom-date-filter.component';

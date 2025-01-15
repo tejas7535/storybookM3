@@ -20,7 +20,7 @@ import {
   GetContextMenuItemsParams,
   GetMainMenuItemsParams,
   RowNode,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -133,12 +133,10 @@ describe('CaseTableComponent', () => {
     };
     beforeEach(() => {
       event = {
-        columnApi: {
-          getColumnState: jest.fn(),
-        },
         api: {
           forEachNodeAfterFilterAndSort: jest.fn(),
           getFilterModel: jest.fn(() => filterModels),
+          getColumnState: jest.fn(),
         },
       } as any;
 
@@ -190,8 +188,8 @@ describe('CaseTableComponent', () => {
             nodes.forEach((element) => {
               callback(element);
             }),
+          applyColumnState: jest.fn(),
         },
-        columnApi: { applyColumnState: jest.fn() },
       } as any;
 
       component.selectedRows = [1234];
@@ -203,8 +201,11 @@ describe('CaseTableComponent', () => {
 
     test('should apply column state and filter model', () => {
       const mockEvent = {
-        api: { forEachNode: jest.fn(), setFilterModel: jest.fn() },
-        columnApi: { applyColumnState: jest.fn() },
+        api: {
+          forEachNode: jest.fn(),
+          setFilterModel: jest.fn(),
+          applyColumnState: jest.fn(),
+        },
       } as any;
       const filterStateSubject = new BehaviorSubject<FilterState[]>([]);
       component['agGridStateService'].getColumnStateForCurrentView = jest.fn(
@@ -220,7 +221,7 @@ describe('CaseTableComponent', () => {
           filterModels: [],
         },
       ]);
-      expect(mockEvent.columnApi.applyColumnState).toHaveBeenCalled();
+      expect(mockEvent.api.applyColumnState).toHaveBeenCalled();
       expect(mockEvent.api.setFilterModel).toHaveBeenCalled();
     });
   });

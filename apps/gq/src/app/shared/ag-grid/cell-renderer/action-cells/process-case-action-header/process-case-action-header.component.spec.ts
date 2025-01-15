@@ -9,7 +9,7 @@ import {
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { HeaderClassParams, RowNode } from 'ag-grid-community';
+import { HeaderClassParams, RowNode } from 'ag-grid-enterprise';
 import { marbles } from 'rxjs-marbles';
 
 import { MaterialTableItem } from '../../../../models/table';

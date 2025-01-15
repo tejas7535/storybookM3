@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Observable, Subject, tap } from 'rxjs';
 
-import { ColumnApi, IServerSideDatasource } from 'ag-grid-community';
+import { GridApi, IServerSideDatasource } from 'ag-grid-enterprise';
 
 import { formatFilterModelForBackend } from '../../../../shared/ag-grid/grid-filter-model';
 import {
@@ -56,7 +56,7 @@ export class MaterialCustomerTableService<
       : null;
   }
 
-  public useMaterialCustomerColumnLayouts(columnApi: ColumnApi) {
+  public useMaterialCustomerColumnLayouts(gridApi: GridApi) {
     const currentLayoutId: LayoutId = this.getStoredLayout() || '1';
     this.tableName = `customer-material-${currentLayoutId}`;
 
@@ -64,7 +64,7 @@ export class MaterialCustomerTableService<
       .pipe(
         tap((settings) => {
           if (settings) {
-            applyColumnSettings(columnApi, settings);
+            applyColumnSettings(gridApi, settings);
           }
         }),
         takeUntilDestroyed(this.destroyRef)
@@ -74,7 +74,7 @@ export class MaterialCustomerTableService<
     return {
       resetLayout: (newLayoutId: LayoutId) => {
         this.tableName = `customer-material-${newLayoutId}`;
-        applyColumnSettings(columnApi, this.getDefaultColumnSettings());
+        applyColumnSettings(gridApi, this.getDefaultColumnSettings());
 
         return this.saveColumnSettings$(this.getDefaultColumnSettings())
           .pipe(takeUntilDestroyed(this.destroyRef))
@@ -84,7 +84,7 @@ export class MaterialCustomerTableService<
         this.tableName = `customer-material-${newLayoutId}`;
 
         return this.saveColumnSettings$(
-          getColumnSettingsFromGrid<COLUMN_KEYS>(columnApi)
+          getColumnSettingsFromGrid<COLUMN_KEYS>(gridApi)
         )
           .pipe(
             tap(() => localStorage.setItem(LOCALSTORAGE_LAYOUT, newLayoutId)),
@@ -99,9 +99,9 @@ export class MaterialCustomerTableService<
           .pipe(
             tap((settings) => {
               if (settings) {
-                applyColumnSettings(columnApi, settings);
+                applyColumnSettings(gridApi, settings);
               } else {
-                applyColumnSettings(columnApi, this.getDefaultColumnSettings());
+                applyColumnSettings(gridApi, this.getDefaultColumnSettings());
               }
               localStorage.setItem(LOCALSTORAGE_LAYOUT, newLayoutId);
             }),

@@ -84,7 +84,7 @@ export const BASE_SUPPLIERS_COLUMN_DEFINITIONS: ColDef[] = [
     resizable: true,
     suppressMovable: true,
     hide: false,
-    suppressMenu: true,
+    suppressHeaderMenuButton: true,
     sortable: false,
     filter: false,
   },

@@ -5,7 +5,6 @@ import { translate } from '@jsverse/transloco';
 import {
   CellClickedEvent,
   ColDef,
-  ColumnApi,
   GridApi,
   GridReadyEvent,
   ValueGetterParams,
@@ -42,7 +41,6 @@ export class ReasonsForLeavingTableComponent implements OnInit {
   private _data: ReasonForLeavingRank[];
   private _loading: boolean;
   gridApi: GridApi<ReasonForLeavingRank[]>;
-  columnApi: ColumnApi;
   leavers: EmployeeWithAction[];
   components = {
     AmountCellRendererComponent,
@@ -107,7 +105,7 @@ export class ReasonsForLeavingTableComponent implements OnInit {
     filter: true,
     floatingFilter: true,
     resizable: true,
-    suppressMenu: true,
+    suppressHeaderMenuButton: true,
     headerClass: () => this.headerClass,
     flex: 1,
     filterParams: {
@@ -226,7 +224,6 @@ export class ReasonsForLeavingTableComponent implements OnInit {
 
   onGridReady(event: GridReadyEvent<ReasonForLeavingRank[]>): void {
     this.gridApi = event.api;
-    this.columnApi = event.columnApi;
 
     this.showOrHideLoadingOverlay();
   }
@@ -274,9 +271,9 @@ export class ReasonsForLeavingTableComponent implements OnInit {
 
   showOrHideAnswersColumn(): void {
     if (this.data.some((reason) => reason.detailedReasonId)) {
-      this.columnApi?.setColumnVisible(this.answersColumnId, true);
+      this.gridApi?.setColumnsVisible([this.answersColumnId], true);
     } else {
-      this.columnApi?.setColumnVisible(this.answersColumnId, false);
+      this.gridApi?.setColumnsVisible([this.answersColumnId], false);
     }
   }
 }

@@ -7,7 +7,7 @@ import { MaterialTableItem } from '@gq/shared/models/table';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { HeaderClassParams, RowNode } from 'ag-grid-community';
+import { HeaderClassParams, RowNode } from 'ag-grid-enterprise';
 import { marbles } from 'rxjs-marbles';
 
 import { CreateCaseActionHeaderComponent } from './create-case-action-header.component';

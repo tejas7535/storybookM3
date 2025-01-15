@@ -4,7 +4,7 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { AgGridModule } from 'ag-grid-angular';
-import { RowSelectedEvent } from 'ag-grid-community';
+import { RowSelectedEvent } from 'ag-grid-enterprise';
 
 import { ActionsCellRendererComponent } from './actions-cell-renderer/actions-cell-renderer.component';
 import { ColumnDefinitionService } from './config';

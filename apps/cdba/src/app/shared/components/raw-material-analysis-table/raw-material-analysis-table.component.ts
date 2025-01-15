@@ -12,7 +12,7 @@ import {
   GridApi,
   GridReadyEvent,
   StatusPanelDef,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 
 import { BomItem, Calculation, RawMaterialAnalysis } from '@cdba/shared/models';
 
@@ -80,13 +80,13 @@ export class RawMaterialAnalysisTableComponent implements OnInit, OnChanges {
        * timeout is necessary, so that the table can meanwhile check, if there is data to display or not
        * the table only shows overlays, if there is no data to display
        */
-      setTimeout(() => this.gridApi.showLoadingOverlay(), 10);
+      setTimeout(() => this.gridApi.setGridOption('loading', true), 10);
     } else {
       if (changes.rawMaterialAnalysisData?.currentValue.length === 0) {
         this.showNoDataOverlay();
       } else {
         this.errorMessage = '';
-        this.gridApi.hideOverlay();
+        this.gridApi.setGridOption('loading', false);
       }
     }
   }

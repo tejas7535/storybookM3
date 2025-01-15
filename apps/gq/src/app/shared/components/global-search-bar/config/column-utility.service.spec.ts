@@ -2,7 +2,7 @@ import { Keyboard, QuotationStatus } from '@gq/shared/models';
 import { QuotationSearchResultByCases } from '@gq/shared/models/quotation/quotation-search-result-by-cases.interface';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { ValueFormatterParams, ValueGetterParams } from 'ag-grid-community';
+import { ValueFormatterParams, ValueGetterParams } from 'ag-grid-enterprise';
 import { MockProvider } from 'ng-mocks';
 
 import { ColumnUtilityService } from './column-utility.service';

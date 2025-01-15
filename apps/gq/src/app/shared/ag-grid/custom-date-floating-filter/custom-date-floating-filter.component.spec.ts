@@ -11,7 +11,7 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { IFloatingFilterParams } from 'ag-grid-community';
+import { IFloatingFilterParams } from 'ag-grid-enterprise';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

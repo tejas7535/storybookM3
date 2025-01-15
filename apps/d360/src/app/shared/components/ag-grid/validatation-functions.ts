@@ -4,8 +4,7 @@ import {
   ColGroupDef,
   IRowNode,
   ITooltipParams,
-  RowNode,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 
 import { errorColorLight } from '../../styles/colors';
 import { GridTooltipComponent } from './grid-tooltip/grid-tooltip.component';
@@ -48,7 +47,7 @@ export function buildValidationProps(
   };
 }
 
-export function rowIsEmpty(row: RowNode) {
+export function rowIsEmpty(row: IRowNode) {
   return Object.values(row.data).every((value) => !value);
 }
 

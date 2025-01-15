@@ -9,15 +9,15 @@ import {
 } from '@angular/core';
 
 import {
+  ColDef,
+  ColumnEvent,
+  GridApi,
   GridReadyEvent,
   IRowNode,
   RowSelectedEvent,
-  SortChangedEvent,
-} from 'ag-grid-community';
-import {
-  ColDef,
-  GridApi,
+  RowSelectionOptions,
   SideBarDef,
+  SortChangedEvent,
   StatusPanelDef,
 } from 'ag-grid-enterprise';
 
@@ -42,8 +42,8 @@ import {
 })
 export class CalculationsTableComponent implements OnInit, OnChanges {
   @Input() minified = false;
-  @Input() rowSelection: 'multiple' | 'single';
-  @Input() rowMultiSelectWithClick = false;
+  @Input() rowSelectionType: 'multiRow' | 'singleRow';
+  @Input() enableSelectionWithoutKeys = false;
   @Input() rowData: Calculation[];
   @Input() selectedNodeIds: string[];
   @Input() isLoading: boolean;
@@ -75,8 +75,10 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   };
 
   public sideBar: SideBarDef;
-  public enableRangeSelection: boolean;
+  public cellSelection: boolean;
   public rowGroupPanelShow: 'always' | 'onlyWhenGrouping' | 'never';
+
+  rowSelection: RowSelectionOptions;
 
   public getMainMenuItems = getMainMenuItems;
 
@@ -92,6 +94,13 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
     this.columnDefs = this.columnDefinitionService.getColDef(this.minified);
     this.storageKey = `calculations_${this.minified ? 'minified' : 'default'}`;
     this.setTableProperties(this.minified);
+
+    this.rowSelection = {
+      mode: this.rowSelectionType,
+      checkboxes: false,
+      headerCheckbox: false,
+      enableSelectionWithoutKeys: this.enableSelectionWithoutKeys,
+    } as RowSelectionOptions;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -100,7 +109,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
     }
 
     if (changes.isLoading && changes.isLoading.currentValue) {
-      this.gridApi.showLoadingOverlay();
+      this.gridApi.setGridOption('loading', true);
     } else {
       this.gridApi.showNoRowsOverlay();
     }
@@ -177,8 +186,8 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   /**
    * Column change listener for table.
    */
-  public columnChange(event: SortChangedEvent): void {
-    const columnState = event.columnApi.getColumnState();
+  public columnChange(event: ColumnEvent | SortChangedEvent): void {
+    const columnState = event.api.getColumnState();
 
     this.agGridStateService.setColumnState(this.storageKey, columnState);
   }
@@ -188,7 +197,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
 
     const state = this.agGridStateService.getColumnState(this.storageKey);
 
-    params.columnApi.applyColumnState({
+    params.api.applyColumnState({
       state,
       applyOrder: true,
     });
@@ -206,7 +215,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
       ? FRAMEWORK_COMPONENTS_MINIFIED
       : FRAMEWORK_COMPONENTS;
 
-    this.enableRangeSelection = !minified;
+    this.cellSelection = !minified;
     this.rowGroupPanelShow = minified ? 'never' : 'always';
   }
 

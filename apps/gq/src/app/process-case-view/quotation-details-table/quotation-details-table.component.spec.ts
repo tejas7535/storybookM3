@@ -22,13 +22,12 @@ import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
 import {
-  AgGridEvent,
   ColDef,
   GetContextMenuItemsParams,
   GetMainMenuItemsParams,
   GridReadyEvent,
   RowNode,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
@@ -453,12 +452,10 @@ describe('QuotationDetailsTableComponent', () => {
     };
     beforeEach(() => {
       event = {
-        columnApi: {
-          getColumnState: jest.fn(),
-        },
         api: {
           forEachNodeAfterFilterAndSort: jest.fn(),
           getFilterModel: jest.fn(() => filterModels),
+          getColumnState: jest.fn(),
         },
       } as any;
 
@@ -517,20 +514,18 @@ describe('QuotationDetailsTableComponent', () => {
   });
 
   describe('onGridReady', () => {
-    let mockEvent: AgGridEvent<GridReadyEvent>;
+    let mockEvent: GridReadyEvent;
 
     beforeEach(() => {
       mockEvent = {
-        columnApi: {
-          resetColumnState: jest.fn(),
-          applyColumnState: jest.fn(),
-          autoSizeColumn: jest.fn(),
-        },
         api: {
           forEachNodeAfterFilterAndSort: jest.fn(),
           forEachNode: jest.fn(),
           setFilterModel: jest.fn(),
           ensureIndexVisible: jest.fn(),
+          autoSizeColumns: jest.fn(),
+          resetColumnState: jest.fn(),
+          applyColumnState: jest.fn(),
         },
       } as any;
 
@@ -550,7 +545,7 @@ describe('QuotationDetailsTableComponent', () => {
       expect(
         component['agGridStateService'].setColumnData
       ).toHaveBeenCalledTimes(1);
-      expect(mockEvent.columnApi.resetColumnState).toHaveBeenCalledTimes(1);
+      expect(mockEvent.api.resetColumnState).toHaveBeenCalledTimes(1);
     });
 
     test('should NOT set column data if already exist', () => {
@@ -589,14 +584,12 @@ describe('QuotationDetailsTableComponent', () => {
             }),
           forEachNodeAfterFilterAndSort: jest.fn(),
           ensureIndexVisible: jest.fn(),
-        },
-        columnApi: {
+          autoSizeColumn: jest.fn(),
           getAllGridColumns: jest.fn(() => [
             { getColId: jest.fn(() => ColumnFields.NET_VALUE) },
             { getColId: jest.fn(() => ColumnFields.RECOMMENDED_PRICE) },
           ]),
           resetColumnState: jest.fn(),
-          autoSizeColumn: jest.fn(),
         },
       } as any;
 
@@ -624,17 +617,15 @@ describe('QuotationDetailsTableComponent', () => {
   describe('onFirstDataRenderer', () => {
     test('should scroll to QuotationDetail when routeSnapshot contains gqPositionsId', () => {
       const params = {
-        columnApi: {
-          setFilterModel: jest.fn(),
-          resetColumnState: jest.fn(),
-          autoSizeColumn: jest.fn(),
+        api: {
+          setFocusedCell: jest.fn(),
+          autoSizeColumns: jest.fn(),
           getAllGridColumns: jest.fn(() => [
             { getColId: jest.fn(() => ColumnFields.NET_VALUE) },
             { getColId: jest.fn(() => ColumnFields.RECOMMENDED_PRICE) },
           ]),
-        },
-        api: {
-          setFocusedCell: jest.fn(),
+          setFilterModel: jest.fn(),
+          resetColumnState: jest.fn(),
         },
       } as any;
       component['route'].snapshot.queryParams = { gqPositionId: '1234' };
@@ -644,7 +635,7 @@ describe('QuotationDetailsTableComponent', () => {
         0,
         ColumnFields.QUOTATION_ITEM_ID
       );
-      expect(params.columnApi.getAllGridColumns).toHaveBeenCalledTimes(1);
+      expect(params.api.getAllGridColumns).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -653,9 +644,10 @@ describe('QuotationDetailsTableComponent', () => {
       component['agGridStateService'].setColumnData = jest.fn();
 
       component.updateColumnData({
-        columnApi: { resetColumnState: jest.fn(), applyColumnState: jest.fn() },
         api: {
           forEachNodeAfterFilterAndSort: jest.fn(),
+          resetColumnState: jest.fn(),
+          applyColumnState: jest.fn(),
         },
       } as any);
 
@@ -670,13 +662,11 @@ describe('QuotationDetailsTableComponent', () => {
       component.updateColumnData = jest.fn();
 
       component.onColumnChange({
-        columnApi: {
-          applyColumnState: jest.fn(),
-          getColumnState: jest.fn(),
-        },
         api: {
           forEachNodeAfterFilterAndSort: jest.fn(),
           getFilterModel: jest.fn(),
+          applyColumnState: jest.fn(),
+          getColumnState: jest.fn(),
         },
       } as any);
 
@@ -689,7 +679,6 @@ describe('QuotationDetailsTableComponent', () => {
       api: {
         selectIndex: jest.fn(),
       },
-      columnApi: jest.fn(),
       type: '',
     };
 

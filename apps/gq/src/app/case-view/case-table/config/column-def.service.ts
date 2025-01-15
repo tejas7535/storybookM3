@@ -19,9 +19,6 @@ import { ColDef, ValueFormatterParams } from 'ag-grid-enterprise';
 export class ColumnDefService {
   COLUMN_DEFS: ColDef[] = [
     {
-      headerCheckboxSelection: true,
-      headerCheckboxSelectionFilteredOnly: true,
-      checkboxSelection: true,
       headerName: translate('caseView.caseTable.gqId'),
       field: CaseTableColumnFields.GQ_ID,
       valueFormatter: ColumnUtilityService.idFormatter,

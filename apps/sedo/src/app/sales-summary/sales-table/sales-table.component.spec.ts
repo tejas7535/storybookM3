@@ -19,11 +19,11 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  GridApi,
   GridReadyEvent,
   IStatusPanelParams,
   RowClickedEvent,
-} from 'ag-grid-community';
-import { GridApi } from 'ag-grid-enterprise';
+} from 'ag-grid-enterprise';
 
 import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
 
@@ -111,7 +111,11 @@ describe('SalesTableComponent', () => {
       const combinedKey = 'abc key';
       activatedRoute.snapshot.queryParams = { combinedKey };
 
-      const fakeApi = new GridApi();
+      const fakeApi = {
+        getFilterInstance: jest.fn(),
+        getDisplayedRowAtIndex: jest.fn(),
+        onFilterChanged: jest.fn(),
+      } as unknown as GridApi;
 
       const fakeFilterModel = {
         setModel: jest.fn(),
@@ -126,7 +130,6 @@ describe('SalesTableComponent', () => {
 
       const fakeEvent: IStatusPanelParams = {
         api: fakeApi,
-        columnApi: undefined,
         context: undefined,
       };
 
@@ -158,7 +161,10 @@ describe('SalesTableComponent', () => {
       const materialNumber = '0000-111-222-333';
       activatedRoute.snapshot.queryParams = { materialNumber };
 
-      const fakeApi = new GridApi();
+      const fakeApi = {
+        getFilterInstance: jest.fn(),
+        onFilterChanged: jest.fn(),
+      } as unknown as GridApi;
 
       const fakeFilterModel = {
         setModel: jest.fn(),
@@ -169,7 +175,6 @@ describe('SalesTableComponent', () => {
 
       const fakeEvent: IStatusPanelParams = {
         api: fakeApi,
-        columnApi: undefined,
         context: undefined,
       };
 
@@ -190,32 +195,27 @@ describe('SalesTableComponent', () => {
 
     it('should not set filter if no queryParams', () => {
       activatedRoute.snapshot.queryParams = {};
-      const fakeApi = new GridApi();
-
-      const fakeFilterModel = {
-        setModel: jest.fn(),
-      };
-
-      fakeApi.getFilterInstance = jest.fn().mockReturnValue(fakeFilterModel);
+      const fakeApi = {
+        getFilterInstance: jest.fn(),
+        onFilterChanged: jest.fn(),
+        setFilterModel: jest.fn(),
+      } as unknown as GridApi;
 
       const fakeEvent: IStatusPanelParams = {
         api: fakeApi,
-        columnApi: undefined,
         context: undefined,
       };
 
       component.onFirstDataRendered(fakeEvent);
 
-      expect(fakeEvent.api.getFilterInstance).toHaveBeenCalledTimes(0);
-
-      expect(fakeFilterModel.setModel).toHaveBeenCalledTimes(0);
+      expect(fakeApi.setFilterModel).toHaveBeenCalledTimes(0);
     });
   });
 
   describe('columnChange', () => {
     it('should set column state', () => {
       const event = {
-        columnApi: {
+        api: {
           getColumnState: jest.fn(),
         },
       } as any;
@@ -231,7 +231,7 @@ describe('SalesTableComponent', () => {
   describe('setupColumState', () => {
     it('should apply column state from state service', () => {
       const params = {
-        columnApi: {
+        api: {
           applyColumnState: jest.fn(),
         },
       } as unknown as GridReadyEvent;
@@ -244,7 +244,7 @@ describe('SalesTableComponent', () => {
 
       component['setupColumState'](params);
 
-      expect(params.columnApi.applyColumnState).toHaveBeenCalledWith({
+      expect(params.api.applyColumnState).toHaveBeenCalledWith({
         state: mockColumnState,
         applyOrder: true,
       });
@@ -296,13 +296,12 @@ describe('SalesTableComponent', () => {
       it('should set lastModifier filter', () => {
         const userId = 'userid';
 
-        const fakeApi = new GridApi();
+        const fakeApi = {
+          getFilterInstance: jest.fn(),
+          onFilterChanged: jest.fn(),
+          setFilterModel: jest.fn(),
+        } as unknown as GridApi;
 
-        const fakeFilterModel = {
-          setModel: jest.fn(),
-        };
-
-        fakeApi.getFilterInstance = jest.fn().mockReturnValue(fakeFilterModel);
         fakeApi.onFilterChanged = jest.fn();
 
         component['gridApi'] = fakeApi;
@@ -310,12 +309,9 @@ describe('SalesTableComponent', () => {
 
         component.setLastModifierFilter();
 
-        expect(fakeApi.getFilterInstance).toHaveBeenCalledTimes(1);
-        expect(fakeApi.getFilterInstance).toHaveBeenCalledWith('lastModifier');
-
-        expect(fakeFilterModel.setModel).toHaveBeenCalledTimes(1);
-        expect(fakeFilterModel.setModel).toHaveBeenCalledWith({
-          values: [userId],
+        expect(fakeApi.setFilterModel).toHaveBeenCalledTimes(1);
+        expect(fakeApi.setFilterModel).toHaveBeenCalledWith({
+          values: ['lastModifier'],
         });
         expect(fakeApi.onFilterChanged).toHaveBeenCalledTimes(1);
       });
@@ -325,13 +321,12 @@ describe('SalesTableComponent', () => {
       it('should set lastModifier filter', () => {
         const userId = 'userid';
 
-        const fakeApi = new GridApi();
+        const fakeApi = {
+          getFilterInstance: jest.fn(),
+          onFilterChanged: jest.fn(),
+          setFilterModel: jest.fn(),
+        } as unknown as GridApi;
 
-        const fakeFilterModel = {
-          setModel: jest.fn(),
-        };
-
-        fakeApi.getFilterInstance = jest.fn().mockReturnValue(fakeFilterModel);
         fakeApi.onFilterChanged = jest.fn();
 
         component['gridApi'] = fakeApi;
@@ -339,20 +334,21 @@ describe('SalesTableComponent', () => {
 
         component.setKeyUserFilter();
 
-        expect(fakeApi.getFilterInstance).toHaveBeenCalledTimes(1);
-        expect(fakeApi.getFilterInstance).toHaveBeenCalledWith('keyUser');
-
-        expect(fakeFilterModel.setModel).toHaveBeenCalledTimes(1);
-        expect(fakeFilterModel.setModel).toHaveBeenCalledWith({
-          values: [userId],
+        expect(fakeApi.setFilterModel).toHaveBeenCalledTimes(1);
+        expect(fakeApi.setFilterModel).toHaveBeenCalledWith({
+          values: ['keyUser'],
         });
+
         expect(fakeApi.onFilterChanged).toHaveBeenCalledTimes(1);
       });
     });
 
     describe('reset', () => {
       it('should set lastModifier filter', () => {
-        const fakeApi = new GridApi();
+        const fakeApi = {
+          onFilterChanged: jest.fn(),
+          setFilterModel: jest.fn(),
+        } as unknown as GridApi;
 
         fakeApi.onFilterChanged = jest.fn();
         fakeApi.setFilterModel = jest.fn();

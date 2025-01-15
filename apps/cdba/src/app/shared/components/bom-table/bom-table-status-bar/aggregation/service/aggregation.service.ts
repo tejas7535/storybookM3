@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { CellRange, GridApi, IRowModel, RowNode } from 'ag-grid-community';
+import { CellRange, GridApi, IRowNode } from 'ag-grid-community';
 
 import { AggregationStatusBar } from '@cdba/shared/models';
 import { AggregationStatusBarData } from '@cdba/shared/models/aggregation-status-bar.model';
@@ -84,8 +84,7 @@ export class AggregationService {
 
     cellRanges.forEach((cellRange) => {
       let cellValue: any;
-      let rowModel: IRowModel;
-      let rowNode: RowNode;
+      let rowNode: IRowNode;
 
       const rowStartIndex = Math.min(
         cellRange.startRow.rowIndex,
@@ -98,9 +97,8 @@ export class AggregationService {
 
       for (let i = rowStartIndex; i <= rowEndIndex; i += 1) {
         cellRange.columns.forEach((column) => {
-          rowModel = api.getModel();
-          rowNode = rowModel.getRow(i);
-          cellValue = api.getValue(column, rowNode);
+          rowNode = api.getDisplayedRowAtIndex(i);
+          cellValue = api.getCellValue({ rowNode, colKey: column });
           if (typeof cellValue === 'number' && !Number.isNaN(cellValue)) {
             numberCells.set(
               `${column.getId()}_r${rowNode.rowIndex}`,

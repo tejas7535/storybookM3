@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { ProcessCaseActions } from '@gq/core/store/process-case/process-case.action';
 import { Store } from '@ngrx/store';
-import { CellClassParams } from 'ag-grid-community';
+import { CellClassParams } from 'ag-grid-enterprise';
 
 @Component({
   selector: 'gq-process-case-action-cell',

@@ -13,7 +13,7 @@ import {
 import { tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
-import { GridApi } from 'ag-grid-community';
+import { GridApi } from 'ag-grid-enterprise';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 

@@ -15,10 +15,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
-import { AgGridModule, INoRowsOverlayAngularComp } from 'ag-grid-angular';
+import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
-  ColumnApi,
   FirstDataRenderedEvent,
   GetRowIdFunc,
   GetRowIdParams,
@@ -26,8 +25,7 @@ import {
   GridOptions,
   GridReadyEvent,
   ICellRendererParams,
-  INoRowsOverlayParams,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 
 import { IMRService } from '../../../../feature/internal-material-replacement/imr.service';
 import { IMRSubstitution } from '../../../../feature/internal-material-replacement/model';
@@ -38,35 +36,16 @@ import {
 } from '../../../../shared/ag-grid/grid-defaults';
 import { ActionsMenuCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
 import { TableToolbarComponent } from '../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
-import { DataHintComponent } from '../../../../shared/components/data-hint/data-hint.component';
-import { StyledGridSectionComponent } from '../../../../shared/components/styled-grid-section/styled-grid-section.component';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { InternalMaterialReplacementSingleDeleteModalComponent } from '../../components/modals/internal-material-replacement-single-delete-modal/internal-material-replacement-single-delete-modal.component';
 import { InternalMaterialReplacementSingleSubstitutionModalComponent } from '../../components/modals/internal-material-replacement-single-substitution-modal/internal-material-replacement-single-substitution-modal.component';
+import { NoDataOverlayComponent } from './../../../../shared/components/ag-grid/no-data/no-data.component';
 import { getIMRColumnDefinitions } from './column-definitions';
-
-@Component({
-  selector: 'd360-no-data-overlay',
-  template: ` <d360-data-hint [text]="text"></d360-data-hint>`,
-  imports: [DataHintComponent],
-  standalone: true,
-})
-class NoDataOverlayComponent implements INoRowsOverlayAngularComp {
-  protected text = translate('hint.noData', {});
-
-  agInit(_: INoRowsOverlayParams): void {}
-}
 
 @Component({
   selector: 'd360-internal-material-replacement-table',
   standalone: true,
-  imports: [
-    CommonModule,
-    AgGridModule,
-    TableToolbarComponent,
-    StyledGridSectionComponent,
-    NoDataOverlayComponent,
-  ],
+  imports: [CommonModule, AgGridModule, TableToolbarComponent],
   templateUrl: './internal-material-replacement-table.component.html',
   styleUrl: './internal-material-replacement-table.component.scss',
 })
@@ -74,7 +53,6 @@ export class InternalMaterialReplacementTableComponent {
   readonly selectedRegion = input.required<string>();
 
   public gridApi: GridApi;
-  public columnApi: ColumnApi;
 
   public getApi: OutputEmitterRef<GridApi> = output();
 
@@ -98,11 +76,12 @@ export class InternalMaterialReplacementTableComponent {
 
   onGridReady(event: GridReadyEvent): void {
     this.gridApi = event.api;
-    this.columnApi = event.columnApi;
     this.getApi.emit(event.api);
 
     this.setServerSideDatasource(this.selectedRegion());
     if (this.gridApi) {
+      this.updateColumnDefs();
+
       this.imrService
         .getDataFetchedEvent()
         .pipe(
@@ -124,7 +103,7 @@ export class InternalMaterialReplacementTableComponent {
           tap((_) => {
             if (!this.isGridAutoSized()) {
               this.isGridAutoSized.set(true);
-              this.columnApi?.autoSizeAllColumns();
+              this.gridApi?.autoSizeAllColumns();
             }
           }),
           takeUntilDestroyed(this.destroyRef)
@@ -135,7 +114,8 @@ export class InternalMaterialReplacementTableComponent {
 
   setServerSideDatasource(selectedRegion: string) {
     this.rowCount.set(0);
-    this.gridApi?.setServerSideDatasource(
+    this.gridApi?.setGridOption(
+      'serverSideDatasource',
       this.imrService.createInternalMaterialReplacementDatasource(
         selectedRegion
       )
@@ -161,6 +141,37 @@ export class InternalMaterialReplacementTableComponent {
       },
     ],
   };
+
+  private updateColumnDefs(): void {
+    this.gridApi?.setGridOption('columnDefs', [
+      ...(getIMRColumnDefinitions(this.agGridLocalizationService).map(
+        (col) => ({
+          ...getDefaultColDef(col.filter, col.filterParams),
+          colId: col.property,
+          field: col.property,
+          headerName: translate(col.colId),
+          sortable: true,
+          filter: col.filter,
+          valueFormatter: col.valueFormatter,
+          cellRenderer: col.cellRenderer,
+          tooltipComponent: col.tooltipComponent,
+          tooltipField: col.tooltipField,
+        })
+      ) || []),
+      {
+        cellClass: ['fixed-action-column'],
+        field: 'menu',
+        headerName: '',
+        cellRenderer: ActionsMenuCellRendererComponent,
+        lockVisible: true,
+        pinned: 'right',
+        lockPinned: true,
+        suppressHeaderMenuButton: true,
+        maxWidth: 64,
+        suppressSizeToFit: true,
+      },
+    ] as ColDef[]);
+  }
 
   edit(params: ICellRendererParams<any, IMRSubstitution>) {
     this.dialog
@@ -212,33 +223,6 @@ export class InternalMaterialReplacementTableComponent {
       .subscribe();
   }
 
-  protected columnDefs = [
-    ...(getIMRColumnDefinitions(this.agGridLocalizationService).map((col) => ({
-      ...getDefaultColDef(col.filter, col.filterParams),
-      colId: col.property,
-      field: col.property,
-      headerName: translate(col.colId, {}),
-      sortable: true,
-      filter: col.filter,
-      valueFormatter: col.valueFormatter,
-      cellRenderer: col.cellRenderer,
-      tooltipComponent: col.tooltipComponent,
-      tooltipField: col.tooltipField,
-    })) || []),
-    {
-      cellClass: ['fixed-action-column'],
-      field: 'menu',
-      headerName: '',
-      cellRenderer: ActionsMenuCellRendererComponent,
-      lockVisible: true,
-      pinned: 'right',
-      lockPinned: true,
-      suppressMenu: true,
-      maxWidth: 64,
-      suppressSizeToFit: true,
-    },
-  ] as ColDef[];
-
   protected gridOptions: GridOptions = {
     ...serverSideTableDefaultProps,
     sideBar,
@@ -251,9 +235,9 @@ export class InternalMaterialReplacementTableComponent {
     return `${data.customerNumber ?? ''}-${data.predecessorMaterial ?? ''}-${data.region ?? ''}-${data.salesArea ?? ''}-${data.salesOrg ?? ''}`;
   };
 
-  protected readonly NoDataOverlayComponent = NoDataOverlayComponent;
+  protected readonly noDataOverlayComponent = NoDataOverlayComponent;
 
   onFirstDataRendered($event: FirstDataRenderedEvent) {
-    $event.columnApi.autoSizeAllColumns();
+    $event.api.autoSizeAllColumns();
   }
 }

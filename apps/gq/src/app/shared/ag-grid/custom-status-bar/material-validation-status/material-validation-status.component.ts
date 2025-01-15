@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { IRowNode, IStatusPanelParams } from 'ag-grid-community';
+import { IRowNode, IStatusPanelParams } from 'ag-grid-enterprise';
 
 import { ValidationDescription } from '../../../models/table';
 

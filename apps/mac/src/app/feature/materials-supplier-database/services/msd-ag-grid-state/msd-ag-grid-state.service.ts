@@ -4,7 +4,7 @@ import { Inject, Injectable } from '@angular/core';
 import { filter, skip } from 'rxjs';
 
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
-import { ColumnState } from 'ag-grid-enterprise';
+import { ColumnState } from 'ag-grid-community';
 
 import {
   ACTION,

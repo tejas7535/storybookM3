@@ -8,10 +8,11 @@
   (columnResized)="onColumnChange($event)"
   (columnPinned)="onColumnChange($event)"
   (gridReady)="onGridReady($event)"
-  rowSelection="single"
+  [rowSelection]="rowSelection"
   [components]="components"
   [gridOptions]="gridOptions"
   [autoGroupColumnDef]="autoGroupColumnDef"
   [defaultColDef]="defaultColDef"
+  columnMenu="legacy"
 >
 </ag-grid-angular>

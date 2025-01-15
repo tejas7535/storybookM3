@@ -34,7 +34,7 @@ export class ExportTableDialogComponent implements OnInit {
 
   ngOnInit() {
     this.exportMaterialCustomerService
-      .triggerExport(this.data.gridApi, this.data.columnApi, this.data.filter)
+      .triggerExport(this.data.gridApi, this.data.filter)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
         this.dialog.closeAll();

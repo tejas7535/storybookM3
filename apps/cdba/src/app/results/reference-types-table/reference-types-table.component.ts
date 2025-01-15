@@ -2,11 +2,9 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 
 import { Subscription } from 'rxjs';
@@ -14,17 +12,18 @@ import { Subscription } from 'rxjs';
 import { translate } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 import {
+  ColDef,
+  ColumnEvent,
   ColumnRowGroupChangedEvent,
   FirstDataRenderedEvent,
+  GridApi,
   GridOptions,
   GridReadyEvent,
+  RowSelectionOptions,
   SelectionChangedEvent,
-  SortChangedEvent,
-} from 'ag-grid-community';
-import {
-  ColDef,
-  GridApi,
+  SelectionColumnDef,
   SideBarDef,
+  SortChangedEvent,
   StatusPanelDef,
 } from 'ag-grid-enterprise';
 
@@ -33,7 +32,11 @@ import { PaginationState } from '@cdba/core/store/reducers/search/search.reducer
 import { CustomLoadingOverlayComponent } from '@cdba/shared/components/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import { PaginationControlsService } from '@cdba/shared/components/table/pagination-controls/service/pagination-controls.service';
 import { ResultsStatusBarComponent } from '@cdba/shared/components/table/status-bar/results-status-bar';
-import { GRID_OPTIONS_DEFAULT } from '@cdba/shared/constants/grid-options';
+import {
+  DEFAULT_GRID_OPTIONS,
+  DEFAULT_ROW_SELECTION,
+  DEFAULT_SELECTION_COLUMN_DEF,
+} from '@cdba/shared/constants/grid-config';
 import { MIN_PAGE_SIZE } from '@cdba/shared/constants/pagination';
 import { ReferenceType } from '@cdba/shared/models';
 import { AgGridStateService } from '@cdba/shared/services';
@@ -59,9 +62,7 @@ import { TableStore } from './table.store';
   selector: 'cdba-reference-types-table',
   templateUrl: './reference-types-table.component.html',
 })
-export class ReferenceTypesTableComponent
-  implements OnInit, OnChanges, OnDestroy
-{
+export class ReferenceTypesTableComponent implements OnInit, OnDestroy {
   private static readonly TABLE_KEY = 'referenceTypes';
 
   @Input() public selectedNodeIds: string[];
@@ -72,10 +73,9 @@ export class ReferenceTypesTableComponent
 
   defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
   columnDefs: ColDef[] = this.columnDefinitionService.COLUMN_DEFINITIONS;
-
-  gridOptions: GridOptions = GRID_OPTIONS_DEFAULT;
-
-  rowSelection = 'multiple';
+  gridOptions: GridOptions = DEFAULT_GRID_OPTIONS;
+  selectionColumnDef: SelectionColumnDef = DEFAULT_SELECTION_COLUMN_DEF;
+  rowSelection: RowSelectionOptions = DEFAULT_ROW_SELECTION;
 
   rowHeight = 30;
 
@@ -133,12 +133,6 @@ export class ReferenceTypesTableComponent
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.rowData && this.gridApi) {
-      this.gridApi.setRowData(changes.rowData.currentValue);
-    }
-  }
-
   ngOnDestroy(): void {
     this.filtersSubscription.unsubscribe();
     this.paginationStateSubscription.unsubscribe();
@@ -147,8 +141,8 @@ export class ReferenceTypesTableComponent
   /**
    * Column change listener for table.
    */
-  columnChange(event: SortChangedEvent): void {
-    const columnState = event.columnApi.getColumnState();
+  columnChange(event: SortChangedEvent | ColumnEvent): void {
+    const columnState = event.api.getColumnState();
 
     this.agGridStateService.setColumnState(
       ReferenceTypesTableComponent.TABLE_KEY,
@@ -163,19 +157,19 @@ export class ReferenceTypesTableComponent
       ReferenceTypesTableComponent.TABLE_KEY
     );
 
-    event.columnApi.applyColumnState({
-      state,
-      applyOrder: true,
-    });
-
-    event.api.setRowData(this.rowData);
+    if (state) {
+      event.api.applyColumnState({
+        state,
+        applyOrder: true,
+      });
+    }
 
     if (this.paginationState.currentPage !== 0) {
       this.gridApi.paginationGoToPage(this.paginationState.currentPage);
     }
 
     // Hide pagination component when row grouping is active
-    if (event.columnApi.getRowGroupColumns().length > 0) {
+    if (event.api.getRowGroupColumns().length > 0) {
       this.store.dispatch(
         updatePaginationState({
           paginationState: {
@@ -200,8 +194,7 @@ export class ReferenceTypesTableComponent
    * Autosize columns width when data is loaded.
    */
   onFirstDataRendered(params: FirstDataRenderedEvent): void {
-    params.columnApi.autoSizeAllColumns(false);
-
+    params.api.autoSizeAllColumns(false);
     params.api.setFilterModel(this.tableFilters);
     this.selectNodes();
     params.api.refreshHeader();

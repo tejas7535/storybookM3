@@ -9,7 +9,7 @@ import { getTooltipTextKeyByQuotationStatus } from '@gq/shared/ag-grid/custom-st
 import { ConfirmationModalComponent } from '@gq/shared/components/modal/confirmation-modal/confirmation-modal.component';
 import { QuotationStatus } from '@gq/shared/models';
 import { translate } from '@jsverse/transloco';
-import { IStatusPanelParams } from 'ag-grid-community';
+import { IStatusPanelParams } from 'ag-grid-enterprise';
 
 import { ConfirmationModalData } from '../../../components/modal/confirmation-modal/models/confirmation-modal-data.model';
 import {

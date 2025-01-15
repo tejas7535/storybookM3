@@ -17,7 +17,7 @@
         @if (showSidenavContent) {
           <cdba-calculations-table
             [minified]="true"
-            [rowSelection]="'single'"
+            [rowSelectionType]="'singleRow'"
             [rowData]="calculations$ | ngrxPush"
             [selectedNodeIds]="selectedCalculationNodeId$ | ngrxPush"
             [isLoading]="calculationsLoading$ | ngrxPush"

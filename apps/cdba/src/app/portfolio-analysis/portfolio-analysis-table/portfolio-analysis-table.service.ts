@@ -21,7 +21,7 @@ export class PortfolioAnalysisTableService {
     this.labelColumn = {
       field: 'label',
       headerName: '',
-      suppressMenu: true,
+      suppressHeaderMenuButton: true,
       width: 120,
       minWidth: 120,
       maxWidth: 120,

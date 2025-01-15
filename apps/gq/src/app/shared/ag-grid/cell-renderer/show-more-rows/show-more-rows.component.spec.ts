@@ -3,7 +3,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ICellRendererParams } from 'ag-grid-community';
+import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

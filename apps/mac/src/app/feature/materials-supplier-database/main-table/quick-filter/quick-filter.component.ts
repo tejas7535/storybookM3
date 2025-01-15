@@ -18,7 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { filter, map, Observable, of, Subject, take, takeUntil } from 'rxjs';
 
 import { PushPipe } from '@ngrx/component';
-import { ColumnApi, ColumnState, GridApi } from 'ag-grid-community';
+import { ColumnState, GridApi } from 'ag-grid-community';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -78,7 +78,6 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
   readonly hasEditorRole$ = this.dataFacade.hasEditorRole$;
 
   private agGridApi: GridApi;
-  private agGridColumnApi: ColumnApi;
 
   private readonly destroy$ = new Subject<void>();
 
@@ -117,9 +116,7 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
 
     this.msdAgGridReadyService.agGridApi$
       .pipe(takeUntil(this.destroy$), filter(Boolean))
-      .subscribe(({ gridApi, columnApi }) =>
-        this.onAgGridReady(gridApi, columnApi)
-      );
+      .subscribe(({ gridApi }) => this.onAgGridReady(gridApi));
   }
 
   // event triggered on selection of button group
@@ -201,9 +198,8 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
   }
 
   // event propagated when agGrid table has been initialized
-  private onAgGridReady(gridApi: GridApi, columnApi: ColumnApi) {
+  private onAgGridReady(gridApi: GridApi) {
     this.agGridApi = gridApi;
-    this.agGridColumnApi = columnApi;
 
     // subscribe to updates of visible columns and update active quickfilter
     this.dataFacade.agGridColumns$
@@ -276,7 +272,7 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
     const activeFilter = selected ?? this.staticFilters[0];
     const visible = activeFilter.columns;
     // setup visibility and order of columns based on selected elements
-    const state: ColumnState[] = this.agGridColumnApi
+    const state: ColumnState[] = this.agGridApi
       .getColumns()
       .map((col) => ({
         colId: col.getColId(),
@@ -288,7 +284,7 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
       .sort((a, b) => visible.indexOf(a.colId) - visible.indexOf(b.colId));
     // set filter and columns in agGrid api
     this.agGridApi.setFilterModel(activeFilter.filter);
-    this.agGridColumnApi.applyColumnState({ state, applyOrder: true });
+    this.agGridApi.applyColumnState({ state, applyOrder: true });
   }
 
   // reset active element
@@ -298,7 +294,7 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
 
   // get list of visible columns from current agGrid configuration
   private getCurrentColumns(): string[] {
-    return this.agGridColumnApi
+    return this.agGridApi
       .getColumnState()
       .filter((state) => !state.hide)
       .map((state) => state.colId);

@@ -1,4 +1,4 @@
-import { ColDef } from 'ag-grid-community';
+import { ColDef } from 'ag-grid-enterprise';
 
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 

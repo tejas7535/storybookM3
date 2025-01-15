@@ -1,3 +1,3 @@
-import { ValueFormatterParams } from 'ag-grid-community';
+import { ValueFormatterParams } from 'ag-grid-enterprise';
 
 export type ValueFormatterFunction = (params: ValueFormatterParams) => any;

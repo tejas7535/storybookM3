@@ -8,7 +8,7 @@ import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import * as fPricingUtils from '@gq/shared/utils/f-pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
-import { ICellRendererParams } from 'ag-grid-community';
+import { ICellRendererParams } from 'ag-grid-enterprise';
 import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 

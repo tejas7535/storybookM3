@@ -22,7 +22,7 @@ export class ResignationsComponent {
   defaultColDef: ColDef = {
     sortable: true,
     resizable: true,
-    suppressMenu: true,
+    suppressHeaderMenuButton: true,
     lockPinned: true,
     suppressMovable: true,
     headerClass: () => 'bg-selected-overlay',
@@ -37,6 +37,7 @@ export class ResignationsComponent {
       sort: 'desc',
       valueFormatter: (params) =>
         valueFormatterDate<ResignedEmployee>(params, 'exitDate'),
+      suppressHeaderFilterButton: true,
     },
     {
       field: 'employeeName',

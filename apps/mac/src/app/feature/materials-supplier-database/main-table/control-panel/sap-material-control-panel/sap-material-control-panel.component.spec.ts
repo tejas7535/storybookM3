@@ -12,7 +12,6 @@ import { provideMockStore } from '@ngrx/store/testing';
 import {
   ColDef,
   Column,
-  ColumnApi,
   GridApi,
   ProcessCellForExportParams,
 } from 'ag-grid-community';
@@ -56,7 +55,6 @@ describe('SapMaterialControlPanelComponent', () => {
     exportDataAsExcel: jest.fn(),
     setCacheBlockSize: jest.fn(),
   } as unknown as GridApi;
-  const columnApiMock = {} as unknown as ColumnApi;
 
   const createComponent = createComponentFactory({
     component: SapMaterialControlPanelComponent,
@@ -79,7 +77,7 @@ describe('SapMaterialControlPanelComponent', () => {
       MockProvider(
         MsdAgGridReadyService,
         {
-          agGridApi$: of({ gridApi: gridApiMock, columnApi: columnApiMock }),
+          agGridApi$: of({ gridApi: gridApiMock }),
         },
         'useValue'
       ),
@@ -109,7 +107,6 @@ describe('SapMaterialControlPanelComponent', () => {
   describe('ngOnInit', () => {
     it('should set agGridApi and agGridColumnApi', () => {
       expect(component['agGridApi']).toBe(gridApiMock);
-      expect(component['agGridColumnApi']).toBe(columnApiMock);
     });
   });
 
@@ -205,8 +202,10 @@ describe('SapMaterialControlPanelComponent', () => {
       const colDefs = [toColDef('a'), toColDef('b'), toColDef('c')];
 
       component['agGridApi'] = {} as unknown as GridApi;
-      component['agGridApi'].setCacheBlockSize = jest.fn();
-      component['agGridApi'].addEventListener = jest.fn((_str, fct) => fct());
+      component['agGridApi'].updateGridOptions = jest.fn();
+      component['agGridApi'].addEventListener = jest.fn((_str, fct) =>
+        fct({} as any)
+      );
       component['agGridApi'].removeEventListener = jest.fn();
       component['agGridApi'].getColumnDef = jest.fn((s) => toColDef(s));
       component['agGridApi'].getColumnDefs = jest.fn(() => colDefs);
@@ -215,18 +214,15 @@ describe('SapMaterialControlPanelComponent', () => {
 
       component.exportExcelSapMaterials();
 
-      expect(component['agGridApi'].setCacheBlockSize).toHaveBeenCalledWith(
-        100_000
-      );
+      expect(component['agGridApi'].updateGridOptions).toHaveBeenCalledWith({
+        cacheBlockSize: 100,
+      });
       expect(component['agGridApi'].addEventListener).toHaveBeenCalledWith(
         expect.stringMatching('modelUpdated'),
         expect.any(Function)
       );
       expect(component['agGridApi'].removeEventListener).toHaveBeenCalled();
       expect(component['agGridApi'].exportDataAsExcel).toHaveBeenCalled();
-      expect(component['agGridApi'].setCacheBlockSize).toHaveBeenCalledWith(
-        100
-      );
     });
 
     it('should do nothing if ag grid api is not defined', () => {

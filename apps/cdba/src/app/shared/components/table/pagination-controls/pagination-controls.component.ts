@@ -3,7 +3,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/internal/Subscription';
 
 import { Store } from '@ngrx/store';
-import { GridApi } from 'ag-grid-community';
+import { GridApi } from 'ag-grid-enterprise';
 
 import { getPaginationState, updatePaginationState } from '@cdba/core/store';
 import { PaginationState } from '@cdba/core/store/reducers/search/search.reducer';
@@ -73,13 +73,15 @@ export class PaginationControlsComponent implements OnInit, OnDestroy {
         } as PaginationState,
       })
     );
-    this.gridApi.showLoadingOverlay();
+    this.gridApi.setGridOption('loading', true);
 
     this.paginationControlsService.setPageSizeToLocalStorage(pageSizeOption);
 
     // Without timeout AG Grid cannot render the loading overlay
     setTimeout(() => {
-      this.gridApi.paginationSetPageSize(pageSizeOption);
+      this.gridApi.updateGridOptions({
+        paginationPageSize: pageSizeOption,
+      });
 
       this.paginationState = {
         ...this.paginationState,
@@ -104,7 +106,7 @@ export class PaginationControlsComponent implements OnInit, OnDestroy {
         })
       );
 
-      this.gridApi.hideOverlay();
+      this.gridApi.setGridOption('loading', false);
     }, this.PAGINATION_LOADING_TIMEOUT);
   }
 
@@ -117,7 +119,7 @@ export class PaginationControlsComponent implements OnInit, OnDestroy {
         } as PaginationState,
       })
     );
-    this.gridApi.showLoadingOverlay();
+    this.gridApi.setGridOption('loading', true);
 
     // Without timeout AG Grid cannot render the loading overlay
     setTimeout(() => {
@@ -166,7 +168,7 @@ export class PaginationControlsComponent implements OnInit, OnDestroy {
         })
       );
 
-      this.gridApi.hideOverlay();
+      this.gridApi.setGridOption('loading', false);
     }, this.PAGINATION_LOADING_TIMEOUT);
   }
 

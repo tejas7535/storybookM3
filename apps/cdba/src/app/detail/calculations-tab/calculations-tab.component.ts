@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
+import { RowSelectionOptions } from 'ag-grid-enterprise';
 
 import { Calculation } from '@cdba/shared/models';
 
@@ -23,6 +24,8 @@ export class CalculationsTabComponent implements OnInit, OnDestroy {
   selectedNodeIds$: Observable<string[]>;
   loading$: Observable<boolean>;
   errorMessage$: Observable<string>;
+
+  rowSelection = { enableSelectionWithoutKeys: true } as RowSelectionOptions;
 
   private selectedNodeIds: string[];
   private selectedNodeIdsSubscription: Subscription;

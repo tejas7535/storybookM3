@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { translate } from '@jsverse/transloco';
 import { ITooltipAngularComp } from 'ag-grid-angular';
-import { ITooltipParams } from 'ag-grid-community';
+import { ITooltipParams } from 'ag-grid-enterprise';
 
 @Component({
   selector: 'd360-text-tooltip',

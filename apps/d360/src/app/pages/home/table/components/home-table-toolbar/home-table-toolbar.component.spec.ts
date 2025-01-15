@@ -43,7 +43,6 @@ describe('HomeTableToolbar', () => {
         loadLayout: jest.fn(),
         globalSelection: null,
         gridApi: null,
-        columnApi: null,
       },
     });
   });

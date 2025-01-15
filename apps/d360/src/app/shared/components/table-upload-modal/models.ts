@@ -1,4 +1,4 @@
-import { ColDef, IRowNode } from 'ag-grid-community';
+import { ColDef, IRowNode } from 'ag-grid-enterprise';
 
 export type ColumnForUploadTable<T> = {
   field: keyof T;

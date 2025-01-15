@@ -5,7 +5,7 @@ import { map } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import { ValueFormatterParams } from 'ag-grid-community';
+import { ValueFormatterParams } from 'ag-grid-enterprise';
 
 import {
   AG_GRID_LOCALE_BR,

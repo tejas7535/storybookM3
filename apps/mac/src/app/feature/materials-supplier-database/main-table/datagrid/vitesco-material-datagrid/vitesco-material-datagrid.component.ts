@@ -10,7 +10,6 @@ import { filter, takeUntil } from 'rxjs';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { AgGridModule } from 'ag-grid-angular';
 import {
-  ColumnApi,
   GridApi,
   IServerSideDatasource,
   IServerSideGetRowsParams,
@@ -19,6 +18,7 @@ import {
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
+  ServerSideMaterialsRequest,
   VitescoMaterialsResponse,
   VitescoMaterialsResult,
 } from '@mac/feature/materials-supplier-database/models';
@@ -98,16 +98,12 @@ export class VitescoMaterialDatagridComponent
       });
   }
 
-  public onGridReady({
-    api,
-    columnApi,
-  }: {
-    api: GridApi;
-    columnApi: ColumnApi;
-  }): void {
-    super.onGridReady({ api, columnApi });
+  public onGridReady({ api }: { api: GridApi }): void {
+    super.onGridReady({ api });
 
-    api.setServerSideDatasource(this.createServerSideDataSource());
+    api.updateGridOptions({
+      serverSideDatasource: this.createServerSideDataSource(),
+    });
   }
 
   protected getCellRendererParams() {
@@ -120,7 +116,9 @@ export class VitescoMaterialDatagridComponent
         this.params?.fail();
         this.params = params;
         // fetch new data from request
-        this.dataFacade.fetchVitescoMaterials(params.request);
+        this.dataFacade.fetchVitescoMaterials(
+          params.request as ServerSideMaterialsRequest
+        );
       },
       destroy: () => {
         this.params?.fail();

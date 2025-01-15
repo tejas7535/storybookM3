@@ -6,8 +6,11 @@ import {
   Output,
 } from '@angular/core';
 
-import { RowSelectedEvent } from 'ag-grid-community';
-import { ColDef } from 'ag-grid-enterprise';
+import {
+  ColDef,
+  RowSelectedEvent,
+  RowSelectionOptions,
+} from 'ag-grid-enterprise';
 
 import { Drawing } from '@cdba/shared/models';
 
@@ -36,6 +39,10 @@ export class DrawingsTableComponent {
   public components = {
     actionsCellRenderer: ActionsCellRendererComponent,
   };
+
+  rowSelection = {
+    mode: 'singleRow',
+  } as RowSelectionOptions;
 
   public constructor(
     private readonly columnDefinitionService: ColumnDefinitionService

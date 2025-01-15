@@ -17,7 +17,6 @@ import { translate } from '@jsverse/transloco';
 import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
-  ColGroupDef,
   FirstDataRenderedEvent,
   GetRowIdFunc,
   GetRowIdParams,
@@ -28,7 +27,7 @@ import {
   ICellRendererParams,
   IsServerSideGroup,
   IsServerSideGroupOpenByDefaultParams,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -99,8 +98,6 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
 
   protected getRowIdFn: GetRowIdFunc = (params: GetRowIdParams) =>
     `${params.data.customerNumber}-${params.data.materialNumber}`;
-
-  protected columnDefs: (ColGroupDef | ColDef)[] | null | undefined;
 
   protected autoGroupColumnDef: ColDef | undefined = {
     field: 'materialNumber',
@@ -223,7 +220,7 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
       valueFormatter: def?.valueFormatter,
     });
 
-    this.columnDefs = [
+    this.gridApi?.setGridOption('columnDefs', [
       ...columnDefinitions(this.agGridLocalizationService).map((def: any) => ({
         ...getDefaultColDef(def.filter, def.filterParams),
         ...mapColumnData(def),
@@ -236,11 +233,11 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
         lockVisible: true,
         pinned: 'right',
         lockPinned: true,
-        suppressMenu: true,
+        suppressHeaderMenuButton: true,
         maxWidth: 64,
         suppressSizeToFit: true,
       },
-    ] as ColDef[];
+    ] as ColDef[]);
   }
 
   /**
@@ -279,7 +276,8 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
    */
   private setServerSideDatasource(): void {
     this.rowCount = 0;
-    this.gridApi?.setServerSideDatasource(
+    this.gridApi?.setGridOption(
+      'serverSideDatasource',
       this.cmpService.createCustomerMaterialPortfolioDatasource(
         this.selectedCustomer(),
         this.globalSelection(),
@@ -319,6 +317,6 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
    * @memberof CustomerMaterialPortfolioTableComponent
    */
   protected onFirstDataRendered($event: FirstDataRenderedEvent): void {
-    $event.columnApi.autoSizeAllColumns();
+    $event.api.autoSizeAllColumns();
   }
 }

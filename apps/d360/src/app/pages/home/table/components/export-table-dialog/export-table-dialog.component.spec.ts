@@ -20,7 +20,6 @@ describe('ExportTableDialogComponent', () => {
         provide: MAT_DIALOG_DATA,
         useValue: {
           gridApi: {},
-          columnApi: {},
           filter: {},
         },
       },

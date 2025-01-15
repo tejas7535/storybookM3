@@ -34,12 +34,13 @@ import {
   ColDef,
   EditableCallbackParams,
   FirstDataRenderedEvent,
+  GridApi,
   GridOptions,
   NewColumnsLoadedEvent,
   ValueFormatterParams,
   ValueGetterParams,
   ValueSetterParams,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 import { format, isAfter, isBefore, parseISO, startOfMonth } from 'date-fns';
 
 import { getBackendRoles } from '@schaeffler/azure-auth';
@@ -160,34 +161,29 @@ export class DemandValidationTableComponent {
   });
   protected loading: WritableSignal<boolean> = signal(false);
 
-  private readonly columnDefinitions: Signal<DemandValidationTableColDef[]> =
-    computed(() =>
-      this.planningView() === PlanningView.REQUESTED
-        ? kpiColumnDefinitionsRequested
-        : kpiColumnDefinitionsConfirmed
-    );
+  private gridApi: GridApi | undefined;
+
   protected gridOptions: GridOptions = {
     ...clientSideTableDefaultProps,
     suppressCsvExport: true,
     onFirstDataRendered: (event: FirstDataRenderedEvent) =>
-      event.columnApi.autoSizeAllColumns(),
+      event.api.autoSizeAllColumns(),
     onNewColumnsLoaded: (event: NewColumnsLoadedEvent) =>
-      event.columnApi.autoSizeAllColumns(),
+      event.api.autoSizeAllColumns(),
+    onGridReady: (event) => {
+      this.gridApi = event.api;
+      this.updateColumnDefs();
+      this.updateRowData();
+    },
   };
 
   protected defaultColDef: ColDef = {
     sortable: false,
     suppressMovable: true,
-    suppressMenu: true,
+    suppressHeaderMenuButton: true,
+    suppressHeaderFilterButton: true,
     headerComponent: DemandValidationKpiHeaderComponent,
   };
-  protected columnDefs: WritableSignal<ColDef[]> = signal([]);
-
-  protected rowData: Signal<DemandValidationTableColDef[]> = computed(() =>
-    [...this.columnDefinitions()].filter((row) =>
-      row.visible(this.filterValues())
-    )
-  );
 
   private readonly backendRoles = toSignal(this.store.select(getBackendRoles));
 
@@ -218,18 +214,37 @@ export class DemandValidationTableComponent {
       { allowSignalWrites: true }
     );
 
+    // set and update column defs
     effect(
-      () => {
-        if (
-          this.filterValues() ||
+      () =>
+        (this.filterValues() ||
           this.materialListEntry() ||
           this.kpiData() ||
-          this.forecastInfo()
-        ) {
-          this.updateColumnDefs();
-        }
-      },
-      { allowSignalWrites: true }
+          this.forecastInfo()) &&
+        this.updateColumnDefs()
+    );
+
+    // set and update row data
+    effect(
+      () => (this.planningView() || this.filterValues()) && this.updateRowData()
+    );
+  }
+
+  /**
+   * Updates row data based on current planning view value and filter values.
+   *
+   * @private
+   * @memberof DemandValidationTableComponent
+   */
+  private updateRowData(): void {
+    const columnDefinitions: DemandValidationTableColDef[] =
+      this.planningView() === PlanningView.REQUESTED
+        ? kpiColumnDefinitionsRequested
+        : kpiColumnDefinitionsConfirmed;
+
+    this.gridApi?.setGridOption(
+      'rowData',
+      [...columnDefinitions].filter((row) => row.visible(this.filterValues()))
     );
   }
 
@@ -240,7 +255,7 @@ export class DemandValidationTableComponent {
    * @memberof DemandValidationTableComponent
    */
   private updateColumnDefs(): void {
-    const colDefs: ColDef[] = [
+    this.gridApi?.setGridOption('columnDefs', [
       {
         ...getDefaultColDef(),
         headerName: translate('validation_of_demand.planning_table.kpi'),
@@ -292,9 +307,7 @@ export class DemandValidationTableComponent {
           onClickHeader: this.onHeaderClick.bind(this),
         },
       })) as ColDef[]) || []),
-    ];
-
-    this.columnDefs.set(colDefs);
+    ]);
   }
 
   /**

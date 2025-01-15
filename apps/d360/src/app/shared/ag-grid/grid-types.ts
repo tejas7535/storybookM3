@@ -1,6 +1,5 @@
-import { ColumnApi, GridApi } from 'ag-grid-community';
+import { GridApi } from 'ag-grid-enterprise';
 
 export interface GridApis {
   api: GridApi;
-  columnApi: ColumnApi;
 }

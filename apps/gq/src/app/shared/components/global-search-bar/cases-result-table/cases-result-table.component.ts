@@ -15,11 +15,9 @@ import { AgGridLocale } from '@gq/shared/ag-grid/models/ag-grid-locale.interface
 import { BaseResultTableComponent } from '@gq/shared/components/global-search-bar/base-result-table/base-result-table.component';
 import { QuotationSearchResultByCases } from '@gq/shared/models/quotation/quotation-search-result-by-cases.interface';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
-import {
-  FilterChangedEvent,
-  GridReadyEvent,
-} from 'ag-grid-community/dist/lib/events';
+import { FilterChangedEvent, GridReadyEvent } from 'ag-grid-enterprise';
 
+import { ROW_SELECTION } from '../config/row-selection.config';
 import { CasesCriteriaSelection } from './cases-criteria-selection.enum';
 
 @Component({
@@ -44,6 +42,7 @@ export class CasesResultTableComponent
   criteriaSelectedValue = CasesCriteriaSelection.GQ_ID;
 
   localeText$: Observable<AgGridLocale>;
+  rowSelection = ROW_SELECTION;
   columnDefs = this.columnDefService.CASES_TABLE_COLUMN_DEFS;
   defaultColDef = this.columnDefService.DEFAULT_COL_DEF;
   components = this.columnDefService.COMPONENTS;

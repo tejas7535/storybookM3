@@ -1,4 +1,4 @@
-import { CellClassParams, ICellRendererParams } from 'ag-grid-community';
+import { CellClassParams, ICellRendererParams } from 'ag-grid-enterprise';
 
 import { EditCellData } from './edit-cell-class-params.model';
 

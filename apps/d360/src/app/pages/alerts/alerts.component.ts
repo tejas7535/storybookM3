@@ -7,7 +7,7 @@ import { tap } from 'rxjs';
 import { translate } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
 import { AgGridModule } from 'ag-grid-angular';
-import { GridApi } from 'ag-grid-community';
+import { GridApi } from 'ag-grid-enterprise';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -92,7 +92,8 @@ export class AlertsComponent {
 
   private updateGrid(status: AlertStatus) {
     if (this.gridApi) {
-      this.gridApi.setServerSideDatasource(
+      this.gridApi.setGridOption(
+        'serverSideDatasource',
         this.alertService.createAlertDatasource(status)
       );
     }

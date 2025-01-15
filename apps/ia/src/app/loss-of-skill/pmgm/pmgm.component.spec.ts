@@ -4,6 +4,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import {
   GridApi,
   GridReadyEvent,
+  RowDataUpdatedEvent,
   RowNode,
   ValueGetterParams,
 } from 'ag-grid-community';
@@ -96,7 +97,7 @@ describe('PmgmComponent', () => {
   describe('data', () => {
     beforeEach(() => {
       component.gridApi = {
-        setRowData: jest.fn(),
+        updateGridOptions: jest.fn(),
         hideOverlay: jest.fn(),
         showLoadingOverlay: jest.fn(),
       } as unknown as GridApi<PmgmData>;
@@ -112,7 +113,9 @@ describe('PmgmComponent', () => {
 
       component.data = data;
 
-      expect(component.gridApi.setRowData).toHaveBeenCalledWith(data);
+      expect(component.gridApi.updateGridOptions).toHaveBeenCalledWith({
+        rowData: data,
+      });
       expect(component.gridApi.hideOverlay).toHaveBeenCalled();
     });
 
@@ -121,7 +124,9 @@ describe('PmgmComponent', () => {
 
       component.data = data;
 
-      expect(component.gridApi.setRowData).toHaveBeenCalledWith(data);
+      expect(component.gridApi.updateGridOptions).toHaveBeenCalledWith({
+        rowData: data,
+      });
       expect(component.gridApi.showLoadingOverlay).toHaveBeenCalled();
     });
   });
@@ -134,7 +139,7 @@ describe('PmgmComponent', () => {
       event = {
         api: {
           getModel: () => model,
-          setRowData: jest.fn(),
+          updateGridOptions: jest.fn(),
         } as unknown as GridApi,
       } as GridReadyEvent;
       model = {
@@ -155,7 +160,9 @@ describe('PmgmComponent', () => {
       component.onGridReady(event);
 
       expect(component.gridApi.getModel().getRowCount).toHaveBeenCalled();
-      expect(component.gridApi.setRowData).toHaveBeenCalledWith(component.data);
+      expect(component.gridApi.updateGridOptions).toHaveBeenCalledWith({
+        rowData: component.data,
+      });
     });
 
     test('should not set row data when data is defined and row count is not 0', () => {
@@ -165,7 +172,7 @@ describe('PmgmComponent', () => {
       component.onGridReady(event);
 
       expect(component.gridApi.getModel().getRowCount).toHaveBeenCalled();
-      expect(component.gridApi.setRowData).not.toHaveBeenCalled();
+      expect(component.gridApi.updateGridOptions).not.toHaveBeenCalled();
     });
   });
 
@@ -225,7 +232,7 @@ describe('PmgmComponent', () => {
         },
       };
 
-      component.onRowDataUpdated(params as unknown as GridReadyEvent);
+      component.onRowDataUpdated(params as unknown as RowDataUpdatedEvent);
 
       expect(leaver.setSelected).toHaveBeenCalledWith(true);
       expect(employee.setSelected).not.toHaveBeenCalled();

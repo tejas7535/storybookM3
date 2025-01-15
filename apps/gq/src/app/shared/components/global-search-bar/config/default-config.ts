@@ -65,7 +65,7 @@ export const GRID_OPTIONS: GridOptions = {
   ...DEFAULT_GRID_OPTIONS,
   // pagination true/false will be set via Input by the component
   pagination: true,
-  paginationPageSize: 8,
+  paginationAutoPageSize: true,
 };
 
 export const GRID_OPTIONS_WITHOUT_PAGINATION: GridOptions = {

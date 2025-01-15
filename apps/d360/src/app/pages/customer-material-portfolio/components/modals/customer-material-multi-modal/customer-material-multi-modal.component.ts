@@ -10,7 +10,7 @@ import { lastValueFrom, take } from 'rxjs';
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { AgGridModule } from 'ag-grid-angular';
-import { ICellRendererParams, ValueFormatterParams } from 'ag-grid-community';
+import { ICellRendererParams, ValueFormatterParams } from 'ag-grid-enterprise';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';

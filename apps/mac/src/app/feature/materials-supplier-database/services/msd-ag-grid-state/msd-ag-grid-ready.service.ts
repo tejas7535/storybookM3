@@ -3,11 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, filter } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
-import {
-  ColumnApi,
-  GridApi,
-  IServerSideGetRowsParams,
-} from 'ag-grid-enterprise';
+import { GridApi, IServerSideGetRowsParams } from 'ag-grid-community';
 
 import {
   SAPMaterialsRequest,
@@ -23,7 +19,6 @@ import { DataFacade } from '@mac/msd/store/facades/data';
 export class MsdAgGridReadyService {
   public agGridApi$ = new BehaviorSubject<{
     gridApi: GridApi;
-    columnApi: ColumnApi;
   }>(undefined);
 
   private readonly serverSideParamsStore = new Map<
@@ -55,8 +50,8 @@ export class MsdAgGridReadyService {
   }
 
   // needs to be run by agGrid component
-  public agGridApiready(gridApi: GridApi, columnApi: ColumnApi) {
-    this.agGridApi$.next({ gridApi, columnApi });
+  public agGridApiready(gridApi: GridApi) {
+    this.agGridApi$.next({ gridApi });
   }
 
   public setParams(params: IServerSideGetRowsParams) {

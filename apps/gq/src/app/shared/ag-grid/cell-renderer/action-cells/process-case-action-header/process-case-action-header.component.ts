@@ -8,7 +8,7 @@ import {
   ProcessCaseActions,
 } from '@gq/core/store/process-case';
 import { Store } from '@ngrx/store';
-import { HeaderClassParams } from 'ag-grid-community';
+import { HeaderClassParams } from 'ag-grid-enterprise';
 
 import { MaterialTableItem } from '../../../../models/table';
 

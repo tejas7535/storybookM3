@@ -10,7 +10,7 @@ import { ProcessCaseFacade } from '@gq/core/store/process-case';
 import { EditMaterialModalData } from '@gq/shared/components/modal/editing-material-modal/edit-material-modal-data.model';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
-import { ICellRendererParams } from 'ag-grid-community';
+import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 

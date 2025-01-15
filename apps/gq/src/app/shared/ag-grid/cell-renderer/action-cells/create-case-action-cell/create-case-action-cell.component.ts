@@ -5,7 +5,7 @@ import {
   duplicateRowDataItem,
 } from '@gq/core/store/actions';
 import { Store } from '@ngrx/store';
-import { CellClassParams } from 'ag-grid-community';
+import { CellClassParams } from 'ag-grid-enterprise';
 
 @Component({
   selector: 'gq-create-case-action-cell',

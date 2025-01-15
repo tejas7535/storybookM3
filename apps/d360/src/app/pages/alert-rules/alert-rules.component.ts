@@ -15,7 +15,7 @@ import { catchError, EMPTY, Observable, switchMap, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
-import { GridApi } from 'ag-grid-community';
+import { GridApi } from 'ag-grid-enterprise';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -221,25 +221,17 @@ export class AlertRulesComponent implements OnDestroy {
    * @memberof AlertRulesComponent
    */
   protected loadData$(): Observable<AlertRuleResponse> {
-    this.gridApi?.showLoadingOverlay();
-
-    // TODO: use setGridOption instead of showLoadingOverlay when ag-grid is updated to v31
-    // this.gridApi?.setGridOption('loading', true);
+    this.gridApi?.setGridOption('loading', true);
 
     return this.alertRuleService.getAlertRuleData().pipe(
       tap((response: AlertRuleResponse) => {
         if (response?.content) {
-          this.gridApi?.setRowData(response.content);
+          this.gridApi?.setGridOption('rowData', response.content);
         }
-        this.gridApi?.hideOverlay();
-
-        // TODO: use setGridOption instead of hideOverlay when ag-grid is updated to v31
-        // this.gridApi?.setGridOption('loading', false);
+        this.gridApi?.setGridOption('loading', false);
       }),
       catchError(() => {
-        this.gridApi?.hideOverlay();
-        // TODO: use setGridOption instead of hideOverlay when ag-grid is updated to v31
-        // this.gridApi?.setGridOption('loading', false);
+        this.gridApi?.setGridOption('loading', false);
 
         return EMPTY;
       }),

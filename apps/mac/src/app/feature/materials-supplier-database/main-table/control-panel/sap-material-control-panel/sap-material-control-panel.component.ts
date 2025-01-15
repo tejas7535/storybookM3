@@ -154,10 +154,14 @@ export class SapMaterialControlPanelComponent
           : this.excelExportSapProcessCell,
       });
       // reset default block size
-      this.agGridApi.setCacheBlockSize(this.DEFAULT_BLOCK_SIZE);
+      this.agGridApi.updateGridOptions({
+        cacheBlockSize: this.DEFAULT_BLOCK_SIZE,
+      });
     };
     // increasing block size, forcing a data reload
-    this.agGridApi.setCacheBlockSize(this.EXPORT_BLOCK_SIZE);
+    this.agGridApi.updateGridOptions({
+      cacheBlockSize: this.EXPORT_BLOCK_SIZE,
+    });
     // once data is available, create the excel file
     this.agGridApi.addEventListener('modelUpdated', eventHandler);
   }

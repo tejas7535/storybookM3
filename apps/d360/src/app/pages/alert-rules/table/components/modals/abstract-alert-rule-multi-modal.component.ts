@@ -6,7 +6,7 @@ import { lastValueFrom, Observable, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import { IRowNode, ValueFormatterParams } from 'ag-grid-community';
+import { IRowNode, ValueFormatterParams } from 'ag-grid-enterprise';
 
 import { valueParserForSelectableOptions } from '../../../../../feature/alert-rules/alert-rule-value-parser';
 import { AlertRulesService } from '../../../../../feature/alert-rules/alert-rules.service';

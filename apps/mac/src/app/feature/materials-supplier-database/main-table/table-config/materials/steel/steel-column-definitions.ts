@@ -1,4 +1,4 @@
-import { ColDef } from 'ag-grid-enterprise';
+import { ColDef } from 'ag-grid-community';
 
 import {
   CASTING_DIAMETER,
@@ -106,7 +106,7 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     resizable: false,
     suppressMovable: true,
     hide: false,
-    suppressMenu: true,
+    suppressHeaderMenuButton: true,
   },
   {
     field: MATERIAL_NUMBERS,

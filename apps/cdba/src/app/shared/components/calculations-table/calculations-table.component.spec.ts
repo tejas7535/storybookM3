@@ -8,12 +8,12 @@ import {
 import { provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  GridApi,
   GridReadyEvent,
   IRowNode,
   RowSelectedEvent,
   SortChangedEvent,
-} from 'ag-grid-community';
-import { GridApi } from 'ag-grid-enterprise';
+} from 'ag-grid-enterprise';
 import { MockModule } from 'ng-mocks';
 
 import { CALCULATIONS_MOCK } from '@cdba/testing/mocks';
@@ -72,9 +72,9 @@ describe('CalculationsTableComponent', () => {
   });
 
   describe('ngOnChanges', () => {
-    it('should showLoadingOverlay when grid loaded and isLoading active', () => {
+    it('should show loading overlay when grid loaded and isLoading active', () => {
       component['gridApi'] = {
-        showLoadingOverlay: jest.fn(),
+        setGridOption: jest.fn(),
       } as unknown as GridApi;
 
       component.ngOnChanges({
@@ -83,12 +83,15 @@ describe('CalculationsTableComponent', () => {
         } as unknown as SimpleChange,
       });
 
-      expect(component['gridApi'].showLoadingOverlay).toHaveBeenCalled();
+      expect(component['gridApi'].setGridOption).toHaveBeenCalledWith(
+        'loading',
+        true
+      );
     });
 
     it('should hide loading spinner and show NoRowsOverlay when loading is done', () => {
       component['gridApi'] = {
-        showLoadingOverlay: jest.fn(),
+        setGridOption: jest.fn(),
         showNoRowsOverlay: jest.fn(),
       } as unknown as GridApi;
 
@@ -98,7 +101,7 @@ describe('CalculationsTableComponent', () => {
         } as unknown as SimpleChange,
       });
 
-      expect(component['gridApi'].showLoadingOverlay).not.toHaveBeenCalled();
+      expect(component['gridApi'].setGridOption).not.toHaveBeenCalled();
       expect(component['gridApi'].showNoRowsOverlay).toHaveBeenCalled();
     });
   });
@@ -265,12 +268,12 @@ describe('CalculationsTableComponent', () => {
   describe('columnChange', () => {
     it('should receive current column state and set it via state service', () => {
       const mockEvent = {
-        columnApi: { getColumnState: jest.fn(() => []) },
+        api: { getColumnState: jest.fn(() => []) },
       } as unknown as SortChangedEvent;
 
       component.columnChange(mockEvent);
 
-      expect(mockEvent.columnApi.getColumnState).toHaveBeenCalled();
+      expect(mockEvent.api.getColumnState).toHaveBeenCalled();
       expect(stateService.setColumnState).toHaveBeenCalledWith(
         'calculations_default',
         []
@@ -281,10 +284,8 @@ describe('CalculationsTableComponent', () => {
   describe('onGridReady', () => {
     const params = {
       api: {
-        showLoadingOverlay: jest.fn(),
+        setGridOption: jest.fn(),
         showNoRowsOverlay: jest.fn(),
-      },
-      columnApi: {
         applyColumnState: jest.fn(),
       },
     } as unknown as GridReadyEvent;
@@ -303,7 +304,7 @@ describe('CalculationsTableComponent', () => {
 
       component.onGridReady(params);
 
-      expect(params.columnApi.applyColumnState).toHaveBeenCalledWith({
+      expect(params.api.applyColumnState).toHaveBeenCalledWith({
         state: mockColumnState,
         applyOrder: true,
       });

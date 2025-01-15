@@ -16,7 +16,7 @@ import {
   ExcelRow,
   IStatusPanelParams,
   ProcessHeaderForExportParams,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -97,8 +97,6 @@ describe('ExportToExcelButtonComponent', () => {
       api: {
         getSheetDataForExcel: jest.fn(() => '2'),
         exportMultipleSheetsAsExcel: jest.fn(),
-      },
-      columnApi: {
         getAllDisplayedColumns: jest.fn(() => mockIds),
       },
       context: {

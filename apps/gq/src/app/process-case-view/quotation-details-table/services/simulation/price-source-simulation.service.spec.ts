@@ -3,7 +3,7 @@ import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { KpiValue } from '@gq/shared/components/modal/editing-modal/models/kpi-value.model';
 import { PriceSource, QuotationDetail } from '@gq/shared/models';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { RowNode } from 'ag-grid-community';
+import { RowNode } from 'ag-grid-enterprise';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks';
 import { PriceSourceSimulationService } from './price-source-simulation.service';

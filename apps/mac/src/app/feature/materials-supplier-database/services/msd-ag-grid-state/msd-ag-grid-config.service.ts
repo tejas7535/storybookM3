@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, filter } from 'rxjs';
 
-import { ColDef, ColumnState } from 'ag-grid-enterprise';
+import { ColDef, ColumnState } from 'ag-grid-community';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { EDITABLE_MATERIAL_CLASSES } from '@mac/msd/constants/editable-material-classes';

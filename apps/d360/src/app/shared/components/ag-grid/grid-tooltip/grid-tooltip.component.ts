@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { ITooltipAngularComp } from 'ag-grid-angular';
-import { ITooltipParams } from 'ag-grid-community';
+import { ITooltipParams } from 'ag-grid-enterprise';
 
 export interface ToolTipParameter extends ITooltipParams {
   wide?: boolean;

@@ -1,6 +1,6 @@
 import { GridState } from '@gq/shared/models/grid-state.model';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { ColumnState } from 'ag-grid-community';
+import { ColumnState } from 'ag-grid-enterprise';
 
 import { GridMergeService } from './grid-merge.service';
 

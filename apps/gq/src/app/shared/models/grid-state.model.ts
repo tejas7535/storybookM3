@@ -1,4 +1,4 @@
-import { ColumnState } from 'ag-grid-community';
+import { ColumnState } from 'ag-grid-enterprise';
 
 /**
  * the actionItemId is the value of the criteria the filter is applied to.

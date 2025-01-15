@@ -16,8 +16,7 @@ import {
 } from '@ngneat/spectator/jest';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { GridReadyEvent } from 'ag-grid-community';
-import { GridApi } from 'ag-grid-enterprise';
+import { GridApi, GridReadyEvent } from 'ag-grid-enterprise';
 import { MockDirective, MockModule, MockPipe } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 

@@ -4,7 +4,7 @@ import { inject, Injectable } from '@angular/core';
 import { catchError, EMPTY, Observable, of, switchMap, take } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
-import { ColumnApi, GridApi } from 'ag-grid-community';
+import { GridApi } from 'ag-grid-enterprise';
 
 import { GlobalSelectionCriteriaFilters } from '../../../../feature/global-selection/model';
 import { formatFilterModelForBackend } from '../../../../shared/ag-grid/grid-filter-model';
@@ -37,10 +37,9 @@ export class ExportMaterialCustomerService {
 
   public triggerExport(
     gridApi: GridApi,
-    columnApi: ColumnApi,
     globalSelectionFilters: GlobalSelectionCriteriaFilters
   ): Observable<void> {
-    if (!gridApi || !columnApi || !globalSelectionFilters) {
+    if (!gridApi || !globalSelectionFilters) {
       return EMPTY;
     }
 
@@ -48,7 +47,7 @@ export class ExportMaterialCustomerService {
       formatFilterModelForBackend(gridApi.getFilterModel()),
     ];
 
-    const columnState = columnApi.getColumnState();
+    const columnState = gridApi.getColumnState();
 
     const sortModel = columnState
       .map((c) => ({ colId: c.colId, sort: c.sort }))

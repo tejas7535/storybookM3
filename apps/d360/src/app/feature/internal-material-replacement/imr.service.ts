@@ -8,7 +8,7 @@ import { catchError } from 'rxjs/operators';
 import {
   IServerSideDatasource,
   IServerSideGetRowsParams,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 
 import { formatFilterModelForBackend } from '../../shared/ag-grid/grid-filter-model';
 import { PostResult } from '../../shared/utils/error-handling';

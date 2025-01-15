@@ -28,6 +28,7 @@ import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-st
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import {
   ColDef,
+  ColumnEvent,
   ColumnState,
   ExcelStyle,
   FilterChangedEvent,
@@ -41,15 +42,17 @@ import {
   RowDataUpdatedEvent,
   RowDoubleClickedEvent,
   RowSelectedEvent,
+  SelectionColumnDef,
   SideBarDef,
   SortChangedEvent,
   StatusPanelDef,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 
 import { AppRoutePath } from '../../app-route-path.enum';
 import {
   COMPONENTS,
   DEFAULT_COLUMN_DEFS,
+  ROW_SELECTION,
   SIDE_BAR,
   STATUS_BAR_CONFIG,
 } from './config';
@@ -90,8 +93,11 @@ export class QuotationDetailsTableComponent implements OnInit {
   defaultColumnDefs: ColDef = DEFAULT_COLUMN_DEFS;
   statusBar: { statusPanels: StatusPanelDef[] } = STATUS_BAR_CONFIG;
   components = COMPONENTS;
+  rowSelection = ROW_SELECTION;
+  selectionColumnDef: SelectionColumnDef = {
+    pinned: 'left',
+  };
   columnDefs$: Observable<ColDef[]>;
-  rowSelection = 'multiple';
   excelStyles: ExcelStyle[] = excelStyles;
   localeText$: Observable<AgGridLocale>;
   rowData: QuotationDetail[];
@@ -179,13 +185,13 @@ export class QuotationDetailsTableComponent implements OnInit {
       });
   }
 
-  onColumnChange(event: SortChangedEvent): void {
+  onColumnChange(event: ColumnEvent | SortChangedEvent): void {
     this.updateColumnData(event);
     const viewId = this.agGridStateService.getCurrentViewId();
 
     if (viewId !== this.agGridStateService.DEFAULT_VIEW_ID) {
       this.agGridStateService.setColumnStateForCurrentView(
-        event.columnApi.getColumnState()
+        event.api.getColumnState()
       );
     }
   }
@@ -261,9 +267,9 @@ export class QuotationDetailsTableComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((colState: ColumnState[]) => {
         if (colState?.length === 0) {
-          event?.columnApi?.resetColumnState();
+          event?.api?.resetColumnState();
         } else {
-          event?.columnApi?.applyColumnState({
+          event?.api?.applyColumnState({
             state: colState,
             applyOrder: true,
           });
@@ -280,9 +286,9 @@ export class QuotationDetailsTableComponent implements OnInit {
       });
   }
 
-  private autoSizeColumns(event: GridReadyEvent): void {
+  private autoSizeColumns(event: FirstDataRenderedEvent): void {
     // do not apply for columns with custom cell renderer
-    const columnIds = event.columnApi
+    const columnIds = event.api
       .getAllGridColumns()
       .map((col) => col.getColId())
       .filter(
@@ -293,7 +299,7 @@ export class QuotationDetailsTableComponent implements OnInit {
             ColumnFields.PRICE_DIFF,
           ].includes(s as ColumnFields)
       );
-    columnIds.forEach((colId) => event.columnApi.autoSizeColumn(colId, false));
+    columnIds.forEach((colId) => event.api.autoSizeColumns([colId], false));
   }
 
   onFirstDataRendered(event: FirstDataRenderedEvent): void {
@@ -390,7 +396,13 @@ export class QuotationDetailsTableComponent implements OnInit {
     ];
   }
 
-  private readonly buildColumnData = (event: RowDataUpdatedEvent) => {
+  private readonly buildColumnData = (
+    event:
+      | FilterChangedEvent
+      | SortChangedEvent
+      | RowDataUpdatedEvent
+      | GridReadyEvent
+  ) => {
     const columnData: QuotationDetail[] = [];
     event.api.forEachNodeAfterFilterAndSort((node: IRowNode) => {
       columnData.push(node.data);

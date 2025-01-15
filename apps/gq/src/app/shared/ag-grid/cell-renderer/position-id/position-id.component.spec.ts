@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-data/rfq-status.enum';
 import { translate } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { CellClassParams } from 'ag-grid-community';
+import { CellClassParams } from 'ag-grid-enterprise';
 import { when } from 'jest-when';
 
 import { AppRoutePath } from '../../../../../app/app-route-path.enum';

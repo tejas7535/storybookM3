@@ -27,13 +27,7 @@ import { combineLatest, filter, Subject, take, takeUntil } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
-import {
-  ColumnApi,
-  ColumnState,
-  ExcelCell,
-  ExcelRow,
-  GridApi,
-} from 'ag-grid-community';
+import { ColumnState, ExcelCell, ExcelRow, GridApi } from 'ag-grid-community';
 import moment, { Moment } from 'moment';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -121,7 +115,6 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
   fileControl: FormControl<File>;
 
   private agGridApi: GridApi;
-  private columnApi: ColumnApi;
   private readonly destroy$ = new Subject<void>();
 
   private currentFile: SelectedFile;
@@ -149,9 +142,8 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
     this.handleUploadSucceeded();
     this.agGridService.agGridApi$
       .pipe(takeUntil(this.destroy$), filter(Boolean))
-      .subscribe(({ gridApi, columnApi }) => {
+      .subscribe(({ gridApi }) => {
         this.agGridApi = gridApi;
-        this.columnApi = columnApi;
       });
   }
 
@@ -174,7 +166,7 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
     );
 
     // get list of visible columns in the order they are displayed
-    const visibleColumns = this.columnApi
+    const visibleColumns = this.agGridApi
       .getColumnState()
       .filter((columnState: ColumnState) => !columnState.hide)
       .map((columnState: ColumnState) => columnState.colId);

@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
-import { IStatusPanelParams } from 'ag-grid-community';
+import { IStatusPanelParams } from 'ag-grid-enterprise';
 
 import {
   getCostComponentSplitItems as getCostComponentSplitItemsDetail,

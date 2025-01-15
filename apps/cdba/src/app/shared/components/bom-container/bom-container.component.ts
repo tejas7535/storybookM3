@@ -10,12 +10,12 @@ import { tap } from 'rxjs/operators';
 
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
-import { GridReadyEvent } from 'ag-grid-community/dist/lib/events';
 import {
   ExcelCell,
   ExcelExportParams,
   ExcelRow,
   GridApi,
+  GridReadyEvent,
 } from 'ag-grid-enterprise';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';

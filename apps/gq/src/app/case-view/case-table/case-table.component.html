@@ -6,13 +6,13 @@
   [components]="components"
   [statusBar]="statusBar"
   [rowData]="rowData"
-  rowSelection="multiple"
+  [rowSelection]="rowSelection"
   [valueCache]="true"
   [animateRows]="true"
   [localeText]="localeText$ | ngrxPush"
-  [rowMultiSelectWithClick]="true"
   [getMainMenuItems]="getMainMenuItems"
   [getContextMenuItems]="getContextMenuItems"
+  [selectionColumnDef]="selectionColumnDef"
   (rowSelected)="onRowSelected($event)"
   (gridReady)="onGridReady($event)"
   (rowDoubleClicked)="onRowDoubleClicked($event)"
@@ -21,5 +21,6 @@
   (filterChanged)="onFilterChanged($event)"
   (columnResized)="onColumnChange($event)"
   (columnPinned)="onColumnChange($event)"
+  columnMenu="legacy"
 >
 </ag-grid-angular>

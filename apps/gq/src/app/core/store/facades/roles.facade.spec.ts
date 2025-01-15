@@ -4,7 +4,7 @@ import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { UserRoles } from '@gq/shared/constants';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { ColDef } from 'ag-grid-community';
+import { ColDef } from 'ag-grid-enterprise';
 import { marbles } from 'rxjs-marbles';
 
 import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';

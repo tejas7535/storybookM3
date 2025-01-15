@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { EditingCommentModalComponent } from '@gq/process-case-view/quotation-details-table/editing-comment-modal/editing-comment-modal.component';
-import { CellClassParams } from 'ag-grid-community';
+import { CellClassParams } from 'ag-grid-enterprise';
 
 import { QuotationStatus } from '../../../../models';
 import {

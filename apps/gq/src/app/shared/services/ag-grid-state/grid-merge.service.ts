@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { CustomView, GridState } from '@gq/shared/models/grid-state.model';
-import { ColumnState } from 'ag-grid-community';
+import { ColumnState } from 'ag-grid-enterprise';
 import { differenceBy } from 'lodash';
 
 @Injectable({

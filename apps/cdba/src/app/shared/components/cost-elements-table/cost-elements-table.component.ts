@@ -7,8 +7,12 @@ import {
 } from '@angular/core';
 
 import { TranslocoService } from '@jsverse/transloco';
-import { GridReadyEvent } from 'ag-grid-community/dist/lib/events';
-import { ColDef, GridApi, StatusPanelDef } from 'ag-grid-enterprise';
+import {
+  ColDef,
+  GridApi,
+  GridReadyEvent,
+  StatusPanelDef,
+} from 'ag-grid-enterprise';
 
 import { BomItem, Calculation, CostComponentSplit } from '@cdba/shared/models';
 
@@ -78,13 +82,13 @@ export class CostElementsTableComponent implements OnInit, OnChanges {
        * timeout is necessary, so that the table can meanwhile check, if there is data to display or not
        * the table only shows overlays, if there is no data to display
        */
-      setTimeout(() => this.gridApi.showLoadingOverlay(), 10);
+      setTimeout(() => this.gridApi.setGridOption('loading', true), 10);
     } else {
       if (changes.costElementsData?.currentValue.length === 0) {
         this.showNoDataOverlay();
       } else {
         this.errorMessage = '';
-        this.gridApi.hideOverlay();
+        this.gridApi.setGridOption('loading', false);
       }
     }
   }

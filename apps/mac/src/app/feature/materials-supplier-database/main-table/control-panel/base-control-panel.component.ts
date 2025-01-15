@@ -4,7 +4,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import { ColumnApi, ColumnState, GridApi } from 'ag-grid-enterprise';
+import { ColumnState, GridApi } from 'ag-grid-enterprise';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
@@ -21,7 +21,6 @@ export abstract class BaseControlPanelComponent implements OnInit, OnDestroy {
   public navigation$ = this.dataFacade.navigation$;
   public resetFormDisabled = true;
   protected agGridApi: GridApi;
-  protected agGridColumnApi: ColumnApi;
 
   protected readonly NON_EXCEL_COLUMNS = new Set([
     '',
@@ -46,9 +45,8 @@ export abstract class BaseControlPanelComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         filter((subject) => !!subject)
       )
-      .subscribe(({ gridApi, columnApi }) => {
+      .subscribe(({ gridApi }) => {
         this.agGridApi = gridApi;
-        this.agGridColumnApi = columnApi;
       });
 
     this.dataFacade.agGridFilter$
@@ -69,7 +67,7 @@ export abstract class BaseControlPanelComponent implements OnInit, OnDestroy {
   }
 
   protected getVisibleColumns(): string[] {
-    return this.agGridColumnApi
+    return this.agGridApi
       .getColumnState()
       .filter((columnState: ColumnState) => !columnState.hide)
       .map((columnState: ColumnState) => columnState.colId);

@@ -2,11 +2,7 @@ import { Subject } from 'rxjs';
 
 import { TranslocoModule } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import {
-  ColumnApi,
-  GridApi,
-  IServerSideGetRowsParams,
-} from 'ag-grid-enterprise';
+import { GridApi, IServerSideGetRowsParams } from 'ag-grid-community';
 
 import {
   SAPMaterial,
@@ -66,7 +62,7 @@ describe('MsdAgGridStateService', () => {
   it('subscribe should subscribe to updates', () => {
     let fail = true;
     service.agGridApi$.subscribe(() => (fail = false));
-    service.agGridApiready({} as GridApi, {} as ColumnApi);
+    service.agGridApiready({} as GridApi);
     expect(fail).toBe(false);
   });
 

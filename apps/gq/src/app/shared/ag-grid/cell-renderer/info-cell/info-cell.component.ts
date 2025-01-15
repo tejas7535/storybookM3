@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { SAP_ERROR_MESSAGE_CODE } from '@gq/shared/models';
-import { CellClassParams } from 'ag-grid-community';
+import { CellClassParams } from 'ag-grid-enterprise';
 
 import { VALIDATION_CODE, ValidationDescription } from '../../../models/table';
 import { ColumnUtilityService } from '../../services';

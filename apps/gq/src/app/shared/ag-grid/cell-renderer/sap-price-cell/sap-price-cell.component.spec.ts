@@ -5,7 +5,7 @@ import { DetailRoutePath } from '@gq/detail-view/detail-route-path.enum';
 import { PriceSource } from '@gq/shared/models';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ICellRendererParams } from 'ag-grid-community';
+import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { AppRoutePath } from './../../../../app-route-path.enum';
 import { SapPriceCellComponent } from './sap-price-cell.component';

@@ -56,7 +56,7 @@ export class EmployeeListTableComponent implements OnInit {
       closeOnReset: true,
     },
     resizable: true,
-    suppressMenu: true,
+    suppressHeaderMenuButton: true,
     lockPinned: true,
     flex: 1,
   };

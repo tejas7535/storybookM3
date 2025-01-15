@@ -13,7 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { finalize, Observable, tap } from 'rxjs';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
-import { ICellRendererParams } from 'ag-grid-community';
+import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { CustomerMaterialNumbersModalComponent } from './modal/customer-material-numbers-modal.component';
 

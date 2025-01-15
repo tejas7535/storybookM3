@@ -1,6 +1,5 @@
 <d360-home-table-toolbar
   [gridApi]="gridApi"
-  [columnApi]="columnApi"
   [resetLayout]="resetLayout"
   [saveLayout]="saveLayout"
   [loadLayout]="loadLayout"
@@ -18,12 +17,8 @@
   [getRowStyle]="getVisibilityBackground"
   [getRowId]="getIdForRow"
   [defaultColDef]="defaultCol"
-  [suppressRowClickSelection]="true"
-  [suppressCopyRowsToClipboard]="true"
   [stopEditingWhenCellsLoseFocus]="true"
   [suppressColumnVirtualisation]="true"
-  [rowSelection]="'multiple'"
-  [enableRangeHandle]="true"
-  [enableRangeSelection]="true"
+  [cellSelection]="{ handle: { mode: 'range' } }"
   (firstDataRendered)="onFirstDataRendered($event)"
 />

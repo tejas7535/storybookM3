@@ -1,4 +1,4 @@
-import { RowClassRules } from 'ag-grid-community';
+import { RowClassRules } from 'ag-grid-enterprise';
 
 export const BOM_ROW_CLASS_RULES: RowClassRules = {
   'row-level-2': (params: any) => params.data.level === 2,

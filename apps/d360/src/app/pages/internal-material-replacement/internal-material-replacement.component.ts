@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { take, tap } from 'rxjs';
 
 import { PushPipe } from '@ngrx/component';
-import { GridApi } from 'ag-grid-community';
+import { GridApi } from 'ag-grid-enterprise';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';

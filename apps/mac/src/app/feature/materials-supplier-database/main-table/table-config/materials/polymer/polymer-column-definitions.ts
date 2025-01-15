@@ -1,4 +1,4 @@
-import { ColDef } from 'ag-grid-enterprise';
+import { ColDef } from 'ag-grid-community';
 
 import {
   GENERAL_DESCRIPTION,

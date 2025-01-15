@@ -1,5 +1,6 @@
 import {
   GetMainMenuItemsParams,
+  IMenuActionParams,
   MenuItemDef,
   ValueFormatterParams,
   ValueGetterParams,
@@ -153,7 +154,7 @@ describe('ColumnUtils', () => {
           item.name === 'shared.table.columnMenu.resetFilter.menuEntry'
       ) as MenuItemDef;
 
-      menuItem.action();
+      menuItem.action({} as IMenuActionParams);
 
       expect(mockParams.api.setFilterModel).toHaveBeenCalled();
     });
@@ -163,8 +164,6 @@ describe('ColumnUtils', () => {
         defaultItems: ['foo', 'bar', 'resetColumns'],
         api: {
           setFilterModel: jest.fn(),
-        },
-        columnApi: {
           resetColumnGroupState: jest.fn(),
           resetColumnState: jest.fn(),
         },
@@ -178,11 +177,11 @@ describe('ColumnUtils', () => {
           item.name === 'shared.table.columnMenu.resetTable.menuEntry'
       ) as MenuItemDef;
 
-      menuItem.action();
+      menuItem.action({} as IMenuActionParams);
 
       expect(mockParams.api.setFilterModel).toHaveBeenCalled();
-      expect(mockParams.columnApi.resetColumnGroupState).toHaveBeenCalled();
-      expect(mockParams.columnApi.resetColumnState).toHaveBeenCalled();
+      expect(mockParams.api.resetColumnGroupState).toHaveBeenCalled();
+      expect(mockParams.api.resetColumnState).toHaveBeenCalled();
     });
   });
 

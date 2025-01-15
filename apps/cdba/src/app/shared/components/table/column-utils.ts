@@ -137,8 +137,8 @@ export const getMainMenuItems = (
     tooltip: translate('shared.table.columnMenu.resetTable.tooltip'),
     action: () => {
       params.api.setFilterModel(undefined);
-      params.columnApi.resetColumnGroupState();
-      params.columnApi.resetColumnState();
+      params.api.resetColumnGroupState();
+      params.api.resetColumnState();
     },
   };
 

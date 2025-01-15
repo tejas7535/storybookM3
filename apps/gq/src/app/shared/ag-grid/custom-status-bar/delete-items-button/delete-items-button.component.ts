@@ -14,7 +14,7 @@ import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.
 import { QuotationDetail } from '@gq/shared/models';
 import { HashMap, translate, TranslocoModule } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
-import { IStatusPanelParams } from 'ag-grid-community';
+import { IStatusPanelParams } from 'ag-grid-enterprise';
 
 import { ConfirmationModalData } from '../../../components/modal/confirmation-modal/models/confirmation-modal-data.model';
 import { Quotation } from '../../../models';

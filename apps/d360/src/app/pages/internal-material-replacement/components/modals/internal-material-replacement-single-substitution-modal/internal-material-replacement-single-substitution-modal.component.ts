@@ -42,7 +42,7 @@ import { map, tap } from 'rxjs';
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { PushPipe } from '@ngrx/component';
-import { GridApi } from 'ag-grid-community';
+import { GridApi } from 'ag-grid-enterprise';
 import moment, { Moment } from 'moment';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';

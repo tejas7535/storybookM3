@@ -11,19 +11,17 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 
 import { translate, TranslocoDirective } from '@jsverse/transloco';
-import { AgGridModule, INoRowsOverlayAngularComp } from 'ag-grid-angular';
+import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
-  ColumnApi,
   FirstDataRenderedEvent,
   GetRowIdFunc,
   GetRowIdParams,
   GridApi,
   GridOptions,
   GridReadyEvent,
-  INoRowsOverlayParams,
-} from 'ag-grid-community';
-import { RowClassParams } from 'ag-grid-community/dist/lib/entities/gridOptions';
+  RowClassParams,
+} from 'ag-grid-enterprise';
 
 import { AlertService } from '../../../../feature/alerts/alert.service';
 import { Alert } from '../../../../feature/alerts/model';
@@ -34,24 +32,12 @@ import {
 } from '../../../../shared/ag-grid/grid-defaults';
 import { ActionsMenuCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
 import { TableToolbarComponent } from '../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
-import { DataHintComponent } from '../../../../shared/components/data-hint/data-hint.component';
 import { GlobalSelectionStateService } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { SelectableOptionsService } from '../../../../shared/services/selectable-options.service';
 import { SnackbarService } from '../../../../shared/utils/service/snackbar.service';
+import { NoDataOverlayComponent } from './../../../../shared/components/ag-grid/no-data/no-data.component';
 import { getAlertTableColumnDefinitions } from './column-definitions';
-
-@Component({
-  selector: 'd360-no-data-overlay',
-  template: ` <d360-data-hint [text]="text"></d360-data-hint>`,
-  imports: [DataHintComponent],
-  standalone: true,
-})
-class NoDataOverlayComponent implements INoRowsOverlayAngularComp {
-  protected text = translate('hint.noData', {});
-
-  agInit(_: INoRowsOverlayParams): void {}
-}
 
 @Component({
   selector: 'd360-alert-table',
@@ -62,7 +48,6 @@ class NoDataOverlayComponent implements INoRowsOverlayAngularComp {
 })
 export class AlertTableComponent {
   public gridApi: GridApi;
-  public columnApi: ColumnApi;
   public getApi: OutputEmitterRef<GridApi> = output();
   public onUpdateAlert: OutputEmitterRef<void> = output();
   protected readonly alertService: AlertService = inject(AlertService);
@@ -77,7 +62,7 @@ export class AlertTableComponent {
     GlobalSelectionStateService
   );
 
-  protected readonly NoDataOverlayComponent = NoDataOverlayComponent;
+  protected readonly noDataOverlayComponent = NoDataOverlayComponent;
   protected readonly data = this.alertService.getDataFetchedEvent();
   protected rowCount = signal<number>(0);
 
@@ -98,40 +83,6 @@ export class AlertTableComponent {
     },
   };
   protected datasource = this.alertService.createAlertDatasource('ACTIVE');
-
-  protected columnDefs: ColDef[] = [
-    ...(getAlertTableColumnDefinitions(
-      this.agGridLocalizationService,
-      this.selectableOptionsService.get('alertTypes').options
-    ).map((col) => ({
-      ...getDefaultColDef(col.filter, col.filterParams),
-      field: col.property,
-      headerName: translate(col.colId),
-      sortable: col.sortable,
-      filter: col.filter,
-      flex: col.flex,
-      type: col.type,
-      cellRenderer: col.cellRenderer,
-      minWidth: col.minWidth,
-      maxWidth: col.maxWidth,
-      tooltipValueGetter: col.tooltipValueGetter,
-      tooltipField: col.tooltipField,
-      colId: col.property,
-      valueFormatter: col.valueFormatter,
-    })) || []),
-    {
-      cellClass: ['fixed-action-column'],
-      field: 'menu',
-      headerName: '',
-      cellRenderer: ActionsMenuCellRendererComponent,
-      lockVisible: true,
-      pinned: 'right',
-      lockPinned: true,
-      suppressMenu: true,
-      maxWidth: 64,
-      suppressSizeToFit: true,
-    },
-  ];
 
   protected context: Record<string, any> = {
     getMenu: (b: any) => {
@@ -303,24 +254,63 @@ export class AlertTableComponent {
     },
   };
 
+  private updateColumnDefs(): void {
+    this.gridApi?.setGridOption('columnDefs', [
+      ...(getAlertTableColumnDefinitions(
+        this.agGridLocalizationService,
+        this.selectableOptionsService.get('alertTypes').options
+      ).map((col) => ({
+        ...getDefaultColDef(col.filter, col.filterParams),
+        field: col.property,
+        headerName: translate(col.colId),
+        sortable: col.sortable,
+        filter: col.filter,
+        flex: col.flex,
+        type: col.type,
+        cellRenderer: col.cellRenderer,
+        minWidth: col.minWidth,
+        maxWidth: col.maxWidth,
+        tooltipValueGetter: col.tooltipValueGetter,
+        tooltipField: col.tooltipField,
+        colId: col.property,
+        valueFormatter: col.valueFormatter,
+      })) || []),
+      {
+        cellClass: ['fixed-action-column'],
+        field: 'menu',
+        headerName: '',
+        cellRenderer: ActionsMenuCellRendererComponent,
+        lockVisible: true,
+        pinned: 'right',
+        lockPinned: true,
+        suppressHeaderMenuButton: true,
+        maxWidth: 64,
+        suppressSizeToFit: true,
+      },
+    ] as ColDef[]);
+  }
+
   protected onGridReady(event: GridReadyEvent): void {
     this.gridApi = event.api;
-    this.columnApi = event.columnApi;
     this.getApi.emit(event.api);
     if (this.gridApi) {
+      this.updateColumnDefs();
+
       this.alertService
         .getDataFetchedEvent()
         .pipe(
           tap((value) => {
             this.rowCount.set(value.rowCount);
+
             if (value.rowCount === 0) {
               this.gridApi.showNoRowsOverlay();
             } else {
               this.gridApi.hideOverlay();
             }
+
             if (!this.isGridAutoSized()) {
               this.isGridAutoSized.set(true);
-              this.columnApi?.autoSizeAllColumns();
+              this.gridApi?.autoSizeAllColumns();
             }
           }),
           takeUntilDestroyed(this.destroyRef)
@@ -333,6 +323,6 @@ export class AlertTableComponent {
     params.data.id;
 
   protected onFirstDataRendered($event: FirstDataRenderedEvent) {
-    $event.columnApi.autoSizeAllColumns();
+    $event.api.autoSizeAllColumns();
   }
 }

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { IHeaderAngularComp } from 'ag-grid-angular/lib/interfaces';
+import { IHeaderAngularComp } from 'ag-grid-angular';
 import { IHeaderParams } from 'ag-grid-community';
 
 import { deselectReferenceType } from '@cdba/core/store';

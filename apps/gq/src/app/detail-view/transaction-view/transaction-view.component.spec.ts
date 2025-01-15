@@ -9,7 +9,7 @@ import { TransactionsFacade } from '@gq/core/store/transactions/transactions.fac
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import { FilterChangedEvent } from 'ag-grid-community';
+import { FilterChangedEvent } from 'ag-grid-enterprise';
 import { MockProvider } from 'ng-mocks';
 import resize_observer_polyfill from 'resize-observer-polyfill';
 import { marbles } from 'rxjs-marbles';
@@ -128,7 +128,6 @@ describe('TransactionViewComponent', () => {
         api: {
           forEachNodeAfterFilter: jest.fn().mockImplementation(),
         } as any,
-        columnApi: {},
         columns: [],
         type: 'filterChanged',
       } as FilterChangedEvent);
@@ -153,7 +152,6 @@ describe('TransactionViewComponent', () => {
             mockFilteredNodes.forEach((node) => callback(node));
           }),
         } as any,
-        columnApi: {},
         columns: [],
         type: 'filterChanged',
       } as FilterChangedEvent);
@@ -173,7 +171,6 @@ describe('TransactionViewComponent', () => {
         api: {
           forEachNodeAfterFilter: jest.fn(),
         } as any,
-        columnApi: {},
         columns: [],
         type: 'filterChanged',
       } as FilterChangedEvent);
@@ -199,7 +196,6 @@ describe('TransactionViewComponent', () => {
             mockNodes.forEach((node) => callback(node));
           }),
         } as any,
-        columnApi: {},
         columns: [],
         type: 'filterChanged',
       } as FilterChangedEvent);

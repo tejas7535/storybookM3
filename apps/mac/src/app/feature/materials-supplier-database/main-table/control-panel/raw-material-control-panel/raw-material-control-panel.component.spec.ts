@@ -9,7 +9,6 @@ import { LetDirective, PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import {
   Column,
-  ColumnApi,
   ExcelRow,
   GridApi,
   IRowNode,
@@ -55,7 +54,6 @@ describe('RawMaterialControlPanelComponent', () => {
     onFilterChanged: jest.fn(),
     getSelectedNodes: jest.fn(),
   } as unknown as GridApi;
-  const columnApiMock = {} as unknown as ColumnApi;
   const navigationMock = new Subject();
 
   const createComponent = createComponentFactory({
@@ -82,7 +80,7 @@ describe('RawMaterialControlPanelComponent', () => {
       MockProvider(
         MsdAgGridReadyService,
         {
-          agGridApi$: of({ gridApi: gridApiMock, columnApi: columnApiMock }),
+          agGridApi$: of({ gridApi: gridApiMock }),
         },
         'useValue'
       ),

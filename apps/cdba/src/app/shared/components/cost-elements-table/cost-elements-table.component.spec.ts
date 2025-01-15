@@ -7,8 +7,7 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { AgGridModule } from 'ag-grid-angular';
-import { GridReadyEvent } from 'ag-grid-community';
-import { ColumnApi, GridApi } from 'ag-grid-enterprise';
+import { GridApi, GridReadyEvent } from 'ag-grid-enterprise';
 import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -65,13 +64,12 @@ describe('CostElementsTableComponent', () => {
     let mockedCostComponentSplit: CostComponentSplit;
     beforeEach(() => {
       component['gridApi'] = {
-        showLoadingOverlay: jest.fn(),
+        setGridOption: jest.fn(),
         showNoRowsOverlay: jest.fn(),
-        hideOverlay: jest.fn(),
       } as unknown as GridApi;
     });
 
-    it('should showLoadingOverlay if grid loaded and isLoading active', () => {
+    it('should show loading overlay if grid loaded and isLoading active', () => {
       jest.spyOn(window, 'setTimeout');
 
       component.ngOnChanges({
@@ -92,7 +90,7 @@ describe('CostElementsTableComponent', () => {
         costElementsData: { currentValue: [] } as unknown as SimpleChange,
       });
 
-      expect(component['gridApi'].showLoadingOverlay).not.toHaveBeenCalled();
+      expect(component['gridApi'].setGridOption).not.toHaveBeenCalled();
       expect(component['gridApi'].showNoRowsOverlay).toHaveBeenCalled();
       expect(component.errorMessage).toEqual('No data to display');
     });
@@ -117,8 +115,11 @@ describe('CostElementsTableComponent', () => {
         } as unknown as SimpleChange,
       });
 
-      expect(component['gridApi'].showLoadingOverlay).not.toHaveBeenCalled();
-      expect(component['gridApi'].hideOverlay).toHaveBeenCalled();
+      expect(component['gridApi'].setGridOption).toHaveBeenCalledTimes(1);
+      expect(component['gridApi'].setGridOption).toHaveBeenCalledWith(
+        'loading',
+        false
+      );
       expect(component.errorMessage).toEqual('');
     });
   });
@@ -127,12 +128,10 @@ describe('CostElementsTableComponent', () => {
     it('should set api', () => {
       const params: GridReadyEvent = {
         api: {
-          showLoadingOverlay: jest.fn(),
+          setGridOption: jest.fn(),
         } as unknown as GridApi,
-        columnApi: {} as unknown as ColumnApi,
-        type: '',
         context: {},
-      };
+      } as GridReadyEvent;
       component.isLoading = true;
 
       component.onGridReady(params);

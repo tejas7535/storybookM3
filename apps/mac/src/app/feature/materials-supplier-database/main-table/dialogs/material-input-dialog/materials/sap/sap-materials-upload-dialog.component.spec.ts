@@ -15,7 +15,7 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
-import { ColDef, ColumnApi, GridApi } from 'ag-grid-community';
+import { ColDef, GridApi } from 'ag-grid-community';
 import moment from 'moment';
 import { MockModule, MockPipe } from 'ng-mocks';
 
@@ -84,7 +84,7 @@ describe('SapMaterialsUploadDialogComponent', () => {
       mockProvider(ExcelValidatorService),
       mockProvider(MsdDialogService),
       mockProvider(MsdAgGridReadyService, {
-        agGridApi$: of({ gridApi: {}, columnApi: {} }),
+        agGridApi$: of({ gridApi: {} }),
       }),
       mockProvider(ApplicationInsightsService),
     ],
@@ -321,12 +321,9 @@ describe('SapMaterialsUploadDialogComponent', () => {
       const mockGridApi = {
         getColumnDef: jest.fn((key) => ({ headerTooltip: key }) as ColDef),
         exportDataAsExcel: jest.fn(),
-      } as unknown as GridApi;
-      const mockColumnApi = {
         getColumnState: jest.fn(() => [hidden, other, mandatory, optional]),
-      } as unknown as ColumnApi;
+      } as unknown as GridApi;
       component['agGridApi'] = mockGridApi;
-      component['columnApi'] = mockColumnApi;
 
       component.downloadDataTemplate();
 

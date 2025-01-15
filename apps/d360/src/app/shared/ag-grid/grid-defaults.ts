@@ -1,4 +1,4 @@
-import { ColDef, GridOptions } from 'ag-grid-community';
+import { ColDef, GridOptions } from 'ag-grid-enterprise';
 
 import { GlobalSelectionUtils } from '../../feature/global-selection/global-selection.utils';
 import { CustomerMaterialNumberCellRendererComponent } from '../components/ag-grid/cell-renderer/customer-material-number-cell-renderer/customer-material-number-cell-renderer.component';
@@ -6,14 +6,9 @@ import { CustomerMaterialNumberCellRendererComponent } from '../components/ag-gr
 export const defaultRowHeight = 42;
 
 const tableDefaultProps: GridOptions = {
-  stopEditingWhenCellsLoseFocus: true, // no need for manally deselecting the cell before clicking 'save'
+  stopEditingWhenCellsLoseFocus: true, // no need for manually deselecting the cell before clicking 'save'
   suppressColumnVirtualisation: true, // column virtualization prevents hidden columns to be autosized
-
-  suppressRowClickSelection: true, // do not select a row when selecting a cell
-  suppressCopyRowsToClipboard: true, // so one can copy values from single cells while the row is selected
-  rowSelection: 'multiple',
-  enableRangeHandle: true,
-  enableRangeSelection: true,
+  cellSelection: { handle: { mode: 'range' } },
 
   rowHeight: defaultRowHeight,
   headerHeight: 54,
@@ -58,11 +53,6 @@ export const serverSideTableDefaultProps: GridOptions = {
   maxBlocksInCache: 200,
   blockLoadDebounceMillis: 50,
   rowModelType: 'serverSide',
-  suppressServerSideInfiniteScroll: false,
-  // Setting suppressRowVirtualisation to true results in eager-loading and rendering of non-visible rows.
-  // This brings a performance penalty as multiple HTTP calls are triggered and CPU resources are used to render non-visible rows.
-  // In the previous React app it was set to true to render non-visible rows for tests. Once we need this, we can conditionally enable it.
-  suppressRowVirtualisation: false,
 };
 
 export const clientSideTableDefaultProps = {
@@ -106,6 +96,8 @@ export const getDefaultColDef = (
       ...columnFilterParams,
     },
     resizable: true,
+    suppressHeaderMenuButton: true,
+    suppressHeaderFilterButton: true,
   };
 };
 

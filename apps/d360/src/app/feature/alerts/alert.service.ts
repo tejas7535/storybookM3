@@ -22,7 +22,7 @@ import { translate } from '@jsverse/transloco';
 import {
   IServerSideDatasource,
   IServerSideGetRowsParams,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 
 import { formatFilterModelForBackend } from '../../shared/ag-grid/grid-filter-model';
 import { SnackbarService } from '../../shared/utils/service/snackbar.service';

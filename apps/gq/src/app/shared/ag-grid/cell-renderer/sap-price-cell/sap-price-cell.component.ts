@@ -3,7 +3,7 @@ import { NavigationExtras, Router } from '@angular/router';
 
 import { SapConditionType } from '@gq/core/store/reducers/sap-price-details/models';
 import { DetailRoutePath } from '@gq/detail-view/detail-route-path.enum';
-import { ICellRendererParams } from 'ag-grid-community';
+import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { AppRoutePath } from '../../../../../app/app-route-path.enum';
 import { QuotationDetail } from '../../../models/quotation-detail';

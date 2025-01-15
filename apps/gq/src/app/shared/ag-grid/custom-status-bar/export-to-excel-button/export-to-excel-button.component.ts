@@ -28,7 +28,7 @@ import {
   ProcessCellForExportParams,
   ProcessHeaderForExportParams,
   ValueFormatterParams,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 
 import { ExportExcel } from '../../../components/modal/export-excel-modal/export-excel.enum';
 import { ExportExcelModalComponent } from '../../../components/modal/export-excel-modal/export-excel-modal.component';
@@ -920,7 +920,7 @@ export class ExportToExcelButtonComponent implements OnInit {
   }
 
   private getProcessCaseSheet(): string {
-    const columnKeys = this.params.columnApi
+    const columnKeys = this.params.api
       .getAllDisplayedColumns()
       .map((col) => col.getColId());
 
@@ -928,7 +928,7 @@ export class ExportToExcelButtonComponent implements OnInit {
       columnKeys,
       allColumns: false,
       sheetName: 'Guided Quoting',
-      skipHeader: false,
+      skipColumnHeaders: false,
       processCellCallback: (params: ProcessCellForExportParams) =>
         this.processCellCallback(params),
       processHeaderCallback: (params: ProcessHeaderForExportParams) =>

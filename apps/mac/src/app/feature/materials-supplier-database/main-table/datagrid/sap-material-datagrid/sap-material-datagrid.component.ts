@@ -10,7 +10,6 @@ import { filter, takeUntil } from 'rxjs';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { AgGridModule } from 'ag-grid-angular';
 import {
-  ColumnApi,
   ExcelStyle,
   GridApi,
   IServerSideDatasource,
@@ -93,16 +92,12 @@ export class SapMaterialDatagridComponent
     this.reloadDataOnSapMaterialsDatabaseUploadSuccess();
   }
 
-  public onGridReady({
-    api,
-    columnApi,
-  }: {
-    api: GridApi;
-    columnApi: ColumnApi;
-  }): void {
-    super.onGridReady({ api, columnApi });
+  public onGridReady({ api }: { api: GridApi }): void {
+    super.onGridReady({ api });
 
-    api.setServerSideDatasource(this.createServerSideDataSource());
+    api.updateGridOptions({
+      serverSideDatasource: this.createServerSideDataSource(),
+    });
   }
 
   protected getCellRendererParams() {

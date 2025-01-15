@@ -9,10 +9,11 @@ import {
 
 import {
   AgGridEvent,
+  ColDef,
+  GridApi,
   GridSizeChangedEvent,
   RowDataUpdatedEvent,
-} from 'ag-grid-community';
-import { ColDef, GridApi } from 'ag-grid-enterprise';
+} from 'ag-grid-enterprise';
 
 import { ProductCostAnalysis } from '@cdba/shared/models';
 
@@ -76,7 +77,7 @@ export class PortfolioAnalysisTableComponent implements OnInit, OnChanges {
         headerComponentParams: {
           nodeId: productCostAnalysis.id,
         },
-        suppressMenu: true,
+        suppressHeaderMenuButton: true,
         cellStyle: { textAlign: 'center' },
       });
     });

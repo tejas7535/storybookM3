@@ -19,7 +19,7 @@ import {
   MenuItemDef,
   ValueFormatterParams,
   ValueGetterParams,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';

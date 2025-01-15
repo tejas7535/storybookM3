@@ -4,7 +4,7 @@ import { Component, inject } from '@angular/core';
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { IHeaderAngularComp } from 'ag-grid-angular';
-import { IHeaderParams } from 'ag-grid-community';
+import { IHeaderParams } from 'ag-grid-enterprise';
 import {
   addDays,
   differenceInBusinessDays,

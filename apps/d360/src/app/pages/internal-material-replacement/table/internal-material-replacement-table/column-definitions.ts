@@ -1,4 +1,4 @@
-import { ColDef } from 'ag-grid-community';
+import { ColDef } from 'ag-grid-enterprise';
 
 import { replacementTypeValues } from '../../../../feature/internal-material-replacement/model';
 import { replacementTypeValueFormatter } from '../../../../shared/ag-grid/grid-value-formatter';

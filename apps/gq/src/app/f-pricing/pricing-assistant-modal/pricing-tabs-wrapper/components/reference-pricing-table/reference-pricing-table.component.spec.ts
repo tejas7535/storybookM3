@@ -67,12 +67,10 @@ describe('ReferencePricingTableComponent', () => {
   describe('onGridReady', () => {
     test('should set columnState', () => {
       const event = {
-        columnApi: {
-          applyColumnState: jest.fn(),
-        },
         api: {
+          applyColumnState: jest.fn(),
           sizeColumnsToFit: jest.fn(),
-          setRowData: jest.fn(),
+          updateGridOptions: jest.fn(),
         },
       } as any;
 
@@ -81,7 +79,7 @@ describe('ReferencePricingTableComponent', () => {
         .mockReturnValueOnce('test');
       component.onGridReady(event);
 
-      expect(event.columnApi.applyColumnState).toHaveBeenCalledTimes(1);
+      expect(event.api.applyColumnState).toHaveBeenCalledTimes(1);
       expect(event.api.sizeColumnsToFit).toHaveBeenCalledTimes(1);
     });
   });
@@ -89,7 +87,7 @@ describe('ReferencePricingTableComponent', () => {
   describe('onColumnChange', () => {
     test('should set column state', () => {
       const event = {
-        columnApi: {
+        api: {
           getColumnState: jest.fn(),
         },
       } as any;
@@ -231,12 +229,10 @@ describe('ReferencePricingTableComponent', () => {
         COMPARABLE_MATERIALS_ROW_DATA_MOCK[3],
       ];
       const event = {
-        columnApi: {
-          applyColumnState: jest.fn(),
-        },
         api: {
           sizeColumnsToFit: jest.fn(),
-          setRowData: jest.fn(),
+          updateGridOptions: jest.fn(),
+          applyColumnState: jest.fn(),
         },
       } as any;
 
@@ -252,7 +248,7 @@ describe('ReferencePricingTableComponent', () => {
         4
       );
 
-      expect(component.gridOptions.api.setRowData).toHaveBeenCalledTimes(2); // 1x in OnGridReady, 1x in addRowsOfMaterial
+      expect(component.griApi.updateGridOptions).toHaveBeenCalledTimes(2); // 1x in OnGridReady, 1x in addRowsOfMaterial
     });
   });
 

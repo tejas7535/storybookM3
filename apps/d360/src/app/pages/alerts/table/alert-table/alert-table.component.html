@@ -5,14 +5,13 @@
     class="ag-theme-material grow"
     rowModelType="serverSide"
     [gridOptions]="gridOptions"
-    [columnDefs]="columnDefs"
     [tooltipShowDelay]="0"
     [serverSideDatasource]="datasource"
     [localeText]="agGridLocalizationService.lang()"
     [context]="context"
     (gridReady)="onGridReady($event)"
     (firstDataRendered)="onFirstDataRendered($event)"
-    [noRowsOverlayComponent]="NoDataOverlayComponent"
+    [noRowsOverlayComponent]="noDataOverlayComponent"
     [getRowId]="getRowId"
   />
 </div>

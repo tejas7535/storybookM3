@@ -1,5 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ITooltipParams } from 'ag-grid-community';
+import { ITooltipParams } from 'ag-grid-enterprise';
 
 import { TrafficLightTooltipComponent } from './traffic-light-tooltip.component';
 

@@ -37,7 +37,7 @@ export class PmgmComponent {
     filter: true,
     floatingFilter: true,
     resizable: true,
-    suppressMenu: true,
+    suppressHeaderMenuButton: true,
     flex: 1,
     headerClass: () => 'bg-selected-overlay',
     filterParams: {
@@ -141,7 +141,7 @@ export class PmgmComponent {
 
   @Input() set data(data: PmgmData[]) {
     this._data = data;
-    this.gridApi?.setRowData(data);
+    this.gridApi?.updateGridOptions({ rowData: data });
     if (data) {
       this.gridApi?.hideOverlay();
     } else {
@@ -159,7 +159,7 @@ export class PmgmComponent {
     this.gridApi = event.api;
 
     if (this.data && this.gridApi.getModel().getRowCount() === 0) {
-      this.gridApi.setRowData(this.data);
+      this.gridApi.updateGridOptions({ rowData: this.data });
     }
   }
 

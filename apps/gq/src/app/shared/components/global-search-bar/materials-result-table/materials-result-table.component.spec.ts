@@ -12,10 +12,7 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
-import {
-  FilterChangedEvent,
-  GridReadyEvent,
-} from 'ag-grid-community/dist/lib/events';
+import { FilterChangedEvent, GridReadyEvent } from 'ag-grid-enterprise';
 import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';

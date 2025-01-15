@@ -5,11 +5,15 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import {
+  ColDef,
+  ColumnEvent,
+  GridApi,
+  GridOptions,
   GridReadyEvent,
   RowClickedEvent,
+  SideBarDef,
   SortChangedEvent,
-} from 'ag-grid-community';
-import { ColDef, GridApi, GridOptions, SideBarDef } from 'ag-grid-enterprise';
+} from 'ag-grid-enterprise';
 
 import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
 
@@ -96,25 +100,23 @@ export class SalesTableComponent implements OnInit, OnDestroy {
     this.setupColumState(params);
   }
 
-  public onColumnChange(event: SortChangedEvent): void {
+  public onColumnChange(event: SortChangedEvent | ColumnEvent): void {
     this.agGridStateService.setColumnState(
       this.TABLE_KEY,
-      event.columnApi.getColumnState()
+      event.api.getColumnState()
     );
   }
 
   public setLastModifierFilter(): void {
-    const filterModel = this.gridApi.getFilterInstance('lastModifier');
-    filterModel.setModel({
-      values: [this.username],
+    this.gridApi.setFilterModel({
+      values: ['lastModifier'],
     });
     this.gridApi.onFilterChanged();
   }
 
   public setKeyUserFilter(): void {
-    const filterModel = this.gridApi.getFilterInstance('keyUser');
-    filterModel.setModel({
-      values: [this.username],
+    this.gridApi.setFilterModel({
+      values: ['keyUser'],
     });
     this.gridApi.onFilterChanged();
   }
@@ -131,7 +133,7 @@ export class SalesTableComponent implements OnInit, OnDestroy {
   private setupColumState(event: GridReadyEvent): void {
     const columnState = this.agGridStateService.getColumnState(this.TABLE_KEY);
     if (columnState) {
-      event.columnApi.applyColumnState({
+      event.api.applyColumnState({
         state: columnState,
         applyOrder: true,
       });

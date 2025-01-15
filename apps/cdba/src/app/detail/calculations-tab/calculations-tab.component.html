@@ -2,8 +2,8 @@
   <cdba-calculations-table
     [rowData]="calculations$ | ngrxPush"
     [selectedNodeIds]="selectedNodeIds$ | ngrxPush"
-    [rowSelection]="'multiple'"
-    [rowMultiSelectWithClick]="true"
+    [rowSelectionType]="'multiRow'"
+    [enableSelectionWithoutKeys]="true"
     [isLoading]="loading$ | ngrxPush"
     [errorMessage]="errorMessage$ | ngrxPush"
     (selectionChange)="selectCalculations($event)"

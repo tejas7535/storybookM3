@@ -1,5 +1,5 @@
 import { translate } from '@jsverse/transloco';
-import { ColDef, ValueFormatterParams } from 'ag-grid-community';
+import { ColDef, ValueFormatterParams } from 'ag-grid-enterprise';
 
 import { AlertCategory } from '../../../../feature/alerts/model';
 import { materialClassificationOptions } from '../../../../feature/material-customer/model';

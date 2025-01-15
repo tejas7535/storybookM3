@@ -46,7 +46,7 @@ export const BASE_COLUMN_DEFINITIONS: ColDef[] = [
     resizable: false,
     suppressMovable: true,
     hide: false,
-    suppressMenu: true,
+    suppressHeaderMenuButton: true,
     sortable: false,
     filter: false,
   },

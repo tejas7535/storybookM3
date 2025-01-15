@@ -1,5 +1,3 @@
-import { SimpleChanges } from '@angular/core';
-
 import { Subscription } from 'rxjs';
 
 import {
@@ -14,12 +12,12 @@ import {
   Column,
   ColumnRowGroupChangedEvent,
   FirstDataRenderedEvent,
+  GridApi,
   GridReadyEvent,
   IRowNode,
   SelectionChangedEvent,
   SortChangedEvent,
-} from 'ag-grid-community';
-import { ColumnApi, GridApi } from 'ag-grid-enterprise';
+} from 'ag-grid-enterprise';
 import { MockModule, MockPipe } from 'ng-mocks';
 
 import { getPaginationState, updatePaginationState } from '@cdba/core/store';
@@ -141,61 +139,15 @@ describe('ReferenceTypesTableComponent', () => {
     });
   });
 
-  describe('ngOnChanges', () => {
-    let rowData;
-
-    beforeEach(() => {
-      rowData = undefined;
-    });
-
-    it('should do nothing if rowData is undefined', () => {
-      component['gridApi'] = {
-        setRowData: jest.fn(),
-      } as unknown as GridApi;
-
-      component.ngOnChanges({});
-
-      expect(component['gridApi'].setRowData).not.toHaveBeenCalled();
-    });
-
-    it('should do nothing if grid api is undefined', () => {
-      rowData = { currentValue: { foo: 'bar' } };
-      const changes: SimpleChanges = {
-        rowData,
-      } as unknown as SimpleChanges;
-
-      component.ngOnChanges(changes);
-
-      expect(component['gridApi']).toBeUndefined();
-    });
-
-    it('should set row data if api and data is defined', () => {
-      component['gridApi'] = {
-        setRowData: jest.fn(),
-      } as unknown as GridApi;
-
-      rowData = { currentValue: { foo: 'bar' } };
-      const changes: SimpleChanges = {
-        rowData,
-      } as unknown as SimpleChanges;
-
-      component.ngOnChanges(changes);
-
-      expect(component['gridApi'].setRowData).toHaveBeenCalledWith(
-        rowData.currentValue
-      );
-    });
-  });
-
   describe('columnChange', () => {
     it('should receive current column state and set it via state service', () => {
       const mockEvent = {
-        columnApi: { getColumnState: jest.fn(() => []) },
+        api: { getColumnState: jest.fn(() => []) },
       } as unknown as SortChangedEvent;
 
       component.columnChange(mockEvent);
 
-      expect(mockEvent.columnApi.getColumnState).toHaveBeenCalled();
+      expect(mockEvent.api.getColumnState).toHaveBeenCalled();
       expect(stateService.setColumnState).toHaveBeenCalledWith(
         'referenceTypes',
         []
@@ -206,13 +158,11 @@ describe('ReferenceTypesTableComponent', () => {
   describe('onGridReady', () => {
     const event: GridReadyEvent = {
       api: {
-        setRowData: jest.fn(),
+        updateGridOptions: jest.fn(),
         paginationGoToPage: jest.fn(),
-      } as unknown as GridApi,
-      columnApi: {
         applyColumnState: jest.fn(),
         getRowGroupColumns: jest.fn(() => []),
-      } as unknown as ColumnApi,
+      } as unknown as GridApi,
     } as unknown as GridReadyEvent;
 
     beforeEach(() => {
@@ -233,19 +183,10 @@ describe('ReferenceTypesTableComponent', () => {
 
       component.onGridReady(event);
 
-      expect(event.columnApi.applyColumnState).toHaveBeenCalledWith({
+      expect(event.api.applyColumnState).toHaveBeenCalledWith({
         state: mockColumnState,
         applyOrder: true,
       });
-    });
-
-    it('should set row data', () => {
-      const rowData = [{ foo: 'bar' } as unknown as ReferenceType];
-      component.rowData = rowData;
-
-      component.onGridReady(event);
-
-      expect(event.api.setRowData).toHaveBeenCalledWith(rowData);
     });
 
     it('should go to page if current page is not 0', () => {
@@ -265,7 +206,7 @@ describe('ReferenceTypesTableComponent', () => {
     });
 
     it('should dispatch updatePaginationState with isVisible=false (hide) if rowGroupColumns is not empty', () => {
-      event.columnApi.getRowGroupColumns = jest.fn(() => [
+      event.api.getRowGroupColumns = jest.fn(() => [
         {} as Column,
         {} as Column,
       ]);
@@ -296,7 +237,7 @@ describe('ReferenceTypesTableComponent', () => {
     });
 
     it('should dispatch updatePaginationState with isVisible=true (show) if rowGroupColumns is empty', () => {
-      event.columnApi.getRowGroupColumns = jest.fn(() => []);
+      event.api.getRowGroupColumns = jest.fn(() => []);
       const storeSpy = jest.spyOn(store, 'dispatch');
       component.paginationState = {
         isVisible: false,
@@ -326,13 +267,11 @@ describe('ReferenceTypesTableComponent', () => {
 
   describe('onFirstDataRendered', () => {
     const params = {
-      columnApi: {
-        autoSizeAllColumns: jest.fn(),
-        setColumnVisible: jest.fn(),
-      },
       api: {
         setFilterModel: jest.fn(),
         refreshHeader: jest.fn(),
+        autoSizeAllColumns: jest.fn(),
+        setColumnVisible: jest.fn(),
       },
     } as unknown as FirstDataRenderedEvent;
 
@@ -343,7 +282,7 @@ describe('ReferenceTypesTableComponent', () => {
     it('should call autoSizeAllColumns', () => {
       component.onFirstDataRendered(params);
 
-      expect(params.columnApi.autoSizeAllColumns).toHaveBeenCalledWith(false);
+      expect(params.api.autoSizeAllColumns).toHaveBeenCalledWith(false);
       expect(params.api.refreshHeader).toHaveBeenCalledTimes(1);
     });
 

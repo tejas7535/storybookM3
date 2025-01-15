@@ -5,7 +5,7 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { ICellRendererParams } from 'ag-grid-community';
+import { ICellRendererParams } from 'ag-grid-enterprise';
 import { MockComponent } from 'ng-mocks';
 
 import { AlertRulesService } from '../../../../../feature/alert-rules/alert-rules.service';

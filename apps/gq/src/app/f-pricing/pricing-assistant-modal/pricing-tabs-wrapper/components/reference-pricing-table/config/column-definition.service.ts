@@ -12,7 +12,7 @@ import {
   GetRowIdParams,
   GridOptions,
   IsFullWidthRowParams,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 
 @Injectable({
   providedIn: 'root',

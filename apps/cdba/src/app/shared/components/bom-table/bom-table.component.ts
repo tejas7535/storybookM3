@@ -17,11 +17,12 @@ import {
   ColumnPinnedEvent,
   ColumnState,
   FirstDataRenderedEvent,
+  GridApi,
   GridReadyEvent,
   IRowNode,
   RowClickedEvent,
-} from 'ag-grid-community';
-import { ColumnApi, GridApi } from 'ag-grid-enterprise';
+  RowSelectionOptions,
+} from 'ag-grid-enterprise';
 
 import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
 import { CostShareService } from '@cdba/shared/services';
@@ -59,6 +60,11 @@ export class BomTableComponent implements OnChanges {
       id: '0',
     },
   };
+  rowSelection = {
+    mode: 'multiRow',
+    checkboxes: false,
+    headerCheckbox: false,
+  } as RowSelectionOptions;
   nonLevel2Children: any[] = [];
   cellRanges: CellRange[];
 
@@ -79,7 +85,6 @@ export class BomTableComponent implements OnChanges {
   };
 
   private gridApi: GridApi;
-  private gridColumnApi: ColumnApi;
 
   private readonly customColumnsOrderKey = 'customColumnsOrder';
 
@@ -101,7 +106,7 @@ export class BomTableComponent implements OnChanges {
        * timeout is necessary, so that the table can meanwhile check, if there is data to display or not
        * the table only shows overlays, if there is no data to display
        */
-      setTimeout(() => this.gridApi.showLoadingOverlay(), 10);
+      setTimeout(() => this.gridApi.setGridOption('loading', true), 10);
     } else {
       this.gridApi.showNoRowsOverlay();
     }
@@ -113,7 +118,6 @@ export class BomTableComponent implements OnChanges {
 
   onGridReady(params: GridReadyEvent): void {
     this.gridApi = params.api;
-    this.gridColumnApi = params.columnApi;
 
     // !!(DSCDA-3228)
     const customColumnsState = this.loadCustomColumnsOrder(
@@ -121,7 +125,7 @@ export class BomTableComponent implements OnChanges {
     );
 
     if (customColumnsState) {
-      this.gridColumnApi.applyColumnState({
+      this.gridApi.applyColumnState({
         state: customColumnsState,
         applyOrder: true,
       });
@@ -139,7 +143,7 @@ export class BomTableComponent implements OnChanges {
   }
 
   onFirstDataRendered(params: FirstDataRenderedEvent): void {
-    params.columnApi.autoSizeAllColumns(true);
+    params.api.autoSizeAllColumns(true);
   }
 
   getDataPath = (data: BomItem): string[] => {
@@ -155,7 +159,7 @@ export class BomTableComponent implements OnChanges {
   };
 
   onRowGroupOpened(): void {
-    this.gridColumnApi.autoSizeColumn('ag-Grid-AutoColumn');
+    this.gridApi.autoSizeColumns(['ag-Grid-AutoColumn']);
     this.gridApi.redrawRows();
   }
 
@@ -168,11 +172,11 @@ export class BomTableComponent implements OnChanges {
   }
 
   onColumnMoved(evt: ColumnMovedEvent): void {
-    this.saveCustomColumnsState(evt.columnApi.getColumnState());
+    this.saveCustomColumnsState(evt.api.getColumnState());
   }
 
   onColumnPinned(evt: ColumnPinnedEvent): void {
-    this.saveCustomColumnsState(evt.columnApi.getColumnState());
+    this.saveCustomColumnsState(evt.api.getColumnState());
   }
 
   updateNonLevel2Children(node: IRowNode): void {
@@ -225,7 +229,7 @@ export class BomTableComponent implements OnChanges {
   }
 
   private organizeColumns(): void {
-    this.gridColumnApi?.moveColumn('procurement.plant', 4);
+    this.gridApi?.moveColumns(['procurement.plant'], 4);
   }
 
   private saveCustomColumnsState(columnState: ColumnState[]): void {

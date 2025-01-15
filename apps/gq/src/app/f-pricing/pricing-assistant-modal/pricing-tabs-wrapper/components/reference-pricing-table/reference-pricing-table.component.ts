@@ -8,14 +8,17 @@ import { LocalizationService } from '@gq/shared/ag-grid/services';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { groupBy } from '@gq/shared/utils/misc.utils';
 import {
+  ColumnEvent,
   ColumnState,
+  GridApi,
   GridOptions,
   GridReadyEvent,
   SortChangedEvent,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 
 import { ColumnDefinitionService } from './config/column-definition.service';
 import { COMPONENTS } from './config/components';
+import { ROW_SELECTION } from './config/row-selection.config';
 @Component({
   selector: 'gq-reference-pricing-table',
   templateUrl: './reference-pricing-table.component.html',
@@ -29,7 +32,9 @@ export class ReferencePricingTableComponent implements OnInit {
   columnDefs = this.columnDefService.COLUMN_DEFS;
   defaultColDef = this.columnDefService.DEFAULT_COL_DEF;
   autoGroupColumnDef = this.columnDefService.ROW_GROUP_CONFIG;
+  rowSelection = ROW_SELECTION;
   components = COMPONENTS;
+  griApi: GridApi;
   gridOptions: GridOptions;
 
   comparableMaterialsByMaterialDescription: Map<
@@ -72,14 +77,14 @@ export class ReferencePricingTableComponent implements OnInit {
     event.api.sizeColumnsToFit();
     const state = this.agGridStateService.getColumnStateForCurrentView();
     if (state) {
-      event.columnApi.applyColumnState({ state, applyOrder: true });
+      event.api.applyColumnState({ state, applyOrder: true });
     }
-    this.gridOptions.api = event.api;
-    this.gridOptions.api.setRowData(this.visibleRowData);
+    this.griApi = event.api;
+    event.api.updateGridOptions({ rowData: this.visibleRowData });
   }
 
-  onColumnChange(event: SortChangedEvent): void {
-    const columnState: ColumnState[] = event.columnApi.getColumnState();
+  onColumnChange(event: SortChangedEvent | ColumnEvent): void {
+    const columnState: ColumnState[] = event.api.getColumnState();
     this.agGridStateService.setColumnStateForCurrentView(columnState);
   }
 
@@ -163,7 +168,7 @@ export class ReferencePricingTableComponent implements OnInit {
 
     this.visibleRowData.push(...rowsToAdd);
     this.setRowsOfMaterialsToDisplay(material, sliceEnd);
-    this.gridOptions.api?.setRowData(this.visibleRowData);
+    this.griApi?.updateGridOptions({ rowData: this.visibleRowData });
   }
 
   private setRowsOfMaterialsToDisplay(

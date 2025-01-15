@@ -38,7 +38,6 @@
       [suppressRowHoverHighlight]="true"
       [tooltipShowDelay]="500"
       (gridReady)="onGridReady($event)"
-      [columnDefs]="columnDefs"
       (cellEditingStopped)="addEmptyRow()"
       (rowDataUpdated)="addEmptyRow()"
       [processDataFromClipboard]="onClipboard.bind(this)"

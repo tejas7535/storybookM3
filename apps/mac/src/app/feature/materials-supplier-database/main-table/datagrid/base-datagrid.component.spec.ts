@@ -11,12 +11,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import {
-  ColumnApi,
-  ColumnState,
-  GridApi,
-  RowClassParams,
-} from 'ag-grid-community';
+import { ColumnState, GridApi, RowClassParams } from 'ag-grid-community';
 import { MockDirective, MockPipe, MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -146,9 +141,9 @@ describe('MockMaterialDatagridComponent', () => {
 
     it('should subscribe to the columnDefinitions', () => {
       component['getColumnDefs'] = jest.fn();
-      component['agGridColumnApi'] = {
+      component['agGridApi'] = {
         applyColumnState: jest.fn(),
-      } as unknown as ColumnApi;
+      } as unknown as GridApi;
 
       jest.useFakeTimers();
 
@@ -162,9 +157,7 @@ describe('MockMaterialDatagridComponent', () => {
       jest.advanceTimersByTime(1000);
 
       expect(component['getColumnDefs']).toHaveBeenCalled();
-      expect(
-        component['agGridColumnApi'].applyColumnState
-      ).toHaveBeenCalledWith({
+      expect(component['agGridApi'].applyColumnState).toHaveBeenCalledWith({
         state: [{ colId: 'locked', hide: false }, { colId: 'plain' }],
         applyOrder: true,
       });
@@ -186,49 +179,43 @@ describe('MockMaterialDatagridComponent', () => {
   });
 
   describe('onGridReady', () => {
-    const mockApi = {} as unknown as GridApi;
-    const mockColumnApi = {
+    const mockApi = {
       applyColumnState: jest.fn(),
-    } as unknown as ColumnApi;
+    } as unknown as GridApi;
     beforeEach(() => {
       component['agGridApi'] = undefined;
-      component['agGridColumnApi'] = undefined;
       component['agGridReadyService'].agGridApiready = jest.fn();
     });
     it('should dispatch agGridReadyEvent', () => {
       component['restoredColumnState'] = undefined;
       component.onGridReady({
         api: mockApi,
-        columnApi: mockColumnApi,
       });
 
       expect(component['agGridApi']).toEqual(mockApi);
-      expect(component['agGridColumnApi']).toEqual(mockColumnApi);
       expect(
         component['agGridReadyService'].agGridApiready
-      ).toHaveBeenCalledWith(mockApi, mockColumnApi);
-      expect(mockColumnApi.applyColumnState).not.toHaveBeenCalled();
+      ).toHaveBeenCalledWith(mockApi);
+      expect(mockApi.applyColumnState).not.toHaveBeenCalled();
     });
     it('should dispatch agGridReadyEvent and apply columnState', () => {
       component['restoredColumnState'] = [{ a: '1' } as unknown as ColumnState];
       component.onGridReady({
         api: mockApi,
-        columnApi: mockColumnApi,
       });
 
       expect(component['agGridApi']).toEqual(mockApi);
-      expect(component['agGridColumnApi']).toEqual(mockColumnApi);
       expect(
         component['agGridReadyService'].agGridApiready
-      ).toHaveBeenCalledWith(mockApi, mockColumnApi);
-      expect(mockColumnApi.applyColumnState).toHaveBeenCalled();
+      ).toHaveBeenCalledWith(mockApi);
+      expect(mockApi.applyColumnState).toHaveBeenCalled();
     });
   });
 
   describe('onColumnChange', () => {
     it('should set the column state', () => {
       const expected = [{ id: 'sth' } as unknown as ColumnState];
-      const mockColumnApi = {
+      const mockApi = {
         getColumnState: jest.fn((): ColumnState[] => [
           ...expected,
           { colId: ACTION } as unknown as ColumnState,
@@ -237,7 +224,7 @@ describe('MockMaterialDatagridComponent', () => {
       component['agGridStateService'].setColumnState = jest.fn();
 
       component.onColumnChange({
-        columnApi: mockColumnApi as unknown as ColumnApi,
+        gridApi: mockApi as unknown as GridApi,
       });
 
       expect(

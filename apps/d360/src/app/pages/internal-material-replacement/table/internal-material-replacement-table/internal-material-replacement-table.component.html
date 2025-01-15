@@ -4,12 +4,11 @@
     #internalMaterialReplacementGrid
     class="ag-theme-material grow"
     [gridOptions]="gridOptions"
-    [columnDefs]="columnDefs"
     [tooltipShowDelay]="0"
     [getRowId]="getRowId"
     [context]="context"
     rowModelType="serverSide"
-    [noRowsOverlayComponent]="NoDataOverlayComponent"
+    [noRowsOverlayComponent]="noDataOverlayComponent"
     (gridReady)="onGridReady($event)"
     [localeText]="agGridLocalizationService.lang()"
     (firstDataRendered)="onFirstDataRendered($event)"

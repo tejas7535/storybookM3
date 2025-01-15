@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { QuotationStatus } from '@gq/shared/models';
 import { getTagTypeByStatus, TagType } from '@gq/shared/utils/misc.utils';
-import { ICellRendererParams } from 'ag-grid-community';
+import { ICellRendererParams } from 'ag-grid-enterprise';
 
 @Component({
   selector: 'gq-quotation-status-cell',

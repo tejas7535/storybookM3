@@ -4,6 +4,6 @@ export const DEFAULT_COLUMN_DEFINITION: ColDef = {
   sortable: true,
   filter: false,
   resizable: true,
-  suppressMenu: true,
+  suppressHeaderMenuButton: true,
   cellClass: 'line-height-30',
 };

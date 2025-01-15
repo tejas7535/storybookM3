@@ -7,7 +7,7 @@ import { ConfirmationModalComponent } from '@gq/shared/components/modal/confirma
 import { ConfirmationModalData } from '@gq/shared/components/modal/confirmation-modal/models/confirmation-modal-data.model';
 import { translate } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
-import { GridApi } from 'ag-grid-community';
+import { GridApi } from 'ag-grid-enterprise';
 
 import { isCaseViewParams } from '../../../models/is-case-view-params.model';
 

@@ -1,8 +1,7 @@
-import { Column, ColumnApi, GridApi } from 'ag-grid-community';
+import { Column, GridApi } from 'ag-grid-enterprise';
 
 export function gridParseFromClipboard(
   gridApi: GridApi,
-  columnApi: ColumnApi,
   data: string[][],
   parseSpecialFields?: (fieldName: string, cellDataToAdd: string) => string
 ): any {
@@ -48,8 +47,7 @@ export function gridParseFromClipboard(
 
       currentEditingRowData[fieldName] = dataToAdd.trim();
 
-      currentEditingColumn =
-        columnApi.getDisplayedColAfter(currentEditingColumn);
+      currentEditingColumn = gridApi.getDisplayedColAfter(currentEditingColumn);
     });
 
     currentEditingRowIndex = currentEditingRowIndex + 1;

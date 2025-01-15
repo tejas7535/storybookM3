@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { getSimulationModeEnabled } from '@gq/core/store/active-case/active-case.selectors';
 import { Store } from '@ngrx/store';
-import { IStatusPanelParams } from 'ag-grid-community';
+import { IStatusPanelParams } from 'ag-grid-enterprise';
 
 import { calculateFilteredRows } from '../statusbar.utils';
 

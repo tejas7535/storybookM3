@@ -20,8 +20,7 @@ import {
 
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { IFloatingFilterAngularComp } from 'ag-grid-angular';
-import { FilterChangedEvent } from 'ag-grid-community';
-import { IFloatingFilterParams } from 'ag-grid-enterprise';
+import { FilterChangedEvent, IFloatingFilterParams } from 'ag-grid-enterprise';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({

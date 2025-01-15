@@ -16,7 +16,7 @@ import {
 } from '@gq/shared/models/quotation-detail';
 import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
 import { TranslocoService } from '@jsverse/transloco';
-import { FilterChangedEvent, IRowNode } from 'ag-grid-community';
+import { FilterChangedEvent, IRowNode } from 'ag-grid-enterprise';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 

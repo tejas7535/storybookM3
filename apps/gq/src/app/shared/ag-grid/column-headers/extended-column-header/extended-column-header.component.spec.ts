@@ -63,11 +63,9 @@ describe('ExtendedColumnHeaderComponent', () => {
       addEventListener: jest.fn(),
       getSelectedRows: jest.fn().mockReturnValue([]),
     } as any,
-    columnApi: {} as any,
     eGridHeader: {} as any,
-    showColumnMenu: jest.fn(),
-    setSort: jest.fn(),
-    progressSort: jest.fn(),
+    showColumnMenu: (_source) => {},
+    setSort: (__sortDirection, _mutliSort) => {},
     tooltipText: '',
     editableColumn: true,
   } as ExtendedColumnHeaderComponentParams;
@@ -229,6 +227,7 @@ describe('ExtendedColumnHeaderComponent', () => {
   describe('onMenuClicked', () => {
     it('should call the showColumnMenu function', () => {
       component.menuButton = { nativeElement: {} } as any;
+      component.params.showColumnMenu = jest.fn();
       component.onMenuClicked({
         stopPropagation: jest.fn(),
         preventDefault: jest.fn(),
@@ -241,6 +240,10 @@ describe('ExtendedColumnHeaderComponent', () => {
   });
 
   describe('onSortRequested', () => {
+    beforeEach(() => {
+      component.params.setSort = jest.fn();
+    });
+
     it('should call setSort with undefined if it was desc', () => {
       component.sort = 'desc';
       spectator.detectChanges();

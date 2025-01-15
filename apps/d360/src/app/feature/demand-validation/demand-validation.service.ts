@@ -8,7 +8,7 @@ import { translate } from '@jsverse/transloco';
 import {
   IServerSideDatasource,
   IServerSideGetRowsParams,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 import { format, formatISO } from 'date-fns';
 
 import { AUTO_CONFIGURE_APPLICATION_JSON_HEADER } from '../../shared/interceptors/headers.interceptor';

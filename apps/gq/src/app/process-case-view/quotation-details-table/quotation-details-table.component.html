@@ -7,7 +7,7 @@
   [columnDefs]="columnDefs$ | ngrxPush"
   [components]="components"
   [statusBar]="statusBar"
-  rowSelection="multiple"
+  [rowSelection]="rowSelection"
   (firstDataRendered)="onFirstDataRendered($event)"
   (columnMoved)="onColumnChange($event)"
   (sortChanged)="onColumnChange($event)"
@@ -24,11 +24,10 @@
   [valueCache]="true"
   [animateRows]="true"
   [localeText]="localeText$ | ngrxPush"
-  [rowMultiSelectWithClick]="true"
   [getMainMenuItems]="getMainMenuItems"
   [getContextMenuItems]="getContextMenuItems"
   (rowDoubleClicked)="onRowDoubleClicked($event)"
   [suppressScrollOnNewData]="true"
-  [suppressRowClickSelection]="true"
+  [selectionColumnDef]="selectionColumnDef"
 >
 </ag-grid-angular>

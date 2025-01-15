@@ -10,10 +10,11 @@ import {
   ColumnMovedEvent,
   ColumnPinnedEvent,
   FirstDataRenderedEvent,
+  GridApi,
   GridReadyEvent,
   RowClickedEvent,
-} from 'ag-grid-community';
-import { ColumnApi, GridApi, RowNode } from 'ag-grid-enterprise';
+  RowNode,
+} from 'ag-grid-enterprise';
 import { MockModule } from 'ng-mocks';
 
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
@@ -80,10 +81,10 @@ describe('BomTableComponent', () => {
   });
 
   describe('ngOnChanges', () => {
-    it('should showLoadingOverlay if grid loaded and isLoading active', () => {
+    it('should show loading overlay if grid loaded and isLoading active', () => {
       jest.spyOn(window, 'setTimeout');
       component['gridApi'] = {
-        showLoadingOverlay: jest.fn(),
+        setGridOption: jest.fn(),
       } as unknown as GridApi;
 
       component.ngOnChanges({
@@ -98,7 +99,7 @@ describe('BomTableComponent', () => {
 
     it('should hide loading spinner and show NoRowsOverlay when loading is done', () => {
       component['gridApi'] = {
-        showLoadingOverlay: jest.fn(),
+        setGridOption: jest.fn(),
         showNoRowsOverlay: jest.fn(),
       } as unknown as GridApi;
 
@@ -108,7 +109,7 @@ describe('BomTableComponent', () => {
         } as unknown as SimpleChange,
       });
 
-      expect(component['gridApi'].showLoadingOverlay).not.toHaveBeenCalled();
+      expect(component['gridApi'].setGridOption).not.toHaveBeenCalled();
       expect(component['gridApi'].showNoRowsOverlay).toHaveBeenCalled();
     });
   });
@@ -121,23 +122,18 @@ describe('BomTableComponent', () => {
     });
 
     it('should set api and event listener', () => {
-      const mockedGridReadyEvent: GridReadyEvent = {
+      const mockedGridReadyEvent = {
         api: {
           addEventListener: jest.fn(),
-          showLoadingOverlay: jest.fn(),
+          setGridOption: jest.fn(),
         } as unknown as GridApi,
-        columnApi: {} as unknown as ColumnApi,
-        type: '',
         context: {},
-      };
+      } as GridReadyEvent;
       component.isLoading = true;
 
       component.onGridReady(mockedGridReadyEvent);
 
       expect(component['gridApi']).toEqual(mockedGridReadyEvent.api);
-      expect(component['gridColumnApi']).toEqual(
-        mockedGridReadyEvent.columnApi
-      );
       expect(mockedGridReadyEvent.api.addEventListener).toHaveBeenCalled();
     });
 
@@ -161,14 +157,14 @@ describe('BomTableComponent', () => {
   describe('onFirstDataRendered', () => {
     it('should call autoSizeAllColumns', () => {
       const params = {
-        columnApi: {
+        api: {
           autoSizeAllColumns: jest.fn(),
         },
       } as unknown as FirstDataRenderedEvent;
 
       component.onFirstDataRendered(params);
 
-      expect(params.columnApi.autoSizeAllColumns).toHaveBeenCalledWith(true);
+      expect(params.api.autoSizeAllColumns).toHaveBeenCalledWith(true);
     });
   });
 
@@ -184,19 +180,16 @@ describe('BomTableComponent', () => {
 
   describe('onRowGroupOpened', () => {
     it('should call autosize and redraw', () => {
-      component['gridColumnApi'] = {
-        autoSizeColumn: jest.fn(),
-      } as unknown as ColumnApi;
-
       component['gridApi'] = {
         redrawRows: jest.fn(),
+        autoSizeColumns: jest.fn(),
       } as unknown as GridApi;
 
       component.onRowGroupOpened();
 
-      expect(component['gridColumnApi'].autoSizeColumn).toHaveBeenCalledWith(
-        'ag-Grid-AutoColumn'
-      );
+      expect(component['gridApi'].autoSizeColumns).toHaveBeenCalledWith([
+        'ag-Grid-AutoColumn',
+      ]);
       expect(component['gridApi'].redrawRows).toHaveBeenCalledTimes(1);
     });
   });
@@ -343,12 +336,12 @@ describe('BomTableComponent', () => {
     ];
     const columnKey = 'customColumnsOrder';
     const mockedColumnMovedEvt = {
-      columnApi: {
+      api: {
         getColumnState: jest.fn().mockReturnValue(columnsState),
       },
     } as unknown as ColumnMovedEvent;
     const mockedColumnPinnedEvt = {
-      columnApi: {
+      api: {
         getColumnState: jest.fn().mockReturnValue(columnsState),
       },
     } as unknown as ColumnPinnedEvent;

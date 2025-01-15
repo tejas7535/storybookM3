@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PricingAssistantModalComponent } from '@gq/f-pricing/pricing-assistant-modal/pricing-assistant-modal.component';
 import { QuotationDetail, SAP_SYNC_STATUS } from '@gq/shared/models';
 import { isFNumber } from '@gq/shared/utils/f-pricing.utils';
-import { CellClassParams } from 'ag-grid-community';
+import { CellClassParams } from 'ag-grid-enterprise';
 
 @Component({
   selector: 'gq-pricing-assistant-action-cell',

@@ -9,7 +9,7 @@ import {
 } from '@gq/core/store/selectors/create-case/create-case.selector';
 import { MaterialTableItem } from '@gq/shared/models/table';
 import { Store } from '@ngrx/store';
-import { HeaderClassParams } from 'ag-grid-community';
+import { HeaderClassParams } from 'ag-grid-enterprise';
 
 @Component({
   selector: 'gq-create-case-action-header',

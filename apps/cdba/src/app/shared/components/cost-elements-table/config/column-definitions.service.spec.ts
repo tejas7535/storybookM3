@@ -3,7 +3,7 @@ import {
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
-import { ValueFormatterParams } from 'ag-grid-community';
+import { ValueFormatterParams } from 'ag-grid-enterprise';
 
 import { ColumnUtilsService } from '@cdba/shared/components/table';
 import { ValueFormatterFunction } from '@cdba/testing/types';

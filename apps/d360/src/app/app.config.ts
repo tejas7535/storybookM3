@@ -14,6 +14,7 @@ import {
   ApplicationConfig,
   importProvidersFrom,
   isDevMode,
+  provideZoneChangeDetection,
 } from '@angular/core';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
@@ -149,5 +150,9 @@ export const appConfig: ApplicationConfig = {
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
     importProvidersFrom(MatMomentDateModule),
     provideAnimations(),
+    provideZoneChangeDetection({
+      eventCoalescing: true,
+      runCoalescing: true,
+    }),
   ],
 };

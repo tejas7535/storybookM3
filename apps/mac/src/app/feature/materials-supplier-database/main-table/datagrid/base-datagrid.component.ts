@@ -6,7 +6,6 @@ import { takeUntil } from 'rxjs/operators';
 import { translate } from '@jsverse/transloco';
 import {
   ColDef,
-  ColumnApi,
   ColumnState,
   GridApi,
   RowClassParams,
@@ -52,7 +51,6 @@ export abstract class BaseDatagridComponent implements OnInit, OnDestroy {
   public sidebar: SideBarDef = SIDE_BAR_CONFIG;
 
   protected agGridApi!: GridApi;
-  protected agGridColumnApi!: ColumnApi;
 
   protected restoredColumnState: ColumnState[];
 
@@ -97,9 +95,9 @@ export abstract class BaseDatagridComponent implements OnInit, OnDestroy {
 
         this.defaultColumnDefs = defaultColumnDefinitions;
         this.columnDefs = this.getColumnDefs();
-        if (this.agGridColumnApi) {
+        if (this.agGridApi) {
           setTimeout(() =>
-            this.agGridColumnApi.applyColumnState({
+            this.agGridApi.applyColumnState({
               state: this.restoredColumnState,
               applyOrder: true,
             })
@@ -114,33 +112,23 @@ export abstract class BaseDatagridComponent implements OnInit, OnDestroy {
   }
 
   // AgGrid Events
-  public onGridReady({
-    api,
-    columnApi,
-  }: {
-    api: GridApi;
-    columnApi: ColumnApi;
-  }): void {
+  public onGridReady({ api }: { api: GridApi }): void {
     this.agGridApi = api;
-    this.agGridColumnApi = columnApi;
 
-    this.agGridReadyService.agGridApiready(
-      this.agGridApi,
-      this.agGridColumnApi
-    );
+    this.agGridReadyService.agGridApiready(this.agGridApi);
 
     if (this.restoredColumnState) {
-      columnApi.applyColumnState({
+      api.applyColumnState({
         state: this.restoredColumnState,
         applyOrder: true,
       });
     }
   }
 
-  public onColumnChange({ columnApi }: { columnApi: ColumnApi }): void {
-    const agGridColumns = columnApi
+  public onColumnChange({ gridApi }: { gridApi: GridApi }): void {
+    const agGridColumns = gridApi
       .getColumnState()
-      .filter((cs) => !this.META_COLUMNS.includes(cs.colId));
+      .filter((cs: ColDef) => !this.META_COLUMNS.includes(cs.colId));
     this.agGridStateService.setColumnState(agGridColumns);
     this.dataFacade.setAgGridColumns(JSON.stringify(agGridColumns));
   }

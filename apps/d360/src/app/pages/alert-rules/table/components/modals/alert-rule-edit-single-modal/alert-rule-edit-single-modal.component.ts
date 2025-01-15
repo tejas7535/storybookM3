@@ -31,7 +31,7 @@ import { combineLatest, map, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
-import { GridApi } from 'ag-grid-community';
+import { GridApi } from 'ag-grid-enterprise';
 import moment from 'moment';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';

@@ -7,11 +7,12 @@
     [rowData]="rowData"
     [columnDefs]="columnDefs"
     [defaultColDef]="defaultColumnDefs"
-    [enableRangeSelection]="true"
+    [cellSelection]="true"
     [components]="components"
     [statusBar]="statusBar"
     [localeText]="localeText$ | ngrxPush"
     [suppressScrollOnNewData]="true"
     [attr.data-cy]="'material-input-table'"
+    columnMenu="legacy"
   ></ag-grid-angular>
 </div>

@@ -1,4 +1,4 @@
-import { ExcelStyle } from 'ag-grid-community';
+import { ExcelStyle } from 'ag-grid-enterprise';
 
 export const createIndentExcelStyles = (): any => {
   const result = [];

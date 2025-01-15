@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, NgModule } from '@angular/core';
 
 import { IStatusPanelAngularComp } from 'ag-grid-angular';
-import { IStatusPanelParams } from 'ag-grid-community/dist/lib/interfaces/iStatusPanel';
+import { IStatusPanelParams } from 'ag-grid-community';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 

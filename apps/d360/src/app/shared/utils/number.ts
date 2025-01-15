@@ -1,4 +1,4 @@
-import { ValueFormatterParams } from 'ag-grid-community';
+import { ValueFormatterParams } from 'ag-grid-enterprise';
 
 import { AgGridLocalizationService } from '../services/ag-grid-localization.service';
 import {

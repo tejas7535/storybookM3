@@ -6,11 +6,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import {
-  ColumnApi,
-  GridApi,
-  IServerSideGetRowsParams,
-} from 'ag-grid-community';
+import { GridApi, IServerSideGetRowsParams } from 'ag-grid-community';
 import { MockDirective, MockPipe, MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -111,12 +107,16 @@ describe('RawMaterialDatagridComponent', () => {
   describe('onGridReady', () => {
     it('should set params for cell renderer', () => {
       const gridApi = {
-        setServerSideDatasource: jest.fn(),
+        updateGridOptions: jest.fn(),
       } as unknown as GridApi;
-      const columnApi = {} as ColumnApi;
-      component.onGridReady({ api: gridApi, columnApi });
+      component.onGridReady({ api: gridApi });
 
-      expect(gridApi.setServerSideDatasource).toHaveBeenCalled();
+      expect(gridApi.updateGridOptions).toHaveBeenCalledWith({
+        serverSideDatasource: {
+          getRows: expect.any(Function),
+          destroy: expect.any(Function),
+        },
+      });
     });
   });
 

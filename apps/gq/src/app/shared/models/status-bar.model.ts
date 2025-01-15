@@ -1,4 +1,4 @@
-import { IStatusPanelParams } from 'ag-grid-community';
+import { IStatusPanelParams } from 'ag-grid-enterprise';
 
 import { ButtonType } from '../ag-grid/custom-status-bar/update-case-status-button/button-type.enum';
 import { QuotationStatus } from './quotation';

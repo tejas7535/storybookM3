@@ -24,7 +24,7 @@ import {
   GridOptions,
   GridReadyEvent,
   ICellRendererParams,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 
 import { AlertRulesService } from '../../../../../feature/alert-rules/alert-rules.service';
 import {
@@ -85,8 +85,6 @@ export class AlertRuleTableComponent implements OnInit {
     sideBar,
     getRowId: (params: GetRowIdParams<AlertRule>): string => params.data.id,
   };
-  protected rowData: AlertRule[];
-  protected columnDefs: ColDef[];
 
   /**
    * The edit modal is used in the parent and in the table, so we pass it from the parent
@@ -130,7 +128,6 @@ export class AlertRuleTableComponent implements OnInit {
   );
 
   public ngOnInit(): void {
-    this.createColumnDefs();
     this.setAlertRuleData();
   }
 
@@ -205,16 +202,15 @@ export class AlertRuleTableComponent implements OnInit {
   protected onGridReady(event: GridReadyEvent): void {
     this.gridApi = event.api;
     this.getApi.emit(event.api);
+
+    this.createColumnDefs();
   }
 
   private setAlertRuleData() {
     this.loadData$()()
       .pipe(
-        tap((data) => {
-          this.rowData = data?.content;
-          // TODO: use grid api when ag-grid is updated to v31
-          // this.grid.api.setGridOption('rowData', data?.content);
-        })
+        tap((data) => this.gridApi?.setGridOption('rowData', data?.content)),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }
@@ -231,7 +227,7 @@ export class AlertRuleTableComponent implements OnInit {
               false
             );
 
-          this.columnDefs = [
+          this.gridApi?.setGridOption('columnDefs', [
             ...(columnSettings.map((col) => ({
               ...getDefaultColDef(col.filter, col.filterParams),
               key: col.colId,
@@ -260,13 +256,11 @@ export class AlertRuleTableComponent implements OnInit {
               lockVisible: true,
               pinned: 'right',
               lockPinned: true,
-              suppressMenu: true,
+              suppressHeaderMenuButton: true,
               maxWidth: 64,
               suppressSizeToFit: true,
             },
-          ] as ColDef[];
-          // TODO: use grid api when ag-grid is updated to v31
-          // this.grid.api.setGridOption('columnDefs', columnDefs);
+          ] as ColDef[]);
         }),
         takeUntilDestroyed(this.destroyRef)
       )

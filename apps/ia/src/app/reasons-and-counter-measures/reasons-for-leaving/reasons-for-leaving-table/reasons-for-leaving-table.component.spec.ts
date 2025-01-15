@@ -2,7 +2,6 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { AgGridModule } from 'ag-grid-angular';
 import {
   CellClickedEvent,
-  ColumnApi,
   GridApi,
   GridReadyEvent,
   ValueGetterParams,
@@ -370,14 +369,14 @@ describe('ReasonsForLeavingTableComponent', () => {
         { detailedReasonId: 12 },
         { detailedReasonId: undefined },
       ] as ReasonForLeavingRank[];
-      component.columnApi = {
-        setColumnVisible: jest.fn(),
-      } as unknown as ColumnApi;
+      component.gridApi = {
+        setColumnsVisible: jest.fn(),
+      } as unknown as GridApi;
 
       component.showOrHideAnswersColumn();
 
-      expect(component.columnApi.setColumnVisible).toHaveBeenCalledWith(
-        'answers',
+      expect(component.gridApi.setColumnsVisible).toHaveBeenCalledWith(
+        ['answers'],
         true
       );
     });
@@ -387,14 +386,14 @@ describe('ReasonsForLeavingTableComponent', () => {
         { detailedReasonId: undefined },
         { detailedReasonId: undefined },
       ] as ReasonForLeavingRank[];
-      component.columnApi = {
-        setColumnVisible: jest.fn(),
-      } as unknown as ColumnApi;
+      component.gridApi = {
+        setColumnsVisible: jest.fn(),
+      } as unknown as GridApi;
 
       component.showOrHideAnswersColumn();
 
-      expect(component.columnApi.setColumnVisible).toHaveBeenCalledWith(
-        'answers',
+      expect(component.gridApi.setColumnsVisible).toHaveBeenCalledWith(
+        ['answers'],
         false
       );
     });

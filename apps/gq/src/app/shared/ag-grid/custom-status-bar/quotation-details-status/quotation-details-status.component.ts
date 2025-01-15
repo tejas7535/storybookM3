@@ -12,7 +12,7 @@ import { userHasGPCRole, userHasSQVRole } from '@gq/core/store/selectors';
 import { StatusBarModalComponent } from '@gq/shared/components/modal/status-bar-modal/status-bar-modal.component';
 import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { Store } from '@ngrx/store';
-import { IRowNode, IStatusPanelParams } from 'ag-grid-community';
+import { IRowNode, IStatusPanelParams } from 'ag-grid-enterprise';
 
 import { SimulatedQuotation, StatusBar } from '../../../models';
 import { QuotationDetail } from '../../../models/quotation-detail';

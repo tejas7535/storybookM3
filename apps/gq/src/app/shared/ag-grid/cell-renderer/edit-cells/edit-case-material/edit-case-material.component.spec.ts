@@ -16,7 +16,7 @@ import {
   SpyObject,
 } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
-import { ICellRendererParams } from 'ag-grid-community';
+import { ICellRendererParams } from 'ag-grid-enterprise';
 import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';

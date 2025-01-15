@@ -8,7 +8,7 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { CellClassParams } from 'ag-grid-community';
+import { CellClassParams } from 'ag-grid-enterprise';
 
 import { ValidationDescription } from '../../../models/table';
 import { ColumnUtilityService } from '../../services';

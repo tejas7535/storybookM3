@@ -7,7 +7,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import { ColumnApi, GridApi } from 'ag-grid-community';
+import { GridApi } from 'ag-grid-community';
 import { MockDirective, MockPipe, MockProvider } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -40,7 +40,6 @@ describe('VitescoMaterialControlPanelComponent', () => {
   const gridApiMock = {
     refreshServerSide: jest.fn(),
   } as unknown as GridApi;
-  const columnApiMock = {} as unknown as ColumnApi;
   const navigationMock = new Subject();
 
   const createComponent = createComponentFactory({
@@ -67,7 +66,7 @@ describe('VitescoMaterialControlPanelComponent', () => {
       MockProvider(
         MsdAgGridReadyService,
         {
-          agGridApi$: of({ gridApi: gridApiMock, columnApi: columnApiMock }),
+          agGridApi$: of({ gridApi: gridApiMock }),
         },
         'useValue'
       ),

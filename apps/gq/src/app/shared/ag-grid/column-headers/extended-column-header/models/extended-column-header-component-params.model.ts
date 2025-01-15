@@ -1,5 +1,5 @@
 import { UserRoles } from '@gq/shared/constants';
-import { IHeaderParams } from 'ag-grid-community';
+import { IHeaderParams } from 'ag-grid-enterprise';
 
 export type ExtendedColumnHeaderComponentParams = IHeaderParams & {
   tooltipText: string;

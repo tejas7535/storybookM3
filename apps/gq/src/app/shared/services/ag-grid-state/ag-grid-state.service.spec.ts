@@ -5,7 +5,7 @@ import {
   GridState,
 } from '@gq/shared/models/grid-state.model';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { ColumnState } from 'ag-grid-community';
+import { ColumnState } from 'ag-grid-enterprise';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { ViewToggle } from '@schaeffler/view-toggle';

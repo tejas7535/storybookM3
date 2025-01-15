@@ -16,14 +16,13 @@ export class ColumnDefinitionService {
   public getColDef(minified: boolean): ColDef[] {
     const columnDefinitionsDefault: ColDef[] = [
       {
-        checkboxSelection: true,
         sortable: false,
         filter: false,
         resizable: false,
         enablePivot: false,
         enableRowGroup: false,
         filterParams: false,
-        suppressMenu: true,
+        suppressHeaderMenuButton: true,
         suppressColumnsToolPanel: true,
         suppressMovable: true,
         width: minified ? 0 : 70,
@@ -121,7 +120,7 @@ export class ColumnDefinitionService {
       pinned: 'left',
       suppressColumnsToolPanel: true,
       suppressMovable: true,
-      suppressMenu: true,
+      suppressHeaderMenuButton: true,
       lockPosition: true,
       lockVisible: true,
     };

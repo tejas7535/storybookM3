@@ -12,7 +12,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import { ColumnApi, GridApi } from 'ag-grid-community';
+import { GridApi } from 'ag-grid-community';
 import { MockDirective, MockPipe, MockProvider } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -67,7 +67,6 @@ describe('MockControlPanelComponent', () => {
     setFilterModel: jest.fn(),
     onFilterChanged: jest.fn(),
   } as unknown as GridApi;
-  const columnApiMock = {} as unknown as ColumnApi;
   const agGridFilterMock = new Subject();
 
   const createComponent = createComponentFactory({
@@ -83,7 +82,7 @@ describe('MockControlPanelComponent', () => {
       MockProvider(
         MsdAgGridReadyService,
         {
-          agGridApi$: of({ gridApi: gridApiMock, columnApi: columnApiMock }),
+          agGridApi$: of({ gridApi: gridApiMock }),
         },
         'useValue'
       ),
@@ -106,7 +105,6 @@ describe('MockControlPanelComponent', () => {
   describe('ngOnInit', () => {
     it('should set agGridApi and agGridColumnApi', () => {
       expect(component['agGridApi']).toBe(gridApiMock);
-      expect(component['agGridColumnApi']).toBe(columnApiMock);
     });
 
     it('should set resetFormDisabled', () => {
@@ -142,7 +140,7 @@ describe('MockControlPanelComponent', () => {
 
   describe('getVisibleColumns', () => {
     it('should complete the observable', () => {
-      columnApiMock.getColumnState = jest.fn(() => [
+      gridApiMock.getColumnState = jest.fn(() => [
         { hide: false, colId: 'a' },
         { hide: true, colId: 'b' },
         { hide: false, colId: 'c' },
@@ -150,7 +148,7 @@ describe('MockControlPanelComponent', () => {
       const expected = ['a', 'c'];
       const result = component['getVisibleColumns']();
 
-      expect(columnApiMock.getColumnState).toHaveBeenCalled();
+      expect(gridApiMock.getColumnState).toHaveBeenCalled();
       expect(result).toStrictEqual(expected);
     });
   });

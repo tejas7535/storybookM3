@@ -8,7 +8,7 @@ import {
   ColGroupDef,
   ValueFormatterParams,
   ValueGetterParams,
-} from 'ag-grid-community';
+} from 'ag-grid-enterprise';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
