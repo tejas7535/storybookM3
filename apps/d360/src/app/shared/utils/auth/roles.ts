@@ -35,6 +35,12 @@ export const demandValidationChangeAllowedRoles: Role[] = [
   'superUser',
 ];
 
+export const customerMaterialPortfolioChangeAllowedRoles: Role[] = [
+  'salesUser',
+  'demandPlanning',
+  'superUser',
+];
+
 export const apPortfolioAllowedRoles: Role[] = [
   'salesManagement',
   'demandPlanning',

@@ -1,5 +1,5 @@
-<button mat-icon-button [matMenuTriggerFor]="menu">
-  <mat-icon class="text-icon-link">more_vert</mat-icon>
+<button mat-icon-button [matMenuTriggerFor]="menu" [disabled]="isDisabled()">
+  <mat-icon [class.text-icon-link]="!isDisabled()">more_vert</mat-icon>
 </button>
 <mat-menu #menu="matMenu" class="action-menu">
   @for (item of value; track item) {

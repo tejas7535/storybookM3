@@ -1,4 +1,5 @@
-import { inject, Injectable } from '@angular/core';
+import { DestroyRef, inject, Injectable } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Observable, of, switchMap } from 'rxjs';
 
@@ -8,15 +9,16 @@ import { getRoles } from '@schaeffler/azure-auth';
 
 import { checkRoles, Role } from './roles';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly store = inject(Store);
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   public hasUserAccess(allowedRoles: Role[]): Observable<boolean> {
-    return this.store
-      .pipe(getRoles)
-      .pipe(switchMap((userRoles) => of(checkRoles(userRoles, allowedRoles))));
+    return this.store.pipe(
+      getRoles,
+      switchMap((userRoles) => of(checkRoles(userRoles, allowedRoles))),
+      takeUntilDestroyed(this.destroyRef)
+    );
   }
 }

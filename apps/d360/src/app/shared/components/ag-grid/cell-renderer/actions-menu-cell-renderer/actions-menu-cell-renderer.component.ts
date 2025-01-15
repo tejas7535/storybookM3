@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatDivider } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
@@ -43,12 +48,24 @@ export interface MenuItem {
   styleUrl: './actions-menu-cell-renderer.component.scss',
 })
 export class ActionsMenuCellRendererComponent<
-  T = any,
+  T = {
+    getMenu: () => MenuItem[];
+    isDisabled?: () => boolean;
+  },
 > extends AbstractBaseCellRendererComponent<T> {
   /**
    * @inheritdoc
    */
   public value: MenuItem[] = [];
+
+  /**
+   * Indicated, if the menu is enabled/disabled
+   *
+   * @protected
+   * @type {Signal<boolean>}
+   * @memberof ActionsMenuCellRendererComponent
+   */
+  protected isDisabled: WritableSignal<boolean> = signal(false);
 
   /**
    * @inheritdoc
@@ -57,6 +74,10 @@ export class ActionsMenuCellRendererComponent<
   protected setValue(): void {
     if (!!this.parameters?.context && 'getMenu' in this.parameters.context) {
       this.value = this.parameters.context['getMenu'](this.parameters) || [];
+    }
+
+    if (!!this.parameters?.context && 'isDisabled' in this.parameters.context) {
+      this.isDisabled.set(this.parameters.context.isDisabled());
     }
   }
 }

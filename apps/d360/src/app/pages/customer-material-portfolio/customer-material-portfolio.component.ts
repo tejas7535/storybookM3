@@ -2,13 +2,14 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  computed,
   DestroyRef,
   effect,
   inject,
   signal,
   WritableSignal,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,8 +18,10 @@ import { MatIcon } from '@angular/material/icon';
 import { catchError, EMPTY, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
+import { Store } from '@ngrx/store';
 import { parseISO } from 'date-fns';
 
+import { getBackendRoles } from '@schaeffler/azure-auth';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -52,6 +55,10 @@ import {
   OptionsLoadingResult,
   SelectableOptionsService,
 } from '../../shared/services/selectable-options.service';
+import {
+  checkRoles,
+  customerMaterialPortfolioChangeAllowedRoles,
+} from '../../shared/utils/auth/roles';
 import { CustomerMaterialMultiModalComponent } from './components/modals/customer-material-multi-modal/customer-material-multi-modal.component';
 import {
   CustomerMaterialSingleModalComponent,
@@ -100,6 +107,7 @@ export class CustomerMaterialPortfolioComponent {
   protected dialog: MatDialog = inject(MatDialog);
   protected readonly selectableOptionsService: SelectableOptionsService =
     inject(SelectableOptionsService);
+  private readonly store = inject(Store);
 
   // Signals for managing component state, which are automatically updated in the view
   protected globalSelectionState: WritableSignal<GlobalSelectionState> = signal(
@@ -137,6 +145,17 @@ export class CustomerMaterialPortfolioComponent {
   });
 
   protected readonly displayFnUnited = DisplayFunctions.displayFnUnited;
+
+  private readonly backendRoles = toSignal(this.store.select(getBackendRoles));
+
+  protected authorizedToChange = computed(() =>
+    this.backendRoles()
+      ? checkRoles(
+          this.backendRoles(),
+          customerMaterialPortfolioChangeAllowedRoles
+        )
+      : false
+  );
 
   /**
    *  Creates an instance of CustomerMaterialPortfolioComponent.

@@ -77,18 +77,13 @@
 
         <mat-divider [vertical]="true" />
 
-        <button
-          mat-button
-          color="primary"
-          (click)="handleDownloadButtonClicked()"
-        >
+        <button mat-button (click)="handleDownloadButtonClicked()">
           <mat-icon>download_2</mat-icon>
           {{ t('button.download') }}
         </button>
 
         <button
           mat-button
-          color="primary"
           [disabled]="!authorizedToChange() || disableUpload()"
           (click)="handleListModalClicked()"
         >
@@ -98,27 +93,30 @@
 
         <button
           mat-button
-          color="primary"
           [disabled]="!authorizedToChange() || disableUpload()"
           (click)="handleGridModalClicked()"
         >
           <mat-icon>grid_view</mat-icon>
           {{ t('validation_of_demand.action_bar.edit_as_grid') }}
         </button>
+
+        <button
+          mat-button
+          (click)="handleDeleteModalClicked()"
+          [disabled]="!authorizedToChange() || disableUpload()"
+        >
+          <mat-icon>delete</mat-icon>
+          {{ t('button.delete') }}
+        </button>
       </div>
 
       <div class="flex gap-3 flex-wrap">
-        <button mat-button (click)="handleDeleteModalClicked()">
-          <mat-icon class="icon-button-primary">delete</mat-icon>
-          {{ t('button.delete') }}
-        </button>
-
         <button
           mat-button
           (click)="handleOnDeleteUnsavedForecast()"
           [disabled]="isDisabledForecastEditing()"
         >
-          <mat-icon class="icon-button">history</mat-icon>
+          <mat-icon>history</mat-icon>
           {{ t('button.reset') }}
         </button>
 
@@ -127,7 +125,7 @@
           (click)="handleOnSaveForecast(true)"
           [disabled]="isDisabledForecastEditing()"
         >
-          <mat-icon class="icon-button">check</mat-icon>
+          <mat-icon>check</mat-icon>
           {{ t('button.validate') }}
         </button>
 
@@ -136,7 +134,7 @@
           (click)="handleOnSaveForecast(false)"
           [disabled]="isDisabledForecastEditing()"
         >
-          <mat-icon class="icon-button">save</mat-icon>
+          <mat-icon>save</mat-icon>
           {{ t('button.save') }}
         </button>
       </div>

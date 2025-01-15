@@ -1,19 +1,23 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  computed,
   effect,
+  inject,
   input,
   InputSignal,
   OnInit,
   signal,
   WritableSignal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   MatSlideToggle,
   MatSlideToggleChange,
 } from '@angular/material/slide-toggle';
 
 import { translate } from '@jsverse/transloco';
+import { Store } from '@ngrx/store';
 import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
@@ -29,6 +33,7 @@ import {
   IsServerSideGroupOpenByDefaultParams,
 } from 'ag-grid-enterprise';
 
+import { getBackendRoles } from '@schaeffler/azure-auth';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CMPService } from '../../../../../feature/customer-material-portfolio/cmp.service';
@@ -49,6 +54,10 @@ import { ActionsMenuCellRendererComponent } from '../../../../../shared/componen
 import { TableToolbarComponent } from '../../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
 import { GlobalSelectionState } from '../../../../../shared/components/global-selection-criteria/global-selection-state.service';
 import { AgGridLocalizationService } from '../../../../../shared/services/ag-grid-localization.service';
+import {
+  checkRoles,
+  customerMaterialPortfolioChangeAllowedRoles,
+} from '../../../../../shared/utils/auth/roles';
 import { CMPAction, CMPModal, statusActions } from '../status-actions';
 import { CMPColId, columnDefinitions } from './column-definitions';
 
@@ -69,6 +78,8 @@ export interface FilterModel {
   templateUrl: './customer-material-portfolio-table.component.html',
 })
 export class CustomerMaterialPortfolioTableComponent implements OnInit {
+  private readonly store = inject(Store);
+
   public selectedCustomer = input.required<CustomerEntry>();
   public globalSelection = input.required<GlobalSelectionState>();
   public filterModel = input.required<FilterModel>();
@@ -107,7 +118,19 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
     lockPinned: true,
   };
 
+  private readonly backendRoles = toSignal(this.store.select(getBackendRoles));
+
+  protected authorizedToChange = computed(() =>
+    this.backendRoles()
+      ? checkRoles(
+          this.backendRoles(),
+          customerMaterialPortfolioChangeAllowedRoles
+        )
+      : false
+  );
+
   protected context: Record<string, any> = {
+    isDisabled: () => !this.authorizedToChange(),
     getMenu: (params: ICellRendererParams<any, CMPEntry>) =>
       statusActions
         .filter((cmpAction: CMPAction) =>

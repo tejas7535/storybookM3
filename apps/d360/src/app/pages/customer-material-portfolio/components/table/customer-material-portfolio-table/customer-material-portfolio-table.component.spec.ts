@@ -5,6 +5,7 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
+import { Store } from '@ngrx/store';
 import { AgGridModule } from 'ag-grid-angular';
 
 import { CMPService } from '../../../../../feature/customer-material-portfolio/cmp.service';
@@ -28,6 +29,9 @@ describe('CustomerMaterialPortfolioTableComponent', () => {
       }),
       mockProvider(AgGridLocalizationService, {
         lang: jest.fn(),
+      }),
+      mockProvider(Store, {
+        select: jest.fn().mockReturnValue(of([])),
       }),
     ],
   });

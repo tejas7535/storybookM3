@@ -22,13 +22,21 @@
         <!-- Left Side -->
         <div d360HeaderActionBarButtons>
           <!-- Open Single Modal -->
-          <button mat-flat-button (click)="openSingleDialog(null, null, null)">
+          <button
+            mat-flat-button
+            (click)="openSingleDialog(null, null, null)"
+            [disabled]="!authorizedToChange()"
+          >
             <mat-icon>add</mat-icon>
             {{ t('customer_material_portfolio.button.addCustomerMaterial') }}
           </button>
 
           <!-- Open Multi Modal -->
-          <button mat-button (click)="handleMultiPhaseIn()">
+          <button
+            mat-button
+            (click)="handleMultiPhaseIn()"
+            [disabled]="!authorizedToChange()"
+          >
             <mat-icon>menu</mat-icon>
             {{
               t(

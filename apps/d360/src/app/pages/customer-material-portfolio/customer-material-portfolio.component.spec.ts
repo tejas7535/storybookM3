@@ -8,6 +8,7 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
+import { Store } from '@ngrx/store';
 
 import { GlobalSelectionHelperService } from '../../feature/global-selection/global-selection.service';
 import { CustomerMaterialPortfolioComponent } from './customer-material-portfolio.component';
@@ -21,6 +22,9 @@ describe('CustomerMaterialPortfolioComponent', () => {
       mockProvider(HttpClient, { get: () => of([]) }),
       mockProvider(GlobalSelectionHelperService, {
         getCustomersData: jest.fn().mockReturnValue(of([])),
+      }),
+      mockProvider(Store, {
+        select: jest.fn().mockReturnValue(of([])),
       }),
     ],
   });
