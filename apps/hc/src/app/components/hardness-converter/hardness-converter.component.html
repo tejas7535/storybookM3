@@ -27,14 +27,18 @@
                     [formControl]="inputTable"
                     (selectionChange)="trackSelectedConversion($event)"
                   >
-                    @for (
-                      table of tables$ | ngrxPush;
-                      track trackByFn($index, table)
-                    ) {
-                      <mat-option [value]="table"
-                        >{{ t('normLong.' + table) }}
-                      </mat-option>
-                    }
+                    <ng-container
+                      *ngrxLet="authService.isLoggedin() as isLoggedIn"
+                    >
+                      @for (
+                        table of tables$ | ngrxPush;
+                        track trackByFn($index, table)
+                      ) {
+                        <mat-option [value]="table"
+                          >{{ t('normLong.' + table, { isLoggedIn }) }}
+                        </mat-option>
+                      }
+                    </ng-container>
                   </mat-select>
                 </mat-form-field>
               </div>

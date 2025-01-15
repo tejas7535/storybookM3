@@ -17,10 +17,10 @@
     "ISO18265_B4": "ISO 18265 B.4",
     "ISO18265_C2": "ISO 18265 C.2",
     "ASTME140_1": "ASTM E140, 1",
-    "ISO18265_F1": "ISO 18265 F.1 — ASTM E140, 3",
-    "ISO18265_F2": "ISO 18265, F.2 — ASTM E140, 4",
-    "ISO18265_F4": "ISO 18265, F.4 — ASTM E140, 9",
-    "ISO18265_F5": "ISO 18265, F.5 — BS 860, 1",
+    "ISO18265_F1": "ISO 18265 F.1{ isLoggedIn, select, true { — ASTM E140, 3} other {}}",
+    "ISO18265_F2": "ISO 18265, F.2{ isLoggedIn, select, true { — ASTM E140, 4} other {}}",
+    "ISO18265_F4": "ISO 18265, F.4{ isLoggedIn, select, true { — ASTM E140, 9} other {}}",
+    "ISO18265_F5": "ISO 18265, F.5{ isLoggedIn, select, true { — BS 860, 1} other {}}",
     "SCHAEFFLER_OILTEMPEREDSPRINGSTEEL": "Schaeffler, Internal conversion"
   },
   "normLong": {
@@ -30,10 +30,10 @@
     "ISO18265_B4": "ISO 18265 B.4 (QT steel in quenched condition)",
     "ISO18265_C2": "ISO 18265 C.2 (cold working steel)",
     "ASTME140_1": "ASTM E140, 1 (non-austenitic steel)",
-    "ISO18265_F1": "ISO 18265 F.1 — ASTM E140, 3 (Nickel and high-Nickel alloy)",
-    "ISO18265_F2": "ISO 18265, F.2 — ASTM E140, 4 (cartridge brass, 70 % Cu, 30 % Zn)",
-    "ISO18265_F4": "ISO 18265, F.4 — ASTM E140, 9 (wrought Aluminium)",
-    "ISO18265_F5": "ISO 18265, F.5 — BS 860, 1 (Aluminium and Aluminium alloy)",
+    "ISO18265_F1": "ISO 18265 F.1{ isLoggedIn, select, true { — ASTM E140, 3} other {}} (Nickel and high-Nickel alloy)",
+    "ISO18265_F2": "ISO 18265, F.2{ isLoggedIn, select, true { — ASTM E140, 4} other {}} (cartridge brass, 70 % Cu, 30 % Zn)",
+    "ISO18265_F4": "ISO 18265, F.4{ isLoggedIn, select, true { — ASTM E140, 9} other {}} (wrought Aluminium)",
+    "ISO18265_F5": "ISO 18265, F.5{ isLoggedIn, select, true { — BS 860, 1} other {}} (Aluminium and Aluminium alloy)",
     "SCHAEFFLER_OILTEMPEREDSPRINGSTEEL": "Schaeffler, Internal conversion  (oil tempered spring steel)"
   },
   "unit": {
