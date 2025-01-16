@@ -11,7 +11,12 @@
             *transloco="let t; read: 'detailView.filterPricing'"
           >
             @if (isSelected) {
-              <button class="!mt-2 w-[200px]" mat-raised-button color="primary">
+              <button
+                class="!mt-2 w-[200px]"
+                mat-raised-button
+                color="primary"
+                data-cy="select-price-button"
+              >
                 <mat-icon>check_circle</mat-icon>
                 {{ t('selected') }}
               </button>
@@ -22,6 +27,7 @@
                 color="primary"
                 (click)="selectPrice()"
                 [disabled]="isDisabled"
+                data-cy="select-price-button"
               >
                 <mat-icon>check_circle</mat-icon>
                 {{ t('select') }}

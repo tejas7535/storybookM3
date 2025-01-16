@@ -1,5 +1,7 @@
 <div>
-  <span class="font-bold">{{ quotationDetail?.orderQuantity }}</span>
+  <span class="font-bold" data-cy="quantity-value">{{
+    quotationDetail?.orderQuantity
+  }}</span>
   @if (isManualCase$ | ngrxPush) {
     <span
       class="text-medium-emphasis ml-1 cursor-pointer"
