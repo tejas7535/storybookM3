@@ -6,6 +6,7 @@ import { MockDirective } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { SelectedQuotationDetailsKpiState } from '../quotation-details-status/store/selected-quotation-details-kpi.reducer';
 import { TotalRowCountComponent } from './total-row-count.component';
 
 describe('TotalRowCountComponent', () => {
@@ -14,13 +15,33 @@ describe('TotalRowCountComponent', () => {
   let params: IStatusPanelParams;
   const expectedRowCount = 1;
 
+  const store: SelectedQuotationDetailsKpiState = {
+    loading: false,
+    error: undefined,
+    selectedQuotationDetailsKpi: {
+      amountOfQuotationDetails: 0,
+      totalNetValue: null,
+      totalWeightedAveragePriceDiff: null,
+      totalWeightedAverageGpi: null,
+      totalWeightedAverageGpm: null,
+    },
+  };
   const createComponent = createComponentFactory({
     component: TotalRowCountComponent,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
       MockDirective(LetDirective),
     ],
-    providers: [provideMockStore({})],
+    providers: [
+      provideMockStore({
+        initialState: {
+          selectedQuotationDetailsKpi: store,
+          activeCase: {
+            simulatedItem: undefined,
+          },
+        },
+      }),
+    ],
   });
 
   beforeEach(() => {
@@ -44,29 +65,8 @@ describe('TotalRowCountComponent', () => {
       component.agInit(params);
 
       expect(component['params']).toEqual(params);
-      expect(component['params'].api.addEventListener).toHaveBeenCalledTimes(4);
+      expect(component['params'].api.addEventListener).toHaveBeenCalledTimes(1);
       expect(component.simulationModeEnabled$).toBeDefined();
-    });
-  });
-
-  describe('onRowDataChange', () => {
-    test('should set totalRows', () => {
-      component['params'] = params;
-      component.onRowDataChange();
-
-      expect(
-        component['params'].api.getDisplayedRowCount
-      ).toHaveBeenCalledTimes(1);
-      expect(component.totalRowCount).toEqual(expectedRowCount);
-    });
-  });
-  describe('onSelectionChange', () => {
-    test('should set selectedRowCount', () => {
-      component['params'] = params;
-      component.onSelectionChange();
-
-      expect(component['params'].api.getSelectedRows).toHaveBeenCalledTimes(1);
-      expect(component.selectedRowCount).toEqual(expectedRowCount);
     });
   });
 
@@ -74,7 +74,7 @@ describe('TotalRowCountComponent', () => {
     test('should set filteredRowCount', () => {
       component['params'] = params;
       component['params'].api.getDisplayedRowCount = jest.fn(() => 5);
-      component.totalRowCount = 10;
+      component['totalRowCount'] = 10;
       component.onFilterChange();
 
       expect(

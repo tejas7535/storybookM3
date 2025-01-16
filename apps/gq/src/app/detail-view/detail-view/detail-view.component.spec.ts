@@ -23,11 +23,13 @@ import { marbles } from 'rxjs-marbles/jest';
 import {
   MATERIAL_STOCK_STATE_MOCK,
   PLANT_MATERIAL_DETAILS_STATE_MOCK,
-  QUOTATION_DETAIL_MOCK,
-  QUOTATION_DETAILS_MOCK,
-  QUOTATION_MOCK,
 } from '../../../testing/mocks';
 import { MATERIAL_STOCK_MOCK } from '../../../testing/mocks/models/material-stock.mock';
+import { QUOTATION_MOCK } from '../../../testing/mocks/models/quotation';
+import {
+  QUOTATION_DETAIL_MOCK,
+  QUOTATION_DETAILS_MOCK,
+} from '../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { ACTIVE_CASE_STATE_MOCK } from '../../../testing/mocks/state/active-case-state.mock';
 import { DetailViewComponent } from './detail-view.component';
 

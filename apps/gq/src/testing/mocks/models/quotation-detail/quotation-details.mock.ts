@@ -19,7 +19,7 @@ import { LAST_OFFER_DETAIL_MOCK } from '../last-offer-detail.mock';
 import { MATERIAL_STOCK_BY_PLANT_MOCK } from '../material-stock-by-plant.mock';
 import { MRP_DATA_MOCK } from '../mrp-data.mock';
 import { PLANT_MOCK } from '../plant.mock';
-import { QUOTATION_F_PRICING_MOCK } from '../quotation-f-pricing.mock';
+import { QUOTATION_F_PRICING_MOCK } from '../quotation/quotation-f-pricing.mock';
 import {
   SAP_PRICE_DETAIL_ZEVO_MOCK,
   SAP_PRICE_DETAIL_ZMIN_MOCK,

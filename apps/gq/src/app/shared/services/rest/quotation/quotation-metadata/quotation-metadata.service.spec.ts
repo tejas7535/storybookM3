@@ -10,7 +10,7 @@ import {
   SpectatorService,
 } from '@ngneat/spectator/jest';
 
-import { QUOTATION_METADATA_MOCK } from '../../../../../../testing/mocks/models/quotation-metadata.mock';
+import { QUOTATION_METADATA_MOCK } from '../../../../../../testing/mocks/models/quotation/quotation-metadata.mock';
 import { QuotationPaths } from '../models/quotation-paths.enum';
 import { QuotationMetadataService } from './quotation-metadata.service';
 

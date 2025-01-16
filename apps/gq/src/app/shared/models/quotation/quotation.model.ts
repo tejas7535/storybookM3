@@ -5,11 +5,11 @@ import { QuotationDetail } from '../quotation-detail';
 import { SAP_SYNC_STATUS } from '../quotation-detail/sap-sync-status.enum';
 import { SectorGpsd } from '../sector-gpsd.interface';
 import { GQUser } from '../user.model';
+import { QuotationDetailsSummaryKpi } from './quotation-details-summary-kpi.interface';
 import { QuotationMetadata } from './quotation-metadata.interface';
 import { CASE_ORIGIN } from './quotation-origin.enum';
 import { QuotationStatus } from './quotation-status.enum';
 import { SapCallInProgress } from './sap-call-in-progress.enum';
-
 export class Quotation {
   gqId: number;
   caseName: string;
@@ -43,4 +43,5 @@ export class Quotation {
   partnerRole: SectorGpsd;
   offerType: OfferType;
   metadata: QuotationMetadata;
+  quotationDetailsSummaryKpi: QuotationDetailsSummaryKpi;
 }

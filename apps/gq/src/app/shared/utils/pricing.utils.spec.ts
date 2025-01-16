@@ -1,8 +1,8 @@
 import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_DETAILS_MOCK,
-} from '../../../testing/mocks';
-import { StatusBarProperties } from '../models';
+} from '../../../testing/mocks/models/quotation-detail/quotation-details.mock';
+import { StatusBarProperties } from '../ag-grid/custom-status-bar/quotation-details-status/model/status-bar.model';
 import { QuotationDetail } from '../models/quotation-detail';
 import * as pricingUtils from './pricing.utils';
 

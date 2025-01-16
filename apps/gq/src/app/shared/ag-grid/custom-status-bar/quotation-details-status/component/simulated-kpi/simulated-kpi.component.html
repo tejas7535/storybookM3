@@ -1,0 +1,66 @@
+<div *transloco="let t; read: 'shared.customStatusBar.quotationDetailsStatus'">
+  <div class="text-white-high-emphasis flex flex-row gap-16 pr-8 text-left">
+    <div class="flex flex-row">
+      <div>
+        <span class="text-subtitle-1">{{ t('totalNetValue') }}</span>
+        <div class="text-caption opacity-60">{{ t('previousNetValue') }}:</div>
+      </div>
+      <div class="ml-6">
+        <span class="text-subtitle-1">
+          {{
+            simulatedQuotation().simulatedStatusBar.netValue
+              | numberCurrency: quotationCurrency()
+          }}
+        </span>
+        <div class="text-caption opacity-60">
+          {{
+            simulatedQuotation().previousStatusBar.netValue
+              | numberCurrency: quotationCurrency()
+          }}
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-row">
+      <div>
+        <span class="text-subtitle-1">{{ t('totalAverageGPM') }}</span>
+        <div class="text-caption opacity-60">{{ t('previousGPM') }}:</div>
+      </div>
+      <div class="ml-6">
+        <span class="text-subtitle-1">
+          {{ simulatedQuotation().simulatedStatusBar.gpm | percentage }}
+        </span>
+        <div class="text-caption opacity-60">
+          {{ simulatedQuotation().previousStatusBar.gpm | percentage }}
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-row">
+      <div>
+        <span class="text-subtitle-1">{{ t('totalAverageGPI') }}</span>
+        <div class="text-caption opacity-60">{{ t('previousGPI') }}:</div>
+      </div>
+      <div class="ml-6">
+        <span class="text-subtitle-1">
+          {{ simulatedQuotation().simulatedStatusBar.gpi | percentage }}
+        </span>
+        <div class="text-caption opacity-60">
+          {{ simulatedQuotation().previousStatusBar.gpi | percentage }}
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-row">
+      <div>
+        <span class="text-subtitle-1">{{ t('totalPriceDiff') }}</span>
+        <div class="text-caption opacity-60">{{ t('previousPriceDiff') }}:</div>
+      </div>
+      <div class="ml-6">
+        <span class="text-subtitle-1">
+          {{ simulatedQuotation().simulatedStatusBar.priceDiff | percentage }}
+        </span>
+        <div class="text-caption opacity-60">
+          {{ simulatedQuotation().previousStatusBar.priceDiff | percentage }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

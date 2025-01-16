@@ -16,11 +16,9 @@ import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import {
-  COMPARABLE_LINKED_TRANSACTION_MOCK,
-  QUOTATION_DETAIL_MOCK,
-  QUOTATION_MOCK,
-} from '../../../testing/mocks';
+import { COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../testing/mocks';
+import { QUOTATION_MOCK } from '../../../testing/mocks/models/quotation';
+import { QUOTATION_DETAIL_MOCK } from '../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { TransactionViewComponent } from './transaction-view.component';
 window.ResizeObserver = resize_observer_polyfill;
 

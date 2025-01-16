@@ -18,10 +18,8 @@ import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import {
-  QUOTATION_DETAIL_MOCK,
-  QUOTATION_MOCK,
-} from '../../../../testing/mocks';
+import { QUOTATION_MOCK } from '../../../../testing/mocks/models/quotation';
+import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { FilterPricingComponent } from './filter-pricing.component';
 
 describe('FilterPricingComponent', () => {

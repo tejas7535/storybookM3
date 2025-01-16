@@ -20,10 +20,8 @@ import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import {
-  PROCESS_CASE_STATE_MOCK,
-  QUOTATION_DETAIL_MOCK,
-} from '../../../../../testing/mocks';
+import { PROCESS_CASE_STATE_MOCK } from '../../../../../testing/mocks';
+import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { ACTIVE_CASE_STATE_MOCK } from '../../../../../testing/mocks/state/active-case-state.mock';
 import { ColumnFields } from '../../../ag-grid/constants/column-fields.enum';
 import { EditingModalComponent } from './editing-modal.component';

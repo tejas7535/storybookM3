@@ -16,7 +16,7 @@ import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { QUOTATION_METADATA_MOCK } from '../../../../../testing/mocks/models/quotation-metadata.mock';
+import { QUOTATION_METADATA_MOCK } from '../../../../../testing/mocks/models/quotation';
 import { QuotationNoteModalComponent } from './quotation-note-modal.component';
 import { QuotationNoteModalData } from './quotation-note-modal-data.interface';
 

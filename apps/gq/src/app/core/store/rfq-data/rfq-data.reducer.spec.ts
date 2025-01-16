@@ -1,10 +1,8 @@
 import { RfqData } from '@gq/shared/models';
 import { RfqStatus } from '@gq/shared/models/quotation-detail/rfq-data/rfq-status.enum';
 
-import {
-  QUOTATION_DETAIL_MOCK,
-  RFQ_DATA_MOCK,
-} from '../../../../testing/mocks';
+import { RFQ_DATA_MOCK } from '../../../../testing/mocks';
+import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { RfqDataActions } from './rfq-data.actions';
 import { initialState, rfqDataFeature } from './rfq-data.reducer';
 

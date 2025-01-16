@@ -7,8 +7,8 @@ import { HashMap, translate } from '@jsverse/transloco';
 import { ConfirmationModalComponent } from '../../../components/modal/confirmation-modal/confirmation-modal.component';
 import { ConfirmationModalData } from '../../../components/modal/confirmation-modal/models/confirmation-modal-data.model';
 import { IdValue } from '../../../components/modal/confirmation-modal/models/id-value.model';
-import { ExtendedStatusPanelComponentParams } from '../../../models';
 import { QuotationStatus, ViewQuotation } from '../../../models/quotation';
+import { ExtendedStatusPanelComponentParams } from '../quotation-details-status/model/status-bar.model';
 import { ButtonType } from './button-type.enum';
 @Component({
   selector: 'gq-update-case-status-button',

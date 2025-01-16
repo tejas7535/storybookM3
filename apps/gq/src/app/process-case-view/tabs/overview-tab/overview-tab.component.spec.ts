@@ -25,12 +25,9 @@ import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import {
-  APPROVAL_STATE_MOCK,
-  CUSTOMER_MOCK,
-  QUOTATION_DETAILS_MOCK,
-  QUOTATION_MOCK,
-} from '../../../../testing/mocks';
+import { APPROVAL_STATE_MOCK, CUSTOMER_MOCK } from '../../../../testing/mocks';
+import { QUOTATION_MOCK } from '../../../../testing/mocks/models/quotation';
+import { QUOTATION_DETAILS_MOCK } from '../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { ACTIVE_CASE_STATE_MOCK } from '../../../../testing/mocks/state/active-case-state.mock';
 import { OverviewTabComponent } from './overview-tab.component';
 

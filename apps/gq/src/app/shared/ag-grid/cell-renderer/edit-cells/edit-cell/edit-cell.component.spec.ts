@@ -17,10 +17,8 @@ import {
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
-import {
-  QUOTATION_DETAIL_MOCK,
-  QUOTATION_MOCK,
-} from '../../../../../../testing/mocks';
+import { QUOTATION_MOCK } from '../../../../../../testing/mocks/models/quotation';
+import { QUOTATION_DETAIL_MOCK } from '../../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { EditCellComponent } from './edit-cell.component';
 
 describe('EditCellComponent', () => {

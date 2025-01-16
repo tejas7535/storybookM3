@@ -1,7 +1,7 @@
 import { IStatusPanelParams } from 'ag-grid-enterprise';
 
-import { ButtonType } from '../ag-grid/custom-status-bar/update-case-status-button/button-type.enum';
-import { QuotationStatus } from './quotation';
+import { QuotationStatus } from '../../../../models/quotation';
+import { ButtonType } from '../../update-case-status-button/button-type.enum';
 
 export class StatusBar {
   constructor(

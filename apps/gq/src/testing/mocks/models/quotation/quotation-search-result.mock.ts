@@ -1,7 +1,7 @@
 import {
   QuotationSearchResult,
   QuotationStatus,
-} from '../../../app/shared/models/quotation';
+} from '../../../../app/shared/models/quotation';
 
 export const QUOTATION_SEARCH_RESULT_MOCK: QuotationSearchResult = {
   gqId: 46_061,

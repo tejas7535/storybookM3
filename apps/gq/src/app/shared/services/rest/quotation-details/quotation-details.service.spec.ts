@@ -13,10 +13,8 @@ import {
   SpectatorService,
 } from '@ngneat/spectator/jest';
 
-import {
-  CUSTOMER_MOCK,
-  QUOTATION_DETAIL_MOCK,
-} from '../../../../../testing/mocks';
+import { CUSTOMER_MOCK } from '../../../../../testing/mocks';
+import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { ApiVersion } from '../../../models';
 import { QuotationDetailsService } from './quotation-details.service';
 

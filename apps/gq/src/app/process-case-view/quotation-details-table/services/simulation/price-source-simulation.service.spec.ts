@@ -5,7 +5,7 @@ import { PriceSource, QuotationDetail } from '@gq/shared/models';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { RowNode } from 'ag-grid-enterprise';
 
-import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks';
+import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { PriceSourceSimulationService } from './price-source-simulation.service';
 import { SimulationService } from './simulation.service';
 

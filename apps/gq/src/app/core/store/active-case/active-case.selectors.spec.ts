@@ -5,12 +5,12 @@ import { ProductType } from '@gq/shared/models/quotation-detail/material/';
 import { QuotationRfqData } from '@gq/shared/models/quotation-detail/rfq-data';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 
+import { CUSTOMER_MOCK } from '../../../../testing/mocks';
+import { QUOTATION_MOCK } from '../../../../testing/mocks/models/quotation';
 import {
-  CUSTOMER_MOCK,
   QUOTATION_DETAIL_MOCK,
-  QUOTATION_MOCK,
   SIMULATED_QUOTATION_MOCK,
-} from '../../../../testing/mocks';
+} from '../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { ActiveCaseState, initialState } from './active-case.reducer';
 import * as activeCaseSelectors from './active-case.selectors';
 describe('Active Case Selectors', () => {

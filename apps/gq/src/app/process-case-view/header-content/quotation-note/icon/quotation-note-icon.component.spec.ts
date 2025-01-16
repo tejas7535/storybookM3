@@ -9,7 +9,7 @@ import { LetDirective, PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { QUOTATION_MOCK } from '../../../../../testing/mocks';
+import { QUOTATION_MOCK } from '../../../../../testing/mocks/models/quotation';
 import { QuotationNoteModalComponent } from '../modal/quotation-note-modal.component';
 import { QuotationNoteIconComponent } from './quotation-note-icon.component';
 

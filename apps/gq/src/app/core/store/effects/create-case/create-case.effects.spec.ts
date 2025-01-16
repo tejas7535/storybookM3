@@ -37,7 +37,8 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
-import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../../../testing/mocks';
+import { CUSTOMER_MOCK } from '../../../../../testing/mocks/models/';
+import { QUOTATION_MOCK } from '../../../../../testing/mocks/models/quotation';
 import {
   addRowDataItems,
   autocomplete,

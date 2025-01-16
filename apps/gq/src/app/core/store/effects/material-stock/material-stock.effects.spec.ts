@@ -9,11 +9,9 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import {
-  QUOTATION_DETAIL_MOCK,
-  QUOTATION_MOCK,
-} from '../../../../../testing/mocks/models';
 import { MATERIAL_STOCK_MOCK } from '../../../../../testing/mocks/models/material-stock.mock';
+import { QUOTATION_MOCK } from '../../../../../testing/mocks/models/quotation';
+import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import {
   loadMaterialStock,
   loadMaterialStockFailure,

@@ -1,9 +1,7 @@
+import { ExtendedStatusPanelComponentParams } from '@gq/shared/ag-grid/custom-status-bar/quotation-details-status/model/status-bar.model';
 import { ButtonType } from '@gq/shared/ag-grid/custom-status-bar/update-case-status-button/button-type.enum';
 import { UpdateCaseStatusButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/update-case-status-button/update-case-status-button.component';
-import {
-  ExtendedStatusPanelComponentParams,
-  QuotationStatus,
-} from '@gq/shared/models';
+import { QuotationStatus } from '@gq/shared/models/quotation';
 import { StatusPanelDef } from 'ag-grid-community';
 
 export const ACTIVE_STATUS_BAR_CONFIG: {

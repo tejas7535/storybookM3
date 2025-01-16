@@ -7,6 +7,7 @@ import {
   QuotationDetail,
   SimulatedQuotation,
 } from '@gq/shared/models';
+import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.interface';
 import { QuotationDetailCosts } from '@gq/shared/models/quotation-detail/cost';
 import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
@@ -645,6 +646,11 @@ export const activeCaseFeature = createFeature({
       })
     );
 
+    const getQuotationDetailsSummaryKpi = createSelector(
+      selectQuotation,
+      (quotation: Quotation): QuotationDetailsSummaryKpi =>
+        quotation?.quotationDetailsSummaryKpi
+    );
     const getQuotationSalesOrgIsGreaterChina = createSelector(
       selectQuotation,
       (quotation: Quotation): boolean => {
@@ -664,6 +670,7 @@ export const activeCaseFeature = createFeature({
       getPriceUnitOfSelectedQuotationDetail,
       getDetailViewQueryParams,
       getQuotationSalesOrgIsGreaterChina,
+      getQuotationDetailsSummaryKpi,
     };
   },
 });

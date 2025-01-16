@@ -1,17 +1,17 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { StatusBarModalComponent } from '@gq/shared/components/modal/status-bar-modal/status-bar-modal.component';
-import { StatusBarProperties } from '@gq/shared/models/status-bar.model';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
-import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import {
   createComponentFactory,
   Spectator,
   SpyObject,
 } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { IStatusPanelParams } from 'ag-grid-enterprise';
 import { marbles } from 'rxjs-marbles';
@@ -22,10 +22,12 @@ import {
   ACTIVE_CASE_STATE_MOCK,
   AUTH_STATE_MOCK,
   PROCESS_CASE_STATE_MOCK,
-  QUOTATION_DETAIL_MOCK,
-  QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
+import { QUOTATION_MOCK } from '../../../../../testing/mocks/models/quotation';
+import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
+import { StatusBarModalComponent } from './component/status-bar-modal/status-bar-modal.component';
 import { QuotationDetailsStatusComponent } from './quotation-details-status.component';
+import { SelectedQuotationDetailsKpiActions } from './store/selected-quotation-details-kpi.actions';
 
 describe('QuotationDetailsStatusComponent', () => {
   let component: QuotationDetailsStatusComponent;
@@ -39,6 +41,9 @@ describe('QuotationDetailsStatusComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       PushPipe,
       SharedPipesModule,
+      StoreModule.forRoot({}),
+      EffectsModule.forRoot([]),
+      HttpClientTestingModule,
     ],
     mocks: [MatDialog],
     providers: [
@@ -49,7 +54,6 @@ describe('QuotationDetailsStatusComponent', () => {
           transformPercentage: jest.fn(),
         },
       },
-
       provideMockStore({
         initialState: {
           'azure-auth': AUTH_STATE_MOCK,
@@ -110,41 +114,8 @@ describe('QuotationDetailsStatusComponent', () => {
       component.onSelectionChange = jest.fn();
     });
     test('should set margin and Value if data exists', () => {
-      const rowNode = {
-        data: {
-          netValue: QUOTATION_DETAIL_MOCK.netValue,
-          gpi: QUOTATION_DETAIL_MOCK.gpi,
-        },
-      };
-      jest
-        .spyOn(pricingUtils, 'calculateStatusBarValues')
-        .mockImplementation(
-          () =>
-            new StatusBarProperties(
-              QUOTATION_DETAIL_MOCK.netValue,
-              QUOTATION_DETAIL_MOCK.gpi,
-              QUOTATION_DETAIL_MOCK.gpm,
-              QUOTATION_DETAIL_MOCK.priceDiff,
-              1
-            )
-        );
-
-      component['params'].api.forEachNode = jest.fn((callback) =>
-        callback(rowNode as any, 1)
-      );
-
       component.rowValueChanges();
 
-      expect(component.statusBar.total.netValue).toEqual(
-        QUOTATION_DETAIL_MOCK.netValue
-      );
-      expect(component.statusBar.total.gpi).toEqual(QUOTATION_DETAIL_MOCK.gpi);
-      expect(component.statusBar.total.gpm).toEqual(QUOTATION_DETAIL_MOCK.gpm);
-      expect(component.statusBar.total.priceDiff).toEqual(
-        QUOTATION_DETAIL_MOCK.priceDiff
-      );
-      expect(component.statusBar.total.rows).toEqual(1);
-      expect(pricingUtils.calculateStatusBarValues).toHaveBeenCalledTimes(1);
       expect(component.onSelectionChange).toHaveBeenCalledTimes(1);
     });
   });
@@ -152,34 +123,29 @@ describe('QuotationDetailsStatusComponent', () => {
   describe('onSelectionChange', () => {
     test('should set selections', () => {
       component['params'] = params;
+      component['store'].dispatch = jest.fn();
+
       component.onSelectionChange();
 
       expect(params.api.getSelectedRows).toHaveBeenCalled();
-      expect(component.statusBar.selected.netValue).toEqual(
-        QUOTATION_DETAIL_MOCK.netValue
+      expect(component['store'].dispatch).toHaveBeenCalledTimes(1);
+      expect(component['store'].dispatch).toHaveBeenCalledWith(
+        SelectedQuotationDetailsKpiActions.loadQuotationKPI({
+          data: [QUOTATION_DETAIL_MOCK],
+        })
       );
-      expect(component.statusBar.selected.gpi).toEqual(
-        QUOTATION_DETAIL_MOCK.gpi
-      );
-      expect(component.statusBar.selected.gpm).toEqual(
-        QUOTATION_DETAIL_MOCK.gpm
-      );
-      expect(component.statusBar.selected.priceDiff).toEqual(
-        QUOTATION_DETAIL_MOCK.priceDiff
-      );
-      expect(component.statusBar.selected.rows).toEqual(1);
     });
   });
 
   describe('onFilterChanged', () => {
     test('should set filtered rows', () => {
       component['params'] = params;
-      component.statusBar.total.rows = 10;
+      component['totalRowCount'] = 10;
       params.api.getDisplayedRowCount = jest.fn().mockReturnValue(5);
       component.onFilterChanged();
 
       expect(params.api.getDisplayedRowCount).toHaveBeenCalled();
-      expect(component.statusBar.filtered).toEqual(5);
+      expect(component.filteredRows).toEqual(5);
     });
   });
   describe('showAll', () => {
@@ -190,7 +156,7 @@ describe('QuotationDetailsStatusComponent', () => {
         StatusBarModalComponent,
         {
           width: '600px',
-          data: component.statusBar,
+          data: { filteredAmount: component.filteredRows },
         }
       );
     });

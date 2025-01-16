@@ -14,7 +14,7 @@ import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks';
+import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { UpdateCaseStatusButtonComponent } from '../update-case-status-button/update-case-status-button.component';
 import { UploadQuoteToSapButtonComponent } from './upload-quote-to-sap-button.component';
 describe('UploadQuoteToSapButtonComponent', () => {

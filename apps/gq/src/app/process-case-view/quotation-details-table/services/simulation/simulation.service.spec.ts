@@ -7,7 +7,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_DETAILS_MOCK,
-} from '../../../../../testing/mocks';
+} from '../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { SimulationService } from './simulation.service';
 
 describe('SimulationService', () => {

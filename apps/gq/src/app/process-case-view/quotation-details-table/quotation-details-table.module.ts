@@ -16,11 +16,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ColumnHeadersModule } from '@gq/shared/ag-grid/column-headers/column-headers.module';
 import { CustomStatusBarModule } from '@gq/shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { DeleteItemsButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/delete-items-button/delete-items-button.component';
+import { StatusBarModalComponent } from '@gq/shared/ag-grid/custom-status-bar/quotation-details-status/component/status-bar-modal/status-bar-modal.component';
 import { AutocompleteInputComponent } from '@gq/shared/components/autocomplete-input/autocomplete-input.component';
 import { EditCaseHeaderInformationComponent } from '@gq/shared/components/case-header-information/edit-case-header-information/edit-case-header-information.component';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { EditingModalModule } from '@gq/shared/components/modal/editing-modal/editing-modal.module';
-import { StatusBarModalModule } from '@gq/shared/components/modal/status-bar-modal/status-bar-modal.module';
 import { OfferTypeSelectComponent } from '@gq/shared/components/offer-type-select/offer-type-select.component';
 import { PurchaseOrderTypeSelectComponent } from '@gq/shared/components/purchase-order-type-select/purchase-order-type-select.component';
 import { SectorGpsdSelectComponent } from '@gq/shared/components/sector-gpsd-select/sector-gpsd-select.component';
@@ -54,7 +54,7 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
     ReactiveFormsModule,
     TextFieldModule,
     LoadingSpinnerModule,
-    StatusBarModalModule,
+    StatusBarModalComponent,
     MatIconModule,
     ColumnHeadersModule,
     SharedDirectivesModule,

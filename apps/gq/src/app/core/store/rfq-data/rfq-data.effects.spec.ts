@@ -13,10 +13,8 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
-import {
-  QUOTATION_DETAIL_MOCK,
-  QUOTATION_MOCK,
-} from '../../../../testing/mocks';
+import { QUOTATION_MOCK } from '../../../../testing/mocks/models/quotation';
+import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { RfqDataActions } from './rfq-data.actions';
 import { RfqDataEffects } from './rfq-data.effects';
 import { initialState } from './rfq-data.reducer';

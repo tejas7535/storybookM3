@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import Big from 'big.js';
 
-import { StatusBarProperties } from '../models';
+import { StatusBarProperties } from '../ag-grid/custom-status-bar/quotation-details-status/model/status-bar.model';
 import { QuotationDetail } from '../models/quotation-detail';
 
 export const roundValue = (val: number, priceUnit: number) => {

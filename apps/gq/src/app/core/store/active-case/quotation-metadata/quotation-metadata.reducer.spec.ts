@@ -1,8 +1,8 @@
+import { ACTIVE_CASE_STATE_MOCK } from '../../../../../testing/mocks';
 import {
-  ACTIVE_CASE_STATE_MOCK,
+  QUOTATION_METADATA_MOCK,
   QUOTATION_MOCK,
-} from '../../../../../testing/mocks';
-import { QUOTATION_METADATA_MOCK } from '../../../../../testing/mocks/models/quotation-metadata.mock';
+} from '../../../../../testing/mocks/models/quotation/';
 import { activeCaseFeature } from '../active-case.reducer';
 import { QuotationMetadataActions } from './quotation-metadata.action';
 

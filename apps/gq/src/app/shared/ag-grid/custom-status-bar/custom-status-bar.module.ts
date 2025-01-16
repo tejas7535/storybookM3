@@ -25,7 +25,6 @@ import { ExportToExcelButtonComponent } from './export-to-excel-button/export-to
 import { MaterialValidationStatusComponent } from './material-validation-status/material-validation-status.component';
 import { QuotationDetailsStatusComponent } from './quotation-details-status/quotation-details-status.component';
 import { RefreshSapPriceComponent } from './refresh-sap-price/refresh-sap-price.component';
-import { TotalRowCountComponent } from './total-row-count/total-row-count.component';
 import { UpdateCaseStatusButtonComponent } from './update-case-status-button/update-case-status-button.component';
 import { UploadQuoteToSapButtonComponent } from './upload-quote-to-sap-button/upload-quote-to-sap-button.component';
 import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-button/upload-selection-to-sap-button.component';
@@ -36,7 +35,6 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     CreateCaseButtonComponent,
     UpdateCaseStatusButtonComponent,
     ExportToExcelButtonComponent,
-    QuotationDetailsStatusComponent,
     UploadSelectionToSapButtonComponent,
     MaterialValidationStatusComponent,
     RemoveAllFilteredButtonComponent,
@@ -45,7 +43,6 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     CreateManualCaseButtonComponent,
     CreateCustomerCaseButtonComponent,
     AddItemsButtonComponent,
-    TotalRowCountComponent,
     RefreshSapPriceComponent,
     ConfirmSimulationButtonComponent,
     DiscardSimulationButtonComponent,
@@ -60,6 +57,7 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     SharedTranslocoModule,
     LetDirective,
     PushPipe,
+    QuotationDetailsStatusComponent,
     SharedPipesModule,
     SharedDirectivesModule,
   ],
@@ -68,7 +66,6 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     CreateCaseButtonComponent,
     UpdateCaseStatusButtonComponent,
     ExportToExcelButtonComponent,
-    QuotationDetailsStatusComponent,
     UploadSelectionToSapButtonComponent,
     MaterialValidationStatusComponent,
     RemoveAllFilteredButtonComponent,
@@ -77,7 +74,6 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     CreateManualCaseButtonComponent,
     CreateCustomerCaseButtonComponent,
     AddItemsButtonComponent,
-    TotalRowCountComponent,
     RefreshSapPriceComponent,
     ConfirmSimulationButtonComponent,
     DiscardSimulationButtonComponent,

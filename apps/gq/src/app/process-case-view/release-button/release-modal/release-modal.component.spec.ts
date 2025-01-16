@@ -21,7 +21,7 @@ import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { QUOTATION_MOCK } from '../../../../testing/mocks';
+import { QUOTATION_MOCK } from '../../../../testing/mocks/models/quotation';
 import { ReleaseModalComponent } from './release-modal.component';
 
 describe('ReleaseModalComponent', () => {

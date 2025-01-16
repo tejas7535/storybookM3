@@ -1,10 +1,12 @@
 /* eslint-disable max-lines */
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { combineLatest, Observable, Subscription } from 'rxjs';
 
+import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { getSimulationModeEnabled } from '@gq/core/store/active-case/active-case.selectors';
 import { extendedComparableLinkedTransactionsFeature } from '@gq/core/store/extended-comparable-linked-transactions/extended-comparable-linked-transactions.reducer';
 import { ExtendedComparableLinkedTransaction } from '@gq/core/store/extended-comparable-linked-transactions/models';
@@ -14,8 +16,8 @@ import {
   ExtendedSapPriceConditionDetail,
 } from '@gq/core/store/reducers/models';
 import { getExtendedSapPriceConditionDetails } from '@gq/core/store/selectors';
+import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.interface';
 import { getCurrentYear, getLastYear } from '@gq/shared/utils/misc.utils';
-import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { translate, TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 import {
@@ -53,10 +55,6 @@ const typeNumber = 'Number';
   templateUrl: './export-to-excel-button.component.html',
 })
 export class ExportToExcelButtonComponent implements OnInit {
-  simulationModeEnabled$: Observable<boolean>;
-  transactions$: Observable<
-    [ExtendedComparableLinkedTransaction[], ExtendedSapPriceConditionDetail[]]
-  >;
   extendedComparableLinkedTransactions: ExtendedComparableLinkedTransaction[];
   extendedSapPriceConditionDetails: ExtendedSapPriceConditionDetail[];
 
@@ -74,32 +72,39 @@ export class ExportToExcelButtonComponent implements OnInit {
   ];
 
   extendedDownloadEnabled = true;
+  quotationDetailsSummaryKpi: QuotationDetailsSummaryKpi;
 
   private params: IStatusPanelParams;
+  private readonly store = inject(Store);
+  private readonly matDialog = inject(MatDialog);
+  private readonly translocoService = inject(TranslocoService);
+  private readonly transformationService = inject(TransformationService);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly rolesFacade = inject(RolesFacade);
+  private readonly destroyRef = inject(DestroyRef);
 
-  constructor(
-    private readonly matDialog: MatDialog,
-    private readonly store: Store,
-    private readonly translocoService: TranslocoService,
-    private readonly snackBar: MatSnackBar,
-    private readonly transformationService: TransformationService,
-    private readonly rolesFacade: RolesFacade
-  ) {}
+  transactions$: Observable<
+    [ExtendedComparableLinkedTransaction[], ExtendedSapPriceConditionDetail[]]
+  > = combineLatest([
+    this.store.select(
+      extendedComparableLinkedTransactionsFeature.selectExtendedComparableLinkedTransactions
+    ),
+    this.store.select(getExtendedSapPriceConditionDetails),
+  ]);
+  simulationModeEnabled$: Observable<boolean> = this.store.select(
+    getSimulationModeEnabled
+  );
 
   ngOnInit(): void {
-    this.transactions$ = combineLatest([
-      this.store.select(
-        extendedComparableLinkedTransactionsFeature.selectExtendedComparableLinkedTransactions
-      ),
-      this.store.select(getExtendedSapPriceConditionDetails),
-    ]);
-
     this.checkForUserRoles();
+    this.store
+      .select(activeCaseFeature.getQuotationDetailsSummaryKpi)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((kpi) => (this.quotationDetailsSummaryKpi = kpi));
   }
 
   agInit(params: IStatusPanelParams): void {
     this.params = params;
-    this.simulationModeEnabled$ = this.store.select(getSimulationModeEnabled);
   }
 
   checkForUserRoles(): void {
@@ -336,10 +341,6 @@ export class ExportToExcelButtonComponent implements OnInit {
   }
 
   addQuotationSummary(quotation: Quotation): ExcelRow[] {
-    const statusBarProperties = calculateStatusBarValues(
-      quotation.quotationDetails
-    );
-
     return [
       {
         cells: [
@@ -445,7 +446,7 @@ export class ExportToExcelButtonComponent implements OnInit {
             data: {
               type: typeString,
               value: this.transformationService.transformNumberCurrency(
-                statusBarProperties?.netValue,
+                this.quotationDetailsSummaryKpi?.totalNetValue,
                 quotation.currency
               ),
             },
@@ -468,7 +469,8 @@ export class ExportToExcelButtonComponent implements OnInit {
             data: {
               type: typeString,
               value: this.transformationService.transformPercentage(
-                statusBarProperties.gpm
+                this.quotationDetailsSummaryKpi?.totalWeightedAverageGpm,
+                false
               ),
             },
             styleId: excelStyleObjects.excelTextBorderBold.id,
@@ -490,7 +492,8 @@ export class ExportToExcelButtonComponent implements OnInit {
             data: {
               type: typeString,
               value: this.transformationService.transformPercentage(
-                statusBarProperties.gpi
+                this.quotationDetailsSummaryKpi?.totalWeightedAverageGpi,
+                false
               ),
             },
             styleId: excelStyleObjects.excelTextBorder.id,
@@ -512,7 +515,8 @@ export class ExportToExcelButtonComponent implements OnInit {
             data: {
               type: typeString,
               value: this.transformationService.transformPercentage(
-                statusBarProperties.priceDiff
+                this.quotationDetailsSummaryKpi?.totalWeightedAveragePriceDiff,
+                false
               ),
             },
             styleId: excelStyleObjects.excelTextBorder.id,

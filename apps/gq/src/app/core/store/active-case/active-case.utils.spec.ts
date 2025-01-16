@@ -1,9 +1,7 @@
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 
-import {
-  QUOTATION_DETAIL_MOCK,
-  QUOTATION_IDENTIFIER_MOCK,
-} from '../../../../testing/mocks';
+import { QUOTATION_IDENTIFIER_MOCK } from '../../../../testing/mocks/models/quotation';
+import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { SapConditionType, SapPriceConditionDetail } from '../reducers/models';
 import * as processCaseUtils from './active-case.utils';
 

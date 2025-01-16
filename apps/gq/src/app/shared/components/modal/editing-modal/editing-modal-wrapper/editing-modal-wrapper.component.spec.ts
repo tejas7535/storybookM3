@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { QUOTATION_DETAIL_MOCK } from '../../../../../../testing/mocks';
+import { QUOTATION_DETAIL_MOCK } from '../../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { EditingModalWrapperComponent } from './editing-modal-wrapper.component';
 
 describe('EditingModalWrapperComponent', () => {

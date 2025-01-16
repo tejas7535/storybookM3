@@ -6,33 +6,46 @@
   </gq-dialog-header>
   @if (quotationCurrency$ | ngrxPush; as currency) {
     <div class="flex h-full flex-col">
+      <!-- Kpi overview -->
       <div
         class="flex flex-col"
         *transloco="let t; read: 'shared.customStatusBar.totalRowCount'"
       >
         <div class="mt-8 flex flex-row">
-          <gq-label-text class="w-1/3" [modalVersion]="true">
+          <gq-label-text
+            class="w-1/3"
+            [modalVersion]="true"
+            *ngrxLet="quotationDetailsSummaryKpi$ as summaryKpi"
+          >
             <span label>{{ t('total') }}</span>
-            <span text>{{ statusBar.total.rows }} </span>
+            <span text>{{ summaryKpi?.amountOfQuotationDetails }} </span>
           </gq-label-text>
-          <gq-label-text class="w-1/3" [modalVersion]="true">
+          <gq-label-text
+            class="w-1/3"
+            [modalVersion]="true"
+            *ngrxLet="selectedQuotationDetailsSummaryKpi$ as selectedKpi"
+          >
             <span label>{{ t('selected') }}</span>
-            <span text>{{ statusBar.selected.rows }}</span>
+            <span text>{{ selectedKpi?.amountOfQuotationDetails }}</span>
           </gq-label-text>
           <gq-label-text class="w-1/3" [modalVersion]="true">
             <span label>{{ t('filtered') }}</span>
-            <span text>{{ statusBar.filtered }}</span>
+            <span text>{{ dialogData.filteredAmount }}</span>
           </gq-label-text>
         </div>
         <gq-horizontal-divider></gq-horizontal-divider>
       </div>
       <div class="flex flex-row">
-        <div class="flex w-1/2 flex-col">
+        <!-- Total quotation kpis-->
+        <div
+          class="flex w-1/2 flex-col"
+          *ngrxLet="quotationDetailsSummaryKpi$ as summaryKpi"
+        >
           <div>
             <gq-label-text [modalVersion]="true">
               <span label>{{ t('totalNetValue') }}</span>
               <span text>{{
-                statusBar.total.netValue | numberCurrency: currency
+                summaryKpi?.totalNetValue | numberCurrency: currency
               }}</span>
             </gq-label-text>
           </div>
@@ -40,7 +53,9 @@
             <div class="mt-4">
               <gq-label-text [modalVersion]="true">
                 <span label>{{ t('totalAverageGPM') }}</span>
-                <span text>{{ statusBar.total.gpm | percentage }}</span>
+                <span text>{{
+                  summaryKpi?.totalWeightedAverageGpm | percentage: false
+                }}</span>
               </gq-label-text>
             </div>
           }
@@ -48,23 +63,31 @@
             <div class="mt-4">
               <gq-label-text [modalVersion]="true">
                 <span label>{{ t('totalAverageGPI') }}</span>
-                <span text>{{ statusBar.total.gpi | percentage }}</span>
+                <span text>{{
+                  summaryKpi?.totalWeightedAverageGpi | percentage: false
+                }}</span>
               </gq-label-text>
             </div>
           }
           <div class="mt-4">
             <gq-label-text [modalVersion]="true">
               <span label>{{ t('totalPriceDiff') }}</span>
-              <span text>{{ statusBar.total.priceDiff | percentage }}</span>
+              <span text>{{
+                summaryKpi?.totalWeightedAveragePriceDiff | percentage: false
+              }}</span>
             </gq-label-text>
           </div>
         </div>
-        <div class="flex w-1/2 flex-col">
+        <!-- Selected details kpis-->
+        <div
+          class="flex w-1/2 flex-col"
+          *ngrxLet="selectedQuotationDetailsSummaryKpi$ as selectedSummaryKpi"
+        >
           <div>
             <gq-label-text [modalVersion]="true">
               <span label>{{ t('selectedNetValue') }}</span>
               <span text>{{
-                statusBar.selected.netValue | numberCurrency: currency
+                selectedSummaryKpi?.totalNetValue | numberCurrency: currency
               }}</span>
             </gq-label-text>
           </div>
@@ -72,7 +95,9 @@
             <div class="mt-4">
               <gq-label-text [modalVersion]="true">
                 <span label>{{ t('selectedAverageGPM') }}</span>
-                <span text>{{ statusBar.selected.gpm | percentage }}</span>
+                <span text>{{
+                  selectedSummaryKpi?.totalWeightedAverageGpm | percentage
+                }}</span>
               </gq-label-text>
             </div>
           }
@@ -80,14 +105,18 @@
             <div class="mt-4">
               <gq-label-text [modalVersion]="true">
                 <span label>{{ t('selectedAverageGPI') }}</span>
-                <span text>{{ statusBar.selected.gpi | percentage }}</span>
+                <span text>{{
+                  selectedSummaryKpi?.totalWeightedAverageGpi | percentage
+                }}</span>
               </gq-label-text>
             </div>
           }
           <div class="mt-4">
             <gq-label-text [modalVersion]="true">
               <span label>{{ t('selectedPriceDiff') }}</span>
-              <span text>{{ statusBar.selected.priceDiff | percentage }}</span>
+              <span text>{{
+                selectedSummaryKpi?.totalWeightedAveragePriceDiff | percentage
+              }}</span>
             </gq-label-text>
           </div>
         </div>

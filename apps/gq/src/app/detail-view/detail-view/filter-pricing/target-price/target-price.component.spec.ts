@@ -28,11 +28,9 @@ import { MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import {
-  ACTIVE_CASE_STATE_MOCK,
-  QUOTATION_DETAIL_MOCK,
-  QUOTATION_MOCK,
-} from '../../../../../testing/mocks';
+import { ACTIVE_CASE_STATE_MOCK } from '../../../../../testing/mocks';
+import { QUOTATION_MOCK } from '../../../../../testing/mocks/models/quotation';
+import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { TargetPriceComponent } from './target-price.component';
 
 describe('TargetPriceComponent', () => {

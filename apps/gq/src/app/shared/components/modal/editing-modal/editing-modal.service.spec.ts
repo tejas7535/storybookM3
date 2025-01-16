@@ -8,7 +8,7 @@ import {
   SpyObject,
 } from '@ngneat/spectator/jest';
 
-import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks';
+import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { EditingModalService } from './editing-modal.service';
 import { EditingModalWrapperComponent } from './editing-modal-wrapper/editing-modal-wrapper.component';
 

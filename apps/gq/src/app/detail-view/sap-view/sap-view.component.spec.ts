@@ -13,7 +13,8 @@ import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { CUSTOMER_MOCK, QUOTATION_DETAIL_MOCK } from '../../../testing/mocks';
+import { CUSTOMER_MOCK } from '../../../testing/mocks';
+import { QUOTATION_DETAIL_MOCK } from '../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { SapViewComponent } from './sap-view.component';
 
 describe('SapViewComponent', () => {

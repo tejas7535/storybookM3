@@ -17,7 +17,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
+import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { EditingCommentModalComponent } from './editing-comment-modal.component';
 describe('EditingCommentModalComponent', () => {
   let component: EditingCommentModalComponent;

@@ -7,7 +7,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { SpyObject } from '@ngneat/spectator/jest/lib/mock.js';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { QUOTATION_DETAIL_MOCK } from '../../../../../../testing/mocks';
+import { QUOTATION_DETAIL_MOCK } from '../../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { EditCommentComponent } from './edit-comment.component';
 
 describe('EditCommentComponent', () => {

@@ -33,11 +33,9 @@ import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import {
-  PROCESS_CASE_STATE_MOCK,
-  QUOTATION_DETAIL_MOCK,
-  QUOTATION_MOCK,
-} from '../../../testing/mocks';
+import { PROCESS_CASE_STATE_MOCK } from '../../../testing/mocks';
+import { QUOTATION_MOCK } from '../../../testing/mocks/models/quotation';
+import { QUOTATION_DETAIL_MOCK } from '../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { AppRoutePath } from '../../app-route-path.enum';
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';
 import { PriceSimulationService } from './services/simulation/price-simulation.service';

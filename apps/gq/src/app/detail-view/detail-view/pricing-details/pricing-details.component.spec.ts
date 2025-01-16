@@ -18,8 +18,8 @@ import {
   MATERIAL_COMPARABLE_COSTS_STATE_MOCK,
   MATERIAL_SALES_ORG_STATE_MOCK,
   PLANT_MATERIAL_DETAILS_STATE_MOCK,
-  QUOTATION_MOCK,
 } from '../../../../testing/mocks';
+import { QUOTATION_MOCK } from '../../../../testing/mocks/models/quotation';
 import { PricingDetailsComponent } from './pricing-details.component';
 
 describe('PricingDetailsComponent', () => {

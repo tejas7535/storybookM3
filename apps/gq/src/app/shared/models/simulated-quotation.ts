@@ -1,6 +1,6 @@
 import { ColumnFields } from '../ag-grid/constants/column-fields.enum';
+import { StatusBarProperties } from '../ag-grid/custom-status-bar/quotation-details-status/model/status-bar.model';
 import { QuotationDetail } from './quotation-detail';
-import { StatusBarProperties } from './status-bar.model';
 
 export class SimulatedQuotation {
   public gqId: number;

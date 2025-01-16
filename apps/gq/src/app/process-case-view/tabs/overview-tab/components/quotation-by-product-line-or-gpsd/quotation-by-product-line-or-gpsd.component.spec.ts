@@ -5,7 +5,7 @@ import {
   getQuotationDetailsByGPSD,
   getQuotationDetailsByPL,
 } from '@gq/core/store/active-case/active-case.selectors';
-import { StatusBarProperties } from '@gq/shared/models';
+import { StatusBarProperties } from '@gq/shared/ag-grid/custom-status-bar/quotation-details-status/model/status-bar.model';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';

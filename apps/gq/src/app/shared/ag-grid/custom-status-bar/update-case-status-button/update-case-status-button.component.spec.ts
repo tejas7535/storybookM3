@@ -12,11 +12,8 @@ import { IStatusPanelParams } from 'ag-grid-enterprise';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import {
-  CASE_ORIGIN,
-  ExtendedStatusPanelComponentParams,
-  QuotationStatus,
-} from '../../../models';
+import { CASE_ORIGIN, QuotationStatus } from '../../../models';
+import { ExtendedStatusPanelComponentParams } from '../quotation-details-status/model/status-bar.model';
 import { UpdateCaseStatusButtonComponent } from '../update-case-status-button/update-case-status-button.component';
 import { ButtonType } from './button-type.enum';
 

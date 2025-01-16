@@ -1,0 +1,46 @@
+<div
+  class="flex flex-row"
+  *transloco="let t; read: 'shared.customStatusBar.quotationDetailsStatus'"
+>
+  <div class="ml-8 flex flex-col">
+    <span class="text-low-emphasis text-left"
+      >{{ t('selectedNetValue') }}:</span
+    >
+    <span class="text-high-emphasis text-left">
+      {{
+        selectedQuotationDetailsKpi().totalNetValue
+          | numberCurrency: quotationCurrency()
+      }}
+    </span>
+  </div>
+  @if (showGpi()) {
+    <div class="ml-8 flex flex-col">
+      <span class="text-low-emphasis text-left"
+        >{{ t('selectedAverageGPI') }}:</span
+      >
+      <span class="text-high-emphasis text-left">
+        {{
+          selectedQuotationDetailsKpi().totalWeightedAverageGpi | percentage
+        }}</span
+      >
+    </div>
+  }
+  @if (showGpm()) {
+    <div class="ml-8 flex flex-col">
+      <span class="text-low-emphasis text-left"
+        >{{ t('selectedAverageGPM') }}:
+      </span>
+      <span class="text-high-emphasis text-left">{{
+        selectedQuotationDetailsKpi().totalWeightedAverageGpm | percentage
+      }}</span>
+    </div>
+  }
+  <div class="ml-8 flex flex-col">
+    <span class="text-low-emphasis text-left"
+      >{{ t('selectedPriceDiff') }}:
+    </span>
+    <span class="text-high-emphasis text-left">{{
+      selectedQuotationDetailsKpi().totalWeightedAveragePriceDiff | percentage
+    }}</span>
+  </div>
+</div>

@@ -9,8 +9,10 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { QUOTATION_MOCK } from '../../../../../testing/mocks';
-import { QUOTATION_METADATA_MOCK } from '../../../../../testing/mocks/models/quotation-metadata.mock';
+import {
+  QUOTATION_METADATA_MOCK,
+  QUOTATION_MOCK,
+} from '../../../../../testing/mocks/models/quotation';
 import { getGqId } from '../active-case.selectors';
 import { QuotationMetadataActions } from './quotation-metadata.action';
 import { QuotationMetadataEffects } from './quotation-metadata.effects';

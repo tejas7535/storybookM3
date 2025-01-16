@@ -28,13 +28,15 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
+import { CUSTOMER_MOCK } from '../../../../testing/mocks';
 import {
-  CUSTOMER_MOCK,
-  QUOTATION_DETAIL_MOCK,
   QUOTATION_IDENTIFIER_MOCK,
   QUOTATION_MOCK,
+} from '../../../../testing/mocks/models/quotation';
+import {
+  QUOTATION_DETAIL_MOCK,
   SIMULATED_QUOTATION_MOCK,
-} from '../../../../testing/mocks';
+} from '../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { ApprovalActions } from '../approval/approval.actions';
 import { getAddQuotationDetailsRequest } from '../process-case';
 import { ActiveCaseActions } from './active-case.action';

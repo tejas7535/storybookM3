@@ -1,12 +1,12 @@
 import { Customer } from '@gq/shared/models/customer';
 
-import { CASE_ORIGIN, Quotation } from '../../../app/shared/models';
-import { SapCallInProgress } from '../../../app/shared/models/quotation';
-import { QuotationStatus } from '../../../app/shared/models/quotation/quotation-status.enum';
-import { SAP_SYNC_STATUS } from '../../../app/shared/models/quotation-detail';
-import { CUSTOMER_MOCK } from './customer.mock';
-import { QUOTATION_DETAIL_MOCK } from './quotation-detail/quotation-details.mock';
-
+import { CASE_ORIGIN, Quotation } from '../../../../app/shared/models';
+import { SapCallInProgress } from '../../../../app/shared/models/quotation';
+import { QuotationStatus } from '../../../../app/shared/models/quotation/quotation-status.enum';
+import { SAP_SYNC_STATUS } from '../../../../app/shared/models/quotation-detail';
+import { CUSTOMER_MOCK } from '../customer.mock';
+import { QUOTATION_DETAIL_MOCK } from '../quotation-detail/quotation-details.mock';
+import { QUOTATION_DETAILS_SUMMARY_KPI_MOCK } from './quotation-details-summary-kpi.mock';
 export const QUOTATION_MOCK: Quotation = {
   gqId: 12_345,
   caseName: 'caseName',
@@ -53,4 +53,5 @@ export const QUOTATION_MOCK: Quotation = {
     name: 'offer type name',
   },
   metadata: undefined,
+  quotationDetailsSummaryKpi: QUOTATION_DETAILS_SUMMARY_KPI_MOCK,
 };

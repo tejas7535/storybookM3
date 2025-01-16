@@ -22,7 +22,7 @@ import { marbles } from 'rxjs-marbles';
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { QUOTATION_MOCK } from '../../testing/mocks';
+import { QUOTATION_MOCK } from '../../testing/mocks/models/quotation';
 import { ProcessCaseViewComponent } from './process-case-view.component';
 
 describe('ProcessCaseViewComponent', () => {

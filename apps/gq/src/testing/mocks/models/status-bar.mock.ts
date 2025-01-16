@@ -1,7 +1,7 @@
 import {
   StatusBar,
   StatusBarProperties,
-} from '../../../app/shared/models/status-bar.model';
+} from '@gq/shared/ag-grid/custom-status-bar/quotation-details-status/model/status-bar.model';
 
 // values equal calculations with QUOTATION_DETAIL_MOCK
 export const STATUS_BAR_PROPERTIES_MOCK: StatusBarProperties = {

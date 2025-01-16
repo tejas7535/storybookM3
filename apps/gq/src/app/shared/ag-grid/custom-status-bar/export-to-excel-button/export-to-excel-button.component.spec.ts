@@ -25,11 +25,11 @@ import {
   CUSTOMER_MOCK,
   EXTENDED_COMPARABLE_LINKED_TRANSACTIONS_STATE_MOCK,
   EXTENDED_SAP_PRICE_DETAIL_MOCK,
-  QUOTATION_DETAIL_MOCK,
-  QUOTATION_MOCK,
   SAP_PRICE_DETAILS_STATE_MOCK,
 } from '../../../../../testing/mocks';
 import { EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../../testing/mocks/models/extended-comparable-linked-transaction.mock';
+import { QUOTATION_MOCK } from '../../../../../testing/mocks/models/quotation';
+import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import {
   ColumnFields,
   PriceColumns,
@@ -215,7 +215,7 @@ describe('ExportToExcelButtonComponent', () => {
 
     test('calls dispatch and exportToExcel, if exportExcel is detailed download', () => {
       component['params'] = mockParams;
-      component.transactions$ = of([
+      component['transactions$'] = of([
         [EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK],
         [EXTENDED_SAP_PRICE_DETAIL_MOCK],
       ]);
@@ -522,6 +522,14 @@ describe('ExportToExcelButtonComponent', () => {
 
   describe('addQuotationSummary', () => {
     test('should return quotation summary', () => {
+      component.quotationDetailsSummaryKpi = {
+        amountOfQuotationDetails: 1,
+        totalNetValue: 2000,
+        totalWeightedAverageGpi: 0.85,
+        totalWeightedAverageGpm: 0.9,
+        totalWeightedAveragePriceDiff: 0.7,
+      };
+
       const result = component.addQuotationSummary({
         ...QUOTATION_MOCK,
         quotationDetails: [{ ...QUOTATION_DETAIL_MOCK, rfqData: null }],
@@ -644,7 +652,7 @@ describe('ExportToExcelButtonComponent', () => {
             {
               data: {
                 type,
-                value: `85 %`,
+                value: `${component.quotationDetailsSummaryKpi.totalWeightedAverageGpm} %`,
               },
               styleId: excelStyleObjects.excelTextBorderBold.id,
             },
@@ -662,7 +670,7 @@ describe('ExportToExcelButtonComponent', () => {
             {
               data: {
                 type,
-                value: `90 %`,
+                value: `${component.quotationDetailsSummaryKpi.totalWeightedAverageGpi} %`,
               },
               styleId: excelStyleObjects.excelTextBorder.id,
             },
@@ -680,7 +688,7 @@ describe('ExportToExcelButtonComponent', () => {
             {
               data: {
                 type,
-                value: `${QUOTATION_DETAIL_MOCK.priceDiff * 100} %`,
+                value: `${component.quotationDetailsSummaryKpi.totalWeightedAveragePriceDiff} %`,
               },
               styleId: excelStyleObjects.excelTextBorder.id,
             },
@@ -707,190 +715,12 @@ describe('ExportToExcelButtonComponent', () => {
         { cells: [] },
       ];
       expect(result).toEqual(expected);
-    });
-    test('should return quotation summary with RFQ Data', () => {
-      const result = component.addQuotationSummary(QUOTATION_MOCK);
-      const type = 'String';
-
-      const expected: ExcelRow[] = [
-        {
-          cells: [
-            {
-              data: {
-                type,
-                value: 'translate it',
-              },
-              styleId: excelStyleObjects.excelTextBold.id,
-            },
-          ],
-        },
-        {
-          cells: [
-            {
-              data: {
-                type,
-                value: 'translate it',
-              },
-              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-            },
-            {
-              data: {
-                type,
-                value: QUOTATION_MOCK.customer.identifier.customerId,
-              },
-              styleId: excelStyleObjects.excelTextBorder.id,
-            },
-          ],
-        },
-        {
-          cells: [
-            {
-              data: {
-                type,
-                value: 'translate it',
-              },
-              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-            },
-            {
-              data: {
-                type,
-                value: QUOTATION_MOCK.customer.name,
-              },
-              styleId: excelStyleObjects.excelTextBorder.id,
-            },
-          ],
-        },
-        {
-          hidden: false,
-          cells: [
-            {
-              data: {
-                type,
-                value: 'translate it',
-              },
-              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-            },
-            {
-              data: {
-                type,
-                value: QUOTATION_MOCK.partnerRole.id,
-              },
-              styleId: excelStyleObjects.excelTextBorder.id,
-            },
-          ],
-        },
-        {
-          hidden: false,
-          cells: [
-            {
-              data: {
-                type,
-                value: 'translate it',
-              },
-              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-            },
-            {
-              data: {
-                type,
-                value: QUOTATION_MOCK.partnerRole.name,
-              },
-              styleId: excelStyleObjects.excelTextBorder.id,
-            },
-          ],
-        },
-        {
-          cells: [
-            {
-              data: {
-                type,
-                value: 'translate it',
-              },
-              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-            },
-            {
-              data: {
-                type,
-                value: '2,000.00 EUR',
-              },
-              styleId: excelStyleObjects.excelTextBorderBold.id,
-            },
-          ],
-        },
-        {
-          cells: [
-            {
-              data: {
-                type,
-                value: 'translate it',
-              },
-              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-            },
-            {
-              data: {
-                type,
-                value: `10.32 %`,
-              },
-              styleId: excelStyleObjects.excelTextBorderBold.id,
-            },
-          ],
-        },
-        {
-          cells: [
-            {
-              data: {
-                type,
-                value: 'translate it',
-              },
-              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-            },
-            {
-              data: {
-                type,
-                value: `90 %`,
-              },
-              styleId: excelStyleObjects.excelTextBorder.id,
-            },
-          ],
-        },
-        {
-          cells: [
-            {
-              data: {
-                type,
-                value: 'translate it',
-              },
-              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-            },
-            {
-              data: {
-                type,
-                value: `${QUOTATION_DETAIL_MOCK.priceDiff * 100} %`,
-              },
-              styleId: excelStyleObjects.excelTextBorder.id,
-            },
-          ],
-        },
-        {
-          cells: [
-            {
-              data: {
-                type,
-                value: 'translate it',
-              },
-              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-            },
-            {
-              data: {
-                type,
-                value: QUOTATION_MOCK.currency,
-              },
-              styleId: excelStyleObjects.excelTextBorder.id,
-            },
-          ],
-        },
-        { cells: [] },
-      ];
-      expect(result).toEqual(expected);
+      expect(
+        component['transformationService'].transformPercentage
+      ).toHaveBeenCalledWith(
+        component.quotationDetailsSummaryKpi.totalWeightedAverageGpi,
+        false
+      );
     });
   });
 

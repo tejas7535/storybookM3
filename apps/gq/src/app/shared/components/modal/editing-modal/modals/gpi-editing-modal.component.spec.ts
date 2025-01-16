@@ -10,7 +10,7 @@ import { MockPipe } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { QUOTATION_DETAIL_MOCK } from '../../../../../../testing/mocks';
+import { QUOTATION_DETAIL_MOCK } from '../../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { GpiEditingModalComponent } from './gpi-editing-modal.component';
 
 jest.mock('../editing-modal.component', () => ({

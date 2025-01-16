@@ -13,10 +13,8 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import {
-  ACTIVE_CASE_STATE_MOCK,
-  QUOTATION_DETAIL_MOCK,
-} from '../../../../../../testing/mocks';
+import { ACTIVE_CASE_STATE_MOCK } from '../../../../../../testing/mocks';
+import { QUOTATION_DETAIL_MOCK } from '../../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { KpiValue } from '../models/kpi-value.model';
 import { KpiListComponent } from './kpi-list.component';
 

@@ -11,13 +11,13 @@ import { SapCallInProgress } from '@gq/shared/models/quotation';
 import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
 import { Action } from '@ngrx/store';
 
+import { CUSTOMER_MOCK } from '../../../../testing/mocks/models';
+import { QUOTATION_MOCK } from '../../../../testing/mocks/models/quotation';
 import {
-  CUSTOMER_MOCK,
   QUOTATION_DETAIL_MOCK,
-  QUOTATION_MOCK,
   SIMULATED_QUOTATION_MOCK,
   SIMULATED_QUOTATION_MOCKS_WITH_RFQ,
-} from '../../../../testing/mocks';
+} from '../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { ACTIVE_CASE_STATE_MOCK } from '../../../../testing/mocks/state/active-case-state.mock';
 import { GREATER_CHINA_SALES_ORGS } from '../approval/model/greater-china-sales-orgs';
 import { ActiveCaseActions } from './active-case.action';

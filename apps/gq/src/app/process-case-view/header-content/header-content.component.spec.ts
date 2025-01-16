@@ -25,7 +25,7 @@ import { marbles } from 'rxjs-marbles';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CUSTOMER_MOCK } from '../../../testing/mocks';
-import { QUOTATION_MOCK } from '../../../testing/mocks/models/quotation.mock';
+import { QUOTATION_MOCK } from '../../../testing/mocks/models/quotation/quotation.mock';
 import { HeaderContentComponent } from './header-content.component';
 
 describe('HeaderContentComponent', () => {

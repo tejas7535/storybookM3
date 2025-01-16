@@ -1,6 +1,7 @@
 import { ActiveCaseState } from '@gq/core/store/active-case/active-case.reducer';
 
-import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../models';
+import { CUSTOMER_MOCK } from '../models';
+import { QUOTATION_MOCK } from '../models/quotation/quotation.mock';
 
 export const ACTIVE_CASE_STATE_MOCK: ActiveCaseState = {
   quotationIdentifier: undefined,
