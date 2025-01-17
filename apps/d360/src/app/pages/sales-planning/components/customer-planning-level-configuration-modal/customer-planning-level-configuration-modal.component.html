@@ -1,0 +1,65 @@
+<div *transloco="let t">
+  <div mat-dialog-title class="m-0 pt-0 pb-2">
+    <div class="flex flex-col gap-2">
+      <h2 class="text-headline-small">
+        {{
+          t(
+            'sales_planning.planning_details.planning_level_material_modal.title'
+          )
+        }}
+      </h2>
+      <p class="text-title-small text-on-surface-variant">
+        {{ data.customerNumber }} - {{ data.customerName }}
+      </p>
+    </div>
+  </div>
+  <mat-dialog-content>
+    <div class="flex flex-col gap-4">
+      <p class="text-body-1">
+        {{
+          t(
+            'sales_planning.planning_details.planning_level_material_modal.initial_configuration_hint'
+          )
+        }}
+      </p>
+
+      <mat-radio-group [formControl]="control" class="flex flex-col mb-3">
+        @for (materialType of planningLevelMaterialTypes; track materialType) {
+          <mat-radio-button
+            [value]="materialType"
+            [checked]="
+              materialType ===
+              data.planningLevelMaterial.planningLevelMaterialType
+            "
+          >
+            <span class="text-title-medium">
+              {{
+                t(
+                  'sales_planning.planning_details.planning_level_material_type.' +
+                    materialType
+                )
+              }}
+            </span>
+          </mat-radio-button>
+        }
+      </mat-radio-group>
+
+      <schaeffler-info-banner
+        [infoText]="
+          t(
+            'sales_planning.planning_details.planning_level_material_modal.change_information'
+          )
+        "
+      />
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="gap-3">
+    <button (click)="onCancel()" mat-button>
+      {{ t('button.cancel') }}
+    </button>
+    <button mat-flat-button (click)="onSave()">
+      {{ t('button.save') }}
+    </button>
+  </mat-dialog-actions>
+</div>

@@ -40,3 +40,9 @@ export interface CustomerInfo {
   gkam: string;
   kam: string;
 }
+
+export interface PlanningLevelMaterial {
+  customerNumber: string;
+  planningLevelMaterialType: string;
+  isDefaultPlanningLevelMaterialType: boolean;
+}

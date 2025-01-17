@@ -1,20 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, input, Signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButton, MatIconButton } from '@angular/material/button';
-import { MatDivider } from '@angular/material/divider';
-import { MatIcon } from '@angular/material/icon';
-import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 
 import { TranslocoDirective } from '@jsverse/transloco';
-import { PushPipe } from '@ngrx/component';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
 import { ForecastChartComponent } from '../../../../feature/forecast-chart/components/forecast-chart/forecast-chart.component';
 import { PeriodType } from '../../../../feature/forecast-chart/model';
-import { DatePickerMonthYearComponent } from '../../../../shared/components/date-picker-month-year/date-picker-month-year.component';
 import { GlobalSelectionState } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
 
 const EMPTY_GLOBAL_SELECTION_STATE: GlobalSelectionState = {
@@ -37,19 +31,11 @@ const EMPTY_GLOBAL_SELECTION_STATE: GlobalSelectionState = {
   standalone: true,
   imports: [
     CommonModule,
-    MatIconButton,
     TranslocoDirective,
-    MatIcon,
-    MatRadioButton,
-    DatePickerMonthYearComponent,
-    MatButton,
-    MatRadioGroup,
     ReactiveFormsModule,
-    MatDivider,
     LoadingSpinnerModule,
     NgxEchartsModule,
     ForecastChartComponent,
-    PushPipe,
   ],
   templateUrl: './customer-sales-plan-chart.component.html',
   styleUrl: './customer-sales-plan-chart.component.scss',

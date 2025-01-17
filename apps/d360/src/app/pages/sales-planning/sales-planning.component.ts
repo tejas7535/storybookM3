@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
 
+import { CustomerPlanningDetailsComponent } from './components/customer-planning-details/customer-planning-details.component';
 import { CustomerSalesPlanChartComponent } from './components/customer-sales-plan-chart/customer-sales-plan-chart.component';
 import { CustomerSelectionComponent } from './components/customer-selection/customer-selection.component';
 
@@ -17,6 +18,7 @@ export interface CustomerSelectionChange {
     CommonModule,
     CustomerSelectionComponent,
     CustomerSalesPlanChartComponent,
+    CustomerPlanningDetailsComponent,
   ],
   templateUrl: './sales-planning.component.html',
   styleUrl: './sales-planning.component.scss',

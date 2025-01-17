@@ -544,6 +544,25 @@
       "pieces_option": "TBD",
       "select_to_load": "TBD",
       "loading_failed": "TBD"
+    },
+    "planning_details": {
+      "title": "Planning Details",
+      "planning_level": "Planning Level",
+      "change_history": "Change History",
+      "filter": "Filter",
+      "planning_level_material_type": {
+        "PL": "Product Line",
+        "GP": "GPSD",
+        "PC": "Product Cluster"
+      },
+      "planning_level_material_modal": {
+        "title": "Planning Level Material",
+        "initial_configuration_hint": "Initial Planning Level set According to Sector Management.",
+        "change_information": "Please be aware that this change cannot be undone.",
+        "change_title": "Change Planning Level Material",
+        "change_hint": "When the Planning Level Material is changed, planning data on planning level material will <strong>be deleted</strong>.",
+        "change_confirmation_question": "Are you sure you want to change the planning level material?"
+      }
     }
   },
   "customer": {

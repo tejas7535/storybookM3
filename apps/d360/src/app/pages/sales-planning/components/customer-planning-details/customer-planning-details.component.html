@@ -1,0 +1,51 @@
+<section class="flex flex-col p-4 gap-6" *transloco="let t">
+  <div class="flex justify-between">
+    <h2 class="text-title-large">
+      {{ t('sales_planning.planning_details.title') }}
+    </h2>
+
+    <div class="flex">
+      <button
+        mat-icon-button
+        (click)="openPanelContent.set(!openPanelContent())"
+      >
+        @if (openPanelContent()) {
+          <mat-icon>keyboard_arrow_up</mat-icon>
+        } @else {
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        }
+      </button>
+    </div>
+  </div>
+
+  @if (openPanelContent()) {
+    <div class="flex justify-between">
+      <div class="flex">
+        <button [disabled]="isNoCustomerSelected()" mat-button>
+          <mat-icon class="icon-button">filter_list</mat-icon>
+          {{ t('sales_planning.planning_details.filter') }}
+        </button>
+      </div>
+      <div class="flex">
+        <button
+          [disabled]="planningLevelMaterialConfiguration() === null"
+          (click)="handlePlanningLevelModalClicked()"
+          mat-button
+        >
+          <mat-icon class="icon-button">settings</mat-icon>
+          {{ t('sales_planning.planning_details.planning_level') }}
+        </button>
+
+        <button [disabled]="isNoCustomerSelected()" mat-button>
+          <mat-icon class="icon-button">history</mat-icon>
+          {{ t('sales_planning.planning_details.change_history') }}
+        </button>
+
+        <button class="text-body-small" mat-icon-button>
+          <mat-icon>fullscreen</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div>The table comes here</div>
+  }
+</section>
