@@ -1,0 +1,25 @@
+<div
+  class="rounded-md flex border py-2 px-3 items-center gap-4"
+  [ngClass]="alertBackgroundClass()"
+>
+  @if (withIcon()) {
+    <div class="alert-icon">
+      <mat-icon>{{ iconClass() }}</mat-icon>
+    </div>
+  }
+
+  <div flass="flex flex-col">
+    @if (headline()) {
+      <div class="text-label-large-prominent">{{ headline() }}</div>
+    }
+
+    @if (description()) {
+      <div class="text-body-medium">{{ description() }}</div>
+    }
+  </div>
+  <div class="ml-auto">
+    <button mat-stroked-button (click)="onButtonClick()">
+      {{ actionText() }}
+    </button>
+  </div>
+</div>

@@ -56,6 +56,7 @@
       "@schaeffler/azure-auth": ["libs/shared/utils/azure-auth/src/index.ts"],
       "@schaeffler/banner": ["libs/shared/ui/banner/src/index.ts"],
       "@schaeffler/breadcrumbs": ["libs/shared/ui/breadcrumbs/src/index.ts"],
+      "@schaeffler/alert": ["libs/shared/ui/alert/src/index.ts"],
       "@schaeffler/controls": ["libs/shared/ui/controls/src/index.ts"],
       "@schaeffler/empty-states": ["libs/shared/ui/empty-states/src/index.ts"],
       "@schaeffler/feedback-banner": [
