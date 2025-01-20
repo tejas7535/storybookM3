@@ -20,7 +20,8 @@
       >
       <span class="text-high-emphasis text-left">
         {{
-          selectedQuotationDetailsKpi().totalWeightedAverageGpi | percentage
+          selectedQuotationDetailsKpi().totalWeightedAverageGpi
+            | percentage: false
         }}</span
       >
     </div>
@@ -31,7 +32,8 @@
         >{{ t('selectedAverageGPM') }}:
       </span>
       <span class="text-high-emphasis text-left">{{
-        selectedQuotationDetailsKpi().totalWeightedAverageGpm | percentage
+        selectedQuotationDetailsKpi().totalWeightedAverageGpm
+          | percentage: false
       }}</span>
     </div>
   }
@@ -40,7 +42,8 @@
       >{{ t('selectedPriceDiff') }}:
     </span>
     <span class="text-high-emphasis text-left">{{
-      selectedQuotationDetailsKpi().totalWeightedAveragePriceDiff | percentage
+      selectedQuotationDetailsKpi().totalWeightedAveragePriceDiff
+        | percentage: false
     }}</span>
   </div>
 </div>
