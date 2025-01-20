@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 
+import { AlertComponent, AlertType } from '@schaeffler/alert';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { InfoBannerComponent } from './info-banner/info-banner.component';
@@ -22,6 +23,7 @@ import { SurveyComponent } from './survey/survey.component';
     MatDialogModule,
     MatButtonModule,
     SharedTranslocoModule,
+    AlertComponent,
   ],
 })
 export class FeedbackBannerComponent implements OnInit, OnDestroy {
@@ -33,7 +35,10 @@ export class FeedbackBannerComponent implements OnInit, OnDestroy {
 
   @Input() public infoText = '';
 
+  @Input() public experimentalDesign = false;
+
   public shouldDisplayBanner = false;
+  public alertType: AlertType = 'info';
   private surveyUrlWithLanguageCode = '';
   private readonly subscription = new Subscription();
 

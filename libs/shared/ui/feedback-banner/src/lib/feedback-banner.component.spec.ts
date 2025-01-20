@@ -4,8 +4,9 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { translate, TranslocoService } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockModule } from 'ng-mocks';
+import { MockComponent, MockModule } from 'ng-mocks';
 
+import { AlertComponent } from '@schaeffler/alert';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { FeedbackBannerComponent } from './feedback-banner.component';
@@ -24,6 +25,7 @@ describe('FeedbackBannerComponent', () => {
       MockModule(MatDialogModule),
       MockModule(MatButtonModule),
       provideTranslocoTestingModule({ de: {} }),
+      MockComponent(AlertComponent),
     ],
     providers: [
       {
@@ -62,12 +64,36 @@ describe('FeedbackBannerComponent', () => {
   it('should open a dialog', () => {
     const spyDialogOpen = jest.spyOn(component['dialog'], 'open');
 
-    spectator.component.openSurveyDialog();
+    component.openSurveyDialog();
     expect(spyDialogOpen).toHaveBeenCalled();
   });
 
   it('should set initial value for shouldDisplayBanner', () => {
     expect(component.shouldDisplayBanner).toBe(true);
+  });
+
+  describe('when experimental design is active', () => {
+    beforeEach(() => {
+      spectator.setInput('experimentalDesign', true);
+    });
+
+    it('should display alert component', () => {
+      const alert: AlertComponent | null = spectator.query(AlertComponent);
+
+      expect(alert).not.toBeNull();
+    });
+  });
+
+  describe('when experimental design is not active', () => {
+    beforeEach(() => {
+      spectator.setInput('experimentalDesign', false);
+    });
+
+    it('should display not display alert component', () => {
+      const alert: AlertComponent | null = spectator.query(AlertComponent);
+
+      expect(alert).toBeNull();
+    });
   });
 
   describe('when selected language is not provided by qualtrics', () => {
