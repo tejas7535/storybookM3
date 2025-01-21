@@ -112,8 +112,8 @@
                   <div
                     class="snap-center mb-1 sm:my-1 md:my-0 min-w-[220px] w-min flex justify-center"
                     [ngClass]="{
-                      'ml-[20vw] md:ml-0': isFirst,
-                      'mr-[20vw] md:mr-0': isLast
+                      'ml-[5vw] sm:ml-[20vw] md:ml-0': isFirst,
+                      'mr-[5vw] sm:mr-[20vw] md:mr-0': isLast
                     }"
                   >
                     <ea-overrolling-frequencies-preview-item
@@ -125,14 +125,15 @@
                   <div
                     class="snap-center mb-1 sm:my-1 md:my-0 min-w-max w-max flex justify-center"
                     [ngClass]="{
-                      'ml-[20vw] md:ml-0': isFirst,
-                      'mr-[20vw] md:mr-0': isLast
+                      'ml-[5vw] sm:ml-[20vw] md:ml-0': isFirst,
+                      'mr-[5vw] sm:mr-[20vw] md:mr-0': isLast
                     }"
                   >
                     <ea-calculation-result-preview-item
                       [styleClass]="
                         isFirst
-                          ? item.title.includes('ratingLife')
+                          ? item.title.includes('ratingLife') ||
+                            item.title.includes('emission')
                             ? 'w-[82vw] sm:w-auto'
                             : 'w-[60vw] sm:w-auto'
                           : 'w-auto'

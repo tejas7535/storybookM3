@@ -27,7 +27,8 @@
         'col-span-2 md:col-span-1 !pl-0': isFirst,
         'md:col-span-2': (item.loadcaseValues?.length || 0) > 4,
         'lg:border-r-0': (item.loadcaseValues?.length || 0) > 4 || isLast,
-        'border-b-0': isLast || (length >= 2 && index === length - 2 && isOdd)
+        'border-b-0': isLast || (length >= 2 && index === length - 2 && isOdd),
+        'col-span-full border-r-0 ': isLast && isOdd
       }"
     >
       @if (item.short) {
@@ -47,7 +48,7 @@
         </div>
       }
       <div
-        class="grid sm:grid-cols-2 grid-cols-1"
+        class="flex flex-wrap gap-2 sm:grid sm:grid-cols-2 grid-cols-1"
         [ngClass]="{
           'lg:grid-cols-4': item.loadcaseValues?.length < 5,
           'lg:grid-cols-5': item.loadcaseValues?.length === 5,

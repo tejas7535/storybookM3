@@ -83,7 +83,6 @@ export class CalculationResultReportEmissionComponent {
     private readonly translocoService: TranslocoService,
     public readonly dialogRef: DialogRef<CalculationResultReportComponent>,
     private readonly dialog: MatDialog,
-
     @Inject(LOCALE_ID)
     private readonly locale: string
   ) {}
@@ -229,6 +228,7 @@ export class CalculationResultReportEmissionComponent {
         trigger: 'item',
         appendToBody: true,
         valueFormatter: (value) => this.formatValue(value as number),
+        show: false,
       },
       series: [
         {
