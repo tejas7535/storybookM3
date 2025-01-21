@@ -186,13 +186,9 @@ describe('Active Case Feature Reducer', () => {
 
     describe('updateQuotationDetailsSuccess', () => {
       test('should update quotationDetails', () => {
-        const newDetail: QuotationDetail = {
-          ...QUOTATION_DETAIL_MOCK,
-          price: 210,
-        };
         const updatedQuotation = {
           ...QUOTATION_MOCK,
-          quotationDetails: [newDetail],
+          quotationDetails: [QUOTATION_DETAIL_MOCK],
         };
 
         const action = ActiveCaseActions.updateQuotationDetailsSuccess({
@@ -207,7 +203,7 @@ describe('Active Case Feature Reducer', () => {
         const state = activeCaseFeature.reducer(fakeState, action);
 
         const stateItem = state.quotation;
-        expect(stateItem.quotationDetails[0]).toEqual(newDetail);
+        expect(stateItem.quotationDetails).toEqual([QUOTATION_DETAIL_MOCK]);
       });
     });
 

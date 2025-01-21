@@ -160,15 +160,9 @@ export const activeCaseFeature = createFeature({
         ...state,
         quotation: {
           ...updatedQuotation,
-          quotationDetails: [
-            ...sortQuotationDetails(state.quotation.quotationDetails),
-          ].map((el) => {
-            const update = updatedQuotation.quotationDetails.find(
-              (detail) => detail.gqPositionId === el.gqPositionId
-            );
-
-            return update ?? el;
-          }),
+          quotationDetails: sortQuotationDetails(
+            updatedQuotation.quotationDetails
+          ),
         },
         updateLoading: false,
         quotationLoadingErrorMessage: undefined,
