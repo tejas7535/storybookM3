@@ -39,6 +39,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CopyInputComponent } from './components/copy-input/copy-input.component';
 import { GeometricalInformationComponent } from './components/geometrical-information/geometrical-information.component';
 import { HardnessConverterComponent } from './components/hardness-converter/hardness-converter.component';
+import { HomepageCardComponent } from './components/homepage-card';
 import { LearnMoreComponent } from './components/learn-more/learn-more.component';
 import { SettingsPanelComponent } from './components/settings-panel/settings-panel.component';
 import { CoreModule } from './core/core.module';
@@ -98,6 +99,7 @@ const azureConfig = new AzureConfig(
 
     // UI Modules
     AppShellModule,
+    HomepageCardComponent,
   ],
   providers: [
     {

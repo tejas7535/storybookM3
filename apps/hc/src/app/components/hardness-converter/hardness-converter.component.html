@@ -1,5 +1,5 @@
 <div class="flex h-full w-full flex-col" *transloco="let t; read: ''">
-  <div class="mt-5 w-full flex-1 overflow-y-auto sm:mt-[50px]">
+  <div class="mt-5 w-full flex flex-col flex-1 overflow-y-auto sm:mt-[50px]">
     <div class="flex flex-col items-center">
       <div class="flex justify-end items-baseline sm:w-[500px] md:w-[680px]">
         {{ t('moreInformationLinkQuestion') }}
@@ -249,6 +249,52 @@
           {{ t('valuesCalculatedWith', { version: (version$ | ngrxPush) }) }}
         </div>
       }
+    </div>
+    <div class="max-w-screen-md flex flex-col gap-y-4 mx-auto">
+      <div
+        class="grid grid-cols-2 gap-4 md:grid-cols-3 max-w-screen-sm mx-8 md:mx-auto my-2"
+      >
+        @for (card of homepageCards | ngrxPush; track card) {
+          <hc-homepage-card [homepageCard]="card"></hc-homepage-card>
+        }
+      </div>
+      <div class="flex flex-col items-center">
+        <p class="text-body-2 text-medium-emphasis px-8 text-center">
+          {{ t('accessMoreSchaefflerKnowledge') }}
+        </p>
+        <div
+          class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-4 md:max-w-screen-md mt-4"
+        >
+          <div
+            class="flex flex-row justify-center md:justify-end md:col-start-2"
+          >
+            <a
+              href="https://apps.apple.com/us/app/technical-pocket-guide/id426818450"
+              target="_blank"
+            >
+              <img
+                src="/assets/images/store-badges/apple-appstore-badge.svg"
+                class="w-40 md:w-auto md:h-8"
+                alt="Download on Apple App Store badge"
+              />
+            </a>
+          </div>
+          <div
+            class="flex flex-row justify-center md:justify-start col-start md:col-start-3"
+          >
+            <a
+              href="https://play.google.com/store/apps/details?id=de.schaeffler.stt&hl=en"
+              target="_blank"
+            >
+              <img
+                src="/assets/images/store-badges/google-play-badge.png"
+                class="w-40 md:w-auto md:h-8"
+                alt="Download on Google Play Store badge"
+              />
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -1,0 +1,24 @@
+<div
+  class="overflow-hidden rounded border border-border bg-surface-legacy py-4 cursor-pointer transition-shadow hover:shadow-lg"
+  (click)="onCardClick()"
+>
+  <div class="px-2 pb-4 text-center text-overline">
+    <div class="truncate">{{ homepageCard.mainTitle }}</div>
+    <div
+      class="truncate"
+      [innerHTML]="homepageCard?.subTitle ? homepageCard.subTitle : '&nbsp;'"
+    ></div>
+  </div>
+  <ng-container
+    *ngTemplateOutlet="{ imageCard }[homepageCard?.templateId]"
+  ></ng-container>
+  <ng-template #imageCard>
+    <div class="flex mx-4 items-center aspect-video">
+      <img
+        class="rounded-b w-fit"
+        [src]="homepageCard.imagePath"
+        [alt]="homepageCard.mainTitle"
+      />
+    </div>
+  </ng-template>
+</div>

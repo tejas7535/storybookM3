@@ -2,6 +2,7 @@ export * from './conversion-request.model';
 export * from './conversion-response.model';
 export * from './hardness-converter-response.model';
 export * from './hardness-convertion-form-value.model';
+export * from './homepage-card.model';
 export * from './indentation-material.model';
 export * from './indentation-request.model';
 export * from './indentation-request-form.model';

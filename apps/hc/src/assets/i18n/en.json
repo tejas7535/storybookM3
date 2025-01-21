@@ -10,6 +10,12 @@
   "hcNorm": "ISO 18265-A.1",
   "negativeValueError": "Hardness and strength values must be positive!",
   "reset": "RESET",
+  "cards": {
+    "schaefflerHomepage": "Homepage",
+    "mediasProductCatalog": "Product Catalog",
+    "contactAnExpert": "Contact an Expert"
+  },
+  "accessMoreSchaefflerKnowledge": "Access more Schaeffler knowledge with the technical pocket guide:",
   "norm": {
     "ISO18265_A1": "ISO 18265 A.1",
     "ISO18265_B2": "ISO 18265 B.2",

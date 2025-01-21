@@ -17,7 +17,7 @@ import { of } from 'rxjs';
 
 import { AuthService } from '@hc/services/auth.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushPipe } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
 
@@ -33,6 +33,7 @@ import {
 } from '../../../testing/mocks';
 import { CopyInputComponent } from '../copy-input/copy-input.component';
 import { GeometricalInformationComponent } from '../geometrical-information/geometrical-information.component';
+import { HomepageCardComponent } from '../homepage-card';
 import { HardnessConverterApiService } from './../../services/hardness-converter-api.service';
 import { HardnessConverterComponent } from './hardness-converter.component';
 
@@ -60,6 +61,8 @@ describe('HardnessConverterComponent', () => {
       provideTranslocoTestingModule({ en }),
       HttpClientTestingModule,
       MockComponent(GeometricalInformationComponent),
+      MockComponent(HomepageCardComponent),
+      LetDirective,
     ],
     declarations: [HardnessConverterComponent],
     providers: [
@@ -228,6 +231,18 @@ describe('HardnessConverterComponent', () => {
 
       expect(component['destroy$'].next).toHaveBeenCalled();
       expect(component['destroy$'].complete).toHaveBeenCalled();
+    });
+  });
+
+  describe('homepageCards', () => {
+    it('should open window on card action', () => {
+      jest.spyOn(window, 'open');
+
+      for (const card of component.homepageCards) {
+        card.cardAction();
+      }
+
+      expect(window.open).toHaveBeenCalledTimes(component.homepageCards.length);
     });
   });
 

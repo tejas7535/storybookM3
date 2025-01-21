@@ -27,7 +27,7 @@ import {
 
 import { AuthService } from '@hc/services/auth.service';
 import { HardnessConverterApiService } from '@hc/services/hardness-converter-api.service';
-import { TranslocoService } from '@jsverse/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
@@ -35,6 +35,7 @@ import { MPA, ONE_DIGIT_UNITS } from '../../constants';
 import {
   HardnessConversionFormValue,
   HardnessConversionResponse,
+  HomepageCard,
 } from '../../models';
 
 @Component({
@@ -82,11 +83,34 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
 
   public isLoggedIn$$ = new BehaviorSubject(false);
   public showSigninBanner$$ = new BehaviorSubject(false);
+
+  public homepageCards: HomepageCard[] = [
+    {
+      mainTitle: translate('cards.schaefflerHomepage'),
+      templateId: 'imageCard',
+      imagePath: 'assets/images/cards/schaeffler-logo.png',
+      cardAction: () =>
+        window.open('https://www.schaeffler.com', '_blank', 'noopener'),
+    },
+    {
+      mainTitle: translate('cards.mediasProductCatalog'),
+      templateId: 'imageCard',
+      imagePath: 'assets/images/cards/catalog.jpg',
+      cardAction: () =>
+        window.open('https://medias.schaeffler.com', '_blank', 'noopener'),
+    },
+    {
+      mainTitle: translate('cards.contactAnExpert'),
+      templateId: 'imageCard',
+      imagePath: 'assets/images/cards/contact.jpg',
+      cardAction: () => window.open('mailto:ralf.nuetzel@schaeffler.com'),
+    },
+  ];
+
   private readonly destroy$ = new Subject<void>();
 
   public constructor(
     private readonly hardnessService: HardnessConverterApiService,
-    private readonly translocoService: TranslocoService,
     private readonly authService: AuthService,
     private readonly appInsights: ApplicationInsightsService
   ) {}
@@ -185,9 +209,7 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
   }
 
   public getTooltip(unit: string): string | undefined {
-    return unit === MPA
-      ? this.translocoService.translate('utsTooltip')
-      : undefined;
+    return unit === MPA ? translate('utsTooltip') : undefined;
   }
 
   public trackEvent(name: string) {
