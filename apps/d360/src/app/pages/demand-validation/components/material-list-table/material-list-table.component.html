@@ -1,16 +1,18 @@
 <div
   *transloco="let t"
-  class="material-list-wrapper flex flex-col h-full pl-4 pr-4"
-  [class.overflow-visible]="visible()"
-  [class.overflow-hidden]="!visible()"
+  class="material-list-wrapper flex flex-col h-full pr-4"
   [class.open]="visible()"
 >
-  <d360-table-toolbar
-    class="d360-table-toolbar"
-    [grid]="gridApi"
-    [rowCount]="rowCount()"
-    [renderFloatingFilter]="false"
-  />
+  @if (visible()) {
+    <d360-table-toolbar
+      class="d360-table-toolbar"
+      [grid]="gridApi"
+      [rowCount]="rowCount()"
+      [renderFloatingFilter]="false"
+      [customOnResetFilters]="onResetFilters().bind(this)"
+      [customGetFilterCount]="getFilterCount().bind(this)"
+    />
+  }
 
   <ag-grid-angular
     #demandValidationMaterialListTable

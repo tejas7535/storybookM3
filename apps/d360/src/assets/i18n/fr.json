@@ -206,9 +206,17 @@
     "customer": "Client",
     "title": "Validation des besoins",
     "vkorg": "Organisations commerciales",
-    "action_bar": {
-      "edit_as_list": "Éditer en Liste",
-      "edit_as_grid": "Éditer en Grille"
+    "actionBar": {
+      "showResultTable": "Afficher le tableau des résultats",
+      "hideResultTable": "Cacher le tableau des résultats",
+      "export": "Exportation",
+      "editAsList": "List-Upload",
+      "editAsGrid": "Grid-Upload",
+      "bashDelete": "Suppression en masse",
+      "selectDate": "Sélectionner la date",
+      "settings": "Paramètres",
+      "deleteInput": "Supprimer l'entrée",
+      "checkInput": "Vérifier l'entrée"
     },
     "filter": {
       "rootString": "Filtre ({{count}})",

@@ -6,13 +6,32 @@
   @apply flex h-full;
 }
 
-.w-0 {
+.material-list-table {
   transition: flex 0.25s ease-in-out;
-  flex: 0;
+  flex: 0 0 0px;
+  overflow: hidden;
 }
 
 .w-50p {
-  flex: 0 0 50%;
+  flex: 0 0 730px;
+
+  @media screen and (min-width: 600px) and (max-width: 1300px) {
+    flex: 0 0 50%;
+  }
+
+  @media screen and (max-width: 600px) {
+    flex: 0 0 100%;
+  }
+
+  ::ng-deep {
+    .ag-cell,
+    .ag-full-width-row .ag-cell-wrapper.ag-row-group,
+    .ag-header-cell,
+    .ag-header-group-cell {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+  }
 }
 
 .b-top {

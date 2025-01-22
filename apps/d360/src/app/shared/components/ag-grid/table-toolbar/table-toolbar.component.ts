@@ -22,6 +22,16 @@ export class TableToolbarComponent {
   public grid = input.required<GridApi>();
   public renderFloatingFilter = input<boolean>(true);
   public openFloatingFilters = input<boolean>(false);
+  public customOnResetFilters = input<() => void>(() =>
+    this.grid()?.setFilterModel(null)
+  );
+  public customGetFilterCount = input<() => number>(() => {
+    if (!this.grid()) {
+      return 0;
+    }
+
+    return Object.keys(this.grid().getFilterModel()).length;
+  });
 
   private readonly translocoLocaleService: TranslocoLocaleService = inject(
     TranslocoLocaleService
@@ -45,15 +55,11 @@ export class TableToolbarComponent {
   }
 
   protected onResetFilters(): void {
-    this.grid()?.setFilterModel(null);
+    this.customOnResetFilters()();
   }
 
   protected getFilterCount(): number {
-    if (!this.grid()) {
-      return 0;
-    }
-
-    return Object.keys(this.grid().getFilterModel()).length;
+    return this.customGetFilterCount()();
   }
 
   protected getFilterCountText(): string {

@@ -1,16 +1,16 @@
 .material-list-wrapper {
-  transition: border-right 0.25s ease-in-out;
-  border-right: 0;
+  border-right: solid var(--border-color-light-gray);
+  border-right-width: 0;
   width: 100%;
 
   &.open {
-    border-right: 3px solid var(--border-color-light-gray);
+    border-right-width: 3px;
   }
 
   ::ng-deep {
     d360-table-toolbar {
       span:not(.mdc-button__label) {
-        padding-left: 24px;
+        padding-left: 12px;
       }
     }
   }

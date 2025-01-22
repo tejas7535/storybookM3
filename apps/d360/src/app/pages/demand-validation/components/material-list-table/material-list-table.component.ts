@@ -18,14 +18,12 @@ import {
   CellClassParams,
   CellClickedEvent,
   ColDef,
-  FirstDataRenderedEvent,
   GetRowIdFunc,
   GetRowIdParams,
   GridApi,
   GridOptions,
   GridReadyEvent,
   IRowNode,
-  NewColumnsLoadedEvent,
 } from 'ag-grid-enterprise';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -43,6 +41,7 @@ import {
 } from '../../../../shared/ag-grid/grid-defaults';
 import { TableToolbarComponent } from '../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
 import { GlobalSelectionStateService } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
+import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { disableColor } from '../../../../shared/styles/colors';
 import { getColumnDefinitions } from './column-definitions';
@@ -64,7 +63,7 @@ export class MaterialListTableComponent {
   private readonly globalSelectionStateService = inject(
     GlobalSelectionStateService
   );
-  private readonly destoryRef = inject(DestroyRef);
+  private readonly destroyRef = inject(DestroyRef);
   protected readonly agGridLocalizationService = inject(
     AgGridLocalizationService
   );
@@ -74,14 +73,12 @@ export class MaterialListTableComponent {
   public demandValidationFilters = input.required<DemandValidationFilter>();
   public confirmContinueAndLooseUnsavedChanges = input<() => boolean>();
   public selectedMaterialListEntryChange = output<MaterialListEntry>();
+  public demandValidationFilterChange = output<DemandValidationFilter>();
 
   protected rowCount = signal<number>(0);
   protected gridOptions: GridOptions = {
     ...serverSideTableDefaultProps,
-    onFirstDataRendered: (event: FirstDataRenderedEvent) =>
-      event.api.autoSizeAllColumns(true),
-    onNewColumnsLoaded: (event: NewColumnsLoadedEvent) =>
-      event.api.autoSizeAllColumns(true),
+    autoSizeStrategy: { type: 'fitGridWidth' },
   };
 
   protected selectedMaterialListEntry = signal<MaterialListEntry>(null);
@@ -102,36 +99,61 @@ export class MaterialListTableComponent {
   protected onGridReady(event: GridReadyEvent) {
     this.gridApi = event.api;
 
-    if (this.gridApi) {
-      this.updateColumnDefs();
+    this.gridApi.sizeColumnsToFit();
 
-      this.setServerSideDatasource(
-        this.selectedCustomerNumber(),
-        this.demandValidationFilters()
+    this.updateColumnDefs();
+
+    this.setServerSideDatasource(
+      this.selectedCustomerNumber(),
+      this.demandValidationFilters()
+    );
+
+    this.demandValidationService
+      .getDataFetchedEvent()
+      .pipe(
+        tap((value) => {
+          this.rowCount.set(value.rowCount);
+          if (this.rowCount() === 0) {
+            this.gridApi.showNoRowsOverlay();
+          } else {
+            this.gridApi.hideOverlay();
+          }
+
+          const nodes = this.gridApi.getRenderedNodes();
+
+          if (nodes?.length) {
+            this.gridApi.deselectAll();
+            this.selectGridRow(nodes[0]);
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+  }
+
+  protected onResetFilters(): () => void {
+    return () =>
+      this.demandValidationFilterChange.emit({
+        productionLine: [],
+        productLine: [],
+        customerMaterialNumber: [],
+        stochasticType: [],
+      });
+  }
+
+  protected getFilterCount(): () => number {
+    return () => {
+      if (!this.selectedCustomerNumber() || !this.demandValidationFilters()) {
+        return 0;
+      }
+
+      // eslint-disable-next-line unicorn/no-array-reduce
+      return Object.values(this.demandValidationFilters()).reduce(
+        (prev: number, current: SelectableValue[]) =>
+          prev + (current || []).length,
+        0
       );
-
-      this.demandValidationService
-        .getDataFetchedEvent()
-        .pipe(
-          tap((value) => {
-            this.rowCount.set(value.rowCount);
-            if (this.rowCount() === 0) {
-              this.gridApi.showNoRowsOverlay();
-            } else {
-              this.gridApi.hideOverlay();
-            }
-
-            const nodes = this.gridApi.getRenderedNodes();
-
-            if (nodes?.length) {
-              this.gridApi.deselectAll();
-              this.selectGridRow(nodes[0]);
-            }
-          }),
-          takeUntilDestroyed(this.destoryRef)
-        )
-        .subscribe();
-    }
+    };
   }
 
   protected onCellClicked($event: CellClickedEvent) {

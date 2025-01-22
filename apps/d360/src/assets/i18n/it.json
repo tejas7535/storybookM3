@@ -206,9 +206,17 @@
     "customer": "Cliente",
     "title": "Visualizzazione del Fabbisogno in pezzi",
     "vkorg": "Organizzazione Commerciale",
-    "action_bar": {
-      "edit_as_list": "Modifica come Lista",
-      "edit_as_grid": "Modifica come Griglia"
+    "actionBar": {
+      "showResultTable": "Mostra la tabella dei risultati",
+      "hideResultTable": "Nascondere la tabella dei risultati",
+      "export": "Esportazione",
+      "editAsList": "List-Upload",
+      "editAsGrid": "Grid-Upload",
+      "bashDelete": "Eliminazione di massa",
+      "selectDate": "Selezionare la data",
+      "settings": "Impostazioni",
+      "deleteInput": "Cancellare l'input",
+      "checkInput": "Controllare l'ingresso"
     },
     "filter": {
       "rootString": "Filtro ({{count}})",

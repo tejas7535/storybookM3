@@ -206,9 +206,17 @@
     "customer": "Cliente",
     "title": "Validación de la planificación comercial",
     "vkorg": "Organización comercial",
-    "action_bar": {
-      "edit_as_list": "Editar como Lista",
-      "edit_as_grid": "Editar como Cuadrícula"
+    "actionBar": {
+      "showResultTable": "Mostrar tabla de resultados",
+      "hideResultTable": "Ocultar tabla de resultados",
+      "export": "Exportar",
+      "editAsList": "List-Upload",
+      "editAsGrid": "Grid-Upload",
+      "bashDelete": "Eliminación masiva",
+      "selectDate": "Seleccionar fecha",
+      "settings": "Configuración",
+      "deleteInput": "Eliminar entrada",
+      "checkInput": "Comprobar entrada"
     },
     "filter": {
       "rootString": "Filtro ({{count}})",

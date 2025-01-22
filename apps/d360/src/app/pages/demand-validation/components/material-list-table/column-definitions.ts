@@ -10,25 +10,25 @@ export function getColumnDefinitions(
       colId: 'materialNumber',
       filter: undefined,
       filterParams: undefined,
-      width: 170,
+      minWidth: 180,
+      maxWidth: 180,
     },
-    {
-      colId: 'materialDescription',
-      width: 180,
-    },
+    { colId: 'materialDescription', flex: 1 },
     {
       colId: 'customerMaterialNumber',
       cellRenderer: 'customerMaterialNumberCellRenderer',
-      width: 160,
+      flex: 1,
     },
     {
       colId: 'materialClassification',
-      width: 80,
+      minWidth: 80,
+      maxWidth: 80,
     },
     {
       colId: 'demandPlanValue',
       valueFormatter: agGridLocalizationService.numberFormatter,
-      width: 120,
+      minWidth: 120,
+      flex: 1,
     },
   ];
 }

@@ -1,8 +1,8 @@
-@if (customerMaterialNumberCount() <= 1) {
-  {{ customerMaterialNumber() }}
+@if (customerMaterialNumberCount <= 1) {
+  {{ customerMaterialNumber }}
 } @else {
   <div (click)="openDialog()" class="flex items-center gap-x-4">
-    {{ customerMaterialNumber() }}
+    {{ customerMaterialNumber }}
     <mat-icon
       class="small-icon"
       aria-hidden="false"

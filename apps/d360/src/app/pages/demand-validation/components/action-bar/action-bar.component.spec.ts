@@ -47,6 +47,12 @@ describe('ActionBarComponent', () => {
         selectedCustomer: {} as CustomerEntry,
         customerData: [],
         planningView: PlanningView.REQUESTED,
+        demandValidationFilters: {
+          customerMaterialNumber: [],
+          productLine: [],
+          productionLine: [],
+          stochasticType: [],
+        },
         isMaterialListVisible: true,
         changedKPIs: null,
       },

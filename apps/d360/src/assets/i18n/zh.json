@@ -206,9 +206,17 @@
     "customer": "客户",
     "title": "需求验证",
     "vkorg": "销售组织",
-    "action_bar": {
-      "edit_as_list": "以列表编辑",
-      "edit_as_grid": "以网格编辑"
+    "actionBar": {
+      "showResultTable": "显示结果表",
+      "hideResultTable": "隐藏结果表",
+      "export": "导出",
+      "editAsList": "列表-上传",
+      "editAsGrid": "网格上传",
+      "bashDelete": "大批量删除",
+      "selectDate": "选择日期",
+      "settings": "设立",
+      "deleteInput": "删除输入",
+      "checkInput": "检查输入"
     },
     "filter": {
       "rootString": "过滤器 ({{count}})",

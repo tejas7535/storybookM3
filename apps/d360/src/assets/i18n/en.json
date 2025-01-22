@@ -218,9 +218,17 @@
     "customer": "Customer",
     "title": "Validation of demand",
     "vkorg": "Sales Organisation",
-    "action_bar": {
-      "edit_as_list": "Edit as List",
-      "edit_as_grid": "Edit as Grid"
+    "actionBar": {
+      "showResultTable": "Show result table",
+      "hideResultTable": "Hide result table",
+      "export": "Export",
+      "editAsList": "List-Upload",
+      "editAsGrid": "Grid-Upload",
+      "bashDelete": "Mass delete",
+      "selectDate": "Select a date",
+      "settings": "Settings",
+      "deleteInput": "Delete input",
+      "checkInput": "Check input"
     },
     "filter": {
       "rootString": "Filter ({{count}})",

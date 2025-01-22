@@ -7,6 +7,10 @@
     <span class="text-body-medium">{{ customer()?.salesOrg || '' }}</span>
   </p>
 
+  @if (divider()) {
+    <mat-divider [vertical]="true" class="h-full" />
+  }
+
   <!-- Customer Select -->
   <d360-single-autocomplete-pre-loaded
     [control]="$any(control())"

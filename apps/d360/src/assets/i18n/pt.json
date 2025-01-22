@@ -206,9 +206,17 @@
     "customer": "Cliente",
     "title": "Validação da demanda",
     "vkorg": "Organização de vendas",
-    "action_bar": {
-      "edit_as_list": "Editar como Lista",
-      "edit_as_grid": "Editar como Grade"
+    "actionBar": {
+      "showResultTable": "Mostrar tabela de resultados",
+      "hideResultTable": "Ocultar tabela de resultados",
+      "export": "Exportação",
+      "editAsList": "List-Upload",
+      "editAsGrid": "Grid-Upload",
+      "bashDelete": "Exclusão em massa",
+      "selectDate": "Selecionar data",
+      "settings": "Configurações",
+      "deleteInput": "Excluir entrada",
+      "checkInput": "Verificar a entrada"
     },
     "filter": {
       "rootString": "Filtro ({{count}})",

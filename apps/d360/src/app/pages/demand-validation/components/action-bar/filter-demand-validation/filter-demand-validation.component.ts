@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, output } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  effect,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -28,6 +35,8 @@ export class FilterDemandValidationComponent {
 
   public demandValidationFilterChange = output<DemandValidationFilter>();
 
+  public initial = input<DemandValidationFilter | null>(null);
+
   protected formGroup: FormGroup<DemandValidationForm> = new FormGroup({
     productionLine: new FormControl([]),
     productLine: new FormControl([]),
@@ -35,6 +44,18 @@ export class FilterDemandValidationComponent {
     stochasticType: new FormControl([]),
   });
 
+  public constructor() {
+    effect(() =>
+      this.formGroup.setValue(
+        this.initial() || {
+          productionLine: [],
+          productLine: [],
+          customerMaterialNumber: [],
+          stochasticType: [],
+        }
+      )
+    );
+  }
   protected openDemandValidationFilterModal() {
     this.dialog
       .open(FilterDemandValidationModalComponent, {

@@ -1,22 +1,3 @@
-.action-divider {
-  height: 40px;
-  border-right: 1px solid var(--border);
-}
-
-.vk-org-display {
-  display: inline-flex;
-  flex-direction: column;
-
-  .vk-org-display-title {
-    color: var(--outline-color);
-  }
-
-  > * {
-    white-space: nowrap;
-    line-height: unset;
-  }
-}
-
 :host {
   .action-bar {
     ::ng-deep {

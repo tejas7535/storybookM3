@@ -20,6 +20,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { take, tap } from 'rxjs';
 
@@ -59,6 +60,24 @@ import { DatePickerSettingDemandValidationModalComponent } from './date-picker-s
 import { DemandValidationSettingModalComponent } from './demand-validation-setting-modal/demand-validation-setting-modal.component';
 import { FilterDemandValidationComponent } from './filter-demand-validation/filter-demand-validation.component';
 
+interface Button {
+  type:
+    | 'icon-button'
+    | 'flat-button'
+    | 'divider'
+    | 'customer'
+    | 'filter'
+    | 'date-filter'
+    | 'settings';
+  icon?: string;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  action?: Function;
+  class?: string;
+  tooltip?: string;
+  text?: string;
+  disabled?: boolean;
+}
+
 @Component({
   selector: 'd360-action-bar',
   standalone: true,
@@ -70,6 +89,7 @@ import { FilterDemandValidationComponent } from './filter-demand-validation/filt
     MatIcon,
     MatIconButton,
     MatDividerModule,
+    MatTooltipModule,
     CustomerDropDownComponent,
     MatMenuModule,
     DatePickerSettingDemandValidationModalComponent,
@@ -100,6 +120,76 @@ export class ActionBarComponent implements OnInit {
   // private readonly appInsights = inject(ApplicationInsights); // TODO: add ApplicationInsights
 
   private readonly backendRoles = toSignal(this.store.select(getBackendRoles));
+
+  protected leftSide: Signal<Button[]> = computed(() => [
+    {
+      type: 'icon-button',
+      icon: 'view_sidebar',
+      action: this.handleToggleMaterialListVisible.bind(this),
+      class: this.isMaterialListVisible() ? 'icon-button-primary' : '',
+      tooltip: `validation_of_demand.actionBar.${this.isMaterialListVisible() ? 'hideResultTable' : 'showResultTable'}`,
+    },
+    { type: 'divider' },
+    {
+      type: 'icon-button',
+      icon: 'download_2',
+      action: this.handleDownloadButtonClicked.bind(this),
+      tooltip: 'validation_of_demand.actionBar.export',
+    },
+    {
+      type: 'icon-button',
+      icon: 'menu',
+      action: this.handleListModalClicked.bind(this),
+      class: 'icon-button-primary',
+      tooltip: 'validation_of_demand.actionBar.editAsList',
+      disabled: !this.authorizedToChange() || this.disableUpload(),
+    },
+    {
+      type: 'icon-button',
+      icon: 'grid_view',
+      action: this.handleGridModalClicked.bind(this),
+      class: 'icon-button-primary',
+      tooltip: 'validation_of_demand.actionBar.editAsGrid',
+      disabled: !this.authorizedToChange() || this.disableUpload(),
+    },
+    {
+      type: 'icon-button',
+      icon: 'delete',
+      action: this.handleDeleteModalClicked.bind(this),
+      tooltip: 'validation_of_demand.actionBar.bashDelete',
+      disabled: !this.authorizedToChange() || this.disableUpload(),
+    },
+    { type: 'divider' },
+    { type: 'customer' },
+    { type: 'filter' },
+  ]);
+
+  protected rightSide: Signal<Button[]> = computed(() => [
+    { type: 'date-filter' },
+    { type: 'settings' },
+    { type: 'divider' },
+    {
+      type: 'icon-button',
+      icon: 'history',
+      action: this.handleOnDeleteUnsavedForecast.bind(this),
+      tooltip: 'validation_of_demand.actionBar.deleteInput',
+      disabled: this.isDisabledForecastEditing(),
+    },
+    {
+      type: 'icon-button',
+      icon: 'check',
+      action: () => this.handleOnSaveForecast(true),
+      tooltip: 'validation_of_demand.actionBar.checkInput',
+      disabled: this.isDisabledForecastEditing(),
+    },
+    {
+      type: 'flat-button',
+      icon: 'save',
+      action: () => this.handleOnSaveForecast(false),
+      text: 'button.save',
+      disabled: this.isDisabledForecastEditing(),
+    },
+  ]);
 
   protected authorizedToChange = computed(() =>
     this.backendRoles()

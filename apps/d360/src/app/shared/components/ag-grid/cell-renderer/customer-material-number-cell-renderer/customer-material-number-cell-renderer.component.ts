@@ -27,36 +27,37 @@ import { CustomerMaterialNumbersModalComponent } from './modal/customer-material
 export class CustomerMaterialNumberCellRendererComponent
   implements ICellRendererAngularComp
 {
-  customerMaterialNumber: WritableSignal<string> = signal('');
-  customerMaterialNumberCount: WritableSignal<number> = signal(0);
+  protected customerMaterialNumber = '';
+  protected customerMaterialNumberCount = 0;
 
-  materialNumber: WritableSignal<string> = signal('');
-  customerNumber: WritableSignal<string> = signal('');
+  private materialNumber = '';
+  private customerNumber = '';
 
-  isLoading: WritableSignal<boolean> = signal(false);
-  customerMaterialNumbers: WritableSignal<string[]> = signal([]);
+  private readonly isLoading: WritableSignal<boolean> = signal(false);
+  private readonly customerMaterialNumbers: WritableSignal<string[]> = signal(
+    []
+  );
 
-  readonly dialog = inject(MatDialog);
-  readonly httpClient = inject(HttpClient);
-  protected readonly destroyRef: DestroyRef = inject(DestroyRef);
+  private readonly dialog = inject(MatDialog);
+  private readonly httpClient = inject(HttpClient);
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
-  agInit(params: ICellRendererParams): void {
-    this.updateSignals(params);
+  public agInit(params: ICellRendererParams): void {
+    this.updateData(params);
   }
 
-  refresh(params: ICellRendererParams): boolean {
-    this.updateSignals(params);
+  public refresh(params: ICellRendererParams): boolean {
+    this.updateData(params);
 
     return true;
   }
 
-  private updateSignals(params: ICellRendererParams) {
-    this.customerMaterialNumber.set(params.data['customerMaterialNumber']);
-    this.customerMaterialNumberCount.set(
-      params.data['customerMaterialNumberCount']
-    );
-    this.materialNumber.set(params.data['materialNumber']);
-    this.customerNumber.set(params.data['customerNumber']);
+  private updateData(params: ICellRendererParams) {
+    this.customerMaterialNumber = params.data['customerMaterialNumber'];
+    this.customerMaterialNumberCount =
+      params.data['customerMaterialNumberCount'];
+    this.materialNumber = params.data['materialNumber'];
+    this.customerNumber = params.data['customerNumber'];
   }
 
   private fetchAllCustomerMaterialNumbers(): Observable<any> {
@@ -65,7 +66,7 @@ export class CustomerMaterialNumberCellRendererComponent
     return this.httpClient
       .get<
         string[]
-      >(`/api/material-customer/customer-material-numbers?customerNumber=${this.customerNumber()}&materialNumber=${this.materialNumber()}`)
+      >(`/api/material-customer/customer-material-numbers?customerNumber=${this.customerNumber}&materialNumber=${this.materialNumber}`)
       .pipe(
         tap((data) => this.customerMaterialNumbers.set(data)),
         finalize(() => this.isLoading.set(false)),
@@ -73,8 +74,8 @@ export class CustomerMaterialNumberCellRendererComponent
       );
   }
 
-  openDialog() {
-    if (this.customerMaterialNumbers().length === 0) {
+  protected openDialog(): void {
+    if (this.customerMaterialNumbers.length === 0) {
       this.fetchAllCustomerMaterialNumbers().subscribe();
     }
 

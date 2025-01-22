@@ -8,14 +8,18 @@
 
   @if (getFilterCount() && getFilterCount() > 0) {
     <div>
-      <span class="mx-2">|</span>
+      @if (renderFloatingFilter()) {
+        <span class="mx-2">|</span>
+      }
       <span class="text-body-medium">{{ getFilterCountText() }}</span>
     </div>
   }
 
   @if (rowCount() > 0) {
     <div>
-      @if (renderFloatingFilter()) {
+      @if (
+        renderFloatingFilter() || (getFilterCount() && getFilterCount() > 0)
+      ) {
         <span class="mx-2">|</span>
       }
       <span class="text-body-medium">

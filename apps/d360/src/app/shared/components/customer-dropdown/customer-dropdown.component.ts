@@ -6,6 +6,7 @@ import {
   OutputEmitterRef,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -24,7 +25,11 @@ import { DisplayFunctions } from '../inputs/display-functions.utils';
 @Component({
   selector: 'd360-customer-dropdown',
   standalone: true,
-  imports: [SharedTranslocoModule, SingleAutocompletePreLoadedComponent],
+  imports: [
+    SharedTranslocoModule,
+    SingleAutocompletePreLoadedComponent,
+    MatDividerModule,
+  ],
   templateUrl: './customer-dropdown.component.html',
   styleUrls: ['./customer-dropdown.component.scss'],
 })
@@ -44,6 +49,14 @@ export class CustomerDropDownComponent {
    * @memberof CustomerDropDownComponent
    */
   public form: InputSignal<FormGroup> = input.required();
+
+  /**
+   * Draw a divider after sales org?
+   *
+   * @type {InputSignal<boolean>}
+   * @memberof CustomerDropDownComponent
+   */
+  public divider: InputSignal<boolean> = input(false);
 
   /**
    * The className added to the dropdown e.g. to give them a width.

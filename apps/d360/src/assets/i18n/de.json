@@ -215,9 +215,17 @@
     "customer": "Kunde",
     "title": "Validierung Absatzplanung",
     "vkorg": "Verkaufsorganisation",
-    "action_bar": {
-      "edit_as_list": "Als Liste bearbeiten",
-      "edit_as_grid": "Als Grid bearbeiten"
+    "actionBar": {
+      "showResultTable": "Ergebnistabelle Einblenden",
+      "hideResultTable": "Ergebnistabelle Ausblenden",
+      "export": "Export",
+      "editAsList": "List-Upload",
+      "editAsGrid": "Grid-Upload",
+      "bashDelete": "Massenlöschen",
+      "selectDate": "Datum auswählen",
+      "settings": "Einstellungen",
+      "deleteInput": "Eingabe löschen",
+      "checkInput": "Eingabe überprüfen"
     },
     "filter": {
       "rootString": "Filter ({{count}})",

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
+  DestroyRef,
   effect,
   inject,
   input,
@@ -10,7 +11,7 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
   MatSlideToggle,
   MatSlideToggleChange,
@@ -79,6 +80,7 @@ export interface FilterModel {
 })
 export class CustomerMaterialPortfolioTableComponent implements OnInit {
   private readonly store = inject(Store);
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   public selectedCustomer = input.required<CustomerEntry>();
   public globalSelection = input.required<GlobalSelectionState>();
@@ -317,19 +319,22 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
    * @memberof CustomerMaterialPortfolioTableComponent
    */
   private handleDataFetchedEvents(): void {
-    this.cmpService.getDataFetchedEvent().subscribe((value) => {
-      this.rowCount = value.headMaterials.rowCount;
-      if (this.rowCount === 0) {
-        this.gridApi?.showNoRowsOverlay();
-      } else {
-        this.gridApi?.hideOverlay();
+    this.cmpService
+      .getDataFetchedEvent()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
+        this.rowCount = value.headMaterials.rowCount;
+        if (this.rowCount === 0) {
+          this.gridApi?.showNoRowsOverlay();
+        } else {
+          this.gridApi?.hideOverlay();
 
-        // if the rows are expanded, we need to expand the reloaded data too.
-        if (this.showChains) {
-          this.gridApi?.expandAll();
+          // if the rows are expanded, we need to expand the reloaded data too.
+          if (this.showChains) {
+            this.gridApi?.expandAll();
+          }
         }
-      }
-    });
+      });
   }
 
   /**
