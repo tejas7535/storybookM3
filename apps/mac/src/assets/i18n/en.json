@@ -242,7 +242,6 @@
         "<p>With the Consumer role you are able to <b>view</b> the data for all <i>raw materials</i> (Steel, Aluminum, Polymers, ...) and the data stored in <i>SAP Material Numbers</i> section.</p>",
         "<p>The Role <b>P_MSD_EDITOR</b> is only relevant for users who need to edit the data in the MSD raw material section. This role includes the consumer role, there is no need to request both</p>",
         "<p>The Role <b>P_MSD_MATNR_UPLOADER</b> is for users that want to provide PCF values for materials in the <i>SAP Material Numbers</i> view. This role includes the consumer role, there is no need to request both</p>",
-        "<p>While <b>Vitesco employes</b> are unable to use the Self-Service catalog (SAMS), we provide a workaround solution. Please contact us per mail and provide some information why you need the access and which person can verify your request.</p>",
         "../../../assets/img/learnmore/msd/msd_3.png",
         "<i>Screenshot of the Materials Supplier Database (2022-09-12)</i>",
         "<b>5. Troubleshooting / known bugs</b>",
