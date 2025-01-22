@@ -125,7 +125,7 @@ export const co2DownstreamEmissionValue = createSelector(
     return {
       isLoading: isDownstreamLoading,
       calculationError: errors?.[0],
-      unit: 'kg',
+      unit: value ? 'kg' : '',
       value,
       valueLoadcaseName,
       additionalData: { operatingTimeInHours },
@@ -145,7 +145,7 @@ export const downstreamFrictionalPowerlossValue = createSelector(
     return {
       isLoading: isDownstreamLoading,
       calculationError: undefined,
-      unit: 'W',
+      unit: value ? 'W' : '',
       value,
     };
   }
