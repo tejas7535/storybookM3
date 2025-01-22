@@ -6,6 +6,7 @@ export interface MaterialValidation {
   valid: boolean;
   deliveryUnit?: number;
   correctedQuantity?: number;
+  targetPriceSource?: string;
   materialDescription?: string;
   materialPriceUnit?: number;
   materialUoM?: string;

@@ -9,10 +9,6 @@ import { MaterialsCriteriaSelection } from '../components/global-search-bar/mate
 import { FILTER_PARAM_INDICATOR } from '../constants/filter-from-query-params.const';
 import { Keyboard, QuotationStatus, SAP_SYNC_STATUS } from '../models';
 import { TargetPriceSource } from '../models/quotation/target-price-source.enum';
-import { MaterialValidation } from '../models/table';
-import { VALIDATION_CODE } from '../models/table/customer-validation-info.enum';
-import { ValidationDescription } from '../models/table/validation-description.enum';
-import { Severity, ValidatedDetail } from '../services/rest/material/models';
 import * as miscUtils from './misc.utils';
 
 describe('MiscUtils', () => {
@@ -492,95 +488,6 @@ describe('MiscUtils', () => {
     });
   });
 
-  describe('mapToAddDetailsValidationRequest', () => {
-    test('create AddDetailsValidationRequest', () => {
-      const customer = { customerId: '12345', salesOrg: '0615' };
-      const tableData = [
-        {
-          id: 1,
-          materialNumber: '1234',
-          materialDescription: 'matDESC',
-          customerMaterialNumber: '1234_customer',
-          quantity: 20,
-          info: {
-            valid: false,
-            description: [ValidationDescription.Not_Validated],
-          },
-        },
-      ];
-      const expected = {
-        customerId: customer,
-        details: [
-          {
-            id: 1,
-            data: {
-              materialNumber15: '1234',
-              customerMaterial: '1234_customer',
-              quantity: 20,
-            },
-          },
-        ],
-      };
-      const result = miscUtils.mapToAddDetailsValidationRequest(
-        customer,
-        tableData
-      );
-      expect(result).toEqual(expected);
-    });
-  });
-
-  describe('mapValidatedDetailToMaterialValidation', () => {
-    test('map ValidatedDetail to MaterialValidation', () => {
-      const validatedDetail = {
-        id: 1,
-        userInput: {
-          materialNumber15: 'MatNummer',
-          quantity: 4,
-          customerMaterial: 'CustMatNummer',
-        },
-        materialData: {
-          materialNumber15: 'MatNummer',
-          materialDescription: 'MatDesc',
-          materialPriceUnit: 1,
-          materialUoM: 'PC',
-        },
-        customerData: {
-          correctedQuantity: 7,
-          customerMaterial: 'CustMatNummer',
-          deliveryUnit: 5,
-        },
-        valid: true,
-        validationCodes: [
-          {
-            code: VALIDATION_CODE.QDV001,
-            description: 'quantatiy updated',
-            severity: Severity.INFO,
-          },
-        ],
-      } as ValidatedDetail;
-      const expected = {
-        id: 1,
-        valid: true,
-        deliveryUnit: 5,
-        materialNumber15: 'MatNummer',
-        customerMaterial: 'CustMatNummer',
-        correctedQuantity: 7,
-        materialDescription: 'MatDesc',
-        materialPriceUnit: 1,
-        materialUoM: 'PC',
-        validationCodes: [
-          {
-            code: VALIDATION_CODE.QDV001,
-            description: 'quantatiy updated',
-            severity: Severity.INFO,
-          },
-        ],
-      } as MaterialValidation;
-      const result =
-        miscUtils.mapValidatedDetailToMaterialValidation(validatedDetail);
-      expect(result).toEqual(expected);
-    });
-  });
   describe('getTargetPriceSourceValue', () => {
     test('should return Internal when targetPrice is set', () => {
       const result = miscUtils.getTargetPriceSourceValue(

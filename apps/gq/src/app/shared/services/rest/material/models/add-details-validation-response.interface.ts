@@ -22,6 +22,8 @@ export interface ValidatedDetailUserInput {
   customerMaterial?: string;
   targetPrice?: number;
   targetPriceSource?: TargetPriceSource;
+  customerId?: string;
+  salesOrg?: string;
 }
 
 export interface ValidatedDetailMaterialData {
@@ -35,6 +37,8 @@ export interface ValidatedDetailCustomerData {
   customerMaterial: string;
   deliveryUnit: number;
   correctedQuantity: number;
+  targetPrice?: number;
+  targetPriceSource?: TargetPriceSource;
 }
 
 export interface ValidationCode {

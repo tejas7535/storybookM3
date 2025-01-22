@@ -27,10 +27,6 @@ import {
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { PLsSeriesResponse } from '@gq/shared/services/rest/search/models/pls-series-response.model';
 import { SearchService } from '@gq/shared/services/rest/search/search.service';
-import {
-  mapToAddDetailsValidationRequest,
-  mapValidatedDetailToMaterialValidation,
-} from '@gq/shared/utils/misc.utils';
 import { translate } from '@jsverse/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -236,7 +232,7 @@ export class CreateCaseEffects {
           SalesOrg,
         ]) => {
           const request: AddDetailsValidationRequest =
-            mapToAddDetailsValidationRequest(
+            this.materialService.mapToAddDetailsValidationRequest(
               { customerId, salesOrg: salesOrg.id },
               tableData
             );
@@ -246,7 +242,9 @@ export class CreateCaseEffects {
               // map the new Response to the MaterialValidation Model
               const materialValidations = response.validatedDetails.map(
                 (detail: ValidatedDetail) => {
-                  return mapValidatedDetailToMaterialValidation(detail);
+                  return this.materialService.mapValidatedDetailToMaterialValidation(
+                    detail
+                  );
                 }
               );
 

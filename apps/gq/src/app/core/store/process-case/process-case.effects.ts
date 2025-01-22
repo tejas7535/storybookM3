@@ -13,10 +13,6 @@ import {
   AddDetailsValidationResponse,
   ValidatedDetail,
 } from '@gq/shared/services/rest/material/models';
-import {
-  mapToAddDetailsValidationRequest,
-  mapValidatedDetailToMaterialValidation,
-} from '@gq/shared/utils/misc.utils';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
@@ -57,14 +53,19 @@ export class ProcessCaseEffects {
           Customer,
         ]) => {
           const request: AddDetailsValidationRequest =
-            mapToAddDetailsValidationRequest(customer.identifier, tableData);
+            this.materialService.mapToAddDetailsValidationRequest(
+              customer.identifier,
+              tableData
+            );
 
           return this.materialService.validateDetailsToAdd(request).pipe(
             map((response: AddDetailsValidationResponse) => {
               // map the new Response to the MaterialValidation Model
               const materialValidations = response.validatedDetails.map(
                 (detail: ValidatedDetail) => {
-                  return mapValidatedDetailToMaterialValidation(detail);
+                  return this.materialService.mapValidatedDetailToMaterialValidation(
+                    detail
+                  );
                 }
               );
 

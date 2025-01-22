@@ -7,6 +7,9 @@ import {
 import { of } from 'rxjs';
 
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
+import { VALIDATION_CODE } from '@gq/shared/models/table/customer-validation-info.enum';
+import { MaterialValidation } from '@gq/shared/models/table/material-validation.model';
+import { ValidationDescription } from '@gq/shared/models/table/validation-description.enum';
 import * as miscUtils from '@gq/shared/utils/misc.utils';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
@@ -16,6 +19,8 @@ import {
   AddDetailsValidationRequest,
   MaterialAutoComplete,
   MaterialAutoCompleteResponse,
+  Severity,
+  ValidatedDetail,
 } from './models';
 describe('MaterialService', () => {
   let httpMock: HttpTestingController;
@@ -207,6 +212,96 @@ describe('MaterialService', () => {
         `${ApiVersion.V1}/${service['PATH_AUTOCOMPLETE']}/${autocompleteSearch.filter}?${service['PARAM_SEARCH_FOR']}=${autocompleteSearch.searchFor}&${service['PARAM_LIMIT']}=${autocompleteSearch?.limit || 100}&${service['PARAM_CUSTOMER_ID']}=${autocompleteSearch.customerIdentifier.customerId}&${service['PARAM_SALES_ORG']}=${autocompleteSearch.customerIdentifier.salesOrg}`
       );
       req.flush(response);
+    });
+  });
+
+  describe('mapToAddDetailsValidationRequest', () => {
+    test('create AddDetailsValidationRequest', () => {
+      const customer = { customerId: '12345', salesOrg: '0615' };
+      const tableData = [
+        {
+          id: 1,
+          materialNumber: '1234',
+          materialDescription: 'matDESC',
+          customerMaterialNumber: '1234_customer',
+          quantity: 20,
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
+          },
+        },
+      ];
+      const expected = {
+        customerId: customer,
+        details: [
+          {
+            id: 1,
+            data: {
+              materialNumber15: '1234',
+              customerMaterial: '1234_customer',
+              quantity: 20,
+            },
+          },
+        ],
+      };
+      const result = service.mapToAddDetailsValidationRequest(
+        customer,
+        tableData
+      );
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('mapValidatedDetailToMaterialValidation', () => {
+    test('map ValidatedDetail to MaterialValidation', () => {
+      const validatedDetail = {
+        id: 1,
+        userInput: {
+          materialNumber15: 'MatNummer',
+          quantity: 4,
+          customerMaterial: 'CustMatNummer',
+        },
+        materialData: {
+          materialNumber15: 'MatNummer',
+          materialDescription: 'MatDesc',
+          materialPriceUnit: 1,
+          materialUoM: 'PC',
+        },
+        customerData: {
+          correctedQuantity: 7,
+          customerMaterial: 'CustMatNummer',
+          deliveryUnit: 5,
+        },
+        valid: true,
+        validationCodes: [
+          {
+            code: VALIDATION_CODE.QDV001,
+            description: 'quantatiy updated',
+            severity: Severity.INFO,
+          },
+        ],
+      } as ValidatedDetail;
+      const expected = {
+        id: 1,
+        valid: true,
+        deliveryUnit: 5,
+        materialNumber15: 'MatNummer',
+        customerMaterial: 'CustMatNummer',
+        correctedQuantity: 7,
+        materialDescription: 'MatDesc',
+        materialPriceUnit: 1,
+        materialUoM: 'PC',
+        validationCodes: [
+          {
+            code: VALIDATION_CODE.QDV001,
+            description: 'quantatiy updated',
+            severity: Severity.INFO,
+          },
+        ],
+      } as MaterialValidation;
+      const result =
+        service.mapValidatedDetailToMaterialValidation(validatedDetail);
+      expect(result).toEqual(expected);
     });
   });
 });

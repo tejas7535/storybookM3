@@ -342,7 +342,10 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   }
 
   pasteFromClipboard() {
-    this.pasteMaterialsService.onPasteStart(this.isCaseView);
+    this.pasteMaterialsService.onPasteStart(
+      this.isCaseView,
+      this.newCaseCreation
+    );
   }
 
   displaySnackBar(): void {

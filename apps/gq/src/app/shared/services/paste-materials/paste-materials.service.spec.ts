@@ -1,7 +1,8 @@
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { addRowDataItems } from '@gq/core/store/actions/create-case/create-case.actions';
-import { ProcessCaseActions } from '@gq/core/store/process-case';
+import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
+import { ProcessCaseFacade } from '@gq/core/store/process-case';
+import { TargetPriceSource } from '@gq/shared/models/quotation/target-price-source.enum';
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
@@ -9,7 +10,8 @@ import {
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { when } from 'jest-when';
 
 import { LOCALE_DE, LOCALE_EN } from '../../constants';
 import { MaterialTableItem, ValidationDescription } from '../../models/table';
@@ -18,7 +20,6 @@ import { PasteMaterialsService } from './paste-materials.service';
 describe('PasteMaterialsService', () => {
   let service: PasteMaterialsService;
   let spectator: SpectatorService<PasteMaterialsService>;
-  let mockStore: MockStore;
   let combinedArray: MaterialTableItem[];
   let combinedArrayWithTargetPrice: MaterialTableItem[];
   let snackBar: MatSnackBar;
@@ -26,13 +27,17 @@ describe('PasteMaterialsService', () => {
   const createService = createServiceFactory({
     service: PasteMaterialsService,
     imports: [MatSnackBarModule],
-    providers: [provideMockStore({}), mockProvider(TranslocoLocaleService)],
+    providers: [
+      provideMockStore({}),
+      mockProvider(TranslocoLocaleService),
+      mockProvider(CreateCaseFacade),
+      mockProvider(ProcessCaseFacade),
+    ],
   });
 
   beforeEach(() => {
     spectator = createService();
     service = spectator.service;
-    mockStore = spectator.inject(MockStore);
     snackBar = spectator.inject(MatSnackBar);
   });
   test('should be created', () => {
@@ -40,11 +45,10 @@ describe('PasteMaterialsService', () => {
   });
   describe('onPasteStart', () => {
     beforeEach(() => {
-      mockStore.dispatch = jest.fn();
-
       combinedArray = [
         {
           materialNumber: '20',
+          customerMaterialNumber: '',
           quantity: 10,
           info: {
             valid: false,
@@ -53,6 +57,7 @@ describe('PasteMaterialsService', () => {
         },
         {
           materialNumber: '201',
+          customerMaterialNumber: '',
           quantity: 20,
           info: {
             valid: false,
@@ -61,6 +66,7 @@ describe('PasteMaterialsService', () => {
         },
         {
           materialNumber: '203',
+          customerMaterialNumber: '',
           quantity: 30,
           info: {
             valid: false,
@@ -72,8 +78,10 @@ describe('PasteMaterialsService', () => {
       combinedArrayWithTargetPrice = [
         {
           materialNumber: '20',
+          customerMaterialNumber: '',
           quantity: 10,
           targetPrice: 10.05,
+          targetPriceSource: 'INTERNAL',
           info: {
             valid: false,
             description: [ValidationDescription.Not_Validated],
@@ -81,8 +89,10 @@ describe('PasteMaterialsService', () => {
         },
         {
           materialNumber: '201',
+          customerMaterialNumber: '',
           quantity: 20,
           targetPrice: 1000.05,
+          targetPriceSource: 'INTERNAL',
           info: {
             valid: false,
             description: [ValidationDescription.Not_Validated],
@@ -90,8 +100,10 @@ describe('PasteMaterialsService', () => {
         },
         {
           materialNumber: '203',
+          customerMaterialNumber: '',
           quantity: 30,
           targetPrice: 100_000.05,
+          targetPriceSource: 'INTERNAL',
           info: {
             valid: false,
             description: [ValidationDescription.Not_Validated],
@@ -107,17 +119,14 @@ describe('PasteMaterialsService', () => {
       Object.assign(navigator, {
         clipboard: {
           readText: () =>
-            new Promise((resolve) => resolve(`20\t10\n201\t20\n203\t30`)),
+            new Promise((resolve) => resolve(`20\t\t10\n201\t\t20\n203\t\t30`)),
         },
       });
 
-      const combinedItem = {
-        items: combinedArray,
-      };
-      await service.onPasteStart(true);
+      await service.onPasteStart(true, true);
 
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        addRowDataItems(combinedItem)
+      expect(service['createCaseFacade'].addRowDataItems).toHaveBeenCalledWith(
+        combinedArray
       );
     });
 
@@ -130,18 +139,19 @@ describe('PasteMaterialsService', () => {
         clipboard: {
           readText: () =>
             new Promise((resolve) =>
-              resolve(`20\t10\t10,05\n201\t20\t1000,05\n203\t30\t100.000,05`)
+              resolve(
+                `20\t\t10\t10,05\n201\t\t20\t1000,05\n203\t\t30\t100.000,05`
+              )
             ),
         },
       });
 
-      const combinedItem = {
-        items: combinedArrayWithTargetPrice,
-      };
-      await service.onPasteStart(true);
+      const combinedItem = combinedArrayWithTargetPrice;
 
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        addRowDataItems(combinedItem)
+      await service.onPasteStart(true, true);
+
+      expect(service['createCaseFacade'].addRowDataItems).toHaveBeenCalledWith(
+        combinedItem
       );
     });
 
@@ -155,19 +165,16 @@ describe('PasteMaterialsService', () => {
           readText: () =>
             new Promise((resolve) =>
               resolve(
-                `20\t10\t10,05413333\n201\t20\t1000,04974555\n203\t30\t100.000,046123`
+                `20\t\t10\t10,05413333\n201\t\t20\t1000,04974555\n203\t\t30\t100.000,046123`
               )
             ),
         },
       });
 
-      const combinedItem = {
-        items: combinedArrayWithTargetPrice,
-      };
-      await service.onPasteStart(true);
+      await service.onPasteStart(true, true);
 
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        addRowDataItems(combinedItem)
+      expect(service['createCaseFacade'].addRowDataItems).toHaveBeenCalledWith(
+        combinedArrayWithTargetPrice
       );
     });
 
@@ -180,18 +187,69 @@ describe('PasteMaterialsService', () => {
         clipboard: {
           readText: () =>
             new Promise((resolve) =>
-              resolve(`20\t10\t10.05\n201\t20\t1000.05\n203\t30\t100,000.05`)
+              resolve(
+                `20\t\t10\t10.05\n201\t\t20\t1000.05\n203\t\t30\t100,000.05`
+              )
             ),
         },
       });
 
-      const combinedItem = {
-        items: combinedArrayWithTargetPrice,
-      };
-      await service.onPasteStart(true);
+      await service.onPasteStart(true, true);
 
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        addRowDataItems(combinedItem)
+      expect(service['createCaseFacade'].addRowDataItems).toHaveBeenCalledWith(
+        combinedArrayWithTargetPrice
+      );
+    });
+
+    test('should dispatch action with transformed array with target price and targetPriceSource provided set', async () => {
+      service['translocoLocaleService'].getLocale = jest
+        .fn()
+        .mockReturnValue(LOCALE_EN.id);
+
+      when(translate)
+        .calledWith(
+          `shared.caseMaterial.addEntry.targetPriceSource.values.${TargetPriceSource.INTERNAL}`,
+          null,
+          'de'
+        )
+        .mockReturnValue('Intern');
+      when(translate)
+        .calledWith(
+          `shared.caseMaterial.addEntry.targetPriceSource.values.${TargetPriceSource.INTERNAL}`,
+          null,
+          'en'
+        )
+        .mockReturnValue('Internal');
+      when(translate)
+        .calledWith(
+          `shared.caseMaterial.addEntry.targetPriceSource.values.${TargetPriceSource.CUSTOMER}`,
+          null,
+          'de'
+        )
+        .mockReturnValue('Kunde');
+      when(translate)
+        .calledWith(
+          `shared.caseMaterial.addEntry.targetPriceSource.values.${TargetPriceSource.CUSTOMER}`,
+          null,
+          'en'
+        )
+        .mockReturnValue('Customer');
+      Object.assign(navigator, {
+        clipboard: {
+          readText: () =>
+            new Promise((resolve) =>
+              resolve(
+                `20\t\t10\t10.05\tinternal\n201\t\t20\t1000.05\tkunde\n203\t\t30\t100,000.05\tstupidTargetPriceSource`
+              )
+            ),
+        },
+      });
+
+      await service.onPasteStart(true, true);
+      combinedArrayWithTargetPrice[1].targetPriceSource = 'CUSTOMER';
+
+      expect(service['createCaseFacade'].addRowDataItems).toHaveBeenCalledWith(
+        combinedArrayWithTargetPrice
       );
     });
 
@@ -202,26 +260,26 @@ describe('PasteMaterialsService', () => {
 
       Object.assign(navigator, {
         clipboard: {
-          readText: () => new Promise((resolve) => resolve(`20\t1.000`)),
+          readText: () => new Promise((resolve) => resolve(`20\t\t1.000`)),
         },
       });
 
-      const combinedItem = {
-        items: [
-          {
-            materialNumber: '20',
-            quantity: 1000,
-            info: {
-              valid: false,
-              description: [ValidationDescription.Not_Validated],
-            },
+      const combinedItem = [
+        {
+          materialNumber: '20',
+          customerMaterialNumber: '',
+          quantity: 1000,
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
           },
-        ],
-      };
-      await service.onPasteStart(true);
+        },
+      ];
 
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        addRowDataItems(combinedItem)
+      await service.onPasteStart(true, true);
+
+      expect(service['createCaseFacade'].addRowDataItems).toHaveBeenCalledWith(
+        combinedItem
       );
     });
     test('should dispatch action english locale', async () => {
@@ -231,26 +289,26 @@ describe('PasteMaterialsService', () => {
 
       Object.assign(navigator, {
         clipboard: {
-          readText: () => new Promise((resolve) => resolve(`20\t1,000`)),
+          readText: () => new Promise((resolve) => resolve(`20\t\t1,000`)),
         },
       });
 
-      const combinedItem = {
-        items: [
-          {
-            materialNumber: '20',
-            quantity: 1000,
-            info: {
-              valid: false,
-              description: [ValidationDescription.Not_Validated],
-            },
+      const combinedItem = [
+        {
+          materialNumber: '20',
+          customerMaterialNumber: '',
+          quantity: 1000,
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
           },
-        ],
-      };
-      await service.onPasteStart(true);
+        },
+      ];
 
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        addRowDataItems(combinedItem)
+      await service.onPasteStart(true, true);
+
+      expect(service['createCaseFacade'].addRowDataItems).toHaveBeenCalledWith(
+        combinedItem
       );
     });
     test('should dispatch action with transformed array for processCase view', async () => {
@@ -258,38 +316,39 @@ describe('PasteMaterialsService', () => {
       Object.assign(navigator, {
         clipboard: {
           readText: () =>
-            new Promise((resolve) => resolve(`20\t10\n201\t20\n203\t30\n`)),
+            new Promise((resolve) =>
+              resolve(`20\t\t10\n201\t\t20\n203\t\t30\n`)
+            ),
         },
       });
 
-      const combinedItem = {
-        items: combinedArray,
-      };
-      await service.onPasteStart(false);
+      await service.onPasteStart(false, true);
 
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        ProcessCaseActions.addNewItemsToMaterialTable(combinedItem)
-      );
+      expect(
+        service['processCaseFacade'].addItemsToMaterialTable
+      ).toHaveBeenCalledWith(combinedArray);
     });
     test('should dispatch action with transformed array for zero quantity', async () => {
       Object.assign(navigator, {
         clipboard: {
-          readText: () =>
-            new Promise((resolve) => resolve(`\t10\n201\t\n203\t30`)),
+          readText: () => new Promise((resolve) => resolve(`20\t`)),
         },
       });
 
-      combinedArray[0].materialNumber = '';
-      combinedArray[1].quantity = 1;
-
-      const combinedItem = {
-        items: combinedArray,
-      };
-      await service.onPasteStart(false);
-
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        ProcessCaseActions.addNewItemsToMaterialTable(combinedItem)
-      );
+      await service.onPasteStart(false, true);
+      expect(
+        service['processCaseFacade'].addItemsToMaterialTable
+      ).toHaveBeenCalledWith([
+        {
+          materialNumber: '20',
+          quantity: 1,
+          customerMaterialNumber: '',
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
+          },
+        } as MaterialTableItem,
+      ]);
     });
 
     test('should show snackBar if pasting is disabled', async () => {
@@ -303,13 +362,15 @@ describe('PasteMaterialsService', () => {
         },
       });
 
-      await service.onPasteStart(true);
+      await service.onPasteStart(false, false);
 
       expect(snackBar.open).toHaveBeenCalledTimes(1);
       expect(snackBar.open).toHaveBeenCalledWith(
         translate(`shared.snackBarMessages.pasteDisabled`)
       );
-      expect(mockStore.dispatch).toHaveBeenCalledTimes(0);
+      expect(
+        service['processCaseFacade'].addItemsToMaterialTable
+      ).not.toHaveBeenCalled();
     });
   });
 });

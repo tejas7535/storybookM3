@@ -46,7 +46,10 @@ export class PasteButtonComponent {
   }
 
   pasteFromClipboard(): void {
-    this.pasteMaterialsService.onPasteStart(this.isCaseView);
+    this.pasteMaterialsService.onPasteStart(
+      this.isCaseView,
+      this.isNewCaseCreationView
+    );
   }
 
   displaySnackBar(): void {

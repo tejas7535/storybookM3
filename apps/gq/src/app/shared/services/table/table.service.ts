@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { isEmpty } from 'lodash';
+
 import {
   MaterialQuantities,
   MaterialValidation,
@@ -73,7 +75,7 @@ export class TableService {
               info: {
                 valid: false,
                 description: [ValidationDescription.Not_Validated],
-                errorCode: undefined,
+                errorCode: undefined as string,
               },
             }
           : {
@@ -134,6 +136,9 @@ export class TableService {
     isNewCaseCreation: boolean = false
   ): MaterialTableItem {
     const updatedRow = { ...el };
+    if (isEmpty(updatedRow.materialNumber)) {
+      updatedRow.materialNumber = materialValidation?.materialNumber15;
+    }
     updatedRow.materialDescription = materialValidation?.materialDescription;
     updatedRow.priceUnit = materialValidation?.materialPriceUnit;
     updatedRow.UoM = materialValidation?.materialUoM;

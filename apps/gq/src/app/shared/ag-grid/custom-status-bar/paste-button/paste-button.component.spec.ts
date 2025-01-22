@@ -74,7 +74,10 @@ describe('PasteButtonComponent', () => {
 
       expect(
         component['pasteMaterialsService'].onPasteStart
-      ).toHaveBeenCalledWith(component.isCaseView);
+      ).toHaveBeenCalledWith(
+        component.isCaseView,
+        component.isNewCaseCreationView
+      );
     });
   });
 

@@ -149,6 +149,9 @@ export class EditCaseMaterialComponent {
         return this.isWarningPresent(VALIDATION_CODE.QDV001);
       }
 
+      case 'materialNumber': {
+        return this.isWarningPresent(VALIDATION_CODE.QDV003);
+      }
       default: {
         return false;
       }

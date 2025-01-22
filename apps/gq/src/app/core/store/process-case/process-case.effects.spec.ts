@@ -115,11 +115,6 @@ describe('ProcessCaseEffects', () => {
       'should return validateAddMaterialsOnCustomerAndSalesOrgSuccess when REST call is successful',
       marbles((m) => {
         action = ProcessCaseActions.validateMaterialTableItems();
-
-        effects['materialService'].validateDetailsToAdd = jest.fn(
-          () => response
-        );
-
         const materialValidations: MaterialValidation[] = [
           {
             id: 1,
@@ -138,12 +133,24 @@ describe('ProcessCaseEffects', () => {
                 severity: Severity.INFO,
               },
             ],
+            targetPriceSource: undefined,
           },
         ];
+        effects['materialService'].validateDetailsToAdd = jest.fn(
+          () => response
+        );
+        effects['materialService'].mapToAddDetailsValidationRequest = jest
+          .fn()
+          .mockReturnValue(request);
+        effects['materialService'].mapValidatedDetailToMaterialValidation = jest
+          .fn()
+          .mockReturnValue(materialValidations[0]);
+
         const result = ProcessCaseActions.validateMaterialTableItemsSuccess({
           materialValidations,
           isNewCaseCreation: false,
         });
+
         const correctedQuantity = 7;
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-a|', {
@@ -167,6 +174,8 @@ describe('ProcessCaseEffects', () => {
                   correctedQuantity,
                   customerMaterial: tableData[0].customerMaterialNumber,
                   deliveryUnit: 5,
+                  targetPrice: undefined,
+                  targetPriceSource: undefined,
                 },
                 valid: true,
                 validationCodes: [
@@ -197,6 +206,13 @@ describe('ProcessCaseEffects', () => {
     test(
       'should return validateFailure on REST error',
       marbles((m) => {
+        effects['materialService'].mapToAddDetailsValidationRequest = jest
+          .fn()
+          .mockReturnValue(request);
+
+        effects['materialService'].mapValidatedDetailToMaterialValidation =
+          jest.fn();
+
         const result = ProcessCaseActions.validateMaterialTableItemsFailure({
           errorMessage,
         });

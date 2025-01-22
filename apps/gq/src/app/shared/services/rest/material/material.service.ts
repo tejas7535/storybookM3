@@ -6,13 +6,22 @@ import { map, mergeMap, Observable, of } from 'rxjs';
 import { MaterialStock } from '@gq/core/store/reducers/models';
 import { AutocompleteSearch } from '@gq/shared/models/search';
 import { IdValue } from '@gq/shared/models/search/id-value.model';
+import { MaterialTableItem, MaterialValidation } from '@gq/shared/models/table';
 import { mapMaterialAutocompleteToIdValue } from '@gq/shared/utils/misc.utils';
+import { isEmpty } from 'lodash';
 
-import { ApiVersion } from '../../../models';
+import { ApiVersion, CustomerId } from '../../../models';
 import { PlantMaterialDetail } from '../../../models/quotation-detail';
 import { MaterialAutoCompleteResponse } from './models';
-import { AddDetailsValidationRequest } from './models/add-details-validation-request.interface';
-import { AddDetailsValidationResponse } from './models/add-details-validation-response.interface';
+import {
+  AddDetailsValidationRequest,
+  ValidationDetail,
+  ValidationDetailData,
+} from './models/add-details-validation-request.interface';
+import {
+  AddDetailsValidationResponse,
+  ValidatedDetail,
+} from './models/add-details-validation-response.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -125,4 +134,49 @@ export class MaterialService {
         )
       );
   }
+
+  mapToAddDetailsValidationRequest = (
+    customerId: CustomerId,
+    tableData: MaterialTableItem[]
+  ): AddDetailsValidationRequest => ({
+    customerId,
+    details: tableData.map(
+      (el) =>
+        ({
+          id: el.id,
+          data: {
+            materialNumber15: isEmpty(el.materialNumber)
+              ? undefined
+              : el.materialNumber,
+            quantity: el.quantity,
+            customerMaterial: isEmpty(el.customerMaterialNumber)
+              ? undefined
+              : el.customerMaterialNumber,
+            targetPrice: el.targetPrice,
+            targetPriceSource: el.targetPriceSource,
+          } as ValidationDetailData,
+        }) as ValidationDetail
+    ),
+  });
+
+  mapValidatedDetailToMaterialValidation = (detail: ValidatedDetail) => {
+    const validatedMaterial: MaterialValidation = {
+      id: detail.id,
+      valid: detail.valid,
+      materialNumber15: detail.materialData.materialNumber15,
+      materialDescription: detail.materialData.materialDescription,
+      materialPriceUnit: detail.materialData.materialPriceUnit,
+      materialUoM: detail.materialData.materialUoM,
+      customerMaterial: detail.customerData?.customerMaterial,
+      correctedQuantity:
+        detail.customerData?.correctedQuantity > 0
+          ? detail.customerData?.correctedQuantity
+          : null,
+      targetPriceSource: detail.customerData?.targetPriceSource,
+      deliveryUnit: detail.customerData?.deliveryUnit,
+      validationCodes: detail.validationCodes,
+    };
+
+    return validatedMaterial;
+  };
 }

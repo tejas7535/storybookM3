@@ -117,7 +117,16 @@ export class InputTableColumnDefService {
 
   NEW_CASE_CREATION_COLUMN_DEFS: ColDef[] = [
     { ...this.BASE_COLUMN_DEFS[0], flex: null, width: 120 },
-    { ...this.BASE_COLUMN_DEFS[1], flex: null },
+    {
+      ...this.BASE_COLUMN_DEFS[1],
+      flex: null,
+      filterParams: {
+        ...FILTER_PARAMS,
+        valueFormatter: (params: ValueFormatterParams) =>
+          ColumnUtilityService.basicTransform(params),
+      },
+      valueFormatter: (params) => ColumnUtilityService.basicTransform(params),
+    },
     { ...this.BASE_COLUMN_DEFS[2], flex: null },
     {
       headerName: translate('shared.caseMaterial.table.customerMaterialNumber'),

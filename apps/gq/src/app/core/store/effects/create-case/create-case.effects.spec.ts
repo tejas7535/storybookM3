@@ -432,6 +432,7 @@ describe('Create Case Effects', () => {
             materialUoM: 'PC',
             customerMaterial: tableData[0].customerMaterialNumber,
             correctedQuantity: 7,
+            targetPriceSource: undefined,
             validationCodes: [
               {
                 code: VALIDATION_CODE.QDV001,
