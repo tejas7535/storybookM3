@@ -10,46 +10,38 @@ import { differenceBy } from 'lodash';
 export class GridMergeService {
   mergeAndReorderColumns(
     oldColumnState: ColumnState[],
-    newColumnState: ColumnState[]
+    newColumnState: ColumnState[],
+    defaultOrderColIds: string[]
   ): ColumnState[] {
-    // Create a map of column states from the old array by their colId
+    // create a map for quick access to old columns and to check for new columns
     const oldMap: Record<string, ColumnState> = {};
     oldColumnState.forEach((column) => {
       oldMap[column.colId] = column;
     });
 
-    const matched: ColumnState[] = [];
-    const unmatched: ColumnState[] = [];
-
-    // Process the new array
+    const newMap: Record<string, ColumnState> = {};
     newColumnState.forEach((column) => {
-      if (Object.prototype.hasOwnProperty.call(oldMap, column.colId)) {
-        // Use the settings from the old array
-        matched.push(oldMap[column.colId]);
-      } else {
-        unmatched.push({ ...column, hide: true }); // hide new columns to prevent them from appearing in custom user views automatically
+      newMap[column.colId] = column;
+    });
+
+    const result: ColumnState[] = [];
+
+    // add elements from oldColumnState that should be kept (i.e., present in newColumnState)
+    oldColumnState.forEach((column) => {
+      if (newMap[column.colId] || defaultOrderColIds.includes(column.colId)) {
+        result.push(column);
       }
     });
 
-    // Sort the matched based on the order in the old array
-    matched.sort(
-      (a, b) =>
-        oldColumnState.findIndex((x) => x.colId === a.colId) -
-        oldColumnState.findIndex((x) => x.colId === b.colId)
-    );
-
-    // Reconstruct the array
-    const result: ColumnState[] = [];
-    let matchedIndex = 0;
-    let unmatchedIndex = 0;
-
-    newColumnState.forEach((column) => {
-      if (Object.prototype.hasOwnProperty.call(oldMap, column.colId)) {
-        result.push(matched[matchedIndex]);
-        matchedIndex += 1;
-      } else {
-        result.push(unmatched[unmatchedIndex]);
-        unmatchedIndex += 1;
+    // process newColumnState and add the new column id next to the first neighbor that has been found
+    newColumnState.forEach((newCol) => {
+      if (!oldMap[newCol.colId]) {
+        const insertIndex = this.findInsertIndex(
+          defaultOrderColIds,
+          newCol.colId,
+          result
+        );
+        result.splice(insertIndex, 0, { ...newCol, hide: true }); // new columns should be hidden by default
       }
     });
 
@@ -87,5 +79,34 @@ export class GridMergeService {
       });
 
     return colsToCleanUp.length > 0;
+  }
+
+  private findInsertIndex(
+    defaultOrderColIds: string[],
+    colId: string,
+    result: ColumnState[]
+  ): number {
+    const oldColIdsSet = new Set(result.map((col) => col.colId));
+    // get the index of the new column in the default order
+    const defaultIndex = defaultOrderColIds.indexOf(colId);
+
+    // look to the left for a neighbor in the old column set
+    for (let i = defaultIndex - 1; i >= 0; i = i - 1) {
+      if (oldColIdsSet.has(defaultOrderColIds[i])) {
+        return (
+          result.findIndex((col) => col.colId === defaultOrderColIds[i]) + 1
+        );
+      }
+    }
+
+    // look to the right for a neighbor in the old column set
+    for (let i = defaultIndex + 1; i < defaultOrderColIds.length; i = i + 1) {
+      if (oldColIdsSet.has(defaultOrderColIds[i])) {
+        return result.findIndex((col) => col.colId === defaultOrderColIds[i]);
+      }
+    }
+
+    // ff no neighbors found, default to 0
+    return 0;
   }
 }

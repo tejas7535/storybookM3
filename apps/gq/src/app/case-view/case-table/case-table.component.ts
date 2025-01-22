@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Observable, Subject, take, takeUntil } from 'rxjs';
+import { Observable, Subject, take } from 'rxjs';
 
 import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
 import { OverviewCasesFacade } from '@gq/core/store/overview-cases/overview-cases.facade';
@@ -15,7 +15,6 @@ import {
   disableTableHorizontalScrollbar,
   statusBarStlye,
 } from '@gq/shared/constants';
-import { FilterState } from '@gq/shared/models/grid-state.model';
 import { ViewQuotation } from '@gq/shared/models/quotation';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import {
@@ -138,14 +137,12 @@ export class CaseTableComponent implements OnInit, OnDestroy {
     }
 
     // apply filters
-    this.agGridStateService.filterState
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((filterState: FilterState[]) => {
-        const curFilter = filterState.find(
-          (filter) => filter.actionItemId === this.activeTab // quotationId is a string, so we use the table name to find the filter
-        );
-        event?.api?.setFilterModel?.(curFilter?.filterModels || {});
-      });
+    const filterState =
+      this.agGridStateService.getColumnFiltersForCurrentView();
+    const curFilter = filterState.find(
+      (filterVal) => filterVal.actionItemId === this.activeTab
+    );
+    event?.api?.setFilterModel?.(curFilter?.filterModels || {});
   }
 
   onRowSelected(event: RowSelectedEvent): void {

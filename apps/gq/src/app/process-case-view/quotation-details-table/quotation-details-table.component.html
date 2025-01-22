@@ -1,6 +1,7 @@
 <ag-grid-angular
   oncontextmenu="return false;"
   class="ag-theme-material h-[95%] rounded-[4px] rounded-tl-none border border-border"
+  [ngClass]="{ hidden: !gridVisible }"
   [excelStyles]="excelStyles"
   [rowData]="rowData"
   [defaultColDef]="defaultColumnDefs"
@@ -29,5 +30,6 @@
   (rowDoubleClicked)="onRowDoubleClicked($event)"
   [suppressScrollOnNewData]="true"
   [selectionColumnDef]="selectionColumnDef"
+  [autoSizeStrategy]="autoSizeStrategy"
 >
 </ag-grid-angular>

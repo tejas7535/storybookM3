@@ -209,6 +209,7 @@ export class ColumnDefService {
         ),
       },
       width: 185,
+      suppressSizeToFit: true,
     },
     {
       headerName: translate('shared.quotationDetailsTable.gqRating'),
@@ -237,6 +238,7 @@ export class ColumnDefService {
         ),
       },
       width: 190,
+      suppressSizeToFit: true,
     },
     {
       headerName: translate('shared.quotationDetailsTable.rsp'),
@@ -626,6 +628,7 @@ export class ColumnDefService {
         field: ColumnFields.PRICE_DIFF,
       } as EditCellData,
       width: 225,
+      suppressSizeToFit: true,
     },
     {
       headerName: translate('shared.quotationDetailsTable.priceDiffSAP'),

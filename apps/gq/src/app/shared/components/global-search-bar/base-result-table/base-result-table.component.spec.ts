@@ -1,7 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { BehaviorSubject } from 'rxjs';
-
 import { AppRoutePath } from '@gq/app-route-path.enum';
 import {
   ColumnUtilityService,
@@ -9,7 +7,6 @@ import {
 } from '@gq/shared/ag-grid/services';
 import { BaseResultTableComponent } from '@gq/shared/components/global-search-bar/base-result-table/base-result-table.component';
 import { ColumnDefinitionService } from '@gq/shared/components/global-search-bar/config/column-definition-service';
-import { FilterState } from '@gq/shared/models/grid-state.model';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import * as miscUtils from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -70,12 +67,13 @@ describe('BaseResultTableComponent', () => {
           filterModels: { column1: { type: 'equals', filter: 'value' } },
         },
       ];
-      component['agGridStateService'].filterState = new BehaviorSubject<
-        FilterState[]
-      >([]);
+
       component['agGridStateService'].getColumnStateForCurrentView = jest
         .fn()
         .mockReturnValue(columnState);
+      component['agGridStateService'].getColumnFiltersForCurrentView = jest
+        .fn()
+        .mockReturnValue(filterState);
       component['agGridStateService'].setColumnStateForCurrentView = jest.fn();
       const event: GridReadyEvent = {
         api: {
@@ -87,7 +85,6 @@ describe('BaseResultTableComponent', () => {
       } as unknown as GridReadyEvent;
 
       component.onGridReady(event, tableKey);
-      component['agGridStateService'].filterState.next(filterState);
 
       expect(event.api.applyColumnState).toHaveBeenCalled();
       expect(event.api.setColumnsPinned).toHaveBeenCalled();

@@ -75,7 +75,8 @@ describe('SingleQuotesTab', () => {
           resetFilterModelsOfDefaultView: jest.fn(),
           clearDefaultViewColumnAndFilterState: jest.fn(),
           DEFAULT_VIEW_ID: 1,
-          views: viewsSubject,
+          views$: viewsSubject.asObservable(),
+          views$$: viewsSubject,
         } as unknown as AgGridStateService),
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -398,7 +399,7 @@ describe('SingleQuotesTab', () => {
           resetFilterModelsOfDefaultView: jest.fn(),
           clearDefaultViewColumnAndFilterState: jest.fn(),
           DEFAULT_VIEW_ID: 1,
-          views: viewsSubject,
+          views$: viewsSubject.asObservable(),
         } as unknown as AgGridStateService),
       ],
 

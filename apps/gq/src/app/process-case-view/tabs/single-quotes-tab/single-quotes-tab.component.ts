@@ -51,7 +51,7 @@ export class SingleQuotesTabComponent implements OnInit {
     )
   );
   quotation$ = this.activeCaseFacade.quotation$;
-  customViews$ = this.gridStateService.views.asObservable().pipe(
+  customViews$ = this.gridStateService.views$.pipe(
     map((views: ViewToggle[]) => {
       const viewsWithIcons = views.map((view: ViewToggle) => {
         if (view.id === this.gridStateService.DEFAULT_VIEW_ID) {

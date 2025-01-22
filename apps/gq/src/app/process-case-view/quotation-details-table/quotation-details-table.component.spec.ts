@@ -104,17 +104,106 @@ describe('QuotationDetailsTableComponent', () => {
     beforeEach(() => {
       isSapSyncPendingSubject$$.next(false);
     });
+
     test('should set columnDefs', () => {
       component.ngOnInit();
 
       expect(component.columnDefs$).toBeDefined();
     });
 
-    test('should take selected cases from the store', () => {
-      expect(component.selectedQuotationIds).toEqual([]);
-      component.ngOnInit();
-      expect(component.selectedQuotationIds).toEqual(['1234']);
-    });
+    test(
+      'should take selected cases from the store',
+      marbles((m) => {
+        const mockColDefs: ColDef[] = [
+          {
+            field: ColumnFields.SAP_SYNC_STATUS,
+          },
+          {
+            field: ColumnFields.DATE_NEXT_FREE_ATP,
+          },
+        ];
+        component['activeCaseFacade'].quotation$ = of({
+          sapId: undefined,
+        } as Quotation);
+
+        component['columnDefinitionService'].COLUMN_DEFS = mockColDefs;
+        store.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [],
+              },
+            },
+          },
+        });
+        component['activeCaseFacade'].quotationHasFNumberMaterials$ = of(true);
+        expect(component.isFirstColDefEmit).toBeTruthy();
+
+        component.ngOnInit();
+
+        m.expect(component.columnDefs$).toBeObservable(
+          m.cold('a', {
+            a: [
+              {
+                field: ColumnFields.DATE_NEXT_FREE_ATP,
+              },
+            ],
+          })
+        );
+
+        m.flush();
+
+        expect(component.isFirstColDefEmit).toBeFalsy();
+      })
+    );
+
+    test(
+      'should set colDefChanged and hide grid if not first emit',
+      marbles((m) => {
+        const mockColDefs: ColDef[] = [
+          {
+            field: ColumnFields.SAP_SYNC_STATUS,
+          },
+          {
+            field: ColumnFields.DATE_NEXT_FREE_ATP,
+          },
+        ];
+        component['activeCaseFacade'].quotation$ = of({
+          sapId: undefined,
+        } as Quotation);
+
+        component['columnDefinitionService'].COLUMN_DEFS = mockColDefs;
+        store.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [],
+              },
+            },
+          },
+        });
+        component.isFirstColDefEmit = false;
+        component['activeCaseFacade'].quotationHasFNumberMaterials$ = of(true);
+
+        component.ngOnInit();
+
+        m.expect(component.columnDefs$).toBeObservable(
+          m.cold('a', {
+            a: [
+              {
+                field: ColumnFields.DATE_NEXT_FREE_ATP,
+              },
+            ],
+          })
+        );
+
+        m.flush();
+
+        expect(component.isFirstColDefEmit).toBeFalsy();
+        expect(component.colDefChanged).toBeTruthy();
+        expect(component.gridVisible).toBeFalsy();
+      })
+    );
 
     test(
       'should filter SAP Columns',
@@ -432,6 +521,40 @@ describe('QuotationDetailsTableComponent', () => {
     });
   });
 
+  describe('ngAfterViewChecked', () => {
+    test('should not apply stored states when colDefChanged is false', () => {
+      component.gridVisible = false;
+      component.colDefChanged = false;
+      component.gridApi = {} as any;
+      component['applyStoredColumnState'] = jest.fn();
+      component['applyStoredFilterState'] = jest.fn();
+
+      expect(component.gridVisible).toBeFalsy();
+
+      component.ngAfterViewChecked();
+
+      expect(component.gridVisible).toBeTruthy();
+
+      expect(component['applyStoredColumnState']).not.toHaveBeenCalled();
+      expect(component['applyStoredFilterState']).not.toHaveBeenCalled();
+    });
+
+    test('should set gridVisible to true', () => {
+      component.gridVisible = false;
+      component.colDefChanged = true;
+      component.gridApi = {} as any;
+      component['applyStoredColumnState'] = jest.fn();
+      component['applyStoredFilterState'] = jest.fn();
+
+      component.ngAfterViewChecked();
+
+      expect(component.gridVisible).toBeTruthy();
+      expect(component.colDefChanged).toBeFalsy();
+      expect(component['applyStoredColumnState']).toHaveBeenCalled();
+      expect(component['applyStoredFilterState']).toHaveBeenCalled();
+    });
+  });
+
   describe('set quotation', () => {
     test('should set rowData and tableContext.currency', () => {
       component.quotation = QUOTATION_MOCK;
@@ -472,6 +595,19 @@ describe('QuotationDetailsTableComponent', () => {
       expect(
         component['agGridStateService'].setColumnStateForCurrentView
       ).toHaveBeenCalledTimes(1);
+    });
+
+    test('should show grid and load stored grid state if rowDataChanged', () => {
+      component['agGridStateService'].getCurrentViewId = jest
+        .fn()
+        .mockReturnValue(1);
+      component['applyStoredColumnState'] = jest.fn();
+      component.gridVisible = false;
+
+      component.onColumnChange({ ...event, source: 'gridOptionsChanged' });
+
+      expect(component['applyStoredColumnState']).toHaveBeenCalledTimes(1);
+      expect(component.gridVisible).toBeTruthy();
     });
 
     test('should set column filters', () => {
@@ -517,13 +653,13 @@ describe('QuotationDetailsTableComponent', () => {
     beforeEach(() => {
       mockEvent = {
         api: {
-          forEachNodeAfterFilterAndSort: jest.fn(),
           forEachNode: jest.fn(),
           setFilterModel: jest.fn(),
           ensureIndexVisible: jest.fn(),
           autoSizeColumns: jest.fn(),
           resetColumnState: jest.fn(),
           applyColumnState: jest.fn(),
+          forEachNodeAfterFilterAndSort: jest.fn(),
         },
       } as any;
 
@@ -543,7 +679,28 @@ describe('QuotationDetailsTableComponent', () => {
       expect(
         component['agGridStateService'].setColumnData
       ).toHaveBeenCalledTimes(1);
-      expect(mockEvent.api.resetColumnState).toHaveBeenCalledTimes(1);
+    });
+
+    test('should not apply stored states when active view is initially read', () => {
+      component['applyStoredColumnState'] = jest.fn();
+      component['applyStoredFilterState'] = jest.fn();
+      component['agGridStateService'].activeViewId$ = of(1);
+
+      component.onGridReady(mockEvent);
+
+      expect(component['applyStoredColumnState']).not.toHaveBeenCalled();
+      expect(component['applyStoredFilterState']).not.toHaveBeenCalled();
+    });
+
+    test('should apply stored states when active view is changed for the second time', () => {
+      component['applyStoredColumnState'] = jest.fn();
+      component['applyStoredFilterState'] = jest.fn();
+      component['agGridStateService'].activeViewId$ = of(1, 2);
+
+      component.onGridReady(mockEvent);
+
+      expect(component['applyStoredColumnState']).toHaveBeenCalledTimes(1);
+      expect(component['applyStoredFilterState']).toHaveBeenCalledTimes(1);
     });
 
     test('should NOT set column data if already exist', () => {
@@ -633,7 +790,6 @@ describe('QuotationDetailsTableComponent', () => {
         0,
         ColumnFields.QUOTATION_ITEM_ID
       );
-      expect(params.api.getAllGridColumns).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -1027,6 +1183,93 @@ describe('QuotationDetailsTableComponent', () => {
       expect(result.length).toBe(1);
 
       expect(result[0]).toBe('item3');
+    });
+  });
+
+  describe('applyStoredColumnState', () => {
+    test('should reset column state if stored state is empty', () => {
+      component['agGridStateService'].getColumnStateForCurrentView = jest
+        .fn()
+        .mockReturnValue([]);
+      component.gridApi = {
+        resetColumnState: jest.fn(),
+      } as any;
+
+      component['applyStoredColumnState']();
+
+      expect(component.gridApi.resetColumnState).toHaveBeenCalledTimes(1);
+    });
+
+    test('should load and apply state if possible', () => {
+      component['agGridStateService'].getColumnStateForCurrentView = jest
+        .fn()
+        .mockReturnValue([{}]);
+      component.gridApi = {
+        getColumnState: jest.fn(),
+        applyColumnState: jest.fn(),
+      } as any;
+      component['agGridStateService'].getInitialColIds = jest.fn();
+      component['gridMergeService'].mergeAndReorderColumns = jest.fn();
+
+      component['applyStoredColumnState']();
+
+      expect(component.gridApi.applyColumnState).toHaveBeenCalledTimes(1);
+      expect(component.gridApi.getColumnState).toHaveBeenCalledTimes(1);
+      expect(
+        component['agGridStateService'].getInitialColIds
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        component['gridMergeService'].mergeAndReorderColumns
+      ).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('applyStoredFilterState', () => {
+    test('should set filter model from loclstorage', () => {
+      const quotationId = 2;
+      const filterModels = { test: 2 };
+      component['agGridStateService'].getColumnFiltersForCurrentView = jest
+        .fn()
+        .mockReturnValue([{ actionItemId: `${quotationId}`, filterModels }]);
+      component.tableContext = {
+        quotation: {
+          gqId: quotationId,
+        } as any,
+      };
+      component.gridApi = {
+        setFilterModel: jest.fn(),
+      } as any;
+
+      component['applyStoredFilterState']();
+
+      expect(component.gridApi.setFilterModel).toHaveBeenCalledWith(
+        filterModels
+      );
+      expect(
+        component['agGridStateService'].getColumnFiltersForCurrentView
+      ).toHaveBeenCalled();
+    });
+
+    test('should set empty object if no stored filter found', () => {
+      const quotationId = 2;
+      component['agGridStateService'].getColumnFiltersForCurrentView = jest
+        .fn()
+        .mockReturnValue([]);
+      component.tableContext = {
+        quotation: {
+          gqId: quotationId,
+        } as any,
+      };
+      component.gridApi = {
+        setFilterModel: jest.fn(),
+      } as any;
+
+      component['applyStoredFilterState']();
+
+      expect(component.gridApi.setFilterModel).toHaveBeenCalledWith({});
+      expect(
+        component['agGridStateService'].getColumnFiltersForCurrentView
+      ).toHaveBeenCalled();
     });
   });
 });

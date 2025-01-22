@@ -23,16 +23,16 @@ import { GridMergeService } from './grid-merge.service';
 export class AgGridStateService {
   DEFAULT_VIEW_ID = 0;
 
-  views: BehaviorSubject<ViewToggle[]> = new BehaviorSubject<ViewToggle[]>([]);
-  columnState: BehaviorSubject<ColumnState[]> = new BehaviorSubject<
-    ColumnState[]
+  private readonly views$$: BehaviorSubject<ViewToggle[]> = new BehaviorSubject<
+    ViewToggle[]
   >([]);
-  filterState: BehaviorSubject<FilterState[]> = new BehaviorSubject<
-    FilterState[]
-  >([]);
+  private readonly activeViewId$$: BehaviorSubject<number> =
+    new BehaviorSubject<number>(this.DEFAULT_VIEW_ID);
+
+  views$ = this.views$$.asObservable();
+  activeViewId$ = this.activeViewId$$.asObservable();
 
   private activeTableKey: string;
-  private activeViewId = this.DEFAULT_VIEW_ID;
   private columnIds: string[];
 
   private readonly gridMergeService: GridMergeService =
@@ -70,14 +70,10 @@ export class AgGridStateService {
       );
     } else if (gridState && columnIds) {
       this.columnIds = columnIds;
-      // check if initalColumnIds are present in the GridState, if not, add them,
-      // required because this new property will not be in old versions of the gridState
-      if (!gridState.initialColIds || gridState.initialColIds?.length === 0) {
-        this.saveGridState({
-          ...gridState,
-          initialColIds: columnIds,
-        });
-      }
+      this.saveGridState({
+        ...gridState,
+        initialColIds: columnIds,
+      });
       // check whether columns are in State but not in Config
       this.cleanupRemovedColumns(gridState);
     }
@@ -105,7 +101,10 @@ export class AgGridStateService {
   }
 
   public getColumnFiltersForCurrentView(): FilterState[] {
-    return this.getColumnFilters(this.activeTableKey, this.activeViewId);
+    return this.getColumnFilters(
+      this.activeTableKey,
+      this.activeViewId$$.value
+    );
   }
 
   public setColumnFilterForCurrentView(
@@ -114,25 +113,27 @@ export class AgGridStateService {
   ) {
     this.setColumnFilters(
       this.activeTableKey,
-      this.activeViewId,
+      this.activeViewId$$.value,
       actionItemId,
       filterModels
     );
   }
 
   public getColumnStateForCurrentView() {
-    return this.getColumnState(this.activeTableKey, this.activeViewId);
+    return this.getColumnState(this.activeTableKey, this.activeViewId$$.value);
   }
 
   public setColumnStateForCurrentView(columnState: ColumnState[]) {
-    this.setColumnState(this.activeTableKey, this.activeViewId, columnState);
+    this.setColumnState(
+      this.activeTableKey,
+      this.activeViewId$$.value,
+      columnState
+    );
   }
 
   public setActiveView(customViewId: number) {
-    this.activeViewId = customViewId;
-    this.updateColumnState();
+    this.activeViewId$$.next(customViewId);
     this.updateViews();
-    this.updateFilterState();
   }
 
   public getCustomViews(): ViewToggle[] {
@@ -149,7 +150,7 @@ export class AgGridStateService {
   }
 
   public getCurrentViewId(): number {
-    return this.activeViewId;
+    return this.activeViewId$$.value;
   }
   public createViewFromScratch(title: string) {
     this.createNewView(title, []);
@@ -158,7 +159,7 @@ export class AgGridStateService {
   public createViewFromCurrentView(title: string, actionItemId: string) {
     const currentView = this.gridLocalStorageService.getViewById(
       this.activeTableKey,
-      this.activeViewId
+      this.activeViewId$$.value
     );
     this.createNewView(title, currentView.state.columnState, actionItemId);
   }
@@ -184,6 +185,14 @@ export class AgGridStateService {
     );
 
     return gridState.customViews.find((view) => view.id === viewId).title;
+  }
+
+  public getInitialColIds() {
+    const gridState = this.gridLocalStorageService.getGridState(
+      this.activeTableKey
+    );
+
+    return gridState.initialColIds;
   }
 
   public updateViewName(viewId: number, name: string) {
@@ -279,7 +288,7 @@ export class AgGridStateService {
     );
     const filterState = this.getColumnFilters(
       this.activeTableKey,
-      this.activeViewId
+      this.activeViewId$$.value
     ).find((state: FilterState) => state.actionItemId === actionItemId);
     const id = this.generateViewId();
 
@@ -298,10 +307,8 @@ export class AgGridStateService {
       ],
     });
 
-    this.activeViewId = id;
+    this.activeViewId$$.next(id);
     this.updateViews();
-    this.updateFilterState();
-    this.updateColumnState();
   }
 
   private generateViewId(): number {
@@ -316,12 +323,12 @@ export class AgGridStateService {
   private saveGridState(gridState: GridState) {
     const currentCustomView = this.getCustomViewOfActiveView(
       gridState,
-      this.activeViewId
+      this.activeViewId$$.value
     );
 
     const storedCustomView = this.gridLocalStorageService.getViewById(
       this.activeTableKey,
-      this.activeViewId
+      this.activeViewId$$.value
     );
 
     const oldColumnState = storedCustomView?.state?.columnState ?? [];
@@ -331,21 +338,22 @@ export class AgGridStateService {
       oldColumnState.length > 0 &&
       !this.containSameColIds(oldColumnState, newColumnState) &&
       newColumnState.length > 0 &&
-      this.activeViewId !== this.DEFAULT_VIEW_ID &&
+      this.activeViewId$$.value !== this.DEFAULT_VIEW_ID &&
       this.columnIds?.length > 0
     ) {
       const updatedColumnState = this.gridMergeService.mergeAndReorderColumns(
         oldColumnState,
-        newColumnState
+        newColumnState,
+        gridState.initialColIds
       );
       currentCustomView.state.columnState = updatedColumnState;
-      gridState.initialColIds = updatedColumnState.map((col) => col.colId);
+    } else if (oldColumnState.length === 0 && currentCustomView) {
+      // unmodified/new views should store the default state
+      currentCustomView.state.columnState = newColumnState;
     }
 
     this.gridLocalStorageService.setGridState(this.activeTableKey, gridState);
     this.updateViews();
-    this.updateColumnState();
-    this.updateFilterState();
   }
 
   private getCustomViewOfActiveView(
@@ -371,9 +379,9 @@ export class AgGridStateService {
 
   private updateViews() {
     const views = this.getCustomViews();
-    this.views.next(
+    this.views$$.next(
       views?.map((view: ViewToggle) => {
-        if (view.id === this.activeViewId) {
+        if (view.id === this.activeViewId$$.value) {
           return { ...view, active: true };
         }
 
@@ -382,15 +390,6 @@ export class AgGridStateService {
     );
   }
 
-  private updateColumnState() {
-    const columnState = this.getColumnStateForCurrentView();
-    this.columnState.next(columnState);
-  }
-
-  private updateFilterState() {
-    const filterState = this.getColumnFiltersForCurrentView();
-    this.filterState.next(filterState);
-  }
   private setColumnFilters(
     key: string,
     viewId: number,

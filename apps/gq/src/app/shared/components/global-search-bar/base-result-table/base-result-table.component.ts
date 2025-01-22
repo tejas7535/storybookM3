@@ -1,15 +1,12 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Params, Router } from '@angular/router';
 
-import { take } from 'rxjs';
-
 import { SearchByCasesOrMaterialsColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import {
   ColumnUtilityService,
   LocalizationService,
 } from '@gq/shared/ag-grid/services';
 import { ColumnDefinitionService } from '@gq/shared/components/global-search-bar/config/column-definition-service';
-import { FilterState } from '@gq/shared/models/grid-state.model';
 import { QuotationSearchResultByMaterials } from '@gq/shared/models/quotation/quotation-search-result-by-materials.interface';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { addMaterialFilterToQueryParams } from '@gq/shared/utils/misc.utils';
@@ -73,14 +70,13 @@ export class BaseResultTableComponent {
       );
     }
 
-    this.agGridStateService.filterState
-      .pipe(take(2))
-      .subscribe((filterState: FilterState[]) => {
-        const curFilter = filterState.find(
-          (filter) => filter.actionItemId === tableKey
-        );
-        event?.api?.setFilterModel?.(curFilter?.filterModels || {});
-      });
+    // apply filter state
+    const filterState =
+      this.agGridStateService.getColumnFiltersForCurrentView();
+    const curFilter = filterState.find(
+      (filterVal) => filterVal.actionItemId === tableKey
+    );
+    event?.api?.setFilterModel?.(curFilter?.filterModels || {});
   }
 
   onColumnChange(event: SortChangedEvent | ColumnEvent): void {

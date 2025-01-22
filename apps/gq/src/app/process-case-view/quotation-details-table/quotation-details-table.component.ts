@@ -1,9 +1,16 @@
 /* eslint-disable max-lines */
-import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  DestroyRef,
+  inject,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { combineLatest, map, Observable, Subject } from 'rxjs';
+import { combineLatest, map, Observable, skip, Subject, tap } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { RolesFacade } from '@gq/core/store/facades';
@@ -22,14 +29,13 @@ import {
   statusBarWithBorderStyle,
 } from '@gq/shared/constants';
 import { Quotation } from '@gq/shared/models';
-import { FilterState } from '@gq/shared/models/grid-state.model';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
+import { GridMergeService } from '@gq/shared/services/ag-grid-state/grid-merge.service';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import {
   ColDef,
   ColumnEvent,
-  ColumnState,
   ExcelStyle,
   FilterChangedEvent,
   FirstDataRenderedEvent,
@@ -44,6 +50,7 @@ import {
   RowSelectedEvent,
   SelectionColumnDef,
   SideBarDef,
+  SizeColumnsToContentStrategy,
   SortChangedEvent,
   StatusPanelDef,
 } from 'ag-grid-enterprise';
@@ -65,8 +72,11 @@ import { PriceSourceSimulationService } from './services/simulation/price-source
   templateUrl: './quotation-details-table.component.html',
   styles: [basicTableStyle, statusBarSimulation, statusBarWithBorderStyle],
 })
-export class QuotationDetailsTableComponent implements OnInit {
+export class QuotationDetailsTableComponent
+  implements AfterViewChecked, OnInit
+{
   @Input() set quotation(quotation: Quotation) {
+    this.gridVisible = !this.rowData;
     this.rowData = quotation?.quotationDetails;
     this.tableContext.quotation = quotation;
   }
@@ -88,7 +98,12 @@ export class QuotationDetailsTableComponent implements OnInit {
   private readonly rolesFacade: RolesFacade = inject(RolesFacade);
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly featureToggleService = inject(FeatureToggleConfigService);
+  private readonly gridMergeService = inject(GridMergeService);
 
+  autoSizeStrategy: SizeColumnsToContentStrategy = {
+    type: 'fitCellContents',
+    skipHeader: false,
+  };
   sideBar: SideBarDef = SIDE_BAR;
   defaultColumnDefs: ColDef = DEFAULT_COLUMN_DEFS;
   statusBar: { statusPanels: StatusPanelDef[] } = STATUS_BAR_CONFIG;
@@ -107,6 +122,10 @@ export class QuotationDetailsTableComponent implements OnInit {
     onMultipleMaterialSimulation: () => {},
     onPriceSourceSimulation: () => {},
   };
+  gridVisible = true;
+  gridApi: GridApi;
+  colDefChanged = false;
+  isFirstColDefEmit = true;
 
   simulatedField: ColumnFields;
   simulatedValue: number;
@@ -127,6 +146,12 @@ export class QuotationDetailsTableComponent implements OnInit {
       this.activeCaseFacade.quotation$,
     ]).pipe(
       takeUntilDestroyed(this.destroyRef),
+      tap(() => {
+        // only hide & refresh grid when column defs are changing AFTER they have already been defined, i.e. after the first commit
+        if (!this.isFirstColDefEmit) {
+          this.gridVisible = false;
+        }
+      }),
       map(
         ([
           columnDefs,
@@ -159,7 +184,13 @@ export class QuotationDetailsTableComponent implements OnInit {
             ? columnDef
             : ColumnUtilityService.filterRfqColumns(columnDef);
         }
-      )
+      ),
+      tap(() => {
+        if (!this.isFirstColDefEmit) {
+          this.colDefChanged = true;
+        }
+        this.isFirstColDefEmit = false;
+      })
     );
 
     this.localeText$ = this.localizationService.locale$;
@@ -185,11 +216,28 @@ export class QuotationDetailsTableComponent implements OnInit {
       });
   }
 
+  ngAfterViewChecked(): void {
+    // if col def changed try to apply stored column state to prevent overwriting custom views
+    if (this.colDefChanged && this.gridApi) {
+      this.colDefChanged = false;
+      this.applyStoredColumnState();
+      this.applyStoredFilterState();
+    }
+    this.gridVisible = true;
+  }
+
   onColumnChange(event: ColumnEvent | SortChangedEvent): void {
     this.updateColumnData(event);
     const viewId = this.agGridStateService.getCurrentViewId();
 
-    if (viewId !== this.agGridStateService.DEFAULT_VIEW_ID) {
+    const rowDataChanged = event.source === 'gridOptionsChanged';
+    const isCustomView = viewId !== this.agGridStateService.DEFAULT_VIEW_ID;
+
+    // if rowDataChanged then the quotation usually got updated -> we can load the stored state
+    if (rowDataChanged) {
+      this.applyStoredColumnState();
+      this.gridVisible = true;
+    } else if (isCustomView) {
       this.agGridStateService.setColumnStateForCurrentView(
         event.api.getColumnState()
       );
@@ -246,6 +294,8 @@ export class QuotationDetailsTableComponent implements OnInit {
     });
   }
   onGridReady(event: GridReadyEvent): void {
+    this.gridApi = event.api;
+
     // when from positionDetailView make sure this row is visible in the table
     if (this.route.snapshot.queryParams.gqPositionId) {
       const index = this.rowData.findIndex(
@@ -263,47 +313,18 @@ export class QuotationDetailsTableComponent implements OnInit {
 
     this.selectQuotationDetails(event.api, true);
 
-    this.agGridStateService.columnState
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((colState: ColumnState[]) => {
-        if (colState?.length === 0) {
-          event?.api?.resetColumnState();
-        } else {
-          event?.api?.applyColumnState({
-            state: colState,
-            applyOrder: true,
-          });
-        }
+    this.agGridStateService.activeViewId$
+      .pipe(
+        skip(1), // first emit is not needed as ngAfterViewChecked is being initially executed
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => {
+        this.applyStoredColumnState();
+        this.applyStoredFilterState();
       });
-
-    this.agGridStateService.filterState
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((filterState: FilterState[]) => {
-        const curFilter = filterState.find(
-          (filterVal) => filterVal.actionItemId === quotationId
-        );
-        event?.api?.setFilterModel?.(curFilter?.filterModels || {});
-      });
-  }
-
-  private autoSizeColumns(event: FirstDataRenderedEvent): void {
-    // do not apply for columns with custom cell renderer
-    const columnIds = event.api
-      .getAllGridColumns()
-      .map((col) => col.getColId())
-      .filter(
-        (s) =>
-          ![
-            ColumnFields.RECOMMENDED_PRICE,
-            ColumnFields.SAP_PRICE,
-            ColumnFields.PRICE_DIFF,
-          ].includes(s as ColumnFields)
-      );
-    columnIds.forEach((colId) => event.api.autoSizeColumns([colId], false));
   }
 
   onFirstDataRendered(event: FirstDataRenderedEvent): void {
-    this.autoSizeColumns(event);
     // highlight the row of the selected quotationDetail
     if (this.route.snapshot.queryParams.gqPositionId) {
       const index = this.rowData.findIndex(
@@ -412,7 +433,6 @@ export class QuotationDetailsTableComponent implements OnInit {
   };
 
   // Methods for simulation, forwards the simulation to the simulation services
-
   onMultipleMaterialSimulation(
     simulatedField: ColumnFields,
     value: number,
@@ -441,5 +461,37 @@ export class QuotationDetailsTableComponent implements OnInit {
       this.tableContext.quotation.gqId,
       this.selectedRows
     );
+  }
+
+  private applyStoredColumnState(): void {
+    const storedState = this.agGridStateService.getColumnStateForCurrentView();
+
+    if (storedState.length === 0) {
+      this.gridApi.resetColumnState();
+    } else {
+      // merge stored state with new state due to changed col defs
+      const activeState = this.gridApi?.getColumnState();
+      const initialColIds = this.agGridStateService.getInitialColIds();
+      const state = this.gridMergeService.mergeAndReorderColumns(
+        storedState,
+        activeState,
+        initialColIds
+      );
+
+      this.gridApi.applyColumnState({
+        state,
+        applyOrder: true,
+      });
+    }
+  }
+
+  private applyStoredFilterState(): void {
+    const quotationId = this.tableContext.quotation.gqId.toString();
+    const filterState =
+      this.agGridStateService.getColumnFiltersForCurrentView();
+    const curFilter = filterState.find(
+      (filterVal) => filterVal.actionItemId === quotationId
+    );
+    this.gridApi?.setFilterModel?.(curFilter?.filterModels || {});
   }
 }

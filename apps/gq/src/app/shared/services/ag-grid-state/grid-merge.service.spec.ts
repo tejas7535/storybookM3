@@ -18,34 +18,120 @@ describe('GridMergeService', () => {
   });
 
   describe('mergeAndReorderColumns', () => {
-    test('merges columns properly preserving state from old columns', () => {
+    test('places new columns beside its closest neighbor according to default order', () => {
       const oldColumns: ColumnState[] = [
-        { colId: 'col1', hide: false },
-        { colId: 'col2', hide: true },
+        { colId: 'a', hide: false },
+        { colId: 'b', hide: true },
+        { colId: 'c', hide: false },
       ];
       const newColumns: ColumnState[] = [
-        { colId: 'col1', hide: false },
-        { colId: 'col2', hide: false },
-        { colId: 'col3', hide: false },
+        { colId: 'd', hide: false },
+        { colId: 'e', hide: false },
       ];
+      const defaultOrderColIds = ['a', 'b', 'c', 'd', 'e'];
 
-      const result = service.mergeAndReorderColumns(oldColumns, newColumns);
+      const result = service.mergeAndReorderColumns(
+        oldColumns,
+        newColumns,
+        defaultOrderColIds
+      );
 
       expect(result).toEqual([
-        { colId: 'col1', hide: false },
-        { colId: 'col2', hide: true },
-        { colId: 'col3', hide: true }, // Newly added columns should be hidden by default
+        { colId: 'a', hide: false },
+        { colId: 'b', hide: true },
+        { colId: 'c', hide: false },
+        { colId: 'd', hide: true }, // positioned next to 'c'
+        { colId: 'e', hide: true }, // positioned next to 'd'
       ]);
     });
 
-    test('handles case when no columns match', () => {
-      const oldColumns: ColumnState[] = [{ colId: 'col1', hide: false }];
-      const newColumns: ColumnState[] = [{ colId: 'col2', hide: false }];
+    test('handles case when all columns are new', () => {
+      const oldColumns: ColumnState[] = [];
+      const newColumns: ColumnState[] = [
+        { colId: 'x', hide: false },
+        { colId: 'y', hide: false },
+      ];
+      const defaultOrderColIds = ['x', 'y'];
 
-      const result = service.mergeAndReorderColumns(oldColumns, newColumns);
+      const result = service.mergeAndReorderColumns(
+        oldColumns,
+        newColumns,
+        defaultOrderColIds
+      );
 
       expect(result).toEqual([
-        { colId: 'col2', hide: true }, // New column should be hidden
+        { colId: 'x', hide: true }, // new column, hidden by default
+        { colId: 'y', hide: true }, // new column, hidden by default
+      ]);
+    });
+
+    test('handles case when no columns are new', () => {
+      const oldColumns: ColumnState[] = [
+        { colId: 'a', hide: false },
+        { colId: 'b', hide: true },
+      ];
+      const newColumns: ColumnState[] = [
+        { colId: 'a', hide: true },
+        { colId: 'b', hide: false },
+      ];
+      const defaultOrderColIds = ['a', 'b'];
+
+      const result = service.mergeAndReorderColumns(
+        oldColumns,
+        newColumns,
+        defaultOrderColIds
+      );
+
+      expect(result).toEqual([
+        { colId: 'a', hide: false },
+        { colId: 'b', hide: true },
+      ]);
+    });
+
+    test('handles mixture of old and entirely new columns', () => {
+      const oldColumns: ColumnState[] = [
+        { colId: 'a', hide: false },
+        { colId: 'b', hide: true },
+      ];
+      const newColumns: ColumnState[] = [
+        { colId: 'c', hide: false },
+        { colId: 'd', hide: false },
+      ];
+      const defaultOrderColIds = ['a', 'b', 'c', 'd'];
+
+      const result = service.mergeAndReorderColumns(
+        oldColumns,
+        newColumns,
+        defaultOrderColIds
+      );
+
+      expect(result).toEqual([
+        { colId: 'a', hide: false },
+        { colId: 'b', hide: true },
+        { colId: 'c', hide: true }, // new column, hidden by default, positioned next to 'b'
+        { colId: 'd', hide: true }, // new column, hidden by default, positioned next to 'c'
+      ]);
+    });
+
+    test('maintains all old columns that are not present in new columns', () => {
+      const oldColumns: ColumnState[] = [
+        { colId: 'a', hide: false },
+        { colId: 'b', hide: true },
+        { colId: 'c', hide: false },
+      ];
+      const newColumns: ColumnState[] = [{ colId: 'b', hide: false }];
+      const defaultOrderColIds = ['a', 'b', 'c'];
+
+      const result = service.mergeAndReorderColumns(
+        oldColumns,
+        newColumns,
+        defaultOrderColIds
+      );
+
+      expect(result).toEqual([
+        { colId: 'a', hide: false },
+        { colId: 'b', hide: true },
+        { colId: 'c', hide: false },
       ]);
     });
   });

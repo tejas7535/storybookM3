@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { BehaviorSubject, of } from 'rxjs';
+import { of } from 'rxjs';
 
 import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
 import { OverviewCasesFacade } from '@gq/core/store/overview-cases/overview-cases.facade';
@@ -10,7 +10,6 @@ import { CaseTableColumnFields } from '@gq/shared/ag-grid/constants/column-field
 import { LocalizationService } from '@gq/shared/ag-grid/services';
 import { ColumnUtilityService } from '@gq/shared/ag-grid/services/column-utility.service';
 import { QuotationStatus } from '@gq/shared/models';
-import { FilterState } from '@gq/shared/models/grid-state.model';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
@@ -50,9 +49,7 @@ describe('CaseTableComponent', () => {
       MockProvider(ColumnDefService, {
         COLUMN_DEFS: [],
       }),
-      MockProvider(AgGridStateService, {
-        filterState: of([]),
-      } as AgGridStateService),
+      MockProvider(AgGridStateService),
       MockProvider(LocalizationService),
       MockProvider(ColumnUtilityService),
       provideMockStore({
@@ -191,6 +188,12 @@ describe('CaseTableComponent', () => {
           applyColumnState: jest.fn(),
         },
       } as any;
+      component['agGridStateService'].getColumnStateForCurrentView = jest
+        .fn()
+        .mockReturnValue([{ colId: '1' } as ColumnState]);
+      component['agGridStateService'].getColumnFiltersForCurrentView = jest
+        .fn()
+        .mockReturnValue([]);
 
       component.selectedRows = [1234];
       component.onGridReady(mockEvent);
@@ -207,20 +210,17 @@ describe('CaseTableComponent', () => {
           applyColumnState: jest.fn(),
         },
       } as any;
-      const filterStateSubject = new BehaviorSubject<FilterState[]>([]);
-      component['agGridStateService'].getColumnStateForCurrentView = jest.fn(
-        () => [{ colId: '1' } as ColumnState]
-      );
-      component['agGridStateService'].filterState = filterStateSubject;
+      component['agGridStateService'].getColumnStateForCurrentView = jest
+        .fn()
+        .mockReturnValue([{ colId: '1' } as ColumnState]);
+      component['agGridStateService'].getColumnFiltersForCurrentView = jest
+        .fn()
+        .mockReturnValue([]);
+
       component.activeTab = QuotationTab.ACTIVE;
 
       component.onGridReady(mockEvent);
-      filterStateSubject.next([
-        {
-          actionItemId: 'QUOTATION',
-          filterModels: [],
-        },
-      ]);
+
       expect(mockEvent.api.applyColumnState).toHaveBeenCalled();
       expect(mockEvent.api.setFilterModel).toHaveBeenCalled();
     });
