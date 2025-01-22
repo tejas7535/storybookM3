@@ -148,12 +148,14 @@ export class AlertRuleTableComponent implements OnInit {
       deactivated: !params.data.deactivated,
       // saveMultiAlertRules expects a local date, so we need to convert here
       // This is because of the clipboard functionality of the multi modal. (Copy/Paste from Excel)
-      startDate: ValidationHelper.localeService.localizeDate(
+      startDate: ValidationHelper.localeService?.localizeDate(
         params.data.startDate
       ),
       // saveMultiAlertRules expects a local date, so we need to convert here
       // This is because of the clipboard functionality of the multi modal. (Copy/Paste from Excel)
-      endDate: ValidationHelper.localeService.localizeDate(params.data.endDate),
+      endDate: ValidationHelper.localeService?.localizeDate(
+        params.data.endDate
+      ),
     };
 
     this.alertRulesService

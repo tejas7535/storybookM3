@@ -7,7 +7,6 @@ import { parseISO } from 'date-fns';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
-  ForecastInfo,
   MaterialListEntry,
   SUPPLY_CONCEPT_SUPPORTED_STOCHASTIC_TYPES,
   SupplyConceptsStochasticType,
@@ -22,7 +21,6 @@ import {
 })
 export class MoreInformationComponent {
   public selectedMaterial = input.required<MaterialListEntry>();
-  public forecastInfo = input.required<ForecastInfo | null>();
   private readonly translocoLocaleService = inject(TranslocoLocaleService);
 
   protected supplyConcept = computed(() => {
@@ -39,20 +37,20 @@ export class MoreInformationComponent {
     // When the supply chain localization is changed, also check ExportDemandValidationService::buildSupplyConceptString
     // The logic is duplicated and must exist in frontend and backend
     if (SUPPLY_CONCEPT_SUPPORTED_STOCHASTIC_TYPES.includes(stochasticType)) {
-      if (this.selectedMaterial()?.zv98QtyDl) {
+      if (this.selectedMaterial()?.safetyStockCustomer) {
         supplyConcept = translate(
           `validation_of_demand.supply_concept.${stochasticType}.csss`,
           {
             fixHor,
-            safetyStock: this.selectedMaterial()?.zv98QtyDl,
+            safetyStock: this.selectedMaterial()?.safetyStockCustomer,
           }
         );
-      } else if (this.selectedMaterial()?.eisbeDl) {
+      } else if (this.selectedMaterial()?.safetyStock) {
         supplyConcept = translate(
           `validation_of_demand.supply_concept.${stochasticType}.ss`,
           {
             fixHor,
-            safetyStock: this.selectedMaterial()?.eisbeDl,
+            safetyStock: this.selectedMaterial()?.safetyStock,
           }
         );
       } else {
@@ -65,4 +63,10 @@ export class MoreInformationComponent {
 
     return supplyConcept;
   });
+
+  protected formatDate(): string {
+    return this.translocoLocaleService.localizeDate(
+      parseISO(this.selectedMaterial()?.portfolioStatusDate)
+    );
+  }
 }

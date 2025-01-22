@@ -8,7 +8,6 @@ import { MatIcon } from '@angular/material/icon';
 import { lastValueFrom, take } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { AgGridModule } from 'ag-grid-angular';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -81,8 +80,6 @@ export class InternalMaterialReplacementMultiSubstitutionModalComponent
     );
 
   private readonly imrService = inject(IMRService);
-
-  private readonly translocoLocaleSerivce = inject(TranslocoLocaleService);
 
   /** @inheritdoc */
   protected title = translate(
@@ -229,21 +226,9 @@ export class InternalMaterialReplacementMultiSubstitutionModalComponent
     (value: string) => string
   > = new Map([
     ['replacementType', parseReplacementTypeIfPossible],
-    [
-      'replacementDate',
-      (value: string) =>
-        parseDateIfPossible(value, this.translocoLocaleSerivce),
-    ],
-    [
-      'cutoverDate',
-      (value: string) =>
-        parseDateIfPossible(value, this.translocoLocaleSerivce),
-    ],
-    [
-      'startOfProduction',
-      (value: string) =>
-        parseDateIfPossible(value, this.translocoLocaleSerivce),
-    ],
+    ['replacementDate', (value: string) => parseDateIfPossible(value)],
+    ['cutoverDate', (value: string) => parseDateIfPossible(value)],
+    ['startOfProduction', (value: string) => parseDateIfPossible(value)],
   ]);
 
   protected checkDataForErrors(

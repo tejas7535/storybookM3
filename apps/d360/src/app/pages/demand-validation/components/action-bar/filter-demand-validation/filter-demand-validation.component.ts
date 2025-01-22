@@ -31,7 +31,6 @@ export class FilterDemandValidationComponent {
   protected formGroup: FormGroup<DemandValidationForm> = new FormGroup({
     productionLine: new FormControl([]),
     productLine: new FormControl([]),
-    productionPlant: new FormControl([]), // TODO: Check, why this is not available in React
     customerMaterialNumber: new FormControl([]),
     stochasticType: new FormControl([]),
   });

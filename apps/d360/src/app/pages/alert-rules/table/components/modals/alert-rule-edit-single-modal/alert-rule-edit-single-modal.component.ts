@@ -643,12 +643,12 @@ export class AlertRuleEditSingleModalComponent implements OnInit {
 
       // saveMultiAlertRules expects a local date, so we need to convert here
       // This is because of the clipboard functionality of the multi modal. (Copy/Paste from Excel)
-      startDate: ValidationHelper.localeService.localizeDate(
+      startDate: ValidationHelper.localeService?.localizeDate(
         moment(this.formGroup.getRawValue().startDate).format('YYYY-MM-DD')
       ),
       // saveMultiAlertRules expects a local date, so we need to convert here
       // This is because of the clipboard functionality of the multi modal. (Copy/Paste from Excel)
-      endDate: ValidationHelper.localeService.localizeDate(
+      endDate: ValidationHelper.localeService?.localizeDate(
         moment(this.formGroup.getRawValue().endDate).format('YYYY-MM-DD')
       ),
     };

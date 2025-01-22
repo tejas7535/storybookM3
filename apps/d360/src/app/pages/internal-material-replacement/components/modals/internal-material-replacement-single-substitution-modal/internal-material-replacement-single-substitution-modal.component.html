@@ -36,7 +36,7 @@
           [options]="selectableOptionsService.get('region').options"
           class="col-start-1 col-end-1"
           [formatOptionValue]="DisplayFunctions.displayFnUnited"
-        ></d360-filter-dropdown>
+        />
 
         <!-- salesArea -->
         <d360-single-autocomplete-pre-loaded
@@ -52,7 +52,7 @@
         <d360-single-autocomplete-pre-loaded
           [form]="formGroup"
           [control]="$any(formGroup.controls.salesOrg)"
-          [label]="t('globalSelection.sales_org.rootString', {})"
+          [label]="t('globalSelection.sales_org.rootString')"
           [optionsLoadingResult]="selectableOptionsService.get('salesOrg')"
           [getOptionLabelInTag]="DisplayFunctions.displayFnUnited"
           [displayFn]="DisplayFunctions.displayFnUnitedNullable"
@@ -64,7 +64,7 @@
           urlBegin="global-selection/search-customers"
           [form]="formGroup"
           [control]="$any(formGroup.controls.customerNumber)"
-        ></d360-single-autocomplete-on-type>
+        />
 
         <!-- predecessorMaterial -->
         <d360-single-autocomplete-on-type
@@ -75,7 +75,7 @@
           [form]="formGroup"
           [control]="$any(formGroup.controls.predecessorMaterial)"
           [errorMessage]="materialCustomErrorMessage()"
-        ></d360-single-autocomplete-on-type>
+        />
 
         <!-- successorMaterial -->
         <d360-single-autocomplete-on-type
@@ -84,7 +84,7 @@
           [form]="formGroup"
           [control]="$any(formGroup.controls.successorMaterial)"
           [errorMessage]="materialCustomErrorMessage()"
-        ></d360-single-autocomplete-on-type>
+        />
 
         <!-- startOfProduction -->
         <d360-date-picker
@@ -93,7 +93,7 @@
           [control]="$any(formGroup.controls.startOfProduction)"
           [label]="t(translationStart + '.startOfProduction')"
           [errorMessage]="startOfProductionCustomErrorMessage()"
-        ></d360-date-picker>
+        />
 
         <!-- cutOverDate -->
         <d360-date-picker
@@ -102,7 +102,7 @@
           [control]="$any(formGroup.controls.cutoverDate)"
           [label]="t(translationStart + '.cutoverDate')"
           [errorMessage]="cutoverDateCustomErrorMessage()"
-        ></d360-date-picker>
+        />
 
         <!-- replacementDate -->
         <d360-date-picker
@@ -114,7 +114,7 @@
           [hint]="
             t('internal_material_replacement.helper_text.replacementDate')
           "
-        ></d360-date-picker>
+        />
 
         <!-- comment -->
         <mat-form-field
@@ -122,7 +122,7 @@
           appearance="outline"
           class="md:col-span-3"
         >
-          <mat-label>{{ t('alert_rules.edit_modal.label.remark') }} </mat-label>
+          <mat-label>{{ t('alert_rules.edit_modal.label.remark') }}</mat-label>
           <textarea
             matInput
             cdkTextareaAutosize
@@ -130,8 +130,8 @@
             #autosize="cdkTextareaAutosize"
             [formControl]="$any(formGroup.controls.note)"
           ></textarea>
-          <mat-hint
-            >{{ t('internal_material_replacement.helper_text.note', {}) }}
+          <mat-hint>
+            {{ t('internal_material_replacement.helper_text.note') }}
           </mat-hint>
         </mat-form-field>
       </div>

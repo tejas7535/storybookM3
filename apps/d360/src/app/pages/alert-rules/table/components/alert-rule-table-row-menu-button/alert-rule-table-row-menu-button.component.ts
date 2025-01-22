@@ -28,7 +28,7 @@ import {
   styleUrl: './alert-rule-table-row-menu-button.component.scss',
 })
 export class AlertRuleTableRowMenuButtonComponent extends RowMenuComponent<AlertRule> {
-  constructor(
+  public constructor(
     private readonly snackBarService: SnackbarService,
     private readonly alertRulesService: AlertRulesService,
     private readonly dialog: MatDialog
@@ -36,23 +36,22 @@ export class AlertRuleTableRowMenuButtonComponent extends RowMenuComponent<Alert
     super();
   }
 
-  edit() {
-    const dialogRef = this.dialog.open(AlertRuleEditSingleModalComponent, {
-      data: {
-        gridApi: this.params.api,
-        alertRule: this.data,
-        title: 'edit',
-      } as AlertRuleModalProps,
-      disableClose: true,
-      autoFocus: false,
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      // TODO validate if anything changes through the modal --> if not return null and dont update the grid.
-      this.handleClose();
-    });
+  protected edit(): void {
+    this.dialog
+      .open(AlertRuleEditSingleModalComponent, {
+        data: {
+          gridApi: this.params.api,
+          alertRule: this.data,
+          title: 'edit',
+        } as AlertRuleModalProps,
+        disableClose: true,
+        autoFocus: false,
+      })
+      .afterClosed()
+      .subscribe(() => this.handleClose());
   }
 
-  activate() {
+  protected activate(): void {
     if (!this.data) {
       return;
     }
@@ -77,11 +76,11 @@ export class AlertRuleTableRowMenuButtonComponent extends RowMenuComponent<Alert
       });
   }
 
-  deactivate() {
+  protected deactivate(): void {
     if (!this.data) {
       return;
     }
-    // TODO check if this works... row data is not update and result is without deactivated true
+
     const workflow = [{ ...this.data, deactivated: true }];
     this.alertRulesService
       .saveMultiAlertRules(workflow)
@@ -102,7 +101,7 @@ export class AlertRuleTableRowMenuButtonComponent extends RowMenuComponent<Alert
       });
   }
 
-  delete() {
+  protected delete(): void {
     this.dialog.open(AlertRuleDeleteSingleModalComponent, {
       data: { gridApi: this.params.api, alertRule: this.data },
       disableClose: true,

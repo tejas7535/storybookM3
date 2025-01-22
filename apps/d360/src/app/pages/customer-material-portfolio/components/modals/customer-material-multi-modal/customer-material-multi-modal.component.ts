@@ -8,7 +8,6 @@ import { MatIcon } from '@angular/material/icon';
 import { lastValueFrom, take } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { AgGridModule } from 'ag-grid-angular';
 import { ICellRendererParams, ValueFormatterParams } from 'ag-grid-enterprise';
 
@@ -70,7 +69,6 @@ export class CustomerMaterialMultiModalComponent extends AbstractTableUploadModa
   MultiPhaseInData,
   CMPMaterialPhaseInResponse
 > {
-  private readonly translocoLocaleService = inject(TranslocoLocaleService);
   private readonly cMPService: CMPService = inject(CMPService);
 
   private readonly data: { customerNumber: string } = inject(MAT_DIALOG_DATA);
@@ -111,9 +109,7 @@ export class CustomerMaterialMultiModalComponent extends AbstractTableUploadModa
           ValidationHelper.validateDateFormatAndGreaterEqualThanToday,
         // Value formatter to remove "DateOrOriginalCellRenderer"
         valueFormatter: (params: ValueFormatterParams) =>
-          params.value
-            ? parseDateIfPossible(params.value, this.translocoLocaleService)
-            : null,
+          params.value ? parseDateIfPossible(params.value) : null,
       },
       {
         field: 'demandCharacteristic',
@@ -213,10 +209,6 @@ export class CustomerMaterialMultiModalComponent extends AbstractTableUploadModa
     (value: string) => string
   > = new Map([
     ['demandCharacteristic', parseDemandCharacteristicIfPossible],
-    [
-      'phaseInDate',
-      (value: string) =>
-        parseDateIfPossible(value, this.translocoLocaleService),
-    ],
+    ['phaseInDate', (value: string) => parseDateIfPossible(value)],
   ]);
 }

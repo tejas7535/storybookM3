@@ -29,7 +29,6 @@ import {
   DemandMaterialCustomerRequest,
   DemandValidationBatch,
   DemandValidationBatchResponse,
-  ForecastInfo,
   KpiBucket,
   KpiBucketType,
   KpiData,
@@ -49,8 +48,6 @@ export class DemandValidationService {
   private readonly DEMAND_VALIDATION_BUCKETS_API =
     'api/demand-validation/buckets';
   private readonly DEMAND_VALIDATION_KPI_API = 'api/demand-validation/kpis';
-  private readonly DEMAND_VALIDATION_MATERIAL_INFO_API =
-    'api/demand-validation/material-infos';
   private readonly DEMAND_VALIDATION_CUSTOMER_MATERIAL_LIST_API =
     'api/demand-validation/material-customer-list';
   private readonly dataFetchedEvent = new Subject<{
@@ -97,6 +94,7 @@ export class DemandValidationService {
       materialNumber: entry.material,
       kpiEntries: entry?.kpiEntries ?? [
         {
+          idx: entry.id ? Number.parseInt(entry.id, 10) : undefined,
           fromDate: format(entry.dateString, 'yyyy-MM-dd'),
           bucketType: (entry.periodType === 'month'
             ? 'MONTH'
@@ -134,6 +132,7 @@ export class DemandValidationService {
         map((response) => {
           const batchResponse: DemandValidationBatchResponse[] = [];
 
+          // TODO: add a generic way to parse ID and IDX in Error Messages.
           response.forEach((entry) => {
             if (entry.ids) {
               const messageStrings = entry.results.map((message) =>
@@ -231,17 +230,6 @@ export class DemandValidationService {
           of(translate('validation_of_demand.save.error_unspecific'))
         )
       );
-  }
-
-  public getForecastInfo(
-    customerNumber: string | undefined,
-    materialNumber: string | undefined
-  ): Observable<ForecastInfo | null> {
-    return !customerNumber || !materialNumber
-      ? of(null)
-      : this.http.get<ForecastInfo>(
-          `${this.DEMAND_VALIDATION_MATERIAL_INFO_API}/${customerNumber}/${materialNumber}`
-        );
   }
 
   public getKpiBuckets(kpiDateRanges: KpiDateRanges): Observable<KpiBucket[]> {

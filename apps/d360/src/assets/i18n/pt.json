@@ -250,9 +250,9 @@
       },
       "save": {
         "invalid_rows": "{count, plural, one {{count} linha não pôde ser salva. Por favor, verifique sua entrada.} other {{count} linha não pôde ser salva. Verifique sua entrada.}}",
+        "invalid_entries": "{count, plural, one {{count} não foi possível salvar a entrada. Verifique sua entrada.} other {{count} as entradas não puderam ser salvas. Verifique sua entrada.}}",
         "success": "Todas as linhas foram salvas."
       },
-      "upload_failed": "Upload falhou: {{reason}}",
       "validate": {
         "invalid_rows": "{count, plural, one {{count} linha inválida. Por favor, verifique sua entrada.} other {{count} linhas inválidas. Verifique sua entrada.}}",
         "success": "Todas as linhas são válidas."
@@ -312,7 +312,23 @@
       "current_wbz_schaeffler": "Prazo de Reabastecimento atual Schaeffler",
       "production_line": "Linha de produção (Trem)",
       "production_segment": "Segmento de produção",
-      "product_line_and_text": "Linha de produto + Nome"
+      "product_line_and_text": "Linha de produto + Nome",
+      "pfStatus": {
+        "title": "Status do portfólio",
+        "PO": "Phase Out",
+        "PI": "Phase In",
+        "AC": "Ativo",
+        "IA": "Inativo",
+        "SE": "Substituição (Cliente)",
+        "SB": "Veto",
+        "SI": "Substituição",
+        "SP": "Proposta de substituição"
+      },
+      "demandCharacteristics": {
+        "title": "Característica da demanda",
+        "SE": "Série",
+        "SP": "Sporadic"
+      }
     },
     "supply_concept": {
       "title": "Conceito de fornecimento",
@@ -616,7 +632,7 @@
       "DPOPDL": "Re-classificação OP, Previsão validada eliminada",
       "CFPRAO": "Verificar previsão validada, substituição anulada",
       "CFSUAO": "Verificar previsão validada, substituição anulada",
-      "PINWAO": "Planejamento de vendas de validação e entrada em fase",
+      "PINWAO": "Faseamento, validação da procura",
       "PINWDP": "Entrada gradual no tempo especificado",
       "PIOCAO": "Data de entrada em fase alterada (ordem do cliente)",
       "PIOCDP": "Data de entrada em fase alterada (ordem do cliente)",
@@ -820,7 +836,7 @@
       "customerMaterialNumber": "Número de material do cliente",
       "customerMaterialNumber_plural": "Números de material do cliente",
       "materialClassification": "Classificação do material",
-      "demandPlanValue": "Vendas líquidas (12M)",
+      "demandPlanValue": "Inv. Sales (next 12M)",
       "demandCharacteristic": "Característica da demanda",
       "currentRLTSchaeffler": "Prazo de Reabastecimento atual Schaeffler",
       "currentRLTCustomer": "Prazo de Reabastecimento atual Cliente",
@@ -1026,6 +1042,7 @@
       },
       "at_least_one_of": "Pelo menos um dos campos a seguir deve ser preenchido: {{lista de campos}}.",
       "upload": {
+        "upload_failed": "Upload falhou: {{reason}}",
         "too_many_entries": "A lista contém demasiadas entradas. Um máximo de {{maxRows}} entradas pode ser carregado em uma única etapa.",
         "no_entries": "Não há entradas disponíveis.",
         "save": {
@@ -1041,14 +1058,15 @@
   },
   "sap_message": {
     "/D360/DEMAND_VALIDATION": {
-      "0": "Erro desconhecido"
-    },
-    "/SGD/DEMAND_VALIDATION": {
+      "0": "Erro desconhecido",
       "1": "Entrada se sobrepõe no tempo com outra entrada.",
       "2": "SAP request timeout",
       "3": "Não é possível mapear o número de material do cliente sem ambigüidade. A previsão deve ser inserida com o número do material de 15 dígitos."
     },
     "error": "Não foi possível encontrar a mensagem com a classe {{messageClass}} e o número {{messageNumber}}.",
+    "/SGD/SCM_SOP": {
+      "685": "Foram seleccionadas {{messageV1}} combinações, sendo permitido um máximo de {{messageV2}}"
+    },
     "/SGD/SCM_SOP_SALES": {
       "0": "Não foi possível encontrar o texto com os seguintes valores: {{messageV1}}, {{messageV2}}, {{messageV3}}, {{messageV4}}.",
       "1": "O número do cliente não existe.",
@@ -1061,6 +1079,7 @@
       "10": "Não é possível editar/excluir a previsão validada para esse cliente.",
       "16": "Você não tem as permissões necessárias para o cliente {{messageV1}}.",
       "17": "Nenhuma entrada encontrada.",
+      "22": "A previsão não pode ser salva após a data de substituição ({{messageV1}}).",
       "23": "A eliminação gradual foi alterada para {{messageV1}} devido a pedidos/oportunidades.",
       "24": "Previsão excluída para {{messageV1}}.",
       "25": "O material {{messageV1}} não existe.",
@@ -1079,6 +1098,8 @@
       "40": "Status ajustado para {{messageV1}} devido a pedidos/oportunidades.",
       "41": "Status alterado para {{messageV1}}, data de expiração atingida.",
       "42": "O status foi definido como {{messageV1}}, pois não há requisitos futuros ou históricos.",
+      "51": "A previsão não pode ser alterada no passado ou no mês atual.",
+      "52": "A previsão não pode ser alterada no passado.",
       "100": "O tipo de substituição {{messageV1}} não é válido.",
       "101": "Uma região válida deve ser passada. {{messageV1}} não é válida.",
       "102": "O registro não existe.",

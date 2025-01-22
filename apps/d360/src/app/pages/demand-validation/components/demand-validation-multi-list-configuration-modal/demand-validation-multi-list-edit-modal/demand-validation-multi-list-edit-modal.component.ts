@@ -7,7 +7,6 @@ import { MatIcon } from '@angular/material/icon';
 import { lastValueFrom, take } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { AgGridModule } from 'ag-grid-angular';
 import { IRowNode } from 'ag-grid-enterprise';
 
@@ -64,8 +63,6 @@ export class DemandValidationMultiListEditModalComponent extends AbstractTableUp
 > {
   private readonly data: DemandValidationMultiListEditModalProps =
     inject(MAT_DIALOG_DATA);
-  private readonly translocoLocaleService = inject(TranslocoLocaleService);
-
   private readonly demandValidationService = inject(DemandValidationService);
 
   protected modalMode: 'save' | 'delete' = 'save';
@@ -187,11 +184,7 @@ export class DemandValidationMultiListEditModalComponent extends AbstractTableUp
     (value: string) => string
   > = new Map([
     ['periodType', parseDemandValidationPeriodTypeIfPossible],
-    [
-      'dateString',
-      (value: string) =>
-        parseDateIfPossible(value, this.translocoLocaleService),
-    ],
+    ['dateString', (value: string) => parseDateIfPossible(value)],
   ]);
 
   private mandatoryFieldCheck(demandValidationBatch: DemandValidationBatch) {
@@ -203,7 +196,7 @@ export class DemandValidationMultiListEditModalComponent extends AbstractTableUp
         .map((mandatoryField) => ({
           dataIdentifier: { ...demandValidationBatch },
           specificField: mandatoryField,
-          errorMessage: translate('generic.validation.missing_fields', {}),
+          errorMessage: translate('generic.validation.missing_fields'),
         }))
     );
 

@@ -3,7 +3,6 @@ import { SelectableValue } from '../../shared/components/inputs/autocomplete/sel
 export const DEMAND_VALIDATION_FILTER_NAMES = [
   'customerMaterialNumber',
   'productLine',
-  'productionPlant',
   'productionLine',
   'stochasticType',
 ] as const;

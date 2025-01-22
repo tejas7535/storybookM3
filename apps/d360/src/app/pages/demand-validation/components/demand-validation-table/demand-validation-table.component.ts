@@ -49,8 +49,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { DemandValidationService } from '../../../../feature/demand-validation/demand-validation.service';
 import {
-  ForecastInfo,
-  KpiBucketType,
   KpiData,
   KpiDateRanges,
   KpiEntry,
@@ -73,7 +71,7 @@ import {
 } from '../../../../shared/utils/number';
 import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
 import { DemandValidationKpiHeaderComponent } from '../demand-validation-kpi-header/demand-validation-kpi-header.component';
-import { firstEditableDateForBucket } from './../../../../feature/demand-validation/limits';
+import { firstEditableDateForTodayInBucket } from './../../../../feature/demand-validation/limits';
 import {
   clientSideTableDefaultProps,
   getDefaultColDef,
@@ -81,7 +79,7 @@ import {
 import {
   demandValidationEditableColor,
   demandValidationInFixZoneColor,
-  demandValidationPartialWeekColor,
+  demandValidationNotEditableColor,
   demandValidationToSmallColor,
   demandValidationWrongInputColor,
 } from './../../../../shared/styles/colors';
@@ -124,6 +122,8 @@ export class DemandValidationTableComponent {
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly store: Store = inject(Store);
 
+  private columnDefinitions: DemandValidationTableColDef[] = [];
+
   private readonly kpiData: WritableSignal<KpiData | null> =
     signal<KpiData>(null);
   public kpiError: WritableSignal<string> = signal<string>('');
@@ -142,11 +142,8 @@ export class DemandValidationTableComponent {
 
   private readonly kpiDateExceptions: WritableSignal<Date[]> = signal([]);
 
-  protected readonly forecastInfo: WritableSignal<ForecastInfo | null> =
-    signal<ForecastInfo>(null);
-
-  protected dataLoaded: Signal<boolean> = computed(
-    () => Boolean(this.kpiData()) && Boolean(this.forecastInfo())
+  protected dataLoaded: Signal<boolean> = computed(() =>
+    Boolean(this.kpiData())
   );
 
   protected filterValues: WritableSignal<FilterValues> = signal({
@@ -199,9 +196,6 @@ export class DemandValidationTableComponent {
    * @memberof DemandValidationTableComponent
    */
   public constructor() {
-    // load forecast info data
-    effect(() => this.loadForecastInfo(this.materialListEntry()));
-
     // load KPI data
     effect(
       () =>
@@ -217,10 +211,7 @@ export class DemandValidationTableComponent {
     // set and update column defs
     effect(
       () =>
-        (this.filterValues() ||
-          this.materialListEntry() ||
-          this.kpiData() ||
-          this.forecastInfo()) &&
+        (this.filterValues() || this.materialListEntry() || this.kpiData()) &&
         this.updateColumnDefs()
     );
 
@@ -237,14 +228,16 @@ export class DemandValidationTableComponent {
    * @memberof DemandValidationTableComponent
    */
   private updateRowData(): void {
-    const columnDefinitions: DemandValidationTableColDef[] =
+    this.columnDefinitions =
       this.planningView() === PlanningView.REQUESTED
         ? kpiColumnDefinitionsRequested
         : kpiColumnDefinitionsConfirmed;
 
     this.gridApi?.setGridOption(
       'rowData',
-      [...columnDefinitions].filter((row) => row.visible(this.filterValues()))
+      [...this.columnDefinitions].filter((row) =>
+        row.visible(this.filterValues())
+      )
     );
   }
 
@@ -295,9 +288,8 @@ export class DemandValidationTableComponent {
         cellClass: (params: CellClassParams) =>
           getCellClass(
             data.bucketType,
-            this.materialListEntry()?.currentRLTSchaeffler,
-            this.materialListEntry()?.materialClassification,
-            this.forecastInfo()
+            this.materialListEntry()?.dateRltDl,
+            this.materialListEntry()?.dateFrozenZoneDl
           )(params),
         cellStyle: (params: CellClassParams) => ({
           ...this.colorCell(data)(params),
@@ -389,82 +381,71 @@ export class DemandValidationTableComponent {
   }
 
   /**
-   * Loads forecast info data based on the material list entry.
-   *
-   * @private
-   * @param {MaterialListEntry | undefined} materialListEntry - The material list entry used to fetch forecast info.
-   * @memberof DemandValidationTableComponent
-   */
-  private loadForecastInfo(
-    materialListEntry: MaterialListEntry | undefined
-  ): void {
-    if (materialListEntry) {
-      this.demandValidationService
-        .getForecastInfo(
-          materialListEntry?.customerNumber,
-          materialListEntry?.materialNumber
-        )
-        .pipe(
-          take(1),
-          tap(this.forecastInfo.set.bind(this)),
-          takeUntilDestroyed(this.destroyRef)
-        )
-        .subscribe();
-    }
-  }
-
-  /**
-   * Determines whether a material classification is of type OP.
-   *
-   * @private
-   * @returns {boolean} True if the material classification is 'OP', false otherwise.
-   * @memberof DemandValidationTableComponent
-   */
-  private isMaterialClassificationOP(): boolean {
-    return this.materialListEntry()?.materialClassification === 'OP';
-  }
-
-  /**
-   * Checks if the current user has authorization to change data.
-   *
-   * @private
-   * @returns {boolean} True if the user has permission, false otherwise.
-   * @memberof DemandValidationTableComponent
-   */
-  private isAuthorizedToChange(): boolean {
-    return this.authorizedToChange();
-  }
-
-  /**
-   * Determines whether a specific date within a column can be edited based on its bucket type and fixed horizon settings.
-   *
-   * @param {Date} fromDateCurrentColumn - The date to check for editability.
-   * @param {KpiBucketType} bucketType - The type of data bucket the date belongs to.
-   * @returns {boolean} True if the date is editable, false otherwise.
-   */
-  private isEditableDate(
-    fromDateCurrentColumn: Date,
-    bucketType: KpiBucketType
-  ): boolean {
-    return !isBefore(
-      fromDateCurrentColumn,
-      firstEditableDateForBucket(bucketType)
-    );
-  }
-
-  /**
    * Checks whether a cell in the AG-Grid table can be edited based on the provided parameters and data.
+   * TODO: 1:1 Copy from React, write better code after we have some unit tests for this.
    *
    * @param {EditableCallbackParams} params - The callback parameters from the grid event.
    * @param {KpiEntry} data - The KPI data associated with the cell to check for editability.
    * @returns {boolean} True if the cell is editable, false otherwise.
    */
-  private isEditable(params: EditableCallbackParams, data: KpiEntry): boolean {
-    return this.isMaterialClassificationOP() ||
-      !this.isAuthorizedToChange() ||
-      !params.data?.editable
-      ? false
-      : this.isEditableDate(parseISO(data.fromDate), data.bucketType);
+  private isEditable(
+    params: EditableCallbackParams,
+    data: KpiEntry,
+    considerColumnDefinitionEditable: boolean = true
+  ): boolean {
+    if (
+      !this.authorizedToChange() ||
+      (considerColumnDefinitionEditable &&
+        !(params.data as (typeof this.columnDefinitions)[number]).editable)
+    ) {
+      return false;
+    }
+
+    // The logic is now handled by SAP https://jira.schaeffler.com/browse/D360-42
+    //  - Material in status AC can be entered Validated Forecast without restriction and KPI Validated Forecast (VF) is completely green
+    //  - Material in status SP can be entered Validated Forecast without restriction and KPI VF is completely green
+    //  - Material in status SB can be entered Validated Forecast without restriction and KPI VF is completely green
+    //  - Material in status IA can not be entered Validated Forecast and KPI VF is completely white
+    //  - Material in status PI can be entered Validated Forecast from PI date and KPI VF is green from PI date and white before PI date
+    //  - Material in status PO can be entered Validated Forecast up to PO date and KPI VF is green up to PO date and white after PO date
+    //  - Material in status SE can be entered Validated Forecast up to SE date and KPI VF is green up to SE date and white after SE date
+    //  - Material in status SI can be entered Validated Forecast up to SI date and KPI VF is green up to SI date and white after SI date
+    //  - OP materials are excluded
+
+    const fromDateCurrentColumn = parseISO(data.fromDate);
+    const firstEditableDateFromSAP = parseISO(
+      (data.bucketType === 'MONTH'
+        ? this.materialListEntry()?.dateBeginMaintPossibleMonth
+        : this.materialListEntry()?.dateBeginMaintPossibleWeek) ||
+        (new Date().toISOString() as string)
+    );
+
+    let tmpDateEndMaintPossible: string;
+    if (data.bucketType === 'MONTH') {
+      tmpDateEndMaintPossible =
+        this.materialListEntry()?.dateEndMaintPossibleMonth &&
+        !this.materialListEntry().dateEndMaintPossibleMonth.includes(
+          '1900-01-01'
+        )
+          ? this.materialListEntry()?.dateEndMaintPossibleMonth
+          : new Date('9999-12-31').toISOString();
+    } else {
+      tmpDateEndMaintPossible =
+        this.materialListEntry()?.dateEndMaintPossibleWeek &&
+        !this.materialListEntry().dateEndMaintPossibleWeek.includes(
+          '1900-01-01'
+        )
+          ? this.materialListEntry()?.dateEndMaintPossibleWeek
+          : new Date('9999-12-31').toISOString();
+    }
+
+    const lastEditableDateFromSAP = parseISO(tmpDateEndMaintPossible);
+
+    if (isAfter(fromDateCurrentColumn, lastEditableDateFromSAP)) {
+      return false;
+    }
+
+    return !isAfter(firstEditableDateFromSAP, fromDateCurrentColumn);
   }
 
   /**
@@ -503,12 +484,27 @@ export class DemandValidationTableComponent {
   ): (params: CellClassParams) => CellStyle | null {
     const fixHor = this.materialListEntry()?.fixHor;
     const stochasticType = this.materialListEntry()?.stochasticType;
-    const isInFixZone = (fromDate: Date) =>
-      fixHor &&
-      isAfter(parseISO(fixHor), new Date()) &&
-      !isBefore(fromDate, firstEditableDateForBucket(data.bucketType)) &&
-      (stochasticType === 'E' || stochasticType === 'C') &&
-      !isAfter(fromDate, parseISO(fixHor));
+
+    const isInFixZone = (fromDate: Date) => {
+      let isBeforeDate: boolean;
+
+      try {
+        isBeforeDate = isBefore(
+          fromDate,
+          firstEditableDateForTodayInBucket(data.bucketType)
+        );
+      } catch {
+        isBeforeDate = false;
+      }
+
+      return (
+        fixHor &&
+        isAfter(parseISO(fixHor), new Date()) &&
+        !isBeforeDate &&
+        (stochasticType === 'E' || stochasticType === 'C') &&
+        !isAfter(fromDate, parseISO(fixHor))
+      );
+    };
 
     return (params: CellClassParams): CellStyle | null => {
       const parsedFloat = strictlyParseLocalFloat(
@@ -519,6 +515,13 @@ export class DemandValidationTableComponent {
         (params.data as DemandValidationTableColDef).key?.(
           this.filterValues()
         ) ?? null;
+      const editable: boolean = this.isEditable(params, data, false);
+
+      if (!editable) {
+        return {
+          backgroundColor: demandValidationNotEditableColor,
+        };
+      }
 
       if (
         isInFixZone(parseISO(data.fromDate)) &&
@@ -537,13 +540,9 @@ export class DemandValidationTableComponent {
           parsedFloat < this.calculateFirmBusinessAndDeliveries(data)
         ) {
           return { backgroundColor: demandValidationToSmallColor };
-        } else if (this.isEditable(params, data)) {
+        } else if (editable) {
           return { backgroundColor: demandValidationEditableColor };
         }
-      }
-
-      if (data.bucketType === 'PARTIAL_WEEK') {
-        return { backgroundColor: demandValidationPartialWeekColor };
       }
 
       return null;

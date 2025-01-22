@@ -217,8 +217,7 @@ export abstract class AbstractAlertRuleMultiModalComponent
     this.optionsService.get('gkam'),
     this.optionsService.get('productLine'),
     this.optionsService.get('interval'),
-    this.optionsService.get('execDay'),
-    this.translocoLocaleService
+    this.optionsService.get('execDay')
   );
 
   /**
@@ -410,9 +409,7 @@ export abstract class AbstractAlertRuleMultiModalComponent
         validationFn:
           ValidationHelper.validateDateFormatAndGreaterEqualThanToday,
         valueFormatter: (params: ValueFormatterParams) =>
-          params.value
-            ? parseDateIfPossible(params.value, this.translocoLocaleService)
-            : null,
+          params.value ? parseDateIfPossible(params.value) : null,
       },
       {
         field: 'execInterval',
@@ -447,9 +444,7 @@ export abstract class AbstractAlertRuleMultiModalComponent
         validationFn:
           ValidationHelper.validateDateFormatAndGreaterEqualThanToday,
         valueFormatter: (params: ValueFormatterParams) =>
-          params.value
-            ? parseDateIfPossible(params.value, this.translocoLocaleService)
-            : null,
+          params.value ? parseDateIfPossible(params.value) : null,
       },
       {
         field: 'alertComment',

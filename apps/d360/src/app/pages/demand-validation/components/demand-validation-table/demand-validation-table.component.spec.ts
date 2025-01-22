@@ -27,7 +27,6 @@ describe('DemandValidationTableComponent', () => {
       }),
       mockProvider(TranslocoLocaleService, {}),
       mockProvider(DemandValidationService, {
-        getForecastInfo: jest.fn().mockReturnValue(of({})),
         getKpiData: jest.fn().mockReturnValue(of({})),
       }),
       mockProvider(AgGridLocalizationService, {

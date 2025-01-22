@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {
   Component,
   effect,
@@ -132,6 +133,7 @@ export class DemandValidationMultiGridEditComponent
                   'validation_of_demand.upload_modal.error.incomplete_row'
                 );
               }
+              // TODO: add parse ID and IDX in Error Messages.
 
               return null;
             },
@@ -193,6 +195,27 @@ export class DemandValidationMultiGridEditComponent
     };
   }
 
+  protected override getErrorMessageFn(action: 'save' | 'check' | 'validate') {
+    // eslint-disable-next-line no-param-reassign
+    action = action === 'check' ? 'validate' : action;
+
+    return (count: number) =>
+      translate(
+        `validation_of_demand.upload_modal.${action}.${action === 'validate' ? 'invalid_rows' : 'invalid_entries'}`,
+        { count }
+      );
+  }
+
+  protected override getSuccessMessageFn(
+    action: 'save' | 'check' | 'validate'
+  ) {
+    // eslint-disable-next-line no-param-reassign
+    action = action === 'check' ? 'validate' : action;
+
+    return () =>
+      translate(`validation_of_demand.upload_modal.${action}.success`);
+  }
+
   protected applyFunction(
     data: GridBatchUpload[],
     dryRun: boolean
@@ -212,13 +235,12 @@ export class DemandValidationMultiGridEditComponent
   ): ErrorMessage<GridBatchUpload>[] {
     const errors: ErrorMessage<GridBatchUpload>[] = [];
 
-    result.response.forEach((r) => {
-      if (r.result.messageType === 'ERROR') {
+    result.response.forEach((response) => {
+      if (response.result.messageType === 'ERROR') {
         errors.push({
-          dataIdentifier: {
-            material: r.materialNumber,
-          },
-          errorMessage: errorsFromSAPtoMessage(r.result),
+          id: response.id,
+          dataIdentifier: { material: response.materialNumber },
+          errorMessage: errorsFromSAPtoMessage(response.result),
         });
       }
     });
@@ -262,6 +284,7 @@ export class DemandValidationMultiGridEditComponent
           this.errorRows.push(demandValidationBatch.id);
 
           return {
+            id: demandValidationBatch.id,
             dataIdentifier: { ...demandValidationBatch },
             specificField: mandatoryField,
             errorMessage: translate('generic.validation.missing_fields'),
@@ -286,6 +309,7 @@ export class DemandValidationMultiGridEditComponent
         this.errorRows.push(demandValidationBatch.id);
 
         errors.push({
+          id: demandValidationBatch.id,
           dataIdentifier: { ...demandValidationBatch },
           specificField: 'materialNumber',
           errorMessage: validationResult.join('\n'),
@@ -314,6 +338,7 @@ export class DemandValidationMultiGridEditComponent
           this.errorRows.push(demandValidationBatch.id);
 
           errors.push({
+            id: demandValidationBatch.id,
             dataIdentifier: { ...demandValidationBatch },
             specificField: key,
             errorMessage: validationResult,
@@ -349,6 +374,7 @@ export class DemandValidationMultiGridEditComponent
 
         if (uploadData[dateString]) {
           kpiEntries.push({
+            idx: this.getCellId(uploadData.id, uploadData, date),
             fromDate: format(dateString, 'yyyy-MM-dd'),
             bucketType: bucket.type,
             validatedForecast: strictlyParseLocalFloat(
@@ -372,5 +398,27 @@ export class DemandValidationMultiGridEditComponent
     });
 
     return batchData;
+  }
+
+  /**
+   * Returns an index for a specific cell.
+   *
+   * @private
+   * @param {(string | undefined)} rowId
+   * @param {*} data
+   * @param {Date} date
+   * @return {(number | undefined)}
+   * @memberof DemandValidationMultiGridEditComponent
+   */
+  private getCellId(
+    rowId: string | undefined,
+    data: any,
+    date: Date
+  ): number | undefined {
+    return rowId !== null && rowId !== undefined
+      ? // eslint-disable-next-line unicorn/numeric-separators-style
+        Number.parseInt(rowId, 10) * 100000 +
+          Object.keys(data).indexOf(this.keyFromDate(date))
+      : undefined;
   }
 }

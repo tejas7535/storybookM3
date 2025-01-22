@@ -29,6 +29,7 @@ import {
   PostResult,
   ResponseWithResultMessage,
 } from '../../utils/error-handling';
+import { getErrorMessage } from '../../utils/errors';
 import { combineParseFunctionsForFields } from '../../utils/parse-values';
 import { SnackbarService } from '../../utils/service/snackbar.service';
 import { DeleteButtonCellRendererComponent } from '../ag-grid/cell-renderer/delete-button-cell-renderer/delete-button-cell-renderer.component';
@@ -106,22 +107,22 @@ export abstract class AbstractTableUploadModalComponent<
   /**
    * The errors during the save / delete call.
    *
-   * @private
+   * @protected
    * @type {WritableSignal<ErrorMessage<T>[]>}
    * @memberof AbstractTableUploadModalComponent
    */
-  private readonly backendErrors: WritableSignal<ErrorMessage<T>[]> = signal(
+  protected readonly backendErrors: WritableSignal<ErrorMessage<T>[]> = signal(
     []
   );
 
   /**
    * The errors during the frontend validation.
    *
-   * @private
+   * @protected
    * @type {WritableSignal<ErrorMessage<T>[]>}
    * @memberof AbstractTableUploadModalComponent
    */
-  private readonly frontendErrors: WritableSignal<ErrorMessage<T>[]> = signal(
+  protected readonly frontendErrors: WritableSignal<ErrorMessage<T>[]> = signal(
     []
   );
 
@@ -346,21 +347,30 @@ export abstract class AbstractTableUploadModalComponent<
         return undefined;
       }
 
-      const matchingErrors = allErrorMessages.filter((errMsg) =>
-        this.isPartialDataMatching(
-          errMsg.dataIdentifier,
-          this.getTypedRowData(rowData)
-        )
+      const typed: T = this.getTypedRowData(rowData);
+
+      let matchingErrors = allErrorMessages.filter((errMsg) =>
+        this.isPartialDataMatching(errMsg.dataIdentifier, typed)
       );
 
+      // parse Errors by ID
       if (matchingErrors.length === 0) {
-        return undefined;
+        // TODO: parse errors by idx for detect errors in fields
+        matchingErrors = allErrorMessages.filter(
+          (errMsg) =>
+            errMsg.id !== undefined &&
+            (typed as any).id !== undefined &&
+            errMsg.id === (typed as any).id
+        );
+
+        if (matchingErrors.length === 0) {
+          return undefined;
+        }
       }
 
       const fieldError = matchingErrors.find(
         (errMsg) => errMsg.specificField === colId
       );
-
       if (fieldError) {
         return fieldError.errorMessage;
       }
@@ -442,6 +452,7 @@ export abstract class AbstractTableUploadModalComponent<
       // render error hints and remove potentially fixed error hints from cells
       this.updateColumnDefinitions();
 
+      // TODO: add a generic way to parse ID and IDX in Error Messages.
       const userMessages = multiPostResultsToUserMessages(
         postResult,
         this.getSuccessMessageFn(action),
@@ -462,6 +473,12 @@ export abstract class AbstractTableUploadModalComponent<
       ) {
         this.onAdded();
       }
+    } catch (error: unknown) {
+      this.snackbarService.openSnackBar(
+        translate('generic.validation.upload.upload_failed', {
+          reason: getErrorMessage(error),
+        })
+      );
     } finally {
       this.loading.set(false);
     }
@@ -568,6 +585,7 @@ export abstract class AbstractTableUploadModalComponent<
             const errorMessage = validationFn(data[field], row);
             if (errorMessage) {
               errors.push({
+                id: row?.id,
                 dataIdentifier: data,
                 specificField: field,
                 errorMessage,
@@ -592,7 +610,6 @@ export abstract class AbstractTableUploadModalComponent<
    */
   private countErrorRows(errors: ErrorMessage<T>[]): number {
     const uniqueRowIdentifiers = new Set<Partial<T>>();
-
     for (const error of errors) {
       if (
         ![...uniqueRowIdentifiers].some((rowIdentifier) =>
@@ -609,12 +626,12 @@ export abstract class AbstractTableUploadModalComponent<
   /**
    * Returns a new function to translate error messages including a count.
    *
-   * @private
+   * @protected
    * @param {('save' | 'check')} action
    * @return
    * @memberof AbstractTableUploadModalComponent
    */
-  private getErrorMessageFn(action: 'save' | 'check') {
+  protected getErrorMessageFn(action: 'save' | 'check') {
     return (count: number) =>
       translate(`generic.validation.upload.${action}.error`, { count });
   }
@@ -622,12 +639,12 @@ export abstract class AbstractTableUploadModalComponent<
   /**
    * Returns a new function to translate success messages including a count.
    *
-   * @private
+   * @protected
    * @param {('save' | 'check')} action
    * @return
    * @memberof AbstractTableUploadModalComponent
    */
-  private getSuccessMessageFn(action: 'save' | 'check') {
+  protected getSuccessMessageFn(action: 'save' | 'check') {
     return (count: number) =>
       translate(`generic.validation.upload.${action}.success`, { count });
   }

@@ -250,9 +250,9 @@
       },
       "save": {
         "invalid_rows": "{count, plural, one {无法保存 {count} 行。请检查您的输入。} other {无法保存 {count} 行。请检查您的输入。}}",
+        "invalid_entries": "{count, plural, one {{count} 条目无法保存。请检查您的输入} other {{count} 条目无法保存。请检查您的输入}}",
         "success": "保存所有行。"
       },
-      "upload_failed": "上传失败：{{reason}}",
       "validate": {
         "invalid_rows": "{count, plural, one {{count} 行无效。请检查您的输入。} other {{count}  行无效。请检查您的输入。}}",
         "success": "所有行均有效。"
@@ -312,7 +312,23 @@
       "current_wbz_schaeffler": "当前舍弗勒RLT",
       "production_line": "生产线（Train）",
       "production_segment": "生产部门",
-      "product_line_and_text": "产品线+描述"
+      "product_line_and_text": "产品线+描述",
+      "pfStatus": {
+        "title": "组合状态",
+        "PO": "逐步淘汰",
+        "PI": "逐步加入",
+        "AC": "活跃",
+        "IA": "无效",
+        "SE": "更换 (客户)",
+        "SB": "否决",
+        "SI": "更换",
+        "SP": "更换建议"
+      },
+      "demandCharacteristics": {
+        "title": "需求特征",
+        "SE": "系列",
+        "SP": "零星"
+      }
     },
     "supply_concept": {
       "title": "供应概念",
@@ -820,7 +836,7 @@
       "customerMaterialNumber": "客户物料号",
       "customerMaterialNumber_plural": "客户物料号",
       "materialClassification": "物料分类",
-      "demandPlanValue": "营业净额 (12M)",
+      "demandPlanValue": "发票销售 (下一个 12M)",
       "demandCharacteristic": "需求特征",
       "currentRLTSchaeffler": "当前舍弗勒RLT",
       "currentRLTCustomer": "当前客户RLT",
@@ -880,7 +896,7 @@
       "materialNumberS4": "物料 S/4"
     },
     "portfolio_status": {
-      "AC": "零星",
+      "AC": "活跃",
       "IA": "无效",
       "SP": "更换建议",
       "SE": "更换 (客户)",
@@ -1026,6 +1042,7 @@
       },
       "at_least_one_of": "必须至少填写以下一个字段：{{fieldlist}}.",
       "upload": {
+        "upload_failed": "上传失败：{{reason}}",
         "too_many_entries": "列表中包含太多条目。一次最多可上传 {{maxRows}} 个条目。",
         "no_entries": "没有可用的条目。",
         "save": {
@@ -1041,14 +1058,15 @@
   },
   "sap_message": {
     "/D360/DEMAND_VALIDATION": {
-      "0": "未知错误"
-    },
-    "/SGD/DEMAND_VALIDATION": {
+      "0": "未知错误",
       "1": "此条目与另一个条目在时间上重叠。",
       "2": "SAP 请求超时",
       "3": "无法明确映射客户物料号。必须使用 15 位物料号输入预测。"
     },
     "error": "找不到{{messageClass}}类和{{messageNumber}}号的信息。",
+    "/SGD/SCM_SOP": {
+      "685": "选定 {{messageV1}} 种组合，最多允许 {{messageV2}} 种组合"
+    },
     "/SGD/SCM_SOP_SALES": {
       "0": "无法找到含有以下值的文本：{{messageV1}}、{{messageV2}}、{{messageV3}}、{{messageV4}}。",
       "1": "客户号不存在。",
@@ -1061,6 +1079,7 @@
       "10": "禁止对该客户的有效预测进行编辑或删除",
       "16": "您没有客户端 {{messageV1}} 所需的权限。",
       "17": "未找到条目。",
+      "22": "替换日期（{{messageV1}}）后无法保存预测",
       "23": "Phase-Out旧物料已变更为{{messageV1}} 因为订单或其他机会",
       "24": "已删除 {{messageV1}} 的预测。",
       "25": "物料 {{messageV1}} 不存在。",
@@ -1079,6 +1098,8 @@
       "40": "状态已变更为{{messageV1}} 因为订单或销售机会的原因",
       "41": "状态已变更为{{messageV1}}, 因为已经到期",
       "42": "状态已变更为{{messageV1}}, 因为没有未来或历史需求",
+      "51": "过去或当月的预测均不可更改",
+      "52": "过去的预测无法改变",
       "100": "该 {{messageV1}}替换类型无效",
       "101": "必须输入一个有效的区域。该 {{messageV1}} 无效。",
       "102": "该记录不存在",

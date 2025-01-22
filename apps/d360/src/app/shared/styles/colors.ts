@@ -7,11 +7,12 @@ export const dimmedPurple = '#A4ACDE';
 export const disabledGrey = '#00000042';
 
 export const schaefflerColor = '#00893D';
-export const demandValidationPartialWeekColor = 'lightgray';
+export const demandValidationPartialWeekColor = '#EBEEF0';
+export const demandValidationNotEditableColor = '#EBEEF0';
 export const demandValidationEditableColor = '#CCE8D9';
 export const demandValidationToSmallColor = '#FDE7A3';
 export const demandValidationWrongInputColor = '#DFADB9';
-export const demandValidationInFixZoneColor = '#DEE3E7';
+export const demandValidationInFixZoneColor = '#EBEEF0';
 export const borderColor = '#00000052'; // #000000 with 32% opacity
 export const borderColorDark = '#19191999'; // #191919 with 60% opacity
 export const textDarkGrey = '#000000DE'; // #000000 with 87% opacity

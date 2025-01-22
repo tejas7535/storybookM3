@@ -1,5 +1,4 @@
 import { translate } from '@jsverse/transloco';
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { formatISO } from 'date-fns';
 
 import {
@@ -10,19 +9,20 @@ import {
   DemandCharacteristic,
   demandCharacteristicOptions,
 } from '../../feature/material-customer/model';
+import { ValidationHelper } from './validation/validation-helper';
 
 /**
  * Parses the date which may contain time information as a date string, otherwise returns the original string
  * @param dateString The date string to parse
- * @param translocoLocaleService
  */
-export function parseDateIfPossible(
-  dateString: string,
-  translocoLocaleService: TranslocoLocaleService
-): string {
-  const parsed = translocoLocaleService.localizeDate(dateString, undefined, {
-    dateStyle: 'medium',
-  });
+export function parseDateIfPossible(dateString: string): string {
+  const parsed = ValidationHelper.localeService?.localizeDate(
+    dateString,
+    undefined,
+    {
+      dateStyle: 'medium',
+    }
+  );
 
   return parsed || dateString;
 }
@@ -136,12 +136,14 @@ export function parseDemandValidationPeriodTypeIfPossible(
   const uppercasedInput = value.toUpperCase();
 
   return (
-    ['month', 'week'].find(
+    (['month', 'week'].find(
       (option) =>
         uppercasedInput ===
         translate(
           `validation_of_demand.upload_modal.paste.${option}`
         ).toUpperCase()
-    ) ?? undefined
+    ) ||
+      ['M', 'W'].find((option) => uppercasedInput === option)) ??
+    undefined
   );
 }

@@ -15,7 +15,7 @@ import { finalize } from 'rxjs';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MaterialType } from '../../../../feature/demand-validation/model';
-import { DemandValidationMultiListEditModalComponent } from '../demand-validation-multi-list-edit-modal/demand-validation-multi-list-edit-modal.component';
+import { DemandValidationMultiListEditModalComponent } from './demand-validation-multi-list-edit-modal/demand-validation-multi-list-edit-modal.component';
 
 interface DemandValidationMultiListEditModalProps {
   customerName: string;

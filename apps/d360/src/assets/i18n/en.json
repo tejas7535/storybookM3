@@ -262,9 +262,9 @@
       },
       "save": {
         "invalid_rows": "{count, plural, one {{count} row could not be saved. Please check your input.} other {{count} rows could not be saved. Please check your input.}}",
+        "invalid_entries": "{count, plural, one {{count} entry could not be saved. Please check your input.} other {{count} entries could not be saved. Please check your input.}}",
         "success": "All rows saved."
       },
-      "upload_failed": "Upload failed: {{reason}}",
       "validate": {
         "invalid_rows": "{count, plural, one {{count} row invalid. Please check your input.} other {{count} rows invalid. Please check your input.}}",
         "success": "All rows valid."
@@ -324,7 +324,23 @@
       "current_wbz_schaeffler": "Current RLT Schaeffler",
       "production_line": "Production Line (Train)",
       "production_segment": "Production Segment",
-      "product_line_and_text": "Product line + description"
+      "product_line_and_text": "Product line + description",
+      "pfStatus": {
+        "title": "Portfolio Status",
+        "PO": "Phase Out",
+        "PI": "Phase In",
+        "AC": "Active",
+        "IA": "Inactive",
+        "SE": "Substitution (Customer)",
+        "SB": "Veto",
+        "SI": "Substitution",
+        "SP": "Substitution proposal"
+      },
+      "demandCharacteristics": {
+        "title": "Demand Characteristic",
+        "SE": "Series",
+        "SP": "Sporadic"
+      }
     },
     "supply_concept": {
       "title": "Supply Concept",
@@ -653,7 +669,7 @@
       "DPOPDL": "Re-classification OP, Validated Forecast deleted",
       "CFPRAO": "Check validated forecast, substitution undone",
       "CFSUAO": "Check validated forecast, substitution undone",
-      "PINWAO": "Phase-in, validation sales planning",
+      "PINWAO": "Phase-in, validation of demand",
       "PINWDP": "Phase-In at the specified time",
       "PIOCAO": "Phase-In date changed (sales order)",
       "PIOCDP": "Phase-In date changed (sales order)",
@@ -857,7 +873,7 @@
       "customerMaterialNumber": "Customer Material Number",
       "customerMaterialNumber_plural": "Customer Material Numbers",
       "materialClassification": "Material Classification",
-      "demandPlanValue": "Net Sales (12M)",
+      "demandPlanValue": "Inv. Sales (next 12M)",
       "demandCharacteristic": "Demand Characteristic",
       "currentRLTSchaeffler": "Current RLT Schaeffler",
       "currentRLTCustomer": "Current RLT Customer",
@@ -1063,6 +1079,7 @@
       },
       "at_least_one_of": "At least one of the following fields must be filled: {{fieldlist}}.",
       "upload": {
+        "upload_failed": "Upload failed: {{reason}}",
         "too_many_entries": "The list contains too many entries. A maximum of {{maxRows}} entries may be uploaded in one step.",
         "no_entries": "No entries available.",
         "save": {
@@ -1078,14 +1095,15 @@
   },
   "sap_message": {
     "/D360/DEMAND_VALIDATION": {
-      "0": "Unknown error"
-    },
-    "/SGD/DEMAND_VALIDATION": {
+      "0": "Unknown error",
       "1": "Entry overlaps in time with another entry.",
       "2": "SAP request timeout",
       "3": "It is not possible to map the customer material number unambiguously. Forecast must be entered with the 15 digit material number."
     },
     "error": "Message with class {{messageClass}} and number {{messageNumber}} could not be found.",
+    "/SGD/SCM_SOP": {
+      "685": "{{messageV1}} combinations were selected, a maximum of {{messageV2}} are permitted"
+    },
     "/SGD/SCM_SOP_SALES": {
       "0": "Text with the following values could not be found: {{messageV1}}, {{messageV2}}, {{messageV3}}, {{messageV4}}.",
       "1": "Customer number does not exist.",
@@ -1098,6 +1116,7 @@
       "10": "Editing/deleting the validated forecast is not possible for this customer.",
       "16": "You do not have the required permissions for the {{messageV1}} customer.",
       "17": "No entry found.",
+      "22": "Forecast cannot be saved after the replacement date ({{messageV1}}).",
       "23": "Phase-out changed to {{messageV1}} due to Orders / Opportunities.",
       "24": "Forecast deleted for {{messageV1}}.",
       "25": "Material {{messageV1}} does not exist.",
@@ -1116,6 +1135,8 @@
       "40": "Status adjusted to {{messageV1}} due to orders/opportunities.",
       "41": "Status changed to {{messageV1}}, expiry date reached.",
       "42": "Status was set to {{messageV1}}, as no future or historical requirements.",
+      "51": "Forecast can not be changed in the past or in the current month.",
+      "52": "Forecast can not be changed in the past.",
       "100": "Substitution type {{messageV1}} is not valid.",
       "101": "A valid region must be passed. {{messageV1}} is not valid.",
       "102": "The record does not exist.",

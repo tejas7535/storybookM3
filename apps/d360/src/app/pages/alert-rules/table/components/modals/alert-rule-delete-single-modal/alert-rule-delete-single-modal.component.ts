@@ -3,11 +3,9 @@ import { Component, Inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
-  MatDialogActions,
   MatDialogClose,
-  MatDialogContent,
+  MatDialogModule,
   MatDialogRef,
-  MatDialogTitle,
 } from '@angular/material/dialog';
 
 import { tap } from 'rxjs';
@@ -31,9 +29,7 @@ import { SnackbarService } from '../../../../../../shared/utils/service/snackbar
   imports: [
     CommonModule,
     SharedTranslocoModule,
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
+    MatDialogModule,
     MatButton,
     MatDialogClose,
   ],

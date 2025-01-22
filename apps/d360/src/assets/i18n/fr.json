@@ -250,9 +250,9 @@
       },
       "save": {
         "invalid_rows": "{count, plural, one {{count} ligne n'a pas pu être enregistrée. Veuillez vérifier votre entrée.} other {{count} ligne n'a pas pu être enregistrée. Veuillez vérifier votre saisie.}}",
+        "invalid_entries": "{count, plural, one {{count} l'entrée n'a pas pu être sauvegardée. Veuillez vérifier votre saisie.} other {{count} n'ont pas pu être sauvegardées. Veuillez vérifier votre saisie.}}",
         "success": "Toutes les lignes ont été enregistrées."
       },
-      "upload_failed": "Échec de l'importation : {{reason}}",
       "validate": {
         "invalid_rows": "{count, plural, one {{count} ligne n'a pas pu être enregistrée. S'il vous plaît, vérifiez vos entrées.} other {{count} lignes n'ont pas pu être enregistrées. Veuillez vérifier vos entrées.}}",
         "success": "Toutes les lignes sont valide"
@@ -312,7 +312,23 @@
       "current_wbz_schaeffler": "Délai de Réappro Schaeffler actuel",
       "production_line": "Ligne de Production (Train)",
       "production_segment": "Segment de production",
-      "product_line_and_text": "Ligne de Production + Nom"
+      "product_line_and_text": "Ligne de Production + Nom",
+      "pfStatus": {
+        "title": "Status du portefeuil",
+        "PO": "Phase Out",
+        "PI": "Phase In",
+        "AC": "Actif",
+        "IA": "Inactif",
+        "SE": "Substitution (Client)",
+        "SB": "Veto",
+        "SI": "Substitution",
+        "SP": "Proposition de substitution"
+      },
+      "demandCharacteristics": {
+        "title": "Demand spécifique",
+        "SE": "Série",
+        "SP": "Sporadiquement"
+      }
     },
     "supply_concept": {
       "title": "Concept d'approvisionnement",
@@ -616,7 +632,7 @@
       "DPOPDL": "Re-classification OP, Validée Prévision supprimée",
       "CFPRAO": "Vérification des prévisions validées, substitution non effectuée",
       "CFSUAO": "Vérification des prévisions validées, substitution non effectuée",
-      "PINWAO": "Phase-In, validation de la planification des ventes",
+      "PINWAO": "Phase-In, validation de la demande",
       "PINWDP": "Phase-In à un moment donné",
       "PIOCAO": "Date de phase d'entrée modifiée (commande client)",
       "PIOCDP": "Date de phase d'entrée modifiée (commande client)",
@@ -820,7 +836,7 @@
       "customerMaterialNumber": "Référence client",
       "customerMaterialNumber_plural": "Références client",
       "materialClassification": "Classification Article",
-      "demandPlanValue": "Ventes Nettes (12M)",
+      "demandPlanValue": "Inv. Sales (next 12M)",
       "demandCharacteristic": "Demande spécifique",
       "currentRLTSchaeffler": "Délai de Réappro Schaeffler actuel",
       "currentRLTCustomer": "Délai de Réappro Client actuel",
@@ -993,9 +1009,9 @@
       "countBCOpen": "Ouvertes/Non vérifiées"
     },
     "helper_text": {
-      "startOfProduction": "Remarque : en cas de fin de série sans successeur, ce champ contient la dernière date de fabrication possible.",
-      "note": "Remarque : veuillez, si possible, remplir le formulaire en anglais.",
-      "replacementDate": "Remarque : en cas de fin de série sans successeur, ce champ contient la dernière date de fabrication possible."
+      "startOfProduction": "Remarque: en cas de fin de série sans successeur, ce champ contient la dernière date de fabrication possible.",
+      "note": "Remarque: veuillez, si possible, remplir le formulaire en anglais.",
+      "replacementDate": "Remarque: en cas de fin de série sans successeur, ce champ contient la dernière date de fabrication possible."
     },
     "text": {
       "deleteSubstitution": "Faut-il vraiment supprimer le substitution ?"
@@ -1026,6 +1042,7 @@
       },
       "at_least_one_of": "Au moins un des champs suivants doit être rempli : {{fieldlist}}.",
       "upload": {
+        "upload_failed": "Échec de l'importation : {{reason}}",
         "too_many_entries": "La liste contient trop d'entrées. Il ne doit pas y avoir plus de {{maxRows}} entrées à télécharger en une seule étape.",
         "no_entries": "Aucune entrée disponible.",
         "save": {
@@ -1041,14 +1058,15 @@
   },
   "sap_message": {
     "/D360/DEMAND_VALIDATION": {
-      "0": "Erreur non Connu"
-    },
-    "/SGD/DEMAND_VALIDATION": {
+      "0": "Erreur non Connu",
       "1": "L'entrée se chevauche avec une autre entrée.",
       "2": "SAP request timeout",
       "3": "Il n'est pas possible d'affecter le numéro d'article du client sans ambiguïté. Les prévisions doivent être saisies avec le numéro d'article à 15 chiffres."
     },
     "error": "Message de classe {{messageClass}} et de numéro {{messageNumber}} introuvable.",
+    "/SGD/SCM_SOP": {
+      "685": "{{messageV1}} combinaisons ont été sélectionnées, le maximum autorisé est de {{messageV2}}"
+    },
     "/SGD/SCM_SOP_SALES": {
       "0": "Le texte avec les valeurs suivantes n'a pas pu être trouvé : {{messageV1}}, {{messageV2}}, {{messageV3}}, {{messageV4}}.",
       "1": "Code Client inexistant",
@@ -1061,6 +1079,7 @@
       "10": "La modification/suppression de la prévision validée n'est pas possible pour ce client.",
       "16": "Vous n'avez pas les autorisations nécessaires pour le client {{messageV1}}.",
       "17": "Aucune entrée trouvée.",
+      "22": "Les prévisions ne peuvent pas être sauvegardées après la date de remplacement ({{messageV1}}).",
       "23": "Phase-Out en raison de commandes / opportunités changé à {{messageV1}}.",
       "24": "Prévision supprimée pour {{messageV1}}.",
       "25": "Le matériel {{messageV1}} n'existe pas.",
@@ -1079,6 +1098,8 @@
       "40": "Statut ajusté à {{messageV1}} en raison des commandes/opportunités.",
       "41": "Statut modifié à {{messageV1}}, date d'expiration atteinte.",
       "42": "Statut fixé à {{messageV1}}, car aucun besoin futur ou historique.",
+      "51": "Les prévisions ne peuvent être modifiées ni dans le passé ni dans le mois en cours.",
+      "52": "Les prévisions ne peuvent pas être modifiées dans le passé.",
       "100": "Le type de substitution {{messageV1}} n'est pas valide.",
       "101": "Une région valide doit être passée. {messageV1}} n'est pas valide.",
       "102": "L'enregistrement n'existe pas.",

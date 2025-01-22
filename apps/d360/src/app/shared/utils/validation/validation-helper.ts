@@ -111,7 +111,7 @@ export class ValidationHelper {
   public static getDateFormat(): string {
     const dateInput = '2024-11-23';
     const formattedDate: string =
-      ValidationHelper.localeService.localizeDate(dateInput);
+      ValidationHelper.localeService?.localizeDate(dateInput);
     const separator: string = formattedDate.match(/[./-]/)[0];
     const dateParts: string[] = formattedDate.split(/[./-]/);
 

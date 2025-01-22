@@ -1,5 +1,4 @@
 import { translate } from '@jsverse/transloco';
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 import { AlertRule } from '../../../../../feature/alert-rules/model';
 import { SelectableValue } from '../../../../../shared/components/inputs/autocomplete/selectable-values.utils';
@@ -13,6 +12,7 @@ import {
 
 // TODO remove this and use this from the TableUploadModal
 export interface ErrorMessage<DATA> {
+  id?: string;
   dataIdentifier: Partial<DATA>;
   specificField?: keyof DATA;
   errorMessage: string;
@@ -194,8 +194,7 @@ export function getSpecialParseFunctions(
   gkamOptions: OptionsLoadingResult,
   productLineOptions: OptionsLoadingResult,
   intervalOpts: OptionsLoadingResult,
-  whenOpts: OptionsLoadingResult,
-  translocoLocaleService: TranslocoLocaleService
+  whenOpts: OptionsLoadingResult
 ): Map<keyof AlertRule, (value: string) => string> {
   return new Map([
     ['type', parseSelectableValueIfPossible(alertTypes.options)],
@@ -214,14 +213,8 @@ export function getSpecialParseFunctions(
     ['productLine', parseSelectableValueIfPossible(productLineOptions.options)],
     ['execInterval', parseSelectableValueIfPossible(intervalOpts.options)],
     ['execDay', parseSelectableValueIfPossible(whenOpts.options)],
-    [
-      'startDate',
-      (value: string) => parseDateIfPossible(value, translocoLocaleService),
-    ],
-    [
-      'endDate',
-      (value: string) => parseDateIfPossible(value, translocoLocaleService),
-    ],
+    ['startDate', (value: string) => parseDateIfPossible(value)],
+    ['endDate', (value: string) => parseDateIfPossible(value)],
   ]);
 }
 

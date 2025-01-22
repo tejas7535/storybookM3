@@ -43,32 +43,49 @@ export type MaterialType = 'schaeffler' | 'customer';
 export type KpiBucketType = 'WEEK' | 'MONTH' | 'PARTIAL_WEEK';
 
 export interface MaterialListEntry {
-  region?: string;
-  salesArea?: string;
-  salesOrg?: string;
-  gkamNumber?: string;
   customerNumber?: string;
   materialNumber?: string;
-  materialClassification?: string;
-  sector?: string;
-  productionSegment?: string;
   alertType?: string;
-  materialDescription?: string;
+  sectorManagement?: string;
+  sector?: string;
+  packagingSize?: number;
+  materialClassification?: string;
+  dateBeginMaintPossibleMonth?: string;
+  dateBeginMaintPossibleWeek?: string;
+  dateEndMaintPossibleMonth?: string;
+  dateEndMaintPossibleWeek?: string;
+  dateFrozenZoneDl?: string;
+  dateRltDl?: string;
+  demandCharacteristic?: string;
+  safetyStock?: number;
+  productionLine?: string;
+  fixHor?: string;
+  gkamNumber?: string;
   customerMaterialNumber?: string;
   customerMaterialNumberCount?: number;
-  productLine?: string;
-  productionPlant?: string;
-  productionLine?: string;
-  stochasticType?: string;
-  currentRLTSchaeffler?: string;
+  materialDescription?: string;
+  demandPlanQuantityUnit?: string;
+  portfolioStatus?: string;
+  portfolioStatusDate?: string;
+  demandPlanQuantity?: number;
   demandPlanValue?: number;
-  fixHor?: string;
-  eisbeDl?: number;
-  zv98QtyDl?: number;
+  productLine?: string;
+  productLineName?: string;
+  productionPlant?: string;
+  region?: string;
+  currentRLTSchaeffler?: string;
+  salesArea?: string;
+  productionSegment?: string;
+  stochasticType?: string;
+  transitTimeBetweenProdPlantAndDistributionPlant?: number;
+  salesOrg?: string;
+  currency?: string;
+  safetyStockCustomer?: number;
 }
 
 export interface KpiEntry {
   fromDate: string;
+  toDate: string;
   bucketType: KpiBucketType;
   storedBucketType: KpiBucketType | null;
   deliveriesCombined: number | null;
@@ -117,6 +134,7 @@ export interface WriteKpiData {
 }
 
 export interface WriteKpiEntry {
+  idx?: number;
   fromDate: string | null;
   bucketType: KpiBucketType;
   validatedForecast: number | null;
@@ -130,6 +148,7 @@ export interface WriteKpiDataResponse {
 }
 
 export type WriteKpiEntryResult = {
+  idx?: number;
   fromDate: string;
 } & ResponseWithResultMessage;
 
@@ -146,26 +165,6 @@ export interface SelectedKpis {
   confirmedDeliveries: boolean;
   confirmedFirmBusiness: boolean;
   confirmedDemandPlan: boolean;
-}
-
-export interface ForecastInfo {
-  customerNumber?: string;
-  materialNumber?: string;
-  materialDescription?: string;
-  packagingSize?: number;
-  materialClassification?: string;
-  currentRLTSchaeffler?: number;
-  currentRLTCustomer?: number;
-  productionLine?: string;
-  productionSegment?: string;
-  productLine?: string;
-  language?: string;
-  productLineText?: string;
-  transitTimeSdcDc?: number;
-  transitTimeDcRlp?: number;
-  deliveryPlant?: string;
-  planningPlant?: string;
-  regionalLevelingPoint?: string;
 }
 
 export interface DeleteKpiDataRequest {

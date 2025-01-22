@@ -259,9 +259,9 @@
       },
       "save": {
         "invalid_rows": "{count, plural, one {{count} Zeile konnten nicht gespeichert werden. Bitte prüfen Sie Ihre Eingaben.} other {{count} Zeilen konnten nicht gespeichert werden. Bitte prüfen Sie Ihre Eingaben.}}",
+        "invalid_entries": "{count, plural, one {{count} Eintrag konnten nicht gespeichert werden. Bitte prüfen Sie Ihre Eingaben.} other {{count} Einträge konnten nicht gespeichert werden. Bitte prüfen Sie Ihre Eingaben.}}",
         "success": "Es wurden alle Zeilen gespeichert."
       },
-      "upload_failed": "Upload fehlgeschlagen: {{reason}}",
       "validate": {
         "invalid_rows": "{count, plural, one {{count} Zeile ungültig. Bitte prüfen Sie Ihre Eingaben.} other {{count} Zeilen ungültig. Bitte prüfen Sie Ihre Eingaben.}}",
         "success": "Alle Zeilen gültig."
@@ -321,7 +321,23 @@
       "current_wbz_schaeffler": "Aktuelle WBZ Schaeffler",
       "production_line": "Produktionslinie (Zug)",
       "production_segment": "Produktionssegment",
-      "product_line_and_text": "Produktlinie + Bezeichnung"
+      "product_line_and_text": "Produktlinie + Bezeichnung",
+      "pfStatus": {
+        "title": "Portfolio Status",
+        "PO": "Phase-Out",
+        "PI": "Phase-In",
+        "AC": "Aktiv",
+        "IA": "Inaktiv",
+        "SE": "Ersetzung (Kunde)",
+        "SB": "Veto",
+        "SI": "Ersetzung",
+        "SP": "Ersetzungsvorschlag"
+      },
+      "demandCharacteristics": {
+        "title": "Bedarfsbild",
+        "SE": "Serie",
+        "SP": "Sporadisch"
+      }
     },
     "supply_concept": {
       "title": "Versorgungskonzept",
@@ -829,7 +845,7 @@
       "customerMaterialNumber": "Kundenmaterialnummer",
       "customerMaterialNumber_plural": "Kundenmaterialnummern",
       "materialClassification": "Materialklassifizierung",
-      "demandPlanValue": "Net Sales (12M)",
+      "demandPlanValue": "Inv. Sales (next 12M)",
       "demandCharacteristic": "Bedarfsbild",
       "currentRLTSchaeffler": "Aktuelle WBZ Schaeffler",
       "currentRLTCustomer": "Aktuelle WBZ Kunde",
@@ -1035,6 +1051,7 @@
       },
       "at_least_one_of": "Es muss mindestens eins der folgenden Felder gefüllt werden: {{fieldlist}}.",
       "upload": {
+        "upload_failed": "Upload fehlgeschlagen: {{reason}}",
         "too_many_entries": "Die Liste enthält zu viele Einträge. Es dürfen maximal {{maxRows}} Einträge in einem Schritt hochgeladen werden.",
         "no_entries": "Keine Einträge vorhanden.",
         "save": {
@@ -1050,14 +1067,15 @@
   },
   "sap_message": {
     "/D360/DEMAND_VALIDATION": {
-      "0": "Unbekannter Fehler"
-    },
-    "/SGD/DEMAND_VALIDATION": {
+      "0": "Unbekannter Fehler",
       "1": "Eintrag überschneidet sich zeitlich mit einem anderem Eintrag.",
       "2": "SAP request timeout",
       "3": "Die Kundenmaterialnummer kann nicht eindeutig einem Material zugeordnet werden. Prognose muss anhand 15 stelliger Materialnummer eingegeben werden."
     },
     "error": "Nachricht mit Klasse {{messageClass}} und Nummer {{messageNumber}} konnte nicht gefunden werden.",
+    "/SGD/SCM_SOP": {
+      "685": "Es wurden {{messageV1}} Kombinationen selektiert, erlaubt sind maximal {{messageV2}}"
+    },
     "/SGD/SCM_SOP_SALES": {
       "0": "Text mit den folgenden Werten konnte nicht gefunden werden: {{messageV1}}, {{messageV2}}, {{messageV3}}, {{messageV4}}.",
       "1": "Kundennummer existiert nicht.",
@@ -1070,6 +1088,7 @@
       "10": "Das Bearbeiten/Löschen der validierten Prognose ist für diesen Kunden nicht möglich.",
       "16": "Sie haben nicht die erforderlichen Berechtigungen für den Kunden {{messageV1}}.",
       "17": "Kein Eintrag gefunden.",
+      "22": "Forecast kann nicht nach dem Ersetzungsdatum ({{messageV1}}) gespeichert werden.",
       "23": "Phase-Out aufgrund von Aufträgen / Opportunities auf {{messageV1}} geändert.",
       "24": "Forecast gelöscht für {{messageV1}}.",
       "25": "Material {{messageV1}} existiert nicht.",
@@ -1088,6 +1107,8 @@
       "40": "Status aufgrund von Aufträgen/Opportunities auf {{messageV1}} angepasst.",
       "41": "Status geändert auf {{messageV1}}, Auslaufdatum erreicht.",
       "42": "Status wurde auf {{messageV1}} gesetzt, da keine zukünftige oder historische Bedarfe.",
+      "51": "Forecast kann nicht in der Vergangenheit und nicht im aktuellen Monat geändert werden.",
+      "52": "Forecast kann nicht in der Vergangenheit geändert werden.",
       "100": "Ersetzungstyp {{messageV1}} ist nicht gültig.",
       "101": "Es muss eine gültige Region übergeben werden. {{messageV1}} ist nicht gültig.",
       "102": "Der Datensatz existiert nicht.",

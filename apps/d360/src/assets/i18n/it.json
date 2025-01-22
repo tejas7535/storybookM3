@@ -250,9 +250,9 @@
       },
       "save": {
         "invalid_rows": "{count, plural, one {{count} riga non può essere salvata. Si prega di controllare le voci inserite.} other {Impossibile salvare {count} righe. Per favore controlla le tue voci.}}",
+        "invalid_entries": "{count, plural, one {{count} non è stato possibile salvare le voci. Si prega di controllare l'immissione.} other {{count} non è stato possibile salvare le voci. Si prega di controllare l'immissione.}}",
         "success": "Tutte le righe sono state salvate."
       },
-      "upload_failed": "Caricamento non riuscito: {{reason}}",
       "validate": {
         "invalid_rows": "{count, plural, one {{count} Riga non valida. Si prega di controllare le voci.} other {{count} righe non valide. Si prega di controllare le voci.}}",
         "success": "Tutte le righe valide."
@@ -290,7 +290,7 @@
     "legend": {
       "title": "Legenda",
       "current_date": "Oggi",
-      "frozen_zone": "Periodo di congelamento dati (incluso il tempo di transito)",
+      "frozen_zone": "Frozen Zone (incluso il tempo di transito)",
       "replenishment_lead_time": "Tempi di consegna - Lead Time (incluso il tempo di transito)"
     },
     "menu_item": {
@@ -312,7 +312,23 @@
       "current_wbz_schaeffler": "Attuale Lead Time Schaeffler",
       "production_line": "Linea di produzione (Treno)",
       "production_segment": "Segmento produttivo",
-      "product_line_and_text": "Linea Prodotto PL + Nome"
+      "product_line_and_text": "Linea Prodotto PL + Nome",
+      "pfStatus": {
+        "title": "Stato Portafoglio",
+        "PO": "Phase Out",
+        "PI": "Phase In",
+        "AC": "Attivo",
+        "IA": "Non Attivo",
+        "SE": "Sostituzione (Client)",
+        "SB": "Veto",
+        "SI": "Sostituzione",
+        "SP": "Proposta di Sostituzione"
+      },
+      "demandCharacteristics": {
+        "title": "Caratteristiche dei fabbisogni",
+        "SE": "Serie",
+        "SP": "Sporadico"
+      }
     },
     "supply_concept": {
       "title": "Concetto di fornitura",
@@ -616,7 +632,7 @@
       "DPOPDL": "Riclassificazione OP, Previsione convalidata cancellata",
       "CFPRAO": "Verifica della previsione convalidata, sostituzione annullata",
       "CFSUAO": "Verifica della previsione convalidata, sostituzione annullata",
-      "PINWAO": "Phase-In, pianificazione delle vendite di convalida",
+      "PINWAO": "Phase-In, validazione della domanda",
       "PINWDP": "Introduzione graduale al momento stabilito",
       "PIOCAO": "Modifica della data di introduzione (ordine di vendita)",
       "PIOCDP": "Modifica della data di introduzione (ordine di vendita)",
@@ -820,7 +836,7 @@
       "customerMaterialNumber": "Codice Materiale Cliente",
       "customerMaterialNumber_plural": "Codice Materiale Cliente",
       "materialClassification": "Classificazione dei materiali",
-      "demandPlanValue": "Vendite Nette(12M)",
+      "demandPlanValue": "Inv. Sales (next 12M)",
       "demandCharacteristic": "caratteristiche dei fabbisogni",
       "currentRLTSchaeffler": "Attuale Lead Time Schaeffler",
       "currentRLTCustomer": "Attuale Lead Time Cliente",
@@ -1026,6 +1042,7 @@
       },
       "at_least_one_of": "Almeno uno dei seguenti campi deve essere compilato: {{elenco di campi}}.",
       "upload": {
+        "upload_failed": "Caricamento non riuscito: {{reason}}",
         "too_many_entries": "L'elenco contiene troppe voci. È possibile caricare un massimo di {{maxRows}} voci in un'unica fase.",
         "no_entries": "Non ci sono voci disponibili.",
         "save": {
@@ -1041,16 +1058,17 @@
   },
   "sap_message": {
     "/D360/DEMAND_VALIDATION": {
-      "0": "Errore sconosciuto"
-    },
-    "/SGD/DEMAND_VALIDATION": {
+      "0": "Errore sconosciuto",
       "1": "La voce si sovrappone temporalmente a un'altra voce.",
       "2": "SAP request timeout",
       "3": "Non è possibile mappare il numero di materiale del cliente in modo univoco. Le previsioni devono essere inserite con il numero di materiale a 15 cifre."
     },
     "error": "Non è stato possibile trovare un messaggio con classe {{messageClass}} e numero {{messageNumber}}.",
+    "/SGD/SCM_SOP": {
+      "685": "Sono state selezionate {{messageV1}} combinazioni, ne sono consentite un massimo di {{messageV2}}"
+    },
     "/SGD/SCM_SOP_SALES": {
-      "0": "Non è stato possibile trovare un testo con i seguenti valori: {{messaggioV1}}, {{messaggioV2}}, {{messaggioV3}}, {{messaggioV4}}.",
+      "0": "Non è stato possibile trovare un testo con i seguenti valori: {{messageV1}}, {{messageV2}}, {{messageV3}}, {{messageV4}}.",
       "1": "Codice Cliente non esiste",
       "2": "La combinazione di materiali del cliente non esiste.",
       "3": "Tipo di periodo non valido.",
@@ -1059,46 +1077,49 @@
       "6": "I valori negativi non possono essere inseriti",
       "7": "Impossibile salvare la previsione a causa della mancanza di autorizzazione. (Codice 007)",
       "10": "Per questo cliente non è possibile modificare/eliminare la previsione convalidata.",
-      "16": "Non si dispone dei permessi necessari per il client {{messaggioV1}}.",
+      "16": "Non si dispone dei permessi necessari per il client {{messageV1}}.",
       "17": "Nessuna voce trovata.",
-      "23": "La fase di uscita è stata modificata in {{messaggioV1}} a causa di ordini/opportunità.",
-      "24": "Previsione cancellata per {{messaggioV1}}.",
-      "25": "Il materiale {{messaggioV1}} non esiste.",
-      "26": "Non è stato possibile determinare l'impianto di consegna per il materiale di follow-up {{messaggioV1}}.",
-      "27": "Riferimento circolare! Il successore  {{messaggioV1}} non è consentito!",
+      "22": "Le previsioni non possono essere salvate dopo la data di sostituzione ({{messageV1}}).",
+      "23": "La fase di uscita è stata modificata in {{messageV1}} a causa di ordini/opportunità.",
+      "24": "Previsione cancellata per {{messageV1}}.",
+      "25": "Il materiale {{messageV1}} non esiste.",
+      "26": "Non è stato possibile determinare l'impianto di consegna per il materiale di follow-up {{messageV1}}.",
+      "27": "Riferimento circolare! Il successore {{messageV1}} non è consentito!",
       "28": "Errore durante la creazione dell'avviso!",
       "29": "Azione per la copia della previsione non definita.",
-      "30": "Non è consentito cambiare lo stato del portafoglio da {{messaggioV1}} a {{messaggioV2}}.",
+      "30": "Non è consentito cambiare lo stato del portafoglio da {{messageV1}} a {{messageV2}}.",
       "31": "La proposta di sostituzione non viene adottata",
       "32": "La testa della catena non è il materiale attivo",
-      "33": "Combinazione non creata, poiché esiste il materiale successore {{messaggioV1}}.",
-      "34": "Trovato un riferimento circolare tra il materiale {{messaggioV1}} e il materiale {{messaggioV2}}.",
+      "33": "Combinazione non creata, poiché esiste il materiale successore {{messageV1}}.",
+      "34": "Trovato un riferimento circolare tra il materiale {{messageV1}} e il materiale {{messageV2}}.",
       "37": "Proposta di sostituzione aperta.",
       "38": "Proposta di sostituzione bloccata.",
-      "39": "Il cambio di stato a {{messaggioV1}}non è consentito a causa dell'esaurimento del tipo di sostituzione senza successore!",
-      "40": "Stato modificato in {{messaggioV1}} a causa di ordini/opportunità.",
-      "41": "Stato cambiato in {{messaggioV1}}, data di scadenza raggiunta.",
-      "42": "Lo stato è stato impostato su {{messaggioV1}}, poiché non ci sono requisiti futuri o storici.",
-      "100": "Il tipo di sostituzione {{messaggioV1}} non è valido.",
-      "101": "Deve essere passata una regione valida. {{messaggioV1}} non è valido.",
+      "39": "Il cambio di stato a {{messageV1}} non è consentito a causa dell'esaurimento del tipo di sostituzione senza successore!",
+      "40": "Stato modificato in {{messageV1}} a causa di ordini/opportunità.",
+      "41": "Stato cambiato in {{messageV1}}, data di scadenza raggiunta.",
+      "42": "Lo stato è stato impostato su {{messageV1}}, poiché non ci sono requisiti futuri o storici.",
+      "51": "La previsione non può essere modificata né nel passato né nel mese in corso.",
+      "52": "Le previsioni non possono essere modificate nel passato.",
+      "100": "Il tipo di sostituzione {{messageV1}} non è valido.",
+      "101": "Deve essere passata una regione valida. {{messageV1}} non è valido.",
       "102": "La documentazione non esiste.",
-      "103": "Per il tipo di sostituzione {{messaggioV1}} deve essere mantenuto un materiale successore.",
-      "104": "Il numero di cliente non deve essere mantenuto per il tipo di sostituzione {{messaggioV1}}.",
-      "105": "L'organizzazione di vendita non deve essere mantenuta per il tipo di sostituzione {{messaggioV1}}.",
-      "106": "Per il tipo di sostituzione {{messaggioV1}}, il numero di cliente deve essere mantenuto.",
+      "103": "Per il tipo di sostituzione {{messageV1}} deve essere mantenuto un materiale successore.",
+      "104": "Il numero di cliente non deve essere mantenuto per il tipo di sostituzione {{messageV1}}.",
+      "105": "L'organizzazione di vendita non deve essere mantenuta per il tipo di sostituzione {{messageV1}}.",
+      "106": "Per il tipo di sostituzione {{messageV1}}, il numero di cliente deve essere mantenuto.",
       "107": "Il predecessore e il successore devono avere lo stesso numero di 13 cifre.",
       "108": "Il predecessore e il successore devono avere un numero di 13 cifre diverso.",
-      "109": "Il materiale di follow-up non deve essere mantenuto per il tipo di sostituzione {{messaggioV1}}.",
-      "110": "Per il tipo di sostituzione {{messaggioV1}}, il materiale precedente deve essere mantenuto.",
-      "111": "Il materiale precedente non deve essere mantenuto per il tipo di sostituzione {{messaggioV1}}.",
+      "109": "Il materiale di follow-up non deve essere mantenuto per il tipo di sostituzione {{messageV1}}.",
+      "110": "Per il tipo di sostituzione {{messageV1}}, il materiale precedente deve essere mantenuto.",
+      "111": "Il materiale precedente non deve essere mantenuto per il tipo di sostituzione {{messageV1}}.",
       "112": "Nessuna modifica al set di dati già esistente.",
       "113": "Non è consentito cambiare il tipo di sostituzione.",
-      "114": "Il predecessore {{messaggioV1}} non è nello stato A nello stabilimento {{messaggioV2}}. Lo stato è {{messaggioV3}}.",
-      "115": "Il predecessore {{messaggioV1}} deve avere in fabbrica {{messaggioV2}} STOTY = O. STOTY è {{messaggioV3}",
-      "116": "Il predecessore {{messaggioV1}} deve avere in fabbrica {{messaggioV2}} STOTY = A. STOTY è {{messaggioV3}}",
-      "117": "Il successore {{messaggioV1}} non è presente in nessun impianto AP/OP del gruppo DC {{messaggioV2}}.",
-      "118": "Il successore di {{messaggioV1}} nell'opera {{messaggioV2}} è diverso in MARC: {{messaggioV3}}.",
-      "119": "L'area di vendita non deve essere mantenuta per il tipo di sostituzione {{messaggioV1}}.",
+      "114": "Il predecessore {{messageV1}} non è nello stato A nello stabilimento {{messageV2}}. Lo stato è {{messageV3}}.",
+      "115": "Il predecessore {{messageV1}} deve avere in fabbrica {{messageV2}} STOTY = O. STOTY è {{messageV3}",
+      "116": "Il predecessore {{messageV1}} deve avere in fabbrica {{messageV2}} STOTY = A. STOTY è {{messageV3}}",
+      "117": "Il successore {{messageV1}} non è presente in nessun impianto AP/OP del gruppo DC {{messageV2}}.",
+      "118": "Il successore di {{messageV1}} nell'opera {{messageV2}} è diverso in MARC: {{messageV3}}.",
+      "119": "L'area di vendita non deve essere mantenuta per il tipo di sostituzione {{messageV1}}.",
       "123": "Non è consentita la data SOP prima della data di cutover"
     }
   },

@@ -133,7 +133,7 @@
       &.warning-border-right {
         &::before {
           @include pseudo;
-          right: 3px;
+          right: 2px;
           border-right: 1px dashed #f5a623;
         }
       }

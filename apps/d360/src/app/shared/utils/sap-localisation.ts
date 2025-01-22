@@ -1,5 +1,7 @@
 import { translate } from '@jsverse/transloco';
 
+import { ValidationHelper } from './validation/validation-helper';
+
 export const messageClassId = '/SGD/SCM_SOP_SALES' as const;
 export type MessageId = typeof messageClassId;
 
@@ -28,10 +30,10 @@ export function messageFromSAP(
   const translatedError: string = translate(
     `sap_message.${messageClass}.${sapMessageNumber}`,
     {
-      messageV1: messageV1 || '',
-      messageV2: messageV2 || '',
-      messageV3: messageV3 || '',
-      messageV4: messageV4 || '',
+      messageV1: checkForDateAndLocalize(messageV1) || '',
+      messageV2: checkForDateAndLocalize(messageV2) || '',
+      messageV3: checkForDateAndLocalize(messageV3) || '',
+      messageV4: checkForDateAndLocalize(messageV4) || '',
     }
   );
 
@@ -39,4 +41,14 @@ export function messageFromSAP(
   return translatedError === `sap_message.${messageClass}.${sapMessageNumber}`
     ? defaultErrorMessage
     : translatedError;
+}
+
+function checkForDateAndLocalize(value: string | null): string | null {
+  if (value && /^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])$/.test(value)) {
+    return ValidationHelper.localeService?.localizeDate(
+      new Date(Date.parse(value))
+    );
+  }
+
+  return value;
 }

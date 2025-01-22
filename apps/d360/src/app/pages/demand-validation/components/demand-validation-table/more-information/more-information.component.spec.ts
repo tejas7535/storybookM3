@@ -15,7 +15,6 @@ describe('MoreInformationComponent', () => {
     spectator = createComponent({
       props: {
         selectedMaterial: null,
-        forecastInfo: null,
       },
     });
     component = spectator.debugElement.componentInstance;
