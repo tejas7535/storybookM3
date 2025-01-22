@@ -103,7 +103,7 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
       mainTitle: translate('cards.contactAnExpert'),
       templateId: 'imageCard',
       imagePath: 'assets/images/cards/contact.jpg',
-      cardAction: () => window.open('mailto:ralf.nuetzel@schaeffler.com'),
+      cardAction: () => window.open('mailto:hardnessconverter@schaeffler.com'),
     },
   ];
 
