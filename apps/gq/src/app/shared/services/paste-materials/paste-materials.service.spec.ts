@@ -208,30 +208,26 @@ describe('PasteMaterialsService', () => {
 
       when(translate)
         .calledWith(
-          `shared.caseMaterial.addEntry.targetPriceSource.values.${TargetPriceSource.INTERNAL}`,
-          null,
-          'de'
+          `shared.caseMaterial.addEntry.targetPriceSource.valuesForPaste.${TargetPriceSource.INTERNAL}`,
+          { lang: 'de' }
         )
         .mockReturnValue('Intern');
       when(translate)
         .calledWith(
-          `shared.caseMaterial.addEntry.targetPriceSource.values.${TargetPriceSource.INTERNAL}`,
-          null,
-          'en'
+          `shared.caseMaterial.addEntry.targetPriceSource.valuesForPaste.${TargetPriceSource.INTERNAL}`,
+          { lang: 'en' }
         )
         .mockReturnValue('Internal');
       when(translate)
         .calledWith(
-          `shared.caseMaterial.addEntry.targetPriceSource.values.${TargetPriceSource.CUSTOMER}`,
-          null,
-          'de'
+          `shared.caseMaterial.addEntry.targetPriceSource.valuesForPaste.${TargetPriceSource.CUSTOMER}`,
+          { lang: 'de' }
         )
         .mockReturnValue('Kunde');
       when(translate)
         .calledWith(
-          `shared.caseMaterial.addEntry.targetPriceSource.values.${TargetPriceSource.CUSTOMER}`,
-          null,
-          'en'
+          `shared.caseMaterial.addEntry.targetPriceSource.valuesForPaste.${TargetPriceSource.CUSTOMER}`,
+          { lang: 'en' }
         )
         .mockReturnValue('Customer');
       Object.assign(navigator, {

@@ -194,6 +194,10 @@
             "noEntry": "Kein Eintrag",
             "CUSTOMER": "Kunde",
             "INTERNAL": "Intern"
+          },
+          "valuesForPaste": {
+            "INTERNAL": "{lang, select, de {Intern} en {Internal} other{}}",
+            "CUSTOMER": "{lang, select, de {Kunde} en {Customer} other{}}"
           }
         },
         "customer": {

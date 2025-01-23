@@ -194,6 +194,10 @@
             "noEntry": "No Entry",
             "CUSTOMER": "Customer",
             "INTERNAL": "Internal"
+          },
+          "valuesForPaste": {
+            "INTERNAL": "{lang, select, de {Intern} en {Internal} other{}}",
+            "CUSTOMER": "{lang, select, de {Kunde} en {Customer} other{}}"
           }
         },
         "customer": {

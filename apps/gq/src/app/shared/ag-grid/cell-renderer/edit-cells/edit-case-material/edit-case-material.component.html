@@ -7,7 +7,7 @@
     <ng-container *featureToggle="'createManualCaseAsView'">
       <mat-icon
         [matTooltip]="t(toolTipKey)"
-        class="float-left cursor-pointer align-text-top !w-4 !h-4 !text-[16px] text-info"
+        class="float-left cursor-pointer align-text-top !min-w-[1rem] !w-4 !h-4 !text-[16px] text-info"
         >info_outline</mat-icon
       ></ng-container
     >
@@ -16,7 +16,7 @@
     {{ cellValue }}
   </span>
   <mat-icon
-    class="cursor-pointer align-text-top !w-4 !h-4 !text-[16px] text-medium-emphasis"
+    class="cursor-pointer align-text-top !min-w-[1rem] !w-4 !h-4 !text-[16px] text-medium-emphasis"
     (click)="onIconClick()"
     >mode_edit</mat-icon
   >

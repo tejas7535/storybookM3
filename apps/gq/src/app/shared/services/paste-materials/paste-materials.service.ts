@@ -172,12 +172,14 @@ export class PasteMaterialsService {
     targetPriceSource: TargetPriceSource
   ): string[] {
     const language_ids = AVAILABLE_LANGUAGES.map((lang) => lang.id);
+    // providing the language ids to the translate function did not have an effect but return always the value for the language configured in the app
+    // getting all translations is achieved by providing all translations in the json files using the parameter lang to get the correct translation
+    // check the translation file for the setup
 
     return language_ids.map((lang) =>
       translate(
-        `shared.caseMaterial.addEntry.targetPriceSource.values.${targetPriceSource}`,
-        null,
-        lang
+        `shared.caseMaterial.addEntry.targetPriceSource.valuesForPaste.${targetPriceSource}`,
+        { lang }
       ).toLowerCase()
     );
   }
