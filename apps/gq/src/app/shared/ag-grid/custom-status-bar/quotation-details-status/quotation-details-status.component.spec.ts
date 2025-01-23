@@ -135,6 +135,17 @@ describe('QuotationDetailsStatusComponent', () => {
         })
       );
     });
+
+    test('should not call api if selections didnt change', () => {
+      component['params'] = params;
+      component['store'].dispatch = jest.fn();
+      component.selections = [QUOTATION_DETAIL_MOCK];
+
+      component.onSelectionChange();
+
+      expect(params.api.getSelectedRows).toHaveBeenCalled();
+      expect(component['store'].dispatch).not.toHaveBeenCalled();
+    });
   });
 
   describe('onFilterChanged', () => {

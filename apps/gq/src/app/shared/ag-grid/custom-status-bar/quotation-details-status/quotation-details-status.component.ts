@@ -108,7 +108,12 @@ export class QuotationDetailsStatusComponent implements OnInit {
   }
 
   onSelectionChange(): void {
-    this.selections = this.params.api.getSelectedRows();
+    const newSelections = this.params.api.getSelectedRows();
+
+    if (this.selections?.length === newSelections?.length) {
+      return;
+    }
+    this.selections = newSelections;
     this.store.dispatch(
       SelectedQuotationDetailsKpiActions.loadQuotationKPI({
         data: this.selections,
