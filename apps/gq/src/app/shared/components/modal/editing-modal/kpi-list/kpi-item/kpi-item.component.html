@@ -1,0 +1,47 @@
+<div class="mt-4">
+  <div
+    class="flex flex-row"
+    [ngClass]="{
+      'text-low-emphasis': !kpi().value,
+
+      'pl-12': index() % 2 !== 0
+    }"
+  >
+    <div class="mr-4" [ngClass]="extraWideKeyText() ? 'w-44' : 'w-36'">
+      <h6>{{ keyText() }}</h6>
+      <div>
+        <span class="text-caption text-medium-emphasis">{{
+          previousText()
+        }}</span>
+      </div>
+    </div>
+    <div>
+      <h6 class="truncate">
+        <span
+          [ngClass]="{
+            '!text-warning': kpi().hasWarning,
+            'text-error': kpi().hasError
+          }"
+          [attr.data-cy]="field + '-modal_' + kpi().key + '-value'"
+        >
+          {{ kpi().displayValue }}
+          @if (kpi().warningText) {
+            <mat-icon
+              [matTooltip]="kpi().warningText"
+              class="ml-1 align-bottom"
+            >
+              warning_amber
+            </mat-icon>
+          }
+        </span>
+      </h6>
+      <div class="text-caption text-medium-emphasis leading-6">
+        <span
+          [attr.data-cy]="field + '-modal_' + kpi().key + '-previous-value'"
+        >
+          {{ kpi().previousDisplayValue }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

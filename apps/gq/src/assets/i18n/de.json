@@ -138,7 +138,7 @@
       "targetPriceInfoText": "Ausgewählter Zielpreis. Beim Senden an SAP wird der Zielpreis als ZMAN in das SAP-Angebot übernommen.",
       "targetPriceSource": {
         "columnHeader": "Zielpreisquelle",
-        "values": "{targetPriceSource, select, CUSTOMER{Kunde}INTERNAL{Intern} noEntry{Kein Eintrag} other{}}"
+        "values": "{targetPriceSource, select, CUSTOMER{Kunde}INTERNAL{Intern} noEntry{Kein Eintrag} other{-}}"
       },
       "headers": {
         "priceSource": {
@@ -498,7 +498,8 @@
       "kpis": {
         "price": "Nettopreis",
         "targetPrice": "Zielpreis",
-        "previous": "Vorheriger {{fieldTranslation}}",
+        "targetPriceSource": "Zielpreisquelle",
+        "previous": "{field,select,targetPriceSource{Vorherige {{fieldTranslation}}} other {Vorheriger {{fieldTranslation}}}}",
         "gpi": "GPI %",
         "gpm": "GPM %",
         "discount": "Rabatt %"

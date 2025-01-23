@@ -111,6 +111,22 @@
           >
         </div>
       </div>
+      <!-- 
+        container to show additional content provided and handled by a child component
+        the FormControl of the additional content is passed to the child component
+      -->
+      <!--the targetPriceSource will introduce the template, can be removed when TargetPriceSourceColumn will be released-->
+      @if (isTargetPriceSourceEditable) {
+        <ng-container
+          *ngTemplateOutlet="
+            additionalContentTemplate;
+            context: {
+              formControl: editingFormGroup.get(ADDITIONAL_CONTENT_CONTROL_NAME)
+            }
+          "
+        ></ng-container>
+      }
+
       @if (warningText) {
         <div class="mt-2">
           <gq-info-banner [infoText]="warningText" [isWarning]="true">
@@ -122,6 +138,21 @@
           [editingModalData]="modalData"
           [kpis]="affectedKpis"
         ></gq-kpi-list>
+      }
+      <!-- 
+        container to show additional kpi content provided and handled by a child component.
+        The FormControl of the additional content and the quotationDetail object is passed to the child component
+      -->
+      @if (isTargetPriceSourceEditable) {
+        <ng-container
+          *ngTemplateOutlet="
+            kpiAdditionalContentTemplate;
+            context: {
+              quotationDetail: modalData.quotationDetail,
+              formControl: editingFormGroup.get(ADDITIONAL_CONTENT_CONTROL_NAME)
+            }
+          "
+        ></ng-container>
       }
       <ng-container
         *ngTemplateOutlet="warningTemplate || defaultTemplate"
@@ -135,11 +166,7 @@
             class="!pl-4 !pr-4"
             color="primary"
             mat-raised-button
-            [disabled]="
-              editingFormGroup.invalid ||
-              !editingFormGroup.get(VALUE_FORM_CONTROL_NAME).value ||
-              !hasValueChanged
-            "
+            [disabled]="editingFormGroup.invalid || !hasValueChanged"
             (click)="confirmEditing()"
             [attr.data-cy]="modalData.field + '-modal_submit-btn'"
           >

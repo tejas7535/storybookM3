@@ -40,6 +40,7 @@ import { TransformationService } from '../../../services/transformation/transfor
 import {
   ColumnFields,
   DateColumns,
+  DisplayDashForFalsyValueColumns,
   ExportExcelNumberColumns,
   PercentColumns,
   PriceColumns,
@@ -69,6 +70,7 @@ export class ExportToExcelButtonComponent implements OnInit {
     ColumnFields.UOM,
     ColumnFields.DATE_NEXT_FREE_ATP,
     ColumnFields.SAP_SYNC_STATUS,
+    ColumnFields.TARGET_PRICE_SOURCE,
   ];
 
   extendedDownloadEnabled = true;
@@ -258,7 +260,12 @@ export class ExportToExcelButtonComponent implements OnInit {
       ) => string
     )(valueFormatterParams);
 
-    return result === Keyboard.DASH ? undefined : result;
+    return result === Keyboard.DASH &&
+      !DisplayDashForFalsyValueColumns.includes(
+        params.column.getColDef().field as ColumnFields
+      )
+      ? undefined
+      : result;
   }
 
   getSummarySheet(): string {

@@ -356,6 +356,11 @@ export class ColumnDefService {
           : ColumnUtilityService.basicTransform({
               value: params.data.targetPriceSource,
             } as ValueFormatterParams),
+      cellRenderer: 'EditCellComponent',
+      cellRendererParams: {
+        condition: { enabled: false },
+        field: ColumnFields.TARGET_PRICE,
+      } as EditCellData,
     },
     {
       headerName: translate('shared.quotationDetailsTable.gpc'),

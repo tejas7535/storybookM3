@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -58,6 +58,8 @@ class TestEditingModalComponent extends EditingModalComponent {
   protected buildUpdateQuotationDetail(): UpdateQuotationDetail {
     return undefined;
   }
+
+  protected handleAdditionalContent?(): void {}
 }
 
 // All subclasses need to be mocked.
@@ -185,6 +187,11 @@ describe('TestEditingModalComponent', () => {
       component['subscription'].add = jest.fn();
       component.ngOnInit();
       expect(component['subscription'].add).toHaveBeenCalledTimes(2);
+    });
+    test('should call handleAdditionalContent', () => {
+      component['handleAdditionalContent'] = jest.fn();
+      component.ngOnInit();
+      expect(component['handleAdditionalContent']).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -759,6 +766,31 @@ describe('TestEditingModalComponent', () => {
       updateFormValue(currentValue.toString());
 
       expect(component.hasValueChanged).toBe(false);
+    });
+    test('should have changes, when just additional content has changed', () => {
+      component.modalData = {
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+        field: ColumnFields.TARGET_PRICE,
+      };
+      component.additionalContentTemplate = {
+        value: 'test',
+      } as unknown as TemplateRef<any>;
+      component['handleHasValueChanged'](
+        QUOTATION_DETAIL_MOCK.targetPrice,
+        true
+      );
+      expect(component.hasValueChanged).toBe(true);
+    });
+    test('should have changes when both has changed', () => {
+      component.modalData = {
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+        field: ColumnFields.TARGET_PRICE,
+      };
+      component.additionalContentTemplate = {
+        value: 'test',
+      } as unknown as TemplateRef<any>;
+      component['handleHasValueChanged'](14, true);
+      expect(component.hasValueChanged).toBe(true);
     });
   });
   describe('resetKpiValues', () => {

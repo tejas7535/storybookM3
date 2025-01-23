@@ -1,10 +1,12 @@
 import { EventEmitter } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { KpiValue } from '@gq/shared/components/modal/editing-modal/models/kpi-value.model';
 import { LOCALE_DE } from '@gq/shared/constants';
 import * as constants from '@gq/shared/constants';
+import { TargetPriceSource } from '@gq/shared/models/quotation/target-price-source.enum';
 import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
@@ -14,7 +16,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { TargetPriceEditingModalComponent } from './target-price-editing-modal.component';
-
 jest.mock('../editing-modal.component', () => ({
   EditingModalComponent: jest.fn(),
 }));
@@ -211,9 +212,15 @@ describe('TargetPriceEditingModalComponent', () => {
   });
 
   describe('buildUpdateQuotationDetail', () => {
-    test('should build the correct UpdateQuotationDetail for relative target price', () => {
+    test('should build the correct UpdateQuotationDetail for relative target price, targetPriceSource did not change', () => {
+      component.modalData.quotationDetail = QUOTATION_DETAIL_MOCK;
       component['editingFormGroup'] = {
-        get: jest.fn().mockReturnValue({ value: true }),
+        get: jest
+          .fn()
+          .mockReturnValueOnce({ value: true })
+          .mockReturnValueOnce({
+            value: QUOTATION_DETAIL_MOCK.targetPriceSource,
+          }),
       } as any;
       const newPrice = 350;
       const multiplyAndRoundValuesSpy = jest.spyOn(
@@ -233,9 +240,15 @@ describe('TargetPriceEditingModalComponent', () => {
       );
     });
 
-    test('should build the correct UpdateQuotationDetail for absolute target price', () => {
+    test('should build the correct UpdateQuotationDetail for absolute target price, targetPriceSource did not change', () => {
+      component.modalData.quotationDetail = QUOTATION_DETAIL_MOCK;
       component['editingFormGroup'] = {
-        get: jest.fn().mockReturnValue({ value: false }),
+        get: jest
+          .fn()
+          .mockReturnValueOnce({ value: false })
+          .mockReturnValueOnce({
+            value: QUOTATION_DETAIL_MOCK.targetPriceSource,
+          }),
       } as any;
       const newPrice = 600;
 
@@ -243,6 +256,117 @@ describe('TargetPriceEditingModalComponent', () => {
         targetPrice: newPrice,
         gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
       });
+    });
+    test('should build the correct UpdateQuotationDetail for absolute target price and targetPriceSource changed', () => {
+      component.modalData.quotationDetail = QUOTATION_DETAIL_MOCK;
+      component['editingFormGroup'] = {
+        get: jest
+          .fn()
+          .mockReturnValueOnce({ value: false })
+          .mockReturnValueOnce({
+            value: TargetPriceSource.CUSTOMER,
+          }),
+      } as any;
+      const newPrice = 600;
+
+      expect(component['buildUpdateQuotationDetail'](600)).toEqual({
+        targetPrice: newPrice,
+        targetPriceSource: TargetPriceSource.CUSTOMER,
+        gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+      });
+    });
+    test('should return undefined for targetPriceSource when NO_ENTRY', () => {
+      component['editingFormGroup'] = {
+        get: jest
+          .fn()
+          .mockReturnValueOnce({ value: false })
+          .mockReturnValueOnce({
+            value: TargetPriceSource.NO_ENTRY,
+          }),
+      } as any;
+
+      expect(component['buildUpdateQuotationDetail'](600)).toEqual({
+        targetPrice: 600,
+        gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+      });
+    });
+
+    test('should return undefined for TargetPrice when just TargetPriceSource has changed', () => {
+      component.modalData.quotationDetail = QUOTATION_DETAIL_MOCK;
+      component['editingFormGroup'] = {
+        get: jest
+          .fn()
+          .mockReturnValueOnce({ value: false })
+          .mockReturnValueOnce({
+            value: TargetPriceSource.CUSTOMER,
+          }),
+      } as any;
+
+      expect(component['buildUpdateQuotationDetail'](0)).toEqual({
+        targetPriceSource: TargetPriceSource.CUSTOMER,
+        gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+      });
+    });
+  });
+
+  describe('handleAdditionalContent', () => {
+    const targetPriceFormControl: FormControl = new FormControl(undefined);
+    const targetPriceSourceFormControl: FormControl = new FormControl(
+      undefined
+    );
+    const editingFormGroup = new FormGroup<{
+      valueInput: FormControl<string | undefined>;
+      additionalContentValue?: FormControl;
+    }>({
+      valueInput: targetPriceFormControl,
+      additionalContentValue: targetPriceSourceFormControl,
+    });
+
+    beforeEach(() => {
+      Object.defineProperty(component, 'isTargetPriceSourceEditable', {
+        value: true,
+      });
+      Object.defineProperty(component, 'VALUE_FORM_CONTROL_NAME', {
+        value: 'valueInput',
+      });
+      Object.defineProperty(component, 'subscription', {
+        value: { add: jest.fn() },
+      });
+
+      Object.defineProperty(component, 'ADDITIONAL_CONTENT_CONTROL_NAME', {
+        value: 'additionalContentValue',
+      });
+      Object.defineProperty(component, 'translocoLocaleService', {
+        value: { getLocale: jest.fn().mockReturnValue(LOCALE_DE.id) },
+      });
+      Object.defineProperty(component, 'handleHasValueChanged', {
+        value: jest.fn(),
+      });
+      Object.defineProperty(component, 'setAffectedKpis', {
+        value: jest.fn(),
+      });
+      component['editingFormGroup'] = editingFormGroup;
+    });
+    afterEach(() => {
+      editingFormGroup.reset();
+    });
+    test('when targetPrice is changing the targetPriceSource needs to be updated', () => {
+      targetPriceSourceFormControl.setValue('noEntry');
+      component.handleAdditionalContent();
+      targetPriceFormControl.setValue('100');
+      expect(targetPriceSourceFormControl.value).toBe('INTERNAL');
+    });
+    test('when targetPriceSource is changing the targetPrice needs to be updated', () => {
+      targetPriceFormControl.setValue('100');
+      targetPriceSourceFormControl.setValue('INTERNAL');
+      component.handleAdditionalContent();
+      targetPriceSourceFormControl.setValue('noEntry');
+      expect(targetPriceFormControl.value).toBe(undefined);
+    });
+    test('should set NO_Entry as default value for targetPriceSource', () => {
+      component.modalData.quotationDetail.targetPriceSource = undefined;
+      component.handleAdditionalContent();
+      expect(targetPriceSourceFormControl.value).toBe('noEntry');
     });
   });
 });

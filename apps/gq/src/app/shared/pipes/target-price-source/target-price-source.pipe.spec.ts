@@ -1,5 +1,4 @@
 import { TargetPriceSource } from '@gq/shared/models/quotation/target-price-source.enum';
-import { QuotationDetail } from '@gq/shared/models/quotation-detail/quotation-detail.model';
 import * as translateUtils from '@gq/shared/utils/translate.utils';
 
 import { TargetPriceSourcePipe } from './target-price-source.pipe';
@@ -11,16 +10,19 @@ describe('targetPriceSourcePipe', () => {
     expect(pipe).toBeTruthy();
   });
 
-  test('should call the translateTargetPriceSource mehtod', () => {
+  test('should call the translateTargetPriceSource method', () => {
     const translateMock = jest
       .spyOn(translateUtils, 'translateTargetPriceSourceValue')
-      .mockReturnValue('Customer'); //  translateUtils.translateTargetPriceSourceValue = jest.fn()).mockReturnValue('Customer');
+      .mockReturnValue('Customer');
 
     const pipe = new TargetPriceSourcePipe();
-    const result = pipe.transform({
-      targetPriceSource: TargetPriceSource.CUSTOMER,
-    } as QuotationDetail);
+    const result = pipe.transform(TargetPriceSource.CUSTOMER);
     expect(result).toBe('Customer');
     expect(translateMock).toHaveBeenCalled();
+  });
+  test('should return "-" when dashForNoEntry is true and targetPriceSource is NO_ENTRY', () => {
+    const pipe = new TargetPriceSourcePipe();
+    const result = pipe.transform(TargetPriceSource.NO_ENTRY, true);
+    expect(result).toBe('-');
   });
 });

@@ -70,6 +70,8 @@ export abstract class EditingModalComponent
   @Input() isDialog = true;
   @Input() isDisabled = false;
   @Input() warningTemplate: TemplateRef<any>;
+  @Input() additionalContentTemplate: TemplateRef<any>;
+  @Input() kpiAdditionalContentTemplate: TemplateRef<any>;
 
   @Output() affectedKpiOutput: EventEmitter<KpiValue[]> = new EventEmitter();
   @Output() isInvalidOrUnchanged: EventEmitter<boolean> = new EventEmitter();
@@ -80,13 +82,22 @@ export abstract class EditingModalComponent
     'createManualCaseAsView'
   );
 
+  readonly isTargetPriceSourceEditable = this.featureToggleService.isEnabled(
+    'targetPriceSourceColumn'
+  );
+
   readonly VALUE_FORM_CONTROL_NAME = 'valueInput';
   readonly IS_RELATIVE_PRICE_CONTROL_NAME = 'isRelativePriceChangeRadioGroup';
+  readonly ADDITIONAL_CONTENT_CONTROL_NAME = 'additionalContentValue';
 
   editingFormGroup = new FormGroup<{
     valueInput: FormControl<string | undefined>;
     isRelativePriceChangeRadioGroup?: FormControl<boolean>;
-  }>({ valueInput: new FormControl(undefined) });
+    additionalContentValue?: FormControl;
+  }>({
+    valueInput: new FormControl(undefined),
+    additionalContentValue: new FormControl(undefined),
+  });
 
   updateLoading$: Observable<boolean>;
   localeValue: string;
@@ -137,6 +148,9 @@ export abstract class EditingModalComponent
 
     this.subscribeLoadingStopped();
     this.subscribeInputValueChanges();
+    if (this.handleAdditionalContent) {
+      this.handleAdditionalContent();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -276,7 +290,7 @@ export abstract class EditingModalComponent
   protected resetKpiValues() {
     this.affectedKpis = this.affectedKpis.map((kpi) => ({
       ...kpi,
-      value: undefined,
+      value: undefined as number,
     }));
   }
 
@@ -365,14 +379,25 @@ export abstract class EditingModalComponent
         }
 
         this.handleHasValueChanged(parsedValue);
-
         // trigger dynamic kpi simulation
         this.setAffectedKpis(parsedValue);
       })
     );
   }
 
-  private handleHasValueChanged(parsedValue: number): void {
+  /**
+   * checks whether changes have been made.
+   * True when input Value has changed
+   * or when additional content is available value or additional content has changed
+   * else False
+   *
+   * @param parsedValue the parsed value from the input field
+   * @param additionalContentChanged boolean value if the additional content has been changed (logic is handled in providing component)
+   */
+  protected handleHasValueChanged(
+    parsedValue: number,
+    additionalValueHasChanged?: boolean
+  ): void {
     const oldValue = (this.modalData.quotationDetail as any)[
       this.modalData.field
     ];
@@ -382,8 +407,13 @@ export abstract class EditingModalComponent
       ? Number.parseFloat(oldValue.toFixed(4))
       : oldValue;
 
-    this.hasValueChanged =
-      formattedOldValue !== this.determineAbsoluteValue(parsedValue);
+    const hasInputControlChanged =
+      formattedOldValue !== this.determineAbsoluteValue(parsedValue) &&
+      !!this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME).value;
+
+    this.hasValueChanged = this.additionalContentTemplate
+      ? hasInputControlChanged || additionalValueHasChanged
+      : hasInputControlChanged;
   }
 
   /**
@@ -469,4 +499,6 @@ export abstract class EditingModalComponent
   protected abstract buildUpdateQuotationDetail(
     value: number
   ): UpdateQuotationDetail;
+
+  protected handleAdditionalContent?(): void;
 }

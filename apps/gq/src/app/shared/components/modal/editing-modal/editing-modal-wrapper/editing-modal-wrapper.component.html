@@ -16,7 +16,43 @@
   @case (columnFields.TARGET_PRICE) {
     <gq-target-price-editing-modal
       [modalData]="modalData"
+      [additionalContentTemplate]="targetPriceSourceTemplate"
+      [kpiAdditionalContentTemplate]="previousValueTargetPriceTemplate"
     ></gq-target-price-editing-modal>
+
+    <!--
+    TargetPrice and TargetPriceSource are related to each other. Two Properties need to be edited together. This is a special UseCase. 
+    The base of EditingModal shall not handle the logic but offer the opportunity to add additional content and previous value information
+    by templateRef that is handled by the child dialog and does not affect any action of the parent component.   
+    -->
+    <ng-template #targetPriceSourceTemplate let-formControl="formControl">
+      <gq-target-price-source-select
+        class="pt-4"
+        [formControl]="formControl"
+        [appearance]="'outline'"
+      ></gq-target-price-source-select>
+    </ng-template>
+
+    <ng-template
+      #previousValueTargetPriceTemplate
+      let-quotationDetail="quotationDetail"
+      let-formControl="formControl"
+    >
+      <gq-kpi-item
+        *transloco="let t; read: 'shared.editingModal.kpis'"
+        [field]="columnFields.TARGET_PRICE_SOURCE"
+        [index]="0"
+        [kpi]="getKpiForTargetPrice(quotationDetail, formControl)"
+        [keyText]="t(columnFields.TARGET_PRICE_SOURCE)"
+        [previousText]="
+          t('previous', {
+            field: columnFields.TARGET_PRICE_SOURCE,
+            fieldTranslation: t(columnFields.TARGET_PRICE_SOURCE)
+          })
+        "
+        [extraWideKeyText]="true"
+      ></gq-kpi-item>
+    </ng-template>
   }
   @case (columnFields.ORDER_QUANTITY) {
     <gq-quantity-editing-modal

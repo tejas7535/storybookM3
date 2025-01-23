@@ -47,7 +47,7 @@ export class KpiListComponent {
     [ColumnFields.PRICE, KpiValueFormatter.NUMBER_CURRENCY],
     [ColumnFields.TARGET_PRICE, KpiValueFormatter.NUMBER_CURRENCY],
   ]);
-
+  readonly columnFields = ColumnFields;
   constructor(
     private readonly store: Store,
     private readonly transformationService: TransformationService

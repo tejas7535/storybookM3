@@ -180,3 +180,9 @@ export const ChinaSpecificColumns = [
   ColumnFields.STRATEGIC_HIERARCHY,
   ColumnFields.STRATEGIC_PL,
 ];
+
+export const DisplayDashForFalsyValueColumns = [
+  // TargetPriceSource is a new Field but directly related to TargetPrice
+  // old entries can have null/undefined for TargetPriceSource, newer entries will have a value when the targetPrice is set
+  ColumnFields.TARGET_PRICE_SOURCE,
+];

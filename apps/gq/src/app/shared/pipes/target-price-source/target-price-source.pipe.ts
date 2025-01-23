@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { QuotationDetail } from '@gq/shared/models';
+import { TargetPriceSource } from '@gq/shared/models/quotation/target-price-source.enum';
 import { translateTargetPriceSourceValue } from '@gq/shared/utils/translate.utils';
 
 @Pipe({
@@ -8,7 +8,14 @@ import { translateTargetPriceSourceValue } from '@gq/shared/utils/translate.util
   standalone: true,
 })
 export class TargetPriceSourcePipe implements PipeTransform {
-  transform(detail: QuotationDetail): string | null {
-    return translateTargetPriceSourceValue(detail.targetPriceSource);
+  transform(
+    targetPriceSource: TargetPriceSource,
+    dashForNoEntry = false
+  ): string | null {
+    if (dashForNoEntry && targetPriceSource === TargetPriceSource.NO_ENTRY) {
+      return '-';
+    }
+
+    return translateTargetPriceSourceValue(targetPriceSource);
   }
 }
