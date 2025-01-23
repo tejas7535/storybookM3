@@ -157,7 +157,7 @@ export class FilterEffects {
       concatLatestFrom(() => this.store.select(selectRouterState)),
       map(([_, routerStateAction]) => routerStateAction.state.url),
       mergeMap((url) => {
-        if (url === `/${AppRoutePath.LossOfSkillPath}`) {
+        if (url === `/${AppRoutePath.LostPerformancePath}`) {
           const lossOfSkillTimePeriods = [
             { id: TimePeriod.YEAR, value: TimePeriod.YEAR },
           ];

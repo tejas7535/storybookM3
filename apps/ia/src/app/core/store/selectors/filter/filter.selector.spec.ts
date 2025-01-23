@@ -119,7 +119,7 @@ describe('Filter Selector', () => {
       expect(
         showBenchmarkFilter({
           ...fakeState,
-          router: { state: { url: `/${AppRoutePath.LossOfSkillPath}` } },
+          router: { state: { url: `/${AppRoutePath.LostPerformancePath}` } },
         })
       ).toBeFalsy();
     });
@@ -128,7 +128,7 @@ describe('Filter Selector', () => {
       expect(
         showBenchmarkFilter({
           ...fakeState,
-          router: { state: { url: `/${AppRoutePath.DrillDownPath}` } },
+          router: { state: { url: `/${AppRoutePath.LostPerformancePath}` } },
         })
       ).toBeFalsy();
     });
@@ -138,7 +138,7 @@ describe('Filter Selector', () => {
         showBenchmarkFilter({
           ...fakeState,
           router: {
-            state: { url: `/${AppRoutePath.FluctuationAnalyticsPath}` },
+            state: { url: `/${AppRoutePath.AnalyticsPath}` },
           },
         })
       ).toBeFalsy();

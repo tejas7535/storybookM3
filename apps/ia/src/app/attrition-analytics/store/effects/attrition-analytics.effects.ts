@@ -31,7 +31,7 @@ import { getSelectedCluster } from '../selectors/attrition-analytics.selector';
 
 @Injectable()
 export class AttritionAnalyticsEffects {
-  readonly FLUCTUATION_ANALYTICS_URL = `/${AppRoutePath.FluctuationAnalyticsPath}`;
+  readonly FLUCTUATION_ANALYTICS_URL = `/${AppRoutePath.AnalyticsPath}`;
 
   routeChange$ = createEffect(() => {
     return this.actions$.pipe(

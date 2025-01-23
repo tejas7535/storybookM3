@@ -66,7 +66,7 @@ import {
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
 @Injectable()
 export class OrganizationalViewEffects {
-  readonly ORGANIZATIONAL_VIEW_URL = `/${AppRoutePath.DrillDownPath}`;
+  readonly ORGANIZATIONAL_VIEW_URL = `/${AppRoutePath.OrganizationalViewPath}`;
 
   filterChange$ = createEffect(() =>
     this.actions$.pipe(

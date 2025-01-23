@@ -52,24 +52,24 @@ export class AppComponent implements OnInit {
       disabled: false,
     },
     {
-      label: 'drillDown',
-      path: AppRoutePath.DrillDownPath,
-      disabled: false,
-    },
-    {
-      label: 'lossOfSkill',
-      path: AppRoutePath.LossOfSkillPath,
-      disabled: false,
-    },
-    {
-      label: 'reasonsAndCounterMeasures',
+      label: 'reasonsForLeaving',
       path: AppRoutePath.ReasonsForLeavingPath,
       disabled: false,
     },
     {
-      label: 'fluctuationAnalytics',
-      path: AppRoutePath.FluctuationAnalyticsPath,
+      label: 'lostPerformance',
+      path: AppRoutePath.LostPerformancePath,
+      disabled: false,
+    },
+    {
+      label: 'analytics',
+      path: AppRoutePath.AnalyticsPath,
       disabled: !isFeatureEnabled(),
+    },
+    {
+      label: 'organizationalView',
+      path: AppRoutePath.OrganizationalViewPath,
+      disabled: false,
     },
   ];
 
@@ -148,10 +148,6 @@ export class AppComponent implements OnInit {
     this.isFluctuationAnalyticsPageActive$ = merge(
       initialLoad,
       routerEvents
-    ).pipe(
-      map(
-        (url) => url.split('/').pop() === AppRoutePath.FluctuationAnalyticsPath
-      )
-    );
+    ).pipe(map((url) => url.split('/').pop() === AppRoutePath.AnalyticsPath));
   }
 }

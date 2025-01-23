@@ -148,16 +148,12 @@ describe('AppComponent', () => {
     );
 
     test(
-      'should consider new routing events - fluctuation analytics',
+      'should consider new routing events - analytics',
       marbles((m) => {
         routerMock.url = '/';
         component.handleCurrentRoute();
 
-        const newEvent = new NavigationEnd(
-          1,
-          '/fluctuation-analytics',
-          '/fluctuation-analytics'
-        );
+        const newEvent = new NavigationEnd(1, '/analytics', '/analytics');
         eventSubject.next(newEvent);
 
         m.expect(component.isFluctuationAnalyticsPageActive$).toBeObservable(
@@ -182,11 +178,9 @@ describe('AppComponent', () => {
     );
   });
 
-  describe('fluctuation analytics', () => {
-    test('should disable fluctuation analytics tab on prod', () => {
-      const tab = component.tabs.find(
-        (t) => t.label === 'fluctuationAnalytics'
-      );
+  describe('analytics', () => {
+    test('should disable analytics tab on prod', () => {
+      const tab = component.tabs.find((t) => t.label === 'analytics');
 
       expect(tab.disabled).toBeTruthy();
     });

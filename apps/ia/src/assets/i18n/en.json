@@ -64,10 +64,10 @@
   },
   "tabs": {
     "overview": "Overview",
-    "drillDown": "Drill Down",
-    "lossOfSkill": "Loss Of Skill",
-    "reasonsAndCounterMeasures": "Reasons for Leaving",
-    "fluctuationAnalytics": "Fluctuation Analytics"
+    "organizationalView": "Organizational View",
+    "lostPerformance": "Lost Performance",
+    "reasonsForLeaving": "Reasons for Leaving",
+    "analytics": "Analytics"
   },
   "notification": {
     "warning": {

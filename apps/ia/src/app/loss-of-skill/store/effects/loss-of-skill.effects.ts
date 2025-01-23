@@ -45,7 +45,7 @@ import {
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
 @Injectable()
 export class LossOfSkillEffects {
-  readonly LOSS_OF_SKILL_URL = `/${AppRoutePath.LossOfSkillPath}`;
+  readonly LOSS_OF_SKILL_URL = `/${AppRoutePath.LostPerformancePath}`;
 
   filterChange$ = createEffect(() =>
     this.actions$.pipe(

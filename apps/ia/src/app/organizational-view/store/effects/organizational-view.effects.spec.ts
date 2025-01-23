@@ -116,7 +116,7 @@ describe('Organizational View Effects', () => {
       marbles((m) => {
         store.overrideSelector(selectRouterState, {
           state: {
-            url: `/${AppRoutePath.DrillDownPath}`,
+            url: `/${AppRoutePath.OrganizationalViewPath}`,
           },
         } as RouterReducerState<RouterStateUrl>);
 
@@ -144,7 +144,7 @@ describe('Organizational View Effects', () => {
       marbles((m) => {
         store.overrideSelector(selectRouterState, {
           state: {
-            url: `/${AppRoutePath.DrillDownPath}`,
+            url: `/${AppRoutePath.OrganizationalViewPath}`,
           },
         } as RouterReducerState<RouterStateUrl>);
 
@@ -166,7 +166,7 @@ describe('Organizational View Effects', () => {
       marbles((m) => {
         store.overrideSelector(selectRouterState, {
           state: {
-            url: `/${AppRoutePath.DrillDownPath}`,
+            url: `/${AppRoutePath.OrganizationalViewPath}`,
           },
         } as RouterReducerState<RouterStateUrl>);
         action = loadOrganizationalViewData();

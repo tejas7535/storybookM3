@@ -428,7 +428,7 @@ describe('Filter Effects', () => {
       marbles((m) => {
         store.overrideSelector(selectRouterState, {
           state: {
-            url: `/${AppRoutePath.LossOfSkillPath}`,
+            url: `/${AppRoutePath.LostPerformancePath}`,
           },
         } as RouterReducerState<RouterStateUrl>);
 

@@ -19,20 +19,6 @@ export const appRoutePaths: Routes = [
           import('./overview/overview.module').then((m) => m.OverviewModule),
       },
       {
-        path: AppRoutePath.DrillDownPath,
-        loadChildren: () =>
-          import('./organizational-view/organizational-view.module').then(
-            (m) => m.OrganizationalViewModule
-          ),
-      },
-      {
-        path: AppRoutePath.LossOfSkillPath,
-        loadChildren: () =>
-          import('./loss-of-skill/loss-of-skill.module').then(
-            (m) => m.LossOfSkillModule
-          ),
-      },
-      {
         path: AppRoutePath.ReasonsForLeavingPath,
         loadChildren: () =>
           import(
@@ -40,12 +26,26 @@ export const appRoutePaths: Routes = [
           ).then((m) => m.ReasonsAndCounterMeasuresModule),
       },
       {
-        path: AppRoutePath.FluctuationAnalyticsPath,
+        path: AppRoutePath.LostPerformancePath,
+        loadChildren: () =>
+          import('./loss-of-skill/loss-of-skill.module').then(
+            (m) => m.LossOfSkillModule
+          ),
+      },
+      {
+        path: AppRoutePath.AnalyticsPath,
         loadChildren: () =>
           import('./attrition-analytics/attrition-analytics.module').then(
             (m) => m.AttritionAnalyticsModule
           ),
         canActivate: [ProdGuard],
+      },
+      {
+        path: AppRoutePath.OrganizationalViewPath,
+        loadChildren: () =>
+          import('./organizational-view/organizational-view.module').then(
+            (m) => m.OrganizationalViewModule
+          ),
       },
     ],
   },

@@ -87,11 +87,11 @@ describe('LossOfSkill Effects', () => {
 
   describe('filterChange$', () => {
     test(
-      'should return loadLossOfSkillData when url /loss-of-skill',
+      'should return loadLossOfSkillData when url /lost-performance',
       marbles((m) => {
         store.overrideSelector(selectRouterState, {
           state: {
-            url: `/${AppRoutePath.LossOfSkillPath}`,
+            url: `/${AppRoutePath.LostPerformancePath}`,
           },
         } as RouterReducerState<RouterStateUrl>);
         action = loadLossOfSkillData();
@@ -103,7 +103,7 @@ describe('LossOfSkill Effects', () => {
     );
 
     test(
-      'should not return loadLossOfSkillData when url different than /loss-of-skill',
+      'should not return loadLossOfSkillData when url different than /lost-performance',
       marbles((m) => {
         store.overrideSelector(selectRouterState, {
           state: {

@@ -72,7 +72,7 @@ describe('Attrition Anayltics Effects', () => {
       marbles((m) => {
         store.overrideSelector(selectRouterState, {
           state: {
-            url: `/${AppRoutePath.FluctuationAnalyticsPath}`,
+            url: `/${AppRoutePath.AnalyticsPath}`,
           },
         } as RouterReducerState<RouterStateUrl>);
         action = loadAvailableClusters();
@@ -162,7 +162,7 @@ describe('Attrition Anayltics Effects', () => {
         action = loadEmployeeAnalytics();
         store.overrideSelector(selectRouterState, {
           state: {
-            url: `/${AppRoutePath.FluctuationAnalyticsPath}`,
+            url: `/${AppRoutePath.AnalyticsPath}`,
           },
         } as RouterReducerState<RouterStateUrl>);
         store.overrideSelector(getCurrentFilters, {
