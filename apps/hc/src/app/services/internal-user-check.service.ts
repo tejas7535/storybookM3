@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
@@ -17,7 +17,13 @@ export class InternalUserCheckService {
   public isInternalUser() {
     return this.httpClient.get<any>(this.STORAGE_ENDPOINT).pipe(
       map(Boolean),
-      catchError(() => of(false))
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 409) {
+          return of(true);
+        }
+
+        return of(false);
+      })
     );
   }
 }

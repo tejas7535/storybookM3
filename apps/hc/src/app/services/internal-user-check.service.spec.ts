@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -39,6 +40,34 @@ describe('InternalUserCheckService', () => {
       const req = httpMock.expectOne(environment.internalUserCheckURL);
       expect(req.request.method).toBe('GET');
       req.flush('something');
+    });
+
+    it('should return true on 409 error', (done) => {
+      service.isInternalUser().subscribe((result) => {
+        expect(result).toBeTruthy();
+        done();
+      });
+
+      const req = httpMock.expectOne(environment.internalUserCheckURL);
+      expect(req.request.method).toBe('GET');
+      req.flush({ status: 409 } as HttpErrorResponse, {
+        status: 409,
+        statusText: 'not public',
+      });
+    });
+
+    it('should return false on 403 error', (done) => {
+      service.isInternalUser().subscribe((result) => {
+        expect(result).toBeFalsy();
+        done();
+      });
+
+      const req = httpMock.expectOne(environment.internalUserCheckURL);
+      expect(req.request.method).toBe('GET');
+      req.flush({ status: 403 } as HttpErrorResponse, {
+        status: 403,
+        statusText: 'forbidden',
+      });
     });
   });
 });
