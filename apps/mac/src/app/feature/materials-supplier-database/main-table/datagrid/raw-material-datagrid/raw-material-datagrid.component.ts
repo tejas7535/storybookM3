@@ -9,6 +9,7 @@ import { take } from 'rxjs';
 
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { AgGridModule } from 'ag-grid-angular';
+import { RowSelectionOptions } from 'ag-grid-community';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -47,6 +48,12 @@ export class RawMaterialDatagridComponent
   extends BaseDatagridComponent
   implements OnInit, OnDestroy
 {
+  public rowSelection = {
+    mode: 'multiRow',
+    enableClickSelection: false,
+    checkboxes: false,
+    headerCheckbox: false,
+  } as RowSelectionOptions;
   public hasEditorRole = false;
   public result$ = this.dataFacade.result$;
 

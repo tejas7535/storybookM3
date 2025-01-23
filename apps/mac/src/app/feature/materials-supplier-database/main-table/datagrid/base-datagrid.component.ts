@@ -125,16 +125,16 @@ export abstract class BaseDatagridComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onColumnChange({ gridApi }: { gridApi: GridApi }): void {
-    const agGridColumns = gridApi
+  public onColumnChange(): void {
+    const agGridColumns = this.agGridApi
       .getColumnState()
       .filter((cs: ColDef) => !this.META_COLUMNS.includes(cs.colId));
     this.agGridStateService.setColumnState(agGridColumns);
     this.dataFacade.setAgGridColumns(JSON.stringify(agGridColumns));
   }
 
-  public onFilterChange({ api }: { api: GridApi }): void {
-    this.dataFacade.setAgGridFilter(api.getFilterModel());
+  public onFilterChange(): void {
+    this.dataFacade.setAgGridFilter(this.agGridApi.getFilterModel());
   }
 
   // functions

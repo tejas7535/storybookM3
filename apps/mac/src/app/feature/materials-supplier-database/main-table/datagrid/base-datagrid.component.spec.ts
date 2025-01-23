@@ -220,12 +220,10 @@ describe('MockMaterialDatagridComponent', () => {
           ...expected,
           { colId: ACTION } as unknown as ColumnState,
         ]),
-      };
+      } as unknown as GridApi;
+      component['agGridApi'] = mockApi;
       component['agGridStateService'].setColumnState = jest.fn();
-
-      component.onColumnChange({
-        gridApi: mockApi as unknown as GridApi,
-      });
+      component.onColumnChange();
 
       expect(
         component['agGridStateService'].setColumnState
@@ -241,9 +239,10 @@ describe('MockMaterialDatagridComponent', () => {
       const mockFilterModel = { 'some filter': 'some value' };
       const mockApi = {
         getFilterModel: jest.fn(() => mockFilterModel),
-      };
+      } as unknown as GridApi;
+      component['agGridApi'] = mockApi;
 
-      component.onFilterChange({ api: mockApi as unknown as GridApi });
+      component.onFilterChange();
 
       expect(mockApi.getFilterModel).toHaveBeenCalled();
       expect(component['dataFacade'].setAgGridFilter).toBeCalledWith(

@@ -21,7 +21,6 @@ export const EDITOR_COLUMN_DEFINITIONS: ColDef[] = [
     sortable: false,
     lockVisible: true,
     cellClass: 'px-2',
-    checkboxSelection: false,
     headerClass: 'text-caption leading-6 font-medium px-2',
     headerComponent: ActionHeaderComponent,
   },

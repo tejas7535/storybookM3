@@ -10,17 +10,16 @@
   [enableCellTextSelection]="true"
   [rowData]="result$ | ngrxPush"
   [tooltipShowDelay]="500"
-  rowSelection="multiple"
-  [suppressRowClickSelection]="true"
-  (gridReady)="onGridReady($event)"
-  (filterChanged)="onFilterChange($event)"
+  [rowSelection]="rowSelection"
   [rowClass]="['!border-l-0', '!border-t-0']"
   [rowClassRules]="{
     '!bg-opacity-5 !bg-[#cb0b15]': isBlockedRow,
     '!bg-opacity-5 !bg-nordic-blue': isRecentlyChangedRow
   }"
-  (columnVisible)="onColumnChange($event)"
-  (columnMoved)="onColumnChange($event)"
-  (columnResized)="onColumnChange($event)"
-  (sortChanged)="onColumnChange($event)"
+  (gridReady)="onGridReady($event)"
+  (filterChanged)="onFilterChange()"
+  (columnVisible)="onColumnChange()"
+  (columnMoved)="onColumnChange()"
+  (columnResized)="onColumnChange()"
+  (sortChanged)="onColumnChange()"
 ></ag-grid-angular>
