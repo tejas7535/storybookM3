@@ -1,7 +1,10 @@
-<ng-container *transloco="let t; read: 'shared'">
+<ng-container *transloco="let t">
   <div class="flex flex-col lg:grid lg:grid-cols-12 gap-4 pb-4">
     <div class="col-span-5 self-center mr-auto text-high-emphasis"></div>
   </div>
+  <h5 class="font-bold">
+    {{ t('attritionAnalytics.unforcedFluctuationAnalytics.title') }}
+  </h5>
   <ia-nav-buttons
     [items]="clusters$ | ngrxPush"
     [selectedTab]="selectedCluster$ | ngrxPush"
@@ -24,7 +27,7 @@
       (clusters$ | ngrxPush).length === 0)
   ) {
     <div class="flex h-full justify-center items-center">
-      <span>{{ t('noData') }}</span>
+      <span>{{ t('shared.noData') }}</span>
     </div>
   } @else {
     @if (!(analyticsLoading$ | ngrxPush) && !(clustersLoading$ | ngrxPush)) {
