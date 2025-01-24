@@ -97,6 +97,9 @@
     },
     "tasks": {
       "label": "待办事项"
+    },
+    "dashboard": {
+      "label": "仪表板"
     }
   },
   "traffic_light": {
@@ -1151,6 +1154,18 @@
     "label": {
       "service_now": "立即服务",
       "help_center": "帮助中心"
+    }
+  },
+  "dashboard": {
+    "yourTasks": {
+      "headline": "您的任务",
+      "gridHeadline": "任务",
+      "taskPriority": "任务优先次序",
+      "noTasks": "无任务",
+      "priority1": "优先事项 1",
+      "priority2": "优先事项 2",
+      "priority3": "信息",
+      "selectedPriorities": "选定的优先事项"
     }
   }
 }

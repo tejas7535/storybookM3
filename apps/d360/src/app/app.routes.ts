@@ -6,6 +6,7 @@ import { MsalGuard } from '@azure/msal-angular';
 import { LegalRoute } from '@schaeffler/legal-pages';
 
 import { AppRoutePath } from './app.routes.enum';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { HomeComponent } from './pages/home/home.component';
 import { RoleGuard } from './shared/utils/auth/role-guard.service';
 import {
@@ -22,6 +23,7 @@ export interface CustomRoute extends Route {
 
 export interface RouteConfig {
   startPage: CustomRoute;
+  dashboard: CustomRoute;
   functions: CustomRoute[];
   tasks: CustomRoute;
   others: CustomRoute[];
@@ -33,6 +35,11 @@ export const appRoutes: RouteConfig = {
     path: AppRoutePath.HomePage,
     canActivate: [MsalGuard],
     component: HomeComponent,
+  },
+  dashboard: {
+    label: 'tabbar.dashboard.label',
+    path: AppRoutePath.Dashboard,
+    component: DashboardComponent,
   },
   functions: [
     {
@@ -92,6 +99,16 @@ export const appRoutes: RouteConfig = {
       loadComponent: () =>
         import('../app/pages/sales-planning/sales-planning.component').then(
           (m) => m.SalesPlanningComponent
+        ),
+    },
+    {
+      path: AppRoutePath.Dashboard,
+      label: 'tabbarMenu.dashboard.label',
+      canActivate: [MsalGuard],
+      visible: true,
+      loadComponent: () =>
+        import('../app/pages/dashboard/dashboard.component').then(
+          (m) => m.DashboardComponent
         ),
     },
     {

@@ -10,7 +10,9 @@
           <span class="pl-5">{{ subitem.text }}</span>
         </button>
       }
-      <mat-divider></mat-divider>
+      @if (item.showDivider) {
+        <mat-divider></mat-divider>
+      }
     } @else {
       <button mat-menu-item (click)="item.onClick()">
         {{ item.text }}

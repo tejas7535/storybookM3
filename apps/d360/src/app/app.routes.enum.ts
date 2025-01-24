@@ -1,5 +1,6 @@
 export enum AppRoutePath {
   HomePage = '',
+  Dashboard = 'dashboard',
   DemandValidationPage = 'validationOfDemand',
   CustomerMaterialPortfolioPage = 'customerMaterialPortfolio', // TODO original CustomerMaterialPortfolio is used without Page
   InternalMaterialReplacementPage = 'internalMaterialReplacement',

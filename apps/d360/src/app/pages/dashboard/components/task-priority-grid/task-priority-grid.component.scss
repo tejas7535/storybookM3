@@ -1,0 +1,10 @@
+:host {
+  ::ng-deep {
+    .ag-header {
+      border: none;
+    }
+    button mat-icon {
+      color: var(--ag-data-color);
+    }
+  }
+}

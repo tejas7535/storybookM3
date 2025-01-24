@@ -31,12 +31,12 @@ import {
   sideBar,
 } from '../../../../shared/ag-grid/grid-defaults';
 import { ActionsMenuCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
+import { NoDataOverlayComponent } from '../../../../shared/components/ag-grid/no-data/no-data.component';
 import { TableToolbarComponent } from '../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
 import { GlobalSelectionStateService } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { SelectableOptionsService } from '../../../../shared/services/selectable-options.service';
 import { SnackbarService } from '../../../../shared/utils/service/snackbar.service';
-import { NoDataOverlayComponent } from './../../../../shared/components/ag-grid/no-data/no-data.component';
 import { getAlertTableColumnDefinitions } from './column-definitions';
 
 @Component({
@@ -90,30 +90,17 @@ export class AlertTableComponent {
       const customMenu = [];
 
       if (alert.openFunction) {
-        let module: string;
-        let route: string;
+        const route: string = this.alertService.getRouteForOpenFunction(
+          alert.openFunction
+        );
 
-        switch (alert.openFunction) {
-          case 'VOD': {
-            module = translate('validation_of_demand.title');
-            route = 'validationOfDemand';
-            break;
-          }
-          case 'CMP': {
-            module = translate('customer_material_portfolio.title');
-            route = 'customerMaterialPortfolio';
-            break;
-          }
-          default: {
-            module = alert.openFunction;
-            route = '/';
-            break;
-          }
-        }
         customMenu.push({
           text: translate('alert.action_menu.goto_function', {
-            function: module,
+            function: this.alertService.getModuleForOpenFunction(
+              alert.openFunction
+            ),
           }),
+          showDivider: true,
           submenu: [
             {
               text: translate('alert.action_menu.base_combination'),

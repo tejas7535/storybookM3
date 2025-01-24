@@ -1,0 +1,17 @@
+<ag-grid-angular
+  class="ag-theme-material grow"
+  rowModelType="serverSide"
+  [headerHeight]="0"
+  [gridOptions]="gridOptions"
+  [columnDefs]="columnDefs"
+  [serverSideDatasource]="datasource"
+  [localeText]="agGridLocalizationService.lang()"
+  [context]="context"
+  (gridReady)="onGridReady($event)"
+  (paginationChanged)="onDataUpdated()"
+  (firstDataRendered)="onFirstDataRendered()"
+  [noRowsOverlayComponent]="NoDataOverlayComponent"
+  [noRowsOverlayComponentParams]="noOverlayMessage"
+  [getRowId]="getRowId"
+  [rowStyle]="rowStyles"
+/>

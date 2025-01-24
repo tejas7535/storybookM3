@@ -23,6 +23,7 @@ export interface MenuItem {
   text: string;
   icon?: string;
   submenu?: MenuItem[];
+  showDivider?: boolean;
 }
 
 /**

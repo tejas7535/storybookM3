@@ -1,0 +1,19 @@
+.badge {
+  @apply ml-2 px-3 rounded-xl text-[8px] font-bold h-6 flex items-center self-center justify-center;
+  min-width: 39px;
+
+  &.prio1 {
+    @apply text-info;
+    background: #e0edf4;
+  }
+
+  &.prio2 {
+    background: #e8e8e8;
+    color: #444444;
+  }
+
+  &.prio3 {
+    background: #ebdce8;
+    color: #5d194f;
+  }
+}

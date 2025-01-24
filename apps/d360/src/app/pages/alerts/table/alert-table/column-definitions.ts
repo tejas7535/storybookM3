@@ -1,7 +1,6 @@
 import { translate } from '@jsverse/transloco';
 import { ColDef, ValueFormatterParams } from 'ag-grid-enterprise';
 
-import { AlertCategory } from '../../../../feature/alerts/model';
 import { materialClassificationOptions } from '../../../../feature/material-customer/model';
 import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
@@ -42,7 +41,7 @@ export const getAlertTableColumnDefinitions = (
       colId: 'alert.category.column_header',
       valueFormatter: (params) =>
         params.value
-          ? translate(`alert.category.${params.value as AlertCategory}`, {})
+          ? translate(`alert.category.${params.value}`, {})
           : params.value,
       flex: 1,
       minWidth: 200,

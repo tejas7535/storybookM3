@@ -97,6 +97,9 @@
     },
     "tasks": {
       "label": "To Do's"
+    },
+    "dashboard": {
+      "label": "Cruscotto"
     }
   },
   "traffic_light": {
@@ -1151,6 +1154,18 @@
     "label": {
       "service_now": "Service Now",
       "help_center": "Centro assistenza"
+    }
+  },
+  "dashboard": {
+    "yourTasks": {
+      "headline": "I vostri compiti",
+      "gridHeadline": "Compiti",
+      "taskPriority": "Definizione delle priorità dei compiti",
+      "noTasks": "Nessun compito",
+      "priority1": "Priorità 1",
+      "priority2": "Priorità 2",
+      "priority3": "Informazioni",
+      "selectedPriorities": "Priorità selezionate"
     }
   }
 }

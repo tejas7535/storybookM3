@@ -6,7 +6,6 @@ import { BehaviorSubject, forkJoin, map, Observable, take, tap } from 'rxjs';
 import { translate, TranslocoService } from '@jsverse/transloco';
 
 import { environment } from '../../../environments/environment';
-import { AlertCategory } from '../../feature/alerts/model';
 import {
   demandCharacteristicOptions,
   materialClassificationOptions,
@@ -253,7 +252,7 @@ export class SelectableOptionsService {
               value.options = ((data as any)[key]?.options ?? [])?.map(
                 (item: any) => ({
                   id: item.id,
-                  text: translate(`alert.category.${item.id as AlertCategory}`),
+                  text: translate(`alert.category.${item.id}`),
                 })
               );
             }

@@ -118,6 +118,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(
       [
         appRoutes.startPage,
+        appRoutes.dashboard,
         appRoutes.tasks,
         ...appRoutes.functions,
         ...appRoutes.others,

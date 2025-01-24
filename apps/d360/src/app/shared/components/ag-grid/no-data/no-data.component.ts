@@ -13,7 +13,9 @@ import { DataHintComponent } from '../../data-hint/data-hint.component';
   standalone: true,
 })
 export class NoDataOverlayComponent implements INoRowsOverlayAngularComp {
-  protected text = translate('hint.noData');
+  protected text: string;
 
-  public agInit(_: INoRowsOverlayParams): void {}
+  agInit(params: INoRowsOverlayParams & { message: string }): void {
+    this.text = params.message || translate('hint.noData');
+  }
 }
