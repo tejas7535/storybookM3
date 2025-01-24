@@ -15,6 +15,8 @@ import {
   ColDef,
   ColumnEvent,
   ColumnRowGroupChangedEvent,
+  ColumnState,
+  DisplayedColumnsChangedEvent,
   FirstDataRenderedEvent,
   GridApi,
   GridOptions,
@@ -141,7 +143,7 @@ export class ReferenceTypesTableComponent implements OnInit, OnDestroy {
   /**
    * Column change listener for table.
    */
-  columnChange(event: SortChangedEvent | ColumnEvent): void {
+  onColumnChange(event: SortChangedEvent | ColumnEvent): void {
     const columnState = event.api.getColumnState();
 
     this.agGridStateService.setColumnState(
@@ -150,16 +152,34 @@ export class ReferenceTypesTableComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Set the checkbox column to be the first column in the table after reset.
+   */
+  // DSCDA-3355
+  onDisplayedColumnsChanged(event: DisplayedColumnsChangedEvent): void {
+    if (event.source === 'columnMenu' || event.source === 'api') {
+      const checkboxColIndex = event.api
+        .getColumnState()
+        .findIndex((col) => col.colId === 'ag-Grid-ControlsColumn');
+      if (checkboxColIndex !== -1 && checkboxColIndex !== 0) {
+        event.api.moveColumnByIndex(checkboxColIndex, 0);
+      }
+    }
+  }
+
   onGridReady(event: GridReadyEvent): void {
     this.gridApi = event.api;
 
-    const state = this.agGridStateService.getColumnState(
+    const columnState = this.agGridStateService.getColumnState(
       ReferenceTypesTableComponent.TABLE_KEY
     );
 
-    if (state) {
+    if (columnState) {
+      this.shiftToFront(columnState, 'materialDesignation');
+      this.shiftToFront(columnState, 'ag-Grid-ControlsColumn');
+
       event.api.applyColumnState({
-        state,
+        state: columnState,
         applyOrder: true,
       });
     }
@@ -187,6 +207,16 @@ export class ReferenceTypesTableComponent implements OnInit, OnDestroy {
           } as PaginationState,
         })
       );
+    }
+  }
+
+  private shiftToFront(columnState: ColumnState[], columnName: string) {
+    const columnIndex = columnState.findIndex(
+      (col) => col.colId === columnName
+    );
+    if (columnIndex !== -1) {
+      const column = columnState.splice(columnIndex, 1);
+      columnState.splice(0, 0, column[0]);
     }
   }
 
@@ -233,7 +263,7 @@ export class ReferenceTypesTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  filterChange(): void {
+  onFilterChange(): void {
     const filters = this.gridApi.getFilterModel();
 
     this.tableStore.setFilters(filters);

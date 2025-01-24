@@ -108,7 +108,12 @@ export class BomTableComponent implements OnChanges {
        */
       setTimeout(() => this.gridApi.setGridOption('loading', true), 10);
     } else {
-      this.gridApi.showNoRowsOverlay();
+      this.gridApi.setGridOption('loading', false);
+      if (this.rowData === undefined || this.rowData?.length === 0) {
+        this.gridApi.showNoRowsOverlay();
+      } else {
+        this.gridApi.hideOverlay();
+      }
     }
 
     if (changes.rowData?.currentValue !== changes.rowData?.previousValue) {

@@ -13,26 +13,8 @@ import { ColumnUtilsService, valueGetterDate } from '../../table';
 export class ColumnDefinitionService {
   constructor(private readonly columnUtilsService: ColumnUtilsService) {}
 
-  public getColDef(minified: boolean): ColDef[] {
-    const columnDefinitionsDefault: ColDef[] = [
-      {
-        sortable: false,
-        filter: false,
-        resizable: false,
-        enablePivot: false,
-        enableRowGroup: false,
-        filterParams: false,
-        suppressHeaderMenuButton: true,
-        suppressColumnsToolPanel: true,
-        suppressMovable: true,
-        width: minified ? 0 : 70,
-        minWidth: minified ? 0 : 70,
-        maxWidth: minified ? 0 : 70,
-        pinned: minified ? false : 'left',
-        lockPosition: !minified,
-        lockVisible: !minified,
-        hide: minified,
-      },
+  public getColDef(): ColDef[] {
+    return [
       {
         field: 'calculationDate',
         headerName: translate('shared.calculations.table.calculationDate'),
@@ -110,25 +92,5 @@ export class ColumnDefinitionService {
         width: 150,
       },
     ];
-
-    const columnDefinitionRadioSelection: ColDef = {
-      cellRenderer: 'radioButtonCellRenderComponent',
-      width: 60,
-      minWidth: 60,
-      maxWidth: 60,
-      cellClass: '!p-0',
-      pinned: 'left',
-      suppressColumnsToolPanel: true,
-      suppressMovable: true,
-      suppressHeaderMenuButton: true,
-      lockPosition: true,
-      lockVisible: true,
-    };
-
-    if (minified) {
-      columnDefinitionsDefault.splice(1, 0, columnDefinitionRadioSelection);
-    }
-
-    return columnDefinitionsDefault;
   }
 }

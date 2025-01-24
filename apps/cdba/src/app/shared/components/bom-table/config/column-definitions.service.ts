@@ -24,6 +24,8 @@ export class ColumnDefinitionService {
   AUTO_GROUP_COLUMN_DEF: ColDef = {
     headerName: translate('shared.bom.headers.materialDesignation'),
     resizable: true,
+    lockPosition: true,
+    lockVisible: true,
     minWidth: 300,
     cellRendererParams: {
       suppressCount: true,

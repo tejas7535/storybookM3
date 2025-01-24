@@ -20,6 +20,7 @@ import { MockModule } from 'ng-mocks';
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import { BomTableModule } from '@cdba/shared/components';
 import { ColumnDefinitionService } from '@cdba/shared/components/bom-table/config';
+import { BomItem } from '@cdba/shared/models';
 import { MaterialNumberModule } from '@cdba/shared/pipes';
 import { BOM_MOCK } from '@cdba/testing/mocks';
 
@@ -97,11 +98,13 @@ describe('BomTableComponent', () => {
       expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 10);
     });
 
-    it('should hide loading spinner and show NoRowsOverlay when loading is done', () => {
+    it('should hide loading spinner and show NoRowsOverlay when loading is done and there is no data', () => {
       component['gridApi'] = {
         setGridOption: jest.fn(),
         showNoRowsOverlay: jest.fn(),
       } as unknown as GridApi;
+
+      component.rowData = undefined;
 
       component.ngOnChanges({
         isLoading: {
@@ -109,8 +112,34 @@ describe('BomTableComponent', () => {
         } as unknown as SimpleChange,
       });
 
-      expect(component['gridApi'].setGridOption).not.toHaveBeenCalled();
+      expect(component['gridApi'].setGridOption).toHaveBeenCalledWith(
+        'loading',
+        false
+      );
       expect(component['gridApi'].showNoRowsOverlay).toHaveBeenCalled();
+    });
+
+    it('should hide loading spinner and show data', () => {
+      component['gridApi'] = {
+        setGridOption: jest.fn(),
+        showNoRowsOverlay: jest.fn(),
+        hideOverlay: jest.fn(),
+      } as unknown as GridApi;
+
+      component.rowData = [{} as unknown as BomItem];
+
+      component.ngOnChanges({
+        isLoading: {
+          currentValue: false,
+        } as unknown as SimpleChange,
+      });
+
+      expect(component['gridApi'].setGridOption).toHaveBeenCalledWith(
+        'loading',
+        false
+      );
+      expect(component['gridApi'].showNoRowsOverlay).not.toHaveBeenCalled();
+      expect(component['gridApi'].hideOverlay).toHaveBeenCalled();
     });
   });
 

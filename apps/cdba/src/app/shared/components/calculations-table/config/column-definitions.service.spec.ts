@@ -38,7 +38,7 @@ describe('ColumnDefinitions', () => {
   });
 
   it('should call value getter and format methods', () => {
-    const columnDefinitions = service.getColDef(false);
+    const columnDefinitions = service.getColDef();
 
     columnDefinitions.forEach((column) => {
       if (column.valueGetter) {

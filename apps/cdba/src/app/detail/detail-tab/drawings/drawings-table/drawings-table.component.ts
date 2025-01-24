@@ -15,7 +15,11 @@ import {
 import { Drawing } from '@cdba/shared/models';
 
 import { ActionsCellRendererComponent } from './actions-cell-renderer/actions-cell-renderer.component';
-import { ColumnDefinitionService, DEFAULT_COLUMN_DEFINITION } from './config';
+import {
+  ColumnDefinitionService,
+  DEFAULT_COLUMN_DEFINITION,
+  DEFAULT_ROW_SELECTION,
+} from './config';
 
 @Component({
   selector: 'cdba-drawings-table',
@@ -32,23 +36,20 @@ export class DrawingsTableComponent {
     drawing: Drawing;
   }> = new EventEmitter();
 
-  public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
+  defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
+  rowSelection: RowSelectionOptions = DEFAULT_ROW_SELECTION;
 
-  public columnDefs: ColDef[] = this.columnDefinitionService.COLUMN_DEFINITIONS;
+  columnDefs: ColDef[] = this.columnDefinitionService.COLUMN_DEFINITIONS;
 
-  public components = {
+  components = {
     actionsCellRenderer: ActionsCellRendererComponent,
   };
 
-  rowSelection = {
-    mode: 'singleRow',
-  } as RowSelectionOptions;
-
-  public constructor(
+  constructor(
     private readonly columnDefinitionService: ColumnDefinitionService
   ) {}
 
-  public onRowSelected({ node, api }: RowSelectedEvent): void {
+  onRowSelected({ node, api }: RowSelectedEvent): void {
     const nodeId = node.id;
     const drawing = api.getSelectedRows()[0];
 

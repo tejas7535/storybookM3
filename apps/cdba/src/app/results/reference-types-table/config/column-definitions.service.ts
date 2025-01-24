@@ -39,7 +39,6 @@ export class ColumnDefinitionService {
       suppressMovable: true,
       pinned: 'left',
       lockPosition: 'left',
-      lockPinned: true,
       lockVisible: true,
     },
     {

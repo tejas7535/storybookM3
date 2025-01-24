@@ -11,6 +11,8 @@ import { AgGridModule } from 'ag-grid-angular';
 import {
   Column,
   ColumnRowGroupChangedEvent,
+  ColumnState,
+  DisplayedColumnsChangedEvent,
   FirstDataRenderedEvent,
   GridApi,
   GridReadyEvent,
@@ -139,13 +141,79 @@ describe('ReferenceTypesTableComponent', () => {
     });
   });
 
-  describe('columnChange', () => {
+  describe('onDisplayedColumnsChanged', () => {
+    let event: DisplayedColumnsChangedEvent;
+    beforeEach(() => {
+      event = {
+        source: 'api',
+        api: {
+          moveColumnByIndex: jest.fn(),
+        },
+      } as unknown as DisplayedColumnsChangedEvent;
+    });
+
+    it('should not move checkbox column if it does not exist', () => {
+      event.api.getColumnState = jest.fn(
+        () => [{ colId: 'test' }, { colId: 'test' }] as ColumnState[]
+      );
+
+      component.onDisplayedColumnsChanged(event);
+
+      expect(event.api.moveColumnByIndex).not.toHaveBeenCalled();
+    });
+
+    it('should not move checkbox column if it is already in first place', () => {
+      event.source = 'columnMenu';
+      event.api.getColumnState = jest.fn(
+        () =>
+          [
+            { colId: 'ag-Grid-ControlsColumn' },
+            { colId: 'test' },
+          ] as ColumnState[]
+      );
+
+      component.onDisplayedColumnsChanged(event);
+
+      expect(event.api.moveColumnByIndex).not.toHaveBeenCalled();
+    });
+
+    it('should move checkbox column to first place when changes invoked by columnMenu', () => {
+      event.source = 'columnMenu';
+      event.api.getColumnState = jest.fn(
+        () =>
+          [
+            { colId: 'test' },
+            { colId: 'ag-Grid-ControlsColumn' },
+          ] as ColumnState[]
+      );
+
+      component.onDisplayedColumnsChanged(event);
+
+      expect(event.api.moveColumnByIndex).toHaveBeenCalledWith(1, 0);
+    });
+
+    it('should move checkbox column to first place when changes invoked by api', () => {
+      event.api.getColumnState = jest.fn(
+        () =>
+          [
+            { colId: 'test' },
+            { colId: 'ag-Grid-ControlsColumn' },
+          ] as ColumnState[]
+      );
+
+      component.onDisplayedColumnsChanged(event);
+
+      expect(event.api.moveColumnByIndex).toHaveBeenCalledWith(1, 0);
+    });
+  });
+
+  describe('onColumnChange', () => {
     it('should receive current column state and set it via state service', () => {
       const mockEvent = {
         api: { getColumnState: jest.fn(() => []) },
       } as unknown as SortChangedEvent;
 
-      component.columnChange(mockEvent);
+      component.onColumnChange(mockEvent);
 
       expect(mockEvent.api.getColumnState).toHaveBeenCalled();
       expect(stateService.setColumnState).toHaveBeenCalledWith(
@@ -178,13 +246,37 @@ describe('ReferenceTypesTableComponent', () => {
     });
 
     it('should applyColumnState', () => {
-      const mockColumnState: any = [{ colId: 'foo', sort: 'asc' }];
+      const mockColumnState: ColumnState[] = [{ colId: 'foo', sort: 'asc' }];
       stateService.getColumnState = jest.fn(() => mockColumnState);
 
       component.onGridReady(event);
 
       expect(event.api.applyColumnState).toHaveBeenCalledWith({
         state: mockColumnState,
+        applyOrder: true,
+      });
+    });
+
+    it('should shift materialDesignation column to front', () => {
+      const mockColumnState: ColumnState[] = [
+        { colId: 'foo', sort: 'asc' },
+        { colId: 'materialDesignation', sort: 'asc' },
+        { colId: 'bar', sort: 'asc' },
+        { colId: 'ag-Grid-ControlsColumn', sort: 'asc' },
+      ];
+      const expectedColumnState: ColumnState[] = [
+        { colId: 'ag-Grid-ControlsColumn', sort: 'asc' },
+        { colId: 'materialDesignation', sort: 'asc' },
+        { colId: 'foo', sort: 'asc' },
+        { colId: 'bar', sort: 'asc' },
+      ];
+
+      stateService.getColumnState = jest.fn(() => mockColumnState);
+
+      component.onGridReady(event);
+
+      expect(event.api.applyColumnState).toHaveBeenCalledWith({
+        state: expectedColumnState,
         applyOrder: true,
       });
     });
@@ -450,7 +542,7 @@ describe('ReferenceTypesTableComponent', () => {
     });
   });
 
-  describe('filterChange', () => {
+  describe('onFilterChange', () => {
     it('should set filters of tables store', () => {
       const mockFilters = { sqv: { type: 'number', value: 10 } };
       component['gridApi'] = {
@@ -458,7 +550,7 @@ describe('ReferenceTypesTableComponent', () => {
       } as unknown as GridApi;
       jest.spyOn(component['tableStore'] as any, 'setFilters');
 
-      component.filterChange();
+      component.onFilterChange();
 
       expect(component['tableStore'].setFilters).toHaveBeenCalledWith(
         mockFilters

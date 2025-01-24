@@ -16,6 +16,7 @@ import {
   IRowNode,
   RowSelectedEvent,
   RowSelectionOptions,
+  SelectionColumnDef,
   SideBarDef,
   SortChangedEvent,
   StatusPanelDef,
@@ -31,6 +32,7 @@ import { NoRowsParams } from '../table/custom-overlay/custom-no-rows-overlay/cus
 import {
   ColumnDefinitionService,
   DEFAULT_COLUMN_DEFINITION,
+  DEFAULT_SELECTION_COLUMN_DEFINITION,
   FRAMEWORK_COMPONENTS,
   FRAMEWORK_COMPONENTS_MINIFIED,
   STATUS_BAR_CONFIG,
@@ -42,7 +44,7 @@ import {
 })
 export class CalculationsTableComponent implements OnInit, OnChanges {
   @Input() minified = false;
-  @Input() rowSelectionType: 'multiRow' | 'singleRow';
+  @Input() rowSelectionType: 'singleRow' | 'multiRow';
   @Input() enableSelectionWithoutKeys = false;
   @Input() rowData: Calculation[];
   @Input() selectedNodeIds: string[];
@@ -56,54 +58,45 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
     }[]
   > = new EventEmitter();
 
-  public modules: any[];
-
-  public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
-  public columnDefs: ColDef[];
-
-  public components: any;
-
-  public noRowsOverlayComponentParams: NoRowsParams = {
-    getMessage: () => this.errorMessage,
-  };
-
-  public loadingOverlayComponent = 'customLoadingOverlay';
-  public noRowsOverlayComponent = 'customNoRowsOverlay';
-
-  public statusBar: {
+  modules: any[];
+  components: any;
+  sideBar: SideBarDef;
+  cellSelection: boolean;
+  statusBar: {
     statusPanels: StatusPanelDef[];
   };
 
-  public sideBar: SideBarDef;
-  public cellSelection: boolean;
-  public rowGroupPanelShow: 'always' | 'onlyWhenGrouping' | 'never';
-
+  defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
+  columnDefs: ColDef[];
   rowSelection: RowSelectionOptions;
+  selectionColumnDef: SelectionColumnDef;
 
-  public getMainMenuItems = getMainMenuItems;
+  noRowsOverlayComponentParams: NoRowsParams = {
+    getMessage: () => this.errorMessage,
+  };
+
+  loadingOverlayComponent = 'customLoadingOverlay';
+  noRowsOverlayComponent = 'customNoRowsOverlay';
+  radioButtonCellRenderComponent = 'radioButtonCellRenderComponent';
+
+  rowGroupPanelShow: 'always' | 'onlyWhenGrouping' | 'never';
+
+  getMainMenuItems = getMainMenuItems;
 
   private gridApi: GridApi;
   private storageKey: string;
 
-  public constructor(
+  constructor(
     private readonly agGridStateService: AgGridStateService,
     private readonly columnDefinitionService: ColumnDefinitionService
   ) {}
 
   ngOnInit(): void {
-    this.columnDefs = this.columnDefinitionService.getColDef(this.minified);
     this.storageKey = `calculations_${this.minified ? 'minified' : 'default'}`;
     this.setTableProperties(this.minified);
-
-    this.rowSelection = {
-      mode: this.rowSelectionType,
-      checkboxes: false,
-      headerCheckbox: false,
-      enableSelectionWithoutKeys: this.enableSelectionWithoutKeys,
-    } as RowSelectionOptions;
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(changes: SimpleChanges): void {
     if (!this.gridApi) {
       return;
     }
@@ -118,7 +111,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   /**
    * Limit selected rows to a maximum of two
    */
-  public onRowSelected(evt: RowSelectedEvent): void {
+  onRowSelected(evt: RowSelectedEvent): void {
     setTimeout(() => {
       // Ignore programatical row selections
       if (evt.source === 'api') {
@@ -179,20 +172,20 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
     }, 0);
   }
 
-  public onFirstDataRendered(): void {
+  onFirstDataRendered(): void {
     this.selectNodes();
   }
 
   /**
    * Column change listener for table.
    */
-  public columnChange(event: ColumnEvent | SortChangedEvent): void {
+  columnChange(event: ColumnEvent | SortChangedEvent): void {
     const columnState = event.api.getColumnState();
 
     this.agGridStateService.setColumnState(this.storageKey, columnState);
   }
 
-  public onGridReady(params: GridReadyEvent): void {
+  onGridReady(params: GridReadyEvent): void {
     this.gridApi = params.api;
 
     const state = this.agGridStateService.getColumnState(this.storageKey);
@@ -208,15 +201,28 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   }
 
   private setTableProperties(minified: boolean): void {
+    this.columnDefs = this.columnDefinitionService.getColDef();
     this.defaultColDef = { ...this.defaultColDef, floatingFilter: !minified };
+
     this.sideBar = minified ? undefined : SIDE_BAR_CONFIG;
     this.statusBar = minified ? undefined : STATUS_BAR_CONFIG;
+
     this.components = minified
       ? FRAMEWORK_COMPONENTS_MINIFIED
       : FRAMEWORK_COMPONENTS;
 
     this.cellSelection = !minified;
     this.rowGroupPanelShow = minified ? 'never' : 'always';
+
+    this.rowSelection = {
+      mode: this.rowSelectionType,
+      checkboxes: true,
+      headerCheckbox: false,
+      enableClickSelection: true,
+      enableSelectionWithoutKeys: this.enableSelectionWithoutKeys,
+    } as RowSelectionOptions;
+
+    this.selectionColumnDef = DEFAULT_SELECTION_COLUMN_DEFINITION;
   }
 
   private selectNodes(): void {
