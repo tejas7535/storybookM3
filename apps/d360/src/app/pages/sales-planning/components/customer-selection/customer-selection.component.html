@@ -48,23 +48,13 @@
               item.year
             }}</span>
             <span class="text-body-medium"
-              >{{
-                translocoLocaleService.localizeNumber(
-                  item.unconstrained,
-                  'decimal'
-                ) || '-'
-              }}
+              >{{ (item.unconstrained | numberWithoutFractionDigits) || '-' }}
               @if (item.unconstrained) {
                 {{ selectedCustomerPlanningCurrency() }}
               }
             </span>
             <span class="text-body-small text-on-surface-variant"
-              >{{
-                translocoLocaleService.localizeNumber(
-                  item.constrained,
-                  'decimal'
-                ) || '-'
-              }}
+              >{{ (item.constrained | numberWithoutFractionDigits) || '-' }}
               {{ selectedCustomerPlanningCurrency() }}</span
             >
           </div>

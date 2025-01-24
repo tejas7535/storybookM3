@@ -53,6 +53,7 @@ describe('CustomerSelectionComponent', () => {
   const mockTranslocoLocaleService = {
     localizeNumber: (value: number | null, _format: string) =>
       value == null ? null : value.toString(),
+    getLocale: () => 'de',
   };
 
   const mockDialogRef = {

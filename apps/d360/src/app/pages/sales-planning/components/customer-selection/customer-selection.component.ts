@@ -23,6 +23,7 @@ import { SalesPlanningService } from '../../../../feature/sales-planning/sales-p
 import { SingleAutocompleteSelectedEvent } from '../../../../shared/components/inputs/autocomplete/model';
 import { SingleAutocompleteOnTypeComponent } from '../../../../shared/components/inputs/autocomplete/single-autocomplete-on-type/single-autocomplete-on-type.component';
 import { DisplayFunctions } from '../../../../shared/components/inputs/display-functions.utils';
+import { NumberWithoutFractionDigitsPipe } from '../../../../shared/pipes/number-without-fraction-digits.pipe';
 import { CustomerSelectionChange } from '../../sales-planning.component';
 import { CustomerInfoModalComponent } from '../customer-info-modal/customer-info-modal.component';
 
@@ -36,6 +37,7 @@ import { CustomerInfoModalComponent } from '../customer-info-modal/customer-info
     MatDivider,
     MatIcon,
     MatIconButton,
+    NumberWithoutFractionDigitsPipe,
   ],
   templateUrl: './customer-selection.component.html',
   styleUrl: './customer-selection.component.scss',
