@@ -145,6 +145,7 @@
         ) {
           <button
             mat-raised-button
+            [disabled]="priceLowerThanMsp"
             color="primary"
             (click)="triggerAutoApproval()"
           >
@@ -157,7 +158,8 @@
             [disabled]="
               formGroup.invalid ||
               (approvalFacade.quotationStatus$ | ngrxPush) !==
-                quotationStatus.ACTIVE
+                quotationStatus.ACTIVE ||
+              priceLowerThanMsp
             "
             (click)="startWorkflow()"
           >

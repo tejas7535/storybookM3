@@ -37,7 +37,7 @@
         "FORWARD_WF_ITEM": "Approval workflow was forwarded",
         "CANCEL_WORKFLOW": "Approval workflow was cancelled"
       },
-      "priceLowerThanMsp": "Net price of at least one Item is below Minimum Selling Price (MSP)"
+      "priceLowerThanMsp": "Net price is below the Minimum Selling Price (MSP). Approval cannot be processed. Please contact the PRICING department for further pricing verification"
     },
     "cancelWorkflow": "Cancel Workflow",
     "cancelWorkflowModal": {

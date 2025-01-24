@@ -41,7 +41,6 @@ import { ActiveCaseActions } from './active-case.action';
 import { activeCaseFeature } from './active-case.reducer';
 import { getGqId } from './active-case.selectors';
 import {
-  addCalculationsForDetails,
   checkEqualityOfIdentifier,
   mapQueryParamsToIdentifier,
 } from './active-case.utils';
@@ -88,8 +87,6 @@ export class ActiveCaseEffects {
             item.quotationDetails.sort(
               (a, b) => a.quotationItemId - b.quotationItemId
             );
-
-            addCalculationsForDetails(item.quotationDetails);
           }),
           mergeMap((item: Quotation) => {
             // quotation not fully loaded (async still in progress)
@@ -272,7 +269,6 @@ export class ActiveCaseEffects {
             );
             this.snackBar.open(successMessage);
           }),
-          tap((item) => addCalculationsForDetails(item.quotationDetails)),
           map((updatedQuotation) =>
             ActiveCaseActions.removePositionsFromQuotationSuccess({
               updatedQuotation,
@@ -331,7 +327,6 @@ export class ActiveCaseEffects {
               );
               this.snackBar.open(successMessage);
             }),
-            tap((item) => addCalculationsForDetails(item.quotationDetails)),
             map((updatedQuotation) =>
               ActiveCaseActions.addMaterialsToQuotationSuccess({
                 updatedQuotation,
@@ -369,9 +364,6 @@ export class ActiveCaseEffects {
                 updatesGqPrice
               );
             }),
-            tap((quotation) => {
-              addCalculationsForDetails(quotation.quotationDetails);
-            }),
             map((updatedQuotation) =>
               ActiveCaseActions.updateQuotationDetailsSuccess({
                 updatedQuotation,
@@ -395,9 +387,6 @@ export class ActiveCaseEffects {
       map((action) => action.gqPositionIds),
       mergeMap((gqPositionIds: string[]) =>
         this.quotationService.uploadSelectionToSap(gqPositionIds).pipe(
-          tap((quotation) => {
-            addCalculationsForDetails(quotation.quotationDetails);
-          }),
           mergeMap((updatedQuotation: Quotation) => [
             ActiveCaseActions.uploadSelectionToSapSuccess({
               updatedQuotation,
@@ -455,7 +444,6 @@ export class ActiveCaseEffects {
 
             this.snackBar.open(successMessage);
           }),
-          tap((item) => addCalculationsForDetails(item.quotationDetails)),
           mergeMap((quotation) => {
             if (quotation.sapCallInProgress) {
               return [
@@ -496,7 +484,6 @@ export class ActiveCaseEffects {
             gqId
           )
           .pipe(
-            tap((item) => addCalculationsForDetails(item.quotationDetails)),
             map((quotation: Quotation) =>
               ActiveCaseActions.updateQuotationSuccess({ quotation })
             ),
@@ -552,9 +539,6 @@ export class ActiveCaseEffects {
                   quotation.sapSyncStatus
                 );
               }),
-              tap((quotation) =>
-                addCalculationsForDetails(quotation.quotationDetails)
-              ),
               mergeMap((quotation: Quotation) => {
                 const actions: Action[] = [
                   ActiveCaseActions.createSapQuoteSuccess({ quotation }),
@@ -589,9 +573,6 @@ export class ActiveCaseEffects {
       ofType(ActiveCaseActions.updateCosts),
       concatMap((action: ReturnType<typeof ActiveCaseActions.updateCosts>) =>
         this.quotationDetailsService.updateCostData(action.gqPosId).pipe(
-          tap((item: Quotation) =>
-            addCalculationsForDetails(item.quotationDetails)
-          ),
           tap(() => {
             const successMessage = translate(
               'shared.snackBarMessages.costsUpdated'
@@ -616,9 +597,6 @@ export class ActiveCaseEffects {
           this.quotationDetailsService
             .updateRfqInformation(action.gqPosId)
             .pipe(
-              tap((item: Quotation) =>
-                addCalculationsForDetails(item.quotationDetails)
-              ),
               tap(() => {
                 const successMessage = translate(
                   'shared.snackBarMessages.rfqInformationUpdated'

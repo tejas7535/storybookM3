@@ -1,72 +1,13 @@
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { SimulatedQuotation } from '@gq/shared/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
-import {
-  calculateStatusBarValues,
-  multiplyAndRoundValues,
-  roundToTwoDecimals,
-} from '@gq/shared/utils/pricing.utils';
+import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 
-import { SapConditionType } from '../reducers/models';
 import { QuotationIdentifier } from './models';
 
 const QUOTATION_NUMBER_QUERY_PARAMETER = 'quotation_number';
 const CUSTOMER_NUMBER_QUERY_PARAMETER = 'customer_number';
 const SALES_ORG_QUERY_PARAMETER = 'sales_org';
-
-export const addCalculationsForDetails = (details: QuotationDetail[]): void => {
-  details.forEach((detail) => calculateSapPriceValues(detail));
-};
-
-export const calculateSapPriceValues = (detail: QuotationDetail): void => {
-  if (detail.filteredSapConditionDetails) {
-    const rsp = calculateRsp(detail);
-    detail.rsp = rsp;
-
-    const zrtu = detail.filteredSapConditionDetails.find(
-      (el) => el.sapConditionType === SapConditionType.ZRTU
-    )?.amount;
-    detail.msp =
-      zrtu && detail.rsp ? calculateMsp(detail.rsp, zrtu) : undefined;
-
-    detail.sapVolumeScale =
-      detail.filteredSapConditionDetails.find(
-        (el) =>
-          el.sapConditionType === SapConditionType.ZDVO ||
-          el.sapConditionType === SapConditionType.ZEVO
-      )?.amount / 100 || undefined;
-  }
-};
-
-const calculateRsp = (detail: QuotationDetail): number | undefined => {
-  const rspCondition = detail.filteredSapConditionDetails.find(
-    (el) => el.sapConditionType === SapConditionType.ZMIN
-  );
-  if (!rspCondition) {
-    return undefined;
-  }
-
-  let rsp = rspCondition.amount;
-
-  if (
-    detail.sapPriceUnit &&
-    rspCondition.pricingUnit &&
-    detail.sapPriceUnit !== rspCondition.pricingUnit
-  ) {
-    rsp = multiplyAndRoundValues(
-      rsp / rspCondition.pricingUnit,
-      detail.sapPriceUnit
-    );
-  }
-
-  return rsp;
-};
-
-export const calculateMsp = (rsp: number, zrtu: number): number => {
-  const msp = rsp * (1 - zrtu / 100);
-
-  return roundToTwoDecimals(msp);
-};
 
 export const mapQueryParamsToIdentifier = (
   queryParams: any

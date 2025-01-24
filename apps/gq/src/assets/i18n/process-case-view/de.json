@@ -37,7 +37,7 @@
         "FORWARD_WF_ITEM": "Freigabeprozess wurde weitergeleitet",
         "CANCEL_WORKFLOW": "Freigabeprozess wurde abgebrochen"
       },
-      "priceLowerThanMsp": "Nettopreis von mindestens einer Position ist unter dem Mindestverkaufspreis (MSP)"
+      "priceLowerThanMsp": "Nettopreis unterschreitet den Mindestverkaufspreis (MSP). Der Genehmigungsprozess kann nicht gestartet werden. Wenden Sie sich zur Preisprüfung an die Organisationseinheit Pricing"
     },
     "cancelWorkflow": "Freigabe abbrechen",
     "cancelWorkflowModal": {
