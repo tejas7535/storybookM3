@@ -28,7 +28,7 @@
         'md:col-span-2': (item.loadcaseValues?.length || 0) > 4,
         'lg:border-r-0': (item.loadcaseValues?.length || 0) > 4 || isLast,
         'border-b-0': isLast || (length >= 2 && index === length - 2 && isOdd),
-        'col-span-full border-r-0 ': isLast && isOdd
+        'col-span-full border-r-0 md:col-span-1': (isLast && isOdd) || isFirst
       }"
     >
       @if (item.short) {
