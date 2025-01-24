@@ -96,7 +96,8 @@
               <gq-label-text [modalVersion]="true">
                 <span label>{{ t('selectedAverageGPM') }}</span>
                 <span text>{{
-                  selectedSummaryKpi?.totalWeightedAverageGpm | percentage
+                  selectedSummaryKpi?.totalWeightedAverageGpm
+                    | percentage: false
                 }}</span>
               </gq-label-text>
             </div>
@@ -106,7 +107,8 @@
               <gq-label-text [modalVersion]="true">
                 <span label>{{ t('selectedAverageGPI') }}</span>
                 <span text>{{
-                  selectedSummaryKpi?.totalWeightedAverageGpi | percentage
+                  selectedSummaryKpi?.totalWeightedAverageGpi
+                    | percentage: false
                 }}</span>
               </gq-label-text>
             </div>
@@ -115,7 +117,8 @@
             <gq-label-text [modalVersion]="true">
               <span label>{{ t('selectedPriceDiff') }}</span>
               <span text>{{
-                selectedSummaryKpi?.totalWeightedAveragePriceDiff | percentage
+                selectedSummaryKpi?.totalWeightedAveragePriceDiff
+                  | percentage: false
               }}</span>
             </gq-label-text>
           </div>
