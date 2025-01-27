@@ -606,6 +606,10 @@ export class ColumnDefService {
         ),
       filter: MULTI_COLUMN_FILTER,
       filterParams: this.dateFilterParamService.DATE_FILTER_PARAMS,
+      filterValueGetter: (params) =>
+        this.columnUtilityService.dateFilteringFormatter(
+          params.data?.lastCustomerPrice
+        ),
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.lastCustomerPriceDateInfoText'
@@ -705,6 +709,10 @@ export class ColumnDefService {
         ),
       filter: MULTI_COLUMN_FILTER,
       filterParams: this.dateFilterParamService.DATE_FILTER_PARAMS,
+      filterValueGetter: (params) =>
+        this.columnUtilityService.dateFilteringFormatter(
+          params.data?.lastOfferDetail?.lastOfferDate
+        ),
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
           'shared.quotationDetailsTable.lastOfferDateInfoText'
@@ -760,6 +768,10 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.nextFreeAtp'),
       field: ColumnFields.NEXT_FREE_ATP,
       filter: NUMBER_COLUMN_FILTER,
+      filterValueGetter: (params: ValueGetterParams) =>
+        this.columnUtilityService.numberFilteringFormatter(
+          params.data?.materialStockByPlant?.nextFree
+        ),
       filterParams: this.columnUtilityService.numberFilterParams,
       valueFormatter: (params) =>
         this.columnUtilityService.uomFormatter(
@@ -774,6 +786,10 @@ export class ColumnDefService {
       valueGetter: (params) =>
         this.columnUtilityService.dateFormatter(
           params.data.materialStockByPlant?.dateNextFree
+        ),
+      filterValueGetter: (params) =>
+        this.columnUtilityService.dateFilteringFormatter(
+          params.data?.materialStockByPlant?.dateNextFree
         ),
       filter: MULTI_COLUMN_FILTER,
       filterParams: this.dateFilterParamService.DATE_FILTER_PARAMS,

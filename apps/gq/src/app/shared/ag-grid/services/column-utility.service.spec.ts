@@ -397,6 +397,23 @@ describe('CreateColumnService', () => {
       expect(result).toEqual('1,234');
     });
   });
+  describe('numberFilteringFormatter', () => {
+    test('should return undefined when value is 0', () => {
+      const result = service.numberFilteringFormatter(0);
+
+      expect(result).toEqual(undefined);
+    });
+    test('should return undefined when value is null', () => {
+      const result = service.numberFilteringFormatter(null);
+
+      expect(result).toEqual(undefined);
+    });
+    test('should return value when truthy value is passed', () => {
+      const result = service.numberFilteringFormatter(1234);
+
+      expect(result).toEqual(1234);
+    });
+  });
   describe('numberDashFormatter', () => {
     test('should render number', () => {
       const params = {
@@ -625,6 +642,18 @@ describe('CreateColumnService', () => {
       };
       const res = service.dateFormatter(data.value);
       expect(res).toEqual(Keyboard.DASH);
+    });
+  });
+
+  describe('dateFilteringFormatter', () => {
+    test('should return undefined when date is null', () => {
+      const result = service.dateFilteringFormatter(null);
+      expect(result).toEqual(undefined);
+    });
+    test('should return formatted date when date is truthy', () => {
+      const spy = jest.spyOn(service['transformationService'], 'transformDate');
+      service.dateFilteringFormatter('01/01/24');
+      expect(spy).toHaveBeenCalled();
     });
   });
 

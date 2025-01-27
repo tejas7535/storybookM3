@@ -400,6 +400,14 @@ export class ColumnUtilityService {
     return this.transformationService.transformNumber(data.value, false);
   }
 
+  numberFilteringFormatter(value: number): number | undefined {
+    if (!value) {
+      return undefined;
+    }
+
+    return value;
+  }
+
   percentageFormatter(
     data: ValueFormatterParams,
     isPercentageFormat: boolean = true
@@ -430,6 +438,14 @@ export class ColumnUtilityService {
   dateFormatter(date: string): string {
     if (!date) {
       return Keyboard.DASH;
+    }
+
+    return this.transformationService.transformDate(date);
+  }
+
+  dateFilteringFormatter(date: string): string | undefined {
+    if (!date) {
+      return undefined;
     }
 
     return this.transformationService.transformDate(date);
