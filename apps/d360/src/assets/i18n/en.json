@@ -1196,11 +1196,11 @@
   "dashboard": {
     "yourTasks": {
       "headline": "Your tasks",
-      "gridHeadline": "Aufgaben",
+      "gridHeadline": "Tasks",
       "taskPriority": "Task priority",
       "noTasks": "No tasks",
-      "priority1": "Prioridad 1",
-      "priority2": "Prioridad 2",
+      "priority1": "Priority 1",
+      "priority2": "Priority 2",
       "priority3": "Information",
       "selectedPriorities": "Selected priorities"
     }
