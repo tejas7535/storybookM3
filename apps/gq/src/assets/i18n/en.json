@@ -129,6 +129,10 @@
       "rsp": "RSP",
       "rspInfoText": "Recommended Selling Price (SAP)",
       "msp": "MSP",
+      "mspBlock": {
+        "header": "MSP Block",
+        "active": "Net Price is lower than MSP"
+      },
       "mspInfoText": "Minimum Selling Price (SAP)",
       "strategicHierarchy": "Strategic Hierarchy (GC)",
       "strategicMaterial": "Strategic Material (GC)",

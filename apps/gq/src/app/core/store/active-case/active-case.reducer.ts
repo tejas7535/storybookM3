@@ -658,6 +658,14 @@ export const activeCaseFeature = createFeature({
       }
     );
 
+    const isAnyMspWarningPresent = createSelector(
+      selectQuotation,
+      (quotation: Quotation): boolean =>
+        quotation.quotationDetails.some(
+          (qd: QuotationDetail) => qd.price < qd.msp
+        )
+    );
+
     return {
       getSelectedQuotationDetail,
       getSelectedQuotationDetailCosts,
@@ -665,6 +673,7 @@ export const activeCaseFeature = createFeature({
       getDetailViewQueryParams,
       getQuotationSalesOrgIsGreaterChina,
       getQuotationDetailsSummaryKpi,
+      isAnyMspWarningPresent,
     };
   },
 });

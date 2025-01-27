@@ -33,6 +33,7 @@ export enum ColumnFields {
   INPUT_QUANTITY = 'inputQuantity',
   RSP = 'rsp',
   MSP = 'msp',
+  MSP_BLOCK = 'mspBlock',
   SAP_GROSS_PRICE = 'sapGrossPrice',
   SAP_PRICE = 'sapPrice',
   RECOMMENDED_PRICE = 'recommendedPrice',

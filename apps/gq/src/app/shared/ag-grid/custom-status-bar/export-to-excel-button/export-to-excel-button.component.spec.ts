@@ -22,6 +22,7 @@ import { MockProvider } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
+  ACTIVE_CASE_STATE_MOCK,
   CUSTOMER_MOCK,
   EXTENDED_COMPARABLE_LINKED_TRANSACTIONS_STATE_MOCK,
   EXTENDED_SAP_PRICE_DETAIL_MOCK,
@@ -56,6 +57,7 @@ describe('ExportToExcelButtonComponent', () => {
           extendedComparableLinkedTransactions:
             EXTENDED_COMPARABLE_LINKED_TRANSACTIONS_STATE_MOCK,
           sapPriceDetails: SAP_PRICE_DETAILS_STATE_MOCK,
+          activeCase: ACTIVE_CASE_STATE_MOCK,
         },
       }),
       {
@@ -1282,6 +1284,52 @@ describe('ExportToExcelButtonComponent', () => {
       const isUndefinedOrNull = component.isUndefinedOrNull(value);
 
       expect(isUndefinedOrNull).toEqual(false);
+    });
+  });
+
+  describe('getProcessCaseSheet', () => {
+    test('shouldFilter ag grid control column', () => {
+      const columnArray = [
+        { getColId: jest.fn().mockReturnValue('ag-Grid-ControlsColumn') },
+        { getColId: jest.fn().mockReturnValue('column1') },
+      ];
+      component['params'] = {
+        api: {
+          getAllDisplayedColumns: jest.fn().mockReturnValue(columnArray),
+        },
+      } as any;
+
+      const result = component.getExcelExportParams();
+
+      expect(
+        component['params'].api.getAllDisplayedColumns
+      ).toHaveBeenCalledTimes(1);
+      expect(result.columnKeys).toEqual(['column1']);
+    });
+
+    test('should include msp block column', () => {
+      const columnArray = [
+        { getColId: jest.fn().mockReturnValue(ColumnFields.MSP) },
+        { getColId: jest.fn().mockReturnValue('otherColumn') },
+      ];
+      component['params'] = {
+        api: {
+          getAllDisplayedColumns: jest.fn().mockReturnValue(columnArray),
+        },
+      } as any;
+      component.isMspWarningPresent = true;
+
+      const result = component.getExcelExportParams();
+
+      expect(
+        component['params'].api.getAllDisplayedColumns
+      ).toHaveBeenCalledTimes(1);
+
+      expect(result.columnKeys).toEqual([
+        ColumnFields.MSP,
+        ColumnFields.MSP_BLOCK,
+        'otherColumn',
+      ]);
     });
   });
 });

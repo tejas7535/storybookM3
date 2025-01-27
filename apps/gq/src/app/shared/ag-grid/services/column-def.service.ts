@@ -270,6 +270,15 @@ export class ColumnDefService {
         ),
       },
     },
+    // this column is only for the excel export and therefore not displayed or selectable within the table
+    {
+      headerName: translate('shared.quotationDetailsTable.mspBlock.header'),
+      field: ColumnFields.MSP_BLOCK,
+      suppressColumnsToolPanel: true,
+      suppressFiltersToolPanel: true,
+      valueGetter: (params) => this.columnUtilityService.getMspBlock(params),
+      hide: true,
+    },
     {
       headerName: translate('shared.quotationDetailsTable.sapGrossPrice'),
       field: ColumnFields.SAP_GROSS_PRICE,

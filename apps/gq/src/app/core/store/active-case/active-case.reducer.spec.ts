@@ -1100,5 +1100,31 @@ describe('Active Case Feature Selector', () => {
       ).toBeFalsy();
     });
   });
+
+  describe('isAnyMspWarningPresent', () => {
+    test('should return true', () => {
+      const state = {
+        activeCase: {
+          ...ACTIVE_CASE_STATE_MOCK,
+          quotation: {
+            ...QUOTATION_MOCK,
+            quotationDetails: [
+              {
+                ...QUOTATION_DETAIL_MOCK,
+                price: 20,
+                msp: 25,
+              },
+            ],
+          },
+        },
+      };
+
+      expect(activeCaseFeature.isAnyMspWarningPresent(state)).toBeTruthy();
+    });
+
+    test('should return false', () => {
+      expect(activeCaseFeature.isAnyMspWarningPresent(fakeState)).toBeFalsy();
+    });
+  });
 });
 // eslint-disable-next-line max-lines

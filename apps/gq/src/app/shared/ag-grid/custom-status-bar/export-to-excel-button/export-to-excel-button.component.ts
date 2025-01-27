@@ -75,6 +75,7 @@ export class ExportToExcelButtonComponent implements OnInit {
 
   extendedDownloadEnabled = true;
   quotationDetailsSummaryKpi: QuotationDetailsSummaryKpi;
+  isMspWarningPresent: boolean;
 
   private params: IStatusPanelParams;
   private readonly store = inject(Store);
@@ -103,6 +104,13 @@ export class ExportToExcelButtonComponent implements OnInit {
       .select(activeCaseFeature.getQuotationDetailsSummaryKpi)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((kpi) => (this.quotationDetailsSummaryKpi = kpi));
+
+    this.store
+      .select(activeCaseFeature.isAnyMspWarningPresent)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((isMspWarningPresent) => {
+        this.isMspWarningPresent = isMspWarningPresent;
+      });
   }
 
   agInit(params: IStatusPanelParams): void {
@@ -931,11 +939,26 @@ export class ExportToExcelButtonComponent implements OnInit {
   }
 
   private getProcessCaseSheet(): string {
+    const excelParams = this.getExcelExportParams();
+
+    return this.params.api.getSheetDataForExcel(excelParams);
+  }
+
+  public getExcelExportParams(): ExcelExportParams {
     const columnKeys = this.params.api
       .getAllDisplayedColumns()
-      .map((col) => col.getColId());
+      .map((col) => col.getColId())
+      // remove controls column from export
+      .filter((col) => col !== 'ag-Grid-ControlsColumn');
 
-    const excelParams: ExcelExportParams = {
+    // mspBlock is a hidden column in the grid, but required in the export
+    if (columnKeys.includes(ColumnFields.MSP) && this.isMspWarningPresent) {
+      const mspIndex = columnKeys.indexOf(ColumnFields.MSP);
+      // insert MSP_BLOCK after MSP
+      columnKeys.splice(mspIndex + 1, 0, ColumnFields.MSP_BLOCK);
+    }
+
+    return {
       columnKeys,
       allColumns: false,
       sheetName: 'Guided Quoting',
@@ -945,7 +968,5 @@ export class ExportToExcelButtonComponent implements OnInit {
       processHeaderCallback: (params: ProcessHeaderForExportParams) =>
         this.processHeaderCallback(params),
     };
-
-    return this.params.api.getSheetDataForExcel(excelParams);
   }
 }

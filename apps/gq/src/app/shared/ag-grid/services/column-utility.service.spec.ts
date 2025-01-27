@@ -592,6 +592,23 @@ describe('CreateColumnService', () => {
       expect(result).toEqual(QUOTATION_DETAIL_MOCK.material.materialNumber15);
     });
   });
+
+  describe('getMspBlock', () => {
+    test('should return dash if price is higher', () => {
+      const res = service.getMspBlock({
+        data: { msp: 10, price: 20 },
+      } as ValueGetterParams);
+      expect(res).toEqual(Keyboard.DASH);
+    });
+    test('should return translated value if msp is higher', () => {
+      const res = service.getMspBlock({
+        data: { msp: 20, price: 10 },
+      } as ValueGetterParams);
+      expect(res).toEqual('translate it');
+      expect(translate).toBeCalledTimes(1);
+    });
+  });
+
   describe('dateFormatter', () => {
     test('should render Date', () => {
       const data = {

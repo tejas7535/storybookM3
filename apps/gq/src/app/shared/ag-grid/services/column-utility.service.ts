@@ -322,6 +322,16 @@ export class ColumnUtilityService {
     );
   }
 
+  getMspBlock(params: ValueGetterParams): string {
+    const detail = params.data as QuotationDetail;
+
+    if (detail.price > detail.msp) {
+      return Keyboard.DASH;
+    }
+
+    return translate('shared.quotationDetailsTable.mspBlock.active');
+  }
+
   filterSapSyncStatusColumns(colDef: ColDef, tab: QuotationTab) {
     if (
       tab !== QuotationTab.ACTIVE &&
