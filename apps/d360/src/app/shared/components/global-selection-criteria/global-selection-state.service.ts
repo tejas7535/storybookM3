@@ -5,6 +5,7 @@ import { NavigationExtras, Params, Router } from '@angular/router';
 
 import {
   combineLatest,
+  EMPTY,
   filter,
   from,
   map,
@@ -301,6 +302,10 @@ export class GlobalSelectionStateService {
     const allowedKeys: GlobalSelectionStateKeys[] =
       GlobalSelectionStateService.stateKeys;
     const globalSelections: Partial<GlobalSelectionCriteriaFields> = {};
+
+    if (!params || Object.entries(params).length === 0) {
+      return EMPTY;
+    }
 
     return this.optionsService.loading$.pipe(
       filter((loading) => !loading),

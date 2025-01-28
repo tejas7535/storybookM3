@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatTabsModule } from '@angular/material/tabs';
 import {
   ActivatedRoute,
@@ -9,22 +10,14 @@ import {
   RouterModule,
 } from '@angular/router';
 
-import { map, Observable, Subject } from 'rxjs';
-import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { map, Observable } from 'rxjs';
+import { filter, switchMap, tap } from 'rxjs/operators';
 
+import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
 import {
-  MSAL_GUARD_CONFIG,
-  MsalBroadcastService,
-  MsalGuardConfiguration,
-  MsalService,
-} from '@azure/msal-angular';
-import {
-  AuthenticationResult,
   EventMessage,
   EventType,
   InteractionStatus,
-  PopupRequest,
-  RedirectRequest,
 } from '@azure/msal-browser';
 import { TranslocoService } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -32,11 +25,7 @@ import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { AppShellFooterLink, AppShellModule } from '@schaeffler/app-shell';
-import {
-  getIsLoggedIn,
-  getProfileImage,
-  getUsername,
-} from '@schaeffler/azure-auth';
+import { getProfileImage, getUsername } from '@schaeffler/azure-auth';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { MaintenanceModule } from '@schaeffler/empty-states';
 // eslint-disable-next-line @nx/enforce-module-boundaries
@@ -68,159 +57,51 @@ import { ValidationHelper } from './shared/utils/validation/validation-helper';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   protected activeUrl = signal('/');
 
-  constructor(
-    private readonly translocoService: TranslocoService,
-    @Inject(MSAL_GUARD_CONFIG)
-    private readonly msalGuardConfig: MsalGuardConfiguration,
-    private readonly authService: MsalService,
-    private readonly msalBroadcastService: MsalBroadcastService,
-    private readonly store: Store,
-    private readonly translocoLocaleService: TranslocoLocaleService,
-    private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute,
-    private readonly globalSelectionStateService: GlobalSelectionStateService
-  ) {
-    this.router.events.pipe(takeUntil(this._destroying$)).subscribe((event) => {
+  private readonly translocoService: TranslocoService =
+    inject(TranslocoService);
+  private readonly authService: MsalService = inject(MsalService);
+  private readonly msalBroadcastService: MsalBroadcastService =
+    inject(MsalBroadcastService);
+  private readonly store: Store = inject(Store);
+  private readonly translocoLocaleService: TranslocoLocaleService = inject(
+    TranslocoLocaleService
+  );
+  private readonly router: Router = inject(Router);
+  private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private readonly globalSelectionStateService: GlobalSelectionStateService =
+    inject(GlobalSelectionStateService);
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
+
+  public constructor() {
+    this.router.events.pipe(takeUntilDestroyed()).subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.activeUrl.set(this.getRelativeUrl(event.url));
       }
     });
-  }
-
-  isIframe = false;
-  loginDisplay = false;
-  private readonly _destroying$ = new Subject<void>();
-
-  title = 'Demand360';
-  titleLink = AppRoutePath.HomePage;
-  public appVersion = packageJson.version;
-
-  username$: Observable<string>;
-  profileImage$: Observable<string>;
-  isLoggedIn$: Observable<boolean>;
-  isTabNavigationVisible$: Observable<boolean>;
-
-  ngOnInit(): void {
-    this.username$ = this.store.select(getUsername);
-    this.profileImage$ = this.store.select(getProfileImage);
-    this.isLoggedIn$ = this.store.select(getIsLoggedIn);
-    this.isTabNavigationVisible$ = this.showTabNavigationOnPage$();
-
-    this.authService.handleRedirectObservable().subscribe();
-
-    this.isIframe = window !== window.parent && !window.opener; // Remove this line to use Angular Universal
-    this.setLoginDisplay();
-
-    this.authService.instance.enableAccountStorageEvents(); // Optional - This will enable ACCOUNT_ADDED and ACCOUNT_REMOVED events emitted when a user logs in or out of another tab or window
-    this.msalBroadcastService.msalSubject$
-      .pipe(
-        filter(
-          (msg: EventMessage) =>
-            msg.eventType === EventType.ACCOUNT_ADDED ||
-            msg.eventType === EventType.ACCOUNT_REMOVED
-        )
-      )
-      .subscribe(() => {
-        if (this.authService.instance.getAllAccounts().length === 0) {
-          window.location.pathname = '/';
-        } else {
-          this.setLoginDisplay();
-        }
-      });
-
-    this.msalBroadcastService.inProgress$
-      .pipe(
-        filter(
-          (status: InteractionStatus) => status === InteractionStatus.None
-        ),
-        takeUntil(this._destroying$)
-      )
-      .subscribe(() => {
-        this.setLoginDisplay();
-        this.checkAndSetActiveAccount();
-      });
-
-    // add translocoLocaleService to static class.
-    ValidationHelper.localeService = this.translocoLocaleService;
 
     this.activatedRoute.queryParams
       .pipe(
         switchMap((params: Params) =>
           this.globalSelectionStateService.handleQueryParams$(params)
         ),
-        tap(() => this.router.navigateByUrl(this.router.url.split('?')[0])),
-
-        takeUntil(this._destroying$)
+        tap(() => (location.href = this.router.url.split('?')[0])),
+        takeUntilDestroyed()
       )
       .subscribe();
   }
 
-  setLoginDisplay() {
-    this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
-  }
+  protected title = 'Demand360';
+  protected titleLink = AppRoutePath.HomePage;
+  protected appVersion = packageJson.version;
 
-  checkAndSetActiveAccount() {
-    /**
-     * If no active account set but there are accounts signed in, sets first account to active account
-     * To use active account set here, subscribe to inProgress$ first in your component
-     * Note: Basic usage demonstrated. Your app may require more complicated account selection logic
-     */
-    const activeAccount = this.authService.instance.getActiveAccount();
+  protected username$: Observable<string>;
+  protected profileImage$: Observable<string>;
+  protected isTabNavigationVisible$: Observable<boolean>;
 
-    if (
-      !activeAccount &&
-      this.authService.instance.getAllAccounts().length > 0
-    ) {
-      const accounts = this.authService.instance.getAllAccounts();
-      this.authService.instance.setActiveAccount(accounts[0]);
-    }
-  }
-
-  loginRedirect() {
-    if (this.msalGuardConfig.authRequest) {
-      this.authService.loginRedirect({
-        ...this.msalGuardConfig.authRequest,
-      } as RedirectRequest);
-    } else {
-      this.authService.loginRedirect();
-    }
-  }
-
-  loginPopup() {
-    if (this.msalGuardConfig.authRequest) {
-      this.authService
-        .loginPopup({ ...this.msalGuardConfig.authRequest } as PopupRequest)
-        .subscribe((response: AuthenticationResult) => {
-          this.authService.instance.setActiveAccount(response.account);
-        });
-    } else {
-      this.authService
-        .loginPopup()
-        .subscribe((response: AuthenticationResult) => {
-          this.authService.instance.setActiveAccount(response.account);
-        });
-    }
-  }
-
-  logout(popup?: boolean) {
-    if (popup) {
-      this.authService.logoutPopup({
-        mainWindowRedirectUri: '/',
-      });
-    } else {
-      this.authService.logoutRedirect();
-    }
-  }
-
-  ngOnDestroy(): void {
-    this._destroying$.next();
-    this._destroying$.complete();
-  }
-
-  public footerLinks: AppShellFooterLink[] = [
+  protected footerLinks: AppShellFooterLink[] = [
     {
       link: `${LegalRoute}/${LegalPath.ImprintPath}`,
       title: this.translocoService.translate('legal.imprint'),
@@ -252,6 +133,59 @@ export class AppComponent implements OnInit, OnDestroy {
       external: true,
     },
   ];
+
+  public ngOnInit(): void {
+    this.username$ = this.store.select(getUsername);
+    this.profileImage$ = this.store.select(getProfileImage);
+    this.isTabNavigationVisible$ = this.showTabNavigationOnPage$();
+
+    this.authService.handleRedirectObservable().subscribe();
+
+    this.authService.instance.enableAccountStorageEvents(); // Optional - This will enable ACCOUNT_ADDED and ACCOUNT_REMOVED events emitted when a user logs in or out of another tab or window
+    this.msalBroadcastService.msalSubject$
+      .pipe(
+        filter(
+          (msg: EventMessage) =>
+            msg.eventType === EventType.ACCOUNT_ADDED ||
+            msg.eventType === EventType.ACCOUNT_REMOVED
+        )
+      )
+      .subscribe(() => {
+        if (this.authService.instance.getAllAccounts().length === 0) {
+          window.location.pathname = '/';
+        }
+      });
+
+    this.msalBroadcastService.inProgress$
+      .pipe(
+        filter(
+          (status: InteractionStatus) => status === InteractionStatus.None
+        ),
+        tap(() => this.checkAndSetActiveAccount()),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+
+    // add translocoLocaleService to static class.
+    ValidationHelper.localeService = this.translocoLocaleService;
+  }
+
+  private checkAndSetActiveAccount() {
+    /**
+     * If no active account set but there are accounts signed in, sets first account to active account
+     * To use active account set here, subscribe to inProgress$ first in your component
+     * Note: Basic usage demonstrated. Your app may require more complicated account selection logic
+     */
+    const activeAccount = this.authService.instance.getActiveAccount();
+
+    if (
+      !activeAccount &&
+      this.authService.instance.getAllAccounts().length > 0
+    ) {
+      const accounts = this.authService.instance.getAllAccounts();
+      this.authService.instance.setActiveAccount(accounts[0]);
+    }
+  }
 
   private showTabNavigationOnPage$(): Observable<boolean> {
     const routesWithTabNavigation = [

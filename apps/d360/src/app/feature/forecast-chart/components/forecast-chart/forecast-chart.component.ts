@@ -193,8 +193,8 @@ export class ForecastChartComponent implements OnInit {
   ): Observable<ForecastChartData> {
     this.isLoading.set(true);
     this.isError.set(false);
-
     if (
+      !globalSelectionState ||
       Object.values(globalSelectionState).every((value) => value.length === 0)
     ) {
       this.chartData.set(
