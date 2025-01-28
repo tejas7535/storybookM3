@@ -257,41 +257,52 @@
         @for (card of homepageCards | ngrxPush; track card) {
           <hc-homepage-card [homepageCard]="card"></hc-homepage-card>
         }
-      </div>
-      <div class="flex flex-col items-center">
-        <p class="text-body-2 text-medium-emphasis px-8 text-center">
-          {{ t('accessMoreSchaefflerKnowledge') }}
-        </p>
         <div
-          class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-4 md:max-w-screen-md mt-4"
+          class="flex flex-col items-center col-span-2 md:col-span-3 overflow-hidden rounded border border-border bg-surface-legacy p-4 transition-shadow hover:shadow-lg"
         >
+          <p class="text-body-2 text-high-emphasis px-8 text-center">
+            {{ t('accessMoreSchaefflerKnowledge') }}
+            <span class="font-extrabold">{{ t('technicalPocketGuide') }}</span
+            >:
+          </p>
           <div
-            class="flex flex-row justify-center md:justify-end md:col-start-2"
+            class="container mx-auto grid grid-cols-2 md:flex md:flex-row md:justify-center gap-4 md:gap-8 md:max-w-screen-md mt-4"
           >
-            <a
-              href="https://apps.apple.com/us/app/technical-pocket-guide/id426818450"
-              target="_blank"
-            >
+            <div class="row-span-2">
               <img
-                src="/assets/images/store-badges/apple-appstore-badge.svg"
-                class="w-40 md:w-auto md:h-8"
-                alt="Download on Apple App Store badge"
+                class="border border-border rounded-xl max-h-24"
+                src="/assets/images/cards/technical-pocket-guide.webp"
+                [alt]="tpg"
               />
-            </a>
-          </div>
-          <div
-            class="flex flex-row justify-center md:justify-start col-start md:col-start-3"
-          >
-            <a
-              href="https://play.google.com/store/apps/details?id=de.schaeffler.stt&hl=en"
-              target="_blank"
+            </div>
+            <div
+              class="flex flex-row justify-center items-center md:col-start-2"
             >
-              <img
-                src="/assets/images/store-badges/google-play-badge.png"
-                class="w-40 md:w-auto md:h-8"
-                alt="Download on Google Play Store badge"
-              />
-            </a>
+              <a
+                href="https://apps.apple.com/us/app/technical-pocket-guide/id426818450"
+                target="_blank"
+              >
+                <img
+                  src="/assets/images/store-badges/apple-appstore-badge.svg"
+                  class="w-40 md:w-auto md:h-8"
+                  alt="Download on Apple App Store badge"
+                />
+              </a>
+            </div>
+            <div
+              class="flex flex-row justify-center items-center col-start-2 md:col-start-3"
+            >
+              <a
+                href="https://play.google.com/store/apps/details?id=de.schaeffler.stt&hl=en"
+                target="_blank"
+              >
+                <img
+                  src="/assets/images/store-badges/google-play-badge.png"
+                  class="w-40 md:w-auto md:h-8"
+                  alt="Download on Google Play Store badge"
+                />
+              </a>
+            </div>
           </div>
         </div>
       </div>
