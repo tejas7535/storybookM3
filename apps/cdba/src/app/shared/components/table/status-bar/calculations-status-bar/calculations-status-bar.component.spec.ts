@@ -1,7 +1,7 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import { IStatusPanelParams } from 'ag-grid-enterprise';
+import { GridApi, IRowNode, IStatusPanelParams } from 'ag-grid-enterprise';
 import { MockModule } from 'ng-mocks';
 
 import { ExcludedCalculationsModule } from '@cdba/shared/components/excluded-calculations';
@@ -18,6 +18,7 @@ describe('CalculationsStatusBarComponent', () => {
 
   const createComponent = createComponentFactory({
     component: CalculationsStatusBarComponent,
+    detectChanges: false,
     imports: [
       PushPipe,
       MockModule(CompareButtonModule),
@@ -36,12 +37,6 @@ describe('CalculationsStatusBarComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
-
-    params = {
-      api: {
-        getRowNode: jest.fn(),
-      },
-    } as unknown as IStatusPanelParams;
   });
 
   it('should be created', () => {
@@ -49,10 +44,56 @@ describe('CalculationsStatusBarComponent', () => {
   });
 
   describe('agInit', () => {
-    test('should set grid api', () => {
+    it('should set grid api', () => {
+      params = {
+        api: {},
+      } as unknown as IStatusPanelParams;
+
       component.agInit(params);
 
-      expect(component['gridApi']).toEqual(params.api);
+      expect(component.gridApi).toEqual(params.api);
+    });
+  });
+
+  describe('ngOnInit', () => {
+    it('should subscribe to selectedNodes$', () => {
+      component.gridApi = {
+        getRowNode: jest.fn((id) => {
+          switch (id) {
+            case '3': {
+              return { id: 'node3' } as IRowNode;
+            }
+            case '4': {
+              return { id: 'node4' } as IRowNode;
+            }
+            default: {
+              return { id: '0' } as IRowNode;
+            }
+          }
+        }),
+      } as unknown as GridApi;
+
+      component.ngOnInit();
+
+      expect(component['selectedNodes']).toEqual([
+        { id: 'node3' },
+        { id: 'node4' },
+      ]);
+      expect(component.selectedNodesSubscription).toBeTruthy();
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    it('should unsubscribe from selectedNodesSubscription', () => {
+      component.selectedNodesSubscription = {
+        unsubscribe: jest.fn(),
+      } as any;
+
+      component.ngOnDestroy();
+
+      expect(
+        component.selectedNodesSubscription.unsubscribe
+      ).toHaveBeenCalled();
     });
   });
 });

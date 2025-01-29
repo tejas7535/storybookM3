@@ -1,23 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
+import { Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
-import { GridApi, IStatusPanelParams } from 'ag-grid-enterprise';
+import { GridApi, IRowNode, IStatusPanelParams } from 'ag-grid-enterprise';
 
-import { getExcludedCalculations } from '@cdba/core/store';
+import {
+  getExcludedCalculations,
+  getSelectedCalculationNodeIds,
+} from '@cdba/core/store';
 
 @Component({
   selector: 'cdba-calculations-status-bar',
   templateUrl: './calculations-status-bar.component.html',
   styleUrls: ['./calculations-status-bar.component.scss'],
 })
-export class CalculationsStatusBarComponent {
+export class CalculationsStatusBarComponent implements OnInit, OnDestroy {
   excludedCalculations$ = this.store.select(getExcludedCalculations);
 
-  public gridApi: GridApi;
+  selectedNodes$ = this.store.select(getSelectedCalculationNodeIds);
+  selectedNodesSubscription: Subscription;
+  selectedNodes: IRowNode[] = [];
 
-  public constructor(private readonly store: Store) {}
+  gridApi: GridApi;
 
-  public agInit(params: IStatusPanelParams): void {
+  constructor(private readonly store: Store) {}
+
+  ngOnInit(): void {
+    this.selectedNodesSubscription = this.selectedNodes$.subscribe((nodes) => {
+      this.selectedNodes = [];
+      nodes?.forEach((node) =>
+        this.selectedNodes.push(this.gridApi.getRowNode(node))
+      );
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.selectedNodesSubscription?.unsubscribe();
+  }
+
+  agInit(params: IStatusPanelParams): void {
     this.gridApi = params.api;
   }
 }

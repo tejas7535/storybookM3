@@ -216,7 +216,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
 
     this.rowSelection = {
       mode: this.rowSelectionType,
-      checkboxes: true,
+      checkboxes: (row) => !row.node.id.includes('row-group'),
       headerCheckbox: false,
       enableClickSelection: true,
       enableSelectionWithoutKeys: this.enableSelectionWithoutKeys,

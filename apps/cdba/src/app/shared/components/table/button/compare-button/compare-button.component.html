@@ -1,25 +1,21 @@
-<ng-container *ngrxLet="selectedNodeIds$; let nodeIds">
-  <div
-    *transloco="let t; read: 'shared.statusBar'"
-    [matTooltip]="
-      t(nodeIds?.length < minCount ? 'hints.minCount' : 'hints.maxCount', {
-        count: nodeIds?.length < minCount ? minCount : maxCount
-      })
+<div
+  *transloco="let t; read: 'shared.statusBar'"
+  [matTooltip]="getTooltip()"
+  [matTooltipPosition]="'above'"
+  [matTooltipDisabled]="
+    selectedNodes?.length >= minCount && selectedNodes?.length <= maxCount
+  "
+  class="inline-block"
+>
+  <button
+    mat-flat-button
+    color="primary"
+    class="!mr-4"
+    [disabled]="
+      selectedNodes?.length < minCount || selectedNodes?.length > maxCount
     "
-    [matTooltipPosition]="'above'"
-    [matTooltipDisabled]="
-      nodeIds?.length >= minCount && nodeIds?.length <= maxCount
-    "
-    class="inline-block"
+    (click)="showCompareView()"
   >
-    <button
-      mat-flat-button
-      color="primary"
-      class="!mr-4"
-      [disabled]="nodeIds?.length < minCount || nodeIds?.length > maxCount"
-      (click)="showCompareView()"
-    >
-      {{ t('compare') }}
-    </button>
-  </div>
-</ng-container>
+    {{ t('compare') }}
+  </button>
+</div>

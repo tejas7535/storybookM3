@@ -2,7 +2,7 @@
   <div class="button-wrapper--outer" cdbaInView>
     <div class="button-wrapper--inner">
       <cdba-compare-button
-        (showCompareViewEvent)="showCompareView()"
+        [selectedNodes]="selectedNodes"
       ></cdba-compare-button>
       <cdba-portfolio-analysis-button></cdba-portfolio-analysis-button>
       <cdba-bom-export-button

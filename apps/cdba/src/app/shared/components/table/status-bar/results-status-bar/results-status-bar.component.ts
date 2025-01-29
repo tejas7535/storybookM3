@@ -1,15 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Params, Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import { GridApi, IRowNode, IStatusPanelParams } from 'ag-grid-enterprise';
 
-import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { getSelectedRefTypeNodeIds, requestBomExport } from '@cdba/core/store';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
-import { isDetailRoute } from '@cdba/shared/utils';
 
 @Component({
   selector: 'cdba-results-status-bar',
@@ -17,62 +14,37 @@ import { isDetailRoute } from '@cdba/shared/utils';
   styleUrls: ['./results-status-bar.component.scss'],
 })
 export class ResultsStatusBarComponent implements OnInit, OnDestroy {
+  selectedNodes: IRowNode[] = [];
+  selectedNodes$ = this.store.select(getSelectedRefTypeNodeIds);
+  selectedNodesSubscription: Subscription;
+
   gridApi: GridApi;
 
-  selectedNodeIds: string[];
-  selectedNodeIds$ = this.store.select(getSelectedRefTypeNodeIds);
-  selectedNodeIdsSubscription: Subscription;
-
   ngOnInit(): void {
-    this.selectedNodeIdsSubscription = this.selectedNodeIds$.subscribe(
-      (nodeIds) => {
-        this.selectedNodeIds = nodeIds;
-      }
-    );
+    this.selectedNodesSubscription = this.selectedNodes$.subscribe((nodes) => {
+      this.selectedNodes = [];
+      nodes?.forEach((node) =>
+        this.selectedNodes.push(this.gridApi.getRowNode(node))
+      );
+    });
   }
 
   ngOnDestroy(): void {
-    if (this.selectedNodeIdsSubscription) {
-      this.selectedNodeIdsSubscription.unsubscribe();
-    }
+    this.selectedNodesSubscription?.unsubscribe();
   }
 
   agInit(params: IStatusPanelParams): void {
     this.gridApi = params.api;
   }
 
-  showCompareView(): void {
-    const queryParams: Params = {};
-    const route: string[] = [AppRoutePath.ComparePath];
-
-    const currentPath = this.router.routerState.snapshot.url.split('?')[0];
-
-    this.selectedNodeIds
-      .map((id) => this.gridApi.getRowNode(id))
-      .forEach((selection: IRowNode, index: number) => {
-        queryParams[`material_number_item_${index + 1}`] =
-          selection.data.materialNumber;
-        queryParams[`plant_item_${index + 1}`] = selection.data.plant;
-        queryParams[`node_id_item_${index + 1}`] = isDetailRoute(currentPath)
-          ? selection.id
-          : undefined;
-      });
-
-    this.router.navigate(route, {
-      queryParams,
-    });
-  }
-
   requestBomExport(): void {
     const identifiers: ReferenceTypeIdentifier[] = [];
 
-    this.selectedNodeIds.forEach((nodeId) => {
-      const rowValue = this.gridApi.getRowNode(nodeId);
-
-      if (rowValue) {
-        let materialNumber = rowValue.data.materialNumber as string;
+    this.selectedNodes.forEach((node) => {
+      if (node) {
+        let materialNumber = node.data.materialNumber as string;
         materialNumber = materialNumber.replace('-', '');
-        const plant = rowValue.data.plant;
+        const plant = node.data.plant;
 
         identifiers.push(new ReferenceTypeIdentifier(materialNumber, plant));
       }
@@ -83,8 +55,5 @@ export class ResultsStatusBarComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(
-    private readonly router: Router,
-    private readonly store: Store
-  ) {}
+  constructor(private readonly store: Store) {}
 }

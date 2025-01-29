@@ -6,7 +6,9 @@
   </div>
   <div class="button-wrapper--outer" cdbaInView>
     <div class="button-wrapper--inner">
-      <cdba-compare-button></cdba-compare-button>
+      <cdba-compare-button
+        [selectedNodes]="selectedNodes"
+      ></cdba-compare-button>
       <cdba-excluded-calculations-button
         [excludedCalculations]="excludedCalculations$ | ngrxPush"
       ></cdba-excluded-calculations-button>

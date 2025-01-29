@@ -1,3 +1,4 @@
+import { SimpleChanges } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { provideRouter, Router } from '@angular/router';
@@ -5,8 +6,8 @@ import { provideRouter, Router } from '@angular/router';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetDirective } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { IRowNode } from 'ag-grid-community';
 import { MockDirective, MockModule } from 'ng-mocks';
-import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -21,6 +22,7 @@ describe('CompareButtonComponent', () => {
 
   const createComponent = createComponentFactory({
     component: CompareButtonComponent,
+    detectChanges: false,
     imports: [
       MockDirective(LetDirective),
       MockModule(MatButtonModule),
@@ -55,45 +57,84 @@ describe('CompareButtonComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it(
-      'should init with search selector',
-      marbles((m) => {
-        router.routerState.snapshot.url = '/results';
+  describe('ngOnChanges', () => {
+    it('should update row nodes', () => {
+      spectator.setInput('selectedNodes', []);
 
-        component.ngOnInit();
+      component.ngOnChanges({
+        selectedNodes: { currentValue: [{ id: '0' } as IRowNode] },
+      } as unknown as SimpleChanges);
 
-        m.expect(component.selectedNodeIds$).toBeObservable(
-          m.cold('a', {
-            a: ['2', '4'],
-          })
-        );
-      })
-    );
+      expect(component.selectedNodes).toEqual([{ id: '0' } as IRowNode]);
+    });
+  });
 
-    it(
-      'should init with detail selector',
-      marbles((m) => {
-        router.routerState.snapshot.url = '/detail/detail';
+  describe('getTooltip', () => {
+    it('should get min count tooltip', () => {
+      const translocoSpy = jest.spyOn(component['transloco'], 'translate');
+      component.selectedNodes = [{}] as IRowNode[];
 
-        component.ngOnInit();
+      expect(component.getTooltip()).toBe('shared.statusBar.hints.minCount');
+      expect(translocoSpy).toBeCalledWith('shared.statusBar.hints.minCount', {
+        count: 2,
+      });
+    });
 
-        m.expect(component.selectedNodeIds$).toBeObservable(
-          m.cold('a', {
-            a: DETAIL_STATE_MOCK.calculations.selectedNodeIds,
-          })
-        );
-      })
-    );
+    it('should get max count tooltip', () => {
+      const translocoSpy = jest.spyOn(component['transloco'], 'translate');
+      component.selectedNodes = [{}, {}, {}] as IRowNode[];
+
+      expect(component.getTooltip()).toBe('shared.statusBar.hints.maxCount');
+      expect(translocoSpy).toBeCalledWith('shared.statusBar.hints.maxCount', {
+        count: 2,
+      });
+    });
   });
 
   describe('showCompareView', () => {
-    it('should emit showCompareViewEvent', () => {
-      const emitSpy = jest.spyOn(component.showCompareViewEvent, 'emit');
+    beforeEach(() => {
+      component.selectedNodes = [
+        {
+          id: '0',
+          data: { materialNumber: '1234', plant: '0060' },
+        } as unknown as IRowNode,
+        {
+          id: '1',
+          data: { materialNumber: '5678', plant: '0076' },
+        } as unknown as IRowNode,
+      ] as IRowNode[];
+    });
+
+    it('should add node id and should route to compare screen if coming from detail page', () => {
+      router.routerState.snapshot.url = '/detail/detail';
 
       component.showCompareView();
 
-      expect(emitSpy).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['compare'], {
+        queryParams: {
+          material_number_item_1: '1234',
+          plant_item_1: '0060',
+          node_id_item_1: '0',
+          material_number_item_2: '5678',
+          plant_item_2: '0076',
+          node_id_item_2: '1',
+        },
+      });
+    });
+
+    it('should not add node id and should route to compare screen if coming from results page', () => {
+      router.routerState.snapshot.url = '/results';
+
+      component.showCompareView();
+
+      expect(router.navigate).toHaveBeenCalledWith(['compare'], {
+        queryParams: {
+          material_number_item_1: '1234',
+          plant_item_1: '0060',
+          material_number_item_2: '5678',
+          plant_item_2: '0076',
+        },
+      });
     });
   });
 });
