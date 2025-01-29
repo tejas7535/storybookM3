@@ -1,5 +1,7 @@
 import { HashMap, translate, TranslateParams } from '@jsverse/transloco';
+import { ValueFormatterFunc, ValueFormatterParams } from 'ag-grid-enterprise';
 
+import { DemandValidationBatch } from '../../feature/demand-validation/model';
 import {
   ReplacementType,
   replacementTypeValues,
@@ -66,13 +68,13 @@ export function replacementTypeValueFormatter() {
   };
 }
 
-export function listUploadPeriodTypeValueFormatter() {
-  return (params: any): string => {
-    if ([null, undefined].includes(params.value)) {
-      return null;
-    }
+export function listUploadPeriodTypeValueFormatter(): ValueFormatterFunc<DemandValidationBatch> {
+  return (params: ValueFormatterParams<DemandValidationBatch>): string => {
+    const value = params?.value;
 
-    const value = params.value;
+    if ([null, undefined, ''].includes(value)) {
+      return '';
+    }
 
     return translate(
       `validation_of_demand.upload_modal.list.menu_item_${value}`

@@ -34,18 +34,16 @@ export function gridParseFromClipboard(
     }
 
     rowData.forEach((cellDataToAdd) => {
-      if (!currentEditingColumn) {
+      const fieldName = currentEditingColumn.getColDef().field ?? '';
+      if (!currentEditingColumn || !fieldName) {
         return;
       }
-
-      const fieldName = currentEditingColumn.getColDef().field ?? '';
 
       const dataToAdd =
         parseSpecialFields === undefined
           ? cellDataToAdd
           : parseSpecialFields(fieldName, cellDataToAdd);
-
-      currentEditingRowData[fieldName] = dataToAdd.trim();
+      currentEditingRowData[fieldName] = (dataToAdd || '').trim();
 
       currentEditingColumn = gridApi.getDisplayedColAfter(currentEditingColumn);
     });
