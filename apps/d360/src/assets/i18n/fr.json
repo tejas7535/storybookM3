@@ -339,6 +339,75 @@
         "title": "Demand spécifique",
         "SE": "Série",
         "SP": "Sporadiquement"
+      },
+      "dialog": {
+        "tabs": {
+          "material": "Material",
+          "customer": "Customer"
+        },
+        "boxes": {
+          "generalMaterialInformation": "General Material Information",
+          "supplyChain": "Supply Chain",
+          "generalCustomerInformation": "General Customer Information",
+          "contact": "Contact"
+        },
+        "demandCharacteristics": {
+          "SE": "Series",
+          "SP": "Sporadic"
+        },
+        "entries": {
+          "<--- Material Box Left -->": "",
+          "materialNumber": "Article",
+          "materialDescription": "Description de l'Article",
+          "materialClassification": "Classification Article",
+          "productLine": "Ligne de Production",
+          "productLineName": "Description Ligne de Production",
+          "productCluster": "Product Cluster",
+          "gpsd": "GPSD",
+          "gpsdName": "GPSD Nom",
+          "successorCustomerMaterial": "Article Successeur (Client)",
+          "successorCustomerMaterialDescription": "Description de l'Article (Successeur Client)",
+          "successorSchaefflerMaterial": "Article Successeur (Schaeffler)",
+          "successorSchaefflerMaterialDescription": "Description de l'Article (Successeur Schaeffler)",
+          "materialNumberS4": "Article S/4",
+          "customerMaterialNumber": "Référence client",
+          "demandCharacteristic": "Demande spécifique",
+
+          "<--- Material Box Right -->": "",
+          "productionPlant": "Usine de production",
+          "productionPlantName": "Description usine de production",
+          "productionSegment": "Production Segment",
+          "productionLine": "Ligne de Production (Train)",
+          "frozenZone": "Frozen Zone (compris le temps de transit)",
+          "currentRLTSchaeffler": "Délai de réapprovisionnement (compris le temps de transit)",
+          "deliveryPlant": "usine de livraison",
+          "planningPlant": "usine de planification",
+          "dispoGroup": "MRP Group",
+
+          "<--- Customer Box Left -->": "",
+          "customerNumber": "code client",
+          "customerName": "nom du client",
+          "mainCustomerNumber": "Numéro de client principal",
+          "mainCustomerName": "Nom du client Principale",
+          "customerClassification": "Classification du client (Order Prio)",
+          "region": "Region (Legal)",
+          "customerCountry": "Pays (client)",
+          "salesArea": "Secteur de vente (marché)",
+          "sector": "Secteur ",
+          "sectorManagement": "Gestion du secteur",
+          "salesOrg": "Organisations commerciales",
+          "gkamNumber": "code GKAM",
+          "keyAccountName": "Nom du GKAM",
+          "subKeyAccount": "Sub Key Account",
+          "subKeyAccountName": "Sub Key Account nom",
+
+          "<--- Customer Box Right -->": "",
+          "accountOwner": "Propriétaire du compte",
+          "internalSales": "Service commerciale interne",
+          "demandPlanner": "Planificateur de la demande",
+          "gkam": "GKAM",
+          "kam": "KAM"
+        }
       }
     },
     "supply_concept": {
@@ -400,14 +469,14 @@
       "calendar_week_table_header_part_week": "({{days}}j)"
     },
     "export_modal": {
-      "title": "Exportation",
-      "button_export": "Exportation",
+      "title": "Exportation des données",
+      "button_export": "Exporter",
       "selected_customer_headline": "Client selectionné",
       "selected_customer": "{{number}} Client selectionné",
       "date_headline": "Selection de la Date",
-      "selected_kpis": "KPI selectionné pour Exportation",
-      "download_started": "Exportation : Telecharment a commencé",
-      "in_progress": "Exportation en cours. Cela peut prendre plusieurs minutes.",
+      "selected_kpis": "KPI selectionné pour l'exportation des données",
+      "download_started": "Exportation des données: Telecharment a commencé",
+      "in_progress": "Exportation des données en cours. Cela peut prendre plusieurs minutes.",
       "excel_header_view": "Vue"
     },
     "error": {

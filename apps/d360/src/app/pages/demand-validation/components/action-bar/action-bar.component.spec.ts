@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { DestroyRef } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -12,8 +13,10 @@ import {
 import { Store } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 
+import { DemandValidationService } from '../../../../feature/demand-validation/demand-validation.service';
 import { PlanningView } from '../../../../feature/demand-validation/planning-view';
 import { CustomerEntry } from '../../../../feature/global-selection/model';
+import { SnackbarService } from '../../../../shared/utils/service/snackbar.service';
 import { ActionBarComponent } from './action-bar.component';
 import { DatePickerSettingDemandValidationModalComponent } from './date-picker-setting-demand-validation-modal/date-picker-setting-demand-validation-modal.component';
 
@@ -34,6 +37,11 @@ describe('ActionBarComponent', () => {
         open: jest.fn(),
       }),
       mockProvider(DateAdapter),
+      mockProvider(DestroyRef),
+      mockProvider(SnackbarService, { openSnackBar: jest.fn() }),
+      mockProvider(DemandValidationService, {
+        saveValidatedDemandSingleMcc: jest.fn().mockReturnValue(of(null)),
+      }),
       mockProvider(Store, {
         select: jest.fn().mockReturnValue(of([])),
       }),

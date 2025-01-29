@@ -351,6 +351,75 @@
         "title": "Demand Characteristic",
         "SE": "Series",
         "SP": "Sporadic"
+      },
+      "dialog": {
+        "tabs": {
+          "material": "Material",
+          "customer": "Customer"
+        },
+        "boxes": {
+          "generalMaterialInformation": "General Material Information",
+          "supplyChain": "Supply Chain",
+          "generalCustomerInformation": "General Customer Information",
+          "contact": "Contact"
+        },
+        "demandCharacteristics": {
+          "SE": "Series",
+          "SP": "Sporadic"
+        },
+        "entries": {
+          "<--- Material Box Left -->": "",
+          "materialNumber": "Material",
+          "materialDescription": "Material Description",
+          "materialClassification": "Material Classification",
+          "productLine": "Product Line",
+          "productLineName": "Product line description",
+          "productCluster": "Product Cluster",
+          "gpsd": "GPSD",
+          "gpsdName": "GPSD Name",
+          "successorCustomerMaterial": "Successor material (customer)",
+          "successorCustomerMaterialDescription": "Material description (Successor customer)",
+          "successorSchaefflerMaterial": "Successor material (Schaeffler)",
+          "successorSchaefflerMaterialDescription": "Material description (Successor Schaeffler)",
+          "materialNumberS4": "Material S/4",
+          "customerMaterialNumber": "Customer Material Number",
+          "demandCharacteristic": "Demand Characteristic",
+
+          "<--- Material Box Right -->": "",
+          "productionPlant": "Production Plant",
+          "productionPlantName": "Production plant description",
+          "productionSegment": "Production Segment",
+          "productionLine": "Production Line (Train)",
+          "frozenZone": "Frozen Zone (incl. Transit Time)",
+          "currentRLTSchaeffler": "Current RLT Schaeffler (Transit Time)",
+          "deliveryPlant": "Delivery Plant",
+          "planningPlant": "Planning Plant",
+          "dispoGroup": "MRP Group",
+
+          "<--- Customer Box Left -->": "",
+          "customerNumber": "Customer Number",
+          "customerName": "Customer Name",
+          "mainCustomerNumber": "Main Customer Number",
+          "mainCustomerName": "Main Customer Name",
+          "customerClassification": "Customer Classification (Order Prio)",
+          "region": "Region (Legal)",
+          "customerCountry": "Country (Customer)",
+          "salesArea": "Sales Area (Market)",
+          "sector": "Sector",
+          "sectorManagement": "Sector Management",
+          "salesOrg": "Sales Organisation",
+          "gkamNumber": "GKAM Number",
+          "keyAccountName": "GKAM Name",
+          "subKeyAccount": "Sub Key Account",
+          "subKeyAccountName": "Sub Key Account Name",
+
+          "<--- Customer Box Right -->": "",
+          "accountOwner": "Account Owner",
+          "internalSales": "Internal Sales",
+          "demandPlanner": "Demand Planner",
+          "gkam": "GKAM",
+          "kam": "KAM"
+        }
       }
     },
     "supply_concept": {

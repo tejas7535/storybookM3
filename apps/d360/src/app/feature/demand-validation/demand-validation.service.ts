@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { catchError, map, Observable, of, Subject } from 'rxjs';
 
-import { translate } from '@jsverse/transloco';
+import { translate, TranslocoService } from '@jsverse/transloco';
 import {
   IServerSideDatasource,
   IServerSideGetRowsParams,
@@ -58,6 +58,7 @@ export class DemandValidationService {
 
   private readonly http = inject(HttpClient);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly translocoService = inject(TranslocoService);
 
   public getDataFetchedEvent(): Observable<{
     rowData: any[];
@@ -330,7 +331,12 @@ export class DemandValidationService {
           .post<{
             rows: any[];
             rowCount: number;
-          }>(this.DEMAND_VALIDATION_CUSTOMER_MATERIAL_LIST_API, request)
+          }>(this.DEMAND_VALIDATION_CUSTOMER_MATERIAL_LIST_API, request, {
+            params: new HttpParams().set(
+              'language',
+              this.translocoService.getActiveLang()
+            ),
+          })
           .subscribe({
             next: ({ rows, rowCount }) => {
               params.success({ rowData: rows, rowCount });

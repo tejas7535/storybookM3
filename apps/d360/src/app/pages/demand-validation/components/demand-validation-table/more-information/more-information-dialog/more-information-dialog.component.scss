@@ -1,0 +1,7 @@
+:host {
+  .small-border {
+    @apply rounded-md overflow-x-hidden overflow-y-auto;
+
+    min-height: 492px;
+  }
+}

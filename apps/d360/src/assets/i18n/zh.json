@@ -339,6 +339,75 @@
         "title": "需求特征",
         "SE": "系列",
         "SP": "零星"
+      },
+      "dialog": {
+        "tabs": {
+          "material": "Material",
+          "customer": "Customer"
+        },
+        "boxes": {
+          "generalMaterialInformation": "General Material Information",
+          "supplyChain": "Supply Chain",
+          "generalCustomerInformation": "General Customer Information",
+          "contact": "Contact"
+        },
+        "demandCharacteristics": {
+          "SE": "Series",
+          "SP": "Sporadic"
+        },
+        "entries": {
+          "<--- Material Box Left -->": "",
+          "materialNumber": "物料",
+          "materialDescription": "物料描述",
+          "materialClassification": "物料分类",
+          "productLine": "产品线",
+          "productLineName": "产品线描述",
+          "productCluster": "Product Cluster",
+          "gpsd": "GPSD",
+          "gpsdName": "GPSD 名称",
+          "successorCustomerMaterial": "后续物料（客户)",
+          "successorCustomerMaterialDescription": "物料描述（客户后续)",
+          "successorSchaefflerMaterial": "后续物料（舍弗勒）",
+          "successorSchaefflerMaterialDescription": "物料描述（舍弗勒后续）",
+          "materialNumberS4": "物料 S/4",
+          "customerMaterialNumber": "客户物料号",
+          "demandCharacteristic": "需求特征",
+
+          "<--- Material Box Right -->": "",
+          "productionPlant": "生产工厂",
+          "productionPlantName": "生产工厂描述",
+          "productionSegment": "生产部门",
+          "productionLine": "生产线（Train）",
+          "frozenZone": "冻结区 (包括 运输时间)",
+          "currentRLTSchaeffler": "补货周期 (包括 运输时间)",
+          "deliveryPlant": "交货工厂",
+          "planningPlant": "计划工厂",
+          "dispoGroup": "MRP组",
+
+          "<--- Customer Box Left -->": "",
+          "customerNumber": "客户号",
+          "customerName": "客户名称",
+          "mainCustomerNumber": "主客户号",
+          "mainCustomerName": "主客户名称",
+          "customerClassification": "客户分类（订单优先级）",
+          "region": "区域（公司）",
+          "customerCountry": "国家（客户）",
+          "salesArea": "销售区域（市场）",
+          "sector": "行业",
+          "sectorManagement": "行业管理",
+          "salesOrg": "销售组织",
+          "gkamNumber": "GKAM 号",
+          "keyAccountName": "GKAM 名称",
+          "subKeyAccount": "次级账户",
+          "subKeyAccountName": "次级账户名称",
+
+          "<--- Customer Box Right -->": "",
+          "accountOwner": "帐户所有者",
+          "internalSales": "I内部销售",
+          "demandPlanner": "需求规划者",
+          "gkam": "GKAM",
+          "kam": "KAM"
+        }
       }
     },
     "supply_concept": {

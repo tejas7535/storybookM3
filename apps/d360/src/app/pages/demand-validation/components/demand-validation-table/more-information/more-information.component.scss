@@ -1,8 +1,17 @@
 :host {
-  @apply px-4 -mx-4;
+  @apply pl-4 -mx-4;
   border-top: 3px solid var(--border-color-light-gray);
 
   .header {
     color: var(--on-surface-variant-color);
+    @apply text-ellipsis overflow-hidden font-bold leading-5 mb-0.5;
+  }
+
+  .last {
+    @apply pr-6;
+
+    .info {
+      @apply absolute -right-2.5 -top-2.5;
+    }
   }
 }

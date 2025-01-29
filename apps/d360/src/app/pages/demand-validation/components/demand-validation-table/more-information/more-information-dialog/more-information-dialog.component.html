@@ -1,0 +1,66 @@
+<div *transloco="let t">
+  <!-- title -->
+  <div
+    mat-dialog-title
+    class="m-0 pt-0"
+    cdkDrag
+    cdkDragRootElement=".cdk-overlay-pane"
+    cdkDragBoundary=".cdk-global-overlay-wrapper"
+    cdkDragHandle
+  >
+    <span class="text-title-large">{{ title() }}</span>
+  </div>
+
+  <!-- content -->
+  <mat-dialog-content>
+    <mat-tab-group>
+      @for (item of items(); track $index) {
+        <mat-tab [label]="t(item.title)" *transloco="let t">
+          <ng-container
+            *ngTemplateOutlet="tabContent; context: { items: item.items }"
+          />
+        </mat-tab>
+      }
+    </mat-tab-group>
+  </mat-dialog-content>
+
+  <!--  buttons -->
+  <mat-dialog-actions align="end">
+    <!-- close button -->
+    <button mat-button mat-dialog-close>
+      {{ t('button.close') }}
+    </button>
+  </mat-dialog-actions>
+</div>
+
+<ng-template #tabContent let-items="items">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4" *transloco="let t">
+    @for (item of items; track $index) {
+      <ng-container
+        *ngTemplateOutlet="
+          card;
+          context: {
+            items: item.items,
+            title: t(item.title)
+          }
+        "
+      />
+    }
+  </div>
+</ng-template>
+
+<ng-template #card let-items="items" let-title="title">
+  <mat-card appearance="outlined" *transloco="let t" class="small-border mt-4">
+    <mat-card-header class="mb-4">
+      <mat-card-title class="text-medium-emphasis">{{ title }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      @for (item of items; track $index) {
+        <div class="mb-2 text-ellipsis overflow-hidden whitespace-nowrap">
+          <span class="text-medium-emphasis">{{ t(item.text) }}:&nbsp;</span>
+          <span class="text-high-emphasis">{{ item.value }}</span>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+</ng-template>

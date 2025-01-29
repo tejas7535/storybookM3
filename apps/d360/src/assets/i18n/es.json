@@ -339,6 +339,75 @@
         "title": "Características de la demanda",
         "SE": "Serie",
         "SP": "Esporádico"
+      },
+      "dialog": {
+        "tabs": {
+          "material": "Material",
+          "customer": "Customer"
+        },
+        "boxes": {
+          "generalMaterialInformation": "General Material Information",
+          "supplyChain": "Supply Chain",
+          "generalCustomerInformation": "General Customer Information",
+          "contact": "Contact"
+        },
+        "demandCharacteristics": {
+          "SE": "Series",
+          "SP": "Sporadic"
+        },
+        "entries": {
+          "<--- Material Box Left -->": "",
+          "materialNumber": "Material",
+          "materialDescription": "Descripción de material",
+          "materialClassification": "Clasificación de material",
+          "productLine": "Línea de producto",
+          "productLineName": "Descripción línea de producto",
+          "productCluster": "Product Cluster",
+          "gpsd": "GPSD",
+          "gpsdName": "GPSD Nombre",
+          "successorCustomerMaterial": "Sucesor Material (Cliente)",
+          "successorCustomerMaterialDescription": "Descripción de material (Sucesor Cliente)",
+          "successorSchaefflerMaterial": "Sucesor Material (Schaeffler)",
+          "successorSchaefflerMaterialDescription": "Descripción de material (Sucesor Schaeffler)",
+          "materialNumberS4": "Material S/4",
+          "customerMaterialNumber": "Número de material del cliente",
+          "demandCharacteristic": "Características de la demanda",
+
+          "<--- Material Box Right -->": "",
+          "productionPlant": "Planta de producción",
+          "productionPlantName": "Descripción planta de producción",
+          "productionSegment": "Segmento de producción",
+          "productionLine": "Línea de producción (Tren)",
+          "frozenZone": "Frozen Zone (incl. tiempo de tránsito)",
+          "currentRLTSchaeffler": "Tiempo de reaprovisionamiento (incl. tiempo de tránsito)",
+          "deliveryPlant": "Planta de entrega",
+          "planningPlant": "Planta de planificación",
+          "dispoGroup": "Grupo de disposición",
+
+          "<--- Customer Box Left -->": "",
+          "customerNumber": "Número de cliente",
+          "customerName": "Nombre de cliente",
+          "mainCustomerNumber": "Número de cliente principal",
+          "mainCustomerName": "Nombre de cliente principal",
+          "customerClassification": "Clasificación de clientes (Order Prio)",
+          "region": "Región (legal)",
+          "customerCountry": "País (cliente)",
+          "salesArea": "Área comercial (mercado)",
+          "sector": "Sector",
+          "sectorManagement": "Gestión de sectores",
+          "salesOrg": "Organización comercial",
+          "gkamNumber": "Número GKAM",
+          "keyAccountName": "Nombre GKAM",
+          "subKeyAccount": "Sub Key Account",
+          "subKeyAccountName": "Sub Key Account nombre",
+
+          "<--- Customer Box Right -->": "",
+          "accountOwner": "Titular de la cuenta",
+          "internalSales": "Ventas internas",
+          "demandPlanner": "Planificador del volumen de negocios",
+          "gkam": "GKAM",
+          "kam": "KAM"
+        }
       }
     },
     "supply_concept": {

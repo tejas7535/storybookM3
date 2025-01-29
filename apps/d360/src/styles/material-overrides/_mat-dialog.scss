@@ -22,6 +22,15 @@
       scrollbar-color: #c1c1c1 var(--surface-container-high-color);
     }
 
+    &.resizable {
+      resize: both;
+      overflow: auto;
+      min-width: 300px;
+      min-height: 300px;
+      max-width: 100vw;
+      max-height: 100vh;
+    }
+
     &.table-dialog,
     &.form-dialog {
       width: 100%;

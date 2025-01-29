@@ -1,107 +1,21 @@
 <section
   *transloco="let t"
-  class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 text-body-medium py-4"
+  class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 text-body-medium py-4"
 >
-  <div class="item">
-    <div class="header">
-      {{ t('validation_of_demand.more_information.material_and_text') }}
-    </div>
-    <p>
-      {{ selectedMaterial()?.materialNumber || '-' }} <br />
-      {{ selectedMaterial()?.materialDescription || '-' }}
-    </p>
-  </div>
+  @for (item of data; track $index; let last = $last) {
+    <div class="item relative" [class.last]="last">
+      <!-- title -->
+      <div class="header">{{ t(item.title) }}</div>
 
-  <div class="item">
-    <div class="header">
-      {{ t('validation_of_demand.more_information.classification') }}
-    </div>
-    <p>{{ selectedMaterial()?.materialClassification || '-' }}</p>
-  </div>
-
-  <div class="item">
-    <div class="header">
-      {{ t('validation_of_demand.supply_concept.title') }}
-    </div>
-
-    <p>{{ supplyConcept() }}</p>
-  </div>
-
-  <div class="item">
-    <div class="header">
-      {{ t('validation_of_demand.more_information.pfStatus.title') }}
-    </div>
-    <p>
-      {{
-        t(
-          'validation_of_demand.more_information.pfStatus.' +
-            selectedMaterial()?.portfolioStatus
-        )
-      }}
-      @if (selectedMaterial()?.portfolioStatusDate) {
-        <br />
-        {{ formatDate() }}
+      @if (last) {
+        <!-- if it is the last element add info icon -->
+        <button mat-icon-button class="info" (click)="openDetails()">
+          <mat-icon>info_outline</mat-icon>
+        </button>
       }
-    </p>
-  </div>
 
-  <div class="item">
-    <div class="header">
-      {{
-        t('validation_of_demand.more_information.demandCharacteristics.title')
-      }}
+      <!-- value / description -->
+      <p [innerHTML]="item.value"></p>
     </div>
-    <p>
-      @if (selectedMaterial()?.demandCharacteristic) {
-        {{
-          t(
-            'validation_of_demand.more_information.demandCharacteristics.' +
-              selectedMaterial()?.demandCharacteristic
-          )
-        }}
-      } @else {
-        -
-      }
-    </p>
-  </div>
-
-  <div class="item">
-    <div class="header">
-      {{ t('validation_of_demand.more_information.product_line_and_text') }}
-    </div>
-    <p>
-      {{ selectedMaterial()?.productLine || '-' }}
-      {{ selectedMaterial()?.productLineName || '-' }}
-    </p>
-  </div>
-
-  <div class="item">
-    <div class="header">
-      {{ t('validation_of_demand.more_information.production_segment') }}
-    </div>
-    <p>{{ selectedMaterial()?.productionSegment || '-' }}</p>
-  </div>
-
-  <div class="item">
-    <div class="header">
-      {{ t('validation_of_demand.more_information.current_wbz_schaeffler') }}
-    </div>
-    <p>
-      @if (selectedMaterial()?.currentRLTSchaeffler !== '-1') {
-        {{ selectedMaterial()?.currentRLTSchaeffler }} ({{
-          selectedMaterial()?.transitTimeBetweenProdPlantAndDistributionPlant ||
-            '-'
-        }})
-      } @else {
-        -
-      }
-    </p>
-  </div>
-
-  <div class="item">
-    <div class="header">
-      {{ t('validation_of_demand.more_information.packaging_size') }}
-    </div>
-    <p>{{ selectedMaterial()?.packagingSize || '-' }}</p>
-  </div>
+  }
 </section>

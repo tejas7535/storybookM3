@@ -348,6 +348,75 @@
         "title": "Bedarfsbild",
         "SE": "Serie",
         "SP": "Sporadisch"
+      },
+      "dialog": {
+        "tabs": {
+          "material": "Material",
+          "customer": "Kunde"
+        },
+        "boxes": {
+          "generalMaterialInformation": "Allgemeine Materialinformation",
+          "supplyChain": "Lieferkette",
+          "generalCustomerInformation": "Allgemeine Kundeninformation",
+          "contact": "Kontakt"
+        },
+        "demandCharacteristics": {
+          "SE": "Serie",
+          "SP": "Sporadisch"
+        },
+        "entries": {
+          "<--- Material Box Left -->": "",
+          "materialNumber": "Material",
+          "materialDescription": "Materialbezeichnung",
+          "materialClassification": "Materialklassifizierung",
+          "productLine": "Produktlinie",
+          "productLineName": "Produktlinienbezeichnung",
+          "productCluster": "Product Cluster",
+          "gpsd": "GPSD",
+          "gpsdName": "GPSD Name",
+          "successorCustomerMaterial": "Nachfolgermaterial (Kunde)",
+          "successorCustomerMaterialDescription": "Materialbezeichnung (Nachfolger Kunde)",
+          "successorSchaefflerMaterial": "Nachfolgermaterial (Schaeffler)",
+          "successorSchaefflerMaterialDescription": "Materialbezeichnung (Nachfolger Schaeffler)",
+          "materialNumberS4": "Material S/4",
+          "customerMaterialNumber": "Kundenmaterialnummer",
+          "demandCharacteristic": "Bedarfsbild",
+
+          "<--- Material Box Right -->": "",
+          "productionPlant": "Produktionswerk",
+          "productionPlantName": "Produktionswerkbezeichnung",
+          "productionSegment": "Produktionssegment",
+          "productionLine": "Produktionslinie (Zug)",
+          "frozenZone": "Frozen Zone (inkl. Transitzeit)",
+          "currentRLTSchaeffler": "Aktuelle WBZ Schaeffler (Transitzeit)",
+          "deliveryPlant": "Auslieferwerk",
+          "planningPlant": "Planungswerk",
+          "dispoGroup": "Dispositionsgruppe",
+
+          "<--- Customer Box Left -->": "",
+          "customerNumber": "Kundennummer",
+          "customerName": "Kundenname",
+          "mainCustomerNumber": "Hauptkundennummer",
+          "mainCustomerName": "Hauptkundenname",
+          "customerClassification": "Kundenklassifizierung (Order Prio)",
+          "region": "Region (Legal)",
+          "customerCountry": "Land (Kunde)",
+          "salesArea": "Sales Area (Markt)",
+          "sector": "Branche",
+          "sectorManagement": "Branchenmanagement",
+          "salesOrg": "Verkaufsorganisation",
+          "gkamNumber": "GKAM Nummer",
+          "keyAccountName": "GKAM Name",
+          "subKeyAccount": "Sub Key Account",
+          "subKeyAccountName": "Sub Key Account Name",
+
+          "<--- Customer Box Right -->": "",
+          "accountOwner": "Account Owner",
+          "internalSales": "Vertriebsinnendienst",
+          "demandPlanner": "Demand Planner",
+          "gkam": "GKAM",
+          "kam": "KAM"
+        }
       }
     },
     "supply_concept": {
