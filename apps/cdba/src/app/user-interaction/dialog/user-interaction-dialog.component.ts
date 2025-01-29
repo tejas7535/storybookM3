@@ -66,6 +66,7 @@ export class UserInteractionDialogComponent implements OnInit, OnDestroy {
   userFriendlyProgress: string;
   progressBarValue = 0;
   refreshStatusBtnDisabled = true;
+  downloadBtnTooltip: string;
 
   constructor(
     private readonly store: Store,
@@ -92,7 +93,7 @@ export class UserInteractionDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userFriendlyProgress = this.transloco.translate(
-      'userInteraction.tooltip.dialog.progress.waiting'
+      'userInteraction.dialog.progress.waiting'
     );
 
     this.bomExportStatusSubscription = this.bomExportStatus$.subscribe(
@@ -113,19 +114,34 @@ export class UserInteractionDialogComponent implements OnInit, OnDestroy {
     }
   }
 
+  isDownloadBtnDisabled() {
+    return (
+      this.status?.progress !== BomExportProgress.FINISHED ||
+      new Date(this.status?.downloadUrlExpiry) < new Date()
+    );
+  }
+
   private updateTranslations(status: BomExportStatus) {
     if (BOM_EXPORT_RUNNING.includes(status?.progress)) {
       this.userFriendlyProgress = this.transloco.translate(
-        'userInteraction.tooltip.dialog.progress.inProgress'
+        'userInteraction.dialog.progress.inProgress'
       );
     } else if (status?.progress === BomExportProgress.FAILED) {
       this.userFriendlyProgress = this.transloco.translate(
-        'userInteraction.tooltip.dialog.progress.failed'
+        'userInteraction.dialog.progress.failed'
+      );
+      this.downloadBtnTooltip = this.transloco.translate(
+        'userInteraction.dialog.tooltip.exportFailed'
       );
     } else if (status?.progress === BomExportProgress.FINISHED) {
       this.userFriendlyProgress = this.transloco.translate(
-        'userInteraction.tooltip.dialog.progress.finished'
+        'userInteraction.dialog.progress.finished'
       );
+      if (new Date(status?.downloadUrlExpiry) < new Date()) {
+        this.downloadBtnTooltip = this.transloco.translate(
+          'userInteraction.dialog.tooltip.downloadExpired'
+        );
+      }
     }
   }
 

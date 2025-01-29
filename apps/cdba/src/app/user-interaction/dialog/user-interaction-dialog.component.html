@@ -1,4 +1,4 @@
-<div *transloco="let t; read: 'userInteraction.tooltip.dialog'">
+<div *transloco="let t; read: 'userInteraction.dialog'">
   <div mat-dialog-title class="dialog-title">
     <p>
       {{ t('welcome', { username: (username$ | ngrxPush) }) }}
@@ -12,7 +12,7 @@
       <div class="dialog-content-feature">
         <p>{{ t('bomExport') }}</p>
         <div
-          [matTooltip]="t('refreshStatusBtn')"
+          [matTooltip]="t('tooltip.refreshStatus')"
           [matTooltipPosition]="'after'"
         >
           <button
@@ -68,14 +68,20 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button
-      mat-flat-button
-      color="primary"
-      class="!mr-4"
-      [disabled]="status?.progress !== 'FINISHED'"
-      (click)="onDownload()"
+    <div
+      [matTooltip]="downloadBtnTooltip"
+      [matTooltipDisabled]="!isDownloadBtnDisabled()"
+      [matTooltipPosition]="'above'"
     >
-      {{ t('download') }}
-    </button>
+      <button
+        mat-flat-button
+        color="primary"
+        class="!mr-4"
+        [disabled]="isDownloadBtnDisabled()"
+        (click)="onDownload()"
+      >
+        {{ t('download') }}
+      </button>
+    </div>
   </mat-dialog-actions>
 </div>

@@ -16,7 +16,7 @@ export const USER_INTERACTION_STATE_MOCK = {
         status: {
           requestedBy: 'cdba@test.com',
           downloadUrl: 'http://example.com',
-          downloadUrlExpiry: new Date(2024, 12, 12),
+          downloadUrlExpiry: '',
           progress: BomExportProgress.STARTED,
           started: '',
           stopped: '',

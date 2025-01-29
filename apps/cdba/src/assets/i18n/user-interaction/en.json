@@ -1,22 +1,23 @@
 {
-  "tooltip": {
-    "dialog": {
-      "welcome": "Hi {{username}} 👋🏻",
-      "bomExport": "Bill of Materials Export",
-      "refreshStatusBtn": "Refresh status",
-      "download": "Download BOM EXPORT",
-      "downloadExpires": "Download expires on: {{dateTime}}",
-      "currentProgress": "Current progress: {{progress}}",
-      "progress": {
-        "waiting": "Waiting to start",
-        "inProgress": "In Progress",
-        "finished": "Finished",
-        "failed": "Failed"
-      },
-      "started": "Started at: {{dateTime}}",
-      "stopped": "Stopped at: {{dateTime}}",
-      "open": "Open to see the progress",
-      "close": "Close"
+  "dialog": {
+    "welcome": "Hi {{username}} 👋🏻",
+    "bomExport": "Bill of Materials Export",
+    "download": "Download BOM Export",
+    "downloadExpires": "Download expires on: {{dateTime}}",
+    "currentProgress": "Current progress: {{progress}}",
+    "progress": {
+      "waiting": "Waiting to start",
+      "inProgress": "In Progress",
+      "finished": "Finished",
+      "failed": "Failed"
+    },
+    "started": "Started at: {{dateTime}}",
+    "stopped": "Stopped at: {{dateTime}}",
+    "open": "Open to see the progress",
+    "tooltip": {
+      "refreshStatus": "Refresh status",
+      "downloadExpired": "Download link expired. Please run BOM export again",
+      "exportFailed": "Export failed"
     }
   },
   "feature": {

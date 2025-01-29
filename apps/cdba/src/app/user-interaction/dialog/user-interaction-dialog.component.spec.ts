@@ -87,6 +87,39 @@ describe('DialogComponent', () => {
     });
   });
 
+  describe('isDownloadBtnDisabled', () => {
+    it('should return true when export failed', () => {
+      component.status = {
+        ...component.status,
+        progress: BomExportProgress.FAILED,
+      };
+
+      const result = component.isDownloadBtnDisabled();
+
+      expect(result).toBeTruthy();
+    });
+    it('should return true when export link expired', () => {
+      component.status = {
+        ...component.status,
+        downloadUrlExpiry: '2022-12-12T00:00:00',
+      };
+
+      const result = component.isDownloadBtnDisabled();
+
+      expect(result).toBe(true);
+    });
+    it('should return false when export finished successfuly', () => {
+      component.status = {
+        ...component.status,
+        progress: BomExportProgress.FINISHED,
+      };
+
+      const result = component.isDownloadBtnDisabled();
+
+      expect(result).toBe(false);
+    });
+  });
+
   describe('refreshProgress', () => {
     it('should dispatch actions to refresh progress', () => {
       const dispatchSpy = jest.spyOn(store, 'dispatch');
@@ -130,7 +163,7 @@ describe('DialogComponent', () => {
   });
 
   describe('updateTranslations', () => {
-    it('should update translations correctly for in progress status', () => {
+    it('should update translations correctly for "in progress" status', () => {
       const translateSpy = jest
         .spyOn(transloco, 'translate')
         .mockReturnValue('translated');
@@ -139,33 +172,60 @@ describe('DialogComponent', () => {
       } as BomExportStatus);
       expect(component.userFriendlyProgress).toBe('translated');
       expect(translateSpy).toHaveBeenCalledWith(
-        'userInteraction.tooltip.dialog.progress.inProgress'
+        'userInteraction.dialog.progress.inProgress'
       );
     });
 
-    it('should update translations correctly for failed status', () => {
+    it('should update translations correctly for "failed" status', () => {
       const translateSpy = jest
         .spyOn(transloco, 'translate')
-        .mockReturnValue('translated');
+        .mockReturnValueOnce('translated')
+        .mockReturnValueOnce('translatedTooltip');
       component['updateTranslations']({
         progress: BomExportProgress.FAILED,
       } as BomExportStatus);
       expect(component.userFriendlyProgress).toBe('translated');
       expect(translateSpy).toHaveBeenCalledWith(
-        'userInteraction.tooltip.dialog.progress.failed'
+        'userInteraction.dialog.progress.failed'
+      );
+      expect(component.downloadBtnTooltip).toBe('translatedTooltip');
+      expect(translateSpy).toHaveBeenCalledWith(
+        'userInteraction.dialog.tooltip.exportFailed'
       );
     });
 
-    it('should update translations correctly for finished status', () => {
+    it('should update translations correctly for "finished" status and valid link', () => {
       const translateSpy = jest
         .spyOn(transloco, 'translate')
         .mockReturnValue('translated');
+      const nextYear = new Date().getFullYear() + 1;
       component['updateTranslations']({
         progress: BomExportProgress.FINISHED,
+        downloadUrlExpiry: new Date(`${nextYear}-12-12T00:00:00`).toString(),
       } as BomExportStatus);
       expect(component.userFriendlyProgress).toBe('translated');
       expect(translateSpy).toHaveBeenCalledWith(
-        'userInteraction.tooltip.dialog.progress.finished'
+        'userInteraction.dialog.progress.finished'
+      );
+    });
+
+    it('should update translations correctly for "finished" status and expired link', () => {
+      const translateSpy = jest
+        .spyOn(transloco, 'translate')
+        .mockReturnValueOnce('translated')
+        .mockReturnValueOnce('translatedTooltip');
+      const prevYear = new Date().getFullYear() - 1;
+      component['updateTranslations']({
+        progress: BomExportProgress.FINISHED,
+        downloadUrlExpiry: new Date(`${prevYear}-12-12T00:00:00`).toString(),
+      } as BomExportStatus);
+      expect(component.userFriendlyProgress).toBe('translated');
+      expect(translateSpy).toHaveBeenCalledWith(
+        'userInteraction.dialog.progress.finished'
+      );
+      expect(component.downloadBtnTooltip).toBe('translatedTooltip');
+      expect(translateSpy).toHaveBeenCalledWith(
+        'userInteraction.dialog.tooltip.downloadExpired'
       );
     });
   });

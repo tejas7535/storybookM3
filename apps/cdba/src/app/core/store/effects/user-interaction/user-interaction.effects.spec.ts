@@ -60,7 +60,7 @@ describe('UserInteractionEffects', () => {
         const status = {
           requestedBy: 'poltokzy',
           downloadUrl: '',
-          downloadUrlExpiry: new Date(2024, 12, 12),
+          downloadUrlExpiry: '2024-12-05T17:17:00',
           progress: BomExportProgress.FINISHED,
           started: '2024-12-05T17:17:00',
           stopped: '',
@@ -90,7 +90,7 @@ describe('UserInteractionEffects', () => {
         const status = {
           requestedBy: 'poltokzy',
           downloadUrl: '',
-          downloadUrlExpiry: new Date(2024, 12, 12),
+          downloadUrlExpiry: '2024-12-05T17:17:00',
           progress: BomExportProgress.IN_PROGRESS_1,
           started: '2024-12-05T17:17:00',
           stopped: '',
