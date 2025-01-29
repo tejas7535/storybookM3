@@ -148,7 +148,7 @@ export const relubricationQuantityUnit = (
 ): string => `${itemUnit(dataItems, SubordinateDataItemField.QVIN)}`;
 
 const relubricationQuantityPerDay = (
-  dataItems: GreaseReportSubordinateDataItem[] = []
+  dataItems: GreaseReportSubordinateDataItem[]
 ): number =>
   (+itemValue(dataItems, SubordinateDataItemField.QVRE_AUT_MIN) +
     +itemValue(dataItems, SubordinateDataItemField.QVRE_AUT_MAX)) /
@@ -159,6 +159,15 @@ export const relubricationPerDays = (
   dataItems: GreaseReportSubordinateDataItem[] = []
 ): number | undefined => {
   const quantity = relubricationQuantityPerDay(dataItems);
+
+  return quantity ? quantity * numberOfDays : undefined;
+};
+
+export const maximumRelubricationPerDays = (
+  numberOfDays: number,
+  dataItems: GreaseReportSubordinateDataItem[] = []
+): number | undefined => {
+  const quantity = +itemValue(dataItems, SubordinateDataItemField.QVRE_AUT_MAX);
 
   return quantity ? quantity * numberOfDays : undefined;
 };
@@ -194,6 +203,22 @@ export const relubricationIntervalInDays = (
   const average = (min + max) / 2;
 
   return Math.round(average / 24);
+};
+
+export const relubricationIntervalInDaysFromMaxValue = (
+  dataItems: GreaseReportSubordinateDataItem[] = []
+): number | undefined => {
+  const maxInHours = itemValue(dataItems, SubordinateDataItemField.TFR_MAX);
+
+  const max = convertInputToNumberWithoutSpecialCharacters(maxInHours);
+
+  if (max === undefined) {
+    return undefined;
+  }
+
+  const hoursInDay = 24;
+
+  return Math.round(max / hoursInDay);
 };
 
 export const getConcept1Setting = (

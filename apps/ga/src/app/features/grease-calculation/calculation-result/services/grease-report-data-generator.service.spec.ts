@@ -10,7 +10,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
   GREASE_PDF_INPUT_MOCK,
-  GREASE_PDF_MESSAGE,
   GREASE_RESULT_SUBORDINATES_MOCK,
 } from '@ga/testing/mocks';
 
@@ -121,7 +120,7 @@ describe('GreaseReportDataGeneratorService', () => {
           GREASE_RESULT_SUBORDINATES_MOCK
         );
 
-      expect(result).toEqual(GREASE_PDF_MESSAGE);
+      expect(result).toMatchSnapshot();
     });
 
     it('should gracefully return empty data if empty input provided', () => {

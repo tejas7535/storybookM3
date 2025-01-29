@@ -1,6 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
-import { waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
+
+import { BehaviorSubject } from 'rxjs';
 
 import { OneTrustModule } from '@altack/ngx-onetrust';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -14,6 +15,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { CalculationParametersFacade } from '@ga/core/store/facades';
 import {
   getEnvironmentTemperatures,
   getGreaseApplication,
@@ -21,11 +23,14 @@ import {
 } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
 import { Movement } from '@ga/shared/models';
 import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
-import { GREASE_RESULT_SUBORDINATES_MOCK } from '@ga/testing/mocks';
+import {
+  GREASE_COMPLETE_RESULT_MOCK,
+  GREASE_RESULT_SUBORDINATES_MOCK,
+} from '@ga/testing/mocks';
 
 import { CalculationParametersService } from '../../calculation-parameters/services';
 import { WARNINGSOPENED } from '../constants';
-import { UndefinedValuePipe } from '../pipes/undefined-value.pipe';
+import { GreaseRecommendationService } from './grease-recommendation.service';
 import { GreaseReportService } from './grease-report.service';
 import { GreaseResultDataSourceService } from './grease-result-data-source.service';
 
@@ -34,10 +39,26 @@ describe('GreaseReportService', () => {
   let service: GreaseReportService;
   const localizeNumber = jest.fn();
 
+  const isVerticalAxisOrientation$ = new BehaviorSubject<boolean>(false);
+
+  const mockGreaseResultDataSourceService = new Proxy(
+    {},
+    {
+      get: (target: Record<string, any>, prop: string | symbol) => {
+        if (typeof prop === 'string') {
+          return jest
+            .fn()
+            .mockReturnValue(`responseOf:${prop.charAt(0) + prop.slice(1)}`);
+        }
+
+        return target[prop as unknown as keyof typeof target];
+      },
+    }
+  );
+
   const createService = createServiceFactory({
     service: GreaseReportService,
     imports: [
-      RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
       OneTrustModule.forRoot({
         cookiesGroups: COOKIE_GROUPS,
@@ -57,17 +78,34 @@ describe('GreaseReportService', () => {
           },
         ],
       }),
+      provideRouter([]),
+      {
+        provide: CalculationParametersFacade,
+        useValue: {
+          isVerticalAxisOrientation$: isVerticalAxisOrientation$.asObservable(),
+        },
+      },
+      {
+        provide: GreaseRecommendationService,
+        useValue: {
+          processGreaseRecommendation: jest.fn(),
+        },
+      },
+      {
+        provide: GreaseResultDataSourceService,
+        useValue: mockGreaseResultDataSourceService,
+      },
+
       mockProvider(TranslocoLocaleService, { localizeNumber }),
-      GreaseResultDataSourceService,
-      UndefinedValuePipe,
       mockProvider(CalculationParametersService),
+      mockProvider(GreaseRecommendationService),
     ],
   });
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     spectator = createService();
     service = spectator.service;
-  }));
+  });
 
   it('should create the service', () => {
     expect(service).toBeTruthy();
@@ -78,6 +116,39 @@ describe('GreaseReportService', () => {
       const result = service.getResultAmount(GREASE_RESULT_SUBORDINATES_MOCK);
 
       expect(result).toStrictEqual(3);
+    });
+  });
+
+  describe('format grease report', () => {
+    it('should gracefully return empty object if empty array provided', (done) => {
+      service.formatGreaseReport([]).then((result) => {
+        expect(result).toMatchSnapshot();
+        done();
+      });
+    });
+
+    it('should format result when data provided', (done) => {
+      service
+        .formatGreaseReport(GREASE_COMPLETE_RESULT_MOCK.subordinates)
+        .then((result) => {
+          expect(result).toMatchSnapshot();
+          done();
+        });
+    });
+
+    describe('when vertical axis is selected', () => {
+      beforeEach(() => {
+        isVerticalAxisOrientation$.next(true);
+      });
+
+      it('should format result when data provided', (done) => {
+        service
+          .formatGreaseReport(GREASE_COMPLETE_RESULT_MOCK.subordinates)
+          .then((result) => {
+            expect(result).toMatchSnapshot();
+            done();
+          });
+      });
     });
   });
 

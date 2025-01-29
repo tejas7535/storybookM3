@@ -17,12 +17,14 @@ import {
   GreaseReportSubordinateTitle,
   GreaseResultData,
 } from '../models';
+import { ListItemsWrapperService } from './pdf/list-items-wrapper.service';
 
 @Injectable()
 export class GreaseReportDataGeneratorService {
   public constructor(
     private readonly localeService: TranslocoLocaleService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly listItemsWrapperService: ListItemsWrapperService
   ) {}
 
   public getDisclaimerTitle(): string {
@@ -62,10 +64,14 @@ export class GreaseReportDataGeneratorService {
   ): GreasePdfMessage {
     let messageItems: GreasePdfMessageItem[] = [];
     if (greaseReportSubordinate) {
+      const minimumNumberOfItemsToBeWrapped = 4;
       messageItems = greaseReportSubordinate.subordinates.map(
         (sectionItem) => ({
           title: sectionItem.title,
-          items: this.extractMessagesFromData(sectionItem.subordinates),
+          items: this.listItemsWrapperService.wrapListItems(
+            this.extractMessagesFromData(sectionItem.subordinates),
+            minimumNumberOfItemsToBeWrapped
+          ),
         })
       );
     }

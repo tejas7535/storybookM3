@@ -1,31 +1,51 @@
+/* eslint-disable max-lines */
 /* eslint max-lines: [1] */
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormControl,
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatRadioChange } from '@angular/material/radio';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
+import {
+  MatSlideToggleChange,
+  MatSlideToggleModule,
+} from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 
 import { debounceTime, filter, map, Subject, take, takeUntil } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
+import { LetDirective, PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
+import { MaintenanceModule } from '@schaeffler/empty-states';
+import { SubheaderModule } from '@schaeffler/subheader';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
-import { getCalculationParametersState, SettingsFacade } from '@ga/core/store';
+import {
+  CalculationParametersFacade,
+  getCalculationParametersState,
+  SettingsFacade,
+} from '@ga/core/store';
 import {
   getDialog,
   getProperties,
   patchParameters,
   resetPreferredGreaseSelection,
-  setAutomaticLubrication,
 } from '@ga/core/store/actions';
 import { CalculationParametersState } from '@ga/core/store/models';
 import { initialState } from '@ga/core/store/reducers/calculation-parameters/calculation-parameters.reducer';
@@ -47,7 +67,11 @@ import {
 } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
 import { environment } from '@ga/environments/environment';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
-import { AxisOrientationModalComponent } from '@ga/shared/components/axis-orientation/axis-orientation-modal.component';
+import { AppStoreButtonsComponent } from '@ga/shared/components/app-store-buttons/app-store-buttons.component';
+import { FormFieldModule } from '@ga/shared/components/form-field';
+import { MediasButtonComponent } from '@ga/shared/components/medias-button';
+import { PreferredGreaseSelectionComponent } from '@ga/shared/components/preferred-grease-selection';
+import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import {
   AxisOrientation,
   EnvironmentImpact,
@@ -72,13 +96,38 @@ import {
   ApplicationScenario,
 } from './constants/application-scenarios.model';
 import { CalculationParametersService } from './services';
-
 @Component({
   selector: 'ga-calculation-parameters',
   templateUrl: './calculation-parameters.component.html',
   styles: [
     ':host ::ng-deep .mat-slide-toggle-label .mat-slide-toggle-content { @apply whitespace-normal }',
   ],
+  standalone: true,
+  imports: [
+    CommonModule,
+    PushPipe,
+    LetDirective,
+    ReactiveFormsModule,
+    BreadcrumbsModule,
+    MaintenanceModule,
+    SubheaderModule,
+    FormFieldModule,
+    PreferredGreaseSelectionComponent,
+    MediasButtonComponent,
+    QualtricsInfoBannerComponent,
+    AppStoreButtonsComponent,
+    SharedTranslocoModule,
+    MatButtonModule,
+    MatExpansionModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatSlideToggleModule,
+    MatTooltipModule,
+    MatInputModule,
+    MatRadioModule,
+    MatDividerModule,
+  ],
+  providers: [CalculationParametersService],
 })
 export class CalculationParametersComponent implements OnInit, OnDestroy {
   public axisOrientationEnabled = environment.axisOrientationEnabled;
@@ -222,7 +271,7 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
     private readonly translocoService: TranslocoService,
     private readonly appAnalyticsService: AppAnalyticsService,
     private readonly appInsightsService: ApplicationInsightsService,
-    private readonly matDialog: MatDialog
+    private readonly calculationParametersFacade: CalculationParametersFacade
   ) {}
 
   public ngOnInit(): void {
@@ -341,7 +390,9 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public toggleAutomaticLubrication({
     checked: automaticLubrication,
   }: MatSlideToggleChange): void {
-    this.store.dispatch(setAutomaticLubrication({ automaticLubrication }));
+    this.calculationParametersFacade.setAutomaticLubrication(
+      automaticLubrication
+    );
   }
 
   public completeStep(): void {
@@ -358,7 +409,7 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
 
   public onResetButtonClick(): void {
     this.form.reset(initialState);
-    this.store.dispatch(resetPreferredGreaseSelection());
+    this.calculationParametersFacade.dispatch(resetPreferredGreaseSelection());
   }
 
   public trackSignupClick(): void {
@@ -370,32 +421,20 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
 
   public updateAxisOrientation(_: MatRadioChange) {
     if (this.axisOrientation.value !== AxisOrientation.Horizontal) {
-      const ref = this.matDialog.open(AxisOrientationModalComponent);
-      ref.afterClosed().subscribe((confirmed) => {
-        if (confirmed) {
-          this.appAnalyticsService.logRawInteractionEvent(
-            'axis_orientation_modal_confirm',
-            'axis_orientation_modal_confirm'
-          );
-          this.appAnalyticsService.logRawInteractionEvent(
-            `axis_orientation_select_${this.axisOrientation.value}`,
-            `axis_orientation_select_${this.axisOrientation.value}`
-          );
-          this.appInsightsService.logEvent('axis_orientation_select', {
-            orientation: this.axisOrientation.value,
-          });
-        } else {
-          this.axisOrientation.setValue(AxisOrientation.Horizontal);
-          this.appAnalyticsService.logRawInteractionEvent(
-            'axis_orientation_modal_cancel',
-            'axis_orientation_modal_cancel'
-          );
-        }
-        this.appInsightsService.logEvent('axis_orientation_modal', {
-          confirmed,
-        });
-      });
+      this.logHorizontalAxisSelection();
+      this.calculationParametersFacade.setAutomaticLubrication(true);
     }
+  }
+
+  private logHorizontalAxisSelection(): void {
+    this.appAnalyticsService.logRawInteractionEvent(
+      `axis_orientation_select_${this.axisOrientation.value}`,
+      `axis_orientation_select_${this.axisOrientation.value}`
+    );
+
+    this.appInsightsService.logEvent('axis_orientation_select', {
+      orientation: this.axisOrientation.value,
+    });
   }
 
   private loadValidator(): any {

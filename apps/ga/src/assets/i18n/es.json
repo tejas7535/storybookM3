@@ -276,16 +276,9 @@
     "signupUrl": "https://medias.schaeffler.es/es/registered/user",
     "axisOrientation": {
       "title": "Orientación del eje",
-      "explainer": "Para el cálculo de la duración del uso de la grasa y de los intervalos de relubricación, se asume una orientación del eje horizontal. Tenga en cuenta la información en el TPI 176 \"Lubricación de rodamientos\" sobre el diseño del entorno de los rodamientos en caso de una orientación del eje vertical, ya que puede ocurrir una mayor pérdida de lubricante. Por esta razón, también es aconsejable realizar la relubricación a intervalos más cortos con la misma cantidad de relubricante por tiempo para compensar la pérdida de lubricante de manera oportuna. Dado que esto a menudo puede ser difícil de realizar manualmente, se recomienda el uso de un dispensador de lubricante automático.*)",
-      "supportCta": "Si tiene preguntas sobre su caso específico de aplicación, por favor contacte con el Soporte Técnico.",
-      "footnote": "*) El uso de mayores cantidades iniciales de grasa o mayores cantidades de relubricante por tiempo no es aconsejable, ya que pueden, especialmente a altas velocidades, ser contraproducentes en relación con el trabajo de amasado y el desarrollo de la temperatura. Un dispensador de lubricante aplica pequeñas cantidades a intervalos regulares en el punto de lubricación y evita un aumento significativo de la temperatura.",
-      "disclaimer": "Todos los cálculos se realizan con la orientación del eje horizontal. La selección de la orientación vertical o diagonal del eje no se tiene en cuenta en el cálculo",
-      "close": "Cerrar",
-      "confirm": "Confirmar",
       "orientations": {
         "Horizontal": "Horizontal",
-        "Vertical": "Vertical",
-        "Diagonal": "Diagonal"
+        "Vertical": "Vertical"
       }
     }
   },
@@ -383,7 +376,10 @@
     "recommendedChip": "Recomendado",
     "resultsWithRecommendation": "Los resultados están ordenados por recomendación y el intervalo de relubricación",
     "noRecommendation": "Los parámetros proporcionados son inusuales para la aplicación dada. Por favor contáctenos.",
-    "contact": "Contacto Schaeffler"
+    "contact": "Contacto Schaeffler",
+    "axisOrientation": {
+      "disclaimer": "Al calcular la vida útil de la grasa y los intervalos de reengrase, se supone que el eje está en posición horizontal.\nEn caso de que el eje esté en posición vertical, considere la información indicada en TPI 176 'Lubricación de rodamientos'\nsobre el diseño del entorno del rodamiento, ya que la pérdida de lubricante puede ocurrir con mayor frecuencia.\n\nDebido al aumento de la pérdida de lubricante, es necesario realizar el reengrase en intervalos más cortos\ny compensar la pérdida de lubricante de manera oportuna. Dado que a menudo es difícil lograr esto manualmente,\nse recomienda el uso de un dispensador automático de lubricante. La cantidad de lubricante por unidad de tiempo se incrementa ligeramente.\nSi tiene preguntas relacionadas con su aplicación específica, por favor póngase en contacto con el soporte técnico."
+    }
   },
   "settings": {
     "stepper": {

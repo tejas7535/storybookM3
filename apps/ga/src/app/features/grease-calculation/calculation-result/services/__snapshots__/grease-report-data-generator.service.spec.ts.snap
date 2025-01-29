@@ -1,5 +1,53 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`GreaseReportDataGeneratorService prepare report errors and warnings data should return formatted data 1`] = `
+Object {
+  "messageItems": Array [
+    Object {
+      "items": Array [
+        "",
+        "Very high kappa values and corresponding friction losses occur at the present operating speed for the following lubricating greases:",
+        "  · Arcanol LOAD1000",
+        "  · Arcanol TEMP200",
+        "",
+      ],
+      "title": "errors",
+    },
+    Object {
+      "items": Array [
+        "",
+        "Relubrication should be carried out once a year.",
+        "Arcanol Clean M, Arcanol MOTION 2, Arcanol MULTITOP, Arcanol MULTI2, Arcanol MULTI3, Arcanol LOAD150, Arcanol LOAD220, Arcanol LOAD400, Arcanol LOAD460, Arcanol TEMP90, Arcanol TEMP110, Arcanol TEMP120, Arcanol SPEED 2,6, Arcanol VIB3, Arcanol FOOD2",
+        "",
+        "Where a grease service life >3 years is required, this should be agreed in consultation with the lubricant manufacturer.",
+        "Arcanol Clean M, Arcanol MOTION 2, Arcanol MULTITOP, Arcanol MULTI2, Arcanol MULTI3, Arcanol LOAD150, Arcanol LOAD220, Arcanol LOAD400, Arcanol LOAD460, Arcanol TEMP90, Arcanol TEMP110, Arcanol TEMP120, Arcanol SPEED 2,6, Arcanol VIB3, Arcanol FOOD2",
+        "",
+        "Calculation finished. The results for the permissible greases are in the result file.",
+        "",
+      ],
+      "title": "warnings",
+    },
+    Object {
+      "items": Array [
+        "",
+        "Calculation of the grease service life and the relubrication interval corresponds to the catalog method. The internal geometry and the internal load distribution are not taken into consideration in the calculation. For appropriate grease selection, the employees of the Schaeffler Group have access to the Grease Configurator. If the axis of rotation is vertical, the supply of lubricant to the contact must be checked. Please consult the experts in the Lubrication Technology department.",
+        "",
+        "A complete plausibility check of the loads is not implemented. Load conditions like minimal load, maximum permissible load as well as suitability of the load situation for the selected bearing are not checked.",
+        "",
+        "In the Grease App, fatigue life is not considered or calculated. Please check this separately.",
+        "",
+        "When calculating the amount of lubricant, only the volume of the bearing is taken into account, while the free space of the surrounding construction is not considered.",
+        "",
+        "The specified grease quantities are only guide values, which may be deviated from based on practical experience. In case of questions, please contact the Schaeffler engineering service.",
+        "",
+      ],
+      "title": "notes",
+    },
+  ],
+  "sectionTitle": "calculationResult.errorsWarningsNotes",
+}
+`;
+
 exports[`GreaseReportDataGeneratorService prepare report result data for not autolubrciated configuration should exclude concept1 information from result 1`] = `
 Object {
   "sectionTitle": "calculationResult.resultsDefault",

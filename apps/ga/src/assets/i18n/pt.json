@@ -276,16 +276,9 @@
     "signupUrl": "https://medias.schaeffler.es/pt/registered/user",
     "axisOrientation": {
       "title": "Orientação do Eixo",
-      "explainer": "Na hora de calcular a duração do uso da gordura e os intervalos de lubrificação, assume-se uma posição do eixo horizontal. Por favor, leve em consideração no caso de uma posição do eixo vertical as informações do TPI 176 'Lubrificação de Rolamentos', sobre o design do ambiente do rolamento, pois a perda de lubrificante pode ser mais intensa. Por esta razão, também é recomendável realizar a lubrificação em intervalos menores com a mesma quantidade de lubrificante para compensar a perda de lubrificante de forma oportuna. Como isso pode ser difícil de fazer manualmente, recomenda-se o uso de um lubrificador automático de lubrificante. *)",
-      "supportCta": "Em caso de dúvidas sobre seu caso específico de aplicação, entre em contato com o Suporte Técnico.",
-      "footnote": "*) O uso de maiores quantidades iniciais de gordura ou maiores quantidades de lubrificação por tempo não é recomendado, pois pode ser contraproducente, especialmente em altas velocidades em relação ao trabalho de cisalhamento e desenvolvimento de temperatura. Um lubrificador de lubrificante fornece pequenas quantidades de maneira uniforme ao ponto de lubrificação e evita um aumento maior da temperatura.",
-      "disclaimer": "Todos os cálculos são realizados com a posição do eixo horizontal. A seleção de posição do eixo vertical ou diagonal não é considerada no cálculo",
-      "close": "Fechar",
-      "confirm": "Confirmar",
       "orientations": {
         "Horizontal": "Horizontal",
-        "Vertical": "Vertical",
-        "Diagonal": "Diagonal"
+        "Vertical": "Vertical"
       }
     }
   },
@@ -383,7 +376,10 @@
     "recommendedChip": "Recomendado",
     "resultsWithRecommendation": "Os resultados são classificados por recomendação e intervalo de relubrificação",
     "noRecommendation": "Os parâmetros fornecidos são incomuns para a aplicação dada. Por favor, entre em contato.",
-    "contact": "Contato Schaeffler"
+    "contact": "Contato Schaeffler",
+    "axisOrientation": {
+      "disclaimer": "Ao calcular a vida útil da graxa e os intervalos de relubrificação, assume-se que o eixo está em posição horizontal.\nNo caso de posição vertical do eixo, considere as informações indicadas no TPI 176 'Lubrificação de Rolamentos'\nsobre o design do ambiente do rolamento, pois a perda de lubrificante pode ocorrer com mais frequência.\n\nDevido ao aumento da perda de lubrificante, é necessário realizar a relubrificação em intervalos mais curtos\ne compensar prontamente a perda de lubrificante. Como muitas vezes é difícil conseguir isso manualmente,\nrecomenda-se o uso de um dispensador automático de lubrificante. A quantidade de lubrificante por unidade de tempo é ligeiramente aumentada.\nSe tiver dúvidas relacionadas à sua aplicação específica, entre em contato com o Suporte Técnico."
+    }
   },
   "settings": {
     "stepper": {

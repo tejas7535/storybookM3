@@ -374,6 +374,12 @@ describe('Grease helpers', () => {
 
         expect(value).toBe(undefined);
       });
+
+      it('should return undefined when items not provided', () => {
+        const value = helpers.relubricationIntervalInDays();
+
+        expect(value).toBe(undefined);
+      });
     });
   });
 
@@ -439,6 +445,59 @@ describe('Grease helpers', () => {
       ]);
 
       expect(value).toBe(450_617_279.849_999_96);
+    });
+  });
+
+  describe('maximumRelubricationPerDays', () => {
+    it('should return a value', () => {
+      const numberOfDays = 7;
+      const value = helpers.maximumRelubricationPerDays(numberOfDays, [
+        {
+          ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
+          field: SubordinateDataItemField.QVRE_AUT_MAX,
+        },
+      ]);
+
+      expect(value).toBe(8_641_975.229_999_999);
+    });
+
+    it('should be undefined when items not provided', () => {
+      const numberOfDays = 7;
+      const value = helpers.maximumRelubricationPerDays(numberOfDays);
+
+      expect(value).toBeUndefined();
+    });
+  });
+
+  describe('relubricationIntervalInDaysFromMaxValue', () => {
+    it('should return a value', () => {
+      const value = helpers.relubricationIntervalInDaysFromMaxValue([
+        {
+          ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
+          value: 21_900,
+          field: SubordinateDataItemField.TFR_MAX,
+        },
+      ]);
+
+      expect(value).toBe(913);
+    });
+
+    it('should return undefined', () => {
+      const value = helpers.relubricationIntervalInDaysFromMaxValue([
+        {
+          ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
+          value: undefined,
+          field: SubordinateDataItemField.TFR_MAX,
+        },
+      ]);
+
+      expect(value).toBeUndefined();
+    });
+
+    it('should return undefined when items not provided', () => {
+      const value = helpers.relubricationIntervalInDaysFromMaxValue();
+
+      expect(value).toBeUndefined();
     });
   });
 

@@ -353,6 +353,49 @@ describe('GreaseResultDataSourceService', () => {
     });
   });
 
+  describe('maximumManualRelubricationForVerticalAxis', () => {
+    const baseItem: GreaseReportSubordinateDataItem[] = [
+      {
+        field: SubordinateDataItemField.QVRE_AUT_MAX,
+        value: '0.08',
+        unit: 'mock_unit',
+      },
+    ];
+
+    describe('when relubrication interval in days is less than 365 days', () => {
+      it('should return lubrication interval data for the calculated days', () => {
+        const item = service.maxManualRelubricationIntervalForVerticalAxis(
+          [
+            {
+              field: SubordinateDataItemField.TFR_MAX,
+              value: 7900,
+              unit: 'h',
+            },
+            ...baseItem,
+          ],
+          subordinateDataMock.rhoMock
+        );
+
+        expect(item).toStrictEqual({
+          title: 'maximumManualRelubricationPerInterval',
+          values:
+            '<span>0.6 g/7 days</span><br><span class="text-low-emphasis">0.6 /7 days</span>',
+        });
+      });
+    });
+
+    describe('when the relubrication interval value could not be calculated', () => {
+      it('should return undefined', () => {
+        const item = service.maxManualRelubricationIntervalForVerticalAxis(
+          [],
+          subordinateDataMock.rhoMock
+        );
+
+        expect(item).toBeUndefined();
+      });
+    });
+  });
+
   describe('relubricationInterval', () => {
     it('should return relubrication interval value in days', () => {
       const item = service.relubricationInterval([

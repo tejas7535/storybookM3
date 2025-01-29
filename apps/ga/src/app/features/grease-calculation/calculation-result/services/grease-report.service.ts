@@ -1,7 +1,6 @@
-/* istanbul ignore file: refactoring for better testability, see UFTABI-5740 */
-/* eslint max-lines: [0] */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { delay, lastValueFrom, map, retryWhen, take } from 'rxjs';
 
@@ -9,6 +8,7 @@ import { translate } from '@jsverse/transloco';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
+import { CalculationParametersFacade } from '@ga/core/store';
 import { alternativeTable, marketGreases } from '@ga/shared/constants';
 import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
 import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
@@ -32,12 +32,17 @@ import { GreaseResultDataSourceService } from './grease-result-data-source.servi
 
 @Injectable()
 export class GreaseReportService {
+  private readonly isVerticalAxisSelected = toSignal(
+    this.calculationParametersFacade.isVerticalAxisOrientation$
+  );
+
   public constructor(
     private readonly http: HttpClient,
     private readonly applicationInsightsService: ApplicationInsightsService,
     private readonly greaseResultDataSourceService: GreaseResultDataSourceService,
     private readonly recommendationService: GreaseRecommendationService,
-    private readonly appAnalyticsService: AppAnalyticsService
+    private readonly appAnalyticsService: AppAnalyticsService,
+    private readonly calculationParametersFacade: CalculationParametersFacade
   ) {}
 
   public async getGreaseReport(greaseReportUrl: string) {
@@ -68,13 +73,11 @@ export class GreaseReportService {
         section.titleID === GreaseReportSubordinateTitle.STRING_OUTP_INPUT
     );
 
-    // compose result sections
-    const resultSection = subordinates.find(
-      (section: GreaseReportSubordinate) =>
-        section.titleID === GreaseReportSubordinateTitle.STRING_OUTP_RESULTS
-    ) as GreaseReportSubordinate;
+    const resultSection = this.findSubordinateByTitleId(
+      subordinates,
+      GreaseReportSubordinateTitle.STRING_OUTP_RESULTS
+    );
 
-    // get tables
     const tables = resultSection?.subordinates
       ?.filter(
         ({ titleID }: GreaseReportSubordinate) =>
@@ -83,24 +86,19 @@ export class GreaseReportService {
       )
       .pop();
 
-    // get table 1
-    const table1 = tables?.subordinates?.find(
-      ({ titleID }: GreaseReportSubordinate) =>
-        titleID ===
-        GreaseReportSubordinateTitle.STRING_OUTP_RESULTS_FOR_GREASE_SERVICE_STRING_OUTP_GREASE_QUANTITY_IN_CCM
+    const table1 = this.findSubordinateByTitleId(
+      tables?.subordinates,
+      GreaseReportSubordinateTitle.STRING_OUTP_RESULTS_FOR_GREASE_SERVICE_STRING_OUTP_GREASE_QUANTITY_IN_CCM
     );
 
-    // get table 2
-    const table2 = tables?.subordinates?.find(
-      ({ titleID }: GreaseReportSubordinate) =>
-        titleID ===
-        GreaseReportSubordinateTitle.STRING_OUTP_OVERVIEW_OF_CALCULATION_DATA_FOR_GREASES
+    const table2 = this.findSubordinateByTitleId(
+      tables?.subordinates,
+      GreaseReportSubordinateTitle.STRING_OUTP_OVERVIEW_OF_CALCULATION_DATA_FOR_GREASES
     );
 
-    // get concept1
-    const concept1 = resultSection?.subordinates?.find(
-      ({ titleID }: GreaseReportSubordinate) =>
-        titleID === GreaseReportSubordinateTitle.STRING_OUTP_CONCEPT1
+    const concept1 = this.findSubordinateByTitleId(
+      resultSection?.subordinates,
+      GreaseReportSubordinateTitle.STRING_OUTP_CONCEPT1
     )?.subordinates;
 
     // compose compact grease table
@@ -109,8 +107,57 @@ export class GreaseReportService {
         ...(table2?.data?.items.map(
           (dataItems: GreaseReportSubordinateDataItem[], index: number) => {
             const mainTitle = `${itemValue(dataItems, undefined, 0)}`;
-            const table1Items = table1?.data?.items[index];
+            const table1Items = table1?.data?.items[index] ?? [];
             const rho = +itemValue(dataItems, SubordinateDataItemField.RHO);
+            let greaseLifeService =
+              this.greaseResultDataSourceService.greaseServiceLife(table1Items);
+
+            let quantityOfRelubricationPer7Days =
+              this.greaseResultDataSourceService.relubricationPer7Days(
+                table1Items,
+                rho
+              );
+
+            let quntityOfRelubricationPer30days =
+              this.greaseResultDataSourceService.relubricationPer30Days(
+                table1Items,
+                rho
+              );
+
+            let maximumManualRelubricationInterval =
+              this.greaseResultDataSourceService.maximumManualRelubricationInterval(
+                table1Items,
+                rho
+              );
+
+            let relubricationInterval =
+              this.greaseResultDataSourceService.relubricationInterval(
+                table1Items
+              );
+
+            let per1000OperatingHours =
+              this.greaseResultDataSourceService.relubricationQuantityPer1000OperatingHours(
+                table1Items,
+                rho
+              );
+
+            if (this.isVerticalAxisSelected()) {
+              greaseLifeService = undefined;
+              quntityOfRelubricationPer30days = undefined;
+              relubricationInterval = undefined;
+              per1000OperatingHours = undefined;
+              maximumManualRelubricationInterval =
+                this.greaseResultDataSourceService.maxManualRelubricationIntervalForVerticalAxis(
+                  table1Items,
+                  rho
+                );
+
+              quantityOfRelubricationPer7Days =
+                this.greaseResultDataSourceService.getMaximumLubricationPer7Days(
+                  table1Items,
+                  rho
+                );
+            }
 
             const greaseResult: GreaseResult = {
               mainTitle,
@@ -126,9 +173,8 @@ export class GreaseReportService {
                   SubordinateDataItemField.THICKENER
                 )}`,
               }),
-              isSufficient: this.greaseResultDataSourceService.isSufficient(
-                table1Items || []
-              ),
+              isSufficient:
+                this.greaseResultDataSourceService.isSufficient(table1Items),
               isPreferred:
                 mainTitle === preferredGreaseResult?.text ||
                 marketGreases.filter(
@@ -142,38 +188,20 @@ export class GreaseReportService {
                   index
                 ),
                 this.greaseResultDataSourceService.initialGreaseQuantity(
-                  table1Items || [],
+                  table1Items,
                   rho
                 ),
                 this.greaseResultDataSourceService.relubricationPer365Days(
-                  table1Items || [],
+                  table1Items,
                   rho
                 ),
-                this.greaseResultDataSourceService.maximumManualRelubricationInterval(
-                  table1Items || [],
-                  rho
-                ),
-                this.greaseResultDataSourceService.relubricationQuantityPer1000OperatingHours(
-                  table1Items || [],
-                  rho
-                ),
-                this.greaseResultDataSourceService.greaseServiceLife(
-                  table1Items || []
-                ),
-                this.greaseResultDataSourceService.relubricationInterval(
-                  table1Items || []
-                ),
-                this.greaseResultDataSourceService.relubricationPer30Days(
-                  table1Items || [],
-                  rho
-                ),
-                this.greaseResultDataSourceService.relubricationPer7Days(
-                  table1Items || [],
-                  rho
-                ),
-                this.greaseResultDataSourceService.viscosityRatio(
-                  table1Items || []
-                ),
+                maximumManualRelubricationInterval,
+                per1000OperatingHours,
+                greaseLifeService,
+                relubricationInterval,
+                quntityOfRelubricationPer30days,
+                quantityOfRelubricationPer7Days,
+                this.greaseResultDataSourceService.viscosityRatio(table1Items),
                 this.greaseResultDataSourceService.baseOilViscosityAt40(
                   dataItems
                 ),
@@ -184,10 +212,10 @@ export class GreaseReportService {
                   dataItems
                 ),
                 this.greaseResultDataSourceService.additiveRequired(
-                  table1Items || []
+                  table1Items
                 ),
                 this.greaseResultDataSourceService.effectiveEpAdditivation(
-                  table1Items || []
+                  table1Items
                 ),
                 this.greaseResultDataSourceService.density(dataItems),
                 this.greaseResultDataSourceService.lowFriction(dataItems),
@@ -295,6 +323,39 @@ export class GreaseReportService {
     }
 
     // add errors, warning, notes
+    const hintTitles = new Set<string>(
+      Object.values(GreaseReportSubordinateHint).flatMap(
+        (value: GreaseReportSubordinateHint) => [
+          value && value[0].toUpperCase() + value.slice(1),
+          translate(`calculationResult.${value}`),
+        ]
+      )
+    );
+
+    const errorWarningAndNotesSubordinates = subordinates
+      .filter(
+        (subordinate: GreaseReportSubordinate) =>
+          subordinate.title && hintTitles.has(subordinate.title)
+      )
+      .map((subordinate: GreaseReportSubordinate) => {
+        if (
+          subordinate.titleID ===
+            GreaseReportSubordinateTitle.STRING_NOTE_BLOCK &&
+          this.isVerticalAxisSelected()
+        ) {
+          subordinate.subordinates.push({
+            identifier: 'text',
+            text: [translate('calculationResult.axisOrientation.disclaimer')],
+          });
+
+          return {
+            ...subordinate,
+          };
+        }
+
+        return subordinate;
+      });
+
     formattedResult = [
       ...formattedResult,
       {
@@ -302,16 +363,7 @@ export class GreaseReportService {
         clickHandler: () => this.trackWarningsOpened(),
         defaultOpen: !resultSection,
         title: translate('calculationResult.errorsWarningsNotes'),
-        subordinates: subordinates.filter(
-          (subordinate: GreaseReportSubordinate) =>
-            subordinate.title &&
-            Object.values(GreaseReportSubordinateHint)
-              .flatMap((value: GreaseReportSubordinateHint) => [
-                value && value[0].toUpperCase() + value.slice(1),
-                translate(`calculationResult.${value}`),
-              ])
-              .includes(subordinate.title)
-        ),
+        subordinates: errorWarningAndNotesSubordinates,
       },
     ];
 
@@ -320,10 +372,9 @@ export class GreaseReportService {
 
   public getResultAmount(subordinates: GreaseReportSubordinate[]): number {
     return (
-      subordinates.find(
-        (subordinate) =>
-          subordinate.titleID ===
-          GreaseReportSubordinateTitle.STRING_OUTP_RESULTS
+      this.findSubordinateByTitleId(
+        subordinates,
+        GreaseReportSubordinateTitle.STRING_OUTP_RESULTS
       )?.subordinates?.length ?? 0
     );
   }
@@ -333,5 +384,14 @@ export class GreaseReportService {
       InteractionEventType.ErrorsAndWarnings
     );
     this.applicationInsightsService.logEvent(WARNINGSOPENED);
+  }
+
+  private findSubordinateByTitleId(
+    subordinates: GreaseReportSubordinate[] | undefined,
+    titleId: GreaseReportSubordinateTitle
+  ): GreaseReportSubordinate {
+    return subordinates?.find(
+      (section: GreaseReportSubordinate) => section.titleID === titleId
+    );
   }
 }

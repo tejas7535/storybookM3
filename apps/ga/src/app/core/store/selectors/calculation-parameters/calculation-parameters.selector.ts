@@ -8,6 +8,7 @@ import {
   marketGreases,
 } from '@ga/shared/constants';
 import {
+  AxisOrientation,
   CalculationParameters,
   InstallationMode,
   LoadInstallation,
@@ -227,4 +228,9 @@ export const isApplicationScenarioDisabled = createSelector(
 export const getMotionType = createSelector(
   getCalculationParametersState,
   (state) => state.movements.type
+);
+
+export const isVerticalAxisOrientation = createSelector(
+  getCalculationParametersState,
+  (state) => state.movements?.axisOrientation === AxisOrientation.Vertical
 );

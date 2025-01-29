@@ -276,16 +276,9 @@
     "signupUrl": "https://medias.schaeffler.it/it/registered/user",
     "axisOrientation": {
       "title": "Orientamento dell'asse",
-      "explainer": "Per il calcolo della durata dell'uso del grasso e degli intervalli di rilubrificazione, si presume un orientamento dell'asse orizzontale. Si prega di tenere conto delle informazioni nel TPI 176 \"Lubrificazione dei cuscinetti volventi\" per la progettazione dell'ambiente del cuscinetto nel caso di un orientamento dell'asse verticale, poiché può verificarsi una maggiore perdita di lubrificante. Per questo motivo, è anche consigliabile eseguire la rilubrificazione a intervalli più brevi con la stessa quantità di rilubrificante per unità di tempo per compensare la perdita di lubrificante in modo tempestivo. Poiché ciò può spesso essere difficile da realizzare manualmente, si consiglia l'uso di un dispensatore automatico di lubrificante.*)",
-      "supportCta": "In caso di domande sul vostro specifico caso di applicazione, si prega di contattare il Supporto Tecnico.",
-      "footnote": "*) L'uso di maggiori quantità iniziali di grasso o di maggiori quantità di rilubrificante per unità di tempo non è consigliabile, in quanto può essere controproducente, soprattutto ad alte velocità, rispetto al lavoro di manipolazione e allo sviluppo della temperatura. Un dispensatore di lubrificante applica piccole quantità a intervalli regolari nel punto di lubrificazione e previene un notevole aumento della temperatura.",
-      "disclaimer": "Tutti i calcoli vengono effettuati con l'orientamento dell'asse orizzontale. La selezione dell'orientamento verticale o diagonale dell'asse non viene considerata nel calcolo",
-      "close": "Chiudere",
-      "confirm": "Confermare",
       "orientations": {
         "Horizontal": "Orizzontale",
-        "Vertical": "Verticale",
-        "Diagonal": "Diagonale"
+        "Vertical": "Verticale"
       }
     }
   },
@@ -383,7 +376,10 @@
     "recommendedChip": "Consigliato",
     "resultsWithRecommendation": "I risultati sono ordinati per raccomandazione e intervallo di rilubrificazione",
     "noRecommendation": "I parametri forniti sono insoliti per l'applicazione data. Si prega di contattarci.",
-    "contact": "Contatto Schaeffler"
+    "contact": "Contatto Schaeffler",
+    "axisOrientation": {
+      "disclaimer": "Quando si calcola la durata del grasso e gli intervalli di rilubrificazione, si presume che l'albero sia in posizione orizzontale.\nIn caso di posizione verticale dell'albero, si prega di considerare le informazioni fornite nel TPI 176 'Lubrificazione dei cuscinetti volventi'\nriguardanti la progettazione dell'ambiente del cuscinetto, poiché la perdita di lubrificante può verificarsi più frequentemente.\n\nA causa dell'aumento della perdita di lubrificante, è necessario eseguire la rilubrificazione a intervalli più brevi\ne compensare tempestivamente la perdita di lubrificante. Poiché spesso è difficile ottenere ciò manualmente,\nsi raccomanda l'uso di un dosatore automatico di lubrificante. La quantità di lubrificante per unità di tempo è leggermente aumentata.\nSe avete domande relative alla vostra applicazione specifica, si prega di contattare il supporto tecnico."
+    }
   },
   "settings": {
     "stepper": {

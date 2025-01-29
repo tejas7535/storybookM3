@@ -27,10 +27,10 @@ const routes: Routes = [
       },
       {
         path: `${GreaseCalculationPath.ParametersPath}`,
-        loadChildren: () =>
-          import('./calculation-parameters/calculation-parameters.module').then(
-            (m) => m.CalculationParametersModule
-          ),
+        loadComponent: () =>
+          import(
+            './calculation-parameters/calculation-parameters.component'
+          ).then((m) => m.CalculationParametersComponent),
         canActivate: [CalculationParametersGuard],
       },
       {

@@ -164,7 +164,7 @@
     <!-- text -->
     @if (subordinate.identifier === 'text' && subordinate.text?.length) {
       @for (paragraph of subordinate.text; track paragraph) {
-        <p>{{ paragraph }}</p>
+        <p class="whitespace-pre-wrap">{{ paragraph }}</p>
       }
     }
     <!-- legalNote -->
@@ -172,7 +172,9 @@
       <p>{{ subordinate.legal }}</p>
     }
     <!-- block -->
-    @if (subordinate.identifier === 'block' && displayTitle) {
+    @if (
+      subordinate.identifier === 'block' && displayTitle && subordinate.title
+    ) {
       <h5 class="pt-4 pb-2">{{ subordinate.title }}</h5>
     }
     <!-- variableBlock-->

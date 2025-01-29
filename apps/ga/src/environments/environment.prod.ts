@@ -29,5 +29,5 @@ export const environment: Environment = {
   },
   dmcScanEnabled: true,
   dmcBackendUrl: 'https://engineeringapps.dp.schaeffler',
-  axisOrientationEnabled: false,
+  axisOrientationEnabled: true,
 };

@@ -276,16 +276,9 @@
     "signupUrl": "https://medias.schaeffler.de/de/registered/user",
     "axisOrientation": {
       "title": "Wellenlage",
-      "explainer": "Bei der Berechnung der Fettgebrauchsdauer und der Nachschmierintervalle wird von einer horizontalenWellenlage ausgegangen. Bitte berücksichtigen Sie im Fall einer vertikalen Wellenlage die Angaben in der TPI 176 „Schmierung von Wälzlagern“ zur Gestaltung der Lagerumgebung, da Schmierstoffverlust verstärkt auftreten kann. Aus diesem Grund ist es auch sinnvoll, die Nachschmierung bei gleicher Nachschmiermenge je Zeit in kürzeren Intervallen vorzunehmen und so den Schmierstoffverlust zeitnah auszugleichen. Da dies manuell häufig nur schwer realisiert werden kann, wird die Verwendung eines automatischen Schmierstoffgebers empfohlen. *)",
-      "supportCta": "Im Fall von Fragen zu Ihrem konkreten Anwendungsfall kontaktieren Sie bitte den Technischen Support.",
-      "footnote": "*) Die Verwendung größerer initialer Fettmengen oder größerer Nachschmiermengen je Zeit ist nicht sinnvoll, diese können, insbesondere bei hohen Drehzahlen in Bezug auf Walkarbeit und Temperaturentwicklung, kontraproduktiv sein. Ein Schmierstoffgeber bringt kleine Mengen in gleichmäßigem Abstand an die Schmierstelle und verhindert eine stärkere Temperaturerhöhung.",
-      "disclaimer": "Alle Berechnungen werden mit horizontaler Wellenlage durchgeführt. Die Auswahl von Vertikaler- oder Diagnoaler Wellenlage wird bei der Berechnung nicht beachtet",
-      "close": "Schließen",
-      "confirm": "Bestätigen",
       "orientations": {
         "Horizontal": "Horizontal",
-        "Vertical": "Vertikal",
-        "Diagonal": "Diagonal"
+        "Vertical": "Vertikal"
       }
     }
   },
@@ -342,7 +335,7 @@
     "relubricationQuantityPer1000OperatingHours": "Anhaltswert für Nachschmiermenge pro 1000 Betriebsstunden *",
     "relubricationPer7days": "Anhaltswert für Nachschmiermenge pro 7 Tage *",
     "relubricationPer30days": "Anhaltswert für Nachschmiermenge pro 30 Tage *",
-    "relubricationPer365days": "Anhaltswert für Nachschmiermenge pro 365 Tage *",
+    "relubricationPer365days": "Anhaltswert für automatische Nachschmiermenge pro 365 Tage *",
     "relubricationQuantityPer365daysTooltip": "Es empfiehlt sich - gerade bei großen Nachschmiermengen - die errechnete Nachschmiermenge verteilt auf mehrere Nachschmiervorgänge über der Nachschmierfrist zuzuführen.",
     "maximumManualRelubricationPerInterval": "Maximale manuelle Nachschmiermenge / Nachschmierintervall *",
     "greaseServiceLife": "Richtwert für die Fettgebrauchsdauer *",
@@ -383,7 +376,10 @@
     "poweredBy": "powered by",
     "pdfDownload": "PDF herunterladen",
     "noRecommendation": "Die angegebenen Parameter sind untypisch für die ausgewählte Anwendung. Bitte nehmen Sie Kontakt auf",
-    "contact": "Schaeffler Kontakt"
+    "contact": "Schaeffler Kontakt",
+    "axisOrientation": {
+      "disclaimer": "Bei der Berechnung der Fettgebrauchsdauer und der Nachschmierintervalle wird von einer horizontalen Wellenlage ausgegangen. Bitte berücksichtigen Sie im Fall einer vertikalen Wellenlage die Angaben in der TPI 176 „Schmierung von Wälzlagern“ zur Gestaltung der Lagerumgebung, da Schmierstoffverlust verstärkt auftreten kann.\n\n Auf Grund des erhöhten Schmierstoffverlusts ist es notwendig, die Nachschmierung in kürzeren Intervallen vorzunehmen und den Schmierstoffverlust zeitnah auszugleichen. Da dies manuell häufig nur schwer realisiert werden kann, wird die Verwendung eines automatischen Schmierstoffgebers empfohlen. Die Schmierstoffmenge je Zeit wird leicht erhöht.\n Im Fall von Fragen zu Ihrem konkreten Anwendungsfall kontaktieren Sie bitte den Technischen Support. "
+    }
   },
   "settings": {
     "stepper": {

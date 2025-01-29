@@ -3,6 +3,7 @@ export * from './automatic-lubrication.mock';
 export * from './calculation-parameters.mock';
 export * from './calculation-result.mock';
 export * from './dialog-response.mock';
+export * from './grease-calculation-result.mock';
 export * from './grease-report-subordinate-data.mock';
 export * from './grease-report-subordinates.mock';
 export * from './grease-result.mock';

@@ -276,16 +276,9 @@
     "signupUrl": "https://medias.schaeffler.vn/registered/user",
     "axisOrientation": {
       "title": "Hướng trục",
-      "explainer": "Đối với việc tính toán tuổi thọ của mỡ và chu kì bôi trơn lại, giả định rằng hướng trục nằm ngang. Vui lòng xem xét thông tin trong TPI 176 \"Bôi trơn trục lăn\" về thiết kế môi trường của ổ trục trong trường hợp hướng trục thẳng đứng, vì việc mất mỡ bôi trơn có thể tăng cao. Vì lý do này, cũng nên thực hiện việc bôi trơn lại với cùng một lượng mỡ bôi trơn theo thời gian nhưng ở các khoảng cách ngắn hơn để bù lại sự mất mỡ bôi trơn kịp thời. Vì điều này có thể thường xuyên khó thực hiện bằng tay, nên sử dụng một thiết bị bôi trơn tự động.*)",
-      "supportCta": "Nếu bạn có bất kỳ câu hỏi nào về trường hợp ứng dụng cụ thể của mình, vui lòng liên hệ với Bộ phận Hỗ trợ Kỹ thuật.",
-      "footnote": "*) Việc sử dụng lượng mỡ khởi đầu lớn hơn hoặc lượng mỡ bôi trơn lại nhiều hơn theo thời gian không hợp lý, vì điều này có thể, đặc biệt là ở tốc độ cao, phản tác dụng đối với công việc nhào trộn và phát triển nhiệt độ. Một thiết bị bôi trơn sẽ cung cấp một lượng nhỏ mỡ ở khoảng cách đều đặn đến điểm bôi trơn và ngăn ngừa sự gia tăng nhiệt độ mạnh.",
-      "disclaimer": "Tất cả các tính toán đều được thực hiện với hướng trục nằm ngang. Việc chọn hướng trục thẳng đứng hoặc chéo không được cân nhắc trong tính toán",
-      "close": "Đóng",
-      "confirm": "Xác nhận",
       "orientations": {
         "Horizontal": "Ngang",
-        "Vertical": "Dọc",
-        "Diagonal": "Chéo"
+        "Vertical": "Dọc"
       }
     }
   },
@@ -383,7 +376,10 @@
     "recommendedChip": "Được đề xuất",
     "resultsWithRecommendation": "Kết quả được sắp xếp theo đề xuất và khoảng thời gian bôi trơn lại",
     "noRecommendation": "Các thông số được cung cấp là không bình thường cho ứng dụng đã cho. Xin vui lòng liên hệ với chúng tôi.",
-    "contact": "Liên hệ Schaeffler"
+    "contact": "Liên hệ Schaeffler",
+    "axisOrientation": {
+      "disclaimer": "Khi tính toán tuổi thọ của dầu mỡ và khoảng thời gian bôi trơn lại, người ta giả định rằng trục ở vị trí ngang.\nVui lòng cân nhắc thông tin trong TPI 176 'Bôi trơn Vòng bi Lăn'\nvề thiết kế của môi trường vòng bi trong trường hợp trục ở vị trí thẳng đứng,\nvì thất thoát chất bôi trơn có thể xảy ra thường xuyên hơn.\n\nDo thất thoát chất bôi trơn tăng lên, cần thiết phải thực hiện bôi trơn lại ở khoảng thời gian ngắn hơn\nvà bù đắp kịp thời cho sự mất mát chất bôi trơn.\nVì điều này thường khó đạt được bằng tay,\nnên sử dụng bộ cấp phát chất bôi trơn tự động được khuyến nghị. Lượng chất bôi trơn trên đơn vị thời gian tăng nhẹ.\nNếu bạn có câu hỏi liên quan đến ứng dụng cụ thể của mình, vui lòng liên hệ Hỗ trợ Kỹ thuật."
+    }
   },
   "settings": {
     "stepper": {

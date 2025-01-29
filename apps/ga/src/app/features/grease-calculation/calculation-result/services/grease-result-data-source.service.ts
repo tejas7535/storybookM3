@@ -181,16 +181,12 @@ export class GreaseResultDataSourceService {
   }
 
   public maximumManualRelubricationInterval(
-    dataItems: GreaseReportSubordinateDataItem[],
+    items: GreaseReportSubordinateDataItem[],
     rho: number
   ): GreaseResultDataSourceItem {
-    const relubricationIntervalValueInDays =
-      helpers.relubricationIntervalInDays(dataItems);
+    const interval = helpers.relubricationIntervalInDays(items);
 
-    const numberOfDays =
-      relubricationIntervalValueInDays > this.daysInYear
-        ? this.daysInYear
-        : relubricationIntervalValueInDays;
+    const days = interval > this.daysInYear ? this.daysInYear : interval;
 
     /*
       Qvre_man_min and Qvre_man_max are not used in the calculation as it is combined value per interval,
@@ -200,32 +196,43 @@ export class GreaseResultDataSourceService {
 
       Qvre_aut_min and Qvre_aut_max are defined as per day values which are easier used in the calculation.
     */
-    const relubricationPerDays = helpers.relubricationPerDays(
-      numberOfDays,
-      dataItems
-    );
+    const relubricationDays = helpers.relubricationPerDays(days, items);
 
-    if (!relubricationPerDays) {
+    if (!relubricationDays) {
       return undefined;
     }
 
-    const { roundedValue, prefix } = this.roundValue(relubricationPerDays);
+    const result = this.getMaxRelubricationItem(
+      items,
+      rho,
+      relubricationDays,
+      days
+    );
 
-    const result: GreaseResultDataSourceItem = {
-      title: `maximumManualRelubricationPerInterval`,
-      values: `${this.massTemplate(
-        rho,
-        relubricationPerDays,
-        `${numberOfDays} ${translate('calculationResult.days')}`
-      )}<br>${helpers.secondaryValue(
-        `${prefix}${this.localeService.localizeNumber(
-          roundedValue,
-          'decimal'
-        )} ${helpers.relubricationQuantityUnit(
-          dataItems
-        )}/${numberOfDays} ${translate('calculationResult.days')}`
-      )}`,
-    };
+    return result;
+  }
+
+  public maxManualRelubricationIntervalForVerticalAxis(
+    items: GreaseReportSubordinateDataItem[],
+    rho: number
+  ): GreaseResultDataSourceItem {
+    const MAX_DAYS = 7;
+
+    const interval = helpers.relubricationIntervalInDaysFromMaxValue(items);
+    const days = interval > MAX_DAYS ? MAX_DAYS : interval;
+
+    const relubricationDays = helpers.maximumRelubricationPerDays(days, items);
+
+    if (!relubricationDays) {
+      return undefined;
+    }
+
+    const result = this.getMaxRelubricationItem(
+      items,
+      rho,
+      relubricationDays,
+      days
+    );
 
     return result;
   }
@@ -243,27 +250,37 @@ export class GreaseResultDataSourceService {
       : undefined;
   }
 
-  public relubricationPer7Days(
-    dataItems: GreaseReportSubordinateDataItem[],
+  public getMaximumLubricationPer7Days(
+    items: GreaseReportSubordinateDataItem[],
     rho: number
   ): GreaseResultDataSourceItem {
-    return this.getLubricationPerNumberOfDays(7, dataItems, rho);
+    return this.getMaximumLubricationPerDays(7, items, rho);
+  }
+
+  public relubricationPer7Days(
+    items: GreaseReportSubordinateDataItem[],
+    rho: number
+  ): GreaseResultDataSourceItem {
+    return this.getAverageLubricationPerDays(7, items, rho);
   }
 
   public relubricationPer30Days(
-    dataItems: GreaseReportSubordinateDataItem[],
+    items: GreaseReportSubordinateDataItem[],
     rho: number
   ): GreaseResultDataSourceItem {
-    return this.getLubricationPerNumberOfDays(30, dataItems, rho);
+    return this.getAverageLubricationPerDays(30, items, rho);
   }
 
   public relubricationPer365Days(
-    dataItems: GreaseReportSubordinateDataItem[],
+    items: GreaseReportSubordinateDataItem[],
     rho: number
   ): GreaseResultDataSourceItem {
-    const tooltip = 'relubricationQuantityPer365daysTooltip';
-
-    return this.getLubricationPerNumberOfDays(365, dataItems, rho, tooltip);
+    return this.getAverageLubricationPerDays(
+      365,
+      items,
+      rho,
+      'relubricationQuantityPer365daysTooltip'
+    );
   }
 
   public viscosityRatio(
@@ -347,24 +364,28 @@ export class GreaseResultDataSourceService {
       : undefined;
   }
 
-  public additiveRequired = (
-    dataItems: GreaseReportSubordinateDataItem[]
-  ): GreaseResultDataSourceItem => ({
-    title: 'additiveRequired',
-    values: `${this.undefinedValuePipe.transform(
-      helpers.itemValue(dataItems, SubordinateDataItemField.ADD_REQ)
-    )}`,
-    tooltip: 'additiveRequiredTooltip',
-  });
+  public additiveRequired(
+    items: GreaseReportSubordinateDataItem[]
+  ): GreaseResultDataSourceItem {
+    return {
+      title: 'additiveRequired',
+      values: `${this.undefinedValuePipe.transform(
+        helpers.itemValue(items, SubordinateDataItemField.ADD_REQ)
+      )}`,
+      tooltip: 'additiveRequiredTooltip',
+    };
+  }
 
-  public effectiveEpAdditivation = (
+  public effectiveEpAdditivation(
     dataItems: GreaseReportSubordinateDataItem[]
-  ): GreaseResultDataSourceItem => ({
-    title: 'effectiveEpAdditivation',
-    values: `${this.undefinedValuePipe.transform(
-      helpers.itemValue(dataItems, SubordinateDataItemField.ADD_W)
-    )}`,
-  });
+  ): GreaseResultDataSourceItem {
+    return {
+      title: 'effectiveEpAdditivation',
+      values: `${this.undefinedValuePipe.transform(
+        helpers.itemValue(dataItems, SubordinateDataItemField.ADD_W)
+      )}`,
+    };
+  }
 
   public density(
     dataItems: GreaseReportSubordinateDataItem[]
@@ -454,14 +475,41 @@ export class GreaseResultDataSourceService {
     };
   }
 
-  public h1Registration = (
+  public h1Registration(
     dataItems: GreaseReportSubordinateDataItem[]
-  ): GreaseResultDataSourceItem => ({
-    title: 'h1Registration',
-    values: `${this.undefinedValuePipe.transform(
-      helpers.itemValue(dataItems, SubordinateDataItemField.NSF_H1)
-    )}`,
-  });
+  ): GreaseResultDataSourceItem {
+    return {
+      title: 'h1Registration',
+      values: `${this.undefinedValuePipe.transform(
+        helpers.itemValue(dataItems, SubordinateDataItemField.NSF_H1)
+      )}`,
+    };
+  }
+
+  private getMaxRelubricationItem(
+    items: GreaseReportSubordinateDataItem[],
+    rho: number,
+    relubricationPerDays: number,
+    numberOfDays: number
+  ): GreaseResultDataSourceItem {
+    const { roundedValue, prefix } = this.roundValue(relubricationPerDays);
+
+    return {
+      title: `maximumManualRelubricationPerInterval`,
+      values: `${this.massTemplate(
+        rho,
+        relubricationPerDays,
+        `${numberOfDays} ${translate('calculationResult.days')}`
+      )}<br>${helpers.secondaryValue(
+        `${prefix}${this.localeService.localizeNumber(
+          roundedValue,
+          'decimal'
+        )} ${helpers.relubricationQuantityUnit(
+          items
+        )}/${numberOfDays} ${translate('calculationResult.days')}`
+      )}`,
+    };
+  }
 
   private readonly massTemplate = (
     rho: number,
@@ -535,21 +583,48 @@ export class GreaseResultDataSourceService {
       : translate('calculationResult.concept1settings.sizeHint', { size: 60 });
   };
 
-  private getLubricationPerNumberOfDays(
-    numberOfDays: number,
-    dataItems: GreaseReportSubordinateDataItem[],
-    rho: number,
-    tooltip?: string
+  private getMaximumLubricationPerDays(
+    days: number,
+    items: GreaseReportSubordinateDataItem[],
+    rho: number
   ): GreaseResultDataSourceItem | undefined {
-    const relubricationPerDays = helpers.relubricationPerDays(
-      numberOfDays,
-      dataItems
-    );
+    const perDays = helpers.maximumRelubricationPerDays(days, items);
 
-    if (!relubricationPerDays) {
+    if (!perDays) {
       return undefined;
     }
 
+    return this.getLubricationItemPerNumberOfDays(days, items, rho, perDays);
+  }
+
+  private getAverageLubricationPerDays(
+    days: number,
+    items: GreaseReportSubordinateDataItem[],
+    rho: number,
+    tooltip?: string
+  ): GreaseResultDataSourceItem | undefined {
+    const perDays = helpers.relubricationPerDays(days, items);
+
+    if (!perDays) {
+      return undefined;
+    }
+
+    return this.getLubricationItemPerNumberOfDays(
+      days,
+      items,
+      rho,
+      perDays,
+      tooltip
+    );
+  }
+
+  private getLubricationItemPerNumberOfDays(
+    numberOfDays: number,
+    dataItems: GreaseReportSubordinateDataItem[],
+    rho: number,
+    relubricationPerDays: number,
+    tooltip?: string
+  ): GreaseResultDataSourceItem | undefined {
     const { roundedValue, prefix } = this.roundValue(relubricationPerDays);
 
     const result: GreaseResultDataSourceItem = {

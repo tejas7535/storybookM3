@@ -276,16 +276,9 @@
     "signupUrl": "https://medias.schaeffler.co.id/registered/user",
     "axisOrientation": {
       "title": "Orientasi Poros",
-      "explainer": "Dalam perhitungan umur pakai pelumas dan interval pelumasan ulang, diasumsikan bahwa poros berada pada posisi horizontal. Harap perhatikan bahwa dalam kasus poros vertikal, referensi dalam TPI 176 \"Pelumasan Bantalan\" terkait desain lingkungan bantalan perlu dipertimbangkan, karena kehilangan pelumas dapat terjadi lebih sering. Oleh karena itu, disarankan untuk melakukan pelumasan ulang dengan jumlah pelumas yang sama dalam interval waktu yang lebih singkat untuk segera menggantikan kehilangan pelumas. Karena ini sering kali sulit dilakukan secara manual, disarankan untuk menggunakan pelumas otomatis. *)",
-      "supportCta": "Jika Anda memiliki pertanyaan tentang aplikasi spesifik Anda, silakan hubungi Dukungan Teknis.",
-      "footnote": "*) Penggunaan jumlah pelumas awal yang lebih besar atau jumlah pelumas ulang yang lebih besar per waktu tidak disarankan, ini bisa, terutama pada kecepatan tinggi terkait dengan pekerjaan mekanis dan perkembangan suhu, kontraproduktif. Pelumas otomatis memasok jumlah kecil secara teratur ke titik pelumasan dan mencegah peningkatan suhu yang lebih tinggi.",
-      "disclaimer": "Semua perhitungan dilakukan dengan poros horizontal. Pemilihan posisi poros Vertikal atau Diagonal tidak diperhitungkan dalam perhitungan",
-      "close": "Tutup",
-      "confirm": "Konfirmasi",
       "orientations": {
         "Horizontal": "Horizontal",
-        "Vertical": "Vertikal",
-        "Diagonal": "Diagonal"
+        "Vertical": "Vertikal"
       }
     }
   },
@@ -383,7 +376,10 @@
     "recommendedChip": "Direkomendasikan",
     "resultsWithRecommendation": "Hasil diurutkan berdasarkan rekomendasi dan interval pelumasan ulang",
     "noRecommendation": "Parameter yang diberikan tidak biasa untuk aplikasi yang diberikan. Silakan hubungi kami.",
-    "contact": "Kontak Schaeffler"
+    "contact": "Kontak Schaeffler",
+    "axisOrientation": {
+      "disclaimer": "Saat menghitung masa pakai pelumas dan interval pelumasan ulang, diasumsikan bahwa poros berada dalam posisi horizontal.\nMohon pertimbangkan informasi dalam TPI 176 'Pelumasan Bantalan Gelinding' terkait dengan desain\ntata lingkungan bantalan dalam kasus poros vertikal, karena kehilangan pelumas dapat terjadi lebih sering.\n\nKarena peningkatan kehilangan pelumas, perlu dilakukan pelumasan ulang pada interval yang lebih pendek\ndan dengan segera mengganti pelumas yang hilang. Karena ini sering sulit dilakukan secara manual,\ndirekomendasikan penggunaan dispenser pelumas otomatis. Jumlah pelumas per unit waktu sedikit ditingkatkan.\nJika Anda memiliki pertanyaan mengenai aplikasi spesifik Anda, silakan hubungi Dukungan Teknis."
+    }
   },
   "settings": {
     "stepper": {

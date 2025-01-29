@@ -276,16 +276,9 @@
     "signupUrl": "https://medias.schaeffler.pl/pl/registered/user",
     "axisOrientation": {
       "title": "Orientacja osi",
-      "explainer": "Przy obliczaniu okresu trwałości smaru i okresów dosmarowywania zakłada się położenie wału poziome. Proszę wziąć pod uwagę przy położeniu wału pionowym zalecenia TPI 176 „Smarowanie łożysk tocznych“ dotyczące konstrukcji otoczenia łożyska, ponieważ intensywniejsza utrata smaru może wystąpić. Z tego powodu warto również wykonać dosmarowywanie przy tej samej ilości smaru co jakiś czas w krótszych odstępach czasu, aby zrekompensować utratę smaru na bieżąco. Ponieważ ręczne dosmarowywanie często może być trudne, zaleca się stosowanie automatycznego urządzenia do dozowania smaru. *)",
-      "supportCta": "W przypadku pytań dotyczących Państwa konkretnego zastosowania, prosimy o kontakt z pomocą techniczną.",
-      "footnote": "*) Stosowanie większych początkowych ilości smaru lub większych ilości dosmarowywania co jakiś czas nie ma sensu, ponieważ mogą one, zwłaszcza przy wysokich prędkościach obrotowych w odniesieniu do pracy mechanicznej i wzrostu temperatury, być kontraproduktywne. Urządzenie do dozowania smaru wprowadza małe ilości smaru w równych odstępach do miejsca smarowania i zapobiega większemu wzrostowi temperatury.",
-      "disclaimer": "Wszystkie obliczenia są przeprowadzane z poziomym położeniem wału. Wybór położenia pionowego lub skośnego wału nie jest brany pod uwagę przy obliczeniach",
-      "close": "Zamknij",
-      "confirm": "Potwierdź",
       "orientations": {
         "Horizontal": "Poziome",
-        "Vertical": "Pionowe",
-        "Diagonal": "Skośne"
+        "Vertical": "Pionowe"
       }
     }
   },
@@ -383,7 +376,10 @@
     "recommendedChip": "Zalecane",
     "resultsWithRecommendation": "Wyniki są sortowane według zalecenia i interwału przelubrykowania",
     "noRecommendation": "Podane parametry są nietypowe dla danego zastosowania. Proszę się z nami skontaktować.",
-    "contact": "Kontakt Schaeffler"
+    "contact": "Kontakt Schaeffler",
+    "axisOrientation": {
+      "disclaimer": "Podczas obliczania żywotności smaru i przerw między smarowaniami zakłada się, że wał jest w pozycji poziomej.\nW przypadku pozycji pionowej wału należy uwzględnić informacje zawarte w TPI 176 'Smarowanie łożysk tocznych'\ndotyczące projektowania środowiska łożysk, ponieważ utrata środka smarnego może występować częściej.\n\nZe względu na zwiększoną utratę środka smarnego konieczne jest częstsze smarowanie\ni szybkie uzupełnianie strat środka smarnego. Ponieważ często trudno to osiągnąć ręcznie,\nzaleca się zastosowanie automatycznego dozownika środka smarnego. Ilość środka smarnego na jednostkę czasu jest nieco zwiększona.\nJeśli mają Państwo pytania dotyczące konkretnego zastosowania, prosimy o kontakt z pomocą techniczną."
+    }
   },
   "settings": {
     "stepper": {
