@@ -16,6 +16,7 @@ import {
 } from '@gq/shared/models';
 import { SapCallInProgress } from '@gq/shared/models/quotation';
 import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
+import { TargetPriceSource } from '@gq/shared/models/quotation/target-price-source.enum';
 import { AttachmentsService } from '@gq/shared/services/rest/attachments/attachments.service';
 import { CustomerService } from '@gq/shared/services/rest/customer/customer.service';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
@@ -1046,6 +1047,17 @@ describe('ActiveCaseEffects', () => {
 
       effects['showUpdateQuotationDetailToast'](
         { targetPrice: 200 } as any,
+        false
+      );
+      expect(effects['snackBar'].open).toHaveBeenCalledWith(
+        translate(`shared.snackBarMessages.updateTargetPrice`)
+      );
+    });
+    test('should display updateTargetPriceSource', () => {
+      effects['snackBar'].open = jest.fn();
+
+      effects['showUpdateQuotationDetailToast'](
+        { targetPriceSource: TargetPriceSource.NO_ENTRY } as any,
         false
       );
       expect(effects['snackBar'].open).toHaveBeenCalledWith(

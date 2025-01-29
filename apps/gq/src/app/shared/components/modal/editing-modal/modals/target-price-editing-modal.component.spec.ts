@@ -363,6 +363,12 @@ describe('TargetPriceEditingModalComponent', () => {
       targetPriceSourceFormControl.setValue('noEntry');
       expect(targetPriceFormControl.value).toBe(undefined);
     });
+    test('when targetPriceSource is changing the targetPrice needs to be updated on non number input', () => {
+      targetPriceFormControl.setValue('a');
+      targetPriceSourceFormControl.setValue('INTERNAL');
+      component.handleAdditionalContent();
+      expect(targetPriceFormControl.value).toBe('a');
+    });
     test('should set NO_Entry as default value for targetPriceSource', () => {
       component.modalData.quotationDetail.targetPriceSource = undefined;
       component.handleAdditionalContent();

@@ -117,11 +117,13 @@ export class TargetPriceEditingModalComponent extends EditingModalComponent {
 
     this.subscription.add(
       targetPriceSource.valueChanges.subscribe((targetPriceSourceValue) => {
+        const controlValue = control.value ? Number(control.value) : undefined;
+        if (Number.isNaN(controlValue)) {
+          return;
+        }
+
         control.setValue(
-          getTargetPriceValue(
-            targetPriceSourceValue,
-            control.value ? Number(control.value) : undefined
-          )?.toString(),
+          getTargetPriceValue(targetPriceSourceValue, controlValue)?.toString(),
           { emitEvent: false }
         );
         const parsedValue = parseLocalizedInputValue(

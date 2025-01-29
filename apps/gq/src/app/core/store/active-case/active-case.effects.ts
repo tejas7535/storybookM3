@@ -756,7 +756,7 @@ export class ActiveCaseEffects {
       translateString += updatesGqPrice
         ? 'updateQuantityAffectsGqPrice'
         : 'updateQuantity';
-    } else if (update.targetPrice) {
+    } else if (update.targetPrice || update.targetPriceSource) {
       translateString += 'updateTargetPrice';
     } else {
       translateString += 'updateComment';
