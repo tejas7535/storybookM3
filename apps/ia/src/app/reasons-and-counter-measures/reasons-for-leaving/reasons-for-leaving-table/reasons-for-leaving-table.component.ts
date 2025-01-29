@@ -236,16 +236,19 @@ export class ReasonsForLeavingTableComponent implements OnInit {
     const icon = 'person_add_disabled';
     const data: EmployeeListDialogMeta = this.dialogMeta;
     const timeframe = this.filters.timeRange;
-    const timeframeExcelName = this.timeRange.value;
 
     const title = `${translate(
       `reasonsAndCounterMeasures.reasonsForLeaving.table.popup.titleLeavers`
     )}`;
-    const customExcelFileName = `${title} ${this.filters.value} ${timeframeExcelName}`;
+    const customExcelFileName = this.createExcelFileName(title, params.data);
     const filters = new EmployeeListDialogMetaFilters(
       this.filters.filterDimension,
       this.filters.value,
-      timeframe
+      timeframe,
+      undefined,
+      undefined,
+      params.data.reason,
+      params.data.detailedReason
     );
     const headings = new EmployeeListDialogMetaHeadings(
       title,
@@ -259,6 +262,18 @@ export class ReasonsForLeavingTableComponent implements OnInit {
     this.dialog.open(EmployeeListDialogComponent, {
       data,
     });
+  }
+
+  createExcelFileName(
+    title: string,
+    filters: EmployeeListDialogMetaFilters
+  ): string {
+    let name = `${title} ${this.filters.value} ${this.filters.timeRange} ${filters.reason}`;
+    if (filters.detailedReason) {
+      name += ` - ${filters.detailedReason}`;
+    }
+
+    return name;
   }
 
   showOrHideLoadingOverlay(): void {

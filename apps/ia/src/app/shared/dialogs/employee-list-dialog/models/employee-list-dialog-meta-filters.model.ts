@@ -4,6 +4,8 @@ export class EmployeeListDialogMetaFilters {
     public value: string,
     public timeRange: string,
     public manager?: string,
-    public job?: string
+    public job?: string,
+    public reason?: string,
+    public detailedReason?: string
   ) {}
 }

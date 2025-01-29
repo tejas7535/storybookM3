@@ -10,6 +10,7 @@ import {
 import { EmployeeListDialogComponent } from '../../../shared/dialogs/employee-list-dialog/employee-list-dialog.component';
 import {
   EmployeeListDialogMeta,
+  EmployeeListDialogMetaFilters,
   EmployeeListDialogMetaHeadings,
 } from '../../../shared/dialogs/employee-list-dialog/models';
 import { EmployeeWithAction, FilterDimension } from '../../../shared/models';
@@ -114,28 +115,11 @@ describe('ReasonsForLeavingTableComponent', () => {
     });
   });
 
-  describe('leaversData', () => {
-    test('should set leavers data', () => {
-      component.dialogMeta = {
-        employeesLoading: false,
-        employees: [],
-        enoughRightsToShowAllEmployees: true,
-      } as EmployeeListDialogMeta;
-
-      component.leaversData = {
-        employees: [{ userId: 'abc' } as EmployeeWithAction],
-        responseModified: true,
-      };
-
-      expect(component.leavers).toEqual([{ userId: 'abc' }]);
-      expect(component.dialogMeta.employees).toEqual([{ userId: 'abc' }]);
-      expect(component.dialogMeta.enoughRightsToShowAllEmployees).toBeFalsy();
-    });
-  });
-
   describe('handleCellClick', () => {
     test('should emit event and open employees dialog', () => {
-      const params = { data: { reasonId: 78 } } as CellClickedEvent;
+      const params = {
+        data: { reasonId: 78, reason: 'Carrer change' },
+      } as CellClickedEvent;
       component['dialog'].open = jest.fn();
       component.leaversRequested.emit = jest.fn();
       component.timeRange = { id: '2', value: '3' };
@@ -151,7 +135,7 @@ describe('ReasonsForLeavingTableComponent', () => {
         EmployeeListDialogComponent,
         {
           data: {
-            customExcelFileName: 'translate it 1 3',
+            customExcelFileName: 'translate it 1 Dec 2023 Carrer change',
             headings: {
               customBeautifiedFilters: {
                 filterDimension: FilterDimension.FUNCTION,
@@ -159,6 +143,7 @@ describe('ReasonsForLeavingTableComponent', () => {
                 value: '1',
                 job: undefined,
                 manager: undefined,
+                reason: 'Carrer change',
               },
               header: 'translate it',
               icon: 'person_add_disabled',
@@ -194,6 +179,23 @@ describe('ReasonsForLeavingTableComponent', () => {
   });
 
   describe('leaversData', () => {
+    test('should set leavers data', () => {
+      component.dialogMeta = {
+        employeesLoading: false,
+        employees: [],
+        enoughRightsToShowAllEmployees: true,
+      } as EmployeeListDialogMeta;
+
+      component.leaversData = {
+        employees: [{ userId: 'abc' } as EmployeeWithAction],
+        responseModified: true,
+      };
+
+      expect(component.leavers).toEqual([{ userId: 'abc' }]);
+      expect(component.dialogMeta.employees).toEqual([{ userId: 'abc' }]);
+      expect(component.dialogMeta.enoughRightsToShowAllEmployees).toBeFalsy();
+    });
+
     test('should set leavers, employees and enoughRightsToShowAllEmployees', () => {
       component.dialogMeta = {
         employeesLoading: false,
@@ -396,6 +398,41 @@ describe('ReasonsForLeavingTableComponent', () => {
         ['answers'],
         false
       );
+    });
+  });
+
+  describe('createExcelFileName', () => {
+    test('should return excel file name', () => {
+      component.filters = {
+        filterDimension: FilterDimension.FUNCTION,
+        value: 'some value',
+        timeRange: '123-321',
+      };
+      const filters = {
+        reason: 'some reason',
+        detailedReason: 'some detailed reason',
+      } as EmployeeListDialogMetaFilters;
+
+      const result = component.createExcelFileName('Leavers', filters);
+
+      expect(result).toEqual(
+        'Leavers some value 123-321 some reason - some detailed reason'
+      );
+    });
+
+    test('should return excel file name when no deailed reason', () => {
+      component.filters = {
+        filterDimension: FilterDimension.FUNCTION,
+        value: 'some value',
+        timeRange: '123-321',
+      };
+      const filters = {
+        reason: 'some reason',
+      } as EmployeeListDialogMetaFilters;
+
+      const result = component.createExcelFileName('Leavers', filters);
+
+      expect(result).toEqual('Leavers some value 123-321 some reason');
     });
   });
 });

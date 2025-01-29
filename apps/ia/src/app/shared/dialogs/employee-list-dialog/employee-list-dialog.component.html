@@ -60,5 +60,15 @@
       <span class="ml-4 text-medium-emphasis">Job:&nbsp;</span>
       <span class="text-high-emphasis">{{ beautifiedFilters.job }}</span>
     }
+    @if (beautifiedFilters.reason) {
+      <span class="ml-4 text-medium-emphasis">Reason:&nbsp;</span>
+      <span class="text-high-emphasis">{{ beautifiedFilters.reason }}</span>
+    }
+    @if (beautifiedFilters.detailedReason) {
+      <span class="ml-4 text-medium-emphasis">Detailed reason:&nbsp;</span>
+      <span class="text-high-emphasis">{{
+        beautifiedFilters.detailedReason
+      }}</span>
+    }
   </div>
 </ng-template>
