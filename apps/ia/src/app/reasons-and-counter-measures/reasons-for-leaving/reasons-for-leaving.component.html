@@ -1,4 +1,20 @@
 <mat-card *transloco="let t; read: 'reasonsAndCounterMeasures'">
+  <div class="flex justify-end">
+    <a
+      mat-stroked-button
+      class="cursor-pointer"
+      target="_blank"
+      matTooltipPosition="before"
+      [matTooltip]="t('exitSurveysAppTooltip')"
+      [href]="exitSurveyURL"
+    >
+      <img
+        src="/assets/images/qxm_color.svg"
+        class="h-12"
+        alt="{{ t('exitSurveysAppTooltip') }}"
+      />
+    </a>
+  </div>
   <h5 class="font-bold">
     {{ t('reasonsForLeaving.title') }}
   </h5>

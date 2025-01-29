@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 
@@ -20,6 +21,7 @@ import { ReasonsForLeavingTableModule } from './reasons-for-leaving-table/reason
     NavButtonsComponent,
     MatButtonModule,
     MatCardModule,
+    MatTooltipModule,
     SharedTranslocoModule,
     FilterModule,
     ReasonsForLeavingTableModule,

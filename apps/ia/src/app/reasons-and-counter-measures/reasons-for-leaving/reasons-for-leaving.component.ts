@@ -43,6 +43,8 @@ import {
 })
 export class ReasonsForLeavingComponent implements OnInit {
   readonly translationPath = 'reasonsAndCounterMeasures.reasonsForLeaving.tabs';
+  readonly exitSurveyURL =
+    'https://schaefflerhr.qualtrics.com/portals/ui/manager-assist/reporting-dashboard/web/641c5e4f3e004a00083572f1/pages/Page_7b2a5f7e-2ded-43dd-b5a7-2cb98c0304f3/view';
 
   navItems: NavItem[] = [
     {

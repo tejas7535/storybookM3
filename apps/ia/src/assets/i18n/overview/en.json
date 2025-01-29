@@ -19,6 +19,7 @@
   "fluctuationChartTitle": "Latest Fluctuation Rates",
   "unforcedFluctuationChartTitle": "Latest Unforced Fluctuation Rates",
   "workforceBalance": {
+    "employees": "Employees",
     "title": "Workforce Balance",
     "entries": "Entries",
     "exits": "Exits",

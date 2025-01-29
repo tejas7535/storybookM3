@@ -1,9 +1,19 @@
+import { TranslocoModule } from '@jsverse/transloco';
+
 import { Color } from '../../models/color';
 import {
   createPieChartBaseOptions,
   createPieChartSeries,
 } from './loose-doughnut-chart.config';
 
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
+  translate: jest.fn((key: string) =>
+    key === 'overview.workforceBalance.employees'
+      ? 'Employees'
+      : 'no translation'
+  ),
+}));
 describe('loose-doughnut-chart config', () => {
   describe('createPieChartBaseOptions', () => {
     let echartsOptions: any;
@@ -85,12 +95,13 @@ describe('loose-doughnut-chart config', () => {
   describe('createPieChartSeries', () => {
     let seriesConfig: any;
 
-    const formatter = `<table>
-    <tr>
-      <td class="pr-4"><b>{c}</b></td>
-      <td>Employees</td>
-    </tr>
-  </table>`;
+    const formatter = `
+    <table>
+      <tr>
+        <td class="pr-4"><b>{c}</b></td>
+        <td>Employees</td>
+      </tr>
+    </table>`;
 
     beforeEach(() => {
       seriesConfig = {

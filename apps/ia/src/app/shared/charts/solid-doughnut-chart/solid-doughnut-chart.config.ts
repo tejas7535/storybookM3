@@ -118,7 +118,6 @@ export function createSolidDoughnutChartSeries(
             ? `${(p.data as OptionDataItem & { percent: number }).percent.toFixed(1)}%`
             : undefined,
       },
-
       data: [{ value: 0, name: '', itemStyle: { color: 'transparent' } }],
       tooltip: {
         formatter: tooltipFormatter,
