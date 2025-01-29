@@ -32,7 +32,7 @@ interface TabElem {
   styles: ['.mat-mdc-tab-link {@apply text-button; }'],
 })
 export class AppComponent implements OnInit {
-  title = 'Insight Attrition';
+  title = 'Exit Insights';
   titleLink = '/';
 
   username$: Observable<string>;

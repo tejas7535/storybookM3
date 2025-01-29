@@ -29,7 +29,7 @@ import { TotalStatusBarComponent } from './total-status-bar/total-status-bar.com
 })
 export class EmployeeListTableComponent implements OnInit {
   readonly REASON_FOR_LEAVING_MIN_WIDTH = 170;
-  readonly APP_NAME = 'Insight Attrition';
+  readonly APP_NAME = 'Exit Insights';
 
   @Input()
   employees: EmployeeTableEntry[] = undefined;
@@ -43,7 +43,7 @@ export class EmployeeListTableComponent implements OnInit {
   @Input()
   set excelName(excelName: string) {
     this.defaultExcelExportParams.fileName = excelName;
-    this.defaultExcelExportParams.sheetName = 'Insight Attrition';
+    this.defaultExcelExportParams.sheetName = 'Exit Insights';
   }
 
   defaultColDef: ColDef = {

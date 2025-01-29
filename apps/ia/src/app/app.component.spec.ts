@@ -78,8 +78,8 @@ describe('AppComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  test(`should have as title 'Insight Attrition'`, () => {
-    expect(component.title).toEqual('Insight Attrition');
+  test(`should have as title 'Exit Insights'`, () => {
+    expect(component.title).toEqual('Exit Insights');
   });
 
   describe('ngOnInit', () => {
