@@ -190,7 +190,8 @@
         },
         "targetPrice": {
           "label": "Zielpreis",
-          "error": "Gib validen Zielpreis ein"
+          "error": "Gib validen Zielpreis ein",
+          "hint": "Zielpreis eingeben"
         },
         "targetPriceSource": {
           "label": "Zielpreisquelle",
