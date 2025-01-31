@@ -185,7 +185,7 @@ Array [
         "title": "Loadcase 2 item",
       },
     ],
-    "title": "Load",
+    "title": "calculationResultReport.downstreamInputs.load.loadTitle",
     "titleID": "STRING_OUTP_INPUT_DATA_FOR_ALL_LOADCASES",
   },
 ]

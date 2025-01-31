@@ -1458,7 +1458,7 @@ export const EXPECTED_RESULT_MULTIPLE_LOADCASES_INPUTS: CalculationResultReportI
     },
     {
       hasNestedStructure: true,
-      title: 'Load',
+      title: 'calculationResultReport.downstreamInputs.load.loadTitle',
       titleID: 'STRING_OUTP_INPUT_DATA_FOR_ALL_LOADCASES',
       subItems: [
         {

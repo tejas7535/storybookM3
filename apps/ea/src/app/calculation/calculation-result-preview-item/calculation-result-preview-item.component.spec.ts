@@ -1,4 +1,3 @@
-import { ChangeDetectorRef } from '@angular/core';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { translate } from '@jsverse/transloco';
@@ -13,18 +12,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CalculationResultPreviewItemComponent } from './calculation-result-preview-item.component';
 
-class ChangeDetectorRefStub {
-  markForCheck(): void {}
-
-  detach(): void {}
-
-  detectChanges(): void {}
-
-  checkNoChanges(): void {}
-
-  reattach(): void {}
-}
-
 describe('CalculationResultPreviewItemComponent', () => {
   let spectator: Spectator<CalculationResultPreviewItemComponent>;
 
@@ -38,7 +25,6 @@ describe('CalculationResultPreviewItemComponent', () => {
       },
       provideTranslocoLocale(sharedTranslocoLocaleConfig),
       TranslocoDecimalPipe,
-      { provide: ChangeDetectorRef, useClass: ChangeDetectorRefStub },
     ],
   });
 

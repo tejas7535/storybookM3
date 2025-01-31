@@ -1,9 +1,13 @@
 export const downstreamErrors: { [key: string]: string } = {
   MODEL_NOT_EXISTING: 'modelNotExisting',
   MODEL_LUBRICATION_NOT_SUPPORTED: 'modelLubricationNotSupported',
-  SUM_OF_TIME_PORTIONS_BELOW_100_PERCENT: 'sumOfTimePortionsBelow_100Percent',
+  CHURNING_LOSS_CALCULATION_NOT_SUPPORTED:
+    'churningLossCalculationNotSupported',
+  INVALID_ROTATION_TYPE: 'invalidRotationType',
+  TIME_PORTION_BELOW_MINIMUM: 'timePortionBelowMinimum',
+  TIME_PORTION_EXCEEDS_100_PERCENT: 'timePortionExceeds100Percent',
   SUM_OF_TIME_PORTIONS_EXCEEDS_100_PERCENT:
-    'sumOfTimePortionsExceeds_100Percent',
+    'sumOfTimePortionsExceeds100Percent',
   INVALID_MOVEMENT_TYPE: 'invalidMovementType',
   OPERATING_TEMPERATURE_BELOW_LIMIT: 'operatingTemperatureBelowLimit',
   OPERATING_TEMPERATURE_EXCEEDS_LIMIT: 'operatingTemperatureExceedsLimit',
@@ -19,7 +23,7 @@ export const downstreamErrors: { [key: string]: string } = {
   SPEED_BELOW_THRESHOLD: 'speedBelowThreshold',
   SPEED_EXCEEDS_LIMITING_SPEED: 'speedExceedsLimitingSpeed',
   P0_BELOW_C0_MIN: 'p0BelowC0Min',
-  P0_EXCEEDS_C0: 'p0ExceedsC0',
+  P0_EXCEEDS_C0: 'p0ExceedsStaticLoad',
   LOAD_ANGLE_BELOW_NOMINAL_CONTACT_ANGLE: 'loadAngleBelowNominalContactAngle',
   OPERATING_VISCOSITY_BELOW_LIMIT: 'operatingViscosityBelowLimit',
   OPERATING_VISCOSITY_EXCEEDS_LIMIT: 'operatingViscosityExceedsLimit',
@@ -33,7 +37,11 @@ export const downstreamErrors: { [key: string]: string } = {
   AXIAL_LOAD_NOT_SUPPORTED: 'axialLoadNotSupported',
   LOAD_RATIO_TOO_SMALL: 'loadRatioTooSmall',
   LOAD_RATIO_TOO_LARGE: 'loadRatioTooLarge',
+  OPERATING_TEMPERATURE_TOO_LOW: 'operatingTemperatureTooLow',
+  OIL_TEMPERATURE_RISE_TOO_LOW: 'oilTemperatureRiseTooLow',
+  OIL_VOLUME_FLOW_TOO_LOW: 'oilVolumeFlowTooLow',
+  EXTERNAL_HEAT_FLUX_TOO_HIGH: 'externalHeatFluxTooHigh',
   REFERENCE_VISCOSITY_IS_ZERO: 'referenceViscosityIsZero',
   MEAN_DIAMETER_IS_ZERO: 'meanDiameterIsZero',
-  UNSUPPORTED_EMISSION_FACTOR: 'unsupportedEmissionFactor',
+  UNSUPPORTED_ENERGY_SOURCE: 'unsupportedEnergySource',
 };

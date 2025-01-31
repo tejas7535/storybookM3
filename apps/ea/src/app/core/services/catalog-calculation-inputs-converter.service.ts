@@ -9,6 +9,7 @@ import {
   BLOCK,
   LOADCASE_DESIGNATION_FIELD_NAME_TRANSLATION_KEY,
   LOADCASE_TYPE_OF_MOTION_TRANSLATION_KEY,
+  LOADCASES_TITLE_TRANSLATION_KEY,
   STRING_OUTP_BASIC_FREQUENCIES_FACTOR,
   STRING_OUTP_INPUT,
   STRING_OUTP_INPUT_DATA_FOR_ALL_LOADCASES,
@@ -79,9 +80,7 @@ export class CatalogCalculationInputsConverterService {
 
     if (input.identifier === BLOCK || input.identifier === VARIABLE_BLOCK) {
       if (input.titleID === STRING_OUTP_INPUT_DATA_FOR_ALL_LOADCASES) {
-        result.title = input.subordinates.find(
-          (subordinate) => subordinate.titleID === STRING_OUTP_LOAD
-        ).title;
+        result.title = translate(LOADCASES_TITLE_TRANSLATION_KEY);
         result.subItems = this.extractReportInputForAllLoadTableSubordinates(
           input.subordinates
         );

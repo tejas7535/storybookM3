@@ -29,24 +29,23 @@ import {
   startWith,
 } from 'rxjs';
 
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
 import { NOOP_VALUE_ACCESSOR } from '../constants/input';
 import { TAILWIND_SCREENS } from '../constants/screens';
 import { RadioButtonComponent } from '../radio-button/radio-button.component';
-import { TabbedSuboptionComponent } from '../tabbed-suboption/tabbed-suboption.component';
 import { OptionTemplateDirective } from './option-template.directive';
-
 @Component({
   selector: 'ea-tabbed-options',
   standalone: true,
   imports: [
     CommonModule,
-    TabbedSuboptionComponent,
     MatRadioModule,
-    OptionTemplateDirective,
     ReactiveFormsModule,
     MatDividerModule,
     MatTooltipModule,
     RadioButtonComponent,
+    SharedTranslocoModule,
   ],
   templateUrl: './tabbed-options.component.html',
   styleUrls: ['./tabbed-options.component.scss'],

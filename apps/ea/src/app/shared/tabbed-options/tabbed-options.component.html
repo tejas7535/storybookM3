@@ -1,5 +1,5 @@
 @if (selectionOptions) {
-  <div class="flex flex-col md:gap-6 gap-2">
+  <div class="flex flex-col md:gap-6 gap-2" *transloco="let t; read: ''">
     @if ((isMediumScreen$ | async) || simplifiedMobile) {
       <mat-radio-group [formControl]="control" class="flex flex-wrap">
         @for (option of selectionOptions; track option; let last = $last) {
@@ -8,7 +8,7 @@
               [value]="option.value"
               [disabled]="option.disabled"
             >
-              {{ option.label }}
+              {{ t(option.label) }}
             </mat-radio-button>
             @if (!last) {
               <mat-divider [vertical]="true" class="mx-4"></mat-divider>
@@ -29,7 +29,7 @@
             [ngClass]="mobileStyleClass"
           >
             <ea-radio-button
-              [label]="option.label"
+              [label]="t(option.label)"
               [value]="option.value"
               [formControl]="control"
             ></ea-radio-button>

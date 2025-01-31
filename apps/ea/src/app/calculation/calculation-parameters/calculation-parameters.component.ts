@@ -90,7 +90,6 @@ import { QualtricsInfoBannerComponent } from '@ea/shared/qualtrics-info-banner/q
 import { OptionTemplateDirective } from '@ea/shared/tabbed-options/option-template.directive';
 import { TabbedOptionsComponent } from '@ea/shared/tabbed-options/tabbed-options.component';
 import { TabbedSuboptionComponent } from '@ea/shared/tabbed-suboption/tabbed-suboption.component';
-import { TagComponent } from '@ea/shared/tag/tag.component';
 import { TranslocoService } from '@jsverse/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
@@ -151,7 +150,6 @@ import { ParameterTemplateDirective } from './parameter-template.directive';
     MatInputModule,
     MatFormFieldModule,
     InfoButtonComponent,
-    TagComponent,
     MatTooltipModule,
     SubheaderModule,
     LetDirective,

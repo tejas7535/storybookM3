@@ -64,9 +64,7 @@
 
                   @if (
                     value.title === 'usage' &&
-                    value?.additionalData?.operatingTimeInHours &&
-                    value?.additionalData?.operatingTimeInHours !==
-                      yearlyEmissionUsageInHours
+                    value?.additionalData?.operatingTimeInHours
                   ) {
                     <div class="text-body-medium text-high-emphasis pl-1">
                       {{

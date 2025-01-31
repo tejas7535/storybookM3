@@ -2,6 +2,8 @@
 export const LOADCASE_DESIGNATION_FIELD_NAME_TRANSLATION_KEY =
   'resultValues.designation';
 export const LOADCASE_NAME_FIELD_NAME_TRANSLATION_KEY = 'resultValues.loadcase';
+export const LOADCASES_TITLE_TRANSLATION_KEY =
+  'calculationResultReport.downstreamInputs.load.loadTitle';
 export const LOADCASE_TYPE_OF_MOTION_TRANSLATION_KEY =
   'operationConditions.rotatingCondition.typeOfMotion';
 

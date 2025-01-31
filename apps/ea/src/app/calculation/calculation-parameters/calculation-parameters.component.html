@@ -23,14 +23,14 @@
             }}</span>
           </ng-container>
         </schaeffler-subheader>
-        <!-- @if (!isProduction) {
+        @if (!isProduction) {
           <div class="py-2 flex flex-col gap-y-2">
             <ea-info-banner
               [isWarning]="true"
               [infoText]="t('prototypeWarning')"
             ></ea-info-banner>
           </div>
-        } -->
+        }
 
         <ng-container
           *ngrxLet="
@@ -123,11 +123,11 @@
         </div>
 
         <!-- DEV STUFF form debug component -->
-        <!-- <ea-calculation-parameters-form-dev-debug
+        <ea-calculation-parameters-form-dev-debug
           [operationConditionsForm]="operationConditionsForm"
           [validationErrors]="formErrors$ | ngrxPush"
         >
-        </ea-calculation-parameters-form-dev-debug> -->
+        </ea-calculation-parameters-form-dev-debug>
 
         <!-- Desktop Empty state-->
         @if (!(hasSelection$ | ngrxPush)) {
@@ -439,7 +439,9 @@
         @if (typeOfMotionsAvailable.includes('LB_ROTATING')) {
           <ng-template
             optionTemplate="LB_ROTATING"
-            [label]="t('options.LB_ROTATING')"
+            [label]="
+              'operationConditions.rotatingCondition.options.LB_ROTATING'
+            "
           >
             <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4 w-full">
               <ea-input-number
@@ -461,7 +463,9 @@
         @if (typeOfMotionsAvailable.includes('LB_OSCILLATING')) {
           <ng-template
             optionTemplate="LB_OSCILLATING"
-            [label]="t('options.LB_OSCILLATING')"
+            [label]="
+              'operationConditions.rotatingCondition.options.LB_OSCILLATING'
+            "
           >
             <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4 w-full">
               <ea-input-number
@@ -581,7 +585,7 @@
       <ea-tabbed-options formControlName="lubricationSelection">
         <ng-template
           optionTemplate="grease"
-          [label]="t('options.grease')"
+          [label]="'operationConditions.lubrication.options.grease'"
           formGroupName="grease"
           [className]="'flex-col'"
           [disabled]="!lubricationMethodsAvailable.grease"
@@ -666,7 +670,7 @@
         </ng-template>
         <ng-template
           optionTemplate="oilBath"
-          [label]="t('options.oilBath')"
+          [label]="'operationConditions.lubrication.options.oilBath'"
           formGroupName="oilBath"
           [disabled]="!lubricationMethodsAvailable.oilBath"
           [tooltip]="
@@ -718,7 +722,7 @@
         </ng-template>
         <ng-template
           optionTemplate="oilMist"
-          [label]="t('options.oilMist')"
+          [label]="'operationConditions.lubrication.options.oilMist'"
           formGroupName="oilMist"
           [disabled]="!lubricationMethodsAvailable.oilMist"
           [tooltip]="
@@ -770,7 +774,7 @@
         </ng-template>
         <ng-template
           optionTemplate="recirculatingOil"
-          [label]="t('options.recirculatingOil')"
+          [label]="'operationConditions.lubrication.options.recirculatingOil'"
           formGroupName="recirculatingOil"
           [className]="'flex-col'"
           [disabled]="!lubricationMethodsAvailable.recirculatingOil"
@@ -941,13 +945,17 @@
     >
       <ng-template
         optionTemplate="innerring"
-        [label]="t('options.rotatingInnerring')"
+        [label]="
+          'operationConditions.conditionOfRotation.options.rotatingInnerring'
+        "
       >
       </ng-template>
 
       <ng-template
         optionTemplate="outerring"
-        [label]="t('options.rotatingOuterring')"
+        [label]="
+          'operationConditions.conditionOfRotation.options.rotatingOuterring'
+        "
       >
       </ng-template>
     </ea-tabbed-options>
@@ -988,7 +996,10 @@
     [formGroup]="operationConditionsForm.controls.energySource"
   >
     <ea-tabbed-options formControlName="type">
-      <ng-template optionTemplate="fossil" [label]="t('options.fossil')">
+      <ng-template
+        optionTemplate="fossil"
+        [label]="'operationConditions.energySource.options.fossil'"
+      >
         <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4 w-full">
           <!-- FOSSIL ENERGY -->
           <ng-container formGroupName="fossil">
@@ -1001,7 +1012,10 @@
         </div>
       </ng-template>
 
-      <ng-template optionTemplate="electric" [label]="t('options.electricity')">
+      <ng-template
+        optionTemplate="electric"
+        [label]="'operationConditions.energySource.options.electricity'"
+      >
         <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4 w-full">
           <!-- ELECTIRCAL ENERGY -->
           <ng-container formGroupName="electric">
