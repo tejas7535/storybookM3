@@ -420,9 +420,11 @@
     "errors": {
       "invalidformat": "Kode ini memiliki format yang tidak valid dan tidak dapat diproses. Silakan hubungi kami untuk melaporkan produk ini",
       "upstream": "Terjadi kesalahan internal saat mengevaluasi kode",
+      "invalidupstream": "Kode DMC ini tidak termasuk dalam produk Schaeffler yang dikenal.",
       "nopermissions": "Tidak ada izin untuk mengakses kamera perangkat",
       "nocamera": "Tidak ada kamera yang terdeteksi pada perangkat saat ini",
-      "unknown": "Terjadi kesalahan yang tidak diketahui",
+      "unknown": "Terjadi kesalahan yang tidak diketahui. Pastikan kode yang dipindai milik kemasan tunggal Schaeffler dan perangkat Anda terhubung ke internet.",
+      "outerpackaging": "Tampaknya kode yang Anda pindai termasuk pada kemasan luar dari beberapa bantalan. Untuk memverifikasi keaslian produk Anda, silakan pindai kode pada kemasan produk tunggal.",
       "TimeoutError": "Permintaan telah melewati batas waktu, silakan periksa lagi nanti atau hubungi dukungan"
     },
     "errorHeading": "Terjadi kesalahan",

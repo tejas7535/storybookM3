@@ -36,6 +36,8 @@ import { InfoBannerComponent } from '@schaeffler/feedback-banner';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { ImageFallbackDirective } from '@ga/shared/helpers/image-fallback.directive';
+
 import { BarcodeScannerFacade } from './barcode-scanner.facade';
 import { ErrorState, ScannedState, ScannerState } from './scan.models';
 import { ScanService } from './scan.service';
@@ -63,6 +65,7 @@ interface EventData {
     SharedTranslocoModule,
     LoadingSpinnerModule,
     MatProgressBarModule,
+    ImageFallbackDirective,
   ],
 })
 export class ScanDialogComponent implements OnInit, OnDestroy {
@@ -107,7 +110,7 @@ export class ScanDialogComponent implements OnInit, OnDestroy {
       }
       case 'Error': {
         const errState = this.state() as ErrorState;
-        this.track('error', {
+        this.track('error_page', {
           error: errState.title,
         });
         break;

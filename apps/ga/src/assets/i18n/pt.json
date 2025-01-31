@@ -420,8 +420,10 @@
       "invalidformat": "Este código tem um formato inválido e não pode ser analisado. Por favor, entre em contacto para relatar este produto",
       "upstream": "Ocorreu um erro interno ao avaliar o código",
       "nopermissions": "Sem permissão para aceder à câmara do dispositivo",
+      "invalidupstream": "Este código DMC não pertence a um produto Schaeffler conhecido.",
       "nocamera": "Nenhuma câmara detectada no dispositivo atual",
-      "unknown": "Ocorreu um erro desconhecido",
+      "unknown": "Ocorreu um erro desconhecido. Certifique-se de que o código digitalizado pertence a uma embalagem individual da Schaeffler e que o seu dispositivo está conectado à Internet.",
+      "outerpackaging": "Parece que o código que você escaneou pertence à embalagem externa de vários rolamentos. Para verificar a autenticidade do seu produto, por favor, escaneie o código na embalagem do produto individual.",
       "TimeoutError": "Pedido expirado, por favor verifique mais tarde ou contacte o suporte"
     },
     "errorHeading": "Ocorreu um erro",

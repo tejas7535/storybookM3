@@ -419,9 +419,11 @@
     "errors": {
       "invalidformat": "Bu kod geçersiz bir biçime sahip ve çözümlenemiyor. Lütfen bu ürünü bildirmek için iletişime geçin",
       "upstream": "Kodu değerlendirirken iç hatası oluştu",
+      "invalidupstream": "Bu DMC kodu, bilinen bir Schaeffler ürününe ait değildir.",
       "nopermissions": "Cihaz kamerasına erişim izni yok",
       "nocamera": "Mevcut cihazda kamera algılanmadı",
-      "unknown": "Bilinmeyen bir hata oluştu",
+      "unknown": "Bilinmeyen bir hata oluştu. Taradığınız kodun bir Schaeffler tekli ambalajına ait olduğundan ve cihazınızın internete bağlı olduğundan emin olun.",
+      "outerpackaging": "Taramış olduğunuz kodun, birden fazla rulmanın dış ambalajına ait olduğu görünmektedir. Ürününüzün orijinalliğini doğrulamak için lütfen tekli ürün paketindeki kodu tarayın.",
       "TimeoutError": "İstek zaman aşımına uğradı, lütfen daha sonra tekrar kontrol edin veya destekle iletişime geçin"
     },
     "errorHeading": "Bir hata oluştu",

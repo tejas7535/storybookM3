@@ -101,7 +101,9 @@
               @case ('GREEN') {
                 <img
                   [src]="$any(state()).pimData.imageUrl"
+                  default="/assets/images/placeholder.png"
                   class="max-w-[200px]"
+                  alt="Bearing product image"
                 />
                 <div
                   class="border inline-flex border-success text-success bg-success rounded-md space-x-2 px-4 py-1 text-caption items-center"
@@ -147,6 +149,8 @@
                 >
                   <img
                     [src]="$any(state()).pimData.imageUrl"
+                    default="/assets/images/placeholder.png"
+                    alt="Bearing product image"
                     class="max-w-[200px]"
                   />
                   <div

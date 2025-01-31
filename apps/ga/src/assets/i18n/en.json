@@ -426,7 +426,9 @@
       "upstream": "An internal error occured while evaluating the code",
       "nopermissions": "No permission to access the device camera",
       "nocamera": "No camera detected on the current device",
-      "unknown": "An unknown error occured",
+      "unknown": "An unknown error occured. Please make sure that the DMC code you scanned belongs to a Schaeffler product packaging and that you are connected to the Internet.",
+      "outerpackaging": "It appears as if the code you scanned belongs to the outer packaging of multiple bearings. To verify the authenticity of your product, please scan the code on the single product package.",
+      "invalidupstream": "This DMC code does not belong a a known Schaeffler product.",
       "TimeoutError": "Request timed out, please check back later or contact support"
     },
     "errorHeading": "An error occured",

@@ -420,9 +420,11 @@
     "errors": {
       "invalidformat": "Mã này có định dạng không hợp lệ và không thể được phân tích. Vui lòng liên hệ để báo cáo sản phẩm này",
       "upstream": "Đã xảy ra lỗi nội bộ khi đánh giá mã",
+      "invalidupstream": "Mã DMC này không thuộc về một sản phẩm Schaeffler đã biết.",
       "nopermissions": "Không có quyền truy cập vào máy ảnh của thiết bị",
       "nocamera": "Không phát hiện thấy máy ảnh trên thiết bị hiện tại",
-      "unknown": "Đã xảy ra lỗi không xác định",
+      "unknown": "Đã xảy ra lỗi không xác định. Hãy đảm bảo rằng mã được quét thuộc về một bao bì đơn lẻ của Schaeffler và thiết bị của bạn đã kết nối với Internet.",
+      "outerpackaging": "Có vẻ như mã mà bạn đã quét thuộc về bao bì bên ngoài của nhiều ổ bi. Để kiểm tra tính xác thực của sản phẩm của bạn, vui lòng quét mã trên bao bì sản phẩm đơn lẻ.",
       "TimeoutError": "Yêu cầu đã hết thời gian chờ, vui lòng kiểm tra lại sau hoặc liên hệ hỗ trợ"
     },
     "errorHeading": "Đã xảy ra lỗi",

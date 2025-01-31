@@ -419,10 +419,12 @@
     "moduleDownload": "Téléchargement du module de lecteur de code-barres",
     "errors": {
       "invalidformat": "Ce code a un format invalide et ne peut pas être analysé. Veuillez nous contacter pour signaler ce produit",
+      "invalidupstream": "Ce code DMC n'appartient pas à un produit Schaeffler connu.",
       "upstream": "Une erreur interne s'est produite lors de l'évaluation du code",
       "nopermissions": "Aucune autorisation pour accéder à la caméra de l'appareil",
       "nocamera": "Aucune caméra détectée sur l'appareil actuel",
-      "unknown": "Une erreur inconnue est survenue",
+      "outerpackaging": "Il semble que le code que vous avez scanné appartienne à l'emballage extérieur de plusieurs roulements. Pour vérifier l'authenticité de votre produit, veuillez scanner le code sur le paquet du produit individuel.",
+      "unknown": "Une erreur inconnue s'est produite. Assurez-vous que le code scanné appartient à un emballage individuel Schaeffler et que votre appareil est connecté à Internet.",
       "TimeoutError": "Délai de la requête dépassé, veuillez réessayer plus tard ou contacter le support"
     },
     "errorHeading": "Une erreur est survenue",

@@ -433,9 +433,11 @@
     "errors": {
       "invalidformat": "此代码格式无效，无法解析。请联系报告此产品",
       "upstream": "评估代码时发生内部错误",
+      "invalidupstream": "此 DMC 代码不属于已知的舍弗勒产品。",
       "nopermissions": "无权限访问设备摄像头",
       "nocamera": "当前设备未检测到摄像头",
-      "unknown": "发生未知错误",
+      "unknown": "发生未知错误。请确保扫描的代码属于舍弗勒的独立包装，并且您的设备已连接到互联网。",
+      "outerpackaging": "看来您扫描的代码属于多个轴承的外包装。要验证您的产品的真伪，请扫描单个产品包装上的代码。",
       "TimeoutError": "请求超时，请稍后检查或联系支持"
     },
     "errorHeading": "发生错误",

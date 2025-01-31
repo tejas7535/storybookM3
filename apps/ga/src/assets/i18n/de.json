@@ -442,7 +442,8 @@
       "upstream": "Beim Auswerten des Codes ist ein interner Fehler aufgetreten",
       "nopermissions": "Keine Berechtigung, auf die Kameragerät zuzugreifen",
       "nocamera": "Keine Kamera auf dem aktuellen Gerät erkannt",
-      "unknown": "Ein unbekannter Fehler ist aufgetreten",
+      "unknown": "Ein unbekannter Fehler ist aufgetreten. Stellen Sie sicher, dass der gescannte Code zu einer Schaeffler Einzelverpackung gehört und Ihr Gerät mit dem Internet verbunden ist.",
+      "outerpackaging": "Es scheint als wäre der gescannte Code der einer Umverpackung. Um die Authentizität Ihres Schaeffler Produktes zu verifizieren, scannen Sie den Code auf der Einzelverpackung",
       "TimeoutError": "Es ist ein Fehler bei der Anfrage aufgetreten, bitte versuchen Sie es später erneut oder kontaktieren Sie den Schaeffler support"
     },
     "errorHeading": "Ein Fehler ist aufgetreten",

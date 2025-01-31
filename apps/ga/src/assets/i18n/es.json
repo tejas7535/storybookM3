@@ -423,9 +423,11 @@
     "errors": {
       "invalidformat": "Este código tiene un formato inválido y no puede ser analizado. Por favor, póngase en contacto con nosotros para informar de este producto",
       "upstream": "Ocurrió un error interno al evaluar el código",
+      "invalidupstream": "Este código DMC no pertenece a un producto conocido de Schaeffler.",
       "nopermissions": "No hay permiso para acceder a la cámara del dispositivo",
       "nocamera": "No se detectó cámara en el dispositivo actual",
-      "unknown": "Ocurrió un error desconocido",
+      "unknown": " Se ha producido un error desconocido. Asegúrese de que el código escaneado pertenece a un paquete individual de Schaeffler y de que su dispositivo está conectado a Internet.",
+      "outerpackaging": "Parece que el código que escaneaste pertenece al embalaje exterior de varios rodamientos. Para verificar la autenticidad de tu producto, por favor escanea el código en el paquete del producto individual.",
       "TimeoutError": "Se agotó el tiempo de la solicitud, por favor, inténtelo más tarde o contacte al soporte"
     },
     "errorHeading": "Ocurrió un error",

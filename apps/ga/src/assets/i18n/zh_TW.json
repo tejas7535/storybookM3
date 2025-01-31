@@ -419,9 +419,11 @@
     "errors": {
       "invalidformat": "此代碼格式無效，無法解析。請聯繫報告此產品",
       "upstream": "評估代碼時發生內部錯誤",
+      "invalidupstream": "此 DMC 代碼不屬於已知的舍弗勒產品。",
       "nopermissions": "無權限訪問設備攝像頭",
       "nocamera": "當前設備未檢測到攝像頭",
-      "unknown": "發生未知錯誤",
+      "unknown": "發生未知錯誤。請確保掃描的代碼屬於舍弗勒的獨立包裝，並且您的設備已連接到互聯網。",
+      "outerpackaging": "看來您掃描的代碼屬於多個軸承的外包裝。要驗證您的產品的真偽，請掃描單個產品包裝上的代。",
       "TimeoutError": "請求超時，請稍後檢查或聯繫支持"
     },
     "errorHeading": "發生錯誤",

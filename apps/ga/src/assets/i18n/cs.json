@@ -419,9 +419,11 @@
     "errors": {
       "invalidformat": "Tento kód má neplatný formát a nelze jej zpracovat. Prosím, kontaktujte nás pro nahlášení tohoto výrobku",
       "upstream": "Došlo k interní chybě při vyhodnocování kódu",
+      "invalidupstream": "Tento kód DMC nepatří k žádnému známému produktu Schaeffler.",
       "nopermissions": "Žádné oprávnění pro přístup ke kameře zařízení",
       "nocamera": "Na aktuálním zařízení nebyla nalezena kamera",
-      "unknown": "Došlo k neznámé chybě",
+      "unknown": "Došlo k neznámé chybě. Ujistěte se, že skenovaný kód patří k jednomu balení Schaeffler a že vaše zařízení je připojeno k internetu.",
+      "outerpackaging": "Zdá se, že kód, který jste naskenovali, patří k vnějšímu obalu více ložisek. Pro ověření pravosti vašeho produktu prosím naskenujte kód na balení jednotlivého produktu.",
       "TimeoutError": "Časový limit vypršel. Zkuste to prosím později nebo kontaktujte podporu"
     },
     "errorHeading": "Došlo k chybě",

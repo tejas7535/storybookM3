@@ -420,8 +420,10 @@
       "invalidformat": "Questo codice ha un formato non valido e non può essere elaborato. Si prega di contattare per segnalare questo prodotto",
       "upstream": "Si è verificato un errore interno durante la valutazione del codice",
       "nopermissions": "Nessuna autorizzazione per accedere alla fotocamera del dispositivo",
+      "invalidupstream": "Questo codice DMC non appartiene a un prodotto Schaeffler noto.",
       "nocamera": "Nessuna fotocamera rilevata sul dispositivo corrente",
-      "unknown": "Si è verificato un errore sconosciuto",
+      "unknown": "Si è verificato un errore sconosciuto. Assicurati che il codice scansionato appartenga a una confezione singola Schaeffler e che il tuo dispositivo sia connesso a Internet.",
+      "outerpackaging": "Sembra che il codice che hai scansionato appartenga all'imballaggio esterno di più cuscinetti. Per verificare l'autenticità del tuo prodotto, ti preghiamo di scansionare il codice sulla confezione del singolo prodotto.",
       "TimeoutError": "Richiesta scaduta, riprova più tardi o contatta il supporto"
     },
     "errorHeading": "Si è verificato un errore",
