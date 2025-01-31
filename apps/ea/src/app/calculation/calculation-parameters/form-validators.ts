@@ -213,5 +213,11 @@ export const relativeValidatorFactory = (
 export const increaseInOilTempValidators = [
   Validators.required,
   Validators.min(0),
-  Validators.max(100),
+  Validators.max(40),
+];
+
+export const externalHeatFlowValidators = [
+  Validators.required,
+  Validators.min(-1000),
+  Validators.max(1000),
 ];

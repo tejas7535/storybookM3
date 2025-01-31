@@ -107,6 +107,7 @@ import {
 import { getEnvironmentalInfluenceOptions } from './environmental-influence.options';
 import {
   anyLoadGroupValidator,
+  externalHeatFlowValidators,
   increaseInOilTempValidators,
   loadCasesOperatingTimeValidators,
   loadValidators,
@@ -318,14 +319,18 @@ export class CalculationParametersComponent
           },
           viscosityGroupValidators()
         ),
-        oilFlow: new FormControl<number>(undefined, [Validators.required]),
+        oilFlow: new FormControl<number>(undefined, [
+          Validators.required,
+          Validators.max(100),
+        ]),
         oilTemperatureDifference: new FormControl<number>(
           undefined,
           increaseInOilTempValidators
         ),
-        externalHeatFlow: new FormControl<number>(undefined, [
-          Validators.required,
-        ]),
+        externalHeatFlow: new FormControl<number>(
+          undefined,
+          externalHeatFlowValidators
+        ),
       }),
     }),
     contamination: new FormControl<
