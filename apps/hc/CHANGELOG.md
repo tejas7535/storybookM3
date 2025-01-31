@@ -1,4 +1,30 @@
 # Release Notes of Hardness Converter
+## [0.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hc-v0.1.4...hc-v0.2.0) (2025-01-31)
+
+
+### Features
+
+* **hc:** add homepage cards and store buttons ([#6914](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6914)) ([ee93728](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ee937289e3972f0830fab1ee0a75537ee63aa26e))
+* **hc:** add new shared email ([#6920](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6920)) ([c2ea5b5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c2ea5b5655c69d7ba452d05950bbd73775eb67db))
+* **hc:** add tracking to hardness converter - UFTABI-7695 ([#6278](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6278)) ([8229dc0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8229dc00d9ee83be799e3e3914bade73cb27b723))
+* **hc:** hide extended norm descriptions for externals ([#6897](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6897)) ([e5bbd53](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e5bbd531146dffcb1ada1a50b66cc436b3fc7574))
+* **hc:** technical pocket guide adjustments ([#6942](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6942)) ([d0b3ebb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d0b3ebba11084cbc73cd61effe4cc2cd8ef6535d))
+* **hc:** update learn more screenshots - UFTABI-7741 ([#6248](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6248)) ([453fda1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/453fda1c46deadfb4099cf9bdb535212a27a9153))
+* **hc:** update legal pages for hc ([#6245](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6245)) ([bac1049](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bac1049a17b2b6fc8d1bb06c4d44b8d57467bf2e))
+* **hc:** update secondary color to avoid conflicts in m3 ([#6454](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6454)) ([f2f531c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f2f531c94cc6fd126b0414d9bf66f671182cfa13))
+* **workspace:** update to angular 18 and nx 19 ([#6259](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6259)) ([c2fec3b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c2fec3befeaa072f87bfc4c195262d71c2b18ecf))
+
+
+### Bug Fixes
+
+* **hc:** fix internal user check ([#6921](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6921)) ([e4260e2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e4260e2e192ba06845556db49b7450718d2f87b1))
+* **hc:** hide German language in hardness converter ([#6247](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6247)) ([ab97939](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ab97939e1202d086b353e52ee2fa5e6cc22bdfdc))
+
+
+### Reverts
+
+* Revert "feat(hc): update prod api for testing (#6238)" (#6240) ([712cc8b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/712cc8bdba71155fee5744b7e6379c0ed7338fe2)), closes [#6238](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6238) [#6240](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6240)
+
 ## [0.1.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hc-v0.1.3...hc-v0.1.4) (2024-05-27)
 
 
