@@ -8,7 +8,7 @@ import { selectedQuotationDetailsKpiFeature } from './selected-quotation-details
 describe('selectedQuotationDetailsKpiReducer', () => {
   describe('SelectedQuotationDetailsKpiActions', () => {
     test('loadQuotationKPI', () => {
-      const action = SelectedQuotationDetailsKpiActions.loadQuotationKPI({
+      const action = SelectedQuotationDetailsKpiActions.loadKPI({
         data: QUOTATION_DETAILS_MOCK,
       });
       const state = selectedQuotationDetailsKpiFeature.reducer(
@@ -28,11 +28,9 @@ describe('selectedQuotationDetailsKpiReducer', () => {
         totalWeightedAverageGpi: 4,
         totalWeightedAverageGpm: 5,
       };
-      const action = SelectedQuotationDetailsKpiActions.loadQuotationKPISuccess(
-        {
-          response,
-        }
-      );
+      const action = SelectedQuotationDetailsKpiActions.loadKPISuccess({
+        response,
+      });
       const state = selectedQuotationDetailsKpiFeature.reducer(
         SELECTED_QUOTATION_DETAILS_KPI_STATE_MOCK,
         action
@@ -46,11 +44,9 @@ describe('selectedQuotationDetailsKpiReducer', () => {
 
     test('loadQuotationKPIFailure', () => {
       const error = new Error('error');
-      const action = SelectedQuotationDetailsKpiActions.loadQuotationKPIFailure(
-        {
-          error,
-        }
-      );
+      const action = SelectedQuotationDetailsKpiActions.loadKPIFailure({
+        error,
+      });
       const state = selectedQuotationDetailsKpiFeature.reducer(
         SELECTED_QUOTATION_DETAILS_KPI_STATE_MOCK,
         action

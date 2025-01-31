@@ -2,12 +2,14 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { of } from 'rxjs';
 
+import { AppRoutePath } from '@gq/app-route-path.enum';
 import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.interface';
 import { CalculationService } from '@gq/shared/services/rest/calculation/calculation.service';
 import { QuotationKpiRequest } from '@gq/shared/services/rest/calculation/model/quotation-kpi-request.interface';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { marbles } from 'rxjs-marbles';
 
 import {
@@ -48,7 +50,7 @@ describe('SelectedQuotationDetailsKpiEffects', () => {
     test(
       'should dispatch sucess action',
       marbles((m) => {
-        action = SelectedQuotationDetailsKpiActions.loadQuotationKPI({
+        action = SelectedQuotationDetailsKpiActions.loadKPI({
           data: [QUOTATION_DETAIL_MOCK],
         });
 
@@ -63,14 +65,15 @@ describe('SelectedQuotationDetailsKpiEffects', () => {
           of(response)
         );
 
-        const result =
-          SelectedQuotationDetailsKpiActions.loadQuotationKPISuccess({
-            response,
-          });
+        const result = SelectedQuotationDetailsKpiActions.loadKPISuccess({
+          response,
+        });
         const expected = m.cold('b', { b: result });
         actions$ = m.hot('a', { a: action });
 
-        m.expect(effects.getQuotationKpi$).toBeObservable(expected);
+        m.expect(effects.getSelectedQuotationDetailKpi$).toBeObservable(
+          expected
+        );
         m.flush();
         expect(
           calculationService.getQuotationKpiCalculation
@@ -97,16 +100,18 @@ describe('SelectedQuotationDetailsKpiEffects', () => {
     test(
       'should dispatch reset action',
       marbles((m) => {
-        action = SelectedQuotationDetailsKpiActions.loadQuotationKPI({
+        action = SelectedQuotationDetailsKpiActions.loadKPI({
           data: [],
         });
         calculationService.getQuotationKpiCalculation = jest.fn();
 
-        const result = SelectedQuotationDetailsKpiActions.resetQuotationKPI();
+        const result = SelectedQuotationDetailsKpiActions.resetKPI();
         const expected = m.cold('b', { b: result });
         actions$ = m.hot('a', { a: action });
 
-        m.expect(effects.getQuotationKpi$).toBeObservable(expected);
+        m.expect(effects.getSelectedQuotationDetailKpi$).toBeObservable(
+          expected
+        );
         m.flush();
         expect(
           calculationService.getQuotationKpiCalculation
@@ -117,26 +122,52 @@ describe('SelectedQuotationDetailsKpiEffects', () => {
     test(
       'should dispatch failure action',
       marbles((m) => {
-        action = SelectedQuotationDetailsKpiActions.loadQuotationKPI({
+        action = SelectedQuotationDetailsKpiActions.loadKPI({
           data: QUOTATION_DETAILS_MOCK,
         });
         const error = new Error('error');
-        const result =
-          SelectedQuotationDetailsKpiActions.loadQuotationKPIFailure({
-            error,
-          });
+        const result = SelectedQuotationDetailsKpiActions.loadKPIFailure({
+          error,
+        });
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
         calculationService.getQuotationKpiCalculation = jest.fn(() => response);
 
-        m.expect(effects.getQuotationKpi$).toBeObservable(expected);
+        m.expect(effects.getSelectedQuotationDetailKpi$).toBeObservable(
+          expected
+        );
         m.flush();
 
         expect(
           calculationService.getQuotationKpiCalculation
         ).toHaveBeenCalledTimes(1);
+      })
+    );
+  });
+
+  describe('resetSelectedQuotationDetailKpi$', () => {
+    test(
+      'should dispatch reset action',
+      marbles((m) => {
+        action = {
+          type: ROUTER_NAVIGATED,
+          payload: {
+            routerState: {
+              url: `/${AppRoutePath.ProcessCaseViewPath}`,
+            },
+          },
+        };
+        actions$ = m.hot('-a', { a: action });
+
+        const result = SelectedQuotationDetailsKpiActions.resetKPI();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.resetSelectedQuotationDetailKpi$).toBeObservable(
+          expected
+        );
+        m.flush();
       })
     );
   });

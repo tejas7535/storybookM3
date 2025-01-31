@@ -115,7 +115,7 @@ export class QuotationDetailsStatusComponent implements OnInit {
     }
     this.selections = newSelections;
     this.store.dispatch(
-      SelectedQuotationDetailsKpiActions.loadQuotationKPI({
+      SelectedQuotationDetailsKpiActions.loadKPI({
         data: this.selections,
       })
     );

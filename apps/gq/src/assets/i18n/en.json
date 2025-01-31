@@ -191,7 +191,7 @@
         "targetPrice": {
           "label": "Target Price",
           "error": "Enter valid Target Price",
-          "hint": "Enter a Target Price"
+          "hint": "Enter Target Price"
         },
         "targetPriceSource": {
           "label": "Target Price Source",
@@ -529,7 +529,7 @@
       },
       "targetPrice": {
         "label": "Target Price",
-        "hint": "Enter a Target Price",
+        "hint": "Enter Target Price",
         "error": "Enter valid Target Price"
       }
     },

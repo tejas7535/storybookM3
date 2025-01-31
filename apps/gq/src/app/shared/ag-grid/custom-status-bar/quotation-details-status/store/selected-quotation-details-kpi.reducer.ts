@@ -27,7 +27,7 @@ export const selectedQuotationDetailsKpiFeature = createFeature({
   reducer: createReducer(
     initialState,
     on(
-      SelectedQuotationDetailsKpiActions.loadQuotationKPI,
+      SelectedQuotationDetailsKpiActions.loadKPI,
       (state): SelectedQuotationDetailsKpiState => ({
         ...state,
         loading: true,
@@ -35,7 +35,7 @@ export const selectedQuotationDetailsKpiFeature = createFeature({
       })
     ),
     on(
-      SelectedQuotationDetailsKpiActions.loadQuotationKPISuccess,
+      SelectedQuotationDetailsKpiActions.loadKPISuccess,
       (state, { response }): SelectedQuotationDetailsKpiState => ({
         ...state,
         loading: false,
@@ -44,7 +44,7 @@ export const selectedQuotationDetailsKpiFeature = createFeature({
       })
     ),
     on(
-      SelectedQuotationDetailsKpiActions.loadQuotationKPIFailure,
+      SelectedQuotationDetailsKpiActions.loadKPIFailure,
       (state, { error }): SelectedQuotationDetailsKpiState => ({
         ...state,
         error,
@@ -52,7 +52,7 @@ export const selectedQuotationDetailsKpiFeature = createFeature({
       })
     ),
     on(
-      SelectedQuotationDetailsKpiActions.resetQuotationKPI,
+      SelectedQuotationDetailsKpiActions.resetKPI,
       (state): SelectedQuotationDetailsKpiState => ({
         ...state,
         selectedQuotationDetailsKpi: initialState.selectedQuotationDetailsKpi,

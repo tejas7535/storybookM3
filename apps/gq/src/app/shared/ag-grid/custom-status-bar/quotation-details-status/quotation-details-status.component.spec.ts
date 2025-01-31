@@ -130,7 +130,7 @@ describe('QuotationDetailsStatusComponent', () => {
       expect(params.api.getSelectedRows).toHaveBeenCalled();
       expect(component['store'].dispatch).toHaveBeenCalledTimes(1);
       expect(component['store'].dispatch).toHaveBeenCalledWith(
-        SelectedQuotationDetailsKpiActions.loadQuotationKPI({
+        SelectedQuotationDetailsKpiActions.loadKPI({
           data: [QUOTATION_DETAIL_MOCK],
         })
       );
