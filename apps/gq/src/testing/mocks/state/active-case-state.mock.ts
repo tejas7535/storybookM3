@@ -16,6 +16,7 @@ export const ACTIVE_CASE_STATE_MOCK: ActiveCaseState = {
   selectedQuotationDetail: undefined,
   quotationLoadingErrorMessage: undefined,
   updateLoading: false,
+  detailsSyncingToSap: [],
   selectedQuotationDetails: [],
   quotation: QUOTATION_MOCK,
   removeQuotationDetailsIds: [],

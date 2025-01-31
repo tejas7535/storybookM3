@@ -16,7 +16,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
-import { getGqId, getSapId } from '../active-case.selectors';
+import { activeCaseFeature } from '../active-case.reducer';
+import { getGqId } from '../active-case.selectors';
 
 describe('SapSyncStatusEffects', () => {
   let spectator: SpectatorService<SapSyncStatusEffects>;
@@ -56,6 +57,7 @@ describe('SapSyncStatusEffects', () => {
         action = ActiveCaseActions.getSapSyncStatusInInterval();
         quotationService.getSapSyncStatus = jest.fn(() => response);
         store.overrideSelector(getGqId, 123);
+        store.overrideSelector(activeCaseFeature.selectDetailsSyncingToSap, []);
         effects['showUploadSelectionToast'] = jest.fn();
         const responseObject: QuotationSapSyncStatusResult = {
           sapId: '12345',
@@ -100,6 +102,10 @@ describe('SapSyncStatusEffects', () => {
         expect(quotationService.getSapSyncStatus).toHaveBeenCalledTimes(2);
         expect(quotationService.getSapSyncStatus).toHaveBeenCalledWith(123);
         expect(effects['showUploadSelectionToast']).toHaveBeenCalledTimes(1);
+        expect(effects['showUploadSelectionToast']).toHaveBeenCalledWith(
+          finalResponseObject,
+          []
+        );
       })
     );
     test(
@@ -107,7 +113,7 @@ describe('SapSyncStatusEffects', () => {
       marbles((m) => {
         action = ActiveCaseActions.getSapSyncStatusInInterval();
         store.overrideSelector(getGqId, 123);
-        store.overrideSelector(getSapId, '800000');
+        store.overrideSelector(activeCaseFeature.selectDetailsSyncingToSap, []);
 
         quotationService.getSapSyncStatus = jest.fn(() => response);
         const responseObject: QuotationSapSyncStatusResult = {
@@ -136,7 +142,8 @@ describe('SapSyncStatusEffects', () => {
         expect(quotationService.getSapSyncStatus).toHaveBeenCalledWith(123);
         expect(effects['showUploadSelectionToast']).toHaveBeenCalledTimes(1);
         expect(effects['showUploadSelectionToast']).toHaveBeenCalledWith(
-          SAP_SYNC_STATUS.SYNCED
+          responseObject,
+          []
         );
       })
     );
@@ -145,7 +152,7 @@ describe('SapSyncStatusEffects', () => {
       marbles((m) => {
         action = ActiveCaseActions.getSapSyncStatusInInterval();
         store.overrideSelector(getGqId, 123);
-        store.overrideSelector(getSapId, '800000');
+        store.overrideSelector(activeCaseFeature.selectDetailsSyncingToSap, []);
         effects['showUploadSelectionToast'] = jest.fn();
 
         quotationService.getSapSyncStatus = jest.fn(() => response);
@@ -174,7 +181,8 @@ describe('SapSyncStatusEffects', () => {
         expect(quotationService.getSapSyncStatus).toHaveBeenCalledWith(123);
         expect(effects['showUploadSelectionToast']).toHaveBeenCalledTimes(1);
         expect(effects['showUploadSelectionToast']).toHaveBeenCalledWith(
-          SAP_SYNC_STATUS.PARTIALLY_SYNCED
+          responseObject,
+          []
         );
       })
     );
@@ -202,34 +210,137 @@ describe('SapSyncStatusEffects', () => {
   });
 
   describe('showUploadSelectionToast', () => {
-    test('should return failed toast message on default', () => {
-      snackBar.open = jest.fn();
+    describe('translations with info on updating details available', () => {
+      test('should call with synced', () => {
+        const syncResult: QuotationSapSyncStatusResult = {
+          sapId: '12345',
+          sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
+          quotationDetailSapSyncStatusList: [
+            { gqPositionId: '123', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
+          ],
+        };
+        const details = ['123'];
 
-      effects['showUploadSelectionToast'](SAP_SYNC_STATUS.SYNC_FAILED);
+        snackBar.open = jest.fn();
+        effects['showUploadSelectionToast'](syncResult, details);
 
-      expect(snackBar.open).toHaveBeenCalledWith(
-        translate(`shared.snackBarMessages.uploadToSapSync.failed`)
-      );
+        expect(translate).toHaveBeenCalledWith(
+          'shared.snackBarMessages.uploadToSapSync.full'
+        );
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+      });
+      test('should call with synced scenario 2', () => {
+        const syncResult: QuotationSapSyncStatusResult = {
+          sapId: '12345',
+          sapSyncStatus: SAP_SYNC_STATUS.SYNC_FAILED,
+          quotationDetailSapSyncStatusList: [
+            { gqPositionId: '123', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
+            { gqPositionId: '124', sapSyncStatus: SAP_SYNC_STATUS.SYNC_FAILED },
+          ],
+        };
+        const details = ['123'];
+
+        snackBar.open = jest.fn();
+        effects['showUploadSelectionToast'](syncResult, details);
+
+        expect(translate).toHaveBeenCalledWith(
+          'shared.snackBarMessages.uploadToSapSync.full'
+        );
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+      });
+      test('should call with failed', () => {
+        const syncResult: QuotationSapSyncStatusResult = {
+          sapId: '12345',
+          sapSyncStatus: SAP_SYNC_STATUS.SYNC_FAILED,
+          quotationDetailSapSyncStatusList: [
+            { gqPositionId: '123', sapSyncStatus: SAP_SYNC_STATUS.SYNC_FAILED },
+          ],
+        };
+        const details = ['123'];
+
+        snackBar.open = jest.fn();
+        effects['showUploadSelectionToast'](syncResult, details);
+
+        expect(translate).toHaveBeenCalledWith(
+          'shared.snackBarMessages.uploadToSapSync.failed'
+        );
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+      });
+      test('should call with partially', () => {
+        const syncResult: QuotationSapSyncStatusResult = {
+          sapId: '12345',
+          sapSyncStatus: SAP_SYNC_STATUS.PARTIALLY_SYNCED,
+          quotationDetailSapSyncStatusList: [
+            { gqPositionId: '123', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
+            { gqPositionId: '1234', sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED },
+          ],
+        };
+        const details = ['123', '1234'];
+
+        snackBar.open = jest.fn();
+        effects['showUploadSelectionToast'](syncResult, details);
+
+        expect(translate).toHaveBeenCalledWith(
+          'shared.snackBarMessages.uploadToSapSync.partially'
+        );
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+      });
     });
 
-    test('should return full toast message on SYNCED', () => {
-      snackBar.open = jest.fn();
+    describe('translations with info on updating details not available', () => {
+      test('should call with synced', () => {
+        const syncResult: QuotationSapSyncStatusResult = {
+          sapId: '12345',
+          sapSyncStatus: SAP_SYNC_STATUS.SYNCED,
+          quotationDetailSapSyncStatusList: [
+            { gqPositionId: '123', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
+          ],
+        };
 
-      effects['showUploadSelectionToast'](SAP_SYNC_STATUS.SYNCED);
+        snackBar.open = jest.fn();
+        effects['showUploadSelectionToast'](syncResult, []);
 
-      expect(snackBar.open).toHaveBeenCalledWith(
-        translate(`shared.snackBarMessages.uploadToSapSync.full`)
-      );
-    });
+        expect(translate).toHaveBeenCalledWith(
+          'shared.snackBarMessages.uploadToSapSync.full'
+        );
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+      });
+      test('should call with failed', () => {
+        const syncResult: QuotationSapSyncStatusResult = {
+          sapId: '12345',
+          sapSyncStatus: SAP_SYNC_STATUS.SYNC_FAILED,
+          quotationDetailSapSyncStatusList: [
+            { gqPositionId: '123', sapSyncStatus: SAP_SYNC_STATUS.SYNC_FAILED },
+            { gqPositionId: '1234', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
+          ],
+        };
 
-    test('should return partially toast message on PARTIALLY_SYNCED', () => {
-      snackBar.open = jest.fn();
+        snackBar.open = jest.fn();
+        effects['showUploadSelectionToast'](syncResult, []);
 
-      effects['showUploadSelectionToast'](SAP_SYNC_STATUS.PARTIALLY_SYNCED);
+        expect(translate).toHaveBeenCalledWith(
+          'shared.snackBarMessages.uploadToSapSync.failed'
+        );
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+      });
+      test('should call with partially', () => {
+        const syncResult: QuotationSapSyncStatusResult = {
+          sapId: '12345',
+          sapSyncStatus: SAP_SYNC_STATUS.PARTIALLY_SYNCED,
+          quotationDetailSapSyncStatusList: [
+            { gqPositionId: '123', sapSyncStatus: SAP_SYNC_STATUS.SYNCED },
+            { gqPositionId: '1234', sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED },
+          ],
+        };
 
-      expect(snackBar.open).toHaveBeenCalledWith(
-        translate(`shared.snackBarMessages.uploadToSapSync.partially`)
-      );
+        snackBar.open = jest.fn();
+        effects['showUploadSelectionToast'](syncResult, []);
+
+        expect(translate).toHaveBeenCalledWith(
+          'shared.snackBarMessages.uploadToSapSync.partially'
+        );
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+      });
     });
   });
 });

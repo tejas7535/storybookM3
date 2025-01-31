@@ -41,6 +41,7 @@ export interface ActiveCaseState {
   selectedQuotationDetail: string;
   quotationLoadingErrorMessage: string;
   updateLoading: boolean;
+  detailsSyncingToSap: string[];
   selectedQuotationDetails: string[];
   removeQuotationDetailsIds: string[];
   updateCostsLoading: boolean;
@@ -69,6 +70,7 @@ export const initialState: ActiveCaseState = {
   selectedQuotationDetail: undefined,
   quotationLoadingErrorMessage: undefined,
   updateLoading: false,
+  detailsSyncingToSap: [],
   selectedQuotationDetails: [],
   removeQuotationDetailsIds: [],
   updateCostsLoading: false,
@@ -252,9 +254,10 @@ export const activeCaseFeature = createFeature({
     ),
     on(
       ActiveCaseActions.uploadSelectionToSap,
-      (state: ActiveCaseState): ActiveCaseState => ({
+      (state: ActiveCaseState, { gqPositionIds }): ActiveCaseState => ({
         ...state,
         updateLoading: true,
+        detailsSyncingToSap: gqPositionIds,
       })
     ),
     on(
@@ -262,6 +265,7 @@ export const activeCaseFeature = createFeature({
       (state: ActiveCaseState, { errorMessage }): ActiveCaseState => ({
         ...state,
         updateLoading: false,
+        detailsSyncingToSap: [],
         quotationLoadingErrorMessage: errorMessage,
       })
     ),
@@ -290,6 +294,13 @@ export const activeCaseFeature = createFeature({
             )
           ),
         },
+      })
+    ),
+    on(
+      ActiveCaseActions.getSapSyncStatusSuccessFullyCompleted,
+      (state: ActiveCaseState): ActiveCaseState => ({
+        ...state,
+        detailsSyncingToSap: [],
       })
     ),
     on(
@@ -327,9 +338,10 @@ export const activeCaseFeature = createFeature({
     ),
     on(
       ActiveCaseActions.createSapQuote,
-      (state: ActiveCaseState): ActiveCaseState => ({
+      (state: ActiveCaseState, { gqPositionIds }): ActiveCaseState => ({
         ...state,
         quotationLoading: true,
+        detailsSyncingToSap: gqPositionIds,
       })
     ),
     on(
@@ -348,6 +360,7 @@ export const activeCaseFeature = createFeature({
       (state: ActiveCaseState, { errorMessage }): ActiveCaseState => ({
         ...state,
         quotationLoading: false,
+        detailsSyncingToSap: [],
         quotationLoadingErrorMessage: errorMessage,
       })
     ),

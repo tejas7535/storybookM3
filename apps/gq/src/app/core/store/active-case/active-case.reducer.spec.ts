@@ -364,6 +364,7 @@ describe('Active Case Feature Reducer', () => {
         });
         const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
         expect(state.updateLoading).toBeTruthy();
+        expect(state.detailsSyncingToSap).toEqual(['1']);
       });
     });
     describe('uploadSelectionToSapSuccess', () => {
@@ -444,9 +445,13 @@ describe('Active Case Feature Reducer', () => {
         const action = ActiveCaseActions.uploadSelectionToSapFailure({
           errorMessage,
         });
-        const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
+        const state = activeCaseFeature.reducer(
+          { ...ACTIVE_CASE_STATE_MOCK, detailsSyncingToSap: ['any'] },
+          action
+        );
         expect(state.updateLoading).toBeFalsy();
         expect(state.quotationLoadingErrorMessage).toEqual(errorMessage);
+        expect(state.detailsSyncingToSap).toEqual([]);
       });
     });
   });
@@ -737,6 +742,7 @@ describe('Active Case Feature Reducer', () => {
       });
       const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
       expect(state.quotationLoading).toBe(true);
+      expect(state.detailsSyncingToSap).toEqual(['12-12-12']);
     });
     test('Handle CreateSapQuoteSuccess and update the quotation received by service', () => {
       const action = ActiveCaseActions.createSapQuoteSuccess({
@@ -754,12 +760,29 @@ describe('Active Case Feature Reducer', () => {
     });
     test('Handle CreateSapQuoteFailure and set errorMessage', () => {
       const action = ActiveCaseActions.createSapQuoteFailure({ errorMessage });
-      const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
+      const state = activeCaseFeature.reducer(
+        { ...ACTIVE_CASE_STATE_MOCK, detailsSyncingToSap: ['any'] },
+        action
+      );
       expect(state.quotationLoading).toBe(false);
       expect(state.quotation).toEqual({
         ...QUOTATION_MOCK,
       });
+      expect(state.detailsSyncingToSap).toEqual([]);
       expect(state.quotationLoadingErrorMessage).toBe(errorMessage);
+    });
+  });
+
+  describe('getSapSyncStatusSuccessFullyCompleted', () => {
+    test('should reset the detailsSyncingToSap', () => {
+      const action = ActiveCaseActions.getSapSyncStatusSuccessFullyCompleted(
+        {} as any
+      );
+      const state = activeCaseFeature.reducer(
+        { ...ACTIVE_CASE_STATE_MOCK, detailsSyncingToSap: ['any'] },
+        action
+      );
+      expect(state.detailsSyncingToSap).toEqual([]);
     });
   });
 

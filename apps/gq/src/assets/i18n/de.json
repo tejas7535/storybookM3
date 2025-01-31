@@ -451,7 +451,7 @@
       },
       "uploadToSapSync": {
         "full": "Die ausgewählten Positionen wurden in SAP gespeichert",
-        "partially": "Die ausgewählten Positionen wurden terilweise in SAP gespeichert",
+        "partially": "Die ausgewählten Positionen wurden teilweise in SAP gespeichert",
         "failed": "Update in SAP fehlgeschlagen"
       },
       "costsUpdated": "Kosten erfolgreich aktualisiert",
