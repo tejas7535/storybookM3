@@ -2,11 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  EventEmitter,
   forwardRef,
   inject,
-  Input,
-  Output,
+  input,
+  output,
+  signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -50,12 +50,14 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
   ],
 })
 export class SectorGpsdSelectComponent implements ControlValueAccessor {
-  @Input() appearance: 'fill' | 'outline' = 'fill';
-  @Output() sectorGpsdSelected: EventEmitter<SectorGpsd> =
-    new EventEmitter<SectorGpsd>();
+  isEditMode = input(false);
+  appearance = input<'fill' | 'outline'>('fill');
+  sectorGpsdSelected = output<SectorGpsd>();
 
   private readonly destroyRef = inject(DestroyRef);
   private readonly sectorGpsdFacade = inject(SectorGpsdFacade);
+
+  private readonly isDisabledByParent = signal(false);
 
   readonly NOT_AVAILABLE: SectorGpsd = {
     name: 'Not available',
@@ -84,7 +86,18 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
         return [this.NOT_AVAILABLE];
       }
 
-      // if quotation contains partner role that is not listed in the db, add it to all available gpsds (GQUOTE-4711)
+      // add Not Available option to the list to cover "old" cases (GQUOTE-5092)
+      if (
+        gpsds &&
+        this.isEditMode() &&
+        (!this.selectedSectorGpsd ||
+          this.selectedSectorGpsd === this.NOT_AVAILABLE)
+      ) {
+        return [this.NOT_AVAILABLE, ...gpsds];
+      }
+
+      // if quotation contains partner role that is not listed in the db
+      // add it to all available gpsds (GQUOTE-4711)
       if (this.selectedSectorGpsd?.id && gpsds) {
         const selectedEntry = gpsds.find(
           (entry) => entry.id === this.selectedSectorGpsd.id
@@ -105,7 +118,6 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
 
       return gpsds;
     }),
-
     tap((gpsds) => {
       // if formControl has been initialValue skip setting the default value,
       // when onChange and onTouched are defined it is a formControl
@@ -114,15 +126,17 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
       }
       // determine disabled state and select Values
       if (!gpsds) {
-        this.setDisabledState(true);
+        this.handleControlDisabledState(true);
 
         return;
       }
 
+      let value;
+      let disabledState = false;
+
       if (gpsds?.length === 1) {
-        this.writeValue(gpsds[0]);
-        this.setDisabledState(gpsds[0].id === this.NOT_AVAILABLE.id);
-        this.sectorGpsdSelected.emit(this.getValueToEmit());
+        value = gpsds[0];
+        disabledState = gpsds[0].id === this.NOT_AVAILABLE.id;
       }
 
       if (gpsds?.length > 1) {
@@ -131,9 +145,20 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
           (gpsd) => gpsd.id === this.DEFAULT.id
         );
 
-        this.writeValue(indexStandardPricing > -1 ? this.DEFAULT : gpsds[0]);
-        this.setDisabledState(false);
-        this.sectorGpsdSelected.emit(this.getValueToEmit());
+        value = indexStandardPricing > -1 ? this.DEFAULT : gpsds[0];
+        disabledState = false;
+      }
+
+      // Set value to Not Available as a default in edit mode for "old" cases
+      // which have no gpsd assigned (has null value in DB) (GQUOTE-5092)
+      if (this.isEditMode()) {
+        value = this.NOT_AVAILABLE;
+      }
+
+      this.writeValue(value);
+      this.sectorGpsdSelected.emit(this.getValueToEmit());
+      if (!this.isDisabledByParent()) {
+        this.handleControlDisabledState(disabledState);
       }
     })
   );
@@ -170,7 +195,6 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
    */
   writeValue(type: SectorGpsd): void {
     this.selectedSectorGpsd = type;
-    // console.log('value', type);
     this.sectorGpsdControl.setValue(this.selectedSectorGpsd, {
       emitEvent: false,
     });
@@ -205,12 +229,18 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
    * @param isDisabled value to set the disabled state of the formControl
    */
   setDisabledState(isDisabled: boolean): void {
+    this.isDisabledByParent.set(isDisabled);
+    this.handleControlDisabledState(isDisabled);
+  }
+
+  private handleControlDisabledState(isDisabled: boolean) {
     if (isDisabled) {
       this.sectorGpsdControl.disable();
     } else {
       this.sectorGpsdControl.enable();
     }
   }
+
   private getValueToEmit(): SectorGpsd {
     return this.selectedSectorGpsd?.id === this.NOT_AVAILABLE.id
       ? undefined

@@ -1,7 +1,7 @@
 <div *ngrxLet="sectorGpsds$ | ngrxPush as sectorGpsds">
   <mat-form-field
     class="w-full"
-    [appearance]="appearance"
+    [appearance]="appearance()"
     *transloco="let t; read: 'sectorGpsd'"
   >
     <mat-label>{{ t('label') }}</mat-label>

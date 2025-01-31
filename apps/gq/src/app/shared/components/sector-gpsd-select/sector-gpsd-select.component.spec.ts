@@ -100,6 +100,58 @@ describe('SectorGpsdSelectComponent', () => {
       })
     );
 
+    test(
+      'should add Not_Available to the gpsd list when edit mode is enabled',
+      marbles((m) => {
+        spectator.setInput('isEditMode', () => true);
+        const gpsd1 = { name: 'test', id: 'test' };
+        const gpsd2 = { name: 'test2', id: 'test2' };
+        sectorGpsds$$.next([gpsd1, gpsd2]);
+        m.expect(component['sectorGpsds$']).toBeObservable('(a)', {
+          a: [component.NOT_AVAILABLE, gpsd1, gpsd2],
+        });
+        expect(component['selectedSectorGpsd']).toEqual(
+          component.NOT_AVAILABLE
+        );
+      })
+    );
+
+    test(
+      'should set Not_Available as selectedSectorGpsd when edit mode is enabled and initial value is null',
+      marbles((m) => {
+        spectator.setInput('isEditMode', () => true);
+        component.sectorGpsdControl.setValue(null);
+        const gpsd1 = { name: 'test', id: 'test' };
+        const gpsd2 = { name: 'test2', id: 'test2' };
+        sectorGpsds$$.next([gpsd1, gpsd2]);
+        m.expect(component['sectorGpsds$']).toBeObservable('(a)', {
+          a: [component.NOT_AVAILABLE, gpsd1, gpsd2],
+        });
+        expect(component['selectedSectorGpsd']).toEqual(
+          component.NOT_AVAILABLE
+        );
+        expect(component.sectorGpsdControl.value).toEqual(
+          component.NOT_AVAILABLE
+        );
+      })
+    );
+
+    test(
+      'should not set Not_Available as selectedSectorGpsd when edit mode is enabled and initial value is set',
+      marbles((m) => {
+        spectator.setInput('isEditMode', () => true);
+        const gpsd1 = { name: 'test', id: 'test' };
+        component['selectedSectorGpsd'] = gpsd1;
+        component['onChange'] = jest.fn();
+        component['onTouched'] = jest.fn();
+        sectorGpsds$$.next([gpsd1]);
+        m.expect(component['sectorGpsds$']).toBeObservable('(a)', {
+          a: [gpsd1],
+        });
+        expect(component['selectedSectorGpsd'].id).toEqual(gpsd1.id);
+      })
+    );
+
     test('should select the only gpsd in the list and emit it', () => {
       const gpsd = { name: 'test', id: 'test' };
       sectorGpsds$$.next([gpsd]);
