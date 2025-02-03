@@ -24,7 +24,6 @@ import {
   MsalGuardConfig,
   MsalInstanceConfig,
   MsalInterceptorConfig,
-  ProtectedResource,
   SharedAzureAuthModule,
 } from '@schaeffler/azure-auth';
 import { BannerModule } from '@schaeffler/banner';
@@ -59,9 +58,7 @@ const azureConfig = new AzureConfig(
     environment.authentication.tenantId,
     !environment.production
   ),
-  new MsalInterceptorConfig([
-    new ProtectedResource('/nowhere', [environment.authentication.appScope]),
-  ]),
+  new MsalInterceptorConfig([]),
   new MsalGuardConfig('/kaputt', [environment.authentication.appScope])
 );
 

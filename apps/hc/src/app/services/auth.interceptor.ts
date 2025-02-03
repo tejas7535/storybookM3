@@ -33,17 +33,26 @@ export class AuthInterceptor implements HttpInterceptor {
       return next.handle(req);
     }
 
-    return this.authService.getAccessToken().pipe(
-      switchMap((token) => {
-        if (!token) {
-          // no token -> not logged in
-          return next.handle(req);
-        }
-        const headers = req.headers.set('Authorization', `Bearer ${token}`);
-        const clone = req.clone({ headers });
+    return this.authService.isLoggedin().pipe(
+      switchMap((isLoggedin) =>
+        isLoggedin
+          ? this.authService.getAccessToken().pipe(
+              switchMap((token) => {
+                if (!token) {
+                  // no token -> not logged in
+                  return next.handle(req);
+                }
+                const headers = req.headers.set(
+                  'Authorization',
+                  `Bearer ${token}`
+                );
+                const clone = req.clone({ headers });
 
-        return next.handle(clone);
-      })
+                return next.handle(clone);
+              })
+            )
+          : next.handle(req)
+      )
     );
   }
 }

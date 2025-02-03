@@ -54,7 +54,9 @@
       <div class="flex h-full min-h-full w-full flex-col">
         <div class="h-full w-full">
           <div class="border-t border-border"></div>
-          <router-outlet></router-outlet>
+          @if (loginChecked) {
+            <router-outlet></router-outlet>
+          }
         </div>
         <div
           *transloco="let t; read: 'legal'"

@@ -2,7 +2,16 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
 
-import { combineLatest, filter, map, Observable, of, switchMap } from 'rxjs';
+import {
+  combineLatest,
+  debounceTime,
+  filter,
+  map,
+  Observable,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 
@@ -22,6 +31,7 @@ export class AppComponent implements OnInit {
   public readonly appVersion = packageJson.version;
   public isCookiePage = false;
   public footerLinks$: Observable<AppShellFooterLink[]>;
+  public loginChecked = false;
 
   private readonly destroyRef = inject(DestroyRef);
   private readonly translocoService: TranslocoService =
@@ -73,11 +83,15 @@ export class AppComponent implements OnInit {
           internal
             ? this.authService.isLoggedin().pipe(map((val) => !val))
             : of(false)
+        ),
+        debounceTime(500),
+        tap((shouldLogin) =>
+          shouldLogin ? this.authService.login() : undefined
         )
       )
-      .subscribe((shouldLogin) =>
-        shouldLogin ? this.authService.login() : undefined
-      );
+      .subscribe(() => {
+        this.loginChecked = true;
+      });
 
     this.router.events
       .pipe(

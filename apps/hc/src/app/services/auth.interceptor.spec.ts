@@ -101,6 +101,7 @@ describe('AuthInterceptor', () => {
     });
 
     it('when it does not have a token', () => {
+      authService.isLoggedin = jest.fn(() => of(true));
       authService.getAccessToken = jest.fn(() => of(undefined));
       service.getProtectedUrl().subscribe((res) => expect(res).toBeTruthy());
 
@@ -111,6 +112,7 @@ describe('AuthInterceptor', () => {
   });
 
   it('should intercept when a token is present', () => {
+    authService.isLoggedin = jest.fn(() => of(true));
     authService.getAccessToken = jest.fn(() => of('valid access token'));
     service.getProtectedUrl().subscribe((res) => {
       expect(res).toBeTruthy();
