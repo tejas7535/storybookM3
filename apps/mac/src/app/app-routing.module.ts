@@ -27,14 +27,6 @@ export const appRoutePaths: MACRoutes = [
   },
   {
     canActivate: [MsalGuard],
-    path: RoutePath.HardnessConverterPath,
-    loadChildren: () =>
-      import('./feature/hardness-converter/hardness-converter.module').then(
-        (m) => m.HardnessConverterModule
-      ),
-  },
-  {
-    canActivate: [MsalGuard],
     path: RoutePath.AQMCalculatorPath,
     loadChildren: () =>
       import('./feature/aqm-calculator/aqm-calculator.module').then(
