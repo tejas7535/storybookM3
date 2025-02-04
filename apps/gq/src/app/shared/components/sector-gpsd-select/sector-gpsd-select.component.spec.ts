@@ -290,4 +290,27 @@ describe('SectorGpsdSelectComponent', () => {
       expect(component['getValueToEmit']()).toBeUndefined();
     });
   });
+
+  describe('sectorGpsdLoading$', () => {
+    const gpsd = { name: 'test', id: 'test' };
+    test(
+      'should not set selectedSectorGpsd to null',
+      marbles(() => {
+        component['selectedSectorGpsd'] = gpsd;
+        spectator.setInput('isEditMode', () => true);
+        sectorGpsdLoading$$.next(true);
+        expect(component.sectorGpsdLoading$).toBeTruthy();
+        expect(component['selectedSectorGpsd'].id).toEqual(gpsd.id);
+      })
+    );
+    test(
+      'should set selectedSectorGpsd to null',
+      marbles(() => {
+        component['selectedSectorGpsd'] = gpsd;
+        sectorGpsdLoading$$.next(true);
+        expect(component.sectorGpsdLoading$).toBeTruthy();
+        expect(component['selectedSectorGpsd']).toEqual(null);
+      })
+    );
+  });
 });

@@ -73,7 +73,7 @@ export class SectorGpsdSelectComponent implements ControlValueAccessor {
     tap((loading) => {
       // Reset selectedSectorGpsd when loading - for example when customer has changed
       // This change will prevent unwanted options in the dropdown (GQUOTE-4925)
-      if (loading) {
+      if (loading && !this.isEditMode()) {
         this.selectedSectorGpsd = null;
       }
     })
