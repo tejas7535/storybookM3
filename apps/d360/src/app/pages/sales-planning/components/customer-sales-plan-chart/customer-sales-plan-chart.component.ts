@@ -38,7 +38,6 @@ const EMPTY_GLOBAL_SELECTION_STATE: GlobalSelectionState = {
     ForecastChartComponent,
   ],
   templateUrl: './customer-sales-plan-chart.component.html',
-  styleUrl: './customer-sales-plan-chart.component.scss',
 })
 export class CustomerSalesPlanChartComponent {
   protected readonly planningCurrency = input.required<string>();

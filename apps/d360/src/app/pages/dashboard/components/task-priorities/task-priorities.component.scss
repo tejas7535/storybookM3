@@ -3,8 +3,8 @@
   min-width: 39px;
 
   &.prio1 {
-    @apply text-info;
-    background: #e0edf4;
+    background: #ebdce8;
+    color: #5d194f;
   }
 
   &.prio2 {
@@ -13,7 +13,7 @@
   }
 
   &.prio3 {
-    background: #ebdce8;
-    color: #5d194f;
+    @apply text-info;
+    background: #e0edf4;
   }
 }

@@ -61,7 +61,6 @@ type AttributeConfig = Record<string, string | string[]>;
   ],
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
   templateUrl: './customer-info-modal.component.html',
-  styleUrl: './customer-info-modal.component.scss',
 })
 export class CustomerInfoModalComponent {
   private readonly dialogRef = inject(MatDialogRef);
