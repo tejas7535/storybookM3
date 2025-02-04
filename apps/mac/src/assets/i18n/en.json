@@ -422,6 +422,7 @@
           "invalidPcfValue": "At least one PCF Value is not valid in row [{{rowNumber}}]: [{{valueKg}}] or [{{valuePc}}]!",
           "missingPcfValue": "No PCF value found in row [{{rowNumber}}]",
           "invalidPcfSupplierEmissions": "PCF Supplier Emissions of [{{pcfSupplierEmissions}}] in row [{{rowNumber}}] are not valid for PCF value of [{{emissionFactorKg}}].",
+          "invalidContentLength": "Content in column [{{column}}] row [{{row}}] is too long. maximum allowed length is [{{maxLength}}] but provided was string with length of [{{length}}].",
           "unsupportedFileFormat": "Unsupported file format [{{fileExtension}}]"
         }
       },

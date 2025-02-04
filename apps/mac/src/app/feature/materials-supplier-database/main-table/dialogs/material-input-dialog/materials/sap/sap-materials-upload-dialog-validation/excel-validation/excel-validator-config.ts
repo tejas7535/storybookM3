@@ -53,6 +53,7 @@ export enum ErrorCode {
   INVALID_PCF_VALUE = 'invalidPcfValue',
   NO_PCF_VALUE = 'missingPcfValue',
   INVALID_PCF_SUPPLIER_EMISSIONS = 'invalidPcfSupplierEmissions',
+  CONTENT_TO_LONG = 'contentToLong',
 }
 
 // Validation result
@@ -84,4 +85,18 @@ export const COLUMN_RULES: { [id: string]: RegExp } = {
   [columns.PLANT]: /^\d{1,4}$/,
   [columns.LINK_TO_CUSTOMER_CALCULATION_METHOD]: URL_REG_EXP,
   [columns.LINK_TO_3RD_PARTY_VERIFICATION_PROOF]: URL_REG_EXP,
+};
+
+export const COLUMNS_MAX_LENGTH: { [id: string]: number } = {
+  [columns.DATA_COMMENT]: 255,
+  [columns.RAW_MATERIAL_MANUFACTURER]: 255,
+  [columns.INCOTERMS]: 55,
+  [columns.SUPPLIER_LOCATION]: 55,
+  [columns.SECONDARY_DATA_SOURCES]: 55,
+  [columns.CROSS_SECTORAL_STANDARDS_USED]: 255,
+  [columns.LINK_TO_CUSTOMER_CALCULATION_METHOD]: 255,
+  [columns.LINK_TO_3RD_PARTY_VERIFICATION_PROOF]: 255,
+  [columns.WEIGHT_DATA_SOURCE]: 255,
+  [columns.MATERIAL_GROUP_OF_RAW_MATERIAL]: 55,
+  [columns.RAW_MATERIAL]: 55,
 };

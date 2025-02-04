@@ -17,6 +17,7 @@ import {
 import {
   COLUMN_HEADER_FIELDS,
   COLUMN_RULES,
+  COLUMNS_MAX_LENGTH,
   ErrorCode,
   MANDATORY_COLUMNS,
   PRIMARY_KEY_COLUMNS,
@@ -63,6 +64,7 @@ export class ExcelValidatorService implements AsyncValidator {
       this.validatePcfValues(dataObjects);
       this.validateMaterialUtilizationFactor(dataObjects);
       this.validatePcfSupplierEmissions(dataObjects);
+      this.validateCellLength(dataObjects);
     } catch (error) {
       const valEr: ValidationError = error as ValidationError;
 
@@ -337,6 +339,27 @@ export class ExcelValidatorService implements AsyncValidator {
       ) {
         throw exception;
       }
+    });
+  }
+
+  private validateCellLength(json: any[]) {
+    // verify only 'relevant' columns
+    const keys = Object.keys(COLUMNS_MAX_LENGTH);
+    // check each data row
+    json.forEach((row: any, rowIndex: number) => {
+      keys.forEach((column) => {
+        const value = row[column];
+        const maxLength = COLUMNS_MAX_LENGTH[column];
+
+        if (value && value.length > maxLength) {
+          throw new ValidationError(ErrorCode.CONTENT_TO_LONG, {
+            column: this.dataFieldToColumnHeader[column],
+            row: rowIndex + this.EXCEL_DATA_ROW_START,
+            length: value.length,
+            maxLength,
+          });
+        }
+      });
     });
   }
 }

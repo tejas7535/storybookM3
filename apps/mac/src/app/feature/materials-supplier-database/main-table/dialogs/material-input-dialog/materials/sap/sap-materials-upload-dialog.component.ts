@@ -294,6 +294,9 @@ export class SapMaterialsUploadDialogComponent implements OnInit, OnDestroy {
         errors.params
       );
     }
+    if (errors.contentToLong) {
+      return this.getTranslatedError('invalidContentLength', errors.params);
+    }
     if (errors.unsupportedFileFormat) {
       return this.getTranslatedError('unsupportedFileFormat', errors.params);
     }

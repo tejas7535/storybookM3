@@ -4,6 +4,14 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import * as XLSX from 'xlsx';
 
+import {
+  BUSINESS_PARTNER_ID,
+  DATA_COMMENT,
+  INCOTERMS,
+  MATERIAL_NUMBER,
+  RAW_MATERIAL,
+} from '@mac/feature/materials-supplier-database/constants';
+
 import { ExcelValidatorService } from './excel-validator.service';
 import {
   COLUMN_HEADER_FIELDS,
@@ -62,6 +70,7 @@ describe('ExcelValidatorService', () => {
       service['validatePcfValues'] = jest.fn();
       service['validateMaterialUtilizationFactor'] = jest.fn();
       service['validatePcfSupplierEmissions'] = jest.fn();
+      service['validateCellLength'] = jest.fn();
 
       service.validate(control).subscribe((result) => {
         if (result) {
@@ -320,5 +329,51 @@ describe('ExcelValidatorService', () => {
       const data = [create('1', '1', '1'), create('1', '1', '1')];
       expect(() => service['validatePrimaryKey'](data)).toThrow();
     });
+  });
+
+  describe('validateCellLength', () => {
+    const str = (length: number) =>
+      length > 0 ? '#'.repeat(length) : undefined;
+    const create = (comment: number, incoterms: number, material: number) => [
+      {
+        [DATA_COMMENT]: str(comment),
+        [INCOTERMS]: str(incoterms),
+        [RAW_MATERIAL]: str(material),
+      },
+    ];
+    it.each([
+      [1, 1, 1],
+      [0, 0, 0],
+      [1, 1, 0],
+      [1, 0, 1],
+      [0, 1, 1],
+      [254, 54, 54],
+    ])(
+      'should pass for length of: comment [%p], incoterms [%p], material [%p]',
+      (comment, incoterms, material) => {
+        const json = create(comment, incoterms, material);
+        expect(() => service['validateCellLength'](json)).not.toThrow();
+      }
+    );
+    it.each(['test', MATERIAL_NUMBER, BUSINESS_PARTNER_ID])(
+      'should pass for columns without length restriction: column [%p]',
+      (column: string) => {
+        const json = [{ [column]: '#'.repeat(512) }];
+        expect(() => service['validateCellLength'](json)).not.toThrow();
+      }
+    );
+
+    it.each([
+      [256, 56, 56],
+      [256, 0, 0],
+      [0, 56, 0],
+      [0, 0, 56],
+    ])(
+      'should fail for length of: comment [%p], incoterms [%p], material [%p]',
+      (comment, incoterms, material) => {
+        const json = create(comment, incoterms, material);
+        expect(() => service['validateCellLength'](json)).toThrow();
+      }
+    );
   });
 });
