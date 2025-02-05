@@ -669,6 +669,7 @@ describe('QuotationDetailsTableComponent', () => {
       component['agGridStateService'].setColumnFilterForCurrentView = jest.fn();
       component['agGridStateService'].getColumnFiltersForCurrentView =
         jest.fn();
+      component['applyStoredFilterState'] = jest.fn();
     });
     test("should set column data if it doesn't exist", () => {
       component['agGridStateService'].getColumnData = jest
@@ -681,7 +682,7 @@ describe('QuotationDetailsTableComponent', () => {
       ).toHaveBeenCalledTimes(1);
     });
 
-    test('should not apply stored states when active view is initially read', () => {
+    test('should not apply stored ColumnState when active view is initially read', () => {
       component['applyStoredColumnState'] = jest.fn();
       component['applyStoredFilterState'] = jest.fn();
       component['agGridStateService'].activeViewId$ = of(1);
@@ -689,7 +690,7 @@ describe('QuotationDetailsTableComponent', () => {
       component.onGridReady(mockEvent);
 
       expect(component['applyStoredColumnState']).not.toHaveBeenCalled();
-      expect(component['applyStoredFilterState']).not.toHaveBeenCalled();
+      expect(component['applyStoredFilterState']).toHaveBeenCalled();
     });
 
     test('should apply stored states when active view is changed for the second time', () => {
@@ -700,7 +701,7 @@ describe('QuotationDetailsTableComponent', () => {
       component.onGridReady(mockEvent);
 
       expect(component['applyStoredColumnState']).toHaveBeenCalledTimes(1);
-      expect(component['applyStoredFilterState']).toHaveBeenCalledTimes(1);
+      expect(component['applyStoredFilterState']).toHaveBeenCalledTimes(2);
     });
 
     test('should NOT set column data if already exist', () => {

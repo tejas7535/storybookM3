@@ -780,6 +780,33 @@ describe('AgGridStateService', () => {
         ),
       });
     });
+    test('should reset the FilterState when filterModels have empty objects', () => {
+      const actionItemId = 'actionItemId';
+
+      service['getColumnFilters'] = jest.fn().mockReturnValue([]);
+
+      service['gridLocalStorageService'].getGridState = jest
+        .fn()
+        .mockReturnValue(mockState);
+      service['saveGridState'] = jest.fn().mockImplementation(() => {});
+
+      service['setColumnFilters']('key', 1, actionItemId, {});
+
+      expect(service['saveGridState']).toHaveBeenCalledWith({
+        ...mockState,
+        customViews: mockState.customViews.map((view) =>
+          view.id === 1
+            ? {
+                ...view,
+                state: {
+                  columnState: [],
+                  filterState: [],
+                },
+              }
+            : view
+        ),
+      });
+    });
   });
 
   describe('getColumnFilters', () => {

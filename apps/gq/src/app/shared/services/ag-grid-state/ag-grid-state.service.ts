@@ -427,7 +427,14 @@ export class AgGridStateService {
               ...view,
               state: {
                 ...view.state,
-                filterState,
+                // when the filterState contains all empty filterModels, remove the filterState completely
+                filterState: filterState.every(
+                  (filter: FilterState) =>
+                    filter.filterModels &&
+                    Object.keys(filter.filterModels).length === 0
+                )
+                  ? []
+                  : [...filterState],
               },
             }
           : view

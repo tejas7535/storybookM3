@@ -315,12 +315,12 @@ export class QuotationDetailsTableComponent
 
     this.agGridStateService.activeViewId$
       .pipe(
-        skip(1), // first emit is not needed as ngAfterViewChecked is being initially executed
+        tap(() => this.applyStoredFilterState()),
+        skip(1), // first emit is not needed (to execute applyStoredColumnState) as ngAfterViewChecked is being initially executed
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(() => {
         this.applyStoredColumnState();
-        this.applyStoredFilterState();
       });
   }
 
