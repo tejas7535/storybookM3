@@ -2,17 +2,29 @@
   <div class="text-white-high-emphasis flex flex-row gap-16 pr-8 text-left">
     <div class="flex flex-row">
       <div>
-        <span class="text-subtitle-1">{{ t('totalNetValue') }}</span>
-        <div class="text-caption opacity-60">{{ t('previousNetValue') }}:</div>
+        <span
+          data-cy="simulated-total-net-value_label"
+          class="text-subtitle-1"
+          >{{ t('totalNetValue') }}</span
+        >
+        <div
+          data-cy="simulated-previous-total-net-value_label"
+          class="text-caption opacity-60"
+        >
+          {{ t('previousNetValue') }}:
+        </div>
       </div>
       <div class="ml-6">
-        <span class="text-subtitle-1">
+        <span class="text-subtitle-1" data-cy="simulated-total-net-value_value">
           {{
             simulatedQuotation().simulatedStatusBar.netValue
               | numberCurrency: quotationCurrency()
           }}
         </span>
-        <div class="text-caption opacity-60">
+        <div
+          class="text-caption opacity-60"
+          data-cy="simulated-previous-total-net-value_value"
+        >
           {{
             simulatedQuotation().previousStatusBar.netValue
               | numberCurrency: quotationCurrency()
@@ -22,42 +34,82 @@
     </div>
     <div class="flex flex-row">
       <div>
-        <span class="text-subtitle-1">{{ t('totalAverageGPM') }}</span>
-        <div class="text-caption opacity-60">{{ t('previousGPM') }}:</div>
+        <span
+          data-cy="simulated-total-average-gpm_label"
+          class="text-subtitle-1"
+          >{{ t('totalAverageGPM') }}</span
+        >
+        <div
+          data-cy="simulated-previous-total-average-gpm_label"
+          class="text-caption opacity-60"
+        >
+          {{ t('previousGPM') }}:
+        </div>
       </div>
       <div class="ml-6">
-        <span class="text-subtitle-1">
+        <span
+          class="text-subtitle-1"
+          data-cy="simulated-total-average-gpm_value"
+        >
           {{ simulatedQuotation().simulatedStatusBar.gpm | percentage }}
         </span>
-        <div class="text-caption opacity-60">
+        <div
+          class="text-caption opacity-60"
+          data-cy="simulated-previous-total-average-gpm_label"
+        >
           {{ simulatedQuotation().previousStatusBar.gpm | percentage }}
         </div>
       </div>
     </div>
     <div class="flex flex-row">
       <div>
-        <span class="text-subtitle-1">{{ t('totalAverageGPI') }}</span>
-        <div class="text-caption opacity-60">{{ t('previousGPI') }}:</div>
+        <span data-cy="simulated-total-gpi_label" class="text-subtitle-1">{{
+          t('totalAverageGPI')
+        }}</span>
+        <div
+          data-cy="simulated-previous-total-gpi_label"
+          class="text-caption opacity-60"
+        >
+          {{ t('previousGPI') }}:
+        </div>
       </div>
       <div class="ml-6">
-        <span class="text-subtitle-1">
+        <span class="text-subtitle-1" data-cy="simulated-total-gpi_value">
           {{ simulatedQuotation().simulatedStatusBar.gpi | percentage }}
         </span>
-        <div class="text-caption opacity-60">
+        <div
+          class="text-caption opacity-60"
+          data-cy="simulated-previous-total-gpi_value"
+        >
           {{ simulatedQuotation().previousStatusBar.gpi | percentage }}
         </div>
       </div>
     </div>
     <div class="flex flex-row">
       <div>
-        <span class="text-subtitle-1">{{ t('totalPriceDiff') }}</span>
-        <div class="text-caption opacity-60">{{ t('previousPriceDiff') }}:</div>
+        <span
+          data-cy="simulated-total-price-diff_label"
+          class="text-subtitle-1"
+          >{{ t('totalPriceDiff') }}</span
+        >
+        <div
+          data-cy="simulated-previous-total-price-diff_label"
+          class="text-caption opacity-60"
+        >
+          {{ t('previousPriceDiff') }}:
+        </div>
       </div>
       <div class="ml-6">
-        <span class="text-subtitle-1">
+        <span
+          class="text-subtitle-1"
+          data-cy="simulated-total-price-diff_value"
+        >
           {{ simulatedQuotation().simulatedStatusBar.priceDiff | percentage }}
         </span>
-        <div class="text-caption opacity-60">
+        <div
+          class="text-caption opacity-60"
+          data-cy="simulated-previous-total-price-diff_value"
+        >
           {{ simulatedQuotation().previousStatusBar.priceDiff | percentage }}
         </div>
       </div>

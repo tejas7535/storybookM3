@@ -3,36 +3,50 @@
   *transloco="let t; read: 'shared.customStatusBar.quotationDetailsStatus'"
 >
   <div class="ml-8 flex flex-col">
-    <span class="text-low-emphasis text-left"> {{ t('totalNetValue') }}: </span>
-    <span class="text-high-emphasis text-left">
+    <span data-cy="total-net-value_label" class="text-low-emphasis text-left">
+      {{ t('totalNetValue') }}:
+    </span>
+    <span data-cy="total-net-value_value" class="text-high-emphasis text-left">
       {{ quotationKpi().totalNetValue | numberCurrency: quotationCurrency() }}
     </span>
   </div>
   @if (showGpi()) {
     <div class="ml-8 flex flex-col">
-      <span class="text-low-emphasis text-left">
+      <span
+        class="text-low-emphasis text-left"
+        data-cy="total-average-gpi_label"
+      >
         {{ t('totalAverageGPI') }}:
       </span>
-      <span class="text-high-emphasis text-left">
+      <span
+        class="text-high-emphasis text-left"
+        data-cy="total-average-gpi_value"
+      >
         {{ quotationKpi().totalWeightedAverageGpi | percentage: false }}</span
       >
     </div>
   }
   @if (showGpm()) {
     <div class="ml-8 flex flex-col">
-      <span class="text-low-emphasis text-left">
+      <span
+        class="text-low-emphasis text-left"
+        data-cy="total-average-gpm_label"
+      >
         {{ t('totalAverageGPM') }}:
       </span>
-      <span class="text-high-emphasis text-left">
+      <span
+        class="text-high-emphasis text-left"
+        data-cy="total-average-gpm_value"
+      >
         {{ quotationKpi().totalWeightedAverageGpm | percentage: false }}</span
       >
     </div>
   }
   <div class="ml-8 flex flex-col">
-    <span class="text-low-emphasis text-left">
+    <span class="text-low-emphasis text-left" data-cy="total-price-diff_label">
       {{ t('totalPriceDiff') }}:
     </span>
-    <span class="text-high-emphasis text-left">
+    <span class="text-high-emphasis text-left" data-cy="total-price-diff_value">
       {{
         quotationKpi().totalWeightedAveragePriceDiff | percentage: false
       }}</span
