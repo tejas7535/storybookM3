@@ -10,7 +10,6 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { HomeComponent } from './pages/home/home.component';
 import { RoleGuard } from './shared/utils/auth/role-guard.service';
 import {
-  apPortfolioAllowedRoles,
   internalMaterialReplacementAllowedRoles,
   salesPlanningAllowedRoles,
   workflowManagementAllowedRoles,
@@ -32,6 +31,9 @@ export interface RouteConfig {
 export const appRoutes: RouteConfig = {
   startPage: {
     label: 'tabbar.start-page.label',
+    data: {
+      titles: ['header.title', 'header.dashboard'],
+    },
     path: AppRoutePath.HomePage,
     canActivate: [MsalGuard],
     component: HomeComponent,
@@ -45,6 +47,9 @@ export const appRoutes: RouteConfig = {
     {
       path: AppRoutePath.DemandValidationPage,
       label: 'tabbarMenu.validation-of-demand.label',
+      data: {
+        titles: ['header.title', 'tabbarMenu.validation-of-demand.label'],
+      },
       canActivate: [MsalGuard],
       visible: true,
       loadComponent: () =>
@@ -55,6 +60,12 @@ export const appRoutes: RouteConfig = {
     {
       path: AppRoutePath.CustomerMaterialPortfolioPage,
       label: 'tabbarMenu.customer-material-portfolio.label',
+      data: {
+        titles: [
+          'header.title',
+          'tabbarMenu.customer-material-portfolio.label',
+        ],
+      },
       canActivate: [MsalGuard],
       visible: true,
       loadComponent: () =>
@@ -69,6 +80,10 @@ export const appRoutes: RouteConfig = {
       visible: true,
       data: {
         allowedRoles: internalMaterialReplacementAllowedRoles,
+        titles: [
+          'header.title',
+          'tabbarMenu.internal-material-replacement.label',
+        ],
       },
       loadComponent: () =>
         import(
@@ -82,6 +97,7 @@ export const appRoutes: RouteConfig = {
       visible: true,
       data: {
         allowedRoles: workflowManagementAllowedRoles,
+        titles: ['header.title', 'tabbarMenu.alert-rule-editor.label'],
       },
       loadComponent: () =>
         import('../app/pages/alert-rules/alert-rules.component').then(
@@ -95,6 +111,7 @@ export const appRoutes: RouteConfig = {
       visible: true,
       data: {
         allowedRoles: salesPlanningAllowedRoles,
+        titles: ['header.title', 'tabbarMenu.sales-planning.label'],
       },
       loadComponent: () =>
         import('../app/pages/sales-planning/sales-planning.component').then(
@@ -106,39 +123,45 @@ export const appRoutes: RouteConfig = {
       label: 'tabbarMenu.dashboard.label',
       canActivate: [MsalGuard],
       visible: true,
+      data: {
+        titles: ['header.title', 'tabbarMenu.dashboard.label'],
+      },
       loadComponent: () =>
         import('../app/pages/dashboard/dashboard.component').then(
           (m) => m.DashboardComponent
         ),
     },
-    {
-      path: AppRoutePath.ApPortfolioOptimizationPage,
-      label: 'tabbarMenu.ap-portfolio-optimization.label',
-      canActivate: [MsalGuard, RoleGuard],
-      visible: false,
-      data: {
-        allowedRoles: apPortfolioAllowedRoles,
-      },
-      loadComponent: () => null, // TODO implement component (empty react component before)
-    },
-    {
-      path: AppRoutePath.RegionalApPortfolioPage,
-      label: 'tabbarMenu.regional-ap-portfolio.label',
-      canActivate: [MsalGuard],
-      visible: false,
-      loadComponent: () => null, // TODO implement component (empty react component before)
-    },
-    {
-      path: AppRoutePath.CustomerSpecificRequirementPage,
-      label: 'tabbarMenu.customer-specific-requirements.label',
-      canActivate: [MsalGuard],
-      visible: false,
-      loadComponent: () => null, // TODO implement component (empty react component before)
-    },
+    // {
+    //   path: AppRoutePath.ApPortfolioOptimizationPage,
+    //   label: 'tabbarMenu.ap-portfolio-optimization.label',
+    //   canActivate: [MsalGuard, RoleGuard],
+    //   visible: false,
+    //   data: {
+    //     allowedRoles: apPortfolioAllowedRoles,
+    //   },
+    //   loadComponent: () => null, // TODO implement component (empty react component before)
+    // },
+    // {
+    //   path: AppRoutePath.RegionalApPortfolioPage,
+    //   label: 'tabbarMenu.regional-ap-portfolio.label',
+    //   canActivate: [MsalGuard],
+    //   visible: false,
+    //   loadComponent: () => null, // TODO implement component (empty react component before)
+    // },
+    // {
+    //   path: AppRoutePath.CustomerSpecificRequirementPage,
+    //   label: 'tabbarMenu.customer-specific-requirements.label',
+    //   canActivate: [MsalGuard],
+    //   visible: false,
+    //   loadComponent: () => null, // TODO implement component (empty react component before)
+    // },
   ],
   tasks: {
     path: AppRoutePath.AlertPage,
     label: 'tabbar.tasks.label',
+    data: {
+      titles: ['header.title', 'tabbar.tasks.label'],
+    },
     canActivate: [MsalGuard],
     visible: true,
     loadComponent: () =>

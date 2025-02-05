@@ -1,6 +1,7 @@
 {
   "header": {
-    "title": "Demand360",
+    "title": "P360",
+    "dashboard": "Dashboard",
     "brand": {
       "alt": "舍弗勒集团标志"
     }
@@ -110,7 +111,7 @@
   },
   "tabbarMenu": {
     "validation-of-demand": {
-      "label": "需求验证"
+      "label": "需求验证s"
     },
     "customer-material-portfolio": {
       "label": "客户物料组合"
@@ -131,7 +132,10 @@
       "label": "任务条件编辑器"
     },
     "sales-planning": {
-      "label": "销售规划"
+      "label": "销售验证"
+    },
+    "dashboard": {
+      "label": "Dashboard"
     }
   },
   "globalSelection": {

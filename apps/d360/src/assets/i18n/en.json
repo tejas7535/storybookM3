@@ -9,7 +9,8 @@
     "purpose": "<p>In this context, we process your personal data exclusively on an anonymous basis in order to enable the following evaluations:</p> <ul><li>- Evaluations of request rates, response times and error rates of the website to find out which pages are most frequently used at what times of the day and where the users are located.</li><li>- Evaluations of page views and loading performance of the website</li><li>- Evaluations of the number of users and sessions</li><li>- Evaluation of user-defined events and metrics</li></ul> <p>In addition, we process your personal data in connection with the user setting. To improve the user experience, application-specific settings such as the favorite table setting for displaying data are saved.</p> <p>Furthermore, to support the S&amp;OP process, data records that you have modified or created are stored in SAP.</p>"
   },
   "header": {
-    "title": "Demand360",
+    "title": "P360",
+    "dashboard": "Dashboard",
     "brand": {
       "alt": "Schaeffler Group Logo"
     }
@@ -116,7 +117,7 @@
   },
   "tabbarMenu": {
     "validation-of-demand": {
-      "label": "Validation of Demand"
+      "label": "Demand Validation"
     },
     "customer-material-portfolio": {
       "label": "Customer Material Portfolio"
@@ -134,7 +135,7 @@
       "label": "Requirements for Supply Concept"
     },
     "sales-planning": {
-      "label": "Sales Planning"
+      "label": "Sales Validation"
     },
     "alert-rule-editor": {
       "label": "Tasks Rule Editor"

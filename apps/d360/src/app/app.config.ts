@@ -27,6 +27,7 @@ import {
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {
   provideRouter,
+  TitleStrategy,
   withEnabledBlockingInitialNavigation,
 } from '@angular/router';
 
@@ -67,6 +68,7 @@ import {
 import { responsiblePerson } from './shared/constants/legal-constants';
 import { HeadersInterceptor } from './shared/interceptors/headers.interceptor';
 import { HttpErrorInterceptor } from './shared/interceptors/http-error.interceptor';
+import { TranslatedPageTitleStrategyService } from './shared/services/translated-page-title-strategy.service';
 
 export function DynamicPurpose(translocoService: TranslocoService) {
   return translocoService.selectTranslateObject('legal.purpose');
@@ -151,6 +153,10 @@ export const appConfig: ApplicationConfig = {
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
     importProvidersFrom(MatMomentDateModule),
     provideAnimations(),
+    {
+      provide: TitleStrategy,
+      useClass: TranslatedPageTitleStrategyService,
+    },
     provideZoneChangeDetection({
       eventCoalescing: true,
       runCoalescing: true,

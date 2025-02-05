@@ -1,6 +1,7 @@
 {
   "header": {
-    "title": "Demand360",
+    "title": "P360",
+    "dashboard": "Dashboard",
     "brand": {
       "alt": "Logotipo del Grupo Schaeffler"
     }
@@ -110,7 +111,7 @@
   },
   "tabbarMenu": {
     "validation-of-demand": {
-      "label": "Validación de la planificación comercial"
+      "label": "Validación de la demanda"
     },
     "customer-material-portfolio": {
       "label": "Cartera de material del cliente"
@@ -131,7 +132,10 @@
       "label": "Editor de reglas de tareas"
     },
     "sales-planning": {
-      "label": "Planificación de ventas"
+      "label": "Validación de ventas"
+    },
+    "dashboard": {
+      "label": "Dashboard"
     }
   },
   "globalSelection": {

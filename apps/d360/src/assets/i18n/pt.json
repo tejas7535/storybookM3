@@ -1,6 +1,7 @@
 {
   "header": {
-    "title": "Demand360",
+    "title": "P360",
+    "dashboard": "Dashboard",
     "brand": {
       "alt": "Schaeffler Group Logo"
     }
@@ -131,7 +132,10 @@
       "label": "Tarefas Editor de regras"
     },
     "sales-planning": {
-      "label": "Planeamento de vendas"
+      "label": "Validação de vendas"
+    },
+    "dashboard": {
+      "label": "Dashboard"
     }
   },
   "globalSelection": {

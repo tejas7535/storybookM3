@@ -1,6 +1,7 @@
 {
   "header": {
-    "title": "Demand360",
+    "title": "P360",
+    "dashboard": "Dashboard",
     "brand": {
       "alt": "Logo du groupe Schaeffler"
     }
@@ -90,7 +91,7 @@
       "label": "Navigation"
     },
     "start-page": {
-      "label": "Start page"
+      "label": "Page de démarrage"
     },
     "functions": {
       "label": "Fonctions"
@@ -110,7 +111,7 @@
   },
   "tabbarMenu": {
     "validation-of-demand": {
-      "label": "Validation des besoins commerciaux"
+      "label": "Validation de la demande"
     },
     "customer-material-portfolio": {
       "label": "Liste des articles du client (portefeuille client)"
@@ -131,7 +132,10 @@
       "label": "Éditeur de règles pour les tâches"
     },
     "sales-planning": {
-      "label": "Planification des ventes"
+      "label": "Validation des ventes"
+    },
+    "dashboard": {
+      "label": "Dashboard"
     }
   },
   "globalSelection": {

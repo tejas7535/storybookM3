@@ -1,6 +1,7 @@
 {
   "header": {
-    "title": "Demand360",
+    "title": "P360",
+    "dashboard": "Dashboard",
     "brand": {
       "alt": "Schaeffler Group Logo"
     }
@@ -110,7 +111,7 @@
   },
   "tabbarMenu": {
     "validation-of-demand": {
-      "label": "Conferma del Fabbisogno in pezzi"
+      "label": "Convalida della domanda"
     },
     "customer-material-portfolio": {
       "label": "Portafoglio materiale del cliente"
@@ -131,7 +132,10 @@
       "label": "Editor delle regole dei compiti"
     },
     "sales-planning": {
-      "label": "Pianificazione delle vendite"
+      "label": "Convalida delle vendite"
+    },
+    "dashboard": {
+      "label": "Dashboard"
     }
   },
   "globalSelection": {

@@ -9,7 +9,8 @@
     "purpose": "<p>In diesem Zusammenhang verarbeiten wir Ihre personenbezogenen Daten ausschließlich auf anonymer Basis, um beispielsweise folgende Auswertungen zu ermöglichen:</p> <ul><li>- Auswertungen zu Anforderungsraten, Antwortzeiten und Fehlerraten der Website um zu erfahren, welche Seiten zu welchen Tageszeiten am häufigsten verwendet werden und wo die User sich befinden.</li><li>- Auswertungen zu Seitenansichten und Ladeleistung der Website</li><li>- Auswertungen zu Anzahl von Benutzern und Sitzungen</li><li>- Auswertungen von benutzerdefinierten Ereignissen und Metriken</li></ul> <p>Außerdem verarbeiten wir Ihre personenbezogenen Daten im Zusammenhang mit der Nutzereinstellung. Zur Verbesserung der Benutzer-Erfahrung werden dabei anwendungsspezifische Einstellungen wie zum Beispiel die favorisierte Tabellen-Einstellung zur Anzeige von Daten gespeichert.</p> <p>Des Weiteren werden zur Unterstützung des S&amp;OP Prozesses von Ihnen geänderte oder erstellte Datensätze in SAP gespeichert.</p>"
   },
   "header": {
-    "title": "Demand360",
+    "title": "P360",
+    "dashboard": "Dashboard",
     "brand": {
       "alt": "Schaeffler Group Logo"
     }
@@ -116,7 +117,7 @@
   },
   "tabbarMenu": {
     "validation-of-demand": {
-      "label": "Validierung Absatzplanung"
+      "label": "Absatzvalidierung"
     },
     "customer-material-portfolio": {
       "label": "Kunden Material Portfolio"
@@ -137,7 +138,7 @@
       "label": "Aufgaben Regel Editor"
     },
     "sales-planning": {
-      "label": "Umsatzplanung"
+      "label": "Umsatzvalidierung"
     },
     "dashboard": {
       "label": "Dashboard"
