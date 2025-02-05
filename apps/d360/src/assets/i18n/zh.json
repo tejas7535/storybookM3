@@ -200,12 +200,12 @@
         "daterange_button": "图表日期范围"
       },
       "legend": {
-        "orders": "未交货实单",
-        "deliveries": "已交货订单",
-        "demandPlan": "确认的客户预测",
-        "opportunities": "潜在的销售机会",
-        "opAdjustment": "OP类调整",
-        "rollingSalesForecast": "日滚动销售预测"
+        "orders": "Firm Business",
+        "deliveries": "Deliveries",
+        "demandPlan": "Demand Plan",
+        "opportunities": "Opportunities",
+        "opAdjustment": "OP Adjustment",
+        "rollingSalesForecast": "Daily Rolling Sales Forecast"
       }
     }
   },
