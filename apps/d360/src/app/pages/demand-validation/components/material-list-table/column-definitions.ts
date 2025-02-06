@@ -10,8 +10,7 @@ export function getColumnDefinitions(
       colId: 'materialNumber',
       filter: undefined,
       filterParams: undefined,
-      minWidth: 180,
-      maxWidth: 180,
+      width: 180,
     },
     { colId: 'materialDescription', flex: 1 },
     {
@@ -21,13 +20,12 @@ export function getColumnDefinitions(
     },
     {
       colId: 'materialClassification',
-      minWidth: 80,
-      maxWidth: 80,
+      width: 80,
     },
     {
       colId: 'demandPlanValue',
       valueFormatter: agGridLocalizationService.numberFormatter,
-      minWidth: 120,
+      width: 120,
       flex: 1,
     },
   ];
