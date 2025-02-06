@@ -507,7 +507,7 @@
       "toggleFilters": "Filtros",
       "currentCount": "Selección actual: {{count}}",
       "activeFilterCount": "Filtros actual: {{count}}",
-      "resetFilters": "Restablecer todos los filtros"
+      "resetFilters": "Restablecer filtro"
     }
   },
   "customer_material_portfolio": {

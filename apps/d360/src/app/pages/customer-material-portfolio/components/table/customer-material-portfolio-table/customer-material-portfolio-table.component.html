@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
   @if (gridApi) {
     <!-- table tool bar -->
-    <d360-table-toolbar [rowCount]="rowCount" [grid]="gridApi">
+    <d360-table-toolbar [rowCount]="rowCount()" [grid]="gridApi">
       <span class="mx-2">|</span>
 
       <!-- Row expansion toggle -->

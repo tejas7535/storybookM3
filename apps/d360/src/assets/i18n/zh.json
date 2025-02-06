@@ -507,7 +507,7 @@
       "toggleFilters": "過濾器",
       "currentCount": "当前选择: {{count}}",
       "activeFilterCount": "当前过滤器: {{count}}",
-      "resetFilters": "重設所有篩選條件"
+      "resetFilters": "重置过滤器"
     }
   },
   "customer_material_portfolio": {

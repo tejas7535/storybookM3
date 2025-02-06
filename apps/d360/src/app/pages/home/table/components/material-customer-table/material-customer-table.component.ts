@@ -6,10 +6,16 @@ import {
   input,
   OnInit,
   output,
+  signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
 
-import { TranslocoService } from '@jsverse/transloco';
+import { tap } from 'rxjs';
+
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
@@ -33,6 +39,7 @@ import {
   formatFilterModelForAgGrid,
   formatFilterModelForBackend,
 } from '../../../../../shared/ag-grid/grid-filter-model';
+import { TableToolbarComponent } from '../../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
 import {
   GlobalSelectionState,
   GlobalSelectionStateService,
@@ -40,24 +47,34 @@ import {
 import { AgGridLocalizationService } from '../../../../../shared/services/ag-grid-localization.service';
 import { columnDefinitions } from '../../column-definition';
 import { MaterialCustomerTableService } from '../../services/material-customer-table.service';
+import { ColumnLayoutManagementModalComponent } from '../column-layout-management-modal/column-layout-management-modal.component';
 import { LayoutId } from '../column-layout-management-modal/column-layout-management-modal.model';
-import { HomeTableToolbarComponent } from '../home-table-toolbar/home-table-toolbar.component';
+import { ExportTableDialogComponent } from '../export-table-dialog/export-table-dialog.component';
 import { TextTooltipComponent } from '../text-tooltip/text-tooltip.component';
 
 @Component({
   selector: 'd360-material-customer-table',
   standalone: true,
-  imports: [AgGridModule, HomeTableToolbarComponent],
+  imports: [
+    AgGridModule,
+    TableToolbarComponent,
+    MatButton,
+    MatIcon,
+    MatIconButton,
+    TranslocoDirective,
+  ],
   providers: [MaterialCustomerTableService],
   templateUrl: './material-customer-table.component.html',
   styleUrl: './material-customer-table.component.scss',
 })
 export class MaterialCustomerTableComponent implements OnInit {
   public selectionFilter = input.required<GlobalSelectionState>();
-
+  private readonly materialCustomerService = inject(MaterialCustomerService);
+  readonly dialog = inject(MatDialog);
   protected globalSelectionStateService = inject(GlobalSelectionStateService);
   protected materialCustomerTableService = inject(MaterialCustomerTableService);
-  private readonly materialCustomerService = inject(MaterialCustomerService);
+
+  public totalRowCount = signal<number>(null);
   protected readonly agGridLocalizationService = inject(
     AgGridLocalizationService
   );
@@ -101,7 +118,7 @@ export class MaterialCustomerTableComponent implements OnInit {
    */
   public onColumnFilterChange = output<any>();
 
-  ngOnInit() {
+  public ngOnInit() {
     this.materialCustomerService
       .getCriteriaData()
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -109,9 +126,18 @@ export class MaterialCustomerTableComponent implements OnInit {
         this.criteriaData = data;
         this.defaultColDef();
       });
+    this.materialCustomerTableService
+      .getDataFetchedEvent()
+      .pipe(
+        tap(({ totalRowCount }) => {
+          this.totalRowCount.set(totalRowCount);
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
-  defaultColDef = () => {
+  private readonly defaultColDef = () => {
     if (!this.initialColumns) {
       this.initialColumns = columnDefinitions(this.agGridLocalizationService);
     }
@@ -151,7 +177,7 @@ export class MaterialCustomerTableComponent implements OnInit {
     this.gridApi?.setGridOption('columnDefs', columnDefs);
   };
 
-  onGridReady = (event: GridReadyEvent) => {
+  protected onGridReady = (event: GridReadyEvent) => {
     this.gridApi = event.api;
 
     const { resetLayout, loadLayout, saveLayout } =
@@ -196,16 +222,12 @@ export class MaterialCustomerTableComponent implements OnInit {
     }
   }
 
-  onFilterChange(event: FilterChangedEvent) {
+  protected onFilterChange(event: FilterChangedEvent) {
     this.filter = formatFilterModelForBackend(event.api.getFilterModel());
     this.onColumnFilterChange.emit(this.filter);
   }
 
-  getRowCount() {
-    return this.gridApi ? this.gridApi.getDisplayedRowCount() : null;
-  }
-
-  getVisibilityBackground = (params: {
+  protected getVisibilityBackground = (params: {
     data: { portfolioStatus: string } | undefined;
   }) => {
     if (params.data !== undefined && params.data.portfolioStatus === 'IA') {
@@ -216,7 +238,7 @@ export class MaterialCustomerTableComponent implements OnInit {
     return undefined;
   };
 
-  getIdForRow(row: any) {
+  protected getIdForRow(row: any) {
     if (row.id === undefined && row.data.id === undefined) {
       throw new Error('Could not find id in row.');
     } else if (row.id != null) {
@@ -226,7 +248,40 @@ export class MaterialCustomerTableComponent implements OnInit {
     return row.data.id as string;
   }
 
-  onFirstDataRendered($event: FirstDataRenderedEvent) {
+  protected onFirstDataRendered($event: FirstDataRenderedEvent) {
     $event.api.autoSizeAllColumns();
+  }
+
+  protected openColumnLayoutManagementModal(event: MouseEvent): void {
+    const button = event.currentTarget as HTMLElement;
+    const rect = button.getBoundingClientRect();
+
+    this.dialog.open(ColumnLayoutManagementModalComponent, {
+      data: {
+        resetLayout: this.resetLayout,
+        saveLayout: this.saveLayout,
+        loadLayout: this.loadLayout,
+      },
+      position: {
+        top: `${rect.top + 30}px`,
+        left: `${rect.left - 280}px`,
+      },
+    });
+  }
+
+  protected isExportDisabled(): boolean {
+    return this.globalSelectionStateService.isEmpty();
+  }
+
+  protected openExport(): void {
+    this.dialog.open(ExportTableDialogComponent, {
+      data: {
+        gridApi: this.gridApi,
+        filter: GlobalSelectionUtils.globalSelectionCriteriaToFilter(
+          this.selectionFilter()
+        ),
+        backdrop: false,
+      },
+    });
   }
 }

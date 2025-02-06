@@ -11,19 +11,16 @@ import { AgGridModule } from 'ag-grid-angular';
 import { MockComponent, MockModule } from 'ng-mocks';
 
 import { MaterialCustomerService } from '../../../../../feature/material-customer/material-customer.service';
+import { TableToolbarComponent } from '../../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
 import { AgGridLocalizationService } from '../../../../../shared/services/ag-grid-localization.service';
 import { MaterialCustomerTableService } from '../../services/material-customer-table.service';
-import { HomeTableToolbarComponent } from '../home-table-toolbar/home-table-toolbar.component';
 import { MaterialCustomerTableComponent } from './material-customer-table.component';
 
 describe('MaterialCustomerTableComponent', () => {
   let spectator: Spectator<MaterialCustomerTableComponent>;
   const createComponent = createComponentFactory({
     component: MaterialCustomerTableComponent,
-    imports: [
-      MockModule(AgGridModule),
-      MockComponent(HomeTableToolbarComponent),
-    ],
+    imports: [MockModule(AgGridModule), MockComponent(TableToolbarComponent)],
     providers: [
       {
         provide: MaterialCustomerService,

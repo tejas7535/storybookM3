@@ -7,11 +7,19 @@
   }
 
   @if (getFilterCount() && getFilterCount() > 0) {
-    <div>
+    <div class="flex items-center">
       @if (renderFloatingFilter()) {
-        <span class="mx-2">|</span>
+        <span class="ml-2 mr-4">|</span>
       }
       <span class="text-body-medium">{{ getFilterCountText() }}</span>
+      <button
+        mat-icon-button
+        class="ml-2"
+        (click)="onResetFilters()"
+        [matTooltip]="t('table.toolbar.resetFilters')"
+      >
+        <mat-icon>filter_list_off</mat-icon>
+      </button>
     </div>
   }
 
@@ -33,11 +41,6 @@
   }
 
   <div class="flex grow"></div>
-
-  <button mat-button (click)="onResetFilters()" [disabled]="!getFilterCount()">
-    <mat-icon>clear</mat-icon>
-    {{ t('table.toolbar.resetFilters') }}
-  </button>
 
   <ng-content></ng-content>
 </aside>

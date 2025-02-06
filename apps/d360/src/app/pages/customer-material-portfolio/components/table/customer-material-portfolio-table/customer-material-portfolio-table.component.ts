@@ -102,7 +102,7 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
     sideBar,
   };
   protected childMaterialsCache: Map<string, CMPEntry[]> = new Map();
-  protected rowCount = 0;
+  protected rowCount = signal<number>(0);
 
   protected criteriaData: WritableSignal<CriteriaFields> =
     signal<CriteriaFields>(null);
@@ -178,11 +178,16 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
     private readonly cmpService: CMPService,
     protected readonly agGridLocalizationService: AgGridLocalizationService
   ) {
-    effect(() => {
-      if (this.selectedCustomer() || this.globalSelection()) {
-        this.setServerSideDatasource();
+    effect(
+      () => {
+        if (this.selectedCustomer() || this.globalSelection()) {
+          this.setServerSideDatasource();
+        }
+      },
+      {
+        allowSignalWrites: true,
       }
-    });
+    );
 
     effect(() => {
       if (this.criteriaData()) {
@@ -300,7 +305,7 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
    * @memberof CustomerMaterialPortfolioTableComponent
    */
   private setServerSideDatasource(): void {
-    this.rowCount = 0;
+    this.rowCount.set(0);
     this.gridApi?.setGridOption(
       'serverSideDatasource',
       this.cmpService.createCustomerMaterialPortfolioDatasource(
@@ -323,8 +328,8 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
       .getDataFetchedEvent()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => {
-        this.rowCount = value.headMaterials.rowCount;
-        if (this.rowCount === 0) {
+        this.rowCount.set(value.headMaterials.rowCount);
+        if (this.rowCount() === 0) {
           this.gridApi?.showNoRowsOverlay();
         } else {
           this.gridApi?.hideOverlay();

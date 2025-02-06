@@ -1,6 +1,7 @@
 import { Component, effect, inject, input } from '@angular/core';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -13,7 +14,13 @@ import { showFloatingFilters } from '../../../ag-grid/grid-utils';
 @Component({
   selector: 'd360-table-toolbar',
   standalone: true,
-  imports: [MatIconModule, MatButton, SharedTranslocoModule],
+  imports: [
+    MatIconModule,
+    MatButton,
+    SharedTranslocoModule,
+    MatIconButton,
+    MatTooltip,
+  ],
   templateUrl: './table-toolbar.component.html',
   styleUrls: ['./table-toolbar.component.scss'],
 })

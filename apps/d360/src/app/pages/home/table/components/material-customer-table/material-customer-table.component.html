@@ -1,10 +1,21 @@
-<d360-home-table-toolbar
-  [gridApi]="gridApi"
-  [resetLayout]="resetLayout"
-  [saveLayout]="saveLayout"
-  [loadLayout]="loadLayout"
-  [globalSelection]="selectionFilter()"
-/>
+<d360-table-toolbar
+  [rowCount]="totalRowCount()"
+  [grid]="gridApi"
+  *transloco="let t"
+>
+  <div class="flex items-center">
+    <button mat-button [disabled]="isExportDisabled()" (click)="openExport()">
+      <mat-icon>swap_vert</mat-icon>
+      {{ t('button.export') }}
+    </button>
+
+    <div class="relative">
+      <button mat-icon-button (click)="openColumnLayoutManagementModal($event)">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </div>
+  </div>
+</d360-table-toolbar>
 
 <ag-grid-angular
   #materialCustomerGrid

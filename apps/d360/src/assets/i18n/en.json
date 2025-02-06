@@ -516,7 +516,7 @@
       "toggleFilters": "Filters",
       "currentCount": "Current selection: {{count}}",
       "activeFilterCount": "Current filter: {{count}}",
-      "resetFilters": "Reset all filters"
+      "resetFilters": "Reset Filter"
     }
   },
   "customer_material_portfolio": {
