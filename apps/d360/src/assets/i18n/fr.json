@@ -9,8 +9,8 @@
   "button": {
     "cancel": "Annuler",
     "close": "Fermer",
-    "create": "Creation",
-    "export": "Exportation",
+    "create": "Créer",
+    "export": "Exporter",
     "load": "Charger",
     "reset": "Réinitialiser",
     "save": "Sauvegarder",
@@ -216,7 +216,7 @@
     "actionBar": {
       "showResultTable": "Afficher le tableau des résultats",
       "hideResultTable": "Cacher le tableau des résultats",
-      "export": "Exportation",
+      "export": "Exporter",
       "editAsList": "List-Upload",
       "editAsGrid": "Grid-Upload",
       "bashDelete": "Suppression en masse",
@@ -879,7 +879,7 @@
           "loading": "Charger…"
         }
       },
-      "op_classified_material_not_allowed": "Règle Création impossible pour le matériel OP"
+      "op_classified_material_not_allowed": "Création de règle impossible pour le matériel OP"
     },
     "multi_modal": {
       "error": {
@@ -1001,10 +1001,10 @@
       "selected_row_count": "selection : {{row_count}}"
     },
     "export": {
-      "in_progress": "Exportation en cours. Cela peut prendre plusieurs minutes.",
+      "in_progress": "Exportation des données en cours. Cela peut prendre plusieurs minutes.",
       "max_count_exceeded": "Vous ne pouvez pas exporter plus de {{max_count}} lignes.",
-      "download_started": "Exportation : le téléchargement a commencé",
-      "failed": "Échec de l'exportation : {{reason}}"
+      "download_started": "Exportation des données: le téléchargement a commencé",
+      "failed": "Échec de l'exportation des données: {{reason}}"
     }
   },
   "field": {
