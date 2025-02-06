@@ -64,7 +64,7 @@ export class AgGridLocalizationService {
     return this.translocoLocaleService.localizeDate(
       new Date(params.value),
       this.translocoLocaleService.getLocale(),
-      { dateStyle: 'short' }
+      { day: '2-digit', month: '2-digit', year: 'numeric' }
     );
   };
 }

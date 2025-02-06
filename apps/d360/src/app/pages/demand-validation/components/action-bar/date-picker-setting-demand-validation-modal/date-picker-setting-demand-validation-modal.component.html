@@ -24,7 +24,12 @@
       <button mat-button (click)="handleOnClose()">
         {{ t('button.close') }}
       </button>
-      <button mat-flat-button color="primary" (click)="handleApplyDateRange()">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="handleApplyDateRange()"
+        [disabled]="formGroup.invalid"
+      >
         {{ t('button.save') }}
       </button>
     </div>

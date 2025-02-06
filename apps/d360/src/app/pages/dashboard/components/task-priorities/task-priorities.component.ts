@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
-import { ICellRendererParams } from 'ag-grid-community';
+import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { Priority } from '../../../../feature/alerts/model';
 

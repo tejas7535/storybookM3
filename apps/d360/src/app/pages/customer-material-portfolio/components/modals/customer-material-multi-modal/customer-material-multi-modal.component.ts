@@ -9,7 +9,7 @@ import { lastValueFrom, take } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { AgGridModule } from 'ag-grid-angular';
-import { ICellRendererParams, ValueFormatterParams } from 'ag-grid-enterprise';
+import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -40,6 +40,7 @@ import {
 import { validateDemandCharacteristicType } from '../../../../../shared/utils/validation/data-validation';
 import { validateMaterialNumber } from '../../../../../shared/utils/validation/filter-validation';
 import { ErrorMessage } from '../../../../alert-rules/table/components/modals/alert-rule-logic-helper';
+import { DateOrOriginalCellRendererComponent } from './../../../../../shared/components/ag-grid/cell-renderer/date-or-original-cell-renderer/date-or-original-cell-renderer.component';
 import { ValidationHelper } from './../../../../../shared/utils/validation/validation-helper';
 
 interface MultiPhaseInData {
@@ -107,9 +108,7 @@ export class CustomerMaterialMultiModalComponent extends AbstractTableUploadModa
         field: 'phaseInDate',
         validationFn:
           ValidationHelper.validateDateFormatAndGreaterEqualThanToday,
-        // Value formatter to remove "DateOrOriginalCellRenderer"
-        valueFormatter: (params: ValueFormatterParams) =>
-          params.value ? parseDateIfPossible(params.value) : null,
+        cellRenderer: DateOrOriginalCellRendererComponent,
       },
       {
         field: 'demandCharacteristic',

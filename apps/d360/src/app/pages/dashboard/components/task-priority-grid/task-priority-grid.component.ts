@@ -35,6 +35,7 @@ import { NoDataOverlayComponent } from '../../../../shared/components/ag-grid/no
 import { GlobalSelectionStateService } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { TaskPrioritiesComponent } from '../task-priorities/task-priorities.component';
+import { DateFilterComponent } from './../../../../shared/components/ag-grid/filters/mat-date-filter/date-filter.component';
 
 @Component({
   selector: 'd360-task-priority-grid',
@@ -60,6 +61,11 @@ export class TaskPriorityGridComponent implements OnInit {
   protected cellStyles: CellStyle = {
     padding: 0,
   };
+
+  protected components: Record<string, any> = {
+    agDateInput: DateFilterComponent,
+  };
+
   protected columnDefs: ColDef[] = [
     {
       field: 'customerNumber',

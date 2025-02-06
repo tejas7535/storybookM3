@@ -112,6 +112,7 @@ export class ValidationHelper {
     const dateInput = '2024-11-23';
     const formattedDate: string =
       ValidationHelper.localeService?.localizeDate(dateInput);
+
     const separator: string = formattedDate.match(/[./-]/)[0];
     const dateParts: string[] = formattedDate.split(/[./-]/);
 
@@ -132,7 +133,7 @@ export class ValidationHelper {
   }
 
   /**
-   * Validates a string for date chars.
+   * Validates a string for date characters.
    * An empty string is an error.
    *
    * @static
@@ -141,15 +142,17 @@ export class ValidationHelper {
    * @memberof ValidationHelper
    */
   public static validateDateFormat(value: string): string | null {
-    const valid = isMatch(value, ValidationHelper.getDateFormat());
+    let valid = isMatch(value, ValidationHelper.getDateFormat());
 
-    return valid ? null : translate('error.date.invalidFormat');
+    // we do always want a format with 10 signs (yyyy=4 + mm=2 + dd=2 + separator=2) = 10
+    if (String(value).length < 10) {
+      valid = false;
+    }
+
+    return valid
+      ? null
+      : `${translate('error.date.invalidFormat')} (${ValidationHelper.getDateFormat().toLocaleLowerCase()})`;
   }
-
-  // public static validateAnyDateFormat(value: string): string | null {
-  //   const date = parseDate(value);
-  //   return date ? null : translate('error.date.invalidFormat', {});
-  // }
 
   /**
    * Validates a string for date format and checks if it is greater than or equal to today's date.
@@ -178,24 +181,6 @@ export class ValidationHelper {
 
     return dateIsGreaterEqualThanToday;
   }
-
-  // public static validateAnyDateFormatAndGreaterEqualThanToday(
-  //   value: string
-  // ): string | null {
-  //   const validFormatError = ValidationHelper.validateAnyDateFormat(value);
-  //   if (validFormatError) {
-  //     return validFormatError;
-  //   }
-
-  //   const isDateGreaterEqualThanToday =
-  //     parse(value, ValidationHelper.getDateFormat(), new Date()) >=
-  //     startOfDay(Date.now());
-  //   const dateIsGreaterEqualThanToday = isDateGreaterEqualThanToday
-  //     ? null
-  //     : translate('error.date.beforeMin';
-
-  //   return dateIsGreaterEqualThanToday;
-  // }
 
   /**
    * Check a string for an exact length

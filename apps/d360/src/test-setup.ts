@@ -1,5 +1,12 @@
 import 'jest-preset-angular/setup-jest';
 
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
+import { provideDateFnsAdapter } from '@angular/material-date-fns-adapter';
+
 import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat';
 import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
@@ -37,6 +44,7 @@ defineGlobalsInjections({
     ),
   ],
   providers: [
+    // Transloco
     provideTranslocoLocale({
       ...sharedTranslocoLocaleConfig,
       defaultLocale: getDefaultLocale().id,
@@ -48,5 +56,22 @@ defineGlobalsInjections({
       },
     }),
     provideTranslocoMessageformat(),
+
+    // Date
+    { provide: MAT_DATE_LOCALE, useValue: 'en' },
+    provideDateFnsAdapter(),
+    {
+      provide: MAT_DATE_FORMATS,
+      useFactory: () => ({
+        parse: { dateInput: 'dd.MM.yyyy' },
+        display: {
+          dateInput: 'dd.MM.yyyy',
+          monthYearLabel: 'MMMM yyyy',
+          dateA11yLabel: 'LL',
+          monthYearA11yLabel: 'MMMM yyyy',
+        },
+      }),
+      deps: [DateAdapter],
+    },
   ],
 });

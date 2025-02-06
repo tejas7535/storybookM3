@@ -1,5 +1,5 @@
 import { translate } from '@jsverse/transloco';
-import { formatISO } from 'date-fns';
+import { formatISO, parse } from 'date-fns';
 
 import {
   ReplacementType,
@@ -13,18 +13,21 @@ import { ValidationHelper } from './validation/validation-helper';
 
 /**
  * Parses the date which may contain time information as a date string, otherwise returns the original string
- * @param dateString The date string to parse
+ *
+ * @export
+ * @param {string} dateString The date string to parse
+ * @return {string}
  */
 export function parseDateIfPossible(dateString: string): string {
-  const parsed = ValidationHelper.localeService?.localizeDate(
-    dateString,
-    undefined,
-    {
-      dateStyle: 'medium',
-    }
-  );
+  const hasError = ValidationHelper.validateDateFormat(dateString);
 
-  return parsed || dateString;
+  return hasError
+    ? dateString
+    : ValidationHelper.localeService.localizeDate(
+        parse(dateString, ValidationHelper.getDateFormat(), new Date()),
+        ValidationHelper.localeService.getLocale(),
+        { day: '2-digit', month: '2-digit', year: 'numeric' }
+      );
 }
 
 /**

@@ -20,7 +20,7 @@ import {
   replacementTypeValues,
 } from '../../../../../feature/internal-material-replacement/model';
 import { replacementTypeValueFormatter } from '../../../../../shared/ag-grid/grid-value-formatter';
-import { ActionButtonComponent } from '../../../../../shared/components/action-button/action-button.component';
+import { DateOrOriginalCellRendererComponent } from '../../../../../shared/components/ag-grid/cell-renderer/date-or-original-cell-renderer/date-or-original-cell-renderer.component';
 import { AbstractTableUploadModalComponent } from '../../../../../shared/components/table-upload-modal/abstract-table-upload-modal.component';
 import { ColumnForUploadTable } from '../../../../../shared/components/table-upload-modal/models';
 import {
@@ -53,7 +53,6 @@ import {
     MatDialogModule,
     MatIcon,
     MatButtonModule,
-    ActionButtonComponent,
     LoadingSpinnerModule,
   ],
   templateUrl:
@@ -171,6 +170,7 @@ export class InternalMaterialReplacementMultiSubstitutionModalComponent
         editable: true,
         validationFn:
           ValidationHelper.validateDateFormatAndGreaterEqualThanToday,
+        cellRenderer: DateOrOriginalCellRendererComponent,
       },
       {
         field: 'cutoverDate',
@@ -180,6 +180,7 @@ export class InternalMaterialReplacementMultiSubstitutionModalComponent
         editable: true,
         validationFn:
           ValidationHelper.validateDateFormatAndGreaterEqualThanToday,
+        cellRenderer: DateOrOriginalCellRendererComponent,
       },
       {
         field: 'replacementDate',
@@ -189,6 +190,7 @@ export class InternalMaterialReplacementMultiSubstitutionModalComponent
         editable: true,
         validationFn:
           ValidationHelper.validateDateFormatAndGreaterEqualThanToday,
+        cellRenderer: DateOrOriginalCellRendererComponent,
       },
       {
         field: 'note',

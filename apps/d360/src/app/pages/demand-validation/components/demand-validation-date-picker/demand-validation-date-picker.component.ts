@@ -6,7 +6,6 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { tap } from 'rxjs';
 
 import { addMonths, endOfMonth, startOfMonth } from 'date-fns';
-import { isMoment, Moment } from 'moment';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -57,10 +56,10 @@ export class DemandValidationDatePickerComponent implements OnInit {
   protected readonly lastViewableDate = lastViewableDate;
 
   protected minDateEndDatePeriod1: Date;
-  protected midDateEndDatePeriod2: Date;
+  protected minDateEndDatePeriod2: Date;
 
   public ngOnInit(): void {
-    this.midDateEndDatePeriod2 = [undefined, null].includes(
+    this.minDateEndDatePeriod2 = [undefined, null].includes(
       this.endDatePeriod2()?.getRawValue()
     )
       ? firstViewableDate()
@@ -85,8 +84,8 @@ export class DemandValidationDatePickerComponent implements OnInit {
     }
   }
 
-  private _endDatePeriod1Change(value: Moment | Date): void {
-    const endDate = endOfMonth(isMoment(value) ? value.toDate() : value);
+  private _endDatePeriod1Change(value: Date): void {
+    const endDate = endOfMonth(toNativeDate(value));
     this.endDatePeriod1().setValue(endDate);
 
     if (
@@ -94,7 +93,7 @@ export class DemandValidationDatePickerComponent implements OnInit {
       this.periodType1().getRawValue()?.id === 'WEEKLY' &&
       this.startDatePeriod2()
     ) {
-      this.startDatePeriod2().setValue(addMonths(endDate, 1));
+      this.startDatePeriod2().setValue(startOfMonth(addMonths(endDate, 1)));
     }
   }
 }

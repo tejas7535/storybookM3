@@ -1,10 +1,3 @@
-import 'moment/locale/de';
-import 'moment/locale/es';
-import 'moment/locale/fr';
-import 'moment/locale/it';
-import 'moment/locale/pt';
-import 'moment/locale/zh-cn';
-
 import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
@@ -16,14 +9,13 @@ import {
   isDevMode,
   provideZoneChangeDetection,
 } from '@angular/core';
-import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import {
-  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-  MAT_MOMENT_DATE_FORMATS,
-  MatMomentDateModule,
-  MomentDateAdapter,
-} from '@angular/material-moment-adapter';
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { provideDateFnsAdapter } from '@angular/material-date-fns-adapter';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {
   provideRouter,
@@ -59,7 +51,10 @@ import {
 import { environment } from '../environments/environment';
 import { appRoutes } from './app.routes';
 import { AppRoutePath } from './app.routes.enum';
-import { getDefaultLocale } from './shared/constants/available-locales';
+import {
+  dateFormatFactory,
+  getDefaultLocale,
+} from './shared/constants/available-locales';
 import {
   AVAILABLE_LANGUAGES,
   FALLBACK_LANGUAGE,
@@ -131,27 +126,27 @@ export const appConfig: ApplicationConfig = {
       provide: PERSON_RESPONSIBLE,
       useValue: responsiblePerson,
     },
-    // TODO check if all legal injection points are covered and working
     {
       provide: PURPOSE,
       useFactory: DynamicPurpose,
       deps: [TranslocoService],
     },
-    { provide: MAT_DATE_LOCALE, useValue: 'de' },
+    { provide: MAT_DATE_LOCALE, useValue: 'en' },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { subscriptSizing: 'dynamic' },
     },
+
     { provide: HTTP_INTERCEPTORS, useClass: HeadersInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: MsalInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
+
+    provideDateFnsAdapter(),
     {
-      provide: MomentDateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+      provide: MAT_DATE_FORMATS,
+      useFactory: dateFormatFactory,
+      deps: [DateAdapter],
     },
-    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-    importProvidersFrom(MatMomentDateModule),
     provideAnimations(),
     {
       provide: TitleStrategy,

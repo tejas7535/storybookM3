@@ -26,12 +26,14 @@
               </p>
               <div class="flex gap-5">
                 <d360-date-picker-month-year
+                  [endOf]="false"
                   [control]="dateForm.controls['startDate']"
                   [label]="t('validation_of_demand.date_picker.start_date')"
                 />
                 <d360-date-picker-month-year
                   [control]="dateForm.controls['endDate']"
                   [label]="t('validation_of_demand.date_picker.end_date')"
+                  [endOf]="true"
                 />
               </div>
               <div>

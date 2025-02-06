@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -25,8 +26,15 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
-import { addMonths, format, startOfDay } from 'date-fns';
+import {
+  addMonths,
+  endOfMonth,
+  format,
+  startOfDay,
+  startOfMonth,
+} from 'date-fns';
 
 import { getBackendRoles } from '@schaeffler/azure-auth';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -43,6 +51,10 @@ import { CustomerDropDownComponent } from '../../../../shared/components/custome
 import { SingleAutocompleteSelectedEvent } from '../../../../shared/components/inputs/autocomplete/model';
 import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { DisplayFunctions } from '../../../../shared/components/inputs/display-functions.utils';
+import {
+  getMonthYearDateFormatByCode,
+  LocaleType,
+} from '../../../../shared/constants/available-locales';
 import { OptionsLoadingResult } from '../../../../shared/services/selectable-options.service';
 import {
   checkRoles,
@@ -117,6 +129,9 @@ export class ActionBarComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly demandValidationService = inject(DemandValidationService);
   private readonly snackbarService: SnackbarService = inject(SnackbarService);
+  private readonly localeService: TranslocoLocaleService = inject(
+    TranslocoLocaleService
+  );
   // private readonly appInsights = inject(ApplicationInsights); // TODO: add ApplicationInsights
 
   private readonly backendRoles = toSignal(this.store.select(getBackendRoles));
@@ -219,8 +234,8 @@ export class ActionBarComponent implements OnInit {
   private readonly localStorageTimeRange = readLocalStorageTimeRange();
   private readonly defaultDateRange: KpiDateRanges = {
     range1: {
-      from: startOfDay(addMonths(new Date(), -3)),
-      to: startOfDay(addMonths(new Date(), 12)),
+      from: startOfMonth(startOfDay(addMonths(new Date(), -3))),
+      to: endOfMonth(startOfDay(addMonths(new Date(), 12))),
       period: 'MONTHLY',
     },
     range2: undefined,
@@ -332,15 +347,14 @@ export class ActionBarComponent implements OnInit {
         entry.validatedForecast !== null &&
         (Number.isNaN(parsed) || parsed < 0)
       ) {
-        errors.add(format(entry.fromDate, 'MM.yyyy'));
-
-        // TODO: Use the following code after https://github.com/Schaeffler-Group/frontend-schaeffler/pull/6770 was merged
-        // errors.add(format(
-        //   entry.fromDate,
-        //   getMonthYearDateFormatByCode(
-        //     this.localeService.getLocale() as LocaleType
-        //   ).display.dateInput
-        // ));
+        errors.add(
+          format(
+            entry.fromDate,
+            getMonthYearDateFormatByCode(
+              this.localeService.getLocale() as LocaleType
+            ).display.dateInput
+          )
+        );
       }
     });
 

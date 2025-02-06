@@ -9,8 +9,6 @@ import {
 } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 
-import moment, { isMoment, Moment } from 'moment';
-
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { KpiDateRanges } from '../../../../../feature/demand-validation/model';
@@ -20,6 +18,7 @@ import {
 } from '../../../../../feature/demand-validation/time-range';
 import { SelectableValue } from '../../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { ValidateForm } from '../../../../../shared/decorators';
+import { toNativeDate } from '../../../../../shared/utils/date-format';
 import { ValidationHelper } from '../../../../../shared/utils/validation/validation-helper';
 import { DemandValidationDatePickerComponent } from '../../demand-validation-date-picker/demand-validation-date-picker.component';
 
@@ -88,20 +87,15 @@ export class DatePickerSettingDemandValidationModalComponent implements OnInit {
       );
   }
 
-  private getDate(value: any): Date {
-    // TODO: check date-fns after the date-fns branch was merged
-    return (isMoment(value) ? value : (moment(value) as Moment)).toDate();
-  }
-
   @ValidateForm('formGroup')
   protected handleApplyDateRange() {
     if (this.formGroup.valid) {
       this.selectionChange.emit({
         range1: {
-          from: this.getDate(
+          from: toNativeDate(
             this.formGroup.controls.startDatePeriod1.getRawValue()
           ),
-          to: this.getDate(
+          to: toNativeDate(
             this.formGroup.controls.endDatePeriod1.getRawValue()
           ),
           period: this.formGroup.controls.periodType1.getRawValue().id,
@@ -110,16 +104,18 @@ export class DatePickerSettingDemandValidationModalComponent implements OnInit {
           this.formGroup.controls.periodType1.getRawValue().id === 'WEEKLY' &&
           this.formGroup.controls.endDatePeriod2.getRawValue()
             ? {
-                from: this.getDate(
+                from: toNativeDate(
                   this.formGroup.controls.startDatePeriod2.getRawValue()
                 ),
-                to: this.getDate(
+                to: toNativeDate(
                   this.formGroup.controls.endDatePeriod2.getRawValue()
                 ),
                 period: this.formGroup.controls.periodType2.getRawValue().id,
               }
             : undefined,
       });
+
+      this.handleOnClose();
     }
   }
 

@@ -1,12 +1,132 @@
-import { formatISODateToISODateString } from './parse-values';
+import { DemandCharacteristic } from '../../feature/material-customer/model';
+import {
+  combineParseFunctionsForFields,
+  formatISODateToISODateString,
+  parseDateIfPossible,
+  parseDemandCharacteristicIfPossible,
+  parseReplacementTypeIfPossible,
+  parseToStringLiteralTypeIfPossible,
+} from './parse-values';
+import { ValidationHelper } from './validation/validation-helper';
 
-describe('formatDateToISOString(…)', () => {
-  it('returns null for null input', () => {
-    expect(formatISODateToISODateString(null)).toBeNull();
+jest.mock('@jsverse/transloco', () => ({
+  translate: jest.fn((key, _) => `${key} mocked`),
+}));
+
+describe('Parse Values', () => {
+  describe('parseDateIfPossible', () => {
+    it('should return the same string if date validation fails', () => {
+      jest
+        .spyOn(ValidationHelper, 'validateDateFormat')
+        .mockReturnValue('error');
+
+      const input = 'invalid-date';
+      const result = parseDateIfPossible(input);
+
+      expect(result).toEqual(input);
+    });
+
+    it('should return the formatted string if date validation was successful', () => {
+      ValidationHelper.localeService = {
+        localizeDate: () => '2023-31-12',
+        getLocale: () => 'yyyy-dd-mm',
+      } as any;
+
+      jest.spyOn(ValidationHelper, 'validateDateFormat').mockReturnValue(null);
+
+      const input = '2023-31-12';
+      const result = parseDateIfPossible(input);
+
+      expect(result).toEqual(input);
+    });
   });
 
-  it('formats Date object to ISO string', () => {
-    const date = new Date('2023-10-01T00:00:00Z');
-    expect(formatISODateToISODateString(date)).toEqual('2023-10-01');
+  describe('formatISODateToISODateString', () => {
+    it('should format a date to an ISO date string', () => {
+      const input = new Date('2021-12-31');
+      const result = formatISODateToISODateString(input);
+
+      expect(result).toEqual('2021-12-31');
+    });
+
+    it('should return null if input is null', () => {
+      const result = formatISODateToISODateString(null);
+
+      expect(result).toBeNull();
+    });
+  });
+
+  describe('parseDemandCharacteristicIfPossible', () => {
+    it('should return the localized string if a match is found', () => {
+      const input = 'SE';
+      const result = parseDemandCharacteristicIfPossible(input);
+
+      expect(result).toEqual('SE');
+    });
+
+    it('should return the same string if no match is found', () => {
+      const input = 'InvalidOption';
+      const result = parseDemandCharacteristicIfPossible(input);
+
+      expect(result).toEqual(input);
+    });
+  });
+
+  describe('parseReplacementTypeIfPossible', () => {
+    it('should return the localized string if a match is found', () => {
+      const input = 'RELOCATION';
+      const result = parseReplacementTypeIfPossible(input);
+
+      expect(result).toEqual('RELOCATION');
+    });
+
+    it('should return the same string if no match is found', () => {
+      const input = 'InvalidType';
+      const result = parseReplacementTypeIfPossible(input);
+
+      expect(result).toEqual(input);
+    });
+  });
+
+  describe('combineParseFunctionsForFields', () => {
+    it('should return undefined if functionMap is not provided', () => {
+      const result = combineParseFunctionsForFields();
+
+      expect(result).toBeUndefined();
+    });
+
+    it('should return a combined parse function', () => {
+      const mockParseFunction = jest.fn((value) => `${value} parsed`);
+      const functionMap = new Map([['field1', mockParseFunction]]);
+      const combineFunc = combineParseFunctionsForFields(functionMap);
+
+      expect(combineFunc).toBeDefined();
+      if (combineFunc) {
+        const result = combineFunc('field1', 'test');
+
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(mockParseFunction).toHaveBeenCalledWith('test');
+        // eslint-disable-next-line jest/no-conditional-expect
+        expect(result).toEqual('test parsed');
+      }
+    });
+  });
+
+  describe('parseToStringLiteralTypeIfPossible', () => {
+    it('should return the string literal if a match is found (case insensitive)', () => {
+      const input = 'option1';
+      const stringLiterals: readonly DemandCharacteristic[] = ['OPTION1'];
+      const result = parseToStringLiteralTypeIfPossible(input, stringLiterals);
+
+      expect(result).toEqual('OPTION1');
+    });
+
+    it('should return undefined if no match is found', () => {
+      const input = 'invalidOption';
+      const stringLiterals: readonly DemandCharacteristic[] = ['OPTION1'];
+      const result = parseToStringLiteralTypeIfPossible(input, stringLiterals);
+
+      expect(result).toBeUndefined();
+    });
   });
 });

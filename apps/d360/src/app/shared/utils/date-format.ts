@@ -1,4 +1,4 @@
-import { isMoment } from 'moment';
+import { isDate } from 'date-fns';
 
 /**
  * Generates a date format string for a given locale.
@@ -36,13 +36,14 @@ export function getMonthYearFormatString(locale: string): string {
 }
 
 /**
- * Converts a given moment-base date to a native JavaScript Date object.
+ * Converts a given date to a native JavaScript Date object.
  *
- * @param date - potentially a moment object
- * @returns {date} - a native JavaScript Date object
+ * @export
+ * @param {*} date - potentially a string instead of a date object
+ * @return {Date} - a native JavaScript Date object
  */
 export function toNativeDate(date: any): Date {
-  return isMoment(date) ? date.toDate() : date;
+  return isDate(date) ? date : new Date(date);
 }
 
 /**

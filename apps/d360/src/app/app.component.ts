@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DateAdapter } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import {
   ActivatedRoute,
@@ -38,6 +39,10 @@ import { AppRoutePath } from './app.routes.enum';
 import { GlobalSelectionStateService } from './shared/components/global-selection-criteria/global-selection-state.service';
 import { TabBarNavigationComponent } from './shared/components/page/tab-bar-navigation/tab-bar-navigation.component';
 import { UserSettingsComponent } from './shared/components/user-settings/user-settings.component';
+import {
+  DATE_FNS_LOOKUP,
+  LocaleType,
+} from './shared/constants/available-locales';
 import { ValidationHelper } from './shared/utils/validation/validation-helper';
 
 @Component({
@@ -58,8 +63,7 @@ import { ValidationHelper } from './shared/utils/validation/validation-helper';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  protected activeUrl = signal('/');
-
+  private readonly dateAdapter: DateAdapter<Date> = inject(DateAdapter);
   private readonly translocoService: TranslocoService =
     inject(TranslocoService);
   private readonly authService: MsalService = inject(MsalService);
@@ -75,23 +79,7 @@ export class AppComponent implements OnInit {
     inject(GlobalSelectionStateService);
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
-  public constructor() {
-    this.router.events.pipe(takeUntilDestroyed()).subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.activeUrl.set(this.getRelativeUrl(event.url));
-      }
-    });
-
-    this.activatedRoute.queryParams
-      .pipe(
-        switchMap((params: Params) =>
-          this.globalSelectionStateService.handleQueryParams$(params)
-        ),
-        tap(() => (location.href = this.router.url.split('?')[0])),
-        takeUntilDestroyed()
-      )
-      .subscribe();
-  }
+  protected activeUrl = signal('/');
 
   protected title = 'Demand360';
   protected titleLink = AppRoutePath.HomePage;
@@ -133,6 +121,33 @@ export class AppComponent implements OnInit {
       external: true,
     },
   ];
+
+  public constructor() {
+    this.router.events.pipe(takeUntilDestroyed()).subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.activeUrl.set(this.getRelativeUrl(event.url));
+      }
+    });
+
+    // set date locale
+    this.translocoLocaleService.localeChanges$
+      .pipe(takeUntilDestroyed())
+      .subscribe((locale) =>
+        this.dateAdapter.setLocale(
+          DATE_FNS_LOOKUP?.[locale as LocaleType] ?? DATE_FNS_LOOKUP['en-US']
+        )
+      );
+
+    this.activatedRoute.queryParams
+      .pipe(
+        switchMap((params: Params) =>
+          this.globalSelectionStateService.handleQueryParams$(params)
+        ),
+        tap(() => (location.href = this.router.url.split('?')[0])),
+        takeUntilDestroyed()
+      )
+      .subscribe();
+  }
 
   public ngOnInit(): void {
     this.username$ = this.store.select(getUsername);

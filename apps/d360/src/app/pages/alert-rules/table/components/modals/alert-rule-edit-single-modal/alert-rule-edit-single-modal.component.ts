@@ -32,7 +32,7 @@ import { combineLatest, map, tap } from 'rxjs';
 import { translate } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
 import { GridApi } from 'ag-grid-enterprise';
-import moment from 'moment';
+import { format } from 'date-fns';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -77,7 +77,6 @@ import {
 
 export type AlertRuleModalTitle = 'create' | 'edit';
 
-// TODO check if all the props are necessary or if they can be simplified
 export interface AlertRuleModalProps {
   open: boolean;
   gridApi: GridApi;
@@ -643,13 +642,13 @@ export class AlertRuleEditSingleModalComponent implements OnInit {
 
       // saveMultiAlertRules expects a local date, so we need to convert here
       // This is because of the clipboard functionality of the multi modal. (Copy/Paste from Excel)
-      startDate: ValidationHelper.localeService?.localizeDate(
-        moment(this.formGroup.getRawValue().startDate).format('YYYY-MM-DD')
+      startDate: ValidationHelper.localeService.localizeDate(
+        format(this.formGroup.getRawValue().startDate, 'yyyy-MM-dd')
       ),
       // saveMultiAlertRules expects a local date, so we need to convert here
       // This is because of the clipboard functionality of the multi modal. (Copy/Paste from Excel)
-      endDate: ValidationHelper.localeService?.localizeDate(
-        moment(this.formGroup.getRawValue().endDate).format('YYYY-MM-DD')
+      endDate: ValidationHelper.localeService.localizeDate(
+        format(this.formGroup.getRawValue().endDate, 'yyyy-MM-dd')
       ),
     };
 

@@ -43,7 +43,7 @@ import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { PushPipe } from '@ngrx/component';
 import { GridApi } from 'ag-grid-enterprise';
-import moment, { Moment } from 'moment';
+import { isAfter, isBefore, isEqual } from 'date-fns';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -348,13 +348,11 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
       // overwrite with the form values
       ...this.formGroup.getRawValue(),
 
-      cutoverDate: this.getMomentAsDateOrNull(
-        this.formGroup.getRawValue().cutoverDate
-      ),
-      replacementDate: this.getMomentAsDateOrNull(
+      cutoverDate: this.getDateOrNull(this.formGroup.getRawValue().cutoverDate),
+      replacementDate: this.getDateOrNull(
         this.formGroup.getRawValue().replacementDate
       ),
-      startOfProduction: this.getMomentAsDateOrNull(
+      startOfProduction: this.getDateOrNull(
         this.formGroup.getRawValue().startOfProduction
       ),
     };
@@ -420,22 +418,22 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
     errorMessage: WritableSignal<string | null>
   ): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const currentDate = control.value ? moment(control.value) : null;
-      const preFilledDate = preFilledValue ? moment(preFilledValue) : null;
+      const currentDate: Date | null = this.getDateOrNull(control.value);
+      const preFilledDate: Date | null = this.getDateOrNull(preFilledValue);
 
       if (errorMessage) {
         errorMessage.set(null);
       }
 
-      if (currentDate == null) {
+      if (!currentDate) {
         return null;
       }
 
-      if (currentDate.isSame(preFilledDate)) {
+      if (isEqual(currentDate, preFilledDate)) {
         return null;
       }
 
-      if (currentDate.isBefore(moment(this.TODAY))) {
+      if (isBefore(currentDate, this.TODAY)) {
         errorMessage.set(
           translate('error.date.beforeMinEditingExistingRecord', {
             existingDate:
@@ -449,7 +447,7 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
         return { customDatepickerMin: true };
       }
 
-      if (currentDate.isAfter(moment(this.MAX_DATE))) {
+      if (isAfter(currentDate, this.MAX_DATE)) {
         errorMessage.set(
           translate('error.date.afterMaxEditingExistingRecord', {
             existingDate:
@@ -467,8 +465,13 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
     };
   }
 
-  private getMomentAsDateOrNull(dateControl: Moment | null) {
-    return dateControl ? moment(dateControl).toDate() : null;
+  private getDateOrNull(date: Date | null) {
+    return date instanceof Date
+      ? date
+      : // eslint-disable-next-line unicorn/no-nested-ternary
+        typeof date === 'string' && !!date
+        ? new Date(date)
+        : null;
   }
 
   private disableAllFieldsExceptReplacementType() {

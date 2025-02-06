@@ -138,8 +138,8 @@ export interface AlertRuleSaveRequest {
 }
 
 export function dataToAlertRuleRequest(data: AlertRule): AlertRuleSaveRequest {
-  const startDate = data.startDate; // TODO check if this is still necessary, cause startDate can't be a string anymore... typeof data.startDate == 'string' ? translocoLocaleService.localizeDate(data.startDate) : data.startDate;
-  const endDate = data.endDate; // TODO check if this is still necessary, cause startDate can't be a string anymore... typeof data.endDate == 'string' ? parseDate(data.endDate) : data.endDate;
+  const startDate = data.startDate;
+  const endDate = data.endDate;
 
   return {
     id: data.id,

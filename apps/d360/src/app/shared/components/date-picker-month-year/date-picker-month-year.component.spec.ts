@@ -1,75 +1,107 @@
-import { CommonModule } from '@angular/common';
-import { signal } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { FormControl } from '@angular/forms';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
-import {
-  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-  MomentDateAdapter,
-  provideMomentDateAdapter,
-} from '@angular/material-moment-adapter';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDatepicker } from '@angular/material/datepicker';
+import { provideDateFnsAdapter } from '@angular/material-date-fns-adapter';
 
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { addMonths, endOfMonth, startOfMonth, subMonths } from 'date-fns';
 
 import { DatePickerMonthYearComponent } from './date-picker-month-year.component';
 
+jest.mock('../../constants/available-locales', () => ({
+  getMonthYearDateFormatByCode: jest.fn(() => ({
+    parse: { dateInput: 'MM.yyyy' },
+    display: {
+      dateInput: 'MM.yyyy',
+      monthYearLabel: 'MMMM yyyy',
+      dateA11yLabel: 'LL',
+      monthYearA11yLabel: 'MMMM yyyy',
+    },
+  })),
+}));
+
 describe('DatePickerMonthYearComponent', () => {
-  let component: DatePickerMonthYearComponent;
   let spectator: Spectator<DatePickerMonthYearComponent>;
 
   const createComponent = createComponentFactory({
     component: DatePickerMonthYearComponent,
-    imports: [
-      DatePickerMonthYearComponent,
-      CommonModule,
-      MatButtonModule,
-      MatInputModule,
-      MatDatepickerModule,
-      ReactiveFormsModule,
-      BrowserAnimationsModule,
-    ],
+    imports: [],
     providers: [
-      provideMomentDateAdapter(),
-      mockProvider(TranslocoLocaleService, {
-        getLocale: () => 'DE-de',
-      }),
-      {
-        provide: MomentDateAdapter,
-        useClass: MomentDateAdapter,
-        deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
-      },
+      { provide: MAT_DATE_LOCALE, useValue: 'de-DE' },
+      provideDateFnsAdapter(),
     ],
+    detectChanges: false,
   });
 
   beforeEach(() => {
-    spectator = createComponent();
-    component = spectator.component;
+    spectator = createComponent({
+      props: {
+        control: new FormControl(null),
+        endOf: false,
+      } as any,
+    });
   });
-  it('should create', () => {
-    expect(component).toBeTruthy();
+
+  describe('ngOnInit', () => {
+    it('should initialize the component with a date value', () => {
+      const testDate = new Date();
+      spectator.component['control']().setValue(testDate);
+
+      spectator.component.ngOnInit();
+
+      expect(spectator.component['control']().getRawValue()).toEqual(testDate);
+    });
+
+    it('should initialize the component with a string date value', () => {
+      const testDate = '2024/12/31';
+      spectator.component['control']().setValue(testDate);
+
+      spectator.component.ngOnInit();
+
+      expect(spectator.component['control']().getRawValue()).toEqual(
+        startOfMonth(new Date(testDate))
+      );
+    });
   });
 
-  it('should have correct inputs', () => {
-    component['label'] = signal('Select Date') as any;
-    component['appearance'] = signal('fill') as any;
-    component['hint'] = signal('Select a date') as any;
-    component['errorMessage'] = signal('Invalid date') as any;
-    component['control'] = signal(new FormControl()) as any;
+  describe('onSelectMonth', () => {
+    it('should set the value of control to start of month when endOf is false', () => {
+      const testDate = new Date();
+      jest.spyOn(spectator.component as any, 'endOf').mockReturnValue(false);
+      spectator.component['onSelectMonth'](testDate, {
+        close: jest.fn(),
+      } as any as MatDatepicker<Date>);
 
-    spectator.detectChanges();
+      expect(spectator.component['control']().getRawValue()).toEqual(
+        startOfMonth(testDate)
+      );
+    });
 
-    expect(component['label']()).toEqual('Select Date');
-    expect(component['appearance']()).toEqual('fill');
-    expect(component['hint']()).toEqual('Select a date');
-    expect(component['errorMessage']()).toEqual('Invalid date');
-    expect(component['control']()).toBeInstanceOf(FormControl);
+    it('should set the value of control to end of month when endOf is true', () => {
+      const testDate = new Date();
+      jest.spyOn(spectator.component as any, 'endOf').mockReturnValue(true);
+      spectator.component['onSelectMonth'](testDate, {
+        close: jest.fn(),
+      } as any as MatDatepicker<Date>);
+
+      expect(spectator.component['control']().getRawValue()).toEqual(
+        endOfMonth(testDate)
+      );
+    });
+  });
+
+  describe('input values', () => {
+    it('should have default value for minDate and maxDate', () => {
+      expect(spectator.component['minDate']()).toEqual(
+        startOfMonth(subMonths(new Date(), 36))
+      );
+      expect(spectator.component['maxDate']()).toEqual(
+        endOfMonth(addMonths(new Date(), 36))
+      );
+    });
+
+    it('should have default value for endOf', () => {
+      expect(spectator.component['endOf']()).toBeFalsy();
+    });
   });
 });

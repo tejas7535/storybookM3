@@ -1,13 +1,9 @@
-import { Component, inject, input, InputSignal, OnInit } from '@angular/core';
+import { Component, input, InputSignal, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { DateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import moment, { isMoment, Moment } from 'moment';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -25,12 +21,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
   styleUrls: ['./date-picker.component.scss'],
 })
 export class DatePickerComponent implements OnInit {
-  private readonly translocoLocaleService: TranslocoLocaleService = inject(
-    TranslocoLocaleService
-  );
-
-  private readonly adapter: DateAdapter<Moment> = inject(DateAdapter<Moment>);
-
   protected label: InputSignal<string> = input('');
   protected control: InputSignal<FormControl> = input(new FormControl(''));
   protected hint: InputSignal<string> = input('');
@@ -44,12 +34,11 @@ export class DatePickerComponent implements OnInit {
    * @inheritdoc
    */
   public ngOnInit(): void {
-    this.adapter.setLocale(this.translocoLocaleService.getLocale());
-
-    // convert to moment
+    // convert to date object
     const value = this.control().getRawValue();
-    if (value && !isMoment(value)) {
-      this.control().setValue(moment(value));
+
+    if (value && !(value instanceof Date)) {
+      this.control().setValue(new Date(value));
     }
   }
 }

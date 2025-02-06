@@ -26,6 +26,7 @@ import {
 import { catchError, EMPTY, finalize, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
 import { AgGridModule } from 'ag-grid-angular';
 import {
@@ -60,6 +61,10 @@ import { PlanningView } from '../../../../feature/demand-validation/planning-vie
 import { translateOr } from '../../../../shared/ag-grid/grid-value-formatter';
 import { TextWithDotCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/text-with-dot-cell-renderer/text-with-dot-cell-renderer.component';
 import { DataHintComponent } from '../../../../shared/components/data-hint/data-hint.component';
+import {
+  getMonthYearDateFormatByCode,
+  LocaleType,
+} from '../../../../shared/constants/available-locales';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import {
   checkRoles,
@@ -76,6 +81,7 @@ import {
   clientSideTableDefaultProps,
   getDefaultColDef,
 } from './../../../../shared/ag-grid/grid-defaults';
+import { DateFilterComponent } from './../../../../shared/components/ag-grid/filters/mat-date-filter/date-filter.component';
 import {
   demandValidationEditableColor,
   demandValidationInFixZoneColor,
@@ -116,6 +122,9 @@ import { MoreInformationComponent } from './more-information/more-information.co
 export class DemandValidationTableComponent {
   protected readonly agGridLocalizationService: AgGridLocalizationService =
     inject(AgGridLocalizationService);
+  protected readonly localeService: TranslocoLocaleService = inject(
+    TranslocoLocaleService
+  );
   private readonly demandValidationService: DemandValidationService = inject(
     DemandValidationService
   );
@@ -145,6 +154,10 @@ export class DemandValidationTableComponent {
   protected dataLoaded: Signal<boolean> = computed(() =>
     Boolean(this.kpiData())
   );
+
+  protected components: Record<string, any> = {
+    agDateInput: DateFilterComponent,
+  };
 
   protected filterValues: WritableSignal<FilterValues> = signal({
     deliveries: true,
@@ -570,15 +583,12 @@ export class DemandValidationTableComponent {
         // This is the reason why we use a browser confirm dialog.
         const result = confirm(
           translate('validation_of_demand.confirm.override_week_by_month', {
-            date: format(data.fromDate, 'MM.yyyy'),
-
-            // TODO: Use the following code after https://github.com/Schaeffler-Group/frontend-schaeffler/pull/6770 was merged
-            // date: format(
-            //   input,
-            //   getMonthYearDateFormatByCode(
-            //     this.localeService.getLocale() as LocaleType
-            //   ).display.dateInput
-            // ),
+            date: format(
+              data.fromDate,
+              getMonthYearDateFormatByCode(
+                this.localeService.getLocale() as LocaleType
+              ).display.dateInput
+            ),
           })
         );
 

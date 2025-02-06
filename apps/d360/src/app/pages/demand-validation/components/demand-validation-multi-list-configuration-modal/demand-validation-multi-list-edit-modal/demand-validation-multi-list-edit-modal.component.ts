@@ -33,6 +33,7 @@ import {
 import { validateMaterialNumber } from '../../../../../shared/utils/validation/filter-validation';
 import { ValidationHelper } from '../../../../../shared/utils/validation/validation-helper';
 import { ErrorMessage } from '../../../../alert-rules/table/components/modals/alert-rule-logic-helper';
+import { DateOrOriginalCellRendererComponent } from './../../../../../shared/components/ag-grid/cell-renderer/date-or-original-cell-renderer/date-or-original-cell-renderer.component';
 
 interface DemandValidationMultiListEditModalProps {
   customerName: string;
@@ -140,6 +141,7 @@ export class DemandValidationMultiListEditModalComponent extends AbstractTableUp
       editable: true,
       field: 'dateString',
       validationFn: ValidationHelper.validateDateFormatAndGreaterEqualThanToday,
+      cellRenderer: DateOrOriginalCellRendererComponent,
     },
     {
       headerName: translate('validation_of_demand.upload_modal.list.forecast'),

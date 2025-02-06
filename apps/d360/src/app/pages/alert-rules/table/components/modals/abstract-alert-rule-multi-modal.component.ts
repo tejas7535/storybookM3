@@ -6,7 +6,7 @@ import { lastValueFrom, Observable, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import { IRowNode, ValueFormatterParams } from 'ag-grid-enterprise';
+import { IRowNode } from 'ag-grid-enterprise';
 
 import { valueParserForSelectableOptions } from '../../../../../feature/alert-rules/alert-rule-value-parser';
 import { AlertRulesService } from '../../../../../feature/alert-rules/alert-rules.service';
@@ -24,13 +24,13 @@ import {
   errorsFromSAPtoMessage,
   PostResult,
 } from '../../../../../shared/utils/error-handling';
-import { parseDateIfPossible } from '../../../../../shared/utils/parse-values';
 import { validateSelectableOptions } from '../../../../../shared/utils/validation/data-validation';
 import {
   validateCustomerNumber,
   validateMaterialNumber,
 } from '../../../../../shared/utils/validation/filter-validation';
 import { ValidationHelper } from '../../../../../shared/utils/validation/validation-helper';
+import { DateOrOriginalCellRendererComponent } from './../../../../../shared/components/ag-grid/cell-renderer/date-or-original-cell-renderer/date-or-original-cell-renderer.component';
 import {
   getThresholdRequirements,
   ThresholdsRequiredForAlertType,
@@ -408,8 +408,7 @@ export abstract class AbstractAlertRuleMultiModalComponent
         editable: true,
         validationFn:
           ValidationHelper.validateDateFormatAndGreaterEqualThanToday,
-        valueFormatter: (params: ValueFormatterParams) =>
-          params.value ? parseDateIfPossible(params.value) : null,
+        cellRenderer: DateOrOriginalCellRendererComponent,
       },
       {
         field: 'execInterval',
@@ -443,8 +442,7 @@ export abstract class AbstractAlertRuleMultiModalComponent
         editable: true,
         validationFn:
           ValidationHelper.validateDateFormatAndGreaterEqualThanToday,
-        valueFormatter: (params: ValueFormatterParams) =>
-          params.value ? parseDateIfPossible(params.value) : null,
+        cellRenderer: DateOrOriginalCellRendererComponent,
       },
       {
         field: 'alertComment',

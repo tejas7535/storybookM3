@@ -5,11 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
-import {
-  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-  MomentDateAdapter,
-  provideMomentDateAdapter,
-} from '@angular/material-moment-adapter';
+import { provideDateFnsAdapter } from '@angular/material-date-fns-adapter';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -37,15 +33,11 @@ describe('DatePickerComponent', () => {
       BrowserAnimationsModule,
     ],
     providers: [
-      provideMomentDateAdapter(),
+      { provide: MAT_DATE_LOCALE, useValue: 'de-DE' },
+      provideDateFnsAdapter(),
       mockProvider(TranslocoLocaleService, {
         getLocale: () => 'DE-de',
       }),
-      {
-        provide: MomentDateAdapter,
-        useClass: MomentDateAdapter,
-        deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
-      },
     ],
   });
 

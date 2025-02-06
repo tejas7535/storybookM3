@@ -19,7 +19,7 @@ import { MatRadioModule } from '@angular/material/radio';
 
 import { tap } from 'rxjs';
 
-import { addYears, endOfYear, startOfMonth } from 'date-fns';
+import { addYears, endOfMonth, endOfYear, startOfMonth } from 'date-fns';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -68,9 +68,12 @@ export class DemandValidationMultiGridComponent {
   protected formGroup = new FormGroup(
     {
       materialType: new FormControl<MaterialType>('schaeffler'),
-      startDatePeriod1: new FormControl(new Date(), Validators.required),
+      startDatePeriod1: new FormControl(
+        startOfMonth(new Date()),
+        Validators.required
+      ),
       endDatePeriod1: new FormControl(
-        startOfMonth(endOfYear(addYears(new Date(), 1))),
+        endOfMonth(endOfYear(addYears(new Date(), 1))),
         Validators.required
       ),
       periodType1: new FormControl(

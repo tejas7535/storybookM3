@@ -10,7 +10,6 @@ import {
   ThresholdsRequiredForAlertType,
 } from './alert-rule-edit-single-modal/alert-rule-options-config';
 
-// TODO remove this and use this from the TableUploadModal
 export interface ErrorMessage<DATA> {
   id?: string;
   dataIdentifier: Partial<DATA>;

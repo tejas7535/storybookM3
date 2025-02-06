@@ -195,7 +195,6 @@ export class DemandValidationMultiDeleteModalComponent {
     const selectedPeriodType = this.formGroup.controls.periodType.getRawValue()
       .id as DateRangePeriod;
 
-    // TODO: toNativeDate to be  removed once we use date-fns globally, once SFT-1961 is merged
     const startDate = toNativeDate(
       this.formGroup.controls.startDate.getRawValue()
     );

@@ -61,6 +61,9 @@ importers:
       '@angular/material':
         specifier: 18.1.0
         version: 18.1.0(pogvmkibq777haniu4fzi4ghxe)
+      '@angular/material-date-fns-adapter':
+        specifier: 18.1.0
+        version: 18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/material@18.1.0(pogvmkibq777haniu4fzi4ghxe))(date-fns@3.6.0)
       '@angular/material-moment-adapter':
         specifier: 18.1.0
         version: 18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/material@18.1.0(pogvmkibq777haniu4fzi4ghxe))(moment@2.29.4)
@@ -857,6 +860,13 @@ packages:
   '@angular/language-service@18.1.0':
     resolution: {integrity: sha512-sS9G/ZdS4CVhbClunpur8lZDP2cNTMFiAaxsF3sWg+HTSbQm7v57ypQsainSzoD30YxzoSCvyk18unDAO1vYUA==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0}
+
+  '@angular/material-date-fns-adapter@18.1.0':
+    resolution: {integrity: sha512-ek7J5Rk76r8jO8nULNW1Ze3KWnn4xJLIL/V1jwGfTUPAwvp0y3Gt1LtdaII8yz8Dca2Lw7pIKzOmznB0kIaTjQ==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/@angular/material-date-fns-adapter/-/material-date-fns-adapter-18.1.0.tgz}
+    peerDependencies:
+      '@angular/core': ^18.0.0 || ^19.0.0
+      '@angular/material': 18.1.0
+      date-fns: '>2.20.0 <4.0'
 
   '@angular/material-moment-adapter@18.1.0':
     resolution: {integrity: sha512-TC8uFgNIaC5BUhRjhOIierw3htnYo4ojqJyShyu02cT+H4Q6Oj5M4N0SfqjZUV1O/gdoRlpTollVYqaxTnYB5g==}
@@ -10139,7 +10149,7 @@ packages:
     resolution: {integrity: sha512-AGK2yQKIjRuqnc6VkX2Xj5d+QW8xZ87pa1UK6yA6ouUyuxfHuMP6umE5QK7UmTeOAymo+Zx1Fxiuw9rVx8taHQ==}
 
   node-addon-api@3.2.1:
-    resolution: {integrity: sha512-mmcei9JghVNDYydghQmeDX8KoAm0FAiYyIcUt/N4nhyAipB17pllZQDOJD2fotxABnt4Mdz+dKTO7eftLg4d0A==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/node-addon-api/-/node-addon-api-3.2.1.tgz}
+    resolution: {integrity: sha512-mmcei9JghVNDYydghQmeDX8KoAm0FAiYyIcUt/N4nhyAipB17pllZQDOJD2fotxABnt4Mdz+dKTO7eftLg4d0A==}
 
   node-addon-api@6.1.0:
     resolution: {integrity: sha512-+eawOlIgy680F0kBzPUNFhMZGtJ1YmqM6l4+Crf4IkImjYrO/mqPwRMh352g23uIaQKFItcQ64I7KMaJxHgAVA==}
@@ -10172,7 +10182,7 @@ packages:
     hasBin: true
 
   node-gyp-build@4.8.0:
-    resolution: {integrity: sha512-u6fs2AEUljNho3EYTJNBfImO5QTo/J/1Etd+NVdCj7qWKUSN/bSLkZwhDv7I+w/MSC6qJ4cknepkAYykDdK8og==, tarball: https://artifactory.schaeffler.com:443/artifactory/api/npm/npm/node-gyp-build/-/node-gyp-build-4.8.0.tgz}
+    resolution: {integrity: sha512-u6fs2AEUljNho3EYTJNBfImO5QTo/J/1Etd+NVdCj7qWKUSN/bSLkZwhDv7I+w/MSC6qJ4cknepkAYykDdK8og==}
     hasBin: true
 
   node-gyp@10.1.0:
@@ -13684,6 +13694,13 @@ snapshots:
       tslib: 2.4.0
 
   '@angular/language-service@18.1.0': {}
+
+  '@angular/material-date-fns-adapter@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/material@18.1.0(pogvmkibq777haniu4fzi4ghxe))(date-fns@3.6.0)':
+    dependencies:
+      '@angular/core': 18.1.0(rxjs@7.8.1)(zone.js@0.14.7)
+      '@angular/material': 18.1.0(pogvmkibq777haniu4fzi4ghxe)
+      date-fns: 3.6.0
+      tslib: 2.4.0
 
   '@angular/material-moment-adapter@18.1.0(@angular/core@18.1.0(rxjs@7.8.1)(zone.js@0.14.7))(@angular/material@18.1.0(pogvmkibq777haniu4fzi4ghxe))(moment@2.29.4)':
     dependencies:

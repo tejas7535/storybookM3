@@ -1,6 +1,5 @@
 import { translate } from '@jsverse/transloco';
 import { formatISO } from 'date-fns';
-import { isMoment } from 'moment';
 
 import { demandCharacteristicOptions } from '../material-customer/model';
 import { CMPData } from './cmp-modal-types';
@@ -12,12 +11,7 @@ export function dataToCMPWriteRequest(cmpData: CMPData): CMPWriteRequest {
   }
 
   const toDate = (input: any): Date | null =>
-    input
-      ? // eslint-disable-next-line unicorn/no-nested-ternary
-        isMoment(input)
-        ? input.toDate()
-        : null
-      : null;
+    input instanceof Date ? input : null;
 
   const autoSwitchDate = toDate(cmpData.autoSwitchDate);
   const repDate = toDate(cmpData.repDate);
@@ -35,15 +29,9 @@ export function dataToCMPWriteRequest(cmpData: CMPData): CMPWriteRequest {
     portfolioStatus: cmpData.portfolioStatus,
     demandCharacteristic: demandChar,
     autoSwitchDate: autoSwitchDate
-      ? formatISO(autoSwitchDate, {
-          representation: 'date',
-        })
+      ? formatISO(autoSwitchDate, { representation: 'date' })
       : null,
-    repDate: repDate
-      ? formatISO(repDate, {
-          representation: 'date',
-        })
-      : null,
+    repDate: repDate ? formatISO(repDate, { representation: 'date' }) : null,
     successorMaterial: cmpData.successorMaterial,
     demandPlanAdoption: cmpData.demandPlanAdoption,
   };

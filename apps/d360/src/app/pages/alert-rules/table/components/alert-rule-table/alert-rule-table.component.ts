@@ -37,6 +37,7 @@ import {
   sideBar,
 } from '../../../../../shared/ag-grid/grid-defaults';
 import { ActionsMenuCellRendererComponent } from '../../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
+import { DateFilterComponent } from '../../../../../shared/components/ag-grid/filters/mat-date-filter/date-filter.component';
 import { AgGridLocalizationService } from '../../../../../shared/services/ag-grid-localization.service';
 import {
   errorsFromSAPtoMessage,
@@ -84,6 +85,10 @@ export class AlertRuleTableComponent implements OnInit {
     ...clientSideTableDefaultProps,
     sideBar,
     getRowId: (params: GetRowIdParams<AlertRule>): string => params.data.id,
+  };
+
+  protected components: Record<string, any> = {
+    agDateInput: DateFilterComponent,
   };
 
   /**

@@ -15,6 +15,13 @@ export function formatFilterModelForBackend(filterModel: any): ColumnFilters {
       // convert bad formatted date value (e.g. '2022-09-16 14:56:00') to ISO 8601 date
       if (refinedValue.filterType.toLowerCase() === 'date') {
         refinedValue.dateFrom = refinedValue.dateFrom.replace(' ', 'T');
+        const timeStringArray = refinedValue.dateFrom.split(/[+,-]/);
+
+        if (timeStringArray.length === 4) {
+          timeStringArray.pop();
+        }
+
+        refinedValue.dateFrom = timeStringArray.join('-');
       }
       // agGrid generates null for empty strings - fix this to not confuse our backend
       if (refinedValue.filterType.toLowerCase() === 'set') {

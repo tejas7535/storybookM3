@@ -37,6 +37,7 @@ import { GlobalSelectionStateService } from '../../../../shared/components/globa
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { SelectableOptionsService } from '../../../../shared/services/selectable-options.service';
 import { SnackbarService } from '../../../../shared/utils/service/snackbar.service';
+import { DateFilterComponent } from './../../../../shared/components/ag-grid/filters/mat-date-filter/date-filter.component';
 import { getAlertTableColumnDefinitions } from './column-definitions';
 
 @Component({
@@ -61,6 +62,10 @@ export class AlertTableComponent {
   private readonly globalSelectionStateService = inject(
     GlobalSelectionStateService
   );
+
+  protected components: Record<string, any> = {
+    agDateInput: DateFilterComponent,
+  };
 
   protected readonly noDataOverlayComponent = NoDataOverlayComponent;
   protected readonly data = this.alertService.getDataFetchedEvent();

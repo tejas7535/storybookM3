@@ -39,6 +39,7 @@ import {
   formatFilterModelForAgGrid,
   formatFilterModelForBackend,
 } from '../../../../../shared/ag-grid/grid-filter-model';
+import { DateFilterComponent } from '../../../../../shared/components/ag-grid/filters/mat-date-filter/date-filter.component';
 import { TableToolbarComponent } from '../../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
 import {
   GlobalSelectionState,
@@ -79,6 +80,10 @@ export class MaterialCustomerTableComponent implements OnInit {
     AgGridLocalizationService
   );
   protected readonly translocoService = inject(TranslocoService);
+
+  protected components: Record<string, any> = {
+    agDateInput: DateFilterComponent,
+  };
 
   public gridApi!: GridApi;
 
@@ -152,6 +157,7 @@ export class MaterialCustomerTableComponent implements OnInit {
         valueFormatter,
         cellRenderer,
         filterParams,
+        floatingFilterComponent,
       }: any) => ({
         ...getDefaultColDef(filter, filterParams),
         key: colId,
@@ -166,6 +172,8 @@ export class MaterialCustomerTableComponent implements OnInit {
         sortable: this.criteriaData?.sortableFields.includes(colId),
         tooltipField: colId,
         tooltipComponent: TextTooltipComponent,
+        // filter,
+        floatingFilterComponent,
         filter: getColFilter(colId, filter, this.criteriaData),
         cellRenderer,
         valueGetter,

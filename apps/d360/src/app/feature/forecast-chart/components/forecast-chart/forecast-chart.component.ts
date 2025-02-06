@@ -31,7 +31,6 @@ import { catchError, switchMap, tap } from 'rxjs/operators';
 
 import { TranslocoModule } from '@jsverse/transloco';
 import { formatISO, startOfYear } from 'date-fns';
-import moment from 'moment';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -133,8 +132,8 @@ export class ForecastChartComponent implements OnInit {
 
   public dateForm = new FormGroup(
     {
-      startDate: new FormControl(''),
-      endDate: new FormControl(''),
+      startDate: new FormControl(null),
+      endDate: new FormControl(null),
     },
     { validators: this.crossFieldValidator() }
   );
@@ -281,12 +280,8 @@ export class ForecastChartComponent implements OnInit {
       return;
     }
 
-    this.chartSettings.startDate = moment(
-      this.dateForm.get('startDate').value
-    ).toISOString();
-    this.chartSettings.endDate = moment(
-      this.dateForm.get('endDate').value
-    ).toISOString();
+    this.chartSettings.startDate = this.dateForm.get('startDate').value;
+    this.chartSettings.endDate = this.dateForm.get('endDate').value;
 
     this.updateAndSaveChartSettings();
   }

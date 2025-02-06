@@ -5,6 +5,7 @@ import {
   differenceInCalendarDays,
   differenceInCalendarMonths,
   endOfMonth,
+  startOfMonth,
 } from 'date-fns';
 
 import { SelectableValue } from '../../shared/components/inputs/autocomplete/selectable-values.utils';
@@ -37,8 +38,10 @@ export function readLocalStorageTimeRange(): KpiDateRanges | undefined {
       case 'MONTHLY': {
         return {
           range1: {
-            from: addMonths(now, relativeTimeRange.relativeStartDate),
-            to: addMonths(now, relativeTimeRange.relativeEndDate),
+            from: startOfMonth(
+              addMonths(now, relativeTimeRange.relativeStartDate)
+            ),
+            to: endOfMonth(addMonths(now, relativeTimeRange.relativeEndDate)),
             period: relativeTimeRange.periodType,
           },
           range2: undefined,

@@ -1,6 +1,27 @@
+import { DateAdapter, MatDateFormats } from '@angular/material/core';
+
 import { getBrowserCultureLang } from '@jsverse/transloco';
+import {
+  de,
+  enAU,
+  enGB,
+  enUS,
+  enZA,
+  es,
+  fr,
+  frCA,
+  frCH,
+  it,
+  itCH,
+  Locale as LocaleFns,
+  pt,
+  ptBR,
+  zhCN,
+} from 'date-fns/locale';
 
 import { Locale } from '@schaeffler/transloco/components';
+
+import { ValidationHelper } from '../utils/validation/validation-helper';
 
 export const LOCALE_DE = {
   id: 'de-DE',
@@ -103,8 +124,127 @@ export const AVAILABLE_LOCALES: Locale[] = [
   LOCALE_ZH,
 ];
 
+export type LocaleType =
+  | 'de-DE'
+  | 'de-CH'
+  | 'en-US'
+  | 'en-AU'
+  | 'en-BE'
+  | 'en-GB'
+  | 'en-JP'
+  | 'en-ZA'
+  | 'es-ES'
+  | 'es-MX'
+  | 'fr-FR'
+  | 'fr-CA'
+  | 'fr-CH'
+  | 'fr-BE'
+  | 'it-IT'
+  | 'it-CH'
+  | 'pt-PT'
+  | 'pt-BR'
+  | 'zh-CN';
+
+export const DATE_FNS_LOOKUP: Record<LocaleType, LocaleFns> = {
+  'de-DE': de,
+  'de-CH': de,
+  'en-US': enUS,
+  'en-AU': enAU,
+  'en-BE': enGB,
+  'en-GB': enGB,
+  'en-JP': enUS,
+  'en-ZA': enZA,
+  'es-ES': enGB,
+  'es-MX': es,
+  'fr-FR': fr,
+  'fr-CA': frCA,
+  'fr-CH': frCH,
+  'fr-BE': fr,
+  'it-IT': it,
+  'it-CH': itCH,
+  'pt-PT': pt,
+  'pt-BR': ptBR,
+  'zh-CN': zhCN,
+};
+
 export const DEFAULT_LOCALE: Locale = LOCALE_EN;
 
 export const getDefaultLocale = (): Locale =>
   AVAILABLE_LOCALES.find((locale) => locale.id === getBrowserCultureLang()) ||
   DEFAULT_LOCALE;
+
+export function dateFormatFactory(adapter: DateAdapter<Date>): MatDateFormats {
+  const format = getMonthYearDateFormatByCode(adapter['locale'].code);
+  const dateInput: string = ValidationHelper.getDateFormat();
+
+  return {
+    parse: { dateInput },
+    display: { ...format.display, dateInput },
+  };
+}
+
+export function monthYearDateFormatFactory(
+  adapter: DateAdapter<Date>
+): MatDateFormats {
+  return getMonthYearDateFormatByCode(adapter['locale'].code);
+}
+
+export function getMonthYearDateFormatByCode(
+  localeCode: LocaleType
+): MatDateFormats {
+  if (!localeCode.split('-')[1]) {
+    // eslint-disable-next-line no-param-reassign
+    localeCode = `${localeCode}-${localeCode}` as LocaleType;
+  }
+
+  const split = localeCode.split('-');
+  // eslint-disable-next-line no-param-reassign
+  localeCode = `${split[0]}-${split[1].toLocaleUpperCase()}` as LocaleType;
+
+  switch (localeCode as any) {
+    case 'de-DE':
+    case 'de-CH':
+    case 'fr-FR':
+    case 'fr-CA':
+    case 'fr-CH':
+    case 'fr-BE':
+    case 'it-IT':
+    case 'it-CH': {
+      return {
+        parse: { dateInput: 'MM.yyyy' },
+        display: {
+          dateInput: 'MM.yyyy',
+          monthYearLabel: 'MMMM yyyy',
+          dateA11yLabel: 'LL',
+          monthYearA11yLabel: 'MMMM yyyy',
+        },
+      };
+    }
+
+    case 'zh-ZH':
+    case 'cn-CN':
+    case 'zh-CN': {
+      return {
+        parse: { dateInput: 'yyyy/MM' },
+        display: {
+          dateInput: 'yyyy/MM',
+          monthYearLabel: 'yyyy年MM月',
+          dateA11yLabel: 'LL',
+          monthYearA11yLabel: 'yyyy年MMMM',
+        },
+      };
+    }
+
+    default: {
+      return {
+        parse: { dateInput: 'MM/yyyy' },
+        display: {
+          dateInput: 'MM/yyyy',
+          monthYearLabel: 'MMMM yyyy',
+          dateA11yLabel: 'LL',
+          monthYearA11yLabel: 'MMMM yyyy',
+        },
+      };
+    }
+  }
+}

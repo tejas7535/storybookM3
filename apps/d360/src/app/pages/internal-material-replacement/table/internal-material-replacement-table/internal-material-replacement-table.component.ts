@@ -39,6 +39,7 @@ import { TableToolbarComponent } from '../../../../shared/components/ag-grid/tab
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { InternalMaterialReplacementSingleDeleteModalComponent } from '../../components/modals/internal-material-replacement-single-delete-modal/internal-material-replacement-single-delete-modal.component';
 import { InternalMaterialReplacementSingleSubstitutionModalComponent } from '../../components/modals/internal-material-replacement-single-substitution-modal/internal-material-replacement-single-substitution-modal.component';
+import { DateFilterComponent } from './../../../../shared/components/ag-grid/filters/mat-date-filter/date-filter.component';
 import { NoDataOverlayComponent } from './../../../../shared/components/ag-grid/no-data/no-data.component';
 import { getIMRColumnDefinitions } from './column-definitions';
 
@@ -61,7 +62,11 @@ export class InternalMaterialReplacementTableComponent {
 
   protected readonly destroyRef = inject(DestroyRef);
 
-  constructor(
+  protected components: Record<string, any> = {
+    agDateInput: DateFilterComponent,
+  };
+
+  public constructor(
     protected readonly imrService: IMRService,
     protected readonly dialog: MatDialog,
     protected readonly agGridLocalizationService: AgGridLocalizationService

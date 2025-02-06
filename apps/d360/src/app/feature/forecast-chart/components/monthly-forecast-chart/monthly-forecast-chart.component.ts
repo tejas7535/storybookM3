@@ -2,9 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 import { translate } from '@jsverse/transloco';
-import moment from 'moment';
+import { format } from 'date-fns';
 import { NgxEchartsModule } from 'ngx-echarts';
 
+import {
+  getMonthYearDateFormatByCode,
+  LocaleType,
+} from '../../../../shared/constants/available-locales';
 import { schaefflerColor } from '../../../../shared/styles/colors';
 import { chartSeriesConfig, MonthlyChartEntry } from '../../model';
 import { BaseForecastChartComponent } from '../base-forecast-chart.component';
@@ -62,7 +66,12 @@ export class MonthlyForecastChartComponent extends BaseForecastChartComponent {
           data: [
             {
               symbol: 'none',
-              xAxis: moment(new Date()).format('MM.YYYY').toString(),
+              xAxis: format(
+                new Date(),
+                getMonthYearDateFormatByCode(
+                  this.translocoLocaleService.getLocale() as LocaleType
+                ).display.dateInput
+              ),
             },
           ],
         },

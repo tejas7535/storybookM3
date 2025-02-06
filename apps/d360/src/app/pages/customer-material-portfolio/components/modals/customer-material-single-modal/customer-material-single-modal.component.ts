@@ -32,7 +32,6 @@ import { catchError, EMPTY, Observable, of, switchMap, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { isPast } from 'date-fns';
-import moment from 'moment';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -433,7 +432,7 @@ export class CustomerMaterialSingleModalComponent implements OnInit {
     return (
       this.data.type === SpecificModalContentType.SubstitutionProposal &&
       !this.substitutionProposalEdit() &&
-      !isPast(moment(this.formGroup.get('repDate').value).toDate())
+      !isPast(this.formGroup.get('repDate').value)
     );
   }
 

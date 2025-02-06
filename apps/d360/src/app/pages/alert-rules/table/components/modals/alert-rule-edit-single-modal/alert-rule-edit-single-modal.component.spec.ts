@@ -1,10 +1,4 @@
-import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {
-  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-  MomentDateAdapter,
-  provideMomentDateAdapter,
-} from '@angular/material-moment-adapter';
 
 import { of } from 'rxjs';
 
@@ -31,13 +25,7 @@ describe('AlertRuleEditSingleModalComponent', () => {
       mockProvider(CurrencyService, {
         getCurrentCurrency: jest.fn().mockReturnValue(of('EUR')),
       }),
-      provideMomentDateAdapter(),
       mockProvider(TranslocoLocaleService, {}),
-      {
-        provide: MomentDateAdapter,
-        useClass: MomentDateAdapter,
-        deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
-      },
       mockProvider(TranslocoLocaleService, {
         getLocale: () => 'DE-de',
       }),

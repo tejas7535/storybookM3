@@ -6,10 +6,9 @@
         [control]="startDatePeriod1()"
         [minDate]="minDate()"
         [maxDate]="maxDate()"
+        [endOf]="false"
       />
-    }
-
-    @if (periodType1().getRawValue()?.id === 'WEEKLY') {
+    } @else {
       <d360-date-picker
         [label]="t('validation_of_demand.date_picker.start_date')"
         [control]="startDatePeriod1()"
@@ -24,10 +23,9 @@
         [minDate]="minDateEndDatePeriod1"
         [maxDate]="maxDate()"
         [control]="endDatePeriod1()"
+        [endOf]="true"
       />
-    }
-
-    @if (periodType1().getRawValue()?.id === 'WEEKLY') {
+    } @else {
       <d360-date-picker
         [label]="t('validation_of_demand.date_picker.end_date')"
         [control]="endDatePeriod1()"
@@ -55,13 +53,15 @@
       <d360-date-picker-month-year
         [label]="t('validation_of_demand.date_picker.start_date')"
         [control]="startDatePeriod2()"
+        [endOf]="false"
       />
 
       <d360-date-picker-month-year
         [label]="t('validation_of_demand.date_picker.end_date')"
         [control]="endDatePeriod2()"
-        [minDate]="midDateEndDatePeriod2"
+        [minDate]="minDateEndDatePeriod2"
         [maxDate]="lastViewableDate()"
+        [endOf]="true"
       />
 
       <d360-filter-dropdown

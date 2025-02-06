@@ -44,6 +44,7 @@ import { GlobalSelectionStateService } from '../../../../shared/components/globa
 import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { disableColor } from '../../../../shared/styles/colors';
+import { DateFilterComponent } from './../../../../shared/components/ag-grid/filters/mat-date-filter/date-filter.component';
 import { getColumnDefinitions } from './column-definitions';
 
 @Component({
@@ -84,7 +85,11 @@ export class MaterialListTableComponent {
   protected selectedMaterialListEntry = signal<MaterialListEntry>(null);
   protected gridApi: GridApi;
 
-  constructor() {
+  protected components: Record<string, any> = {
+    agDateInput: DateFilterComponent,
+  };
+
+  public constructor() {
     effect(
       () => {
         this.refreshGridData(
