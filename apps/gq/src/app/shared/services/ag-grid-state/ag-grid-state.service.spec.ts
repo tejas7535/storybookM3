@@ -362,7 +362,8 @@ describe('AgGridStateService', () => {
       expect(service['setColumnState']).toHaveBeenCalledWith(
         'test',
         1,
-        columnState
+        columnState,
+        null
       );
     });
   });
@@ -550,7 +551,10 @@ describe('AgGridStateService', () => {
 
       service['setColumnState'](tableKey, viewId, columnState);
 
-      expect(service['saveGridState']).toHaveBeenCalledWith(expectedstate);
+      expect(service['saveGridState']).toHaveBeenCalledWith(
+        expectedstate,
+        null
+      );
     });
   });
 

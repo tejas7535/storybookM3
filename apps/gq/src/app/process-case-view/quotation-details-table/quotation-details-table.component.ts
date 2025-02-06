@@ -10,7 +10,15 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { combineLatest, map, Observable, skip, Subject, tap } from 'rxjs';
+import {
+  combineLatest,
+  filter,
+  map,
+  Observable,
+  skip,
+  Subject,
+  tap,
+} from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { RolesFacade } from '@gq/core/store/facades';
@@ -36,6 +44,7 @@ import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/f
 import {
   ColDef,
   ColumnEvent,
+  ColumnState,
   ExcelStyle,
   FilterChangedEvent,
   FirstDataRenderedEvent,
@@ -127,6 +136,13 @@ export class QuotationDetailsTableComponent
   colDefChanged = false;
   isFirstColDefEmit = true;
 
+  /**
+   * this is a WorkAround AG-GRID has an Issues applying [] for ColumnState and resetColumnState is not restoring the width correctly
+   * check https://plnkr.co/edit/d9OkJlsjR8g1YfL1 go to main.ts find in defaultColDef width: 100 is commented out change width of column click resetState --> nothing
+   *uncomment the width change width click resetState --> works
+   */
+  initialColumnStateForDefaultView: ColumnState[] = [];
+
   simulatedField: ColumnFields;
   simulatedValue: number;
   simulatedPriceSource: PriceSourceOptions;
@@ -214,14 +230,39 @@ export class QuotationDetailsTableComponent
           this.simulatedPriceSource = undefined;
         }
       });
+
+    this.agGridStateService.activeViewId$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((viewId) => viewId === this.agGridStateService.DEFAULT_VIEW_ID)
+      )
+      .subscribe(() => {
+        // when DEFAULT VIEW is selected the default ColumnDefs should be applied
+        // see comment for initialColumnStateForDefaultView
+        if (this.gridApi) {
+          this.gridApi.applyColumnState({
+            state: this.initialColumnStateForDefaultView,
+            applyOrder: true,
+          });
+        }
+      });
   }
 
   ngAfterViewChecked(): void {
     // if col def changed try to apply stored column state to prevent overwriting custom views
-    if (this.colDefChanged && this.gridApi) {
+    if (
+      this.colDefChanged &&
+      this.gridApi
+      // only apply stored column state if the current view is not the default view
+    ) {
       this.colDefChanged = false;
-      this.applyStoredColumnState();
-      this.applyStoredFilterState();
+      if (
+        this.agGridStateService.getCurrentViewId() !==
+        this.agGridStateService.DEFAULT_VIEW_ID
+      ) {
+        this.applyStoredColumnState();
+        this.applyStoredFilterState();
+      }
     }
     this.gridVisible = true;
   }
@@ -229,7 +270,6 @@ export class QuotationDetailsTableComponent
   onColumnChange(event: ColumnEvent | SortChangedEvent): void {
     this.updateColumnData(event);
     const viewId = this.agGridStateService.getCurrentViewId();
-
     const rowDataChanged = event.source === 'gridOptionsChanged';
     const isCustomView = viewId !== this.agGridStateService.DEFAULT_VIEW_ID;
 
@@ -239,7 +279,8 @@ export class QuotationDetailsTableComponent
       this.gridVisible = true;
     } else if (isCustomView) {
       this.agGridStateService.setColumnStateForCurrentView(
-        event.api.getColumnState()
+        event.api.getColumnState(),
+        event.source
       );
     }
   }
@@ -322,6 +363,7 @@ export class QuotationDetailsTableComponent
       .subscribe(() => {
         this.applyStoredColumnState();
       });
+    this.initialColumnStateForDefaultView = event.api.getColumnState();
   }
 
   onFirstDataRendered(event: FirstDataRenderedEvent): void {

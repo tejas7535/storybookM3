@@ -4,6 +4,13 @@ import { CustomView, GridState } from '@gq/shared/models/grid-state.model';
 import { ColumnState } from 'ag-grid-enterprise';
 import { differenceBy } from 'lodash';
 
+const userEvents = new Set([
+  'uiColumnMoved',
+  'uiColumnSorted',
+  'uiColumnResized',
+  'toolPanelUi',
+  'columnMenu',
+]);
 @Injectable({
   providedIn: 'root',
 })
@@ -11,7 +18,8 @@ export class GridMergeService {
   mergeAndReorderColumns(
     oldColumnState: ColumnState[],
     newColumnState: ColumnState[],
-    defaultOrderColIds: string[]
+    defaultOrderColIds: string[],
+    eventSource: string = null
   ): ColumnState[] {
     // create a map for quick access to old columns and to check for new columns
     const oldMap: Record<string, ColumnState> = {};
@@ -25,6 +33,31 @@ export class GridMergeService {
     });
 
     const result: ColumnState[] = [];
+    // when user event has been triggered. the NewColumnState should be used as the base especially for column order, width etc.
+    // but still columnDefinition of stored State and NewState must be merged together
+    if (userEvents.has(eventSource)) {
+      // userEvents handling
+      newColumnState.forEach((column) => {
+        if (newMap[column.colId] || defaultOrderColIds.includes(column.colId)) {
+          result.push(column);
+        }
+      });
+
+      // iterate through old columnState and add columns that are not present in newColumnState but keep the config
+      oldColumnState.forEach((newCol) => {
+        if (!newMap[newCol.colId]) {
+          const insertIndex = this.findInsertIndex(
+            oldColumnState.map((col) => col.colId),
+            newCol.colId,
+            result
+          );
+
+          result.splice(insertIndex, 0, { ...newCol });
+        }
+      });
+
+      return result;
+    }
 
     // add elements from oldColumnState that should be kept (i.e., present in newColumnState)
     oldColumnState.forEach((column) => {

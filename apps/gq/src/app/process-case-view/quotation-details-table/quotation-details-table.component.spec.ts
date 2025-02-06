@@ -540,6 +540,9 @@ describe('QuotationDetailsTableComponent', () => {
     });
 
     test('should set gridVisible to true', () => {
+      component['agGridStateService'].getCurrentViewId = jest
+        .fn()
+        .mockReturnValue(2);
       component.gridVisible = false;
       component.colDefChanged = true;
       component.gridApi = {} as any;
@@ -659,6 +662,7 @@ describe('QuotationDetailsTableComponent', () => {
           autoSizeColumns: jest.fn(),
           resetColumnState: jest.fn(),
           applyColumnState: jest.fn(),
+          getColumnState: jest.fn(),
           forEachNodeAfterFilterAndSort: jest.fn(),
         },
       } as any;
@@ -746,6 +750,7 @@ describe('QuotationDetailsTableComponent', () => {
             { getColId: jest.fn(() => ColumnFields.RECOMMENDED_PRICE) },
           ]),
           resetColumnState: jest.fn(),
+          getColumnState: jest.fn(),
         },
       } as any;
 

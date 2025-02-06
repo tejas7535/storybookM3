@@ -134,6 +134,33 @@ describe('GridMergeService', () => {
         { colId: 'c', hide: false },
       ]);
     });
+    test('handles user event source correctly', () => {
+      const oldColumns: ColumnState[] = [
+        { colId: 'a', hide: false },
+        { colId: 'b', hide: true },
+      ];
+      const newColumns: ColumnState[] = [
+        { colId: 'a', hide: true },
+        { colId: 'd', hide: false },
+        { colId: 'c', hide: false },
+      ];
+      const defaultOrderColIds = ['a', 'b', 'c', 'd'];
+      const eventSource = 'uiColumnMoved';
+
+      const result = service.mergeAndReorderColumns(
+        oldColumns,
+        newColumns,
+        defaultOrderColIds,
+        eventSource
+      );
+
+      expect(result).toEqual([
+        { colId: 'a', hide: true },
+        { colId: 'b', hide: true },
+        { colId: 'd', hide: false },
+        { colId: 'c', hide: false },
+      ]);
+    });
   });
 
   describe('getUpdateCustomViewsWhenConfiguredColumnsRemoved', () => {

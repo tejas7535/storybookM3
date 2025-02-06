@@ -123,11 +123,15 @@ export class AgGridStateService {
     return this.getColumnState(this.activeTableKey, this.activeViewId$$.value);
   }
 
-  public setColumnStateForCurrentView(columnState: ColumnState[]) {
+  public setColumnStateForCurrentView(
+    columnState: ColumnState[],
+    eventSource: string = null
+  ) {
     this.setColumnState(
       this.activeTableKey,
       this.activeViewId$$.value,
-      columnState
+      columnState,
+      eventSource
     );
   }
 
@@ -255,27 +259,32 @@ export class AgGridStateService {
       });
     }
   }
+
   private setColumnState(
     key: string,
     viewId: number,
-    columnState: ColumnState[]
+    columnState: ColumnState[],
+    eventSource: string = null
   ): void {
     const gridState = this.gridLocalStorageService.getGridState(key);
 
-    this.saveGridState({
-      ...gridState,
-      customViews: gridState.customViews.map((view: CustomView) =>
-        view.id === viewId
-          ? {
-              ...view,
-              state: {
-                ...view.state,
-                columnState,
-              },
-            }
-          : view
-      ),
-    });
+    this.saveGridState(
+      {
+        ...gridState,
+        customViews: gridState.customViews.map((view: CustomView) =>
+          view.id === viewId
+            ? {
+                ...view,
+                state: {
+                  ...view.state,
+                  columnState,
+                },
+              }
+            : view
+        ),
+      },
+      eventSource
+    );
   }
 
   private createNewView(
@@ -320,7 +329,7 @@ export class AgGridStateService {
     return ids.at(-1) + 1;
   }
 
-  private saveGridState(gridState: GridState) {
+  private saveGridState(gridState: GridState, eventSource: string = null) {
     const currentCustomView = this.getCustomViewOfActiveView(
       gridState,
       this.activeViewId$$.value
@@ -334,6 +343,8 @@ export class AgGridStateService {
     const oldColumnState = storedCustomView?.state?.columnState ?? [];
     const newColumnState = currentCustomView?.state.columnState ?? [];
 
+    // e.g. when statusColumn has been filtered out because the quote has no status yet, this will cause the merge and reorder
+    // this will dismiss the new columnState and keep the old one
     if (
       oldColumnState.length > 0 &&
       !this.containSameColIds(oldColumnState, newColumnState) &&
@@ -344,7 +355,8 @@ export class AgGridStateService {
       const updatedColumnState = this.gridMergeService.mergeAndReorderColumns(
         oldColumnState,
         newColumnState,
-        gridState.initialColIds
+        gridState.initialColIds,
+        eventSource
       );
       currentCustomView.state.columnState = updatedColumnState;
     } else if (oldColumnState.length === 0 && currentCustomView) {
