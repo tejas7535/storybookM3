@@ -1,4 +1,23 @@
 # Release Notes of Material App Center
+## [1.27.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.26.1...mac-v1.27.0) (2025-02-06)
+
+
+### Features
+
+* **mac:** adding a new column with only supplier name ([#6882](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6882)) ([7205f89](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7205f89177d0da68e5287a850e278968a6bb8f6b))
+* **mac:** Create view for Vitesco PCF Data (UFTABI-8128) ([#6859](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6859)) ([d9bc96c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d9bc96c0fdb202151f85b60b655d7e6ca0cf7400))
+* **mac:** switch to standalone hc ([#6954](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6954)) ([c23fbe2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c23fbe279143c4a54062a7d0d19446218bd78259))
+* update ag grid v32 ([#6796](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6796)) ([9f6a844](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9f6a844c6a8898ef6ae8d48587f30dd752f87911))
+
+
+### Bug Fixes
+
+* **mac:** disable vitesco material view ([#6923](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6923)) ([d8d21c5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d8d21c5d5fc87b8d4a049f4eda846ab49d0e146e))
+* **mac:** enable bulkedit with pcf proofs ([#6820](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6820)) ([fcc3097](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fcc3097e6c1c6558f2a91253a5c3e7d2e11b185d))
+* **mac:** fixing aggrid migration issues ([#6930](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6930)) ([ce5d452](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ce5d4520d69d95295ff664e60da1f40574c03282))
+* **mac:** remove workaround for vitesco ([#6916](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6916)) ([38c2ca1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/38c2ca133e83717fd0eeee93d7fccaf310109520))
+* **mac:** verify length of uploaded cells (UFTABI-8535) ([#6962](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6962)) ([e381909](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e38190949733a9ea9157f9a58509e1f5e1a40e3a))
+
 ## [1.26.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.26.0...mac-v1.26.1) (2024-12-11)
 
 
