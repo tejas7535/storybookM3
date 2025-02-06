@@ -1,4 +1,17 @@
 # Release Notes of Grease App
+## [1.14.9](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.14.8...ga-v1.14.9) (2025-02-06)
+
+
+### Features
+
+* **ga:** iterate vertical axis implementation (UFTABI-8241 ) ([#6935](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6935)) ([cf9dd49](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cf9dd49f10562c921e261e402d91a28e1aa42c20))
+
+
+### Bug Fixes
+
+* **ga:** fix mobile layout being used in medias - UFTABI-8256 ([#6727](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6727)) ([ba976b8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ba976b81445d27e4c9805ad3fddf7d1f30e6aba3))
+* **ga:** Improvements to the DMC scan feature in GA - UFTBAI-8323 ([#6905](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6905)) ([d94eaf5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d94eaf59ae81af6073dc0eea70549b7cb06f409c))
+
 ## [1.14.8](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.14.7...ga-v1.14.8) (2024-11-08)
 
 ## [1.14.7](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.14.6...ga-v1.14.7) (2024-11-05)
