@@ -1,18 +1,15 @@
 <mat-card *transloco="let t; read: 'reasonsAndCounterMeasures'">
   <div class="flex justify-end">
     <a
-      mat-stroked-button
+      mat-raised-button
       class="cursor-pointer"
       target="_blank"
       matTooltipPosition="before"
-      [matTooltip]="t('exitSurveysAppTooltip')"
+      [matTooltip]="t('exitSurvey.tooltip')"
       [href]="exitSurveyURL"
     >
-      <img
-        src="/assets/images/qxm_color.svg"
-        class="h-12"
-        alt="{{ t('exitSurveysAppTooltip') }}"
-      />
+      <mat-icon>open_in_new</mat-icon>
+      {{ t('exitSurvey.label') }}
     </a>
   </div>
   <h5 class="font-bold">

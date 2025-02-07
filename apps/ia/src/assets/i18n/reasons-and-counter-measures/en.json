@@ -24,5 +24,8 @@
       }
     }
   },
-  "exitSurveysAppTooltip": "Click here to compare qualitative Digital Exit Interviews results with quantitative Exit Survey results."
+  "exitSurvey": {
+    "label": "Exit Survey",
+    "tooltip": "Click here to compare qualitative Digital Exit Interviews results with quantitative Exit Survey results."
+  }
 }
