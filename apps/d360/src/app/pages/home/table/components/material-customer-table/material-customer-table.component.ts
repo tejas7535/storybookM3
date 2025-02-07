@@ -14,8 +14,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 
 import { tap } from 'rxjs';
-
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
@@ -80,6 +80,7 @@ export class MaterialCustomerTableComponent implements OnInit {
     AgGridLocalizationService
   );
   protected readonly translocoService = inject(TranslocoService);
+  private readonly translocoLocaleService = inject(TranslocoLocaleService);
 
   protected components: Record<string, any> = {
     agDateInput: DateFilterComponent,
@@ -159,7 +160,11 @@ export class MaterialCustomerTableComponent implements OnInit {
         filterParams,
         floatingFilterComponent,
       }: any) => ({
-        ...getDefaultColDef(filter, filterParams),
+        ...getDefaultColDef(
+          this.translocoLocaleService.getLocale(),
+          filter,
+          filterParams
+        ),
         key: colId,
         colId,
         field: colId,

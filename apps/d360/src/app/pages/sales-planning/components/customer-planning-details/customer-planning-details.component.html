@@ -1,51 +1,79 @@
-<section class="flex flex-col p-4 gap-6" *transloco="let t">
+<section class="flex flex-col p-4 gap-6 h-full" *transloco="let t">
   <div class="flex justify-between">
     <h2 class="text-title-large">
       {{ t('sales_planning.planning_details.title') }}
     </h2>
 
     <div class="flex">
-      <button
-        mat-icon-button
-        (click)="openPanelContent.set(!openPanelContent())"
-      >
-        @if (openPanelContent()) {
-          <mat-icon>keyboard_arrow_up</mat-icon>
+      <button mat-icon-button (click)="toggleSection()()">
+        @if (collapsedSection()) {
+          <mat-icon>arrow_drop_down</mat-icon>
         } @else {
-          <mat-icon>keyboard_arrow_down</mat-icon>
+          <mat-icon>arrow_drop_up</mat-icon>
         }
       </button>
     </div>
   </div>
 
-  @if (openPanelContent()) {
-    <div class="flex justify-between">
-      <div class="flex">
-        <button [disabled]="isNoCustomerSelected()" mat-button>
-          <mat-icon class="icon-button">filter_list</mat-icon>
-          {{ t('sales_planning.planning_details.filter') }}
-        </button>
-      </div>
-      <div class="flex">
-        <button
-          [disabled]="planningLevelMaterialConfiguration() === null"
-          (click)="handlePlanningLevelModalClicked()"
-          mat-button
-        >
-          <mat-icon class="icon-button">settings</mat-icon>
-          {{ t('sales_planning.planning_details.planning_level') }}
-        </button>
+  <d360-table-toolbar
+    [hidden]="collapsedSection()"
+    [rowCount]="rowCount()"
+    [renderFloatingFilter]="false"
+    [grid]="gridApi"
+  >
+    <button
+      [disabled]="planningLevelMaterialConfiguration() === null"
+      (click)="handlePlanningLevelModalClicked()"
+      mat-button
+    >
+      <mat-icon class="icon-button">settings</mat-icon>
+      {{ t('sales_planning.planning_details.planning_level') }}
+    </button>
 
-        <button [disabled]="isNoCustomerSelected()" mat-button>
-          <mat-icon class="icon-button">history</mat-icon>
-          {{ t('sales_planning.planning_details.change_history') }}
-        </button>
+    <button [disabled]="isNoCustomerSelected()" mat-button>
+      <mat-icon class="icon-button">history</mat-icon>
+      {{ t('sales_planning.planning_details.change_history') }}
+    </button>
 
-        <button class="text-body-small" mat-icon-button>
-          <mat-icon>fullscreen</mat-icon>
-        </button>
-      </div>
-    </div>
-    <div>The table comes here</div>
-  }
+    @if (openFullscreen()) {
+      <button
+        [disabled]="isNoCustomerSelected()"
+        (click)="toggleFullscreen()()"
+        class="text-body-small"
+        mat-icon-button
+      >
+        <mat-icon>fullscreen_exit</mat-icon>
+      </button>
+    } @else {
+      <button
+        [disabled]="isNoCustomerSelected()"
+        (click)="toggleFullscreen()()"
+        class="text-body-small"
+        mat-icon-button
+      >
+        <mat-icon>fullscreen</mat-icon>
+      </button>
+    }
+  </d360-table-toolbar>
+
+  <div [hidden]="collapsedSection()" class="h-full">
+    <ag-grid-angular
+      #salesPlanningGrid
+      class="ag-theme-material grow h-full"
+      [gridOptions]="gridOptions"
+      [localeText]="agGridLocalizationService.lang()"
+      (firstDataRendered)="onFirstDataRendered($event)"
+      (dragStopped)="columnSettingsService.saveFromAgGridEvent($event)"
+      (columnVisible)="columnSettingsService.saveFromAgGridEvent($event)"
+      (filterChanged)="onFilterChanged()"
+      (sortChanged)="columnSettingsService.saveFromAgGridEvent($event)"
+      (rowGroupOpened)="onRowGroupOpened($event)"
+      (gridReady)="onGridReady($event)"
+      [tooltipShowDelay]="500"
+      [tooltipHideDelay]="300000"
+      [loading]="isLoading()"
+      [noRowsOverlayComponent]="noDataOverlayComponent"
+      [noRowsOverlayComponentParams]="noDataOverlayMessage"
+    />
+  </div>
 </section>

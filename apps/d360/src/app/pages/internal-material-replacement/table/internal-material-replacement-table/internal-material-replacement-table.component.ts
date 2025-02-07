@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
@@ -61,6 +62,7 @@ export class InternalMaterialReplacementTableComponent {
   protected readonly rowCount = signal(0);
 
   protected readonly destroyRef = inject(DestroyRef);
+  private readonly translocoLocaleService = inject(TranslocoLocaleService);
 
   protected components: Record<string, any> = {
     agDateInput: DateFilterComponent,
@@ -151,7 +153,11 @@ export class InternalMaterialReplacementTableComponent {
     this.gridApi?.setGridOption('columnDefs', [
       ...(getIMRColumnDefinitions(this.agGridLocalizationService).map(
         (col) => ({
-          ...getDefaultColDef(col.filter, col.filterParams),
+          ...getDefaultColDef(
+            this.translocoLocaleService.getLocale(),
+            col.filter,
+            col.filterParams
+          ),
           colId: col.property,
           field: col.property,
           headerName: translate(col.colId),

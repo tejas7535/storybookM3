@@ -29,15 +29,22 @@ export class TableToolbarComponent {
   public grid = input.required<GridApi>();
   public renderFloatingFilter = input<boolean>(true);
   public openFloatingFilters = input<boolean>(false);
-  public customOnResetFilters = input<() => void>(() =>
-    this.grid()?.setFilterModel(null)
-  );
+  public customOnResetFilters = input<() => void>(() => {
+    this.grid()?.setFilterModel({});
+  });
+
   public customGetFilterCount = input<() => number>(() => {
     if (!this.grid()) {
       return 0;
     }
 
-    return Object.keys(this.grid().getFilterModel()).length;
+    const filterModel = this.grid().getFilterModel();
+
+    if (!filterModel) {
+      return 0;
+    }
+
+    return Object.keys(filterModel).length;
   });
 
   private readonly translocoLocaleService: TranslocoLocaleService = inject(

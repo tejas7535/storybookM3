@@ -13,6 +13,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { AgGridModule } from 'ag-grid-angular';
 import {
   CellClassParams,
@@ -61,6 +62,7 @@ import { getColumnDefinitions } from './column-definitions';
 })
 export class MaterialListTableComponent {
   private readonly demandValidationService = inject(DemandValidationService);
+  private readonly translocoLocaleService = inject(TranslocoLocaleService);
   private readonly globalSelectionStateService = inject(
     GlobalSelectionStateService
   );
@@ -204,7 +206,7 @@ export class MaterialListTableComponent {
   private updateColumnDefs(): void {
     this.gridApi?.setGridOption('columnDefs', [
       ...(getColumnDefinitions(this.agGridLocalizationService).map((def) => ({
-        ...getDefaultColDef(),
+        ...getDefaultColDef(this.translocoLocaleService.getLocale()),
         ...def,
         field: def.colId,
         headerName: translate(`material_customer.column.${def.colId}`, {}),

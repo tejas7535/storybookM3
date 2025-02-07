@@ -78,3 +78,32 @@ export function parseAndFormatNumber(
     }
   }
 }
+
+/**
+ * This method will 'unformat' a number that has been formatted to a locale string.
+ *
+ * Hint: It will return the unformatted number in case the conversion was successful,
+ * otherwise it will return the original number using parseFloat to convert it to type number.
+ * This could result in NaN!
+ *
+ * @private
+ * @param {string} number
+ * @param {string} locale
+ * @return {number}
+ */
+export function getNumberFromLocale(number: string, locale: string): number {
+  let unformatted: string = number;
+
+  const parts: string[] | null = (1234.5)
+    .toLocaleString(locale)
+    .match(/(\D+)/g);
+
+  if (parts) {
+    unformatted = unformatted.replaceAll(parts[0], '');
+    unformatted = unformatted.replaceAll(parts[1], '.');
+
+    return Number.parseFloat(unformatted);
+  }
+
+  return Number.parseFloat(number);
+}

@@ -18,6 +18,7 @@ import {
 } from '@angular/material/slide-toggle';
 
 import { translate } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
 import { AgGridModule } from 'ag-grid-angular';
 import {
@@ -82,6 +83,7 @@ export interface FilterModel {
 export class CustomerMaterialPortfolioTableComponent implements OnInit {
   private readonly store = inject(Store);
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
+  private readonly translocoLocaleService = inject(TranslocoLocaleService);
 
   public selectedCustomer = input.required<CustomerEntry>();
   public globalSelection = input.required<GlobalSelectionState>();
@@ -257,7 +259,11 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
 
     this.gridApi?.setGridOption('columnDefs', [
       ...columnDefinitions(this.agGridLocalizationService).map((def: any) => ({
-        ...getDefaultColDef(def.filter, def.filterParams),
+        ...getDefaultColDef(
+          this.translocoLocaleService.getLocale(),
+          def.filter,
+          def.filterParams
+        ),
         ...mapColumnData(def),
       })),
       {

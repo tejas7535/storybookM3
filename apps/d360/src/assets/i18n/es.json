@@ -626,6 +626,69 @@
       "demandPlanner": "Planificador de la demanda",
       "gkam": "GKAM",
       "kam": "KAM"
+    },
+    "planning_details": {
+      "title": "Detalles de Planificación",
+      "planning_level": "Nivel de planificación",
+      "change_history": "Historial de cambios",
+      "filter": "Filtro",
+      "planning_level_material_type": {
+        "PL": "Línea de productos",
+        "GP": "GPSD",
+        "PC": "Grupo de productos"
+      },
+      "planning_level_material_modal": {
+        "title": "Material de planificación",
+        "initial_configuration_hint": "Nivel de planificación inicial según la gestión del sector.",
+        "change_information": "Tenga en cuenta que este cambio no se puede deshacer.",
+        "change_title": "Cambiar material de planificación",
+        "change_hint": "Cuando se cambie el material de planificación, los datos de planificación en el nivel de planificación <strong>serán eliminados</strong>.",
+        "change_confirmation_question": "¿Está seguro de que desea cambiar el material de planificación?"
+      }
+    },
+    "table": {
+      "no_data": "Seleccione un cliente para cargar los datos.",
+      "yearly": {
+        "planningYear": "Año",
+        "autoGroupColumn": "Material de planificación",
+        "totalSalesPlanUnconstrained": "Total Anual (Unc)",
+        "totalSalesPlanConstrained": "Total Anual (Con)",
+        "totalSalesPlanAdjusted": "Ajuste del Total Anual (Unc)",
+        "opportunitiesForecastRelevant": "Oportunidades Relevantes - Servicios (Unc)",
+        "opportunitiesNotSalesPlanRelevant": "Oportunidades (Unc)",
+        "opportunitiesDemandRelevant": "Oportunidades Relevantes - Producto (Unc)",
+        "opportunitiesDemandRelevantConstrained": "Oportunidades Relevantes - Producto (Con)",
+        "firmBusinessCoverage": "Cobertura de Negocios Fijos (Unc)",
+        "firmBusinessServices": "Firm Business - Servicios (Unc)",
+        "firmBusiness": "Firm Business (Unc)",
+        "apShareUnconstrained": "Participación de AP (Unc)",
+        "spShareUnconstrained": "Participación de SP (Unc)",
+        "opShareUnconstrained": "Participación de OP (Unc)",
+        "apShareConstrained": "Participación de AP (Con)",
+        "spShareConstrained": "Participación de SP (Con)",
+        "opShareConstrained": "Participación de OP (Con)",
+        "apShareAdjustedUnconstrained": "Participación de AP Ajustada (Unc)",
+        "spShareAdjustedUnconstrained": "Participación de SP Ajustada (Unc)",
+        "opShareAdjustedUnconstrained": "Participación de OP Ajustada (Unc)",
+        "salesDeduction": "Deducción de Ventas (en %)",
+        "cashDiscount": "Descuentos por Pronto Pago (en %)",
+        "otherRevenues": "Otros Ingresos",
+        "orderBookBacklogUnconstrained": "Pendiente de Pedidos (Unc)",
+        "orderBookBacklogConstrained": "Pendiente de Pedidos (Con)",
+        "deliveryBacklog": "Entregas de Años Anteriores Solicitados (Con)",
+        "openPlannedValueDemand360": "Valor Planeado Abierto en Demand360 (Unc)",
+        "plannedValueDemand360": "Valor Planificado en Demand360 (Unc)",
+        "planNetSales": "Ventas Netas Plan x+y",
+        "planInvoiceSales": "Valor Facturado Plan x+y",
+        "budgetInvoicedSales": "Valor Facturado del Presupuesto",
+        "budgetNetSales": "Venta Neta Presupuestaria",
+        "addOneOriginalValue": "Valor Original de ADD*ONE (Unc)",
+        "opMaterialDemandPlanCount": "Número de materiales OP con Plan de Demanda",
+        "spMaterialDemandPlanCount": "Número de materiales SP con Plan de Demanda",
+        "apMaterialDemandPlanCount": "Número de materiales AP con Plan de Demanda",
+        "dailyRollingSalesPlanUnconstrained": "Plan de Ventas Diarias (Unc)",
+        "dailyRollingSalesPlanConstrained": "Plan de Ventas Diarias (Con)"
+      }
     }
   },
   "customer": {

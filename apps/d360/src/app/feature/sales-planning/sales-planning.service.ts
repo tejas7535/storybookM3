@@ -1,9 +1,15 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { CustomerInfo, SalesPlanResponse } from './model';
+import { TranslocoService } from '@jsverse/transloco';
+
+import {
+  CustomerInfo,
+  DetailedCustomerSalesPlan,
+  SalesPlanResponse,
+} from './model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +20,12 @@ export class SalesPlanningService {
 
   private readonly SALES_PLANNING_CUSTOMER_SALES_PLAN_API: string =
     'api/sales-planning/customer-sales-plan';
+
+  private readonly SALES_PLANNING_DATA_API: string =
+    '/api/sales-planning/detailed-customer-sales-plan';
+
+  private readonly translocoService: TranslocoService =
+    inject(TranslocoService);
 
   private readonly http: HttpClient = inject(HttpClient);
 
@@ -31,6 +43,34 @@ export class SalesPlanningService {
   ): Observable<SalesPlanResponse> {
     return this.http.get<SalesPlanResponse>(
       `${this.SALES_PLANNING_CUSTOMER_SALES_PLAN_API}?customerNumber=${customerNumber}`
+    );
+  }
+
+  public getDetailedCustomerSalesPlan(
+    customerNumber: string,
+    planningCurrency: string,
+    planningLevelMaterialType?: string,
+    detailLevel?: string
+  ): Observable<DetailedCustomerSalesPlan[]> {
+    let params = new HttpParams()
+      .set('customerNumber', customerNumber)
+      .set('language', this.translocoService.getActiveLang())
+      .set('currency', planningCurrency);
+
+    if (planningLevelMaterialType) {
+      params = params.set(
+        'planningLevelMaterialType',
+        planningLevelMaterialType
+      );
+    }
+
+    if (detailLevel) {
+      params = params.set('detailLevel', detailLevel);
+    }
+
+    return this.http.get<DetailedCustomerSalesPlan[]>(
+      this.SALES_PLANNING_DATA_API,
+      { params }
     );
   }
 }

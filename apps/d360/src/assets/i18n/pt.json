@@ -626,6 +626,59 @@
       "demandPlanner": "Planejador de demanda",
       "gkam": "GKAM",
       "kam": "KAM"
+    },
+    "planning_details": {
+      "title": "Detalhes de planeamento",
+      "planning_level": "Nível de planejamento",
+      "change_history": "Histórico de mudanças",
+      "filter": "Filtro",
+      "planning_level_material_type": {
+        "PL": "Linha de produtos",
+        "GP": "GPSD",
+        "PC": "Agrupamento de produtos"
+      },
+      "planning_level_material_modal": {
+        "title": "Material de planejamento",
+        "initial_configuration_hint": "Nível de planejamento inicial definido pela gestão setorial.",
+        "change_information": "Por favor, esteja ciente de que essa alteração não pode ser desfeita.",
+        "change_title": "Alterar material de planejamento",
+        "change_hint": "Quando o material de nível de planejamento é modificado, os dados de planejamento do material de nível de planejamento <strong>serão eliminados</strong>.",
+        "change_confirmation_question": "Você tem certeza de que deseja alterar o material de planejamento?"
+      }
+    },
+    "table": {
+      "no_data": "Selecione um cliente para carregar os dados.",
+      "yearly": {
+        "planningYear": "Ano",
+        "autoGroupColumn": "Material de planejamento",
+        "totalSalesPlanUnconstrained": "Total Anual (Unc)",
+        "totalSalesPlanConstrained": "Total Anual (Con)",
+        "totalSalesPlanAdjusted": "Ajuste do Total Anual (Unc)",
+        "opportunitiesForecastRelevant": "Oportunidades Relevantes - Serviços (Unc)",
+        "opportunitiesNotSalesPlanRelevant": "Oportunidades (Unc)",
+        "opportunitiesDemandRelevant": "Oportunidades Relevantes - Produto (Unc)",
+        "opportunitiesDemandRelevantConstrained": "Oportunidades Relevantes - Produto (Con)",
+        "firmBusinessCoverage": "Cobertura de Negócios Fixo (Unc)",
+        "firmBusinessServices": "Firm Business - Serviços (Unc)",
+        "firmBusiness": "Firm Business (Unc)",
+        "apShareUnconstrained": "Participação de AP (Unc)",
+        "spShareUnconstrained": "Participação de SP (Unc)",
+        "opShareUnconstrained": "Participação de OP (Unc)",
+        "apShareConstrained": "Participação de AP (Con)",
+        "spShareConstrained": "Participação de SP (Con)",
+        "opShareConstrained": "Participação de OP (Con)",
+        "apShareAdjustedUnconstrained": "Participação Ajustada de AP (Unc)",
+        "spShareAdjustedUnconstrained": "Participação Ajustada de SP (Unc)",
+        "opShareAdjustedUnconstrained": "Participação Ajustada de OP (Unc)",
+        "salesDeduction": "Dedução de Vendas (em %)",
+        "cashDiscount": "Descontos à Vista (em %)",
+        "otherRevenues": "Outras Receitas",
+        "orderBookBacklogUnconstrained": "Pendência de Pedidos (Unc)",
+        "orderBookBacklogConstrained": "Pendência de Pedidos (Con)",
+        "deliveryBacklog": "Entregas de Anos Anteriores Solicitados (Con)",
+        "dailyRollingSalesPlanUnconstrained": "Plano de Vendas Diário (Unc)",
+        "dailyRollingSalesPlanConstrained": "Plano de Vendas Diário (Con)"
+      }
     }
   },
   "customer": {

@@ -1,3 +1,5 @@
+import { take } from 'rxjs';
+
 import {
   createHttpFactory,
   HttpMethod,
@@ -18,34 +20,44 @@ describe('MaterialCustomerService', () => {
     spectator.controller.verify();
   });
 
-  it('should return total materials count of customer', () => {
+  it('should return total materials count of customer', (done) => {
     const mockResponse = { rowCount: 5 };
     const customerNumber = '123';
 
     spectator.service
       .getTotalMaterialsCountOfCustomer(customerNumber)
+      .pipe(take(1))
       .subscribe((response) => {
         expect(response).toEqual(mockResponse.rowCount);
+        done();
       });
 
     const req = spectator.expectOne('api/material-customer', HttpMethod.POST);
     req.flush(mockResponse);
   });
 
-  it('should return an empty observable when customer number is not provided', () => {
+  // Empty observable is returned, nothing to assert
+  // eslint-disable-next-line jest/expect-expect
+  it('should return an empty observable when customer number is not provided', (done) => {
     spectator.service
       .getTotalMaterialsCountOfCustomer()
-      .subscribe((response) => {
-        expect(response).toBeUndefined();
+      .pipe(take(1))
+      .subscribe({
+        next: () => done.fail('Should not emit next'),
+        complete: done,
       });
   });
 
-  it('should return criteria data', () => {
+  it('should return criteria data', (done) => {
     const mockResponse = { field1: 'value1', field2: 'value2' };
 
-    spectator.service.getCriteriaData().subscribe((response) => {
-      expect(response).toEqual(mockResponse);
-    });
+    spectator.service
+      .getCriteriaData()
+      .pipe(take(1))
+      .subscribe((response) => {
+        expect(response).toEqual(mockResponse);
+        done();
+      });
 
     const req = spectator.expectOne(
       'api/material-customer/criteria-fields',
@@ -54,7 +66,7 @@ describe('MaterialCustomerService', () => {
     req.flush(mockResponse);
   });
 
-  it('should return material customer data', () => {
+  it('should return material customer data', (done) => {
     const mockResponse = {
       rows: [{ materialNumber: '123', materialDescription: 'description' }],
       rowCount: 1,
@@ -63,8 +75,10 @@ describe('MaterialCustomerService', () => {
 
     spectator.service
       .getMaterialCustomerData(selectedIds)
+      .pipe(take(1))
       .subscribe((response) => {
         expect(response).toEqual(mockResponse);
+        done();
       });
 
     const req = spectator.expectOne(

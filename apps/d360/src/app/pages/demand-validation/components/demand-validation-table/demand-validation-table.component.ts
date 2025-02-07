@@ -128,6 +128,7 @@ export class DemandValidationTableComponent {
   private readonly demandValidationService: DemandValidationService = inject(
     DemandValidationService
   );
+  private readonly translocoLocaleService = inject(TranslocoLocaleService);
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly store: Store = inject(Store);
 
@@ -263,7 +264,7 @@ export class DemandValidationTableComponent {
   private updateColumnDefs(): void {
     this.gridApi?.setGridOption('columnDefs', [
       {
-        ...getDefaultColDef(),
+        ...getDefaultColDef(this.translocoLocaleService.getLocale()),
         headerName: translate('validation_of_demand.planning_table.kpi'),
         valueGetter: (params: ValueGetterParams) =>
           translateOr(
@@ -283,7 +284,7 @@ export class DemandValidationTableComponent {
         width: 300,
       },
       ...((this.kpiData()?.data?.map((data: KpiEntry) => ({
-        ...getDefaultColDef(),
+        ...getDefaultColDef(this.translocoLocaleService.getLocale()),
         editable: this.editable(data),
         key: data.fromDate,
         colId: data.fromDate,

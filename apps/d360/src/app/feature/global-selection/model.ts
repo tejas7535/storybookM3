@@ -5,6 +5,7 @@ export interface CustomerEntry {
   salesOrg?: string;
   customerNumber: string;
   customerName?: string;
+  planningCurrency?: string;
 }
 
 export type GlobalSelectionCriteriaFilters = Partial<

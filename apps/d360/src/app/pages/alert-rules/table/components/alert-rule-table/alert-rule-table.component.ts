@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable, of, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
@@ -74,6 +75,7 @@ export class AlertRuleTableComponent implements OnInit {
   > = inject(
     AlertRulesColumnSettingsService<string, AlertRuleColumnDefinitions>
   );
+  private readonly translocoLocaleService = inject(TranslocoLocaleService);
 
   public getApi: OutputEmitterRef<GridApi> = output();
 
@@ -236,7 +238,11 @@ export class AlertRuleTableComponent implements OnInit {
 
           this.gridApi?.setGridOption('columnDefs', [
             ...(columnSettings.map((col) => ({
-              ...getDefaultColDef(col.filter, col.filterParams),
+              ...getDefaultColDef(
+                this.translocoLocaleService.getLocale(),
+                col.filter,
+                col.filterParams
+              ),
               key: col.colId,
               colId: col.colId,
               field: col.colId,

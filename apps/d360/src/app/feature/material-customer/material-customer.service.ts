@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { map, Observable } from 'rxjs';
+import { EMPTY, map, Observable } from 'rxjs';
 
 import { PaginatedFilteredRequest } from '../../shared/models/paginated-filtered-request';
 import { CriteriaFields } from './model';
@@ -22,7 +22,7 @@ export class MaterialCustomerService {
     customerNumber: string | undefined = undefined
   ): Observable<number> {
     if (!customerNumber) {
-      return new Observable<number>();
+      return EMPTY;
     }
 
     const requestBody: PaginatedFilteredRequest = {

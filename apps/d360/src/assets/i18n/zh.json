@@ -626,6 +626,69 @@
       "demandPlanner": "需求规划者",
       "gkam": "GKAM",
       "kam": "KAM"
+    },
+    "planning_details": {
+      "title": "规划细节",
+      "planning_level": "计划级别",
+      "change_history": "变更历史",
+      "filter": "筛选",
+      "planning_level_material_type": {
+        "PL": "产品线",
+        "GP": "GPSD",
+        "PC": "产品集"
+      },
+      "planning_level_material_modal": {
+        "title": "计划级材料",
+        "initial_configuration_hint": "初步规划级别由部门管理设置。",
+        "change_information": "请注意，这一更改不能被撤销。",
+        "change_title": "更改计划级材料",
+        "change_hint": "更改计划级材料时，计划级材料上的计划数据将 <strong>被删除</strong>。",
+        "change_confirmation_question": "您确定要更改计划级材料吗？"
+      }
+    },
+    "table": {
+      "no_data": "请选择一个客户加载数据",
+      "yearly": {
+        "planningYear": "年度",
+        "autoGroupColumn": "规划细节",
+        "totalSalesPlanUnconstrained": "年总计 (Unc)",
+        "totalSalesPlanConstrained": "年总计 (Con)",
+        "totalSalesPlanAdjusted": "年度总调整 (Unc)",
+        "opportunitiesForecastRelevant": "相关机会 - 服务 (Unc)",
+        "opportunitiesNotSalesPlanRelevant": "机会 (Unc)",
+        "opportunitiesDemandRelevant": "相关机会 - 产品 (Unc)",
+        "opportunitiesDemandRelevantConstrained": "相关机会 - 产品 (Con)",
+        "firmBusinessCoverage": "固定业务覆盖 (Unc)",
+        "firmBusinessServices": "Firm Business - 服务 (Unc)",
+        "firmBusiness": "Firm Business (Unc)",
+        "apShareUnconstrained": "AP份额 (Unc)",
+        "spShareUnconstrained": "SP份额 (Unc)",
+        "opShareUnconstrained": "OP份额 (Unc)",
+        "apShareConstrained": "AP份额 (Con)",
+        "spShareConstrained": "SP份额 (Con)",
+        "opShareConstrained": "OP份额 (Con)",
+        "apShareAdjustedUnconstrained": "调整后的 AP 份额 (Unc)",
+        "spShareAdjustedUnconstrained": "调整后的 SP 份额 (Unc)",
+        "opShareAdjustedUnconstrained": "调整后的 OP 份额 (Unc)",
+        "salesDeduction": "销售扣除(%)",
+        "cashDiscount": "现金折扣(%)",
+        "otherRevenues": "其他收入",
+        "orderBookBacklogUnconstrained": "订单积压 (Unc)",
+        "orderBookBacklogConstrained": "订单积压 (Con)",
+        "deliveryBacklog": "来自前几年请求的交付 (Con)",
+        "openPlannedValueDemand360": "在 Demand360 中的开放计划值 (Unc)",
+        "plannedValueDemand360": "在 Demand360 中的计划值 (Unc)",
+        "planNetSales": "计划 x+y 净销售",
+        "planInvoiceSales": "计划 x+y 开票金额",
+        "budgetInvoicedSales": "预算开票金额",
+        "budgetNetSales": "预算净销售",
+        "addOneOriginalValue": "来自 ADD*ONE 的原始值 (Unc)",
+        "opMaterialDemandPlanCount": "与需求计划的 OP 材料数量",
+        "spMaterialDemandPlanCount": "与需求计划的 SP 材料数量",
+        "apMaterialDemandPlanCount": "与需求计划的 AP 材料数量",
+        "dailyRollingSalesPlanUnconstrained": "每日滚动销售计划 (Unc)",
+        "dailyRollingSalesPlanConstrained": "每日滚动销售计划 (Con)"
+      }
     }
   },
   "customer": {

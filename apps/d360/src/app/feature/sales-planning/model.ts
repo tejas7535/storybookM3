@@ -46,3 +46,51 @@ export interface PlanningLevelMaterial {
   planningLevelMaterialType: string;
   isDefaultPlanningLevelMaterialType: boolean;
 }
+
+export interface DetailedCustomerSalesPlan {
+  customerNumber: string;
+  detailLevel: string;
+  planningCurrency: string;
+  planningYear: string;
+  planningMonth: string;
+  planningMaterial: string;
+  planningMaterialText: string;
+  planningLevelMaterialType: string;
+  totalSalesPlanConstrained: number;
+  totalSalesPlanUnconstrained: number;
+  totalSalesPlanAdjusted: number;
+  addOneOriginalValue: number;
+  budgetNetSales: number;
+  budgetInvoicedSales: number;
+  planNetSales: number;
+  planInvoiceSales: number;
+  firmBusinessCoverage: number;
+  firmBusiness: number;
+  firmBusinessServices: number;
+  opportunitiesDemandRelevant: number;
+  opportunitiesDemandRelevantConstrained: number;
+  opportunitiesForecastRelevant: number;
+  opportunitiesNotSalesPlanRelevant: number;
+  plannedValueDemand360: number;
+  openPlannedValueDemand360: number;
+  apShareConstrained: number;
+  apShareUnconstrained: number;
+  apShareAdjustedUnconstrained: number;
+  apMaterialDemandPlanCount: number;
+  spShareUnconstrained: number;
+  spShareConstrained: number;
+  spShareAdjustedUnconstrained: number;
+  spMaterialDemandPlanCount: number;
+  opShareUnconstrained: number;
+  opShareAdjustedUnconstrained: number;
+  opShareConstrained: number;
+  opMaterialDemandPlanCount: number;
+  salesDeduction: number;
+  cashDiscount: number;
+  otherRevenues: number;
+  dailyRollingSalesPlanUnconstrained: number;
+  dailyRollingSalesPlanConstrained: number;
+  deliveryBacklog: number;
+  orderBookBacklogUnconstrained: number;
+  orderBookBacklogConstrained: number;
+}

@@ -2,6 +2,8 @@ import { ColDef, GridOptions } from 'ag-grid-enterprise';
 
 import { GlobalSelectionUtils } from '../../feature/global-selection/global-selection.utils';
 import { CustomerMaterialNumberCellRendererComponent } from '../components/ag-grid/cell-renderer/customer-material-number-cell-renderer/customer-material-number-cell-renderer.component';
+import { getNumberFromLocale } from '../utils/number';
+import { AgGridFilterType } from './grid-types';
 
 export const defaultRowHeight = 42;
 
@@ -23,20 +25,22 @@ const tableDefaultProps: GridOptions = {
   },
 };
 
+export const columnSideBar = {
+  id: 'columns',
+  labelDefault: 'Columns',
+  labelKey: 'columns',
+  iconKey: 'columns',
+  toolPanel: 'agColumnsToolPanel',
+  toolPanelParams: {
+    suppressRowGroups: true,
+    suppressValues: true,
+    suppressPivotMode: true,
+  },
+};
+
 export const sideBar = {
   toolPanels: [
-    {
-      id: 'columns',
-      labelDefault: 'Columns',
-      labelKey: 'columns',
-      iconKey: 'columns',
-      toolPanel: 'agColumnsToolPanel',
-      toolPanelParams: {
-        suppressRowGroups: true,
-        suppressValues: true,
-        suppressPivotMode: true,
-      },
-    },
+    columnSideBar,
     {
       id: 'filters',
       labelDefault: 'Filters',
@@ -59,20 +63,28 @@ export const clientSideTableDefaultProps = {
   ...tableDefaultProps,
 };
 
+export const agTextColumnFilter = [
+  'equals',
+  'contains',
+  'startsWith',
+  'endsWith',
+];
+
 export const getDefaultColDef = (
+  locale: string,
   columnFilterType?: string,
   columnFilterParams?: any
 ): ColDef => {
-  const additionalFilterOptions: Record<string, string[]> = {
-    agNumberColumnFilter: [
+  const additionalFilterOptions: Record<AgGridFilterType, string[]> = {
+    [AgGridFilterType.Number]: [
       'equals',
       'greaterThan',
       'greaterThanOrEqual',
       'lessThan',
       'lessThanOrEqual',
     ],
-    agTextColumnFilter: ['equals', 'contains', 'startsWith', 'endsWith'],
-    agDateColumnFilter: [
+    [AgGridFilterType.Text]: agTextColumnFilter,
+    [AgGridFilterType.Date]: [
       'equals',
       'greaterThan',
       'greaterThanOrEqual',
@@ -85,10 +97,19 @@ export const getDefaultColDef = (
   // If a text filter is used, no filter type is defined.
   // Therefore, we use the agTextColumnFilter as default here.
   const filterOptions =
-    additionalFilterOptions[columnFilterType ?? 'agTextColumnFilter'];
+    additionalFilterOptions[
+      (columnFilterType as AgGridFilterType) ?? AgGridFilterType.Text
+    ];
 
   return {
     filterParams: {
+      numberParser: (unformatted: string) => {
+        if (unformatted === null) {
+          return null;
+        }
+
+        return getNumberFromLocale(unformatted, locale);
+      },
       maxNumConditions: 1,
       closeOnApply: true,
       filterOptions,
@@ -112,6 +133,6 @@ export function getColFilter(
   }
 
   return criteriaData?.filterableFields?.includes(colId)
-    ? filter || 'agTextColumnFilter'
+    ? filter || AgGridFilterType.Text
     : undefined;
 }

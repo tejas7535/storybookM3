@@ -636,12 +636,6 @@
       "gkam": "GKAM",
       "kam": "KAM"
     },
-    "chart": {
-      "title": "Synchronized Sales- and Demand Plan",
-      "pieces_option": "TBD",
-      "select_to_load": "TBD",
-      "loading_failed": "TBD"
-    },
     "planning_details": {
       "title": "Planning Details",
       "planning_level": "Planning Level",
@@ -659,6 +653,50 @@
         "change_title": "Change Planning Level Material",
         "change_hint": "When the Planning Level Material is changed, planning data on planning level material will <strong>be deleted</strong>.",
         "change_confirmation_question": "Are you sure you want to change the planning level material?"
+      }
+    },
+    "table": {
+      "no_data": "Please select a customer to load data.",
+      "yearly": {
+        "autoGroupColumn": "Planning Level Material",
+        "planningYear": "Year",
+        "totalSalesPlanUnconstrained": "Yearly Total (Unc)",
+        "totalSalesPlanConstrained": "Yearly Total (Con)",
+        "totalSalesPlanAdjusted": "Yearly Total Adjustment (Unc)",
+        "opportunitiesForecastRelevant": "relevant Opportunities - Services (Unc)",
+        "opportunitiesNotSalesPlanRelevant": "Opportunities (Unc)",
+        "opportunitiesDemandRelevant": "relevant Opportunities - Product (Unc)",
+        "opportunitiesDemandRelevantConstrained": "relevant Opportunities - Product (Con)",
+        "firmBusinessCoverage": "Firm Business Coverage (Unc)",
+        "firmBusinessServices": "Firm Business - Services (Unc)",
+        "firmBusiness": "Firm Business (Unc)",
+        "apShareUnconstrained": "AP Share (Unc)",
+        "spShareUnconstrained": "SP Share (Unc)",
+        "opShareUnconstrained": "OP Share (Unc)",
+        "apShareConstrained": "AP Share (Con)",
+        "spShareConstrained": "SP Share (Con)",
+        "opShareConstrained": "OP Share (Con)",
+        "apShareAdjustedUnconstrained": "AP Share adjusted (Unc)",
+        "spShareAdjustedUnconstrained": "SP Share adjusted (Unc)",
+        "opShareAdjustedUnconstrained": "OP Share adjusted (Unc)",
+        "salesDeduction": "Sales Deduction (in %)",
+        "cashDiscount": "Cash Discounts (in %)",
+        "otherRevenues": "Other Revenues",
+        "orderBookBacklogUnconstrained": "Orderbook Backlog (Unc)",
+        "orderBookBacklogConstrained": "Orderbook Backlog (Con)",
+        "deliveryBacklog": "Deliveries from previous requested years (Con)",
+        "openPlannedValueDemand360": "Open planned Value in Demand360 (Unc)",
+        "plannedValueDemand360": "Planned Value in Demand360 (Unc)",
+        "planNetSales": "Plan x+y Net Sales",
+        "planInvoiceSales": "Plan x+y Invoiced Sales",
+        "budgetInvoicedSales": "Budget Invoiced Sales",
+        "budgetNetSales": "Budget Net Sales",
+        "addOneOriginalValue": "Original Value from ADD*ONE (Unc)",
+        "opMaterialDemandPlanCount": "Number of OP materials with Demand Plan",
+        "spMaterialDemandPlanCount": "Number of SP materials with Demand Plan",
+        "apMaterialDemandPlanCount": "Number of AP materials with Demand Plan",
+        "dailyRollingSalesPlanUnconstrained": "Daily Rolling Sales Plan (Unc)",
+        "dailyRollingSalesPlanConstrained": "Daily Rolling Sales Plan (Con)"
       }
     }
   },

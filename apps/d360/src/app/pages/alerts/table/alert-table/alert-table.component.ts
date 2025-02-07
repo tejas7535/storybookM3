@@ -11,6 +11,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 
 import { translate, TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { AgGridModule } from 'ag-grid-angular';
 import {
   ColDef,
@@ -62,6 +63,7 @@ export class AlertTableComponent {
   private readonly globalSelectionStateService = inject(
     GlobalSelectionStateService
   );
+  private readonly translocoLocaleService = inject(TranslocoLocaleService);
 
   protected components: Record<string, any> = {
     agDateInput: DateFilterComponent,
@@ -252,7 +254,11 @@ export class AlertTableComponent {
         this.agGridLocalizationService,
         this.selectableOptionsService.get('alertTypes').options
       ).map((col) => ({
-        ...getDefaultColDef(col.filter, col.filterParams),
+        ...getDefaultColDef(
+          this.translocoLocaleService.getLocale(),
+          col.filter,
+          col.filterParams
+        ),
         field: col.property,
         headerName: translate(col.colId),
         sortable: col.sortable,

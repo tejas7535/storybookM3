@@ -27,10 +27,20 @@ export class SalesPlanningComponent {
   protected readonly planningCurrency = signal<string | null>(null);
   protected readonly customerName = signal<string | null>(null);
   protected readonly customerNumber = signal<string | null>(null);
+  protected readonly openFullscreen = signal<boolean>(false);
+  protected readonly collapsedSection = signal<boolean>(false);
 
   protected onCustomerSelectionChange(event: CustomerSelectionChange) {
     this.customerName.set(event.customerName);
     this.customerNumber.set(event.customerNumber);
     this.planningCurrency.set(event.planningCurrency);
+  }
+
+  public toggleFullscreen() {
+    this.openFullscreen.update((open) => !open);
+  }
+
+  public toggleSection() {
+    this.collapsedSection.update((collapsed) => !collapsed);
   }
 }

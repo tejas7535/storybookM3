@@ -632,6 +632,69 @@
       "demandPlanner": "Demand Planner",
       "gkam": "GKAM",
       "kam": "KAM"
+    },
+    "planning_details": {
+      "title": "Planung Details",
+      "planning_level": "Planungsstufe",
+      "change_history": "Änderungsverlauf",
+      "filter": "Filter",
+      "planning_level_material_type": {
+        "PL": "Produktlinie",
+        "GP": "GPSD",
+        "PC": "Produktcluster"
+      },
+      "planning_level_material_modal": {
+        "title": "Planungsmateriallevel",
+        "initial_configuration_hint": "Anfangsplanungslevel laut Sektorenmanagement.",
+        "change_information": "Bitte beachten Sie, dass diese Änderung nicht rückgängig gemacht werden kann.",
+        "change_title": "Planungsmateriallevel ändern",
+        "change_hint": "Wenn das Planungsmateriallevel geändert wird, werden die Planungsdaten auf dem Planungslevel <strong>gelöscht</strong>.",
+        "change_confirmation_question": "Sind Sie sicher, dass Sie das Planungsmateriallevel ändern möchten?"
+      }
+    },
+    "table": {
+      "no_data": "Bitte wählen Sie einen Kunden aus, um Daten zu laden.",
+      "yearly": {
+        "autoGroupColumn": "Planungsmateriallevel",
+        "planningYear": "Jahr",
+        "totalSalesPlanUnconstrained": "Jahresplanung (Unc)",
+        "totalSalesPlanConstrained": "Jahresplanung (Con)",
+        "totalSalesPlanAdjusted": "Anpassung Jahresplanung (Unc)",
+        "opportunitiesForecastRelevant": "Relevante Opportunities - Dienstleistungen (Unc)",
+        "opportunitiesNotSalesPlanRelevant": "Opportunities (Unc)",
+        "opportunitiesDemandRelevant": "Relevante Opportunities - Produkt (Unc)",
+        "opportunitiesDemandRelevantConstrained": "Relevante Opportunities - Produkt (Con)",
+        "firmBusinessCoverage": "Firm Business Abdeckung (Unc)",
+        "firmBusinessServices": "Firm Business - Dienstleistungen (Unc)",
+        "firmBusiness": "Firm Business (Unc)",
+        "apShareUnconstrained": "AP-Anteil (Unc)",
+        "spShareUnconstrained": "SP-Anteil (Unc)",
+        "opShareUnconstrained": "OP-Anteil (Unc)",
+        "apShareConstrained": "AP-Anteil (Con)",
+        "spShareConstrained": "SP-Anteil (Con)",
+        "opShareConstrained": "OP-Anteil (Con)",
+        "apShareAdjustedUnconstrained": "Angepasster AP-Anteil (Unc)",
+        "spShareAdjustedUnconstrained": "Angepasster SP-Anteil (Unc)",
+        "opShareAdjustedUnconstrained": "Angepasster OP-Anteil (Unc)",
+        "salesDeduction": "Sales Deduction (in %)",
+        "cashDiscount": "Cash Discounts (in %)",
+        "otherRevenues": "Sonstige Einnahmen",
+        "orderBookBacklogUnconstrained": "Auftragsbestand Rückstand (Unc)",
+        "orderBookBacklogConstrained": "Auftragsbestand Rückstand (Con)",
+        "deliveryBacklog": "Lieferaufträge aus Vorjahren (Con)",
+        "openPlannedValueDemand360": "Offener geplanter Wert in Demand360 (Unc)",
+        "plannedValueDemand360": "Geplanter Wert in Demand360 (Unc)",
+        "planNetSales": "Plan x+y Nettoumsatz",
+        "planInvoiceSales": "Plan x+y Fakturierter Wert",
+        "budgetInvoicedSales": "Budget Fakturierter Wert",
+        "budgetNetSales": "Budget Nettoumsatz",
+        "addOneOriginalValue": "Original Value from ADD*ONE (Unc)",
+        "opMaterialDemandPlanCount": "Anzahl der OP-Materialien mit Demand-Plan",
+        "spMaterialDemandPlanCount": "Anzahl der SP-Materialien mit Demand-Plan",
+        "apMaterialDemandPlanCount": "Anzahl der OP-Materialien mit Demand-Plan",
+        "dailyRollingSalesPlanUnconstrained": "Daily Rolling Sales Plan (Unc)",
+        "dailyRollingSalesPlanConstrained": "Daily Rolling Sales Plan (Con)"
+      }
     }
   },
   "customer": {

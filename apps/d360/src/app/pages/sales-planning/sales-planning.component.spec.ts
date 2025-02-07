@@ -11,7 +11,6 @@ describe('SalesPlanningComponent', () => {
 
   const createComponent = createComponentFactory({
     component: SalesPlanningComponent,
-    componentMocks: [],
     imports: [
       MockComponent(CustomerSelectionComponent),
       MockComponent(CustomerSalesPlanChartComponent),
