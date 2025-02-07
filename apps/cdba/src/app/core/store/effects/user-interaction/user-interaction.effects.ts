@@ -19,8 +19,8 @@ import {
   requestBomExportSuccess,
   showSnackBar,
   trackBomExportStatus,
+  trackBomExportStatusCompleted,
   trackBomExportStatusFailure,
-  trackBomExportStatusSuccess,
 } from '../../actions';
 import { BomExportFeature } from '../../reducers/user-interaction/user-interaction.reducer';
 import { getBomExportFeature } from '../../selectors';
@@ -61,12 +61,12 @@ export class UserInteractionEffects implements OnInitEffects {
     );
   });
 
-  trackBomExportStatusSuccess$ = createEffect(() => {
+  trackBomExportStatusCompleted$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(trackBomExportStatusSuccess),
+      ofType(trackBomExportStatusCompleted),
       map(() =>
         showSnackBar({
-          interactionType: InteractionType.TRACK_BOM_EXPORT_PROGRESS_SUCCESS,
+          interactionType: InteractionType.TRACK_BOM_EXPORT_PROGRESS_COMPLETED,
         })
       )
     );

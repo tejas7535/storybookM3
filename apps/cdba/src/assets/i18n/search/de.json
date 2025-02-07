@@ -55,7 +55,7 @@
   },
   "bomExport": {
     "label": "BOM Export",
-    "action": {
+    "request": {
       "success": "Ihre Exportanforderung für Stücklisten war erfolgreich. Bitte überprüfen Sie den aktuellen Status im unteren Menü.",
       "validation": "Bitte überprüfen Sie Materialnummern und Werke in ausgewählten Materialien",
       "failure": "Die Exportanforderung für Stücklisten ist fehlgeschlagen. Bitte versuchen Sie es später erneut."

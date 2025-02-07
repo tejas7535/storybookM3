@@ -23,7 +23,7 @@
   "feature": {
     "bomExport": {
       "notify": {
-        "success": "Die Stücklisten-Exportdatei ist fertig",
+        "completed": "Stücklistenexport fertig",
         "failure": "Beim Verfolgen des Stücklistenexports ist ein Netzwerkfehler aufgetreten. Bitte aktualisieren Sie den Status manuell im unteren Menü."
       },
       "status": {

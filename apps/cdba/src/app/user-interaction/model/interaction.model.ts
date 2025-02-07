@@ -31,8 +31,8 @@ export class Interaction {
     Action.CONTACT_SUPPORT
   );
 
-  static readonly TRACK_BOM_EXPORT_PROGRESS_SUCCESS = new Interaction(
-    'userInteraction.feature.bomExport.notify.success',
+  static readonly TRACK_BOM_EXPORT_PROGRESS_COMPLETED = new Interaction(
+    'userInteraction.feature.bomExport.notify.completed',
     undefined
   );
 

@@ -23,7 +23,7 @@
   "feature": {
     "bomExport": {
       "notify": {
-        "success": "Bill of Materials Export file is ready",
+        "completed": "Bill of Materials Export completed",
         "failure": "A network error occurred while tracking the Bill of Materials export. Please update the status manually in the bottom menu"
       },
       "status": {

@@ -14,8 +14,8 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
   getBomExportFeature,
+  trackBomExportStatusCompleted,
   trackBomExportStatusFailure,
-  trackBomExportStatusSuccess,
   updateBomExportStatus,
 } from '@cdba/core/store';
 import { USER_INTERACTION_STATE_MOCK } from '@cdba/testing/mocks';
@@ -160,10 +160,30 @@ describe('UserInteractionComponent', () => {
 
       eventSource.onclose();
 
-      expect(dispatchSpy).toHaveBeenCalledWith(trackBomExportStatusSuccess());
+      expect(dispatchSpy).toHaveBeenCalledWith(trackBomExportStatusCompleted());
     });
 
-    it('should dispatch trackBomExportStatusFailure on close if progress is not FINISHED', () => {
+    it('should dispatch trackBomExportStatusSuccess on close if progress is FAILED', () => {
+      const dispatchSpy = jest.spyOn(store, 'dispatch');
+
+      component['token'] = 'test-token';
+      component.trackBomExportStatus();
+
+      const eventSource = (fetchEventSource as jest.Mock).mock.calls[0][1] as {
+        onclose: () => void;
+        onmessage: (message: any) => void;
+      };
+
+      eventSource.onmessage({
+        data: JSON.stringify({ progress: BomExportProgress.FAILED }),
+      });
+
+      eventSource.onclose();
+
+      expect(dispatchSpy).toHaveBeenCalledWith(trackBomExportStatusCompleted());
+    });
+
+    it('should dispatch trackBomExportStatusFailure on close if progress is neither FINISHED nor FAILED', () => {
       const dispatchSpy = jest.spyOn(store, 'dispatch');
 
       component['token'] = 'test-token';

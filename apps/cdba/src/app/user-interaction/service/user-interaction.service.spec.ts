@@ -111,11 +111,11 @@ describe('UserInteractionService', () => {
       expect(interaction).toBe(Interaction.REQUEST_BOM_EXPORT_FAILURE);
     });
 
-    it('should return TRACK_BOM_EXPORT_PROGRESS_SUCCESS interaction', () => {
+    it('should return TRACK_BOM_EXPORT_PROGRESS_COMPLETED interaction', () => {
       const interaction = service['determineInteractionByType'](
-        InteractionType.TRACK_BOM_EXPORT_PROGRESS_SUCCESS
+        InteractionType.TRACK_BOM_EXPORT_PROGRESS_COMPLETED
       );
-      expect(interaction).toBe(Interaction.TRACK_BOM_EXPORT_PROGRESS_SUCCESS);
+      expect(interaction).toBe(Interaction.TRACK_BOM_EXPORT_PROGRESS_COMPLETED);
     });
 
     it('should return TRACK_BOM_EXPORT_PROGRESS_FAILURE interaction', () => {

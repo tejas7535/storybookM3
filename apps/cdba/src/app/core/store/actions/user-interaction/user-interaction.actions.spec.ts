@@ -8,8 +8,8 @@ import {
   resetBomExportStatusTracking,
   showSnackBar,
   trackBomExportStatus,
+  trackBomExportStatusCompleted,
   trackBomExportStatusFailure,
-  trackBomExportStatusSuccess,
   updateBomExportStatus,
 } from './user-interaction.actions';
 
@@ -63,10 +63,10 @@ describe('UserInteraction Actions', () => {
     expect(action.currentStatus).toEqual(currentStatus);
   });
 
-  it('should create trackBomExportStatusSuccess action', () => {
-    const action = trackBomExportStatusSuccess();
+  it('should create trackBomExportStatusCompleted action', () => {
+    const action = trackBomExportStatusCompleted();
     expect(action.type).toBe(
-      '[UserInteraction] Stop tracking progress - Success'
+      '[UserInteraction] Stop tracking progress - Completed'
     );
   });
 

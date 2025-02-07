@@ -10,8 +10,8 @@ import {
   loadInitialBomExportStatusFailure,
   loadInitialBomExportStatusSuccess,
   trackBomExportStatus,
+  trackBomExportStatusCompleted,
   trackBomExportStatusFailure,
-  trackBomExportStatusSuccess,
   updateBomExportStatus,
 } from '../../actions';
 
@@ -111,7 +111,7 @@ export const userInteractionReducer = createReducer(
     })
   ),
   on(
-    trackBomExportStatusSuccess,
+    trackBomExportStatusCompleted,
     (state: UserInteractionState): UserInteractionState => ({
       ...state,
       feature: {

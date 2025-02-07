@@ -8,8 +8,8 @@ import {
   loadInitialBomExportStatusFailure,
   loadInitialBomExportStatusSuccess,
   trackBomExportStatus,
+  trackBomExportStatusCompleted,
   trackBomExportStatusFailure,
-  trackBomExportStatusSuccess,
   updateBomExportStatus,
 } from '../../actions';
 import {
@@ -64,7 +64,7 @@ describe('UserInteractionReducer', () => {
   });
 
   it('should set loading to false on trackBomExportStatusSuccess', () => {
-    const action = trackBomExportStatusSuccess();
+    const action = trackBomExportStatusCompleted();
     const state = userInteractionReducer(initialState, action);
 
     expect(state.feature.bomExport.loading).toBe(false);

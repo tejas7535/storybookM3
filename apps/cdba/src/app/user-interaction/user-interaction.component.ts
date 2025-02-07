@@ -9,8 +9,8 @@ import { Store } from '@ngrx/store';
 import { getAccessToken } from '@schaeffler/azure-auth';
 
 import {
+  trackBomExportStatusCompleted,
   trackBomExportStatusFailure,
-  trackBomExportStatusSuccess,
   updateBomExportStatus,
 } from '@cdba/core/store/actions/user-interaction/user-interaction.actions';
 import { BomExportFeature } from '@cdba/core/store/reducers/user-interaction/user-interaction.reducer';
@@ -80,8 +80,11 @@ export class UserInteractionComponent implements OnInit, OnDestroy {
         this.store.dispatch(updateBomExportStatus({ currentStatus }));
       },
       onclose: () => {
-        if (progress === BomExportProgress.FINISHED) {
-          this.store.dispatch(trackBomExportStatusSuccess());
+        if (
+          progress === BomExportProgress.FINISHED ||
+          progress === BomExportProgress.FAILED
+        ) {
+          this.store.dispatch(trackBomExportStatusCompleted());
         } else {
           this.store.dispatch(
             trackBomExportStatusFailure({

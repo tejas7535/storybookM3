@@ -92,8 +92,8 @@ export class UserInteractionService {
         interaction = Interaction.REQUEST_BOM_EXPORT_FAILURE;
         break;
       }
-      case InteractionType.TRACK_BOM_EXPORT_PROGRESS_SUCCESS: {
-        interaction = Interaction.TRACK_BOM_EXPORT_PROGRESS_SUCCESS;
+      case InteractionType.TRACK_BOM_EXPORT_PROGRESS_COMPLETED: {
+        interaction = Interaction.TRACK_BOM_EXPORT_PROGRESS_COMPLETED;
         break;
       }
       case InteractionType.TRACK_BOM_EXPORT_PROGRESS_FAILURE: {

@@ -35,8 +35,8 @@ export const updateBomExportStatus = createAction(
   props<{ currentStatus: BomExportStatus }>()
 );
 
-export const trackBomExportStatusSuccess = createAction(
-  '[UserInteraction] Stop tracking progress - Success'
+export const trackBomExportStatusCompleted = createAction(
+  '[UserInteraction] Stop tracking progress - Completed'
 );
 
 export const trackBomExportStatusFailure = createAction(
@@ -49,7 +49,7 @@ const all = union({
   resetBomExportStatusTracking,
   updateBomExportStatus,
   trackBomExportStatus,
-  trackBomExportStatusSuccess,
+  trackBomExportStatusCompleted,
   trackBomExportStatusFailure,
 });
 export type UserInteractionActions = typeof all;
