@@ -15,14 +15,17 @@
           >
         </div>
         <div class="my-auto ml-2">
-          {{ title }}
-          @if (titleTooltip) {
-            <schaeffler-info-button
-              class="inline-flex align-bottom"
-              [inline]="true"
-              [tooltip]="titleTooltip"
-            ></schaeffler-info-button>
-          }
+          <ng-content select="[slot=panel-title]">
+            {{ title }}
+
+            @if (titleTooltip) {
+              <schaeffler-info-button
+                class="inline-flex align-bottom"
+                [inline]="true"
+                [tooltip]="titleTooltip"
+              ></schaeffler-info-button>
+            }
+          </ng-content>
         </div>
       </div>
     </mat-panel-title>
