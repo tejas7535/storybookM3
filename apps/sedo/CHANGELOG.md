@@ -1,4 +1,16 @@
 # Release Notes of Series Delivery Obligation
+## [1.19.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/sedo-v1.18.1...sedo-v1.19.0) (2025-02-10)
+
+
+### Features
+
+* **sedo:** discontinue SeDo ([#6986](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6986)) ([59a0cf2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/59a0cf2cd6a5327e6541fd113a18b1a0c1e09958))
+* **shared-utils-transloco:** upgrade transloco to v7.0.0 ([#6116](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6116)) ([8babb22](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8babb222d49c8ef69fd677d632ac6b87852f3caa))
+* update ag grid v32 ([#6796](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6796)) ([9f6a844](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9f6a844c6a8898ef6ae8d48587f30dd752f87911))
+* **workspace:** migrate to control flow ([#6101](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6101)) ([bcc2f0d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bcc2f0de21ab75dcdceb320c21268074e0940dc9))
+* **workspace:** update to angular 18 and nx 19 ([#6259](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6259)) ([c2fec3b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c2fec3befeaa072f87bfc4c195262d71c2b18ecf))
+* **workspace:** upgrade to angular 17 ([#6032](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6032)) ([2f32e47](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f32e478cb1b1c95ac48976332011c60ce28f4e4))
+
 ## [1.18.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/sedo-v1.18.0...sedo-v1.18.1) (2024-02-27)
 
 
