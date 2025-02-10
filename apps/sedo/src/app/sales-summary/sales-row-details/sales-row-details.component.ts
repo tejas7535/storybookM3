@@ -36,6 +36,7 @@ export class SalesRowDetailsComponent
     edoDateControl: new UntypedFormControl('', Validators.required),
   });
   public rowData: SalesSummary;
+  public isDiscontinued = false;
 
   private rowNode: RowNode;
   private timedOutCloser: number;
@@ -64,6 +65,8 @@ export class SalesRowDetailsComponent
     this.rowNode = params.node;
     this.setSubscription();
     this.setInitialFormValues();
+
+    this.isDiscontinued = Date.now() >= new Date('2025-02-24').valueOf();
   }
 
   public ngOnDestroy(): void {
