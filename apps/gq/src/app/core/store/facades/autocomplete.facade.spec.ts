@@ -9,6 +9,7 @@ import { marbles } from 'rxjs-marbles';
 
 import {
   autocomplete,
+  autocompleteSuccess,
   resetAutocompleteMaterials,
   resetRequestingAutoCompleteDialog,
   selectAutocompleteOption,
@@ -308,6 +309,20 @@ describe('autocompleteFacade', () => {
         );
       })
     );
+    test(
+      'should provide getAutocompleteOptionsSuccess$',
+      marbles((m) => {
+        const action = autocompleteSuccess({
+          filter: FilterNames.MATERIAL_NUMBER,
+          options: [],
+        });
+        const expected = m.cold('b', { b: action });
+        actions$ = m.hot('a', { a: action });
+        m.expect(service.getAutocompleteOptionsSuccess$).toBeObservable(
+          expected as any
+        );
+      })
+    );
   });
   describe('initFacade', () => {
     test('should dispatch resetRequestingAutoCompleteDialog action', () => {
@@ -438,6 +453,50 @@ describe('autocompleteFacade', () => {
         unselectAutocompleteOptions({
           filter: FilterNames.MATERIAL_DESCRIPTION,
         })
+      );
+    });
+    test('should reset all Options when resetAll is true and Filter is customerMaterial', () => {
+      mockStore.dispatch = jest.fn();
+      const option = new IdValue('aud', 'Audi', true);
+      const filter = FilterNames.CUSTOMER_MATERIAL;
+      service.selectMaterialNumberDescriptionOrCustomerMaterial(
+        option,
+        filter,
+        true
+      );
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        unselectAutocompleteOptions({ filter: FilterNames.MATERIAL_NUMBER })
+      );
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        unselectAutocompleteOptions({
+          filter: FilterNames.MATERIAL_DESCRIPTION,
+        })
+      );
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        unselectAutocompleteOptions({ filter: FilterNames.CUSTOMER_MATERIAL })
+      );
+    });
+    test('should reset all Options when resetAll is true and Filter is Material', () => {
+      mockStore.dispatch = jest.fn();
+      const option = new IdValue('aud', 'Audi', true);
+      const filter = FilterNames.MATERIAL_NUMBER;
+      service.selectMaterialNumberDescriptionOrCustomerMaterial(
+        option,
+        filter,
+        true
+      );
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        unselectAutocompleteOptions({ filter: FilterNames.MATERIAL_NUMBER })
+      );
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        unselectAutocompleteOptions({
+          filter: FilterNames.MATERIAL_DESCRIPTION,
+        })
+      );
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        unselectAutocompleteOptions({ filter: FilterNames.CUSTOMER_MATERIAL })
       );
     });
   });

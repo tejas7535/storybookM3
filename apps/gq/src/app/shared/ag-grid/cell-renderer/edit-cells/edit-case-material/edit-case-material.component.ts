@@ -86,6 +86,7 @@ export class EditCaseMaterialComponent {
           isCaseView: this.isCaseView,
         } as EditMaterialModalData,
         autoFocus: false,
+        panelClass: 'edit-material-modal',
       })
       .afterClosed()
       .subscribe((result: MaterialTableItem) => {

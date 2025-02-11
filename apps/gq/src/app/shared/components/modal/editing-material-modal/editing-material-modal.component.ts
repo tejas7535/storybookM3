@@ -56,10 +56,13 @@ import {
 import { priceValidator } from '../../../validators/price-validator';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 import { AutocompleteRequestDialog } from '../../autocomplete-input/autocomplete-request-dialog.enum';
-import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import { DialogHeaderModule } from '../../header/dialog-header/dialog-header.module';
 import { TargetPriceSourceSelectComponent } from '../../target-price-source-select/target-price-source-select.component';
 import { EditMaterialModalData } from './edit-material-modal-data.model';
+import {
+  EditMaterialInputs,
+  InitializeMaterialControlsServiceService,
+} from './service/initialize-material-controls.service';
 
 const QUANTITY_FORM_CONTROL_NAME = 'quantity';
 const TARGET_PRICE_FORM_CONTROL_NAME = 'targetPrice';
@@ -98,6 +101,10 @@ export class EditingMaterialModalComponent
   );
   private readonly autoCompleteFacade: AutoCompleteFacade =
     inject(AutoCompleteFacade);
+
+  private readonly initializeMaterialControlService = inject(
+    InitializeMaterialControlsServiceService
+  );
 
   modalData: EditMaterialModalData = inject(
     MAT_DIALOG_DATA
@@ -264,20 +271,6 @@ export class EditingMaterialModalComponent
   }
 
   ngAfterViewInit(): void {
-    // set the state for the selected material, this will automatically populate all related input fields without triggering additional actions
-    const option: IdValue = {
-      id: this.materialToEdit.materialNumber,
-      value: this.materialToEdit.materialDescription,
-      value2: this.materialToEdit.customerMaterialNumber,
-      deliveryUnit: this.materialToEdit.deliveryUnit,
-      uom: this.materialToEdit.UoM,
-      selected: true,
-    };
-    this.autoCompleteFacade.selectMaterialNumberDescriptionOrCustomerMaterial(
-      option,
-      FilterNames.MATERIAL_NUMBER
-    );
-
     this.editFormGroup
       .get(MaterialColumnFields.QUANTITY)
       .setValue(this.materialToEdit.quantity);
@@ -292,36 +285,20 @@ export class EditingMaterialModalComponent
         this.materialToEdit?.targetPriceSource ?? TargetPriceSource.NO_ENTRY
       );
 
-    switch (this.fieldToFocus) {
-      case MaterialColumnFields.MATERIAL_DESCRIPTION: {
-        this.matDescInput.focus();
-
-        break;
-      }
-      case MaterialColumnFields.MATERIAL: {
-        this.matNumberInput.focus();
-
-        break;
-      }
-      case MaterialColumnFields.CUSTOMER_MATERIAL_NUMBER: {
-        this.customerMaterialInput.focus();
-        break;
-      }
-
-      case MaterialColumnFields.QUANTITY: {
-        this.valueInput.nativeElement.focus();
-        break;
-      }
-      case MaterialColumnFields.TARGET_PRICE: {
-        this.targetPriceInput.nativeElement.focus();
-        break;
-      }
-      case MaterialColumnFields.TARGET_PRICE_SOURCE: {
-        this.targetPriceSourceInput.focus();
-        break;
-      }
-      // no default
-    }
+    const inputs: EditMaterialInputs = {
+      matNumberInput: this.matNumberInput,
+      matDescInput: this.matDescInput,
+      customerMaterialInput: this.customerMaterialInput,
+      quantityInput: this.valueInput,
+      targetPriceInput: this.targetPriceInput,
+      targetPriceSourceInput: this.targetPriceSourceInput,
+    };
+    this.initializeMaterialControlService.initializeMaterialFormControls(
+      this.fieldToFocus,
+      this.materialToEdit,
+      inputs,
+      this.cdref
+    );
 
     this.cdref.detectChanges();
   }
@@ -348,13 +325,13 @@ export class EditingMaterialModalComponent
   }
 
   inputHasChanged(): boolean {
+    const materialDescription = this.getMaterialDescription();
     const materialDescriptionChanged =
-      this.materialToEdit.materialDescription !==
-      this.matDescInput.valueInput.nativeElement.value;
+      this.materialToEdit.materialDescription !== materialDescription;
 
+    const materialNumber = this.getMaterialNumber();
     const materialNumberChanged =
-      this.materialToEdit.materialNumber !==
-      this.matNumberInput.valueInput.nativeElement.value;
+      this.materialToEdit.materialNumber !== materialNumber;
 
     const customerMaterial = this.getCustomerMaterialNumber();
     const customerMaterialChanged =
@@ -474,6 +451,17 @@ export class EditingMaterialModalComponent
 
   private getCustomerMaterialNumber() {
     const value = this.customerMaterialInput?.valueInput.nativeElement.value;
+
+    return value === '' ? null : value;
+  }
+  private getMaterialNumber() {
+    const value = this.matNumberInput?.valueInput.nativeElement.value;
+
+    return value === '' ? null : value;
+  }
+
+  private getMaterialDescription() {
+    const value = this.matDescInput?.valueInput.nativeElement.value;
 
     return value === '' ? null : value;
   }

@@ -1,9 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
@@ -40,6 +40,10 @@ import { EditingMaterialModalComponent } from './editing-material-modal.componen
 describe('EditingMaterialModalComponent', () => {
   let component: EditingMaterialModalComponent;
   let spectator: Spectator<EditingMaterialModalComponent>;
+  const getAutocompleteOptionsSuccessMock: BehaviorSubject<{
+    options: IdValue[];
+    filter: FilterNames;
+  }> = new BehaviorSubject({} as any);
 
   const createComponent = createComponentFactory({
     component: EditingMaterialModalComponent,
@@ -74,6 +78,8 @@ describe('EditingMaterialModalComponent', () => {
         customerMaterialNumberLoading$: of({}),
         getSelectedAutocompleteMaterialNumberForEditMaterial$: of({}),
         optionSelectedForAutoCompleteFilter$: of({}),
+        getAutocompleteOptionsSuccess$:
+          getAutocompleteOptionsSuccessMock.asObservable(),
         resetView: jest.fn(),
         initFacade: jest.fn(),
         autocomplete: jest.fn(),
@@ -163,35 +169,22 @@ describe('EditingMaterialModalComponent', () => {
     });
   });
   describe('ngAfterViewInit', () => {
-    let editFormControlQuantity: FormControl;
-    let editFormControlTargetPrice: FormControl;
-    let editFormControlTargetPriceSource: FormControl;
     let materialNumberAutocomplete: any;
     let materialDescriptionAutocomplete: any;
     let customerMaterialNumberAutocomplete: any;
 
     beforeEach(() => {
-      editFormControlQuantity = {
-        setValue: jest.fn(),
-        hasError: jest.fn(),
-      } as any;
-
-      editFormControlTargetPrice = {
-        setValue: jest.fn(),
-      } as any;
-
-      editFormControlTargetPriceSource = {
-        setValue: jest.fn(),
-      } as any;
       materialNumberAutocomplete = {
         searchFormControl: {
           setValue: jest.fn(),
+          markAllAsTouched: jest.fn(),
         },
         focus: jest.fn(),
       } as any;
       materialDescriptionAutocomplete = {
         searchFormControl: {
           setValue: jest.fn(),
+          markAllAsTouched: jest.fn(),
         },
         focus: jest.fn(),
       } as any;
@@ -204,170 +197,41 @@ describe('EditingMaterialModalComponent', () => {
       component.matDescInput = materialDescriptionAutocomplete;
       component.matNumberInput = materialNumberAutocomplete;
       component.customerMaterialInput = customerMaterialNumberAutocomplete;
+
       component.ngOnInit();
     });
-    test('should set form values', () => {
-      component['cdref'].detectChanges = jest.fn();
-      component.editFormGroup.get = jest.fn();
-      component.editFormGroup.hasError = jest.fn().mockReturnValue(false);
-      component[
-        'autoCompleteFacade'
-      ].selectMaterialNumberDescriptionOrCustomerMaterial = jest.fn();
-      const formGroupGetMock = (component.editFormGroup.get = jest.fn());
-      when(formGroupGetMock)
-        .calledWith(MaterialColumnFields.QUANTITY)
-        .mockReturnValue(editFormControlQuantity);
-      when(formGroupGetMock)
-        .calledWith(MaterialColumnFields.TARGET_PRICE)
-        .mockReturnValue(editFormControlTargetPrice);
-      when(formGroupGetMock)
-        .calledWith(MaterialColumnFields.TARGET_PRICE_SOURCE)
-        .mockReturnValue(editFormControlTargetPriceSource);
 
-      component.ngAfterViewInit();
-      expect(formGroupGetMock).toHaveBeenCalledTimes(3);
-
-      expect(formGroupGetMock(MaterialColumnFields.QUANTITY)).toBe(
-        editFormControlQuantity
-      );
-      expect(formGroupGetMock(MaterialColumnFields.TARGET_PRICE)).toBe(
-        editFormControlTargetPrice
-      );
-      expect(formGroupGetMock(MaterialColumnFields.TARGET_PRICE_SOURCE)).toBe(
-        editFormControlTargetPriceSource
-      );
-
-      expect(editFormControlQuantity.setValue).toHaveBeenCalledTimes(1);
-      expect(editFormControlQuantity.setValue).toHaveBeenCalledWith(
-        MATERIAL_TABLE_ITEM_MOCK.quantity
-      );
-      expect(editFormControlTargetPrice.setValue).toHaveBeenCalledTimes(1);
-      expect(editFormControlTargetPrice.setValue).toHaveBeenCalledWith(
-        MATERIAL_TABLE_ITEM_MOCK.targetPrice.toString()
-      );
-      expect(
-        component['autoCompleteFacade']
-          .selectMaterialNumberDescriptionOrCustomerMaterial
-      ).toBeCalledTimes(1);
-      expect(
-        component['autoCompleteFacade']
-          .selectMaterialNumberDescriptionOrCustomerMaterial
-      ).toHaveBeenCalledWith(
-        {
-          id: component['materialToEdit'].materialNumber,
-          value: component['materialToEdit'].materialDescription,
-          value2: component['materialToEdit'].customerMaterialNumber,
-          deliveryUnit: component['materialToEdit'].deliveryUnit,
-          uom: component['materialToEdit'].UoM,
-          selected: true,
-        },
-        FilterNames.MATERIAL_NUMBER
-      );
-    });
     test('should detect changes', () => {
       component['cdref'].detectChanges = jest.fn();
+      component[
+        'initializeMaterialControlService'
+      ].initializeMaterialFormControls = jest.fn();
 
       component.ngAfterViewInit();
 
       expect(component['cdref'].detectChanges).toHaveBeenCalledTimes(1);
-    });
-    describe('should focus input fields', () => {
-      beforeEach(() => {
-        component['cdref'].detectChanges = jest.fn();
-        component.ngOnInit();
-        component.valueInput = {
-          nativeElement: {
-            focus: jest.fn(),
-          } as any,
-        };
-        component.targetPriceInput = {
-          nativeElement: {
-            focus: jest.fn(),
-          } as any,
-        };
-        component.targetPriceSourceInput = { focus: jest.fn() } as any;
-      });
-      test('should focus materialNumberInput', () => {
-        component.ngAfterViewInit();
+      expect(
+        component['initializeMaterialControlService']
+          .initializeMaterialFormControls
+      ).toHaveBeenCalledTimes(1);
 
-        expect(materialNumberAutocomplete.focus).toHaveBeenCalledTimes(1);
-        expect(materialDescriptionAutocomplete.focus).toHaveBeenCalledTimes(0);
-        expect(component.valueInput.nativeElement.focus).toHaveBeenCalledTimes(
-          0
-        );
-      });
-      test('should focus materialDescription', () => {
-        Object.defineProperty(component, 'fieldToFocus', {
-          value: MaterialColumnFields.MATERIAL_DESCRIPTION,
-        });
-
-        component.ngAfterViewInit();
-
-        expect(materialDescriptionAutocomplete.focus).toHaveBeenCalledTimes(1);
-        expect(materialNumberAutocomplete.focus).toHaveBeenCalledTimes(0);
-        expect(component.valueInput.nativeElement.focus).toHaveBeenCalledTimes(
-          0
-        );
-      });
-      test('should focus customerMaterialNumber', () => {
-        Object.defineProperty(component, 'fieldToFocus', {
-          value: MaterialColumnFields.CUSTOMER_MATERIAL_NUMBER,
-        });
-
-        component.ngAfterViewInit();
-
-        expect(materialDescriptionAutocomplete.focus).toHaveBeenCalledTimes(0);
-        expect(materialNumberAutocomplete.focus).toHaveBeenCalledTimes(0);
-        expect(component.valueInput.nativeElement.focus).toHaveBeenCalledTimes(
-          0
-        );
-      });
-      test('should focus quantity', () => {
-        Object.defineProperty(component, 'fieldToFocus', {
-          value: MaterialColumnFields.QUANTITY,
-        });
-
-        component.ngAfterViewInit();
-
-        expect(materialDescriptionAutocomplete.focus).toHaveBeenCalledTimes(0);
-        expect(materialNumberAutocomplete.focus).toHaveBeenCalledTimes(0);
-        expect(component.valueInput.nativeElement.focus).toHaveBeenCalledTimes(
-          1
-        );
-      });
-      test('should focus targetPrice', () => {
-        Object.defineProperty(component, 'fieldToFocus', {
-          value: MaterialColumnFields.TARGET_PRICE,
-        });
-
-        component.ngAfterViewInit();
-
-        expect(materialDescriptionAutocomplete.focus).toHaveBeenCalledTimes(0);
-        expect(materialNumberAutocomplete.focus).toHaveBeenCalledTimes(0);
-        expect(component.valueInput.nativeElement.focus).toHaveBeenCalledTimes(
-          0
-        );
-        expect(
-          component.targetPriceInput.nativeElement.focus
-        ).toHaveBeenCalledTimes(1);
-      });
-
-      test('should focus targetPriceSource', () => {
-        Object.defineProperty(component, 'fieldToFocus', {
-          value: MaterialColumnFields.TARGET_PRICE_SOURCE,
-        });
-
-        component.ngAfterViewInit();
-
-        expect(materialDescriptionAutocomplete.focus).toHaveBeenCalledTimes(0);
-        expect(materialNumberAutocomplete.focus).toHaveBeenCalledTimes(0);
-        expect(component.valueInput.nativeElement.focus).toHaveBeenCalledTimes(
-          0
-        );
-        expect(
-          component.targetPriceInput.nativeElement.focus
-        ).toHaveBeenCalledTimes(0);
-      });
+      const expectedInputs = {
+        matNumberInput: component.matNumberInput,
+        matDescInput: component.matDescInput,
+        customerMaterialInput: component.customerMaterialInput,
+        quantityInput: component.valueInput,
+        targetPriceInput: component.targetPriceInput,
+        targetPriceSourceInput: component.targetPriceSourceInput,
+      };
+      expect(
+        component['initializeMaterialControlService']
+          .initializeMaterialFormControls
+      ).toHaveBeenCalledWith(
+        component['fieldToFocus'],
+        component['materialToEdit'],
+        expectedInputs,
+        component['cdref']
+      );
     });
   });
 
@@ -406,6 +270,14 @@ describe('EditingMaterialModalComponent', () => {
 
         expect(component.materialNumberInput).toBeTruthy();
         expect(component.rowInputValid).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe('customerMaterialHasInput', () => {
+      test('should call rowInputValid', () => {
+        component.rowInputValid = jest.fn();
+        component.customerMaterialHasInput();
+        expect(component.rowInputValid).toHaveBeenCalled();
       });
     });
     describe('rowInputValid', () => {

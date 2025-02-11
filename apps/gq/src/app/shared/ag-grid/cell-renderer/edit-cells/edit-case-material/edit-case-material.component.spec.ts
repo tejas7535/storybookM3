@@ -173,6 +173,7 @@ describe('EditCaseMaterialComponent', () => {
             field: MaterialColumnFields.MATERIAL,
           },
           autoFocus: false,
+          panelClass: 'edit-material-modal',
         }
       );
     });

@@ -13,6 +13,7 @@ import { Store } from '@ngrx/store';
 
 import {
   autocomplete,
+  autocompleteSuccess,
   resetAutocompleteMaterials,
   resetRequestingAutoCompleteDialog,
   selectAutocompleteOption,
@@ -154,6 +155,10 @@ export class AutoCompleteFacade {
     ofType(setSelectedAutocompleteOption)
   );
 
+  getAutocompleteOptionsSuccess$: Observable<{
+    options: IdValue[];
+    filter: FilterNames;
+  }> = this.actions$.pipe(ofType(autocompleteSuccess));
   /**
    * This Facades needs to be initialized
    *
@@ -200,15 +205,24 @@ export class AutoCompleteFacade {
   // see https://confluence.schaeffler.com/display/PARS/GQ+Autocomplete+Component
   selectMaterialNumberDescriptionOrCustomerMaterial(
     option: IdValue,
-    filter: string
+    filter: string,
+    resetAll: boolean = false
   ): void {
-    if (filter === FilterNames.CUSTOMER_MATERIAL) {
-      const resetFor = MATERIAL_FILTERS.filter((reset) => reset !== filter);
+    // resetAll selected Autocomplete Options
+    // e.g. when an autocomplete returns only 1 option this option is directly selected (autoSelected)
+    // this can lead to misbehavior when the customerMaterial is other than the autoSelected-option so the autoSelected-option needs to be unselected first
+    const filtersToResetWhenCustomerMaterial =
+      filter === FilterNames.CUSTOMER_MATERIAL
+        ? MATERIAL_FILTERS.filter((reset) => reset !== filter)
+        : [];
 
-      resetFor.forEach((reset) => {
-        this.store.dispatch(unselectAutocompleteOptions({ filter: reset }));
-      });
-    }
+    const filtersToReset = resetAll
+      ? MATERIAL_FILTERS
+      : filtersToResetWhenCustomerMaterial;
+
+    filtersToReset.forEach((reset) => {
+      this.store.dispatch(unselectAutocompleteOptions({ filter: reset }));
+    });
 
     this.store.dispatch(
       setSelectedAutocompleteOption({

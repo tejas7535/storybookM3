@@ -280,7 +280,7 @@ export const createCaseReducer = createReducer(
       autocompleteItems: [...state.autocompleteItems].map((it) => {
         const temp = { ...it };
         if (temp.filter === filter) {
-          return { ...temp, options: selectOption(temp.options, option) };
+          return { ...temp, options: selectOption(temp.options, option, true) };
         }
 
         const setFor: string[] = MATERIAL_FILTERS.filter((f) => f !== filter);
@@ -296,7 +296,7 @@ export const createCaseReducer = createReducer(
 
         return {
           ...temp,
-          options: selectOption(temp.options, optionToSelect),
+          options: selectOption(temp.options, optionToSelect, true),
         };
       }),
     })
@@ -767,9 +767,20 @@ export const createCaseReducer = createReducer(
   )
 );
 
-const selectOption = (options: IdValue[], option: IdValue): IdValue[] => {
+const selectOption = (
+  options: IdValue[],
+  option: IdValue,
+  checkAllValues: boolean = false
+): IdValue[] => {
   const itemOptions = [...options];
-  const index = itemOptions.findIndex((idValue) => idValue.id === option.id);
+  const index = checkAllValues
+    ? itemOptions.findIndex(
+        (idValue) =>
+          idValue.id === option.id &&
+          idValue.value2 === option.value2 &&
+          idValue.value === option.value
+      )
+    : itemOptions.findIndex((idValue) => idValue.id === option.id);
 
   itemOptions.map((opt) => ({ ...opt, selected: true }));
 

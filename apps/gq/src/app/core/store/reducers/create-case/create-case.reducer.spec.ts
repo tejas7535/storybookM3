@@ -387,6 +387,43 @@ describe('Create Case Reducer', () => {
             .options
         ).toEqual([option]);
       });
+
+      test('should consider id, value and value2 when selectOption', () => {
+        const existingOption = new IdValue(
+          'matDesc',
+          'matNumber',
+          true,
+          'customerMat'
+        );
+        const fakeState: CreateCaseState = {
+          ...CREATE_CASE_STORE_STATE_MOCK,
+          autocompleteItems: [
+            { filter: FilterNames.MATERIAL_NUMBER, options: [] },
+            {
+              filter: FilterNames.MATERIAL_DESCRIPTION,
+              options: [existingOption],
+            },
+            { filter: FilterNames.CUSTOMER_MATERIAL, options: [] },
+          ],
+        };
+
+        const option = new IdValue(
+          'matDesc',
+          'matNumber',
+          true,
+          'anOtherCustomerMat'
+        );
+        const action = setSelectedAutocompleteOption({
+          filter: FilterNames.MATERIAL_DESCRIPTION,
+          option,
+        });
+        const state = createCaseReducer(fakeState, action);
+        expect(
+          state.autocompleteItems.find(
+            (i) => i.filter === FilterNames.MATERIAL_DESCRIPTION
+          ).options
+        ).toEqual([existingOption, option]);
+      });
     });
     describe('unselectAutocompleteOptions', () => {
       const fakeOptions = [
@@ -1521,6 +1558,7 @@ describe('Create Case Reducer', () => {
       expect(state.rowData).toEqual(expected);
     });
   });
+
   describe('Reducer function', () => {
     test('should return searchReducer', () => {
       // prepare any action

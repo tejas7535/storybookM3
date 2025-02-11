@@ -175,7 +175,11 @@ gq-create-manual-case-view:has(.newCaseCreateView) {
     border-radius: 4px;
   }
 }
-
+.edit-material-modal {
+  .mat-mdc-button-base .mdc-button__label {
+    z-index: 0;
+  }
+}
 .edit-case-modal {
   .mat-mdc-button-base .mdc-button__label {
     z-index: 0;
