@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-null */
 import { FormGroup } from '@angular/forms';
 import {
   MatDialog,
@@ -12,10 +13,14 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import {
+  CalculationParametersOperationConditions,
+  LoadCaseData,
+} from '../store/models';
 import { CalculationParametersFormHelperService } from './calculation-parameters-form-helper.service';
 
 describe('CalculationParametersFormHelperService', () => {
-  let calculationParametersFormHelperService: CalculationParametersFormHelperService;
+  let service: CalculationParametersFormHelperService;
   let spectator: SpectatorService<CalculationParametersFormHelperService>;
   let translocoService: TranslocoService;
   let translocoServiceSpy: jest.SpyInstance;
@@ -47,23 +52,20 @@ describe('CalculationParametersFormHelperService', () => {
 
   beforeEach(() => {
     spectator = createService();
-    calculationParametersFormHelperService = spectator.service;
+    service = spectator.service;
     translocoService = spectator.inject(TranslocoService);
     translocoServiceSpy = jest.spyOn(translocoService, 'translate');
   });
 
   it('should be created', () => {
-    expect(calculationParametersFormHelperService).toBeDefined();
+    expect(service).toBeDefined();
   });
 
   describe('getTotalOperatingTimeForLoadcases', () => {
     it('should provide value for empty loadcases', () => {
       const loadCases: FormGroup<LoadCaseDataFormGroupModel>[] = [];
 
-      const result =
-        calculationParametersFormHelperService.getTotalOperatingTimeForLoadcases(
-          loadCases
-        );
+      const result = service.getTotalOperatingTimeForLoadcases(loadCases);
 
       expect(result).toBe(0);
     });
@@ -77,18 +79,14 @@ describe('CalculationParametersFormHelperService', () => {
         createMockLoadCaseWithOperatingTime(25),
       ];
 
-      const result =
-        calculationParametersFormHelperService.getTotalOperatingTimeForLoadcases(
-          loadCases
-        );
+      const result = service.getTotalOperatingTimeForLoadcases(loadCases);
       expect(result).toBe(120);
     });
   });
 
   describe('getLocalizedLoadCaseName', () => {
     it('should get localized load case name', () => {
-      const result =
-        calculationParametersFormHelperService.getLocalizedLoadCaseName(2);
+      const result = service.getLocalizedLoadCaseName(2);
 
       expect(translocoServiceSpy).toHaveBeenCalledWith(
         'operationConditions.loadCaseName',
@@ -103,35 +101,34 @@ describe('CalculationParametersFormHelperService', () => {
 
   describe('openConfirmDeleteDialog', () => {
     it('should open the dialog', () => {
-      const mockRef =
-        calculationParametersFormHelperService.openConfirmDeleteDialog();
+      const mockRef = service.openConfirmDeleteDialog();
 
       expect(mockRef).toEqual({} as unknown as MatDialogRef<any>);
-      expect(
-        calculationParametersFormHelperService['dialog'].open
-      ).toHaveBeenCalledWith(ConfirmationDialogComponent, {
-        data: {
-          cancelActionText:
-            'operationConditions.confirmationDialog.cancelAction',
-          confirmActionText:
-            'operationConditions.confirmationDialog.confirmationAction',
-          description: 'operationConditions.confirmationDialog.description',
-          title: 'operationConditions.confirmationDialog.title',
-        },
-        width: '500px',
-        autoFocus: false,
-      });
+      expect(service['dialog'].open).toHaveBeenCalledWith(
+        ConfirmationDialogComponent,
+        {
+          data: {
+            cancelActionText:
+              'operationConditions.confirmationDialog.cancelAction',
+            confirmActionText:
+              'operationConditions.confirmationDialog.confirmationAction',
+            description: 'operationConditions.confirmationDialog.description',
+            title: 'operationConditions.confirmationDialog.title',
+          },
+          width: '500px',
+          autoFocus: false,
+        }
+      );
     });
   });
 
   describe('getLocalizedLoadCaseTimePortion', () => {
     describe('when operatingTimeInHours and loadcasePercentage are not provided', () => {
       it('should return empty string', () => {
-        const result =
-          calculationParametersFormHelperService.getLocalizedLoadCaseTimePortion(
-            undefined,
-            undefined
-          );
+        const result = service.getLocalizedLoadCaseTimePortion(
+          undefined,
+          undefined
+        );
 
         expect(result).toBe('');
       });
@@ -158,6 +155,43 @@ describe('CalculationParametersFormHelperService', () => {
           }
         );
         expect(result).toBe(expectedTranslation);
+      });
+    });
+
+    describe('when replacing null values with undefined', () => {
+      it('should replace null values with undefined', () => {
+        const input: Partial<CalculationParametersOperationConditions> = {
+          ambientTemperature: null,
+          time: null,
+          loadCaseData: [{ operatingTemperature: null } as LoadCaseData],
+        };
+
+        const expectedOutput: Partial<CalculationParametersOperationConditions> =
+          {
+            ambientTemperature: undefined,
+            time: null,
+            loadCaseData: [{ operatingTemperature: undefined } as LoadCaseData],
+          };
+
+        const result = service.replaceNullValuesWithUndefined(input);
+        expect(result).toEqual(expectedOutput);
+      });
+
+      it('should not change non-null values', () => {
+        const input = {
+          ambientTemperature: 25,
+          time: 123,
+          loadCaseData: [{ operatingTemperature: 20 } as LoadCaseData],
+        };
+
+        const expectedOutput = {
+          ambientTemperature: 25,
+          time: 123,
+          loadCaseData: [{ operatingTemperature: 20 } as LoadCaseData],
+        };
+
+        const result = service.replaceNullValuesWithUndefined(input);
+        expect(result).toEqual(expectedOutput);
       });
     });
   });

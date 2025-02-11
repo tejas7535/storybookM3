@@ -560,7 +560,6 @@
               'operationConditions.pleaseEnter'
                 | transloco: { label: t('operatingTemperature.label') }
             "
-            [onlyPositive]="true"
             [customErrors]="[{ name: 'tmpBoundViolation' }]"
           ></ea-input-number>
         </div>
@@ -891,7 +890,6 @@
             'operationConditions.pleaseEnter'
               | transloco: { label: t('operatingTemperature.label') }
           "
-          [onlyPositive]="true"
           [customErrors]="[{ name: 'tmpBoundViolation' }]"
         ></ea-input-number>
       }

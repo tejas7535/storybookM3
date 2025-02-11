@@ -491,7 +491,16 @@ export class CalculationParametersComponent
         takeUntil(this.destroy$),
         debounceTime(this.DEBOUNCE_TIME_DEFAULT),
         map(([formValue, _status]) => formValue),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
+        distinctUntilChanged((a, b) => {
+          const objectWithoutNullValues =
+            this.calculationParametersFormHelperService.replaceNullValuesWithUndefined(
+              b.operationConditions as Partial<CalculationParametersOperationConditions>
+            );
+
+          b.operationConditions = objectWithoutNullValues;
+
+          return JSON.stringify(a) === JSON.stringify(b);
+        })
       )
       .subscribe((formValue) => {
         this.calculationParametersFacade.dispatch(

@@ -7,6 +7,8 @@ import { ConfirmationDialogComponent } from '@ea/shared/confirmation-dialog/conf
 import { ConfirmationDialogData } from '@ea/shared/confirmation-dialog/confirmation-dialog-data.interface';
 import { TranslocoService } from '@jsverse/transloco';
 
+import { CalculationParametersOperationConditions } from '../store/models';
+
 @Injectable({ providedIn: 'root' })
 export class CalculationParametersFormHelperService {
   constructor(
@@ -66,6 +68,37 @@ export class CalculationParametersFormHelperService {
         loadcaseTime,
       }
     );
+  }
+
+  /**
+   * When you enter '-' sign in empty numeric field, value is converted into null,
+   * which causing change detection to be triggered, to keep using numeric input type convert desired null values with undefined,
+   * to avoid detection on such instances to allow user entering negative value
+   * other solution is to use inputType='text' but it will lose stepper indication and validation of the field.
+   */
+  public replaceNullValuesWithUndefined(
+    calculationParameters: Partial<CalculationParametersOperationConditions>
+  ): Partial<CalculationParametersOperationConditions> {
+    const parameters: Partial<CalculationParametersOperationConditions> = {
+      ...calculationParameters,
+    };
+
+    if (calculationParameters.ambientTemperature === null) {
+      parameters.ambientTemperature = undefined;
+    }
+
+    parameters.loadCaseData = calculationParameters.loadCaseData.map(
+      (loadcase) => {
+        const newData = { ...loadcase };
+        if (newData.operatingTemperature === null) {
+          newData.operatingTemperature = undefined;
+        }
+
+        return newData;
+      }
+    );
+
+    return parameters;
   }
 
   private prepareDialogData(): ConfirmationDialogData {
