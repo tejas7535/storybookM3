@@ -77,7 +77,8 @@ export class BaseHttpInterceptor implements HttpInterceptor {
           }
 
           // errors that are not triggered by auth lib should show a toast
-          this.snackbar.open(errorMessage);
+          const userErrorMessage = error.error.title ?? error.error;
+          this.snackbar.open(userErrorMessage);
         }
 
         return throwError(() => new Error(errorMessage));

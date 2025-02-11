@@ -99,6 +99,9 @@ describe('FilterSectionComponent', () => {
         const expected: IdValue[] = [
           { id: 'ORG_UNIT', level: 0, value: undefined },
           { id: 'PERSONAL_AREA', level: 0, value: undefined },
+          { id: 'JOB_FAMILY', level: 0, value: undefined },
+          { id: 'JOB_SUB_FAMILY', level: 1, value: undefined },
+          { id: 'JOB', level: 2, value: undefined },
           { id: 'REGION', level: 0, value: undefined },
           { id: 'SUB_REGION', level: 1, value: undefined },
           { id: 'COUNTRY', level: 2, value: undefined },
@@ -372,11 +375,14 @@ describe('FilterSectionComponent', () => {
         [FilterDimension.SEGMENT]: 'segment',
         [FilterDimension.SUB_SEGMENT]: 'sub segment',
         [FilterDimension.SEGMENT_UNIT]: 'segment unit',
+        [FilterDimension.JOB_FAMILY]: 'job family',
+        [FilterDimension.JOB_SUB_FAMILY]: 'job sub family',
+        [FilterDimension.JOB]: 'job',
       };
 
       const result = component.mapTranslationsToIdValues(translations);
 
-      expect(result.length).toBe(13);
+      expect(result.length).toBe(16);
       expect(result[0]).toEqual(
         new IdValue(
           FilterDimension.ORG_UNIT,
@@ -393,75 +399,92 @@ describe('FilterSectionComponent', () => {
       );
       expect(result[2]).toEqual(
         new IdValue(
+          FilterDimension.JOB_FAMILY,
+          translations[FilterDimension.JOB_FAMILY],
+          0
+        )
+      );
+      expect(result[3]).toEqual(
+        new IdValue(
+          FilterDimension.JOB_SUB_FAMILY,
+          translations[FilterDimension.JOB_SUB_FAMILY],
+          1
+        )
+      );
+      expect(result[4]).toEqual(
+        new IdValue(FilterDimension.JOB, translations[FilterDimension.JOB], 2)
+      );
+      expect(result[5]).toEqual(
+        new IdValue(
           FilterDimension.REGION,
           translations[FilterDimension.REGION],
           0
         )
       );
-      expect(result[3]).toEqual(
+      expect(result[6]).toEqual(
         new IdValue(
           FilterDimension.SUB_REGION,
           translations[FilterDimension.SUB_REGION],
           1
         )
       );
-      expect(result[4]).toEqual(
+      expect(result[7]).toEqual(
         new IdValue(
           FilterDimension.COUNTRY,
           translations[FilterDimension.COUNTRY],
           2
         )
       );
-      expect(result[5]).toEqual(
+      expect(result[8]).toEqual(
         new IdValue(
           FilterDimension.HR_LOCATION,
           translations[FilterDimension.HR_LOCATION],
           3
         )
       );
-      expect(result[6]).toEqual(
+      expect(result[9]).toEqual(
         new IdValue(
           FilterDimension.BOARD,
           translations[FilterDimension.BOARD],
           0
         )
       );
-      expect(result[7]).toEqual(
+      expect(result[10]).toEqual(
         new IdValue(
           FilterDimension.SUB_BOARD,
           translations[FilterDimension.SUB_BOARD],
           1
         )
       );
-      expect(result[8]).toEqual(
+      expect(result[11]).toEqual(
         new IdValue(
           FilterDimension.FUNCTION,
           translations[FilterDimension.FUNCTION],
           2
         )
       );
-      expect(result[9]).toEqual(
+      expect(result[12]).toEqual(
         new IdValue(
           FilterDimension.SUB_FUNCTION,
           translations[FilterDimension.SUB_FUNCTION],
           3
         )
       );
-      expect(result[10]).toEqual(
+      expect(result[13]).toEqual(
         new IdValue(
           FilterDimension.SEGMENT,
           translations[FilterDimension.SEGMENT],
           0
         )
       );
-      expect(result[11]).toEqual(
+      expect(result[14]).toEqual(
         new IdValue(
           FilterDimension.SUB_SEGMENT,
           translations[FilterDimension.SUB_SEGMENT],
           1
         )
       );
-      expect(result[12]).toEqual(
+      expect(result[15]).toEqual(
         new IdValue(
           FilterDimension.SEGMENT_UNIT,
           translations[FilterDimension.SEGMENT_UNIT],

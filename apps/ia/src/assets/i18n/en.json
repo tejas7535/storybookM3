@@ -26,7 +26,10 @@
         "SUB_FUNCTION": "Sub Function",
         "SEGMENT": "Segment",
         "SUB_SEGMENT": "Sub Segment",
-        "SEGMENT_UNIT": "Segment Unit"
+        "SEGMENT_UNIT": "Segment Unit",
+        "JOB_FAMILY": "Job Family",
+        "JOB_SUB_FAMILY": "Job Sub Family",
+        "JOB": "Job"
       }
     },
     "benchmark": {

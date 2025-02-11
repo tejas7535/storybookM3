@@ -281,6 +281,56 @@ describe('FilterService', () => {
     });
   });
 
+  describe('getJobFamilies', () => {
+    test('should get job families', () => {
+      const data: IdValue[] = [];
+      const timeRange = '1-1';
+
+      service.getJobFamilies(timeRange).subscribe((response) => {
+        expect(response).toEqual(data);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/filters/job-families?time_range=${timeRange}`
+      );
+
+      expect(req.request.method).toBe('GET');
+      req.flush(data);
+    });
+
+    test('should get job sub-families', () => {
+      const data: IdValue[] = [];
+      const timeRange = '1-1';
+
+      service.getJobSubFamilies(timeRange).subscribe((response) => {
+        expect(response).toEqual(data);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/filters/job-sub-families?time_range=${timeRange}`
+      );
+
+      expect(req.request.method).toBe('GET');
+      req.flush(data);
+    });
+
+    test('should get jobs', () => {
+      const data: IdValue[] = [];
+      const timeRange = '1-1';
+
+      service.getJobs(timeRange).subscribe((response) => {
+        expect(response).toEqual(data);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/filters/jobs?time_range=${timeRange}`
+      );
+
+      expect(req.request.method).toBe('GET');
+      req.flush(data);
+    });
+  });
+
   describe('getDataForFilterDimension', () => {
     test('should return org units', () => {
       const searchFor = 't1';
@@ -340,6 +390,40 @@ describe('FilterService', () => {
 
       expect(result).toEqual(expectedResult);
       expect(service.getSubFunctions).toHaveBeenCalled();
+    });
+
+    test('should return job families', () => {
+      const expectedResult = of();
+      service.getJobFamilies = jest.fn().mockReturnValue(expectedResult);
+
+      const result = service.getDataForFilterDimension(
+        FilterDimension.JOB_FAMILY
+      );
+
+      expect(result).toEqual(expectedResult);
+      expect(service.getJobFamilies).toHaveBeenCalled();
+    });
+
+    test('should return job sub-families', () => {
+      const expectedResult = of();
+      service.getJobSubFamilies = jest.fn().mockReturnValue(expectedResult);
+
+      const result = service.getDataForFilterDimension(
+        FilterDimension.JOB_SUB_FAMILY
+      );
+
+      expect(result).toEqual(expectedResult);
+      expect(service.getJobSubFamilies).toHaveBeenCalled();
+    });
+
+    test('should return jobs', () => {
+      const expectedResult = of();
+      service.getJobs = jest.fn().mockReturnValue(expectedResult);
+
+      const result = service.getDataForFilterDimension(FilterDimension.JOB);
+
+      expect(result).toEqual(expectedResult);
+      expect(service.getJobs).toHaveBeenCalled();
     });
   });
 });

@@ -13,6 +13,9 @@ export const FILTER_DIMENSIONS: {
 }[] = [
   { dimension: FilterDimension.ORG_UNIT, level: 0 },
   { dimension: FilterDimension.PERSONAL_AREA, level: 0 },
+  { dimension: FilterDimension.JOB_FAMILY, level: 0 },
+  { dimension: FilterDimension.JOB_SUB_FAMILY, level: 1 },
+  { dimension: FilterDimension.JOB, level: 2 },
   { dimension: FilterDimension.REGION, level: 0 },
   { dimension: FilterDimension.SUB_REGION, level: 1 },
   { dimension: FilterDimension.COUNTRY, level: 2 },

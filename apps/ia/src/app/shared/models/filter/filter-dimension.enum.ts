@@ -12,4 +12,7 @@ export enum FilterDimension {
   SEGMENT_UNIT = 'SEGMENT_UNIT',
   BOARD = 'BOARD',
   SUB_BOARD = 'SUB_BOARD',
+  JOB_FAMILY = 'JOB_FAMILY',
+  JOB_SUB_FAMILY = 'JOB_SUB_FAMILY',
+  JOB = 'JOB',
 }

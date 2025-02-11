@@ -26,6 +26,9 @@ export class FilterService {
   readonly SEGMENT_UNITS = 'segment-units';
   readonly BOARDS = 'boards';
   readonly SUB_BOARDS = 'sub-boards';
+  readonly JOB_FAMILIES = 'job-families';
+  readonly JOB_SUB_FAMILIES = 'job-sub-families';
+  readonly JOBS = 'jobs';
 
   constructor(
     private readonly http: HttpClient,
@@ -193,6 +196,42 @@ export class FilterService {
     );
   }
 
+  getJobFamilies(timeRange: string): Observable<IdValue[]> {
+    const params = this.paramsCreator.createHttpParamsForTimeRange(timeRange);
+
+    return this.http.get<IdValue[]>(
+      `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.JOB_FAMILIES}`,
+      {
+        params,
+        context: withCache(),
+      }
+    );
+  }
+
+  getJobSubFamilies(timeRange: string): Observable<IdValue[]> {
+    const params = this.paramsCreator.createHttpParamsForTimeRange(timeRange);
+
+    return this.http.get<IdValue[]>(
+      `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.JOB_SUB_FAMILIES}`,
+      {
+        params,
+        context: withCache(),
+      }
+    );
+  }
+
+  getJobs(timeRange: string): Observable<IdValue[]> {
+    const params = this.paramsCreator.createHttpParamsForTimeRange(timeRange);
+
+    return this.http.get<IdValue[]>(
+      `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.JOBS}`,
+      {
+        params,
+        context: withCache(),
+      }
+    );
+  }
+
   getDataForFilterDimension(
     filterDimension: string,
     searchFor?: string,
@@ -249,6 +288,18 @@ export class FilterService {
 
       case FilterDimension.SUB_BOARD: {
         return this.getSubBoards(timeRangeId);
+      }
+
+      case FilterDimension.JOB_FAMILY: {
+        return this.getJobFamilies(timeRangeId);
+      }
+
+      case FilterDimension.JOB_SUB_FAMILY: {
+        return this.getJobSubFamilies(timeRangeId);
+      }
+
+      case FilterDimension.JOB: {
+        return this.getJobs(timeRangeId);
       }
 
       default: {
