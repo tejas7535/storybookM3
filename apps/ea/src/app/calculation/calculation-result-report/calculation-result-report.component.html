@@ -64,6 +64,23 @@
                     [hidden]="calculationTypes?.emission.selected === false"
                     [expanded]="true"
                   >
+                    <div slot="panel-title">
+                      {{ t('title') }}
+
+                      <mat-icon
+                        svgIcon="new_badge"
+                        class="!text-primary"
+                      ></mat-icon>
+
+                      <schaeffler-info-button
+                        class="inline-flex align-bottom"
+                        [inline]="true"
+                        [tooltip]="
+                          'calculationResult.emissionsTooltip' | transloco
+                        "
+                      />
+                    </div>
+
                     <ea-calculation-result-report-emission
                       [co2Emission]="
                         calculationResultFacade.calculationReportCO2Emission$

@@ -29,6 +29,7 @@ import { TranslocoDecimalPipe } from '@jsverse/transloco-locale';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
 import {
+  InfoButtonComponent,
   ReportExpansionPanelComponent,
   ResultReportComponent,
 } from '@schaeffler/result-report';
@@ -61,6 +62,7 @@ import { CalculationResultReportSelectionComponent } from '../calculation-result
     ResultReportComponent,
     AppStoreButtonsComponent,
     CalculationResultReportEmissionComponent,
+    InfoButtonComponent,
   ],
   providers: [TranslocoDecimalPipe, MeaningfulRoundPipe],
 })
