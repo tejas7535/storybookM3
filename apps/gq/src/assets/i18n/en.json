@@ -254,8 +254,8 @@
           },
           "customerValidation": {
             "QDV001": "Quantity adjusted per Delivery Unit",
-            "QDV002": "Several Customer Materials available",
-            "QDV003": "Several Material Numbers available"
+            "QDV002": "Several Customer Materials available for that Material Number",
+            "QDV003": "Several Materials available for that Customer Material"
           }
         },
         "materialDescription": "Material Description",

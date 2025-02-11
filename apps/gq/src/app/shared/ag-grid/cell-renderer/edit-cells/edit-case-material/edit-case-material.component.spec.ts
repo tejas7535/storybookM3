@@ -353,10 +353,21 @@ describe('EditCaseMaterialComponent', () => {
   });
 
   describe('checkForWarning', () => {
-    test('should return true for customerMaterialNumber', () => {
+    test('should return true for multiple customerMaterialNumber in materialNumber Column', () => {
       component['tableItem'] = {
         info: {
           codes: [VALIDATION_CODE.QDV002],
+          valid: false,
+          description: [],
+        },
+      };
+      const result = component['checkForWarning']('materialNumber');
+      expect(result).toBeTruthy();
+    });
+    test('should return true for multiple materials in customerMaterialNumber Column', () => {
+      component['tableItem'] = {
+        info: {
+          codes: [VALIDATION_CODE.QDV003],
           valid: false,
           description: [],
         },

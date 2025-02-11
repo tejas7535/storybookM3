@@ -254,8 +254,8 @@
           },
           "customerValidation": {
             "QDV001": "Menge gemäß Liefereinheit angepasst",
-            "QDV002": "mehrere Kundenmaterialien verfügbar",
-            "QDV003": "mehrere Materialnummern verfügbar"
+            "QDV002": "Mehrere Kundenmaterialien für diese Materialnummer verfügbar",
+            "QDV003": "Mehrere Materialien für dieses Kundenmaterial verfügbar"
           }
         },
         "materialDescription": "Materialbeschreibung",

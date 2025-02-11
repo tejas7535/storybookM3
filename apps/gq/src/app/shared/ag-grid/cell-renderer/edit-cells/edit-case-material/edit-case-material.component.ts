@@ -143,7 +143,7 @@ export class EditCaseMaterialComponent {
   private checkForWarning(field: string): boolean {
     switch (field) {
       case 'customerMaterialNumber': {
-        return this.isWarningPresent(VALIDATION_CODE.QDV002);
+        return this.isWarningPresent(VALIDATION_CODE.QDV003);
       }
 
       case 'quantity': {
@@ -151,7 +151,7 @@ export class EditCaseMaterialComponent {
       }
 
       case 'materialNumber': {
-        return this.isWarningPresent(VALIDATION_CODE.QDV003);
+        return this.isWarningPresent(VALIDATION_CODE.QDV002);
       }
       default: {
         return false;
