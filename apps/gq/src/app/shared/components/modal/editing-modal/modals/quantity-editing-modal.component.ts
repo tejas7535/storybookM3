@@ -22,6 +22,7 @@ export class QuantityEditingModalComponent
 {
   private readonly uomPipe = new UomPipe();
   handlePriceChangeTypeSwitch: undefined;
+  priceChangeSwitched: undefined;
   protected shouldDisableRelativePriceChange: undefined;
 
   override getLocaleValue(value: number): string {

@@ -15,6 +15,7 @@ export class PriceEditingModalComponent extends EditingModalComponent {
   isPriceChangeTypeAvailable = true;
   handleInputFieldKeyDown: undefined;
   getInitialValue: undefined;
+  priceChangeSwitched: undefined;
 
   override getValue(): number {
     return 0;

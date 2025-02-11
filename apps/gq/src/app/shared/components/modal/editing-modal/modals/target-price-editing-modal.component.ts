@@ -26,6 +26,12 @@ export class TargetPriceEditingModalComponent extends EditingModalComponent {
     return 0;
   }
 
+  private radioButtonClicked = false;
+
+  priceChangeSwitched(): void {
+    this.radioButtonClicked = true;
+  }
+
   handlePriceChangeTypeSwitch(isRelative: boolean): void {
     // Calculate proper KpiValue properties which are needed to display
     this.setAffectedKpis(
@@ -92,6 +98,7 @@ export class TargetPriceEditingModalComponent extends EditingModalComponent {
       return;
     }
     const control = this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME);
+
     const targetPriceSource = this.editingFormGroup.get(
       this.ADDITIONAL_CONTENT_CONTROL_NAME
     );
@@ -104,6 +111,14 @@ export class TargetPriceEditingModalComponent extends EditingModalComponent {
 
     this.subscription.add(
       control.valueChanges.subscribe((targetPriceValue: string) => {
+        if (this.radioButtonClicked) {
+          targetPriceSource.setValue(targetPriceSource.value, {
+            emitEvent: false,
+          });
+          this.radioButtonClicked = false;
+
+          return;
+        }
         targetPriceSource.setValue(
           getTargetPriceSourceValue(
             targetPriceValue,
@@ -117,15 +132,18 @@ export class TargetPriceEditingModalComponent extends EditingModalComponent {
 
     this.subscription.add(
       targetPriceSource.valueChanges.subscribe((targetPriceSourceValue) => {
-        const controlValue = control.value ? Number(control.value) : undefined;
-        if (Number.isNaN(controlValue)) {
+        if (Number.isNaN(control.value)) {
           return;
         }
 
         control.setValue(
-          getTargetPriceValue(targetPriceSourceValue, controlValue)?.toString(),
+          getTargetPriceValue(
+            targetPriceSourceValue,
+            control.value
+          )?.toString(),
           { emitEvent: false }
         );
+
         const parsedValue = parseLocalizedInputValue(
           control.value,
           this.translocoLocaleService.getLocale()

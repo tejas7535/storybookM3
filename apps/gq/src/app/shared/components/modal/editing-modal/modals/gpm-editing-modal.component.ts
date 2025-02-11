@@ -14,6 +14,7 @@ import { EditingModalComponent } from '../editing-modal.component';
 })
 export class GpmEditingModalComponent extends EditingModalComponent {
   handlePriceChangeTypeSwitch: undefined;
+  priceChangeSwitched: undefined;
   handleInputFieldKeyDown: undefined;
   getInitialValue: undefined;
 

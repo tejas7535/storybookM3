@@ -66,6 +66,13 @@ describe('TargetPriceEditingModalComponent', () => {
     expect(component.getValue()).toBe(0);
   });
 
+  describe('priceChangeSwitched', () => {
+    test('should set the private field', () => {
+      component['radioButtonClicked'] = false;
+      component.priceChangeSwitched();
+      expect(component['radioButtonClicked']).toBe(true);
+    });
+  });
   describe('handlePriceChangeTypeSwitch', () => {
     beforeEach(() => {
       component['setAffectedKpis'] = jest.fn();
@@ -321,58 +328,73 @@ describe('TargetPriceEditingModalComponent', () => {
       valueInput: targetPriceFormControl,
       additionalContentValue: targetPriceSourceFormControl,
     });
+    describe('isTargetPriceSourceEditable is true', () => {
+      beforeEach(() => {
+        Object.defineProperty(component, 'isTargetPriceSourceEditable', {
+          value: true,
+        });
+        Object.defineProperty(component, 'VALUE_FORM_CONTROL_NAME', {
+          value: 'valueInput',
+        });
+        Object.defineProperty(component, 'subscription', {
+          value: { add: jest.fn() },
+        });
 
-    beforeEach(() => {
-      Object.defineProperty(component, 'isTargetPriceSourceEditable', {
-        value: true,
-      });
-      Object.defineProperty(component, 'VALUE_FORM_CONTROL_NAME', {
-        value: 'valueInput',
-      });
-      Object.defineProperty(component, 'subscription', {
-        value: { add: jest.fn() },
+        Object.defineProperty(component, 'ADDITIONAL_CONTENT_CONTROL_NAME', {
+          value: 'additionalContentValue',
+        });
+        Object.defineProperty(component, 'translocoLocaleService', {
+          value: { getLocale: jest.fn().mockReturnValue(LOCALE_DE.id) },
+        });
+        Object.defineProperty(component, 'handleHasValueChanged', {
+          value: jest.fn(),
+        });
+        Object.defineProperty(component, 'setAffectedKpis', {
+          value: jest.fn(),
+        });
+        component['editingFormGroup'] = editingFormGroup;
       });
 
-      Object.defineProperty(component, 'ADDITIONAL_CONTENT_CONTROL_NAME', {
-        value: 'additionalContentValue',
+      test('when targetPrice is changing the targetPriceSource needs to be updated', () => {
+        targetPriceSourceFormControl.setValue('noEntry');
+        component.handleAdditionalContent();
+        targetPriceFormControl.setValue('100');
+        expect(targetPriceSourceFormControl.value).toBe('INTERNAL');
+        // when radioButton is clicked source shall persist
+        component['radioButtonClicked'] = true;
+        targetPriceFormControl.setValue('');
+        expect(targetPriceSourceFormControl.value).toBe('INTERNAL');
       });
-      Object.defineProperty(component, 'translocoLocaleService', {
-        value: { getLocale: jest.fn().mockReturnValue(LOCALE_DE.id) },
+      test('when targetPriceSource is changing the targetPrice needs to be updated', () => {
+        targetPriceFormControl.setValue('100');
+        targetPriceSourceFormControl.setValue('INTERNAL');
+        component.handleAdditionalContent();
+        targetPriceSourceFormControl.setValue('noEntry');
+        expect(targetPriceFormControl.value).toBe(undefined);
       });
-      Object.defineProperty(component, 'handleHasValueChanged', {
-        value: jest.fn(),
+      test('when targetPriceSource is changing the targetPrice needs to be updated on non number input', () => {
+        targetPriceFormControl.setValue('a');
+        targetPriceSourceFormControl.setValue('INTERNAL');
+        component.handleAdditionalContent();
+        expect(targetPriceFormControl.value).toBe('a');
       });
-      Object.defineProperty(component, 'setAffectedKpis', {
-        value: jest.fn(),
+      test('should set NO_Entry as default value for targetPriceSource', () => {
+        component.modalData.quotationDetail.targetPriceSource = undefined;
+        component.handleAdditionalContent();
+        expect(targetPriceSourceFormControl.value).toBe('noEntry');
       });
-      component['editingFormGroup'] = editingFormGroup;
     });
-    afterEach(() => {
-      editingFormGroup.reset();
-    });
-    test('when targetPrice is changing the targetPriceSource needs to be updated', () => {
-      targetPriceSourceFormControl.setValue('noEntry');
-      component.handleAdditionalContent();
-      targetPriceFormControl.setValue('100');
-      expect(targetPriceSourceFormControl.value).toBe('INTERNAL');
-    });
-    test('when targetPriceSource is changing the targetPrice needs to be updated', () => {
-      targetPriceFormControl.setValue('100');
-      targetPriceSourceFormControl.setValue('INTERNAL');
-      component.handleAdditionalContent();
-      targetPriceSourceFormControl.setValue('noEntry');
-      expect(targetPriceFormControl.value).toBe(undefined);
-    });
-    test('when targetPriceSource is changing the targetPrice needs to be updated on non number input', () => {
-      targetPriceFormControl.setValue('a');
-      targetPriceSourceFormControl.setValue('INTERNAL');
-      component.handleAdditionalContent();
-      expect(targetPriceFormControl.value).toBe('a');
-    });
-    test('should set NO_Entry as default value for targetPriceSource', () => {
-      component.modalData.quotationDetail.targetPriceSource = undefined;
-      component.handleAdditionalContent();
-      expect(targetPriceSourceFormControl.value).toBe('noEntry');
+    describe('isTargetPriceSourceEditable is false', () => {
+      test('should stop when isTargetPriceSourceEditable is false', () => {
+        jest.resetAllMocks();
+        component['editingFormGroup'] = editingFormGroup;
+        Object.defineProperty(component, 'isTargetPriceSourceEditable', {
+          value: false,
+        });
+        component.editingFormGroup.get = jest.fn();
+        component.handleAdditionalContent();
+        expect(component.editingFormGroup.get).not.toHaveBeenCalled();
+      });
     });
   });
 });

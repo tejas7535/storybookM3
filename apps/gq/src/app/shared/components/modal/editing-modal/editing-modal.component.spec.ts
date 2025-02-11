@@ -31,6 +31,7 @@ import { EditingModalComponent } from './editing-modal.component';
 })
 class TestEditingModalComponent extends EditingModalComponent {
   handlePriceChangeTypeSwitch(): void {}
+  priceChangeSwitched(): void {}
 
   handleInputFieldKeyDown(): void {
     return undefined;

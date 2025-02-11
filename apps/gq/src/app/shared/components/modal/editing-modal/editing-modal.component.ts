@@ -176,6 +176,7 @@ export abstract class EditingModalComponent
   }
 
   callPriceChangeTypeSwitchHandler(isRelative: boolean): void {
+    this.priceChangeSwitched();
     this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME).setValue('');
     this.handlePriceChangeTypeSwitch?.(isRelative);
   }
@@ -422,6 +423,11 @@ export abstract class EditingModalComponent
    * @param isRelative true, if relative price change has been selected, otherwise false
    */
   abstract handlePriceChangeTypeSwitch?(isRelative: boolean): void;
+
+  /**
+   * publish the switch between relative and absolute price change via radio buttons.
+   */
+  abstract priceChangeSwitched?(): void;
 
   /**
    * Handle keydown event, triggered on the input field.

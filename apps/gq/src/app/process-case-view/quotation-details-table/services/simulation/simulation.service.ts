@@ -79,7 +79,7 @@ export class SimulationService {
     if (simulatedField === ColumnFields.TARGET_PRICE) {
       result.push({
         key: ColumnFields.TARGET_PRICE,
-        value: updatedPrice,
+        value: updatedPrice === detail?.targetPrice ? undefined : updatedPrice,
       });
     } else {
       result.push({

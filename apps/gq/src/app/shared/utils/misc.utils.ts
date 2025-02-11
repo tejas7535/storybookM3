@@ -360,8 +360,8 @@ export const getTargetPriceSourceValue = (
 
 export const getTargetPriceValue = (
   targetPriceSourceValue: any,
-  targetPriceValue: number
-): number => {
+  targetPriceValue: number | string
+): number | string => {
   if (
     (targetPriceSourceValue === TargetPriceSource.NO_ENTRY ||
       targetPriceSourceValue === undefined) &&

@@ -89,6 +89,23 @@ describe('SimulationService', () => {
 
         expect(result).toEqual([{ key: ColumnFields.TARGET_PRICE, value: 22 }]);
       });
+      test('should return undefined for kpi value when relative calculated value is the same as the original value', () => {
+        const value = 0;
+        const simulatedField = ColumnFields.TARGET_PRICE;
+        const detail = { ...QUOTATION_DETAIL_MOCK, targetPrice: 20 };
+        const isRelativePrice = true;
+
+        const result = service.calculateAffectedKPIs(
+          value,
+          simulatedField,
+          detail,
+          isRelativePrice
+        );
+
+        expect(result).toEqual([
+          { key: ColumnFields.TARGET_PRICE, value: undefined },
+        ]);
+      });
 
       test('should return the updated price', () => {
         const value = 10;
