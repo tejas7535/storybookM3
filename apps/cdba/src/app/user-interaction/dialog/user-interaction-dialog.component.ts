@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -31,6 +30,7 @@ import {
   BomExportStatus,
 } from '@cdba/user-interaction/model/feature/bom-export';
 
+import { LocalizedOffsetDatetimePipe } from '../../shared/pipes/localized-offset-datetime/localized-offset-datetime.pipe';
 import { BOM_EXPORT_RUNNING } from '../model/feature/bom-export/bom-export-status-enum.model';
 
 @Component({
@@ -46,8 +46,8 @@ import { BOM_EXPORT_RUNNING } from '../model/feature/bom-export/bom-export-statu
     MatProgressBarModule,
     SharedTranslocoModule,
     PushPipe,
-    DatePipe,
     UndefinedAttributeFallbackModule,
+    LocalizedOffsetDatetimePipe,
   ],
   standalone: true,
 })

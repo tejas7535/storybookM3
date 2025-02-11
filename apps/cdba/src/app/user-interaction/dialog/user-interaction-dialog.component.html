@@ -38,7 +38,9 @@
           {{
             t('started', {
               dateTime:
-                (status?.started | date: 'medium' | undefinedAttributeFallback)
+                (status?.started
+                | localizedOffsetDatetime
+                | undefinedAttributeFallback)
             })
           }}
         </p>
@@ -46,7 +48,9 @@
           {{
             t('stopped', {
               dateTime:
-                (status?.stopped | date: 'medium' | undefinedAttributeFallback)
+                (status?.stopped
+                | localizedOffsetDatetime
+                | undefinedAttributeFallback)
             })
           }}
         </p>
@@ -58,7 +62,7 @@
               t('downloadExpires', {
                 dateTime:
                   (status?.downloadUrlExpiry
-                  | date: 'medium'
+                  | localizedOffsetDatetime
                   | undefinedAttributeFallback)
               })
             }}
