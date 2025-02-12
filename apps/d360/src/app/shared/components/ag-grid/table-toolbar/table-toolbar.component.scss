@@ -10,7 +10,7 @@
 
 :host {
   width: 100%;
-  button ::ng-deep .mat-icon {
+  button.filter-button ::ng-deep .mat-icon {
     display: flex;
     align-items: center;
     justify-content: center;
