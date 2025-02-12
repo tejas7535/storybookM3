@@ -2,13 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { translate } from '@jsverse/transloco';
-import {
-  CellClickedEvent,
-  ColDef,
-  GridApi,
-  GridReadyEvent,
-  ValueGetterParams,
-} from 'ag-grid-community';
+import { CellClickedEvent, ColDef, ValueGetterParams } from 'ag-grid-community';
 
 import { ExitEntryEmployeesResponse } from '../../../overview/models';
 import { EmployeeListDialogComponent } from '../../../shared/dialogs/employee-list-dialog/employee-list-dialog.component';
@@ -19,6 +13,7 @@ import {
 } from '../../../shared/dialogs/employee-list-dialog/models';
 import { EmployeeWithAction, IdValue } from '../../../shared/models';
 import { AmountCellRendererComponent } from '../../../shared/tables/employee-list-table/amount-cell-renderer/amount-cell-renderer.component';
+import { LoadingDataTableComponent } from '../../../shared/tables/loading-data-table';
 import { countComparator } from '../../../shared/utils/comparators';
 import { ReasonForLeavingRank } from '../../models';
 
@@ -36,11 +31,12 @@ import { ReasonForLeavingRank } from '../../models';
     `,
   ],
 })
-export class ReasonsForLeavingTableComponent implements OnInit {
+export class ReasonsForLeavingTableComponent
+  extends LoadingDataTableComponent<ReasonForLeavingRank>
+  implements OnInit
+{
   private readonly answersColumnId = 'answers';
   private _data: ReasonForLeavingRank[];
-  private _loading: boolean;
-  gridApi: GridApi<ReasonForLeavingRank[]>;
   leavers: EmployeeWithAction[];
   components = {
     AmountCellRendererComponent,
@@ -61,15 +57,6 @@ export class ReasonsForLeavingTableComponent implements OnInit {
 
   get data(): ReasonForLeavingRank[] {
     return this._data;
-  }
-
-  @Input() set loading(loading: boolean) {
-    this._loading = loading;
-    this.showOrHideLoadingOverlay();
-  }
-
-  get loading(): boolean {
-    return this._loading;
   }
 
   @Input() set leaversLoading(leaversLoading: boolean) {
@@ -117,7 +104,9 @@ export class ReasonsForLeavingTableComponent implements OnInit {
 
   columnDefs: ColDef[] = [];
 
-  constructor(private readonly dialog: MatDialog) {}
+  constructor(private readonly dialog: MatDialog) {
+    super();
+  }
 
   ngOnInit(): void {
     this.columnDefs = [
@@ -220,12 +209,6 @@ export class ReasonsForLeavingTableComponent implements OnInit {
 
   getReasonValueGetter(params: ValueGetterParams): string {
     return params.data.detailedReason ?? params.data.reason;
-  }
-
-  onGridReady(event: GridReadyEvent<ReasonForLeavingRank[]>): void {
-    this.gridApi = event.api;
-
-    this.showOrHideLoadingOverlay();
   }
 
   handleCellClick(params: CellClickedEvent): void {

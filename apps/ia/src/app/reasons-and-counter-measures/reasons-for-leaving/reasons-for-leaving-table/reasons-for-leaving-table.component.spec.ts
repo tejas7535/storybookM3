@@ -3,7 +3,6 @@ import { AgGridModule } from 'ag-grid-angular';
 import {
   CellClickedEvent,
   GridApi,
-  GridReadyEvent,
   ValueGetterParams,
 } from 'ag-grid-community';
 
@@ -163,21 +162,6 @@ describe('ReasonsForLeavingTableComponent', () => {
     });
   });
 
-  describe('onGridReady', () => {
-    test('should set gridApi and show or hide loading overlay', () => {
-      const event = {
-        api: 'gridApi',
-      } as unknown as GridReadyEvent<ReasonForLeavingRank[]>;
-      component.loading = true;
-      component.showOrHideLoadingOverlay = jest.fn();
-
-      component.onGridReady(event);
-
-      expect(component.showOrHideLoadingOverlay).toHaveBeenCalled();
-      expect(component.gridApi).toEqual('gridApi');
-    });
-  });
-
   describe('leaversData', () => {
     test('should set leavers data', () => {
       component.dialogMeta = {
@@ -253,43 +237,6 @@ describe('ReasonsForLeavingTableComponent', () => {
       component.leaversData = undefined;
 
       expect(component.dialogMeta).toBe(component.dialogMeta);
-    });
-  });
-
-  describe('showOrHideLoadingOverlay', () => {
-    test('should show loading overlay', () => {
-      component.gridApi = {
-        showLoadingOverlay: jest.fn(),
-        hideOverlay: jest.fn(),
-      } as unknown as GridApi<ReasonForLeavingRank[]>;
-      component.loading = true;
-
-      component.showOrHideLoadingOverlay();
-
-      expect(component.gridApi.showLoadingOverlay).toHaveBeenCalled();
-      expect(component.gridApi.hideOverlay).not.toHaveBeenCalled();
-    });
-
-    test('should hide loading overlay', () => {
-      component.gridApi = {
-        showLoadingOverlay: jest.fn(),
-        hideOverlay: jest.fn(),
-      } as unknown as GridApi<ReasonForLeavingRank[]>;
-      component.loading = false;
-
-      component.showOrHideLoadingOverlay();
-
-      expect(component.gridApi.showLoadingOverlay).not.toHaveBeenCalled();
-      expect(component.gridApi.hideOverlay).toHaveBeenCalled();
-    });
-  });
-
-  describe('loading', () => {
-    test('should call showOrHideLoadingOverlay', () => {
-      component.showOrHideLoadingOverlay = jest.fn();
-      component.loading = true;
-
-      expect(component.showOrHideLoadingOverlay).toHaveBeenCalled();
     });
   });
 

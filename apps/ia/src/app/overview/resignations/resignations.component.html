@@ -4,25 +4,23 @@
 >
   <h5>{{ t('title') }}</h5>
   <div class="pl-4">
-    <span class="text-body-2 mt-4 flex flex-row"
-      >{{ t('totalResignations') }}&nbsp;({{
-        syncOn | date: 'dd/MM/yyyy'
-      }})</span
-    >
+    <span class="text-body-2 mt-4 flex flex-row">
+      {{ t('totalResignations') }}&nbsp;({{ syncOn | date: 'dd/MM/yyyy' }})
+      <mat-icon class="ml-1" [matTooltip]="t('tooltip')"> info </mat-icon>
+    </span>
     <h4 class="mb-4 flex flex-row">{{ totalCount | defaultValue }}</h4>
   </div>
-
   <ag-grid-angular
     class="ag-theme-material border-border h-full border"
     [rowData]="data"
     [scrollbarWidth]="8"
     [defaultColDef]="defaultColDef"
     [columnDefs]="columnDefs"
-    [components]="components"
     [animateRows]="true"
     [suppressCsvExport]="true"
     [suppressExcelExport]="true"
     [suppressCellFocus]="true"
+    (gridReady)="onGridReady($event)"
   >
   </ag-grid-angular>
   @if (totalCount && data.length && totalCount !== data.length) {

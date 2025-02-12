@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { translate } from '@jsverse/transloco';
 import { ColDef } from 'ag-grid-community';
 
+import { LoadingDataTableComponent } from '../../shared/tables/loading-data-table';
 import { valueFormatterDate } from '../../shared/utils/utilities';
 import { ResignedEmployee } from '../models';
 
@@ -11,13 +12,10 @@ import { ResignedEmployee } from '../models';
   templateUrl: './resignations.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ResignationsComponent {
-  @Input() loading: boolean; // not used at the moment
+export class ResignationsComponent extends LoadingDataTableComponent<ResignedEmployee> {
   @Input() data: ResignedEmployee[];
   @Input() totalCount: number;
   @Input() syncOn: string;
-
-  components = {};
 
   defaultColDef: ColDef = {
     sortable: true,

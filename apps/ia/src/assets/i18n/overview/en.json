@@ -37,7 +37,8 @@
     "openForApplications": "Open for applications",
     "internalMatches": "Internal matches",
     "internal": "internal",
-    "external": "external"
+    "external": "external",
+    "tooltip": "Open positions are displayed according to the selected time range."
   },
   "resignationsReceived": {
     "title": "Resignations received",
@@ -47,7 +48,8 @@
       "date": "Date",
       "name": "Name"
     },
-    "enoughRightsToShowAllEmployees": "This employee list is not complete due to insufficient user rights."
+    "enoughRightsToShowAllEmployees": "This employee list is not complete due to insufficient user rights.",
+    "tooltip": "This feature cannot be used retrospectively."
   },
   "employeeListDialog": {
     "title": {

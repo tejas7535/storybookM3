@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -18,6 +19,7 @@ import { OpenPositionsListModule } from './open-positions-list/open-positions-li
     SharedTranslocoModule,
     MatIconModule,
     MatMenuModule,
+    MatTooltipModule,
     OpenPositionsListModule,
     LoadingSpinnerModule,
   ],

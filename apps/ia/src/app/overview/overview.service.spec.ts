@@ -97,6 +97,7 @@ describe('OverviewService', () => {
       const request = {
         filterDimension: FilterDimension.COUNTRY,
         value: 'PL',
+        timeRange: '123-321',
       } as EmployeesRequest;
 
       service.getOpenApplications(request).subscribe((response) => {
@@ -104,7 +105,7 @@ describe('OverviewService', () => {
       });
 
       const req = httpMock.expectOne(
-        `api/v1/open-applications?dimension=${request.filterDimension}&value=${request.value}`
+        `api/v1/open-applications?dimension=${request.filterDimension}&value=${request.value}&time_range=${request.timeRange}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
@@ -165,6 +166,7 @@ describe('OverviewService', () => {
       const request = {
         filterDimension: FilterDimension.ORG_UNIT,
         value: orgUnit,
+        timeRange: '123-321',
       } as EmployeesRequest;
       const mock = 31;
 
@@ -173,7 +175,7 @@ describe('OverviewService', () => {
       });
 
       const req = httpMock.expectOne(
-        `api/v1/open-positions-count?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}`
+        `api/v1/open-positions-count?dimension=${FilterDimension.ORG_UNIT}&value=${orgUnit}&time_range=123-321`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

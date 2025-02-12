@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AgGridModule } from 'ag-grid-angular';
 
@@ -15,6 +17,8 @@ import { ResignationsComponent } from './resignations.component';
     SharedTranslocoModule,
     AgGridModule,
     SharedPipesModule,
+    MatIconModule,
+    MatTooltipModule,
   ],
   exports: [ResignationsComponent],
 })

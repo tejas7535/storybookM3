@@ -92,9 +92,10 @@ export class OverviewService {
   getOpenApplications(
     employeesRequest: EmployeesRequest
   ): Observable<OpenApplication[]> {
-    const params = this.paramsCreator.createHttpParamsForFilterDimension(
+    const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
       employeesRequest.filterDimension,
-      employeesRequest.value
+      employeesRequest.value,
+      employeesRequest.timeRange
     );
 
     return this.http.get<OpenApplication[]>(
@@ -109,9 +110,10 @@ export class OverviewService {
   getOpenApplicationsCount(
     employeesRequest: EmployeesRequest
   ): Observable<number> {
-    const params = this.paramsCreator.createHttpParamsForFilterDimension(
+    const params = this.paramsCreator.createHttpParamsForDimensionAndTimeRange(
       employeesRequest.filterDimension,
-      employeesRequest.value
+      employeesRequest.value,
+      employeesRequest.timeRange
     );
 
     return this.http.get<number>(
