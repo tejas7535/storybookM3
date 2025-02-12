@@ -1,6 +1,7 @@
+import { provideHttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { waitForAsync } from '@angular/core/testing';
 
@@ -19,8 +20,12 @@ describe('CO2UpstreamService', () => {
 
   const createService = createServiceFactory({
     service: CO2UpstreamService,
-    imports: [HttpClientTestingModule],
-    providers: [CO2UpstreamService],
+    imports: [],
+    providers: [
+      CO2UpstreamService,
+      provideHttpClient(),
+      provideHttpClientTesting(),
+    ],
   });
 
   beforeEach(() => {
@@ -35,7 +40,7 @@ describe('CO2UpstreamService', () => {
 
   describe('getCO2UpstreamForDesignation', () => {
     it('should call the service to co2 upstream for a given designation', waitForAsync(() => {
-      const url = `${environment.co2UpstreamApiBaseUrl}/v1/public/upstreamForDesignation`;
+      const url = `${environment.co2UpstreamApiBaseUrl}public/upstreamForDesignation/constant`;
       const mockResult = { id: 'my-id' };
 
       firstValueFrom(
@@ -64,7 +69,7 @@ describe('CO2UpstreamService', () => {
 
   describe('findBearings', () => {
     it('should find all bearings from the api that match a given pattern', waitForAsync(() => {
-      const url = `${environment.co2UpstreamApiBaseUrl}/v2/public/search/constant`;
+      const url = `${environment.co2UpstreamApiBaseUrl}public/search/constant`;
       const searchPattern = '622';
       const mockResult: Co2ApiSearchResult[] = [
         { bearinxId: '6226', designation: '6226', epimId: '1234' },

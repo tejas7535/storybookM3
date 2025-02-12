@@ -12,7 +12,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class CO2UpstreamService {
-  readonly baseUrl = `${environment.co2UpstreamApiBaseUrl}/v1`;
+  readonly baseUrl = `${environment.co2UpstreamApiBaseUrl}public/`;
 
   constructor(private readonly httpClient: HttpClient) {}
 
@@ -28,7 +28,7 @@ export class CO2UpstreamService {
       upstreamEmissionFactor: number;
       upstreamEmissionTotal: number;
       unit: string;
-    }>(`${this.baseUrl}/public/upstreamForDesignation`, {
+    }>(`${this.baseUrl}upstreamForDesignation/constant`, {
       designation: bearingDesignation,
       unitSet: 'SI',
     });
@@ -36,7 +36,7 @@ export class CO2UpstreamService {
 
   public findBearings(pattern: string): Observable<Co2ApiSearchResult[]> {
     return this.httpClient.post<Co2ApiSearchResult[]>(
-      `${environment.co2UpstreamApiBaseUrl}/v2/public/search/constant`,
+      `${this.baseUrl}search/constant`,
       {
         pattern,
       }

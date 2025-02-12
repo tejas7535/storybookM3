@@ -8,7 +8,7 @@ export const environment: Environment = {
   calculationModuleInfoApiBaseUrl:
     'https://bearinx-d.schaeffler.com/moduleinfo/api',
   frictionApiBaseUrl: 'https://bearinx-d.schaeffler.com/co_api',
-  co2UpstreamApiBaseUrl: 'https://co2-api-d.dev.dp.schaeffler/api',
+  co2UpstreamApiBaseUrl: 'https://co2-api-d.dev.dp.schaeffler/api/v2/',
   staticStorageUrl: 'https://frontend1apps.z1.web.core.windows.net',
   oldUIFallbackUrl: 'https://bearinx-d.schaeffler.com/catalogue/app/loadcases/',
   tenantId: 'c6bd4298-997b-4600-a90a-1adb997581b7',

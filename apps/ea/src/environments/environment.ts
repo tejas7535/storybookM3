@@ -6,7 +6,7 @@ export const environment: Environment = {
   devToolsEnabled: true,
   catalogApiBaseUrl: 'https://bearinx-d.schaeffler.com/catalogue/api',
   frictionApiBaseUrl: 'https://bearinx-d.schaeffler.com/co_api',
-  co2UpstreamApiBaseUrl: 'https://co2-api-d.dev.dp.schaeffler/api',
+  co2UpstreamApiBaseUrl: 'https://co2-api-d.dev.dp.schaeffler/api/v2/',
   calculationModuleInfoApiBaseUrl:
     'https://bearinx-d.schaeffler.com/moduleinfo/api',
   staticStorageUrl: 'https://frontend1apps.z1.web.core.windows.net',

@@ -1,8 +1,8 @@
 {
-  "appTitle": "medias EasyCalc",
+  "appTitle": "Medias EasyCalc",
   "general": {
     "requiredInformation": "*必填",
-    "poweredBy": "由 {{ name }}提供支持",
+    "poweredBy": "由 {{ name }} 提供技术支持",
     "back": "返回"
   },
   "breadcrumbs": {
@@ -10,20 +10,19 @@
     "calculation": "计算"
   },
   "homePage": {
-    "description": "请输入轴承设计代号以计算额定寿命、摩擦功率损失、润滑参数、超负荷频率和CO₂e排放量。",
+    "description": "请输入轴承名称以计算额定寿命、摩擦功率损耗、润滑参数、碾压频率和 CO₂ 当量排放",
     "search": {
-      "placeholder": "输入轴承名称，例如 6226",
-      "noResults": "未找到结果"
+      "placeholder": "输入轴承名称，例如 6226"
     },
     "sustainabilityCard": {
-      "title": "您想了解更多有关如何减少应用程序的二氧化碳足迹的信息吗？",
+      "title": "您想了解更多关于 Schaeffler 可持续发展的信息吗？",
       "action": {
-        "title": "请点击这里。",
-        "url": "https://medias.schaeffler.cn/zh/co2-calculation"
+        "title": "点击此处",
+        "url": "https://medias.schaeffler.de/en/co2-calculation"
       }
     },
     "cards": {
-      "poweredBy": "powered by Bearinx",
+      "poweredBy": "由 Bearinx 提供技术支持",
       "greaseApp": {
         "title": {
           "main": "Grease App"
@@ -38,15 +37,15 @@
       },
       "catalog": {
         "title": {
-          "main": "迈德斯medias产品目录。"
+          "main": "Medias 产品目录"
         },
-        "externalLink": "https://medias.schaeffler.cn/zh"
+        "externalLink": "https://medias.schaeffler.de/en"
       },
       "contact": {
         "title": {
-          "main": "舍弗勒专家。"
+          "main": "Schaeffler 专家"
         },
-        "externalLink": "https://medias.schaeffler.cn/zh/stc"
+        "externalLink": "https://medias.schaeffler.de/en/stc"
       }
     }
   },
@@ -54,137 +53,136 @@
     "pleaseSelect": "请选择"
   },
   "resultValues": {
-    "designation": "+ 代号",
-    "loadcase": "载荷步"
+    "designation": "名称",
+    "loadcase": "载荷状况"
   },
   "operationConditions": {
     "title": "轴承的工作条件",
-    "prototypeWarning": "该开发原型中所示的数值是假设值，不能用于生产",
+    "prototypeWarning": "此开发原型中显示的值是假设值，不得用于生产",
+    "showPresetCalculationParameters": "显示预设的计算参数",
+    "addLoadCase": "添加载荷状况",
     "co2Downstream": {
-      "notPossibleTitle": "正在为 {{ selectedBearing }} 进行",
+      "notPossibleTitle": "正在为{{ selectedBearing }}进行",
       "subTitle": "在操作中因摩擦而产生的 CO₂e",
       "text": "全面信息，立即计算我们旋转产品在各种应用场景下的 CO2e 排放。",
       "textAvailable": "Schaeffler 现在提供全面信息，立即计算我们旋转产品在各种应用场景下的 CO2e 排放。",
       "title": "新"
     },
-    "showPresetCalculationParameters": "显示预设的计算参数",
-    "addLoadCase": "新增载荷案例",
-    "loads": "负载",
-    "radialLoad": "径向负载",
-    "axialLoad": "轴向负载",
-    "totalAmountOfTime": "总时间:",
+    "loads": "载荷",
+    "radialLoad": "径向载荷",
+    "axialLoad": "轴向载荷",
+    "totalAmountOfTime": "总时间：",
     "loadCaseTimePortionDescription": "用于摩擦 / CO₂e 计算：",
     "loadCaseTimePortion": "{{ loadcasePercentage }}% 的 {{ totalTime }}小时 等于 {{ loadcaseTime }}小时",
-    "loadCaseName": "荷载情境 {{number}}",
+    "loadCaseName": "载荷状况 {{number}}",
     "generalInputsTitle": "一般输入",
-    "generalInputsTitleTooltip": "适用于所有负载案例",
-    "emptyState": "请从可用计算列表中选择要执行的计算。",
+    "generalInputsTitleTooltip": "这适用于所有载荷状况",
+    "emptyState": "请从可用计算列表中选择要执行的计算",
     "operatingTime": {
       "title": "时间部分",
       "label": "百分比"
     },
     "presetParameters": {
-      "headline": "预设计算参数",
-      "hide": "隐藏值",
-      "edit": "编辑",
-      "explanation": "预设计算参数基于典型的操作条件，用户可以进行调整，以为其特定应用提供更准确的结果。"
+      "headline": "预设的计算参数",
+      "hide": "隐藏数值",
+      "edit": "编辑"
     },
     "confirmationDialog": {
       "title": "确认删除",
-      "description": "您确定要删除负载吗？",
+      "description": "您确定要删除载荷状况吗？",
       "cancelAction": "取消",
       "confirmationAction": "确认"
     },
     "resetInputs": "重置输入",
-    "pleaseEnter": "请输入 {{label}}",
+    "pleaseEnter": "输入 {{label}}",
     "tooltip": {
-      "radialLoad": "径向方向上的负载（需指定为绝对值）",
-      "axialLoad": "轴向方向上的负载（需指定为绝对值）"
+      "radialLoad": "径向载荷（指定为绝对值）",
+      "axialLoad": "轴向载荷（指定为绝对值）"
     },
     "errors": {
-      "min": "最最小值为 {{ min }}",
+      "min": "最小值为 {{ min }}",
       "max": "最大值为 {{ max }}",
-      "required": "此字段为必填项",
+      "required": "该字段为必填",
       "lowerThanEnvironmentTemperature": "不能低于环境温度",
-      "innerOuterInconsistent": "内径必须小于外径",
+      "innerOuterInconsistent": "孔径必须小于外径",
       "minMaxInconsistent": "最小值必须小于最大值",
-      "anyLoad": "至少需要一个负载",
+      "anyLoad": "需要一个载荷",
       "viscosity": "ny40 必须大于 ny100",
-      "operatingTimeValueTotal": "负载案例的总数不能超过100%。",
+      "operatingTimeValueTotal": "载荷状况的总数量不能超过 100%",
       "tmpBoundViolation": "工作温度必须高于环境温度"
     },
     "rotatingCondition": {
       "title": "运动影响",
       "typeOfMotion": "运动类型",
-      "relativeRotationalSpeed": "相对旋转速度",
-      "shiftFrequency": "变位频率",
-      "shiftAngle": "变位角度",
+      "relativeRotationalSpeed": "转速",
+      "shiftFrequency": "漂移频率",
+      "shiftAngle": "漂移角度",
       "onePerMinute": "1/min",
       "degree": "°",
-      "rpm": "转/分钟",
+      "rpm": "RPM",
       "options": {
         "LB_ROTATING": "旋转",
         "LB_OSCILLATING": "摆动"
       },
       "tooltip": {
-        "rotationSpeed": "内圈和外圈之间的相对旋转速度（需指定为绝对值）",
-        "shiftFrequency": "每分钟的摆动运动次数（完整往返周期）",
-        "shiftAngle": "摆动运动的转折点之间的角度"
+        "rotationSpeed": "内圈和外圈之间的相对转速（指定为绝对值）",
+        "shiftFrequency": "每分钟的摆动次数（来回完整循环）",
+        "shiftAngle": "摆动转向点之间的角度"
       }
     },
     "lubrication": {
-      "title": "润滑状态",
-      "notAvailable": "这种类型的润滑不适用于您选择的轴承。",
+      "title": "润滑条件",
+      "notAvailable": "这种类型的润滑不适用于您所选的轴承。",
       "options": {
-        "grease": "脂",
+        "grease": "润滑脂",
         "oilBath": "油浴",
         "oilMist": "油雾",
         "recirculatingOil": "循环油"
       },
       "grease": {
         "typeOfGrease": {
-          "label": "油脂类别",
-          "description": "选择用于轴承计算的油脂类别。",
-          "tooltip": "油脂类型对轴承的摩擦、热量产生、磨损和整体性能等因素有重要影响。"
+          "label": "润滑脂类型",
+          "description": "为轴承计算选择所用的润滑脂类型。",
+          "tooltip": "润滑脂会影响摩擦、发热、磨损和整体轴承性能等因素，因此影响重大"
         },
         "isoVgClass": {
-          "label": "ISO VG等级",
-          "description": "选择您的润滑剂的ISO VG等级。",
-          "tooltip": "ISO VG等级是润滑剂粘度的分类。"
+          "label": "ISO VG 类别",
+          "description": "选择润滑油脂的 ISO VG 类别。",
+          "tooltip": "ISO VG 类别是对润滑油脂粘度的分类"
         },
         "viscosity": {
           "label": "输入粘度",
-          "description": "输入在40°C（ny40）和100°C（ny100）时的粘度。",
-          "ny40": "40°C下的粘度",
-          "ny100": "100°C下的粘度",
+          "description": "输入 40°C (ny 40) 和 100°C (ny 100) 时的粘度。",
+          "ny40": "40°C 时的粘度",
+          "ny100": "100°C 时的粘度",
           "unit": "mm²/s"
         },
         "environmentalInfluence": {
-          "label": "環境影響",
+          "label": "环境影响",
           "options": {
-            "lowInfluence": "1.0（わずか）",
-            "averageInfluence": "0.8（中程度）",
-            "heavyInfluence": "0.5（大きい）"
+            "lowInfluence": "1.0（轻微）",
+            "averageInfluence": "0.8（中度）",
+            "heavyInfluence": "0.5（严重）"
           }
         }
       },
       "recirculatingOil": {
-        "oilFlow": "油流量（dV/dt）",
-        "oilTemperatureDifference": "油温升高（ΔT）",
-        "externalHeatFlow": "外部热流 (dQ/dt)"
+        "oilFlow": "油流量 (dV/dt)",
+        "oilTemperatureDifference": "油温升高 (delta T)",
+        "externalHeatFlow": "外部热流量 (dQ/dt)"
       }
     },
     "contamination": {
       "title": "污染",
       "label": "污染",
       "options": {
-        "extremeCleanliness": "极度洁净",
-        "highCleanliness": "高度洁净",
-        "standardCleanliness": "正常洁净度",
-        "slightContamination": "轻微污染",
-        "typicalContamination": "普通污染",
+        "extremeCleanliness": "极其干净",
+        "highCleanliness": "非常干净",
+        "standardCleanliness": "一般干净",
+        "slightContamination": "轻度污染",
+        "typicalContamination": "一般污染",
         "heavyContamination": "严重污染",
-        "veryHeavyContamination": "极度污染"
+        "veryHeavyContamination": "非常严重的污染"
       }
     },
     "temperature": {
@@ -192,7 +190,7 @@
       "operatingTemperature": {
         "label": "工作温度",
         "unit": "°C",
-        "tooltip": "轴承的工作温度（如需要，请估算）"
+        "tooltip": "轴承的工作温度（如有必要，请估测）"
       },
       "ambientTemperature": {
         "label": "环境温度",
@@ -201,10 +199,10 @@
       }
     },
     "conditionOfRotation": {
-      "title": "转动状态",
+      "title": "旋转条件",
       "options": {
-        "rotatingOuterring": "转动外圈",
-        "rotatingInnerring": "转动内圈"
+        "rotatingOuterring": "外圈旋转",
+        "rotatingInnerring": "内圈旋转"
       }
     },
     "time": {
@@ -258,31 +256,26 @@
   },
   "calculation": {
     "showReport": "显示报告",
-    "calculationImpossible": "对于您指定的参数，无法进行计算。",
-    "generalError": "网络错误。请稍后再试。",
-    "calculationMissingInput": "请添加其余条件。",
-    "co2Emissions": {
-      "upstreamHint": "根据生产环节假设的估算值",
-      "upstreamHintLinkText": "更多信息。"
-    }
+    "calculationImpossible": "根据您指定的参数，无法进行计算。",
+    "calculationMissingInput": "请添加剩余条件。"
   },
   "calculationResult": {
     "ratingLife": "额定寿命",
-    "ratingLifeSubtitle": "总额定寿命（Lh10）",
-    "staticSafetySubtitle": "静态安全（S0)",
+    "ratingLifeSubtitle": "总额定寿命 (Lh10)",
+    "staticSafetySubtitle": "静态安全 (S0)",
     "lubrication": "润滑参数",
-    "lubricationSubtitle": "黏度比（kappa）",
-    "guideIntervalRelubrication": "再润滑间隔指导值 (tfR)",
-    "guideIntervalServiceLife": "润滑脂使用寿命指导值 (tfG)",
-    "emissions": "CO₂e 排放",
-    "emissionsTooltip": "CO₂ 的等效物（CO₂e）是一种用于标准化各种温室气体的气候效应的单位。因此，可以比较不同温室气体排放的不同混合物。",
-    "overrollingFrequency": "滚过频率",
-    "overrollingFrequencySubtitle": "内圈上的频率（BPFI）",
-    "frictionalPowerloss": "摩擦功率损失",
-    "frictionalPowerlossSubtitle": "摩擦功率损失",
-    "frictionalPowerlossUnavailable": "对于所选轴承，此计算不可用。",
-    "production": "用于生产",
-    "productionTooltip": "这是所有 CO₂ 等效物排放的总和，包括生产滚动轴承所必需的资源和能源。",
+    "lubricationSubtitle": "粘度比 (kappa)",
+    "guideIntervalRelubrication": "重新润滑参考间隔 (tfR)",
+    "guideIntervalServiceLife": "润滑脂使用寿命参考值 (tfG)",
+    "emissions": "CO₂ 当量排放",
+    "emissionsTooltip": "CO₂ 当量 (CO₂e) 是一个单位，用于标准化各种温室气体对气候的影响。因此，我们可以对不同温室气体排放的混合物进行比较。",
+    "overrollingFrequency": "碾压频率",
+    "overrollingFrequencySubtitle": "内圈滚动频率 (BPFI)",
+    "frictionalPowerloss": "摩擦功率损耗",
+    "frictionalPowerlossSubtitle": "摩擦功率损耗",
+    "frictionalPowerlossUnavailable": "对于所选轴承，无法进行此计算。",
+    "production": "用于轴承生产",
+    "productionTooltip": "这是为生产滚动轴承而排放的所有 CO₂ 当量的总和，包括必要的资源和能源。",
     "usage": "使用期间",
     "usageTooltip": "由于功率损失导致的总体CO2排放量。",
     "yearlyEmissionInfo": "（全天候使用一年）",
@@ -335,7 +328,7 @@
     }
   },
   "calculationResultReport": {
-    "dialogTitle": "{{bearingDesignation}} 轮毂报告",
+    "dialogTitle": "轴承 {{bearingDesignation}} 的报告",
     "reportSectionInput": "输入",
     "downstreamInputs": {
       "bearing": {
@@ -371,10 +364,13 @@
         "radialLoad": "径向载荷"
       }
     },
-    "reportSectionWarnings": "错误/警告/说明",
-    "errors": "错误",
-    "warnings": "警告",
-    "notes": "说明",
+    "reportSectionWarnings": "错误/报警/操作员记录",
+    "calculationNotAvailable": {
+      "line1": "对于所选轴承，无法进行此计算。",
+      "line2": "如需更多信息，请联系我们的",
+      "linkText": "客户支持部门",
+      "link": "https://medias.schaeffler.de/en/stc"
+    },
     "co2Emissions": {
       "title": "每件产品的CO₂e排放估计",
       "unit": "CO₂e",
@@ -404,109 +400,101 @@
       "viscosityRatio": "粘度比",
       "operatingViscosity": "工作粘度",
       "referenceViscosity": "参考粘度",
-      "lifeAdjustmentFactor": "寿命调整因子",
-      "lowerGuideIntervalRelubrication": "再润滑间隔的下限",
-      "upperGuideIntervalRelubrication": "再润滑间隔的上限",
-      "lowerGuideIntervalServiceLife": "润滑脂使用寿命较低指导值",
-      "upperGuideIntervalServiceLife": "润滑脂使用寿命上限指导值",
-      "guideIntervalRelubrication": "再润滑间隔指导值",
-      "guideIntervalServiceLife": "润滑脂使用寿命指导值"
+      "lifeAdjustmentFactor": "寿命修正系数",
+      "lowerGuideIntervalRelubrication": "重新润滑间隔的下限参考值",
+      "upperGuideIntervalRelubrication": "重新润滑间隔的上限参考值",
+      "lowerGuideIntervalServiceLife": "润滑脂使用寿命的下限参考值",
+      "upperGuideIntervalServiceLife": "润滑脂使用寿命的上限参考值",
+      "guideIntervalRelubrication": "重新润滑间隔的参考值",
+      "guideIntervalServiceLife": "润滑脂使用寿命的参考值"
     },
     "frictionalPowerloss": {
-      "title": "摩擦功率损失",
+      "title": "摩擦功率损耗",
       "totalFrictionalTorque": "摩擦力矩",
       "totalFrictionalPowerLoss": "摩擦功率损失",
-      "speedDependentFrictionalTorque": "速度相关摩擦力矩",
-      "loadDependentFrictionalTorque": "负荷相关摩擦力矩",
-      "thermallySafeOperatingSpeed": "热安全工作速度",
-      "calculationNotAvailable": {
-        "line1": "对于所选轴承，当前无法进行此计算。",
-        "line2": "如需了解更多信息，请联系我们的",
-        "linkText": "客户服务团队",
-        "link": "https://medias.schaeffler.cn/stc"
-      }
+      "speedDependentFrictionalTorque": "取决于速度的摩擦力矩",
+      "loadDependentFrictionalTorque": "取决于载荷的摩擦力矩",
+      "thermallySafeOperatingSpeed": "热安全工作转速"
     },
     "calculationDisclaimer": {
-      "title": "“摇篮到工厂”PCF 计算方法概述",
-      "disclaimerFile": "/disclaimers/calculation-zh_cn.html"
+      "title": "PCF 计算免责声明",
+      "disclaimerFile": "/disclaimers/calculation-en.html"
     },
     "ratingLife": {
       "title": "额定寿命",
-      "lh10": "额定总寿命（小时）",
+      "lh10": "总额定寿命，以小时为单位（标称）",
       "lh_nm_unavailable": "请在计算中添加“润滑参数”以显示此值",
-      "lh_nm": "修正额定寿命（小时）",
-      "p": "等效动载荷",
-      "n": "等效转速",
-      "s0_min": "静态安全性",
-      "p0_max": "最大等效静载荷",
-      "p0": "每个工况的等效静载荷",
-      "p_i": "每个工况的等效动载荷"
+      "lh_nm": "修改后的额定寿命，以小时为单位",
+      "p": "当量动载荷",
+      "n": "当量转速",
+      "s0_min": "静态安全",
+      "p0_max": "最大当量静载荷",
+      "p0": "每个载荷状况的当量静载荷",
+      "p_i": "每个载荷状况的当量动载荷"
     },
     "overrollingFrequencies": {
-      "title": "超滚频率",
-      "BPFO": "滚动体外圈超滚频率",
-      "BPFI": "滚动体内圈超滚频率",
-      "BSF": "滚动体超滚频率",
-      "RPFB": "环通过滚动体的频率",
-      "FTF": "滚动体集合的速度",
+      "title": "碾压频率",
+      "BPFO": "外圈碾压频率",
+      "BPFI": "内圈碾压频率",
+      "BSF": "滚动体碾压频率",
+      "RPFB": "套圈通过滚动体的滚过频率",
+      "FTF": "滚动体组的转速",
       "short": {
-        "BPFO": "滚动体外圈",
-        "BPFI": "滚动体内圈",
-        "BSF": "滚动体",
-        "RPFB": "环通过滚动体的频率",
-        "FTF": "滚动体组件的转速"
+        "BPFO": "外圈上",
+        "BPFI": "内圈上",
+        "BSF": "滚动体上",
+        "RPFB": "套圈通过滚动体的滚过频率",
+        "FTF": "滚动体组的转速"
       }
     }
   },
   "basicFrequencies": {
     "showBasicFrequencies": "显示基础频率",
-    "dialogTitle": "{{bearingDesignation}} 轴承的基础频率",
-    "saveAsPdf": "保存为 PDF"
+    "dialogTitle": "轴承 {{bearingDesignation}} 的基础频率",
+    "saveAsPdf": "另存为 PDF"
   },
   "calculationSelection": {
     "title": "选择您的计算",
     "selectAll": "全选",
-    "typeUnavailable": "对于所选轴承，此计算不可用。",
+    "typeUnavailable": "对于所选轴承，无法进行此计算。",
     "calculations": "计算",
     "calculationTypes": {
       "ratingLife": "额定寿命",
       "lubrication": "润滑参数",
-      "frictionalPowerloss": "摩擦功率损失",
+      "frictionalPowerloss": "摩擦功率损耗",
       "co2": "CO₂e排放量",
-      "co2ForProduction": "生产的 CO₂e 排放量",
-      "overrollingFrequency": "滚过频率"
+      "co2ForProduction": "因生产而排放的 CO₂ 当量",
+      "overrollingFrequency": "碾压频率"
     },
     "basicFrequency": "基础频率",
-    "saveAsPDF": "PDF下载"
+    "saveAsPDF": "PDF 下载"
   },
   "qualtricsInfoBanner": {
     "feedbackButton": "反馈",
-    "feedbackText": "您的反馈可以帮助我们不断改进我们的产品。"
+    "feedbackText": "您的反馈有助于我们持续改进产品。"
   },
   "appStoreButtonsTitle": "享受 medias EasyCalc 的好处 - 立即下载！",
   "unit": {},
   "legal": {
-    "imprint": "版权声明",
+    "imprint": "版本说明",
     "dataPrivacy": "数据隐私",
     "termsOfUse": "使用条款",
-    "cookiePolicy": "Cookie政策",
-    "cookieSettings": "Cookie设置",
-    "purpose": "</br>使用工程应用，通过用户输入如轴承选型和操作参数进行计算，以确定润滑剂推荐并发出应用推荐。</br>您的匿名用户数据存储在Microsoft Azure平台上，并以仪表板的形式显示。这使我们有机会评估用户在工程应用中的行为，以便能够对工程应用的进一步发展做出战略决策。",
-    "storagePeriod": "一年",
-    "termsOfUseContent": "<h3>General Conditions of Use for the Schaeffler medias EasyCalc</h3><h5>1. Scope</h5><b>1.1</b><p>Any use of this App (“Schaeffler App”) offered by Schaeffler Technologies AG & Co. KG (\"Schaeffler\") shall be subject to these Conditions insofar as use is not otherwise regulated by the conditions of the Schaeffler company in the respective country. By commencing use of the Schaeffler App, the user accepts the validity of these Conditions of Use in their current version.</p><b>1.2</b><p>These General Conditions of Use may be supplemented, modified or replaced from time-to-time.</p><h5>2. Contents of the Schaeffler App</h5><p>On the Schaeffler App, Schaeffler has placed non-binding information as well as related documentation and software which may be called up or downloaded. Such placement shall be without any commitment and without any warranties as to completeness. Schaeffler may at any time in whole or in part block the Schaeffler App or change the contents without any prior notice. Schaeffler does not accept any liability in relation to the uninterrupted availability of the Schaeffler App.</p><p>The Schaeffler App can be used to calculate the lubricant quantity for bearings during initial greasing and relubrication under specific operating conditions. In addition, recommendations for relubrication intervals and grease usage durations are provided. Relubrication can be carried out manually or automatically using the Schaeffler lubricators. The user is given an overview of the properties of the Arcanol greases. Greases with a high relubrication interval are highlighted.</p><h5>3. Rights of Use</h5><b>3.1</b><p>The use of the information, software and documentation available on the Schaeffler App shall be subjected to these Conditions, or if the information, software and documentation are updated, such shall be subject to the applicable license conditions already agreed with Schaeffler. Any license conditions separately agreed upon shall prevail over these Conditions.</p><b>3.2</b><p>Schaeffler grants to the user a non-exclusive, non-transferable, non-assignable, non-sublicensable right to use the Schaeffler App and the information, software and documentation available on the Schaeffler App to the extent to which it is agreed between the parties, or, in case there is no agreement on this point, in accordance with the purpose intended by Schaeffler.</p><b>3.3</b><p>Software is only available in a machine-readable form at no cost. No right shall exist to the release of any source code. In case the license conditions of open source software have priority over these Conditions and require Schaeffler to make the source code available, such source code shall be made available in exchange for reimbursement of expenses.</p><b>3.4</b><p>Unless mandatory provisions govern to the contrary, the user may not change, reverse, develop, or reverse translate the software or its documentation or remove any part therefrom.</p><b>3.5</b><p>The information, software and documentation are protected by applicable copyright laws as well as other applicable laws related to intellectual property. The user shall observe such laws, and in particular any alphanumerical identification, marks or copyright notices shall not be removed from the information, software or documentation or from any copies thereof.</p><b>3.6</b><p>Any provisions of applicable copyright law regarding the protection of any software shall not otherwise be affected hereby.</p><h5>4. Intellectual Property</h5><b>4.1</b><p>Notwithstanding the particular requirements in section 4 of these Conditions of Use, any information, trademark names and other contents of the Schaeffler App may not be changed, copied, reproduced, sold, rented, used, supplemented or used in any other way without the prior written permission of Schaeffler.</p><b>4.2</b><p>Except for the right of use and other rights expressly granted herein, the user shall be granted no further rights of any type whatsoever, in particular those to the company name or to industrial property rights, such as patents, utility models or trademarks, nor shall Schaeffler be subject to any corresponding duty to grant such rights.</p><h5>5. Registration and Use of Protected Pages</h5><b>5.1</b><p>Access to the Schaeffler App or to parts of it can be permitted only for registered users for transactional business security purposes. There shall be no right to be registered by Schaeffler in such case. In particular, Schaeffler reserves the right to make parts of the Schaeffler App previously freely accessible subject to registration.</p><p>Schaeffler may at any time revoke a right of access by blocking the access data without providing any reasons therefor, in particular when the user:</p><ul><li>has provided false details for registration;</li><li>has breached the Conditions of Use or its duties of care in relation to the treatment of access data;</li><li>has breached applicable law in accessing or using the Schaeffler App; or</li><li>has been an inactive user of the Schaeffler Website for a period of at least 24 months.</li></ul><b>5.2</b><p>In the event that registration is permitted, the user shall provide accurate and correct details and must advise Schaeffler immediately of any changes.</p><b>5.3</b><p>After registration the user shall receive a user name and password (user data). At the time of first access the user shall change the password provided by Schaeffler into a secure password. The user data allows the user to access its own data, to change such data, and, if necessary, to extend or revoke agreements to data processing.</p><b>5.4</b><p>The user shall ensure that the user data are not available to third parties and shall be liable for all orders and other activities taken under the user data. After each occasion of use, the area protected by password shall be exited. Insofar as the user becomes aware that any third party is misusing user data, the user shall immediately notify Schaeffler of such in writing, and, if applicable, in advance by e-mail communication. After receipt of such notification, Schaeffler shall block the access to the area protected by password for that user data. The lifting of any blocking is only possible after a special application by the user to Schaeffler or after a further registration.</p><b>5.5</b><p>The user may at any time in writing demand the deletion of any registration insofar as the deletion is not prevented by the processing of current contractual matters. In such case, Schaeffler shall erase all user data and all other personal data of the user as soon as such is no longer required.</p><h5>6. References and Links</h5><p>The Schaeffler App may contain references and links (hyperlinks) to the websites of third parties or of Schaeffler. Schaeffler does not accept any responsibility for the contents of websites of third parties, nor does Schaeffler make the contents of such websites its own, as Schaeffler cannot control any information connected by a third party-link and is not responsible for the contents and information therein contained. Any use of linked websites shall be at the risk of the user.</p><h5>7. Exclusion of Liability for Defects as to Title and Quality, Viruses</h5><b>7.1</b><p>Insofar as any information, software or documentation is made available at no charge, any liability is hereby excluded for defects as to title or defects as to the quality of the information, software and documentation, and in particular for the correctness, defect-free nature, and the non-existence of property rights or copyright of third parties, completeness and/or usability except in cases of willful acts or malice. Schaeffler hereby disclaims all warranties of any kind, whether express or implied, statutory or otherwise. Regardless of the legal basis.</p><b>7.2</b><p>The information contained on the Schaeffler App may include specifications or general descriptions of technical possibilities of products, which in individual cases (e.g. for reasons of changes in products) may not always be available. The required performance specification of the products should therefore be agreed prior to purchase in each case.</p><b>7.3</b><p>The liability of Schaeffler for any defects as to quality and defects as to title shall be determined by the provisions in sections 7.1 and 7.2 of these Conditions. Ceteris paribus, any liability of Schaeffler is excluded unless (i) mandatory law (e. g. the Product Liability Act) requires it, (ii) as a result of product liability law, (iii) as a result of wilful acts or gross negligence, (iv) as a result of death or personal injury, (v) as a result of the acceptance of a guarantee as to quality, (vi) as a result of malicious concealment of a defect, or (vii) because of the material breach of a contract. Any damages for material breach of contract shall however be limited to typical, foreseeable damages, insofar as wilful acts or gross negligence are not involved.</p><b>7.4</b><p>Schaeffler shall endeavor to keep the Schaeffler App free from all viruses, however Schaeffler cannot give any assurance as to a virus-free environment. Before downloading any information, software or documentation, the user shall, for its own protection as well as to prevent viruses coming onto the Schaeffler App, use suitable security measures and virus scanners. The User is responsible for implementing sufficient procedures and checkpoints to satisfy its particular requirements for anti-virus protection and accuracy of data input and output, and for maintaining a means external to our site for any reconstruction of any lost data.</p><b>7.5</b><p>A reversal of the burden of proof shall not be assumed by any of the above provisions.</p><h5>8. Obligations of Use</h5><b>8.1</b><p>The user may not in regard to the Schaeffler App:</p><ul><li>cause any damage or injury to any persons, in particular juveniles, or violate their right to privacy, e.g. by uploading of any content or during the use of the chat function;</li><li>violate good morals or applicable law with usage behaviour;</li><li>violate industrial property rights or copyright or other property rights of Schaeffler or of third parties;</li><li>transmit any contents with viruses or so-called “Trojan Horses” or other programming which could damage software;</li><li>provide, store or send hyperlinks or contents to which it is not allowed, in particular if such hyperlinks or contents are a breach of a duty of confidentiality or are unlawful; or</li><li>distribute advertising or unsolicited e-mails (so-called \"spam\") or irrelevant warnings as to viruses, malware or similar, or request persons to participate in gambling, games, chain letters, pyramid schemes or any other similar actions.</li><li>to engage in any other conduct that restricts or inhibits anyone's use or enjoyment of the Schaeffler App, or which, as determined by Schaeffler may harm Schaeffler or users of the Schaeffler App or expose them to liability.</li><li>use the Schaeffler App in any manner that could disable, overburden, damage, or impair the Schaeffler App or interfere with any other party's use of the Schaeffler App, including their ability to engage in real time activities through the Schaeffler App.</li></ul><b>8.2</b><p>Schaeffler may block access to the Schaeffler App at any time, in particular if the user breaches its duties under these Conditions.</p><b>8.3</b><p>The user shall indemnify Schaeffler from all claims, irrespective of legal basis, type and amount, upon first request, which third parties assert against Schaeffler because the user violates his obligations under these terms and conditions.</p><h5>9. Export Requirements</h5><p>The transfer of information, software and documentation can be subject to the applicable legal provisions of export controls, in particular but not limited to the law of the EU or its member states or the US, due to its type or its purpose of use or its end use. The user confirms that he shall comply to the applicable provisions of export control law at all times.</p><h5>10. Protection of Personal Data</h5><p>Schaeffler shall, in compiling, using and processing personal data of the user, observe the applicable data protection regulations which may be viewed on the Schaeffler App.</p><h5>11. Collateral Agreements, Place of Jurisdiction, Applicable Law</h5><b>11.1</b><p>Any collateral agreements to these Conditions of Use including any amendments of this clause shall be in the written form.</p><b>11.2</b><p>The place of jurisdiction is the registered seat of Schaeffler Technologies AG & Co. KG.</p><b>11.3</b><p>The individual pages of the Schaeffler App are operated by and are the responsibility of Schaeffler. These pages comply with the requirements of the specific country in which the Schaeffler Technologies AG & Co. KG has its registered seat. Schaeffler accepts no responsibility for the possibility that information, software and/or documentation in the Schaeffler App may be called up or downloaded in places outside of the respective country. If users from countries outside of the respective country use the Schaeffler App, they are themselves responsible for compliance with the applicable regulations of the respective country. Access to information, software and/or documentation on the Schaeffler App in countries in which access is unlawful is not allowed. In such case, and should the user wish to contact Schaeffler commercially, the user should contact the Schaeffler representatives in the respective country.</p><b>11.4</b><p>These Conditions as well as the use of this App shall be subject to the law of the registered seat of Schaeffler Technologies AG & Co. KG.</p><p>Version 01 14.01.2022</p>"
+    "cookiePolicy": "Cookie 政策",
+    "cookieSettings": "Cookie 设置"
   },
   "sidebar": {
-    "languageSettings": "语言设定"
+    "languageSettings": "语言设置"
   },
   "pdfReport": {
-    "reportHeading": "medias 轴承计算报告 {{bearingDesignation}}",
+    "reportHeading": "轴承 {{bearingDesignation}} 的 Medias 计算报告",
     "mediasBearingLink": {
-      "text": "在medias中查看",
-      "link": "https://medias.schaeffler.cn/zh/p/{{bearingDesignation}}?utm_source=engineering-app"
+      "text": "在 Medias 中查看",
+      "link": "https://medias.schaeffler.de/en/p/{{bearingDesignation}}?utm_source=engineering-app"
     },
     "inputHeading": "输入",
     "selectedMethods": "选定的计算方法",
-    "disclaimer": "All rights are reserved with regard to this document, even in the event that a patent should be granted or a utility model registered. The document must be treated confidentially. Without our written consent, neither the document itself, nor copies thereof or any other renderings of the complete contents or of extracts therefrom may be made available to third parties or put to improper use by the recipient in any other way. The document has been prepared on the basis of your requirements as set forth above and our own assumptions. Our details take into account those risks which were apparent to us on the basis of your requirements as made available to us. The document has been prepared solely in connection with the purchase of our products. The results shown in the document have been worked out carefully and in accordance with the state of the art, but do not constitute an express or implied guaranty as to quality or durability in the legal sense. You are not dispensed thereby from checking the suitability of the products. We shall be liable for the details provided in the document only in the event of willful intent or negligence. If the document is part of a supply agreement, the liability provisions agreed there shall apply.",
+    "disclaimer": "本文档的所有权利归本公司所有，包括授予专利及注册实用新型的权利。本文档必须得到严格保密。未经我们书面同意，本文档正本及其副本、完整内容或摘录内容的其他副本均不得提供给第三方，或被接收方以任何其他方式滥用。本文档是基于您的上述要求，并结合我们自身的假设编写而成的。我们的详细信息考虑了根据您提供给我们的要求，我们明显察觉到的那些风险。本文档仅与购买我们的产品有关。文档中所展示的结果是基于现有技术发展水平而仔细计算的，但并不构成法律意义上明示或暗示的质量或耐用性保证。因此，您有责任检查产品的适用性。我们仅对因故意或疏忽行为导致的文档中详细信息的错误或遗漏承担责任。如果本文档是供货协议的一部分，则其中协商的责任条款适用。",
+    "filename": "{{designation}} 的 Medias 计算报告 - {{date}}",
     "page": "页面"
   }
 }
