@@ -489,7 +489,6 @@ describe('LossOfSkill Effects', () => {
         {
           employee: 'Joe Doe',
           employeeKey: '123',
-          highImpactOfLoss: false,
           highRiskOfLoss: false,
           isManager: true,
           orgUnit: 'SG/XYZ',

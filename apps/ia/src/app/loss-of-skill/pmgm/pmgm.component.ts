@@ -14,6 +14,7 @@ import {
   ICellRendererParams,
   IRowNode,
   RowDataUpdatedEvent,
+  RowSelectionOptions,
   ValueGetterParams,
 } from 'ag-grid-community';
 
@@ -45,6 +46,13 @@ export class PmgmComponent {
       closeOnApply: true,
       closeOnReset: true,
     },
+  };
+
+  rowSelection: RowSelectionOptions = {
+    mode: 'multiRow',
+    checkboxes: false,
+    enableClickSelection: false,
+    headerCheckbox: false,
   };
 
   components = [
@@ -100,18 +108,6 @@ export class PmgmComponent {
       cellRenderer: PmgmArrowComponent,
     },
     {
-      field: 'highImpactOfLoss',
-      headerName: translate('lossOfSkill.pmgm.table.highImpactOfLoss'),
-      valueGetter: (params: ValueGetterParams) =>
-        this.yesNoBooleanConverter(params.data.highImpactOfLoss),
-    },
-    {
-      field: 'highImpactOfLossChange',
-      headerName: translate('lossOfSkill.pmgm.table.previousYear'),
-      cellRenderer: PmgmArrowComponent,
-      hide: true,
-    },
-    {
       field: 'highRiskOfLoss',
       headerName: translate('lossOfSkill.pmgm.table.highRiskOfLoss'),
       valueGetter: (params: ValueGetterParams) =>
@@ -165,14 +161,14 @@ export class PmgmComponent {
 
   onRowDataUpdated(params: RowDataUpdatedEvent<PmgmData>): void {
     params.api.forEachNode((node) => {
-      if (node.data.fluctuationType) {
+      if (node.data?.fluctuationType) {
         node.setSelected(true);
       }
     });
   }
 
   positionValueGetter(params: ValueGetterParams<PmgmData>): string {
-    return params.data.isManager
+    return params.data?.isManager
       ? translate('lossOfSkill.pmgm.table.tooltip.position.manager')
       : translate('lossOfSkill.pmgm.table.tooltip.position.employee');
   }

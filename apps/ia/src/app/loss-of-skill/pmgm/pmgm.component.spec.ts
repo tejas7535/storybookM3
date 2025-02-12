@@ -79,18 +79,14 @@ describe('PmgmComponent', () => {
       expect(component.columnDefs[5].field).toEqual(
         'overallPerformanceRatingChange'
       );
-      expect(component.columnDefs[6].field).toEqual('highImpactOfLoss');
-      expect(component.columnDefs[7].field).toEqual('highImpactOfLossChange');
-      expect(component.columnDefs[8].field).toEqual('highRiskOfLoss');
-      expect(component.columnDefs[9].field).toEqual('highRiskOfLossChange');
-      expect(component.columnDefs[10].field).toEqual('assessment');
+      expect(component.columnDefs[6].field).toEqual('highRiskOfLoss');
+      expect(component.columnDefs[7].field).toEqual('highRiskOfLossChange');
+      expect(component.columnDefs[8].field).toEqual('assessment');
     });
 
-    test('should hide highImpactOfLoss and highRiskOfLossChange columns', () => {
-      expect(component.columnDefs[7].field).toEqual('highImpactOfLossChange');
+    test('should hide highRiskOfLossChange columns', () => {
+      expect(component.columnDefs[7].field).toEqual('highRiskOfLossChange');
       expect(component.columnDefs[7].hide).toBeTruthy();
-      expect(component.columnDefs[9].field).toEqual('highRiskOfLossChange');
-      expect(component.columnDefs[9].hide).toBeTruthy();
     });
   });
 

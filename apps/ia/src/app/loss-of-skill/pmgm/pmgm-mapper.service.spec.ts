@@ -24,8 +24,6 @@ describe('PmgmMapperService', () => {
     fluctuationType: LeavingType.REMAINING,
     isManager: true,
     prevYearIsManager: false,
-    highImpactOfLoss: false,
-    prevYearHighImpactOfLoss: true,
     highRiskOfLoss: true,
     prevYearHighRiskOfLoss: false,
     orgUnit: 'SH/ZHZ',
@@ -50,7 +48,7 @@ describe('PmgmMapperService', () => {
       service.calculateAssessment = jest.fn(() => PmgmAssessment.GREEN);
       service.calculateManagerChange = jest.fn(() => PmgmArrow.UP);
       service.calculateOverallRatingChange = jest.fn(() => PmgmArrow.DOWN);
-      service.calculateLossIndicatorChange = jest.fn(() => PmgmArrow.RIGHT);
+      service.calculateRiskOfLossChange = jest.fn(() => PmgmArrow.RIGHT);
 
       const result = service.mapPmgmDataResponseToPmgmData(dto);
 
@@ -60,7 +58,6 @@ describe('PmgmMapperService', () => {
           assessment: PmgmAssessment.GREEN,
           overallPerformanceRatingChange: PmgmArrow.DOWN,
           managerChange: PmgmArrow.UP,
-          highImpactOfLossChange: PmgmArrow.RIGHT,
           highRiskOfLossChange: PmgmArrow.RIGHT,
         },
       ]);
@@ -70,25 +67,25 @@ describe('PmgmMapperService', () => {
 
   describe('calculateLossIndicatorChange', () => {
     test('should return NONE when currentHighImpactOfLoss and previousHighImpactOfLoss are null', () => {
-      const result = service.calculateLossIndicatorChange(null, null);
+      const result = service.calculateRiskOfLossChange(null, null);
 
       expect(result).toBe(PmgmArrow.NONE);
     });
 
     test('should return RIGHT when currentHighImpactOfLoss and previousHighImpactOfLoss are equal', () => {
-      const result = service.calculateLossIndicatorChange(true, true);
+      const result = service.calculateRiskOfLossChange(true, true);
 
       expect(result).toBe(PmgmArrow.RIGHT);
     });
 
     test('should return DOWN when currentHighImpactOfLoss is true and previousHighImpactOfLoss is false', () => {
-      const result = service.calculateLossIndicatorChange(true, false);
+      const result = service.calculateRiskOfLossChange(true, false);
 
       expect(result).toBe(PmgmArrow.DOWN);
     });
 
     test('should return UP when currentHighImpactOfLoss is false and previousHighImpactOfLoss is true', () => {
-      const result = service.calculateLossIndicatorChange(false, true);
+      const result = service.calculateRiskOfLossChange(false, true);
 
       expect(result).toBe(PmgmArrow.UP);
     });
@@ -153,308 +150,69 @@ describe('PmgmMapperService', () => {
   });
 
   describe('calculateAssessment', () => {
-    let dto: PmgmDataDto;
-
-    beforeEach(() => {
-      dto = {
-        ...pmgmDataDtoMock,
-      };
-    });
-
-    test('should return GREY when overallPerformanceRating is undefined', () => {
-      dto.overallPerformanceRating = undefined;
-
-      const result = service.calculateAssessment(dto);
-
-      expect(result).toBe(PmgmAssessment.GREY);
-    });
-
     test('should return GREY when overallPerformanceRating is null', () => {
-      dto.overallPerformanceRating = null;
-
-      const result = service.calculateAssessment(dto);
+      const result = service.calculateAssessment({
+        ...pmgmDataDtoMock,
+        overallPerformanceRating: null,
+      });
 
       expect(result).toBe(PmgmAssessment.GREY);
     });
 
-    test('should assess unrated when UNRATED rating', () => {
-      dto.overallPerformanceRating = PerformanceRating.UNRATED;
-      service.assessUnrated = jest.fn();
+    test('should return YELLOW when overallPerformanceRating is UNRATED', () => {
+      const result = service.calculateAssessment({
+        ...pmgmDataDtoMock,
+        overallPerformanceRating: PerformanceRating.UNRATED,
+      });
 
-      service.calculateAssessment(dto);
-
-      expect(service.assessUnrated).toHaveBeenCalledWith(
-        dto.highRiskOfLoss,
-        dto.highImpactOfLoss
-      );
+      expect(result).toBe(PmgmAssessment.YELLOW);
     });
 
-    test('should assess below expectations when BELOW_EXPECTATIONS rating', () => {
-      dto.overallPerformanceRating = PerformanceRating.BELOW_EXPECTATIONS;
-      service.assessBelowExpectations = jest.fn();
+    test('should return YELLOW when overallPerformanceRating is BELOW_EXPECTATIONS', () => {
+      const result = service.calculateAssessment({
+        ...pmgmDataDtoMock,
+        overallPerformanceRating: PerformanceRating.BELOW_EXPECTATIONS,
+      });
 
-      service.calculateAssessment(dto);
-
-      expect(service.assessBelowExpectations).toHaveBeenCalledWith(
-        dto.highRiskOfLoss,
-        dto.highImpactOfLoss
-      );
+      expect(result).toBe(PmgmAssessment.YELLOW);
     });
 
-    test('should assess meets expectations when MEETS_EXPECTATIONS rating', () => {
-      dto.overallPerformanceRating = PerformanceRating.MEETS_EXPECTATIONS;
-      service.assessMeetsExpectations = jest.fn();
+    test('should return YELLOW when overallPerformanceRating is MEETS_EXPECTATIONS', () => {
+      const result = service.calculateAssessment({
+        ...pmgmDataDtoMock,
+        overallPerformanceRating: PerformanceRating.MEETS_EXPECTATIONS,
+      });
 
-      service.calculateAssessment(dto);
-
-      expect(service.assessMeetsExpectations).toHaveBeenCalledWith(
-        dto.highRiskOfLoss,
-        dto.highImpactOfLoss
-      );
+      expect(result).toBe(PmgmAssessment.YELLOW);
     });
 
-    test('should assess exceeds expectations when EXCEEDS_EXPECTATIONS rating', () => {
-      dto.overallPerformanceRating = PerformanceRating.EXCEEDS_EXPECTATIONS;
-      service.assessExceedsExpectations = jest.fn();
+    test('should return RED when overallPerformanceRating is EXCEEDS_EXPECTATIONS', () => {
+      const result = service.calculateAssessment({
+        ...pmgmDataDtoMock,
+        overallPerformanceRating: PerformanceRating.EXCEEDS_EXPECTATIONS,
+      });
 
-      service.calculateAssessment(dto);
-
-      expect(service.assessExceedsExpectations).toHaveBeenCalledWith(
-        dto.highRiskOfLoss,
-        dto.highImpactOfLoss
-      );
-    });
-
-    test('should throw error when invalid performance rating', () => {
-      dto.overallPerformanceRating = 'invalid' as PerformanceRating;
-
-      expect(() => service.calculateAssessment(dto)).toThrowError(
-        'Invalid performance rating'
-      );
+      expect(result).toBe(PmgmAssessment.RED);
     });
   });
 
   describe('assessUnrated', () => {
-    test('should return GREY when highRiskOfLoss and highImpactOfLoss are null', () => {
-      const result = service.assessUnrated(null, null);
+    test('should return GREY when highRiskOfLoss is null', () => {
+      const result = service.assessUnrated(null);
 
       expect(result).toBe(PmgmAssessment.GREY);
     });
 
-    test('should return RED when highRiskOfLoss and highImpactOfLoss are true', () => {
-      const result = service.assessUnrated(true, true);
-
-      expect(result).toBe(PmgmAssessment.RED);
-    });
-
-    test('should return YELLOW when highRiskOfLoss is true and highImpactOfLoss is null', () => {
-      const result = service.assessUnrated(true, null);
+    test('should return YELLOW when highRiskOfLoss is true', () => {
+      const result = service.assessUnrated(true);
 
       expect(result).toBe(PmgmAssessment.YELLOW);
     });
 
-    test('should return YELLOW when highRiskOfLoss is null and highImpactOfLoss is true', () => {
-      const result = service.assessUnrated(null, true);
-
-      expect(result).toBe(PmgmAssessment.YELLOW);
-    });
-
-    test('should return YELLOW when highRiskOfLoss is true and highImpactOfLoss is false', () => {
-      const result = service.assessUnrated(true, false);
-
-      expect(result).toBe(PmgmAssessment.YELLOW);
-    });
-
-    test('should return YELLOW when highRiskOfLoss is false and highImpactOfLoss is true', () => {
-      const result = service.assessUnrated(false, true);
-
-      expect(result).toBe(PmgmAssessment.YELLOW);
-    });
-
-    test('should return GREEN when highRiskOfLoss and highImpactOfLoss are false', () => {
-      const result = service.assessUnrated(false, false);
+    test('should return GREEN when highRiskOfLoss is false', () => {
+      const result = service.assessUnrated(false);
 
       expect(result).toBe(PmgmAssessment.GREEN);
-    });
-
-    test('should return GREEN when highRiskOfLoss is false and highImpactOfLoss is null', () => {
-      const result = service.assessUnrated(false, null);
-
-      expect(result).toBe(PmgmAssessment.GREEN);
-    });
-
-    test('should return GREEN when highRiskOfLoss is null and highImpactOfLoss is false', () => {
-      const result = service.assessUnrated(null, false);
-
-      expect(result).toBe(PmgmAssessment.GREEN);
-    });
-  });
-
-  describe('assessBelowExpectations', () => {
-    test('should return RED when highRiskOfLoss and highImpactOfLoss are true', () => {
-      const result = service.assessBelowExpectations(true, true);
-
-      expect(result).toBe(PmgmAssessment.RED);
-    });
-
-    test('should return YELLOW when highRiskOfLoss is true and highImpactOfLoss is null', () => {
-      const result = service.assessBelowExpectations(true, null);
-
-      expect(result).toBe(PmgmAssessment.YELLOW);
-    });
-
-    test('should return YELLOW when highRiskOfLoss is null and highImpactOfLoss is true', () => {
-      const result = service.assessBelowExpectations(null, true);
-
-      expect(result).toBe(PmgmAssessment.YELLOW);
-    });
-
-    test('should return YELLOW when highRiskOfLoss is true and highImpactOfLoss is false', () => {
-      const result = service.assessBelowExpectations(true, false);
-
-      expect(result).toBe(PmgmAssessment.YELLOW);
-    });
-
-    test('should return YELLOW when highRiskOfLoss is false and highImpactOfLoss is true', () => {
-      const result = service.assessBelowExpectations(false, true);
-
-      expect(result).toBe(PmgmAssessment.YELLOW);
-    });
-
-    test('should return GREEN when highRiskOfLoss and highImpactOfLoss are null', () => {
-      const result = service.assessBelowExpectations(null, null);
-
-      expect(result).toBe(PmgmAssessment.GREEN);
-    });
-
-    test('should return GREEN when highRiskOfLoss and highImpactOfLoss are false', () => {
-      const result = service.assessBelowExpectations(false, false);
-
-      expect(result).toBe(PmgmAssessment.GREEN);
-    });
-
-    test('should return GREEN when highRiskOfLoss is false and highImpactOfLoss is null', () => {
-      const result = service.assessBelowExpectations(false, null);
-
-      expect(result).toBe(PmgmAssessment.GREEN);
-    });
-
-    test('should return GREEN when highRiskOfLoss is null and highImpactOfLoss is false', () => {
-      const result = service.assessBelowExpectations(null, false);
-
-      expect(result).toBe(PmgmAssessment.GREEN);
-    });
-  });
-
-  describe('assessMeetsExpectations', () => {
-    test('should return RED when highRiskOfLoss and highImpactOfLoss are true', () => {
-      const result = service.assessMeetsExpectations(true, true);
-
-      expect(result).toBe(PmgmAssessment.RED);
-    });
-
-    test('should return YELLOW when highRiskOfLoss is true and highImpactOfLoss is null', () => {
-      const result = service.assessMeetsExpectations(true, null);
-
-      expect(result).toBe(PmgmAssessment.YELLOW);
-    });
-
-    test('should return YELLOW when highRiskOfLoss is null and highImpactOfLoss is true', () => {
-      const result = service.assessMeetsExpectations(null, true);
-
-      expect(result).toBe(PmgmAssessment.YELLOW);
-    });
-
-    test('should return YELLOW when highRiskOfLoss is true and highImpactOfLoss is false', () => {
-      const result = service.assessMeetsExpectations(true, false);
-
-      expect(result).toBe(PmgmAssessment.YELLOW);
-    });
-
-    test('should return YELLOW when highRiskOfLoss is false and highImpactOfLoss is true', () => {
-      const result = service.assessMeetsExpectations(false, true);
-
-      expect(result).toBe(PmgmAssessment.YELLOW);
-    });
-
-    test('should return YELLOW when highRiskOfLoss is null and highImpactOfLoss is false', () => {
-      const result = service.assessMeetsExpectations(null, false);
-
-      expect(result).toBe(PmgmAssessment.YELLOW);
-    });
-
-    test('should return GREEN when highRiskOfLoss and highImpactOfLoss are null', () => {
-      const result = service.assessMeetsExpectations(null, null);
-
-      expect(result).toBe(PmgmAssessment.GREEN);
-    });
-
-    test('should return GREEN when highRiskOfLoss and highImpactOfLoss are false', () => {
-      const result = service.assessMeetsExpectations(false, false);
-
-      expect(result).toBe(PmgmAssessment.GREEN);
-    });
-
-    test('should return GREEN when highRiskOfLoss is false and highImpactOfLoss is null', () => {
-      const result = service.assessMeetsExpectations(false, null);
-
-      expect(result).toBe(PmgmAssessment.GREEN);
-    });
-  });
-
-  describe('assessExceedsExpectations', () => {
-    test('should return RED when highRiskOfLoss is true and highImpactOfLoss is null', () => {
-      const result = service.assessExceedsExpectations(true, null);
-
-      expect(result).toBe(PmgmAssessment.RED);
-    });
-
-    test('should return RED when highRiskOfLoss and highImpactOfLoss are true', () => {
-      const result = service.assessExceedsExpectations(true, true);
-
-      expect(result).toBe(PmgmAssessment.RED);
-    });
-
-    test('should return RED when highRiskOfLoss is null and highImpactOfLoss is true', () => {
-      const result = service.assessExceedsExpectations(null, true);
-
-      expect(result).toBe(PmgmAssessment.RED);
-    });
-
-    test('should return RED when highRiskOfLoss is true and highImpactOfLoss is false', () => {
-      const result = service.assessExceedsExpectations(true, false);
-
-      expect(result).toBe(PmgmAssessment.RED);
-    });
-
-    test('should return RED when highRiskOfLoss is false and highImpactOfLoss is true', () => {
-      const result = service.assessExceedsExpectations(false, true);
-
-      expect(result).toBe(PmgmAssessment.RED);
-    });
-
-    test('should return YELLOW when highRiskOfLoss and highImpactOfLoss are null', () => {
-      const result = service.assessExceedsExpectations(null, null);
-
-      expect(result).toBe(PmgmAssessment.YELLOW);
-    });
-
-    test('should return YELLOW when highRiskOfLoss and highImpactOfLoss are false', () => {
-      const result = service.assessExceedsExpectations(false, false);
-
-      expect(result).toBe(PmgmAssessment.YELLOW);
-    });
-
-    test('should return YELLOW when highRiskOfLoss is false and highImpactOfLoss is null', () => {
-      const result = service.assessExceedsExpectations(false, null);
-
-      expect(result).toBe(PmgmAssessment.YELLOW);
-    });
-
-    test('should return YELLOW when highRiskOfLoss is null and highImpactOfLoss is false', () => {
-      const result = service.assessExceedsExpectations(null, false);
-
-      expect(result).toBe(PmgmAssessment.YELLOW);
     });
   });
 });

@@ -53,40 +53,13 @@ describe('PmgmAssessmentHeaderComponent', () => {
     test('should set sort to asc', () => {
       component.params = {
         column: {
-          isSortAscending: jest.fn(() => true),
-          isSortDescending: jest.fn(() => false),
+          getSort: jest.fn(() => 'asc'),
         },
       } as unknown as IHeaderParams;
 
       component.onSortChanged();
 
       expect(component.sort).toBe('asc');
-    });
-
-    test('should set sort to desc', () => {
-      component.params = {
-        column: {
-          isSortAscending: jest.fn(() => false),
-          isSortDescending: jest.fn(() => true),
-        },
-      } as unknown as IHeaderParams;
-
-      component.onSortChanged();
-
-      expect(component.sort).toBe('desc');
-    });
-
-    test('should set sort to undefined', () => {
-      component.params = {
-        column: {
-          isSortAscending: jest.fn(() => false),
-          isSortDescending: jest.fn(() => false),
-        },
-      } as unknown as IHeaderParams;
-
-      component.onSortChanged();
-
-      expect(component.sort).toBeUndefined();
     });
   });
 

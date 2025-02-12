@@ -13,8 +13,6 @@ export class PmgmData {
     public managerChange: PmgmArrow,
     public overallPerformanceRating: PerformanceRating,
     public overallPerformanceRatingChange: PmgmArrow,
-    public highImpactOfLoss: boolean,
-    public highImpactOfLossChange: PmgmArrow,
     public highRiskOfLoss: boolean,
     public highRiskOfLossChange: PmgmArrow,
     public personalArea: string,

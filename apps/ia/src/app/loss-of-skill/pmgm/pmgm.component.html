@@ -9,8 +9,7 @@
   [suppressCsvExport]="true"
   [suppressExcelExport]="true"
   [suppressCellFocus]="true"
-  [rowSelection]="'multiple'"
-  [suppressRowClickSelection]="true"
+  [rowSelection]="rowSelection"
   (rowDataUpdated)="onRowDataUpdated($event)"
   (gridReady)="onGridReady($event)"
 >

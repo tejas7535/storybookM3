@@ -22,7 +22,6 @@
       "position": "Position",
       "fluctuationType": "Fluctuation Type",
       "overallPerformanceRating": "Overall Performance Rating",
-      "highImpactOfLoss": "High Impact of Loss",
       "highRiskOfLoss": "High Risk of Loss",
       "assessment": "Assessment",
       "previousYear": "Previous Year",
@@ -36,7 +35,7 @@
         "assessment": {
           "red": "Recommendation to speak with responsible Manager",
           "yellow": "Please be aware of employee's performance evaluation",
-          "headerInfo": "The assesment is based on the SuccessFactors input of Overall Performance Rating, High Risk of Loss and High Impact of Loss.\nIf at least two of them are evaluated either \"Yes\" or \"Exceeds Expectations\", the assesment turns red.\nIf one of them does have this evaluation, the assesment turns yellow.\nIf neither is true, the assesment turns green.\nIf the employee is unrated in PMGM the assessment is grey."
+          "headerInfo": "The assessment is based on the SuccessFactors input of Overall Performance Rating and High Risk of Loss.\n\nIf both of them are evaluated \"Yes\" and \"Exceeds Expectations\", the assessment turns red.\n\nIf one of them does have this evaluation, the assessment turns yellow.\n\nIf neither is true, the assessment turns green.\n\nIf the employee is unrated in PMGM the assessment is grey."
         },
         "position": {
           "manager": "Manager",

@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { IHeaderAngularComp } from 'ag-grid-angular';
-import { IHeaderParams } from 'ag-grid-community';
+import { IHeaderParams, SortDirection } from 'ag-grid-community';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -21,7 +21,7 @@ import { SharedModule } from '../../../shared/shared.module';
   templateUrl: './pmgm-assessment-header.component.html',
 })
 export class PmgmAssessmentHeaderComponent implements IHeaderAngularComp {
-  sort: 'asc' | 'desc';
+  sort: SortDirection;
   displayName: string;
   params: IHeaderParams;
 
@@ -41,23 +41,18 @@ export class PmgmAssessmentHeaderComponent implements IHeaderAngularComp {
   }
 
   onSortChanged() {
-    if (this.params.column.isSortAscending()) {
-      this.sort = 'asc';
-    } else if (this.params.column.isSortDescending()) {
-      this.sort = 'desc';
-    } else {
-      this.sort = undefined;
-    }
+    this.sort = this.params.column.getSort();
   }
 
   onSortRequested(event: MouseEvent) {
-    let newSort: 'asc' | 'desc';
+    let newSort: SortDirection;
     if (!this.sort) {
       newSort = 'asc';
-    }
-
-    if (this.sort === 'asc') {
+    } else if (this.sort === 'asc') {
       newSort = 'desc';
+    } else {
+      // eslint-disable-next-line unicorn/no-null
+      newSort = null;
     }
 
     this.params.setSort(newSort, event.shiftKey);

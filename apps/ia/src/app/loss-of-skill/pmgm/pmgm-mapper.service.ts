@@ -23,11 +23,7 @@ export class PmgmMapperService {
         dto.overallPerformanceRating,
         dto.prevYearOverallPerformanceRating
       );
-      const highImpactOfLossChange = this.calculateLossIndicatorChange(
-        dto.highImpactOfLoss,
-        dto.prevYearHighImpactOfLoss
-      );
-      const highRiskOfLossChange = this.calculateLossIndicatorChange(
+      const highRiskOfLossChange = this.calculateRiskOfLossChange(
         dto.highRiskOfLoss,
         dto.prevYearHighRiskOfLoss
       );
@@ -37,24 +33,23 @@ export class PmgmMapperService {
         assessment,
         managerChange,
         overallPerformanceRatingChange,
-        highImpactOfLossChange,
         highRiskOfLossChange,
       };
     });
   }
 
-  calculateLossIndicatorChange(
-    currentHighImpactOfLoss: boolean,
-    previousHighImpactOfLoss: boolean
+  calculateRiskOfLossChange(
+    currentHighRiskOfLoss: boolean,
+    previousHighRiskOfLoss: boolean
   ): PmgmArrow {
-    if (currentHighImpactOfLoss === null || previousHighImpactOfLoss === null) {
+    if (currentHighRiskOfLoss === null || previousHighRiskOfLoss === null) {
       return PmgmArrow.NONE;
     }
-    if (currentHighImpactOfLoss === previousHighImpactOfLoss) {
+    if (currentHighRiskOfLoss === previousHighRiskOfLoss) {
       return PmgmArrow.RIGHT;
     }
 
-    return currentHighImpactOfLoss ? PmgmArrow.DOWN : PmgmArrow.UP;
+    return currentHighRiskOfLoss ? PmgmArrow.DOWN : PmgmArrow.UP;
   }
 
   calculateManagerChange(
@@ -94,28 +89,20 @@ export class PmgmMapperService {
 
     switch (dto.overallPerformanceRating) {
       case PerformanceRating.UNRATED: {
-        result = this.assessUnrated(dto.highRiskOfLoss, dto.highImpactOfLoss);
+        result = this.assessUnrated(dto.highRiskOfLoss);
         break;
       }
-      case PerformanceRating.BELOW_EXPECTATIONS: {
-        result = this.assessBelowExpectations(
-          dto.highRiskOfLoss,
-          dto.highImpactOfLoss
-        );
-        break;
-      }
+      case PerformanceRating.BELOW_EXPECTATIONS:
       case PerformanceRating.MEETS_EXPECTATIONS: {
-        result = this.assessMeetsExpectations(
-          dto.highRiskOfLoss,
-          dto.highImpactOfLoss
-        );
+        result = dto.highRiskOfLoss
+          ? PmgmAssessment.YELLOW
+          : PmgmAssessment.GREEN;
         break;
       }
       case PerformanceRating.EXCEEDS_EXPECTATIONS: {
-        result = this.assessExceedsExpectations(
-          dto.highRiskOfLoss,
-          dto.highImpactOfLoss
-        );
+        result = dto.highRiskOfLoss
+          ? PmgmAssessment.RED
+          : PmgmAssessment.YELLOW;
         break;
       }
       default: {
@@ -126,84 +113,15 @@ export class PmgmMapperService {
     return result;
   }
 
-  assessUnrated(
-    highRiskOfLoss: boolean | null,
-    highImpactOfLoss: boolean | null
-  ): PmgmAssessment {
+  assessUnrated(highRiskOfLoss: boolean | null): PmgmAssessment {
     let result: PmgmAssessment;
 
-    if (highRiskOfLoss === null && highImpactOfLoss === null) {
+    if (highRiskOfLoss === null) {
       result = PmgmAssessment.GREY;
-    } else if (highRiskOfLoss && highImpactOfLoss) {
-      result = PmgmAssessment.RED;
-    } else if (
-      (highRiskOfLoss && !highImpactOfLoss) ||
-      (!highRiskOfLoss && highImpactOfLoss)
-    ) {
+    } else if (highRiskOfLoss) {
       result = PmgmAssessment.YELLOW;
-    } else if (!highRiskOfLoss && !highImpactOfLoss) {
+    } else {
       result = PmgmAssessment.GREEN;
-    }
-
-    return result;
-  }
-
-  assessBelowExpectations(
-    highRiskOfLoss: boolean | null,
-    highImpactOfLoss: boolean | null
-  ): PmgmAssessment {
-    let result: PmgmAssessment;
-
-    if (highRiskOfLoss && highImpactOfLoss) {
-      result = PmgmAssessment.RED;
-    } else if (
-      (highRiskOfLoss && !highImpactOfLoss) ||
-      (!highRiskOfLoss && highImpactOfLoss)
-    ) {
-      result = PmgmAssessment.YELLOW;
-    } else if (!highRiskOfLoss && !highImpactOfLoss) {
-      result = PmgmAssessment.GREEN;
-    }
-
-    return result;
-  }
-
-  assessMeetsExpectations(
-    highRiskOfLoss: boolean | null,
-    highImpactOfLoss: boolean | null
-  ): PmgmAssessment {
-    let result: PmgmAssessment;
-
-    if (highRiskOfLoss && highImpactOfLoss) {
-      result = PmgmAssessment.RED;
-    } else if (
-      (highRiskOfLoss && !highImpactOfLoss) ||
-      (!highRiskOfLoss && highImpactOfLoss) ||
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-boolean-literal-compare
-      (highRiskOfLoss === null && highImpactOfLoss === false)
-    ) {
-      result = PmgmAssessment.YELLOW;
-    } else if (!highRiskOfLoss && !highImpactOfLoss) {
-      result = PmgmAssessment.GREEN;
-    }
-
-    return result;
-  }
-
-  assessExceedsExpectations(
-    highRiskOfLoss: boolean | null,
-    highImpactOfLoss: boolean | null
-  ): PmgmAssessment {
-    let result: PmgmAssessment;
-
-    if (
-      (highRiskOfLoss && highImpactOfLoss) ||
-      (highRiskOfLoss && !highImpactOfLoss) ||
-      (!highRiskOfLoss && highImpactOfLoss)
-    ) {
-      result = PmgmAssessment.RED;
-    } else if (!highRiskOfLoss && !highImpactOfLoss) {
-      result = PmgmAssessment.YELLOW;
     }
 
     return result;

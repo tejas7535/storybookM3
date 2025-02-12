@@ -10,8 +10,6 @@ export interface PmgmDataDto {
   prevYearIsManager: boolean;
   overallPerformanceRating: PerformanceRating;
   prevYearOverallPerformanceRating: PerformanceRating;
-  highImpactOfLoss: boolean;
-  prevYearHighImpactOfLoss: boolean;
   highRiskOfLoss: boolean;
   prevYearHighRiskOfLoss: boolean;
   personalArea: string;
