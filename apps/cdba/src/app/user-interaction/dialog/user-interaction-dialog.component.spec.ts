@@ -133,7 +133,8 @@ describe('DialogComponent', () => {
       expect(component.refreshStatusBtnDisabled).toBe(true);
 
       store.overrideSelector(getBomExportFeatureStatus, {
-        ...USER_INTERACTION_STATE_MOCK.userInteraction.feature.bomExport.status,
+        ...USER_INTERACTION_STATE_MOCK['user-interaction'].feature.bomExport
+          .status,
         progress: BomExportProgress.FAILED,
       });
       component.ngOnInit();

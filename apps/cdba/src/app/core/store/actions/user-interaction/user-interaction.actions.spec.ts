@@ -53,20 +53,20 @@ describe('UserInteraction Actions', () => {
 
   it('should create trackBomExportStatus action', () => {
     const action = trackBomExportStatus();
-    expect(action.type).toBe('[UserInteraction] Start tracking progress');
+    expect(action.type).toBe('[UserInteraction] Start tracking status');
   });
 
   it('should create upateBomExportStatus action', () => {
     const currentStatus = {} as BomExportStatus;
     const action = updateBomExportStatus({ currentStatus });
-    expect(action.type).toBe('[UserInteraction] Update progress');
+    expect(action.type).toBe('[UserInteraction] Update status');
     expect(action.currentStatus).toEqual(currentStatus);
   });
 
   it('should create trackBomExportStatusCompleted action', () => {
     const action = trackBomExportStatusCompleted();
     expect(action.type).toBe(
-      '[UserInteraction] Stop tracking progress - Completed'
+      '[UserInteraction] Stop tracking status - Completed'
     );
   });
 
@@ -74,7 +74,7 @@ describe('UserInteraction Actions', () => {
     const errorMessage = 'Error tracking status';
     const action = trackBomExportStatusFailure({ errorMessage });
     expect(action.type).toBe(
-      '[UserInteraction] Stop tracking progress - Failure'
+      '[UserInteraction] Stop tracking status - Failure'
     );
     expect(action.errorMessage).toEqual(errorMessage);
   });

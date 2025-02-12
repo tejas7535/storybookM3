@@ -25,14 +25,14 @@ export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
   search: fromSearch.SearchState;
   roles: fromRoles.RolesState;
-  userInteraction: fromUserInteraction.UserInteractionState;
+  'user-interaction': fromUserInteraction.UserInteractionState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
   search: fromSearch.searchReducer,
   roles: fromRoles.rolesReducer,
-  userInteraction: fromUserInteraction.userInteractionReducer,
+  'user-interaction': fromUserInteraction.userInteractionReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = environment.production
@@ -58,7 +58,7 @@ export const getRolesState =
 
 export const getUserInteractionState =
   createFeatureSelector<fromUserInteraction.UserInteractionState>(
-    'userInteraction'
+    'user-interaction'
   );
 
 export class CustomSerializer

@@ -8,7 +8,7 @@ import {
 } from '@cdba/user-interaction/model/feature/bom-export';
 
 export const USER_INTERACTION_STATE_MOCK = {
-  userInteraction: {
+  'user-interaction': {
     feature: {
       bomExport: {
         loading: false,

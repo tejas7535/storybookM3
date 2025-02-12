@@ -27,20 +27,20 @@ export const resetBomExportStatusTracking = createAction(
 );
 
 export const trackBomExportStatus = createAction(
-  '[UserInteraction] Start tracking progress'
+  '[UserInteraction] Start tracking status'
 );
 
 export const updateBomExportStatus = createAction(
-  '[UserInteraction] Update progress',
+  '[UserInteraction] Update status',
   props<{ currentStatus: BomExportStatus }>()
 );
 
 export const trackBomExportStatusCompleted = createAction(
-  '[UserInteraction] Stop tracking progress - Completed'
+  '[UserInteraction] Stop tracking status - Completed'
 );
 
 export const trackBomExportStatusFailure = createAction(
-  '[UserInteraction] Stop tracking progress - Failure',
+  '[UserInteraction] Stop tracking status - Failure',
   props<{ errorMessage: string }>()
 );
 

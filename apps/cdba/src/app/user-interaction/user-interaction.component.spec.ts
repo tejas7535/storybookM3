@@ -55,7 +55,7 @@ describe('UserInteractionComponent', () => {
           { selector: getAccessToken, value: 'test-token' },
           {
             selector: getBomExportFeature,
-            value: USER_INTERACTION_STATE_MOCK.userInteraction.feature,
+            value: USER_INTERACTION_STATE_MOCK['user-interaction'].feature,
           },
         ],
       }),
