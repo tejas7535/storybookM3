@@ -32,7 +32,7 @@
       },
       "questionPipeLength": "What is the maximum pipe length?",
       "pipeLengthOptions": {
-        "directMontage": "Direct montage",
+        "directMontage": "Direct mounting",
         "lessThan": "< {{value}} m",
         "between": "{{from}} - {{to}} m"
       }

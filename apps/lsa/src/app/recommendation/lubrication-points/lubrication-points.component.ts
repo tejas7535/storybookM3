@@ -69,8 +69,8 @@ export class LubricationPointsComponent implements OnInit, OnDestroy {
       name: LubricationPoints.FiveToEight,
     },
     {
-      value: LubricationPoints.NineOrMore,
-      name: LubricationPoints.NineOrMore,
+      value: LubricationPoints.EightOrMore,
+      name: LubricationPoints.EightOrMore,
     },
   ];
 
