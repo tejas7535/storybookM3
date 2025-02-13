@@ -1,0 +1,24 @@
+<div>
+  <span
+    class="cursor-pointer"
+    [class]="isChildElement ? 'ml-12' : 'ml-4'"
+    (click)="onClickAction(rowData, !isChildElement)"
+  >
+    {{ value }}</span
+  >
+</div>
+
+@if (isGroup) {
+  <span
+    [class]="expanded() ? 'ag-group-expanded' : 'ag-group-contracted'"
+    [attr.data-ref]="expanded() ? 'eExpanded' : 'eContracted'"
+    (click)="onClickExpand()"
+  >
+    <span
+      [class]="expanded() ? 'ag-icon-tree-open' : 'ag-icon-tree-closed'"
+      unselectable="on"
+      role="presentation"
+    >
+    </span>
+  </span>
+}

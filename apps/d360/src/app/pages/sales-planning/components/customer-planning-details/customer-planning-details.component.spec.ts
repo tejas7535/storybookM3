@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createComponentFactory,
   mockProvider,
@@ -11,14 +12,21 @@ import {
 import { GridApi, GridReadyEvent } from 'ag-grid-enterprise';
 import { MockComponent } from 'ng-mocks';
 
+import {
+  DetailedCustomerSalesPlan,
+  SalesPlanningDetailLevel,
+} from '../../../../feature/sales-planning/model';
 import { PlanningLevelService } from '../../../../feature/sales-planning/planning-level.service';
 import { SalesPlanningService } from '../../../../feature/sales-planning/sales-planning.service';
 import { TableToolbarComponent } from '../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
+import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
 import { CustomerPlanningDetailsComponent } from './customer-planning-details.component';
+import { MonthlyCustomerPlanningDetailsModalComponent } from './monthly-customer-planning-details-modal/monthly-customer-planning-details-modal.component';
 import { YearlyCustomerPlanningDetailsColumnSettingsService } from './service/customer-planning-details-column-settings.service';
 
 describe('CustomerPlanningDetailsComponent', () => {
   let spectator: Spectator<CustomerPlanningDetailsComponent>;
+  let mockTranslocoLocaleService: jest.Mocked<TranslocoLocaleService>;
   let gridApiMock: GridApi;
 
   const dialogMock = {
@@ -64,6 +72,16 @@ describe('CustomerPlanningDetailsComponent', () => {
       setGridOption: jest.fn(),
       getDisplayedRowCount: jest.fn().mockReturnValue(10),
     } as unknown as GridApi;
+
+    mockTranslocoLocaleService = {
+      getLocale: jest.fn().mockReturnValue('en'),
+    } as unknown as jest.Mocked<TranslocoLocaleService>;
+
+    Object.defineProperty(ValidationHelper, 'localeService', {
+      value: mockTranslocoLocaleService,
+      writable: true,
+      configurable: true,
+    });
 
     jest.clearAllMocks();
 
@@ -161,5 +179,77 @@ describe('CustomerPlanningDetailsComponent', () => {
     expect(
       planningLevelServiceMock.deleteMaterialTypeByCustomerNumber
     ).not.toHaveBeenCalled();
+  });
+
+  it('should open modal for yearly row when handleYearlyAggregationClicked is called', () => {
+    const rowData: DetailedCustomerSalesPlan = {
+      planningMaterial: 'I03',
+      planningMaterialText: 'Bearings',
+      planningYear: '2025',
+      totalSalesPlanUnconstrained: 1000,
+      totalSalesPlanAdjusted: 900,
+    } as any;
+
+    const isYearlyRow = true;
+    spectator.component.handleYearlyAggregationClicked(rowData, isYearlyRow);
+
+    expect(dialogMock.open).toHaveBeenCalledWith(
+      MonthlyCustomerPlanningDetailsModalComponent,
+      expect.objectContaining({
+        data: expect.objectContaining({
+          detailLevel: SalesPlanningDetailLevel.MonthlyOnlyDetailLevel,
+          planningEntry: '',
+          customerNumber: expect.any(String),
+          customerName: expect.any(String),
+          planningCurrency: expect.any(String),
+          planningYear: expect.any(String),
+          planningLevelMaterialType: expect.any(String),
+          totalSalesPlanUnconstrained: expect.any(Number),
+          totalSalesPlanAdjusted: expect.any(Number),
+        }),
+        autoFocus: false,
+        disableClose: true,
+        hasBackdrop: false,
+        panelClass: 'monthly-customer-planning-details',
+        width: '100vw',
+        height: '100vh',
+      })
+    );
+  });
+  it('should open modal for yearly planning material row when handleYearlyAggregationClicked is called', () => {
+    const rowData: DetailedCustomerSalesPlan = {
+      planningMaterial: 'I03',
+      planningMaterialText: 'Bearings',
+      planningYear: '2025',
+      totalSalesPlanUnconstrained: 1000,
+      totalSalesPlanAdjusted: 900,
+    } as any;
+
+    const isYearlyRow = false;
+    spectator.component.handleYearlyAggregationClicked(rowData, isYearlyRow);
+
+    expect(dialogMock.open).toHaveBeenCalledWith(
+      MonthlyCustomerPlanningDetailsModalComponent,
+      expect.objectContaining({
+        data: expect.objectContaining({
+          detailLevel:
+            SalesPlanningDetailLevel.MonthlyAndPlanningLevelMaterialDetailLevel,
+          planningEntry: 'I03 - Bearings',
+          customerNumber: expect.any(String),
+          customerName: expect.any(String),
+          planningCurrency: expect.any(String),
+          planningYear: expect.any(String),
+          planningLevelMaterialType: expect.any(String),
+          totalSalesPlanUnconstrained: expect.any(Number),
+          totalSalesPlanAdjusted: expect.any(Number),
+        }),
+        autoFocus: false,
+        disableClose: true,
+        hasBackdrop: false,
+        panelClass: 'monthly-customer-planning-details',
+        width: '100vw',
+        height: '100vh',
+      })
+    );
   });
 });

@@ -31,6 +31,31 @@
       max-height: 100vh;
     }
 
+    &.monthly-customer-planning-details {
+      display: flex !important;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+
+      .mat-mdc-dialog-surface {
+        --mdc-dialog-container-color: white !important;
+      }
+
+      .mat-mdc-dialog-container {
+        --mdc-dialog-container-shape: none;
+        @apply fixed inset-0 w-screen max-w-none h-screen bg-none shadow-lg flex flex-col;
+      }
+
+      .mdc-dialog__surface {
+        @apply w-full max-w-full flex flex-col overflow-hidden;
+        height: calc(100vh - 64px);
+        margin-top: 64px;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
     &.table-dialog,
     &.form-dialog {
       width: 100%;

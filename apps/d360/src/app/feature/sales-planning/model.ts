@@ -94,3 +94,9 @@ export interface DetailedCustomerSalesPlan {
   orderBookBacklogUnconstrained: number;
   orderBookBacklogConstrained: number;
 }
+
+export enum SalesPlanningDetailLevel {
+  YearlyAndPlanningLevelMaterialDetailLevel = '2',
+  MonthlyOnlyDetailLevel = '3',
+  MonthlyAndPlanningLevelMaterialDetailLevel = '4',
+}

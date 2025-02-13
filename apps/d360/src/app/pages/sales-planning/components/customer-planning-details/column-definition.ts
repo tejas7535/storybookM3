@@ -2,18 +2,7 @@ import { translate } from '@jsverse/transloco';
 import { ColDef } from 'ag-grid-enterprise';
 
 import { DetailedCustomerSalesPlan } from '../../../../feature/sales-planning/model';
-import { getDefaultColDef } from '../../../../shared/ag-grid/grid-defaults';
-import {
-  AgGridFilterType,
-  ColumnValueType,
-} from '../../../../shared/ag-grid/grid-types';
-import { SalesPlanningLevelGroupCellRendererComponent } from './ag-grid/cell-renderer/sales-planning-level-group-cell-renderer.component';
-
-export const getTranslationKey = (
-  option: string,
-  isMonthly?: boolean
-): string =>
-  `sales_planning.table.${isMonthly ? 'monthly' : 'yearly'}.${option}`;
+import { ColumnValueType } from '../../../../shared/ag-grid/grid-types';
 
 const notConfiguredValuePlaceholder = '-';
 const sapMagicNumberValueNotConfigured = -1;
@@ -27,17 +16,33 @@ export const valueFormatters: any = {
     params.value === sapMagicNumberValueNotConfigured
       ? notConfiguredValuePlaceholder
       : `${params.value} %`,
+  months: (params: any) =>
+    translate(`sales_planning.table.months.${params.value}`),
   default: undefined,
 };
 
-interface CustomColumnDefinition {
+export interface CustomColumnDefinition {
   key: keyof DetailedCustomerSalesPlan;
   type: ColumnValueType;
+  isTimeScopeSpecific?: boolean; // defining whether this column is time scope (yearly/monthly) specific
 }
 
-const initiallyVisibleColumns: CustomColumnDefinition[] = [
-  { key: 'totalSalesPlanUnconstrained', type: ColumnValueType.Monetary },
-  { key: 'totalSalesPlanAdjusted', type: ColumnValueType.Monetary },
+export enum TimeScope {
+  Yearly = 'yearly',
+  Monthly = 'monthly',
+}
+
+export const initiallyVisibleColumns: CustomColumnDefinition[] = [
+  {
+    key: 'totalSalesPlanUnconstrained',
+    type: ColumnValueType.Monetary,
+    isTimeScopeSpecific: true,
+  },
+  {
+    key: 'totalSalesPlanAdjusted',
+    type: ColumnValueType.Monetary,
+    isTimeScopeSpecific: true,
+  },
   { key: 'firmBusinessCoverage', type: ColumnValueType.Percentage },
   { key: 'opportunitiesForecastRelevant', type: ColumnValueType.Monetary },
   { key: 'apShareUnconstrained', type: ColumnValueType.Percentage },
@@ -49,7 +54,7 @@ const initiallyVisibleColumns: CustomColumnDefinition[] = [
   { key: 'dailyRollingSalesPlanUnconstrained', type: ColumnValueType.Monetary },
 ];
 
-const unconstrainedColumns: CustomColumnDefinition[] = [
+export const unconstrainedColumns: CustomColumnDefinition[] = [
   { key: 'budgetInvoicedSales', type: ColumnValueType.Monetary },
   { key: 'budgetNetSales', type: ColumnValueType.Monetary },
   { key: 'planInvoiceSales', type: ColumnValueType.Monetary },
@@ -69,8 +74,12 @@ const unconstrainedColumns: CustomColumnDefinition[] = [
   { key: 'opMaterialDemandPlanCount', type: ColumnValueType.Default },
 ];
 
-const constrainedColumns: CustomColumnDefinition[] = [
-  { key: 'totalSalesPlanConstrained', type: ColumnValueType.Monetary },
+export const constrainedColumns: CustomColumnDefinition[] = [
+  {
+    key: 'totalSalesPlanConstrained',
+    type: ColumnValueType.Monetary,
+    isTimeScopeSpecific: true,
+  },
   { key: 'deliveryBacklog', type: ColumnValueType.Monetary },
   { key: 'orderBookBacklogConstrained', type: ColumnValueType.Monetary },
   {
@@ -83,34 +92,14 @@ const constrainedColumns: CustomColumnDefinition[] = [
   { key: 'dailyRollingSalesPlanConstrained', type: ColumnValueType.Monetary },
 ];
 
-export function createAutoGroupColumnDef(locale: string): ColDef {
-  return {
-    ...getDefaultColDef(locale),
-    headerName: translate(getTranslationKey('autoGroupColumn')),
-    colId: 'autoGroup',
-    sortable: false,
-    suppressHeaderFilterButton: false,
-    suppressHeaderMenuButton: true,
-    minWidth: 400,
-    rowGroup: true,
-    filter: AgGridFilterType.Text,
-    filterValueGetter: (params) => {
-      const year = params.data.planningYear;
-
-      if (params.node.level === 0) {
-        return year;
-      }
-
-      const planningMaterial = params.data.planningMaterial;
-      const planningMaterialText = params.data.planningMaterialText;
-
-      return `${planningMaterial} - ${planningMaterialText}`;
-    },
-    cellRendererParams: {
-      suppressCount: true,
-      innerRenderer: SalesPlanningLevelGroupCellRendererComponent,
-    },
-  };
+export function getTitle(
+  key: string,
+  isTimeScopeSpecific: boolean,
+  timeScope: TimeScope
+) {
+  return isTimeScopeSpecific
+    ? `${translate(`sales_planning.table.${timeScope}`)} ${translate(`sales_planning.table.${key}`)}`
+    : translate(`sales_planning.table.${key}`);
 }
 
 export function yearlyCustomerPlanningDetailsColumnDefinitions(): (ColDef & {
@@ -122,10 +111,10 @@ export function yearlyCustomerPlanningDetailsColumnDefinitions(): (ColDef & {
     ...initiallyVisibleColumns,
     ...unconstrainedColumns,
     ...constrainedColumns,
-  ].map(({ key, type }) => ({
+  ].map(({ key, type, isTimeScopeSpecific }) => ({
     sortable: false,
     colId: key,
-    title: getTranslationKey(key),
+    title: getTitle(key, isTimeScopeSpecific, TimeScope.Yearly),
     visible: initiallyVisibleColumns.some((col) => col.key === key),
     alwaysVisible: false,
 

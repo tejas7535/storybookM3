@@ -1,4 +1,4 @@
-import { inject, Pipe, PipeTransform } from '@angular/core';
+import { inject, Injectable, Pipe, PipeTransform } from '@angular/core';
 
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
@@ -6,6 +6,7 @@ import { TranslocoLocaleService } from '@jsverse/transloco-locale';
   name: 'numberWithoutFractionDigits',
   standalone: true,
 })
+@Injectable({ providedIn: 'root' })
 export class NumberWithoutFractionDigitsPipe implements PipeTransform {
   private readonly translocoLocaleService: TranslocoLocaleService = inject(
     TranslocoLocaleService

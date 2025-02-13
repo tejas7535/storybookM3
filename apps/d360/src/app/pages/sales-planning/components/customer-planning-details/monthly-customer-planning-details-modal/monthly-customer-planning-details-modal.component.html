@@ -1,0 +1,29 @@
+<div class="flex flex-col gap-4 h-full w-full overflow-auto py-4 px-5">
+  <div class="flex flex-row gap-2">
+    <div>
+      <button class="text-body-large" mat-icon-button (click)="onClose()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <h2 class="text-headline-small">{{ title() }}</h2>
+      <p class="text-body-small text-medium-emphasis">{{ subtitle() }}</p>
+    </div>
+  </div>
+
+  <div class="flex h-full w-full">
+    <ag-grid-angular
+      class="ag-theme-material grow h-full monthly-sales-plan-grid"
+      [gridOptions]="gridOptions"
+      [loading]="isLoading()"
+      [localeText]="agGridLocalizationService.lang()"
+      (dragStopped)="columnSettingsService.saveFromAgGridEvent($event)"
+      (columnVisible)="columnSettingsService.saveFromAgGridEvent($event)"
+      (sortChanged)="columnSettingsService.saveFromAgGridEvent($event)"
+      (gridReady)="onGridReady($event)"
+      [tooltipShowDelay]="500"
+      [tooltipHideDelay]="300000"
+    />
+  </div>
+</div>

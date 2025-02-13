@@ -35,23 +35,25 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import {
   DetailedCustomerSalesPlan,
   PlanningLevelMaterial,
+  SalesPlanningDetailLevel,
 } from '../../../../feature/sales-planning/model';
 import { PlanningLevelService } from '../../../../feature/sales-planning/planning-level.service';
 import { SalesPlanningService } from '../../../../feature/sales-planning/sales-planning.service';
 import {
   clientSideTableDefaultProps,
   columnSideBar,
+  getCustomTreeDataAutoGroupColumnDef,
   getDefaultColDef,
 } from '../../../../shared/ag-grid/grid-defaults';
+import { AgGridFilterType } from '../../../../shared/ag-grid/grid-types';
 import { NoDataOverlayComponent } from '../../../../shared/components/ag-grid/no-data/no-data.component';
 import { TableToolbarComponent } from '../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
 import { NumberWithoutFractionDigitsPipe } from '../../../../shared/pipes/number-without-fraction-digits.pipe';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { CustomerPlanningLevelConfigurationModalComponent } from '../customer-planning-level-configuration-modal/customer-planning-level-configuration-modal.component';
-import {
-  createAutoGroupColumnDef,
-  yearlyCustomerPlanningDetailsColumnDefinitions,
-} from './column-definition';
+import { SalesPlanningGroupLevelCellRendererComponent } from './ag-grid/cell-renderer/sales-planning-group-level-cell-renderer.component';
+import { yearlyCustomerPlanningDetailsColumnDefinitions } from './column-definition';
+import { MonthlyCustomerPlanningDetailsModalComponent } from './monthly-customer-planning-details-modal/monthly-customer-planning-details-modal.component';
 import { YearlyCustomerPlanningDetailsColumnSettingsService } from './service/customer-planning-details-column-settings.service';
 
 type YearlyCustomerPlanningDetailsColumnDefinitions = ReturnType<
@@ -115,15 +117,39 @@ export class CustomerPlanningDetailsComponent {
 
   protected gridOptions: GridOptions = {
     ...clientSideTableDefaultProps,
+    ...getCustomTreeDataAutoGroupColumnDef<DetailedCustomerSalesPlan>({
+      getDataPath: (data: DetailedCustomerSalesPlan) => this.getDataPath(data),
+      autoGroupColumnDef: {
+        headerName: translate('sales_planning.table.autoGroupColumn'),
+        colId: 'autoGroup',
+        sortable: false,
+        suppressHeaderFilterButton: false,
+        suppressHeaderMenuButton: true,
+        minWidth: 400,
+        rowGroup: true,
+        filter: AgGridFilterType.Text,
+        filterValueGetter: (params) => {
+          const year = params.data.planningYear;
+
+          if (params.node.level === 0) {
+            return year;
+          }
+
+          const planningMaterial = params.data.planningMaterial;
+          const planningMaterialText = params.data.planningMaterialText;
+
+          return `${planningMaterial} - ${planningMaterialText}`;
+        },
+        cellRenderer: SalesPlanningGroupLevelCellRendererComponent,
+        cellRendererParams: {
+          clickAction: this.handleYearlyAggregationClicked.bind(this),
+        },
+      },
+    }),
     context: {
       numberPipe: new NumberWithoutFractionDigitsPipe(),
     },
-    treeData: true,
-    getDataPath: (data: DetailedCustomerSalesPlan) => this.getDataPath(data),
     isGroupOpenByDefault: () => true,
-    autoGroupColumnDef: createAutoGroupColumnDef(
-      this.translocoLocaleService.getLocale()
-    ),
     suppressGroupRowsSticky: true,
     sideBar: {
       toolPanels: [columnSideBar],
@@ -280,13 +306,11 @@ export class CustomerPlanningDetailsComponent {
     planningCurrency: string,
     planningLevelMaterialType?: string
   ): Observable<DetailedCustomerSalesPlan[]> {
-    const yearlyAndPlanningLevelMaterialDetailLevel = '2';
-
     return this.salesPlanningService.getDetailedCustomerSalesPlan(
       customerNumber,
       planningCurrency,
       planningLevelMaterialType,
-      yearlyAndPlanningLevelMaterialDetailLevel
+      SalesPlanningDetailLevel.YearlyAndPlanningLevelMaterialDetailLevel
     );
   }
 
@@ -306,5 +330,40 @@ export class CustomerPlanningDetailsComponent {
 
   public onRowGroupOpened(_: RowGroupOpenedEvent) {
     this.rowCount.set(this.gridApi.getDisplayedRowCount());
+  }
+
+  public handleYearlyAggregationClicked(
+    rowData: DetailedCustomerSalesPlan,
+    isYearlyAggregationRowClicked: boolean
+  ) {
+    let detailLevel =
+      SalesPlanningDetailLevel.MonthlyAndPlanningLevelMaterialDetailLevel;
+    let planningEntry = `${rowData.planningMaterial} - ${rowData.planningMaterialText}`;
+
+    if (isYearlyAggregationRowClicked) {
+      detailLevel = SalesPlanningDetailLevel.MonthlyOnlyDetailLevel;
+      planningEntry = '';
+    }
+
+    this.dialog.open(MonthlyCustomerPlanningDetailsModalComponent, {
+      data: {
+        detailLevel,
+        planningEntry,
+        customerNumber: this.customerNumber(),
+        customerName: this.customerName(),
+        planningCurrency: this.planningCurrency(),
+        planningYear: rowData.planningYear,
+        planningLevelMaterialType:
+          this.planningLevelMaterialConfiguration().planningLevelMaterialType,
+        totalSalesPlanUnconstrained: rowData.totalSalesPlanUnconstrained,
+        totalSalesPlanAdjusted: rowData.totalSalesPlanAdjusted,
+      },
+      autoFocus: false,
+      disableClose: true,
+      hasBackdrop: false,
+      panelClass: 'monthly-customer-planning-details',
+      width: '100vw',
+      height: '100vh',
+    });
   }
 }

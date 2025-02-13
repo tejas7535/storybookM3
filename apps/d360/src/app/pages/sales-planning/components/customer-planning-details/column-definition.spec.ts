@@ -1,20 +1,6 @@
-import { getTranslationKey, valueFormatters } from './column-definition';
+import { valueFormatters } from './column-definition';
 
 describe('Column Definitions', () => {
-  describe('getTranslationKey', () => {
-    it('should return correct yearly translation key', () => {
-      expect(getTranslationKey('sales')).toBe(
-        'sales_planning.table.yearly.sales'
-      );
-    });
-
-    it('should return correct monthly translation key', () => {
-      expect(getTranslationKey('forecast', true)).toBe(
-        'sales_planning.table.monthly.forecast'
-      );
-    });
-  });
-
   describe('valueFormatters', () => {
     it('should format monetary values correctly', () => {
       const mockNumberPipe = {

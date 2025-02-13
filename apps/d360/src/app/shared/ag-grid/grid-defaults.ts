@@ -1,8 +1,14 @@
-import { ColDef, GridOptions } from 'ag-grid-enterprise';
+import {
+  CellDoubleClickedEvent,
+  CellKeyDownEvent,
+  ColDef,
+  GridOptions,
+} from 'ag-grid-enterprise';
 
 import { GlobalSelectionUtils } from '../../feature/global-selection/global-selection.utils';
 import { CustomerMaterialNumberCellRendererComponent } from '../components/ag-grid/cell-renderer/customer-material-number-cell-renderer/customer-material-number-cell-renderer.component';
 import { getNumberFromLocale } from '../utils/number';
+import { ValidationHelper } from '../utils/validation/validation-helper';
 import { AgGridFilterType } from './grid-types';
 
 export const defaultRowHeight = 42;
@@ -69,6 +75,42 @@ export const agTextColumnFilter = [
   'startsWith',
   'endsWith',
 ];
+
+export enum KeyEventEnum {
+  Enter = 'Enter',
+}
+
+export function getCustomTreeDataAutoGroupColumnDef<T = any>(config: {
+  autoGroupColumnDef: ColDef;
+  getDataPath: (data: T) => string[];
+}) {
+  return {
+    treeData: true,
+    getDataPath: config.getDataPath,
+    autoGroupColumnDef: {
+      ...getDefaultColDef(ValidationHelper.localeService.getLocale()),
+      ...config.autoGroupColumnDef,
+    },
+    onCellDoubleClicked: (params: CellDoubleClickedEvent<T>): void => {
+      if (params.colDef.showRowGroup) {
+        params.node.setExpanded(!params.node.expanded);
+      }
+    },
+    onCellKeyDown: (params: CellKeyDownEvent<T>) => {
+      if (
+        !('colDef' in params) ||
+        !(params.event instanceof KeyboardEvent) ||
+        params.event.code !== KeyEventEnum.Enter
+      ) {
+        return;
+      }
+
+      if (params.colDef.showRowGroup) {
+        params.node.setExpanded(!params.node.expanded);
+      }
+    },
+  };
+}
 
 export const getDefaultColDef = (
   locale: string,

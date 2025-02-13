@@ -7,6 +7,7 @@ export interface GridApis {
 export enum ColumnValueType {
   Monetary = 'monetary',
   Percentage = 'percentage',
+  Months = 'months',
   Default = 'default',
 }
 

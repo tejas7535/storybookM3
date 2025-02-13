@@ -50,7 +50,8 @@ export class SalesPlanningService {
     customerNumber: string,
     planningCurrency: string,
     planningLevelMaterialType?: string,
-    detailLevel?: string
+    detailLevel?: string,
+    planningYear?: string
   ): Observable<DetailedCustomerSalesPlan[]> {
     let params = new HttpParams()
       .set('customerNumber', customerNumber)
@@ -66,6 +67,10 @@ export class SalesPlanningService {
 
     if (detailLevel) {
       params = params.set('detailLevel', detailLevel);
+    }
+
+    if (planningYear) {
+      params = params.set('planningYear', planningYear);
     }
 
     return this.http.get<DetailedCustomerSalesPlan[]>(
