@@ -26,8 +26,10 @@
           ></cdba-calculations-table>
         }
       </ng-container>
-      @if (!(bomLoading$ | ngrxPush)) {
-        <ng-container chart>
+      <ng-container chart>
+        @if (bomLoading$ | ngrxPush) {
+          <cdba-loading-spinner [show]="true"></cdba-loading-spinner>
+        } @else {
           @if (showSidenavContent) {
             <cdba-bom-chart
               [data]="childrenOfSelectedBomItem$ | ngrxPush"
@@ -41,14 +43,14 @@
               [data]="childrenOfSelectedBomItem$ | ngrxPush"
             ></cdba-bom-legend>
           }
-        </ng-container>
-      } @else {
-        @if (bomLoading$ | ngrxPush) {
-          <cdba-loading-spinner [show]="true"></cdba-loading-spinner>
         }
-      }
-      @if (!(bomLoading$ | ngrxPush)) {
-        <ng-container costElements>
+      </ng-container>
+      <ng-container costElements>
+        @if (
+          (bomLoading$ | ngrxPush) || (costComponentSplitLoading$ | ngrxPush)
+        ) {
+          <cdba-loading-spinner [show]="true"></cdba-loading-spinner>
+        } @else {
           @if (showSidenavContent) {
             <cdba-cost-elements-table
               [index]="index"
@@ -61,14 +63,12 @@
               [selectedCalculation]="selectedCalculation"
             ></cdba-cost-elements-table>
           }
-        </ng-container>
-      } @else {
+        }
+      </ng-container>
+      <ng-container rawMaterialAnalysis>
         @if (bomLoading$ | ngrxPush) {
           <cdba-loading-spinner [show]="true"></cdba-loading-spinner>
-        }
-      }
-      @if (!(bomLoading$ | ngrxPush)) {
-        <ng-container rawMaterialAnalysis>
+        } @else {
           @if (showSidenavContent) {
             <cdba-raw-material-analysis-table
               [isLoading]="bomLoading$ | ngrxPush"
@@ -81,12 +81,8 @@
               [selectedCalculation]="selectedCalculation"
             ></cdba-raw-material-analysis-table>
           }
-        </ng-container>
-      } @else {
-        @if (bomLoading$ | ngrxPush) {
-          <cdba-loading-spinner [show]="true"></cdba-loading-spinner>
         }
-      }
+      </ng-container>
     </cdba-bom-overlay>
   </mat-sidenav>
 
