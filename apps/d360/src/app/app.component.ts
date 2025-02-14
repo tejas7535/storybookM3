@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DateAdapter } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -20,7 +27,7 @@ import {
   EventType,
   InteractionStatus,
 } from '@azure/msal-browser';
-import { TranslocoService } from '@jsverse/transloco';
+import { translate, TranslocoService } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
@@ -43,6 +50,7 @@ import {
   DATE_FNS_LOOKUP,
   LocaleType,
 } from './shared/constants/available-locales';
+import { UserService } from './shared/services/user.service';
 import { ValidationHelper } from './shared/utils/validation/validation-helper';
 
 @Component({
@@ -73,6 +81,7 @@ export class AppComponent implements OnInit {
   private readonly translocoLocaleService: TranslocoLocaleService = inject(
     TranslocoLocaleService
   );
+  private readonly userService: UserService = inject(UserService);
   private readonly router: Router = inject(Router);
   private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private readonly globalSelectionStateService: GlobalSelectionStateService =
@@ -81,8 +90,28 @@ export class AppComponent implements OnInit {
 
   protected activeUrl = signal('/');
 
-  protected title = 'Demand360';
-  protected titleLink = AppRoutePath.HomePage;
+  protected title = computed(() => {
+    const routeTitles = [
+      { routes: appRoutes.functions.salesSuite, key: 'tabbarMenu.salesSuite' },
+      {
+        routes: appRoutes.functions.demandSuite,
+        key: 'tabbarMenu.demandSuite',
+      },
+    ];
+
+    for (const { routes, key } of routeTitles) {
+      if (
+        routes
+          .map((route) => route.path.toLowerCase())
+          .includes(this.activeUrl())
+      ) {
+        return [translate('header.fullTitle'), translate(key)].join(' | ');
+      }
+    }
+
+    return translate('header.fullTitle');
+  });
+  protected titleLink = AppRoutePath.Root;
   protected appVersion = packageJson.version;
 
   protected username$: Observable<string>;
@@ -123,6 +152,7 @@ export class AppComponent implements OnInit {
   ];
 
   public constructor() {
+    this.userService.loadRegion().subscribe();
     this.router.events.pipe(takeUntilDestroyed()).subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.activeUrl.set(this.getRelativeUrl(event.url));
@@ -204,9 +234,11 @@ export class AppComponent implements OnInit {
 
   private showTabNavigationOnPage$(): Observable<boolean> {
     const routesWithTabNavigation = [
-      appRoutes.startPage.path,
-      appRoutes.tasks.path,
-      ...appRoutes.functions.map((route) => route.path),
+      appRoutes.root.path,
+      appRoutes.todos.path,
+      ...appRoutes.functions.salesSuite.map((route) => route.path),
+      ...appRoutes.functions.demandSuite.map((route) => route.path),
+      ...appRoutes.functions.general.map((route) => route.path),
     ];
 
     return this.router.events.pipe(

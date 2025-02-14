@@ -1,7 +1,8 @@
 {
   "header": {
     "title": "P360",
-    "dashboard": "Dashboard",
+    "fullTitle": "Planning360",
+    "overview": "Overview Page",
     "brand": {
       "alt": "Schaeffler Group Logo"
     }
@@ -62,7 +63,8 @@
     "unsaved_changes": "As mudanças não salvas são descartadas. Continuar?",
     "loading_failed": "Falha no carregamento",
     "tooManyValues": "Digite os valores máximos de {{maxNumber}}.",
-    "valueUnknown": "Desconhecido"
+    "valueUnknown": "Desconhecido",
+    "loadingConfigurationFailed": "Erro ao carregar a configuração"
   },
   "hint": {
     "selectData": "Use as opções de filtro para visualizar os dados.",
@@ -97,10 +99,7 @@
       "label": "Funções"
     },
     "tasks": {
-      "label": "To Do's"
-    },
-    "dashboard": {
-      "label": "Painel de controlo"
+      "label": "To-Dos"
     }
   },
   "traffic_light": {
@@ -115,6 +114,9 @@
     },
     "customer-material-portfolio": {
       "label": "Portfólio de material do cliente"
+    },
+    "customer-material-details": {
+      "label": "Detalhes do material do cliente"
     },
     "internal-material-replacement": {
       "label": "Central Fase de entrada Fase de saída"
@@ -134,9 +136,12 @@
     "sales-planning": {
       "label": "Validação de vendas"
     },
-    "dashboard": {
-      "label": "Dashboard"
-    }
+    "overview": {
+      "label": "Overview Page"
+    },
+    "demandSuite": "Demand Suite",
+    "salesSuite": "Sales Suite",
+    "general": "General"
   },
   "globalSelection": {
     "results": "Resultados da pesquisa - Seleção e carregamento de dados",
@@ -604,7 +609,7 @@
     }
   },
   "sales_planning": {
-    "title": "Planeamento de vendas",
+    "title": "Validação de vendas",
     "customer": "Cliente",
     "customer_info_modal": {
       "customer": "Cliente",
@@ -1295,9 +1300,9 @@
       "help_center": "Centro de Ajuda"
     }
   },
-  "dashboard": {
+  "overview": {
     "yourTasks": {
-      "headline": "As suas tarefas",
+      "headline": "As suas To-Dos",
       "gridHeadline": "Tarefas",
       "taskPriority": "Definição de prioridades de tarefas",
       "noTasks": "Nenhuma tarefa",

@@ -21,4 +21,8 @@ export class AuthService {
       takeUntilDestroyed(this.destroyRef)
     );
   }
+
+  public getUserRoles() {
+    return this.store.pipe(getRoles, takeUntilDestroyed(this.destroyRef));
+  }
 }

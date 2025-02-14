@@ -1,7 +1,8 @@
 {
   "header": {
     "title": "P360",
-    "dashboard": "Dashboard",
+    "fullTitle": "Planning360",
+    "overview": "Overview Page",
     "brand": {
       "alt": "Schaeffler Group Logo"
     }
@@ -62,7 +63,8 @@
     "unsaved_changes": "Le modifiche non salvate vengono scartate. Continuare?",
     "loading_failed": "Caricamento fallito",
     "tooManyValues": "Inserire i valori massimi di {{maxNumber}}.",
-    "valueUnknown": "Sconosciuto"
+    "valueUnknown": "Sconosciuto",
+    "loadingConfigurationFailed": "Errore durante il caricamento della configurazione"
   },
   "hint": {
     "selectData": "Utilizzare le opzioni di filtro per visualizzare i dati.",
@@ -97,10 +99,7 @@
       "label": "Funzioni"
     },
     "tasks": {
-      "label": "To Do's"
-    },
-    "dashboard": {
-      "label": "Cruscotto"
+      "label": "To-Dos"
     }
   },
   "traffic_light": {
@@ -115,6 +114,9 @@
     },
     "customer-material-portfolio": {
       "label": "Portafoglio materiale del cliente"
+    },
+    "customer-material-details": {
+      "label": "Dettagli sul materiale del cliente"
     },
     "internal-material-replacement": {
       "label": "Centrale Fase In Fase Out"
@@ -134,9 +136,12 @@
     "sales-planning": {
       "label": "Convalida delle vendite"
     },
-    "dashboard": {
-      "label": "Dashboard"
-    }
+    "overview": {
+      "label": "Overview Page"
+    },
+    "demandSuite": "Demand Suite",
+    "salesSuite": "Sales Suite",
+    "general": "General"
   },
   "globalSelection": {
     "results": "Risultati della ricerca - Selezione e caricamento Dati",
@@ -211,7 +216,7 @@
   },
   "validation_of_demand": {
     "customer": "Cliente",
-    "title": "Visualizzazione del Fabbisogno in pezzi",
+    "title": "Convalida della domanda",
     "vkorg": "Organizzazione Commerciale",
     "actionBar": {
       "showResultTable": "Mostra la tabella dei risultati",
@@ -604,7 +609,7 @@
     }
   },
   "sales_planning": {
-    "title": "Pianificazione delle vendite",
+    "title": "Convalida delle vendite",
     "customer": "Cliente",
     "customer_info_modal": {
       "customer": "Cliente",
@@ -1305,9 +1310,9 @@
       "help_center": "Centro assistenza"
     }
   },
-  "dashboard": {
+  "overview": {
     "yourTasks": {
-      "headline": "I vostri compiti",
+      "headline": "I vostri To-Dos",
       "gridHeadline": "Compiti",
       "taskPriority": "Definizione delle priorità dei compiti",
       "noTasks": "Nessun compito",

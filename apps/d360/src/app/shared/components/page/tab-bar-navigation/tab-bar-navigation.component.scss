@@ -20,3 +20,17 @@
 .navigation-tab {
   width: 33.33%;
 }
+.nav-headline {
+  @apply pl-3;
+  @apply pt-4;
+  @layer mat-label-small;
+  color: var(--on-surface-variant-color);
+  &:first-child {
+    @apply pt-0;
+  }
+}
+.nav-button {
+  height: 56px;
+  --mat-menu-item-label-text-size: 16px;
+  color: var(--on-surface-color);
+}

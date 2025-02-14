@@ -1,7 +1,8 @@
 {
   "header": {
     "title": "P360",
-    "dashboard": "Dashboard",
+    "fullTitle": "Planning360",
+    "overview": "Overview Page",
     "brand": {
       "alt": "Logotipo del Grupo Schaeffler"
     }
@@ -62,7 +63,8 @@
     "unsaved_changes": "Los cambios no guardados se descartan. ¿Continuar?",
     "loading_failed": "Error de carga",
     "tooManyValues": "Introduzca el {{maxNumber}} máximo.",
-    "valueUnknown": "Desconocido"
+    "valueUnknown": "Desconocido",
+    "loadingConfigurationFailed": "Error al cargar la configuración"
   },
   "hint": {
     "selectData": "Utilice las opciones de filtro para ver los datos.",
@@ -97,10 +99,7 @@
       "label": "Funciones"
     },
     "tasks": {
-      "label": "To Do's"
-    },
-    "dashboard": {
-      "label": "Cuadro de mandos"
+      "label": "To-Dos"
     }
   },
   "traffic_light": {
@@ -115,6 +114,9 @@
     },
     "customer-material-portfolio": {
       "label": "Cartera de material del cliente"
+    },
+    "customer-material-details": {
+      "label": "Detalles del material del cliente"
     },
     "internal-material-replacement": {
       "label": "Central Fase de Entrada Fase de Salida"
@@ -134,9 +136,12 @@
     "sales-planning": {
       "label": "Validación de ventas"
     },
-    "dashboard": {
-      "label": "Dashboard"
-    }
+    "overview": {
+      "label": "Overview Page"
+    },
+    "demandSuite": "Demand Suite",
+    "salesSuite": "Sales Suite",
+    "general": "General"
   },
   "globalSelection": {
     "results": "Buscar resultados - Selección de datos y carga",
@@ -211,7 +216,7 @@
   },
   "validation_of_demand": {
     "customer": "Cliente",
-    "title": "Validación de la planificación comercial",
+    "title": "Validación de la demanda",
     "vkorg": "Organización comercial",
     "actionBar": {
       "showResultTable": "Mostrar tabla de resultados",
@@ -604,7 +609,7 @@
     }
   },
   "sales_planning": {
-    "title": "Planificación de ventas",
+    "title": "Validación de ventas",
     "customer": "Cliente",
     "customer_info_modal": {
       "customer": "Cliente",
@@ -1305,9 +1310,9 @@
       "help_center": "Centro de ayuda"
     }
   },
-  "dashboard": {
+  "overview": {
     "yourTasks": {
-      "headline": "Sus tareas",
+      "headline": "Sus To-Dos",
       "gridHeadline": "Tareas",
       "taskPriority": "Priorización de tareas",
       "noTasks": "Sin tareas",

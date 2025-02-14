@@ -6,6 +6,7 @@ import {
   SpectatorHttp,
 } from '@ngneat/spectator/jest';
 
+import { Region } from '../global-selection/model';
 import {
   CustomerInfo,
   DetailedCustomerSalesPlan,
@@ -28,7 +29,7 @@ describe('SalesPlanningService', () => {
     const mockData: CustomerInfo[] = [
       {
         globalCustomerNumber: '1230',
-        region: 'EU',
+        region: Region.Europe,
         salesOrg: '0631',
         salesDescription: 'Schaeff. IOEM/MRO FR',
         salesArea: 'West Europe',

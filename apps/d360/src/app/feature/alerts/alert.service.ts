@@ -24,6 +24,7 @@ import {
   IServerSideGetRowsParams,
 } from 'ag-grid-enterprise';
 
+import { AppRoutePath } from '../../app.routes.enum';
 import { formatFilterModelForBackend } from '../../shared/ag-grid/grid-filter-model';
 import { SnackbarService } from '../../shared/utils/service/snackbar.service';
 import { CurrencyService } from '../info/currency.service';
@@ -338,10 +339,10 @@ export class AlertService {
   public getRouteForOpenFunction(openFunction: OpenFunction) {
     switch (openFunction) {
       case OpenFunction.Validation_Of_Demand: {
-        return 'validationOfDemand';
+        return AppRoutePath.DemandValidationPage;
       }
       case OpenFunction.Customer_Material_Portfolio: {
-        return 'customerMaterialPortfolio';
+        return AppRoutePath.CustomerMaterialPortfolioPage;
       }
       default: {
         return '/';

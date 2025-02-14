@@ -1,7 +1,8 @@
 {
   "header": {
     "title": "P360",
-    "dashboard": "Dashboard",
+    "fullTitle": "Planning360",
+    "overview": "Overview Page",
     "brand": {
       "alt": "舍弗勒集团标志"
     }
@@ -62,7 +63,8 @@
     "unsaved_changes": "未保存的更改将被丢弃。是否继续？",
     "loading_failed": "加载失败",
     "tooManyValues": "请输入最大 {{maxNumber}} 值。",
-    "valueUnknown": "未知"
+    "valueUnknown": "未知",
+    "loadingConfigurationFailed": "加载配置时出错"
   },
   "hint": {
     "selectData": "请使用过滤器选项查看数据。",
@@ -98,9 +100,6 @@
     },
     "tasks": {
       "label": "待办事项"
-    },
-    "dashboard": {
-      "label": "仪表板"
     }
   },
   "traffic_light": {
@@ -111,10 +110,13 @@
   },
   "tabbarMenu": {
     "validation-of-demand": {
-      "label": "需求验证s"
+      "label": "客户材料详情"
     },
     "customer-material-portfolio": {
       "label": "客户物料组合"
+    },
+    "customer-material-details": {
+      "label": "客戶材料詳細資料"
     },
     "internal-material-replacement": {
       "label": "中央相位 输入相位 输出"
@@ -134,9 +136,12 @@
     "sales-planning": {
       "label": "销售验证"
     },
-    "dashboard": {
-      "label": "Dashboard"
-    }
+    "overview": {
+      "label": "Overview Page"
+    },
+    "demandSuite": "Demand Suite",
+    "salesSuite": "Sales Suite",
+    "general": "General"
   },
   "globalSelection": {
     "results": "搜索结果 - 数据选择和加载",
@@ -211,7 +216,7 @@
   },
   "validation_of_demand": {
     "customer": "客户",
-    "title": "需求验证",
+    "title": "客户材料详情",
     "vkorg": "销售组织",
     "actionBar": {
       "showResultTable": "显示结果表",
@@ -604,7 +609,7 @@
     }
   },
   "sales_planning": {
-    "title": "销售规划",
+    "title": "销售验证",
     "customer": "客户",
     "customer_info_modal": {
       "customer": "客户",
@@ -1305,7 +1310,7 @@
       "help_center": "帮助中心"
     }
   },
-  "dashboard": {
+  "overview": {
     "yourTasks": {
       "headline": "您的任务",
       "gridHeadline": "任务",

@@ -78,12 +78,13 @@ const azureConfig = new AzureConfig(
   new MsalInterceptorConfig([
     new ProtectedResource('/api/*', [environment.appScope]),
   ]),
-  new MsalGuardConfig(`/${AppRoutePath.ForbiddenPath}`, [environment.appScope])
+  new MsalGuardConfig(`/${AppRoutePath.ForbiddenPage}`, [environment.appScope])
 );
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
+
     importProvidersFrom(
       SharedTranslocoModule.forRoot(
         isDevMode(),
@@ -114,10 +115,11 @@ export const appConfig: ApplicationConfig = {
     ),
     provideRouter(
       [
-        appRoutes.startPage,
-        appRoutes.dashboard,
-        appRoutes.tasks,
-        ...appRoutes.functions,
+        appRoutes.root,
+        appRoutes.todos,
+        ...appRoutes.functions.salesSuite,
+        ...appRoutes.functions.demandSuite,
+        ...appRoutes.functions.general,
         ...appRoutes.others,
       ],
       withEnabledBlockingInitialNavigation()

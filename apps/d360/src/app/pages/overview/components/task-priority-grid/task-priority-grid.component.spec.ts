@@ -66,10 +66,10 @@ describe('TaskPriorityGridComponent', () => {
 
     expect(menu.length).toEqual(1);
     expect(menu[0].submenu.length).toEqual(3);
-    expect(menu[0].submenu[0].text).toEqual('dashboard.yourTasks.priority1');
-    expect(menu[0].submenu[1].text).toEqual('dashboard.yourTasks.priority2');
+    expect(menu[0].submenu[0].text).toEqual('overview.yourTasks.priority1');
+    expect(menu[0].submenu[1].text).toEqual('overview.yourTasks.priority2');
     expect(menu[0].submenu[2].text).toEqual(
-      'dashboard.yourTasks.selectedPriorities'
+      'overview.yourTasks.selectedPriorities'
     );
   });
 
@@ -81,7 +81,7 @@ describe('TaskPriorityGridComponent', () => {
     const menu = component['context'].getMenu({ data: groupedAlert });
 
     const menuButton1 = menu[0].submenu[0];
-    expect(menuButton1.text).toEqual('dashboard.yourTasks.priority1');
+    expect(menuButton1.text).toEqual('overview.yourTasks.priority1');
     menuButton1.onClick();
     expect(globalNavigate).toHaveBeenCalledWith('/vod', {
       alertType: [{ id: AlertCategory.ACIADP, text: AlertCategory.ACIADP }],
@@ -97,7 +97,7 @@ describe('TaskPriorityGridComponent', () => {
     const menu = component['context'].getMenu({ data: groupedAlert });
 
     const menuButton2 = menu[0].submenu[1];
-    expect(menuButton2.text).toEqual('dashboard.yourTasks.priority2');
+    expect(menuButton2.text).toEqual('overview.yourTasks.priority2');
     menuButton2.onClick();
     expect(globalNavigate).toHaveBeenCalledWith('/vod', {
       alertType: [
@@ -119,7 +119,7 @@ describe('TaskPriorityGridComponent', () => {
     const menu = component['context'].getMenu({ data: groupedAlert });
 
     const menuButton3 = menu[0].submenu[2];
-    expect(menuButton3.text).toEqual('dashboard.yourTasks.selectedPriorities');
+    expect(menuButton3.text).toEqual('overview.yourTasks.selectedPriorities');
     menuButton3.onClick();
     expect(globalNavigate).toHaveBeenCalledWith('/vod', {
       alertType: [
@@ -141,7 +141,7 @@ describe('TaskPriorityGridComponent', () => {
     const menu = component['context'].getMenu({ data: groupedAlert });
 
     const menuButton3 = menu[0].submenu[2];
-    expect(menuButton3.text).toEqual('dashboard.yourTasks.selectedPriorities');
+    expect(menuButton3.text).toEqual('overview.yourTasks.selectedPriorities');
     menuButton3.onClick();
     expect(globalNavigate).toHaveBeenCalledWith('/vod', {
       alertType: [{ id: AlertCategory.ACIADP, text: AlertCategory.ACIADP }],

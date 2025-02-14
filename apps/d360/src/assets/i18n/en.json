@@ -10,7 +10,8 @@
   },
   "header": {
     "title": "P360",
-    "dashboard": "Dashboard",
+    "fullTitle": "Planning360",
+    "overview": "Overview Page",
     "brand": {
       "alt": "Schaeffler Group Logo"
     }
@@ -71,7 +72,8 @@
     "unsaved_changes": "Unsaved changes are discarded. Continue?",
     "loading_failed": "Loading failed",
     "tooManyValues": "Please enter maximum {{maxNumber}} values.",
-    "valueUnknown": "Unknown"
+    "valueUnknown": "Unknown",
+    "loadingConfigurationFailed": "Error while loading the configuration"
   },
   "hint": {
     "selectData": "Please use the filter options to view data.",
@@ -106,7 +108,7 @@
       "label": "Functions"
     },
     "tasks": {
-      "label": "To Do's"
+      "label": "To-Dos"
     }
   },
   "traffic_light": {
@@ -121,6 +123,9 @@
     },
     "customer-material-portfolio": {
       "label": "Customer Material Portfolio"
+    },
+    "customer-material-details": {
+      "label": "Customer Material Details"
     },
     "internal-material-replacement": {
       "label": "Central Phase-In Phase-Out"
@@ -138,11 +143,14 @@
       "label": "Sales Validation"
     },
     "alert-rule-editor": {
-      "label": "Tasks Rule Editor"
+      "label": "Task Rule Editor"
     },
-    "dashboard": {
-      "label": "Dashboard"
-    }
+    "overview": {
+      "label": "Overview Page"
+    },
+    "demandSuite": "Demand Suite",
+    "salesSuite": "Sales Suite",
+    "general": "General"
   },
   "globalSelection": {
     "results": "Search results - Data selection and loading",
@@ -220,7 +228,7 @@
   },
   "validation_of_demand": {
     "customer": "Customer",
-    "title": "Validation of demand",
+    "title": "Demand Validation",
     "vkorg": "Sales Organisation",
     "actionBar": {
       "showResultTable": "Show result table",
@@ -290,14 +298,14 @@
           "title": "Choose Type Of Period",
           "rootString": "Period type"
         },
-        "title": "Validation of demand list"
+        "title": "Demand Validation list"
       },
       "grid": {
         "header": {
           "calendar_week": "{{date}} - CW {{week}}"
         },
         "period_type": "Period type",
-        "title": "Validation of demand grid",
+        "title": "Demand Validation grid",
         "tooltip": {
           "customer-material": "The specified customer material number is invalid",
           "material": "The specified material number is invalid"
@@ -517,7 +525,7 @@
     }
   },
   "customer_material_portfolio": {
-    "title": "Validate customer material portfolio",
+    "title": "Validate Customer Material Portfolio",
     "toolbar": {
       "expandAll": "fold out",
       "collapseAll": "fold"
@@ -613,7 +621,7 @@
     }
   },
   "sales_planning": {
-    "title": "Sales Planning",
+    "title": "Sales Validation",
     "customer": "Customer / Account",
     "customer_info_modal": {
       "customer": "Customer",
@@ -891,7 +899,7 @@
     "loading": "Loading…"
   },
   "alert_rules": {
-    "title": "Tasks Rule Editor",
+    "title": "Task Rule Editor",
     "button": {
       "createRule": "Create rule",
       "createMultipleRules": "Create multiple rules"
@@ -1148,7 +1156,7 @@
   },
   "internal_material_replacement": {
     "title": {
-      "rootString": "Central Phase In Phase Out",
+      "rootString": "Central Phase-In Phase-Out",
       "newSubstitution": "Enter new substitution",
       "newDeletions": "Delete replacements",
       "newSubstitutions": "Enter new substitution",
@@ -1314,9 +1322,9 @@
       "help_center": "Help Center"
     }
   },
-  "dashboard": {
+  "overview": {
     "yourTasks": {
-      "headline": "Your tasks",
+      "headline": "Your To-Dos",
       "gridHeadline": "Tasks",
       "taskPriority": "Task priority",
       "noTasks": "No tasks",

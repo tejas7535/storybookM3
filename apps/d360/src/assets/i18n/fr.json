@@ -1,7 +1,8 @@
 {
   "header": {
     "title": "P360",
-    "dashboard": "Dashboard",
+    "fullTitle": "Planning360",
+    "overview": "Overview Page",
     "brand": {
       "alt": "Logo du groupe Schaeffler"
     }
@@ -62,7 +63,8 @@
     "unsaved_changes": "Les modifications non sauvegardées sont supprimées. Continuer?",
     "loading_failed": "Échec du chargement",
     "tooManyValues": "Veuillez saisir les valeurs maximales {{maxNumber}}.",
-    "valueUnknown": "Inconnu"
+    "valueUnknown": "Inconnu",
+    "loadingConfigurationFailed": "Erreur lors du chargement de la configuration"
   },
   "hint": {
     "selectData": "Veuillez utiliser les options de filtrage pour afficher les données.",
@@ -97,10 +99,7 @@
       "label": "Fonctions"
     },
     "tasks": {
-      "label": "To Do's"
-    },
-    "dashboard": {
-      "label": "Tableau de bord"
+      "label": "To-Dos"
     }
   },
   "traffic_light": {
@@ -116,8 +115,11 @@
     "customer-material-portfolio": {
       "label": "Liste des articles du client (portefeuille client)"
     },
+    "customer-material-details": {
+      "label": "Détails du matériel du client"
+    },
     "internal-material-replacement": {
-      "label": "Central Phase In Phase Out"
+      "label": "Central Phase-In Phase-Out"
     },
     "ap-portfolio-optimization": {
       "label": "Optimisation du portefeuille AP"
@@ -134,9 +136,12 @@
     "sales-planning": {
       "label": "Validation des ventes"
     },
-    "dashboard": {
-      "label": "Dashboard"
-    }
+    "overview": {
+      "label": "Overview Page"
+    },
+    "demandSuite": "Demand Suite",
+    "salesSuite": "Sales Suite",
+    "general": "General"
   },
   "globalSelection": {
     "results": "Résultats de la recherche - Sélection et chargement des données",
@@ -211,7 +216,7 @@
   },
   "validation_of_demand": {
     "customer": "Client",
-    "title": "Validation des besoins",
+    "title": "Validation de la demande",
     "vkorg": "Organisations commerciales",
     "actionBar": {
       "showResultTable": "Afficher le tableau des résultats",
@@ -604,7 +609,7 @@
     }
   },
   "sales_planning": {
-    "title": "Planification des ventes",
+    "title": "Validation des ventes",
     "customer": "Client",
     "customer_info_modal": {
       "customer": "Client",
@@ -1139,7 +1144,7 @@
   },
   "internal_material_replacement": {
     "title": {
-      "rootString": "Central Phase In Phase Out",
+      "rootString": "Central Phase-In Phase-Out",
       "newSubstitution": "Saisir un nouveau substitution",
       "newDeletions": "Supprimer les remplacements",
       "newSubstitutions": "Inscrire de nouveaux substitution",
@@ -1305,9 +1310,9 @@
       "help_center": "Centre d'aide"
     }
   },
-  "dashboard": {
+  "overview": {
     "yourTasks": {
-      "headline": "Tes tâches",
+      "headline": "Tes To-Dos",
       "gridHeadline": "Tâches",
       "taskPriority": "Priorité des tâches",
       "noTasks": "Aucune tâche",

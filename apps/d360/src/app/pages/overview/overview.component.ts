@@ -10,29 +10,29 @@ import { FilterDropdownComponent } from '../../shared/components/inputs/filter-d
 import { TaskPriorityGridComponent } from './components/task-priority-grid/task-priority-grid.component';
 
 @Component({
-  selector: 'd360-dashboard',
+  selector: 'd360-overview',
   standalone: true,
   imports: [
     TranslocoDirective,
     FilterDropdownComponent,
     TaskPriorityGridComponent,
   ],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss',
+  templateUrl: './overview.component.html',
+  styleUrl: './overview.component.scss',
 })
-export class DashboardComponent {
+export class OverviewComponent {
   protected priorities: SelectableValue[] = [
     {
       id: Priority.Priority1.toString(),
-      text: translate('dashboard.yourTasks.priority1'),
+      text: translate('overview.yourTasks.priority1'),
     },
     {
       id: Priority.Priority2.toString(),
-      text: translate('dashboard.yourTasks.priority2'),
+      text: translate('overview.yourTasks.priority2'),
     },
     {
       id: Priority.Priority3.toString(),
-      text: translate('dashboard.yourTasks.priority3'),
+      text: translate('overview.yourTasks.priority3'),
     },
   ];
   protected readonly DisplayFunctions = DisplayFunctions;

@@ -6,6 +6,7 @@ import {
 import { AgGridModule } from 'ag-grid-angular';
 import { MockModule } from 'ng-mocks';
 
+import { Region } from '../../../../feature/global-selection/model';
 import { IMRService } from '../../../../feature/internal-material-replacement/imr.service';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { InternalMaterialReplacementTableComponent } from './internal-material-replacement-table.component';
@@ -27,7 +28,7 @@ describe('InternalMaterialReplacementTableComponent', () => {
   beforeEach(() => {
     spectator = createComponent({
       props: {
-        selectedRegion: 'EU',
+        selectedRegion: Region.Europe,
       },
     });
   });

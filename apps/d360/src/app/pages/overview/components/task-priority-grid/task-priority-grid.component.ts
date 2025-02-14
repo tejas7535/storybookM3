@@ -46,7 +46,7 @@ import { DateFilterComponent } from './../../../../shared/components/ag-grid/fil
 })
 export class TaskPriorityGridComponent implements OnInit {
   protected noOverlayMessage = {
-    message: translate('dashboard.yourTasks.noTasks'),
+    message: translate('overview.yourTasks.noTasks'),
   };
   private gridApi: GridApi = null;
   public openFunction = input.required<OpenFunction>();
@@ -157,7 +157,7 @@ export class TaskPriorityGridComponent implements OnInit {
             alert.priorityCount[priority] > 0
           ) {
             submenu.push({
-              text: translate(`dashboard.yourTasks.priority${priority}`),
+              text: translate(`overview.yourTasks.priority${priority}`),
               onClick: () =>
                 this.globalSelectionStateService.navigateWithGlobalSelection(
                   route,
@@ -184,7 +184,7 @@ export class TaskPriorityGridComponent implements OnInit {
           submenu: [
             ...submenu,
             {
-              text: translate('dashboard.yourTasks.selectedPriorities'),
+              text: translate('overview.yourTasks.selectedPriorities'),
               onClick: () =>
                 this.globalSelectionStateService.navigateWithGlobalSelection(
                   route,

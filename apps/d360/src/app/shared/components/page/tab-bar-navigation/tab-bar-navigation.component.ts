@@ -1,5 +1,7 @@
 import {
+  ChangeDetectionStrategy,
   Component,
+  computed,
   effect,
   inject,
   input,
@@ -7,23 +9,37 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
-import { Data, Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { LetDirective, PushPipe } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { appRoutes } from '../../../../app.routes';
+import { appRoutes, CustomRoute, RouteConfig } from '../../../../app.routes';
+import { AppRoutePath } from '../../../../app.routes.enum';
 import { AlertService } from '../../../../feature/alerts/alert.service';
 import { AlertNotificationCount } from '../../../../feature/alerts/model';
+import { UserService } from '../../../services/user.service';
 import { AuthService } from '../../../utils/auth/auth.service';
+import { checkRoles } from '../../../utils/auth/roles';
 
-type TabItem = 'start-page' | 'functions' | 'tasks';
+export enum TabItem {
+  StartPage = 'start-page',
+  Functions = 'functions',
+  ToDos = 'to-dos',
+}
+
+export const enum ProductType {
+  SalesSuite = 'salesSuite',
+  DemandSuite = 'demandSuite',
+  General = 'general',
+}
 
 /**
  * Component to handle the tab bar navigation in the application.
@@ -40,27 +56,53 @@ type TabItem = 'start-page' | 'functions' | 'tasks';
     MatTabsModule,
     MatMenuModule,
     MatIconModule,
-    PushPipe,
     LetDirective,
   ],
   templateUrl: './tab-bar-navigation.component.html',
   styleUrl: './tab-bar-navigation.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabBarNavigationComponent {
   private readonly alertService: AlertService = inject(AlertService);
-  private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
+  private readonly userService = inject(UserService);
 
   protected notificationCount$: Observable<AlertNotificationCount> =
     this.alertService.getNotificationCount();
 
+  protected userRoles = toSignal(this.authService.getUserRoles());
+
   /**
-   * Reference to route configuration
+   * Generate RouteConfig with all visible routes
    *
    * @protected
    * @memberof TabBarNavigationComponent
    */
-  protected routeConfig = appRoutes;
+  protected routeConfig = computed<RouteConfig>(() => {
+    // The function menu entries can be hidden in three different ways:
+    // 1. have a false visible attribute
+    // 2. the user is not located in one of the allowedRegions
+    // 3. the user lacks all the permissions that are set in the allowedRoles attribute
+    const visibilityFilter = (route: CustomRoute) =>
+      (route.visible === undefined || route.visible) &&
+      (route.data?.allowedRegions === undefined ||
+        (this.userService.region() &&
+          route.data?.allowedRegions.includes(this.userService.region()))) &&
+      (!route.data?.allowedRoles ||
+        checkRoles(this.userRoles() || [], route.data?.allowedRoles));
+
+    const filterRoutes = (routes: CustomRoute[]) =>
+      routes.filter((element) => visibilityFilter(element));
+
+    return {
+      ...appRoutes,
+      functions: {
+        salesSuite: filterRoutes(appRoutes.functions.salesSuite),
+        demandSuite: filterRoutes(appRoutes.functions.demandSuite),
+        general: filterRoutes(appRoutes.functions.general),
+      },
+    };
+  });
 
   /**
    * Signal to keep track of active tab
@@ -69,7 +111,9 @@ export class TabBarNavigationComponent {
    * @type {WritableSignal<TabItem>}
    * @memberof TabBarNavigationComponent
    */
-  protected activeTab: WritableSignal<TabItem> = signal('start-page');
+  protected activeTab: WritableSignal<TabItem> = signal(null);
+  protected readonly Object = Object;
+  protected readonly TabItem = TabItem;
 
   /**
    * Input signal for the active URL
@@ -87,20 +131,11 @@ export class TabBarNavigationComponent {
    */
   public constructor() {
     effect(
-      () => this.activeTab.set(this.getTabItemForRoute(this.activeUrl())),
+      () => {
+        this.activeTab.set(this.getTabItemForRoute(this.activeUrl()));
+      },
       { allowSignalWrites: true }
     );
-  }
-
-  /**
-   * Method to navigate to a specific path using the router service.
-   *
-   * @protected
-   * @param {string} path - The target URL for navigation.
-   * @memberof TabBarNavigationComponent
-   */
-  protected navigateTo(path: string) {
-    this.router.navigate([path]);
   }
 
   /**
@@ -112,26 +147,19 @@ export class TabBarNavigationComponent {
    * @memberof TabBarNavigationComponent
    */
   private getTabItemForRoute(route: string): TabItem {
-    if (['/', ''].includes(route)) {
-      return 'start-page';
-    } else if (['/tasks', 'tasks'].includes(route)) {
-      return 'tasks';
+    if (
+      [
+        `/${this.userService.startPage()}`,
+        `${this.userService.startPage()}`,
+      ].includes(route)
+    ) {
+      return TabItem.StartPage;
+    } else if (
+      [`/${AppRoutePath.TodoPage}`, `${AppRoutePath.TodoPage}`].includes(route)
+    ) {
+      return TabItem.ToDos;
     }
 
-    return 'functions';
-  }
-
-  /**
-   * Method to check whether navigation is allowed based on the provided data.
-   *
-   * @protected
-   * @param {Data} data - The data object containing information about required access roles.
-   * @returns {Observable<boolean>} - An observable that emits a boolean value indicating the authorization status.
-   * @memberof TabBarNavigationComponent
-   */
-  protected canNavigateTo$(data: Data): Observable<boolean> {
-    return !data || !data.allowedRoles
-      ? of(true)
-      : this.authService.hasUserAccess(data.allowedRoles);
+    return TabItem.Functions;
   }
 }

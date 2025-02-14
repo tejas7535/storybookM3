@@ -1,4 +1,5 @@
 import { AlertRule } from '../../../../../feature/alert-rules/model';
+import { Region } from '../../../../../feature/global-selection/model';
 import { ThresholdsRequiredForAlertType } from './alert-rule-edit-single-modal/alert-rule-options-config';
 import { checkAlertRuleData } from './alert-rule-logic-helper';
 
@@ -58,7 +59,7 @@ describe('AlertRuleLogicHelper', () => {
       type: 'CHKDMP',
       materialNumber: '073659703-0000-10',
       customerNumber: '0000064900',
-      region: 'EU',
+      region: Region.Europe,
       execInterval: 'M1',
       execDay: 'M01',
       startDate: new Date(),
@@ -76,7 +77,7 @@ describe('AlertRuleLogicHelper', () => {
       type: 'CHKDMP',
       materialNumber: '073659703-0000-10',
       customerNumber: '0000064900',
-      region: 'EU',
+      region: Region.Europe,
       execInterval: 'M1',
       execDay: 'M01',
       startDate: new Date(),
@@ -142,7 +143,7 @@ describe('AlertRuleLogicHelper', () => {
       type: 'CHKDMP',
       materialNumber: '073659703-0000-10',
       customerNumber: '0000064900',
-      region: 'EU',
+      region: Region.Europe,
       execInterval: 'M1',
       execDay: 'M01',
       startDate: new Date(),
@@ -172,7 +173,7 @@ describe('AlertRuleLogicHelper', () => {
       type: 'CHKDMP',
       materialNumber: '073659703-0000-10',
       customerNumber: '0000064900',
-      region: 'EU',
+      region: Region.Europe,
       execInterval: 'D1',
       execDay: 'M01',
       startDate: new Date(),

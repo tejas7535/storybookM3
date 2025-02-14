@@ -10,7 +10,8 @@
   },
   "header": {
     "title": "P360",
-    "dashboard": "Dashboard",
+    "fullTitle": "Planning360",
+    "overview": "Overview Page",
     "brand": {
       "alt": "Schaeffler Group Logo"
     }
@@ -71,7 +72,8 @@
     "unsaved_changes": "Ungespeicherte Änderungen werden verworfen. Fortfahren?",
     "loading_failed": "Laden fehlgeschlagen",
     "tooManyValues": "Bitte geben Sie maximal {{maxNumber}} Werte an.",
-    "valueUnknown": "Unbekannt"
+    "valueUnknown": "Unbekannt",
+    "loadingConfigurationFailed": "Fehler beim Laden der Konfiguration"
   },
   "hint": {
     "selectData": "Bitte die Filteroptionen nutzen um Daten anzuzeigen.",
@@ -106,7 +108,7 @@
       "label": "Funktionen"
     },
     "tasks": {
-      "label": "To Do's"
+      "label": "To-Dos"
     }
   },
   "traffic_light": {
@@ -121,6 +123,9 @@
     },
     "customer-material-portfolio": {
       "label": "Kunden Material Portfolio"
+    },
+    "customer-material-details": {
+      "label": "Kunde Material Details"
     },
     "internal-material-replacement": {
       "label": "Zentraler Ein- und Auslauf"
@@ -140,9 +145,12 @@
     "sales-planning": {
       "label": "Umsatzvalidierung"
     },
-    "dashboard": {
-      "label": "Dashboard"
-    }
+    "overview": {
+      "label": "Overview Page"
+    },
+    "demandSuite": "Demand Suite",
+    "salesSuite": "Sales Suite",
+    "general": "General"
   },
   "globalSelection": {
     "results": "Suchergebnisse - Datenselektion und Laden",
@@ -217,7 +225,7 @@
   },
   "validation_of_demand": {
     "customer": "Kunde",
-    "title": "Validierung Absatzplanung",
+    "title": "Absatzvalidierung",
     "vkorg": "Verkaufsorganisation",
     "actionBar": {
       "showResultTable": "Ergebnistabelle Einblenden",
@@ -287,14 +295,14 @@
           "title": "Auswahl Zeitraum",
           "rootString": "Zeitraum"
         },
-        "title": "Validierung Absatzplanung Liste"
+        "title": "Absatzvalidierung Liste"
       },
       "grid": {
         "header": {
           "calendar_week": "{{date}} - KW {{week}}"
         },
         "period_type": "Periodentyp",
-        "title": "Validierung Absatzplanung Grid",
+        "title": "Absatzvalidierung Grid",
         "tooltip": {
           "customer-material": "Die angegebene Kundenmaterialnummer ist nicht korrekt",
           "material": "Die angegebene Materialnummer ist nicht korrekt"
@@ -610,7 +618,7 @@
     }
   },
   "sales_planning": {
-    "title": "Umsatzplanung",
+    "title": "Umsatzvalidierung",
     "customer": "Kunde",
     "customer_info_modal": {
       "customer": "Kunde",
@@ -1145,7 +1153,7 @@
   },
   "internal_material_replacement": {
     "title": {
-      "rootString": "Zentrale Ein- und Auslaufsteuerung",
+      "rootString": "Zentraler Ein- und Auslauf",
       "newSubstitution": "Neue Ersetzung eintragen",
       "newDeletions": "Ersetzungen löschen",
       "newSubstitutions": "Neue Ersetzungen eintragen",
@@ -1311,9 +1319,9 @@
       "help_center": "Hilfe Center"
     }
   },
-  "dashboard": {
+  "overview": {
     "yourTasks": {
-      "headline": "Deine Aufgaben",
+      "headline": "Deine To-Dos",
       "gridHeadline": "Aufgaben",
       "taskPriority": "Aufgabenpriorität",
       "noTasks": "Keine Aufgaben",

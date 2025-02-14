@@ -28,7 +28,7 @@ export class RoleGuard implements CanActivate {
         switchMap((hasAccess) =>
           hasAccess
             ? of(true)
-            : from(this.router.navigate([AppRoutePath.ForbiddenPath]))
+            : from(this.router.navigate([AppRoutePath.ForbiddenPage]))
         ),
         takeUntilDestroyed(this.destroyRef)
       );

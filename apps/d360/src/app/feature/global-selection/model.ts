@@ -26,3 +26,10 @@ export enum GlobalSelectionStatus {
   DATA_ERROR = 'DATA_ERROR',
   DATA_NOTHING_SELECTED = 'DATA_NOTHING_SELECTED',
 }
+
+export enum Region {
+  Europe = 'EU',
+  GreaterChina = 'GC',
+  AsiaPacific = 'AP',
+  Americas = 'AM',
+}

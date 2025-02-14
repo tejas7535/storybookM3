@@ -1,16 +1,22 @@
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { LegalRoute } from '@schaeffler/legal-pages';
+
 export enum AppRoutePath {
-  HomePage = '',
-  Dashboard = 'dashboard',
-  DemandValidationPage = 'validationOfDemand',
-  CustomerMaterialPortfolioPage = 'customerMaterialPortfolio', // TODO original CustomerMaterialPortfolio is used without Page
-  InternalMaterialReplacementPage = 'internalMaterialReplacement',
-  ApPortfolioOptimizationPage = 'apPortfolafterioOptimization', // TODO original ApPortfolioOptimization is used without Page
-  RegionalApPortfolioPage = 'regionalApPortfolio', // TODO original RegionalApPortfolio is used without Page
-  CustomerSpecificRequirementPage = 'customerSpecificRequirements', // TODO original CustomerSpecificRequirements is used without Page
-  AlertRuleManagementPage = 'taskRules', // TODO original AlertRuleManagement is used without Page
-  AlertPage = 'tasks', // TODO original Alerts is used without Page
-  ForbiddenPath = 'forbidden',
-  SalesPlanningPage = 'salesPlanning',
+  Root = '',
+  OverviewPage = 'overview',
+  DemandValidationPage = 'demand-validation',
+  CustomerMaterialPortfolioPage = 'customer-material-portfolio',
+  CustomerMaterialDetailsPage = 'customer-material-details',
+  CentralPhaseInPhaseOutPage = 'central-phase-in-phase-out',
+  ApPortfolioOptimizationPage = 'ap-portfolio-after-io-optimization',
+  RegionalApPortfolioPage = 'regional-ap-portfolio',
+  CustomerSpecificRequirementPage = 'customer-specific-requirements',
+  AlertRuleManagementPage = 'task-rules',
+  TodoPage = 'to-dos',
+  ForbiddenPage = 'forbidden',
+  SalesValidationPage = 'sales-validation',
+  TestPage = 'test-page',
+  Legal = LegalRoute,
 }
 
-export type TabItem = 'home' | 'functions' | 'tasks';
+export type AppRouteValue = `${AppRoutePath}` | '**';

@@ -3,19 +3,18 @@
     <a
       mat-tab-link
       class="navigation-tab"
-      (click)="navigateTo(routeConfig.startPage.path)"
-      [routerLink]="routeConfig.startPage.path"
-      [active]="activeTab() === 'start-page'"
+      (click)="activeTab.set(TabItem.StartPage)"
+      [routerLink]="routeConfig().root.path"
+      [active]="activeTab() === TabItem.StartPage"
     >
-      {{ t(routeConfig.startPage.label) }}
+      {{ t('tabbar.start-page.label') }}
     </a>
 
     <a
       mat-tab-link
-      class="navigation-tab"
+      class="navigation-tab functions"
       [matMenuTriggerFor]="functionsMenu"
-      (click)="activeTab.set('functions')"
-      [active]="activeTab() === 'functions'"
+      [active]="activeTab() === TabItem.Functions"
     >
       {{ t('tabbar.functions.label') }}
       <mat-icon>expand_more</mat-icon>
@@ -24,11 +23,11 @@
     <a
       mat-tab-link
       class="navigation-tab alert"
-      (click)="navigateTo(routeConfig.tasks.path)"
-      [routerLink]="routeConfig.tasks.path"
-      [active]="activeTab() === 'tasks'"
+      (click)="activeTab.set(TabItem.ToDos)"
+      [routerLink]="routeConfig().todos.path"
+      [active]="activeTab() === TabItem.ToDos"
     >
-      <span class="label">{{ t(routeConfig.tasks.label) }}</span>
+      <span class="label">{{ t(routeConfig().todos.label) }}</span>
       <span *ngrxLet="notificationCount$ as count" class="notification-count">
         <span class="mx-2 px-2 py-1 rounded-xl text-white non-critical">
           {{ count?.openNonCritical }}
@@ -41,16 +40,25 @@
   </nav>
 
   <mat-menu #functionsMenu="matMenu" class="tabs-menu-panel">
-    @for (function of routeConfig.functions; track function) {
-      @if (function.visible) {
-        <button
-          mat-menu-item
-          (click)="navigateTo(function.path)"
-          [routerLink]="function.path"
-          [disabled]="(canNavigateTo$(function.data) | ngrxPush) === false"
-        >
-          {{ t(function.label) }}
-        </button>
+    @for (
+      product of Object.entries(routeConfig().functions);
+      track product[0]
+    ) {
+      @if (product[1].length > 0) {
+        <div class="nav-headline mat-label-small">
+          {{ t('tabbarMenu.' + product[0]) }}
+        </div>
+      }
+      @for (functionRoute of product[1]; track functionRoute) {
+        @if (functionRoute.visible) {
+          <button
+            mat-menu-item
+            class="nav-button"
+            [routerLink]="functionRoute.path"
+          >
+            {{ t(functionRoute.label) }}
+          </button>
+        }
       }
     }
   </mat-menu>
