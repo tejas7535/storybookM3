@@ -12,6 +12,7 @@ import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { RolesFacade } from '@gq/core/store/facades';
 import { ApprovalWorkflowInformation, Duration } from '@gq/shared/models';
 import { QuotationPricingOverview } from '@gq/shared/models/quotation';
+import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.interface';
 import { Rating } from '@gq/shared/models/rating.enum';
 import { NumberCurrencyPipe } from '@gq/shared/pipes/number-currency/number-currency.pipe';
 import { PercentagePipe } from '@gq/shared/pipes/percentage/percentage.pipe';
@@ -89,6 +90,13 @@ describe('OverviewTabComponent', () => {
     test(
       'should init Observables',
       marbles((m) => {
+        const mockQuotationDetailsSummaryKpi: QuotationDetailsSummaryKpi = {
+          amountOfQuotationDetails: 2,
+          totalNetValue: 2020.4,
+          totalWeightedAverageGpi: 0.2474,
+          totalWeightedAverageGpm: 0.99,
+          totalWeightedAveragePriceDiff: 0.5,
+        };
         const mockQuotationOverviewInformation: QuotationPricingOverview = {
           gpi: { value: 24.74 },
           gpm: { value: 0.99 },
@@ -110,7 +118,9 @@ describe('OverviewTabComponent', () => {
           avgGqRating: {
             value: mockQuotationOverviewInformation.avgGqRating.value,
           },
-          gpi: { value: mockQuotationOverviewInformation.gpi.value },
+          gpi: {
+            value: mockQuotationDetailsSummaryKpi.totalWeightedAverageGpi,
+          },
           gpm: {
             value: APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.gpm,
             warning: true,
@@ -126,6 +136,10 @@ describe('OverviewTabComponent', () => {
         store.overrideSelector(
           getQuotationOverviewInformation,
           mockQuotationOverviewInformation
+        );
+        store.overrideSelector(
+          activeCaseFeature.getQuotationDetailsSummaryKpi,
+          mockQuotationDetailsSummaryKpi
         );
 
         store.overrideSelector(
@@ -195,6 +209,14 @@ describe('OverviewTabComponent', () => {
           } as unknown as ApprovalFacade,
         });
 
+        const mockQuotationDetailsSummaryKpi: QuotationDetailsSummaryKpi = {
+          amountOfQuotationDetails: 2,
+          totalNetValue: 2020.4,
+          totalWeightedAverageGpi: 0.2474,
+          totalWeightedAverageGpm: 0.99,
+          totalWeightedAveragePriceDiff: 0.5,
+        };
+
         const mockQuotationOverviewInformation: QuotationPricingOverview = {
           gpi: { value: 24.74, warning: undefined },
           gpm: { value: 0.99, warning: undefined },
@@ -214,15 +236,14 @@ describe('OverviewTabComponent', () => {
             warning: undefined,
           },
           gpi: {
-            value: mockQuotationOverviewInformation.gpi.value,
-            warning: undefined,
+            value: mockQuotationDetailsSummaryKpi.totalWeightedAverageGpi,
           },
           gpm: {
-            value: mockQuotationOverviewInformation.gpm.value,
+            value: mockQuotationDetailsSummaryKpi.totalWeightedAverageGpm,
             warning: undefined,
           },
           deviation: {
-            value: mockQuotationOverviewInformation.deviation.value,
+            value: mockQuotationDetailsSummaryKpi.totalWeightedAveragePriceDiff,
             warning: false,
           },
         };
@@ -230,6 +251,11 @@ describe('OverviewTabComponent', () => {
         store.overrideSelector(
           getQuotationOverviewInformation,
           mockQuotationOverviewInformation
+        );
+
+        store.overrideSelector(
+          activeCaseFeature.getQuotationDetailsSummaryKpi,
+          mockQuotationDetailsSummaryKpi
         );
 
         component.ngOnInit();
@@ -252,6 +278,14 @@ describe('OverviewTabComponent', () => {
           } as unknown as ApprovalFacade,
         });
 
+        const mockQuotationDetailsSummaryKpi: QuotationDetailsSummaryKpi = {
+          amountOfQuotationDetails: 2,
+          totalNetValue: 2020.4,
+          totalWeightedAverageGpi: 0.2474,
+          totalWeightedAverageGpm: 0.99,
+          totalWeightedAveragePriceDiff: 0.5,
+        };
+
         const mockQuotationOverviewInformation: QuotationPricingOverview = {
           gpi: { value: 24.74, warning: undefined },
           gpm: { value: 0.99, warning: undefined },
@@ -271,11 +305,10 @@ describe('OverviewTabComponent', () => {
             warning: undefined,
           },
           gpi: {
-            value: mockQuotationOverviewInformation.gpi.value,
-            warning: undefined,
+            value: mockQuotationDetailsSummaryKpi.totalWeightedAverageGpi,
           },
           gpm: {
-            value: mockQuotationOverviewInformation.gpm.value,
+            value: mockQuotationDetailsSummaryKpi.totalWeightedAverageGpm,
             warning: undefined,
           },
           deviation: {
@@ -287,6 +320,11 @@ describe('OverviewTabComponent', () => {
         store.overrideSelector(
           getQuotationOverviewInformation,
           mockQuotationOverviewInformation
+        );
+
+        store.overrideSelector(
+          activeCaseFeature.getQuotationDetailsSummaryKpi,
+          mockQuotationDetailsSummaryKpi
         );
 
         component.ngOnInit();
@@ -308,6 +346,14 @@ describe('OverviewTabComponent', () => {
           } as unknown as ApprovalFacade,
         });
 
+        const mockQuotationDetailsSummaryKpi: QuotationDetailsSummaryKpi = {
+          amountOfQuotationDetails: 2,
+          totalNetValue: 2020.4,
+          totalWeightedAverageGpi: 0.2474,
+          totalWeightedAverageGpm: 0.99,
+          totalWeightedAveragePriceDiff: null,
+        };
+
         const mockQuotationOverviewInformation: QuotationPricingOverview = {
           gpi: { value: 24.74, warning: undefined },
           gpm: { value: 0.99, warning: undefined },
@@ -327,11 +373,10 @@ describe('OverviewTabComponent', () => {
             warning: undefined,
           },
           gpi: {
-            value: mockQuotationOverviewInformation.gpi.value,
-            warning: undefined,
+            value: mockQuotationDetailsSummaryKpi.totalWeightedAverageGpi,
           },
           gpm: {
-            value: mockQuotationOverviewInformation.gpm.value,
+            value: mockQuotationDetailsSummaryKpi.totalWeightedAverageGpm,
             warning: undefined,
           },
           deviation: {
@@ -343,6 +388,11 @@ describe('OverviewTabComponent', () => {
         store.overrideSelector(
           getQuotationOverviewInformation,
           mockQuotationOverviewInformation
+        );
+
+        store.overrideSelector(
+          activeCaseFeature.getQuotationDetailsSummaryKpi,
+          mockQuotationDetailsSummaryKpi
         );
 
         component.ngOnInit();
@@ -359,10 +409,18 @@ describe('OverviewTabComponent', () => {
             getApprovers: jest.fn(),
             requiredApprovalLevelsForQuotation$: of('approvalLevel'),
             approvalCockpitInformation$: of({
-              priceDeviation: 15,
+              priceDeviation: 0.15,
             } as ApprovalWorkflowInformation),
           } as unknown as ApprovalFacade,
         });
+
+        const mockQuotationDetailsSummaryKpi: QuotationDetailsSummaryKpi = {
+          amountOfQuotationDetails: 2,
+          totalNetValue: 2020.4,
+          totalWeightedAverageGpi: 0.2474,
+          totalWeightedAverageGpm: 0.99,
+          totalWeightedAveragePriceDiff: 0.2,
+        };
 
         const mockQuotationOverviewInformation: QuotationPricingOverview = {
           gpi: { value: 24.74, warning: undefined },
@@ -383,22 +441,26 @@ describe('OverviewTabComponent', () => {
             warning: undefined,
           },
           gpi: {
-            value: mockQuotationOverviewInformation.gpi.value,
-            warning: undefined,
+            value: mockQuotationDetailsSummaryKpi.totalWeightedAverageGpi,
           },
           gpm: {
-            value: mockQuotationOverviewInformation.gpm.value,
+            value: mockQuotationDetailsSummaryKpi.totalWeightedAverageGpm,
             warning: undefined,
           },
           deviation: {
-            value: 15,
-            warning: false,
+            value: 0.15,
+            warning: true,
           },
         };
 
         store.overrideSelector(
           getQuotationOverviewInformation,
           mockQuotationOverviewInformation
+        );
+
+        store.overrideSelector(
+          activeCaseFeature.getQuotationDetailsSummaryKpi,
+          mockQuotationDetailsSummaryKpi
         );
 
         component.ngOnInit();
@@ -420,6 +482,14 @@ describe('OverviewTabComponent', () => {
           } as unknown as ApprovalFacade,
         });
 
+        const mockQuotationDetailsSummaryKpi: QuotationDetailsSummaryKpi = {
+          amountOfQuotationDetails: 2,
+          totalNetValue: 2020.4,
+          totalWeightedAverageGpi: 0.2474,
+          totalWeightedAverageGpm: 0.99,
+          totalWeightedAveragePriceDiff: 0.15,
+        };
+
         const mockQuotationOverviewInformation: QuotationPricingOverview = {
           gpi: { value: 24.74, warning: undefined },
           gpm: { value: 0.99, warning: undefined },
@@ -439,15 +509,14 @@ describe('OverviewTabComponent', () => {
             warning: undefined,
           },
           gpi: {
-            value: mockQuotationOverviewInformation.gpi.value,
-            warning: undefined,
+            value: mockQuotationDetailsSummaryKpi.totalWeightedAverageGpi,
           },
           gpm: {
-            value: mockQuotationOverviewInformation.gpm.value,
+            value: mockQuotationDetailsSummaryKpi.totalWeightedAverageGpm,
             warning: undefined,
           },
           deviation: {
-            value: 15,
+            value: 0.15,
             warning: false,
           },
         };
@@ -455,6 +524,11 @@ describe('OverviewTabComponent', () => {
         store.overrideSelector(
           getQuotationOverviewInformation,
           mockQuotationOverviewInformation
+        );
+
+        store.overrideSelector(
+          activeCaseFeature.getQuotationDetailsSummaryKpi,
+          mockQuotationDetailsSummaryKpi
         );
 
         component.ngOnInit();
@@ -479,17 +553,17 @@ describe('OverviewTabComponent', () => {
 
   describe('getRating', () => {
     test('should return low when value < 25', () => {
-      const result = component.getRating(24);
+      const result = component.getRating(0.24);
       expect(result).toBe(Rating.LOW);
     });
 
     test('should return MEDIUM when value between 40 and 25', () => {
-      const result = component.getRating(34);
+      const result = component.getRating(0.34);
       expect(result).toBe(Rating.MEDIUM);
     });
 
     test('should return GOOD when value more than 40', () => {
-      const result = component.getRating(41);
+      const result = component.getRating(0.41);
       expect(result).toBe(Rating.GOOD);
     });
 
