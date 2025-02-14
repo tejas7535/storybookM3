@@ -47,44 +47,19 @@ export class ProductSelectionEffects {
         return this.catalogService
           .getBearingCapabilities(bearingDesignation)
           .pipe(
-            concatLatestFrom(() => [
-              this.calculationParametersFacade.getCalculationTypes$,
-              this.productSelectionFacade.isCo2DownstreamCalculationPossible$,
-            ]),
-            switchMap(
-              ([capabilities, calculationConfig, co2DownstreamPossible]) => {
-                const newCalculationTypes: CalculationParametersCalculationTypes =
-                  {
-                    ...calculationConfig,
-                    frictionalPowerloss: {
-                      ...calculationConfig.frictionalPowerloss,
-                      disabled:
-                        !capabilities.capabilityInfo.frictionCalculation ||
-                        !co2DownstreamPossible,
-                      selected:
-                        capabilities.capabilityInfo.frictionCalculation &&
-                        co2DownstreamPossible
-                          ? calculationConfig.frictionalPowerloss.selected
-                          : false,
-                    },
-                  };
-
-                return [
-                  ProductSelectionActions.setBearingId({
-                    bearingId: capabilities.productInfo.id,
-                  }),
-                  ProductSelectionActions.setBearingProductClass({
-                    productClass: capabilities.productInfo.bearinxClass,
-                  }),
-                  ProductSelectionActions.fetchLoadcaseTemplate(),
-                  CO2UpstreamCalculationResultActions.fetchResult(),
-                  ProductSelectionActions.fetchOperatingConditionsTemplate(),
-                  CalculationTypesActions.setCalculationTypes({
-                    calculationTypes: newCalculationTypes,
-                  }),
-                ];
-              }
-            ),
+            switchMap((capabilities) => {
+              return [
+                ProductSelectionActions.setBearingId({
+                  bearingId: capabilities.productInfo.id,
+                }),
+                ProductSelectionActions.setBearingProductClass({
+                  productClass: capabilities.productInfo.bearinxClass,
+                }),
+                ProductSelectionActions.fetchLoadcaseTemplate(),
+                CO2UpstreamCalculationResultActions.fetchResult(),
+                ProductSelectionActions.fetchOperatingConditionsTemplate(),
+              ];
+            }),
             catchError((err: HttpErrorResponse) => {
               return of(
                 ProductSelectionActions.setProductFetchFailure({

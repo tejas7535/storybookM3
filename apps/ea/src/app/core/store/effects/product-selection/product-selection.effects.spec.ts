@@ -277,26 +277,10 @@ describe('Product Selection Effects', () => {
           return of(capabilities);
         });
 
-      const calculationOptions = {
-        emission: { disabled: true, selected: true, visible: true },
-        frictionalPowerloss: {
-          disabled: true,
-          selected: false,
-          visible: true,
-        },
-        lubrication: { disabled: false, selected: false, visible: false },
-        overrollingFrequency: {
-          disabled: false,
-          selected: false,
-          visible: false,
-        },
-        ratingLife: { disabled: false, selected: false, visible: false },
-      };
-
       return marbles((m) => {
         action = ProductSelectionActions.fetchBearingCapabilities();
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-(bcdefg)', {
+        const expected = m.cold('-(bcdef)', {
           b: ProductSelectionActions.setBearingId({ bearingId: 'abc' }),
           c: ProductSelectionActions.setBearingProductClass({
             productClass: 'IDO_CATALOGUE_BEARING',
@@ -304,9 +288,6 @@ describe('Product Selection Effects', () => {
           d: ProductSelectionActions.fetchLoadcaseTemplate(),
           e: CO2UpstreamCalculationResultActions.fetchResult(),
           f: ProductSelectionActions.fetchOperatingConditionsTemplate(),
-          g: CalculationTypesActions.setCalculationTypes({
-            calculationTypes: calculationOptions,
-          }),
         });
 
         m.expect(effects.fetchBearingCapabilities$).toBeObservable(expected);
