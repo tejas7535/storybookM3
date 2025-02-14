@@ -61,7 +61,7 @@
     "title": "Operating conditions for bearing",
     "prototypeWarning": "The values shown in this development prototype are hypothetical and must not be used in production",
     "co2Downstream": {
-      "notPossibleTitle": "In the works for {{ selectedBearing }}",
+      "notPossibleTitle": "In work for {{ selectedBearing }}",
       "subTitle": "CO₂e caused by friction during operation",
       "text": "Comprehensive information with immediate calculations of the CO2e emissions of our rotative products in various application scenarios.",
       "textAvailable": "Schaeffler now offers comprehensive information with immediate calculations of the CO2e emissions of our rotative products in various application scenarios.",

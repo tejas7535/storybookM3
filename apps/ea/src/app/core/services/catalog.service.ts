@@ -173,6 +173,17 @@ export class CatalogService {
         ? lubricationConditions.grease.environmentalInfluence
         : 'LB_AVERAGE_AMBIENT_INFLUENCE';
 
+    const isRecirculatingOil =
+      this.isLubricationOfrecirculatingOil(lubricationMethod);
+
+    const oilFlow = lubricationConditions.recirculatingOil.oilFlow || 0;
+    const oilTempRise = toNumberString(
+      lubricationConditions.recirculatingOil.oilTemperatureDifference || 0
+    );
+    const heatFlow = toNumberString(
+      lubricationConditions.recirculatingOil.externalHeatFlow || 0
+    );
+
     const operatingConditions: CatalogServiceOperatingConditions = {
       IDL_LUBRICATION_METHOD: lubricationMethod,
       IDL_INFLUENCE_OF_AMBIENT: environmentalInfluence,
@@ -188,15 +199,12 @@ export class CatalogService {
           ? 'LB_ROTATING_INNERRING'
           : 'LB_ROTATING_OUTERRING',
 
-      IDL_OIL_FLOW: toNumberString(
-        lubricationConditions.recirculatingOil.oilFlow || 0
-      ),
-      IDL_OIL_TEMPERATURE_DIFFERENCE: toNumberString(
-        lubricationConditions.recirculatingOil.oilTemperatureDifference || 0
-      ),
-      IDL_EXTERNAL_HEAT_FLOW: toNumberString(
-        lubricationConditions.recirculatingOil.externalHeatFlow || 0
-      ),
+      IDL_OIL_FLOW: isRecirculatingOil ? toNumberString(oilFlow) : undefined,
+      IDL_OIL_TEMPERATURE_DIFFERENCE: isRecirculatingOil
+        ? oilTempRise
+        : undefined,
+
+      IDL_EXTERNAL_HEAT_FLOW: isRecirculatingOil ? heatFlow : undefined,
     };
 
     const loadcaseData: CatalogServiceLoadCaseData[] =
@@ -299,6 +307,15 @@ export class CatalogService {
       ),
       IDSLC_OPERATING_ANGLE: toNumberString(loadCase.rotation.shiftAngle || 0),
     }));
+  }
+
+  private isLubricationOfrecirculatingOil(
+    lubricationMethod: CatalogServiceOperatingConditions['IDL_LUBRICATION_METHOD']
+  ): boolean {
+    const recirculatingOilType: CatalogServiceOperatingConditions['IDL_LUBRICATION_METHOD'] =
+      'LB_RECIRCULATING_OIL_LUBRICATION';
+
+    return lubricationMethod === recirculatingOilType;
   }
 
   private convertLubricationMethod(

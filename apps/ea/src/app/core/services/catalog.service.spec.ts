@@ -1,6 +1,7 @@
+import { provideHttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { waitForAsync } from '@angular/core/testing';
 
@@ -12,6 +13,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import {
   CalculationParametersOperationConditions,
+  CalculationResultReportInput,
   CatalogCalculationResult,
   ProductCapabilitiesResult,
 } from '../store/models';
@@ -39,15 +41,18 @@ describe('CatalogService', () => {
 
   const createService = createServiceFactory({
     service: CatalogService,
-    imports: [HttpClientTestingModule],
     providers: [
       CatalogService,
       {
         provide: CatalogCalculationInputsConverterService,
         useValue: {
-          convertCatalogInputsResponse: jest.fn(() => []),
+          convertCatalogInputsResponse: jest.fn(
+            (): CalculationResultReportInput[] => []
+          ),
         },
       },
+      provideHttpClient(),
+      provideHttpClientTesting(),
     ],
   });
 
@@ -275,15 +280,15 @@ describe('CatalogService', () => {
   });
 
   describe('getCalculationResult', () => {
-    it('should call calculate endpoint', waitForAsync(() => {
-      catalogService['getCalculationResultReport'] = jest.fn(() =>
-        of({} as BearinxOnlineResult)
-      );
+    let loadcaseData: CatalogServiceLoadCaseData[];
+    let operationConditions: CalculationParametersOperationConditions;
+    const bearing = 'test';
 
-      const bearing = 'test';
-      const operationConditions =
+    beforeEach(() => {
+      operationConditions =
         APP_STATE_MOCK.calculationParameters.operationConditions;
-      const loadcaseData: CatalogServiceLoadCaseData[] = [
+
+      loadcaseData = [
         {
           IDCO_DESIGNATION: '',
           IDSLC_TIME_PORTION: '60',
@@ -296,48 +301,94 @@ describe('CatalogService', () => {
           IDSLC_OPERATING_ANGLE: `${operationConditions.loadCaseData?.[0].rotation.shiftAngle}`,
         },
       ];
-      catalogService['getLoadCasesData'] = jest.fn(() => loadcaseData);
-      const expectedBody = {
-        operatingConditions: {
-          IDL_LUBRICATION_METHOD: 'LB_GREASE_LUBRICATION',
-          IDL_INFLUENCE_OF_AMBIENT: 'LB_AVERAGE_AMBIENT_INFLUENCE',
-          IDL_CLEANESS_VALUE: operationConditions.contamination,
-          IDSLC_TEMPERATURE: `${operationConditions.ambientTemperature}`,
-          IDL_DEFINITION_OF_VISCOSITY: 'LB_ISO_VG_CLASS',
-          IDL_ISO_VG_CLASS: 'LB_ISO_VG_undefined',
-          IDL_GREASE: 'LB_PLEASE_SELECT',
-          IDL_NY_40: '0',
-          IDL_NY_100: '0',
-          IDL_CONDITION_OF_ROTATION: 'LB_ROTATING_INNERRING',
 
-          IDL_OIL_FLOW: '0',
-          IDL_OIL_TEMPERATURE_DIFFERENCE: `${operationConditions.lubrication.recirculatingOil.oilTemperatureDifference}`,
-          IDL_EXTERNAL_HEAT_FLOW: `${operationConditions.lubrication.recirculatingOil.externalHeatFlow}`,
-        },
-        loadcaseData,
-      };
-
-      catalogService
-        .getCalculationResult(bearing, operationConditions)
-        .subscribe((result) => {
-          expect(result).toBeTruthy();
-          expect(
-            catalogService['getCalculationResultReport']
-          ).toHaveBeenCalledWith('result');
-          expect(convertCatalogCalculationResult).toHaveBeenCalledWith(
-            {} as BearinxOnlineResult,
-            undefined,
-            false
-          );
-          expect(result).toEqual({} as CatalogCalculationResult);
-        });
-      const req = httpMock.expectOne(
-        `${catalogService['baseUrl']}/product/calculate/${bearing}`
+      catalogService['getCalculationResultReport'] = jest.fn(() =>
+        of({} as BearinxOnlineResult)
       );
-      expect(req.request.body).toEqual(expectedBody);
-      expect(req.request.method).toBe('POST');
 
-      req.flush('result');
-    }));
+      catalogService['getLoadCasesData'] = jest.fn(() => loadcaseData);
+    });
+    describe('when lubrication method is grease lubriction', () => {
+      it('should call calculate endpoint', waitForAsync(() => {
+        catalogService
+          .getCalculationResult(bearing, operationConditions)
+          .subscribe((result) => {
+            expect(result).toBeTruthy();
+            expect(
+              catalogService['getCalculationResultReport']
+            ).toHaveBeenCalledWith('result');
+            expect(convertCatalogCalculationResult).toHaveBeenCalledWith(
+              {} as BearinxOnlineResult,
+              undefined,
+              false
+            );
+            expect(result).toEqual({} as CatalogCalculationResult);
+          });
+        const req = httpMock.expectOne(
+          `${catalogService['baseUrl']}/product/calculate/${bearing}`
+        );
+        expect(req.request.body).toMatchSnapshot();
+        expect(req.request.method).toBe('POST');
+
+        req.flush('result');
+      }));
+    });
+
+    describe('when lubrication method is recirculating oil', () => {
+      it('should call calculate endpoint', waitForAsync(() => {
+        operationConditions.lubrication.lubricationSelection =
+          'recirculatingOil';
+
+        catalogService
+          .getCalculationResult(bearing, operationConditions)
+          .subscribe((result) => {
+            expect(result).toBeTruthy();
+            expect(
+              catalogService['getCalculationResultReport']
+            ).toHaveBeenCalledWith('result');
+            expect(convertCatalogCalculationResult).toHaveBeenCalledWith(
+              {} as BearinxOnlineResult,
+              undefined,
+              false
+            );
+            expect(result).toEqual({} as CatalogCalculationResult);
+          });
+        const req = httpMock.expectOne(
+          `${catalogService['baseUrl']}/product/calculate/${bearing}`
+        );
+        expect(req.request.body).toMatchSnapshot();
+        expect(req.request.method).toBe('POST');
+
+        req.flush('result');
+      }));
+    });
+
+    describe('when lubrication method is oil bath', () => {
+      it('should call calculate endpoint', waitForAsync(() => {
+        operationConditions.lubrication.lubricationSelection = 'oilBath';
+
+        catalogService
+          .getCalculationResult(bearing, operationConditions)
+          .subscribe((result) => {
+            expect(result).toBeTruthy();
+            expect(
+              catalogService['getCalculationResultReport']
+            ).toHaveBeenCalledWith('result');
+            expect(convertCatalogCalculationResult).toHaveBeenCalledWith(
+              {} as BearinxOnlineResult,
+              undefined,
+              false
+            );
+            expect(result).toEqual({} as CatalogCalculationResult);
+          });
+        const req = httpMock.expectOne(
+          `${catalogService['baseUrl']}/product/calculate/${bearing}`
+        );
+        expect(req.request.body).toMatchSnapshot();
+        expect(req.request.method).toBe('POST');
+
+        req.flush('result');
+      }));
+    });
   });
 });

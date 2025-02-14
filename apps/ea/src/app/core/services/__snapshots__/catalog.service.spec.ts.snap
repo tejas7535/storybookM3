@@ -21,3 +21,102 @@ Object {
   "title": "my-title",
 }
 `;
+
+exports[`CatalogService getCalculationResult when lubrication method is grease lubriction should call calculate endpoint 1`] = `
+Object {
+  "loadcaseData": Array [
+    Object {
+      "IDCO_DESIGNATION": "",
+      "IDLC_SPEED": "0",
+      "IDSLC_AXIAL_LOAD": "0",
+      "IDSLC_MEAN_BEARING_OPERATING_TEMPERATURE": "70",
+      "IDSLC_MOVEMENT_FREQUENCY": "0",
+      "IDSLC_OPERATING_ANGLE": "0",
+      "IDSLC_RADIAL_LOAD": "0",
+      "IDSLC_TIME_PORTION": "60",
+      "IDSLC_TYPE_OF_MOVEMENT": "LB_ROTATING",
+    },
+  ],
+  "operatingConditions": Object {
+    "IDL_CLEANESS_VALUE": "LB_STANDARD_CLEANLINESS",
+    "IDL_CONDITION_OF_ROTATION": "LB_ROTATING_INNERRING",
+    "IDL_DEFINITION_OF_VISCOSITY": "LB_ISO_VG_CLASS",
+    "IDL_EXTERNAL_HEAT_FLOW": undefined,
+    "IDL_GREASE": "LB_PLEASE_SELECT",
+    "IDL_INFLUENCE_OF_AMBIENT": "LB_AVERAGE_AMBIENT_INFLUENCE",
+    "IDL_ISO_VG_CLASS": "LB_ISO_VG_undefined",
+    "IDL_LUBRICATION_METHOD": "LB_GREASE_LUBRICATION",
+    "IDL_NY_100": "0",
+    "IDL_NY_40": "0",
+    "IDL_OIL_FLOW": undefined,
+    "IDL_OIL_TEMPERATURE_DIFFERENCE": undefined,
+    "IDSLC_TEMPERATURE": "20",
+  },
+}
+`;
+
+exports[`CatalogService getCalculationResult when lubrication method is oil bath should call calculate endpoint 1`] = `
+Object {
+  "loadcaseData": Array [
+    Object {
+      "IDCO_DESIGNATION": "",
+      "IDLC_SPEED": "0",
+      "IDSLC_AXIAL_LOAD": "0",
+      "IDSLC_MEAN_BEARING_OPERATING_TEMPERATURE": "70",
+      "IDSLC_MOVEMENT_FREQUENCY": "0",
+      "IDSLC_OPERATING_ANGLE": "0",
+      "IDSLC_RADIAL_LOAD": "0",
+      "IDSLC_TIME_PORTION": "60",
+      "IDSLC_TYPE_OF_MOVEMENT": "LB_ROTATING",
+    },
+  ],
+  "operatingConditions": Object {
+    "IDL_CLEANESS_VALUE": "LB_STANDARD_CLEANLINESS",
+    "IDL_CONDITION_OF_ROTATION": "LB_ROTATING_INNERRING",
+    "IDL_DEFINITION_OF_VISCOSITY": "LB_ISO_VG_CLASS",
+    "IDL_EXTERNAL_HEAT_FLOW": undefined,
+    "IDL_GREASE": "LB_PLEASE_SELECT",
+    "IDL_INFLUENCE_OF_AMBIENT": "LB_AVERAGE_AMBIENT_INFLUENCE",
+    "IDL_ISO_VG_CLASS": "LB_ISO_VG_undefined",
+    "IDL_LUBRICATION_METHOD": "LB_OIL_BATH_LUBRICATION",
+    "IDL_NY_100": "0",
+    "IDL_NY_40": "0",
+    "IDL_OIL_FLOW": undefined,
+    "IDL_OIL_TEMPERATURE_DIFFERENCE": undefined,
+    "IDSLC_TEMPERATURE": "20",
+  },
+}
+`;
+
+exports[`CatalogService getCalculationResult when lubrication method is recirculating oil should call calculate endpoint 1`] = `
+Object {
+  "loadcaseData": Array [
+    Object {
+      "IDCO_DESIGNATION": "",
+      "IDLC_SPEED": "0",
+      "IDSLC_AXIAL_LOAD": "0",
+      "IDSLC_MEAN_BEARING_OPERATING_TEMPERATURE": "70",
+      "IDSLC_MOVEMENT_FREQUENCY": "0",
+      "IDSLC_OPERATING_ANGLE": "0",
+      "IDSLC_RADIAL_LOAD": "0",
+      "IDSLC_TIME_PORTION": "60",
+      "IDSLC_TYPE_OF_MOVEMENT": "LB_ROTATING",
+    },
+  ],
+  "operatingConditions": Object {
+    "IDL_CLEANESS_VALUE": "LB_STANDARD_CLEANLINESS",
+    "IDL_CONDITION_OF_ROTATION": "LB_ROTATING_INNERRING",
+    "IDL_DEFINITION_OF_VISCOSITY": "LB_ISO_VG_CLASS",
+    "IDL_EXTERNAL_HEAT_FLOW": "0",
+    "IDL_GREASE": "LB_PLEASE_SELECT",
+    "IDL_INFLUENCE_OF_AMBIENT": "LB_AVERAGE_AMBIENT_INFLUENCE",
+    "IDL_ISO_VG_CLASS": "LB_ISO_VG_undefined",
+    "IDL_LUBRICATION_METHOD": "LB_RECIRCULATING_OIL_LUBRICATION",
+    "IDL_NY_100": "0",
+    "IDL_NY_40": "0",
+    "IDL_OIL_FLOW": "0",
+    "IDL_OIL_TEMPERATURE_DIFFERENCE": "0",
+    "IDSLC_TEMPERATURE": "20",
+  },
+}
+`;
