@@ -257,7 +257,12 @@
   "calculation": {
     "showReport": "Mostrar informe",
     "calculationImpossible": "No es posible realizar ningún cálculo para los parámetros especificados.",
-    "calculationMissingInput": "Añada las condiciones restantes."
+    "calculationMissingInput": "Añada las condiciones restantes.",
+    "co2Emissions": {
+      "upstreamHint": "Valor estimado basado en suposiciones durante la producción",
+      "downstreamHint": "Valor estimado basado en suposiciones durante el uso del producto",
+      "upstreamHintLinkText": "Más información."
+    }
   },
   "calculationResult": {
     "ratingLife": "Vida útil nominal",

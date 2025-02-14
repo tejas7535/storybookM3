@@ -17,6 +17,6 @@
   </div>
   <div mat-dialog-title></div>
   <mat-dialog-content>
-    <div [innerHTML]="disclaimerContent$ | ngrxPush"></div>
+    <div #disclaimerContentContainer [innerHTML]="disclaimerContent()"></div>
   </mat-dialog-content>
 </ng-container>

@@ -257,7 +257,12 @@
   "calculation": {
     "showReport": "Afficher le rapport",
     "calculationImpossible": "Aucun calcul n’est possible pour les paramètres spécifiés.",
-    "calculationMissingInput": "Veuillez ajouter les conditions restantes."
+    "calculationMissingInput": "Veuillez ajouter les conditions restantes.",
+    "co2Emissions": {
+      "upstreamHint": "Valeur estimée basée sur des hypothèses pendant la production",
+      "downstreamHint": "Valeur estimée basée sur des hypothèses pendant l'utilisation du produit",
+      "upstreamHintLinkText": "Plus d'informations."
+    }
   },
   "calculationResult": {
     "ratingLife": "Endurance",

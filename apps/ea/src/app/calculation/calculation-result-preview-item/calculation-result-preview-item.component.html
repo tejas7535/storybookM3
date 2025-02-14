@@ -86,6 +86,13 @@
                     <ea-calculation-result-preview-emissions-tooltip>
                     </ea-calculation-result-preview-emissions-tooltip>
                   }
+
+                  @if (value.title === 'usage') {
+                    <ea-calculation-result-preview-emissions-tooltip
+                      [isDownstream]="true"
+                    >
+                    </ea-calculation-result-preview-emissions-tooltip>
+                  }
                 } @else {
                   @if (value.calculationError) {
                     <ng-container [ngTemplateOutlet]="error"> </ng-container>

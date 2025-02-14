@@ -2,7 +2,6 @@ import { DialogModule, DialogRef } from '@angular/cdk/dialog';
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -35,7 +34,6 @@ import {
 } from '@schaeffler/result-report';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { CalculationDisclaimerComponent } from '../calculation-disclaimer/calculation-disclaimer.component';
 import { CalculationResultReportEmissionComponent } from '../calculation-result-report-emission/calculation-result-report-emission.component';
 import { CalculationResultReportLargeItemsComponent } from '../calculation-result-report-large-items/calculation-result-report-large-items.component';
 import { CalculationResultReportSelectionComponent } from '../calculation-result-report-selection/calculation-result-report-selection.component';
@@ -105,7 +103,6 @@ export class CalculationResultReportComponent {
     public readonly downstreamCalculationFacade: Co2DownstreamFacade,
     public readonly dialogRef: DialogRef<CalculationResultReportComponent>,
     public readonly settingsFacade: SettingsFacade,
-    private readonly dialog: MatDialog,
     private readonly translocoSevice: TranslocoService,
     private readonly trackingService: TrackingService,
     private readonly reportService: PDFReportService,
@@ -114,14 +111,6 @@ export class CalculationResultReportComponent {
 
   closeDialog() {
     this.dialogRef.close();
-  }
-
-  showCalculationDisclaimerDialog() {
-    this.dialog.open(CalculationDisclaimerComponent, {
-      hasBackdrop: true,
-      autoFocus: true,
-      maxWidth: '750px',
-    });
   }
 
   scrollIntoView(itemName: CalculationParametersCalculationTypeConfig['name']) {

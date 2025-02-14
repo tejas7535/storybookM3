@@ -263,6 +263,7 @@
     "calculationMissingInput": "Please add the remaining conditions.",
     "co2Emissions": {
       "upstreamHint": "Estimated value based on assumptions during production",
+      "downstreamHint": "Estimated value based on assumptions during product use",
       "upstreamHintLinkText": "More information."
     }
   },

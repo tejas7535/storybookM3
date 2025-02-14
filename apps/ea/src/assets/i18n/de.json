@@ -263,6 +263,7 @@
     "calculationMissingInput": "Bitte fügen Sie die verbleibenden Bedingungen hinzu.",
     "co2Emissions": {
       "upstreamHint": "Geschätzter Wert basierend auf Annahmen während der Produktion",
+      "downstreamHint": "Geschätzter Wert basierend auf Annahmen während der Produktnutzung",
       "upstreamHintLinkText": "Mehr Informationen."
     }
   },
@@ -427,7 +428,7 @@
       }
     },
     "calculationDisclaimer": {
-      "title": "Allgemeine Beschreibung der Berechnungsmethode für Cradle-to-Gate",
+      "title": "Haftungsausschluss für die PCF-Berechnung entlang des Wälzlagerlebenszyklus",
       "disclaimerFile": "/disclaimers/calculation-de.html"
     },
     "ratingLife": {

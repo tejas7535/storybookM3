@@ -257,7 +257,12 @@
   "calculation": {
     "showReport": "보고서 표시",
     "calculationImpossible": "지정한 매개 변수의 경우 계산할 수 없습니다.",
-    "calculationMissingInput": "나머지 조건을 추가하십시오."
+    "calculationMissingInput": "나머지 조건을 추가하십시오.",
+    "co2Emissions": {
+      "upstreamHint": "생산 중 가정에 기반한 추정값",
+      "downstreamHint": "제품 사용 중 가정에 기반한 추정값",
+      "upstreamHintLinkText": "자세한 정보."
+    }
   },
   "calculationResult": {
     "ratingLife": "정격 수명",

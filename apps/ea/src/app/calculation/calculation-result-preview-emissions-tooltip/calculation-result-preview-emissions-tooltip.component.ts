@@ -1,5 +1,10 @@
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -21,6 +26,12 @@ import { CalculationDisclaimerComponent } from '../calculation-disclaimer/calcul
   ],
 })
 export class CalculationResultPreviewEmissionsTooltipComponent {
+  isDownstream = input<boolean>();
+
+  hintTranslationKey = computed(() =>
+    this.isDownstream() ? 'downstreamHint' : 'upstreamHint'
+  );
+
   constructor(private readonly dialog: MatDialog) {}
 
   public openMoreInformation() {
@@ -28,6 +39,9 @@ export class CalculationResultPreviewEmissionsTooltipComponent {
       hasBackdrop: true,
       autoFocus: true,
       maxWidth: '750px',
+      data: {
+        isDownstreamDisclaimer: this.isDownstream(),
+      },
     });
   }
 }

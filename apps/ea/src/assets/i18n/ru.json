@@ -257,7 +257,12 @@
   "calculation": {
     "showReport": "Показать отчет",
     "calculationImpossible": "Невозможно выполнить расчет для указанных вами параметров.",
-    "calculationMissingInput": "Добавьте остальные условия."
+    "calculationMissingInput": "Добавьте остальные условия.",
+    "co2Emissions": {
+      "upstreamHint": "Оценочное значение, основанное на предположениях в ходе производства",
+      "downstreamHint": "Оценочное значение, основанное на предположениях в ходе использования продукта",
+      "upstreamHintLinkText": "Больше информации."
+    }
   },
   "calculationResult": {
     "ratingLife": "Номинальный срок службы",

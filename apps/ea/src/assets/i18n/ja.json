@@ -257,7 +257,12 @@
   "calculation": {
     "showReport": "レポートの表示",
     "calculationImpossible": "指定したパラメータは計算できません。",
-    "calculationMissingInput": "その他の条件を追加してください。"
+    "calculationMissingInput": "その他の条件を追加してください。",
+    "co2Emissions": {
+      "upstreamHint": "生産時の仮定に基づく推定値",
+      "downstreamHint": "製品使用中の仮定に基づく推定値",
+      "upstreamHintLinkText": "詳しくはこちら。"
+    }
   },
   "calculationResult": {
     "ratingLife": "定格寿命",

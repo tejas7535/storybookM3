@@ -257,7 +257,12 @@
   "calculation": {
     "showReport": "Raporu Göster",
     "calculationImpossible": "Belirttiğiniz parametreler için hesaplama yapılamaz.",
-    "calculationMissingInput": "Lütfen kalan koşulları ekleyin."
+    "calculationMissingInput": "Lütfen kalan koşulları ekleyin.",
+    "co2Emissions": {
+      "upstreamHint": "Üretim sırasında varsayımlara dayalı tahmini değer",
+      "downstreamHint": "Ürün kullanımı sırasında varsayımlara dayalı tahmini değer",
+      "upstreamHintLinkText": "Daha fazla bilgi."
+    }
   },
   "calculationResult": {
     "ratingLife": "Nominal ömür",

@@ -213,4 +213,20 @@ describe('CalculationResultReportEmissionComponent', () => {
       maxWidth: '750px',
     });
   });
+
+  it('should open the CalculationDisclaimerComponent dialog for downstream action', () => {
+    const dialog = spectator.inject(MatDialog);
+    const openSpy = jest.spyOn(dialog, 'open');
+
+    spectator.component.showDownstreamCalculationDisclaimerDialog();
+
+    expect(openSpy).toHaveBeenCalledWith(CalculationDisclaimerComponent, {
+      hasBackdrop: true,
+      autoFocus: true,
+      maxWidth: '750px',
+      data: {
+        isDownstreamDisclaimer: true,
+      },
+    });
+  });
 });

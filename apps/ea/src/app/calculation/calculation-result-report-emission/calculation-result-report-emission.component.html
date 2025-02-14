@@ -87,7 +87,6 @@
           <button
             class="text-primary"
             (click)="showCalculationDisclaimerDialog()"
-            target="_blank"
           >
             {{ t('upstreamHintLinkText') }}
           </button>
@@ -138,13 +137,12 @@
         @if (co2Emission?.co2_downstream.emission) {
           <div class="text-medium-emphasis pt-4">
             {{ t('downstreamHint') }} -
-            <a
+            <button
               class="text-primary"
-              [href]="t('downstreamHintLink')"
-              target="_blank"
-              rel="noopener"
-              >{{ t('downstreamHintLinkText') }}</a
+              (click)="showDownstreamCalculationDisclaimerDialog()"
             >
+              {{ t('downstreamHintLinkText') }}
+            </button>
           </div>
         }
       </div>

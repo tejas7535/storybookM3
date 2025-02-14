@@ -145,6 +145,17 @@ export class CalculationResultReportEmissionComponent {
     });
   }
 
+  showDownstreamCalculationDisclaimerDialog() {
+    this.dialog.open(CalculationDisclaimerComponent, {
+      hasBackdrop: true,
+      autoFocus: true,
+      maxWidth: '750px',
+      data: {
+        isDownstreamDisclaimer: true,
+      },
+    });
+  }
+
   isSelected(index: number): boolean {
     return this.selectedIndex === index;
   }

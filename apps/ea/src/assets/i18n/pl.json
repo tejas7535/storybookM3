@@ -257,7 +257,12 @@
   "calculation": {
     "showReport": "Pokaż raport",
     "calculationImpossible": "Przeprowadzenie obliczenia na wybranych parametrach jest niemożliwe.",
-    "calculationMissingInput": "Dodaj pozostałe warunki."
+    "calculationMissingInput": "Dodaj pozostałe warunki.",
+    "co2Emissions": {
+      "upstreamHint": "Szacunkowa wartość oparta na założeniach podczas produkcji",
+      "downstreamHint": "Szacunkowa wartość oparta na założeniach podczas użytkowania produktu",
+      "upstreamHintLinkText": "Więcej informacji."
+    }
   },
   "calculationResult": {
     "ratingLife": "Trwałość znamionowa",

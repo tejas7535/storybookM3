@@ -257,7 +257,12 @@
   "calculation": {
     "showReport": "顯示報告",
     "calculationImpossible": "您指定的參數無法執行計算。",
-    "calculationMissingInput": "請新增剩餘條件。"
+    "calculationMissingInput": "請新增剩餘條件。",
+    "co2Emissions": {
+      "upstreamHint": "基於生產中假設的估計值",
+      "downstreamHint": "基於產品使用中的假設的估計值",
+      "upstreamHintLinkText": "更多資訊。"
+    }
   },
   "calculationResult": {
     "ratingLife": "額定壽命",

@@ -257,7 +257,12 @@
   "calculation": {
     "showReport": "Zobrazit zprávu",
     "calculationImpossible": "Pro zadané parametry není výpočet možný.",
-    "calculationMissingInput": "Doplňte zbývající podmínky."
+    "calculationMissingInput": "Doplňte zbývající podmínky.",
+    "co2Emissions": {
+      "upstreamHint": "Odhadovaná hodnota založená na předpokladech během výroby",
+      "downstreamHint": "Odhadovaná hodnota založená na předpokladech během používání produktu",
+      "upstreamHintLinkText": "Více informací."
+    }
   },
   "calculationResult": {
     "ratingLife": "Životnost",

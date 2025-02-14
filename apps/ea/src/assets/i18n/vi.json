@@ -257,7 +257,12 @@
   "calculation": {
     "showReport": "Hiển thị báo cáo",
     "calculationImpossible": "Đối với các thông số bạn đã xác định, không thể tính toán.",
-    "calculationMissingInput": "Vui lòng thêm các điều kiện còn lại."
+    "calculationMissingInput": "Vui lòng thêm các điều kiện còn lại.",
+    "co2Emissions": {
+      "upstreamHint": "Giá trị ước tính dựa trên các giả định trong quá trình sản xuất",
+      "downstreamHint": "Giá trị ước tính dựa trên các giả định trong quá trình sử dụng sản phẩm",
+      "upstreamHintLinkText": "Thêm thông tin."
+    }
   },
   "calculationResult": {
     "ratingLife": "Tuổi thọ định mức",

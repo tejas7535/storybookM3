@@ -257,7 +257,12 @@
   "calculation": {
     "showReport": "แสดงรายงาน",
     "calculationImpossible": "ไม่มีการคำนวณที่ทำได้สำหรับพารามิเตอร์ที่คุณระบุ",
-    "calculationMissingInput": "โปรดใส่เงื่อนไขที่เหลืออยู่"
+    "calculationMissingInput": "โปรดใส่เงื่อนไขที่เหลืออยู่",
+    "co2Emissions": {
+      "upstreamHint": "ค่าประมาณการที่อิงจากสมมติฐานระหว่างการผลิต",
+      "downstreamHint": "ค่าประมาณการที่อิงจากสมมติฐานระหว่างการใช้ผลิตภัณฑ์",
+      "upstreamHintLinkText": "ข้อมูลเพิ่มเติม."
+    }
   },
   "calculationResult": {
     "ratingLife": "พิกัดการอายุการใช้งาน",

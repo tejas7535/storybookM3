@@ -1,7 +1,6 @@
 import { MatDialog } from '@angular/material/dialog';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushPipe } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -14,7 +13,7 @@ describe('CalculationResultPreviewEmissionsTooltipComponent', () => {
 
   const createComponent = createComponentFactory({
     component: CalculationResultPreviewEmissionsTooltipComponent,
-    imports: [PushPipe, provideTranslocoTestingModule({ en: {} })],
+    imports: [provideTranslocoTestingModule({ en: {} })],
     providers: [
       {
         provide: MatDialog,
@@ -25,29 +24,69 @@ describe('CalculationResultPreviewEmissionsTooltipComponent', () => {
     ],
   });
 
-  beforeEach(() => {
-    spectator = createComponent();
-    component = spectator.debugElement.componentInstance;
-  });
+  describe('when upstream tooltip', () => {
+    beforeEach(() => {
+      spectator = createComponent();
+      component = spectator.component;
+    });
 
-  describe('onInit', () => {
     it('should create component', () => {
       expect(component).toBeTruthy();
     });
+
+    it('should have upstreamHint title', () => {
+      expect(component.hintTranslationKey()).toBe('upstreamHint');
+    });
+
+    describe('openMoreInformation', () => {
+      it('should open the dialog', () => {
+        component.openMoreInformation();
+
+        expect(component['dialog'].open).toHaveBeenCalledWith(
+          CalculationDisclaimerComponent,
+          {
+            hasBackdrop: true,
+            autoFocus: true,
+            maxWidth: '750px',
+            data: {
+              isDownstreamDisclaimer: undefined,
+            },
+          }
+        );
+      });
+    });
   });
 
-  describe('openMoreInformation', () => {
-    it('should open the dialog', () => {
-      component.openMoreInformation();
+  describe('when downstream tooltip', () => {
+    beforeEach(() => {
+      spectator = createComponent();
+      spectator.setInput('isDownstream', true);
+      component = spectator.component;
+    });
+    it('should create component', () => {
+      expect(component).toBeTruthy();
+    });
 
-      expect(component['dialog'].open).toHaveBeenCalledWith(
-        CalculationDisclaimerComponent,
-        {
-          hasBackdrop: true,
-          autoFocus: true,
-          maxWidth: '750px',
-        }
-      );
+    it('should have downstreamHint title', () => {
+      expect(component.hintTranslationKey()).toBe('downstreamHint');
+    });
+
+    describe('openMoreInformation', () => {
+      it('should open the dialog', () => {
+        component.openMoreInformation();
+
+        expect(component['dialog'].open).toHaveBeenCalledWith(
+          CalculationDisclaimerComponent,
+          {
+            hasBackdrop: true,
+            autoFocus: true,
+            maxWidth: '750px',
+            data: {
+              isDownstreamDisclaimer: true,
+            },
+          }
+        );
+      });
     });
   });
 });
