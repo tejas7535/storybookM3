@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 
 import { tap } from 'rxjs';
+
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { AgGridModule } from 'ag-grid-angular';
@@ -69,6 +70,7 @@ import { TextTooltipComponent } from '../text-tooltip/text-tooltip.component';
   styleUrl: './material-customer-table.component.scss',
 })
 export class MaterialCustomerTableComponent implements OnInit {
+  private readonly translocoLocaleService = inject(TranslocoLocaleService);
   public selectionFilter = input.required<GlobalSelectionState>();
   private readonly materialCustomerService = inject(MaterialCustomerService);
   readonly dialog = inject(MatDialog);
@@ -80,7 +82,6 @@ export class MaterialCustomerTableComponent implements OnInit {
     AgGridLocalizationService
   );
   protected readonly translocoService = inject(TranslocoService);
-  private readonly translocoLocaleService = inject(TranslocoLocaleService);
 
   protected components: Record<string, any> = {
     agDateInput: DateFilterComponent,

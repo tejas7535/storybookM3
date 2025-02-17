@@ -52,6 +52,7 @@ import { getIMRColumnDefinitions } from './column-definitions';
   styleUrl: './internal-material-replacement-table.component.scss',
 })
 export class InternalMaterialReplacementTableComponent {
+  private readonly translocoLocaleService = inject(TranslocoLocaleService);
   readonly selectedRegion = input.required<string>();
 
   public gridApi: GridApi;
@@ -62,7 +63,6 @@ export class InternalMaterialReplacementTableComponent {
   protected readonly rowCount = signal(0);
 
   protected readonly destroyRef = inject(DestroyRef);
-  private readonly translocoLocaleService = inject(TranslocoLocaleService);
 
   protected components: Record<string, any> = {
     agDateInput: DateFilterComponent,

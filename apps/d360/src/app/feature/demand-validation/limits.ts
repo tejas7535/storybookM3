@@ -1,4 +1,10 @@
-import { isAfter, isBefore, startOfWeek } from 'date-fns';
+import {
+  endOfMonth,
+  isAfter,
+  isBefore,
+  startOfMonth,
+  startOfWeek,
+} from 'date-fns';
 import { de } from 'date-fns/locale';
 
 import { DateRangePeriod } from '../../shared/utils/date-range';
@@ -57,7 +63,7 @@ export const isBeforeOrEqual = (date1: Date, date2: Date) =>
   !isAfter(date1, date2);
 
 export const firstViewableDate = () =>
-  new Date(new Date().setMonth(new Date().getMonth() - 36));
+  startOfMonth(new Date(new Date().setMonth(new Date().getMonth() - 36)));
 
 export const lastViewableDate = () =>
-  new Date(new Date().setMonth(new Date().getMonth() + 36));
+  endOfMonth(new Date(new Date().setMonth(new Date().getMonth() + 36)));

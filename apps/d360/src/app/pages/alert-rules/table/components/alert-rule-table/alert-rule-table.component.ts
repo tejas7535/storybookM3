@@ -69,13 +69,13 @@ export class AlertRuleTableComponent implements OnInit {
   private readonly dialog: MatDialog = inject(MatDialog);
   private readonly snackBarService: SnackbarService = inject(SnackbarService);
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
+  private readonly translocoLocaleService = inject(TranslocoLocaleService);
   public readonly columnSettingsService: AlertRulesColumnSettingsService<
     string,
     AlertRuleColumnDefinitions
   > = inject(
     AlertRulesColumnSettingsService<string, AlertRuleColumnDefinitions>
   );
-  private readonly translocoLocaleService = inject(TranslocoLocaleService);
 
   public getApi: OutputEmitterRef<GridApi> = output();
 
