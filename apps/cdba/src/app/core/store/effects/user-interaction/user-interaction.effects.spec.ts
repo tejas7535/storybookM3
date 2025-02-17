@@ -1,3 +1,4 @@
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import {
@@ -102,6 +103,33 @@ describe('UserInteractionEffects', () => {
 
         userInteractionService.loadInitialBomExportStatus = jest.fn(() =>
           m.cold('-a|', { a: status })
+        );
+
+        m.expect(effects.loadInitialBomExportStatus$).toBeObservable(expected);
+        m.flush();
+        expect(
+          userInteractionService.loadInitialBomExportStatus
+        ).toHaveBeenCalled();
+      })
+    );
+
+    it(
+      'should return success when REST response is Http404',
+      marbles((m) => {
+        const action = loadInitialBomExportStatus();
+        actions$ = m.hot('-a', { a: action });
+
+        const result = loadInitialBomExportStatusSuccess({
+          status: undefined,
+        });
+        const expected = m.cold('--a', { a: result });
+
+        userInteractionService.loadInitialBomExportStatus = jest.fn(() =>
+          m.cold(
+            '-#|',
+            {},
+            new HttpErrorResponse({ status: HttpStatusCode.NotFound })
+          )
         );
 
         m.expect(effects.loadInitialBomExportStatus$).toBeObservable(expected);

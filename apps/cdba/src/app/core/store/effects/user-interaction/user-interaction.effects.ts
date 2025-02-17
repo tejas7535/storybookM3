@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { catchError, EMPTY, map, mergeMap, of, take, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, take, tap } from 'rxjs';
 
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
@@ -115,7 +115,7 @@ export class UserInteractionEffects implements OnInitEffects {
           catchError((error: HttpErrorResponse) => {
             // Ignore Http404 - it means that the user never requested bom export
             return error.status === HttpStatusCode.NotFound
-              ? EMPTY
+              ? of(loadInitialBomExportStatusSuccess({ status: undefined }))
               : of(
                   showSnackBar({
                     interactionType:
