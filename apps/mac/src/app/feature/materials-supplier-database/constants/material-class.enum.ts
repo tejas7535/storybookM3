@@ -10,4 +10,6 @@ export enum MaterialClass {
   VITESCO = 'vitesco',
 }
 
-export const SupportedMaterialClasses = Object.values(MaterialClass);
+export const SupportedMaterialClasses = Object.values(MaterialClass).filter(
+  (c) => c !== MaterialClass.VITESCO
+) as MaterialClass[];

@@ -1,7 +1,11 @@
 import { createSelector } from '@ngrx/store';
 
 import { Material } from '@mac/feature/materials-supplier-database/models';
-import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
+import {
+  MaterialClass,
+  NavigationLevel,
+  SupportedMaterialClasses,
+} from '@mac/msd/constants';
 import * as fromStore from '@mac/msd/store/reducers';
 
 export const getDataState = createSelector(
@@ -56,7 +60,7 @@ export const getMaterialClassOptions = createSelector(
           ...dataState.materialClasses,
           MaterialClass.SAP_MATERIAL,
           MaterialClass.VITESCO,
-        ]
+        ].filter((mc: MaterialClass) => SupportedMaterialClasses.includes(mc))
       : undefined
 );
 

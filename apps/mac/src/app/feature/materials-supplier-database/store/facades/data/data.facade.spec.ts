@@ -145,11 +145,7 @@ describe('DataFacade', () => {
       'should provide material class options',
       marbles((m) => {
         const expected = m.cold('a', {
-          a: [
-            ...mockMaterialClassOptions,
-            MaterialClass.SAP_MATERIAL,
-            MaterialClass.VITESCO,
-          ],
+          a: [...mockMaterialClassOptions, MaterialClass.SAP_MATERIAL],
         });
 
         m.expect(facade.materialClassOptions$).toBeObservable(expected);

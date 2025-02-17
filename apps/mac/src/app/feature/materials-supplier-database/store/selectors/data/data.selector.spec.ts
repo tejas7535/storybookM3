@@ -115,11 +115,16 @@ describe('DataSelectors', () => {
           ...initialState,
           materialClasses: [MaterialClass.STEEL],
         })
-      ).toEqual([
-        MaterialClass.STEEL,
-        MaterialClass.SAP_MATERIAL,
-        MaterialClass.VITESCO,
-      ]);
+      ).toEqual([MaterialClass.STEEL, MaterialClass.SAP_MATERIAL]);
+    });
+
+    it('should get filter out disabled material classes', () => {
+      expect(
+        DataSelectors.getMaterialClassOptions.projector({
+          ...initialState,
+          materialClasses: [MaterialClass.STEEL, 'CheeseCake' as MaterialClass],
+        })
+      ).toEqual([MaterialClass.STEEL, MaterialClass.SAP_MATERIAL]);
     });
   });
 
