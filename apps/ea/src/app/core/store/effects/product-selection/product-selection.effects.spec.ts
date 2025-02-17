@@ -181,9 +181,19 @@ describe('Product Selection Effects', () => {
         action = ProductSelectionActions.fetchCanCalculate();
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-b', {
+        const expected = m.cold('-(bc)', {
           b: ProductSelectionActions.setCanCalculate({
             co2DownstreamAvailable: true,
+          }),
+          c: CalculationTypesActions.setCalculationTypes({
+            calculationTypes: {
+              ...CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes,
+              frictionalPowerloss: {
+                ...CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes
+                  .frictionalPowerloss,
+                disabled: false,
+              },
+            },
           }),
         });
 

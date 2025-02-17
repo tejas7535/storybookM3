@@ -164,16 +164,28 @@ export class ProductSelectionEffects {
   public fetchCanCalculate$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ProductSelectionActions.fetchCanCalculate),
-      concatLatestFrom(() => [this.productSelectionFacade.bearingDesignation$]),
-      switchMap(([_, designation]) => {
+      concatLatestFrom(() => [
+        this.productSelectionFacade.bearingDesignation$,
+        this.calculationParametersFacade.getCalculationTypes$,
+      ]),
+      switchMap(([_, designation, calculationTypes]) => {
         return this.downstreamCalculationService
           .getCanCalculate(designation)
           .pipe(
-            map((co2DownstreamAvailable) =>
+            switchMap((co2DownstreamAvailable) => [
               ProductSelectionActions.setCanCalculate({
                 co2DownstreamAvailable,
-              })
-            )
+              }),
+              CalculationTypesActions.setCalculationTypes({
+                calculationTypes: {
+                  ...calculationTypes,
+                  frictionalPowerloss: {
+                    ...calculationTypes.frictionalPowerloss,
+                    disabled: !co2DownstreamAvailable,
+                  },
+                },
+              }),
+            ])
           );
       })
     );
