@@ -374,15 +374,21 @@
             </button>
           </div>
         }
-        <ea-app-store-buttons
-          [title]="'appStoreButtonsTitle' | transloco"
-          (appStoreClick)="sendClickEvent($event)"
-        ></ea-app-store-buttons>
 
-        <ea-qualtrics-info-banner
-          class="block mb-2 sm:mb-4 md:pl-4"
-          [bearingDesingation]="bearingDesignation$ | ngrxPush"
-        ></ea-qualtrics-info-banner>
+        @if (isStandalone) {
+          <!--
+            Displaying these components in medias is done below the preview bar
+          --->
+          <ea-app-store-buttons
+            [title]="'appStoreButtonsTitle' | transloco"
+            (appStoreClick)="sendClickEvent($event)"
+          ></ea-app-store-buttons>
+
+          <ea-qualtrics-info-banner
+            class="block mb-2 sm:mb-4 md:pl-4"
+            [bearingDesingation]="bearingDesignation$ | ngrxPush"
+          ></ea-qualtrics-info-banner>
+        }
       </div>
     </div>
   </div>

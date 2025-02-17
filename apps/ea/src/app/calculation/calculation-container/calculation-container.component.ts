@@ -5,8 +5,12 @@ import { MatDividerModule } from '@angular/material/divider';
 import {
   CalculationParametersFacade,
   CalculationResultFacade,
+  ProductSelectionFacade,
   SettingsFacade,
 } from '@ea/core/store';
+import { AppStoreButtonsComponent } from '@ea/shared/app-store-buttons/app-store-buttons.component';
+import { QualtricsInfoBannerComponent } from '@ea/shared/qualtrics-info-banner/qualtrics-info-banner.component';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
 
 import { CalculationIndicationMobileComponent } from '../calculation-indication-mobile/calculation-indication-mobile.component';
@@ -27,6 +31,9 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
     CalculationTypesSelectionComponent,
     CalculationResultPreviewComponent,
     CalculationIndicationMobileComponent,
+    AppStoreButtonsComponent,
+    TranslocoPipe,
+    QualtricsInfoBannerComponent,
   ],
 })
 export class CalculationContainerComponent {
@@ -38,9 +45,12 @@ export class CalculationContainerComponent {
   public isCalculationResultAvailable$ =
     this.calculationResultFacade.isCalculationResultReportAvailable$;
 
+  public bearingDesignation$ = this.productSelectionFacade.bearingDesignation$;
+
   constructor(
     private readonly settingsFacade: SettingsFacade,
     private readonly calculationParametersFacade: CalculationParametersFacade,
-    private readonly calculationResultFacade: CalculationResultFacade
+    private readonly calculationResultFacade: CalculationResultFacade,
+    private readonly productSelectionFacade: ProductSelectionFacade
   ) {}
 }

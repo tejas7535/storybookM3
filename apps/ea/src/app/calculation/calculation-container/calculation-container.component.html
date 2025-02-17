@@ -29,10 +29,24 @@
     </div>
   </div>
 </div>
+
 <ea-calculation-result-preview
   [sticky]="isResultPreviewSticky$ | ngrxPush"
   [class.hidden]="isKeyboardVisible$ | ngrxPush"
 ></ea-calculation-result-preview>
+
+@if (!(isStandalone$ | ngrxPush)) {
+  <ea-qualtrics-info-banner
+    class="block sm:mb-4 md:pl-4 mb-6 mt-8 max-w-2xl mx-auto"
+    [bearingDesingation]="bearingDesignation$ | ngrxPush"
+  />
+  <div class="block mb-6">
+    <ea-app-store-buttons
+      [title]="'appStoreButtonsTitle' | transloco"
+      class="mb-6"
+    />
+  </div>
+}
 
 @if (isKeyboardVisible$ | ngrxPush) {
   <ea-calculation-indication-mobile
