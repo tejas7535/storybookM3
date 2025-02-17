@@ -1,8 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatIconButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
@@ -29,7 +25,6 @@ export interface AdditionalProps {
 @Component({
   selector: 'd360-selectable-value-or-original-cell-renderer',
   standalone: true,
-  imports: [MatTooltipModule, MatIconButton, MatIcon, MatMenuModule],
   template: `{{ value }}`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

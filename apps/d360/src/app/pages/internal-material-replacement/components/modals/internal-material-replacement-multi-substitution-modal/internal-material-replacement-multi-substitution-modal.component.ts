@@ -9,6 +9,7 @@ import { lastValueFrom, take } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { AgGridModule } from 'ag-grid-angular';
+import { parse } from 'date-fns';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -28,6 +29,7 @@ import {
   PostResult,
 } from '../../../../../shared/utils/error-handling';
 import {
+  formatISODateToISODateString,
   parseDateIfPossible,
   parseReplacementTypeIfPossible,
 } from '../../../../../shared/utils/parse-values';
@@ -283,11 +285,25 @@ export class InternalMaterialReplacementMultiSubstitutionModalComponent
     data: IMRSubstitution[],
     dryRun: boolean
   ): Promise<PostResult<IMRSubstitutionResponse>> {
+    const getIsoString: (date: string | Date) => string | null = (
+      date: string | Date
+    ) =>
+      date
+        ? formatISODateToISODateString(
+            parse(String(date), ValidationHelper.getDateFormat(), new Date())
+          )
+        : null;
+
     return lastValueFrom(
-      this.apiCall(data, dryRun).pipe(
-        take(1),
-        takeUntilDestroyed(this.destroyRef)
-      )
+      this.apiCall(
+        data.map((row) => ({
+          ...row,
+          replacementDate: getIsoString(row.replacementDate),
+          cutoverDate: getIsoString(row.cutoverDate),
+          startOfProduction: getIsoString(row.startOfProduction),
+        })),
+        dryRun
+      ).pipe(take(1), takeUntilDestroyed(this.destroyRef))
     );
   }
 }

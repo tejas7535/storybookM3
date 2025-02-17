@@ -53,7 +53,7 @@ import { getIMRColumnDefinitions } from './column-definitions';
 })
 export class InternalMaterialReplacementTableComponent {
   private readonly translocoLocaleService = inject(TranslocoLocaleService);
-  readonly selectedRegion = input.required<string>();
+  public readonly selectedRegion = input.required<string>();
 
   public gridApi: GridApi;
 

@@ -9,7 +9,7 @@ import { lastValueFrom, take } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { AgGridModule } from 'ag-grid-angular';
-import { ICellRendererParams } from 'ag-grid-enterprise';
+import { parse } from 'date-fns';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -23,6 +23,7 @@ import {
   DemandCharacteristic,
   demandCharacteristicOptions,
 } from '../../../../../feature/material-customer/model';
+import { SelectDemandCharacteristicOrOriginalCellRendererComponent } from '../../../../../shared/components/ag-grid/cell-renderer/select-demand-characteristic-or-original/select-demand-characteristic-or-original.component';
 import { SelectableValueOrOriginalCellRendererComponent } from '../../../../../shared/components/ag-grid/cell-renderer/selectable-value-or-original/selectable-value-or-original.component';
 import { SelectableValue } from '../../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { DisplayFunctions } from '../../../../../shared/components/inputs/display-functions.utils';
@@ -123,15 +124,8 @@ export class CustomerMaterialMultiModalComponent extends AbstractTableUploadModa
           getLabel: DisplayFunctions.displayFnText,
         },
         cellEditorParams: {
-          cellRenderer: (params: ICellRendererParams) => {
-            const parsed = params.value
-              ? parseDemandCharacteristicIfPossible(params.value)
-              : null;
-
-            return parsed
-              ? translate(`field.demandCharacteristic.value.${parsed}`)
-              : null;
-          },
+          cellRenderer:
+            SelectDemandCharacteristicOrOriginalCellRendererComponent,
           values: demandCharacteristicOptions,
         },
         cellEditor: 'agRichSelectCellEditor',
@@ -154,7 +148,15 @@ export class CustomerMaterialMultiModalComponent extends AbstractTableUploadModa
               (row) =>
                 ({
                   materialNumber: row.materialNumber || null,
-                  phaseInDate: formatISODateToISODateString(row.phaseInDate),
+                  phaseInDate: row.phaseInDate
+                    ? formatISODateToISODateString(
+                        parse(
+                          String(row.phaseInDate),
+                          ValidationHelper.getDateFormat(),
+                          new Date()
+                        )
+                      )
+                    : null,
                   demandCharacteristic: row.demandCharacteristic || null,
                 }) as CMPBulkPhaseInEntity
             ),
