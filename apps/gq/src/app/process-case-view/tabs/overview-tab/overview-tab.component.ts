@@ -24,6 +24,7 @@ import {
   QuotationPricingOverview,
   QuotationStatus,
 } from '@gq/shared/models/quotation';
+import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.interface';
 import { Rating } from '@gq/shared/models/rating.enum';
 import { calculateDuration } from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -83,15 +84,15 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
       return undefined;
     }
 
-    if (value < 25) {
+    if (value < 0.25) {
       return Rating.LOW;
     }
 
-    if (value < 40) {
+    if (value < 0.4) {
       return Rating.MEDIUM;
     }
 
-    if (value >= 40) {
+    if (value >= 0.4) {
       return Rating.GOOD;
     }
 
@@ -151,12 +152,14 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
     return combineLatest([
       this.approvalFacade.approvalCockpitInformation$,
       this.store.select(getQuotationOverviewInformation),
+      this.store.select(activeCaseFeature.getQuotationDetailsSummaryKpi),
     ]).pipe(
       takeUntil(this.shutDown$$),
       map(
-        ([approvalInformation, gqPricing]: [
+        ([approvalInformation, gqPricing, kpiSummary]: [
           ApprovalWorkflowInformation,
           QuotationPricingOverview,
+          QuotationDetailsSummaryKpi,
         ]) => ({
           netValue: {
             value:
@@ -168,21 +171,26 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
           netValueEur: approvalInformation.totalNetValueEur,
           currency: approvalInformation.currency,
           avgGqRating: gqPricing.avgGqRating,
-          gpi: gqPricing.gpi,
+          gpi: {
+            value: kpiSummary.totalWeightedAverageGpi,
+          },
           gpm: {
-            value: approvalInformation.gpm ?? gqPricing.gpm.value,
+            value:
+              approvalInformation.gpm ?? kpiSummary.totalWeightedAverageGpm,
             warning:
               approvalInformation.gpm &&
-              approvalInformation.gpm !== gqPricing.gpm.value,
+              approvalInformation.gpm !== kpiSummary.totalWeightedAverageGpm,
           },
           deviation: {
             value:
-              approvalInformation.priceDeviation ?? gqPricing.deviation.value,
+              approvalInformation.priceDeviation ??
+              kpiSummary.totalWeightedAveragePriceDiff,
             warning:
               // when zero is SAP Value and returned, it should be displayed and the warning shall be shown
               approvalInformation.priceDeviation !== null &&
               approvalInformation.priceDeviation !== undefined &&
-              approvalInformation?.priceDeviation !== gqPricing.deviation.value,
+              approvalInformation?.priceDeviation !==
+                kpiSummary.totalWeightedAveragePriceDiff,
           },
         })
       )
