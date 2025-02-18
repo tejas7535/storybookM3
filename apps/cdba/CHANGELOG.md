@@ -1,4 +1,23 @@
 # Release Notes of Cost Database Analytics
+## [5.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v5.3.0...cdba-v5.4.0) (2025-02-18)
+
+
+### Features
+
+* **cdba:** disable download after token expiry ([#6925](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6925)) ([b47038e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b47038ec7684d907462f334c1af7ceb14961e769))
+* **cdba:** offsetdatetime pipe ([#6985](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6985)) ([a789c49](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a789c49ba8bf1e056879923e2754606600f4d6e8))
+* **cdba:** post ag grid version bump fixes ([#6922](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6922)) ([31711ac](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/31711accbdf37103df7ce1a89a2abca337479dc6))
+* update ag grid v32 ([#6796](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6796)) ([9f6a844](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9f6a844c6a8898ef6ae8d48587f30dd752f87911))
+
+
+### Bug Fixes
+
+* **cdba:** adjust store and effect names ([#6998](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6998)) ([3d4dea8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3d4dea8e8fdf7955be2f54aebd2ad9b2b9ae73f8))
+* **cdba:** compare details btn redirect ([#6924](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6924)) ([53b1003](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/53b10039c4080f876748ff9ef014935593d12e5a))
+* **cdba:** loading flag in bom feature store ([#7013](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7013)) ([133984e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/133984ed56ea0129ab6ec707726116847fd70927))
+* **cdba:** loading spinner not shown ([#6990](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6990)) ([6d09a1b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6d09a1b0b7445f886fbe67f6d4f1da326f37255a))
+* **cdba:** tracking failure ([#6976](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6976)) ([be03aa3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/be03aa3f01c5223be1d2026be9176e73435f7abe))
+
 ## [5.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v5.2.0...cdba-v5.3.0) (2025-01-08)
 
 
