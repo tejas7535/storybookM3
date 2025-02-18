@@ -63,7 +63,7 @@ describe('MonthlyForecastChartComponent', () => {
       },
     });
 
-    const options = spectator.component['chartOptions'];
+    const options = spectator.component['chartOptions']();
     expect(options).toBeDefined();
 
     const xAxisArray = options.xAxis as any;
@@ -92,7 +92,8 @@ describe('MonthlyForecastChartComponent', () => {
       },
     });
 
-    const series = spectator.component['chartOptions'].series as SeriesOption[];
+    const series = spectator.component['chartOptions']()
+      .series as SeriesOption[];
     const ordersSeries = series.find((s: any) => s.kpi === 'orders');
     expect(ordersSeries).toBeUndefined();
 
@@ -108,7 +109,7 @@ describe('MonthlyForecastChartComponent', () => {
       },
     });
 
-    const options = spectator.component['chartOptions'];
+    const options = spectator.component['chartOptions']();
 
     const yAxisOptions = options.yAxis as YAXisOption;
     // @ts-expect-error TS doesn't correctly infer the type of axisLabel
@@ -132,7 +133,7 @@ describe('MonthlyForecastChartComponent', () => {
 
     translocoLocaleService.setLocale('de-DE');
 
-    const options = spectator.component['chartOptions'];
+    const options = spectator.component['chartOptions']();
 
     const yAxisOptions = options.yAxis as YAXisOption;
     // @ts-expect-error TS doesn't correctly infer the type of axisLabel
@@ -165,11 +166,11 @@ describe('MonthlyForecastChartComponent', () => {
       },
     });
 
-    let series = spectator.component['chartOptions'].series as SeriesOption[];
+    let series = spectator.component['chartOptions']().series as SeriesOption[];
     expect(series.find((s: any) => s.kpi === 'orders')).toBeDefined();
 
     spectator.setInput('toggledKpis', { orders: true });
-    series = spectator.component['chartOptions'].series as SeriesOption[];
+    series = spectator.component['chartOptions']().series as SeriesOption[];
     expect(series.find((s: any) => s.kpi === 'orders')).toBeUndefined();
   });
 });

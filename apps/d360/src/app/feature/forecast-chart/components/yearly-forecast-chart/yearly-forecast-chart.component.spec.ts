@@ -71,13 +71,14 @@ describe('YearlyForecastChartComponent', () => {
       },
     });
 
-    const options = spectator.component['chartOptions'];
+    const options = spectator.component['chartOptions']();
     expect(options).toBeDefined();
 
     const xAxisData = options.xAxis as any;
     expect(xAxisData.data).toEqual([2021, 2022]);
 
-    const series = spectator.component['chartOptions'].series as SeriesOption[];
+    const series = spectator.component['chartOptions']()
+      .series as SeriesOption[];
 
     expect(series.length).toBeGreaterThan(0);
     const deliveriesSeries = series.find((s: any) => s.kpi === 'deliveries');
@@ -110,7 +111,8 @@ describe('YearlyForecastChartComponent', () => {
       },
     });
 
-    const series = spectator.component['chartOptions'].series as SeriesOption[];
+    const series = spectator.component['chartOptions']()
+      .series as SeriesOption[];
 
     const ordersSeries = series.find((s: any) => s.kpi === 'orders');
     expect(ordersSeries).toBeUndefined();
@@ -140,11 +142,11 @@ describe('YearlyForecastChartComponent', () => {
       },
     });
 
-    let series = spectator.component['chartOptions'].series as SeriesOption[];
+    let series = spectator.component['chartOptions']().series as SeriesOption[];
     expect(series.find((s: any) => s.kpi === 'orders')).toBeDefined();
 
     spectator.setInput('toggledKpis', { orders: true });
-    series = spectator.component['chartOptions'].series as SeriesOption[];
+    series = spectator.component['chartOptions']().series as SeriesOption[];
     expect(series.find((s: any) => s.kpi === 'orders')).toBeUndefined();
   });
 });

@@ -1,4 +1,11 @@
-import { Component, effect, inject, input } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  input,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { EChartsOption, SeriesOption, TooltipComponentOption } from 'echarts';
@@ -15,17 +22,19 @@ export abstract class BaseForecastChartComponent {
   public data = input.required<MonthlyChartEntry[]>();
   public toggledKpis = input.required<Record<string, boolean>>();
 
-  protected chartOptions: EChartsOption | null = null;
+  protected chartOptions: WritableSignal<EChartsOption | null> = signal(null);
   protected boundaryGap = false;
 
   protected readonly translocoLocaleService = inject(TranslocoLocaleService);
 
-  constructor() {
-    effect(() => {
-      const data = this.data();
-      const toggledKpis = this.toggledKpis();
-      this.chartOptions = this.generateChartOptions(data, toggledKpis);
-    });
+  public constructor() {
+    effect(
+      () =>
+        this.chartOptions.set(
+          this.generateChartOptions(this.data(), this.toggledKpis())
+        ),
+      { allowSignalWrites: true }
+    );
   }
 
   protected abstract createSeries(
