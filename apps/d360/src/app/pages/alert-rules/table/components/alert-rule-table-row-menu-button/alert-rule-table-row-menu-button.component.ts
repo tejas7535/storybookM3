@@ -25,7 +25,6 @@ import {
   standalone: true,
   imports: [SharedTranslocoModule, RowMenuComponent, MatMenuItem],
   templateUrl: './alert-rule-table-row-menu-button.component.html',
-  styleUrl: './alert-rule-table-row-menu-button.component.scss',
 })
 export class AlertRuleTableRowMenuButtonComponent extends RowMenuComponent<AlertRule> {
   public constructor(

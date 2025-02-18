@@ -23,9 +23,9 @@ export interface CustomTreeDataAutoGroupColumnDef extends ColDef {
   title: (options: FilterProps) => string;
   visible: (options: FilterValues) => boolean;
   path: string[];
-  titleStyle?: () => string;
-  dotStyle?: () => string;
-  color?: (materialClassification?: string) => string;
+  titleStyle?: string;
+  dotStyle?: string;
+  color?: string;
 }
 
 export function getColumnDefinitions(config: {
@@ -72,7 +72,7 @@ export function getColumnDefinitions(config: {
       title: (options) => createToggleTitle(KpiType.Deliveries, options),
       visible: (options) => options[KpiType.Deliveries],
       additionalProps: {
-        color: () => 'dimmed-grey',
+        color: 'dimmed-grey',
         path: [KpiType.Deliveries],
       },
     }),
@@ -82,7 +82,7 @@ export function getColumnDefinitions(config: {
       title: () => `${key}.${KpiType.Deliveries}Active`,
       visible: (options) => options[KpiType.Deliveries],
       additionalProps: {
-        titleStyle: () => 'indented',
+        titleStyle: 'indented',
         path: [KpiType.Deliveries, 'active'],
       },
     }),
@@ -92,7 +92,7 @@ export function getColumnDefinitions(config: {
       title: () => `${key}.${KpiType.Deliveries}Predecessor`,
       visible: (options) => options[KpiType.Deliveries],
       additionalProps: {
-        titleStyle: () => 'indented',
+        titleStyle: 'indented',
         path: [KpiType.Deliveries, 'predecessor'],
       },
     }),
@@ -105,7 +105,7 @@ export function getColumnDefinitions(config: {
       title: (options) => createToggleTitle(KpiType.FirmBusiness, options),
       visible: (options) => options[KpiType.FirmBusiness],
       additionalProps: {
-        color: () => 'dimmed-yellow',
+        color: 'dimmed-yellow',
         path: [KpiType.FirmBusiness],
       },
     }),
@@ -115,7 +115,7 @@ export function getColumnDefinitions(config: {
       title: () => `${key}.${KpiType.FirmBusiness}`,
       visible: (options) => options[KpiType.FirmBusiness],
       additionalProps: {
-        titleStyle: () => 'indented',
+        titleStyle: 'indented',
         path: [KpiType.FirmBusiness, 'active'],
       },
     }),
@@ -125,7 +125,7 @@ export function getColumnDefinitions(config: {
       title: () => `${key}.${KpiType.FirmBusiness}Predecessor`,
       visible: (options) => options[KpiType.FirmBusiness],
       additionalProps: {
-        titleStyle: () => 'indented',
+        titleStyle: 'indented',
         path: [KpiType.FirmBusiness, 'predecessor'],
       },
     }),
@@ -138,7 +138,7 @@ export function getColumnDefinitions(config: {
       title: () => `${key}.${KpiType.ForecastProposal}`,
       visible: (options) => options[KpiType.ForecastProposal],
       additionalProps: {
-        titleStyle: () => (isConfirmed ? 'pseudo-deactivated' : ''),
+        titleStyle: isConfirmed ? 'pseudo-deactivated' : '',
         path: [KpiType.ForecastProposal],
       },
     }),
@@ -152,7 +152,7 @@ export function getColumnDefinitions(config: {
       title: () => `${key}.${KpiType.ForecastProposalDemandPlanner}`,
       visible: (options) => options[KpiType.ForecastProposalDemandPlanner],
       additionalProps: {
-        titleStyle: () => (isConfirmed ? 'pseudo-deactivated' : ''),
+        titleStyle: isConfirmed ? 'pseudo-deactivated' : '',
         path: [KpiType.ForecastProposalDemandPlanner],
       },
     }),
@@ -165,7 +165,7 @@ export function getColumnDefinitions(config: {
       title: () => `${key}.${KpiType.ValidatedForecast}`,
       visible: () => true,
       additionalProps: {
-        titleStyle: () => (isConfirmed ? 'pseudo-deactivated' : 'highlighted'),
+        titleStyle: isConfirmed ? 'pseudo-deactivated' : 'highlighted',
         editable: !isConfirmed,
         path: [KpiType.ValidatedForecast],
       },
@@ -186,8 +186,8 @@ export function getColumnDefinitions(config: {
       title: (options) => `${createToggleTitle(KpiType.FirmBusiness, options)}`,
       visible: (options) => options[KpiType.DemandRelevantSales],
       additionalProps: {
-        dotStyle: () => 'indented',
-        color: () => 'dimmed-yellow',
+        dotStyle: 'indented',
+        color: 'dimmed-yellow',
         path: [KpiType.DemandRelevantSales, KpiType.FirmBusiness],
       },
     }),
@@ -197,8 +197,8 @@ export function getColumnDefinitions(config: {
       title: () => `${key}.${KpiType.OnTopOrder}`,
       visible: (options) => options[KpiType.DemandRelevantSales],
       additionalProps: {
-        dotStyle: () => 'indented',
-        color: () => 'dimmed-green',
+        dotStyle: 'indented',
+        color: 'dimmed-green',
         path: [KpiType.DemandRelevantSales, KpiType.OnTopOrder],
       },
     }),
@@ -208,8 +208,8 @@ export function getColumnDefinitions(config: {
       title: () => `${key}.${KpiType.OnTopCapacityForecast}`,
       visible: (options) => options[KpiType.DemandRelevantSales],
       additionalProps: {
-        dotStyle: () => 'indented',
-        color: () => 'dimmed-blue',
+        dotStyle: 'indented',
+        color: 'dimmed-blue',
         path: [KpiType.DemandRelevantSales, KpiType.OnTopCapacityForecast],
       },
     }),
@@ -222,7 +222,7 @@ export function getColumnDefinitions(config: {
       title: () => `${key}.${KpiType.SalesAmbition}`,
       visible: (options) => options[KpiType.SalesAmbition],
       additionalProps: {
-        color: () => 'dimmed-pink',
+        color: 'dimmed-pink',
         path: [KpiType.SalesAmbition],
       },
     }),
@@ -235,7 +235,7 @@ export function getColumnDefinitions(config: {
       title: () => `${key}.${KpiType.Opportunities}`,
       visible: (options) => options[KpiType.Opportunities],
       additionalProps: {
-        color: () => 'dimmed-red',
+        color: 'dimmed-red',
         path: [KpiType.Opportunities],
       },
     }),

@@ -10,7 +10,6 @@ import { AgGridModule } from 'ag-grid-angular';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { ActionButtonComponent } from '../../../../../../shared/components/action-button/action-button.component';
 import { AbstractAlertRuleMultiModalComponent } from '../abstract-alert-rule-multi-modal.component';
 
 @Component({
@@ -23,13 +22,10 @@ import { AbstractAlertRuleMultiModalComponent } from '../abstract-alert-rule-mul
     MatDialogModule,
     MatIcon,
     MatButtonModule,
-    ActionButtonComponent,
     LoadingSpinnerModule,
   ],
   templateUrl:
     './../../../../../../shared/components/table-upload-modal/abstract-table-upload-modal.component.html',
-  styleUrl:
-    './../../../../../../shared/components/table-upload-modal/abstract-table-upload-modal.component.scss',
 })
 export class AlertRuleDeleteMultiModalComponent extends AbstractAlertRuleMultiModalComponent {
   /** @inheritdoc */

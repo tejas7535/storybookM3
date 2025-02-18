@@ -1,9 +1,7 @@
 <div
-  class="dot {{ parameters?.data?.color?.(value) }} {{
-    parameters?.data?.dotStyle?.(value)
-  }}"
+  class="dot {{ parameters?.data?.color }} {{ parameters?.data?.dotStyle }}"
 ></div>
-<div class="title {{ parameters?.data?.titleStyle?.(value) }}">
+<div class="title {{ parameters?.data?.titleStyle }}">
   {{ parameters?.value }}
 </div>
 

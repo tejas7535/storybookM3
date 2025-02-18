@@ -99,7 +99,20 @@ export interface MaterialCustomerCustomerRequest {
   sortModel: object[];
 }
 
-export const materialClassificationOptions = ['AP', 'SPs', 'SPc', 'OP'];
+export enum MaterialClassificationType {
+  AP = 'AP',
+  SP = 'SP',
+  SPS = 'SPs',
+  SPC = 'SPc',
+  OP = 'OP',
+}
+
+export const materialClassificationOptions = [
+  MaterialClassificationType.AP,
+  MaterialClassificationType.SPS,
+  MaterialClassificationType.SPC,
+  MaterialClassificationType.OP,
+];
 
 export type MaterialClassification =
   (typeof materialClassificationOptions)[number];

@@ -35,8 +35,6 @@ import { SnackbarService } from '../../../../../shared/utils/service/snackbar.se
   ],
   templateUrl:
     './internal-material-replacement-single-delete-modal.component.html',
-  styleUrl:
-    './internal-material-replacement-single-delete-modal.component.scss',
 })
 export class InternalMaterialReplacementSingleDeleteModalComponent {
   private readonly snackbarService = inject(SnackbarService);

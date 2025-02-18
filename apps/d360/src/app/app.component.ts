@@ -68,7 +68,6 @@ import { ValidationHelper } from './shared/utils/validation/validation-helper';
   ],
   selector: 'd360-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   private readonly dateAdapter: DateAdapter<Date> = inject(DateAdapter);

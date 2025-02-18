@@ -16,7 +16,6 @@ import { OptionsLoadingResult } from '../../shared/services/selectable-options.s
     SingleAutocompleteOnTypeComponent,
   ],
   templateUrl: './test-page.component.html',
-  styleUrl: './test-page.component.scss',
 })
 export class TestPageComponent {
   protected testControl = new FormControl<SelectableValue | string>('hallo 1');

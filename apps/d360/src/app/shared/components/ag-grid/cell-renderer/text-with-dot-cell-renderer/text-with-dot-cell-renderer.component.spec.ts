@@ -14,30 +14,8 @@ describe('TextWithDotCellRendererComponent', () => {
   });
 
   describe('setValue', () => {
-    it('should set value and parameters correctly', () => {
-      const mockParams: ICellRendererParams & {
-        materialClassification: () => string;
-      } = {
-        node: {
-          group: true,
-          expanded: false,
-          addEventListener: jest.fn(),
-          removeEventListener: jest.fn(),
-          setExpanded: jest.fn(),
-        },
-        materialClassification: () => 'Mock Material Classification',
-      } as any;
-
-      spectator.component['setValue'](mockParams);
-
-      expect(spectator.component['value']).toBe('Mock Material Classification');
-      expect(spectator.component['parameters']).toEqual(mockParams);
-    });
-
-    it('should set value and parameters correctly, if no materialClassification was provided', () => {
-      const mockParams: ICellRendererParams & {
-        materialClassification: () => string;
-      } = {
+    it('should set parameters correctly', () => {
+      const mockParams: ICellRendererParams = {
         node: {
           group: true,
           expanded: false,
@@ -49,7 +27,6 @@ describe('TextWithDotCellRendererComponent', () => {
 
       spectator.component['setValue'](mockParams);
 
-      expect(spectator.component['value']).toBeNull();
       expect(spectator.component['parameters']).toEqual(mockParams);
     });
   });

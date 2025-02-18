@@ -16,7 +16,6 @@ import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { AgGridModule } from 'ag-grid-angular';
 import {
-  CellClassParams,
   CellClickedEvent,
   ColDef,
   GetRowIdFunc,
@@ -44,7 +43,6 @@ import { TableToolbarComponent } from '../../../../shared/components/ag-grid/tab
 import { GlobalSelectionStateService } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
 import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
-import { disableColor } from '../../../../shared/styles/colors';
 import { DateFilterComponent } from './../../../../shared/components/ag-grid/filters/mat-date-filter/date-filter.component';
 import { getColumnDefinitions } from './column-definitions';
 
@@ -212,13 +210,6 @@ export class MaterialListTableComponent {
         headerName: translate(`material_customer.column.${def.colId}`, {}),
         headerTooltip: translate(`material_customer.column.${def.colId}`, {}),
         suppressHeaderMenuButton: true,
-        cellStyle: (cellParams: CellClassParams) => {
-          if (cellParams.data.materialClassification === 'OP') {
-            return { backgroundColor: `${disableColor}` };
-          }
-
-          return {};
-        },
       })) as ColDef[]),
     ]);
   }

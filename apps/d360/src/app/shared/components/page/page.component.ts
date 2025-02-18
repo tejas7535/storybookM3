@@ -5,6 +5,5 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './page.component.html',
-  styleUrls: ['./page.component.scss'],
 })
 export class PageComponent {}

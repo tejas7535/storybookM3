@@ -18,7 +18,6 @@ import { ExportTableDialogData } from './export-table-dialog.model';
   standalone: true,
   imports: [LoadingSpinnerModule, TranslocoModule, MatDialogContent],
   templateUrl: './export-table-dialog.component.html',
-  styleUrl: './export-table-dialog.component.scss',
 })
 export class ExportTableDialogComponent implements OnInit {
   private readonly exportMaterialCustomerService = inject(

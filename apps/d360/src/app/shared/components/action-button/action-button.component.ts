@@ -23,7 +23,6 @@ export type ButtonType =
   standalone: true,
   imports: [MatTooltipModule, MatButtonModule, MatIcon],
   templateUrl: './action-button.component.html',
-  styleUrls: ['./action-button.component.scss'],
 })
 export class ActionButtonComponent {
   /**

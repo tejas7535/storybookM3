@@ -38,7 +38,6 @@ export interface ColumnLayoutManagementModalData {
     SharedTranslocoModule,
   ],
   templateUrl: './column-layout-management-modal.component.html',
-  styleUrl: './column-layout-management-modal.component.scss',
 })
 export class ColumnLayoutManagementModalComponent implements OnInit {
   readonly options: SelectableValue[] = [

@@ -19,7 +19,6 @@ export interface Option<T> {
   standalone: true,
   imports: [MatSelectModule, ReactiveFormsModule, FieldErrorComponent],
   templateUrl: './error-handling-select.component.html',
-  styleUrls: ['./error-handling-select.component.scss'],
 })
 export class ErrorHandlingSelectComponent {
   @Input({ required: true }) label!: string;

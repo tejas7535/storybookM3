@@ -35,22 +35,13 @@ export class TextWithDotCellRendererComponent<
    * @inheritdoc
    * @override
    */
-  protected setValue(
-    parameters: ICellRendererParams<any, T> & {
-      materialClassification: () => string;
-    }
-  ): void {
-    this.value = null;
+  protected setValue(parameters: ICellRendererParams<any, T>): void {
     this.parameters = parameters;
 
     this.isGroup = !!parameters.node.group;
     this.expanded.set(this.parameters.node.expanded);
 
     this.parameters.node.addEventListener('expandedChanged', this.onExpand);
-
-    if ('materialClassification' in parameters) {
-      this.value = parameters.materialClassification();
-    }
   }
 
   public onClick() {

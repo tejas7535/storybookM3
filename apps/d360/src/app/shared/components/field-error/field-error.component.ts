@@ -6,7 +6,6 @@ import { MatInputModule } from '@angular/material/input';
   standalone: true,
   imports: [MatInputModule],
   templateUrl: './field-error.component.html',
-  styleUrls: ['./field-error.component.scss'],
 })
 export class FieldErrorComponent {
   @Input() errorMessages: string[] = [];

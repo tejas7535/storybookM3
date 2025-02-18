@@ -5,6 +5,5 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './drawer.component.html',
-  styleUrls: ['./drawer.component.scss'],
 })
 export class DrawerComponent {}

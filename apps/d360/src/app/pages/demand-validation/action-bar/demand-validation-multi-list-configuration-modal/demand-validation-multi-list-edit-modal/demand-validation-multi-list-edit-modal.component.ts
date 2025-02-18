@@ -55,8 +55,6 @@ interface DemandValidationMultiListEditModalProps {
   ],
   templateUrl:
     './../../../../../shared/components/table-upload-modal/abstract-table-upload-modal.component.html',
-  styleUrl:
-    './../../../../../shared/components/table-upload-modal/abstract-table-upload-modal.component.scss',
 })
 export class DemandValidationMultiListEditModalComponent extends AbstractTableUploadModalComponent<
   DemandValidationBatch,

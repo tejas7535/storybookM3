@@ -70,6 +70,7 @@ import {
 } from '../../../../../../shared/utils/error-handling';
 import { SnackbarService } from '../../../../../../shared/utils/service/snackbar.service';
 import { ValidationHelper } from '../../../../../../shared/utils/validation/validation-helper';
+import { MaterialClassificationType } from './../../../../../../feature/material-customer/model';
 import {
   possibleWhenOptions,
   thresholdTypeWithParameter,
@@ -280,8 +281,8 @@ export class AlertRuleEditSingleModalComponent implements OnInit {
    * @memberof AlertRuleEditSingleModalComponent
    */
   protected materialClassificationOptions: SelectableValue[] = [
-    { id: 'AP', text: 'AP' },
-    { id: 'SP', text: 'SP' },
+    { id: MaterialClassificationType.AP, text: MaterialClassificationType.AP },
+    { id: MaterialClassificationType.SP, text: MaterialClassificationType.SP },
   ];
   /**
    * The alertTypeDescription for the current selected alertType.

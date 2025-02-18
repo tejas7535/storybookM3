@@ -216,10 +216,6 @@ export class DemandValidationTableComponent {
               )
             : '',
         cellRenderer: TextWithDotCellRendererComponent,
-        cellRendererParams: {
-          materialClassification: () =>
-            this.materialListEntry()?.materialClassification,
-        },
         pinned: true,
         width: 300,
       },
@@ -484,7 +480,6 @@ export class DemandValidationTableComponent {
     //  - Material in status PO can be entered Validated Forecast up to PO date and KPI VF is green up to PO date and white after PO date
     //  - Material in status SE can be entered Validated Forecast up to SE date and KPI VF is green up to SE date and white after SE date
     //  - Material in status SI can be entered Validated Forecast up to SI date and KPI VF is green up to SI date and white after SI date
-    //  - OP materials are excluded
 
     const fromDateCurrentColumn = parseISO(data.fromDate);
     const firstEditableDateFromSAP = parseISO(

@@ -11,7 +11,6 @@ import { PlanningView } from '../../../../feature/demand-validation/planning-vie
   standalone: true,
   imports: [CommonModule, SharedTranslocoModule, MatRadioModule],
   templateUrl: './demand-validation-setting-modal.component.html',
-  styleUrl: './demand-validation-setting-modal.component.scss',
 })
 export class DemandValidationSettingModalComponent {
   public readonly data = model.required<PlanningView>();

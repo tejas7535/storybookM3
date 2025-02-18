@@ -16,7 +16,6 @@ import { KpiBucketType } from '../../../../feature/demand-validation/model';
  * @param {KpiBucketType} periodType - The type of time period to consider for styling (e.g., 'WEEK', 'MONTH').
  * @param {string} [rltDateString] - Optional. Current RLT Schaeffler value as a string.
  * @param {string} [frozenZoneDateString] - Optional. Current Frozen Zone Date as a string.
- * @param {string} [materialClassification] - Optional. Material classification type.
  * @returns {CellClassFunc} A cell class function to be used in a data grid for applying styles to cells based on the provided parameters.
  */
 export function getCellClass(

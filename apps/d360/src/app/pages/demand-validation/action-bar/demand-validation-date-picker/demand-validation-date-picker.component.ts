@@ -32,7 +32,6 @@ import { toNativeDate } from '../../../../shared/utils/date-format';
     DatePickerMonthYearComponent,
   ],
   templateUrl: './demand-validation-date-picker.component.html',
-  styleUrl: './demand-validation-date-picker.component.scss',
 })
 export class DemandValidationDatePickerComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
