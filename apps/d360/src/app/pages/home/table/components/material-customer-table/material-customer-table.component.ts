@@ -71,17 +71,23 @@ import { TextTooltipComponent } from '../text-tooltip/text-tooltip.component';
 })
 export class MaterialCustomerTableComponent implements OnInit {
   private readonly translocoLocaleService = inject(TranslocoLocaleService);
-  public selectionFilter = input.required<GlobalSelectionState>();
   private readonly materialCustomerService = inject(MaterialCustomerService);
-  readonly dialog = inject(MatDialog);
-  protected globalSelectionStateService = inject(GlobalSelectionStateService);
-  protected materialCustomerTableService = inject(MaterialCustomerTableService);
+  private readonly dialog = inject(MatDialog);
+  private readonly globalSelectionStateService = inject(
+    GlobalSelectionStateService
+  );
+  private readonly materialCustomerTableService = inject(
+    MaterialCustomerTableService
+  );
+  private readonly translocoService = inject(TranslocoService);
 
-  public totalRowCount = signal<number>(null);
   protected readonly agGridLocalizationService = inject(
     AgGridLocalizationService
   );
-  protected readonly translocoService = inject(TranslocoService);
+
+  public selectionFilter = input.required<GlobalSelectionState>();
+
+  public totalRowCount = signal<number>(null);
 
   protected components: Record<string, any> = {
     agDateInput: DateFilterComponent,
@@ -99,10 +105,8 @@ export class MaterialCustomerTableComponent implements OnInit {
 
   protected readonly destroyRef = inject(DestroyRef);
 
-  constructor() {
-    effect(() => {
-      this.setDataSource(this.selectionFilter());
-    });
+  public constructor() {
+    effect(() => this.setDataSource(this.selectionFilter()));
   }
 
   public gridOptions: GridOptions = {

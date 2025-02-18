@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
@@ -16,32 +21,48 @@ import { AbstractBaseCellRendererComponent } from '../abstract-cell-renderer.com
   selector: 'd360-text-with-dot-cell-renderer',
   standalone: true,
   imports: [],
-  template: `
-    <div class="dot {{ parameters?.data?.color?.(value) }}"></div>
-    <div class="title {{ parameters?.data?.titleStyle?.(value) }}">
-      {{ parameters?.value }}
-    </div>
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './text-with-dot-cell-renderer.component.html',
   styleUrl: './text-with-dot-cell-renderer.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TextWithDotCellRendererComponent<
   T = any,
 > extends AbstractBaseCellRendererComponent<T> {
+  public isGroup!: boolean;
+  protected expanded: WritableSignal<boolean> = signal(false);
+
   /**
    * @inheritdoc
    * @override
    */
   protected setValue(
     parameters: ICellRendererParams<any, T> & {
-      materialClassification?: string;
+      materialClassification: () => string;
     }
   ): void {
     this.value = null;
     this.parameters = parameters;
 
-    if ('materialClassification' in this.parameters) {
-      this.value = this.parameters.materialClassification;
+    this.isGroup = !!parameters.node.group;
+    this.expanded.set(this.parameters.node.expanded);
+
+    this.parameters.node.addEventListener('expandedChanged', this.onExpand);
+
+    if ('materialClassification' in parameters) {
+      this.value = parameters.materialClassification();
     }
   }
+
+  public onClick() {
+    this.expanded.set(!this.parameters.node.expanded);
+    this.parameters.node.setExpanded(!this.parameters.node.expanded);
+  }
+
+  public destroy() {
+    this.parameters.node.removeEventListener('expandedChanged', this.onExpand);
+  }
+
+  private readonly onExpand = () => {
+    this.expanded.set(this.parameters.node.expanded);
+  };
 }

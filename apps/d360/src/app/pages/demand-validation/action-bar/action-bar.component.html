@@ -1,0 +1,142 @@
+<div *transloco="let t" class="action-bar">
+  <div class="flex flex-col gap-4 mb-3">
+    <div class="flex justify-between items-center pt-6 flex-wrap">
+      <!-- left side of buttons -->
+      <ng-container
+        *ngTemplateOutlet="buttons; context: { items: leftSide() }"
+      />
+
+      <!-- right side of buttons -->
+      <ng-container
+        *ngTemplateOutlet="buttons; context: { items: rightSide() }"
+      />
+    </div>
+  </div>
+</div>
+
+<ng-template #buttons let-items="items">
+  <div class="flex gap-3 flex-wrap" *transloco="let t">
+    @for (item of items; track $index) {
+      @switch (item.type) {
+        <!-- icon-buttons -->
+        @case ('icon-button') {
+          <span [matTooltip]="t(item?.tooltip)">
+            <button
+              mat-icon-button
+              (click)="item?.action()"
+              [disabled]="item?.disabled ?? false"
+              [class]="item?.class"
+            >
+              <mat-icon>{{ item?.icon }}</mat-icon>
+            </button>
+          </span>
+        }
+
+        <!-- flat-buttons -->
+        @case ('flat-button') {
+          <span [matTooltip]="t(item?.tooltip)">
+            <button
+              mat-flat-button
+              (click)="item?.action()"
+              [disabled]="item?.disabled ?? false"
+              [class]="item?.class"
+            >
+              <mat-icon>{{ item?.icon }}</mat-icon>
+              {{ t(item?.text) }}
+            </button>
+          </span>
+        }
+
+        <!-- vertical divider -->
+        @case ('divider') {
+          <mat-divider [vertical]="true" />
+        }
+
+        <!-- customer dropdown -->
+        @case ('customer') {
+          <d360-customer-dropdown
+            className="md:w-96"
+            [divider]="true"
+            [control]="$any(formGroup.controls.customerControl)"
+            [form]="formGroup"
+            [optionsLoadingResult]="customerSelectableValues()"
+            [customer]="selectedCustomer()"
+            (selectionChange)="handleCustomerChange($event)"
+            [disabled]="item?.disabled ?? false"
+          />
+        }
+
+        <!-- filter validation -->
+        @case ('filter') {
+          <d360-filter-demand-validation
+            (demandValidationFilterChange)="
+              demandValidationFilterChange.emit($event)
+            "
+            [initial]="demandValidationFilters()"
+            [disabled]="item?.disabled ?? false"
+          />
+        }
+
+        <!-- date-filter -->
+        @case ('date-filter') {
+          <span [matTooltip]="t('validation_of_demand.actionBar.selectDate')">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="dateRangeMenu"
+              #dateTrigger="matMenuTrigger"
+              [disabled]="item?.disabled ?? false"
+            >
+              <mat-icon>date_range</mat-icon>
+            </button>
+            <mat-menu
+              #dateRangeMenu="matMenu"
+              class="no-ripple as-dialog date-range"
+            >
+              <div
+                (click)="$event.stopPropagation()"
+                (keydown)="$event.stopPropagation()"
+              >
+                <d360-date-picker-setting-demand-validation-modal
+                  [data]="dateRange"
+                  (selectionChange)="dateRangeChanged.emit($event)"
+                  [close]="dateTrigger.toggleMenu.bind(dateTrigger)"
+                />
+              </div>
+            </mat-menu>
+          </span>
+        }
+
+        <!-- settings-filter -->
+        @case ('settings') {
+          <span [matTooltip]="t('validation_of_demand.actionBar.settings')">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="settingsMenu"
+              #settingsTrigger="matMenuTrigger"
+              [disabled]="item?.disabled ?? false"
+            >
+              <mat-icon>settings</mat-icon>
+            </button>
+            <mat-menu #settingsMenu="matMenu" class="no-ripple as-dialog small">
+              <div
+                (click)="$event.stopPropagation()"
+                (keydown)="$event.stopPropagation()"
+              >
+                <d360-demand-validation-setting-modal
+                  [data]="planningView()"
+                  (selectionChange)="
+                    handleDemandValidationSettingsChange($event);
+                    settingsTrigger.toggleMenu()
+                  "
+                  [close]="settingsTrigger.toggleMenu.bind(settingsTrigger)"
+                />
+              </div>
+            </mat-menu>
+          </span>
+        }
+
+        @default {}
+      }
+    }
+  </div>
+</ng-template>

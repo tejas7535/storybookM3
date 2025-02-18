@@ -273,12 +273,22 @@
           class="col-span-4 flex justify-end gap-5 global-selection-field-container"
         >
           <!-- reset filters -->
-          <button class="w-auto" mat-button (click)="resetFilters()">
+          <button
+            class="w-auto"
+            mat-button
+            (click)="resetFilters()"
+            [disabled]="globalForm.disabled"
+          >
             {{ t('button.reset') }}
           </button>
 
           <!-- save filters -->
-          <button class="w-auto" mat-flat-button (click)="saveFilters()">
+          <button
+            class="w-auto"
+            mat-flat-button
+            (click)="saveFilters()"
+            [disabled]="globalForm.disabled"
+          >
             {{ t('button.load') }}
           </button>
         </div>

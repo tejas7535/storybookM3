@@ -1,0 +1,23 @@
+<div
+  class="dot {{ parameters?.data?.color?.(value) }} {{
+    parameters?.data?.dotStyle?.(value)
+  }}"
+></div>
+<div class="title {{ parameters?.data?.titleStyle?.(value) }}">
+  {{ parameters?.value }}
+</div>
+
+@if (isGroup) {
+  <span
+    [class]="expanded() ? 'ag-group-expanded' : 'ag-group-contracted'"
+    [attr.data-ref]="expanded() ? 'eExpanded' : 'eContracted'"
+    (click)="onClick()"
+  >
+    <span
+      [class]="expanded() ? 'ag-icon-tree-open' : 'ag-icon-tree-closed'"
+      unselectable="on"
+      role="presentation"
+    >
+    </span>
+  </span>
+}

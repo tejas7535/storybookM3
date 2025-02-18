@@ -33,6 +33,8 @@
     "download": "Download"
   },
   "error": {
+    "valueTooSmall": "Only positive integers are allowed",
+    "valueSmallerFirmBusiness": "Validated Customer Forecast is smaller than Firm Business",
     "unknown": "Unknown error",
     "error_with_code": "Error: {{code}}",
     "network_error": "Network error. Please check your network connection.",
@@ -327,7 +329,11 @@
     },
     "menu_item": {
       "deliveries": "Deliveries",
+      "deliveriesActive": "Deliveries (Active)",
+      "deliveriesCombined": "Deliveries (Combined)",
       "firmBusiness": "Firm Business",
+      "firmBusinessActive": "Firm Business (Active)",
+      "firmBusinessCombined": "Firm Business (Combined)",
       "opportunities": "Opportunities",
       "forecastProposal": "Forecast Proposal (ADD*ONE)",
       "forecastProposalDemandPlanner": "Forecast Proposal (Demand Planner)",
@@ -335,7 +341,12 @@
       "indicativeDemandPlan": "Demand Plan (Indicative)",
       "opAdjustment": "OP Adjustment",
       "activeAndPredecessor": "Active & Predecessor",
-      "validatedForecast": "Validated Forecast"
+      "validatedForecast": "Validated Customer Forecast",
+      "demandRelevantSales": "Demand Relevant Sales",
+      "onTopOrder": "On Top Order",
+      "onTopCapacityForecast": "On Top Capacity Forecast",
+      "salesAmbition": "Sales Ambition",
+      "dailyRollingSalesForecast": "Daily Rolling Sales Forecast"
     },
     "more_information": {
       "material_and_text": "Material + description",
@@ -467,24 +478,27 @@
       },
       "ELSE": "Supply to Order and Rolling Capacity Forecast"
     },
-    "planning_table": {
+    "planningTable": {
       "kpi": "KPI",
       "deliveries": "Deliveries (Active)",
-      "deliveries_combined": "Deliveries (Combined)",
-      "deliveries_active": "Active",
-      "deliveries_predecessor": "Predecessor",
-      "firm_business": "Firm Business (Active)",
-      "firm_business_combined": "Firm Business (Combined)",
-      "firm_business_active": "Active",
-      "firm_business_predecessor": "Predecessor",
+      "deliveriesCombined": "Deliveries (Combined)",
+      "deliveriesActive": "Active",
+      "deliveriesPredecessor": "Predecessor",
+      "demandRelevantSales": "Demand Relevant Sales",
+      "firmBusiness": "Firm Business (Active)",
+      "firmBusinessCombined": "Firm Business (Combined)",
+      "firmBusinessActive": "Active",
+      "firmBusinessPredecessor": "Predecessor",
+      "onTopOrder": "On Top Order",
+      "onTopCapacityForecast": "On Top Capacity Forecast",
       "opportunities": "Opportunities",
-      "forecast_proposal": "Forecast Proposal (ADD*ONE)",
-      "forecast_proposal_demand_planner": "Forecast Proposal (Demand Planner)",
-      "validated_forecast": "Validated Forecast",
-      "indicative_demand_plan": "Demand Plan (Indicative)",
-      "demand_plan": "Demand Plan",
-      "calendar_week_table_header_kw": "CW {{calendar_week}}",
-      "calendar_week_table_header_part_week": "({{days}}d)"
+      "forecastProposal": "Forecast Proposal (ADD*ONE)",
+      "forecastProposalDemandPlanner": "Forecast Proposal (Demand Planner)",
+      "salesAmbition": "Sales Ambition",
+      "dailyRollingSalesForecast": "Daily Rolling Sales Forecast",
+      "validatedForecast": "Validated Customer Forecast",
+      "calendarWeekTableHeaderKw": "CW {{calendar_week}}",
+      "calendarWeekTableHeaderPartWeek": "({{days}}d)"
     },
     "export_modal": {
       "title": "Export",

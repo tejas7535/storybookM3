@@ -9,7 +9,7 @@
   <mat-label>{{ autocompleteLabel() || '' }}</mat-label>
 
   <!-- The chip list to show the selected values -->
-  <mat-chip-grid #chipList>
+  <mat-chip-grid #chipList [disabled]="control().disabled">
     @for (option of control().value; track option.id) {
       <mat-chip-row (removed)="remove(option)">
         <!-- Chip name -->
@@ -85,13 +85,23 @@
 
   <!-- Add an arrow, so it will look like a dropdown  -->
   @if (addDropdownIcon()) {
-    <mat-icon matSuffix (click)="trigger.openPanel()" class="dropdown">
+    <mat-icon
+      matSuffix
+      (click)="control().enabled ? trigger.openPanel() : trigger.closePanel()"
+      class="dropdown"
+    >
       arrow_drop_down
     </mat-icon>
   }
 
   @if (control().value?.length > 0 && addClearButton()) {
-    <button matSuffix mat-icon-button aria-label="Clear" (click)="onClear()">
+    <button
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="onClear()"
+      [disabled]="control().disabled"
+    >
       <mat-icon>close</mat-icon>
     </button>
   }

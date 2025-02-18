@@ -1,0 +1,65 @@
+<div *transloco="let t" class="demand-validation-table-wrapper">
+  @if (!dataLoaded() && kpiError().length === 0) {
+    <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
+  }
+
+  <div class="flex-1 flex flex-col relative">
+    <!-- show errors -->
+    @if (kpiError().length > 0) {
+      <d360-data-hint [text]="kpiError()" />
+    }
+
+    <!-- show table -->
+    @if (dataLoaded() && kpiError().length === 0) {
+      <!-- legends + row selection menu -->
+      <div class="flex legends">
+        <!-- legends -->
+        <d360-legends class="flex grow place-content-end" />
+
+        <!-- row selection menu -->
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" class="no-ripple menu-with-slide-toggles">
+          @for (
+            item of filterValues() | keyvalue: originalOrder;
+            track item.key
+          ) {
+            @if (item.key !== KpiType.ValidatedForecast) {
+              <div
+                mat-menu-item
+                (click)="$event.stopPropagation()"
+                (keydown)="$event.stopPropagation()"
+              >
+                <mat-slide-toggle
+                  (change)="onSlideToggleChange($event, item.key)"
+                  [checked]="filterValues()[item.key]"
+                >
+                  {{ t('validation_of_demand.menu_item.' + item.key) }}
+                </mat-slide-toggle>
+              </div>
+            }
+          }
+        </mat-menu>
+      </div>
+
+      <!-- table -->
+      <ag-grid-angular
+        class="ag-theme-material grow"
+        [gridOptions]="gridOptions"
+        [defaultColDef]="defaultColDef"
+        [localeText]="agGridLocalizationService.lang()"
+        [components]="components"
+        [tooltipShowDelay]="0"
+      />
+
+      <!-- special table loader -->
+      @if (loading() || showLoader()) {
+        <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
+      }
+
+      <!-- selected material box -->
+      <d360-more-information [selectedMaterial]="materialListEntry()" />
+    }
+  </div>
+</div>

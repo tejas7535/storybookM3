@@ -113,29 +113,40 @@ export interface MaterialListEntry {
 }
 
 export interface KpiEntry {
-  fromDate: string;
-  toDate: string;
   bucketType: KpiBucketType;
-  storedBucketType: KpiBucketType | null;
-  deliveriesCombined: number | null;
+  confirmedDailyRollingSalesForecast: number | null;
+  confirmedDeliveriesActive: number | null;
+  confirmedDeliveriesCombined: number | null;
+  confirmedDeliveriesPredecessor: number | null;
+  confirmedDemandPlan: number | null;
+  confirmedDemandRelevantSales: number | null;
+  confirmedFirmBusinessActive: number | null;
+  confirmedFirmBusinessCombined: number | null;
+  confirmedFirmBusinessPredecessor: number | null;
+  confirmedOnTopCapacityForecast: number | null;
+  confirmedOnTopOrder: number | null;
+  confirmedOpportunities: number | null;
+  confirmedSalesAmbition: number | null;
+  currentDemandPlan: number | null;
+  dailyRollingSalesForecast: number | null;
   deliveriesActive: number | null;
+  deliveriesCombined: number | null;
   deliveriesPredecessor: number | null;
-  firmBusinessCombined: number | null;
+  demandRelevantSales: number | null;
   firmBusinessActive: number | null;
+  firmBusinessCombined: number | null;
   firmBusinessPredecessor: number | null;
-  opportunities: number | null;
   forecastProposal: number | null;
   forecastProposalDemandPlanner: number | null;
-  validatedForecast: number | null;
+  fromDate: string;
   indicativeDemandPlan: number | null;
-  currentDemandPlan: number | null;
-  confirmedDeliveriesCombined: number | null;
-  confirmedDeliveriesActive: number | null;
-  confirmedDeliveriesPredecessor: number | null;
-  confirmedFirmBusinessCombined: number | null;
-  confirmedFirmBusinessActive: number | null;
-  confirmedFirmBusinessPredecessor: number | null;
-  confirmedDemandPlan: number | null;
+  onTopCapacityForecast: number | null;
+  onTopOrder: number | null;
+  opportunities: number | null;
+  salesAmbition: number | null;
+  storedBucketType: KpiBucketType | null;
+  toDate: string;
+  validatedForecast: number | null;
 }
 
 export interface KpiData {
@@ -181,20 +192,29 @@ export type WriteKpiEntryResult = {
   fromDate: string;
 } & ResponseWithResultMessage;
 
-export interface SelectedKpis {
-  activeAndPredecessor: boolean;
-  deliveries: boolean;
-  firmBusiness: boolean;
-  opportunities: boolean;
-  forecastProposal: boolean;
-  forecastProposalDemandPlanner: boolean;
-  validatedForecast: boolean;
-  indicativeDemandPlan: boolean;
-  currentDemandPlan: boolean;
-  confirmedDeliveries: boolean;
-  confirmedFirmBusiness: boolean;
-  confirmedDemandPlan: boolean;
+export enum KpiType {
+  ActiveAndPredecessor = 'activeAndPredecessor',
+  Deliveries = 'deliveries',
+  FirmBusiness = 'firmBusiness',
+  Opportunities = 'opportunities',
+  ForecastProposal = 'forecastProposal',
+  ForecastProposalDemandPlanner = 'forecastProposalDemandPlanner',
+  ValidatedForecast = 'validatedForecast',
+  DemandRelevantSales = 'demandRelevantSales',
+  OnTopOrder = 'onTopOrder',
+  OnTopCapacityForecast = 'onTopCapacityForecast',
+  SalesAmbition = 'salesAmbition',
+  DailyRollingSalesForecast = 'dailyRollingSalesForecast',
+  ConfirmedDeliveries = 'confirmedDeliveries',
+  ConfirmedFirmBusiness = 'confirmedFirmBusiness',
+  ConfirmedDemandRelevantSales = 'confirmedDemandRelevantSales',
+  ConfirmedOnTopOrder = 'confirmedOnTopOrder',
+  ConfirmedOnTopCapacityForecast = 'confirmedOnTopCapacityForecast',
+  ConfirmedSalesAmbition = 'confirmedSalesAmbition',
+  ConfirmedOpportunities = 'confirmedOpportunities',
+  ConfirmedDailyRollingSalesForecast = 'confirmedDailyRollingSalesForecast',
 }
+export type SelectedKpis = Record<KpiType, boolean>;
 
 export interface DeleteKpiDataRequest {
   customerNumber: string;

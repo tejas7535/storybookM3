@@ -1,5 +1,6 @@
 import {
   Component,
+  effect,
   input,
   InputSignal,
   output,
@@ -67,6 +68,14 @@ export class CustomerDropDownComponent {
   public className: InputSignal<string> = input('w-72');
 
   /**
+   * Is the dropdown disabled?
+   *
+   * @type {InputSignal<boolean>}
+   * @memberof CustomerDropDownComponent
+   */
+  public disabled: InputSignal<boolean> = input(false);
+
+  /**
    * The result of loading options for the customer dropdown.
    *
    * @type {InputSignal<OptionsLoadingResult>}
@@ -99,6 +108,17 @@ export class CustomerDropDownComponent {
    * object to format the customer's name and address for display.
    */
   protected readonly displayFnUnited = DisplayFunctions.displayFnUnited;
+
+  /**
+   * Creates an instance of CustomerDropDownComponent.
+   *
+   * @memberof CustomerDropDownComponent
+   */
+  public constructor() {
+    effect(() =>
+      this.disabled() ? this.control().disable() : this.control().enable()
+    );
+  }
 
   /**
    * An event handler that is called when a customer is selected from the dropdown list.

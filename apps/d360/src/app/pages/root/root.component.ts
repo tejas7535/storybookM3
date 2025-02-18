@@ -15,7 +15,6 @@ import { UserService } from '../../shared/services/user.service';
   standalone: true,
   imports: [LoadingSpinnerModule, TranslocoDirective],
   templateUrl: './root.component.html',
-  styleUrl: './root.component.scss',
 })
 export class RootComponent {
   public constructor() {

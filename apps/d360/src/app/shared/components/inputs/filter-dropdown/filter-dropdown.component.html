@@ -38,6 +38,7 @@
       aria-label="Clear"
       (click)="onClear()"
       class="clear"
+      [disabled]="control().disabled"
     >
       <mat-icon>close</mat-icon>
     </button>

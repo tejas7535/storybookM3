@@ -13,7 +13,12 @@
     [panelClass]="panelClass()"
   />
 
-  <button (click)="openModal()" mat-icon-button class="mt-small">
+  <button
+    (click)="openModal()"
+    mat-icon-button
+    class="mt-small"
+    [disabled]="control().disabled"
+  >
     <mat-icon>add</mat-icon>
   </button>
 </div>

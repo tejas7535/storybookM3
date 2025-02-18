@@ -1,17 +1,30 @@
+/* eslint-disable max-lines */
 import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { DestroyRef, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { catchError, map, Observable, of, Subject } from 'rxjs';
+import {
+  catchError,
+  map,
+  Observable,
+  of,
+  Subject,
+  switchMap,
+  take,
+} from 'rxjs';
 
 import { translate, TranslocoService } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   IServerSideDatasource,
   IServerSideGetRowsParams,
 } from 'ag-grid-enterprise';
 import { format, formatISO } from 'date-fns';
 
+import { GlobalSelectionStateService } from '../../shared/components/global-selection-criteria/global-selection-state.service';
 import { AUTO_CONFIGURE_APPLICATION_JSON_HEADER } from '../../shared/interceptors/headers.interceptor';
+import { USE_DEFAULT_HTTP_ERROR_INTERCEPTOR } from '../../shared/interceptors/http-error.interceptor';
+import { DateRange } from '../../shared/utils/date-range';
 import {
   errorsFromSAPtoMessage,
   PostResult,
@@ -19,9 +32,16 @@ import {
 } from '../../shared/utils/error-handling';
 import { getErrorMessage } from '../../shared/utils/errors';
 import { strictlyParseLocalFloat } from '../../shared/utils/number';
+import { SnackbarService } from '../../shared/utils/service/snackbar.service';
+import { StreamSaverService } from '../../shared/utils/service/stream-saver.service';
 import { ValidationHelper } from '../../shared/utils/validation/validation-helper';
+import { GlobalSelectionUtils } from '../global-selection/global-selection.utils';
 import { GlobalSelectionCriteriaFilters } from '../global-selection/model';
-import { DemandValidationStringFilter } from './demand-validation-filters';
+import {
+  DemandValidationFilter,
+  demandValidationFilterToStringFilter,
+  DemandValidationStringFilter,
+} from './demand-validation-filters';
 import {
   BucketRequest,
   DeleteKpiDataRequest,
@@ -34,11 +54,14 @@ import {
   KpiData,
   KpiDataRequest,
   KpiDateRanges,
+  KpiType,
   MaterialListEntry,
   MaterialType,
+  SelectedKpis,
   WriteKpiData,
   WriteKpiDataResponse,
 } from './model';
+import { getTranslationsForExport } from './translations';
 
 @Injectable({
   providedIn: 'root',
@@ -54,11 +77,19 @@ export class DemandValidationService {
     rowData: any[];
     rowCount: number;
   }>();
+  private readonly EXPORT_DEMAND_VALIDATION_API =
+    'api/demand-validation/export';
   private readonly fetchErrorEvent = new Subject<any>();
 
   private readonly http = inject(HttpClient);
   private readonly destroyRef = inject(DestroyRef);
   private readonly translocoService = inject(TranslocoService);
+  private readonly streamSaverService = inject(StreamSaverService);
+  private readonly snackBarService = inject(SnackbarService);
+  private readonly translocoLocaleService = inject(TranslocoLocaleService);
+  private readonly globalSelectionStateService = inject(
+    GlobalSelectionStateService
+  );
 
   public getDataFetchedEvent(): Observable<{
     rowData: any[];
@@ -268,18 +299,26 @@ export class DemandValidationService {
             customerNumber: materialListEntry.customerNumber,
             materialNumber: materialListEntry.materialNumber,
             selectedKpis: {
-              activeAndPredecessor: true,
-              deliveries: true,
-              firmBusiness: true,
-              opportunities: true,
-              forecastProposal: true,
-              forecastProposalDemandPlanner: true,
-              validatedForecast: true,
-              indicativeDemandPlan: true,
-              currentDemandPlan: true,
-              confirmedDeliveries: true,
-              confirmedFirmBusiness: true,
-              confirmedDemandPlan: true,
+              [KpiType.ActiveAndPredecessor]: true,
+              [KpiType.Deliveries]: true,
+              [KpiType.FirmBusiness]: true,
+              [KpiType.Opportunities]: true,
+              [KpiType.ForecastProposal]: true,
+              [KpiType.ForecastProposalDemandPlanner]: true,
+              [KpiType.ValidatedForecast]: true,
+              [KpiType.DemandRelevantSales]: true,
+              [KpiType.OnTopOrder]: true,
+              [KpiType.OnTopCapacityForecast]: true,
+              [KpiType.SalesAmbition]: true,
+              [KpiType.DailyRollingSalesForecast]: true,
+              [KpiType.ConfirmedDeliveries]: true,
+              [KpiType.ConfirmedFirmBusiness]: true,
+              [KpiType.ConfirmedDemandRelevantSales]: true,
+              [KpiType.ConfirmedOnTopOrder]: true,
+              [KpiType.ConfirmedOnTopCapacityForecast]: true,
+              [KpiType.ConfirmedSalesAmbition]: true,
+              [KpiType.ConfirmedDailyRollingSalesForecast]: true,
+              [KpiType.ConfirmedOpportunities]: true,
             },
             range1: {
               from: formatISO(kpiDateRanges.range1.from, {
@@ -349,5 +388,79 @@ export class DemandValidationService {
           });
       },
     };
+  }
+
+  public triggerExport(
+    selectedKpis: SelectedKpis,
+    filledRange: { range1: DateRange; range2?: DateRange } | undefined,
+    demandValidationFilters: DemandValidationFilter
+  ): Observable<void> {
+    const dataFilters = {
+      columnFilters: [] as any[],
+      selectionFilters: {
+        ...GlobalSelectionUtils.globalSelectionCriteriaToFilter(
+          this.globalSelectionStateService.getState()
+        ),
+        ...demandValidationFilterToStringFilter(demandValidationFilters),
+      },
+    };
+
+    this.snackBarService.openSnackBar(
+      translate('validation_of_demand.export_modal.download_started', {})
+    );
+
+    return this.http
+      .post(
+        this.EXPORT_DEMAND_VALIDATION_API,
+        {
+          dataFilters,
+          selectedKpis,
+          range1: {
+            from: formatISO(filledRange.range1.from, {
+              representation: 'date',
+            }),
+            to: formatISO(filledRange.range1.to, { representation: 'date' }),
+            period: filledRange.range1.period,
+          },
+          range2: filledRange.range2
+            ? {
+                from: formatISO(filledRange.range2.from, {
+                  representation: 'date',
+                }),
+                to: formatISO(filledRange.range2.to, {
+                  representation: 'date',
+                }),
+                period: filledRange.range2.period,
+              }
+            : undefined,
+          translations: getTranslationsForExport(
+            selectedKpis.activeAndPredecessor,
+            this.translocoLocaleService.getLocale()
+          ),
+        },
+        {
+          responseType: 'blob',
+          observe: 'response',
+          context: new HttpContext().set(
+            USE_DEFAULT_HTTP_ERROR_INTERCEPTOR,
+            false
+          ),
+        }
+      )
+      .pipe(
+        take(1),
+        switchMap((response) =>
+          this.streamSaverService.streamResponseToFile(
+            'demandValidationExport.xlsx',
+            response
+          )
+        ),
+        catchError((error) => {
+          this.snackBarService.openSnackBar(getErrorMessage(error));
+
+          return of(null);
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      );
   }
 }

@@ -4,7 +4,7 @@ import {
   getDateFormatString,
   getMonthYearFormatString,
 } from '../../shared/utils/date-format';
-import { SUPPLY_CONCEPT_SUPPORTED_STOCHASTIC_TYPES } from './model';
+import { KpiType, SUPPLY_CONCEPT_SUPPORTED_STOCHASTIC_TYPES } from './model';
 
 export function getTranslationsForExport(
   activeAndPredecessor: boolean,
@@ -37,6 +37,35 @@ export function getTranslationsForExport(
     {} as any
   );
 
+  const kpiTranslations: Partial<Record<KpiType, string>> = {
+    [KpiType.ActiveAndPredecessor]: translateKey(
+      'menu_item.activeAndPredecessor'
+    ),
+    [KpiType.DailyRollingSalesForecast]: translateKey(
+      'menu_item.dailyRollingSalesForecast'
+    ),
+    [KpiType.DemandRelevantSales]: translateKey(
+      'menu_item.demandRelevantSales'
+    ),
+    [KpiType.OnTopCapacityForecast]: translateKey(
+      'menu_item.onTopCapacityForecast'
+    ),
+    [KpiType.OnTopOrder]: translateKey('menu_item.onTopOrder'),
+    [KpiType.SalesAmbition]: translateKey('menu_item.salesAmbition'),
+    [KpiType.ValidatedForecast]: translateKey('menu_item.validatedForecast'),
+    [KpiType.Deliveries]: activeAndPredecessor
+      ? translateKey('menu_item.deliveriesCombined')
+      : translateKey('menu_item.deliveriesActive'),
+    [KpiType.FirmBusiness]: activeAndPredecessor
+      ? translateKey('menu_item.firmBusinessCombined')
+      : translateKey('menu_item.firmBusiness'),
+    [KpiType.Opportunities]: translateKey('menu_item.opportunities'),
+    [KpiType.ForecastProposal]: translateKey('menu_item.forecastProposal'),
+    [KpiType.ForecastProposalDemandPlanner]: translateKey(
+      'menu_item.forecastProposalDemandPlanner'
+    ),
+  };
+
   return {
     ...conceptTranslations,
     requested: translate('planing_type.title.REQUESTED'),
@@ -64,32 +93,17 @@ export function getTranslationsForExport(
     dateFormatMonth: getMonthYearFormatString(locale),
     viewType: translateKey('export_modal.excel_header_view'),
     headerCalenderWeek: translateKey(
-      'planning_table.calendar_week_table_header_kw',
-      {
-        calendar_week: '{}',
-      }
+      'planningTable.calendarWeekTableHeaderKw',
+      { calendar_week: '{}' }
     ),
     headerPartialWeek: translateKey(
-      'planning_table.calendar_week_table_header_part_week',
+      'planningTable.calendarWeekTableHeaderPartWeek',
       { days: '{}' }
     ),
     productLineAndText: translateKey('more_information.product_line_and_text'),
     supplyConcept: translateKey('supply_concept.title'),
-    kpi: translateKey('planning_table.kpi'),
-    validatedForecast: translateKey('planning_table.validated_forecast'),
+    kpi: translateKey('planningTable.kpi'),
     'supplyConcept.ELSE': translateKey('supply_concept.ELSE'),
-    deliveries: activeAndPredecessor
-      ? translateKey('planning_table.deliveries_combined')
-      : translateKey('planning_table.deliveries'),
-    firmBusiness: activeAndPredecessor
-      ? translateKey('planning_table.firm_business_combined')
-      : translateKey('planning_table.firm_business'),
-    opportunities: translateKey('planning_table.opportunities'),
-    forecastProposal: translateKey('planning_table.forecast_proposal'),
-    forecastProposalDemandPlanner: translateKey(
-      'planning_table.forecast_proposal_demand_planner'
-    ),
-    currentDemandPlan: translateKey('planning_table.demand_plan'),
-    opAdjustment: translateKey('menu_item.opAdjustment'),
+    ...kpiTranslations,
   };
 }

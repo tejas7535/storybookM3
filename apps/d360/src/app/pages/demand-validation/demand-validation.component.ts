@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { take, tap } from 'rxjs';
+import { Observable, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 
@@ -34,9 +34,10 @@ import {
   GlobalSelectionStateService,
 } from '../../shared/components/global-selection-criteria/global-selection-state.service';
 import { StyledSectionComponent } from '../../shared/components/styled-section/styled-section.component';
-import { ActionBarComponent } from './components/action-bar/action-bar.component';
-import { DemandValidationTableComponent } from './components/demand-validation-table/demand-validation-table.component';
-import { MaterialListTableComponent } from './components/material-list-table/material-list-table.component';
+import { CanComponentDeactivate } from '../../shared/utils/auth/can-deactivate-guard.service';
+import { ActionBarComponent } from './action-bar/action-bar.component';
+import { DemandValidationTableComponent } from './tables/demand-validation-table/demand-validation-table.component';
+import { MaterialListTableComponent } from './tables/material-list-table/material-list-table.component';
 
 @Component({
   selector: 'd360-demand-validation',
@@ -55,7 +56,7 @@ import { MaterialListTableComponent } from './components/material-list-table/mat
   templateUrl: './demand-validation.component.html',
   styleUrl: './demand-validation.component.scss',
 })
-export class DemandValidationComponent {
+export class DemandValidationComponent implements CanComponentDeactivate {
   protected planningView: PlanningView = PlanningView.REQUESTED;
   protected globalSelection: GlobalSelectionState;
 
@@ -74,6 +75,11 @@ export class DemandValidationComponent {
 
   protected readonly destroyRef = inject(DestroyRef);
 
+  protected readonly GlobalSelectionStatus = GlobalSelectionStatus;
+  protected dateRange: WritableSignal<KpiDateRanges> = signal(null);
+  protected reloadRequired: WritableSignal<number> = signal(0);
+  protected showLoader: WritableSignal<boolean> = signal(false);
+
   /**
    * The GlobalSelectionStateService instance
    *
@@ -90,6 +96,14 @@ export class DemandValidationComponent {
     this.globalSelection = this.globalSelectionStateService.getState();
     this.loading.set(true);
     this.updateCustomerData();
+  }
+
+  public canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    if (this.unsavedChanges()) {
+      return confirm(translate('error.unsaved_changes'));
+    }
+
+    return true;
   }
 
   protected onUpdateGlobalSelection($event: GlobalSelectionState) {
@@ -123,11 +137,6 @@ export class DemandValidationComponent {
       )
       .subscribe();
   }
-
-  protected readonly GlobalSelectionStatus = GlobalSelectionStatus;
-  protected dateRange: WritableSignal<KpiDateRanges> = signal(null);
-  protected reloadRequired: WritableSignal<number> = signal(0);
-  protected showLoader: WritableSignal<boolean> = signal(false);
 
   /**
    * Show loader or refresh table

@@ -90,6 +90,12 @@
           border-left: 6px solid #00893d;
         }
       }
+
+      .ag-sticky-top,
+      .ag-sticky-bottom,
+      .ag-dnd-ghost {
+        background-color: #fff;
+      }
     }
 
     // high color (overlay)

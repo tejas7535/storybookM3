@@ -110,12 +110,12 @@ export class GlobalSelectionHelperService {
   /**
    * Returns customer numbers based on global selection
    *
-   * @param {(GlobalSelectionState | undefined)} globalSelection
+   * @param {(GlobalSelectionState | null | undefined)} globalSelection
    * @return {Observable<CustomerEntry[]>}
    * @memberof GlobalSelectionHelperService
    */
   public getCustomersData(
-    globalSelection: GlobalSelectionState | undefined
+    globalSelection: GlobalSelectionState | null | undefined
   ): Observable<CustomerEntry[]> {
     if (!globalSelection) {
       return of([]);
