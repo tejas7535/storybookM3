@@ -1,4 +1,16 @@
 # Release Notes of Material App Center
+## [1.27.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.27.3...mac-v1.27.4) (2025-02-18)
+
+
+### Features
+
+* **mac:** replace function calls in templates (UFTABI-7727) ([#7008](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7008)) ([d5d4f01](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d5d4f0160ec83402b418d5f04a62c2cf94c3b7a9))
+
+
+### Bug Fixes
+
+* **mac:** disable vitesco view for non-editors ([#6988](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6988)) ([1205455](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1205455b2e18e7d7dc215cb81e8b7acf47dcbbd4))
+
 ## [1.27.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.27.2...mac-v1.27.3) (2025-02-07)
 
 
