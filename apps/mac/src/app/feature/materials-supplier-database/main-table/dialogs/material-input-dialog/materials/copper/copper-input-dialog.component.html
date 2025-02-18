@@ -50,7 +50,7 @@
                 [matTooltip]="t('error.copperNumber')"
                 class="cursor-help"
               >
-                {{ getErrorMessage(materialNumberControl.errors) }}
+                {{ materialNumberControl.errors | errorMessage }}
                 <mat-icon inline="true" class="!leading-3"
                   >info_outline</mat-icon
                 >
@@ -118,7 +118,7 @@
             >
               @for (mode of castingModes$ | ngrxPush; track mode) {
                 <mat-option [value]="mode">
-                  {{ t(mode.toLowerCase()) }}
+                  {{ t(mode | lowercase) }}
                 </mat-option>
               }
             </mat-select>
@@ -127,7 +127,7 @@
             </mat-hint>
             @if (castingModesControl.invalid) {
               <mat-error class="text-caption">{{
-                getErrorMessage(castingModesControl.errors)
+                castingModesControl.errors | errorMessage
               }}</mat-error>
             }
           </mat-form-field>
@@ -151,7 +151,7 @@
           >
             @if (castingDiameterControl.invalid) {
               <span matErrorContent class="text-caption">
-                {{ getErrorMessage(castingDiameterControl.errors) }}
+                {{ castingDiameterControl.errors | errorMessage }}
               </span>
             }
           </schaeffler-select>
@@ -178,7 +178,7 @@
           >
             @if (categoriesControl.invalid) {
               <span matErrorContent class="text-caption">
-                {{ getErrorMessage(categoriesControl.errors) }}
+                {{ categoriesControl.errors | errorMessage }}
               </span>
             }
           </schaeffler-select>
@@ -199,7 +199,7 @@
             </mat-hint>
             @if (maxDimControl.invalid) {
               <mat-error class="text-caption">{{
-                getErrorMessage(maxDimControl.errors)
+                maxDimControl.errors | errorMessage
               }}</mat-error>
             }
           </mat-form-field>

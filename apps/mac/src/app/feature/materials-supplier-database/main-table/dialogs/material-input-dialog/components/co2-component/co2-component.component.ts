@@ -30,6 +30,7 @@ import { StringOption } from '@schaeffler/inputs';
 import { SelectModule } from '@schaeffler/inputs/select';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { ErrorMessagePipe } from '@mac/feature/materials-supplier-database/main-table/pipes/error-message-pipe/error-message.pipe';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
 import * as util from '../../util';
@@ -41,6 +42,7 @@ import * as util from '../../util';
   imports: [
     // default
     CommonModule,
+    ErrorMessagePipe,
     // angular material
     MatFormFieldModule,
     MatInputModule,
@@ -89,8 +91,6 @@ export class Co2ComponentComponent implements OnInit, OnDestroy {
 
   // util for filtering select
   public filterFn = util.filterFn;
-  // utility for parsing error message
-  public readonly getErrorMessage = util.getErrorMessage;
 
   private co2Controls: FormArray<FormControl<number>>;
 

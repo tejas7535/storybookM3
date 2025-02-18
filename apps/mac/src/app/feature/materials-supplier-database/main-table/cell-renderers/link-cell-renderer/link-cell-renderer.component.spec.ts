@@ -1,12 +1,19 @@
+import { of } from 'rxjs';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockPipe } from 'ng-mocks';
 
+import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
+import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
+import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
+
 import { EditCellRendererParams } from '../edit-cell-renderer/edit-cell-renderer-params.model';
 import { LinkCellRendererComponent } from './link-cell-renderer.component';
 
-jest.mock('../edit-cell-renderer/edit-cell-renderer.component', () => ({
-  EditCellRendererComponent: jest.fn(),
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual('@jsverse/transloco'),
+  translate: jest.fn((key) => key),
 }));
 
 describe('LinkCellRendererComponent', () => {
@@ -16,6 +23,18 @@ describe('LinkCellRendererComponent', () => {
   const createComponent = createComponentFactory({
     component: LinkCellRendererComponent,
     imports: [MockPipe(PushPipe)],
+    providers: [
+      {
+        provide: DataFacade,
+        useValue: {
+          materialClass$: of(MaterialClass.STEEL),
+        },
+      },
+      {
+        provide: MsdDialogService,
+        useValue: {},
+      },
+    ],
     detectChanges: false,
   });
 
@@ -28,8 +47,7 @@ describe('LinkCellRendererComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-
-    component.params = mockparams;
+    component.agInit(mockparams);
   });
 
   it('should create', () => {
@@ -38,12 +56,12 @@ describe('LinkCellRendererComponent', () => {
 
   describe('getHref', () => {
     it('should give href', () => {
-      expect(component.getHref()).toEqual('B');
+      expect(component.href).toEqual('B');
     });
   });
   describe('getName', () => {
     it('should give name', () => {
-      expect(component.getName()).toEqual('A');
+      expect(component.name).toEqual('A');
     });
   });
 });

@@ -41,21 +41,11 @@ describe('ActionCellRendererComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    component.ngOnInit();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('hasDetail', () => {
-    it('should not have detail', () => {
-      expect(component.hasDetail()).toBeFalsy();
-    });
-    it('should have detail', () => {
-      configData.detail = 'somedata';
-
-      expect(component.hasDetail()).toBeTruthy();
-    });
   });
 
   describe('toggleDetails', () => {
@@ -90,12 +80,13 @@ describe('ActionCellRendererComponent', () => {
       configData.detail = {
         items: src,
       };
+      component.ngOnInit();
 
-      expect(component.getItems()).toStrictEqual(expected);
+      expect(component.items).toStrictEqual(expected);
     });
 
     it('should return empty list', () => {
-      expect(component.getItems()).toStrictEqual([]);
+      expect(component.items).toStrictEqual([]);
     });
   });
 });

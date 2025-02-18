@@ -2,6 +2,7 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnChanges,
@@ -12,6 +13,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+
+import { filter, take } from 'rxjs';
 
 import { LetDirective, PushPipe } from '@ngrx/component';
 
@@ -55,6 +58,8 @@ export class MsdNavigationComponent implements OnInit, OnChanges {
   ];
 
   public materialClasses$ = this.dataFacade.materialClassOptions$;
+  public rawMaterialClasses: MaterialClass[] = [];
+  public otherMaterialClasses: MaterialClass[] = [];
   public navigation$ = this.dataFacade.navigation$;
   public hasEditorRole$ = this.dataFacade.hasEditorRole$;
 
@@ -63,7 +68,8 @@ export class MsdNavigationComponent implements OnInit, OnChanges {
   constructor(
     private readonly dataFacade: DataFacade,
     private readonly msdAgGridStateService: MsdAgGridStateService,
-    private readonly applicationInsightsService: ApplicationInsightsService
+    private readonly applicationInsightsService: ApplicationInsightsService,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
@@ -71,6 +77,20 @@ export class MsdNavigationComponent implements OnInit, OnChanges {
       this.activeNavigationLevel =
         this.msdAgGridStateService.getLastActiveNavigationLevel();
     }
+    this.materialClasses$
+      .pipe(
+        filter((mc) => !!mc),
+        take(1)
+      )
+      .subscribe((materialClasses) => {
+        this.rawMaterialClasses = materialClasses.filter((mc) =>
+          this.hasNavigationLevels(mc)
+        );
+        this.otherMaterialClasses = materialClasses.filter(
+          (materialClass) => !this.hasNavigationLevels(materialClass)
+        );
+        this.changeDetectorRef.detectChanges();
+      });
 
     this.updateNavigationLevel(this.activeNavigationLevel, false);
   }
@@ -92,7 +112,7 @@ export class MsdNavigationComponent implements OnInit, OnChanges {
     this.minimized = !this.minimized;
   }
 
-  public hasNavigationLevels(materialClass: MaterialClass): boolean {
+  private hasNavigationLevels(materialClass: MaterialClass): boolean {
     return ![MaterialClass.SAP_MATERIAL, MaterialClass.VITESCO].includes(
       materialClass
     );

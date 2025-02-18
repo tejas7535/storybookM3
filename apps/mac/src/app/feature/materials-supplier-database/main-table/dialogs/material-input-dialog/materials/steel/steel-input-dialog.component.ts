@@ -74,6 +74,7 @@ import {
   DialogControlsService,
   FileService,
 } from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/services';
+import { ErrorMessagePipe } from '@mac/feature/materials-supplier-database/main-table/pipes/error-message-pipe/error-message.pipe';
 import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
 import { MsdSnackbarService } from '@mac/feature/materials-supplier-database/services/msd-snackbar';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
@@ -115,6 +116,7 @@ const DATE_FORMATS = {
     Co2ComponentComponent,
     RecyclingRateComponent,
     MaterialDialogBasePartDirective,
+    ErrorMessagePipe,
     // angular material
     MatFormFieldModule,
     MatIconModule,
@@ -144,6 +146,16 @@ export class SteelInputDialogComponent
 {
   @ViewChildren('steelMakingProcessSelect', { read: SelectComponent })
   private readonly steelMakingProcessSelectQueryList: QueryList<SelectComponent>;
+
+  public readonly co2ClassificationsNew: StringOption[] = [
+    THIRD_PARTY_VERIFIED_OPTION,
+    SCHAEFFLER_EXPERTS_OPTION,
+    NONE_OPTION,
+  ];
+  public readonly co2ClassificationsNewSecondary: StringOption[] = [
+    SCHAEFFLER_EXPERTS_CALCULATION_TOOL_OPTION,
+    SCHAEFFLER_EXPERTS_PCF_OPTION,
+  ];
 
   public materialClass = MaterialClass.STEEL;
   public SCHAEFFLER_EXPERTS = SCHAEFFLER_EXPERTS;
@@ -259,9 +271,6 @@ export class SteelInputDialogComponent
   // releasedate year & month
   public years: number[];
   public months: number[];
-
-  // utility for parsing error message
-  public readonly getErrorMessage = util.getErrorMessage;
 
   public readonly uploadMessages$ = new BehaviorSubject<Message[] | undefined>(
     undefined
@@ -655,7 +664,7 @@ export class SteelInputDialogComponent
           }))
         )
         .subscribe(({ supplierId, steelMakingProcess, productCategory }) => {
-          // TODO: remove workaround asap
+          // TO DO: remove workaround asap
           this.createMaterialForm.updateValueAndValidity({
             emitEvent: false,
           });
@@ -672,21 +681,6 @@ export class SteelInputDialogComponent
         moment(this.dialogData.editDialogInformation.row.reportValidUntil)
       );
     }
-  }
-
-  public getCo2ClassificationsNew(): StringOption[] {
-    return [
-      THIRD_PARTY_VERIFIED_OPTION,
-      SCHAEFFLER_EXPERTS_OPTION,
-      NONE_OPTION,
-    ];
-  }
-
-  public getCo2ClassificationsNewSecondary(): StringOption[] {
-    return [
-      SCHAEFFLER_EXPERTS_CALCULATION_TOOL_OPTION,
-      SCHAEFFLER_EXPERTS_PCF_OPTION,
-    ];
   }
 
   public setFile(files: SelectedFile[]): void {
@@ -733,6 +727,7 @@ export class SteelInputDialogComponent
       : undefined;
   }
 
+  // TO DO replace with Pipe or attribute!!!!
   public selectReleaseDateView() {
     if (!this.isEditDialog() || this.isCopyDialog()) {
       return ReleaseDateViewMode.DEFAULT;
@@ -758,6 +753,7 @@ export class SteelInputDialogComponent
     this.dialogFacade.addCustomCo2Standard(co2Standard);
   }
 
+  // TO DO replace with Pipe or attribute!!!!
   public steelMakingProcessFilterFn = (
     option?: StringOption,
     value?: string

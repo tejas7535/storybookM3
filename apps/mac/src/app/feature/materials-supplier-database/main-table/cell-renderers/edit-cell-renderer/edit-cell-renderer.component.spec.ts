@@ -1,13 +1,11 @@
-import { MatDialogRef } from '@angular/material/dialog';
-
 import { Subject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
-import { Column, RowNode } from 'ag-grid-community';
+import { Column, GridApi, RowNode } from 'ag-grid-community';
 import { MockPipe } from 'ng-mocks';
 
-import { DataResult, MaterialFormValue } from '@mac/msd/models';
+import { DataResult } from '@mac/msd/models';
 import { MsdDialogService } from '@mac/msd/services';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
@@ -23,30 +21,7 @@ jest.mock('@jsverse/transloco', () => ({
 describe('EditCellRendererComponent', () => {
   let component: EditCellRendererComponent;
   let spectator: Spectator<EditCellRendererComponent>;
-
-  let afterOpened: () => Subject<void>;
-  let afterClosed: () => Subject<{
-    reload: boolean;
-    minimize: { id: number; value: MaterialFormValue };
-  }>;
-  let mockDialogRef: MatDialogRef<any>;
-
-  let mockSubjectOpen: Subject<void>;
-  let mockSubjectClose: Subject<{
-    reload: boolean;
-    minimize: { id: number; value: MaterialFormValue };
-  }>;
-
-  const setSelectNodes = () => {
-    mockparams.api.getSelectedNodes = () => [
-      {} as RowNode,
-      {} as RowNode,
-      {} as RowNode,
-    ];
-  };
-  const resetSelectNodes = () => {
-    mockparams.api.getSelectedNodes = () => [];
-  };
+  const materialClass$ = new Subject<MaterialClass>();
 
   const createComponent = createComponentFactory({
     component: EditCellRendererComponent,
@@ -55,18 +30,19 @@ describe('EditCellRendererComponent', () => {
       {
         provide: DataFacade,
         useValue: {
-          dispatch: jest.fn(),
+          materialClass$,
         },
       },
       {
         provide: MsdDialogService,
         useValue: {
-          openDialog: jest.fn(() => mockDialogRef),
+          openDialog: jest.fn(),
           openBulkEditDialog: jest.fn(),
           openReferenceDocumentBulkEditDialog: jest.fn(),
         },
       },
     ],
+    detectChanges: false,
   });
 
   const mockData = {} as DataResult;
@@ -78,31 +54,27 @@ describe('EditCellRendererComponent', () => {
     data: mockData,
     column: mockColumn,
     value: 'nix',
-    api: { getSelectedNodes: () => [] },
-    node: { isSelected: () => false },
-  } as EditCellRendererParams;
+    api: {
+      getSelectedNodes: jest.fn(() => [] as RowNode[]),
+      addEventListener: jest.fn(),
+    } as unknown as GridApi,
+    node: { isSelected: jest.fn(() => false) },
+    hasEditorRole: false,
+  } as unknown as EditCellRendererParams;
 
   beforeEach(() => {
-    mockSubjectOpen = new Subject<void>();
-    mockSubjectClose = new Subject<{
-      reload: boolean;
-      minimize: { id: number; value: MaterialFormValue };
-    }>();
-    afterOpened = () => mockSubjectOpen;
-    afterClosed = () => mockSubjectClose;
-    mockDialogRef = {
-      afterOpened,
-      afterClosed,
-    } as unknown as MatDialogRef<any>;
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    component.params = mockparams;
+    component.agInit(mockparams);
+    spectator.detectChanges();
   });
 
   describe('agInit', () => {
+    it('should initalize variables', () => {
+      expect(component.showEdit).toBeFalsy();
+    });
     it('should assign params', () => {
       const mockParams = {} as EditCellRendererParams;
-
       component.agInit(mockParams);
 
       expect(component.params).toEqual(mockParams);
@@ -115,60 +87,94 @@ describe('EditCellRendererComponent', () => {
     });
   });
 
-  describe('setHovered', () => {
-    it('should assign hovered', () => {
-      component.setHovered(true);
+  describe('allowEdit', () => {
+    beforeEach(() => {});
+    it('should be set to true for editor and editable classes', () => {
+      const params = { ...mockparams, hasEditorRole: true };
+      component.agInit(params);
+      materialClass$.next(MaterialClass.STEEL);
 
-      expect(component.hovered).toBe(true);
+      expect(component['allowEdit']).toBe(true);
+    });
+
+    it('should be set to false for not editable classes', () => {
+      const params = { ...mockparams, hasEditorRole: true };
+      component.agInit(params);
+      materialClass$.next(MaterialClass.POLYMER);
+
+      expect(component['allowEdit']).toBe(false);
+    });
+
+    it('should be set to false for non editors', () => {
+      const params = { ...mockparams, hasEditorRole: false };
+      component.agInit(params);
+      materialClass$.next(MaterialClass.STEEL);
+
+      expect(component['allowEdit']).toBe(false);
     });
   });
-
-  describe('isEnabled', () => {
-    beforeEach(() => {
-      component['params'].hasEditorRole = true;
-      component['params'].node.isSelected = () => false;
-      resetSelectNodes();
+  describe('showEdit', () => {
+    describe('with allowEdit false', () => {
+      it('should be set to false on hover', async () => {
+        expect(component['allowEdit']).toBe(false);
+        component.setHovered(true);
+        expect(component.showEdit).toBe(false);
+        expect(component.params.node.isSelected).not.toHaveBeenCalled();
+        expect(component.params.api.getSelectedNodes).not.toHaveBeenCalled();
+      });
+      it('should be set to false on hover out', async () => {
+        expect(component['allowEdit']).toBe(false);
+        component.setHovered(false);
+        expect(component.showEdit).toBe(false);
+        expect(component.params.node.isSelected).not.toHaveBeenCalled();
+        expect(component.params.api.getSelectedNodes).not.toHaveBeenCalled();
+      });
     });
-    it('should return true for editable classes', () => {
-      const result = component.isEnabled(MaterialClass.STEEL);
+    describe('with allowEdit true', () => {
+      beforeEach(async () => {
+        mockparams.hasEditorRole = true;
+        materialClass$.next(MaterialClass.STEEL);
+        await new Promise((f) => setTimeout(f, 500));
+      });
+      it('should be set to true on hover in without selected nodes', async () => {
+        expect(component['allowEdit']).toBe(true);
+        component.setHovered(true);
+        expect(component.showEdit).toBe(true);
+        expect(component.params.api.getSelectedNodes).toHaveBeenCalled();
+        expect(component.params.node.isSelected).not.toHaveBeenCalled();
+      });
+      it('should be set to false on hover out without selected nodes', async () => {
+        expect(component['allowEdit']).toBe(true);
+        component.setHovered(false);
+        expect(component.showEdit).toBe(false);
+      });
 
-      expect(result).toBe(true);
-    });
+      it('should be set to true on hover in with active node selected', async () => {
+        mockparams.api.getSelectedNodes = jest.fn(() => [{} as RowNode]);
+        mockparams.node.isSelected = jest.fn(() => true);
 
-    it('should return false for not editable classes', () => {
-      const result = component.isEnabled(MaterialClass.POLYMER);
+        expect(component['allowEdit']).toBe(true);
+        component.setHovered(true);
+        expect(component.showEdit).toBe(true);
+        expect(component.params.api.getSelectedNodes).toHaveBeenCalled();
+        expect(component.params.node.isSelected).toHaveBeenCalled();
+      });
+      it('should be set to false on hover in with other node selected', async () => {
+        mockparams.api.getSelectedNodes = jest.fn(() => [{} as RowNode]);
+        mockparams.node.isSelected = jest.fn(() => false);
 
-      expect(result).toBe(false);
-    });
-
-    it('should return false for non editors', () => {
-      component['params'].hasEditorRole = false;
-
-      const result = component.isEnabled(MaterialClass.STEEL);
-
-      expect(result).toBe(false);
-    });
-
-    it('should return false if other rows are selected', () => {
-      setSelectNodes();
-      const result = component.isEnabled(MaterialClass.STEEL);
-
-      expect(result).toBe(false);
-    });
-    it('should return true if this rows is selected', () => {
-      setSelectNodes();
-      component['params'].node.isSelected = () => true;
-      const result = component.isEnabled(MaterialClass.STEEL);
-
-      expect(result).toBe(true);
+        expect(component['allowEdit']).toBe(true);
+        component.setHovered(true);
+        expect(component.showEdit).toBe(false);
+        expect(component.params.api.getSelectedNodes).toHaveBeenCalled();
+        expect(component.params.node.isSelected).toHaveBeenCalled();
+      });
     });
   });
 
   describe('onEditClick', () => {
-    beforeEach(() => {
-      resetSelectNodes();
-    });
     it('should call the dialog service', () => {
+      component.params.api.getSelectedNodes = () => [];
       component.onEditClick();
 
       expect(component['dialogService'].openDialog).toHaveBeenCalledWith(
@@ -181,8 +187,11 @@ describe('EditCellRendererComponent', () => {
     });
 
     it('should call the dialog service for bulk edit', () => {
-      setSelectNodes();
-
+      component.params.api.getSelectedNodes = () => [
+        {} as RowNode,
+        {} as RowNode,
+        {} as RowNode,
+      ];
       component.onEditClick();
 
       expect(
@@ -194,9 +203,8 @@ describe('EditCellRendererComponent', () => {
     });
 
     it('should call the dialog service for reference documents', () => {
-      mockparams.column.getColId = () => REFERENCE_DOCUMENT;
-
-      mockparams.api.getSelectedNodes = () => [
+      component.params.column.getColId = () => REFERENCE_DOCUMENT;
+      component.params.api.getSelectedNodes = () => [
         { data: { id: 1 } } as RowNode,
         { data: { id: 2 } } as RowNode,
         { data: { id: 3 } } as RowNode,

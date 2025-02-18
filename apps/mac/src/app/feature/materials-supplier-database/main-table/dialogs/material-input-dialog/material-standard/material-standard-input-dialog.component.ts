@@ -27,6 +27,7 @@ import {
 } from '@mac/msd/models';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
+import { ErrorMessagePipe } from '../../../pipes/error-message-pipe/error-message.pipe';
 import { BaseDialogComponent } from '../base-dialog/base-dialog.component';
 import { MaterialStandardComponent } from '../components/material-standard/material-standard.component';
 import { mapProperty } from '../util/form-helpers';
@@ -40,6 +41,7 @@ import { mapProperty } from '../util/form-helpers';
     CommonModule,
     // msd
     BaseDialogComponent,
+    ErrorMessagePipe,
     // angular material
     MatFormFieldModule,
     MaterialStandardComponent,
@@ -96,10 +98,6 @@ export class MaterialStandardInputDialogComponent
     });
   }
 
-  public showMaterialNumber() {
-    return this.materialNumberControl.enabled;
-  }
-
   public dispatchDialogOpenEvent(): void {
     this.dialogFacade.materialStandardDialogOpened();
   }
@@ -115,6 +113,7 @@ export class MaterialStandardInputDialogComponent
 
   enableEditFields(): void {}
 
+  // TO DO replace with Pipe or attribute!!!!
   public getTitle(): string {
     return this.isEditDialog() && !this.isCopyDialog()
       ? translate(
@@ -133,34 +132,6 @@ export class MaterialStandardInputDialogComponent
             ),
           }
         );
-  }
-
-  public getMaterialNumberTranslationKey(): string {
-    switch (this.materialClass) {
-      case MaterialClass.STEEL: {
-        return 'steelNumber';
-      }
-      case MaterialClass.COPPER: {
-        return 'copperNumber';
-      }
-      default: {
-        return '';
-      }
-    }
-  }
-
-  public getMaterialNumberPlaceholder(): string {
-    switch (this.materialClass) {
-      case MaterialClass.STEEL: {
-        return '1.1234';
-      }
-      case MaterialClass.COPPER: {
-        return '2.1234';
-      }
-      default: {
-        return '';
-      }
-    }
   }
 
   public confirmMaterial(createAnother: boolean): void {

@@ -1,27 +1,22 @@
 <div
   class="flex h-full min-h-[46px] w-full flex-row justify-center"
-  (mouseover)="setHovered(true)"
-  (mouseout)="setHovered(false)"
+  (mouseenter)="setHovered(true)"
+  (mouseleave)="setHovered(false)"
 >
   @if (params?.valueFormatted) {
     <span class="flex-1 truncate">
-      <a
-        [href]="getHref()"
-        target="_blank"
-        [ngClass]="{ 'text-link': hovered }"
-      >
-        {{ getName() }}
+      <a [href]="href" target="_blank" [ngClass]="{ 'text-link': showEdit }">
+        {{ name }}
         <mat-icon class="!inline" inline="true">open_in_new</mat-icon>
       </a>
     </span>
   } @else {
     <span class="flex-1 truncate">{{ params?.value }}</span>
   }
-  @if (isEnabled(materialClass$ | ngrxPush)) {
+  @if (showEdit) {
     <div class="h-full">
       <mat-icon
         mat-icon-button
-        [ngClass]="{ '!hidden': !hovered }"
         (click)="onEditClick()"
         class="text-medium-emphasis !text-[12px] mt-4 cursor-pointer"
         >edit</mat-icon

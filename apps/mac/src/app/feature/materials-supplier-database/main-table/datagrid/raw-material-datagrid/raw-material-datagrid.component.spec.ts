@@ -6,6 +6,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { GridApi } from 'ag-grid-community';
 import { MockDirective, MockPipe, MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -79,6 +80,26 @@ describe('RawMaterialDatagridComponent', () => {
       expect(component.hasEditorRole).toBeTruthy();
     });
   });
+
+  describe('onGridReady', () => {
+    it('should listen for filter Change event to delesect', () => {
+      // prevent column restoration
+      component['restoredColumnState'] = undefined;
+      const api = {
+        // instantly execute passed function
+        addEventListener: jest.fn((_name, fkt) => fkt()),
+        deselectAll: jest.fn(),
+      } as unknown as GridApi;
+      component.onGridReady({ api });
+
+      expect(api.addEventListener).toHaveBeenCalledWith(
+        'filterChanged',
+        expect.any(Function)
+      );
+      expect(api.deselectAll).toHaveBeenCalled();
+    });
+  });
+
   describe('getCellRendererParams', () => {
     it('should set params for cell renderer', () => {
       expect(component['getCellRendererParams']()).toStrictEqual({

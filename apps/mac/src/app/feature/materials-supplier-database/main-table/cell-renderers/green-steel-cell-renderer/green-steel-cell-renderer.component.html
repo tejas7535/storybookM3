@@ -1,7 +1,7 @@
 <div
   class="flex h-full min-h-[46px] w-full flex-row justify-center"
-  (mouseover)="setHovered(true)"
-  (mouseout)="setHovered(false)"
+  (mouseenter)="setHovered(true)"
+  (mouseleave)="setHovered(false)"
 >
   <div class="flex-1 pt-3">
     <mac-material-emission-classification
@@ -10,7 +10,7 @@
     ></mac-material-emission-classification>
   </div>
 
-  @if (isEnabled(materialClass$ | ngrxPush)) {
+  @if (showEdit) {
     <div class="h-full">
       <mat-icon
         mat-icon-button

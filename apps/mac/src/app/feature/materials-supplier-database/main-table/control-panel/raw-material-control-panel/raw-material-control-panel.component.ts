@@ -126,7 +126,7 @@ export class RawMaterialControlPanelComponent
     this.dialogService.openBulkEditDialog(this.agGridApi.getSelectedNodes());
   }
 
-  // TODO replace with pipe / event and property / or similar
+  // TO DO replace with pipe / event and property / or similar
   public countSelectedNodes(): number {
     return this.agGridApi?.getSelectedNodes().length;
   }

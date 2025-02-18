@@ -1,16 +1,15 @@
 <div
   class="flex h-full min-h-[46px] w-full flex-row justify-center"
-  (mouseover)="setHovered(true)"
-  (mouseout)="setHovered(false)"
+  (mouseenter)="setHovered(true)"
+  (mouseleave)="setHovered(false)"
 >
-  <span class="flex-1 truncate">{{
-    params?.valueFormatted ?? params?.value
-  }}</span>
-  @if (isEnabled(materialClass$ | ngrxPush)) {
+  <span class="flex-1 truncate">
+    {{ params?.valueFormatted ?? params?.value }}</span
+  >
+  @if (showEdit) {
     <div class="h-full">
       <mat-icon
         mat-icon-button
-        [ngClass]="{ '!hidden': !hovered }"
         (click)="onEditClick()"
         class="!text-[12px] text-medium-emphasis mt-4 cursor-pointer"
         >edit</mat-icon

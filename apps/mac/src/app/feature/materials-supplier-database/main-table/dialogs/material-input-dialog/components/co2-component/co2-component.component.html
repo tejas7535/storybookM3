@@ -19,7 +19,7 @@
       <mat-hint>{{ co2Scope1Hint }}</mat-hint>
       @if (co2Scope1Control.invalid) {
         <mat-error class="text-caption">{{
-          getErrorMessage(co2Scope1Control.errors)
+          co2Scope1Control.errors | errorMessage
         }}</mat-error>
       }
     </mat-form-field>
@@ -38,7 +38,7 @@
       <mat-hint>{{ co2Scope2Hint }}</mat-hint>
       @if (co2Scope2Control.invalid) {
         <mat-error class="text-caption">{{
-          getErrorMessage(co2Scope2Control.errors)
+          co2Scope2Control.errors | errorMessage
         }}</mat-error>
       }
     </mat-form-field>
@@ -57,7 +57,7 @@
       <mat-hint>{{ co2Scope3Hint }}</mat-hint>
       @if (co2Scope3Control.invalid) {
         <mat-error class="text-caption">{{
-          getErrorMessage(co2Scope3Control.errors)
+          co2Scope3Control.errors | errorMessage
         }}</mat-error>
       }
     </mat-form-field>
@@ -84,7 +84,7 @@
               : ''
           "
         >
-          {{ getErrorMessage(co2TotalControl.errors) }}
+          {{ co2TotalControl.errors | errorMessage }}
           <mat-icon inline="true" class="!leading-3 cursor-help"
             >info_outline</mat-icon
           >
@@ -115,7 +115,7 @@
       >
         @if (co2ClassificationControl.invalid) {
           <span matErrorContent class="text-caption">
-            {{ getErrorMessage(co2ClassificationControl.errors) }}
+            {{ co2ClassificationControl.errors | errorMessage }}
           </span>
         }
       </schaeffler-select>

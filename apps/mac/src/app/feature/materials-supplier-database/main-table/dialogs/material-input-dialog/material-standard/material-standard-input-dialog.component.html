@@ -25,13 +25,15 @@
           macMaterialDialogBasePart
         ></mac-material-standard>
       </div>
-      @if (showMaterialNumber()) {
+      @if (materialNumberControl.enabled) {
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-full">
-            <mat-label>{{ t(getMaterialNumberTranslationKey()) }}</mat-label>
+            <mat-label>
+              {{ t('number-' + materialClass) }}
+            </mat-label>
             <input
               matInput
-              [placeholder]="getMaterialNumberPlaceholder()"
+              [placeholder]="t('placeholder.number-' + materialClass)"
               value=""
               [formControl]="materialNumberControl"
               name="materialNumbers"
@@ -40,10 +42,10 @@
             @if (materialNumberControl.invalid) {
               <mat-error
                 class="text-caption"
-                [matTooltip]="t('error.' + getMaterialNumberTranslationKey())"
+                [matTooltip]="t('error.number-' + materialClass)"
                 class="cursor-help"
               >
-                {{ getErrorMessage(materialNumberControl.errors) }}
+                {{ materialNumberControl.errors | errorMessage }}
                 <mat-icon inline="true" class="!leading-3"
                   >info_outline</mat-icon
                 >

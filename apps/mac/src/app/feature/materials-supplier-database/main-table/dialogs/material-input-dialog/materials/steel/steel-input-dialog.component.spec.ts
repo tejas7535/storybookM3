@@ -836,7 +836,7 @@ describe('SteelInputDialogComponent', () => {
 
   describe('getCo2ClassificationsNew', () => {
     it('should return the co2Classifications', () => {
-      const result = component.getCo2ClassificationsNew();
+      const result = component.co2ClassificationsNew;
       expect(result).toEqual([
         THIRD_PARTY_VERIFIED_OPTION,
         SCHAEFFLER_EXPERTS_OPTION,
@@ -847,7 +847,7 @@ describe('SteelInputDialogComponent', () => {
 
   describe('getCo2ClassificationsNewSecondary', () => {
     it('should return the co2Classifications', () => {
-      const result = component.getCo2ClassificationsNewSecondary();
+      const result = component.co2ClassificationsNewSecondary;
       expect(result).toEqual([
         SCHAEFFLER_EXPERTS_CALCULATION_TOOL_OPTION,
         SCHAEFFLER_EXPERTS_PCF_OPTION,

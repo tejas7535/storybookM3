@@ -22,6 +22,7 @@ import { StringOption } from '@schaeffler/inputs';
 import { SelectModule } from '@schaeffler/inputs/select';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { ErrorMessagePipe } from '@mac/feature/materials-supplier-database/main-table/pipes/error-message-pipe/error-message.pipe';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
 import { DialogControlsService } from '../../services';
@@ -34,6 +35,7 @@ import * as util from '../../util';
   imports: [
     // default
     CommonModule,
+    ErrorMessagePipe,
     // angular material
     MatFormFieldModule,
     MatTooltipModule,
@@ -84,8 +86,6 @@ export class MaterialStandardComponent
   public readonly standardDocuments$ = this.dialogFacade.standardDocuments$;
   // list of material names for dropdown list
   public readonly materialNames$ = this.dialogFacade.materialNames$;
-  // utility for parsing error message
-  public readonly getErrorMessage = util.getErrorMessage;
 
   private readonly destroy$ = new Subject<void>();
 
@@ -156,6 +156,7 @@ export class MaterialStandardComponent
     this.dialogFacade.addCustomMaterialStandardName(materialName);
   }
 
+  // TO DO replace with Pipe or attribute!!!!
   public materialNameFilterFnFactory =
     (standardDocumentsControl: FormControl<StringOption>) =>
     (option?: StringOption, value?: string) => {
@@ -174,6 +175,7 @@ export class MaterialStandardComponent
       return util.filterFn(option, value);
     };
 
+  // TO DO replace with Pipe or attribute!!!!
   public standardDocumentFilterFnFactory =
     (materialNamesControl: FormControl<StringOption>) =>
     (option?: StringOption, value?: string) => {

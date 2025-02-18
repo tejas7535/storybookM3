@@ -63,7 +63,7 @@
           >
             @if (conditionControl.invalid) {
               <span matErrorContent class="text-caption">
-                {{ getErrorMessage(conditionControl.errors) }}
+                {{ conditionControl.errors | errorMessage }}
               </span>
             }
           </schaeffler-select>
@@ -84,7 +84,7 @@
           >
             @if (categoriesControl.invalid) {
               <span matErrorContent class="text-caption">
-                {{ getErrorMessage(categoriesControl.errors) }}
+                {{ categoriesControl.errors | errorMessage }}
               </span>
             }
           </schaeffler-select>

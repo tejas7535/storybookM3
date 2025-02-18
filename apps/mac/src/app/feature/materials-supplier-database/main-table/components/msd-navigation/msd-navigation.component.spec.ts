@@ -270,19 +270,21 @@ describe('MsdNavigationComponent', () => {
 
   describe('hasNavigationLevels', () => {
     it('should return true if class is not sap', () => {
-      const result = component.hasNavigationLevels(MaterialClass.STEEL);
+      const result = component['hasNavigationLevels'](MaterialClass.STEEL);
 
       expect(result).toBe(true);
     });
 
     it('should return false if class is sap', () => {
-      const result = component.hasNavigationLevels(MaterialClass.SAP_MATERIAL);
+      const result = component['hasNavigationLevels'](
+        MaterialClass.SAP_MATERIAL
+      );
 
       expect(result).toBe(false);
     });
 
     it('should return false if class is vitesco', () => {
-      const result = component.hasNavigationLevels(MaterialClass.VITESCO);
+      const result = component['hasNavigationLevels'](MaterialClass.VITESCO);
 
       expect(result).toBe(false);
     });

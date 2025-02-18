@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { PushPipe } from '@ngrx/component';
@@ -22,42 +22,54 @@ export class ActionHeaderComponent implements IHeaderAngularComp {
   public params!: IHeaderParams;
 
   public isBulkEditAllowed$ = this.dataFacade.isBulkEditAllowed$;
+  public checkBoxStyle: string;
 
-  constructor(private readonly dataFacade: DataFacade) {}
+  constructor(
+    private readonly dataFacade: DataFacade,
+    private readonly changeDetectorRef: ChangeDetectorRef
+  ) {}
 
-  agInit(params: IHeaderParams): void {
+  public agInit(params: IHeaderParams): void {
     this.params = params;
+    this.setCheckBoxStyle();
+    this.params.api.addEventListener('selectionChanged', () => {
+      this.setCheckBoxStyle();
+    });
   }
 
-  refresh() {
+  public refresh() {
     return false;
-  }
-
-  public getCheckBoxStyle() {
-    if (this.isAllSelected()) {
-      return 'check_box';
-    } else if (this.isAnySelected()) {
-      return 'indeterminate_check_box';
-    } else {
-      return 'check_box_outline_blank';
-    }
   }
 
   public onSelectClick(): void {
     if (this.isAllSelected()) {
-      this.params.api.deselectAllFiltered();
+      this.params.api.deselectAll();
     } else {
-      this.params?.api.selectAllFiltered();
+      this.params.api.selectAllFiltered();
     }
   }
 
+  private setCheckBoxStyle() {
+    if (this.isAllSelected()) {
+      this.checkBoxStyle = 'check_box';
+    } else if (this.isAnySelected()) {
+      this.checkBoxStyle = 'indeterminate_check_box';
+    } else {
+      this.checkBoxStyle = 'check_box_outline_blank';
+    }
+    // this is required to update the icon instantly
+    this.changeDetectorRef.detectChanges();
+  }
+
   private isAnySelected() {
-    return this.params?.api.getSelectedNodes().length > 0;
+    return this.params.api.getSelectedNodes().length > 0;
   }
 
   private isAllSelected() {
-    return !this.params?.api
-      .getRenderedNodes()
-      .find((node) => !node.isSelected());
+    return (
+      this.params.api.getRenderedNodes().length > 0 &&
+      this.params.api.getRenderedNodes().length <=
+        this.params.api.getSelectedNodes().length
+    );
   }
 }

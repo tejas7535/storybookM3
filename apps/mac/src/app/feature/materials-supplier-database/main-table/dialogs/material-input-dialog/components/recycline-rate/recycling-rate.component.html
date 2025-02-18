@@ -17,7 +17,7 @@
     </mat-hint>
     @if (minRecyclingRateControl.invalid) {
       <mat-error class="text-caption">{{
-        getErrorMessage(minRecyclingRateControl.errors)
+        minRecyclingRateControl.errors | errorMessage
       }}</mat-error>
     }
   </mat-form-field>
@@ -36,7 +36,7 @@
     </mat-hint>
     @if (maxRecyclingRateControl.invalid) {
       <mat-error class="text-caption">{{
-        getErrorMessage(maxRecyclingRateControl.errors)
+        maxRecyclingRateControl.errors | errorMessage
       }}</mat-error>
     }
   </mat-form-field>

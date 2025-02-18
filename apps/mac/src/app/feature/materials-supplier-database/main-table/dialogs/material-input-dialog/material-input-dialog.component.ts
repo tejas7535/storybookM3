@@ -276,6 +276,7 @@ export class MaterialInputDialogComponent
     }
   }
 
+  // TO DO replace with Pipe or attribute!!!!
   public isEditDialog(): boolean {
     return (
       this.isBulkEdit ||
@@ -284,18 +285,22 @@ export class MaterialInputDialogComponent
     );
   }
 
+  // TO DO replace with Pipe or attribute!!!!
   public isAddDialog(): boolean {
     return !(this.isCopy || this.isBulkEditDialog() || this.isEditDialog());
   }
 
+  // TO DO replace with Pipe or attribute!!!!
   public isBulkEditDialog(): boolean {
     return this.isBulkEdit;
   }
 
+  // TO DO replace with Pipe or attribute!!!!
   public isCopyDialog(): boolean {
     return !this.materialId && this.isCopy;
   }
 
+  // TO DO replace with Pipe or attribute!!!!
   public getTitle(): string {
     if (this.isBulkEditDialog()) {
       return translate(
@@ -325,6 +330,7 @@ export class MaterialInputDialogComponent
     }
   }
 
+  // TO DO replace with Pipe or attribute!!!!
   public getHint(hintData: any, column: string) {
     // only bulk edit gets the hints, other dialogs get nothing
     if (!hintData) {
@@ -356,9 +362,11 @@ export class MaterialInputDialogComponent
     }
   }
 
+  // TO DO replace with Pipe or attribute!!!!
   public compareWithId = (option: StringOption, selected: StringOption) =>
     option?.id === selected?.id;
 
+  // TO DO replace with Pipe or attribute!!!!
   public getColumn(): string {
     return this.dialogData?.editDialogInformation?.column;
   }
@@ -392,6 +400,7 @@ export class MaterialInputDialogComponent
       });
   }
 
+  // TO DO replace with Pipe or attribute!!!!
   public isValidDialog() {
     if (this.isBulkEditDialog()) {
       const controls = this.createMaterialForm.controls;

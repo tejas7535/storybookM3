@@ -1,7 +1,7 @@
 <div class="flex flex-row text py-2 mt-1">
   <div class="flex-1">
     <div class="flex flex-row cursor-pointer" (click)="toggleDetails()">
-      @if (hasDetail()) {
+      @if (!!this.data.detail) {
         <button mat-raised-button class="flex-none">
           <mat-icon
             class="material-icons-outlined"
@@ -14,11 +14,11 @@
         {{ data.message }}
       </p>
     </div>
-    @if (hasDetail()) {
+    @if (!!this.data.detail) {
       <div [ngClass]="{ hidden: !visibleDetails }">
         {{ data.detail.message }}
         <ul class="list-none">
-          @for (item of getItems(); track item) {
+          @for (item of items; track item) {
             <li class="pl-4 text-body-1">{{ item.key }}: {{ item.value }}</li>
           }
         </ul>

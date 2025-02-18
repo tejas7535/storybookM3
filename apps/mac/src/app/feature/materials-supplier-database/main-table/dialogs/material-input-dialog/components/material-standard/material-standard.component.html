@@ -71,7 +71,7 @@
         >
           @if (standardDocumentsControl.invalid) {
             <span matErrorContent class="text-caption">
-              {{ getErrorMessage(standardDocumentsControl.errors) }}
+              {{ standardDocumentsControl.errors | errorMessage }}
             </span>
           }
         </schaeffler-select>
@@ -92,7 +92,7 @@
         >
           @if (materialNamesControl.invalid) {
             <span matErrorContent class="text-caption">
-              {{ getErrorMessage(materialNamesControl.errors) }}
+              {{ materialNamesControl.errors | errorMessage }}
             </span>
           }
         </schaeffler-select>

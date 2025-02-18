@@ -90,7 +90,7 @@
         >
           @if (supplierControl.invalid) {
             <span matErrorContent class="text-caption">
-              {{ getErrorMessage(supplierControl.errors) }}
+              {{ supplierControl.errors | errorMessage }}
             </span>
           }
         </schaeffler-select>
@@ -116,7 +116,7 @@
         >
           @if (supplierPlantControl.invalid) {
             <span matErrorContent class="text-caption">
-              {{ getErrorMessage(supplierPlantControl.errors) }}
+              {{ supplierPlantControl.errors | errorMessage }}
             </span>
           }
         </schaeffler-select>
@@ -136,7 +136,7 @@
           >
             @if (supplierCountryControl.invalid) {
               <span matErrorContent class="text-caption">
-                {{ getErrorMessage(supplierCountryControl.errors) }}
+                {{ supplierCountryControl.errors | errorMessage }}
               </span>
             }
           </schaeffler-select>

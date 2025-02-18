@@ -20,6 +20,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { MaterialClass } from '@mac/feature/materials-supplier-database/constants';
 import { MaterialInputDialogComponent } from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/material-input-dialog.component';
 import { DialogControlsService } from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/services';
+import { ErrorMessagePipe } from '@mac/feature/materials-supplier-database/main-table/pipes/error-message-pipe/error-message.pipe';
 import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
 import { MsdSnackbarService } from '@mac/feature/materials-supplier-database/services/msd-snackbar';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
@@ -47,6 +48,7 @@ import { RecyclingRateComponent } from '../../components/recycline-rate/recyclin
     Co2ComponentComponent,
     RecyclingRateComponent,
     MaterialDialogBasePartDirective,
+    ErrorMessagePipe,
     // angular material
     MatFormFieldModule,
     MatInputModule,

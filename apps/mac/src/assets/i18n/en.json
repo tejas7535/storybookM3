@@ -538,7 +538,6 @@
         "grade": "Grade",
         "coating": "Coating",
         "coatingText": "Coating",
-        "copperNumber": "Copper based material number",
         "createFailure": {
           "400": "{{level}} creation failed!",
           "403": "{{level}} creation failed, Firewall rejected content. Avoid using '--' or '#'!",
@@ -608,7 +607,8 @@
         "steelMakingProcess": "Iron- & Steel Making Process",
         "minRecyclingRate": "Min. Recycle Rate",
         "maxRecyclingRate": "Max. Recycle Rate",
-        "steelNumber": "Steel number (EN 10027-2)",
+        "number-cu": "Copper based material number",
+        "number-st": "Steel number (EN 10027-2)",
         "supplierInformationTitle": "Supplier Information",
         "supplierName": "Supplier Name",
         "supplierPlant": "Supplier Plant",
@@ -616,6 +616,10 @@
         "supplierRating": "Supplier Rating",
         "supplierRatingRemark": "Supplier Rating Remark",
         "strip": "Strip",
+        "placeholder": {
+          "number-cu": "2.1234",
+          "number-st": "1.1234"
+        },
         "tooltip": {
           "blocked": "Indication of whether the material/supplier is blocked (not displayed in the table)",
           "co2Classification": "Classification of the method used to calculate the CO₂ emissions",

@@ -15,7 +15,7 @@ import { filter, Subject, takeUntil, tap } from 'rxjs';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import * as util from '../../util';
+import { ErrorMessagePipe } from '@mac/feature/materials-supplier-database/main-table/pipes/error-message-pipe/error-message.pipe';
 
 @Component({
   selector: 'mac-recycling-rate',
@@ -31,6 +31,8 @@ import * as util from '../../util';
     ReactiveFormsModule,
     // libs
     SharedTranslocoModule,
+    // pipes
+    ErrorMessagePipe,
   ],
 })
 export class RecyclingRateComponent implements OnInit, OnDestroy {
@@ -43,8 +45,6 @@ export class RecyclingRateComponent implements OnInit, OnDestroy {
   @Input()
   public maxRecyclingRateHint: string;
 
-  // utility for parsing error message
-  public readonly getErrorMessage = util.getErrorMessage;
   public destroy$ = new Subject<void>();
 
   ngOnInit(): void {

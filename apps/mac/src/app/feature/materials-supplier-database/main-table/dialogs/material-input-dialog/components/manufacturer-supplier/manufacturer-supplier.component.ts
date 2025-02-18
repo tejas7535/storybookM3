@@ -23,6 +23,7 @@ import { SelectModule } from '@schaeffler/inputs/select';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import * as util from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/util';
+import { ErrorMessagePipe } from '@mac/feature/materials-supplier-database/main-table/pipes/error-message-pipe/error-message.pipe';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
 @Component({
@@ -32,6 +33,7 @@ import { DialogFacade } from '@mac/msd/store/facades/dialog';
   imports: [
     // default
     CommonModule,
+    ErrorMessagePipe,
     // angular material
     MatFormFieldModule,
     MatInputModule,
@@ -69,7 +71,7 @@ export class ManufacturerSupplierComponent implements OnInit, OnDestroy {
   public supplierCountryEditControl = new FormControl<string>(undefined);
   public viewMode = '';
 
-  public getErrorMessage = util.getErrorMessage;
+  // TO DO replace with Pipe or attribute ???
   public filterFn = util.filterFn;
   public valueTitleToOptionKeyFilterFnFactory =
     util.valueTitleToOptionKeyFilterFnFactory;

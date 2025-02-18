@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { PushPipe } from '@ngrx/component';
 
 import { EditCellRendererComponent } from '../edit-cell-renderer/edit-cell-renderer.component';
+import { EditCellRendererParams } from '../edit-cell-renderer/edit-cell-renderer-params.model';
 
 @Component({
   selector: 'mac-link-cell-renderer',
@@ -20,11 +21,13 @@ import { EditCellRendererComponent } from '../edit-cell-renderer/edit-cell-rende
   ],
 })
 export class LinkCellRendererComponent extends EditCellRendererComponent {
-  public getHref() {
-    return this.params.valueFormatted?.split('|')[1];
-  }
+  public href: string;
+  public name: string;
 
-  public getName() {
-    return this.params.valueFormatted?.split('|')[0];
+  public agInit(params: EditCellRendererParams): void {
+    super.agInit(params);
+
+    this.name = this.params.valueFormatted?.split('|')[0];
+    this.href = this.params.valueFormatted?.split('|')[1];
   }
 }

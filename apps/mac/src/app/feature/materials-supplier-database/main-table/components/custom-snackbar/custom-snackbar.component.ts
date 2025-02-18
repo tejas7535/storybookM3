@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import {
   MAT_SNACK_BAR_DATA,
@@ -21,16 +21,17 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
     SharedTranslocoModule,
   ],
 })
-export class CustomSnackbarComponent {
+export class CustomSnackbarComponent implements OnInit {
   public visibleDetails = false;
+  public items = false;
 
   constructor(
-    public snackBar: MatSnackBarRef<any>,
+    private readonly snackBar: MatSnackBarRef<any>,
     @Inject(MAT_SNACK_BAR_DATA) public data: any
   ) {}
 
-  public hasDetail() {
-    return !!this.data.detail;
+  ngOnInit(): void {
+    this.items = this.data.detail?.items ?? [];
   }
 
   public toggleDetails() {
@@ -39,9 +40,5 @@ export class CustomSnackbarComponent {
 
   public close() {
     this.snackBar.dismiss();
-  }
-
-  public getItems() {
-    return this.data.detail?.items ?? [];
   }
 }

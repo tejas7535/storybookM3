@@ -49,7 +49,7 @@
                 class="text-caption"
                 [matTooltip]="t('error.steelNumber')"
               >
-                {{ getErrorMessage(steelNumberControl.errors) }}
+                {{ steelNumberControl.errors | errorMessage }}
                 <mat-icon inline="true" class="!leading-3 cursor-help"
                   >info_outline</mat-icon
                 >
@@ -126,7 +126,7 @@
             </mat-hint>
             @if (castingModesControl.invalid) {
               <mat-error class="text-caption">{{
-                getErrorMessage(castingModesControl.errors)
+                castingModesControl.errors | errorMessage
               }}</mat-error>
             }
           </mat-form-field>
@@ -150,7 +150,7 @@
           >
             @if (castingDiameterControl.invalid) {
               <span matErrorContent class="text-caption">
-                {{ getErrorMessage(castingDiameterControl.errors) }}
+                {{ castingDiameterControl.errors | errorMessage }}
               </span>
             }
           </schaeffler-select>
@@ -175,7 +175,7 @@
             </mat-hint>
             @if (ratingsControl.invalid) {
               <mat-error class="text-caption">{{
-                getErrorMessage(ratingsControl.errors)
+                ratingsControl.errors | errorMessage
               }}</mat-error>
             }
           </mat-form-field>
@@ -210,7 +210,7 @@
             </mat-hint>
             @if (ratingChangeCommentControl.invalid) {
               <mat-error class="text-caption">{{
-                getErrorMessage(ratingChangeCommentControl.errors)
+                ratingChangeCommentControl.errors | errorMessage
               }}</mat-error>
             }
           </mat-form-field>
@@ -266,7 +266,7 @@
             }}</span>
             @if (maxDimControl.invalid) {
               <mat-error class="text-caption">{{
-                getErrorMessage(maxDimControl.errors)
+                maxDimControl.errors | errorMessage
               }}</mat-error>
             }
           </mat-form-field>
@@ -287,7 +287,7 @@
             }}</span>
             @if (minDimControl.invalid) {
               <mat-error class="text-caption">{{
-                getErrorMessage(minDimControl.errors)
+                minDimControl.errors | errorMessage
               }}</mat-error>
             }
           </mat-form-field>
@@ -309,7 +309,7 @@
           >
             @if (categoriesControl.invalid) {
               <span matErrorContent class="text-caption">
-                {{ getErrorMessage(categoriesControl.errors) }}
+                {{ categoriesControl.errors | errorMessage }}
               </span>
             }
           </schaeffler-select>
@@ -343,7 +343,7 @@
             </mat-hint>
             @if (minRecyclingRateControl.invalid) {
               <mat-error class="text-caption">{{
-                getErrorMessage(minRecyclingRateControl.errors)
+                minRecyclingRateControl.errors | errorMessage
               }}</mat-error>
             }
           </mat-form-field>
@@ -362,7 +362,7 @@
             </mat-hint>
             @if (maxRecyclingRateControl.invalid) {
               <mat-error class="text-caption">{{
-                getErrorMessage(maxRecyclingRateControl.errors)
+                maxRecyclingRateControl.errors | errorMessage
               }}</mat-error>
             }
           </mat-form-field>
@@ -514,7 +514,7 @@
           <mat-hint>{{ co2UpstreamHint }}</mat-hint>
           @if (co2UpstreamControl.invalid) {
             <mat-error class="text-caption">{{
-              getErrorMessage(co2UpstreamControl.errors)
+              co2UpstreamControl.errors | errorMessage
             }}</mat-error>
           }
         </mat-form-field>
@@ -533,7 +533,7 @@
           <mat-hint>{{ co2CoreHint }}</mat-hint>
           @if (co2CoreControl.invalid) {
             <mat-error class="text-caption">{{
-              getErrorMessage(co2CoreControl.errors)
+              co2CoreControl.errors | errorMessage
             }}</mat-error>
           }
         </mat-form-field>
@@ -560,7 +560,7 @@
                   : ''
               "
             >
-              {{ getErrorMessage(co2TotalControl.errors) }}
+              {{ co2TotalControl.errors | errorMessage }}
               <mat-icon inline="true" class="!leading-3 cursor-help"
                 >info_outline</mat-icon
               >
@@ -572,7 +572,7 @@
         <schaeffler-select
           appearance="outline"
           class="w-full"
-          [stringOptions]="getCo2ClassificationsNew()"
+          [stringOptions]="co2ClassificationsNew"
           [control]="co2ClassificationNewControl"
           [filterFn]="filterFn"
           [label]="t('co2Classification')"
@@ -590,7 +590,7 @@
           <schaeffler-select
             appearance="outline"
             class="w-full"
-            [stringOptions]="getCo2ClassificationsNewSecondary()"
+            [stringOptions]="co2ClassificationsNewSecondary"
             [control]="co2ClassificationNewSecondaryControl"
             [filterFn]="filterFn"
             [label]="t('co2Classification')"

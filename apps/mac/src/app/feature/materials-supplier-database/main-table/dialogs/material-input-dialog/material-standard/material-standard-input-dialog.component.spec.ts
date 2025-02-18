@@ -287,16 +287,6 @@ describe('MaterialstandardInputDialogComponent', () => {
     });
   });
 
-  describe('showMaterialNumber', () => {
-    it('should be true', () => {
-      expect(component.showMaterialNumber()).toBe(true);
-    });
-    it('should be false', () => {
-      component.materialNumberControl.disable();
-      expect(component.showMaterialNumber()).toBe(false);
-    });
-  });
-
   describe('getTitle', () => {
     it('should return the update title', () => {
       component.isEditDialog = jest.fn(() => true);
@@ -341,52 +331,6 @@ describe('MaterialstandardInputDialogComponent', () => {
       expect(result).toEqual(
         'materialsSupplierDatabase.mainTable.dialog.addMaterialStandardTitle'
       );
-    });
-  });
-
-  describe('getMaterialNumberTranslationKey', () => {
-    it('should return steel key', () => {
-      component.materialClass = MaterialClass.STEEL;
-      const result = component.getMaterialNumberTranslationKey();
-
-      expect(result).toEqual('steelNumber');
-    });
-
-    it('should return copper key', () => {
-      component.materialClass = MaterialClass.COPPER;
-      const result = component.getMaterialNumberTranslationKey();
-
-      expect(result).toEqual('copperNumber');
-    });
-
-    it('should return default key', () => {
-      component.materialClass = MaterialClass.ALUMINUM;
-      const result = component.getMaterialNumberTranslationKey();
-
-      expect(result).toEqual('');
-    });
-  });
-
-  describe('getMaterialNumberPlaceholder', () => {
-    it('should return steel placeholder', () => {
-      component.materialClass = MaterialClass.STEEL;
-      const result = component.getMaterialNumberPlaceholder();
-
-      expect(result).toEqual('1.1234');
-    });
-
-    it('should return copper placeholder', () => {
-      component.materialClass = MaterialClass.COPPER;
-      const result = component.getMaterialNumberPlaceholder();
-
-      expect(result).toEqual('2.1234');
-    });
-
-    it('should return default placeholder', () => {
-      component.materialClass = MaterialClass.ALUMINUM;
-      const result = component.getMaterialNumberPlaceholder();
-
-      expect(result).toEqual('');
     });
   });
 });

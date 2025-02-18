@@ -278,16 +278,6 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
     });
   });
 
-  describe('show is manufacturer', () => {
-    it('should be true', () => {
-      expect(component.showIsManufacturer()).toBe(true);
-    });
-    it('should be false', () => {
-      component.isManufacturerControl.disable();
-      expect(component.showIsManufacturer()).toBe(false);
-    });
-  });
-
   describe('getTitle', () => {
     it('should return the update title', () => {
       component.isEditDialog = jest.fn(() => true);

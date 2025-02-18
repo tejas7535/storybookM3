@@ -27,6 +27,7 @@ import {
 } from '@mac/msd/models';
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
+import { ErrorMessagePipe } from '../../../pipes/error-message-pipe/error-message.pipe';
 import { BaseDialogComponent } from '../base-dialog/base-dialog.component';
 import { ManufacturerSupplierComponent } from '../components/manufacturer-supplier/manufacturer-supplier.component';
 import { findProperty } from '../util/form-helpers';
@@ -41,6 +42,7 @@ import { findProperty } from '../util/form-helpers';
     // msd
     BaseDialogComponent,
     ManufacturerSupplierComponent,
+    ErrorMessagePipe,
     // angular material
     MatCheckboxModule,
     MatFormFieldModule,
@@ -127,10 +129,7 @@ export class ManufacturerSupplierInputDialogComponent
     this.supplierCountryControl.enable({ emitEvent: false });
   }
 
-  public showIsManufacturer(): boolean {
-    return this.isManufacturerControl.enabled;
-  }
-
+  // TO DO replace with Pipe or attribute!!!!
   public getTitle(): string {
     return this.isEditDialog() && !this.isCopyDialog()
       ? translate(

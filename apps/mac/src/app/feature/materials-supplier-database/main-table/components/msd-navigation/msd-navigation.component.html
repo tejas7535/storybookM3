@@ -19,74 +19,71 @@
       <!-- EDITOR VIEW -->
       <ng-template #editorView let-navigation="navigation">
         <mat-accordion multi *ngrxLet="navigation$ as navigation">
-          @for (
-            materialClass of materialClasses$ | ngrxPush;
-            track materialClass
-          ) {
-            @if (hasNavigationLevels(materialClass)) {
-              <mat-expansion-panel
-                class="!m-0 !rounded-none border-none"
-                [expanded]="
-                  materialClass === activeNavigationLevel?.materialClass
-                "
-                hideToggle
-                #expansionPanel
+          @for (materialClass of rawMaterialClasses; track materialClass) {
+            <mat-expansion-panel
+              class="!m-0 !rounded-none border-none"
+              [expanded]="
+                materialClass === activeNavigationLevel?.materialClass
+              "
+              hideToggle
+              #expansionPanel
+            >
+              <mat-expansion-panel-header
+                class="flex !h-12 flex-row justify-between !pl-4 !pr-2"
               >
-                <mat-expansion-panel-header
-                  class="flex !h-12 flex-row justify-between !pl-4 !pr-2"
+                <mat-panel-title class="text-body-2 text-high-emphasis">
+                  {{ t('materialClassValuesNavigation.' + materialClass) }}
+                </mat-panel-title>
+                <mat-icon
+                  class="text-medium-emphasis transition-all duration-200"
+                  [ngClass]="{
+                    '-rotate-90': expansionPanel.expanded,
+                    'rotate-0': !expansionPanel.expanded
+                  }"
+                  >chevron_left</mat-icon
                 >
-                  <mat-panel-title class="text-body-2 text-high-emphasis">
-                    {{ t('materialClassValuesNavigation.' + materialClass) }}
-                  </mat-panel-title>
-                  <mat-icon
-                    class="text-medium-emphasis transition-all duration-200"
-                    [ngClass]="{
-                      '-rotate-90': expansionPanel.expanded,
-                      'rotate-0': !expansionPanel.expanded
-                    }"
-                    >chevron_left</mat-icon
-                  >
-                </mat-expansion-panel-header>
-                @for (
-                  navigationLevel of navigationLevels;
-                  track navigationLevel
-                ) {
-                  <ng-container
-                    *ngTemplateOutlet="
-                      navigationLevelItem;
-                      context: {
-                        materialClass: materialClass,
-                        navigationLevel: navigationLevel,
-                        navigation: navigation
-                      }
-                    "
-                  >
-                  </ng-container>
-                }
-                <!-- TODO: add to navigationLevels array once available for all material classes -->
-                @if (materialClass === 'st') {
-                  <ng-container
-                    *ngTemplateOutlet="
-                      navigationLevelItem;
-                      context: {
-                        materialClass: materialClass,
-                        navigationLevel: 'productCategoryRules',
-                        navigation: navigation
-                      }
-                    "
-                  >
-                  </ng-container>
-                }
-              </mat-expansion-panel>
-            }
+              </mat-expansion-panel-header>
+              @for (
+                navigationLevel of navigationLevels;
+                track navigationLevel
+              ) {
+                <ng-container
+                  *ngTemplateOutlet="
+                    navigationLevelItem;
+                    context: {
+                      materialClass: materialClass,
+                      navigationLevel: navigationLevel,
+                      navigation: navigation
+                    }
+                  "
+                >
+                </ng-container>
+              }
+              <!-- TODO: add to navigationLevels array once available for all material classes -->
+              @if (materialClass === 'st') {
+                <ng-container
+                  *ngTemplateOutlet="
+                    navigationLevelItem;
+                    context: {
+                      materialClass: materialClass,
+                      navigationLevel: 'productCategoryRules',
+                      navigation: navigation
+                    }
+                  "
+                >
+                </ng-container>
+              }
+            </mat-expansion-panel>
           }
         </mat-accordion>
-        <ng-container
-          *ngTemplateOutlet="
-            plainItem;
-            context: { materialClass: 'sap', navigation: navigation }
-          "
-        ></ng-container>
+        @for (materialClass of otherMaterialClasses; track materialClass) {
+          <ng-container
+            *ngTemplateOutlet="
+              plainItem;
+              context: { materialClass: materialClass, navigation: navigation }
+            "
+          ></ng-container>
+        }
       </ng-template>
       <!-- CONSUMER VIEW -->
       <ng-template #consumerView let-navigation="navigation">

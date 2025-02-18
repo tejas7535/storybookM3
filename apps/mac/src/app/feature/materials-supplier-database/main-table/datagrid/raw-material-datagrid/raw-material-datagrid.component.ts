@@ -9,7 +9,7 @@ import { take } from 'rxjs';
 
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { AgGridModule } from 'ag-grid-angular';
-import { RowSelectionOptions } from 'ag-grid-community';
+import { GridApi, RowSelectionOptions } from 'ag-grid-community';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -71,14 +71,21 @@ export class RawMaterialDatagridComponent
       agGridConfigService,
       quickFilterFacade
     );
+    this.dataFacade.hasEditorRole$
+      .pipe(take(1))
+      .subscribe((hasEditorRole) => (this.hasEditorRole = hasEditorRole));
   }
 
   public ngOnInit(): void {
     super.ngOnInit();
+  }
 
-    this.dataFacade.hasEditorRole$
-      .pipe(take(1))
-      .subscribe((hasEditorRole) => (this.hasEditorRole = hasEditorRole));
+  public onGridReady({ api }: { api: GridApi }): void {
+    super.onGridReady({ api });
+    // deselect all rows on filter changes
+    this.agGridApi.addEventListener('filterChanged', () => {
+      this.agGridApi.deselectAll();
+    });
   }
 
   protected getCellRendererParams() {

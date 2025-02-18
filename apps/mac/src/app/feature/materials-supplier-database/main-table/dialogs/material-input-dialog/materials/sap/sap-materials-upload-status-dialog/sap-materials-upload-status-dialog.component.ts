@@ -29,12 +29,14 @@ interface UploadStatusDialogConfig {
   statusAction?: {
     infos: {
       translationKeySuffix: string;
+      // TO DO replace with Pipe or attribute!!!!
       shouldShow: () => boolean;
     }[];
     button: {
       translationKeySuffix: string;
       icon: string;
       action: () => void;
+      // TO DO replace with Pipe or attribute!!!!
       shouldShow: () => boolean;
     };
   };
@@ -94,21 +96,26 @@ export class SapMaterialsUploadStatusDialogComponent
         infos: [
           {
             translationKeySuffix: `${SapMaterialsDatabaseUploadStatus.DONE}_1`,
+            // TO DO replace with Pipe or attribute!!!!
             shouldShow: () => true,
           },
           {
             translationKeySuffix: `${SapMaterialsDatabaseUploadStatus.DONE}_2`,
+            // TO DO replace with Pipe or attribute!!!!
             shouldShow: () => true,
           },
           {
             translationKeySuffix: `${SapMaterialsDatabaseUploadStatus.DONE}_3`,
+            // TO DO replace with Pipe or attribute!!!!
             shouldShow: () => this.shouldShowDownloadRejected(),
           },
         ],
         button: {
           translationKeySuffix: 'downloadRejected',
           icon: 'download_outlined',
+          // TO DO replace with Pipe or attribute!!!!
           action: () => this.downloadRejected(),
+          // TO DO replace with Pipe or attribute!!!!
           shouldShow: () => this.shouldShowDownloadRejected(),
         },
       },
