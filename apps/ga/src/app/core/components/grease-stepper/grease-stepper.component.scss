@@ -50,6 +50,10 @@
         @apply pr-0;
       }
     }
+
+    .mat-stepper-horizontal-line {
+      border-top-color: rgba(0, 0, 0, 0.12);
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 @if (greaseResult) {
   <div
     *transloco="let t; read: 'calculationResult'"
-    class="overflow-hidden border-y-[1.5px] border-border lg:rounded lg:border-x-[1.5px]"
+    class="overflow-hidden border-y-[1.5px] border-border lg:rounded-2xl lg:border-x-[1.5px]"
     [ngClass]="{
       'border-primary border-x-[1.5px]': greaseResult.isRecommended
     }"
@@ -13,7 +13,7 @@
             {{ greaseResult.mainTitle }}
           </div>
           <div
-            class="text-caption text-medium-emphasis"
+            class="text-body-small text-medium-emphasis"
             [innerHTML]="
               greaseResult.isPreferred && !greaseResult.subTitle
                 ? t('previouslySelected', {
@@ -28,7 +28,7 @@
         @if (!greaseResult.isSufficient) {
           <div class="relative ml-3 inline-block">
             <div
-              class="ml-3 inline-block cursor-pointer rounded-full bg-orange px-3 py-[1px] text-caption text-high-emphasis-dark-bg"
+              class="ml-3 inline-block cursor-pointer rounded-full bg-orange px-3 py-[1px] text-body-small text-high-emphasis-dark-bg"
               matTooltip="{{ t('insufficientGreaseResultTooltip') }}"
               matTooltipPosition="below"
               matTooltipClass="!max-w-[400px]"
@@ -46,7 +46,7 @@
           (greaseResult.isPreferred || isAlternative())
         ) {
           <div
-            class="ml-3 inline-block rounded-full bg-background-dark px-3 py-[1px] text-caption text-medium-emphasis"
+            class="ml-3 inline-block rounded-full bg-background-dark px-3 py-[1px] text-body-small text-medium-emphasis"
             [ngClass]="{
               'cursor-pointer border !border-primary !bg-[#EDF7F1]':
                 !greaseResult.isPreferred
@@ -70,7 +70,7 @@
         <!--- Chip if the grease is recommended --->
         @if (greaseResult.isRecommended) {
           <div
-            class="ml-3 inline-flex items-center rounded-full bg-primary px-3 py-1 text-caption text-white"
+            class="ml-3 inline-flex items-center rounded-full bg-primary px-3 py-1 text-body-small text-white"
           >
             <mat-icon class="mr-1 !w-4 !h-4 !text-[16px]">star_rate</mat-icon>
             <span class="text-[12px]">{{ t('recommendedChip') }}</span>
@@ -82,7 +82,7 @@
       <div
         class="flex flex-row gap-2 p-3 bg-primary bg-opacity-[0.07] border-border border-b"
       >
-        <span class="text-caption text-medium-emphasis">{{
+        <span class="text-body-small text-medium-emphasis">{{
           t('poweredBy')
         }}</span>
         <img class="h-3 mt-[1px]" src="/assets/images/schaeffler-logo.svg" />

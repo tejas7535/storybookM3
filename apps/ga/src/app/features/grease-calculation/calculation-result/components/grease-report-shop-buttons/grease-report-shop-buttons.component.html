@@ -3,9 +3,8 @@
     @if (greaseResult.isSufficient && greaseResult.subTitle) {
       <div>
         <a
-          mat-raised-button
+          mat-flat-button
           class="mb-3 w-full"
-          color="primary"
           [attr.href]="getShopUrl()"
           target="_blank"
           (click)="trackGreaseSelection()"
@@ -18,9 +17,8 @@
     @if (showConcept1Button && !concept1UnSuitable) {
       <div [class.pt-2]="greaseResult.isSufficient && greaseResult.subTitle">
         <a
-          mat-raised-button
+          mat-flat-button
           class="w-full pt-3"
-          color="primary"
           [attr.href]="getConcept1ShopUrl()"
           (click)="trackConcept1Selection()"
           target="_blank"

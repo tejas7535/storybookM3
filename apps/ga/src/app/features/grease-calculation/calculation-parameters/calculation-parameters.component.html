@@ -32,14 +32,14 @@
       <div class="container mx-auto pb-4 sm:px-4 md:px-0 md:pb-8">
         <div class="flex flex-col gap-0 sm:gap-5 lg:grid lg:grid-cols-2">
           <div
-            class="border-border bg-surface-legacy border-t sm:rounded sm:border-x sm:border-b"
+            class="border-border bg-surface-legacy border-t sm:rounded-2xl sm:border-x sm:border-b"
           >
             <div class="border-border flex flex-row items-center border-b p-5">
               <mat-icon class="!text-medium-emphasis mr-2">compress</mat-icon>
-              <h5 class="text-body-2 mr-4">{{ t('loads') }}</h5>
+              <h5 class="text-body-medium mr-4">{{ t('loads') }}</h5>
               <span class="flex-grow"></span>
               <span
-                class="text-caption text-low-emphasis font-medium tracking-wide"
+                class="text-body-small text-low-emphasis font-medium tracking-wide"
                 >{{ t('requiredInformation') }}</span
               >
             </div>
@@ -91,14 +91,14 @@
             </div>
           </div>
           <div
-            class="border-border bg-surface-legacy border-t sm:rounded sm:border-x sm:border-b"
+            class="border-border bg-surface-legacy border-t sm:rounded-2xl sm:border-x sm:border-b"
           >
             <div class="border-border flex flex-row items-center border-b p-5">
               <mat-icon class="!text-medium-emphasis mr-2">animation</mat-icon>
-              <h5 class="text-body-2 mr-4">{{ t('motionInfluences') }}</h5>
+              <h5 class="text-body-medium mr-4">{{ t('motionInfluences') }}</h5>
               <span class="flex-grow"></span>
               <span
-                class="text-caption text-low-emphasis font-medium tracking-wide"
+                class="text-body-small text-low-emphasis font-medium tracking-wide"
                 >{{ t('requiredInformation') }}</span
               >
             </div>
@@ -146,7 +146,7 @@
               }
               @if (axisOrientationEnabled) {
                 <div class="md:col-span-2 mb-4">
-                  <p class="text-body-2 mb-2 text-low-emphasis">
+                  <p class="text-body-medium mb-2 text-low-emphasis">
                     {{ t('axisOrientation.title') }}
                   </p>
                   <mat-radio-group
@@ -155,16 +155,12 @@
                     [ariaLabel]="t('axisOrientation.title')"
                     class="flex space-x-2 overflow-x-auto overflow-y-clip pb-1 md:pb-0"
                   >
-                    <mat-radio-button
-                      color="primary"
-                      [value]="'Horizontal'"
-                      class="mr-2"
-                    >
+                    <mat-radio-button [value]="'Horizontal'" class="mr-2">
                       {{ t('axisOrientation.orientations.Horizontal') }}
                     </mat-radio-button>
                     <mat-divider [vertical]="true" />
 
-                    <mat-radio-button [value]="'Vertical'" color="primary">
+                    <mat-radio-button [value]="'Vertical'">
                       {{ t('axisOrientation.orientations.Vertical') }}
                     </mat-radio-button>
                   </mat-radio-group>
@@ -173,16 +169,16 @@
             </div>
           </div>
           <div
-            class="border-border bg-surface-legacy border-t sm:rounded sm:border-x sm:border-b"
+            class="border-border bg-surface-legacy border-t sm:rounded-2xl sm:border-x sm:border-b"
           >
             <div class="border-border flex flex-row items-center border-b p-5">
               <mat-icon class="!text-medium-emphasis mr-2"
                 >device_thermostat</mat-icon
               >
-              <h5 class="text-body-2 mr-4">{{ t('otherInfluences') }}</h5>
+              <h5 class="text-body-medium mr-4">{{ t('otherInfluences') }}</h5>
               <span class="flex-grow"></span>
               <span
-                class="text-caption text-low-emphasis font-medium tracking-wide"
+                class="text-body-small text-low-emphasis font-medium tracking-wide"
                 >{{ t('requiredInformation') }}</span
               >
             </div>
@@ -218,7 +214,7 @@
                     [translateText]="false"
                   />
                   @if (shouldShowMarketing$ | ngrxPush) {
-                    <div class="text-caption">
+                    <div class="text-body-small">
                       <span>{{ t('exclusivityDisclaimer') }}</span>
                       <br />
                       <a
@@ -235,11 +231,11 @@
             </div>
           </div>
           <div
-            class="border-border bg-surface-legacy border-t sm:rounded sm:border-x sm:border-b"
+            class="border-border bg-surface-legacy border-t sm:rounded-2xl sm:border-x sm:border-b"
           >
             <div class="border-border flex flex-row items-center border-b p-5">
               <mat-icon class="mr-2">manage_search</mat-icon>
-              <h5 class="text-body-2 mr-4">
+              <h5 class="text-body-medium mr-4">
                 {{ t('productPreselection.title.main') }}
               </h5>
             </div>
@@ -256,8 +252,7 @@
                   {{ t('productPreselection.concept1.label') }}
                 </mat-slide-toggle>
                 <mat-icon
-                  color="primary"
-                  class="min-w-[24px] cursor-help"
+                  class="min-w-[24px] cursor-help text-primary"
                   #tooltip="matTooltip"
                   [matTooltip]="t('productPreselection.concept1.tooltip')"
                   (click)="tooltip.toggle()"
@@ -271,8 +266,7 @@
             class="col-span-2 flex flex-col justify-between gap-5 px-4 pt-6 sm:px-0 sm:pt-0 md:flex-row"
           >
             <button
-              mat-raised-button
-              color="primary"
+              mat-flat-button
               class="md:order-last"
               (click)="completeStep()"
               [disabled]="form.invalid || (parameterUpdating$ | ngrxPush)"

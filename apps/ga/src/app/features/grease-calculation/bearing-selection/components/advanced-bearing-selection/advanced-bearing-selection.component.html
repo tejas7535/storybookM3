@@ -18,7 +18,7 @@
               "
             ></ga-bearing-selection-filters-summary>
           } @else {
-            <span class="text-caption">{{
+            <span class="text-body-small">{{
               t('bearing.bearingSelection.advancedSelection.filters.intro', {
                 tooManyResultsThreshold: resultsThreshold
               })
@@ -27,7 +27,7 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <mat-divider></mat-divider>
-      <div class="flex flex-col gap-4 p-4 text-body-1">
+      <div class="flex flex-col gap-4 p-4 text-body-large">
         <mat-form-field
           appearance="outline"
           class="w-full"
@@ -84,7 +84,7 @@
         </mat-panel-title>
         @if (step === 1) {
           <mat-panel-description class="!text-medium-emphasis">
-            <span class="text-caption">{{
+            <span class="text-body-small">{{
               t('bearing.bearingSelection.advancedSelection.bearingsList.intro')
             }}</span>
           </mat-panel-description>

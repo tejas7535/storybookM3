@@ -1,5 +1,5 @@
 <div *transloco="let t; read: 'userSettings'">
-  <div class="mb-4 text-subtitle-1 text-medium-emphasis">
+  <div class="mb-4 text-title-medium text-medium-emphasis">
     {{ t('language.title.main') }}
   </div>
   <schaeffler-language-select class="mb-3 block"></schaeffler-language-select>
@@ -9,10 +9,10 @@
     [defaultLocale]="defaultLocale"
   ></schaeffler-locale-select>
   <mat-divider class="!my-4"></mat-divider>
-  <div class="mb-1 text-subtitle-1 text-medium-emphasis">
+  <div class="mb-1 text-title-medium text-medium-emphasis">
     {{ t('measurementUnits.title.main') }}
   </div>
-  <div class="mb-4 text-caption text-medium-emphasis">
+  <div class="mb-4 text-body-small text-medium-emphasis">
     {{ t('measurementUnits.title.sub') }}
   </div>
   <ga-measurement-units-select></ga-measurement-units-select>

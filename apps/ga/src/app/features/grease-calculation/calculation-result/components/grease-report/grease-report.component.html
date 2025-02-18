@@ -55,7 +55,7 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div
-          class="pb-4 lg:px-6"
+          class="pb-4"
           [ngClass]="
             isGreaseResultSection(subordinate.titleID) ? 'px-0' : 'px-4'
           "
@@ -69,12 +69,12 @@
               <div
                 class="mx-3 flex items-center text-warning min-w-0 flex-row gap-4 justify-between rounded border border-warning bg-warning p-3 lg:m-0 lg:mb-3"
               >
-                <div class="text-caption font-normal text-warning">
+                <div class="text-body-small font-normal text-warning">
                   {{ entry.text }}
                 </div>
                 <div>
                   @for (link of entry.links; let k = $index; track k) {
-                    <a [href]="link.url" mat-raised-button>
+                    <a [href]="link.url" mat-flat-button>
                       <mat-icon>open_in_new</mat-icon>
                       {{ link.text }}
                     </a>
@@ -91,7 +91,7 @@
               class="mx-3 flex min-w-0 flex-row gap-4 rounded border border-warning bg-warning p-3 lg:m-0 lg:mb-3"
               [ngClass]="{ '!mb-6': getResultAmount() <= resultsLimit }"
             >
-              <div class="text-caption font-normal text-warning">
+              <div class="text-body-small font-normal text-warning">
                 {{ t('concept1Impossible') }}
               </div>
             </div>
@@ -141,7 +141,7 @@
           }
           @if (isGreaseResultSection(subordinate.titleID)) {
             <div class="p-3">
-              <span class="text-caption">{{ t('guideValues') }}</span>
+              <span class="text-body-small">{{ t('guideValues') }}</span>
             </div>
           }
         </div>

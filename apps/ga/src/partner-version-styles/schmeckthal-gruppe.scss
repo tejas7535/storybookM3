@@ -1,4 +1,7 @@
 @use '@angular/material' as mat;
+@use 'sass:map';
+
+@import 'libs/shared/ui/styles/src/lib/scss/schaeffler-colors';
 
 // LOGO
 $logoUrl: '/assets/images/partner-version-logos/schmeckthal-gruppe.png';
@@ -7,106 +10,162 @@ $logoUrl: '/assets/images/partner-version-logos/schmeckthal-gruppe.png';
 $schmeckthal-gruppe-primary: 86, 86, 86;
 $schmeckthal-gruppe-primary-variant: 255, 234, 239;
 
-// MATERIAL
-$mat-partner-version-schmeckthal-red: (
-  50: #ffeaef,
-  100: #ffcbd3,
-  200: #f5969a,
-  300: #ed6c73,
-  400: #f84550,
-  500: #fe2b35,
-  600: #ef1d34,
-  700: #dd0b2e,
-  // main
-  800: #d00026,
-  900: #c20019,
-  contrast: (
-    50: $high-emphasis,
-    100: $high-emphasis,
-    200: $high-emphasis,
-    300: $high-emphasis,
-    400: $high-emphasis,
-    500: $high-emphasis,
-    600: $high-emphasis,
-    700: $white-high-emphasis,
-    800: $white-high-emphasis,
-    900: $white-high-emphasis,
+$schmeckthal-gruppe-palette-primary-color: #dd0b2e;
+$schmeckthal-gruppe-palette-secondary-color: #565656;
+$schmeckthal-gruppe-palette-tertiary-color: #b2b2b2;
+
+$partner-version-schmeckthal-palette-m3: (
+  secondary: (
+    0: #000000,
+    // 5: #2d0003,
+    10: #410006,
+    // 15: #54000a,
+    20: #68000f,
+    25: #7d0014,
+    30: #93001a,
+    35: #a9001f,
+    40: $schmeckthal-gruppe-palette-primary-color,
+    50: #e91b35,
+    60: #ff5358,
+    70: #ff8986,
+    80: #ffb3b0,
+    90: #ffdad8,
+    95: #ffedeb,
+    98: #fff8f7,
+    99: #fffbff,
+    100: #ffffff,
+  ),
+  primary: (
+    0: #000000,
+    // 5: #101111,
+    10: #1b1c1c,
+    // 15: #252626,
+    20: #303030,
+    25: #3b3b3b,
+    30: #464747,
+    35: #525252,
+    40: $schmeckthal-gruppe-palette-secondary-color,
+    50: #777777,
+    60: #919090,
+    70: #acabab,
+    80: #c8c6c6,
+    90: #e4e2e2,
+    95: #f2f0f0,
+    98: #fbf9f8,
+    99: #fefcfb,
+    100: #ffffff,
+  ),
+  tertiary: (
+    0: #000000,
+    // 5: #101111,
+    10: #1a1c1c,
+    // 15: #252626,
+    20: #2f3131,
+    25: #3a3c3c,
+    30: #464747,
+    35: #515253,
+    40: $schmeckthal-gruppe-palette-tertiary-color,
+    50: #767777,
+    60: #909191,
+    70: #ababab,
+    80: #c7c6c6,
+    90: #e3e2e2,
+    95: #f1f0f0,
+    98: #faf9f9,
+    99: #fdfcfc,
+    100: #ffffff,
+  ),
+  neutral: (
+    0: #000000,
+    4: #131313,
+    6: #212121,
+    10: #343434,
+    12: #363636,
+    17: #3f3f3f,
+    20: #444444,
+    22: #474747,
+    24: #4b4b4b,
+    25: $placeholder,
+    30: #555555,
+    35: $placeholder,
+    40: #646464,
+    50: #828282,
+    60: #9d9d9d,
+    70: #b8b8b8,
+    80: #d0d0d0,
+    87: #e1e1e1,
+    90: #e8e8e8,
+    92: #ededed,
+    94: #f1f1f1,
+    95: #f4f4f4,
+    96: #f6f6f6,
+    98: #fbfbfb,
+    99: #fdfdfd,
+    100: #ffffff,
+  ),
+  neutral-variant: (
+    0: #000000,
+    10: #343434,
+    20: #444444,
+    25: $placeholder,
+    30: #555555,
+    35: $placeholder,
+    40: #646464,
+    50: #828282,
+    60: #9d9d9d,
+    70: #b8b8b8,
+    80: #d0d0d0,
+    90: #e8e8e8,
+    95: #f4f4f4,
+    98: $placeholder,
+    99: #fdfdfd,
+    100: #ffffff,
+  ),
+  error: (
+    0: #000000,
+    10: #500800,
+    20: #7b0f01,
+    25: $placeholder,
+    30: #a30f0c,
+    35: $placeholder,
+    40: #cb0b15,
+    50: #d3412e,
+    60: #dd6b51,
+    70: #e79278,
+    80: #efb8a4,
+    90: #f8dcd1,
+    95: #fceee8,
+    98: $placeholder,
+    99: #fffcfb,
+    100: #ffffff,
   ),
 );
 
-$mat-partner-version-schmeckthal-grey: (
-  50: #f8f8f8,
-  100: #f1f1f1,
-  200: #e7e7e7,
-  300: #d6d6d6,
-  // main
-  400: #b2b2b2,
-  500: #929292,
-  600: #6a6a6a,
-  700: #565656,
-  800: #383838,
-  900: #181818,
-  contrast: (
-    50: $high-emphasis,
-    100: $high-emphasis,
-    200: $high-emphasis,
-    300: $high-emphasis,
-    400: $high-emphasis,
-    500: $high-emphasis,
-    600: $high-emphasis,
-    700: $white-high-emphasis,
-    800: $white-high-emphasis,
-    900: $white-high-emphasis,
-  ),
+$_rest: (
+  secondary: map.get($partner-version-schmeckthal-palette-m3, secondary),
+  neutral: map.get($partner-version-schmeckthal-palette-m3, neutral),
+  neutral-variant:
+    map.get($partner-version-schmeckthal-palette-m3, neutral-variant),
+  error: map.get($partner-version-schmeckthal-palette-m3, error),
+);
+$_primary: map.merge(
+  map.get($partner-version-schmeckthal-palette-m3, primary),
+  $_rest
+);
+$_tertiary: map.merge(
+  map.get($partner-version-schmeckthal-palette-m3, tertiary),
+  $_rest
 );
 
-$mat-partner-version-schmeckthal-black: (
-  50: #ffffff,
-  // main
-  100: #fafafa,
-  200: #f5f5f5,
-  300: #f0f0f0,
-  400: #dedede,
-  500: #c2c2c2,
-  600: #979797,
-  700: #818181,
-  800: #606060,
-  900: #3c3c3c,
-  contrast: (
-    50: $high-emphasis,
-    100: $high-emphasis,
-    200: $high-emphasis,
-    300: $high-emphasis,
-    400: $high-emphasis,
-    500: $high-emphasis,
-    600: $high-emphasis,
-    700: $white-high-emphasis,
-    800: $white-high-emphasis,
-    900: $white-high-emphasis,
-  ),
-);
-
-$partner-version-schmeckthal-red: mat.m2-define-palette(
-  $mat-partner-version-schmeckthal-red,
-  700
-);
-
-$partner-version-schmeckthal-grey: mat.m2-define-palette(
-  $mat-partner-version-schmeckthal-grey,
-  700
-);
-
-$partner-version-schmeckthal-black: mat.m2-define-palette(
-  $mat-partner-version-schmeckthal-black,
-  50
-);
-
-$partner-version-schmeckthal-theme: mat.m2-define-light-theme(
+$partner-version-schmeckthal-theme: mat.define-theme(
   (
     color: (
-      primary: $partner-version-schmeckthal-grey,
-      accent: $partner-version-schmeckthal-red,
-      warn: $schaeffler-warn,
+      theme-type: light,
+      primary: $_primary,
+      tertiary: $_tertiary,
+    ),
+    typography: (
+      plain-family: 'Noto Sans',
     ),
   )
 );
@@ -117,5 +176,6 @@ $partner-version-schmeckthal-theme: mat.m2-define-light-theme(
 
 :root.partner-version-schmeckthal-gruppe {
   --primary: #{$schmeckthal-gruppe-primary};
+  --primary-color: #{$schmeckthal-gruppe-primary};
   --primary-variant: #{$schmeckthal-gruppe-primary-variant};
 }

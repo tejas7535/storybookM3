@@ -2,14 +2,13 @@
   <div class="flex p-4 max-md:min-h-[calc(100svh-56px)] flex-col">
     <button
       mat-basic-button
-      color="primary"
-      class="mr-auto ml-0 mb-2 flex items-center text-subtitle-2 !text-[#00893d]"
+      class="mr-auto ml-0 mb-2 flex items-center text-title-small !text-[#00893d]"
       (click)="close()"
     >
       <mat-icon class="!text-[18px] !h-[18px] !w-[18px]"
         >arrow_back_ios</mat-icon
       >
-      <span class="text-subtitle-2">Back</span>
+      <span class="text-title-small">Back</span>
     </button>
     <ng-container>
       @switch (state().name) {
@@ -46,7 +45,7 @@
               <button mat-stroked-button (click)="close()">
                 {{ t('cancel') }}
               </button>
-              <button mat-raised-button color="primary" (click)="next()">
+              <button mat-flat-button (click)="next()">
                 {{ t('continue') }}
               </button>
             </div>
@@ -76,11 +75,7 @@
               class="mt-auto md:mb-0 md:mt-2 flex flex-col md:flex-row space-y-2 md:space-y-0 w-full md:justify-end md:space-x-2"
             >
               @if ($any(state()).method === 'native') {
-                <button
-                  mat-raised-button
-                  (click)="showNativeScanner()"
-                  color="primary"
-                >
+                <button mat-flat-button (click)="showNativeScanner()">
                   {{ t('scan') }}
                 </button>
               }
@@ -106,7 +101,7 @@
                   alt="Bearing product image"
                 />
                 <div
-                  class="border inline-flex border-success text-success bg-success rounded-md space-x-2 px-4 py-1 text-caption items-center"
+                  class="border inline-flex border-success text-success bg-success rounded-md space-x-2 px-4 py-1 text-body-small items-center"
                 >
                   <mat-icon>check_circle</mat-icon>
                   <span>{{ t('bearingResult.verified') }}</span>
@@ -114,7 +109,7 @@
                 <div
                   class="flex-grow flex-1 flex flex-col my-2 mx-auto max-w-3xl"
                 >
-                  <h1 class="text-h6 my-2 mx-auto mb-4">
+                  <h1 class="text-title-large my-2 mx-auto mb-4">
                     {{ $any(state()).pimData.bearingxDesignation }}
                   </h1>
                   @if ($any(state()).message) {
@@ -133,8 +128,7 @@
                     {{ t('scanAgain') }}
                   </button>
                   <button
-                    mat-raised-button
-                    color="primary"
+                    mat-flat-button
                     (click)="selectBearing()"
                     [disabled]="!gaSupported()"
                   >
@@ -154,14 +148,14 @@
                     class="max-w-[200px]"
                   />
                   <div
-                    class="w-full border flex justify-center border-warning text-warning bg-warning rounded-md space-x-2 px-4 py-1 text-caption items-center"
+                    class="w-full border flex justify-center border-warning text-warning bg-warning rounded-md space-x-2 px-4 py-1 text-body-small items-center"
                   >
                     <mat-icon>warning</mat-icon>
                     <span>{{ t('bearingResult.suspicious') }}</span>
                   </div>
 
                   <div class="flex flex-col my-2 mx-auto max-w-3xl">
-                    <h1 class="text-h6 my-2">
+                    <h1 class="text-title-large my-2">
                       {{ $any(state()).pimData.bearingxDesignation }}
                     </h1>
                   </div>
@@ -183,8 +177,7 @@
                   </button>
 
                   <a
-                    mat-raised-button
-                    color="primary"
+                    mat-flat-button
                     [href]="scanService.reportUrl()"
                     (click)="track('reportButton')"
                   >
@@ -192,8 +185,7 @@
                   </a>
 
                   <button
-                    mat-raised-button
-                    color="primary"
+                    mat-flat-button
                     (click)="selectBearing()"
                     [disabled]="!gaSupported()"
                   >
@@ -226,8 +218,7 @@
                     {{ t('scanAgain') }}
                   </button>
                   <a
-                    mat-raised-button
-                    color="primary"
+                    mat-flat-button
                     [href]="scanService.reportUrl()"
                     (click)="track('reportButton')"
                   >
@@ -247,7 +238,7 @@
                 alt="Icon illustrating an error"
                 class="my-8"
               />
-              <h3 class="text-center mx-auto text-subtitle-1 mb-2">
+              <h3 class="text-center mx-auto text-title-medium mb-2">
                 {{ t('errorHeading') }}
               </h3>
               <p>{{ errorState().description }}</p>
@@ -255,16 +246,14 @@
                 class="mb-0 mt-auto w-full flex flex-col md:flex-row py-0 md:py-4 md:space-x-2 space-y-2 md:space-y-0"
               >
                 <button
-                  mat-raised-button
-                  color="primary"
+                  mat-flat-button
                   (click)="showScanner()"
                   class="md:ml-auto"
                 >
                   {{ t('retry') }}
                 </button>
                 <a
-                  mat-raised-button
-                  color="primary"
+                  mat-flat-button
                   [href]="scanService.reportUrl()"
                   (click)="track('reportButton')"
                 >
@@ -301,7 +290,7 @@
           >info_outline
         </mat-icon>
 
-        <div class="text-subtitle-2 text-info">
+        <div class="text-title-small text-info">
           {{ t('bearingUnavailableGA') }}
         </div>
       </div>

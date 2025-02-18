@@ -4,12 +4,14 @@
     class="flex w-full flex-col items-center px-3 py-1"
   >
     <div class="flex w-full flex-row items-center">
-      <span class="text-body-2" *transloco="let t; read: 'calculationResult'">
+      <span
+        class="text-body-medium"
+        *transloco="let t; read: 'calculationResult'"
+      >
         {{ t('concept1') }}
       </span>
       <mat-icon
-        color="primary"
-        class="cursor-help ml-2"
+        class="cursor-help ml-2 text-primary"
         #tooltip="matTooltip"
         [matTooltip]="settings.hint"
         (click)="tooltip.toggle()"
@@ -27,13 +29,13 @@
         [offsetAngle]="45"
       ></schaeffler-rotary-control>
     </div>
-    <p class="flex items-center gap-1 py-2 text-body-2">
+    <p class="flex items-center gap-1 py-2 text-body-medium">
       {{ t('concept1Size', { size: concept1Selection }) }}
     </p>
-    <p class="text-body-2 text-low-emphasis">
+    <p class="text-body-medium text-low-emphasis">
       {{ t('emptyDuration', { duration: getDurationMonths() }) }}
     </p>
-    <p class="text-body-2 text-low-emphasis">
+    <p class="text-body-medium text-low-emphasis">
       {{ t('arrowSetting', { setting: getDurationMonths() }) }}
     </p>
     <mat-radio-group class="py-3" [(ngModel)]="concept1Selection">

@@ -44,8 +44,7 @@
     <div class="w-6">
       @if (tooltipText) {
         <mat-icon
-          color="primary"
-          class="cursor-help"
+          class="cursor-help text-primary"
           #tooltip="matTooltip"
           [matTooltip]="tooltipText"
           (click)="tooltip.toggle()"
