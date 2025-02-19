@@ -61,6 +61,26 @@ export class MsdDataService {
     @Inject(LOCAL_STORAGE) private readonly localStorage: Storage
   ) {}
 
+  public getUploadFile(uploadFileId: number) {
+    return this.httpClient
+      .get(`${this.BASE_URL}/materials/pcrfile/${uploadFileId}`, {
+        responseType: 'text',
+      })
+      .pipe(
+        map((base64: any) => {
+          const binStr = atob(base64);
+          const len = binStr.length;
+          const arr = new Uint8Array(len);
+          for (let i = 0; i < len; i = i + 1) {
+            arr[i] = binStr.codePointAt(i);
+          }
+          const blob = new Blob([arr], { type: 'application/pdf' });
+
+          return URL.createObjectURL(blob);
+        })
+      );
+  }
+
   public getMaterialClasses() {
     return this.httpClient
       .get<string[]>(`${this.BASE_URL}/materials/materialClasses`)

@@ -20,6 +20,7 @@ import { SapMaterialsUploadDialogComponent } from '../../main-table/dialogs/mate
 import { SapMaterialsUploadStatusDialogComponent } from '../../main-table/dialogs/material-input-dialog/materials/sap/sap-materials-upload-status-dialog/sap-materials-upload-status-dialog.component';
 import { ReferenceDocumentBulkEditDialogComponent } from '../../main-table/dialogs/material-input-dialog/materials/steel/reference-document-bulk-edit-dialog/reference-document-bulk-edit-dialog.component';
 import { MoreInformationDialogComponent } from '../../main-table/dialogs/more-information-dialog/more-information-dialog.component';
+import { PdfViewerComponent } from '../../main-table/dialogs/pdf-viewer/pdf-viewer.component';
 
 @Injectable()
 export class MsdDialogService {
@@ -145,6 +146,15 @@ export class MsdDialogService {
   openContactDialog(): MatDialogRef<ContactDialogComponent> {
     return this.dialog.open(ContactDialogComponent, {
       width: '600px',
+      autoFocus: false,
+    });
+  }
+
+  openPdfDialog(id: number): MatDialogRef<PdfViewerComponent> {
+    return this.dialog.open(PdfViewerComponent, {
+      data: id,
+      width: '70%',
+      height: '90%',
       autoFocus: false,
     });
   }

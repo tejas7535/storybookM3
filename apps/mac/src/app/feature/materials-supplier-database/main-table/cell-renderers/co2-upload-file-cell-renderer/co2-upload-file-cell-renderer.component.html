@@ -1,0 +1,10 @@
+<div *transloco="let t; read: 'materialsSupplierDatabase.mainTable'">
+  @if (active) {
+    <button mat-button color="primary" (click)="openPdf()">
+      <mat-icon class="material-icons-outlined align-middle"
+        >picture_as_pdf</mat-icon
+      >
+      <span class="pl-2">{{ t('open') }}</span>
+    </button>
+  }
+</div>

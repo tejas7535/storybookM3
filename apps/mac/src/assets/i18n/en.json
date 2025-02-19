@@ -231,6 +231,7 @@
     "materialStandards": "Material Standards",
     "productCategoryRules": "Product Category Rules",
     "mainTable": {
+      "open": "open",
       "columns": {
         "blocked": "blocked",
         "castingDiameter": "Cast/Remelt Product Information",
@@ -361,7 +362,8 @@
         "productCategoryRuleTitle": "Product Category Rule",
         "reportValidUntil": "Report valid until",
         "dataQualityRating": "Data Quality Rating",
-        "co2UploadFile": "CO₂ Upload File"
+        "co2UploadFile": "CO₂ Upload File",
+        "co2UploadFileId": "CO₂ Proof Document"
       },
       "confirmDialog": {
         "cancel": "Cancel",

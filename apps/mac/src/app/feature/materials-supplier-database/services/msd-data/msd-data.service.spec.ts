@@ -102,6 +102,27 @@ describe('MsdDataService', () => {
     expect(service).toBeTruthy();
   });
 
+  describe('getUploadFile', () => {
+    it('should return base64 encoded file blob', (done) => {
+      // base64 endcoded image
+      const mockResponse =
+        'iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAAGElEQVR4nGJZk1vPAANMDEgANwcQAAD//1F9AaNOwji0AAAAAElFTkSuQmCC';
+      const expected = 'http//localhost:4200/1234';
+      global.URL.createObjectURL = jest.fn(() => expected);
+
+      service.getUploadFile(123).subscribe((result: any) => {
+        expect(result).toEqual(expected);
+        done();
+      });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/pcrfile/123`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(mockResponse);
+    });
+  });
+
   describe('getMaterialClasses', () => {
     it('should return a list of material classes', (done) => {
       const mockResponse = ['st'];

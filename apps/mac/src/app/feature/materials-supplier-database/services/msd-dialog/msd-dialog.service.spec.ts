@@ -20,6 +20,7 @@ import { SapMaterialsUploadDialogComponent } from '../../main-table/dialogs/mate
 import { SapMaterialsUploadStatusDialogComponent } from '../../main-table/dialogs/material-input-dialog/materials/sap/sap-materials-upload-status-dialog/sap-materials-upload-status-dialog.component';
 import { ReferenceDocumentBulkEditDialogComponent } from '../../main-table/dialogs/material-input-dialog/materials/steel/reference-document-bulk-edit-dialog/reference-document-bulk-edit-dialog.component';
 import { MoreInformationDialogComponent } from '../../main-table/dialogs/more-information-dialog/more-information-dialog.component';
+import { PdfViewerComponent } from '../../main-table/dialogs/pdf-viewer/pdf-viewer.component';
 import { MsdDialogService } from './msd-dialog.service';
 
 @Injectable()
@@ -230,6 +231,18 @@ describe('MsdDialogService', () => {
           autoFocus: false,
         }
       );
+    });
+  });
+  describe('openPdfDialog', () => {
+    it('should open the dialog', () => {
+      service.openPdfDialog(1);
+
+      expect(service['dialog'].open).toHaveBeenCalledWith(PdfViewerComponent, {
+        data: 1,
+        width: '70%',
+        height: '90%',
+        autoFocus: false,
+      });
     });
   });
 

@@ -48,6 +48,7 @@ export const PRODUCTION_PROCESS = 'productionProcessText';
 export const CO2_CLASSIFICATION_NEW = 'co2ClassificationNew';
 export const CO2_STANDARD = 'co2Standard';
 export const CO2_COMMENT = 'co2Comment';
+export const CO2_UPLOAD_FILE = 'co2UploadFileId';
 export const PRODUCT_CATEGORY_RULE = 'productCategoryRuleTitle';
 
 /* SAP columns */

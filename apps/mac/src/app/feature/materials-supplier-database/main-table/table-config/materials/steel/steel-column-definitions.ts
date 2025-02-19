@@ -8,6 +8,7 @@ import {
   CO2_COMMENT,
   CO2_PER_TON,
   CO2_STANDARD,
+  CO2_UPLOAD_FILE,
   MANUFACTURER,
   MANUFACTURER_SUPPLIER_NAME,
   MANUFACTURER_SUPPLIER_PLANT,
@@ -46,6 +47,7 @@ import {
 } from '@mac/msd/main-table/table-config/helpers';
 import { BASE_COLUMN_DEFINITIONS } from '@mac/msd/main-table/table-config/materials/base';
 
+import { Co2UploadFileCellRendererComponent } from '../../../cell-renderers/co2-upload-file-cell-renderer/co2-upload-file-cell-renderer.component';
 import { EditCellRendererComponent } from '../../../cell-renderers/edit-cell-renderer/edit-cell-renderer.component';
 import { GreenSteelCellRendererComponent } from '../../../cell-renderers/green-steel-cell-renderer/green-steel-cell-renderer.component';
 import { LinkCellRendererComponent } from '../../../cell-renderers/link-cell-renderer/link-cell-renderer.component';
@@ -257,5 +259,17 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     filterParams: FILTER_PARAMS,
     hide: true,
     cellRenderer: EditCellRendererComponent,
+  },
+  {
+    field: CO2_UPLOAD_FILE,
+    headerName: CO2_UPLOAD_FILE,
+    filter: 'agNumberColumnFilter',
+    filterParams: {
+      filterOptions: ['equals', 'blank', 'notBlank'],
+      buttons: ['reset'],
+      maxNumConditions: 1,
+    },
+    hide: true,
+    cellRenderer: Co2UploadFileCellRendererComponent,
   },
 ];
