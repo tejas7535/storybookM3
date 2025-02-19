@@ -1,0 +1,43 @@
+<ng-container
+  *transloco="let t; read: 'materialsSupplierDatabase.disclaimerDialog'"
+>
+  <div mat-dialog-title class="!px-0">
+    <div
+      class="inline-flex w-full flex-row content-around justify-between pl-4 pb-3 pr-2"
+    >
+      <div class="text-h6 text-high-emphasis">
+        <mat-icon class="text-high-emphasis pt-1">warning</mat-icon>
+        {{ t('title') }}
+      </div>
+    </div>
+  </div>
+  <mat-dialog-content class="!px-4 pb-4 text-medium-emphasis">
+    {{ t('disclaimer') }}
+    <div class="pt-4 text-right">
+      <mat-checkbox
+        color="primary"
+        labelPosition="before"
+        [(ngModel)]="storeConsent"
+        class="!ml-2"
+      >
+        <span class="text-medium-emphasis">
+          {{ t('checkbox') }}
+        </span>
+      </mat-checkbox>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="-mx-6">
+    <button
+      mat-button
+      mat-dialog-close
+      (click)="consent()"
+      color="primary"
+      class="!px-4"
+      cdkFocusInitial
+    >
+      <mat-icon class="text-primary">arrow_forward</mat-icon>
+      {{ t('continue') }}
+    </button>
+  </mat-dialog-actions>
+</ng-container>

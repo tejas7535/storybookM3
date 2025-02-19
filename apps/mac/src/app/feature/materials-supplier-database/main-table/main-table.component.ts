@@ -22,6 +22,7 @@ import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { ActiveNavigationLevel } from '@mac/msd/models';
 import { DataFacade } from '@mac/msd/store/facades/data';
 
+import { MsdAgGridStateService, MsdDialogService } from '../services';
 import { QuickFilterFacade } from '../store/facades/quickfilter';
 import { MsdNavigationComponent } from './components/msd-navigation/msd-navigation.component';
 import { RawMaterialControlPanelComponent } from './control-panel/raw-material-control-panel/raw-material-control-panel.component';
@@ -78,11 +79,17 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly quickFilterFacade: QuickFilterFacade
+    private readonly quickFilterFacade: QuickFilterFacade,
+    private readonly dialogService: MsdDialogService,
+    private readonly stateService: MsdAgGridStateService
   ) {}
 
   public ngOnInit(): void {
     this.dataFacade.fetchClassOptions();
+    // open disclaimer dialog if after timeout
+    if (Date.now() > this.stateService.getDisclaimerConsentTimeout()) {
+      this.dialogService.openDisclaimerDialog();
+    }
   }
 
   public ngAfterViewInit(): void {

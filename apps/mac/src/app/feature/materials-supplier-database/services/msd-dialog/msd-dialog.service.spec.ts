@@ -12,6 +12,8 @@ import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { DataResult } from '@mac/msd/models';
 
 import { ConfirmDeleteDialogComponent } from '../../main-table/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
+import { ConfirmDisclaimerDialogComponent } from '../../main-table/dialogs/confirm-disclaimer-dialog/confirm-disclaimer-dialog.component';
+import { ContactDialogComponent } from '../../main-table/dialogs/contact-dialog/contact-dialog.component';
 import { ManufacturerSupplierInputDialogComponent } from '../../main-table/dialogs/material-input-dialog/manufacturer-supplier/manufacturersupplier-input-dialog.component';
 import { MaterialStandardInputDialogComponent } from '../../main-table/dialogs/material-input-dialog/material-standard/material-standard-input-dialog.component';
 import { CeramicInputDialogComponent } from '../../main-table/dialogs/material-input-dialog/materials/ceramic/ceramic-input-dialog.component';
@@ -363,6 +365,27 @@ describe('MsdDialogService', () => {
       };
 
       expect(service['combineRows'](rows)).toStrictEqual(expected);
+    });
+  });
+
+  describe('simpleDialogs', () => {
+    beforeEach(() => {
+      service['dialog'].open = jest.fn();
+    });
+    it('should open the contact dialog', () => {
+      service.openContactDialog();
+      expect(service['dialog'].open).toHaveBeenCalledWith(
+        ContactDialogComponent,
+        expect.anything()
+      );
+    });
+
+    it('should open the disclaimer dialog', () => {
+      service.openDisclaimerDialog();
+      expect(service['dialog'].open).toHaveBeenCalledWith(
+        ConfirmDisclaimerDialogComponent,
+        expect.anything()
+      );
     });
   });
 });

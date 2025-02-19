@@ -11,13 +11,16 @@
         <div class="hidden flex-row gap-4 md:flex">
           <div class="my-auto flex flex-row rounded-md">
             <div
-              class="-my-2 flex h-14 flex-row gap-4 rounded-md border border-info bg-[#ECF5F7] p-3"
+              class="flex gap-2 rounded-md border text-caption border-warning bg-[#ffeb9255] -my-3 p-3 text-warning"
             >
-              <mat-icon class="material-icons-outlined text-info"
-                >info_outline</mat-icon
+              <mat-icon class="mt-1 material-icons text-icon-warning flex-none"
+                >warning</mat-icon
               >
-              <div class="max-w-sm text-caption">
-                {{ t('disclaimer') }}
+              <div>
+                <div class="flex-1 uppercase font-bold">
+                  {{ t('disclaimerDialog.title') }}:
+                </div>
+                <div>{{ t('disclaimerDialog.disclaimer') }}</div>
               </div>
             </div>
           </div>

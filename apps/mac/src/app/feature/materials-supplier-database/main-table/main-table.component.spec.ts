@@ -119,7 +119,7 @@ describe('MainTableComponent', () => {
       {
         provide: MsdDialogService,
         useValue: {
-          openDialog: jest.fn(),
+          openDisclaimerDialog: jest.fn(),
         },
       },
       MockProvider(MsdDataService),
@@ -130,6 +130,7 @@ describe('MainTableComponent', () => {
             materialClass: MaterialClass.STEEL,
             navigationLevel: NavigationLevel.MATERIAL,
           })),
+          getDisclaimerConsentTimeout: jest.fn(() => Number.MAX_VALUE),
         },
       },
       {
@@ -181,6 +182,20 @@ describe('MainTableComponent', () => {
     });
   });
 
+  describe('ngOnInit', () => {
+    it('should NOT open disclaimer consent dialog on startup', () => {
+      expect(
+        component['dialogService'].openDisclaimerDialog
+      ).not.toHaveBeenCalled();
+    });
+    it('should open disclaimer consent dialog on startup', () => {
+      component['stateService'].getDisclaimerConsentTimeout = jest.fn(() => 0);
+      component.ngOnInit();
+      expect(
+        component['dialogService'].openDisclaimerDialog
+      ).toHaveBeenCalled();
+    });
+  });
   describe('parseQueryParams', () => {
     it('should do nothing if no filters are set in query params', () => {
       component['changeDetectorRef'].markForCheck = jest.fn();

@@ -15,6 +15,7 @@ import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { DataResult } from '@mac/msd/models';
 
 import { ConfirmDeleteDialogComponent } from '../../main-table/dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
+import { ConfirmDisclaimerDialogComponent } from '../../main-table/dialogs/confirm-disclaimer-dialog/confirm-disclaimer-dialog.component';
 import { ContactDialogComponent } from '../../main-table/dialogs/contact-dialog/contact-dialog.component';
 import { SapMaterialsUploadDialogComponent } from '../../main-table/dialogs/material-input-dialog/materials/sap/sap-materials-upload-dialog.component';
 import { SapMaterialsUploadStatusDialogComponent } from '../../main-table/dialogs/material-input-dialog/materials/sap/sap-materials-upload-status-dialog/sap-materials-upload-status-dialog.component';
@@ -147,6 +148,16 @@ export class MsdDialogService {
     return this.dialog.open(ContactDialogComponent, {
       width: '600px',
       autoFocus: false,
+    });
+  }
+
+  openDisclaimerDialog(): MatDialogRef<ConfirmDisclaimerDialogComponent> {
+    return this.dialog.open(ConfirmDisclaimerDialogComponent, {
+      width: '450px',
+      autoFocus: true,
+      closeOnNavigation: false,
+      disableClose: true,
+      hasBackdrop: true,
     });
   }
 

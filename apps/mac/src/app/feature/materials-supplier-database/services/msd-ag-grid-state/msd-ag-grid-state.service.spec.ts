@@ -899,4 +899,37 @@ describe('MsdAgGridStateService', () => {
       });
     });
   });
+
+  describe('getDisclaimerConsentTimeout', () => {
+    it('return default timeout when nothing has been stored', () => {
+      localStorage.getItem = jest.fn();
+
+      const result = service.getDisclaimerConsentTimeout();
+
+      expect(localStorage.getItem).toHaveBeenCalledWith(service['KEY_CONSENT']);
+      expect(result).toEqual(0);
+    });
+    it('return last stored timeout', () => {
+      localStorage.getItem = jest.fn((_a: string) => '{"timeout":789}');
+
+      const result = service.getDisclaimerConsentTimeout();
+
+      expect(localStorage.getItem).toHaveBeenCalledWith(service['KEY_CONSENT']);
+      expect(result).toEqual(789);
+    });
+  });
+
+  describe('storeDisclaimerConsentTimeout', () => {
+    it('should set the column state for the current material class', () => {
+      localStorage.setItem = jest.fn();
+
+      const number = 123_456_789;
+      service.storeDisclaimerConsentTimeout(number);
+
+      expect(localStorage['setItem']).toHaveBeenCalledWith(
+        service['KEY_CONSENT'],
+        '{"timeout":123456789}'
+      );
+    });
+  });
 });

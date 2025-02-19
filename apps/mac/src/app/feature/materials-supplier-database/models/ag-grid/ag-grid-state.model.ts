@@ -4,6 +4,10 @@ import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 
 import { QuickFilter } from '../quickilter';
 
+export interface DisclaimerConstentTimeoutState {
+  timeout: number;
+}
+
 export interface ViewState {
   quickFilters: QuickFilter[];
   columnState: ColumnState[];

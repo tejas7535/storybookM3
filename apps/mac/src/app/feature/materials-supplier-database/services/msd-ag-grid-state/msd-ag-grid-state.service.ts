@@ -19,6 +19,7 @@ import {
 } from '@mac/msd/constants';
 import {
   ActiveNavigationLevel,
+  DisclaimerConstentTimeoutState,
   MsdAgGridState,
   MsdAgGridStateCurrent,
   MsdAgGridStateV1,
@@ -35,6 +36,7 @@ import { QuickFilterFacade } from '@mac/msd/store/facades/quickfilter';
 export class MsdAgGridStateService {
   private readonly MIN_STATE_VERSION = 2.7;
   private readonly KEY = 'MSD_MAIN_TABLE_STATE';
+  private readonly KEY_CONSENT = 'MSD_CONSENT_TIMEOUT';
   private readonly LEGACY_MSD_KEY = 'msdMainTable';
   private readonly LEGACY_MSD_QUICKFILTER_KEY = 'MSD_quickfilter';
 
@@ -163,6 +165,26 @@ export class MsdAgGridStateService {
 
     return activeNavigationLevel;
   }
+
+  /* DISCLAIMER CONSENT */
+
+  public storeDisclaimerConsentTimeout(timeout: number) {
+    const state: DisclaimerConstentTimeoutState = {
+      timeout,
+    };
+
+    this.localStorage.setItem(this.KEY_CONSENT, JSON.stringify(state));
+  }
+
+  public getDisclaimerConsentTimeout(): number {
+    const obj = this.localStorage.getItem(this.KEY_CONSENT);
+
+    return obj
+      ? (JSON.parse(obj) as DisclaimerConstentTimeoutState).timeout
+      : 0;
+  }
+
+  /* PRIVATE section */
 
   private init(): void {
     // always try to convert the legacy states

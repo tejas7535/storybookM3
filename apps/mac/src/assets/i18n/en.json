@@ -224,7 +224,6 @@
     "allClass": "All {{class}}:",
     "allSelected": "All selected",
     "close": "Close",
-    "disclaimer": "Presented CO₂ values are for internal use only - data must not be used for communication with customers",
     "export": "Export",
     "filterTooLong": "The table filter is too long to be put into a link",
     "suppliers": "Suppliers",
@@ -1033,6 +1032,14 @@
       "learnMoreLink": "Open learn more page",
       "learnMoreUri": "/learn-more/materials-supplier-database"
     },
+
+    "disclaimerDialog": {
+      "title": "For internal use only",
+      "disclaimer": "The displayed data must not be shared with external partners!",
+      "checkbox": "Do not show this message for 7 days",
+      "continue": "Continue"
+    },
+
     "loading": {
       "loading": "Loading data ...",
       "loadingFailed": "Failed to load data from server! Please try again later or inform Support!",
