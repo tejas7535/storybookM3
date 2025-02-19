@@ -75,16 +75,25 @@ export class CalculationParametersFormHelperService {
    * which causing change detection to be triggered, to keep using numeric input type convert desired null values with undefined,
    * to avoid detection on such instances to allow user entering negative value
    * other solution is to use inputType='text' but it will lose stepper indication and validation of the field.
+   * or hidden field appraoch to hold value, which is not perfect neither.
    */
-  public replaceNullValuesWithUndefined(
+  public updateResultsToHandleNegativeValues(
+    previousParameters: Partial<CalculationParametersOperationConditions>,
     calculationParameters: Partial<CalculationParametersOperationConditions>
-  ): Partial<CalculationParametersOperationConditions> {
+  ): {
+    previous: Partial<CalculationParametersOperationConditions>;
+    new: Partial<CalculationParametersOperationConditions>;
+  } {
+    const oldParameters = {
+      ...previousParameters,
+    };
     const parameters: Partial<CalculationParametersOperationConditions> = {
       ...calculationParameters,
     };
 
     if (calculationParameters.ambientTemperature === null) {
       parameters.ambientTemperature = undefined;
+      oldParameters.ambientTemperature = undefined;
     }
 
     parameters.loadCaseData = calculationParameters.loadCaseData.map(
@@ -98,7 +107,22 @@ export class CalculationParametersFormHelperService {
       }
     );
 
-    return parameters;
+    for (let i = 0; i < calculationParameters.loadCaseData.length; i += 1) {
+      const loadcase = previousParameters.loadCaseData[i];
+      const newLoadcaseData = calculationParameters.loadCaseData[i];
+      const newData = { ...loadcase };
+
+      if (newLoadcaseData.operatingTemperature === null) {
+        newData.operatingTemperature = undefined;
+      }
+
+      oldParameters.loadCaseData[i] = newData;
+    }
+
+    return {
+      previous: oldParameters,
+      new: parameters,
+    };
   }
 
   private prepareDialogData(): ConfirmationDialogData {

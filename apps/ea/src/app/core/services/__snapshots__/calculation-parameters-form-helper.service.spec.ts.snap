@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CalculationParametersFormHelperService getLocalizedLoadCaseTimePortion when updating result to handle negative values should not change non-null values 1`] = `
+Object {
+  "new": Object {
+    "ambientTemperature": 25,
+    "loadCaseData": Array [
+      Object {
+        "operatingTemperature": 20,
+      },
+    ],
+    "time": 123,
+  },
+  "previous": Object {
+    "ambientTemperature": 25,
+    "loadCaseData": Array [
+      Object {
+        "operatingTemperature": 20,
+      },
+    ],
+    "time": 123,
+  },
+}
+`;
+
+exports[`CalculationParametersFormHelperService getLocalizedLoadCaseTimePortion when updating result to handle negative values should replace null values with undefined 1`] = `
+Object {
+  "new": Object {
+    "ambientTemperature": undefined,
+    "loadCaseData": Array [
+      Object {
+        "operatingTemperature": undefined,
+      },
+    ],
+    "time": null,
+  },
+  "previous": Object {
+    "ambientTemperature": undefined,
+    "loadCaseData": Array [
+      Object {
+        "operatingTemperature": undefined,
+      },
+    ],
+    "time": undefined,
+  },
+}
+`;
+
+exports[`CalculationParametersFormHelperService getLocalizedLoadCaseTimePortion when updating result to handle negative values when new input is null with minus sign scenario should set previous value to undefined to block change detection 1`] = `
+Object {
+  "new": Object {
+    "ambientTemperature": undefined,
+    "loadCaseData": Array [
+      Object {
+        "operatingTemperature": undefined,
+      },
+    ],
+    "time": 123,
+  },
+  "previous": Object {
+    "ambientTemperature": undefined,
+    "loadCaseData": Array [
+      Object {
+        "operatingTemperature": undefined,
+      },
+    ],
+    "time": 123,
+  },
+}
+`;

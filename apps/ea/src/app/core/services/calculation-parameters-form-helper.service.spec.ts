@@ -158,40 +158,68 @@ describe('CalculationParametersFormHelperService', () => {
       });
     });
 
-    describe('when replacing null values with undefined', () => {
+    describe('when updating result to handle negative values', () => {
       it('should replace null values with undefined', () => {
-        const input: Partial<CalculationParametersOperationConditions> = {
+        const previousInput: Partial<CalculationParametersOperationConditions> =
+          {
+            ambientTemperature: undefined,
+            time: undefined,
+            loadCaseData: [{ operatingTemperature: undefined } as LoadCaseData],
+          };
+
+        const newInput: Partial<CalculationParametersOperationConditions> = {
           ambientTemperature: null,
           time: null,
           loadCaseData: [{ operatingTemperature: null } as LoadCaseData],
         };
 
-        const expectedOutput: Partial<CalculationParametersOperationConditions> =
-          {
-            ambientTemperature: undefined,
-            time: null,
-            loadCaseData: [{ operatingTemperature: undefined } as LoadCaseData],
-          };
-
-        const result = service.replaceNullValuesWithUndefined(input);
-        expect(result).toEqual(expectedOutput);
+        const result = service.updateResultsToHandleNegativeValues(
+          previousInput,
+          newInput
+        );
+        expect(result).toMatchSnapshot();
       });
 
       it('should not change non-null values', () => {
-        const input = {
+        const previousInput = {
           ambientTemperature: 25,
           time: 123,
           loadCaseData: [{ operatingTemperature: 20 } as LoadCaseData],
         };
 
-        const expectedOutput = {
+        const newInput = {
           ambientTemperature: 25,
           time: 123,
           loadCaseData: [{ operatingTemperature: 20 } as LoadCaseData],
         };
 
-        const result = service.replaceNullValuesWithUndefined(input);
-        expect(result).toEqual(expectedOutput);
+        const result = service.updateResultsToHandleNegativeValues(
+          previousInput,
+          newInput
+        );
+        expect(result).toMatchSnapshot();
+      });
+
+      describe('when new input is null with minus sign scenario', () => {
+        it('should set previous value to undefined to block change detection', () => {
+          const previousInput = {
+            ambientTemperature: 25,
+            time: 123,
+            loadCaseData: [{ operatingTemperature: 20 } as LoadCaseData],
+          };
+
+          const newInput: Partial<CalculationParametersOperationConditions> = {
+            ambientTemperature: null,
+            time: 123,
+            loadCaseData: [{ operatingTemperature: null } as LoadCaseData],
+          };
+
+          const result = service.updateResultsToHandleNegativeValues(
+            previousInput,
+            newInput
+          );
+          expect(result).toMatchSnapshot();
+        });
       });
     });
   });

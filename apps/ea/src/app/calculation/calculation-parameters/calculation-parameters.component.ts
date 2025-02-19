@@ -492,12 +492,14 @@ export class CalculationParametersComponent
         debounceTime(this.DEBOUNCE_TIME_DEFAULT),
         map(([formValue, _status]) => formValue),
         distinctUntilChanged((a, b) => {
-          const objectWithoutNullValues =
-            this.calculationParametersFormHelperService.replaceNullValuesWithUndefined(
+          const result =
+            this.calculationParametersFormHelperService.updateResultsToHandleNegativeValues(
+              a.operationConditions as Partial<CalculationParametersOperationConditions>,
               b.operationConditions as Partial<CalculationParametersOperationConditions>
             );
 
-          b.operationConditions = objectWithoutNullValues;
+          a.operationConditions = result.previous;
+          b.operationConditions = result.new;
 
           return JSON.stringify(a) === JSON.stringify(b);
         })
