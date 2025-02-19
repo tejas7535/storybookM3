@@ -132,7 +132,7 @@ export class TargetPriceEditingModalComponent extends EditingModalComponent {
 
     this.subscription.add(
       targetPriceSource.valueChanges.subscribe((targetPriceSourceValue) => {
-        if (Number.isNaN(control.value)) {
+        if (Number.isNaN(control.value) || control.value === '-') {
           return;
         }
 

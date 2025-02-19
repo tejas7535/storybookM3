@@ -176,7 +176,7 @@ export abstract class EditingModalComponent
   }
 
   callPriceChangeTypeSwitchHandler(isRelative: boolean): void {
-    this.priceChangeSwitched();
+    this.priceChangeSwitched?.();
     this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME).setValue('');
     this.handlePriceChangeTypeSwitch?.(isRelative);
   }
