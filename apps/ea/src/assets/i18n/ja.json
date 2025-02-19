@@ -285,6 +285,8 @@
     "usageTooltip": "電力損失による総CO2排出量。",
     "yearlyEmissionInfo": "（1年間24時間365日使用）",
     "hourlyEmissionInfo": "{{ unit }} を {{ hours }} 時間",
+    "calculationErrorsTitle": "計算エラー",
+    "showErrors": "エラーを表示",
     "downstreamErrors": {
       "modelNotExisting": "The calculation of frictional power losses and CO2e emissions is not provided for this bearing.",
       "modelLubricationNotSupported": "The calculation of frictional power losses and CO2e emissions is not provided for this bearing and the selected lubrication.",

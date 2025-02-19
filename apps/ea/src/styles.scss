@@ -244,6 +244,10 @@ schaeffler-app-shell > mat-sidenav-container > mat-sidenav-content {
   @apply prose max-w-2xl prose-p:text-high-emphasis prose-h5:font-semibold;
 }
 
+.calculation-errors-dialog {
+  margin: 12px;
+}
+
 // hide underneath scrollbar in medias once dialog is open
 .cdk-global-scrollblock body {
   overflow: hidden;

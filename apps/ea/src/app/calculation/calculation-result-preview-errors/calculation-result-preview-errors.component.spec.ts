@@ -1,159 +1,164 @@
-import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { MatDialog } from '@angular/material/dialog';
 
-import { translate } from '@jsverse/transloco';
+import { CalculationResultPreviewItem } from '@ea/core/store/models';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { CalculationPreviewErrorsDialogComponent } from '../calculation-preview-errors-dialog/calculation-preview-errors-dialog.component';
 import { CalculationResultPreviewErrorsComponent } from './calculation-result-preview-errors.component';
 
 describe('CalculationResultPreviewErrorsComponent', () => {
   let spectator: Spectator<CalculationResultPreviewErrorsComponent>;
+  let component: CalculationResultPreviewErrorsComponent;
 
   const createComponent = createComponentFactory({
     component: CalculationResultPreviewErrorsComponent,
-    imports: [MatIconTestingModule, provideTranslocoTestingModule({ en: {} })],
+    imports: [provideTranslocoTestingModule({ en: {} })],
     providers: [
       {
-        provide: translate,
-        useValue: jest.fn(),
+        provide: MatDialog,
+        useValue: {
+          open: jest.fn(),
+        },
       },
     ],
   });
 
+  let mockResizeObserver: jest.Mock;
+
   beforeEach(() => {
-    spectator = createComponent({ detectChanges: false });
+    mockResizeObserver = jest.fn().mockImplementation((_callback) => ({
+      observe: jest.fn(),
+      unobserve: jest.fn(),
+      disconnect: jest.fn(),
+    }));
+
+    window.ResizeObserver = mockResizeObserver;
+
+    spectator = createComponent({
+      props: {
+        errorTitle: 'Calculation Errors',
+        errors: ['Error 1', 'Error 2'],
+        downstreamErrors: ['Downstream Error 1'],
+        overlayData: [
+          {
+            title: 'emissions',
+          } as Partial<CalculationResultPreviewItem> as CalculationResultPreviewItem,
+          {
+            title: 'frictionalPowerloss',
+          } as Partial<CalculationResultPreviewItem> as CalculationResultPreviewItem,
+          {
+            title: 'otherItem',
+          } as Partial<CalculationResultPreviewItem> as CalculationResultPreviewItem,
+        ],
+      },
+    });
+
+    component = spectator.component;
   });
 
   it('should create', () => {
-    spectator.detectChanges();
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
-  describe('data display', () => {
-    describe('errors', () => {
-      beforeEach(() => {
-        spectator.setInput('overlayData', [
-          {
-            title: 'rating life',
-            values: [{ unit: 'abc', title: 'abc', value: 1, isLoading: false }],
-          },
-          {
-            title: 'emissions',
-            values: [{ unit: 'abc', title: 'abc', value: 1, isLoading: false }],
-          },
-          {
-            title: 'some other',
-            values: [{ unit: 'abc', title: 'abc', value: 1, isLoading: false }],
-          },
-        ]);
-
-        spectator.setInput('errors', ['error1', 'error2', 'error3']);
-      });
-
-      it('should combine errors', () => {
-        spectator.detectChanges();
-        expect(spectator.component.inlineErrors).toBe('error1 error2 error3');
-      });
-
-      it('should show titles', () => {
-        spectator.detectChanges();
-        expect(spectator.queryAll('.text-body-small').length).toBe(2);
-      });
-    });
-
-    describe('downstreamErrors', () => {
-      beforeEach(() => {
-        spectator.setInput('overlayData', [
-          {
-            title: 'rating life',
-            values: [{ unit: 'abc', title: 'abc', value: 1, isLoading: false }],
-          },
-          {
-            title: 'emissions',
-            values: [{ unit: 'abc', title: 'abc', value: 1, isLoading: false }],
-          },
-          {
-            title: 'some other',
-            values: [{ unit: 'abc', title: 'abc', value: 1, isLoading: false }],
-          },
-        ]);
-
-        spectator.setInput('downstreamErrors', ['error1', 'error2', 'error3']);
-      });
-
-      it('should combine errors', () => {
-        spectator.detectChanges();
-        expect(spectator.component.inlineDownstreamErrors).toBe(
-          'error1 error2 error3'
-        );
-      });
-
-      it('should show titles', () => {
-        spectator.detectChanges();
-        expect(spectator.queryAll('.text-body-small').length).toBe(1);
-      });
-    });
+  it('should compute combined errors correctly', () => {
+    expect(component.combinedErrors()).toBe(
+      'Downstream Error 1 Error 1 Error 2'
+    );
   });
 
-  describe('getAffectedItems', () => {
-    it('should return catalog items', () => {
-      spectator.component.inlineErrors = 'error';
-      spectator.component.inlineDownstreamErrors = '';
-      spectator.component.catalogCalculationData = [
-        { title: 'rating life', values: [] },
-      ];
-      spectator.component.downstreamCalculationData = [
-        { title: 'emissions', values: [] },
-      ];
-
-      spectator.detectChanges();
-
-      const result = spectator.component.getAffectedItems();
-      expect(result).toEqual([{ title: 'rating life', values: [] }]);
-    });
-
-    it('should return downstream items', () => {
-      spectator.component.inlineErrors = '';
-      spectator.component.inlineDownstreamErrors = 'error';
-      spectator.component.catalogCalculationData = [
-        { title: 'rating life', values: [] },
-      ];
-      spectator.component.downstreamCalculationData = [
-        { title: 'emissions', values: [] },
-      ];
-
-      spectator.detectChanges();
-
-      const result = spectator.component.getAffectedItems();
-      expect(result).toEqual([{ title: 'emissions', values: [] }]);
-    });
-
-    it('should return both catalog and downstream items', () => {
-      spectator.component.inlineErrors = 'error';
-      spectator.component.inlineDownstreamErrors = 'error';
-      spectator.component.catalogCalculationData = [
-        { title: 'rating life', values: [] },
-      ];
-      spectator.component.downstreamCalculationData = [
-        { title: 'emissions', values: [] },
-      ];
-
-      spectator.detectChanges();
-
-      const result = spectator.component.getAffectedItems();
-      expect(result).toEqual([
-        { title: 'rating life', values: [] },
-        { title: 'emissions', values: [] },
-      ]);
-    });
+  it('should filter catalog calculation data correctly', () => {
+    expect(component.catalogCalculationData()).toEqual([
+      { title: 'otherItem' },
+    ]);
   });
 
-  describe('toggleErrors', () => {
-    it('should emit expandedChange', () => {
-      const spy = jest.spyOn(spectator.component.expandedChange, 'emit');
-      spectator.component.toggleErrors();
-      expect(spy).toHaveBeenCalledWith(true);
-    });
+  it('should filter downstream calculation data correctly', () => {
+    expect(component.downstreamCalculationData()).toEqual([
+      { title: 'emissions' },
+      { title: 'frictionalPowerloss' },
+    ]);
+  });
+
+  it('should compute affected headers correctly', () => {
+    expect(component.affectedHeaders()).toEqual([
+      { title: 'otherItem' },
+      { title: 'emissions' },
+      { title: 'frictionalPowerloss' },
+    ]);
+  });
+
+  it('should set error title correctly', () => {
+    expect(component.errorTitle()).toBe('Calculation Errors');
+  });
+
+  it('should open the dialog with correct data', () => {
+    component.showErrorsDialog();
+
+    expect(component['dialog'].open).toHaveBeenCalledWith(
+      CalculationPreviewErrorsDialogComponent,
+      {
+        hasBackdrop: true,
+        autoFocus: true,
+        panelClass: 'calculation-errors-dialog',
+        maxWidth: '750px',
+        data: {
+          title: 'Calculation Errors',
+          downstreamPreviewItems: [
+            { title: 'emissions' },
+            { title: 'frictionalPowerloss' },
+          ],
+          downstreamErrors: ['Downstream Error 1'],
+          catalogPreviewItems: [{ title: 'otherItem' }],
+          catalogErrors: ['Error 1', 'Error 2'],
+        },
+      }
+    );
+  });
+
+  it('should observe errorContainer on ngAfterViewInit', () => {
+    const observeSpy = jest.spyOn(
+      mockResizeObserver.mock.results[0].value,
+      'observe'
+    );
+    spectator.component.ngAfterViewInit();
+
+    expect(observeSpy).toHaveBeenCalledWith(
+      spectator.component.errorContainer.nativeElement
+    );
+  });
+
+  it('should unobserve errorContainer on ngOnDestroy', () => {
+    const unobserveSpy = jest.spyOn(
+      mockResizeObserver.mock.results[0].value,
+      'unobserve'
+    );
+    spectator.component.ngOnDestroy();
+    expect(unobserveSpy).toHaveBeenCalledWith(
+      spectator.component.errorContainer.nativeElement
+    );
+  });
+
+  it('should update isOverflowing correctly in checkOverflow', () => {
+    const element = spectator.component.errorContainer.nativeElement;
+    jest.spyOn(element, 'scrollHeight', 'get').mockReturnValue(200);
+    jest.spyOn(element, 'clientHeight', 'get').mockReturnValue(100);
+
+    spectator.component.checkOverflow();
+    expect(spectator.component.isOverflowing).toBe(true);
+
+    jest.spyOn(element, 'scrollHeight', 'get').mockReturnValue(100);
+    jest.spyOn(element, 'clientHeight', 'get').mockReturnValue(200);
+
+    spectator.component.checkOverflow();
+    expect(spectator.component.isOverflowing).toBe(false);
+  });
+
+  it('should handle null element gracefully', () => {
+    spectator.component.errorContainer.nativeElement = undefined;
+
+    spectator.component.checkOverflow();
+    expect(spectator.component.isOverflowing).toBe(false);
   });
 });

@@ -288,6 +288,8 @@
     "usageTooltip": "Gesamte durch Reibung verursachte CO₂-Emissionen.",
     "yearlyEmissionInfo": "(24/7 Betrieb für ein Jahr)",
     "hourlyEmissionInfo": "{{ unit }} für {{ hours }} h",
+    "calculationErrorsTitle": "Berechnungsfehler",
+    "showErrors": "Fehler anzeigen",
     "downstreamErrors": {
       "modelNotExisting": "Die Berechnung der Reibungsverluste und CO2e-Emissionen wird für dieses Lager nicht zur Verfügung gestellt.",
       "modelLubricationNotSupported": "Die Berechnung der Reibungsverluste und CO2e-Emissionen wird für dieses Lager und der gewählten Schmierung nicht zur Verfügung gestellt.",

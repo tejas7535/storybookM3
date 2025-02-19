@@ -40,7 +40,6 @@ import { OverrollingFrequenciesPreviewItemComponent } from '../overrolling-frequ
 })
 export class CalculationResultPreviewComponent {
   @Input() sticky = true;
-  public errorsExpanded = false;
   public isMobile = Capacitor.isNativePlatform();
   public overlayData$ =
     this.calculationResultFacade.getCalculationResultPreviewData$;

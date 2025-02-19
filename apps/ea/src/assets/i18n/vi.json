@@ -285,6 +285,8 @@
     "usageTooltip": "Tổng lượng phát thải CO2 do mất điện năng.",
     "yearlyEmissionInfo": "(sử dụng 24/7 trong một năm)",
     "hourlyEmissionInfo": "{{ unit }} cho {{ hours }} giờ",
+    "calculationErrorsTitle": "Lỗi tính toán",
+    "showErrors": "Hiển thị lỗi",
     "downstreamErrors": {
       "modelNotExisting": "The calculation of frictional power losses and CO2e emissions is not provided for this bearing.",
       "modelLubricationNotSupported": "The calculation of frictional power losses and CO2e emissions is not provided for this bearing and the selected lubrication.",

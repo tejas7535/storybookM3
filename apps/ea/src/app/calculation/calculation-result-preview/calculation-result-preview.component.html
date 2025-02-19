@@ -74,6 +74,7 @@
           <div
             class="result-data"
             class="flex touch-pan-x snap-x snap-mandatory flex-row gap-2 md:max-w-auto md:mx-2 overflow-x-auto max-w-full md:ml-0 md:mr-4 active-scrollbar pb-1 mx-[20vw]"
+            *transloco="let r; read: 'calculationResult'"
           >
             @if (
               calculationFailureData?.errors?.length > 0 ||
@@ -84,7 +85,7 @@
                   [errors]="calculationFailureData.errors"
                   [downstreamErrors]="calculationFailureData.downstreamErrors"
                   [overlayData]="overlayData$ | ngrxPush"
-                  [(expanded)]="errorsExpanded"
+                  [errorTitle]="r('calculationErrorsTitle')"
                 ></ea-calculation-result-preview-errors>
               </div>
             }
@@ -94,20 +95,7 @@
               let isFirst = $first,
               isLast = $last
             ) {
-              <div
-                [class.hidden]="
-                  (calculationFailureData?.errors?.length > 0 &&
-                    !item.title.includes('emissions') &&
-                    !item.title.includes('frictionalPowerloss')) ||
-                  (calculationFailureData?.errors?.length && errorsExpanded)
-                "
-                [class.hidden]="
-                  (calculationFailureData?.downstreamErrors?.length > 0 &&
-                    item.title.includes('frictionalPowerloss')) ||
-                  (calculationFailureData?.downstreamErrors?.length &&
-                    errorsExpanded)
-                "
-              >
+              <div>
                 @if (item.title.includes('overrolling')) {
                   <div
                     class="snap-center mb-1 sm:my-1 md:my-0 min-w-[220px] w-min flex justify-center"
@@ -158,9 +146,6 @@
         <button
           mat-flat-button
           class="grow md:mx-0 mx-4"
-          [class.hidden]="
-            calculationFailureData?.errors?.length > 0 && errorsExpanded
-          "
           [disabled]="
             (isCalculationResultReportAvailable$ | ngrxPush) === false
           "

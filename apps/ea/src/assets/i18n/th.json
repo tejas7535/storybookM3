@@ -285,6 +285,8 @@
     "usageTooltip": "การปล่อย CO2 โดยรวมที่เกิดจากการสูญเสียพลังงาน",
     "yearlyEmissionInfo": "(การใช้งาน 24/7 เป็นเวลาหนึ่งปี)",
     "hourlyEmissionInfo": "{{ unit }} สำหรับ {{ hours }} ชม",
+    "calculationErrorsTitle": "ข้อผิดพลาดในการคำนวณ",
+    "showErrors": "แสดงข้อผิดพลาด",
     "downstreamErrors": {
       "modelNotExisting": "The calculation of frictional power losses and CO2e emissions is not provided for this bearing.",
       "modelLubricationNotSupported": "The calculation of frictional power losses and CO2e emissions is not provided for this bearing and the selected lubrication.",

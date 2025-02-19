@@ -1,55 +1,44 @@
 <ng-container *transloco="let t; read: 'calculationResult'">
-  <div
-    class="flex flex-col w-[62vw] sm:w-[70vw] md:w-auto gap-1 md:gap-3 flex-shrink-0 items-center justify-between md:justify-center md:h-auto h-full"
-    [class.expanded-container]="expanded"
-  >
-    <div class="flex flex-row flex-wrap gap-1 md:gap-4 justify-center">
-      @for (item of getAffectedItems(); track item; let isLast = $last) {
-        <div class="flex gap-1 md:gap-3 text-medium-emphasis text-body-small">
-          <span>
-            {{ t(item.title) }}
-          </span>
-          <mat-divider
-            class="md:block"
-            [class.!hidden]="isLast"
-            [vertical]="true"
-          ></mat-divider>
-        </div>
-      }
-    </div>
+  @if (affectedHeaders().length > 0) {
     <div
-      class="flex items-center max-w-[95vw] md:max-w-[38vw] xl:max-w-[44vw] transition-all duration-500 ease-in-out"
-      [class.expanded-errors]="expanded"
+      class="flex flex-col w-[45vw] sm:w-[50vw] md:w-[45vw] lg:w-[40vw] xl:w-auto gap-1 md:gap-3 flex-shrink-0 items-center justify-between md:justify-center md:h-auto h-full"
     >
-      <div class="flex flex-shrink-0 mr-3">
-        <mat-icon class="text-error">warning</mat-icon>
+      <div class="flex flex-row flex-wrap gap-1 md:gap-4 justify-center">
+        @for (item of affectedHeaders(); track item; let isLast = $last) {
+          <div class="flex gap-1 md:gap-3 text-medium-emphasis text-body-small">
+            <span>
+              {{ t(item.title) }}
+            </span>
+            <mat-divider
+              class="md:block"
+              [class.!hidden]="isLast"
+              [vertical]="true"
+            ></mat-divider>
+          </div>
+        }
       </div>
-      @if (inlineErrors || inlineDownstreamErrors) {
-        <div
-          class="text-body-medium text-high-emphasis flex max-h-12 overflow-hidden transition-all duration-500 ease-in-out"
-          [class.expanded-errors-content]="expanded"
-        >
-          {{ getCombinedInlineErrors() }}
+      <div class="flex items-center max-w-[95vw] sm:max-w-[vw]">
+        <div class="flex flex-shrink-0 mr-3">
+          <mat-icon class="text-error">warning</mat-icon>
         </div>
-      }
-      <button
-        class="icon-button-primary"
-        (click)="toggleErrors()"
-        mat-icon-button
-      >
-        @if (!expanded) {
-          <mat-icon class="hidden md:block">chevron_right</mat-icon>
-        }
-        @if (!expanded) {
-          <mat-icon class="md:hidden"> expand_more</mat-icon>
-        }
-        @if (expanded) {
-          <mat-icon class="hidden md:block">chevron_left</mat-icon>
-        }
-        @if (expanded) {
-          <mat-icon class="md:hidden"> expand_less</mat-icon>
-        }
-      </button>
+
+        <div
+          #errorContainer
+          class="text-body-medium text-high-emphasis overflow-hidden md:max-w-md hidden sm:flex max-h-16 overflow-y-scroll"
+          [ngClass]="{ '!overflow-hidden': !isOverflowing }"
+        >
+          {{ combinedErrors() }}
+        </div>
+
+        <button
+          class="sm:hidden whitespace-nowrap ml-1 min-w-[auto]"
+          [ngClass]="{ 'sm:!flex': isOverflowing }"
+          mat-stroked-button
+          (click)="showErrorsDialog()"
+        >
+          {{ t('showErrors') }}
+        </button>
+      </div>
     </div>
-  </div>
+  }
 </ng-container>

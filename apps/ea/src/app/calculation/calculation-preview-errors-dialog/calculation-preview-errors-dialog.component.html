@@ -1,0 +1,27 @@
+<div mat-dialog-title>
+  <div class="flex flex-row content-around justify-between pb-2 pr-2">
+    <div class="text-title-large text-high-emphasis my-auto">
+      <p>{{ title() }}</p>
+    </div>
+    <button
+      mat-icon-button
+      (click)="closeDialog()"
+      class="flex flex-row items-center"
+    >
+      <mat-icon class="text-medium-emphasis">close</mat-icon>
+    </button>
+  </div>
+</div>
+<mat-dialog-content>
+  <ea-calculation-preview-errors-item
+    [previewItems]="downstreamPreviewItems()"
+    [errors]="downstreamErrors()"
+  >
+  </ea-calculation-preview-errors-item>
+
+  <ea-calculation-preview-errors-item
+    [previewItems]="catalogPreviewItems()"
+    [errors]="catalogErrors()"
+  >
+  </ea-calculation-preview-errors-item>
+</mat-dialog-content>

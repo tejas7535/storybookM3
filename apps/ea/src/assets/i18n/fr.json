@@ -285,6 +285,8 @@
     "usageTooltip": "Émissions totales de CO2 causées par la perte d'énergie.",
     "yearlyEmissionInfo": "(utilisation 24/7 pendant un an)",
     "hourlyEmissionInfo": "{{ unit }} pour {{ hours }} h",
+    "calculationErrorsTitle": "Erreurs de calcul",
+    "showErrors": "Afficher les erreurs",
     "downstreamErrors": {
       "modelNotExisting": "The calculation of frictional power losses and CO2e emissions is not provided for this bearing.",
       "modelLubricationNotSupported": "The calculation of frictional power losses and CO2e emissions is not provided for this bearing and the selected lubrication.",

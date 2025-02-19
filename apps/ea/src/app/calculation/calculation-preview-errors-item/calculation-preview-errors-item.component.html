@@ -1,0 +1,20 @@
+@if (errors().length > 0 && previewItems().length > 0) {
+  <div class="p-1" *transloco="let t; read: 'calculationResult'">
+    <div class="flex flex-wrap gap-1 mb-2 text-medium-emphasis text-body-smal">
+      @for (item of previewItems(); track item; let isLast = $last) {
+        <span>{{ t(item.title) }}</span>
+
+        <mat-divider
+          class="md:block"
+          [class.!hidden]="isLast"
+          [vertical]="true"
+        ></mat-divider>
+      }
+    </div>
+    <ul>
+      @for (error of errors(); track error) {
+        <li class="ml-2 list-disc">{{ error }}</li>
+      }
+    </ul>
+  </div>
+}

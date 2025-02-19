@@ -1,11 +1,18 @@
+import { NgClass } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
-  EventEmitter,
-  Input,
-  Output,
+  computed,
+  effect,
+  ElementRef,
+  input,
+  OnDestroy,
+  ViewChild,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -14,10 +21,11 @@ import { CalculationResultPreviewItem } from '@ea/core/store/models';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { CalculationPreviewErrorsDialogComponent } from '../calculation-preview-errors-dialog/calculation-preview-errors-dialog.component';
+
 @Component({
   selector: 'ea-calculation-result-preview-errors',
   templateUrl: './calculation-result-preview-errors.component.html',
-  styleUrls: ['./calculation-result-preview-errors.component.scss'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -26,60 +34,111 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
     MatDividerModule,
     MatSidenavModule,
     MatButtonModule,
+    NgClass,
   ],
 })
-export class CalculationResultPreviewErrorsComponent {
-  @Input() public expanded = false;
-  @Output() public expandedChange = new EventEmitter<boolean>();
+export class CalculationResultPreviewErrorsComponent
+  implements AfterViewInit, OnDestroy
+{
+  @ViewChild('errorContainer') errorContainer!: ElementRef;
 
-  public inlineErrors = '';
-  public inlineDownstreamErrors = '';
-  public catalogCalculationData: CalculationResultPreviewItem[] = [];
-  public downstreamCalculationData: CalculationResultPreviewItem[] = [];
-  public affectedItems: CalculationResultPreviewItem[] = [];
+  errors = input.required<string[] | undefined>();
+  downstreamErrors = input.required<string[]>();
+  errorTitle = input.required<string>();
 
-  @Input() set errors(errors: string[]) {
-    this.inlineErrors = '';
-    if (errors?.length > 0) {
-      this.inlineErrors = errors.join(' ');
+  combinedErrors = computed(() => {
+    const combined = [];
+
+    if (this.downstreamCalculationData().length > 0) {
+      combined.push(...this.downstreamErrors());
     }
-  }
-  @Input() set downstreamErrors(errors: string[]) {
-    this.inlineDownstreamErrors = '';
-    if (errors.length > 0) {
-      this.inlineDownstreamErrors = errors.join(' ');
+
+    if (this.catalogCalculationData().length > 0) {
+      combined.push(...(this.errors() ?? []));
     }
-  }
 
-  @Input()
-  set overlayData(data: CalculationResultPreviewItem[]) {
-    const downstreamItems = new Set(['emissions', 'frictionalPowerloss']);
-    this.catalogCalculationData = data.filter(
-      (item) => !downstreamItems.has(item.title)
-    );
-    this.downstreamCalculationData = data.filter((item) =>
-      downstreamItems.has(item.title)
-    );
-  }
+    return combined.join(' ');
+  });
 
-  public getAffectedItems(): CalculationResultPreviewItem[] {
+  isOverflowing = false;
+
+  overlayData = input.required<CalculationResultPreviewItem[]>();
+
+  readonly downstreamItems = new Set(['emissions', 'frictionalPowerloss']);
+  catalogCalculationData = computed(() =>
+    this.overlayData().filter((item) => !this.downstreamItems.has(item.title))
+  );
+
+  downstreamCalculationData = computed(() =>
+    this.overlayData().filter((item) => this.downstreamItems.has(item.title))
+  );
+
+  affectedHeaders = computed(() => {
     const items: CalculationResultPreviewItem[] = [];
-    if (this.inlineErrors) {
-      items.push(...this.catalogCalculationData);
+    if (this.errors()?.length > 0) {
+      items.push(...this.catalogCalculationData());
     }
-    if (this.inlineDownstreamErrors) {
-      items.push(...this.downstreamCalculationData);
+    if (this.downstreamErrors().length > 0) {
+      items.push(...this.downstreamCalculationData());
     }
 
     return items;
+  });
+
+  private resizeObserver!: ResizeObserver;
+
+  private dialogRef: MatDialogRef<CalculationPreviewErrorsDialogComponent> | null =
+    undefined;
+
+  constructor(
+    private readonly dialog: MatDialog,
+    private readonly changeDetectionRef: ChangeDetectorRef
+  ) {
+    effect(() => {
+      const catalogErrors = this.errors();
+      if (catalogErrors && this.dialogRef) {
+        this.dialogRef.componentInstance.catalogErrors = this.errors;
+      }
+    });
   }
 
-  public getCombinedInlineErrors(): string {
-    return [this.inlineErrors, this.inlineDownstreamErrors].join(' ');
+  ngAfterViewInit(): void {
+    this.resizeObserver = new ResizeObserver(() => {
+      this.checkOverflow();
+    });
+
+    if (this.errorContainer) {
+      this.resizeObserver.observe(this.errorContainer.nativeElement);
+    }
   }
 
-  toggleErrors() {
-    this.expanded = !this.expanded;
-    this.expandedChange.emit(this.expanded);
+  ngOnDestroy() {
+    if (this.resizeObserver && this.errorContainer) {
+      this.resizeObserver.unobserve(this.errorContainer.nativeElement);
+    }
+  }
+
+  public showErrorsDialog() {
+    this.dialogRef = this.dialog.open(CalculationPreviewErrorsDialogComponent, {
+      hasBackdrop: true,
+      autoFocus: true,
+      panelClass: 'calculation-errors-dialog',
+      maxWidth: '750px',
+      data: {
+        title: this.errorTitle(),
+        downstreamPreviewItems: this.downstreamCalculationData(),
+        downstreamErrors: this.downstreamErrors(),
+        catalogPreviewItems: this.catalogCalculationData(),
+        catalogErrors: this.errors() ?? [],
+      },
+    });
+  }
+
+  checkOverflow() {
+    const element = this.errorContainer?.nativeElement;
+    this.isOverflowing = element
+      ? element.scrollHeight > element.clientHeight
+      : false;
+    this.changeDetectionRef.detectChanges();
   }
 }

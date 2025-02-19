@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 
 import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
 import { APP_STATE_MOCK } from '@ea/testing/mocks';
@@ -17,11 +17,12 @@ import {
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockModule } from 'ng-mocks';
+import { MockComponent, MockModule } from 'ng-mocks';
 
 import { sharedTranslocoLocaleConfig } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { CalculationResultPreviewErrorsComponent } from '../calculation-result-preview-errors/calculation-result-preview-errors.component';
 import { CalculationResultPreviewComponent } from './calculation-result-preview.component';
 
 const analyticsServiceMock = {
@@ -53,8 +54,6 @@ describe('CalculationResultPreviewComponent', () => {
     imports: [
       PushPipe,
       LetDirective,
-
-      // Material Modules
       MockModule(MatButtonModule),
       MatIconTestingModule,
       MockModule(MatTooltipModule),
@@ -62,7 +61,7 @@ describe('CalculationResultPreviewComponent', () => {
       MockModule(DialogModule),
 
       provideTranslocoTestingModule({ en: {} }),
-      RouterTestingModule,
+      MockComponent(CalculationResultPreviewErrorsComponent),
     ],
     providers: [
       provideMockStore({
@@ -90,6 +89,7 @@ describe('CalculationResultPreviewComponent', () => {
         provide: TrackingService,
         useValue: analyticsServiceMock,
       },
+      provideRouter([]),
     ],
   });
 
@@ -104,7 +104,6 @@ describe('CalculationResultPreviewComponent', () => {
     const button = spectator.queryLast('button');
 
     expect(button).toBeTruthy();
-    // with title
     expect(button.textContent).toContain('calculation.showReport');
   });
 
