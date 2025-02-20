@@ -201,6 +201,21 @@ export const createCustomerCaseFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
+export const createCustomerOgpCase = createAction(
+  '[Create Case] Create Customer OGP Case',
+  props<{ createCaseData: CreateCaseHeaderData }>()
+);
+
+export const createCustomerOgpCaseSuccess = createAction(
+  '[Create Case] Create Customer OGP Case Success',
+  props<{ createdCase: CreateCaseResponse }>()
+);
+
+export const createCustomerOgpCaseFailure = createAction(
+  '[Create Case] Create Customer OGP Case Failure',
+  props<{ errorMessage: string }>()
+);
+
 export const resetCustomerFilter = createAction(
   '[Create Case] Reset Autocomplete Customer'
 );

@@ -15,6 +15,7 @@ import { BehaviorSubject, combineLatest, map, Observable, of } from 'rxjs';
 import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module';
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { CurrencyModule } from '@gq/core/store/currency/currency.module';
+import { OverlayComponent } from '@gq/f-pricing/pricing-assistant-modal/overlay/overlay.component';
 import { CreateCaseHeaderInformationComponent } from '@gq/shared/components/case-header-information/create-case-header-information/create-case-header-information.component';
 import { HeaderInformationData } from '@gq/shared/components/case-header-information/models/header-information-data.interface';
 import { AdditionalFiltersComponent } from '@gq/shared/components/case-material/additional-filters/additional-filters.component';
@@ -27,9 +28,10 @@ import {
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
-import { PushPipe } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -52,6 +54,9 @@ type typeAnimation = 'fade-in' | 'fade-out';
     SharedPipesModule,
     MaterialSelectionComponent,
     AdditionalFiltersComponent,
+    LoadingSpinnerModule,
+    LetDirective,
+    OverlayComponent,
   ],
   providers: [
     { provide: TRANSLOCO_SCOPE, useValue: 'create-customer-case-view' },
@@ -100,13 +105,16 @@ export class CreateCustomerCaseViewComponent implements AfterViewInit {
     )
   );
 
+  caseCreating$: Observable<boolean> = this.createCaseFacade.createCaseLoading$;
+
   createCase(): void {
     // fetch the data for case creation
     // and provide it to the create case facade
     this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_FINISHED, {
       type: CASE_CREATION_TYPES.FROM_CUSTOMER,
     } as CaseCreationEventParams);
-    console.log('createCase');
+
+    this.createCaseFacade.createNewCustomerOgpCase(this.headerInformationData);
   }
 
   ngAfterViewInit() {
@@ -125,7 +133,7 @@ export class CreateCustomerCaseViewComponent implements AfterViewInit {
       type: CASE_CREATION_TYPES.FROM_CUSTOMER,
     } as CaseCreationEventParams);
 
-    this.createCaseFacade.resetCaseCreationInformation();
+    this.createCaseFacade.resetCaseCreationInformation(true);
   }
 
   resetAll(): void {
@@ -143,6 +151,5 @@ export class CreateCustomerCaseViewComponent implements AfterViewInit {
   }
   handleHeaderInformationData(headerInformation: HeaderInformationData): void {
     this.headerInformationData = headerInformation;
-    console.log('headerInformationData', this.headerInformationData);
   }
 }

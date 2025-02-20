@@ -44,6 +44,9 @@ import {
   createCustomerCase,
   createCustomerCaseFailure,
   createCustomerCaseSuccess,
+  createCustomerOgpCase,
+  createCustomerOgpCaseFailure,
+  createCustomerOgpCaseSuccess,
   createOgpCase,
   createOgpCaseFailure,
   createOgpCaseSuccess,
@@ -66,6 +69,7 @@ import {
 } from '../../actions';
 import { RolesFacade } from '../../facades';
 import { CreateCaseOgp } from '../../reducers/create-case/models/create-case-ogp.interface';
+import { CreateCustomerCaseOgp } from '../../reducers/create-case/models/create-customer-case-ogp.interface';
 import {
   CreateCase,
   CreateCaseResponse,
@@ -462,6 +466,7 @@ export class CreateCaseEffects {
   /*
    * Create Customer Case
    */
+  // TODO: can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
   createCustomerCase$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(createCustomerCase),
@@ -483,6 +488,49 @@ export class CreateCaseEffects {
           )
         )
       )
+    );
+  });
+
+  createCustomerOgpCase$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(createCustomerOgpCase),
+      concatLatestFrom(() => [
+        this.rolesFacade.userHasRegionWorldOrGreaterChinaRole$,
+        this.store.select(getCreateCustomerCasePayload),
+      ]),
+      mergeMap(([action, userHasRegionGreaterChinaRole, requestPayload]) => {
+        const requestData: CreateCustomerCaseOgp = {
+          headerInformation: {
+            ...action.createCaseData,
+            offerTypeId: userHasRegionGreaterChinaRole
+              ? action.createCaseData.offerTypeId
+              : undefined,
+          },
+          gpsdGroupIds: requestPayload.gpsdGroupIds,
+          productLines: requestPayload.productLines,
+          salesIndications: requestPayload.salesIndications,
+          series: requestPayload.series,
+          historicalDataLimitInYear: requestPayload.historicalDataLimitInYear,
+          includeQuotationHistory: requestPayload.includeQuotationHistory,
+        };
+
+        return this.quotationService.createCustomerOgpCase(requestData).pipe(
+          tap((createdCase: CreateCaseResponse) =>
+            this.navigateAfterCaseCreate(
+              createdCase.customerId,
+              createdCase.salesOrg,
+              createdCase.gqId,
+              CreationType.CREATE_CASE
+            )
+          ),
+          map((createdCase: CreateCaseResponse) =>
+            createCustomerOgpCaseSuccess({ createdCase })
+          ),
+          catchError((errorMessage) =>
+            of(createCustomerOgpCaseFailure({ errorMessage }))
+          )
+        );
+      })
     );
   });
 

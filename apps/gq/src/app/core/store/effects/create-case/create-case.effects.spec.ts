@@ -26,6 +26,7 @@ import {
   Severity,
 } from '@gq/shared/services/rest/material/models';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
+import { CreateCustomerCase } from '@gq/shared/services/rest/search/models/create-customer-case.model';
 import { PLsSeriesRequest } from '@gq/shared/services/rest/search/models/pls-series-request.model';
 import { PLsSeriesResponse } from '@gq/shared/services/rest/search/models/pls-series-response.model';
 import { SearchService } from '@gq/shared/services/rest/search/search.service';
@@ -51,6 +52,9 @@ import {
   createCustomerCase,
   createCustomerCaseFailure,
   createCustomerCaseSuccess,
+  createCustomerOgpCase,
+  createCustomerOgpCaseFailure,
+  createCustomerOgpCaseSuccess,
   createOgpCase,
   createOgpCaseFailure,
   createOgpCaseSuccess,
@@ -75,6 +79,7 @@ import { RolesFacade } from '../../facades';
 import { initialState } from '../../reducers/create-case/create-case.reducer';
 import { CreateCaseHeaderData } from '../../reducers/create-case/models/create-case-header-data.interface';
 import { CreateCaseOgp } from '../../reducers/create-case/models/create-case-ogp.interface';
+import { CreateCustomerCaseOgp } from '../../reducers/create-case/models/create-customer-case-ogp.interface';
 import {
   CaseFilterItem,
   CreateCase,
@@ -1000,6 +1005,104 @@ describe('Create Case Effects', () => {
     });
   });
 
+  describe('createCustomerOgpCase', () => {
+    const customerPayload: CreateCustomerCase = {
+      gpsdGroupIds: ['groupId1', 'groupId2'],
+      historicalDataLimitInYear: 0,
+      includeQuotationHistory: false,
+      productLines: ['productLine1', 'productLine2'],
+      salesIndications: [SalesIndication.INVOICE],
+      series: ['series1', 'series2'],
+      customer: undefined,
+    };
+    const createCaseData: CreateCaseHeaderData = {
+      bindingPeriodValidityEndDate: '2021-12-31',
+      caseName: 'caseName',
+      customer: {
+        customerId: 'customerId',
+        salesOrg: 'salesOrg',
+      },
+      customCurrency: 'EUR',
+      customerInquiryDate: '2021-12-31',
+      quotationToDate: '2021-12-31',
+      quotationToManualInput: false,
+      shipToParty: {
+        customerId: 'customerId',
+        salesOrg: 'salesOrg',
+      },
+      offerTypeId: 1,
+      partnerRoleId: 'partnerRoleId',
+      purchaseOrderTypeId: 'purchaseOrderTypeId',
+      requestedDeliveryDate: '2021-12-31',
+    };
+    beforeEach(() => {
+      jest.resetAllMocks();
+      store.overrideSelector(getCreateCustomerCasePayload, customerPayload);
+    });
+    test(
+      'should return createCustomerCaseSuccess when REST call was successful',
+      marbles((m) => {
+        router.navigate = jest.fn();
+        snackBar.open = jest.fn();
+        action = createCustomerOgpCase({ createCaseData });
+
+        const expectedRequest: CreateCustomerCaseOgp = {
+          headerInformation: createCaseData,
+          gpsdGroupIds: customerPayload.gpsdGroupIds,
+          historicalDataLimitInYear: customerPayload.historicalDataLimitInYear,
+          includeQuotationHistory: customerPayload.includeQuotationHistory,
+          productLines: customerPayload.productLines,
+          salesIndications: customerPayload.salesIndications,
+          series: customerPayload.series,
+        };
+        const createdCaseResponse: CreateCaseResponse = {
+          customerId: '',
+          gqId: 0,
+          salesOrg: '',
+        };
+        const result = createCustomerOgpCaseSuccess({
+          createdCase: createdCaseResponse,
+        });
+
+        actions$ = m.hot('--a', { a: action });
+        const response = m.cold('--a|', {
+          a: createdCaseResponse,
+        });
+        quotationService.createCustomerOgpCase = jest.fn(() => response);
+
+        const expected = m.cold('----b', { b: result });
+        m.expect(effects.createCustomerOgpCase$).toBeObservable(expected);
+        m.flush();
+
+        expect(quotationService.createCustomerOgpCase).toHaveBeenCalledTimes(1);
+        expect(quotationService.createCustomerOgpCase).toHaveBeenCalledWith(
+          expectedRequest
+        );
+        expect(router.navigate).toHaveBeenCalledTimes(1);
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+      })
+    );
+
+    test(
+      'should return validateFailure on REST error',
+      marbles((m) => {
+        const errorMessage = 'errorMessage';
+
+        const result = createCustomerOgpCaseFailure({ errorMessage });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
+
+        quotationService.createCustomerOgpCase = jest.fn(() => response);
+
+        m.expect(effects.createCustomerOgpCase$).toBeObservable(expected);
+        m.flush();
+
+        expect(quotationService.createCustomerOgpCase).toHaveBeenCalledTimes(1);
+      })
+    );
+  });
   describe('navigateBackToCaseOverviewPage', () => {
     test(
       'should navigate to case overview page',

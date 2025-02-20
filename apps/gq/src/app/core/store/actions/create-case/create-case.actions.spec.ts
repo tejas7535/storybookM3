@@ -24,6 +24,9 @@ import {
   createCustomerCase,
   createCustomerCaseFailure,
   createCustomerCaseSuccess,
+  createCustomerOgpCase,
+  createCustomerOgpCaseFailure,
+  createCustomerOgpCaseSuccess,
   createOgpCase,
   createOgpCaseFailure,
   createOgpCaseSuccess,
@@ -469,6 +472,39 @@ describe('Create Actions', () => {
       expect(action).toEqual({
         errorMessage,
         type: '[Create Case] Create Customer Case Failure',
+      });
+    });
+  });
+
+  describe('createCustomerOgpCase', () => {
+    test('createCustomerOgpCase', () => {
+      const createCaseData = {
+        customerId: '1234',
+        salesOrg: '256',
+      } as unknown as CreateCaseHeaderData;
+      const action = createCustomerOgpCase({ createCaseData });
+
+      expect(action).toEqual({
+        createCaseData,
+        type: '[Create Case] Create Customer OGP Case',
+      });
+    });
+
+    test('createCustomerOgpCaseSuccess', () => {
+      const action = createCustomerOgpCaseSuccess({ createdCase: undefined });
+
+      expect(action).toEqual({
+        type: '[Create Case] Create Customer OGP Case Success',
+      });
+    });
+
+    test('createCustomerOgpCaseFailure', () => {
+      const errorMessage = 'errorMessage';
+      const action = createCustomerOgpCaseFailure({ errorMessage });
+
+      expect(action).toEqual({
+        errorMessage,
+        type: '[Create Case] Create Customer OGP Case Failure',
       });
     });
   });

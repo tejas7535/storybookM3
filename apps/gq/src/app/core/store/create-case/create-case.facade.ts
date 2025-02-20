@@ -19,6 +19,7 @@ import {
   clearPurchaseOrderType,
   clearSectorGpsd,
   clearShipToParty,
+  createCustomerOgpCase,
   createOgpCase,
   getPLsAndSeries,
   navigateToCaseOverView,
@@ -127,6 +128,20 @@ export class CreateCaseFacade {
     this.shipToPartyFacade.resetAllShipToParties();
   }
 
+  createNewOgpCase(headerInformationData: HeaderInformationData): void {
+    const requestData: CreateCaseHeaderData = this.getHeaderRequestData(
+      headerInformationData
+    );
+    this.store.dispatch(createOgpCase({ createCaseData: requestData }));
+  }
+
+  createNewCustomerOgpCase(headerInformationData: HeaderInformationData): void {
+    const requestData: CreateCaseHeaderData = this.getHeaderRequestData(
+      headerInformationData
+    );
+    this.store.dispatch(createCustomerOgpCase({ createCaseData: requestData }));
+  }
+
   updateCurrencyOfPositionItems(currency: string): void {
     this.store.dispatch(setRowDataCurrency({ currency }));
     this.store.dispatch(updateCurrencyOfPositionItems());
@@ -158,8 +173,10 @@ export class CreateCaseFacade {
     this.store.dispatch(clearCreateCaseRowData());
   }
 
-  createNewOgpCase(headerInformationData: HeaderInformationData): void {
-    const requestData: CreateCaseHeaderData = {
+  private getHeaderRequestData(
+    headerInformationData: HeaderInformationData
+  ): CreateCaseHeaderData {
+    return {
       customer: {
         customerId: headerInformationData.customer.id,
         salesOrg: headerInformationData.salesOrg.id,
@@ -182,6 +199,5 @@ export class CreateCaseFacade {
       requestedDeliveryDate:
         headerInformationData.requestedDeliveryDate?.toISOString(),
     };
-    this.store.dispatch(createOgpCase({ createCaseData: requestData }));
   }
 }

@@ -33,6 +33,9 @@ import {
   createCustomerCase,
   createCustomerCaseFailure,
   createCustomerCaseSuccess,
+  createCustomerOgpCase,
+  createCustomerOgpCaseFailure,
+  createCustomerOgpCaseSuccess,
   createOgpCase,
   createOgpCaseFailure,
   createOgpCaseSuccess,
@@ -736,6 +739,32 @@ export const createCaseReducer = createReducer(
   ),
   on(
     createCustomerCaseFailure,
+    (state: CreateCaseState, { errorMessage }): CreateCaseState => ({
+      ...state,
+      createCaseLoading: false,
+      errorMessage,
+    })
+  ),
+  on(
+    createCustomerOgpCase,
+    (state: CreateCaseState): CreateCaseState => ({
+      ...state,
+      createCaseLoading: true,
+    })
+  ),
+  on(
+    createCustomerOgpCaseSuccess,
+    (state: CreateCaseState, { createdCase }): CreateCaseState => ({
+      ...state,
+      createCaseLoading: false,
+      createdCase,
+      autocompleteItems: initialState.autocompleteItems,
+      plSeries: initialState.plSeries,
+      customer: initialState.customer,
+    })
+  ),
+  on(
+    createCustomerOgpCaseFailure,
     (state: CreateCaseState, { errorMessage }): CreateCaseState => ({
       ...state,
       createCaseLoading: false,

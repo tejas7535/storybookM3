@@ -26,6 +26,9 @@ import {
   createCustomerCase,
   createCustomerCaseFailure,
   createCustomerCaseSuccess,
+  createCustomerOgpCase,
+  createCustomerOgpCaseFailure,
+  createCustomerOgpCaseSuccess,
   createOgpCase,
   createOgpCaseFailure,
   createOgpCaseSuccess,
@@ -1497,6 +1500,31 @@ describe('Create Case Reducer', () => {
           expect(state.errorMessage).toEqual(errorMessage);
         });
       });
+    });
+  });
+
+  describe('createCustomerOgpCase Actions', () => {
+    test('should set createCaseLoading to true', () => {
+      const action = createCustomerOgpCase({ createCaseData: undefined });
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+      expect(state.createCaseLoading).toBeTruthy();
+    });
+    test('should set createCaseLoading to false', () => {
+      const createdCase: CreateCaseResponse = {
+        salesOrg: '0267',
+        customerId: '123',
+        gqId: 1010,
+      };
+      const action = createCustomerOgpCaseSuccess({ createdCase });
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+      expect(state.createdCase).toEqual(createdCase);
+    });
+    test('should set createCaseLoading to false when failure', () => {
+      const errorMessage = 'error';
+      const action = createCustomerOgpCaseFailure({ errorMessage });
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+      expect(state.createCaseLoading).toBeFalsy();
+      expect(state.errorMessage).toBe(errorMessage);
     });
   });
   describe('resetCustomerFilter', () => {

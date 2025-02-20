@@ -254,6 +254,56 @@ describe('CreateCaseFacade', () => {
         });
       });
     });
+
+    describe('createNewCustomerOgpCase', () => {
+      test('should dispatch createCustomerOgpCase action', () => {
+        mockStore.dispatch = jest.fn();
+        const inputHeaderInformation: HeaderInformationData = {
+          bindingPeriodValidityEndDate: moment(new Date('2025-02-17')),
+          caseName: 'a caseName',
+          currency: 'EUR',
+          customerInquiryDate: moment(new Date('2025-02-17')),
+          offerType: { id: 1, name: 'offerType' },
+          customer: { id: '20014', value: 'customerName', selected: true },
+          partnerRoleType: { id: '1', name: 'partnerRoleType' },
+          purchaseOrderType: { id: '1', name: 'purchaseOrderType' },
+          quotationToDate: moment(new Date('2025-02-17')),
+          quotationToManualInput: false,
+          requestedDeliveryDate: moment(new Date('2025-02-17')),
+          salesOrg: { id: '1', selected: true },
+          shipToParty: { id: '1', value: 'shipToParty', selected: true },
+        };
+        const expectedActionInput: CreateCaseHeaderData = {
+          customer: {
+            customerId: inputHeaderInformation.customer.id,
+            salesOrg: inputHeaderInformation.salesOrg.id,
+          },
+          bindingPeriodValidityEndDate:
+            inputHeaderInformation.bindingPeriodValidityEndDate.toISOString(),
+          caseName: inputHeaderInformation.caseName,
+          customCurrency: inputHeaderInformation.currency,
+          customerInquiryDate:
+            inputHeaderInformation.customerInquiryDate.toISOString(),
+          offerTypeId: inputHeaderInformation.offerType?.id,
+          partnerRoleId: inputHeaderInformation.partnerRoleType?.id,
+          purchaseOrderTypeId: inputHeaderInformation.purchaseOrderType?.id,
+          quotationToDate: inputHeaderInformation.quotationToDate.toISOString(),
+          quotationToManualInput: inputHeaderInformation.quotationToManualInput,
+          requestedDeliveryDate:
+            inputHeaderInformation.requestedDeliveryDate?.toISOString(),
+          shipToParty: {
+            customerId: inputHeaderInformation.shipToParty.id,
+            salesOrg: inputHeaderInformation.salesOrg.id,
+          },
+        };
+        facade.createNewCustomerOgpCase(inputHeaderInformation);
+
+        expect(mockStore.dispatch).toHaveBeenCalledWith({
+          createCaseData: expectedActionInput,
+          type: '[Create Case] Create Customer OGP Case',
+        });
+      });
+    });
   });
   describe('getQuotationToDate', () => {
     test('should dispatch getQuotationToDate action', () => {

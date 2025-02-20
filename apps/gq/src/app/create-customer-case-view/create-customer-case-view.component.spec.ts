@@ -160,6 +160,21 @@ describe('CreateCustomerCaseViewComponent', () => {
     );
   });
 
+  describe('createCase', () => {
+    test('should call createCaseFacade.createCase and insightService.logEvent', () => {
+      component['insightsService'].logEvent = jest.fn();
+      component['createCaseFacade'].createNewCustomerOgpCase = jest.fn();
+      component.headerInformationData = { test: 'test' } as any;
+      component.createCase();
+      expect(component['insightsService'].logEvent).toHaveBeenCalledWith(
+        EVENT_NAMES.CASE_CREATION_FINISHED,
+        expect.any(Object)
+      );
+      expect(
+        component['createCaseFacade'].createNewCustomerOgpCase
+      ).toHaveBeenCalledWith(component.headerInformationData);
+    });
+  });
   describe('ngAfterViewInit', () => {
     test('should call insightsService.logEvent', () => {
       component['insightsService'].logEvent = jest.fn();

@@ -1,4 +1,4 @@
-import { SalesOrg } from '@gq/core/store/reducers/models';
+import { SalesOrg } from '@gq/core/store/reducers/create-case/models/sales-orgs.model';
 import { OfferType } from '@gq/shared/models/offer-type.interface';
 import { PurchaseOrderType } from '@gq/shared/models/purchase-order-type.interface';
 import { IdValue } from '@gq/shared/models/search';
