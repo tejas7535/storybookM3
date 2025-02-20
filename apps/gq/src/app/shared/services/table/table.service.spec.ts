@@ -1,3 +1,5 @@
+import { TargetPriceSource } from '@gq/shared/models/quotation/target-price-source.enum';
+
 import { MATERIAL_TABLE_ITEM_MOCK } from '../../../../testing/mocks';
 import {
   MaterialQuantities,
@@ -514,6 +516,9 @@ describe('TableService', () => {
         {
           materialNumber: '123',
           quantity: 10,
+          targetPrice: 15,
+          targetPriceSource: TargetPriceSource.INTERNAL,
+          customerMaterialNumber: '123456789',
           info: {
             description: [ValidationDescription.Valid],
             valid: true,
@@ -527,7 +532,47 @@ describe('TableService', () => {
       );
 
       const expected: MaterialQuantities[] = [
-        { materialId: '123', quantity: 10, quotationItemId: 10 },
+        {
+          materialId: '123',
+          quantity: 10,
+          quotationItemId: 10,
+          targetPrice: 15,
+          targetPriceSource: TargetPriceSource.INTERNAL,
+          customerMaterial: '123456789',
+        },
+      ];
+      expect(result).toEqual(expected);
+    });
+
+    test('should not set falsy values in request body', () => {
+      const rowData: MaterialTableItem[] = [
+        {
+          materialNumber: '123',
+          quantity: 10,
+          targetPrice: 0,
+          targetPriceSource: null,
+          customerMaterialNumber: '',
+          info: {
+            description: [ValidationDescription.Valid],
+            valid: true,
+          },
+        },
+      ];
+      const itemId = 0;
+      const result = TableService.createMaterialQuantitiesFromTableItems(
+        rowData,
+        itemId
+      );
+
+      const expected: MaterialQuantities[] = [
+        {
+          materialId: '123',
+          quantity: 10,
+          quotationItemId: 10,
+          targetPrice: undefined,
+          targetPriceSource: undefined,
+          customerMaterial: undefined,
+        },
       ];
       expect(result).toEqual(expected);
     });
@@ -538,6 +583,8 @@ describe('TableService', () => {
           materialNumber: '123',
           quantity: 10,
           targetPrice: 100,
+          targetPriceSource: TargetPriceSource.INTERNAL,
+          customerMaterialNumber: '123456789',
           priceUnit: 10,
           info: {
             description: [ValidationDescription.Valid],
@@ -557,6 +604,8 @@ describe('TableService', () => {
           quantity: 10,
           quotationItemId: 10,
           targetPrice: 100,
+          targetPriceSource: TargetPriceSource.INTERNAL,
+          customerMaterial: '123456789',
         },
       ];
       expect(result).toEqual(expected);
@@ -568,6 +617,8 @@ describe('TableService', () => {
           materialNumber: '123',
           quantity: 10,
           targetPrice: 100,
+          targetPriceSource: TargetPriceSource.INTERNAL,
+          customerMaterialNumber: '123456789',
           info: {
             description: [ValidationDescription.Valid],
             valid: true,
@@ -586,6 +637,8 @@ describe('TableService', () => {
           quantity: 10,
           quotationItemId: 10,
           targetPrice: 100,
+          targetPriceSource: TargetPriceSource.INTERNAL,
+          customerMaterial: '123456789',
         },
       ];
       expect(result).toEqual(expected);

@@ -3,4 +3,6 @@ export class MaterialQuantities {
   materialId: string;
   quantity: number;
   targetPrice?: number;
+  targetPriceSource?: string;
+  customerMaterial?: string;
 }

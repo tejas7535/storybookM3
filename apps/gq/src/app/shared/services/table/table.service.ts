@@ -8,6 +8,7 @@ import {
   ValidationDescription,
 } from '../../models/table';
 import { MaterialTableItem } from '../../models/table/material-table-item-model';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -253,7 +254,9 @@ export class TableService {
       return {
         quotationItemId: startItemId,
         materialId: el.materialNumber,
-        targetPrice: el.targetPrice,
+        targetPrice: el.targetPrice || undefined,
+        targetPriceSource: el.targetPriceSource || undefined,
+        customerMaterial: el.customerMaterialNumber || undefined,
         quantity:
           typeof el.quantity === 'string'
             ? Number.parseInt(el.quantity, 10)
