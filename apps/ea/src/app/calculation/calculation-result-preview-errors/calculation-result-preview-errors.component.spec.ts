@@ -26,6 +26,7 @@ describe('CalculationResultPreviewErrorsComponent', () => {
   });
 
   let mockResizeObserver: jest.Mock;
+  let mockMutationObserver: jest.Mock;
 
   beforeEach(() => {
     mockResizeObserver = jest.fn().mockImplementation((_callback) => ({
@@ -34,7 +35,13 @@ describe('CalculationResultPreviewErrorsComponent', () => {
       disconnect: jest.fn(),
     }));
 
+    mockMutationObserver = jest.fn().mockImplementation((_callback) => ({
+      observe: jest.fn(),
+      disconnect: jest.fn(),
+    }));
+
     window.ResizeObserver = mockResizeObserver;
+    window.MutationObserver = mockMutationObserver;
 
     spectator = createComponent({
       props: {
@@ -134,10 +141,16 @@ describe('CalculationResultPreviewErrorsComponent', () => {
       mockResizeObserver.mock.results[0].value,
       'unobserve'
     );
+    const disconnectMutationSpy = jest.spyOn(
+      mockMutationObserver.mock.results[0].value,
+      'disconnect'
+    );
+
     spectator.component.ngOnDestroy();
     expect(unobserveSpy).toHaveBeenCalledWith(
       spectator.component.errorContainer.nativeElement
     );
+    expect(disconnectMutationSpy).toHaveBeenCalled();
   });
 
   it('should update isOverflowing correctly in checkOverflow', () => {
@@ -160,5 +173,19 @@ describe('CalculationResultPreviewErrorsComponent', () => {
 
     spectator.component.checkOverflow();
     expect(spectator.component.isOverflowing).toBe(false);
+  });
+
+  it('should call checkOverflow when ResizeObserver is triggered', () => {
+    const checkOverflowSpy = jest.spyOn(spectator.component, 'checkOverflow');
+    const resizeObserverCallback = mockResizeObserver.mock.calls[0][0];
+    resizeObserverCallback();
+    expect(checkOverflowSpy).toHaveBeenCalled();
+  });
+
+  it('should call checkOverflow when MutationObserver is triggered', () => {
+    const checkOverflowSpy = jest.spyOn(spectator.component, 'checkOverflow');
+    const mutationObserverCallback = mockMutationObserver.mock.calls[0][0];
+    mutationObserverCallback();
+    expect(checkOverflowSpy).toHaveBeenCalled();
   });
 });

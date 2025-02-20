@@ -89,6 +89,7 @@ export class CalculationResultPreviewErrorsComponent
 
   private dialogRef: MatDialogRef<CalculationPreviewErrorsDialogComponent> | null =
     undefined;
+  private mutationObserver!: MutationObserver;
 
   constructor(
     private readonly dialog: MatDialog,
@@ -107,14 +108,27 @@ export class CalculationResultPreviewErrorsComponent
       this.checkOverflow();
     });
 
+    this.mutationObserver = new MutationObserver(() => {
+      this.checkOverflow();
+    });
+
     if (this.errorContainer) {
       this.resizeObserver.observe(this.errorContainer.nativeElement);
+      this.mutationObserver.observe(this.errorContainer.nativeElement, {
+        childList: true,
+        subtree: true,
+        characterData: true,
+      });
     }
   }
 
   ngOnDestroy() {
     if (this.resizeObserver && this.errorContainer) {
       this.resizeObserver.unobserve(this.errorContainer.nativeElement);
+    }
+
+    if (this.mutationObserver && this.errorContainer) {
+      this.mutationObserver.disconnect();
     }
   }
 
@@ -139,6 +153,7 @@ export class CalculationResultPreviewErrorsComponent
     this.isOverflowing = element
       ? element.scrollHeight > element.clientHeight
       : false;
+
     this.changeDetectionRef.detectChanges();
   }
 }
