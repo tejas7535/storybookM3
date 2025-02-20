@@ -1,13 +1,15 @@
+import { SalesOrg } from '@gq/core/store/reducers/models';
 import { OfferType } from '@gq/shared/models/offer-type.interface';
 import { PurchaseOrderType } from '@gq/shared/models/purchase-order-type.interface';
+import { IdValue } from '@gq/shared/models/search';
 import { SectorGpsd } from '@gq/shared/models/sector-gpsd.interface';
-import { ShipToParty } from '@gq/shared/services/rest/quotation/models/ship-to-party';
 import { Moment } from 'moment';
 
 export interface HeaderInformationData {
   bindingPeriodValidityEndDate?: Moment;
   caseName?: string;
   currency?: string;
+  customer?: IdValue;
   customerInquiryDate?: Moment;
   offerType?: OfferType;
   partnerRoleType?: SectorGpsd;
@@ -15,5 +17,6 @@ export interface HeaderInformationData {
   quotationToDate?: Moment;
   quotationToManualInput?: boolean;
   requestedDeliveryDate?: Moment;
-  shipToParty?: ShipToParty;
+  salesOrg?: SalesOrg;
+  shipToParty?: IdValue;
 }

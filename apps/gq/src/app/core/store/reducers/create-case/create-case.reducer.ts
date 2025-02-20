@@ -33,6 +33,9 @@ import {
   createCustomerCase,
   createCustomerCaseFailure,
   createCustomerCaseSuccess,
+  createOgpCase,
+  createOgpCaseFailure,
+  createOgpCaseSuccess,
   deleteRowDataItem,
   duplicateRowDataItem,
   getPLsAndSeries,
@@ -468,6 +471,33 @@ export const createCaseReducer = createReducer(
   ),
   on(
     createCaseFailure,
+    (state: CreateCaseState, { errorMessage }): CreateCaseState => ({
+      ...state,
+      errorMessage,
+      createCaseLoading: false,
+    })
+  ),
+  on(
+    createOgpCase,
+    (state: CreateCaseState): CreateCaseState => ({
+      ...state,
+      createCaseLoading: true,
+    })
+  ),
+  on(
+    createOgpCaseSuccess,
+    (state: CreateCaseState, { createdCase }): CreateCaseState => ({
+      ...state,
+      createdCase,
+      createCaseLoading: false,
+      autocompleteItems: initialState.autocompleteItems,
+      customer: initialState.customer,
+      rowData: initialState.rowData,
+      purchaseOrderType: initialState.purchaseOrderType,
+    })
+  ),
+  on(
+    createOgpCaseFailure,
     (state: CreateCaseState, { errorMessage }): CreateCaseState => ({
       ...state,
       errorMessage,

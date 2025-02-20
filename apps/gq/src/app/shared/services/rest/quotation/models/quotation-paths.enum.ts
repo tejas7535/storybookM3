@@ -1,6 +1,7 @@
 export enum QuotationPaths {
   PATH_UPLOAD_SELECTION = 'upload-selection',
   PATH_QUOTATIONS = 'quotations',
+  PATH_QUOTATIONS_OGP = 'quotations-ogp',
   PATH_QUOTATIONS_COUNT = 'count',
   PATH_QUOTATIONS_STATUS = 'quotations/status',
   PATH_REFRESH_SAP_PRICING = 'reload-from-sap',

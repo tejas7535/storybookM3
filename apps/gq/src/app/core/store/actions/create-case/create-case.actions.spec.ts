@@ -8,6 +8,7 @@ import {
   CreateCaseResponse,
   SalesOrg,
 } from '../../reducers/create-case/models';
+import { CreateCaseHeaderData } from '../../reducers/create-case/models/create-case-header-data.interface';
 import { PLsAndSeries } from '../../reducers/create-case/models/pls-and-series.model';
 import { SalesIndication } from '../../transactions/models/sales-indication.enum';
 import {
@@ -23,6 +24,9 @@ import {
   createCustomerCase,
   createCustomerCaseFailure,
   createCustomerCaseSuccess,
+  createOgpCase,
+  createOgpCaseFailure,
+  createOgpCaseSuccess,
   deleteRowDataItem,
   getPLsAndSeries,
   getPLsAndSeriesFailure,
@@ -216,6 +220,61 @@ describe('Create Actions', () => {
       expect(action).toEqual({
         errorMessage,
         type: '[Create Case] CreateCase from table and selected customer Failure',
+      });
+    });
+  });
+
+  describe('create ogp case actions', () => {
+    test('createOgpCase', () => {
+      const createCaseData = {
+        customer: {
+          customerId: '1234',
+          salesOrg: '256',
+        },
+        shipToParty: {
+          customerId: '1234',
+          salesOrg: '256',
+        },
+        bindingPeriodValidityEndDate: '2021-08-01T00:00:00.000Z',
+        caseName: 'caseName',
+        customCurrency: 'USD',
+        customerInquiryDate: '2021-08-01T00:00:00.000Z',
+        offerTypeId: 1,
+        quotationToDate: '2021-08-01T00:00:00.000Z',
+        quotationToManualInput: false,
+        partnerRoleId: 'partnerRoleId',
+        purchaseOrderTypeId: 'purchaseOrderTypeId',
+        requestedDeliveryDate: '2021-08-01T00:00:00.000Z',
+      } as CreateCaseHeaderData;
+      const action = createOgpCase({ createCaseData });
+
+      expect(action).toEqual({
+        createCaseData,
+        type: '[Create Case] Create OGP Case',
+      });
+    });
+
+    test('createOgpCaseSuccess', () => {
+      const createdCase: CreateCaseResponse = {
+        customerId: '1',
+        gqId: 2,
+        salesOrg: '3',
+      };
+      const action = createOgpCaseSuccess({ createdCase });
+
+      expect(action).toEqual({
+        createdCase,
+        type: '[Create Case] Create OGP Case Success',
+      });
+    });
+
+    test('createOgpCaseFailure', () => {
+      const errorMessage = 'Hello i am an error';
+      const action = createOgpCaseFailure({ errorMessage });
+
+      expect(action).toEqual({
+        errorMessage,
+        type: '[Create Case] Create OGP Case Failure',
       });
     });
   });

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
+import { CreateCaseOgp } from '@gq/core/store/reducers/create-case/models/create-case-ogp.interface';
 import { CreateCase, CreateCaseResponse } from '@gq/core/store/reducers/models';
 import { SHOW_DEFAULT_SNACKBAR_ACTION } from '@gq/shared/http/http-error.interceptor';
 import { OfferTypeResponse } from '@gq/shared/models/offer-type.interface';
@@ -112,6 +113,25 @@ export class QuotationService {
     return this.#http
       .post<CreateCaseResponse>(
         `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`,
+        createCaseData
+      )
+      .pipe(
+        map((res: any) => {
+          const response: CreateCaseResponse = {
+            gqId: res.gqId,
+            customerId: res.customer.identifier.customerId,
+            salesOrg: res.customer.identifier.salesOrg,
+          };
+
+          return response;
+        })
+      );
+  }
+
+  createOgpCase(createCaseData: CreateCaseOgp): Observable<CreateCaseResponse> {
+    return this.#http
+      .post<CreateCaseResponse>(
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS_OGP}`,
         createCaseData
       )
       .pipe(

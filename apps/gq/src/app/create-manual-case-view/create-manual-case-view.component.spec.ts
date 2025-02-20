@@ -3,7 +3,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { CreateCaseHeaderInformationComponent } from '@gq/shared/components/case-header-information/create-case-header-information/create-case-header-information.component';
@@ -59,7 +59,9 @@ describe('manualCaseViewComponent', () => {
       MockProvider(CreateCaseFacade, {
         customerConditionsValid$: customerConditionsValid$$.asObservable(),
         newCaseRowData$: rowData$$.asObservable(),
+        createCaseLoading$: of(false),
         resetCaseCreationInformation: jest.fn(),
+        createNewOgpCase: jest.fn(),
       }),
     ],
     declarations: [
@@ -150,6 +152,17 @@ describe('manualCaseViewComponent', () => {
     });
   });
 
+  describe('createCase', () => {
+    test('should call insightsService.logEvent and createCaseFacade.createNewOgpCase', () => {
+      component['insightsService'].logEvent = jest.fn();
+      component.createCase();
+      expect(component['insightsService'].logEvent).toHaveBeenCalledWith(
+        EVENT_NAMES.CASE_CREATION_FINISHED,
+        expect.any(Object)
+      );
+      expect(component['createCaseFacade'].createNewOgpCase).toHaveBeenCalled();
+    });
+  });
   describe('toggleHeader', () => {
     test('should toggle displayHeader', () => {
       component.displayHeader = true;

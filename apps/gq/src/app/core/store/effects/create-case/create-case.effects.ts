@@ -27,6 +27,7 @@ import {
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { PLsSeriesResponse } from '@gq/shared/services/rest/search/models/pls-series-response.model';
 import { SearchService } from '@gq/shared/services/rest/search/search.service';
+import { TableService } from '@gq/shared/services/table/table.service';
 import { translate } from '@jsverse/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -43,6 +44,9 @@ import {
   createCustomerCase,
   createCustomerCaseFailure,
   createCustomerCaseSuccess,
+  createOgpCase,
+  createOgpCaseFailure,
+  createOgpCaseSuccess,
   getPLsAndSeries,
   getPLsAndSeriesFailure,
   getPLsAndSeriesSuccess,
@@ -61,6 +65,7 @@ import {
   validateMaterialsOnCustomerAndSalesOrgSuccess,
 } from '../../actions';
 import { RolesFacade } from '../../facades';
+import { CreateCaseOgp } from '../../reducers/create-case/models/create-case-ogp.interface';
 import {
   CreateCase,
   CreateCaseResponse,
@@ -307,6 +312,58 @@ export class CreateCaseEffects {
           ),
           catchError((errorMessage) => of(createCaseFailure({ errorMessage })))
         )
+      )
+    );
+  });
+
+  /**
+   * Create Case Ogp
+   */
+  // TODO: condition can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
+  createCaseOgp$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(createOgpCase),
+      concatLatestFrom(() => [
+        this.rolesFacade.userHasRegionWorldOrGreaterChinaRole$,
+        this.store.select(getCaseRowData),
+      ]),
+      mergeMap(
+        ([action, userHasRegionGreaterChinaRole, rowData]: [
+          ReturnType<typeof createOgpCase>,
+          boolean,
+          any[],
+        ]) => {
+          const materials = TableService.createMaterialQuantitiesFromTableItems(
+            rowData,
+            0
+          );
+          const requestData: CreateCaseOgp = {
+            headerInformation: {
+              ...action.createCaseData,
+              offerTypeId: userHasRegionGreaterChinaRole
+                ? action.createCaseData.offerTypeId
+                : undefined,
+            },
+            materialQuantities: materials,
+          };
+
+          return this.quotationService.createOgpCase(requestData).pipe(
+            tap((createdCase: CreateCaseResponse) => {
+              this.navigateAfterCaseCreate(
+                createdCase.customerId,
+                createdCase.salesOrg,
+                createdCase.gqId,
+                CreationType.CREATE_CASE
+              );
+            }),
+            map((createdCase: CreateCaseResponse) =>
+              createOgpCaseSuccess({ createdCase })
+            ),
+            catchError((errorMessage) =>
+              of(createOgpCaseFailure({ errorMessage }))
+            )
+          );
+        }
       )
     );
   });

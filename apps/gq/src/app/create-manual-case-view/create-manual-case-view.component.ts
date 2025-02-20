@@ -9,6 +9,7 @@ import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module';
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { CurrencyModule } from '@gq/core/store/currency/currency.module';
+import { OverlayComponent } from '@gq/f-pricing/pricing-assistant-modal/overlay/overlay.component';
 import { CreateCaseHeaderInformationComponent } from '@gq/shared/components/case-header-information/create-case-header-information/create-case-header-information.component';
 import { HeaderInformationData } from '@gq/shared/components/case-header-information/models/header-information-data.interface';
 import { AddEntryComponent } from '@gq/shared/components/case-material/add-entry/add-entry.component';
@@ -21,9 +22,10 @@ import {
 } from '@gq/shared/models/tracking/gq-events';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
-import { PushPipe } from '@ngrx/component';
+import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 type typeAnimation = 'fade-in' | 'fade-out';
@@ -44,6 +46,9 @@ type typeAnimation = 'fade-in' | 'fade-out';
     ActiveCaseModule,
     InputTableComponent,
     SharedPipesModule,
+    OverlayComponent,
+    LoadingSpinnerModule,
+    LetDirective,
   ],
   providers: [
     { provide: TRANSLOCO_SCOPE, useValue: 'create-manual-case-view' },
@@ -74,7 +79,7 @@ export class CreateManualCaseViewComponent implements AfterViewInit {
     this.createCaseFacade.newCaseRowData$;
   customerConditionsValid$: Observable<boolean> =
     this.createCaseFacade.customerConditionsValid$;
-
+  caseCreating$: Observable<boolean> = this.createCaseFacade.createCaseLoading$;
   createCaseButtonDisabled$: Observable<boolean> = combineLatest([
     this.headerInformationHasChanges$,
     this.headerInformationIsValid$,
@@ -95,8 +100,11 @@ export class CreateManualCaseViewComponent implements AfterViewInit {
     this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_FINISHED, {
       type: CASE_CREATION_TYPES.MANUAL,
     } as CaseCreationEventParams);
-    console.log('createCase');
+
+    // collect all data needed for CaseCreation
+    this.createCaseFacade.createNewOgpCase(this.headerInformationData);
   }
+
   ngAfterViewInit() {
     this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_STARTED, {
       type: CASE_CREATION_TYPES.MANUAL,
@@ -113,7 +121,7 @@ export class CreateManualCaseViewComponent implements AfterViewInit {
       type: CASE_CREATION_TYPES.MANUAL,
     } as CaseCreationEventParams);
 
-    this.createCaseFacade.resetCaseCreationInformation();
+    this.createCaseFacade.resetCaseCreationInformation(true);
   }
 
   handleHeaderInformationHasChanges(
@@ -125,8 +133,8 @@ export class CreateManualCaseViewComponent implements AfterViewInit {
   handleHeaderInformationIsValid(headerInformationIsValid: boolean): void {
     this.headerInformationIsValidSubject$$.next(headerInformationIsValid);
   }
+
   handleHeaderInformationData(headerInformation: HeaderInformationData): void {
     this.headerInformationData = headerInformation;
-    console.log('headerInformationData', this.headerInformationData);
   }
 }

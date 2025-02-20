@@ -5,6 +5,8 @@ import {
 } from '@angular/common/http/testing';
 
 import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
+import { CreateCaseHeaderData } from '@gq/core/store/reducers/create-case/models/create-case-header-data.interface';
+import { CreateCaseOgp } from '@gq/core/store/reducers/create-case/models/create-case-ogp.interface';
 import { CreateCase, SalesIndication } from '@gq/core/store/reducers/models';
 import {
   ApiVersion,
@@ -189,6 +191,63 @@ describe('QuotationService', () => {
     });
   });
 
+  describe('createOgpCase', () => {
+    test('should call', () => {
+      const mockBody: CreateCaseOgp = {
+        headerInformation: {
+          customer: {
+            customerId: '1234',
+            salesOrg: '0267',
+          },
+        } as CreateCaseHeaderData,
+        materialQuantities: [
+          { materialId: '123', quantity: 10, quotationItemId: 10 },
+        ],
+      };
+      service.createOgpCase(mockBody).subscribe((response) => {
+        expect(response).toEqual([]);
+      });
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS_OGP}`
+      );
+      expect(req.request.method).toBe(HttpMethod.POST);
+      req.flush(mockBody);
+    });
+    test('should map response to CreateCaseResponse', () => {
+      const mockBody: CreateCaseOgp = {
+        headerInformation: {
+          customer: {
+            customerId: '1234',
+            salesOrg: '0267',
+          },
+        } as CreateCaseHeaderData,
+        materialQuantities: [
+          { materialId: '123', quantity: 10, quotationItemId: 10 },
+        ],
+      };
+      const expectedReturnValue = {
+        gqId: '123456',
+        customerId: '1234',
+        salesOrg: '0267',
+      };
+      service.createOgpCase(mockBody).subscribe((response) => {
+        expect(response).toEqual(expectedReturnValue);
+      });
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS_OGP}`
+      );
+      expect(req.request.method).toBe(HttpMethod.POST);
+      req.flush({
+        gqId: '123456',
+        customer: {
+          identifier: {
+            customerId: '1234',
+            salesOrg: '0267',
+          },
+        },
+      });
+    });
+  });
   describe('importCase', () => {
     test('should call', () => {
       const importCase = '1234';

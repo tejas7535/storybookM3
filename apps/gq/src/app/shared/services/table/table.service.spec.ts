@@ -642,7 +642,66 @@ describe('TableService', () => {
         },
       ];
       expect(result).toEqual(expected);
-      expect(true).toBeTruthy();
+    });
+    test('should return material quantities with targetPrice and PriceSource', () => {
+      const rowData: MaterialTableItem[] = [
+        {
+          materialNumber: '123',
+          quantity: 10,
+          targetPrice: 100,
+          targetPriceSource: 'CUSTOMER',
+          info: {
+            description: [ValidationDescription.Valid],
+            valid: true,
+          },
+        },
+      ];
+      const itemId = 0;
+      const result = TableService.createMaterialQuantitiesFromTableItems(
+        rowData,
+        itemId
+      );
+
+      const expected: MaterialQuantities[] = [
+        {
+          materialId: '123',
+          quantity: 10,
+          quotationItemId: 10,
+          targetPrice: 100,
+          targetPriceSource: TargetPriceSource.CUSTOMER,
+        },
+      ];
+      expect(result).toEqual(expected);
+    });
+    test('should set targetPriceSource to undefined when provided with NO_ENTRY', () => {
+      const rowData: MaterialTableItem[] = [
+        {
+          materialNumber: '123',
+          quantity: 10,
+          targetPrice: 100,
+          targetPriceSource: 'NO_ENTRY',
+          info: {
+            description: [ValidationDescription.Valid],
+            valid: true,
+          },
+        },
+      ];
+      const itemId = 0;
+      const result = TableService.createMaterialQuantitiesFromTableItems(
+        rowData,
+        itemId
+      );
+
+      const expected: MaterialQuantities[] = [
+        {
+          materialId: '123',
+          quantity: 10,
+          quotationItemId: 10,
+          targetPrice: 100,
+          targetPriceSource: undefined,
+        },
+      ];
+      expect(result).toEqual(expected);
     });
   });
 

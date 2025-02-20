@@ -89,8 +89,8 @@ export class SelectSalesOrgComponent implements ControlValueAccessor {
 
   selectionChange(event: MatSelectChange): void {
     this.store.dispatch(selectSalesOrg({ salesOrgId: event.value }));
-    this.selectedSalesOrg = event.value;
-    this.salesOrgSelected.emit(event.value);
+    this.selectedSalesOrg = { ...this.selectedSalesOrg, id: event.value };
+    this.salesOrgSelected.emit(this.selectedSalesOrg);
 
     // Call the callbacks when component has been defined as FormControl in parent component
     if (this.onChange) {

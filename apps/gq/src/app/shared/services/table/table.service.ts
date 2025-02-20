@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { TargetPriceSource } from '@gq/shared/models/quotation/target-price-source.enum';
 import { isEmpty } from 'lodash';
 
 import {
@@ -255,7 +256,12 @@ export class TableService {
         quotationItemId: startItemId,
         materialId: el.materialNumber,
         targetPrice: el.targetPrice || undefined,
-        targetPriceSource: el.targetPriceSource || undefined,
+        targetPriceSource:
+          TargetPriceSource[
+            el?.targetPriceSource as keyof typeof TargetPriceSource
+          ] === TargetPriceSource.NO_ENTRY
+            ? undefined
+            : (el?.targetPriceSource as TargetPriceSource) || undefined,
         customerMaterial: el.customerMaterialNumber || undefined,
         quantity:
           typeof el.quantity === 'string'

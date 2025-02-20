@@ -12,6 +12,7 @@ import {
   CreateCaseResponse,
   SalesOrg,
 } from '../../reducers/create-case/models';
+import { CreateCaseHeaderData } from '../../reducers/create-case/models/create-case-header-data.interface';
 import { PLsAndSeries } from '../../reducers/create-case/models/pls-and-series.model';
 
 export const autocomplete = createAction(
@@ -102,6 +103,20 @@ export const createCaseSuccess = createAction(
 
 export const createCaseFailure = createAction(
   '[Create Case] CreateCase from table and selected customer Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const createOgpCase = createAction(
+  '[Create Case] Create OGP Case',
+  props<{ createCaseData: CreateCaseHeaderData }>()
+);
+
+export const createOgpCaseSuccess = createAction(
+  '[Create Case] Create OGP Case Success',
+  props<{ createdCase: CreateCaseResponse }>()
+);
+export const createOgpCaseFailure = createAction(
+  '[Create Case] Create OGP Case Failure',
   props<{ errorMessage: string }>()
 );
 
@@ -245,6 +260,9 @@ const all = union({
   createCase,
   createCaseFailure,
   createCaseSuccess,
+  createOgpCase,
+  createOgpCaseSuccess,
+  createOgpCaseFailure,
   deleteRowDataItem,
   setSelectedAutocompleteOption,
   selectAutocompleteOption,

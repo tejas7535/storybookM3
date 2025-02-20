@@ -10,6 +10,7 @@ import { AppRoutePath } from '@gq/app-route-path.enum';
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
 import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
 import {
+  MaterialQuantities,
   MaterialTableItem,
   MaterialValidation,
   VALIDATION_CODE,
@@ -50,6 +51,9 @@ import {
   createCustomerCase,
   createCustomerCaseFailure,
   createCustomerCaseSuccess,
+  createOgpCase,
+  createOgpCaseFailure,
+  createOgpCaseSuccess,
   getPLsAndSeries,
   getPLsAndSeriesFailure,
   getPLsAndSeriesSuccess,
@@ -69,6 +73,8 @@ import {
 } from '../../actions';
 import { RolesFacade } from '../../facades';
 import { initialState } from '../../reducers/create-case/create-case.reducer';
+import { CreateCaseHeaderData } from '../../reducers/create-case/models/create-case-header-data.interface';
+import { CreateCaseOgp } from '../../reducers/create-case/models/create-case-ogp.interface';
 import {
   CaseFilterItem,
   CreateCase,
@@ -586,26 +592,6 @@ describe('Create Case Effects', () => {
     test(
       'should return validateMaterialsOnCustomerAndSalesOrgSuccess when REST call is successful',
       marbles((m) => {
-        // jest
-        //   .spyOn(fromSelectors, 'getCreateCaseData')
-        //   .mockImplementation((userHasOfferTypeAccess: boolean = false) => {
-        //     console.log(userHasOfferTypeAccess);
-
-        //     return createSelector(() => ({
-        //       customer: {
-        //         customerId: '1234',
-        //         salesOrg: '0267',
-        //       },
-        //       materialQuantities: [
-        //         {
-        //           materialId: '333',
-        //           quantity: 10,
-        //           quotationItemId: 10,
-        //         },
-        //       ],
-        //     }));
-        //   });
-
         router.navigate = jest.fn();
         snackBar.open = jest.fn();
         action = createCase();
@@ -653,6 +639,103 @@ describe('Create Case Effects', () => {
         m.flush();
 
         expect(quotationService.createCase).toHaveBeenCalledTimes(1);
+      })
+    );
+  });
+
+  describe('createCaseOgp', () => {
+    const materialTableItems: MaterialTableItem[] = [
+      {
+        materialNumber: '333',
+        quantity: 10,
+      },
+    ];
+    const createCaseData: CreateCaseHeaderData = {
+      bindingPeriodValidityEndDate: '2021-12-31',
+      caseName: 'caseName',
+      customer: {
+        customerId: 'customerId',
+        salesOrg: 'salesOrg',
+      },
+      customCurrency: 'EUR',
+      customerInquiryDate: '2021-12-31',
+      quotationToDate: '2021-12-31',
+      quotationToManualInput: false,
+      shipToParty: {
+        customerId: 'customerId',
+        salesOrg: 'salesOrg',
+      },
+      offerTypeId: 1,
+      partnerRoleId: 'partnerRoleId',
+      purchaseOrderTypeId: 'purchaseOrderTypeId',
+      requestedDeliveryDate: '2021-12-31',
+    };
+    beforeEach(() => {
+      jest.resetAllMocks();
+      store.overrideSelector(getCaseRowData, materialTableItems);
+    });
+    test(
+      'should return createOgpCaseSuccess when REST call is successful',
+      marbles((m) => {
+        router.navigate = jest.fn();
+        snackBar.open = jest.fn();
+        action = createOgpCase({ createCaseData });
+        const materialQuantities: MaterialQuantities[] = [
+          {
+            materialId: '333',
+            quantity: 10,
+            quotationItemId: 10,
+          },
+        ];
+        const expectedRequest: CreateCaseOgp = {
+          headerInformation: createCaseData,
+          materialQuantities,
+        };
+        const createdCaseResponse: CreateCaseResponse = {
+          customerId: '',
+          gqId: 0,
+          salesOrg: '',
+        };
+        const result = createOgpCaseSuccess({
+          createdCase: createdCaseResponse,
+        });
+
+        actions$ = m.hot('--a', { a: action });
+        const response = m.cold('--a|', {
+          a: createdCaseResponse,
+        });
+        quotationService.createOgpCase = jest.fn(() => response);
+
+        const expected = m.cold('----b', { b: result });
+        m.expect(effects.createCaseOgp$).toBeObservable(expected);
+        m.flush();
+
+        expect(quotationService.createOgpCase).toHaveBeenCalledTimes(1);
+        expect(quotationService.createOgpCase).toHaveBeenCalledWith(
+          expectedRequest
+        );
+        expect(router.navigate).toHaveBeenCalledTimes(1);
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+      })
+    );
+
+    test(
+      'should return validateFailure on REST error',
+      marbles((m) => {
+        const errorMessage = 'errorMessage';
+
+        const result = createOgpCaseFailure({ errorMessage });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
+
+        quotationService.createOgpCase = jest.fn(() => response);
+
+        m.expect(effects.createCaseOgp$).toBeObservable(expected);
+        m.flush();
+
+        expect(quotationService.createOgpCase).toHaveBeenCalledTimes(1);
       })
     );
   });
