@@ -1,3 +1,4 @@
+import { KpiBucketTypeEnum } from './../../../../feature/demand-validation/model';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import {
@@ -20,7 +21,7 @@ describe('DemandValidationKpiHeaderComponent', () => {
       onClickHeader: jest.fn(),
       kpiEntry: {
         fromDate: '2024-12-12',
-        bucketType: 'WEEK',
+        bucketType: KpiBucketTypeEnum.WEEK,
       },
     } as unknown as ICustomHeaderParams;
   });

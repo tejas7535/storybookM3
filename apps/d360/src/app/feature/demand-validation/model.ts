@@ -40,7 +40,14 @@ export interface KpiDataRequestDateRange {
 
 export type MaterialType = 'schaeffler' | 'customer';
 
-export type KpiBucketType = 'WEEK' | 'MONTH' | 'PARTIAL_WEEK';
+export enum KpiBucketTypeEnum {
+  WEEK = 'WEEK',
+  MONTH = 'MONTH',
+  PARTIAL_WEEK = 'PARTIAL_WEEK',
+}
+
+export type KpiBucketType =
+  (typeof KpiBucketTypeEnum)[keyof typeof KpiBucketTypeEnum];
 
 export interface MaterialListEntry {
   accountOwner?: string;

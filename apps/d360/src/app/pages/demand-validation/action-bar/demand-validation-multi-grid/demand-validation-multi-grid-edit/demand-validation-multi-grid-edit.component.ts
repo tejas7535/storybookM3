@@ -27,6 +27,7 @@ import {
   DemandValidationBatch,
   DemandValidationBatchResponse,
   KpiBucket,
+  KpiBucketTypeEnum,
   KpiDateRanges,
   MaterialType,
   WriteKpiEntry,
@@ -153,7 +154,7 @@ export class DemandValidationMultiGridEditComponent
               editable: true,
               valueFormatter: this.parseAndFormatNumber.bind(this),
               bgColorFn: () =>
-                bucket.type === 'PARTIAL_WEEK'
+                bucket.type === KpiBucketTypeEnum.PARTIAL_WEEK
                   ? demandValidationPartialWeekColor
                   : transparent,
               validationFn: (value: string, _rowData: IRowNode) =>

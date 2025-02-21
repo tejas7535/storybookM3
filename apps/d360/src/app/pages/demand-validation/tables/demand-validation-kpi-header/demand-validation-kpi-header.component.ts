@@ -17,6 +17,7 @@ import {
 
 import {
   KpiBucketType,
+  KpiBucketTypeEnum,
   KpiEntry,
 } from '../../../../feature/demand-validation/model';
 import { getMonthYearDateFormatByCode } from '../../../../shared/constants/available-locales';
@@ -38,6 +39,7 @@ export interface ICustomHeaderParams extends IHeaderParams {
 export class DemandValidationKpiHeaderComponent implements IHeaderAngularComp {
   protected readonly translocoLocaleService = inject(TranslocoLocaleService);
   protected params!: ICustomHeaderParams;
+  protected readonly KpiBucketTypeEnum = KpiBucketTypeEnum;
 
   public agInit(params: ICustomHeaderParams): void {
     this.params = params;
@@ -59,7 +61,7 @@ export class DemandValidationKpiHeaderComponent implements IHeaderAngularComp {
     );
 
     const partWeek =
-      bucketType === 'PARTIAL_WEEK'
+      bucketType === KpiBucketTypeEnum.PARTIAL_WEEK
         ? ` ${translate(
             'validation_of_demand.planningTable.calendarWeekTableHeaderPartWeek',
             {

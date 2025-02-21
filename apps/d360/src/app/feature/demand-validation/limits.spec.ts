@@ -9,6 +9,7 @@ import {
   lastEditableDate,
   lastViewableDate,
 } from './limits';
+import { KpiBucketTypeEnum } from './model';
 
 // activate overwriting date-fns functions
 jest.mock('date-fns', () => ({
@@ -64,7 +65,7 @@ describe('Limits', () => {
       jest.useFakeTimers();
       jest.setSystemTime(new Date(2022, 3, 15));
 
-      const result = firstEditableDateForTodayInBucket('MONTH');
+      const result = firstEditableDateForTodayInBucket(KpiBucketTypeEnum.MONTH);
       expect(result).toEqual(new Date(2022, 3, 1)); // Should be the first day of April 2022
 
       jest.useRealTimers();
@@ -74,7 +75,7 @@ describe('Limits', () => {
       jest.useFakeTimers();
       jest.setSystemTime(new Date(2022, 3, 15)); // Mocking a Friday in April 2022
 
-      const result = firstEditableDateForTodayInBucket('WEEK');
+      const result = firstEditableDateForTodayInBucket(KpiBucketTypeEnum.WEEK);
       expect(result).toEqual(new Date(2022, 3, 11, 0, 0, 0));
 
       jest.useRealTimers();
@@ -84,7 +85,9 @@ describe('Limits', () => {
       jest.useFakeTimers();
       jest.setSystemTime(new Date(2022, 3, 15)); // Mocking a Friday in April 2022
 
-      const result = firstEditableDateForTodayInBucket('PARTIAL_WEEK');
+      const result = firstEditableDateForTodayInBucket(
+        KpiBucketTypeEnum.PARTIAL_WEEK
+      );
       expect(result).toEqual(new Date(2022, 3, 11, 0, 0, 0));
 
       jest.useRealTimers();

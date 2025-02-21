@@ -1,3 +1,4 @@
+import { parse } from 'date-fns';
 /* eslint-disable max-lines */
 import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { DestroyRef, inject, Injectable } from '@angular/core';
@@ -51,6 +52,7 @@ import {
   DemandValidationBatchResponse,
   KpiBucket,
   KpiBucketType,
+  KpiBucketTypeEnum,
   KpiData,
   KpiDataRequest,
   KpiDateRanges,
@@ -127,10 +129,17 @@ export class DemandValidationService {
       kpiEntries: entry?.kpiEntries ?? [
         {
           idx: entry.id ? Number.parseInt(entry.id, 10) : undefined,
-          fromDate: format(entry.dateString, 'yyyy-MM-dd'),
+          fromDate: format(
+            parse(
+              entry.dateString,
+              ValidationHelper.getDateFormat(),
+              new Date()
+            ),
+            'yyyy-MM-dd'
+          ),
           bucketType: (entry.periodType === 'month'
-            ? 'MONTH'
-            : 'WEEK') as KpiBucketType,
+            ? KpiBucketTypeEnum.MONTH
+            : KpiBucketTypeEnum.WEEK) as KpiBucketType,
           validatedForecast: strictlyParseLocalFloat(
             entry.forecast,
             ValidationHelper.getDecimalSeparatorForActiveLocale()

@@ -8,7 +8,7 @@ import {
 import { de } from 'date-fns/locale';
 
 import { DateRangePeriod } from '../../shared/utils/date-range';
-import { KpiBucketType } from './model';
+import { KpiBucketType, KpiBucketTypeEnum } from './model';
 
 export const firstEditableDate = (period: DateRangePeriod) => {
   switch (period) {
@@ -28,11 +28,11 @@ export const firstEditableDateForTodayInBucket = (
   bucketType: KpiBucketType
 ): Date => {
   switch (bucketType) {
-    case 'MONTH': {
+    case KpiBucketTypeEnum.MONTH: {
       return new Date(new Date().getFullYear(), new Date().getMonth(), 1);
     }
-    case 'WEEK':
-    case 'PARTIAL_WEEK': {
+    case KpiBucketTypeEnum.WEEK:
+    case KpiBucketTypeEnum.PARTIAL_WEEK: {
       let date = new Date();
       const day = date.getDay();
       const diff = date.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is Sunday

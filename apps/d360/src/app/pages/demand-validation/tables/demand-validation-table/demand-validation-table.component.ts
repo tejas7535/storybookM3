@@ -50,6 +50,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { DemandValidationService } from '../../../../feature/demand-validation/demand-validation.service';
 import {
+  KpiBucketTypeEnum,
   KpiData,
   KpiDateRanges,
   KpiEntry,
@@ -632,7 +633,10 @@ export class DemandValidationTableComponent {
         return false;
       }
 
-      if (data.storedBucketType === 'WEEK' && data.bucketType === 'MONTH') {
+      if (
+        data.storedBucketType === KpiBucketTypeEnum.WEEK &&
+        data.bucketType === KpiBucketTypeEnum.MONTH
+      ) {
         // Hint: It is not possible to use our confirm dialog here, because AG-Grid does not
         // support async value setters.
         // This is the reason why we use a browser confirm dialog.

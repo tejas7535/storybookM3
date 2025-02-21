@@ -1,8 +1,8 @@
 @if (params?.kpiEntry) {
   <div class="header-div" (click)="handleHeaderClick()">
     @if (
-      params?.kpiEntry?.bucketType === 'WEEK' ||
-      params?.kpiEntry?.bucketType === 'PARTIAL_WEEK'
+      params?.kpiEntry?.bucketType === KpiBucketTypeEnum.WEEK ||
+      params?.kpiEntry?.bucketType === KpiBucketTypeEnum.PARTIAL_WEEK
     ) {
       <div class="header-wrapper">
         <span>{{

@@ -8,7 +8,10 @@ import { CellClassFunc } from 'ag-grid-enterprise';
 import { isSameMonth, isSameWeek } from 'date-fns';
 import { de } from 'date-fns/locale';
 
-import { KpiBucketType } from '../../../../feature/demand-validation/model';
+import {
+  KpiBucketType,
+  KpiBucketTypeEnum,
+} from '../../../../feature/demand-validation/model';
 
 /**
  * Generates a cell class function based on the provided parameters to apply specific styles to cells in a data grid.
@@ -37,18 +40,18 @@ export function getCellClass(
 
     let dateIsInBucket;
     switch (periodType) {
-      case 'WEEK': {
+      case KpiBucketTypeEnum.WEEK: {
         dateIsInBucket = (date1: Date, date2: Date): boolean =>
           isSameWeek(date1, date2, { locale: de });
         break;
       }
 
-      case 'MONTH': {
+      case KpiBucketTypeEnum.MONTH: {
         dateIsInBucket = isSameMonth;
         break;
       }
 
-      case 'PARTIAL_WEEK': {
+      case KpiBucketTypeEnum.PARTIAL_WEEK: {
         dateIsInBucket = (date1: Date, date2: Date): boolean =>
           isSameWeek(date1, date2, { locale: de }) && isSameMonth(date1, date2);
         break;
