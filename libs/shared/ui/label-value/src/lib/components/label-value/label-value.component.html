@@ -17,8 +17,7 @@
         ></span>
         @if (labelValue.labelHint) {
           <mat-icon
-            color="primary"
-            class="absolute right-3 top-2 cursor-help"
+            class="absolute right-3 top-2 cursor-help text-primary"
             #tooltip="matTooltip"
             [matTooltip]="labelValue.labelHint"
             (click)="tooltip.toggle()"
