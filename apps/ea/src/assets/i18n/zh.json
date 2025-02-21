@@ -133,6 +133,7 @@
     "lubrication": {
       "title": "润滑条件",
       "notAvailable": "这种类型的润滑不适用于您所选的轴承。",
+      "oilBathNote": "油浴润滑意味着最低滚动元件浸入一半油中",
       "options": {
         "grease": "润滑脂",
         "oilBath": "油浴",

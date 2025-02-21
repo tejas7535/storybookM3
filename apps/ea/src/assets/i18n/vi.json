@@ -133,6 +133,7 @@
     "lubrication": {
       "title": "Điều kiện bôi trơn",
       "notAvailable": "Loại bôi trơn này không có sẵn cho vòng bi bạn đã chọn.",
+      "oilBathNote": "Bôi trơn bằng bể dầu nghĩa là phần tử lăn thấp nhất ngập trong dầu một nửa",
       "options": {
         "grease": "Mỡ",
         "oilBath": "Bể dầu",

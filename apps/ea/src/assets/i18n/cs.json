@@ -133,6 +133,7 @@
     "lubrication": {
       "title": "Podmínky mazání",
       "notAvailable": "Tento typ mazání není pro vybrané ložisko k dispozici.",
+      "oilBathNote": "Mazání olejovou lázní znamená, že nejnižší válečkový prvek je v oleji ponořen do poloviny",
       "options": {
         "grease": "Mazivo",
         "oilBath": "Mazání v olejové lázni",

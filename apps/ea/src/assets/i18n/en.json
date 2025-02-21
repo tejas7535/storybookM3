@@ -135,6 +135,7 @@
     "lubrication": {
       "title": "Lubrication conditions",
       "notAvailable": "This type of lubrication is not available for your selected bearing.",
+      "oilBathNote": "Oil bath lubrication means, lowest rolling element half in oil",
       "options": {
         "grease": "Grease",
         "oilBath": "Oil-bath",
@@ -287,7 +288,7 @@
     "usage": "For Operation",
     "usageTooltip": "Overall CO2 Emissions incurred by power loss.",
     "yearlyEmissionInfo": "(24/7 use for one year)",
-    "hourlyEmssionInfo": "{{ unit }} for {{ hours }} h",
+    "hourlyEmissionInfo": "{{ unit }} for {{ hours }} h",
     "calculationErrorsTitle": "Calculation errors",
     "showErrors": "Show errors",
     "downstreamErrors": {

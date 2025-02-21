@@ -133,6 +133,7 @@
     "lubrication": {
       "title": "Yağlama koşulları",
       "notAvailable": "Bu tür yağlama, seçtiğiniz rulman için mevcut değildir.",
+      "oilBathNote": "Yağ banyosu yağlama, en alt döner elemanın yarısının yağda olduğu anlamına gelir",
       "options": {
         "grease": "Gres",
         "oilBath": "Yağ banyosu",

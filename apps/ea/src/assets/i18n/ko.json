@@ -133,6 +133,7 @@
     "lubrication": {
       "title": "윤활 조건",
       "notAvailable": "선택한 베어링에는 이 유형의 윤활을 사용할 수 없습니다.",
+      "oilBathNote": "오일 배스 윤활은 가장 낮은 롤링 요소가 오일에 절반 잠겨 있음을 의미합니다",
       "options": {
         "grease": "그리스",
         "oilBath": "오일 배스",

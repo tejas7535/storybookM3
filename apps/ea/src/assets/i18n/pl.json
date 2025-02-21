@@ -133,6 +133,7 @@
     "lubrication": {
       "title": "Warunki smarowania",
       "notAvailable": "W wybranym łożysku ten typ smarowania jest niedostępny.",
+      "oilBathNote": "Smarowanie kąpielą olejową oznacza, że najniższy element toczny jest do połowy zanurzony w oleju",
       "options": {
         "grease": "Smar",
         "oilBath": "kąpiel olejowa",

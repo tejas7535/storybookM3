@@ -133,6 +133,7 @@
     "lubrication": {
       "title": "Conditions de lubrification",
       "notAvailable": "Ce type de lubrification n’est pas disponible pour le roulement sélectionné.",
+      "oilBathNote": "La lubrification par bain d'huile signifie que le plus bas élément roulant est à moitié dans l'huile",
       "options": {
         "grease": "Graisse",
         "oilBath": "bain d’huile",

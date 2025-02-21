@@ -133,6 +133,7 @@
     "lubrication": {
       "title": "Condiciones de lubricación",
       "notAvailable": "Este tipo de lubricación no está disponible para el rodamiento seleccionado.",
+      "oilBathNote": "La lubricación por baño de aceite significa que el elemento rodante más bajo está sumergido hasta la mitad en aceite",
       "options": {
         "grease": "Grasa",
         "oilBath": "baño de aceite",

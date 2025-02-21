@@ -133,6 +133,7 @@
     "lubrication": {
       "title": "Condições de lubrificação",
       "notAvailable": "Este tipo de lubrificação não se encontra disponível para o rolamento selecionado.",
+      "oilBathNote": "Lubrificação por banho de óleo significa que o elemento rolante mais baixo está pela metade no óleo",
       "options": {
         "grease": "Massa lubrificante",
         "oilBath": "banho de óleo",

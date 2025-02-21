@@ -133,6 +133,7 @@
     "lubrication": {
       "title": "潤滑条件",
       "notAvailable": "この潤滑の種類は、選択したベアリングには使用できません。",
+      "oilBathNote": "オイルバス潤滑とは、下部の転がり要素が半分オイルに浸されていることを意味します",
       "options": {
         "grease": "グリース",
         "oilBath": "オイルバス",

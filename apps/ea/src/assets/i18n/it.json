@@ -133,6 +133,7 @@
     "lubrication": {
       "title": "Condizioni di lubrificazione",
       "notAvailable": "Questo tipo di lubrificazione non è disponibile per il cuscinetto selezionato.",
+      "oilBathNote": "La lubrificazione a bagno d'olio significa che l'elemento volvente più basso è per metà immerso nell'olio",
       "options": {
         "grease": "Grasso",
         "oilBath": "bagno d'olio",

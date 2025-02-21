@@ -133,6 +133,7 @@
     "lubrication": {
       "title": "潤滑條件",
       "notAvailable": "此類型的潤滑不適用於您所選的軸承。",
+      "oilBathNote": "油浴潤滑表示最底部的滾動元件有一半在油中",
       "options": {
         "grease": "潤滑油",
         "oilBath": "油浴",
