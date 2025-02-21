@@ -9,6 +9,16 @@ export type MessageId = typeof messageClassId;
 // We don't know which number we get at runtime and we have fallback messages
 type DummyForessageNumbers = '0';
 
+export enum SapErrorMessageHeader {
+  FallbackMessage = 'x-sap-message',
+  MessageNumber = 'x-sap-messagenumber',
+  MessageId = 'x-sap-messageid',
+  MessageV1 = 'x-sap-messagev1',
+  MessageV2 = 'x-sap-messagev2',
+  MessageV3 = 'x-sap-messagev3',
+  MessageV4 = 'x-sap-messagev4',
+}
+
 export function messageFromSAP(
   fallbackMessage: string | null,
   messageNumber: number | null,

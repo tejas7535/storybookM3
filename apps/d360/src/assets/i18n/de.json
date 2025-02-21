@@ -669,6 +669,16 @@
         "change_title": "Planungsmateriallevel ändern",
         "change_hint": "Wenn das Planungsmateriallevel geändert wird, werden die Planungsdaten auf dem Planungslevel <strong>gelöscht</strong>.",
         "change_confirmation_question": "Sind Sie sicher, dass Sie das Planungsmateriallevel ändern möchten?"
+      },
+      "edit_modal": {
+        "absolute": "Absolut",
+        "relative": "Relativ",
+        "yearly_total": "Jahresplanung",
+        "adjusted_yearly_total": "Angepasste Jahresplanung",
+        "previous_adjusted_yearly_total": "Vorheriges angepasste Jahresplanung",
+        "adjusted_yearly_total_error_message": "Ihre Eingabe liegt unter der Mindestgrenze von {{min_value}}",
+        "percentage_change": "Änderung in %",
+        "percentage_change_hint": "Für negative Änderungen mit einem Minuszeichen (-) versehen"
       }
     },
     "table": {
@@ -1253,7 +1263,16 @@
     },
     "error": "Nachricht mit Klasse {{messageClass}} und Nummer {{messageNumber}} konnte nicht gefunden werden.",
     "/SGD/SCM_SOP": {
-      "685": "Es wurden {{messageV1}} Kombinationen selektiert, erlaubt sind maximal {{messageV2}}"
+      "685": "Es wurden {{messageV1}} Kombinationen selektiert, erlaubt sind maximal {{messageV2}}",
+      "712": "Pflichtfeld (Jahr, Währung, Kunde, Pl.Lvl.Type) fehlt.",
+      "713": "Kunde {{customer}} nicht gefunden oder keine Berechtigung für den Kunden.",
+      "714": "Aktualisierungen sind nur in der Planungswährung {{planningCurrency}} erlaubt.",
+      "715": "Planungsebene {{wrongPlanningLevel}} nicht erlaubt. Ein Plan existiert bereits für {{correctPlanningLevel}}.",
+      "716": "Planungsebene {{unknownPlanningLevel}} unbekannt.",
+      "717": "Ungültiger Wert {{invalidValue}} für Planungsebene {{planningLevel}}.",
+      "718": "Ein Eintrag für das Jahr {{year}} auf Monatsebene existiert bereits.",
+      "719": "Ein Eintrag auf Materialebene für das Jahr {{year}} existiert bereits.",
+      "720": "Keine Berechtigung für Kunde {{customer}} und Aktivität {{activity}}."
     },
     "/SGD/SCM_SOP_SALES": {
       "0": "Text mit den folgenden Werten konnte nicht gefunden werden: {{messageV1}}, {{messageV2}}, {{messageV3}}, {{messageV4}}.",

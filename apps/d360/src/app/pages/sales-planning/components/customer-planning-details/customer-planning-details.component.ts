@@ -270,6 +270,7 @@ export class CustomerPlanningDetailsComponent {
               headerName: translate(col.title, {}),
               filter: col.filter,
               cellRenderer: col.cellRenderer,
+              cellRendererParams: col.cellRendererParams,
               hide: !col.visible,
               sortable: col.sortable,
               sort: col.sort,

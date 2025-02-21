@@ -8,6 +8,7 @@ import { TranslocoService } from '@jsverse/transloco';
 import {
   CustomerInfo,
   DetailedCustomerSalesPlan,
+  DetailedSalesPlanUpdateRequest,
   SalesPlanResponse,
 } from './model';
 
@@ -77,5 +78,36 @@ export class SalesPlanningService {
       this.SALES_PLANNING_DATA_API,
       { params }
     );
+  }
+
+  public updateDetailedCustomerSalesPlan(
+    customerNumber: string,
+    detailedSalesPlanUpdateRequest: DetailedSalesPlanUpdateRequest
+  ): Observable<void> {
+    const params = new HttpParams().set('customerNumber', customerNumber);
+
+    return this.http.put<void>(
+      this.SALES_PLANNING_DATA_API,
+      detailedSalesPlanUpdateRequest,
+      { params }
+    );
+  }
+
+  public deleteDetailedCustomerSalesPlan(
+    customerNumber: string,
+    planningYear: string,
+    planningMonth: string,
+    planningMaterial: string | null
+  ): Observable<void> {
+    let params = new HttpParams()
+      .set('customerNumber', customerNumber)
+      .set('planningYear', planningYear)
+      .set('planningMonth', planningMonth);
+
+    if (planningMaterial) {
+      params = params.set('planningMaterial', planningMaterial);
+    }
+
+    return this.http.delete<void>(this.SALES_PLANNING_DATA_API, { params });
   }
 }

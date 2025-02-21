@@ -1,0 +1,11 @@
+<div class="icon-wrapper" *transloco="let t">
+  <span>{{ valueFormatted() }}</span>
+  @if (isEditPossible() && isUserAllowedToEdit$ | ngrxPush) {
+    <button
+      mat-icon-button
+      (click)="handleEditCustomerSalesPlanNumberClicked()"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+  }
+</div>

@@ -660,6 +660,16 @@
         "change_title": "Cambiare materiale di pianificazione",
         "change_hint": "Quando il materiale di pianificazione viene cambiato, i dati di pianificazione sul materiale di pianificazione <strong>verranno eliminati</strong>.",
         "change_confirmation_question": "Sei sicuro di voler cambiare il materiale di pianificazione?"
+      },
+      "edit_modal": {
+        "absolute": "Assoluto",
+        "relative": "Relativo",
+        "yearly_total": "Totale Annuale",
+        "adjusted_yearly_total": "Totale Annuale rettificato",
+        "previous_adjusted_yearly_total": "Precedente totale annuo rettificato",
+        "adjusted_yearly_total_error_message": "Il tuo inserimento è inferiore alla soglia minima di {{min_value}}",
+        "percentage_change": "Variazione in %",
+        "percentage_change_hint": "Per variazioni negative, anteporre un segno meno (-)"
       }
     },
     "table": {
@@ -1244,7 +1254,16 @@
     },
     "error": "Non è stato possibile trovare un messaggio con classe {{messageClass}} e numero {{messageNumber}}.",
     "/SGD/SCM_SOP": {
-      "685": "Sono state selezionate {{messageV1}} combinazioni, ne sono consentite un massimo di {{messageV2}}"
+      "685": "Sono state selezionate {{messageV1}} combinazioni, ne sono consentite un massimo di {{messageV2}}",
+      "712": "Campo obbligatorio (anno, valuta, cliente, pl.lvl.type) mancante.",
+      "713": "Cliente {{customer}} non trovato o nessuna autorizzazione per il cliente.",
+      "714": "Gli aggiornamenti sono consentiti solo nella valuta di pianificazione {{planningCurrency}}.",
+      "715": "Livello di pianificazione {{wrongPlanningLevel}} non consentito. Esiste già un piano per {{correctPlanningLevel}}.",
+      "716": "Livello di pianificazione {{unknownPlanningLevel}} sconosciuto.",
+      "717": "Valore non valido {{invalidValue}} per il livello di pianificazione {{planningLevel}}.",
+      "718": "Esiste già una voce per l'anno {{year}} a livello di mese.",
+      "719": "Esiste già una voce a livello di materiale per l'anno {{year}}.",
+      "720": "Nessuna autorizzazione per il cliente {{customer}} e l'attività {{activity}}."
     },
     "/SGD/SCM_SOP_SALES": {
       "0": "Non è stato possibile trovare un testo con i seguenti valori: {{messageV1}}, {{messageV2}}, {{messageV3}}, {{messageV4}}.",

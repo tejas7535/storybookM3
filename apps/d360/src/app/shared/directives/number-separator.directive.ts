@@ -3,19 +3,22 @@ import {
   ElementRef,
   HostListener,
   inject,
+  input,
   OnInit,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
-import { getNumberFromLocale } from '../utils/number';
+import {
+  getDecimalSeparator,
+  getNumberFromLocale,
+  numberIsAtStartOfDecimal,
+} from '../utils/number';
 
 /**
  * This Directive parses the input value of a given input field.
- * TODO: Extend to allow decimal, if needed.
- * Hint 1: Decimal is tricky, because if the user types a number in e.g. "100," will be send and the comma is a problem.
- * Hint 2: Decimal is only possible via copy paste atm. ;)
+ * Use the directive's input variables to allow decimal places or negative numbers.
  *
  * @export
  * @class NumberSeparatorDirective
@@ -54,6 +57,9 @@ export class NumberSeparatorDirective implements OnInit {
     TranslocoLocaleService
   );
 
+  public readonly allowDecimalPlaces = input(false);
+  public readonly allowNegativeNumbers = input(false);
+
   /**
    * Because of formatted strings we need to allow text only.
    *
@@ -91,15 +97,41 @@ export class NumberSeparatorDirective implements OnInit {
       this.translocoLocaleService.getLocale()
     );
 
+    if (this.allowNegativeNumbers() && value === '-') {
+      return '-';
+    }
+
+    const wasUserAboutToEnterDecimal = numberIsAtStartOfDecimal(
+      value,
+      this.translocoLocaleService.getLocale()
+    );
+
     // if the user was entering a non numeric string, we need to eliminate it
     if (Number.isNaN(realValue)) {
       return '';
     }
 
-    return this.translocoLocaleService.localizeNumber(
+    const formattedNumber = this.translocoLocaleService.localizeNumber(
       realValue,
       'decimal',
-      this.translocoLocaleService.getLocale()
+      this.translocoLocaleService.getLocale(),
+      {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: this.allowDecimalPlaces ? 2 : 0,
+      }
     );
+
+    return (
+      formattedNumber +
+      this.conditionallyAppendDecimalSeparator(wasUserAboutToEnterDecimal)
+    );
+  }
+
+  private conditionallyAppendDecimalSeparator(
+    wasUserAboutToEnterDecimal: boolean
+  ) {
+    return this.allowDecimalPlaces() && wasUserAboutToEnterDecimal
+      ? getDecimalSeparator(this.translocoLocaleService.getLocale())
+      : '';
   }
 }

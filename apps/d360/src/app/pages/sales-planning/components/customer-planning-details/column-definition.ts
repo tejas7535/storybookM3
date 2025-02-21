@@ -3,6 +3,7 @@ import { ColDef } from 'ag-grid-enterprise';
 
 import { DetailedCustomerSalesPlan } from '../../../../feature/sales-planning/model';
 import { ColumnValueType } from '../../../../shared/ag-grid/grid-types';
+import { SalesPlanningNumberEditCellRendererComponent } from './ag-grid/cell-renderer/sales-planning-number-edit-cell-renderer.component';
 
 const notConfiguredValuePlaceholder = '-';
 const sapMagicNumberValueNotConfigured = -1;
@@ -21,7 +22,7 @@ export const valueFormatters: any = {
   default: undefined,
 };
 
-export interface CustomColumnDefinition {
+export interface CustomColumnDefinition extends ColDef {
   key: keyof DetailedCustomerSalesPlan;
   type: ColumnValueType;
   isTimeScopeSpecific?: boolean; // defining whether this column is time scope (yearly/monthly) specific
@@ -42,6 +43,7 @@ export const initiallyVisibleColumns: CustomColumnDefinition[] = [
     key: 'totalSalesPlanAdjusted',
     type: ColumnValueType.Monetary,
     isTimeScopeSpecific: true,
+    cellRenderer: SalesPlanningNumberEditCellRendererComponent,
   },
   { key: 'firmBusinessCoverage', type: ColumnValueType.Percentage },
   { key: 'opportunitiesForecastRelevant', type: ColumnValueType.Monetary },
@@ -51,7 +53,10 @@ export const initiallyVisibleColumns: CustomColumnDefinition[] = [
   { key: 'salesDeduction', type: ColumnValueType.Percentage },
   { key: 'cashDiscount', type: ColumnValueType.Percentage },
   { key: 'otherRevenues', type: ColumnValueType.Monetary },
-  { key: 'dailyRollingSalesPlanUnconstrained', type: ColumnValueType.Monetary },
+  {
+    key: 'dailyRollingSalesPlanUnconstrained',
+    type: ColumnValueType.Monetary,
+  },
 ];
 
 export const unconstrainedColumns: CustomColumnDefinition[] = [
@@ -111,13 +116,13 @@ export function yearlyCustomerPlanningDetailsColumnDefinitions(): (ColDef & {
     ...initiallyVisibleColumns,
     ...unconstrainedColumns,
     ...constrainedColumns,
-  ].map(({ key, type, isTimeScopeSpecific }) => ({
+  ].map((colDef) => ({
+    ...colDef,
     sortable: false,
-    colId: key,
-    title: getTitle(key, isTimeScopeSpecific, TimeScope.Yearly),
-    visible: initiallyVisibleColumns.some((col) => col.key === key),
+    colId: colDef.key,
+    title: getTitle(colDef.key, colDef.isTimeScopeSpecific, TimeScope.Yearly),
+    visible: initiallyVisibleColumns.some((col) => col.key === colDef.key),
     alwaysVisible: false,
-
-    valueFormatter: valueFormatters[type],
+    valueFormatter: valueFormatters[colDef.type],
   }));
 }

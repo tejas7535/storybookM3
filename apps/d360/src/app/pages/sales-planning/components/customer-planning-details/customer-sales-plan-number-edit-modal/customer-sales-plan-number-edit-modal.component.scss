@@ -1,0 +1,25 @@
+.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.delete-button {
+  --mat-text-button-state-layer-color: var(--error-color) !important;
+  color: var(--error-color);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}

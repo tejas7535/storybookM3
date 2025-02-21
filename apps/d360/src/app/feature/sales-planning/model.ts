@@ -95,6 +95,15 @@ export interface DetailedCustomerSalesPlan {
   orderBookBacklogConstrained: number;
 }
 
+export interface DetailedSalesPlanUpdateRequest {
+  planningYear: string;
+  planningMonth: string;
+  planningMaterial: string;
+  planningCurrency: string;
+  planningLevelMaterialType: string;
+  adjustedValue: number;
+}
+
 export enum SalesPlanningDetailLevel {
   YearlyAndPlanningLevelMaterialDetailLevel = '2',
   MonthlyOnlyDetailLevel = '3',

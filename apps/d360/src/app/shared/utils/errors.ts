@@ -16,7 +16,7 @@ interface ProblemDetail {
  * Check if the given detail is a problem detail
  * @param detail The detail to check
  */
-function isProblemDetail(detail: any): detail is ProblemDetail {
+export function isProblemDetail(detail: any): detail is ProblemDetail {
   if (!detail || typeof detail !== 'object') {
     return false;
   }

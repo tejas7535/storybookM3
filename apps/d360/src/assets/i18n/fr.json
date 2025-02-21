@@ -660,6 +660,16 @@
         "change_title": "Changer le matériau de planification",
         "change_hint": "Lorsque le matériau de planification est modifié, les données de planification sur le matériau de planification <strong>seront supprimées</strong>.",
         "change_confirmation_question": "Êtes-vous sûr de vouloir changer le matériau de planification?"
+      },
+      "edit_modal": {
+        "absolute": "Absolu",
+        "relative": "Relatif",
+        "yearly_total": "Total Annuel",
+        "adjusted_yearly_total": "Total Annuel ajusté",
+        "previous_adjusted_yearly_total": "Total Annuel ajusté précédent",
+        "adjusted_yearly_total_error_message": "Votre saisie est inférieure au seuil minimum de {{min_value}}",
+        "percentage_change": "Changement en %",
+        "percentage_change_hint": "Pour les changements négatifs, précédez d’un signe moins (-)"
       }
     },
     "table": {
@@ -1244,7 +1254,16 @@
     },
     "error": "Message de classe {{messageClass}} et de numéro {{messageNumber}} introuvable.",
     "/SGD/SCM_SOP": {
-      "685": "{{messageV1}} combinaisons ont été sélectionnées, le maximum autorisé est de {{messageV2}}"
+      "685": "{{messageV1}} combinaisons ont été sélectionnées, le maximum autorisé est de {{messageV2}}",
+      "712": "Champ obligatoire (année, devise, client, pl.lvl.type) manquant.",
+      "713": "Client {{customer}} non trouvé ou aucune autorisation pour le client.",
+      "714": "Les mises à jour ne sont autorisées que dans la devise de planification {{planningCurrency}}.",
+      "715": "Niveau de planification {{wrongPlanningLevel}} non autorisé. Un plan existe déjà pour {{correctPlanningLevel}}.",
+      "716": "Niveau de planification {{unknownPlanningLevel}} inconnu.",
+      "717": "Valeur invalide {{invalidValue}} pour le niveau de planification {{planningLevel}}.",
+      "718": "Une entrée existe déjà pour l'année {{year}} au niveau du mois.",
+      "719": "Une entrée existe déjà au niveau du matériau pour l'année {{year}}.",
+      "720": "Aucune autorisation pour le client {{customer}} et l'activité {{activity}}."
     },
     "/SGD/SCM_SOP_SALES": {
       "0": "Le texte avec les valeurs suivantes n'a pas pu être trouvé : {{messageV1}}, {{messageV2}}, {{messageV3}}, {{messageV4}}.",

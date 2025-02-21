@@ -1,0 +1,195 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  signal,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ValidationErrors } from '@angular/forms';
+import { MatIconButton } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
+
+import { Observable, take, tap } from 'rxjs';
+
+import { translate } from '@jsverse/transloco';
+import { PushPipe } from '@ngrx/component';
+import { ICellRendererParams } from 'ag-grid-enterprise';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { SalesPlanningService } from '../../../../../../feature/sales-planning/sales-planning.service';
+import { AbstractBaseCellRendererComponent } from '../../../../../../shared/components/ag-grid/cell-renderer/abstract-cell-renderer.component';
+import { NumberWithoutFractionDigitsPipe } from '../../../../../../shared/pipes/number-without-fraction-digits.pipe';
+import { AuthService } from '../../../../../../shared/utils/auth/auth.service';
+import { salesPlanningAllowedEditRoles } from '../../../../../../shared/utils/auth/roles';
+import { CustomerSalesPlanNumberEditModalComponent } from '../../customer-sales-plan-number-edit-modal/customer-sales-plan-number-edit-modal.component';
+
+@Component({
+  selector: 'd360-sales-planning-number-edit-cell-renderer',
+  standalone: true,
+  imports: [MatIcon, MatIconButton, SharedTranslocoModule, PushPipe],
+  templateUrl: './sales-planning-number-edit-cell-renderer.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './sales-planning-number-edit-cell-renderer.component.scss',
+})
+export class SalesPlanningNumberEditCellRendererComponent<
+  T = any,
+> extends AbstractBaseCellRendererComponent<T> {
+  public onClickAction: () => void;
+  public isUserAllowedToEdit$: Observable<boolean>;
+
+  private readonly dialog = inject(MatDialog);
+  private readonly salesPlanningService = inject(SalesPlanningService);
+  private readonly numberWithoutFractionDigitsPipe = inject(
+    NumberWithoutFractionDigitsPipe
+  );
+  private readonly destoryRef = inject(DestroyRef);
+  private readonly authService = inject(AuthService);
+  private readonly translationKeyPrefix =
+    'sales_planning.planning_details.edit_modal';
+
+  private isPlanningMaterialRow: boolean;
+
+  private customerNumber: string;
+  private planningYear: string;
+  private planningMonth: string;
+  private planningMaterial: string;
+  private planningCurrency: string;
+  private planningLevelMaterialType: string;
+  private planningMaterialText: string;
+  private minValidationValue: number;
+
+  protected valueFormatted = signal<string | null>(null);
+
+  /**
+   * @inheritdoc
+   * @override
+   */
+  protected setValue(parameters: ICellRendererParams<any, T>): void {
+    this.valueFormatted.set(parameters.valueFormatted);
+
+    this.value = parameters.value;
+    this.isPlanningMaterialRow = parameters.node.level === 1;
+    this.parameters = parameters;
+    this.isUserAllowedToEdit$ = this.authService.hasUserAccess(
+      salesPlanningAllowedEditRoles
+    );
+
+    this.customerNumber = this.parameters.data.customerNumber;
+    this.planningYear = this.parameters.data.planningYear;
+    this.planningMonth = this.parameters.data.planningMonth;
+    this.planningMaterial = this.parameters.data.planningMaterial;
+    this.planningCurrency = this.parameters.data.planningCurrency;
+    this.planningLevelMaterialType =
+      this.parameters.data.planningLevelMaterialType;
+    this.planningMaterialText = this.parameters.data.planningMaterialText;
+
+    this.minValidationValue =
+      this.parameters.data.firmBusiness +
+      this.parameters.data.firmBusinessServices +
+      this.parameters.data.openPlannedValueDemand360 +
+      this.parameters.data.opportunitiesDemandRelevant +
+      this.parameters.data.opportunitiesForecastRelevant;
+  }
+
+  private readonly SAP_MAGIC_NUMBER_VALUE_NOT_ENTERED: number = -1;
+
+  public handleEditCustomerSalesPlanNumberClicked() {
+    this.dialog
+      .open(CustomerSalesPlanNumberEditModalComponent, {
+        data: {
+          title: this.isPlanningMaterialRow
+            ? this.getPlanningMaterialText()
+            : this.planningYear,
+          formLabel: translate(`${this.translationKeyPrefix}.yearly_total`),
+          currentValueLabel: translate(
+            `${this.translationKeyPrefix}.adjusted_yearly_total`
+          ),
+          previousValueLabel: translate(
+            `${this.translationKeyPrefix}.previous_adjusted_yearly_total`
+          ),
+          planningCurrency: this.planningCurrency,
+          previousValue:
+            this.value === this.SAP_MAGIC_NUMBER_VALUE_NOT_ENTERED
+              ? this.parameters.data.totalSalesPlanUnconstrained
+              : this.value,
+          onDelete: this.onDelete(),
+          onSave: this.onSave(),
+          inputValidatorFn: this.validateEnteredAdjustedYearlyTotal.bind(this),
+          inputValidatorErrorMessage: translate(
+            `${this.translationKeyPrefix}.adjusted_yearly_total_error_message`,
+            {
+              min_value: `${this.numberWithoutFractionDigitsPipe.transform(this.minValidationValue)} ${this.planningCurrency}`,
+            }
+          ),
+        },
+        autoFocus: false,
+        disableClose: true,
+        width: '600px',
+      })
+      .afterClosed()
+      .pipe(
+        take(1),
+        tap((newValue: number | null) => {
+          if (newValue !== null) {
+            this.value = newValue;
+
+            // @ts-expect-error formatting string based on string formatValue function
+            this.valueFormatted.set(this.parameters.formatValue(newValue));
+          }
+        }),
+        takeUntilDestroyed(this.destoryRef)
+      )
+      .subscribe();
+  }
+
+  private onDelete() {
+    return () =>
+      this.salesPlanningService.deleteDetailedCustomerSalesPlan(
+        this.customerNumber,
+        this.planningYear,
+        this.planningMonth,
+        this.isPlanningMaterialRow ? this.planningMaterial : null
+      );
+  }
+
+  private onSave() {
+    return (adjustedValue: number) =>
+      this.salesPlanningService.updateDetailedCustomerSalesPlan(
+        this.customerNumber,
+        {
+          planningYear: this.planningYear,
+          planningCurrency: this.planningCurrency,
+          planningMonth: '00',
+          planningMaterial: this.planningMaterial,
+          planningLevelMaterialType: this.planningLevelMaterialType,
+          adjustedValue,
+        }
+      );
+  }
+
+  private validateEnteredAdjustedYearlyTotal(
+    adjustedYearlyTotal: number
+  ): ValidationErrors | null {
+    if (adjustedYearlyTotal === null) {
+      return null;
+    }
+
+    return adjustedYearlyTotal >= this.minValidationValue
+      ? null
+      : { invalid: true };
+  }
+
+  private getPlanningMaterialText() {
+    return `${this.planningMaterial} - ${this.planningMaterialText}`;
+  }
+
+  public isEditPossible() {
+    const currentYear = new Date().getFullYear();
+    const yearOfDataSet = Number.parseInt(this.planningYear, 10);
+
+    return this.isPlanningMaterialRow ? currentYear + 2 >= yearOfDataSet : true;
+  }
+}

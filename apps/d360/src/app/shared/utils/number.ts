@@ -94,16 +94,60 @@ export function parseAndFormatNumber(
 export function getNumberFromLocale(number: string, locale: string): number {
   let unformatted: string = number;
 
-  const parts: string[] | null = (1234.5)
-    .toLocaleString(locale)
-    .match(/(\D+)/g);
+  const thousandSeparator = getThousandSeparator(locale);
+  const decimalSeparator = getDecimalSeparator(locale);
 
-  if (parts) {
-    unformatted = unformatted.replaceAll(parts[0], '');
-    unformatted = unformatted.replaceAll(parts[1], '.');
+  if (thousandSeparator && decimalSeparator) {
+    // fr-FR uses a space as a thousand separator
+    unformatted = unformatted.replaceAll(' ', '');
+    unformatted = unformatted.replaceAll(thousandSeparator, '');
+    unformatted = unformatted.replaceAll(decimalSeparator, '.');
 
     return Number.parseFloat(unformatted);
   }
 
   return Number.parseFloat(number);
+}
+
+export function numberIsAtStartOfDecimal(
+  number: string,
+  locale: string
+): boolean {
+  let unformatted: string = number;
+
+  const thousandSeparator = getThousandSeparator(locale);
+  const decimalSeparator = getDecimalSeparator(locale);
+
+  if (thousandSeparator && decimalSeparator) {
+    unformatted = unformatted.replaceAll(thousandSeparator, '');
+    unformatted = unformatted.replaceAll(decimalSeparator, '.');
+
+    return unformatted.endsWith('.');
+  }
+
+  return false;
+}
+
+export function getDecimalSeparator(locale: string): string {
+  const parts: string[] | null = (1234.5)
+    .toLocaleString(locale)
+    .match(/(\D+)/g);
+
+  if (parts) {
+    return parts[1];
+  }
+
+  return null;
+}
+
+export function getThousandSeparator(locale: string): string {
+  const parts: string[] | null = (1234.5)
+    .toLocaleString(locale)
+    .match(/(\D+)/g);
+
+  if (parts) {
+    return parts[0];
+  }
+
+  return null;
 }

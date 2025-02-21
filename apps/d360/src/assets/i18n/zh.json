@@ -660,6 +660,16 @@
         "change_title": "更改计划级材料",
         "change_hint": "更改计划级材料时，计划级材料上的计划数据将 <strong>被删除</strong>。",
         "change_confirmation_question": "您确定要更改计划级材料吗？"
+      },
+      "edit_modal": {
+        "absolute": "绝对值",
+        "relative": "相对值",
+        "yearly_total": "年度总计",
+        "adjusted_yearly_total": "调整后的年度总计",
+        "previous_adjusted_yearly_total": "上次调整后的年度总计",
+        "adjusted_yearly_total_error_message": "您的输入低于最低阈值 {{min_value}}",
+        "percentage_change": "百分比变化",
+        "percentage_change_hint": "对于负变化，请在前面加上减号 (-)"
       }
     },
     "table": {
@@ -1244,7 +1254,16 @@
     },
     "error": "找不到{{messageClass}}类和{{messageNumber}}号的信息。",
     "/SGD/SCM_SOP": {
-      "685": "选定 {{messageV1}} 种组合，最多允许 {{messageV2}} 种组合"
+      "685": "选定 {{messageV1}} 种组合，最多允许 {{messageV2}} 种组合",
+      "712": "必填字段（年份、货币、客户、pl.lvl.type）缺失。",
+      "713": "未找到客户 {{customer}} 或无客户权限。",
+      "714": "仅允许在计划货币 {{planningCurrency}} 中进行更新。",
+      "715": "不允许使用计划级别 {{wrongPlanningLevel}}。{{correctPlanningLevel}} 已经存在一个计划。",
+      "716": "计划级别 {{unknownPlanningLevel}} 未知。",
+      "717": "计划级别 {{planningLevel}} 的值 {{invalidValue}} 无效。",
+      "718": "年份 {{year}} 在月份级别上已有条目。",
+      "719": "年份 {{year}} 在材料级别上已有条目。",
+      "720": "无客户 {{customer}} 和活动 {{activity}} 的权限。"
     },
     "/SGD/SCM_SOP_SALES": {
       "0": "无法找到含有以下值的文本：{{messageV1}}、{{messageV2}}、{{messageV3}}、{{messageV4}}。",

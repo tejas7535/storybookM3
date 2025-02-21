@@ -1,0 +1,99 @@
+@if (loading()) {
+  <div class="w-32 h-32">
+    <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
+  </div>
+} @else {
+  <div *transloco="let t">
+    <div mat-dialog-title class="m-0 pt-0 pb-2">
+      <div class="flex flex-col gap-2">
+        <h2 class="text-headline-small">
+          {{ t('button.edit') }} {{ data.title }}
+        </h2>
+      </div>
+    </div>
+    <mat-dialog-content>
+      <div class="flex flex-col gap-4">
+        <div [formGroup]="form">
+          <mat-radio-group
+            formControlName="adjustmentOption"
+            (change)="onChangeAdjustmentOption()"
+            class="flex flex-col mb-3"
+          >
+            <mat-radio-button [value]="AdjustmentOption.Absolute">
+              {{ t('sales_planning.planning_details.edit_modal.absolute') }}
+            </mat-radio-button>
+
+            <mat-radio-button [value]="AdjustmentOption.Relative">
+              {{ t('sales_planning.planning_details.edit_modal.relative') }}
+            </mat-radio-button>
+          </mat-radio-group>
+
+          <mat-form-field appearance="outline">
+            @if (isEnteringRelativeValue()) {
+              <mat-label>
+                {{ data.formLabel }}
+                {{
+                  t(
+                    'sales_planning.planning_details.edit_modal.percentage_change'
+                  )
+                }}
+              </mat-label>
+            } @else {
+              <mat-label>{{ data.formLabel }}</mat-label>
+            }
+            <input
+              required
+              matInput
+              d360NumberSeparator
+              [allowDecimalPlaces]="isEnteringRelativeValue()"
+              [allowNegativeNumbers]="isEnteringRelativeValue()"
+              (input)="onInput($event)"
+              [attr.aria-label]="data.formLabel"
+              [formControl]="form.controls.adjustedValue"
+            />
+            @if (isEnteringRelativeValue()) {
+              <mat-hint
+                >{{
+                  t(
+                    'sales_planning.planning_details.edit_modal.percentage_change_hint'
+                  )
+                }}
+              </mat-hint>
+            }
+            @if (form.controls.adjustedValue.hasError('invalid')) {
+              <mat-error>{{ data.inputValidatorErrorMessage }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="text-high-emphasis text-title-large">
+          <span>{{ data.currentValueLabel }} </span>
+          <span>
+            {{ (configuredValue() | numberWithoutFractionDigits) || '-' }}
+            {{ data.planningCurrency }}
+          </span>
+        </div>
+        <div class="text-medium-emphasis text-body-small">
+          <span>{{ data.previousValueLabel }} </span>
+          <span>
+            {{ data.previousValue | numberWithoutFractionDigits }}
+            {{ data.planningCurrency }}
+          </span>
+        </div>
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end" class="gap-3 dialog-actions">
+      <button mat-button class="delete-button" (click)="onDelete()">
+        {{ t('button.delete') }}
+      </button>
+      <span class="spacer"></span>
+
+      <button mat-button (click)="onCancel()">
+        {{ t('button.cancel') }}
+      </button>
+      <button mat-flat-button (click)="onSave()">
+        {{ t('button.save') }}
+      </button>
+    </mat-dialog-actions>
+  </div>
+}

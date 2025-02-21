@@ -10,6 +10,7 @@ import { Region } from '../global-selection/model';
 import {
   CustomerInfo,
   DetailedCustomerSalesPlan,
+  DetailedSalesPlanUpdateRequest,
   SalesPlanResponse,
 } from './model';
 import { SalesPlanningService } from './sales-planning.service';
@@ -176,5 +177,61 @@ describe('SalesPlanningService', () => {
         HttpMethod.GET
       )
       .flush(mockData);
+  });
+
+  // The expectation is implicit in the correct HTTP request
+  // eslint-disable-next-line jest/expect-expect
+  it('should update detailed customer sales plan', (done) => {
+    const customerNumber = '12345';
+    const updateRequest: DetailedSalesPlanUpdateRequest = {
+      planningYear: '2026',
+      planningMonth: '01',
+      planningMaterial: '06',
+      planningCurrency: 'USD',
+      planningLevelMaterialType: 'PL',
+      adjustedValue: 100_000,
+    };
+
+    spectator.service
+      .updateDetailedCustomerSalesPlan(customerNumber, updateRequest)
+      .pipe(take(1))
+      .subscribe(() => {
+        done();
+      });
+
+    spectator
+      .expectOne(
+        `/api/sales-planning/detailed-customer-sales-plan?customerNumber=${customerNumber}`,
+        HttpMethod.PUT
+      )
+      .flush(null);
+  });
+
+  // The expectation is implicit in the correct HTTP request
+  // eslint-disable-next-line jest/expect-expect
+  it('should delete detailed customer sales plan', (done) => {
+    const customerNumber = '12345';
+    const planningYear = '2026';
+    const planningMonth = '01';
+    const planningMaterial = '07';
+
+    spectator.service
+      .deleteDetailedCustomerSalesPlan(
+        customerNumber,
+        planningYear,
+        planningMonth,
+        planningMaterial
+      )
+      .pipe(take(1))
+      .subscribe(() => {
+        done();
+      });
+
+    spectator
+      .expectOne(
+        `/api/sales-planning/detailed-customer-sales-plan?customerNumber=${customerNumber}&planningYear=${planningYear}&planningMonth=${planningMonth}&planningMaterial=${planningMaterial}`,
+        HttpMethod.DELETE
+      )
+      .flush(null);
   });
 });

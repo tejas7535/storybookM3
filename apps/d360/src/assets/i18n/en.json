@@ -672,6 +672,16 @@
         "change_title": "Change Planning Level Material",
         "change_hint": "When the Planning Level Material is changed, planning data on planning level material will <strong>be deleted</strong>.",
         "change_confirmation_question": "Are you sure you want to change the planning level material?"
+      },
+      "edit_modal": {
+        "absolute": "Absolute",
+        "relative": "Relative",
+        "yearly_total": "Yearly Total",
+        "adjusted_yearly_total": "Adjusted Yearly Total",
+        "previous_adjusted_yearly_total": "Previous Adjusted Yearly Total",
+        "adjusted_yearly_total_error_message": "Your entry is below the minimum threshold of {{min_value}}",
+        "percentage_change": "change in %",
+        "percentage_change_hint": "For negative changes precede with a minus (-)"
       }
     },
     "table": {
@@ -1256,7 +1266,16 @@
     },
     "error": "Message with class {{messageClass}} and number {{messageNumber}} could not be found.",
     "/SGD/SCM_SOP": {
-      "685": "{{messageV1}} combinations were selected, a maximum of {{messageV2}} are permitted"
+      "685": "{{messageV1}} combinations were selected, a maximum of {{messageV2}} are permitted",
+      "712": "Mandatory field (year, currency, customer, pl.lvl.type) missing.",
+      "713": "Customer {{customer}} not found or no authorization for customer.",
+      "714": "Updates are only allowed in planning currency {{planningCurrency}}.",
+      "715": "Planning level {{wrongPlanningLevel}} not allowed. A plan is already existing for {{correctPlanningLevel}}.",
+      "716": "Planning level {{unknownPlanningLevel}} unknown.",
+      "717": "Invalid value {{invalidValue}} for planning level {{planningLevel}}.",
+      "718": "An entry is already existing for year {{year}} on level month.",
+      "719": "An entry is already existing on level material for year {{year}}.",
+      "720": "No authorization for customer {{customer}} and activity {{activity}}"
     },
     "/SGD/SCM_SOP_SALES": {
       "0": "Text with the following values could not be found: {{messageV1}}, {{messageV2}}, {{messageV3}}, {{messageV4}}.",

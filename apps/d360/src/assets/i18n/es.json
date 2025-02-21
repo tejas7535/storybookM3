@@ -660,6 +660,16 @@
         "change_title": "Cambiar material de planificación",
         "change_hint": "Cuando se cambie el material de planificación, los datos de planificación en el nivel de planificación <strong>serán eliminados</strong>.",
         "change_confirmation_question": "¿Está seguro de que desea cambiar el material de planificación?"
+      },
+      "edit_modal": {
+        "absolute": "Absoluto",
+        "relative": "Relativo",
+        "yearly_total": "Total Anual",
+        "adjusted_yearly_total": "Total Anual ajustado",
+        "previous_adjusted_yearly_total": "Total Anual ajustado previo",
+        "adjusted_yearly_total_error_message": "Su entrada está por debajo del umbral mínimo de {{min_value}}",
+        "percentage_change": "Cambio en %",
+        "percentage_change_hint": "Para cambios negativos, preceder con un signo menos (-)"
       }
     },
     "table": {
@@ -1244,7 +1254,16 @@
     },
     "error": "No se ha podido encontrar el mensaje con la clase {{messageClass}} y el número {{messageNumber}}.",
     "/SGD/SCM_SOP": {
-      "685": "Se han seleccionado {{messageV1}} combinaciones, se permite un máximo de {{messageV2}}"
+      "685": "Se han seleccionado {{messageV1}} combinaciones, se permite un máximo de {{messageV2}}",
+      "712": "Campo obligatorio (año, moneda, cliente, pl.lvl.type) faltante.",
+      "713": "Cliente {{customer}} no encontrado o sin autorización para el cliente.",
+      "714": "Las actualizaciones solo están permitidas en la moneda de planificación {{planningCurrency}}.",
+      "715": "Nivel de planificación {{wrongPlanningLevel}} no permitido. Ya existe un plan para {{correctPlanningLevel}}.",
+      "716": "Nivel de planificación {{unknownPlanningLevel}} desconocido.",
+      "717": "Valor no válido {{invalidValue}} para el nivel de planificación {{planningLevel}}.",
+      "718": "Ya existe una entrada para el año {{year}} a nivel de mes.",
+      "719": "Ya existe una entrada a nivel de material para el año {{year}}.",
+      "720": "No hay autorización para el cliente {{customer}} y la actividad {{activity}}."
     },
     "/SGD/SCM_SOP_SALES": {
       "0": "No se ha podido encontrar el texto con los siguientes valores: {{mensajeV1}}, {{mensajeV2}}, {{mensajeV3}}, {{mensajeV4}}.",
