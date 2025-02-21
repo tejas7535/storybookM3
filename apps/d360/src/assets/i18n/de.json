@@ -536,7 +536,7 @@
     }
   },
   "customer_material_portfolio": {
-    "title": "Validierung Kunden Material Portfolio",
+    "title": "Kunden Material Portfolio",
     "toolbar": {
       "expandAll": "ausklappen",
       "collapseAll": "einklappen"
@@ -814,13 +814,13 @@
     },
     "category": {
       "column_header": "Aufgaben-Typ",
-      "CHKDMP": "Validierung Absatzplanung(M)",
-      "DPLEOR": "Validierung Absatzplanung(A)",
+      "CHKDMP": "Absatzvalidierung (M)",
+      "DPLEOR": "Absatzvalidierung (A)",
       "DMPFIN": "Der Forecast wurde aktualisiert",
       "DPOPDL": "Re-Klassifizierung OP, Absatzprognose gelöscht",
       "CFPRAO": "Prüfe Validated Forecast, Ersetzung rückgängig gemacht",
       "CFSUAO": "Prüfe Validated Forecast, Ersetzung rückgängig gemacht",
-      "PINWAO": "Phase-In, Validierung Absatzplanung",
+      "PINWAO": "Phase-In, Absatzvalidierung",
       "PINWDP": "Phase-In zum festgelegtem Zeitpunkt ",
       "PIOCAO": "Phase-In Datum geändert (Kundenauftrag)",
       "PIOCDP": "Phase-In Datum geändert (Kundenauftrag)",
@@ -834,7 +834,7 @@
       "SPSBDP": "Ersetzungsvorschlag blockiert",
       "REUDAO": "Ersetzung storniert",
       "REUSAO": "Ersetzung Prüfen, Aufträge auf Vorgänger",
-      "RESEAO": "Ersetzung, Validierung Absatzplanung",
+      "RESEAO": "Ersetzung, Absatzvalidierung",
       "RESEDP": "Ersetzung prüfen",
       "SPCHDP": "Ersetzungsvorschlag geändert",
       "SPCHAO": "Ersetzungsvorschlag geändert",

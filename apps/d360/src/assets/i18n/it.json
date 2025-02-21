@@ -346,8 +346,8 @@
       "product_line_and_text": "Linea Prodotto PL + Nome",
       "pfStatus": {
         "title": "Stato Portafoglio",
-        "PO": "Phase Out",
-        "PI": "Phase In",
+        "PO": "Phase-Out",
+        "PI": "Phase-In",
         "AC": "Attivo",
         "IA": "Non Attivo",
         "SE": "Sostituzione (Client)",
@@ -527,7 +527,7 @@
     }
   },
   "customer_material_portfolio": {
-    "title": "Conferma del portafoglio materiali del cliente",
+    "title": "Portafoglio di materiali per i clienti",
     "toolbar": {
       "expandAll": "ripiegare",
       "collapseAll": "ripiegare in"
@@ -805,13 +805,13 @@
     },
     "category": {
       "column_header": "Tipo di compito",
-      "CHKDMP": "Conferma del Fabbisogno in pezzi(M)",
-      "DPLEOR": "Conferma del Fabbisogno in pezzi(A)",
+      "CHKDMP": "Convalida della domanda (M)",
+      "DPLEOR": "Convalida della domanda (A)",
       "DMPFIN": "Le previsioni sono state aggiornate",
       "DPOPDL": "Riclassificazione OP, Previsione convalidata cancellata",
       "CFPRAO": "Verifica della previsione convalidata, sostituzione annullata",
       "CFSUAO": "Verifica della previsione convalidata, sostituzione annullata",
-      "PINWAO": "Phase-In, validazione della domanda",
+      "PINWAO": "Phase-In, Convalida della domanda",
       "PINWDP": "Introduzione graduale al momento stabilito",
       "PIOCAO": "Modifica della data di introduzione (ordine di vendita)",
       "PIOCDP": "Modifica della data di introduzione (ordine di vendita)",
@@ -825,7 +825,7 @@
       "SPSBDP": "Proposta di sostituzione bloccata",
       "REUDAO": "Sostituzione annullata",
       "REUSAO": "Controllo della sostituzione, ordini per i predecessori",
-      "RESEAO": "Sostituzione, validazione della domanda",
+      "RESEAO": "Sostituzione, Convalida della domanda",
       "RESEDP": "Controllare la sostituzione",
       "SPCHDP": "Proposta di sostituzione modificata",
       "SPCHAO": "Proposta di sostituzione modificata",
@@ -1081,8 +1081,8 @@
       "SE": "Sostituzione (Client)",
       "SI": "Sostituzione",
       "SB": "Veto",
-      "PO": "Phase Out",
-      "PI": "Phase In",
+      "PO": "Phase-Out",
+      "PI": "Phase-In",
       "unknown": "Sconosciuto"
     },
     "toolbar": {

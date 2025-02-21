@@ -358,8 +358,8 @@
       "product_line_and_text": "Product line + description",
       "pfStatus": {
         "title": "Portfolio Status",
-        "PO": "Phase Out",
-        "PI": "Phase In",
+        "PO": "Phase-Out",
+        "PI": "Phase-In",
         "AC": "Active",
         "IA": "Inactive",
         "SE": "Substitution (Customer)",
@@ -539,7 +539,7 @@
     }
   },
   "customer_material_portfolio": {
-    "title": "Validate Customer Material Portfolio",
+    "title": "Customer Material Portfolio",
     "toolbar": {
       "expandAll": "fold out",
       "collapseAll": "fold"
@@ -817,13 +817,13 @@
     },
     "category": {
       "column_header": "Task type",
-      "CHKDMP": "Validation of Demand(M)",
-      "DPLEOR": "Validation of Demand(A)",
+      "CHKDMP": "Demand Validation (M)",
+      "DPLEOR": "Demand Validation (A)",
       "DMPFIN": "The forecast was updated",
       "DPOPDL": "Re-classification OP, Validated Forecast deleted",
       "CFPRAO": "Check validated forecast, substitution undone",
       "CFSUAO": "Check validated forecast, substitution undone",
-      "PINWAO": "Phase-in, validation of demand",
+      "PINWAO": "Phase-in, Demand Validation",
       "PINWDP": "Phase-In at the specified time",
       "PIOCAO": "Phase-In date changed (sales order)",
       "PIOCDP": "Phase-In date changed (sales order)",
@@ -837,7 +837,7 @@
       "SPSBDP": "Substitution proposal blocked",
       "REUDAO": "Substitution canceled",
       "REUSAO": "Check substitution, orders for predecessors",
-      "RESEAO": "Substitution, validation of demand",
+      "RESEAO": "Substitution, Demand Validation",
       "RESEDP": "Check substitution",
       "SPCHDP": "Substitution proposal changed",
       "SPCHAO": "Substitution proposal changed",
@@ -1093,8 +1093,8 @@
       "SE": "Substitution (Customer)",
       "SI": "Substitution",
       "SB": "Veto",
-      "PO": "Phase Out",
-      "PI": "Phase In",
+      "PO": "Phase-Out",
+      "PI": "Phase-In",
       "unknown": "Unknown"
     },
     "toolbar": {

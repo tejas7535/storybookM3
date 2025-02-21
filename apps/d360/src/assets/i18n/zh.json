@@ -527,7 +527,7 @@
     }
   },
   "customer_material_portfolio": {
-    "title": "验证客户物料组合",
+    "title": "客戶材料組合",
     "toolbar": {
       "expandAll": "折叠出来",
       "collapseAll": "折叠"
@@ -805,13 +805,13 @@
     },
     "category": {
       "column_header": "类别",
-      "CHKDMP": "验证预测(M)",
-      "DPLEOR": "验证预测(A)",
+      "CHKDMP": "客户材料详情 (M)",
+      "DPLEOR": "客户材料详情 (A)",
       "DMPFIN": "预测已更新",
       "DPOPDL": "重新分类 OP，确认的客户预测已删除",
       "CFPRAO": "检查验证预报，取消更换",
       "CFSUAO": "检查验证预报，取消更换",
-      "PINWAO": "Phase-In新物料,请提供有效的预测",
+      "PINWAO": "Phase-In新物料,客户材料详情",
       "PINWDP": "Phase-In新物料在指定日期加入",
       "PIOCAO": "Phase-In新物料加入日期已变更（销售订单）",
       "PIOCDP": "Phase-In新物料加入日期已变更（销售订单）",

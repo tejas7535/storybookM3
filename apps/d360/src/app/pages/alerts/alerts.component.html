@@ -5,11 +5,12 @@
     ></schaeffler-loading-spinner>
   } @else {
     <d360-styled-section [grow]="true" class="flex flex-col h-full">
+      <h2 class="text-title-large">{{ t('tabbar.tasks.label') }}</h2>
       <d360-header-action-bar>
         <div d360HeaderActionBarChildren class="wrapper">
           <d360-filter-dropdown
             class="compact w-72 block"
-            [label]="t('alert.select.label', {})"
+            [label]="t('alert.select.label')"
             [options]="alertStatus"
             [form]="formGroup"
             [control]="statusControl"

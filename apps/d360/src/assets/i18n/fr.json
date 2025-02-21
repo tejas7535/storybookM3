@@ -346,8 +346,8 @@
       "product_line_and_text": "Ligne de Production + Nom",
       "pfStatus": {
         "title": "Status du portefeuil",
-        "PO": "Phase Out",
-        "PI": "Phase In",
+        "PO": "Phase-Out",
+        "PI": "Phase-In",
         "AC": "Actif",
         "IA": "Inactif",
         "SE": "Substitution (Client)",
@@ -527,7 +527,7 @@
     }
   },
   "customer_material_portfolio": {
-    "title": "Validation de la liste des articles client",
+    "title": "Portefeuille de matériel des clients",
     "toolbar": {
       "expandAll": "déplier",
       "collapseAll": "replier"
@@ -805,13 +805,13 @@
     },
     "category": {
       "column_header": "Type de tâche",
-      "CHKDMP": "Validation des besoins(M)",
-      "DPLEOR": "Validation des besoins(A)",
+      "CHKDMP": "Validation de la demande (M)",
+      "DPLEOR": "Validation de la demande (A)",
       "DMPFIN": "Les prévisions ont été mises à jour",
       "DPOPDL": "Re-classification OP, Validée Prévision supprimée",
       "CFPRAO": "Vérification des prévisions validées, substitution non effectuée",
       "CFSUAO": "Vérification des prévisions validées, substitution non effectuée",
-      "PINWAO": "Phase-In, validation de la demande",
+      "PINWAO": "Phase-In, Validation de la demande",
       "PINWDP": "Phase-In à un moment donné",
       "PIOCAO": "Date de phase d'entrée modifiée (commande client)",
       "PIOCDP": "Date de phase d'entrée modifiée (commande client)",
@@ -825,7 +825,7 @@
       "SPSBDP": "Proposition de substitution bloquée",
       "REUDAO": "Substitution annulé",
       "REUSAO": "Vérifier la substitution, les ordres pour les prédécesseurs",
-      "RESEAO": "Substitution, validation de la demande",
+      "RESEAO": "Substitution, Validation de la demande",
       "RESEDP": "Vérifier le substitution",
       "SPCHDP": "Proposition de substitution modifiée",
       "SPCHAO": "Proposition de substitution modifiée",
@@ -1081,8 +1081,8 @@
       "SE": "Substitution (Client)",
       "SI": "substitution",
       "SB": "Veto",
-      "PO": "Phase Out",
-      "PI": "Phase In",
+      "PO": "Phase-Out",
+      "PI": "Phase-In",
       "unknown": "Inconnu"
     },
     "toolbar": {

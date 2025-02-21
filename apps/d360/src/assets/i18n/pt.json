@@ -346,8 +346,8 @@
       "product_line_and_text": "Linha de produto + Nome",
       "pfStatus": {
         "title": "Status do portfólio",
-        "PO": "Phase Out",
-        "PI": "Phase In",
+        "PO": "Phase-Out",
+        "PI": "Phase-In",
         "AC": "Ativo",
         "IA": "Inativo",
         "SE": "Substituição (Cliente)",
@@ -527,7 +527,7 @@
     }
   },
   "customer_material_portfolio": {
-    "title": "Validar o portfólio de materiais do cliente",
+    "title": "Carteira de materiais do cliente",
     "toolbar": {
       "expandAll": "desdobrar",
       "collapseAll": "dobrar"
@@ -795,19 +795,19 @@
     },
     "category": {
       "column_header": "Tipo de tarefa",
-      "CHKDMP": "Validação da demanda(M)",
-      "DPLEOR": "Validação da demanda(A)",
+      "CHKDMP": "Validação da demanda (M)",
+      "DPLEOR": "Validação da demanda (A)",
       "DMPFIN": "A previsão foi atualizada",
       "DPOPDL": "Re-classificação OP, Previsão validada eliminada",
       "CFPRAO": "Verificar previsão validada, substituição anulada",
       "CFSUAO": "Verificar previsão validada, substituição anulada",
-      "PINWAO": "Faseamento, validação da procura",
+      "PINWAO": "Faseamento, Validação da demanda",
       "PINWDP": "Entrada gradual no tempo especificado",
       "PIOCAO": "Data de entrada em fase alterada (ordem do cliente)",
       "PIOCDP": "Data de entrada em fase alterada (ordem do cliente)",
       "PINUAO": "Nenhum pedido/oportunidade, status do portfólio de validação",
       "PINUDP": "Entrada em fase sem ordem/oportunidade",
-      "PONWDP": "Phase Out no horário especificado",
+      "PONWDP": "Phase-Out no horário especificado",
       "IAUSDP": "Alteração da data de eliminação (pedido do cliente)",
       "IAUSAO": "Validar o status do portfólio e/ou demanda",
       "ACIADP": "Combinação básica Conjunto inativo",
@@ -815,7 +815,7 @@
       "SPSBDP": "Proposta de substituição bloqueada",
       "REUDAO": "Substituição cancelada",
       "REUSAO": "Verificar substituição, ordens para antecessores",
-      "RESEAO": "Substituição, validação da demanda",
+      "RESEAO": "Substituição, Validação da demanda",
       "RESEDP": "Verificar substituição",
       "SPCHDP": "Proposta de substituição alterada",
       "SPCHAO": "Proposta de substituição alterada",
@@ -1071,8 +1071,8 @@
       "SE": "Substituição (Cliente)",
       "SI": "Substituição",
       "SB": "Veto",
-      "PO": "Phase Out",
-      "PI": "Phase In",
+      "PO": "Phase-Out",
+      "PI": "Phase-In",
       "unknown": "Desconhecido"
     },
     "toolbar": {
