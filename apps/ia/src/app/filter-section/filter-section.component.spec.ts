@@ -44,6 +44,10 @@ import {
 } from '../shared/models';
 import { FilterSectionComponent } from './filter-section.component';
 
+jest.mock('../shared/guards/is-feature-enabled', () => ({
+  ...jest.requireActual('../shared/guards/is-feature-enabled'),
+  isFeatureEnabled: jest.fn(() => true),
+}));
 describe('FilterSectionComponent', () => {
   let component: FilterSectionComponent;
   let spectator: Spectator<FilterSectionComponent>;

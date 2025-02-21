@@ -7,7 +7,6 @@ import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
 import { getSpecificDimensonFilter } from '../../../core/store/selectors/filter/filter.selector';
-import { FILTER_DIMENSIONS } from '../../../shared/constants';
 import { DimensionFilterTranslation } from '../../../shared/dimension-filter/models';
 import {
   Filter,
@@ -15,6 +14,7 @@ import {
   IdValue,
   SelectedFilter,
 } from '../../../shared/models';
+import { getAllowedFilterDimensions } from '../../../shared/utils/utilities';
 import {
   loadUserSettingsDimensionData,
   updateUserSettings,
@@ -116,7 +116,9 @@ export class UserSettingsDialogComponent implements OnInit {
   mapTranslationsToIdValues(
     translations: Record<FilterDimension, string>
   ): IdValue[] {
-    return FILTER_DIMENSIONS.map(
+    const filterDimensions = getAllowedFilterDimensions();
+
+    return filterDimensions.map(
       (dimensionLevel) =>
         new IdValue(
           dimensionLevel.dimension,

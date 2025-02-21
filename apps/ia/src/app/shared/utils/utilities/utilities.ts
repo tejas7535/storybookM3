@@ -2,8 +2,13 @@ import { translate } from '@jsverse/transloco';
 import { ValueFormatterParams } from 'ag-grid-community';
 import moment, { Moment } from 'moment';
 
-import { DATE_FORMAT_BEAUTY } from '../../constants';
-import { TimePeriod } from '../../models';
+import {
+  DATE_FORMAT_BEAUTY,
+  EXPERITMENTAL_FILTER_DIMENSIONS,
+  FILTER_DIMENSIONS,
+} from '../../constants';
+import { isFeatureEnabled } from '../../guards/is-feature-enabled';
+import { FilterDimension, TimePeriod } from '../../models';
 
 export const getToday = () => moment.utc();
 
@@ -86,3 +91,15 @@ export const valueFormatterDate = <T>(
   params.data?.[key]
     ? moment.utc(+params.data?.[key]).format('DD/MM/YYYY')
     : '';
+
+export const getAllowedFilterDimensions = (): {
+  dimension: FilterDimension;
+  level: number;
+}[] => {
+  const filterDimensions = [...FILTER_DIMENSIONS];
+  if (isFeatureEnabled()) {
+    filterDimensions.splice(2, 0, ...EXPERITMENTAL_FILTER_DIMENSIONS);
+  }
+
+  return filterDimensions;
+};

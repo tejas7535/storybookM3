@@ -32,7 +32,6 @@ import {
   getTimePeriods,
   showBenchmarkFilter,
 } from '../core/store/selectors';
-import { FILTER_DIMENSIONS } from '../shared/constants';
 import { DimensionFilterTranslation } from '../shared/dimension-filter/models';
 import { FilterLayout } from '../shared/filter/filter-layout.enum';
 import {
@@ -42,6 +41,7 @@ import {
   SelectedFilter,
   TimePeriod,
 } from '../shared/models';
+import { getAllowedFilterDimensions } from '../shared/utils/utilities';
 
 @Component({
   selector: 'ia-filter-section',
@@ -177,7 +177,9 @@ export class FilterSectionComponent implements OnInit {
   mapTranslationsToIdValues(
     translations: Record<FilterDimension, string>
   ): IdValue[] {
-    return FILTER_DIMENSIONS.map(
+    const filterDimensions = getAllowedFilterDimensions();
+
+    return filterDimensions.map(
       (dimensionLevel) =>
         new IdValue(
           dimensionLevel.dimension,

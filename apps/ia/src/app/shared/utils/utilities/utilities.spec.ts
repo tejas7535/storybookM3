@@ -1,9 +1,10 @@
 import { ValueFormatterParams } from 'ag-grid-community';
 import moment from 'moment';
 
-import { TimePeriod } from '../../models';
+import { FilterDimension, TimePeriod } from '../../models';
 import {
   convertTimeRangeToUTC,
+  getAllowedFilterDimensions,
   getBeautifiedTimeRange,
   getMonth12MonthsAgo,
   getPercentageValue,
@@ -13,6 +14,10 @@ import {
   valueFormatterDate,
 } from './utilities';
 
+jest.mock('../../guards/is-feature-enabled', () => ({
+  ...jest.requireActual('../../guards/is-feature-enabled'),
+  isFeatureEnabled: jest.fn(() => true),
+}));
 describe('utilities', () => {
   describe('getTimeRangeHint', () => {
     test('set correct hint value - year', () => {
@@ -171,6 +176,33 @@ describe('utilities', () => {
       );
 
       expect(result).toEqual('');
+    });
+  });
+
+  describe('getAllowedFilterDimensions', () => {
+    test('should return all dimensions', () => {
+      const expected = [
+        { dimension: FilterDimension.ORG_UNIT, level: 0 },
+        { dimension: FilterDimension.PERSONAL_AREA, level: 0 },
+        { dimension: FilterDimension.JOB_FAMILY, level: 0 },
+        { dimension: FilterDimension.JOB_SUB_FAMILY, level: 1 },
+        { dimension: FilterDimension.JOB, level: 2 },
+        { dimension: FilterDimension.REGION, level: 0 },
+        { dimension: FilterDimension.SUB_REGION, level: 1 },
+        { dimension: FilterDimension.COUNTRY, level: 2 },
+        { dimension: FilterDimension.HR_LOCATION, level: 3 },
+        { dimension: FilterDimension.BOARD, level: 0 },
+        { dimension: FilterDimension.SUB_BOARD, level: 1 },
+        { dimension: FilterDimension.FUNCTION, level: 2 },
+        { dimension: FilterDimension.SUB_FUNCTION, level: 3 },
+        { dimension: FilterDimension.SEGMENT, level: 0 },
+        { dimension: FilterDimension.SUB_SEGMENT, level: 1 },
+        { dimension: FilterDimension.SEGMENT_UNIT, level: 2 },
+      ];
+
+      const result = getAllowedFilterDimensions();
+
+      expect(result).toEqual(expected);
     });
   });
 });

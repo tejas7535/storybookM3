@@ -13,9 +13,6 @@ export const FILTER_DIMENSIONS: {
 }[] = [
   { dimension: FilterDimension.ORG_UNIT, level: 0 },
   { dimension: FilterDimension.PERSONAL_AREA, level: 0 },
-  { dimension: FilterDimension.JOB_FAMILY, level: 0 },
-  { dimension: FilterDimension.JOB_SUB_FAMILY, level: 1 },
-  { dimension: FilterDimension.JOB, level: 2 },
   { dimension: FilterDimension.REGION, level: 0 },
   { dimension: FilterDimension.SUB_REGION, level: 1 },
   { dimension: FilterDimension.COUNTRY, level: 2 },
@@ -27,6 +24,11 @@ export const FILTER_DIMENSIONS: {
   { dimension: FilterDimension.SEGMENT, level: 0 },
   { dimension: FilterDimension.SUB_SEGMENT, level: 1 },
   { dimension: FilterDimension.SEGMENT_UNIT, level: 2 },
+];
+export const EXPERITMENTAL_FILTER_DIMENSIONS = [
+  { dimension: FilterDimension.JOB_FAMILY, level: 0 },
+  { dimension: FilterDimension.JOB_SUB_FAMILY, level: 1 },
+  { dimension: FilterDimension.JOB, level: 2 },
 ];
 
 export const DIMENSIONS_UNAVAILABLE_FOR_OPEN_POSITIONS = [

@@ -20,6 +20,10 @@ import {
 } from '../../store/actions/user.action';
 import { UserSettingsDialogComponent } from './user-settings-dialog.component';
 
+jest.mock('../../../shared/guards/is-feature-enabled', () => ({
+  ...jest.requireActual('../../../shared/guards/is-feature-enabled'),
+  isFeatureEnabled: jest.fn(() => true),
+}));
 describe('UserSettingsDialogComponent', () => {
   let component: UserSettingsDialogComponent;
   let spectator: Spectator<UserSettingsDialogComponent>;
