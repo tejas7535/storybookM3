@@ -19,7 +19,7 @@
     },
     "table": {
       "employee": "Name",
-      "position": "Position",
+      "position": "Performance Form (Employee/Manager)",
       "fluctuationType": "Fluctuation Type",
       "overallPerformanceRating": "Overall Performance Rating",
       "highRiskOfLoss": "High Risk of Loss",

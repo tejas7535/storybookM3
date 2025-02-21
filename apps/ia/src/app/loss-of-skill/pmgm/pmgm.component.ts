@@ -79,7 +79,7 @@ export class PmgmComponent {
       cellRenderer: PmgmPositionComponent,
       valueGetter: (params: ValueGetterParams) =>
         this.positionValueGetter(params),
-      minWidth: 70,
+      minWidth: 260,
     },
     {
       field: 'managerChange',
