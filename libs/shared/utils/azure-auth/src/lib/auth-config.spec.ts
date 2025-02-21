@@ -85,7 +85,9 @@ describe('Azure Auth Config', () => {
         'tenantId',
         true,
         'redirectUri',
-        'postlogoutUri'
+        'postlogoutUri',
+        'https://login.microsoftonline.com/',
+        true
       );
 
       const result = getMsalInstanceConfig(config);

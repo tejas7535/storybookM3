@@ -70,6 +70,7 @@ export const getMsalInstanceConfig = (
       storeAuthStateInCookie: isIE, // set to true for IE 11. Remove this line to use Angular Universal
     },
     system: {
+      allowRedirectInIframe: msalInstanceConfig.allowRedirectInIframe,
       loggerOptions: {
         loggerCallback: msalInstanceConfig.loggingEnabled
           ? loggerCallback
