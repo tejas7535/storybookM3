@@ -1,6 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter, Router } from '@angular/router';
 
 import { of } from 'rxjs';
 
@@ -40,12 +39,9 @@ describe('CaseTableComponent', () => {
 
   const createComponent = createComponentFactory({
     component: CaseTableComponent,
-    imports: [
-      RouterTestingModule.withRoutes([]),
-      provideTranslocoTestingModule({ en: {} }),
-      PushPipe,
-    ],
+    imports: [provideTranslocoTestingModule({ en: {} }), PushPipe],
     providers: [
+      provideRouter([]),
       MockProvider(ColumnDefService, {
         COLUMN_DEFS: [],
       }),
@@ -86,6 +82,15 @@ describe('CaseTableComponent', () => {
 
       expect(component['unsubscribe$'].next).toHaveBeenCalled();
       expect(component['unsubscribe$'].unsubscribe).toHaveBeenCalled();
+    });
+    test('should save userSettings', () => {
+      component['agGridStateService'].saveUserSettings = jest.fn();
+
+      component.ngOnDestroy();
+
+      expect(
+        component['agGridStateService'].saveUserSettings
+      ).toHaveBeenCalled();
     });
   });
 

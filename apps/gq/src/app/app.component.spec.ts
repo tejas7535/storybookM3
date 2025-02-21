@@ -5,14 +5,21 @@ import { ReplaySubject } from 'rxjs';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import { TranslocoModule } from '@jsverse/transloco';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { AppShellModule } from '@schaeffler/app-shell';
-import { COOKIE_GROUPS } from '@schaeffler/application-insights';
+import {
+  ApplicationInsightsService,
+  COOKIE_GROUPS,
+} from '@schaeffler/application-insights';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { MaintenanceModule } from '@schaeffler/empty-states';
 // eslint-disable-next-line @nx/enforce-module-boundaries
@@ -23,8 +30,10 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { AUTH_STATE_MOCK, HEALTH_CHECK_STATE_MOCK } from '../testing/mocks';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { HealthCheckFacade } from './core/store/health-check/health-check.facade';
 import { GlobalSearchBarModule } from './shared/components/global-search-bar/global-search-bar.module';
 import { UserSettingsComponent } from './shared/components/user-settings/user-settings.component';
+import { UserSettingsService } from './shared/services/rest/user-settings/user-settings.service';
 
 jest.mock('@jsverse/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
@@ -84,6 +93,12 @@ describe('AppComponent', () => {
           },
         },
       },
+      mockProvider(UserSettingsService, {
+        updateUserSettings: jest.fn(),
+      }),
+      mockProvider(OneTrustService),
+      mockProvider(HealthCheckFacade),
+      mockProvider(ApplicationInsightsService),
     ],
     declarations: [AppComponent],
   });
@@ -99,6 +114,14 @@ describe('AppComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('handleBeforeUnload', () => {
+    test('should call the mehtod', () => {
+      component.handleBeforeUnload();
+      expect(
+        component['userSettingsService'].updateUserSettings
+      ).toHaveBeenCalledTimes(1);
+    });
+  });
   describe('ngOnInit', () => {
     test('should set observables and dispatch login', () => {
       oneTrustService.translateBanner = jest.fn();

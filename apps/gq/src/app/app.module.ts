@@ -45,6 +45,7 @@ import { AgGridStateService } from './shared/services/ag-grid-state/ag-grid-stat
 import { FeatureToggleConfigService } from './shared/services/feature-toggle/feature-toggle-config.service';
 import { FEATURE_TOGGLE_CONFIG_LOCAL_STORAGE_KEY } from './shared/services/feature-toggle/feature-toggle-config-localstorage-key.injection-token';
 import { FEATURE_TOGGLE_DEFAULT_CONFIG } from './shared/services/feature-toggle/feature-toggle-default-config.injection-token';
+import { UserSettingsService } from './shared/services/rest/user-settings/user-settings.service';
 export function DynamicDataPrivacy(
   translocoService: TranslocoService
 ): Observable<string> {
@@ -92,14 +93,20 @@ const FEATURE_TOGGLE_CONFIG_LOCAL_STORAGE = 'gq-feature-config';
       useFactory:
         (
           featureToggleService: FeatureToggleConfigService,
-          agGridStateService: AgGridStateService
+          agGridStateService: AgGridStateService,
+          userSettings: UserSettingsService
         ): (() => void) =>
         (): void => {
           featureToggleService.initializeLocalStorage(environment.environment);
+          userSettings.initializeUserSettings();
           agGridStateService.renameQuotationIdToActionItemForProcessCaseState();
         },
       multi: true,
-      deps: [FeatureToggleConfigService, AgGridStateService],
+      deps: [
+        FeatureToggleConfigService,
+        AgGridStateService,
+        UserSettingsService,
+      ],
     },
     {
       provide: PERSON_RESPONSIBLE,

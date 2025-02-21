@@ -7,6 +7,7 @@ import {
   LocalizationService,
 } from '@gq/shared/ag-grid/services';
 import { BaseResultTableComponent } from '@gq/shared/components/global-search-bar/base-result-table/base-result-table.component';
+import { UserSettingsService } from '@gq/shared/services/rest/user-settings/user-settings.service';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createComponentFactory,
@@ -39,6 +40,9 @@ describe('CasesResultTableComponent', () => {
       } as unknown),
       MockProvider(ColumnUtilityService),
       mockProvider(TranslocoLocaleService),
+      mockProvider(UserSettingsService, {
+        updateUserSetting: jest.fn(),
+      }),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     detectChanges: false,
@@ -48,7 +52,7 @@ describe('CasesResultTableComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     Object.defineProperty(component, 'agGridStateService', {
-      value: { init: jest.fn() },
+      value: { init: jest.fn(), saveUserSettings: jest.fn() },
     });
   });
 
@@ -112,6 +116,19 @@ describe('CasesResultTableComponent', () => {
       expect(emitSpy).toHaveBeenCalledWith(component.criteriaSelectedValue);
     });
   });
+
+  describe('ngOnDestroy', () => {
+    test('should save userSettings', () => {
+      component['agGridStateService'].saveUserSettings = jest.fn();
+
+      component.ngOnDestroy();
+
+      expect(
+        component['agGridStateService'].saveUserSettings
+      ).toHaveBeenCalled();
+    });
+  });
+
   describe('onGridReady', () => {
     test('should call base class onGridReady method', () => {
       const onGridReady = jest.spyOn(

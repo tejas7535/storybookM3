@@ -4,6 +4,7 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
@@ -28,7 +29,7 @@ import { CasesCriteriaSelection } from './cases-criteria-selection.enum';
 })
 export class CasesResultTableComponent
   extends BaseResultTableComponent
-  implements OnInit
+  implements OnInit, OnDestroy
 {
   @Input() casesResults: QuotationSearchResultByCases[];
   @Input() resetInputs$: Observable<void>;
@@ -61,6 +62,10 @@ export class CasesResultTableComponent
         this.criteriaSelectedValue = CasesCriteriaSelection.GQ_ID;
         this.criteriaSelected.emit(this.criteriaSelectedValue);
       });
+  }
+
+  ngOnDestroy(): void {
+    this.agGridStateService.saveUserSettings();
   }
 
   radioButtonChanged(): void {

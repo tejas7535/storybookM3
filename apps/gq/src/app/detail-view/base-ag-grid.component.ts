@@ -1,4 +1,10 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -13,7 +19,7 @@ import {
 } from 'ag-grid-enterprise';
 
 @Component({ standalone: true, template: '' })
-export abstract class BaseAgGridComponent implements OnInit {
+export abstract class BaseAgGridComponent implements OnInit, OnDestroy {
   protected abstract TABLE_KEY: string;
   destroyRef = inject(DestroyRef);
   localeText$: Observable<AgGridLocale>;
@@ -28,6 +34,10 @@ export abstract class BaseAgGridComponent implements OnInit {
     this.localeText$ = this.localizationService.locale$;
     this.agGridStateService.init(this.TABLE_KEY);
     this.agGridStateService.setActiveView(0);
+  }
+
+  ngOnDestroy(): void {
+    this.agGridStateService.saveUserSettings();
   }
 
   onGridReady(event: GridReadyEvent): void {

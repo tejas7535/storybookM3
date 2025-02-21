@@ -64,6 +64,18 @@ describe('ReferencePricingTableComponent', () => {
     });
   });
 
+  describe('ngOnDestroy', () => {
+    test('should save userSettings', () => {
+      component['agGridStateService'].saveUserSettings = jest.fn();
+
+      component.ngOnDestroy();
+
+      expect(
+        component['agGridStateService'].saveUserSettings
+      ).toHaveBeenCalled();
+    });
+  });
+
   describe('onGridReady', () => {
     test('should set columnState', () => {
       const event = {

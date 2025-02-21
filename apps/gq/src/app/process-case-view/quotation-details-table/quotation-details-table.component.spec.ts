@@ -12,6 +12,7 @@ import {
 } from '@gq/shared/ag-grid/services';
 import { Quotation } from '@gq/shared/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
+import { UserSettingsService } from '@gq/shared/services/rest/user-settings/user-settings.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import {
   createComponentFactory,
@@ -81,6 +82,9 @@ describe('QuotationDetailsTableComponent', () => {
         initialState: {
           processCase: PROCESS_CASE_STATE_MOCK,
         },
+      }),
+      mockProvider(UserSettingsService, {
+        updateUserSetting: jest.fn(),
       }),
     ],
   });

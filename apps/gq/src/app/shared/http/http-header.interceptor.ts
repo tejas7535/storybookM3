@@ -26,6 +26,8 @@ export class HttpHeaderInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    const isUserSettingsPost =
+      request.url?.endsWith('user-settings') && request.method === 'POST';
     const isAttachmentUpload =
       request.url?.startsWith(
         `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`
@@ -40,7 +42,7 @@ export class HttpHeaderInterceptor implements HttpInterceptor {
       request.url?.endsWith(`${QuotationPaths.PATH_ATTACHMENT_DOWNLOAD}`) &&
       request.method === 'GET';
 
-    if (isAttachmentUpload || isDownloadAttachment) {
+    if (isAttachmentUpload || isDownloadAttachment || isUserSettingsPost) {
       return next.handle(request);
     }
 

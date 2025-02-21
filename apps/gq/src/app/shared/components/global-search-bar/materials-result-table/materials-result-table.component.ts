@@ -4,6 +4,7 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
@@ -29,7 +30,7 @@ import { MaterialsCriteriaSelection } from './material-criteria-selection.enum';
 })
 export class MaterialsResultTableComponent
   extends BaseResultTableComponent
-  implements OnInit
+  implements OnInit, OnDestroy
 {
   @Input() materialsResults: QuotationSearchResultByMaterials[];
   @Input() resetInputs$: Observable<void>;
@@ -74,6 +75,9 @@ export class MaterialsResultTableComponent
     this.gridContext.filter = this.criteriaSelectedValue;
   }
 
+  ngOnDestroy(): void {
+    this.agGridStateService.saveUserSettings();
+  }
   radioButtonChanged(): void {
     this.gridContext.filter = this.criteriaSelectedValue;
     this.criteriaSelected.emit(this.criteriaSelectedValue);

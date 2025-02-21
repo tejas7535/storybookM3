@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -26,7 +27,7 @@ import { DeleteCustomViewModalComponent } from './delete-custom-view-modal/delet
   templateUrl: './single-quotes-tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SingleQuotesTabComponent implements OnInit {
+export class SingleQuotesTabComponent implements OnInit, OnDestroy {
   private readonly activeCaseFacade: ActiveCaseFacade =
     inject(ActiveCaseFacade);
   private readonly colDefService: ColumnDefService = inject(ColumnDefService);
@@ -90,6 +91,10 @@ export class SingleQuotesTabComponent implements OnInit {
     this.gridStateService.clearDefaultViewColumnAndFilterState();
 
     this.applyFilterFromQueryParams();
+  }
+
+  ngOnDestroy(): void {
+    this.gridStateService.saveUserSettings();
   }
 
   onViewToggle(view: ViewToggle) {

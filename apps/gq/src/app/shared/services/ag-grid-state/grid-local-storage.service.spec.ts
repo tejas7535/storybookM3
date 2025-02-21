@@ -3,12 +3,17 @@ import {
   GridState,
   ViewState,
 } from '@gq/shared/models/grid-state.model';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
 import { MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { LocalStorageService } from '../local-storage/local-storage.service';
+import { UserSettingsService } from '../rest/user-settings/user-settings.service';
 import { GridLocalStorageService } from './grid-local-storage.service';
 
 describe('GridService', () => {
@@ -58,6 +63,9 @@ describe('GridService', () => {
       MockProvider(LocalStorageService, {
         getFromLocalStorage: jest.fn(),
         setToLocalStorage: jest.fn(),
+      }),
+      mockProvider(UserSettingsService, {
+        updateUserSetting: jest.fn(),
       }),
     ],
   });

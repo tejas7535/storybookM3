@@ -32,6 +32,10 @@ class ExampleService {
     return this.http.get<string>(`${differentUrl}/test`);
   }
 
+  public postUserSettings(): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/user-settings`, {});
+  }
+
   public postAttachments(): Observable<string> {
     return this.http.post<string>(
       `${this.apiUrl}/quotations/12345/attachments`,
@@ -78,6 +82,22 @@ describe(`HttpHeaderInterceptor`, () => {
   });
 
   describe('intercept', () => {
+    test('should not add header-content to user-settings when post', () => {
+      service.postUserSettings().subscribe((res) => {
+        expect(res).toBeTruthy();
+      });
+      const httpRequest = httpMock.expectOne(
+        `${environment.baseUrl}/user-settings`
+      );
+      expect(httpRequest.request.method).toEqual('POST');
+
+      expect(
+        httpRequest.request.headers.keys().includes('language')
+      ).toBeFalsy();
+      expect(
+        httpRequest.request.headers.keys().includes('content-type')
+      ).toBeFalsy();
+    });
     test('should not add header-content to quotations/{gqId}/attachments when post', () => {
       service.postAttachments().subscribe((res) => {
         expect(res).toBeTruthy();

@@ -96,6 +96,18 @@ describe('SingleQuotesTab', () => {
       expect(component).toBeTruthy();
     });
 
+    describe('ngOnDestroy', () => {
+      test('should save userSettings', () => {
+        component['gridStateService'].saveUserSettings = jest.fn();
+
+        component.ngOnDestroy();
+
+        expect(
+          component['gridStateService'].saveUserSettings
+        ).toHaveBeenCalled();
+      });
+    });
+
     describe('onViewToggle', () => {
       test('should open modal for add view', () => {
         component['openCustomViewModal'] = jest.fn();

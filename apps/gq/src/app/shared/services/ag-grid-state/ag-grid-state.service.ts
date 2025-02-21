@@ -14,6 +14,7 @@ import {
 } from '../../models/grid-state.model';
 import { QuotationDetail } from '../../models/quotation-detail';
 import { LocalStorageService } from '../local-storage/local-storage.service';
+import { UserSettingsService } from '../rest/user-settings/user-settings.service';
 import { GridLocalStorageService } from './grid-local-storage.service';
 import { GridMergeService } from './grid-merge.service';
 
@@ -42,6 +43,9 @@ export class AgGridStateService {
   );
   private readonly localStorageService: LocalStorageService =
     inject(LocalStorageService);
+
+  private readonly userSettingsService: UserSettingsService =
+    inject(UserSettingsService);
 
   /**
    * Init the gridState by table key.
@@ -258,6 +262,10 @@ export class AgGridStateService {
         ),
       });
     }
+  }
+
+  public saveUserSettings(): void {
+    this.userSettingsService.updateUserSetting(this.activeTableKey);
   }
 
   private setColumnState(

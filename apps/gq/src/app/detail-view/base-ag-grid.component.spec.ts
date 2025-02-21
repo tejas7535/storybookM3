@@ -20,6 +20,7 @@ const mockAgGridStateService = {
   setActiveView: jest.fn(),
   getColumnStateForCurrentView: jest.fn(),
   setColumnStateForCurrentView: jest.fn(),
+  saveUserSettings: jest.fn(),
 };
 
 const mockLocalizationService = {
@@ -46,6 +47,17 @@ describe('BaseAgGridComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('ngOnDestroy', () => {
+    test('should save userSettings', () => {
+      component['agGridStateService'].saveUserSettings = jest.fn();
+
+      component.ngOnDestroy();
+
+      expect(
+        component['agGridStateService'].saveUserSettings
+      ).toHaveBeenCalled();
+    });
+  });
   test(
     'should initialize localeText$',
     marbles((m) => {

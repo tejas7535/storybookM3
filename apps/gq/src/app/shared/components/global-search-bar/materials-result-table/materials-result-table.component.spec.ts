@@ -5,6 +5,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { RolesFacade } from '@gq/core/store/facades';
 import { LocalizationService } from '@gq/shared/ag-grid/services/localization.service';
 import { BaseResultTableComponent } from '@gq/shared/components/global-search-bar//base-result-table/base-result-table.component';
+import { UserSettingsService } from '@gq/shared/services/rest/user-settings/user-settings.service';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createComponentFactory,
@@ -41,6 +42,9 @@ describe('MaterialsResultTableComponent', () => {
         userHasGPCRole$: of(true),
       }),
       mockProvider(TranslocoLocaleService),
+      mockProvider(UserSettingsService, {
+        updateUserSetting: jest.fn(),
+      }),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     detectChanges: false,
@@ -101,6 +105,18 @@ describe('MaterialsResultTableComponent', () => {
       expect(component.gridContext.filter).toBe(
         MaterialsCriteriaSelection.MATERIAL_NUMBER
       );
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    test('should save userSettings', () => {
+      component['agGridStateService'].saveUserSettings = jest.fn();
+
+      component.ngOnDestroy();
+
+      expect(
+        component['agGridStateService'].saveUserSettings
+      ).toHaveBeenCalled();
     });
   });
 

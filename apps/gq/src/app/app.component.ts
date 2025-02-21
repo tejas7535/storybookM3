@@ -1,5 +1,11 @@
 /* eslint-disable ngrx/avoid-mapping-selectors */
-import { Component, OnInit, Optional } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  inject,
+  OnInit,
+  Optional,
+} from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
 import { filter, map, merge, Observable, of, take } from 'rxjs';
@@ -21,6 +27,7 @@ import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import packageJson from '../../package.json';
 import { AppRoutePath } from './app-route-path.enum';
 import { HealthCheckFacade } from './core/store/health-check/health-check.facade';
+import { UserSettingsService } from './shared/services/rest/user-settings/user-settings.service';
 
 @Component({
   selector: 'gq-root',
@@ -28,6 +35,19 @@ import { HealthCheckFacade } from './core/store/health-check/health-check.facade
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  private readonly store: Store = inject(Store);
+  private readonly router: Router = inject(Router);
+  private readonly translocoService: TranslocoService =
+    inject(TranslocoService);
+  private readonly appInsightsService: ApplicationInsightsService = inject(
+    ApplicationInsightsService
+  );
+  private readonly userSettingsService: UserSettingsService =
+    inject(UserSettingsService);
+  @Optional() private readonly oneTrustService: OneTrustService =
+    inject(OneTrustService);
+  readonly healthCheckFacade: HealthCheckFacade = inject(HealthCheckFacade);
+
   title = 'Guided Quoting';
   titleLink = AppRoutePath.CaseViewPath;
 
@@ -72,14 +92,10 @@ export class AppComponent implements OnInit {
   isCookieRouteActive$: Observable<boolean>;
   showGlobalSearch$: Observable<boolean>;
 
-  public constructor(
-    private readonly store: Store,
-    private readonly router: Router,
-    private readonly translocoService: TranslocoService,
-    private readonly appInsightsService: ApplicationInsightsService,
-    @Optional() private readonly oneTrustService: OneTrustService,
-    readonly healthCheckFacade: HealthCheckFacade
-  ) {}
+  @HostListener('window:beforeunload', ['$event'])
+  handleBeforeUnload(): void {
+    this.userSettingsService.updateUserSettings();
+  }
 
   public ngOnInit(): void {
     this.username$ = this.store.select(getUsername);
@@ -96,6 +112,8 @@ export class AppComponent implements OnInit {
       'appVersion',
       this.appVersion
     );
+
+    window.addEventListener('beforeunload', this.handleBeforeUnload);
   }
 
   handleCurrentRoute(): void {

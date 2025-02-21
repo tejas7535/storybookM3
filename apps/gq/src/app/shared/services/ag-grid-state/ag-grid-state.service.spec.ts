@@ -4,12 +4,17 @@ import {
   FilterState,
   GridState,
 } from '@gq/shared/models/grid-state.model';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
 import { ColumnState } from 'ag-grid-enterprise';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { ViewToggle } from '@schaeffler/view-toggle';
 
+import { UserSettingsService } from '../rest/user-settings/user-settings.service';
 import { AgGridStateService } from './ag-grid-state.service';
 
 const translatedViewName = 'translate it';
@@ -39,6 +44,11 @@ describe('AgGridStateService', () => {
   const createService = createServiceFactory({
     service: AgGridStateService,
     imports: [provideTranslocoTestingModule({ en: {} })],
+    providers: [
+      mockProvider(UserSettingsService, {
+        updateUserSetting: jest.fn(),
+      }),
+    ],
   });
 
   beforeEach(() => {
@@ -528,6 +538,18 @@ describe('AgGridStateService', () => {
           },
         ],
       });
+    });
+  });
+
+  describe('updateUserSetting', () => {
+    test('should call the service', () => {
+      service['userSettingsService'].updateUserSetting = jest.fn();
+      service['activeTableKey'] = 'test';
+      service.saveUserSettings();
+
+      expect(
+        service['userSettingsService'].updateUserSetting
+      ).toHaveBeenCalledWith(service['activeTableKey']);
     });
   });
 

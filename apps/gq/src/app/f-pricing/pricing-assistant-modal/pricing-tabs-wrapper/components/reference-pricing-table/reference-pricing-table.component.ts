@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -23,7 +30,7 @@ import { ROW_SELECTION } from './config/row-selection.config';
   selector: 'gq-reference-pricing-table',
   templateUrl: './reference-pricing-table.component.html',
 })
-export class ReferencePricingTableComponent implements OnInit {
+export class ReferencePricingTableComponent implements OnInit, OnDestroy {
   @Input() inputRowData: ComparableMaterialsRowData[];
   @Output() comparedMaterialClicked = new EventEmitter<string>();
   @Input() currency: string;
@@ -71,6 +78,10 @@ export class ReferencePricingTableComponent implements OnInit {
     this.agGridStateService.init(this.TABLE_KEY);
 
     this.setInitialRowData();
+  }
+
+  ngOnDestroy(): void {
+    this.agGridStateService.saveUserSettings();
   }
 
   onGridReady(event: GridReadyEvent): void {

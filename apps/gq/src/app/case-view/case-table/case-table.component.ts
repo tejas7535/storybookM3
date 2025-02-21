@@ -109,6 +109,8 @@ export class CaseTableComponent implements OnInit, OnDestroy {
       this.unsubscribe$.next(true);
       this.unsubscribe$.unsubscribe();
     }
+
+    this.agGridStateService.saveUserSettings();
   }
   public onColumnChange(event: SortChangedEvent | ColumnEvent): void {
     const columnState: ColumnState[] = event.api.getColumnState();
