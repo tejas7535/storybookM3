@@ -12,7 +12,7 @@
     <div class="pb-6">
       @if (!isValidUnit()) {
         <div
-          class="p-4 border border-warning bg-warning rounded text-caption text-warning"
+          class="p-4 border border-warning bg-warning rounded text-body-small text-warning"
         >
           <div>
             {{ t('error.mpa') }}
@@ -41,7 +41,7 @@
               type="number"
               readonly
             />
-            <mat-error class="text-caption">{{
+            <mat-error class="text-body-small">{{
               getErrorMessage(valueControl.errors)
             }}</mat-error>
           </mat-form-field>
@@ -54,7 +54,7 @@
                 type="number"
                 step="0.5"
               />
-              <mat-error class="text-caption">{{
+              <mat-error class="text-body-small">{{
                 getErrorMessage(diameterControl.errors)
               }}</mat-error>
             </mat-form-field>
@@ -69,7 +69,7 @@
                   </mat-option>
                 }
               </mat-select>
-              <mat-error class="text-caption">{{
+              <mat-error class="text-body-small">{{
                 getErrorMessage(diameterBallControl.errors)
               }}</mat-error>
             </mat-form-field>
@@ -97,7 +97,7 @@
                   }}</mat-option>
                 }
               </mat-select>
-              <mat-error class="text-caption">{{
+              <mat-error class="text-body-small">{{
                 getErrorMessage(materialControl.errors)
               }}</mat-error>
             </mat-form-field>
@@ -111,7 +111,7 @@
                 type="number"
                 step="0.5"
               />
-              <mat-error class="text-caption">{{
+              <mat-error class="text-body-small">{{
                 getErrorMessage(thicknessControl.errors)
               }}</mat-error>
             </mat-form-field>
@@ -122,7 +122,7 @@
         <ng-container *ngrxLet="indentationResult$ as response">
           @if (response.error) {
             <div
-              class="p-4 border border-warning bg-warning rounded text-caption text-warning"
+              class="p-4 border border-warning bg-warning rounded text-body-small text-warning"
             >
               {{ t('error.' + response.error) }}
             </div>
@@ -135,14 +135,14 @@
               <col />
             </colgroup>
             <tr>
-              <td colspan="4" class="pb-4 pt-4 text-center text-subtitle-1">
+              <td colspan="4" class="pb-4 pt-4 text-center text-title-medium">
                 {{ t('geometry') }}
               </td>
             </tr>
             @for (item of getGeoKeys(); track item) {
               <tr class="border-b border-border">
                 <td>{{ t('prop.' + item.name) }}</td>
-                <td class="text-center text-h6 font-medium">
+                <td class="text-center text-title-large font-medium">
                   {{ get(response, item) }}
                 </td>
                 <td class="text-center">{{ t('unit.' + item.unit) }}</td>
@@ -156,23 +156,21 @@
                       )
                     "
                   >
-                    <mat-icon class="!m-0" color="primary"
-                      >content_copy</mat-icon
-                    >
+                    <mat-icon class="!m-0 text-primary">content_copy</mat-icon>
                   </button>
                 </td>
               </tr>
             }
             @if (hasCorrectedKeys()) {
               <tr>
-                <td colspan="4" class="pb-4 pt-8 text-center text-subtitle-1">
+                <td colspan="4" class="pb-4 pt-8 text-center text-title-medium">
                   {{ t('corrections') }}
                 </td>
               </tr>
               @for (item of getCorrectedKeys(); track item) {
                 <tr class="border-b border-border">
                   <td>{{ t('prop.' + item.name) }}</td>
-                  <td class="text-center text-h6 font-medium">
+                  <td class="text-center text-title-large font-medium">
                     {{ get(response, item) }}
                   </td>
                   <td class="text-center">
@@ -188,7 +186,7 @@
                         )
                       "
                     >
-                      <mat-icon class="!m-0" color="primary"
+                      <mat-icon class="!m-0 text-primary"
                         >content_copy</mat-icon
                       >
                     </button>
@@ -198,14 +196,14 @@
             }
             @if (hasOther()) {
               <tr>
-                <td colspan="4" class="pb-4 pt-8 text-center text-subtitle-1">
+                <td colspan="4" class="pb-4 pt-8 text-center text-title-medium">
                   {{ t('others') }}
                 </td>
               </tr>
               @for (item of getOther(); track item) {
                 <tr class="border-b border-border">
                   <td>{{ t('prop.' + item.name) }}</td>
-                  <td class="text-center text-h6 font-medium">
+                  <td class="text-center text-title-large font-medium">
                     {{ get(response, item) }}
                   </td>
                   <td class="text-center">{{ t('unit.' + item.unit) }}</td>
@@ -219,7 +217,7 @@
                         )
                       "
                     >
-                      <mat-icon class="!m-0" color="primary"
+                      <mat-icon class="!m-0 text-primary"
                         >content_copy</mat-icon
                       >
                     </button>

@@ -1,11 +1,10 @@
 <div class="flex h-full w-full flex-col" *transloco="let t; read: ''">
-  <div class="mt-5 w-full flex flex-col flex-1 overflow-y-auto sm:mt-[50px]">
+  <div class="w-full flex flex-col flex-1 overflow-y-auto sm:mt-[50px]">
     <div class="flex flex-col items-center">
       <div class="flex justify-end items-baseline sm:w-[500px] md:w-[680px]">
         {{ t('moreInformationLinkQuestion') }}
         <a
           mat-button
-          color="primary"
           class="ml-4"
           (click)="trackEvent('click_learnmore')"
           routerLink="/learn-more"
@@ -16,7 +15,7 @@
     <div class="flex flex-col overflow-y-auto p-4">
       @if (units$ | ngrxPush) {
         <div
-          class="flex flex-col rounded md:mx-auto md:border md:border-border md:p-6 bg-surface"
+          class="flex flex-col rounded-2xl md:mx-auto md:border md:border-border md:p-6 bg-surface"
         >
           <div class="flex w-full flex-row">
             <div class="flex flex-1 flex-col">
@@ -53,7 +52,7 @@
                     [step]="step"
                   />
                   @if (inputValue.invalid) {
-                    <mat-error class="text-caption"
+                    <mat-error class="text-body-small"
                       >{{ t('negativeValueError') }}
                     </mat-error>
                   }
@@ -91,7 +90,7 @@
                       type="number"
                     />
                     @if (inputGroup.get('0')) {
-                      <mat-error class="text-caption"
+                      <mat-error class="text-body-small"
                         >{{ t('negativeValueError') }}
                       </mat-error>
                     }
@@ -105,7 +104,7 @@
                       type="number"
                     />
                     @if (inputGroup.get('1')) {
-                      <mat-error class="text-caption"
+                      <mat-error class="text-body-small"
                         >{{ t('negativeValueError') }}
                       </mat-error>
                     }
@@ -113,8 +112,8 @@
                 </div>
               }
             </div>
-            <div class="mb-9 flex flex-col justify-end pl-4">
-              <button mat-mini-fab color="primary" (click)="onAddButtonClick()">
+            <div class="mb-7 flex flex-col justify-end pl-4">
+              <button mat-mini-fab (click)="onAddButtonClick()">
                 <mat-icon>add</mat-icon>
               </button>
             </div>
@@ -124,7 +123,7 @@
             @if (multipleValues$ | ngrxPush) {
               <div>
                 <div
-                  class="my-9 flex flex-row justify-center text-center text-subtitle-1"
+                  class="my-9 flex flex-row justify-center text-center text-title-medium"
                 >
                   {{ t('statisticalEvaluation') }}
                 </div>
@@ -156,11 +155,13 @@
                 ) {
                   <div class="my-4 max-w-fit">
                     <div
-                      class="flex min-w-0 max-w-[648px] flex-row items-center gap-4 rounded border border-warning bg-sunny-yellow bg-opacity-10 p-3"
+                      class="flex min-w-0 max-w-[648px] flex-row items-center rounded-2xl gap-4 border border-warning bg-sunny-yellow bg-opacity-10 p-3"
                     >
-                      <mat-icon class="text-warning">warning_amber</mat-icon>
+                      <mat-icon class="text-warning !table"
+                        >warning_amber</mat-icon
+                      >
                       <div
-                        class="flex-shrink text-caption font-normal text-high-emphasis"
+                        class="flex-shrink text-body-small font-normal text-high-emphasis"
                       >
                         {{ t('deviationWarning') }}
                       </div>
@@ -175,7 +176,7 @@
             ) {
               <div>
                 <div
-                  class="mb-8 mt-4 flex flex-row justify-center text-center text-subtitle-1"
+                  class="mb-8 mt-4 flex flex-row justify-center text-center text-title-medium"
                 >
                   {{
                     (multipleValues$ | ngrxPush)
@@ -228,7 +229,6 @@
             <button
               mat-button
               (click)="onResetButtonClick()"
-              color="primary"
               [disabled]="conversionForm.pristine"
             >
               {{ t('reset') }}
@@ -244,7 +244,7 @@
       }
       @if (conversionResult$ | ngrxPush) {
         <div
-          class="mt-4 flex flex-row justify-center align-middle text-caption text-medium-emphasis"
+          class="mt-4 flex flex-row justify-center align-middle text-body-small text-medium-emphasis"
         >
           {{ t('valuesCalculatedWith', { version: (version$ | ngrxPush) }) }}
         </div>
@@ -258,9 +258,9 @@
           <hc-homepage-card [homepageCard]="card"></hc-homepage-card>
         }
         <div
-          class="flex flex-col items-center col-span-2 md:col-span-3 overflow-hidden rounded border border-border bg-surface-legacy p-4 transition-shadow hover:shadow-lg"
+          class="flex flex-col items-center col-span-2 md:col-span-3 overflow-hidden rounded-2xl border border-border bg-surface-legacy p-4 transition-shadow hover:shadow-lg"
         >
-          <p class="text-body-2 text-high-emphasis px-8 text-center">
+          <p class="text-body-medium text-high-emphasis px-8 text-center">
             {{ t('accessMoreSchaefflerKnowledge') }}
             <span class="font-extrabold">{{ t('technicalPocketGuide') }}</span
             >:

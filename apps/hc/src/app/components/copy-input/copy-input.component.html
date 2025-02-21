@@ -12,14 +12,14 @@
           matInput
           readonly
           [value]="value ? transformedValue : warning"
-          class="!text-center !text-h6"
+          class="!text-center !text-title-large"
         />
       </mat-form-field>
       <div
-        class="z-10 mb-6 -ml-1 flex w-[74px] rounded-l-none rounded-r bg-primary"
+        class="z-10 -ml-1 flex w-[74px] rounded-l-none rounded-r bg-primary mb-5"
       >
         <div
-          class="m-auto cursor-default text-h6 text-high-emphasis-dark-bg"
+          class="m-auto cursor-default text-title-large text-white"
           [matTooltip]="tooltip"
         >
           {{ unit }}

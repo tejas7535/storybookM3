@@ -7,7 +7,7 @@
 * see https://material.angular.io
 
 */
-@import 'libs/shared/ui/styles/src/lib/scss/material-theme';
+@import 'libs/shared/ui/styles/src/lib/scss/m3-theme';
 
 /***************************************************************************************************
 * UTILITIES
@@ -52,10 +52,10 @@
     @apply font-bold;
   }
   h1 {
-    @apply text-subtitle-1 text-h6;
+    @apply text-title-medium text-title-large;
   }
   h2 {
-    @apply text-subtitle-2;
+    @apply text-title-small;
   }
 }
 

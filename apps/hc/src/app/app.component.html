@@ -30,7 +30,7 @@
                 >account_circle</mat-icon
               >
             }
-            <div class="truncate text-h6 w-full">
+            <div class="truncate text-title-large w-full">
               {{ authService.getUsername() | ngrxPush }}
             </div>
           } @else {
@@ -38,8 +38,7 @@
             <button
               (click)="authService.login()"
               class="mr-0 mt-2"
-              mat-raised-button
-              color="primary"
+              mat-flat-button
             >
               {{ t('login') }}
             </button>
