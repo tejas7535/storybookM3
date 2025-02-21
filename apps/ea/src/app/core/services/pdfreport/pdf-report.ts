@@ -7,6 +7,7 @@ import { VerticalLayout } from './components/vertical-layouter';
 import {
   DocumentData,
   GeneratedDocument,
+  Notices,
   ResultBlock,
   ResultReport,
 } from './data';
@@ -64,7 +65,7 @@ export class PDFREport {
       verticalLayout.add('resultgrid', this.data.frictionalPowerloss);
     }
 
-    if (hasBearinxCalculation) {
+    if (hasBearinxCalculation && this.containsNotices(this.data.notices.data)) {
       verticalLayout.add('notices', this.data.notices);
     }
 
@@ -77,6 +78,15 @@ export class PDFREport {
       document: doc,
     };
   }
+
+  private containsNotices(notices: Notices): boolean {
+    return (
+      notices.errors.data.length > 0 ||
+      notices.notes.data.length > 0 ||
+      notices.warnings.data.length > 0
+    );
+  }
+
   private generateHeaderAndFooterSectionsOnEveryPage(doc: jsPDF) {
     const filteredPages = doc.internal.pages.filter(
       (page) => page !== undefined

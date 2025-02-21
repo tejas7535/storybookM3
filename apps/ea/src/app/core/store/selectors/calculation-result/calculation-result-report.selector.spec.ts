@@ -135,21 +135,42 @@ describe('Calculation Result Selector', () => {
       });
     });
 
-    describe('getReportErrors', () => {
-      it('should return report errors', () => {
-        expect(getReportErrors(mockState)).toMatchSnapshot();
-      });
-    });
-
     describe('getReportDownstreamErrors', () => {
       it('should return report downstream errors', () => {
         expect(getReportDownstreamErrors(mockState)).toMatchSnapshot();
       });
     });
 
+    describe('getReportErrors', () => {
+      it('should return report errors', () => {
+        expect(getReportErrors(mockState)).toMatchSnapshot();
+      });
+    });
+
     describe('getReportWarnings', () => {
       it('should return report warnings', () => {
         expect(getReportWarnings(mockState)).toMatchSnapshot();
+      });
+    });
+
+    describe('when report messages are not defined', () => {
+      let stateWithoutMessages: AppState;
+      beforeAll(() => {
+        stateWithoutMessages = {
+          ...APP_STATE_MOCK,
+          catalogCalculationResult: { isLoading: false },
+        };
+      });
+      it('should return empty warnings', () => {
+        expect(getReportWarnings(stateWithoutMessages)).toMatchSnapshot();
+      });
+
+      it('should return empty notes', () => {
+        expect(getReportNotes(stateWithoutMessages)).toMatchSnapshot();
+      });
+
+      it('should return empty errors', () => {
+        expect(getReportErrors(stateWithoutMessages)).toMatchSnapshot();
       });
     });
 

@@ -371,7 +371,7 @@
         "radialLoad": "Charge radiale"
       }
     },
-    "reportSectionWarnings": "Erreurs/avertissements/remarques",
+    "reportSectionWarnings": "Erreurs, avertissements et remarques",
     "calculationNotAvailable": {
       "line1": "Ce calcul n’est pas possible pour le roulement sélectionné.",
       "line2": "Pour de plus amples informations, veuillez contacter le",

@@ -403,7 +403,7 @@ export const getResultInput = createSelector(
 
 export const getReportErrors = createSelector(
   catalogCalculationResult,
-  (friction): string[] => friction?.reportMessages.errors
+  (friction): string[] => friction?.reportMessages.errors ?? []
 );
 
 export const getReportDownstreamErrors = createSelector(
@@ -422,12 +422,12 @@ export const getAllErrors = createSelector(
 
 export const getReportWarnings = createSelector(
   catalogCalculationResult,
-  (friction): string[] => friction?.reportMessages.warnings
+  (friction): string[] => friction?.reportMessages.warnings ?? []
 );
 
 export const getReportNotes = createSelector(
   catalogCalculationResult,
-  (friction): string[] => friction?.reportMessages.notes
+  (friction): string[] => friction?.reportMessages.notes ?? []
 );
 
 export const isFrictionResultAvailable = createSelector(

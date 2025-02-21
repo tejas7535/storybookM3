@@ -371,7 +371,7 @@
         "radialLoad": "Carico radiale"
       }
     },
-    "reportSectionWarnings": "Errori/Avvertenze/Note",
+    "reportSectionWarnings": "Errori, avvertenze e note",
     "calculationNotAvailable": {
       "line1": "Per il cuscinetto selezionato questo calcolo non è possibile.",
       "line2": "Per ulteriori informazioni, contattare",

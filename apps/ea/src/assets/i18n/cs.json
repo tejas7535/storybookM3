@@ -371,7 +371,7 @@
         "radialLoad": "Radiální zatížení"
       }
     },
-    "reportSectionWarnings": "Chyby/varování/poznámky",
+    "reportSectionWarnings": "Chyby, varování a poznámky",
     "calculationNotAvailable": {
       "line1": "Pro vybrané ložisko není tento výpočet možný.",
       "line2": "Pro další informace se obraťte na náš",

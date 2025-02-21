@@ -374,7 +374,7 @@
         "radialLoad": "Radiallast"
       }
     },
-    "reportSectionWarnings": "Fehler/Warnungen/Hinweise",
+    "reportSectionWarnings": "Fehler, Warnungen und Hinweise",
     "errors": "Fehler",
     "warnings": "Warnungen",
     "notes": "Hinweise",

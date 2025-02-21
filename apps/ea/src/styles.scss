@@ -244,7 +244,8 @@ schaeffler-app-shell > mat-sidenav-container > mat-sidenav-content {
   @apply prose max-w-2xl prose-p:text-high-emphasis prose-h5:font-semibold;
 }
 
-.calculation-errors-dialog {
+.calculation-errors-dialog,
+.legal-disclaimer-dialog {
   margin: 12px;
 }
 

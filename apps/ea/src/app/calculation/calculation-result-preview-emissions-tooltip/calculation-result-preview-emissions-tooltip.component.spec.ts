@@ -48,6 +48,7 @@ describe('CalculationResultPreviewEmissionsTooltipComponent', () => {
             hasBackdrop: true,
             autoFocus: true,
             maxWidth: '750px',
+            panelClass: 'legal-disclaimer-dialog',
             data: {
               isDownstreamDisclaimer: undefined,
             },
@@ -81,6 +82,7 @@ describe('CalculationResultPreviewEmissionsTooltipComponent', () => {
             hasBackdrop: true,
             autoFocus: true,
             maxWidth: '750px',
+            panelClass: 'legal-disclaimer-dialog',
             data: {
               isDownstreamDisclaimer: true,
             },

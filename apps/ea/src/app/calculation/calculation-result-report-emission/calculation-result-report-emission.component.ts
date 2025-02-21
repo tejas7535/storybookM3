@@ -142,6 +142,7 @@ export class CalculationResultReportEmissionComponent {
       hasBackdrop: true,
       autoFocus: true,
       maxWidth: '750px',
+      panelClass: 'legal-disclaimer-dialog',
     });
   }
 
@@ -150,6 +151,7 @@ export class CalculationResultReportEmissionComponent {
       hasBackdrop: true,
       autoFocus: true,
       maxWidth: '750px',
+      panelClass: 'legal-disclaimer-dialog',
       data: {
         isDownstreamDisclaimer: true,
       },
@@ -233,6 +235,11 @@ export class CalculationResultReportEmissionComponent {
   private setChartOptions(result: CO2EmissionResult): void {
     const { co2_upstream, co2_downstream } = result;
 
+    const valueToFormat = (co2_downstream.emission || 0) + (co2_upstream || 0);
+    const formattedValue = this.formatValue(valueToFormat);
+
+    const fontSize = formattedValue.length > 8 ? 24 : 32;
+
     this.co2EmissionOptions = {
       color: CHARTS_COLORS,
       tooltip: {
@@ -252,6 +259,7 @@ export class CalculationResultReportEmissionComponent {
             focus: 'self',
             itemStyle: {
               borderColor: '#fff',
+
               borderWidth: 2,
               borderRadius: 4,
             },
@@ -269,12 +277,8 @@ export class CalculationResultReportEmissionComponent {
           label: {
             show: true,
             position: 'center',
-            fontSize: 32,
-            formatter: `${formatNumber(
-              (co2_downstream.emission || 0) + (co2_upstream || 0),
-              this.locale,
-              '1.2-2'
-            )} kg`,
+            fontSize,
+            formatter: formattedValue,
           },
           labelLine: {
             show: false,

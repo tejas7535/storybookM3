@@ -371,7 +371,7 @@
         "radialLoad": "Carga radial"
       }
     },
-    "reportSectionWarnings": "Erros/alertas/notas",
+    "reportSectionWarnings": "Erros, avisos e notas",
     "calculationNotAvailable": {
       "line1": "Não é possível efetuar este cálculo para o rolamento selecionado.",
       "line2": "Para obter mais informações, contacte o nosso",

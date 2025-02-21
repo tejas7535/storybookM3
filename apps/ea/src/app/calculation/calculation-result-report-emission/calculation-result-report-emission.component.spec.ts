@@ -85,110 +85,174 @@ describe('CalculationResultReportEmissionComponent', () => {
   });
 
   describe('when setting coEmission result', () => {
-    const result: CO2EmissionResult = {
-      co2_upstream: 0.472,
-      co2_upstreamEmissionPercentage: 4.693,
-      co2_downstream: {
-        emission: 9.594,
-        emissionPercentage: 95.306,
-        loadcases: [
-          {
-            id: 'Loadcase 1',
-            emission: 2.84,
-            unit: 'kg',
-            emissionPercentage: 28.293,
-            operatingTimeInHours: 3506,
-          },
-          {
-            id: 'Loadcase 2',
-            emission: 6.745,
-            unit: 'kg',
-            emissionPercentage: 67.008,
-            operatingTimeInHours: 5260,
-          },
-        ],
-      },
-      totalEmission: 10.066,
-    };
+    describe('when result have emission', () => {
+      const result: CO2EmissionResult = {
+        co2_upstream: 0.472,
+        co2_upstreamEmissionPercentage: 4.693,
+        co2_downstream: {
+          emission: 9.594,
+          emissionPercentage: 95.306,
+          loadcases: [
+            {
+              id: 'Loadcase 1',
+              emission: 2.84,
+              unit: 'kg',
+              emissionPercentage: 28.293,
+              operatingTimeInHours: 3506,
+            },
+            {
+              id: 'Loadcase 2',
+              emission: 6.745,
+              unit: 'kg',
+              emissionPercentage: 67.008,
+              operatingTimeInHours: 5260,
+            },
+          ],
+        },
+        totalEmission: 10.066,
+      };
 
-    it('should set result', () => {
-      const getCo2ResultItemSpy = jest.spyOn(
-        spectator.component as any,
-        'getCo2ResultItem'
-      );
-      const getChartDataSpy = jest.spyOn(
-        spectator.component as any,
-        'getChartData'
-      );
-      const setChartOptionsSpy = jest.spyOn(
-        spectator.component as any,
-        'setChartOptions'
-      );
+      it('should set result', () => {
+        const getCo2ResultItemSpy = jest.spyOn(
+          spectator.component as any,
+          'getCo2ResultItem'
+        );
+        const getChartDataSpy = jest.spyOn(
+          spectator.component as any,
+          'getChartData'
+        );
+        const setChartOptionsSpy = jest.spyOn(
+          spectator.component as any,
+          'setChartOptions'
+        );
 
-      spectator.setInput('co2Emission', result);
-
-      expect(spectator.component.co2Emission).toEqual(result);
-      expect(getCo2ResultItemSpy).toHaveBeenCalledWith(result);
-      expect(getChartDataSpy).toHaveBeenCalledWith(result);
-      expect(setChartOptionsSpy).toHaveBeenCalledWith(result);
-    });
-
-    describe('onChartInit', () => {
-      beforeEach(() => {
         spectator.setInput('co2Emission', result);
+
+        expect(spectator.component.co2Emission).toEqual(result);
+        expect(getCo2ResultItemSpy).toHaveBeenCalledWith(result);
+        expect(getChartDataSpy).toHaveBeenCalledWith(result);
+        expect(setChartOptionsSpy).toHaveBeenCalledWith(result);
       });
 
-      it('should register instance and listeners', () => {
-        const mock = {
-          on: jest.fn(),
-          setOption: jest.fn(),
-        } as Partial<ECharts> as ECharts;
+      describe('onChartInit', () => {
+        beforeEach(() => {
+          spectator.setInput('co2Emission', result);
+        });
 
-        component.onChartInit(mock);
+        it('should register instance and listeners', () => {
+          const mock = {
+            on: jest.fn(),
+            setOption: jest.fn(),
+          } as Partial<ECharts> as ECharts;
 
-        expect(mock.on).toHaveBeenCalledTimes(1);
+          component.onChartInit(mock);
 
-        const selectChangedHandler = (mock.on as jest.Mock).mock.calls.find(
-          (call) => call[0] === 'selectchanged'
-        )[1];
+          expect(mock.on).toHaveBeenCalledTimes(1);
 
-        const paramsWithSelectFormAction = {
-          fromActionPayload: { dataIndexInside: 1 },
-          fromAction: spectator.component['selectFormAction'],
-        };
+          const selectChangedHandler = (mock.on as jest.Mock).mock.calls.find(
+            (call) => call[0] === 'selectchanged'
+          )[1];
 
-        const paramsWithUnselectFormAction = {
-          fromActionPayload: { dataIndexInside: 1 },
-          fromAction: 'unselect',
-        };
+          const paramsWithSelectFormAction = {
+            fromActionPayload: { dataIndexInside: 1 },
+            fromAction: spectator.component['selectFormAction'],
+          };
 
-        const updateChartDataOpacitySpy = jest.spyOn(
+          const paramsWithUnselectFormAction = {
+            fromActionPayload: { dataIndexInside: 1 },
+            fromAction: 'unselect',
+          };
+
+          const updateChartDataOpacitySpy = jest.spyOn(
+            spectator.component as any,
+            'updateChartDataOpacity'
+          );
+          const updateOptionsDataSpy = jest.spyOn(
+            spectator.component as any,
+            'updateOptionsData'
+          );
+
+          selectChangedHandler(paramsWithSelectFormAction);
+          expect(updateChartDataOpacitySpy).toHaveBeenCalledWith(
+            1,
+            1,
+            spectator.component['lowEmphasisOpacity']
+          );
+          expect(spectator.component.selectedIndex).toBe(1);
+          expect(updateOptionsDataSpy).toHaveBeenCalled();
+
+          selectChangedHandler(paramsWithUnselectFormAction);
+
+          expect(updateChartDataOpacitySpy).toHaveBeenCalledWith(
+            -1,
+            1,
+            spectator.component['highEmphasisOpacity']
+          );
+          expect(spectator.component.selectedIndex).toBe(undefined);
+          expect(updateOptionsDataSpy).toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('when result does not have emission', () => {
+      const result: CO2EmissionResult = {
+        co2_upstream: undefined,
+        co2_upstreamEmissionPercentage: 4.693,
+        co2_downstream: {
+          emission: undefined,
+          emissionPercentage: 95.306,
+          loadcases: [],
+        },
+        totalEmission: 10.066,
+      };
+
+      it('should use null values for calculation', () => {
+        const getCo2ResultItemSpy = jest.spyOn(
           spectator.component as any,
-          'updateChartDataOpacity'
+          'getCo2ResultItem'
         );
-        const updateOptionsDataSpy = jest.spyOn(
+        const getChartDataSpy = jest.spyOn(
           spectator.component as any,
-          'updateOptionsData'
+          'getChartData'
+        );
+        const setChartOptionsSpy = jest.spyOn(
+          spectator.component as any,
+          'setChartOptions'
         );
 
-        selectChangedHandler(paramsWithSelectFormAction);
-        expect(updateChartDataOpacitySpy).toHaveBeenCalledWith(
-          1,
-          1,
-          spectator.component['lowEmphasisOpacity']
-        );
-        expect(spectator.component.selectedIndex).toBe(1);
-        expect(updateOptionsDataSpy).toHaveBeenCalled();
+        spectator.setInput('co2Emission', result);
 
-        selectChangedHandler(paramsWithUnselectFormAction);
+        expect(spectator.component.co2Emission).toEqual(result);
+        expect(getCo2ResultItemSpy).toHaveBeenCalledWith(result);
+        expect(getChartDataSpy).toHaveBeenCalledWith(result);
+        expect(setChartOptionsSpy).toHaveBeenCalledWith(result);
 
-        expect(updateChartDataOpacitySpy).toHaveBeenCalledWith(
-          -1,
-          1,
-          spectator.component['highEmphasisOpacity']
-        );
-        expect(spectator.component.selectedIndex).toBe(undefined);
-        expect(updateOptionsDataSpy).toHaveBeenCalled();
+        expect(
+          (spectator.component.co2EmissionOptions.series as any[])[0].label
+            .fontSize as number
+        ).toEqual(32);
+      });
+    });
+
+    describe('when result emissions have large numbers', () => {
+      const result: CO2EmissionResult = {
+        co2_upstream: 499.693_898,
+        co2_upstreamEmissionPercentage: 4.693,
+        co2_downstream: {
+          emission: 999.594_333_888_8,
+          emissionPercentage: 95.306,
+          loadcases: [],
+        },
+        totalEmission: 10.066,
+      };
+
+      it('should decrease font size for display', () => {
+        spectator.setInput('co2Emission', result);
+
+        expect(
+          (spectator.component.co2EmissionOptions.series as any[])[0].label
+            .fontSize as number
+        ).toEqual(24);
       });
     });
   });
@@ -211,6 +275,7 @@ describe('CalculationResultReportEmissionComponent', () => {
       hasBackdrop: true,
       autoFocus: true,
       maxWidth: '750px',
+      panelClass: 'legal-disclaimer-dialog',
     });
   });
 
@@ -224,6 +289,7 @@ describe('CalculationResultReportEmissionComponent', () => {
       hasBackdrop: true,
       autoFocus: true,
       maxWidth: '750px',
+      panelClass: 'legal-disclaimer-dialog',
       data: {
         isDownstreamDisclaimer: true,
       },

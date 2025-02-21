@@ -371,7 +371,7 @@
         "radialLoad": "ラジアル荷重"
       }
     },
-    "reportSectionWarnings": "エラー/警告/メモ",
+    "reportSectionWarnings": "エラー、警告、および注記",
     "calculationNotAvailable": {
       "line1": "選択したベアリングにこの計算は使用できません。",
       "line2": "詳細については、弊社カスタマーサービス",

@@ -371,7 +371,7 @@
         "radialLoad": "Radyal yük"
       }
     },
-    "reportSectionWarnings": "Hatalar/Uyarılar/Notlar",
+    "reportSectionWarnings": "Hatalar, uyarılar ve notlar",
     "calculationNotAvailable": {
       "line1": "Seçilen rulman için bu hesaplama yapılamaz.",
       "line2": "Daha fazla bilgi için lütfen",

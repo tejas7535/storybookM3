@@ -371,7 +371,7 @@
         "radialLoad": "径向载荷"
       }
     },
-    "reportSectionWarnings": "错误/报警/操作员记录",
+    "reportSectionWarnings": "错误、警告和注释",
     "calculationNotAvailable": {
       "line1": "对于所选轴承，无法进行此计算。",
       "line2": "如需更多信息，请联系我们的",

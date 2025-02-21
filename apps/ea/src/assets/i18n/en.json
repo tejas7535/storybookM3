@@ -374,7 +374,7 @@
         "radialLoad": "Radial load"
       }
     },
-    "reportSectionWarnings": "Errors/Warnings/Notes",
+    "reportSectionWarnings": "Errors, Warnings and Notes",
     "errors": "Errors",
     "warnings": "Warnings",
     "notes": "Notes",

@@ -371,7 +371,7 @@
         "radialLoad": "徑向載荷"
       }
     },
-    "reportSectionWarnings": "錯誤/警告/備註",
+    "reportSectionWarnings": "錯誤、警告和註釋",
     "calculationNotAvailable": {
       "line1": "針對所選軸承，此計算無法執行。",
       "line2": "如需更多資訊，請聯繫我們的",
