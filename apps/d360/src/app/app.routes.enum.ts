@@ -3,7 +3,7 @@ import { LegalRoute } from '@schaeffler/legal-pages';
 
 export enum AppRoutePath {
   Root = '',
-  OverviewPage = 'overview',
+  OverviewPage = 'overview-page',
   DemandValidationPage = 'demand-validation',
   CustomerMaterialPortfolioPage = 'customer-material-portfolio',
   CustomerMaterialDetailsPage = 'customer-material-details',

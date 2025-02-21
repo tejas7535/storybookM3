@@ -827,7 +827,7 @@
       "PIOCDP": "Modifica della data di introduzione (ordine di vendita)",
       "PINUAO": "Nessun ordine/opportunità, stato del portafoglio di convalida",
       "PINUDP": "Phase-In senza ordine/opportunità",
-      "PONWDP": "Phase Out all'ora specificata",
+      "PONWDP": "Phase-Out all'ora specificata",
       "IAUSDP": "Modifica della data di eliminazione graduale (ordine del cliente)",
       "IAUSAO": "Convalidare lo stato del portafoglio e/o domanda",
       "ACIADP": "Combinazione di base Set inattivo",

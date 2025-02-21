@@ -827,7 +827,7 @@
       "PIOCDP": "Date de phase d'entrée modifiée (commande client)",
       "PINUAO": "Pas de commande/opportunité, validation du statut du portefeuille",
       "PINUDP": "Phase-In sans commande/opportunité",
-      "PONWDP": "Phase Out à la date fixée",
+      "PONWDP": "Phase-Out à la date fixée",
       "IAUSDP": "Date de sortie de phase modifiée (commande client)",
       "IAUSAO": "Valider l'état du portefeuille et/ou demande",
       "ACIADP": "Combinaison de base Inactif activé",
