@@ -347,7 +347,10 @@ export class CustomerMaterialSingleModalComponent implements OnInit {
 
           this.formGroup
             .get('demandPlanAdoption')
-            .setValue(this.cfcrAction().cfcrActions[0]?.cfcrAction ?? null);
+            .setValue(
+              this.cfcrAction()?.cfcrActions?.find((action) => action.selected)
+                ?.cfcrAction ?? null
+            );
         }),
         catchError(() => {
           reset();
@@ -368,10 +371,12 @@ export class CustomerMaterialSingleModalComponent implements OnInit {
    * @memberof CustomerMaterialSingleModalComponent
    */
   protected isRadioDisabled(option: DemandPlanAdoption): boolean {
-    return (
-      this.cfcrAction()?.cfcrActions[0]?.cfcrAction &&
-      this.cfcrAction()?.cfcrActions[0]?.cfcrAction !== option
-    );
+    const isIncluded: () => boolean = () =>
+      this.cfcrAction()?.cfcrActions?.filter(
+        (action) => action.cfcrAction === option
+      )?.length > 0;
+
+    return !this.cfcrAction() || !isIncluded();
   }
 
   /**

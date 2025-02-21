@@ -43,6 +43,9 @@ describe('InternalMaterialReplacementSingleSubstitutionModalComponent', () => {
   });
 
   beforeEach(() => {
+    // Remove until https://github.com/help-me-mom/ng-mocks/issues/8634 is fixed
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+
     spectator = createComponent();
   });
 

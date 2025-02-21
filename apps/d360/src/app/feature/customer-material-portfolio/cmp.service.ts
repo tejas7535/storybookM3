@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { map, Observable, of, Subject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -34,10 +34,23 @@ import {
 } from './model';
 import { dataToCMPWriteRequest } from './request-helper';
 
+interface RowsForGroupData {
+  childMaterialsCache: Map<string, CMPEntry[]>;
+  groupKeys: string[];
+  startRow: number | undefined;
+  endRow: number | undefined;
+  sortModel: SortModelItem[];
+  selectedCustomer: string;
+  params: IServerSideGetRowsParams;
+  gridApi: GridApi | null;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class CMPService {
+  private readonly http: HttpClient = inject(HttpClient);
+
   private readonly CMP_CRITERIA_DATA_API =
     'api/customer-material-portfolio/criteria-fields';
   private readonly CMP_CFCR_ACTION_API =
@@ -49,9 +62,7 @@ export class CMPService {
   private readonly dataFetchedEvent = new Subject<CMPResponse>();
   private readonly fetchErrorEvent = new Subject<any>();
 
-  constructor(private readonly http: HttpClient) {}
-
-  getForecastActionData(
+  public getForecastActionData(
     cmpData: CMPData | null
   ): Observable<CfcrActionResponse> {
     if (
@@ -74,8 +85,7 @@ export class CMPService {
     );
   }
 
-  getCMPCriteriaData(): Observable<CriteriaFields> {
-    // TODO handle error see useSwrErrorNotification --> snackbar should be opened
+  public getCMPCriteriaData(): Observable<CriteriaFields> {
     return this.http.get<CriteriaFields>(this.CMP_CRITERIA_DATA_API);
   }
 
@@ -164,7 +174,7 @@ export class CMPService {
     );
   }
 
-  createCustomerMaterialPortfolioDatasource(
+  public createCustomerMaterialPortfolioDatasource(
     selectedCustomer: CustomerEntry,
     globalSelectionCriteriaFields: GlobalSelectionState,
     childMaterialsCache: Map<string, CMPEntry[]>,
@@ -182,16 +192,16 @@ export class CMPService {
           params.request;
 
         if (groupKeys?.length > 0) {
-          this.getRowsForGroup(
+          this.getRowsForGroup({
             childMaterialsCache,
             groupKeys,
             startRow,
             endRow,
             sortModel,
-            selectedCustomer.customerNumber,
+            selectedCustomer: selectedCustomer.customerNumber,
             params,
-            gridApi
-          );
+            gridApi,
+          });
         } else {
           const columnFilters = formatFilterModelForBackend(filterModel);
           const selectionFilters = {
@@ -232,16 +242,16 @@ export class CMPService {
     };
   }
 
-  private getRowsForGroup(
-    childMaterialsCache: Map<string, CMPEntry[]>,
-    groupKeys: string[],
-    startRow: number | undefined,
-    endRow: number | undefined,
-    sortModel: SortModelItem[],
-    selectedCustomer: string,
-    params: IServerSideGetRowsParams,
-    gridApi: GridApi | null
-  ) {
+  private getRowsForGroup({
+    childMaterialsCache,
+    groupKeys,
+    startRow,
+    endRow,
+    sortModel,
+    selectedCustomer,
+    params,
+    gridApi,
+  }: RowsForGroupData): void {
     const headMaterialNumberOfGroup = groupKeys[0];
     if (childMaterialsCache.has(headMaterialNumberOfGroup)) {
       const cachedValue = childMaterialsCache.get(groupKeys[0]);
@@ -310,11 +320,11 @@ export class CMPService {
     return this.http.post<CMPResponse>(this.CMP_DATA_API, request);
   }
 
-  getDataFetchedEvent(): Observable<CMPResponse> {
+  public getDataFetchedEvent(): Observable<CMPResponse> {
     return this.dataFetchedEvent.asObservable();
   }
 
-  getFetchErrorEvent(): Observable<any> {
+  public getFetchErrorEvent(): Observable<any> {
     return this.fetchErrorEvent.asObservable();
   }
 }
