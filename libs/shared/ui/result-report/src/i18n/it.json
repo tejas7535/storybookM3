@@ -1,6 +1,6 @@
 {
   "reportSectionInput": "Ingresso",
-  "reportSectionWarnings": "Errori/Avvertimenti/Note",
+  "reportSectionWarnings": "Errori, avvertenze e note",
   "errors": "Errori",
   "warnings": "Avvertimenti",
   "notes": "Note"

@@ -1,6 +1,6 @@
 {
   "reportSectionInput": "Ввод",
-  "reportSectionWarnings": "Ошибки/Предупреждения/Примечания",
+  "reportSectionWarnings": "Ошибки, предупреждения и примечания",
   "errors": "Ошибки",
   "warnings": "Предупреждения",
   "notes": "Заметки"

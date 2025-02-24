@@ -48,10 +48,10 @@ describe('ResultReportComponent', () => {
       const messageComponent = spectator.query(ReportMessagesComponent);
       expect(messageComponent).toBeTruthy();
 
-      expect(messageComponent?.messages.errors).toEqual([]);
-      expect(messageComponent?.messages.notes).toEqual([]);
-      expect(messageComponent?.messages.warnings).toEqual([]);
-      expect(messageComponent?.isMessageSectionExpanded).toBe(false);
+      expect(messageComponent?.errors()).toEqual([]);
+      expect(messageComponent?.notes()).toEqual([]);
+      expect(messageComponent?.warnings()).toEqual([]);
+      expect(messageComponent?.isMessageSectionExpanded()).toBe(false);
     });
   });
 

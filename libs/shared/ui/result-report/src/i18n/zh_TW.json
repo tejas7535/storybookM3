@@ -1,6 +1,6 @@
 {
   "reportSectionInput": "輸入",
-  "reportSectionWarnings": "錯誤/警告/備註",
+  "reportSectionWarnings": "錯誤、警告和註釋",
   "errors": "錯誤",
   "warnings": "警告",
   "notes": "筆記"

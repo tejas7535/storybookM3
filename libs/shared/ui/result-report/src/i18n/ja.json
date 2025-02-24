@@ -1,6 +1,6 @@
 {
   "reportSectionInput": "入力",
-  "reportSectionWarnings": "エラー/警告/メモ",
+  "reportSectionWarnings": "エラー、警告、および注記",
   "errors": "エラー",
   "warnings": "警告",
   "notes": "ノート"

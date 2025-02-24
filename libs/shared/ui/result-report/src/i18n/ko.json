@@ -1,6 +1,6 @@
 {
   "reportSectionInput": "입력",
-  "reportSectionWarnings": "오류/경고/메모",
+  "reportSectionWarnings": "오류, 경고 및 참고 사항",
   "errors": "오류",
   "warnings": "경고",
   "notes": "메모"

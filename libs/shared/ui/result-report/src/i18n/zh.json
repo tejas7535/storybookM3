@@ -1,6 +1,6 @@
 {
   "reportSectionInput": "输入",
-  "reportSectionWarnings": "错误/报警/操作员记录",
+  "reportSectionWarnings": "错误、警告和注释",
   "errors": "错误",
   "warnings": "警告",
   "notes": "笔记"

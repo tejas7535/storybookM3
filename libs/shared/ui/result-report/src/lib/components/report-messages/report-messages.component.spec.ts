@@ -23,11 +23,11 @@ describe('ReportMessagesComponent', () => {
   });
 
   describe('when there are no messages', () => {
-    it('the component should still render fine', () => {
+    it('the component should not display messages and use fallback value', () => {
       const messageComponent = spectator.query(
         CalculationResultMessagesComponent
       );
-      expect(messageComponent).toBeTruthy();
+      expect(messageComponent).toBeFalsy();
     });
   });
 

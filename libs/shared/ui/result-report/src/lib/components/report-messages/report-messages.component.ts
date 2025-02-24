@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -17,12 +17,17 @@ import { ReportMessages } from './report-messages.component.interface';
   ],
 })
 export class ReportMessagesComponent {
-  @Input()
-  public messages: ReportMessages = {
-    notes: [],
-    errors: [],
-    warnings: [],
-  };
+  public isMessageSectionExpanded = input<boolean>(false);
+  public messages = input<ReportMessages>();
 
-  @Input() public isMessageSectionExpanded = false;
+  public errors = computed(() => this.messages()?.errors ?? []);
+  public warnings = computed(() => this.messages()?.warnings ?? []);
+  public notes = computed(() => this.messages()?.notes ?? []);
+
+  public shouldDisplayMessages = computed(
+    () =>
+      this.errors().length > 0 ||
+      this.warnings().length > 0 ||
+      this.notes().length > 0
+  );
 }
