@@ -42,6 +42,7 @@ export interface MonthlyCustomerPlanningDetailsProps {
   customerNumber: string;
   planningCurrency: string;
   planningLevelMaterialType: string;
+  planningMaterial: string;
   planningYear: string;
   detailLevel: string;
   planningEntry: string;
@@ -129,13 +130,14 @@ export class MonthlyCustomerPlanningDetailsModalComponent implements OnInit {
     this.isLoading.set(true);
 
     this.salesPlanningService
-      .getDetailedCustomerSalesPlan(
-        this.data.customerNumber,
-        this.data.planningCurrency,
-        this.data.planningLevelMaterialType,
-        this.data.detailLevel,
-        this.data.planningYear
-      )
+      .getDetailedCustomerSalesPlan({
+        customerNumber: this.data.customerNumber,
+        planningCurrency: this.data.planningCurrency,
+        planningMaterial: this.data.planningMaterial,
+        planningLevelMaterialType: this.data.planningLevelMaterialType,
+        detailLevel: this.data.detailLevel,
+        planningYear: this.data.planningYear,
+      })
       .pipe(
         map((allMonths) =>
           allMonths.filter((month) => month.planningMonth !== '00')

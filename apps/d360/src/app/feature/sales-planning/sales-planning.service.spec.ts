@@ -159,12 +159,12 @@ describe('SalesPlanningService', () => {
     const language = 'de';
 
     spectator.service
-      .getDetailedCustomerSalesPlan(
+      .getDetailedCustomerSalesPlan({
         customerNumber,
-        planningCurrency,
-        planningLevelMaterialType,
-        detailLevel
-      )
+        planningCurrency: 'USD',
+        planningLevelMaterialType: 'PL',
+        detailLevel: '3',
+      })
       .pipe(take(1))
       .subscribe((data) => {
         expect(data).toEqual(mockData);

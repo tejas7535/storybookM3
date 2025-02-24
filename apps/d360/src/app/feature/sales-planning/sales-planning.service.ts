@@ -8,6 +8,7 @@ import { TranslocoService } from '@jsverse/transloco';
 import {
   CustomerInfo,
   DetailedCustomerSalesPlan,
+  DetailedCustomerSalesPlanRequest,
   DetailedSalesPlanUpdateRequest,
   SalesPlanResponse,
 } from './model';
@@ -48,30 +49,30 @@ export class SalesPlanningService {
   }
 
   public getDetailedCustomerSalesPlan(
-    customerNumber: string,
-    planningCurrency: string,
-    planningLevelMaterialType?: string,
-    detailLevel?: string,
-    planningYear?: string
+    request: DetailedCustomerSalesPlanRequest
   ): Observable<DetailedCustomerSalesPlan[]> {
     let params = new HttpParams()
-      .set('customerNumber', customerNumber)
+      .set('customerNumber', request.customerNumber)
       .set('language', this.translocoService.getActiveLang())
-      .set('currency', planningCurrency);
+      .set('currency', request.planningCurrency);
 
-    if (planningLevelMaterialType) {
+    if (request.planningLevelMaterialType) {
       params = params.set(
         'planningLevelMaterialType',
-        planningLevelMaterialType
+        request.planningLevelMaterialType
       );
     }
 
-    if (detailLevel) {
-      params = params.set('detailLevel', detailLevel);
+    if (request.detailLevel) {
+      params = params.set('detailLevel', request.detailLevel);
     }
 
-    if (planningYear) {
-      params = params.set('planningYear', planningYear);
+    if (request.planningMaterial) {
+      params = params.set('planningMaterial', request.planningMaterial);
+    }
+
+    if (request.planningYear) {
+      params = params.set('planningYear', request.planningYear);
     }
 
     return this.http.get<DetailedCustomerSalesPlan[]>(

@@ -162,7 +162,7 @@ export class SalesPlanningNumberEditCellRendererComponent<
         {
           planningYear: this.planningYear,
           planningCurrency: this.planningCurrency,
-          planningMonth: '00',
+          planningMonth: this.planningMonth,
           planningMaterial: this.planningMaterial,
           planningLevelMaterialType: this.planningLevelMaterialType,
           adjustedValue,

@@ -25,12 +25,15 @@ export function monthlyCustomerPlanningDetailsColumnDefinitions(): (ColDef & {
     ...monthlyInitiallyVisibleColumns,
     ...unconstrainedColumns,
     ...constrainedColumns,
-  ].map(({ key, type, isTimeScopeSpecific }) => ({
+  ].map((colDef) => ({
+    ...colDef,
     sortable: false,
-    colId: key,
-    title: getTitle(key, isTimeScopeSpecific, TimeScope.Monthly),
-    visible: monthlyInitiallyVisibleColumns.some((col) => col.key === key),
+    colId: colDef.key,
+    title: getTitle(colDef.key, colDef.isTimeScopeSpecific, TimeScope.Monthly),
+    visible: monthlyInitiallyVisibleColumns.some(
+      (col) => col.key === colDef.key
+    ),
     alwaysVisible: false,
-    valueFormatter: valueFormatters[type],
+    valueFormatter: valueFormatters[colDef.type],
   }));
 }

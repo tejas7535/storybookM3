@@ -307,12 +307,13 @@ export class CustomerPlanningDetailsComponent {
     planningCurrency: string,
     planningLevelMaterialType?: string
   ): Observable<DetailedCustomerSalesPlan[]> {
-    return this.salesPlanningService.getDetailedCustomerSalesPlan(
+    return this.salesPlanningService.getDetailedCustomerSalesPlan({
       customerNumber,
       planningCurrency,
       planningLevelMaterialType,
-      SalesPlanningDetailLevel.YearlyAndPlanningLevelMaterialDetailLevel
-    );
+      detailLevel:
+        SalesPlanningDetailLevel.YearlyAndPlanningLevelMaterialDetailLevel,
+    });
   }
 
   private fetchPlanningLevelMaterial(customerNumber: string) {
@@ -354,6 +355,7 @@ export class CustomerPlanningDetailsComponent {
         customerName: this.customerName(),
         planningCurrency: this.planningCurrency(),
         planningYear: rowData.planningYear,
+        planningMaterial: rowData.planningMaterial,
         planningLevelMaterialType:
           this.planningLevelMaterialConfiguration().planningLevelMaterialType,
         totalSalesPlanUnconstrained: rowData.totalSalesPlanUnconstrained,

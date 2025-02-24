@@ -109,3 +109,12 @@ export enum SalesPlanningDetailLevel {
   MonthlyOnlyDetailLevel = '3',
   MonthlyAndPlanningLevelMaterialDetailLevel = '4',
 }
+
+export interface DetailedCustomerSalesPlanRequest {
+  customerNumber: string;
+  planningCurrency: string;
+  planningMaterial?: string;
+  planningLevelMaterialType?: string;
+  detailLevel?: string;
+  planningYear?: string;
+}

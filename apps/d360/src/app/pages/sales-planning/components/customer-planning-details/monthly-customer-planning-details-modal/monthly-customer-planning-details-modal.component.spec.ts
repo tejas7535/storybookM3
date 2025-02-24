@@ -31,6 +31,7 @@ describe('MonthlyCustomerPlanningDetailsModalComponent', () => {
           customerNumber: '12345',
           planningCurrency: 'USD',
           planningLevelMaterialType: 'PL',
+          planningMaterial: '3',
           planningYear: '2025',
           detailLevel: '3',
           planningEntry: 'F03 Bearings',
@@ -65,7 +66,14 @@ describe('MonthlyCustomerPlanningDetailsModalComponent', () => {
     );
     component.ngOnInit();
     expect(component.isLoading()).toBeFalsy();
-    expect(spy).toHaveBeenCalledWith('12345', 'USD', 'PL', '3', '2025');
+    expect(spy).toHaveBeenCalledWith({
+      customerNumber: '12345',
+      detailLevel: '3',
+      planningCurrency: 'USD',
+      planningLevelMaterialType: 'PL',
+      planningMaterial: '3',
+      planningYear: '2025',
+    });
   });
 
   it('should close the dialog when onClose is called', () => {

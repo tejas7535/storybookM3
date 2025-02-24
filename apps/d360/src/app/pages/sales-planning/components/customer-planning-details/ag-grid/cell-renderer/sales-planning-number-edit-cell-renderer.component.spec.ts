@@ -2,8 +2,11 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { mockProvider } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 
 import { SalesPlanningService } from '../../../../../../feature/sales-planning/sales-planning.service';
 import { AuthService } from '../../../../../../shared/utils/auth/auth.service';
@@ -93,16 +96,14 @@ describe('SalesPlanningNumberEditCellRendererComponent', () => {
 
     expect(
       mockSalesPlanningService.updateDetailedCustomerSalesPlan
-    ).toHaveBeenCalledWith(
-      '93090',
-      expect.objectContaining({
-        adjustedValue: 15_000,
-        planningCurrency: 'EUR',
-        planningLevelMaterialType: 'PL',
-        planningMaterial: 'I03',
-        planningMonth: '00',
-      })
-    );
+    ).toHaveBeenCalledWith('93090', {
+      adjustedValue: 15_000,
+      planningCurrency: 'EUR',
+      planningLevelMaterialType: 'PL',
+      planningMaterial: 'I03',
+      planningMonth: undefined,
+      planningYear: '2025',
+    });
   });
 
   it('editing should not be possible on planning material level for current year > year + 2', () => {
