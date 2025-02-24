@@ -22,7 +22,7 @@ export function previewDataMonthly(): ForecastChartData {
         onTopCapacityForecast: 0,
         opportunities: 0,
         salesAmbition: 0,
-        rollingSalesForecast: null,
+        salesPlan: null,
       },
       {
         yearMonth: format(subMonths(currentDate, 2), 'yyyy-MM-dd'),
@@ -32,7 +32,7 @@ export function previewDataMonthly(): ForecastChartData {
         onTopCapacityForecast: 0,
         salesAmbition: 0,
         opportunities: 0,
-        rollingSalesForecast: null,
+        salesPlan: null,
       },
       {
         yearMonth: format(subMonths(currentDate, 1), 'yyyy-MM-dd'),
@@ -42,7 +42,7 @@ export function previewDataMonthly(): ForecastChartData {
         onTopCapacityForecast: 0,
         salesAmbition: 0,
         opportunities: 0,
-        rollingSalesForecast: null,
+        salesPlan: null,
       },
       {
         yearMonth: format(currentDate, 'yyyy-MM-dd'),
@@ -52,7 +52,7 @@ export function previewDataMonthly(): ForecastChartData {
         onTopCapacityForecast: 0,
         salesAmbition: 0,
         opportunities: 0,
-        rollingSalesForecast: null,
+        salesPlan: null,
       },
       {
         yearMonth: format(addMonths(currentDate, 1), 'yyyy-MM-dd'),
@@ -62,7 +62,7 @@ export function previewDataMonthly(): ForecastChartData {
         onTopCapacityForecast: 1000,
         salesAmbition: 300,
         opportunities: 500,
-        rollingSalesForecast: 6200,
+        salesPlan: 6200,
       },
       {
         yearMonth: format(addMonths(currentDate, 2), 'yyyy-MM-dd'),
@@ -72,7 +72,7 @@ export function previewDataMonthly(): ForecastChartData {
         onTopCapacityForecast: 1000,
         salesAmbition: 200,
         opportunities: 400,
-        rollingSalesForecast: 6300,
+        salesPlan: 6300,
       },
       {
         yearMonth: format(addMonths(currentDate, 3), 'yyyy-MM-dd'),
@@ -82,7 +82,7 @@ export function previewDataMonthly(): ForecastChartData {
         onTopCapacityForecast: 1000,
         salesAmbition: 300,
         opportunities: 600,
-        rollingSalesForecast: 7900,
+        salesPlan: 7900,
       },
       {
         yearMonth: format(addMonths(currentDate, 4), 'yyyy-MM-dd'),
@@ -92,7 +92,7 @@ export function previewDataMonthly(): ForecastChartData {
         onTopCapacityForecast: 2000,
         salesAmbition: 600,
         opportunities: 100,
-        rollingSalesForecast: 5200,
+        salesPlan: 5200,
       },
       {
         yearMonth: format(addMonths(currentDate, 5), 'yyyy-MM-dd'),
@@ -102,7 +102,7 @@ export function previewDataMonthly(): ForecastChartData {
         onTopCapacityForecast: 2000,
         salesAmbition: 600,
         opportunities: 600,
-        rollingSalesForecast: 5700,
+        salesPlan: 5700,
       },
       {
         yearMonth: format(addMonths(currentDate, 6), 'yyyy-MM-dd'),
@@ -112,7 +112,7 @@ export function previewDataMonthly(): ForecastChartData {
         onTopCapacityForecast: 3000,
         salesAmbition: 600,
         opportunities: 500,
-        rollingSalesForecast: 6600,
+        salesPlan: 6600,
       },
       {
         yearMonth: format(addMonths(currentDate, 7), 'yyyy-MM-dd'),
@@ -122,7 +122,7 @@ export function previewDataMonthly(): ForecastChartData {
         onTopCapacityForecast: 2000,
         salesAmbition: 900,
         opportunities: 800,
-        rollingSalesForecast: 6200,
+        salesPlan: 6200,
       },
       {
         yearMonth: format(addMonths(currentDate, 8), 'yyyy-MM-dd'),
@@ -132,7 +132,7 @@ export function previewDataMonthly(): ForecastChartData {
         onTopCapacityForecast: 2500,
         salesAmbition: 300,
         opportunities: 800,
-        rollingSalesForecast: 6100,
+        salesPlan: 6100,
       },
     ],
   };
@@ -154,7 +154,7 @@ export function previewDataYearly(): ForecastChartData {
         onTopCapacityForecast: 0,
         salesAmbition: 0,
         opportunities: 0,
-        rollingSalesForecast: null,
+        salesPlan: null,
       },
       {
         yearMonth: format(new Date(currentYear - 1, 0, 1), 'yyyy-MM-dd'),
@@ -164,7 +164,7 @@ export function previewDataYearly(): ForecastChartData {
         onTopCapacityForecast: 0,
         salesAmbition: 0,
         opportunities: 0,
-        rollingSalesForecast: null,
+        salesPlan: null,
       },
       {
         yearMonth: format(new Date(currentYear, 0, 1), 'yyyy-MM-dd'),
@@ -174,7 +174,7 @@ export function previewDataYearly(): ForecastChartData {
         onTopCapacityForecast: 0,
         salesAmbition: 0,
         opportunities: 0,
-        rollingSalesForecast: null,
+        salesPlan: null,
       },
       {
         yearMonth: format(new Date(currentYear + 1, 0, 1), 'yyyy-MM-dd'),
@@ -184,7 +184,7 @@ export function previewDataYearly(): ForecastChartData {
         onTopCapacityForecast: 1000,
         salesAmbition: 500,
         opportunities: 500,
-        rollingSalesForecast: 6500,
+        salesPlan: 6500,
       },
       {
         yearMonth: format(new Date(currentYear + 2, 0, 1), 'yyyy-MM-dd'),
@@ -194,7 +194,7 @@ export function previewDataYearly(): ForecastChartData {
         onTopCapacityForecast: 1000,
         salesAmbition: 400,
         opportunities: 500,
-        rollingSalesForecast: 5500,
+        salesPlan: 5500,
       },
       {
         yearMonth: format(new Date(currentYear + 3, 0, 1), 'yyyy-MM-dd'),
@@ -204,7 +204,7 @@ export function previewDataYearly(): ForecastChartData {
         onTopCapacityForecast: 1000,
         salesAmbition: 300,
         opportunities: 700,
-        rollingSalesForecast: 8000,
+        salesPlan: 8000,
       },
     ],
   };

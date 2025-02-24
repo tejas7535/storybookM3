@@ -25,7 +25,7 @@ export const chartSeriesConfig = {
   onTopCapacityForecast: { color: dimmedBlue, isToggleable: true, order: 4 },
   salesAmbition: { color: dimmedPurple, isToggleable: true, order: 5 },
   opportunities: { color: dimmedRed, isToggleable: true, order: 6 },
-  rollingSalesForecast: { color: textDarkGrey, isToggleable: false, order: 7 },
+  salesPlan: { color: textDarkGrey, isToggleable: false, order: 7 },
 } as const;
 
 export type ChartValues = keyof typeof chartSeriesConfig;
@@ -37,7 +37,7 @@ export interface ChartEntry {
   onTopCapacityForecast: number;
   opportunities: number;
   salesAmbition: number;
-  rollingSalesForecast: number | null;
+  salesPlan: number | null;
 }
 
 export type MonthlyChartEntry = ChartEntry & {

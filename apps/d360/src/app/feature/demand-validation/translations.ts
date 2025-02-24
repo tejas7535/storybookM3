@@ -41,9 +41,7 @@ export function getTranslationsForExport(
     [KpiType.ActiveAndPredecessor]: translateKey(
       'menu_item.activeAndPredecessor'
     ),
-    [KpiType.DailyRollingSalesForecast]: translateKey(
-      'menu_item.dailyRollingSalesForecast'
-    ),
+    [KpiType.SalesPlan]: translateKey('menu_item.salesPlan'),
     [KpiType.DemandRelevantSales]: translateKey(
       'menu_item.demandRelevantSales'
     ),

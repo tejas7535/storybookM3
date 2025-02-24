@@ -40,18 +40,18 @@ export class MonthlyForecastChartComponent extends BaseForecastChartComponent {
       this.createLineSeries('salesAmbition', data),
       this.createLineSeries('opportunities', data),
       {
-        name: translate('home.chart.legend.rollingSalesForecast'),
-        kpi: 'rollingSalesForecast',
-        color: chartSeriesConfig.rollingSalesForecast.color,
+        name: translate('home.chart.legend.salesPlan'),
+        kpi: 'salesPlan',
+        color: chartSeriesConfig.salesPlan.color,
         type: 'line',
         lineStyle: {
           normal: {
-            color: chartSeriesConfig.rollingSalesForecast.color,
+            color: chartSeriesConfig.salesPlan.color,
             width: 1,
             type: [5, 5],
           },
         },
-        data: data.map((e) => e.rollingSalesForecast),
+        data: data.map((e) => e.salesPlan),
         zlevel: 2,
       },
       {

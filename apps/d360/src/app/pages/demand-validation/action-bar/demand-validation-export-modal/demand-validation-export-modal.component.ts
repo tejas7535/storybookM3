@@ -92,14 +92,14 @@ export class DemandValidationExportModalComponent {
     [KpiType.OnTopOrder]: true,
     [KpiType.OnTopCapacityForecast]: true,
     [KpiType.SalesAmbition]: true,
-    [KpiType.DailyRollingSalesForecast]: true,
+    [KpiType.SalesPlan]: true,
     [KpiType.ConfirmedDeliveries]: false,
     [KpiType.ConfirmedFirmBusiness]: false,
     [KpiType.ConfirmedDemandRelevantSales]: false,
     [KpiType.ConfirmedOnTopOrder]: false,
     [KpiType.ConfirmedOnTopCapacityForecast]: false,
     [KpiType.ConfirmedSalesAmbition]: false,
-    [KpiType.ConfirmedDailyRollingSalesForecast]: false,
+    [KpiType.ConfirmedSalesPlan]: false,
     [KpiType.ConfirmedOpportunities]: false,
   });
 
@@ -149,7 +149,7 @@ export class DemandValidationExportModalComponent {
     KpiType.OnTopCapacityForecast,
     KpiType.SalesAmbition,
     KpiType.Opportunities,
-    KpiType.DailyRollingSalesForecast,
+    KpiType.SalesPlan,
   ];
   protected confirmedToggleTypes: KpiType[] = [
     KpiType.ConfirmedDeliveries,
@@ -159,7 +159,7 @@ export class DemandValidationExportModalComponent {
     KpiType.ConfirmedOnTopCapacityForecast,
     KpiType.ConfirmedSalesAmbition,
     KpiType.ConfirmedOpportunities,
-    KpiType.ConfirmedDailyRollingSalesForecast,
+    KpiType.ConfirmedSalesPlan,
   ];
 
   protected handleExcelExport() {

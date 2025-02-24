@@ -11,7 +11,7 @@ export interface FilterValues {
   [KpiType.DemandRelevantSales]: boolean;
   [KpiType.SalesAmbition]: boolean;
   [KpiType.Opportunities]: boolean;
-  [KpiType.DailyRollingSalesForecast]: boolean;
+  [KpiType.SalesPlan]: boolean;
 }
 
 type FilterProps = FilterValues & {
@@ -242,12 +242,12 @@ export function getColumnDefinitions(config: {
     // ////////////
 
     // ////////////////////////
-    // Daily Rolling Sales Forecast | CONFIRMED & REQUESTED
+    // Sales Plan | CONFIRMED & REQUESTED
     createColumnDef({
-      key: () => createKey(KpiType.DailyRollingSalesForecast),
-      title: () => `${key}.${KpiType.DailyRollingSalesForecast}`,
-      visible: (options) => options[KpiType.DailyRollingSalesForecast],
-      additionalProps: { path: [KpiType.DailyRollingSalesForecast] },
+      key: () => createKey(KpiType.SalesPlan),
+      title: () => `${key}.${KpiType.SalesPlan}`,
+      visible: (options) => options[KpiType.SalesPlan],
+      additionalProps: { path: [KpiType.SalesPlan] },
     }),
     // ////////////
   ];

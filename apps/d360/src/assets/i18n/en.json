@@ -221,7 +221,7 @@
         "orders": "Firm Business",
         "deliveries": "Deliveries",
         "opportunities": "Opportunities",
-        "rollingSalesForecast": "Daily Rolling Sales Forecast",
+        "salesPlan": "Sales Plan",
         "onTopCapacityForecast": "On Top Capacity Forecast",
         "onTopOrder": "On Top Order",
         "salesAmbition": "Sales Ambition"
@@ -346,7 +346,7 @@
       "onTopOrder": "On Top Order",
       "onTopCapacityForecast": "On Top Capacity Forecast",
       "salesAmbition": "Sales Ambition",
-      "dailyRollingSalesForecast": "Daily Rolling Sales Forecast"
+      "salesPlan": "Sales Plan"
     },
     "more_information": {
       "material_and_text": "Material + description",
@@ -495,7 +495,7 @@
       "forecastProposal": "Forecast Proposal (ADD*ONE)",
       "forecastProposalDemandPlanner": "Forecast Proposal (Demand Planner)",
       "salesAmbition": "Sales Ambition",
-      "dailyRollingSalesForecast": "Daily Rolling Sales Forecast",
+      "salesPlan": "Sales Plan",
       "validatedForecast": "Validated Customer Forecast",
       "calendarWeekTableHeaderKw": "CW {{calendar_week}}",
       "calendarWeekTableHeaderPartWeek": "({{days}}d)"
@@ -727,8 +727,8 @@
       "opMaterialDemandPlanCount": "Number of OP materials with Demand Plan",
       "spMaterialDemandPlanCount": "Number of SP materials with Demand Plan",
       "apMaterialDemandPlanCount": "Number of AP materials with Demand Plan",
-      "dailyRollingSalesPlanUnconstrained": "Daily Rolling Sales Plan (Unc)",
-      "dailyRollingSalesPlanConstrained": "Daily Rolling Sales Plan (Con)",
+      "salesPlanUnconstrained": "Sales Plan (Unc)",
+      "salesPlanConstrained": "Sales Plan (Con)",
       "months": {
         "01": "January",
         "02": "February",

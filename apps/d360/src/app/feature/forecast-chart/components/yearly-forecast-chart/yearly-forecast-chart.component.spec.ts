@@ -40,7 +40,7 @@ describe('YearlyForecastChartComponent', () => {
         salesAmbition: 300,
         onTopCapacityForecast: 400,
         opportunities: 150,
-        rollingSalesForecast: 250,
+        salesPlan: 250,
       },
       {
         yearMonth: '2021-02',
@@ -50,7 +50,7 @@ describe('YearlyForecastChartComponent', () => {
         salesAmbition: 310,
         onTopCapacityForecast: 410,
         opportunities: 160,
-        rollingSalesForecast: 260,
+        salesPlan: 260,
       },
       {
         yearMonth: '2022-01',
@@ -60,7 +60,7 @@ describe('YearlyForecastChartComponent', () => {
         salesAmbition: 310,
         onTopCapacityForecast: 410,
         opportunities: 160,
-        rollingSalesForecast: 260,
+        salesPlan: 260,
       },
     ];
 
@@ -96,7 +96,7 @@ describe('YearlyForecastChartComponent', () => {
         salesAmbition: 300,
         onTopCapacityForecast: 400,
         opportunities: 150,
-        rollingSalesForecast: 250,
+        salesPlan: 250,
       },
     ];
 
@@ -131,7 +131,7 @@ describe('YearlyForecastChartComponent', () => {
         salesAmbition: 800,
         onTopCapacityForecast: 1000,
         opportunities: 900,
-        rollingSalesForecast: 700,
+        salesPlan: 700,
       },
     ];
 

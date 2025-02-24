@@ -88,8 +88,8 @@ export interface DetailedCustomerSalesPlan {
   salesDeduction: number;
   cashDiscount: number;
   otherRevenues: number;
-  dailyRollingSalesPlanUnconstrained: number;
-  dailyRollingSalesPlanConstrained: number;
+  salesPlanUnconstrained: number;
+  salesPlanConstrained: number;
   deliveryBacklog: number;
   orderBookBacklogUnconstrained: number;
   orderBookBacklogConstrained: number;

@@ -38,26 +38,26 @@ export class YearlyForecastChartComponent extends BaseForecastChartComponent {
       this.createBarSeries('salesAmbition', yearlyAggregation),
       this.createBarSeries('opportunities', yearlyAggregation),
       {
-        name: translate('home.chart.legend.rollingSalesForecast'),
-        kpi: 'rollingSalesForecast',
+        name: translate('home.chart.legend.salesPlan'),
+        kpi: 'salesPlan',
         type: 'bar',
-        data: yearlyAggregation.map((entry) => entry.rollingSalesForecast),
+        data: yearlyAggregation.map((entry) => entry.salesPlan),
         barGap: '-100%',
         itemStyle: {
           color: 'transparent',
-          borderColor: chartSeriesConfig.rollingSalesForecast.color,
+          borderColor: chartSeriesConfig.salesPlan.color,
           borderWidth: 1,
           borderType: 'dashed',
         },
         tooltip: {
           // not showing this dataset in the tooltip as its color is transparent.
-          // We use the dummy dataset below to render the rollingSalesForecast
+          // We use the dummy dataset below to render the sales plan
           // entry in the tooltip properly
           show: false,
         },
         z: 100,
       },
-      this.createDummyRollingSalesForecastSeries(yearlyAggregation),
+      this.createDummySalesPlanSeries(yearlyAggregation),
     ];
   }
 
@@ -75,7 +75,7 @@ export class YearlyForecastChartComponent extends BaseForecastChartComponent {
           salesAmbition: 0,
           onTopCapacityForecast: 0,
           onTopOrder: 0,
-          rollingSalesForecast: 0,
+          salesPlan: 0,
         });
       }
 
@@ -86,7 +86,7 @@ export class YearlyForecastChartComponent extends BaseForecastChartComponent {
       agg.salesAmbition += entry.salesAmbition;
       agg.onTopCapacityForecast += entry.onTopCapacityForecast;
       agg.onTopOrder += entry.onTopOrder;
-      agg.rollingSalesForecast += entry.rollingSalesForecast ?? 0;
+      agg.salesPlan += entry.salesPlan ?? 0;
 
       return acc;
     }, new Map<number, YearlyChartEntry>());
@@ -109,7 +109,7 @@ export class YearlyForecastChartComponent extends BaseForecastChartComponent {
   }
 
   /**
-   * Creates a dummy series to render the rollingSalesForecast entry in the tooltip.
+   * Creates a dummy series to render the sales Plan entry in the tooltip.
    * The actual data set is not visible in the chart due to opacity set to '0'.
    *
    * However, it properly appears in the tooltip with the correct color.
@@ -117,14 +117,14 @@ export class YearlyForecastChartComponent extends BaseForecastChartComponent {
    * @param yearlyAggregation
    * @private
    */
-  private createDummyRollingSalesForecastSeries(
+  private createDummySalesPlanSeries(
     yearlyAggregation: YearlyChartEntry[]
   ): any {
     return {
-      name: translate('home.chart.legend.rollingSalesForecast'),
+      name: translate('home.chart.legend.salesPlan'),
       type: 'bar',
-      color: chartSeriesConfig.rollingSalesForecast.color,
-      data: yearlyAggregation.map((entry) => entry.rollingSalesForecast),
+      color: chartSeriesConfig.salesPlan.color,
+      data: yearlyAggregation.map((entry) => entry.salesPlan),
       itemStyle: {
         opacity: 0,
       },

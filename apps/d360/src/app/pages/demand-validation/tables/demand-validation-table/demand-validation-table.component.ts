@@ -173,7 +173,7 @@ export class DemandValidationTableComponent {
     [KpiType.DemandRelevantSales]: true,
     [KpiType.SalesAmbition]: true,
     [KpiType.Opportunities]: true,
-    [KpiType.DailyRollingSalesForecast]: true,
+    [KpiType.SalesPlan]: true,
   });
 
   /**

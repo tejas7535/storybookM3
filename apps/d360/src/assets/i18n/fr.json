@@ -212,7 +212,7 @@
         "demandPlan": "Validated Forecast",
         "opportunities": "Opportunities",
         "opAdjustment": "OP Adjustment",
-        "rollingSalesForecast": "Daily Rolling Sales Forecast"
+        "salesPlan": "Sales Plan"
       }
     }
   },
@@ -334,7 +334,7 @@
       "onTopOrder": "On Top Order",
       "onTopCapacityForecast": "On Top Capacity Forecast",
       "salesAmbition": "Sales Ambition",
-      "dailyRollingSalesForecast": "Daily Rolling Sales Forecast"
+      "salesPlan": "Sales Plan"
     },
     "more_information": {
       "material_and_text": "Article + Nom",
@@ -483,7 +483,7 @@
       "forecastProposal": "Forecast Proposal (ADD*ONE)",
       "forecastProposalDemandPlanner": "Forecast Proposal (Demand Planner)",
       "salesAmbition": "Sales Ambition",
-      "dailyRollingSalesForecast": "Daily Rolling Sales Forecast",
+      "salesPlan": "Sales Plan",
       "validatedForecast": "Validated Customer Forecast",
       "calendarWeekTableHeaderKw": "SEM {{calendar_week}}",
       "calendarWeekTableHeaderPartWeek": "({{days}}j)"
@@ -715,8 +715,8 @@
       "opMaterialDemandPlanCount": "Nombre de matériaux OP avec Plan de Demande",
       "spMaterialDemandPlanCount": "Nombre de matériaux SP avec Plan de Demande",
       "apMaterialDemandPlanCount": "Nombre de matériaux AP avec Plan de Demande",
-      "dailyRollingSalesPlanUnconstrained": "Plan de Ventes Quotidien (Unc)",
-      "dailyRollingSalesPlanConstrained": "Plan de Ventes Quotidien (Con)",
+      "salesPlanUnconstrained": "Plan de Ventes (Unc)",
+      "salesPlanConstrained": "Plan de Ventes (Con)",
       "months": {
         "01": "Janvier",
         "02": "Février",

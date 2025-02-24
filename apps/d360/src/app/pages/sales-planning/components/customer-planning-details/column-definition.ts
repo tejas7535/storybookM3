@@ -53,10 +53,7 @@ export const initiallyVisibleColumns: CustomColumnDefinition[] = [
   { key: 'salesDeduction', type: ColumnValueType.Percentage },
   { key: 'cashDiscount', type: ColumnValueType.Percentage },
   { key: 'otherRevenues', type: ColumnValueType.Monetary },
-  {
-    key: 'dailyRollingSalesPlanUnconstrained',
-    type: ColumnValueType.Monetary,
-  },
+  { key: 'salesPlanUnconstrained', type: ColumnValueType.Monetary },
 ];
 
 export const unconstrainedColumns: CustomColumnDefinition[] = [
@@ -94,7 +91,7 @@ export const constrainedColumns: CustomColumnDefinition[] = [
   { key: 'apShareConstrained', type: ColumnValueType.Percentage },
   { key: 'spShareConstrained', type: ColumnValueType.Percentage },
   { key: 'opShareConstrained', type: ColumnValueType.Percentage },
-  { key: 'dailyRollingSalesPlanConstrained', type: ColumnValueType.Monetary },
+  { key: 'salesPlanConstrained', type: ColumnValueType.Monetary },
 ];
 
 export function getTitle(

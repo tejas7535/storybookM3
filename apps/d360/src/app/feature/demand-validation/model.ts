@@ -121,7 +121,7 @@ export interface MaterialListEntry {
 
 export interface KpiEntry {
   bucketType: KpiBucketType;
-  confirmedDailyRollingSalesForecast: number | null;
+  confirmedSalesPlan: number | null;
   confirmedDeliveriesActive: number | null;
   confirmedDeliveriesCombined: number | null;
   confirmedDeliveriesPredecessor: number | null;
@@ -135,7 +135,7 @@ export interface KpiEntry {
   confirmedOpportunities: number | null;
   confirmedSalesAmbition: number | null;
   currentDemandPlan: number | null;
-  dailyRollingSalesForecast: number | null;
+  salesPlan: number | null;
   deliveriesActive: number | null;
   deliveriesCombined: number | null;
   deliveriesPredecessor: number | null;
@@ -211,7 +211,7 @@ export enum KpiType {
   OnTopOrder = 'onTopOrder',
   OnTopCapacityForecast = 'onTopCapacityForecast',
   SalesAmbition = 'salesAmbition',
-  DailyRollingSalesForecast = 'dailyRollingSalesForecast',
+  SalesPlan = 'salesPlan',
   ConfirmedDeliveries = 'confirmedDeliveries',
   ConfirmedFirmBusiness = 'confirmedFirmBusiness',
   ConfirmedDemandRelevantSales = 'confirmedDemandRelevantSales',
@@ -219,7 +219,7 @@ export enum KpiType {
   ConfirmedOnTopCapacityForecast = 'confirmedOnTopCapacityForecast',
   ConfirmedSalesAmbition = 'confirmedSalesAmbition',
   ConfirmedOpportunities = 'confirmedOpportunities',
-  ConfirmedDailyRollingSalesForecast = 'confirmedDailyRollingSalesForecast',
+  ConfirmedSalesPlan = 'confirmedSalesPlan',
 }
 export type SelectedKpis = Record<KpiType, boolean>;
 

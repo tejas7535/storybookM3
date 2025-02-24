@@ -36,7 +36,7 @@ const mockForecastChartData = {
       salesAmbition: 300,
       onTopCapacityForecast: 400,
       opportunities: 150,
-      rollingSalesForecast: 500,
+      salesPlan: 500,
     },
   ],
 };

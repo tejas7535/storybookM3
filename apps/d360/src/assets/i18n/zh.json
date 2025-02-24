@@ -212,7 +212,7 @@
         "demandPlan": "Demand Plan",
         "opportunities": "Opportunities",
         "opAdjustment": "OP Adjustment",
-        "rollingSalesForecast": "Daily Rolling Sales Forecast"
+        "salesPlan": "Sales Plan"
       }
     }
   },
@@ -334,7 +334,7 @@
       "onTopOrder": "On Top Order",
       "onTopCapacityForecast": "On Top Capacity Forecast",
       "salesAmbition": "Sales Ambition",
-      "dailyRollingSalesForecast": "Daily Rolling Sales Forecast"
+      "salesPlan": "Sales Plan"
     },
     "more_information": {
       "material_and_text": "物料+描述",
@@ -483,7 +483,7 @@
       "forecastProposal": "Forecast Proposal (ADD*ONE)",
       "forecastProposalDemandPlanner": "Forecast Proposal (Demand Planner)",
       "salesAmbition": "Sales Ambition",
-      "dailyRollingSalesForecast": "Daily Rolling Sales Forecast",
+      "salesPlan": "Sales Plan",
       "validatedForecast": "Validated Customer Forecast",
       "calendarWeekTableHeaderKw": "CW {{calendar_week}}",
       "calendarWeekTableHeaderPartWeek": "({{days}}天)"
@@ -715,8 +715,8 @@
       "opMaterialDemandPlanCount": "与需求计划的 OP 材料数量",
       "spMaterialDemandPlanCount": "与需求计划的 SP 材料数量",
       "apMaterialDemandPlanCount": "与需求计划的 AP 材料数量",
-      "dailyRollingSalesPlanUnconstrained": "每日滚动销售计划 (Unc)",
-      "dailyRollingSalesPlanConstrained": "每日滚动销售计划 (Con)",
+      "salesPlanUnconstrained": "销售计划 (Unc)",
+      "salesPlanConstrained": "销售计划 (Con)",
       "months": {
         "01": "一月",
         "02": "二月",
