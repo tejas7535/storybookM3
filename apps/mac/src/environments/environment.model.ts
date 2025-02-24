@@ -10,7 +10,7 @@ export interface Environment {
   oneTrustId: string;
   applicationInsights: {
     applicationInsightsConfig: {
-      instrumentationKey: string;
+      connectionString: string;
       disableCookiesUsage: boolean;
       autoTrackPageVisitTime: boolean;
     };

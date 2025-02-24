@@ -12,7 +12,8 @@ export const environment: Environment = {
   oneTrustId: 'ab9a86f7-d72b-4b88-9ea0-d37be5e09aab',
   applicationInsights: {
     applicationInsightsConfig: {
-      instrumentationKey: '6ee4d547-ad4b-4bec-b962-ee547a1d690f',
+      connectionString:
+        'InstrumentationKey=6ee4d547-ad4b-4bec-b962-ee547a1d690f;IngestionEndpoint=https://westeurope-1.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/;ApplicationId=07af05b1-5e47-4724-a314-fe68264f738a',
       disableCookiesUsage: false,
       autoTrackPageVisitTime: true,
     },
