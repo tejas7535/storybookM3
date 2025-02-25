@@ -1,6 +1,6 @@
-import { KpiBucketTypeEnum } from './../../../../feature/demand-validation/model';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { KpiBucketTypeEnum } from './../../../../feature/demand-validation/model';
 import {
   DemandValidationKpiHeaderComponent,
   ICustomHeaderParams,

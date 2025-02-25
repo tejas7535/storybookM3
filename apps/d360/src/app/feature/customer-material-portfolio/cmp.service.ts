@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
-import { map, Observable, of, Subject } from 'rxjs';
+import { EMPTY, map, Observable, of, Subject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { translate } from '@jsverse/transloco';
@@ -70,7 +70,7 @@ export class CMPService {
       !cmpData?.materialNumber ||
       !cmpData?.successorMaterial
     ) {
-      return new Observable<CfcrActionResponse>();
+      return EMPTY;
     }
 
     const request = {
@@ -190,6 +190,21 @@ export class CMPService {
 
         const { startRow, endRow, sortModel, filterModel, groupKeys } =
           params.request;
+
+        // Hint: unfortunately AG-Grid is not supporting to pass a colId to the autoGroupColumnDef for sorting it is
+        // always: 'ag-Grid-AutoColumn'.
+        // So, if a 'ag-Grid-AutoColumn' is in the sortModel...
+        const autoColumn: number = sortModel.findIndex(
+          (model) => model.colId === 'ag-Grid-AutoColumn'
+        );
+
+        // ...we replace the colId with the autoGroupColumnDef.field.
+        if (autoColumn >= 0) {
+          sortModel[autoColumn] = {
+            ...sortModel[autoColumn],
+            colId: params.api.getGridOption('autoGroupColumnDef').field,
+          };
+        }
 
         if (groupKeys?.length > 0) {
           this.getRowsForGroup({

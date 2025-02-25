@@ -1,4 +1,3 @@
-import { parse } from 'date-fns';
 /* eslint-disable max-lines */
 import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { DestroyRef, inject, Injectable } from '@angular/core';
@@ -20,7 +19,7 @@ import {
   IServerSideDatasource,
   IServerSideGetRowsParams,
 } from 'ag-grid-enterprise';
-import { format, formatISO } from 'date-fns';
+import { format, formatISO, parse } from 'date-fns';
 
 import { GlobalSelectionStateService } from '../../shared/components/global-selection-criteria/global-selection-state.service';
 import { AUTO_CONFIGURE_APPLICATION_JSON_HEADER } from '../../shared/interceptors/headers.interceptor';
