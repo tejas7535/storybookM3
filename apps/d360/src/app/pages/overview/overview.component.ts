@@ -47,6 +47,5 @@ export class OverviewComponent {
       Number.parseInt(priority.id, 10)
     );
   }
-
   protected readonly OpenFunction = OpenFunction;
 }

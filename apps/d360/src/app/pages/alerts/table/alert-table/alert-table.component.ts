@@ -25,7 +25,7 @@ import {
 } from 'ag-grid-enterprise';
 
 import { AlertService } from '../../../../feature/alerts/alert.service';
-import { Alert } from '../../../../feature/alerts/model';
+import { Alert, AlertStatus } from '../../../../feature/alerts/model';
 import {
   getDefaultColDef,
   serverSideTableDefaultProps,
@@ -89,7 +89,9 @@ export class AlertTableComponent {
         !(params.data as Alert | undefined)?.open,
     },
   };
-  protected datasource = this.alertService.createAlertDatasource('ACTIVE');
+  protected datasource = this.alertService.createAlertDatasource(
+    AlertStatus.ACTIVE
+  );
 
   protected context: Record<string, any> = {
     getMenu: (b: any) => {

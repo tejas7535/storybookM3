@@ -1,14 +1,22 @@
+/* eslint-disable max-lines */
 import {
   HttpClient,
   HttpErrorResponse,
   HttpParams,
 } from '@angular/common/http';
-import { DestroyRef, inject, Injectable } from '@angular/core';
+import { DestroyRef, inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import {
+  BehaviorSubject,
+  catchError,
+  concatMap,
+  EMPTY,
+  finalize,
   Observable,
   of,
+  range,
+  retry,
   Subject,
   Subscription,
   switchMap,
@@ -16,7 +24,6 @@ import {
   tap,
   timer,
 } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 
 import { translate } from '@jsverse/transloco';
 import {
@@ -69,15 +76,113 @@ export class AlertService {
 
   private readonly dataFetchedEvent = new Subject<AlertDataResult>();
   private readonly fetchErrorEvent = new Subject<any>();
+  private readonly loadingEvent = new BehaviorSubject<boolean>(true);
   private readonly refreshEvent = new Subject<void>();
 
-  private readonly hashTimer = timer(0, 5 * 60 * 1000); // every 5 minutes
+  private readonly hashTimer = timer(0, 60 * 1000); // every  minute
   private timerSubscription: Subscription;
   private currentHash: string;
 
+  public allActiveAlerts = signal<Alert[]>(null);
+
   public constructor() {
+    this.loadActiveAlerts();
     this.updateNotificationCount();
     this.refreshHashTimer();
+    this.refreshEvent
+      .pipe(
+        tap(() => {
+          this.loadActiveAlerts();
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+  }
+  /**
+   * Loads all active alerts from the backend. If rowCount > 1000 the data is loaded in chunks of 1000 alerts.
+   * Sets the data in the allActiveAlerts signal when done.
+   * Emits a true value via the fetchErrorEvent when it fails.
+   * Emits the loading state via the loadingEvents when loading state changes.
+   *
+   * @private
+   * @return {void}
+   * @memberof AlertService
+   */
+  private loadActiveAlerts(): void {
+    let alerts: Alert[] = [];
+    let hasError = false;
+    const chunkSize = 1000;
+    this.loadingEvent.next(true);
+    this.fetchErrorEvent.next(false);
+    this.requestAlerts(
+      {
+        startRow: 0,
+        endRow: chunkSize - 1,
+        sortModel: [],
+        filterModel: [],
+      },
+      AlertStatus.ACTIVE
+    )
+      .pipe(
+        retry(2),
+        catchError(() => {
+          hasError = true;
+
+          return EMPTY;
+        }),
+        switchMap((firstResult) => {
+          const rowCount = firstResult.rowCount;
+          alerts = firstResult.rows;
+
+          if (rowCount > chunkSize) {
+            const numberOfRequests = Math.ceil(
+              (rowCount - chunkSize) / chunkSize
+            );
+
+            return range(1, numberOfRequests);
+          } else {
+            return EMPTY;
+          }
+        }),
+        concatMap((value) => {
+          const startRow = value * chunkSize;
+          const endRow = startRow + chunkSize - 1;
+
+          return this.requestAlerts(
+            {
+              startRow,
+              endRow,
+              sortModel: [],
+              filterModel: [],
+            },
+            AlertStatus.ACTIVE
+          );
+        }),
+
+        catchError(() => {
+          this.fetchErrorEvent.next(true);
+          hasError = true;
+
+          return of(null);
+        }),
+        tap((alertDataResult) => {
+          alerts = [...alerts, ...(alertDataResult?.rows || [])];
+        }),
+        finalize(() => {
+          if (hasError) {
+            this.snackbarService.openSnackBar(
+              translate('error.loading_failed')
+            );
+            this.fetchErrorEvent.next(true);
+            this.allActiveAlerts.set([]);
+          } else {
+            this.allActiveAlerts.set(alerts);
+          }
+          this.loadingEvent.next(false);
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   public completeAlert(alertId: string): Observable<any> {
@@ -111,8 +216,16 @@ export class AlertService {
     return this.dataFetchedEvent.asObservable();
   }
 
+  public getFetchErrorEvent(): Observable<boolean> {
+    return this.fetchErrorEvent.asObservable();
+  }
+
   public getRefreshEvent(): Observable<void> {
     return this.refreshEvent.asObservable();
+  }
+
+  public getLoadingEvent(): Observable<boolean> {
+    return this.loadingEvent.asObservable();
   }
 
   public createAlertDatasource(
@@ -120,7 +233,7 @@ export class AlertService {
   ): IServerSideDatasource {
     return {
       getRows: (params: IServerSideGetRowsParams) =>
-        this.requestAlerts(params, selectedStatus)
+        this.requestAlerts(params.request, selectedStatus)
           .pipe(
             tap(({ rows, rowCount }) => {
               params.success({
@@ -142,21 +255,22 @@ export class AlertService {
   }
 
   private requestAlerts(
-    params: IServerSideGetRowsParams,
-    selectedStatus: AlertStatus,
-    openFunction?: string
+    requestParams: {
+      startRow: number;
+      endRow: number;
+      sortModel: any;
+      filterModel: any;
+    },
+    selectedStatus: AlertStatus
   ): Observable<AlertDataResult> {
-    const { startRow, endRow, sortModel, filterModel } = params.request;
+    const { startRow, endRow, sortModel, filterModel } = requestParams;
 
     return this.currencyService.getCurrentCurrency().pipe(
       take(1),
       switchMap((currency: string) => {
-        let queryParams = new HttpParams()
+        const queryParams = new HttpParams()
           .set('status', selectedStatus)
           .set('currency', currency);
-        if (openFunction) {
-          queryParams = queryParams.set('openFunction', openFunction);
-        }
         const columnFilters = formatFilterModelForBackend(filterModel);
 
         return this.http.post<AlertDataResult>(
@@ -176,7 +290,7 @@ export class AlertService {
 
   private readonly groupBy = (input: any[], key: string) =>
     // eslint-disable-next-line unicorn/no-array-reduce
-    input.reduce((acc, currentValue) => {
+    input?.reduce((acc, currentValue) => {
       const groupKey = currentValue[key];
       if (!acc[groupKey]) {
         acc[groupKey] = [];
@@ -186,104 +300,62 @@ export class AlertService {
       return acc;
     }, {});
 
-  public createGroupedAlertDatasource(
-    selectedStatus: AlertStatus,
-    openFunction?: OpenFunction,
-    customerNumbers?: string[],
-    priorities: Priority[] = []
-  ): IServerSideDatasource {
-    return {
-      getRows: (params: IServerSideGetRowsParams) => {
-        this.requestAlerts(params, selectedStatus, openFunction)
-          .pipe(
-            tap(({ rows }) => {
-              let filteredAlerts = rows;
-              if (customerNumbers && customerNumbers.length > 0) {
-                filteredAlerts = rows.filter((alert) =>
-                  customerNumbers?.includes(alert.customerNumber)
-                );
-              }
-              let groupedResult: GroupedAlert[] = [];
+  public groupDataByCustomerAndPriority = (rows: Alert[]) => {
+    const filteredAlerts = rows;
+    const groupedResult: GroupedAlert[] = [];
 
-              const groupedRows: Record<string, Alert[]> = this.groupBy(
-                filteredAlerts,
-                'customerNumber'
-              );
+    const groupedRows: Record<string, Alert[]> = this.groupBy(
+      filteredAlerts,
+      'customerNumber'
+    );
 
-              Object.entries(groupedRows).forEach(([key, value]) => {
-                const groupedByPriority: Record<Priority, Alert[]> =
-                  this.groupBy(value, 'alertPriority');
-                const typesByPriority: Record<string, AlertCategory[]> = {};
-                const countByPriority: Record<string, number> = {};
+    Object.entries(groupedRows).forEach(([key, value]) => {
+      const groupedByPriority: Record<Priority, Alert[]> = this.groupBy(
+        value,
+        'alertPriority'
+      );
+      const typesByPriority: Record<string, AlertCategory[]> = {};
+      const countByPriority: Record<string, number> = {};
 
-                Object.entries(groupedByPriority).forEach(
-                  ([innerKey, innerValue]) => {
-                    countByPriority[innerKey] = innerValue.length;
-                    const allTypes = innerValue.map((alert) => alert.type);
-                    typesByPriority[innerKey] = [...new Set(allTypes)];
-                  }
-                );
+      Object.entries(groupedByPriority).forEach(([innerKey, innerValue]) => {
+        countByPriority[innerKey] = innerValue.length;
+        const allTypes = innerValue.map((alert) => alert.type);
+        typesByPriority[innerKey] = [...new Set(allTypes)];
+      });
 
-                groupedResult.push({
-                  customerNumber: key,
-                  customerName: value[0].customerName,
-                  priorityCount: countByPriority,
-                  openFunction: value[0].openFunction,
-                  alertTypes: typesByPriority,
-                });
-              });
+      groupedResult.push({
+        customerNumber: key,
+        customerName: value[0].customerName,
+        priorityCount: countByPriority,
+        openFunction: value[0].openFunction,
+        alertTypes: typesByPriority,
+      });
+    });
 
-              groupedResult.sort((a, b) => {
-                const priorityA = a.priorityCount || {};
-                const priorityB = b.priorityCount || {};
+    groupedResult.sort((a, b) => {
+      const priorityA = a.priorityCount || {};
+      const priorityB = b.priorityCount || {};
 
-                const compare = (index: Priority) => {
-                  if ((priorityA[index] || 0) < (priorityB[index] || 0)) {
-                    return 1;
-                  } else if (
-                    (priorityA[index] || 0) > (priorityB[index] || 0)
-                  ) {
-                    return -1;
-                  } else {
-                    return 0;
-                  }
-                };
+      const compare = (index: Priority) => {
+        if ((priorityA[index] || 0) < (priorityB[index] || 0)) {
+          return 1;
+        } else if ((priorityA[index] || 0) > (priorityB[index] || 0)) {
+          return -1;
+        } else {
+          return 0;
+        }
+      };
 
-                return (
-                  compare(Priority.Priority1) ||
-                  compare(Priority.Priority2) ||
-                  compare(Priority.Priority3) ||
-                  0
-                );
-              });
+      return (
+        compare(Priority.Priority1) ||
+        compare(Priority.Priority2) ||
+        compare(Priority.Priority3) ||
+        0
+      );
+    });
 
-              groupedResult = groupedResult.filter((alert) => {
-                let hasRequestedPriorityTask = false;
-                priorities.forEach((requestedPriority) => {
-                  hasRequestedPriorityTask =
-                    hasRequestedPriorityTask ||
-                    alert.priorityCount[requestedPriority] > 0;
-                });
-
-                return hasRequestedPriorityTask;
-              });
-
-              params.success({
-                rowData: groupedResult,
-                rowCount: groupedResult.length,
-              });
-            }),
-            catchError((error: HttpErrorResponse) => {
-              params.fail();
-              this.fetchErrorEvent.next(error);
-
-              return of(error);
-            })
-          )
-          .subscribe();
-      },
-    };
-  }
+    return groupedResult;
+  };
 
   public updateNotificationCount() {
     this.getAlertNotificationCount()

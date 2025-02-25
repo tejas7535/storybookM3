@@ -1,16 +1,17 @@
 import {
   Component,
+  computed,
   DestroyRef,
   effect,
   inject,
   input,
-  OnInit,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
+import { PushPipe } from '@ngrx/component';
 import { AgGridModule } from 'ag-grid-angular';
 import {
   CellStyle,
@@ -20,40 +21,43 @@ import {
   GridApi,
   GridOptions,
   GridReadyEvent,
-  IServerSideDatasource,
 } from 'ag-grid-enterprise';
 
-import { AlertService } from '../../../../feature/alerts/alert.service';
+import {
+  AlertService,
+  GroupedAlert,
+} from '../../../../feature/alerts/alert.service';
 import {
   Alert,
   OpenFunction,
   Priority,
 } from '../../../../feature/alerts/model';
-import { serverSideTableDefaultProps } from '../../../../shared/ag-grid/grid-defaults';
+import { clientSideTableDefaultProps } from '../../../../shared/ag-grid/grid-defaults';
 import { ActionsMenuCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
+import { DateFilterComponent } from '../../../../shared/components/ag-grid/filters/mat-date-filter/date-filter.component';
 import { NoDataOverlayComponent } from '../../../../shared/components/ag-grid/no-data/no-data.component';
 import { GlobalSelectionStateService } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { TaskPrioritiesComponent } from '../task-priorities/task-priorities.component';
-import { DateFilterComponent } from './../../../../shared/components/ag-grid/filters/mat-date-filter/date-filter.component';
 
 @Component({
   selector: 'd360-task-priority-grid',
   standalone: true,
-  imports: [AgGridModule],
+  imports: [AgGridModule, PushPipe],
   templateUrl: './task-priority-grid.component.html',
   styleUrl: './task-priority-grid.component.scss',
 })
-export class TaskPriorityGridComponent implements OnInit {
+export class TaskPriorityGridComponent {
   protected noOverlayMessage = {
     message: translate('overview.yourTasks.noTasks'),
   };
   private gridApi: GridApi = null;
   public openFunction = input.required<OpenFunction>();
-  public customers = input<string[]>();
-  public priorities = input<Priority[]>([]);
+  public gkamNumbers = input<string[]>(null);
+  public customers = input<string[]>(null);
+  public priorities = input<Priority[]>(null);
   protected gridOptions: GridOptions = {
-    ...serverSideTableDefaultProps,
+    ...clientSideTableDefaultProps,
     cellSelection: false,
     suppressCellFocus: true,
   };
@@ -101,7 +105,6 @@ export class TaskPriorityGridComponent implements OnInit {
     },
   ];
   protected readonly destroyRef = inject(DestroyRef);
-  protected datasource: IServerSideDatasource = null;
   protected readonly NoDataOverlayComponent = NoDataOverlayComponent;
   protected readonly agGridLocalizationService: AgGridLocalizationService =
     inject(AgGridLocalizationService);
@@ -109,27 +112,51 @@ export class TaskPriorityGridComponent implements OnInit {
     GlobalSelectionStateService
   );
   protected rowStyles = { fontSize: '12px' };
+  protected isLoading$ = this.alertService.getLoadingEvent();
+  private readonly filteredData = computed(() =>
+    this.alertService
+      .groupDataByCustomerAndPriority(
+        (this.alertService.allActiveAlerts() || [])
+          ?.filter((alert) => alert?.openFunction === this.openFunction())
+          ?.filter(
+            (alert) =>
+              !this.customers() ||
+              this.customers()?.includes(alert.customerNumber)
+          )
+          ?.filter(
+            (alert) =>
+              !this.gkamNumbers() ||
+              this.gkamNumbers()?.includes(alert.keyAccount)
+          )
+      )
+      ?.filter(
+        (alert) =>
+          !this.priorities() ||
+          this.priorities()?.some(
+            (requestedPriority) => alert.priorityCount[requestedPriority] > 0
+          )
+      )
+  );
+
   public constructor() {
     effect(() => {
-      this.reloadGrid();
+      this.reloadGrid(this.filteredData());
     });
-  }
-  public ngOnInit(): void {
-    this.alertService.getRefreshEvent().pipe(
-      tap(() => {
-        this.reloadGrid();
-      }),
-      takeUntilDestroyed(this.destroyRef)
-    );
+    this.alertService
+      .getFetchErrorEvent()
+      .pipe(
+        tap((hasError: boolean) => {
+          if (hasError) {
+            this.reloadGrid([]);
+          }
+        }),
+        takeUntilDestroyed()
+      )
+      .subscribe();
   }
 
-  private reloadGrid() {
-    this.datasource = this.alertService.createGroupedAlertDatasource(
-      'ACTIVE',
-      this.openFunction(),
-      this.customers(),
-      this.priorities()
-    );
+  private reloadGrid(data: GroupedAlert[]) {
+    this.gridApi?.setGridOption('rowData', data);
   }
 
   protected context: Record<string, any> = {
@@ -212,11 +239,12 @@ export class TaskPriorityGridComponent implements OnInit {
   };
   protected onGridReady(event: GridReadyEvent): void {
     this.gridApi = event.api;
+    if (this.filteredData()) {
+      this.reloadGrid(this.filteredData());
+    }
   }
   protected getRowId: GetRowIdFunc = (params: GetRowIdParams<Alert>) =>
     params.data.customerNumber;
-
-  protected onFirstDataRendered() {}
 
   protected onDataUpdated() {
     if (this.gridApi) {

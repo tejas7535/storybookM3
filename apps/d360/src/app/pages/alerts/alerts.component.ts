@@ -48,9 +48,12 @@ export class AlertsComponent {
   private readonly alertService: AlertService = inject(AlertService);
   protected loading$ = this.selectableOptionsService.loading$;
   protected alertStatus: SelectableValue[] = [
-    { id: 'ACTIVE', text: translate('alert.select.active') },
-    { id: 'COMPLETED', text: translate('alert.select.completed') },
-    { id: 'DEACTIVATED', text: translate('alert.select.deactivated') },
+    { id: AlertStatus.ACTIVE, text: translate('alert.select.active') },
+    { id: AlertStatus.COMPLETED, text: translate('alert.select.completed') },
+    {
+      id: AlertStatus.DEACTIVATED,
+      text: translate('alert.select.deactivated'),
+    },
   ];
   private gridApi: GridApi | null = null;
   protected readonly DisplayFunctions = DisplayFunctions;

@@ -1357,10 +1357,10 @@
   },
   "overview": {
     "yourTasks": {
-      "headline": "Your To-Dos",
-      "gridHeadline": "Tasks",
-      "taskPriority": "Task priority",
-      "noTasks": "No tasks",
+      "headline": "Your to-dos",
+      "gridHeadline": "To-Dos",
+      "taskPriority": "Priority",
+      "noTasks": "No to-dos",
       "priority1": "Priority 1",
       "priority2": "Priority 2",
       "priority3": "Information",

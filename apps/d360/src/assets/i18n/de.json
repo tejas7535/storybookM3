@@ -1355,9 +1355,9 @@
   "overview": {
     "yourTasks": {
       "headline": "Deine To-Dos",
-      "gridHeadline": "Aufgaben",
-      "taskPriority": "Aufgabenpriorität",
-      "noTasks": "Keine Aufgaben",
+      "gridHeadline": "To-Dos",
+      "taskPriority": "Priorität",
+      "noTasks": "Keine To-Dos",
       "priority1": "Priorität 1",
       "priority2": "Priorität 2",
       "priority3": "Information",

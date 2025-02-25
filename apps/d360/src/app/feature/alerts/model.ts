@@ -10,11 +10,13 @@ export interface Alert {
   materialDescription?: string;
   type?: AlertCategory;
   createdAt?: string;
+  changedAt?: string;
   dueDate?: string;
   materialClassification?: string;
   customerMaterialNumber?: string;
   customerMaterialNumberCount?: number;
   openFunction?: OpenFunction;
+  currency?: string;
   threshold1?: number;
   threshold1Description?: string;
   threshold2?: number;
@@ -22,9 +24,27 @@ export interface Alert {
   threshold3?: number;
   threshold3Description?: string;
   thresholdDeviation?: number;
+  comment?: string;
+  changedBy?: string;
+  completedAt?: string;
+  completedBy?: string;
+  createdBy?: string;
+  generation?: string;
+  keyAccount?: string;
+  regionPlPackage?: string;
+  threshold1Type?: string;
+  threshold2Type?: string;
+  threshold3Type?: string;
+  calcThreshold1?: number;
+  calcThreshold2?: number;
+  calcThreshold3?: number;
 }
 
-export type AlertStatus = 'ACTIVE' | 'COMPLETED' | 'DEACTIVATED';
+export enum AlertStatus {
+  ACTIVE = 'ACTIVE',
+  COMPLETED = 'COMPLETED',
+  DEACTIVATED = 'DEACTIVATED',
+}
 
 export interface AlertNotificationCount {
   openCritical: number;

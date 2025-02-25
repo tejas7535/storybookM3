@@ -10,6 +10,7 @@ export const mockAlertResult: Alert[] = [
     customerName: 'first customer',
     openFunction: OpenFunction.Validation_Of_Demand,
     type: AlertCategory.ACIADP,
+    keyAccount: 'gkam1',
   },
   {
     open: false,
@@ -20,6 +21,7 @@ export const mockAlertResult: Alert[] = [
     customerName: 'first customer',
     openFunction: OpenFunction.Validation_Of_Demand,
     type: AlertCategory.NPOSDP,
+    keyAccount: 'gkam1',
   },
   {
     open: false,
@@ -30,6 +32,7 @@ export const mockAlertResult: Alert[] = [
     customerName: 'second customer',
     openFunction: OpenFunction.Validation_Of_Demand,
     type: AlertCategory.CFSUAO,
+    keyAccount: 'gkam2',
   },
 ];
 
@@ -115,3 +118,19 @@ export const largeMockAlertResult: Alert[] = [
     type: AlertCategory.ACIADP,
   },
 ];
+
+const mockSingleAlert = (identifier: number): Alert => ({
+  open: false,
+  priority: false,
+  alertPriority: 3,
+  deactivated: false,
+  customerNumber: `${identifier}`,
+  customerName: `customer ${identifier}`,
+  openFunction: OpenFunction.Validation_Of_Demand,
+  type: AlertCategory.ACIADP,
+});
+
+export const mockAlertArray = (count: number): Alert[] =>
+  [...Array.from({ length: count }).keys()].map((index) =>
+    mockSingleAlert(index)
+  );
