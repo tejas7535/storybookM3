@@ -1,10 +1,11 @@
 import { By } from '@angular/platform-browser';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockDirective } from 'ng-mocks';
+import { MockComponent, MockDirective } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { ReportCo2EmissionsValuesComponent } from '../report-co2-emissions-values/report-co2-emissions-values.component';
 import { CalculationDownstreamEmissionComponent } from './calculation-downstream-emission.component';
 import { CalculationDowstreamSwipeDirective } from './calculation-downstream-swipe.directive';
 
@@ -16,6 +17,7 @@ describe('CalculationDownstreamEmissionComponent', () => {
     imports: [
       provideTranslocoTestingModule({ en: {} }),
       MockDirective(CalculationDowstreamSwipeDirective),
+      MockComponent(ReportCo2EmissionsValuesComponent),
     ],
   });
 

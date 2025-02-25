@@ -1,6 +1,6 @@
 import { DialogModule, DialogRef } from '@angular/cdk/dialog';
-import { CommonModule, formatNumber } from '@angular/common';
-import { Component, Inject, Input, LOCALE_ID } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { CO2EmissionResult } from '@ea/core/store/selectors/calculation-result/calculation-result-report.selector';
 import { CHARTS_COLORS } from '@ea/shared/constants/charts-colors';
+import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 import { TranslocoService } from '@jsverse/transloco';
 import { ECharts, EChartsOption } from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -58,6 +59,7 @@ interface ChartDataItem {
     ReportCo2EmissionsValuesComponent,
     DialogModule,
     CalculationDownstreamEmissionComponent,
+    MeaningfulRoundPipe,
   ],
 })
 export class CalculationResultReportEmissionComponent {
@@ -83,8 +85,7 @@ export class CalculationResultReportEmissionComponent {
     private readonly translocoService: TranslocoService,
     public readonly dialogRef: DialogRef<CalculationResultReportComponent>,
     private readonly dialog: MatDialog,
-    @Inject(LOCALE_ID)
-    private readonly locale: string
+    private readonly meaningfulRoundPipe: MeaningfulRoundPipe
   ) {}
 
   get chartImageWithoutSelection(): string {
@@ -317,7 +318,7 @@ export class CalculationResultReportEmissionComponent {
   }
 
   private formatValue(value: number): string {
-    return `${formatNumber(value, this.locale, '1.2-2')} kg`;
+    return `${this.meaningfulRoundPipe.transform(value)} kg`;
   }
 
   private translate(key: string): string {

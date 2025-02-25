@@ -21,6 +21,8 @@ export const downstreamErrors: { [key: string]: string } = {
   NY100_BELOW_LIMIT: 'ny100BelowLimit',
   NY100_EXCEEDS_LIMIT: 'ny100ExceedsLimit',
   SPEED_BELOW_THRESHOLD: 'speedBelowThreshold',
+  SPEED_EXCEEDS_LIMITING_SPEED_GREASE: 'speedExceedsLimitingSpeedGrease',
+  SPEED_EXCEEDS_LIMITING_SPEED_OIL: 'speedExceedsLimitingSpeedOil',
   SPEED_EXCEEDS_LIMITING_SPEED: 'speedExceedsLimitingSpeed',
   P0_BELOW_C0_MIN: 'p0BelowC0Min',
   P0_EXCEEDS_C0: 'p0ExceedsStaticLoad',
@@ -43,5 +45,5 @@ export const downstreamErrors: { [key: string]: string } = {
   EXTERNAL_HEAT_FLUX_TOO_HIGH: 'externalHeatFluxTooHigh',
   REFERENCE_VISCOSITY_IS_ZERO: 'referenceViscosityIsZero',
   MEAN_DIAMETER_IS_ZERO: 'meanDiameterIsZero',
-  UNSUPPORTED_ENERGY_SOURCE: 'unsupportedEnergySource',
+  UNSUPPORTED_EMISSION_FACTOR: 'unsupportedEmissionFactor',
 };

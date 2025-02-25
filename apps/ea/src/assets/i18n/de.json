@@ -312,7 +312,9 @@
       "ny100BelowLimit": "Für die Berechnung der Reibungsverluste und CO2e-Emissionen ist die Viskosität des Schmierstoffs bei 100°C zu niedrig.",
       "ny100ExceedsLimit": "Für die Berechnung der Reibungsverluste und CO2e-Emissionen ist die Viskosität des Schmierstoffs bei 100°C zu groß.",
       "speedBelowThreshold": "Für die Berechnung der Reibungsverluste und CO2e-Emissionen ist die Drehzahl zu niedrig.",
-      "speedExceedsLimitingSpeed": "Die Drehzahl ist größer als die Grenzdrehzahl.",
+      "speedExceedsLimitingSpeedGrease": "Die Drehzahl ist größer als die Grenzdrehzahl für Schmierung mit Fett. Weitere Erläuterungen zur Grenzdrehzahl finden Sie in den technischen Informationen des medias Produktkatalogs.",
+      "speedExceedsLimitingSpeedOil": "Die Drehzahl ist größer als die Grenzdrehzahl. Weitere Erläuterungen zur Grenzdrehzahl finden Sie in den technischen Informationen des medias Produktkatalogs.",
+      "speedExceedsLimitingSpeed": "Die Drehzahl ist größer als die Grenzdrehzahl. Weitere Erläuterungen zur Grenzdrehzahl finden Sie in den technischen Informationen des medias Produktkatalogs.",
       "p0BelowC0Min": "Die äquivalente statische Lagerlast P0 ist niedriger als die Mindestbelastung.",
       "p0ExceedsStaticLoad": "Die äquivalente statische Lagerlast P0 ist größer als die statische Tragzahl C0.",
       "loadAngleBelowNominalContactAngle": "Der Lastwinkel ist kleiner als der Nenndruckwinkel. Somit können die resultierenden internen Axialkräfte nicht ausreichend abgestützt werden.",
@@ -334,7 +336,7 @@
       "externalHeatFluxTooHigh": "Der externe Wärmefluss muss kleiner sein als der abgeführende Wärmefluss",
       "referenceViscosityIsZero": "Der Wert für die Referenzviskosität ist 0.",
       "meanDiameterIsZero": "Der Wälzkreisdurchmesser ist 0.",
-      "unsupportedEnergySource": "Die Energiequelle wird nicht unterstützt.",
+      "unsupportedEmissionFactor": "Die Energiequelle wird nicht unterstützt.",
       "genericError": "Ein Fehler ist aufgetreten. Die Berechnung ist fehlgeschlagen."
     }
   },

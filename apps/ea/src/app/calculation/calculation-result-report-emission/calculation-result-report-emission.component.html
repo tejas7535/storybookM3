@@ -29,7 +29,7 @@
             {{ t('chartUpstream') + ':' }}
           </p>
           <p>
-            {{ (co2Emission?.co2_upstream | number: '1.2-2') || '-' }}
+            {{ (co2Emission?.co2_upstream | meaningfulRound) || '-' }}
             {{ 'kg' }}
           </p>
         }
@@ -42,7 +42,7 @@
           </p>
           <p>
             {{
-              (co2Emission?.co2_downstream.emission | number: '1.2-2') || '-'
+              (co2Emission?.co2_downstream.emission | meaningfulRound) || '-'
             }}
             {{ 'kg' }}
           </p>
@@ -59,7 +59,7 @@
           <p>
             {{
               (co2Emission.co2_downstream.loadcases[selectedIndex - 1].emission
-                | number: '1.2-2') || '-'
+                | meaningfulRound) || '-'
             }}
             {{ co2Emission.co2_downstream.loadcases[selectedIndex - 1].unit }}
           </p>

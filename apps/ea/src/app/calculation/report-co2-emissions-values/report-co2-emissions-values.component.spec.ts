@@ -1,5 +1,8 @@
+import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
+import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { sharedTranslocoLocaleConfig } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { ReportCo2EmissionsValuesComponent } from './report-co2-emissions-values.component';
@@ -16,6 +19,10 @@ describe('ReportCo2EmissionsValuesComponent', () => {
   const createComponent = createComponentFactory({
     component: ReportCo2EmissionsValuesComponent,
     imports: [provideTranslocoTestingModule({ en: {} })],
+    providers: [
+      provideTranslocoLocale(sharedTranslocoLocaleConfig),
+      MeaningfulRoundPipe,
+    ],
   });
 
   beforeEach(() => {

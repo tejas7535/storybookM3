@@ -309,7 +309,9 @@
       "ny100BelowLimit": "The viscosity of the lubricant at 100°C is too low for the calculation of frictional power losses and CO2e emissions.",
       "ny100ExceedsLimit": "The viscosity of the lubricant at 100°C is too high for the calculation of frictional power losses and CO2e emissions.",
       "speedBelowThreshold": "The speed is too low for the calculation of frictional power losses and CO2e emissions.",
-      "speedExceedsLimitingSpeed": "The speed exceeds the limiting speed.",
+      "speedExceedsLimitingSpeedGrease": "The speed exceeds the limiting speed for grease lubrication. Further explanations regarding limiting speed can be found in the technical information of the medias product catalogue.",
+      "speedExceedsLimitingSpeedOil": "The speed exceeds the limiting speed. Further explanations regarding limiting speed can be found in the technical information of the medias product catalogue.",
+      "speedExceedsLimitingSpeed": "The speed exceeds the limiting speed. Further explanations regarding limiting speed can be found in the technical information of the medias product catalogue.",
       "p0BelowC0Min": "The equivalent static bearing load P0 is lower than the minimum load.",
       "p0ExceedsStaticLoad": "The equivalent static bearing load P0 exceeds the static load rating C0.",
       "loadAngleBelowNominalContactAngle": "The load angle is smaller than the nominal contact angle. Thus, resulting internal axial forces are not sufficiently supported.",
@@ -331,7 +333,7 @@
       "externalHeatFluxTooHigh": "The external heat flow must be less than the dissipating heat flow.",
       "referenceViscosityIsZero": "The reference viscosity is equal to 0.",
       "meanDiameterIsZero": "The mean diameter is equal to 0.",
-      "unsupportedEnergySource": "The energy source is not supported.",
+      "unsupportedEmissionFactor": "The energy source is not supported.",
       "genericError": "An error has occurred. The calculation has failed."
     }
   },

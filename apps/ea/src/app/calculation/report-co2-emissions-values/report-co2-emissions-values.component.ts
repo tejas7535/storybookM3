@@ -4,6 +4,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
 import { getAssetsPath } from '@ea/core/services/assets-path-resolver/assets-path-resolver.helper';
+import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -16,6 +17,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
     MatDividerModule,
     MatIconModule,
     SharedTranslocoModule,
+    MeaningfulRoundPipe,
   ],
 })
 export class ReportCo2EmissionsValuesComponent {

@@ -2,12 +2,15 @@ import { DialogModule, DialogRef } from '@angular/cdk/dialog';
 import { MatDialog } from '@angular/material/dialog';
 
 import { CO2EmissionResult } from '@ea/core/store/selectors/calculation-result/calculation-result-report.selector';
+import { MeaningfulRoundPipe } from '@ea/shared/pipes/meaningful-round.pipe';
+import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ECharts } from 'echarts';
 import { MockComponent, MockModule } from 'ng-mocks';
 import { NgxEchartsModule } from 'ngx-echarts';
 import resize_observer_polyfill from 'resize-observer-polyfill';
 
+import { sharedTranslocoLocaleConfig } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CalculationDisclaimerComponent } from '../calculation-disclaimer/calculation-disclaimer.component';
@@ -34,7 +37,11 @@ describe('CalculationResultReportEmissionComponent', () => {
       MockModule(DialogModule),
       MockComponent(CalculationDownstreamEmissionComponent),
     ],
-    providers: [{ provide: DialogRef, useValue: dialogRefMock }],
+    providers: [
+      { provide: DialogRef, useValue: dialogRefMock },
+      provideTranslocoLocale(sharedTranslocoLocaleConfig),
+      MeaningfulRoundPipe,
+    ],
     mocks: [MatDialog],
   });
 
@@ -239,7 +246,7 @@ describe('CalculationResultReportEmissionComponent', () => {
         co2_upstream: 499.693_898,
         co2_upstreamEmissionPercentage: 4.693,
         co2_downstream: {
-          emission: 999.594_333_888_8,
+          emission: 999_333.594_333_888_8,
           emissionPercentage: 95.306,
           loadcases: [],
         },
