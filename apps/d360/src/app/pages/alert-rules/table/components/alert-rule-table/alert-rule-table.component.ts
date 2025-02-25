@@ -113,11 +113,11 @@ export class AlertRuleTableComponent implements OnInit {
     getMenu: (params: ICellRendererParams<any, AlertRule>) => [
       {
         text: translate('button.edit'),
-        onClick: () => this.editAlertRuleCallback()(params.data),
+        onClick: () => this.editAlertRuleCallback()(params.node.data),
       },
       {
         text: translate(
-          params.data.deactivated
+          params.node.data.deactivated
             ? 'alert_rules.action_menu.activate'
             : 'alert_rules.action_menu.deactivate'
         ),
@@ -146,22 +146,22 @@ export class AlertRuleTableComponent implements OnInit {
    * @memberof AlertRuleTableComponent
    */
   public toggleAlertRuleStatus(params: ICellRendererParams<any, AlertRule>) {
-    if (!params.data) {
+    if (!params.node.data) {
       return;
     }
 
     const workflow = {
-      ...params.data,
-      deactivated: !params.data.deactivated,
+      ...params.node.data,
+      deactivated: !params.node.data.deactivated,
       // saveMultiAlertRules expects a local date, so we need to convert here
       // This is because of the clipboard functionality of the multi modal. (Copy/Paste from Excel)
       startDate: ValidationHelper.localeService?.localizeDate(
-        params.data.startDate
+        params.node.data.startDate
       ),
       // saveMultiAlertRules expects a local date, so we need to convert here
       // This is because of the clipboard functionality of the multi modal. (Copy/Paste from Excel)
       endDate: ValidationHelper.localeService?.localizeDate(
-        params.data.endDate
+        params.node.data.endDate
       ),
     };
 
@@ -174,7 +174,7 @@ export class AlertRuleTableComponent implements OnInit {
             postResult,
             errorsFromSAPtoMessage,
             translate(
-              params.data.deactivated
+              params.node.data.deactivated
                 ? 'alert_rules.action_menu_activated'
                 : 'alert_rules.action_menu_deactivated',
               {}
@@ -202,7 +202,7 @@ export class AlertRuleTableComponent implements OnInit {
    */
   public delete(params: ICellRendererParams<any, AlertRule>) {
     this.dialog.open(AlertRuleDeleteSingleModalComponent, {
-      data: { gridApi: params.api, alertRule: params.data },
+      data: { gridApi: params.api, alertRule: params.node.data },
       disableClose: true,
       width: '600px',
     });
@@ -247,7 +247,7 @@ export class AlertRuleTableComponent implements OnInit {
               colId: col.colId,
               field: col.colId,
               headerName: translate(col.title, {}),
-              filter: col.filter,
+              filter: col?.filter ?? null,
               cellRenderer: col.cellRenderer,
               hide: !col.visible,
               sortable: col.sortable,

@@ -10,7 +10,10 @@
 
   <!-- The chip list to show the selected values -->
   <mat-chip-grid #chipList [disabled]="control().disabled">
-    @for (option of control().value; track option.id) {
+    @for (
+      option of control().value;
+      track option.id + '-' + getOptionName()(option)
+    ) {
       <mat-chip-row (removed)="remove(option)">
         <!-- Chip name -->
         {{ getOptionName()(option) }}
@@ -51,7 +54,10 @@
   >
     <!-- Render the options only, if there are no error and the data are not loading -->
     @if (!loading() && !loadingError()) {
-      @for (option of options(); track option.id) {
+      @for (
+        option of options();
+        track option.id + '-' + getOptionLabel()(option)
+      ) {
         <mat-option [value]="option">
           {{ getOptionLabel()(option) }}
         </mat-option>

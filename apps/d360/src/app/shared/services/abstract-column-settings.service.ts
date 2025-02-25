@@ -144,13 +144,17 @@ export abstract class AbstractColumnSettingsService<
           gridApi.setFilterModel(
             // eslint-disable-next-line unicorn/no-array-reduce
             data.reduce(
-              (result, columnSetting) => ({
-                ...result,
-                [columnSetting.colId]: columnSetting.filterModel,
-              }),
+              (result, columnSetting) =>
+                columnSetting.filter
+                  ? {
+                      ...result,
+                      [columnSetting.colId]: columnSetting.filterModel,
+                    }
+                  : result,
               {}
             )
           );
+
           // force redraw, otherwise filtered rows sometimes will appear as blank rows
           gridApi.redrawRows();
         }),
