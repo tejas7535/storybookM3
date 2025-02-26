@@ -363,13 +363,13 @@
       "dialog": {
         "tabs": {
           "material": "Material",
-          "customer": "Customer"
+          "customer": "Cliente"
         },
         "boxes": {
-          "generalMaterialInformation": "General Material Information",
-          "supplyChain": "Supply Chain",
-          "generalCustomerInformation": "General Customer Information",
-          "contact": "Contact"
+          "generalMaterialInformation": "Informações gerais sobre o material",
+          "supplyChain": "Cadeia de fornecimento",
+          "generalCustomerInformation": "Informações gerais sobre o cliente",
+          "contact": "Contacto"
         },
         "demandCharacteristics": {
           "SE": "Series",

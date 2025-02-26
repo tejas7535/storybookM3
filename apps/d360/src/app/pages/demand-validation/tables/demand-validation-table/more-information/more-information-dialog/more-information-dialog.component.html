@@ -13,9 +13,9 @@
 
   <!-- content -->
   <mat-dialog-content>
-    <mat-tab-group>
+    <mat-tab-group *transloco="let t">
       @for (item of items(); track $index) {
-        <mat-tab [label]="t(item.title)" *transloco="let t">
+        <mat-tab [label]="t(item.title)">
           <ng-container
             *ngTemplateOutlet="tabContent; context: { items: item.items }"
           />

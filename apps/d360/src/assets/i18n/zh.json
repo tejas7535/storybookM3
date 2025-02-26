@@ -362,18 +362,18 @@
       },
       "dialog": {
         "tabs": {
-          "material": "Material",
-          "customer": "Customer"
+          "material": "物料",
+          "customer": "客户"
         },
         "boxes": {
-          "generalMaterialInformation": "General Material Information",
-          "supplyChain": "Supply Chain",
-          "generalCustomerInformation": "General Customer Information",
-          "contact": "Contact"
+          "generalMaterialInformation": "一般物料信息",
+          "supplyChain": "供应链",
+          "generalCustomerInformation": "一般客户信息",
+          "contact": "联系"
         },
         "demandCharacteristics": {
-          "SE": "Series",
-          "SP": "Sporadic"
+          "SE": "系列",
+          "SP": "零星"
         },
         "entries": {
           "<--- Material Box Left -->": "",
