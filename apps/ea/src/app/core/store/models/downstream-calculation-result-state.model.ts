@@ -1,6 +1,6 @@
 import { DownstreamApiInputs } from '@ea/core/services/downstream-calculation.service.interface';
 
-export const FrictionKeys: string[] = ['NR', 'MR'];
+export const FrictionKeys: string[] = ['NR', 'MR', 'n_theta'];
 
 export interface DownstreamCalculationState {
   isLoading: boolean;
@@ -25,4 +25,5 @@ export interface LoadCaseEmission {
   totalFrictionalPowerLoss: number;
   totalFrictionalTorque: number;
   operatingTimeInHours: number;
+  thermallySafeOperatingSpeed: number;
 }

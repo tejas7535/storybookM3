@@ -132,6 +132,7 @@ export interface DownstreamCalculationLoadcaseResult {
   co2Emissions: number;
   frictionalTorque: number;
   frictionalPowerLoss: number;
+  thermallySafeOperatingSpeed: number;
 }
 
 export interface InputValue {

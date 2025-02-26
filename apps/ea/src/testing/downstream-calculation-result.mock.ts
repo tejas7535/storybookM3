@@ -44,6 +44,7 @@ export const DOWNSTREAM_API_RESULT_MOCK: DownstreamAPIResponse = {
       co2Emissions: 7120.363,
       frictionalTorque: 0.03,
       frictionalPowerLoss: 3,
+      thermallySafeOperatingSpeed: 1272,
     },
   ],
 };

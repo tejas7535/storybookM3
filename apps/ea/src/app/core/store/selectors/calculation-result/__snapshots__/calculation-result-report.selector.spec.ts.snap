@@ -198,6 +198,21 @@ Array [
     "title": "totalFrictionalTorque",
     "unit": "N m",
   },
+  Object {
+    "loadcaseValues": Array [
+      Object {
+        "loadcaseName": "Loadcase 1",
+        "value": 1272,
+      },
+      Object {
+        "loadcaseName": "Loadcase 2",
+        "value": 1008,
+      },
+    ],
+    "short": "n_theta",
+    "title": "thermallySafeOperatingSpeed",
+    "unit": "1/min",
+  },
 ]
 `;
 

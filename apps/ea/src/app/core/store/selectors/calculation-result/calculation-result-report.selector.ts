@@ -117,6 +117,10 @@ export const getFrictionalalPowerlossReport = createSelector(
           unit: 'N m',
           short: 'MR',
         },
+        thermallySafeOperatingSpeed: {
+          unit: '1/min',
+          short: 'n_theta',
+        },
       };
 
       const configKeys = Object.keys(config);

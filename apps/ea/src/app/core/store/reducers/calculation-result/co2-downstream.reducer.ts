@@ -26,6 +26,7 @@ const processLoadcaseResultData = (
       operatingTimeInHours: lcr.operatingTimeInHours,
       totalFrictionalPowerLoss: lcr.frictionalPowerLoss,
       totalFrictionalTorque: lcr.frictionalTorque,
+      thermallySafeOperatingSpeed: lcr.thermallySafeOperatingSpeed,
     };
   }
 
