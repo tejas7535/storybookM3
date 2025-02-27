@@ -5,7 +5,7 @@ Object {
   "battery": 0,
   "greaseId": "ARCANOL_MULTI2",
   "lubricationInterval": "year",
-  "lubricationPoints": "2-4",
+  "lubricationPoints": "2 - 4",
   "lubricationQty": 60,
   "maxTemp": 15,
   "medium": "Grease",

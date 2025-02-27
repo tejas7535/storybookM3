@@ -103,6 +103,22 @@ describe('RecommendationTableDataPipe', () => {
       }
     );
 
+    it('should return optime value with unit for optime lubricators', () => {
+      const field = 'volume';
+      const value = '60 / 125 cm³';
+
+      const result = pipe['getFieldValue'](
+        field as keyof Lubricator,
+        {
+          [field]: value,
+          isOptime: true,
+        } as unknown as Lubricator
+      );
+
+      expect(result).toEqual(value);
+      expect(pipe['getTranslation']).not.toHaveBeenCalled();
+    });
+
     it('should return the field value as string in default case', () => {
       const result = pipe['getFieldValue']('noOfOutlets', {
         noOfOutlets: 1,

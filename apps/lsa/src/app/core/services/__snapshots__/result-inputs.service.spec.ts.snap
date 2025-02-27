@@ -26,7 +26,7 @@ exports[`ResultInputsService when getting non arcanol inputs should return lubri
 Array [
   Object {
     "title": "translated: inputs.lubricationPoints",
-    "value": "2-4",
+    "value": "2 - 4",
   },
   Object {
     "title": "translated: inputs.relubricationQuantity.title",
@@ -54,7 +54,7 @@ exports[`ResultInputsService when getting result inputs should return Lubricant 
 Array [
   Object {
     "title": "translated: inputs.lubricationPoints",
-    "value": "2-4",
+    "value": "2 - 4",
   },
   Object {
     "title": "translated: inputs.relubricationQuantity.title",
@@ -85,7 +85,7 @@ exports[`ResultInputsService when getting result inputs should return applicatio
 Array [
   Object {
     "title": "translated: inputs.lubricationPoints",
-    "value": "2-4",
+    "value": "2 - 4",
   },
   Object {
     "title": "translated: inputs.relubricationQuantity.title",
@@ -120,7 +120,7 @@ exports[`ResultInputsService when getting result inputs should return lubricatio
 Array [
   Object {
     "title": "translated: inputs.lubricationPoints",
-    "value": "2-4",
+    "value": "2 - 4",
   },
   Object {
     "title": "translated: inputs.relubricationQuantity.title",
@@ -148,7 +148,7 @@ exports[`ResultInputsService when getting result inputs when remote optime retur
 Array [
   Object {
     "title": "translated: inputs.lubricationPoints",
-    "value": "2-4",
+    "value": "2 - 4",
   },
   Object {
     "title": "translated: inputs.relubricationQuantity.title",
@@ -170,7 +170,7 @@ exports[`ResultInputsService when getting result inputs when remote optime retur
 Array [
   Object {
     "title": "translated: inputs.lubricationPoints",
-    "value": "2-4",
+    "value": "2 - 4",
   },
   Object {
     "title": "translated: inputs.relubricationQuantity.title",
@@ -192,7 +192,7 @@ exports[`ResultInputsService when getting result inputs when remote optime retur
 Array [
   Object {
     "title": "translated: inputs.lubricationPoints",
-    "value": "2-4",
+    "value": "2 - 4",
   },
   Object {
     "title": "translated: inputs.relubricationQuantity.title",

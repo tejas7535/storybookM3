@@ -1,3 +1,5 @@
+import { translate } from '@jsverse/transloco';
+
 import { Lubricator } from '../models';
 
 export type LubricatorType = 'minimum' | 'recommended';
@@ -39,7 +41,11 @@ export const recommendationTableConfiguration: RecommendationTableConfiguration 
     {
       type: 'composite',
       fieldName: 'tempRange',
-      formatFunction: (lub: Lubricator) => `${lub.minTemp} - ${lub.maxTemp}°C`,
+      formatFunction: (lub: Lubricator) =>
+        translate(`recommendation.result.tempRangeValues`, {
+          min: lub.minTemp,
+          max: lub.maxTemp,
+        }),
     },
     'noOfOutlets',
     {

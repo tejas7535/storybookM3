@@ -42,7 +42,12 @@ export class ErrorContainerComponent implements OnChanges {
             `${BASE_TRANSLATION_PATH}.error.heading`
           ),
           body: this.transloco.translate(`${BASE_TRANSLATION_PATH}.error.body`),
-          cta: undefined,
+          cta: this.transloco.translate(
+            `${BASE_TRANSLATION_PATH}.error.ctaText`
+          ),
+          ctaUrl: this.transloco.translate(
+            `${BASE_TRANSLATION_PATH}.error.ctaLink`
+          ),
         }) as ErrorMessage
     )
   );

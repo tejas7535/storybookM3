@@ -29,6 +29,7 @@ const TRANSLATIONS = {
   lubricationPointsTitle: 'pages.lubricationPoints.title',
   numberLubricationPoints: 'inputs.lubricationPoints',
   lubricationOptions: 'recommendation.lubrication.options',
+  lubricationPointsInterval: 'recommendation.lubricationPoints',
   lubricationPointsOptime: 'recommendation.lubricationPoints.optime',
   relubricationQuantityTitle: 'inputs.relubricationQuantity.title',
   relubricationQuantityValue: 'inputs.relubricationQuantity.value',
@@ -85,10 +86,9 @@ export class ResultInputsService {
     return combineLatest([
       this.translate(TRANSLATIONS.numberLubricationPoints),
       this.translate(TRANSLATIONS.relubricationQuantityTitle),
-      this.translate(TRANSLATIONS.relubricationQuantityValue, {
-        quantity: lubricationQty,
-        interval: lubricationInterval,
-      }),
+      this.translate(
+        `${TRANSLATIONS.lubricationPointsInterval}.${lubricationInterval}`
+      ),
       this.translate(TRANSLATIONS.maxPipeLength),
       this.getPipeLengthTranslation(pipeLength),
       this.translate(TRANSLATIONS.optimeTitle),
@@ -99,7 +99,7 @@ export class ResultInputsService {
         ([
           lubricationPointsTitle,
           relubricationQuantityTitle,
-          relubricationQuantityValue,
+          relubricationIntervalValue,
           maxPipeLengthTitle,
           pipeLengthTranslation,
           optimeTitle,
@@ -108,7 +108,7 @@ export class ResultInputsService {
         ]) => {
           const recommendationResult = this.isErrorResponse(recommendations)
             ? undefined
-            : (recommendations as RecommendationResponse).input;
+            : recommendations.input;
 
           let remoteOptimeValue;
 
@@ -117,6 +117,14 @@ export class ResultInputsService {
               `${TRANSLATIONS.lubricationPointsOptime}.${recommendationResult.optime}`
             );
           }
+
+          const relubricationQuantityValue = this.translocoService.translate(
+            TRANSLATIONS.relubricationQuantityValue,
+            {
+              quantity: lubricationQty,
+              interval: relubricationIntervalValue,
+            }
+          );
 
           return [
             {

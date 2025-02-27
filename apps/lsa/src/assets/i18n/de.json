@@ -22,7 +22,7 @@
       "year": "Jahr",
       "month": "Monat",
       "day": "Tag",
-      "lubricationQuantityValue": "< {{ value }} ccm",
+      "lubricationQuantityValue": "< {{ value }} cm³",
       "lubricationQuantity": "Nachschmiermenge",
       "questionOptime": "Möchten Sie OPTIME in ihr Schmiersystem integrieren?",
       "optime": {
@@ -56,7 +56,7 @@
       },
       "questionPowerType": "Wie möchten Sie Ihr Schmiersystem mit Strom versorgen?",
       "powerOptions": {
-        "external": "24V externe Stromversorgung",
+        "external": "24 V DC externe Stromversorgung",
         "battery": "Batterie",
         "noPreference": "Ich weiß es noch nicht"
       }
@@ -74,9 +74,10 @@
       "medium": "Schmierstoff",
       "productSeries": "Produktreihe",
       "volume": "Volumen",
-      "isOptime": "Optime",
+      "isOptime": "OPTIME",
       "smallerEqual": "≤",
       "tempRange": "Temperaturbereich",
+      "tempRangeValues": "{{min}} °C bis {{max}} °C",
       "voltage": "Betriebsspannung",
       "dimensions": "Abmessungen (mm)",
       "meter": "m",
@@ -144,7 +145,7 @@
         }
       },
       "warning": {
-        "adjustedAutomatically": "Wir konnten keine geeignete Lösung innerhalb des Optime-Ökosystems finden. Wir können die folgenden Alternativen ohne Optime-Funktionalität anbieten.",
+        "adjustedAutomatically": "Wir konnten keine geeignete Lösung innerhalb des OPTIME Ecosystem finden. Wir können die folgenden Alternativen ohne OPTIME-Funktionalität anbieten.",
         "noRecommendation": "Wir konnten Ihnen nicht automatisch eine geeignete Empfehlung für Ihre Eingabeparameter geben. Bitte wenden Sie sich an den technischen Support von Schaeffler für eine spezifische Beratung.",
         "usedFallbackGrease": "Wir können keine detaillierte Empfehlung für auf dem Markt verfügbare Fette geben. Wir haben ein weitgehend kompatibles Fett aus dem Schaeffler Arcanol-Sortiment für unsere Berechnung verwendet. Bitte stellen Sie sicher, dass Ihr verwendetes Fett in seinen Eigenschaften vergleichbar ist."
       }
@@ -167,11 +168,11 @@
     "title": "Ihre Eingaben",
     "relubricationQuantity": {
       "title": "Nachschmiermenge pro Schmierstelle",
-      "value": "< {{quantity}} ccm pro {{interval}}"
+      "value": "< {{quantity}} cm³ pro {{interval}}"
     },
     "temperature": {
       "title": "Umgebungstemperatur in der Anwendung",
-      "value": "{{min}}°C bis {{max}}°C"
+      "value": "{{min}} °C bis {{max}} °C"
     },
     "lubricationPoints": "Anzahl an Schmierstellen",
     "maxPipeLengthTitle": "Max. Länge Schmierstoffleitung",

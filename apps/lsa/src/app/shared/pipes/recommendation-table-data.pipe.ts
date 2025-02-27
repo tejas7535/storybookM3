@@ -144,7 +144,9 @@ export class RecommendationTableDataPipe implements PipeTransform {
         return `${this.getTranslation(lubricator[field] ? 'yes' : 'no')}`;
       }
       case 'volume': {
-        return `${lubricator[field]} ${this.getTranslation('millilitre')}`;
+        return lubricator.isOptime
+          ? lubricator[field]
+          : `${lubricator[field]} ${this.getTranslation('millilitre')}`;
       }
       default: {
         return `${lubricator[field]}`;

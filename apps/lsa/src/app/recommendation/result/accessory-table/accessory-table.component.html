@@ -6,15 +6,15 @@
   >
     <thead class="text-left">
       <tr class="[&>th]:py-2 [&>th]:px-2 border-b-2 border-border">
-        <th>{{ t('product') }}</th>
-        <th>
+        <th scope="col">{{ t('product') }}</th>
+        <th scope="col">
           <span class="sr-only">{{ t('availability') }}</span>
         </th>
         @if (isBusinessUser) {
-          <th class="text-center">{{ t('price') }}</th>
+          <th scope="col" class="text-center">{{ t('price') }}</th>
         }
-        <th class="w-11 md:w-20">{{ t('quantity') }}</th>
-        <th>
+        <th scope="col" class="w-11 md:w-20">{{ t('quantity') }}</th>
+        <th scope="col">
           <span class="sr-only">{{ t('actions') }}</span>
         </th>
       </tr>
@@ -22,13 +22,13 @@
     <tbody>
       @for (group of accGroups | SortedAccessoryList; track group.key) {
         <tr class="accessory-group">
-          <th class="text-left">
+          <th scope="col" class="text-left">
             {{ t('category.' + group.value.groupTitle) }}
           </th>
-          <th>&nbsp;</th>
+          <th scope="col">&nbsp;</th>
 
           @if (isBusinessUser) {
-            <th class="text-center">
+            <th scope="col" class="text-center">
               @if (currency) {
                 <span class="inline-block">
                   {{
@@ -46,8 +46,8 @@
               }
             </th>
           }
-          <th>{{ tableGroupStates[group.key].totalQty }} pcs</th>
-          <th class="w-12">
+          <th scope="col">{{ tableGroupStates[group.key].totalQty }} pcs</th>
+          <th scope="col" class="w-12">
             <button
               class="flex w-full justify-center"
               (click)="onToggleGroupClick(group.key)"

@@ -51,8 +51,8 @@ Object {
     },
     Object {
       "field": "tempRange",
-      "minimum": "-20 - 55°C",
-      "recommended": "-25 - 60°C",
+      "minimum": "recommendation.result.tempRangeValues",
+      "recommended": "recommendation.result.tempRangeValues",
     },
     Object {
       "field": "noOfOutlets",
@@ -118,8 +118,8 @@ Object {
     },
     Object {
       "field": "tempRange",
-      "minimum": "-20 - 55°C",
-      "recommended": "-20 - 55°C",
+      "minimum": "recommendation.result.tempRangeValues",
+      "recommended": "recommendation.result.tempRangeValues",
     },
     Object {
       "field": "noOfOutlets",

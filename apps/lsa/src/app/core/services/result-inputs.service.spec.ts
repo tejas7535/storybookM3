@@ -50,6 +50,10 @@ describe('ResultInputsService', () => {
     translocoService.selectTranslate = jest.fn((key: string) =>
       of(`translated: ${key}`)
     ) as any;
+
+    translocoService.translate = jest.fn(
+      (key: string) => `translated: ${key}`
+    ) as any;
   });
 
   it('should be created', () => {

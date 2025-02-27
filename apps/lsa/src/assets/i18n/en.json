@@ -22,7 +22,7 @@
       "year": "year",
       "month": "month",
       "day": "day",
-      "lubricationQuantityValue": "< {{ value }} ccm",
+      "lubricationQuantityValue": "< {{ value }} cm³",
       "lubricationQuantity": "Relubrication quantity",
       "questionOptime": "Do you want to integrate OPTIME in your lubrication system?",
       "optime": {
@@ -56,7 +56,7 @@
       },
       "questionPowerType": "How would you like to power your lubrication system?",
       "powerOptions": {
-        "external": "24V external powersupply",
+        "external": "DC 24 V external power supply",
         "battery": "Battery",
         "noPreference": "I don`t know yet"
       }
@@ -74,7 +74,7 @@
       "medium": "Greasing medium",
       "productSeries": "Product Series",
       "volume": "Volume",
-      "isOptime": "Optime",
+      "isOptime": "OPTIME",
       "smallerEqual": "≤",
       "meter": "m",
       "centimeter": "cm",
@@ -83,6 +83,7 @@
       "bar": "bar",
       "millilitre": "ml",
       "tempRange": "Temperature range",
+      "tempRangeValues": "{{min}} °C to {{max}} °C",
       "voltage": "Operating voltage",
       "dimensions": "Dimensions (mm)",
       "yes": "Yes",
@@ -144,7 +145,7 @@
         }
       },
       "warning": {
-        "adjustedAutomatically": "We could not find a suitable solution within the optime ecosystem. We can provide the following alternatives without Optime functionality",
+        "adjustedAutomatically": "We could not find a suitable solution within the OPTIME ecosystem. We can provide the following alternatives without OPTIME functionality",
         "noRecommendation": "We could not automatically provide a suitable recommendation for your input parameters. Please get in touch with Schaeffler technical support for specific consultation",
         "usedFallbackGrease": "We cannot provide a detailed recommendation for market available greases. We used a widely compatible Grease from the Schaeffler Arcanol Portfolio for our calculation. Please ensure your Grease in use is comparable in its properties"
       }
@@ -167,11 +168,11 @@
     "title": "Your inputs",
     "relubricationQuantity": {
       "title": "Relubrication quantity per point",
-      "value": "< {{quantity}} ccm per {{interval}}"
+      "value": "< {{quantity}} cm³ per {{interval}}"
     },
     "temperature": {
       "title": "Ambient temperature in application",
-      "value": "{{min}}°C to {{max}}°C"
+      "value": "{{min}} °C to {{max}} °C"
     },
     "lubricationPoints": "No. Lubrication Points",
     "maxPipeLengthTitle": "Max. pipe length",
