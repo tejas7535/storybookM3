@@ -1,7 +1,9 @@
 import {
   Component,
   DestroyRef,
+  effect,
   inject,
+  input,
   output,
   OutputEmitterRef,
   signal,
@@ -21,24 +23,25 @@ import {
   GridApi,
   GridOptions,
   GridReadyEvent,
+  IServerSideDatasource,
   RowClassParams,
 } from 'ag-grid-enterprise';
 
 import { AlertService } from '../../../../feature/alerts/alert.service';
-import { Alert, AlertStatus } from '../../../../feature/alerts/model';
+import { Alert, AlertStatus, Priority } from '../../../../feature/alerts/model';
 import {
   getDefaultColDef,
   serverSideTableDefaultProps,
   sideBar,
 } from '../../../../shared/ag-grid/grid-defaults';
 import { ActionsMenuCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
+import { DateFilterComponent } from '../../../../shared/components/ag-grid/filters/mat-date-filter/date-filter.component';
 import { NoDataOverlayComponent } from '../../../../shared/components/ag-grid/no-data/no-data.component';
 import { TableToolbarComponent } from '../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
 import { GlobalSelectionStateService } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { SelectableOptionsService } from '../../../../shared/services/selectable-options.service';
 import { SnackbarService } from '../../../../shared/utils/service/snackbar.service';
-import { DateFilterComponent } from './../../../../shared/components/ag-grid/filters/mat-date-filter/date-filter.component';
 import { getAlertTableColumnDefinitions } from './column-definitions';
 
 @Component({
@@ -49,8 +52,8 @@ import { getAlertTableColumnDefinitions } from './column-definitions';
   styleUrl: './alert-table.component.scss',
 })
 export class AlertTableComponent {
-  public gridApi: GridApi;
-  public getApi: OutputEmitterRef<GridApi> = output();
+  public gridApi: GridApi<Alert>;
+  public getApi: OutputEmitterRef<GridApi<Alert>> = output();
   public onUpdateAlert: OutputEmitterRef<void> = output();
   protected readonly alertService: AlertService = inject(AlertService);
   protected readonly agGridLocalizationService: AgGridLocalizationService =
@@ -78,20 +81,21 @@ export class AlertTableComponent {
     ...serverSideTableDefaultProps,
     sideBar,
     rowClassRules: {
-      'is-active': (params: RowClassParams) =>
-        (params.data as Alert | undefined)?.open,
-      'is-critical': (params: RowClassParams) =>
-        (params.data as Alert | undefined)?.open &&
-        (params.data as Alert | undefined)?.priority,
-      'is-deactivated': (params: RowClassParams) =>
-        (params.data as Alert | undefined)?.deactivated,
-      'is-closed': (params: RowClassParams) =>
-        !(params.data as Alert | undefined)?.open,
+      'is-active': (params: RowClassParams<Alert>) => params.data?.open,
+      'is-prio1': (params: RowClassParams<Alert>) =>
+        params.data?.open && params.data?.alertPriority === 1,
+      'is-prio2': (params: RowClassParams<Alert>) =>
+        params.data?.open && params.data?.alertPriority === 2,
+      'is-info': (params: RowClassParams<Alert>) =>
+        params.data?.open && params.data?.alertPriority === 3,
+      'is-deactivated': (params: RowClassParams<Alert>) =>
+        params.data?.deactivated,
+      'is-closed': (params: RowClassParams<Alert>) => !params.data?.open,
     },
   };
-  protected datasource = this.alertService.createAlertDatasource(
-    AlertStatus.ACTIVE
-  );
+  protected datasource: IServerSideDatasource;
+  public priorities = input.required<Priority[]>();
+  public status = input.required<AlertStatus>();
 
   protected context: Record<string, any> = {
     getMenu: (b: any) => {
@@ -250,6 +254,12 @@ export class AlertTableComponent {
     },
   };
 
+  public constructor() {
+    effect(() => {
+      this.setServerSideDatasource(this.status(), this.priorities());
+    });
+  }
+
   private updateColumnDefs(): void {
     this.gridApi?.setGridOption('columnDefs', [
       ...(getAlertTableColumnDefinitions(
@@ -261,7 +271,7 @@ export class AlertTableComponent {
           col.filter,
           col.filterParams
         ),
-        field: col.property,
+        field: col.field,
         headerName: translate(col.colId),
         sortable: col.sortable,
         filter: col.filter,
@@ -272,7 +282,7 @@ export class AlertTableComponent {
         maxWidth: col.maxWidth,
         tooltipValueGetter: col.tooltipValueGetter,
         tooltipField: col.tooltipField,
-        colId: col.property,
+        colId: col.field,
         valueFormatter: col.valueFormatter,
       })) || []),
       {
@@ -287,26 +297,20 @@ export class AlertTableComponent {
         maxWidth: 64,
         suppressSizeToFit: true,
       },
-    ] as ColDef[]);
+    ] as ColDef<Alert>[]);
   }
 
-  protected onGridReady(event: GridReadyEvent): void {
+  protected onGridReady(event: GridReadyEvent<Alert>): void {
     this.gridApi = event.api;
     this.getApi.emit(event.api);
     if (this.gridApi) {
       this.updateColumnDefs();
-
+      this.setServerSideDatasource(this.status(), this.priorities());
       this.alertService
         .getDataFetchedEvent()
         .pipe(
           tap((value) => {
             this.rowCount.set(value.rowCount);
-
-            if (value.rowCount === 0) {
-              this.gridApi.showNoRowsOverlay();
-            } else {
-              this.gridApi.hideOverlay();
-            }
 
             if (!this.isGridAutoSized()) {
               this.isGridAutoSized.set(true);
@@ -324,5 +328,24 @@ export class AlertTableComponent {
 
   protected onFirstDataRendered($event: FirstDataRenderedEvent) {
     $event.api.autoSizeAllColumns();
+  }
+
+  private setServerSideDatasource(status: AlertStatus, priorities: Priority[]) {
+    if (this.gridApi) {
+      this.gridApi.setGridOption(
+        'serverSideDatasource',
+        this.alertService.createAlertDatasource(status, priorities)
+      );
+    }
+  }
+
+  protected onDataUpdated() {
+    if (this.gridApi) {
+      if (this.gridApi.getDisplayedRowCount() === 0) {
+        this.gridApi.showNoRowsOverlay();
+      } else {
+        this.gridApi.hideOverlay();
+      }
+    }
   }
 }

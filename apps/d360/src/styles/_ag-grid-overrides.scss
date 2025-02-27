@@ -78,8 +78,16 @@
           border-left: 6px solid #f5a623;
         }
 
-        .is-critical {
-          border-left: 6px solid #e47280;
+        .is-prio1 {
+          border-left: 6px solid #ebdce8;
+        }
+
+        .is-prio2 {
+          border-left: 6px solid #e8e8e8;
+        }
+
+        .is-info {
+          border-left: 6px solid #e0edf4;
         }
 
         .is-deactivated {

@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -13,7 +13,7 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AlertService } from '../../feature/alerts/alert.service';
-import { AlertStatus } from '../../feature/alerts/model';
+import { AlertStatus, Priority } from '../../feature/alerts/model';
 import {
   HeaderActionBarComponent,
   ProjectedContendDirective,
@@ -21,6 +21,7 @@ import {
 import { SelectableValue } from '../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { DisplayFunctions } from '../../shared/components/inputs/display-functions.utils';
 import { FilterDropdownComponent } from '../../shared/components/inputs/filter-dropdown/filter-dropdown.component';
+import { PriorityDropdownComponent } from '../../shared/components/priority-dropdown/priority-dropdown.component';
 import { StyledSectionComponent } from '../../shared/components/styled-section/styled-section.component';
 import { SelectableOptionsService } from '../../shared/services/selectable-options.service';
 import { AlertTableComponent } from './table/alert-table/alert-table.component';
@@ -37,6 +38,7 @@ import { AlertTableComponent } from './table/alert-table/alert-table.component';
     StyledSectionComponent,
     LoadingSpinnerModule,
     PushPipe,
+    PriorityDropdownComponent,
   ],
   templateUrl: './alerts.component.html',
   styleUrl: './alerts.component.scss',
@@ -65,6 +67,12 @@ export class AlertsComponent {
   protected formGroup = new FormGroup({
     status: this.statusControl,
   });
+  protected selectedPriorities = signal<Priority[]>([
+    Priority.Priority1,
+    Priority.Priority2,
+    Priority.Priority3,
+  ]);
+  protected selectedStatus = signal<AlertStatus>(AlertStatus.ACTIVE);
 
   constructor() {
     this.alertService
@@ -79,9 +87,9 @@ export class AlertsComponent {
       .subscribe();
   }
 
-  updateStatus(event: Partial<SelectableValue>) {
+  protected updateStatus(event: Partial<SelectableValue>) {
     if (event) {
-      this.updateGrid(event.id as AlertStatus);
+      this.selectedStatus.set(event.id as AlertStatus);
     }
   }
   protected getApi(api: GridApi): void {
@@ -97,7 +105,10 @@ export class AlertsComponent {
     if (this.gridApi) {
       this.gridApi.setGridOption(
         'serverSideDatasource',
-        this.alertService.createAlertDatasource(status)
+        this.alertService.createAlertDatasource(
+          status,
+          this.selectedPriorities()
+        )
       );
     }
   }

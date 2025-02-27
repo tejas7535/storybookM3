@@ -23,7 +23,7 @@ import {
   mockAlertArray,
   mockAlertResult,
 } from './alert.service.mocks';
-import { AlertCategory, AlertStatus, OpenFunction } from './model';
+import { AlertCategory, AlertStatus, OpenFunction, Priority } from './model';
 
 describe('AlertService', () => {
   let spectator: SpectatorService<AlertService>;
@@ -325,7 +325,7 @@ describe('AlertService', () => {
           })
         );
         spectator.service
-          .createAlertDatasource(AlertStatus.ACTIVE)
+          .createAlertDatasource(AlertStatus.ACTIVE, [Priority.Priority1])
           .getRows(params);
 
         expect(successMock).toHaveBeenCalledWith({
@@ -334,10 +334,21 @@ describe('AlertService', () => {
         });
       });
 
+      it('should call the success callback with an empty result when the filter is empty', () => {
+        spectator.service
+          .createAlertDatasource(AlertStatus.ACTIVE, [])
+          .getRows(params);
+
+        expect(successMock).toHaveBeenCalledWith({
+          rowCount: 0,
+          rowData: [],
+        });
+      });
+
       it('should call the error callback on error from the backend', () => {
         postMock.mockImplementation(() => throwError(() => 'Fehler'));
         spectator.service
-          .createAlertDatasource(AlertStatus.ACTIVE)
+          .createAlertDatasource(AlertStatus.ACTIVE, [Priority.Priority1])
           .getRows(params);
 
         expect(errorMock).toHaveBeenCalled();

@@ -1,6 +1,7 @@
 import { translate } from '@jsverse/transloco';
 import { ColDef, ValueFormatterParams } from 'ag-grid-enterprise';
 
+import { Alert } from '../../../../feature/alerts/model';
 import { materialClassificationOptions } from '../../../../feature/material-customer/model';
 import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
@@ -8,36 +9,34 @@ import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-l
 export const getAlertTableColumnDefinitions = (
   agGridLocalizationService: AgGridLocalizationService,
   alertTypes: SelectableValue[]
-): (ColDef & {
-  property: string;
-})[] =>
+): ColDef<Alert>[] =>
   [
     {
-      property: 'customerNumber',
+      field: 'customerNumber',
       colId: 'alert.customer_number.column_header',
       filter: 'agTextColumnFilter',
       sortable: true,
     },
     {
-      property: 'customerName',
+      field: 'customerName',
       colId: 'alert.customer_name.column_header',
       filter: 'agTextColumnFilter',
       sortable: true,
     },
     {
-      property: 'materialNumber',
+      field: 'materialNumber',
       colId: 'alert.material_number.column_header',
       filter: 'agTextColumnFilter',
       sortable: true,
     },
     {
-      property: 'materialDescription',
+      field: 'materialDescription',
       colId: 'alert.material_description.column_header',
       filter: 'agTextColumnFilter',
       sortable: true,
     },
     {
-      property: 'type',
+      field: 'type',
       colId: 'alert.category.column_header',
       valueFormatter: (params) =>
         params.value
@@ -54,7 +53,7 @@ export const getAlertTableColumnDefinitions = (
       sortable: true,
     },
     {
-      property: 'materialClassification',
+      field: 'materialClassification',
       colId: 'alert.material_classification.column_header',
 
       filter: 'agSetColumnFilter',
@@ -64,21 +63,21 @@ export const getAlertTableColumnDefinitions = (
       sortable: true,
     },
     {
-      property: 'customerMaterialNumber',
+      field: 'customerMaterialNumber',
       colId: 'alert.customer_material_number.column_header',
       cellRenderer: 'customerMaterialNumberCellRenderer',
       filter: 'agTextColumnFilter',
       sortable: true,
     },
     {
-      property: 'createdAt',
+      field: 'createdAt',
       colId: 'alert.report_date.column_header',
       valueFormatter: agGridLocalizationService.dateFormatter,
       type: 'rightAligned',
       sortable: true,
     },
     {
-      property: 'dueDate',
+      field: 'dueDate',
       colId: 'alert.due_date.column_header',
       valueFormatter: agGridLocalizationService.dateFormatter,
       type: 'rightAligned',
@@ -86,7 +85,7 @@ export const getAlertTableColumnDefinitions = (
       sortable: true,
     },
     {
-      property: 'comment',
+      field: 'comment',
       colId: 'alert.comment.column_header',
       cellRenderer: undefined,
       maxWidth: 375,
@@ -95,41 +94,41 @@ export const getAlertTableColumnDefinitions = (
       tooltipField: 'comment',
     },
     {
-      property: 'thresholdDeviation',
+      field: 'thresholdDeviation',
       colId: 'alert.thresholdDeviation.column_header',
       filter: 'agNumberColumnFilter',
       sortable: true,
     },
     {
-      property: 'threshold1',
+      field: 'threshold1',
       colId: 'alert.threshold1.column_header',
       filter: 'agNumberColumnFilter',
       sortable: true,
     },
     {
-      property: 'threshold1Description',
+      field: 'threshold1Description',
       colId: 'alert.threshold1Description.column_header',
       sortable: false,
     },
     {
-      property: 'threshold2',
+      field: 'threshold2',
       colId: 'alert.threshold2.column_header',
       filter: 'agNumberColumnFilter',
       sortable: true,
     },
     {
-      property: 'threshold2Description',
+      field: 'threshold2Description',
       colId: 'alert.threshold2Description.column_header',
       sortable: false,
     },
     {
-      property: 'threshold3',
+      field: 'threshold3',
       colId: 'alert.threshold3.column_header',
       filter: 'agNumberColumnFilter',
       sortable: true,
     },
     {
-      property: 'threshold3Description',
+      field: 'threshold3Description',
       colId: 'alert.threshold3Description.column_header',
       sortable: false,
     },

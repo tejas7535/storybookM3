@@ -1,15 +1,9 @@
 <div *transloco="let t" class="gap-6 pb-4">
   <div class="flex flex-row gap-6 justify-between">
     <h6>{{ t('overview.yourTasks.headline') }}</h6>
-    <d360-filter-dropdown
-      [control]="priorityControl"
-      [form]="yourTasksForm"
-      [label]="t('overview.yourTasks.taskPriority')"
-      [multiSelect]="true"
-      [formatSelectedValue]="DisplayFunctions.displayFnId"
-      [options]="priorities"
-      (selectionChange)="onPrioritySelectionChange($any($event))"
-    />
+    <d360-priority-dropdown
+      (selectionChange)="selectedPriorities.set($event)"
+    ></d360-priority-dropdown>
   </div>
 
   <div class="your-tasks flex flex-row gap-6">
@@ -24,7 +18,7 @@
       </div>
       <d360-task-priority-grid
         [openFunction]="OpenFunction.Validation_Of_Demand"
-        [priorities]="this.priorityFilter"
+        [priorities]="selectedPriorities()"
       ></d360-task-priority-grid>
     </div>
 
@@ -39,7 +33,7 @@
       </div>
       <d360-task-priority-grid
         [openFunction]="OpenFunction.Customer_Material_Portfolio"
-        [priorities]="this.priorityFilter"
+        [priorities]="selectedPriorities()"
       ></d360-task-priority-grid>
     </div>
   </div>

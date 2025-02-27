@@ -7,7 +7,7 @@
     <d360-styled-section [grow]="true" class="flex flex-col h-full">
       <h2 class="text-title-large">{{ t('tabbar.tasks.label') }}</h2>
       <d360-header-action-bar>
-        <div d360HeaderActionBarChildren class="wrapper">
+        <div d360HeaderActionBarChildren class="wrapper flex flex-row">
           <d360-filter-dropdown
             class="compact w-72 block"
             [label]="t('alert.select.label')"
@@ -18,11 +18,17 @@
             [formatSelectedValue]="DisplayFunctions.displayFnText"
             [formatOptionValue]="DisplayFunctions.displayFnText"
           ></d360-filter-dropdown>
+          <d360-priority-dropdown
+            class="ml-4"
+            (selectionChange)="selectedPriorities.set($event)"
+          ></d360-priority-dropdown>
         </div>
       </d360-header-action-bar>
       <d360-alert-table
         (getApi)="getApi($event)"
         (onUpdateAlert)="refreshCounter()"
+        [priorities]="selectedPriorities()"
+        [status]="selectedStatus()"
       ></d360-alert-table>
     </d360-styled-section>
   }

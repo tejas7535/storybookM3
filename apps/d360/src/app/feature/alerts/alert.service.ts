@@ -27,8 +27,11 @@ import {
 
 import { translate } from '@jsverse/transloco';
 import {
+  AdvancedFilterModel,
+  FilterModel,
   IServerSideDatasource,
   IServerSideGetRowsParams,
+  SortModelItem,
 } from 'ag-grid-enterprise';
 
 import { AppRoutePath } from '../../app.routes.enum';
@@ -229,39 +232,56 @@ export class AlertService {
   }
 
   public createAlertDatasource(
-    selectedStatus: AlertStatus
+    selectedStatus: AlertStatus,
+    selectedPriorities: Priority[]
   ): IServerSideDatasource {
     return {
-      getRows: (params: IServerSideGetRowsParams) =>
-        this.requestAlerts(params.request, selectedStatus)
-          .pipe(
-            tap(({ rows, rowCount }) => {
-              params.success({
-                rowData: rows,
-                rowCount,
-              });
-              this.dataFetchedEvent.next({ rows, rowCount });
-            }),
-            catchError((error: HttpErrorResponse) => {
-              params.fail();
-              this.fetchErrorEvent.next(error);
+      getRows: (params: IServerSideGetRowsParams<Alert>) => {
+        if (selectedPriorities.length > 0) {
+          this.requestAlerts(params.request, selectedStatus, selectedPriorities)
+            .pipe(
+              tap(({ rows, rowCount }) => {
+                params.success({
+                  rowData: rows,
+                  rowCount,
+                });
+                this.dataFetchedEvent.next({
+                  rows,
+                  rowCount,
+                });
+              }),
+              catchError((error: HttpErrorResponse) => {
+                params.fail();
+                this.fetchErrorEvent.next(error);
 
-              return of(error);
-            }),
-            takeUntilDestroyed(this.destroyRef)
-          )
-          .subscribe(),
+                return of(error);
+              }),
+              takeUntilDestroyed(this.destroyRef)
+            )
+            .subscribe();
+        } else {
+          params.success({
+            rowData: [],
+            rowCount: 0,
+          });
+          this.dataFetchedEvent.next({
+            rows: [],
+            rowCount: 0,
+          });
+        }
+      },
     };
   }
 
   private requestAlerts(
     requestParams: {
-      startRow: number;
-      endRow: number;
-      sortModel: any;
-      filterModel: any;
+      startRow: number | undefined;
+      endRow: number | undefined;
+      filterModel: FilterModel | AdvancedFilterModel | null;
+      sortModel: SortModelItem[];
     },
-    selectedStatus: AlertStatus
+    selectedStatus: AlertStatus,
+    selectedPriorities?: Priority[]
   ): Observable<AlertDataResult> {
     const { startRow, endRow, sortModel, filterModel } = requestParams;
 
@@ -279,7 +299,7 @@ export class AlertService {
             startRow,
             endRow,
             sortModel,
-            selectionFilters: {},
+            selectionFilters: { alertPriority: selectedPriorities },
             columnFilters: [columnFilters],
           },
           { params: queryParams }

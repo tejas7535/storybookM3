@@ -1,0 +1,10 @@
+<d360-filter-dropdown
+  *transloco="let t"
+  [control]="priorityControl"
+  [form]="yourTasksForm"
+  [label]="t('overview.yourTasks.taskPriority')"
+  [multiSelect]="true"
+  [formatSelectedValue]="DisplayFunctions.displayFnId"
+  [options]="priorities"
+  (selectionChange)="onPrioritySelectionChange($any($event))"
+/>
