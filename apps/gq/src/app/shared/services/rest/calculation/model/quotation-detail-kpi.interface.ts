@@ -6,4 +6,5 @@ export interface QuotationDetailKpi {
   gpm: number;
   rfqDataGpm: number;
   priceDiff: number;
+  gqRating: number;
 }

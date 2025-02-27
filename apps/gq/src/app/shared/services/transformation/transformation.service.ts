@@ -97,6 +97,10 @@ export class TransformationService {
     isPercentageFormat: boolean = true,
     keepZeroValue: boolean = false
   ): string {
+    if (percentage === null) {
+      return Keyboard.DASH;
+    }
+
     const locale = this.translocoLocaleService.getLocale();
     const value = isPercentageFormat ? percentage : percentage * 100;
     const localizedNumber = () =>

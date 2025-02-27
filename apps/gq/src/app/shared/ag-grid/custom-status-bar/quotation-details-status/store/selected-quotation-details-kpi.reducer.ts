@@ -16,6 +16,7 @@ export const initialState: SelectedQuotationDetailsKpiState = {
     totalWeightedAveragePriceDiff: null,
     totalWeightedAverageGpi: null,
     totalWeightedAverageGpm: null,
+    avgGqRating: null,
   },
   loading: false,
   error: undefined,

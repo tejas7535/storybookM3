@@ -4,10 +4,7 @@ import { of } from 'rxjs/internal/observable/of';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
-import {
-  getQuotationDetails,
-  getQuotationOverviewInformation,
-} from '@gq/core/store/active-case/active-case.selectors';
+import { getQuotationDetails } from '@gq/core/store/active-case/active-case.selectors';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { RolesFacade } from '@gq/core/store/facades';
 import { ApprovalWorkflowInformation, Duration } from '@gq/shared/models';
@@ -96,13 +93,7 @@ describe('OverviewTabComponent', () => {
           totalWeightedAverageGpi: 0.2474,
           totalWeightedAverageGpm: 0.99,
           totalWeightedAveragePriceDiff: 0.5,
-        };
-        const mockQuotationOverviewInformation: QuotationPricingOverview = {
-          gpi: { value: 24.74 },
-          gpm: { value: 0.99 },
-          netValue: { value: 2020.4 },
-          avgGqRating: { value: 2 },
-          deviation: { value: 0.5 },
+          avgGqRating: 3,
         };
         const expectedPricingInformation: QuotationPricingOverview = {
           netValue: {
@@ -116,7 +107,7 @@ describe('OverviewTabComponent', () => {
             APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
               .totalNetValueEur,
           avgGqRating: {
-            value: mockQuotationOverviewInformation.avgGqRating.value,
+            value: mockQuotationDetailsSummaryKpi.avgGqRating,
           },
           gpi: {
             value: mockQuotationDetailsSummaryKpi.totalWeightedAverageGpi,
@@ -133,10 +124,6 @@ describe('OverviewTabComponent', () => {
           },
         };
         store.overrideSelector(getQuotationDetails, QUOTATION_DETAILS_MOCK);
-        store.overrideSelector(
-          getQuotationOverviewInformation,
-          mockQuotationOverviewInformation
-        );
         store.overrideSelector(
           activeCaseFeature.getQuotationDetailsSummaryKpi,
           mockQuotationDetailsSummaryKpi
@@ -205,6 +192,11 @@ describe('OverviewTabComponent', () => {
             requiredApprovalLevelsForQuotation$: of('approvalLevel'),
             approvalCockpitInformation$: of({
               priceDeviation: null,
+              currency:
+                APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.currency,
+              totalNetValueEur:
+                APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+                  .totalNetValueEur,
             } as unknown as ApprovalWorkflowInformation),
           } as unknown as ApprovalFacade,
         });
@@ -215,25 +207,21 @@ describe('OverviewTabComponent', () => {
           totalWeightedAverageGpi: 0.2474,
           totalWeightedAverageGpm: 0.99,
           totalWeightedAveragePriceDiff: 0.5,
+          avgGqRating: 3,
         };
 
-        const mockQuotationOverviewInformation: QuotationPricingOverview = {
-          gpi: { value: 24.74, warning: undefined },
-          gpm: { value: 0.99, warning: undefined },
-          netValue: { value: 2020.4, warning: undefined },
-          avgGqRating: { value: 2, warning: undefined },
-          deviation: { value: 0.5, warning: true },
-        };
         const expectedPricingInformation: QuotationPricingOverview = {
           netValue: {
-            value: mockQuotationOverviewInformation.netValue.value,
+            value: mockQuotationDetailsSummaryKpi.totalNetValue,
             warning: undefined,
           },
-          currency: mockQuotationOverviewInformation.currency,
-          netValueEur: mockQuotationOverviewInformation.netValueEur,
+          currency:
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.currency,
+          netValueEur:
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+              .totalNetValueEur,
           avgGqRating: {
-            value: mockQuotationOverviewInformation.avgGqRating.value,
-            warning: undefined,
+            value: mockQuotationDetailsSummaryKpi.avgGqRating,
           },
           gpi: {
             value: mockQuotationDetailsSummaryKpi.totalWeightedAverageGpi,
@@ -247,11 +235,6 @@ describe('OverviewTabComponent', () => {
             warning: false,
           },
         };
-
-        store.overrideSelector(
-          getQuotationOverviewInformation,
-          mockQuotationOverviewInformation
-        );
 
         store.overrideSelector(
           activeCaseFeature.getQuotationDetailsSummaryKpi,
@@ -274,6 +257,11 @@ describe('OverviewTabComponent', () => {
             requiredApprovalLevelsForQuotation$: of('approvalLevel'),
             approvalCockpitInformation$: of({
               priceDeviation: 0,
+              currency:
+                APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.currency,
+              totalNetValueEur:
+                APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+                  .totalNetValueEur,
             } as ApprovalWorkflowInformation),
           } as unknown as ApprovalFacade,
         });
@@ -284,25 +272,21 @@ describe('OverviewTabComponent', () => {
           totalWeightedAverageGpi: 0.2474,
           totalWeightedAverageGpm: 0.99,
           totalWeightedAveragePriceDiff: 0.5,
+          avgGqRating: 3,
         };
 
-        const mockQuotationOverviewInformation: QuotationPricingOverview = {
-          gpi: { value: 24.74, warning: undefined },
-          gpm: { value: 0.99, warning: undefined },
-          netValue: { value: 2020.4, warning: undefined },
-          avgGqRating: { value: 2, warning: undefined },
-          deviation: { value: 15, warning: undefined },
-        };
         const expectedPricingInformation: QuotationPricingOverview = {
           netValue: {
-            value: mockQuotationOverviewInformation.netValue.value,
+            value: mockQuotationDetailsSummaryKpi.totalNetValue,
             warning: undefined,
           },
-          netValueEur: mockQuotationOverviewInformation.netValueEur,
-          currency: mockQuotationOverviewInformation.currency,
+          currency:
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.currency,
+          netValueEur:
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+              .totalNetValueEur,
           avgGqRating: {
-            value: mockQuotationOverviewInformation.avgGqRating.value,
-            warning: undefined,
+            value: mockQuotationDetailsSummaryKpi.avgGqRating,
           },
           gpi: {
             value: mockQuotationDetailsSummaryKpi.totalWeightedAverageGpi,
@@ -316,11 +300,6 @@ describe('OverviewTabComponent', () => {
             warning: true,
           },
         };
-
-        store.overrideSelector(
-          getQuotationOverviewInformation,
-          mockQuotationOverviewInformation
-        );
 
         store.overrideSelector(
           activeCaseFeature.getQuotationDetailsSummaryKpi,
@@ -342,6 +321,11 @@ describe('OverviewTabComponent', () => {
             requiredApprovalLevelsForQuotation$: of('approvalLevel'),
             approvalCockpitInformation$: of({
               priceDeviation: null,
+              currency:
+                APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.currency,
+              totalNetValueEur:
+                APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+                  .totalNetValueEur,
             } as ApprovalWorkflowInformation),
           } as unknown as ApprovalFacade,
         });
@@ -352,25 +336,21 @@ describe('OverviewTabComponent', () => {
           totalWeightedAverageGpi: 0.2474,
           totalWeightedAverageGpm: 0.99,
           totalWeightedAveragePriceDiff: null,
+          avgGqRating: 3,
         };
 
-        const mockQuotationOverviewInformation: QuotationPricingOverview = {
-          gpi: { value: 24.74, warning: undefined },
-          gpm: { value: 0.99, warning: undefined },
-          netValue: { value: 2020.4, warning: undefined },
-          avgGqRating: { value: 2, warning: undefined },
-          deviation: { value: null, warning: undefined },
-        };
         const expectedPricingInformation: QuotationPricingOverview = {
           netValue: {
-            value: mockQuotationOverviewInformation.netValue.value,
+            value: mockQuotationDetailsSummaryKpi.totalNetValue,
             warning: undefined,
           },
-          netValueEur: mockQuotationOverviewInformation.netValueEur,
-          currency: mockQuotationOverviewInformation.currency,
+          currency:
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.currency,
+          netValueEur:
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+              .totalNetValueEur,
           avgGqRating: {
-            value: mockQuotationOverviewInformation.avgGqRating.value,
-            warning: undefined,
+            value: mockQuotationDetailsSummaryKpi.avgGqRating,
           },
           gpi: {
             value: mockQuotationDetailsSummaryKpi.totalWeightedAverageGpi,
@@ -384,11 +364,6 @@ describe('OverviewTabComponent', () => {
             warning: false,
           },
         };
-
-        store.overrideSelector(
-          getQuotationOverviewInformation,
-          mockQuotationOverviewInformation
-        );
 
         store.overrideSelector(
           activeCaseFeature.getQuotationDetailsSummaryKpi,
@@ -410,6 +385,11 @@ describe('OverviewTabComponent', () => {
             requiredApprovalLevelsForQuotation$: of('approvalLevel'),
             approvalCockpitInformation$: of({
               priceDeviation: 0.15,
+              currency:
+                APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.currency,
+              totalNetValueEur:
+                APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+                  .totalNetValueEur,
             } as ApprovalWorkflowInformation),
           } as unknown as ApprovalFacade,
         });
@@ -420,25 +400,21 @@ describe('OverviewTabComponent', () => {
           totalWeightedAverageGpi: 0.2474,
           totalWeightedAverageGpm: 0.99,
           totalWeightedAveragePriceDiff: 0.2,
+          avgGqRating: 3,
         };
 
-        const mockQuotationOverviewInformation: QuotationPricingOverview = {
-          gpi: { value: 24.74, warning: undefined },
-          gpm: { value: 0.99, warning: undefined },
-          netValue: { value: 2020.4, warning: undefined },
-          avgGqRating: { value: 2, warning: undefined },
-          deviation: { value: 15, warning: undefined },
-        };
         const expectedPricingInformation: QuotationPricingOverview = {
           netValue: {
-            value: mockQuotationOverviewInformation.netValue.value,
+            value: mockQuotationDetailsSummaryKpi.totalNetValue,
             warning: undefined,
           },
-          netValueEur: mockQuotationOverviewInformation.netValueEur,
-          currency: mockQuotationOverviewInformation.currency,
+          currency:
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.currency,
+          netValueEur:
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+              .totalNetValueEur,
           avgGqRating: {
-            value: mockQuotationOverviewInformation.avgGqRating.value,
-            warning: undefined,
+            value: mockQuotationDetailsSummaryKpi.avgGqRating,
           },
           gpi: {
             value: mockQuotationDetailsSummaryKpi.totalWeightedAverageGpi,
@@ -452,11 +428,6 @@ describe('OverviewTabComponent', () => {
             warning: true,
           },
         };
-
-        store.overrideSelector(
-          getQuotationOverviewInformation,
-          mockQuotationOverviewInformation
-        );
 
         store.overrideSelector(
           activeCaseFeature.getQuotationDetailsSummaryKpi,
@@ -478,6 +449,11 @@ describe('OverviewTabComponent', () => {
             requiredApprovalLevelsForQuotation$: of('approvalLevel'),
             approvalCockpitInformation$: of({
               priceDeviation: undefined,
+              currency:
+                APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.currency,
+              totalNetValueEur:
+                APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+                  .totalNetValueEur,
             } as ApprovalWorkflowInformation),
           } as unknown as ApprovalFacade,
         });
@@ -488,25 +464,21 @@ describe('OverviewTabComponent', () => {
           totalWeightedAverageGpi: 0.2474,
           totalWeightedAverageGpm: 0.99,
           totalWeightedAveragePriceDiff: 0.15,
+          avgGqRating: 3,
         };
 
-        const mockQuotationOverviewInformation: QuotationPricingOverview = {
-          gpi: { value: 24.74, warning: undefined },
-          gpm: { value: 0.99, warning: undefined },
-          netValue: { value: 2020.4, warning: undefined },
-          avgGqRating: { value: 2, warning: undefined },
-          deviation: { value: 15, warning: undefined },
-        };
         const expectedPricingInformation: QuotationPricingOverview = {
           netValue: {
-            value: mockQuotationOverviewInformation.netValue.value,
+            value: mockQuotationDetailsSummaryKpi.totalNetValue,
             warning: undefined,
           },
-          netValueEur: mockQuotationOverviewInformation.netValueEur,
-          currency: mockQuotationOverviewInformation.currency,
+          currency:
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral.currency,
+          netValueEur:
+            APPROVAL_STATE_MOCK.approvalCockpit.approvalGeneral
+              .totalNetValueEur,
           avgGqRating: {
-            value: mockQuotationOverviewInformation.avgGqRating.value,
-            warning: undefined,
+            value: mockQuotationDetailsSummaryKpi.avgGqRating,
           },
           gpi: {
             value: mockQuotationDetailsSummaryKpi.totalWeightedAverageGpi,
@@ -520,11 +492,6 @@ describe('OverviewTabComponent', () => {
             warning: false,
           },
         };
-
-        store.overrideSelector(
-          getQuotationOverviewInformation,
-          mockQuotationOverviewInformation
-        );
 
         store.overrideSelector(
           activeCaseFeature.getQuotationDetailsSummaryKpi,

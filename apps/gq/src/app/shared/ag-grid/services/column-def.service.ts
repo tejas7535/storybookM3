@@ -633,7 +633,7 @@ export class ColumnDefService {
         ),
       },
       valueFormatter: (params) =>
-        this.columnUtilityService.percentageFormatter(params, false),
+        this.columnUtilityService.percentageFormatter(params, false, true),
       filterValueGetter: (params: ValueGetterParams) =>
         this.columnUtilityService.getPercentageFilterValue(
           params.data[ColumnFields.PRICE_DIFF]

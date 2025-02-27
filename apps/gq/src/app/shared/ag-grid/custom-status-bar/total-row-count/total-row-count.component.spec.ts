@@ -24,6 +24,7 @@ describe('TotalRowCountComponent', () => {
       totalWeightedAveragePriceDiff: null,
       totalWeightedAverageGpi: null,
       totalWeightedAverageGpm: null,
+      avgGqRating: null,
     },
   };
   const createComponent = createComponentFactory({

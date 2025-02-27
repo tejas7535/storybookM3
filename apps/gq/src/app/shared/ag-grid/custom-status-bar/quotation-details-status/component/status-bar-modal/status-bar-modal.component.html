@@ -73,7 +73,8 @@
             <gq-label-text [modalVersion]="true">
               <span label>{{ t('totalPriceDiff') }}</span>
               <span text>{{
-                summaryKpi?.totalWeightedAveragePriceDiff | percentage: false
+                summaryKpi?.totalWeightedAveragePriceDiff
+                  | percentage: false : true
               }}</span>
             </gq-label-text>
           </div>

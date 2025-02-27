@@ -11,10 +11,7 @@ import {
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
-import {
-  getQuotationCurrency,
-  getQuotationOverviewInformation,
-} from '@gq/core/store/active-case/active-case.selectors';
+import { getQuotationCurrency } from '@gq/core/store/active-case/active-case.selectors';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { RolesFacade } from '@gq/core/store/facades';
 import { ApprovalWorkflowInformation } from '@gq/shared/models';
@@ -151,26 +148,26 @@ export class OverviewTabComponent implements OnInit, OnDestroy {
   private mapPricingInformation(): Observable<QuotationPricingOverview> {
     return combineLatest([
       this.approvalFacade.approvalCockpitInformation$,
-      this.store.select(getQuotationOverviewInformation),
       this.store.select(activeCaseFeature.getQuotationDetailsSummaryKpi),
     ]).pipe(
       takeUntil(this.shutDown$$),
       map(
-        ([approvalInformation, gqPricing, kpiSummary]: [
+        ([approvalInformation, kpiSummary]: [
           ApprovalWorkflowInformation,
-          QuotationPricingOverview,
           QuotationDetailsSummaryKpi,
         ]) => ({
           netValue: {
             value:
-              approvalInformation.totalNetValue ?? gqPricing.netValue.value,
+              approvalInformation.totalNetValue ?? kpiSummary.totalNetValue,
             warning:
               approvalInformation.totalNetValue &&
-              approvalInformation.totalNetValue !== gqPricing.netValue.value,
+              approvalInformation.totalNetValue !== kpiSummary.totalNetValue,
           },
           netValueEur: approvalInformation.totalNetValueEur,
           currency: approvalInformation.currency,
-          avgGqRating: gqPricing.avgGqRating,
+          avgGqRating: {
+            value: kpiSummary.avgGqRating,
+          },
           gpi: {
             value: kpiSummary.totalWeightedAverageGpi,
           },

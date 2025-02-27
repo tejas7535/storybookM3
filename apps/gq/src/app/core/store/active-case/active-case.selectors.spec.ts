@@ -3,7 +3,6 @@ import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-p
 import { Quotation, QuotationDetail, SAP_SYNC_STATUS } from '@gq/shared/models';
 import { ProductType } from '@gq/shared/models/quotation-detail/material/';
 import { QuotationRfqData } from '@gq/shared/models/quotation-detail/rfq-data';
-import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 
 import { CUSTOMER_MOCK } from '../../../../testing/mocks';
 import { QUOTATION_MOCK } from '../../../../testing/mocks/models/quotation';
@@ -13,6 +12,7 @@ import {
 } from '../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { ActiveCaseState, initialState } from './active-case.reducer';
 import * as activeCaseSelectors from './active-case.selectors';
+
 describe('Active Case Selectors', () => {
   let fakeState: { activeCase: ActiveCaseState };
 
@@ -144,28 +144,6 @@ describe('Active Case Selectors', () => {
           {} as unknown as Quotation
         )
       ).toEqual(undefined);
-    });
-  });
-
-  describe('getQuotationOverviewInformation', () => {
-    test('should return the calculated pricing information of all quotation details', () => {
-      jest.spyOn(pricingUtils, 'calculateStatusBarValues').mockReturnValue({
-        gpi: 10,
-        gpm: 10,
-        netValue: 100,
-        priceDiff: 0,
-        rows: 0,
-      });
-      expect(
-        activeCaseSelectors.getQuotationOverviewInformation(fakeState)
-      ).toEqual({
-        gpi: { value: 10 },
-        gpm: { value: 10 },
-        netValue: { value: 100 },
-        avgGqRating: { value: 2 },
-        deviation: { value: 0 },
-      });
-      expect(true).toBeTruthy();
     });
   });
 

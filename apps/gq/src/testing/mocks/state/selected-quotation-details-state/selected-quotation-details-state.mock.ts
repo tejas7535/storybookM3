@@ -1,4 +1,5 @@
 import { SelectedQuotationDetailsKpiState } from '../../../../app/shared/ag-grid/custom-status-bar/quotation-details-status/store/selected-quotation-details-kpi.reducer';
+
 export const SELECTED_QUOTATION_DETAILS_KPI_STATE_MOCK: SelectedQuotationDetailsKpiState =
   {
     selectedQuotationDetailsKpi: {
@@ -7,6 +8,7 @@ export const SELECTED_QUOTATION_DETAILS_KPI_STATE_MOCK: SelectedQuotationDetails
       totalWeightedAveragePriceDiff: null,
       totalWeightedAverageGpi: null,
       totalWeightedAverageGpm: null,
+      avgGqRating: null,
     },
     loading: false,
     error: undefined as any,

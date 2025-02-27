@@ -27,6 +27,7 @@ describe('selectedQuotationDetailsKpiReducer', () => {
         totalWeightedAveragePriceDiff: 3,
         totalWeightedAverageGpi: 4,
         totalWeightedAverageGpm: 5,
+        avgGqRating: 3,
       };
       const action = SelectedQuotationDetailsKpiActions.loadKPISuccess({
         response,

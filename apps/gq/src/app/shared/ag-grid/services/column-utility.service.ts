@@ -410,11 +410,15 @@ export class ColumnUtilityService {
 
   percentageFormatter(
     data: ValueFormatterParams,
-    isPercentageFormat: boolean = true
+    isPercentageFormat: boolean = true,
+    keepZeroValue: boolean = false
   ): string {
+    const value = data.value === null ? null : roundToFourDecimals(data.value);
+
     return this.transformationService.transformPercentage(
-      roundToFourDecimals(data.value),
-      isPercentageFormat
+      value,
+      isPercentageFormat,
+      keepZeroValue
     );
   }
 

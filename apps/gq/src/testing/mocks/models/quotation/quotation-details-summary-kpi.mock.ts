@@ -6,4 +6,5 @@ export const QUOTATION_DETAILS_SUMMARY_KPI_MOCK: QuotationDetailsSummaryKpi = {
   totalWeightedAverageGpi: 0.2,
   totalWeightedAverageGpm: 0.3,
   totalWeightedAveragePriceDiff: 0.4,
+  avgGqRating: 3,
 };

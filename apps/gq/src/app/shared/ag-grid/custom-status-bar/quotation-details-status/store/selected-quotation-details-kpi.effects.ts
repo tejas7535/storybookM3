@@ -71,12 +71,14 @@ export class SelectedQuotationDetailsKpiEffects {
           material,
           rfqData,
           netValue,
+          gqRating,
         } = qd;
         const kpi: QuotationDetailKpi = {
           netValue,
           gpi,
           gpm,
           priceDiff,
+          gqRating,
           quantity: orderQuantity,
           materialNumber15: material.materialNumber15,
           rfqDataGpm: rfqData?.gpm,

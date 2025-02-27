@@ -10,10 +10,8 @@ import {
   SAP_SYNC_STATUS,
   SimulatedQuotation,
 } from '@gq/shared/models';
-import { QuotationPricingOverview } from '@gq/shared/models/quotation';
 import { isFNumber } from '@gq/shared/utils/f-pricing.utils';
 import { groupBy } from '@gq/shared/utils/misc.utils';
-import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { createSelector } from '@ngrx/store';
 
 import { activeCaseFeature } from './active-case.reducer';
@@ -90,28 +88,6 @@ export const getGqId = createSelector(
 export const isManualCase = createSelector(
   activeCaseFeature.selectQuotation,
   (quotation: Quotation): boolean => !quotation?.sapId
-);
-
-export const getQuotationOverviewInformation = createSelector(
-  getQuotationDetails,
-  (details: QuotationDetail[]): QuotationPricingOverview => {
-    const priceInformation = calculateStatusBarValues(details);
-    const avgRatingItems = details
-      .filter((item: QuotationDetail) => !!item && item.gqRating)
-      .map((item: QuotationDetail) => item.gqRating);
-    const avgRating = Math.round(
-      avgRatingItems.reduce((sum: number, x: number) => sum + x, 0) /
-        avgRatingItems.length
-    );
-
-    return {
-      gpi: { value: priceInformation.gpi },
-      gpm: { value: priceInformation.gpm },
-      netValue: { value: priceInformation.netValue },
-      avgGqRating: { value: avgRating },
-      deviation: { value: priceInformation.priceDiff },
-    };
-  }
 );
 
 export const getQuotationDetailsByGPSD = createSelector(

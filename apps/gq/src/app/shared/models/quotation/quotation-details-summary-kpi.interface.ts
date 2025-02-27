@@ -4,4 +4,5 @@ export interface QuotationDetailsSummaryKpi {
   totalWeightedAverageGpi: number;
   totalWeightedAverageGpm: number;
   totalWeightedAveragePriceDiff: number;
+  avgGqRating: number;
 }

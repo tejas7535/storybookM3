@@ -60,6 +60,7 @@ describe('SelectedQuotationDetailsKpiEffects', () => {
           totalWeightedAveragePriceDiff: 1,
           totalWeightedAverageGpi: 1,
           totalWeightedAverageGpm: 1,
+          avgGqRating: 3,
         };
         calculationService.getQuotationKpiCalculation = jest.fn(() =>
           of(response)
@@ -88,6 +89,7 @@ describe('SelectedQuotationDetailsKpiEffects', () => {
               priceDiff: 0.1765,
               quantity: 10,
               rfqDataGpm: 0.1032,
+              gqRating: 2,
             },
           ],
         };

@@ -530,6 +530,7 @@ describe('ExportToExcelButtonComponent', () => {
         totalWeightedAverageGpi: 0.85,
         totalWeightedAverageGpm: 0.9,
         totalWeightedAveragePriceDiff: 0.7,
+        avgGqRating: 3,
       };
 
       const result = component.addQuotationSummary({
