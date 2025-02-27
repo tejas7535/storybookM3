@@ -3,5 +3,6 @@
   "reportSectionWarnings": "錯誤、警告和註釋",
   "errors": "錯誤",
   "warnings": "警告",
-  "notes": "筆記"
+  "notes": "筆記",
+  "calculatedWith": "使用 {{versions}} 計算"
 }

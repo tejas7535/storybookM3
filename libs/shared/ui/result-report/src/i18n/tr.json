@@ -3,5 +3,6 @@
   "reportSectionWarnings": "Hatalar, uyarılar ve notlar",
   "errors": "Hatalar",
   "warnings": "Uyarılar",
-  "notes": "Notlar"
+  "notes": "Notlar",
+  "calculatedWith": "Hesaplandı {{versions}}"
 }

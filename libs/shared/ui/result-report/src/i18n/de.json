@@ -3,5 +3,6 @@
   "reportSectionWarnings": "Fehler, Warnungen und Hinweise",
   "errors": "Fehler",
   "warnings": "Warnungen",
-  "notes": "Hinweise"
+  "notes": "Hinweise",
+  "calculatedWith": "Berechnet mit {{versions}}"
 }

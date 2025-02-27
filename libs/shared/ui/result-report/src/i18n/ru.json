@@ -3,5 +3,6 @@
   "reportSectionWarnings": "Ошибки, предупреждения и примечания",
   "errors": "Ошибки",
   "warnings": "Предупреждения",
-  "notes": "Заметки"
+  "notes": "Заметки",
+  "calculatedWith": "Рассчитано с {{versions}}"
 }

@@ -3,5 +3,6 @@
   "reportSectionWarnings": "Errors, Warnings and Notes",
   "errors": "Errors",
   "warnings": "Warnings",
-  "notes": "Notes"
+  "notes": "Notes",
+  "calculatedWith": "Calculated with {{versions}}"
 }

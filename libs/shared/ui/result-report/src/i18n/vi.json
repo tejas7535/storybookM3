@@ -3,5 +3,6 @@
   "reportSectionWarnings": "Lỗi, cảnh báo và ghi chú",
   "errors": "Lỗi",
   "warnings": "Cảnh báo",
-  "notes": "Ghi chú"
+  "notes": "Ghi chú",
+  "calculatedWith": "Tính toán với {{versions}}"
 }

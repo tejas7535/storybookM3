@@ -41,6 +41,7 @@ import { ResultReportComponentInterface } from './result-report.component.interf
 })
 export class ResultReportComponent implements ResultReportComponentInterface {
   @Input() public reportInputs: CalculationResultReportInput[] | undefined;
+  @Input() public bearinxVersions?: string;
   @Input() public messages: ReportMessages = {
     notes: [],
     errors: [],

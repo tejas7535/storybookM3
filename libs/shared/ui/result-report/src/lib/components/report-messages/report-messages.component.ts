@@ -19,6 +19,7 @@ import { ReportMessages } from './report-messages.component.interface';
 export class ReportMessagesComponent {
   public isMessageSectionExpanded = input<boolean>(false);
   public messages = input<ReportMessages>();
+  public bearinxVersions = input<string | undefined>();
 
   public errors = computed(() => this.messages()?.errors ?? []);
   public warnings = computed(() => this.messages()?.warnings ?? []);

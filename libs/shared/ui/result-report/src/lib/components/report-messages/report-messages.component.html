@@ -22,6 +22,11 @@
           [messages]="notes()"
         >
         </schaeffler-calculation-result-messages>
+        @if (bearinxVersions()) {
+          <div class="text-body-small">
+            {{ t('calculatedWith', { versions: bearinxVersions() }) }}
+          </div>
+        }
       </div>
     </schaeffler-report-expansion-panel>
   </ng-container>

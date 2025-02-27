@@ -3,5 +3,6 @@
   "reportSectionWarnings": "Chyby, varování a poznámky",
   "errors": "Chyby",
   "warnings": "Varování",
-  "notes": "Poznámky"
+  "notes": "Poznámky",
+  "calculatedWith": "Vypočítáno s {{versions}}"
 }

@@ -3,5 +3,6 @@
   "reportSectionWarnings": "Błędy, ostrzeżenia i uwagi",
   "errors": "Błędy",
   "warnings": "Ostrzeżenia",
-  "notes": "Notatki"
+  "notes": "Notatki",
+  "calculatedWith": "Obliczone z {{versions}}"
 }

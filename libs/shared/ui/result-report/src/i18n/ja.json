@@ -3,5 +3,6 @@
   "reportSectionWarnings": "エラー、警告、および注記",
   "errors": "エラー",
   "warnings": "警告",
-  "notes": "ノート"
+  "notes": "ノート",
+  "calculatedWith": "計算方式：{{versions}}"
 }

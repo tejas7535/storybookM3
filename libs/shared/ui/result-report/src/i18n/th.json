@@ -3,5 +3,6 @@
   "reportSectionWarnings": "ข้อผิดพลาด, คำเตือน และบันทึกย่อ",
   "errors": "ข้อผิดพลาด",
   "warnings": "คำเตือน",
-  "notes": "บันทึก"
+  "notes": "บันทึก",
+  "calculatedWith": "คำนวณด้วย {{versions}}"
 }
