@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 
@@ -8,6 +8,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
+import { AppRouteValue } from '../../app.routes.enum';
 import { UserService } from '../../shared/services/user.service';
 
 @Component({
@@ -16,19 +17,19 @@ import { UserService } from '../../shared/services/user.service';
   imports: [LoadingSpinnerModule, TranslocoDirective],
   templateUrl: './root.component.html',
 })
-export class RootComponent {
-  public constructor() {
-    const userService = inject(UserService);
-    const router = inject(Router);
-
-    userService
-      .loadRegion()
+export class RootComponent implements OnInit {
+  private readonly destoryRef = inject(DestroyRef);
+  private readonly userService = inject(UserService);
+  private readonly router = inject(Router);
+  public ngOnInit() {
+    this.userService
+      .getStartPage()
       .pipe(
         take(1),
-        tap(() => {
-          router.navigate([userService.startPage()]);
+        tap((startPage: AppRouteValue) => {
+          this.router.navigate([startPage]);
         }),
-        takeUntilDestroyed()
+        takeUntilDestroyed(this.destoryRef)
       )
       .subscribe();
   }

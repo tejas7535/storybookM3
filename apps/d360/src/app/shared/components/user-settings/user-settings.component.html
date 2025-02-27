@@ -12,9 +12,33 @@
     <d360-filter-dropdown
       [control]="currencyControl"
       [label]="t('drawer.user-currency-label')"
-      [form]="currencyForm"
+      [form]="userSettingsForm"
       [options]="availableCurrencies"
       (selectionChange)="onCurrencySelectionChange($any($event))"
     />
+  </div>
+  <div class="w-full mt-8">
+    <mat-form-field appearance="outline" [formGroup]="userSettingsForm">
+      <mat-label>{{ t('tabbar.start-page.label') }}</mat-label>
+      <mat-select
+        [formControl]="startPageControl"
+        (selectionChange)="onStartPageSelectionChange($event)"
+      >
+        @for (group of startPageGroups; track group) {
+          @if (availableFunctions()[group].length > 0) {
+            <mat-optgroup [label]="t('tabbarMenu.' + group)">
+              @for (
+                customRoute of availableFunctions()[group];
+                track customRoute
+              ) {
+                <mat-option [value]="customRoute.path">{{
+                  t(customRoute?.data?.titles[1])
+                }}</mat-option>
+              }
+            </mat-optgroup>
+          }
+        }
+      </mat-select>
+    </mat-form-field>
   </div>
 </div>

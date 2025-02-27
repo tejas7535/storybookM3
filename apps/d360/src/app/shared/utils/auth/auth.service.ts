@@ -22,7 +22,7 @@ export class AuthService {
     );
   }
 
-  public getUserRoles() {
+  public getUserRoles(): Observable<string[]> {
     return this.store.pipe(getRoles, takeUntilDestroyed(this.destroyRef));
   }
 }

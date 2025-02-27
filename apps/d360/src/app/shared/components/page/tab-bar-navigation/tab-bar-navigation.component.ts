@@ -9,7 +9,6 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -21,13 +20,11 @@ import { LetDirective } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { appRoutes, CustomRoute, RouteConfig } from '../../../../app.routes';
+import { appRoutes, RouteConfig } from '../../../../app.routes';
 import { AppRoutePath } from '../../../../app.routes.enum';
 import { AlertService } from '../../../../feature/alerts/alert.service';
 import { AlertNotificationCount } from '../../../../feature/alerts/model';
 import { UserService } from '../../../services/user.service';
-import { AuthService } from '../../../utils/auth/auth.service';
-import { checkRoles } from '../../../utils/auth/roles';
 
 export enum TabItem {
   StartPage = 'start-page',
@@ -64,13 +61,10 @@ export const enum ProductType {
 })
 export class TabBarNavigationComponent {
   private readonly alertService: AlertService = inject(AlertService);
-  private readonly authService = inject(AuthService);
   private readonly userService = inject(UserService);
 
   protected notificationCount$: Observable<AlertNotificationCount> =
     this.alertService.getNotificationCount();
-
-  protected userRoles = toSignal(this.authService.getUserRoles());
 
   /**
    * Generate RouteConfig with all visible routes
@@ -78,31 +72,20 @@ export class TabBarNavigationComponent {
    * @protected
    * @memberof TabBarNavigationComponent
    */
-  protected routeConfig = computed<RouteConfig>(() => {
-    // The function menu entries can be hidden in three different ways:
-    // 1. have a false visible attribute
-    // 2. the user is not located in one of the allowedRegions
-    // 3. the user lacks all the permissions that are set in the allowedRoles attribute
-    const visibilityFilter = (route: CustomRoute) =>
-      (route.visible === undefined || route.visible) &&
-      (route.data?.allowedRegions === undefined ||
-        (this.userService.region() &&
-          route.data?.allowedRegions.includes(this.userService.region()))) &&
-      (!route.data?.allowedRoles ||
-        checkRoles(this.userRoles() || [], route.data?.allowedRoles));
-
-    const filterRoutes = (routes: CustomRoute[]) =>
-      routes.filter((element) => visibilityFilter(element));
-
-    return {
-      ...appRoutes,
-      functions: {
-        salesSuite: filterRoutes(appRoutes.functions.salesSuite),
-        demandSuite: filterRoutes(appRoutes.functions.demandSuite),
-        general: filterRoutes(appRoutes.functions.general),
-      },
-    };
-  });
+  protected routeConfig = computed<RouteConfig>(() => ({
+    ...appRoutes,
+    functions: {
+      salesSuite: this.userService.filterVisibleRoutes(
+        appRoutes.functions.salesSuite
+      ),
+      demandSuite: this.userService.filterVisibleRoutes(
+        appRoutes.functions.demandSuite
+      ),
+      general: this.userService.filterVisibleRoutes(
+        appRoutes.functions.general
+      ),
+    },
+  }));
 
   /**
    * Signal to keep track of active tab

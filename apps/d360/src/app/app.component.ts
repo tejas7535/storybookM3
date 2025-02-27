@@ -50,7 +50,6 @@ import {
   DATE_FNS_LOOKUP,
   LocaleType,
 } from './shared/constants/available-locales';
-import { UserService } from './shared/services/user.service';
 import { ValidationHelper } from './shared/utils/validation/validation-helper';
 
 @Component({
@@ -80,7 +79,6 @@ export class AppComponent implements OnInit {
   private readonly translocoLocaleService: TranslocoLocaleService = inject(
     TranslocoLocaleService
   );
-  private readonly userService: UserService = inject(UserService);
   private readonly router: Router = inject(Router);
   private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private readonly globalSelectionStateService: GlobalSelectionStateService =
@@ -151,7 +149,6 @@ export class AppComponent implements OnInit {
   ];
 
   public constructor() {
-    this.userService.loadRegion().subscribe();
     this.router.events.pipe(takeUntilDestroyed()).subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.activeUrl.set(this.getRelativeUrl(event.url));
