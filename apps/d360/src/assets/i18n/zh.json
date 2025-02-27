@@ -897,7 +897,7 @@
       "alert_deactivated": "任务已停用",
       "alert_activated": "任务已激活"
     },
-    "new_data": "新数据可用。",
+    "new_data": "提供新的 “待办事项”",
     "refresh": "刷新",
     "active_alerts": "{count, plural, one {1 已开启的任务} other {{count} 已开启的任务}}",
     "completed_alerts": "{count, plural, one {1 已完成的任务} other {{count} 已完成的任务}}",

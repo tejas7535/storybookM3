@@ -906,7 +906,7 @@
       "alert_deactivated": "Aufgabe deaktiviert",
       "alert_activated": "Aufgabe aktiviert"
     },
-    "new_data": "Es sind neue Daten verfügbar.",
+    "new_data": "Neue To-Dos sind verfügbar.",
     "refresh": "Aktualisieren",
     "active_alerts": "{count, plural, one {1 offene Aufgabe} other {{count} offene Aufgaben}}",
     "completed_alerts": "{count, plural, one {1 abgeschlossene Aufgabe} other {{count} abgeschlossene Aufgaben}}",

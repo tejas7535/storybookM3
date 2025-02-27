@@ -897,7 +897,7 @@
       "alert_deactivated": "Attività disattivata",
       "alert_activated": "Attività attivata"
     },
-    "new_data": "Sono disponibili nuovi dati.",
+    "new_data": "Sono disponibili nuovi To-Dos.",
     "refresh": "Aggiornamento",
     "active_alerts": "{count, plural, one {1 compito aperto} other {{count} attività aperte}}",
     "completed_alerts": "{count, plural, one {1 attività completata} other {{count} attività completate}}",

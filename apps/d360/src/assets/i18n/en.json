@@ -909,7 +909,7 @@
       "alert_deactivated": "Task deactivated",
       "alert_activated": "Task activated"
     },
-    "new_data": "New data is available.",
+    "new_data": "New To-Dos are available.",
     "refresh": "Refresh",
     "active_alerts": "{count, plural, one {1 open task} other {{count} open tasks}}",
     "completed_alerts": "{count, plural, one {1 completed task} other {{count} completed tasks}}",

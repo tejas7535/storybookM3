@@ -897,7 +897,7 @@
       "alert_deactivated": "Tarea desactivada",
       "alert_activated": "Tarea activada"
     },
-    "new_data": "Se dispone de nuevos datos.",
+    "new_data": "Nuevos To-Dos disponibles.",
     "refresh": "Actualización",
     "active_alerts": "{count, plural, one {1 tarea abierta} other {{count} tareas pendientes}}",
     "completed_alerts": "{count, plural, one {1 tarea completada} other {{count} tareas completadas}}",
