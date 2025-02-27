@@ -219,7 +219,7 @@ export class QuotationService {
   }
 
   getExchangeRateForCurrency(fromCurrency: string, toCurrency: string) {
-    return this.#http.get(
+    return this.#http.get<{ exchangeRates: { [key: string]: number } }>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_CURRENCIES}/${fromCurrency}/exchangeRates/${toCurrency}`
     );
   }

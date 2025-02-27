@@ -6,9 +6,10 @@ import {
 } from 'echarts';
 
 export const GRID_CONFIG: GridComponentOption = {
-  left: '40px',
+  left: 0,
   right: '20px',
   top: '80px',
+  containLabel: true,
 };
 
 export const DATA_ZOOM: DataZoomComponentOption[] = [

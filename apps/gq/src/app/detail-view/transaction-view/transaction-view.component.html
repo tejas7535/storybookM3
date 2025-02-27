@@ -50,6 +50,9 @@
                   [userHasGpcRole]="hasGpcRole$ | ngrxPush"
                   [hideRolesHint]="hideRolesHint$ | ngrxPush"
                   [recommendationType]="recommendationType$ | ngrxPush"
+                  [currentEurExchangeRatio]="
+                    currentEurExchangeRatio$ | ngrxPush
+                  "
                 ></gq-transparency-graph>
               } @else {
                 <schaeffler-loading-spinner></schaeffler-loading-spinner>

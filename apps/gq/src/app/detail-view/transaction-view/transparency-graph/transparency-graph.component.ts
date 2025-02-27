@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 
 import { ComparableLinkedTransaction } from '@gq/core/store/reducers/models';
 import { RecommendationType } from '@gq/core/store/transactions/models/recommendation-type.enum';
@@ -14,46 +20,44 @@ import { RegressionService } from './echarts/regression.service';
   selector: 'gq-transparency-graph',
   templateUrl: './transparency-graph.component.html',
 })
-export class TransparencyGraphComponent implements OnInit {
+export class TransparencyGraphComponent implements OnChanges {
   options: EChartsOption;
 
-  constructor(
-    private readonly chartConfigService: ChartConfigService,
-    private readonly regressionService: RegressionService
-  ) {}
-
-  @Input() set transactions(value: ComparableLinkedTransaction[]) {
-    this.transactionValues = value;
-
-    if (this.coefficients && this.currency) {
-      this.updateOptions(value);
-    }
-  }
+  @Input() transactions: ComparableLinkedTransaction[];
   @Input() coefficients: Coefficients;
   @Input() currency: string;
+  @Input() currentEurExchangeRatio: number;
   @Input() customer: Customer;
   @Input() userHasGpcRole: boolean;
   @Input() hideRolesHint: boolean;
   @Input() recommendationType: RecommendationType;
 
-  transactionValues: ComparableLinkedTransaction[] = [];
+  private readonly chartConfigService = inject(ChartConfigService);
+  private readonly regressionService = inject(RegressionService);
 
-  ngOnInit(): void {
-    if (this.transactionValues && this.coefficients && this.currency) {
-      this.updateOptions(this.transactionValues);
-    }
+  ngOnChanges(_changes: SimpleChanges): void {
+    this.updateOptions();
   }
 
-  private updateOptions(transactions: ComparableLinkedTransaction[]) {
+  private updateOptions() {
+    if (!this.transactions || !this.coefficients || !this.currency) {
+      return;
+    }
+    if (this.currency !== 'EUR' && !this.currentEurExchangeRatio) {
+      return;
+    }
+
     const dataPoints = this.chartConfigService.buildDataPoints(
-      transactions,
+      this.transactions,
       this.currency,
       this.recommendationType
     );
 
     const regressionData = this.regressionService.buildRegressionPoints(
       this.coefficients,
-      transactions
+      this.transactions,
+      this.recommendationType,
+      this.currentEurExchangeRatio
     );
 
     const seriesConfig = this.chartConfigService.getSeriesConfig(
@@ -70,7 +74,7 @@ export class TransparencyGraphComponent implements OnInit {
       xAxis: this.chartConfigService.getXAxisConfig(dataPoints),
       yAxis: this.chartConfigService.getYAxisConfig(
         this.recommendationType,
-        transactions
+        this.transactions
       ),
       series: seriesConfig.series,
       grid: GRID_CONFIG,

@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { RolesFacade } from '@gq/core/store/facades';
@@ -15,6 +15,7 @@ import {
   QuotationDetail,
 } from '@gq/shared/models/quotation-detail';
 import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
+import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { TranslocoService } from '@jsverse/transloco';
 import { FilterChangedEvent, IRowNode } from 'ag-grid-enterprise';
 
@@ -35,6 +36,7 @@ export class TransactionViewComponent {
     inject(ActiveCaseFacade);
   private readonly transactionsFacade: TransactionsFacade =
     inject(TransactionsFacade);
+  private readonly quotationService = inject(QuotationService);
 
   private readonly rolesFacade: RolesFacade = inject(RolesFacade);
 
@@ -45,6 +47,7 @@ export class TransactionViewComponent {
     this.activeCaseFacade.selectedQuotationDetail$;
   quotationLoading$: Observable<boolean> =
     this.activeCaseFacade.quotationLoading$;
+
   quotationCurrency$: Observable<string> =
     this.activeCaseFacade.quotationCurrency$;
 
@@ -54,6 +57,25 @@ export class TransactionViewComponent {
     this.transactionsFacade.transactionsLoading$;
   recommendationType$: Observable<RecommendationType> =
     this.transactionsFacade.recommendationType$;
+
+  // in case the quotation currency differs, we need the rate to adapt the calculated values for the regression function curve
+  currentEurExchangeRatio$ = combineLatest([
+    this.quotationCurrency$,
+    this.recommendationType$,
+  ]).pipe(
+    filter(
+      ([_currency, recommendationType]) =>
+        recommendationType === RecommendationType.PRICE
+    ),
+    map(([currency, _recommendationType]) => currency),
+    switchMap((currency) =>
+      currency === 'EUR'
+        ? of(1)
+        : this.quotationService
+            .getExchangeRateForCurrency('EUR', currency)
+            .pipe(map((res) => res.exchangeRates[currency]))
+    )
+  );
 
   translationsLoaded$: Observable<boolean> = this.translocoService
     .selectTranslateObject('transactions', {}, 'transaction-view')

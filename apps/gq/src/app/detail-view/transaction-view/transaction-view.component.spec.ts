@@ -6,6 +6,7 @@ import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade'
 import { RolesFacade } from '@gq/core/store/facades';
 import { RecommendationType } from '@gq/core/store/transactions/models/recommendation-type.enum';
 import { TransactionsFacade } from '@gq/core/store/transactions/transactions.facade';
+import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -30,23 +31,32 @@ describe('TransactionViewComponent', () => {
     { ...COMPARABLE_LINKED_TRANSACTION_MOCK, identifier: 2222 },
     { ...COMPARABLE_LINKED_TRANSACTION_MOCK, identifier: 3333 },
   ];
+  const EXCHANGE_RATE_MOCK = { exchangeRates: { USD: 1.2, EUR: 5 } };
+
+  const recommendationType$$ = new BehaviorSubject(RecommendationType.MARGIN);
+  const currency$$ = new BehaviorSubject(QUOTATION_MOCK.currency);
 
   const createComponent = createComponentFactory({
     component: TransactionViewComponent,
     imports: [provideTranslocoTestingModule({ en: {} }), PushPipe],
     providers: [
       provideMockStore({}),
+      MockProvider(QuotationService, {
+        getExchangeRateForCurrency: jest
+          .fn()
+          .mockReturnValue(of(EXCHANGE_RATE_MOCK)),
+      }),
       MockProvider(ActiveCaseFacade, {
         selectedQuotationDetail$: of(QUOTATION_DETAIL_MOCK),
         quotationLoading$: of(false),
-        quotationCurrency$: of(QUOTATION_MOCK.currency),
+        quotationCurrency$: currency$$.asObservable(),
         detailViewQueryParams$: of({} as any),
       }),
       MockProvider(TransactionsFacade, {
         transactions$: of(mockTransactions),
         transactionsLoading$: of(false),
         graphTransactions$: of(mockTransactions),
-        recommendationType$: of(RecommendationType.MARGIN),
+        recommendationType$: recommendationType$$.asObservable(),
       }),
       MockProvider(RolesFacade, {
         userHasGPCRole$: of(false),
@@ -65,44 +75,85 @@ describe('TransactionViewComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
+  describe('currentEurExchangeRatio$', () => {
     test(
-      'should initialize observables',
+      'should return 1 for EUR currency when recommendationType is PRICE',
       marbles((m) => {
-        component['translocoService'].selectTranslateObject = jest.fn(
-          () => new BehaviorSubject({ test: 'test' }) as any
-        );
+        const expectedExchangeRate$ = m.cold('a', { a: 1 });
 
-        m.expect(component.quotationDetail$).toBeObservable(
-          m.cold('(a|)', { a: QUOTATION_DETAIL_MOCK })
+        recommendationType$$.next(RecommendationType.PRICE);
+        currency$$.next('EUR');
+
+        m.expect(component.currentEurExchangeRatio$).toBeObservable(
+          expectedExchangeRate$
         );
-        m.expect(component.quotationLoading$).toBeObservable(
-          m.cold('(a|)', { a: false })
+      })
+    );
+
+    test(
+      'should call getExchangeRateForCurrency when currency is not EUR and recommendationType is PRICE',
+      marbles((m) => {
+        const expectedExchangeRate$ = m.cold('a', { a: 1.2 }); // assuming the mock returns 1.2 for USD
+
+        recommendationType$$.next(RecommendationType.PRICE);
+        currency$$.next('USD');
+
+        m.expect(component.currentEurExchangeRatio$).toBeObservable(
+          expectedExchangeRate$
         );
-        m.expect(component.quotationCurrency$).toBeObservable(
-          m.cold('(a|)', { a: QUOTATION_MOCK.currency })
-        );
-        m.expect(component.transactions$).toBeObservable(
-          m.cold('(a|)', { a: mockTransactions })
-        );
-        m.expect(component.transactionsLoading$).toBeObservable(
-          m.cold('(a|)', { a: false })
-        );
-        m.expect(component.translationsLoaded$).toBeObservable(
-          m.cold('a', { a: false })
-        );
-        m.expect(component.recommendationType$).toBeObservable(
-          m.cold('(a|)', { a: RecommendationType.MARGIN })
-        );
-        m.expect(component.hasGpcRole$).toBeObservable(
-          m.cold('(a|)', { a: false })
-        );
-        m.expect(component.hideRolesHint$).toBeObservable(
-          m.cold('(a|)', { a: false })
+      })
+    );
+
+    test(
+      'should not emit anything if recommendationType is not PRICE',
+      marbles((m) => {
+        recommendationType$$.next(RecommendationType.MARGIN);
+        currency$$.next('USD');
+
+        m.expect(component.currentEurExchangeRatio$).toBeObservable(
+          m.cold('-')
         );
       })
     );
   });
+
+  test(
+    'should initialize observables',
+    marbles((m) => {
+      component['translocoService'].selectTranslateObject = jest.fn(
+        () => new BehaviorSubject({ test: 'test' }) as any
+      );
+      currency$$.next('EUR');
+
+      m.expect(component.quotationDetail$).toBeObservable(
+        m.cold('(a|)', { a: QUOTATION_DETAIL_MOCK })
+      );
+      m.expect(component.quotationLoading$).toBeObservable(
+        m.cold('(a|)', { a: false })
+      );
+      m.expect(component.quotationCurrency$).toBeObservable(
+        m.cold('a', { a: QUOTATION_MOCK.currency })
+      );
+      m.expect(component.transactions$).toBeObservable(
+        m.cold('(a|)', { a: mockTransactions })
+      );
+      m.expect(component.transactionsLoading$).toBeObservable(
+        m.cold('(a|)', { a: false })
+      );
+      m.expect(component.translationsLoaded$).toBeObservable(
+        m.cold('a', { a: false })
+      );
+      m.expect(component.recommendationType$).toBeObservable(
+        m.cold('a', { a: RecommendationType.MARGIN })
+      );
+      m.expect(component.hasGpcRole$).toBeObservable(
+        m.cold('(a|)', { a: false })
+      );
+      m.expect(component.hideRolesHint$).toBeObservable(
+        m.cold('(a|)', { a: false })
+      );
+    })
+  );
 
   describe('graphTransactions', () => {
     test('should return all transactions if there is no filter', () => {

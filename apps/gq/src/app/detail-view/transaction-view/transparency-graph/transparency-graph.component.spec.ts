@@ -1,3 +1,5 @@
+import { SimpleChange } from '@angular/core';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { NgxEchartsModule } from 'ngx-echarts';
 import resize_observer_polyfill from 'resize-observer-polyfill';
@@ -9,11 +11,12 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { ChartConfigService } from './echarts/chart.config.service';
 import { RegressionService } from './echarts/regression.service';
 import { TransparencyGraphComponent } from './transparency-graph.component';
+
 window.ResizeObserver = resize_observer_polyfill;
 
 describe('TransparencyGraphComponent', () => {
-  let component: TransparencyGraphComponent;
   let spectator: Spectator<TransparencyGraphComponent>;
+  let component: TransparencyGraphComponent;
 
   const createComponent = createComponentFactory({
     component: TransparencyGraphComponent,
@@ -51,7 +54,7 @@ describe('TransparencyGraphComponent', () => {
 
   beforeEach(() => {
     spectator = createComponent();
-    component = spectator.debugElement.componentInstance;
+    component = spectator.component;
 
     component.currency = 'EUR';
     component.transactions = [];
@@ -67,50 +70,51 @@ describe('TransparencyGraphComponent', () => {
       jest.clearAllMocks();
     });
 
-    test('should set options', () => {
-      spectator.detectChanges();
+    test('should set options correctly with base conditions', () => {
+      component.currency = 'USD';
+      component.currentEurExchangeRatio = 1.2;
+
+      component.ngOnChanges({
+        currency: new SimpleChange('EUR', 'USD', false),
+        currentEurExchangeRatio: new SimpleChange(null, 1.2, true),
+      });
 
       expect(
         component['chartConfigService'].buildDataPoints
       ).toHaveBeenCalledTimes(1);
-      expect(
-        component['chartConfigService'].getToolTipConfig
-      ).toHaveBeenCalledTimes(1);
-      expect(
-        component['chartConfigService'].getXAxisConfig
-      ).toHaveBeenCalledTimes(1);
-      expect(
-        component['chartConfigService'].getSeriesConfig
-      ).toHaveBeenCalledTimes(1);
-      expect(component['chartConfigService'].getLegend).toHaveBeenCalledTimes(
-        1
-      );
       expect(
         component['regressionService'].buildRegressionPoints
       ).toHaveBeenCalledTimes(1);
       expect(component.options).toBeDefined();
     });
 
-    test('should update options', () => {
-      spectator.detectChanges();
+    test('should not update options if base conditions are incomplete', () => {
+      component.coefficients = undefined;
 
-      spectator.setInput('transactions', []);
+      component.ngOnChanges({
+        currentEurExchangeRatio: new SimpleChange(null, 1.2, true),
+      });
 
       expect(
         component['chartConfigService'].buildDataPoints
-      ).toHaveBeenCalledTimes(2);
-      expect(
-        component['chartConfigService'].getToolTipConfig
-      ).toHaveBeenCalledTimes(2);
-      expect(
-        component['chartConfigService'].getXAxisConfig
-      ).toHaveBeenCalledTimes(2);
-      expect(
-        component['chartConfigService'].getSeriesConfig
-      ).toHaveBeenCalledTimes(2);
+      ).toHaveBeenCalledTimes(0);
       expect(
         component['regressionService'].buildRegressionPoints
-      ).toHaveBeenCalledTimes(2);
+      ).toHaveBeenCalledTimes(0);
+    });
+
+    test('should update options when currentEurExchangeRatio changes', () => {
+      component.currentEurExchangeRatio = 1.2;
+      component.ngOnChanges({
+        currentEurExchangeRatio: new SimpleChange(1.2, 1.5, false),
+      });
+
+      expect(
+        component['chartConfigService'].buildDataPoints
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        component['regressionService'].buildRegressionPoints
+      ).toHaveBeenCalledTimes(1);
       expect(component.options).toBeDefined();
     });
   });
