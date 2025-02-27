@@ -1,4 +1,41 @@
 # Release Notes of Engineering App
+## [1.14.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.13.0...ea-v1.14.0) (2025-02-27)
+
+
+### Features
+
+* **ea:** add new icon to CO2 section to indicate the new feature - UFTABI-8372 ([#6984](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6984)) ([9f1ef9f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9f1ef9f091bb2b9fbc20f9f2d9cc2a38d0d3ed49))
+* **ea:** add oil bath note (UFTABI-8568) ([#7051](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7051)) ([1953935](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/195393519ee4583789d88621df0f026cefd0785b))
+* **ea:** add partial downstream feedback changes (UFTABI-8372) ([#6952](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6952)) ([c0ac807](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c0ac807759acd4c701d839a971100d75d1d26431))
+* **ea:** add thermally safe operating speed to result  (UFTABI-8568) ([#7059](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7059)) ([1cc968d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1cc968d1a71ecac625eff55bcbcdbf9d5d2f5d94))
+* **ea:** address error description changes (UFTABI-8658) ([#7039](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7039)) ([2450bfb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2450bfb3352ca7c5f1ce0c9a6277be3d021b5a45))
+* **ea:** adjust error handling in preview  (UFTABI- 8568) ([#7018](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7018)) ([850916c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/850916cfb967b65b3f8f1df7f0229cc84c4097e9))
+* **ea:** adjust validation rules  (UFTABI-8372) ([#6959](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6959)) ([f92d310](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f92d310e1e4c61c08d848a2b11397a291ccdd52e))
+* **ea:** apply mobile adjustments for downstream functionality (UFTABI-8362) ([#6911](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6911)) ([11fb19a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/11fb19a2e81730f846f7dd6abd67cf7d863d806d))
+* **ea:** decrease width of mobile preivew ([#7053](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7053)) ([80de7d5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/80de7d5a70cf0640083cdd5c79d4598982164229))
+* **ea:** fix ambient and operating temperature fields (UFTABI-8372) ([#6996](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6996)) ([5081e98](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5081e983a46f973ca46132019f7852afc17a98df))
+* **ea:** fix catalog api payload issue (UFTABI-8568) ([#7009](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7009)) ([0d1d2f6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0d1d2f6064afe2bf1d4935372e366d7c210cde47))
+* **ea:** fix pdf rendering for upstream only input (UFTABI-8568) ([#7048](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7048)) ([e85cd8c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e85cd8c9f9e6816962471a641f140adaf5529ca0))
+* **ea:** minus sign removal for temperature fields fix (UFTABI-8568) ([#7030](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7030)) ([8fe3151](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8fe31512fe2b0221ae728fb0b7b9dc7903d71df2))
+* **ea:** new downstream CO2 calculation - UFTABI-7941 ([#6415](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6415)) ([a379682](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a379682715e78c4c52bceaff031e9b9f1c9c2fd0))
+* **ea:** update disclaimer (UFTABI- 8562)  ([#7002](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7002)) ([d9743c7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d9743c719784da7839121df5b386cb865f184c2f))
+* **ea:** update error codes and rounding (UFTABI-8568) ([#7057](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7057)) ([69be6f6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/69be6f602ff45c821df0ec72de217cc4c2c2bbb2))
+* **ea:** update pdf and result for downstream calculation  (UFTABI-8269) ([#6886](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6886)) ([463444f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/463444f74355993620ffab8f4389707a87563104))
+* **ea:** use v2 endpoint for upstream (UFTABI-8561) ([#6997](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6997)) ([f171cb8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f171cb8b65c2c18abe98c1b8de131cc9bec3f73e))
+
+
+### Bug Fixes
+
+* **ea:** fix container sizing when embedded in medias ([#6994](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6994)) ([f0853e1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f0853e162b9d147cf6f4a01bea68a0918c6c8f75))
+* **ea:** fix overlapping containers - UFTABI-8557 ([#6983](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6983)) ([a501f07](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a501f07f5741c514b50a259b85a2017dc40ad5a4))
+* **ea:** fix potential conflicts between calculation info - UFTABI-8559 ([#7006](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7006)) ([f960d8b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f960d8b2fe3537f18af752ce5d8c71be3ccba198))
+* **ea:** fix race condition with friction calculation ([#7015](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7015)) ([5d080a3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5d080a33ec292470b1ffadf2b02ccd5020c0ff32))
+* **ea:** fix result layout ([#6929](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6929)) ([976cc84](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/976cc844068deb2cc219b56037f4b52f77e3e963))
+* **ea:** flickering input hint - UFTABI-8261 ([#6721](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6721)) ([3f93bf1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3f93bf1c41c03acb0f4ddcade6f124d47971b878))
+* **ea:** hide units if there is no values (UFTABI-8362) ([#6919](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6919)) ([2e4fb6a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2e4fb6ae63b424a1e171e448a599205c4742334c))
+* **ea:** move app buttons below preview - UFTABI-8568 ([#7014](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7014)) ([2081181](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2081181ea5e01d09d239e4cb680323c79381fe85))
+* **ea:** update app preview to include mobile info ([#6754](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6754)) ([8b96f34](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8b96f34814ac45757a2abda41f0900f31385ba8e))
+
 ## [1.13.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.12.1...ea-v1.13.0) (2024-10-29)
 
 
