@@ -26,6 +26,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { HttpBearinxInterceptor } from './interceptor/http-bearinx.interceptor';
 import { HttpCatalogWebApiInterceptor } from './interceptor/http-catalog-web-api.interceptor';
 import { HttpCO2UpstreamInterceptor } from './interceptor/http-co2-upstream.interceptor';
+import { TranslocoCacheInterceptor } from './interceptor/http-transloco-cache.interceptor';
 import { getAssetsPath } from './services/assets-path-resolver/assets-path-resolver.helper';
 import { StoreModule } from './store/store.module';
 
@@ -71,6 +72,11 @@ const assetsPath = getAssetsPath();
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpCO2UpstreamInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TranslocoCacheInterceptor,
       multi: true,
     },
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
