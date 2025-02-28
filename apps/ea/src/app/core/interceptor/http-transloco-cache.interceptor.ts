@@ -15,7 +15,7 @@ export class TranslocoCacheInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (req.url.startsWith(this.assetPath)) {
+    if (req.url.includes(this.assetPath)) {
       const timestamp = Date.now();
       const modifiedUrl = `${req.url}?v=${timestamp}`;
       const modifiedReq = req.clone({ url: modifiedUrl });

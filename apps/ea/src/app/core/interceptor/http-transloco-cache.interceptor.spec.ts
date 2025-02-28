@@ -24,7 +24,7 @@ describe('TranslocoCacheInterceptor', () => {
   });
 
   it('should add a timestamp query parameter to translation file URLs', () => {
-    const url = '/assets/i18n/en.json';
+    const url = 'https://url/assets/i18n/en.json';
     spectator.service.intercept(new HttpRequest('GET', url), {
       handle: jest.fn().mockImplementation((req: HttpRequest<any>) => {
         expect(req.url).toMatch(/\/assets\/i18n\/en\.json\?v=\d+/);
