@@ -40,10 +40,8 @@ export class TransparencyGraphComponent implements OnChanges {
   }
 
   private updateOptions() {
-    if (!this.transactions || !this.coefficients || !this.currency) {
-      return;
-    }
-    if (this.currency !== 'EUR' && !this.currentEurExchangeRatio) {
+    // graph can only be drawn if these values are available
+    if (!this.transactions || !this.coefficients) {
       return;
     }
 
