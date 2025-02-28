@@ -340,6 +340,7 @@
   "calculationResultReport": {
     "dialogTitle": "베어링 {{bearingDesignation}} 보고서",
     "reportSectionInput": "입력",
+    "calculatedWith": "계산됨: {{versions}}",
     "downstreamInputs": {
       "bearing": {
         "bearingTitle": "베어링",

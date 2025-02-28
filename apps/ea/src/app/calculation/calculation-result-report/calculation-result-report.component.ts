@@ -95,6 +95,7 @@ export class CalculationResultReportComponent {
   public downstreamErrors$ = this.downstreamCalculationFacade.downstreamErrors$;
 
   public reportErrors$ = this.calculationResultFacade.getAllErrors$;
+  public bearinxVersions$ = this.calculationResultFacade.getBearinxVersions$;
 
   constructor(
     public readonly calculationResultFacade: CalculationResultFacade,

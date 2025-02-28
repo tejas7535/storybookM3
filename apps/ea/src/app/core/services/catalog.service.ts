@@ -33,6 +33,7 @@ import {
 @Injectable({ providedIn: 'root' })
 export class CatalogService {
   readonly baseUrl = `${environment.catalogApiBaseUrl}/v1/CatalogBearing`;
+  readonly bearinxVersionUrl = `${environment.bearinxApiBaseUrl}/version`;
 
   constructor(
     private readonly httpClient: HttpClient,
@@ -284,6 +285,18 @@ export class CatalogService {
         `${this.baseUrl}/product/operatingconditonstemplate/${bearingId}`
       )
       .pipe(map((result) => convertTemplateResult(result)));
+  }
+
+  public getBearinxVersions(): Observable<{ [key: string]: string }> {
+    return this.httpClient
+      .get<{ name: string; version: string }[]>(this.bearinxVersionUrl)
+      .pipe(
+        map((response) =>
+          Object.fromEntries(
+            response.map(({ name, version }) => [name, version])
+          )
+        )
+      );
   }
 
   private getLoadCasesData(

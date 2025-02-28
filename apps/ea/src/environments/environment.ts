@@ -4,6 +4,7 @@ export const environment: Environment = {
   production: false,
   localDev: true,
   devToolsEnabled: true,
+  bearinxApiBaseUrl: 'https://bearinx-d.schaeffler.com/api',
   catalogApiBaseUrl: 'https://bearinx-d.schaeffler.com/catalogue/api',
   frictionApiBaseUrl: 'https://bearinx-d.schaeffler.com/co_api',
   co2UpstreamApiBaseUrl: 'https://co2-api-d.dev.dp.schaeffler/api/v2/',

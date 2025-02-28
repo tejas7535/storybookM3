@@ -32,3 +32,16 @@ export const setCalculationResult = createAction(
 export const resetCalculationResult = createAction(
   '[Catalog Calculation Result] Reset Calculation Result'
 );
+
+export const fetchBearinxVersions = createAction(
+  '[Catalog Calculation Result] Fetch Bearinx Versions'
+);
+
+export const setBearinxVersions = createAction(
+  '[Catalog Calculation Result] Set Bearinx Versions',
+  props<{ versions: { [key: string]: string } }>()
+);
+
+export const unsetBearinxVersions = createAction(
+  '[Catalog Calculation Result] Unset Bearinx Versions'
+);

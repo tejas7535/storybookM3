@@ -340,6 +340,7 @@
   "calculationResultReport": {
     "dialogTitle": "Relatório para o rolamento {{bearingDesignation}}",
     "reportSectionInput": "Entrada",
+    "calculatedWith": "Calculado com {{versions}}",
     "downstreamInputs": {
       "bearing": {
         "bearingTitle": "Rolamento",

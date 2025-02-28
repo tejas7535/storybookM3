@@ -134,4 +134,35 @@ describe('catalogCalculationResultReducer', () => {
       });
     });
   });
+
+  describe('Bearinx Versions', () => {
+    it('should set bearinx versions', () => {
+      const newState = catalogCalculationResultReducer(
+        initialState,
+        CatalogCalculationResultActions.setBearinxVersions({
+          versions: { abc: '123' },
+        })
+      );
+
+      expect(newState).toEqual({
+        ...initialState,
+        versions: { abc: '123' },
+      });
+    });
+
+    it('should unset bearinx versions', () => {
+      const newState = catalogCalculationResultReducer(
+        {
+          ...initialState,
+          versions: { abc: '123' },
+        },
+        CatalogCalculationResultActions.unsetBearinxVersions()
+      );
+
+      expect(newState).toEqual({
+        ...initialState,
+        versions: undefined,
+      });
+    });
+  });
 });

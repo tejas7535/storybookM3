@@ -14,6 +14,7 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
 import {
   CalculationTypesActions,
+  CatalogCalculationResultActions,
   CO2UpstreamCalculationResultActions,
   ProductSelectionActions,
 } from '../../actions';
@@ -35,6 +36,7 @@ export class ProductSelectionEffects {
         ProductSelectionActions.fetchBearingCapabilities(),
         ProductSelectionActions.fetchCalculationModuleInfo(),
         ProductSelectionActions.fetchCanCalculate(),
+        CatalogCalculationResultActions.fetchBearinxVersions(),
       ])
     );
   });

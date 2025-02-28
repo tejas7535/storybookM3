@@ -340,6 +340,7 @@
   "calculationResultReport": {
     "dialogTitle": "Отчет для подшипника {{bearingDesignation}}",
     "reportSectionInput": "Ввод",
+    "calculatedWith": "Рассчитано с {{versions}}",
     "downstreamInputs": {
       "bearing": {
         "bearingTitle": "Подшипник",

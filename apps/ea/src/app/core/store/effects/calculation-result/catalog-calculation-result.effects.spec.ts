@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 import { CatalogService } from '@ea/core/services/catalog.service';
 import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
@@ -23,6 +23,7 @@ import { CatalogCalculationResultEffects } from './catalog-calculation-result.ef
 const catalogServiceMock = {
   getBasicFrequencies: jest.fn(),
   getCalculationResult: jest.fn(),
+  getBearinxVersions: jest.fn(),
 };
 
 const trackingServiceMock = {
@@ -169,6 +170,50 @@ describe('Catalog Calculation Result Effects', () => {
           5,
           'some calculation error'
         );
+        expect(fetchSpy).toHaveBeenCalled();
+      })();
+    });
+  });
+
+  describe('fetchBearinxVersions', () => {
+    it('should fetch the bearinx versions', () => {
+      const fetchSpy = jest
+        .spyOn(catalogServiceMock, 'getBearinxVersions')
+        .mockImplementation(() => of({ abc: '123' }));
+
+      return marbles((m) => {
+        action = CatalogCalculationResultActions.fetchBearinxVersions();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', {
+          b: CatalogCalculationResultActions.setBearinxVersions({
+            versions: { abc: '123' },
+          }),
+        });
+
+        m.expect(effects.fetchBearinxVersion$).toBeObservable(expected);
+        m.flush();
+
+        expect(fetchSpy).toHaveBeenCalled();
+      })();
+    });
+
+    it('should unset bearinx versions on error', () => {
+      const fetchSpy = jest
+        .spyOn(catalogServiceMock, 'getBearinxVersions')
+        .mockImplementation(() => throwError(() => 'error'));
+
+      return marbles((m) => {
+        action = CatalogCalculationResultActions.fetchBearinxVersions();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', {
+          b: CatalogCalculationResultActions.unsetBearinxVersions(),
+        });
+
+        m.expect(effects.fetchBearinxVersion$).toBeObservable(expected);
+        m.flush();
+
         expect(fetchSpy).toHaveBeenCalled();
       })();
     });

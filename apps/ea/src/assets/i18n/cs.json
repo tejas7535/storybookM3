@@ -340,6 +340,7 @@
   "calculationResultReport": {
     "dialogTitle": "Zpráva pro ložisko {{bearingDesignation}}",
     "reportSectionInput": "Vstup",
+    "calculatedWith": "Vypočítáno s {{versions}}",
     "downstreamInputs": {
       "bearing": {
         "bearingTitle": "Ložisko",

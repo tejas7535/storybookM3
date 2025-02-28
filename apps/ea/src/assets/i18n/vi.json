@@ -340,6 +340,7 @@
   "calculationResultReport": {
     "dialogTitle": "Báo cáo về vòng bi {{bearDesignation}}",
     "reportSectionInput": "Thông tin đầu vào",
+    "calculatedWith": "Tính toán với {{versions}}",
     "downstreamInputs": {
       "bearing": {
         "bearingTitle": "Vòng bi",

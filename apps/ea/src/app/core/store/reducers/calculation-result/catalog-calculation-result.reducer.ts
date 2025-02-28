@@ -60,6 +60,22 @@ export const catalogCalculationResultReducer = createReducer(
       ...state,
       result: undefined,
     })
+  ),
+
+  on(
+    CatalogCalculationResultActions.setBearinxVersions,
+    (state, { versions }): CatalogCalculationResultState => ({
+      ...state,
+      versions,
+    })
+  ),
+
+  on(
+    CatalogCalculationResultActions.unsetBearinxVersions,
+    (state): CatalogCalculationResultState => ({
+      ...state,
+      versions: undefined,
+    })
   )
 );
 

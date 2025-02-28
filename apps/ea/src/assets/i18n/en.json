@@ -343,6 +343,7 @@
   "calculationResultReport": {
     "dialogTitle": "Report for bearing {{bearingDesignation}}",
     "reportSectionInput": "Input",
+    "calculatedWith": "Calculated with {{versions}}",
     "downstreamInputs": {
       "bearing": {
         "bearingTitle": "Bearing",

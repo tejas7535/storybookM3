@@ -28,3 +28,13 @@ export const isCalculationResultAvailable = createSelector(
   getError,
   (state, error): boolean => !error && !!state
 );
+
+export const getVersions = createSelector(
+  getCatalogCalculationResultState,
+  (state): string | undefined =>
+    state.versions && Object.keys(state.versions).length > 0
+      ? Object.entries(state.versions)
+          .map(([key, value]) => `${key} ${value}`)
+          .join(' / ')
+      : undefined
+);

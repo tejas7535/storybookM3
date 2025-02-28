@@ -38,6 +38,8 @@ export const renderNotices = (
     options.headerSpacing.top +
     options.headerSpacing.bottom;
   let y = block.yStart;
+  const versionText: string | undefined =
+    (block.blockProps?.versionText as string) || undefined;
 
   if (!block.dryRun) {
     doc.setFont(props.fonts.family, props.fonts.style.bold);
@@ -69,14 +71,22 @@ export const renderNotices = (
   const errors = getItemLines(doc, block.data.data.errors.data, innerWidth);
   const warnings = getItemLines(doc, block.data.data.warnings.data, innerWidth);
   const notices = getItemLines(doc, block.data.data.notes.data, innerWidth);
+  const versionSuffix = versionText
+    ? getItemLines(doc, [versionText], innerWidth)
+    : [];
 
-  const totalHeight = getLinesHeight(doc, [...errors, ...warnings, ...notices]);
+  const totalHeight = getLinesHeight(doc, [
+    ...errors,
+    ...warnings,
+    ...notices,
+    ...versionSuffix,
+  ]);
   const headersHeight = getHeadersHeight(block.data.data);
 
   const borderHeight =
     headerDivierY -
     block.yStart +
-    2 * options.cellPadding.top +
+    (versionText ? 3 : 2) * options.cellPadding.top +
     totalHeight +
     options.cellPadding.bottom +
     headersHeight;
@@ -92,7 +102,8 @@ export const renderNotices = (
 
     y = processNotices(doc, errors, block.data.data.errors.header, y);
     y = processNotices(doc, warnings, block.data.data.warnings.header, y);
-    processNotices(doc, notices, block.data.data.notes.header, y);
+    y = processNotices(doc, notices, block.data.data.notes.header, y);
+    processNotices(doc, versionSuffix, undefined, y);
   }
   const r: LayoutEvaluationResult<typeof block.data> =
     borderHeight <= block.maxHeight
@@ -146,7 +157,7 @@ const setHeaderFontStyle = (doc: jsPDF) => {
 const processNotices = (
   doc: jsPDF,
   notices: string[],
-  header: string,
+  header: string | undefined,
   y: number
 ): number => {
   const props = DefaultComponentRenderProps;
@@ -155,12 +166,16 @@ const processNotices = (
 
   if (notices.length > 0) {
     setHeaderFontStyle(doc);
-    doc.text(
-      header,
-      props.dimensions.pageMargin + options.cellPadding.left,
-      yPosition
-    );
-    const headerHeight = doc.getTextDimensions(header).h + headerSpacing;
+    if (header) {
+      doc.text(
+        header,
+        props.dimensions.pageMargin + options.cellPadding.left,
+        yPosition
+      );
+    }
+    const headerHeight = header
+      ? doc.getTextDimensions(header).h + headerSpacing
+      : 0;
     yPosition += headerHeight;
     resetFont(doc);
 

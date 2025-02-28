@@ -340,6 +340,7 @@
   "calculationResultReport": {
     "dialogTitle": "ベアリング {{bearingDesignation}} のレポート",
     "reportSectionInput": "入力",
+    "calculatedWith": "計算方式：{{versions}}",
     "downstreamInputs": {
       "bearing": {
         "bearingTitle": "ベアリング",

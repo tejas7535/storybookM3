@@ -1,9 +1,12 @@
 import {
   downloadBasicFrequencies,
   fetchBasicFrequencies,
+  fetchBearinxVersions,
   resetCalculationResult,
   setBasicFrequenciesResult,
+  setBearinxVersions,
   setCalculationFailure,
+  unsetBearinxVersions,
 } from './catalog-calculation-result.actions';
 
 describe('Catalog Calculation Result Actions', () => {
@@ -63,6 +66,37 @@ describe('Catalog Calculation Result Actions', () => {
 
       expect(action).toEqual({
         type: '[Catalog Calculation Result] Reset Calculation Result',
+      });
+    });
+  });
+
+  describe('Fetch Bearinx Versions', () => {
+    it('fetchBearinxVersions', () => {
+      const action = fetchBearinxVersions();
+
+      expect(action).toEqual({
+        type: '[Catalog Calculation Result] Fetch Bearinx Versions',
+      });
+    });
+  });
+
+  describe('Set Bearinx Versions', () => {
+    it('setBearinxVersions', () => {
+      const action = setBearinxVersions({ versions: { abc: '123' } });
+
+      expect(action).toEqual({
+        type: '[Catalog Calculation Result] Set Bearinx Versions',
+        versions: { abc: '123' },
+      });
+    });
+  });
+
+  describe('Unset Bearinx Versions', () => {
+    it('unsetBearinxVersions', () => {
+      const action = unsetBearinxVersions();
+
+      expect(action).toEqual({
+        type: '[Catalog Calculation Result] Unset Bearinx Versions',
       });
     });
   });

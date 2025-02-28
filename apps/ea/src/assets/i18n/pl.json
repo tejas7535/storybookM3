@@ -340,6 +340,7 @@
   "calculationResultReport": {
     "dialogTitle": "Raport dla łożyska {{bearingDesignation}}",
     "reportSectionInput": "Dane wejściowe",
+    "calculatedWith": "Obliczone z {{versions}}",
     "downstreamInputs": {
       "bearing": {
         "bearingTitle": "Łożysko",

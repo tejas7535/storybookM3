@@ -5,6 +5,7 @@ import {
 
 import {
   getBasicFrequencies,
+  getVersions,
   isCalculationResultAvailable,
   isLoading,
 } from './catalog-calculation-result.selector';
@@ -47,6 +48,47 @@ describe('Catalog Calculation Result Selector', () => {
           },
         })
       ).toEqual(true);
+    });
+  });
+
+  describe('getVersions', () => {
+    it('should return undefined if there are no versions', () => {
+      expect(
+        getVersions({
+          ...mockState,
+          catalogCalculationResult: {
+            ...mockState.catalogCalculationResult,
+            versions: undefined,
+          },
+        })
+      ).toBeUndefined();
+    });
+
+    it('should return undefined if the versions object is empty', () => {
+      expect(
+        getVersions({
+          ...mockState,
+          catalogCalculationResult: {
+            ...mockState.catalogCalculationResult,
+            versions: {},
+          },
+        })
+      ).toBeUndefined();
+    });
+
+    it('should return the versions as a string', () => {
+      expect(
+        getVersions({
+          ...mockState,
+          catalogCalculationResult: {
+            ...mockState.catalogCalculationResult,
+            versions: {
+              '1': 'v1',
+              '2': 'v2',
+            },
+          },
+        })
+      ).toEqual('1 v1 / 2 v2');
     });
   });
 });

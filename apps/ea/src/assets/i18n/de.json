@@ -343,6 +343,7 @@
   "calculationResultReport": {
     "dialogTitle": "Bericht für Lager {{bearingDesignation}}",
     "reportSectionInput": "Eingabe",
+    "calculatedWith": "Berechnet mit {{versions}}",
     "downstreamInputs": {
       "bearing": {
         "bearingTitle": "Lager",

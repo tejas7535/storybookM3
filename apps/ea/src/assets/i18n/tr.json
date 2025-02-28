@@ -340,6 +340,7 @@
   "calculationResultReport": {
     "dialogTitle": "Rulman {{bearingDesignation}} için rapor",
     "reportSectionInput": "Giriş",
+    "calculatedWith": "Hesaplandı {{versions}}",
     "downstreamInputs": {
       "bearing": {
         "bearingTitle": "Rulman",

@@ -13,6 +13,7 @@ import {
 } from '../../selectors/calculation-result/calculation-result-report.selector';
 import {
   getError as getCatalogCalculationError,
+  getVersions,
   isLoading,
 } from '../../selectors/calculation-result/catalog-calculation-result.selector';
 
@@ -115,6 +116,8 @@ export class CalculationResultFacade {
   public readonly getSelectedCalculations$ = this.store.select(
     getSelectedCalculations
   );
+
+  public readonly getBearinxVersions$ = this.store.select(getVersions);
 
   constructor(private readonly store: Store) {}
 

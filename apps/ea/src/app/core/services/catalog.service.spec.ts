@@ -38,6 +38,7 @@ describe('CatalogService', () => {
   let spectator: SpectatorService<CatalogService>;
   let httpMock: HttpTestingController;
   const baseUrl = `${environment.catalogApiBaseUrl}/v1/CatalogBearing`;
+  const bearinxVersionUrl = `${environment.bearinxApiBaseUrl}/version`;
 
   const createService = createServiceFactory({
     service: CatalogService,
@@ -171,6 +172,30 @@ describe('CatalogService', () => {
       expect(
         firstValueFrom(catalogService.getBasicFrequencies(undefined))
       ).rejects.toThrow());
+  });
+
+  describe('getBearinxVersions', () => {
+    it('should call the service to get bearinx versions', waitForAsync(() => {
+      const mockResult = [
+        {
+          name: 'bearinx',
+          version: '1',
+        },
+      ];
+
+      const expected = {
+        bearinx: '1',
+      };
+
+      firstValueFrom(catalogService.getBearinxVersions()).then((res) => {
+        expect(res).toEqual(expected);
+      });
+
+      const req = httpMock.expectOne(bearinxVersionUrl);
+      expect(req.request.method).toBe('GET');
+
+      req.flush(mockResult);
+    }));
   });
 
   describe('getBasicFrequenciesPdf', () => {

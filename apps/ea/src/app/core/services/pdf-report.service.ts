@@ -100,6 +100,19 @@ export class PDFReportService {
       this.resultFacade.calculationReportNotes$
     );
 
+    const versionText: string | undefined = await firstValueFrom(
+      this.resultFacade.getBearinxVersions$.pipe(
+        map((versions) =>
+          versions
+            ? this.translocoService.translate(
+                'calculationResultReport.calculatedWith',
+                { versions }
+              )
+            : undefined
+        )
+      )
+    );
+
     const combinedNotices: Notices = {
       errors: {
         header: this.translocoService.translate(
@@ -136,11 +149,13 @@ export class PDFReportService {
       ),
       data: combinedNotices,
     };
+
     const data: ResultReport = {
       designation,
       calculationMethods,
       calculationInput,
       notices,
+      versionText,
     };
 
     for (const method of calculationMethods) {

@@ -143,4 +143,5 @@ export interface ResultReport {
   overrollingFrequency?: ResultBlock<ResultReportLargeItem[]>;
   ratingLife?: ResultBlock<ResultReportLargeItem[]>;
   notices: ResultBlock<Notices>;
+  versionText?: string;
 }

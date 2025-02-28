@@ -340,6 +340,7 @@
   "calculationResultReport": {
     "dialogTitle": "รายงานสำหรับตลับลูกปืน {{bearingDesignation}}",
     "reportSectionInput": "อินพุต",
+    "calculatedWith": "คำนวณด้วย {{versions}}",
     "downstreamInputs": {
       "bearing": {
         "bearingTitle": "ตลับลูกปืน",

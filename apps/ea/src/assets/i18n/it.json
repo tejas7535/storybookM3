@@ -340,6 +340,7 @@
   "calculationResultReport": {
     "dialogTitle": "Report per cuscinetto {{bearingDesignation}}",
     "reportSectionInput": "Input",
+    "calculatedWith": "Calcolato con {{versions}}",
     "downstreamInputs": {
       "bearing": {
         "bearingTitle": "Cuscinetto",

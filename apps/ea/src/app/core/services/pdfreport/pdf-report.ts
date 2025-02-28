@@ -66,7 +66,9 @@ export class PDFREport {
     }
 
     if (hasBearinxCalculation && this.containsNotices(this.data.notices.data)) {
-      verticalLayout.add('notices', this.data.notices);
+      verticalLayout.add('notices', this.data.notices, {
+        props: { versionText: this.data.versionText },
+      });
     }
 
     verticalLayout.loop();

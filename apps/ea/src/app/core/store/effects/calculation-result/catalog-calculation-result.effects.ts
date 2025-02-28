@@ -130,6 +130,28 @@ export class CatalogCalculationResultEffects {
     );
   });
 
+  public fetchBearinxVersion$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CatalogCalculationResultActions.fetchBearinxVersions),
+      switchMap(() =>
+        this.catalogService.getBearinxVersions().pipe(
+          takeUntil(
+            // cancel request if action is called again
+            this.actions$.pipe(
+              ofType(CatalogCalculationResultActions.fetchBearinxVersions)
+            )
+          ),
+          switchMap((versions) => [
+            CatalogCalculationResultActions.setBearinxVersions({ versions }),
+          ]),
+          catchError(() =>
+            of(CatalogCalculationResultActions.unsetBearinxVersions())
+          )
+        )
+      )
+    );
+  });
+
   constructor(
     private readonly actions$: Actions,
     private readonly catalogService: CatalogService,

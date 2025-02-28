@@ -340,6 +340,7 @@
   "calculationResultReport": {
     "dialogTitle": "轴承 {{bearingDesignation}} 的报告",
     "reportSectionInput": "输入",
+    "calculatedWith": "使用 {{versions}} 计算",
     "downstreamInputs": {
       "bearing": {
         "bearingTitle": "轴承",
