@@ -22,7 +22,10 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
 import { SettingsFacade } from '@ga/core/store';
-import { getCalculation } from '@ga/core/store/actions/calculation-result/calculation-result.actions';
+import {
+  fetchBearinxVersions,
+  getCalculation,
+} from '@ga/core/store/actions/calculation-result/calculation-result.actions';
 import { ENV, getEnv } from '@ga/environments/environments.provider';
 import { MediasButtonComponent } from '@ga/shared/components/medias-button';
 import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
@@ -63,7 +66,11 @@ describe('CalculationResultComponent', () => {
       MockModule(MatTooltipModule),
     ],
     providers: [
-      provideMockStore(),
+      provideMockStore({
+        initialState: {
+          calculationResult: {},
+        },
+      }),
       {
         provide: translate,
         useValue: jest.fn(),
@@ -122,6 +129,7 @@ describe('CalculationResultComponent', () => {
     it('should dispatch action', () => {
       component.ngOnInit();
 
+      expect(store.dispatch).toHaveBeenCalledWith(fetchBearinxVersions());
       expect(store.dispatch).toHaveBeenCalledWith(getCalculation());
     });
 

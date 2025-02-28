@@ -373,6 +373,7 @@
     "preferredGreaseHintAlternativeTooltip": "이는 2단계의 입력을 기반으로 하는 Schaeffler 제품 포트폴리오의 대체 제품입니다.",
     "poweredBy": "powered by",
     "pdfDownload": "PDF 다운로드",
+    "calculatedWith": "계산됨: {{versions}}",
     "recommendedChip": "추천됨",
     "resultsWithRecommendation": "결과는 추천 및 재윤활 간격에 따라 정렬됩니다",
     "noRecommendation": "제공된 매개변수는 주어진 응용 프로그램에 대해 비정상적입니다. 연락하십시오.",

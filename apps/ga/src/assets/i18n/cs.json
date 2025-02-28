@@ -373,6 +373,7 @@
     "preferredGreaseHintAlternativeTooltip": "Toto je alternativní výrobek z&nbsp;portfolia výrobků společnosti Schaeffler na základě jejich údajů z&nbsp;kroku&nbsp;2.",
     "poweredBy": "powered by",
     "pdfDownload": "Stáhnout PDF",
+    "calculatedWith": "Vypočítáno s {{versions}}",
     "recommendedChip": "Doporučeno",
     "resultsWithRecommendation": "Výsledky jsou řazeny podle doporučení a intervalu přemazání",
     "noRecommendation": "Poskytnuté parametry jsou neobvyklé pro danou aplikaci. Prosím, kontaktujte nás.",

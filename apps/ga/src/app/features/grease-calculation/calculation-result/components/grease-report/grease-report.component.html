@@ -213,6 +213,13 @@
       }
     }
   }
+  @if (isMessagesSection(subordinate.titleID) && versions) {
+    <div *transloco="let t; read: 'calculationResult'">
+      <span class="text-body-small">{{
+        t('calculatedWith', { versions })
+      }}</span>
+    </div>
+  }
 </ng-template>
 
 @if (isAppEmbedded$ | ngrxPush) {

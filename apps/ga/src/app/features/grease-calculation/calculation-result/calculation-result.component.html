@@ -63,6 +63,7 @@
             [greaseReportUrl]="reportUrls.jsonReportUrl"
             [preferredGreaseResult]="preferredGreaseSelection$ | ngrxPush"
             [automaticLubrication]="automaticLubrication$ | ngrxPush"
+            [versions]="bearinxVersions$ | ngrxPush"
           ></ga-grease-report>
         }
         @if (!showCompactView) {

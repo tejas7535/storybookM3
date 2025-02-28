@@ -288,6 +288,7 @@
       "backButton": "Betriebsbedingungen ändern",
       "247hint": "Alle Ergebnisse beziehen sich auf durchgehenden 24/7 Betrieb."
     },
+    "calculatedWith": "Berechnet mit {{versions}}",
     "recommendedChip": "Empfohlen",
     "showCompactView": "Anzeige mit kompakter Darstellung",
     "reportSectionInput": "Eingaben",

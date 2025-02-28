@@ -373,6 +373,7 @@
     "preferredGreaseHintAlternativeTooltip": "Đây là sản phẩm thay thế từ danh mục sản phẩm của Schaeffler dựa trên thông tin đầu vào từ bước 2.",
     "poweredBy": "powered by",
     "pdfDownload": "Tải xuống bản PDF",
+    "calculatedWith": "Tính toán với {{versions}}",
     "recommendedChip": "Được đề xuất",
     "resultsWithRecommendation": "Kết quả được sắp xếp theo đề xuất và khoảng thời gian bôi trơn lại",
     "noRecommendation": "Các thông số được cung cấp là không bình thường cho ứng dụng đã cho. Xin vui lòng liên hệ với chúng tôi.",

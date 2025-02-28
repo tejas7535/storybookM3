@@ -4,8 +4,11 @@ import {
   addResultMessage,
   calculationError,
   calculationSuccess,
+  fetchBearinxVersions,
   getCalculation,
+  setBearinxVersions,
   setResultMessage,
+  unsetBearinxVersions,
 } from './calculation-result.actions';
 
 describe('Calculation Result Actions', () => {
@@ -53,6 +56,37 @@ describe('Calculation Result Actions', () => {
       expect(action).toEqual({
         type: '[Calculation Reuslt] Add result message',
         message,
+      });
+    });
+  });
+
+  describe('Fetch Bearinx Versions', () => {
+    it('fetchBearinxVersions', () => {
+      const action = fetchBearinxVersions();
+
+      expect(action).toEqual({
+        type: '[Calculation Result] Fetch Bearinx Versions',
+      });
+    });
+  });
+
+  describe('Set Bearinx Versions', () => {
+    it('setBearinxVersions', () => {
+      const action = setBearinxVersions({ versions: { abc: '123' } });
+
+      expect(action).toEqual({
+        type: '[Calculation Result] Set Bearinx Versions',
+        versions: { abc: '123' },
+      });
+    });
+  });
+
+  describe('Unset Bearinx Versions', () => {
+    it('unsetBearinxVersions', () => {
+      const action = unsetBearinxVersions();
+
+      expect(action).toEqual({
+        type: '[Calculation Result] Unset Bearinx Versions',
       });
     });
   });

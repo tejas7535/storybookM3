@@ -5,7 +5,9 @@ import {
   calculationError,
   calculationSuccess,
   getCalculation,
+  setBearinxVersions,
   setResultMessage,
+  unsetBearinxVersions,
 } from '@ga/core/store/actions';
 import { CalculationResultState } from '@ga/core/store/models';
 
@@ -52,6 +54,20 @@ export const calculationResultReducer = createReducer(
     (state, { message }): CalculationResultState => ({
       ...state,
       messages: [message, ...state.messages],
+    })
+  ),
+  on(
+    setBearinxVersions,
+    (state, { versions }): CalculationResultState => ({
+      ...state,
+      versions,
+    })
+  ),
+  on(
+    unsetBearinxVersions,
+    (state): CalculationResultState => ({
+      ...state,
+      versions: undefined,
     })
   )
 );

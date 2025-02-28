@@ -288,6 +288,7 @@
       "backButton": "Change operating conditions",
       "247hint": "All results refer to continuous 24/7 operation."
     },
+    "calculatedWith": "Calculated with {{ versions }}",
     "recommendedChip": "Recommended",
     "showCompactView": "Show compact view",
     "reportSectionInput": "Input",

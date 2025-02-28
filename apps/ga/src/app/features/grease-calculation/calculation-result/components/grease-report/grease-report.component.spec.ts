@@ -138,6 +138,24 @@ describe('GreaseReportComponent', () => {
     });
   });
 
+  describe('isMessagesSection', () => {
+    it('should return true if the titleID is the message titleID', () => {
+      const result = component.isMessagesSection(
+        GreaseReportSubordinateTitle.STRING_NOTE_BLOCK
+      );
+
+      expect(result).toBeTruthy();
+    });
+
+    it('should return false if the titleID is not the message titleID', () => {
+      const result = component.isMessagesSection(
+        GreaseReportSubordinateTitle.STRING_OUTP_INPUT
+      );
+
+      expect(result).toBeFalsy();
+    });
+  });
+
   describe('toggleLimitResults', () => {
     it('should toggle the limitResults component var', () => {
       component.limitResults = false;

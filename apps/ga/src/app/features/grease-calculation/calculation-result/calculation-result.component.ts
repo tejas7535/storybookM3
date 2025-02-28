@@ -10,12 +10,18 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
 import { getSelectedBearing, SettingsFacade } from '@ga/core/store';
-import { getCalculation } from '@ga/core/store/actions/calculation-result/calculation-result.actions';
+import {
+  fetchBearinxVersions,
+  getCalculation,
+} from '@ga/core/store/actions/calculation-result/calculation-result.actions';
 import {
   getAutomaticLubrication,
   getPreferredGreaseSelection,
 } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
-import { getReportUrls } from '@ga/core/store/selectors/calculation-result/calculation-result.selector';
+import {
+  getReportUrls,
+  getVersions,
+} from '@ga/core/store/selectors/calculation-result/calculation-result.selector';
 import { Environment } from '@ga/environments/environment.model';
 import { ENV } from '@ga/environments/environments.provider';
 import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
@@ -45,6 +51,7 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
   public automaticLubrication$ = this.store.select(getAutomaticLubrication);
   public appIsEmbedded$ = this.settingsFacade.appIsEmbedded$;
   public partnerVersion$ = this.settingsFacade.partnerVersion$;
+  public bearinxVersions$ = this.store.select(getVersions);
 
   private currentLanguage!: string;
   private reportUrlsSubscription!: Subscription;
@@ -64,6 +71,7 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.store.dispatch(fetchBearinxVersions());
     this.store.dispatch(getCalculation());
 
     this.reportUrlsSubscription = this.store
@@ -150,12 +158,15 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
       return sub;
     });
 
+    const versions = await firstValueFrom(this.bearinxVersions$);
+
     this.greaseReportGeneratorService.generateReport({
       reportTitle,
       sectionSubTitle: hint,
       data: reportData,
       legalNote: this.greaseReport.legalNote,
       automaticLubrication: this.greaseReport.automaticLubrication,
+      versions,
     });
     this.appInsightsService.logEvent(TRACKING_PDF_DOWNLOAD, {
       selectedBearing,

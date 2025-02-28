@@ -83,6 +83,7 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
   @Input() public greaseReportUrl = '';
   @Input() public preferredGreaseResult?: PreferredGreaseResult;
   @Input() public automaticLubrication = false;
+  @Input() public versions?: string;
 
   public resultsLimit = 3;
   public limitResults = true;
@@ -145,6 +146,10 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
 
   public isInputSection = (subordinate: GreaseReportSubordinate): boolean =>
     subordinate?.titleID === GreaseReportSubordinateTitle.STRING_OUTP_INPUT;
+
+  public isMessagesSection = (
+    titleID: GreaseReportSubordinateTitle | string | undefined
+  ): boolean => titleID === GreaseReportSubordinateTitle.STRING_NOTE_BLOCK;
 
   public toggleLimitResults(): void {
     this.limitResults = !this.limitResults;

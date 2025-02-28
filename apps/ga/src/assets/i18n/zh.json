@@ -383,6 +383,7 @@
     "preferredGreaseHintAlternativeTooltip": "这是根据您在第2步中的输入，从舍弗勒的产品组合中选择的一种产品。",
     "poweredBy": "powered by",
     "pdfDownload": "PDF下载",
+    "calculatedWith": "使用 {{versions}} 计算",
     "recommendedChip": "推荐",
     "resultsWithRecommendation": "结果按推荐和再润滑间隔排序",
     "noRecommendation": "对于给定应用程序，所提供的参数不正常。请联系我们。",

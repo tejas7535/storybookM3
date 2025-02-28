@@ -10,6 +10,7 @@ import {
   getReportUrls,
   getResultId,
   getResultMessages,
+  getVersions,
   hasResultMessage,
 } from './calculation-result.selector';
 
@@ -43,6 +44,47 @@ describe('Calculation Result Selector', () => {
       expect(getResultMessages(mockState)).toEqual([
         { translationKey: 'test' },
       ]);
+    });
+  });
+
+  describe('getVersions', () => {
+    it('should return undefined if there are no versions', () => {
+      expect(
+        getVersions({
+          ...mockState,
+          calculationResult: {
+            ...mockState.calculationResult,
+            versions: undefined,
+          },
+        })
+      ).toBeUndefined();
+    });
+
+    it('should return undefined if the versions object is empty', () => {
+      expect(
+        getVersions({
+          ...mockState,
+          calculationResult: {
+            ...mockState.calculationResult,
+            versions: {},
+          },
+        })
+      ).toBeUndefined();
+    });
+
+    it('should return the versions as a string', () => {
+      expect(
+        getVersions({
+          ...mockState,
+          calculationResult: {
+            ...mockState.calculationResult,
+            versions: {
+              '1': 'v1',
+              '2': 'v2',
+            },
+          },
+        })
+      ).toEqual('1 v1 / 2 v2');
     });
   });
 });

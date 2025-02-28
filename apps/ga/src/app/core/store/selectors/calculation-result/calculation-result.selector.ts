@@ -31,3 +31,13 @@ export const getResultMessages = createSelector(
   getCalculationResultState,
   (state) => state.messages
 );
+
+export const getVersions = createSelector(
+  getCalculationResultState,
+  (state): string | undefined =>
+    state.versions && Object.keys(state.versions).length > 0
+      ? Object.entries(state.versions)
+          .map(([key, value]) => `${key} ${value}`)
+          .join(' / ')
+      : undefined
+);

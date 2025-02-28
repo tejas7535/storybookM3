@@ -111,7 +111,7 @@ export class GreaseReportPdfGeneratorService {
     this.generateInputSection(doc, report.data);
 
     this.generateResultSection(doc, report);
-    this.generateErrorsAndWarningsSection(doc, report.data);
+    this.generateErrorsAndWarningsSection(doc, report.data, report.versions);
 
     this.generateHeaderAndFooterSectionsOnEveryPage(doc, report, currentDate);
 
@@ -495,7 +495,8 @@ export class GreaseReportPdfGeneratorService {
 
   private generateErrorsAndWarningsSection(
     doc: jsPDF,
-    greaseReportData: GreaseReportSubordinate[]
+    greaseReportData: GreaseReportSubordinate[],
+    versions?: string
   ): void {
     this.addNewPage(doc);
     const data: GreasePdfMessage =
@@ -510,6 +511,16 @@ export class GreaseReportPdfGeneratorService {
       this.printSubTitle(message.title, doc);
       this.formatAndPrintMultipleTextLines(message.items, doc);
     });
+
+    if (versions) {
+      this.updateCurrentLineWithCurrentYPostionAndStandardSpacing(doc);
+      this.printTextLine(
+        doc,
+        this.translocoService.translate('calculationResult.calculatedWith', {
+          versions,
+        })
+      );
+    }
   }
 
   private printSectionTitle(title: string, doc: jsPDF): void {

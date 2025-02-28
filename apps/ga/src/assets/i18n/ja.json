@@ -374,6 +374,7 @@
     "preferredGreaseHintAlternativeTooltip": "これは、ステップ2の入力に基づいた、シェフラー製品群からの代替品です。",
     "poweredBy": "powered by",
     "pdfDownload": "pdfダウンロード",
+    "calculatedWith": "計算方式：{{versions}}",
     "recommendedChip": "推奨",
     "resultsWithRecommendation": "結果は、推奨と再給油間隔によってソートされます",
     "noRecommendation": "提供されたパラメーターは、指定されたアプリケーションでは異常です。お問い合わせください。",

@@ -373,6 +373,7 @@
     "preferredGreaseHintAlternativeTooltip": "นี่คือผลิตภัณฑ์ทางเลือกจากแฟ้มผลิตภัณฑ์ของแชฟฟ์เลอร์ ซึ่งอ้างอิงตามอินพุตจากขั้นตอนที่ 2",
     "poweredBy": "powered by",
     "pdfDownload": "ดาวน์โหลด PDF",
+    "calculatedWith": "คำนวณด้วย {{versions}}",
     "recommendedChip": "แนะนำ",
     "resultsWithRecommendation": "ผลลัพธ์จะเรียงตามคำแนะนำและช่วงเวลาการหล่อลื่นใหม่",
     "noRecommendation": "พารามิเตอร์ที่ให้มาไม่ปกติสำหรับการใช้งานที่กำหนด โปรดติดต่อเรา",

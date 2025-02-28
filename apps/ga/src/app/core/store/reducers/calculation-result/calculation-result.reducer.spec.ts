@@ -5,7 +5,9 @@ import {
   calculationError,
   calculationSuccess,
   getCalculation,
+  setBearinxVersions,
   setResultMessage,
+  unsetBearinxVersions,
 } from '@ga/core/store/actions';
 import { CALCULATION_RESULT_MOCK_ID } from '@ga/testing/mocks';
 
@@ -77,6 +79,37 @@ describe('calculationResultReducer', () => {
       const state = calculationResultReducer(initialState, action);
 
       expect(state.messages).toEqual([resultMessages[0]]);
+    });
+  });
+
+  describe('Bearinx Versions', () => {
+    it('should set bearinx versions', () => {
+      const newState = calculationResultReducer(
+        initialState,
+        setBearinxVersions({
+          versions: { abc: '123' },
+        })
+      );
+
+      expect(newState).toEqual({
+        ...initialState,
+        versions: { abc: '123' },
+      });
+    });
+
+    it('should unset bearinx versions', () => {
+      const newState = calculationResultReducer(
+        {
+          ...initialState,
+          versions: { abc: '123' },
+        },
+        unsetBearinxVersions()
+      );
+
+      expect(newState).toEqual({
+        ...initialState,
+        versions: undefined,
+      });
     });
   });
 });

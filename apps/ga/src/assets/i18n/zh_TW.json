@@ -373,6 +373,7 @@
     "preferredGreaseHintAlternativeTooltip": "根據他們在第 2 步驟的輸入，這是來自 Schaeffler 產品組合的替代產品。",
     "poweredBy": "powered by",
     "pdfDownload": "PDF 下載",
+    "calculatedWith": "使用 {{versions}} 計算",
     "recommendedChip": "推薦",
     "resultsWithRecommendation": "結果按推薦和再潤滑間隔排序",
     "noRecommendation": "對於給定應用程序，所提供的參數不正常。請與我們聯繫。",

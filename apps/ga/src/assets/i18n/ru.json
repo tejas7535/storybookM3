@@ -373,6 +373,7 @@
     "preferredGreaseHintAlternativeTooltip": "Это альтернативная продукция из портфолио Schaeffler, которая представлена на основании указанной в шаге 2 информации.",
     "poweredBy": "powered by",
     "pdfDownload": "Скачать PDF",
+    "calculatedWith": "Рассчитано с {{versions}}",
     "recommendedChip": "Рекомендуется",
     "resultsWithRecommendation": "Результаты отсортированы по рекомендации и интервалу повторного смазывания",
     "noRecommendation": "Указанные параметры необычны для данного применения. Пожалуйста, свяжитесь с нами.",

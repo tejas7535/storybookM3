@@ -21,6 +21,7 @@ import {
 })
 export class RestService {
   private readonly baseUrl = environment.baseUrl;
+  private readonly bearinxVersionUrl = `${environment.bearinxApiBaseUrl}/version`;
 
   public constructor(private readonly httpClient: HttpClient) {}
 
@@ -91,6 +92,18 @@ export class RestService {
         context: withCache(),
       }
     );
+  }
+
+  public getBearinxVersions(): Observable<{ [key: string]: string }> {
+    return this.httpClient
+      .get<{ name: string; version: string }[]>(this.bearinxVersionUrl)
+      .pipe(
+        map((response) =>
+          Object.fromEntries(
+            response.map(({ name, version }) => [name, version])
+          )
+        )
+      );
   }
 
   private getBearingExtendedSearchParams(

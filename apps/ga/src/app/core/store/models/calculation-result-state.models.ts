@@ -9,4 +9,5 @@ export interface CalculationResultState {
   resultId: string;
   loading: boolean;
   messages: CalculationResultMessage[];
+  versions?: { [key: string]: string };
 }

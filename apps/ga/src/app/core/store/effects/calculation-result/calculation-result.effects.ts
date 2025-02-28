@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { catchError, map, mergeMap, of } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, takeUntil } from 'rxjs';
 
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -11,7 +11,10 @@ import { ErrorService, RestService } from '@ga/core/services';
 import {
   calculationError,
   calculationSuccess,
+  fetchBearinxVersions,
   getCalculation,
+  setBearinxVersions,
+  unsetBearinxVersions,
 } from '@ga/core/store/actions/calculation-result/calculation-result.actions';
 import {
   GREASE_PRESELECTION,
@@ -72,6 +75,22 @@ export class CalculationResultEffects {
     },
     { dispatch: false }
   );
+
+  public fetchBearinxVersion$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(fetchBearinxVersions),
+      switchMap(() =>
+        this.restService.getBearinxVersions().pipe(
+          takeUntil(
+            // cancel request if action is called again
+            this.actions$.pipe(ofType(fetchBearinxVersions))
+          ),
+          switchMap((versions) => [setBearinxVersions({ versions })]),
+          catchError(() => of(unsetBearinxVersions()))
+        )
+      )
+    );
+  });
 
   constructor(
     private readonly actions$: Actions,

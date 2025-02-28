@@ -373,6 +373,7 @@
     "preferredGreaseHintAlternativeTooltip": "Se trata de un producto alternativo de la cartera de productos de Schaeffler basado en su información del paso 2.",
     "poweredBy": "powered by",
     "pdfDownload": "descargar PDF",
+    "calculatedWith": "Calculado con {{versions}}",
     "recommendedChip": "Recomendado",
     "resultsWithRecommendation": "Los resultados están ordenados por recomendación y el intervalo de relubricación",
     "noRecommendation": "Los parámetros proporcionados son inusuales para la aplicación dada. Por favor contáctenos.",

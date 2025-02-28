@@ -1,5 +1,7 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { of, throwError } from 'rxjs';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -10,7 +12,10 @@ import { ErrorService, RestService } from '@ga/core/services';
 import {
   calculationError,
   calculationSuccess,
+  fetchBearinxVersions,
   getCalculation,
+  setBearinxVersions,
+  unsetBearinxVersions,
 } from '@ga/core/store/actions/calculation-result/calculation-result.actions';
 import {
   GREASE_PRESELECTION,
@@ -46,6 +51,7 @@ describe('CalculationResultEffects', () => {
         provide: RestService,
         useValue: {
           postGreaseCalculation: jest.fn(),
+          getBearinxVersions: jest.fn(),
         },
       },
       {
@@ -165,5 +171,49 @@ describe('CalculationResultEffects', () => {
         );
       })
     );
+  });
+
+  describe('fetchBearinxVersions', () => {
+    it('should fetch the bearinx versions', () => {
+      const fetchSpy = jest
+        .spyOn(restService, 'getBearinxVersions')
+        .mockImplementation(() => of({ abc: '123' }));
+
+      return marbles((m) => {
+        action = fetchBearinxVersions();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', {
+          b: setBearinxVersions({
+            versions: { abc: '123' },
+          }),
+        });
+
+        m.expect(effects.fetchBearinxVersion$).toBeObservable(expected);
+        m.flush();
+
+        expect(fetchSpy).toHaveBeenCalled();
+      })();
+    });
+
+    it('should unset bearinx versions on error', () => {
+      const fetchSpy = jest
+        .spyOn(restService, 'getBearinxVersions')
+        .mockImplementation(() => throwError(() => 'error'));
+
+      return marbles((m) => {
+        action = fetchBearinxVersions();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', {
+          b: unsetBearinxVersions(),
+        });
+
+        m.expect(effects.fetchBearinxVersion$).toBeObservable(expected);
+        m.flush();
+
+        expect(fetchSpy).toHaveBeenCalled();
+      })();
+    });
   });
 });

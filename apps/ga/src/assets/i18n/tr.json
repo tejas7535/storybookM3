@@ -373,6 +373,7 @@
     "preferredGreaseHintAlternativeTooltip": "Bu, adım 2&apos;deki girdilerine dayalı olarak Schaeffler ürün portföyünden alternatif bir üründür.",
     "poweredBy": "powered by",
     "pdfDownload": "PDF İndir",
+    "calculatedWith": "Hesaplandı {{versions}}",
     "recommendedChip": "Önerilen",
     "resultsWithRecommendation": "Sonuçlar, tavsiye ve yeniden yağlama aralığına göre sıralanır",
     "noRecommendation": "Sağlanan parametreler, verilen uygulama için alışılmadık bir şekilde. Lütfen bizimle iletişime geçin.",
