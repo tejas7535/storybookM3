@@ -1,4 +1,12 @@
 # Release Notes of Engineering App
+## [1.14.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.14.0...ea-v1.14.1) (2025-02-28)
+
+
+### Features
+
+* **ea:** add bearinx versions ([#7070](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7070)) ([b507c2c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b507c2c13f773f07c1fcb32b5456d22e86e47c45))
+* **ea:** remove sonar issue ([#7078](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7078)) ([407b79e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/407b79e182d367095e7e81e6f9367e5f77857c45))
+
 ## [1.14.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.13.0...ea-v1.14.0) (2025-02-27)
 
 
