@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { BehaviorSubject } from 'rxjs';
@@ -41,6 +41,7 @@ import { RecyclingRateComponent } from '../../components/recycline-rate/recyclin
     SelectModule,
     SharedTranslocoModule,
     // ngrx
+    ReactiveFormsModule,
     PushPipe,
     LetDirective,
   ],

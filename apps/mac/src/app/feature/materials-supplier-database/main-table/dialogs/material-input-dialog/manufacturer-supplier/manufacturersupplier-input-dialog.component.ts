@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -46,6 +46,7 @@ import { findProperty } from '../util/form-helpers';
     // angular material
     MatCheckboxModule,
     MatFormFieldModule,
+    ReactiveFormsModule,
     // libs
     SelectModule,
     SharedTranslocoModule,
