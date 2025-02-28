@@ -1,4 +1,12 @@
 # Release Notes of Engineering App
+## [1.14.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.14.1...ea-v1.14.2) (2025-02-28)
+
+
+### Features
+
+* **ea:** fix translation issue ([#7079](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7079)) ([bc99d05](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bc99d05d7029f3f250d36024d8e84d8c0dd60d7a))
+* **ea:** use include phrase ([#7081](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7081)) ([4a97289](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a97289e5e842fa0de5cf9b04cccf3c1a9f98e01))
+
 ## [1.14.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.14.0...ea-v1.14.1) (2025-02-28)
 
 
