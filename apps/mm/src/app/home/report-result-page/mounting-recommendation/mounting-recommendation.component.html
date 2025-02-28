@@ -1,7 +1,7 @@
 @if (mountingRecommendations.length > 0) {
   <div class="mt-8" *transloco="let t; read: 'reportResult'">
     <h3 class="text-title-medium">{{ t('mountingInstructions') }}</h3>
-    <mat-card class="p-3 mt-2 overflow-hidden py-4" appearance="outlined">
+    <mat-card class="p-3 pb-0 mt-2 overflow-hidden py-4" appearance="outlined">
       <mat-card-content>
         <ul class="list-disc">
           @for (
@@ -11,6 +11,11 @@
             <li>{{ mountingRecommendation }}</li>
           }
         </ul>
+        @if (versions) {
+          <div class="text-body-small mt-4">
+            {{ t('calculatedWith', { versions }) }}
+          </div>
+        }
       </mat-card-content>
     </mat-card>
   </div>

@@ -42,3 +42,16 @@ export const setCalculationHtmlBodyUrlResult = createAction(
   '[CalculationResult] Set Calculation Html Body url',
   props<{ htmlBodyUrl: string }>()
 );
+
+export const fetchBearinxVersions = createAction(
+  '[CalculationResult] Fetch Bearinx Versions'
+);
+
+export const setBearinxVersions = createAction(
+  '[CalculationResult] Set Bearinx Versions',
+  props<{ versions: { [key: string]: string } }>()
+);
+
+export const unsetBearinxVersions = createAction(
+  '[CalculationResult] Unset Bearinx Versions'
+);

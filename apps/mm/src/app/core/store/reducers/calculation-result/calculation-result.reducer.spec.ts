@@ -1,4 +1,8 @@
 import { CalculationResultActions } from '../../actions/calculation-result';
+import {
+  setBearinxVersions,
+  unsetBearinxVersions,
+} from '../../actions/calculation-result/calculation-result.actions';
 import { CalculationParameters } from '../../models/calculation-parameters-state.model';
 import {
   CalculationResult,
@@ -94,6 +98,37 @@ describe('CalculationParametersReducer', () => {
           isLoading: false,
         })
       );
+    });
+  });
+
+  describe('Bearinx Versions', () => {
+    it('should set bearinx versions', () => {
+      const newState = calculationResultReducer(
+        { isLoading: false },
+        setBearinxVersions({
+          versions: { abc: '123' },
+        })
+      );
+
+      expect(newState).toEqual({
+        isLoading: false,
+        versions: { abc: '123' },
+      });
+    });
+
+    it('should unset bearinx versions', () => {
+      const newState = calculationResultReducer(
+        {
+          isLoading: false,
+          versions: { abc: '123' },
+        },
+        unsetBearinxVersions()
+      );
+
+      expect(newState).toEqual({
+        isLoading: false,
+        versions: undefined,
+      });
     });
   });
 });

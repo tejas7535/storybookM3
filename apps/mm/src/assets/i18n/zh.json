@@ -83,6 +83,7 @@
   },
   "reportResult": {
     "mediasBaseUrl": "https://medias.schaeffler.cn/zh",
+    "calculatedWith": "使用 {{versions}} 计算",
     "viewProductButton": "查看产品",
     "mountingInstructions": "安装说明",
     "mountingToolsAndUtilities": "安装工具和设备",

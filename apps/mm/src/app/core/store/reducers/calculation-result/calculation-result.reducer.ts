@@ -1,6 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
 
 import { CalculationResultActions } from '../../actions/calculation-result';
+import {
+  setBearinxVersions,
+  unsetBearinxVersions,
+} from '../../actions/calculation-result/calculation-result.actions';
 import { CalculationResultState } from '../../models/calculation-result-state.model';
 
 export const initialState: CalculationResultState = {
@@ -51,6 +55,20 @@ export const calculationResultReducer = createReducer(
       ...state,
       isLoading: false,
       htmlBodyUrl,
+    })
+  ),
+  on(
+    setBearinxVersions,
+    (state, { versions }): CalculationResultState => ({
+      ...state,
+      versions,
+    })
+  ),
+  on(
+    unsetBearinxVersions,
+    (state): CalculationResultState => ({
+      ...state,
+      versions: undefined,
     })
   )
 );

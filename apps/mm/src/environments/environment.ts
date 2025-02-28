@@ -8,6 +8,7 @@ export const environment: Environment = {
   production: false,
   localDev: true,
   devToolsEnabled: true,
+  bearinxApiBaseUrl: 'https://bearinx-d.schaeffler.com/api',
   baseUrl: 'https://bearinx-d.schaeffler.com/mounting/api/v1',
   staticStorageUrl: 'https://frontend1apps.z1.web.core.windows.net',
   reportSelector: '.content',

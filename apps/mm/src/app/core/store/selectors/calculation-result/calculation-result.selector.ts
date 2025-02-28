@@ -93,3 +93,13 @@ export const getHtmlBodyUrl = createSelector(
   getCalculationResultState,
   (state) => state?.htmlBodyUrl
 );
+
+export const getVersions = createSelector(
+  getCalculationResultState,
+  (state): string | undefined =>
+    state.versions && Object.keys(state.versions).length > 0
+      ? Object.entries(state.versions)
+          .map(([key, value]) => `${key} ${value}`)
+          .join(' / ')
+      : undefined
+);

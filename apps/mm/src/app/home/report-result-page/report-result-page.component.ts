@@ -53,6 +53,9 @@ export class ReportResultPageComponent {
   public readonly reportSelectionTypes$ =
     this.calculationResultFacade.reportSelectionTypes$;
 
+  public readonly bearinxVersions$ =
+    this.calculationResultFacade.bearinxVersions$;
+
   constructor(
     private readonly calculationResultFacade: CalculationResultFacade
   ) {}

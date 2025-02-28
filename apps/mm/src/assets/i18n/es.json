@@ -83,6 +83,7 @@
   },
   "reportResult": {
     "mediasBaseUrl": "https://medias.schaeffler.es/es",
+    "calculatedWith": "Calculado con {{versions}}",
     "viewProductButton": "Ver Producto",
     "mountingInstructions": "Instrucciones de Montaje",
     "mountingToolsAndUtilities": "Herramientas y Utilidades de Montaje",

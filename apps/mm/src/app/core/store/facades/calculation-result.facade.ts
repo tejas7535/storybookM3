@@ -47,6 +47,10 @@ export class CalculationResultFacade {
     CalculationResultSelector.getHtmlBodyUrl
   );
 
+  public readonly bearinxVersions$ = this.store.select(
+    CalculationResultSelector.getVersions
+  );
+
   constructor(private readonly store: Store) {}
 
   fetchCalculationResultResourcesLinks(

@@ -47,6 +47,7 @@
           <mm-mounting-recommendation
             id="mountingInstructions"
             [mountingRecommendations]="data.recommendations"
+            [versions]="bearinxVersions$ | ngrxPush"
           >
           </mm-mounting-recommendation>
         </ng-container>

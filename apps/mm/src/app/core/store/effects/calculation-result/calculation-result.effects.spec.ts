@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { Observable, of, throwError } from 'rxjs';
 
+import { RestService } from '@mm/core/services';
 import { ReportParserService } from '@mm/core/services/report-parser/report-parser.service';
 import { ResultPageService } from '@mm/core/services/result-page/result-page.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -19,6 +20,7 @@ describe('CalculationResultEffects', () => {
   let actions$: Observable<Action>;
   let effects: CalculationResultEffects;
   let spectator: SpectatorService<CalculationResultEffects>;
+  let restService: RestService;
 
   const resultPageServiceMock = {
     getJsonReport: jest.fn(),
@@ -36,6 +38,12 @@ describe('CalculationResultEffects', () => {
       provideMockActions(() => actions$),
       { provide: ResultPageService, useValue: resultPageServiceMock },
       { provide: ReportParserService, useValue: reportParserServiceMock },
+      {
+        provide: RestService,
+        useValue: {
+          getBearinxVersions: jest.fn(),
+        },
+      },
 
       {
         provide: CalculationSelectionFacade,
@@ -51,6 +59,7 @@ describe('CalculationResultEffects', () => {
   beforeEach(() => {
     spectator = createService();
     effects = spectator.service;
+    restService = spectator.inject(RestService);
   });
 
   it('should be created', () => {
@@ -118,6 +127,50 @@ describe('CalculationResultEffects', () => {
 
         m.expect(effects.fetchCalculationJsonResult$).toBeObservable(expected);
         m.flush();
+      })();
+    });
+  });
+
+  describe('fetchBearinxVersions', () => {
+    it('should fetch the bearinx versions', () => {
+      const fetchSpy = jest
+        .spyOn(restService, 'getBearinxVersions')
+        .mockImplementation(() => of({ abc: '123' }));
+
+      return marbles((m) => {
+        const action = CalculationResultActions.fetchBearinxVersions();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', {
+          b: CalculationResultActions.setBearinxVersions({
+            versions: { abc: '123' },
+          }),
+        });
+
+        m.expect(effects.fetchBearinxVersion$).toBeObservable(expected);
+        m.flush();
+
+        expect(fetchSpy).toHaveBeenCalled();
+      })();
+    });
+
+    it('should unset bearinx versions on error', () => {
+      const fetchSpy = jest
+        .spyOn(restService, 'getBearinxVersions')
+        .mockImplementation(() => throwError(() => 'error'));
+
+      return marbles((m) => {
+        const action = CalculationResultActions.fetchBearinxVersions();
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', {
+          b: CalculationResultActions.unsetBearinxVersions(),
+        });
+
+        m.expect(effects.fetchBearinxVersion$).toBeObservable(expected);
+        m.flush();
+
+        expect(fetchSpy).toHaveBeenCalled();
       })();
     });
   });

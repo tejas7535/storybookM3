@@ -1,6 +1,11 @@
 import { CalculationParameters } from '../../models/calculation-parameters-state.model';
 import { CalculationResult } from '../../models/calculation-result-state.model';
 import { CalculationResultActions } from '.';
+import {
+  fetchBearinxVersions,
+  setBearinxVersions,
+  unsetBearinxVersions,
+} from './calculation-result.actions';
 
 describe('calculationResultActions', () => {
   it('should create an action to fetch the calculation result resources links', () => {
@@ -67,5 +72,36 @@ describe('calculationResultActions', () => {
     expect(
       CalculationResultActions.fetchCalculationJsonResultFailure({ error })
     ).toEqual(expectedAction);
+  });
+
+  describe('Fetch Bearinx Versions', () => {
+    it('fetchBearinxVersions', () => {
+      const action = fetchBearinxVersions();
+
+      expect(action).toEqual({
+        type: '[CalculationResult] Fetch Bearinx Versions',
+      });
+    });
+  });
+
+  describe('Set Bearinx Versions', () => {
+    it('setBearinxVersions', () => {
+      const action = setBearinxVersions({ versions: { abc: '123' } });
+
+      expect(action).toEqual({
+        type: '[CalculationResult] Set Bearinx Versions',
+        versions: { abc: '123' },
+      });
+    });
+  });
+
+  describe('Unset Bearinx Versions', () => {
+    it('unsetBearinxVersions', () => {
+      const action = unsetBearinxVersions();
+
+      expect(action).toEqual({
+        type: '[CalculationResult] Unset Bearinx Versions',
+      });
+    });
   });
 });

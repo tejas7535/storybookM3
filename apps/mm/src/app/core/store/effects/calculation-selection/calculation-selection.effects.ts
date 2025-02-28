@@ -10,6 +10,7 @@ import { BearingOption, SearchEntry } from '@mm/shared/models';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
 import { CalculationOptionsActions } from '../../actions';
+import { CalculationResultActions } from '../../actions/calculation-result';
 import { CalculationSelectionActions } from '../../actions/calculation-selection';
 import { CalculationSelectionFacade } from '../../facades/calculation-selection/calculation-selection.facade';
 
@@ -66,7 +67,9 @@ export class CalculationSelectionEffects {
 
               CalculationSelectionActions.setCurrentStep({ step: 1 }),
 
-              CalculationSelectionActions.fetchBearingSeats()
+              CalculationSelectionActions.fetchBearingSeats(),
+
+              CalculationResultActions.fetchBearinxVersions()
             );
           })
         )

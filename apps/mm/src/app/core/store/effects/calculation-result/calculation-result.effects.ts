@@ -2,8 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
-import { catchError, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, mergeMap, switchMap, takeUntil } from 'rxjs/operators';
 
+import { RestService } from '@mm/core/services';
 import { ReportParserService } from '@mm/core/services/report-parser/report-parser.service';
 import { ResultPageService } from '@mm/core/services/result-page/result-page.service';
 import { Result } from '@mm/shared/models';
@@ -110,8 +111,29 @@ export class CalculationResultEffects {
     );
   });
 
+  public fetchBearinxVersion$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CalculationResultActions.fetchBearinxVersions),
+      switchMap(() =>
+        this.restService.getBearinxVersions().pipe(
+          takeUntil(
+            // cancel request if action is called again
+            this.actions$.pipe(
+              ofType(CalculationResultActions.fetchBearinxVersions)
+            )
+          ),
+          switchMap((versions) => [
+            CalculationResultActions.setBearinxVersions({ versions }),
+          ]),
+          catchError(() => of(CalculationResultActions.unsetBearinxVersions()))
+        )
+      )
+    );
+  });
+
   constructor(
     private readonly actions$: Actions,
+    private readonly restService: RestService,
     private readonly resultPageService: ResultPageService,
     private readonly reportParserService: ReportParserService,
     private readonly calculationSelectionFacade: CalculationSelectionFacade,

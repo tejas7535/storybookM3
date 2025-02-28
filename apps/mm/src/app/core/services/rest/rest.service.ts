@@ -104,4 +104,18 @@ export class RestService {
   ): Observable<{ data: string }> {
     return this.httpClient.get<{ data: string }>(htmlBodyUrl);
   }
+
+  public getBearinxVersions(): Observable<{ [key: string]: string }> {
+    return this.httpClient
+      .get<
+        { name: string; version: string }[]
+      >(`${environment.bearinxApiBaseUrl}/version`)
+      .pipe(
+        map((response) =>
+          Object.fromEntries(
+            response.map(({ name, version }) => [name, version])
+          )
+        )
+      );
+  }
 }

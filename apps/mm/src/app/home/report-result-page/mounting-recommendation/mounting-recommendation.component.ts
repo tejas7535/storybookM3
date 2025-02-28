@@ -12,4 +12,5 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 })
 export class MountingRecommendationComponent {
   @Input() public mountingRecommendations: string[] = [];
+  @Input() public versions?: string;
 }

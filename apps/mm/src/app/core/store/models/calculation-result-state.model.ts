@@ -5,6 +5,7 @@ export interface CalculationResultState {
   result?: CalculationResult;
   htmlBodyUrl?: string;
   error?: string;
+  versions?: { [key: string]: string };
 }
 
 export interface CalculationResult {

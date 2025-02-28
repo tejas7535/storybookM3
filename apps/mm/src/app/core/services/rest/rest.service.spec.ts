@@ -3,6 +3,9 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
+import { waitForAsync } from '@angular/core/testing';
+
+import { firstValueFrom } from 'rxjs';
 
 import { CalculationRequestPayload } from '@mm/shared/models/calculation-request/calculation-request.model';
 import { withCache } from '@ngneat/cashew';
@@ -214,5 +217,31 @@ describe('RestService', () => {
       expect(req.request.method).toBe('GET');
       req.flush(JSON_REPORT_RESPONSE_MOCK);
     });
+  });
+
+  describe('getBearinxVersions', () => {
+    it('should call the service to get bearinx versions', waitForAsync(() => {
+      const mockResult = [
+        {
+          name: 'bearinx',
+          version: '1',
+        },
+      ];
+
+      const expected = {
+        bearinx: '1',
+      };
+
+      firstValueFrom(service.getBearinxVersions()).then((res) => {
+        expect(res).toEqual(expected);
+      });
+
+      const req = httpMock.expectOne(
+        `${environment.bearinxApiBaseUrl}/version`
+      );
+      expect(req.request.method).toBe('GET');
+
+      req.flush(mockResult);
+    }));
   });
 });

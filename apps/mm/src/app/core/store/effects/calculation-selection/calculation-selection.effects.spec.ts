@@ -10,6 +10,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { CalculationOptionsActions } from '../../actions';
+import { CalculationResultActions } from '../../actions/calculation-result';
 import { CalculationSelectionActions } from '../../actions/calculation-selection';
 import { CalculationSelectionFacade } from '../../facades/calculation-selection/calculation-selection.facade';
 import { Bearing } from '../../models/calculation-selection-state.model';
@@ -103,7 +104,7 @@ describe('CalculationSelectionEffects', () => {
         a: CalculationSelectionActions.fetchBearingData({ bearingId }),
       });
 
-      expectObservable(spectator.service.fetchBearingData$).toBe('-(bcdef)-', {
+      expectObservable(spectator.service.fetchBearingData$).toBe('-(bcdefg)-', {
         b: CalculationSelectionActions.setBearing({
           bearingId: '1',
           title: 'Bearing 1',
@@ -118,6 +119,7 @@ describe('CalculationSelectionEffects', () => {
         }),
         e: CalculationSelectionActions.setCurrentStep({ step: 1 }),
         f: CalculationSelectionActions.fetchBearingSeats(),
+        g: CalculationResultActions.fetchBearinxVersions(),
       });
     });
   });
