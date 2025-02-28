@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { provideRouter, Router } from '@angular/router';
+import { provideRouter } from '@angular/router';
 
 import { of } from 'rxjs';
 
@@ -35,7 +35,6 @@ jest.mock('@jsverse/transloco', () => ({
 describe('QuickFilterManagementComponent', () => {
   let component: QuickFilterManagementComponent;
   let spectator: Spectator<QuickFilterManagementComponent>;
-  let router: Router;
 
   const createComponent = createComponentFactory({
     component: QuickFilterManagementComponent,
@@ -53,30 +52,10 @@ describe('QuickFilterManagementComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    router = spectator.inject(Router);
   });
 
   test('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  test('should open learn more page in a new tab', () => {
-    const testFullUrl =
-      'http://www.test.de/learn-more/materials-supplier-database';
-
-    router.serializeUrl = jest.fn(() => testFullUrl);
-    router.createUrlTree = jest.fn();
-
-    Object.defineProperty(window, 'open', {
-      value: jest.fn(),
-    });
-
-    component.openLearnMorePage();
-
-    expect(window.open).toHaveBeenCalledWith(testFullUrl, '_blank');
-    expect(router.createUrlTree).toHaveBeenCalledWith([
-      '/learn-more/materials-supplier-database',
-    ]);
   });
 
   test('should reset queried quick filters on destroy', () => {

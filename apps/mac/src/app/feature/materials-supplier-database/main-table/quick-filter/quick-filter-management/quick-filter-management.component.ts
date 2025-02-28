@@ -3,7 +3,6 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
 
 import { map, Observable, of, take } from 'rxjs';
 
@@ -169,7 +168,6 @@ export class QuickFilterManagementComponent implements OnInit, OnDestroy {
   constructor(
     readonly quickFilterFacade: QuickFilterFacade,
     private readonly dataFacade: DataFacade,
-    private readonly router: Router,
     private readonly dialog: MatDialog
   ) {}
 
@@ -179,13 +177,6 @@ export class QuickFilterManagementComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.quickFilterFacade.resetQueriedQuickFilters();
-  }
-
-  openLearnMorePage(): void {
-    const fullUrl = this.router.serializeUrl(
-      this.router.createUrlTree(['/learn-more/materials-supplier-database'])
-    );
-    window.open(fullUrl, '_blank');
   }
 
   private edit(quickFilter: QuickFilter): void {

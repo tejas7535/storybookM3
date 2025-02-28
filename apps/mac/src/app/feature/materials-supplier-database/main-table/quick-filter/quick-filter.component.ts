@@ -20,6 +20,7 @@ import { filter, map, Observable, of, Subject, take, takeUntil } from 'rxjs';
 import { PushPipe } from '@ngrx/component';
 import { ColumnState, GridApi } from 'ag-grid-community';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
@@ -97,7 +98,8 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
     private readonly dataFacade: DataFacade,
     private readonly msdAgGridReadyService: MsdAgGridReadyService,
     private readonly msdAgGridConfigService: MsdAgGridConfigService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly applicationInsightsService: ApplicationInsightsService
   ) {}
 
   ngOnDestroy(): void {
@@ -125,6 +127,10 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
     this.setManagementTabSelected(!selected);
     this.activePublishedFilterChanged$ = of(false);
     this.applyQuickFilter(selected);
+    this.applicationInsightsService.logEvent(
+      '[MAC - MSD] quickFilterSelected',
+      { materialClass: this.materialClass }
+    );
   }
 
   // add a custom quickfilter
@@ -159,6 +165,14 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
       .afterClosed()
       .pipe(take(1))
       .subscribe((result) => this.onDialogClose(result));
+  }
+
+  publishPublicChanges() {
+    this.applicationInsightsService.logEvent(
+      '[MAC - MSD] updatePublicQuickFilter',
+      { materialClass: this.materialClass }
+    );
+    this.qfFacade.updatePublicQuickFilter(this.active, this.hasEditorRole$);
   }
 
   private handleNavigationChanges(): void {
@@ -255,6 +269,10 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
             this.activePublishedFilterChanged$ =
               this.hasActivePublishedFilterChanged();
           } else {
+            this.applicationInsightsService.logEvent(
+              '[MAC - MSD] updateLocalQuickFilter',
+              { materialClass: this.materialClass }
+            );
             this.qfFacade.updateLocalQuickFilter(oldFilter, newFilter);
           }
         } else {
@@ -341,6 +359,11 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
         const newFilter: QuickFilter = fromCurrent
           ? this.agGridToFilter(title, description)
           : this.copyDefaultFilter(title);
+
+        this.applicationInsightsService.logEvent(
+          '[MAC - MSD] createQuickFilter',
+          { materialClass: this.materialClass, type: result.quickFilterType }
+        );
 
         this.applyQuickFilter(newFilter);
         this.qfFacade.createQuickFilter(newFilter);

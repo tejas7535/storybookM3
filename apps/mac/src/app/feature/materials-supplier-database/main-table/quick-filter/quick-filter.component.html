@@ -13,7 +13,7 @@
       <button
         mat-raised-button
         [disabled]="!(hasEditorRole$ | ngrxPush)"
-        (click)="qfFacade.updatePublicQuickFilter(active, hasEditorRole$)"
+        (click)="publishPublicChanges()"
       >
         <mat-icon>cloud_upload</mat-icon>
         {{ t('updateFilter') }}

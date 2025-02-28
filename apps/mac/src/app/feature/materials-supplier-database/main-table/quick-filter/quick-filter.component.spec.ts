@@ -15,6 +15,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { Column, ColumnState, GridApi } from 'ag-grid-community';
 import { MockPipe } from 'ng-mocks';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
@@ -76,13 +77,17 @@ describe('QuickFilterComponent', () => {
       {
         provide: MsdAgGridConfigService,
         useValue: {
-          getStaticQuickFilters: jest.fn(() => []),
+          getStaticQuickFilters: jest.fn(() => [] as any[]),
         },
       },
       mockProvider(QuickFilterFacade, {
         publishQuickFilterSucceeded$: of(),
         updatePublicQuickFilterSucceeded$: of(),
+        updatePublicQuickFilter: jest.fn(),
         quickFilterActivated$: of(),
+      }),
+      mockProvider(ApplicationInsightsService, {
+        logEvent: jest.fn(),
       }),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -677,6 +682,16 @@ describe('QuickFilterComponent', () => {
       component['applyQuickFilter'] = jest.fn();
       component['onDialogClose']();
       expect(component['applyQuickFilter']).not.toBeCalled();
+    });
+  });
+
+  describe('publishPublicChanges', () => {
+    it('should post data and metric', () => {
+      component.publishPublicChanges();
+      expect(component['qfFacade'].updatePublicQuickFilter).toHaveBeenCalled();
+      expect(
+        component['applicationInsightsService'].logEvent
+      ).toHaveBeenCalled();
     });
   });
 
