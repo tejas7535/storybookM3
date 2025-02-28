@@ -1,0 +1,8 @@
+<div class="icon-wrapper" *transloco="let t">
+  <span>{{ valueFormatted() }}</span>
+  @if (isYearlyRow && isUserAllowedToEdit$ | ngrxPush) {
+    <button mat-icon-button (click)="handleEditSinglePercentageValueClicked()">
+      <mat-icon>edit</mat-icon>
+    </button>
+  }
+</div>

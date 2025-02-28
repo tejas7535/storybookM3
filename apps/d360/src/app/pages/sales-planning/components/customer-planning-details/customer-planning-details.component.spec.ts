@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
+import { TranslocoModule } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   createComponentFactory,
@@ -23,6 +24,11 @@ import { ValidationHelper } from '../../../../shared/utils/validation/validation
 import { CustomerPlanningDetailsComponent } from './customer-planning-details.component';
 import { MonthlyCustomerPlanningDetailsModalComponent } from './monthly-customer-planning-details-modal/monthly-customer-planning-details-modal.component';
 import { YearlyCustomerPlanningDetailsColumnSettingsService } from './service/customer-planning-details-column-settings.service';
+
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
+  translate: jest.fn((translateKey) => translateKey),
+}));
 
 describe('CustomerPlanningDetailsComponent', () => {
   let spectator: Spectator<CustomerPlanningDetailsComponent>;

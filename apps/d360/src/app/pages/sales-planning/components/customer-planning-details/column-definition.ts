@@ -4,6 +4,10 @@ import { ColDef } from 'ag-grid-enterprise';
 import { DetailedCustomerSalesPlan } from '../../../../feature/sales-planning/model';
 import { ColumnValueType } from '../../../../shared/ag-grid/grid-types';
 import { SalesPlanningNumberEditCellRendererComponent } from './ag-grid/cell-renderer/sales-planning-number-edit-cell-renderer.component';
+import {
+  PercentageEditOption,
+  SalesPlanningSinglePercentageEditCellRendererComponent,
+} from './ag-grid/cell-renderer/sales-planning-single-percentage-edit-cell-renderer/sales-planning-single-percentage-edit-cell-renderer.component';
 
 const notConfiguredValuePlaceholder = '-';
 const sapMagicNumberValueNotConfigured = -1;
@@ -50,8 +54,24 @@ export const initiallyVisibleColumns: CustomColumnDefinition[] = [
   { key: 'apShareUnconstrained', type: ColumnValueType.Percentage },
   { key: 'spShareUnconstrained', type: ColumnValueType.Percentage },
   { key: 'opShareUnconstrained', type: ColumnValueType.Percentage },
-  { key: 'salesDeduction', type: ColumnValueType.Percentage },
-  { key: 'cashDiscount', type: ColumnValueType.Percentage },
+  {
+    key: 'salesDeduction',
+    type: ColumnValueType.Percentage,
+    cellRenderer: SalesPlanningSinglePercentageEditCellRendererComponent,
+    cellRendererParams: {
+      percentageEditOption: PercentageEditOption.SalesDeduction,
+      percentageValueName: getTitle('salesDeduction', false, TimeScope.Yearly),
+    },
+  },
+  {
+    key: 'cashDiscount',
+    type: ColumnValueType.Percentage,
+    cellRenderer: SalesPlanningSinglePercentageEditCellRendererComponent,
+    cellRendererParams: {
+      percentageEditOption: PercentageEditOption.CashDiscount,
+      percentageValueName: getTitle('cashDiscount', false, TimeScope.Yearly),
+    },
+  },
   { key: 'otherRevenues', type: ColumnValueType.Monetary },
   { key: 'salesPlanUnconstrained', type: ColumnValueType.Monetary },
 ];

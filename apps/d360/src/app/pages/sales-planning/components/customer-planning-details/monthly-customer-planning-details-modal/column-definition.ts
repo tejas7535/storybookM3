@@ -14,6 +14,14 @@ import {
 const monthlyInitiallyVisibleColumns: CustomColumnDefinition[] = [
   { key: 'planningMonth', type: ColumnValueType.Months },
   ...initiallyVisibleColumns,
+  {
+    key: 'salesDeduction',
+    type: ColumnValueType.Percentage,
+  },
+  {
+    key: 'cashDiscount',
+    type: ColumnValueType.Percentage,
+  },
 ];
 
 export function monthlyCustomerPlanningDetailsColumnDefinitions(): (ColDef & {

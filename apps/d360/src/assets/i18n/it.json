@@ -669,7 +669,14 @@
         "previous_adjusted_yearly_total": "Precedente totale annuo rettificato",
         "adjusted_yearly_total_error_message": "Il tuo inserimento è inferiore alla soglia minima di {{min_value}}",
         "percentage_change": "Variazione in %",
-        "percentage_change_hint": "Per variazioni negative, anteporre un segno meno (-)"
+        "percentage_change_hint": "Per variazioni negative, anteporre un segno meno (-)",
+        "for": "per",
+        "salesDeduction": "Detrazione sulle vendite",
+        "previous_salesDeduction": "Detrazione sulle vendite precedente",
+        "cashDiscount": "Sconti per pagamento immediato",
+        "previous_cashDiscount": "Sconti per pagamento immediato precedenti",
+        "daily_rolling_sales_plan": "Piano di vendita giornaliero a rotazione",
+        "previous_daily_rolling_sales_plan": "Piano di vendita giornaliero a rotazione precedente"
       }
     },
     "table": {
@@ -1226,6 +1233,9 @@
     "validation": {
       "missing_fields": "Mancano i campi obbligatori",
       "check_inputs": "Dati non corretti. Si prega di controllare i dati inseriti",
+      "missing_field": "Campo obbligatorio mancante",
+      "above_max": "Il valore deve essere minore o uguale a {{max}}.",
+      "below_min": "Il valore deve essere maggiore o uguale a {{min}}.",
       "save": {
         "success": "Salvataggio riuscito"
       },

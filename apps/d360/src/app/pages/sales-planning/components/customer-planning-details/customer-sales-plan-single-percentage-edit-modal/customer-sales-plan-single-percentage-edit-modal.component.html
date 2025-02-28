@@ -1,0 +1,97 @@
+@if (loading()) {
+  <div class="w-32 h-32">
+    <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
+  </div>
+} @else {
+  <div *transloco="let t">
+    <div mat-dialog-title class="m-0 pt-0 pb-2">
+      <div class="flex flex-col gap-2">
+        <h2 class="text-headline-small">
+          {{ t('button.edit') }} {{ data.title }}
+        </h2>
+      </div>
+    </div>
+    <mat-dialog-content>
+      <div class="flex flex-col gap-4">
+        <div [formGroup]="form">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ data.formLabel }}</mat-label>
+
+            <input
+              required
+              matInput
+              d360NumberSeparator
+              [allowDecimalPlaces]="true"
+              (input)="onInput($event)"
+              [attr.aria-label]="data.formLabel"
+              [formControl]="form.controls.adjustedPercentage"
+            />
+            @if (form.controls.adjustedPercentage.hasError('max')) {
+              <mat-error>{{
+                t(
+                  'generic.validation.above_max',
+                  form.controls.adjustedPercentage.getError('max')
+                )
+              }}</mat-error>
+            }
+            @if (form.controls.adjustedPercentage.hasError('min')) {
+              <mat-error>{{
+                t(
+                  'generic.validation.below_min',
+                  form.controls.adjustedPercentage.getError('min')
+                )
+              }}</mat-error>
+            }
+            @if (form.controls.adjustedPercentage.hasError('required')) {
+              <mat-error>{{ t('generic.validation.missing_field') }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="text-high-emphasis text-title-large">
+          <span>{{ data.currentValueLabel }} </span>
+          <span>
+            {{ adjustedPercentage() || '-' }}
+            %
+          </span>
+        </div>
+        <div class="text-medium-emphasis text-body-small">
+          <span>{{ data.previousValueLabel }} </span>
+          <span>
+            {{ data.previousValue }}
+          </span>
+        </div>
+
+        <div class="text-high-emphasis text-title-large">
+          <span>{{ data.referenceValueLabel }} </span>
+          <span>
+            {{
+              (calculatedReferenceValue() | numberWithoutFractionDigits) || '-'
+            }}
+            {{ data.planningCurrency }}
+          </span>
+        </div>
+        <div class="text-medium-emphasis text-body-small">
+          <span>{{ data.previousReferenceValueLabel }} </span>
+          <span>
+            {{ data.previousReferenceValue | numberWithoutFractionDigits }}
+            {{ data.planningCurrency }}
+          </span>
+        </div>
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end" class="gap-3 dialog-actions">
+      <button mat-button class="delete-button" (click)="onDelete()">
+        {{ t('button.delete') }}
+      </button>
+      <span class="spacer"></span>
+
+      <button mat-button class="cancel-button" (click)="onCancel()">
+        {{ t('button.cancel') }}
+      </button>
+      <button mat-flat-button class="save-button" (click)="onSave()">
+        {{ t('button.save') }}
+      </button>
+    </mat-dialog-actions>
+  </div>
+}

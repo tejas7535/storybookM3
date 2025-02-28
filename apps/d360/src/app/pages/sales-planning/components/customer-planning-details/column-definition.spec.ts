@@ -1,4 +1,11 @@
+import { TranslocoModule } from '@jsverse/transloco';
+
 import { valueFormatters } from './column-definition';
+
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
+  translate: jest.fn((translateKey) => translateKey),
+}));
 
 describe('Column Definitions', () => {
   describe('valueFormatters', () => {

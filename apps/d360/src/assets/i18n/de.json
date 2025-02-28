@@ -678,7 +678,14 @@
         "previous_adjusted_yearly_total": "Vorheriges angepasste Jahresplanung",
         "adjusted_yearly_total_error_message": "Ihre Eingabe liegt unter der Mindestgrenze von {{min_value}}",
         "percentage_change": "Änderung in %",
-        "percentage_change_hint": "Für negative Änderungen mit einem Minuszeichen (-) versehen"
+        "percentage_change_hint": "Für negative Änderungen mit einem Minuszeichen (-) versehen",
+        "for": "für",
+        "salesDeduction": "Sales Deduction",
+        "previous_salesDeduction": "Vorherige Sales Deduction",
+        "cashDiscount": "Cash Discount",
+        "previous_cashDiscount": "Vorherige Cash Discount",
+        "daily_rolling_sales_plan": "Täglicher Sales Plan",
+        "previous_daily_rolling_sales_plan": "Vorheriger täglicher Sales Plan"
       }
     },
     "table": {
@@ -1235,6 +1242,9 @@
     "validation": {
       "missing_fields": "Pflichtfelder fehlen",
       "check_inputs": "Daten fehlerhaft. Bitte prüfen Sie ihre Eingaben.",
+      "missing_field": "Pflichtfeld fehlt",
+      "above_max": "Der Wert muss kleiner oder gleich {{max}} sein.",
+      "below_min": "Der Wert muss größer oder gleich {{min}} sein.",
       "save": {
         "success": "Speichern erfolgreich"
       },

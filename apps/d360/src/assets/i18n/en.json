@@ -681,7 +681,14 @@
         "previous_adjusted_yearly_total": "Previous Adjusted Yearly Total",
         "adjusted_yearly_total_error_message": "Your entry is below the minimum threshold of {{min_value}}",
         "percentage_change": "change in %",
-        "percentage_change_hint": "For negative changes precede with a minus (-)"
+        "percentage_change_hint": "For negative changes precede with a minus (-)",
+        "for": "for",
+        "salesDeduction": "Sales Deduction",
+        "previous_salesDeduction": "Previous Sales Deduction",
+        "cashDiscount": "Cash Discounts",
+        "previous_cashDiscount": "Previous Cash Discounts",
+        "daily_rolling_sales_plan": "Daily Rolling Sales Plan",
+        "previous_daily_rolling_sales_plan": "Previous Daily Rolling Sales Plan"
       }
     },
     "table": {
@@ -1238,6 +1245,9 @@
     "validation": {
       "missing_fields": "Mandatory fields missing",
       "check_inputs": "Data incorrect. Please check your entries.",
+      "missing_field": "Mandatory field missing",
+      "above_max": "Value must be less than or equals {{max}}.",
+      "below_min": "Value must be greater than or equals {{min}}.",
       "save": {
         "success": "Save successful"
       },

@@ -121,7 +121,7 @@ export class MonthlyCustomerPlanningDetailsModalComponent implements OnInit {
 
     return [
       `${yearly} ${totalSalesPlanUnconstrained} ${this.numberWithoutFractionDigitsPipe.transform(this.data.totalSalesPlanUnconstrained)}`,
-      `${yearly} ${totalSalesPlanAdjusted} ${this.numberWithoutFractionDigitsPipe.transform(this.data.totalSalesPlanAdjusted)}`,
+      `${yearly} ${totalSalesPlanAdjusted} ${this.data.totalSalesPlanAdjusted === -1 ? '-' : this.numberWithoutFractionDigitsPipe.transform(this.data.totalSalesPlanAdjusted)}`,
       this.data.customerName,
     ].join(' | ');
   });

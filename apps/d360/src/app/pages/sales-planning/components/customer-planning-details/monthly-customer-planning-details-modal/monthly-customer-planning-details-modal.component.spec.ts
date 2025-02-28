@@ -2,6 +2,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
+import { TranslocoModule } from '@jsverse/transloco';
 import {
   createComponentFactory,
   mockProvider,
@@ -12,6 +13,11 @@ import { SalesPlanningService } from '../../../../../feature/sales-planning/sale
 import { NumberWithoutFractionDigitsPipe } from '../../../../../shared/pipes/number-without-fraction-digits.pipe';
 import { MonthlyCustomerPlanningDetailsModalComponent } from './monthly-customer-planning-details-modal.component';
 import { MonthlyCustomerPlanningDetailsColumnSettingsService } from './service/monthly-customer-planning-details-column-settings.service';
+
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
+  translate: jest.fn((translateKey) => translateKey),
+}));
 
 describe('MonthlyCustomerPlanningDetailsModalComponent', () => {
   let spectator: Spectator<MonthlyCustomerPlanningDetailsModalComponent>;

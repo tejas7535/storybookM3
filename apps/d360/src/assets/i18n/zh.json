@@ -669,7 +669,14 @@
         "previous_adjusted_yearly_total": "上次调整后的年度总计",
         "adjusted_yearly_total_error_message": "您的输入低于最低阈值 {{min_value}}",
         "percentage_change": "百分比变化",
-        "percentage_change_hint": "对于负变化，请在前面加上减号 (-)"
+        "percentage_change_hint": "对于负变化，请在前面加上减号 (-)",
+        "for": "为",
+        "salesDeduction": "销售扣除",
+        "previous_salesDeduction": "上期销售扣除",
+        "cashDiscount": "现金折扣",
+        "previous_cashDiscount": "上期现金折扣",
+        "daily_rolling_sales_plan": "每日滚动销售计划",
+        "previous_daily_rolling_sales_plan": "上期每日滚动销售计划"
       }
     },
     "table": {
@@ -1226,6 +1233,9 @@
     "validation": {
       "missing_fields": "缺少必填字段",
       "check_inputs": "数据不正确。请检查您的输入。",
+      "missing_field": "必填字段缺失",
+      "above_max": "值必须小于或等于 {{max}}。",
+      "below_min": "值必须大于或等于 {{min}}。",
       "save": {
         "success": "保存成功"
       },

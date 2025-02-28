@@ -26,6 +26,12 @@ export class SalesPlanningService {
   private readonly SALES_PLANNING_DATA_API: string =
     '/api/sales-planning/detailed-customer-sales-plan';
 
+  private readonly SALES_PLANNING_CASH_DISCOUNTS_API: string =
+    'api/sales-planning/cash-discounts';
+
+  private readonly SALES_PLANNING_SALES_DEDUCTIONS_API: string =
+    'api/sales-planning/sales-deductions';
+
   private readonly translocoService: TranslocoService =
     inject(TranslocoService);
 
@@ -110,5 +116,37 @@ export class SalesPlanningService {
     }
 
     return this.http.delete<void>(this.SALES_PLANNING_DATA_API, { params });
+  }
+
+  public updateCashDiscounts(
+    customerNumber: string,
+    planningYear: string,
+    adjustedPercentage: number
+  ): Observable<void> {
+    const params = new HttpParams()
+      .set('customerNumber', customerNumber)
+      .set('planningYear', planningYear);
+
+    return this.http.put<void>(
+      this.SALES_PLANNING_CASH_DISCOUNTS_API,
+      { adjustedPercentage },
+      { params }
+    );
+  }
+
+  public updateSalesDeductions(
+    customerNumber: string,
+    planningYear: string,
+    adjustedPercentage: number
+  ): Observable<void> {
+    const params = new HttpParams()
+      .set('customerNumber', customerNumber)
+      .set('planningYear', planningYear);
+
+    return this.http.put<void>(
+      this.SALES_PLANNING_SALES_DEDUCTIONS_API,
+      { adjustedPercentage },
+      { params }
+    );
   }
 }
