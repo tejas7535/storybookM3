@@ -134,6 +134,16 @@ describe('Service: UserSettings', () => {
       beforeEach(() => {
         delete window.location;
         window.location = { reload: jest.fn() } as any;
+        service['getSettingsFromLocalStorage'] = jest
+          .fn()
+          .mockReturnValue([{} as UserSetting]);
+      });
+
+      test('should not call post when settingsList is empty', () => {
+        service['getSettingsFromLocalStorage'] = jest.fn().mockReturnValue([]);
+        service['createJsonFile'] = jest.fn();
+        service.updateUserSetting(UserSettingsKeys.LANGUAGE, true);
+        expect(service['createJsonFile']).not.toHaveBeenCalled();
       });
       test('should call POST and reload the page on success', () => {
         const key = UserSettingsKeys.LANGUAGE;
@@ -210,8 +220,17 @@ describe('Service: UserSettings', () => {
       beforeEach(() => {
         delete window.location;
         window.location = { reload: jest.fn() } as any;
-      });
 
+        service['getSettingsFromLocalStorage'] = jest
+          .fn()
+          .mockReturnValue([{} as UserSetting]);
+      });
+      test('should not call post when settingsList is empty', () => {
+        service['getSettingsFromLocalStorage'] = jest.fn().mockReturnValue([]);
+        service['createJsonFile'] = jest.fn();
+        service.updateUserSettings();
+        expect(service['createJsonFile']).not.toHaveBeenCalled();
+      });
       test('should call POST and reload the page on success when reloadAfterUpdate is true', () => {
         const reloadAfterUpdate = true;
         const mockResponse = {

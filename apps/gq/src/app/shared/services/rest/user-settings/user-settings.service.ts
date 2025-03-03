@@ -79,6 +79,10 @@ export class UserSettingsService {
    */
   updateUserSetting(key: string, reloadAfterUpdate: boolean = false): void {
     const storageSettings = this.getSettingsFromLocalStorage(key);
+    if (storageSettings.length === 0) {
+      return;
+    }
+
     const formData: FormData = new FormData();
     formData.append(
       'userSettings',
@@ -123,6 +127,10 @@ export class UserSettingsService {
   ): void {
     const storageSettings =
       settings?.length > 0 ? settings : this.getSettingsFromLocalStorage();
+    if (storageSettings.length === 0) {
+      return;
+    }
+
     const formData: FormData = new FormData();
     formData.append(
       'userSettings',
