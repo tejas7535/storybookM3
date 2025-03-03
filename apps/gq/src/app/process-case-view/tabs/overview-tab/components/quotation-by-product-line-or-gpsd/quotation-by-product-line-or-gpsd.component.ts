@@ -1,11 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 
 import {
   combineLatest,
+  forkJoin,
   map,
   NEVER,
   Observable,
   Subject,
+  switchMap,
   takeUntil,
 } from 'rxjs';
 
@@ -14,10 +16,11 @@ import {
   getQuotationDetailsByGPSD,
   getQuotationDetailsByPL,
 } from '@gq/core/store/active-case/active-case.selectors';
-import { StatusBarProperties } from '@gq/shared/ag-grid/custom-status-bar/quotation-details-status/model/status-bar.model';
+import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
+import { CalculationService } from '@gq/shared/services/rest/calculation/calculation.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
-import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
+import { quotationDetailsToRequestData } from '@gq/shared/utils/pricing.utils';
 import { Store } from '@ngrx/store';
 
 import { BarChartData, ChartType } from '../../models';
@@ -31,10 +34,10 @@ export class QuotationByProductLineOrGpsdComponent
   implements OnInit, OnDestroy
 {
   private readonly shutdown$$: Subject<void> = new Subject<void>();
-  constructor(
-    private readonly store: Store,
-    private readonly transformationService: TransformationService
-  ) {}
+
+  private readonly store = inject(Store);
+  private readonly transformationService = inject(TransformationService);
+  private readonly calculationService = inject(CalculationService);
 
   readonly chartType = ChartType;
   type = ChartType.GPSD;
@@ -68,8 +71,9 @@ export class QuotationByProductLineOrGpsdComponent
       gpsdQuotationDetails$,
     ]).pipe(
       takeUntil(this.shutdown$$),
-      map(([all, gpsd]: [QuotationDetail[], Map<string, QuotationDetail[]>]) =>
-        this.calculateBarChartData(gpsd, all)
+      switchMap(
+        ([all, gpsd]: [QuotationDetail[], Map<string, QuotationDetail[]>]) =>
+          this.calculateBarChartData(gpsd, all)
       )
     );
 
@@ -78,8 +82,9 @@ export class QuotationByProductLineOrGpsdComponent
       plQuotationDetails$,
     ]).pipe(
       takeUntil(this.shutdown$$),
-      map(([all, pl]: [QuotationDetail[], Map<string, QuotationDetail[]>]) =>
-        this.calculateBarChartData(pl, all, 'PL')
+      switchMap(
+        ([all, pl]: [QuotationDetail[], Map<string, QuotationDetail[]>]) =>
+          this.calculateBarChartData(pl, all, 'PL')
       )
     );
   }
@@ -95,22 +100,44 @@ export class QuotationByProductLineOrGpsdComponent
     list: Map<string, QuotationDetail[]>,
     all: QuotationDetail[],
     labelPrefix?: string
-  ): BarChartData[] {
-    const result: BarChartData[] = [];
-    const totalValues = calculateStatusBarValues(all);
-    list.forEach((groupedDetails, key) => {
-      const calc = calculateStatusBarValues(groupedDetails);
-      const barItem: BarChartData = {
-        name: labelPrefix ? `${labelPrefix} ${key}` : key,
-        gpm: this.transformationService.transformPercentage(calc.gpm),
-        value: calc.netValue,
-        share: this.calculateShare(calc, totalValues),
-        numberOfItems: groupedDetails.length,
-      };
-      result.push(barItem);
-    });
+  ): Observable<BarChartData[]> {
+    const all$ = this.calculationService.getQuotationKpiCalculation(
+      quotationDetailsToRequestData(all)
+    );
 
-    return result.sort((a, b) => b.share.localeCompare(a.share));
+    const groupedCalculations$ = [...list.entries()].map(
+      ([key, groupedDetails]) =>
+        this.calculationService
+          .getQuotationKpiCalculation(
+            quotationDetailsToRequestData(groupedDetails)
+          )
+          .pipe(
+            map((calc) => ({
+              key,
+              calc,
+            }))
+          )
+    );
+
+    return forkJoin([all$, ...groupedCalculations$]).pipe(
+      map(([totalValues, ...groupedCalculations]) => {
+        const result = groupedCalculations.map(({ key, calc }) => {
+          const barItem: BarChartData = {
+            name: labelPrefix ? `${labelPrefix} ${key}` : key,
+            gpm: this.transformationService.transformPercentage(
+              calc.totalWeightedAverageGpm
+            ),
+            value: calc.totalNetValue,
+            share: this.calculateShare(calc, totalValues),
+            numberOfItems: list.get(key)?.length ?? 0,
+          };
+
+          return barItem;
+        });
+
+        return result.sort((a, b) => b.share.localeCompare(a.share));
+      })
+    );
   }
 
   /**
@@ -121,11 +148,11 @@ export class QuotationByProductLineOrGpsdComponent
    * @returns the percentage share of netValue considering netValue of all quotationItems
    */
   private calculateShare(
-    shares: StatusBarProperties,
-    totals: StatusBarProperties
+    shares: QuotationDetailsSummaryKpi,
+    totals: QuotationDetailsSummaryKpi
   ): string {
     return this.transformationService.transformPercentage(
-      (shares.netValue * 100) / totals.netValue
+      (shares.totalNetValue * 100) / totals.totalNetValue
     );
   }
 }

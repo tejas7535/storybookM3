@@ -12,15 +12,19 @@ import { ErrorId } from '@gq/shared/http/constants/error-id.enum';
 import {
   Quotation,
   QuotationAttachment,
+  QuotationDetail,
   SAP_SYNC_STATUS,
 } from '@gq/shared/models';
 import { SapCallInProgress } from '@gq/shared/models/quotation';
+import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
 import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
 import { TargetPriceSource } from '@gq/shared/models/quotation/target-price-source.enum';
 import { AttachmentsService } from '@gq/shared/services/rest/attachments/attachments.service';
+import { CalculationService } from '@gq/shared/services/rest/calculation/calculation.service';
 import { CustomerService } from '@gq/shared/services/rest/customer/customer.service';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
+import { quotationDetailsToRequestData } from '@gq/shared/utils/pricing.utils';
 import { translate } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
@@ -57,6 +61,7 @@ describe('ActiveCaseEffects', () => {
   let quotationService: QuotationService;
   let attachmentService: AttachmentsService;
   let snackBar: MatSnackBar;
+  let calculationService: CalculationService;
 
   let store: any;
   let router: Router;
@@ -84,6 +89,82 @@ describe('ActiveCaseEffects', () => {
     store = spectator.inject(MockStore);
     router = spectator.inject(Router);
     snackBar = spectator.inject(MatSnackBar);
+    calculationService = spectator.inject(CalculationService);
+  });
+
+  describe('calculateSimulatedQuotation$', () => {
+    const simulatedQuotationDetails = [QUOTATION_DETAIL_MOCK];
+    const selectedQuotationDetails = [QUOTATION_DETAIL_MOCK];
+    const simulatedField = ColumnFields.PRICE;
+    const gqId = 123;
+
+    action = ActiveCaseActions.calculateSimulatedQuotation({
+      gqId,
+      simulatedField,
+      simulatedQuotationDetails,
+      selectedQuotationDetails,
+    });
+
+    test(
+      'should return calculateSimulatedQuotationSuccess when KPI calculations are successful',
+      marbles((m) => {
+        const simulatedStatusBar = SIMULATED_QUOTATION_MOCK.simulatedStatusBar;
+        const previousStatusBar = SIMULATED_QUOTATION_MOCK.previousStatusBar;
+
+        calculationService.getQuotationKpiCalculation = jest
+          .fn()
+          .mockReturnValueOnce(of(simulatedStatusBar))
+          .mockReturnValueOnce(of(previousStatusBar));
+
+        actions$ = m.hot('-a', { a: action });
+
+        const simulatedQuotation = {
+          gqId,
+          simulatedField,
+          quotationDetails: simulatedQuotationDetails,
+          simulatedStatusBar,
+          previousStatusBar,
+        };
+
+        const result = ActiveCaseActions.calculateSimulatedQuotationSuccess({
+          simulatedQuotation,
+        });
+
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.calculateSimulatedQuotation$).toBeObservable(expected);
+        m.flush();
+
+        expect(
+          calculationService.getQuotationKpiCalculation
+        ).toHaveBeenCalledTimes(2);
+      })
+    );
+
+    test(
+      'should return calculateSimulatedQuotationFailure when KPI calculation fails',
+      marbles((m) => {
+        const err = new Error(errorMessage);
+        calculationService.getQuotationKpiCalculation = jest
+          .fn()
+          .mockReturnValueOnce(throwError(() => err));
+
+        actions$ = m.hot('-a', { a: action });
+
+        const result = ActiveCaseActions.calculateSimulatedQuotationFailure({
+          errorMessage: err as any,
+        });
+
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.calculateSimulatedQuotation$).toBeObservable(expected);
+        m.flush();
+
+        expect(
+          calculationService.getQuotationKpiCalculation
+        ).toHaveBeenCalledTimes(2);
+      })
+    );
   });
 
   describe('customerDetails$', () => {
@@ -1744,5 +1825,92 @@ describe('ActiveCaseEffects', () => {
       expect(attachmentService.deleteAttachment).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('getQuotationPricingOverview$', () => {
+    let quotationDetails: QuotationDetail[];
+
+    beforeEach(() => {
+      quotationDetails = [QUOTATION_DETAIL_MOCK];
+      store.overrideSelector(activeCaseFeature.selectQuotation, {
+        ...QUOTATION_MOCK,
+        quotationDetails,
+      });
+    });
+
+    test(
+      'should return getQuotationPricingOverviewSuccess with calculated price information when successful',
+      marbles((m) => {
+        const priceInformation: QuotationDetailsSummaryKpi = {
+          totalWeightedAverageGpi: 100,
+          totalWeightedAverageGpm: 20,
+          totalNetValue: 5000,
+          totalWeightedAveragePriceDiff: 10,
+          amountOfQuotationDetails: 5,
+          avgGqRating: 0,
+        };
+
+        calculationService.getQuotationKpiCalculation = jest.fn(() =>
+          m.cold('--a|', { a: priceInformation })
+        );
+
+        actions$ = m.hot('-a', {
+          a: ActiveCaseActions.getQuotationPricingOverview(),
+        });
+
+        const result = ActiveCaseActions.getQuotationPricingOverviewSuccess({
+          result: {
+            gpi: { value: priceInformation.totalWeightedAverageGpi },
+            gpm: { value: priceInformation.totalWeightedAverageGpm },
+            netValue: { value: priceInformation.totalNetValue },
+            avgGqRating: { value: 2 },
+            deviation: {
+              value: priceInformation.totalWeightedAveragePriceDiff,
+            },
+          },
+        });
+
+        const expected = m.cold('---b', { b: result });
+
+        m.expect(effects.getQuotationPricingOverview$).toBeObservable(expected);
+        m.flush();
+
+        expect(
+          calculationService.getQuotationKpiCalculation
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          calculationService.getQuotationKpiCalculation
+        ).toHaveBeenCalledWith(quotationDetailsToRequestData(quotationDetails));
+      })
+    );
+
+    test(
+      'should return getQuotationPricingOverviewFailure when calculation service fails',
+      marbles((m) => {
+        const error = new Error('An error occurred');
+
+        calculationService.getQuotationKpiCalculation = jest.fn(() =>
+          m.cold('--#|', undefined, error)
+        );
+
+        actions$ = m.hot('-a', {
+          a: ActiveCaseActions.getQuotationPricingOverview(),
+        });
+
+        const result = ActiveCaseActions.getQuotationPricingOverviewFailure({
+          errorMessage: error as any as string,
+        });
+
+        const expected = m.cold('---b', { b: result });
+
+        m.expect(effects.getQuotationPricingOverview$).toBeObservable(expected);
+        m.flush();
+
+        expect(
+          calculationService.getQuotationKpiCalculation
+        ).toHaveBeenCalledTimes(1);
+      })
+    );
+  });
+
   // eslint-disable-next-line max-lines
 });

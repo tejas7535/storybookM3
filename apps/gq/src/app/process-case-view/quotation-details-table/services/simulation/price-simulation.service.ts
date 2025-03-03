@@ -35,10 +35,15 @@ export class PriceSimulationService {
       this.getSimulatedRow(simulatedField, value, row.data as QuotationDetail)
     );
 
+    const selectedRowsAsDetails = selectedRows.map(
+      (row: IRowNode) => row.data as QuotationDetail
+    );
+
     this.simulationService.updateStoreForSimulation(
       gqId,
       simulatedRows,
-      simulatedField
+      simulatedField,
+      selectedRowsAsDetails
     );
   }
 

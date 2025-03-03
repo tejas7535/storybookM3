@@ -917,34 +917,21 @@ describe('ActiveCaseFacade', () => {
     });
   });
 
-  describe('removeSimulatedQuotationDetail', () => {
-    test('should dispatch removeSimulatedQuotationDetail', () => {
-      const gqPositionId = '123';
-      const action = ActiveCaseActions.removeSimulatedQuotationDetail({
-        gqPositionId,
-      });
-      const spy = jest.spyOn(mockStore, 'dispatch');
-
-      facade.removeSimulatedQuotationDetail(gqPositionId);
-
-      expect(spy).toHaveBeenCalledWith(action);
-    });
-  });
-
-  describe('addSimulatedQuotation', () => {
-    test('should dispatch addSimulatedQuotation', () => {
+  describe('calculateSimulatedQuotation', () => {
+    test('should dispatch calculateSimulatedQuotation', () => {
       const gqId = 123;
       const quotationDetails: QuotationDetail[] = [];
       const simulatedField = {} as ColumnFields;
 
-      const action = ActiveCaseActions.addSimulatedQuotation({
+      const action = ActiveCaseActions.calculateSimulatedQuotation({
         gqId,
-        quotationDetails,
+        simulatedQuotationDetails: quotationDetails,
         simulatedField,
+        selectedQuotationDetails: [],
       });
       const spy = jest.spyOn(mockStore, 'dispatch');
 
-      facade.addSimulatedQuotation(gqId, quotationDetails, simulatedField);
+      facade.addSimulatedQuotation(gqId, quotationDetails, simulatedField, []);
 
       expect(spy).toHaveBeenCalledWith(action);
     });

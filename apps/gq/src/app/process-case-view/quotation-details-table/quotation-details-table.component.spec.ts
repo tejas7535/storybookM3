@@ -73,7 +73,6 @@ describe('QuotationDetailsTableComponent', () => {
         simulationModeEnabled$: of(false),
         selectQuotationDetail: jest.fn(),
         deselectQuotationDetail: jest.fn(),
-        removeSimulatedQuotationDetail: jest.fn(),
         resetSimulatedQuotation: jest.fn(),
         addSimulatedQuotation: jest.fn(),
         quotation$: of(QUOTATION_MOCK),
@@ -970,30 +969,6 @@ describe('QuotationDetailsTableComponent', () => {
         component.selectedRows,
         1234
       );
-    });
-
-    test('should remove de-selected row from simulation', () => {
-      component.simulatedField = ColumnFields.PRICE;
-      component.simulatedValue = 50;
-      component.onRowSelected({
-        node: {
-          isSelected: jest.fn().mockReturnValue(false),
-          data: QUOTATION_DETAIL_MOCK,
-        },
-        api: {
-          getSelectedNodes: jest.fn().mockReturnValue([
-            {
-              data: QUOTATION_DETAIL_MOCK,
-              rowIndex: 0,
-              id: '111',
-            } as RowNode,
-          ]),
-        },
-      } as any);
-
-      expect(
-        component['activeCaseFacade'].removeSimulatedQuotationDetail
-      ).toHaveBeenCalledWith('5694232');
     });
 
     test('should reset simulation after all rows are deselected', () => {

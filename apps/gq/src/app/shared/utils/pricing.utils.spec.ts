@@ -1,8 +1,3 @@
-import {
-  QUOTATION_DETAIL_MOCK,
-  QUOTATION_DETAILS_MOCK,
-} from '../../../testing/mocks/models/quotation-detail/quotation-details.mock';
-import { StatusBarProperties } from '../ag-grid/custom-status-bar/quotation-details-status/model/status-bar.model';
 import { QuotationDetail } from '../models/quotation-detail';
 import * as pricingUtils from './pricing.utils';
 
@@ -126,77 +121,6 @@ describe('PricingUtils', () => {
       const result = pricingUtils.calculateMargin(price, costValue);
 
       expect(result).toBeUndefined();
-    });
-  });
-
-  describe('calculateStatusBarValues should', () => {
-    test('return calculatedValues', () => {
-      const details = [
-        {
-          ...QUOTATION_DETAIL_MOCK,
-          rfqData: null,
-          gpmRfq: null,
-        } as QuotationDetail,
-      ];
-
-      const result = pricingUtils.calculateStatusBarValues(details);
-
-      expect(result).toEqual(
-        new StatusBarProperties(
-          QUOTATION_DETAIL_MOCK.netValue,
-          QUOTATION_DETAIL_MOCK.gpi * 100,
-          QUOTATION_DETAIL_MOCK.gpm * 100,
-          QUOTATION_DETAIL_MOCK.priceDiff * 100,
-          details.length
-        )
-      );
-    });
-
-    test('return calculatedValues, when RFQ available this one is used', () => {
-      const details = [QUOTATION_DETAIL_MOCK];
-
-      const result = pricingUtils.calculateStatusBarValues(details);
-
-      expect(result).toEqual(
-        new StatusBarProperties(
-          QUOTATION_DETAIL_MOCK.netValue,
-          QUOTATION_DETAIL_MOCK.gpi * 100,
-          QUOTATION_DETAIL_MOCK.rfqData.gpm * 100,
-          QUOTATION_DETAIL_MOCK.priceDiff * 100,
-          details.length
-        )
-      );
-    });
-    test('only use max quantity to calculate StatusBarCalculation, if same materialNumber15 appear', () => {
-      const result = pricingUtils.calculateStatusBarValues(
-        QUOTATION_DETAILS_MOCK
-      );
-      expect(result).toEqual(
-        new StatusBarProperties(2020.4, 24.74, 0.99, 20, 3)
-      );
-    });
-
-    test('return calculatedValues for statusBar when all incoming Values are undefined', () => {
-      const details = [
-        {
-          material: {
-            materialNumber15: '123456789',
-          },
-        } as unknown as QuotationDetail,
-      ];
-
-      const result = pricingUtils.calculateStatusBarValues(details);
-      expect(result).toEqual(new StatusBarProperties(0, 0, 0, null, 1));
-    });
-  });
-
-  describe('keepMaxQuantityIfDuplicate should', () => {
-    test('only use max quantity to calculate StatusBarCalculation, if same materialNumber15 appear', () => {
-      const result = pricingUtils.keepMaxQuantityIfDuplicate(
-        QUOTATION_DETAILS_MOCK
-      );
-
-      expect(result.length).toEqual(2);
     });
   });
 

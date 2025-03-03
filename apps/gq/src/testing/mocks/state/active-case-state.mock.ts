@@ -13,6 +13,9 @@ export const ACTIVE_CASE_STATE_MOCK: ActiveCaseState = {
   quotationMetadataLoadingErrorMessage: undefined,
 
   quotationLoading: false,
+  quotationPricingOverview: undefined,
+  quotationPricingOverviewErrorMessage: undefined,
+  quotationPricingOverviewLoading: false,
   selectedQuotationDetail: undefined,
   quotationLoadingErrorMessage: undefined,
   updateLoading: false,

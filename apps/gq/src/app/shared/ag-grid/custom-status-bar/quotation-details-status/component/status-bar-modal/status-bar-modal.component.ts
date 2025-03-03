@@ -10,7 +10,7 @@ import { userHasGPCRole, userHasSQVRole } from '@gq/core/store/selectors';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { HorizontalDividerModule } from '@gq/shared/components/horizontal-divider/horizontal-divider.module';
 import { LabelTextModule } from '@gq/shared/components/label-text/label-text.module';
-import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.interface';
+import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';

@@ -4,10 +4,8 @@ import { catchError, filter, map, mergeMap, of } from 'rxjs';
 
 import { AppRoutePath } from '@gq/app-route-path.enum';
 import { RouterStateUrl } from '@gq/core/store/reducers';
-import { QuotationDetail } from '@gq/shared/models';
 import { CalculationService } from '@gq/shared/services/rest/calculation/calculation.service';
-import { QuotationDetailKpi } from '@gq/shared/services/rest/calculation/model/quotation-detail-kpi.interface';
-import { QuotationKpiRequest } from '@gq/shared/services/rest/calculation/model/quotation-kpi-request.interface';
+import { quotationDetailsToRequestData } from '@gq/shared/utils/pricing.utils';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 
@@ -26,7 +24,7 @@ export class SelectedQuotationDetailsKpiEffects {
           return of(SelectedQuotationDetailsKpiActions.resetKPI());
         }
 
-        const request = this.quotationDetailsToRequestData(data);
+        const request = quotationDetailsToRequestData(data);
 
         return this.calculationService.getQuotationKpiCalculation(request).pipe(
           map((response) =>
@@ -57,37 +55,4 @@ export class SelectedQuotationDetailsKpiEffects {
       map(() => SelectedQuotationDetailsKpiActions.resetKPI())
     );
   });
-
-  quotationDetailsToRequestData(
-    quotationDetails: QuotationDetail[]
-  ): QuotationKpiRequest {
-    const detailKpiList: QuotationDetailKpi[] = quotationDetails.map(
-      (qd): QuotationDetailKpi => {
-        const {
-          gpi,
-          gpm,
-          priceDiff,
-          orderQuantity,
-          material,
-          rfqData,
-          netValue,
-          gqRating,
-        } = qd;
-        const kpi: QuotationDetailKpi = {
-          netValue,
-          gpi,
-          gpm,
-          priceDiff,
-          gqRating,
-          quantity: orderQuantity,
-          materialNumber15: material.materialNumber15,
-          rfqDataGpm: rfqData?.gpm,
-        };
-
-        return kpi;
-      }
-    );
-
-    return { detailKpiList };
-  }
 }

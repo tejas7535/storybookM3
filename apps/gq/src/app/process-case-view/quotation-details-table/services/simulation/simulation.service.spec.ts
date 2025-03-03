@@ -34,11 +34,11 @@ describe('SimulationService', () => {
       const simulatedField = ColumnFields.PRICE;
       service['activeCaseFacade'].addSimulatedQuotation = jest.fn();
 
-      service.updateStoreForSimulation(gqId, simulatedRows, simulatedField);
+      service.updateStoreForSimulation(gqId, simulatedRows, simulatedField, []);
 
       expect(
         service['activeCaseFacade'].addSimulatedQuotation
-      ).toHaveBeenCalledWith(gqId, simulatedRows, simulatedField);
+      ).toHaveBeenCalledWith(gqId, simulatedRows, simulatedField, []);
     });
   });
 

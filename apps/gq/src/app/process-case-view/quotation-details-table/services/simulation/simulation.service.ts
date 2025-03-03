@@ -24,16 +24,19 @@ export class SimulationService {
    * @param gqId  the quotation id
    * @param simulatedRows the simulated rows
    * @param simulatedField the field that is being simulated
+   * @param selectedRows the selected original rows
    */
   public updateStoreForSimulation(
     gqId: number,
     simulatedRows: QuotationDetail[],
-    simulatedField: ColumnFields
+    simulatedField: ColumnFields,
+    selectedRows: QuotationDetail[]
   ): void {
     this.activeCaseFacade.addSimulatedQuotation(
       gqId,
       simulatedRows,
-      simulatedField
+      simulatedField,
+      selectedRows
     );
   }
 

@@ -17,7 +17,7 @@
       <div class="ml-6">
         <span class="text-subtitle-1" data-cy="simulated-total-net-value_value">
           {{
-            simulatedQuotation().simulatedStatusBar.netValue
+            simulatedQuotation().simulatedStatusBar.totalNetValue
               | numberCurrency: quotationCurrency()
           }}
         </span>
@@ -26,7 +26,7 @@
           data-cy="simulated-previous-total-net-value_value"
         >
           {{
-            simulatedQuotation().previousStatusBar.netValue
+            simulatedQuotation().previousStatusBar.totalNetValue
               | numberCurrency: quotationCurrency()
           }}
         </div>
@@ -51,13 +51,19 @@
           class="text-subtitle-1"
           data-cy="simulated-total-average-gpm_value"
         >
-          {{ simulatedQuotation().simulatedStatusBar.gpm | percentage }}
+          {{
+            simulatedQuotation().simulatedStatusBar.totalWeightedAverageGpm
+              | percentage: false
+          }}
         </span>
         <div
           class="text-caption opacity-60"
           data-cy="simulated-previous-total-average-gpm_label"
         >
-          {{ simulatedQuotation().previousStatusBar.gpm | percentage }}
+          {{
+            simulatedQuotation().previousStatusBar.totalWeightedAverageGpm
+              | percentage: false
+          }}
         </div>
       </div>
     </div>
@@ -75,13 +81,19 @@
       </div>
       <div class="ml-6">
         <span class="text-subtitle-1" data-cy="simulated-total-gpi_value">
-          {{ simulatedQuotation().simulatedStatusBar.gpi | percentage }}
+          {{
+            simulatedQuotation().simulatedStatusBar.totalWeightedAverageGpi
+              | percentage: false
+          }}
         </span>
         <div
           class="text-caption opacity-60"
           data-cy="simulated-previous-total-gpi_value"
         >
-          {{ simulatedQuotation().previousStatusBar.gpi | percentage }}
+          {{
+            simulatedQuotation().previousStatusBar.totalWeightedAverageGpi
+              | percentage: false
+          }}
         </div>
       </div>
     </div>
@@ -104,13 +116,19 @@
           class="text-subtitle-1"
           data-cy="simulated-total-price-diff_value"
         >
-          {{ simulatedQuotation().simulatedStatusBar.priceDiff | percentage }}
+          {{
+            simulatedQuotation().simulatedStatusBar
+              .totalWeightedAveragePriceDiff | percentage: false
+          }}
         </span>
         <div
           class="text-caption opacity-60"
           data-cy="simulated-previous-total-price-diff_value"
         >
-          {{ simulatedQuotation().previousStatusBar.priceDiff | percentage }}
+          {{
+            simulatedQuotation().previousStatusBar.totalWeightedAveragePriceDiff
+              | percentage: false
+          }}
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ApiVersion } from '@gq/shared/models';
-import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.interface';
+import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
 
 import { QuotationKpiRequest } from './model/quotation-kpi-request.interface';
 

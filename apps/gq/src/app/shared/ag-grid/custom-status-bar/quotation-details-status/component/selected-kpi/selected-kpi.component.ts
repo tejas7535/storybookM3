@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, input, InputSignal } from '@angular/core';
 
-import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.interface';
+import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { PushPipe } from '@ngrx/component';
 

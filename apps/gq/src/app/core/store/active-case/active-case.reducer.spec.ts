@@ -16,7 +16,6 @@ import { QUOTATION_MOCK } from '../../../../testing/mocks/models/quotation';
 import {
   QUOTATION_DETAIL_MOCK,
   SIMULATED_QUOTATION_MOCK,
-  SIMULATED_QUOTATION_MOCKS_WITH_RFQ,
 } from '../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { ACTIVE_CASE_STATE_MOCK } from '../../../../testing/mocks/state/active-case-state.mock';
 import { GREATER_CHINA_SALES_ORGS } from '../approval/model/greater-china-sales-orgs';
@@ -536,171 +535,35 @@ describe('Active Case Feature Reducer', () => {
   });
 
   describe('SimulatedQuotation', () => {
-    test('should add new simulated quotation', () => {
+    test('should calculated new simulated quotation success', () => {
       const quotationDetail: QuotationDetail = {
         ...QUOTATION_DETAIL_MOCK,
         rfqData: null,
       };
-      const action: Action = ActiveCaseActions.addSimulatedQuotation({
-        gqId: 1234,
-        simulatedField: ColumnFields.PRICE,
+      const simulatedQuotation = {
+        gqId: 1_234_543,
+        simulatedField: ColumnFields.CUSTOMER_MATERIAL,
         quotationDetails: [quotationDetail],
-      });
-      const state = activeCaseFeature.reducer(
-        {
-          ...ACTIVE_CASE_STATE_MOCK,
-          simulatedItem: {
-            ...SIMULATED_QUOTATION_MOCK,
-            quotationDetails: [],
-            previousStatusBar: undefined,
-            simulatedStatusBar: undefined,
-          },
-        },
-        action
-      );
+        previousStatusBar: SIMULATED_QUOTATION_MOCK.previousStatusBar,
+        simulatedStatusBar: SIMULATED_QUOTATION_MOCK.simulatedStatusBar,
+      };
 
-      expect(state.simulatedItem).toEqual({
-        ...SIMULATED_QUOTATION_MOCK,
-        previousStatusBar: {
-          ...SIMULATED_QUOTATION_MOCK.previousStatusBar,
-          gpm: QUOTATION_DETAIL_MOCK.rfqData.gpm * 100,
-          gpi: SIMULATED_QUOTATION_MOCK.previousStatusBar.gpi,
-          priceDiff: SIMULATED_QUOTATION_MOCK.previousStatusBar.priceDiff,
-        },
-        simulatedStatusBar: {
-          ...SIMULATED_QUOTATION_MOCK.simulatedStatusBar,
-          gpm: SIMULATED_QUOTATION_MOCK.simulatedStatusBar.gpm,
-          gpi: SIMULATED_QUOTATION_MOCK.simulatedStatusBar.gpi,
-          priceDiff: SIMULATED_QUOTATION_MOCK.simulatedStatusBar.priceDiff,
-        },
-        quotationDetails: [quotationDetail],
-      });
-    });
-
-    test('should add new simulated quotation when RFQ-Data is present', () => {
-      const action: Action = ActiveCaseActions.addSimulatedQuotation({
-        gqId: 1234,
-        simulatedField: ColumnFields.PRICE,
-        quotationDetails: [{ ...QUOTATION_DETAIL_MOCK }],
-      });
-      const state = activeCaseFeature.reducer(
-        {
-          ...ACTIVE_CASE_STATE_MOCK,
-          simulatedItem: {
-            ...SIMULATED_QUOTATION_MOCK,
-
-            quotationDetails: [],
-            previousStatusBar: undefined,
-            simulatedStatusBar: undefined,
-          },
-        },
-        action
-      );
-
-      expect(state.simulatedItem).toEqual(SIMULATED_QUOTATION_MOCKS_WITH_RFQ);
-    });
-
-    test('should reset the simulated quotation', () => {
-      const action: Action = ActiveCaseActions.resetSimulatedQuotation();
-      const state = activeCaseFeature.reducer(
-        {
-          ...ACTIVE_CASE_STATE_MOCK,
-          simulatedItem: SIMULATED_QUOTATION_MOCK,
-        },
-        action
-      );
-
-      expect(state.simulatedItem).toEqual(undefined);
-    });
-
-    test('should not remove a non-existing quotation detail from a simulated quotation', () => {
-      const simulatedQuotationDetails = [
-        { ...QUOTATION_DETAIL_MOCK, gqPositionId: '111' },
-        { ...QUOTATION_DETAIL_MOCK, gqPositionId: '222' },
-      ];
-
-      const action: Action = ActiveCaseActions.removeSimulatedQuotationDetail({
-        gqPositionId: '666',
-      });
+      const action: Action =
+        ActiveCaseActions.calculateSimulatedQuotationSuccess({
+          simulatedQuotation,
+        });
 
       const state = activeCaseFeature.reducer(
         {
           ...ACTIVE_CASE_STATE_MOCK,
           simulatedItem: {
             ...SIMULATED_QUOTATION_MOCK,
-            quotationDetails: simulatedQuotationDetails,
           },
         },
         action
       );
 
-      expect(state.simulatedItem.quotationDetails.length).toEqual(2);
-      expect(state.simulatedItem.quotationDetails[0].gqPositionId).toEqual(
-        '111'
-      );
-      expect(state.simulatedItem.quotationDetails[1].gqPositionId).toEqual(
-        '222'
-      );
-    });
-
-    test('should not remove a quotation detail from a simulated quotation', () => {
-      const simulatedQuotationDetails = [
-        { ...QUOTATION_DETAIL_MOCK, gqPositionId: '111' },
-      ];
-
-      const action: Action = ActiveCaseActions.removeSimulatedQuotationDetail({
-        gqPositionId: '111',
-      });
-
-      const state = activeCaseFeature.reducer(
-        {
-          ...ACTIVE_CASE_STATE_MOCK,
-          simulatedItem: {
-            ...SIMULATED_QUOTATION_MOCK,
-            quotationDetails: simulatedQuotationDetails,
-          },
-        },
-        action
-      );
-
-      expect(state.simulatedItem.quotationDetails).toEqual([]);
-    });
-
-    test('should remove a quotationDetail from a simulated quotation with multiple entries', () => {
-      const simulatedQuotationDetails = [
-        { ...QUOTATION_DETAIL_MOCK, gqPositionId: '111' },
-        { ...QUOTATION_DETAIL_MOCK, gqPositionId: '222' },
-      ];
-
-      const action: Action = ActiveCaseActions.removeSimulatedQuotationDetail({
-        gqPositionId: '222',
-      });
-
-      const state = activeCaseFeature.reducer(
-        {
-          ...ACTIVE_CASE_STATE_MOCK,
-          simulatedItem: {
-            ...SIMULATED_QUOTATION_MOCK,
-            quotationDetails: simulatedQuotationDetails,
-            simulatedStatusBar: {
-              gpi: 1,
-              gpm: 2,
-              netValue: 2,
-              priceDiff: 3,
-              rows: 4,
-            },
-          },
-        },
-        action
-      );
-
-      expect(state.simulatedItem.quotationDetails.length).toEqual(1);
-      expect(state.simulatedItem.quotationDetails[0].gqPositionId).toEqual(
-        '111'
-      );
-      expect(state.simulatedItem.previousStatusBar).toEqual(
-        SIMULATED_QUOTATION_MOCK.previousStatusBar
-      );
+      expect(state.simulatedItem).toEqual(simulatedQuotation);
     });
   });
 
@@ -1147,6 +1010,51 @@ describe('Active Case Feature Selector', () => {
 
     test('should return false', () => {
       expect(activeCaseFeature.isAnyMspWarningPresent(fakeState)).toBeFalsy();
+    });
+  });
+
+  describe('getQuotationPricingOverview', () => {
+    test('should set quotationPricingOverviewLoading to true', () => {
+      const action = ActiveCaseActions.getQuotationPricingOverview();
+      const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
+
+      expect(state.quotationPricingOverviewLoading).toEqual(true);
+      expect(state.quotationPricingOverviewErrorMessage).toBeUndefined();
+    });
+  });
+
+  describe('getQuotationPricingOverviewSuccess', () => {
+    test('should set quotationPricingOverview and loading to false', () => {
+      const result = {
+        gpi: { value: 100 },
+        gpm: { value: 20 },
+        netValue: { value: 5000 },
+        avgGqRating: { value: 5 },
+        deviation: { value: 10 },
+      };
+
+      const action = ActiveCaseActions.getQuotationPricingOverviewSuccess({
+        result,
+      });
+      const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
+
+      expect(state.quotationPricingOverviewLoading).toEqual(false);
+      expect(state.quotationPricingOverviewErrorMessage).toBeUndefined();
+      expect(state.quotationPricingOverview).toEqual(result);
+    });
+  });
+
+  describe('getQuotationPricingOverviewFailure', () => {
+    test('should set errorMessage and loading to false', () => {
+      const errorMessage = 'Failed to get quotation pricing overview';
+
+      const action = ActiveCaseActions.getQuotationPricingOverviewFailure({
+        errorMessage,
+      });
+      const state = activeCaseFeature.reducer(ACTIVE_CASE_STATE_MOCK, action);
+
+      expect(state.quotationPricingOverviewLoading).toEqual(false);
+      expect(state.quotationPricingOverviewErrorMessage).toEqual(errorMessage);
     });
   });
 });

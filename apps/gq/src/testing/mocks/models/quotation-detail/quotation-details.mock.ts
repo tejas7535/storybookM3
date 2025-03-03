@@ -159,14 +159,17 @@ export const SIMULATED_QUOTATION_MOCKS_WITH_RFQ: SimulatedQuotation = {
   quotationDetails: [QUOTATION_DETAIL_MOCK],
   previousStatusBar: {
     ...STATUS_BAR_PROPERTIES_MOCK,
-    gpm: QUOTATION_DETAIL_MOCK.rfqData.gpm * 100,
-    gpi: SIMULATED_QUOTATION_MOCK.previousStatusBar.gpi,
-    priceDiff: SIMULATED_QUOTATION_MOCK.previousStatusBar.priceDiff,
+    totalWeightedAverageGpm: QUOTATION_DETAIL_MOCK.rfqData.gpm * 100,
+    totalWeightedAverageGpi:
+      SIMULATED_QUOTATION_MOCK.previousStatusBar.totalWeightedAverageGpi,
+    totalWeightedAveragePriceDiff:
+      SIMULATED_QUOTATION_MOCK.previousStatusBar.totalWeightedAveragePriceDiff,
   },
   simulatedStatusBar: {
     ...STATUS_BAR_PROPERTIES_MOCK,
-    gpm: QUOTATION_DETAIL_MOCK.rfqData.gpm * 100,
-    gpi: STATUS_BAR_PROPERTIES_MOCK.gpi,
-    priceDiff: STATUS_BAR_PROPERTIES_MOCK.priceDiff,
+    totalWeightedAverageGpm: QUOTATION_DETAIL_MOCK.rfqData.gpm * 100,
+    totalWeightedAverageGpi: STATUS_BAR_PROPERTIES_MOCK.totalWeightedAverageGpi,
+    totalWeightedAveragePriceDiff:
+      STATUS_BAR_PROPERTIES_MOCK.totalWeightedAveragePriceDiff,
   },
 };

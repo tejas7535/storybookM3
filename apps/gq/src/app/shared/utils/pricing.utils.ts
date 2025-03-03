@@ -1,8 +1,9 @@
 /* eslint-disable max-lines */
 import Big from 'big.js';
 
-import { StatusBarProperties } from '../ag-grid/custom-status-bar/quotation-details-status/model/status-bar.model';
 import { QuotationDetail } from '../models/quotation-detail';
+import { QuotationDetailKpi } from '../services/rest/calculation/model/quotation-detail-kpi.interface';
+import { QuotationKpiRequest } from '../services/rest/calculation/model/quotation-kpi-request.interface';
 
 export const roundValue = (val: number, priceUnit: number) => {
   const roundingFactor = priceUnit >= 1 ? priceUnit * 100 : 100;
@@ -40,84 +41,6 @@ export const calculateNetValue = (
   const mutliplicationFactor = detail.orderQuantity / detail.leadingPriceUnit;
 
   return multiplyAndRoundValues(price, mutliplicationFactor);
-};
-
-/**
- * https://confluence.schaeffler.com/display/PARS/Implementation+Prices
- * @param details
- */
-export const calculateStatusBarValues = (
-  details: QuotationDetail[]
-): StatusBarProperties => {
-  let totalNetValue = null as number;
-  let netValueGPM = null as number;
-  let sumGPINetValue = null as number;
-  let sumGPMNetValue = null as number;
-  let totalWeightedGPI = null as number;
-  let totalWeightedGPM = null as number;
-  let sumPriceDiffNetValue = null as number;
-  let sumPriceDiff = null as number;
-  let totalPriceDiff = null as number;
-
-  keepMaxQuantityIfDuplicate(details).forEach((row: QuotationDetail) => {
-    if (row.netValue) {
-      totalNetValue += row.netValue;
-      if (row.gpi) {
-        sumGPINetValue += row.gpi * row.netValue;
-      }
-      if (row.gpm || row.rfqData?.gpm) {
-        // when there's and RFQ the total Avg GPM is calculated with the GPM of the RFQ
-        const gpmToCalculateWith = row.rfqData?.gpm || row.gpm;
-
-        netValueGPM += row.netValue;
-        sumGPMNetValue += gpmToCalculateWith * row.netValue;
-      }
-      if (row.priceDiff) {
-        sumPriceDiff += row.netValue * row.priceDiff;
-        sumPriceDiffNetValue += row.netValue;
-      }
-    }
-  });
-  if (netValueGPM !== 0) {
-    totalWeightedGPM = roundToTwoDecimals((sumGPMNetValue / netValueGPM) * 100);
-  }
-  if (totalNetValue !== 0) {
-    totalWeightedGPI = roundToTwoDecimals(
-      (sumGPINetValue / totalNetValue) * 100
-    );
-    totalNetValue = roundToTwoDecimals(totalNetValue);
-  }
-  if (sumPriceDiffNetValue !== 0) {
-    totalPriceDiff = roundToTwoDecimals(
-      (sumPriceDiff / sumPriceDiffNetValue) * 100
-    );
-  }
-
-  return new StatusBarProperties(
-    totalNetValue,
-    totalWeightedGPI,
-    totalWeightedGPM,
-    totalPriceDiff,
-    details.length
-  );
-};
-
-export const keepMaxQuantityIfDuplicate = (
-  quotationDetails: QuotationDetail[]
-): QuotationDetail[] => {
-  const filtered = new Map<string, QuotationDetail>();
-  quotationDetails?.forEach((quotationDetail: QuotationDetail) => {
-    const key = quotationDetail.material.materialNumber15;
-    if (filtered.has(key)) {
-      if (filtered.get(key).orderQuantity < quotationDetail.orderQuantity) {
-        filtered.set(key, quotationDetail);
-      }
-    } else {
-      filtered.set(key, quotationDetail);
-    }
-  });
-
-  return [...filtered.values()];
 };
 
 export const roundToTwoDecimals = (number: number): number => {
@@ -170,3 +93,36 @@ export const roundPercentageToTwoDecimals = (number: number): number =>
 
 export const roundToFourDecimals = (number: number): number =>
   Math.round(number * 10_000) / 10_000;
+
+export const quotationDetailsToRequestData = (
+  quotationDetails: QuotationDetail[]
+): QuotationKpiRequest => {
+  const detailKpiList: QuotationDetailKpi[] = quotationDetails.map(
+    (qd): QuotationDetailKpi => {
+      const {
+        gpi,
+        gpm,
+        priceDiff,
+        orderQuantity,
+        material,
+        rfqData,
+        netValue,
+        gqRating,
+      } = qd;
+      const kpi: QuotationDetailKpi = {
+        netValue,
+        gpi,
+        gpm,
+        priceDiff,
+        gqRating,
+        quantity: orderQuantity,
+        materialNumber15: material.materialNumber15,
+        rfqDataGpm: rfqData?.gpm,
+      };
+
+      return kpi;
+    }
+  );
+
+  return { detailKpiList };
+};

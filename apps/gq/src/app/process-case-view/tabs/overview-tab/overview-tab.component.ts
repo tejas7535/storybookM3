@@ -21,7 +21,7 @@ import {
   QuotationPricingOverview,
   QuotationStatus,
 } from '@gq/shared/models/quotation';
-import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.interface';
+import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
 import { Rating } from '@gq/shared/models/rating.enum';
 import { calculateDuration } from '@gq/shared/utils/misc.utils';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';

@@ -4,8 +4,10 @@ import {
   QuotationAttachment,
   QuotationDetail,
   QuotationStatus,
+  SimulatedQuotation,
 } from '@gq/shared/models';
 import { Customer } from '@gq/shared/models/customer';
+import { QuotationPricingOverview } from '@gq/shared/models/quotation';
 import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
@@ -91,12 +93,18 @@ export const ActiveCaseActions = createActionGroup({
 
     'Confirm Simulated Quotation': emptyProps(),
     'Reset Simulated Quotation': emptyProps(),
-    'Add Simulated Quotation': props<{
+    'Calculate Simulated Quotation': props<{
       gqId: number;
-      quotationDetails: QuotationDetail[];
+      simulatedQuotationDetails: QuotationDetail[];
       simulatedField: ColumnFields;
+      selectedQuotationDetails: QuotationDetail[];
     }>(),
-    'Remove Simulated Quotation Detail': props<{ gqPositionId: string }>(),
+    'Calculate Simulated Quotation Success': props<{
+      simulatedQuotation: SimulatedQuotation;
+    }>(),
+    'Calculate Simulated Quotation Failure': props<{
+      errorMessage: string;
+    }>(),
 
     'Add Materials to Quotation': emptyProps(),
     'Add Materials to Quotation Success': props<{
@@ -150,5 +158,10 @@ export const ActiveCaseActions = createActionGroup({
     'Get Sap Sync Status Success Fully Completed': props<{
       result: QuotationSapSyncStatusResult;
     }>(),
+    'Get Quotation Pricing Overview': emptyProps(),
+    'Get Quotation Pricing Overview Success': props<{
+      result: QuotationPricingOverview;
+    }>(),
+    'Get Quotation Pricing Overview Failure': props<{ errorMessage: string }>(),
   },
 });

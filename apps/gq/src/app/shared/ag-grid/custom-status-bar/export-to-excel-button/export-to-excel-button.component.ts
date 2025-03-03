@@ -16,7 +16,7 @@ import {
   ExtendedSapPriceConditionDetail,
 } from '@gq/core/store/reducers/models';
 import { getExtendedSapPriceConditionDetails } from '@gq/core/store/selectors';
-import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.interface';
+import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
 import { getCurrentYear, getLastYear } from '@gq/shared/utils/misc.utils';
 import { translate, TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';

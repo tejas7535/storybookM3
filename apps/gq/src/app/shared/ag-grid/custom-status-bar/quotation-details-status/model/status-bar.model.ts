@@ -1,3 +1,4 @@
+import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
 import { IStatusPanelParams } from 'ag-grid-enterprise';
 
 import { QuotationStatus } from '../../../../models/quotation';
@@ -5,19 +6,9 @@ import { ButtonType } from '../../update-case-status-button/button-type.enum';
 
 export class StatusBar {
   constructor(
-    public total = new StatusBarProperties(),
-    public selected = new StatusBarProperties(),
+    public total = new QuotationDetailsSummaryKpi(),
+    public selected = new QuotationDetailsSummaryKpi(),
     public filtered = 0
-  ) {}
-}
-
-export class StatusBarProperties {
-  constructor(
-    public netValue = 0,
-    public gpi = 0,
-    public gpm = 0,
-    public priceDiff = null as number,
-    public rows = 0
   ) {}
 }
 

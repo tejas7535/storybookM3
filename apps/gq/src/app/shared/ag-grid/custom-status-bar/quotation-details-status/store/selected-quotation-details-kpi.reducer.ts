@@ -1,4 +1,4 @@
-import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.interface';
+import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
 import { createFeature, createReducer, on } from '@ngrx/store';
 
 import { SelectedQuotationDetailsKpiActions } from './selected-quotation-details-kpi.actions';

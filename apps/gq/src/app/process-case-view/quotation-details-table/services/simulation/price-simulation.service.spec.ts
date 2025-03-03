@@ -88,7 +88,9 @@ describe('PriceSimulationService', () => {
         ).toHaveBeenCalledWith([{ key: 'price', value: 12 }], 'price');
         expect(
           service['simulationService'].updateStoreForSimulation
-        ).toHaveBeenCalledWith(1234, [simulatedDetail], ColumnFields.PRICE);
+        ).toHaveBeenCalledWith(1234, [simulatedDetail], ColumnFields.PRICE, [
+          detail,
+        ]);
       });
       test('should call updateStore for gpm simulation', () => {
         // given:
@@ -150,7 +152,9 @@ describe('PriceSimulationService', () => {
         ).toHaveBeenCalledWith([{ key: 'discount', value: 20 }], 'discount');
         expect(
           service['simulationService'].updateStoreForSimulation
-        ).toHaveBeenCalledWith(1234, [simulatedDetail], ColumnFields.GPM);
+        ).toHaveBeenCalledWith(1234, [simulatedDetail], ColumnFields.GPM, [
+          detail,
+        ]);
       });
       test('should call updateStore for gpi simulation', () => {
         // given:
@@ -212,7 +216,9 @@ describe('PriceSimulationService', () => {
         ).toHaveBeenCalledWith([{ key: 'discount', value: 20 }], 'discount');
         expect(
           service['simulationService'].updateStoreForSimulation
-        ).toHaveBeenCalledWith(1234, [simulatedDetail], ColumnFields.GPI);
+        ).toHaveBeenCalledWith(1234, [simulatedDetail], ColumnFields.GPI, [
+          detail,
+        ]);
       });
       test('should call updateStore for discount simulation', () => {
         // given:
@@ -274,7 +280,9 @@ describe('PriceSimulationService', () => {
         ).toHaveBeenCalledWith([{ key: 'gpi', value: 20 }], 'gpi');
         expect(
           service['simulationService'].updateStoreForSimulation
-        ).toHaveBeenCalledWith(1234, [simulatedDetail], ColumnFields.DISCOUNT);
+        ).toHaveBeenCalledWith(1234, [simulatedDetail], ColumnFields.DISCOUNT, [
+          detail,
+        ]);
       });
       test('should call updateStore for targetPrice simulation', () => {
         // given:
@@ -317,7 +325,8 @@ describe('PriceSimulationService', () => {
         ).toHaveBeenCalledWith(
           1234,
           [simulatedDetail],
-          ColumnFields.TARGET_PRICE
+          ColumnFields.TARGET_PRICE,
+          [detail]
         );
       });
     });
@@ -356,7 +365,7 @@ describe('PriceSimulationService', () => {
         ).not.toHaveBeenCalled();
         expect(
           service['simulationService'].updateStoreForSimulation
-        ).toHaveBeenCalledWith(1234, [detail], ColumnFields.DISCOUNT);
+        ).toHaveBeenCalledWith(1234, [detail], ColumnFields.DISCOUNT, [detail]);
       });
       test("should not simulate if gpi is simulated and detail's gpc is undefined", () => {
         const detail: QuotationDetail = {
@@ -387,7 +396,7 @@ describe('PriceSimulationService', () => {
         ).not.toHaveBeenCalled();
         expect(
           service['simulationService'].updateStoreForSimulation
-        ).toHaveBeenCalledWith(1234, [detail], ColumnFields.GPI);
+        ).toHaveBeenCalledWith(1234, [detail], ColumnFields.GPI, [detail]);
       });
       test("should not simulate if gpm is simulated and detail's sqv is undefined", () => {
         const detail: QuotationDetail = {
@@ -418,7 +427,7 @@ describe('PriceSimulationService', () => {
         ).not.toHaveBeenCalled();
         expect(
           service['simulationService'].updateStoreForSimulation
-        ).toHaveBeenCalledWith(1234, [detail], ColumnFields.GPM);
+        ).toHaveBeenCalledWith(1234, [detail], ColumnFields.GPM, [detail]);
       });
     });
   });

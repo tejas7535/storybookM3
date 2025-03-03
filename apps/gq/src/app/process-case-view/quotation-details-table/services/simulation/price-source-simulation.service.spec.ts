@@ -43,7 +43,7 @@ describe('PriceSourceSimulationService', () => {
         // then:
         expect(
           service['simulationService'].updateStoreForSimulation
-        ).toHaveBeenCalledWith(1, [], ColumnFields.PRICE_SOURCE);
+        ).toHaveBeenCalledWith(1, [], ColumnFields.PRICE_SOURCE, [detail]);
       });
 
       test('should not simulate if no gq price available', () => {
@@ -60,7 +60,7 @@ describe('PriceSourceSimulationService', () => {
         // then:
         expect(
           service['simulationService'].updateStoreForSimulation
-        ).toHaveBeenCalledWith(1, [], ColumnFields.PRICE_SOURCE);
+        ).toHaveBeenCalledWith(1, [], ColumnFields.PRICE_SOURCE, [detail]);
       });
       test('should not simulate if no strategic price available', () => {
         // given:
@@ -77,7 +77,7 @@ describe('PriceSourceSimulationService', () => {
         // then:
         expect(
           service['simulationService'].updateStoreForSimulation
-        ).toHaveBeenCalledWith(1, [], ColumnFields.PRICE_SOURCE);
+        ).toHaveBeenCalledWith(1, [], ColumnFields.PRICE_SOURCE, [detail]);
       });
 
       test('should not simulate if no target price available', () => {
@@ -96,7 +96,7 @@ describe('PriceSourceSimulationService', () => {
         // then:
         expect(
           service['simulationService'].updateStoreForSimulation
-        ).toHaveBeenCalledWith(1, [], ColumnFields.PRICE_SOURCE);
+        ).toHaveBeenCalledWith(1, [], ColumnFields.PRICE_SOURCE, [detail]);
       });
       test('should not simulate if no sap price available', () => {
         // given:
@@ -112,7 +112,7 @@ describe('PriceSourceSimulationService', () => {
         // then:
         expect(
           service['simulationService'].updateStoreForSimulation
-        ).toHaveBeenCalledWith(1, [], ColumnFields.PRICE_SOURCE);
+        ).toHaveBeenCalledWith(1, [], ColumnFields.PRICE_SOURCE, [detail]);
       });
     });
 
@@ -164,7 +164,12 @@ describe('PriceSourceSimulationService', () => {
         // then:
         expect(
           service['simulationService'].updateStoreForSimulation
-        ).toHaveBeenCalledWith(1, [simulatedDetail], ColumnFields.PRICE_SOURCE);
+        ).toHaveBeenCalledWith(
+          1,
+          [simulatedDetail],
+          ColumnFields.PRICE_SOURCE,
+          [detail]
+        );
       });
 
       test('should simulate sap price', () => {
@@ -214,7 +219,12 @@ describe('PriceSourceSimulationService', () => {
         // then:
         expect(
           service['simulationService'].updateStoreForSimulation
-        ).toHaveBeenCalledWith(1, [simulatedDetail], ColumnFields.PRICE_SOURCE);
+        ).toHaveBeenCalledWith(
+          1,
+          [simulatedDetail],
+          ColumnFields.PRICE_SOURCE,
+          [detail]
+        );
       });
     });
   });

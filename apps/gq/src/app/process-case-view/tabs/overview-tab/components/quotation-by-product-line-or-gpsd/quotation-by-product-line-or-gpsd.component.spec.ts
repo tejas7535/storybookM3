@@ -1,14 +1,15 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
+import { of } from 'rxjs';
+
 import {
   getQuotationDetails,
   getQuotationDetailsByGPSD,
   getQuotationDetailsByPL,
 } from '@gq/core/store/active-case/active-case.selectors';
-import { StatusBarProperties } from '@gq/shared/ag-grid/custom-status-bar/quotation-details-status/model/status-bar.model';
-import { QuotationDetail } from '@gq/shared/models/quotation-detail';
+import { QuotationDetail } from '@gq/shared/models/quotation-detail/quotation-detail.model';
+import { CalculationService } from '@gq/shared/services/rest/calculation/calculation.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
-import * as pricingUtils from '@gq/shared/utils/pricing.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -24,14 +25,15 @@ describe('QuotationByProductLineOrGpsdComponent', () => {
   let spectator: Spectator<QuotationByProductLineOrGpsdComponent>;
   let store: MockStore;
 
-  const quotationDetailsMock: QuotationDetail[] = [
+  const quotationDetailsMock = [
     {
       material: { gpsdGroupId: 'GPSD01', productLineId: '01' },
-    } as unknown as QuotationDetail,
+    },
     {
       material: { gpsdGroupId: 'GPSD02', productLineId: '01' },
-    } as unknown as QuotationDetail,
-  ];
+    },
+  ] as QuotationDetail[];
+
   const groupByPLMock = new Map([['01', [...quotationDetailsMock]]]);
 
   const groupByGPSDMock = new Map([
@@ -52,6 +54,13 @@ describe('QuotationByProductLineOrGpsdComponent', () => {
       MockProvider(TransformationService, {
         transformPercentage: jest.fn().mockReturnValue('17 %'),
       }),
+      MockProvider(CalculationService, {
+        getQuotationKpiCalculation: jest
+          .fn()
+          .mockReturnValue(
+            of({ totalNetValue: 100, totalWeightedAverageGpm: 0.17 })
+          ),
+      }),
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
@@ -60,58 +69,51 @@ describe('QuotationByProductLineOrGpsdComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(MockStore);
+
+    store.overrideSelector(getQuotationDetails, quotationDetailsMock);
+    store.overrideSelector(getQuotationDetailsByGPSD, groupByGPSDMock);
+    store.overrideSelector(getQuotationDetailsByPL, groupByPLMock);
   });
-  it('should create', () => {
+
+  test('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInt', () => {
-    beforeEach(() => {
-      store.overrideSelector(getQuotationDetails, quotationDetailsMock);
-      store.overrideSelector(getQuotationDetailsByGPSD, groupByGPSDMock);
-      store.overrideSelector(getQuotationDetailsByPL, groupByPLMock);
-    });
-
+  describe('ngOnInit', () => {
     test(
       'should calculate bar chartData',
       marbles((m) => {
-        jest.spyOn(pricingUtils, 'calculateStatusBarValues').mockReturnValue({
-          gpi: 10,
-          gpm: 10,
-          netValue: 100,
-          priceDiff: 0,
-          rows: 0,
-        });
-        component['calculateShare'] = jest.fn().mockReturnValue('20%');
-        m.expect(component['gpsdBarChartData$']).toBeObservable(
+        spectator.detectChanges();
+
+        m.expect(component.gpsdBarChartData$).toBeObservable(
           m.cold('a', {
             a: [
               {
                 name: 'GPSD01',
                 gpm: '17 %',
                 value: 100,
-                share: '20%',
+                share: '17 %',
                 numberOfItems: 1,
               } as BarChartData,
               {
                 name: 'GPSD02',
                 gpm: '17 %',
                 value: 100,
-                share: '20%',
+                share: '17 %',
                 numberOfItems: 1,
               } as BarChartData,
             ],
           })
         );
 
-        m.expect(component['plBarChartData$']).toBeObservable(
+        m.expect(component.plBarChartData$).toBeObservable(
           m.cold('a', {
             a: [
               {
                 name: 'PL 01',
                 gpm: '17 %',
                 value: 100,
-                share: '20%',
+                share: '17 %',
                 numberOfItems: 2,
               } as BarChartData,
             ],
@@ -120,16 +122,7 @@ describe('QuotationByProductLineOrGpsdComponent', () => {
       })
     );
   });
-  describe('calculateShare', () => {
-    test('should calculate the share', () => {
-      const result = component['calculateShare'].call(
-        component,
-        { netValue: 1 } as StatusBarProperties,
-        { netValue: 2 } as StatusBarProperties
-      );
-      expect(result).toBe('17 %');
-    });
-  });
+
   describe('ngOnDestroy', () => {
     test('should emit', () => {
       component['shutdown$$'].next = jest.fn();

@@ -395,18 +395,12 @@ export class QuotationDetailsTableComponent
       this.simulatedField &&
       this.simulatedValue
     ) {
-      if (event.node.isSelected()) {
-        this.priceSimulationService.simulateSelectedQuotationDetails(
-          this.simulatedField,
-          this.simulatedValue,
-          this.selectedRows,
-          this.tableContext.quotation.gqId
-        );
-      } else {
-        this.activeCaseFacade.removeSimulatedQuotationDetail(
-          event.node.data.gqPositionId
-        );
-      }
+      this.priceSimulationService.simulateSelectedQuotationDetails(
+        this.simulatedField,
+        this.simulatedValue,
+        this.selectedRows,
+        this.tableContext.quotation.gqId
+      );
     }
     // must be performed when confirming simulation
     else if (this.selectedRows.length === 0) {

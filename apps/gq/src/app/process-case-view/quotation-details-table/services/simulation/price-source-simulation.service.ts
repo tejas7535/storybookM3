@@ -117,10 +117,13 @@ export class PriceSourceSimulationService {
       })
       .filter(Boolean);
 
+    const selectedDetails = selectedRows.map((row) => row.data);
+
     this.simulationService.updateStoreForSimulation(
       gqId,
       simulatedRows,
-      ColumnFields.PRICE_SOURCE
+      ColumnFields.PRICE_SOURCE,
+      selectedDetails
     );
   }
 

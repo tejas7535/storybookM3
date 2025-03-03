@@ -1,7 +1,4 @@
-import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
-import { SimulatedQuotation } from '@gq/shared/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
-import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 
 import { QuotationIdentifier } from './models';
 
@@ -48,21 +45,6 @@ export const checkEqualityOfIdentifier = (
   fromRoute.customerNumber === current?.customerNumber &&
   fromRoute.gqId === current?.gqId &&
   fromRoute.salesOrg === current?.salesOrg;
-
-export const buildSimulatedQuotation = (
-  gqId: number,
-  simulatedField: ColumnFields,
-  simulatedDetails: QuotationDetail[],
-  details: QuotationDetail[]
-): SimulatedQuotation => ({
-  gqId,
-  simulatedField,
-  quotationDetails: simulatedDetails,
-  simulatedStatusBar: {
-    ...calculateStatusBarValues(getSimulatedDetails(details, simulatedDetails)),
-  },
-  previousStatusBar: { ...calculateStatusBarValues(details) },
-});
 
 export const getSimulatedDetails = (
   details: QuotationDetail[],

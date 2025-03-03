@@ -1,4 +1,4 @@
-import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.interface';
+import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
 
 import { QUOTATION_DETAILS_MOCK } from '../../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { SELECTED_QUOTATION_DETAILS_KPI_STATE_MOCK } from '../../../../../../testing/mocks/state/selected-quotation-details-state';

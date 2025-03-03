@@ -17,6 +17,7 @@ import {
   QuotationStatus,
   SAP_SYNC_STATUS,
 } from '@gq/shared/models';
+import { QuotationPricingOverview } from '@gq/shared/models/quotation';
 import { QuotationDetailCosts } from '@gq/shared/models/quotation-detail/cost';
 import { MaterialComparableCost } from '@gq/shared/models/quotation-detail/material-comparable-cost.model';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
@@ -91,6 +92,9 @@ export class ActiveCaseFacade {
   quotation$: Observable<Quotation> = this.store.select(
     activeCaseFeature.selectQuotation
   );
+
+  quotationPricingOverview$: Observable<QuotationPricingOverview> =
+    this.store.select(activeCaseFeature.selectQuotationPricingOverview);
 
   quotationIdentifier$: Observable<QuotationIdentifier> = this.store.select(
     activeCaseFeature.selectQuotationIdentifier
@@ -365,22 +369,18 @@ export class ActiveCaseFacade {
     this.store.dispatch(ActiveCaseActions.confirmSimulatedQuotation());
   }
 
-  removeSimulatedQuotationDetail(gqPositionId: string): void {
-    this.store.dispatch(
-      ActiveCaseActions.removeSimulatedQuotationDetail({ gqPositionId })
-    );
-  }
-
   addSimulatedQuotation(
     gqId: number,
-    quotationDetails: QuotationDetail[],
-    simulatedField: ColumnFields
+    simulatedQuotationDetails: QuotationDetail[],
+    simulatedField: ColumnFields,
+    selectedQuotationDetails: QuotationDetail[]
   ): void {
     this.store.dispatch(
-      ActiveCaseActions.addSimulatedQuotation({
+      ActiveCaseActions.calculateSimulatedQuotation({
         gqId,
-        quotationDetails,
+        simulatedQuotationDetails,
         simulatedField,
+        selectedQuotationDetails,
       })
     );
   }

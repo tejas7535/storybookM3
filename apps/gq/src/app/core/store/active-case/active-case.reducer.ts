@@ -7,18 +7,14 @@ import {
   QuotationDetail,
   SimulatedQuotation,
 } from '@gq/shared/models';
-import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.interface';
+import { QuotationPricingOverview } from '@gq/shared/models/quotation';
+import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
 import { QuotationDetailCosts } from '@gq/shared/models/quotation-detail/cost';
-import { calculateStatusBarValues } from '@gq/shared/utils/pricing.utils';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
 import { GREATER_CHINA_SALES_ORGS } from '../approval/model/greater-china-sales-orgs';
 import { ActiveCaseActions } from './active-case.action';
-import {
-  buildSimulatedQuotation,
-  getSimulatedDetails,
-  sortQuotationDetails,
-} from './active-case.utils';
+import { sortQuotationDetails } from './active-case.utils';
 import { QuotationIdentifier } from './models';
 import { QuotationMetadataReducers } from './quotation-metadata/quotation-metadata.reducer';
 
@@ -37,6 +33,9 @@ export interface ActiveCaseState {
   quotationMetadataLoadingErrorMessage: string;
 
   quotation: Quotation;
+  quotationPricingOverview: QuotationPricingOverview;
+  quotationPricingOverviewLoading: boolean;
+  quotationPricingOverviewErrorMessage: string;
   simulatedItem: SimulatedQuotation;
   selectedQuotationDetail: string;
   quotationLoadingErrorMessage: string;
@@ -66,6 +65,9 @@ export const initialState: ActiveCaseState = {
 
   quotationLoading: false,
   quotation: undefined,
+  quotationPricingOverview: undefined,
+  quotationPricingOverviewLoading: false,
+  quotationPricingOverviewErrorMessage: undefined,
   simulatedItem: undefined,
   selectedQuotationDetail: undefined,
   quotationLoadingErrorMessage: undefined,
@@ -365,18 +367,10 @@ export const activeCaseFeature = createFeature({
       })
     ),
     on(
-      ActiveCaseActions.addSimulatedQuotation,
-      (
-        state: ActiveCaseState,
-        { gqId, quotationDetails, simulatedField }
-      ): ActiveCaseState => ({
+      ActiveCaseActions.calculateSimulatedQuotationSuccess,
+      (state: ActiveCaseState, { simulatedQuotation }): ActiveCaseState => ({
         ...state,
-        simulatedItem: buildSimulatedQuotation(
-          gqId,
-          simulatedField,
-          quotationDetails,
-          state.quotation.quotationDetails
-        ),
+        simulatedItem: simulatedQuotation,
       })
     ),
     on(
@@ -407,29 +401,6 @@ export const activeCaseFeature = createFeature({
         ...state,
         quotationLoadingErrorMessage: errorMessage,
         updateLoading: false,
-      })
-    ),
-    on(
-      ActiveCaseActions.removeSimulatedQuotationDetail,
-      (state: ActiveCaseState, { gqPositionId }): ActiveCaseState => ({
-        ...state,
-        simulatedItem: {
-          ...state.simulatedItem,
-          quotationDetails: state.simulatedItem.quotationDetails.filter(
-            (detail: QuotationDetail) => detail.gqPositionId !== gqPositionId
-          ),
-          simulatedStatusBar: {
-            ...calculateStatusBarValues(
-              getSimulatedDetails(
-                state.quotation.quotationDetails,
-                state.simulatedItem.quotationDetails.filter(
-                  (detail: QuotationDetail) =>
-                    detail.gqPositionId !== gqPositionId
-                )
-              )
-            ),
-          },
-        },
       })
     ),
     on(
@@ -604,6 +575,29 @@ export const activeCaseFeature = createFeature({
       (state: ActiveCaseState, { errorMessage }): ActiveCaseState => ({
         ...state,
         sapSyncStatusErrorMessage: errorMessage,
+      })
+    ),
+    on(
+      ActiveCaseActions.getQuotationPricingOverview,
+      (state: ActiveCaseState): ActiveCaseState => ({
+        ...state,
+        quotationPricingOverviewLoading: true,
+      })
+    ),
+    on(
+      ActiveCaseActions.getQuotationPricingOverviewSuccess,
+      (state: ActiveCaseState, { result }): ActiveCaseState => ({
+        ...state,
+        quotationPricingOverviewLoading: false,
+        quotationPricingOverview: result,
+      })
+    ),
+    on(
+      ActiveCaseActions.getQuotationPricingOverviewFailure,
+      (state: ActiveCaseState, { errorMessage }): ActiveCaseState => ({
+        ...state,
+        quotationPricingOverviewLoading: false,
+        quotationPricingOverviewErrorMessage: errorMessage,
       })
     ),
     ...QuotationMetadataReducers

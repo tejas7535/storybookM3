@@ -1,4 +1,4 @@
-import { QuotationDetailsSummaryKpi } from '../../../../app/shared/models/quotation/quotation-details-summary-kpi.interface';
+import { QuotationDetailsSummaryKpi } from '../../../../app/shared/models/quotation/quotation-details-summary-kpi.model';
 
 export const QUOTATION_DETAILS_SUMMARY_KPI_MOCK: QuotationDetailsSummaryKpi = {
   amountOfQuotationDetails: 2,

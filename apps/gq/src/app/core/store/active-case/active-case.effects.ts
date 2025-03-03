@@ -1,10 +1,10 @@
 /* eslint-disable max-lines */
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
-import { from, of, timer } from 'rxjs';
+import { forkJoin, from, of, timer } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -20,14 +20,17 @@ import { ErrorId } from '@gq/shared/http/constants/error-id.enum';
 import { URL_SUPPORT } from '@gq/shared/http/constants/urls';
 import { Customer, Quotation, QuotationAttachment } from '@gq/shared/models';
 import { SapCallInProgress } from '@gq/shared/models/quotation';
+import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
 import {
   QuotationDetail,
   SAP_SYNC_STATUS,
 } from '@gq/shared/models/quotation-detail';
 import { AttachmentsService } from '@gq/shared/services/rest/attachments/attachments.service';
+import { CalculationService } from '@gq/shared/services/rest/calculation/calculation.service';
 import { CustomerService } from '@gq/shared/services/rest/customer/customer.service';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
+import { quotationDetailsToRequestData } from '@gq/shared/utils/pricing.utils';
 import { translate } from '@jsverse/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
@@ -52,6 +55,16 @@ import {
 
 @Injectable()
 export class ActiveCaseEffects {
+  private readonly calculationService = inject(CalculationService);
+  private readonly actions$ = inject(Actions);
+  private readonly customerService = inject(CustomerService);
+  private readonly quotationDetailsService = inject(QuotationDetailsService);
+  private readonly quotationService = inject(QuotationService);
+  private readonly attachmentsService = inject(AttachmentsService);
+  private readonly store = inject(Store);
+  private readonly router = inject(Router);
+  private readonly snackBar = inject(MatSnackBar);
+
   customerDetails$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ActiveCaseActions.getCustomerDetails),
@@ -704,16 +717,94 @@ export class ActiveCaseEffects {
       )
     );
   });
-  constructor(
-    private readonly actions$: Actions,
-    private readonly customerService: CustomerService,
-    private readonly quotationDetailsService: QuotationDetailsService,
-    private readonly quotationService: QuotationService,
-    private readonly attachmentsService: AttachmentsService,
-    private readonly store: Store,
-    private readonly router: Router,
-    private readonly snackBar: MatSnackBar
-  ) {}
+
+  calculateSimulatedQuotation$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ActiveCaseActions.calculateSimulatedQuotation),
+      mergeMap((action) =>
+        forkJoin({
+          simulatedStatusBar:
+            this.calculationService.getQuotationKpiCalculation(
+              quotationDetailsToRequestData(action.simulatedQuotationDetails)
+            ),
+          previousStatusBar: this.calculationService.getQuotationKpiCalculation(
+            quotationDetailsToRequestData(action.selectedQuotationDetails)
+          ),
+        }).pipe(
+          map(({ simulatedStatusBar, previousStatusBar }) => {
+            const { gqId, simulatedField, simulatedQuotationDetails } = action;
+
+            const simulatedQuotation = {
+              gqId,
+              simulatedField,
+              quotationDetails: simulatedQuotationDetails,
+              simulatedStatusBar,
+              previousStatusBar,
+            };
+
+            return ActiveCaseActions.calculateSimulatedQuotationSuccess({
+              simulatedQuotation,
+            });
+          }),
+          catchError((errorMessage) =>
+            of(
+              ActiveCaseActions.calculateSimulatedQuotationFailure({
+                errorMessage,
+              })
+            )
+          )
+        )
+      )
+    );
+  });
+
+  getQuotationPricingOverview$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ActiveCaseActions.getQuotationPricingOverview),
+      concatLatestFrom(() =>
+        this.store.select(activeCaseFeature.selectQuotation)
+      ),
+      map(([_action, quotation]) => quotation?.quotationDetails),
+      mergeMap((quotationDetails: QuotationDetail[]) =>
+        this.calculationService
+          .getQuotationKpiCalculation(
+            quotationDetailsToRequestData(quotationDetails)
+          )
+          .pipe(
+            map((priceInformation: QuotationDetailsSummaryKpi) => {
+              const avgRatingItems = quotationDetails
+                .filter((item: QuotationDetail) => !!item && item.gqRating)
+                .map((item: QuotationDetail) => item.gqRating);
+              const avgRating = Math.round(
+                avgRatingItems.reduce((sum: number, x: number) => sum + x, 0) /
+                  avgRatingItems.length
+              );
+
+              const result = {
+                gpi: { value: priceInformation.totalWeightedAverageGpi },
+                gpm: { value: priceInformation.totalWeightedAverageGpm },
+                netValue: { value: priceInformation.totalNetValue },
+                avgGqRating: { value: avgRating },
+                deviation: {
+                  value: priceInformation.totalWeightedAveragePriceDiff,
+                },
+              };
+
+              return ActiveCaseActions.getQuotationPricingOverviewSuccess({
+                result,
+              });
+            }),
+            catchError((errorMessage) =>
+              of(
+                ActiveCaseActions.getQuotationPricingOverviewFailure({
+                  errorMessage,
+                })
+              )
+            )
+          )
+      )
+    );
+  });
 
   private checkGqPriceAffectedByUpdate(
     updateQuotationDetailList: UpdateQuotationDetail[],

@@ -11,7 +11,7 @@ import {
   getSimulationModeEnabled,
 } from '@gq/core/store/active-case/active-case.selectors';
 import { userHasGPCRole, userHasSQVRole } from '@gq/core/store/selectors';
-import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.interface';
+import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
