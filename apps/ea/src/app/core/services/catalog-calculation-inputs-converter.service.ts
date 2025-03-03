@@ -73,7 +73,7 @@ export class CatalogCalculationInputsConverterService {
     }
     const result: CalculationResultReportInput = {
       hasNestedStructure:
-        input.identifier === BLOCK || input.identifier === TABLE ? true : false,
+        input.identifier === BLOCK || input.identifier === TABLE,
       title: input?.title,
       titleID: input?.titleID,
     };
@@ -132,7 +132,7 @@ export class CatalogCalculationInputsConverterService {
   private extractPrefix(input: string): string | undefined {
     const regex = /^(\S+\s)/;
 
-    const match = input.match(regex);
+    const match = regex.exec(input);
 
     return match ? match[1] : undefined;
   }

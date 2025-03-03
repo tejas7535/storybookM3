@@ -2,7 +2,6 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { of } from 'rxjs';
 
-import { CalculationModuleInfoService } from '@ea/core/services/calculation-module-info.service';
 import { CatalogService } from '@ea/core/services/catalog.service';
 import { CO2UpstreamService } from '@ea/core/services/co2-upstream.service';
 import { DownstreamCalculationService } from '@ea/core/services/downstream-calculation.service';
@@ -40,10 +39,6 @@ const co2upstreamServiceMock = {
   findBearings: jest.fn(),
 };
 
-const calculationModuleInfoServiceMock = {
-  getCalculationInfo: jest.fn(),
-};
-
 const downstreamCalculationServiceMock = {
   getCanCalculate: jest.fn(),
 };
@@ -73,10 +68,6 @@ describe('Product Selection Effects', () => {
         useValue: co2upstreamServiceMock,
       },
       {
-        provide: CalculationModuleInfoService,
-        useValue: calculationModuleInfoServiceMock,
-      },
-      {
         provide: ProductSelectionFacade,
         useValue: {
           bearingDesignation$: of('modelId-123'),
@@ -95,48 +86,6 @@ describe('Product Selection Effects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(ProductSelectionEffects);
-  });
-
-  describe('fetchCalculationModuleInfo$', () => {
-    beforeEach(() => {
-      calculationModuleInfoServiceMock.getCalculationInfo.mockReset();
-    });
-
-    it('should fetch module info and write it to store', () => {
-      const serviceSpy = jest
-        .spyOn(calculationModuleInfoServiceMock, 'getCalculationInfo')
-        .mockImplementation(() =>
-          of({ frictionCalculation: true, catalogueCalculation: true })
-        );
-
-      return marbles((m) => {
-        action = ProductSelectionActions.fetchCalculationModuleInfo();
-        actions$ = m.hot('-a', { a: action });
-
-        const expected = m.cold('-(bc)', {
-          b: ProductSelectionActions.setCalculationModuleInfo({
-            calculationModuleInfo: {
-              frictionCalculation: true,
-              catalogueCalculation: true,
-            },
-          }),
-          c: CalculationTypesActions.setCalculationTypes({
-            calculationTypes: {
-              ...CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes,
-              emission: {
-                ...CALCULATION_PARAMETERS_STATE_MOCK.calculationTypes.emission,
-                disabled: false,
-              },
-            } as (typeof CALCULATION_PARAMETERS_STATE_MOCK)['calculationTypes'],
-          }),
-        });
-
-        m.expect(effects.fetchCalculationModuleInfo$).toBeObservable(expected);
-        m.flush();
-
-        expect(serviceSpy).toHaveBeenCalled();
-      })();
-    });
   });
 
   describe('fetchLoadcaseTemplate$', () => {

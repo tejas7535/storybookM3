@@ -50,17 +50,6 @@ export const productSelectionReducer = createReducer(
     })
   ),
   on(
-    ProductSelectionActions.setCalculationModuleInfo,
-    (state, { calculationModuleInfo }): ProductSelectionState => ({
-      ...state,
-      calculationModuleInfo,
-      error: {
-        ...state.error,
-        moduleInfoApi: undefined,
-      },
-    })
-  ),
-  on(
     ProductSelectionActions.setCanCalculate,
     (state, { co2DownstreamAvailable }): ProductSelectionState => ({
       ...state,

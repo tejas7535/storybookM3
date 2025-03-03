@@ -3,7 +3,6 @@ import { PRODUCT_SELECTION_STATE_MOCK, TEMPLATE_ITEM } from '@ea/testing/mocks';
 import {
   getBearingDesignation,
   getBearingId,
-  getCalculationModuleInfo,
   getLoadcaseTemplate,
   getOperatingConditionsTemplate,
   getTemplateItem,
@@ -70,14 +69,6 @@ describe('Product Selection Selector', () => {
     });
   });
 
-  describe('getCalculationModuleInfo', () => {
-    it('should return module info', () => {
-      expect(getCalculationModuleInfo(mockState)).toEqual(
-        PRODUCT_SELECTION_STATE_MOCK.calculationModuleInfo
-      );
-    });
-  });
-
   describe('getLoadcaseTemplate', () => {
     it('should return load case template', () => {
       expect(getLoadcaseTemplate(mockState)).toEqual(
@@ -112,9 +103,6 @@ describe('Product Selection Selector', () => {
           productSelection: {
             ...mockState.productSelection,
             bearingDesignation: 'designation',
-            calculationModuleInfo: {
-              frictionCalculation: true,
-            },
             co2DownstreamAvailable: true,
           },
         })

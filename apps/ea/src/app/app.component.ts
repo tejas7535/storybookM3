@@ -45,7 +45,6 @@ import { getLocaleForLanguage } from './shared/constants/language';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'engineering-app',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent
   implements OnChanges, OnInit, OnDestroy, AfterViewInit

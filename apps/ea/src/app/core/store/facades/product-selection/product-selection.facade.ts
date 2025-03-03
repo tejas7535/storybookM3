@@ -18,7 +18,6 @@ import {
   getBearingId,
   getBearingSelectionLoading,
   getBearingSelectionResultList,
-  getCalculationModuleInfo,
   getTemplateItem,
   getTemplates,
   isBearingSupported,
@@ -41,7 +40,6 @@ export class ProductSelectionFacade {
   );
 
   public bearingId$ = this.store.select(getBearingId);
-  public calcualtionModuleInfo$ = this.store.select(getCalculationModuleInfo);
   public availableLoads$ = this.store.select(getAvailableLoads);
   public availableLubricationMethods$ = this.store.select(
     getAvailableLubricationMethods

@@ -22,17 +22,6 @@ export const setBearingProductClass = createAction(
   props<{ productClass: CatalogServiceProductClass }>()
 );
 
-export const fetchCalculationModuleInfo = createAction(
-  '[Product Selection] Fetch Calculation Module Info'
-);
-
-export const setCalculationModuleInfo = createAction(
-  '[Product Selection] Set Calculation Module Info',
-  props<{
-    calculationModuleInfo: ProductSelectionState['calculationModuleInfo'];
-  }>()
-);
-
 export const fetchCanCalculate = createAction(
   '[Product Selection] Fetch Can Calculate'
 );

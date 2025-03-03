@@ -10,10 +10,6 @@ export interface ProductSelectionState {
   bearingId?: string;
   bearingResultList: Co2ApiSearchResult[];
   loading?: boolean;
-  calculationModuleInfo?: {
-    catalogueCalculation: boolean;
-    frictionCalculation: boolean;
-  };
   bearingProductClass?: CatalogServiceProductClass;
   error?: {
     catalogApi?: string;

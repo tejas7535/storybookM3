@@ -23,7 +23,6 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { HttpBearinxInterceptor } from './interceptor/http-bearinx.interceptor';
 import { HttpCatalogWebApiInterceptor } from './interceptor/http-catalog-web-api.interceptor';
 import { HttpCO2UpstreamInterceptor } from './interceptor/http-co2-upstream.interceptor';
 import { TranslocoCacheInterceptor } from './interceptor/http-transloco-cache.interceptor';
@@ -59,11 +58,6 @@ const assetsPath = getAssetsPath();
         useValue: localStorage,
       },
     }),
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpBearinxInterceptor,
-      multi: true,
-    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpCatalogWebApiInterceptor,

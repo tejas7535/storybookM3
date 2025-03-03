@@ -17,10 +17,6 @@ export const PRODUCT_SELECTION_STATE_MOCK: ProductSelectionState = {
   bearingDesignation: 'my-bearing',
   bearingId: 'bearing-id',
   bearingResultList: [],
-  calculationModuleInfo: {
-    catalogueCalculation: true,
-    frictionCalculation: false,
-  },
   co2DownstreamAvailable: true,
   loadcaseTemplate: [{ ...TEMPLATE_ITEM }],
   operatingConditionsTemplate: [{ ...TEMPLATE_ITEM }],

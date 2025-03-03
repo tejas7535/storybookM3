@@ -70,35 +70,6 @@ describe('ProductSelectionReducer', () => {
     });
   });
 
-  describe('setCalculationModuleInfo', () => {
-    it('should set the module info', () => {
-      const originalState: ProductSelectionState = {
-        ...initialState,
-      };
-
-      const newState = productSelectionReducer(
-        originalState,
-        ProductSelectionActions.setCalculationModuleInfo({
-          calculationModuleInfo: {
-            catalogueCalculation: true,
-            frictionCalculation: false,
-          },
-        })
-      );
-
-      expect(newState).toEqual({
-        ...initialState,
-        calculationModuleInfo: {
-          catalogueCalculation: true,
-          frictionCalculation: false,
-        },
-        error: {
-          frictionApi: undefined,
-        },
-      });
-    });
-  });
-
   describe('setCanCalculate', () => {
     it('should set the co2DownstreamAvailable', () => {
       const originalState: ProductSelectionState = {
