@@ -6,7 +6,7 @@ import {
 } from 'echarts';
 
 export const GRID_CONFIG: GridComponentOption = {
-  left: 0,
+  left: '10px',
   right: '20px',
   top: '80px',
   containLabel: true,
