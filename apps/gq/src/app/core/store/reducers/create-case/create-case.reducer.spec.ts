@@ -191,6 +191,22 @@ describe('Create Case Reducer', () => {
         expect(state.customer.salesOrgsLoading).toBeTruthy();
         expect(state.customer.customerId).toEqual(selectOption.id);
       });
+      test('should clear the salesOrgs when autocomplete for customer is requested', () => {
+        const action = selectAutocompleteOption({
+          option: selectOption,
+          filter: FilterNames.CUSTOMER,
+        });
+
+        const newFakeState = {
+          ...fakeState,
+          customer: {
+            ...fakeState.customer,
+            salesOrgs: [{ id: '2015', selected: true, currency: 'EUR' }],
+          },
+        } as CreateCaseState;
+        const state = createCaseReducer(newFakeState, action);
+        expect(state.customer.salesOrgs).toEqual([]);
+      });
 
       test('should set material option selected true', () => {
         const action = selectAutocompleteOption({

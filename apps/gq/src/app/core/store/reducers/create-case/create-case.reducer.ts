@@ -264,6 +264,8 @@ export const createCaseReducer = createReducer(
       customer: {
         ...state.customer,
         salesOrgsLoading: filter === FilterNames.CUSTOMER,
+        salesOrgs:
+          filter === FilterNames.CUSTOMER ? [] : state.customer.salesOrgs,
         customerId:
           filter === FilterNames.CUSTOMER
             ? option.id
@@ -272,6 +274,10 @@ export const createCaseReducer = createReducer(
       shipToParty: {
         ...state.shipToParty,
         salesOrgsLoading: filter === FilterNames.CUSTOMER_AND_SHIP_TO_PARTY,
+        salesOrgs:
+          filter === FilterNames.CUSTOMER_AND_SHIP_TO_PARTY
+            ? []
+            : state.shipToParty.salesOrgs,
         customerId:
           filter === FilterNames.CUSTOMER_AND_SHIP_TO_PARTY
             ? option.id
