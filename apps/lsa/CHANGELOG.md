@@ -1,4 +1,13 @@
 # Release Notes of Lubricator selection assistant
+## [0.0.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/lsa-v0.0.2...lsa-v0.0.3) (2025-03-03)
+
+
+### Bug Fixes
+
+* **lsa:** fix current lsa bugs (UFTABI-8606) ([#7063](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7063)) ([abb81df](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/abb81dfba4c769a86e28b9a14af4cc6f3d0fab07))
+* **lsa:** fix wording issues - UFTABI-8569 ([#6999](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6999)) ([a1d530f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a1d530fb5e9fdc971def443009534683bb77d711))
+* **lsa:** update disclaimer text (UFTABI-8606) ([#7082](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7082)) ([a44d4a7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a44d4a732838ae857be49aa3e15bf9e9c742cfe5))
+
 ## [0.0.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/lsa-v0.0.1...lsa-v0.0.2) (2024-12-16)
 
 
