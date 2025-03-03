@@ -815,7 +815,7 @@
       "CHKDMP": "Validação da demanda (M)",
       "DPLEOR": "Validação da demanda (A)",
       "DMPFIN": "A previsão foi atualizada",
-      "DPOPDL": "Re-classificação OP, Previsão validada eliminada",
+      "DPOPDL": "Reclassificação de SP para OP, verificação da previsão validada",
       "CFPRAO": "Verificar previsão validada, substituição anulada",
       "CFSUAO": "Verificar previsão validada, substituição anulada",
       "PINWAO": "Faseamento, Validação da demanda",

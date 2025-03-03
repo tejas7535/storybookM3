@@ -46,6 +46,7 @@ import {
   ExecInterval,
 } from '../../../../../../feature/alert-rules/model';
 import { CurrencyService } from '../../../../../../feature/info/currency.service';
+import { MaterialClassificationType } from '../../../../../../feature/material-customer/model';
 import { DatePickerComponent } from '../../../../../../shared/components/date-picker/date-picker.component';
 import { SingleAutocompleteSelectedEvent } from '../../../../../../shared/components/inputs/autocomplete/model';
 import {
@@ -70,7 +71,6 @@ import {
 } from '../../../../../../shared/utils/error-handling';
 import { SnackbarService } from '../../../../../../shared/utils/service/snackbar.service';
 import { ValidationHelper } from '../../../../../../shared/utils/validation/validation-helper';
-import { MaterialClassificationType } from './../../../../../../feature/material-customer/model';
 import {
   possibleWhenOptions,
   thresholdTypeWithParameter,
@@ -274,7 +274,7 @@ export class AlertRuleEditSingleModalComponent implements OnInit {
    *
    * Hint:
    * Mit der Regel stellt der Demand Planner ein Todo für die Sales Kollegen zur Validierung des Forecasts ein, das passiert in Demand360 nur auf SP Materialien (prio 1) und mit niedrigere Prio auch für AP Materialien
-   * Daher werden nur AP und SP als Auswahlmöglichkeit angegeben
+   * Daher werden nur AP, SP und OP als Auswahlmöglichkeit angegeben
    *
    * @protected
    * @type {SelectableValue[]}
@@ -283,6 +283,7 @@ export class AlertRuleEditSingleModalComponent implements OnInit {
   protected materialClassificationOptions: SelectableValue[] = [
     { id: MaterialClassificationType.AP, text: MaterialClassificationType.AP },
     { id: MaterialClassificationType.SP, text: MaterialClassificationType.SP },
+    { id: MaterialClassificationType.OP, text: MaterialClassificationType.OP },
   ];
   /**
    * The alertTypeDescription for the current selected alertType.

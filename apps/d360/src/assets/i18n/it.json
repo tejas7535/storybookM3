@@ -825,7 +825,7 @@
       "CHKDMP": "Convalida della domanda (M)",
       "DPLEOR": "Convalida della domanda (A)",
       "DMPFIN": "Le previsioni sono state aggiornate",
-      "DPOPDL": "Riclassificazione OP, Previsione convalidata cancellata",
+      "DPOPDL": "Riclassificazione da SP a OP, controllo Previsione convalidata",
       "CFPRAO": "Verifica della previsione convalidata, sostituzione annullata",
       "CFSUAO": "Verifica della previsione convalidata, sostituzione annullata",
       "PINWAO": "Phase-In, Convalida della domanda",

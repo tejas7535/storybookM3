@@ -837,7 +837,7 @@
       "CHKDMP": "Demand Validation (M)",
       "DPLEOR": "Demand Validation (A)",
       "DMPFIN": "The forecast was updated",
-      "DPOPDL": "Re-classification OP, Validated Forecast deleted",
+      "DPOPDL": "Re-classification SP to OP, check Validated Forecast",
       "CFPRAO": "Check validated forecast, substitution undone",
       "CFSUAO": "Check validated forecast, substitution undone",
       "PINWAO": "Phase-In, Demand Validation",

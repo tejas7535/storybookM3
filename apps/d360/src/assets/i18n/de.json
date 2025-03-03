@@ -834,7 +834,7 @@
       "CHKDMP": "Absatzvalidierung (M)",
       "DPLEOR": "Absatzvalidierung (A)",
       "DMPFIN": "Der Forecast wurde aktualisiert",
-      "DPOPDL": "Re-Klassifizierung OP, Absatzprognose gelöscht",
+      "DPOPDL": "Neueinstufung SP zu OP, Überprüfung der validierten Prognose",
       "CFPRAO": "Prüfe Validated Forecast, Ersetzung rückgängig gemacht",
       "CFSUAO": "Prüfe Validated Forecast, Ersetzung rückgängig gemacht",
       "PINWAO": "Phase-In, Absatzvalidierung",
