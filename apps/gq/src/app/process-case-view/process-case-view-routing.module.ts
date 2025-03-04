@@ -31,6 +31,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: ProcessCaseRoutePath.OpenItemsPath,
+        loadComponent: () =>
+          import('./tabs/open-items-tab/open-items-tab.component').then(
+            (m) => m.OpenItemsTabComponent
+          ),
+      },
+      {
         path: ProcessCaseRoutePath.BasePath,
         redirectTo: 'single-quotes',
         pathMatch: 'full',

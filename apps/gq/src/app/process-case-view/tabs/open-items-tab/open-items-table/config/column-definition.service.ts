@@ -1,0 +1,79 @@
+import { inject } from '@angular/core';
+
+import { PositionIdComponent } from '@gq/shared/ag-grid/cell-renderer/position-id/position-id.component';
+import { FILTER_PARAMS } from '@gq/shared/ag-grid/constants/filters';
+import { ColumnUtilityService } from '@gq/shared/ag-grid/services/column-utility.service';
+import { RecalculationReasons } from '@gq/shared/models/quotation-detail/sqv-check/recalculation-reasons.enum';
+import { translate } from '@jsverse/transloco';
+import { ColDef, ValueGetterParams } from 'ag-grid-enterprise';
+
+import { OpenItemsColumnFields } from './column-fields.enum';
+import { COMPONENTS, DEFAULT_COL_DEF } from './default-config';
+
+export class ColumnDefinitionService {
+  private readonly columnUtilityService: ColumnUtilityService =
+    inject(ColumnUtilityService);
+
+  COMPONENTS = COMPONENTS;
+  DEFAULT_COL_DEF = DEFAULT_COL_DEF;
+
+  COLUMN_DEFS: ColDef[] = [
+    {
+      headerName: translate('shared.openItemsTable.item'),
+      field: OpenItemsColumnFields.QUOTATION_ITEM_ID,
+      cellRenderer: PositionIdComponent,
+      sort: 'asc',
+      pinned: 'left',
+      filterParams: {
+        ...FILTER_PARAMS,
+        comparator: (a: string, b: string) =>
+          Number.parseInt(a, 10) - Number.parseInt(b, 10),
+      },
+      flex: 0.25,
+    },
+    {
+      headerName: translate('shared.openItemsTable.materialDescription'),
+      field: OpenItemsColumnFields.MATERIAL_DESCRIPTION,
+      filterParams: FILTER_PARAMS,
+      flex: 0.25,
+    },
+    {
+      headerName: translate('shared.openItemsTable.materialNumber'),
+      field: OpenItemsColumnFields.MATERIAL_NUMBER_15,
+      valueFormatter: (params) =>
+        this.columnUtilityService.materialTransform(params),
+      valueGetter: (params) => this.columnUtilityService.materialGetter(params),
+      filterParams: FILTER_PARAMS,
+      flex: 0.25,
+    },
+    {
+      headerName: translate('shared.openItemsTable.issueToResolve.header'),
+      field: OpenItemsColumnFields.ISSUE_TO_RESOLVE,
+      valueGetter: (params) => this.getSqvStatusText(params),
+      flex: 0.25,
+    },
+  ];
+
+  // utilities
+  getSqvStatusText(params: ValueGetterParams): string {
+    switch (params.data.sqvCheck?.status) {
+      case RecalculationReasons.NOT_AVAILABLE: {
+        return translate(
+          `shared.openItemsTable.issueToResolve.${RecalculationReasons.NOT_AVAILABLE}`
+        );
+      }
+
+      case RecalculationReasons.INVALID: {
+        return translate(
+          `shared.openItemsTable.issueToResolve.${RecalculationReasons.INVALID}`,
+          {
+            months: params.data.sqvCheck?.value,
+          }
+        );
+      }
+      // no default
+    }
+
+    return '';
+  }
+}

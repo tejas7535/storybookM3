@@ -70,6 +70,7 @@ describe('TabsHeaderComponent', () => {
         label: 'any',
         link: 'a link',
         parentPath: 'a parent Path',
+        sortOrder: 1,
       };
       component.contextMenu = {
         openMenu: jest.fn(),
@@ -86,6 +87,7 @@ describe('TabsHeaderComponent', () => {
         link: 'link',
         parentPath: 'parentPath',
         label: 'anyLabel',
+        sortOrder: 1,
       };
 
       const result = component.getUrl(tab);

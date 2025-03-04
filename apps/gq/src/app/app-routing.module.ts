@@ -70,6 +70,7 @@ export const appRoutePaths: Routes = [
       import(
         './create-manual-case-view/create-manual-case-view.component'
       ).then((m) => m.CreateManualCaseViewComponent),
+    // TODO: condition can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
     canActivateChild: [CreateManualCaseGuard],
   },
   {
@@ -78,6 +79,7 @@ export const appRoutePaths: Routes = [
       import(
         './create-customer-case-view/create-customer-case-view.component'
       ).then((m) => m.CreateCustomerCaseViewComponent),
+    // TODO: condition can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
     canActivateChild: [CreateCustomerCaseGuard],
   },
   {

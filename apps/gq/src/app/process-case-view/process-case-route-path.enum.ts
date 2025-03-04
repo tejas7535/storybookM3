@@ -3,4 +3,5 @@ export enum ProcessCaseRoutePath {
   SingleQuotesPath = 'single-quotes',
   CustomerDetailsPath = 'customer-details',
   OverviewPath = 'overview',
+  OpenItemsPath = 'open-items',
 }

@@ -239,6 +239,9 @@
           "RELEASED": "Angebot vollständig freigegeben"
         }
       }
+    },
+    "openItems": {
+      "title": "Offene Punkte"
     }
   },
   "confirmDeletePositions": {

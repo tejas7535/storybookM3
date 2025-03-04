@@ -162,6 +162,16 @@
         "UR2": "X - Geblockt"
       }
     },
+    "openItemsTable": {
+      "item": "Position",
+      "materialDescription": "Materialbeschreibung",
+      "materialNumber": "Materialnummer (15-stellig)",
+      "issueToResolve": {
+        "header": "Zu Klären",
+        "not_available": "Kein SAW vorhanden",
+        "invalid": "SAW ist älter als {{months}} Monat{months, plural, =1 {} other {e}}"
+      }
+    },
     "breadcrumbs": {
       "caseView": "Case Übersicht",
       "transactionView": "GQ Preis Details",

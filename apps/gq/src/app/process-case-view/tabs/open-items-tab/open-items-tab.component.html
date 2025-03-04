@@ -1,0 +1,13 @@
+<ng-container *ngrxLet="dataLoading$ as loading">
+  <mat-card appearance="outlined" class="flex h-full">
+    <mat-card-content class="h-full">
+      @if (loading) {
+        <gq-overlay>
+          <schaeffler-loading-spinner></schaeffler-loading-spinner>
+        </gq-overlay>
+      } @else {
+        <gq-open-items-table></gq-open-items-table>
+      }
+    </mat-card-content>
+  </mat-card>
+</ng-container>

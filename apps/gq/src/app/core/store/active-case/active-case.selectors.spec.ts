@@ -3,6 +3,7 @@ import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-p
 import { Quotation, QuotationDetail, SAP_SYNC_STATUS } from '@gq/shared/models';
 import { ProductType } from '@gq/shared/models/quotation-detail/material/';
 import { QuotationRfqData } from '@gq/shared/models/quotation-detail/rfq-data';
+import { RecalculationReasons } from '@gq/shared/models/quotation-detail/sqv-check/recalculation-reasons.enum';
 
 import { CUSTOMER_MOCK } from '../../../../testing/mocks';
 import { QUOTATION_MOCK } from '../../../../testing/mocks/models/quotation';
@@ -329,16 +330,19 @@ describe('Active Case Selectors', () => {
           label: 'processCaseView.tabs.overview.title',
           link: ProcessCaseRoutePath.OverviewPath,
           parentPath: AppRoutePath.ProcessCaseViewPath,
+          sortOrder: 1,
         },
         {
           label: 'processCaseView.tabs.singleQuotes.title',
           link: ProcessCaseRoutePath.SingleQuotesPath,
           parentPath: AppRoutePath.ProcessCaseViewPath,
+          sortOrder: 2,
         },
         {
           label: 'processCaseView.tabs.customerDetails.title',
           link: ProcessCaseRoutePath.CustomerDetailsPath,
           parentPath: AppRoutePath.ProcessCaseViewPath,
+          sortOrder: 4,
         },
       ];
       expect(
@@ -352,11 +356,13 @@ describe('Active Case Selectors', () => {
           label: 'processCaseView.tabs.singleQuotes.title',
           link: ProcessCaseRoutePath.SingleQuotesPath,
           parentPath: AppRoutePath.ProcessCaseViewPath,
+          sortOrder: 2,
         },
         {
           label: 'processCaseView.tabs.customerDetails.title',
           link: ProcessCaseRoutePath.CustomerDetailsPath,
           parentPath: AppRoutePath.ProcessCaseViewPath,
+          sortOrder: 4,
         },
       ];
       fakeState.activeCase.customer.enabledForApprovalWorkflow = false;
@@ -370,16 +376,58 @@ describe('Active Case Selectors', () => {
           label: 'processCaseView.tabs.singleQuotes.title',
           link: ProcessCaseRoutePath.SingleQuotesPath,
           parentPath: AppRoutePath.ProcessCaseViewPath,
+          sortOrder: 2,
         },
         {
           label: 'processCaseView.tabs.customerDetails.title',
           link: ProcessCaseRoutePath.CustomerDetailsPath,
           parentPath: AppRoutePath.ProcessCaseViewPath,
+          sortOrder: 4,
         },
       ];
       expect(
         activeCaseSelectors.getTabsForProcessCaseView()(fakeState)
       ).toEqual(expected);
+    });
+
+    test('should return the openItems Tab', () => {
+      const state: { activeCase: ActiveCaseState } = {
+        activeCase: {
+          quotation: {
+            quotationDetails: [
+              {
+                sqvCheck: {
+                  status: RecalculationReasons.INVALID,
+                },
+              } as QuotationDetail,
+            ],
+          } as Quotation,
+        } as ActiveCaseState,
+      };
+
+      const expected = [
+        {
+          label: 'processCaseView.tabs.singleQuotes.title',
+          link: ProcessCaseRoutePath.SingleQuotesPath,
+          parentPath: AppRoutePath.ProcessCaseViewPath,
+          sortOrder: 2,
+        },
+        {
+          label: 'processCaseView.tabs.openItems.title',
+          link: ProcessCaseRoutePath.OpenItemsPath,
+          parentPath: AppRoutePath.ProcessCaseViewPath,
+          sortOrder: 3,
+        },
+        {
+          label: 'processCaseView.tabs.customerDetails.title',
+          link: ProcessCaseRoutePath.CustomerDetailsPath,
+          parentPath: AppRoutePath.ProcessCaseViewPath,
+          sortOrder: 4,
+        },
+      ];
+      expect(activeCaseSelectors.getTabsForProcessCaseView()(state)).toEqual(
+        expected
+      );
     });
   });
 

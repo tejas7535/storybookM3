@@ -239,6 +239,9 @@
           "RELEASED": "Quotation completely Approved"
         }
       }
+    },
+    "openItems": {
+      "title": "Open Items"
     }
   },
   "confirmDeletePositions": {

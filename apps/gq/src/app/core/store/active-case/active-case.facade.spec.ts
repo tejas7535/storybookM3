@@ -690,18 +690,22 @@ describe('ActiveCaseFacade', () => {
     test(
       'should select tabs for process case view',
       marbles((m) => {
+        jest.resetAllMocks();
         const tabs = [
           {
             label: 'processCaseView.tabs.singleQuotes.title',
             link: 'single-quotes',
             parentPath: 'process-case',
+            sortOrder: 2,
           },
           {
             label: 'processCaseView.tabs.customerDetails.title',
             link: 'customer-details',
             parentPath: 'process-case',
+            sortOrder: 4,
           },
         ] as any;
+        mockStore.overrideSelector(activeCaseFeature.hasOpenItems, false);
         mockStore.overrideSelector(getTabsForProcessCaseView(), tabs);
 
         m.expect(facade.tabsForProcessCaseView$).toBeObservable(

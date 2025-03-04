@@ -162,6 +162,16 @@
         "UR2": "X - Not for new design"
       }
     },
+    "openItemsTable": {
+      "item": "Position",
+      "materialDescription": "Material Description",
+      "materialNumber": "Material Number (15-digits)",
+      "issueToResolve": {
+        "header": "Issue to resolve",
+        "not_available": "No SQV is available",
+        "invalid": "SQV is older than {{months}} month{months, plural, =1 {} other {s}}"
+      }
+    },
     "breadcrumbs": {
       "caseView": "Quotation Cases",
       "transactionView": "GQ Pricing Details",

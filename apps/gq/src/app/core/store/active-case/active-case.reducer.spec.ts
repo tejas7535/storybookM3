@@ -9,6 +9,7 @@ import {
 } from '@gq/shared/models';
 import { SapCallInProgress } from '@gq/shared/models/quotation';
 import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
+import { RecalculationReasons } from '@gq/shared/models/quotation-detail/sqv-check/recalculation-reasons.enum';
 import { Action } from '@ngrx/store';
 
 import { CUSTOMER_MOCK } from '../../../../testing/mocks/models';
@@ -1055,6 +1056,91 @@ describe('Active Case Feature Selector', () => {
 
       expect(state.quotationPricingOverviewLoading).toEqual(false);
       expect(state.quotationPricingOverviewErrorMessage).toEqual(errorMessage);
+    });
+  });
+  describe('getOpenIssues', () => {
+    test('should return open items', () => {
+      const state = {
+        activeCase: {
+          ...ACTIVE_CASE_STATE_MOCK,
+          quotation: {
+            ...QUOTATION_MOCK,
+            quotationDetails: [
+              {
+                sqvCheck: null,
+              } as QuotationDetail,
+              {
+                sqvCheck: {
+                  status: RecalculationReasons.INVALID,
+                },
+              } as QuotationDetail,
+              {
+                sqvCheck: {
+                  status: RecalculationReasons.VALID,
+                },
+              } as QuotationDetail,
+            ],
+          },
+        },
+      };
+      expect(activeCaseFeature.getOpenItems(state).length).toEqual(1);
+    });
+  });
+
+  describe('hasOpenItems', () => {
+    test('should return true', () => {
+      const state = {
+        activeCase: {
+          ...ACTIVE_CASE_STATE_MOCK,
+          quotation: {
+            ...QUOTATION_MOCK,
+            quotationDetails: [
+              {
+                sqvCheck: null,
+              } as QuotationDetail,
+              {
+                sqvCheck: {
+                  status: RecalculationReasons.INVALID,
+                },
+              } as QuotationDetail,
+              {
+                sqvCheck: {
+                  status: RecalculationReasons.VALID,
+                },
+              } as QuotationDetail,
+            ],
+          },
+        },
+      };
+
+      expect(activeCaseFeature.hasOpenItems(state)).toBeTruthy();
+    });
+    test('should return false', () => {
+      const state = {
+        activeCase: {
+          ...ACTIVE_CASE_STATE_MOCK,
+          quotation: {
+            ...QUOTATION_MOCK,
+            quotationDetails: [
+              {
+                sqvCheck: null,
+              } as QuotationDetail,
+              {
+                sqvCheck: {
+                  status: RecalculationReasons.VALID,
+                },
+              } as QuotationDetail,
+              {
+                sqvCheck: {
+                  status: RecalculationReasons.VALID,
+                },
+              } as QuotationDetail,
+            ],
+          },
+        },
+      };
+
+      expect(activeCaseFeature.hasOpenItems(state)).toBeFalsy();
     });
   });
 });

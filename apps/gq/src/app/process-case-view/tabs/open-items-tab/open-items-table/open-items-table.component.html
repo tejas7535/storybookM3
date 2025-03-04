@@ -1,0 +1,11 @@
+<ag-grid-angular
+  oncontextmenu="return false;"
+  class="ag-theme-material h-[95%] rounded-[4px] rounded-tl-none border border-border"
+  [defaultColDef]="defaultColDef"
+  [columnDefs]="columnDefs"
+  [components]="components"
+  [localeText]="localeText$ | ngrxPush"
+  rowSelection="single"
+  columnMenu="legacy"
+  [rowData]="rowData$ | ngrxPush"
+></ag-grid-angular>
