@@ -684,8 +684,10 @@
         "previous_salesDeduction": "Vorherige Sales Deduction",
         "cashDiscount": "Cash Discount",
         "previous_cashDiscount": "Vorherige Cash Discount",
-        "daily_rolling_sales_plan": "Täglicher Sales Plan",
-        "previous_daily_rolling_sales_plan": "Vorheriger täglicher Sales Plan"
+        "daily_rolling_sales_plan": "Sales Plan",
+        "previous_daily_rolling_sales_plan": "Vorheriger Sales Plan",
+        "otherRevenues": "Sonstige Einnahmen",
+        "previous_otherRevenues": "Vorherige sonstige Einnahmen"
       }
     },
     "table": {

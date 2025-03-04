@@ -59,20 +59,11 @@ describe('CustomerSalesPlanSinglePercentageEditModalComponent', () => {
   });
 
   describe('Delete functionality', () => {
-    it('should call onDelete method when delete button is clicked', () => {
-      jest.spyOn(spectator.component, 'onDelete');
-
-      const deleteButton = spectator.query('.delete-button');
-      spectator.click(deleteButton);
-
-      expect(spectator.component.onDelete).toHaveBeenCalled();
-    });
-
     it('should call data.onDelete and close dialog with 0 when onDelete is called', () => {
       const deleteSubject = new Subject<void>();
       mockData.onDelete = jest.fn().mockReturnValue(deleteSubject);
 
-      spectator.component.onDelete();
+      spectator.click('.delete-button');
 
       deleteSubject.next();
       deleteSubject.complete();
@@ -88,7 +79,7 @@ describe('CustomerSalesPlanSinglePercentageEditModalComponent', () => {
 
       expect(spectator.component.loading()).toBe(false);
 
-      spectator.component.onDelete();
+      spectator.click('.delete-button');
 
       expect(spectator.component.loading()).toBe(true);
 
@@ -98,7 +89,7 @@ describe('CustomerSalesPlanSinglePercentageEditModalComponent', () => {
     it('should set loading to false after delete operation completes', () => {
       mockData.onDelete = jest.fn().mockReturnValue(of(0));
 
-      spectator.component.onDelete();
+      spectator.click('.delete-button');
 
       expect(spectator.component.loading()).toBe(false);
     });
@@ -108,7 +99,7 @@ describe('CustomerSalesPlanSinglePercentageEditModalComponent', () => {
     it('should mark form controls as touched when onSave is called', () => {
       jest.spyOn(spectator.component.form, 'markAllAsTouched');
 
-      spectator.component.onSave();
+      spectator.click('.save-button');
 
       expect(spectator.component.form.markAllAsTouched).toHaveBeenCalled();
     });

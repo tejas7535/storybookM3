@@ -22,26 +22,20 @@ import { SalesPlanningService } from '../../../../../../../feature/sales-plannin
 import { AbstractBaseCellRendererComponent } from '../../../../../../../shared/components/ag-grid/cell-renderer/abstract-cell-renderer.component';
 import { AuthService } from '../../../../../../../shared/utils/auth/auth.service';
 import { salesPlanningAllowedEditRoles } from '../../../../../../../shared/utils/auth/roles';
-import { CustomerSalesPlanSinglePercentageEditModalComponent } from '../../../customer-sales-plan-single-percentage-edit-modal/customer-sales-plan-single-percentage-edit-modal.component';
-
-export enum PercentageEditOption {
-  SalesDeduction = 'salesDeduction',
-  CashDiscount = 'cashDiscount',
-}
+import { CustomerSalesPlanNumberEditModalComponent } from '../../../customer-sales-plan-number-edit-modal/customer-sales-plan-number-edit-modal.component';
 
 @Component({
-  selector: 'd360-sales-planning-single-percentage-edit-cell-renderer',
+  selector: 'd360-sales-planning-other-revenues-cell-renderer',
   standalone: true,
   imports: [MatIcon, MatIconButton, SharedTranslocoModule, PushPipe],
-  templateUrl:
-    './sales-planning-single-percentage-edit-cell-renderer.component.html',
+  templateUrl: './sales-planning-other-revenues-cell-renderer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrl:
-    './sales-planning-single-percentage-edit-cell-renderer.component.scss',
+  styleUrl: './sales-planning-other-revenues-cell-renderer.component.scss',
 })
-export class SalesPlanningSinglePercentageEditCellRendererComponent<
+export class SalesPlanningOtherRevenuesCellRendererComponent<
   T = any,
 > extends AbstractBaseCellRendererComponent<T> {
+  public onClickAction: () => void;
   public isUserAllowedToEdit$: Observable<boolean>;
 
   private readonly dialog = inject(MatDialog);
@@ -51,60 +45,54 @@ export class SalesPlanningSinglePercentageEditCellRendererComponent<
   private readonly translationKeyPrefix =
     'sales_planning.planning_details.edit_modal';
 
-  public isYearlyRow: boolean;
-
   private customerNumber: string;
   private planningYear: string;
   private planningCurrency: string;
-  private percentageValueName: string;
-  private percentageEditOption: PercentageEditOption;
+  private isYearlyRow: boolean;
 
   private onReloadData: () => void;
 
-  public valueFormatted = signal<string | null>(null);
+  protected valueFormatted = signal<string | null>(null);
 
   /**
    * @inheritdoc
    * @override
    */
-  public setValue(
+  protected setValue(
     parameters: ICellRendererParams<any, T> & {
-      percentageValueName: string;
-      percentageEditOption: PercentageEditOption;
+      onRefresh: () => void;
     }
   ): void {
     this.valueFormatted.set(parameters.valueFormatted);
 
     this.value = parameters.value;
+    this.isYearlyRow = parameters.node.level === 0;
     this.parameters = parameters;
+    this.isUserAllowedToEdit$ = this.authService.hasUserAccess(
+      salesPlanningAllowedEditRoles
+    );
 
     this.customerNumber = parameters.data.customerNumber;
-    this.percentageValueName = parameters.percentageValueName;
-    this.percentageEditOption = parameters.percentageEditOption;
     this.planningYear = parameters.data.planningYear;
     this.planningCurrency = parameters.data.planningCurrency;
 
     this.onReloadData = parameters.context.reloadData;
-
-    this.isYearlyRow = parameters.node.level === 0;
-    this.isUserAllowedToEdit$ = this.authService.hasUserAccess(
-      salesPlanningAllowedEditRoles
-    );
   }
 
-  public handleEditSinglePercentageValueClicked() {
+  public handleEditOtherRevenuesClicked() {
     this.dialog
-      .open(CustomerSalesPlanSinglePercentageEditModalComponent, {
+      .open(CustomerSalesPlanNumberEditModalComponent, {
         data: {
-          title: `${this.percentageValueName} ${translate('sales_planning.planning_details.edit_modal.for')} ${this.planningYear}`,
-          formLabel: this.percentageValueName,
+          title: `${translate(`${this.translationKeyPrefix}.otherRevenues`)} ${translate('sales_planning.planning_details.edit_modal.for')} ${this.planningYear}`,
+          formLabel: translate(`${this.translationKeyPrefix}.otherRevenues`),
           currentValueLabel: translate(
-            `${this.translationKeyPrefix}.${this.percentageEditOption}`
+            `${this.translationKeyPrefix}.otherRevenues`
           ),
           previousValueLabel: translate(
-            `${this.translationKeyPrefix}.previous_${this.percentageEditOption}`
+            `${this.translationKeyPrefix}.previous_otherRevenues`
           ),
-          previousValue: this.valueFormatted(),
+          planningCurrency: this.planningCurrency,
+          previousValue: this.value,
           referenceValueLabel: translate(
             `${this.translationKeyPrefix}.daily_rolling_sales_plan`
           ),
@@ -113,9 +101,9 @@ export class SalesPlanningSinglePercentageEditCellRendererComponent<
           ),
           referenceValue: this.parameters.data.totalSalesPlanUnconstrained,
           previousReferenceValue: this.parameters.data.salesPlanUnconstrained,
-          planningCurrency: this.planningCurrency,
           onDelete: this.onDelete(),
           onSave: this.onSave(),
+          calculateReferenceValue: this.calculateReferenceValue(),
         },
         autoFocus: false,
         disableClose: true,
@@ -135,27 +123,36 @@ export class SalesPlanningSinglePercentageEditCellRendererComponent<
   }
 
   private onDelete() {
-    return () => this.updateAdjustedPercentage(0);
+    return () =>
+      this.salesPlanningService.updateOtherRevenues(
+        this.customerNumber,
+        this.planningYear,
+        this.planningCurrency,
+        0
+      );
   }
 
   private onSave() {
-    return (adjustedPercentage: number) =>
-      this.updateAdjustedPercentage(adjustedPercentage);
+    return (adjustedValue: number) =>
+      this.salesPlanningService.updateOtherRevenues(
+        this.customerNumber,
+        this.planningYear,
+        this.planningCurrency,
+        adjustedValue
+      );
   }
 
-  private updateAdjustedPercentage(
-    adjustedPercentage: number
-  ): Observable<void> {
-    return this.percentageEditOption === PercentageEditOption.SalesDeduction
-      ? this.salesPlanningService.updateSalesDeductions(
-          this.customerNumber,
-          this.planningYear,
-          adjustedPercentage
-        )
-      : this.salesPlanningService.updateCashDiscounts(
-          this.customerNumber,
-          this.planningYear,
-          adjustedPercentage
-        );
+  public isEditPossible(): boolean {
+    return this.isYearlyRow;
+  }
+
+  private calculateReferenceValue() {
+    return (newValue: number) =>
+      this.parameters.data.totalSalesPlanUnconstrained *
+        ((100 -
+          this.parameters.data.cashDiscount -
+          this.parameters.data.salesDeduction) /
+          100) +
+      newValue;
   }
 }

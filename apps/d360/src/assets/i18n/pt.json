@@ -676,7 +676,9 @@
         "cashDiscount": "Descontos financeiros",
         "previous_cashDiscount": "Descontos financeiros anteriores",
         "daily_rolling_sales_plan": "Plano de vendas diário contínuo",
-        "previous_daily_rolling_sales_plan": "Plano de vendas diário contínuo anterior"
+        "previous_daily_rolling_sales_plan": "Plano de vendas diário contínuo anterior",
+        "otherRevenues": "Outras receitas",
+        "previous_otherRevenues": "Receitas anteriores"
       }
     },
     "table": {

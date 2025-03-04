@@ -51,7 +51,7 @@ import { TableToolbarComponent } from '../../../../shared/components/ag-grid/tab
 import { NumberWithoutFractionDigitsPipe } from '../../../../shared/pipes/number-without-fraction-digits.pipe';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { CustomerPlanningLevelConfigurationModalComponent } from '../customer-planning-level-configuration-modal/customer-planning-level-configuration-modal.component';
-import { SalesPlanningGroupLevelCellRendererComponent } from './ag-grid/cell-renderer/sales-planning-group-level-cell-renderer.component';
+import { SalesPlanningGroupLevelCellRendererComponent } from './ag-grid/cell-renderer/sales-planning-group-level-cell-renderer/sales-planning-group-level-cell-renderer.component';
 import { yearlyCustomerPlanningDetailsColumnDefinitions } from './column-definition';
 import { MonthlyCustomerPlanningDetailsModalComponent } from './monthly-customer-planning-details-modal/monthly-customer-planning-details-modal.component';
 import { YearlyCustomerPlanningDetailsColumnSettingsService } from './service/customer-planning-details-column-settings.service';
@@ -148,6 +148,10 @@ export class CustomerPlanningDetailsComponent {
     }),
     context: {
       numberPipe: new NumberWithoutFractionDigitsPipe(),
+      reloadData: () =>
+        this.setYearlyPlanningData(
+          this.planningLevelMaterialConfiguration().planningLevelMaterialType
+        ),
     },
     isGroupOpenByDefault: () => true,
     suppressGroupRowsSticky: true,

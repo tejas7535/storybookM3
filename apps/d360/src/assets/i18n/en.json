@@ -688,7 +688,9 @@
         "cashDiscount": "Cash Discounts",
         "previous_cashDiscount": "Previous Cash Discounts",
         "daily_rolling_sales_plan": "Daily Rolling Sales Plan",
-        "previous_daily_rolling_sales_plan": "Previous Daily Rolling Sales Plan"
+        "previous_daily_rolling_sales_plan": "Previous Daily Rolling Sales Plan",
+        "otherRevenues": "Other Revenues",
+        "previous_otherRevenues": "Previous Other Revenues"
       }
     },
     "table": {

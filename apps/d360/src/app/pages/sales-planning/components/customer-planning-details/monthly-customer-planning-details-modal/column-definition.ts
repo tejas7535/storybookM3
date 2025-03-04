@@ -15,6 +15,10 @@ const monthlyInitiallyVisibleColumns: CustomColumnDefinition[] = [
   { key: 'planningMonth', type: ColumnValueType.Months },
   ...initiallyVisibleColumns,
   {
+    key: 'otherRevenues',
+    type: ColumnValueType.Monetary,
+  },
+  {
     key: 'salesDeduction',
     type: ColumnValueType.Percentage,
   },

@@ -7,8 +7,8 @@ import {
 
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
-import { DetailedCustomerSalesPlan } from '../../../../../../feature/sales-planning/model';
-import { AbstractBaseCellRendererComponent } from '../../../../../../shared/components/ag-grid/cell-renderer/abstract-cell-renderer.component';
+import { DetailedCustomerSalesPlan } from '../../../../../../../feature/sales-planning/model';
+import { AbstractBaseCellRendererComponent } from '../../../../../../../shared/components/ag-grid/cell-renderer/abstract-cell-renderer.component';
 
 @Component({
   selector: 'd360-sales-planning-group-level-cell-renderer',

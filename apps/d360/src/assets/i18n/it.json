@@ -676,7 +676,9 @@
         "cashDiscount": "Sconti per pagamento immediato",
         "previous_cashDiscount": "Sconti per pagamento immediato precedenti",
         "daily_rolling_sales_plan": "Piano di vendita giornaliero a rotazione",
-        "previous_daily_rolling_sales_plan": "Piano di vendita giornaliero a rotazione precedente"
+        "previous_daily_rolling_sales_plan": "Piano di vendita giornaliero a rotazione precedente",
+        "otherRevenues": "Altri ricavi",
+        "previous_otherRevenues": "Ricavi precedenti"
       }
     },
     "table": {

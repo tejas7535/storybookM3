@@ -19,22 +19,22 @@ import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SalesPlanningService } from '../../../../../../feature/sales-planning/sales-planning.service';
-import { AbstractBaseCellRendererComponent } from '../../../../../../shared/components/ag-grid/cell-renderer/abstract-cell-renderer.component';
-import { NumberWithoutFractionDigitsPipe } from '../../../../../../shared/pipes/number-without-fraction-digits.pipe';
-import { AuthService } from '../../../../../../shared/utils/auth/auth.service';
-import { salesPlanningAllowedEditRoles } from '../../../../../../shared/utils/auth/roles';
-import { CustomerSalesPlanNumberEditModalComponent } from '../../customer-sales-plan-number-edit-modal/customer-sales-plan-number-edit-modal.component';
+import { SalesPlanningService } from '../../../../../../../feature/sales-planning/sales-planning.service';
+import { AbstractBaseCellRendererComponent } from '../../../../../../../shared/components/ag-grid/cell-renderer/abstract-cell-renderer.component';
+import { NumberWithoutFractionDigitsPipe } from '../../../../../../../shared/pipes/number-without-fraction-digits.pipe';
+import { AuthService } from '../../../../../../../shared/utils/auth/auth.service';
+import { salesPlanningAllowedEditRoles } from '../../../../../../../shared/utils/auth/roles';
+import { CustomerSalesPlanNumberAndPercentageEditModalComponent } from '../../../customer-sales-plan-number-and-percentage-edit-modal/customer-sales-plan-number-and-percentage-edit-modal.component';
 
 @Component({
-  selector: 'd360-sales-planning-number-edit-cell-renderer',
+  selector: 'd360-sales-planning-adjusted-total-cell-renderer',
   standalone: true,
   imports: [MatIcon, MatIconButton, SharedTranslocoModule, PushPipe],
-  templateUrl: './sales-planning-number-edit-cell-renderer.component.html',
+  templateUrl: './sales-planning-adjusted-total-cell-renderer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrl: './sales-planning-number-edit-cell-renderer.component.scss',
+  styleUrl: './sales-planning-adjusted-total-cell-renderer.component.scss',
 })
-export class SalesPlanningNumberEditCellRendererComponent<
+export class SalesPlanningAdjustedTotalCellRendererComponent<
   T = any,
 > extends AbstractBaseCellRendererComponent<T> {
   public onClickAction: () => void;
@@ -98,7 +98,7 @@ export class SalesPlanningNumberEditCellRendererComponent<
 
   public handleEditCustomerSalesPlanNumberClicked() {
     this.dialog
-      .open(CustomerSalesPlanNumberEditModalComponent, {
+      .open(CustomerSalesPlanNumberAndPercentageEditModalComponent, {
         data: {
           title: this.isPlanningMaterialRow
             ? this.getPlanningMaterialText()

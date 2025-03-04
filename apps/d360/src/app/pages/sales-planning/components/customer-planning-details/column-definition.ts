@@ -3,7 +3,8 @@ import { ColDef } from 'ag-grid-enterprise';
 
 import { DetailedCustomerSalesPlan } from '../../../../feature/sales-planning/model';
 import { ColumnValueType } from '../../../../shared/ag-grid/grid-types';
-import { SalesPlanningNumberEditCellRendererComponent } from './ag-grid/cell-renderer/sales-planning-number-edit-cell-renderer.component';
+import { SalesPlanningAdjustedTotalCellRendererComponent } from './ag-grid/cell-renderer/sales-planning-adjusted-total-cell-renderer/sales-planning-adjusted-total-cell-renderer.component';
+import { SalesPlanningOtherRevenuesCellRendererComponent } from './ag-grid/cell-renderer/sales-planning-other-revenues-cell-renderer/sales-planning-other-revenues-cell-renderer.component';
 import {
   PercentageEditOption,
   SalesPlanningSinglePercentageEditCellRendererComponent,
@@ -47,13 +48,18 @@ export const initiallyVisibleColumns: CustomColumnDefinition[] = [
     key: 'totalSalesPlanAdjusted',
     type: ColumnValueType.Monetary,
     isTimeScopeSpecific: true,
-    cellRenderer: SalesPlanningNumberEditCellRendererComponent,
+    cellRenderer: SalesPlanningAdjustedTotalCellRendererComponent,
   },
   { key: 'firmBusinessCoverage', type: ColumnValueType.Percentage },
   { key: 'opportunitiesForecastRelevant', type: ColumnValueType.Monetary },
   { key: 'apShareUnconstrained', type: ColumnValueType.Percentage },
   { key: 'spShareUnconstrained', type: ColumnValueType.Percentage },
   { key: 'opShareUnconstrained', type: ColumnValueType.Percentage },
+  {
+    key: 'otherRevenues',
+    type: ColumnValueType.Monetary,
+    cellRenderer: SalesPlanningOtherRevenuesCellRendererComponent,
+  },
   {
     key: 'salesDeduction',
     type: ColumnValueType.Percentage,
@@ -72,7 +78,6 @@ export const initiallyVisibleColumns: CustomColumnDefinition[] = [
       percentageValueName: getTitle('cashDiscount', false, TimeScope.Yearly),
     },
   },
-  { key: 'otherRevenues', type: ColumnValueType.Monetary },
   { key: 'salesPlanUnconstrained', type: ColumnValueType.Monetary },
 ];
 

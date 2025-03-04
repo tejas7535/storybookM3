@@ -32,6 +32,9 @@ export class SalesPlanningService {
   private readonly SALES_PLANNING_SALES_DEDUCTIONS_API: string =
     'api/sales-planning/sales-deductions';
 
+  private readonly SALES_PLANNING_OTHER_REVENUES_API: string =
+    'api/sales-planning/other-revenues';
+
   private readonly translocoService: TranslocoService =
     inject(TranslocoService);
 
@@ -146,6 +149,23 @@ export class SalesPlanningService {
     return this.http.put<void>(
       this.SALES_PLANNING_SALES_DEDUCTIONS_API,
       { adjustedPercentage },
+      { params }
+    );
+  }
+
+  public updateOtherRevenues(
+    customerNumber: string,
+    planningYear: string,
+    planningCurrency: string,
+    adjustedValue: number
+  ): Observable<void> {
+    const params = new HttpParams()
+      .set('customerNumber', customerNumber)
+      .set('planningYear', planningYear);
+
+    return this.http.put<void>(
+      this.SALES_PLANNING_OTHER_REVENUES_API,
+      { planningCurrency, adjustedValue },
       { params }
     );
   }

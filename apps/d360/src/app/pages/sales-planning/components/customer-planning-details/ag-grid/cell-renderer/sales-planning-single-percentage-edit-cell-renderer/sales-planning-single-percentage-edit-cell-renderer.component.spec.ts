@@ -21,6 +21,8 @@ import {
 describe('SalesPlanningSinglePercentageEditCellRendererComponent with Spectator', () => {
   let spectator: Spectator<SalesPlanningSinglePercentageEditCellRendererComponent>;
 
+  const mockReloadData = jest.fn();
+
   const mockDialogRef = {
     afterClosed: jest.fn().mockReturnValue(of(null)),
   };
@@ -39,6 +41,9 @@ describe('SalesPlanningSinglePercentageEditCellRendererComponent with Spectator'
       salesPlanUnconstrained: 900,
     },
     node: { level: 0 },
+    context: {
+      reloadData: mockReloadData,
+    },
     formatValue: (value: number) => `${value}%`,
     percentageValueName: 'Test Percentage',
     percentageEditOption: PercentageEditOption.SalesDeduction,
@@ -146,7 +151,7 @@ describe('SalesPlanningSinglePercentageEditCellRendererComponent with Spectator'
       );
     });
 
-    it('should update value after dialog close with new value', fakeAsync(() => {
+    it('should update value after dialog close by reloading data', fakeAsync(() => {
       const dialog = spectator.inject(MatDialog);
 
       const dialogRef = {
@@ -160,8 +165,7 @@ describe('SalesPlanningSinglePercentageEditCellRendererComponent with Spectator'
 
       tick();
 
-      expect(spectator.component.value).toBe(20);
-      expect(spectator.component.valueFormatted()).toBe('20%');
+      expect(mockReloadData).toHaveBeenCalled();
     }));
 
     it('should not update value if dialog returns null', fakeAsync(() => {

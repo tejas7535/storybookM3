@@ -676,7 +676,9 @@
         "cashDiscount": "现金折扣",
         "previous_cashDiscount": "上期现金折扣",
         "daily_rolling_sales_plan": "每日滚动销售计划",
-        "previous_daily_rolling_sales_plan": "上期每日滚动销售计划"
+        "previous_daily_rolling_sales_plan": "上期每日滚动销售计划",
+        "otherRevenues": "其他收入",
+        "previous_otherRevenues": "上期其他收入"
       }
     },
     "table": {

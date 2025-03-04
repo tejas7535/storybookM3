@@ -26,6 +26,11 @@ describe('SalesPlanningService', () => {
     spectator = createService();
   });
 
+  afterEach(() => {
+    jest.resetAllMocks();
+    jest.clearAllMocks();
+  });
+
   it('should fetch customer info', (done) => {
     const mockData: CustomerInfo[] = [
       {
@@ -233,5 +238,84 @@ describe('SalesPlanningService', () => {
         HttpMethod.DELETE
       )
       .flush(null);
+  });
+
+  it('should update sales deductions correctly', (done) => {
+    const customerNumber = '12345';
+    const planningYear = '2026';
+    const adjustedPercentage = 5.5;
+
+    spectator.service
+      .updateSalesDeductions(customerNumber, planningYear, adjustedPercentage)
+      .pipe(take(1))
+      .subscribe(() => {
+        done();
+      });
+
+    const req = spectator.expectOne(
+      `api/sales-planning/sales-deductions?customerNumber=${customerNumber}&planningYear=${planningYear}`,
+      HttpMethod.PUT
+    );
+
+    expect(req.request.body).toEqual({
+      adjustedPercentage,
+    });
+
+    req.flush(null);
+  });
+
+  it('should update cash discounts correctly', (done) => {
+    const customerNumber = '12345';
+    const planningYear = '2026';
+    const adjustedPercentage = 2.3;
+
+    spectator.service
+      .updateCashDiscounts(customerNumber, planningYear, adjustedPercentage)
+      .pipe(take(1))
+      .subscribe(() => {
+        done();
+      });
+
+    const req = spectator.expectOne(
+      `api/sales-planning/cash-discounts?customerNumber=${customerNumber}&planningYear=${planningYear}`,
+      HttpMethod.PUT
+    );
+
+    expect(req.request.body).toEqual({
+      adjustedPercentage,
+    });
+
+    req.flush(null);
+  });
+
+  it('should update other revenues correctly', (done) => {
+    const customerNumber = '12345';
+    const planningYear = '2026';
+    const planningCurrency = 'EUR';
+    const adjustedValue = 15_000;
+
+    spectator.service
+      .updateOtherRevenues(
+        customerNumber,
+        planningYear,
+        planningCurrency,
+        adjustedValue
+      )
+      .pipe(take(1))
+      .subscribe(() => {
+        done();
+      });
+
+    const req = spectator.expectOne(
+      `api/sales-planning/other-revenues?customerNumber=${customerNumber}&planningYear=${planningYear}`,
+      HttpMethod.PUT
+    );
+
+    expect(req.request.body).toEqual({
+      planningCurrency,
+      adjustedValue,
+    });
+
+    req.flush(null);
   });
 });

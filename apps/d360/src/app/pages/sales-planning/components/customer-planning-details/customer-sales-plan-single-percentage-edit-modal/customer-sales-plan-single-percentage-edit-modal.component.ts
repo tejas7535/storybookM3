@@ -110,7 +110,7 @@ export class CustomerSalesPlanSinglePercentageEditModalComponent {
     return null;
   }
 
-  public onDelete(): void {
+  protected onDelete(): void {
     this.loading.set(true);
 
     this.data
@@ -123,11 +123,11 @@ export class CustomerSalesPlanSinglePercentageEditModalComponent {
       .subscribe();
   }
 
-  public onCancel(): void {
+  protected onCancel(): void {
     this.dialogRef.close(null);
   }
 
-  public onSave() {
+  protected onSave() {
     this.form.markAllAsTouched();
 
     if (

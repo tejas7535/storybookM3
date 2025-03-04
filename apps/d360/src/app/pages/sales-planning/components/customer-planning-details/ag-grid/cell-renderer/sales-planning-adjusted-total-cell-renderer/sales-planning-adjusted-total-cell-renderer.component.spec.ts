@@ -8,18 +8,18 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 
-import { SalesPlanningService } from '../../../../../../feature/sales-planning/sales-planning.service';
-import { AuthService } from '../../../../../../shared/utils/auth/auth.service';
-import { SalesPlanningNumberEditCellRendererComponent } from './sales-planning-number-edit-cell-renderer.component';
+import { SalesPlanningService } from '../../../../../../../feature/sales-planning/sales-planning.service';
+import { AuthService } from '../../../../../../../shared/utils/auth/auth.service';
+import { SalesPlanningAdjustedTotalCellRendererComponent } from './sales-planning-adjusted-total-cell-renderer.component';
 
-describe('SalesPlanningNumberEditCellRendererComponent', () => {
-  let spectator: Spectator<SalesPlanningNumberEditCellRendererComponent>;
+describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
+  let spectator: Spectator<SalesPlanningAdjustedTotalCellRendererComponent>;
   let mockDialog: jest.Mocked<MatDialog>;
   let mockSalesPlanningService: jest.Mocked<SalesPlanningService>;
   let mockAuthService: jest.Mocked<AuthService>;
 
   const createComponent = createComponentFactory({
-    component: SalesPlanningNumberEditCellRendererComponent,
+    component: SalesPlanningAdjustedTotalCellRendererComponent,
     declarations: [],
     providers: [
       mockProvider(MatDialog, { open: jest.fn() }),

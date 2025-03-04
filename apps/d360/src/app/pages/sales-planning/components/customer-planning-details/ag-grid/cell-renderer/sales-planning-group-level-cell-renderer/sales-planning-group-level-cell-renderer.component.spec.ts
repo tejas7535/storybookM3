@@ -3,7 +3,7 @@ import { signal } from '@angular/core';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
-import { DetailedCustomerSalesPlan } from '../../../../../../feature/sales-planning/model';
+import { DetailedCustomerSalesPlan } from '../../../../../../../feature/sales-planning/model';
 import { SalesPlanningGroupLevelCellRendererComponent } from './sales-planning-group-level-cell-renderer.component';
 
 describe('SalesPlanningGroupLevelCellRendererComponent', () => {
