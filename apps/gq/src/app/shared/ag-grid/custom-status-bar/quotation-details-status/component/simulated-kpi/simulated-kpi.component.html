@@ -118,7 +118,7 @@
         >
           {{
             simulatedQuotation().simulatedStatusBar
-              .totalWeightedAveragePriceDiff | percentage: false
+              .totalWeightedAveragePriceDiff | percentage: false : true
           }}
         </span>
         <div
@@ -127,7 +127,7 @@
         >
           {{
             simulatedQuotation().previousStatusBar.totalWeightedAveragePriceDiff
-              | percentage: false
+              | percentage: false : true
           }}
         </div>
       </div>
