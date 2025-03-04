@@ -31,10 +31,9 @@ export class StaticHTMLService {
       localizationKey,
       localizationParams
     );
-    localizedFilePath =
-      localizedFilePath.indexOf('/') === 0
-        ? localizedFilePath
-        : `/${localizedFilePath}`;
+    localizedFilePath = localizedFilePath.startsWith('/')
+      ? localizedFilePath
+      : `/${localizedFilePath}`;
 
     const assetsPath = getAssetsPath();
 

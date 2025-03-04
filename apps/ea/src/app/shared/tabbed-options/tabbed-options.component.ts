@@ -48,7 +48,6 @@ import { OptionTemplateDirective } from './option-template.directive';
     SharedTranslocoModule,
   ],
   templateUrl: './tabbed-options.component.html',
-  styleUrls: ['./tabbed-options.component.scss'],
   viewProviders: [
     {
       provide: ControlContainer,

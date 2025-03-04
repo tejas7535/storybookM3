@@ -38,6 +38,7 @@ describe('MobileKeyboardVisibilityService', () => {
     beforeEach(() => {
       isNativePlatformMock.mockReturnValue(true);
       spectator = createService();
+      spectator.service.initialize();
 
       (Keyboard.addListener as jest.Mock).mockImplementation(
         (event, callback) => {
@@ -118,6 +119,7 @@ describe('MobileKeyboardVisibilityService', () => {
       });
 
       spectator = createService();
+      spectator.service.initialize();
     });
 
     it('should add resize listener', () => {

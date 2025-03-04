@@ -130,7 +130,7 @@ export const viscosityGroupValidators = (): ValidatorFn[] => [
 export const loadCasesOperatingTimeValidators = (
   calculationParametersFormHelperService: CalculationParametersFormHelperService
 ): ValidatorFn[] => [
-  (control: AbstractControl): ValidationErrors | null => {
+  (control: AbstractControl): null => {
     const errorKey = 'operatingTimeValueTotal';
     const formGroups: FormGroup<LoadCaseDataFormGroupModel>[] = (
       control as FormArray<FormGroup<LoadCaseDataFormGroupModel>>
@@ -142,27 +142,21 @@ export const loadCasesOperatingTimeValidators = (
         formGroups[0].controls.operatingTime;
 
       removeValidators(operatingTime, [Validators.required]);
+    } else {
+      const total =
+        calculationParametersFormHelperService.getTotalOperatingTimeForLoadcases(
+          formGroups
+        );
 
-      return null;
-    }
+      const requiredTotalValue = 100;
 
-    const total =
-      calculationParametersFormHelperService.getTotalOperatingTimeForLoadcases(
-        formGroups
-      );
-
-    const requiredTotalValue = 100;
-
-    for (const formGroup of formGroups) {
-      const operatingTime: FormControl<LoadCaseData['operatingTime']> =
-        formGroup.controls.operatingTime;
-      addValidators(operatingTime, [Validators.required]);
-      if (total > requiredTotalValue) {
-        if (!operatingTime.hasError(errorKey)) {
+      for (const formGroup of formGroups) {
+        const operatingTime: FormControl<LoadCaseData['operatingTime']> =
+          formGroup.controls.operatingTime;
+        addValidators(operatingTime, [Validators.required]);
+        if (total > requiredTotalValue && !operatingTime.hasError(errorKey)) {
           operatingTime.setErrors({ [errorKey]: true });
-        }
-      } else {
-        if (operatingTime.hasError(errorKey)) {
+        } else if (operatingTime.hasError(errorKey)) {
           operatingTime.setErrors(null);
         }
       }

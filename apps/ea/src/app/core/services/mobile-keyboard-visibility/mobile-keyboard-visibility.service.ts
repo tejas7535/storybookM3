@@ -19,6 +19,10 @@ export class MobileKeyboardVisibilityService implements OnDestroy {
     this.isKeyboardVisibleSubject.asObservable();
 
   constructor() {
+    this.initialViewportHeight = window.innerHeight;
+  }
+
+  public async initialize() {
     if (Capacitor.isNativePlatform()) {
       Keyboard.setAccessoryBarVisible({ isVisible: true });
 
@@ -32,7 +36,6 @@ export class MobileKeyboardVisibilityService implements OnDestroy {
     }
 
     if (this.checkIfMobileWeb()) {
-      this.initialViewportHeight = window.innerHeight;
       this.setupWebListeners();
     }
   }

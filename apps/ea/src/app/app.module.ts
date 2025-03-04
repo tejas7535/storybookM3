@@ -45,6 +45,7 @@ import { AppRoutePath } from './app-route-path.enum';
 import { CalculationContainerComponent } from './calculation/calculation-container/calculation-container.component';
 import { CalculationViewComponent } from './calculation-view/calculation-view.component';
 import { CoreModule } from './core/core.module';
+import { MobileKeyboardVisibilityService } from './core/services/mobile-keyboard-visibility/mobile-keyboard-visibility.service';
 import { ConsentValues } from './core/services/tracking-service/one-trust.interface';
 import { OneTrustMobileService } from './core/services/tracking-service/one-trust-mobile.service';
 import { SettingsFacade } from './core/store';
@@ -98,6 +99,12 @@ export function DynamicPurpose(translocoService: TranslocoService) {
 
 export function DynamicStoragePeriod(translocoService: TranslocoService) {
   return translocoService.selectTranslateObject('legal.storagePeriod');
+}
+
+export function mobileKeyboardVisibilityServiceFactory(
+  service: MobileKeyboardVisibilityService
+): () => Promise<void> {
+  return () => service.initialize();
 }
 
 export function mobileOneTrustInitializer(
@@ -168,6 +175,12 @@ let providers = [
     provide: APP_INITIALIZER,
     useFactory: mobileOneTrustInitializer,
     deps: [OneTrustMobileService],
+    multi: true,
+  },
+  {
+    provide: APP_INITIALIZER,
+    useFactory: mobileKeyboardVisibilityServiceFactory,
+    deps: [MobileKeyboardVisibilityService],
     multi: true,
   },
   TranslocoDecimalPipe,
