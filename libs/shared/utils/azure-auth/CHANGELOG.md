@@ -1,4 +1,11 @@
 # Release Notes of Library Shared Utils Azure Auth
+## [1.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v1.4.1...azure-auth-v1.5.0) (2025-03-04)
+
+
+### Features
+
+* **azure-auth:** allow configurations of redirects in iFrames ([#6981](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6981)) ([0f6acc2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0f6acc29a1032cd2e02194098c27db828ab96228))
+
 ## 1.4.1 (2024-10-25)
 Manual release to keep repository in sync with published versions on Artifactory.
 
