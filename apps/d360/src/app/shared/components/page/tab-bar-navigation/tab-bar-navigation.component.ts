@@ -14,16 +14,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
 
-import { Observable } from 'rxjs';
-
-import { LetDirective } from '@ngrx/component';
-
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { appRoutes, RouteConfig } from '../../../../app.routes';
 import { AppRoutePath } from '../../../../app.routes.enum';
 import { AlertService } from '../../../../feature/alerts/alert.service';
-import { AlertNotificationCount } from '../../../../feature/alerts/model';
+import { Alert } from '../../../../feature/alerts/model';
 import { UserService } from '../../../services/user.service';
 
 export enum TabItem {
@@ -53,18 +49,14 @@ export const enum ProductType {
     MatTabsModule,
     MatMenuModule,
     MatIconModule,
-    LetDirective,
   ],
   templateUrl: './tab-bar-navigation.component.html',
   styleUrl: './tab-bar-navigation.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabBarNavigationComponent {
-  private readonly alertService: AlertService = inject(AlertService);
+  protected readonly alertService: AlertService = inject(AlertService);
   private readonly userService = inject(UserService);
-
-  protected notificationCount$: Observable<AlertNotificationCount> =
-    this.alertService.getNotificationCount();
 
   /**
    * Generate RouteConfig with all visible routes
@@ -86,6 +78,27 @@ export class TabBarNavigationComponent {
       ),
     },
   }));
+
+  private readonly prioFilter = (priority: number, alert: Alert) =>
+    alert.alertPriority === priority;
+  protected prio1Count = computed(
+    () =>
+      this.alertService
+        .allActiveAlerts()
+        ?.filter((alert) => this.prioFilter(1, alert)).length
+  );
+  protected prio2Count = computed(
+    () =>
+      this.alertService
+        .allActiveAlerts()
+        ?.filter((alert) => this.prioFilter(2, alert)).length
+  );
+  protected infoCount = computed(
+    () =>
+      this.alertService
+        .allActiveAlerts()
+        ?.filter((alert) => this.prioFilter(3, alert)).length
+  );
 
   /**
    * Signal to keep track of active tab

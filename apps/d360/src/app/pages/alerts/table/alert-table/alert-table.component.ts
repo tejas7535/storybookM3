@@ -44,6 +44,13 @@ import { SelectableOptionsService } from '../../../../shared/services/selectable
 import { SnackbarService } from '../../../../shared/utils/service/snackbar.service';
 import { getAlertTableColumnDefinitions } from './column-definitions';
 
+export interface ContextMenuEntry {
+  text: string;
+  onClick?: () => void;
+  showDivider?: boolean;
+  submenu?: ContextMenuEntry[];
+}
+
 @Component({
   selector: 'd360-alert-table',
   standalone: true,
@@ -54,7 +61,6 @@ import { getAlertTableColumnDefinitions } from './column-definitions';
 export class AlertTableComponent {
   public gridApi: GridApi<Alert>;
   public getApi: OutputEmitterRef<GridApi<Alert>> = output();
-  public onUpdateAlert: OutputEmitterRef<void> = output();
   protected readonly alertService: AlertService = inject(AlertService);
   protected readonly agGridLocalizationService: AgGridLocalizationService =
     inject(AgGridLocalizationService);
@@ -98,8 +104,8 @@ export class AlertTableComponent {
   public status = input.required<AlertStatus>();
 
   protected context: Record<string, any> = {
-    getMenu: (b: any) => {
-      const alert: Alert = b.data;
+    getMenu: (rowData: { data: Alert }): ContextMenuEntry[] => {
+      const alert: Alert = rowData.data;
       const customMenu = [];
 
       if (alert.openFunction) {
@@ -194,8 +200,8 @@ export class AlertTableComponent {
                     });
                     this.rowCount.set(this.rowCount() - 1);
                   }
-
-                  this.onUpdateAlert.emit();
+                  this.alertService.refreshHashTimer();
+                  this.alertService.loadActiveAlerts();
                   this.snackbarService.openSnackBar(
                     translate('alert.action_menu.alert_completed')
                   );
@@ -217,7 +223,8 @@ export class AlertTableComponent {
                   this.gridApi.applyServerSideTransaction({
                     remove: [alert],
                   });
-                  this.onUpdateAlert.emit();
+                  this.alertService.refreshHashTimer();
+                  this.alertService.loadActiveAlerts();
                   this.rowCount.set(this.rowCount() - 1);
                   this.snackbarService.openSnackBar(
                     translate('alert.action_menu.alert_activated')
@@ -239,7 +246,8 @@ export class AlertTableComponent {
                   this.gridApi.applyServerSideTransaction({
                     remove: [alert],
                   });
-                  this.onUpdateAlert.emit();
+                  this.alertService.refreshHashTimer();
+                  this.alertService.loadActiveAlerts();
                   this.rowCount.set(this.rowCount() - 1);
                   this.snackbarService.openSnackBar(
                     translate('alert.action_menu.alert_deactivated')
@@ -258,6 +266,16 @@ export class AlertTableComponent {
     effect(() => {
       this.setServerSideDatasource(this.status(), this.priorities());
     });
+    this.alertService
+      .getRefreshEvent()
+      .pipe(
+        tap(() => {
+          this.setServerSideDatasource(this.status(), this.priorities());
+          this.alertService.refreshHashTimer();
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   private updateColumnDefs(): void {

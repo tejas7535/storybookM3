@@ -14,6 +14,7 @@ import { appRoutes } from 'apps/d360/src/app/app.routes';
 
 import { AppRoutePath } from '../../../../app.routes.enum';
 import { AlertService } from '../../../../feature/alerts/alert.service';
+import { Alert } from '../../../../feature/alerts/model';
 import { UserService } from '../../../services/user.service';
 import { AuthService } from '../../../utils/auth/auth.service';
 import { Role } from '../../../utils/auth/roles';
@@ -42,7 +43,7 @@ describe('TabBarNavigationComponent', () => {
           return roleSubject;
         },
       }),
-      mockProvider(AlertService),
+      mockProvider(AlertService, { allActiveAlerts: signal<Alert[]>(null) }),
       mockProvider(UserService, {
         filterVisibleRoutes: jest.fn(() => []),
         startPage: signal(AppRoutePath.OverviewPage),

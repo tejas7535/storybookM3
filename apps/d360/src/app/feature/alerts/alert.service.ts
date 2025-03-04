@@ -41,7 +41,6 @@ import { CurrencyService } from '../info/currency.service';
 import {
   Alert,
   AlertCategory,
-  AlertNotificationCount,
   AlertStatus,
   OpenFunction,
   Priority,
@@ -71,11 +70,6 @@ export class AlertService {
 
   private readonly ALERT_HASH_API = 'api/alerts/hash';
   private readonly ALERT_API = 'api/alerts';
-  private readonly ALERT_NOTIFICATION_COUNT_API =
-    'api/alerts/notification/count';
-
-  private readonly notificationCountChangedEvent =
-    new Subject<AlertNotificationCount>();
 
   private readonly dataFetchedEvent = new Subject<AlertDataResult>();
   private readonly fetchErrorEvent = new Subject<any>();
@@ -90,7 +84,6 @@ export class AlertService {
 
   public constructor() {
     this.loadActiveAlerts();
-    this.updateNotificationCount();
     this.refreshHashTimer();
     this.refreshEvent
       .pipe(
@@ -111,7 +104,7 @@ export class AlertService {
    * @return {void}
    * @memberof AlertService
    */
-  private loadActiveAlerts(): void {
+  public loadActiveAlerts(): void {
     let alerts: Alert[] = [];
     let hasError = false;
     const chunkSize = 1000;
@@ -203,16 +196,6 @@ export class AlertService {
   public getAlertHash(): Observable<string> {
     // @ts-expect-error responseType 'text'
     return this.http.get<string>(this.ALERT_HASH_API, { responseType: 'text' });
-  }
-
-  public getAlertNotificationCount(): Observable<AlertNotificationCount> {
-    return this.http.get<AlertNotificationCount>(
-      this.ALERT_NOTIFICATION_COUNT_API
-    );
-  }
-
-  public getNotificationCount(): Observable<AlertNotificationCount> {
-    return this.notificationCountChangedEvent.asObservable();
   }
 
   public getDataFetchedEvent(): Observable<AlertDataResult> {
@@ -376,18 +359,6 @@ export class AlertService {
 
     return groupedResult;
   };
-
-  public updateNotificationCount() {
-    this.getAlertNotificationCount()
-      .pipe(
-        take(1),
-        tap((count) => {
-          this.notificationCountChangedEvent.next(count);
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
-  }
 
   public refreshHashTimer() {
     if (this.timerSubscription) {

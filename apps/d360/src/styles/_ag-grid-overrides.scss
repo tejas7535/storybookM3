@@ -79,15 +79,15 @@
         }
 
         .is-prio1 {
-          border-left: 6px solid #ebdce8;
+          border-left: 6px solid var(--todo-color-prio1-bg);
         }
 
         .is-prio2 {
-          border-left: 6px solid #e8e8e8;
+          border-left: 6px solid var(--todo-color-prio2-bg);
         }
 
         .is-info {
-          border-left: 6px solid #e0edf4;
+          border-left: 6px solid var(--todo-color-info-bg);
         }
 
         .is-deactivated {

@@ -5,6 +5,23 @@
       display: flex;
       position: absolute;
       right: 0;
+      .todo-badge {
+        @apply ml-2 px-2 py-1 rounded-xl;
+        &.prio1 {
+          background: var(--todo-color-prio1-bg);
+          color: var(--todo-color-prio1-text);
+        }
+
+        &.prio2 {
+          background: var(--todo-color-prio2-bg);
+          color: var(--todo-color-prio2-text);
+        }
+
+        &.info {
+          @apply text-info;
+          background: var(--todo-color-info-bg);
+        }
+      }
     }
     .non-critical {
       @apply bg-[#e9b300];

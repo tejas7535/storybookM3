@@ -28,14 +28,19 @@
       [active]="activeTab() === TabItem.ToDos"
     >
       <span class="label">{{ t(routeConfig().todos.label) }}</span>
-      <span *ngrxLet="notificationCount$ as count" class="notification-count">
-        <span class="mx-2 px-2 py-1 rounded-xl text-white non-critical">
-          {{ count?.openNonCritical }}
+      @if (alertService.allActiveAlerts() !== null) {
+        <span class="notification-count">
+          <span class="todo-badge info">
+            {{ infoCount() }}
+          </span>
+          <span class="todo-badge prio2">
+            {{ prio2Count() }}
+          </span>
+          <span class="todo-badge prio1">
+            {{ prio1Count() }}
+          </span>
         </span>
-        <span class="px-2 py-1 rounded-xl text-white bg-error">
-          {{ count?.openCritical }}
-        </span>
-      </span>
+      }
     </a>
   </nav>
 

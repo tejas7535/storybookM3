@@ -1,18 +1,13 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
-import { tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
 import { AgGridModule } from 'ag-grid-angular';
-import { GridApi } from 'ag-grid-enterprise';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { AlertService } from '../../feature/alerts/alert.service';
 import { AlertStatus, Priority } from '../../feature/alerts/model';
 import {
   HeaderActionBarComponent,
@@ -46,8 +41,6 @@ import { AlertTableComponent } from './table/alert-table/alert-table.component';
 export class AlertsComponent {
   protected readonly selectableOptionsService: SelectableOptionsService =
     inject(SelectableOptionsService);
-  private readonly destroyRef: DestroyRef = inject(DestroyRef);
-  private readonly alertService: AlertService = inject(AlertService);
   protected loading$ = this.selectableOptionsService.loading$;
   protected alertStatus: SelectableValue[] = [
     { id: AlertStatus.ACTIVE, text: translate('alert.select.active') },
@@ -57,7 +50,6 @@ export class AlertsComponent {
       text: translate('alert.select.deactivated'),
     },
   ];
-  private gridApi: GridApi | null = null;
   protected readonly DisplayFunctions = DisplayFunctions;
 
   protected statusControl = new FormControl<SelectableValue>(
@@ -74,42 +66,9 @@ export class AlertsComponent {
   ]);
   protected selectedStatus = signal<AlertStatus>(AlertStatus.ACTIVE);
 
-  constructor() {
-    this.alertService
-      .getRefreshEvent()
-      .pipe(
-        tap(() => {
-          this.updateGrid(this.statusControl.getRawValue().id as AlertStatus);
-          this.refreshCounter();
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
-  }
-
-  protected updateStatus(event: Partial<SelectableValue>) {
-    if (event) {
-      this.selectedStatus.set(event.id as AlertStatus);
-    }
-  }
-  protected getApi(api: GridApi): void {
-    this.gridApi = api;
-  }
-
-  protected refreshCounter() {
-    this.alertService.refreshHashTimer();
-    this.alertService.updateNotificationCount();
-  }
-
-  private updateGrid(status: AlertStatus) {
-    if (this.gridApi) {
-      this.gridApi.setGridOption(
-        'serverSideDatasource',
-        this.alertService.createAlertDatasource(
-          status,
-          this.selectedPriorities()
-        )
-      );
+  protected updateStatus(status: SelectableValue) {
+    if (status) {
+      this.selectedStatus.set(status.id as AlertStatus);
     }
   }
 }
