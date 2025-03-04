@@ -59,9 +59,19 @@ describe('TabBarNavigationComponent', () => {
     });
   });
 
+  it('should create', () => {
+    expect(spectator.component).toBeTruthy();
+  });
+
   describe('functions menu', () => {
-    it('should create', () => {
-      expect(spectator.component).toBeTruthy();
+    it('should show the todo page in the general section of the function menu', () => {
+      const generalSection =
+        spectator.component['routeConfig']().functions.general;
+      expect(
+        generalSection.findIndex(
+          (entry) => entry.label === 'tabbar.tasks.label'
+        )
+      ).not.toBe(-1);
     });
   });
 

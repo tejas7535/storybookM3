@@ -121,7 +121,7 @@
       "label": "Détails du matériel du client"
     },
     "internal-material-replacement": {
-      "label": "Central Phase-In Phase-Out"
+      "label": "Centrale Phase-En et Phase-Sortie"
     },
     "ap-portfolio-optimization": {
       "label": "Optimisation du portefeuille AP"
@@ -1177,7 +1177,7 @@
   },
   "internal_material_replacement": {
     "title": {
-      "rootString": "Central Phase-In Phase-Out",
+      "rootString": "Centrale Phase-En et Phase-Sortie",
       "newSubstitution": "Saisir un nouveau substitution",
       "newDeletions": "Supprimer les remplacements",
       "newSubstitutions": "Inscrire de nouveaux substitution",

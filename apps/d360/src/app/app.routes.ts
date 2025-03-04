@@ -100,22 +100,6 @@ export const appRoutes: RouteConfig = {
           ).then((m) => m.DemandValidationComponent),
       },
       {
-        label: 'tabbarMenu.customer-material-details.label',
-        data: {
-          titles: [
-            'header.title',
-            'tabbarMenu.customer-material-details.label',
-          ],
-        },
-        visible: true,
-        path: AppRoutePath.CustomerMaterialDetailsPage,
-        canActivate: [MsalGuard],
-        loadComponent: () =>
-          import('../app/pages/home/home.component').then(
-            (m) => m.HomeComponent
-          ),
-      },
-      {
         path: AppRoutePath.CustomerMaterialPortfolioPage,
         label: 'tabbarMenu.customer-material-portfolio.label',
         canActivate: [MsalGuard],
@@ -147,6 +131,22 @@ export const appRoutes: RouteConfig = {
           import(
             '../app/pages/internal-material-replacement/internal-material-replacement.component'
           ).then((m) => m.InternalMaterialReplacementComponent),
+      },
+      {
+        label: 'tabbarMenu.customer-material-details.label',
+        data: {
+          titles: [
+            'header.title',
+            'tabbarMenu.customer-material-details.label',
+          ],
+        },
+        visible: true,
+        path: AppRoutePath.CustomerMaterialDetailsPage,
+        canActivate: [MsalGuard],
+        loadComponent: () =>
+          import('../app/pages/home/home.component').then(
+            (m) => m.HomeComponent
+          ),
       },
     ],
     [ProductType.General]: [

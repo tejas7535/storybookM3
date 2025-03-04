@@ -121,7 +121,7 @@
       "label": "Detalles del material del cliente"
     },
     "internal-material-replacement": {
-      "label": "Central Fase de Entrada Fase de Salida"
+      "label": "Central fase de entrada y fase de salida"
     },
     "ap-portfolio-optimization": {
       "label": "PC Cartera Optimización"
@@ -1177,7 +1177,7 @@
   },
   "internal_material_replacement": {
     "title": {
-      "rootString": "Central Fase de Entrada Fase de Salida",
+      "rootString": "Central fase de entrada y fase de salida",
       "newSubstitution": "Introducir nueva sustitución",
       "newDeletions": "Borrar sustituciones",
       "newSubstitutions": "Introducir nuevos sustitutos",

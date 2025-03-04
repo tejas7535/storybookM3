@@ -73,9 +73,10 @@ export class TabBarNavigationComponent {
       demandSuite: this.userService.filterVisibleRoutes(
         appRoutes.functions.demandSuite
       ),
-      general: this.userService.filterVisibleRoutes(
-        appRoutes.functions.general
-      ),
+      general: [
+        ...this.userService.filterVisibleRoutes(appRoutes.functions.general),
+        appRoutes.todos,
+      ],
     },
   }));
 

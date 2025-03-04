@@ -121,7 +121,7 @@
       "label": "Dettagli sul materiale del cliente"
     },
     "internal-material-replacement": {
-      "label": "Centrale Fase In Fase Out"
+      "label": "Centrale Fase-In e Fase-Fuori"
     },
     "ap-portfolio-optimization": {
       "label": "AP Ottimizzazione del portafoglio"
@@ -1177,7 +1177,7 @@
   },
   "internal_material_replacement": {
     "title": {
-      "rootString": "Centrale Fase In Fase Out",
+      "rootString": "Centrale Fase-In e Fase-Fuori",
       "newSubstitution": "Inserire la nuova sostituzione",
       "newDeletions": "Eliminare le sostituzioni",
       "newSubstitutions": "Inserire nuove sostituzioni",

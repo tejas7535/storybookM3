@@ -130,7 +130,7 @@
       "label": "Customer Material Details"
     },
     "internal-material-replacement": {
-      "label": "Central Phase-In Phase-Out"
+      "label": "Central Phase-In and Phase-Out"
     },
     "ap-portfolio-optimization": {
       "label": "AP Portfolio Optimization"
@@ -1189,7 +1189,7 @@
   },
   "internal_material_replacement": {
     "title": {
-      "rootString": "Central Phase-In Phase-Out",
+      "rootString": "Central Phase-In and Phase-Out",
       "newSubstitution": "Enter new substitution",
       "newDeletions": "Delete replacements",
       "newSubstitutions": "Enter new substitution",

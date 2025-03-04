@@ -121,7 +121,7 @@
       "label": "Detalhes do material do cliente"
     },
     "internal-material-replacement": {
-      "label": "Central Fase de entrada Fase de saída"
+      "label": "Central fase de entrada e fase de saída"
     },
     "ap-portfolio-optimization": {
       "label": "Otimização do portfólio AP"
@@ -1167,7 +1167,7 @@
   },
   "internal_material_replacement": {
     "title": {
-      "rootString": "Central Fase de entrada Fase de saída",
+      "rootString": "Central fase de entrada e fase de saída",
       "newSubstitution": "Inserir nova substituição",
       "newDeletions": "Excluir substituições",
       "newSubstitutions": "Inserir novas substituições",
