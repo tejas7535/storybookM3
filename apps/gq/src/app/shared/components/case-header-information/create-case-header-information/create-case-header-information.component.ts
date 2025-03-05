@@ -231,28 +231,16 @@ export class CreateCaseHeaderInformationComponent
       });
 
     this.selectedCustomerIdentifier$
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        distinctUntilChanged(),
-        tap((customerId: CustomerId) => {
-          if (customerId?.customerId) {
-            this.modifyInputs('enable', this.controlsToModify);
-            this.headerInfoForm
-              .get('customerInquiryDate')
-              ?.setValue(this.today);
-          } else {
-            this.modifyInputs('reset', this.controlsToModify);
-            this.modifyInputs('disable', this.controlsToModify);
-            this.quotationToChangedByUser = false;
-          }
-        }),
-        filter(
-          (customerId: CustomerId) =>
-            !!customerId?.customerId && !!customerId?.salesOrg
-        )
-      )
+      .pipe(takeUntilDestroyed(this.destroyRef), distinctUntilChanged())
       .subscribe((customerId: CustomerId) => {
-        this.createCaseFacade.getQuotationToDate(customerId);
+        if (customerId?.customerId) {
+          this.modifyInputs('enable', this.controlsToModify);
+          this.headerInfoForm.get('customerInquiryDate')?.setValue(this.today);
+        } else {
+          this.modifyInputs('reset', this.controlsToModify);
+          this.modifyInputs('disable', this.controlsToModify);
+          this.quotationToChangedByUser = false;
+        }
       });
 
     this.headerInfoForm

@@ -4,7 +4,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
-import { catchError, delay, filter, map, mergeMap, tap } from 'rxjs/operators';
+import {
+  catchError,
+  delay,
+  distinctUntilChanged,
+  filter,
+  map,
+  mergeMap,
+  tap,
+} from 'rxjs/operators';
 
 import { ShipToPartyFacade } from '@gq/core/store/ship-to-party/ship-to-party.facade';
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
@@ -67,6 +75,7 @@ import {
   validateMaterialsOnCustomerAndSalesOrgFailure,
   validateMaterialsOnCustomerAndSalesOrgSuccess,
 } from '../../actions';
+import { CreateCaseFacade } from '../../create-case/create-case.facade';
 import { RolesFacade } from '../../facades';
 import { CreateCaseOgp } from '../../reducers/create-case/models/create-case-ogp.interface';
 import { CreateCustomerCaseOgp } from '../../reducers/create-case/models/create-customer-case-ogp.interface';
@@ -111,6 +120,9 @@ export class CreateCaseEffects {
   private readonly shipToPartyFacade: ShipToPartyFacade =
     inject(ShipToPartyFacade);
 
+  private readonly createCaseFacade: CreateCaseFacade =
+    inject(CreateCaseFacade);
+
   /**
    * Get possible values for a form field
    *
@@ -145,6 +157,13 @@ export class CreateCaseEffects {
     );
   });
 
+  validateAfterSalesOrgSelected$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(selectSalesOrg.type),
+      map(() => validateMaterialsOnCustomerAndSalesOrg())
+    );
+  });
+
   loadSectorGpsdAfterSalesOrgsLoaded$ = createEffect(
     () => {
       return this.actions$.pipe(
@@ -168,13 +187,6 @@ export class CreateCaseEffects {
     },
     { dispatch: false }
   );
-
-  validateAfterSalesOrgSelected$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(selectSalesOrg.type),
-      map(() => validateMaterialsOnCustomerAndSalesOrg())
-    );
-  });
 
   loadSectorGpsdAfterSalesOrgSelected$ = createEffect(
     () => {
@@ -207,6 +219,28 @@ export class CreateCaseEffects {
               customerId,
               salesOrg.id
             );
+          }
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  loadQuotationToByCustomerAndSalesOrg$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(selectSalesOrg.type, getSalesOrgsSuccess.type),
+        concatLatestFrom(() => [
+          this.store.select(getSelectedCustomerId),
+          this.store.select(getSelectedSalesOrg),
+        ]),
+        distinctUntilChanged(),
+        map(([_action, customerId, salesOrg]) => {
+          if (customerId && salesOrg) {
+            this.createCaseFacade.getQuotationToDate({
+              customerId,
+              salesOrg: salesOrg.id,
+            });
           }
         })
       );

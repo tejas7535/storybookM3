@@ -1244,4 +1244,54 @@ describe('Create Case Effects', () => {
       })
     );
   });
+
+  describe('load quotationToDate', () => {
+    test(
+      'should trigger facade method when "getSalesOrgsSuccess" action has been emitted',
+      marbles((m) => {
+        action = getSalesOrgsSuccess({ salesOrgs: [] });
+        store.overrideSelector(getSelectedCustomerId, '1234');
+        store.overrideSelector(getSelectedSalesOrg, {
+          id: '0615',
+          selected: true,
+        });
+
+        effects['createCaseFacade'].getQuotationToDate = jest.fn();
+
+        actions$ = m.hot('-a', { a: action });
+
+        effects.loadQuotationToByCustomerAndSalesOrg$.subscribe(() => {
+          expect(
+            effects['createCaseFacade'].getQuotationToDate
+          ).toHaveBeenCalledTimes(1);
+        });
+
+        m.flush();
+      })
+    );
+
+    test(
+      'should trigger facade method when "selectSalesOrg" action has been emitted',
+      marbles((m) => {
+        action = selectSalesOrg({ salesOrgId: '1' });
+        store.overrideSelector(getSelectedCustomerId, '1234');
+        store.overrideSelector(getSelectedSalesOrg, {
+          id: '0615',
+          selected: true,
+        });
+
+        effects['createCaseFacade'].getQuotationToDate = jest.fn();
+
+        actions$ = m.hot('-a', { a: action });
+
+        effects.loadQuotationToByCustomerAndSalesOrg$.subscribe(() => {
+          expect(
+            effects['createCaseFacade'].getQuotationToDate
+          ).toHaveBeenCalledTimes(1);
+        });
+
+        m.flush();
+      })
+    );
+  });
 });
