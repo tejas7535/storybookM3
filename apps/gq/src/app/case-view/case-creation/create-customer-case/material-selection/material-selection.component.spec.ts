@@ -112,26 +112,6 @@ describe('MaterialSelectionComponent', () => {
     });
   });
 
-  describe('availableYears', () => {
-    test('should return available years for 2022', () => {
-      jest.useFakeTimers();
-      jest.setSystemTime(new Date(2022, 1, 1));
-      spectator.detectChanges();
-
-      expect(component.availableYears).toEqual([0, 1, 2, 3, 4]);
-      jest.useRealTimers();
-    });
-
-    test('should return available years for 2024', () => {
-      jest.useFakeTimers();
-      jest.setSystemTime(new Date(2024, 1, 1));
-      spectator.detectChanges();
-
-      expect(component.availableYears).toEqual([0, 1, 2, 3, 4, 5, 6]);
-      jest.useRealTimers();
-    });
-  });
-
   describe('numberOfYears', () => {
     test('should send correct number of years on dispatch', () => {
       mockStore.dispatch = jest.fn();

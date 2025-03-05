@@ -68,9 +68,9 @@ export class MaterialSelectionComponent {
   someComplete = true;
   selectionItems: Selection[] = this.createDefaultSelectionCopy();
   numberOfYears = this.DEFAULT_SELECTED_YEARS;
-  // The first year where data for gq is available is 2018, so we only count all years
-  // from 2018 to the current year, including the current (not yet finished) year (GQUOTE-721)
-  availableYears: number[] = this.getAvailableYears();
+  // Max available years for historical data is 5 years https://jira.schaeffler.com/browse/GQUOTE-5797
+  // To keep current logic - first year should be 0
+  availableYears: number[] = [0, 1, 2, 3, 4];
 
   customerIdentifier: CustomerId;
   customerIdentifier$: Observable<CustomerId> =
@@ -135,15 +135,5 @@ export class MaterialSelectionComponent {
       };
       this.createCaseFacade.getPLsAndSeries(customerFilters);
     }
-  }
-
-  private getAvailableYears(): number[] {
-    return Array.from(
-      {
-        length:
-          new Date().getFullYear() + 1 - new Date('01-01-2018').getFullYear(),
-      },
-      (_, i) => i
-    );
   }
 }
