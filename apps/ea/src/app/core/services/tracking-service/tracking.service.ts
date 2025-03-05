@@ -97,7 +97,5 @@ export class TrackingService {
     this.aiService.logEvent(event.action, event);
     this.gaService.logEvent(event);
     this.firebaseService.logEvent(event);
-
-    return;
   }
 }
