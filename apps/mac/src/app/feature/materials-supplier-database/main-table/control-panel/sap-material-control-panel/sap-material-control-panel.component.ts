@@ -54,7 +54,7 @@ export class SapMaterialControlPanelComponent
   public readonly EXPORT_BLOCK_SIZE = 100_000;
 
   public sapMaterialsRows$ = this.dataFacade.sapMaterialsRows$;
-  public hasMatnrUploaderRole$ = this.dataFacade.hasMatnrUploaderRole$;
+  private hasUploaderRole = false;
 
   public constructor(
     protected readonly dataFacade: DataFacade,
@@ -70,6 +70,9 @@ export class SapMaterialControlPanelComponent
       applicationInsightsService,
       dialogService
     );
+    this.dataFacade.hasMatnrUploaderRole$
+      .pipe(take(1))
+      .subscribe((hasRole) => (this.hasUploaderRole = hasRole));
   }
 
   public ngOnInit(): void {
@@ -97,20 +100,12 @@ export class SapMaterialControlPanelComponent
   }
 
   public exportExcelSapMaterials(): void {
-    if (!this.agGridApi) {
-      return;
-    }
-    const visibleColumns = this.getVisibleColumns();
-
     this.applicationInsightsService.logEvent('[MAC - MSD] Export Excel');
     // event handler function to create the excel file
-    let hasMatnrUploaderRoleValue = false;
-    this.hasMatnrUploaderRole$
-      .pipe(take(1))
-      .subscribe((v) => (hasMatnrUploaderRoleValue = v));
     const eventHandler = () => {
       this.agGridApi.removeEventListener('modelUpdated', eventHandler);
       // get a sorted list of all columns, starting with visible columns
+      const visibleColumns = this.getVisibleColumns();
       const columnList: ColDef[] = [
         ...visibleColumns.map((col) => this.agGridApi.getColumnDef(col)),
         ...this.agGridApi
@@ -149,9 +144,9 @@ export class SapMaterialControlPanelComponent
         sheetName: translate(
           'materialsSupplierDatabase.mainTable.excelExport.matNrSheetName'
         ),
-        processCellCallback: hasMatnrUploaderRoleValue
-          ? undefined
-          : this.excelExportSapProcessCell,
+        processCellCallback: this.hasUploaderRole
+          ? this.getFormattedCellValue
+          : this.getFormattedCellValueNonUploader,
       });
       // reset default block size
       this.agGridApi.updateGridOptions({
@@ -166,14 +161,29 @@ export class SapMaterialControlPanelComponent
     this.agGridApi.addEventListener('modelUpdated', eventHandler);
   }
 
-  private excelExportSapProcessCell(params: ProcessCellForExportParams) {
-    const columnName = params.column.getColId();
+  // needed to duplicate code as [this] is not available in callback function
+  private getFormattedCellValue(params: ProcessCellForExportParams) {
+    if (params.column.getColDef().useValueFormatterForExport ?? true) {
+      return params.formatValue(params.value);
+    }
 
-    return (columnName === EMISSION_FACTOR_KG ||
-      columnName === EMISSION_FACTOR_PC) &&
+    return params.value;
+  }
+
+  private getFormattedCellValueNonUploader(params: ProcessCellForExportParams) {
+    const columnName = params.column.getColId();
+    if (
+      (columnName === EMISSION_FACTOR_KG ||
+        columnName === EMISSION_FACTOR_PC) &&
       params.node.data['maturity'] < 5
-      ? '---'
-      : params.value;
+    ) {
+      return '---';
+    }
+    if (params.column.getColDef().useValueFormatterForExport ?? true) {
+      return params.formatValue(params.value);
+    }
+
+    return params.value;
   }
 
   private toExcelCell(style: string): (value: string) => ExcelCell {

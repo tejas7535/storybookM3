@@ -5,7 +5,7 @@
   >
     <button
       mat-raised-button
-      [disabled]="!(hasMatnrUploaderRole$ | ngrxPush)"
+      [disabled]="!hasUploaderRole"
       color="primary"
       (click)="openUploadDialog()"
     >
@@ -20,8 +20,7 @@
       (click)="exportExcelSapMaterials()"
       [matTooltip]="t('mainTable.excelExport.matNrTooltip')"
       [disabled]="
-        !(hasMatnrUploaderRole$ | ngrxPush) ||
-        sapMaterialsRows?.subTotalRows > EXPORT_BLOCK_SIZE
+        !hasUploaderRole || sapMaterialsRows?.subTotalRows > EXPORT_BLOCK_SIZE
       "
     >
       <mat-icon class="material-icons-outlined">download</mat-icon>

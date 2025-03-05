@@ -8,41 +8,24 @@ import { take } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
-import {
-  ExcelCell,
-  ExcelRow,
-  IRowNode,
-  ProcessCellForExportParams,
-  ProcessRowGroupForExportParams,
-  ValueGetterParams,
-} from 'ag-grid-enterprise';
+import { ProcessCellForExportParams } from 'ag-grid-enterprise';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { EDITABLE_MATERIAL_CLASSES } from '@mac/feature/materials-supplier-database/constants/editable-material-classes';
-import { DataResult } from '@mac/feature/materials-supplier-database/models';
+import { SteelMaterial } from '@mac/feature/materials-supplier-database/models';
 import {
   MsdAgGridReadyService,
   MsdDialogService,
 } from '@mac/feature/materials-supplier-database/services';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import {
-  ACTION,
-  HISTORY,
-  LAST_MODIFIED,
   MANUFACTURER_SUPPLIER_SAPID,
   NavigationLevel,
-  RECENT_STATUS,
   RELEASE_DATE,
-  RELEASED_STATUS,
-  Status,
 } from '@mac/msd/constants';
 
-import {
-  RELEASE_DATE_VALUE_GETTER,
-  STATUS_VALUE_GETTER,
-} from '../../table-config/helpers';
 import { BaseControlPanelComponent } from '../base-control-panel.component';
 
 @Component({
@@ -73,13 +56,6 @@ export class RawMaterialControlPanelComponent
   public hasMinimizedDialog$ = this.dataFacade.hasMinimizedDialog$;
   public resultCount$ = this.dataFacade.resultCount$;
 
-  // collect columns which are not really in the dataset but rendered by ag grid
-  private readonly META_COLUMNS = [
-    RELEASED_STATUS,
-    RECENT_STATUS,
-    HISTORY,
-    ACTION,
-  ];
   public constructor(
     protected readonly dataFacade: DataFacade,
     protected readonly agGridReadyService: MsdAgGridReadyService,
@@ -135,161 +111,70 @@ export class RawMaterialControlPanelComponent
     this.dataFacade.fetchResult();
   }
 
-  public exportExcelRawMaterials(): void {
-    if (!this.agGridApi) {
-      return;
-    }
+  public export(): void {
     this.applicationInsightsService.logEvent('[MAC - MSD] Export Excel');
     const visibleColumns = this.getVisibleColumns();
-
     const dateString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     const columns = visibleColumns.filter(
       (columnName) => !this.NON_EXCEL_COLUMNS.has(columnName)
     );
-
-    // add additional content only if column is visible
     const isSapIdVisible = columns.includes(MANUFACTURER_SUPPLIER_SAPID);
 
-    this.agGridApi.exportDataAsExcel({
-      author: translate(
-        'materialsSupplierDatabase.mainTable.excelExport.author'
-      ),
-      fileName: `${dateString}${translate(
-        'materialsSupplierDatabase.mainTable.excelExport.fileNameSuffix'
-      )}`,
-      sheetName: translate(
-        'materialsSupplierDatabase.mainTable.excelExport.sheetName'
-      ),
-      columnKeys: columns,
-      // split rows and add sap data
-      getCustomContentBelowRow: isSapIdVisible
-        ? this.splitRowsForMultipleSapIdsInExportFactory(
-            this.getCellValue,
-            visibleColumns
-          )
-        : undefined,
-      processCellCallback: isSapIdVisible
-        ? this.excelExportRawProcessCellCallbackFactory(this.getCellValue)
-        : undefined,
-    });
-  }
-
-  private splitRowsForMultipleSapIdsInExportFactory(
-    getCellValueFn: (columnName: string, value?: any) => string,
-    visibleColumns: string[]
-  ) {
-    return (params: ProcessRowGroupForExportParams): ExcelRow[] => {
-      const rowNode: IRowNode = params.node;
-      const data = rowNode.data;
-
-      const result: ExcelRow[] = [];
-
-      if (data[MANUFACTURER_SUPPLIER_SAPID]?.length > 1) {
-        for (let i = 1; i < data[MANUFACTURER_SUPPLIER_SAPID].length; i += 1) {
-          const cells: ExcelCell[] = [];
-          const keys = [
-            ...this.META_COLUMNS.filter(
-              (column) => !this.NON_EXCEL_COLUMNS.has(column)
-            ),
-            ...Object.keys(data),
-          ]
-            // since the raw object does not have the RELEASE_DATE key we insert it in place of the year in case it is visible
-            .map((key) => (key === 'releaseDateYear' ? RELEASE_DATE : key))
-            .filter((key) => visibleColumns.includes(key))
-            .sort(
-              (a: string, b: string) =>
-                visibleColumns.indexOf(a) - visibleColumns.indexOf(b)
-            );
-          for (const key of keys) {
-            switch (key) {
-              case MANUFACTURER_SUPPLIER_SAPID: {
-                cells.push({
-                  data: {
-                    type: 'String',
-                    value: getCellValueFn(key, data[key][i]),
-                  },
-                });
-                break;
-              }
-              case RELEASE_DATE: {
-                cells.push({
-                  data: {
-                    type: 'String',
-                    value: getCellValueFn(
-                      key,
-                      RELEASE_DATE_VALUE_GETTER({
-                        data,
-                      } as ValueGetterParams<DataResult>)
-                    ),
-                  },
-                });
-                break;
-              }
-              case RELEASED_STATUS: {
-                cells.push({
-                  data: {
-                    type: 'String',
-                    value: getCellValueFn(
-                      key,
-                      STATUS_VALUE_GETTER({
-                        data,
-                      } as ValueGetterParams<DataResult>)
-                    ),
-                  },
-                });
-                break;
-              }
-              default: {
-                cells.push({
-                  data: {
-                    type: 'String',
-                    value: getCellValueFn(key, data[key]),
-                  },
-                });
-              }
-            }
-          }
-          const row: ExcelRow = { cells };
-          result.push(row);
-        }
-      }
-
-      return result;
-    };
-  }
-
-  private excelExportRawProcessCellCallbackFactory(
-    getCellValueFn: (columnName: string, value?: any) => string
-  ) {
-    return (params: ProcessCellForExportParams) => {
-      const columnName = params.column.getColId();
-
-      const value =
-        columnName === MANUFACTURER_SUPPLIER_SAPID &&
-        params.node.data[MANUFACTURER_SUPPLIER_SAPID]?.length > 1
-          ? params.node.data[MANUFACTURER_SUPPLIER_SAPID][0]
-          : params.value;
-
-      return getCellValueFn(columnName, value);
-    };
-  }
-
-  private getCellValue(columnName: string, value?: any): string {
-    switch (columnName) {
-      case RELEASED_STATUS: {
-        return value?.toString() || Status.DEFAULT.toString();
-      }
-      case LAST_MODIFIED: {
-        return value
-          ? new Date(value * 1000).toLocaleDateString('en-GB').toString()
-          : '';
-      }
-      case RELEASE_DATE: {
-        return value ? new Date(value)?.toLocaleDateString('en-GB') || '' : '';
-      }
-      default: {
-        return value?.toString() || '';
+    const orgData: SteelMaterial[] = this.agGridApi.getGridOption('rowData');
+    // expand data set if supplier id is visible
+    if (isSapIdVisible) {
+      this.agGridApi.setGridOption('rowData', this.expandSupplierIds(orgData));
+    }
+    try {
+      this.agGridApi.exportDataAsExcel({
+        author: translate(
+          'materialsSupplierDatabase.mainTable.excelExport.author'
+        ),
+        fileName: `${dateString}${translate(
+          'materialsSupplierDatabase.mainTable.excelExport.fileNameSuffix'
+        )}`,
+        sheetName: translate(
+          'materialsSupplierDatabase.mainTable.excelExport.sheetName'
+        ),
+        columnKeys: columns,
+        processCellCallback: this.getFormattedCellValue,
+      });
+      // restore previous data
+    } finally {
+      if (isSapIdVisible) {
+        this.agGridApi.setGridOption('rowData', orgData);
       }
     }
+  }
+
+  private getFormattedCellValue(params: ProcessCellForExportParams) {
+    const columnName = params.column.getColId();
+    if (columnName === RELEASE_DATE) {
+      return params.value ? params.formatValue(params.value) : '';
+    }
+    if (params.column.getColDef().useValueFormatterForExport ?? true) {
+      return params.formatValue(params.value);
+    }
+
+    return params.value;
+  }
+
+  private expandSupplierIds(materialData: any[]) {
+    const newData: any[] = [];
+    materialData.forEach((rowData) => {
+      const sapIds: string[] = rowData[MANUFACTURER_SUPPLIER_SAPID];
+      if (sapIds?.length > 1) {
+        sapIds.forEach((sapId) =>
+          newData.push({
+            ...rowData,
+            [MANUFACTURER_SUPPLIER_SAPID]: [sapId],
+          })
+        );
+      } else {
+        newData.push(rowData);
+      }
+    });
+
+    return newData;
   }
 }

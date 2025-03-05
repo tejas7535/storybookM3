@@ -78,6 +78,7 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
               params.value ? 'standardLink' : undefined,
             valueFormatter: MATERIALSTANDARD_LINK_FORMATTER,
             cellRenderer: LinkCellRendererComponent,
+            useValueFormatterForExport: false,
           },
           {
             field: CO2_PER_TON,

@@ -146,6 +146,7 @@ export const BASE_COLUMN_DEFINITIONS: ColDef[] = [
     filter: 'agDateColumnFilter',
     valueFormatter: CUSTOM_DATE_FORMATTER,
     filterParams: { comparator: DATE_COMPARATOR },
+    useValueFormatterForExport: true,
     sort: 'desc',
   },
 ];

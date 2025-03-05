@@ -224,58 +224,90 @@ describe('SapMaterialControlPanelComponent', () => {
       expect(component['agGridApi'].removeEventListener).toHaveBeenCalled();
       expect(component['agGridApi'].exportDataAsExcel).toHaveBeenCalled();
     });
-
-    it('should do nothing if ag grid api is not defined', () => {
-      component['agGridApi'] = undefined;
-
-      component.exportExcelSapMaterials();
-      // expect no exception
-      expect(true).toBeTruthy();
-    });
   });
 
   describe('excelExportSapProcessCellCallback', () => {
-    const p = (col: string, value: any, maturity = 8) =>
+    const p = (
+      col: string,
+      value: any,
+      maturity: number,
+      useValueFormatterForExport?: boolean
+    ) =>
       ({
         column: {
           getColId: () => col,
+          getColDef: () =>
+            ({ useValueFormatterForExport }) as unknown as ColDef,
         } as unknown as Column,
         node: {
           data: { maturity },
         },
         value,
-      }) as ProcessCellForExportParams;
+        formatValue: () => 'formatted',
+      }) as unknown as ProcessCellForExportParams;
 
     it('should return pcf value (kg) for maturity greater equal 5', () => {
-      const mockParams = p(EMISSION_FACTOR_KG, 12.3, 5);
-      const result = component['excelExportSapProcessCell'](mockParams);
-
-      expect(result).toEqual(mockParams.value);
+      const mockParams = p(EMISSION_FACTOR_KG, 12.3, 5, false);
+      expect(component['getFormattedCellValueNonUploader'](mockParams)).toEqual(
+        mockParams.value
+      );
+      expect(component['getFormattedCellValue'](mockParams)).toEqual(
+        mockParams.value
+      );
     });
     it('should return pcf value (pc) for maturity greater equal 5', () => {
-      const mockParams = p(EMISSION_FACTOR_PC, 12.3, 8);
-      const result = component['excelExportSapProcessCell'](mockParams);
-
-      expect(result).toEqual(mockParams.value);
+      const mockParams = p(EMISSION_FACTOR_PC, 12.3, 8, false);
+      expect(component['getFormattedCellValueNonUploader'](mockParams)).toEqual(
+        mockParams.value
+      );
+      expect(component['getFormattedCellValue'](mockParams)).toEqual(
+        mockParams.value
+      );
     });
     it('should return replacement (kg) for maturity less than 5', () => {
-      const mockParams = p(EMISSION_FACTOR_KG, 12.3, 3);
-      const result = component['excelExportSapProcessCell'](mockParams);
-
-      expect(result).toEqual('---');
+      const mockParams = p(EMISSION_FACTOR_KG, 12.3, 3, false);
+      expect(component['getFormattedCellValueNonUploader'](mockParams)).toEqual(
+        '---'
+      );
+      expect(component['getFormattedCellValue'](mockParams)).toEqual(
+        mockParams.value
+      );
     });
     it('should return replacement (pc) for maturity less than 5', () => {
-      const mockParams = p(EMISSION_FACTOR_PC, 12.3, 3);
-      const result = component['excelExportSapProcessCell'](mockParams);
-
-      expect(result).toEqual('---');
+      const mockParams = p(EMISSION_FACTOR_PC, 12.3, 3, false);
+      expect(component['getFormattedCellValueNonUploader'](mockParams)).toEqual(
+        '---'
+      );
+      expect(component['getFormattedCellValue'](mockParams)).toEqual(
+        mockParams.value
+      );
     });
-
     it('should return param value for other columns', () => {
-      const mockParams = p('test', 'testVal');
-      const result = component['excelExportSapProcessCell'](mockParams);
-
-      expect(result).toEqual(mockParams.value);
+      const mockParams = p('test', 'testVal', 1, false);
+      expect(component['getFormattedCellValueNonUploader'](mockParams)).toEqual(
+        mockParams.value
+      );
+      expect(component['getFormattedCellValue'](mockParams)).toEqual(
+        mockParams.value
+      );
+    });
+    it('should return formated value for columns not excluding it', () => {
+      const mockParams = p('test', 'testVal', 1, true);
+      expect(component['getFormattedCellValueNonUploader'](mockParams)).toEqual(
+        'formatted'
+      );
+      expect(component['getFormattedCellValue'](mockParams)).toEqual(
+        'formatted'
+      );
+    });
+    it('should return formated value for columns by default', () => {
+      const mockParams = p('test', 'testVal', 1);
+      expect(component['getFormattedCellValueNonUploader'](mockParams)).toEqual(
+        'formatted'
+      );
+      expect(component['getFormattedCellValue'](mockParams)).toEqual(
+        'formatted'
+      );
     });
   });
 });

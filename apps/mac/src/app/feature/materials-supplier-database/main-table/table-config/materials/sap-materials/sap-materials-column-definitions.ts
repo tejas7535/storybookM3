@@ -488,6 +488,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     hide: true,
     tooltipValueGetter: (params) => (params.value ? 'wiamLink' : undefined),
     valueFormatter: SAP_MATERIALSTOFFID_LINK_FORMATTER,
+    useValueFormatterForExport: false,
     cellRenderer: LinkCellRendererComponent,
   },
   {
