@@ -1,4 +1,20 @@
 # Release Notes of Material App Center
+## [1.28.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.27.4...mac-v1.28.0) (2025-03-05)
+
+
+### Features
+
+* **mac:** Add consent dialog and update disclaimer banner (UFTABI-8522) ([#6978](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6978)) ([97e8489](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/97e8489c7b539a7fb25c991d5eaff453b6fc3a63))
+* **mac:** add insights metrics for quickfilter view (UFTABI-7608) ([#7065](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7065)) ([acda17f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/acda17f9b9c1dfda80a84fd6cc6c749e19a747da))
+* **mac:** dialog to view pcf proof documents (UFTABI-8136) ([#6943](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6943)) ([7cdd4e1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7cdd4e112e6dfc3936f8d0bd03b4fede55e9599c))
+
+
+### Bug Fixes
+
+* **mac:** edit in supplier dialog is repaired ([#7076](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7076)) ([3e98a29](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3e98a29e55e5d7f70c502b5476524114e185f514))
+* **mac:** improve export of materials (UFTABI-8596) ([#7047](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7047)) ([f3e98f4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f3e98f46be138cb3b25d6363453ba6531d0dfed3))
+* **mac:** switch to app-insight connection string ([#7034](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7034)) ([fc53cb9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fc53cb9d6da7ab8b09e6e3f391261eebcb4969f0))
+
 ## [1.27.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.27.3...mac-v1.27.4) (2025-02-18)
 
 
