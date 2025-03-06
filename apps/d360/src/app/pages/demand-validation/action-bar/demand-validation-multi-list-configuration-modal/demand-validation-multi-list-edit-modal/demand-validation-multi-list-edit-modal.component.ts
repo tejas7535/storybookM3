@@ -108,13 +108,13 @@ export class DemandValidationMultiListEditModalComponent extends AbstractTableUp
     result: PostResult<DemandValidationBatchResponse>
   ): ErrorMessage<DemandValidationBatch>[] {
     const errors: ErrorMessage<DemandValidationBatch>[] = [];
-    result.response.forEach((r) => {
-      if (r.result.messageType === 'ERROR') {
+
+    result.response.forEach((response) => {
+      if (response.result.messageType === 'ERROR') {
         errors.push({
-          dataIdentifier: {
-            material: r.materialNumber,
-          },
-          errorMessage: errorsFromSAPtoMessage(r.result),
+          id: response.id,
+          dataIdentifier: { material: response.materialNumber },
+          errorMessage: errorsFromSAPtoMessage(response.result),
         });
       }
     });

@@ -12,7 +12,7 @@ import { MockProvider } from 'ng-mocks';
 import { DemandValidationService } from '../../../../../feature/demand-validation/demand-validation.service';
 import { DemandValidationMultiGridEditComponent } from './demand-validation-multi-grid-edit.component';
 
-describe('DemandValidationMultiListEditModalComponent', () => {
+describe('DemandValidationMultiGridEditComponent', () => {
   let spectator: Spectator<DemandValidationMultiGridEditComponent>;
 
   const createComponent = createComponentFactory({

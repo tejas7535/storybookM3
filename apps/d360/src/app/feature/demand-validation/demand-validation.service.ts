@@ -194,7 +194,13 @@ export class DemandValidationService {
                   // error message and the row
                   result:
                     deduplicatedResultMessages?.length > 0
-                      ? deduplicatedResultMessages[0]
+                      ? // Take the first error message
+                        deduplicatedResultMessages.find(
+                          (message) => message.messageType === 'ERROR'
+                        ) ?? // Or use the first success message
+                        deduplicatedResultMessages.find(
+                          (message) => message.messageType === 'SUCCESS'
+                        )
                       : null,
                 });
               });

@@ -278,16 +278,23 @@ export class ActionBarComponent implements OnInit {
   }
 
   protected handleListModalClicked() {
-    this.dialog.open(DemandValidationMultiListConfigurationModalComponent, {
-      data: {
-        customerName: this.selectedCustomer().customerName,
-        customerNumber: this.selectedCustomer().customerNumber,
-      },
-      width: '600px',
-      maxWidth: '600px',
-      autoFocus: false,
-      disableClose: true,
-    });
+    this.dialog
+      .open(DemandValidationMultiListConfigurationModalComponent, {
+        data: {
+          customerName: this.selectedCustomer().customerName,
+          customerNumber: this.selectedCustomer().customerNumber,
+        },
+        width: '600px',
+        maxWidth: '600px',
+        autoFocus: false,
+        disableClose: true,
+      })
+      .afterClosed()
+      .pipe(
+        tap(this.reloadTheValidationTable.bind(this)),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   protected handleGridModalClicked() {
@@ -304,11 +311,16 @@ export class ActionBarComponent implements OnInit {
       })
       .afterClosed()
       .pipe(
-        tap(
-          (reload: boolean) => reload && this.reloadValidationTable.emit(null)
-        )
+        tap(this.reloadTheValidationTable.bind(this)),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
+  }
+
+  private reloadTheValidationTable(reload: boolean): void {
+    if (reload) {
+      this.reloadValidationTable.emit(null);
+    }
   }
 
   protected handleToggleMaterialListVisible() {

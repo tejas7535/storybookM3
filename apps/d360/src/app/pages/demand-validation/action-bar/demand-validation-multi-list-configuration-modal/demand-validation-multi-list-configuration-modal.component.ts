@@ -10,7 +10,7 @@ import {
 } from '@angular/material/dialog';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 
-import { finalize } from 'rxjs';
+import { tap } from 'rxjs';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -63,9 +63,9 @@ export class DemandValidationMultiListConfigurationModalComponent {
         autoFocus: false,
         disableClose: true,
       })
-      .afterOpened()
+      .afterClosed()
       .pipe(
-        finalize(() => this.dialogRef.close()),
+        tap((reload: boolean) => this.dialogRef.close(reload)),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
