@@ -20,6 +20,7 @@ import { BreadcrumbsService } from '@mac/shared/services';
   selector: 'mac-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss'],
+  standalone: false,
 })
 export class OverviewComponent implements OnInit {
   public integratedApps = integratedApps;

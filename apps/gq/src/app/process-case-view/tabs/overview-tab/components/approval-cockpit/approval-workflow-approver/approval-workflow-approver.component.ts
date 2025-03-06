@@ -15,6 +15,7 @@ import { TRANSLOCO_DATE_PIPE_CONFIG } from './consts/transloco-date-pipe-config'
 @Component({
   selector: 'gq-approval-workflow-approver',
   templateUrl: './approval-workflow-approver.component.html',
+  standalone: false,
 })
 export class ApprovalWorkflowApproverComponent {
   @Input() approver: Approver;

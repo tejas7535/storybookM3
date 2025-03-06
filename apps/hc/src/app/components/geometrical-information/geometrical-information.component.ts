@@ -63,7 +63,6 @@ import { InternalUserCheckService } from '../../services/internal-user-check.ser
 
 @Component({
   selector: 'hc-geometrical-information',
-  standalone: true,
   imports: [
     MatIconModule,
     SelectModule,

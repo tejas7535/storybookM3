@@ -17,7 +17,6 @@ import { monthYearDateFormatFactory } from '../../constants/available-locales';
 
 @Component({
   selector: 'd360-date-picker-month-year',
-  standalone: true,
   imports: [
     MatButtonModule,
     MatInputModule,

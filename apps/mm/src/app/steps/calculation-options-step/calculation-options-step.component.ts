@@ -54,7 +54,6 @@ import {
 @Component({
   selector: 'mm-calculation-options-step',
   templateUrl: './calculation-options-step.component.html',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     SharedTranslocoModule,

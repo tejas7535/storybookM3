@@ -3,7 +3,7 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { inject, NgModule, provideAppInitializer } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -90,12 +90,14 @@ export function appInitializer(
   ],
   providers: [
     // OneTrust Provider must be first entry
-    {
-      provide: APP_INITIALIZER,
-      useFactory: appInitializer,
-      deps: [OneTrustService, ApplicationInsightsService],
-      multi: true,
-    },
+    provideAppInitializer(() => {
+      const initializerFn = appInitializer(
+        inject(OneTrustService),
+        inject(ApplicationInsightsService)
+      );
+
+      return initializerFn();
+    }),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpMSDInterceptor,

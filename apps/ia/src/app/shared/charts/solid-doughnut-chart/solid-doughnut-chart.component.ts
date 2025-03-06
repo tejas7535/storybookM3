@@ -23,6 +23,7 @@ import {
   selector: 'ia-solid-doughnut-chart',
   templateUrl: './solid-doughnut-chart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SolidDoughnutChartComponent
   extends ExternalLegend

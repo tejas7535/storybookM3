@@ -10,7 +10,6 @@ import { DeltaDisplayPipe } from './pipes/delta-display.pipe';
 import { DeltaTagTypePipe } from './pipes/delta-tag-type.pipe';
 @Component({
   selector: 'gq-delta-value',
-  standalone: true,
   imports: [
     CommonModule,
     MatIconModule,

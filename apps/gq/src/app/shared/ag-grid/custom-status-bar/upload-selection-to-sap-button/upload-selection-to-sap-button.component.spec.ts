@@ -59,7 +59,7 @@ describe('uploadSelectionToSapButtonComponent', () => {
 
     params = {
       api: {
-        getSelectedRows: jest.fn(() => []),
+        getSelectedRows: jest.fn(() => [] as any),
       },
     } as unknown as IStatusPanelParams;
   });

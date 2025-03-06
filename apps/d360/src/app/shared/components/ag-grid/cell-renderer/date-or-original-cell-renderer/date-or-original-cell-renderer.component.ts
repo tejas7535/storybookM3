@@ -16,7 +16,6 @@ import { AbstractBaseCellRendererComponent } from '../abstract-cell-renderer.com
  */
 @Component({
   selector: 'd360-date-or-original-cell-renderer',
-  standalone: true,
   imports: [],
   template: `
     @if (value) {

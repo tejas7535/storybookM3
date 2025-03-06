@@ -12,6 +12,7 @@ import { LabelValue, Value } from '../../models';
   selector: 'schaeffler-label-value',
   templateUrl: './label-value.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class LabelValueComponent {
   @Input() public labelValues?: LabelValue[];

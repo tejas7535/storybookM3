@@ -6,6 +6,7 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { MockComponent } from 'ng-mocks';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { ForecastChartComponent } from '../../feature/forecast-chart/components/forecast-chart/forecast-chart.component';
 import { CurrencyService } from '../../feature/info/currency.service';
@@ -18,6 +19,7 @@ describe('HomeComponent', () => {
   const createComponent = createComponentFactory({
     component: HomeComponent,
     imports: [
+      NgxEchartsModule,
       MockComponent(GlobalSelectionCriteriaComponent),
       MockComponent(ForecastChartComponent),
       MockComponent(MaterialCustomerTableComponent),

@@ -16,6 +16,7 @@ import { InputType, RangeFilter } from './range-filter.model';
   templateUrl: './range-filter.component.html',
   styleUrls: ['./range-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class RangeFilterComponent implements OnChanges {
   @Input() public rangeFilter: RangeFilter;

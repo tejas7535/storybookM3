@@ -10,7 +10,6 @@ import {
 
 @Directive({
   selector: '[schaefflerFileDrop]',
-  standalone: true,
 })
 export class FileDropDirective implements OnInit {
   @Input() public dragAndDropDisabled = false;

@@ -6,6 +6,7 @@ import { RangeFilter } from './range-filter.model';
 
 @Pipe({
   name: 'rangeFilterValue',
+  standalone: false,
 })
 export class RangeFilterValuePipe implements PipeTransform {
   constructor(private readonly localeService: TranslocoLocaleService) {}

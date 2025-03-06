@@ -45,6 +45,7 @@ import { getLocaleForLanguage } from './shared/constants/language';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'engineering-app',
   templateUrl: './app.component.html',
+  standalone: false,
 })
 export class AppComponent
   implements OnChanges, OnInit, OnDestroy, AfterViewInit
@@ -106,15 +107,18 @@ export class AppComponent
       startWith(undefined)
     ),
     this.translocoService.selectTranslate('legal.cookiePolicy').pipe(
-      map((title) => ({
-        link: undefined,
-        title,
-        external: false,
-        onClick: ($event: MouseEvent) => {
-          $event.preventDefault();
-          this.oneTrustMobileService.showPreferenceCenterUI();
-        },
-      })),
+      map(
+        (title) =>
+          ({
+            link: undefined,
+            title,
+            external: false,
+            onClick: ($event: MouseEvent) => {
+              $event.preventDefault();
+              this.oneTrustMobileService.showPreferenceCenterUI();
+            },
+          }) as AppShellFooterLink
+      ),
       filter(() => Capacitor.isNativePlatform()),
       // eslint-disable-next-line unicorn/no-useless-undefined
       startWith(undefined)

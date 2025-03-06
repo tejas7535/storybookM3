@@ -18,6 +18,7 @@ import { MatSelectChange } from '@angular/material/select';
 @Component({
   selector: 'gq-filter-selection',
   templateUrl: './filter-selection.component.html',
+  standalone: false,
 })
 export class FilterSelectionComponent implements OnInit, OnChanges {
   @Output() selection = new EventEmitter<string[]>();

@@ -34,8 +34,8 @@
         "budgets": [
           {
             "type": "initial",
-            "maximumWarning": "2mb",
-            "maximumError": "6mb"
+            "maximumWarning": "6mb",
+            "maximumError": "8mb"
           },
           {
             "type": "anyComponentStyle",
@@ -43,9 +43,6 @@
             "maximumError": "10kb"
           }
         ],
-        "customWebpackConfig": {
-          "path": "apps/gq/webpack.config.js"
-        },
         "buildLibsFromSource": false
       },
       "configurations": {

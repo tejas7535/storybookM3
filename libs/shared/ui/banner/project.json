@@ -4,13 +4,19 @@
   "projectType": "library",
   "sourceRoot": "libs/shared/ui/banner/src",
   "prefix": "schaeffler",
+  "tags": ["scope:shared", "type:ui"],
+  "implicitDependencies": ["shared-ui-styles"],
+  "generators": {
+    "@nx/angular:component": {
+      "style": "scss"
+    }
+  },
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
       "options": {
         "tsConfig": "libs/shared/ui/banner/tsconfig.lib.json",
-        "project": "libs/shared/ui/banner/ng-package.json",
-        "tailwindConfig": "libs/shared/ui/banner/tailwind.config.js"
+        "project": "libs/shared/ui/banner/ng-package.json"
       },
       "configurations": {
         "production": {
@@ -67,12 +73,5 @@
         "postTargets": []
       }
     }
-  },
-  "generators": {
-    "@nx/angular:component": {
-      "style": "scss"
-    }
-  },
-  "tags": ["scope:shared", "type:ui"],
-  "implicitDependencies": ["shared-ui-styles"]
+  }
 }

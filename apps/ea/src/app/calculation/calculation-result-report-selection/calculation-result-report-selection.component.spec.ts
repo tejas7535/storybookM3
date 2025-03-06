@@ -43,7 +43,7 @@ describe('CalculationResultReportSelectionComponent', () => {
     it('should emit button pressed event', () => {
       component.onDownloadAction();
 
-      expect(component['downloadClicked'].emit).toBeCalledWith();
+      expect(component['downloadClicked'].emit).toHaveBeenCalledWith();
     });
   });
 
@@ -55,7 +55,7 @@ describe('CalculationResultReportSelectionComponent', () => {
     it('should emit button pressed event', () => {
       component.onCalculationTypeClicked('ratingLife');
 
-      expect(component['calculationTypeClicked'].emit).toBeCalledWith(
+      expect(component['calculationTypeClicked'].emit).toHaveBeenCalledWith(
         'ratingLife'
       );
     });

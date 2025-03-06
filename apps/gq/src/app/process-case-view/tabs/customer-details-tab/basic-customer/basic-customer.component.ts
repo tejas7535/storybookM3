@@ -5,6 +5,7 @@ import { Customer } from '@gq/shared/models/customer';
 @Component({
   selector: 'gq-basic-customer',
   templateUrl: './basic-customer.component.html',
+  standalone: false,
 })
 export class BasicCustomerComponent {
   @Input() customer: Customer;

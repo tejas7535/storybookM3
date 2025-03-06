@@ -6,7 +6,8 @@ import { RestService } from '@mm/core/services';
 import { PreflightData } from '@mm/core/services/preflght-data-parser/preflight-data.interface';
 import { PreflightDataParserService } from '@mm/core/services/preflght-data-parser/preflight-data-parser.service';
 import { PreflightRequestBody } from '@mm/shared/models';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 
 import { CalculationOptionsActions } from '../../actions';
 import { CalculationResultActions } from '../../actions/calculation-result';

@@ -39,7 +39,6 @@ import {
 
 @Component({
   selector: 'd360-alert-rules',
-  standalone: true,
   imports: [
     AlertRuleTableComponent,
     SharedTranslocoModule,

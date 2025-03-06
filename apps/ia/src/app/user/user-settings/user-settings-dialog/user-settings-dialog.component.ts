@@ -27,6 +27,7 @@ import { UserSettingsDialogData } from './user-settings-dialog-data.model';
   selector: 'ia-user-settings-dialog',
   templateUrl: './user-settings-dialog.component.html',
   styles: [],
+  standalone: false,
 })
 export class UserSettingsDialogComponent implements OnInit {
   selected: SelectedFilter;

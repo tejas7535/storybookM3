@@ -31,6 +31,7 @@ import { COMPONENTS } from './config/components';
   selector: 'gq-comparable-transactions',
   templateUrl: './comparable-transactions.component.html',
   styles: [basicTableStyle],
+  standalone: false,
 })
 export class ComparableTransactionsComponent
   extends BaseAgGridComponent

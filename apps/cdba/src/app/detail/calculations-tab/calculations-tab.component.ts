@@ -18,6 +18,7 @@ import {
 @Component({
   selector: 'cdba-calculations-tab',
   templateUrl: './calculations-tab.component.html',
+  standalone: false,
 })
 export class CalculationsTabComponent implements OnInit, OnDestroy {
   calculations$: Observable<Calculation[]>;

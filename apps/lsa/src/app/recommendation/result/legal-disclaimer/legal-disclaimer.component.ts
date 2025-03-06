@@ -10,7 +10,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({
   selector: 'lsa-legal-disclaimer',
   templateUrl: './legal-disclaimer.component.html',
-  standalone: true,
   imports: [SharedTranslocoModule, MatIconModule, MatButtonModule],
 })
 export class LegalDisclaimerComponent implements OnInit {

@@ -7,7 +7,6 @@ import { CalculatorLogoModule } from '@ga/shared/components/calculator-logo';
 @Component({
   selector: 'ga-homepage-card',
   templateUrl: './homepage-card.component.html',
-  standalone: true,
   imports: [CommonModule, CalculatorLogoModule],
 })
 export class HomepageCardComponent {

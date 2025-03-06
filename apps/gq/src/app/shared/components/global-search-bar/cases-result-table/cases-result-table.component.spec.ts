@@ -101,7 +101,7 @@ describe('CasesResultTableComponent', () => {
         expect(component.criteriaSelectedValue).toBe(
           CasesCriteriaSelection.GQ_ID
         );
-        expect(component.criteriaSelected).toBeCalledWith(
+        expect(component.criteriaSelected).toHaveBeenCalledWith(
           CasesCriteriaSelection.GQ_ID
         );
       });

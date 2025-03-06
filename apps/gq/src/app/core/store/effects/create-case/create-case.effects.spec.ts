@@ -383,7 +383,7 @@ describe('Create Case Effects', () => {
           ).toHaveBeenCalledTimes(1);
           expect(
             effects['sectorGpsdFacade'].loadSectorGpsdByCustomerAndSalesOrg
-          ).toBeCalledWith('1234', '14');
+          ).toHaveBeenCalledWith('1234', '14');
         });
 
         m.flush();

@@ -18,7 +18,6 @@ import { MoreInformationDialogComponent } from './more-information-dialog/more-i
 
 @Component({
   selector: 'd360-more-information',
-  standalone: true,
   imports: [SharedTranslocoModule, MatIcon, MatButtonModule],
   templateUrl: './more-information.component.html',
   styleUrl: './more-information.component.scss',

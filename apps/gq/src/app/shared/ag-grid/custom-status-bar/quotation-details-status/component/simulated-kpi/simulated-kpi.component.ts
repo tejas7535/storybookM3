@@ -8,7 +8,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'gq-simulated-kpi',
-  standalone: true,
   imports: [CommonModule, SharedTranslocoModule, SharedPipesModule],
   templateUrl: './simulated-kpi.component.html',
 })

@@ -11,6 +11,7 @@ import { EditingModalComponent } from '../editing-modal.component';
 @Component({
   selector: 'gq-gpm-editing-modal',
   templateUrl: '../editing-modal.component.html',
+  standalone: false,
 })
 export class GpmEditingModalComponent extends EditingModalComponent {
   handlePriceChangeTypeSwitch: undefined;

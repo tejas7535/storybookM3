@@ -25,7 +25,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'ea-quick-bearing-selection',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

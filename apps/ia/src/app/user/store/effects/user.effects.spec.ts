@@ -1,4 +1,3 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -101,7 +100,6 @@ describe('User Settings Effects', () => {
         },
       },
       { provide: MatDialog, useClass: MockDialog },
-      { provide: HttpClientTestingModule },
     ],
   });
 
@@ -468,6 +466,7 @@ describe('User Settings Effects', () => {
             value: 'SH/ZHZ-HR (Human resources reporting)',
           },
         };
+        snackbar.open = jest.fn();
 
         const resultFilterDimensionSelected = filterDimensionSelected({
           filter,
@@ -484,6 +483,7 @@ describe('User Settings Effects', () => {
 
         m.expect(effects.updateUserSettingsSuccess$).toBeObservable(expected);
         m.flush();
+        expect(snackbar.open).toHaveBeenCalledWith('translate it');
       })
     );
   });

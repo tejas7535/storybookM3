@@ -14,7 +14,6 @@ import { PictureCardModule } from '@schaeffler/picture-card';
 @Component({
   selector: 'mm-selection-cards',
   templateUrl: './selection-cards.component.html',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PictureCardModule, MagneticSliderComponent, TranslocoTestingModule],
 })

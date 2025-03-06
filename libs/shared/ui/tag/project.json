@@ -4,13 +4,14 @@
   "projectType": "library",
   "sourceRoot": "libs/shared/ui/tag/src",
   "prefix": "schaeffler",
+  "tags": ["scope:shared", "type:ui"],
+  "implicitDependencies": [],
   "targets": {
     "build": {
       "executor": "@nx/angular:ng-packagr-lite",
       "options": {
         "tsConfig": "libs/shared/ui/tag/tsconfig.lib.json",
-        "project": "libs/shared/ui/tag/ng-package.json",
-        "tailwindConfig": "libs/shared/ui/tag/tailwind.config.js"
+        "project": "libs/shared/ui/tag/ng-package.json"
       },
       "configurations": {
         "production": {
@@ -67,7 +68,5 @@
         "postTargets": []
       }
     }
-  },
-  "tags": ["scope:shared", "type:ui"],
-  "implicitDependencies": []
+  }
 }

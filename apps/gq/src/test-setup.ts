@@ -1,7 +1,11 @@
 // eslint-disable  import/order
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import '../../../global-mocks';
-import 'jest-preset-angular/setup-jest';
+
+// setup-jest.ts
+import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone/index.mjs';
+
+setupZoneTestEnv();
 
 import { TranslocoModule } from '@jsverse/transloco';
 import { LicenseManager } from 'ag-grid-enterprise';

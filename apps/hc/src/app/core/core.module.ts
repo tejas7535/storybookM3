@@ -2,7 +2,7 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { inject, NgModule, provideAppInitializer } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -47,10 +47,8 @@ import {
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
   ],
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      deps: [ApplicationInsightsService, OneTrustService],
-      useFactory: (
+    provideAppInitializer(() => {
+      const initializerFn = ((
         appInsightService: ApplicationInsightsService,
         oneTrustService: OneTrustService
       ) => {
@@ -64,9 +62,10 @@ import {
         );
 
         return () => oneTrustService.loadOneTrust();
-      },
-      multi: true,
-    },
+      })(inject(ApplicationInsightsService), inject(OneTrustService));
+
+      return initializerFn();
+    }),
     provideTranslocoPersistLang({
       storageKey: LANGUAGE_STORAGE_KEY,
       storage: {

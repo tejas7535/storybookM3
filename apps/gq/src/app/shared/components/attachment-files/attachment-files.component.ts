@@ -14,6 +14,7 @@ import { DeletingAttachmentModalComponent } from '../modal/delete-attachment-mod
 @Component({
   selector: 'gq-attachment-files',
   templateUrl: './attachment-files.component.html',
+  standalone: false,
 })
 export class AttachmentFilesComponent implements OnInit {
   @Input() attachments: QuotationAttachment[];

@@ -9,6 +9,7 @@ import { UpdateFunction } from '@gq/shared/models';
 @Component({
   selector: 'gq-cancel-workflow-modal',
   templateUrl: './cancel-workflow-modal.component.html',
+  standalone: false,
 })
 export class CancelWorkflowModalComponent implements OnInit, OnDestroy {
   private readonly shutdown$$: Subject<void> = new Subject();

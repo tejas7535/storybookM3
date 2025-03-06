@@ -5,7 +5,8 @@ import { catchError, of, switchMap, takeUntil } from 'rxjs';
 
 import { CatalogService } from '@ea/core/services/catalog.service';
 import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 
 import { CatalogCalculationResultActions } from '../../actions';
 import { CalculationParametersFacade } from '../../facades';

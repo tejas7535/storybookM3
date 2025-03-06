@@ -32,7 +32,8 @@ import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.s
 import { QuotationDetailsService } from '@gq/shared/services/rest/quotation-details/quotation-details.service';
 import { quotationDetailsToRequestData } from '@gq/shared/utils/pricing.utils';
 import { translate } from '@jsverse/transloco';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Action, Store } from '@ngrx/store';
 import { saveAs } from 'file-saver';

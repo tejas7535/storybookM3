@@ -6,6 +6,7 @@ import { CellClassParams } from 'ag-grid-enterprise';
   selector: 'gq-gq-rating',
   templateUrl: './gq-rating.component.html',
   styleUrls: ['./gq-rating.component.scss'],
+  standalone: false,
 })
 export class GqRatingComponent {
   rating: number;

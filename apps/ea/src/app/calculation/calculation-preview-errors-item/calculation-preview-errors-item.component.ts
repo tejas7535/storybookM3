@@ -8,7 +8,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({
   selector: 'ea-calculation-preview-errors-item',
   templateUrl: './calculation-preview-errors-item.component.html',
-  standalone: true,
   imports: [MatDividerModule, SharedTranslocoModule],
 })
 export class CalculationPreviewErrorsItemComponent {

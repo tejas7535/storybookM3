@@ -44,6 +44,7 @@ import { interval, take } from 'rxjs';
       ></schaeffler-file-upload>
     </div>
   `,
+  standalone: false,
 })
 class FileUploadExampleComponent {
   loadingIndicator: 'spinner' | 'bar';

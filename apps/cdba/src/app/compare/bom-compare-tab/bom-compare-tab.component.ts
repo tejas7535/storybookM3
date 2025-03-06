@@ -4,5 +4,6 @@ import { Component } from '@angular/core';
   selector: 'cdba-bom-compare-tab',
   styleUrls: ['./bom-compare-tab.component.scss'],
   templateUrl: './bom-compare-tab.component.html',
+  standalone: false,
 })
 export class BomCompareTabComponent {}

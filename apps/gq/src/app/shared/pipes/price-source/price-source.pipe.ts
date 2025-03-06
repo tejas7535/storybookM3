@@ -13,7 +13,6 @@ import { translate } from '@jsverse/transloco';
 
 @Pipe({
   name: 'priceSource',
-  standalone: true,
 })
 export class PriceSourcePipe implements PipeTransform {
   transform(detail: QuotationDetail): PriceSource | null {

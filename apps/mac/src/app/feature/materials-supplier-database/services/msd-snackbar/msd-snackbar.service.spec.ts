@@ -36,7 +36,7 @@ describe('MsdSnackbarService', () => {
     const msgKey = 'test';
     service.info(msgKey);
 
-    expect(service['snackBar'].openFromComponent).toBeCalledWith(
+    expect(service['snackBar'].openFromComponent).toHaveBeenCalledWith(
       CustomSnackbarComponent,
       {
         ...MsdSnackbarService['DEFAULT_CONFIG'],
@@ -51,7 +51,7 @@ describe('MsdSnackbarService', () => {
     const msgKey = 'test';
     service.infoTranslated(msgKey);
 
-    expect(service['snackBar'].openFromComponent).toBeCalledWith(
+    expect(service['snackBar'].openFromComponent).toHaveBeenCalledWith(
       CustomSnackbarComponent,
       {
         ...MsdSnackbarService['DEFAULT_CONFIG'],
@@ -66,7 +66,7 @@ describe('MsdSnackbarService', () => {
     const msgKey = 'test';
     service.error(msgKey);
 
-    expect(service['snackBar'].openFromComponent).toBeCalledWith(
+    expect(service['snackBar'].openFromComponent).toHaveBeenCalledWith(
       CustomSnackbarComponent,
       {
         data: {
@@ -81,7 +81,7 @@ describe('MsdSnackbarService', () => {
     const items = [{ key: '2', value: 3 }];
     service.errorTranslated(msgKey, 'detail', items);
 
-    expect(service['snackBar'].openFromComponent).toBeCalledWith(
+    expect(service['snackBar'].openFromComponent).toHaveBeenCalledWith(
       CustomSnackbarComponent,
       {
         data: {

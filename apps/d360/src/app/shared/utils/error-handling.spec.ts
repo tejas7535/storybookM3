@@ -276,7 +276,7 @@ describe('errorhandling multi result', () => {
       toWarnStr
     );
     expect(toast.length).toBe(1);
-    expect(toSucStr).toBeCalledWith(2);
+    expect(toSucStr).toHaveBeenCalledWith(2);
     expect(toast[0].variant).toBe('success');
   });
 
@@ -366,8 +366,8 @@ describe('errorhandling multi result', () => {
     );
 
     expect(toast.length).toBe(3);
-    expect(toSucStr).toBeCalledWith(1);
-    expect(toWarnStr).toBeCalledWith(1);
-    expect(toErrStr).toBeCalledWith(2);
+    expect(toSucStr).toHaveBeenCalledWith(1);
+    expect(toWarnStr).toHaveBeenCalledWith(1);
+    expect(toErrStr).toHaveBeenCalledWith(2);
   });
 });

@@ -32,6 +32,7 @@ import { MobileFirebaseAnalyticsService } from './shared/services/mobile-firebas
 @Component({
   selector: 'ga-root',
   templateUrl: './app.component.html',
+  standalone: false,
 })
 export class AppComponent implements OnInit, OnDestroy {
   public appTitle = 'Grease App';

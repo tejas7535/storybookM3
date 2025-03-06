@@ -31,7 +31,6 @@ export interface ICustomHeaderParams extends IHeaderParams {
 
 @Component({
   selector: 'd360-demand-validation-kpi-header',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './demand-validation-kpi-header.component.html',
   styleUrl: './demand-validation-kpi-header.component.scss',

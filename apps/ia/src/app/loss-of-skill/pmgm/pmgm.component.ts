@@ -30,6 +30,7 @@ import { PmgmPositionComponent } from './pmgm-position/pmgm-position.component';
   selector: 'ia-pmgm',
   templateUrl: './pmgm.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class PmgmComponent {
   gridApi: GridApi<PmgmData>;

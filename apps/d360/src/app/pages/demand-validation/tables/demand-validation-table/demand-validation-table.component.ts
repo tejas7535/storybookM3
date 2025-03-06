@@ -104,7 +104,6 @@ import { MoreInformationComponent } from './more-information/more-information.co
 
 @Component({
   selector: 'd360-demand-validation-table',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,
@@ -253,8 +252,7 @@ export class DemandValidationTableComponent {
           this.materialListEntry(),
           this.kpiDateRange(),
           this.kpiDateExceptions()
-        ),
-      { allowSignalWrites: true }
+        )
     );
 
     effect(() => {

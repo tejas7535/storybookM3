@@ -8,6 +8,7 @@ import {
 
 @Pipe({
   name: 'userDisplay',
+  standalone: false,
 })
 export class UserDisplayPipe implements PipeTransform {
   transform(user: ActiveDirectoryUser): string {

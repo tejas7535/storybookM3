@@ -49,7 +49,6 @@ import { ResultPageComponent } from './result-page/result-page.component';
     ReportResultPageComponent,
     ResultPageComponent,
   ],
-  standalone: true,
 })
 export class HomeComponent {
   public readonly DEBOUNCE_TIME_DEFAULT = 0; // debounce time required for slider in Application to render properly at the first load.

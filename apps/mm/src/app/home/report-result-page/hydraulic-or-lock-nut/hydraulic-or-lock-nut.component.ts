@@ -10,7 +10,6 @@ import { ProductCardComponent } from '../product-card/product-card.component';
 @Component({
   selector: 'mm-hydraulic-or-lock-nut',
   templateUrl: './hydraulic-or-lock-nut.component.html',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatIconModule, SharedTranslocoModule, ProductCardComponent],
 })

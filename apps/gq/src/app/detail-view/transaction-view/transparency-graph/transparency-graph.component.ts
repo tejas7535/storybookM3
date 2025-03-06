@@ -19,6 +19,7 @@ import { RegressionService } from './echarts/regression.service';
 @Component({
   selector: 'gq-transparency-graph',
   templateUrl: './transparency-graph.component.html',
+  standalone: false,
 })
 export class TransparencyGraphComponent implements OnChanges {
   options: EChartsOption;

@@ -60,7 +60,7 @@ describe('CancelWorkflowButtonComponent', () => {
 
       component.ngOnInit();
 
-      expect(checkIfOverviewTabIsActiveSpy).toBeCalledTimes(1);
+      expect(checkIfOverviewTabIsActiveSpy).toHaveBeenCalledTimes(1);
       expect(component.isProcessCaseOverviewTabActive).toBe(true);
     });
 
@@ -81,7 +81,7 @@ describe('CancelWorkflowButtonComponent', () => {
       eventsSubject.next(new NavigationEnd(123, '', ''));
       eventsSubject.complete();
 
-      expect(checkIfOverviewTabIsActiveSpy).toBeCalledTimes(2);
+      expect(checkIfOverviewTabIsActiveSpy).toHaveBeenCalledTimes(2);
       expect(component.isProcessCaseOverviewTabActive).toBe(true);
     });
   });
@@ -92,7 +92,7 @@ describe('CancelWorkflowButtonComponent', () => {
 
     component.openDialog();
 
-    expect(openMock).toBeCalledTimes(1);
+    expect(openMock).toHaveBeenCalledTimes(1);
     expect(openMock).toHaveBeenCalledWith(CancelWorkflowModalComponent, {
       width: '634px',
       autoFocus: false,

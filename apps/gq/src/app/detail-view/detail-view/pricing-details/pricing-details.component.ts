@@ -15,6 +15,7 @@ import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sa
 @Component({
   selector: 'gq-pricing-details',
   templateUrl: './pricing-details.component.html',
+  standalone: false,
 })
 export class PricingDetailsComponent {
   @Input() quotationDetail: QuotationDetail;

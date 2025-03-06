@@ -3,13 +3,8 @@ import { inject, Injectable } from '@angular/core';
 import { catchError, map, mergeMap, of, skipWhile, switchMap } from 'rxjs';
 
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
-import {
-  Actions,
-  concatLatestFrom,
-  createEffect,
-  ofType,
-  OnInitEffects,
-} from '@ngrx/effects';
+import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 import { Action, Store } from '@ngrx/store';
 
 import { getIsLoggedIn } from '@schaeffler/azure-auth';

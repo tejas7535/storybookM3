@@ -43,7 +43,6 @@ import {
  */
 @Component({
   selector: 'd360-multi-autocomplete-on-type',
-  standalone: true,
   imports: [
     MatAutocompleteModule,
     MatInputModule,

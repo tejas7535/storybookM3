@@ -24,7 +24,6 @@ export interface AdditionalProps {
  */
 @Component({
   selector: 'd360-selectable-value-or-original-cell-renderer',
-  standalone: true,
   template: `{{ value }}`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

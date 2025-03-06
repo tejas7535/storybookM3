@@ -14,7 +14,6 @@ import { ResultReportLargeItem } from './result-report-large-item';
 
 @Component({
   selector: 'ea-calculation-result-report-large-items',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,

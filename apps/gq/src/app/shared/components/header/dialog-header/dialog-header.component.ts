@@ -6,6 +6,7 @@ import { DragDialogDirective } from '@gq/shared/directives/drag-dialog/drag-dial
   selector: 'gq-dialog-header',
   templateUrl: './dialog-header.component.html',
   hostDirectives: [DragDialogDirective],
+  standalone: false,
 })
 export class DialogHeaderComponent {
   @Input() title: string;

@@ -23,7 +23,6 @@ export const elementWidthSmall = 400;
 
 @Component({
   selector: 'schaeffler-calculation-result-report-input-item',
-  standalone: true,
   imports: [SharedTranslocoModule, LabelValueModule, MeaningfulRoundPipe],
   templateUrl: './calculation-result-report-input-item.component.html',
   styleUrls: ['./calculation-result-report-input-item.component.scss'],

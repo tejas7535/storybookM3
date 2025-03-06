@@ -17,6 +17,7 @@ import { Locale } from './locale.model';
   selector: 'schaeffler-locale-select',
   templateUrl: './locale-select.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class LocaleSelectComponent implements OnInit {
   @Input() public reloadOnLocaleChange = false;

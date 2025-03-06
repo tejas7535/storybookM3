@@ -31,7 +31,6 @@ import * as util from '../../util';
 @Component({
   selector: 'mac-material-standard',
   templateUrl: './material-standard.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

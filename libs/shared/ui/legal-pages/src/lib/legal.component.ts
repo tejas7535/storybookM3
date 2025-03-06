@@ -27,6 +27,7 @@ import { LegalPath } from './legal-route-path.enum';
   templateUrl: './legal.component.html',
   styleUrls: ['./legal.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class LegalComponent implements OnInit {
   public LegalRoutePath = LegalPath;

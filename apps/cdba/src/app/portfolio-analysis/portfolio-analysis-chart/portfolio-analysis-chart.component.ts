@@ -17,6 +17,7 @@ import { PortfolioAnalysisChartService } from './portfolio-analysis-chart.servic
   selector: 'cdba-portfolio-analysis-chart',
   templateUrl: './portfolio-analysis-chart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class PortfolioAnalysisChartComponent implements OnInit, OnChanges {
   @Input() productCostAnalyses: ProductCostAnalysis[];

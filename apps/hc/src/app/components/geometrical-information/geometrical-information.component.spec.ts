@@ -118,7 +118,7 @@ describe('GeometricalInformationComponent', () => {
       expect(component.valueControl.value).toEqual(7);
       expect(component.loadControl.value).toStrictEqual(toSo(10)); // reset to default
       expect(component['conversionUnit']).toEqual(HRA);
-      expect(component['setValidators']).toBeCalled();
+      expect(component['setValidators']).toHaveBeenCalled();
       done();
     });
 
@@ -129,7 +129,7 @@ describe('GeometricalInformationComponent', () => {
       expect(component.valueControl.value).toEqual(4);
       expect(component.loadControl.value).toStrictEqual(toSo(5));
       expect(component['conversionUnit']).toEqual(HV);
-      expect(component['setValidators']).not.toBeCalled();
+      expect(component['setValidators']).not.toHaveBeenCalled();
     });
   });
 
@@ -143,7 +143,7 @@ describe('GeometricalInformationComponent', () => {
     it('should call hardness service for indentation values', (done) => {
       // diameter is only valid for 3-19
       component.diameterControl.setValue(5);
-      expect(hardnessService.getIndentation).toBeCalledWith(
+      expect(hardnessService.getIndentation).toHaveBeenCalledWith(
         {
           value: 21,
           diameter: 5,
@@ -166,7 +166,7 @@ describe('GeometricalInformationComponent', () => {
     it('should call hardness service for indentation values with diameterBall value', (done) => {
       activeConversion.next({ value: 23, unit: HB });
       component.diameterBallControl.setValue({ diameter: 17, load: 2 });
-      expect(hardnessService.getIndentation).toBeCalledWith(
+      expect(hardnessService.getIndentation).toHaveBeenCalledWith(
         { value: 23, diameter: 17, load: 2, material: undefined, thickness: 0 },
         HB
       );
@@ -184,17 +184,17 @@ describe('GeometricalInformationComponent', () => {
     it('should not call hardness service for indentation values on invalid input', () => {
       // diameter is only valid for 3-19
       component.diameterControl.setValue(2);
-      expect(hardnessService.getIndentation).not.toBeCalled();
+      expect(hardnessService.getIndentation).not.toHaveBeenCalled();
     });
     it('should not call hardness service for indentation values if geoinformation is disabled', () => {
       component.enabledControl.setValue(false);
       component.diameterControl.setValue(5);
-      expect(hardnessService.getIndentation).not.toBeCalled();
+      expect(hardnessService.getIndentation).not.toHaveBeenCalled();
     });
     it('should not call hardness service for indentation values on unsupported unit', () => {
       // mpa is not supported for calculation
       activeConversion.next({ value: 21, unit: MPA });
-      expect(hardnessService.getIndentation).not.toBeCalled();
+      expect(hardnessService.getIndentation).not.toHaveBeenCalled();
     });
   });
 

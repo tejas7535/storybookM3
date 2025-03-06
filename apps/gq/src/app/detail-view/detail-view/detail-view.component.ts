@@ -34,6 +34,7 @@ import { AppRoutePath } from '../../app-route-path.enum';
   selector: 'gq-detail-view',
   templateUrl: './detail-view.component.html',
   styleUrls: ['./detail-view.component.scss'],
+  standalone: false,
 })
 export class DetailViewComponent implements OnInit, OnDestroy {
   private readonly breadCrumbsService: BreadcrumbsService =

@@ -16,7 +16,6 @@ import { CalculationDisclaimerComponent } from '../calculation-disclaimer/calcul
 @Component({
   selector: 'ea-calculation-result-preview-emissions-tooltip',
   templateUrl: './calculation-result-preview-emissions-tooltip.component.html',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatIconModule,

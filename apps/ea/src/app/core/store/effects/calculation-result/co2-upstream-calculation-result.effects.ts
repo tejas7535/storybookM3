@@ -4,7 +4,8 @@ import { Injectable } from '@angular/core';
 import { catchError, filter, mergeMap, of, switchMap } from 'rxjs';
 
 import { CO2UpstreamService } from '@ea/core/services/co2-upstream.service';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 
 import { CO2UpstreamCalculationResultActions } from '../../actions';
 import { ProductSelectionFacade } from '../../facades/product-selection/product-selection.facade';

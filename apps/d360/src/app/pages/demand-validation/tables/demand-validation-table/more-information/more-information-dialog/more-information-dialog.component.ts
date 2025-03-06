@@ -14,7 +14,6 @@ import { MaterialListEntry } from '../../../../../../feature/demand-validation/m
 
 @Component({
   selector: 'd360-more-information-dialog',
-  standalone: true,
   imports: [
     MatDialogModule,
     MatTabsModule,

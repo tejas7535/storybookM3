@@ -57,7 +57,6 @@ import { TargetPriceSourceSelectComponent } from '../../target-price-source-sele
 @Component({
   selector: 'gq-add-entry',
   templateUrl: './add-entry.component.html',
-  standalone: true,
   imports: [
     AutocompleteInputComponent,
     TargetPriceSourceSelectComponent,

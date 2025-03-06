@@ -30,7 +30,7 @@ describe('ReportSelectionComponent', () => {
     it('should emit button pressed event', () => {
       component.onCalculationTypeClicked('mountingInstructions');
 
-      expect(component['calculationTypeClicked'].emit).toBeCalledWith(
+      expect(component['calculationTypeClicked'].emit).toHaveBeenCalledWith(
         'mountingInstructions'
       );
     });

@@ -31,7 +31,6 @@ import { RadioOptionContentDirective } from './radio-option-content.directive';
 
 @Component({
   selector: 'lsa-radio-button-group',
-  standalone: true,
   imports: [
     CommonModule,
     MatRadioModule,

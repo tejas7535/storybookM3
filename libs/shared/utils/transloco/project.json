@@ -4,13 +4,18 @@
   "projectType": "library",
   "sourceRoot": "libs/shared/utils/transloco/src",
   "prefix": "schaeffler",
+  "tags": ["scope:shared", "type:utils"],
+  "generators": {
+    "@nx/angular:component": {
+      "style": "scss"
+    }
+  },
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
       "options": {
         "tsConfig": "libs/shared/utils/transloco/tsconfig.lib.json",
-        "project": "libs/shared/utils/transloco/ng-package.json",
-        "tailwindConfig": "libs/shared/utils/transloco/tailwind.config.js"
+        "project": "libs/shared/utils/transloco/ng-package.json"
       },
       "configurations": {
         "production": {
@@ -67,11 +72,5 @@
         "postTargets": []
       }
     }
-  },
-  "generators": {
-    "@nx/angular:component": {
-      "style": "scss"
-    }
-  },
-  "tags": ["scope:shared", "type:utils"]
+  }
 }

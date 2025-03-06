@@ -9,6 +9,7 @@ import { DetailRoutePath } from '@cdba/detail/detail-route-path.enum';
 @Component({
   selector: 'cdba-bom-material-designation-cell-render',
   templateUrl: './bom-material-designation-cell-render.component.html',
+  standalone: false,
 })
 export class BomMaterialDesignationCellRenderComponent {
   public materialDesignation: string;

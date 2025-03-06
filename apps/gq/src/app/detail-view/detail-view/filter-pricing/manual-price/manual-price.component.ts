@@ -12,6 +12,7 @@ import {
 @Component({
   selector: 'gq-manual-price',
   templateUrl: './manual-price.component.html',
+  standalone: false,
 })
 export class ManualPriceComponent {
   get quotationDetail(): QuotationDetail {

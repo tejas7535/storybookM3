@@ -11,6 +11,7 @@ import { EditingModalComponent } from '../editing-modal.component';
 @Component({
   selector: 'gq-gpi-editing-modal',
   templateUrl: '../editing-modal.component.html',
+  standalone: false,
 })
 export class GpiEditingModalComponent extends EditingModalComponent {
   handlePriceChangeTypeSwitch: undefined;

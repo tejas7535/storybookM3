@@ -91,7 +91,7 @@ describe('AlertTableComponent', () => {
     spectator.component['onGridReady']({
       api: { setGridOption: jest.fn() },
     } as unknown as GridReadyEvent<Alert>);
-    expect(alertService.createAlertDatasource).lastCalledWith(
+    expect(alertService.createAlertDatasource).toHaveBeenLastCalledWith(
       AlertStatus.COMPLETED,
       [Priority.Priority1, Priority.Priority2]
     );

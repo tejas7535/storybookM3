@@ -8,6 +8,7 @@ import {
 
 @Directive({
   selector: '[cdbaInView]',
+  standalone: false,
 })
 export class InViewDirective implements AfterViewInit, OnDestroy {
   observer: IntersectionObserver;

@@ -111,7 +111,9 @@ describe('SapMaterialsUploadStatusDialogComponent', () => {
       };
       component['logEvent']();
 
-      expect(component['applicationInsightsService'].logEvent).not.toBeCalled();
+      expect(
+        component['applicationInsightsService'].logEvent
+      ).not.toHaveBeenCalled();
     });
     test('log status failed', () => {
       component['currentDatabaseUploadStatus'] = {
@@ -119,10 +121,11 @@ describe('SapMaterialsUploadStatusDialogComponent', () => {
       };
       component['logEvent']();
 
-      expect(component['applicationInsightsService'].logEvent).toBeCalledWith(
-        expect.any(String),
-        { materialClass: MaterialClass.SAP_MATERIAL }
-      );
+      expect(
+        component['applicationInsightsService'].logEvent
+      ).toHaveBeenCalledWith(expect.any(String), {
+        materialClass: MaterialClass.SAP_MATERIAL,
+      });
     });
     test('log status done', () => {
       component['currentDatabaseUploadStatus'] = {
@@ -132,10 +135,13 @@ describe('SapMaterialsUploadStatusDialogComponent', () => {
       };
       component['logEvent']();
 
-      expect(component['applicationInsightsService'].logEvent).toBeCalledWith(
-        expect.any(String),
-        { materialClass: MaterialClass.SAP_MATERIAL, rejected: 7, uploaded: 9 }
-      );
+      expect(
+        component['applicationInsightsService'].logEvent
+      ).toHaveBeenCalledWith(expect.any(String), {
+        materialClass: MaterialClass.SAP_MATERIAL,
+        rejected: 7,
+        uploaded: 9,
+      });
     });
   });
 

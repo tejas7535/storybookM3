@@ -26,7 +26,6 @@ import { CalculationPreviewErrorsDialogComponent } from '../calculation-preview-
 @Component({
   selector: 'ea-calculation-result-preview-errors',
   templateUrl: './calculation-result-preview-errors.component.html',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     SharedTranslocoModule,

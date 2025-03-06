@@ -35,6 +35,7 @@ import { ChartSeries } from '../models/chart-series.model';
   selector: 'ia-overview-chart',
   templateUrl: './overview-chart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class OverviewChartComponent {
   readonly SYMBOL_SIZE = 10;

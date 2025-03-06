@@ -9,7 +9,6 @@ import { QualtricsInfoBannerComponent } from '@ea/shared/qualtrics-info-banner/q
 @Component({
   selector: 'ea-legacy-app',
   templateUrl: './legacy-app.component.html',
-  standalone: true,
   imports: [QualtricsInfoBannerComponent],
 })
 export class LegacyAppComponent implements OnInit, OnDestroy {

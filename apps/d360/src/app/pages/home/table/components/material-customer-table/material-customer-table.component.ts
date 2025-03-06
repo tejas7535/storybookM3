@@ -56,7 +56,6 @@ import { TextTooltipComponent } from '../text-tooltip/text-tooltip.component';
 
 @Component({
   selector: 'd360-material-customer-table',
-  standalone: true,
   imports: [
     AgGridModule,
     TableToolbarComponent,

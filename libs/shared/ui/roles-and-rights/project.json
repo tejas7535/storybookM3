@@ -4,13 +4,18 @@
   "projectType": "library",
   "sourceRoot": "libs/shared/ui/roles-and-rights/src",
   "prefix": "schaeffler",
+  "tags": ["scope:shared", "type:ui"],
+  "generators": {
+    "@nx/angular:component": {
+      "style": "scss"
+    }
+  },
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
       "options": {
         "tsConfig": "libs/shared/ui/roles-and-rights/tsconfig.lib.json",
-        "project": "libs/shared/ui/roles-and-rights/ng-package.json",
-        "tailwindConfig": "libs/shared/ui/roles-and-rights/tailwind.config.js"
+        "project": "libs/shared/ui/roles-and-rights/ng-package.json"
       },
       "configurations": {
         "production": {
@@ -67,11 +72,5 @@
         "postTargets": []
       }
     }
-  },
-  "generators": {
-    "@nx/angular:component": {
-      "style": "scss"
-    }
-  },
-  "tags": ["scope:shared", "type:ui"]
+  }
 }

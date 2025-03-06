@@ -13,6 +13,7 @@ import { CancelWorkflowModalComponent } from './cancel-workflow-modal/cancel-wor
 @Component({
   selector: 'gq-cancel-workflow-button',
   templateUrl: './cancel-workflow-button.component.html',
+  standalone: false,
 })
 export class CancelWorkflowButtonComponent implements OnInit, OnDestroy {
   @Input() quotationStatus: QuotationStatus;

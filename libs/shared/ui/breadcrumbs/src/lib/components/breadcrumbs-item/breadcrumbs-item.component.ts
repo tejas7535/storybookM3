@@ -6,6 +6,7 @@ import { Breadcrumb } from '../../breadcrumb.model';
   selector: 'schaeffler-breadcrumbs-item',
   templateUrl: './breadcrumbs-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class BreadcrumbsItemComponent {
   @Input() public breadcrumb!: Breadcrumb;

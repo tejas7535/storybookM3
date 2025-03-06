@@ -53,7 +53,6 @@ import {
 import { ValidationHelper } from './shared/utils/validation/validation-helper';
 
 @Component({
-  standalone: true,
   imports: [
     RouterModule,
     AppShellModule,

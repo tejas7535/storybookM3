@@ -16,6 +16,7 @@ import { EmployeeWithAction } from '../models';
   selector: 'ia-kpi',
   templateUrl: './kpi.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class KpiComponent {
   private _dialogRef: MatDialogRef<EmployeeListDialogComponent>;

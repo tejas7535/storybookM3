@@ -22,7 +22,6 @@ import { LubricationInputComponent } from './lubrication-input/lubrication-input
   selector: 'lsa-lubrication-inputs',
   templateUrl: './lubrication-inputs.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     LubricationInputComponent,
     MatExpansionModule,

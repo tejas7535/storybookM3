@@ -20,7 +20,9 @@ import {
 } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
+import { Action } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
 
@@ -771,7 +773,7 @@ export class DialogEffects {
           return of(DialogActions.resetDialogOptions());
         }
 
-        return [];
+        return [] as Action[];
       })
     );
   });
@@ -1334,7 +1336,7 @@ export class DialogEffects {
       switchMap(() => {
         this.msdDataService.removeSapMaterialsUploadId();
 
-        return [];
+        return [] as Action[];
       })
     );
   });

@@ -52,7 +52,6 @@ interface EventData {
 @Component({
   selector: 'ga-scanner',
   templateUrl: './scan-dialog.component.html',
-  standalone: true,
   imports: [
     CommonModule,
     MatButtonModule,

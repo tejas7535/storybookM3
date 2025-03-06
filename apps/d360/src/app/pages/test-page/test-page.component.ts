@@ -9,7 +9,6 @@ import { OptionsLoadingResult } from '../../shared/services/selectable-options.s
 
 @Component({
   selector: 'd360-test-page',
-  standalone: true,
   imports: [
     CommonModule,
     SingleAutocompletePreLoadedComponent,

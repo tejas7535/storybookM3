@@ -28,6 +28,7 @@ import { InputErrorStateMatcher } from './validation/input-error-state-matcher';
   selector: 'ia-autocomplete-input',
   templateUrl: './autocomplete-input.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AutocompleteInputComponent implements OnInit, OnDestroy {
   latestSelection: IdValue;

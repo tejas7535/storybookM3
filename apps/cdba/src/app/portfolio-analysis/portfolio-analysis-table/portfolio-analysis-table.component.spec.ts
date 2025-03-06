@@ -47,9 +47,9 @@ describe('PortfolioAnalysisTableComponent', () => {
 
     component.ngOnInit();
 
-    expect(component['tableService'].getLabelColumn).toBeCalledTimes(3);
-    expect(component['tableService'].getDataFields).toBeCalledTimes(1);
-    expect(component['tableService'].formatValue).toBeCalledTimes(2);
+    expect(component['tableService'].getLabelColumn).toHaveBeenCalledTimes(3);
+    expect(component['tableService'].getDataFields).toHaveBeenCalledTimes(1);
+    expect(component['tableService'].formatValue).toHaveBeenCalledTimes(2);
   });
 
   it('tableService should be called onChanges with changed data', () => {
@@ -64,9 +64,9 @@ describe('PortfolioAnalysisTableComponent', () => {
 
     component.ngOnChanges(changes);
 
-    expect(component['tableService'].getLabelColumn).toBeCalledTimes(3);
-    expect(component['tableService'].getDataFields).toBeCalledTimes(1);
-    expect(component['tableService'].formatValue).toBeCalledTimes(2);
+    expect(component['tableService'].getLabelColumn).toHaveBeenCalledTimes(3);
+    expect(component['tableService'].getDataFields).toHaveBeenCalledTimes(1);
+    expect(component['tableService'].formatValue).toHaveBeenCalledTimes(2);
   });
 
   it('tableService should not be called onChanges with unchanged data', () => {
@@ -74,8 +74,8 @@ describe('PortfolioAnalysisTableComponent', () => {
 
     component.ngOnChanges(undefined);
 
-    expect(component['tableService'].getLabelColumn).toBeCalledTimes(1);
-    expect(component['tableService'].getDataFields).toBeCalledTimes(0);
-    expect(component['tableService'].formatValue).toBeCalledTimes(0);
+    expect(component['tableService'].getLabelColumn).toHaveBeenCalledTimes(1);
+    expect(component['tableService'].getDataFields).toHaveBeenCalledTimes(0);
+    expect(component['tableService'].formatValue).toHaveBeenCalledTimes(0);
   });
 });

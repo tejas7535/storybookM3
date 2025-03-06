@@ -8,6 +8,7 @@ import { QuotationDetail } from '@gq/shared/models';
 @Component({
   selector: 'gq-pa-material-details',
   templateUrl: './material-details.component.html',
+  standalone: false,
 })
 export class MaterialDetailsComponent {
   private readonly dialogRef = inject(MatDialogRef<MaterialDetailsComponent>);

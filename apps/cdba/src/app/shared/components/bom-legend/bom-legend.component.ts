@@ -13,6 +13,7 @@ import { MaterialDesignationCellRendererComponent } from './material-designation
   selector: 'cdba-bom-legend',
   templateUrl: './bom-legend.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class BomLegendComponent {
   @Input() data: BomItem[];

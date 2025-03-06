@@ -65,6 +65,7 @@ import { MatIconModule } from '@angular/material/icon';
       >
     </schaeffler-rich-tooltip>
   `,
+  standalone: false,
 })
 class RichTooltipExampleComponent {
   public tooltipOrigin = 'referenceToTriggerElement';

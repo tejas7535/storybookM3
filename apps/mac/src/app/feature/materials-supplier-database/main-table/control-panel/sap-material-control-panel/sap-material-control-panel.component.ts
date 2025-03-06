@@ -29,7 +29,6 @@ import { BaseControlPanelComponent } from '../base-control-panel.component';
 
 @Component({
   selector: 'mac-sap-material-control-panel',
-  standalone: true,
   imports: [
     // default
     CommonModule,

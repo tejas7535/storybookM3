@@ -42,7 +42,6 @@ export const enum ProductType {
  */
 @Component({
   selector: 'd360-tab-bar-navigation',
-  standalone: true,
   imports: [
     RouterModule,
     SharedTranslocoModule,
@@ -127,12 +126,7 @@ export class TabBarNavigationComponent {
    * @memberof TabBarNavigationComponent
    */
   public constructor() {
-    effect(
-      () => {
-        this.activeTab.set(this.getTabItemForRoute(this.activeUrl()));
-      },
-      { allowSignalWrites: true }
-    );
+    effect(() => this.activeTab.set(this.getTabItemForRoute(this.activeUrl())));
   }
 
   /**

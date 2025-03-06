@@ -26,6 +26,7 @@ import { TotalStatusBarComponent } from './total-status-bar/total-status-bar.com
   selector: 'ia-employee-list-table',
   templateUrl: './employee-list-table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class EmployeeListTableComponent implements OnInit {
   readonly REASON_FOR_LEAVING_MIN_WIDTH = 170;

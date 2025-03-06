@@ -4,6 +4,7 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[isTextTruncated]',
   exportAs: 'isTextTruncated',
+  standalone: false,
 })
 export class isTextTruncatedDirective {
   isTruncated = true;

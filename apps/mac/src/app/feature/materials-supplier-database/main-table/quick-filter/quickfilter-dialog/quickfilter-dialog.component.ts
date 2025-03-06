@@ -33,7 +33,6 @@ import { DataFacade } from '@mac/feature/materials-supplier-database/store/facad
 @Component({
   selector: 'mac-quickfilter-dialog',
   templateUrl: './quickfilter-dialog.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

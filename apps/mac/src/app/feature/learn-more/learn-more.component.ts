@@ -22,7 +22,6 @@ import { GuideGroup, LinkGroup } from './models';
 
 @Component({
   selector: 'mac-learn-more',
-  standalone: true,
   imports: [
     CommonModule,
     MatIconModule,

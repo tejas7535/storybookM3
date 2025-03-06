@@ -75,9 +75,12 @@ describe('CompareButtonComponent', () => {
       component.selectedNodes = [{}] as IRowNode[];
 
       expect(component.getTooltip()).toBe('shared.statusBar.hints.minCount');
-      expect(translocoSpy).toBeCalledWith('shared.statusBar.hints.minCount', {
-        count: 2,
-      });
+      expect(translocoSpy).toHaveBeenCalledWith(
+        'shared.statusBar.hints.minCount',
+        {
+          count: 2,
+        }
+      );
     });
 
     it('should get max count tooltip', () => {
@@ -85,9 +88,12 @@ describe('CompareButtonComponent', () => {
       component.selectedNodes = [{}, {}, {}] as IRowNode[];
 
       expect(component.getTooltip()).toBe('shared.statusBar.hints.maxCount');
-      expect(translocoSpy).toBeCalledWith('shared.statusBar.hints.maxCount', {
-        count: 2,
-      });
+      expect(translocoSpy).toHaveBeenCalledWith(
+        'shared.statusBar.hints.maxCount',
+        {
+          count: 2,
+        }
+      );
     });
   });
 

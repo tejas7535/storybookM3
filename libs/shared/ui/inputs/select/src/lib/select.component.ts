@@ -20,6 +20,7 @@ import { StringOption } from '@schaeffler/inputs';
 @Component({
   selector: 'schaeffler-select',
   templateUrl: './select.component.html',
+  standalone: false,
 })
 export class SelectComponent
   implements OnInit, OnDestroy, ControlValueAccessor

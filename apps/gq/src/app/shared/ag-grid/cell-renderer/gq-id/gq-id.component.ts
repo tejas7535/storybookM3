@@ -12,6 +12,7 @@ import { ColumnUtilityService } from '../../services';
   selector: 'gq-gq-id',
   templateUrl: './gq-id.component.html',
   styles: [],
+  standalone: false,
 })
 export class GqIdComponent {
   quotation: ViewQuotation;

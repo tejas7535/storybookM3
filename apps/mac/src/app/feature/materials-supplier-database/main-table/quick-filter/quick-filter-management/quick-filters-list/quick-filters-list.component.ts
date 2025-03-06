@@ -27,7 +27,6 @@ export interface TableConfig {
 @Component({
   selector: 'mac-quick-filters-list',
   templateUrl: './quick-filters-list.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

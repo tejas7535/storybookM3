@@ -8,6 +8,7 @@ import { TRANSLOCO_DATE_PIPE_CONFIG } from '../approval-workflow-approver/consts
 @Component({
   selector: 'gq-approval-workflow-history',
   templateUrl: './approval-workflow-history.component.html',
+  standalone: false,
 })
 export class ApprovalWorkflowHistoryComponent {
   @Input() quotationAutoApprovedEvent: ApprovalWorkflowEvent;

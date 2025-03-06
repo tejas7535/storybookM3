@@ -11,6 +11,7 @@ import { isFeatureEnabled } from '../../guards/is-feature-enabled';
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[disableOnProd]',
   exportAs: 'disableOnProd',
+  standalone: false,
 })
 export class DisableOnProdDirective implements OnInit {
   constructor(

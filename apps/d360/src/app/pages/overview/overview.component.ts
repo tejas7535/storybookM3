@@ -8,7 +8,6 @@ import { TaskPriorityGridComponent } from './components/task-priority-grid/task-
 
 @Component({
   selector: 'd360-overview',
-  standalone: true,
   imports: [
     TranslocoDirective,
     TaskPriorityGridComponent,

@@ -10,7 +10,6 @@ import { LabelTextModule } from '../../label-text/label-text.module';
 
 @Component({
   selector: 'gq-material-basic',
-  standalone: true,
   imports: [
     LabelTextModule,
     SharedPipesModule,

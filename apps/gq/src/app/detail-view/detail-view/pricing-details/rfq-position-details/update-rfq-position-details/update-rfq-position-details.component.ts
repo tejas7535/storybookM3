@@ -8,6 +8,7 @@ import { RfqModalData } from '@gq/detail-view/detail-view/pricing-details/rfq-po
 @Component({
   selector: 'gq-update-rfq-position-details',
   templateUrl: './update-rfq-position-details.component.html',
+  standalone: false,
 })
 export class UpdateRfqPositionDetailsComponent {
   private readonly activeCaseFacade = inject(ActiveCaseFacade);

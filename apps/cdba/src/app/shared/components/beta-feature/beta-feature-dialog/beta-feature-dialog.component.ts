@@ -8,6 +8,7 @@ import { EMAIL_DEFAULT } from '@cdba/shared/constants/emails';
 @Component({
   selector: 'cdba-beta-feature-dialog',
   templateUrl: './beta-feature-dialog.component.html',
+  standalone: false,
 })
 export class BetaFeatureDialogComponent {
   public emailTemplate: string;

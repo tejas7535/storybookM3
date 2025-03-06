@@ -11,7 +11,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({
   selector: 'mm-medias-view-product-button',
   templateUrl: './medias-view-product-button.component.html',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedTranslocoModule, MatButtonModule, MatIconModule],
 })

@@ -8,6 +8,7 @@ import { TableColumns } from '../simple-table/models/table-columns.enum';
 @Component({
   selector: 'gq-sanity-checks-table',
   templateUrl: './sanity-checks-table.component.html',
+  standalone: false,
 })
 export class SanityChecksTableComponent {
   @Input() dataSource: TableItem[];

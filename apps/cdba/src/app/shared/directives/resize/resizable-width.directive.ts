@@ -10,6 +10,7 @@ import {
 
 @Directive({
   selector: '[cdbaResizableWidth]',
+  standalone: false,
 })
 export class ResizableWidthDirective implements OnInit {
   @Input('cdbaResizableWidth') public resizable: boolean;

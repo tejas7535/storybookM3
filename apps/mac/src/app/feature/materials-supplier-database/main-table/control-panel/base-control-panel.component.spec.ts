@@ -34,7 +34,6 @@ jest.mock('@jsverse/transloco', () => ({
 // create a minimum class to test the abstract methods
 @Component({
   selector: 'mac-cp-xyz',
-  standalone: true,
   template: '<p>test</p>',
 })
 class MockControlPanelComponent

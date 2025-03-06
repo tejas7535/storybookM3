@@ -8,7 +8,6 @@ import { ICellRendererParams } from 'ag-grid-enterprise';
 
 @Component({
   selector: 'd360-row-menu',
-  standalone: true,
   imports: [MatMenuModule, MatButtonModule, MatIconModule],
   templateUrl: './row-menu.component.html',
   styleUrls: ['./row-menu.component.css'],

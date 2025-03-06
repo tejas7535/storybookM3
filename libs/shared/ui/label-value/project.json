@@ -4,13 +4,18 @@
   "projectType": "library",
   "sourceRoot": "libs/shared/ui/label-value/src",
   "prefix": "schaeffler",
+  "tags": ["scope:shared", "type:ui"],
+  "generators": {
+    "@nx/angular:component": {
+      "style": "scss"
+    }
+  },
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
       "options": {
         "tsConfig": "libs/shared/ui/label-value/tsconfig.lib.json",
-        "project": "libs/shared/ui/label-value/ng-package.json",
-        "tailwindConfig": "libs/shared/ui/label-value/tailwind.config.js"
+        "project": "libs/shared/ui/label-value/ng-package.json"
       },
       "configurations": {
         "production": {
@@ -66,11 +71,5 @@
         "postTargets": []
       }
     }
-  },
-  "generators": {
-    "@nx/angular:component": {
-      "style": "scss"
-    }
-  },
-  "tags": ["scope:shared", "type:ui"]
+  }
 }

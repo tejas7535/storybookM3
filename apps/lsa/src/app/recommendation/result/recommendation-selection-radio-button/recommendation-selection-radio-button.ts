@@ -5,7 +5,6 @@ import { MatRadioModule } from '@angular/material/radio';
 @Component({
   selector: 'lsa-recommendation-selection-radio-button',
   templateUrl: './recommendation-selection-radio-button.html',
-  standalone: true,
   imports: [MatRadioModule, MatInputModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

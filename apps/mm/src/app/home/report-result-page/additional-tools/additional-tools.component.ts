@@ -9,7 +9,6 @@ import { ProductCardComponent } from '../product-card/product-card.component';
 @Component({
   selector: 'mm-additional-tools',
   templateUrl: './additional-tools.component.html',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedTranslocoModule, ProductCardComponent],
 })

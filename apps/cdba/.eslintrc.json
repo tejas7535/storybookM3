@@ -45,7 +45,8 @@
         ],
         "@typescript-eslint/explicit-member-accessibility": "off",
         "@typescript-eslint/member-ordering": "off",
-        "unicorn/no-useless-undefined": "off"
+        "unicorn/no-useless-undefined": "off",
+        "@angular-eslint/prefer-standalone": "off"
       },
       "plugins": [
         "@angular-eslint/eslint-plugin",

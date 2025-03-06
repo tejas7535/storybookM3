@@ -12,6 +12,7 @@ import { FeatureToggleConfigService } from '../../services/feature-toggle/featur
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[featureToggle]',
   exportAs: 'featureToggle',
+  standalone: false,
 })
 export class FeatureToggleDirective implements OnInit {
   @Input() featureToggle: string;

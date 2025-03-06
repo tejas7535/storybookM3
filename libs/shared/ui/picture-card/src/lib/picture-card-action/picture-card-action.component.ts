@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'schaeffler-picture-card-action',
   templateUrl: './picture-card-action.component.html',
+  standalone: false,
 })
 export class PictureCardActionComponent {
   @Input() public text!: string;

@@ -12,6 +12,7 @@ import { FilesToUploadDisplay } from './models/files-to-upload-display.model';
 @Component({
   selector: 'gq-attachment-files-upload-modal',
   templateUrl: './attachment-files-upload-modal.component.html',
+  standalone: false,
 })
 export class AttachmentFilesUploadModalComponent {
   filesToUpload: FilesToUploadDisplay[] = [];

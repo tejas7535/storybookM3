@@ -18,7 +18,6 @@ import { SleeveConnectorComponent } from './sleeve-connector/sleeve-connector.co
 @Component({
   selector: 'mm-report-result-page',
   templateUrl: './report-result-page.component.html',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     PushPipe,

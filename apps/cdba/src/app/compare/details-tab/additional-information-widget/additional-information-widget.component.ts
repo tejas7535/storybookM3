@@ -6,6 +6,7 @@ import { AdditionalInformationDetails } from '@cdba/shared/models';
   selector: 'cdba-additional-information-widget',
   templateUrl: './additional-information-widget.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AdditionalInformationWidgetComponent {
   @Input() public additionalInformation: AdditionalInformationDetails;

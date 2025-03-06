@@ -6,6 +6,7 @@ import { DimensionAndWeightDetails } from '@cdba/shared/models';
   selector: 'cdba-dimension-and-weight',
   templateUrl: './dimension-and-weight.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DimensionAndWeightComponent {
   @Input() dimensionAndWeightDetails: DimensionAndWeightDetails;

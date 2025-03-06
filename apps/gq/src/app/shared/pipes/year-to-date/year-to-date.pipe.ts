@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'yearToDate',
+  standalone: false,
 })
 export class YearToDatePipe implements PipeTransform {
   /**

@@ -7,7 +7,6 @@ import { messageFromSAP } from '../../../utils/sap-localisation';
 
 @Component({
   selector: 'd360-traffic-light-tooltip',
-  standalone: true,
   imports: [],
   templateUrl: './traffic-light-tooltip.component.html',
   styleUrls: ['./traffic-light-tooltip.component.scss'],

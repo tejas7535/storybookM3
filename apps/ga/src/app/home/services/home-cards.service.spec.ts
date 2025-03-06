@@ -85,14 +85,14 @@ describe('HomeCardsService', () => {
         it('should log and open url with parameters', waitForAsync(() => {
           result[1].cardAction();
 
-          expect(applicationInsightsService.logEvent).toBeCalledWith(
+          expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
             TRACKING_NAME_HOMECARD,
             {
               card: HomeCardsTrackingIds.Sources,
             }
           );
 
-          expect(window.open).toBeCalledWith(
+          expect(window.open).toHaveBeenCalledWith(
             'homepage.cards.greases.externalLink?utm_source=grease-app&utm_medium=app',
             '_blank'
           );
@@ -103,14 +103,14 @@ describe('HomeCardsService', () => {
         it('should log and open url without parameters', waitForAsync(() => {
           result[6].cardAction();
 
-          expect(applicationInsightsService.logEvent).toBeCalledWith(
+          expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
             TRACKING_NAME_HOMECARD,
             {
               card: HomeCardsTrackingIds.ContactLink,
             }
           );
 
-          expect(window.open).toBeCalledWith(
+          expect(window.open).toHaveBeenCalledWith(
             'homepage.cards.contact.externalLink',
             '_blank'
           );
@@ -121,14 +121,14 @@ describe('HomeCardsService', () => {
         it('should log and navigate to given link', waitForAsync(() => {
           result[0].cardAction();
 
-          expect(applicationInsightsService.logEvent).toBeCalledWith(
+          expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
             TRACKING_NAME_HOMECARD,
             {
               card: HomeCardsTrackingIds.GreaseCalculation,
             }
           );
 
-          expect(router.navigate).toBeCalledWith([
+          expect(router.navigate).toHaveBeenCalledWith([
             AppRoutePath.GreaseCalculationPath,
           ]);
         }));
@@ -166,14 +166,14 @@ describe('HomeCardsService', () => {
         it('should log and open email template', waitForAsync(() => {
           result[6].cardAction();
 
-          expect(applicationInsightsService.logEvent).toBeCalledWith(
+          expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
             TRACKING_NAME_HOMECARD,
             {
               card: HomeCardsTrackingIds.ContactLink,
             }
           );
 
-          expect(window.open).toBeCalledWith(
+          expect(window.open).toHaveBeenCalledWith(
             'mailto:technik@schmeckthal-gruppe.de?subject=Schmeckthal Grease App Anfrage',
             '_blank'
           );
@@ -185,14 +185,14 @@ describe('HomeCardsService', () => {
           const affiliateCode = PartnerAfiliateCode[PartnerVersion.Schmeckthal];
           result[1].cardAction();
 
-          expect(applicationInsightsService.logEvent).toBeCalledWith(
+          expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
             TRACKING_NAME_HOMECARD,
             {
               card: HomeCardsTrackingIds.Sources,
             }
           );
 
-          expect(window.open).toBeCalledWith(
+          expect(window.open).toHaveBeenCalledWith(
             `homepage.cards.greases.externalLink?utm_source=grease-app&utm_medium=app&${affiliateCode}`,
             '_blank'
           );

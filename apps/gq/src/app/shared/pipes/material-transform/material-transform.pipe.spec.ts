@@ -30,12 +30,12 @@ describe('MaterialTransformPipe', () => {
 
       materialTransformPipe.transform(TEST_STRING);
 
-      expect(materialNumberService.formatStringAsMaterialNumber).toBeCalledWith(
-        TEST_STRING
-      );
       expect(
         materialNumberService.formatStringAsMaterialNumber
-      ).toBeCalledTimes(1);
+      ).toHaveBeenCalledWith(TEST_STRING);
+      expect(
+        materialNumberService.formatStringAsMaterialNumber
+      ).toHaveBeenCalledTimes(1);
     });
   });
 });

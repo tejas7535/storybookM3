@@ -26,6 +26,7 @@ import {
 @Component({
   selector: 'cdba-detail-tab',
   templateUrl: './detail-tab.component.html',
+  standalone: false,
 })
 export class DetailTabComponent implements OnInit {
   isLoading$: Observable<boolean>;

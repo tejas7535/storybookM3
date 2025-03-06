@@ -15,7 +15,6 @@ import { DataFacade } from '@mac/msd/store/facades/data';
 @Component({
   selector: 'mac-base-control-panel',
   template: '',
-  standalone: true,
 })
 export abstract class BaseControlPanelComponent implements OnInit, OnDestroy {
   public navigation$ = this.dataFacade.navigation$;

@@ -44,7 +44,6 @@ import { QuickfilterDialogComponent } from './quickfilter-dialog/quickfilter-dia
 @Component({
   selector: 'mac-quick-filter',
   templateUrl: './quick-filter.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

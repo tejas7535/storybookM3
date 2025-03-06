@@ -48,7 +48,6 @@ export interface CustomerSalesPlanNumberEditModalProps {
 
 @Component({
   selector: 'd360-customer-sales-plan-single-percentage-edit-modal',
-  standalone: true,
   imports: [
     CommonModule,
     MatDialogContent,

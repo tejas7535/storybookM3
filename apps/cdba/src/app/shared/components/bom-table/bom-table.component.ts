@@ -43,6 +43,7 @@ import {
   templateUrl: './bom-table.component.html',
   styleUrls: ['./bom-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class BomTableComponent implements OnChanges {
   @Input() index: number;

@@ -6,6 +6,7 @@ import { ViewToggleStatus } from '../../view-toggle-status.enum';
 @Component({
   selector: 'schaeffler-view-toggle',
   templateUrl: './view-toggle.component.html',
+  standalone: false,
 })
 export class ViewToggleComponent {
   @Input() public displayBorderBottom = false;

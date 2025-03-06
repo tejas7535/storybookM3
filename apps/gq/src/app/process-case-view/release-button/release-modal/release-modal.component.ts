@@ -66,7 +66,6 @@ interface ReleaseModalFormControl {
 }
 
 @Component({
-  standalone: true,
   imports: [
     MatFormFieldModule,
     SharedTranslocoModule,

@@ -12,6 +12,7 @@ import { ReferenceTypeIdentifier } from '@cdba/shared/models';
   selector: 'cdba-results-status-bar',
   templateUrl: './results-status-bar.component.html',
   styleUrls: ['./results-status-bar.component.scss'],
+  standalone: false,
 })
 export class ResultsStatusBarComponent implements OnInit, OnDestroy {
   selectedNodes: IRowNode[] = [];

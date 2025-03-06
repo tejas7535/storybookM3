@@ -19,7 +19,6 @@ const translatePath = 'recommendation.lubrication';
 
 @Component({
   selector: 'lsa-lubricant',
-  standalone: true,
   imports: [
     RadioButtonGroupComponent,
     TranslocoModule,

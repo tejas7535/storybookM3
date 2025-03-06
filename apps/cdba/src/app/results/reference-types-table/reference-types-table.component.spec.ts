@@ -9,6 +9,8 @@ import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  ColDef,
+  ColGroupDef,
   Column,
   ColumnRowGroupChangedEvent,
   ColumnState,
@@ -210,7 +212,7 @@ describe('ReferenceTypesTableComponent', () => {
   describe('onColumnChange', () => {
     it('should receive current column state and set it via state service', () => {
       const mockEvent = {
-        api: { getColumnState: jest.fn(() => []) },
+        api: { getColumnState: jest.fn(() => [] as (ColDef | ColGroupDef)[]) },
       } as unknown as SortChangedEvent;
 
       component.onColumnChange(mockEvent);
@@ -229,7 +231,7 @@ describe('ReferenceTypesTableComponent', () => {
         updateGridOptions: jest.fn(),
         paginationGoToPage: jest.fn(),
         applyColumnState: jest.fn(),
-        getRowGroupColumns: jest.fn(() => []),
+        getRowGroupColumns: jest.fn(() => [] as (ColDef | ColGroupDef)[]),
       } as unknown as GridApi,
     } as unknown as GridReadyEvent;
 
@@ -329,7 +331,7 @@ describe('ReferenceTypesTableComponent', () => {
     });
 
     it('should dispatch updatePaginationState with isVisible=true (show) if rowGroupColumns is empty', () => {
-      event.api.getRowGroupColumns = jest.fn(() => []);
+      event.api.getRowGroupColumns = jest.fn(() => [] as Column[]);
       const storeSpy = jest.spyOn(store, 'dispatch');
       component.paginationState = {
         isVisible: false,

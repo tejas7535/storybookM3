@@ -23,6 +23,7 @@ import { BomExportProgress, BomExportStatus } from './model/feature/bom-export';
 @Component({
   selector: 'cdba-user-interaction',
   templateUrl: './user-interaction.component.html',
+  standalone: false,
 })
 export class UserInteractionComponent implements OnInit, OnDestroy {
   username: string;

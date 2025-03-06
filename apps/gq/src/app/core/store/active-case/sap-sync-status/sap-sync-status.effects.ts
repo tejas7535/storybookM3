@@ -18,7 +18,8 @@ import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotat
 import { QuotationDetailSapSyncStatus } from '@gq/shared/models/quotation-detail/quotation-detail-sap-sync-status.model';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { translate } from '@jsverse/transloco';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 
 import { activeCaseFeature } from '../active-case.reducer';

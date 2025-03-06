@@ -12,6 +12,7 @@ import { getSubmitFeedbackLoading } from './store/selectors/user.selector';
 @Component({
   selector: 'ia-user',
   templateUrl: './user.component.html',
+  standalone: false,
 })
 export class UserComponent implements OnInit, OnDestroy {
   readonly DIALOG_MAX_WIDTH = '50vw';

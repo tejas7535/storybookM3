@@ -86,11 +86,9 @@ import {
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
 import { BaseDialogComponent } from '../../base-dialog/base-dialog.component';
-import { Co2ComponentComponent } from '../../components/co2-component/co2-component.component';
 import { ManufacturerSupplierComponent } from '../../components/manufacturer-supplier/manufacturer-supplier.component';
 import { MaterialDialogBasePartDirective } from '../../components/material-dialog-base-part/material-dialog-base-part.directive';
 import { MaterialStandardComponent } from '../../components/material-standard/material-standard.component';
-import { RecyclingRateComponent } from '../../components/recycline-rate/recycling-rate.component';
 import * as util from '../../util';
 import { ReleaseDateViewMode } from './constants/release-date-view-mode.enum';
 
@@ -105,7 +103,6 @@ const DATE_FORMATS = {
 @Component({
   selector: 'mac-steel-input-dialog',
   templateUrl: './steel-input-dialog.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,
@@ -113,8 +110,6 @@ const DATE_FORMATS = {
     BaseDialogComponent,
     MaterialStandardComponent,
     ManufacturerSupplierComponent,
-    Co2ComponentComponent,
-    RecyclingRateComponent,
     MaterialDialogBasePartDirective,
     ErrorMessagePipe,
     // angular material

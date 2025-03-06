@@ -42,7 +42,7 @@ describe('PreflightDataParserService', () => {
       },
     } as Partial<MMBearingPreflightResponse> as MMBearingPreflightResponse;
 
-    expect(() => spectator.service.formatPreflightData(mockData)).toThrowError(
+    expect(() => spectator.service.formatPreflightData(mockData)).toThrow(
       'Cannot find IDMM_HYDRAULIC_NUT_TYPE field'
     );
   });
@@ -55,7 +55,7 @@ describe('PreflightDataParserService', () => {
       },
     } as Partial<MMBearingPreflightResponse> as MMBearingPreflightResponse;
 
-    expect(() => spectator.service.formatPreflightData(mockData)).toThrowError(
+    expect(() => spectator.service.formatPreflightData(mockData)).toThrow(
       'Cannot find IDMM_HYDRAULIC_NUT_TYPE field'
     );
   });

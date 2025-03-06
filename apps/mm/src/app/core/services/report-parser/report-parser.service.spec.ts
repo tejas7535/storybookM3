@@ -160,7 +160,7 @@ describe('ReportParserService', () => {
         service.parseResponse(
           JSON_REPORT_INCORRECT_INPUT_MOCK as BearinxOnlineResult
         )
-      ).toThrowError(new Error('Unexpected identifier: incorrect identifier'));
+      ).toThrow(new Error('Unexpected identifier: incorrect identifier'));
     });
   });
 

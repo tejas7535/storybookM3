@@ -16,7 +16,6 @@ export interface Option<T> {
 
 @Component({
   selector: 'd360-error-handling-select',
-  standalone: true,
   imports: [MatSelectModule, ReactiveFormsModule, FieldErrorComponent],
   templateUrl: './error-handling-select.component.html',
 })

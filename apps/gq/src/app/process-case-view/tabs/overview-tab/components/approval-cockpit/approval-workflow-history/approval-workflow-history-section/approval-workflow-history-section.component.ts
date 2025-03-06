@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'gq-approval-workflow-history-section',
   templateUrl: './approval-workflow-history-section.component.html',
+  standalone: false,
 })
 export class ApprovalWorkflowHistorySectionComponent {
   @Input() icon: string;

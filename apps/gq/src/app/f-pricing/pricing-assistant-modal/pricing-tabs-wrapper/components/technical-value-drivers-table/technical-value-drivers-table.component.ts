@@ -9,6 +9,7 @@ import { TableColumns } from '../simple-table/models/table-columns.enum';
 @Component({
   selector: 'gq-technical-value-drivers-table',
   templateUrl: './technical-value-drivers-table.component.html',
+  standalone: false,
 })
 export class TechnicalValueDriversTableComponent {
   @Input() dataSource: TableItem[];

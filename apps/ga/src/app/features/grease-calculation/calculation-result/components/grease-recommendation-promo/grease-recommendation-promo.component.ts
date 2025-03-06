@@ -21,7 +21,6 @@ interface MediasFeatureTable {
   selector: 'ga-recommendation-modal',
   templateUrl: './grease-recommendation-promo.component.html',
   styleUrl: './grease-recommendation-promo.component.scss',
-  standalone: true,
   imports: [
     CommonModule,
     AppLogoComponent,

@@ -6,6 +6,7 @@ import { SalesDetails } from '@cdba/shared/models';
   selector: 'cdba-sales-and-description',
   templateUrl: './sales-and-description.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SalesAndDescriptionComponent {
   @Input() salesDetails: SalesDetails;

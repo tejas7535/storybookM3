@@ -20,7 +20,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { Selection } from './models/selection.model';
 
 @Component({
-  standalone: true,
   selector: 'gq-material-selection',
   templateUrl: './material-selection.component.html',
   imports: [

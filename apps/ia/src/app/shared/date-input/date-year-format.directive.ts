@@ -18,5 +18,6 @@ const DATE_FORMATS = {
 @Directive({
   selector: '[iaDateYearFormat]',
   providers: [{ provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS }],
+  standalone: false,
 })
 export class DateYearFormatDirective {}

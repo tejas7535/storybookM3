@@ -5,6 +5,7 @@ import { BarChartConfig } from '../../shared/charts/models';
 @Component({
   selector: 'ia-feature-analysis',
   templateUrl: './feature-analysis.component.html',
+  standalone: false,
 })
 export class FeatureAnalysisComponent {
   @Input()

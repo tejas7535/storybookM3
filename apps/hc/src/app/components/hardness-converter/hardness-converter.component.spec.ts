@@ -449,7 +449,7 @@ describe('HardnessConverterComponent', () => {
 
     component['resetResult']();
     // eslint-disable-next-line unicorn/no-useless-undefined
-    expect(component.conversionResult$.next).toBeCalledWith(undefined);
-    expect(component.multipleValues$.next).toBeCalledWith(false);
+    expect(component.conversionResult$.next).toHaveBeenCalledWith(undefined);
+    expect(component.multipleValues$.next).toHaveBeenCalledWith(false);
   });
 });

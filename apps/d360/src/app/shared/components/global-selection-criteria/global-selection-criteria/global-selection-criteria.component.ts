@@ -48,7 +48,6 @@ import { PreLoadedAutocompleteWithMultiselectComponent } from '../pre-loaded-aut
  */
 @Component({
   selector: 'd360-global-selection-criteria',
-  standalone: true,
   imports: [
     MinimizedGlobalSelectionCriteriaComponent,
     // ResultCountTitleComponent,

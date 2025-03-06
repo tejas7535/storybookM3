@@ -5,7 +5,12 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
+import {
+  inject,
+  LOCALE_ID,
+  NgModule,
+  provideAppInitializer,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
@@ -96,18 +101,21 @@ let Tracking = [
 
 let providers = [
   // OneTrust Provider must be first entry
-  {
-    provide: APP_INITIALIZER,
-    useFactory: appInitializer,
-    deps: [OneTrustService, ApplicationInsightsService],
-    multi: true,
-  },
-  {
-    provide: APP_INITIALIZER,
-    useFactory: mobileOneTrustInitializer,
-    deps: [OneTrustMobileService],
-    multi: true,
-  },
+  provideAppInitializer(() => {
+    const initializerFn = appInitializer(
+      inject(OneTrustService),
+      inject(ApplicationInsightsService)
+    );
+
+    return initializerFn();
+  }),
+  provideAppInitializer(() => {
+    const initializerFn = mobileOneTrustInitializer(
+      inject(OneTrustMobileService)
+    );
+
+    return initializerFn();
+  }),
   {
     provide: LOCALE_ID,
     useClass: DynamicLocaleId,

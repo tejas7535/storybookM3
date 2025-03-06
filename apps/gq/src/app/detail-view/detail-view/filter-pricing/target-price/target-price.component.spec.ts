@@ -101,7 +101,7 @@ describe('TargetPriceComponent', () => {
       quotationDetail.targetPrice,
       undefined
     );
-    expect(pricingUtils.calculateMargin).toBeCalledTimes(3);
+    expect(pricingUtils.calculateMargin).toHaveBeenCalledTimes(3);
   });
 
   test('should set gpmRfq when RFQ data is present', () => {
@@ -132,7 +132,7 @@ describe('TargetPriceComponent', () => {
       quotationDetail.targetPrice,
       quotationDetail.rfqData.sqv
     );
-    expect(pricingUtils.calculateMargin).toBeCalledTimes(3);
+    expect(pricingUtils.calculateMargin).toHaveBeenCalledTimes(3);
   });
 
   describe('set isLoading', () => {

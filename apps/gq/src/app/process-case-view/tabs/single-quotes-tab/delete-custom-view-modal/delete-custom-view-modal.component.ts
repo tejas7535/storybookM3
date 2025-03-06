@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'gq-delete-custom-view-modal',
   templateUrl: './delete-custom-view-modal.component.html',
+  standalone: false,
 })
 export class DeleteCustomViewModalComponent {
   constructor(

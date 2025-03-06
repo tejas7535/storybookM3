@@ -1,6 +1,7 @@
 import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockComponent } from 'ng-mocks';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { CustomerPlanningDetailsComponent } from './components/customer-planning-details/customer-planning-details.component';
 import { CustomerSalesPlanChartComponent } from './components/customer-sales-plan-chart/customer-sales-plan-chart.component';
@@ -18,6 +19,7 @@ describe('SalesPlanningComponent', () => {
   const createComponent = createComponentFactory({
     component: SalesPlanningComponent,
     imports: [
+      NgxEchartsModule,
       MockComponent(CustomerSelectionComponent),
       MockComponent(CustomerSalesPlanChartComponent),
       MockComponent(CustomerPlanningDetailsComponent),

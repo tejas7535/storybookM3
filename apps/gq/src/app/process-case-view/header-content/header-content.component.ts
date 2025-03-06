@@ -21,6 +21,7 @@ import { TranslocoService } from '@jsverse/transloco';
   selector: 'gq-header-content',
   styleUrls: ['./header-content.component.scss'],
   templateUrl: './header-content.component.html',
+  standalone: false,
 })
 export class HeaderContentComponent {
   @Input() set quotation(value: Quotation) {

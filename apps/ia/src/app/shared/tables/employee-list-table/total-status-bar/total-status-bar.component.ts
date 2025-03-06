@@ -14,7 +14,6 @@ import { SharedModule } from '../../../shared.module';
 
 @Component({
   selector: 'ia-total-status-bar',
-  standalone: true,
   imports: [SharedModule, SharedTranslocoModule],
   templateUrl: './total-status-bar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

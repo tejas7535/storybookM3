@@ -4,7 +4,6 @@ import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 @Pipe({
   name: 'numberWithoutFractionDigits',
-  standalone: true,
 })
 @Injectable({ providedIn: 'root' })
 export class NumberWithoutFractionDigitsPipe implements PipeTransform {

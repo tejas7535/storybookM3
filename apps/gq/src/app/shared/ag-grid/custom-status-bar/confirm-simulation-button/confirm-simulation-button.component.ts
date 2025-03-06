@@ -19,6 +19,7 @@ import { EVENT_NAMES, MassSimulationParams } from '../../../models';
     `,
   ],
   templateUrl: './confirm-simulation-button.component.html',
+  standalone: false,
 })
 export class ConfirmSimulationButtonComponent {
   selectedRowCount = 0;

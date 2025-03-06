@@ -41,6 +41,7 @@ import {
 @Component({
   templateUrl: './hardness-converter.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class HardnessConverterComponent implements OnInit, OnDestroy {
   @ViewChild('defaultInputValue')

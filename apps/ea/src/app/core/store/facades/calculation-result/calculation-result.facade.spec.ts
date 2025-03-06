@@ -35,7 +35,7 @@ describe('CalculationResult', () => {
       'should provide if the calculation result is available',
       marbles((m) => {
         const expected = m.cold('a', {
-          a: !!123,
+          a: true,
         });
 
         m.expect(facade.isCalculationResultReportAvailable$).toBeObservable(

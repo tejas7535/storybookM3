@@ -16,7 +16,6 @@ import { InfoButtonComponent } from '../info-button/info-button.component';
 
 @Component({
   selector: 'ea-input-select',
-  standalone: true,
   imports: [
     MatSelectModule,
     MatFormFieldModule,

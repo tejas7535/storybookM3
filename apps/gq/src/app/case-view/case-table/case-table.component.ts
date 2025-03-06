@@ -42,6 +42,7 @@ import {
   selector: 'gq-case-table',
   templateUrl: './case-table.component.html',
   styles: [basicTableStyle, disableTableHorizontalScrollbar, statusBarStlye],
+  standalone: false,
 })
 export class CaseTableComponent implements OnInit, OnDestroy {
   @Input() rowData: ViewQuotation[];

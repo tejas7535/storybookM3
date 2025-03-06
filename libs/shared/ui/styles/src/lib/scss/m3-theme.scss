@@ -27,7 +27,8 @@ html.dark {
   @include set-theme-fonts-variables($my-theme);
 }
 
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();
 
 @include mat.typography-hierarchy($my-theme);
 $prefix: '' !default;

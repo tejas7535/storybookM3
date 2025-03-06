@@ -23,7 +23,6 @@ import { MsdDialogService } from './services';
 @Component({
   selector: 'mac-materials-supplier-database',
   templateUrl: './materials-supplier-database.component.html',
-  standalone: true,
   imports: [
     // default
     RouterModule,

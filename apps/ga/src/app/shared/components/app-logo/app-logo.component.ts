@@ -6,7 +6,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
   selector: 'ga-app-logo',
   templateUrl: './app-logo.component.html',
   imports: [SharedTranslocoModule],
-  standalone: true,
 })
 export class AppLogoComponent {
   @Input() showText = true;

@@ -5,6 +5,7 @@ import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 @Component({
   selector: 'gq-last-customer-price-information-details',
   templateUrl: './last-customer-price-information-details.component.html',
+  standalone: false,
 })
 export class LastCustomerPriceInformationDetailsComponent {
   @Input() quotationDetail: QuotationDetail;

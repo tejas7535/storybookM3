@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, NgModule, Provider } from '@angular/core';
+import {
+  EnvironmentProviders,
+  inject,
+  NgModule,
+  provideAppInitializer,
+} from '@angular/core';
 
 import { IconsService } from './icons.service';
 
@@ -13,12 +18,11 @@ export function iconsFactory(iconsService: IconsService): () => void {
   return func;
 }
 
-export const initializer: Provider = {
-  provide: APP_INITIALIZER,
-  multi: true,
-  useFactory: iconsFactory,
-  deps: [IconsService],
-};
+export const initializer: EnvironmentProviders = provideAppInitializer(() => {
+  const initializerFn = iconsFactory(inject(IconsService));
+
+  return initializerFn();
+});
 
 @NgModule({
   imports: [CommonModule],

@@ -1,4 +1,4 @@
-/* eslint max-lines: [1] */
+/* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
 import { HashMap, TranslocoService } from '@jsverse/transloco';

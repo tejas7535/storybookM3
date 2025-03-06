@@ -41,6 +41,7 @@ import {
 @Component({
   selector: 'cdba-calculations-table',
   templateUrl: './calculations-table.component.html',
+  standalone: false,
 })
 export class CalculationsTableComponent implements OnInit, OnChanges {
   @Input() minified = false;

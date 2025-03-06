@@ -29,7 +29,6 @@ import { DialogFacade } from '@mac/msd/store/facades/dialog';
 @Component({
   selector: 'mac-manufacturer-supplier',
   templateUrl: './manufacturer-supplier.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

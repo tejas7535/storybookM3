@@ -259,7 +259,9 @@ describe('AgGridStateService', () => {
 
   describe('getColumnState', () => {
     test('should return empty array if view not found', () => {
-      service['gridLocalStorageService'].getViewById = jest.fn(() => null);
+      service['gridLocalStorageService'].getViewById = jest.fn(
+        (): null => null
+      );
 
       const result = service['getColumnState']('key', 2);
 
@@ -795,7 +797,7 @@ describe('AgGridStateService', () => {
             ? {
                 ...view,
                 state: {
-                  columnState: [],
+                  columnState: [] as any,
                   filterState: [
                     localStorageFilterState,
                     { actionItemId, filterModels },

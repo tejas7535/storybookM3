@@ -5,6 +5,7 @@ import { MaterialClassificationSOP } from '../../models/quotation-detail';
 
 @Pipe({
   name: 'materialClassificationSOP',
+  standalone: false,
 })
 export class MaterialClassificationSOPPipe implements PipeTransform {
   transform(value: string): string {

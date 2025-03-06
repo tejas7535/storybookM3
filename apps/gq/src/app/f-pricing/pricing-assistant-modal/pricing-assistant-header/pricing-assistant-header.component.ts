@@ -5,6 +5,7 @@ import { MaterialDetails } from '@gq/shared/models/quotation-detail/material';
 @Component({
   selector: 'gq-pricing-assistant-header',
   templateUrl: './pricing-assistant-header.component.html',
+  standalone: false,
 })
 export class PricingAssistantHeaderComponent {
   @Input() material: MaterialDetails;

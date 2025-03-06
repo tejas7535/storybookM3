@@ -12,6 +12,7 @@ import { ViewToggle } from '@schaeffler/view-toggle';
 @Component({
   selector: 'gq-case-view',
   templateUrl: './case-view.component.html',
+  standalone: false,
 })
 export class CaseViewComponent {
   private readonly overviewCasesFacade = inject(OverviewCasesFacade);

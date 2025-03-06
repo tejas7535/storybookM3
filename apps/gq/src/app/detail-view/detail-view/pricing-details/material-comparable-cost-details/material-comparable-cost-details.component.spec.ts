@@ -231,7 +231,7 @@ describe('MaterialComparableCostDetailsComponent', () => {
         });
         m.flush();
 
-        expect(roundToTwoDecimalsSpy).toBeCalledTimes(2);
+        expect(roundToTwoDecimalsSpy).toHaveBeenCalledTimes(2);
         expect(roundToTwoDecimalsSpy).toHaveBeenNthCalledWith(
           1,
           MATERIAL_COMPARABLE_COST_MOCK.gpc
@@ -241,7 +241,7 @@ describe('MaterialComparableCostDetailsComponent', () => {
           MATERIAL_COMPARABLE_COST_MOCK.sqv
         );
 
-        expect(calculateMarginSpy).toBeCalledTimes(2);
+        expect(calculateMarginSpy).toHaveBeenCalledTimes(2);
         expect(calculateMarginSpy).toHaveBeenNthCalledWith(
           1,
           price,
@@ -284,12 +284,12 @@ describe('MaterialComparableCostDetailsComponent', () => {
         });
         m.flush();
 
-        expect(roundToTwoDecimalsSpy).toBeCalledTimes(1);
+        expect(roundToTwoDecimalsSpy).toHaveBeenCalledTimes(1);
         expect(roundToTwoDecimalsSpy).toHaveBeenCalledWith(
           MATERIAL_COMPARABLE_COST_MOCK.gpc
         );
 
-        expect(calculateMarginSpy).toBeCalledTimes(1);
+        expect(calculateMarginSpy).toHaveBeenCalledTimes(1);
         expect(calculateMarginSpy).toHaveBeenCalledWith(price, gpcRounded);
       })
     );
@@ -323,12 +323,12 @@ describe('MaterialComparableCostDetailsComponent', () => {
         });
         m.flush();
 
-        expect(roundToTwoDecimalsSpy).toBeCalledTimes(1);
+        expect(roundToTwoDecimalsSpy).toHaveBeenCalledTimes(1);
         expect(roundToTwoDecimalsSpy).toHaveBeenCalledWith(
           MATERIAL_COMPARABLE_COST_MOCK.sqv
         );
 
-        expect(calculateMarginSpy).toBeCalledTimes(1);
+        expect(calculateMarginSpy).toHaveBeenCalledTimes(1);
         expect(calculateMarginSpy).toHaveBeenCalledWith(price, sqvRounded);
       })
     );

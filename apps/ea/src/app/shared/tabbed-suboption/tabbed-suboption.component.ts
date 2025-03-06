@@ -12,7 +12,6 @@ import { RadioButtonComponent } from '../radio-button/radio-button.component';
 
 @Component({
   selector: 'ea-tabbed-suboption',
-  standalone: true,
   imports: [RadioButtonComponent, ReactiveFormsModule],
   templateUrl: './tabbed-suboption.component.html',
   viewProviders: [

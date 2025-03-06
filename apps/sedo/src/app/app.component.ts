@@ -13,6 +13,7 @@ import {
 @Component({
   selector: 'sedo-root',
   templateUrl: './app.component.html',
+  standalone: false,
 })
 export class AppComponent implements OnInit {
   title = 'SeDo';

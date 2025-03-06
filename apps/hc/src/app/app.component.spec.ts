@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { ReplaySubject } from 'rxjs/internal/ReplaySubject';
 
+import { MsalRedirectComponent } from '@azure/msal-angular';
 import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
@@ -48,6 +49,7 @@ describe('AppComponent', () => {
       MockModule(SharedAzureAuthModule),
       MockModule(MatIconModule),
       provideTranslocoTestingModule({ en }),
+      MsalRedirectComponent,
     ],
     providers: [
       provideMockStore({}),

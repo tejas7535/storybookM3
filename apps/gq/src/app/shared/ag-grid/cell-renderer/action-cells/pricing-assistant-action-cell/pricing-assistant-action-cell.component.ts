@@ -9,6 +9,7 @@ import { CellClassParams } from 'ag-grid-enterprise';
 @Component({
   selector: 'gq-pricing-assistant-action-cell',
   templateUrl: './pricing-assistant-action-cell.component.html',
+  standalone: false,
 })
 export class PricingAssistantActionCellComponent {
   params: CellClassParams;

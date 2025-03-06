@@ -86,7 +86,7 @@ describe('CalculationDisclaimerComponent', () => {
     spectator.detectChanges();
 
     tick();
-    expect(Element.prototype.scrollIntoView).toBeCalledWith({
+    expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({
       behavior: 'smooth',
       block: 'start',
     });

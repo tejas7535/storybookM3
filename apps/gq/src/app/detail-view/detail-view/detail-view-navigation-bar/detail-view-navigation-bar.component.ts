@@ -12,6 +12,7 @@ import { UntypedFormControl, Validators } from '@angular/forms';
   selector: 'gq-detail-view-navigation-bar',
   templateUrl: './detail-view-navigation-bar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DetailViewNavigationBarComponent implements OnInit {
   @Input() numberOfCases: number;

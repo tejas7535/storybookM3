@@ -11,6 +11,7 @@ import { SAP_SYNC_STATUS } from './../../../models/quotation-detail/sap-sync-sta
 @Component({
   selector: 'gq-status-customer-info-header',
   templateUrl: './status-customer-info-header.component.html',
+  standalone: false,
 })
 export class StatusCustomerInfoHeaderComponent {
   @Input() customer: Customer;

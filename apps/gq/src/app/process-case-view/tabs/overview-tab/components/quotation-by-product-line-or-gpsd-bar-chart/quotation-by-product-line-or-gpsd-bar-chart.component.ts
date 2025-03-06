@@ -16,6 +16,7 @@ import { ChartConfigService } from '../../services/chart.config.service';
   selector: 'gq-quotation-by-product-line-or-gpsd-bar-chart',
   templateUrl: './quotation-by-product-line-or-gpsd-bar-chart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class QuotationByProductLineOrGpsdBarChartComponent
   implements OnInit, OnChanges

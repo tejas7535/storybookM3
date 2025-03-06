@@ -64,7 +64,7 @@ describe('ConfirmDeleteDialogComponent', () => {
     component.dialogRef.close = jest.fn();
     component.closeDialog();
 
-    expect(component.dialogRef.close).toBeCalledWith(false);
+    expect(component.dialogRef.close).toHaveBeenCalledWith(false);
   });
 
   describe('applyDialog', () => {
@@ -72,7 +72,7 @@ describe('ConfirmDeleteDialogComponent', () => {
       component.dialogRef.close = jest.fn();
       component.applyDialog();
 
-      expect(component.dialogRef.close).toBeCalledWith(true);
+      expect(component.dialogRef.close).toHaveBeenCalledWith(true);
     });
   });
 });

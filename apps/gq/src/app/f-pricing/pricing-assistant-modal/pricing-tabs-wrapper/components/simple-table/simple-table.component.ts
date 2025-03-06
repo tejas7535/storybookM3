@@ -10,6 +10,7 @@ import { TableItem } from '@gq/f-pricing/pricing-assistant-modal/models/table-it
 @Component({
   selector: 'gq-simple-table',
   templateUrl: './simple-table.component.html',
+  standalone: false,
 })
 export class SimpleTableComponent implements OnInit {
   /**

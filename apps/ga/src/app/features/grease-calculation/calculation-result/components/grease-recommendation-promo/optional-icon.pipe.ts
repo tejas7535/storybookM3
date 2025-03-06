@@ -4,7 +4,6 @@ import { MediasFeatureTableEntry } from './grease-recommendation-promo.component
 
 @Pipe({
   name: 'optionalIcon',
-  standalone: true,
 })
 export class OptionalIconPipe implements PipeTransform {
   transform(value: MediasFeatureTableEntry): string {

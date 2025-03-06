@@ -7,6 +7,7 @@ import { CellClassParams } from 'ag-grid-enterprise';
 @Component({
   selector: 'gq-process-case-action-cell',
   templateUrl: './process-case-action-cell.component.html',
+  standalone: false,
 })
 export class ProcessCaseActionCellComponent {
   public params: CellClassParams;

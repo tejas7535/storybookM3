@@ -8,6 +8,7 @@ import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feat
   selector: 'cdba-beta-feature-settings',
   templateUrl: './beta-feature-settings.component.html',
   styleUrls: ['./beta-feature-settings.component.scss'],
+  standalone: false,
 })
 export class BetaFeatureSettingsComponent {
   @ViewChild('highFiveDialog') highFiveDialogTemplate: TemplateRef<any>;

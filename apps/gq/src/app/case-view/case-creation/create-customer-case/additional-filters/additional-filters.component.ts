@@ -14,6 +14,7 @@ import { Store } from '@ngrx/store';
 @Component({
   selector: 'gq-additional-filters',
   templateUrl: './additional-filters.component.html',
+  standalone: false,
 })
 export class AdditionalFiltersComponent {
   @Input() plsAndSeries: PLsAndSeries;

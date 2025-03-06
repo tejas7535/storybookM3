@@ -22,7 +22,6 @@ export enum ClassificationClass {
 @Component({
   selector: 'mac-material-emission-classification',
   templateUrl: './material-emission-classification.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

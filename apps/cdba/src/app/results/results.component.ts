@@ -21,6 +21,7 @@ import { BreadcrumbsService } from '@cdba/shared/services';
 @Component({
   selector: 'cdba-results',
   templateUrl: './results.component.html',
+  standalone: false,
 })
 export class ResultsComponent implements OnInit {
   referenceTypesData$: Observable<ReferenceType[]>;

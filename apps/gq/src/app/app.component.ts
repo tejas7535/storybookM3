@@ -33,6 +33,7 @@ import { UserSettingsService } from './shared/services/rest/user-settings/user-s
   selector: 'gq-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  standalone: false,
 })
 export class AppComponent implements OnInit {
   private readonly store: Store = inject(Store);

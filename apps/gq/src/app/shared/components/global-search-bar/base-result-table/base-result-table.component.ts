@@ -24,7 +24,6 @@ import { SearchbarGridContext } from '../config/searchbar-grid-context.interface
 @Component({
   template: '',
   selector: 'gq-base-result-table',
-  standalone: true,
 })
 export class BaseResultTableComponent {
   @Input() loading: boolean;

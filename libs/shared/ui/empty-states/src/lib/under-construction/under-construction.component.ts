@@ -6,6 +6,7 @@ import { translate } from '@jsverse/transloco';
   selector: 'schaeffler-under-construction',
   templateUrl: './under-construction.component.html',
   styleUrls: ['./under-construction.component.scss'],
+  standalone: false,
 })
 export class UnderConstructionComponent {
   @Input() public title: string = translate('underConstruction');

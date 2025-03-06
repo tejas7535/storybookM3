@@ -16,7 +16,6 @@ import {
 @Component({
   selector: 'mac-contact-dialog',
   templateUrl: './contact-dialog.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

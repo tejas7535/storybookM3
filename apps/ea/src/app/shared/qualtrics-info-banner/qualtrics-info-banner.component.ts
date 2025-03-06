@@ -4,7 +4,6 @@ import { FeedbackBannerComponent } from '@schaeffler/feedback-banner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
-  standalone: true,
   selector: 'ea-qualtrics-info-banner',
   templateUrl: './qualtrics-info-banner.component.html',
   imports: [FeedbackBannerComponent, SharedTranslocoModule],

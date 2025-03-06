@@ -37,6 +37,8 @@ lubricator-selection-assistant {
 @import './preflight';
 
 lubricator-selection-assistant {
+  --mat-divider-color: #d0d0d0;
+
   @layer resets {
     * {
       font-family:

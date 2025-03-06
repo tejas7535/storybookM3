@@ -4,7 +4,6 @@ import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 @Pipe({
   name: 'localizedOffsetDatetime',
-  standalone: true,
 })
 export class LocalizedOffsetDatetimePipe implements PipeTransform {
   constructor(private readonly localeService: TranslocoLocaleService) {}

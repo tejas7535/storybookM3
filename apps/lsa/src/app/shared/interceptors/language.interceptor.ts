@@ -1,12 +1,14 @@
-import { Injectable } from '@angular/core';
 import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { TranslocoService } from '@jsverse/transloco';
+import { Injectable } from '@angular/core';
+
 import { Observable } from 'rxjs';
+
+import { TranslocoService } from '@jsverse/transloco';
 import { environment } from '@lsa/environments/environment';
 
 @Injectable()
@@ -25,6 +27,7 @@ export class LSALanguageInterceptor implements HttpInterceptor {
     const modifiedRequest = req.clone({
       headers: req.headers.set('X-LSA-Language', locale),
     });
+
     return next.handle(modifiedRequest);
   }
 }

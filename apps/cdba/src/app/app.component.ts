@@ -25,6 +25,7 @@ import { AppRoutePath } from './app-route-path.enum';
 @Component({
   selector: 'cdba-root',
   templateUrl: './app.component.html',
+  standalone: false,
 })
 export class AppComponent implements OnInit {
   title = 'Cost Database Analytics';

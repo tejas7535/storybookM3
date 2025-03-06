@@ -19,7 +19,6 @@ import {
 
 @Component({
   selector: 'ga-grease-stepper',
-  standalone: true,
   imports: [
     MatStepperModule,
     StepperModule,

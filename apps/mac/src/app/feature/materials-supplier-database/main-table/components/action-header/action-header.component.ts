@@ -10,7 +10,6 @@ import { DataFacade } from '../../../store/facades/data';
 @Component({
   selector: 'mac-action-header',
   templateUrl: './action-header.component.html',
-  standalone: true,
   imports: [
     // angular material
     MatIconModule,

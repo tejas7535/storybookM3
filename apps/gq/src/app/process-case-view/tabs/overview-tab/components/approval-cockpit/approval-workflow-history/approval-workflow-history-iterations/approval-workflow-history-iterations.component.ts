@@ -11,6 +11,7 @@ import { TRANSLOCO_DATE_PIPE_CONFIG } from '../../approval-workflow-approver/con
 @Component({
   selector: 'gq-approval-workflow-history-iterations',
   templateUrl: './approval-workflow-history-iterations.component.html',
+  standalone: false,
 })
 export class ApprovalWorkflowHistoryIterationsComponent implements OnChanges {
   @Input() isApproved = false;

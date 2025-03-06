@@ -86,7 +86,7 @@ describe('AppShellComponent', () => {
       new NavigationEnd(1, 'url', 'fullUrl')
     );
 
-    expect(spy).toBeCalledWith({ top: 0 });
+    expect(spy).toHaveBeenCalledWith({ top: 0 });
   });
 
   it('should not scroll to top by default', () => {
@@ -99,7 +99,7 @@ describe('AppShellComponent', () => {
       new NavigationEnd(1, 'url', 'fullUrl')
     );
 
-    expect(spy).toBeCalledTimes(0);
+    expect(spy).toHaveBeenCalledTimes(0);
   });
 
   it('calls the link handler with the event', () => {
@@ -132,9 +132,9 @@ describe('AppShellComponent', () => {
     spectator.click(internalLink);
     spectator.click(externalLink);
 
-    expect(internalSpyHandler).toBeCalledTimes(1);
+    expect(internalSpyHandler).toHaveBeenCalledTimes(1);
     expect(internalSpyHandler).toHaveBeenCalledWith(expect.any(MouseEvent));
-    expect(externalSpyHandler).toBeCalledTimes(1);
+    expect(externalSpyHandler).toHaveBeenCalledTimes(1);
     expect(externalSpyHandler).toHaveBeenCalledWith(expect.any(MouseEvent));
   });
 
@@ -165,6 +165,7 @@ describe('AppShellComponent', () => {
     component.sidenavOpen = true;
     component.hasSidebarLeft = true;
     spectator.detectChanges();
+    spectator.detectComponentChanges();
 
     const emitSpy = jest.spyOn(component.sidenavOpenChange, 'emit');
     const burgerMenu = spectator.query('button');
@@ -177,6 +178,7 @@ describe('AppShellComponent', () => {
     component.sidenavOpen = false;
     component.hasSidebarLeft = true;
     spectator.detectChanges();
+    spectator.detectComponentChanges();
 
     const emitSpy = jest.spyOn(component.sidenavOpenChange, 'emit');
     const burgerMenu = spectator.query('button');

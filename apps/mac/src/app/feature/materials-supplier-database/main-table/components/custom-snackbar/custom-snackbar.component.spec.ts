@@ -66,7 +66,7 @@ describe('ActionCellRendererComponent', () => {
     it('should dissmiss the snackbar', () => {
       component['snackBar'].dismiss = jest.fn();
       component.close();
-      expect(component['snackBar'].dismiss).toBeCalled();
+      expect(component['snackBar'].dismiss).toHaveBeenCalled();
     });
   });
 

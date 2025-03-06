@@ -25,6 +25,7 @@ import { InternalUserCheckService } from './services/internal-user-check.service
 @Component({
   selector: 'hc-root',
   templateUrl: './app.component.html',
+  standalone: false,
 })
 export class AppComponent implements OnInit {
   public appTitle = 'Hardness Converter';

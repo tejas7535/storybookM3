@@ -5,13 +5,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, filter, map, mergeMap, of, switchMap, tap } from 'rxjs';
 
 import { translate, TranslocoService } from '@jsverse/transloco';
-import {
-  Actions,
-  concatLatestFrom,
-  createEffect,
-  ofType,
-  OnInitEffects,
-} from '@ngrx/effects';
+import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 import { Action, Store } from '@ngrx/store';
 
 import { getIsLoggedIn, loginSuccess } from '@schaeffler/azure-auth';

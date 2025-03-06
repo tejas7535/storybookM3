@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
+import {
+  inject,
+  ModuleWithProviders,
+  NgModule,
+  provideAppInitializer,
+} from '@angular/core';
 
 import {
   AvailableLangs,
@@ -43,17 +48,16 @@ export function preloadLanguage(
   return loader;
 }
 
-export const preLoad = {
-  provide: APP_INITIALIZER,
-  multi: true,
-  useFactory: preloadLanguage,
-  deps: [
-    TranslocoService,
-    DEFAULT_LANGUAGE,
-    FALLBACK_LANGUAGE,
-    LANGUAGE_STORAGE_KEY,
-  ],
-};
+export const preLoad = provideAppInitializer(() => {
+  const initializerFn = preloadLanguage(
+    inject(TranslocoService),
+    inject(DEFAULT_LANGUAGE),
+    inject(FALLBACK_LANGUAGE),
+    LANGUAGE_STORAGE_KEY
+  );
+
+  return initializerFn();
+});
 
 export const sharedTranslocoLocaleConfig: TranslocoLocaleConfig = {
   localeConfig: {

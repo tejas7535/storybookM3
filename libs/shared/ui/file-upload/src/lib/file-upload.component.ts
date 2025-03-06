@@ -25,7 +25,6 @@ import { Message, SelectedFile } from './models';
   selector: 'schaeffler-file-upload',
   templateUrl: './file-upload.component.html',
   styleUrl: './file-upload.component.scss',
-  standalone: true,
   imports: [
     CommonModule,
     MatIconModule,

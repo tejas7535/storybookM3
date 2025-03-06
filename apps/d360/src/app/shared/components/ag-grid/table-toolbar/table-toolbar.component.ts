@@ -13,7 +13,6 @@ import { showFloatingFilters } from '../../../ag-grid/grid-utils';
 
 @Component({
   selector: 'd360-table-toolbar',
-  standalone: true,
   imports: [
     MatIconModule,
     MatButton,

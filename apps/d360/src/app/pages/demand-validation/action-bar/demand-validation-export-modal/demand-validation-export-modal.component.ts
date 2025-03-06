@@ -53,7 +53,6 @@ export interface DemandValidationExportModalProps {
 
 @Component({
   selector: 'd360-demand-validation-export-modal',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,

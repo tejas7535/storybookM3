@@ -31,6 +31,7 @@ import { RangeFilterComponent } from './range-filter/range-filter.component';
 @Component({
   selector: 'cdba-reference-types-filters',
   templateUrl: './reference-types-filters.component.html',
+  standalone: false,
 })
 export class ReferenceTypesFiltersComponent implements OnInit, OnDestroy {
   @ViewChildren(MultiSelectFilterComponent)

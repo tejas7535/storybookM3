@@ -11,7 +11,6 @@ export interface ToolTipParameter extends ITooltipParams {
 
 @Component({
   selector: 'd360-grid-tooltip',
-  standalone: true,
   imports: [],
   templateUrl: './grid-tooltip.component.html',
   styleUrls: ['./grid-tooltip.component.scss'],

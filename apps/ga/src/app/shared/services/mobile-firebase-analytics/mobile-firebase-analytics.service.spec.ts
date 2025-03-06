@@ -53,7 +53,7 @@ describe('MobileFirebaseAnalyticsService', () => {
       });
 
       it('should log event about accessing main section', () => {
-        expect(logEventSpy).toBeCalledWith({
+        expect(logEventSpy).toHaveBeenCalledWith({
           name: 'access_main_section',
           params: {
             content_type: 'navigation',
@@ -70,7 +70,7 @@ describe('MobileFirebaseAnalyticsService', () => {
       });
 
       it('should log event about accessing generated results', () => {
-        expect(logEventSpy).toBeCalledWith({
+        expect(logEventSpy).toHaveBeenCalledWith({
           name: 'generate_results',
           params: {
             content_type: 'navigation',
@@ -86,7 +86,7 @@ describe('MobileFirebaseAnalyticsService', () => {
       });
 
       it('should not log unwanted event', () => {
-        expect(logEventSpy).not.toBeCalled();
+        expect(logEventSpy).not.toHaveBeenCalled();
       });
     });
 
@@ -96,7 +96,7 @@ describe('MobileFirebaseAnalyticsService', () => {
       });
 
       it('should log event about clicking external link', () => {
-        expect(logEventSpy).toBeCalledWith({
+        expect(logEventSpy).toHaveBeenCalledWith({
           name: 'access_product_details',
           params: {
             content_type: 'externalLinkNavigation',
@@ -113,7 +113,7 @@ describe('MobileFirebaseAnalyticsService', () => {
       });
 
       it('should log event about exapnding show all values section', () => {
-        expect(logEventSpy).toBeCalledWith({
+        expect(logEventSpy).toHaveBeenCalledWith({
           name: 'show_all_product_values',
           params: {
             content_type: 'showAllValues',
@@ -129,7 +129,7 @@ describe('MobileFirebaseAnalyticsService', () => {
       });
 
       it('should log event about exapnding show input section', () => {
-        expect(logEventSpy).toBeCalledWith({
+        expect(logEventSpy).toHaveBeenCalledWith({
           name: 'show_all_inputs',
           params: {
             content_type: 'showInput',
@@ -145,7 +145,7 @@ describe('MobileFirebaseAnalyticsService', () => {
       });
 
       it('should log event about exapnding show error and warnings section', () => {
-        expect(logEventSpy).toBeCalledWith({
+        expect(logEventSpy).toHaveBeenCalledWith({
           name: 'open_errors_and_warnings_tab',
           params: {
             content_type: 'errorsAndWarnings',
@@ -161,7 +161,7 @@ describe('MobileFirebaseAnalyticsService', () => {
       });
 
       it('should not log unwanted event', () => {
-        expect(logEventSpy).not.toBeCalled();
+        expect(logEventSpy).not.toHaveBeenCalled();
       });
     });
 
@@ -171,7 +171,7 @@ describe('MobileFirebaseAnalyticsService', () => {
       });
 
       it('should log event with raw action and action formatted', () => {
-        expect(logEventSpy).toBeCalledWith({
+        expect(logEventSpy).toHaveBeenCalledWith({
           name: 'some_action',
           params: {
             content_type: 'grease_app_interaction',
@@ -203,7 +203,7 @@ describe('MobileFirebaseAnalyticsService', () => {
       });
 
       it('should not log any events', () => {
-        expect(logEventSpy).not.toBeCalled();
+        expect(logEventSpy).not.toHaveBeenCalled();
       });
     });
   });

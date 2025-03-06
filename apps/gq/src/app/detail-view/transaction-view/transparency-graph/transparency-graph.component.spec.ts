@@ -36,8 +36,8 @@ describe('TransparencyGraphComponent', () => {
           getXAxisConfig: jest.fn(),
           getYAxisConfig: jest.fn(),
           getSeriesConfig: jest.fn(() => ({
-            series: [],
-            options: [],
+            series: [] as any,
+            options: [] as any,
           })),
           getLegend: jest.fn(),
         },

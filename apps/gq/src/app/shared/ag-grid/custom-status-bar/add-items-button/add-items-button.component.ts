@@ -14,6 +14,7 @@ import { getTooltipTextKeyByQuotationStatus } from '../statusbar.utils';
   selector: 'gq-add-items-button',
   templateUrl: './add-items-button.component.html',
   styles: [],
+  standalone: false,
 })
 export class AddItemsButtonComponent {
   private readonly dialog: MatDialog = inject(MatDialog);

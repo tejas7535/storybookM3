@@ -35,7 +35,6 @@ import { InputTableColumnDefService } from './config/input-table-column-defs.ser
   selector: 'gq-material-input-table',
   templateUrl: './input-table.component.html',
   styles: [basicTableStyle, statusBarStlye],
-  standalone: true,
   imports: [AgGridModule, CommonModule, CellRendererModule, PushPipe],
 })
 export class InputTableComponent implements OnInit {

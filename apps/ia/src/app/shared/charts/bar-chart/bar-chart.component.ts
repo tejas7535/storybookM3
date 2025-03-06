@@ -10,6 +10,7 @@ import { createBarChartOption } from './bar-chart.config';
   selector: 'ia-bar-chart',
   templateUrl: './bar-chart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class BarChartComponent {
   loadingOpts = LOADING_OPTS;

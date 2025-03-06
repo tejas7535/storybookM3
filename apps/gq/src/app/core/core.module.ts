@@ -1,5 +1,5 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { inject, NgModule, provideAppInitializer } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import {
@@ -37,7 +37,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
 import { ENV, getEnv } from '../../environments/environments.provider';
-import i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppComponent } from '../app.component';
 import { StoreModule } from './store';
 
@@ -85,8 +84,7 @@ export function appInitializer(
       FALLBACK_LANGUAGE.id, // fallback language
       LANGUAGE_STORAGE_KEY, // storage key
       true,
-      !environment.localDev,
-      i18nChecksumsJson
+      !environment.localDev
     ),
     // Cookie Tracking
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
@@ -102,12 +100,14 @@ export function appInitializer(
         useValue: localStorage,
       },
     }),
-    {
-      provide: APP_INITIALIZER,
-      useFactory: appInitializer,
-      deps: [OneTrustService, ApplicationInsightsService],
-      multi: true,
-    },
+    provideAppInitializer(() => {
+      const initializerFn = appInitializer(
+        inject(OneTrustService),
+        inject(ApplicationInsightsService)
+      );
+
+      return initializerFn();
+    }),
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: { duration: 5000 },

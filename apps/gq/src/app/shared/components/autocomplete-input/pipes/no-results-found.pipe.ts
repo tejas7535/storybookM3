@@ -4,7 +4,6 @@ import { IdValue } from '../../../models/search';
 
 @Pipe({
   name: 'noResultsFoundPipe',
-  standalone: true,
 })
 export class NoResultsFoundPipe implements PipeTransform {
   /**

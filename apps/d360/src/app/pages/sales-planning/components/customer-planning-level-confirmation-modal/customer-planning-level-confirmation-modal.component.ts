@@ -18,7 +18,6 @@ export interface CustomerPlanningLevelConfirmationModalProps {
 
 @Component({
   selector: 'd360-customer-planning-level-confirmation-modal',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,

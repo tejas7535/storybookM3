@@ -8,6 +8,7 @@ import { BrowserSupportDialogComponent } from '../browser-support-dialog/browser
 @Component({
   selector: 'cdba-browser-support-detector',
   template: ``,
+  standalone: false,
 })
 export class BrowserSupportDetectorComponent implements OnInit {
   public constructor(

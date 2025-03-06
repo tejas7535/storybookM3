@@ -22,6 +22,7 @@ import { CountryDataAttrition } from './models/country-data-attrition.model';
   selector: 'ia-world-map',
   templateUrl: './world-map.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class WorldMapComponent implements OnInit {
   readonly INITIAL_ZOOM = 1;

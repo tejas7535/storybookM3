@@ -40,7 +40,7 @@ describe('number helper', () => {
     test('should throw error in case of unexpected length of format', () => {
       const formatted = '12 15';
 
-      expect(() => extractNumber(formatted)).toThrowError(
+      expect(() => extractNumber(formatted)).toThrow(
         'Unexpected length for format 2'
       );
     });

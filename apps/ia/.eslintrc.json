@@ -34,7 +34,8 @@
         ],
         "import/no-extraneous-dependencies": "off",
         "@typescript-eslint/explicit-member-accessibility": "off",
-        "@typescript-eslint/member-ordering": "off"
+        "@typescript-eslint/member-ordering": "off",
+        "@angular-eslint/prefer-standalone": "off"
       },
       "plugins": [
         "@angular-eslint/eslint-plugin",

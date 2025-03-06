@@ -54,7 +54,7 @@ describe('UpdateRfqPositionDetailsComponent', () => {
 
       component.confirm();
 
-      expect(updateRfqInformationMock).toBeCalledTimes(1);
+      expect(updateRfqInformationMock).toHaveBeenCalledTimes(1);
     });
     test('should close dialog when updateRfqInformationSuccess$ emits', () => {
       jest.resetAllMocks();
@@ -83,7 +83,7 @@ describe('UpdateRfqPositionDetailsComponent', () => {
 
       component.closeDialog();
 
-      expect(closeDialogMock).toBeCalledTimes(1);
+      expect(closeDialogMock).toHaveBeenCalledTimes(1);
     });
   });
 });

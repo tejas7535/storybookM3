@@ -14,6 +14,7 @@ import {
   selector: 'cdba-calculations-status-bar',
   templateUrl: './calculations-status-bar.component.html',
   styleUrls: ['./calculations-status-bar.component.scss'],
+  standalone: false,
 })
 export class CalculationsStatusBarComponent implements OnInit, OnDestroy {
   excludedCalculations$ = this.store.select(getExcludedCalculations);

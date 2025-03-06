@@ -5,6 +5,7 @@ import { AccountPotential } from '@gq/shared/models/customer/account-potential.m
 @Component({
   selector: 'gq-salesforce',
   templateUrl: './salesforce.component.html',
+  standalone: false,
 })
 export class SalesforceComponent {
   @Input() accountPotential: AccountPotential;

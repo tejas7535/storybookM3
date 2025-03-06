@@ -63,6 +63,7 @@ import { TableStore } from './table.store';
 @Component({
   selector: 'cdba-reference-types-table',
   templateUrl: './reference-types-table.component.html',
+  standalone: false,
 })
 export class ReferenceTypesTableComponent implements OnInit, OnDestroy {
   private static readonly TABLE_KEY = 'referenceTypes';

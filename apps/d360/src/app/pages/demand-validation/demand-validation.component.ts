@@ -41,7 +41,6 @@ import { MaterialListTableComponent } from './tables/material-list-table/materia
 
 @Component({
   selector: 'd360-demand-validation',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,

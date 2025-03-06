@@ -100,8 +100,10 @@ describe('HtmlReportComponent', () => {
         .mockImplementation((_url: string) => of(''));
 
       component.htmlResult$.subscribe(() => {
-        expect(component['reportService'].getHtmlReport).toBeCalledTimes(1);
-        expect(component['reportService'].getHtmlReport).toBeCalledWith(
+        expect(component['reportService'].getHtmlReport).toHaveBeenCalledTimes(
+          1
+        );
+        expect(component['reportService'].getHtmlReport).toHaveBeenCalledWith(
           'mockDisplayReportUrl',
           'mockReportSelector'
         );
@@ -119,14 +121,14 @@ describe('HtmlReportComponent', () => {
         );
       component.getHtmlReport();
 
-      expect(showSnackBarErrorSpy).toBeCalledTimes(1);
+      expect(showSnackBarErrorSpy).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('showSnackBarError', () => {
     it('should open the snackbar', () => {
       component.showSnackBarError();
-      expect(snackBar.open).toBeCalledTimes(1);
+      expect(snackBar.open).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -16,7 +16,6 @@ import { DataFacade } from '@mac/msd/store/facades/data';
 @Component({
   selector: 'mac-action-cell-renderer',
   templateUrl: './action-cell-renderer.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

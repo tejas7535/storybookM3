@@ -28,6 +28,7 @@ import { DEFAULT_COLUMN_DEFINITION } from './config/default-column-definition';
 @Component({
   selector: 'cdba-raw-material-analysis-table',
   templateUrl: './raw-material-analysis-table.component.html',
+  standalone: false,
 })
 export class RawMaterialAnalysisTableComponent implements OnInit, OnChanges {
   @Input() materialDesignation: string;

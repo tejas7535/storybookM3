@@ -19,6 +19,7 @@ import { EVENT_NAMES, MassSimulationParams } from '../../../models';
     `,
   ],
   templateUrl: './discard-simulation-button.component.html',
+  standalone: false,
 })
 export class DiscardSimulationButtonComponent {
   private readonly activeCaseFacade: ActiveCaseFacade =

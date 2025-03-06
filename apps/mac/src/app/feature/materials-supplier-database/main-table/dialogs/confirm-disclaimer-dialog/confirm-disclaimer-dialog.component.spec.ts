@@ -55,14 +55,14 @@ describe('ConfirmDisclaimerDialogComponent', () => {
       component.consent();
       expect(
         component['msdAgGridStateService'].storeDisclaimerConsentTimeout
-      ).not.toBeCalled();
+      ).not.toHaveBeenCalled();
     });
     it('should store the timeout value if checked the checkbox', () => {
       component.storeConsent = true;
       component.consent();
       expect(
         component['msdAgGridStateService'].storeDisclaimerConsentTimeout
-      ).toBeCalled();
+      ).toHaveBeenCalled();
     });
   });
 });

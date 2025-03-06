@@ -4,6 +4,7 @@ import { StringOption } from '@schaeffler/inputs';
 
 @Pipe({
   name: 'noResultsFound',
+  standalone: false,
 })
 export class NoResultsFoundPipe implements PipeTransform {
   /**

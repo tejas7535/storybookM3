@@ -31,6 +31,7 @@ import {
 @Component({
   selector: 'ia-loss-of-skill',
   templateUrl: './loss-of-skill.component.html',
+  standalone: false,
 })
 export class LossOfSkillComponent implements OnInit {
   beautifiedFilters$: Observable<EmployeeListDialogMetaFilters>;

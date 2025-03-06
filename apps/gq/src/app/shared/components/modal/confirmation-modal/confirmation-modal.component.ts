@@ -8,6 +8,7 @@ import { ConfirmationModalData } from './models/confirmation-modal-data.model';
   selector: 'gq-confirmation-modal',
   templateUrl: './confirmation-modal.component.html',
   hostDirectives: [DragDialogDirective],
+  standalone: false,
 })
 export class ConfirmationModalComponent {
   constructor(

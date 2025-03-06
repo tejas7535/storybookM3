@@ -24,7 +24,6 @@ import { SnackbarService } from '../../../../../shared/utils/service/snackbar.se
 
 @Component({
   selector: 'd360-internal-material-replacement-single-delete-modal',
-  standalone: true,
   imports: [
     CommonModule,
     MatButton,

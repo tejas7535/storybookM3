@@ -7,6 +7,7 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 @Component({
   selector: 'cdba-actions-cell-renderer',
   templateUrl: './actions-cell-renderer.component.html',
+  standalone: false,
 })
 export class ActionsCellRendererComponent {
   public downloadUrl: string;

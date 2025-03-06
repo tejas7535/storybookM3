@@ -69,6 +69,7 @@ import {
 @Component({
   selector: 'ia-overview',
   templateUrl: './overview.component.html',
+  standalone: false,
 })
 export class OverviewComponent implements OnInit {
   fluctuationRatesChartConfig: Observable<EChartsOption>;

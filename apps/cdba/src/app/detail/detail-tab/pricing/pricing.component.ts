@@ -6,6 +6,7 @@ import { PriceDetails } from '@cdba/shared/models';
   selector: 'cdba-pricing',
   templateUrl: './pricing.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class PricingComponent {
   @Input() priceDetails: PriceDetails;

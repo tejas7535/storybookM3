@@ -6,6 +6,7 @@ import { PropertyDelta } from '@gq/core/store/f-pricing/models/property-delta.in
   selector: 'gq-comparison-delta',
   templateUrl: './comparison-delta.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ComparisonDeltaComponent {
   @Input() propertyDeltas: PropertyDelta[];

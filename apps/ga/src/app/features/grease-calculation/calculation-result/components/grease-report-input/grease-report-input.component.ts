@@ -5,7 +5,6 @@ import { GreaseReportInputItemComponent } from '../grease-report-input-item';
 
 @Component({
   selector: 'ga-grease-report-input',
-  standalone: true,
   imports: [GreaseReportInputItemComponent],
   templateUrl: './grease-report-input.component.html',
   styleUrls: ['./grease-report-input.component.scss'],

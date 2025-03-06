@@ -35,7 +35,7 @@ describe('ErrorService', () => {
       const mockAction = 'mockAction';
       service.openSnackBar(mockMessage, mockAction);
 
-      expect(openMatSnackBar).toBeCalledWith(mockMessage, mockAction);
+      expect(openMatSnackBar).toHaveBeenCalledWith(mockMessage, mockAction);
     });
   });
 
@@ -45,7 +45,7 @@ describe('ErrorService', () => {
 
       service.openGenericSnackBar();
 
-      expect(openSnackBar).toBeCalledTimes(1);
+      expect(openSnackBar).toHaveBeenCalledTimes(1);
     });
   });
 });

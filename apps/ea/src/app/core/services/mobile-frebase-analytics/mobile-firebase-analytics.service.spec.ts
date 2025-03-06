@@ -71,7 +71,7 @@ describe('MobileFirebaseAnalyticsService', () => {
 
         service.logEvent(event);
 
-        expect(logEventSpy).not.toBeCalled();
+        expect(logEventSpy).not.toHaveBeenCalled();
       });
     });
   });

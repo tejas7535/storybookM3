@@ -22,7 +22,6 @@ import { selectedQuotationDetailsKpiFeature } from '../../store/selected-quotati
 @Component({
   selector: 'gq-status-bar-modal',
   templateUrl: './status-bar-modal.component.html',
-  standalone: true,
   imports: [
     LetDirective,
     CommonModule,

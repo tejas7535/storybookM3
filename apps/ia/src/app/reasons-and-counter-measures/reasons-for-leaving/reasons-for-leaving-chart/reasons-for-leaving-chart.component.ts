@@ -19,6 +19,7 @@ import { ReasonForLeavingTab } from '../../models';
   selector: 'ia-reasons-for-leaving-chart',
   templateUrl: './reasons-for-leaving-chart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ReasonsForLeavingChartComponent {
   config: SolidDoughnutChartConfig;

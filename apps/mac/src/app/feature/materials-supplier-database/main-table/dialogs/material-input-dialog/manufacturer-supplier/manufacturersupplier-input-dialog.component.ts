@@ -35,7 +35,6 @@ import { findProperty } from '../util/form-helpers';
 @Component({
   selector: 'mac-manufacturersupplier-input-dialog',
   templateUrl: './manufacturersupplier-input-dialog.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

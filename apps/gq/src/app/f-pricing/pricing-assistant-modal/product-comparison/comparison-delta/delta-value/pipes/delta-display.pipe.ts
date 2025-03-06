@@ -5,7 +5,6 @@ import { translate } from '@jsverse/transloco';
 
 @Pipe({
   name: 'deltaDisplay',
-  standalone: true,
 })
 export class DeltaDisplayPipe implements PipeTransform {
   private readonly TRANSLATE_PREFIX =

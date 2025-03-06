@@ -17,6 +17,7 @@ import { KpiSeriesOption, MonthlyChartEntry } from '../model';
 
 @Component({
   template: '',
+  standalone: false,
 })
 export abstract class BaseForecastChartComponent {
   public data = input.required<MonthlyChartEntry[]>();
@@ -28,12 +29,10 @@ export abstract class BaseForecastChartComponent {
   protected readonly translocoLocaleService = inject(TranslocoLocaleService);
 
   public constructor() {
-    effect(
-      () =>
-        this.chartOptions.set(
-          this.generateChartOptions(this.data(), this.toggledKpis())
-        ),
-      { allowSignalWrites: true }
+    effect(() =>
+      this.chartOptions.set(
+        this.generateChartOptions(this.data(), this.toggledKpis())
+      )
     );
   }
 

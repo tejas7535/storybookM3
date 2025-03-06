@@ -23,7 +23,6 @@ export const BASE_TRANSLATION_PATH = 'recommendation.result';
 
 @Component({
   selector: 'lsa-error-container',
-  standalone: true,
   templateUrl: './error-container.component.html',
   imports: [SharedTranslocoModule, CommonModule, LetDirective, MatButtonModule],
 })

@@ -16,6 +16,7 @@ import { ExportExcel } from './export-excel.enum';
 @Component({
   templateUrl: './export-excel-modal.component.html',
   styleUrls: ['export-excel-modal.component.scss'],
+  standalone: false,
 })
 export class ExportExcelModalComponent implements OnInit, OnDestroy {
   exportExcelOption = ExportExcel.DETAILED_DOWNLOAD;

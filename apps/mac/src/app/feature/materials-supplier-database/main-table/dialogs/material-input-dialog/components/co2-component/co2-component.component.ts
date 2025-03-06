@@ -38,7 +38,6 @@ import * as util from '../../util';
 @Component({
   selector: 'mac-co2-component',
   templateUrl: './co2-component.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

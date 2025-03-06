@@ -13,6 +13,7 @@ import { TableItem } from '../models/table-item';
 @Component({
   selector: 'gq-pricing-tabs-wrapper',
   templateUrl: './pricing-tabs-wrapper.component.html',
+  standalone: false,
 })
 export class PricingTabsWrapperComponent {
   @Input() referencePrice: number;

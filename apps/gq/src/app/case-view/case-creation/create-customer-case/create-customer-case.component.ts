@@ -43,6 +43,7 @@ import { MaterialSelectionComponent } from './material-selection/material-select
   selector: 'gq-create-customer-case',
   templateUrl: './create-customer-case.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CreateCustomerCaseComponent implements OnInit {
   @ViewChild('materialSelection') materialSelection: MaterialSelectionComponent;

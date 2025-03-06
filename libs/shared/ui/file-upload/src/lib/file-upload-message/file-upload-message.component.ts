@@ -13,7 +13,6 @@ import { Message } from '../models';
 @Component({
   selector: 'schaeffler-file-upload-message',
   templateUrl: './file-upload-message.component.html',
-  standalone: true,
   imports: [CommonModule, MatIconModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

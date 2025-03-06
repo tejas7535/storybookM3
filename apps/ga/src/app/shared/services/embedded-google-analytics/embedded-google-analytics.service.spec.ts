@@ -56,7 +56,7 @@ describe('EmbeddedGoogleAnalyticsService', () => {
       });
 
       it('should push event about accessing main section to dataLayer', () => {
-        expect(document.defaultView.dataLayer.push).toBeCalledWith({
+        expect(document.defaultView.dataLayer.push).toHaveBeenCalledWith({
           action: 'access_main_section',
           action_formatted: 'Access Main Section',
           event: 'grease_app_interaction',
@@ -73,7 +73,7 @@ describe('EmbeddedGoogleAnalyticsService', () => {
       });
 
       it('should push event about accessing generated results to dataLayer', () => {
-        expect(document.defaultView.dataLayer.push).toBeCalledWith({
+        expect(document.defaultView.dataLayer.push).toHaveBeenCalledWith({
           action: 'generate_results',
           action_formatted: 'Generate Results',
           event: 'grease_app_interaction',
@@ -89,7 +89,7 @@ describe('EmbeddedGoogleAnalyticsService', () => {
       });
 
       it('should not push unwanted event to dataLayer', () => {
-        expect(document.defaultView.dataLayer.push).not.toBeCalled();
+        expect(document.defaultView.dataLayer.push).not.toHaveBeenCalled();
       });
     });
 
@@ -99,7 +99,7 @@ describe('EmbeddedGoogleAnalyticsService', () => {
       });
 
       it('should push event about clicking external link to dataLayer', () => {
-        expect(document.defaultView.dataLayer.push).toBeCalledWith({
+        expect(document.defaultView.dataLayer.push).toHaveBeenCalledWith({
           action: 'access_product_details',
           action_formatted: 'Access Product Details',
           event: 'grease_app_interaction',
@@ -116,7 +116,7 @@ describe('EmbeddedGoogleAnalyticsService', () => {
       });
 
       it('should push event about exapnding show all values section to data layer', () => {
-        expect(document.defaultView.dataLayer.push).toBeCalledWith({
+        expect(document.defaultView.dataLayer.push).toHaveBeenCalledWith({
           action: 'show_all_product_values',
           action_formatted: 'Show All Product Values',
           event: 'grease_app_interaction',
@@ -132,7 +132,7 @@ describe('EmbeddedGoogleAnalyticsService', () => {
       });
 
       it('should push event about exapnding show input section to data layer', () => {
-        expect(document.defaultView.dataLayer.push).toBeCalledWith({
+        expect(document.defaultView.dataLayer.push).toHaveBeenCalledWith({
           action: 'show_all_inputs',
           action_formatted: 'Show All Inputs',
           event: 'grease_app_interaction',
@@ -148,7 +148,7 @@ describe('EmbeddedGoogleAnalyticsService', () => {
       });
 
       it('should push event about exapnding show error and warnings section to data layer', () => {
-        expect(document.defaultView.dataLayer.push).toBeCalledWith({
+        expect(document.defaultView.dataLayer.push).toHaveBeenCalledWith({
           action: 'open_errors_and_warnings_tab',
           action_formatted: 'Open Errors And Warnings Tab',
           event: 'grease_app_interaction',

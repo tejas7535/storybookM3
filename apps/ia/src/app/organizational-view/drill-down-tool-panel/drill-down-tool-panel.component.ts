@@ -19,6 +19,7 @@ import { ChartType, ZoomButton } from '../models';
   templateUrl: './drill-down-tool-panel.component.html',
   styleUrls: ['./drill-down-tool-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DrillDownToolPanelComponent {
   fluctuationType: FluctuationType = FluctuationType.TOTAL;

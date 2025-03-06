@@ -92,7 +92,6 @@ interface Button {
 
 @Component({
   selector: 'd360-action-bar',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,

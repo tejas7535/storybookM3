@@ -62,7 +62,6 @@ type YearlyCustomerPlanningDetailsColumnDefinitions = ReturnType<
 
 @Component({
   selector: 'd360-customer-planning-details',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,
@@ -163,17 +162,14 @@ export class CustomerPlanningDetailsComponent {
   };
 
   public constructor() {
-    effect(
-      () => {
-        this.planningLevelMaterialConfiguration.set(null);
+    effect(() => {
+      this.planningLevelMaterialConfiguration.set(null);
 
-        if (!this.isNoCustomerSelected()) {
-          this.fetchPlanningLevelMaterial(this.customerNumber());
-          this.setYearlyPlanningData(null);
-        }
-      },
-      { allowSignalWrites: true }
-    );
+      if (!this.isNoCustomerSelected()) {
+        this.fetchPlanningLevelMaterial(this.customerNumber());
+        this.setYearlyPlanningData(null);
+      }
+    });
   }
 
   public handlePlanningLevelModalClicked() {

@@ -114,7 +114,9 @@ describe('MaterialCardComponent', () => {
     it('should add store item', () => {
       component.addExpandedItem(0);
 
-      expect(component['materialCardStore'].addExpandedItem).toBeCalledWith(0);
+      expect(
+        component['materialCardStore'].addExpandedItem
+      ).toHaveBeenCalledWith(0);
     });
   });
 
@@ -122,9 +124,9 @@ describe('MaterialCardComponent', () => {
     it('should remove store item', () => {
       component.removeExpandedItem(0);
 
-      expect(component['materialCardStore'].removeExpandedItem).toBeCalledWith(
-        0
-      );
+      expect(
+        component['materialCardStore'].removeExpandedItem
+      ).toHaveBeenCalledWith(0);
     });
   });
 });

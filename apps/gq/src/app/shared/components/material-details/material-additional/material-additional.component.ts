@@ -11,7 +11,6 @@ import { LabelTextModule } from '../../label-text/label-text.module';
 @Component({
   selector: 'gq-material-additional',
   templateUrl: './material-additional.component.html',
-  standalone: true,
   imports: [
     LabelTextModule,
     SharedPipesModule,

@@ -25,7 +25,6 @@ import { isCaseViewParams } from '../../models/is-case-view-params.model';
     InfoIconModule,
     PushPipe,
   ],
-  standalone: true,
 })
 export class PasteButtonComponent {
   private readonly pasteMaterialsService: PasteMaterialsService = inject(

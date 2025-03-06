@@ -9,7 +9,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({
   selector: 'ea-home-page-card',
   templateUrl: './home-page-card.component.html',
-  standalone: true,
   imports: [CommonModule, SharedTranslocoModule, MatIconModule],
 })
 export class HomePageCardComponent {

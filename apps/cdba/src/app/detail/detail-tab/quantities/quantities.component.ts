@@ -6,6 +6,7 @@ import { QuantitiesDetails } from '@cdba/shared/models';
   selector: 'cdba-quantities',
   templateUrl: './quantities.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class QuantitiesComponent {
   @Input() quantitiesDetails: QuantitiesDetails;

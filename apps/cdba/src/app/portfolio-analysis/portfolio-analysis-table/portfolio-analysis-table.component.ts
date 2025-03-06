@@ -26,6 +26,7 @@ import { PortfolioAnalysisTableService } from './portfolio-analysis-table.servic
   templateUrl: './portfolio-analysis-table.component.html',
   styleUrls: ['./portfolio-analysis-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class PortfolioAnalysisTableComponent implements OnInit, OnChanges {
   @Input() productCostAnalyses: ProductCostAnalysis[];

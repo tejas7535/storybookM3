@@ -28,6 +28,7 @@ import {
 @Component({
   selector: 'cdba-cost-elements-table',
   templateUrl: './cost-elements-table.component.html',
+  standalone: false,
 })
 export class CostElementsTableComponent implements OnInit, OnChanges {
   @Input() materialDesignation: string;

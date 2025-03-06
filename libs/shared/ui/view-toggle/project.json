@@ -4,13 +4,13 @@
   "projectType": "library",
   "sourceRoot": "libs/shared/ui/view-toggle/src",
   "prefix": "schaeffler",
+  "tags": ["scope:shared", ""],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/shared/ui/view-toggle"],
       "options": {
-        "project": "libs/shared/ui/view-toggle/ng-package.json",
-        "tailwindConfig": "libs/shared/ui/view-toggle/tailwind.config.js"
+        "project": "libs/shared/ui/view-toggle/ng-package.json"
       },
       "configurations": {
         "production": {
@@ -71,6 +71,5 @@
         "postTargets": []
       }
     }
-  },
-  "tags": ["scope:shared", ""]
+  }
 }

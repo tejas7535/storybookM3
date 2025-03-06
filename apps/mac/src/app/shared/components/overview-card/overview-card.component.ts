@@ -16,6 +16,7 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
   templateUrl: './overview-card.component.html',
   styleUrls: ['./overview-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class OverviewCardComponent implements OnInit {
   @Input() image: string;

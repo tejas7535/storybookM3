@@ -18,6 +18,7 @@ import {
   selector: 'ia-employee-list-dialog',
   templateUrl: './employee-list-dialog.component.html',
   styleUrls: ['./employee-list-dialog.component.scss'],
+  standalone: false,
 })
 export class EmployeeListDialogComponent implements OnInit {
   beautifiedFilters$: Observable<EmployeeListDialogMetaFilters>;

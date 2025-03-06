@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { getIsQuotationStatusActive } from '@gq/core/store/active-case/active-case.selectors';
 import { QuotationMetadata } from '@gq/shared/models/quotation/quotation-metadata.interface';
-import { LetDirective, PushPipe } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
 import { QuotationNoteModalComponent } from '../modal/quotation-note-modal.component';
@@ -14,8 +14,7 @@ import { QuotationNoteModalData } from '../modal/quotation-note-modal-data.inter
 
 @Component({
   selector: 'gq-quotation-note-icon',
-  standalone: true,
-  imports: [CommonModule, MatIconModule, PushPipe, LetDirective],
+  imports: [CommonModule, MatIconModule, LetDirective],
   templateUrl: './quotation-note-icon.component.html',
 })
 export class QuotationNoteIconComponent {

@@ -6,6 +6,7 @@ import { ICellRendererParams } from 'ag-grid-enterprise';
   selector: 'cdba-pcm-cell-renderer',
   templateUrl: './pcm-cell-renderer.component.html',
   styleUrls: ['./pcm-cell-renderer.component.scss'],
+  standalone: false,
 })
 export class PcmCellRendererComponent {
   public isPcmRow: boolean | 'true' | 'false'; // boolean gets stringified when rows are grouped

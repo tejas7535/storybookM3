@@ -13,7 +13,7 @@ import { Co2ComponentComponent } from '../co2-component/co2-component.component'
 import { ManufacturerSupplierComponent } from '../manufacturer-supplier/manufacturer-supplier.component';
 import { MaterialStandardComponent } from '../material-standard/material-standard.component';
 
-@Directive({ selector: '[macMaterialDialogBasePart]', standalone: true })
+@Directive({ selector: '[macMaterialDialogBasePart]' })
 export class MaterialDialogBasePartDirective implements OnInit, AfterViewInit {
   @Input() column: string;
 

@@ -4,13 +4,13 @@
   "projectType": "library",
   "sourceRoot": "libs/shared/ui/breadcrumbs/src",
   "prefix": "schaeffler",
+  "tags": ["scope:shared", "type:ui"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/shared/ui/breadcrumbs"],
       "options": {
-        "project": "libs/shared/ui/breadcrumbs/ng-package.json",
-        "tailwindConfig": "libs/shared/ui/breadcrumbs/tailwind.config.js"
+        "project": "libs/shared/ui/breadcrumbs/ng-package.json"
       },
       "configurations": {
         "production": {
@@ -71,6 +71,5 @@
         "postTargets": []
       }
     }
-  },
-  "tags": ["scope:shared", "type:ui"]
+  }
 }

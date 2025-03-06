@@ -11,6 +11,7 @@ import { QuotationDetail } from '../../../models/quotation-detail';
 @Component({
   selector: 'gq-sap-price-cell',
   templateUrl: './sap-price-cell.component.html',
+  standalone: false,
 })
 export class SapPriceCellComponent {
   private readonly router = inject(Router);

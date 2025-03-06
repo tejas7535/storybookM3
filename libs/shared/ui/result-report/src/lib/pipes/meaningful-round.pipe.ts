@@ -12,7 +12,7 @@ const extractPrefix = (input: string): string | undefined => {
   return match ? match[1] : undefined;
 };
 
-@Pipe({ name: 'meaningfulRound', standalone: true })
+@Pipe({ name: 'meaningfulRound' })
 @Injectable({ providedIn: 'root' })
 export class MeaningfulRoundPipe implements PipeTransform {
   public constructor(

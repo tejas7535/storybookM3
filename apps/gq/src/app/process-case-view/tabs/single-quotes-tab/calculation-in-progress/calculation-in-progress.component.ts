@@ -8,6 +8,7 @@ import { TranslocoService } from '@jsverse/transloco';
 @Component({
   selector: 'gq-calculation-in-progress',
   templateUrl: './calculation-in-progress.component.html',
+  standalone: false,
 })
 export class CalculationInProgressComponent implements OnInit {
   public imagePath: string;

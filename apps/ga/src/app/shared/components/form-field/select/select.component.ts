@@ -7,6 +7,7 @@ import { DropdownOption } from '@ga/shared/models';
 @Component({
   selector: 'ga-select',
   templateUrl: './select.component.html',
+  standalone: false,
 })
 export class SelectComponent {
   @Input() public control: UntypedFormControl;

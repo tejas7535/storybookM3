@@ -17,6 +17,7 @@ import { ExtendedEditCellClassParams } from '../../models/extended-cell-class-pa
 @Component({
   selector: 'gq-edit-cell',
   templateUrl: './edit-cell.component.html',
+  standalone: false,
 })
 export class EditCellComponent implements ICellRendererAngularComp {
   private readonly editingModalService: EditingModalService =

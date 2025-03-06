@@ -8,6 +8,7 @@ import { ForbiddenRouteData } from './models/forbidden-route-data.model';
   selector: 'schaeffler-forbidden',
   templateUrl: './forbidden.component.html',
   styleUrls: ['./forbidden.component.scss'],
+  standalone: false,
 })
 export class ForbiddenComponent {
   public routeData: ForbiddenRouteData;

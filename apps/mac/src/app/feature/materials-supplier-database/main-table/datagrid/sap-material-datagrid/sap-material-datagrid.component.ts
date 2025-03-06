@@ -7,7 +7,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { filter, takeUntil } from 'rxjs';
 
-import { LetDirective, PushPipe } from '@ngrx/component';
 import { AgGridModule } from 'ag-grid-angular';
 import {
   ExcelStyle,
@@ -39,7 +38,6 @@ import { BaseDatagridComponent } from '../base-datagrid.component';
 
 @Component({
   selector: 'mac-sap-material-datagrid',
-  standalone: true,
   imports: [
     // ag grid
     AgGridModule,
@@ -52,9 +50,6 @@ import { BaseDatagridComponent } from '../base-datagrid.component';
     MatProgressSpinnerModule,
     // libs
     SharedTranslocoModule,
-    // ngrx
-    PushPipe,
-    LetDirective,
   ],
   templateUrl: './sap-material-datagrid.component.html',
 })

@@ -29,6 +29,7 @@ import { ROW_SELECTION } from './config/row-selection.config';
 @Component({
   selector: 'gq-reference-pricing-table',
   templateUrl: './reference-pricing-table.component.html',
+  standalone: false,
 })
 export class ReferencePricingTableComponent implements OnInit, OnDestroy {
   @Input() inputRowData: ComparableMaterialsRowData[];

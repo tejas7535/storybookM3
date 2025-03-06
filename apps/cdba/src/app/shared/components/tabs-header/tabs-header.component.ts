@@ -7,6 +7,7 @@ import { Tab } from './tab.model';
   templateUrl: './tabs-header.component.html',
   styleUrls: ['./tabs-header.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TabsHeaderComponent {
   @Input() tabs: Tab[];

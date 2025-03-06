@@ -12,7 +12,6 @@ import { SettingsFacade } from '@ea/core/store';
 @Component({
   selector: 'ea-app-store-buttons',
   templateUrl: './app-store-buttons.component.html',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppStoreButtonsComponent {

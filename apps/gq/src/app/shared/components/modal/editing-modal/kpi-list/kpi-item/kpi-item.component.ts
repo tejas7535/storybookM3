@@ -5,6 +5,7 @@ import { KpiDisplayValue } from '../../models/kpi-value.model';
 @Component({
   selector: 'gq-kpi-item',
   templateUrl: './kpi-item.component.html',
+  standalone: false,
 })
 export class KpiItemComponent {
   field: InputSignal<string> = input<string>('');

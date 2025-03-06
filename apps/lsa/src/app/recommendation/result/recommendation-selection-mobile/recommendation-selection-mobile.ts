@@ -16,7 +16,6 @@ import { RecommendationSelectionRadioButtonComponent } from '../recommendation-s
 @Component({
   selector: 'lsa-recommendation-selection-mobile',
   templateUrl: './recommendation-selection-mobile.html',
-  standalone: true,
   imports: [
     CommonModule,
     MatRadioModule,

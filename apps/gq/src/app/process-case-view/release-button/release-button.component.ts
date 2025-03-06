@@ -18,13 +18,7 @@ import { ReleaseModalComponent } from './release-modal/release-modal.component';
   selector: 'gq-release-button',
   templateUrl: './release-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatTooltipModule,
-    ReleaseModalComponent,
-    SharedTranslocoModule,
-  ],
+  imports: [MatButtonModule, MatTooltipModule, SharedTranslocoModule],
 })
 export class ReleaseButtonComponent {
   @Input() set quotation(quotation: Quotation) {

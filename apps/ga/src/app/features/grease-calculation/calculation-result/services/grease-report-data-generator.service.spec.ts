@@ -109,7 +109,7 @@ describe('GreaseReportDataGeneratorService', () => {
       );
 
       expect(result).toMatchSnapshot();
-      expect(localizeNumber).toBeCalled();
+      expect(localizeNumber).toHaveBeenCalled();
     });
   });
 

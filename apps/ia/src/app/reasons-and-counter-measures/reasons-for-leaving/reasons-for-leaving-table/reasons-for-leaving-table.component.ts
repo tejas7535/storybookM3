@@ -30,6 +30,7 @@ import { ReasonForLeavingRank } from '../../models';
       }
     `,
   ],
+  standalone: false,
 })
 export class ReasonsForLeavingTableComponent
   extends LoadingDataTableComponent<ReasonForLeavingRank>

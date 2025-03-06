@@ -9,6 +9,7 @@ import { ColumnUtilityService } from '../../services';
 @Component({
   selector: 'gq-info-cell',
   templateUrl: './info-cell.component.html',
+  standalone: false,
 })
 export class InfoCellComponent {
   public valid: string;

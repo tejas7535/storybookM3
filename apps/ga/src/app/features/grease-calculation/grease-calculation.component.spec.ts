@@ -10,7 +10,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
+import { Breadcrumb, BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { GreaseStepperComponent } from '../../core/components/grease-stepper';
@@ -82,7 +82,7 @@ describe('GreaseCalculationComponent', () => {
 
     it('should emit new breadcrumbs on language change', () => {
       component.breadcrumbs$.next = jest.fn();
-      component['getBreadcrumbs'] = jest.fn(() => []);
+      component['getBreadcrumbs'] = jest.fn((): Breadcrumb[] => []);
 
       component.ngOnInit();
 

@@ -8,7 +8,6 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, MatIconModule, MatTooltipModule],
   selector: 'ia-amount-cell-renderer',
   templateUrl: './amount-cell-renderer.component.html',

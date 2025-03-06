@@ -4,7 +4,7 @@ import { LabelValue } from '@schaeffler/label-value';
 
 import { CONCEPT1 } from '../models';
 
-@Pipe({ name: 'automaticLubrication', standalone: true })
+@Pipe({ name: 'automaticLubrication' })
 export class AutomaticLubricationPipe implements PipeTransform {
   public transform(values: LabelValue[], active: boolean): LabelValue[] {
     return values.filter(

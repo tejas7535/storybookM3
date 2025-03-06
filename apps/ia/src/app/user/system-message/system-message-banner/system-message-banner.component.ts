@@ -15,7 +15,6 @@ import { openIABanner } from '../../store/actions/user.action';
     [class]="'ia-banner-type-' + systemMessage?.type"
   ></schaeffler-banner>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [SharedModule, SharedTranslocoModule, BannerModule],
   styleUrls: ['./system-message-banner.component.scss'],
 })

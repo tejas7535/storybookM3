@@ -53,7 +53,6 @@ import { RotaryControlComponent } from '@schaeffler/controls';
 
 @Component({
   selector: 'parent-component',
-  standalone: true,
   imports: [
     RotaryControlComponent,
   ]
@@ -69,7 +68,6 @@ import { RotaryControlItem } from '@schaeffler/controls';
 
 @Component({
   selector: 'parent-component',
-  standalone: true,
   imports: [
     RotaryControlComponent,
   ],

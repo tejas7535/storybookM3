@@ -37,7 +37,6 @@ import { QuickFilterManagementComponent } from './quick-filter/quick-filter-mana
 @Component({
   selector: 'mac-main-table',
   templateUrl: './main-table.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

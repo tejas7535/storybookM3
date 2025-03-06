@@ -6,6 +6,7 @@ import { MaterialStock } from '@gq/core/store/reducers/models';
   selector: 'gq-detail-view-header-content',
   styleUrls: ['./detail-view-header-content.component.scss'],
   templateUrl: './detail-view-header-content.component.html',
+  standalone: false,
 })
 export class DetailViewHeaderContentComponent {
   @Input() materialStock: MaterialStock;

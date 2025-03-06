@@ -4,7 +4,10 @@ import { GridApi, GridReadyEvent } from 'ag-grid-community';
 
 // Controls the loading overlay in the Ag-Grid table,which is dependent
 // on the `loading` property to indicate the loading state of data input.
-@Component({ template: '' })
+@Component({
+  template: '',
+  standalone: false,
+})
 export abstract class LoadingDataTableComponent<T> {
   private _loading: boolean;
   gridApi: GridApi<T>;

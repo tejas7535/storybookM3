@@ -8,6 +8,8 @@ import {
 import { provideMockStore } from '@ngrx/store/testing';
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  ColDef,
+  ColGroupDef,
   GridApi,
   GridReadyEvent,
   IRowNode,
@@ -115,7 +117,7 @@ describe('CalculationsTableComponent', () => {
       api: {
         getRowNode: jest.fn(() => ({
           setSelected: jest.fn(),
-          data: undefined,
+          data: undefined as unknown,
         })),
         setNodesSelected: jest.fn((_param: any) => {}),
       },
@@ -268,7 +270,7 @@ describe('CalculationsTableComponent', () => {
   describe('columnChange', () => {
     it('should receive current column state and set it via state service', () => {
       const mockEvent = {
-        api: { getColumnState: jest.fn(() => []) },
+        api: { getColumnState: jest.fn(() => [] as (ColDef | ColGroupDef)[]) },
       } as unknown as SortChangedEvent;
 
       component.columnChange(mockEvent);

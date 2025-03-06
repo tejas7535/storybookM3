@@ -5,7 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { take } from 'rxjs';
 
-import { PushPipe } from '@ngrx/component';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { IRowNode } from 'ag-grid-community';
 
@@ -20,15 +19,12 @@ import { EditCellRendererParams } from './edit-cell-renderer-params.model';
 @Component({
   selector: 'mac-edit-cell-renderer',
   templateUrl: './edit-cell-renderer.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,
     // angular material
     MatButtonModule,
     MatIconModule,
-    // ngrx
-    PushPipe,
   ],
 })
 export class EditCellRendererComponent implements ICellRendererAngularComp {

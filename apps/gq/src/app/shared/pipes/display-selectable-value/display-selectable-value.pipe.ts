@@ -5,7 +5,6 @@ import { displaySelectableValue } from '@gq/shared/utils/misc.utils';
 
 @Pipe({
   name: 'displaySelectableValue',
-  standalone: true,
 })
 export class DisplaySelectableValuePipe implements PipeTransform {
   transform(value: SelectableValue): string {

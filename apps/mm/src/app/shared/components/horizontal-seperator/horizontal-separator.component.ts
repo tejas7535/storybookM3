@@ -5,7 +5,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   selector: 'mm-horizontal-separator',
   templateUrl: './horizontal-separator.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [CommonModule],
 })
 export class HorizontalSeparatorComponent {

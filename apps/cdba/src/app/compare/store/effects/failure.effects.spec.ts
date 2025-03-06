@@ -95,7 +95,7 @@ describe('FailureEffects', () => {
 
         m.expect(effects.loadFailure$).toBeObservable(expected);
         m.flush();
-        expect(router.navigate).toBeCalledTimes(4);
+        expect(router.navigate).toHaveBeenCalledTimes(4);
         expect(router.navigate).toHaveBeenCalledWith([
           'empty-states',
           'forbidden',

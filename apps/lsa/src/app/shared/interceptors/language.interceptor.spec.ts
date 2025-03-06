@@ -1,10 +1,14 @@
 import { HttpHandler, HttpHeaders, HttpRequest } from '@angular/common/http';
 
-import { environment } from '@lsa/environments/environment';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { LSALanguageInterceptor } from './language.interceptor';
 import { TranslocoService } from '@jsverse/transloco';
-import { mockProvider } from '@ngneat/spectator/jest';
+import { environment } from '@lsa/environments/environment';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
+
+import { LSALanguageInterceptor } from './language.interceptor';
 
 describe('HttpCO2UpstreamInterceptor', () => {
   let spectator: SpectatorService<LSALanguageInterceptor>;

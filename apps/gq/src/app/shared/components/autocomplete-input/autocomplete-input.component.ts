@@ -53,7 +53,6 @@ import { NoResultsFoundPipe } from './pipes/no-results-found.pipe';
 @Component({
   selector: 'gq-autocomplete-input',
   templateUrl: './autocomplete-input.component.html',
-  standalone: true,
   imports: [
     CommonModule,
     MatAutocompleteModule,

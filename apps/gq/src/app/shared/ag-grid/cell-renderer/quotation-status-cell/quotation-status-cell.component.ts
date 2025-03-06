@@ -7,6 +7,7 @@ import { ICellRendererParams } from 'ag-grid-enterprise';
 @Component({
   selector: 'gq-quotation-status-cell',
   templateUrl: './quotation-status-cell.component.html',
+  standalone: false,
 })
 export class QuotationStatusCellComponent {
   protected tagType: TagType;

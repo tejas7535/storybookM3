@@ -17,7 +17,6 @@ import { LsaFormService } from '../services/lsa-form.service';
   selector: 'lsa-stepper',
   templateUrl: './lsa-stepper.component.html',
   styleUrls: ['./lsa-stepper.component.scss'],
-  standalone: true,
   providers: [{ provide: CdkStepper, useExisting: LsaStepperComponent }],
   imports: [
     CommonModule,

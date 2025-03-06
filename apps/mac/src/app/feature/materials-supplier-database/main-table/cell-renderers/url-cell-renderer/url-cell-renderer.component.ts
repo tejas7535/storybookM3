@@ -10,7 +10,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({
   selector: 'mac-url-cell-renderer',
   templateUrl: './url-cell-renderer.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

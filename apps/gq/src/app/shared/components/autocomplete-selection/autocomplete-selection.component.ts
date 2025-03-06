@@ -50,7 +50,6 @@ export type Appearance = 'fill' | 'outline';
 
 @Component({
   selector: 'gq-autocomplete-selection',
-  standalone: true,
   imports: [
     CommonModule,
     MatFormField,

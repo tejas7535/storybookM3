@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { map, Observable, take, tap } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
-import { concatLatestFrom } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 
 import { filterSelected } from '../core/store/actions';
@@ -47,6 +47,7 @@ import { WorldMapComponent } from './world-map/world-map.component';
       }
     `,
   ],
+  standalone: false,
 })
 export class OrganizationalViewComponent implements OnInit {
   orgChart$: Observable<OrgChartData>;

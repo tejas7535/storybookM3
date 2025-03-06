@@ -4,6 +4,7 @@ import { Keyboard } from '../../models';
 
 @Pipe({
   name: 'nullableString',
+  standalone: false,
 })
 export class NullableStringPipe implements PipeTransform {
   transform(value: string): string {

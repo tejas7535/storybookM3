@@ -3,7 +3,6 @@ import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  standalone: true,
   selector: 'ea-info-banner',
   templateUrl: './info-banner.component.html',
   imports: [MatIconModule, CommonModule],

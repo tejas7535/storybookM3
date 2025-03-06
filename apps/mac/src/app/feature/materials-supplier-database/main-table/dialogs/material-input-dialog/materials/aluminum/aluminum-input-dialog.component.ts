@@ -27,7 +27,6 @@ import { RecyclingRateComponent } from '../../components/recycline-rate/recyclin
 @Component({
   selector: 'mac-aluminum-input-dialog',
   templateUrl: './aluminum-input-dialog.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

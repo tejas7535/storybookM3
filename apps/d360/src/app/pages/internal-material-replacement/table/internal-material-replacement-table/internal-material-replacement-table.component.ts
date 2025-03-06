@@ -46,7 +46,6 @@ import { getIMRColumnDefinitions } from './column-definitions';
 
 @Component({
   selector: 'd360-internal-material-replacement-table',
-  standalone: true,
   imports: [CommonModule, AgGridModule, TableToolbarComponent],
   templateUrl: './internal-material-replacement-table.component.html',
   styleUrl: './internal-material-replacement-table.component.scss',
@@ -73,12 +72,7 @@ export class InternalMaterialReplacementTableComponent {
     protected readonly dialog: MatDialog,
     protected readonly agGridLocalizationService: AgGridLocalizationService
   ) {
-    effect(
-      () => {
-        this.setServerSideDatasource(this.selectedRegion());
-      },
-      { allowSignalWrites: true }
-    );
+    effect(() => this.setServerSideDatasource(this.selectedRegion()));
   }
 
   onGridReady(event: GridReadyEvent): void {

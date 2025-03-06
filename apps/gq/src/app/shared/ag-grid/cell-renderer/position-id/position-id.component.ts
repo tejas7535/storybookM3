@@ -11,6 +11,7 @@ import { AppRoutePath } from '../../../../app-route-path.enum';
   selector: 'gq-position-id',
   templateUrl: './position-id.component.html',
   styles: [],
+  standalone: false,
 })
 export class PositionIdComponent {
   itemId: string;

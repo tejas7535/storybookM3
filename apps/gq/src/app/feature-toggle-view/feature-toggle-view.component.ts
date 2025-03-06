@@ -6,6 +6,7 @@ import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/f
 @Component({
   selector: 'gq-feature-toggle-view',
   templateUrl: './feature-toggle-view.component.html',
+  standalone: false,
 })
 export class FeatureToggleViewComponent {
   public configs: { key: string; value: boolean }[] = [];

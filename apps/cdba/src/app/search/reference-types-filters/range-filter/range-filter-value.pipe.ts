@@ -7,6 +7,7 @@ import { FilterItemRange } from '../../../core/store/reducers/search/models';
 
 @Pipe({
   name: 'rangeFilterValue',
+  standalone: false,
 })
 export class RangeFilterValuePipe implements PipeTransform {
   constructor(

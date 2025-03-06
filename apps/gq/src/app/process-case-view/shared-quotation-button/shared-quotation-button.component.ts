@@ -17,7 +17,6 @@ import { SharedQuotationFacade } from '../../../app/core/store/shared-quotation'
 
 @Component({
   selector: 'gq-shared-quotation-button',
-  standalone: true,
   imports: [
     MatButtonModule,
     MatIconModule,

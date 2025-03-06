@@ -16,6 +16,7 @@ import {
 } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent, MockModule } from 'ng-mocks';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { sharedTranslocoLocaleConfig } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -36,6 +37,7 @@ describe('CalculationResultReportComponent', () => {
     component: CalculationResultReportComponent,
     imports: [
       MatIconTestingModule,
+      NgxEchartsModule,
       MockModule(DialogModule),
       provideTranslocoTestingModule({ en: {} }),
       MockComponent(CalculationResultReportEmissionComponent),
@@ -127,8 +129,8 @@ describe('CalculationResultReportComponent', () => {
       it('should scroll to the correct section', () => {
         selectionComponent['calculationTypeClicked'].emit(itemName);
 
-        expect(document.querySelector).toBeCalledWith(`#${itemName}`);
-        expect(scrollingSpy.scrollIntoView).toBeCalledWith({
+        expect(document.querySelector).toHaveBeenCalledWith(`#${itemName}`);
+        expect(scrollingSpy.scrollIntoView).toHaveBeenCalledWith({
           behavior: 'smooth',
           block: 'start',
         });

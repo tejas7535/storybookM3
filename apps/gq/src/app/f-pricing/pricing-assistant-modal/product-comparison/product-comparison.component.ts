@@ -14,6 +14,7 @@ import { MaterialDetails } from '@gq/shared/models/quotation-detail/material';
   selector: 'gq-product-comparison',
   templateUrl: './product-comparison.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ProductComparisonModalComponent {
   @Input() referenceMaterial: MaterialDetails;

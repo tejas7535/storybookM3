@@ -51,7 +51,8 @@
             "enforceBuildableLibDependency": true,
             "allowCircularSelfDependency": true
           }
-        ]
+        ],
+        "@angular-eslint/prefer-standalone": "off"
       },
       "plugins": [
         "@angular-eslint/eslint-plugin",

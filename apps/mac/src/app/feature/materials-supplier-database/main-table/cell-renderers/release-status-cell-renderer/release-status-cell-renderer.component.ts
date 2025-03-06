@@ -16,7 +16,6 @@ import { DataFacade } from '@mac/msd/store/facades/data';
 @Component({
   selector: 'mac-release-status-cell-renderer',
   templateUrl: './release-status-cell-renderer.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

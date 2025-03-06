@@ -28,6 +28,7 @@ import { AppDelivery } from './shared/models';
 @Component({
   selector: 'mm-root',
   templateUrl: './app.component.html',
+  standalone: false,
 })
 export class AppComponent implements OnInit, OnDestroy {
   public title = 'Mounting Manager';

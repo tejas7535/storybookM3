@@ -13,7 +13,6 @@ import { ClassificationClass } from '../../components/material-emission-classifi
 
 @Pipe({
   name: 'materialEmissionClassificationColor',
-  standalone: true,
 })
 export class MaterialEmissionClassificationColorPipe implements PipeTransform {
   public transform(classificationClass: ClassificationClass): string {

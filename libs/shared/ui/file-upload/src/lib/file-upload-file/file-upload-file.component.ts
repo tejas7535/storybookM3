@@ -19,7 +19,6 @@ import { Message } from '../models';
 @Component({
   selector: 'schaeffler-file-upload-file',
   templateUrl: './file-upload-file.component.html',
-  standalone: true,
   imports: [
     CommonModule,
     MatIconModule,

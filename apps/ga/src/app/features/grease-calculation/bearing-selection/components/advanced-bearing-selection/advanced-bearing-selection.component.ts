@@ -18,6 +18,7 @@ import { AdvancedBearingSelectionService } from '../../services/advanced-bearing
   selector: 'ga-advanced-bearing-selection',
   templateUrl: './advanced-bearing-selection.component.html',
   styleUrls: ['./advanced-bearing-selection.component.scss'],
+  standalone: false,
 })
 export class AdvancedBearingSelectionComponent implements OnInit {
   public step = 0;

@@ -6,6 +6,7 @@ import { getRatingText } from '@gq/shared/utils/misc.utils';
 @Component({
   selector: 'gq-pricing-results',
   templateUrl: './pricing-results.component.html',
+  standalone: false,
 })
 export class PricingResultsComponent implements OnInit {
   @Input() price: number;

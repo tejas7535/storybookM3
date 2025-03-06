@@ -35,7 +35,6 @@ const ANIMATION_UPDATE_INTERVAL = 2000;
 @Component({
   selector: 'ea-overrolling-frequencies-preview-item',
   templateUrl: './overrolling-frequencies-preview-item.component.html',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,

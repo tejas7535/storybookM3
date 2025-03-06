@@ -45,7 +45,7 @@ describe('TabBarNavigationComponent', () => {
       }),
       mockProvider(AlertService, { allActiveAlerts: signal<Alert[]>(null) }),
       mockProvider(UserService, {
-        filterVisibleRoutes: jest.fn(() => []),
+        filterVisibleRoutes: jest.fn(() => [] as any),
         startPage: signal(AppRoutePath.OverviewPage),
       }),
     ],

@@ -24,7 +24,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({
   selector: 'gq-target-price-source-select',
   templateUrl: './target-price-source-select.component.html',
-  standalone: true,
   imports: [MatSelectModule, SharedTranslocoModule, ReactiveFormsModule],
   providers: [
     {

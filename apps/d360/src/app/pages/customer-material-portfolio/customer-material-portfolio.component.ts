@@ -80,7 +80,6 @@ import {
  */
 @Component({
   selector: 'd360-customer-material-portfolio',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,
@@ -163,16 +162,13 @@ export class CustomerMaterialPortfolioComponent {
    * @memberof CustomerMaterialPortfolioComponent
    */
   public constructor() {
-    effect(
-      () => {
-        this.customerSelectableValues.set({
-          options: this.customerData()?.map((customer) => ({
-            id: customer.customerNumber,
-            text: customer.customerName,
-          })),
-        });
-      },
-      { allowSignalWrites: true }
+    effect(() =>
+      this.customerSelectableValues.set({
+        options: this.customerData()?.map((customer) => ({
+          id: customer.customerNumber,
+          text: customer.customerName,
+        })),
+      })
     );
   }
 

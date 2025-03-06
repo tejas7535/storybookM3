@@ -54,7 +54,10 @@ import {
  * @extends {AbstractTableUploadModalComponent<AlertRule, AlertRuleSaveResponse>}
  * @implements {OnInit}
  */
-@Component({ template: '' })
+@Component({
+  template: '',
+  standalone: false,
+})
 export abstract class AbstractAlertRuleMultiModalComponent
   extends AbstractTableUploadModalComponent<AlertRule, AlertRuleSaveResponse>
   implements OnInit

@@ -14,6 +14,7 @@ import { QuotationDetail } from '../../../models/quotation-detail';
 @Component({
   selector: 'gq-gq-price-cell',
   templateUrl: './gq-price-cell.component.html',
+  standalone: false,
 })
 export class GqPriceCellComponent {
   readonly #isFNumber: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(

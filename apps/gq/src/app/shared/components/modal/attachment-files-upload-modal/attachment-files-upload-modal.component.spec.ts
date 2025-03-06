@@ -229,10 +229,12 @@ describe('AttachmentFilesUploadModalComponent', () => {
 
       component.upload();
 
-      expect(component.activeCaseFacade.uploadAttachments).toBeCalledTimes(1);
-      expect(component.activeCaseFacade.uploadAttachments).toBeCalledWith([
-        mockFiles[2].file,
-      ]);
+      expect(
+        component.activeCaseFacade.uploadAttachments
+      ).toHaveBeenCalledTimes(1);
+      expect(component.activeCaseFacade.uploadAttachments).toHaveBeenCalledWith(
+        [mockFiles[2].file]
+      );
     });
 
     test('should close dialog when uploadAttachmentsSuccess$ emits', () => {

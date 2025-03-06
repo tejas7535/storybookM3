@@ -15,6 +15,7 @@ import { EVENT_NAMES, QuotationStatus } from '../../../models';
 @Component({
   selector: 'gq-refresh-sap-price',
   templateUrl: './refresh-sap-price.component.html',
+  standalone: false,
 })
 export class RefreshSapPriceComponent {
   private readonly dialog: MatDialog = inject(MatDialog);

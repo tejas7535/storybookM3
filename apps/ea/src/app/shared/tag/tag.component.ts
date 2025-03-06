@@ -3,7 +3,6 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'ea-tag',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './tag.component.html',
 })

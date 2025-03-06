@@ -219,7 +219,7 @@ describe('DeleteItemsButtonComponent', () => {
       'should toolPanelOpened$$ return false',
       marbles((m) => {
         // eslint-disable-next-line unicorn/no-useless-undefined
-        params.api.getOpenedToolPanel = jest.fn(() => undefined);
+        params.api.getOpenedToolPanel = jest.fn(() => undefined as any);
         component['params'] = params;
 
         component.onToolPanelVisibleChanged();

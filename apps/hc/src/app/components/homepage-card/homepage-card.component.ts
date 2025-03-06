@@ -6,7 +6,6 @@ import { HomepageCard } from '@hc/models';
 @Component({
   selector: 'hc-homepage-card',
   templateUrl: './homepage-card.component.html',
-  standalone: true,
   imports: [CommonModule],
 })
 export class HomepageCardComponent {

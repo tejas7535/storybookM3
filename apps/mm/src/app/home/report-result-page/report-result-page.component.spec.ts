@@ -162,8 +162,8 @@ describe('ReportResultPageComponent', () => {
           it('should scroll to the correct section', () => {
             selectionComponent['calculationTypeClicked'].emit(itemName);
 
-            expect(document.querySelector).toBeCalledWith(`#${itemName}`);
-            expect(scrollingSpy.scrollIntoView).toBeCalledWith({
+            expect(document.querySelector).toHaveBeenCalledWith(`#${itemName}`);
+            expect(scrollingSpy.scrollIntoView).toHaveBeenCalledWith({
               behavior: 'smooth',
               block: 'start',
             });

@@ -20,6 +20,7 @@ import { DimensionFilterTranslation } from './models';
 @Component({
   selector: 'ia-dimension-filter',
   templateUrl: './dimension-filter.component.html',
+  standalone: false,
 })
 export class DimensionFilterComponent {
   private _availableDimensions: IdValue[];

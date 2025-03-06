@@ -82,7 +82,6 @@ import { EditCaseModalData } from './edit-case-modal-data.model';
   templateUrl: './edit-case-modal.component.html',
   styleUrls: ['./edit-case-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,

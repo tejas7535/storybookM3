@@ -5,6 +5,7 @@ import { ILoadingOverlayAngularComp } from 'ag-grid-angular';
 @Component({
   selector: 'cdba-custom-loading-overlay',
   templateUrl: './custom-loading-overlay.component.html',
+  standalone: false,
 })
 export class CustomLoadingOverlayComponent
   implements ILoadingOverlayAngularComp

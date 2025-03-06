@@ -569,6 +569,7 @@ const colors = require('../../../../../styles/src/lib/tailwind/colors');
       </div>
     </section>
   `,
+  standalone: false,
 })
 class ColorComponentExample implements OnInit {
   @Input() public colors: any;

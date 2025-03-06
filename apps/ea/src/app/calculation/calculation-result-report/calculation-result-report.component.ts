@@ -40,7 +40,6 @@ import { CalculationResultReportSelectionComponent } from '../calculation-result
 
 @Component({
   templateUrl: './calculation-result-report.component.html',
-  standalone: true,
   imports: [
     CommonModule,
     PushPipe,

@@ -92,7 +92,7 @@ describe('MaterialsResultTableComponent', () => {
         expect(component.criteriaSelectedValue).toBe(
           MaterialsCriteriaSelection.MATERIAL_NUMBER
         );
-        expect(component['criteriaSelected'].emit).toBeCalledWith(
+        expect(component['criteriaSelected'].emit).toHaveBeenCalledWith(
           MaterialsCriteriaSelection.MATERIAL_NUMBER
         );
       });

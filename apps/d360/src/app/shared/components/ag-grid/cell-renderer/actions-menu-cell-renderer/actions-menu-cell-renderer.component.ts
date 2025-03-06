@@ -36,7 +36,6 @@ export interface MenuItem {
  */
 @Component({
   selector: 'd360-actions-menu-cell-renderer',
-  standalone: true,
   imports: [
     MatTooltipModule,
     MatIconButton,

@@ -24,6 +24,7 @@ import { FilterLayout } from './filter-layout.enum';
   selector: 'ia-filter',
   templateUrl: './filter.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class FilterComponent {
   private _selectedDimensionIdValue: IdValue;

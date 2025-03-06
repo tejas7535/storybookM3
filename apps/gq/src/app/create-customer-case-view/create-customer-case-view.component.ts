@@ -38,7 +38,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 type typeAnimation = 'fade-in' | 'fade-out';
 
 @Component({
-  standalone: true,
   selector: 'gq-create-customer-case-view',
   templateUrl: './create-customer-case-view.component.html',
   imports: [
@@ -113,7 +112,6 @@ export class CreateCustomerCaseViewComponent implements AfterViewInit {
     this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_FINISHED, {
       type: CASE_CREATION_TYPES.FROM_CUSTOMER,
     } as CaseCreationEventParams);
-
     this.createCaseFacade.createNewCustomerOgpCase(this.headerInformationData);
   }
 

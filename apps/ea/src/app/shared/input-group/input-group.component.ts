@@ -5,7 +5,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'ea-input-group',
-  standalone: true,
   imports: [MatIconModule, SharedTranslocoModule],
   templateUrl: './input-group.component.html',
 })

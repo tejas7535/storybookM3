@@ -7,7 +7,6 @@ import { InfoButtonComponent } from '../info-button/info-button.component';
 
 @Component({
   selector: 'schaeffler-report-expansion-panel',
-  standalone: true,
   imports: [
     CommonModule,
     MatIconModule,

@@ -15,7 +15,6 @@ import { Breadcrumb, BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 @Component({
   selector: 'ea-calculation-view',
   templateUrl: './calculation-view.component.html',
-  standalone: true,
   imports: [
     CalculationContainerComponent,
     BreadcrumbsModule,

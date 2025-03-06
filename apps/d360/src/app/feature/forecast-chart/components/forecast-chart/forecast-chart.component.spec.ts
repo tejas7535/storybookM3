@@ -3,7 +3,6 @@ import { MatRadioChange } from '@angular/material/radio';
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockModule } from 'ng-mocks';
 import { NGX_ECHARTS_CONFIG, NgxEchartsModule } from 'ngx-echarts';
 import ResizeObserver from 'resize-observer-polyfill';
 
@@ -48,7 +47,7 @@ describe('ForecastChartComponent', () => {
   const createComponent = createComponentFactory({
     component: ForecastChartComponent,
     mocks: [ChartSettingsService],
-    imports: [MockModule(NgxEchartsModule)],
+    imports: [NgxEchartsModule],
     detectChanges: false,
     providers: [
       {

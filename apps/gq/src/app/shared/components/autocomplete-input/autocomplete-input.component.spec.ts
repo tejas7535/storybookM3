@@ -437,7 +437,7 @@ describe('AutocompleteInputComponent', () => {
 
       component.handleWindowResize();
 
-      expect(setAutocompletePanelWidthLimitsSpy).not.toBeCalled();
+      expect(setAutocompletePanelWidthLimitsSpy).not.toHaveBeenCalled();
       expect(
         component.autocompleteReference.panel.nativeElement.style.minWidth
       ).toBe(undefined);
@@ -464,7 +464,7 @@ describe('AutocompleteInputComponent', () => {
 
       component.handleWindowResize();
 
-      expect(setAutocompletePanelWidthLimitsSpy).not.toBeCalled();
+      expect(setAutocompletePanelWidthLimitsSpy).not.toHaveBeenCalled();
       expect(
         component.autocompleteReference.panel.nativeElement.style.minWidth
       ).toBe(undefined);

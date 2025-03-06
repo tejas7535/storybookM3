@@ -29,7 +29,8 @@
           }
         ],
         "import/no-extraneous-dependencies": "off",
-        "unicorn/no-useless-undefined": "off"
+        "unicorn/no-useless-undefined": "off",
+        "@angular-eslint/prefer-standalone": "off"
       },
       "plugins": [
         "@angular-eslint/eslint-plugin",

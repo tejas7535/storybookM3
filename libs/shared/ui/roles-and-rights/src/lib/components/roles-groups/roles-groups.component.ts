@@ -6,6 +6,7 @@ import { RolesGroup } from '../../models';
   selector: 'schaeffler-roles-groups',
   templateUrl: './roles-groups.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class RolesGroupsComponent {
   @Input() public rolesGroups?: RolesGroup[];

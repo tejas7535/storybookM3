@@ -8,6 +8,7 @@ import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade'
 @Component({
   selector: 'gq-update-costs-confirm-modal',
   templateUrl: './update-costs-confirm-modal.component.html',
+  standalone: false,
 })
 export class UpdateCostsConfirmModalComponent {
   constructor(

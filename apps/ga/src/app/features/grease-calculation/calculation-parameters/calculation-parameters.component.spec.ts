@@ -358,7 +358,7 @@ describe('CalculationParametersComponent', () => {
         checked: false,
       });
 
-      expect(patchValueSpy).toBeCalledWith(false);
+      expect(patchValueSpy).toHaveBeenCalledWith(false);
     });
   });
 

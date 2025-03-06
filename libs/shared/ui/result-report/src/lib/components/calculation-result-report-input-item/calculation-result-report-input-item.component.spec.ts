@@ -121,7 +121,7 @@ describe('CalculationResultReportInputItemComponent', () => {
         const entries = [{ contentRect: { width: smallWidth } }];
         (window.ResizeObserver as jest.Mock).mock.calls[0][0](entries);
 
-        expect(mockResizeObserver.observe).toBeCalled();
+        expect(mockResizeObserver.observe).toHaveBeenCalled();
         expect(component.labelWidth).toBe(LabelWidth.Small);
       });
     });

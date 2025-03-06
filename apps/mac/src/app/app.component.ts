@@ -25,6 +25,7 @@ import { environment } from '@mac/environments/environment';
 @Component({
   selector: 'mac-root',
   templateUrl: './app.component.html',
+  standalone: false,
 })
 export class AppComponent implements OnInit, OnDestroy {
   public title = translate('title');

@@ -148,7 +148,7 @@ describe('CustomerSalesPlanNumberEditModalComponent', () => {
       expect(loadingSetSpy).toHaveBeenCalledWith(true);
       expect(mockOnDelete).toHaveBeenCalled();
       expect(dialogRef.close).toHaveBeenCalledWith(-1);
-      expect(loadingSetSpy).lastCalledWith(false);
+      expect(loadingSetSpy).toHaveBeenLastCalledWith(false);
     });
 
     it('should handle save with valid form data', () => {

@@ -35,7 +35,6 @@ import { mapProperty } from '../util/form-helpers';
 @Component({
   selector: 'mac-material-standard-input-dialog',
   templateUrl: './material-standard-input-dialog.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

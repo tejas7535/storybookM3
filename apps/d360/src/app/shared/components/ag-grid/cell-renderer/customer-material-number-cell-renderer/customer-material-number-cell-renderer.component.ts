@@ -21,7 +21,6 @@ import { CustomerMaterialNumbersModalComponent } from './modal/customer-material
   selector: 'd360-customer-material-number-cell-renderer',
   templateUrl: './customer-material-number-cell-renderer.component.html',
   styleUrls: ['./customer-material-number-cell-renderer.component.scss'],
-  standalone: true,
   imports: [MatIconModule, MatDialogModule],
 })
 export class CustomerMaterialNumberCellRendererComponent

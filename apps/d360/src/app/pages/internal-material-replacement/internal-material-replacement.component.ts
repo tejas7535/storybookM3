@@ -15,7 +15,6 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { IMRSubstitution } from '../../feature/internal-material-replacement/model';
-import { ActionButtonComponent } from '../../shared/components/action-button/action-button.component';
 import {
   HeaderActionBarComponent,
   ProjectedContendDirective,
@@ -30,7 +29,6 @@ import { InternalMaterialReplacementTableComponent } from './table/internal-mate
 
 @Component({
   selector: 'd360-internal-material-replacement',
-  standalone: true,
   imports: [
     CommonModule,
     MatButtonModule,
@@ -38,7 +36,6 @@ import { InternalMaterialReplacementTableComponent } from './table/internal-mate
     SharedTranslocoModule,
     StyledSectionComponent,
     HeaderActionBarComponent,
-    ActionButtonComponent,
     ProjectedContendDirective,
     FilterDropdownComponent,
     LoadingSpinnerModule,

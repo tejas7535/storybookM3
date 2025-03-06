@@ -11,6 +11,7 @@ import * as bannerSelectors from './store/selectors/banner.selectors';
 @Component({
   selector: 'schaeffler-banner',
   templateUrl: 'banner.component.html',
+  standalone: false,
 })
 export class BannerComponent implements OnInit {
   public showBanner$!: Observable<boolean>;

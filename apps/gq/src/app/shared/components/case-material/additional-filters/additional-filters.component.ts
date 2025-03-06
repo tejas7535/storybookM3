@@ -14,7 +14,6 @@ import { FilterSelectionComponent } from './filter-selection/filter-selection.co
 @Component({
   selector: 'gq-additional-filters',
   templateUrl: './additional-filters.component.html',
-  standalone: true,
   imports: [
     FilterSelectionComponent,
     LoadingSpinnerModule,

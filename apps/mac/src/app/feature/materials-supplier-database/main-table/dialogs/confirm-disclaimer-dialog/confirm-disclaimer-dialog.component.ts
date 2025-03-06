@@ -11,7 +11,6 @@ import { MsdAgGridStateService } from '@mac/feature/materials-supplier-database/
 
 @Component({
   selector: 'mac-confirm-disclaimer-dialog',
-  standalone: true,
   imports: [
     // angular material
     MatDialogModule,

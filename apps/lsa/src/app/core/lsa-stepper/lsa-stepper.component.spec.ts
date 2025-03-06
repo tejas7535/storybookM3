@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
       <cdk-step [label]="'test2'"></cdk-step>
     </lsa-stepper>
   `,
+  standalone: false,
 })
 class TestComponent {}
 

@@ -15,6 +15,7 @@ import {
 @Component({
   selector: 'cdba-search',
   templateUrl: './search.component.html',
+  standalone: false,
 })
 export class SearchComponent implements OnInit {
   loading$: Observable<boolean>;

@@ -6,6 +6,7 @@ import { Role, RolesGroup } from '../../models';
   selector: 'schaeffler-roles-and-rights',
   templateUrl: './roles-and-rights.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class RolesAndRightsComponent {
   @Input() public headingText?: string;

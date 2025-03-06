@@ -47,7 +47,7 @@ describe('PortfolioAnalysisChartComponent', () => {
 
     component.ngOnInit();
 
-    expect(component['chartService'].getEChartsOption).toBeCalledTimes(1);
+    expect(component['chartService'].getEChartsOption).toHaveBeenCalledTimes(1);
   });
 
   it('should call getEChartsOption onChanges with changed data', () => {
@@ -62,7 +62,7 @@ describe('PortfolioAnalysisChartComponent', () => {
 
     component.ngOnChanges(changes);
 
-    expect(component['chartService'].getEChartsOption).toBeCalledTimes(1);
+    expect(component['chartService'].getEChartsOption).toHaveBeenCalledTimes(1);
   });
 
   it('should not call getEChartsOption onChanges with unchanged data', () => {
@@ -70,6 +70,6 @@ describe('PortfolioAnalysisChartComponent', () => {
 
     component.ngOnChanges(undefined);
 
-    expect(component['chartService'].getEChartsOption).toBeCalledTimes(0);
+    expect(component['chartService'].getEChartsOption).toHaveBeenCalledTimes(0);
   });
 });

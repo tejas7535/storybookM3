@@ -77,13 +77,13 @@ describe('ScanDialog', () => {
 
   describe('Scanning', () => {
     it('intro should skip to scanned and loading', () => {
-      expect(component.state().name).toEqual('Loading');
+      expect(component.state().name).toEqual('Scanner');
     });
 
     it('should show the scanner and load when the permission is granted', waitForAsync(async () => {
       const permissionCheck = await component.handlePermissionRequest();
       expect(permissionCheck).toEqual(true);
-      expect(component.state().name).toEqual('Loading');
+      expect(component.state().name).toEqual('Scanner');
     }));
 
     it('should show the intro state when the permission is pending', waitForAsync(async () => {

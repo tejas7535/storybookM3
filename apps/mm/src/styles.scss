@@ -78,6 +78,18 @@ mat-horizontal-stepper.primary-stepper
   @apply pointer-events-none cursor-not-allowed;
 }
 
+mat-horizontal-stepper {
+  @apply bg-transparent #{!important};
+}
+
+mat-card {
+  @apply bg-white #{!important};
+}
+
+mat-expansion-panel {
+  @apply bg-white #{!important};
+}
+
 schaeffler-html-report .mat-expansion-panel-content h2 {
   @apply text-title-large sm:text-headline-small;
 }

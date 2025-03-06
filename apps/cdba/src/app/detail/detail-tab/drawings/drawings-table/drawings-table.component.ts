@@ -26,6 +26,7 @@ import {
   templateUrl: './drawings-table.component.html',
   styleUrls: ['./drawings-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DrawingsTableComponent {
   @Input() rowData: Drawing[];

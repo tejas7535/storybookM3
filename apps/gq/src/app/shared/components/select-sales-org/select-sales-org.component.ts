@@ -30,7 +30,6 @@ import { Store } from '@ngrx/store';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     MatSelectModule,

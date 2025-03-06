@@ -11,6 +11,7 @@ export type BannerType = 'info' | 'success' | 'error' | 'warning' | '';
   selector: 'schaeffler-banner-text',
   templateUrl: './banner-text.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class BannerTextComponent {
   @Input() public text = '';

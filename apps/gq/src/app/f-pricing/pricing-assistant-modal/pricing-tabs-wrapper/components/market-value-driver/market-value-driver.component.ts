@@ -7,6 +7,7 @@ import { MarketValueDriverDisplayItem } from './../../../models/market-value-dri
 @Component({
   selector: 'gq-market-value-driver',
   templateUrl: './market-value-driver.component.html',
+  standalone: false,
 })
 export class MarketValueDriverComponent {
   @Input() marketValueDriverItems: MarketValueDriverDisplayItem[];

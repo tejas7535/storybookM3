@@ -19,7 +19,6 @@ const translatePath = 'recommendation.application';
 
 @Component({
   selector: 'lsa-application',
-  standalone: true,
   imports: [
     RadioButtonGroupComponent,
     TranslocoModule,

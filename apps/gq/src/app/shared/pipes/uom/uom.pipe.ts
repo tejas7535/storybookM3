@@ -4,6 +4,7 @@ import { translate } from '@jsverse/transloco';
 
 @Pipe({
   name: 'uom',
+  standalone: false,
 })
 export class UomPipe implements PipeTransform {
   transform(value: string): string {

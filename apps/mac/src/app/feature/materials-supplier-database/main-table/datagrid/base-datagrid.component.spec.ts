@@ -40,7 +40,6 @@ jest.mock('../util', () => ({
 // create a minimum class to test the abstract methods
 @Component({
   selector: 'mac-xyz',
-  standalone: true,
   template: '<p>test</p>',
 })
 class MockMaterialDatagridComponent
@@ -245,7 +244,7 @@ describe('MockMaterialDatagridComponent', () => {
       component.onFilterChange();
 
       expect(mockApi.getFilterModel).toHaveBeenCalled();
-      expect(component['dataFacade'].setAgGridFilter).toBeCalledWith(
+      expect(component['dataFacade'].setAgGridFilter).toHaveBeenCalledWith(
         mockFilterModel
       );
     });

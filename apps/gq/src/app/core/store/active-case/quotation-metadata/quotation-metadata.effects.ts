@@ -6,7 +6,8 @@ import { catchError, mergeMap, of, switchMap, tap } from 'rxjs';
 import { Quotation } from '@gq/shared/models/quotation';
 import { QuotationMetadataService } from '@gq/shared/services/rest/quotation/quotation-metadata/quotation-metadata.service';
 import { TranslocoService } from '@jsverse/transloco';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 
 import { getGqId } from '../active-case.selectors';

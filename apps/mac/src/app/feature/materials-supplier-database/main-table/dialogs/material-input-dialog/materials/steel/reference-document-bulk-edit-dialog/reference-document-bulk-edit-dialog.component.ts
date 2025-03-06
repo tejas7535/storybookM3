@@ -12,8 +12,6 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { Subject, take, takeUntil } from 'rxjs';
 
-import { LetDirective, PushPipe } from '@ngrx/component';
-
 import { SelectModule } from '@schaeffler/inputs/select';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -23,24 +21,15 @@ import { DataFacade } from '@mac/feature/materials-supplier-database/store/facad
 import { DialogFacade } from '@mac/feature/materials-supplier-database/store/facades/dialog';
 
 import { BaseDialogComponent } from '../../../base-dialog/base-dialog.component';
-import { Co2ComponentComponent } from '../../../components/co2-component/co2-component.component';
-import { ManufacturerSupplierComponent } from '../../../components/manufacturer-supplier/manufacturer-supplier.component';
-import { MaterialStandardComponent } from '../../../components/material-standard/material-standard.component';
-import { RecyclingRateComponent } from '../../../components/recycline-rate/recycling-rate.component';
 
 @Component({
   selector: 'mac-reference-document-bulk-edit-dialog',
   templateUrl: './reference-document-bulk-edit-dialog.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,
     // msd
     BaseDialogComponent,
-    MaterialStandardComponent,
-    ManufacturerSupplierComponent,
-    Co2ComponentComponent,
-    RecyclingRateComponent,
     // angular material
     MatFormFieldModule,
     MatInputModule,
@@ -53,8 +42,6 @@ import { RecyclingRateComponent } from '../../../components/recycline-rate/recyc
     SelectModule,
     SharedTranslocoModule,
     // ngrx
-    PushPipe,
-    LetDirective,
   ],
 })
 export class ReferenceDocumentBulkEditDialogComponent

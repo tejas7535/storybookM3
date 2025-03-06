@@ -4,7 +4,6 @@ import { environment } from '@mm/environments/environment';
 
 @Pipe({
   name: 'mmHostMapping',
-  standalone: true,
 })
 /**
  * This pipe is used to map the wrong host to the correct one, till API is fixed.

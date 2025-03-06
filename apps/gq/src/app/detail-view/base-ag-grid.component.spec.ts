@@ -10,7 +10,7 @@ import { marbles } from 'rxjs-marbles';
 
 import { BaseAgGridComponent } from './base-ag-grid.component'; // Adjust the path
 
-@Component({ template: '' })
+@Component({ template: '', standalone: false })
 class TestAgGridComponent extends BaseAgGridComponent {
   protected TABLE_KEY = 'TestTableKey';
 }

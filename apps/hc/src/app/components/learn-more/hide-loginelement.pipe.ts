@@ -2,7 +2,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'hideLoginElements',
-  standalone: true,
 })
 export class HideLoginElementsPipe implements PipeTransform {
   private readonly marker = /\(login\)(.+)\(\/login\)/g;

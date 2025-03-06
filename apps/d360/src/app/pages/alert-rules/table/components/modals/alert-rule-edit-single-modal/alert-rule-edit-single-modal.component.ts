@@ -94,7 +94,6 @@ export interface AlertRuleModalProps {
  */
 @Component({
   selector: 'd360-alert-rule-edit-modal',
-  standalone: true,
   imports: [
     MatDialogModule,
     MatButtonModule,

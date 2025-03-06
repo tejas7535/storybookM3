@@ -30,7 +30,6 @@ import { MaterialStandardComponent } from '../../components/material-standard/ma
 @Component({
   selector: 'mac-ceramic-input-dialog',
   templateUrl: './ceramic-input-dialog.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

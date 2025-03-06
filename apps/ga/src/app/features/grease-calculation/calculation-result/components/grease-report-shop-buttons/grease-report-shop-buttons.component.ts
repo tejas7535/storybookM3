@@ -38,7 +38,6 @@ import {
 
 @Component({
   selector: 'ga-grease-report-shop-buttons',
-  standalone: true,
   imports: [
     SharedTranslocoModule,
     FormsModule,

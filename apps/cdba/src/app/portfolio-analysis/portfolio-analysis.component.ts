@@ -17,6 +17,7 @@ import { BreadcrumbsService } from '@cdba/shared/services';
   selector: 'cdba-portfolio-analysis',
   templateUrl: './portfolio-analysis.component.html',
   styles: [],
+  standalone: false,
 })
 export class PortfolioAnalysisComponent implements OnInit {
   breadcrumbs$: Observable<Breadcrumb[]>;

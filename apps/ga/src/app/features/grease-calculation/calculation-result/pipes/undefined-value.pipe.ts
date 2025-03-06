@@ -4,6 +4,7 @@ import { TranslocoService } from '@jsverse/transloco';
 
 @Pipe({
   name: 'undefinedValue',
+  standalone: false,
 })
 export class UndefinedValuePipe implements PipeTransform {
   public constructor(private readonly translocoService: TranslocoService) {}

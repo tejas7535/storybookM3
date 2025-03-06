@@ -6,7 +6,6 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './survey.component.html',
-  standalone: true,
   imports: [MatIconModule, MatDialogModule],
 })
 export class SurveyComponent {

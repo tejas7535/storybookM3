@@ -29,7 +29,6 @@ import { CustomerInfoModalComponent } from '../customer-info-modal/customer-info
 
 @Component({
   selector: 'd360-customer-selection',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,

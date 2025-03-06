@@ -17,6 +17,7 @@ import { UserFeedback } from './models';
 @Component({
   selector: 'ia-feedback-dialog',
   templateUrl: './feedback-dialog.component.html',
+  standalone: false,
 })
 export class FeedbackDialogComponent implements OnInit {
   options: Observable<IdValue[]>;

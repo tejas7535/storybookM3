@@ -5,7 +5,6 @@ import { LanguageSelectModule } from '@schaeffler/transloco/components';
 
 @Component({
   selector: 'hc-settings-panel',
-  standalone: true,
   imports: [LanguageSelectModule, SharedTranslocoModule],
   templateUrl: './settings-panel.component.html',
 })

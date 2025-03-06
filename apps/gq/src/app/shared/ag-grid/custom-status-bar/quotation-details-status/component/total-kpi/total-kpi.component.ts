@@ -3,14 +3,12 @@ import { Component, input, InputSignal } from '@angular/core';
 
 import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
-import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'gq-total-kpi',
-  standalone: true,
-  imports: [CommonModule, SharedTranslocoModule, SharedPipesModule, PushPipe],
+  imports: [CommonModule, SharedTranslocoModule, SharedPipesModule],
   templateUrl: './total-kpi.component.html',
 })
 export class TotalKpiComponent {

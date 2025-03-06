@@ -56,11 +56,15 @@ describe('ContactDialogComponent', () => {
   describe('track', () => {
     it('should track email usage', () => {
       component.trackEmail();
-      expect(component['applicationInsightsService'].logEvent).toBeCalled();
+      expect(
+        component['applicationInsightsService'].logEvent
+      ).toHaveBeenCalled();
     });
     it('should track teams usage', () => {
       component.trackTeams();
-      expect(component['applicationInsightsService'].logEvent).toBeCalled();
+      expect(
+        component['applicationInsightsService'].logEvent
+      ).toHaveBeenCalled();
     });
   });
 

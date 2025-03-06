@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'gq-status-bar',
   templateUrl: './status-bar.component.html',
+  standalone: false,
 })
 export class StatusBarComponent {
   @Input() createCaseDisabled: boolean;

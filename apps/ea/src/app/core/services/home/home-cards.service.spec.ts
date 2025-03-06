@@ -62,10 +62,10 @@ describe('HomeCardsService', () => {
 
         result.forEach((card) => card.action());
 
-        expect(window.open).toBeCalledTimes(expectedUrls.length);
+        expect(window.open).toHaveBeenCalledTimes(expectedUrls.length);
 
         expectedUrls.forEach((url) => {
-          expect(window.open).toBeCalledWith(url, '_blank');
+          expect(window.open).toHaveBeenCalledWith(url, '_blank');
         });
       }));
     });
@@ -86,9 +86,9 @@ describe('HomeCardsService', () => {
       it('should open url', waitForAsync(() => {
         result.action();
 
-        expect(window.open).toBeCalled();
+        expect(window.open).toHaveBeenCalled();
 
-        expect(window.open).toBeCalledWith(
+        expect(window.open).toHaveBeenCalledWith(
           'homePage.sustainabilityCard.action.url',
           '_blank'
         );

@@ -12,6 +12,7 @@ import { PropertyComparison } from '@gq/shared/models/f-pricing/property-compari
 @Component({
   selector: 'gq-comparison-panel',
   templateUrl: './comparison-panel.component.html',
+  standalone: false,
 })
 export class ComparisonPanelComponent implements OnChanges {
   @Input() panelKey: string;

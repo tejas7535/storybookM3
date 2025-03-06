@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { LetDirective, PushPipe } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -19,7 +19,6 @@ import { BaseControlPanelComponent } from '../base-control-panel.component';
 
 @Component({
   selector: 'mac-vitesco-material-control-panel',
-  standalone: true,
   imports: [
     // default
     CommonModule,
@@ -30,7 +29,6 @@ import { BaseControlPanelComponent } from '../base-control-panel.component';
     // libs
     SharedTranslocoModule,
     // ngrx
-    PushPipe,
     LetDirective,
   ],
   templateUrl: './vitesco-material-control-panel.component.html',

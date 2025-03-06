@@ -11,7 +11,6 @@ import { SharedModule } from '../../../shared/shared.module';
 
 @Component({
   selector: 'ia-pmgm-position',
-  standalone: true,
   imports: [
     SharedModule,
     MatIconModule,

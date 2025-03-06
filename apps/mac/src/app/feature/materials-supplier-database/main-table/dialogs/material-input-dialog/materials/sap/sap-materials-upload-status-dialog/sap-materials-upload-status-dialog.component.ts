@@ -52,7 +52,6 @@ interface UploadStatusDialogConfig {
   selector: 'mac-sap-materials-upload-status-dialog',
   templateUrl: './sap-materials-upload-status-dialog.component.html',
   styleUrls: ['./sap-materials-upload-status-dialog.component.scss'],
-  standalone: true,
   imports: [
     // default
     CommonModule,

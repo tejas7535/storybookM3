@@ -27,6 +27,7 @@ interface ApprovalDecisionModalFormControl {
 @Component({
   templateUrl: './approval-decision-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ApprovalDecisionModalComponent implements OnInit, OnDestroy {
   formGroup: FormGroup<ApprovalDecisionModalFormControl>;

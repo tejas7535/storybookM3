@@ -3,7 +3,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'mm-app-store-buttons',
   templateUrl: './app-store-buttons.component.html',
-  standalone: true,
 })
 export class AppStoreButtonsComponent {
   @Input() public title?: string;

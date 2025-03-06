@@ -271,7 +271,7 @@ describe('QuickFilterManagementComponent', () => {
 
       component['delete'](quickFilter);
 
-      expect(component['dialog'].open).toBeCalledWith(
+      expect(component['dialog'].open).toHaveBeenCalledWith(
         QuickfilterDialogComponent,
         {
           width: '500px',

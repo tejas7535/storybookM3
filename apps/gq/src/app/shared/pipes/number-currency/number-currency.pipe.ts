@@ -4,6 +4,7 @@ import { TransformationService } from '@gq/shared/services/transformation/transf
 
 @Pipe({
   name: 'numberCurrency',
+  standalone: false,
 })
 export class NumberCurrencyPipe implements PipeTransform {
   constructor(private readonly transformationService: TransformationService) {}

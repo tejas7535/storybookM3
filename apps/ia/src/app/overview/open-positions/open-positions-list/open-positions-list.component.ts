@@ -18,6 +18,7 @@ import { OpenApplication } from '../../models/open-application.model';
       }
     `,
   ],
+  standalone: false,
 })
 export class OpenPositionsListComponent {
   @Input() openApplications: OpenApplication[];

@@ -37,6 +37,7 @@ import {
   templateUrl: './bom-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./bom-container.component.scss'],
+  standalone: false,
 })
 export class BomContainerComponent implements OnInit {
   @Input() index: number;

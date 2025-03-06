@@ -8,7 +8,6 @@ import { AbstractBaseCellRendererComponent } from '../abstract-cell-renderer.com
 
 @Component({
   selector: 'd360-select-demand-characteristic-or-original-cell-renderer',
-  standalone: true,
   imports: [],
   template: `{{ value }}`,
   changeDetection: ChangeDetectionStrategy.OnPush,

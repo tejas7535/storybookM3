@@ -56,7 +56,6 @@ type MonthlyCustomerPlanningDetailsColumnDefinitions = ReturnType<
 
 @Component({
   selector: 'd360-monthly-customer-planning-details-modal',
-  standalone: true,
   imports: [CommonModule, MatIcon, MatIconButton, AgGridAngular],
   templateUrl: './monthly-customer-planning-details-modal.component.html',
   styleUrl: './monthly-customer-planning-details-modal.component.scss',

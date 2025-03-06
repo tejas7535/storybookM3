@@ -5,7 +5,6 @@ import { translateTargetPriceSourceValue } from '@gq/shared/utils/translate.util
 
 @Pipe({
   name: 'targetPriceSource',
-  standalone: true,
 })
 export class TargetPriceSourcePipe implements PipeTransform {
   transform(

@@ -12,7 +12,6 @@ import { BearingSelectionType } from '@ga/shared/models';
 
 @Component({
   selector: 'ga-advanced-bearing-button',
-  standalone: true,
   imports: [SharedTranslocoModule, MatButtonModule],
   templateUrl: './advanced-bearing-button.component.html',
 })

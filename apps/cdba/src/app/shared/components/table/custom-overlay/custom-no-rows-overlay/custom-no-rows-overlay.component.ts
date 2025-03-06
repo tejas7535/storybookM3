@@ -11,6 +11,7 @@ export interface NoRowsParams {
   selector: 'cdba-custom-no-rows-overlay',
   templateUrl: './custom-no-rows-overlay.component.html',
   styleUrls: ['./custom-no-rows-overlay.component.scss'],
+  standalone: false,
 })
 export class CustomNoRowsOverlayComponent implements INoRowsOverlayAngularComp {
   params: NoRowsParams;

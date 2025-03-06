@@ -12,7 +12,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { ValidationHelper } from '../../../../utils/validation/validation-helper';
 
 @Component({
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     MatFormFieldModule,

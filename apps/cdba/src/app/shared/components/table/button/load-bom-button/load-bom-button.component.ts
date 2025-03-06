@@ -9,6 +9,7 @@ import { Calculation } from '@cdba/shared/models';
 @Component({
   selector: 'cdba-load-bom-button',
   templateUrl: './load-bom-button.component.html',
+  standalone: false,
 })
 export class LoadBomButtonComponent {
   @Input() public gridApi: GridApi;

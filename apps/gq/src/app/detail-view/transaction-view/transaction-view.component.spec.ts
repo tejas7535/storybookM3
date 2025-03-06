@@ -156,100 +156,97 @@ describe('TransactionViewComponent', () => {
   );
 
   describe('graphTransactions', () => {
-    test('should return all transactions if there is no filter', () => {
-      let result;
-      spectator
-        .output('graphTransactions$')
-        .subscribe((value) => (result = value));
+    test(
+      'should return all transactions if there is no filter',
+      marbles((m) => {
+        m.expect(component.graphTransactions$).toBeObservable(
+          m.cold('a', { a: mockTransactions })
+        );
+      })
+    );
 
-      spectator.detectChanges();
+    test(
+      'should return no transactions if all were filtered out',
+      marbles((m) => {
+        component.onFilterChanged({
+          api: {
+            forEachNodeAfterFilter: jest.fn().mockImplementation(),
+          } as any,
+          columns: [],
+          type: 'filterChanged',
+        } as FilterChangedEvent);
+        m.expect(component.graphTransactions$).toBeObservable(
+          m.cold('a', { a: [] })
+        );
+      })
+    );
 
-      expect(result).toEqual(mockTransactions);
-    });
+    test(
+      'should update graphTransactions if the filter changes',
+      marbles((m) => {
+        const mockFilteredNodes = [
+          { data: { identifier: 1111 } },
+          { data: { identifier: 3333 } },
+        ];
 
-    test('should return no transactions if all were filtered out', () => {
-      let result;
-      spectator
-        .output('graphTransactions$')
-        .subscribe((value) => (result = value));
+        component.onFilterChanged({
+          api: {
+            forEachNodeAfterFilter: jest.fn().mockImplementation((callback) => {
+              mockFilteredNodes.forEach((node) => callback(node));
+            }),
+          } as any,
+          columns: [],
+          type: 'filterChanged',
+        } as FilterChangedEvent);
 
-      component.onFilterChanged({
-        api: {
-          forEachNodeAfterFilter: jest.fn().mockImplementation(),
-        } as any,
-        columns: [],
-        type: 'filterChanged',
-      } as FilterChangedEvent);
-
-      expect(result).toEqual([]);
-    });
-
-    test('should update graphTransactions if the filter changes', () => {
-      let result;
-      spectator
-        .output('graphTransactions$')
-        .subscribe((value) => (result = value));
-
-      const mockFilteredNodes = [
-        { data: { identifier: 1111 } },
-        { data: { identifier: 3333 } },
-      ];
-
-      component.onFilterChanged({
-        api: {
-          forEachNodeAfterFilter: jest.fn().mockImplementation((callback) => {
-            mockFilteredNodes.forEach((node) => callback(node));
-          }),
-        } as any,
-        columns: [],
-        type: 'filterChanged',
-      } as FilterChangedEvent);
-
-      expect(result).toEqual([mockTransactions[0], mockTransactions[2]]);
-    });
+        m.expect(component.graphTransactions$).toBeObservable(
+          m.cold('a', { a: [mockTransactions[0], mockTransactions[2]] })
+        );
+      })
+    );
   });
 
   describe('onFilterChanged', () => {
-    test('should emit empty rows', () => {
-      let result;
-      spectator
-        .output('filteredTransactionIdentifier')
-        .subscribe((transactions) => (result = transactions));
+    test(
+      'should emit empty rows',
+      marbles((m) => {
+        component.onFilterChanged({
+          api: {
+            forEachNodeAfterFilter: jest.fn(),
+          } as any,
+          columns: [],
+          type: 'filterChanged',
+        } as FilterChangedEvent);
 
-      component.onFilterChanged({
-        api: {
-          forEachNodeAfterFilter: jest.fn(),
-        } as any,
-        columns: [],
-        type: 'filterChanged',
-      } as FilterChangedEvent);
+        m.expect(component.filteredTransactionIdentifier).toBeObservable(
+          m.cold('a', { a: [] })
+        );
+      })
+    );
 
-      expect(result).toEqual([]);
-    });
+    test(
+      'should emit identifiers of filtered rows',
+      marbles((m) => {
+        const mockNodes = [
+          { data: { identifier: 1 } },
+          { data: { identifier: 2 } },
+          { data: { identifier: 3 } },
+        ];
 
-    test('should emit identifiers of filtered rows', () => {
-      let result;
-      spectator
-        .output('filteredTransactionIdentifier')
-        .subscribe((transactions) => (result = transactions));
+        component.onFilterChanged({
+          api: {
+            forEachNodeAfterFilter: jest.fn().mockImplementation((callback) => {
+              mockNodes.forEach((node) => callback(node));
+            }),
+          } as any,
+          columns: [],
+          type: 'filterChanged',
+        } as FilterChangedEvent);
 
-      const mockNodes = [
-        { data: { identifier: 1 } },
-        { data: { identifier: 2 } },
-        { data: { identifier: 3 } },
-      ];
-
-      component.onFilterChanged({
-        api: {
-          forEachNodeAfterFilter: jest.fn().mockImplementation((callback) => {
-            mockNodes.forEach((node) => callback(node));
-          }),
-        } as any,
-        columns: [],
-        type: 'filterChanged',
-      } as FilterChangedEvent);
-
-      expect(result).toEqual([1, 2, 3]);
-    });
+        m.expect(component.filteredTransactionIdentifier).toBeObservable(
+          m.cold('a', { a: [1, 2, 3] })
+        );
+      })
+    );
   });
 });

@@ -42,7 +42,7 @@ describe('ProductionCostDetailsComponent', () => {
 
       component.updateCosts();
 
-      expect(openMock).toBeCalledTimes(1);
+      expect(openMock).toHaveBeenCalledTimes(1);
     });
 
     test('should not open dialog', () => {
@@ -53,7 +53,7 @@ describe('ProductionCostDetailsComponent', () => {
 
       component.updateCosts();
 
-      expect(openMock).toBeCalledTimes(0);
+      expect(openMock).toHaveBeenCalledTimes(0);
     });
   });
 });

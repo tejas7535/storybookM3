@@ -23,7 +23,6 @@ export interface DemandValidationLoadingModalProps {
 
 @Component({
   selector: 'd360-demand-validation-loading-modal',
-  standalone: true,
   imports: [LoadingSpinnerModule, TranslocoDirective, MatDialogContent],
   templateUrl: './demand-validation-loading-modal.component.html',
 })

@@ -10,6 +10,7 @@ import { EditingModalComponent } from '../editing-modal.component';
 @Component({
   selector: 'gq-price-editing-modal',
   templateUrl: '../editing-modal.component.html',
+  standalone: false,
 })
 export class PriceEditingModalComponent extends EditingModalComponent {
   isPriceChangeTypeAvailable = true;

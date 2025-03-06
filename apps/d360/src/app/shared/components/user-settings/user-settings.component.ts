@@ -47,7 +47,6 @@ import { FilterDropdownComponent } from '../inputs/filter-dropdown/filter-dropdo
 
 @Component({
   selector: 'd360-user-settings',
-  standalone: true,
   imports: [
     CommonModule,
     LanguageSelectModule,

@@ -71,6 +71,7 @@ import { provideTransloco } from '@jsverse/transloco';
       <div>Current Value:</div>
       <div>{{ control.value | json }}</div>
     </div> `,
+  standalone: false,
 })
 class WrapperComponentForSelect extends SelectComponent {}
 

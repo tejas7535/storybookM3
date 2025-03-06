@@ -14,7 +14,6 @@ import { ChipClass, FluctuationType } from '../models';
 
 @Component({
   selector: 'ia-leaving-type-cell-renderer',
-  standalone: true,
   imports: [
     SharedModule,
     SharedTranslocoModule,

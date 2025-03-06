@@ -4,13 +4,13 @@
   "projectType": "library",
   "sourceRoot": "libs/shared/ui/share-button/src",
   "prefix": "schaeffler",
+  "tags": ["scope:shared", ""],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/shared/ui/share-button"],
       "options": {
-        "project": "libs/shared/ui/share-button/ng-package.json",
-        "tailwindConfig": "libs/shared/ui/share-button/tailwind.config.js"
+        "project": "libs/shared/ui/share-button/ng-package.json"
       },
       "configurations": {
         "production": {
@@ -71,6 +71,5 @@
         "postTargets": []
       }
     }
-  },
-  "tags": ["scope:shared", ""]
+  }
 }

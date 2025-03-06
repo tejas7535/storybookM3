@@ -10,6 +10,7 @@ import { ForwardApprovalWorkflowModalComponent } from '../forward-approval-workf
 @Component({
   selector: 'gq-approval-cockpit',
   templateUrl: './approval-cockpit.component.html',
+  standalone: false,
 })
 export class ApprovalCockpitComponent {
   constructor(

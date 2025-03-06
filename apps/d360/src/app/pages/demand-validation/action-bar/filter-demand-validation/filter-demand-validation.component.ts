@@ -25,7 +25,6 @@ import {
 
 @Component({
   selector: 'd360-filter-demand-validation',
-  standalone: true,
   imports: [CommonModule, MatButtonModule, MatIcon, SharedTranslocoModule],
   templateUrl: './filter-demand-validation.component.html',
 })

@@ -27,6 +27,7 @@ import { MaterialsCriteriaSelection } from './material-criteria-selection.enum';
   templateUrl: './materials-result-table.component.html',
   // define service as seperate instance (non-singleton) to avoid overriding of the columnState in the case-table
   providers: [AgGridStateService],
+  standalone: false,
 })
 export class MaterialsResultTableComponent
   extends BaseResultTableComponent

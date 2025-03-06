@@ -7,7 +7,6 @@ import { Priority } from '../../../../feature/alerts/model';
 
 @Component({
   selector: 'd360-task-priorities',
-  standalone: true,
   imports: [],
   templateUrl: './task-priorities.component.html',
   styleUrl: './task-priorities.component.scss',

@@ -13,6 +13,7 @@ import { getFavoriteDimensionDisplayName } from '../store/selectors/user.selecto
 @Component({
   selector: 'ia-user-settings',
   templateUrl: './user-settings.component.html',
+  standalone: false,
 })
 export class UserSettingsComponent implements OnInit {
   roleGroups$: Observable<RolesGroup[]>;

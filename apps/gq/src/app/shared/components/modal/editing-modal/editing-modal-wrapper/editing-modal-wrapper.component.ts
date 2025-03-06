@@ -12,6 +12,7 @@ import { KpiDisplayValue } from '../models/kpi-value.model';
 @Component({
   selector: 'gq-editing-modal-wrapper',
   templateUrl: './editing-modal-wrapper.component.html',
+  standalone: false,
 })
 export class EditingModalWrapperComponent {
   modalData: EditingModal = inject(MAT_DIALOG_DATA);

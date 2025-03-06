@@ -14,7 +14,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   selector: 'ea-calculation-indication-mobile',
   templateUrl: './calculation-indication-mobile.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [MatProgressBarModule],
 })
 export class CalculationIndicationMobileComponent

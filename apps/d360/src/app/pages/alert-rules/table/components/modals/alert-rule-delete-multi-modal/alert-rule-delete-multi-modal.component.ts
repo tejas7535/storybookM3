@@ -14,7 +14,6 @@ import { AbstractAlertRuleMultiModalComponent } from '../abstract-alert-rule-mul
 
 @Component({
   selector: 'd360-alert-rule-delete-multi-modal',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,

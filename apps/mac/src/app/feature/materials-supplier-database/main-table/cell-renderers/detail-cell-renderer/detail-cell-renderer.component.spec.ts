@@ -106,7 +106,7 @@ describe('DetailCellRendererComponent', () => {
       component.done$.subscribe(() => {});
       materialHistorySubject.next([two, one]);
 
-      expect(component['compare']).toBeCalledWith(one, two);
+      expect(component['compare']).toHaveBeenCalledWith(one, two);
       expect(component.initial).toStrictEqual({
         modifiedBy: one.modifiedBy,
         timestamp: new Date(one.lastModified * 1000),

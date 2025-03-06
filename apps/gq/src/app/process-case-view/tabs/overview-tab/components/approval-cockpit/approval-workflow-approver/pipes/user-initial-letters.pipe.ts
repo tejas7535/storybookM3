@@ -4,6 +4,7 @@ import { Approver } from '@gq/shared/models';
 
 @Pipe({
   name: 'userInitialLetters',
+  standalone: false,
 })
 export class UserInitialLettersPipe implements PipeTransform {
   transform(user: Approver): string {

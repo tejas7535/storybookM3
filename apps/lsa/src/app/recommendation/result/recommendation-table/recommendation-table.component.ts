@@ -24,7 +24,6 @@ import { RecommendationTableCellComponent } from './recommendation-table-cell/re
 
 @Component({
   selector: 'lsa-recommendation-table',
-  standalone: true,
   imports: [
     CommonModule,
     MatTableModule,
@@ -64,7 +63,7 @@ export class RecommendationTableComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.isRecommendedSelected = !!this.data?.headers.recommended ?? false;
+    this.isRecommendedSelected = !!(this.data?.headers.recommended ?? false);
   }
 
   onHeaderSelectionChange({ isRecommended }: { isRecommended: boolean }): void {

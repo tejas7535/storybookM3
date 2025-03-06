@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'gq-saving-in-progress',
   templateUrl: './saving-in-progress.component.html',
   styles: [],
+  standalone: false,
 })
 export class SavingInProgressComponent {
   @Input() hideRolesHint: boolean;

@@ -58,7 +58,6 @@ import { CaseHeaderInformationComponent } from '../case-header-information.compo
 @Component({
   selector: 'gq-edit-case-header-information',
   templateUrl: '../case-header-information.component.html',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

@@ -196,7 +196,7 @@ describe('MsdDialogService', () => {
       service.openBulkEditDialog(selectedRows);
 
       expect(dataFacade.openMultiEditDialog).toHaveBeenCalledWith([dr, dr], dr);
-      expect(service.openDialog).toBeCalledWith(false, {
+      expect(service.openDialog).toHaveBeenCalledWith(false, {
         row: dr,
         column: undefined,
         isCopy: false,
@@ -252,7 +252,7 @@ describe('MsdDialogService', () => {
     it('should open the dialog', () => {
       const expected = service.openSapMaterialsUploadDialog();
 
-      expect(service['dialog'].open).toBeCalledWith(
+      expect(service['dialog'].open).toHaveBeenCalledWith(
         SapMaterialsUploadDialogComponent,
         {
           width: '700px',
@@ -269,7 +269,7 @@ describe('MsdDialogService', () => {
     it('should open the dialog', () => {
       const expected = service.openSapMaterialsUploadStatusDialog();
 
-      expect(service['dialog'].open).toBeCalledWith(
+      expect(service['dialog'].open).toHaveBeenCalledWith(
         SapMaterialsUploadStatusDialogComponent,
         {
           width: '710px',

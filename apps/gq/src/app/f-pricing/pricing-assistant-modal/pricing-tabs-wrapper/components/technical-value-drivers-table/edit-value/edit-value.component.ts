@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'gq-edit-value',
   templateUrl: './edit-value.component.html',
+  standalone: false,
 })
 export class EditValueComponent {
   @Input() value: number;

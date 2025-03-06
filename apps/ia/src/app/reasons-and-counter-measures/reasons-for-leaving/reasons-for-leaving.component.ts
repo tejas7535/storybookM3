@@ -40,6 +40,7 @@ import {
 @Component({
   selector: 'ia-reasons-for-leaving',
   templateUrl: './reasons-for-leaving.component.html',
+  standalone: false,
 })
 export class ReasonsForLeavingComponent implements OnInit {
   readonly translationPath = 'reasonsAndCounterMeasures.reasonsForLeaving.tabs';

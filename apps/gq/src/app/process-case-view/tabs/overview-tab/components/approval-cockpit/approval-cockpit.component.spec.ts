@@ -40,7 +40,7 @@ describe('ApprovalCockpitComponent', () => {
 
     component.openRejectionDialog();
 
-    expect(openMock).toBeCalledTimes(1);
+    expect(openMock).toHaveBeenCalledTimes(1);
     expect(openMock).toHaveBeenCalledWith(ApprovalDecisionModalComponent, {
       width: '634px',
       data: {
@@ -55,7 +55,7 @@ describe('ApprovalCockpitComponent', () => {
 
     component.openForwardDialog();
 
-    expect(openMock).toBeCalledTimes(1);
+    expect(openMock).toHaveBeenCalledTimes(1);
     expect(openMock).toHaveBeenCalledWith(
       ForwardApprovalWorkflowModalComponent,
       {
@@ -71,7 +71,7 @@ describe('ApprovalCockpitComponent', () => {
 
     component.openApprovalDialog();
 
-    expect(openMock).toBeCalledTimes(1);
+    expect(openMock).toHaveBeenCalledTimes(1);
     expect(openMock).toHaveBeenCalledWith(ApprovalDecisionModalComponent, {
       width: '634px',
       data: {

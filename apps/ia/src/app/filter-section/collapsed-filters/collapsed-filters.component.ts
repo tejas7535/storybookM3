@@ -5,6 +5,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   templateUrl: './collapsed-filters.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: ['::ng-deep {--mat-expansion-header-text-size: 16px;}'],
+  standalone: false,
 })
 export class CollapsedFiltersComponent {
   private _filters: {

@@ -3,8 +3,9 @@ import { HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { EMPTY, from } from 'rxjs';
 import { of } from 'rxjs/internal/observable/of';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, switchMap } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
@@ -32,12 +33,14 @@ export class FailureEffects {
         loadDrawingsFailure,
         loadCostComponentSplitFailure
       ),
-      mergeMap((action) => {
+      switchMap((action) => {
         return action.statusCode === HttpStatusCode.Forbidden
-          ? this.router.navigate([
-              AppRoutePath.EmptyStatesPath,
-              EmptyStatesPath.ForbiddenPath,
-            ])
+          ? from(
+              this.router.navigate([
+                AppRoutePath.EmptyStatesPath,
+                EmptyStatesPath.ForbiddenPath,
+              ])
+            ).pipe(mergeMap(() => EMPTY))
           : of(
               showSnackBar({
                 interactionType: InteractionType.HTTP_GENERAL_ERROR,

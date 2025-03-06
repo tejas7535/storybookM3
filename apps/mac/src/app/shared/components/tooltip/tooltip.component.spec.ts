@@ -13,7 +13,6 @@ describe('TooltipComponent', () => {
 
   const createComponent = createComponentFactory({
     component: TooltipComponent,
-    declarations: [TooltipComponent],
     imports: [MatButtonModule, MatTooltipModule, MatIconModule],
     providers: [
       {

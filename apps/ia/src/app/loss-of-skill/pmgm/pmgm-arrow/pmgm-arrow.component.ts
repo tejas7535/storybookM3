@@ -9,7 +9,6 @@ import { PmgmArrow } from '../../models';
 
 @Component({
   selector: 'ia-pmgm-arrow',
-  standalone: true,
   imports: [SharedModule, MatIconModule],
   templateUrl: './pmgm-arrow.component.html',
   styles: [

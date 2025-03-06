@@ -31,6 +31,7 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 @Component({
   selector: 'gq-import-case',
   templateUrl: './import-case.component.html',
+  standalone: false,
 })
 export class ImportCaseComponent implements OnInit {
   quotation$: Observable<CaseFilterItem>;

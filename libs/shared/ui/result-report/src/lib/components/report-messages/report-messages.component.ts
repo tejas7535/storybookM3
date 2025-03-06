@@ -9,7 +9,6 @@ import { ReportMessages } from './report-messages.component.interface';
 @Component({
   selector: 'schaeffler-report-messages',
   templateUrl: './report-messages.component.html',
-  standalone: true,
   imports: [
     ReportExpansionPanelComponent,
     CalculationResultMessagesComponent,

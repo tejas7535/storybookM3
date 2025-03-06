@@ -10,6 +10,7 @@ import { deselectReferenceType } from '@cdba/core/store';
   selector: 'cdba-custom-header',
   templateUrl: './custom-header.component.html',
   styleUrls: ['./custom-header.component.scss'],
+  standalone: false,
 })
 export class CustomHeaderComponent implements IHeaderAngularComp {
   @Input() params!: IHeaderParams;

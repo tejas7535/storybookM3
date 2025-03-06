@@ -21,6 +21,7 @@ import {
   selector: 'gq-sap-price-details-table',
   templateUrl: './sap-price-details-table.component.html',
   styles: [basicTableStyle, disableTableHorizontalScrollbar],
+  standalone: false,
 })
 export class SapPriceDetailsTableComponent
   extends BaseAgGridComponent

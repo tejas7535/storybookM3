@@ -6,6 +6,7 @@ import { MrpData } from '../../models/quotation-detail/mrp-data.model';
 
 @Pipe({
   name: 'mrpDisplay',
+  standalone: false,
 })
 export class MrpDisplayPipe implements PipeTransform {
   transform(mrpData: MrpData): string {

@@ -70,7 +70,6 @@ const TARGET_PRICE_SOURCE_FORM_CONTROL_NAME = 'targetPriceSource';
 @Component({
   selector: 'gq-editing-material-modal',
   templateUrl: './editing-material-modal.component.html',
-  standalone: true,
   imports: [
     CommonModule,
     AutocompleteInputComponent,

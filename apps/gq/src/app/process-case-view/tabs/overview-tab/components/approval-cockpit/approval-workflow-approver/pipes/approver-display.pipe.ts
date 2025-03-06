@@ -4,6 +4,7 @@ import { ApprovalLevel, Approver } from '@gq/shared/models';
 
 @Pipe({
   name: 'approverDisplay',
+  standalone: false,
 })
 export class ApproverDisplayPipe implements PipeTransform {
   transform(user: Approver, unknownApproverLevelText: string): string {

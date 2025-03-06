@@ -11,7 +11,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'gq-kpi-status-card',
-  standalone: true,
   imports: [
     CommonModule,
     MatCardModule,

@@ -1,7 +1,7 @@
 import { Injectable, TemplateRef, Type } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { TypedAction } from '@ngrx/store/src/models';
+import { Action } from '@ngrx/store';
 
 import { ManufacturerSupplierInputDialogComponent } from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/manufacturer-supplier/manufacturersupplier-input-dialog.component';
 import { MaterialInputDialogComponent } from '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/material-input-dialog.component';
@@ -49,7 +49,7 @@ export class MsdDialogService {
       isCopy?: boolean;
       isBulkEdit?: boolean;
     }
-  ): MatDialogRef<MaterialInputDialogComponent, { action?: TypedAction<any> }> {
+  ): MatDialogRef<MaterialInputDialogComponent, { action?: Action<any> }> {
     return this.dialog.open(this.dialogType, {
       width: '863px',
       autoFocus: false,
@@ -75,7 +75,7 @@ export class MsdDialogService {
   openBulkEditDialog(
     selectedRows: any[],
     column?: string
-  ): MatDialogRef<MaterialInputDialogComponent, { action?: TypedAction<any> }> {
+  ): MatDialogRef<MaterialInputDialogComponent, { action?: Action<any> }> {
     const rows = selectedRows.map((node) => node.data);
     const combinedRows = this.combineRows(rows);
     this.dataFacade.openMultiEditDialog(rows, combinedRows);

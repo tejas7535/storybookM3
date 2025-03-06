@@ -1,8 +1,6 @@
 import { Component, inject, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { TranslocoDirective } from '@jsverse/transloco';
-
 import { ForecastChartComponent } from '../../feature/forecast-chart/components/forecast-chart/forecast-chart.component';
 import { PeriodType } from '../../feature/forecast-chart/model';
 import { CurrencyService } from '../../feature/info/currency.service';
@@ -14,13 +12,11 @@ import { MaterialCustomerTableComponent } from './table/components/material-cust
 
 @Component({
   selector: 'd360-home',
-  standalone: true,
   imports: [
     GlobalSelectionCriteriaComponent,
     ForecastChartComponent,
     StyledSectionComponent,
     MaterialCustomerTableComponent,
-    TranslocoDirective,
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],

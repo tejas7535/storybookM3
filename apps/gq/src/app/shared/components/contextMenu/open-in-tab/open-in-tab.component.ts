@@ -6,6 +6,7 @@ import { openInNewTabByUrl } from '../functions/context-menu-functions';
 @Component({
   selector: 'gq-open-in-tab',
   templateUrl: './open-in-tab.component.html',
+  standalone: false,
 })
 export class OpenInTabComponent extends MatMenuItem {
   /**

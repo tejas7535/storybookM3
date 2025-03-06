@@ -6,6 +6,7 @@ import { distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'ga-input',
   templateUrl: './input.component.html',
+  standalone: false,
 })
 export class InputComponent implements OnInit, OnDestroy {
   @Input() public control: UntypedFormControl;

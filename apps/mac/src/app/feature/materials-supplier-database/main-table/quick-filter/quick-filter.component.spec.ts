@@ -194,7 +194,7 @@ describe('QuickFilterComponent', () => {
 
       component.ngOnInit();
       sub.next({ gridApi });
-      expect(component['onAgGridReady']).toBeCalledWith(gridApi);
+      expect(component['onAgGridReady']).toHaveBeenCalledWith(gridApi);
     });
 
     it('should set active filter on publishQuickFilterSucceeded', () => {
@@ -269,7 +269,7 @@ describe('QuickFilterComponent', () => {
 
       component['onAgGridReady'](gridApi);
 
-      expect(component['onChange']).not.toBeCalled();
+      expect(component['onChange']).not.toHaveBeenCalled();
     });
 
     it('subscriptions should NOT react with changes only in ignored columns', () => {
@@ -283,7 +283,7 @@ describe('QuickFilterComponent', () => {
 
       component['onAgGridReady'](gridApi);
 
-      expect(component['onChange']).not.toBeCalled();
+      expect(component['onChange']).not.toHaveBeenCalled();
     });
     it('subscriptions should NOT react without active quickfilter', () => {
       component['onChange'] = jest.fn();
@@ -293,7 +293,7 @@ describe('QuickFilterComponent', () => {
 
       component['onAgGridReady'](gridApi);
 
-      expect(component['onChange']).not.toBeCalled();
+      expect(component['onChange']).not.toHaveBeenCalled();
     });
     it('subscriptions should react to updates of agGrid columns', () => {
       component.active = quickfilter;
@@ -308,7 +308,7 @@ describe('QuickFilterComponent', () => {
 
       component['onAgGridReady'](gridApi);
 
-      expect(component['onChange']).toBeCalled();
+      expect(component['onChange']).toHaveBeenCalled();
     });
 
     it('subscriptions should react to updates of agGrid filters', () => {
@@ -319,7 +319,7 @@ describe('QuickFilterComponent', () => {
 
       component['onAgGridReady'](gridApi);
 
-      expect(component['onChange']).toBeCalled();
+      expect(component['onChange']).toHaveBeenCalled();
     });
   });
 
@@ -414,7 +414,7 @@ describe('QuickFilterComponent', () => {
       component['applyQuickFilter'] = jest.fn();
 
       component.onQuickfilterSelect(event);
-      expect(component['applyQuickFilter']).toBeCalledWith(quickfilter);
+      expect(component['applyQuickFilter']).toHaveBeenCalledWith(quickfilter);
     });
 
     describe('applicQuickFilter', () => {
@@ -454,11 +454,11 @@ describe('QuickFilterComponent', () => {
         component['agGridApi'].getColumns = jest.fn(() => columns);
 
         component['applyQuickFilter'](quickfilter);
-        expect(component['agGridApi'].getColumns).toBeCalled();
-        expect(component['agGridApi'].setFilterModel).toBeCalledWith(
+        expect(component['agGridApi'].getColumns).toHaveBeenCalled();
+        expect(component['agGridApi'].setFilterModel).toHaveBeenCalledWith(
           quickfilter.filter
         );
-        expect(component['agGridApi'].applyColumnState).toBeCalledWith({
+        expect(component['agGridApi'].applyColumnState).toHaveBeenCalledWith({
           state: expState,
           applyOrder: true,
         });
@@ -532,7 +532,7 @@ describe('QuickFilterComponent', () => {
       sub.next(result);
 
       expect(component['activeEdit']).toBe(filter);
-      expect(component['dialog'].open).toBeCalledWith(
+      expect(component['dialog'].open).toHaveBeenCalledWith(
         expect.anything(),
         expect.objectContaining({
           data: {
@@ -542,8 +542,8 @@ describe('QuickFilterComponent', () => {
           },
         })
       );
-      expect(ref.afterClosed).toBeCalled();
-      expect(component['onDialogClose']).toBeCalledWith(result);
+      expect(ref.afterClosed).toHaveBeenCalled();
+      expect(component['onDialogClose']).toHaveBeenCalledWith(result);
     });
 
     it('should open dialog in normal mode', () => {
@@ -558,12 +558,12 @@ describe('QuickFilterComponent', () => {
       sub.next(result);
 
       expect(component['activeEdit']).toBe(undefined);
-      expect(component['dialog'].open).toBeCalledWith(
+      expect(component['dialog'].open).toHaveBeenCalledWith(
         expect.anything(),
         expect.objectContaining(result)
       );
-      expect(ref.afterClosed).toBeCalled();
-      expect(component['onDialogClose']).toBeCalledWith(result);
+      expect(ref.afterClosed).toHaveBeenCalled();
+      expect(component['onDialogClose']).toHaveBeenCalledWith(result);
     });
   });
 
@@ -583,8 +583,10 @@ describe('QuickFilterComponent', () => {
       component['activeEdit'] = filter;
 
       component['onDialogClose'](result);
-      expect(component['qfFacade'].deleteQuickFilter).toBeCalledWith(filter);
-      expect(component['reset']).not.toBeCalled();
+      expect(component['qfFacade'].deleteQuickFilter).toHaveBeenCalledWith(
+        filter
+      );
+      expect(component['reset']).not.toHaveBeenCalled();
     });
     it('remove should dispatch event and reset', () => {
       const result = {
@@ -601,8 +603,10 @@ describe('QuickFilterComponent', () => {
       component['activeEdit'] = filter;
 
       component['onDialogClose'](result);
-      expect(component['qfFacade'].deleteQuickFilter).toBeCalledWith(filter);
-      expect(component['reset']).toBeCalled();
+      expect(component['qfFacade'].deleteQuickFilter).toHaveBeenCalledWith(
+        filter
+      );
+      expect(component['reset']).toHaveBeenCalled();
     });
 
     it('should update quickfilter after edit', () => {
@@ -649,12 +653,12 @@ describe('QuickFilterComponent', () => {
       component['qfFacade'].createQuickFilter = jest.fn();
 
       component['onDialogClose'](obj);
-      expect(component['agGridToFilter']).toBeCalled();
-      expect(component['copyDefaultFilter']).not.toBeCalled();
-      expect(component['qfFacade'].createQuickFilter).toBeCalledWith(
+      expect(component['agGridToFilter']).toHaveBeenCalled();
+      expect(component['copyDefaultFilter']).not.toHaveBeenCalled();
+      expect(component['qfFacade'].createQuickFilter).toHaveBeenCalledWith(
         quickFilter
       );
-      expect(component['applyQuickFilter']).toBeCalledWith(quickFilter);
+      expect(component['applyQuickFilter']).toHaveBeenCalledWith(quickFilter);
     });
     it('should add quickfilter from default after close - no edit', () => {
       const obj = {
@@ -671,17 +675,17 @@ describe('QuickFilterComponent', () => {
       component['copyDefaultFilter'] = jest.fn(() => quickFilter);
 
       component['onDialogClose'](obj);
-      expect(component['agGridToFilter']).not.toBeCalled();
-      expect(component['copyDefaultFilter']).toBeCalled();
-      expect(component['qfFacade'].createQuickFilter).toBeCalledWith(
+      expect(component['agGridToFilter']).not.toHaveBeenCalled();
+      expect(component['copyDefaultFilter']).toHaveBeenCalled();
+      expect(component['qfFacade'].createQuickFilter).toHaveBeenCalledWith(
         quickFilter
       );
-      expect(component['applyQuickFilter']).toBeCalledWith(quickFilter);
+      expect(component['applyQuickFilter']).toHaveBeenCalledWith(quickFilter);
     });
     it('should ignore response with empty result object', () => {
       component['applyQuickFilter'] = jest.fn();
       component['onDialogClose']();
-      expect(component['applyQuickFilter']).not.toBeCalled();
+      expect(component['applyQuickFilter']).not.toHaveBeenCalled();
     });
   });
 
@@ -708,8 +712,8 @@ describe('QuickFilterComponent', () => {
     expect(result.title).toBe(title);
     expect(result.filter).toBe(filter);
     expect(result.columns).toBe(columns);
-    expect(component['getCurrentColumns']).toBeCalled();
-    expect(component['agGridApi'].getFilterModel).toBeCalled();
+    expect(component['getCurrentColumns']).toHaveBeenCalled();
+    expect(component['agGridApi'].getFilterModel).toHaveBeenCalled();
   });
 
   it('copyDefaultFilter should copy first predefined filter', () => {
@@ -726,7 +730,7 @@ describe('QuickFilterComponent', () => {
     component['openDialog'] = jest.fn();
 
     component.add();
-    expect(component['openDialog']).toBeCalledWith();
+    expect(component['openDialog']).toHaveBeenCalledWith();
   });
 
   it('edit should open dialog', () => {
@@ -734,7 +738,7 @@ describe('QuickFilterComponent', () => {
     const filter = {} as QuickFilter;
 
     component.edit(filter);
-    expect(component['openDialog']).toBeCalledWith(filter);
+    expect(component['openDialog']).toHaveBeenCalledWith(filter);
   });
 
   describe('remove', () => {
@@ -743,7 +747,7 @@ describe('QuickFilterComponent', () => {
       const filter = {} as QuickFilter;
 
       component.remove(filter);
-      expect(component['openDialog']).toBeCalledWith(filter, true);
+      expect(component['openDialog']).toHaveBeenCalledWith(filter, true);
     });
   });
 

@@ -7,6 +7,8 @@ import {
 } from '@ngneat/spectator/jest';
 import { AgGridModule } from 'ag-grid-angular';
 import {
+  ColDef,
+  ColGroupDef,
   ColumnMovedEvent,
   ColumnPinnedEvent,
   FirstDataRenderedEvent,
@@ -42,7 +44,7 @@ describe('BomTableComponent', () => {
     providers: [
       { provide: ENV, useValue: { ...getEnv() } },
       mockProvider(ColumnDefinitionService, {
-        getColDef: jest.fn(() => []),
+        getColDef: jest.fn(() => [] as (ColDef | ColGroupDef)[]),
       }),
     ],
   });

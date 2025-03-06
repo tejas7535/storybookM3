@@ -24,7 +24,6 @@ import { FilterChangedEvent, IFloatingFilterParams } from 'ag-grid-enterprise';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({
-  standalone: true,
   imports: [
     MatDatepickerModule,
     MatFormFieldModule,

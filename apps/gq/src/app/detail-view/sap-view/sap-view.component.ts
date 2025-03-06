@@ -15,6 +15,7 @@ import { Breadcrumb } from '@schaeffler/breadcrumbs';
 @Component({
   selector: 'gq-sap-view',
   templateUrl: './sap-view.component.html',
+  standalone: false,
 })
 export class SapViewComponent {
   private readonly breadCrumbsService: BreadcrumbsService =

@@ -8,7 +8,6 @@ import { PlanningView } from '../../../../feature/demand-validation/planning-vie
 
 @Component({
   selector: 'd360-demand-validation-setting-modal',
-  standalone: true,
   imports: [CommonModule, SharedTranslocoModule, MatRadioModule],
   templateUrl: './demand-validation-setting-modal.component.html',
 })

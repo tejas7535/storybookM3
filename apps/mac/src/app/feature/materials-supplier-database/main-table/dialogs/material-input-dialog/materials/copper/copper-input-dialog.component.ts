@@ -37,7 +37,6 @@ import { RecyclingRateComponent } from '../../components/recycline-rate/recyclin
 @Component({
   selector: 'mac-copper-input-dialog',
   templateUrl: './copper-input-dialog.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

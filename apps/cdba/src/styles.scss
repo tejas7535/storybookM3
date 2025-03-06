@@ -3,6 +3,18 @@
 */
 
 /***************************************************************************************************
+* UTILITIES
+*/
+
+/*
+* TailwindCSS, utility-first css framework
+* see https://tailwindcss.com/docs
+*/
+@forward 'tailwindcss/base';
+@forward 'tailwindcss/components';
+@forward 'tailwindcss/utilities';
+
+/***************************************************************************************************
   * DECLARATIONS
   */
 @use 'node_modules/ag-grid-community/styles' as ag;
@@ -12,7 +24,7 @@
 * see https://material.angular.io
 */
 
-@import 'libs/shared/ui/styles/src/lib/scss/material-theme';
+@use 'libs/shared/ui/styles/src/lib/scss/material-theme' as m2;
 
 /*
 * ag grid components
@@ -21,23 +33,11 @@
 @include ag.grid-styles(
   (
     theme: material,
-    material-primary-color: $primary,
-    material-accent-color: $info,
-    checkbox-checked-color: $primary,
+    material-primary-color: m2.$primary,
+    material-accent-color: m2.$info,
+    checkbox-checked-color: m2.$primary,
   )
 );
-
-/***************************************************************************************************
-* UTILITIES
-*/
-
-/*
-* TailwindCSS, utility-first css framework
-* see https://tailwindcss.com/docs
-*/
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
 
 /***************************************************************************************************
 * OVERRIDES
@@ -103,7 +103,7 @@ button {
 
   .ag-side-button-button {
     &:hover {
-      color: $primary !important;
+      color: m2.$primary !important;
     }
   }
 

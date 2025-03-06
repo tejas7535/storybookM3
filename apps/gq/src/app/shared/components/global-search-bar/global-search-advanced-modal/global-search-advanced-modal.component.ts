@@ -24,6 +24,7 @@ import { MaterialsCriteriaSelection } from '../materials-result-table/material-c
 @Component({
   selector: 'gq-global-search-advanced-modal',
   templateUrl: './global-search-advanced-modal.component.html',
+  standalone: false,
 })
 export class GlobalSearchAdvancedModalComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);

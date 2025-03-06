@@ -74,8 +74,12 @@ describe('AppAnalyticsService', () => {
       service.logNavigationEvent(url);
     });
     it('should delegate navigation log event to services', () => {
-      expect(googleAnalyticsService.logNavigationEvent).toBeCalledWith(url);
-      expect(firebaseAnalyticsService.logNavigationEvent).toBeCalledWith(url);
+      expect(googleAnalyticsService.logNavigationEvent).toHaveBeenCalledWith(
+        url
+      );
+      expect(firebaseAnalyticsService.logNavigationEvent).toHaveBeenCalledWith(
+        url
+      );
     });
   });
 
@@ -87,8 +91,10 @@ describe('AppAnalyticsService', () => {
     });
 
     it('should delegate interaction log event to services', () => {
-      expect(googleAnalyticsService.logInteractionEvent).toBeCalledWith(event);
-      expect(firebaseAnalyticsService.logInteractionEvent).toBeCalledWith(
+      expect(googleAnalyticsService.logInteractionEvent).toHaveBeenCalledWith(
+        event
+      );
+      expect(firebaseAnalyticsService.logInteractionEvent).toHaveBeenCalledWith(
         event
       );
     });
@@ -110,17 +116,16 @@ describe('AppAnalyticsService', () => {
     });
 
     it('should delegate raw interaction log event to services', () => {
-      expect(googleAnalyticsService.logEvent).toBeCalledWith({
+      expect(googleAnalyticsService.logEvent).toHaveBeenCalledWith({
         event: 'grease_app_interaction',
         raw_action: 'click',
         raw_action_formatted: 'Click',
         action: 'some_action',
         action_formatted: 'Some action Formatted',
       });
-      expect(firebaseAnalyticsService.logRawInteractionEvent).toBeCalledWith(
-        'some_action',
-        'Some action Formatted'
-      );
+      expect(
+        firebaseAnalyticsService.logRawInteractionEvent
+      ).toHaveBeenCalledWith('some_action', 'Some action Formatted');
     });
   });
 
@@ -132,12 +137,12 @@ describe('AppAnalyticsService', () => {
     });
 
     it('should delegate open external link event to services', () => {
-      expect(googleAnalyticsService.logOpenExternalLinkEvent).toBeCalledWith(
-        name
-      );
-      expect(firebaseAnalyticsService.logOpenExternalLinkEvent).toBeCalledWith(
-        name
-      );
+      expect(
+        googleAnalyticsService.logOpenExternalLinkEvent
+      ).toHaveBeenCalledWith(name);
+      expect(
+        firebaseAnalyticsService.logOpenExternalLinkEvent
+      ).toHaveBeenCalledWith(name);
     });
   });
 });

@@ -9,7 +9,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'd360-date-picker',
-  standalone: true,
   imports: [
     MatButtonModule,
     MatInputModule,

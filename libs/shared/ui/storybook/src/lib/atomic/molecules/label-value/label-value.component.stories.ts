@@ -105,6 +105,7 @@ const mockLabelValuesHtml: LabelValue[] = [
       </ng-template>
     </schaeffler-label-value>
   `,
+  standalone: false,
 })
 class LabelValueExampleComponent {}
 

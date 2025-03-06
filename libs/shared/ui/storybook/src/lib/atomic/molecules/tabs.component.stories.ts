@@ -91,6 +91,7 @@ import { MatIconModule } from '@angular/material/icon';
       <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
     </div>
   `,
+  standalone: false,
 })
 class TabsExampleComponent {
   links = ['First', 'Second', 'Third'];

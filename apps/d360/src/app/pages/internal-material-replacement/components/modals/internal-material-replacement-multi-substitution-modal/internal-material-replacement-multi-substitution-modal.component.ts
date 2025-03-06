@@ -47,7 +47,6 @@ import {
 
 @Component({
   selector: 'd360-internal-material-replacement-multi-substitution-modal',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,

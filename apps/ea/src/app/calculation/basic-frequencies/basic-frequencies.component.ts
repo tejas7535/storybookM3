@@ -19,7 +19,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({
   templateUrl: './basic-frequencies.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     CommonModule,
     PushPipe,

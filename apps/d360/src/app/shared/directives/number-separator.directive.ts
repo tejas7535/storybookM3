@@ -25,7 +25,6 @@ import {
  */
 @Directive({
   selector: '[d360NumberSeparator]',
-  standalone: true,
 })
 export class NumberSeparatorDirective implements OnInit {
   /**

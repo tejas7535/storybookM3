@@ -61,7 +61,7 @@ describe('SapPriceComponent', () => {
       expect(component.gpi).toEqual(5);
       expect(component.gpm).toEqual(5);
       expect(component.gpmRfq).toEqual(5);
-      expect(pricingUtils.calculateMargin).toBeCalledTimes(3);
+      expect(pricingUtils.calculateMargin).toHaveBeenCalledTimes(3);
     });
 
     test('should set isSelected', () => {

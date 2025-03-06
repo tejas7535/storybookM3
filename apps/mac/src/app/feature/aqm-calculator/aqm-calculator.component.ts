@@ -24,6 +24,7 @@ import { AqmCalculatorApiService } from './services/aqm-calculator-api.service';
   selector: 'mac-aqm-calculator',
   templateUrl: './aqm-calculator.component.html',
   styleUrls: ['./aqm-calculator.component.scss'],
+  standalone: false,
 })
 export class AqmCalculatorComponent implements OnInit, OnDestroy {
   materials: AQMMaterial[];

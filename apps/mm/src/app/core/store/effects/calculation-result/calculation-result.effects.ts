@@ -9,7 +9,8 @@ import { ReportParserService } from '@mm/core/services/report-parser/report-pars
 import { ResultPageService } from '@mm/core/services/result-page/result-page.service';
 import { Result } from '@mm/shared/models';
 import { CalculationRequestPayload } from '@mm/shared/models/calculation-request/calculation-request.model';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 
 import { CalculationResultActions } from '../../actions/calculation-result';
 import { CalculationSelectionActions } from '../../actions/calculation-selection';

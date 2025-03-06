@@ -30,7 +30,6 @@ import { ResultReportComponentInterface } from './result-report.component.interf
 @Component({
   selector: 'schaeffler-result-report',
   templateUrl: './result-report.component.html',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     SharedTranslocoModule,

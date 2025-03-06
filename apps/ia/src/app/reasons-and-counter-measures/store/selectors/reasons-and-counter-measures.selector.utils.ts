@@ -24,8 +24,8 @@ export function mapReasonsToTableData(
     rankedReasons.unshift(
       new ReasonForLeavingRank(
         1,
-        mainReason.reasonId,
-        mainReason.reason,
+        mainReason?.reasonId,
+        mainReason?.reason,
         undefined,
         undefined,
         new Set(
@@ -65,7 +65,7 @@ export function filterTopReasons(reasons: Reason[]): Reason[] {
   const interviewReasons = new Map<number, Reason[]>();
   reasons.forEach((reason) => {
     if (interviewReasons.has(reason.interviewId)) {
-      interviewReasons.get(reason.interviewId).push(reason);
+      interviewReasons.get(reason.interviewId)?.push(reason);
     } else {
       interviewReasons.set(reason.interviewId, [reason]);
     }
@@ -95,7 +95,7 @@ export function prepareReasonsForRanking(
   const reasonCountMap: Map<number, Set<number>> = new Map();
   reasons.forEach((item) => {
     if (reasonCountMap.get(item[type])) {
-      reasonCountMap.get(item[type]).add(item.interviewId);
+      reasonCountMap.get(item[type])?.add(item.interviewId);
     } else {
       reasonCountMap.set(item[type], new Set([item.interviewId]));
     }
@@ -117,13 +117,15 @@ export function prepareReasonsForRanking(
           type === 'detailedReasonId' ? reason?.detailedReasonId : undefined,
         detailedReason:
           type === 'detailedReasonId' ? reason?.detailedReason : undefined,
-        leavers: reasonCountMap.get(+reasonId).size,
+        leavers: reasonCountMap.get(+reasonId)?.size,
         rank: undefined,
         percentage: getPercentageValue(
-          reasonCountMap.get(+reasonId).size,
+          reasonCountMap.get(+reasonId)
+            ? reasonCountMap.get(+reasonId)?.size
+            : undefined,
           totalReasons
         ),
-      };
+      } as ReasonForLeavingRank;
     }
   );
 
@@ -157,13 +159,13 @@ export function mapReasonsToChildren(
     }
 
     const reasonMap = reasonsMap.get(reason.reason);
-    if (reasonMap.has(reason.detailedReason)) {
-      reasonMap.set(
-        reason.detailedReason,
-        reasonMap.get(reason.detailedReason) + 1
-      );
-    } else {
-      reasonMap.set(reason.detailedReason, 1);
+    if (reasonMap) {
+      const detailedReason = reasonMap.get(reason.detailedReason);
+      if (detailedReason) {
+        reasonMap.set(reason.detailedReason, detailedReason + 1);
+      } else {
+        reasonMap.set(reason.detailedReason, 1);
+      }
     }
   });
 
@@ -184,8 +186,11 @@ export function mapReasonsToChildren(
   });
 }
 
-export const getPercentageValue = (part: number, total: number) => {
-  if (part === 0 || total === 0) {
+export const getPercentageValue = (
+  part: number | undefined,
+  total: number | undefined
+) => {
+  if (!part || !total) {
     return 0;
   }
 

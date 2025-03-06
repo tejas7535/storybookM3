@@ -4,7 +4,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'schaeffler-info-button',
-  standalone: true,
   imports: [MatTooltipModule, MatIconModule],
   templateUrl: './info-button.component.html',
 })

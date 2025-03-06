@@ -13,7 +13,6 @@ import { TooltipParams } from '../../table-config';
       [innerHTML]="tooltipValue"
     ></div>
   `,
-  standalone: true,
 })
 export class HeaderTooltipComponent implements ITooltipAngularComp {
   tooltipValue: string;

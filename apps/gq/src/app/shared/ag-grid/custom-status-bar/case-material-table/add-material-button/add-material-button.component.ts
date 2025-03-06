@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 @Component({
   selector: 'gq-add-material-button',
   templateUrl: './add-material-button.component.html',
+  standalone: false,
 })
 export class AddMaterialButtonComponent implements OnInit {
   createCaseEnabled$: Observable<boolean>;

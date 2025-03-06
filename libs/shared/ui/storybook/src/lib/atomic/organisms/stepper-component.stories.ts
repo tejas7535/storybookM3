@@ -72,6 +72,7 @@ import { Badges } from '../../../../.storybook/storybook-badges.constants';
       </div>
     </mat-step>
   </mat-horizontal-stepper>`,
+  standalone: false,
 })
 class WrapperComponentForStepper implements OnInit {
   firstFormGroup: FormGroup;

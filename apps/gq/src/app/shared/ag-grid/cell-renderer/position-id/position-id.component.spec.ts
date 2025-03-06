@@ -45,7 +45,7 @@ describe('PositionIdComponent', () => {
       expect(component.isRfq).toBe(false);
       expect(component.itemId).toEqual('translate it');
       expect(translate).toHaveBeenCalledTimes(1);
-      expect(translate).toBeCalledWith('shared.itemId', { id: 10 });
+      expect(translate).toHaveBeenCalledWith('shared.itemId', { id: 10 });
     });
 
     test('should set imagePath and Tooltip when position is an open RFQ', () => {

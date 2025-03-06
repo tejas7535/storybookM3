@@ -10,7 +10,6 @@ import {
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[dragDialog]',
-  standalone: true,
 })
 export class DragDialogDirective implements OnInit {
   private readonly element = inject(ElementRef<HTMLElement>);

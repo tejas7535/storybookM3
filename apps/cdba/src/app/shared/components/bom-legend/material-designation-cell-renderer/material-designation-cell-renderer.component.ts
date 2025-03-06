@@ -11,6 +11,7 @@ import { COST_SHARE_CATEGORY_COLORS } from '../../../constants/colors';
 @Component({
   selector: 'cdba-material-designation-cell-renderer',
   templateUrl: './material-designation-cell-renderer.component.html',
+  standalone: false,
 })
 export class MaterialDesignationCellRendererComponent
   implements ICellRendererAngularComp

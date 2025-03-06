@@ -11,7 +11,6 @@ import {
 } from './filter-validation';
 @Component({
   selector: 'd360-dummy',
-  standalone: true,
   template: '',
 })
 class DummyComponent {}

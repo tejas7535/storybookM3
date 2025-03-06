@@ -243,7 +243,7 @@ describe('RangeFilterComponent', () => {
       component.filter = filter;
       component.resetInput(input);
 
-      expect(component['updateFilter'].emit).toBeCalledWith({
+      expect(component['updateFilter'].emit).toHaveBeenCalledWith({
         ...filter,
         maxSelected: DEFAULT_RESULTS_THRESHOLD,
       } as FilterItemRange);
@@ -254,7 +254,7 @@ describe('RangeFilterComponent', () => {
       component.filter = filter;
       component.resetInput(input);
 
-      expect(component['updateFilter'].emit).toBeCalledWith({
+      expect(component['updateFilter'].emit).toHaveBeenCalledWith({
         ...filter,
         minSelected: 0,
       });
@@ -265,7 +265,7 @@ describe('RangeFilterComponent', () => {
       component.filter = filter;
       component.resetInput(input);
 
-      expect(component['updateFilter'].emit).toBeCalledWith({
+      expect(component['updateFilter'].emit).toHaveBeenCalledWith({
         ...filter,
         maxSelected: 100,
       } as FilterItemRange);
@@ -399,7 +399,7 @@ describe('RangeFilterComponent', () => {
 
       component['updateMinInput'](value);
 
-      expect(component['updateFilter'].emit).toBeCalledWith({
+      expect(component['updateFilter'].emit).toHaveBeenCalledWith({
         ...filter,
         minSelected: 20,
         maxSelected: filter.max,
@@ -413,7 +413,7 @@ describe('RangeFilterComponent', () => {
 
       component['updateMinInput'](value);
 
-      expect(component['updateFilter'].emit).toBeCalledWith({
+      expect(component['updateFilter'].emit).toHaveBeenCalledWith({
         ...filter,
         minSelected: 50,
         maxSelected: 51,
@@ -427,7 +427,7 @@ describe('RangeFilterComponent', () => {
 
       component['updateMinInput'](value);
 
-      expect(component['updateFilter'].emit).toBeCalledWith({
+      expect(component['updateFilter'].emit).toHaveBeenCalledWith({
         ...filter,
         minSelected: 99,
         maxSelected: 100,
@@ -458,7 +458,7 @@ describe('RangeFilterComponent', () => {
 
       component['updateMaxInput'](value);
 
-      expect(component['updateFilter'].emit).toBeCalledWith({
+      expect(component['updateFilter'].emit).toHaveBeenCalledWith({
         ...filter,
         maxSelected: 80,
         minSelected: filter.min,
@@ -472,7 +472,7 @@ describe('RangeFilterComponent', () => {
 
       component['updateMaxInput'](value);
 
-      expect(component['updateFilter'].emit).toBeCalledWith({
+      expect(component['updateFilter'].emit).toHaveBeenCalledWith({
         ...filter,
         minSelected: 39,
         maxSelected: 40,
@@ -486,7 +486,7 @@ describe('RangeFilterComponent', () => {
 
       component['updateMaxInput'](value);
 
-      expect(component['updateFilter'].emit).toBeCalledWith({
+      expect(component['updateFilter'].emit).toHaveBeenCalledWith({
         ...filter,
         minSelected: 0,
         maxSelected: 1,

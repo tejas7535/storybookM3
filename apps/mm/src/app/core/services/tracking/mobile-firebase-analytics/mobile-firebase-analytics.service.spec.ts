@@ -48,7 +48,7 @@ describe('MobileFirebaseAnalyticsService', () => {
       });
 
       it('should log event about clicking external link', () => {
-        expect(logEventSpy).toBeCalledWith({
+        expect(logEventSpy).toHaveBeenCalledWith({
           name: 'access_product_details',
           params: {
             content_type: 'externalLinkNavigation',
@@ -71,7 +71,7 @@ describe('MobileFirebaseAnalyticsService', () => {
       });
 
       it('should not log any events', () => {
-        expect(logEventSpy).not.toBeCalled();
+        expect(logEventSpy).not.toHaveBeenCalled();
       });
     });
   });

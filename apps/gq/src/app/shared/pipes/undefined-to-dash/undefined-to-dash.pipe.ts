@@ -4,7 +4,6 @@ import { Keyboard } from '../../models';
 
 @Pipe({
   name: 'undefinedToDash',
-  standalone: true,
 })
 export class UndefinedToDashPipe implements PipeTransform {
   transform(value: any): any {

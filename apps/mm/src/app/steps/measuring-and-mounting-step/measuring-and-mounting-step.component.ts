@@ -27,7 +27,6 @@ import { SelectionCardsComponent } from '../../shared/components/selection-cards
 @Component({
   selector: 'mm-measuring-and-mounting-step',
   templateUrl: './measuring-and-mounting-step.component.html',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatFormFieldModule,

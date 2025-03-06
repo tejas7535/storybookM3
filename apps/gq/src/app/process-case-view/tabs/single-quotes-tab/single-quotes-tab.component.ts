@@ -26,6 +26,7 @@ import { DeleteCustomViewModalComponent } from './delete-custom-view-modal/delet
   selector: 'gq-single-quotes-tab',
   templateUrl: './single-quotes-tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SingleQuotesTabComponent implements OnInit, OnDestroy {
   private readonly activeCaseFacade: ActiveCaseFacade =

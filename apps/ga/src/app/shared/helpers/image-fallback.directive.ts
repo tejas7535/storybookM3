@@ -1,7 +1,7 @@
 import { Directive, HostBinding, Input } from '@angular/core';
+
 /* eslint-disable @angular-eslint/directive-selector */
 @Directive({
-  standalone: true,
   selector: 'img[default]',
   host: {
     '(load)': 'load()',

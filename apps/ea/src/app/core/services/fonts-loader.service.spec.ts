@@ -99,45 +99,45 @@ describe('FontsLoaderService', () => {
     it('should load forms', () => {
       service.loadFonts(jspdfReport);
 
-      expect(jspdfReport.addFileToVFS).toBeCalledWith(
+      expect(jspdfReport.addFileToVFS).toHaveBeenCalledWith(
         'NotoSans-Regular.ttf',
         undefined
       );
 
-      expect(jspdfReport.addFileToVFS).toBeCalledWith(
+      expect(jspdfReport.addFileToVFS).toHaveBeenCalledWith(
         'NotoSans-Bold.ttf',
         undefined
       );
 
-      expect(jspdfReport.addFont).toBeCalledWith(
+      expect(jspdfReport.addFont).toHaveBeenCalledWith(
         'NotoSans-Regular.ttf',
         DocumentFonts.family,
         DocumentFonts.style.normal
       );
 
-      expect(jspdfReport.addFont).toBeCalledWith(
+      expect(jspdfReport.addFont).toHaveBeenCalledWith(
         'NotoSans-Bold.ttf',
         DocumentFonts.family,
         DocumentFonts.style.bold
       );
 
-      expect(jspdfReport.addFileToVFS).toBeCalledWith(
+      expect(jspdfReport.addFileToVFS).toHaveBeenCalledWith(
         'NotoSansSC-Regular.ttf',
         undefined
       );
 
-      expect(jspdfReport.addFileToVFS).toBeCalledWith(
+      expect(jspdfReport.addFileToVFS).toHaveBeenCalledWith(
         'NotoSansSC-Bold.ttf',
         undefined
       );
 
-      expect(jspdfReport.addFont).toBeCalledWith(
+      expect(jspdfReport.addFont).toHaveBeenCalledWith(
         'NotoSansSC-Regular.ttf',
         DocumentFonts.family,
         DocumentFonts.style.normal
       );
 
-      expect(jspdfReport.addFont).toBeCalledWith(
+      expect(jspdfReport.addFont).toHaveBeenCalledWith(
         'NotoSansSC-Bold.ttf',
         DocumentFonts.family,
         DocumentFonts.style.bold

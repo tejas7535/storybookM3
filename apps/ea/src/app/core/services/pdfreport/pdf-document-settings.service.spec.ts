@@ -78,11 +78,14 @@ describe('PDFDocumentSettingsService', () => {
         noticeHeading: 'calculationResultReport.reportSectionWarnings',
       });
 
-      expect(translocoServiceSpy).toBeCalledWith('pdfReport.reportHeading', {
-        bearingDesignation: designationId,
-      });
+      expect(translocoServiceSpy).toHaveBeenCalledWith(
+        'pdfReport.reportHeading',
+        {
+          bearingDesignation: designationId,
+        }
+      );
 
-      expect(translocoServiceSpy).toBeCalledWith(
+      expect(translocoServiceSpy).toHaveBeenCalledWith(
         'pdfReport.mediasBearingLink.link',
         {
           bearingDesignation: designationId,

@@ -12,7 +12,6 @@ import { AbstractBaseCellRendererComponent } from '../../../../../../../shared/c
 
 @Component({
   selector: 'd360-sales-planning-group-level-cell-renderer',
-  standalone: true,
   imports: [],
   templateUrl: './sales-planning-group-level-cell-renderer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -16,6 +16,7 @@ import { Store } from '@ngrx/store';
 @Component({
   selector: 'gq-target-price',
   templateUrl: './target-price.component.html',
+  standalone: false,
 })
 export class TargetPriceComponent implements OnInit {
   @Input() isDisabled: boolean;

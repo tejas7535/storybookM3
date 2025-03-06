@@ -48,7 +48,6 @@ type AttributeConfig = Record<string, string | string[]>;
 
 @Component({
   selector: 'd360-customer-info-modal',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,

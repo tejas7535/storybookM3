@@ -5,6 +5,7 @@ import { QuotationDetail } from '../../../models/quotation-detail';
 @Component({
   selector: 'gq-material-price-header-content',
   templateUrl: './material-price-header-content.component.html',
+  standalone: false,
 })
 export class MaterialPriceHeaderContentComponent {
   @Input() quotationDetail: QuotationDetail;

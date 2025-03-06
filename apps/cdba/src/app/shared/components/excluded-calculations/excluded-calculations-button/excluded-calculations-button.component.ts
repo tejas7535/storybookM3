@@ -8,6 +8,7 @@ import { ExcludedCalculationsDialogComponent } from '../excluded-calculations-di
 @Component({
   selector: 'cdba-excluded-calculations-button',
   templateUrl: './excluded-calculations-button.component.html',
+  standalone: false,
 })
 export class ExcludedCalculationsButtonComponent {
   @Input() excludedCalculations: ExcludedCalculations = undefined;

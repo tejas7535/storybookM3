@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'materialNumber',
+  standalone: false,
 })
 export class MaterialNumberPipe implements PipeTransform {
   transform(value: string): string {

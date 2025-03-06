@@ -26,7 +26,6 @@ import { CustomerSalesPlanNumberEditModalComponent } from '../../../customer-sal
 
 @Component({
   selector: 'd360-sales-planning-other-revenues-cell-renderer',
-  standalone: true,
   imports: [MatIcon, MatIconButton, SharedTranslocoModule, PushPipe],
   templateUrl: './sales-planning-other-revenues-cell-renderer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

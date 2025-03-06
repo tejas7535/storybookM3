@@ -48,7 +48,6 @@ import { getColumnDefinitions } from './column-definitions';
 
 @Component({
   selector: 'd360-material-list-table',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,
@@ -90,14 +89,11 @@ export class MaterialListTableComponent {
   };
 
   public constructor() {
-    effect(
-      () => {
-        this.refreshGridData(
-          this.selectedCustomerNumber(),
-          this.demandValidationFilters()
-        );
-      },
-      { allowSignalWrites: true }
+    effect(() =>
+      this.refreshGridData(
+        this.selectedCustomerNumber(),
+        this.demandValidationFilters()
+      )
     );
   }
 

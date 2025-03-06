@@ -38,6 +38,7 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 @Component({
   selector: 'gq-create-manual-case',
   templateUrl: './create-manual-case.component.html',
+  standalone: false,
 })
 export class CreateManualCaseComponent implements OnDestroy, OnInit {
   createCaseLoading$: Observable<boolean>;

@@ -25,7 +25,6 @@ import {
 @Component({
   selector: 'cdba-bom-export-button',
   templateUrl: './bom-export-button.component.html',
-  standalone: true,
   imports: [MatButtonModule, MatTooltipModule, SharedTranslocoModule],
 })
 export class BomExportButtonComponent implements OnInit, OnDestroy {

@@ -6,7 +6,6 @@ import { translate } from '@jsverse/transloco';
 
 @Pipe({
   name: 'sqvCheckSource',
-  standalone: true,
 })
 export class SqvCheckSourcePipe implements PipeTransform {
   transform(source: SqvCheckSource): string {

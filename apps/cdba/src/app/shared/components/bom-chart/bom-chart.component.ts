@@ -19,6 +19,7 @@ import { DataPoint } from './data-point.model';
   templateUrl: './bom-chart.component.html',
   changeDetection: ChangeDetectionStrategy.Default,
   providers: [BomChartConfigService],
+  standalone: false,
 })
 export class BomChartComponent implements OnChanges {
   @Input() public materialDesignation: string;

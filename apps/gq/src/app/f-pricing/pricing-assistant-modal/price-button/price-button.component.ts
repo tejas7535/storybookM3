@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'gq-price-button',
   templateUrl: './price-button.component.html',
+  standalone: false,
 })
 export class PriceButtonComponent {
   @Input() isAddPriceButton = false;

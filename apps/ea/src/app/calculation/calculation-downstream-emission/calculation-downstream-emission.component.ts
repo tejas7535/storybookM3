@@ -29,7 +29,6 @@ interface ResultItem {
 @Component({
   selector: 'ea-calculation-downstream-emission',
   templateUrl: './calculation-downstream-emission.component.html',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,

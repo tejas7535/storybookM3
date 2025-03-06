@@ -116,7 +116,7 @@ describe('StaticStorageService', () => {
 
         it('should dispatch', () => {
           service.dispatchMessage(message);
-          expect(store.dispatch).toBeCalledWith(
+          expect(store.dispatch).toHaveBeenCalledWith(
             openBanner({
               text: 'Work in progress...',
               buttonText: 'OK',
@@ -134,7 +134,7 @@ describe('StaticStorageService', () => {
 
         it('should dispatch', () => {
           service.dispatchMessage(message);
-          expect(store.dispatch).toBeCalledWith(
+          expect(store.dispatch).toHaveBeenCalledWith(
             openBanner({
               text: 'Arbeit in Bearbeitung...',
               buttonText: 'Okay',
@@ -152,7 +152,7 @@ describe('StaticStorageService', () => {
 
         it('should dispatch with fallback to English', () => {
           service.dispatchMessage(message);
-          expect(store.dispatch).toBeCalledWith(
+          expect(store.dispatch).toHaveBeenCalledWith(
             openBanner({
               text: 'Work in progress...',
               buttonText: 'OK',
@@ -177,7 +177,7 @@ describe('StaticStorageService', () => {
       it('should not dispatch any message dispatch', () => {
         service.dispatchMessage(message);
 
-        expect(store.dispatch).not.toBeCalled();
+        expect(store.dispatch).not.toHaveBeenCalled();
       });
     });
   });

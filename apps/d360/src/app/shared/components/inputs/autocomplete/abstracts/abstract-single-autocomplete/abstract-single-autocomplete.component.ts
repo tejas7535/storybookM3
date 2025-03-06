@@ -38,7 +38,6 @@ import {
  * @implements {OnInit}
  */
 @Component({
-  standalone: true,
   imports: [],
   template: '',
 })

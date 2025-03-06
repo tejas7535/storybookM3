@@ -4,13 +4,13 @@
   "projectType": "library",
   "sourceRoot": "libs/shared/ui/legal-pages/src",
   "prefix": "schaeffler",
+  "tags": ["scope:shared", "type:ui"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
       "options": {
         "tsConfig": "libs/shared/ui/legal-pages/tsconfig.lib.json",
-        "project": "libs/shared/ui/legal-pages/ng-package.json",
-        "tailwindConfig": "libs/shared/ui/legal-pages/tailwind.config.js"
+        "project": "libs/shared/ui/legal-pages/ng-package.json"
       },
       "configurations": {
         "production": {
@@ -67,6 +67,5 @@
         "postTargets": []
       }
     }
-  },
-  "tags": ["scope:shared", "type:ui"]
+  }
 }

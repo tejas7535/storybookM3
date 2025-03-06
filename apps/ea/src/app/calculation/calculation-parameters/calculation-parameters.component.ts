@@ -124,7 +124,6 @@ import { ParameterTemplateDirective } from './parameter-template.directive';
 @Component({
   templateUrl: './calculation-parameters.component.html',
   selector: 'ea-calculation-parameters',
-  standalone: true,
   imports: [
     CommonModule,
     MatIconModule,

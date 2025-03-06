@@ -9,6 +9,7 @@ import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/f
 @Component({
   selector: 'gq-create-manual-case',
   templateUrl: './create-manual-case-button.component.html',
+  standalone: false,
 })
 export class CreateManualCaseButtonComponent implements OnDestroy {
   private readonly featureToggleConfigService: FeatureToggleConfigService =

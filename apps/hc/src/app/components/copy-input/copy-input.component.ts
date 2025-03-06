@@ -12,7 +12,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   selector: 'hc-copy-input',
   templateUrl: './copy-input.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     MatButtonModule,
     MatIconModule,

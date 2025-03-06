@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'gq-label-text',
   templateUrl: './label-text.component.html',
+  standalone: false,
 })
 export class LabelTextComponent {
   @Input() marginBottom = true;

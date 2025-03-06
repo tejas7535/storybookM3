@@ -5,6 +5,7 @@ import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 @Component({
   selector: 'gq-relocation-cost-details',
   templateUrl: './relocation-cost-details.component.html',
+  standalone: false,
 })
 export class RelocationCostDetailsComponent {
   @Input() quotationDetail: QuotationDetail;

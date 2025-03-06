@@ -17,6 +17,7 @@ import { ReportService } from '../../services/report.service';
   templateUrl: './html-report.component.html',
   styleUrls: ['./html-report.component.scss'],
   providers: [ReportService],
+  standalone: false,
 })
 export class HtmlReportComponent implements OnInit, OnDestroy {
   @Input() public htmlReportTitle!: string;

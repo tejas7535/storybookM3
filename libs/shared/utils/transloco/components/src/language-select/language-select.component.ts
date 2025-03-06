@@ -16,6 +16,7 @@ import { LangDefinition } from '@jsverse/transloco/lib/types';
   selector: 'schaeffler-language-select',
   templateUrl: './language-select.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class LanguageSelectComponent implements OnInit, OnDestroy {
   @Input() public reloadOnLanguageChange = false;

@@ -17,6 +17,7 @@ import {
 @Component({
   selector: 'gq-create-case-button',
   templateUrl: './create-case-button.component.html',
+  standalone: false,
 })
 export class CreateCaseButtonComponent implements OnInit {
   createCaseEnabled$: Observable<boolean>;

@@ -1,5 +1,5 @@
 import { PlatformModule } from '@angular/cdk/platform';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { inject, NgModule, provideAppInitializer } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
@@ -31,7 +31,6 @@ import {
   LANGUAGE_STORAGE_KEY,
 } from '@cdba/shared/constants';
 
-import i18nChecksumsJson from '../../i18n-checksums.json';
 import { HttpModule } from './http/http.module';
 import { StoreModule } from './store/store.module';
 
@@ -50,7 +49,12 @@ const azureConfig = new AzureConfig(
   )
 );
 
-export function appInitializer(oneTrustService: OneTrustService) {
+export function appInitializer(
+  oneTrustService: OneTrustService,
+  applicationInsightsService: ApplicationInsightsService
+) {
+  applicationInsightsService.initTracking(oneTrustService.consentChanged$());
+
   return () => oneTrustService.loadOneTrust();
 }
 
@@ -74,8 +78,7 @@ export function appInitializer(oneTrustService: OneTrustService) {
       FALLBACK_LANGUAGE.id,
       LANGUAGE_STORAGE_KEY,
       true,
-      !environment.localDev,
-      i18nChecksumsJson
+      !environment.localDev
     ),
 
     // Monitoring
@@ -100,12 +103,14 @@ export function appInitializer(oneTrustService: OneTrustService) {
         useValue: localStorage,
       },
     }),
-    {
-      provide: APP_INITIALIZER,
-      useFactory: appInitializer,
-      deps: [OneTrustService, ApplicationInsightsService],
-      multi: true,
-    },
+    provideAppInitializer(() => {
+      const initializerFn = appInitializer(
+        inject(OneTrustService),
+        inject(ApplicationInsightsService)
+      );
+
+      return initializerFn();
+    }),
   ],
 })
 export class CoreModule {}

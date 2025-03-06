@@ -3,7 +3,6 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -24,14 +23,7 @@ describe('UserInteractionService', () => {
   const createSerive = createServiceFactory({
     service: UserInteractionService,
     imports: [MatSnackBarModule, provideTranslocoTestingModule({ en: {} })],
-    providers: [
-      provideHttpClient(),
-      provideHttpClientTesting(),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
-    ],
+    providers: [provideHttpClient(), provideHttpClientTesting()],
   });
 
   beforeEach(() => {
@@ -133,9 +125,9 @@ describe('UserInteractionService', () => {
     });
 
     it('should throw an error for unhandled InteractionType', () => {
-      expect(() =>
-        service['determineInteractionByType'](undefined)
-      ).toThrowError('Unhandled InteractionType');
+      expect(() => service['determineInteractionByType'](undefined)).toThrow(
+        'Unhandled InteractionType'
+      );
     });
   });
 });

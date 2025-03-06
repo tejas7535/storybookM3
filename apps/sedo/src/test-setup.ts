@@ -1,4 +1,7 @@
-import 'jest-preset-angular/setup-jest';
+// setup-jest.ts
+import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone/index.mjs';
+
+setupZoneTestEnv();
 
 import { LicenseManager } from 'ag-grid-enterprise';
 

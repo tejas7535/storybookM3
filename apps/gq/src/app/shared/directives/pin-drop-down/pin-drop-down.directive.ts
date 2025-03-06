@@ -5,6 +5,7 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[pinDropDown]',
   exportAs: 'pinDropDown',
+  standalone: false,
 })
 export class PinDropDownDirective implements AfterViewInit, OnDestroy {
   constructor(private readonly autocomplete: MatAutocompleteTrigger) {}

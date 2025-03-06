@@ -60,7 +60,6 @@ import { FileUploadComponent } from '@schaeffler/file-upload';
   FileUploadComponent,
   ...
 ]
-standalone: true
 ...
 })
 ```

@@ -7,7 +7,6 @@ import { RemoteChangeInfoComponent } from '../remote-change-info/remote-change-i
   selector: 'lsa-lubrication-input',
   templateUrl: './lubrication-input.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [CommonModule, RemoteChangeInfoComponent],
 })
 export class LubricationInputComponent {

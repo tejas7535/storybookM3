@@ -21,7 +21,6 @@ import { DialogFacade } from '@mac/msd/store/facades/dialog';
 @Component({
   selector: 'mac-base-dialog',
   templateUrl: './base-dialog.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,
@@ -59,6 +58,7 @@ export class BaseDialogComponent {
   @Input() public valid: boolean;
   @Output() public minimize = new EventEmitter<void>();
   @Output() public accept = new EventEmitter<boolean>();
+  // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() public cancel = new EventEmitter<void>();
 
   public createAnotherControl = new FormControl<boolean>(false);

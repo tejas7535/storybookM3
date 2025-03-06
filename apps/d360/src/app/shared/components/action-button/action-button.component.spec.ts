@@ -9,7 +9,6 @@ import { ActionButtonComponent } from './action-button.component';
 
 @Component({
   selector: 'd360-test-host-component',
-  standalone: true,
   imports: [ActionButtonComponent],
   template: `
     <d360-action-button

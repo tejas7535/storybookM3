@@ -6,6 +6,7 @@ import { Duration, Keyboard } from '../../models';
 
 @Pipe({
   name: 'duration',
+  standalone: false,
 })
 export class DurationPipe implements PipeTransform {
   transform(duration: Duration): string {

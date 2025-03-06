@@ -18,6 +18,7 @@ import { LetDirective, PushPipe } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { GridApi, GridReadyEvent } from 'ag-grid-enterprise';
 import { MockDirective, MockModule, MockPipe } from 'ng-mocks';
+import { NgxEchartsModule } from 'ngx-echarts';
 import { marbles } from 'rxjs-marbles';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -60,6 +61,7 @@ describe('BomContainerComponent', () => {
   const createComponent = createComponentFactory({
     component: BomContainerComponent,
     imports: [
+      NgxEchartsModule,
       MockDirective(LetDirective),
       MockPipe(PushPipe),
       provideTranslocoTestingModule({ en: {} }),

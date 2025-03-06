@@ -27,6 +27,7 @@ import { StringOption } from '@schaeffler/inputs';
   selector: 'schaeffler-search',
   styleUrls: ['./search.component.scss'],
   templateUrl: './search.component.html',
+  standalone: false,
 })
 export class SearchComponent
   implements OnInit, OnDestroy, ControlValueAccessor

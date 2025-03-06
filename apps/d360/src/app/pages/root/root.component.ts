@@ -13,7 +13,6 @@ import { UserService } from '../../shared/services/user.service';
 
 @Component({
   selector: 'd360-root',
-  standalone: true,
   imports: [LoadingSpinnerModule, TranslocoDirective],
   templateUrl: './root.component.html',
 })

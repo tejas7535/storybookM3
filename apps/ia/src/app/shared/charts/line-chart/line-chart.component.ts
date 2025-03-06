@@ -10,6 +10,7 @@ import { LINE_CHART_BASE_OPTIONS } from './line-chart.config';
   selector: 'ia-line-chart',
   templateUrl: './line-chart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class LineChartComponent {
   readonly DATE_FORMAT = 'MM.YYYY';

@@ -9,14 +9,13 @@ import {
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar, MatSnackBarLabel } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'lsa-add-to-cart-button',
   templateUrl: './add-to-cart-button.component.html',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatIconModule, MatButtonModule, MatButtonModule, MatSnackBarLabel],
+  imports: [MatIconModule, MatButtonModule, MatButtonModule],
 })
 export class AddToCartButtonComponent {
   @Input() label: string;

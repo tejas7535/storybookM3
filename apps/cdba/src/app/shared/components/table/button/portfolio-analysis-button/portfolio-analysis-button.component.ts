@@ -18,6 +18,7 @@ import {
 @Component({
   selector: 'cdba-portfolio-analysis-button',
   templateUrl: './portfolio-analysis-button.component.html',
+  standalone: false,
 })
 export class PortfolioAnalysisButtonComponent implements OnInit {
   public selectedNodeIds$: Observable<string[]>;

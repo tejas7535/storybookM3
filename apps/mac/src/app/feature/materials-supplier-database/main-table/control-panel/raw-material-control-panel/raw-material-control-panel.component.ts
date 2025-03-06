@@ -30,7 +30,6 @@ import { BaseControlPanelComponent } from '../base-control-panel.component';
 
 @Component({
   selector: 'mac-raw-material-control-panel',
-  standalone: true,
   imports: [
     // default
     CommonModule,

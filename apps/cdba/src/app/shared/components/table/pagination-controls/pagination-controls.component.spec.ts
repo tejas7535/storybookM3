@@ -464,7 +464,7 @@ describe('PaginationControlsComponent', () => {
 
       expect(() => {
         jest.runAllTimers();
-      }).toThrowError(new Error('Unhandled pagination event type'));
+      }).toThrow(new Error('Unhandled pagination event type'));
     });
   });
 

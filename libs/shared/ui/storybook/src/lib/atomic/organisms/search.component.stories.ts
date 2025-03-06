@@ -86,6 +86,7 @@ import { MatChipsModule } from '@angular/material/chips';
       <div>{{ control.value | json }}</div>
     </div>
   `,
+  standalone: false,
 })
 class WrapperComponentForSearch extends SearchComponent {
   public includeCustomOptions: boolean = false;

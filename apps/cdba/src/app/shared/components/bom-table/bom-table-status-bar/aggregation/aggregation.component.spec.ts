@@ -60,8 +60,8 @@ describe('AggregationComponent', () => {
 
     component['handleRangeSelectionChanges'](paramsMock);
 
-    expect(paramsMock.api.getCellRanges).toBeCalledTimes(1);
-    expect(calculateStatusBarValuesSpy).toBeCalledTimes(1);
-    expect(changeDetectorRefSpy).toBeCalledTimes(1);
+    expect(paramsMock.api.getCellRanges).toHaveBeenCalledTimes(1);
+    expect(calculateStatusBarValuesSpy).toHaveBeenCalledTimes(1);
+    expect(changeDetectorRefSpy).toHaveBeenCalledTimes(1);
   });
 });

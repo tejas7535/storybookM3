@@ -47,7 +47,6 @@ export const shopSearchPathBase = 'search/searchpage?text=';
 
 @Component({
   selector: 'ga-grease-report-result',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,

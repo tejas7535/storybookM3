@@ -10,6 +10,7 @@ import { ReferenceType } from '@cdba/shared/models';
 @Component({
   selector: 'cdba-material-designation-cell-render',
   templateUrl: './material-designation-cell-render.component.html',
+  standalone: false,
 })
 export class MaterialDesignationCellRenderComponent {
   public materialDesignation: string;

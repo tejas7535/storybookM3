@@ -5,6 +5,7 @@ import { ICellRendererParams } from 'ag-grid-enterprise';
 @Component({
   selector: 'gq-show-more-rows',
   templateUrl: './show-more-rows.component.html',
+  standalone: false,
 })
 export class ShowMoreRowsComponent {
   value: string;

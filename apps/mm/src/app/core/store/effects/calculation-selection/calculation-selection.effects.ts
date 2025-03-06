@@ -7,7 +7,8 @@ import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { LazyListLoaderService, RestService } from '@mm/core/services';
 import { environment } from '@mm/environments/environment';
 import { BearingOption, SearchEntry } from '@mm/shared/models';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 
 import { CalculationOptionsActions } from '../../actions';
 import { CalculationResultActions } from '../../actions/calculation-result';

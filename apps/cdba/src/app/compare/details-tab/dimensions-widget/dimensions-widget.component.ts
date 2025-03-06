@@ -16,6 +16,7 @@ interface DimensionData {
   selector: 'cdba-dimensions-widget',
   templateUrl: './dimensions-widget.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DimensionsWidgetComponent {
   public dimensionData: DimensionData;

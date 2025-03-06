@@ -51,7 +51,10 @@ import { ColumnForUploadTable } from './models';
  * @template T
  * @template R
  */
-@Component({ template: '' })
+@Component({
+  template: '',
+  standalone: false,
+})
 export abstract class AbstractTableUploadModalComponent<
   T,
   R extends ResponseWithResultMessage,

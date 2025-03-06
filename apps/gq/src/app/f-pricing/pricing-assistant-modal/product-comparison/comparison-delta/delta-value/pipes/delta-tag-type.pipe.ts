@@ -4,7 +4,6 @@ import { PropertyDelta } from '@gq/core/store/f-pricing/models/property-delta.in
 
 @Pipe({
   name: 'deltaTagType',
-  standalone: true,
 })
 export class DeltaTagTypePipe implements PipeTransform {
   transform(value: PropertyDelta): 'error' | 'success' | 'category2' {

@@ -58,7 +58,7 @@ describe('ChartConfigService', () => {
         'testValue'
       );
 
-      expect(translate).toBeCalledWith(
+      expect(translate).toHaveBeenCalledWith(
         `transactionView.graph.tooltip.${translateKey}`
       );
     });

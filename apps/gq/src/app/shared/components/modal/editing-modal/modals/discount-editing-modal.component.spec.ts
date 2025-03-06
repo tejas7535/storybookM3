@@ -70,7 +70,7 @@ describe('DiscountEditingModalComponent', () => {
 
       component['validateInput']('100');
 
-      expect(getPercentageRegexSpy).toBeCalledWith(locale);
+      expect(getPercentageRegexSpy).toHaveBeenCalledWith(locale);
     });
   });
 

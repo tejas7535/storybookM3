@@ -16,7 +16,6 @@ import { SharedModule } from '../../../shared.module';
 
 @Component({
   selector: 'ia-excel-export-status-bar',
-  standalone: true,
   imports: [
     SharedModule,
     SharedTranslocoModule,

@@ -4,6 +4,7 @@ import { TranslocoService } from '@jsverse/transloco';
 
 @Pipe({
   name: 'undefinedAttributeFallback',
+  standalone: false,
 })
 export class UndefinedAttributeFallbackPipe implements PipeTransform {
   constructor(private readonly translocoService: TranslocoService) {}

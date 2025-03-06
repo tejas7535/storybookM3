@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 @Component({
   selector: 'gq-quantity-display',
   templateUrl: './quantity-display.component.html',
+  standalone: false,
 })
 export class QuantityDisplayComponent implements OnInit {
   @Input()

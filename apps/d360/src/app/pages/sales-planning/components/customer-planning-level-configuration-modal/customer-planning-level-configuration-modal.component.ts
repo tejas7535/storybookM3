@@ -29,7 +29,6 @@ export interface CustomerPlanningLevelConfigurationModalProps {
 
 @Component({
   selector: 'd360-customer-planning-level-configuration-modal',
-  standalone: true,
   imports: [
     CommonModule,
     MatDialogActions,

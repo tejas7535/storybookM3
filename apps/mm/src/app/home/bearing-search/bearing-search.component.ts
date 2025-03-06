@@ -21,7 +21,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { BEARING } from '../../shared/constants/tracking-names';
 import { BearingOption } from '../../shared/models';
 @Component({
-  standalone: true,
   imports: [SearchModule, PushPipe, SharedTranslocoModule],
   selector: 'mm-bearing-search',
   templateUrl: './bearing-search.component.html',

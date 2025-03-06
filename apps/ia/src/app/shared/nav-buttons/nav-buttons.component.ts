@@ -17,7 +17,6 @@ import { NavItem } from './models';
 
 @Component({
   selector: 'ia-nav-buttons',
-  standalone: true,
   imports: [
     SharedModule,
     SharedTranslocoModule,

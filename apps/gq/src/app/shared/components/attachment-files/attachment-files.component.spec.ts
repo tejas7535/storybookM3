@@ -53,7 +53,7 @@ describe('AttachmentFilesComponent', () => {
 
     component.openAddFileDialog();
 
-    expect(openMock).toBeCalledTimes(1);
+    expect(openMock).toHaveBeenCalledTimes(1);
     expect(openMock).toHaveBeenCalledWith(AttachmentFilesUploadModalComponent, {
       width: '634px',
       disableClose: true,
@@ -81,7 +81,7 @@ describe('AttachmentFilesComponent', () => {
 
     component.openConfirmDeleteAttachmentDialog(attachment);
 
-    expect(openMock).toBeCalledTimes(1);
+    expect(openMock).toHaveBeenCalledTimes(1);
     expect(openMock).toHaveBeenCalledWith(DeletingAttachmentModalComponent, {
       width: '634px',
       disableClose: true,

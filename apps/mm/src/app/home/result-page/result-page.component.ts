@@ -25,7 +25,6 @@ import { ResultPageService } from '../../core/services/result-page/result-page.s
   selector: 'mm-result-page',
   templateUrl: './result-page.component.html',
   providers: [ResultPageService],
-  standalone: true,
   imports: [
     CommonModule,
     ReportModule,

@@ -2,7 +2,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'lsaCustomCurrency',
-  standalone: true,
 })
 export class LsaCurrencyPipe implements PipeTransform {
   transform(value: string): string | undefined {

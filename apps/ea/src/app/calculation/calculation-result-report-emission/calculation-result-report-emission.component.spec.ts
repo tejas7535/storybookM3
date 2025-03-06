@@ -268,7 +268,7 @@ describe('CalculationResultReportEmissionComponent', () => {
     it('should close dialog ref', () => {
       component.closeDialog();
 
-      expect(dialogRefMock.close).toBeCalled();
+      expect(dialogRefMock.close).toHaveBeenCalled();
     });
   });
 

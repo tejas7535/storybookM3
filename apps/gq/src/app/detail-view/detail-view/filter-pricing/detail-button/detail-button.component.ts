@@ -10,6 +10,7 @@ import { AppRoutePath } from '../../../../app-route-path.enum';
 @Component({
   selector: 'gq-detail-button',
   templateUrl: './detail-button.component.html',
+  standalone: false,
 })
 export class DetailButtonComponent {
   @Input() text: string;

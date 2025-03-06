@@ -18,7 +18,6 @@ import { tooManyBearingsResultsThreshold } from '../../constants';
 
 @Component({
   selector: 'ga-bearing-selection-button',
-  standalone: true,
   imports: [
     LetDirective,
     PushPipe,

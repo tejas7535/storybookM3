@@ -12,6 +12,7 @@ import { QuotationDetail } from '@gq/shared/models/quotation-detail';
   selector: 'gq-editing-comment-modal',
   templateUrl: './editing-comment-modal.component.html',
   styleUrls: ['./editing-comment-modal.component.scss'],
+  standalone: false,
 })
 export class EditingCommentModalComponent implements OnInit, OnDestroy {
   @ViewChild('autosize') autosize: CdkTextareaAutosize;

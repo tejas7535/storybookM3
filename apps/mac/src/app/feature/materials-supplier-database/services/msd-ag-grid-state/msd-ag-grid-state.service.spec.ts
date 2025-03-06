@@ -119,9 +119,9 @@ describe('MsdAgGridStateService', () => {
       service['dataFacade'].navigation$ = subject;
       service['init']();
 
-      expect(service['quickFilterFacade'].setLocalQuickFilters).toBeCalledWith(
-        STEEL_STATIC_QUICKFILTERS
-      );
+      expect(
+        service['quickFilterFacade'].setLocalQuickFilters
+      ).toHaveBeenCalledWith(STEEL_STATIC_QUICKFILTERS);
     });
     it('should ignore empty navigation', () => {
       service['getQuickFilterState'] = jest.fn(() => STEEL_STATIC_QUICKFILTERS);
@@ -137,7 +137,7 @@ describe('MsdAgGridStateService', () => {
 
       expect(
         service['quickFilterFacade'].setLocalQuickFilters
-      ).not.toBeCalled();
+      ).not.toHaveBeenCalled();
     });
   });
 

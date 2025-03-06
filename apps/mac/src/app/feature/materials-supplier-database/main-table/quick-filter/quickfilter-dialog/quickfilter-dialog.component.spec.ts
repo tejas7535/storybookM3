@@ -160,7 +160,7 @@ describe('QuickfilterDialogComponent', () => {
   it('closeDialog should close dialog', () => {
     component.dialogRef.close = jest.fn();
     component.closeDialog();
-    expect(component.dialogRef.close).toBeCalled();
+    expect(component.dialogRef.close).toHaveBeenCalled();
   });
 
   describe('applyDialog', () => {
@@ -181,7 +181,7 @@ describe('QuickfilterDialogComponent', () => {
         delete: false,
       };
 
-      expect(component.dialogRef.close).toBeCalledWith(result);
+      expect(component.dialogRef.close).toHaveBeenCalledWith(result);
     });
     it('should close dialog and set data for edit', () => {
       component.dialogRef.close = jest.fn();
@@ -198,7 +198,7 @@ describe('QuickfilterDialogComponent', () => {
         delete: false,
       };
 
-      expect(component.dialogRef.close).toBeCalledWith(result);
+      expect(component.dialogRef.close).toHaveBeenCalledWith(result);
     });
     it('should close dialog and set data for delete', () => {
       component.dialogRef.close = jest.fn();
@@ -215,7 +215,7 @@ describe('QuickfilterDialogComponent', () => {
         delete: true,
       };
 
-      expect(component.dialogRef.close).toBeCalledWith(result);
+      expect(component.dialogRef.close).toHaveBeenCalledWith(result);
     });
   });
 
@@ -225,7 +225,7 @@ describe('QuickfilterDialogComponent', () => {
       component.titleControl.setValue('test');
       component.onSubmit();
 
-      expect(component.applyDialog).toBeCalled();
+      expect(component.applyDialog).toHaveBeenCalled();
     });
 
     it('should do nothing if form is invalid', () => {
@@ -233,7 +233,7 @@ describe('QuickfilterDialogComponent', () => {
       component.titleControl.setValue(undefined, { emitEvent: false });
       component.onSubmit();
 
-      expect(component.applyDialog).not.toBeCalled();
+      expect(component.applyDialog).not.toHaveBeenCalled();
     });
   });
 

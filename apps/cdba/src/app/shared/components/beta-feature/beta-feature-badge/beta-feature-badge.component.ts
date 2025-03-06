@@ -8,6 +8,7 @@ import { BetaFeatureDialogComponent } from '../beta-feature-dialog/beta-feature-
 @Component({
   selector: 'cdba-beta-feature-badge',
   templateUrl: './beta-feature-badge.component.html',
+  standalone: false,
 })
 export class BetaFeatureBadgeComponent {
   @Input() emailAddress: string = EMAIL_DEFAULT;

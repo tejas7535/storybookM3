@@ -10,6 +10,7 @@ import { CellClassParams } from 'ag-grid-enterprise';
 @Component({
   selector: 'gq-create-case-action-cell',
   templateUrl: './create-case-action-cell.component.html',
+  standalone: false,
 })
 export class CreateCaseActionCellComponent {
   public params: CellClassParams;

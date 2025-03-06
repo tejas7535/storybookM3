@@ -38,6 +38,7 @@ import { PriceSourceOptions } from './models/price-source-options.enum';
   selector: 'gq-extended-column-header',
   templateUrl: './extended-column-header.component.html',
   styleUrls: ['./extended-column-header.component.scss'],
+  standalone: false,
 })
 export class ExtendedColumnHeaderComponent
   implements IHeaderAngularComp, OnInit, OnDestroy

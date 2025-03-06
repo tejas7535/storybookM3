@@ -126,7 +126,6 @@ const schaefflerPaletteM3: { [key: string]: string } = {
 
 @Directive({
   selector: '[colorBackgroundText]',
-  standalone: true,
 })
 export class BackgroundColorDirective implements AfterViewInit, OnChanges {
   @Input() isDarkModeEnabled: boolean = true;

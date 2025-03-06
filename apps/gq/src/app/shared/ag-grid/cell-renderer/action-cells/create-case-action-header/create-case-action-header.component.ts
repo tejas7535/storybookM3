@@ -14,6 +14,7 @@ import { HeaderClassParams } from 'ag-grid-enterprise';
 @Component({
   selector: 'gq-create-case-action-header',
   templateUrl: './create-case-action-header.component.html',
+  standalone: false,
 })
 export class CreateCaseActionHeaderComponent {
   public params: HeaderClassParams;

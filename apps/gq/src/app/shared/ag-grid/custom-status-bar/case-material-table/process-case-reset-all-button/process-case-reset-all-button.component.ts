@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 @Component({
   selector: 'gq-process-case-reset-all-button',
   templateUrl: './process-case-reset-all-button.component.html',
+  standalone: false,
 })
 export class ProcessCaseResetAllButtonComponent {
   constructor(private readonly store: Store) {}

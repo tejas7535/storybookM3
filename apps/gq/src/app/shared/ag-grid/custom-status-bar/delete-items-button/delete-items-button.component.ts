@@ -21,7 +21,6 @@ import { Quotation } from '../../../models';
 
 @Component({
   selector: 'gq-delete-items-button',
-  standalone: true,
   imports: [
     MatTooltipModule,
     MatIconModule,

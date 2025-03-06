@@ -90,7 +90,7 @@ describe('AggregationService', () => {
 
       service.calculateStatusBarValues(inputModel, cellRanges, api);
 
-      expect(resetModelSpy).toBeCalledTimes(1);
+      expect(resetModelSpy).toHaveBeenCalledTimes(1);
     });
     it('should calculateModel when cellRanges is populated', () => {
       const inputModel = emptyModel;
@@ -111,9 +111,9 @@ describe('AggregationService', () => {
 
       service.calculateStatusBarValues(inputModel, cellRanges, api);
 
-      expect(extractSelectedCellsSpy).toBeCalledTimes(1);
-      expect(calculateModelSpy).toBeCalledTimes(1);
-      expect(calculateModelSpy).toBeCalledWith(inputModel);
+      expect(extractSelectedCellsSpy).toHaveBeenCalledTimes(1);
+      expect(calculateModelSpy).toHaveBeenCalledTimes(1);
+      expect(calculateModelSpy).toHaveBeenCalledWith(inputModel);
     });
     it('should hide model with less than 2 number cells', () => {
       const cells = new Map<string, number>();

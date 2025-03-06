@@ -46,6 +46,7 @@ import { getAllowedFilterDimensions } from '../shared/utils/utilities';
 @Component({
   selector: 'ia-filter-section',
   templateUrl: './filter-section.component.html',
+  standalone: false,
 })
 export class FilterSectionComponent implements OnInit {
   isExpanded = true;

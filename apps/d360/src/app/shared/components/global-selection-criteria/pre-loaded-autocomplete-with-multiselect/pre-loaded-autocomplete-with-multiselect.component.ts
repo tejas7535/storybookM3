@@ -28,7 +28,6 @@ type ResolveFunction = (
  */
 @Component({
   selector: 'd360-pre-loaded-autocomplete-with-multiselect',
-  standalone: true,
   imports: [
     MultiAutocompletePreLoadedComponent,
     MatButtonModule,

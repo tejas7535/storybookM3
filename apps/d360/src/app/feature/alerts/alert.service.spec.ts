@@ -92,7 +92,7 @@ describe('AlertService', () => {
       const spectatorHttp = serviceFactory();
       const service = spectatorHttp.service;
 
-      expect(postMock).toBeCalledTimes(1);
+      expect(postMock).toHaveBeenCalledTimes(1);
 
       let hasError: boolean;
       service.getFetchErrorEvent().subscribe((errorValue) => {
@@ -130,7 +130,7 @@ describe('AlertService', () => {
       });
       const service = spectatorHttp.service;
 
-      expect(myPostMock).toBeCalledTimes(5);
+      expect(myPostMock).toHaveBeenCalledTimes(5);
 
       let hasError: boolean;
       service.getFetchErrorEvent().subscribe((errorValue) => {
@@ -190,7 +190,7 @@ describe('AlertService', () => {
         service.getFetchErrorEvent(),
         service.getLoadingEvent(),
       ]).subscribe(([hasError, isLoading]) => {
-        expect(myPostMock).toBeCalledTimes(3);
+        expect(myPostMock).toHaveBeenCalledTimes(3);
         if (service.allActiveAlerts() !== null) {
           // eslint-disable-next-line jest/no-conditional-expect
           expect(hasError).toBe(true);

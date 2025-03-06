@@ -14,6 +14,7 @@ import { isCaseViewParams } from '../../../models/is-case-view-params.model';
 @Component({
   selector: 'gq-remove-all-filtered-button',
   templateUrl: './remove-all-filtered-button.component.html',
+  standalone: false,
 })
 export class RemoveAllFilteredButtonComponent {
   filterSet = false;

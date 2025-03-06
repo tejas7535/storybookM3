@@ -13,5 +13,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     </button>
   </ng-container>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ShareButtonComponent {}

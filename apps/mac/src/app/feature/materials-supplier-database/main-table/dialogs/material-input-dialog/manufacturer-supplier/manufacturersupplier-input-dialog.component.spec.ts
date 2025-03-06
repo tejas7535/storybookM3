@@ -205,9 +205,9 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
       };
 
       component.confirmMaterial(false);
-      expect(dialogFacade.manufacturerSupplierDialogConfirmed).toBeCalledWith(
-        expected
-      );
+      expect(
+        dialogFacade.manufacturerSupplierDialogConfirmed
+      ).toHaveBeenCalledWith(expected);
       expect(component.awaitMaterialComplete).toHaveBeenCalledWith(false);
     });
 
@@ -227,9 +227,9 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
       };
 
       component.confirmMaterial(true);
-      expect(dialogFacade.manufacturerSupplierDialogConfirmed).toBeCalledWith(
-        expected
-      );
+      expect(
+        dialogFacade.manufacturerSupplierDialogConfirmed
+      ).toHaveBeenCalledWith(expected);
       expect(component.awaitMaterialComplete).toHaveBeenCalledWith(true);
     });
 
@@ -249,9 +249,9 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
       };
 
       component.confirmMaterial(false);
-      expect(dialogFacade.manufacturerSupplierDialogConfirmed).toBeCalledWith(
-        supplier
-      );
+      expect(
+        dialogFacade.manufacturerSupplierDialogConfirmed
+      ).toHaveBeenCalledWith(supplier);
       expect(component.awaitMaterialComplete).toHaveBeenCalledWith(false);
     });
 
@@ -271,9 +271,9 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
       };
 
       component.confirmMaterial(true);
-      expect(dialogFacade.manufacturerSupplierDialogConfirmed).toBeCalledWith(
-        supplier
-      );
+      expect(
+        dialogFacade.manufacturerSupplierDialogConfirmed
+      ).toHaveBeenCalledWith(supplier);
       expect(component.awaitMaterialComplete).toHaveBeenCalledWith(true);
     });
   });

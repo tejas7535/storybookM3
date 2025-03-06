@@ -13,6 +13,7 @@ import {
   templateUrl: './bom-overlay.component.html',
   styleUrls: ['./bom-overlay.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class BomOverlayComponent implements OnInit, OnDestroy {
   @Output()

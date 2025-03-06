@@ -1,5 +1,6 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockModule } from 'ng-mocks';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -14,6 +15,7 @@ describe('BomTabComponent', () => {
   const createComponent = createComponentFactory({
     component: BomTabComponent,
     imports: [
+      NgxEchartsModule,
       MockModule(BomContainerModule),
       provideTranslocoTestingModule({ en: {} }),
     ],

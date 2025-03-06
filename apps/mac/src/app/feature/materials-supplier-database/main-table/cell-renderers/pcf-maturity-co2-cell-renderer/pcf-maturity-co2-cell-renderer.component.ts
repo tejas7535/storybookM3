@@ -20,7 +20,6 @@ import { MaturityInfoComponent } from '../../components/maturity-info/maturity-i
 @Component({
   selector: 'mac-pcf-maturity-co2-cell-renderer',
   templateUrl: './pcf-maturity-co2-cell-renderer.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

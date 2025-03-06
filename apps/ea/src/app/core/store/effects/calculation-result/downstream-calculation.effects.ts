@@ -17,7 +17,8 @@ import {
   LUBRICATION_METHOD_VALUE_MAPPING,
 } from '@ea/core/services/downstream-calcululation.service.constant';
 import { parseErrorObject } from '@ea/shared/helper/downstream-error-helper';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 
 import { CO2DownstreamCalculationActions } from '../../actions';
 import {

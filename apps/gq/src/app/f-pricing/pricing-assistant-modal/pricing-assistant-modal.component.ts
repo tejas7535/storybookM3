@@ -34,6 +34,7 @@ import { OverlayToShow } from './models/overlay-to-show.enum';
   // to have it as non-singleton in this class
   // otherwise it will override the columnState on in backgrounds quotationSDetailsTable
   providers: [AgGridStateService],
+  standalone: false,
 })
 export class PricingAssistantModalComponent implements OnInit, AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);

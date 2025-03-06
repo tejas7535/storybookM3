@@ -76,7 +76,7 @@ describe('PriceEditingModalComponent', () => {
 
     test('should call setAffectedKpis with price', () => {
       component.handlePriceChangeTypeSwitch(true);
-      expect(component['setAffectedKpis']).toBeCalledWith(
+      expect(component['setAffectedKpis']).toHaveBeenCalledWith(
         QUOTATION_DETAIL_MOCK.price
       );
       expect(component['resetKpiValues']).toHaveBeenCalled();
@@ -85,7 +85,7 @@ describe('PriceEditingModalComponent', () => {
 
     test('should call setAffectedKpis with 0', () => {
       component.handlePriceChangeTypeSwitch(false);
-      expect(component['setAffectedKpis']).toBeCalledWith(0);
+      expect(component['setAffectedKpis']).toHaveBeenCalledWith(0);
       expect(component['resetKpiValues']).toHaveBeenCalled();
       expect(component.affectedKpiOutput.emit).toHaveBeenCalled();
     });
@@ -137,7 +137,7 @@ describe('PriceEditingModalComponent', () => {
 
       component['validateInput']('100');
 
-      expect(getPercentageRegexSpy).toBeCalledWith(locale);
+      expect(getPercentageRegexSpy).toHaveBeenCalledWith(locale);
     });
 
     test('should use currency regex for absolute price', () => {
@@ -149,7 +149,7 @@ describe('PriceEditingModalComponent', () => {
 
       component['validateInput']('100');
 
-      expect(getCurrencyRegexSpy).toBeCalledWith(locale);
+      expect(getCurrencyRegexSpy).toHaveBeenCalledWith(locale);
     });
   });
 

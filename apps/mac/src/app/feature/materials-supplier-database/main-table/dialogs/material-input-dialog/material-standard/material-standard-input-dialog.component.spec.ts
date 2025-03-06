@@ -215,7 +215,7 @@ describe('MaterialstandardInputDialogComponent', () => {
       component['buildMaterialStandard'] = jest.fn(() => standard);
 
       component.confirmMaterial(false);
-      expect(dialogFacade.materialStandardDialogConfirmed).toBeCalledWith(
+      expect(dialogFacade.materialStandardDialogConfirmed).toHaveBeenCalledWith(
         standard
       );
       expect(component.awaitMaterialComplete).toHaveBeenCalledWith(false);
@@ -238,7 +238,7 @@ describe('MaterialstandardInputDialogComponent', () => {
       component['buildMaterialStandard'] = jest.fn(() => standard);
 
       component.confirmMaterial(false);
-      expect(dialogFacade.materialStandardDialogConfirmed).toBeCalledWith(
+      expect(dialogFacade.materialStandardDialogConfirmed).toHaveBeenCalledWith(
         standard
       );
       expect(component.awaitMaterialComplete).toHaveBeenCalledWith(false);
@@ -259,7 +259,7 @@ describe('MaterialstandardInputDialogComponent', () => {
       component['buildMaterialStandard'] = jest.fn(() => standard);
 
       component.confirmMaterial(true);
-      expect(dialogFacade.materialStandardDialogConfirmed).toBeCalledWith(
+      expect(dialogFacade.materialStandardDialogConfirmed).toHaveBeenCalledWith(
         standard
       );
       expect(component.awaitMaterialComplete).toHaveBeenCalledWith(true);
@@ -280,7 +280,7 @@ describe('MaterialstandardInputDialogComponent', () => {
       component['buildMaterialStandard'] = jest.fn(() => standard);
 
       component.confirmMaterial(false);
-      expect(dialogFacade.materialStandardDialogConfirmed).toBeCalledWith(
+      expect(dialogFacade.materialStandardDialogConfirmed).toHaveBeenCalledWith(
         standard
       );
       expect(component.awaitMaterialComplete).toHaveBeenCalledWith(false);

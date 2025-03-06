@@ -24,7 +24,6 @@ import { PreferredGreaseOption } from '@ga/shared/models';
 
 @Component({
   selector: 'ga-preferred-grease-selection',
-  standalone: true,
   imports: [
     LetDirective,
     SharedTranslocoModule,

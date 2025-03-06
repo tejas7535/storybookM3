@@ -70,7 +70,6 @@ export interface FilterModel {
 
 @Component({
   selector: 'd360-customer-material-portfolio-table',
-  standalone: true,
   imports: [
     CommonModule,
     TableToolbarComponent,
@@ -186,14 +185,9 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
     protected readonly agGridLocalizationService: AgGridLocalizationService
   ) {
     effect(
-      () => {
-        if (this.selectedCustomer() || this.globalSelection()) {
-          this.setServerSideDatasource();
-        }
-      },
-      {
-        allowSignalWrites: true,
-      }
+      () =>
+        (this.selectedCustomer() || this.globalSelection()) &&
+        this.setServerSideDatasource()
     );
 
     effect(() => {

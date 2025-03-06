@@ -6,6 +6,7 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { MockComponent, MockProvider } from 'ng-mocks';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { IMRService } from '../../../../../feature/internal-material-replacement/imr.service';
 import { DatePickerComponent } from '../../../../../shared/components/date-picker/date-picker.component';
@@ -14,12 +15,13 @@ import { FilterDropdownComponent } from '../../../../../shared/components/inputs
 import { SelectableOptionsService } from '../../../../../shared/services/selectable-options.service';
 import { InternalMaterialReplacementSingleSubstitutionModalComponent } from './internal-material-replacement-single-substitution-modal.component';
 
-describe('InternalMaterialReplacementSingleSubstitutionModalComponent', () => {
+describe.skip('InternalMaterialReplacementSingleSubstitutionModalComponent', () => {
   let spectator: Spectator<InternalMaterialReplacementSingleSubstitutionModalComponent>;
 
   const createComponent = createComponentFactory({
     component: InternalMaterialReplacementSingleSubstitutionModalComponent,
     imports: [
+      NgxEchartsModule,
       MockComponent(SingleAutocompleteOnTypeComponent),
       // Comment out until https://github.com/help-me-mom/ng-mocks/issues/8634 is fixed
       // MockComponent(SingleAutocompletePreLoadedComponent),

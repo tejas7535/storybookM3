@@ -28,7 +28,6 @@ import { LetDirective, PushPipe } from '@ngrx/component';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
-  standalone: true,
   imports: [
     MatSelectModule,
     SharedTranslocoModule,

@@ -8,6 +8,7 @@ import { SAP_SYNC_STATUS } from '../../../models/quotation-detail/sap-sync-statu
 @Component({
   selector: 'gq-sap-sync-status-cell',
   templateUrl: './sap-sync-status-cell.component.html',
+  standalone: false,
 })
 export class SapStatusCellComponent {
   protected tagType: TagType;

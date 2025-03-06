@@ -28,6 +28,7 @@ import { InputType } from './input-type.enum';
   templateUrl: './range-filter.component.html',
   styleUrls: ['./range-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class RangeFilterComponent implements OnChanges, OnInit, Filter {
   @Input()

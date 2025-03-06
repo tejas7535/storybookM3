@@ -13,6 +13,7 @@ import { OpenApplication } from '../models/open-application.model';
   templateUrl: './open-positions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './open-positions.component.scss',
+  standalone: false,
 })
 export class OpenPositionsComponent {
   @Input() openApplications: OpenApplication[];

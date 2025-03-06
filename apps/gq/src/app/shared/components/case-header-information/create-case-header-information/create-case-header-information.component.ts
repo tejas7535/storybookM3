@@ -67,7 +67,6 @@ import { HeaderInformationData } from '../models/header-information-data.interfa
 @Component({
   selector: 'gq-create-case-header-information',
   templateUrl: '../case-header-information.component.html',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

@@ -19,7 +19,6 @@ interface LubricatorsParameter {
 }
 
 @Pipe({
-  standalone: true,
   name: 'lsaRecommendationTableData',
 })
 export class RecommendationTableDataPipe implements PipeTransform {

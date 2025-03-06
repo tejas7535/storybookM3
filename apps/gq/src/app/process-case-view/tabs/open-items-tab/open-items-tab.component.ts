@@ -13,7 +13,6 @@ import { OpenItemsTableComponent } from './open-items-table/open-items-table.com
 
 @Component({
   selector: 'gq-open-items-tab',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,

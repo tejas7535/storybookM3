@@ -10,7 +10,6 @@ import { ProductCardComponent } from '../product-card/product-card.component';
 @Component({
   selector: 'mm-report-pumps',
   templateUrl: './report-pumps.component.html',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatIconModule, SharedTranslocoModule, ProductCardComponent],
 })

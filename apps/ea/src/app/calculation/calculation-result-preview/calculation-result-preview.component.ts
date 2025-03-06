@@ -22,7 +22,6 @@ import { OverrollingFrequenciesPreviewItemComponent } from '../overrolling-frequ
 @Component({
   selector: 'ea-calculation-result-preview',
   templateUrl: './calculation-result-preview.component.html',
-  standalone: true,
   imports: [
     CommonModule,
     PushPipe,
@@ -31,7 +30,6 @@ import { OverrollingFrequenciesPreviewItemComponent } from '../overrolling-frequ
     MatDividerModule,
     CalculationResultPreviewItemComponent,
     OverrollingFrequenciesPreviewItemComponent,
-
     SharedTranslocoModule,
     MatProgressSpinnerModule,
     LetDirective,

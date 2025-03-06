@@ -10,13 +10,8 @@ import { QuotationStatus } from '@gq/shared/models/quotation/quotation-status.en
 import { GetQuotationsResponse } from '@gq/shared/services/rest/quotation/models/get-quotations-response.interface';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
 import { translate } from '@jsverse/transloco';
-import {
-  Actions,
-  concatLatestFrom,
-  createEffect,
-  ofType,
-  OnInitEffects,
-} from '@ngrx/effects';
+import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 import {
   ROUTER_NAVIGATED,
   RouterNavigatedAction,

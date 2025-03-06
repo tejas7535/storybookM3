@@ -6,6 +6,7 @@ import { PriceDetails } from '@cdba/shared/models';
   selector: 'cdba-pcm-calculations',
   templateUrl: './pcm-calculations.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class PcmCalculationsComponent {
   @Input() priceDetails: PriceDetails;

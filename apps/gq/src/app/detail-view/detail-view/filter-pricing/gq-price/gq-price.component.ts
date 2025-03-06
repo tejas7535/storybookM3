@@ -12,6 +12,7 @@ import { DetailRoutePath } from '../../../detail-route-path.enum';
 @Component({
   selector: 'gq-price',
   templateUrl: './gq-price.component.html',
+  standalone: false,
 })
 export class GqPriceComponent {
   @Input() userHasGPCRole: boolean;

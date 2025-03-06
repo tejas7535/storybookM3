@@ -4,13 +4,14 @@
   "projectType": "library",
   "sourceRoot": "libs/shared/ui/controls/src",
   "prefix": "schaeffler",
+  "tags": ["scope:shared", "type:ui"],
+  "implicitDependencies": ["shared-ui-styles"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
       "options": {
         "tsConfig": "libs/shared/ui/controls/tsconfig.lib.json",
-        "project": "libs/shared/ui/controls/ng-package.json",
-        "tailwindConfig": "libs/shared/ui/controls/tailwind.config.js"
+        "project": "libs/shared/ui/controls/ng-package.json"
       },
       "configurations": {
         "production": {
@@ -67,7 +68,5 @@
         "postTargets": []
       }
     }
-  },
-  "tags": ["scope:shared", "type:ui"],
-  "implicitDependencies": ["shared-ui-styles"]
+  }
 }

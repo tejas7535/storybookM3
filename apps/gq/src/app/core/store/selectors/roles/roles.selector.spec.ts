@@ -85,7 +85,7 @@ describe('shared selector', () => {
     test(
       'should call ColumnUtilityService with roles',
       marbles((m) => {
-        ColumnUtilityService.createColumnDefs = jest.fn(() => []);
+        ColumnUtilityService.createColumnDefs = jest.fn((): ColDef[] => []);
         const expected = m.cold('a', { a: [] });
         const colDef: ColDef[] = [];
 

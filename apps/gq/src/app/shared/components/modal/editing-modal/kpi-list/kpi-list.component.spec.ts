@@ -71,11 +71,11 @@ describe('KpiListComponent', () => {
       };
       component.kpis = [kpi];
 
-      expect(transformationService.transformPercentage).toBeCalledWith(
+      expect(transformationService.transformPercentage).toHaveBeenCalledWith(
         kpi.value,
         false
       );
-      expect(transformationService.transformPercentage).toBeCalledWith(
+      expect(transformationService.transformPercentage).toHaveBeenCalledWith(
         QUOTATION_DETAIL_MOCK.gpi,
         false
       );
@@ -100,11 +100,11 @@ describe('KpiListComponent', () => {
       };
       component.kpis = [kpi];
 
-      expect(transformationService.transformPercentage).toBeCalledWith(
+      expect(transformationService.transformPercentage).toHaveBeenCalledWith(
         kpi.value,
         false
       );
-      expect(transformationService.transformPercentage).toBeCalledWith(
+      expect(transformationService.transformPercentage).toHaveBeenCalledWith(
         QUOTATION_DETAIL_MOCK.gpm,
         false
       );
@@ -129,11 +129,11 @@ describe('KpiListComponent', () => {
       };
       component.kpis = [kpi];
 
-      expect(transformationService.transformPercentage).toBeCalledWith(
+      expect(transformationService.transformPercentage).toHaveBeenCalledWith(
         kpi.value,
         false
       );
-      expect(transformationService.transformPercentage).toBeCalledWith(
+      expect(transformationService.transformPercentage).toHaveBeenCalledWith(
         QUOTATION_DETAIL_MOCK.discount,
         false
       );
@@ -158,11 +158,15 @@ describe('KpiListComponent', () => {
       };
       component.kpis = [kpi];
 
-      expect(transformationService.transformNumberCurrency).toBeCalledWith(
+      expect(
+        transformationService.transformNumberCurrency
+      ).toHaveBeenCalledWith(
         kpi.value,
         ACTIVE_CASE_STATE_MOCK.quotation.currency
       );
-      expect(transformationService.transformNumberCurrency).toBeCalledWith(
+      expect(
+        transformationService.transformNumberCurrency
+      ).toHaveBeenCalledWith(
         QUOTATION_DETAIL_MOCK.price,
         ACTIVE_CASE_STATE_MOCK.quotation.currency
       );
@@ -187,11 +191,15 @@ describe('KpiListComponent', () => {
       };
       component.kpis = [kpi];
 
-      expect(transformationService.transformNumberCurrency).toBeCalledWith(
+      expect(
+        transformationService.transformNumberCurrency
+      ).toHaveBeenCalledWith(
         kpi.value,
         ACTIVE_CASE_STATE_MOCK.quotation.currency
       );
-      expect(transformationService.transformNumberCurrency).toBeCalledWith(
+      expect(
+        transformationService.transformNumberCurrency
+      ).toHaveBeenCalledWith(
         QUOTATION_DETAIL_MOCK.targetPrice,
         ACTIVE_CASE_STATE_MOCK.quotation.currency
       );

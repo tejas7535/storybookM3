@@ -8,6 +8,7 @@ import { ExcludedCalculations } from '@cdba/shared/models';
 @Component({
   selector: 'cdba-excluded-calculations-dialog',
   templateUrl: './excluded-calculations-dialog.component.html',
+  standalone: false,
 })
 export class ExcludedCalculationsDialogComponent {
   public urlRoleAssignments = urls.URL_ROLE_ASSIGNMENTS;

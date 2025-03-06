@@ -24,7 +24,7 @@ export const QuotationMetadataReducers: ReducerTypes<
         quotationDetails: sortQuotationDetails(quotation.quotationDetails),
       },
       quotationMetadataLoading: false,
-      quotationMetadataLoadingErrorMessage: undefined,
+      quotationMetadataLoadingErrorMessage: undefined as any,
     })
   ),
   on(

@@ -30,6 +30,7 @@ interface MaterialComparableCostWithMargin extends MaterialComparableCost {
 @Component({
   selector: 'gq-material-comparable-cost-details',
   templateUrl: './material-comparable-cost-details.component.html',
+  standalone: false,
 })
 export class MaterialComparableCostDetailsComponent
   implements OnInit, OnChanges

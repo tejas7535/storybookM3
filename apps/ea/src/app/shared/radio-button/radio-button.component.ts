@@ -12,7 +12,6 @@ import { NOOP_VALUE_ACCESSOR } from '../constants/input';
 
 @Component({
   selector: 'ea-radio-button',
-  standalone: true,
   imports: [MatRadioModule, ReactiveFormsModule],
   templateUrl: './radio-button.component.html',
   viewProviders: [

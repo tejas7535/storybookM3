@@ -19,6 +19,7 @@ import { PaginationControlsService } from './service/pagination-controls.service
   selector: 'cdba-pagination-controls',
   templateUrl: './pagination-controls.component.html',
   styleUrls: ['./pagination-controls.component.scss'],
+  standalone: false,
 })
 export class PaginationControlsComponent implements OnInit, OnDestroy {
   @Input()

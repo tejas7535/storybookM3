@@ -6,7 +6,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({
   selector: 'mm-mounting-recommendation',
   templateUrl: './mounting-recommendation.component.html',
-  standalone: true,
   imports: [SharedTranslocoModule, MatCardModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

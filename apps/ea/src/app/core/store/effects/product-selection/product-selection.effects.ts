@@ -8,7 +8,8 @@ import { AppRoutePath } from '@ea/app-route-path.enum';
 import { CatalogService } from '@ea/core/services/catalog.service';
 import { CO2UpstreamService } from '@ea/core/services/co2-upstream.service';
 import { DownstreamCalculationService } from '@ea/core/services/downstream-calculation.service';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 
 import {
   CalculationTypesActions,

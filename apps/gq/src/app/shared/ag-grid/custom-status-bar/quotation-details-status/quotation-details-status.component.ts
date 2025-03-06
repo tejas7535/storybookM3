@@ -13,7 +13,7 @@ import {
 import { userHasGPCRole, userHasSQVRole } from '@gq/core/store/selectors';
 import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
-import { LetDirective, PushPipe } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { IStatusPanelParams } from 'ag-grid-enterprise';
 
@@ -33,13 +33,11 @@ import { selectedQuotationDetailsKpiFeature } from './store/selected-quotation-d
 @Component({
   selector: 'gq-quotation-details-status',
   templateUrl: './quotation-details-status.component.html',
-  standalone: true,
   imports: [
     SharedPipesModule,
     PushPipe,
     CommonModule,
     SharedTranslocoModule,
-    LetDirective,
     TotalKpiComponent,
     SelectedKpiComponent,
     SimulatedKpiComponent,

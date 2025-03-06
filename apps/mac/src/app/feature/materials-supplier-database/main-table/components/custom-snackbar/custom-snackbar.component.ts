@@ -11,7 +11,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({
   selector: 'mac-custom-snackbar',
   templateUrl: './custom-snackbar.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

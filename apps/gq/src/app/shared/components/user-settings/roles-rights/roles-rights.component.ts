@@ -10,6 +10,7 @@ import { RoleGroup } from '../../../models/role-group.model';
 @Component({
   selector: 'gq-roles-rights',
   templateUrl: './roles-rights.component.html',
+  standalone: false,
 })
 export class RolesRightsComponent implements OnInit {
   public allRoles$: Observable<RoleGroup[]>;

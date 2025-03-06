@@ -9,6 +9,7 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 @Directive({
   selector: '[schaefflerShareButton]',
+  standalone: false,
 })
 export class ShareButtonDirective {
   public constructor(

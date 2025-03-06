@@ -16,6 +16,7 @@ import { BearingSelectionType } from '@ga/shared/models';
 @Component({
   selector: 'ga-bearing-selection',
   templateUrl: './bearing-selection.component.html',
+  standalone: false,
 })
 export class BearingSelectionComponent implements OnInit {
   bearingSelectionType = BearingSelectionType;

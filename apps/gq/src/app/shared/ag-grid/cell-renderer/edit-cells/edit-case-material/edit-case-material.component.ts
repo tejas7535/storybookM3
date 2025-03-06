@@ -21,7 +21,6 @@ import { MaterialTableItem, VALIDATION_CODE } from '../../../../models/table';
 
 @Component({
   selector: 'gq-edit-case-material',
-  standalone: true,
   imports: [
     MatIconModule,
     SharedTranslocoModule,

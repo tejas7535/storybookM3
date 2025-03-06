@@ -37,7 +37,6 @@ import { getStatus } from '../util';
 @Component({
   selector: 'mac-base-datagrid',
   template: '',
-  standalone: true,
   providers: [],
 })
 export abstract class BaseDatagridComponent implements OnInit, OnDestroy {

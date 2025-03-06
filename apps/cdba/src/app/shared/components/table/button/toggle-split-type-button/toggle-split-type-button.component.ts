@@ -5,6 +5,7 @@ import { CostComponentSplitType } from '@cdba/shared/models';
 @Component({
   selector: 'cdba-toggle-split-type-button',
   templateUrl: './toggle-split-type-button.component.html',
+  standalone: false,
 })
 export class ToggleSplitTypeButtonComponent {
   @Input() currentSplitType: CostComponentSplitType;

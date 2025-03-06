@@ -48,7 +48,6 @@ interface ChartDataItem {
 @Component({
   selector: 'ea-calculation-result-report-emission',
   templateUrl: './calculation-result-report-emission.component.html',
-  standalone: true,
   imports: [
     CommonModule,
     NgxEchartsModule,

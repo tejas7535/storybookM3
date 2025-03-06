@@ -14,6 +14,7 @@ import { QuotationRfqData } from '@gq/shared/models/quotation-detail/rfq-data';
   selector: 'gq-rfq-position-details',
   templateUrl: './rfq-position-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class RfqPositionDetailsComponent {
   @Input() rfqData: QuotationRfqData;

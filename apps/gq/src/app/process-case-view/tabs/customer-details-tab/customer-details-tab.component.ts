@@ -11,6 +11,7 @@ import { getCurrentYear, getLastYear } from '@gq/shared/utils/misc.utils';
   selector: 'gq-customer-details-tab',
   templateUrl: './customer-details-tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CustomerDetailsTabComponent {
   private readonly rolesFacade: RolesFacade = inject(RolesFacade);

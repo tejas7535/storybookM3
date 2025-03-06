@@ -12,6 +12,7 @@ import { Tab } from './tab.model';
   selector: 'gq-tabs-header',
   templateUrl: './tabs-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TabsHeaderComponent {
   @Input() tabs: Tab[];

@@ -73,7 +73,7 @@ describe('TaskPriorityGridComponent', () => {
   };
 
   const mockedAlertServiceProvider = mockProvider(AlertService, {
-    groupDataByCustomerAndPriority: jest.fn(() => []),
+    groupDataByCustomerAndPriority: jest.fn(() => [] as any),
     getFetchErrorEvent(): Observable<HttpErrorResponse> {
       return of();
     },

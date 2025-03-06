@@ -11,6 +11,7 @@ import { RoleDescriptionsDialogComponent } from '@cdba/shared/components/role-de
 @Component({
   selector: 'cdba-empty-states',
   templateUrl: './empty-states.component.html',
+  standalone: false,
 })
 export class EmptyStatesComponent implements OnInit, OnDestroy {
   forbiddenPageActionButtonSubscription: Subscription;

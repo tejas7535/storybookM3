@@ -13,7 +13,6 @@ export interface CustomerSelectionChange {
 
 @Component({
   selector: 'd360-sales-planning',
-  standalone: true,
   imports: [
     CommonModule,
     CustomerSelectionComponent,

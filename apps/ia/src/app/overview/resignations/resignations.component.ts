@@ -11,6 +11,7 @@ import { ResignedEmployee } from '../models';
   selector: 'ia-resignations',
   templateUrl: './resignations.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ResignationsComponent extends LoadingDataTableComponent<ResignedEmployee> {
   @Input() data: ResignedEmployee[];

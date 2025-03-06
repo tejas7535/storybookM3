@@ -44,7 +44,7 @@ describe('RfqPositionDetailsComponent', () => {
 
       component.updateRfqData();
 
-      expect(openMock).toBeCalledTimes(1);
+      expect(openMock).toHaveBeenCalledTimes(1);
     });
 
     test('should not open dialog if refresh is disabled', () => {
@@ -55,7 +55,7 @@ describe('RfqPositionDetailsComponent', () => {
 
       component.updateRfqData();
 
-      expect(openMock).not.toBeCalled();
+      expect(openMock).not.toHaveBeenCalled();
     });
   });
 });

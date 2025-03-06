@@ -13,6 +13,7 @@ import { ButtonType } from './button-type.enum';
 @Component({
   selector: 'gq-update-case-status-button',
   templateUrl: './update-case-status-button.component.html',
+  standalone: false,
 })
 export class UpdateCaseStatusButtonComponent {
   private readonly dialog = inject(MatDialog);

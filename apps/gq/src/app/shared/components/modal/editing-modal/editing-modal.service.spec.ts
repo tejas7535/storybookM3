@@ -45,7 +45,7 @@ describe('EditingModalService', () => {
 
     service.openEditingModal(data);
 
-    expect(matDialog.open).toBeCalledWith(EditingModalWrapperComponent, {
+    expect(matDialog.open).toHaveBeenCalledWith(EditingModalWrapperComponent, {
       width: '684px',
       data,
       panelClass,

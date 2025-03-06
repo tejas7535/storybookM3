@@ -25,7 +25,6 @@ interface Maturity {
 @Component({
   selector: 'mac-maturity-info',
   templateUrl: './maturity-info.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

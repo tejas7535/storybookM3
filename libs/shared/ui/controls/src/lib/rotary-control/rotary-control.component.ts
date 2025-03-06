@@ -5,10 +5,14 @@ import { RotaryControlItem } from './rotary-control.model';
 
 @Component({
   selector: 'schaeffler-rotary-control',
-  standalone: true,
   imports: [NgStyle, NgClass],
   templateUrl: './rotary-control.component.html',
   styleUrls: ['./rotary-control.component.scss'],
+
+  // FIXME: Remove the next line after storybook was updated to a version, where Standalone-Components
+  // without standalone property were supported.
+  // Angular 19 standalone: true is default, so it's not needed anymore
+  standalone: true,
 })
 export class RotaryControlComponent {
   @Input() public controlItems: RotaryControlItem[] = [];

@@ -37,6 +37,7 @@ import READMEMd from './README.md';
       </mat-expansion-panel>
     </mat-accordion>
   `,
+  standalone: false,
 })
 class ExpansionPanelExampleComponent {
   @Input() public accordion?: boolean = false;

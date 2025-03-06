@@ -13,6 +13,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import {
+  ExcelCell,
   ExcelRow,
   IStatusPanelParams,
   ProcessHeaderForExportParams,
@@ -427,9 +428,9 @@ describe('ExportToExcelButtonComponent', () => {
   describe('getSummarySheet', () => {
     test('should return summary sheet', () => {
       component['params'] = mockParams;
-      component.addSummaryHeader = jest.fn(() => []);
-      component.addQuotationSummary = jest.fn(() => []);
-      component.addCustomerOverview = jest.fn(() => []);
+      component.addSummaryHeader = jest.fn((): ExcelRow[] => []);
+      component.addQuotationSummary = jest.fn((): ExcelRow[] => []);
+      component.addCustomerOverview = jest.fn((): ExcelRow[] => []);
 
       component.getSummarySheet();
 
@@ -1023,7 +1024,7 @@ describe('ExportToExcelButtonComponent', () => {
 
     describe('getComparableTransactions', () => {
       test('calls getSheetDataForExcel', () => {
-        component.addComparableTransactions = jest.fn(() => []);
+        component.addComparableTransactions = jest.fn((): ExcelRow[] => []);
 
         component.getComparableTransactions();
 
@@ -1044,7 +1045,9 @@ describe('ExportToExcelButtonComponent', () => {
 
     describe('getExtendedSapPriceConditionDetails', () => {
       test('calls getSheetDataForExcel', () => {
-        component.addExtendedSapPriceConditionDetails = jest.fn(() => []);
+        component.addExtendedSapPriceConditionDetails = jest.fn(
+          (): ExcelRow[] => []
+        );
 
         component.getExtendedSapPriceConditionDetails();
 
@@ -1091,8 +1094,8 @@ describe('ExportToExcelButtonComponent', () => {
       });
       test('header and body gets added', () => {
         component.extendedComparableLinkedTransactions = [];
-        component.addCustomHeader = jest.fn(() => []);
-        component.addCustomRows = jest.fn(() => []);
+        component.addCustomHeader = jest.fn((): ExcelCell[] => []);
+        component.addCustomRows = jest.fn((): ExcelRow[] => []);
 
         component.addComparableTransactions();
 
@@ -1164,8 +1167,8 @@ describe('ExportToExcelButtonComponent', () => {
       });
       test('header and body gets added', () => {
         component.extendedSapPriceConditionDetails = [];
-        component.addCustomHeader = jest.fn(() => []);
-        component.addCustomRows = jest.fn(() => []);
+        component.addCustomHeader = jest.fn((): ExcelCell[] => []);
+        component.addCustomRows = jest.fn((): ExcelRow[] => []);
 
         component.addExtendedSapPriceConditionDetails();
 

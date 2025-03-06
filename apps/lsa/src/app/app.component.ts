@@ -27,6 +27,7 @@ import { AvailabilityRequestEvent } from './shared/models/price-availibility.mod
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'lubricator-selection-assistant',
   templateUrl: './app.component.html',
+  standalone: false,
 })
 export class AppComponent implements OnInit, OnDestroy {
   @Output() availabilityRequest = new EventEmitter<AvailabilityRequestEvent>();

@@ -11,6 +11,7 @@ import { HomeCardsService } from './services/home-cards.service';
   selector: 'ga-home',
   templateUrl: './home.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class HomeComponent {
   public appDelivery$ = this.settingsFacade.appDelivery$;

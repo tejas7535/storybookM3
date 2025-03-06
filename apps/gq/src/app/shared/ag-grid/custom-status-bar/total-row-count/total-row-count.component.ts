@@ -17,7 +17,6 @@ import { calculateFilteredRows } from '../statusbar.utils';
 
 @Component({
   selector: 'gq-total-row-count',
-  standalone: true,
   imports: [SharedTranslocoModule, CommonModule, LetDirective, PushPipe],
   styles: [
     `

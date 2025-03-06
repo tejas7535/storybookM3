@@ -12,7 +12,6 @@ import { MeasurementUnitsService } from '@ga/shared/services';
 
 @Component({
   selector: 'ga-measurement-units-select',
-  standalone: true,
   imports: [SharedTranslocoModule, MatSelectModule],
   templateUrl: './measurement-units-select.component.html',
 })

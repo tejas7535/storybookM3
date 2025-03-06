@@ -24,6 +24,7 @@ import {
 @Component({
   selector: 'cdba-cost-elements-status-bar',
   templateUrl: './cost-elements-status-bar.component.html',
+  standalone: false,
 })
 export class CostElementsStatusBarComponent {
   public currentSplitType$: Observable<CostComponentSplitType>;

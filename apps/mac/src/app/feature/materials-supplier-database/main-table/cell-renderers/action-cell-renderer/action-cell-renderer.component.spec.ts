@@ -101,7 +101,7 @@ describe('ActionCellRendererComponent', () => {
       component.onDeleteClick();
       mockSubjectClose.next(false);
 
-      expect(dataFacade.deleteEntity).not.toBeCalled();
+      expect(dataFacade.deleteEntity).not.toHaveBeenCalled();
     });
 
     it('should dispatch call', () => {
@@ -111,7 +111,7 @@ describe('ActionCellRendererComponent', () => {
       component.onDeleteClick();
       mockSubjectClose.next(true);
 
-      expect(dataFacade.deleteEntity).toBeCalledWith(id);
+      expect(dataFacade.deleteEntity).toHaveBeenCalledWith(id);
     });
   });
 
@@ -123,11 +123,14 @@ describe('ActionCellRendererComponent', () => {
       } as ICellRendererParams<any, DataResult>;
 
       component.onCopyClick();
-      expect(component['dialogService'].openDialog).toBeCalledWith(false, {
-        row: mockData,
-        column: mockColumn.getColId(),
-        isCopy: true,
-      });
+      expect(component['dialogService'].openDialog).toHaveBeenCalledWith(
+        false,
+        {
+          row: mockData,
+          column: mockColumn.getColId(),
+          isCopy: true,
+        }
+      );
     });
   });
 
@@ -173,7 +176,7 @@ describe('ActionCellRendererComponent', () => {
     it('should be false', () => {
       component.params = {
         api: {
-          getSelectedRows: jest.fn(() => []),
+          getSelectedRows: jest.fn(() => [] as any[]),
         } as unknown as GridApi,
       } as unknown as ICellRendererParams<any, DataResult>;
       expect(component.activeSelectionOnGrid()).toBeFalsy();
@@ -189,7 +192,7 @@ describe('ActionCellRendererComponent', () => {
         } as unknown as RowNode,
       } as unknown as ICellRendererParams<any, DataResult>;
       component.onSelectClick();
-      expect(component.params.node.setSelected).toBeCalledWith(true);
+      expect(component.params.node.setSelected).toHaveBeenCalledWith(true);
     });
     it('should be unselected', () => {
       component.params = {
@@ -199,7 +202,7 @@ describe('ActionCellRendererComponent', () => {
         } as unknown as RowNode,
       } as unknown as ICellRendererParams<any, DataResult>;
       component.onSelectClick();
-      expect(component.params.node.setSelected).toBeCalledWith(false);
+      expect(component.params.node.setSelected).toHaveBeenCalledWith(false);
     });
   });
 });

@@ -34,7 +34,6 @@ import { ResultComponent } from './result/result.component';
 
 @Component({
   selector: 'lsa-recommendation-container',
-  standalone: true,
   imports: [
     CommonModule,
     LetDirective,

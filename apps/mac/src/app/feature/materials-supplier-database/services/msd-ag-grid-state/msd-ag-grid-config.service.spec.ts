@@ -2,6 +2,7 @@ import { of, Subject } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
+import { ColDef } from 'ag-grid-community';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import { STATIC_QUICKFILTERS_MAPPING } from '@mac/msd/main-table/quick-filter/config';
@@ -47,7 +48,7 @@ describe('MsdAgGridConfigService', () => {
       {
         provide: MsdAgGridStateService,
         useValue: {
-          getColumnState: jest.fn(() => []),
+          getColumnState: jest.fn(() => [] as any[]),
         },
       },
     ],
@@ -70,7 +71,7 @@ describe('MsdAgGridConfigService', () => {
         navigationLevel: NavigationLevel;
       }>();
       dataFacade.navigation$ = mockNavigation;
-      service.getDefaultColumnDefinitions = jest.fn(() => []);
+      service.getDefaultColumnDefinitions = jest.fn(() => [] as ColDef[]);
       service.columnDefinitions$.next = jest.fn();
 
       service['init']();

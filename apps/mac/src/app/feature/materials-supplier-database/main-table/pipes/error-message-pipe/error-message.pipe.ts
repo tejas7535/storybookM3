@@ -4,7 +4,6 @@ import { translate } from '@jsverse/transloco';
 
 @Pipe({
   name: 'errorMessage',
-  standalone: true,
 })
 export class ErrorMessagePipe implements PipeTransform {
   public transform(errors: { [key: string]: any }): string {

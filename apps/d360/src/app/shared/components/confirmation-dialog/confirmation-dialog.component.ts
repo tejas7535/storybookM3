@@ -11,7 +11,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'd360-confirmation-dialog',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,

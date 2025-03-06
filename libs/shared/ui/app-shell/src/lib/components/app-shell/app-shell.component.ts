@@ -32,6 +32,7 @@ import { AppShellFooterLink } from '../../models';
   styleUrls: ['./app-shell.component.scss'],
   animations: [sidenavToggleAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AppShellComponent implements OnInit {
   @Input() public appTitle: string;

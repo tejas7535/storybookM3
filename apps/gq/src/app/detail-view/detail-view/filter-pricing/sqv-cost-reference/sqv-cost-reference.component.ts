@@ -14,7 +14,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'gq-sqv-cost-reference',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,

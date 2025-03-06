@@ -12,7 +12,6 @@ import { CalculationPreviewErrorsDialogData } from './calculation-preview-errors
 
 @Component({
   templateUrl: './calculation-preview-errors-dialog.component.html',
-  standalone: true,
   imports: [
     MatDialogModule,
     MatIconModule,

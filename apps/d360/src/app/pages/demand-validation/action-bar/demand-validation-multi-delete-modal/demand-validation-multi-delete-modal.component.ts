@@ -63,7 +63,6 @@ export interface DemandValidationMultiDeleteModalProps {
 
 @Component({
   selector: 'd360-demand-validation-multi-delete-modal',
-  standalone: true,
   imports: [
     CommonModule,
     MatDialogModule,

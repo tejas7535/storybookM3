@@ -54,6 +54,7 @@ const typeNumber = 'Number';
 @Component({
   selector: 'gq-export-excel-button',
   templateUrl: './export-to-excel-button.component.html',
+  standalone: false,
 })
 export class ExportToExcelButtonComponent implements OnInit {
   extendedComparableLinkedTransactions: ExtendedComparableLinkedTransaction[];

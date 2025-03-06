@@ -17,6 +17,7 @@ import { DetailRoutePath } from './detail-route-path.enum';
 @Component({
   selector: 'cdba-detail',
   templateUrl: './detail.component.html',
+  standalone: false,
 })
 export class DetailComponent implements OnInit, OnDestroy {
   public breadcrumbs$: Observable<Breadcrumb[]>;

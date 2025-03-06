@@ -6,6 +6,7 @@ import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sa
 @Component({
   selector: 'gq-material-details',
   templateUrl: './material-details.component.html',
+  standalone: false,
 })
 export class MaterialDetailsComponent {
   @Input() quotationDetail: QuotationDetail;

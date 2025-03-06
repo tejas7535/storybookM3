@@ -13,6 +13,7 @@ import { ChartLegendItem } from '../models/chart-legend-item.model';
   selector: 'ia-external-legend',
   templateUrl: './external-legend.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ExternalLegendComponent {
   @Input() legend: ChartLegendItem[];

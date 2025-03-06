@@ -24,7 +24,6 @@ import { DemandValidationDatePickerComponent } from '../demand-validation-date-p
 
 @Component({
   selector: 'd360-date-picker-setting-demand-validation-modal',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,

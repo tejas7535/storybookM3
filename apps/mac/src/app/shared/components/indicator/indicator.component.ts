@@ -4,7 +4,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'mac-indicator',
-  standalone: true,
   imports: [CommonModule, MatIconModule],
   templateUrl: './indicator.component.html',
 })

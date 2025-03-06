@@ -14,7 +14,6 @@ import { InfoBannerComponent } from './info-banner/info-banner.component';
 import { SurveyComponent } from './survey/survey.component';
 
 @Component({
-  standalone: true,
   selector: 'schaeffler-feedback-banner',
   templateUrl: './feedback-banner.component.html',
   imports: [
@@ -25,6 +24,11 @@ import { SurveyComponent } from './survey/survey.component';
     SharedTranslocoModule,
     AlertComponent,
   ],
+
+  // FIXME: Remove the next line after storybook was updated to a version, where Standalone-Components
+  // without standalone property were supported.
+  // Angular 19 standalone: true is default, so it's not needed anymore
+  standalone: true,
 })
 export class FeedbackBannerComponent implements OnInit, OnDestroy {
   @Input() public providedLanguages: string[] = [];

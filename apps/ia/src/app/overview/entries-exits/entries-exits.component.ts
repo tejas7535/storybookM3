@@ -20,6 +20,7 @@ import { Color, EmployeeWithAction } from '../../shared/models';
   selector: 'ia-entries-exits',
   templateUrl: './entries-exits.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class EntriesExitsComponent {
   private _dimensionHint: string;

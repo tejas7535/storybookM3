@@ -7,6 +7,7 @@ import { UpdateCostsConfirmModalComponent } from './update-costs-confirm-modal/u
 @Component({
   selector: 'gq-production-cost-details',
   templateUrl: './production-cost-details.component.html',
+  standalone: false,
 })
 export class ProductionCostDetailsComponent {
   @Input() quotationDetail: QuotationDetail;

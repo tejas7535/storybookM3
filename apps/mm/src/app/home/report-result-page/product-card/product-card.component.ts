@@ -15,7 +15,6 @@ import { MediasViewProductButtonComponent } from '../medias-view-product-button/
     NgOptimizedImage,
     MediasViewProductButtonComponent,
   ],
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCardComponent {

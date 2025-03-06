@@ -18,6 +18,7 @@ import { Breadcrumb } from '@schaeffler/breadcrumbs';
   selector: 'gq-case-view',
   templateUrl: './process-case-view.component.html',
   styleUrls: ['./process-case-view.component.scss'],
+  standalone: false,
 })
 export class ProcessCaseViewComponent implements OnDestroy {
   private readonly approvalFacade: ApprovalFacade = inject(ApprovalFacade);

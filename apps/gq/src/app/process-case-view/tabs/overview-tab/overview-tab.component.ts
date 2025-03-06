@@ -32,6 +32,7 @@ import { GeneralInformation } from './models';
 @Component({
   selector: 'gq-overview-tab',
   templateUrl: './overview-tab.component.html',
+  standalone: false,
 })
 export class OverviewTabComponent implements OnInit, OnDestroy {
   private readonly approvalFacade = inject(ApprovalFacade);

@@ -3,7 +3,6 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'lsa-recommendation-table-cell',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './recommendation-table-cell.component.html',
 })

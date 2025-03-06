@@ -14,6 +14,7 @@ import { isDetailRoute } from '@cdba/shared/utils';
 @Component({
   selector: 'cdba-compare-button',
   templateUrl: './compare-button.component.html',
+  standalone: false,
 })
 export class CompareButtonComponent implements OnChanges {
   @Input()

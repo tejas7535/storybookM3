@@ -6,6 +6,7 @@ import { ImportCaseComponent } from '@gq/case-view/case-creation/import-case/imp
 @Component({
   selector: 'gq-import-case',
   templateUrl: './import-case-button.component.html',
+  standalone: false,
 })
 export class ImportCaseButtonComponent implements OnDestroy {
   constructor(private readonly dialog: MatDialog) {}

@@ -31,7 +31,6 @@ export enum PercentageEditOption {
 
 @Component({
   selector: 'd360-sales-planning-single-percentage-edit-cell-renderer',
-  standalone: true,
   imports: [MatIcon, MatIconButton, SharedTranslocoModule, PushPipe],
   templateUrl:
     './sales-planning-single-percentage-edit-cell-renderer.component.html',

@@ -12,6 +12,7 @@ import { translate } from '@jsverse/transloco';
 @Component({
   selector: 'gq-forward-approval-workflow-modal',
   templateUrl: './forward-approval-workflow-modal.component.html',
+  standalone: false,
 })
 export class ForwardApprovalWorkflowModalComponent
   implements OnInit, OnDestroy

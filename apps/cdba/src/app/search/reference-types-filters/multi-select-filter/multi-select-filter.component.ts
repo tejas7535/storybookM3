@@ -45,6 +45,7 @@ import { MultiSelectValuePipe } from '../multi-select-filter/pipes/multi-select-
   templateUrl: './multi-select-filter.component.html',
   styleUrls: ['./multi-select-filter.component.scss'],
   providers: [MaterialNumberPipe],
+  standalone: false,
 })
 export class MultiSelectFilterComponent
   implements OnInit, OnChanges, OnDestroy, Filter

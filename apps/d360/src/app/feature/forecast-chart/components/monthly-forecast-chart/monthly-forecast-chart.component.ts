@@ -15,7 +15,6 @@ import { BaseForecastChartComponent } from '../base-forecast-chart.component';
 
 @Component({
   selector: 'd360-monthly-forecast-chart',
-  standalone: true,
   imports: [CommonModule, NgxEchartsModule],
   templateUrl: '../base-forecast-chart.component.html',
   styleUrl: '../base-forecast-chart.component.scss',

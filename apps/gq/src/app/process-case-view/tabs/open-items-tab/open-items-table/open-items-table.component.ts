@@ -13,7 +13,6 @@ import { ColumnDefinitionService } from './config/column-definition.service';
 
 @Component({
   selector: 'gq-open-items-table',
-  standalone: true,
   imports: [AgGridAngular, PushPipe],
   providers: [ColumnDefinitionService],
   templateUrl: './open-items-table.component.html',

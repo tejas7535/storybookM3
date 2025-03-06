@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'gq-tabs-label',
   templateUrl: './tabs-label.component.html',
+  standalone: false,
 })
 export class TabsLabelComponent {
   @Input() icon: string;

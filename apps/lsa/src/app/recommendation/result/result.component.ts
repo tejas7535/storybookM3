@@ -40,7 +40,6 @@ import { RecommendationTableComponent } from './recommendation-table/recommendat
 
 @Component({
   selector: 'lsa-result',
-  standalone: true,
   imports: [
     RecommendationTableComponent,
     RecommendationTableDataPipe,

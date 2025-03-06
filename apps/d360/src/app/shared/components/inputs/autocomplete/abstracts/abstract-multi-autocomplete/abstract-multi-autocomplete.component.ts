@@ -41,7 +41,6 @@ import {
 import { OptionsLoadingResult } from './../../../../../services/selectable-options.service';
 
 @Component({
-  standalone: true,
   imports: [],
   template: '',
 })
@@ -273,33 +272,30 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
    * @memberof AbstractMultiAutocompleteComponent
    */
   public constructor() {
-    effect(
-      () => {
-        // the first time we receive data, we need to clean up the initial values
-        if (this.optionsLoadingResult()?.options?.length > 0 && this.first) {
-          const value = this.control().getRawValue();
+    effect(() => {
+      // the first time we receive data, we need to clean up the initial values
+      if (this.optionsLoadingResult()?.options?.length > 0 && this.first) {
+        const value = this.control().getRawValue();
 
-          this.control().setValue(
-            SelectableValueUtils.mapToOptionsIfPossible(
-              Array.isArray(value)
-                ? value
-                : // eslint-disable-next-line unicorn/no-nested-ternary
-                  typeof value === 'string' && value.length > 0
-                  ? [value]
-                  : [],
-              this.optionsLoadingResult()?.options
-            ),
-            { emitEvent: false }
-          );
+        this.control().setValue(
+          SelectableValueUtils.mapToOptionsIfPossible(
+            Array.isArray(value)
+              ? value
+              : // eslint-disable-next-line unicorn/no-nested-ternary
+                typeof value === 'string' && value.length > 0
+                ? [value]
+                : [],
+            this.optionsLoadingResult()?.options
+          ),
+          { emitEvent: false }
+        );
 
-          // reset the initial options based on current selected values
-          this.resetOptions();
+        // reset the initial options based on current selected values
+        this.resetOptions();
 
-          this.first = false;
-        }
-      },
-      { allowSignalWrites: true }
-    );
+        this.first = false;
+      }
+    });
   }
 
   /** @inheritdoc */

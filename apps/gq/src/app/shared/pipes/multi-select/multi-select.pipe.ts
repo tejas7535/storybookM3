@@ -4,6 +4,7 @@ import { translate } from '@jsverse/transloco';
 
 @Pipe({
   name: 'multiSelect',
+  standalone: false,
 })
 export class MultiSelectPipe implements PipeTransform {
   transform(value: (number | string)[]): unknown {

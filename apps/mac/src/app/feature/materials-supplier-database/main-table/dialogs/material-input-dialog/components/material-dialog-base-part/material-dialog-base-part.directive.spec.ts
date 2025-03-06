@@ -6,28 +6,15 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { of } from 'rxjs';
-
 import { TranslocoModule } from '@jsverse/transloco';
 import {
   createDirectiveFactory,
   SpectatorDirective,
 } from '@ngneat/spectator/jest';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
 
 import { StringOption } from '@schaeffler/inputs';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
-import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
-import {
-  mockMaterialStandards,
-  mockSuppliers,
-} from '@mac/testing/mocks/msd/input-dialog.mock';
-
-import * as en from '../../../../../../../../assets/i18n/en.json';
 import * as utils from '../../util';
 import { Co2ComponentComponent } from '../co2-component/co2-component.component';
 import { ManufacturerSupplierComponent } from '../manufacturer-supplier/manufacturer-supplier.component';
@@ -45,8 +32,7 @@ jest.mock('@jsverse/transloco', () => ({
 }));
 
 @Component({
-  selector: 'mac-host-component',
-  template: '',
+  template: `<div macMaterialDialogBasePart></div>`,
 })
 class HostComponent {
   public co2Scope1Control = new FormControl<number>(0);
@@ -70,38 +56,6 @@ describe('MaterialDialogBasePartDirective', () => {
   let spectator: SpectatorDirective<MaterialDialogBasePartDirective>;
   let directive: MaterialDialogBasePartDirective;
 
-  const initialState = {
-    msd: {
-      data: {
-        ...initialDataState,
-      },
-      dialog: {
-        ...initialDialogState,
-        dialogOptions: {
-          ...initialDialogState.dialogOptions,
-          materialStandards: mockMaterialStandards,
-          materialStandardsLoading: true,
-          manufacturerSuppliers: mockSuppliers,
-          manufacturerSuppliersLoading: true,
-          ratings: ['1'],
-          ratingsLoading: true,
-          steelMakingProcesses: ['1'],
-          steelMakingProcessesLoading: true,
-          co2Classifications: ['1'],
-          co2ClassificationsLoading: true,
-          castingModes: ['1'],
-          castingModesLoading: true,
-          loading: true,
-        },
-        createMaterial: {
-          ...initialDialogState.createMaterial,
-          createMaterialLoading: true,
-          createMaterialSuccess: true,
-        },
-      },
-    },
-  };
-
   let mockFocus: any;
 
   const mockCdRef = {} as unknown as ChangeDetectorRef;
@@ -112,19 +66,15 @@ describe('MaterialDialogBasePartDirective', () => {
       MockComponent(Co2ComponentComponent),
       MockComponent(ManufacturerSupplierComponent),
       MockComponent(MaterialStandardComponent),
-      provideTranslocoTestingModule({ en }),
     ],
+    declarations: [MaterialDialogBasePartDirective, HostComponent],
     providers: [
       {
         provide: ChangeDetectorRef,
         useValue: mockCdRef,
       },
-      provideMockStore({ initialState }),
-      provideMockActions(() => of()),
     ],
-    template: `<div macMaterialDialogBasePart></div>
-        `,
-    host: HostComponent,
+    template: `<div macMaterialDialogBasePart></div>`,
   });
 
   beforeEach(() => {

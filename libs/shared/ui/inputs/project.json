@@ -15,7 +15,6 @@
       "executor": "@nx/angular:package",
       "options": {
         "project": "libs/shared/ui/inputs/ng-package.json",
-        "tailwindConfig": "libs/shared/ui/inputs/tailwind.config.js",
         "tsConfig": "libs/shared/ui/inputs/tsconfig.lib.json"
       }
     },

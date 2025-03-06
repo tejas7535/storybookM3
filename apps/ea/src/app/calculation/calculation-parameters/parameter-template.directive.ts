@@ -5,7 +5,6 @@ import { CalculationParameterGroup } from '@ea/core/store/models';
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[parameterTemplate]',
-  standalone: true,
 })
 export class ParameterTemplateDirective {
   @Input('parameterTemplate') name:

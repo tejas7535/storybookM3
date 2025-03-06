@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'defaultValue',
+  standalone: false,
 })
 export class DefaultValuePipe implements PipeTransform {
   transform(value: unknown, suffix?: string): string {

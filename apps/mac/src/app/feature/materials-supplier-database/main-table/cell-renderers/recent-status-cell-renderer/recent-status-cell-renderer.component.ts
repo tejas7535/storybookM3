@@ -16,7 +16,6 @@ import { DataFacade } from '@mac/msd/store/facades/data';
 @Component({
   selector: 'mac-recent-status-cell-renderer',
   templateUrl: './recent-status-cell-renderer.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

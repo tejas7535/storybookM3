@@ -22,7 +22,6 @@ import { SelectableOptionsService } from '../../shared/services/selectable-optio
 import { AlertTableComponent } from './table/alert-table/alert-table.component';
 @Component({
   selector: 'd360-alerts',
-  standalone: true,
   imports: [
     AgGridModule,
     AlertTableComponent,

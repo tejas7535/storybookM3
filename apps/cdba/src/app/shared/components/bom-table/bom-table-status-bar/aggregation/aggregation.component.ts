@@ -15,6 +15,7 @@ import { AggregationService } from './service/aggregation.service';
   selector: 'cdba-aggregation',
   templateUrl: './aggregation.component.html',
   styleUrls: ['./aggregation.component.scss'],
+  standalone: false,
 })
 export class AggregationComponent implements IStatusPanelAngularComp {
   aggregationModel = new AggregationStatusBar(

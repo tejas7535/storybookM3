@@ -11,6 +11,7 @@ import { isFNumber } from '@gq/shared/utils/f-pricing.utils';
 @Component({
   selector: 'gq-filter-pricing',
   templateUrl: './filter-pricing.component.html',
+  standalone: false,
 })
 export class FilterPricingComponent {
   private readonly rolesFacade: RolesFacade = inject(RolesFacade);

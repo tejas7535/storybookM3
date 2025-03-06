@@ -120,7 +120,7 @@ describe('ComparableTransactionsComponent', () => {
       component.onFirstDataRendered(params);
 
       expect(params.api.autoSizeColumns).toHaveBeenCalledTimes(1);
-      expect(params.api.autoSizeColumns).toBeCalledWith([id], true);
+      expect(params.api.autoSizeColumns).toHaveBeenCalledWith([id], true);
     });
     test('should autoSize without skipHeader', () => {
       const id = 'any';
@@ -137,7 +137,7 @@ describe('ComparableTransactionsComponent', () => {
       component.onFirstDataRendered(params);
 
       expect(params.api.autoSizeColumns).toHaveBeenCalledTimes(1);
-      expect(params.api.autoSizeColumns).toBeCalledWith([id], false);
+      expect(params.api.autoSizeColumns).toHaveBeenCalledWith([id], false);
     });
   });
 

@@ -47,7 +47,6 @@ import { GreaseReportResultComponent } from '../grease-report-result';
 
 @Component({
   selector: 'ga-grease-report',
-  standalone: true,
   imports: [
     CommonModule,
     PushPipe,

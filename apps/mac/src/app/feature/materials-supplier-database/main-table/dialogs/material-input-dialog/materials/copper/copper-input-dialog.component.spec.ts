@@ -240,9 +240,9 @@ describe('CopperInputDialogComponent', () => {
     it('should assign the material form', () => {
       component.co2Scope1Control.setValue(99);
 
-      expect(dialogFacade.updateCreateMaterialDialogValues).toBeCalledWith(
-        component.createMaterialForm.value
-      );
+      expect(
+        dialogFacade.updateCreateMaterialDialogValues
+      ).toHaveBeenCalledWith(component.createMaterialForm.value);
     });
   });
 

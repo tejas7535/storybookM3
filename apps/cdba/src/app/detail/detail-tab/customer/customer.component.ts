@@ -6,6 +6,7 @@ import { CustomerDetails } from '@cdba/shared/models';
   selector: 'cdba-customer',
   templateUrl: './customer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CustomerComponent {
   @Input() customerDetails: CustomerDetails;

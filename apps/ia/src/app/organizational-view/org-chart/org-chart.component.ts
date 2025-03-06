@@ -37,6 +37,7 @@ import { OrgChartService } from './org-chart.service';
   templateUrl: './org-chart.component.html',
   styleUrls: ['./org-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class OrgChartComponent implements AfterViewInit {
   private _dialogRef: MatDialogRef<EmployeeListDialogComponent>;

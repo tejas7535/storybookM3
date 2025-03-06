@@ -12,7 +12,6 @@ import { PerformanceRating } from '../../models';
 
 @Component({
   selector: 'ia-pmgm-performance-rating',
-  standalone: true,
   imports: [
     SharedModule,
     MatIconModule,

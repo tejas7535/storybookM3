@@ -9,7 +9,6 @@ import { LabelTextModule } from '../../label-text/label-text.module';
 
 @Component({
   selector: 'gq-dimension-details',
-  standalone: true,
   imports: [LabelTextModule, SharedPipesModule, SharedTranslocoModule],
   templateUrl: './dimension-details.component.html',
 })

@@ -55,7 +55,7 @@ describe('UpdateCostsConfirmModalComponent', () => {
 
       component.confirm();
 
-      expect(updateCostsMock).toBeCalledTimes(1);
+      expect(updateCostsMock).toHaveBeenCalledTimes(1);
     });
     test('should close dialog when updateCostsSuccess$ emits', () => {
       jest.resetAllMocks();
@@ -84,7 +84,7 @@ describe('UpdateCostsConfirmModalComponent', () => {
 
       component.closeDialog();
 
-      expect(closeDialogMock).toBeCalledTimes(1);
+      expect(closeDialogMock).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
-import { LetDirective, PushPipe } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -12,7 +12,6 @@ import { DataFacade } from '@mac/msd/store/facades/data';
 
 @Component({
   selector: 'mac-confirm-delete-dialog',
-  standalone: true,
   imports: [
     // angular material
     MatDialogModule,
@@ -24,7 +23,6 @@ import { DataFacade } from '@mac/msd/store/facades/data';
     SharedTranslocoModule,
     // ngrx
     LetDirective,
-    PushPipe,
   ],
   templateUrl: './confirm-delete-dialog.component.html',
 })

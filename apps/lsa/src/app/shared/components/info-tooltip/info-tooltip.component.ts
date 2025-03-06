@@ -6,7 +6,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
-  standalone: true,
   selector: 'lsa-info-tooltip',
   templateUrl: './info-tooltip.component.html',
   imports: [

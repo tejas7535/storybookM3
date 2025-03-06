@@ -52,7 +52,6 @@ interface MultiPhaseInData {
 
 @Component({
   selector: 'd360-customer-material-multi-modal',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,

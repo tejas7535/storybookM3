@@ -20,6 +20,7 @@ import {
 @Component({
   selector: 'gq-kpi-list',
   templateUrl: './kpi-list.component.html',
+  standalone: false,
 })
 export class KpiListComponent {
   @Input() editingModalData: EditingModal;

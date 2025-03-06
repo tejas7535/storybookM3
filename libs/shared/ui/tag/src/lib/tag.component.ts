@@ -5,7 +5,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   selector: 'schaeffler-tag',
   templateUrl: './tag.component.html',
   styleUrls: ['./tag.component.scss'],
-  standalone: true,
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -269,7 +269,9 @@ describe('SteelInputDialogComponent', () => {
     it('should assign the material form', () => {
       component.minDimControl.setValue(99);
 
-      expect(dialogFacade.updateCreateMaterialDialogValues).toBeCalledWith({
+      expect(
+        dialogFacade.updateCreateMaterialDialogValues
+      ).toHaveBeenCalledWith({
         ...component.createMaterialForm.value,
         reportValidUntil:
           component.reportValidUntilControlMoment.value?.format('YYYY-MM-DD'),
@@ -525,29 +527,32 @@ describe('SteelInputDialogComponent', () => {
         castingMode: 'new',
       });
       expect(component.castingDiameterControl.enabled).toBeTruthy();
-      expect(dialogFacade.resetSteelMakingProcessInUse).toBeCalled();
+      expect(dialogFacade.resetSteelMakingProcessInUse).toHaveBeenCalled();
     });
     it('should disable castingDiameter with casting mode reset', () => {
       component.castingDiameterDep.patchValue({
         castingMode: undefined,
       });
       expect(component.castingDiameterControl.disabled).toBeTruthy();
-      expect(dialogFacade.resetSteelMakingProcessInUse).toBeCalled();
+      expect(dialogFacade.resetSteelMakingProcessInUse).toHaveBeenCalled();
     });
     it('should fetchCastingDiameters', () => {
       component.castingDiameterDep.setValue({
         supplierId: 99,
         castingMode: 'new',
       });
-      expect(dialogFacade.resetSteelMakingProcessInUse).toBeCalled();
-      expect(dialogFacade.fetchCastingDiameters).toBeCalledWith(99, 'new');
+      expect(dialogFacade.resetSteelMakingProcessInUse).toHaveBeenCalled();
+      expect(dialogFacade.fetchCastingDiameters).toHaveBeenCalledWith(
+        99,
+        'new'
+      );
     });
     it('should not fetchCastingDiameters without castingMode', () => {
       component.castingDiameterDep.patchValue({
         castingMode: undefined,
       });
-      expect(dialogFacade.resetSteelMakingProcessInUse).toBeCalled();
-      expect(dialogFacade.fetchCastingDiameters).not.toBeCalledWith(
+      expect(dialogFacade.resetSteelMakingProcessInUse).toHaveBeenCalled();
+      expect(dialogFacade.fetchCastingDiameters).not.toHaveBeenCalledWith(
         99,
         // eslint-disable-next-line unicorn/no-useless-undefined
         undefined
@@ -558,8 +563,8 @@ describe('SteelInputDialogComponent', () => {
         supplierId: undefined,
       });
 
-      expect(dialogFacade.resetSteelMakingProcessInUse).toBeCalled();
-      expect(dialogFacade.fetchCastingDiameters).not.toBeCalledWith(
+      expect(dialogFacade.resetSteelMakingProcessInUse).toHaveBeenCalled();
+      expect(dialogFacade.fetchCastingDiameters).not.toHaveBeenCalledWith(
         99,
         // eslint-disable-next-line unicorn/no-useless-undefined
         undefined
@@ -583,7 +588,7 @@ describe('SteelInputDialogComponent', () => {
     it('should fetch steelMakingProcesses', () => {
       castingDiameter = '2x2';
       component.castingDiameterControl.setValue(createOption(castingDiameter));
-      expect(dialogFacade.fetchSteelMakingProcessesInUse).toBeCalledWith(
+      expect(dialogFacade.fetchSteelMakingProcessesInUse).toHaveBeenCalledWith(
         supplierId,
         castingMode,
         castingDiameter
@@ -591,17 +596,23 @@ describe('SteelInputDialogComponent', () => {
     });
     it('should not fetch processes with empty diameter', () => {
       component.castingDiameterControl.reset();
-      expect(dialogFacade.fetchSteelMakingProcessesInUse).not.toBeCalled();
+      expect(
+        dialogFacade.fetchSteelMakingProcessesInUse
+      ).not.toHaveBeenCalled();
     });
     it('should not fetch processes with empty casting mode', () => {
       setSilent(component.castingModesControl);
       component.castingDiameterControl.setValue(createOption('test'));
-      expect(dialogFacade.fetchSteelMakingProcessesInUse).not.toBeCalled();
+      expect(
+        dialogFacade.fetchSteelMakingProcessesInUse
+      ).not.toHaveBeenCalled();
     });
     it('should not fetch processes with empty id', () => {
       setSilent(component.manufacturerSupplierIdControl);
       component.castingDiameterControl.setValue(createOption('test'));
-      expect(dialogFacade.fetchSteelMakingProcessesInUse).not.toBeCalled();
+      expect(
+        dialogFacade.fetchSteelMakingProcessesInUse
+      ).not.toHaveBeenCalled();
     });
   });
 
@@ -715,7 +726,7 @@ describe('SteelInputDialogComponent', () => {
     it('should update co2Dialog values', () => {
       update([1, 2, 3, 4], 'yes', 8);
 
-      expect(component['snackbar'].infoTranslated).toBeCalled();
+      expect(component['snackbar'].infoTranslated).toHaveBeenCalled();
       expect(component.co2ClassificationControl.enabled).toBe(true);
       expect(component.co2ClassificationControl.value).toBe('yes');
       expect(component.co2Scope1Control.value).toBe(1);
@@ -726,7 +737,7 @@ describe('SteelInputDialogComponent', () => {
     it('should partial update co2Dialog values', () => {
       update([1, undefined, undefined, 4]);
 
-      expect(component['snackbar'].infoTranslated).toBeCalled();
+      expect(component['snackbar'].infoTranslated).toHaveBeenCalled();
       expect(component.co2ClassificationControl.enabled).toBe(true);
       expect(component.co2ClassificationControl.value).toBeFalsy();
       expect(component.co2Scope1Control.value).toBe(1);
@@ -737,35 +748,35 @@ describe('SteelInputDialogComponent', () => {
     it('should not update co2Dialog values with no values given', () => {
       update();
 
-      expect(component['snackbar'].infoTranslated).not.toBeCalled();
+      expect(component['snackbar'].infoTranslated).not.toHaveBeenCalled();
       expect(component.co2ClassificationControl.enabled).toBe(false);
     });
     it('should not update co2Dialog values with value set for scope1', () => {
       setSilent(component.co2Scope1Control, 400);
       update([1, 2, 3, 4]);
 
-      expect(component['snackbar'].infoTranslated).not.toBeCalled();
+      expect(component['snackbar'].infoTranslated).not.toHaveBeenCalled();
       expect(component.co2ClassificationControl.enabled).toBe(false);
     });
     it('should not update co2Dialog values with value set for scope2', () => {
       setSilent(component.co2Scope2Control, 99);
       update([1, 2, 3, 4]);
 
-      expect(component['snackbar'].infoTranslated).not.toBeCalled();
+      expect(component['snackbar'].infoTranslated).not.toHaveBeenCalled();
       expect(component.co2ClassificationControl.enabled).toBe(false);
     });
     it('should not update co2Dialog values with value set for scope3', () => {
       setSilent(component.co2Scope3Control, 66);
       update([1, 2, 3, 4]);
 
-      expect(component['snackbar'].infoTranslated).not.toBeCalled();
+      expect(component['snackbar'].infoTranslated).not.toHaveBeenCalled();
       expect(component.co2ClassificationControl.enabled).toBe(false);
     });
     it('should not update co2Dialog values with value set for co2Total given', () => {
       setSilent(component.co2TotalControl, 3);
       update([1, 2, 3, 4]);
 
-      expect(component['snackbar'].infoTranslated).not.toBeCalled();
+      expect(component['snackbar'].infoTranslated).not.toHaveBeenCalled();
       expect(component.co2ClassificationControl.enabled).toBe(false);
     });
   });

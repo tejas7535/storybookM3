@@ -39,7 +39,6 @@ import { findProperty, mapProperty } from './util/form-helpers';
 @Component({
   selector: 'mac-base-input-dialog',
   template: '',
-  standalone: true,
   providers: [DialogControlsService],
 })
 export class MaterialInputDialogComponent

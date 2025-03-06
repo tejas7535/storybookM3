@@ -25,7 +25,6 @@ import { CONCEPT1_SIZES, GreaseConcep1Suitablity } from '../../models';
 
 @Component({
   selector: 'ga-grease-report-concept1',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,

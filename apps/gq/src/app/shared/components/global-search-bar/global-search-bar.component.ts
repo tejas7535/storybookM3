@@ -6,6 +6,7 @@ import { GlobalSearchAdvancedModalComponent } from './global-search-advanced-mod
   selector: 'gq-global-search-bar',
   templateUrl: './global-search-bar.component.html',
   styleUrls: ['./global-search-bar.component.scss'],
+  standalone: false,
 })
 export class GlobalSearchBarComponent {
   private readonly matDialog = inject(MatDialog);

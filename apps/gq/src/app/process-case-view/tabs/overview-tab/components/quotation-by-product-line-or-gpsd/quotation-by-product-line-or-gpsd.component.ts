@@ -29,6 +29,7 @@ import { BarChartData, ChartType } from '../../models';
   selector: 'gq-quotation-by-product-line-or-gpsd',
   templateUrl: './quotation-by-product-line-or-gpsd.component.html',
   styleUrls: ['./quotation-by-product-line-or-gpsd.component.scss'],
+  standalone: false,
 })
 export class QuotationByProductLineOrGpsdComponent
   implements OnInit, OnDestroy

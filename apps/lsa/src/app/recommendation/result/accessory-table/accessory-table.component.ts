@@ -35,7 +35,6 @@ import { SortedAccessoryListPipe } from './sorted-accessory-list.pipe';
 @Component({
   selector: 'lsa-accessory-table',
   templateUrl: './accessory-table.component.html',
-  standalone: true,
   imports: [
     CommonModule,
     MatIconModule,

@@ -23,7 +23,6 @@ import { QuickBearingSelectionComponent } from '../quick-bearing-selection';
 @Component({
   selector: 'ea-home-page',
   templateUrl: './home-page.component.html',
-  standalone: true,
   imports: [
     HomePageCardComponent,
     PushPipe,

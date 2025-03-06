@@ -15,7 +15,6 @@ import { ValidationHelper } from './validation/validation-helper';
 
 @Component({
   selector: 'd360-dummy',
-  standalone: true,
   template: '',
 })
 class DummyComponent {}

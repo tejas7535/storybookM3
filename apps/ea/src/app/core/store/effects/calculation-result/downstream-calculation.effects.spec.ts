@@ -175,7 +175,7 @@ describe('DownstreamCalculationEffects', () => {
       expect(fetchSpy).toHaveBeenCalled();
       expect(fetchSpy.mock.calls).toMatchSnapshot();
 
-      expect(formatInputSpy).toBeCalled();
+      expect(formatInputSpy).toHaveBeenCalled();
     };
 
     beforeEach(() => {

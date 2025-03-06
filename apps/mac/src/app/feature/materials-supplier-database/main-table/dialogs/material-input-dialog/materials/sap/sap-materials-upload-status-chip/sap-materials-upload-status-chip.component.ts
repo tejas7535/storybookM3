@@ -15,7 +15,6 @@ interface ChipConfig {
 @Component({
   selector: 'mac-sap-materials-upload-status-chip',
   templateUrl: './sap-materials-upload-status-chip.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

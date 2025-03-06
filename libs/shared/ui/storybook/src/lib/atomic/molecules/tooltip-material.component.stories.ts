@@ -80,6 +80,7 @@ import READMEMd from './tooltip/README.md';
       </div>
     </div>
   `,
+  standalone: false,
 })
 class TooltipExampleComponent {
   horizontalPosition: TooltipPosition = 'above';

@@ -17,6 +17,7 @@ import { Drawing } from '@cdba/shared/models';
 @Component({
   selector: 'cdba-drawings',
   templateUrl: './drawings.component.html',
+  standalone: false,
 })
 export class DrawingsComponent implements OnInit {
   materialDesignation$: Observable<string>;

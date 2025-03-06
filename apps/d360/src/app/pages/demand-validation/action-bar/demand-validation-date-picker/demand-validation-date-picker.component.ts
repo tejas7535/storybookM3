@@ -22,7 +22,6 @@ import { toNativeDate } from '../../../../shared/utils/date-format';
 
 @Component({
   selector: 'd360-demand-validation-date-picker',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

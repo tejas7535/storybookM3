@@ -3,7 +3,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { AccessoryTableGroup } from './accessory-table.model';
 
 @Pipe({
-  standalone: true,
   name: 'SortedAccessoryList',
 })
 export class SortedAccessoryListPipe implements PipeTransform {

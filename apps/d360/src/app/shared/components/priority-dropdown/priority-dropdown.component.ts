@@ -10,7 +10,6 @@ import { FilterDropdownComponent } from '../inputs/filter-dropdown/filter-dropdo
 
 @Component({
   selector: 'd360-priority-dropdown',
-  standalone: true,
   imports: [TranslocoDirective, FilterDropdownComponent],
   templateUrl: './priority-dropdown.component.html',
 })

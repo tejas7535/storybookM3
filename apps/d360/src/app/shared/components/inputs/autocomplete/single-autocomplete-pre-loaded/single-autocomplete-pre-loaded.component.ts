@@ -43,7 +43,6 @@ import {
  */
 @Component({
   selector: 'd360-single-autocomplete-pre-loaded',
-  standalone: true,
   imports: [
     MatAutocompleteModule,
     MatInputModule,
@@ -128,24 +127,21 @@ export class SingleAutocompletePreLoadedComponent
   public constructor() {
     super();
 
-    effect(
-      () => {
-        const newOptions = this.optionsLoadingResult();
-        if (
-          (this.tempOptionsLoadingResult.options.length === 0 &&
-            newOptions.options.length > 0) ||
-          !isEqual(this.tempOptionsLoadingResult.options, newOptions.options)
-        ) {
-          this.tempOptionsLoadingResult = newOptions;
-          this.extractOptions();
+    effect(() => {
+      const newOptions = this.optionsLoadingResult();
+      if (
+        (this.tempOptionsLoadingResult.options.length === 0 &&
+          newOptions.options.length > 0) ||
+        !isEqual(this.tempOptionsLoadingResult.options, newOptions.options)
+      ) {
+        this.tempOptionsLoadingResult = newOptions;
+        this.extractOptions();
 
-          return;
-        }
+        return;
+      }
 
-        this.fixSelectedOption();
-      },
-      { allowSignalWrites: true }
-    );
+      this.fixSelectedOption();
+    });
   }
 
   /**

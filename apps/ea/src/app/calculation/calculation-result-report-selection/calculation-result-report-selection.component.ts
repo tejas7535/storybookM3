@@ -10,7 +10,6 @@ import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
   templateUrl: './calculation-result-report-selection.component.html',
-  standalone: true,
   selector: 'ea-calculation-result-report-selection',
   imports: [
     CommonModule,

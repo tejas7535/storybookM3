@@ -6,7 +6,6 @@ import { ContentWrapperComponent } from './content-wrapper.component';
 
 @Component({
   selector: 'd360-test-host-component',
-  standalone: true,
   imports: [ContentWrapperComponent],
   template: `
     <d360-content-wrapper [fullHeight]="fullHeight"></d360-content-wrapper>

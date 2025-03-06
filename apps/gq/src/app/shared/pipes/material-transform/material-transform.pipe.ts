@@ -4,6 +4,7 @@ import { MaterialNumberService } from '../../services/material-number/material-n
 
 @Pipe({
   name: 'materialTransform',
+  standalone: false,
 })
 export class MaterialTransformPipe implements PipeTransform {
   constructor(private readonly materialNumberService: MaterialNumberService) {}

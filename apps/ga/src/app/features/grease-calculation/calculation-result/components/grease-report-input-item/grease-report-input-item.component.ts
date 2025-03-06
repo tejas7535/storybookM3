@@ -23,7 +23,6 @@ export const elementWidthSmall = 400;
 
 @Component({
   selector: 'ga-grease-report-input-item',
-  standalone: true,
   imports: [SharedTranslocoModule, LabelValueModule],
   templateUrl: './grease-report-input-item.component.html',
   styleUrls: ['./grease-report-input-item.component.scss'],

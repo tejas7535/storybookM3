@@ -28,7 +28,6 @@ import { InfoButtonComponent } from '../info-button/info-button.component';
 @Component({
   selector: 'ea-input-number',
   templateUrl: './input-number.component.html',
-  standalone: true,
   imports: [
     InfoButtonComponent,
     MatFormFieldModule,

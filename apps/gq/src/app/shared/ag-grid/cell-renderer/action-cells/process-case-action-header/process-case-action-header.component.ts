@@ -15,6 +15,7 @@ import { MaterialTableItem } from '../../../../models/table';
 @Component({
   selector: 'gq-process-case-action-header',
   templateUrl: './process-case-action-header.component.html',
+  standalone: false,
 })
 export class ProcessCaseActionHeaderComponent {
   public params: HeaderClassParams;

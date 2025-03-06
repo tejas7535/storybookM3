@@ -12,6 +12,7 @@ import {
   selector: 'ga-bearing-selection-list',
   templateUrl: './bearing-selection-list.component.html',
   styleUrls: ['./bearing-selection-list.component.scss'],
+  standalone: false,
 })
 export class BearingSelectionListComponent {
   public advancedBearingSelectionResultList$ = this.store.select(

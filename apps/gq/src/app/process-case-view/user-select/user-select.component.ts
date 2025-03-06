@@ -42,7 +42,6 @@ const ITEM_HEIGHT = 50;
 const MAX_ITEMS_IN_LIST_COUNT = 5;
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     ScrollingModule,

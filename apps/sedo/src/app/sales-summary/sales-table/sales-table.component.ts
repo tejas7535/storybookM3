@@ -30,6 +30,7 @@ import { SIDE_BAR_CONFIG } from './config/sidebar-definition';
 @Component({
   selector: 'sedo-sales-table',
   templateUrl: './sales-table.component.html',
+  standalone: false,
 })
 export class SalesTableComponent implements OnInit, OnDestroy {
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;

@@ -49,7 +49,6 @@ import { BOM_EXPORT_RUNNING } from '../model/feature/bom-export/bom-export-statu
     UndefinedAttributeFallbackModule,
     LocalizedOffsetDatetimePipe,
   ],
-  standalone: true,
 })
 export class UserInteractionDialogComponent implements OnInit, OnDestroy {
   private readonly dialogRef = inject(

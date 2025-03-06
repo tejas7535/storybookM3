@@ -622,7 +622,7 @@ describe('CreateColumnService', () => {
         data: { msp: 20, price: 10 },
       } as ValueGetterParams);
       expect(res).toEqual('translate it');
-      expect(translate).toBeCalledTimes(1);
+      expect(translate).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -834,7 +834,9 @@ describe('CreateColumnService', () => {
       } as unknown as GetContextMenuItemsParams;
     });
     test('should return Value ofValueFormatter', () => {
-      getValueOfFocusedCell(params);
+      spectator.runInInjectionContext(() => {
+        getValueOfFocusedCell(params);
+      });
       expect(clipboardSpy).toHaveBeenCalledWith('formattedValue');
     });
 
@@ -850,7 +852,9 @@ describe('CreateColumnService', () => {
           getColDef: jest.fn(() => ({})),
         },
       } as unknown as GetContextMenuItemsParams;
-      getValueOfFocusedCell(params);
+      spectator.runInInjectionContext(() => {
+        getValueOfFocusedCell(params);
+      });
       expect(clipboardSpy).toHaveBeenCalledWith('Value');
     });
   });

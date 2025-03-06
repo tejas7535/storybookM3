@@ -4,6 +4,7 @@ import { MatStepper } from '@angular/material/stepper';
 
 @Directive({
   selector: '[schaefflerSeparatedSteps]',
+  standalone: false,
 })
 export class SeparatedStepsDirective implements AfterViewInit {
   public el!: ElementRef;

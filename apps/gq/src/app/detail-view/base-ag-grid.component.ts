@@ -18,7 +18,7 @@ import {
   SortChangedEvent,
 } from 'ag-grid-enterprise';
 
-@Component({ standalone: true, template: '' })
+@Component({ template: '' })
 export abstract class BaseAgGridComponent implements OnInit, OnDestroy {
   protected abstract TABLE_KEY: string;
   destroyRef = inject(DestroyRef);

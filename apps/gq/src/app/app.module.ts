@@ -2,7 +2,7 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { inject, NgModule, provideAppInitializer } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Observable } from 'rxjs';
@@ -88,9 +88,8 @@ const FEATURE_TOGGLE_CONFIG_LOCAL_STORAGE = 'gq-feature-config';
       provide: FEATURE_TOGGLE_CONFIG_LOCAL_STORAGE_KEY,
       useValue: FEATURE_TOGGLE_CONFIG_LOCAL_STORAGE,
     },
-    {
-      provide: APP_INITIALIZER,
-      useFactory:
+    provideAppInitializer(() => {
+      const initializerFn = (
         (
           featureToggleService: FeatureToggleConfigService,
           agGridStateService: AgGridStateService,
@@ -100,14 +99,15 @@ const FEATURE_TOGGLE_CONFIG_LOCAL_STORAGE = 'gq-feature-config';
           featureToggleService.initializeLocalStorage(environment.environment);
           userSettings.initializeUserSettings();
           agGridStateService.renameQuotationIdToActionItemForProcessCaseState();
-        },
-      multi: true,
-      deps: [
-        FeatureToggleConfigService,
-        AgGridStateService,
-        UserSettingsService,
-      ],
-    },
+        }
+      )(
+        inject(FeatureToggleConfigService),
+        inject(AgGridStateService),
+        inject(UserSettingsService)
+      );
+
+      return initializerFn();
+    }),
     {
       provide: PERSON_RESPONSIBLE,
       useValue: responsiblePerson,

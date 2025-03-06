@@ -24,15 +24,19 @@ describe('SnackbarService', () => {
   it('should open snackbar with provided message, action and duration', () => {
     const openMatSnackBar = jest.spyOn(snackBar, 'open');
     service.openSnackBar('Test message', 'Test action', 3000);
-    expect(openMatSnackBar).toBeCalledWith('Test message', 'Test action', {
-      duration: 3000,
-    });
+    expect(openMatSnackBar).toHaveBeenCalledWith(
+      'Test message',
+      'Test action',
+      {
+        duration: 3000,
+      }
+    );
   });
 
   it('should open snackbar with provided message and default action and duration', () => {
     const openMatSnackBar = jest.spyOn(snackBar, 'open');
     service.openSnackBar('Test message');
-    expect(openMatSnackBar).toBeCalledWith('Test message', 'Close', {
+    expect(openMatSnackBar).toHaveBeenCalledWith('Test message', 'Close', {
       duration: 5000,
     });
   });
@@ -40,6 +44,8 @@ describe('SnackbarService', () => {
   it('should open snackbar with empty message and default action and duration', () => {
     const openMatSnackBar = jest.spyOn(snackBar, 'open');
     service.openSnackBar('');
-    expect(openMatSnackBar).toBeCalledWith('', 'Close', { duration: 5000 });
+    expect(openMatSnackBar).toHaveBeenCalledWith('', 'Close', {
+      duration: 5000,
+    });
   });
 });

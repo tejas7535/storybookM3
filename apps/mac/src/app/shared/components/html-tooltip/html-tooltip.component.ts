@@ -24,7 +24,6 @@ import {
 @Component({
   selector: 'mac-html-tooltip',
   templateUrl: './html-tooltip.component.html',
-  standalone: true,
   imports: [CommonModule, OverlayModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

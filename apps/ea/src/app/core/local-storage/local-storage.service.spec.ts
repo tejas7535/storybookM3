@@ -450,7 +450,7 @@ describe('Local Storage Service', () => {
       expect(result).toEqual(expectedUndefined);
     });
     it('should return and empty object if there is no object stored', () => {
-      service['localStorage'].getItem = jest.fn(() => undefined);
+      service['localStorage'].getItem = jest.fn(() => undefined as any);
 
       const result = service['getStoredSessionParameters']();
 

@@ -20,7 +20,6 @@ import { ErrorMessagePipe } from '@mac/feature/materials-supplier-database/main-
 @Component({
   selector: 'mac-recycling-rate',
   templateUrl: './recycling-rate.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

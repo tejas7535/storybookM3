@@ -26,7 +26,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({
   selector: 'gq-filter-selection',
   templateUrl: './filter-selection.component.html',
-  standalone: true,
   imports: [
     MatFormFieldModule,
     MatSelectModule,

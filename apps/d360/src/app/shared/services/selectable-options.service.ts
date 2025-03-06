@@ -164,7 +164,11 @@ export class SelectableOptionsService {
             });
           }
 
-          return { options, loading: false, loadingError: null };
+          return {
+            options,
+            loading: false,
+            loadingError: null as string | null,
+          };
         })
       );
   }

@@ -13,7 +13,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({
   selector: 'mac-more-information-dialog',
   templateUrl: './more-information-dialog.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

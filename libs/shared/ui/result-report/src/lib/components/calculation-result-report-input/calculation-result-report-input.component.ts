@@ -10,7 +10,6 @@ import { CalculationResultReportInputItemComponent } from '../calculation-result
 
 @Component({
   selector: 'schaeffler-calculation-result-report-input',
-  standalone: true,
   imports: [CalculationResultReportInputItemComponent],
   templateUrl: './calculation-result-report-input.component.html',
   styleUrls: ['./calculation-result-report-input.component.scss'],

@@ -13,6 +13,7 @@ import { Observable, of } from 'rxjs';
   selector: 'cdba-compare-label-value',
   templateUrl: './compare-label-value.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CompareLabelValueComponent implements AfterViewInit {
   @Input() label: string;

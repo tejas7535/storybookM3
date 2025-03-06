@@ -15,7 +15,6 @@ import { ExportTableDialogData } from './export-table-dialog.model';
 
 @Component({
   selector: 'd360-export-table-dialog',
-  standalone: true,
   imports: [LoadingSpinnerModule, TranslocoModule, MatDialogContent],
   templateUrl: './export-table-dialog.component.html',
 })

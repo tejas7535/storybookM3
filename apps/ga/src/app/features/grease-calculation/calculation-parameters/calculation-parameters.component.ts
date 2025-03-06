@@ -101,7 +101,6 @@ import { CalculationParametersService } from './services';
   styles: [
     ':host ::ng-deep .mat-slide-toggle-label .mat-slide-toggle-content { @apply whitespace-normal }',
   ],
-  standalone: true,
   imports: [
     CommonModule,
     PushPipe,

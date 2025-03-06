@@ -25,7 +25,6 @@ import { SnackbarService } from '../../../../../../shared/utils/service/snackbar
 
 @Component({
   selector: 'd360-alert-rule-delete-single-modal',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,

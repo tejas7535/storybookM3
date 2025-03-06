@@ -20,7 +20,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'gq-textarea-form-field',
-  standalone: true,
   imports: [
     CommonModule,
     MatInputModule,

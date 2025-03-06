@@ -30,6 +30,7 @@ interface TabElem {
   selector: 'ia-root',
   templateUrl: './app.component.html',
   styles: ['.mat-mdc-tab-link {@apply text-button; }'],
+  standalone: false,
 })
 export class AppComponent implements OnInit {
   title = 'Exit Insights';

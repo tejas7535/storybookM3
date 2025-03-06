@@ -12,7 +12,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'gq-create-case-reset-all-button',
-  standalone: true,
   imports: [MatButtonModule, SharedTranslocoModule, MatIconModule, PushPipe],
   templateUrl: './create-case-reset-all-button.component.html',
 })

@@ -59,7 +59,6 @@ import { RichTooltipComponent } from '@schaeffler/rich-tooltip';
   RichTooltipComponent,
   ...
 ]
-standalone: true
 ...
 })
 ```

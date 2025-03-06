@@ -13,7 +13,6 @@ import { EditCellRendererParams } from '../edit-cell-renderer/edit-cell-renderer
 @Component({
   selector: 'mac-co2-upload-file-cell-renderer',
   templateUrl: './co2-upload-file-cell-renderer.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

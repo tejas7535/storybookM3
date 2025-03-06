@@ -28,7 +28,6 @@ import { CustomerSalesPlanNumberAndPercentageEditModalComponent } from '../../..
 
 @Component({
   selector: 'd360-sales-planning-adjusted-total-cell-renderer',
-  standalone: true,
   imports: [MatIcon, MatIconButton, SharedTranslocoModule, PushPipe],
   templateUrl: './sales-planning-adjusted-total-cell-renderer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

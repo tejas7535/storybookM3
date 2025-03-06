@@ -8,6 +8,7 @@ import {
 @Component({
   selector: 'ga-user-settings',
   templateUrl: './user-settings.component.html',
+  standalone: false,
 })
 export class UserSettingsComponent {
   public availableLocales = AVAILABLE_LOCALES;

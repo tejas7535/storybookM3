@@ -7,7 +7,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({
   selector: 'hc-links-panel',
   templateUrl: './links-panel.component.html',
-  standalone: true,
   imports: [SharedTranslocoModule],
 })
 export class LinksPanelComponent {

@@ -6,6 +6,7 @@ import { openInNewWindowByUrl } from '../functions/context-menu-functions';
 @Component({
   selector: 'gq-open-in-window',
   templateUrl: './open-in-window.component.html',
+  standalone: false,
 })
 export class OpenInWindowComponent extends MatMenuItem {
   /**

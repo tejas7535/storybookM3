@@ -7,7 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { take } from 'rxjs';
 
-import { LetDirective, PushPipe } from '@ngrx/component';
+import { PushPipe } from '@ngrx/component';
 import { AgGridModule } from 'ag-grid-angular';
 import { GridApi, RowSelectionOptions } from 'ag-grid-community';
 
@@ -25,7 +25,6 @@ import { BaseDatagridComponent } from '../base-datagrid.component';
 
 @Component({
   selector: 'mac-raw-material-datagrid',
-  standalone: true,
   imports: [
     // default
     CommonModule,
@@ -38,7 +37,6 @@ import { BaseDatagridComponent } from '../base-datagrid.component';
     SharedTranslocoModule,
     // ngrx
     PushPipe,
-    LetDirective,
     // ag grid
     AgGridModule,
   ],

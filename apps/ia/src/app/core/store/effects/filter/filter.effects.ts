@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { catchError, EMPTY, filter, map, mergeMap, of } from 'rxjs';
 
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 import { routerNavigationAction } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { Moment } from 'moment';

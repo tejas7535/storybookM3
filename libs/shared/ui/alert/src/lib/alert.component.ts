@@ -6,11 +6,15 @@ import { MatIconModule } from '@angular/material/icon';
 export type AlertType = 'info' | 'success' | 'error' | 'warning' | '';
 
 @Component({
-  standalone: true,
   selector: 'schaeffler-alert',
   templateUrl: './alert.component.html',
   styleUrls: ['./alert.component.scss'],
   imports: [CommonModule, MatIconModule, MatButtonModule],
+
+  // FIXME: Remove the next line after storybook was updated to a version, where Standalone-Components
+  // without standalone property were supported.
+  // Angular 19 standalone: true is default, so it's not needed anymore
+  standalone: true,
 })
 export class AlertComponent {
   public withIcon = input<boolean>(true);

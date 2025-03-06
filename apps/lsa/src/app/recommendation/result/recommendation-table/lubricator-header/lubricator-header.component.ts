@@ -7,7 +7,6 @@ import { RecommendationLubricatorHeaderData } from '@lsa/shared/models';
 
 @Component({
   selector: 'lsa-lubricator-header',
-  standalone: true,
   imports: [CommonModule, MatRadioModule, TranslocoModule],
   templateUrl: './lubricator-header.component.html',
 })

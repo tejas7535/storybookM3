@@ -8,7 +8,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({
   selector: 'mac-loading-cell-renderer',
   templateUrl: './loading-cell-renderer.component.html',
-  standalone: true,
   imports: [
     // libs
     SharedTranslocoModule,

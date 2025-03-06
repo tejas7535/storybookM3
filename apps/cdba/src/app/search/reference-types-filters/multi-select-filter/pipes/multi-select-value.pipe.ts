@@ -4,6 +4,7 @@ import { StringOption } from '@schaeffler/inputs';
 
 @Pipe({
   name: 'multiSelectValue',
+  standalone: false,
 })
 export class MultiSelectValuePipe implements PipeTransform {
   /**

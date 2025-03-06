@@ -30,7 +30,6 @@ import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 type typeAnimation = 'fade-in' | 'fade-out';
 @Component({
-  standalone: true,
   selector: 'gq-create-manual-case-view',
   templateUrl: './create-manual-case-view.component.html',
   imports: [
@@ -100,7 +99,6 @@ export class CreateManualCaseViewComponent implements AfterViewInit {
     this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_FINISHED, {
       type: CASE_CREATION_TYPES.MANUAL,
     } as CaseCreationEventParams);
-
     // collect all data needed for CaseCreation
     this.createCaseFacade.createNewOgpCase(this.headerInformationData);
   }

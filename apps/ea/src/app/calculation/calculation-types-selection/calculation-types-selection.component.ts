@@ -39,7 +39,6 @@ import { BasicFrequenciesComponent } from '../basic-frequencies/basic-frequencie
 
 @Component({
   selector: 'ea-calculation-types-selection',
-  standalone: true,
   imports: [
     MatIconModule,
     MatButtonModule,

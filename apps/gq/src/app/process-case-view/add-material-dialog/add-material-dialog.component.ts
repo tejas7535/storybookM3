@@ -20,6 +20,7 @@ import { Store } from '@ngrx/store';
 @Component({
   selector: 'gq-add-material-dialog',
   templateUrl: './add-material-dialog.component.html',
+  standalone: false,
 })
 export class AddMaterialDialogComponent implements OnInit, OnDestroy {
   private readonly subscription: Subscription = new Subscription();

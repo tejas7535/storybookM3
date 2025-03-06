@@ -13,7 +13,6 @@ import { PmgmAssessment } from '../../models';
 
 @Component({
   selector: 'ia-pmgm-assessment',
-  standalone: true,
   imports: [
     SharedModule,
     MatIconModule,

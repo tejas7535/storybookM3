@@ -25,6 +25,7 @@ import { getTimeRangeFromDates } from '../utils/utilities';
   templateUrl: './date-input.component.html',
   styleUrls: ['./date-input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DateInputComponent {
   readonly startView: 'year' | 'month' | 'multi-year' = 'multi-year';

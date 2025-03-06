@@ -1,5 +1,5 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { inject, NgModule, provideAppInitializer } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconRegistry } from '@angular/material/icon';
 import {
@@ -30,7 +30,6 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
-import * as i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppRoutePath } from '../app-route-path.enum';
 import { BaseHttpInterceptor } from '../shared/http/base-http.interceptor';
 import { HttpHeaderInterceptor } from '../shared/http/http-header.interceptor';
@@ -80,8 +79,7 @@ export function appInitializer(
       'en',
       undefined, // language storage key -> language is not persisted in this app
       true,
-      !environment.localDev,
-      i18nChecksumsJson
+      !environment.localDev
     ),
 
     // Auth
@@ -96,12 +94,14 @@ export function appInitializer(
   ],
   providers: [
     // OneTrust Provider must be first entry
-    {
-      provide: APP_INITIALIZER,
-      useFactory: appInitializer,
-      deps: [OneTrustService, ApplicationInsightsService],
-      multi: true,
-    },
+    provideAppInitializer(() => {
+      const initializerFn = appInitializer(
+        inject(OneTrustService),
+        inject(ApplicationInsightsService)
+      );
+
+      return initializerFn();
+    }),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: BaseHttpInterceptor,

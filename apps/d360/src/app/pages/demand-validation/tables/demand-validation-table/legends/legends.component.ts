@@ -4,7 +4,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'd360-legends',
-  standalone: true,
   imports: [SharedTranslocoModule],
   templateUrl: './legends.component.html',
   styleUrl: './legends.component.scss',

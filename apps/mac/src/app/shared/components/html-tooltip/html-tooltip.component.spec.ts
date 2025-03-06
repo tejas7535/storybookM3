@@ -1,6 +1,5 @@
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
-import { ElementRef } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -27,9 +26,6 @@ describe('HtmlTooltipComponent', () => {
           nativeElement: element,
         },
       } as unknown as CdkOverlayOrigin,
-      tooltip: {
-        nativeElement: {},
-      } as unknown as ElementRef,
     });
 
     spectator.detectChanges();

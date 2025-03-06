@@ -37,6 +37,7 @@ type CellType = 'workforce' | 'leavers';
   selector: 'ia-lost-job-profiles',
   templateUrl: './lost-job-profiles.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class LostJobProfilesComponent {
   workforce: Workforce[];

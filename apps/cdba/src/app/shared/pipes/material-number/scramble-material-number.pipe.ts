@@ -27,6 +27,7 @@ import { ENV } from '@cdba/environments/environment.provider';
  */
 @Pipe({
   name: 'scrambleMaterialNumber',
+  standalone: false,
 })
 export class ScrambleMaterialNumberPipe implements PipeTransform {
   constructor(@Inject(ENV) private readonly env: Environment) {}

@@ -27,6 +27,7 @@ import { IdValue } from '../models';
       multi: true,
     },
   ],
+  standalone: false,
 })
 export class SelectInputComponent implements ControlValueAccessor {
   LEVEL_MARGIN_PX = 8;

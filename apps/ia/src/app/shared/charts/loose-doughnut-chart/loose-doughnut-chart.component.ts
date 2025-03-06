@@ -16,6 +16,7 @@ import {
   selector: 'ia-loose-doughnut-chart',
   templateUrl: './loose-doughnut-chart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class LooseDoughnutChartComponent extends ExternalLegend {
   options: EChartsOption;

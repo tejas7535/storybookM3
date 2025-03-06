@@ -9,7 +9,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({
   selector: 'ea-home-page-sustainability-card',
   templateUrl: './home-page-sustainability-card.component.html',
-  standalone: true,
   imports: [MatIconModule, MatButtonModule, SharedTranslocoModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

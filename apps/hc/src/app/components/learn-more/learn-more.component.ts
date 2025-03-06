@@ -17,7 +17,6 @@ import { LinksPanelComponent } from '../links-panel/links-panel.component';
 import { HideLoginElementsPipe } from './hide-loginelement.pipe';
 
 @Component({
-  standalone: true,
   imports: [
     CommonModule,
     MatIconModule,

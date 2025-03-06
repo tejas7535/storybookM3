@@ -19,7 +19,6 @@ import { AbstractBaseCellRendererComponent } from '../abstract-cell-renderer.com
  */
 @Component({
   selector: 'd360-text-with-dot-cell-renderer',
-  standalone: true,
   imports: [],
   templateUrl: './text-with-dot-cell-renderer.component.html',
   styleUrl: './text-with-dot-cell-renderer.component.scss',

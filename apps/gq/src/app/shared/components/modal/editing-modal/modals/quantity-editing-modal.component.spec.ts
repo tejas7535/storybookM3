@@ -159,7 +159,7 @@ describe('QuantityEditingModalComponent', () => {
 
       component['validateInput']('100');
 
-      expect(getQuantityRegexSpy).toBeCalledWith(locale);
+      expect(getQuantityRegexSpy).toHaveBeenCalledWith(locale);
     });
 
     test('should set error when Validation Failed and isNewCaseCreation', () => {

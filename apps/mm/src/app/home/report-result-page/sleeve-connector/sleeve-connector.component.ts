@@ -8,7 +8,6 @@ import { MediasViewProductButtonComponent } from '../medias-view-product-button/
 @Component({
   selector: 'mm-sleeve-connector',
   templateUrl: './sleeve-connector.component.html',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatCardModule, MatDividerModule, MediasViewProductButtonComponent],
 })

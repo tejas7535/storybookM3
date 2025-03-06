@@ -8,16 +8,12 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
-import { PushPipe } from '@ngrx/component';
-
 @Component({
   templateUrl: './calculation-parameters-form-dev-debug.component.html',
   selector: 'ea-calculation-parameters-form-dev-debug',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    PushPipe,
     MatSlideToggleModule,
     MatButtonModule,
   ],

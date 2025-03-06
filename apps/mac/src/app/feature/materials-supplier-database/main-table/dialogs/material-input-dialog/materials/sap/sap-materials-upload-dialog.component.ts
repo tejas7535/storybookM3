@@ -76,7 +76,6 @@ const DATE_FORMATS = {
   selector: 'mac-sap-materials-upload-dialog',
   templateUrl: './sap-materials-upload-dialog.component.html',
   styleUrls: ['./sap-materials-upload-dialog.component.scss'],
-  standalone: true,
   imports: [
     // default
     CommonModule,

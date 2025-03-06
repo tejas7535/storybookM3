@@ -37,7 +37,6 @@ import { RadioButtonComponent } from '../radio-button/radio-button.component';
 import { OptionTemplateDirective } from './option-template.directive';
 @Component({
   selector: 'ea-tabbed-options',
-  standalone: true,
   imports: [
     CommonModule,
     MatRadioModule,

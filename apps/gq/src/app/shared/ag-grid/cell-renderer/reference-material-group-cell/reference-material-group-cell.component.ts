@@ -5,6 +5,7 @@ import { ICellRendererParams } from 'ag-grid-enterprise';
 @Component({
   selector: 'gq-reference-material-group-cell',
   templateUrl: './reference-material-group-cell.component.html',
+  standalone: false,
 })
 export class ReferenceMaterialGroupCellComponent {
   value: string;

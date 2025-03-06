@@ -11,7 +11,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { ConfirmationDialogData } from './confirmation-dialog-data.interface';
 
 @Component({
-  standalone: true,
   imports: [
     MatDialogModule,
     MatIconModule,

@@ -20,6 +20,7 @@ import { MaterialCardStore } from './material-card.store';
 @Component({
   selector: 'cdba-material-card',
   templateUrl: './material-card.component.html',
+  standalone: false,
 })
 export class MaterialCardComponent implements OnInit {
   @Input() public index: number;

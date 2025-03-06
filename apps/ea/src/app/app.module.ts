@@ -1,10 +1,11 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
 import {
-  APP_INITIALIZER,
   ApplicationRef,
   DoBootstrap,
+  inject,
   Injector,
   NgModule,
+  provideAppInitializer,
 } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
 import { BrowserModule } from '@angular/platform-browser';
@@ -143,10 +144,8 @@ let tracking = [
 ];
 
 let providers = [
-  {
-    provide: APP_INITIALIZER,
-    deps: [ApplicationInsightsService, SettingsFacade, OneTrustService],
-    useFactory: (
+  provideAppInitializer(() => {
+    const initializerFn = ((
       appInsightService: ApplicationInsightsService,
       settingsFacade: SettingsFacade,
       oneTrustService: OneTrustService
@@ -168,21 +167,28 @@ let providers = [
             }
           })
         );
-    },
-    multi: true,
-  },
-  {
-    provide: APP_INITIALIZER,
-    useFactory: mobileOneTrustInitializer,
-    deps: [OneTrustMobileService],
-    multi: true,
-  },
-  {
-    provide: APP_INITIALIZER,
-    useFactory: mobileKeyboardVisibilityServiceFactory,
-    deps: [MobileKeyboardVisibilityService],
-    multi: true,
-  },
+    })(
+      inject(ApplicationInsightsService),
+      inject(SettingsFacade),
+      inject(OneTrustService)
+    );
+
+    return initializerFn();
+  }),
+  provideAppInitializer(() => {
+    const initializerFn = mobileOneTrustInitializer(
+      inject(OneTrustMobileService)
+    );
+
+    return initializerFn();
+  }),
+  provideAppInitializer(() => {
+    const initializerFn = mobileKeyboardVisibilityServiceFactory(
+      inject(MobileKeyboardVisibilityService)
+    );
+
+    return initializerFn();
+  }),
   TranslocoDecimalPipe,
   { provide: OverlayContainer, useClass: AppOverlayContainer },
   {

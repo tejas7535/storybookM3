@@ -56,7 +56,6 @@ export enum AdjustmentOption {
 
 @Component({
   selector: 'd360-customer-sales-plan-number-and-percentage-edit-modal',
-  standalone: true,
   imports: [
     CommonModule,
     MatDialogContent,

@@ -19,6 +19,7 @@ import { QuotationDetail } from '../../../models/quotation-detail';
 @Component({
   selector: 'gq-upload-quote-to-sap-button',
   templateUrl: './upload-quote-to-sap-button.component.html',
+  standalone: false,
 })
 export class UploadQuoteToSapButtonComponent implements OnDestroy {
   selections: QuotationDetail[] = [];

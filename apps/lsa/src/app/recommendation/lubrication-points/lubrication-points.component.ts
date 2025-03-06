@@ -35,7 +35,6 @@ const PIPE_LENGTH_PATH = `${translatePath}.pipeLengthOptions`;
 
 @Component({
   selector: 'lsa-lubrication-points',
-  standalone: true,
   imports: [
     RadioButtonGroupComponent,
     TranslocoModule,

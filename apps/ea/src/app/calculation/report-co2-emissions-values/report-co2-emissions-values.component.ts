@@ -11,7 +11,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({
   selector: 'ea-report-emissions-values',
   templateUrl: './report-co2-emissions-values.component.html',
-  standalone: true,
   imports: [
     CommonModule,
     MatDividerModule,

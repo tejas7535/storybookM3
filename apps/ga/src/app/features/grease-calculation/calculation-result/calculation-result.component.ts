@@ -39,6 +39,7 @@ import { GreaseReportPdfGeneratorService } from './services/pdf/grease-report-pd
 @Component({
   selector: 'ga-calculation-result',
   templateUrl: './calculation-result.component.html',
+  standalone: false,
 })
 export class CalculationResultComponent implements OnInit, OnDestroy {
   @ViewChild('greaseReport') greaseReport: GreaseReportComponent;

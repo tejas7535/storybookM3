@@ -25,7 +25,6 @@ interface AvailableOption {
 @Component({
   selector: 'mm-settings',
   templateUrl: './settings.component.html',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     MatSelectModule,

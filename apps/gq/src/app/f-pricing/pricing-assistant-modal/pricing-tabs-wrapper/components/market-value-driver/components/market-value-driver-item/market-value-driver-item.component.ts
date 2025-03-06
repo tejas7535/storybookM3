@@ -10,6 +10,7 @@ import {
 @Component({
   selector: 'gq-market-value-driver-item',
   templateUrl: './market-value-driver-item.component.html',
+  standalone: false,
 })
 export class MarketValueDriverItemComponent implements OnInit {
   @Input() item: MarketValueDriverDisplayItem;

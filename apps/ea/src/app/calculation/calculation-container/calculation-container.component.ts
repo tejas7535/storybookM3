@@ -21,7 +21,6 @@ import { CalculationTypesSelectionComponent } from '../calculation-types-selecti
 @Component({
   selector: 'ea-calculation-container',
   templateUrl: './calculation-container.component.html',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,

@@ -12,6 +12,7 @@ import { Moment } from 'moment';
 @Component({
   selector: 'gq-custom-date-filter',
   templateUrl: './custom-date-filter.component.html',
+  standalone: false,
 })
 export class CustomDateFilterComponent implements IFilterAngularComp {
   params: IFilterParams;

@@ -9,6 +9,7 @@ import { QuotationAttachment } from '@gq/shared/models';
 @Component({
   selector: 'gq-delete-attachment-modal',
   templateUrl: './delete-attachment-modal.component.html',
+  standalone: false,
 })
 export class DeletingAttachmentModalComponent {
   constructor(

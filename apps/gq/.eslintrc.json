@@ -54,7 +54,8 @@
               "public-readonly-field"
             ]
           }
-        ]
+        ],
+        "@angular-eslint/prefer-standalone": "off"
       },
       "plugins": [
         "@angular-eslint/eslint-plugin",

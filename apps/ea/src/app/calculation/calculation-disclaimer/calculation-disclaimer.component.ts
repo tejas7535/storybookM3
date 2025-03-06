@@ -21,7 +21,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'ea-calculation-disclaimer',
-  standalone: true,
   imports: [MatDialogModule, SharedTranslocoModule, MatIconModule],
   templateUrl: './calculation-disclaimer.component.html',
 })

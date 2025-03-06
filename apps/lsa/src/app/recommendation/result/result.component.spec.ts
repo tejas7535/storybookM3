@@ -172,7 +172,7 @@ describe('ResultComponent', () => {
         });
 
         it('should not log result page load event', () => {
-          expect(googleAnalyticsService.logEvent).not.toBeCalled();
+          expect(googleAnalyticsService.logEvent).not.toHaveBeenCalled();
         });
       });
     });

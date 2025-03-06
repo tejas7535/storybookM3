@@ -12,6 +12,7 @@ import { Selection } from './models/selection.model';
 @Component({
   selector: 'gq-material-selection',
   templateUrl: './material-selection.component.html',
+  standalone: false,
 })
 export class MaterialSelectionComponent implements OnInit, OnChanges {
   @Input() customerId: string;

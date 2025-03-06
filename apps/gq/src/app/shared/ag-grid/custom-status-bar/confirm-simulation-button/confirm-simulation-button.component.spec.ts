@@ -84,7 +84,7 @@ describe('ConfirmSimulationComponent', () => {
       component.params = {
         context: {},
         api: {
-          getSelectedRows: jest.fn(() => []),
+          getSelectedRows: jest.fn(() => [] as any),
         } as any,
       } as any;
       mockStore.dispatch = jest.fn();

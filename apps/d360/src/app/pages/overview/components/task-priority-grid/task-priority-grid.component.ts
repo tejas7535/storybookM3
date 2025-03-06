@@ -42,7 +42,6 @@ import { TaskPrioritiesComponent } from '../task-priorities/task-priorities.comp
 
 @Component({
   selector: 'd360-task-priority-grid',
-  standalone: true,
   imports: [AgGridModule, PushPipe],
   templateUrl: './task-priority-grid.component.html',
   styleUrl: './task-priority-grid.component.scss',

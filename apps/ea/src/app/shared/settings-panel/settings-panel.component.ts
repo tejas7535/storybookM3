@@ -10,7 +10,6 @@ import { AVAILABLE_LOCALES, DEFAULT_LOCALE } from '../constants/language';
 
 @Component({
   selector: 'ea-settings-panel',
-  standalone: true,
   imports: [LanguageSelectModule, LocaleSelectModule, SharedTranslocoModule],
   templateUrl: './settings-panel.component.html',
 })

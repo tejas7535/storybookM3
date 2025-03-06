@@ -31,7 +31,6 @@ import { MsdAgGridStateService } from '../../../services';
 @Component({
   selector: 'mac-msd-navigation',
   templateUrl: './msd-navigation.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,

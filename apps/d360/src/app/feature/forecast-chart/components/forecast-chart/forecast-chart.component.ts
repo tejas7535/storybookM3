@@ -61,7 +61,6 @@ import { YearlyForecastChartComponent } from '../yearly-forecast-chart/yearly-fo
 
 @Component({
   selector: 'd360-forecast-chart',
-  standalone: true,
   imports: [
     CommonModule,
     NgxEchartsModule,
@@ -109,17 +108,12 @@ export class ForecastChartComponent implements OnInit {
 
   constructor() {
     effect(
-      () => {
-        if (this.chartSettingsInitialized()) {
-          this.loadData$(
-            this.globalSelectionState(),
-            this.columnFilters()
-          ).subscribe();
-        }
-      },
-      {
-        allowSignalWrites: true,
-      }
+      () =>
+        this.chartSettingsInitialized() &&
+        this.loadData$(
+          this.globalSelectionState(),
+          this.columnFilters()
+        ).subscribe()
     );
   }
 

@@ -14,6 +14,7 @@ import { DetailRoutePath } from '../../../detail-route-path.enum';
 @Component({
   selector: 'gq-sap-price',
   templateUrl: './sap-price.component.html',
+  standalone: false,
 })
 export class SapPriceComponent {
   @Input() userHasGPCRole: boolean;

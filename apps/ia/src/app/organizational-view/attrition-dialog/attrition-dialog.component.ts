@@ -23,6 +23,7 @@ import { AttritionDialogMeta } from './models/attrition-dialog-meta.model';
   selector: 'ia-attrition-dialog',
   templateUrl: './attrition-dialog.component.html',
   styleUrls: ['./attrition-dialog.component.scss'],
+  standalone: false,
 })
 export class AttritionDialogComponent implements OnInit {
   parentFluctuationOverTimeData$: Observable<LineSeriesOption[]>;

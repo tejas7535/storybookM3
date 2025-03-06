@@ -23,7 +23,6 @@ import {
 @Component({
   selector: 'schaeffler-rich-tooltip',
   templateUrl: './rich-tooltip.component.html',
-  standalone: true,
   imports: [CommonModule, OverlayModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

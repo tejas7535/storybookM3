@@ -6,6 +6,7 @@ import { ICellRendererParams } from 'ag-grid-community';
 @Component({
   selector: 'ia-open-positions-cell-renderer',
   templateUrl: './open-positions-cell-renderer.component.html',
+  standalone: false,
 })
 export class OpenPositionsCellRendererComponent
   implements ICellRendererAngularComp

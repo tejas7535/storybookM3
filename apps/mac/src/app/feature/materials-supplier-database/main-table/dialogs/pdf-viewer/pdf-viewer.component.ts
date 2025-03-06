@@ -12,7 +12,6 @@ import { MsdDataService } from '@mac/feature/materials-supplier-database/service
 
 @Component({
   selector: 'mac-pdf-viewer',
-  standalone: true,
   imports: [
     // default
     CommonModule,

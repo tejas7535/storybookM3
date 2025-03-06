@@ -16,6 +16,7 @@ import * as urls from '@cdba/shared/constants/urls';
 @Component({
   selector: 'cdba-role-descriptions',
   templateUrl: './role-descriptions.component.html',
+  standalone: false,
 })
 export class RoleDescriptionsComponent implements OnInit, OnDestroy {
   @Input() hintText: 'default' | 'missingRoles' = 'default';

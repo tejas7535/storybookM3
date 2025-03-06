@@ -28,7 +28,6 @@ const EMPTY_GLOBAL_SELECTION_STATE: GlobalSelectionState = {
 
 @Component({
   selector: 'd360-customer-sales-plan-chart',
-  standalone: true,
   imports: [
     CommonModule,
     TranslocoDirective,

@@ -269,9 +269,9 @@ describe('Dialog Helpers', () => {
         cdRef
       );
 
-      expect(nameMatch.focus).toBeCalled();
-      expect(cdRef.markForCheck).toBeCalled();
-      expect(cdRef.detectChanges).toBeCalled();
+      expect(nameMatch.focus).toHaveBeenCalled();
+      expect(cdRef.markForCheck).toHaveBeenCalled();
+      expect(cdRef.detectChanges).toHaveBeenCalled();
     });
     it('should focus matching html element', () => {
       cdRef.markForCheck = jest.fn();
@@ -288,12 +288,12 @@ describe('Dialog Helpers', () => {
         cdRef
       );
 
-      expect(htmlMatch.focus).toBeCalled();
-      expect(htmlMatch.scrollIntoView).toBeCalled();
+      expect(htmlMatch.focus).toHaveBeenCalled();
+      expect(htmlMatch.scrollIntoView).toHaveBeenCalled();
       expect(htmlMatch.querySelector).toHaveBeenCalledWith('mat-select');
       expect(htmlMatch.querySelector).toHaveBeenCalledWith('input');
-      expect(cdRef.markForCheck).toBeCalled();
-      expect(cdRef.detectChanges).toBeCalled();
+      expect(cdRef.markForCheck).toHaveBeenCalled();
+      expect(cdRef.detectChanges).toHaveBeenCalled();
     });
 
     it('should focus html child element mat-select', () => {
@@ -320,15 +320,15 @@ describe('Dialog Helpers', () => {
         cdRef
       );
 
-      expect(result.focus).toBeCalled();
-      expect(htmlMatchMatSelect.scrollIntoView).toBeCalled();
+      expect(result.focus).toHaveBeenCalled();
+      expect(htmlMatchMatSelect.scrollIntoView).toHaveBeenCalled();
       expect(htmlMatchMatSelect.querySelector).toHaveBeenCalledWith(
         'mat-select'
       );
       expect(htmlMatchMatSelect.querySelector).toHaveBeenCalledWith('input');
-      expect(htmlMatchMatSelect.focus).not.toBeCalled();
-      expect(cdRef.markForCheck).toBeCalled();
-      expect(cdRef.detectChanges).toBeCalled();
+      expect(htmlMatchMatSelect.focus).not.toHaveBeenCalled();
+      expect(cdRef.markForCheck).toHaveBeenCalled();
+      expect(cdRef.detectChanges).toHaveBeenCalled();
     });
 
     it('should focus html child element input', () => {
@@ -355,13 +355,13 @@ describe('Dialog Helpers', () => {
         cdRef
       );
 
-      expect(result.focus).toBeCalled();
-      expect(htmlMatchInput.scrollIntoView).toBeCalled();
+      expect(result.focus).toHaveBeenCalled();
+      expect(htmlMatchInput.scrollIntoView).toHaveBeenCalled();
       expect(htmlMatchInput.querySelector).toHaveBeenCalledWith('mat-select');
       expect(htmlMatchInput.querySelector).toHaveBeenCalledWith('input');
-      expect(htmlMatchInput.focus).not.toBeCalled();
-      expect(cdRef.markForCheck).toBeCalled();
-      expect(cdRef.detectChanges).toBeCalled();
+      expect(htmlMatchInput.focus).not.toHaveBeenCalled();
+      expect(cdRef.markForCheck).toHaveBeenCalled();
+      expect(cdRef.detectChanges).toHaveBeenCalled();
     });
   });
 

@@ -16,7 +16,6 @@ import { CalculationResultPreviewEmissionsTooltipComponent } from '../calculatio
 @Component({
   selector: 'ea-calculation-result-preview-item',
   templateUrl: './calculation-result-preview-item.component.html',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,

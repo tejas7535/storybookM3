@@ -25,6 +25,7 @@ import { Breadcrumb } from '@schaeffler/breadcrumbs';
   selector: 'gq-transaction-view',
   templateUrl: './transaction-view.component.html',
   styleUrls: ['./transaction-view.component.scss'],
+  standalone: false,
 })
 export class TransactionViewComponent {
   private readonly translocoService: TranslocoService =

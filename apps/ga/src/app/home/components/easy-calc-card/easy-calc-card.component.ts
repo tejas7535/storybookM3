@@ -12,7 +12,6 @@ import { UTM_PARAMS_DEFAULT } from '@ga/shared/constants';
 @Component({
   selector: 'ga-easy-calc-card',
   templateUrl: './easy-calc-card.component.html',
-  standalone: true,
   imports: [
     MatIconModule,
     MatButtonModule,

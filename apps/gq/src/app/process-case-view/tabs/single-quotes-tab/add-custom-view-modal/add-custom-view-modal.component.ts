@@ -18,6 +18,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'gq-add-view-modal',
   templateUrl: './add-custom-view-modal.component.html',
+  standalone: false,
 })
 export class AddCustomViewModalComponent implements OnInit, AfterViewInit {
   NAME_MAX_LENGTH = 30;

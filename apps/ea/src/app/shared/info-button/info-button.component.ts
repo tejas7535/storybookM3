@@ -5,7 +5,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'ea-info-button',
-  standalone: true,
   imports: [MatTooltipModule, MatIconModule, CommonModule],
   templateUrl: './info-button.component.html',
 })

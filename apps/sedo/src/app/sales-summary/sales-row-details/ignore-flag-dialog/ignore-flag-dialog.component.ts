@@ -12,6 +12,7 @@ interface IgnoreReason {
 @Component({
   selector: 'sedo-ignore-flag-dialog',
   templateUrl: './ignore-flag-dialog.component.html',
+  standalone: false,
 })
 export class IgnoreFlagDialogComponent {
   public ignoreReasons: IgnoreReason[] = [

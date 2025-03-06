@@ -19,6 +19,7 @@ import {
   selector: 'ia-attrition-analytics',
   templateUrl: './attrition-analytics.component.html',
   styleUrls: ['./attrition-analytics.scss'],
+  standalone: false,
 })
 export class AttritionAnalyticsComponent {
   constructor(private readonly store: Store) {}

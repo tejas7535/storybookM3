@@ -25,13 +25,11 @@ import { QuickFiltersListConfig } from './quick-filters-list/quick-filters-list-
 @Component({
   selector: 'mac-quick-filter-management',
   templateUrl: './quick-filter-management.component.html',
-  standalone: true,
   imports: [
     // default
     CommonModule,
     // msd
     QuickFiltersListComponent,
-    QuickfilterDialogComponent,
     // angular material
     MatIconModule,
     MatButtonModule,

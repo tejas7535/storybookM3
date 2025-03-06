@@ -20,6 +20,7 @@ import {
 @Component({
   selector: 'gq-selection-to-sap',
   templateUrl: './upload-selection-to-sap-button.component.html',
+  standalone: false,
 })
 export class UploadSelectionToSapButtonComponent {
   private params: IStatusPanelParams;

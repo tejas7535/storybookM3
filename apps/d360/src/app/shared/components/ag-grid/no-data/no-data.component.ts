@@ -10,7 +10,6 @@ import { DataHintComponent } from '../../data-hint/data-hint.component';
   selector: 'd360-no-data-overlay',
   template: ` <d360-data-hint [text]="text"></d360-data-hint>`,
   imports: [DataHintComponent],
-  standalone: true,
 })
 export class NoDataOverlayComponent implements INoRowsOverlayAngularComp {
   protected text: string;

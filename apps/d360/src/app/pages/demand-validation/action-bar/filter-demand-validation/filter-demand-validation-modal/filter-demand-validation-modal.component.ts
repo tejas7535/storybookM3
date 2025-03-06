@@ -31,7 +31,6 @@ export interface FilterDemandValidationModalInput {
 
 @Component({
   selector: 'd360-filter-demand-validation-modal',
-  standalone: true,
   imports: [
     CommonModule,
     MultiAutocompleteOnTypeComponent,

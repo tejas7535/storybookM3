@@ -10,7 +10,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({
   selector: 'mm-report-selection',
   templateUrl: './report-selection.component.html',
-  standalone: true,
   imports: [
     MatDividerModule,
     MatButtonModule,

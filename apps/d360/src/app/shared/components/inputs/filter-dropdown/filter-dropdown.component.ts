@@ -1,4 +1,3 @@
-import { NgClass, NgFor } from '@angular/common';
 import { Component, input, InputSignal, OnInit, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatIconButton } from '@angular/material/button';
@@ -23,13 +22,10 @@ import { DisplayFunctions } from './../display-functions.utils';
  */
 @Component({
   selector: 'd360-filter-dropdown',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
-    NgClass,
-    NgFor,
     SharedTranslocoModule,
     MatIcon,
     MatIconButton,

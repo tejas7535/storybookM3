@@ -9,6 +9,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
   templateUrl: './total-cost-share.component.html',
   styleUrls: ['./total-cost-share.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class TotalCostShareComponent implements IStatusPanelAngularComp {
   public agInit(): void {}

@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'gq-no-data',
   templateUrl: './no-data.component.html',
+  standalone: false,
 })
 export class NoDataComponent {
   @Input() title: string;

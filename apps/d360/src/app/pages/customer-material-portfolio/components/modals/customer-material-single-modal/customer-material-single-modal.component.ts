@@ -89,7 +89,6 @@ type SpecialSaveTypes = 'veto' | 'change' | 'accept' | null;
  */
 @Component({
   selector: 'd360-customer-material-single-add-modal',
-  standalone: true,
   imports: [
     CommonModule,
     SharedTranslocoModule,

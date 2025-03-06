@@ -80,6 +80,7 @@ import { PriceSourceSimulationService } from './services/simulation/price-source
   selector: 'gq-quotation-details-table',
   templateUrl: './quotation-details-table.component.html',
   styles: [basicTableStyle, statusBarSimulation, statusBarWithBorderStyle],
+  standalone: false,
 })
 export class QuotationDetailsTableComponent
   implements AfterViewChecked, OnInit

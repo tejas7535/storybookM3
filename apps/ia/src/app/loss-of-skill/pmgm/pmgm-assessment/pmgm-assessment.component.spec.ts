@@ -70,7 +70,7 @@ describe('PmgmAssessmentComponent', () => {
     test('should throw an error', () => {
       expect(() =>
         component.defineColor('INVALID_ASSESSMENT' as PmgmAssessment)
-      ).toThrowError('Invalid assessment value');
+      ).toThrow('Invalid assessment value');
     });
   });
 });

@@ -28,7 +28,6 @@ import { QuotationNoteModalData } from './quotation-note-modal-data.interface';
 
 @Component({
   selector: 'gq-quotation-note-modal',
-  standalone: true,
   imports: [
     CommonModule,
     MatDialogModule,

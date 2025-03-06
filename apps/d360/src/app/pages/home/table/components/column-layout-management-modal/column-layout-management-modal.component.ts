@@ -29,7 +29,6 @@ export interface ColumnLayoutManagementModalData {
 
 @Component({
   selector: 'd360-column-layout-management-modal',
-  standalone: true,
   imports: [
     MatDialogModule,
     FilterDropdownComponent,

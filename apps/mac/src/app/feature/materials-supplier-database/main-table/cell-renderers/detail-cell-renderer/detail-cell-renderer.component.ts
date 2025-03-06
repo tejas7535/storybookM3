@@ -21,7 +21,6 @@ import { PropertyChange } from './models/property-change';
   // this is needed or the auto-height option will not work!
   styles: [':host { @apply inline-block; }'],
   selector: 'mac-detail-cell-renderer',
-  standalone: true,
   imports: [
     // default
     CommonModule,

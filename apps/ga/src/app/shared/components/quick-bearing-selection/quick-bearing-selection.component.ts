@@ -42,7 +42,6 @@ import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/a
 
 @Component({
   selector: 'ga-quick-bearing-selection',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

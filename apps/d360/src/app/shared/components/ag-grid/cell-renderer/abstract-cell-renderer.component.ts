@@ -11,7 +11,10 @@ import { ICellRendererParams } from 'ag-grid-enterprise';
  * @implements {ICellRendererAngularComp}
  * @template T
  */
-@Component({ template: '' })
+@Component({
+  template: '',
+  standalone: false,
+})
 export abstract class AbstractBaseCellRendererComponent<T = any>
   implements ICellRendererAngularComp
 {

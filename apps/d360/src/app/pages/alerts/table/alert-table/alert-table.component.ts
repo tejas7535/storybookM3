@@ -53,7 +53,6 @@ export interface ContextMenuEntry {
 
 @Component({
   selector: 'd360-alert-table',
-  standalone: true,
   imports: [AgGridModule, TableToolbarComponent, TranslocoDirective],
   templateUrl: './alert-table.component.html',
   styleUrl: './alert-table.component.scss',

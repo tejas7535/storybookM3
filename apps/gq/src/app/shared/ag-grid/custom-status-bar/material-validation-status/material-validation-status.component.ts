@@ -7,6 +7,7 @@ import { ValidationDescription } from '../../../models/table';
 @Component({
   selector: 'gq-material-validation-status',
   templateUrl: './material-validation-status.component.html',
+  standalone: false,
 })
 export class MaterialValidationStatusComponent {
   invalid = 0;

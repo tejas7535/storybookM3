@@ -13,6 +13,7 @@ import { selectBearing, SettingsFacade } from '@ga/core/store';
 @Component({
   selector: 'ga-grease-calculation',
   templateUrl: './grease-calculation.component.html',
+  standalone: false,
 })
 export class GreaseCalculationComponent implements OnInit, OnDestroy {
   public appIsEmbedded$ = this.settingsFacade.appIsEmbedded$;

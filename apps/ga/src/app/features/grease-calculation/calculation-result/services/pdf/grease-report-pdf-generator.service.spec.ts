@@ -33,7 +33,7 @@ const addImageSpy = jest.fn();
 jest.mock(
   'jspdf',
   () =>
-    function () {
+    function (): any {
       return {
         internal: {
           pageSize: {
@@ -140,7 +140,7 @@ describe('GreaseReportPdfGeneratorService', () => {
     });
 
     it('should load NotoSans fonts', () => {
-      expect(fontsLoaderServiceSpy.loadFonts).toBeCalled();
+      expect(fontsLoaderServiceSpy.loadFonts).toHaveBeenCalled();
     });
 
     it('should print report title', () => {
@@ -157,7 +157,7 @@ describe('GreaseReportPdfGeneratorService', () => {
 
     it('should generate input section', () => {
       expect(dataServiceSpy.prepareReportInputData).toHaveBeenCalled();
-      expect(textSpy).toBeCalledWith(
+      expect(textSpy).toHaveBeenCalledWith(
         GREASE_PDF_INPUT_MOCK.sectionTitle,
         pageMargin,
         expect.any(Number)
@@ -166,7 +166,7 @@ describe('GreaseReportPdfGeneratorService', () => {
 
     it('should generate result data', () => {
       expect(dataServiceSpy.prepareReportResultData).toHaveBeenCalled();
-      expect(textSpy).toBeCalledWith(
+      expect(textSpy).toHaveBeenCalledWith(
         GREASE_PDF_RESULT_MOCK.sectionTitle,
         pageMargin,
         expect.any(Number)
@@ -178,7 +178,7 @@ describe('GreaseReportPdfGeneratorService', () => {
         dataServiceSpy.prepareReportErrorsAndWarningsData
       ).toHaveBeenCalled();
 
-      expect(textSpy).toBeCalledWith(
+      expect(textSpy).toHaveBeenCalledWith(
         GREASE_PDF_RESULT_MOCK.sectionTitle,
         pageMargin,
         expect.any(Number)

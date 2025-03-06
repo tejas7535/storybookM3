@@ -47,6 +47,7 @@ import READMEMd from './snackbar/README.md';
       Show Snackbar
     </button>
   `,
+  standalone: false,
 })
 class SnackbarExampleComponent {
   durationInSeconds = 5;

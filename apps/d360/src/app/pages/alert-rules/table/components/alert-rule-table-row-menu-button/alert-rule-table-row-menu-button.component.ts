@@ -22,7 +22,6 @@ import {
 
 @Component({
   selector: 'd360-alert-rule-table-row--menu-button',
-  standalone: true,
   imports: [SharedTranslocoModule, RowMenuComponent, MatMenuItem],
   templateUrl: './alert-rule-table-row-menu-button.component.html',
 })

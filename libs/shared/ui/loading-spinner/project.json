@@ -4,13 +4,14 @@
   "projectType": "library",
   "sourceRoot": "libs/shared/ui/loading-spinner/src",
   "prefix": "schaeffler",
+  "tags": ["scope:shared", "type:ui"],
+  "implicitDependencies": ["shared-ui-styles"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
       "options": {
         "tsConfig": "libs/shared/ui/loading-spinner/tsconfig.lib.json",
-        "project": "libs/shared/ui/loading-spinner/ng-package.json",
-        "tailwindConfig": "libs/shared/ui/loading-spinner/tailwind.config.js"
+        "project": "libs/shared/ui/loading-spinner/ng-package.json"
       },
       "configurations": {
         "production": {
@@ -67,7 +68,5 @@
         "postTargets": []
       }
     }
-  },
-  "tags": ["scope:shared", "type:ui"],
-  "implicitDependencies": ["shared-ui-styles"]
+  }
 }

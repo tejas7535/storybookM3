@@ -25,7 +25,6 @@ import { DisplayFunctions } from '../inputs/display-functions.utils';
  */
 @Component({
   selector: 'd360-customer-dropdown',
-  standalone: true,
   imports: [
     SharedTranslocoModule,
     SingleAutocompletePreLoadedComponent,

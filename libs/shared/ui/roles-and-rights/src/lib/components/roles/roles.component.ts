@@ -14,6 +14,7 @@ import { adaptLabelValuesFromRoles } from '../../utils/role-data.utils';
   selector: 'schaeffler-roles',
   templateUrl: './roles.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class RolesComponent implements OnInit {
   @Input() public roles?: Role[];

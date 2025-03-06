@@ -13,6 +13,7 @@ import {
 @Component({
   selector: 'gq-edit-comment',
   templateUrl: './edit-comment.component.html',
+  standalone: false,
 })
 export class EditCommentComponent {
   private readonly dialog: MatDialog = inject(MatDialog);

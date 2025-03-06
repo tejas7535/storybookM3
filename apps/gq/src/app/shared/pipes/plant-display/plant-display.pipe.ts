@@ -6,6 +6,7 @@ import { MaterialComparableCost } from '../../models/quotation-detail/material-c
 
 @Pipe({
   name: 'plantDisplay',
+  standalone: false,
 })
 export class PlantDisplayPipe implements PipeTransform {
   transform(plant: Plant | MaterialComparableCost): string {

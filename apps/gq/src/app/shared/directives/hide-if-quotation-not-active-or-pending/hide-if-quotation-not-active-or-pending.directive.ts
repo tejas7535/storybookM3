@@ -22,6 +22,7 @@ import { QuotationStatus, SAP_SYNC_STATUS } from '../../models';
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[hideIfQuotationNotActiveOrPending]',
   exportAs: 'hideIfQuotationNotActiveOrPending',
+  standalone: false,
 })
 export class HideIfQuotationNotActiveOrPendingDirective implements OnInit {
   private readonly templateRef: TemplateRef<any> = inject(TemplateRef);

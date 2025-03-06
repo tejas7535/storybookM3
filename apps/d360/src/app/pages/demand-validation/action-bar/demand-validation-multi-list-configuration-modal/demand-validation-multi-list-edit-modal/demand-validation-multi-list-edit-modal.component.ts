@@ -43,7 +43,6 @@ interface DemandValidationMultiListEditModalProps {
 
 @Component({
   selector: 'd360-demand-validation-multi-list-edit-modal',
-  standalone: true,
   imports: [
     SharedTranslocoModule,
     MatButton,

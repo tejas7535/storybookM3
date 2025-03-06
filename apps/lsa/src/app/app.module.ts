@@ -1,5 +1,6 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApplicationRef, DoBootstrap, Injector, NgModule } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
 import { MatDividerModule } from '@angular/material/divider';
@@ -9,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 
 import { BannerModule } from '@schaeffler/banner';
+import { FeedbackBannerComponent } from '@schaeffler/feedback-banner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AppComponent } from './app.component';
@@ -17,8 +19,6 @@ import { CoreModule } from './core/core.module';
 import { LsaAppService } from './core/services/lsa-app.service';
 import { StaticStorageService } from './core/services/static-storage';
 import { RecommendationContainerComponent } from './recommendation/recommendation-container.component';
-import { FeedbackBannerComponent } from '@schaeffler/feedback-banner';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LSALanguageInterceptor } from './shared/interceptors/language.interceptor';
 
 export const APP_ROOT = 'lubricator-selection-assistant';

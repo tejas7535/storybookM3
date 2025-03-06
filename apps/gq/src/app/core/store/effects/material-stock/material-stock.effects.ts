@@ -5,7 +5,8 @@ import { catchError, filter, map, mergeMap, of } from 'rxjs';
 import { ActiveCaseActions } from '@gq/core/store/active-case/active-case.action';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
 import { MaterialService } from '@gq/shared/services/rest/material/material.service';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 
 import {

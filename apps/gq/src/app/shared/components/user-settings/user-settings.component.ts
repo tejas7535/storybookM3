@@ -13,7 +13,6 @@ import { AVAILABLE_LOCALES, serivceNowAdress } from '../../constants';
 import { RolesRightsModule } from './roles-rights/roles-rights.module';
 
 @Component({
-  standalone: true,
   selector: 'gq-user-settings',
   templateUrl: './user-settings.component.html',
   imports: [

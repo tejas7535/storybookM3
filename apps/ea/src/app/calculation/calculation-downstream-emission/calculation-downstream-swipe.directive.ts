@@ -3,7 +3,6 @@ import { Directive, ElementRef, OnDestroy, output } from '@angular/core';
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[contentSwipe]',
-  standalone: true,
 })
 export class CalculationDowstreamSwipeDirective implements OnDestroy {
   swipeLeft = output();
