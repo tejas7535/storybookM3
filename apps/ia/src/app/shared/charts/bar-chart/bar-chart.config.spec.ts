@@ -29,6 +29,7 @@ import {
 describe('Bar Chart Config', () => {
   const config: BarChartConfig = {
     title: 'Age',
+    subtitle: 'Headcount: 12 | Leavers: 2',
     referenceValue: {
       value: 35,
       aboveText: 'Above average',

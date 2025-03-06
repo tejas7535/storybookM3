@@ -6,4 +6,12 @@ export interface EmployeeAnalytics {
   headcount: number[];
   fluctuation: number[];
   order: number[];
+  totalEmployees: {
+    headcount: number;
+    leavers: number;
+  };
+  notApplicableEmployees: {
+    headcount: number;
+    leavers: number;
+  };
 }

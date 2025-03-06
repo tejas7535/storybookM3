@@ -70,13 +70,13 @@ export class ParamsCreatorService {
     filterDimension: FilterDimension,
     value: string,
     timeRange: string,
-    cluster: string
+    cluster?: string
   ) {
     return new HttpParams()
       .set(this.PARAM_FILTER_DIMENSION, filterDimension)
       .set(this.PARAM_FILTER_VALUE, value)
       .set(this.PARAM_TIME_RANGE, timeRange)
-      .set(this.PARAM_CLUSTER, cluster);
+      .set(this.PARAM_CLUSTER, cluster ?? '');
   }
 
   createHttpParamsForDimensionTimeRangeAndReason(

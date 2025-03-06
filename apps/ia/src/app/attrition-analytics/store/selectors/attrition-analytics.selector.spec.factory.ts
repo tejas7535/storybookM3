@@ -35,6 +35,14 @@ export function createFakeState(): AttritionAnalyticsState {
           fluctuation: [2, 5, 7],
           names: ['a', 'b', 'c'],
           order: [2, 3, 1],
+          totalEmployees: {
+            headcount: 158,
+            leavers: 7,
+          },
+          notApplicableEmployees: {
+            headcount: 2,
+            leavers: 1,
+          },
         },
       ],
       errorMessage: undefined,
@@ -45,6 +53,14 @@ export function createFakeState(): AttritionAnalyticsState {
 export function createDummyFeature(name: string): EmployeeAnalytics {
   return {
     feature: name,
+    totalEmployees: {
+      headcount: 158,
+      leavers: 7,
+    },
+    notApplicableEmployees: {
+      headcount: 2,
+      leavers: 1,
+    },
     overallFluctuationRate: 0.045,
     headcount: [50, 49, 59],
     values: ['18', '19', '20'],
@@ -65,6 +81,7 @@ export function createDummyBarchartConfig(
 ): BarChartConfig {
   return new BarChartConfig(
     name,
+    'Total: Avg. Headcount 158 | Unf. Leavers 7\nof which not applicable: Avg. Headcount 2 | Unf. Leavers 1',
     [serie],
     ['c', 'a', 'b'],
     new ReferenceValue(0.045, 'translate it', 'translate it', 'translate it'),
@@ -89,4 +106,26 @@ export function createDummyBarChartSerie(color: string): BarChartSerie {
     ],
     color
   );
+}
+
+export function mockTranslocoForAnalytics(key: string, params: any) {
+  switch (key) {
+    case 'attritionAnalytics.barChart.subtitle.toalEmployees': {
+      return params.headcount && params.leavers
+        ? `Total: Avg. Headcount ${params.headcount} | Unf. Leavers ${params.leavers}`
+        : 'translate it';
+    }
+    case 'attritionAnalytics.barChart.subtitle.ofWhichNotApplicable': {
+      return 'of which not applicable:';
+    }
+    case 'attritionAnalytics.barChart.subtitle.avgHeadcount': {
+      return 'Avg. Headcount';
+    }
+    case 'attritionAnalytics.barChart.subtitle.unfLeavers': {
+      return 'Unf. Leavers';
+    }
+    default: {
+      return 'translate it';
+    }
+  }
 }

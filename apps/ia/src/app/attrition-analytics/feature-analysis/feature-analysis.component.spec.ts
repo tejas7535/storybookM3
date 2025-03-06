@@ -7,11 +7,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { FeatureAnalysisComponent } from './feature-analysis.component';
 
-jest.mock('@angular/cdk/drag-drop', () => ({
-  ...jest.requireActual('@angular/cdk/drag-drop'),
-  moveItemInArray: jest.fn(),
-}));
-
 describe('FeatureAnalysisComponent', () => {
   let component: FeatureAnalysisComponent;
   let spectator: Spectator<FeatureAnalysisComponent>;
@@ -23,8 +18,6 @@ describe('FeatureAnalysisComponent', () => {
       MatTooltipModule,
       MatIconModule,
     ],
-    providers: [],
-    declarations: [],
   });
 
   beforeEach(() => {

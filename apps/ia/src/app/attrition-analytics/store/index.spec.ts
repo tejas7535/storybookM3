@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { CHART_COLOR_PALETTE } from '../../shared/models';
-import { EmployeeCluster } from '../models';
+import { EmployeeAnalytics, EmployeeCluster } from '../models';
 import {
   attritionAnalyticsReducer,
   AttritionAnalyticsState,
@@ -94,7 +94,7 @@ describe('Attrition Analytics Reducer', () => {
 
   describe('loadEmployeeAnalyticsSuccess', () => {
     test('should unset loading and set employee analytics', () => {
-      const data = [
+      const data: EmployeeAnalytics[] = [
         {
           feature: 'Age',
           overallFluctuationRate: 0.045,
@@ -103,6 +103,14 @@ describe('Attrition Analytics Reducer', () => {
           fluctuation: [2, 5, 7],
           names: ['a', 'b', 'c'],
           order: [3, 1, 2],
+          totalEmployees: {
+            headcount: 158,
+            leavers: 7,
+          },
+          notApplicableEmployees: {
+            headcount: 2,
+            leavers: 1,
+          },
         },
       ];
 
@@ -130,6 +138,14 @@ describe('Attrition Analytics Reducer', () => {
               fluctuation: [2, 5, 7],
               names: ['a', 'b', 'c'],
               order: [3, 2, 1],
+              totalEmployees: {
+                headcount: 158,
+                leavers: 7,
+              },
+              notApplicableEmployees: {
+                headcount: 2,
+                leavers: 1,
+              },
             },
           ],
           loading: true,
@@ -172,6 +188,14 @@ describe('Attrition Analytics Reducer', () => {
               fluctuation: [2, 5, 7],
               names: ['a', 'b', 'c'],
               order: [1, 3, 2],
+              totalEmployees: {
+                headcount: 158,
+                leavers: 7,
+              },
+              notApplicableEmployees: {
+                headcount: 2,
+                leavers: 1,
+              },
             },
           ],
           loading: false,

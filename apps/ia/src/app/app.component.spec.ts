@@ -177,12 +177,4 @@ describe('AppComponent', () => {
       })
     );
   });
-
-  describe('analytics', () => {
-    test('should disable analytics tab on prod', () => {
-      const tab = component.tabs.find((t) => t.label === 'analytics');
-
-      expect(tab.disabled).toBeTruthy();
-    });
-  });
 });

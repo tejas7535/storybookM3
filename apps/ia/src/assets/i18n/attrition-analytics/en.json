@@ -10,7 +10,13 @@
     "aboveAverage": "above average",
     "overallUnforcedFluctuation": "Overall unforced fluctuation",
     "unforcedFluctuation": "Unforced fluctuation",
-    "headcount": "Headcount",
-    "totalUnforcedLeavers": "Total unforced leavers"
+    "avgHeadcount": "Average headcount",
+    "totalUnforcedLeavers": "Total unforced leavers",
+    "subtitle": {
+      "toalEmployees": "Total: Avg. Headcount {{headcount}} | Unf. Leavers {{leavers}}",
+      "ofWhichNotApplicable": "of which not applicable:",
+      "avgHeadcount": "Avg. Headcount",
+      "unfLeavers": "Unf. Leavers"
+    }
   }
 }

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppRoutePath } from './app-route-path.enum';
-import { ProdGuard } from './shared/guards';
 
 export const appRoutePaths: Routes = [
   {
@@ -38,7 +37,6 @@ export const appRoutePaths: Routes = [
           import('./attrition-analytics/attrition-analytics.module').then(
             (m) => m.AttritionAnalyticsModule
           ),
-        canActivate: [ProdGuard],
       },
       {
         path: AppRoutePath.OrganizationalViewPath,

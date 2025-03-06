@@ -17,7 +17,6 @@ import {
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import { AppRoutePath } from './app-route-path.enum';
-import { isFeatureEnabled } from './shared/guards/is-feature-enabled';
 import { SystemMessage } from './shared/models/system-message';
 import { getSystemMessage } from './user/store/selectors/user.selector';
 
@@ -65,7 +64,7 @@ export class AppComponent implements OnInit {
     {
       label: 'analytics',
       path: AppRoutePath.AnalyticsPath,
-      disabled: !isFeatureEnabled(),
+      disabled: false,
     },
     {
       label: 'organizationalView',

@@ -1,3 +1,5 @@
+import { TranslocoModule } from '@jsverse/transloco';
+
 import { BarChartConfig, BarChartSerie } from '../../../shared/charts/models';
 import { TimePeriod } from '../../../shared/models';
 import { NavItem } from '../../../shared/nav-buttons/models';
@@ -10,8 +12,17 @@ import {
   getEmployeeAnalyticsLoading,
   getSelectedCluster,
 } from './attrition-analytics.selector';
-import { createFakeState } from './attrition-analytics.selector.spec.factory';
+import {
+  createFakeState,
+  mockTranslocoForAnalytics,
+} from './attrition-analytics.selector.spec.factory';
 
+jest.mock('@jsverse/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
+  translate: jest.fn((key: string, params: any) =>
+    mockTranslocoForAnalytics(key, params)
+  ),
+}));
 describe('attrition analytics selector', () => {
   const fakeState: AttritionAnalyticsState = createFakeState();
 
@@ -53,6 +64,8 @@ describe('attrition analytics selector', () => {
       ).toEqual([
         {
           title: 'Age',
+          subtitle:
+            'Total: Avg. Headcount 158 | Unf. Leavers 7\nof which not applicable: Avg. Headcount 2 | Unf. Leavers 1',
           categories: ['c', 'a', 'b'],
           referenceValue: {
             aboveText: 'translate it',
@@ -105,6 +118,14 @@ describe('attrition analytics selector', () => {
           fluctuation: [2, 5, 7],
           names: ['a', 'b', 'c'],
           order: [2, 3, 1],
+          totalEmployees: {
+            headcount: 158,
+            leavers: 7,
+          },
+          notApplicableEmployees: {
+            headcount: 2,
+            leavers: 1,
+          },
         },
       ]);
     });

@@ -17,7 +17,7 @@ export function createBarChartOption(config: BarChartConfig): EChartsOption {
     title: {
       text: config.title,
       padding: 16,
-      subtext: 'Sort by: Custom order ⏷',
+      subtext: config.subtitle,
       textStyle: {
         fontWeight: 500,
         lineHeight: 24,
@@ -37,7 +37,7 @@ export function createBarChartOption(config: BarChartConfig): EChartsOption {
       },
     },
     grid: {
-      top: 70,
+      top: 90,
       left: 170,
       borderWidth: 1,
       borderColor: 'red',
