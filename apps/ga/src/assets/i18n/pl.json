@@ -271,8 +271,6 @@
       "RailWheelsetBearings": "Łożyska Zestawów Kołowych Kolejowych",
       "WindTurbineMainShaft": "Turbina Wiatrowa (Wał Główny)"
     },
-    "exclusivityDisclaimer": "Wyłącznie dla użytkowników Medias Plus",
-    "signupPrompt": "Zarejestruj się teraz",
     "signupUrl": "https://medias.schaeffler.pl/pl/registered/user",
     "axisOrientation": {
       "title": "Orientacja osi",

@@ -1,8 +1,15 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { ApplicationScenario } from '@ga/features/grease-calculation/calculation-parameters/constants/application-scenarios.model';
+import { Movement } from '@ga/shared/models';
+
 import { setAutomaticLubrication } from '../../actions/calculation-parameters/calculation-parameters.actions';
-import { isVerticalAxisOrientation } from '../../selectors/calculation-parameters/calculation-parameters.selector';
+import {
+  getGreaseApplication,
+  getMotionType,
+  isVerticalAxisOrientation,
+} from '../../selectors/calculation-parameters/calculation-parameters.selector';
 import { CalculationParametersFacade } from './calculation-parameters.facade';
 
 describe('CalculationParametersFacade', () => {
@@ -29,6 +36,30 @@ describe('CalculationParametersFacade', () => {
     store.overrideSelector(isVerticalAxisOrientation, expectedValue);
 
     spectator.service.isVerticalAxisOrientation$.subscribe((value) => {
+      expect(value).toBe(expectedValue);
+      done();
+    });
+
+    store.refreshState();
+  });
+
+  it('should select selectedGreaseApplication$', (done) => {
+    const expectedValue = ApplicationScenario.BallScrewDrive;
+    store.overrideSelector(getGreaseApplication, expectedValue);
+
+    spectator.service.selectedGreaseApplication$.subscribe((value) => {
+      expect(value).toBe(expectedValue);
+      done();
+    });
+
+    store.refreshState();
+  });
+
+  it('should select motionType$', (done) => {
+    const expectedValue = Movement.rotating;
+    store.overrideSelector(getMotionType, expectedValue);
+
+    spectator.service.motionType$.subscribe((value) => {
       expect(value).toBe(expectedValue);
       done();
     });

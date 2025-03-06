@@ -1,13 +1,10 @@
-import { CommonModule, JsonPipe, Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { PushPipe } from '@ngrx/component';
-
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { GreaseRecommendationMarketingService } from '@ga/features/grease-calculation/grease-recommendation-marketing.service';
 import { AppLogoComponent } from '@ga/shared/components/app-logo/app-logo.component';
 
 import { OptionalIconPipe } from './optional-icon.pipe';
@@ -31,9 +28,7 @@ interface MediasFeatureTable {
     MatButtonModule,
     MatIconModule,
     SharedTranslocoModule,
-    JsonPipe,
     OptionalIconPipe,
-    PushPipe,
   ],
 })
 export class GreaseRecommendationPromoComponent {
@@ -80,12 +75,9 @@ export class GreaseRecommendationPromoComponent {
     },
   ];
 
-  public utmSignupUrl$ = this.marketingService.getUtmSignupUrl('result-popup');
+  public singupUrl = 'toBeDefinedIfUsed';
 
-  constructor(
-    private readonly location: Location,
-    private readonly marketingService: GreaseRecommendationMarketingService
-  ) {}
+  constructor(private readonly location: Location) {}
 
   public backClick() {
     this.location.back();

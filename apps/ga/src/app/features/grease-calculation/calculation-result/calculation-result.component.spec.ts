@@ -21,7 +21,7 @@ import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
-import { SettingsFacade } from '@ga/core/store';
+import { CalculationParametersFacade, SettingsFacade } from '@ga/core/store';
 import {
   fetchBearinxVersions,
   getCalculation,
@@ -33,7 +33,6 @@ import { PartnerVersion } from '@ga/shared/models';
 
 import { ApplicationScenario } from '../calculation-parameters/constants/application-scenarios.model';
 import { GreaseCalculationPath } from '../grease-calculation-path.enum';
-import { GreaseRecommendationMarketingService } from '../grease-recommendation-marketing.service';
 import { CalculationResultComponent } from './calculation-result.component';
 import { GreaseReportComponent } from './components/grease-report';
 import { GreaseReportPdfGeneratorService } from './services';
@@ -80,9 +79,9 @@ describe('CalculationResultComponent', () => {
       mockProvider(GreaseReportPdfGeneratorService),
       { provide: ENV, useValue: { ...getEnv(), production: false } },
       {
-        provide: GreaseRecommendationMarketingService,
+        provide: CalculationParametersFacade,
         useValue: {
-          selectedApplication$: of(ApplicationScenario.All),
+          selectedGreaseApplication$: of(ApplicationScenario.All),
         },
       },
     ],

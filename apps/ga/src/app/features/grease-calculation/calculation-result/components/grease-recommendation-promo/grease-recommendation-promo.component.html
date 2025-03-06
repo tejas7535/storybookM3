@@ -176,7 +176,7 @@
         </div>
         <p>{{ t('modalText') }}</p>
         <a
-          [href]="utmSignupUrl$ | ngrxPush"
+          [href]="singupUrl"
           target="_blank"
           mat-flat-button
           class="mt-4 max-w-fit inline-flex"
@@ -190,7 +190,7 @@
     <div class="ml-auto mr-0 flex flex-row items-center space-x-3 text-[13px]">
       {{ t('loginQuestion') }}
       <a
-        [href]="utmSignupUrl$ | ngrxPush"
+        [href]="singupUrl"
         target="_blank"
         mat-button
         color="primary"

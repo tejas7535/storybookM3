@@ -271,8 +271,6 @@
       "RailWheelsetBearings": "鉄道車軸受",
       "WindTurbineMainShaft": "風力タービン（主軸）"
     },
-    "exclusivityDisclaimer": "Medias Plusユーザー限定",
-    "signupPrompt": "今すぐ登録",
     "signupUrl": "https://medias.schaeffler.jp/ja/registered/user",
     "axisOrientation": {
       "title": "軸の方向",

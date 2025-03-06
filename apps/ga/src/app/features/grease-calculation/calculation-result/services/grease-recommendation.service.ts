@@ -5,13 +5,11 @@ import { firstValueFrom } from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
-import { addResultMessage } from '@ga/core/store';
-import { getMotionType } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
+import { addResultMessage, CalculationParametersFacade } from '@ga/core/store';
 import { environment } from '@ga/environments/environment';
 import { Movement } from '@ga/shared/models';
 
 import { ApplicationScenario } from '../../calculation-parameters/constants/application-scenarios.model';
-import { GreaseRecommendationMarketingService } from '../../grease-recommendation-marketing.service';
 import {
   OscillatingMotionRecommendation,
   RecommendationMappings,
@@ -22,38 +20,23 @@ import { GreaseReportSubordinate } from '../models';
 export class GreaseRecommendationService {
   constructor(
     private readonly store: Store,
-    private readonly marketingService: GreaseRecommendationMarketingService,
+    private readonly calculationParametersFacade: CalculationParametersFacade,
     private readonly transloco: TranslocoService
   ) {}
 
   public async processGreaseRecommendation(
     subordinates: GreaseReportSubordinate[]
   ) {
-    if (!environment.production) {
-      // eslint-disable-next-line no-console
-      console.log('Order of Greases before applying recommendation logic');
-      // eslint-disable-next-line no-console
-      console.table(
-        subordinates.map((sub, idx) => ({
-          grease: sub.greaseResult?.mainTitle,
-          index: idx,
-          sufficient: sub.greaseResult.isSufficient,
-        }))
-      );
-    }
+    this.consoleLogGreaseTableForDevOnly(
+      subordinates,
+      'Order of Greases before applying recommendation logic'
+    );
 
     const application = await firstValueFrom(
-      this.marketingService.selectedApplication$
-    );
-    const shouldShowRecommendation = await firstValueFrom(
-      this.marketingService.shouldShowRecommendation$
+      this.calculationParametersFacade.selectedGreaseApplication$
     );
 
-    if (
-      application !== ApplicationScenario.All &&
-      !!application &&
-      shouldShowRecommendation
-    ) {
+    if (application !== ApplicationScenario.All && !!application) {
       const recommendedGreaseIndex = RecommendationMappings[application]
         .flatMap((mapping) =>
           typeof mapping === 'string' ? mapping : mapping.greaseName
@@ -82,9 +65,11 @@ export class GreaseRecommendationService {
       }
     }
 
-    const typeOfMotion = await firstValueFrom(this.store.select(getMotionType));
+    const typeOfMotion = await firstValueFrom(
+      this.calculationParametersFacade.motionType$
+    );
 
-    if (typeOfMotion === Movement.oscillating && shouldShowRecommendation) {
+    if (typeOfMotion === Movement.oscillating) {
       const movementIdx = OscillatingMotionRecommendation.map((grease) =>
         subordinates
           .filter((sub) => sub.greaseResult.isSufficient)
@@ -97,6 +82,7 @@ export class GreaseRecommendationService {
         .filter((idx) => idx > -1)
         .sort((a, b) => a - b)
         .shift();
+
       if (movementIdx !== undefined) {
         subordinates[movementIdx].greaseResult.isRecommended = true;
         if (movementIdx > 0) {
@@ -105,18 +91,10 @@ export class GreaseRecommendationService {
       }
     }
 
-    if (!environment.production) {
-      // eslint-disable-next-line no-console
-      console.log('Order of Greases after applying recommendation logic');
-      // eslint-disable-next-line no-console
-      console.table(
-        subordinates.map((sub, idx) => ({
-          grease: sub.greaseResult?.mainTitle,
-          index: idx,
-          sufficient: sub.greaseResult.isSufficient,
-        }))
-      );
-    }
+    this.consoleLogGreaseTableForDevOnly(
+      subordinates,
+      'Order of Greases after applying recommendation logic'
+    );
   }
 
   private dispatchErrorMessage() {
@@ -135,5 +113,23 @@ export class GreaseRecommendationService {
         },
       })
     );
+  }
+
+  private consoleLogGreaseTableForDevOnly(
+    subordinates: GreaseReportSubordinate[],
+    debugLineTitle: string
+  ): void {
+    if (!environment.production) {
+      // eslint-disable-next-line no-console
+      console.log(debugLineTitle);
+      // eslint-disable-next-line no-console
+      console.table(
+        subordinates.map((sub, idx) => ({
+          grease: sub.greaseResult?.mainTitle,
+          index: idx,
+          sufficient: sub.greaseResult.isSufficient,
+        }))
+      );
+    }
   }
 }

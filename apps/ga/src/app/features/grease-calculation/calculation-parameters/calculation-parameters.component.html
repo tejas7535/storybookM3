@@ -204,30 +204,16 @@
                 [options]="environmentImpactOptions"
                 [tooltipText]="t('tooltip.otherInfluences')"
               ></ga-select>
-              @if (appIsEmbedded$ | ngrxPush) {
-                <div class="flex flex-col mb-3">
-                  <ga-select
-                    [control]="applicationScenario"
-                    [label]="t('application')"
-                    [options]="sortedApplicationScenarios$ | ngrxPush"
-                    subscriptSizing="dynamic"
-                    [translateText]="false"
-                  />
-                  @if (shouldShowMarketing$ | ngrxPush) {
-                    <div class="text-body-small">
-                      <span>{{ t('exclusivityDisclaimer') }}</span>
-                      <br />
-                      <a
-                        [href]="utmSignupUrl$ | ngrxPush"
-                        class="hover:underline text-link"
-                        (click)="trackSignupClick()"
-                        target="_blank"
-                        >{{ t('signupPrompt') }}</a
-                      >
-                    </div>
-                  }
-                </div>
-              }
+
+              <div class="flex flex-col mb-3">
+                <ga-select
+                  [control]="applicationScenario"
+                  [label]="t('application')"
+                  [options]="sortedApplicationScenarios$ | ngrxPush"
+                  subscriptSizing="dynamic"
+                  [translateText]="false"
+                />
+              </div>
             </div>
           </div>
           <div

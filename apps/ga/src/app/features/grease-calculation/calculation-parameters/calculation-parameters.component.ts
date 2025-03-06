@@ -81,7 +81,6 @@ import {
 import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
 import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
 
-import { GreaseRecommendationMarketingService } from '../grease-recommendation-marketing.service';
 import {
   environmentImpactOptions,
   loadRatioOptions,
@@ -140,9 +139,6 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public axial = new UntypedFormControl(undefined, loadValidators);
   public exact = new UntypedFormControl(false);
   public loadRatio = new UntypedFormControl();
-
-  public shouldShowMarketing$ = this.marketingService.shouldShowMarketing$;
-  public utmSignupUrl$ = this.marketingService.getUtmSignupUrl('signup-cta');
 
   public loadsForm = new UntypedFormGroup(
     {
@@ -267,7 +263,6 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly settingsFacade: SettingsFacade,
     private readonly calculationParametersService: CalculationParametersService,
-    private readonly marketingService: GreaseRecommendationMarketingService,
     private readonly translocoService: TranslocoService,
     private readonly appAnalyticsService: AppAnalyticsService,
     private readonly appInsightsService: ApplicationInsightsService,

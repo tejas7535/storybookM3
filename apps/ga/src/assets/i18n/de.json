@@ -271,8 +271,6 @@
       "RailWheelsetBearings": "Radsatzlager (Bahn)",
       "WindTurbineMainShaft": "Hauptwelle von Windkraftanlagen"
     },
-    "exclusivityDisclaimer": "Exklusiv für medias Plus Nutzer",
-    "signupPrompt": "Jetzt registrieren",
     "signupUrl": "https://medias.schaeffler.de/de/registered/user",
     "axisOrientation": {
       "title": "Wellenlage",

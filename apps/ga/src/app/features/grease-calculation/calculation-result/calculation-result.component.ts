@@ -9,7 +9,11 @@ import { Store } from '@ngrx/store';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
-import { getSelectedBearing, SettingsFacade } from '@ga/core/store';
+import {
+  CalculationParametersFacade,
+  getSelectedBearing,
+  SettingsFacade,
+} from '@ga/core/store';
 import {
   fetchBearinxVersions,
   getCalculation,
@@ -29,7 +33,6 @@ import { TRACKING_PDF_DOWNLOAD } from '@ga/shared/constants';
 import { ReportUrls } from '@ga/shared/models';
 
 import { ApplicationScenario } from '../calculation-parameters/constants/application-scenarios.model';
-import { GreaseRecommendationMarketingService } from '../grease-recommendation-marketing.service';
 import { GreaseReportComponent } from './components/grease-report';
 import { GreaseReportPdfGeneratorService } from './services/pdf/grease-report-pdf-generator.service';
 
@@ -52,6 +55,8 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
   public appIsEmbedded$ = this.settingsFacade.appIsEmbedded$;
   public partnerVersion$ = this.settingsFacade.partnerVersion$;
   public bearinxVersions$ = this.store.select(getVersions);
+  private readonly selectedApplications$ =
+    this.calculationParametersFacade.selectedGreaseApplication$;
 
   private currentLanguage!: string;
   private reportUrlsSubscription!: Subscription;
@@ -62,9 +67,9 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly translocoService: TranslocoService,
     private readonly settingsFacade: SettingsFacade,
+    private readonly calculationParametersFacade: CalculationParametersFacade,
     private readonly greaseReportGeneratorService: GreaseReportPdfGeneratorService,
     private readonly appInsightsService: ApplicationInsightsService,
-    private readonly marketingService: GreaseRecommendationMarketingService,
     @Inject(ENV) private readonly env: Environment
   ) {
     this.isProduction = this.env.production;
@@ -120,7 +125,7 @@ export class CalculationResultComponent implements OnInit, OnDestroy {
     const reportTitle = `${title} ${selectedBearing}`;
 
     const selectedApplication = await firstValueFrom(
-      this.marketingService.selectedApplication$
+      this.selectedApplications$
     );
     const applicationLabel = this.translocoService.translate(
       'parameters.application'

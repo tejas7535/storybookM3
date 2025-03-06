@@ -271,8 +271,6 @@
       "RailWheelsetBearings": "Rail Wheelset Bearings",
       "WindTurbineMainShaft": "Wind Turbine (Main Shaft)"
     },
-    "exclusivityDisclaimer": "Exclusive for Medias Plus users",
-    "signupPrompt": "Sign Up Now",
     "signupUrl": "https://medias.schaeffler.us/en/registered/user",
     "axisOrientation": {
       "title": "Orientation of axis",

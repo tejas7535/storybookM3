@@ -1,6 +1,6 @@
 import { waitForAsync } from '@angular/core/testing';
 
-import { firstValueFrom, of, ReplaySubject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -8,11 +8,10 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { getMotionType } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
+import { CalculationParametersFacade } from '@ga/core/store';
 import { Movement } from '@ga/shared/models';
 
 import { ApplicationScenario } from '../../calculation-parameters/constants/application-scenarios.model';
-import { GreaseRecommendationMarketingService } from '../../grease-recommendation-marketing.service';
 import { GreaseReportSubordinate } from '../models';
 import { GreaseRecommendationService } from './grease-recommendation.service';
 
@@ -71,11 +70,10 @@ describe('GreaseRecommendationService', () => {
 
   let store: MockStore;
 
-  let mockOscillatingSelector: any;
   let mockRecommendationSubordinates: GreaseReportSubordinate[];
 
-  const shouldShowRecommendation$$ = new ReplaySubject<boolean>(1);
   const selectedApplication$$ = new ReplaySubject<ApplicationScenario>(1);
+  const motionType$$ = new ReplaySubject<Movement>(1);
 
   const createService = createServiceFactory({
     service: GreaseRecommendationService,
@@ -83,11 +81,10 @@ describe('GreaseRecommendationService', () => {
     providers: [
       provideMockStore({ initialState: {} }),
       {
-        provide: GreaseRecommendationMarketingService,
+        provide: CalculationParametersFacade,
         useValue: {
-          shouldShowRecommendation$: shouldShowRecommendation$$,
-          selectedApplication$: selectedApplication$$,
-          shouldShowMarketing$: of(false),
+          selectedGreaseApplication$: selectedApplication$$,
+          motionType$: motionType$$,
         },
       },
       {
@@ -104,15 +101,14 @@ describe('GreaseRecommendationService', () => {
     service = spectator.service;
 
     store = spectator.inject(MockStore);
-    mockOscillatingSelector = store.overrideSelector(
-      getMotionType,
-      Movement.rotating
-    );
 
     // This is a workaround to have deep cloning of the object without having to install another library
     mockRecommendationSubordinates = JSON.parse(
       JSON.stringify(MOCK_GREASE_SUBORDINATES_SUFFICIENT)
     );
+
+    selectedApplication$$.next(ApplicationScenario.Fans);
+    motionType$$.next(Movement.rotating);
   });
 
   afterEach(() => {
@@ -123,120 +119,55 @@ describe('GreaseRecommendationService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('when shouldShowRecommendation$ is false', () => {
-    beforeEach(() => {
-      shouldShowRecommendation$$.next(false);
-      selectedApplication$$.next(ApplicationScenario.Fans);
-    });
+  it('should mark TEMP90 is the recommendation for Fan applications', waitForAsync(async () => {
+    await service.processGreaseRecommendation(mockRecommendationSubordinates);
 
-    it('should not show an recommendation, even with application selected', waitForAsync(async () => {
-      service.processGreaseRecommendation(mockRecommendationSubordinates);
+    expect(mockRecommendationSubordinates[0].greaseResult.mainTitle).toEqual(
+      'Arcanol TEMP90'
+    );
+    expect(
+      mockRecommendationSubordinates[0].greaseResult.isRecommended
+    ).toEqual(true);
+    expect(
+      mockRecommendationSubordinates
+        .flatMap((sub) => sub.greaseResult.isRecommended)
+        .filter(Boolean).length
+    ).toEqual(1);
+  }));
 
-      // Expect the subordinates to not have changed
-      expect(mockRecommendationSubordinates).toStrictEqual(
-        MOCK_GREASE_SUBORDINATES_SUFFICIENT
-      );
-    }));
+  it('should mark MOTION 2 as the recommendation for oscillating loads', waitForAsync(async () => {
+    motionType$$.next(Movement.oscillating);
+    selectedApplication$$.next(ApplicationScenario.All);
 
-    it('should not show a recommendation with oscillating loads', waitForAsync(async () => {
-      mockOscillatingSelector.setResult(Movement.oscillating);
-      const showRecommendation = await firstValueFrom(
-        service['marketingService'].shouldShowRecommendation$
-      );
-      expect(showRecommendation).toEqual(false);
+    await service.processGreaseRecommendation(mockRecommendationSubordinates);
 
-      await service.processGreaseRecommendation(mockRecommendationSubordinates);
+    expect(mockRecommendationSubordinates[0].greaseResult.mainTitle).toEqual(
+      'Arcanol MOTION 2'
+    );
+    expect(mockRecommendationSubordinates[0].greaseResult.isRecommended).toBe(
+      true
+    );
+    expect(
+      mockRecommendationSubordinates
+        .flatMap((sub) => sub.greaseResult.isRecommended)
+        .filter(Boolean).length
+    ).toEqual(1);
+  }));
 
-      // Expect the subordinates to not have changed
-      expect(mockRecommendationSubordinates).toStrictEqual(
-        MOCK_GREASE_SUBORDINATES_SUFFICIENT
-      );
-    }));
-  });
+  it('should emit an error when the recommended grease is insufficient', waitForAsync(async () => {
+    selectedApplication$$.next(ApplicationScenario.LargeElectricMotors);
+    const dispatchSpy = jest.spyOn(store, 'dispatch');
 
-  describe('when shouldShowRecommendation$ is true', () => {
-    beforeEach(() => {
-      shouldShowRecommendation$$.next(true);
-      selectedApplication$$.next(ApplicationScenario.Fans);
-      mockOscillatingSelector.setResult(Movement.rotating);
-    });
+    await service.processGreaseRecommendation(mockRecommendationSubordinates);
 
-    it('should mark TEMP90 is the recommendation for Fan applications', waitForAsync(async () => {
-      expect(
-        await firstValueFrom(
-          service['marketingService'].shouldShowRecommendation$
-        )
-      ).toBe(true);
-      expect(
-        await firstValueFrom(service['marketingService'].selectedApplication$)
-      ).toBe(ApplicationScenario.Fans);
-
-      await service.processGreaseRecommendation(mockRecommendationSubordinates);
-
-      expect(mockRecommendationSubordinates[0].greaseResult.mainTitle).toEqual(
-        'Arcanol TEMP90'
-      );
-      expect(
-        mockRecommendationSubordinates[0].greaseResult.isRecommended
-      ).toEqual(true);
-      expect(
-        mockRecommendationSubordinates
-          .flatMap((sub) => sub.greaseResult.isRecommended)
-          .filter(Boolean).length
-      ).toEqual(1);
-    }));
-
-    it('should mark MOTION 2 as the recommendation for oscillating loads', waitForAsync(async () => {
-      mockOscillatingSelector.setResult(Movement.oscillating);
-      selectedApplication$$.next(ApplicationScenario.All);
-
-      expect(
-        await firstValueFrom(
-          service['marketingService'].shouldShowRecommendation$
-        )
-      ).toBe(true);
-      expect(
-        await firstValueFrom(service['marketingService'].selectedApplication$)
-      ).toBe(ApplicationScenario.All);
-
-      await service.processGreaseRecommendation(mockRecommendationSubordinates);
-
-      expect(mockRecommendationSubordinates[0].greaseResult.mainTitle).toEqual(
-        'Arcanol MOTION 2'
-      );
-      expect(mockRecommendationSubordinates[0].greaseResult.isRecommended).toBe(
-        true
-      );
-      expect(
-        mockRecommendationSubordinates
-          .flatMap((sub) => sub.greaseResult.isRecommended)
-          .filter(Boolean).length
-      ).toEqual(1);
-    }));
-
-    it('should emit an error when the recommended grease is insufficient', waitForAsync(async () => {
-      selectedApplication$$.next(ApplicationScenario.LargeElectricMotors);
-      const dispatchSpy = jest.spyOn(store, 'dispatch');
-      expect(
-        await firstValueFrom(
-          service['marketingService'].shouldShowRecommendation$
-        )
-      ).toBe(true);
-      expect(
-        await firstValueFrom(service['marketingService'].selectedApplication$)
-      ).toBe(ApplicationScenario.LargeElectricMotors);
-
-      await service.processGreaseRecommendation(mockRecommendationSubordinates);
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(1);
-      expect(mockRecommendationSubordinates).toStrictEqual(
-        MOCK_GREASE_SUBORDINATES_SUFFICIENT
-      );
-      expect(
-        mockRecommendationSubordinates
-          .flatMap((sub) => sub.greaseResult.isRecommended)
-          .filter(Boolean).length
-      ).toEqual(0);
-    }));
-  });
+    expect(dispatchSpy).toHaveBeenCalledTimes(1);
+    expect(mockRecommendationSubordinates).toStrictEqual(
+      MOCK_GREASE_SUBORDINATES_SUFFICIENT
+    );
+    expect(
+      mockRecommendationSubordinates
+        .flatMap((sub) => sub.greaseResult.isRecommended)
+        .filter(Boolean).length
+    ).toEqual(0);
+  }));
 });

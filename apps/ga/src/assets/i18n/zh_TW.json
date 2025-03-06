@@ -271,8 +271,6 @@
       "RailWheelsetBearings": "鐵路車輪軸承",
       "WindTurbineMainShaft": "風力渦輪機（主軸）"
     },
-    "exclusivityDisclaimer": "僅限 Medias Plus 用戶",
-    "signupPrompt": "立即註冊",
     "signupUrl": "https://medias.schaeffler.cn/zh_TW/registered/user",
     "axisOrientation": {
       "title": "轴向方向",

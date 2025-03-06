@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import {
@@ -12,17 +11,14 @@ import {
 } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { BehaviorSubject, firstValueFrom, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 
-import {
-  ApplicationInsightsModule,
-  ApplicationInsightsService,
-} from '@schaeffler/application-insights';
+import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SettingsFacade } from '@ga/core/store';
@@ -30,7 +26,6 @@ import {
   getResultMessages,
   hasResultMessage,
 } from '@ga/core/store/selectors/calculation-result/calculation-result.selector';
-import { GreaseRecommendationMarketingService } from '@ga/features/grease-calculation/grease-recommendation-marketing.service';
 import { AppStoreButtonsComponent } from '@ga/shared/components/app-store-buttons/app-store-buttons.component';
 import { AppAnalyticsService } from '@ga/shared/services/app-analytics-service/app-analytics-service';
 import { InteractionEventType } from '@ga/shared/services/app-analytics-service/interaction-event-type.enum';
@@ -47,7 +42,6 @@ import {
   GreaseReportService,
   GreaseResultDataSourceService,
 } from '../../services';
-import { GreaseRecommendationPromoComponent } from '../grease-recommendation-promo/grease-recommendation-promo.component';
 import { GreaseReportInputComponent } from '../grease-report-input';
 import { GreaseReportResultComponent } from '../grease-report-result';
 
@@ -106,11 +100,8 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
     private readonly greaseReportService: GreaseReportService,
     private readonly snackbar: MatSnackBar,
     private readonly localeService: TranslocoLocaleService,
-    private readonly marketingService: GreaseRecommendationMarketingService,
-    private readonly matDialog: MatDialog,
     private readonly store: Store,
     private readonly appAnalyticsService: AppAnalyticsService,
-    private readonly appInsightsService: ApplicationInsightsService,
     private readonly settingsFacade: SettingsFacade
   ) {}
 
@@ -222,36 +213,11 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
         (subordinate) => subordinate.identifier === 'legalNote'
       )?.legal;
     }
-    const shouldShowDialog = await firstValueFrom(
-      this.marketingService.shouldShowDynamicModal$
-    );
-    if (shouldShowDialog) {
-      this.showGreaseRecommendationOverlay();
-    }
 
-    const shouldShowRecommendation = await firstValueFrom(
-      this.marketingService.shouldShowRecommendation$
-    );
-    const hasRecommendation =
-      shouldShowRecommendation &&
-      this.subordinates
-        .find((sub) => sub.titleID === 'STRING_OUTP_RESULTS')
-        ?.subordinates.some((sub) => sub.greaseResult?.isRecommended);
+    const hasRecommendation = this.subordinates
+      .find((sub) => sub.titleID === 'STRING_OUTP_RESULTS')
+      ?.subordinates.some((sub) => sub.greaseResult?.isRecommended);
     this.hasRecommendation$$.next(hasRecommendation);
-  }
-
-  private showGreaseRecommendationOverlay() {
-    this.appInsightsService.logEvent('show_recommendation_marketing_overlay');
-    this.appAnalyticsService.logInteractionEvent(
-      InteractionEventType.ShowRecommendationMarketingOverlay
-    );
-
-    this.matDialog.open(GreaseRecommendationPromoComponent, {
-      backdropClass: 'blur-backdrop',
-      disableClose: true,
-      id: 'grease-recommendation-dialog',
-      maxWidth: '90vw', // needed because otherwise the medias embed looks too small on mobile
-    });
   }
 
   private showSnackBarError(): void {

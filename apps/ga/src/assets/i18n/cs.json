@@ -271,8 +271,6 @@
       "RailWheelsetBearings": "Ložiska železničních soukolí",
       "WindTurbineMainShaft": "Větrná turbína (hlavní hřídel)"
     },
-    "exclusivityDisclaimer": "Exkluzivně pro uživatele Medias Plus",
-    "signupPrompt": "Zaregistrujte se nyní",
     "signupUrl": "https://medias.schaeffler.cz/cs/registered/user",
     "axisOrientation": {
       "title": "Orientace osy",

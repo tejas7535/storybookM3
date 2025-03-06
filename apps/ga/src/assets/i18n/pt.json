@@ -271,8 +271,6 @@
       "RailWheelsetBearings": "Rolamentos de Eixos Ferroviários",
       "WindTurbineMainShaft": "Turbina Eólica (Eixo Principal)"
     },
-    "exclusivityDisclaimer": "Exclusivo para usuários Medias Plus",
-    "signupPrompt": "Inscreva-se agora",
     "signupUrl": "https://medias.schaeffler.es/pt/registered/user",
     "axisOrientation": {
       "title": "Orientação do Eixo",

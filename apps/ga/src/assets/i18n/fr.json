@@ -271,8 +271,6 @@
       "RailWheelsetBearings": "Roulements d'essieux ferroviaires",
       "WindTurbineMainShaft": "Éolienne (arbre principal)"
     },
-    "exclusivityDisclaimer": "Exclusif pour les utilisateurs de Medias Plus",
-    "signupPrompt": "Inscrivez-vous maintenant",
     "signupUrl": "https://medias.schaeffler.fr/fr/registered/user",
     "axisOrientation": {
       "title": "Orientation de l’axe",

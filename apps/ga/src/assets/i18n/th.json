@@ -271,8 +271,6 @@
       "RailWheelsetBearings": "แบริ่งชุดล้อรถไฟ",
       "WindTurbineMainShaft": "กังหันลม (เพลาหลัก)"
     },
-    "exclusivityDisclaimer": "เฉพาะสำหรับผู้ใช้ Medias Plus เท่านั้น",
-    "signupPrompt": "สมัครตอนนี้",
     "signupUrl": "https://medias.schaeffler.co.th/registered/user",
     "axisOrientation": {
       "title": "การวางแนวแกน",

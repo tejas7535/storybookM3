@@ -271,8 +271,6 @@
       "RailWheelsetBearings": "Bantalan Poros Roda Rel",
       "WindTurbineMainShaft": "Turbin Angin (Poros Utama)"
     },
-    "exclusivityDisclaimer": "Eksklusif untuk pengguna Medias Plus",
-    "signupPrompt": "Daftar Sekarang",
     "signupUrl": "https://medias.schaeffler.co.id/registered/user",
     "axisOrientation": {
       "title": "Orientasi Poros",

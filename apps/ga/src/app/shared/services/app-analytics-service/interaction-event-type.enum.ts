@@ -3,6 +3,6 @@ export enum InteractionEventType {
   ErrorsAndWarnings = 'errorsAndWarnings',
   ShowAllValues = 'showAllValues',
   SelectApplication = 'selectApplication',
-  ShowRecommendationMarketingOverlay = 'showRecommendationOverlay',
+
   ClickSignupLink = 'clickSignupLinkRecommendation',
 }

@@ -271,8 +271,6 @@
       "RailWheelsetBearings": "철도 차륜 베어링",
       "WindTurbineMainShaft": "풍력 터빈 (메인 샤프트)"
     },
-    "exclusivityDisclaimer": "Medias Plus 사용자 전용",
-    "signupPrompt": "지금 등록하세요",
     "signupUrl": "https://medias.schaeffler.kr/ko/registered/user",
     "axisOrientation": {
       "title": "축의 방향",

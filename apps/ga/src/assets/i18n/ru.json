@@ -271,8 +271,6 @@
       "RailWheelsetBearings": "Подшипники колесных пар",
       "WindTurbineMainShaft": "Ветряная турбина (главный вал)"
     },
-    "exclusivityDisclaimer": "Эксклюзивно для пользователей Medias Plus",
-    "signupPrompt": "Зарегистрироваться сейчас",
     "signupUrl": "https://medias.schaeffler.de/ru/registered/user",
     "axisOrientation": {
       "title": "Ориентация оси",
