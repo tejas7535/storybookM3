@@ -1,5 +1,5 @@
 import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
-import { RecalculationReasons } from '@gq/shared/models/quotation-detail/sqv-check/recalculation-reasons.enum';
+import { RecalculationReasons } from '@gq/shared/models/quotation-detail/cost/recalculation-reasons.enum';
 import { translate } from '@jsverse/transloco';
 import {
   createServiceFactory,
@@ -32,28 +32,28 @@ describe('columnDefinitionService for openItems Table', () => {
       test('shall return text for not_available', () => {
         const valueGetterParams = {
           data: {
-            sqvCheck: {
-              status: RecalculationReasons.NOT_AVAILABLE,
+            detailCosts: {
+              sqvRecalculationReason: RecalculationReasons.NOT_AVAILABLE,
             },
           },
         } as ValueGetterParams;
         service.getSqvStatusText(valueGetterParams);
         expect(translate).toHaveBeenCalledWith(
-          `shared.openItemsTable.issueToResolve.${RecalculationReasons.NOT_AVAILABLE}`
+          `shared.openItemsTable.issueToResolve.${RecalculationReasons.NOT_AVAILABLE.toLocaleLowerCase()}`
         );
       });
       test('shall return text for invalid', () => {
         const valueGetterParams = {
           data: {
-            sqvCheck: {
-              status: RecalculationReasons.INVALID,
-              value: 3,
+            detailCosts: {
+              sqvRecalculationReason: RecalculationReasons.INVALID,
+              sqvRecalculationValue: 3,
             },
           },
         } as ValueGetterParams;
         service.getSqvStatusText(valueGetterParams);
         expect(translate).toHaveBeenCalledWith(
-          `shared.openItemsTable.issueToResolve.${RecalculationReasons.INVALID}`,
+          `shared.openItemsTable.issueToResolve.${RecalculationReasons.INVALID.toLocaleLowerCase()}`,
           {
             months: 3,
           }

@@ -3,7 +3,7 @@ import { inject } from '@angular/core';
 import { PositionIdComponent } from '@gq/shared/ag-grid/cell-renderer/position-id/position-id.component';
 import { FILTER_PARAMS } from '@gq/shared/ag-grid/constants/filters';
 import { ColumnUtilityService } from '@gq/shared/ag-grid/services/column-utility.service';
-import { RecalculationReasons } from '@gq/shared/models/quotation-detail/sqv-check/recalculation-reasons.enum';
+import { RecalculationReasons } from '@gq/shared/models/quotation-detail/cost/recalculation-reasons.enum';
 import { translate } from '@jsverse/transloco';
 import { ColDef, ValueGetterParams } from 'ag-grid-enterprise';
 
@@ -56,18 +56,18 @@ export class ColumnDefinitionService {
 
   // utilities
   getSqvStatusText(params: ValueGetterParams): string {
-    switch (params.data.sqvCheck?.status) {
+    switch (params.data.detailCosts?.sqvRecalculationReason) {
       case RecalculationReasons.NOT_AVAILABLE: {
         return translate(
-          `shared.openItemsTable.issueToResolve.${RecalculationReasons.NOT_AVAILABLE}`
+          `shared.openItemsTable.issueToResolve.${RecalculationReasons.NOT_AVAILABLE.toLocaleLowerCase()}`
         );
       }
 
       case RecalculationReasons.INVALID: {
         return translate(
-          `shared.openItemsTable.issueToResolve.${RecalculationReasons.INVALID}`,
+          `shared.openItemsTable.issueToResolve.${RecalculationReasons.INVALID.toLocaleLowerCase()}`,
           {
-            months: params.data.sqvCheck?.value,
+            months: params.data.detailCosts?.sqvRecalculationValue,
           }
         );
       }

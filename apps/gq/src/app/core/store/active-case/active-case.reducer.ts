@@ -10,7 +10,7 @@ import {
 import { QuotationPricingOverview } from '@gq/shared/models/quotation';
 import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
 import { QuotationDetailCosts } from '@gq/shared/models/quotation-detail/cost';
-import { RecalculationReasons } from '@gq/shared/models/quotation-detail/sqv-check/recalculation-reasons.enum';
+import { RecalculationReasons } from '@gq/shared/models/quotation-detail/cost/recalculation-reasons.enum';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
 import { GREATER_CHINA_SALES_ORGS } from '../approval/model/greater-china-sales-orgs';
@@ -679,30 +679,11 @@ export const activeCaseFeature = createFeature({
       (quotation: Quotation): QuotationDetail[] =>
         quotation?.quotationDetails.filter(
           (detail: QuotationDetail) =>
-            detail.sqvCheck &&
-            detail.sqvCheck.status !== RecalculationReasons.VALID
+            detail.detailCosts?.sqvRecalculationReason &&
+            detail.detailCosts.sqvRecalculationReason !==
+              RecalculationReasons.VALID
         )
     );
-
-    // TODO: testing purposes
-    // const getOpenItems = createSelector(
-    //   selectQuotation,
-    //   (quotation: Quotation): QuotationDetail[] =>
-    //     quotation?.quotationDetails
-    //       .map((detail: QuotationDetail) => ({
-    //         ...detail,
-    //         sqvCheck: {
-    //           status: getRandomEnumValue(
-    //             RecalculationReasons
-    //           ) as RecalculationReasons,
-    //           value: Math.abs(Math.random() * 10),
-    //         },
-    //       }))
-    //       .filter(
-    //         (detail: QuotationDetail) =>
-    //           detail.sqvCheck?.status !== RecalculationReasons.VALID
-    //       )
-    // );
 
     const hasOpenItems = createSelector(
       getOpenItems,

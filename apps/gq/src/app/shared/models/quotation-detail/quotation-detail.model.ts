@@ -19,7 +19,6 @@ import { QuotationRfqData } from './rfq-data/quotation-rfq-data.interface';
 import { SAP_ERROR_MESSAGE_CODE } from './sap-error-message-code.enum';
 import { SapPriceCondition } from './sap-price-condition.enum';
 import { SAP_SYNC_STATUS } from './sap-sync-status.enum';
-import { SqvCheck } from './sqv-check/sqv-check.interface';
 export class QuotationDetail {
   quotationId: string;
   gqCreated: string;
@@ -88,8 +87,6 @@ export class QuotationDetail {
   lastCustomerPriceGpm: number;
   rlm: number;
   discount: number;
-
-  sqvCheck: SqvCheck;
 
   // properties added in GQ application
   msp: number;

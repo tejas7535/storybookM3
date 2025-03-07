@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { ApiVersion } from '@gq/shared/models';
 import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
+import { withCache } from '@ngneat/cashew';
 
 import { QuotationKpiRequest } from './model/quotation-kpi-request.interface';
 
@@ -22,7 +23,10 @@ export class CalculationService {
   ): Observable<QuotationDetailsSummaryKpi> {
     return this.http.post<QuotationDetailsSummaryKpi>(
       `${ApiVersion.V1}/${this.PATH_CALCULATION}/${this.PATH_QUOTATION_DETAILS_KPI}`,
-      requestBody
+      requestBody,
+      {
+        context: withCache(),
+      }
     );
   }
 }

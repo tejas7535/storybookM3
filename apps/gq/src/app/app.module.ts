@@ -19,6 +19,7 @@ import {
   TranslocoDecimalPipe,
   TranslocoPercentPipe,
 } from '@jsverse/transloco-locale';
+import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 
 import {
   AzureConfig,
@@ -74,6 +75,7 @@ const FEATURE_TOGGLE_CONFIG_LOCAL_STORAGE = 'gq-feature-config';
 @NgModule({
   bootstrap: [AppComponent, MsalRedirectComponent],
   imports: [
+    HttpCacheInterceptorModule.forRoot(),
     BrowserAnimationsModule,
     AppRoutingModule,
     CoreModule,

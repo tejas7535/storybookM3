@@ -1,9 +1,9 @@
 import { AppRoutePath } from '@gq/app-route-path.enum';
 import { ProcessCaseRoutePath } from '@gq/process-case-view/process-case-route-path.enum';
 import { Quotation, QuotationDetail, SAP_SYNC_STATUS } from '@gq/shared/models';
+import { RecalculationReasons } from '@gq/shared/models/quotation-detail/cost/recalculation-reasons.enum';
 import { ProductType } from '@gq/shared/models/quotation-detail/material/';
 import { QuotationRfqData } from '@gq/shared/models/quotation-detail/rfq-data';
-import { RecalculationReasons } from '@gq/shared/models/quotation-detail/sqv-check/recalculation-reasons.enum';
 
 import { CUSTOMER_MOCK } from '../../../../testing/mocks';
 import { QUOTATION_MOCK } from '../../../../testing/mocks/models/quotation';
@@ -396,8 +396,8 @@ describe('Active Case Selectors', () => {
           quotation: {
             quotationDetails: [
               {
-                sqvCheck: {
-                  status: RecalculationReasons.INVALID,
+                detailCosts: {
+                  sqvRecalculationReason: RecalculationReasons.INVALID,
                 },
               } as QuotationDetail,
             ],

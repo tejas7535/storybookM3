@@ -9,7 +9,7 @@ import {
 } from '@gq/shared/models';
 import { SapCallInProgress } from '@gq/shared/models/quotation';
 import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
-import { RecalculationReasons } from '@gq/shared/models/quotation-detail/sqv-check/recalculation-reasons.enum';
+import { RecalculationReasons } from '@gq/shared/models/quotation-detail/cost/recalculation-reasons.enum';
 import { Action } from '@ngrx/store';
 
 import { CUSTOMER_MOCK } from '../../../../testing/mocks/models';
@@ -1067,16 +1067,16 @@ describe('Active Case Feature Selector', () => {
             ...QUOTATION_MOCK,
             quotationDetails: [
               {
-                sqvCheck: null,
+                detailCosts: null,
               } as QuotationDetail,
               {
-                sqvCheck: {
-                  status: RecalculationReasons.INVALID,
+                detailCosts: {
+                  sqvRecalculationReason: RecalculationReasons.INVALID,
                 },
               } as QuotationDetail,
               {
-                sqvCheck: {
-                  status: RecalculationReasons.VALID,
+                detailCosts: {
+                  sqvRecalculationReason: RecalculationReasons.VALID,
                 },
               } as QuotationDetail,
             ],
@@ -1096,16 +1096,16 @@ describe('Active Case Feature Selector', () => {
             ...QUOTATION_MOCK,
             quotationDetails: [
               {
-                sqvCheck: null,
+                detailCosts: null,
               } as QuotationDetail,
               {
-                sqvCheck: {
-                  status: RecalculationReasons.INVALID,
+                detailCosts: {
+                  sqvRecalculationReason: RecalculationReasons.INVALID,
                 },
               } as QuotationDetail,
               {
-                sqvCheck: {
-                  status: RecalculationReasons.VALID,
+                detailCosts: {
+                  sqvRecalculationReason: RecalculationReasons.VALID,
                 },
               } as QuotationDetail,
             ],
@@ -1123,16 +1123,16 @@ describe('Active Case Feature Selector', () => {
             ...QUOTATION_MOCK,
             quotationDetails: [
               {
-                sqvCheck: null,
+                detailCosts: null,
               } as QuotationDetail,
               {
-                sqvCheck: {
-                  status: RecalculationReasons.VALID,
+                detailCosts: {
+                  sqvRecalculationReason: RecalculationReasons.VALID,
                 },
               } as QuotationDetail,
               {
-                sqvCheck: {
-                  status: RecalculationReasons.VALID,
+                detailCosts: {
+                  sqvRecalculationReason: RecalculationReasons.VALID,
                 },
               } as QuotationDetail,
             ],
