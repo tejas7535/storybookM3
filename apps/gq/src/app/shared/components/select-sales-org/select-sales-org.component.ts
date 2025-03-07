@@ -67,7 +67,13 @@ export class SelectSalesOrgComponent implements ControlValueAccessor {
     .pipe(
       takeUntilDestroyed(this.destroyRef),
       tap((salesOrg) => {
-        if (this.selectedSalesOrg && this.onTouched && this.onChange) {
+        // when selectedSalesOrg is cleared, because customer has changed this.selectedSalesOrg must be overwritten
+        if (
+          salesOrg &&
+          this.selectedSalesOrg &&
+          this.onTouched &&
+          this.onChange
+        ) {
           return;
         }
         this.writeValue(salesOrg);
