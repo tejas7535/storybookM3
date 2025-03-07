@@ -1,4 +1,11 @@
 # Release Notes of Insight Attrition
+## [1.4.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.4.0...ia-v1.4.1) (2025-03-07)
+
+
+### Features
+
+* **ia:** enable analytics on prod ([#7104](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7104)) ([4eb515a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4eb515ac008f3e11e09e8e7e2021d3dac1959275))
+
 ## [1.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.3.0...ia-v1.4.0) (2025-03-07)
 
 
