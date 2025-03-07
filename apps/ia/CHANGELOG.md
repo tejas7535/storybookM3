@@ -1,4 +1,25 @@
 # Release Notes of Insight Attrition
+## [1.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.3.0...ia-v1.4.0) (2025-03-07)
+
+
+### Features
+
+* **ia:** add exit surveys button (IA-1448) ([#6904](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6904)) ([9cdc716](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9cdc716974844d027265c75a891f68f3b06410ef))
+* **ia:** add fluctuation analytics title (IA-1503) ([#6895](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6895)) ([ff804ed](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ff804ed359b17b336fa07920bf9d5c1ae88d7e69))
+* **ia:** add job family dimensions (IA-1521) ([#6938](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6938)) ([891eb7c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/891eb7cbf5b8a2398e7d33b78a115088219ee7ca))
+* **ia:** add reasons to dialog (IA-1494) ([#6894](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6894)) ([38f65a3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/38f65a31dca6f34e8b7191d260724a01ce0d71cf))
+* **ia:** add tooltips (IA-1346) ([#6965](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6965)) ([de1252e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/de1252e3a8bef58e79e7a9566efaf59b203541c5))
+* **ia:** change assessment logic (IA-1522) ([#6958](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6958)) ([6b9d864](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6b9d864c671d32cede03899a3a85991c0e68d395))
+* **ia:** change authorization in pmgm (IA-1505) ([#6879](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6879)) ([c9ad631](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c9ad63175a20b4529b6be05fa780f8f26fcb6842))
+* **ia:** change displayed app name (IA-1450) ([#6690](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6690)) ([c8b7e07](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c8b7e070ac74d0861461a5f39acfecd3949afc54))
+* **ia:** change logo to icon with label (IA-1448) ([#6968](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6968)) ([9e469af](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9e469af4c637a968123b15d63437d2c7e40b5eed))
+* **ia:** change pmgm position label (IA-1522) ([#7035](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7035)) ([e18431c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e18431c09bd521964b4ab890721f5d15a196e245))
+* **ia:** disable job hierarchy on prod (IA-1547) ([#7036](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7036)) ([31789d9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/31789d93a7750d99eb59891541a2850b4cf47a37))
+* **ia:** rebuild fluctuation analytics (IA-1454) ([#6737](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6737)) ([e674187](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e6741877f2097a94a5956013cfac31e551222a15))
+* **ia:** rename and reorder nav tabs (IA-1502) ([#6902](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6902)) ([468cc11](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/468cc11c38a5c5be8147d44b404c541e54071da7))
+* **ia:** rework not applicable employees on analytics (IA-1550) ([#7100](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7100)) ([398b643](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/398b643ed09044f2a24cb425dc4dbc5fb208aef7))
+* update ag grid v32 ([#6796](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6796)) ([9f6a844](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9f6a844c6a8898ef6ae8d48587f30dd752f87911))
+
 ## [1.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.2.0...ia-v1.3.0) (2024-12-02)
 
 
