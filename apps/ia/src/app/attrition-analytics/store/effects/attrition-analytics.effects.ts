@@ -14,7 +14,6 @@ import {
   timePeriodSelected,
 } from '../../../core/store/actions';
 import { getCurrentFilters } from '../../../core/store/selectors';
-import { isFeatureEnabled } from '../../../shared/guards/is-feature-enabled';
 import { EmployeesRequest } from '../../../shared/models';
 import { updateUserSettingsSuccess } from '../../../user/store/actions/user.action';
 import { AttritionAnalyticsService } from '../../attrition-analytics.service';
@@ -58,7 +57,6 @@ export class AttritionAnalyticsEffects {
   loadAvailableClusters$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadAvailableClusters),
-      filter(() => isFeatureEnabled()),
       concatLatestFrom(() => this.store.select(getCurrentFilters)),
       map(([_action, request]) => request),
       switchMap(() =>
