@@ -118,7 +118,7 @@ describe('AppComponent', () => {
     test('should call the mehtod', () => {
       component.handleBeforeUnload();
       expect(
-        component['userSettingsService'].updateUserSettings
+        component['userSettingsService'].updateUserSettingsAsPromise
       ).toHaveBeenCalledTimes(1);
     });
   });

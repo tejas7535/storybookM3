@@ -94,8 +94,8 @@ export class AppComponent implements OnInit {
   showGlobalSearch$: Observable<boolean>;
 
   @HostListener('window:beforeunload', ['$event'])
-  handleBeforeUnload(): void {
-    this.userSettingsService.updateUserSettings();
+  async handleBeforeUnload() {
+    await this.userSettingsService.updateUserSettingsAsPromise();
   }
 
   public ngOnInit(): void {

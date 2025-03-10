@@ -321,6 +321,39 @@ describe('Service: UserSettings', () => {
         expect(window.location.reload).not.toHaveBeenCalled();
       });
     });
+
+    describe('updateUserSettingsAsPromise', () => {
+      beforeEach(() => {
+        delete window.location;
+        window.location = { reload: jest.fn() } as any;
+
+        service['getSettingsFromLocalStorage'] = jest
+          .fn()
+          .mockReturnValue([{} as UserSetting]);
+      });
+      test('should not call post when settingsList is empty', () => {
+        service['getSettingsFromLocalStorage'] = jest.fn().mockReturnValue([]);
+        service['createJsonFile'] = jest.fn();
+        service.updateUserSettingsAsPromise();
+        expect(service['createJsonFile']).not.toHaveBeenCalled();
+      });
+
+      test('should call POST', () => {
+        const mockResponse = {
+          result: {
+            userSettingsList: [{ key: UserSettingsKeys.LANGUAGE, value: 'en' }],
+          },
+        };
+
+        service.updateUserSettingsAsPromise();
+
+        const req = httpMock.expectOne(
+          `${ApiVersion.V1}/${service.PATH_USER_SETTINGS}`
+        );
+        expect(req.request.method).toBe('POST');
+        req.flush(mockResponse);
+      });
+    });
   });
   describe('initializeUserSettings', () => {
     test('should initialize App, and update the userSettings', () => {
@@ -382,6 +415,72 @@ describe('Service: UserSettings', () => {
         expect(localStorage.getItem(service['INIT_KEY'])).toBeTruthy();
         expect(window.location.reload).toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('processResponse', () => {
+    test('should call holdDatabaseValuesForLangLocale and reload the window when reloadAfterUpdate is true', () => {
+      delete window.location;
+      window.location = { reload: jest.fn() } as any;
+      service['holdDatabaseValuesForLangLocale'] = jest.fn();
+      const mockResponse: UserSettingsResponse = {
+        result: {
+          userId: 'any',
+          userSettingsList: [
+            { key: UserSettingsKeys.LANGUAGE, value: 'en' },
+            { key: UserSettingsKeys.LOCALE, value: 'en-US' },
+          ],
+        },
+      };
+
+      service['processResponse'](mockResponse, true);
+
+      expect(service['holdDatabaseValuesForLangLocale']).toHaveBeenCalledWith(
+        mockResponse.result.userSettingsList
+      );
+      expect(window.location.reload).toHaveBeenCalled();
+    });
+
+    test('should call holdDatabaseValuesForLangLocale and not reload the window when reloadAfterUpdate is false', () => {
+      delete window.location;
+      window.location = { reload: jest.fn() } as any;
+      service['holdDatabaseValuesForLangLocale'] = jest.fn();
+      const mockResponse: UserSettingsResponse = {
+        result: {
+          userId: 'any',
+          userSettingsList: [
+            { key: UserSettingsKeys.LANGUAGE, value: 'en' },
+            { key: UserSettingsKeys.LOCALE, value: 'en-US' },
+          ],
+        },
+      };
+
+      service['processResponse'](mockResponse, false);
+
+      expect(service['holdDatabaseValuesForLangLocale']).toHaveBeenCalledWith(
+        mockResponse.result.userSettingsList
+      );
+      expect(window.location.reload).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('processError', () => {
+    test('should reload the window', () => {
+      delete window.location;
+      window.location = { reload: jest.fn() } as any;
+
+      service['processError'](true);
+
+      expect(window.location.reload).toHaveBeenCalled();
+    });
+    test('should not reload the window', () => {
+      jest.resetAllMocks();
+      delete window.location;
+      window.location = { reload: jest.fn() } as any;
+
+      service['processError'](false);
+
+      expect(window.location.reload).not.toHaveBeenCalled();
     });
   });
 
@@ -578,6 +677,78 @@ describe('Service: UserSettings', () => {
         };
 
         expect(localStorageValue).toEqual(expected);
+      });
+    });
+
+    describe('createFormData', () => {
+      test('should return formData when storageSettings is not empty', () => {
+        service['createJsonFile'] = jest
+          .fn()
+          .mockReturnValue('JsonFileMockReturnValue');
+        const user = '123';
+        service['userId'] = user;
+
+        const settings = [
+          { key: UserSettingsKeys.LANGUAGE, value: 'en' } as UserSetting,
+          { key: UserSettingsKeys.LOCALE, value: 'en-US' } as UserSetting,
+        ];
+        const formData = service['createFormData'](settings);
+        expect(formData.get('userSettings')).toEqual('JsonFileMockReturnValue');
+        expect(service['createJsonFile']).toHaveBeenCalledWith(user, settings);
+      });
+    });
+    describe('processUserSettings', () => {
+      let formData: FormData;
+      let handleResponse: jest.Mock;
+      let handleError: jest.Mock;
+
+      beforeEach(() => {
+        formData = new FormData();
+        handleResponse = jest.fn();
+        handleError = jest.fn();
+      });
+
+      test('should call POST and handle response', () => {
+        const mockResponse: UserSettingsResponse = {
+          result: {
+            userId: 'me',
+            userSettingsList: [{ key: UserSettingsKeys.LANGUAGE, value: 'en' }],
+          },
+        };
+
+        service['processUserSettings'](
+          formData,
+          handleResponse,
+          handleError
+        ).subscribe((response) => {
+          expect(response).toEqual(mockResponse);
+          expect(handleResponse).toHaveBeenCalledWith(mockResponse);
+          expect(handleError).not.toHaveBeenCalled();
+        });
+
+        const req = httpMock.expectOne(
+          `${ApiVersion.V1}/${service.PATH_USER_SETTINGS}`
+        );
+        expect(req.request.method).toBe('POST');
+        req.flush(mockResponse);
+      });
+
+      test('should call POST and handle error', () => {
+        service['processUserSettings'](
+          formData,
+          handleResponse,
+          handleError
+        ).subscribe((response) => {
+          expect(response).toBeNull();
+          expect(handleResponse).not.toHaveBeenCalled();
+          expect(handleError).toHaveBeenCalled();
+        });
+
+        const req = httpMock.expectOne(
+          `${ApiVersion.V1}/${service.PATH_USER_SETTINGS}`
+        );
+        expect(req.request.method).toBe('POST');
+        req.flush(null, { status: 500, statusText: 'Server Error' });
       });
     });
   });

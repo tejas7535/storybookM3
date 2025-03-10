@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { DestroyRef, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { combineLatest, Observable, of } from 'rxjs';
+import { combineLatest, lastValueFrom, Observable, of } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
@@ -74,7 +74,7 @@ export class UserSettingsService {
   /**
    * update settings of the loggedIn user, either all settings or the provided key settings
    * @param key key to update the settings for, if not provided all possible key where updated
-   * * @param reloadAfterUpdate if true, the page will be reloaded after the settings are updated
+   * @param reloadAfterUpdate if true, the page will be reloaded after the settings are updated
    * @returns return the updated settings
    */
   updateUserSetting(key: string, reloadAfterUpdate: boolean = false): void {
@@ -82,37 +82,11 @@ export class UserSettingsService {
     if (storageSettings.length === 0) {
       return;
     }
-
-    const formData: FormData = new FormData();
-    formData.append(
-      'userSettings',
-      this.createJsonFile(this.userId, storageSettings)
-    );
-
-    this.#http
-      .post<UserSettingsResponse>(
-        `${ApiVersion.V1}/${this.PATH_USER_SETTINGS}`,
-        formData,
-        {
-          reportProgress: true,
-          responseType: 'json',
-        }
-      )
-      .pipe(
-        take(1),
-        catchError((_error) => {
-          if (reloadAfterUpdate) {
-            window.location.reload();
-          }
-
-          return of(null);
-        })
-      )
-      .subscribe(() => {
-        if (reloadAfterUpdate) {
-          window.location.reload();
-        }
-      });
+    this.processUserSettings(
+      this.createFormData(storageSettings),
+      (response) => this.processResponse(response, reloadAfterUpdate),
+      () => this.processError(reloadAfterUpdate)
+    ).subscribe();
   }
 
   /**
@@ -131,37 +105,29 @@ export class UserSettingsService {
       return;
     }
 
-    const formData: FormData = new FormData();
-    formData.append(
-      'userSettings',
-      this.createJsonFile(this.userId, storageSettings)
+    this.processUserSettings(
+      this.createFormData(storageSettings),
+      (response) => this.processResponse(response, reloadAfterUpdate),
+      () => this.processError(reloadAfterUpdate)
+    ).subscribe();
+  }
+
+  /**
+   * update all userSettings of the logged in user
+   * @returns return the updated settings
+   */
+  updateUserSettingsAsPromise(): Promise<UserSettingsResponse> {
+    const storageSettings = this.getSettingsFromLocalStorage();
+    if (storageSettings.length === 0) {
+      return Promise.resolve(null as UserSettingsResponse);
+    }
+
+    const result = this.processUserSettings(
+      this.createFormData(storageSettings),
+      (response) => this.processResponse(response)
     );
-    this.#http
-      .post<UserSettingsResponse>(
-        `${ApiVersion.V1}/${this.PATH_USER_SETTINGS}`,
-        formData,
-        {
-          reportProgress: true,
-          responseType: 'json',
-        }
-      )
-      .pipe(
-        take(1),
-        catchError((_error) => {
-          if (reloadAfterUpdate) {
-            window.location.reload();
-          }
 
-          return of(null);
-        })
-      )
-
-      .subscribe((response: UserSettingsResponse) => {
-        this.holdDatabaseValuesForLangLocale(response.result.userSettingsList);
-        if (reloadAfterUpdate) {
-          window.location.reload();
-        }
-      });
+    return lastValueFrom(result);
   }
 
   /**
@@ -202,7 +168,7 @@ export class UserSettingsService {
                     this.INIT_KEY,
                     Date.now().toString()
                   );
-                  // Instead of reloading, you could navigate or handle the UI state as needed
+
                   window.location.reload();
                 }
               })
@@ -211,6 +177,58 @@ export class UserSettingsService {
         })
       )
       .subscribe();
+  }
+
+  private createFormData(storageSettings: UserSetting[]) {
+    const formData = new FormData();
+    formData.append(
+      'userSettings',
+      this.createJsonFile(this.userId, storageSettings)
+    );
+
+    return formData;
+  }
+
+  private processUserSettings(
+    formData: FormData,
+    handleResponse: (response: UserSettingsResponse) => void,
+    handleError: (error: any) => void = () => {}
+  ): Observable<UserSettingsResponse> {
+    return this.#http
+      .post<UserSettingsResponse>(
+        `${ApiVersion.V1}/${this.PATH_USER_SETTINGS}`,
+        formData,
+        {
+          reportProgress: true,
+          responseType: 'json',
+        }
+      )
+      .pipe(
+        take(1),
+        tap(handleResponse),
+        catchError((error) => {
+          handleError(error);
+
+          return of(null);
+        })
+      );
+  }
+
+  private processResponse(
+    response: UserSettingsResponse,
+    reloadAfterUpdate: boolean = false
+  ): void {
+    this.holdDatabaseValuesForLangLocale(response.result.userSettingsList);
+    if (reloadAfterUpdate) {
+      window.location.reload();
+    }
+  }
+
+  private processError(reloadAfterUpdate: boolean = false): void {
+    // Log or handle error as needed
+    if (reloadAfterUpdate) {
+      window.location.reload();
+    }
   }
 
   /**
@@ -297,16 +315,20 @@ export class UserSettingsService {
    * @param settings database settings of user
    */
   private holdDatabaseValuesForLangLocale(settings: UserSetting[]) {
-    if (settings.some((item) => item.key === UserSettingsKeys.LANGUAGE)) {
-      this.localStorage.setItem(
-        this.DB_VALUE_LANG,
-        settings.find((item) => item.key === UserSettingsKeys.LANGUAGE).value
-      );
+    const databaseLocaleSetting = settings.find(
+      (item) => item.key === UserSettingsKeys.LOCALE
+    );
+    const databaseLangSetting = settings.find(
+      (item) => item.key === UserSettingsKeys.LANGUAGE
+    );
+
+    if (databaseLangSetting) {
+      this.localStorage.setItem(this.DB_VALUE_LANG, databaseLangSetting?.value);
     }
-    if (settings.some((item) => item.key === UserSettingsKeys.LOCALE)) {
+    if (databaseLocaleSetting) {
       this.localStorage.setItem(
         this.DB_VALUE_LOCALE,
-        settings.find((item) => item.key === UserSettingsKeys.LOCALE).value
+        databaseLocaleSetting?.value
       );
     }
   }
@@ -350,7 +372,7 @@ export class UserSettingsService {
     }
   }
 
-  private createJsonFile(userId: string, storageSettings: UserSetting[]): File {
+  createJsonFile(userId: string, storageSettings: UserSetting[]): File {
     const jsonFile: File = new File(
       [
         JSON.stringify({
