@@ -16,12 +16,21 @@ import {
   GroupedAlert,
 } from '../../../../feature/alerts/alert.service';
 import {
+  aciadpOption,
+  alertTypeOptionMocks,
+  cfpraoOption,
+} from '../../../../feature/alerts/alert.service.mocks';
+import {
   Alert,
   AlertCategory,
   OpenFunction,
   Priority,
 } from '../../../../feature/alerts/model';
 import { GlobalSelectionStateService } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
+import {
+  OptionsLoadingResult,
+  SelectableOptionsService,
+} from '../../../../shared/services/selectable-options.service';
 import { TaskPrioritiesComponent } from '../task-priorities/task-priorities.component';
 import { TaskPriorityGridComponent } from './task-priority-grid.component';
 
@@ -104,6 +113,12 @@ describe('TaskPriorityGridComponent', () => {
         mockProvider(GlobalSelectionStateService, {
           navigateWithGlobalSelection: globalNavigate,
         }),
+        mockProvider(SelectableOptionsService, {
+          get: (type: string): OptionsLoadingResult => ({
+            options: [...alertTypeOptionMocks, { id: type, text: type }],
+            loadingError: null,
+          }),
+        }),
       ],
       componentMocks: [TaskPrioritiesComponent, AgGridModule],
     });
@@ -143,7 +158,7 @@ describe('TaskPriorityGridComponent', () => {
         expect(menuButton1.text).toEqual('overview.yourTasks.priority1');
         menuButton1.onClick();
         expect(globalNavigate).toHaveBeenCalledWith('demand-validation', {
-          alertType: [{ id: AlertCategory.ACIADP, text: AlertCategory.ACIADP }],
+          alertType: [aciadpOption],
           customerNumber: [{ id: '1', text: 'first customer' }],
         });
       });
@@ -159,10 +174,7 @@ describe('TaskPriorityGridComponent', () => {
         expect(menuButton2.text).toEqual('overview.yourTasks.priority2');
         menuButton2.onClick();
         expect(globalNavigate).toHaveBeenCalledWith('demand-validation', {
-          alertType: [
-            { id: AlertCategory.ACIADP, text: AlertCategory.ACIADP },
-            { id: AlertCategory.CFPRAO, text: AlertCategory.CFPRAO },
-          ],
+          alertType: [aciadpOption, cfpraoOption],
           customerNumber: [{ id: '1', text: 'first customer' }],
         });
       });
@@ -183,10 +195,7 @@ describe('TaskPriorityGridComponent', () => {
         );
         menuButton3.onClick();
         expect(globalNavigate).toHaveBeenCalledWith('demand-validation', {
-          alertType: [
-            { id: AlertCategory.ACIADP, text: AlertCategory.ACIADP },
-            { id: AlertCategory.CFPRAO, text: AlertCategory.CFPRAO },
-          ],
+          alertType: [aciadpOption, cfpraoOption],
           customerNumber: [{ id: '1', text: 'first customer' }],
         });
       });
@@ -207,7 +216,7 @@ describe('TaskPriorityGridComponent', () => {
         );
         menuButton3.onClick();
         expect(globalNavigate).toHaveBeenCalledWith('demand-validation', {
-          alertType: [{ id: AlertCategory.ACIADP, text: AlertCategory.ACIADP }],
+          alertType: [aciadpOption],
           customerNumber: [{ id: '1', text: 'first customer' }],
         });
       });
@@ -309,6 +318,7 @@ describe('TaskPriorityGridComponent', () => {
         mockProvider(GlobalSelectionStateService, {
           navigateWithGlobalSelection: globalNavigate,
         }),
+        mockProvider(SelectableOptionsService),
       ],
       componentMocks: [TaskPrioritiesComponent, AgGridModule],
     });

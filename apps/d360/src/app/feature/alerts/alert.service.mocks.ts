@@ -1,3 +1,4 @@
+import { SelectableValue } from '../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { Alert, AlertCategory, OpenFunction } from './model';
 
 export const mockAlertResult: Alert[] = [
@@ -134,3 +135,18 @@ export const mockAlertArray = (count: number): Alert[] =>
   [...Array.from({ length: count }).keys()].map((index) =>
     mockSingleAlert(index)
   );
+
+export const aciadpOption = {
+  id: AlertCategory.ACIADP,
+  text: 'Basiskombination Inaktiv gesetzt',
+};
+
+export const cfpraoOption = {
+  id: AlertCategory.CFPRAO,
+  text: 'Prüfe Validated Forecast, Ersetzung rückgängig gemacht',
+};
+
+export const alertTypeOptionMocks: SelectableValue[] = [
+  cfpraoOption,
+  aciadpOption,
+];

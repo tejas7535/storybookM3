@@ -23,6 +23,8 @@ import {
   GridReadyEvent,
 } from 'ag-grid-enterprise';
 
+import { AlertType } from '@schaeffler/alert';
+
 import {
   AlertService,
   GroupedAlert,
@@ -37,7 +39,9 @@ import { ActionsMenuCellRendererComponent } from '../../../../shared/components/
 import { DateFilterComponent } from '../../../../shared/components/ag-grid/filters/mat-date-filter/date-filter.component';
 import { NoDataOverlayComponent } from '../../../../shared/components/ag-grid/no-data/no-data.component';
 import { GlobalSelectionStateService } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
+import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
+import { SelectableOptionsService } from '../../../../shared/services/selectable-options.service';
 import { TaskPrioritiesComponent } from '../task-priorities/task-priorities.component';
 
 @Component({
@@ -47,6 +51,7 @@ import { TaskPrioritiesComponent } from '../task-priorities/task-priorities.comp
   styleUrl: './task-priority-grid.component.scss',
 })
 export class TaskPriorityGridComponent {
+  private readonly selectableOptionsService = inject(SelectableOptionsService);
   protected noOverlayMessage = {
     message: translate('overview.yourTasks.noTasks'),
   };
@@ -190,10 +195,8 @@ export class TaskPriorityGridComponent {
                   {
                     ...customerFilter,
                     alertType: alert.alertTypes[priority].map(
-                      (type: string) => ({
-                        id: type,
-                        text: type,
-                      })
+                      (selectableAlert: AlertType) =>
+                        this.getSelectableOptionForAlert(selectableAlert)
                     ),
                   }
                 ),
@@ -222,10 +225,9 @@ export class TaskPriorityGridComponent {
                           (prio) => alert.alertTypes[prio] || []
                         )
                       ),
-                    ].map((type: string) => ({
-                      id: type,
-                      text: type,
-                    })),
+                    ].map((selectableAlert: AlertType) =>
+                      this.getSelectableOptionForAlert(selectableAlert)
+                    ),
                   }
                 ),
             },
@@ -253,5 +255,13 @@ export class TaskPriorityGridComponent {
         this.gridApi.hideOverlay();
       }
     }
+  }
+
+  private getSelectableOptionForAlert(alertType: AlertType): SelectableValue {
+    const alertTypeOptions = this.selectableOptionsService.get('alertTypes');
+
+    return alertTypeOptions.loadingError === null
+      ? alertTypeOptions?.options?.find((option) => option.id === alertType)
+      : { id: alertType, text: alertType };
   }
 }

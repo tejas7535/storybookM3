@@ -6,6 +6,7 @@ import {
 import { MockComponent } from 'ng-mocks';
 
 import { AlertService } from '../../feature/alerts/alert.service';
+import { SelectableOptionsService } from '../../shared/services/selectable-options.service';
 import { TaskPriorityGridComponent } from './components/task-priority-grid/task-priority-grid.component';
 import { OverviewComponent } from './overview.component';
 
@@ -14,7 +15,10 @@ describe('OverviewComponent', () => {
   const createComponent = createComponentFactory({
     component: OverviewComponent,
     imports: [MockComponent(TaskPriorityGridComponent)],
-    providers: [mockProvider(AlertService, {})],
+    providers: [
+      mockProvider(AlertService, {}),
+      mockProvider(SelectableOptionsService),
+    ],
   });
 
   beforeEach(() => {

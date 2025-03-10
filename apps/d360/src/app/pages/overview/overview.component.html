@@ -1,40 +1,46 @@
-<div *transloco="let t" class="gap-6 pb-4">
-  <div class="flex flex-row gap-6 justify-between">
-    <h6>{{ t('overview.yourTasks.headline') }}</h6>
-    <d360-priority-dropdown
-      (selectionChange)="selectedPriorities.set($event)"
-    ></d360-priority-dropdown>
+@if (selectableOptionsService.loading$ | ngrxPush) {
+  <div>
+    <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
   </div>
-
-  <div class="your-tasks flex flex-row gap-6">
-    <div class="card h-full w-1/2 p-4 mb-1">
-      <div>
-        <div class="headline uppercase">
-          {{ t('overview.yourTasks.gridHeadline') }}
-        </div>
-        <div class="sub-headline mb-4">
-          {{ t('validation_of_demand.title') }}
-        </div>
-      </div>
-      <d360-task-priority-grid
-        [openFunction]="OpenFunction.Validation_Of_Demand"
-        [priorities]="selectedPriorities()"
-      ></d360-task-priority-grid>
+} @else {
+  <div *transloco="let t" class="gap-6 pb-4">
+    <div class="flex flex-row gap-6 justify-between">
+      <h6>{{ t('overview.yourTasks.headline') }}</h6>
+      <d360-priority-dropdown
+        (selectionChange)="selectedPriorities.set($event)"
+      ></d360-priority-dropdown>
     </div>
 
-    <div class="card h-full w-1/2 p-4 mb-1">
-      <div>
-        <div class="headline uppercase">
-          {{ t('overview.yourTasks.gridHeadline') }}
+    <div class="your-tasks flex flex-row gap-6">
+      <div class="card h-full w-1/2 p-4 mb-1">
+        <div>
+          <div class="headline uppercase">
+            {{ t('overview.yourTasks.gridHeadline') }}
+          </div>
+          <div class="sub-headline mb-4">
+            {{ t('validation_of_demand.title') }}
+          </div>
         </div>
-        <div class="sub-headline mb-4">
-          {{ t('tabbarMenu.customer-material-portfolio.label') }}
-        </div>
+        <d360-task-priority-grid
+          [openFunction]="OpenFunction.Validation_Of_Demand"
+          [priorities]="selectedPriorities()"
+        ></d360-task-priority-grid>
       </div>
-      <d360-task-priority-grid
-        [openFunction]="OpenFunction.Customer_Material_Portfolio"
-        [priorities]="selectedPriorities()"
-      ></d360-task-priority-grid>
+
+      <div class="card h-full w-1/2 p-4 mb-1">
+        <div>
+          <div class="headline uppercase">
+            {{ t('overview.yourTasks.gridHeadline') }}
+          </div>
+          <div class="sub-headline mb-4">
+            {{ t('tabbarMenu.customer-material-portfolio.label') }}
+          </div>
+        </div>
+        <d360-task-priority-grid
+          [openFunction]="OpenFunction.Customer_Material_Portfolio"
+          [priorities]="selectedPriorities()"
+        ></d360-task-priority-grid>
+      </div>
     </div>
   </div>
-</div>
+}
