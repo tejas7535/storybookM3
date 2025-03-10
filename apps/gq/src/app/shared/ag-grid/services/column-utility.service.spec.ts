@@ -30,6 +30,7 @@ import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks/models/quotatio
 import { LOCALE_DE, LOCALE_EN } from '../../constants';
 import { UserRoles } from '../../constants/user-roles.enum';
 import {
+  CASE_ORIGIN,
   Keyboard,
   Quotation,
   QuotationStatus,
@@ -426,6 +427,20 @@ describe('CreateColumnService', () => {
     });
   });
 
+  describe('caseOriginFormatter', () => {
+    test('should return the correct translationKey', () => {
+      service.caseOriginFormatter(CASE_ORIGIN.CREATED_FROM_CUSTOMER);
+      expect(translate).toHaveBeenCalledWith(
+        'caseView.caseTable.origin.createdFromCustomer'
+      );
+    });
+    test('should return unknown for a unknown CaseOrigin', () => {
+      service.caseOriginFormatter(144);
+      expect(translate).toHaveBeenCalledWith(
+        'caseView.caseTable.origin.unknown'
+      );
+    });
+  });
   describe('numberCurrencyFormatter', () => {
     test('should render number with quotationCurrency', () => {
       const params = {

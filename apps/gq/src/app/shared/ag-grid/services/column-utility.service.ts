@@ -475,15 +475,15 @@ export class ColumnUtilityService {
     return this.transformationService.transformDate(date);
   }
 
-  caseOriginFormatter(caseOrigin: string): string {
+  caseOriginFormatter(caseOrigin: number): string {
     switch (caseOrigin) {
-      case CASE_ORIGIN.SAP_IMPORTED.toString(): {
+      case CASE_ORIGIN.SAP_IMPORTED: {
         return translate('caseView.caseTable.origin.sapImported');
       }
-      case CASE_ORIGIN.CREATED_MANUALLY.toString(): {
+      case CASE_ORIGIN.CREATED_MANUALLY: {
         return translate('caseView.caseTable.origin.createdManually');
       }
-      case CASE_ORIGIN.CREATED_FROM_CUSTOMER.toString(): {
+      case CASE_ORIGIN.CREATED_FROM_CUSTOMER: {
         return translate('caseView.caseTable.origin.createdFromCustomer');
       }
       default: {

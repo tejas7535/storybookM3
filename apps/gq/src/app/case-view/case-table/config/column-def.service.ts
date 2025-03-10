@@ -51,7 +51,7 @@ export class ColumnDefService {
           this.columnUtilityService.caseOriginFormatter(params.value),
       },
       valueFormatter: (params: ValueFormatterParams) =>
-        this.columnUtilityService.caseOriginFormatter(params.value?.toString()),
+        this.columnUtilityService.caseOriginFormatter(params.value),
     },
     {
       headerName: translate('caseView.caseTable.syncStatus'),
