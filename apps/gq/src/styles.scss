@@ -100,6 +100,12 @@ schaeffler-tag.subheader-status-icon {
   padding: 16px !important;
 }
 
+.mat-mdc-tab-group {
+  .mat-ripple-element {
+    display: none;
+  }
+}
+
 button {
   outline: none !important;
 }

@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import { Clipboard } from '@angular/cdk/clipboard';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { AppRoutePath } from '@gq/app-route-path.enum';
 import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
@@ -96,12 +96,42 @@ export class ColumnUtilityService {
     },
   };
 
-  constructor(
-    private readonly transformationService: TransformationService,
-    private readonly translocoLocaleService: TranslocoLocaleService,
-    private readonly materialNumberService: MaterialNumberService
-  ) {}
+  private readonly transformationService = inject(TransformationService);
+  private readonly translocoLocaleService = inject(TranslocoLocaleService);
+  private readonly materialNumberService = inject(MaterialNumberService);
+  private readonly clipboard = inject(Clipboard);
 
+  getCopyCellContentContextMenuItem(
+    params: GetContextMenuItemsParams
+  ): MenuItemDef | string {
+    return {
+      name: translate('shared.customContextMenuItems.copyCellContent'),
+      icon: '<span class="ag-icon ag-icon-copy"></span>',
+      action: () => this.getValueOfFocusedCell(params),
+    };
+  }
+
+  getValueOfFocusedCell(params: GetContextMenuItemsParams): void {
+    const focusedCell = params.api.getFocusedCell();
+
+    const result = params.column.getColDef().valueFormatter
+      ? (
+          params.column.getColDef().valueFormatter as (
+            params: ValueFormatterParams
+          ) => string
+        )({
+          ...params,
+          data: params.node.data,
+          node: params.node,
+          colDef: params.column.getColDef(),
+        })
+      : params.api.getCellValue({
+          rowNode: params.node,
+          colKey: focusedCell.column.getColId(),
+        });
+
+    this.clipboard.copy(result ?? '');
+  }
   static createColumnDefs(roles: string[], colDefs: ColDef[]): ColDef[] {
     return colDefs.filter(
       (col: ColDef) =>
@@ -262,16 +292,6 @@ export class ColumnUtilityService {
     return {
       name: translate('shared.customMainMenuItems.resetAllFiltersOfAllColumns'),
       action: () => params.api.setFilterModel({}),
-    };
-  }
-
-  static getCopyCellContentContextMenuItem(
-    params: GetContextMenuItemsParams
-  ): MenuItemDef | string {
-    return {
-      name: translate('shared.customContextMenuItems.copyCellContent'),
-      icon: '<span class="ag-icon ag-icon-copy"></span>',
-      action: () => getValueOfFocusedCell(params),
     };
   }
 
@@ -564,27 +584,6 @@ export class ColumnUtilityService {
 
     return roundPercentageToTwoDecimals(value);
   }
-}
-
-export function getValueOfFocusedCell(params: GetContextMenuItemsParams): void {
-  const focusedCell = params.api.getFocusedCell();
-  const row = params.api.getDisplayedRowAtIndex(focusedCell.rowIndex);
-
-  const result = params.column.getColDef().valueFormatter
-    ? (
-        params.column.getColDef().valueFormatter as (
-          params: ValueFormatterParams
-        ) => string
-      )({
-        ...params,
-        data: params.node.data,
-        node: params.node,
-        colDef: params.column.getColDef(),
-      })
-    : params.api.getValue(focusedCell.column, row);
-
-  const clipboard = new Clipboard(document);
-  clipboard.copy(result ?? '');
 }
 
 /**

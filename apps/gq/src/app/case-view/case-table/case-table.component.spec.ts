@@ -335,9 +335,8 @@ describe('CaseTableComponent', () => {
     } as unknown as GetContextMenuItemsParams;
 
     beforeEach(() => {
-      ColumnUtilityService.getCopyCellContentContextMenuItem = jest.fn(
-        () => 'item3'
-      );
+      component['columnUtilityService'].getCopyCellContentContextMenuItem =
+        jest.fn(() => 'item3');
       ColumnUtilityService.getOpenInNewTabContextMenuItem = jest.fn(
         () => 'tab'
       );

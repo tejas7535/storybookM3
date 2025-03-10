@@ -196,7 +196,7 @@ export class CaseTableComponent implements OnInit, OnDestroy {
     }
 
     return [
-      ColumnUtilityService.getCopyCellContentContextMenuItem(params),
+      this.columnUtilityService.getCopyCellContentContextMenuItem(params),
       ...hyperlinkMenuItems,
     ];
   }

@@ -65,6 +65,7 @@ describe('QuotationDetailsTableComponent', () => {
       MockProvider(ColumnDefService),
       MockProvider(LocalizationService),
       mockProvider(TransformationService),
+      MockProvider(ColumnUtilityService),
       MockProvider(ActiveCaseFacade, {
         quotationHasFNumberMaterials$: of(true),
         quotationHasRfqMaterials$: of(true),
@@ -1105,9 +1106,8 @@ describe('QuotationDetailsTableComponent', () => {
     } as unknown as GetContextMenuItemsParams;
 
     beforeEach(() => {
-      ColumnUtilityService.getCopyCellContentContextMenuItem = jest.fn(
-        () => 'item3'
-      );
+      component['columnUtilityService'].getCopyCellContentContextMenuItem =
+        jest.fn(() => 'item3');
       ColumnUtilityService.getOpenInNewTabContextMenuItem = jest.fn(
         () => 'tab'
       );

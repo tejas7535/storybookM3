@@ -19,14 +19,8 @@ import {
 } from 'ag-grid-enterprise';
 
 import { ColumnUtilityService as SearchResultsColumnUtilityService } from './column-utility.service';
-import {
-  COMPONENTS,
-  DEFAULT_COL_DEF,
-  DEFAULT_GRID_OPTIONS,
-  GRID_OPTIONS,
-  GRID_OPTIONS_WITHOUT_PAGINATION,
-} from './default-config';
-
+import { COMPONENTS, DEFAULT_COL_DEF } from './default-config';
+import { GridOptionsService } from './grid-options.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -39,12 +33,14 @@ export class ColumnDefinitionService {
   );
   private readonly comparatorService = inject(ComparatorService);
   private readonly dateFilterParamService = inject(DateFilterParamService);
+  private readonly gridOptionsService = inject(GridOptionsService);
 
   COMPONENTS = COMPONENTS;
   DEFAULT_COL_DEF = DEFAULT_COL_DEF;
-  DEFAULT_GRID_OPTIONS = DEFAULT_GRID_OPTIONS;
-  GRID_OPTIONS = GRID_OPTIONS;
-  GRID_OPTIONS_WITHOUT_PAGINATION = GRID_OPTIONS_WITHOUT_PAGINATION;
+  DEFAULT_GRID_OPTIONS = this.gridOptionsService.DEFAULT_GRID_OPTIONS;
+  GRID_OPTIONS = this.gridOptionsService.GRID_OPTIONS;
+  GRID_OPTIONS_WITHOUT_PAGINATION =
+    this.gridOptionsService.GRID_OPTIONS_WITHOUT_PAGINATION;
 
   COLUMN_DEFS: ColDef[] = [
     {

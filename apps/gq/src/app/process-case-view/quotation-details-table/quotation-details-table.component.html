@@ -26,7 +26,7 @@
   [animateRows]="true"
   [localeText]="localeText$ | ngrxPush"
   [getMainMenuItems]="getMainMenuItems"
-  [getContextMenuItems]="getContextMenuItems"
+  [getContextMenuItems]="getContextMenuItems.bind(this)"
   (rowDoubleClicked)="onRowDoubleClicked($event)"
   [suppressScrollOnNewData]="true"
   [selectionColumnDef]="selectionColumnDef"

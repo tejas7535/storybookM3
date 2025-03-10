@@ -49,7 +49,6 @@ import {
 import * as colUtils from '../services/column-utility.service';
 import {
   ColumnUtilityService,
-  getValueOfFocusedCell,
   openInNew,
 } from '../services/column-utility.service';
 
@@ -782,8 +781,7 @@ describe('CreateColumnService', () => {
         action: () => {},
       };
 
-      const result =
-        ColumnUtilityService.getCopyCellContentContextMenuItem(params);
+      const result = service.getCopyCellContentContextMenuItem(params);
       expect(JSON.stringify(result)).toBe(JSON.stringify(expected));
     });
   });
@@ -834,9 +832,7 @@ describe('CreateColumnService', () => {
       } as unknown as GetContextMenuItemsParams;
     });
     test('should return Value ofValueFormatter', () => {
-      spectator.runInInjectionContext(() => {
-        getValueOfFocusedCell(params);
-      });
+      service.getValueOfFocusedCell(params);
       expect(clipboardSpy).toHaveBeenCalledWith('formattedValue');
     });
 
@@ -844,17 +840,20 @@ describe('CreateColumnService', () => {
       params = {
         ...params,
         api: {
-          getFocusedCell: jest.fn(() => ({ rowIndex: jest.fn() })),
+          getFocusedCell: jest.fn(() => ({
+            rowIndex: jest.fn(),
+            column: {
+              getColId: jest.fn().mockReturnValue('colId'),
+            },
+          })),
           getDisplayedRowAtIndex: jest.fn(),
-          getValue: jest.fn(() => 'Value'),
+          getCellValue: jest.fn(() => 'Value'),
         },
         column: {
           getColDef: jest.fn(() => ({})),
         },
       } as unknown as GetContextMenuItemsParams;
-      spectator.runInInjectionContext(() => {
-        getValueOfFocusedCell(params);
-      });
+      service.getValueOfFocusedCell(params);
       expect(clipboardSpy).toHaveBeenCalledWith('Value');
     });
   });

@@ -109,6 +109,7 @@ export class QuotationDetailsTableComponent
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly featureToggleService = inject(FeatureToggleConfigService);
   private readonly gridMergeService = inject(GridMergeService);
+  private readonly columnUtilityService = inject(ColumnUtilityService);
 
   autoSizeStrategy: SizeColumnsToContentStrategy = {
     type: 'fitCellContents',
@@ -449,7 +450,7 @@ export class QuotationDetailsTableComponent
     }
 
     return [
-      ColumnUtilityService.getCopyCellContentContextMenuItem(params),
+      this.columnUtilityService.getCopyCellContentContextMenuItem(params),
       ...hyperlinkMenuItems,
     ];
   }

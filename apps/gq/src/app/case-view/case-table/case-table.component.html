@@ -11,7 +11,7 @@
   [animateRows]="true"
   [localeText]="localeText$ | ngrxPush"
   [getMainMenuItems]="getMainMenuItems"
-  [getContextMenuItems]="getContextMenuItems"
+  [getContextMenuItems]="getContextMenuItems.bind(this)"
   [selectionColumnDef]="selectionColumnDef"
   (rowSelected)="onRowSelected($event)"
   (gridReady)="onGridReady($event)"
