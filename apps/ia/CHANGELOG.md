@@ -1,4 +1,11 @@
 # Release Notes of Insight Attrition
+## [1.4.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.4.1...ia-v1.4.2) (2025-03-11)
+
+
+### Features
+
+* **ia:** enable pmgm feature on prod ([#7113](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7113)) ([6726383](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/672638392b400c353da75cc8a765af782fe8824c))
+
 ## [1.4.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.4.0...ia-v1.4.1) (2025-03-07)
 
 
