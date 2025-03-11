@@ -1,8 +1,9 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
@@ -33,10 +34,8 @@ describe('OverviewComponent', () => {
       OverviewRoutingModule,
       MatCardModule,
       MatIconModule,
-      RouterTestingModule,
       PushPipe,
       OverviewCardModule,
-      HttpClientTestingModule,
       SubheaderModule,
       provideTranslocoTestingModule({ en }),
     ],
@@ -52,6 +51,9 @@ describe('OverviewComponent', () => {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
       },
+      provideHttpClient(),
+      provideHttpClientTesting(),
+      provideRouter([]),
     ],
     mocks: [ApplicationInsightsService],
     declarations: [OverviewComponent],
@@ -93,8 +95,8 @@ describe('OverviewComponent', () => {
     });
 
     it('should return true if no roles are required', (done) => {
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      component.hasRequiredRoles(undefined).subscribe((result) => {
+      let undefinedRole;
+      component.hasRequiredRoles(undefinedRole).subscribe((result) => {
         expect(result).toBe(true);
         done();
       });

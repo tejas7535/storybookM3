@@ -8,11 +8,7 @@ import { Store } from '@ngrx/store';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { hasIdTokenRoles } from '@schaeffler/azure-auth';
 
-import {
-  integratedApps,
-  linkedApps,
-  links,
-} from '@mac/feature/overview/constants';
+import { applications, links } from '@mac/feature/overview/constants';
 import { changeFavicon } from '@mac/shared/change-favicon';
 import { BreadcrumbsService } from '@mac/shared/services';
 
@@ -23,8 +19,8 @@ import { BreadcrumbsService } from '@mac/shared/services';
   standalone: false,
 })
 export class OverviewComponent implements OnInit {
-  public integratedApps = integratedApps;
-  public linkedApps = linkedApps;
+  public apps = applications;
+
   public links = links;
 
   public $breadcrumbs = this.breadcrumbsService.currentBreadcrumbs;

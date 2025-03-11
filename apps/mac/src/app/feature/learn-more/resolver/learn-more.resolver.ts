@@ -8,12 +8,13 @@ import {
 import { RoutePath } from '../../../app-routing.enum';
 import {
   aqmCalculatorLearnMoreData,
-  hardnessConverterLearnMoreData,
+  cctCalculatorLearnMoreData,
   insulationSolutionsLearnMoreData,
   materialPropertiesEstimatorLearnMoreData,
   materialsGpt,
   materialSupplierDbLearnMoreData,
 } from '../config/';
+import { substanceInformationSystemLearnMoreData } from '../config/substance-information-system';
 import { LearnMoreData } from '../models';
 
 @Injectable({
@@ -28,9 +29,6 @@ export class LearnMoreResolver {
   ): LearnMoreData {
     const id = route.paramMap.get('id');
     switch (id) {
-      case RoutePath.HardnessConverterPath: {
-        return hardnessConverterLearnMoreData;
-      }
       case RoutePath.MaterialsGPT: {
         return materialsGpt;
       }
@@ -45,6 +43,12 @@ export class LearnMoreResolver {
       }
       case RoutePath.MaterialsSupplierDatabasePath: {
         return materialSupplierDbLearnMoreData;
+      }
+      case RoutePath.CCTCalculatorPath: {
+        return cctCalculatorLearnMoreData;
+      }
+      case RoutePath.SubstanceInformationSystemPath: {
+        return substanceInformationSystemLearnMoreData;
       }
       default: {
         this.router.navigate(['/notfound']);

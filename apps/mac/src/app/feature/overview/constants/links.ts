@@ -24,14 +24,6 @@ export const links: { link: string; text: string; externalLink?: boolean }[] = [
     text: 'steelCleanlinessDataBase',
   },
   {
-    link: undefined,
-    text: 'estimationOfMaterialProperties',
-  },
-  {
-    link: undefined,
-    text: 'comparisonOfQuenchingMedia',
-  },
-  {
     link: 'http://ims_servertwo/Material_lab_Ordering/',
     text: 'orderAMaterialsLabInvestigation',
     externalLink: true,

@@ -19,7 +19,6 @@ import {
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppComponent } from '@mac/app.component';
-import { RoutePath } from '@mac/app-routing.enum';
 import { environment } from '@mac/environments/environment';
 
 describe('AppComponent', () => {
@@ -97,11 +96,6 @@ describe('AppComponent', () => {
   describe('link', () => {
     it('should return nothing by default', () => {
       expect(component.link).toEqual(false);
-    });
-
-    it('should return a link to overview only when in hardness-conversion', () => {
-      component.url = `/${RoutePath.HardnessConverterPath}`;
-      expect(component.link).toEqual(`/${RoutePath.OverviewPath}`);
     });
 
     it('should get the link from router', () => {

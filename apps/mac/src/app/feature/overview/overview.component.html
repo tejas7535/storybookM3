@@ -19,7 +19,7 @@
   </div>
   <div class="mt-[105px] flex w-full flex-col gap-5 p-4">
     <div class="grid w-full grid-cols-1 gap-6 sm:grid-cols-3 md:grid-cols-5">
-      @for (card of integratedApps; track card) {
+      @for (card of apps; track card) {
         <div class="col-span-1">
           <mac-overview-card
             [image]="card.image"
@@ -34,32 +34,6 @@
             [requestAccessLink]="card.requestAccessLink"
             [inverted]="card.inverted"
             [disableImageHoverEffect]="card.disableImageHoverEffect"
-            [requestAccessExternal]="card.requestAccessExternal"
-            [translationKey]="card.translationKey"
-            [highlighted]="card.highlighted"
-          ></mac-overview-card>
-        </div>
-      }
-    </div>
-    <div class="text-h6 text-high-emphasis">
-      {{ t('linkedApplications') }}
-    </div>
-    <div class="grid w-full grid-cols-1 gap-6 sm:grid-cols-3 md:grid-cols-5">
-      @for (card of linkedApps; track card) {
-        <div class="col-span-1">
-          <mac-overview-card
-            [image]="card.image"
-            [icon]="card.icon"
-            [title]="card.title"
-            [description]="card.description"
-            [link]="card.link"
-            [learnMoreLink]="card.learnMoreLink"
-            [external]="card.external"
-            [learnMoreExternal]="card.learnMoreExternal"
-            [inverted]="card.inverted"
-            [disableImageHoverEffect]="card.disableImageHoverEffect"
-            [noAccess]="!(hasRequiredRoles(card.requiredRoles) | ngrxPush)"
-            [requestAccessLink]="card.requestAccessLink"
             [requestAccessExternal]="card.requestAccessExternal"
             [translationKey]="card.translationKey"
             [highlighted]="card.highlighted"
