@@ -147,10 +147,12 @@ export class CustomerPlanningDetailsComponent {
     }),
     context: {
       numberPipe: new NumberWithoutFractionDigitsPipe(),
-      reloadData: () =>
+      reloadData: () => {
         this.setYearlyPlanningData(
           this.planningLevelMaterialConfiguration().planningLevelMaterialType
-        ),
+        );
+        this.fetchPlanningLevelMaterial(this.customerNumber());
+      },
     },
     isGroupOpenByDefault: () => true,
     suppressGroupRowsSticky: true,
@@ -190,9 +192,9 @@ export class CustomerPlanningDetailsComponent {
         switchMap(
           ({ deleteExistingPlanningData, newPlanningLevelMaterialType }) =>
             deleteExistingPlanningData
-              ? this.planningLevelService.deleteMaterialTypeByCustomerNumber(
-                  this.customerNumber()
-                )
+              ? this.planningLevelService
+                  .deleteMaterialTypeByCustomerNumber(this.customerNumber())
+                  .pipe(map(() => newPlanningLevelMaterialType))
               : of(null).pipe(map(() => newPlanningLevelMaterialType))
         ),
         tap((newPlanningLevelMaterialType) => {

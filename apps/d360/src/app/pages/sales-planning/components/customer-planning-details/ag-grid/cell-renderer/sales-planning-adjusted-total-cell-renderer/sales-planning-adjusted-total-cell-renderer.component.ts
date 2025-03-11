@@ -36,7 +36,6 @@ import { CustomerSalesPlanNumberAndPercentageEditModalComponent } from '../../..
 export class SalesPlanningAdjustedTotalCellRendererComponent<
   T = any,
 > extends AbstractBaseCellRendererComponent<T> {
-  public onClickAction: () => void;
   public isUserAllowedToEdit$: Observable<boolean>;
 
   private readonly dialog = inject(MatDialog);
@@ -59,6 +58,7 @@ export class SalesPlanningAdjustedTotalCellRendererComponent<
   private planningLevelMaterialType: string;
   private planningMaterialText: string;
   private minValidationValue: number;
+  private onReloadData: () => void;
 
   protected valueFormatted = signal<string | null>(null);
 
@@ -75,6 +75,8 @@ export class SalesPlanningAdjustedTotalCellRendererComponent<
     this.isUserAllowedToEdit$ = this.authService.hasUserAccess(
       salesPlanningAllowedEditRoles
     );
+
+    this.onReloadData = parameters.context.reloadData;
 
     this.customerNumber = this.parameters.data.customerNumber;
     this.planningYear = this.parameters.data.planningYear;
@@ -133,10 +135,7 @@ export class SalesPlanningAdjustedTotalCellRendererComponent<
         take(1),
         tap((newValue: number | null) => {
           if (newValue !== null) {
-            this.value = newValue;
-
-            // @ts-expect-error formatting string based on string formatValue function
-            this.valueFormatted.set(this.parameters.formatValue(newValue));
+            this.onReloadData();
           }
         }),
         takeUntilDestroyed(this.destoryRef)

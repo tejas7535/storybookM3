@@ -1,4 +1,4 @@
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
@@ -10,6 +10,7 @@ import {
 
 import { SalesPlanningService } from '../../../../../../../feature/sales-planning/sales-planning.service';
 import { AuthService } from '../../../../../../../shared/utils/auth/auth.service';
+import { CustomerSalesPlanNumberEditModalComponent } from '../../../customer-sales-plan-number-edit-modal/customer-sales-plan-number-edit-modal.component';
 import { SalesPlanningAdjustedTotalCellRendererComponent } from './sales-planning-adjusted-total-cell-renderer.component';
 
 describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
@@ -17,6 +18,11 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
   let mockDialog: jest.Mocked<MatDialog>;
   let mockSalesPlanningService: jest.Mocked<SalesPlanningService>;
   let mockAuthService: jest.Mocked<AuthService>;
+  let dialogRefMock: Partial<
+    MatDialogRef<CustomerSalesPlanNumberEditModalComponent>
+  >;
+
+  const mockReloadData = jest.fn();
 
   const createComponent = createComponentFactory({
     component: SalesPlanningAdjustedTotalCellRendererComponent,
@@ -42,6 +48,16 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
 
     mockAuthService.hasUserAccess.mockReturnValue(of(true));
 
+    dialogRefMock = {
+      afterClosed: jest.fn().mockReturnValue(of(null)),
+    };
+
+    jest
+      .spyOn(mockDialog, 'open')
+      .mockReturnValue(
+        dialogRefMock as MatDialogRef<CustomerSalesPlanNumberEditModalComponent>
+      );
+
     const mockParams = {
       node: {
         level: 1,
@@ -53,6 +69,9 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
         planningLevelMaterialType: 'PL',
         planningCurrency: 'EUR',
         planningYear: '2025',
+      },
+      context: {
+        reloadData: mockReloadData,
       },
     } as any;
 
@@ -119,12 +138,23 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
         planningCurrency: 'EUR',
         planningYear: new Date().getFullYear() + 3,
       },
+      context: {
+        reloadData: mockReloadData,
+      },
     } as any;
 
     spectator.component.agInit(mockParams);
     spectator.detectChanges();
 
     expect(spectator.component.isEditPossible()).toBe(false);
+  });
+
+  it('should trigger reload data when dialog returns a value', () => {
+    jest.spyOn(dialogRefMock, 'afterClosed').mockReturnValue(of(7500));
+
+    spectator.component.handleEditCustomerSalesPlanNumberClicked();
+
+    expect(mockReloadData).toHaveBeenCalled();
   });
 
   it('editing should be possible on year level for year > year + 2', () => {
@@ -139,6 +169,9 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
         planningLevelMaterialType: 'PL',
         planningCurrency: 'EUR',
         planningYear: new Date().getFullYear() + 3,
+      },
+      context: {
+        reloadData: mockReloadData,
       },
     } as any;
 
