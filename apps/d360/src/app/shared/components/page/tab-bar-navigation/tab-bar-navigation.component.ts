@@ -126,7 +126,14 @@ export class TabBarNavigationComponent {
    * @memberof TabBarNavigationComponent
    */
   public constructor() {
-    effect(() => this.activeTab.set(this.getTabItemForRoute(this.activeUrl())));
+    effect(() => {
+      this.activeTab.set(this.getTabItemForRoute(this.activeUrl()));
+
+      // HINT: This call is normally not needed, but we need to trigger the activeTab signal change detection.
+      // If we are not doing this, then we select the clicked tab also, if the navigation was canceled.
+      // E.g.: CanDeactivateGuard with click on cancel.
+      this.activeTab();
+    });
   }
 
   /**
