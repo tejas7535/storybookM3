@@ -1,13 +1,11 @@
 <div class="bg-surface-legacy" *transloco="let t; read: 'lossOfSkill'">
-  <ng-container *disableOnProd>
-    <mat-card class="mt-4">
-      <h5 class="mb-5 font-bold">{{ t('pmgm.title') }}</h5>
-      <ia-pmgm
-        [data]="pmgmData$ | ngrxPush"
-        [enoughRightsToShowAllEmployees]="enoughRightsToAllPmgmData$ | ngrxPush"
-      ></ia-pmgm>
-    </mat-card>
-  </ng-container>
+  <mat-card class="mt-4">
+    <h5 class="mb-5 font-bold">{{ t('pmgm.title') }}</h5>
+    <ia-pmgm
+      [data]="pmgmData$ | ngrxPush"
+      [enoughRightsToShowAllEmployees]="enoughRightsToAllPmgmData$ | ngrxPush"
+    ></ia-pmgm>
+  </mat-card>
   <mat-card class="mt-4">
     <h5 class="mb-5 font-bold">{{ t('lostJobProfiles.title') }}</h5>
     <ia-lost-job-profiles
