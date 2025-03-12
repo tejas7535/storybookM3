@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   DestroyRef,
-  Inject,
   inject,
   OnInit,
   signal,
@@ -114,20 +113,19 @@ export interface InternalMaterialReplacementModalProps {
 export class InternalMaterialReplacementSingleSubstitutionModalComponent
   implements OnInit
 {
-  constructor(
-    @Inject(MAT_DIALOG_DATA)
-    protected data: InternalMaterialReplacementModalProps,
-    public dialogRef: MatDialogRef<InternalMaterialReplacementSingleSubstitutionModalComponent>
-  ) {}
-
   protected readonly replacementTypeOptions = replacementTypeValues.map(
-    (rt) => ({
-      id: rt,
-      text: translate(`replacement_type.${rt}`, {}),
+    (replacementType) => ({
+      id: replacementType,
+      text: translate(`replacement_type.${replacementType}`),
     })
   );
 
-  protected readonly imrService = inject(IMRService);
+  private readonly dialogRef = inject(
+    MatDialogRef<InternalMaterialReplacementSingleSubstitutionModalComponent>
+  );
+  protected readonly data: InternalMaterialReplacementModalProps =
+    inject(MAT_DIALOG_DATA);
+  protected readonly iMRService = inject(IMRService);
   protected readonly translocoLocaleService = inject(TranslocoLocaleService);
   protected readonly snackbarService = inject(SnackbarService);
   protected readonly selectableOptionsService = inject(
@@ -148,78 +146,6 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
 
   protected MAX_DATE = new Date(9999, 12, 31);
   protected TODAY = new Date();
-
-  ngOnInit(): void {
-    this.predecessorMaterialControl.valueChanges
-      .pipe(
-        tap(() => {
-          this.successorMaterialControl.updateValueAndValidity({
-            emitEvent: false,
-          });
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
-    this.successorMaterialControl.valueChanges
-      .pipe(
-        tap(() => {
-          this.predecessorMaterialControl.updateValueAndValidity({
-            emitEvent: false,
-          });
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
-    this.enableAllFields();
-    this.setInitialValues();
-
-    if (this.data.isNewSubstitution) {
-      this.disableAllFieldsExceptReplacementType();
-    } else {
-      this.setDisabledFields();
-      this.configureRequiredFields();
-    }
-  }
-
-  setInitialValues() {
-    this.formGroup.patchValue(
-      {
-        // set the defaults
-        ...this.data.substitution,
-      },
-      { emitEvent: false }
-    );
-  }
-
-  setDisabledFields() {
-    const disabledFields = this.getReplacementTypeLogic().deactivatedFields;
-    disabledFields.forEach((field) => {
-      this.formGroup.get(field).disable();
-    });
-  }
-
-  getReplacementTypeLogic(): ReplacementTypeLogic {
-    const type = this.formGroup.get('replacementType').getRawValue()?.id;
-
-    if (type == null) {
-      return {
-        replacementType: null,
-        mandatoryFields: [],
-        deactivatedFields: [],
-      };
-    }
-
-    return getReplacementTypeLogic(this.data.isNewSubstitution, type);
-  }
-
-  resetModal() {
-    Object.keys(this.formGroup.controls)
-      .filter((key) => key !== 'replacementType')
-      .filter((key) => key !== 'region')
-      .forEach((key) =>
-        this.formGroup.get(key).reset(null, { emitEvent: false })
-      );
-  }
 
   protected predecessorMaterialControl = new FormControl(null, {
     validators: this.keepMaterialOnPackagingChange('successorMaterial'),
@@ -270,6 +196,80 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
     }
   );
 
+  public ngOnInit(): void {
+    this.predecessorMaterialControl.valueChanges
+      .pipe(
+        tap(() =>
+          this.successorMaterialControl.updateValueAndValidity({
+            emitEvent: false,
+          })
+        ),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+
+    this.successorMaterialControl.valueChanges
+      .pipe(
+        tap(() =>
+          this.predecessorMaterialControl.updateValueAndValidity({
+            emitEvent: false,
+          })
+        ),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+
+    this.enableAllFields();
+    this.setInitialValues();
+
+    if (this.data.isNewSubstitution) {
+      this.disableAllFieldsExceptReplacementType();
+    } else {
+      this.setDisabledFields();
+      this.configureRequiredFields();
+    }
+  }
+
+  private setInitialValues() {
+    this.formGroup.patchValue(
+      {
+        // set the defaults
+        ...this.data.substitution,
+      },
+      { emitEvent: false }
+    );
+  }
+
+  private setDisabledFields() {
+    const disabledFields = this.getReplacementTypeLogic().deactivatedFields;
+    disabledFields.forEach((field) => {
+      this.formGroup.get(field).disable();
+    });
+  }
+
+  private getReplacementTypeLogic(): ReplacementTypeLogic {
+    const type = this.formGroup.get('replacementType').getRawValue()?.id;
+
+    if (type === null) {
+      return {
+        replacementType: null,
+        mandatoryFields: [],
+        deactivatedFields: [],
+      };
+    }
+
+    return getReplacementTypeLogic(this.data.isNewSubstitution, type);
+  }
+
+  private resetModal() {
+    Object.keys(this.formGroup.controls)
+      .filter((key) => key !== 'replacementType')
+      .filter((key) => key !== 'region')
+      .forEach((key) =>
+        this.formGroup.get(key).reset(null, { emitEvent: false })
+      );
+  }
+
   private keepMaterialOnPackagingChange(opponent: string): ValidatorFn {
     return (materialControl: AbstractControl) => {
       const type = materialControl.parent
@@ -306,7 +306,7 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
         'startOfProduction'
       );
 
-      if (errors && errors['endDate']) {
+      if (errors?.['endDate']) {
         this.startOfProductionCustomErrorMessage.set(
           translate('sap_message./SGD/SCM_SOP_SALES.123')
         );
@@ -334,7 +334,7 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
   protected onSave(): void {
     if (!this.formGroup.valid) {
       this.snackbarService.openSnackBar(
-        translate('generic.validation.check_inputs', {})
+        translate('generic.validation.check_inputs')
       );
 
       return;
@@ -365,7 +365,7 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
 
     this.loading.set(true);
 
-    this.imrService
+    this.iMRService
       .saveSingleIMRSubstitution(redefinedSubstitution, false)
       .pipe(
         map((postResult) =>
@@ -373,8 +373,7 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
             postResult,
             errorsFromSAPtoMessage,
             translate(
-              `customer_material_portfolio.phase_in_out_single_modal.save.success`,
-              {}
+              'customer_material_portfolio.phase_in_out_single_modal.save.success'
             )
           )
         ),
@@ -399,7 +398,10 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
     });
   }
 
-  handleOnClose(reloadData: boolean, redefinedSubstitution: IMRSubstitution) {
+  protected handleOnClose(
+    reloadData: boolean,
+    redefinedSubstitution: IMRSubstitution
+  ) {
     this.resetModal();
     this.dialogRef.close({ reloadData, redefinedSubstitution });
   }
@@ -412,7 +414,7 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
    * @param preFilledValue
    * @param errorMessage
    */
-  validateAgainstExistingDate(
+  private validateAgainstExistingDate(
     preFilledValue: any,
     errorMessage: WritableSignal<string | null>
   ): ValidatorFn {
@@ -424,11 +426,7 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
         errorMessage.set(null);
       }
 
-      if (!currentDate) {
-        return null;
-      }
-
-      if (isEqual(currentDate, preFilledDate)) {
+      if (!currentDate || isEqual(currentDate, preFilledDate)) {
         return null;
       }
 

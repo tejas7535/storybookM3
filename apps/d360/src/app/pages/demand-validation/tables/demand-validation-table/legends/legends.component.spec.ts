@@ -16,10 +16,6 @@ describe('LegendsComponent', () => {
     component = spectator.debugElement.componentInstance;
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });

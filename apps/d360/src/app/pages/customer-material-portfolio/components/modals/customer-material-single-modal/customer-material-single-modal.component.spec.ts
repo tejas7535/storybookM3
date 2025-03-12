@@ -1,45 +1,30 @@
-import { ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { EMPTY, of } from 'rxjs';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockComponent } from 'ng-mocks';
+import { MockProvider } from 'ng-mocks';
 
-import { CMPService } from '../../../../../feature/customer-material-portfolio/cmp.service';
 import { CMPData } from '../../../../../feature/customer-material-portfolio/cmp-modal-types';
-import { DatePickerComponent } from '../../../../../shared/components/date-picker/date-picker.component';
-import { SelectableOptionsService } from '../../../../../shared/services/selectable-options.service';
-import { SnackbarService } from '../../../../../shared/utils/service/snackbar.service';
 import {
   CMPChangeModalFlavor,
   CMPSpecificModal,
 } from '../../table/status-actions';
+import { Stub } from './../../../../../shared/test/stub.class';
 import {
   CustomerMaterialSingleModalComponent,
   SpecificModalContentType,
 } from './customer-material-single-modal.component';
 
-/**
- * We skip this for now, because we have another branch where we take care of the unit tests.
- */
-describe.skip('CustomerMaterialSingleModalComponent', () => {
-  let spectator: Spectator<CustomerMaterialSingleModalComponent>;
-  const createComponent = createComponentFactory({
-    component: CustomerMaterialSingleModalComponent,
-    imports: [
-      ReactiveFormsModule,
-      MockComponent(DatePickerComponent),
+describe('CustomerMaterialSingleModalComponent', () => {
+  let component: CustomerMaterialSingleModalComponent;
 
-      // Comment out until https://github.com/help-me-mom/ng-mocks/issues/8634 is fixed
-      // MockComponent(SingleAutocompletePreLoadedComponent),
-    ],
-    mocks: [CMPService, SelectableOptionsService, SnackbarService],
-    providers: [
-      { provide: MatDialogRef, useValue: { close: jest.fn() } },
-      {
-        provide: MAT_DIALOG_DATA,
-        useValue: {
+  beforeEach(() => {
+    component = Stub.getForEffect({
+      component: CustomerMaterialSingleModalComponent,
+      providers: [
+        MockProvider(HttpClient),
+        MockProvider(MAT_DIALOG_DATA, {
           data: {
             customerNumber: '42',
             materialNumber: '456',
@@ -56,15 +41,9 @@ describe.skip('CustomerMaterialSingleModalComponent', () => {
           edit: false,
           description: null,
           title: 'any title',
-        },
-      },
-    ],
-  });
-
-  beforeEach(() => {
-    // Remove until https://github.com/help-me-mom/ng-mocks/issues/8634 is fixed
-    jest.spyOn(console, 'error').mockImplementation(() => {});
-    spectator = createComponent();
+        }),
+      ],
+    });
   });
 
   afterEach(() => {
@@ -74,7 +53,7 @@ describe.skip('CustomerMaterialSingleModalComponent', () => {
 
   describe('getRequestData', () => {
     it('should construct request data correctly', () => {
-      spectator.component['formGroup'].setValue({
+      component['formGroup'].setValue({
         customerNumber: '123',
         materialNumber: '456',
         materialDescription: 'Test Material',
@@ -86,7 +65,7 @@ describe.skip('CustomerMaterialSingleModalComponent', () => {
         demandPlanAdoption: null,
       });
 
-      const requestData = spectator.component['getRequestData']();
+      const requestData = component['getRequestData']();
 
       expect(requestData).toEqual({
         customerNumber: '123',
@@ -102,7 +81,7 @@ describe.skip('CustomerMaterialSingleModalComponent', () => {
     });
 
     it('should handle SelectableValue correctly', () => {
-      spectator.component['formGroup'].setValue({
+      component['formGroup'].setValue({
         customerNumber: '123',
         materialNumber: { id: '456', name: 'Material' },
         materialDescription: 'Test Material',
@@ -114,7 +93,7 @@ describe.skip('CustomerMaterialSingleModalComponent', () => {
         demandPlanAdoption: null,
       });
 
-      const requestData = spectator.component['getRequestData']();
+      const requestData = component['getRequestData']();
 
       expect(requestData.materialNumber).toEqual({
         id: '456',
@@ -125,11 +104,11 @@ describe.skip('CustomerMaterialSingleModalComponent', () => {
 
   describe('onSave', () => {
     it('should call save$ method when form is valid', () => {
-      spectator.component['data'].type = SpecificModalContentType.NoContent;
+      component['data'].type = SpecificModalContentType.NoContent;
 
-      spectator.component['setFormGroup']();
+      component['setFormGroup']();
 
-      spectator.component['formGroup'].setValue({
+      component['formGroup'].setValue({
         customerNumber: '123',
         materialNumber: 'asd123',
         materialDescription: null,
@@ -142,16 +121,16 @@ describe.skip('CustomerMaterialSingleModalComponent', () => {
       });
 
       const saveSpy = jest
-        .spyOn(spectator.component as any, 'save$')
+        .spyOn(component as any, 'save$')
         .mockReturnValue(of({}));
 
-      spectator.component['onSave'](null);
+      component['onSave'](null);
 
       expect(saveSpy).toHaveBeenCalled();
     });
 
     it('should not call save$ method when form is invalid', () => {
-      spectator.component['formGroup'].setValue({
+      component['formGroup'].setValue({
         customerNumber: null,
         materialNumber: null,
         materialDescription: null,
@@ -164,10 +143,10 @@ describe.skip('CustomerMaterialSingleModalComponent', () => {
       });
 
       const saveSpy = jest
-        .spyOn(spectator.component as any, 'save$')
+        .spyOn(component as any, 'save$')
         .mockReturnValue(of({}));
 
-      spectator.component['onSave'](null);
+      component['onSave'](null);
 
       expect(saveSpy).not.toHaveBeenCalled();
     });
@@ -175,62 +154,62 @@ describe.skip('CustomerMaterialSingleModalComponent', () => {
 
   describe('onClose', () => {
     it('should close the dialog', () => {
-      spectator.component['onClose']();
-      expect(spectator.inject(MatDialogRef).close).toHaveBeenCalledWith(false);
+      jest.spyOn(component['dialogRef'], 'close');
+
+      component['onClose']();
+
+      expect(component['dialogRef'].close).toHaveBeenCalledWith(false);
     });
   });
 
   describe('editButtonVisible', () => {
     it('should return true for SubstitutionProposal type and not past repDate', () => {
-      spectator.component['data'].type =
-        SpecificModalContentType.SubstitutionProposal;
-      spectator.component['substitutionProposalEdit'].set(false);
-      spectator.component['formGroup']
+      component['data'].type = SpecificModalContentType.SubstitutionProposal;
+      component['substitutionProposalEdit'].set(false);
+      component['formGroup']
         .get('repDate')
         .setValue(new Date(Date.now() + 10_000));
-      expect(spectator.component['editButtonVisible']()).toBe(true);
+      expect(component['editButtonVisible']()).toBe(true);
     });
 
     it('should return false for other types', () => {
-      spectator.component['data'].type = SpecificModalContentType.PhaseIn;
-      expect(spectator.component['editButtonVisible']()).toBe(false);
+      component['data'].type = SpecificModalContentType.PhaseIn;
+      expect(component['editButtonVisible']()).toBe(false);
     });
   });
 
   describe('setFormGroup', () => {
     it('should set required fields and deactivate fields based on type', () => {
-      spectator.component['data'].type = SpecificModalContentType.PhaseIn;
-      spectator.component['setFormGroup']();
+      component['data'].type = SpecificModalContentType.PhaseIn;
+      component['setFormGroup']();
       expect(
-        spectator.component['formGroup'].get('autoSwitchDate').validator
+        component['formGroup'].get('autoSwitchDate').validator
       ).toBeDefined();
-      expect(
-        spectator.component['formGroup'].get('customerNumber').disabled
-      ).toBe(true);
+      expect(component['formGroup'].get('customerNumber').disabled).toBe(true);
     });
   });
 
   describe('onSuccessorChange', () => {
     it('should reset cfcrAction and loading if no successorMaterial', () => {
-      spectator.component['formGroup'].get('successorMaterial').setValue(null);
-      spectator.component['onSuccessorChange']();
-      expect(spectator.component['cfcrAction']()).toBeNull();
-      expect(spectator.component['loading']()).toBe(false);
+      component['formGroup'].get('successorMaterial').setValue(null);
+      component['onSuccessorChange']();
+      expect(component['cfcrAction']()).toBeNull();
+      expect(component['loading']()).toBe(false);
     });
 
     it('should fetch forecast action data if successorMaterial is set', () => {
+      jest.spyOn(component['dialogRef'], 'close');
+
       const getForecastActionDataSpy = jest
-        .spyOn(spectator.inject(CMPService), 'getForecastActionData')
+        .spyOn(component['cmpService'], 'getForecastActionData')
         .mockReturnValue(
           of({
             cfcrActions: [{ selected: true, cfcrAction: 'TestAction' }] as any,
           })
         );
-      spectator.component['formGroup']
-        .get('successorMaterial')
-        .setValue('TestMaterial');
+      component['formGroup'].get('successorMaterial').setValue('TestMaterial');
 
-      spectator.component['onSuccessorChange']();
+      component['onSuccessorChange']();
 
       expect(getForecastActionDataSpy).toHaveBeenCalled();
     });
@@ -239,87 +218,74 @@ describe.skip('CustomerMaterialSingleModalComponent', () => {
       // Arrange
       const mockResponse = { cfcrActions: [] } as any;
       jest
-        .spyOn(spectator.inject(CMPService), 'getForecastActionData')
+        .spyOn(component['cmpService'], 'getForecastActionData')
         .mockReturnValue(of(mockResponse));
-      spectator.component['formGroup']
-        .get('successorMaterial')
-        .setValue('TestMaterial');
+      component['formGroup'].get('successorMaterial').setValue('TestMaterial');
 
       // Act
-      spectator.component['onSuccessorChange']();
+      component['onSuccessorChange']();
 
       // Assert
-      expect(spectator.component['cfcrAction']()).toBeNull();
-      expect(spectator.component['loading']()).toBe(false);
+      expect(component['cfcrAction']()).toBeNull();
+      expect(component['loading']()).toBe(false);
     });
 
     it('should handle errors and reset values', () => {
       // Arrange
-      spectator.component['formGroup']
-        .get('successorMaterial')
-        .setValue('TestMaterial');
+      component['formGroup'].get('successorMaterial').setValue('TestMaterial');
       jest
-        .spyOn(spectator.inject(CMPService), 'getForecastActionData')
+        .spyOn(component['cmpService'], 'getForecastActionData')
         .mockReturnValue(EMPTY);
 
       // Act
-      spectator.component['onSuccessorChange']();
+      component['onSuccessorChange']();
 
       // Assert
-      expect(spectator.component['cfcrAction']()).toBeNull();
-      expect(spectator.component['loading']()).toBe(true);
+      expect(component['cfcrAction']()).toBeNull();
+      expect(component['loading']()).toBe(true);
     });
   });
 
   describe('isRadioDisabled', () => {
     it('should return true if cfcrAction is null', () => {
-      spectator.component['cfcrAction'].set(null);
-      expect(spectator.component['isRadioDisabled']('TestAction' as any)).toBe(
-        true
-      );
+      component['cfcrAction'].set(null);
+      expect(component['isRadioDisabled']('TestAction' as any)).toBe(true);
     });
 
     it('should return true if cfcrAction does not includes the option', () => {
-      spectator.component['cfcrAction'].set({
+      component['cfcrAction'].set({
         cfcrActions: [{ cfcrAction: 'TestAction' } as any],
       });
-      expect(spectator.component['isRadioDisabled']('TestAction2' as any)).toBe(
-        true
-      );
+      expect(component['isRadioDisabled']('TestAction2' as any)).toBe(true);
     });
 
     it('should return false if cfcrAction includes the option', () => {
-      spectator.component['cfcrAction'].set({
+      component['cfcrAction'].set({
         cfcrActions: [{ cfcrAction: 'TestAction' } as any],
       });
-      expect(spectator.component['isRadioDisabled']('TestAction' as any)).toBe(
-        false
-      );
+      expect(component['isRadioDisabled']('TestAction' as any)).toBe(false);
     });
   });
 
   describe('getSaveButton', () => {
     it('should return correct translation key for SubstitutionProposal type', () => {
-      spectator.component['data'].type =
-        SpecificModalContentType.SubstitutionProposal;
-      spectator.component['substitutionProposalEdit'].set(false);
-      expect(spectator.component['getSaveButton']()).toBe(
+      component['data'].type = SpecificModalContentType.SubstitutionProposal;
+      component['substitutionProposalEdit'].set(false);
+      expect(component['getSaveButton']()).toBe(
         'customer_material_portfolio.modal.accept'
       );
     });
 
     it('should return correct translation key for edit mode', () => {
-      spectator.component['data'].edit = true;
-      expect(spectator.component['getSaveButton']()).toBe(
-        'customer_material_portfolio.modal.accept'
-      );
+      component['data'].edit = true;
+      expect(component['getSaveButton']()).toBe('button.save');
     });
   });
 
   describe('setConfirmation', () => {
     it('should set description correctly', () => {
-      spectator.component['setConfirmation']();
-      expect(spectator.component['data'].description).toBe(
+      component['setConfirmation']();
+      expect(component['data'].description).toBe(
         'customer.material_portfolio.modal.change_to_schaeffler.text'
       );
     });
@@ -327,52 +293,48 @@ describe.skip('CustomerMaterialSingleModalComponent', () => {
 
   describe('deactivateFields', () => {
     it('should disable specified fields', () => {
-      spectator.component['deactivateFields'](['customerNumber']);
-      expect(
-        spectator.component['formGroup'].get('customerNumber').disabled
-      ).toBe(true);
+      component['deactivateFields'](['customerNumber']);
+      expect(component['formGroup'].get('customerNumber').disabled).toBe(true);
     });
   });
 
   describe('addRequired', () => {
     it('should add required validator to specified fields', () => {
-      spectator.component['addRequired'](['customerNumber']);
+      component['addRequired'](['customerNumber']);
       expect(
-        spectator.component['formGroup'].get('customerNumber').validator
+        component['formGroup'].get('customerNumber').validator
       ).toBeDefined();
     });
   });
 
   describe('getActionURL', () => {
     it('should return correct URL for specialType veto', () => {
-      expect(spectator.component['getActionURL']('veto')).toBe(
-        'veto-substitution'
-      );
+      expect(component['getActionURL']('veto')).toBe('veto-substitution');
     });
 
     it('should return correct URL for modal type EDIT_MODAL', () => {
-      spectator.component['data'].modal = CMPChangeModalFlavor.EDIT_MODAL;
-      expect(spectator.component['getActionURL'](null)).toBe('update');
+      component['data'].modal = CMPChangeModalFlavor.EDIT_MODAL;
+      expect(component['getActionURL'](null)).toBe('update');
     });
   });
 
   describe('save$', () => {
     it('should call saveCMPChange and handle result', (done) => {
       const saveCMPChangeSpy = jest
-        .spyOn(spectator.inject(CMPService), 'saveCMPChange')
+        .spyOn(component['cmpService'], 'saveCMPChange')
         .mockReturnValue(of({ overallStatus: 'success', response: [] } as any));
       const snackbarSpy = jest.spyOn(
-        spectator.inject(SnackbarService),
+        component['snackbarService'],
         'openSnackBar'
       );
       const getRequestDataMock = jest
-        .spyOn(spectator.component as any, 'getRequestData')
+        .spyOn(component as any, 'getRequestData')
         .mockReturnValue({ portfolioStatus: 'SE' } as any);
       const getActionURLMock = jest
-        .spyOn(spectator.component as any, 'getActionURL')
+        .spyOn(component as any, 'getActionURL')
         .mockReturnValue('veto-substitution');
 
-      spectator.component['save$'](null).subscribe(() => done());
+      component['save$'](null).subscribe(() => done());
 
       expect(getRequestDataMock).toHaveBeenCalledWith();
       expect(getActionURLMock).toHaveBeenCalledWith(null);
@@ -388,7 +350,7 @@ describe.skip('CustomerMaterialSingleModalComponent', () => {
 
     it('should handle warning and open confirmation dialog', (done) => {
       const saveCMPChangeSpy = jest
-        .spyOn(spectator.inject(CMPService), 'saveCMPChange')
+        .spyOn(component['cmpService'], 'saveCMPChange')
         .mockImplementation(
           (
             _cmpData: CMPData,
@@ -408,18 +370,15 @@ describe.skip('CustomerMaterialSingleModalComponent', () => {
             )
         );
       const dialogSpy = jest
-        .spyOn(spectator.component['dialog'], 'open')
+        .spyOn(component['dialog'], 'open')
         .mockReturnValue({ afterClosed: () => of(true) } as any);
 
-      const getRequestDataMock = jest.spyOn(
-        spectator.component as any,
-        'getRequestData'
-      );
+      const getRequestDataMock = jest.spyOn(component as any, 'getRequestData');
       const getActionURLMock = jest
-        .spyOn(spectator.component as any, 'getActionURL')
+        .spyOn(component as any, 'getActionURL')
         .mockReturnValue('veto-substitution');
 
-      spectator.component['save$'](null).subscribe(() => done());
+      component['save$'](null).subscribe(() => done());
 
       expect(getRequestDataMock).toHaveBeenCalledWith();
       expect(getActionURLMock).toHaveBeenCalledWith(null);
@@ -429,11 +388,11 @@ describe.skip('CustomerMaterialSingleModalComponent', () => {
         {
           autoSwitchDate: null,
           customerNumber: null,
-          demandCharacteristic: 'SE',
+          demandCharacteristic: null,
           demandPlanAdoption: null,
-          materialDescription: 'abc',
+          materialDescription: null,
           materialNumber: null,
-          portfolioStatus: 'SE',
+          portfolioStatus: null,
           repDate: null,
           successorMaterial: null,
         },
@@ -447,11 +406,11 @@ describe.skip('CustomerMaterialSingleModalComponent', () => {
         {
           autoSwitchDate: null,
           customerNumber: null,
-          demandCharacteristic: 'SE',
+          demandCharacteristic: null,
           demandPlanAdoption: null,
-          materialDescription: 'abc',
+          materialDescription: null,
           materialNumber: null,
-          portfolioStatus: 'SE',
+          portfolioStatus: null,
           repDate: null,
           successorMaterial: null,
         },

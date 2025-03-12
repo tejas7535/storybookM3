@@ -5,10 +5,6 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { ValidationHelper } from './validation-helper';
 
-jest.mock('@jsverse/transloco', () => ({
-  translate: jest.fn((key, _) => `${key}`),
-}));
-
 describe('ValidationHelper', () => {
   let spectator: SpectatorService<TranslocoLocaleService>;
   const createService = createServiceFactory(TranslocoLocaleService);
@@ -16,11 +12,6 @@ describe('ValidationHelper', () => {
   beforeEach(() => {
     spectator = createService();
     ValidationHelper.localeService = spectator.service;
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
-    jest.clearAllMocks();
   });
 
   it('should define the availableDecimalSeparators constant', () => {

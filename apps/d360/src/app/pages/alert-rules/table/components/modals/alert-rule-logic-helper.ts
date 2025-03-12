@@ -47,12 +47,12 @@ const keyFieldsAlertRule: (keyof Partial<AlertRule>)[] = [
 // Use functions to avoid calling the translation function while the languages are not ready
 // and to asure no typos in the keys
 const keyFieldTranslations = [
-  () => translate('alert_rules.edit_modal.label.sales_area', {}),
-  () => translate('alert_rules.edit_modal.label.sales_org', {}),
-  () => translate('globalSelection.customer', {}),
-  () => translate('alert_rules.edit_modal.label.sector_management', {}),
-  () => translate('alert_rules.edit_modal.label.demandPlannerId', {}),
-  () => translate('alert_rules.edit_modal.label.gkamNumber', {}),
+  () => translate('alert_rules.edit_modal.label.sales_area'),
+  () => translate('alert_rules.edit_modal.label.sales_org'),
+  () => translate('globalSelection.customer'),
+  () => translate('alert_rules.edit_modal.label.sector_management'),
+  () => translate('alert_rules.edit_modal.label.demandPlannerId'),
+  () => translate('alert_rules.edit_modal.label.gkamNumber'),
 ];
 
 /**
@@ -98,8 +98,7 @@ export function checkAlertRuleData(
         dataIdentifier: alertRule,
         specificField: 'execDay',
         errorMessage: translate(
-          'alert_rules.multi_modal.error.execDay_not_valid',
-          {}
+          'alert_rules.multi_modal.error.execDay_not_valid'
         ),
       });
     }
@@ -118,7 +117,7 @@ export function mandatoryDeleteFieldCheckAlertRule(
       errors.push({
         dataIdentifier: alertRule,
         specificField: mandatoryField,
-        errorMessage: translate('generic.validation.missing_fields', {}),
+        errorMessage: translate('generic.validation.missing_fields'),
       });
     }
   });
@@ -136,7 +135,7 @@ export function mandatoryFieldCheckAlertRule(
       errors.push({
         dataIdentifier: alertRule,
         specificField: mandatoryField,
-        errorMessage: translate('generic.validation.missing_fields', {}),
+        errorMessage: translate('generic.validation.missing_fields'),
       });
     }
   });
@@ -176,7 +175,7 @@ export function thresholdRequirementCheckAlertRule(
     return {
       dataIdentifier: alertRule,
       specificField: threshold,
-      errorMessage: translate('generic.validation.missing_fields', {}),
+      errorMessage: translate('generic.validation.missing_fields'),
     };
   }
 

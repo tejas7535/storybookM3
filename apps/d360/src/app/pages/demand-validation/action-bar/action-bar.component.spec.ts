@@ -10,8 +10,10 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
+
+import { getBackendRoles } from '@schaeffler/azure-auth';
 
 import { DemandValidationService } from '../../../feature/demand-validation/demand-validation.service';
 import { PlanningView } from '../../../feature/demand-validation/planning-view';
@@ -19,10 +21,6 @@ import { CustomerEntry } from '../../../feature/global-selection/model';
 import { SnackbarService } from '../../../shared/utils/service/snackbar.service';
 import { ActionBarComponent } from './action-bar.component';
 import { DatePickerSettingDemandValidationModalComponent } from './date-picker-setting-demand-validation-modal/date-picker-setting-demand-validation-modal.component';
-
-jest.mock('@jsverse/transloco', () => ({
-  translate: jest.fn((key, _) => `${key} mocked`),
-}));
 
 describe('ActionBarComponent', () => {
   let spectator: Spectator<ActionBarComponent>;
@@ -42,10 +40,11 @@ describe('ActionBarComponent', () => {
       mockProvider(DemandValidationService, {
         saveValidatedDemandSingleMcc: jest.fn().mockReturnValue(of(null)),
       }),
-      mockProvider(Store, {
-        select: jest.fn().mockReturnValue(of([])),
+      provideMockStore({
+        initialState: { accountInfo: { backendRoles: { entities: [] } } },
+        selectors: [{ selector: getBackendRoles, value: ['Book 1', 'Book 2'] }],
       }),
-      mockProvider(HttpClient, { get: () => of({}) }),
+      mockProvider(HttpClient, { get: () => of({}), post: () => of({}) }),
     ],
   });
 

@@ -112,7 +112,7 @@ export class CustomerMaterialSingleModalComponent implements OnInit {
     inject(SelectableOptionsService);
 
   /** Service for handling customer material portfolio actions */
-  protected readonly cMPService: CMPService = inject(CMPService);
+  protected readonly cmpService: CMPService = inject(CMPService);
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly snackbarService: SnackbarService = inject(SnackbarService);
   private readonly dialog: MatDialog = inject(MatDialog);
@@ -324,7 +324,7 @@ export class CustomerMaterialSingleModalComponent implements OnInit {
       return;
     }
 
-    this.cMPService
+    this.cmpService
       .getForecastActionData(this.getRequestData())
       .pipe(
         take(1),
@@ -575,7 +575,7 @@ export class CustomerMaterialSingleModalComponent implements OnInit {
 
     const requestData: CMPData = this.getRequestData();
 
-    return this.cMPService
+    return this.cmpService
       .saveCMPChange(
         requestData,
         false,

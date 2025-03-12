@@ -98,7 +98,19 @@ export class InternalMaterialReplacementMultiSubstitutionModalComponent
   /** @inheritdoc */
   protected columnDefinitions = this.getMultiSubstitutionModalColumns();
 
-  ngOnInit(): void {
+  /** @inheritdoc */
+  protected specialParseFunctionsForFields: Map<
+    keyof IMRSubstitution,
+    (value: string) => string
+  > = new Map([
+    ['replacementType', parseReplacementTypeIfPossible],
+    ['replacementDate', (value: string) => parseDateIfPossible(value)],
+    ['cutoverDate', (value: string) => parseDateIfPossible(value)],
+    ['startOfProduction', (value: string) => parseDateIfPossible(value)],
+  ]);
+
+  /** @inheritdoc */
+  public ngOnInit(): void {
     super.ngOnInit();
   }
 
@@ -199,7 +211,8 @@ export class InternalMaterialReplacementMultiSubstitutionModalComponent
     ];
   }
 
-  parseErrorsFromResult(
+  /** @inheritdoc */
+  protected parseErrorsFromResult(
     res: PostResult<IMRSubstitutionResponse>
   ): ErrorMessage<IMRSubstitution>[] {
     const errors: ErrorMessage<IMRSubstitution>[] = [];
@@ -222,16 +235,7 @@ export class InternalMaterialReplacementMultiSubstitutionModalComponent
     return errors;
   }
 
-  protected specialParseFunctionsForFields: Map<
-    keyof IMRSubstitution,
-    (value: string) => string
-  > = new Map([
-    ['replacementType', parseReplacementTypeIfPossible],
-    ['replacementDate', (value: string) => parseDateIfPossible(value)],
-    ['cutoverDate', (value: string) => parseDateIfPossible(value)],
-    ['startOfProduction', (value: string) => parseDateIfPossible(value)],
-  ]);
-
+  /** @inheritdoc */
   protected checkDataForErrors(
     data: IMRSubstitution[]
   ): ErrorMessage<IMRSubstitution>[] {
@@ -244,7 +248,7 @@ export class InternalMaterialReplacementMultiSubstitutionModalComponent
           missingFields.map((field) => ({
             dataIdentifier: substitutionToAdd,
             specificField: field,
-            errorMessage: translate('generic.validation.missing_fields', {}),
+            errorMessage: translate('generic.validation.missing_fields'),
           }));
         errors.push(...missingFieldErrors);
       }
@@ -257,8 +261,7 @@ export class InternalMaterialReplacementMultiSubstitutionModalComponent
             dataIdentifier: substitutionToAdd,
             specificField: field,
             errorMessage: translate(
-              'internal_material_replacement.error.fieldNotAllowed',
-              {}
+              'internal_material_replacement.error.fieldNotAllowed'
             ),
           }));
         errors.push(...forbiddenFieldErrors);
@@ -268,11 +271,7 @@ export class InternalMaterialReplacementMultiSubstitutionModalComponent
     return errors;
   }
 
-  /**
-   * The onAdded callback.
-   *
-   * @memberof InternalMaterialReplacementMultiSubstitutionModalComponent
-   */
+  /** @inheritdoc */
   protected override onAdded(): void {
     this.dialogRef.close(true);
   }

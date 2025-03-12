@@ -67,6 +67,33 @@ export class InternalMaterialReplacementTableComponent {
     agDateInput: DateFilterComponent,
   };
 
+  protected readonly noDataOverlayComponent = NoDataOverlayComponent;
+
+  /**
+   * The table context to pass the getMenu method used in ActionsMenuCellRendererComponent.
+   *
+   * @protected
+   * @type {Record<string, any>}
+   * @memberof AlertRuleTableComponent
+   */
+  protected context: Record<string, any> = {
+    getMenu: (params: ICellRendererParams<any, IMRSubstitution>) => [
+      {
+        text: translate('button.edit'),
+        onClick: () => this.edit(params),
+      },
+      {
+        text: translate('button.delete'),
+        onClick: () => this.delete(params),
+      },
+    ],
+  };
+
+  protected gridOptions: GridOptions = {
+    ...serverSideTableDefaultProps,
+    sideBar,
+  };
+
   public constructor(
     protected readonly imrService: IMRService,
     protected readonly dialog: MatDialog,
@@ -75,7 +102,7 @@ export class InternalMaterialReplacementTableComponent {
     effect(() => this.setServerSideDatasource(this.selectedRegion()));
   }
 
-  onGridReady(event: GridReadyEvent): void {
+  protected onGridReady(event: GridReadyEvent): void {
     this.gridApi = event.api;
     this.getApi.emit(event.api);
 
@@ -113,7 +140,7 @@ export class InternalMaterialReplacementTableComponent {
     }
   }
 
-  setServerSideDatasource(selectedRegion: string) {
+  private setServerSideDatasource(selectedRegion: string): void {
     this.rowCount.set(0);
     this.gridApi?.setGridOption(
       'serverSideDatasource',
@@ -122,26 +149,6 @@ export class InternalMaterialReplacementTableComponent {
       )
     );
   }
-
-  /**
-   * The table context to pass the getMenu method used in ActionsMenuCellRendererComponent.
-   *
-   * @protected
-   * @type {Record<string, any>}
-   * @memberof AlertRuleTableComponent
-   */
-  protected context: Record<string, any> = {
-    getMenu: (params: ICellRendererParams<any, IMRSubstitution>) => [
-      {
-        text: translate('button.edit'),
-        onClick: () => this.edit(params),
-      },
-      {
-        text: translate('button.delete'),
-        onClick: () => this.delete(params),
-      },
-    ],
-  };
 
   private updateColumnDefs(): void {
     this.gridApi?.setGridOption('columnDefs', [
@@ -178,7 +185,7 @@ export class InternalMaterialReplacementTableComponent {
     ] as ColDef[]);
   }
 
-  edit(params: ICellRendererParams<any, IMRSubstitution>) {
+  private edit(params: ICellRendererParams<any, IMRSubstitution>): void {
     this.dialog
       .open(InternalMaterialReplacementSingleSubstitutionModalComponent, {
         data: {
@@ -205,7 +212,7 @@ export class InternalMaterialReplacementTableComponent {
       .subscribe();
   }
 
-  delete(params: ICellRendererParams<any, IMRSubstitution>) {
+  private delete(params: ICellRendererParams<any, IMRSubstitution>): void {
     this.dialog
       .open(InternalMaterialReplacementSingleDeleteModalComponent, {
         data: params.data,
@@ -228,21 +235,14 @@ export class InternalMaterialReplacementTableComponent {
       .subscribe();
   }
 
-  protected gridOptions: GridOptions = {
-    ...serverSideTableDefaultProps,
-    sideBar,
-  };
-
-  protected getRowId: GetRowIdFunc = (params: GetRowIdParams) => {
+  protected getRowId: GetRowIdFunc = (params: GetRowIdParams): string => {
     const data = params.data;
 
     // those five values are defined as the entity key in SAP and uniquely identify a row as they can't be changed
-    return `${data.customerNumber ?? ''}-${data.predecessorMaterial ?? ''}-${data.region ?? ''}-${data.salesArea ?? ''}-${data.salesOrg ?? ''}`;
+    return `${data?.customerNumber ?? ''}-${data?.predecessorMaterial ?? ''}-${data?.region ?? ''}-${data?.salesArea ?? ''}-${data?.salesOrg ?? ''}`;
   };
 
-  protected readonly noDataOverlayComponent = NoDataOverlayComponent;
-
-  onFirstDataRendered($event: FirstDataRenderedEvent) {
+  protected onFirstDataRendered($event: FirstDataRenderedEvent): void {
     $event.api.autoSizeAllColumns();
   }
 }

@@ -2,56 +2,54 @@ import { HttpClient } from '@angular/common/http';
 
 import { of } from 'rxjs';
 
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
-import { AgGridModule } from 'ag-grid-angular';
-import { MockComponent, MockModule } from 'ng-mocks';
+import { MockProvider } from 'ng-mocks';
 
 import { MaterialCustomerService } from '../../../../../feature/material-customer/material-customer.service';
-import { TableToolbarComponent } from '../../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
 import { AgGridLocalizationService } from '../../../../../shared/services/ag-grid-localization.service';
+import { Stub } from '../../../../../shared/test/stub.class';
 import { MaterialCustomerTableService } from '../../services/material-customer-table.service';
 import { MaterialCustomerTableComponent } from './material-customer-table.component';
 
 describe('MaterialCustomerTableComponent', () => {
-  let spectator: Spectator<MaterialCustomerTableComponent>;
-  const createComponent = createComponentFactory({
-    component: MaterialCustomerTableComponent,
-    imports: [MockModule(AgGridModule), MockComponent(TableToolbarComponent)],
-    providers: [
-      {
-        provide: MaterialCustomerService,
-        useValue: {
-          getCriteriaData: jest.fn().mockReturnValue(
-            of({
-              filterableFields: [],
-              sortableFields: [],
-            })
-          ),
-          createMaterialCustomerDatasource: jest.fn(),
-        },
-      },
-      mockProvider(MaterialCustomerTableService, {
-        useMaterialCustomerColumnLayouts: jest.fn(),
-      }),
-      mockProvider(AgGridLocalizationService, {
-        lang: jest.fn(),
-      }),
-      mockProvider(HttpClient, { get: () => of({}) }),
-    ],
-  });
+  let component: MaterialCustomerTableComponent;
+
   beforeEach(() => {
-    spectator = createComponent({
-      props: {
-        selectionFilter: null,
-      },
+    component = Stub.getForEffect<MaterialCustomerTableComponent>({
+      component: MaterialCustomerTableComponent,
+      providers: [
+        MockProvider(
+          MaterialCustomerService,
+          {
+            getCriteriaData: jest.fn().mockReturnValue(
+              of({
+                filterableFields: [],
+                sortableFields: [],
+              })
+            ),
+          },
+          'useValue'
+        ),
+        MockProvider(
+          MaterialCustomerTableService,
+          {
+            useMaterialCustomerColumnLayouts: jest.fn(),
+            createMaterialCustomerDatasource: jest.fn(),
+          },
+          'useValue'
+        ),
+        MockProvider(
+          AgGridLocalizationService,
+          {
+            lang: jest.fn(),
+          },
+          'useValue'
+        ),
+        MockProvider(HttpClient, { get: () => of({}) }, 'useValue'),
+      ],
     });
   });
 
   it('should create', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });

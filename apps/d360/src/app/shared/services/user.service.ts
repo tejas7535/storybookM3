@@ -65,7 +65,7 @@ export class UserService {
     }
   }
 
-  public filterVisibleRoutes(routes: CustomRoute[]) {
+  public filterVisibleRoutes(routes: CustomRoute[]): CustomRoute[] {
     // The function menu entries can be hidden in three different ways:
     // 1. have a false visible attribute
     // 2. the user is not located in one of the allowedRegions
@@ -81,11 +81,9 @@ export class UserService {
     return routes?.filter((element) => visibilityFilter(element));
   }
 
-  public saveStartPage(startPage: AppRouteValue) {
+  public saveStartPage(startPage: AppRouteValue): Observable<unknown> {
     return this.http.post(this.START_PAGE_API, { startPage }).pipe(
-      tap(() => {
-        this.startPage.set(startPage);
-      }),
+      tap(() => this.startPage.set(startPage)),
       takeUntilDestroyed(this.destroyRef)
     );
   }

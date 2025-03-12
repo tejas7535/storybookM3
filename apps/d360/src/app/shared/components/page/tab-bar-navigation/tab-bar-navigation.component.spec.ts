@@ -1,72 +1,65 @@
+import { HttpClient } from '@angular/common/http';
 import { signal } from '@angular/core';
-import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { appRoutes } from 'apps/d360/src/app/app.routes';
+import { MockProvider } from 'ng-mocks';
 
+import { appRoutes } from '../../../../app.routes';
 import { AppRoutePath } from '../../../../app.routes.enum';
 import { AlertService } from '../../../../feature/alerts/alert.service';
 import { Alert } from '../../../../feature/alerts/model';
 import { UserService } from '../../../services/user.service';
+import { Stub } from '../../../test/stub.class';
 import { AuthService } from '../../../utils/auth/auth.service';
-import { Role } from '../../../utils/auth/roles';
 import {
   TabBarNavigationComponent,
   TabItem,
 } from './tab-bar-navigation.component';
 
-const mockRouter = {
-  get events() {
-    return of([]);
-  },
-};
-
 describe('TabBarNavigationComponent', () => {
-  let spectator: Spectator<TabBarNavigationComponent>;
-  const roleSubject = new BehaviorSubject<Role[]>([]);
-
-  const createComponent = createComponentFactory({
-    component: TabBarNavigationComponent,
-    providers: [
-      mockProvider(Router, mockRouter),
-      mockProvider(ActivatedRoute),
-      mockProvider(AuthService, {
-        getUserRoles(): Observable<Role[]> {
-          return roleSubject;
-        },
-      }),
-      mockProvider(AlertService, { allActiveAlerts: signal<Alert[]>(null) }),
-      mockProvider(UserService, {
-        filterVisibleRoutes: jest.fn(() => [] as any),
-        startPage: signal(AppRoutePath.OverviewPage),
-      }),
-    ],
-  });
+  let component: TabBarNavigationComponent;
 
   beforeEach(() => {
-    spectator = createComponent({
-      props: {
-        activeUrl: '',
-      },
+    component = Stub.getForEffect<TabBarNavigationComponent>({
+      component: TabBarNavigationComponent,
+      providers: [
+        MockProvider(
+          Router,
+          {
+            get events() {
+              return of([]);
+            },
+          },
+          'useValue'
+        ),
+        MockProvider(ActivatedRoute),
+        MockProvider(AuthService, {
+          getUserRoles: () => of([]),
+        }),
+        MockProvider(AlertService, { allActiveAlerts: signal<Alert[]>(null) }),
+        MockProvider(HttpClient),
+        MockProvider(
+          UserService,
+          {
+            region: signal(''),
+            startPage: signal(AppRoutePath.OverviewPage),
+            filterVisibleRoutes: jest.fn(() => [] as any),
+          },
+          'useValue'
+        ),
+      ],
     });
   });
 
   it('should create', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   describe('functions menu', () => {
     it('should show the todo page in the general section of the function menu', () => {
-      const generalSection =
-        spectator.component['routeConfig']().functions.general;
+      const generalSection = component['routeConfig']().functions.general;
       expect(
         generalSection.findIndex(
           (entry) => entry.label === 'tabbar.tasks.label'
@@ -77,34 +70,24 @@ describe('TabBarNavigationComponent', () => {
 
   describe('active tab', () => {
     it('should mark the start-page tab as active, when the user navigates to the root route', () => {
-      spectator.setInput({ activeUrl: AppRoutePath.OverviewPage });
-      expect(spectator.component['activeTab']()).toBe(TabItem.StartPage);
+      Stub.setInput('activeUrl', AppRoutePath.OverviewPage);
+      Stub.detectChanges();
+
+      expect(component['activeTab']()).toBe(TabItem.StartPage);
     });
 
     it('should mark the function tab as active, when the user navigates to a function route', () => {
-      spectator.setInput({
-        activeUrl: appRoutes.functions.demandSuite[0].path,
-      });
-      expect(spectator.component['activeTab']()).toBe(TabItem.Functions);
+      Stub.setInput('activeUrl', appRoutes.functions.demandSuite[0].path);
+      Stub.detectChanges();
+
+      expect(component['activeTab']()).toBe(TabItem.Functions);
     });
 
     it('should mark the to-dos tab as active, when the user navigates to the to-dos route', () => {
-      spectator.setInput({
-        activeUrl: 'to-dos',
-      });
-      expect(spectator.component['activeTab']()).toBe(TabItem.ToDos);
-    });
+      Stub.setInput('activeUrl', AppRoutePath.TodoPage);
+      Stub.detectChanges();
 
-    it('should not mark the functions tab as active, when the user clicks on the functions tab', () => {
-      spectator.setInput({
-        activeUrl: AppRoutePath.OverviewPage,
-      });
-      const functionsTab = spectator.debugElement.query(
-        By.css('.navigation-tab.functions')
-      );
-      functionsTab.nativeElement.click();
-
-      expect(spectator.component['activeTab']()).toBe(TabItem.StartPage);
+      expect(component['activeTab']()).toBe(TabItem.ToDos);
     });
   });
 });

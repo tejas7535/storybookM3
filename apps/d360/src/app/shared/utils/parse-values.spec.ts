@@ -10,7 +10,7 @@ import {
 import { ValidationHelper } from './validation/validation-helper';
 
 jest.mock('@jsverse/transloco', () => ({
-  translate: jest.fn((key, _) => `${key} mocked`),
+  translate: jest.fn((key, _) => `${key}`),
 }));
 
 describe('Parse Values', () => {

@@ -4,10 +4,6 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { MoreInformationDialogComponent } from './more-information-dialog.component';
 
-jest.mock('@jsverse/transloco', () => ({
-  translate: jest.fn(() => 'translatedText'),
-}));
-
 describe('MoreInformationDialogComponent', () => {
   let spectator: Spectator<MoreInformationDialogComponent>;
   const createHost = createComponentFactory({
@@ -53,7 +49,9 @@ describe('MoreInformationDialogComponent', () => {
       const result = spectator.component['map'](key);
 
       // Assert
-      expect(result.value).toEqual('translatedText');
+      expect(result.value).toEqual(
+        'validation_of_demand.more_information.dialog.demandCharacteristics.someDemandCharacteristic'
+      );
     });
 
     it('should return the correct value for sectorManagement', () => {

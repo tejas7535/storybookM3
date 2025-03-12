@@ -34,10 +34,9 @@ export class IMRService {
   private readonly fetchErrorEvent = new Subject<any>();
 
   private readonly destroyRef = inject(DestroyRef);
+  private readonly http = inject(HttpClient);
 
-  constructor(private readonly http: HttpClient) {}
-
-  saveMultiIMRSubstitution(
+  public saveMultiIMRSubstitution(
     substitutions: IMRSubstitution[],
     dryRun: boolean
   ): Observable<PostResult<IMRSubstitutionResponse>> {
@@ -69,14 +68,14 @@ export class IMRService {
       );
   }
 
-  deleteIMRSubstitution(
+  public deleteIMRSubstitution(
     substitution: IMRSubstitution,
     dryRun: boolean
   ): Observable<PostResult<IMRSubstitutionResponse>> {
     return this.writeSingleIMRSubstitution(substitution, dryRun, true);
   }
 
-  saveSingleIMRSubstitution(
+  public saveSingleIMRSubstitution(
     substitution: IMRSubstitution,
     dryRun: boolean
   ): Observable<PostResult<IMRSubstitutionResponse>> {
@@ -117,7 +116,7 @@ export class IMRService {
       );
   }
 
-  createInternalMaterialReplacementDatasource(
+  public createInternalMaterialReplacementDatasource(
     selectedRegion: string
   ): IServerSideDatasource {
     return {
@@ -156,11 +155,10 @@ export class IMRService {
     };
   }
 
-  getDataFetchedEvent(): Observable<{ rowData: any[]; rowCount: number }> {
+  public getDataFetchedEvent(): Observable<{
+    rowData: any[];
+    rowCount: number;
+  }> {
     return this.dataFetchedEvent.asObservable();
-  }
-
-  getFetchErrorEvent(): Observable<any> {
-    return this.fetchErrorEvent.asObservable();
   }
 }

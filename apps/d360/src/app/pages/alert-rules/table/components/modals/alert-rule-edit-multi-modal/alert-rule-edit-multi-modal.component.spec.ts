@@ -1,42 +1,36 @@
-import { MatDialogRef } from '@angular/material/dialog';
-
 import { of } from 'rxjs';
 
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
+import { MockProvider } from 'ng-mocks';
 
 import { AlertRulesService } from '../../../../../../feature/alert-rules/alert-rules.service';
 import { SelectableOptionsService } from '../../../../../../shared/services/selectable-options.service';
-import { AlertRuleDeleteMultiModalComponent } from '../alert-rule-delete-multi-modal/alert-rule-delete-multi-modal.component';
+import { AgGridLocalizationService } from './../../../../../../shared/services/ag-grid-localization.service';
+import { Stub } from './../../../../../../shared/test/stub.class';
 import { AlertRuleEditMultiModalComponent } from './alert-rule-edit-multi-modal.component';
 
 describe('AlertRuleEditMultiModalComponent', () => {
-  let spectator: Spectator<AlertRuleEditMultiModalComponent>;
-  const createComponent = createComponentFactory({
-    component: AlertRuleEditMultiModalComponent,
-    providers: [
-      mockProvider(AlertRulesService, {
-        getRuleTypeData: jest.fn().mockReturnValue(of([])),
-      }),
-      mockProvider(SelectableOptionsService, {
-        get: jest.fn().mockReturnValue({
-          options: [],
-          loading: false,
-          loadingError: null,
-        }),
-      }),
-      mockProvider(MatDialogRef<AlertRuleDeleteMultiModalComponent>),
-    ],
-  });
+  let component: AlertRuleEditMultiModalComponent;
 
   beforeEach(() => {
-    spectator = createComponent();
+    component = Stub.get<AlertRuleEditMultiModalComponent>({
+      component: AlertRuleEditMultiModalComponent,
+      providers: [
+        MockProvider(AlertRulesService, {
+          getRuleTypeData: jest.fn().mockReturnValue(of([])),
+        }),
+        MockProvider(AgGridLocalizationService),
+        MockProvider(SelectableOptionsService, {
+          get: jest.fn().mockReturnValue({
+            options: [],
+            loading: false,
+            loadingError: null,
+          }),
+        }),
+      ],
+    });
   });
 
   it('should create', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });

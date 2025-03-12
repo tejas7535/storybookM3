@@ -14,10 +14,6 @@ import { MockProvider } from 'ng-mocks';
 
 import { DemandValidationMultiGridComponent } from './demand-validation-multi-grid.component';
 
-jest.mock('@jsverse/transloco', () => ({
-  translate: jest.fn((key, _) => `${key} mocked`),
-}));
-
 describe('DemandValidationMultiGridConfigurationModalComponent', () => {
   let spectator: Spectator<DemandValidationMultiGridComponent>;
 

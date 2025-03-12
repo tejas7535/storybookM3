@@ -53,7 +53,7 @@ export function replacementTypeValueFormatter() {
     }
 
     const localizationKeyCreation = (val: ReplacementType) =>
-      translate(`replacement_type.${val}`, {});
+      translate(`replacement_type.${val}`);
     const parsed = parseToStringLiteralTypeIfPossible<ReplacementType>(
       value,
       replacementTypeValues,
@@ -64,7 +64,7 @@ export function replacementTypeValueFormatter() {
       return value;
     }
 
-    return translate(`replacement_type.${parsed}`, {});
+    return translate(`replacement_type.${parsed}`);
   };
 }
 

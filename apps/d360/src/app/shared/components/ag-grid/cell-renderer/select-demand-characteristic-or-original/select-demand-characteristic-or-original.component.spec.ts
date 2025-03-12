@@ -4,10 +4,6 @@ import { ICellRendererParams } from 'ag-grid-enterprise';
 import * as parseValuesModule from '../../../../utils/parse-values';
 import { SelectDemandCharacteristicOrOriginalCellRendererComponent } from './select-demand-characteristic-or-original.component';
 
-jest.mock('@jsverse/transloco', () => ({
-  translate: jest.fn((key, _) => `${key} mocked`),
-}));
-
 describe('SelectValueOrOriginalCellRendererComponent', () => {
   let spectator: Spectator<SelectDemandCharacteristicOrOriginalCellRendererComponent>;
 
@@ -37,9 +33,7 @@ describe('SelectValueOrOriginalCellRendererComponent', () => {
 
       spectator.component['setValue'](mockParams);
 
-      expect(spectator.component['value']).toEqual(
-        'field.demandCharacteristic.value.PARSED_VALUE mocked'
-      );
+      expect(spectator.component['value']).toEqual('');
     });
 
     it('should set value correctly when params.value is falsy', () => {

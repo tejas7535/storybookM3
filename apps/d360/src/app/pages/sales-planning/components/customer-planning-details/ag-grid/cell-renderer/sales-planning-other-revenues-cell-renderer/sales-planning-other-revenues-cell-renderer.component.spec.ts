@@ -14,10 +14,6 @@ import { AuthService } from '../../../../../../../shared/utils/auth/auth.service
 import { CustomerSalesPlanNumberEditModalComponent } from '../../../customer-sales-plan-number-edit-modal/customer-sales-plan-number-edit-modal.component';
 import { SalesPlanningOtherRevenuesCellRendererComponent } from './sales-planning-other-revenues-cell-renderer.component';
 
-jest.mock('@jsverse/transloco', () => ({
-  translate: (key: string) => `${key} mocked`,
-}));
-
 describe('SalesPlanningOtherRevenuesCellRendererComponent', () => {
   let spectator: Spectator<SalesPlanningOtherRevenuesCellRendererComponent>;
   let component: SalesPlanningOtherRevenuesCellRendererComponent;
@@ -134,7 +130,7 @@ describe('SalesPlanningOtherRevenuesCellRendererComponent', () => {
         expect.objectContaining({
           data: expect.objectContaining({
             title:
-              'sales_planning.planning_details.edit_modal.otherRevenues mocked sales_planning.planning_details.edit_modal.for mocked 2026',
+              'sales_planning.planning_details.edit_modal.otherRevenues sales_planning.planning_details.edit_modal.for 2026',
             planningCurrency: 'EUR',
             previousValue: 5000,
             referenceValue: 150_000,

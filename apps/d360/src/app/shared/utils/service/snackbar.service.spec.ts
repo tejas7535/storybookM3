@@ -1,24 +1,20 @@
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { MockProvider } from 'ng-mocks';
 
+import { Stub } from '../../test/stub.class';
 import { SnackbarService } from './snackbar.service';
 
 describe('SnackbarService', () => {
-  let spectator: SpectatorService<SnackbarService>;
   let service: SnackbarService;
   let snackBar: MatSnackBar;
 
-  const createService = createServiceFactory({
-    service: SnackbarService,
-    imports: [MatSnackBarModule],
-    providers: [SnackbarService],
-  });
-
   beforeEach(() => {
-    spectator = createService();
-    service = spectator.inject(SnackbarService);
-    snackBar = spectator.inject(MatSnackBar);
+    service = Stub.get<SnackbarService>({
+      component: SnackbarService,
+      providers: [MockProvider(MatSnackBar)],
+    });
+    snackBar = service['snackBar'];
   });
 
   it('should open snackbar with provided message, action and duration', () => {

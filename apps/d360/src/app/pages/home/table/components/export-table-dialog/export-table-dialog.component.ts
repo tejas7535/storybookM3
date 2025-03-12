@@ -1,10 +1,12 @@
-import { Component, DestroyRef, Inject, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
   MatDialogContent,
 } from '@angular/material/dialog';
+
+import { tap } from 'rxjs';
 
 import { TranslocoModule } from '@jsverse/transloco';
 
@@ -22,20 +24,18 @@ export class ExportTableDialogComponent implements OnInit {
   private readonly exportMaterialCustomerService = inject(
     ExportMaterialCustomerService
   );
+  private readonly data: ExportTableDialogData = inject(MAT_DIALOG_DATA);
+  private readonly dialog: MatDialog = inject(MatDialog);
 
   private readonly destroyRef = inject(DestroyRef);
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: ExportTableDialogData,
-    public dialog: MatDialog
-  ) {}
-
-  ngOnInit() {
+  public ngOnInit() {
     this.exportMaterialCustomerService
       .triggerExport(this.data.gridApi, this.data.filter)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        this.dialog.closeAll();
-      });
+      .pipe(
+        tap(() => this.dialog.closeAll()),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 }

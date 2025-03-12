@@ -33,7 +33,7 @@
           [control]="$any(formGroup.controls.region)"
           [form]="formGroup"
           [label]="t('globalSelection.region')"
-          [options]="selectableOptionsService.get('region').options"
+          [options]="selectableOptionsService.get('region')?.options ?? []"
           class="col-start-1 col-end-1"
           [formatOptionValue]="DisplayFunctions.displayFnUnited"
         />

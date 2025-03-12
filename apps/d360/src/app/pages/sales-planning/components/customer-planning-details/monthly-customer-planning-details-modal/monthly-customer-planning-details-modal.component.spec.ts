@@ -1,38 +1,25 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
-import { TranslocoModule } from '@jsverse/transloco';
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
+import { MockProvider } from 'ng-mocks';
 
 import { SalesPlanningService } from '../../../../../feature/sales-planning/sales-planning.service';
 import { NumberWithoutFractionDigitsPipe } from '../../../../../shared/pipes/number-without-fraction-digits.pipe';
+import { Stub } from '../../../../../shared/test/stub.class';
 import { MonthlyCustomerPlanningDetailsModalComponent } from './monthly-customer-planning-details-modal.component';
 import { MonthlyCustomerPlanningDetailsColumnSettingsService } from './service/monthly-customer-planning-details-column-settings.service';
 
-jest.mock('@jsverse/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
-  translate: jest.fn((translateKey) => translateKey),
-}));
-
 describe('MonthlyCustomerPlanningDetailsModalComponent', () => {
-  let spectator: Spectator<MonthlyCustomerPlanningDetailsModalComponent>;
   let component: MonthlyCustomerPlanningDetailsModalComponent;
-  let salesPlanningService: SalesPlanningService;
 
-  const createComponent = createComponentFactory({
-    component: MonthlyCustomerPlanningDetailsModalComponent,
-    providers: [
-      mockProvider(MatDialogRef),
-      mockProvider(MonthlyCustomerPlanningDetailsColumnSettingsService),
-      mockProvider(NumberWithoutFractionDigitsPipe),
-      {
-        provide: MAT_DIALOG_DATA,
-        useValue: {
+  beforeEach(() => {
+    component = Stub.get<MonthlyCustomerPlanningDetailsModalComponent>({
+      component: MonthlyCustomerPlanningDetailsModalComponent,
+      providers: [
+        MockProvider(MonthlyCustomerPlanningDetailsColumnSettingsService),
+        MockProvider(NumberWithoutFractionDigitsPipe),
+        MockProvider(MAT_DIALOG_DATA, {
           customerName: 'Test Customer',
           customerNumber: '12345',
           planningCurrency: 'USD',
@@ -43,22 +30,14 @@ describe('MonthlyCustomerPlanningDetailsModalComponent', () => {
           planningEntry: 'F03 Bearings',
           totalSalesPlanUnconstrained: 10_000,
           totalSalesPlanAdjusted: 8000,
-        },
-      },
-      {
-        provide: SalesPlanningService,
-        useValue: {
-          getDetailedCustomerSalesPlan: jest.fn().mockReturnValue(of([])),
-        },
-      },
-    ],
-    shallow: true,
-  });
-
-  beforeEach(() => {
-    spectator = createComponent();
-    component = spectator.component;
-    salesPlanningService = spectator.inject(SalesPlanningService);
+        }),
+        MockProvider(
+          SalesPlanningService,
+          { getDetailedCustomerSalesPlan: jest.fn().mockReturnValue(of([])) },
+          'useValue'
+        ),
+      ],
+    });
   });
 
   it('should create the component', () => {
@@ -67,7 +46,7 @@ describe('MonthlyCustomerPlanningDetailsModalComponent', () => {
 
   it('should initialize loading state and fetch data', () => {
     const spy = jest.spyOn(
-      salesPlanningService,
+      component['salesPlanningService'],
       'getDetailedCustomerSalesPlan'
     );
     component.ngOnInit();
@@ -83,8 +62,7 @@ describe('MonthlyCustomerPlanningDetailsModalComponent', () => {
   });
 
   it('should close the dialog when onClose is called', () => {
-    const dialogRef = spectator.inject(MatDialogRef);
-    const spy = jest.spyOn(dialogRef, 'close');
+    const spy = jest.spyOn(component['dialogRef'], 'close');
     component.onClose();
     expect(spy).toHaveBeenCalledWith(false);
   });

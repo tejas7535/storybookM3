@@ -2,47 +2,35 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockModule } from 'ng-mocks';
-
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { MockProvider } from 'ng-mocks';
 
 import { ExportMaterialCustomerService } from '../../services/export-material-customer.service';
+import { Stub } from './../../../../../shared/test/stub.class';
 import { ExportTableDialogComponent } from './export-table-dialog.component';
 
 describe('ExportTableDialogComponent', () => {
-  let spectator: Spectator<ExportTableDialogComponent>;
-  const createComponent = createComponentFactory({
-    component: ExportTableDialogComponent,
-    imports: [MockModule(LoadingSpinnerModule)],
-    providers: [
-      {
-        provide: MAT_DIALOG_DATA,
-        useValue: {
-          gridApi: {},
-          filter: {},
-        },
-      },
-      {
-        provide: MatDialog,
-        useValue: {
-          closeAll: jest.fn(),
-        },
-      },
-      {
-        provide: ExportMaterialCustomerService,
-        useValue: {
-          triggerExport: jest.fn().mockReturnValue(of(null)),
-        },
-      },
-    ],
-  });
+  let component: ExportTableDialogComponent;
 
   beforeEach(() => {
-    spectator = createComponent();
+    component = Stub.get({
+      component: ExportTableDialogComponent,
+      providers: [
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: {
+            gridApi: {},
+            filter: {},
+          },
+        },
+        MockProvider(MatDialog, { closeAll: jest.fn() }),
+        MockProvider(ExportMaterialCustomerService, {
+          triggerExport: jest.fn().mockReturnValue(of(null)),
+        }),
+      ],
+    });
   });
 
   it('should create', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });

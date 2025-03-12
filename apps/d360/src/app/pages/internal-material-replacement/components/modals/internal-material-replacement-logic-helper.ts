@@ -21,7 +21,7 @@ export function getReplacementTypeLogic(
     : getReplacementTypeLogicForEdit(replacementLogicForNew);
 }
 
-function getReplacementTypeLogicForNewSubstitution(
+export function getReplacementTypeLogicForNewSubstitution(
   replacementType: ReplacementType
 ): ReplacementTypeLogic {
   switch (replacementType) {
@@ -170,12 +170,9 @@ export function checkMissingFields(
 
   const missingFields: (keyof IMRSubstitution)[] = [];
   mandatoryFields.forEach((field: keyof IMRSubstitution) => {
-    try {
-      const value = substitution[field];
-      if (value == null || value === '' || value === undefined) {
-        missingFields.push(field);
-      }
-    } catch {
+    const value = substitution?.[field];
+
+    if (value === null || value === '' || value === undefined) {
       missingFields.push(field);
     }
   });
@@ -183,7 +180,7 @@ export function checkMissingFields(
   return missingFields;
 }
 
-function getReplacementTypeLogicForEdit(
+export function getReplacementTypeLogicForEdit(
   defaultLogic: ReplacementTypeLogic
 ): ReplacementTypeLogic {
   // For editing, the key fields are not editable, but they are still mandatory

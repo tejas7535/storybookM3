@@ -1,49 +1,113 @@
-import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
+import { GridApi } from 'ag-grid-enterprise';
+import { MockProvider } from 'ng-mocks';
 
-import { FilterDropdownComponent } from '../../shared/components/inputs/filter-dropdown/filter-dropdown.component';
-import { AgGridLocalizationService } from '../../shared/services/ag-grid-localization.service';
 import { SelectableOptionsService } from '../../shared/services/selectable-options.service';
+import { Stub } from '../../shared/test/stub.class';
+import { InternalMaterialReplacementMultiSubstitutionModalComponent } from './components/modals/internal-material-replacement-multi-substitution-modal/internal-material-replacement-multi-substitution-modal.component';
+import { InternalMaterialReplacementSingleSubstitutionModalComponent } from './components/modals/internal-material-replacement-single-substitution-modal/internal-material-replacement-single-substitution-modal.component';
 import { InternalMaterialReplacementComponent } from './internal-material-replacement.component';
 
 describe('InternalMaterialReplacementComponent', () => {
-  let spectator: Spectator<InternalMaterialReplacementComponent>;
-  const createComponent = createComponentFactory({
-    component: InternalMaterialReplacementComponent,
-    componentMocks: [
-      InternalMaterialReplacementComponent,
-      FilterDropdownComponent,
-    ],
-    providers: [
-      mockProvider(MatDialog, {
-        open: jest.fn(),
-      }),
-      mockProvider(HttpClient, { get: () => of({}) }),
-      mockProvider(AgGridLocalizationService, { lang: () => {} }),
-      mockProvider(SelectableOptionsService, {
-        get: jest.fn().mockReturnValue({
-          options: ['option1', 'option2'],
-          loading: false,
-          loadingError: null,
-        }),
-        loading$: of(false),
-      }),
-    ],
-  });
+  let component: InternalMaterialReplacementComponent;
 
   beforeEach(() => {
-    spectator = createComponent();
+    component = Stub.get<InternalMaterialReplacementComponent>({
+      component: InternalMaterialReplacementComponent,
+      providers: [
+        MockProvider(MatDialog, {
+          open: jest.fn().mockReturnValue({
+            afterClosed: jest.fn().mockReturnValue(of({ reloadData: true })),
+          }),
+        }),
+        MockProvider(
+          SelectableOptionsService,
+          {
+            get: jest.fn(() => ({
+              options: [{ id: 'region1', text: 'Region 1' }],
+            })),
+            loading$: of(false),
+          },
+          'useValue'
+        ),
+      ],
+    });
   });
 
-  it('should create', () => {
-    expect(spectator.component).toBeTruthy();
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    it('should set regionControl value on loading$ completion', () => {
+      component.ngOnInit();
+
+      expect(component['regionControl'].value).toEqual({
+        id: 'region1',
+        text: 'Region 1',
+      });
+    });
+  });
+
+  describe('getApi', () => {
+    it('should set gridApi property with the provided GridApi instance', () => {
+      const mockGridApi: GridApi = {
+        refreshServerSide: jest.fn(),
+      } as any;
+      component['gridApi'] = null;
+      expect(component['gridApi']).toBeNull();
+
+      component['getApi'](mockGridApi);
+
+      expect(component['gridApi']).toBe(mockGridApi);
+    });
+  });
+
+  describe('handleCreateSingleIMR', () => {
+    it('should open the dialog and refresh the gridApi on success', () => {
+      const mockGridApi = {
+        refreshServerSide: jest.fn(),
+      };
+      component['gridApi'] = mockGridApi as any;
+      component['regionControl'].setValue({ id: 'region1', text: 'Region 1' });
+      component['handleCreateSingleIMR']();
+      expect(component['dialog'].open).toHaveBeenCalledWith(
+        InternalMaterialReplacementSingleSubstitutionModalComponent,
+        {
+          data: {
+            substitution: expect.any(Object),
+            isNewSubstitution: true,
+            gridApi: mockGridApi,
+          },
+          panelClass: ['form-dialog', 'internal-material-replacement'],
+          autoFocus: false,
+          disableClose: true,
+        }
+      );
+    });
+  });
+
+  describe('handleCreateMultiIMR', () => {
+    it('should open the dialog and refresh the gridApi on success', () => {
+      const mockGridApi = {
+        refreshServerSide: jest.fn(),
+      };
+      component['gridApi'] = mockGridApi as any;
+      component['handleCreateMultiIMR']();
+      expect(component['dialog'].open).toHaveBeenCalledWith(
+        InternalMaterialReplacementMultiSubstitutionModalComponent,
+        {
+          disableClose: true,
+          panelClass: ['table-dialog', 'internal-material-replacement'],
+          autoFocus: false,
+          maxHeight: 'calc(100% - 64px)',
+          maxWidth: 'none',
+          width: 'calc(100% - 64px)',
+        }
+      );
+    });
   });
 });

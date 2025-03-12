@@ -3,10 +3,6 @@ import { endOfMonth } from 'date-fns';
 import { DateRange } from '../../shared/utils/date-range';
 import { fillGapBetweenRanges } from './time-range';
 
-jest.mock('@jsverse/transloco', () => ({
-  translate: jest.fn((key, _) => `${key} mocked`),
-}));
-
 describe('fillGapBetweenRanges', () => {
   test('returns undefined when dateRange1 is missing "from"', () => {
     const dateRange1: Partial<DateRange> = {

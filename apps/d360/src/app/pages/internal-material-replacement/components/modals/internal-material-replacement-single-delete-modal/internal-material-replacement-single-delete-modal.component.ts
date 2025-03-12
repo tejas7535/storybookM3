@@ -56,7 +56,7 @@ export class InternalMaterialReplacementSingleDeleteModalComponent {
           singlePostResultToUserMessage(
             response,
             errorsFromSAPtoMessage,
-            translate('generic.validation.save.success', {})
+            translate('generic.validation.save.success')
           )
         ),
         tap((userMessage) => {

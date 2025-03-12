@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
-import { take, tap } from 'rxjs';
+import { BehaviorSubject, take, tap } from 'rxjs';
 
 import { PushPipe } from '@ngrx/component';
 import { GridApi } from 'ag-grid-enterprise';
@@ -14,7 +14,6 @@ import { GridApi } from 'ag-grid-enterprise';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { IMRSubstitution } from '../../feature/internal-material-replacement/model';
 import {
   HeaderActionBarComponent,
   ProjectedContendDirective,
@@ -48,7 +47,7 @@ import { InternalMaterialReplacementTableComponent } from './table/internal-mate
 export class InternalMaterialReplacementComponent implements OnInit {
   private gridApi: GridApi | null = null;
 
-  protected loading$;
+  protected loading$: BehaviorSubject<boolean>;
   protected selectedRegion = signal<string>(null);
 
   protected regionControl = new FormControl<SelectableValue>(
@@ -62,38 +61,52 @@ export class InternalMaterialReplacementComponent implements OnInit {
 
   private readonly destroyRef = inject(DestroyRef);
 
-  constructor(
+  public constructor(
     protected readonly selectableOptionsService: SelectableOptionsService,
     private readonly dialog: MatDialog
   ) {
     this.loading$ = this.selectableOptionsService.loading$;
   }
 
-  ngOnInit(): void {
-    this.loading$.subscribe((loading) => {
-      if (!loading) {
-        this.regionControl.setValue(
-          this.selectableOptionsService.get('region').options[0]
-        );
-      }
-    });
+  public ngOnInit(): void {
+    this.loading$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(
+        (loading) =>
+          !loading &&
+          this.regionControl.setValue(
+            this.selectableOptionsService.get('region').options[0]
+          )
+      );
   }
 
   protected getApi(api: GridApi): void {
     this.gridApi = api;
   }
 
-  updateRegion(event: Partial<SelectableValue>) {
+  protected updateRegion(event: Partial<SelectableValue>) {
     if (event) {
       this.selectedRegion.set(event.id);
     }
   }
 
-  handleCreateSingleIMR() {
+  protected handleCreateSingleIMR() {
     this.dialog
       .open(InternalMaterialReplacementSingleSubstitutionModalComponent, {
         data: {
-          substitution: this.newIMRSubstitution(this.regionControl.value.id),
+          substitution: {
+            region: this.regionControl.value.id,
+            replacementType: null,
+            salesArea: null,
+            salesOrg: null,
+            customerNumber: null,
+            predecessorMaterial: null,
+            successorMaterial: null,
+            replacementDate: null,
+            cutoverDate: null,
+            startOfProduction: null,
+            note: null,
+          },
           isNewSubstitution: true,
           gridApi: this.gridApi,
         },
@@ -114,7 +127,7 @@ export class InternalMaterialReplacementComponent implements OnInit {
       .subscribe();
   }
 
-  handleCreateMultiIMR() {
+  protected handleCreateMultiIMR() {
     this.dialog
       .open(InternalMaterialReplacementMultiSubstitutionModalComponent, {
         disableClose: true,
@@ -135,21 +148,5 @@ export class InternalMaterialReplacementComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
-  }
-
-  private newIMRSubstitution(region: string): IMRSubstitution {
-    return {
-      region,
-      replacementType: null,
-      salesArea: null,
-      salesOrg: null,
-      customerNumber: null,
-      predecessorMaterial: null,
-      successorMaterial: null,
-      replacementDate: null,
-      cutoverDate: null,
-      startOfProduction: null,
-      note: null,
-    };
   }
 }

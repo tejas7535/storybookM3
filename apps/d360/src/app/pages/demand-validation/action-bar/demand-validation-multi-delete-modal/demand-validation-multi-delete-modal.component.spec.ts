@@ -16,10 +16,6 @@ import { GlobalSelectionHelperService } from '../../../../feature/global-selecti
 import { DemandValidationDatePickerComponent } from '../demand-validation-date-picker/demand-validation-date-picker.component';
 import { DemandValidationMultiDeleteModalComponent } from './demand-validation-multi-delete-modal.component';
 
-jest.mock('@jsverse/transloco', () => ({
-  translate: jest.fn((key, _) => `${key} mocked`),
-}));
-
 describe('DemandValidationMultiDeleteModalComponent', () => {
   let spectator: Spectator<DemandValidationMultiDeleteModalComponent>;
 

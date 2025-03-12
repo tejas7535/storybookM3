@@ -64,23 +64,25 @@ describe('CustomerSelectionComponent', () => {
     open: jest.fn().mockReturnValue(mockDialogRef),
   };
 
-  const mockSalesPlanningService = {
-    getCustomerSalesPlan: jest.fn().mockReturnValue(of(mockSalesPlanResponse)),
-    getCustomerInfo: jest.fn().mockReturnValue(of(mockCustomerInfo)),
-  };
-
   const createComponent = createComponentFactory({
     component: CustomerSelectionComponent,
     providers: [
-      { provide: SalesPlanningService, useValue: mockSalesPlanningService },
-      { provide: TranslocoLocaleService, useValue: mockTranslocoLocaleService },
+      {
+        provide: SalesPlanningService,
+        useValue: {
+          getCustomerSalesPlan: jest
+            .fn()
+            .mockReturnValue(of(mockSalesPlanResponse)),
+          getCustomerInfo: jest.fn().mockReturnValue(of(mockCustomerInfo)),
+        },
+      },
+      {
+        provide: TranslocoLocaleService,
+        useValue: mockTranslocoLocaleService,
+      },
       { provide: MatDialog, useValue: mockDialog },
       mockProvider(SelectableOptionsService),
     ],
-  });
-
-  beforeEach(() => {
-    jest.clearAllMocks();
   });
 
   it('should create and display the title', () => {
@@ -106,15 +108,22 @@ describe('CustomerSelectionComponent', () => {
       option: { id: 'C123', text: 'Test Customer' },
     };
 
+    jest
+      .spyOn(
+        spectator.component['salesPlanningService'],
+        'getCustomerSalesPlan'
+      )
+      .mockReturnValue(of(mockSalesPlanResponse) as any);
+
     const autocomplete = spectator.query(SingleAutocompleteOnTypeComponent);
     expect(autocomplete).toBeTruthy();
 
     spectator.component.handleCustomerChange(customerChangeEvent as any);
     spectator.detectChanges();
 
-    expect(mockSalesPlanningService.getCustomerSalesPlan).toHaveBeenCalledWith(
-      'C123'
-    );
+    expect(
+      spectator.component['salesPlanningService'].getCustomerSalesPlan
+    ).toHaveBeenCalledWith('C123');
 
     const currentYear = new Date().getFullYear();
 
@@ -153,6 +162,15 @@ describe('CustomerSelectionComponent', () => {
 
   it('should fetch customer info and open modal when info button is clicked for the first time', () => {
     const spectator = createComponent();
+    jest
+      .spyOn(
+        spectator.component['salesPlanningService'],
+        'getCustomerSalesPlan'
+      )
+      .mockReturnValue(of(mockSalesPlanResponse) as any);
+    jest
+      .spyOn(spectator.component['salesPlanningService'], 'getCustomerInfo')
+      .mockReturnValue(of(mockCustomerInfo) as any);
     const customerChangeEvent = {
       option: { id: 'C123', text: 'Test Customer' },
     };
@@ -165,10 +183,9 @@ describe('CustomerSelectionComponent', () => {
     spectator.click(infoButton);
     spectator.detectChanges();
 
-    expect(mockSalesPlanningService.getCustomerInfo).toHaveBeenCalledWith(
-      'C123',
-      'de'
-    );
+    expect(
+      spectator.component['salesPlanningService'].getCustomerInfo
+    ).toHaveBeenCalledWith('C123', 'de');
     expect(mockDialog.open).toHaveBeenCalledWith(expect.any(Function), {
       data: {
         customerInfo: mockCustomerInfo,

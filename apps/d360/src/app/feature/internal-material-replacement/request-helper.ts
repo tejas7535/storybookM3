@@ -7,7 +7,7 @@ export function dataToIMRSubstitutionRequest(
   data: IMRSubstitution
 ): IMRSubstitutionRequest {
   if (!data.region || !data.replacementType) {
-    throw new Error(translate('generic.validation.check_inputs', {}));
+    throw new Error(translate('generic.validation.check_inputs'));
   }
 
   return {

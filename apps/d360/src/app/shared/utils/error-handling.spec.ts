@@ -1,4 +1,4 @@
-import { translate, TranslocoModule } from '@jsverse/transloco';
+import { translate } from '@jsverse/transloco';
 
 import { CMPMaterialPhaseInResponse } from '../../feature/customer-material-portfolio/model';
 import {
@@ -18,32 +18,7 @@ const toWarnStr = jest
   .fn()
   .mockImplementation((count: number) => `Warning for ${count}`);
 
-// TODO remove this mock and search for a solution, how we can use transloco (translate) in tests without angular service / component
-jest.mock('@jsverse/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
-  translate: jest.fn((translateKey) => {
-    switch (translateKey) {
-      case 'sap_message./SGD/SCM_SOP_SALES.-1': {
-        return 'Fallback Warning Message';
-      }
-      case 'sap_message./SGD/SCM_SOP_SALES.-2': {
-        return 'Fallback Error Message';
-      }
-      case 'sap_message./SGD/SCM_SOP_SALES.17': {
-        return 'any Message';
-      }
-      default: {
-        return translateKey;
-      }
-    }
-  }),
-}));
-
 describe('errorhandling single result', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   it('handles success', () => {
     const testResult: PostResult<CMPMaterialPhaseInResponse> = {
       overallStatus: 'SUCCESS',
@@ -117,7 +92,7 @@ describe('errorhandling single result', () => {
       'Success!'
     );
 
-    const expectedError = translate('sap_message./SGD/SCM_SOP_SALES.17', {});
+    const expectedError = translate('Fallback Error Message');
     expect(toast.variant).toBe('error');
     expect(toast.message).toContain(expectedError);
   });
@@ -224,17 +199,13 @@ describe('errorhandling single result', () => {
       'Success!'
     );
 
-    const expectedError = translate('sap_message./SGD/SCM_SOP_SALES.17', {});
+    const expectedError = translate('Fallback Error Message');
     expect(toast.variant).toBe('error');
     expect(toast.message).toContain(expectedError);
   });
 });
 
 describe('errorhandling multi result', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   it('handles success', () => {
     const testResult: PostResult<CMPMaterialPhaseInResponse> = {
       overallStatus: 'SUCCESS',

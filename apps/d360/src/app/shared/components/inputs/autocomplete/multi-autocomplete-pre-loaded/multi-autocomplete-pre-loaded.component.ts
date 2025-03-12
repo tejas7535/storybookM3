@@ -84,7 +84,7 @@ export class MultiAutocompletePreLoadedComponent
     }
 
     const allOptions: SelectableValue[] = [
-      ...this.optionsLoadingResult().options,
+      ...(this.optionsLoadingResult()?.options ?? []),
     ];
 
     const selectedIds: Set<string> = new Set<string>(
@@ -112,7 +112,7 @@ export class MultiAutocompletePreLoadedComponent
    */
   protected resetOptions(): void {
     const allOptions: SelectableValue[] = [
-      ...this.optionsLoadingResult().options,
+      ...(this.optionsLoadingResult()?.options ?? []),
     ];
 
     const selectedIds: Set<string> = new Set<string>(

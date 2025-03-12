@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { Observable, take, tap } from 'rxjs';
+import { catchError, Observable, of, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 
@@ -131,6 +131,11 @@ export class DemandValidationComponent implements CanComponentDeactivate {
             )
           );
           this.loading.set(false);
+        }),
+        catchError(() => {
+          this.loading.set(false);
+
+          return of(false);
         }),
         takeUntilDestroyed(this.destroyRef)
       )

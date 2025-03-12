@@ -192,7 +192,7 @@ export class SingleAutocompletePreLoadedComponent
    */
   private extractOptions(): void {
     const { options, loading, loadingError }: OptionsLoadingResult =
-      this.optionsLoadingResult();
+      this.optionsLoadingResult() || { options: [] };
 
     this.options.set(options);
     this.loading.set(loading ?? false);

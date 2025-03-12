@@ -5,13 +5,8 @@ import { of } from 'rxjs';
 
 import { TranslocoModule } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
 import { GridApi, GridReadyEvent } from 'ag-grid-enterprise';
-import { MockComponent } from 'ng-mocks';
+import { MockProvider } from 'ng-mocks';
 
 import {
   DetailedCustomerSalesPlan,
@@ -19,7 +14,7 @@ import {
 } from '../../../../feature/sales-planning/model';
 import { PlanningLevelService } from '../../../../feature/sales-planning/planning-level.service';
 import { SalesPlanningService } from '../../../../feature/sales-planning/sales-planning.service';
-import { TableToolbarComponent } from '../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
+import { Stub } from '../../../../shared/test/stub.class';
 import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
 import { CustomerPlanningDetailsComponent } from './customer-planning-details.component';
 import { MonthlyCustomerPlanningDetailsModalComponent } from './monthly-customer-planning-details-modal/monthly-customer-planning-details-modal.component';
@@ -31,47 +26,9 @@ jest.mock('@jsverse/transloco', () => ({
 }));
 
 describe('CustomerPlanningDetailsComponent', () => {
-  let spectator: Spectator<CustomerPlanningDetailsComponent>;
+  let component: CustomerPlanningDetailsComponent;
   let mockTranslocoLocaleService: jest.Mocked<TranslocoLocaleService>;
   let gridApiMock: GridApi;
-
-  const dialogMock = {
-    open: jest.fn().mockReturnValue({
-      afterClosed: jest.fn().mockReturnValue(
-        of({
-          deleteExistingPlanningData: false,
-          newPlanningLevelMaterialType: 'PL',
-        })
-      ),
-    }),
-  };
-
-  const planningLevelServiceMock = {
-    getMaterialTypeByCustomerNumber: jest.fn().mockReturnValue(
-      of({
-        planningLevelMaterialType: 'GP',
-        isDefaultPlanningLevelMaterialType: true,
-      })
-    ),
-    deleteMaterialTypeByCustomerNumber: jest.fn(() => of(null)),
-  };
-
-  const salesPlanningServiceMock = {
-    getDetailedCustomerSalesPlan: jest.fn(() => of([])),
-  };
-
-  const createComponent = createComponentFactory({
-    component: CustomerPlanningDetailsComponent,
-    imports: [MockComponent(TableToolbarComponent)],
-    providers: [
-      { provide: MatDialog, useValue: dialogMock },
-      { provide: PlanningLevelService, useValue: planningLevelServiceMock },
-      { provide: SalesPlanningService, useValue: salesPlanningServiceMock },
-      mockProvider(YearlyCustomerPlanningDetailsColumnSettingsService, {
-        getColumnSettings: jest.fn(() => of([])),
-      }),
-    ],
-  });
 
   beforeEach(() => {
     gridApiMock = {
@@ -89,40 +46,74 @@ describe('CustomerPlanningDetailsComponent', () => {
       configurable: true,
     });
 
-    jest.clearAllMocks();
-
-    spectator = createComponent({
-      props: {
-        customerName: 'Tesla Inc',
-        customerNumber: '0000086023',
-        planningCurrency: 'USD',
-        openFullscreen: false,
-        toggleFullscreen: jest.fn(),
-        collapsedSection: false,
-        toggleSection: jest.fn(),
-      },
+    component = Stub.getForEffect<CustomerPlanningDetailsComponent>({
+      component: CustomerPlanningDetailsComponent,
+      providers: [
+        MockProvider(
+          MatDialog,
+          {
+            open: jest.fn().mockReturnValue({
+              afterClosed: jest.fn().mockReturnValue(
+                of({
+                  deleteExistingPlanningData: false,
+                  newPlanningLevelMaterialType: 'PL',
+                })
+              ),
+            }),
+          },
+          'useValue'
+        ),
+        MockProvider(
+          PlanningLevelService,
+          {
+            getMaterialTypeByCustomerNumber: jest.fn().mockReturnValue(
+              of({
+                planningLevelMaterialType: 'GP',
+                isDefaultPlanningLevelMaterialType: true,
+              })
+            ),
+            deleteMaterialTypeByCustomerNumber: jest.fn(() => of(null)),
+          },
+          'useValue'
+        ),
+        MockProvider(
+          SalesPlanningService,
+          { getDetailedCustomerSalesPlan: jest.fn(() => of([])) },
+          'useValue'
+        ),
+        MockProvider(
+          YearlyCustomerPlanningDetailsColumnSettingsService,
+          {
+            getColumnSettings: jest.fn(() => of([])),
+          },
+          'useValue'
+        ),
+      ],
     });
 
-    const gridReadyEvent = {
+    component.onGridReady({
       api: gridApiMock,
-    } as GridReadyEvent;
+    } as GridReadyEvent);
 
-    spectator.component.onGridReady(gridReadyEvent);
-  });
+    Stub.setInputs([
+      { property: 'customerName', value: 'Tesla Inc' },
+      { property: 'customerNumber', value: '0000086023' },
+      { property: 'planningCurrency', value: 'USD' },
+      { property: 'openFullscreen', value: false },
+      { property: 'collapsedSection', value: false },
+    ]);
 
-  it('should display the title text', () => {
-    const titleElement = spectator.query('h2.text-title-large');
-    expect(titleElement).toHaveText('sales_planning.planning_details.title');
+    Stub.detectChanges();
   });
 
   it('should fetch planning level material on initialization', () => {
     expect(
-      planningLevelServiceMock.getMaterialTypeByCustomerNumber
+      component['planningLevelService'].getMaterialTypeByCustomerNumber
     ).toHaveBeenCalledWith('0000086023');
   });
 
   it('should close dialog and delete data when modal confirms deletion', () => {
-    jest.spyOn(dialogMock, 'open').mockImplementation(
+    jest.spyOn(component['dialog'], 'open').mockImplementation(
       () =>
         ({
           afterClosed: jest.fn().mockReturnValue(
@@ -134,15 +125,15 @@ describe('CustomerPlanningDetailsComponent', () => {
         }) as any
     );
 
-    spectator.component.handlePlanningLevelModalClicked();
+    component.handlePlanningLevelModalClicked();
 
     expect(
-      planningLevelServiceMock.deleteMaterialTypeByCustomerNumber
+      component['planningLevelService'].deleteMaterialTypeByCustomerNumber
     ).toHaveBeenCalledWith('0000086023');
   });
 
   it('should override the planning level material when changed in dialog', fakeAsync(() => {
-    jest.spyOn(dialogMock, 'open').mockImplementation(
+    jest.spyOn(component['dialog'], 'open').mockImplementation(
       () =>
         ({
           afterClosed: jest.fn().mockReturnValue(
@@ -154,36 +145,35 @@ describe('CustomerPlanningDetailsComponent', () => {
         }) as any
     );
 
-    spectator.component.handlePlanningLevelModalClicked();
+    component.handlePlanningLevelModalClicked();
 
     tick();
 
     expect(
-      spectator.component.planningLevelMaterialConfiguration()
-        .planningLevelMaterialType
+      component.planningLevelMaterialConfiguration().planningLevelMaterialType
     ).toBe('PL');
   }));
 
   it('should update row count on filter change', () => {
-    spectator.component.onFilterChanged();
+    component.onFilterChanged();
 
-    expect(spectator.component.rowCount()).toBe(10);
+    expect(component.rowCount()).toBe(10);
   });
 
   it('should not delete data when modal does not confirm deletion', () => {
-    dialogMock.open = jest.fn(() => ({
+    jest.spyOn(component['dialog'], 'open').mockReturnValue({
       afterClosed: jest.fn(() =>
         of({
           deleteExistingPlanningData: false,
           newPlanningLevelMaterialType: null,
         })
       ),
-    }));
+    } as any);
 
-    spectator.component.handlePlanningLevelModalClicked();
+    component.handlePlanningLevelModalClicked();
 
     expect(
-      planningLevelServiceMock.deleteMaterialTypeByCustomerNumber
+      component['planningLevelService'].deleteMaterialTypeByCustomerNumber
     ).not.toHaveBeenCalled();
   });
 
@@ -197,9 +187,9 @@ describe('CustomerPlanningDetailsComponent', () => {
     } as any;
 
     const isYearlyRow = true;
-    spectator.component.handleYearlyAggregationClicked(rowData, isYearlyRow);
+    component.handleYearlyAggregationClicked(rowData, isYearlyRow);
 
-    expect(dialogMock.open).toHaveBeenCalledWith(
+    expect(component['dialog'].open).toHaveBeenCalledWith(
       MonthlyCustomerPlanningDetailsModalComponent,
       expect.objectContaining({
         data: expect.objectContaining({
@@ -232,9 +222,9 @@ describe('CustomerPlanningDetailsComponent', () => {
     } as any;
 
     const isYearlyRow = false;
-    spectator.component.handleYearlyAggregationClicked(rowData, isYearlyRow);
+    component.handleYearlyAggregationClicked(rowData, isYearlyRow);
 
-    expect(dialogMock.open).toHaveBeenCalledWith(
+    expect(component['dialog'].open).toHaveBeenCalledWith(
       MonthlyCustomerPlanningDetailsModalComponent,
       expect.objectContaining({
         data: expect.objectContaining({

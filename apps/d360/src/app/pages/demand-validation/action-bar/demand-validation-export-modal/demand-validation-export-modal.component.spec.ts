@@ -16,10 +16,6 @@ import { SingleAutocompletePreLoadedComponent } from '../../../../shared/compone
 import { DemandValidationDatePickerComponent } from '../demand-validation-date-picker/demand-validation-date-picker.component';
 import { DemandValidationExportModalComponent } from './demand-validation-export-modal.component';
 
-jest.mock('@jsverse/transloco', () => ({
-  translate: jest.fn((key, _) => `${key} mocked`),
-}));
-
 describe('DemandValidationExportModalComponent', () => {
   let spectator: Spectator<DemandValidationExportModalComponent>;
 

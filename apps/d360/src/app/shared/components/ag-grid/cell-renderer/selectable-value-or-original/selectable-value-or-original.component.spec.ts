@@ -18,11 +18,6 @@ describe('SelectableValueOrOriginalCellRendererComponent', () => {
     spectator = createComponent();
   });
 
-  afterEach(() => {
-    jest.restoreAllMocks();
-    jest.clearAllMocks();
-  });
-
   it('should create', () => {
     expect(spectator.component).toBeTruthy();
   });

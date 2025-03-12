@@ -64,7 +64,7 @@ export function parseReplacementTypeIfPossible(
   value: string
 ): ReplacementType | string {
   const localizationKeyCreation = (val: ReplacementType) =>
-    translate(`replacement_type.${val}`, {});
+    translate(`replacement_type.${val}`);
   const parsed = parseToStringLiteralTypeIfPossible<ReplacementType>(
     value,
     replacementTypeValues,
@@ -97,7 +97,7 @@ export function parseToStringLiteralTypeIfPossible<T extends string>(
   // Check for localized strings (case insensitive)
   if (localizationFunc) {
     for (const stringLit of stringLiteralArray) {
-      const localizedNameUppercase = localizationFunc(stringLit).toUpperCase();
+      const localizedNameUppercase = localizationFunc(stringLit)?.toUpperCase();
       if (localizedNameUppercase === capitalValueToParse) {
         return stringLit as T;
       }

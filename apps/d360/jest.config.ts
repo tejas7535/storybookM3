@@ -8,8 +8,12 @@ export default {
       branches: 15,
       functions: 15,
       lines: 15,
+      statements: 15,
     },
   },
+  resetMocks: true,
+  restoreMocks: true,
+  randomize: true,
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
