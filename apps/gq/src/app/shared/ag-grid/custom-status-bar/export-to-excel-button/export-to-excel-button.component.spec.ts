@@ -80,6 +80,7 @@ describe('ExportToExcelButtonComponent', () => {
       MockProvider(RolesFacade, {
         userHasAccessToComparableTransactions$: of(false),
       }),
+      MockProvider(MatSnackBar),
     ],
     imports: [
       MatButtonModule,

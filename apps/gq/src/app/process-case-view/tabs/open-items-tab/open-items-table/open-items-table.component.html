@@ -5,7 +5,7 @@
   [columnDefs]="columnDefs"
   [components]="components"
   [localeText]="localeText$ | ngrxPush"
-  rowSelection="single"
+  [rowSelection]="rowSelection"
   columnMenu="legacy"
   [rowData]="rowData$ | ngrxPush"
 ></ag-grid-angular>

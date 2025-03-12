@@ -55,7 +55,7 @@ describe('MaterialsResultTableComponent', () => {
     component = spectator.debugElement.componentInstance;
     component['criteriaSelected'].emit = jest.fn();
     Object.defineProperty(component, 'agGridStateService', {
-      value: { init: jest.fn() },
+      value: { init: jest.fn(), saveUserSettings: jest.fn() },
     });
   });
 

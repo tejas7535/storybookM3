@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Observable, Subject, take } from 'rxjs';
+import { Observable, take } from 'rxjs';
 
 import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
 import { OverviewCasesFacade } from '@gq/core/store/overview-cases/overview-cases.facade';
@@ -58,7 +58,6 @@ export class CaseTableComponent implements OnInit, OnDestroy {
   };
   localeText$: Observable<AgGridLocale>;
   selectedRows: number[] = [];
-  unsubscribe$: Subject<boolean> = new Subject<boolean>();
 
   private readonly TABLE_KEY = 'CASE_OVERVIEW';
 
@@ -106,13 +105,9 @@ export class CaseTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.unsubscribe$) {
-      this.unsubscribe$.next(true);
-      this.unsubscribe$.unsubscribe();
-    }
-
     this.agGridStateService.saveUserSettings();
   }
+
   public onColumnChange(event: SortChangedEvent | ColumnEvent): void {
     const columnState: ColumnState[] = event.api.getColumnState();
 

@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { ROW_SELECTION } from '@gq/case-view/case-table/config';
 import { OpenItemsFacade } from '@gq/core/store/active-case/open-items.facade';
 import { AgGridLocale } from '@gq/shared/ag-grid/models/ag-grid-locale.interface';
 import { LocalizationService } from '@gq/shared/ag-grid/services';
@@ -33,4 +34,5 @@ export class OpenItemsTableComponent {
   components = this.colDefService.COMPONENTS;
   defaultColDef = this.colDefService.DEFAULT_COL_DEF;
   columnDefs = this.colDefService.COLUMN_DEFS;
+  rowSelection = ROW_SELECTION;
 }

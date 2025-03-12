@@ -74,15 +74,6 @@ describe('CaseTableComponent', () => {
   });
 
   describe('ngOnDestroy', () => {
-    test('should emit', () => {
-      component['unsubscribe$'].next = jest.fn();
-      component['unsubscribe$'].unsubscribe = jest.fn();
-
-      component.ngOnDestroy();
-
-      expect(component['unsubscribe$'].next).toHaveBeenCalled();
-      expect(component['unsubscribe$'].unsubscribe).toHaveBeenCalled();
-    });
     test('should save userSettings', () => {
       component['agGridStateService'].saveUserSettings = jest.fn();
 

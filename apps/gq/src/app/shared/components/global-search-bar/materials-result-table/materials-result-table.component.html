@@ -81,7 +81,7 @@
       (filterChanged)="onFilterChanged($event)"
       (rowDoubleClicked)="onRowDoubleClicked($event)"
       (columnPinned)="onColumnChange($event)"
-      rowSelection="single"
+      [rowSelection]="rowSelection"
       [rowData]="materialsResults"
       [postSortRows]="searchbarColUtilsService.postSortRows"
       [gridOptions]="

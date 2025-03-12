@@ -7,6 +7,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { EVENT_NAMES } from '../../../models';
 import { ConfirmSimulationButtonComponent } from './confirm-simulation-button.component';
@@ -19,7 +20,7 @@ describe('ConfirmSimulationComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ConfirmSimulationButtonComponent,
-    imports: [PushPipe],
+    imports: [PushPipe, provideTranslocoTestingModule({ en: {} })],
     providers: [
       provideMockStore({}),
       {

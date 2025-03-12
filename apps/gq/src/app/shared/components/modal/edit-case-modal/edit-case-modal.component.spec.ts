@@ -562,19 +562,19 @@ describe('EditCaseModalComponent', () => {
 
   describe('isTheSameDay', () => {
     test('should return true if dates are the same day', () => {
-      const date1 = moment('01.01.2019');
+      const date1 = moment('01.01.2019', 'DD.MM.YYYY');
       const date2 = '01.01.2019';
       expect(component['isTheSameDay'](date1, date2)).toEqual(true);
     });
 
     test('should return false if dates are not the same day', () => {
-      const date1 = moment('01.01.2019');
+      const date1 = moment('01.01.2019', 'DD.MM.YYYY');
       const date2 = '02.01.2019';
       expect(component['isTheSameDay'](date1, date2)).toEqual(false);
     });
 
     test('should return false if second date is undefined', () => {
-      const date1 = moment('01.01.2019');
+      const date1 = moment('01.01.2019', 'DD.MM.YYYY');
 
       // eslint-disable-next-line unicorn/no-useless-undefined
       expect(component['isTheSameDay'](date1, undefined)).toEqual(false);
