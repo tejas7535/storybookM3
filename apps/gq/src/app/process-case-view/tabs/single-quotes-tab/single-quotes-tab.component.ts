@@ -73,7 +73,6 @@ export class SingleQuotesTabComponent implements OnInit, OnDestroy {
         ...viewsWithIcons,
         {
           id: this.ADD_VIEW_ID,
-          disabled: true,
           active: false,
           icons: [{ name: this.ADD_ICON }],
         },

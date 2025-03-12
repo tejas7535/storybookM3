@@ -338,7 +338,6 @@ describe('SingleQuotesTab', () => {
               },
               {
                 id: 9999,
-                disabled: true,
                 active: false,
                 icons: [{ name: 'add' }],
               },
@@ -356,7 +355,6 @@ describe('SingleQuotesTab', () => {
             a: [
               {
                 id: 9999,
-                disabled: true,
                 active: false,
                 icons: [{ name: 'add' }],
               },
