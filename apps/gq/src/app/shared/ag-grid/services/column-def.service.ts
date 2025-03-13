@@ -608,7 +608,7 @@ export class ColumnDefService {
       filterParams: this.dateFilterParamService.DATE_FILTER_PARAMS,
       filterValueGetter: (params) =>
         this.columnUtilityService.dateFilteringFormatter(
-          params.data?.lastCustomerPrice
+          params.data?.lastCustomerPriceDate
         ),
       headerComponentParams: {
         tooltipText: this.translocoService.translate(
