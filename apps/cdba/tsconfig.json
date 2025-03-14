@@ -1,5 +1,6 @@
 {
   "extends": "../../tsconfig.base.json",
+  "files": [],
   "compilerOptions": {
     "types": ["node", "jest"],
     "target": "es2020"
@@ -8,7 +9,6 @@
     "strictTemplates": true
   },
   "include": [],
-  "files": [],
   "references": [
     {
       "path": "./tsconfig.app.json"
