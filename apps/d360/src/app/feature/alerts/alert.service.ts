@@ -79,6 +79,7 @@ export class AlertService {
   private readonly hashTimer = timer(0, 60 * 1000); // every  minute
   private timerSubscription: Subscription;
   private currentHash: string;
+  private clientSideHash: string;
 
   public allActiveAlerts = signal<Alert[]>(null);
 
@@ -104,11 +105,13 @@ export class AlertService {
    * @return {void}
    * @memberof AlertService
    */
-  public loadActiveAlerts(): void {
+  public loadActiveAlerts(hideLoading: boolean = false): void {
     let alerts: Alert[] = [];
     let hasError = false;
     const chunkSize = 1000;
-    this.loadingEvent.next(true);
+    if (!hideLoading) {
+      this.loadingEvent.next(true);
+    }
     this.fetchErrorEvent.next(false);
     this.requestAlerts(
       {
@@ -390,6 +393,10 @@ export class AlertService {
                   )
                   .subscribe();
                 this.currentHash = hash;
+              }
+              if (this.clientSideHash !== hash) {
+                this.loadActiveAlerts(true);
+                this.clientSideHash = hash;
               }
             }),
             takeUntilDestroyed(this.destroyRef)

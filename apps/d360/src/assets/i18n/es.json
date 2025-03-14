@@ -1356,6 +1356,9 @@
     }
   },
   "overview": {
+    "filter": {
+      "customer": "Cliente / Account"
+    },
     "yourTasks": {
       "headline": "Sus to-dos",
       "gridHeadline": "To-Dos",

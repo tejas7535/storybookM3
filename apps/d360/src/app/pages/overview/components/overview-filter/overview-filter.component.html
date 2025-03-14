@@ -1,0 +1,33 @@
+<form [formGroup]="filterForm" class="overflow-hidden">
+  <div *transloco="let t" class="flex md:flex-row py-4 flex-col gap-x-4">
+    <d360-multi-autocomplete-pre-loaded
+      [control]="filterForm.controls.gkams"
+      [form]="filterForm"
+      [autocompleteLabel]="t('globalSelection.gkam')"
+      [searchControl]="filterForm.controls.gkamSearch"
+      [getOptionLabelInTag]="DisplayFunctions.displayFnText"
+      [getOptionLabel]="DisplayFunctions.displayFnUnited"
+      [optionsLoadingResult]="selectableOptionsService.get('gkam')"
+      class="w-full"
+    />
+    <d360-multi-autocomplete-on-type
+      [autocompleteLabel]="t('overview.filter.customer')"
+      [control]="filterForm.controls.customers"
+      [form]="filterForm"
+      urlBegin="global-selection/search-customers"
+      [getOptionLabel]="DisplayFunctions.displayFnUnited"
+      [getOptionLabelInTag]="DisplayFunctions.displayFnText"
+      [searchControl]="filterForm.controls.customerSearch"
+      class="w-full"
+    />
+    <div class="flex justify-end gap-5">
+      <button class="w-auto" mat-button (click)="resetFilters()">
+        {{ t('button.reset') }}
+      </button>
+
+      <button class="w-auto" mat-flat-button (click)="applyFilters()">
+        {{ t('button.load') }}
+      </button>
+    </div>
+  </div>
+</form>

@@ -1365,6 +1365,9 @@
     }
   },
   "overview": {
+    "filter": {
+      "customer": "Kunde / Account"
+    },
     "yourTasks": {
       "headline": "Deine To-Dos",
       "gridHeadline": "To-Dos",

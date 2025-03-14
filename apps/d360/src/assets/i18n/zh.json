@@ -1356,6 +1356,9 @@
     }
   },
   "overview": {
+    "filter": {
+      "customer": "客户 / 账户"
+    },
     "yourTasks": {
       "headline": "您的任务",
       "gridHeadline": "任务",

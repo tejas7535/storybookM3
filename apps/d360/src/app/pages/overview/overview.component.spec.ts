@@ -1,33 +1,40 @@
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
-import { MockComponent } from 'ng-mocks';
+import { mockProvider } from '@ngneat/spectator/jest';
 
 import { AlertService } from '../../feature/alerts/alert.service';
 import { SelectableOptionsService } from '../../shared/services/selectable-options.service';
-import { TaskPriorityGridComponent } from './components/task-priority-grid/task-priority-grid.component';
+import { Stub } from '../../shared/test/stub.class';
 import { OverviewComponent } from './overview.component';
 
 describe('OverviewComponent', () => {
-  let spectator: Spectator<OverviewComponent>;
-  const createComponent = createComponentFactory({
-    component: OverviewComponent,
-    imports: [MockComponent(TaskPriorityGridComponent)],
-    providers: [
-      mockProvider(AlertService, {}),
-      mockProvider(SelectableOptionsService),
-    ],
-  });
+  let component: OverviewComponent;
 
   beforeEach(() => {
-    spectator = createComponent();
+    component = Stub.get<OverviewComponent>({
+      component: OverviewComponent,
+      providers: [
+        mockProvider(AlertService),
+        mockProvider(SelectableOptionsService, {
+          get: jest.fn().mockReturnValue({
+            options: [],
+            loading: false,
+            loadingError: null,
+          }),
+        }),
+      ],
+    });
   });
 
   it('should create', () => {
-    spectator = createComponent();
+    expect(component).toBeTruthy();
+  });
 
-    expect(spectator.component).toBeTruthy();
+  it('should compute the filters for the priority grid', () => {
+    const overviewComponent = component;
+    overviewComponent['overviewFilterValue'].set({
+      gkams: [{ id: 'gkam-id', text: 'gkam-name' }],
+      customers: [{ id: 'customer-id', text: 'customer-name' }],
+    });
+    expect(overviewComponent['gkamFilterIds']()).toEqual(['gkam-id']);
+    expect(overviewComponent['customerFilterIds']()).toEqual(['customer-id']);
   });
 });
