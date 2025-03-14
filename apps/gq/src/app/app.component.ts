@@ -94,6 +94,7 @@ export class AppComponent implements OnInit {
   showGlobalSearch$: Observable<boolean>;
 
   @HostListener('window:beforeunload', ['$event'])
+  @HostListener('window:blur', ['$event'])
   async handleBeforeUnload() {
     await this.userSettingsService.updateUserSettingsAsPromise();
   }
@@ -115,6 +116,7 @@ export class AppComponent implements OnInit {
     );
 
     window.addEventListener('beforeunload', this.handleBeforeUnload);
+    window.addEventListener('blur', this.handleBeforeUnload);
   }
 
   handleCurrentRoute(): void {

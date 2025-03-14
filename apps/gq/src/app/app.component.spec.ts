@@ -115,7 +115,7 @@ describe('AppComponent', () => {
   });
 
   describe('handleBeforeUnload', () => {
-    test('should call the mehtod', () => {
+    test('should call the method', () => {
       component.handleBeforeUnload();
       expect(
         component['userSettingsService'].updateUserSettingsAsPromise
