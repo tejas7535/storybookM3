@@ -20,6 +20,7 @@ import { of } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
+import { GridApi } from 'ag-grid-enterprise';
 import { MockProvider, MockService } from 'ng-mocks';
 
 import { GlobalSelectionHelperService } from '../../feature/global-selection/global-selection.service';
@@ -75,7 +76,10 @@ export class Stub {
     MockProvider(SelectableOptionsService),
     MockProvider(
       GlobalSelectionHelperService,
-      { getResultCount: jest.fn().mockReturnValue(of(0)) },
+      {
+        getResultCount: jest.fn().mockReturnValue(of(0)),
+        getCustomersData: jest.fn().mockReturnValue(of([])),
+      },
       'useValue'
     ),
     MockProvider(
@@ -83,6 +87,7 @@ export class Stub {
       {
         form: jest.fn().mockReturnValue(new FormGroup({})),
         getState: jest.fn().mockReturnValue({}),
+        getGlobalSelectionStatus: jest.fn().mockReturnValue(''),
       },
       'useValue'
     ),
@@ -181,7 +186,22 @@ export class Stub {
     return this.fixture;
   }
 
+  public static getGridApi(): GridApi {
+    return {
+      setGridOption: jest.fn(),
+      showNoRowsOverlay: jest.fn(),
+      hideOverlay: jest.fn(),
+      autoSizeAllColumns: jest.fn(),
+      expandAll: jest.fn(),
+      collapseAll: jest.fn(),
+      refreshServerSide: jest.fn(),
+    } as any;
+  }
+
   private static initValidationHelper(): void {
-    ValidationHelper.localeService = MockService(TranslocoLocaleService);
+    ValidationHelper.localeService = MockService(TranslocoLocaleService, {
+      getLocale: jest.fn().mockReturnValue('en-US'),
+      localizeDate: jest.fn().mockReturnValue(''),
+    });
   }
 }

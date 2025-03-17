@@ -1,4 +1,4 @@
-import { HttpParams, provideHttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import {
   BehaviorSubject,
@@ -10,21 +10,25 @@ import {
   throwError,
 } from 'rxjs';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { SortModelItem } from 'ag-grid-enterprise';
+import { MockProvider } from 'ng-mocks';
 
 import { GlobalSelectionState } from '../../shared/components/global-selection-criteria/global-selection-state.service';
+import { Stub } from '../../shared/test/stub.class';
 import { CustomerEntry } from '../global-selection/model';
 import { CMPService } from './cmp.service';
+import { CMPEntry } from './model';
 
 describe('CMPService', () => {
-  let spectator: SpectatorService<CMPService>;
+  let service: CMPService;
 
-  const createService = createServiceFactory({
-    service: CMPService,
-    providers: [provideHttpClient()],
-  });
-
-  beforeEach(() => (spectator = createService()));
+  beforeEach(
+    () =>
+      (service = Stub.get<CMPService>({
+        component: CMPService,
+        providers: [MockProvider(HttpClient)],
+      }))
+  );
 
   describe('getForecastActionData', () => {
     it('should return success response when valid cmpData is provided', (done) => {
@@ -35,10 +39,10 @@ describe('CMPService', () => {
       } as any;
 
       jest
-        .spyOn(spectator.service['http'] as any, 'post')
+        .spyOn(service['http'] as any, 'post')
         .mockReturnValue(of(mockResponse));
 
-      spectator.service
+      service
         .getForecastActionData({
           customerNumber: '123',
           materialNumber: '456',
@@ -46,7 +50,7 @@ describe('CMPService', () => {
         } as any)
         .pipe(take(1))
         .subscribe((result) => {
-          expect(spectator.service['http'].post).toHaveBeenCalledWith(
+          expect(service['http'].post).toHaveBeenCalledWith(
             'api/customer-material-portfolio/cfcr-action',
             {
               customerNumber: '123',
@@ -62,7 +66,7 @@ describe('CMPService', () => {
     });
 
     it('should return empty observable when cmpData is invalid', (done) => {
-      const result = spectator.service.getForecastActionData(null);
+      const result = service.getForecastActionData(null);
 
       expect(result).toBeInstanceOf(Observable);
 
@@ -81,14 +85,14 @@ describe('CMPService', () => {
       };
 
       jest
-        .spyOn(spectator.service['http'] as any, 'get')
+        .spyOn(service['http'] as any, 'get')
         .mockReturnValue(of(mockResponse));
 
-      spectator.service
+      service
         .getCMPCriteriaData()
         .pipe(take(1))
         .subscribe((result) => {
-          expect(spectator.service['http'].get).toHaveBeenCalledWith(
+          expect(service['http'].get).toHaveBeenCalledWith(
             'api/customer-material-portfolio/criteria-fields'
           );
           expect(result).toEqual(mockResponse);
@@ -110,14 +114,14 @@ describe('CMPService', () => {
       };
 
       jest
-        .spyOn(spectator.service['http'] as any, 'post')
+        .spyOn(service['http'] as any, 'post')
         .mockReturnValue(of(mockResponse));
 
-      spectator.service
+      service
         .saveBulkPhaseIn(mockRequest, true)
         .pipe(take(1))
         .subscribe((result) => {
-          expect(spectator.service['http'].post).toHaveBeenCalledWith(
+          expect(service['http'].post).toHaveBeenCalledWith(
             'api/customer-material-portfolio/bulk-phase-in',
             mockRequest,
             { params: new HttpParams().set('dryRun', 'true') }
@@ -139,11 +143,11 @@ describe('CMPService', () => {
       };
 
       jest
-        .spyOn(spectator.service['http'] as any, 'post')
+        .spyOn(service['http'] as any, 'post')
         .mockReturnValue(throwError(() => mockError));
 
       const result = await lastValueFrom(
-        spectator.service.saveBulkPhaseIn({} as any, false)
+        service.saveBulkPhaseIn({} as any, false)
       ).catch((error) => error);
 
       expect(result).toEqual({
@@ -162,7 +166,7 @@ describe('CMPService', () => {
       };
 
       jest
-        .spyOn(spectator.service['http'] as any, 'post')
+        .spyOn(service['http'] as any, 'post')
         .mockReturnValue(of(mockResponse));
 
       const cmpData = {
@@ -176,11 +180,11 @@ describe('CMPService', () => {
         repDate: null,
       } as any;
 
-      spectator.service
+      service
         .saveCMPChange(cmpData, false, 'action-url')
         .pipe(take(1))
         .subscribe((result) => {
-          expect(spectator.service['http'].post).toHaveBeenCalledWith(
+          expect(service['http'].post).toHaveBeenCalledWith(
             'api/customer-material-portfolio/action-url',
             cmpData,
             { params: { dryRun: 'false' } }
@@ -204,7 +208,7 @@ describe('CMPService', () => {
         portfolioStatus: 'SE',
       } as any;
 
-      spectator.service
+      service
         .saveCMPChange(cmpData, false, null)
         .pipe(take(1))
         .subscribe((result) => {
@@ -221,7 +225,7 @@ describe('CMPService', () => {
     it('should handle HTTP errors', (done) => {
       const mockError = new Error('HTTP error occurred');
       jest
-        .spyOn(spectator.service['http'] as any, 'post')
+        .spyOn(service['http'] as any, 'post')
         .mockReturnValue(throwError(() => mockError));
 
       const cmpData = {
@@ -231,7 +235,7 @@ describe('CMPService', () => {
         portfolioStatus: 'SE',
       } as any;
 
-      spectator.service
+      service
         .saveCMPChange(cmpData, false, 'action-url')
         .pipe(take(1))
         .subscribe((result) => {
@@ -248,7 +252,7 @@ describe('CMPService', () => {
 
   describe('createCustomerMaterialPortfolioDatasource', () => {
     it('should fetch data with correct parameters', (done) => {
-      (spectator.service as any)['dataFetchedEvent'] = new BehaviorSubject({});
+      (service as any)['dataFetchedEvent'] = new BehaviorSubject({});
 
       const mockParams = {
         request: {
@@ -275,24 +279,21 @@ describe('CMPService', () => {
         childOfHeadMaterial: {},
       };
 
-      jest
-        .spyOn(spectator.service as any, 'fetchData')
-        .mockReturnValue(of(mockResponse));
+      jest.spyOn(service as any, 'fetchData').mockReturnValue(of(mockResponse));
 
-      const dataSource =
-        spectator.service.createCustomerMaterialPortfolioDatasource(
-          { customerNumber: '123456' } as CustomerEntry,
-          {} as GlobalSelectionState,
-          new Map(),
-          {
-            setGridOption: jest.fn(),
-            redrawRows: jest.fn(),
-          } as any
-        );
+      const dataSource = service.createCustomerMaterialPortfolioDatasource(
+        { customerNumber: '123456' } as CustomerEntry,
+        {} as GlobalSelectionState,
+        new Map(),
+        {
+          setGridOption: jest.fn(),
+          redrawRows: jest.fn(),
+        } as any
+      );
 
       dataSource.getRows(mockParams);
 
-      expect(spectator.service['fetchData']).toHaveBeenCalledWith(
+      expect(service['fetchData']).toHaveBeenCalledWith(
         mockParams.request.startRow,
         mockParams.request.endRow,
         [{ colId: 'newKey' }],
@@ -300,18 +301,16 @@ describe('CMPService', () => {
         {}
       );
 
-      spectator.service['dataFetchedEvent']
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(mockResponse);
+      service['dataFetchedEvent'].pipe(take(1)).subscribe((result) => {
+        expect(result).toEqual(mockResponse);
 
-          expect(mockParams.success).toHaveBeenCalledWith({
-            rowData: mockResponse.headMaterials.rows,
-            rowCount: mockResponse.headMaterials.rowCount,
-          });
-
-          done();
+        expect(mockParams.success).toHaveBeenCalledWith({
+          rowData: mockResponse.headMaterials.rows,
+          rowCount: mockResponse.headMaterials.rowCount,
         });
+
+        done();
+      });
     });
 
     it('should handle group keys', async () => {
@@ -325,22 +324,21 @@ describe('CMPService', () => {
       };
 
       jest
-        .spyOn(spectator.service as any, 'getRowsForGroup')
+        .spyOn(service as any, 'getRowsForGroup')
         .mockReturnValue(of(mockResponse));
 
-      const dataSource =
-        spectator.service.createCustomerMaterialPortfolioDatasource(
-          {} as CustomerEntry,
-          {} as GlobalSelectionState,
-          new Map(),
-          null
-        );
+      const dataSource = service.createCustomerMaterialPortfolioDatasource(
+        {} as CustomerEntry,
+        {} as GlobalSelectionState,
+        new Map(),
+        null
+      );
 
       dataSource.getRows({
         request: { groupKeys: mockGroupKeys, sortModel: [] },
       } as any);
 
-      expect(spectator.service['getRowsForGroup']).toHaveBeenCalledWith({
+      expect(service['getRowsForGroup']).toHaveBeenCalledWith({
         childMaterialsCache: new Map(),
         endRow: undefined,
         gridApi: null,
@@ -377,11 +375,11 @@ describe('CMPService', () => {
       };
 
       jest
-        .spyOn(spectator.service['http'] as any, 'post')
+        .spyOn(service['http'] as any, 'post')
         .mockReturnValue(of(mockResponse));
 
       const result = await lastValueFrom(
-        spectator.service['fetchData'](
+        service['fetchData'](
           mockRequest.startRow,
           mockRequest.endRow,
           mockRequest.sortModel,
@@ -390,7 +388,7 @@ describe('CMPService', () => {
         )
       );
 
-      expect(spectator.service['http'].post).toHaveBeenCalledWith(
+      expect(service['http'].post).toHaveBeenCalledWith(
         'api/customer-material-portfolio/',
         {
           startRow: 0,
@@ -406,15 +404,130 @@ describe('CMPService', () => {
 
   describe('getDataFetchedEvent', () => {
     it('should return observable of CMPResponse', () => {
-      const result = spectator.service.getDataFetchedEvent();
+      const result = service.getDataFetchedEvent();
       expect(result).toBeInstanceOf(Observable);
     });
   });
 
   describe('getFetchErrorEvent', () => {
     it('should return observable of any', () => {
-      const result = spectator.service.getFetchErrorEvent();
+      const result = service.getFetchErrorEvent();
       expect(result).toBeInstanceOf(Observable);
+    });
+  });
+
+  describe('getRowsForGroup', () => {
+    let params: any;
+    let childMaterialsCache: Map<string, CMPEntry[]>;
+    let groupKeys: string[];
+    let sortModel: SortModelItem[];
+    let selectedCustomer: string;
+    let gridApi: any;
+
+    beforeEach(() => {
+      params = {
+        success: jest.fn(),
+        fail: jest.fn(),
+      };
+      childMaterialsCache = new Map();
+      groupKeys = ['groupKey1'];
+      sortModel = [];
+      selectedCustomer = 'customer1';
+      gridApi = {
+        setGridOption: jest.fn(),
+      };
+    });
+
+    it('should use cached data if available', () => {
+      const cachedData = [{ id: 1, name: 'cachedItem' }] as any;
+      childMaterialsCache.set(groupKeys[0], cachedData);
+
+      service['getRowsForGroup']({
+        childMaterialsCache,
+        groupKeys,
+        startRow: 0,
+        endRow: 10,
+        sortModel,
+        selectedCustomer,
+        params,
+        gridApi,
+      });
+
+      expect(params.success).toHaveBeenCalledWith({
+        rowData: cachedData,
+        rowCount: cachedData.length,
+      });
+      expect(gridApi.setGridOption).toHaveBeenCalledWith('loading', false);
+    });
+
+    it('should fetch data if not available in cache', (done) => {
+      const fetchedData = {
+        childOfHeadMaterial: {
+          groupKey1: [{ id: 2, name: 'fetchedItem' }],
+        },
+      };
+
+      jest.spyOn(service as any, 'fetchData').mockReturnValue(of(fetchedData));
+
+      service['getRowsForGroup']({
+        childMaterialsCache,
+        groupKeys,
+        startRow: 0,
+        endRow: 10,
+        sortModel,
+        selectedCustomer,
+        params,
+        gridApi,
+      });
+
+      setTimeout(() => {
+        expect(service['fetchData']).toHaveBeenCalledWith(
+          0,
+          10,
+          sortModel,
+          {
+            customerNumber: [selectedCustomer],
+            materialNumber: [groupKeys[0]],
+          },
+          {}
+        );
+        expect(childMaterialsCache.get(groupKeys[0])).toEqual(
+          (fetchedData.childOfHeadMaterial as any)[groupKeys[0]]
+        );
+        expect(params.success).toHaveBeenCalledWith({
+          rowData: (fetchedData.childOfHeadMaterial as any)[groupKeys[0]],
+          rowCount: (fetchedData.childOfHeadMaterial as any)[groupKeys[0]]
+            .length,
+        });
+        expect(gridApi.setGridOption).toHaveBeenCalledWith('loading', false);
+        done();
+      });
+    });
+
+    it('should handle fetch error', (done) => {
+      const mockError = new Error('Fetch error');
+      jest
+        .spyOn(service as any, 'fetchData')
+        .mockReturnValue(throwError(() => mockError));
+      jest.spyOn(service['fetchErrorEvent'], 'next');
+
+      service['getRowsForGroup']({
+        childMaterialsCache,
+        groupKeys,
+        startRow: 0,
+        endRow: 10,
+        sortModel,
+        selectedCustomer,
+        params,
+        gridApi,
+      });
+
+      setTimeout(() => {
+        expect(params.fail).toHaveBeenCalled();
+        expect(service['fetchErrorEvent'].next).toHaveBeenCalledWith(mockError);
+        expect(gridApi.setGridOption).toHaveBeenCalledWith('loading', false);
+        done();
+      });
     });
   });
 });

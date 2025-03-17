@@ -8,8 +8,10 @@ import { MockProvider } from 'ng-mocks';
 import { CMPData } from '../../../../../feature/customer-material-portfolio/cmp-modal-types';
 import {
   CMPChangeModalFlavor,
+  CMPModal,
   CMPSpecificModal,
 } from '../../table/status-actions';
+import { DemandPlanAdoption } from './../../../../../feature/customer-material-portfolio/cmp-modal-types';
 import { Stub } from './../../../../../shared/test/stub.class';
 import {
   CustomerMaterialSingleModalComponent,
@@ -49,6 +51,55 @@ describe('CustomerMaterialSingleModalComponent', () => {
   afterEach(() => {
     jest.restoreAllMocks();
     jest.clearAllMocks();
+  });
+
+  describe('ngOnInit', () => {
+    it('should set formGroup values if data is provided', () => {
+      const mockData = {
+        customerNumber: '123',
+        materialNumber: '456',
+        materialDescription: 'Test Material',
+        demandCharacteristic: 'Test Characteristic',
+        autoSwitchDate: null,
+        repDate: null,
+        portfolioStatus: 'SI',
+        successorMaterial: null,
+        demandPlanAdoption: null,
+      } as any;
+
+      component['data'].data = mockData;
+      component.ngOnInit();
+
+      expect(component['formGroup'].value).toEqual({
+        materialNumber: '456',
+        materialDescription: 'Test Material',
+        demandCharacteristic: 'Test Characteristic',
+        autoSwitchDate: null,
+        repDate: null,
+        portfolioStatus: 'SI',
+        successorMaterial: null,
+        demandPlanAdoption: null,
+      } as any);
+    });
+
+    it('should call setConfirmation if modal is SCHAEFFLER_SUBSTITUTION', () => {
+      const setConfirmationSpy = jest.spyOn(
+        component as any,
+        'setConfirmation'
+      );
+      component['data'].modal = CMPSpecificModal.SCHAEFFLER_SUBSTITUTION;
+      component.ngOnInit();
+
+      expect(setConfirmationSpy).toHaveBeenCalled();
+    });
+
+    it('should call setFormGroup if modal is not SCHAEFFLER_SUBSTITUTION', () => {
+      const setFormGroupSpy = jest.spyOn(component as any, 'setFormGroup');
+      component['data'].modal = CMPSpecificModal.SUBSTITUTION_PROPOSAL;
+      component.ngOnInit();
+
+      expect(setFormGroupSpy).toHaveBeenCalled();
+    });
   });
 
   describe('getRequestData', () => {
@@ -179,13 +230,131 @@ describe('CustomerMaterialSingleModalComponent', () => {
   });
 
   describe('setFormGroup', () => {
-    it('should set required fields and deactivate fields based on type', () => {
+    it('should set required fields and deactivate fields for PhaseIn type', () => {
       component['data'].type = SpecificModalContentType.PhaseIn;
+      component['data'].edit = true;
       component['setFormGroup']();
+
       expect(
         component['formGroup'].get('autoSwitchDate').validator
       ).toBeDefined();
       expect(component['formGroup'].get('customerNumber').disabled).toBe(true);
+      expect(component['formGroup'].get('materialNumber').disabled).toBe(true);
+    });
+
+    it('should set required fields and deactivate fields for Status type', () => {
+      component['data'].type = SpecificModalContentType.Status;
+      component['setFormGroup']();
+
+      expect(component['formGroup'].get('autoSwitchDate').disabled).toBe(true);
+      expect(component['formGroup'].get('materialNumber').disabled).toBe(true);
+      expect(component['formGroup'].get('customerNumber').disabled).toBe(true);
+    });
+
+    it('should set required fields and deactivate fields for NoContent type', () => {
+      component['data'].type = SpecificModalContentType.NoContent;
+      component['setFormGroup']();
+
+      expect(component['formGroup'].get('materialNumber').disabled).toBe(true);
+      expect(component['formGroup'].get('customerNumber').disabled).toBe(true);
+    });
+
+    it('should set required fields and deactivate fields for PhaseOut type', () => {
+      component['data'].type = SpecificModalContentType.PhaseOut;
+      component['setFormGroup']();
+
+      expect(
+        component['formGroup'].get('autoSwitchDate').validator
+      ).toBeDefined();
+      expect(component['formGroup'].get('materialNumber').disabled).toBe(true);
+      expect(component['formGroup'].get('customerNumber').disabled).toBe(true);
+    });
+
+    it('should set required fields and deactivate fields for Substitution type', () => {
+      component['data'].type = SpecificModalContentType.Substitution;
+      component['setFormGroup']();
+
+      expect(component['formGroup'].get('repDate').validator).toBeDefined();
+      expect(
+        component['formGroup'].get('successorMaterial').validator
+      ).toBeDefined();
+      expect(
+        component['formGroup'].get('demandPlanAdoption').validator
+      ).toBeDefined();
+      expect(component['formGroup'].get('materialNumber').disabled).toBe(true);
+      expect(component['formGroup'].get('customerNumber').disabled).toBe(true);
+    });
+
+    it('should set required fields and deactivate fields for SubstitutionProposal type', () => {
+      component['data'].type = SpecificModalContentType.SubstitutionProposal;
+      component['setFormGroup']();
+
+      expect(component['formGroup'].get('repDate').validator).toBeDefined();
+      expect(
+        component['formGroup'].get('successorMaterial').validator
+      ).toBeDefined();
+      expect(
+        component['formGroup'].get('materialNumber').validator
+      ).toBeDefined();
+      expect(component['formGroup'].get('repDate').disabled).toBe(true);
+      expect(component['formGroup'].get('successorMaterial').disabled).toBe(
+        true
+      );
+      expect(component['formGroup'].get('materialNumber').disabled).toBe(true);
+      expect(component['formGroup'].get('customerNumber').disabled).toBe(true);
+    });
+
+    it('should set required fields and deactivate fields for Error type', () => {
+      component['data'].type = SpecificModalContentType.Error;
+      component['setFormGroup']();
+
+      expect(
+        component['formGroup'].get('materialNumber').validator
+      ).toBeDefined();
+      expect(component['formGroup'].get('materialNumber').disabled).toBe(true);
+      expect(component['formGroup'].get('customerNumber').disabled).toBe(true);
+    });
+
+    it('should not set any required fields or deactivate fields for unknown type', () => {
+      component['data'].type = 'unknown' as SpecificModalContentType;
+      component['setFormGroup']();
+
+      expect(component['formGroup'].get('autoSwitchDate').validator).toBeNull();
+      expect(component['formGroup'].get('repDate').validator).toBeNull();
+      expect(
+        component['formGroup'].get('successorMaterial').validator
+      ).toBeNull();
+      expect(
+        component['formGroup'].get('demandPlanAdoption').validator
+      ).toBeNull();
+      expect(component['formGroup'].get('materialNumber').disabled).toBe(false);
+      expect(component['formGroup'].get('customerNumber').disabled).toBe(true);
+    });
+  });
+
+  describe('getTranslationKey', () => {
+    it('should return the correct translation key for a given DemandPlanAdoption option', () => {
+      const option: DemandPlanAdoption = 'DELETE';
+      const result = component['getTranslationKey'](option);
+      expect(result).toBe(
+        'customer.material_portfolio.modal.substitution.transfere_forecast.delete'
+      );
+    });
+
+    it('should handle lowercase conversion correctly', () => {
+      const option: DemandPlanAdoption = 'COPY';
+      const result = component['getTranslationKey'](option);
+      expect(result).toBe(
+        'customer.material_portfolio.modal.substitution.transfere_forecast.copy'
+      );
+    });
+
+    it('should trim the result', () => {
+      const option: DemandPlanAdoption = 'ADD';
+      const result = component['getTranslationKey'](option);
+      expect(result).toBe(
+        'customer.material_portfolio.modal.substitution.transfere_forecast.add'
+      );
     });
   });
 
@@ -308,13 +477,73 @@ describe('CustomerMaterialSingleModalComponent', () => {
   });
 
   describe('getActionURL', () => {
-    it('should return correct URL for specialType veto', () => {
-      expect(component['getActionURL']('veto')).toBe('veto-substitution');
+    it('should return "veto-substitution" for specialType "veto"', () => {
+      const result = component['getActionURL']('veto');
+      expect(result).toBe('veto-substitution');
     });
 
-    it('should return correct URL for modal type EDIT_MODAL', () => {
+    it('should return "accept-substitution" for specialType "accept"', () => {
+      const result = component['getActionURL']('accept');
+      expect(result).toBe('accept-substitution');
+    });
+
+    it('should return "single-substitution" for specialType "change"', () => {
+      const result = component['getActionURL']('change');
+      expect(result).toBe('single-substitution');
+    });
+
+    it('should return "update" for modal type EDIT_MODAL', () => {
       component['data'].modal = CMPChangeModalFlavor.EDIT_MODAL;
-      expect(component['getActionURL'](null)).toBe('update');
+      const result = component['getActionURL'](null);
+      expect(result).toBe('update');
+    });
+
+    it('should return "single-phase-out" for modal type STATUS_TO_PHASE_OUT', () => {
+      component['data'].modal = CMPChangeModalFlavor.STATUS_TO_PHASE_OUT;
+      const result = component['getActionURL'](null);
+      expect(result).toBe('single-phase-out');
+    });
+
+    it('should return "single-phase-in" for modal type STATUS_TO_PHASE_IN', () => {
+      component['data'].modal = CMPChangeModalFlavor.STATUS_TO_PHASE_IN;
+      const result = component['getActionURL'](null);
+      expect(result).toBe('single-phase-in');
+    });
+
+    it('should return "single-substitution" for modal type STATUS_TO_SUBSTITUTION', () => {
+      component['data'].modal = CMPChangeModalFlavor.STATUS_TO_SUBSTITUTION;
+      const result = component['getActionURL'](null);
+      expect(result).toBe('single-substitution');
+    });
+
+    it('should return "single-inactivation" for modal type STATUS_TO_INACTIVE', () => {
+      component['data'].modal = CMPChangeModalFlavor.STATUS_TO_INACTIVE;
+      const result = component['getActionURL'](null);
+      expect(result).toBe('single-inactivation');
+    });
+
+    it('should return "single-reactivation" for modal type STATUS_TO_ACTIVE', () => {
+      component['data'].modal = CMPChangeModalFlavor.STATUS_TO_ACTIVE;
+      const result = component['getActionURL'](null);
+      expect(result).toBe('single-reactivation');
+    });
+
+    it('should return "single-reactivation" for modal type REVERT_SUBSTITUTION', () => {
+      component['data'].modal = CMPChangeModalFlavor.REVERT_SUBSTITUTION;
+      const result = component['getActionURL'](null);
+      expect(result).toBe('single-reactivation');
+    });
+
+    it('should return "change-to-schaeffler" for modal type SCHAEFFLER_SUBSTITUTION', () => {
+      component['data'].modal = CMPSpecificModal.SCHAEFFLER_SUBSTITUTION;
+      const result = component['getActionURL'](null);
+      expect(result).toBe('change-to-schaeffler');
+    });
+
+    it('should return null for unknown modal type', () => {
+      component['data'].modal = 'unknown' as CMPModal;
+      const result = component['getActionURL'](null);
+      expect(result).toBeNull();
     });
   });
 

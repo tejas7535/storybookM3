@@ -397,17 +397,18 @@ export class CustomerMaterialPortfolioComponent {
       case CMPChangeModalFlavor.STATUS_TO_PHASE_OUT:
       case CMPChangeModalFlavor.STATUS_TO_SUBSTITUTION: {
         const data: CMPData = {
-          customerNumber: entry.customerNumber,
-          materialNumber: entry.materialNumber,
-          materialDescription: entry.materialDescription,
-          demandCharacteristic: entry.demandCharacteristic,
-          successorMaterial: entry.successorMaterial,
+          customerNumber: entry?.customerNumber,
+          materialNumber: entry?.materialNumber,
+          materialDescription: entry?.materialDescription,
+          demandCharacteristic: entry?.demandCharacteristic,
+          successorMaterial: entry?.successorMaterial,
           demandPlanAdoption: null,
-          repDate: entry.repDate ? parseISO(entry.repDate) : null,
+          repDate: entry?.repDate ? parseISO(entry?.repDate) : null,
           portfolioStatus:
-            changeToStatus ?? parsePortfolioStatusOrNull(entry.portfolioStatus),
-          autoSwitchDate: entry.pfStatusAutoSwitch
-            ? parseISO(entry.pfStatusAutoSwitch)
+            changeToStatus ??
+            parsePortfolioStatusOrNull(entry?.portfolioStatus),
+          autoSwitchDate: entry?.pfStatusAutoSwitch
+            ? parseISO(entry?.pfStatusAutoSwitch)
             : null,
         };
 

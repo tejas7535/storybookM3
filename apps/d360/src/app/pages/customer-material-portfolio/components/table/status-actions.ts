@@ -47,7 +47,7 @@ export const statusActions: CMPAction[] = [
     name: CMPActionName.EDIT,
     modal: CMPChangeModalFlavor.EDIT_MODAL,
     changeToStatus: undefined,
-    isAllowed: isEditAllowed,
+    isAllowed: () => true,
   },
   {
     name: CMPActionName.SUBSTITUTION_PROPOSAL,
@@ -92,10 +92,6 @@ export const statusActions: CMPAction[] = [
     isAllowed: isSubstitutionChangeToSchaefflerAllowed,
   },
 ];
-
-export function isEditAllowed(_status: PortfolioStatus | null) {
-  return true;
-}
 
 export function isInactictivationAllowed(
   status: PortfolioStatus | null
