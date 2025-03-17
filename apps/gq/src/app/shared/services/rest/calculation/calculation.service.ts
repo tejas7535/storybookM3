@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -25,8 +25,21 @@ export class CalculationService {
       `${ApiVersion.V1}/${this.PATH_CALCULATION}/${this.PATH_QUOTATION_DETAILS_KPI}`,
       requestBody,
       {
-        context: withCache(),
+        context: withCache({
+          clearCachePredicate: (previousRequest, currentRequest) =>
+            this.requestHasChanged(previousRequest, currentRequest),
+        }),
       }
+    );
+  }
+  requestHasChanged<T>(
+    previousRequest: HttpRequest<T>,
+    currentRequest: HttpRequest<T>
+  ): boolean {
+    return (
+      !previousRequest ||
+      JSON.stringify(previousRequest.body) !==
+        JSON.stringify(currentRequest.body)
     );
   }
 }
