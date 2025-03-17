@@ -37,13 +37,13 @@ export class HideIfQuotationNotActiveOrPendingDirective implements OnInit {
     ])
       .pipe(takeUntilDestroyed(this.destroyRef), distinctUntilChanged())
       .subscribe(([status, syncStatus]: [QuotationStatus, SAP_SYNC_STATUS]) => {
+        this.viewContainer.clear();
         if (
           QuotationStatus.ACTIVE === status &&
           syncStatus !== SAP_SYNC_STATUS.SYNC_PENDING
         ) {
+          // clear viewContainer before Template is added see GQUOTE-4881
           this.viewContainer.createEmbeddedView(this.templateRef);
-        } else {
-          this.viewContainer.clear();
         }
       });
   }

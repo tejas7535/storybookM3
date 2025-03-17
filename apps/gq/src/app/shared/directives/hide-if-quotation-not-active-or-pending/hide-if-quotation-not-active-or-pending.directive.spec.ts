@@ -90,7 +90,7 @@ describe('HideIfQuotationNotActiveDirective', () => {
     expect(directive['viewContainer'].clear).toHaveBeenCalled();
   });
 
-  test('should NOT create again if quotation status has NOT changed', () => {
+  test('should call clear viewContainer, before create, even when Status has not changed', () => {
     jest.spyOn(directive['viewContainer'], 'createEmbeddedView');
     jest.spyOn(directive['viewContainer'], 'clear');
 
@@ -106,6 +106,26 @@ describe('HideIfQuotationNotActiveDirective', () => {
     expect(directive['viewContainer'].createEmbeddedView).toHaveBeenCalledTimes(
       1
     );
-    expect(directive['viewContainer'].clear).not.toHaveBeenCalled();
+    expect(directive['viewContainer'].clear).toHaveBeenCalled();
+  });
+
+  test('should call clear viewContainer, before create, even when Status has changed', () => {
+    jest.spyOn(directive['viewContainer'], 'createEmbeddedView');
+    jest.spyOn(directive['viewContainer'], 'clear');
+
+    // First render: quotation status is ACTIVE
+    store.overrideSelector(getQuotationStatus, quotationStatus.ACTIVE);
+    store.overrideSelector(getQuotationSapSyncStatus, SAP_SYNC_STATUS.SYNCED);
+    spectator.detectChanges();
+
+    // Quotation was updated: quotation status has changed
+    store.overrideSelector(getQuotationStatus, quotationStatus.ARCHIVED);
+    store.refreshState();
+
+    // createEmbeddedView should have been called only once
+    expect(directive['viewContainer'].createEmbeddedView).toHaveBeenCalledTimes(
+      1
+    );
+    expect(directive['viewContainer'].clear).toHaveBeenCalled();
   });
 });
