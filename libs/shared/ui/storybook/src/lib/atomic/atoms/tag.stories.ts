@@ -33,7 +33,12 @@ export default {
 const Template: StoryFn = (args) => ({
   props: args,
   template: `
-    <section>
+    <section class="bg-surface text-on-surface p-4 mb-6 text-headline-large rounded-xl">
+     <h2 class="text-display-medium mb-6">Tags</h2>
+     <div class="flex flex-col gap-6">
+      <a class="text-primary text-body-large underline" href="https://zeroheight.com/4a06fad55/p/32e571-tags"
+      target="_blank"> Find in Zeroheight</a>
+  </div>
     <div class=" flex flex-row gap-6 py-3">
         <schaeffler-tag [value]="'Info tag'" type="info" ></schaeffler-tag>
         <schaeffler-tag [value]="'Info tag with border'" type="info" withBorder="true" > </schaeffler-tag>

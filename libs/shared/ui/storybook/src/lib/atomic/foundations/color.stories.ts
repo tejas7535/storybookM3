@@ -7,6 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import READMEMd from './color/README.md';
 import { BackgroundColorDirective } from './color/background-color.directive';
 import { Component, Input, OnInit } from '@angular/core';
+import { TextColorDirective } from './color/text-color.directive';
+import { BorderColorDirective } from './color/border-color.directive';
 const colors = require('../../../../../styles/src/lib/tailwind/colors');
 
 @Component({
@@ -389,7 +391,199 @@ const colors = require('../../../../../styles/src/lib/tailwind/colors');
         </div>
       </div>
     </section>
+    <section class="bg-surface p-4">
+      <h4 class="text-on-surface text-h6 p-4 ">Special colors</h4>
+      <div
+        class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:gap-2 lg:grid-cols-3"
+      >
+        <div class="flex flex-col gap-2">
+          <div class="bg-warning h-10 p-3">
+            <p
+              class="text-surface-container-lowest"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="bg-warning-container p-3">
+            <p
+              class="text-on-warning-container"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-2">
+          <div class="bg-info h-10 p-3">
+            <p
+              class="text-surface-container-lowest"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="bg-info-container p-3">
+            <p
+              class="text-on-info-container"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-2">
+          <div class="bg-success h-10 p-3">
+            <p
+              class="text-success-container"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="bg-success-container p-3">
+            <p
+              class="text-on-success-container"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-2">
+          <div class="bg-category-1 h-10 p-3">
+            <p
+              class="text-surface-container-lowest"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+
+          <div class="bg-category-1-container  p-3">
+            <p
+              class="text-on-category-1-container"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-2">
+          <div class="bg-category-2 h-10 p-3">
+            <p
+              class="text-surface-container-lowest"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+          <div class="bg-category-2-container  p-3">
+            <p
+              class="text-on-category-2-container"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+        </div>
+        <div class="flex flex-col gap-2">
+          <div class="bg-category-3 h-10 p-3">
+            <p
+              class="text-surface-container-lowest"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+          <div class="bg-category-3-container p-3">
+            <p
+              class="text-on-category-3-container"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="bg-surface p-4">
+      <h4 class="text-on-surface text-h6 p-4 ">Special text colors</h4>
+      <div class="flex flex-wrap flex-col sm:flex-row gap-4">
+        <p
+          class="text-on-warning-container"
+          colorText
+          [isDarkModeEnabled]="isDarkMode"
+        ></p>
+
+        <p
+          class="text-on-info-container"
+          colorText
+          [isDarkModeEnabled]="isDarkMode"
+        ></p>
+
+        <p
+          class="text-on-success-container"
+          colorText
+          [isDarkModeEnabled]="isDarkMode"
+        ></p>
+        <p
+          class="text-on-error-container"
+          colorText
+          [isDarkModeEnabled]="isDarkMode"
+        ></p>
+        <p
+          class="text-on-category-1-container"
+          colorText
+          [isDarkModeEnabled]="isDarkMode"
+        ></p>
+
+        <p
+          class="text-on-category-2-container"
+          colorText
+          [isDarkModeEnabled]="isDarkMode"
+        ></p>
+        <p
+          class="text-on-category-3-container"
+          colorText
+          [isDarkModeEnabled]="isDarkMode"
+        ></p>
+      </div>
+
+      <h4 class="text-on-surface text-h6 p-4 ">Special border colors</h4>
+      <div
+        class="flex flex-wrap flex-col sm:flex-row gap-4 mb-1 text-on-surface "
+      >
+        <div
+          class="border-info content-center p-1 mat-elevation-z0  border-4 h-20"
+          colorBorder
+          [isDarkModeEnabled]="isDarkMode"
+        ></div>
+        <div
+          class="border-success content-center p-1 mat-elevation-z0  border-4 h-20"
+          colorBorder
+          [isDarkModeEnabled]="isDarkMode"
+        ></div>
+        <div
+          class="border-warning content-center p-1 mat-elevation-z0 border-4 h-20"
+          colorBorder
+          [isDarkModeEnabled]="isDarkMode"
+        ></div>
+        <div
+          class="border-error content-center p-1 mat-elevation-z0 border-4 h-20"
+          colorBorder
+          [isDarkModeEnabled]="isDarkMode"
+        ></div>
+        <div
+          class="border-category-1 content-center p-1 mat-elevation-z0 border-4 h-20"
+          colorBorder
+          [isDarkModeEnabled]="isDarkMode"
+        ></div>
+        <div
+          class="border-category-2 content-center p-1 mat-elevation-z0 border-4 h-20"
+          colorBorder
+          [isDarkModeEnabled]="isDarkMode"
+        ></div>
+        <div
+          class="border-category-3 content-center p-1 mat-elevation-z0 border-4 h-20"
+          colorBorder
+          [isDarkModeEnabled]="isDarkMode"
+        ></div>
+      </div>
+    </section>
     <section class="bg-background-dark p-4">
+      <h3>Colors below are m2 legacy colors</h3>
       <h4>Foundational colors</h4>
       <div class="mat-elevation-z0 bg-white">
         <div class="p-4 pt-[60px]">bg-white {{ colors.white }}</div>
@@ -442,87 +636,80 @@ const colors = require('../../../../../styles/src/lib/tailwind/colors');
         </div>
       </div>
 
-      <h4 class="mt-20">Functional Colors</h4>
-      <div class="mat-elevation-z0 bg-secondary-legacy border border-info mb-1">
-        <div class="p-4 pt-[60px]">border-info {{ colors['info'] }}</div>
-      </div>
-      <div
-        class="mat-elevation-z0 bg-secondary-legacy border border-success mb-1"
-      >
-        <div class="p-4 pt-[60px]">border-success {{ colors['success'] }}</div>
-      </div>
-      <div
-        class="mat-elevation-z0 bg-secondary-legacy border border-warning mb-1"
-      >
-        <div class="p-4 pt-[60px]">border-warning {{ colors['warning'] }}</div>
-      </div>
-      <div
-        class="mat-elevation-z0 bg-secondary-legacy border border-error mb-1"
-      >
-        <div class="p-4 pt-[60px]">border-error {{ colors['error'] }}</div>
-      </div>
-
       <h4 class="mt-20">Functional Text Colors</h4>
       <div
         class="mat-elevation-z0 bg-secondary-legacy flex flex-row justify-between"
       >
-        <div class="p-4 pt-[60px] text-info">
-          text-info {{ colors['text-info'] }}
-        </div>
-        <div class="p-4 pt-[60px] text-success">
-          text-success {{ colors['text-success'] }}
-        </div>
-        <div class="p-4 pt-[60px] text-warning">
-          text-warning {{ colors['text-warning'] }}
-        </div>
         <div class="p-4 pt-[60px] text-error">
           text-error {{ colors['text-error'] }}
         </div>
       </div>
 
-      <h4 class="mt-20">Text Icon Colors</h4>
-      <div class="mat-elevation-z0 bg-secondary-legacy">
-        <div class="p-4 pt-[60px] flex gap-4 text-icon-link">
-          <mat-icon>link</mat-icon>
-          <span>text-icon-link</span>
-          <span>{{ colors.link }}</span>
+      <section class="bg-surface p-4">
+        <h4 class="mt-20 text-on-surface">Text Icon Colors</h4>
+        <div class="mat-elevation-z0 ">
+          <div class="p-4 pt-[60px] flex gap-4 text-icon-link">
+            <mat-icon>link</mat-icon>
+            <span
+              class="text-icon-link"
+              colorText
+              [isDarkModeEnabled]="isDarkMode"
+            >
+            </span>
+          </div>
+          <div class="p-4 pt-[60px] flex gap-4 text-icon-success">
+            <mat-icon>done</mat-icon>
+            <span
+              class="text-icon-success"
+              colorText
+              [isDarkModeEnabled]="isDarkMode"
+            >
+            </span>
+          </div>
+          <div class="p-4 pt-[60px] flex gap-4 text-icon-info">
+            <mat-icon>info</mat-icon>
+            <span
+              class="text-icon-info"
+              colorText
+              [isDarkModeEnabled]="isDarkMode"
+            >
+            </span>
+          </div>
+          <div class="p-4 pt-[60px] flex gap-4 text-icon-warning">
+            <mat-icon>warning</mat-icon>
+            <span
+              class="text-icon-warning"
+              colorText
+              [isDarkModeEnabled]="isDarkMode"
+            >
+            </span>
+          </div>
+          <div class="p-4 pt-[60px] flex gap-4 text-icon-error">
+            <mat-icon>error</mat-icon>
+            <span
+              class="text-icon-error"
+              colorText
+              [isDarkModeEnabled]="isDarkMode"
+            >
+            </span>
+          </div>
+          <div class="p-4 pt-[60px] flex gap-4 text-icon-disabled">
+            <mat-icon>edit-off</mat-icon>
+            <span>text-icon-disabled</span>
+            <span>{{ colors.disabled }}</span>
+          </div>
+          <div class="p-4 pt-[60px] flex gap-4 text-icon-inactive">
+            <mat-icon>toggle_off</mat-icon>
+            <span>text-icon-inactive</span>
+            <span>{{ colors.inactive }}</span>
+          </div>
+          <div class="p-4 pt-[60px] flex gap-4 text-icon-active">
+            <mat-icon>toggle_on</mat-icon>
+            <span>text-icon-active</span>
+            <span>{{ colors.active }}</span>
+          </div>
         </div>
-        <div class="p-4 pt-[60px] flex gap-4 text-icon-success">
-          <mat-icon>done</mat-icon>
-          <span>text-icon-success</span>
-          <span>{{ colors.success }}</span>
-        </div>
-        <div class="p-4 pt-[60px] flex gap-4 text-icon-info">
-          <mat-icon>info</mat-icon>
-          <span>text-icon-info</span>
-          <span>{{ colors.info }}</span>
-        </div>
-        <div class="p-4 pt-[60px] flex gap-4 text-icon-warning">
-          <mat-icon>warning</mat-icon>
-          <span>text-icon-warning</span>
-          <span>{{ colors.warning }}</span>
-        </div>
-        <div class="p-4 pt-[60px] flex gap-4 text-icon-error">
-          <mat-icon>error</mat-icon>
-          <span>text-icon-error</span>
-          <span>{{ colors.error }}</span>
-        </div>
-        <div class="p-4 pt-[60px] flex gap-4 text-icon-disabled">
-          <mat-icon>edit-off</mat-icon>
-          <span>text-icon-disabled</span>
-          <span>{{ colors.disabled }}</span>
-        </div>
-        <div class="p-4 pt-[60px] flex gap-4 text-icon-inactive">
-          <mat-icon>toggle_off</mat-icon>
-          <span>text-icon-inactive</span>
-          <span>{{ colors.inactive }}</span>
-        </div>
-        <div class="p-4 pt-[60px] flex gap-4 text-icon-active">
-          <mat-icon>toggle_on</mat-icon>
-          <span>text-icon-active</span>
-          <span>{{ colors.active }}</span>
-        </div>
-      </div>
+      </section>
 
       <h4 class="mt-20">Color Schema</h4>
       <div class="mat-elevation-z0 bg-primary-variant">
@@ -557,15 +744,6 @@ const colors = require('../../../../../styles/src/lib/tailwind/colors');
         <div class="p-4 pt-[60px]">
           bg-surface-legacy {{ colors['surface-legacy'] }}
         </div>
-      </div>
-      <div class="mat-elevation-z0 bg-success">
-        <div class="p-4 pt-[60px]">bg-success {{ colors['bg-success'] }}</div>
-      </div>
-      <div class="mat-elevation-z0 bg-info">
-        <div class="p-4 pt-[60px]">bg-info {{ colors['bg-info'] }}</div>
-      </div>
-      <div class="mat-elevation-z0 bg-warning">
-        <div class="p-4 pt-[60px]">bg-warning {{ colors['bg-warning'] }}</div>
       </div>
     </section>
   `,
@@ -606,7 +784,12 @@ export default {
   decorators: [
     withDesign,
     moduleMetadata({
-      imports: [MatIconModule, BackgroundColorDirective],
+      imports: [
+        MatIconModule,
+        BackgroundColorDirective,
+        TextColorDirective,
+        BorderColorDirective,
+      ],
     }),
   ],
   parameters: {

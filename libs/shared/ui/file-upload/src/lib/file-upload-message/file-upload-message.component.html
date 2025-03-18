@@ -3,8 +3,10 @@
   [ngClass]="{
     'bg-error-container border-error text-on-error-container':
       message.type === 'error',
-    'bg-warning border-warning text-warning': message.type === 'warning',
-    'bg-info border-info text-info': message.type === 'info'
+    'bg-warning-container border-warning text-on-warning-container':
+      message.type === 'warning',
+    'bg-info-container border-info text-on-info-container':
+      message.type === 'info'
   }"
 >
   <div class="flex flex-col justify-start">

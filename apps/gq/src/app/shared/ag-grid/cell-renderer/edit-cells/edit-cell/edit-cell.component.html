@@ -4,7 +4,7 @@
     class="float-left w-full truncate"
     [ngClass]="{
       'text-error': isInvalidPriceError,
-      'text-warning': isWarningEnabled
+      'text-on-warning-container': isWarningEnabled
     }"
   >
     @if (isWarningEnabled) {

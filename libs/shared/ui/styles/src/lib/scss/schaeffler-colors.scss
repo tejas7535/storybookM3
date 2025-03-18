@@ -14,12 +14,6 @@ $secondary: #ffffff;
 $secondary-legacy: #ffffff; // temporary color to replace occurences of $secondary for m2 theme
 $secondary-variant: #f5f5f5;
 
-// Background colors
-$bg-error: #fceee8;
-$bg-info: #f0f6fa;
-$bg-warning: #fffbef;
-$bg-success: #f8fbf4;
-
 $background-dark: $secondary-variant;
 $surface: $secondary;
 $surface-legacy: $secondary-legacy; // temporary color to replace occurences of $secondary for m2 theme
@@ -258,5 +252,92 @@ $schaeffler-palette-m3: (
     98: $placeholder,
     99: #fffcfb,
     100: #ffffff,
+  ),
+);
+
+$schaeffler-m3-functional: (
+  warning: (
+    0: #000000,
+    10: #522600,
+    20: #814e00,
+    30: #b37c00,
+    40: #e9b300,
+    50: #f7d52a,
+    60: #f9dd64,
+    70: #fbe591,
+    80: #fdeeb9,
+    90: #fef7dd,
+    95: #fffbef,
+    99: #fffefc,
+    100: #ffffff,
+  ),
+  success: (
+    0: #000000,
+    10: #0b4510,
+    20: #3c7029,
+    30: #6d9c42,
+    40: #a1c861,
+    50: #b2d27e,
+    60: #c4db9b,
+    70: #d3e4b6,
+    80: #e2edd0,
+    90: #f1f6e8,
+    95: #f8fbf4,
+    99: #fefefd,
+    100: #ffffff,
+  ),
+  info: (
+    0: #000000,
+    10: #003949,
+    20: #00596e,
+    30: #007892,
+    40: #1c98b5,
+    50: #58a8c2,
+    60: #7fb9ce,
+    70: #a1cadb,
+    80: #c1dce8,
+    90: #e0edf4,
+    95: #f0f6fa,
+    99: #fbfdfe,
+    100: #ffffff,
+  ),
+  category-1: (
+    10: #43133c,
+    20: #5d194f,
+    30: #781d60,
+    40: #962071,
+    50: #a54584,
+    60: #b56c9b,
+    70: #c692b5,
+    80: #d8b7cf,
+    90: #ebdce8,
+    95: #f5edf4,
+    99: #fdfcfd,
+  ),
+  category-2: (
+    10: #21173b,
+    20: #2f214d,
+    30: #3d2c61,
+    40: #4c3876,
+    50: #675188,
+    60: #846f9d,
+    70: #a191b5,
+    80: #c1b5ce,
+    90: #dfdae7,
+    95: #efecf4,
+    99: #fcfcfd,
+  ),
+  category-3: (
+    10: #281200,
+    20: #361a00,
+    30: #442200,
+    40: #522c00,
+    50: #714715,
+    60: #8d6438,
+    70: #ac8862,
+    80: #c9ad91,
+    90: #e5d5c5,
+    95: #f2eae1,
+    99: #fdfbf9,
   ),
 );

@@ -12,7 +12,7 @@
     <div class="pb-6">
       @if (!isValidUnit()) {
         <div
-          class="p-4 border border-warning bg-warning rounded text-body-small text-warning"
+          class="p-4 border border-warning bg-warning-container rounded text-body-small text-on-warning-container"
         >
           <div>
             {{ t('error.mpa') }}
@@ -122,7 +122,7 @@
         <ng-container *ngrxLet="indentationResult$ as response">
           @if (response.error) {
             <div
-              class="p-4 border border-warning bg-warning rounded text-body-small text-warning"
+              class="p-4 border border-warning bg-warning-container rounded text-body-small text-on-warning-container"
             >
               {{ t('error.' + response.error) }}
             </div>

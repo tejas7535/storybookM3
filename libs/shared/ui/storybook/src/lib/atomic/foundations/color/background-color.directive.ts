@@ -7,6 +7,7 @@ import {
   Renderer2,
   SimpleChanges,
 } from '@angular/core';
+import { toHex } from './color-helpers';
 
 // pallet should be in sync with $schaeffler-palette-m3 from schaeffler-colors.scss
 const shadePlaceholder = '#ff3399';
@@ -151,16 +152,18 @@ export class BackgroundColorDirective implements AfterViewInit, OnChanges {
     ).backgroundColor;
 
     const roleClass = this.el.nativeElement.parentElement.classList[0];
-    const hexColor = this.toHex(bgColor);
+    const hexColor = toHex(bgColor);
     const paletteColor = this.getPaletteColor(
       hexColor,
       roleClass
     ).toUpperCase();
 
+    const roleClassText = roleClass.replace('bg-', '');
+
     this.renderer.setProperty(
       this.el.nativeElement,
       'innerHTML',
-      `${roleClass}  ${paletteColor}:  ${hexColor} `
+      `${roleClassText}  ${paletteColor}:  ${hexColor} `
     );
   }
 
@@ -206,51 +209,5 @@ export class BackgroundColorDirective implements AfterViewInit, OnChanges {
     }
 
     return result;
-  }
-
-  private toHex(color: string): string {
-    if (color.startsWith('rgba')) {
-      return this.rgbaToHex(color);
-    } else if (color.startsWith('rgb')) {
-      return this.rgbToHex(color);
-    } else if (color.startsWith('#')) {
-      return color;
-    }
-
-    return color;
-  }
-
-  private rgbToHex(rgb: string): string {
-    const result = rgb.match(/\d+/g);
-    if (result) {
-      const r = Number.parseInt(result[0], 10);
-      const g = Number.parseInt(result[1], 10);
-      const b = Number.parseInt(result[2], 10);
-
-      return `#${this.componentToHex(r)}${this.componentToHex(g)}${this.componentToHex(b)}`;
-    }
-
-    return rgb;
-  }
-
-  private rgbaToHex(rgba: string): string {
-    const result = rgba.match(/\d+/g);
-    if (result) {
-      const r = Number.parseInt(result[0], 10);
-      const g = Number.parseInt(result[1], 10);
-      const b = Number.parseInt(result[2], 10);
-      const a = Number.parseFloat(result[3]);
-      const alpha = Math.round(a * 255);
-
-      return `#${this.componentToHex(r)}${this.componentToHex(g)}${this.componentToHex(b)}${this.componentToHex(alpha)}`;
-    }
-
-    return rgba;
-  }
-
-  private componentToHex(c: number): string {
-    const hex = c.toString(16);
-
-    return hex.length === 1 ? `0${hex}` : hex;
   }
 }

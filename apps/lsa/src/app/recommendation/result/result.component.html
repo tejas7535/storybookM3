@@ -1,12 +1,16 @@
 <ng-container *transloco="let t; read: 'recommendation.result'">
   @if (validResult) {
     @for (notice of validResult.notices; track notice.titleId) {
-      <div class="rounded-md border-info bg-info text-info px-4 py-2">
+      <div
+        class="rounded-md border-info bg-info-container text-on-info-container px-4 py-2"
+      >
         {{ t(notice.titleId) }}
       </div>
     }
     @for (warning of validResult.warnings; track warning.titleId) {
-      <div class="rounded-md border-warning bg-warning text-warning px-4 py-2">
+      <div
+        class="rounded-md border-warning bg-warning-container text-on-warning-container px-4 py-2"
+      >
         {{ t(warning.titleId) }}
       </div>
     }

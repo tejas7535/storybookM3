@@ -9,7 +9,8 @@
         *transloco="let t; read: 'shared.quotationStatusLabels'"
         class="flex items-center pl-9 pt-2"
         [ngClass]="{
-          'text-info': statusOfQuotation === quotationStatus.IN_APPROVAL,
+          'text-on-info-container':
+            statusOfQuotation === quotationStatus.IN_APPROVAL,
           'text-quotation-status-green':
             statusOfQuotation === quotationStatus.APPROVED,
           'text-error': statusOfQuotation === quotationStatus.REJECTED
@@ -34,10 +35,11 @@
       <span
         class="pl-9 pt-2 text-caption"
         [ngClass]="{
-          'text-info': (sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED,
+          'text-on-info-container':
+            (sapStatus$ | ngrxPush) === sapSyncStatus.SYNCED,
           'text-medium-emphasis':
             (sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED && !errorCode,
-          'text-warning':
+          'text-on-warning-container':
             (sapStatus$ | ngrxPush) === sapSyncStatus.PARTIALLY_SYNCED ||
             (sapStatus$ | ngrxPush) === sapSyncStatus.SYNC_PENDING,
           'text-error':

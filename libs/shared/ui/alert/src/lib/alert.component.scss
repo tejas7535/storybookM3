@@ -1,14 +1,17 @@
+@use '@angular/material' as mat;
+
 .alert-warning {
-  @apply bg-warning border-warning text-warning;
+  @include mat.button-overrides(
+    (
+      outlined-state-layer-color: var(--warning),
+    )
+  );
+
+  @apply bg-warning-container border-warning text-on-warning-container;
 
   button {
-    @apply text-warning;
+    @apply text-on-warning-container;
     @apply border-warning;
-
-    &:hover {
-      // todo replace with m3 warning of shade 10 defined color once available
-      background-color: rgba(82, 38, 0, 0.08);
-    }
   }
 
   .alert-icon {
@@ -17,16 +20,16 @@
 }
 
 .alert-success {
-  @apply bg-success border-success text-success;
+  @include mat.button-overrides(
+    (
+      outlined-state-layer-color: var(--success),
+    )
+  );
+  @apply bg-success-container border-success text-on-success-container;
 
   button {
-    @apply text-success;
+    @apply text-on-success-container;
     @apply border-success;
-
-    &:hover {
-      // todo replace with m3 success of shade 10 defined color once available
-      background-color: rgb(11, 69, 16, 0.08);
-    }
   }
 
   .alert-icon {
@@ -35,15 +38,16 @@
 }
 
 .alert-info {
-  @apply bg-info border-info text-info;
-  button {
-    @apply text-info;
-    @apply border-info;
+  @include mat.button-overrides(
+    (
+      outlined-state-layer-color: var(--info),
+    )
+  );
 
-    &:hover {
-      // todo replace with m3 info of shade 10 defined color once available
-      background-color: rgb(0, 57, 73, 0.08);
-    }
+  @apply bg-info-container border-info text-on-info-container;
+  button {
+    @apply text-on-info-container;
+    @apply border-info;
   }
 
   .alert-icon {
@@ -52,19 +56,19 @@
 }
 
 .alert-error {
+  @include mat.button-overrides(
+    (
+      outlined-state-layer-color: var(--error-color),
+    )
+  );
   @apply bg-error-container border-error text-on-error-container;
 
   button {
     @apply text-on-error-container;
     @apply border-error;
-
-    &:hover {
-      // @apply bg-on-error-container/8; should work if color would be generated including tailwind opacity
-      background-color: rgba(80, 8, 0, 0.08);
-    }
   }
 
   .alert-icon {
-    @apply text-icon-error;
+    @apply text-error;
   }
 }

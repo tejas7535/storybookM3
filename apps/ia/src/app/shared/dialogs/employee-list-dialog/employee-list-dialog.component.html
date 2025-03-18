@@ -33,7 +33,7 @@
       [excelName]="data.customExcelFileName ?? defaultExcelName"
     ></ia-employee-list-table>
     @if (!data.employeesLoading && !data.enoughRightsToShowAllEmployees) {
-      <span class="text-warning !pt-0">
+      <span class="text-on-warning-container !pt-0">
         {{ t('enoughRightsToShowAllEmployees') }}
       </span>
     }

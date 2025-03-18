@@ -1,8 +1,8 @@
 <div
   class="mt-6 flex w-fit flex-row items-center rounded-md border-[1px] py-3 px-3"
   [ngClass]="{
-    'border-info bg-info': !isWarning,
-    'border-warning bg-warning': isWarning
+    'border-info bg-info-container': !isWarning,
+    'border-warning bg-warning-container': isWarning
   }"
 >
   <mat-icon
@@ -17,8 +17,8 @@
   <div
     class="text-caption"
     [ngClass]="{
-      '!text-info': !isWarning,
-      '!text-warning': isWarning
+      '!text-on-info-container': !isWarning,
+      '!text-on-warning-container': isWarning
     }"
   >
     {{ infoText }}

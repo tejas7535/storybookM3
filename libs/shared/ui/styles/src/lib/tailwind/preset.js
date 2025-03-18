@@ -75,40 +75,49 @@ const baseColors = {
 };
 
 const backgroundColors = {
-  error: colors['bg-error'],
-  info: colors['bg-info'],
-  warning: colors['bg-warning'],
-  success: colors['bg-success'],
+  warning: 'var(--warning)',
+  'warning-container': 'var(--warning-container)',
+  info: 'var(--info)',
+  'info-container': 'var(--info-container)',
+  success: 'var(--success)',
+  'success-container': 'var(--success-container)',
+  'category-1': 'var(--category-1)',
+  'category-1-container': 'var(--category-1-container)',
+  'category-2': 'var(--category-2)',
+  'category-2-container': 'var(--category-2-container)',
+  'category-3': 'var(--category-3)',
+  'category-3-container': 'var(--category-3-container)',
   'background-dark': colors['background-dark'],
   surface: colors['surface'],
   'surface-legacy': colors['surface-legacy'],
 };
 
 const functionalColors = {
-  error: colors.error,
   link: colors.link,
-  info: colors.info,
-  warning: colors.warning,
-  success: colors.success,
 };
 
 const functionalIconColors = {
-  'icon-error': colors.error,
+  'icon-error': materialsRoleColors.error,
   'icon-link': colors.link,
-  'icon-info': colors.info,
-  'icon-warning': colors.warning,
-  'icon-success': colors.success,
+  'icon-info': 'var(--info)',
+  'icon-warning': 'var(--warning)',
+  'icon-success': 'var(--success)',
   'icon-disabled': colors.disabled,
   'icon-inactive': colors.inactive,
   'icon-active': colors.active,
 };
 
 const functionalTextColors = {
-  error: colors['text-error'],
   link: colors['text-link'],
   info: colors['text-info'],
   warning: colors['text-warning'],
   success: colors['text-success'],
+  'on-warning-container': 'var(--on-warning-container)',
+  'on-info-container': 'var(--on-info-container)',
+  'on-success-container': 'var(--on-success-container)',
+  'on-category-1-container': 'var(--on-category-1-container)',
+  'on-category-2-container': 'var(--on-category-2-container)',
+  'on-category-3-container': 'var(--on-category-3-container)',
 };
 
 const greys = {
@@ -132,6 +141,12 @@ const emphasis = {
 const border = {
   border: colors.border,
   'medium-emphasis': colors['medium-emphasis'],
+  warning: 'var(--warning)',
+  info: 'var(--info)',
+  success: 'var(--success)',
+  'category-1': 'var(--category-1)',
+  'category-2': 'var(--category-2)',
+  'category-3': 'var(--category-3)',
 };
 
 const fontFamilies = {

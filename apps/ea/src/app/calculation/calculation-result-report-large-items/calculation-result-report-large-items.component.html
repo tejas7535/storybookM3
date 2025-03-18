@@ -36,13 +36,13 @@
           @if (!item.warning) {
             <ea-tag
               [value]="item.short"
-              styleClass="text-info bg-info border-info"
+              styleClass="text-on-info-container bg-info-container border-info"
             ></ea-tag>
           }
           @if (item.warning) {
             <ea-tag
               [value]="item.short"
-              styleClass="text-warning bg-warning border-warning"
+              styleClass="text-on-warning-container bg-warning-container border-warning"
             ></ea-tag>
           }
         </div>

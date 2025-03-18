@@ -17,12 +17,6 @@ const colors = {
   'secondary-variant': '#f5f5f5',
   'secondary-900': '#3c3c3c',
 
-  // Background colors
-  'bg-error': '#fceee8',
-  'bg-info': '#f0f6fa',
-  'bg-warning': '#fffbef',
-  'bg-success': '#f8fbf4',
-
   'background-dark': '#f5f5f5',
   surface: '#ffffff',
   'surface-legacy': '#ffffff', // temporary color to replace occurences of $surface for m2 theme

@@ -1,0 +1,42 @@
+@use '@angular/material' as mat;
+@use 'sass:map';
+@import './schaeffler-colors.scss';
+
+@function hexToRGB($hex) {
+  @return red($hex), green($hex), blue($hex);
+}
+
+@mixin set-theme-color($theme, $color-category) {
+  $isLightTheme: mat.get-theme-type($theme) == light;
+
+  $colors: $schaeffler-m3-functional;
+  $colorShade: if($isLightTheme, 40, 80);
+  $onContainerShade: if($isLightTheme, 20, 90);
+  $containerShade: if($isLightTheme, 90, 30);
+
+  $colorValue: map.get(map.get($colors, $color-category), $colorShade);
+  --#{$color-category}: #{$colorValue};
+
+  $onContainerValue: map.get(
+    map.get($colors, $color-category),
+    $onContainerShade
+  );
+  --on-#{$color-category}-container: #{$onContainerValue};
+
+  $containerValue: map.get(map.get($colors, $color-category), $containerShade);
+  --#{$color-category}-container: #{$containerValue};
+
+  --on-#{$color-category}-hover: rgba(#{hexToRGB($colorValue)}, 0.08);
+}
+
+@mixin set-theme-special-colors($theme) {
+  // 1 - m3 theme version
+  @if (mat.get-theme-version($theme) == 1) {
+    @include set-theme-color($theme, warning);
+    @include set-theme-color($theme, info);
+    @include set-theme-color($theme, success);
+    @include set-theme-color($theme, category-1);
+    @include set-theme-color($theme, category-2);
+    @include set-theme-color($theme, category-3);
+  }
+}

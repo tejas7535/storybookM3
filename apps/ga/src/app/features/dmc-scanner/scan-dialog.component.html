@@ -148,7 +148,7 @@
                     class="max-w-[200px]"
                   />
                   <div
-                    class="w-full border flex justify-center border-warning text-warning bg-warning rounded-md space-x-2 px-4 py-1 text-body-small items-center"
+                    class="w-full border flex justify-center border-warning text-on-warning-container bg-warning-container rounded-md space-x-2 px-4 py-1 text-body-small items-center"
                   >
                     <mat-icon>warning</mat-icon>
                     <span>{{ t('bearingResult.suspicious') }}</span>
@@ -282,7 +282,7 @@
 
   <ng-template #calculationUnsupported>
     <div
-      class="flex flex-row items-center rounded-md border-[1px] py-2 px-3 border-info bg-info w-full"
+      class="flex flex-row items-center rounded-md border-[1px] py-2 px-3 border-info bg-info-container w-full"
     >
       <div class="flex items-center">
         <mat-icon
@@ -290,7 +290,7 @@
           >info_outline
         </mat-icon>
 
-        <div class="text-title-small text-info">
+        <div class="text-title-small text-on-info-container">
           {{ t('bearingUnavailableGA') }}
         </div>
       </div>

@@ -4,6 +4,7 @@
 
 @import './schaeffler-colors.scss';
 @import './m3-role-colors.scss';
+@import './m3-special-colors.scss';
 
 @import './m3-theme-definition.scss';
 @import './m3-component-classes.scss';
@@ -15,6 +16,7 @@ html {
   @include mat.all-component-themes($my-theme);
   @include mat.strong-focus-indicators-theme(purple);
   @include set-theme-colors($my-theme);
+  @include set-theme-special-colors($my-theme);
   @include set-components-colors-variants($my-theme);
   @include set-theme-fonts-variables($my-theme);
 }
@@ -24,6 +26,7 @@ html.dark {
   @include mat.all-component-colors($my-theme);
   @include set-theme-colors($my-theme);
   @include set-components-colors-variants($my-theme);
+  @include set-theme-special-colors($my-theme);
   @include set-theme-fonts-variables($my-theme);
 }
 

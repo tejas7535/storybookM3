@@ -9,9 +9,9 @@
         <div
           class="relative h-5 w-5 rounded-full"
           [ngClass]="{
-            'bg-success': rating === ratingStatus.GOOD,
+            'bg-success-container': rating === ratingStatus.GOOD,
             'bg-error-container': rating === ratingStatus.LOW,
-            'bg-warning': rating === ratingStatus.MEDIUM
+            'bg-warning-container': rating === ratingStatus.MEDIUM
           }"
         >
           <div
@@ -43,7 +43,7 @@
           [ngClass]="{
             '!text-success': rating === ratingStatus.GOOD,
             '!text-error': rating === ratingStatus.LOW,
-            '!text-warning': rating === ratingStatus.MEDIUM
+            '!text-on-warning-container': rating === ratingStatus.MEDIUM
           }"
           >{{ t('status.' + ratingText) }}
         </span>

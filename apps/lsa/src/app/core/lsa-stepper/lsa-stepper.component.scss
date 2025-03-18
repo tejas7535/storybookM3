@@ -5,7 +5,7 @@
 
 .completed {
   border: 1px solid #3c7029;
-  @apply bg-success;
+  @apply bg-success-container;
   @apply text-completed-green #{!important};
 }
 

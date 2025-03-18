@@ -67,9 +67,11 @@
               track i
             ) {
               <div
-                class="mx-3 flex items-center text-warning min-w-0 flex-row gap-4 justify-between rounded border border-warning bg-warning p-3 lg:m-0 lg:mb-3"
+                class="mx-3 flex items-center text-on-warning-container min-w-0 flex-row gap-4 justify-between rounded border border-warning bg-warning-container p-3 lg:m-0 lg:mb-3"
               >
-                <div class="text-body-small font-normal text-warning">
+                <div
+                  class="text-body-small font-normal text-on-warning-container"
+                >
                   {{ entry.text }}
                 </div>
                 <div>
@@ -88,10 +90,12 @@
             isGreaseResultSection(subordinate.titleID) && concept1Impossible()
           ) {
             <div
-              class="mx-3 flex min-w-0 flex-row gap-4 rounded border border-warning bg-warning p-3 lg:m-0 lg:mb-3"
+              class="mx-3 flex min-w-0 flex-row gap-4 rounded border border-warning bg-warning-container p-3 lg:m-0 lg:mb-3"
               [ngClass]="{ '!mb-6': getResultAmount() <= resultsLimit }"
             >
-              <div class="text-body-small font-normal text-warning">
+              <div
+                class="text-body-small font-normal text-on-warning-container"
+              >
                 {{ t('concept1Impossible') }}
               </div>
             </div>

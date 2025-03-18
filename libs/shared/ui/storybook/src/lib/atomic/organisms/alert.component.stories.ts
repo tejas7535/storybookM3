@@ -45,8 +45,7 @@ const Template: StoryFn<AlertComponent> = (args: AlertComponent) => ({
       target="_blank"> Find in Zeroheight</a>
   </div>
   <p class="text-body-medium mt-6">Custom alerts component helps to present information with different user attention level</p>
-  </section>
-  <div class="flex flex-col gap-2">
+   <div class="flex flex-col gap-2 pt-2">
 
   <schaeffler-alert [type]="'warning'" [headline]="'Headline'" [actionText]="'Dismiss'"
   [description] = "'Request successfully sent. Your request is under review for approval. Please check the system again after a period of time to see updates.'"> </schaeffler-alert>
@@ -58,6 +57,8 @@ const Template: StoryFn<AlertComponent> = (args: AlertComponent) => ({
   [description] = "'Request successfully sent. Your request is under review for approval. Please check the system again after a period of time to see updates.'"
    > </schaeffler-alert>
     </div>
+  </section>
+ 
   `,
   props: args,
 });

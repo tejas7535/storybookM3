@@ -13,7 +13,7 @@
   }
 
   &.prio3 {
-    @apply text-info;
+    @apply text-on-info-container;
     background: var(--todo-color-info-bg);
   }
 }
