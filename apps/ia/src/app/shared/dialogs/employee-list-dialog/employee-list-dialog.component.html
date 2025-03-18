@@ -1,7 +1,7 @@
 <ng-container *transloco="let t; read: 'employeeListDialog'">
   @if (data?.headings?.header) {
     <div class="p-4">
-      <mat-icon class="inline text-medium-emphasis">{{
+      <mat-icon class="inline text-on-surface-variant">{{
         data?.headings.icon
       }}</mat-icon>
       <h5 class="inline align-top mx-2 leading-6">
@@ -41,32 +41,30 @@
 </ng-container>
 
 <ng-template #headings let-beautifiedFilters>
-  <div class="flex flex-row ml-10 text-caption">
-    <span class="text-medium-emphasis">Dimension:&nbsp;</span>
-    <span class="text-high-emphasis">{{
-      beautifiedFilters.filterDimension
-    }}</span>
-    <span class="ml-4 text-medium-emphasis"
+  <div class="flex flex-row ml-10 text-body-small">
+    <span class="text-on-surface-variant">Dimension:&nbsp;</span>
+    <span class="text-on-surface">{{ beautifiedFilters.filterDimension }}</span>
+    <span class="ml-4 text-on-surface-variant"
       >{{ beautifiedFilters.filterDimension }}:&nbsp;</span
     >
-    <span class="text-high-emphasis">{{ beautifiedFilters.value }}</span>
-    <span class="ml-4 text-medium-emphasis">Timeframe:&nbsp;</span>
-    <span class="text-high-emphasis">{{ beautifiedFilters.timeRange }}</span>
+    <span class="text-on-surface">{{ beautifiedFilters.value }}</span>
+    <span class="ml-4 text-on-surface-variant">Timeframe:&nbsp;</span>
+    <span class="text-on-surface">{{ beautifiedFilters.timeRange }}</span>
     @if (beautifiedFilters.manager) {
-      <span class="ml-4 text-medium-emphasis">Manager:&nbsp;</span>
-      <span class="text-high-emphasis">{{ beautifiedFilters.manager }}</span>
+      <span class="ml-4 text-on-surface-variant">Manager:&nbsp;</span>
+      <span class="text-on-surface">{{ beautifiedFilters.manager }}</span>
     }
     @if (beautifiedFilters.job) {
-      <span class="ml-4 text-medium-emphasis">Job:&nbsp;</span>
-      <span class="text-high-emphasis">{{ beautifiedFilters.job }}</span>
+      <span class="ml-4 text-on-surface-variant">Job:&nbsp;</span>
+      <span class="text-on-surface">{{ beautifiedFilters.job }}</span>
     }
     @if (beautifiedFilters.reason) {
-      <span class="ml-4 text-medium-emphasis">Reason:&nbsp;</span>
-      <span class="text-high-emphasis">{{ beautifiedFilters.reason }}</span>
+      <span class="ml-4 text-on-surface-variant">Reason:&nbsp;</span>
+      <span class="text-on-surface">{{ beautifiedFilters.reason }}</span>
     }
     @if (beautifiedFilters.detailedReason) {
-      <span class="ml-4 text-medium-emphasis">Detailed reason:&nbsp;</span>
-      <span class="text-high-emphasis">{{
+      <span class="ml-4 text-on-surface-variant">Detailed reason:&nbsp;</span>
+      <span class="text-on-surface">{{
         beautifiedFilters.detailedReason
       }}</span>
     }

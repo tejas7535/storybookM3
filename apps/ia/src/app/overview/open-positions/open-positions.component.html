@@ -7,7 +7,7 @@
     <div class="flex flex-row">
       <div class="flex grow flex-col">
         <div class="pl-4">
-          <span class="text-body-2 mt-4 flex flex-row">
+          <span class="text-body-medium mt-4 flex flex-row">
             {{ t('openForApplications') }}
             <mat-icon class="ml-1" [matTooltip]="t('tooltip')">info</mat-icon>
           </span>
@@ -28,7 +28,6 @@
             <button
               [matMenuTriggerFor]="openApplicationsMenu"
               mat-fab
-              color="primary"
               class="mt-2 flex"
               [disabled]="!openApplicationsCount || openApplicationsCount === 0"
               [ngClass]="{ 'cursor-not-allowed': openApplicationsCount === 0 }"
@@ -58,7 +57,7 @@
   } @else {
     <div
       *transloco="let t; read: 'openPositions'"
-      class="py-4 text-center text-subtitle-2 leading-6 text-warning"
+      class="py-4 text-center text-title-small leading-6 text-warning"
     >
       <mat-icon [inline]="true" class="mr-1 align-bottom text-icon-warning"
         >warning_amber</mat-icon

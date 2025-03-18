@@ -1,6 +1,6 @@
 <div class="mt-4" *transloco="let t">
   <span
-    class="text-body-2 mb-[0.5rem] block h-[3.6em] overflow-hidden text-ellipsis break-words leading-[1.8em]"
+    class="text-body-medium mb-[0.5rem] block h-[3.6em] overflow-hidden text-ellipsis break-words leading-[1.8em]"
     [matTooltip]="title"
     [matTooltipDisabled]="!showTooltip"
     >{{ title }}</span
@@ -25,11 +25,10 @@
       [relative]="true"
     ></schaeffler-loading-spinner>
   }
-  <div [class]="'text-high-emphasis'">
+  <div [class]="'text-on-surface'">
     @if (showTeamMemberDialog && viewRights) {
       <button
         mat-fab
-        color="primary"
         class="mt-2"
         [disabled]="employeeLoadingDisabled"
         (click)="openTeamMemberDialog()"

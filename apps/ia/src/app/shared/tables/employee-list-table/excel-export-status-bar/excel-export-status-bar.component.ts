@@ -27,7 +27,7 @@ import { SharedModule } from '../../../shared.module';
   styles: [
     `
       :host {
-        @apply mt-4;
+        @apply mt-4 p-2;
       }
     `,
   ],

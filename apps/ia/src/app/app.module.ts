@@ -3,6 +3,7 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatTabsModule } from '@angular/material/tabs';
 
 import { Observable } from 'rxjs';
@@ -48,6 +49,7 @@ export function DynamicTermsOfUse(translocoService: TranslocoService) {
     AppRoutingModule,
     CoreModule,
     MatTabsModule,
+    MatDividerModule,
     SharedTranslocoModule,
     LoadingSpinnerModule,
     AppShellModule,

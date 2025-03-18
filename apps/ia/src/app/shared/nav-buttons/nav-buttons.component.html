@@ -16,17 +16,21 @@
         @if (item.badge) {
           <sup
             class="ia-badge"
+            matTooltipPosition="above"
+            matTooltipClass="ia-tooltip-justify"
             [class.bg-medium-emphasis]="$index === selectedIndex"
             [class.bg-low-emphasis]="$index !== selectedIndex"
             [matTooltip]="t(item.tooltipTranslation)"
-            matTooltipPosition="above"
             >{{ item.badge }}
           </sup>
         }
         @if (item.icon) {
-          <mat-icon class="ml-1" [matTooltip]="t(item.tooltipTranslation)">{{
-            item.icon
-          }}</mat-icon>
+          <mat-icon
+            class="ml-1"
+            matTooltipClass="ia-tooltip-justify"
+            [matTooltip]="t(item.tooltipTranslation)"
+            >{{ item.icon }}</mat-icon
+          >
         }
       </ng-template>
     </mat-tab>

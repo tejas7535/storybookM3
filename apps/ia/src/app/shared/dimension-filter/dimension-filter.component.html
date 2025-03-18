@@ -1,7 +1,7 @@
 <ng-container *transloco="let t; read: 'filters'" class="gap-2">
   <div class="flex flex-col flex-wrap w-full md:w-[45%]">
     @if (layout === filterLayout.DEFAULT && !disableFilters) {
-      <span class="text-body-1 mb-2">
+      <span class="text-body-large mb-2">
         {{ dimensionFilterTranslation?.title }}
       </span>
     }
@@ -20,12 +20,12 @@
   <div class="flex flex-col w-full md:w-[45%]">
     @if (layout === filterLayout.DEFAULT && !disableFilters) {
       <div class="flex flex-row">
-        <span class="text-body-1 mb-2 flex">
+        <span class="text-body-large mb-2 flex">
           {{ t('dimensionIdValue.title', { dimension: dimensionName }) }}
         </span>
         <mat-icon
           [matTooltip]="t('dimensionIdValue.organizationTooltip')"
-          class="text-high-emphasis ml-1 flex cursor-default"
+          class="text-on-surface ml-1 flex cursor-default"
         >
           info
         </mat-icon>

@@ -14,7 +14,6 @@
       <button
         mat-icon-button
         class="flex self-center"
-        color="primary"
         [matTooltip]="t('orgChart.additionalFunctionality.tooltip')"
         [matMenuTriggerFor]="additionalFunctionality"
       >
@@ -69,50 +68,52 @@
       class="small-toggle-group self-center my-0.5"
     >
       <mat-button-toggle
-        class="text-medium-emphasis"
+        class="text-on-surface-variant"
         mat-icon-button
         checked
         [value]="zoomButtonEnum.ZOOM_IN"
         [attr.aria-label]="t('orgChart.additionalFunctionality.zoomIn')"
         [matTooltip]="t('orgChart.additionalFunctionality.zoomIn')"
         (click)="onZoomChange(zoomButtonEnum.ZOOM_IN, $event, group)"
+        (keydown.enter)="onZoomChange(zoomButtonEnum.ZOOM_IN, $event, group)"
       >
         <mat-icon
           class="!flex items-center justify-center h-4 w-4 !text-[1rem]"
           mat-fab
-          color="primary"
           >add</mat-icon
         >
       </mat-button-toggle>
       <mat-button-toggle
-        class="text-medium-emphasis"
+        class="text-on-surface-variant"
         mat-icon-button
         checked
         [value]="zoomButtonEnum.ZOOM_OUT"
         [attr.aria-label]="t('orgChart.additionalFunctionality.zoomOut')"
         [matTooltip]="t('orgChart.additionalFunctionality.zoomOut')"
         (click)="onZoomChange(zoomButtonEnum.ZOOM_OUT, $event, group)"
+        (keydown.enter)="onZoomChange(zoomButtonEnum.ZOOM_OUT, $event, group)"
       >
         <mat-icon
           class="!flex items-center justify-center h-4 w-4 !text-[1rem]"
           mat-fab
-          color="primary"
           >remove</mat-icon
         >
       </mat-button-toggle>
       <mat-button-toggle
-        class="text-medium-emphasis"
+        class="text-on-surface-variant"
         mat-icon-button
         checked
         [value]="zoomButtonEnum.ZOOM_TO_FIT"
         [attr.aria-label]="t('orgChart.additionalFunctionality.zoomToFit')"
         [matTooltip]="t('orgChart.additionalFunctionality.zoomToFit')"
         (click)="onZoomChange(zoomButtonEnum.ZOOM_TO_FIT, $event, group)"
+        (keydown.enter)="
+          onZoomChange(zoomButtonEnum.ZOOM_TO_FIT, $event, group)
+        "
       >
         <mat-icon
           class="!flex items-center justify-center h-4 w-4 !text-[1rem]"
           mat-fab
-          color="primary"
           >fit_screen</mat-icon
         >
       </mat-button-toggle>

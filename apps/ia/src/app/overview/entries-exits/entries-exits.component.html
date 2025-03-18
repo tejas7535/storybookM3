@@ -3,7 +3,8 @@
     {{ t('title') }}
     <mat-icon
       [matTooltip]="t('hint', { dimension: dimensionHint })"
-      class="text-high-emphasis ml-1 cursor-default"
+      matTooltipClass="ia-tooltip-justify"
+      class="text-on-surface ml-1 cursor-default"
     >
       info
     </mat-icon>
@@ -24,9 +25,10 @@
     ></ia-kpi>
 
     <div class="col-span-2 mt-4 text-center">
-      <span class="text-body-2 mb-[0.5rem] block h-[3.6em] leading-[1.8em]">{{
-        t('totalHeadcount')
-      }}</span>
+      <span
+        class="text-body-medium mb-[0.5rem] block h-[3.6em] leading-[1.8em]"
+        >{{ t('totalHeadcount') }}</span
+      >
       @if (!isDataLoading) {
         <h4>
           {{ totalEmployeesCount | defaultValue }}

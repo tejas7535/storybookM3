@@ -83,10 +83,9 @@ export class DrillDownToolPanelComponent {
 
   onZoomChange(
     value: ZoomButton,
-    event: MouseEvent,
+    event: Event,
     group: MatButtonToggleGroup
   ): void {
-    event.preventDefault();
     if (value === this.zoomButtonEnum.ZOOM_IN) {
       this.zoomInBtn.emit();
     } else if (value === this.zoomButtonEnum.ZOOM_OUT) {
@@ -99,5 +98,6 @@ export class DrillDownToolPanelComponent {
       this.zoomButtonEnum.ZOOM_OUT,
       this.zoomButtonEnum.ZOOM_TO_FIT,
     ];
+    event.preventDefault();
   }
 }

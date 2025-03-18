@@ -1,60 +1,56 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <mat-dialog-content
-    *transloco="let t; read: 'user.feedback.dialog'"
-    class="text-justify"
-  >
-    <p class="text-body-2 pt-2">{{ t('greetings') }}</p>
-    <p class="text-body-2 py-6">{{ t('intro') }}</p>
+<mat-dialog-content
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  *transloco="let t; read: 'user.feedback.dialog'"
+  class="text-justify"
+>
+  <p class="text-title-medium pt-2">{{ t('greetings') }}</p>
+  <p class="text-body-medium py-6">{{ t('intro') }}</p>
 
-    <ia-select-input
-      [appearance]="'fill'"
-      [options]="options | ngrxPush"
-      [label]="label | ngrxPush"
-      formControlName="category"
-    ></ia-select-input>
+  <ia-select-input
+    [appearance]="'fill'"
+    [options]="options | ngrxPush"
+    [label]="label | ngrxPush"
+    formControlName="category"
+  ></ia-select-input>
 
-    <p class="text-body-2 scroll-pt-2">{{ t('instruction2') }}</p>
-    <mat-form-field appearance="fill" class="w-full pt-6">
-      <mat-label>{{ t('textAreaLabel') }}</mat-label>
-      <textarea
-        #comment
-        matInput
-        maxlength="10000"
-        cdkTextareaAutosize
-        #autosize="cdkTextareaAutosize"
-        cdkAutosizeMinRows="1"
-        cdkAutosizeMaxRows="5"
-        formControlName="message"
-      >
-      </textarea>
-      <mat-hint align="end">
-        {{ comment.value.length | number }} / {{ 10000 | number }}</mat-hint
-      >
-    </mat-form-field>
+  <p class="text-body-medium scroll-pt-2">{{ t('instruction2') }}</p>
+  <mat-form-field appearance="fill" class="w-full pt-6">
+    <mat-label>{{ t('textAreaLabel') }}</mat-label>
+    <textarea
+      #comment
+      matInput
+      maxlength="10000"
+      cdkTextareaAutosize
+      #autosize="cdkTextareaAutosize"
+      cdkAutosizeMinRows="1"
+      cdkAutosizeMaxRows="5"
+      formControlName="message"
+    >
+    </textarea>
+    <mat-hint align="end">
+      {{ comment.value.length | number }} / {{ 10000 | number }}</mat-hint
+    >
+  </mat-form-field>
 
-    <p class="text-body-2 pt-2">{{ t('anonymityGuarantee') }}</p>
-    <p class="text-body-2 pt-2">{{ t('updatesInReleaseNotes') }}</p>
-    <p class="text-body-2 pt-6">{{ t('acknowledgement') }}</p>
-    <p class="text-body-2 pt-2">{{ t('signature') }}</p>
+  <p class="text-body-medium pt-2">{{ t('anonymityGuarantee') }}</p>
+  <p class="text-body-medium pt-2">{{ t('updatesInReleaseNotes') }}</p>
+  <p class="text-body-medium pt-6">{{ t('acknowledgement') }}</p>
+  <p class="text-body-medium pt-2">{{ t('signature') }}</p>
 
-    @if (isLoading | ngrxPush) {
-      <schaeffler-loading-spinner
-        class="flex"
-        [diameter]="64"
-        [strokeWidth]="4"
-      >
-      </schaeffler-loading-spinner>
-    }
-  </mat-dialog-content>
-  <mat-dialog-actions
-    align="end"
-    *transloco="let t; read: 'user.feedback.dialog'"
-  >
-    <button mat-button mat-dialog-close>
-      {{ t('cancel') }}
-    </button>
-    <button mat-button color="primary" type="submit" [disabled]="!form.valid">
-      {{ t('submit') }}
-    </button>
-  </mat-dialog-actions>
-</form>
+  @if (isLoading | ngrxPush) {
+    <schaeffler-loading-spinner class="flex" [diameter]="64" [strokeWidth]="4">
+    </schaeffler-loading-spinner>
+  }
+</mat-dialog-content>
+<mat-dialog-actions
+  align="end"
+  *transloco="let t; read: 'user.feedback.dialog'"
+>
+  <button mat-raised-button mat-dialog-close>
+    {{ t('cancel') }}
+  </button>
+  <button mat-flat-button type="submit" [disabled]="!form.valid">
+    {{ t('submit') }}
+  </button>
+</mat-dialog-actions>

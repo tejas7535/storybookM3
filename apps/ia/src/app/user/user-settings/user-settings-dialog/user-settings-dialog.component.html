@@ -1,6 +1,6 @@
 <span
   mat-dialog-title
-  class="!text-h5"
+  class="!text-headline-small"
   *transloco="let t; read: 'user.userSettings'"
 >
   {{ t('title') }}
@@ -19,7 +19,7 @@
     <p>{{ t('instruction') }}</p>
   }
   <ia-dimension-filter
-    class="my-8 flex justify-center"
+    class="my-8 flex justify-center gap-4"
     [apparence]="'outline'"
     [availableDimensions]="availableDimensions$ | ngrxPush"
     [activeDimension]="activeDimension"
@@ -37,14 +37,13 @@
   *transloco="let t; read: 'user.userSettings.dialog'"
 >
   @if (!data.initialLoad) {
-    <button mat-button mat-dialog-close>
+    <button mat-raised-button mat-dialog-close>
       {{ t('cancel') }}
     </button>
   }
   <button
-    mat-button
+    mat-flat-button
     mat-dialog-close
-    color="primary"
     (click)="saveUserSettings()"
     [disabled]="invalidDimensionDataInput || !selected"
   >

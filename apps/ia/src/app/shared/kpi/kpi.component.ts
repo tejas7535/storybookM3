@@ -24,7 +24,6 @@ export class KpiComponent {
   private _employeesLoading: boolean;
   private _employeesCount: number;
 
-  btnColor = 'primary';
   employeeLoadingDisabled = true;
   tooltip = '';
 

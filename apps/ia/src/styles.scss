@@ -1,4 +1,5 @@
 @use 'node_modules/ag-grid-community/styles' as ag;
+@use '@angular/material' as mat;
 /***************************************************************************************************
  * COMPONENTS AND THEMES
  */
@@ -9,27 +10,13 @@
 
  */
 
-@import 'libs/shared/ui/styles/src/lib/scss/material-theme';
-
-/*
-   * ag grid components
-   * see https://www.ag-grid.com/angular-grid
-   */
-
-@include ag.grid-styles(
-  (
-    theme: material,
-    material-primary-color: $primary,
-    material-accent-color: $info,
-    checkbox-checked-color: $primary,
-  )
-);
+@import 'libs/shared/ui/styles/src/lib/scss/m3-theme';
 
 /***************************************************************************************************
    * UTILITIES
    */
 
-/*
+/***************************************************************************************************
    * TailwindCSS, utility-first css framework
    * see https://tailwindcss.com/docs
    */
@@ -40,6 +27,73 @@
 /***************************************************************************************************
    * OVERRIDES
    */
+/*
+   * ag grid components
+   * see https://www.ag-grid.com/angular-grid
+   */
+@include ag.grid-styles(
+  (
+    theme: material,
+    material-primary-color: $primary,
+    material-accent-color: $info,
+    checkbox-checked-color: $primary,
+  )
+);
+
+/*
+  * Angular Material, material design components
+  * see https://material.angular.io
+  */
+@include mat.expansion-overrides(
+  (
+    container-background-color: $white,
+    header-text-color: $inactive,
+  )
+);
+
+@include mat.tabs-overrides(
+  (
+    inactive-label-text-color: $inactive,
+    inactive-hover-label-text-color: $inactive,
+    active-focus-label-text-color: $primary,
+    active-hover-label-text-color: $primary,
+    active-hover-indicator-color: $primary,
+    active-label-text-color: $primary,
+    active-indicator-color: $primary,
+    divider-color: $white,
+  )
+);
+
+@include mat.dialog-overrides(
+  (
+    container-color: $white,
+  )
+);
+
+@include mat.divider-overrides(
+  (
+    color: $default,
+  )
+);
+
+@include mat.button-toggle-overrides(
+  (
+    divider-color: $default,
+  )
+);
+
+@include mat.badge-overrides(
+  (
+    background-color: $primary,
+    text-color: $white,
+  )
+);
+
+@include mat.card-overrides(
+  (
+    elevated-container-color: $white,
+  )
+);
 
 button {
   outline: none !important;
@@ -75,7 +129,7 @@ mat-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
 
 .mat-mdc-form-field-subscript-wrapper {
   @apply text-[75%];
-  @apply text-medium-emphasis;
+  @apply text-on-surface-variant;
   @apply leading-4;
   @apply tracking-wide;
 }
@@ -102,6 +156,10 @@ mat-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   @apply px-4;
 }
 
+.ia-tooltip-justify .mdc-tooltip__surface {
+  text-align: justify !important;
+}
+
 .mat-mdc-dialog-title {
   padding-top: 16px !important;
   padding-bottom: 0 !important;
@@ -123,6 +181,18 @@ mat-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   padding-right: 16px !important;
 }
 
+.cdk-overlay-pane.mat-mdc-dialog-panel {
+  @apply max-w-[80vw] #{!important};
+
+  &.ia-md-dialog {
+    @apply lg:!max-w-[50vw];
+  }
+
+  &.ia-sm-dialog {
+    @apply lg:!max-w-[25vw];
+  }
+}
+
 .mat-mdc-card {
   padding: 16px !important;
 }
@@ -133,10 +203,6 @@ mat-form-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
 
 .cdk-overlay-connected-position-bounding-box {
   @apply absolute z-[1000] flex flex-col min-w-[1px] min-h-[1px] pointer-events-none #{!important};
-}
-
-.cdk-overlay-pane {
-  @apply absolute pointer-events-auto box-border z-[1000] flex max-w-full max-h-full #{!important};
 }
 
 .mat-calendar-header label,

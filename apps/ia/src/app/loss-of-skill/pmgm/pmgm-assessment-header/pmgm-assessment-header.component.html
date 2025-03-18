@@ -5,7 +5,10 @@
   <span class="cursor-pointer" (click)="onSortRequested($event)">
     {{ displayName }}
   </span>
-  <mat-icon matTooltipPosition="before" [matTooltip]="t('headerInfo')"
+  <mat-icon
+    matTooltipPosition="before"
+    matTooltipClass="ia-tooltip-justify"
+    [matTooltip]="t('headerInfo')"
     >info</mat-icon
   >
   <div

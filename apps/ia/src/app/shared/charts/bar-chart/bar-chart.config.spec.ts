@@ -15,15 +15,18 @@ import { CategoryAxisBaseOption } from 'echarts/types/src/coord/axisCommonTypes'
 import {
   OrdinalRawValue,
   TextCommonOption,
+  TooltipFormatterCallback,
 } from 'echarts/types/src/util/types';
 
 import { Color } from '../../models/color';
+import { BarChartSerie } from '../models';
 import { BarChartConfig } from '../models/bar-chart-config.model';
 import {
   addSeries,
   addSlider,
   addVisualMap,
   createBarChartOption,
+  createMaxDataPoints,
 } from './bar-chart.config';
 
 describe('Bar Chart Config', () => {
@@ -128,11 +131,14 @@ describe('Bar Chart Config', () => {
   });
 
   describe('addSeries', () => {
-    test('should add series', () => {
-      const option = {} as EChartsOption;
+    let option: EChartsOption;
+    beforeEach(() => {
+      option = {} as EChartsOption;
 
       addSeries(config, option);
+    });
 
+    test('should add series', () => {
       expect((option.series as SeriesOption[]).length).toEqual(1);
       expect((option.series as SeriesOption[])[0].data).toEqual([
         7, 9, 35, 10, 60, 7, 9, 35, 10, 60, 60, 60, 60, 60, 60,
@@ -157,6 +163,40 @@ describe('Bar Chart Config', () => {
             .data[0] as { xAxis: number }
         ).xAxis
       ).toEqual(config.referenceValue.value);
+    });
+
+    test('should tooltip formatter return data', () => {
+      const tooltip = (
+        (option.series as BarSeriesOption[])[0].tooltip
+          .formatter as TooltipFormatterCallback<any>
+      )(
+        {
+          seriesIndex: 0,
+          dataIndex: 0,
+          name: 'Some name',
+          dimensionNames: ['Attr. Rate', 'num. Employees', 'Age'],
+        },
+        '',
+        () => {}
+      );
+
+      expect(tooltip).toEqual(`
+          <p class="text-body-small text-on-surface pb-2">Some name</p>
+          <table>
+            <tr>
+              <td class="text-on-surface-variant">Attr. Rate</td>
+              <td class="pl-4 text-on-surface text-center">7.0%</td>
+            </tr>
+            <tr>
+              <td class="text-on-surface-variant">Age</td>
+              <td class="pl-4 text-on-surface text-center">0</td>
+            </tr>
+            <tr>
+              <td class="text-on-surface-variant">num. Employees</td>
+              <td class="pl-4 text-on-surface text-center">230.0</td>
+            </tr>
+          </table>
+        `);
     });
   });
 
@@ -268,6 +308,27 @@ describe('Bar Chart Config', () => {
       addSlider(configLessItems, option);
 
       expect(option.dataZoom).toBeUndefined();
+    });
+  });
+
+  describe('createMaxDataPoints', () => {
+    test('should create max data points', () => {
+      const values: number[][] = [
+        [7, 230],
+        [9, 40],
+        [35, 400],
+        [10, 100],
+      ];
+
+      const serie = new BarChartSerie(
+        ['Attr. Rate', 'num. Employees'],
+        values,
+        Color.LIME
+      );
+
+      const result = createMaxDataPoints(serie, 10);
+
+      expect(result).toEqual([{ name: 'point2', xAxis: 10, yAxis: 2 }]);
     });
   });
 });

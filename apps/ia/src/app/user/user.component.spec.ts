@@ -72,7 +72,7 @@ describe('UserComponent', () => {
       component.subscription = of({}).subscribe();
       component.subscription.unsubscribe = jest.fn();
       const expectedConifg: MatDialogConfig = {
-        maxWidth: component.DIALOG_MAX_WIDTH,
+        panelClass: 'ia-md-dialog',
         disableClose: true,
         data: {
           loading: component.isSubmitInProgress$,

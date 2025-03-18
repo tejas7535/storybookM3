@@ -28,7 +28,7 @@ interface TabElem {
 @Component({
   selector: 'ia-root',
   templateUrl: './app.component.html',
-  styles: ['.mat-mdc-tab-link {@apply text-button; }'],
+  styles: ['.mat-mdc-tab-link {@apply text-label-large; }'],
   standalone: false,
 })
 export class AppComponent implements OnInit {

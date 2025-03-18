@@ -2,10 +2,10 @@
   class="mx-6 self-center"
   *transloco="let t; read: 'employeeListDialog.totalStatusBar'"
 >
-  <span class="text-caption text-low-emphasis tracking-[0.4px]"
+  <span class="text-body-small text-low-emphasis tracking-[0.4px]"
     >{{ t('total') }}:</span
   >&nbsp;
-  <span class="text-caption text-high-emphasis tracking-[0.4px]">
+  <span class="text-body-small text-on-surface tracking-[0.4px]">
     @if (isAnyFilterPresent) {
       <span>{{ filtered | number }}&nbsp;/&nbsp;</span>
     }

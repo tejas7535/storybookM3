@@ -234,10 +234,10 @@ export class OrgChartTemplateService {
 
     return `
         <div ${expand} class="pointer-events-auto cursor-pointer w-full group
-                  bg-surface-legacy border border-border hover:ring-1 hover:ring-primary
-                    rounded-full flex flex-col items-center justify-center
+                bg-surface-legacy border border-border hover:ring-1 hover:ring-primary
+                  rounded-full flex flex-col items-center justify-center
                   text-low-emphasis !visible" style="visibility: hidden">
-          <span ${expand} class="group-hover:text-high-emphasis">${
+          <span ${expand} class="group-hover:text-on-surface">${
             node.data._directSubordinates
           }</span>
           <span ${expand} class="${

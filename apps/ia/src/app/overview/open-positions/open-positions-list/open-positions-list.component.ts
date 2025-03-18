@@ -7,17 +7,7 @@ import { OpenApplication } from '../../models/open-application.model';
   selector: 'ia-open-positions-list',
   templateUrl: './open-positions-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: [
-    `
-      ::ng-deep {
-        .mat-badge-content {
-          top: unset !important;
-          bottom: unset !important;
-          left: 0 !important;
-        }
-      }
-    `,
-  ],
+  styleUrl: './open-positions-list.component.scss',
   standalone: false,
 })
 export class OpenPositionsListComponent {

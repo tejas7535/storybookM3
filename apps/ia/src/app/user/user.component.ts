@@ -15,8 +15,6 @@ import { getSubmitFeedbackLoading } from './store/selectors/user.selector';
   standalone: false,
 })
 export class UserComponent implements OnInit, OnDestroy {
-  readonly DIALOG_MAX_WIDTH = '50vw';
-
   subscription: Subscription;
   isSubmitInProgress$: Observable<boolean>;
 
@@ -35,7 +33,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   openFeedbackDialog() {
     const dialogRef = this.dialog.open(FeedbackDialogComponent, {
-      maxWidth: this.DIALOG_MAX_WIDTH,
+      panelClass: 'ia-md-dialog',
       disableClose: true,
       data: {
         loading: this.isSubmitInProgress$,

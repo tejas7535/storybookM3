@@ -116,8 +116,8 @@ export function addSeries(config: BarChartConfig, option: EChartsOption): void {
       tooltip: {
         formatter: `<table>
             <tr>
-              <td class="px-2 text-medium-emphasis">${config.referenceValue.text}</td>
-              <td class="px-2 text-high-emphasis">${config.referenceValue.value.toFixed(FRACTION_DIGITS)}%</td>
+              <td class="px-2 text-on-surface-variant">${config.referenceValue.text}</td>
+              <td class="px-2 text-on-surface">${config.referenceValue.value.toFixed(FRACTION_DIGITS)}%</td>
             </tr
           </table>
           `,
@@ -142,19 +142,19 @@ export function addSeries(config: BarChartConfig, option: EChartsOption): void {
         const values = config.series[param.seriesIndex].values[param.dataIndex];
 
         return `
-          <p class="text-caption text-high-emphasis pb-2">${param.name}</p>
+          <p class="text-body-small text-on-surface pb-2">${param.name}</p>
           <table>
             <tr>
-              <td class="text-medium-emphasis">${param.dimensionNames[0]}</td>
-              <td class="pl-4 text-high-emphasis text-center">${values[0].toFixed(FRACTION_DIGITS)}%</td>
+              <td class="text-on-surface-variant">${param.dimensionNames[0]}</td>
+              <td class="pl-4 text-on-surface text-center">${values[0].toFixed(FRACTION_DIGITS)}%</td>
             </tr>
             <tr>
-              <td class="text-medium-emphasis">${param.dimensionNames[2]}</td>
-              <td class="pl-4 text-high-emphasis text-center">${values[2] ?? 0}</td>
+              <td class="text-on-surface-variant">${param.dimensionNames[2]}</td>
+              <td class="pl-4 text-on-surface text-center">${values[2] ?? 0}</td>
             </tr>
             <tr>
-              <td class="text-medium-emphasis">${param.dimensionNames[1]}</td>
-              <td class="pl-4 text-high-emphasis text-center">${values[1].toFixed(FRACTION_DIGITS)}</td>
+              <td class="text-on-surface-variant">${param.dimensionNames[1]}</td>
+              <td class="pl-4 text-on-surface text-center">${values[1].toFixed(FRACTION_DIGITS)}</td>
             </tr>
           </table>
         `;
