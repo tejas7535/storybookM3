@@ -53,6 +53,7 @@ const materialsRoleColors = {
   'surface-container-highest': 'var(--surface-container-highest-color)',
   'on-surface': 'var(--on-surface-color)',
   'on-surface-variant': 'var(--on-surface-variant-color)',
+  'surface-variant': 'var(--surface-variant-color)',
   outline: 'var(--outline-color)',
   'outline-variant': 'var(--outline-variant-color)',
   'inverse-surface': 'var(--inverse-surface-color)',
@@ -93,7 +94,7 @@ const backgroundColors = {
 };
 
 const functionalColors = {
-  link: colors.link,
+  link: materialsRoleColors.primary,
 };
 
 const functionalIconColors = {
@@ -108,7 +109,7 @@ const functionalIconColors = {
 };
 
 const functionalTextColors = {
-  link: colors['text-link'],
+  link: materialsRoleColors.primary,
   info: colors['text-info'],
   warning: colors['text-warning'],
   success: colors['text-success'],
@@ -129,9 +130,9 @@ const greys = {
 };
 
 const emphasis = {
-  'high-emphasis': colors['high-emphasis'],
-  'medium-emphasis': colors['medium-emphasis'],
-  'low-emphasis': colors['low-emphasis'],
+  'high-emphasis': 'var(--high-emphasis-color)',
+  'medium-emphasis': 'var(--medium-emphasis-color)',
+  'low-emphasis': 'var(--low-emphasis-color)',
 
   'white-low-emphasis': colors['white-low-emphasis'],
   'white-medium-emphasis': colors['white-medium-emphasis'],

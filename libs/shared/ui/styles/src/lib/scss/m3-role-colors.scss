@@ -143,8 +143,10 @@
     // override requested by UX team
     @if mat.get-theme-type($theme) == dark {
       --on-surface-variant-color: #{mat.get-theme-color($theme, neutral, 70)};
+      --surface-variant-color: #{mat.get-theme-color($theme, neutral, 12)};
     } @else {
       --on-surface-variant-color: #{mat.get-theme-color($theme, neutral, 40)};
+      --surface-variant-color: #{mat.get-theme-color($theme, neutral, 100)};
     }
 
     --outline-color: #{mat.get-theme-color($theme, outline)};
@@ -157,6 +159,12 @@
     --inverse-primary-color: #{mat.get-theme-color($theme, inverse-primary)};
     --scrim-color: #{mat.get-theme-color($theme, scrim)};
     --shadow-color: #{mat.get-theme-color($theme, shadow)};
+
+    // emphasise fonts colors
+    $onSurfaceColor: mat.get-theme-color($theme, on-surface);
+    --high-emphasis-color: #{$onSurfaceColor};
+    --medium-emphasis-color: var(--on-surface-variant-color);
+    --low-emphasis-color: rgba(#{hexToRGB($onSurfaceColor)}, 0.38);
 
     //typography
     --font-display-large: #{mat.get-theme-typography(

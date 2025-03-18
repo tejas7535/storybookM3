@@ -29,17 +29,12 @@ const colors = {
   success: '#a1c861',
 
   // Text
-  'high-emphasis': 'rgba(0, 0, 0, 0.87)',
-  'medium-emphasis': 'rgba(0, 0, 0, 0.6)',
-  'low-emphasis': 'rgba(0, 0, 0, 0.38)',
-
   'white-high-emphasis': 'rgb(255, 255, 255)',
   'white-medium-emphasis': 'rgba(255, 255, 255, 0.6)',
   'white-low-emphasis': 'rgba(255, 255, 255, 0.38)',
 
   // Functional text colors
   'text-error': '#a30f0c',
-  'text-link': '#00893d',
   'text-info': '#00596e',
   'text-warning': '#814e00',
   'text-success': '#3C7029',

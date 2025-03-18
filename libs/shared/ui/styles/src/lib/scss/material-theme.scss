@@ -49,6 +49,9 @@ $custom-typography: mat.m2-define-legacy-typography-config(
   @include set-theme-colors($schaeffler-m3-theme-light);
   @include set-theme-special-colors($schaeffler-m3-theme-light);
   @include set-theme-fonts-variables($schaeffler-m3-theme-light);
+  --high-emphasis-color: rgba(0, 0, 0, 0.87);
+  --medium-emphasis-color: rgba(0, 0, 0, 0.6);
+  --low-emphasis-color: rgba(0, 0, 0, 0.38);
 }
 
 @include mat.all-component-themes($schaeffler-theme);

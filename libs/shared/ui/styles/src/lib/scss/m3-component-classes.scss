@@ -41,8 +41,11 @@
     @include mat.checkbox-color($theme, $color-variant: error);
   }
 
-  // existing bug should match outline-variant instead of outline https://github.com/angular/components/issues/29494
-  --mat-divider-color: #{mat.get-theme-color($theme, outline-variant)};
+  @include mat.divider-overrides(
+    (
+      color: #{mat.get-theme-color($theme, outline-variant)},
+    )
+  );
 
   //Datepicker
   --mat-minimal-pseudo-checkbox-selected-checkmark-color: #{mat.get-theme-color(
