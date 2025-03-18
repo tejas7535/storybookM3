@@ -2,6 +2,7 @@
 @use 'sass:map';
 
 @import 'libs/shared/ui/styles/src/lib/scss/schaeffler-colors';
+@import 'libs/shared/ui/styles/src/lib/scss/m3-role-colors';
 
 // LOGO
 $logoUrl: '/assets/images/partner-version-logos/schmeckthal-gruppe.png';
@@ -172,6 +173,7 @@ $partner-version-schmeckthal-theme: mat.define-theme(
 
 .partner-version-schmeckthal-gruppe {
   @include mat.all-component-colors($partner-version-schmeckthal-theme);
+  @include set-theme-colors($partner-version-schmeckthal-theme);
 }
 
 :root.partner-version-schmeckthal-gruppe {
