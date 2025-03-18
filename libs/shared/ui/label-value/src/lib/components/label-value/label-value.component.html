@@ -1,12 +1,12 @@
 @if (labelValues && labelValues.length) {
   <div
-    class="grid gap-0 text-caption text-high-emphasis"
+    class="grid gap-0 text-caption text-high-emphasis rounded-lg overflow-hidden"
     [ngClass]="showValue ? 'grid-cols-[auto_1fr]' : 'grid-cols-1'"
   >
     @for (labelValue of labelValues; track labelValue; let i = $index) {
       <div
-        class="relative bg-primary bg-opacity-[0.07] px-6 pt-3 pb-6"
-        [ngClass]="i > 0 ? 'border-t border-border' : ''"
+        class="relative bg-primary-container text-on-primary-container px-6 pt-3 pb-6"
+        [ngClass]="i > 0 ? 'border-t border-border ' : ''"
       >
         <span
           [innerHTML]="labelValue.label"
@@ -28,9 +28,9 @@
       </div>
       @if (showValue) {
         <div
-          class="bg-surface-legacy"
+          class="bg-surface-variant"
           [ngClass]="[
-            labelValue.valueAdditionalClass || '',
+            labelValue.valueAdditionalClass || 'text-on-surface',
             i > 0 ? 'border-t border-border' : ''
           ]"
         >
