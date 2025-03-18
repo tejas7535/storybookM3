@@ -89,21 +89,23 @@ const mockLabelValuesHtml: LabelValue[] = [
 ];
 
 @Component({
-  selector: 'tabs-component-example',
+  selector: 'label-value-component-example',
   template: `
-    <schaeffler-label-value
-      [labelValues]="labelValues"
-      [labelMinWidth]="labelMinWidth"
-      [labelMaxWidth]="LabelMaxWidth"
-    >
-      <ng-template #custom let-row="row" let-data="data">
-        @if (row === 'htmlrow') {
-          <div>
-            <button mat-raised-button color="primary">{{ data.text }}</button>
-          </div>
-        }
-      </ng-template>
-    </schaeffler-label-value>
+    <section class="bg-surface h-full p-4">
+      <schaeffler-label-value
+        [labelValues]="labelValues"
+        [labelMinWidth]="labelMinWidth"
+        [labelMaxWidth]="LabelMaxWidth"
+      >
+        <ng-template #custom let-row="row" let-data="data">
+          @if (row === 'htmlrow') {
+            <div>
+              <button mat-raised-button color="primary">{{ data.text }}</button>
+            </div>
+          }
+        </ng-template>
+      </schaeffler-label-value>
+    </section>
   `,
   standalone: false,
 })

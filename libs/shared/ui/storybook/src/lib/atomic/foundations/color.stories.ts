@@ -348,7 +348,16 @@ const colors = require('../../../../../styles/src/lib/tailwind/colors');
               [isDarkModeEnabled]="isDarkMode"
             ></p>
           </div>
-          <div class="bg-inverse-surface h-fit p-3 mt-[12.5rem]">
+          <div
+            class="bg-surface-variant h-fit p-3 mt-[9.5rem] border-border border"
+          >
+            <p
+              class="text-on-surface"
+              colorBackgroundText
+              [isDarkModeEnabled]="isDarkMode"
+            ></p>
+          </div>
+          <div class="bg-inverse-surface h-20 p-3 ">
             <p
               class="text-surface"
               colorBackgroundText
@@ -356,7 +365,7 @@ const colors = require('../../../../../styles/src/lib/tailwind/colors');
             ></p>
           </div>
 
-          <div class="bg-inverse-on-surface h-20 p-3">
+          <div class="bg-inverse-on-surface h-fit p-3">
             <p
               class="text-inverse-surface"
               colorBackgroundText
@@ -539,8 +548,31 @@ const colors = require('../../../../../styles/src/lib/tailwind/colors');
           colorText
           [isDarkModeEnabled]="isDarkMode"
         ></p>
+
+        <p class="text-link" colorText [isDarkModeEnabled]="isDarkMode"></p>
       </div>
 
+      <h4 class="text-on-surface text-h6 p-4 ">Text emphasis colors</h4>
+      <div class="bg-surface flex flex-col sm:flex-row flex-wrap p-4 gap-6">
+        <p
+          class="text-low-emphasis h-10"
+          colorText
+          [isDarkModeEnabled]="isDarkMode"
+          [withRgbValue]="true"
+        ></p>
+        <p
+          class="text-medium-emphasis h-10"
+          colorText
+          [isDarkModeEnabled]="isDarkMode"
+          [withRgbValue]="true"
+        ></p>
+        <p
+          class="text-high-emphasis h-10"
+          colorText
+          [isDarkModeEnabled]="isDarkMode"
+          [withRgbValue]="true"
+        ></p>
+      </div>
       <h4 class="text-on-surface text-h6 p-4 ">Special border colors</h4>
       <div
         class="flex flex-wrap flex-col sm:flex-row gap-4 mb-1 text-on-surface "
@@ -602,24 +634,6 @@ const colors = require('../../../../../styles/src/lib/tailwind/colors');
       </div>
 
       <h4>Text colors</h4>
-      <div class="mat-elevation-z0 text-link">
-        <div class="p-4 pt-[60px]">text-link {{ colors['text-link'] }}</div>
-      </div>
-      <div class="mat-elevation-z0 text-low-emphasis">
-        <div class="p-4 pt-[60px]">
-          text-low-emphasis {{ colors['low-emphasis'] }}
-        </div>
-      </div>
-      <div class="mat-elevation-z0 text-medium-emphasis">
-        <div class="p-4 pt-[60px]">
-          text-medium-emphasis {{ colors['medium-emphasis'] }}
-        </div>
-      </div>
-      <div class="mat-elevation-z0 text-high-emphasis">
-        <div class="p-4 pt-[60px]">
-          text-high-emphasis {{ colors['high-emphasis'] }}
-        </div>
-      </div>
       <div class="mat-elevation-z0 text-white-low-emphasis bg-secondary-900">
         <div class="p-4 pt-[60px]">
           text-white-low-emphasis {{ colors['white-low-emphasis'] }}

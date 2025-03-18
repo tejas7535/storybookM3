@@ -15,6 +15,8 @@ import { toHex } from './color-helpers';
 export class TextColorDirective implements AfterViewInit, OnChanges {
   @Input() isDarkModeEnabled: boolean = true;
 
+  @Input() withRgbValue: boolean = false;
+
   constructor(
     private readonly el: ElementRef,
     private readonly renderer: Renderer2
@@ -36,11 +38,12 @@ export class TextColorDirective implements AfterViewInit, OnChanges {
 
     const roleClass = element.classList[0];
     const hexColor = toHex(textColor);
+    const originalValue = this.withRgbValue ? textColor : '';
 
     this.renderer.setProperty(
       element,
       'innerHTML',
-      `${roleClass} :  ${hexColor} `
+      `${roleClass} :  ${hexColor}  ${originalValue}`
     );
   }
 }
