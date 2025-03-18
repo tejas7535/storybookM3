@@ -26,6 +26,7 @@ import {
 import { DEFAULT_COLUMN_DEFS } from './config';
 import { ColumnDefService } from './config/column-def.service';
 import { COMPONENTS } from './config/components';
+import { ROW_SELECTION } from './config/row-selection.config';
 
 @Component({
   selector: 'gq-comparable-transactions',
@@ -56,6 +57,7 @@ export class ComparableTransactionsComponent
     quotation: { customer: {} } as unknown as Quotation,
   };
   components = COMPONENTS;
+  rowSelection = ROW_SELECTION;
 
   protected TABLE_KEY = 'transactions';
 

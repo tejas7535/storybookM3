@@ -6,4 +6,5 @@ export const ROW_SELECTION: RowSelectionOptions = {
   selectAll: 'filtered',
   checkboxes: true,
   enableSelectionWithoutKeys: true,
+  copySelectedRows: true,
 };

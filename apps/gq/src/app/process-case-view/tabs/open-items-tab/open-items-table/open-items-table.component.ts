@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { ROW_SELECTION } from '@gq/case-view/case-table/config';
 import { OpenItemsFacade } from '@gq/core/store/active-case/open-items.facade';
 import { AgGridLocale } from '@gq/shared/ag-grid/models/ag-grid-locale.interface';
 import { LocalizationService } from '@gq/shared/ag-grid/services';
@@ -11,6 +10,7 @@ import { PushPipe } from '@ngrx/component';
 import { AgGridAngular } from 'ag-grid-angular';
 
 import { ColumnDefinitionService } from './config/column-definition.service';
+import { ROW_SELECTION } from './config/row-selection.config';
 
 @Component({
   selector: 'gq-open-items-table',

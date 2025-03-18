@@ -27,6 +27,7 @@
       [localeText]="localeText$ | ngrxPush"
       (filterChanged)="onFilterChanged($event)"
       [components]="components"
+      [rowSelection]="rowSelection"
       columnMenu="legacy"
     ></ag-grid-angular>
   </div>

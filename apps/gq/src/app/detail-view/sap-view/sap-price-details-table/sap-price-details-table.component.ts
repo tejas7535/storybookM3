@@ -16,6 +16,7 @@ import {
   SAP_PRICE_DETAILS_DEFAULT_COLUMN_DEFS,
   SapPriceDetailsColumnDefService,
 } from './config';
+import { ROW_SELECTION } from './config/row-selection.config';
 
 @Component({
   selector: 'gq-sap-price-details-table',
@@ -41,6 +42,7 @@ export class SapPriceDetailsTableComponent
   public defaultColumnDefs = SAP_PRICE_DETAILS_DEFAULT_COLUMN_DEFS;
   public columnDefs = this.columnDefService.COLUMN_DEFS;
   public localeText$: Observable<AgGridLocale>;
+  rowSelection = ROW_SELECTION;
 
   ngOnInit(): void {
     super.ngOnInit();

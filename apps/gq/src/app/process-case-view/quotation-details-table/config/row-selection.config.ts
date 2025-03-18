@@ -7,4 +7,5 @@ export const ROW_SELECTION: RowSelectionOptions = {
   checkboxes: true,
   enableSelectionWithoutKeys: true,
   enableClickSelection: false,
+  copySelectedRows: true,
 };
