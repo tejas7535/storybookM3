@@ -275,7 +275,7 @@
     "guideIntervalServiceLife": "Valor orientativo de la vida útil de la grasa (tfG)",
     "emissions": "Emisiones de CO₂e",
     "emissionsTooltip": "Un equivalente de CO₂ (CO₂e) es una unidad para estandarizar los efectos climáticos de diversos gases de efecto invernadero. Por lo tanto, se pueden comparar diferentes mezclas de emisiones de gases de efecto invernadero.",
-    "overrollingFrequency": "Frecuencias de exposición al paso de los elementos rodantes",
+    "overrollingFrequency": "Frecuencias de sobrepaso",
     "overrollingFrequencySubtitle": "Frecuencia en el anillo interior (BPFI)",
     "frictionalPowerloss": "Pérdida de potencia por fricción",
     "frictionalPowerlossSubtitle": "Pérdida de potencia por fricción",
@@ -444,7 +444,7 @@
       "p_i": "Carga dinámica equivalente por caso de carga"
     },
     "overrollingFrequencies": {
-      "title": "Frecuencias de exposición al paso de los elementos rodantes",
+      "title": "Frecuencias de sobrepaso",
       "BPFO": "Frecuencia de exposición al paso de los elementos rodantes en el anillo exterior",
       "BPFI": "Frecuencia de exposición al paso de los elementos rodantes en el anillo interior",
       "BSF": "Frecuencia de exposición al paso de los elementos rodantes en el elemento rodante",
@@ -475,7 +475,7 @@
       "frictionalPowerloss": "Pérdida de potencia por fricción",
       "co2": "Emisiones de CO₂e",
       "co2ForProduction": "Emisiones de CO₂e para la producción",
-      "overrollingFrequency": "Frecuencias de exposición al paso de los elementos rodantes"
+      "overrollingFrequency": "Frecuencias de sobrepaso."
     },
     "basicFrequency": "Frecuencias básicas",
     "saveAsPDF": "descargar PDF"
