@@ -5,7 +5,7 @@
     "@tailwindcss/typography": "^0.5.10"
   },
   "dependencies": {
-    "jspdf": "2.5.2",
+    "jspdf": "3.0.1",
     "@capacitor-community/file-opener": "6.0.1",
     "@capacitor/core": "6.2.0",
     "@capacitor/share": "6.0.3",
