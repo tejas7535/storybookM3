@@ -99,7 +99,9 @@
         class="col-span-1"
         [title]="t('tabs.overview.priceDeviationCardTitle')"
         [subtitle]="t('tabs.overview.priceDeviationCardSubtitle')"
-        [kpiValue]="pricingInformation?.deviation.value | percentage: false"
+        [kpiValue]="
+          pricingInformation?.deviation.value | percentage: false : true
+        "
         [warning]="pricingInformation?.deviation.warning"
         [warningInfo]="t('tabs.overview.deviationCardTitleWarning')"
       >
