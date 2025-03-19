@@ -1,4 +1,19 @@
 # Release Notes of Engineering App
+## [1.15.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.14.2...ea-v1.15.0) (2025-03-19)
+
+
+### Features
+
+*  update shared components styles  (UFATBI- 8345) ([#7125](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7125)) ([271c78a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/271c78a6a21135ade7b576afb51ea0255bc5981c))
+* **ea:** fix sonar issue in keyboard visibility service (UFTABI-8816) ([#7088](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7088)) ([b9587d9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b9587d9a7e87d44ab64c2163ad6a513371dc3ef0))
+* **ea:** remove module info api calls (UFTABI-8616) ([#7084](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7084)) ([45a792d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/45a792de53037d15c6ea385f094e28a1eff4e94e))
+
+
+### Bug Fixes
+
+* **ea:** fix  sonar issue to test deployment (UFTABI-8630) ([#7095](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7095)) ([6d22b06](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6d22b0610713a8884a2b19afa8b5e6d5a30de4a4))
+* **ea:** fix multiple scrollbars (UFTABI-8619) ([#7127](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7127)) ([acd9bbd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/acd9bbded18107e3f4bbb3da6d1d5cd8868e8d2e))
+
 ## [1.14.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.14.1...ea-v1.14.2) (2025-02-28)
 
 
