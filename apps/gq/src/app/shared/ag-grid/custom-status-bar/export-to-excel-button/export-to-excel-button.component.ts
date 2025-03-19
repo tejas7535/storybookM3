@@ -72,6 +72,7 @@ export class ExportToExcelButtonComponent implements OnInit {
     ColumnFields.DATE_NEXT_FREE_ATP,
     ColumnFields.SAP_SYNC_STATUS,
     ColumnFields.TARGET_PRICE_SOURCE,
+    ColumnFields.PRICE_DIFF,
   ];
 
   extendedDownloadEnabled = true;
@@ -532,7 +533,8 @@ export class ExportToExcelButtonComponent implements OnInit {
               type: typeString,
               value: this.transformationService.transformPercentage(
                 this.quotationDetailsSummaryKpi?.totalWeightedAveragePriceDiff,
-                false
+                false,
+                true
               ),
             },
             styleId: excelStyleObjects.excelTextBorder.id,
