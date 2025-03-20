@@ -1,12 +1,12 @@
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { MockProvider } from 'ng-mocks';
 
+import { Stub } from './../../../../../shared/test/stub.class';
 import { ColumnLayoutManagementModalComponent } from './column-layout-management-modal.component';
 
 describe('ColumnLayoutManagementModalComponent', () => {
@@ -15,7 +15,7 @@ describe('ColumnLayoutManagementModalComponent', () => {
     component: ColumnLayoutManagementModalComponent,
     imports: [],
     providers: [
-      MockProvider(MAT_DIALOG_DATA, {
+      Stub.getMatDialogDataProvider({
         gridApi: {},
         filter: {},
       }),

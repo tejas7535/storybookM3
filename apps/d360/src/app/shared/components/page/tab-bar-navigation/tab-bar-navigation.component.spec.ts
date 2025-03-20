@@ -1,18 +1,6 @@
-import { HttpClient } from '@angular/common/http';
-import { signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-
-import { of } from 'rxjs';
-
-import { MockProvider } from 'ng-mocks';
-
 import { appRoutes } from '../../../../app.routes';
 import { AppRoutePath } from '../../../../app.routes.enum';
-import { AlertService } from '../../../../feature/alerts/alert.service';
-import { Alert } from '../../../../feature/alerts/model';
-import { UserService } from '../../../services/user.service';
 import { Stub } from '../../../test/stub.class';
-import { AuthService } from '../../../utils/auth/auth.service';
 import {
   TabBarNavigationComponent,
   TabItem,
@@ -25,30 +13,8 @@ describe('TabBarNavigationComponent', () => {
     component = Stub.getForEffect<TabBarNavigationComponent>({
       component: TabBarNavigationComponent,
       providers: [
-        MockProvider(
-          Router,
-          {
-            get events() {
-              return of([]);
-            },
-          },
-          'useValue'
-        ),
-        MockProvider(ActivatedRoute),
-        MockProvider(AuthService, {
-          getUserRoles: () => of([]),
-        }),
-        MockProvider(AlertService, { allActiveAlerts: signal<Alert[]>(null) }),
-        MockProvider(HttpClient),
-        MockProvider(
-          UserService,
-          {
-            region: signal(''),
-            startPage: signal(AppRoutePath.OverviewPage),
-            filterVisibleRoutes: jest.fn(() => [] as any),
-          },
-          'useValue'
-        ),
+        Stub.getAlertServiceProvider(),
+        Stub.getUserServiceProvider(),
       ],
     });
   });

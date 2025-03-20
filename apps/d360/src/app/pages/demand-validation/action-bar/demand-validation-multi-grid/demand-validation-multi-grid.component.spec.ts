@@ -1,17 +1,13 @@
 import { DateAdapter } from '@angular/material/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { MockProvider } from 'ng-mocks';
 
+import { Stub } from './../../../../shared/test/stub.class';
 import { DemandValidationMultiGridComponent } from './demand-validation-multi-grid.component';
 
 describe('DemandValidationMultiGridConfigurationModalComponent', () => {
@@ -24,7 +20,7 @@ describe('DemandValidationMultiGridConfigurationModalComponent', () => {
       mockProvider(MatDialog),
       mockProvider(MatDialogRef),
       mockProvider(DateAdapter),
-      MockProvider(MAT_DIALOG_DATA, {
+      Stub.getMatDialogDataProvider({
         customerName: 'Test Customer',
         customerNumber: '42',
         materialType: 'schaeffler',

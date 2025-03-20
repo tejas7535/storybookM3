@@ -1,12 +1,11 @@
-import { ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 
-import { of } from 'rxjs';
+import { of, take } from 'rxjs';
 
 import { MockProvider, MockService } from 'ng-mocks';
 
 import { AppRoutePath } from '../../../app.routes.enum';
 import { Region } from '../../../feature/global-selection/model';
-import { UserService } from '../../services/user.service';
 import { Stub } from '../../test/stub.class';
 import { RegionGuard } from './region-guard.service';
 
@@ -17,12 +16,8 @@ describe('RegionGuardService', () => {
     guard = Stub.get<RegionGuard>({
       component: RegionGuard,
       providers: [
-        MockProvider(Router),
-        MockProvider(
-          UserService,
-          { loadRegion: jest.fn(() => of('')) },
-          'useValue'
-        ),
+        Stub.getRouterProvider(),
+        Stub.getUserServiceProvider(),
         MockProvider(ActivatedRouteSnapshot),
       ],
     });
@@ -36,6 +31,7 @@ describe('RegionGuardService', () => {
         }),
         {} as any
       )
+      .pipe(take(1))
       .subscribe((value) => {
         expect(value).toEqual(
           guard['router'].parseUrl(AppRoutePath.ForbiddenPage)
@@ -56,6 +52,7 @@ describe('RegionGuardService', () => {
         }),
         {} as any
       )
+      .pipe(take(1))
       .subscribe((value) => {
         expect(value).toBe(true);
         done();
@@ -74,6 +71,7 @@ describe('RegionGuardService', () => {
         }),
         {} as any
       )
+      .pipe(take(1))
       .subscribe((value) => {
         expect(value).toEqual(
           guard['router'].parseUrl(AppRoutePath.ForbiddenPage)
@@ -90,6 +88,7 @@ describe('RegionGuardService', () => {
         }),
         {} as any
       )
+      .pipe(take(1))
       .subscribe((value) => {
         expect(value).toBe(true);
         done();

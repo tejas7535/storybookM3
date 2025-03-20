@@ -1,7 +1,8 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { Stub } from './../../../../shared/test/stub.class';
 import { CustomerPlanningLevelConfirmationModalComponent } from './customer-planning-level-confirmation-modal.component';
 
 describe('CustomerPlanningLevelConfirmationModalComponent', () => {
@@ -15,13 +16,10 @@ describe('CustomerPlanningLevelConfirmationModalComponent', () => {
           close: jest.fn(),
         },
       },
-      {
-        provide: MAT_DIALOG_DATA,
-        useValue: {
-          customerName: 'Tesla Inc',
-          customerNumber: '0000086023',
-        },
-      },
+      Stub.getMatDialogDataProvider({
+        customerName: 'Tesla Inc',
+        customerNumber: '0000086023',
+      }),
     ],
     imports: [],
   });

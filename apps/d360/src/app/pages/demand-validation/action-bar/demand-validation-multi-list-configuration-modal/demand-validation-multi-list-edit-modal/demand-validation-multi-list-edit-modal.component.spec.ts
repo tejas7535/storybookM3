@@ -1,13 +1,13 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { MockProvider } from 'ng-mocks';
 
 import { DemandValidationService } from '../../../../../feature/demand-validation/demand-validation.service';
+import { Stub } from './../../../../../shared/test/stub.class';
 import { DemandValidationMultiListEditModalComponent } from './demand-validation-multi-list-edit-modal.component';
 
 describe('DemandValidationMultiListEditModalComponent', () => {
@@ -19,7 +19,7 @@ describe('DemandValidationMultiListEditModalComponent', () => {
     providers: [
       mockProvider(DemandValidationService),
       mockProvider(MatDialogRef),
-      MockProvider(MAT_DIALOG_DATA, {
+      Stub.getMatDialogDataProvider({
         customerName: 'Test Customer',
         customerNumber: '42',
         materialType: 'schaeffler',

@@ -127,7 +127,7 @@ export class SelectableOptionsService {
     urlBegin: string,
     searchTerm: string,
     withLang = false
-  ) {
+  ): Observable<SelectableValue[]> {
     const language: string | null = `&lang=${
       withLang ? this.translocoService.getActiveLang() : null
     }`;

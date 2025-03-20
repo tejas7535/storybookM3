@@ -1,11 +1,5 @@
-import { MatDialog } from '@angular/material/dialog';
-
-import { of } from 'rxjs';
-
 import { GridApi } from 'ag-grid-enterprise';
-import { MockProvider } from 'ng-mocks';
 
-import { SelectableOptionsService } from '../../shared/services/selectable-options.service';
 import { Stub } from '../../shared/test/stub.class';
 import { InternalMaterialReplacementMultiSubstitutionModalComponent } from './components/modals/internal-material-replacement-multi-substitution-modal/internal-material-replacement-multi-substitution-modal.component';
 import { InternalMaterialReplacementSingleSubstitutionModalComponent } from './components/modals/internal-material-replacement-single-substitution-modal/internal-material-replacement-single-substitution-modal.component';
@@ -17,23 +11,7 @@ describe('InternalMaterialReplacementComponent', () => {
   beforeEach(() => {
     component = Stub.get<InternalMaterialReplacementComponent>({
       component: InternalMaterialReplacementComponent,
-      providers: [
-        MockProvider(MatDialog, {
-          open: jest.fn().mockReturnValue({
-            afterClosed: jest.fn().mockReturnValue(of({ reloadData: true })),
-          }),
-        }),
-        MockProvider(
-          SelectableOptionsService,
-          {
-            get: jest.fn(() => ({
-              options: [{ id: 'region1', text: 'Region 1' }],
-            })),
-            loading$: of(false),
-          },
-          'useValue'
-        ),
-      ],
+      providers: [Stub.getMatDialogProvider()],
     });
   });
 
@@ -43,6 +21,10 @@ describe('InternalMaterialReplacementComponent', () => {
 
   describe('ngOnInit', () => {
     it('should set regionControl value on loading$ completion', () => {
+      jest.spyOn(component['selectableOptionsService'], 'get').mockReturnValue({
+        options: [{ id: 'region1', text: 'Region 1' }],
+      });
+
       component.ngOnInit();
 
       expect(component['regionControl'].value).toEqual({

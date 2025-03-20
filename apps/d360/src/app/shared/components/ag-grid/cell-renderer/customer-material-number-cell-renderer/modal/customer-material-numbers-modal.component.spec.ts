@@ -1,8 +1,6 @@
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockProvider } from 'ng-mocks';
 
+import { Stub } from './../../../../../test/stub.class';
 import { CustomerMaterialNumbersModalComponent } from './customer-material-numbers-modal.component';
 
 describe('CustomerMaterialNumbersDialogComponent', () => {
@@ -12,7 +10,7 @@ describe('CustomerMaterialNumbersDialogComponent', () => {
     component: CustomerMaterialNumbersModalComponent,
     imports: [],
     providers: [
-      MockProvider(MAT_DIALOG_DATA, {
+      Stub.getMatDialogDataProvider({
         isLoading: jest.fn(),
         customerMaterialNumbers: jest.fn(),
       }),

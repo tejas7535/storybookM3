@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+import { HttpClient } from '@angular/common/http';
 import {
   ClassProvider,
   effect,
@@ -8,28 +10,53 @@ import {
   Provider,
   ProviderToken,
   SchemaMetadata,
+  signal,
   StaticProvider,
   Type,
   ValueProvider,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
+import { Store } from '@ngrx/store';
 import { GridApi } from 'ag-grid-enterprise';
 import { MockProvider, MockService } from 'ng-mocks';
 
+import { AppRoutePath } from '../../app.routes.enum';
+import { AlertService } from '../../feature/alerts/alert.service';
+import { Alert } from '../../feature/alerts/model';
+import { CMPService } from '../../feature/customer-material-portfolio/cmp.service';
+import { DemandValidationService } from '../../feature/demand-validation/demand-validation.service';
 import { GlobalSelectionHelperService } from '../../feature/global-selection/global-selection.service';
+import { CurrencyService } from '../../feature/info/currency.service';
 import { IMRService } from '../../feature/internal-material-replacement/imr.service';
+import { MaterialCustomerService } from '../../feature/material-customer/material-customer.service';
+import { PlanningLevelService } from '../../feature/sales-planning/planning-level.service';
+import { SalesPlanningService } from '../../feature/sales-planning/sales-planning.service';
+import { AlertRulesColumnSettingsService } from '../../pages/alert-rules/table/services/alert-rules-column-settings.service';
+import { ExportMaterialCustomerService } from '../../pages/home/table/services/export-material-customer.service';
+import { MonthlyCustomerPlanningDetailsColumnSettingsService } from '../../pages/sales-planning/components/customer-planning-details/monthly-customer-planning-details-modal/service/monthly-customer-planning-details-column-settings.service';
+import { YearlyCustomerPlanningDetailsColumnSettingsService } from '../../pages/sales-planning/components/customer-planning-details/service/customer-planning-details-column-settings.service';
 import { GlobalSelectionStateService } from '../components/global-selection-criteria/global-selection-state.service';
+import { NumberWithoutFractionDigitsPipe } from '../pipes/number-without-fraction-digits.pipe';
 import { AgGridLocalizationService } from '../services/ag-grid-localization.service';
 import { SelectableOptionsService } from '../services/selectable-options.service';
+import { UserService } from '../services/user.service';
+import { AuthService } from '../utils/auth/auth.service';
 import { SnackbarService } from '../utils/service/snackbar.service';
 import { ValidationHelper } from '../utils/validation/validation-helper';
+import { AlertRulesService } from './../../feature/alert-rules/alert-rules.service';
+import { MaterialCustomerTableService } from './../../pages/home/table/services/material-customer-table.service';
 
 // Angular's effect function depends on a lot of deeper Angular stuff. We want to enable unit testing at the component level, so we need to be able to inject a standalone effect function
 export const EFFECT_FACTORY_TOKEN = new InjectionToken('effect');
@@ -58,6 +85,7 @@ export class Stub {
           failedRetries: 1,
         },
         setTranslation: () => {},
+        getActiveLang: () => 'en',
       },
       'useValue'
     ),
@@ -69,11 +97,22 @@ export class Stub {
       { afterClosed: () => of({ reloadData: true }), close: () => {} },
       'useValue'
     ),
-    MockProvider(IMRService, {
-      saveMultiIMRSubstitution: jest.fn().mockReturnValue(of({} as any)),
-    }),
-    MockProvider(SnackbarService),
-    MockProvider(SelectableOptionsService),
+    MockProvider(IMRService, this.getIMRService(), 'useValue'),
+    MockProvider(SnackbarService, { openSnackBar: jest.fn() }),
+    MockProvider(
+      SelectableOptionsService,
+      {
+        loading$: new BehaviorSubject<boolean>(false),
+        get: () =>
+          ({
+            options: [],
+            loading: false,
+            loadingError: null,
+          }) as any,
+        getOptionsBySearchTerm: jest.fn().mockReturnValue(of([])),
+      },
+      'useValue'
+    ),
     MockProvider(
       GlobalSelectionHelperService,
       {
@@ -91,7 +130,21 @@ export class Stub {
       },
       'useValue'
     ),
-    MockProvider(AgGridLocalizationService, { lang: jest.fn() }, 'useValue'),
+    MockProvider(CurrencyService, this.getCurrencyService(), 'useValue'),
+    MockProvider(
+      AgGridLocalizationService,
+      {
+        lang: jest.fn(),
+        dateFormatter: jest.fn().mockReturnValue('formattedDate'),
+        numberFormatter: jest.fn().mockReturnValue('formattedNumber'),
+      },
+      'useValue'
+    ),
+    MockProvider(
+      HttpClient,
+      { get: () => of({}), post: () => of({}), request: () => of({}) },
+      'useValue'
+    ),
   ];
 
   private static fixture: ComponentFixture<any> | null = null;
@@ -186,6 +239,13 @@ export class Stub {
     return this.fixture;
   }
 
+  private static initValidationHelper(): void {
+    ValidationHelper.localeService = MockService(TranslocoLocaleService, {
+      getLocale: jest.fn().mockReturnValue('en-US'),
+      localizeDate: jest.fn().mockReturnValue(''),
+    });
+  }
+
   public static getGridApi(): GridApi {
     return {
       setGridOption: jest.fn(),
@@ -195,13 +255,270 @@ export class Stub {
       expandAll: jest.fn(),
       collapseAll: jest.fn(),
       refreshServerSide: jest.fn(),
+      applyTransaction: jest.fn(),
+      setColumnDefs: jest.fn(),
+      applyServerSideTransaction: jest.fn(),
     } as any;
   }
 
-  private static initValidationHelper(): void {
-    ValidationHelper.localeService = MockService(TranslocoLocaleService, {
-      getLocale: jest.fn().mockReturnValue('en-US'),
-      localizeDate: jest.fn().mockReturnValue(''),
-    });
+  public static getIMRService(): IMRService {
+    return {
+      saveSingleIMRSubstitution: jest.fn(),
+      saveMultiIMRSubstitution: jest.fn().mockReturnValue(of({} as any)),
+      createInternalMaterialReplacementDatasource: jest
+        .fn()
+        .mockReturnValue(() => {}),
+      getDataFetchedEvent: jest.fn().mockReturnValue(of({ rowCount: 10 })),
+    } as any;
+  }
+
+  public static getCurrencyService(): CurrencyService {
+    return {
+      getCurrentCurrency: jest.fn().mockReturnValue(of('EUR')),
+      getAvailableCurrencies: jest.fn().mockReturnValue(of([])),
+      setCurrentCurrency: jest.fn(),
+    } as any;
+  }
+
+  public static getAlertRulesServiceProvider(): ValueProvider {
+    return MockProvider(
+      AlertRulesService,
+      {
+        getAlertRuleData: jest.fn().mockReturnValue(of({})),
+        getRuleTypeData: jest.fn().mockReturnValue(of({})),
+        saveMultiAlertRules: jest.fn().mockReturnValue(
+          of({
+            overallStatus: '',
+            response: [],
+          } as any)
+        ),
+        deleteMultiAlterRules: jest.fn().mockReturnValue(
+          of({
+            overallStatus: '',
+            response: [],
+          } as any)
+        ),
+        deleteSingleAlterRule: jest.fn().mockReturnValue(
+          of({
+            overallStatus: '',
+            response: [],
+          } as any)
+        ),
+      },
+      'useValue'
+    );
+  }
+
+  public static getMatDialogProvider(): ValueProvider {
+    return MockProvider(
+      MatDialog,
+      {
+        closeAll: jest.fn(),
+        open: jest.fn().mockReturnValue({
+          afterClosed: jest.fn().mockReturnValue(of({ reloadData: true })),
+        }),
+      },
+      'useValue'
+    );
+  }
+
+  public static getMatDialogDataProvider(data: any): ValueProvider {
+    return MockProvider(MAT_DIALOG_DATA, data, 'useValue');
+  }
+
+  public static getAlertRulesColumnSettingsServiceProvider(): ValueProvider {
+    return MockProvider(
+      AlertRulesColumnSettingsService,
+      {
+        getColumnSettings: jest.fn().mockReturnValue(of([])),
+        applyStoredFilters: jest.fn(),
+      },
+      'useValue'
+    );
+  }
+
+  public static getStoreProvider(returnValue?: any): ValueProvider {
+    return MockProvider(
+      Store,
+      { select: jest.fn().mockReturnValue(of(returnValue ?? [])) },
+      'useValue'
+    );
+  }
+
+  public static getCMPServiceProvider(): ValueProvider {
+    return MockProvider(
+      CMPService,
+      {
+        saveBulkPhaseIn: jest.fn(),
+        getDataFetchedEvent: jest.fn(),
+        getCMPCriteriaData: jest.fn().mockReturnValue(
+          of({
+            filterableFields: [],
+            sortableFields: [],
+          })
+        ),
+        createCustomerMaterialPortfolioDatasource: jest.fn(),
+      },
+      'useValue'
+    );
+  }
+
+  public static getDemandValidationServiceProvider(): ValueProvider {
+    return MockProvider(
+      DemandValidationService,
+      {
+        getKpiBuckets: jest.fn().mockReturnValue(of([])),
+        saveValidatedDemandBatch: jest.fn(),
+        getKpiData: jest.fn().mockReturnValue(of({})),
+      },
+      'useValue'
+    );
+  }
+
+  public static getMaterialCustomerServiceProvider(): ValueProvider {
+    return MockProvider(
+      MaterialCustomerService,
+      {
+        getCriteriaData: jest.fn().mockReturnValue(
+          of({
+            filterableFields: [],
+            sortableFields: [],
+          })
+        ),
+      },
+      'useValue'
+    );
+  }
+
+  public static getMaterialCustomerTableServiceProvider(): ValueProvider {
+    return MockProvider(
+      MaterialCustomerTableService,
+      {
+        useMaterialCustomerColumnLayouts: jest.fn(),
+        createMaterialCustomerDatasource: jest.fn(),
+      },
+      'useValue'
+    );
+  }
+
+  public static getPlanningLevelServiceProvider(): ValueProvider {
+    return MockProvider(
+      PlanningLevelService,
+      {
+        getMaterialTypeByCustomerNumber: jest.fn().mockReturnValue(
+          of({
+            planningLevelMaterialType: 'GP',
+            isDefaultPlanningLevelMaterialType: true,
+          })
+        ),
+        deleteMaterialTypeByCustomerNumber: jest.fn(() => of(null)),
+      },
+      'useValue'
+    );
+  }
+
+  public static getSalesPlanningServiceProvider(): ValueProvider {
+    return MockProvider(
+      SalesPlanningService,
+      { getDetailedCustomerSalesPlan: jest.fn(() => of([])) },
+      'useValue'
+    );
+  }
+
+  public static getYearlyCustomerPlanningDetailsColumnSettingsServiceProvider(): ValueProvider {
+    return MockProvider(
+      YearlyCustomerPlanningDetailsColumnSettingsService,
+      { getColumnSettings: jest.fn(() => of([])) },
+      'useValue'
+    );
+  }
+
+  public static getExportMaterialCustomerServiceProvider(): ValueProvider {
+    return MockProvider(
+      ExportMaterialCustomerService,
+      { triggerExport: jest.fn().mockReturnValue(of(null)) },
+      'useValue'
+    );
+  }
+
+  public static getMonthlyCustomerPlanningDetailsColumnSettingsServiceProvider(): ValueProvider {
+    return MockProvider(
+      MonthlyCustomerPlanningDetailsColumnSettingsService,
+      {
+        getColumnSettings: jest.fn(),
+        saveColumnSettings$: jest.fn(),
+        loadColumnSettings$: jest.fn(),
+        saveFromAgGridEvent: jest.fn(),
+        applyStoredFilters: jest.fn(),
+      },
+      'useValue'
+    );
+  }
+
+  public static getNumberWithoutFractionDigitsPipeProvider(): ValueProvider {
+    return MockProvider(
+      NumberWithoutFractionDigitsPipe,
+      { transform: jest.fn() },
+      'useValue'
+    );
+  }
+
+  public static getRouterProvider(): ValueProvider {
+    return MockProvider(
+      Router,
+      {
+        get events() {
+          return of([]);
+        },
+        parseUrl: jest.fn(),
+      },
+      'useValue'
+    );
+  }
+
+  public static getActivatedRouteProvider(): FactoryProvider {
+    return MockProvider(ActivatedRoute);
+  }
+
+  public static getAuthServiceProvider(getUserRoles?: any): ValueProvider {
+    return MockProvider(
+      AuthService,
+      { getUserRoles: () => getUserRoles ?? of([]) },
+      'useValue'
+    );
+  }
+
+  public static getAlertServiceProvider(): ValueProvider {
+    return MockProvider(
+      AlertService,
+      { allActiveAlerts: signal<Alert[]>(null) },
+      'useValue'
+    );
+  }
+
+  public static getUserServiceProvider(data?: {
+    filterVisibleRoutes?: any;
+    startPage?: any;
+    region?: any;
+    getStartPage?: any;
+    saveStartPage?: any;
+    loadRegion?: any;
+  }): ValueProvider {
+    return MockProvider(
+      UserService,
+      {
+        region: data?.region ?? signal(''),
+        startPage: data?.startPage ?? signal(AppRoutePath.OverviewPage),
+        filterVisibleRoutes: jest
+          .fn()
+          .mockReturnValue(data?.filterVisibleRoutes ?? []),
+        getStartPage: jest.fn().mockReturnValue(of(data?.getStartPage ?? null)),
+        saveStartPage: jest
+          .fn()
+          .mockReturnValue(of(data?.saveStartPage ?? null)),
+        loadRegion: jest.fn(() => of(data?.loadRegion ?? '')),
+      },
+      'useValue'
+    );
   }
 }

@@ -2,14 +2,10 @@ import { signal } from '@angular/core';
 
 import { of } from 'rxjs';
 
-import { Store } from '@ngrx/store';
 import { GetRowIdParams, ICellRendererParams } from 'ag-grid-enterprise';
-import { MockProvider } from 'ng-mocks';
 
-import { CMPService } from '../../../../../feature/customer-material-portfolio/cmp.service';
 import { statusActions } from '../status-actions';
 import { CMPEntry } from './../../../../../feature/customer-material-portfolio/model';
-import { AgGridLocalizationService } from './../../../../../shared/services/ag-grid-localization.service';
 import { Stub } from './../../../../../shared/test/stub.class';
 import { CustomerMaterialPortfolioTableComponent } from './customer-material-portfolio-table.component';
 
@@ -19,19 +15,7 @@ describe('CustomerMaterialPortfolioTableComponent', () => {
   beforeEach(() => {
     component = Stub.getForEffect<CustomerMaterialPortfolioTableComponent>({
       component: CustomerMaterialPortfolioTableComponent,
-      providers: [
-        MockProvider(CMPService, {
-          getCMPCriteriaData: jest.fn().mockReturnValue(
-            of({
-              filterableFields: [],
-              sortableFields: [],
-            })
-          ),
-          createCustomerMaterialPortfolioDatasource: jest.fn(),
-        }),
-        MockProvider(Store, { select: jest.fn().mockReturnValue(of([])) }),
-        MockProvider(AgGridLocalizationService),
-      ],
+      providers: [Stub.getCMPServiceProvider(), Stub.getStoreProvider()],
     });
     component['gridApi'] = Stub.getGridApi();
 

@@ -1,13 +1,14 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { MockComponent, MockProvider } from 'ng-mocks';
+import { MockComponent } from 'ng-mocks';
 
 import { DemandValidationDatePickerComponent } from '../demand-validation-date-picker/demand-validation-date-picker.component';
+import { Stub } from './../../../../shared/test/stub.class';
 import { DatePickerSettingDemandValidationModalComponent } from './date-picker-setting-demand-validation-modal.component';
 
 describe('DatePickerSettingDemandValidationModalComponent', () => {
@@ -17,7 +18,7 @@ describe('DatePickerSettingDemandValidationModalComponent', () => {
     component: DatePickerSettingDemandValidationModalComponent,
     imports: [MockComponent(DemandValidationDatePickerComponent)],
     providers: [
-      MockProvider(MAT_DIALOG_DATA, {
+      Stub.getMatDialogDataProvider({
         range1: {
           from: new Date(),
           to: new Date(),

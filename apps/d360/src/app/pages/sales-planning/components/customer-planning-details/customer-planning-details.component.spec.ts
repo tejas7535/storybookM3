@@ -1,29 +1,18 @@
 import { fakeAsync, tick } from '@angular/core/testing';
-import { MatDialog } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
-import { TranslocoModule } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { GridApi, GridReadyEvent } from 'ag-grid-enterprise';
-import { MockProvider } from 'ng-mocks';
 
 import {
   DetailedCustomerSalesPlan,
   SalesPlanningDetailLevel,
 } from '../../../../feature/sales-planning/model';
-import { PlanningLevelService } from '../../../../feature/sales-planning/planning-level.service';
-import { SalesPlanningService } from '../../../../feature/sales-planning/sales-planning.service';
 import { Stub } from '../../../../shared/test/stub.class';
 import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
 import { CustomerPlanningDetailsComponent } from './customer-planning-details.component';
 import { MonthlyCustomerPlanningDetailsModalComponent } from './monthly-customer-planning-details-modal/monthly-customer-planning-details-modal.component';
-import { YearlyCustomerPlanningDetailsColumnSettingsService } from './service/customer-planning-details-column-settings.service';
-
-jest.mock('@jsverse/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
-  translate: jest.fn((translateKey) => translateKey),
-}));
 
 describe('CustomerPlanningDetailsComponent', () => {
   let component: CustomerPlanningDetailsComponent;
@@ -49,45 +38,10 @@ describe('CustomerPlanningDetailsComponent', () => {
     component = Stub.getForEffect<CustomerPlanningDetailsComponent>({
       component: CustomerPlanningDetailsComponent,
       providers: [
-        MockProvider(
-          MatDialog,
-          {
-            open: jest.fn().mockReturnValue({
-              afterClosed: jest.fn().mockReturnValue(
-                of({
-                  deleteExistingPlanningData: false,
-                  newPlanningLevelMaterialType: 'PL',
-                })
-              ),
-            }),
-          },
-          'useValue'
-        ),
-        MockProvider(
-          PlanningLevelService,
-          {
-            getMaterialTypeByCustomerNumber: jest.fn().mockReturnValue(
-              of({
-                planningLevelMaterialType: 'GP',
-                isDefaultPlanningLevelMaterialType: true,
-              })
-            ),
-            deleteMaterialTypeByCustomerNumber: jest.fn(() => of(null)),
-          },
-          'useValue'
-        ),
-        MockProvider(
-          SalesPlanningService,
-          { getDetailedCustomerSalesPlan: jest.fn(() => of([])) },
-          'useValue'
-        ),
-        MockProvider(
-          YearlyCustomerPlanningDetailsColumnSettingsService,
-          {
-            getColumnSettings: jest.fn(() => of([])),
-          },
-          'useValue'
-        ),
+        Stub.getMatDialogProvider(),
+        Stub.getPlanningLevelServiceProvider(),
+        Stub.getPlanningLevelServiceProvider(),
+        Stub.getYearlyCustomerPlanningDetailsColumnSettingsServiceProvider(),
       ],
     });
 

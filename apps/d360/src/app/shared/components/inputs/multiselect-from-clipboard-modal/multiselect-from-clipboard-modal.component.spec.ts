@@ -1,9 +1,9 @@
 import { FormControl, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockComponent, MockProvider } from 'ng-mocks';
+import { MockComponent } from 'ng-mocks';
 
+import { Stub } from '../../../test/stub.class';
 import { MultiAutocompleteOnTypeComponent } from '../autocomplete/multi-autocomplete-on-type/multi-autocomplete-on-type.component';
 import { MultiAutocompletePreLoadedComponent } from '../autocomplete/multi-autocomplete-pre-loaded/multi-autocomplete-pre-loaded.component';
 import { MultiselectFromClipboardModalComponent } from './multiselect-from-clipboard-modal.component';
@@ -18,7 +18,7 @@ describe('MultiselectFromClipboardModalComponent', () => {
       MockComponent(MultiAutocompleteOnTypeComponent),
     ],
     providers: [
-      MockProvider(MAT_DIALOG_DATA, {
+      Stub.getMatDialogDataProvider({
         control: new FormControl([]),
         searchControl: new FormControl(),
         form: new FormGroup({}),

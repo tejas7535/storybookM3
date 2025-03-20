@@ -1,7 +1,6 @@
 import { MatButton } from '@angular/material/button';
 import { MatCard } from '@angular/material/card';
 import {
-  MAT_DIALOG_DATA,
   MatDialogActions,
   MatDialogContent,
   MatDialogRef,
@@ -11,6 +10,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { Stub } from './../../../../shared/test/stub.class';
 import { CustomerInfoModalComponent } from './customer-info-modal.component';
 
 const dialogRefSpy = {
@@ -86,10 +86,7 @@ describe('CustomerInfoModalComponent Multiple Customer Info', () => {
     ],
     providers: [
       { provide: MatDialogRef, useValue: dialogRefSpy },
-      {
-        provide: MAT_DIALOG_DATA,
-        useValue: mockDateWithMultipleCustomerInfo,
-      },
+      Stub.getMatDialogDataProvider(mockDateWithMultipleCustomerInfo),
     ],
   });
 
@@ -208,10 +205,7 @@ describe('CustomerInfoModalComponent Single Customer Info', () => {
     ],
     providers: [
       { provide: MatDialogRef, useValue: dialogRefSpy },
-      {
-        provide: MAT_DIALOG_DATA,
-        useValue: mockDataWithSingleCustomerInfo,
-      },
+      Stub.getMatDialogDataProvider(mockDataWithSingleCustomerInfo),
     ],
   });
 

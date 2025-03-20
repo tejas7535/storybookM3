@@ -2,8 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { of, take, throwError } from 'rxjs';
 
-import { MockProvider } from 'ng-mocks';
-
 import { Stub } from '../../shared/test/stub.class';
 import { getErrorMessage } from '../../shared/utils/errors';
 import { IMRService } from './imr.service';
@@ -16,7 +14,6 @@ describe('IMRService', () => {
   beforeEach(() => {
     service = Stub.get<IMRService>({
       component: IMRService,
-      providers: [MockProvider(HttpClient)],
     });
   });
 

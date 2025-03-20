@@ -1,14 +1,5 @@
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-import { of } from 'rxjs';
-
-import { MockProvider } from 'ng-mocks';
-
-import { SalesPlanningService } from '../../../../../feature/sales-planning/sales-planning.service';
-import { NumberWithoutFractionDigitsPipe } from '../../../../../shared/pipes/number-without-fraction-digits.pipe';
 import { Stub } from '../../../../../shared/test/stub.class';
 import { MonthlyCustomerPlanningDetailsModalComponent } from './monthly-customer-planning-details-modal.component';
-import { MonthlyCustomerPlanningDetailsColumnSettingsService } from './service/monthly-customer-planning-details-column-settings.service';
 
 describe('MonthlyCustomerPlanningDetailsModalComponent', () => {
   let component: MonthlyCustomerPlanningDetailsModalComponent;
@@ -17,9 +8,9 @@ describe('MonthlyCustomerPlanningDetailsModalComponent', () => {
     component = Stub.get<MonthlyCustomerPlanningDetailsModalComponent>({
       component: MonthlyCustomerPlanningDetailsModalComponent,
       providers: [
-        MockProvider(MonthlyCustomerPlanningDetailsColumnSettingsService),
-        MockProvider(NumberWithoutFractionDigitsPipe),
-        MockProvider(MAT_DIALOG_DATA, {
+        Stub.getMonthlyCustomerPlanningDetailsColumnSettingsServiceProvider(),
+        Stub.getNumberWithoutFractionDigitsPipeProvider(),
+        Stub.getMatDialogDataProvider({
           customerName: 'Test Customer',
           customerNumber: '12345',
           planningCurrency: 'USD',
@@ -31,11 +22,7 @@ describe('MonthlyCustomerPlanningDetailsModalComponent', () => {
           totalSalesPlanUnconstrained: 10_000,
           totalSalesPlanAdjusted: 8000,
         }),
-        MockProvider(
-          SalesPlanningService,
-          { getDetailedCustomerSalesPlan: jest.fn().mockReturnValue(of([])) },
-          'useValue'
-        ),
+        Stub.getSalesPlanningServiceProvider(),
       ],
     });
   });

@@ -210,18 +210,18 @@ export abstract class AbstractAlertRuleMultiModalComponent
   protected specialParseFunctionsForFields: Map<
     keyof AlertRule,
     (value: string) => string
-  > = getSpecialParseFunctions(
-    this.optionsService.get('alertTypesForRuleEditor'),
-    this.optionsService.get('region'),
-    this.optionsService.get('salesArea'),
-    this.optionsService.get('salesOrg'),
-    this.optionsService.get('sectorMgmt'),
-    this.optionsService.get('demandPlanners'),
-    this.optionsService.get('gkam'),
-    this.optionsService.get('productLine'),
-    this.optionsService.get('interval'),
-    this.optionsService.get('execDay')
-  );
+  > = getSpecialParseFunctions({
+    alertTypes: this.optionsService.get('alertTypesForRuleEditor'),
+    regionOptions: this.optionsService.get('region'),
+    salesAreaOptions: this.optionsService.get('salesArea'),
+    salesOrgOptions: this.optionsService.get('salesOrg'),
+    sectorManagementOptions: this.optionsService.get('sectorMgmt'),
+    demandPlannerOptions: this.optionsService.get('demandPlanners'),
+    gkamOptions: this.optionsService.get('gkam'),
+    productLineOptions: this.optionsService.get('productLine'),
+    intervalOpts: this.optionsService.get('interval'),
+    whenOpts: this.optionsService.get('execDay'),
+  });
 
   /**
    * These are the Multi Alert Rule Column Definitions

@@ -1,9 +1,4 @@
-import { HttpClient } from '@angular/common/http';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-import { EMPTY, of } from 'rxjs';
-
-import { MockProvider } from 'ng-mocks';
+import { EMPTY, of, take } from 'rxjs';
 
 import { CMPData } from '../../../../../feature/customer-material-portfolio/cmp-modal-types';
 import {
@@ -25,8 +20,7 @@ describe('CustomerMaterialSingleModalComponent', () => {
     component = Stub.getForEffect({
       component: CustomerMaterialSingleModalComponent,
       providers: [
-        MockProvider(HttpClient),
-        MockProvider(MAT_DIALOG_DATA, {
+        Stub.getMatDialogDataProvider({
           data: {
             customerNumber: '42',
             materialNumber: '456',
@@ -563,7 +557,9 @@ describe('CustomerMaterialSingleModalComponent', () => {
         .spyOn(component as any, 'getActionURL')
         .mockReturnValue('veto-substitution');
 
-      component['save$'](null).subscribe(() => done());
+      component['save$'](null)
+        .pipe(take(1))
+        .subscribe(() => done());
 
       expect(getRequestDataMock).toHaveBeenCalledWith();
       expect(getActionURLMock).toHaveBeenCalledWith(null);
@@ -607,7 +603,9 @@ describe('CustomerMaterialSingleModalComponent', () => {
         .spyOn(component as any, 'getActionURL')
         .mockReturnValue('veto-substitution');
 
-      component['save$'](null).subscribe(() => done());
+      component['save$'](null)
+        .pipe(take(1))
+        .subscribe(() => done());
 
       expect(getRequestDataMock).toHaveBeenCalledWith();
       expect(getActionURLMock).toHaveBeenCalledWith(null);

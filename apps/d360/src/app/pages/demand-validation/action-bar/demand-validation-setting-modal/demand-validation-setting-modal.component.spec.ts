@@ -1,9 +1,7 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockProvider } from 'ng-mocks';
 
 import { PlanningView } from '../../../../feature/demand-validation/planning-view';
+import { Stub } from './../../../../shared/test/stub.class';
 import { DemandValidationSettingModalComponent } from './demand-validation-setting-modal.component';
 
 describe('DemandValidationSettingModalComponent', () => {
@@ -12,12 +10,7 @@ describe('DemandValidationSettingModalComponent', () => {
   const createComponent = createComponentFactory({
     component: DemandValidationSettingModalComponent,
     componentMocks: [],
-    providers: [
-      MockProvider(MAT_DIALOG_DATA, {}),
-      MockProvider(MatDialogRef<DemandValidationSettingModalComponent>, {
-        close: jest.fn(),
-      }),
-    ],
+    providers: [Stub.getMatDialogDataProvider({})],
   });
 
   beforeEach(() => {

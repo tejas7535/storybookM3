@@ -1,9 +1,6 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
-
-import { MockProvider } from 'ng-mocks';
 
 import * as ValidateFormDecorator from '../../../../../shared/decorators';
 import { Stub } from './../../../../../shared/test/stub.class';
@@ -22,7 +19,7 @@ describe('InternalMaterialReplacementSingleSubstitutionModalComponent', () => {
     component = Stub.get({
       component: InternalMaterialReplacementSingleSubstitutionModalComponent,
       providers: [
-        MockProvider(MAT_DIALOG_DATA, {
+        Stub.getMatDialogDataProvider({
           isNewSubstitution: true,
           substitution: {
             replacementType: 'RELOCATION',

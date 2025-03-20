@@ -13,7 +13,6 @@ import { MatIcon } from '@angular/material/icon';
 
 import { catchError, EMPTY, Observable, switchMap, take, tap } from 'rxjs';
 
-import { translate } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
 import { GridApi } from 'ag-grid-enterprise';
 
@@ -86,12 +85,6 @@ export class AlertRulesComponent implements OnDestroy {
    * @memberof AlertRulesComponent
    */
   protected gridApi: GridApi | null = null;
-
-  // TODO: Move the translation strings for the page title (Browser Tabbar) to the Routes and implement a TitleStrategy to translate them
-  public readonly title = `${translate('tabbar.functions.label', {})} | ${translate(
-    'tabbarMenu.alert-rule-editor.label',
-    {}
-  )}`;
 
   protected hasFilters(): boolean {
     if (!this.gridApi) {

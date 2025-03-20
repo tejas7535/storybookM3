@@ -1,11 +1,10 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { of, Subject } from 'rxjs';
 
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockProvider } from 'ng-mocks';
 
+import { Stub } from './../../../../../shared/test/stub.class';
 import {
   CustomerSalesPlanNumberEditModalProps,
   CustomerSalesPlanSinglePercentageEditModalComponent,
@@ -38,10 +37,7 @@ describe('CustomerSalesPlanSinglePercentageEditModalComponent', () => {
     component: CustomerSalesPlanSinglePercentageEditModalComponent,
     providers: [
       { provide: MatDialogRef, useValue: mockDialogRef },
-      MockProvider(MAT_DIALOG_DATA, mockData),
-      MockProvider(TranslocoLocaleService, {
-        getLocale: () => 'en-US',
-      }),
+      Stub.getMatDialogDataProvider(mockData),
     ],
   });
 

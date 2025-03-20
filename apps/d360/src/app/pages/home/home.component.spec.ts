@@ -1,5 +1,3 @@
-import { of } from 'rxjs';
-
 import { MockProvider } from 'ng-mocks';
 
 import { CurrencyService } from '../../feature/info/currency.service';
@@ -10,12 +8,11 @@ describe('HomeComponent', () => {
   let component: HomeComponent;
 
   beforeEach(() => {
-    component = Stub.get({
+    component = Stub.get<HomeComponent>({
       component: HomeComponent,
       providers: [
-        MockProvider(CurrencyService, {
-          getCurrentCurrency: jest.fn().mockReturnValue(of({})),
-        }),
+        // we need it here, can't be removed!
+        MockProvider(CurrencyService, Stub.getCurrencyService(), 'useValue'),
       ],
     });
   });

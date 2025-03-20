@@ -1,8 +1,3 @@
-import { MatDialog } from '@angular/material/dialog';
-
-import { of } from 'rxjs';
-
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import {
   FirstDataRenderedEvent,
   GridApi,
@@ -13,7 +8,6 @@ import { MockProvider } from 'ng-mocks';
 
 import { IMRService } from '../../../../feature/internal-material-replacement/imr.service';
 import { IMRSubstitution } from '../../../../feature/internal-material-replacement/model';
-import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { Stub } from '../../../../shared/test/stub.class';
 import { InternalMaterialReplacementSingleDeleteModalComponent } from '../../components/modals/internal-material-replacement-single-delete-modal/internal-material-replacement-single-delete-modal.component';
 import { InternalMaterialReplacementSingleSubstitutionModalComponent } from '../../components/modals/internal-material-replacement-single-substitution-modal/internal-material-replacement-single-substitution-modal.component';
@@ -26,24 +20,9 @@ describe('InternalMaterialReplacementTableComponent', () => {
     component = Stub.getForEffect<InternalMaterialReplacementTableComponent>({
       component: InternalMaterialReplacementTableComponent,
       providers: [
-        MockProvider(MatDialog, {
-          open: jest.fn().mockReturnValue({
-            afterClosed: jest.fn().mockReturnValue(of({ reloadData: true })),
-          }),
-        }),
-        MockProvider(IMRService, {
-          createInternalMaterialReplacementDatasource: jest
-            .fn()
-            .mockReturnValue(() => {}),
-          getDataFetchedEvent: jest.fn().mockReturnValue(of({ rowCount: 10 })),
-        }),
-        MockProvider(AgGridLocalizationService, {
-          dateFormatter: jest.fn().mockReturnValue('formattedDate'),
-          numberFormatter: jest.fn().mockReturnValue('formattedNumber'),
-        }),
-        MockProvider(TranslocoLocaleService, {
-          getLocale: jest.fn().mockReturnValue('en'),
-        }),
+        Stub.getMatDialogProvider(),
+        // we need it here, can't be removed!
+        MockProvider(IMRService, Stub.getIMRService(), 'useValue'),
       ],
     });
 
@@ -86,13 +65,7 @@ describe('InternalMaterialReplacementTableComponent', () => {
 
   describe('onGridReady', () => {
     it('should set gridApi and call setServerSideDatasource', () => {
-      const mockGridApi: GridApi = {
-        setGridOption: jest.fn(),
-        setColumnDefs: jest.fn(),
-        showNoRowsOverlay: jest.fn(),
-        hideOverlay: jest.fn(),
-        autoSizeAllColumns: jest.fn(),
-      } as any;
+      const mockGridApi: GridApi = Stub.getGridApi();
       jest.spyOn(component as any, 'setServerSideDatasource');
 
       const event = { api: mockGridApi } as GridReadyEvent;
@@ -113,10 +86,9 @@ describe('InternalMaterialReplacementTableComponent', () => {
 
   describe('setServerSideDatasource', () => {
     it('should set serverSideDatasource with selectedRegion', () => {
-      const mockGridApi: GridApi = {
-        setGridOption: jest.fn(),
-      } as any;
+      const mockGridApi = Stub.getGridApi();
       component.gridApi = mockGridApi;
+
       component['setServerSideDatasource']('region1');
 
       expect(mockGridApi.setGridOption).toHaveBeenCalledWith(
@@ -135,12 +107,9 @@ describe('InternalMaterialReplacementTableComponent', () => {
 
   describe('edit', () => {
     it('should open the edit dialog and update the grid on success', () => {
-      const mockGridApi = {
-        applyServerSideTransaction: jest.fn(),
-      };
       const params = {
         data: {},
-        api: mockGridApi,
+        api: Stub.getGridApi(),
       } as any;
 
       component['edit'](params);
@@ -199,10 +168,7 @@ describe('InternalMaterialReplacementTableComponent', () => {
 
   describe('updateColumnDefs', () => {
     it('should set column definitions', () => {
-      const mockGridApi = {
-        setGridOption: jest.fn(),
-        setColumnDefs: jest.fn(),
-      } as any;
+      const mockGridApi = Stub.getGridApi();
       component.gridApi = mockGridApi;
 
       component['updateColumnDefs']();

@@ -1,5 +1,3 @@
-import { MockProvider } from 'ng-mocks';
-
 import { replacementTypeValues } from '../../../../feature/internal-material-replacement/model';
 import { replacementTypeValueFormatter } from '../../../../shared/ag-grid/grid-value-formatter';
 import { TrafficLightCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/traffic-light-cell-renderer/traffic-light-cell-renderer.component';
@@ -18,12 +16,6 @@ describe('getIMRColumnDefinitions', () => {
   beforeEach(() => {
     agGridLocalizationService = Stub.get<AgGridLocalizationService>({
       component: AgGridLocalizationService,
-      providers: [
-        MockProvider(AgGridLocalizationService, {
-          dateFormatter: jest.fn().mockReturnValue('formattedDate'),
-          numberFormatter: jest.fn().mockReturnValue('formattedNumber'),
-        }),
-      ],
     });
   });
 

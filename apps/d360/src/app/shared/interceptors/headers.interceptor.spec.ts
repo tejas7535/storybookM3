@@ -1,6 +1,6 @@
 import { HttpContext, HttpRequest, HttpResponse } from '@angular/common/http';
 
-import { of } from 'rxjs';
+import { of, take } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
@@ -30,6 +30,7 @@ describe('HeadersInterceptor', () => {
       .intercept(dummyRequest, {
         handle: () => of(response),
       })
+      .pipe(take(1))
       .subscribe();
   };
 

@@ -1,8 +1,4 @@
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import {
   createComponentFactory,
@@ -14,6 +10,7 @@ import { MockComponent } from 'ng-mocks';
 import { DemandValidationService } from '../../../../feature/demand-validation/demand-validation.service';
 import { SingleAutocompletePreLoadedComponent } from '../../../../shared/components/inputs/autocomplete/single-autocomplete-pre-loaded/single-autocomplete-pre-loaded.component';
 import { DemandValidationDatePickerComponent } from '../demand-validation-date-picker/demand-validation-date-picker.component';
+import { Stub } from './../../../../shared/test/stub.class';
 import { DemandValidationExportModalComponent } from './demand-validation-export-modal.component';
 
 describe('DemandValidationExportModalComponent', () => {
@@ -26,20 +23,17 @@ describe('DemandValidationExportModalComponent', () => {
       MockComponent(SingleAutocompletePreLoadedComponent),
     ],
     providers: [
-      {
-        provide: MAT_DIALOG_DATA,
-        useValue: {
-          customerData: [],
-          dateRanges: {
-            range1: {
-              from: new Date(),
-              to: new Date(),
-              period: 'WEEKLY',
-            },
+      Stub.getMatDialogDataProvider({
+        customerData: [],
+        dateRanges: {
+          range1: {
+            from: new Date(),
+            to: new Date(),
+            period: 'WEEKLY',
           },
-          demandValidationFilters: {},
         },
-      },
+        demandValidationFilters: {},
+      }),
       mockProvider(DemandValidationService),
       mockProvider(MatDialogRef, {
         close: jest.fn(),

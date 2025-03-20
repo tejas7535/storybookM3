@@ -1,5 +1,5 @@
 import { ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
@@ -15,20 +15,13 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { NumberSeparatorDirective } from '../../../../../shared/directives';
 import { NumberWithoutFractionDigitsPipe } from '../../../../../shared/pipes/number-without-fraction-digits.pipe';
-import {
-  CustomerSalesPlanNumberEditModalComponent,
-  CustomerSalesPlanNumberEditModalProps,
-} from './customer-sales-plan-number-edit-modal.component';
+import { Stub } from './../../../../../shared/test/stub.class';
+import { CustomerSalesPlanNumberEditModalComponent } from './customer-sales-plan-number-edit-modal.component';
 
 describe('CustomerSalesPlanNumberEditModalComponent', () => {
   let spectator: Spectator<CustomerSalesPlanNumberEditModalComponent>;
   let component: CustomerSalesPlanNumberEditModalComponent;
   let dialogRef: MatDialogRef<CustomerSalesPlanNumberEditModalComponent>;
-
-  let mockOnSave: jest.Mock;
-  let mockOnDelete: jest.Mock;
-  let mockCalculateReferenceValue: jest.Mock;
-  let mockDialogData: CustomerSalesPlanNumberEditModalProps;
 
   const createComponent = createComponentFactory({
     component: CustomerSalesPlanNumberEditModalComponent,
@@ -43,10 +36,24 @@ describe('CustomerSalesPlanNumberEditModalComponent', () => {
       mockProvider(MatDialogRef, {
         close: jest.fn(),
       }),
-      {
-        provide: MAT_DIALOG_DATA,
-        useFactory: () => mockDialogData,
-      },
+      Stub.getMatDialogDataProvider({
+        title: 'Test Title',
+        planningCurrency: 'EUR',
+        previousValue: 1000,
+        formLabel: 'Test Form Label',
+        currentValueLabel: 'Current Value:',
+        previousValueLabel: 'Previous Value:',
+        referenceValueLabel: 'Reference Value:',
+        previousReferenceValueLabel: 'Previous Reference Value:',
+        referenceValue: 10_000,
+        previousReferenceValue: 9000,
+        calculateReferenceValue: jest
+          .fn()
+          .mockImplementation((value) => value * 1.5),
+        onSave: () => of(0),
+        onDelete: () => of(0),
+      }),
+
       mockProvider(TranslocoLocaleService, {
         getLocale: jest.fn().mockReturnValue('en-US'),
       }),
@@ -55,28 +62,6 @@ describe('CustomerSalesPlanNumberEditModalComponent', () => {
   });
 
   beforeEach(() => {
-    mockOnSave = jest.fn().mockReturnValue(of(0));
-    mockOnDelete = jest.fn().mockReturnValue(of(0));
-    mockCalculateReferenceValue = jest
-      .fn()
-      .mockImplementation((value) => value * 1.5);
-
-    mockDialogData = {
-      title: 'Test Title',
-      planningCurrency: 'EUR',
-      previousValue: 1000,
-      formLabel: 'Test Form Label',
-      currentValueLabel: 'Current Value:',
-      previousValueLabel: 'Previous Value:',
-      referenceValueLabel: 'Reference Value:',
-      previousReferenceValueLabel: 'Previous Reference Value:',
-      referenceValue: 10_000,
-      previousReferenceValue: 9000,
-      calculateReferenceValue: mockCalculateReferenceValue,
-      onSave: mockOnSave,
-      onDelete: mockOnDelete,
-    };
-
     spectator = createComponent();
     component = spectator.component;
     dialogRef = spectator.inject(MatDialogRef);
@@ -94,7 +79,6 @@ describe('CustomerSalesPlanNumberEditModalComponent', () => {
   });
 
   it('should initialize with the correct data', () => {
-    expect(component.data).toEqual(mockDialogData);
     expect(component.configuredValue()).toBeNull();
     expect(component.calculatedReferenceValue()).toBeNull();
     expect(component.loading()).toBeFalsy();
@@ -141,17 +125,19 @@ describe('CustomerSalesPlanNumberEditModalComponent', () => {
     });
 
     it('should handle delete correctly', () => {
+      jest.spyOn(component.data, 'onDelete');
       const loadingSetSpy = jest.spyOn(component.loading, 'set');
 
       component.onDelete();
 
       expect(loadingSetSpy).toHaveBeenCalledWith(true);
-      expect(mockOnDelete).toHaveBeenCalled();
+      expect(component.data.onDelete).toHaveBeenCalled();
       expect(dialogRef.close).toHaveBeenCalledWith(-1);
       expect(loadingSetSpy).toHaveBeenLastCalledWith(false);
     });
 
     it('should handle save with valid form data', () => {
+      jest.spyOn(component.data, 'onSave');
       const loadingSetSpy = jest.spyOn(component.loading, 'set');
       const markAllTouchedSpy = jest.spyOn(component.form, 'markAllAsTouched');
 
@@ -163,12 +149,13 @@ describe('CustomerSalesPlanNumberEditModalComponent', () => {
 
       expect(markAllTouchedSpy).toHaveBeenCalled();
       expect(loadingSetSpy).toHaveBeenCalledWith(true);
-      expect(mockOnSave).toHaveBeenCalledWith(3000);
+      expect(component.data.onSave).toHaveBeenCalledWith(3000);
       expect(dialogRef.close).toHaveBeenCalledWith(3000);
       expect(loadingSetSpy).toHaveBeenCalledWith(false);
     });
 
     it('should not save with invalid form data', () => {
+      jest.spyOn(component.data, 'onSave');
       const markAllTouchedSpy = jest.spyOn(component.form, 'markAllAsTouched');
 
       component.form.controls.adjustedValue.setValue(null);
@@ -176,7 +163,7 @@ describe('CustomerSalesPlanNumberEditModalComponent', () => {
       component.onSave();
 
       expect(markAllTouchedSpy).toHaveBeenCalled();
-      expect(mockOnSave).not.toHaveBeenCalled();
+      expect(component.data.onSave).not.toHaveBeenCalled();
       expect(dialogRef.close).not.toHaveBeenCalled();
     });
   });
@@ -212,11 +199,11 @@ describe('CustomerSalesPlanNumberEditModalComponent', () => {
       expect(formField).toBeTruthy();
 
       const label = spectator.query('mat-label');
-      expect(label?.textContent).toContain(mockDialogData.formLabel);
+      expect(label?.textContent).toContain(component.data.formLabel);
 
       const input = spectator.query('input');
       expect(input).toBeTruthy();
-      expect(input?.getAttribute('aria-label')).toBe(mockDialogData.formLabel);
+      expect(input?.getAttribute('aria-label')).toBe(component.data.formLabel);
     });
 
     it('should display correct buttons', () => {

@@ -1,8 +1,4 @@
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-
 import { of } from 'rxjs';
-
-import { MockProvider } from 'ng-mocks';
 
 import { Stub } from './../../../../shared/test/stub.class';
 import { DemandValidationLoadingModalComponent } from './demand-validation-loading-modal.component';
@@ -14,12 +10,12 @@ describe('DemandValidationLoadingModalComponent', () => {
     component = Stub.get<DemandValidationLoadingModalComponent>({
       component: DemandValidationLoadingModalComponent,
       providers: [
-        MockProvider(MAT_DIALOG_DATA, {
+        Stub.getMatDialogDataProvider({
           textWhileLoading: 'Loading...',
           onInit: jest.fn().mockReturnValue(of(null)),
           onClose: jest.fn(),
         }),
-        MockProvider(MatDialog),
+        Stub.getMatDialogProvider(),
       ],
     });
   });

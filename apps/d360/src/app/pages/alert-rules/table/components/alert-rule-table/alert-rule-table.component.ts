@@ -175,8 +175,7 @@ export class AlertRuleTableComponent implements OnInit {
             translate(
               params.node.data.deactivated
                 ? 'alert_rules.action_menu_activated'
-                : 'alert_rules.action_menu_deactivated',
-              {}
+                : 'alert_rules.action_menu_deactivated'
             )
           );
 
@@ -245,7 +244,7 @@ export class AlertRuleTableComponent implements OnInit {
               key: col.colId,
               colId: col.colId,
               field: col.colId,
-              headerName: translate(col.title, {}),
+              headerName: translate(col.title),
               filter: col?.filter ?? null,
               cellRenderer: col.cellRenderer,
               hide: !col.visible,

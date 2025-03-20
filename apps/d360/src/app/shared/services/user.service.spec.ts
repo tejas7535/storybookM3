@@ -1,14 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-
-import { BehaviorSubject, Observable, of, take, throwError } from 'rxjs';
-
-import { MockProvider } from 'ng-mocks';
+import { BehaviorSubject, of, take, throwError } from 'rxjs';
 
 import { appRoutes } from '../../app.routes';
 import { AppRoutePath } from '../../app.routes.enum';
 import { Region } from '../../feature/global-selection/model';
 import { Stub } from '../test/stub.class';
-import { AuthService } from '../utils/auth/auth.service';
 import { UserService } from './user.service';
 
 const mockGetItem = jest.fn();
@@ -27,17 +22,7 @@ describe('UserService', () => {
   beforeEach(() => {
     service = Stub.get<UserService>({
       component: UserService,
-      providers: [
-        MockProvider(AuthService, {
-          getUserRoles(): Observable<string[]> {
-            return roleSubject;
-          },
-        }),
-        MockProvider(HttpClient, {
-          post: jest.fn().mockReturnValue(of(true)),
-          get: jest.fn().mockReturnValue(of(true)),
-        }),
-      ],
+      providers: [Stub.getAuthServiceProvider(roleSubject)],
     });
   });
 

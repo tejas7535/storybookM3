@@ -1,5 +1,5 @@
 import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import {
   catchError,
@@ -43,11 +43,10 @@ export class AlertRulesService {
    */
   private ruleTypeData$: Observable<AlertTypeDescription[]>;
 
-  constructor(
-    private readonly http: HttpClient,
-    private readonly currencyService: CurrencyService,
-    private readonly translocoService: TranslocoService
-  ) {}
+  private readonly http: HttpClient = inject(HttpClient);
+  private readonly currencyService: CurrencyService = inject(CurrencyService);
+  private readonly translocoService: TranslocoService =
+    inject(TranslocoService);
 
   /**
    * Read the rule type data only once and then cache the Observable
@@ -79,7 +78,7 @@ export class AlertRulesService {
     return this.ruleTypeData$;
   }
 
-  getAlertRuleData(): Observable<AlertRuleResponse> {
+  public getAlertRuleData(): Observable<AlertRuleResponse> {
     return this.currencyService.getCurrentCurrency().pipe(
       switchMap((currentCurrency) => {
         const params = new HttpParams().set('currency', currentCurrency);
@@ -91,7 +90,7 @@ export class AlertRulesService {
     );
   }
 
-  saveMultiAlertRules(
+  public saveMultiAlertRules(
     data: AlertRule[],
     dryRun?: boolean
   ): Observable<PostResult<AlertRuleSaveResponse>> {
@@ -134,7 +133,7 @@ export class AlertRulesService {
       );
   }
 
-  deleteMultiAlterRules(
+  public deleteMultiAlterRules(
     data: AlertRule[],
     dryRun: boolean
   ): Observable<PostResult<AlertRuleSaveResponse>> {
@@ -181,7 +180,7 @@ export class AlertRulesService {
       );
   }
 
-  deleteSingleAlterRule(
+  public deleteSingleAlterRule(
     data: AlertRule
   ): Observable<PostResult<AlertRuleSaveResponse>> {
     const request = dataToAlertRuleRequest(data);
@@ -214,13 +213,23 @@ export class AlertRulesService {
   }
 
   private parse2Date(date: Date | null | string): Date | null {
-    return date
-      ? new Date(
-          format(
-            parse(String(date), ValidationHelper.getDateFormat(), new Date()),
-            'yyyy-MM-dd'
-          )
-        )
-      : null;
+    if (!date) {
+      return null;
+    }
+
+    if (date instanceof Date) {
+      return date;
+    }
+
+    const parsedDate = parse(
+      String(date),
+      ValidationHelper.getDateFormat(),
+      new Date()
+    );
+    if (Number.isNaN(parsedDate.getTime())) {
+      throw new TypeError('Invalid date format');
+    }
+
+    return new Date(format(parsedDate, 'yyyy-MM-dd'));
   }
 }

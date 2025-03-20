@@ -5,6 +5,7 @@ import {
   Observable,
   of,
   switchMap,
+  take,
   throwError,
   timer,
 } from 'rxjs';
@@ -95,21 +96,27 @@ describe('AlertService', () => {
       expect(postMock).toHaveBeenCalledTimes(1);
 
       let hasError: boolean;
-      service.getFetchErrorEvent().subscribe((errorValue) => {
-        hasError = errorValue;
-      });
+      service
+        .getFetchErrorEvent()
+        .pipe(take(1))
+        .subscribe((errorValue) => {
+          hasError = errorValue;
+        });
 
-      service.getLoadingEvent().subscribe((loadingValue) => {
-        if (!loadingValue) {
-          // eslint-disable-next-line jest/no-conditional-expect
-          expect(loadingValue).toEqual(false);
-          // eslint-disable-next-line jest/no-conditional-expect
-          expect(hasError).toBeUndefined();
-          // eslint-disable-next-line jest/no-conditional-expect
-          expect(service.allActiveAlerts()).toEqual(mockedData);
-          done();
-        }
-      });
+      service
+        .getLoadingEvent()
+        .pipe(take(1))
+        .subscribe((loadingValue) => {
+          if (!loadingValue) {
+            // eslint-disable-next-line jest/no-conditional-expect
+            expect(loadingValue).toEqual(false);
+            // eslint-disable-next-line jest/no-conditional-expect
+            expect(hasError).toBeUndefined();
+            // eslint-disable-next-line jest/no-conditional-expect
+            expect(service.allActiveAlerts()).toEqual(mockedData);
+            done();
+          }
+        });
     });
 
     it('should load more than 1000 alerts in chunks', () => {
@@ -133,14 +140,20 @@ describe('AlertService', () => {
       expect(myPostMock).toHaveBeenCalledTimes(5);
 
       let hasError: boolean;
-      service.getFetchErrorEvent().subscribe((errorValue) => {
-        hasError = errorValue;
-      });
+      service
+        .getFetchErrorEvent()
+        .pipe(take(1))
+        .subscribe((errorValue) => {
+          hasError = errorValue;
+        });
 
-      service.getLoadingEvent().subscribe((loadingValue) => {
-        expect(loadingValue).toEqual(false);
-        expect(hasError).toBeUndefined();
-      });
+      service
+        .getLoadingEvent()
+        .pipe(take(1))
+        .subscribe((loadingValue) => {
+          expect(loadingValue).toEqual(false);
+          expect(hasError).toBeUndefined();
+        });
     });
 
     it('load correct data when all requests succeed', (done) => {
@@ -157,15 +170,18 @@ describe('AlertService', () => {
       const spectatorHttp = serviceFactory();
       const service = spectatorHttp.service;
 
-      service.getLoadingEvent().subscribe((loadingValue) => {
-        if (!loadingValue) {
-          // eslint-disable-next-line jest/no-conditional-expect
-          expect(service.allActiveAlerts().length).toBe(5000);
-          // eslint-disable-next-line jest/no-conditional-expect
-          expect(mockedData).toEqual(service.allActiveAlerts());
-          done();
-        }
-      });
+      service
+        .getLoadingEvent()
+        .pipe(take(1))
+        .subscribe((loadingValue) => {
+          if (!loadingValue) {
+            // eslint-disable-next-line jest/no-conditional-expect
+            expect(service.allActiveAlerts().length).toBe(5000);
+            // eslint-disable-next-line jest/no-conditional-expect
+            expect(mockedData).toEqual(service.allActiveAlerts());
+            done();
+          }
+        });
     });
 
     it('should retry 3 times, emit an error and set loading to false when the outer observable fails', (done) => {

@@ -1,8 +1,4 @@
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import {
   createComponentFactory,
@@ -14,6 +10,7 @@ import { MockComponent } from 'ng-mocks';
 import { DemandValidationService } from '../../../../feature/demand-validation/demand-validation.service';
 import { GlobalSelectionHelperService } from '../../../../feature/global-selection/global-selection.service';
 import { DemandValidationDatePickerComponent } from '../demand-validation-date-picker/demand-validation-date-picker.component';
+import { Stub } from './../../../../shared/test/stub.class';
 import { DemandValidationMultiDeleteModalComponent } from './demand-validation-multi-delete-modal.component';
 
 describe('DemandValidationMultiDeleteModalComponent', () => {
@@ -24,14 +21,11 @@ describe('DemandValidationMultiDeleteModalComponent', () => {
     imports: [MockComponent(DemandValidationDatePickerComponent)],
     componentMocks: [],
     providers: [
-      {
-        provide: MAT_DIALOG_DATA,
-        useValue: {
-          customerName: 'BMW',
-          customerNumber: '0000042',
-          onSave: jest.fn(),
-        },
-      },
+      Stub.getMatDialogDataProvider({
+        customerName: 'BMW',
+        customerNumber: '0000042',
+        onSave: jest.fn(),
+      }),
       mockProvider(DemandValidationService),
       mockProvider(GlobalSelectionHelperService),
       mockProvider(MatDialogRef, {

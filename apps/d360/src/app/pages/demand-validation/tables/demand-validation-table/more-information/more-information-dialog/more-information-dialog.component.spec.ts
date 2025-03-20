@@ -1,21 +1,13 @@
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { Stub } from './../../../../../../shared/test/stub.class';
 import { MoreInformationDialogComponent } from './more-information-dialog.component';
 
 describe('MoreInformationDialogComponent', () => {
   let spectator: Spectator<MoreInformationDialogComponent>;
   const createHost = createComponentFactory({
     component: MoreInformationDialogComponent,
-    providers: [
-      {
-        provide: MAT_DIALOG_DATA,
-        useValue: {
-          /* Provide mock data for MaterialListEntry */
-        },
-      },
-    ],
+    providers: [Stub.getMatDialogDataProvider({})],
   });
 
   beforeEach(() => (spectator = createHost()));

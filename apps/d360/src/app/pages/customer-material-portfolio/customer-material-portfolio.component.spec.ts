@@ -1,10 +1,6 @@
-import { MatDialog } from '@angular/material/dialog';
-
 import { of, take, throwError } from 'rxjs';
 
-import { Store } from '@ngrx/store';
 import { parseISO } from 'date-fns';
-import { MockProvider } from 'ng-mocks';
 
 import {
   CMPData,
@@ -36,10 +32,7 @@ describe('CustomerMaterialPortfolioComponent', () => {
   beforeEach(() => {
     component = Stub.getForEffect<CustomerMaterialPortfolioComponent>({
       component: CustomerMaterialPortfolioComponent,
-      providers: [
-        MockProvider(MatDialog),
-        MockProvider(Store, { select: jest.fn().mockReturnValue(of([])) }),
-      ],
+      providers: [Stub.getMatDialogProvider(), Stub.getStoreProvider()],
     });
   });
 

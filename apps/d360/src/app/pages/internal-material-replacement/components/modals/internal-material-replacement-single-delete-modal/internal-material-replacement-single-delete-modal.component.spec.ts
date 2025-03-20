@@ -1,4 +1,4 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
@@ -6,6 +6,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { IMRService } from '../../../../../feature/internal-material-replacement/imr.service';
 import { SnackbarService } from '../../../../../shared/utils/service/snackbar.service';
+import { Stub } from './../../../../../shared/test/stub.class';
 import { InternalMaterialReplacementSingleDeleteModalComponent } from './internal-material-replacement-single-delete-modal.component';
 
 describe('InternalMaterialReplacementSingleDeleteModalComponent', () => {
@@ -13,9 +14,7 @@ describe('InternalMaterialReplacementSingleDeleteModalComponent', () => {
   const createComponent = createComponentFactory({
     component: InternalMaterialReplacementSingleDeleteModalComponent,
     mocks: [IMRService, MatDialogRef, SnackbarService],
-    providers: [
-      { provide: MAT_DIALOG_DATA, useValue: { id: 1, name: 'Test' } },
-    ],
+    providers: [Stub.getMatDialogDataProvider({ id: 1, name: 'Test' })],
   });
 
   beforeEach(() => {

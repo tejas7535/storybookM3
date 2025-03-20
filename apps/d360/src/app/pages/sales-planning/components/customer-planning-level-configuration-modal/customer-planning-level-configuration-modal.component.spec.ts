@@ -1,7 +1,3 @@
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-import { MockProvider } from 'ng-mocks';
-
 import { Stub } from '../../../../shared/test/stub.class';
 import { CustomerPlanningLevelConfirmationModalComponent } from '../customer-planning-level-confirmation-modal/customer-planning-level-confirmation-modal.component';
 import { CustomerPlanningLevelConfigurationModalComponent } from './customer-planning-level-configuration-modal.component';
@@ -14,7 +10,7 @@ describe('CustomerPlanningLevelConfigurationModalComponent', () => {
       Stub.getForEffect<CustomerPlanningLevelConfigurationModalComponent>({
         component: CustomerPlanningLevelConfigurationModalComponent,
         providers: [
-          MockProvider(MAT_DIALOG_DATA, {
+          Stub.getMatDialogDataProvider({
             customerName: 'Tesla Inc',
             customerNumber: '0000086023',
             planningLevelMaterial: {

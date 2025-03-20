@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuItem } from '@angular/material/menu';
 
@@ -26,13 +27,11 @@ import {
   templateUrl: './alert-rule-table-row-menu-button.component.html',
 })
 export class AlertRuleTableRowMenuButtonComponent extends RowMenuComponent<AlertRule> {
-  public constructor(
-    private readonly snackBarService: SnackbarService,
-    private readonly alertRulesService: AlertRulesService,
-    private readonly dialog: MatDialog
-  ) {
-    super();
-  }
+  private readonly snackBarService: SnackbarService = inject(SnackbarService);
+  private readonly alertRulesService: AlertRulesService =
+    inject(AlertRulesService);
+  private readonly dialog: MatDialog = inject(MatDialog);
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   protected edit(): void {
     this.dialog
@@ -46,6 +45,7 @@ export class AlertRuleTableRowMenuButtonComponent extends RowMenuComponent<Alert
         autoFocus: false,
       })
       .afterClosed()
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.handleClose());
   }
 
@@ -57,6 +57,7 @@ export class AlertRuleTableRowMenuButtonComponent extends RowMenuComponent<Alert
     const workflow = [{ ...this.data, deactivated: false }];
     this.alertRulesService
       .saveMultiAlertRules(workflow)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((postResult) => {
         const userMessage = singlePostResultToUserMessage(
           postResult,
@@ -82,6 +83,7 @@ export class AlertRuleTableRowMenuButtonComponent extends RowMenuComponent<Alert
     const workflow = [{ ...this.data, deactivated: true }];
     this.alertRulesService
       .saveMultiAlertRules(workflow)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((postResult) => {
         const userMessage = singlePostResultToUserMessage(
           postResult,

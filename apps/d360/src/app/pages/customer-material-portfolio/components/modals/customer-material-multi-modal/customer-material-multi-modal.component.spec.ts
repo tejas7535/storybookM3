@@ -1,10 +1,5 @@
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-
 import { of } from 'rxjs';
 
-import { MockProvider } from 'ng-mocks';
-
-import { CMPService } from '../../../../../feature/customer-material-portfolio/cmp.service';
 import { demandCharacteristicOptions } from '../../../../../feature/material-customer/model';
 import { DateOrOriginalCellRendererComponent } from '../../../../../shared/components/ag-grid/cell-renderer/date-or-original-cell-renderer/date-or-original-cell-renderer.component';
 import { SelectDemandCharacteristicOrOriginalCellRendererComponent } from '../../../../../shared/components/ag-grid/cell-renderer/select-demand-characteristic-or-original/select-demand-characteristic-or-original.component';
@@ -23,10 +18,8 @@ describe('CustomerMaterialMultiModalComponent', () => {
     component = Stub.getForEffect({
       component: CustomerMaterialMultiModalComponent,
       providers: [
-        MockProvider(CMPService),
-        MockProvider(MAT_DIALOG_DATA, {
-          customerNumber: '42',
-        }),
+        Stub.getCMPServiceProvider(),
+        Stub.getMatDialogDataProvider({ customerNumber: '42' }),
       ],
     });
   });

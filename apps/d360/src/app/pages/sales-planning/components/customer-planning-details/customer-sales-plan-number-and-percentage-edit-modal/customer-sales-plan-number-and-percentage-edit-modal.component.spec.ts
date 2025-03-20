@@ -1,10 +1,10 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { EMPTY } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockProvider } from 'ng-mocks';
 
+import { Stub } from './../../../../../shared/test/stub.class';
 import {
   AdjustmentOption,
   CustomerSalesPlanNumberAndPercentageEditModalComponent,
@@ -33,7 +33,7 @@ describe('CustomerSalesPlanNumberAndPercentageEditModalComponent', () => {
     component: CustomerSalesPlanNumberAndPercentageEditModalComponent,
     providers: [
       { provide: MatDialogRef, useValue: mockDialogRef },
-      MockProvider(MAT_DIALOG_DATA, mockData),
+      Stub.getMatDialogDataProvider(mockData),
     ],
   });
 

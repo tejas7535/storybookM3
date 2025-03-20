@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 
 import {
   BehaviorSubject,
@@ -11,7 +11,6 @@ import {
 } from 'rxjs';
 
 import { SortModelItem } from 'ag-grid-enterprise';
-import { MockProvider } from 'ng-mocks';
 
 import { GlobalSelectionState } from '../../shared/components/global-selection-criteria/global-selection-state.service';
 import { Stub } from '../../shared/test/stub.class';
@@ -26,7 +25,6 @@ describe('CMPService', () => {
     () =>
       (service = Stub.get<CMPService>({
         component: CMPService,
-        providers: [MockProvider(HttpClient)],
       }))
   );
 

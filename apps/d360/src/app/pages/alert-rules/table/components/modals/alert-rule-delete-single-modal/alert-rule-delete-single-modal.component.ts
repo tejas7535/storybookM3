@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -35,13 +35,14 @@ import { SnackbarService } from '../../../../../../shared/utils/service/snackbar
   templateUrl: './alert-rule-delete-single-modal.component.html',
 })
 export class AlertRuleDeleteSingleModalComponent {
-  constructor(
-    private readonly snackBarService: SnackbarService,
-    private readonly alertRuleService: AlertRulesService,
-    @Inject(MAT_DIALOG_DATA)
-    public data: { gridApi: GridApi; alertRule: AlertRule },
-    public dialogRef: MatDialogRef<AlertRuleDeleteSingleModalComponent>
-  ) {}
+  private readonly snackBarService: SnackbarService = inject(SnackbarService);
+  private readonly alertRuleService: AlertRulesService =
+    inject(AlertRulesService);
+  public data: { gridApi: GridApi; alertRule: AlertRule } =
+    inject(MAT_DIALOG_DATA);
+  public dialogRef: MatDialogRef<AlertRuleDeleteSingleModalComponent> = inject(
+    MatDialogRef<AlertRuleDeleteSingleModalComponent>
+  );
 
   protected deleteEntry() {
     if (!this.data.alertRule) {

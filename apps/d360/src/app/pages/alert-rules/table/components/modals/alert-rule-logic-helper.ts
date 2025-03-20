@@ -28,13 +28,6 @@ const mandatoryFieldsAlertRule: (keyof Partial<AlertRule>)[] = [
   'endDate',
 ] as const;
 
-const mandatoryDeleteFieldsAlertRule: (keyof Partial<AlertRule>)[] = [
-  'region',
-  'generation',
-  'customerNumber',
-  'materialNumber',
-] as const;
-
 const keyFieldsAlertRule: (keyof Partial<AlertRule>)[] = [
   'salesArea',
   'salesOrg',
@@ -107,24 +100,6 @@ export function checkAlertRuleData(
   return errors;
 }
 
-export function mandatoryDeleteFieldCheckAlertRule(
-  alertRule: AlertRule
-): ErrorMessage<AlertRule>[] {
-  const errors: ErrorMessage<AlertRule>[] = [];
-
-  mandatoryDeleteFieldsAlertRule.forEach((mandatoryField) => {
-    if (!alertRule[mandatoryField]) {
-      errors.push({
-        dataIdentifier: alertRule,
-        specificField: mandatoryField,
-        errorMessage: translate('generic.validation.missing_fields'),
-      });
-    }
-  });
-
-  return errors;
-}
-
 export function mandatoryFieldCheckAlertRule(
   alertRule: AlertRule
 ): ErrorMessage<AlertRule>[] {
@@ -182,18 +157,29 @@ export function thresholdRequirementCheckAlertRule(
   return undefined;
 }
 
-export function getSpecialParseFunctions(
-  alertTypes: OptionsLoadingResult,
-  regionOptions: OptionsLoadingResult,
-  salesAreaOptions: OptionsLoadingResult,
-  salesOrgOptions: OptionsLoadingResult,
-  sectorManagementOptions: OptionsLoadingResult,
-  demandPlannerOptions: OptionsLoadingResult,
-  gkamOptions: OptionsLoadingResult,
-  productLineOptions: OptionsLoadingResult,
-  intervalOpts: OptionsLoadingResult,
-  whenOpts: OptionsLoadingResult
-): Map<keyof AlertRule, (value: string) => string> {
+export function getSpecialParseFunctions({
+  alertTypes,
+  regionOptions,
+  salesAreaOptions,
+  salesOrgOptions,
+  sectorManagementOptions,
+  demandPlannerOptions,
+  gkamOptions,
+  productLineOptions,
+  intervalOpts,
+  whenOpts,
+}: {
+  alertTypes: OptionsLoadingResult;
+  regionOptions: OptionsLoadingResult;
+  salesAreaOptions: OptionsLoadingResult;
+  salesOrgOptions: OptionsLoadingResult;
+  sectorManagementOptions: OptionsLoadingResult;
+  demandPlannerOptions: OptionsLoadingResult;
+  gkamOptions: OptionsLoadingResult;
+  productLineOptions: OptionsLoadingResult;
+  intervalOpts: OptionsLoadingResult;
+  whenOpts: OptionsLoadingResult;
+}): Map<keyof AlertRule, (value: string) => string> {
   return new Map([
     ['type', parseSelectableValueIfPossible(alertTypes.options)],
     ['region', parseSelectableValueIfPossible(regionOptions.options)],
@@ -216,7 +202,7 @@ export function getSpecialParseFunctions(
   ]);
 }
 
-const parseSelectableValueIfPossible =
+export const parseSelectableValueIfPossible =
   (options: SelectableValue[]) =>
   (value: string): string => {
     const foundOpt = options?.find(

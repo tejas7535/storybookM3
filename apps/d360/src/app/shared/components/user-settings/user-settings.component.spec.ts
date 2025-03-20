@@ -1,15 +1,11 @@
 import { signal } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 
-import { Observable, of } from 'rxjs';
-
 import { MockProvider } from 'ng-mocks';
 
-import { CustomRoute } from '../../../app.routes';
 import { AppRoutePath, AppRouteValue } from '../../../app.routes.enum';
 import { Region } from '../../../feature/global-selection/model';
 import { CurrencyService } from '../../../feature/info/currency.service';
-import { UserService } from '../../services/user.service';
 import { Stub } from '../../test/stub.class';
 import { UserSettingsComponent } from './user-settings.component';
 
@@ -25,32 +21,20 @@ describe('UserSettingsComponent', () => {
     component = Stub.getForEffect({
       component: UserSettingsComponent,
       providers: [
-        MockProvider(CurrencyService, {
-          getCurrentCurrency: jest.fn().mockReturnValue(of('EUR')),
-          getAvailableCurrencies: jest.fn().mockReturnValue(of([])),
+        // we need it here, can't be removed!
+        MockProvider(CurrencyService, Stub.getCurrencyService(), 'useValue'),
+        Stub.getUserServiceProvider({
+          filterVisibleRoutes: [
+            {
+              path: startPageSignal(),
+              data: {
+                allowedRegions: [regionSignal()],
+                titles: ['title', 'title 2'],
+              },
+            },
+          ],
+          startPage: startPageSignal,
         }),
-        MockProvider(
-          UserService,
-          {
-            filterVisibleRoutes(): CustomRoute[] {
-              return [
-                {
-                  path: startPageSignal(),
-                  data: {
-                    allowedRegions: [regionSignal()],
-                    titles: ['title', 'title 2'],
-                  },
-                },
-              ];
-            },
-            startPage: startPageSignal,
-            getStartPage(): Observable<AppRouteValue> {
-              return of();
-            },
-            saveStartPage: () => of(),
-          },
-          'useValue'
-        ),
       ],
     });
   });
