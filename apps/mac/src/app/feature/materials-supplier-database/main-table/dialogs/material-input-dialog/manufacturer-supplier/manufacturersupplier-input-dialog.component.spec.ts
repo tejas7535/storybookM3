@@ -4,6 +4,7 @@ import {
   NO_ERRORS_SCHEMA,
 } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
@@ -43,6 +44,7 @@ import { createMaterialFormValue } from '@mac/testing/mocks/msd/material-generat
 import { assignDialogValues } from '@mac/testing/mocks/msd/mock-input-dialog-values.mocks';
 
 import * as en from '../../../../../../../assets/i18n/en.json';
+import { BaseDialogComponent } from '../base-dialog/base-dialog.component';
 import { ManufacturerSupplierComponent } from '../components/manufacturer-supplier/manufacturer-supplier.component';
 import { DialogControlsService } from '../services';
 import { ManufacturerSupplierInputDialogComponent } from './manufacturersupplier-input-dialog.component';
@@ -107,13 +109,15 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
   const createComponent = createComponentFactory({
     component: ManufacturerSupplierInputDialogComponent,
     imports: [
-      MockPipe(PushPipe),
+      MockComponent(BaseDialogComponent),
+      MockComponent(ManufacturerSupplierComponent),
       MockModule(FormsModule),
       MockModule(ReactiveFormsModule),
+      MockModule(MatCheckboxModule),
       MockModule(MatFormFieldModule),
-      MockComponent(ManufacturerSupplierComponent),
       MockModule(SelectModule),
       MockDirective(LetDirective),
+      MockPipe(PushPipe),
       provideTranslocoTestingModule({ en }),
     ],
     providers: [

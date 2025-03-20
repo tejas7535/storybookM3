@@ -1,5 +1,6 @@
 <ag-grid-angular
   class="ag-theme-material border-border h-full border"
+  [groupHeaderHeight]="0"
   [masterDetail]="true"
   [detailCellRenderer]="detailCellRenderer"
   [loadingCellRenderer]="loadingCellRenderer"
@@ -23,7 +24,7 @@
   [maxBlocksInCache]="4"
   [blockLoadDebounceMillis]="500"
   [maxConcurrentDatasourceRequests]="1"
-  [context]="{ dataService }"
+  [context]="{ dataService, activeDrag }"
   (gridReady)="onGridReady($event)"
   (filterChanged)="onFilterChange()"
   (columnVisible)="onColumnChange()"

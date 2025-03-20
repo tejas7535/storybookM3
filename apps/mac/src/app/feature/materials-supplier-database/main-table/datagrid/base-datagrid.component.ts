@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { translate } from '@jsverse/transloco';
 import {
   ColDef,
+  ColGroupDef,
   ColumnState,
   GridApi,
   RowClassParams,
@@ -154,15 +155,17 @@ export abstract class BaseDatagridComponent implements OnInit, OnDestroy {
   private getColumnDefs(): ColDef[] {
     const params = this.getCellRendererParams();
 
-    return (
-      this.defaultColumnDefs?.map((columnDef) => ({
-        ...columnDef,
-        headerName: translate(
-          `materialsSupplierDatabase.mainTable.columns.${columnDef.headerName}`
-        ),
-        cellRendererParams: params,
-      })) ?? []
-    );
+    const fkt: any = (columnDef: ColDef | ColGroupDef) => ({
+      ...columnDef,
+      headerName: translate(
+        `materialsSupplierDatabase.mainTable.columns.${columnDef.headerName}`
+      ),
+      cellRendererParams: params,
+      // some items are a colGroupDef and have children
+      children: (columnDef as ColGroupDef).children?.map(fkt),
+    });
+
+    return this.defaultColumnDefs?.map(fkt) ?? [];
   }
 
   protected abstract getCellRendererParams(): any;

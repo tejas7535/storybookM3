@@ -1,17 +1,17 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
+import { Subject } from 'rxjs';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { provideMockStore } from '@ngrx/store/testing';
+import { MockComponent, MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
+import { HtmlTooltipComponent } from '@mac/shared/components/html-tooltip/html-tooltip.component';
 
 import * as en from '../../../../../../assets/i18n/en.json';
-import {
-  EMISSION_FACTOR_KG,
-  EMISSION_FACTOR_PC,
-  MATERIAL_GROUP,
-} from '../../../constants';
 import { EditCellRendererParams } from '../edit-cell-renderer/edit-cell-renderer-params.model';
 import { PcfMaturityCo2CellRendererComponent } from './pcf-maturity-co2-cell-renderer.component';
 
@@ -24,31 +24,30 @@ describe('PcfMaturityCo2CellRendererComponent', () => {
   let component: PcfMaturityCo2CellRendererComponent;
   let spectator: Spectator<PcfMaturityCo2CellRendererComponent>;
 
+  const mockparams = {
+    value: undefined,
+    data: { maturity: 0 },
+  } as EditCellRendererParams;
+
+  const sub = new Subject();
+
   const createComponent = createComponentFactory({
     component: PcfMaturityCo2CellRendererComponent,
+    declarations: [MockComponent(HtmlTooltipComponent)],
     imports: [provideTranslocoTestingModule({ en })],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [
-      {
-        provide: DataFacade,
-        useValue: {
-          deleteEntity: jest.fn(),
-        },
-      },
+      provideMockStore({}),
+      MockProvider(DataFacade, { hasMatnrUploaderRole$: sub }, 'useValue'),
     ],
+    detectChanges: false,
   });
-
-  const mockparams = {
-    column: { getColId: () => 'x' },
-    value: 77,
-    data: { maturity: 9 },
-  } as EditCellRendererParams;
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    component.params = mockparams;
-    component.agInit(component.params);
+    component.agInit(mockparams);
+    spectator.detectChanges();
   });
 
   describe('create', () => {
@@ -63,84 +62,38 @@ describe('PcfMaturityCo2CellRendererComponent', () => {
     });
   });
 
-  describe('hasValue', () => {
-    it('should return true for any int', () => {
-      component.params.value = 7;
-      component.agInit(component.params);
-      expect(component.hasValue).toBeTruthy();
+  describe('hideValue', () => {
+    const testParams = { ...mockparams };
+    it('should not hide value for undefined value', () => {
+      expect(component.hideValue).toBeFalsy();
     });
-    it('should return false for undefined', () => {
-      component.params.value = undefined;
-      component.agInit(component.params);
-      expect(component.hasValue).toBeFalsy();
+    it('should display with high maturity', () => {
+      testParams.value = 7;
+      testParams.data['maturity'] = 10;
+      component.agInit(testParams);
+      expect(component.hideValue).toBeFalsy();
     });
-    it('should return true for 0', () => {
-      component.params.value = 0;
-      component.agInit(component.params);
-      expect(component.hasValue).toBeTruthy();
-    });
-  });
-
-  describe('getMaturity', () => {
-    it('should return set maturity', () => {
-      expect(component.maturity).toBe(9);
-    });
-  });
-
-  describe('shouldShowMaterialEmissionClassification', () => {
-    it('should return true if column is emissionFactorKg and the materialGroup is part of the defined list', () => {
-      component.params = {
-        column: {
-          getColId: () => EMISSION_FACTOR_KG,
-        },
-        data: {
-          [MATERIAL_GROUP]: 'M012',
-        },
-      } as EditCellRendererParams;
-      expect(
-        component['shouldShowMaterialEmissionClassification']()
-      ).toBeTruthy();
-    });
-    it('should return false if column is emissionFactorKg and the materialGroup is NULL', () => {
-      component.params = {
-        column: {
-          getColId: () => EMISSION_FACTOR_KG,
-        },
-        data: {
-          [MATERIAL_GROUP]: undefined,
-        },
-      } as EditCellRendererParams;
-      expect(
-        component['shouldShowMaterialEmissionClassification']()
-      ).toBeFalsy();
+    it('should not hide with high maturity for zero', () => {
+      // 0 is a valid value (!!0 = false)
+      testParams.value = 0;
+      testParams.data['maturity'] = 10;
+      component.agInit(testParams);
+      expect(component.hideValue).toBeFalsy();
     });
 
-    it('should return false if column is emissionFactorKg but the materialGroup is not part of the defined list', () => {
-      component.params = {
-        column: {
-          getColId: () => EMISSION_FACTOR_KG,
-        },
-        data: {
-          [MATERIAL_GROUP]: 'M003',
-        },
-      } as EditCellRendererParams;
-      expect(component['shouldShowMaterialEmissionClassification']()).toBe(
-        false
-      );
+    it('should display value with low maturity for uploader', () => {
+      testParams.value = 50;
+      testParams.data['maturity'] = 1;
+      sub.next(true);
+      component.agInit(testParams);
+      expect(component.hideValue).toBeFalsy();
     });
-
-    it('should return false if column is not emissionFactorKg but the materialGroup is part of the defined list', () => {
-      component.params = {
-        column: {
-          getColId: () => EMISSION_FACTOR_PC,
-        },
-        data: {
-          [MATERIAL_GROUP]: 'M012',
-        },
-      } as EditCellRendererParams;
-      expect(component['shouldShowMaterialEmissionClassification']()).toBe(
-        false
-      );
+    it('should hide value with low maturity for others', () => {
+      testParams.value = 50;
+      testParams.data['maturity'] = 1;
+      sub.next(false);
+      component.agInit(testParams);
+      expect(component.hideValue).toBeFalsy();
     });
   });
 });

@@ -11,7 +11,12 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import { ColumnState, GridApi, RowClassParams } from 'ag-grid-community';
+import {
+  ColGroupDef,
+  ColumnState,
+  GridApi,
+  RowClassParams,
+} from 'ag-grid-community';
 import { MockDirective, MockPipe, MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -283,24 +288,74 @@ describe('MockMaterialDatagridComponent', () => {
   describe('getColumnDefs', () => {
     it('should return translated column defs', () => {
       component['getCellRendererParams'] = jest.fn(() => ({ x: 1 }));
-      component.defaultColumnDefs = [{ headerName: '1' }, { headerName: '2' }];
+      component.defaultColumnDefs = [
+        { headerName: '1', width: 1 },
+        { headerName: '2', filter: false },
+      ];
       const expected = [
         {
           headerName: 'materialsSupplierDatabase.mainTable.columns.1',
+          width: 1,
           cellRendererParams: { x: 1 },
+          children: undefined,
         },
         {
           headerName: 'materialsSupplierDatabase.mainTable.columns.2',
+          filter: false,
           cellRendererParams: { x: 1 },
+          children: undefined,
         },
-      ];
+      ] as any[];
 
-      expect(component['getColumnDefs']()).toEqual(expected);
+      expect(component['getColumnDefs']()).toStrictEqual(expected);
+    });
+    it('should return translated column for child elements', () => {
+      component['getCellRendererParams'] = jest.fn(() => ({ x: 1 }));
+      component.defaultColumnDefs = [
+        {
+          headerName: 'parent',
+          sortable: false,
+          children: [
+            { headerName: 'c1', filter: false },
+            { headerName: 'c2', colId: 'c2' },
+          ],
+        } as ColGroupDef,
+        { headerName: 'normal', width: 99 },
+      ];
+      const expected = [
+        {
+          headerName: 'materialsSupplierDatabase.mainTable.columns.parent',
+          sortable: false,
+          cellRendererParams: { x: 1 },
+          children: [
+            {
+              headerName: 'materialsSupplierDatabase.mainTable.columns.c1',
+              filter: false,
+              cellRendererParams: { x: 1 },
+              children: undefined,
+            },
+            {
+              headerName: 'materialsSupplierDatabase.mainTable.columns.c2',
+              colId: 'c2',
+              cellRendererParams: { x: 1 },
+              children: undefined,
+            },
+          ],
+        },
+        {
+          headerName: 'materialsSupplierDatabase.mainTable.columns.normal',
+          width: 99,
+          cellRendererParams: { x: 1 },
+          children: undefined,
+        },
+      ] as any[];
+
+      expect(component['getColumnDefs']()).toStrictEqual(expected);
     });
     it('should return empty array for null value', () => {
       component.defaultColumnDefs = undefined;
 
-      expect(component['getColumnDefs']()).toEqual([]);
+      expect(component['getColumnDefs']()).toStrictEqual([]);
     });
   });
 });

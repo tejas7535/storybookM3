@@ -71,6 +71,7 @@ export const DATA_DATE = 'dataDate';
 export const DATA_COMMENT = 'dataComment';
 export const OWNER = 'owner';
 export const MATURITY = 'maturity';
+export const MATURITY_DATASOURCE = 'data_source';
 export const RECYCLED_MATERIAL_SHARE = 'recycledMaterialShare';
 export const SECONDARY_MATERIAL_SHARE = 'secondaryMaterialShare';
 export const RAW_MATERIAL_MANUFACTURER = 'rawMaterialManufacturer';

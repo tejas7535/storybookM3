@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 
-import { ColDef } from 'ag-grid-community';
+import { ColDef, ColGroupDef } from 'ag-grid-community';
 
 import {
   BUSINESS_PARTNER_ID,
@@ -28,6 +28,7 @@ import {
   MATERIAL_NUMBER,
   MATERIAL_UTILIZATION_FACTOR,
   MATURITY,
+  MATURITY_DATASOURCE,
   MODIFIED_BY,
   NET_WEIGHT,
   NUCLEAR_ENERGY_SHARE,
@@ -70,6 +71,7 @@ import {
 } from '@mac/msd/main-table/table-config';
 
 import { LinkCellRendererComponent } from '../../../cell-renderers/link-cell-renderer/link-cell-renderer.component';
+import { MaturityScoreCellRendererComponent } from '../../../cell-renderers/maturity-score-cell-renderer/maturity-score-cell-renderer.component';
 import { PcfMaturityCo2CellRendererComponent } from '../../../cell-renderers/pcf-maturity-co2-cell-renderer/pcf-maturity-co2-cell-renderer.component';
 import { UrlCellRendererComponent } from '../../../cell-renderers/url-cell-renderer/url-cell-renderer.component';
 import {
@@ -82,9 +84,10 @@ import {
   SAP_MATERIALS_DATE_FORMATTER,
   SAP_MATERIALSTOFFID_LINK_FORMATTER,
 } from '../../helpers';
+import { COLUMN_MOVE_STYLE_GROUPS } from '../../helpers/column-drag-headerstyle';
 import { HISTORY_COLUMN_DEFINITION } from '../base';
 
-export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
+export const SAP_MATERIALS_COLUMN_DEFINITIONS: (ColDef | ColGroupDef)[] = [
   HISTORY_COLUMN_DEFINITION,
   {
     field: MATERIAL_NUMBER,
@@ -366,24 +369,6 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     hide: true,
   },
   {
-    field: EMISSION_FACTOR_KG,
-    headerName: EMISSION_FACTOR_KG,
-    filter: 'agNumberColumnFilter',
-    filterParams: NUMBER_FILTER_PARAMS,
-    cellRenderer: PcfMaturityCo2CellRendererComponent,
-    valueFormatter: EMISSION_FACTORS_FORMATTER,
-    headerTooltip: EMISSION_FACTOR_KG,
-  },
-  {
-    field: EMISSION_FACTOR_PC,
-    headerName: EMISSION_FACTOR_PC,
-    filter: 'agNumberColumnFilter',
-    filterParams: NUMBER_FILTER_PARAMS,
-    cellRenderer: PcfMaturityCo2CellRendererComponent,
-    valueFormatter: EMISSION_FACTORS_FORMATTER,
-    headerTooltip: EMISSION_FACTOR_PC,
-  },
-  {
     field: PCF_LOGISTICS,
     headerName: PCF_LOGISTICS,
     filter: 'agNumberColumnFilter',
@@ -504,15 +489,54 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: ColDef[] = [
     valueFormatter: ARRAY_SORT_VALUE_FORMATTER,
   },
   {
-    field: MATURITY,
-    headerName: MATURITY,
-    filter: 'agSetColumnFilter',
-    filterParams: {
-      ...DISTINCT_FILTER_PARAMS,
-      valueFormatter: MATURITY_FORMATTER,
-      suppressSorting: true,
-    },
-    valueFormatter: MATURITY_FORMATTER,
+    headerName: 'pcf_group',
+    marryChildren: true,
+    headerClass: 'h-0 hidden',
+    autoHeaderHeight: true,
+    children: [
+      {
+        field: EMISSION_FACTOR_KG,
+        headerName: EMISSION_FACTOR_KG,
+        filter: 'agNumberColumnFilter',
+        filterParams: NUMBER_FILTER_PARAMS,
+        valueFormatter: EMISSION_FACTORS_FORMATTER,
+        headerTooltip: EMISSION_FACTOR_KG,
+        cellRenderer: PcfMaturityCo2CellRendererComponent,
+        headerStyle: COLUMN_MOVE_STYLE_GROUPS,
+      },
+      {
+        field: EMISSION_FACTOR_PC,
+        headerName: EMISSION_FACTOR_PC,
+        filter: 'agNumberColumnFilter',
+        filterParams: NUMBER_FILTER_PARAMS,
+        valueFormatter: EMISSION_FACTORS_FORMATTER,
+        headerTooltip: EMISSION_FACTOR_PC,
+        cellRenderer: PcfMaturityCo2CellRendererComponent,
+        headerStyle: COLUMN_MOVE_STYLE_GROUPS,
+      },
+      {
+        field: MATURITY,
+        headerName: MATURITY,
+        filter: 'agSetColumnFilter',
+        filterParams: {
+          values: [0, 2, 5, 6, 7, 8, 9, 10],
+          valueFormatter: MATURITY_FORMATTER,
+          suppressSorting: true,
+        },
+        lockVisible: true,
+        cellRenderer: MaturityScoreCellRendererComponent,
+        headerStyle: COLUMN_MOVE_STYLE_GROUPS,
+      },
+      {
+        field: MATURITY_DATASOURCE,
+        headerName: MATURITY_DATASOURCE,
+        filter: false,
+        sortable: false,
+        valueGetter: (params) => params.data[MATURITY],
+        valueFormatter: MATURITY_FORMATTER,
+        headerStyle: COLUMN_MOVE_STYLE_GROUPS,
+      },
+    ],
   },
   {
     field: OWNER,

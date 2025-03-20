@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -62,6 +62,7 @@ export class SapMaterialDatagridComponent
   public loadingCellRenderer = LoadingCellRendererComponent;
   public serverSideRowData!: SAPMaterial[];
   public excelStyles: ExcelStyle[] = excelStyles;
+  public activeDrag = signal(false);
 
   public constructor(
     protected readonly dataFacade: DataFacade,
@@ -92,6 +93,16 @@ export class SapMaterialDatagridComponent
 
     api.updateGridOptions({
       serverSideDatasource: this.createServerSideDataSource(),
+    });
+
+    // change background of grouped columns while dragging
+    api.addEventListener('dragStarted', () => {
+      this.activeDrag.set(true);
+      api.refreshHeader();
+    });
+    api.addEventListener('dragStopped', () => {
+      this.activeDrag.set(false);
+      api.refreshHeader();
     });
   }
 

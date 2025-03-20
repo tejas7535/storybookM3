@@ -93,6 +93,7 @@ describe('SapMaterialDatagridComponent', () => {
     it('should set params for cell renderer', () => {
       const gridApi = {
         updateGridOptions: jest.fn(),
+        addEventListener: jest.fn(),
       } as unknown as GridApi;
       component.onGridReady({ api: gridApi });
 
@@ -102,6 +103,21 @@ describe('SapMaterialDatagridComponent', () => {
           destroy: expect.any(Function),
         },
       });
+    });
+
+    it('should react to drag events', () => {
+      const nextSpy = jest.spyOn(component.activeDrag, 'set');
+
+      const gridApi = {
+        updateGridOptions: jest.fn(),
+        addEventListener: jest.fn((_event, callback) => callback()),
+        refreshHeader: jest.fn(),
+      } as unknown as GridApi;
+      component.onGridReady({ api: gridApi });
+
+      expect(gridApi.refreshHeader).toHaveBeenCalledTimes(2);
+      expect(nextSpy).toHaveBeenCalledWith(true);
+      expect(nextSpy).toHaveBeenCalledWith(false);
     });
   });
 

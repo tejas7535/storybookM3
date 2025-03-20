@@ -3,6 +3,9 @@
   "version": "1.28.0",
   "dependencies": {
     "buffer": "6.0.3",
-    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz",
+    "ag-grid-angular": "33.1",
+    "ag-grid-community": "33.1",
+    "ag-grid-enterprise": "33.1"
   }
 }

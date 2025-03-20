@@ -134,6 +134,7 @@ export class SapMaterialControlPanelComponent
         columnKeys,
         prependContent: [{ cells: headerCells }, { cells: descriptionCells }],
         skipColumnHeaders: true,
+        skipColumnGroupHeaders: true,
         author: translate(
           'materialsSupplierDatabase.mainTable.excelExport.author'
         ),

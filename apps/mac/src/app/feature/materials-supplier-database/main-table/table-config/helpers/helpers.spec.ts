@@ -3,6 +3,7 @@ import { of } from 'rxjs';
 import { TranslocoModule } from '@jsverse/transloco';
 import {
   ColDef,
+  HeaderClassParams,
   SetFilterValuesFuncParams,
   ValueFormatterParams,
   ValueGetterParams,
@@ -16,6 +17,7 @@ import {
 } from '@mac/feature/materials-supplier-database/models';
 
 import { getStatus } from '../../util';
+import { COLUMN_MOVE_STYLE_GROUPS } from './column-drag-headerstyle';
 import {
   ARRAY_SORT_VALUE_FORMATTER,
   BOOLEAN_VALUE_FORMATTER,
@@ -683,6 +685,25 @@ describe('helpers', () => {
           data,
         } as unknown as ValueGetterParams)
       ).toEqual('materialsSupplierDatabase.mainTable.no');
+    });
+  });
+
+  describe('header-dragon-drop', () => {
+    const getContext = (active: boolean) =>
+      ({
+        context: { activeDrag: () => active },
+      }) as unknown as HeaderClassParams;
+    it('should return the updated headerStyle on active drag', () => {
+      const expected = { 'background-color': '#F1F1F1' };
+      const p = getContext(true);
+
+      expect(COLUMN_MOVE_STYLE_GROUPS(p)).toStrictEqual(expected);
+    });
+    it('should return no headerStyle without active dragging', () => {
+      const expected = {};
+      const p = getContext(false);
+
+      expect(COLUMN_MOVE_STYLE_GROUPS(p)).toStrictEqual(expected);
     });
   });
 });
