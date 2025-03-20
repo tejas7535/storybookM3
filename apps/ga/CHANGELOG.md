@@ -1,4 +1,20 @@
 # Release Notes of Grease App
+## [1.15.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.14.10...ga-v1.15.0) (2025-03-20)
+
+
+### Features
+
+*  update shared components styles  (UFATBI- 8345) ([#7125](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7125)) ([271c78a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/271c78a6a21135ade7b576afb51ea0255bc5981c))
+* **ga:** add bearinx versions ([#7073](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7073)) ([ea74f4a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ea74f4ada48cb171713e084b062cf1e652a2123e))
+* **ga:** grease recommendation on every app platform (UFTABI-8603)  ([#7097](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7097)) ([c0cb277](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c0cb2771474932016c8030bb3e27dd0f7924b9a3))
+* **ga:** migrate to m3 styles ([#7012](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7012)) ([0214926](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0214926309be4d014cd3ff3d74dee53c8bb98da1))
+* **ga:** update partner version role colors override ([95ad461](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/95ad461296002df8c518f674c74a592e73cc3bf8))
+
+
+### Bug Fixes
+
+* **ga:** fix large screen resolutions for embedded version (UFTABI-8256) ([#7134](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7134)) ([bc5ab30](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bc5ab30cecdbd53ebc2e17b201d98c9d7f2b5d2e))
+
 ## [1.14.10](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.14.9...ga-v1.14.10) (2025-02-10)
 
 ## [1.14.9](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.14.8...ga-v1.14.9) (2025-02-06)
