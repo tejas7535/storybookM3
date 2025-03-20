@@ -14,7 +14,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { translate } from '@jsverse/transloco';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { RotaryControlComponent } from '@schaeffler/controls';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { PartnerAfiliateCode, PartnerVersion } from '@ga/shared/models';
@@ -45,7 +44,6 @@ import {
     MatTooltipModule,
     MatIconModule,
     MatRadioModule,
-    RotaryControlComponent,
   ],
   templateUrl: './grease-report-shop-buttons.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

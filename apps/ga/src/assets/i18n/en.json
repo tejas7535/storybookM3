@@ -299,7 +299,7 @@
     "limitResults": "Show first {{ results }} Results",
     "remainingResults": "{{ results }} other Results",
     "resultsDefault": "Results sorted by relubrication interval ({{ amount }}/{{ complete }} greases)",
-    "resultsWithRecommendation": "Results are sorted by recommendadtion and relubrication interval",
+    "resultsWithRecommendation": "Results are sorted by recommendation and relubrication interval",
     "resultsWithPreferred": "Results for selected and alternative greases sorted by relubrication interval",
     "guideValues": "* guide values",
     "errorsWarningsNotes": "Errors, Warnings & Notes",

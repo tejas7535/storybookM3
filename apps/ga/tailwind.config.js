@@ -45,10 +45,9 @@ module.exports = {
         ...overwriteBackgroundColors,
         ...overwriteColors,
       },
-    },
-    screens: {
-      lg: '1170px',
-      ...schaefflerTailwindPreset.theme.screens,
+      screens: {
+        'embedded-lg': '1150px',
+      },
     },
   },
   safelist: [
