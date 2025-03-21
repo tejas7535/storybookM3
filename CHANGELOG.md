@@ -2,6 +2,39 @@
 
 **Note:** old/deprecated changelog can be found [here](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/-/blob/184ca646a740a82b55eee4f43c56c076a0ca82e2/CHANGELOG.md)
 
+## 3/21/2025
+* assets: [1.13.0](libs/shared/assets/CHANGELOG.md)
+* cypress-utils: [1.14.1](libs/shared/cypress-utils/CHANGELOG.md)
+* @schaeffler/alert: [0.1.0](libs/shared/ui/alert/CHANGELOG.md)
+* @schaeffler/app-shell: [1.6.0](libs/shared/ui/app-shell/CHANGELOG.md)
+* @schaeffler/banner: [3.8.0](libs/shared/ui/banner/CHANGELOG.md)
+* @schaeffler/breadcrumbs: [1.3.1](libs/shared/ui/breadcrumbs/CHANGELOG.md)
+* @schaeffler/controls: [1.4.1](libs/shared/ui/controls/CHANGELOG.md)
+* @schaeffler/empty-states: [2.8.1](libs/shared/ui/empty-states/CHANGELOG.md)
+* @schaeffler/feedback-banner: [0.4.0](libs/shared/ui/feedback-banner/CHANGELOG.md)
+* @schaeffler/file-upload: [0.4.0](libs/shared/ui/file-upload/CHANGELOG.md)
+* @schaeffler/icons: [2.4.1](libs/shared/ui/icons/CHANGELOG.md)
+* @schaeffler/inputs: [1.6.1](libs/shared/ui/inputs/CHANGELOG.md)
+* @schaeffler/label-value: [1.6.0](libs/shared/ui/label-value/CHANGELOG.md)
+* @schaeffler/legal-pages: [1.4.1](libs/shared/ui/legal-pages/CHANGELOG.md)
+* @schaeffler/loading-spinner: [1.3.1](libs/shared/ui/loading-spinner/CHANGELOG.md)
+* @schaeffler/picture-card: [1.4.1](libs/shared/ui/picture-card/CHANGELOG.md)
+* @schaeffler/report: [1.4.1](libs/shared/ui/report/CHANGELOG.md)
+* @schaeffler/result-report: [0.1.0](libs/shared/ui/result-report/CHANGELOG.md)
+* @schaeffler/rich-tooltip: [0.2.2](libs/shared/ui/rich-tooltip/CHANGELOG.md)
+* @schaeffler/roles-and-rights: [1.3.1](libs/shared/ui/roles-and-rights/CHANGELOG.md)
+* @schaeffler/share-button: [1.4.1](libs/shared/ui/share-button/CHANGELOG.md)
+* @schaeffler/stepper: [1.3.2](libs/shared/ui/stepper/CHANGELOG.md)
+* storybook: [2.0.0](libs/shared/ui/storybook/CHANGELOG.md)
+* @schaeffler/styles: [1.13.0](libs/shared/ui/styles/CHANGELOG.md)
+* @schaeffler/subheader: [1.3.1](libs/shared/ui/subheader/CHANGELOG.md)
+* @schaeffler/tag: [0.4.0](libs/shared/ui/tag/CHANGELOG.md)
+* @schaeffler/view-toggle: [2.0.1](libs/shared/ui/view-toggle/CHANGELOG.md)
+* @schaeffler/application-insights: [1.5.1](libs/shared/utils/application-insights/CHANGELOG.md)
+* @schaeffler/azure-auth: [1.5.0](libs/shared/utils/azure-auth/CHANGELOG.md)
+* @schaeffler/transloco: [4.4.1](libs/shared/utils/transloco/CHANGELOG.md)
+
+
 ## 3/20/2025
 * ga: [1.15.0](./apps/ga/CHANGELOG.md)
 
