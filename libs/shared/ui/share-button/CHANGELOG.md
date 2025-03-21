@@ -1,4 +1,6 @@
 # Release Notes of Library Shared UI Share Button
+## [1.4.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/share-button-v1.4.0...share-button-v1.4.1) (2025-03-21)
+
 ## [1.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/share-button-v1.3.0...share-button-v1.4.0) (2024-07-15)
 
 
