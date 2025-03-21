@@ -1,4 +1,6 @@
 # Release Notes of Library Shared UI View Toggle
+## [2.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/view-toggle-v2.0.0...view-toggle-v2.0.1) (2025-03-21)
+
 ## 2.0.0 (2024-10-25)
 Manual release to keep repository in sync with published versions on Artifactory.
 
