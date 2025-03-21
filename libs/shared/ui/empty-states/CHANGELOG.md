@@ -1,4 +1,6 @@
 # Release Notes of Library Shared UI Empty States
+## [2.8.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/empty-states-v2.8.0...empty-states-v2.8.1) (2025-03-21)
+
 ## [2.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/empty-states-v2.7.0...empty-states-v2.8.0) (2024-07-15)
 
 
