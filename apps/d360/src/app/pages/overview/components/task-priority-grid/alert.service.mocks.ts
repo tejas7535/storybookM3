@@ -1,5 +1,9 @@
-import { SelectableValue } from '../../shared/components/inputs/autocomplete/selectable-values.utils';
-import { Alert, AlertCategory, OpenFunction } from './model';
+import {
+  Alert,
+  AlertCategory,
+  OpenFunction,
+} from '../../../../feature/alerts/model';
+import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 
 export const mockAlertResult: Alert[] = [
   {

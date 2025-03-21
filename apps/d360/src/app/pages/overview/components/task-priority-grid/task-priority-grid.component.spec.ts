@@ -16,11 +16,6 @@ import {
   GroupedAlert,
 } from '../../../../feature/alerts/alert.service';
 import {
-  aciadpOption,
-  alertTypeOptionMocks,
-  cfpraoOption,
-} from '../../../../feature/alerts/alert.service.mocks';
-import {
   Alert,
   AlertCategory,
   OpenFunction,
@@ -32,6 +27,11 @@ import {
   SelectableOptionsService,
 } from '../../../../shared/services/selectable-options.service';
 import { TaskPrioritiesComponent } from '../task-priorities/task-priorities.component';
+import {
+  aciadpOption,
+  alertTypeOptionMocks,
+  cfpraoOption,
+} from './alert.service.mocks';
 import { TaskPriorityGridComponent } from './task-priority-grid.component';
 
 describe('TaskPriorityGridComponent', () => {

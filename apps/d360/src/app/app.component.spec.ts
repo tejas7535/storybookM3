@@ -13,6 +13,7 @@ import { MockComponent } from 'ng-mocks';
 
 import { AppComponent } from './app.component';
 import { AppRoutePath } from './app.routes.enum';
+import { AlertService } from './feature/alerts/alert.service';
 import { CurrencyService } from './feature/info/currency.service';
 import { GlobalSelectionStateService } from './shared/components/global-selection-criteria/global-selection-state.service';
 import { UserSettingsComponent } from './shared/components/user-settings/user-settings.component';
@@ -24,6 +25,7 @@ describe('AppComponent', () => {
     component: AppComponent,
     imports: [MockComponent(UserSettingsComponent)],
     providers: [
+      mockProvider(AlertService),
       mockProvider(GlobalSelectionStateService),
       mockProvider(MsalService, {
         handleRedirectObservable: () => of(),

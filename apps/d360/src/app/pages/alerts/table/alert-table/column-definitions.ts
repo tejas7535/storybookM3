@@ -40,7 +40,7 @@ export const getAlertTableColumnDefinitions = (
       colId: 'alert.category.column_header',
       valueFormatter: (params) =>
         params.value
-          ? translate(`alert.category.${params.value}`, {})
+          ? translate(`alert.category.${params.value}`)
           : params.value,
       flex: 1,
       minWidth: 200,

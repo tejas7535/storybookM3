@@ -127,6 +127,7 @@ export class Stub {
         form: jest.fn().mockReturnValue(new FormGroup({})),
         getState: jest.fn().mockReturnValue({}),
         getGlobalSelectionStatus: jest.fn().mockReturnValue(''),
+        navigateWithGlobalSelection: jest.fn().mockReturnValue(of(true)),
       },
       'useValue'
     ),
@@ -140,11 +141,7 @@ export class Stub {
       },
       'useValue'
     ),
-    MockProvider(
-      HttpClient,
-      { get: () => of({}), post: () => of({}), request: () => of({}) },
-      'useValue'
-    ),
+    MockProvider(HttpClient, this.getHttpClient(), 'useValue'),
   ];
 
   private static fixture: ComponentFixture<any> | null = null;
@@ -258,6 +255,21 @@ export class Stub {
       applyTransaction: jest.fn(),
       setColumnDefs: jest.fn(),
       applyServerSideTransaction: jest.fn(),
+      getDisplayedRowCount: jest.fn(),
+    } as any;
+  }
+
+  public static getHttpClient(data?: {
+    get?: any;
+    post?: any;
+    request?: any;
+    delete?: any;
+  }): HttpClient {
+    return {
+      get: () => of(data?.get ?? {}),
+      post: () => of(data?.post ?? {}),
+      request: () => of(data?.request ?? {}),
+      delete: () => of(data?.delete ?? {}),
     } as any;
   }
 
@@ -274,8 +286,8 @@ export class Stub {
 
   public static getCurrencyService(): CurrencyService {
     return {
-      getCurrentCurrency: jest.fn().mockReturnValue(of('EUR')),
-      getAvailableCurrencies: jest.fn().mockReturnValue(of([])),
+      getCurrentCurrency: () => of('EUR'),
+      getAvailableCurrencies: () => of([]),
       setCurrentCurrency: jest.fn(),
     } as any;
   }
@@ -491,7 +503,19 @@ export class Stub {
   public static getAlertServiceProvider(): ValueProvider {
     return MockProvider(
       AlertService,
-      { allActiveAlerts: signal<Alert[]>(null) },
+      {
+        allActiveAlerts: signal<Alert[]>(null),
+        getRefreshEvent: () => of(true),
+        getDataFetchedEvent: () => of(true),
+        refreshHashTimer: () => {},
+        completeAlert: (id: string) => of(id),
+        activateAlert: (id: string) => of(id),
+        deactivateAlert: (id: string) => of(id),
+        loadActiveAlerts: () => {},
+        createAlertDatasource: () => ({ getRows: {} }),
+        getRouteForOpenFunction: () => '',
+        getModuleForOpenFunction: () => '',
+      },
       'useValue'
     );
   }

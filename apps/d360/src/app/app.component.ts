@@ -43,6 +43,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import packageJson from '../../package.json';
 import { appRoutes } from './app.routes';
 import { AppRoutePath } from './app.routes.enum';
+import { AlertService } from './feature/alerts/alert.service';
 import { GlobalSelectionStateService } from './shared/components/global-selection-criteria/global-selection-state.service';
 import { TabBarNavigationComponent } from './shared/components/page/tab-bar-navigation/tab-bar-navigation.component';
 import { UserSettingsComponent } from './shared/components/user-settings/user-settings.component';
@@ -78,6 +79,7 @@ export class AppComponent implements OnInit {
   private readonly translocoLocaleService: TranslocoLocaleService = inject(
     TranslocoLocaleService
   );
+  private readonly alertService: AlertService = inject(AlertService);
   private readonly router: Router = inject(Router);
   private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private readonly globalSelectionStateService: GlobalSelectionStateService =
@@ -205,6 +207,8 @@ export class AppComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
+
+    this.alertService.init();
 
     // add translocoLocaleService to static class.
     ValidationHelper.localeService = this.translocoLocaleService;

@@ -59,9 +59,7 @@ export interface GroupedAlert {
   alertTypes: Record<string, AlertCategory[]>;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AlertService {
   private readonly http: HttpClient = inject(HttpClient);
   private readonly currencyService: CurrencyService = inject(CurrencyService);
@@ -83,18 +81,17 @@ export class AlertService {
 
   public allActiveAlerts = signal<Alert[]>(null);
 
-  public constructor() {
+  public init(): void {
     this.loadActiveAlerts();
     this.refreshHashTimer();
     this.refreshEvent
       .pipe(
-        tap(() => {
-          this.loadActiveAlerts();
-        }),
+        tap(() => this.loadActiveAlerts()),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }
+
   /**
    * Loads all active alerts from the backend. If rowCount > 1000 the data is loaded in chunks of 1000 alerts.
    * Sets the data in the allActiveAlerts signal when done.
@@ -363,7 +360,7 @@ export class AlertService {
     return groupedResult;
   };
 
-  public refreshHashTimer() {
+  public refreshHashTimer(): void {
     if (this.timerSubscription) {
       this.timerSubscription.unsubscribe();
       this.currentHash = undefined;
@@ -386,9 +383,7 @@ export class AlertService {
                   )
                   .onAction()
                   .pipe(
-                    tap(() => {
-                      this.refreshEvent.next();
-                    }),
+                    tap(() => this.refreshEvent.next()),
                     takeUntilDestroyed(this.destroyRef)
                   )
                   .subscribe();
@@ -406,7 +401,9 @@ export class AlertService {
       .subscribe();
   }
 
-  public getRouteForOpenFunction(openFunction: OpenFunction) {
+  public getRouteForOpenFunction(
+    openFunction: OpenFunction
+  ): AppRoutePath | '/' {
     switch (openFunction) {
       case OpenFunction.Validation_Of_Demand: {
         return AppRoutePath.DemandValidationPage;
@@ -420,7 +417,7 @@ export class AlertService {
     }
   }
 
-  public getModuleForOpenFunction(openFunction: OpenFunction) {
+  public getModuleForOpenFunction(openFunction: OpenFunction): string {
     switch (openFunction) {
       case OpenFunction.Validation_Of_Demand: {
         return translate('validation_of_demand.title');

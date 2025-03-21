@@ -40,7 +40,9 @@ import { AlertTableComponent } from './table/alert-table/alert-table.component';
 export class AlertsComponent {
   protected readonly selectableOptionsService: SelectableOptionsService =
     inject(SelectableOptionsService);
+
   protected loading$ = this.selectableOptionsService.loading$;
+
   protected alertStatus: SelectableValue[] = [
     { id: AlertStatus.ACTIVE, text: translate('alert.select.active') },
     { id: AlertStatus.COMPLETED, text: translate('alert.select.completed') },
@@ -49,20 +51,24 @@ export class AlertsComponent {
       text: translate('alert.select.deactivated'),
     },
   ];
+
   protected readonly DisplayFunctions = DisplayFunctions;
 
   protected statusControl = new FormControl<SelectableValue>(
     this.alertStatus[0],
     Validators.required
   );
+
   protected formGroup = new FormGroup({
     status: this.statusControl,
   });
+
   protected selectedPriorities = signal<Priority[]>([
     Priority.Priority1,
     Priority.Priority2,
     Priority.Priority3,
   ]);
+
   protected selectedStatus = signal<AlertStatus>(AlertStatus.ACTIVE);
 
   protected updateStatus(status: SelectableValue) {

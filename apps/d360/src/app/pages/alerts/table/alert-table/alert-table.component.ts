@@ -262,9 +262,10 @@ export class AlertTableComponent {
   };
 
   public constructor() {
-    effect(() => {
-      this.setServerSideDatasource(this.status(), this.priorities());
-    });
+    effect(() =>
+      this.setServerSideDatasource(this.status(), this.priorities())
+    );
+
     this.alertService
       .getRefreshEvent()
       .pipe(
@@ -341,10 +342,10 @@ export class AlertTableComponent {
   }
 
   protected getRowId: GetRowIdFunc = (params: GetRowIdParams<Alert>) =>
-    params.data.id;
+    params?.data?.id;
 
   protected onFirstDataRendered($event: FirstDataRenderedEvent) {
-    $event.api.autoSizeAllColumns();
+    $event?.api?.autoSizeAllColumns();
   }
 
   private setServerSideDatasource(status: AlertStatus, priorities: Priority[]) {
