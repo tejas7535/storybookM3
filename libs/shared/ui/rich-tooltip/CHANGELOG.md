@@ -1,4 +1,6 @@
 # Release Notes of Library Shared UI Rich Tooltip
+## [0.2.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/rich-tooltip-v0.2.1...rich-tooltip-v0.2.2) (2025-03-21)
+
 ## 0.2.1 (2024-10-25)
 Manual release to keep repository in sync with published versions on Artifactory.
 
