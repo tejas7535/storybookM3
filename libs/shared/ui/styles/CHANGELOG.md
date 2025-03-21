@@ -1,4 +1,12 @@
 # Release Notes of Library Shared UI Styles
+## [1.13.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.12.0...styles-v1.13.0) (2025-03-21)
+
+
+### Features
+
+*  update shared components styles  (UFATBI- 8345) ([#7125](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7125)) ([271c78a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/271c78a6a21135ade7b576afb51ea0255bc5981c))
+* **styles:** update emphasis colors to match m3 specs ([bdf1865](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bdf18659ae22211cac26b4ab95d40d75ec4f2297))
+
 ## 1.12.0 (2024-10-25)
 Manual release to keep repository in sync with published versions on Artifactory.
 
