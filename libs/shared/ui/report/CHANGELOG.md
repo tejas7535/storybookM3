@@ -1,4 +1,6 @@
 # Release Notes of Library Shared UI Report
+## [1.4.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/report-v1.4.0...report-v1.4.1) (2025-03-21)
+
 ## [1.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/report-v1.3.0...report-v1.4.0) (2024-07-15)
 
 
