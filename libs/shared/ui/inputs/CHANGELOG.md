@@ -1,4 +1,6 @@
 # Release Notes of Library Shared UI Inputs
+## [1.6.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/inputs-v1.6.0...inputs-v1.6.1) (2025-03-21)
+
 ## 1.6.0 (2024-10-25)
 Manual release to keep repository in sync with published versions on Artifactory.
 
