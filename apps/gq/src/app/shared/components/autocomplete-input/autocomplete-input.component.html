@@ -38,9 +38,13 @@
     }
     <mat-autocomplete
       #auto="matAutocomplete"
+      [autoActiveFirstOption]="true"
       (optionSelected)="selected($event)"
     >
-      @for (idValue of unselectedOptions; track $index) {
+      @for (
+        idValue of unselectedOptions;
+        track idValue.id + idValue.value + idValue.value2
+      ) {
         <mat-option [value]="idValue">
           <span> {{ idValue.id }} | {{ idValue.value }}</span>
           @if (idValue.value2 && !MATERIAL_FILTERS?.includes(filterName)) {

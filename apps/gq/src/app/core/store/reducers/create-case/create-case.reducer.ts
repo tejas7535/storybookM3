@@ -320,10 +320,14 @@ export const createCaseReducer = createReducer(
       autocompleteItems: [...state.autocompleteItems].map((it) => {
         const temp = { ...it };
         if (temp.filter === filter) {
-          temp.options = temp.options.map((opt) => ({
-            ...opt,
-            selected: false,
-          }));
+          // when options have only 1 item, clear the complete array, otherwise the option will be reselected
+          temp.options =
+            temp.options.length > 1
+              ? temp.options.map((opt) => ({
+                  ...opt,
+                  selected: false,
+                }))
+              : [];
         }
 
         return temp;

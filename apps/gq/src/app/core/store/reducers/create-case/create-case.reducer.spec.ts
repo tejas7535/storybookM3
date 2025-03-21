@@ -491,6 +491,26 @@ describe('Create Case Reducer', () => {
         expect(state.customer.customerId).toEqual('82563');
         expect(state.customer.salesOrgs).toEqual(fakeState.customer.salesOrgs);
       });
+      test('should clear the list, when length is 1', () => {
+        const action = unselectAutocompleteOptions({
+          filter: FilterNames.MATERIAL_NUMBER,
+        });
+
+        const state = createCaseReducer(
+          {
+            ...fakeState,
+            autocompleteItems: [
+              {
+                filter: FilterNames.MATERIAL_NUMBER,
+                options: [fakeOptions[0]],
+              },
+            ],
+          },
+          action
+        );
+
+        expect(state.autocompleteItems[0].options).toEqual([]);
+      });
     });
     describe('resetAllAutocompleteOptions', () => {
       test('should reset all autocomplete options', () => {

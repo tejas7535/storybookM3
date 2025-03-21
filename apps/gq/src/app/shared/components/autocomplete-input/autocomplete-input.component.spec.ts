@@ -177,7 +177,7 @@ describe('AutocompleteInputComponent', () => {
         value2: 'customerCountry',
       } as any;
       component.filterName = FilterNames.CUSTOMER;
-      const expectedTransformresult = `customerName | customerId | customerCountry`;
+      const expectedTransformresult = `customerId | customerName | customerCountry`;
       component.searchFormControl = {
         setValue: jest.fn(),
         hasError: jest.fn(),
@@ -222,7 +222,7 @@ describe('AutocompleteInputComponent', () => {
         id: '21312312',
         value: 'customerName',
       } as any;
-      const transformresult = `customerName | 21312312`;
+      const transformresult = `21312312 | customerName`;
       component.filterName = FilterNames.SAP_QUOTATION;
       component.searchFormControl = {
         setValue: jest.fn(),
@@ -355,20 +355,20 @@ describe('AutocompleteInputComponent', () => {
   describe('isInputValid', () => {
     test('should return valid on id value pair', () => {
       component.selectedIdValue = { id: '1' } as any;
-      const result = component.isInputValid({ value: '2 | 1' } as any);
+      const result = component.isInputValid({ value: '1 | 2' } as any);
 
       expect(result).toEqual(undefined);
     });
     test('should return valid on id value value2 pair', () => {
       component.selectedIdValue = { id: '1' } as any;
-      const result = component.isInputValid({ value: '2 | 1 | 3' } as any);
+      const result = component.isInputValid({ value: '1 | 2 | 3' } as any);
 
       expect(result).toEqual(undefined);
     });
     test('should return invalid on wrong value', () => {
       component.selectedIdValue = { id: '1' } as any;
       component.unselect = jest.fn();
-      const result = component.isInputValid({ value: '1 | 2' } as any);
+      const result = component.isInputValid({ value: '2 | 2' } as any);
 
       expect(component.unselect).toHaveBeenCalledTimes(1);
       expect(result).toEqual({ invalidInput: true });
@@ -377,7 +377,7 @@ describe('AutocompleteInputComponent', () => {
       component.selectedIdValue = { id: '1' } as any;
       component.unselect = jest.fn();
       component.filterName = FilterNames.CUSTOMER_MATERIAL;
-      const result = component.isInputValid({ value: '1 | 2' } as any);
+      const result = component.isInputValid({ value: '4 | 2' } as any);
 
       expect(component.unselect).toHaveBeenCalledTimes(1);
       expect(result).toBeUndefined();

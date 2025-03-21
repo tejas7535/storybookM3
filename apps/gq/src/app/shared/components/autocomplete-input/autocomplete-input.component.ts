@@ -19,10 +19,10 @@ import {
 import {
   AbstractControl,
   ControlValueAccessor,
+  FormControl,
   FormsModule,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
-  UntypedFormControl,
   ValidationErrors,
 } from '@angular/forms';
 import {
@@ -121,7 +121,7 @@ export class AutocompleteInputComponent
   selectedIdValue: IdValue;
   unselectedOptions: IdValue[];
 
-  searchFormControl: UntypedFormControl = new UntypedFormControl();
+  searchFormControl: FormControl = new FormControl();
   MATERIAL_FILTERS: typeof MATERIAL_FILTERS;
 
   // eslint-disable-next-line @typescript-eslint/member-ordering
@@ -181,17 +181,24 @@ export class AutocompleteInputComponent
             if (!value) {
               this.inputContent.emit(false);
             }
+            // when customer search contains the pipe no autocomplete is to be triggered
+            const customerSearchContainsPipe =
+              value?.includes &&
+              value?.includes('|') &&
+              this.filterName === FilterNames.CUSTOMER;
+
+            const isSearchValueValid = value && typeof value === 'string';
 
             return (
               this.filterName &&
-              this.searchFormControl.value &&
-              typeof this.searchFormControl.value === 'string'
+              !customerSearchContainsPipe &&
+              isSearchValueValid
             );
           }),
-          tap(() => {
+          tap((value) => {
             // emit for parent component  errorHandling such as disabling buttons
             if (
-              this.searchFormControl.value.length === this.ONE_CHAR_LENGTH &&
+              value.length === this.ONE_CHAR_LENGTH &&
               MATERIAL_FILTERS.includes(this.filterName)
             ) {
               this.isValid.emit(
@@ -199,8 +206,8 @@ export class AutocompleteInputComponent
               );
             }
           }),
-          debounce(() =>
-            this.searchFormControl.value.length > this.ONE_CHAR_LENGTH
+          debounce((value) =>
+            value.length > this.ONE_CHAR_LENGTH
               ? timer(this.DEBOUNCE_TIME_DEFAULT)
               : EMPTY
           )
@@ -245,17 +252,10 @@ export class AutocompleteInputComponent
   }
 
   setFormControlValue(): void {
-    let id = this.selectedIdValue.value;
-    let value = this.selectedIdValue.id;
-    let value2 = this.selectedIdValue.value2;
-
-    if (MATERIAL_FILTERS.includes(this.filterName)) {
-      id = this.selectedIdValue.id;
-      value = undefined;
-      value2 = undefined;
-    }
-
-    const formValue = this.transformFormValue(id, value, value2);
+    const formValue = this.transformFormValue(
+      this.filterName,
+      this.selectedIdValue
+    );
     this.searchFormControl.setValue(formValue, { emitEvent: false });
     this.isValid.emit(!this.searchFormControl.hasError('invalidInput'));
     this.inputContent.emit(true);
@@ -311,7 +311,7 @@ export class AutocompleteInputComponent
       control.value &&
       typeof control.value === 'string' &&
       control.value.includes('|')
-        ? control.value.split(' | ')[1]
+        ? control.value.split(' | ')[0]
         : control.value;
     const isValid =
       !formValue ||
@@ -362,9 +362,7 @@ export class AutocompleteInputComponent
   writeValue(value: IdValue): void {
     this.selectedIdValue = value;
     this.searchFormControl.setValue(
-      value
-        ? this.transformFormValue(value.value, value.id, value.value2)
-        : value,
+      value ? this.transformFormValue(this.filterName, value) : value,
       { emitEvent: false }
     );
     // Call the callbacks when component has been defined as FormControl in parent component
@@ -415,23 +413,21 @@ export class AutocompleteInputComponent
     });
   }
 
-  private transformFormValue(
-    id: string,
-    value: string,
-    value2?: string
-  ): string {
-    if (!id) {
-      return id;
+  private transformFormValue(filterName: string, idValue: IdValue): string {
+    if (!idValue.id) {
+      return idValue.id;
     }
 
-    let string = `${id}`;
+    let string = `${idValue.id}`;
 
-    if (value) {
-      string += ` | ${value}`;
-    }
+    if (!MATERIAL_FILTERS.includes(filterName)) {
+      if (idValue.value) {
+        string += ` | ${idValue.value}`;
+      }
 
-    if (value2) {
-      string += ` | ${value2}`;
+      if (idValue.value2) {
+        string += ` | ${idValue.value2}`;
+      }
     }
 
     return string;
