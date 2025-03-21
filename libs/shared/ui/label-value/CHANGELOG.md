@@ -1,4 +1,12 @@
 # Release Notes of Library Shared UI Label Value
+## [1.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/label-value-v1.5.0...label-value-v1.6.0) (2025-03-21)
+
+
+### Features
+
+* **label-value:** adjust icon color ([#7046](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7046)) ([3302413](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3302413957f1e8276e04a016a6e3ef999df7dd49))
+* **label-value:** update label value component to match m3 specs ([95f3da3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/95f3da3e5f9d5066c98804a72adffd38d687d0c1))
+
 ## 1.5.0 (2024-10-25)
 Manual release to keep repository in sync with published versions on Artifactory.
 
