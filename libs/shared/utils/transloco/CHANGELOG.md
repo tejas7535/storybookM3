@@ -1,4 +1,6 @@
 # Release Notes of Library Shared Utils Transloco
+## [4.4.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v4.4.0...transloco-v4.4.1) (2025-03-21)
+
 ## [4.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v4.3.0...transloco-v4.4.0) (2024-07-15)
 
 
