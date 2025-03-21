@@ -1,4 +1,6 @@
 # Release Notes of Library Shared UI Loading Spinner
+## [1.3.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/loading-spinner-v1.3.0...loading-spinner-v1.3.1) (2025-03-21)
+
 ## [1.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/loading-spinner-v1.2.0...loading-spinner-v1.3.0) (2024-07-15)
 
 
