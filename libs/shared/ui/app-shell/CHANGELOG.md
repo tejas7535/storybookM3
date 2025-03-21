@@ -1,4 +1,11 @@
 # Release Notes of Library Shared UI App Shell
+## [1.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v1.5.0...app-shell-v1.6.0) (2025-03-21)
+
+
+### Features
+
+* **app-shell:** update bg-surface color in app-shell ([6aeea96](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6aeea968b746c7545e655a3bd1d4bd24bb5cb201))
+
 ## 1.6.0 (2024-10-25)
 Manual release to keep repository in sync with published versions on Artifactory.
 
