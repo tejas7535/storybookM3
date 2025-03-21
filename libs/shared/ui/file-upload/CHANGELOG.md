@@ -1,4 +1,16 @@
 # Release Notes of Library Shared UI File Upload
+## [0.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/file-upload-v0.3.0...file-upload-v0.4.0) (2025-03-21)
+
+
+### Features
+
+*  update shared components styles  (UFATBI- 8345) ([#7125](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7125)) ([271c78a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/271c78a6a21135ade7b576afb51ea0255bc5981c))
+
+
+### Bug Fixes
+
+* **file-upload:** fix translation setup ([#6735](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6735)) ([66177b8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/66177b8ee0b868c1918d4aa758be94d0cd6997f0))
+
 ## 0.3.0 (2024-10-25)
 Manual release to keep repository in sync with published versions on Artifactory.
 
