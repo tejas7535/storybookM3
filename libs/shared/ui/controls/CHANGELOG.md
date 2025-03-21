@@ -1,4 +1,6 @@
 # Release Notes of Library Shared UI Controls
+## [1.4.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/controls-v1.4.0...controls-v1.4.1) (2025-03-21)
+
 ## 1.4.0 (2024-10-25)
 Manual release to keep repository in sync with published versions on Artifactory.
 

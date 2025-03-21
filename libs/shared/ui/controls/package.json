@@ -8,5 +8,5 @@
     "@angular/core": ">=19.0.0 <20.0.0",
     "@angular/material": ">=19.0.0 <20.0.0"
   },
-  "version": "1.4.0"
+  "version": "1.4.1"
 }
