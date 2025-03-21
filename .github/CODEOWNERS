@@ -14,10 +14,6 @@
 
 apps/cdba @herpisef_SGGIT @soehnpsc_SGGIT @poltokzy_SGGIT @przybmci_SGGIT
 
-# SEDO
-
-apps/sedo @soehnpsc_SGGIT @schlesni_SGGIT
-
 # GQ
 
 apps/gq @soehnpsc_SGGIT @herpisef_SGGIT @poltokzy_SGGIT @schlesni_SGGIT @szwajdmi_SGGIT
@@ -49,7 +45,6 @@ apps/ea-e2e @krausrbe_SGGIT @berndcri_SGGIT @konramic_SGGIT @grzegdmi_SGGIT @vog
 
 apps/lsa @krausrbe_SGGIT @berndcri_SGGIT @konramic_SGGIT @grzegdmi_SGGIT @vogelmor_SGGIT @przybmci_SGGIT
 apps/lsa-e2e @krausrbe_SGGIT @berndcri_SGGIT @konramic_SGGIT @grzegdmi_SGGIT @vogelmor_SGGIT @przybmci_SGGIT
-
 
 # HC
 

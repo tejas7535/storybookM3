@@ -1,9 +1,0 @@
-import { ColDef } from 'ag-grid-enterprise';
-
-export const DEFAULT_COLUMN_DEFINITION: ColDef = {
-  sortable: true,
-  filter: true,
-  floatingFilter: true,
-  resizable: true,
-  enablePivot: false,
-};
