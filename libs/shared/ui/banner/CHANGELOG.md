@@ -1,4 +1,12 @@
 # Release Notes of Library Shared UI Banner
+## [3.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/banner-v3.7.0...banner-v3.8.0) (2025-03-21)
+
+
+### Features
+
+*  update shared components styles  (UFATBI- 8345) ([#7125](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7125)) ([271c78a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/271c78a6a21135ade7b576afb51ea0255bc5981c))
+* **banner:** update bg-surface color in banner ([cb12b30](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cb12b306886b16c48603a5e38942869d46d65db4))
+
 ## 3.8.0 (2024-10-25)
 Manual release to keep repository in sync with published versions on Artifactory.
 
