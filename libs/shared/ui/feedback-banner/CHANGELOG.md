@@ -1,4 +1,12 @@
 # Release Notes of Library Shared UI Feedback banner
+## [0.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/feedback-banner-v0.3.0...feedback-banner-v0.4.0) (2025-03-21)
+
+
+### Features
+
+*  update shared components styles  (UFATBI- 8345) ([#7125](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7125)) ([271c78a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/271c78a6a21135ade7b576afb51ea0255bc5981c))
+* **feedback-banner:** add experimental design ([#6909](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6909)) ([16067b7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/16067b760174b1e559f20694bb6fc202a184d05d))
+
 ## [0.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/feedback-banner-v0.2.0...feedback-banner-v0.3.0) (2024-07-15)
 
 
