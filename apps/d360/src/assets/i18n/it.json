@@ -24,7 +24,7 @@
     "download": "Scarica"
   },
   "error": {
-    "valueTooSmall": "Sono ammessi solo numeri interi positivi",
+    "valueTooSmall": "Sono ammessi solo numeri positivi",
     "valueSmallerFirmBusiness": "Validated Customer Forecast è più piccolo di Firm Business",
     "unknown": "Errore sconosciuto",
     "error_with_code": "Errore: {{code}}",

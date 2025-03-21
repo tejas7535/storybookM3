@@ -24,7 +24,7 @@
     "download": "下载"
   },
   "error": {
-    "valueTooSmall": "只允许正整数",
+    "valueTooSmall": "只允许正数",
     "valueSmallerFirmBusiness": "Validated Customer Forecast 少於 Firm Business",
     "unknown": "未知错误",
     "error_with_code": "错误: {{code}}",

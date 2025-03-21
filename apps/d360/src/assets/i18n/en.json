@@ -33,7 +33,7 @@
     "download": "Download"
   },
   "error": {
-    "valueTooSmall": "Only positive integers are allowed",
+    "valueTooSmall": "Only positive numbers are allowed",
     "valueSmallerFirmBusiness": "Validated Customer Forecast is smaller than Firm Business",
     "unknown": "Unknown error",
     "error_with_code": "Error: {{code}}",
