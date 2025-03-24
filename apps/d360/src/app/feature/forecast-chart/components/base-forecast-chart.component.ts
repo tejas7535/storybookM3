@@ -10,7 +10,7 @@ import {
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { EChartsOption, SeriesOption, TooltipComponentOption } from 'echarts';
 import { XAXisOption, YAXisOption } from 'echarts/types/dist/shared';
-import { OptionDataValue } from 'echarts/types/src/util/types';
+import { TopLevelFormatterParams } from 'echarts/types/src/component/tooltip/TooltipModel';
 
 import { dimmedGrey } from '../../../shared/styles/colors';
 import { KpiSeriesOption, MonthlyChartEntry } from '../model';
@@ -77,20 +77,34 @@ export abstract class BaseForecastChartComponent {
     return {
       trigger: 'axis',
       alwaysShowContent: false,
-      valueFormatter: (value: OptionDataValue | OptionDataValue[]) =>
-        Array.isArray(value)
-          ? value
-              .map((v) =>
-                this.translocoLocaleService.localizeNumber(
-                  v as string | number,
-                  'decimal'
-                )
-              )
-              .join(',')
-          : this.translocoLocaleService.localizeNumber(
-              value as string | number,
-              'decimal'
-            ),
+      formatter: (
+        formatterInput: TopLevelFormatterParams,
+        _: string
+      ): string | HTMLElement | HTMLElement[] => {
+        const parameters = Array.isArray(formatterInput)
+          ? formatterInput
+          : [formatterInput];
+
+        let result = `${parameters[0].name}<br/>`;
+
+        parameters.forEach((param) => {
+          const marker =
+            param.marker ||
+            `<span class="inline-block mr-1 rounded-full w-2.5 h-2.5 bg-[${param.color}]"></span>`;
+
+          // @ts-expect-error we enrich the data with the actualValue property
+          const value = param?.data?.actualValue ?? param.data;
+
+          const formattedValue = this.translocoLocaleService.localizeNumber(
+            value as string | number,
+            'decimal'
+          );
+
+          result += `${marker} ${param.seriesName} <span class="float-right ml-5 font-bold">${formattedValue}</span><br/>`;
+        });
+
+        return result;
+      },
       axisPointer: {
         axis: 'auto',
         type: 'line',

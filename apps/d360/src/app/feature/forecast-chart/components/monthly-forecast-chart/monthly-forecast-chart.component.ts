@@ -10,7 +10,7 @@ import {
   LocaleType,
 } from '../../../../shared/constants/available-locales';
 import { schaefflerColor } from '../../../../shared/styles/colors';
-import { chartSeriesConfig, MonthlyChartEntry } from '../../model';
+import { chartSeriesConfig, KpiValues, MonthlyChartEntry } from '../../model';
 import { BaseForecastChartComponent } from '../base-forecast-chart.component';
 
 @Component({
@@ -32,15 +32,15 @@ export class MonthlyForecastChartComponent extends BaseForecastChartComponent {
 
   protected createSeries(data: MonthlyChartEntry[]): any[] {
     return [
-      this.createLineSeries('deliveries', data),
-      this.createLineSeries('orders', data),
-      this.createLineSeries('onTopOrder', data),
-      this.createLineSeries('onTopCapacityForecast', data),
-      this.createLineSeries('salesAmbition', data),
-      this.createLineSeries('opportunities', data),
+      this.createLineSeries(KpiValues.Deliveries, data),
+      this.createLineSeries(KpiValues.Orders, data),
+      this.createLineSeries(KpiValues.OnTopOrder, data),
+      this.createLineSeries(KpiValues.OnTopCapacityForecast, data),
+      this.createLineSeries(KpiValues.SalesAmbition, data),
+      this.createLineSeries(KpiValues.Opportunities, data),
       {
         name: translate('home.chart.legend.salesPlan'),
-        kpi: 'salesPlan',
+        kpi: KpiValues.SalesPlan,
         color: chartSeriesConfig.salesPlan.color,
         type: 'line',
         lineStyle: {
@@ -50,7 +50,10 @@ export class MonthlyForecastChartComponent extends BaseForecastChartComponent {
             type: [5, 5],
           },
         },
-        data: data.map((e) => e.salesPlan),
+        data: data.map((e) => ({
+          value: e.salesPlan,
+          actualValue: e.salesPlan,
+        })),
         zlevel: 2,
       },
       {
@@ -82,6 +85,16 @@ export class MonthlyForecastChartComponent extends BaseForecastChartComponent {
     kpi: keyof typeof chartSeriesConfig,
     entries: MonthlyChartEntry[]
   ): any {
+    let seriesData: number[] | { actualValue: number; value: number }[] =
+      entries.map((data) => data[kpi]);
+
+    if (kpi === KpiValues.SalesAmbition) {
+      seriesData = entries.map((data) => ({
+        value: data[kpi] < 0 ? 0 : data[kpi],
+        actualValue: data[kpi],
+      }));
+    }
+
     return {
       name: translate(`home.chart.legend.${kpi}`),
       kpi,
@@ -90,7 +103,7 @@ export class MonthlyForecastChartComponent extends BaseForecastChartComponent {
       color: chartSeriesConfig[kpi].color,
       symbol: 'none',
       areaStyle: { opacity: 1 },
-      data: entries.map((e) => e[kpi]),
+      data: seriesData,
       zlevel: -1,
       z: (10 - chartSeriesConfig[kpi].order) * 10,
     };

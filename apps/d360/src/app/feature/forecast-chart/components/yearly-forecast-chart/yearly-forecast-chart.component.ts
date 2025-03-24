@@ -8,6 +8,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import {
   chartSeriesConfig,
+  KpiValues,
   MonthlyChartEntry,
   YearlyChartEntry,
 } from '../../model';
@@ -30,12 +31,12 @@ export class YearlyForecastChartComponent extends BaseForecastChartComponent {
     const yearlyAggregation = this.aggregateByYear(data);
 
     return [
-      this.createBarSeries('deliveries', yearlyAggregation),
-      this.createBarSeries('orders', yearlyAggregation),
-      this.createBarSeries('onTopOrder', yearlyAggregation),
-      this.createBarSeries('onTopCapacityForecast', yearlyAggregation),
-      this.createBarSeries('salesAmbition', yearlyAggregation),
-      this.createBarSeries('opportunities', yearlyAggregation),
+      this.createBarSeries(KpiValues.Deliveries, yearlyAggregation),
+      this.createBarSeries(KpiValues.Orders, yearlyAggregation),
+      this.createBarSeries(KpiValues.OnTopOrder, yearlyAggregation),
+      this.createBarSeries(KpiValues.OnTopCapacityForecast, yearlyAggregation),
+      this.createBarSeries(KpiValues.SalesAmbition, yearlyAggregation),
+      this.createBarSeries(KpiValues.Opportunities, yearlyAggregation),
       {
         name: translate('home.chart.legend.salesPlan'),
         kpi: 'salesPlan',

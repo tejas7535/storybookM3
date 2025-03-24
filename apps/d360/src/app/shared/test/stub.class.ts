@@ -89,9 +89,15 @@ export class Stub {
       },
       'useValue'
     ),
-    MockProvider(TranslocoLocaleService, {
-      getLocale: jest.fn().mockReturnValue('en-US'),
-    }),
+    MockProvider(
+      TranslocoLocaleService,
+      {
+        getLocale: () => 'en-US',
+        localizeDate: () => '',
+        localizeNumber: () => '',
+      },
+      'useValue'
+    ),
     MockProvider(
       MatDialogRef,
       { afterClosed: () => of({ reloadData: true }), close: () => {} },
@@ -240,6 +246,7 @@ export class Stub {
     ValidationHelper.localeService = MockService(TranslocoLocaleService, {
       getLocale: jest.fn().mockReturnValue('en-US'),
       localizeDate: jest.fn().mockReturnValue(''),
+      localizeNumber: jest.fn().mockReturnValue(''),
     });
   }
 

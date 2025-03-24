@@ -28,6 +28,16 @@ export const chartSeriesConfig = {
   salesPlan: { color: textDarkGrey, isToggleable: false, order: 7 },
 } as const;
 
+export enum KpiValues {
+  Deliveries = 'deliveries',
+  Orders = 'orders',
+  OnTopOrder = 'onTopOrder',
+  OnTopCapacityForecast = 'onTopCapacityForecast',
+  SalesAmbition = 'salesAmbition',
+  Opportunities = 'opportunities',
+  SalesPlan = 'salesPlan',
+}
+
 export type ChartValues = keyof typeof chartSeriesConfig;
 
 export interface ChartEntry {
