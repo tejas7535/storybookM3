@@ -185,6 +185,15 @@ export class DemandValidationService {
                 deduplicatedMessageStrings.map((str) => JSON.parse(str).result);
 
               entry.ids.forEach((id) => {
+                const firstError: ResultMessage | undefined =
+                  deduplicatedResultMessages.find(
+                    (message) => message.messageType === 'ERROR'
+                  );
+                const firstSuccess: ResultMessage | undefined =
+                  deduplicatedResultMessages.find(
+                    (message) => message.messageType === 'SUCCESS'
+                  );
+
                 batchResponse.push({
                   id,
                   customerNumber: entry.customerNumber,
@@ -192,15 +201,15 @@ export class DemandValidationService {
                   // TODO: Only fill one error message for now, as we can only handle one error message per row
                   // the entire functionality will be refactored in the future and we get a better allocation from
                   // error message and the row
+                  hasMultipleEntries: deduplicatedResultMessages?.length > 1,
+                  hasSuccessEntries: Boolean(firstSuccess),
+                  hasErrorEntries: Boolean(firstError),
                   result:
                     deduplicatedResultMessages?.length > 0
                       ? // Take the first error message
-                        deduplicatedResultMessages.find(
-                          (message) => message.messageType === 'ERROR'
-                        ) ?? // Or use the first success message
-                        deduplicatedResultMessages.find(
-                          (message) => message.messageType === 'SUCCESS'
-                        )
+                        firstError ??
+                        // Or use the first success message
+                        firstSuccess
                       : null,
                 });
               });

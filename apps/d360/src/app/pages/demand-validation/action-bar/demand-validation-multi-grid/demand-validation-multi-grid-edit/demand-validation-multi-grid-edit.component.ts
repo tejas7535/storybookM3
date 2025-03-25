@@ -267,6 +267,27 @@ export class DemandValidationMultiGridEditComponent
     return errors;
   }
 
+  /** @inheritdoc */
+  protected setHasChangedData(
+    postResult: PostResult<DemandValidationBatchResponse>
+  ): void {
+    this.hasChangedData =
+      this.hasChangedData ||
+      postResult.response.some((response) => {
+        // we need to check, if we have success messages, this is needed because of @see demand-validation.service.ts
+
+        // Original Message:
+        // TODO: Only fill one error message for now, as we can only handle one error message per row
+        // the entire functionality will be refactored in the future and we get a better allocation from
+        // error message and the row
+        if (response?.hasMultipleEntries) {
+          return response?.hasSuccessEntries;
+        }
+
+        return response?.result?.messageType === 'SUCCESS';
+      });
+  }
+
   protected specialParseFunctionsForFields: Map<
     keyof DemandValidationBatch,
     (value: string) => string

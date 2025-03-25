@@ -7,6 +7,9 @@ export type DemandValidationBatchResponse = {
   id: string;
   customerNumber: string;
   materialNumber: string;
+  hasMultipleEntries: boolean;
+  hasSuccessEntries: boolean;
+  hasErrorEntries: boolean;
 } & ResponseWithResultMessage;
 
 export interface DemandValidationBatch {

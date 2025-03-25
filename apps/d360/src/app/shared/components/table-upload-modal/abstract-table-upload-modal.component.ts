@@ -443,11 +443,7 @@ export abstract class AbstractTableUploadModalComponent<
       const postResult = await this.applyFunction(validData, dryRun);
 
       // we set hasChangedData to true, if we have changed data.
-      this.hasChangedData =
-        this.hasChangedData ||
-        postResult.response.some(
-          (response) => response?.result?.messageType === 'SUCCESS'
-        );
+      this.setHasChangedData(postResult);
 
       // Set error messages to show them in grid
       this.backendErrors.set(this.parseErrorsFromResult(postResult));
@@ -710,6 +706,21 @@ export abstract class AbstractTableUploadModalComponent<
     // }
 
     return null;
+  }
+
+  /**
+   * Set the has changed flag, based on the messageType.
+   *
+   * @protected
+   * @param {PostResult<R>} postResult
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected setHasChangedData(postResult: PostResult<R>): void {
+    this.hasChangedData =
+      this.hasChangedData ||
+      postResult.response.some(
+        (response) => response?.result?.messageType === 'SUCCESS'
+      );
   }
 
   /**
