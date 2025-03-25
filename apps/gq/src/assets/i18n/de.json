@@ -166,11 +166,13 @@
       "item": "Position",
       "materialDescription": "Materialbeschreibung",
       "materialNumber": "Materialnummer (15-stellig)",
+      "status": "Status",
       "issueToResolve": {
         "header": "Zu Klären",
         "not_available": "Kein SAW vorhanden",
         "invalid": "SAW ist älter als {{months}} Monat{months, plural, =1 {} other {e}}"
-      }
+      },
+      "approval": "Genehmigung"
     },
     "breadcrumbs": {
       "caseView": "Case Übersicht",
@@ -299,6 +301,13 @@
         "SDG1000": "Fehler bei der Synchronisierung mit SAP",
         "DISCONTINUED": "Material hat den Status L: Typ entfällt, Abverkauf prüfen"
       }
+    },
+    "sqvCheckStatusLabels": {
+      "sqvCheckStatus": "{sqvCheckStatus,select,OPEN{Offen}IN_PROGRESS{In Bearbeitung}CONFIRMED{Bestätigt}CANCELLED{Abgesagt} other{}}"
+    },
+    "sqvApprovalStatusLabels": {
+      "sqvApprovalStatus": "{sqvApprovalStatus,select,APPROVAL_NEEDED{Genehmige}APPROVED{Genehmigt} other{}}",
+      "sqvApprovalStatusForFilter": "{sqvApprovalStatus,select,APPROVAL_NEEDED{Genehmige}APPROVED{Genehmigt}NO_APPROVAL{Keine Genehmigung benötigt} other{}}"
     },
     "customStatusBar": {
       "buttons": {

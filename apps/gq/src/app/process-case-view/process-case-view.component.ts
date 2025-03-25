@@ -6,11 +6,11 @@ import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade'
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { RolesFacade } from '@gq/core/store/facades/roles.facade';
 import { Tab } from '@gq/shared/components/tabs-header/tab.model';
+import { TagType } from '@gq/shared/models';
 import { Quotation } from '@gq/shared/models/quotation/quotation.model';
 import { SAP_SYNC_STATUS } from '@gq/shared/models/quotation-detail/sap-sync-status.enum';
 import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
-import { TagType } from '@gq/shared/utils/misc.utils';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 

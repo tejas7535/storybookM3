@@ -6,6 +6,7 @@ import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade'
 import { QuotationIdentifier } from '@gq/core/store/active-case/models/quotation-identifier.model';
 import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { RolesFacade } from '@gq/core/store/facades/roles.facade';
+import { TagType } from '@gq/shared/models';
 import { ApprovalWorkflowInformation } from '@gq/shared/models/approval/approval-cockpit-data.model';
 import { Quotation } from '@gq/shared/models/quotation/quotation.model';
 import { SAP_SYNC_STATUS } from '@gq/shared/models/quotation-detail/sap-sync-status.enum';
@@ -13,7 +14,6 @@ import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.
 import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { ShipToParty } from '@gq/shared/services/rest/quotation/models/ship-to-party';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
-import { TagType } from '@gq/shared/utils/misc.utils';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockProvider } from 'ng-mocks';
@@ -65,7 +65,7 @@ describe('ProcessCaseViewComponent', () => {
         quotationIdentifier$: of({ gqId: 1234 } as QuotationIdentifier),
         quotationSapSyncStatus$: of(SAP_SYNC_STATUS.NOT_SYNCED),
         tabsForProcessCaseView$: of([]),
-        tagType$: of('info' as TagType),
+        tagType$: of(TagType.INFO),
         customerLoading$: customerLoadingSubject.asObservable(),
         quotationLoading$: quotationLoadingSubject.asObservable(),
         updateQuotation: jest.fn(),

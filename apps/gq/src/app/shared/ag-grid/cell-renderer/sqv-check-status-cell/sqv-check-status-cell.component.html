@@ -1,0 +1,12 @@
+<div
+  class="flex h-full items-center overflow-hidden"
+  *transloco="let t; read: 'shared.sqvCheckStatusLabels'"
+>
+  <schaeffler-tag
+    [type]="tagType"
+    [styleClass]="'uppercase'"
+    [withDot]="false"
+    [value]="t('sqvCheckStatus', { sqvCheckStatus: sqvCheckStatus })"
+  >
+  </schaeffler-tag>
+</div>

@@ -166,11 +166,13 @@
       "item": "Position",
       "materialDescription": "Material Description",
       "materialNumber": "Material Number (15-digits)",
+      "status": "Status",
       "issueToResolve": {
         "header": "Issue to resolve",
         "not_available": "No SQV is available",
         "invalid": "SQV is older than {{months}} month{months, plural, =1 {} other {s}}"
-      }
+      },
+      "approval": "Approval"
     },
     "breadcrumbs": {
       "caseView": "Quotation Cases",
@@ -299,6 +301,13 @@
         "SDG1000": "Error syncing with SAP",
         "DISCONTINUED": "Material with status L: Type discontinued, check sales availability"
       }
+    },
+    "sqvCheckStatusLabels": {
+      "sqvCheckStatus": "{sqvCheckStatus,select,OPEN{Open}IN_PROGRESS{In Progress}CONFIRMED{Confirmed}CANCELLED{Cancelled} other{}}"
+    },
+    "sqvApprovalStatusLabels": {
+      "sqvApprovalStatus": "{sqvApprovalStatus,select,APPROVAL_NEEDED{Approve}APPROVED{Approved} other{}}",
+      "sqvApprovalStatusForFilter": "{sqvApprovalStatus,select,APPROVAL_NEEDED{Approve}APPROVED{Approved}NO_APPROVAL{No Approval Needed} other{}}"
     },
     "customStatusBar": {
       "buttons": {

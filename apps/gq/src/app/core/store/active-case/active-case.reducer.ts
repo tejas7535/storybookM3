@@ -9,8 +9,12 @@ import {
 } from '@gq/shared/models';
 import { QuotationPricingOverview } from '@gq/shared/models/quotation';
 import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
-import { QuotationDetailCosts } from '@gq/shared/models/quotation-detail/cost';
+import {
+  QuotationDetailCosts,
+  SqvCheckStatus,
+} from '@gq/shared/models/quotation-detail/cost';
 import { RecalculationReasons } from '@gq/shared/models/quotation-detail/cost/recalculation-reasons.enum';
+import { SqvApprovalStatus } from '@gq/shared/models/quotation-detail/cost/sqv-approval-status.enum';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
 import { GREATER_CHINA_SALES_ORGS } from '../approval/model/greater-china-sales-orgs';
@@ -674,15 +678,36 @@ export const activeCaseFeature = createFeature({
         )
     );
 
+    // TODO: Comment in when GQUOTE-5888 is implemented
+    // const getOpenItems = createSelector(
+    //   selectQuotation,
+    //   (quotation: Quotation): QuotationDetail[] =>
+    //     quotation?.quotationDetails.filter(
+    //       (detail: QuotationDetail) =>
+    //         detail.detailCosts?.sqvRecalculationReason &&
+    //         detail.detailCosts.sqvRecalculationReason !==
+    //           RecalculationReasons.VALID
+    //     )
+    // );
+
+    // TODO: this ist testCode to see things, without BE needed see GQUOTE-5888
     const getOpenItems = createSelector(
       selectQuotation,
       (quotation: Quotation): QuotationDetail[] =>
-        quotation?.quotationDetails.filter(
-          (detail: QuotationDetail) =>
-            detail.detailCosts?.sqvRecalculationReason &&
-            detail.detailCosts.sqvRecalculationReason !==
-              RecalculationReasons.VALID
-        )
+        quotation?.quotationDetails.map((item: QuotationDetail) => ({
+          ...item,
+          detailCosts: {
+            sqvRecalculationReason: getRandomEnumValue(
+              RecalculationReasons
+            ) as RecalculationReasons,
+            sqvApprovalStatus: getRandomEnumValue(
+              SqvApprovalStatus
+            ) as SqvApprovalStatus,
+            sqvCheckStatus: getRandomEnumValue(
+              SqvCheckStatus
+            ) as SqvCheckStatus,
+          },
+        }))
     );
 
     const hasOpenItems = createSelector(

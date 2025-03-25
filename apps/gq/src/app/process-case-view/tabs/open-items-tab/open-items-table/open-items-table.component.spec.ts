@@ -16,6 +16,7 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
+import { GetContextMenuItemsParams } from 'ag-grid-enterprise';
 import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -79,5 +80,23 @@ describe('OpenItemsTableComponent', () => {
         m.expect(component.rowData$).toBeObservable(m.cold('(a|)', { a: [] }));
       })
     );
+  });
+
+  describe('methods', () => {
+    const params: GetContextMenuItemsParams = {
+      column: { getColId: jest.fn(() => 'anyColId') },
+      defaultItems: ['item1', 'item2'],
+    } as unknown as GetContextMenuItemsParams;
+
+    beforeEach(() => {
+      component['columnUtilityService'].getCopyCellContentContextMenuItem =
+        jest.fn(() => 'item3');
+    });
+    test('should add item to context menu', () => {
+      const result = component.getContextMenuItems(params);
+      expect(result).toBeDefined();
+      expect(result.length).toBe(1);
+      expect(result[0]).toBe('item3');
+    });
   });
 });

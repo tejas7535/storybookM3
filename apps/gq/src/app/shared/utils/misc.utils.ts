@@ -7,6 +7,7 @@ import {
   Keyboard,
   QuotationStatus,
   SAP_SYNC_STATUS,
+  TagType,
 } from '@gq/shared/models';
 import { SelectableValue } from '@gq/shared/models/selectable-value.model';
 // eslint-disable-next-line unicorn/prefer-node-protocol
@@ -177,42 +178,34 @@ export const addMaterialFilterToQueryParams = (
     }
   }
 };
-export type TagType =
-  | 'error'
-  | 'primary'
-  | 'info'
-  | 'warning'
-  | 'success'
-  | 'neutral'
-  | 'category2'
-  | 'category3';
+
 export const getTagTypeByStatus = (
   status: QuotationStatus | SAP_SYNC_STATUS
 ): TagType => {
   switch (status) {
     case QuotationStatus.IN_APPROVAL:
     case SAP_SYNC_STATUS.SYNCED: {
-      return 'info';
+      return TagType.INFO;
     }
     case QuotationStatus.APPROVED: {
-      return 'success';
+      return TagType.SUCCESS;
     }
 
     case QuotationStatus.REJECTED:
     case SAP_SYNC_STATUS.SYNC_FAILED: {
-      return 'error';
+      return TagType.ERROR;
     }
 
     case SAP_SYNC_STATUS.NOT_SYNCED: {
-      return 'neutral';
+      return TagType.NEUTRAL;
     }
     case SAP_SYNC_STATUS.SYNC_PENDING:
     case SAP_SYNC_STATUS.PARTIALLY_SYNCED: {
-      return 'warning';
+      return TagType.WARNING;
     }
 
     default: {
-      return 'info';
+      return TagType.INFO;
     }
   }
 };

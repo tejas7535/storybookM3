@@ -7,5 +7,7 @@
   [localeText]="localeText$ | ngrxPush"
   [rowSelection]="rowSelection"
   columnMenu="legacy"
+  [gridOptions]="gridOptions"
   [rowData]="rowData$ | ngrxPush"
+  [getContextMenuItems]="getContextMenuItems.bind(this)"
 ></ag-grid-angular>

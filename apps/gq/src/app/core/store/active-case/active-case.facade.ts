@@ -16,13 +16,14 @@ import {
   QuotationDetail,
   QuotationStatus,
   SAP_SYNC_STATUS,
+  TagType,
 } from '@gq/shared/models';
 import { QuotationPricingOverview } from '@gq/shared/models/quotation';
 import { QuotationDetailCosts } from '@gq/shared/models/quotation-detail/cost';
 import { MaterialComparableCost } from '@gq/shared/models/quotation-detail/material-comparable-cost.model';
 import { MaterialSalesOrg } from '@gq/shared/models/quotation-detail/material-sales-org.model';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
-import { getTagTypeByStatus, TagType } from '@gq/shared/utils/misc.utils';
+import { getTagTypeByStatus } from '@gq/shared/utils/misc.utils';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 

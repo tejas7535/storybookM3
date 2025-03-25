@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
-import { getTagTypeByStatus, TagType } from '@gq/shared/utils/misc.utils';
+import { TagType } from '@gq/shared/models/tag-type.enum';
+import { getTagTypeByStatus } from '@gq/shared/utils/misc.utils';
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { SAP_SYNC_STATUS } from '../../../models/quotation-detail/sap-sync-status.enum';

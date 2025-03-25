@@ -16,7 +16,11 @@ import { ApprovalFacade } from '@gq/core/store/approval/approval.facade';
 import { MaterialStock } from '@gq/core/store/reducers/models';
 import { RfqDataFacade } from '@gq/core/store/rfq-data/rfq-data.facade';
 import { PricingAssistantModalComponent } from '@gq/f-pricing/pricing-assistant-modal/pricing-assistant-modal.component';
-import { ApprovalWorkflowInformation, Quotation } from '@gq/shared/models';
+import {
+  ApprovalWorkflowInformation,
+  Quotation,
+  TagType,
+} from '@gq/shared/models';
 import {
   PlantMaterialDetail,
   QuotationDetail,
@@ -24,7 +28,6 @@ import {
 } from '@gq/shared/models/quotation-detail';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
-import { TagType } from '@gq/shared/utils/misc.utils';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 

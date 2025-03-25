@@ -1,0 +1,32 @@
+<div
+  class="flex h-full items-center overflow-hidden"
+  *transloco="let t; read: 'shared.sqvApprovalStatusLabels'"
+>
+  @if (sqvApprovalStatus !== 'NO_APPROVAL') {
+    <schaeffler-tag
+      [value]="
+        t('sqvApprovalStatus', {
+          sqvApprovalStatus: sqvApprovalStatus
+        })
+      "
+      [type]="tagType"
+      [withBorder]="sqvApprovalStatus !== 'APPROVED'"
+      [withDot]="false"
+      [styleClass]="
+        sqvApprovalStatus === 'APPROVED'
+          ? '!rounded-lg  !bg-[#D2E0DB] !text-[#002919] cursor-pointer'
+          : '!rounded-lg !bg-[white] !border-[#828282] !text-[#828282] cursor-pointer'
+      "
+    >
+      @if (sqvApprovalStatus === 'APPROVED') {
+        <mat-icon
+          [color]="'secondary'"
+          class="order-first mr-1 !h-4 !text-[16px] !w-5"
+          [inline]="'inline'"
+        >
+          check
+        </mat-icon>
+      }
+    </schaeffler-tag>
+  }
+</div>

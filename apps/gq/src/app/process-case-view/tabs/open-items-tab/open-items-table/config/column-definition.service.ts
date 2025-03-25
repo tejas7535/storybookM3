@@ -1,14 +1,20 @@
 import { inject } from '@angular/core';
 
 import { PositionIdComponent } from '@gq/shared/ag-grid/cell-renderer/position-id/position-id.component';
+import { SqvApprovalStatusCellComponent } from '@gq/shared/ag-grid/cell-renderer/sqv-approval-status-cell/sqv-approval-status-cell.component';
+import { SqvCheckStatusCellComponent } from '@gq/shared/ag-grid/cell-renderer/sqv-check-status-cell/sqv-check-status-cell.component';
 import { FILTER_PARAMS } from '@gq/shared/ag-grid/constants/filters';
 import { ColumnUtilityService } from '@gq/shared/ag-grid/services/column-utility.service';
 import { RecalculationReasons } from '@gq/shared/models/quotation-detail/cost/recalculation-reasons.enum';
 import { translate } from '@jsverse/transloco';
-import { ColDef, ValueGetterParams } from 'ag-grid-enterprise';
+import {
+  ColDef,
+  ValueFormatterParams,
+  ValueGetterParams,
+} from 'ag-grid-enterprise';
 
 import { OpenItemsColumnFields } from './column-fields.enum';
-import { COMPONENTS, DEFAULT_COL_DEF } from './default-config';
+import { COMPONENTS, DEFAULT_COL_DEF, GRID_OPTIONS } from './default-config';
 
 export class ColumnDefinitionService {
   private readonly columnUtilityService: ColumnUtilityService =
@@ -16,6 +22,7 @@ export class ColumnDefinitionService {
 
   COMPONENTS = COMPONENTS;
   DEFAULT_COL_DEF = DEFAULT_COL_DEF;
+  GRID_OPTIONS = GRID_OPTIONS;
 
   COLUMN_DEFS: ColDef[] = [
     {
@@ -30,12 +37,14 @@ export class ColumnDefinitionService {
           Number.parseInt(a, 10) - Number.parseInt(b, 10),
       },
       flex: 0.25,
+      suppressHeaderMenuButton: true,
     },
     {
       headerName: translate('shared.openItemsTable.materialDescription'),
       field: OpenItemsColumnFields.MATERIAL_DESCRIPTION,
       filterParams: FILTER_PARAMS,
       flex: 0.25,
+      suppressHeaderMenuButton: true,
     },
     {
       headerName: translate('shared.openItemsTable.materialNumber'),
@@ -45,12 +54,53 @@ export class ColumnDefinitionService {
       valueGetter: (params) => this.columnUtilityService.materialGetter(params),
       filterParams: FILTER_PARAMS,
       flex: 0.25,
+      suppressHeaderMenuButton: true,
+    },
+    {
+      headerName: translate('shared.openItemsTable.status'),
+      field: OpenItemsColumnFields.STATUS,
+      filterParams: {
+        ...FILTER_PARAMS,
+        valueFormatter: (params: ValueFormatterParams) =>
+          translate('shared.sqvCheckStatusLabels.sqvCheckStatus', {
+            sqvCheckStatus: params.value,
+          }),
+      },
+      valueFormatter: (params: ValueFormatterParams) =>
+        translate('shared.sqvCheckStatusLabels.sqvCheckStatus', {
+          sqvCheckStatus: params.value,
+        }),
+      cellRenderer: SqvCheckStatusCellComponent,
+      flex: 0.25,
+      suppressHeaderMenuButton: true,
     },
     {
       headerName: translate('shared.openItemsTable.issueToResolve.header'),
       field: OpenItemsColumnFields.ISSUE_TO_RESOLVE,
       valueGetter: (params) => this.getSqvStatusText(params),
       flex: 0.25,
+      suppressHeaderMenuButton: true,
+    },
+    {
+      headerName: translate('shared.openItemsTable.approval'),
+      field: OpenItemsColumnFields.APPROVAL,
+      filterParams: {
+        ...FILTER_PARAMS,
+        valueFormatter: (params: ValueFormatterParams) =>
+          translate(
+            'shared.sqvApprovalStatusLabels.sqvApprovalStatusForFilter',
+            {
+              sqvApprovalStatus: params.value,
+            }
+          ),
+      },
+      valueFormatter: (params: ValueFormatterParams) =>
+        translate('shared.sqvApprovalStatusLabels.sqvApprovalStatus', {
+          sqvApprovalStatus: params.value,
+        }),
+      cellRenderer: SqvApprovalStatusCellComponent,
+      flex: 0.25,
+      suppressHeaderMenuButton: true,
     },
   ];
 

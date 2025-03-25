@@ -1,0 +1,5 @@
+export enum SqvApprovalStatus {
+  NO_APPROVAL = 'NO_APPROVAL',
+  APPROVAL_NEEDED = 'APPROVAL_NEEDED',
+  APPROVED = 'APPROVED',
+}

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-import { QuotationStatus } from '@gq/shared/models';
-import { getTagTypeByStatus, TagType } from '@gq/shared/utils/misc.utils';
+import { QuotationStatus, TagType } from '@gq/shared/models';
+import { getTagTypeByStatus } from '@gq/shared/utils/misc.utils';
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
 @Component({
