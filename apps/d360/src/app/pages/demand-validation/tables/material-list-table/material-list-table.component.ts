@@ -43,7 +43,6 @@ import { TableToolbarComponent } from '../../../../shared/components/ag-grid/tab
 import { GlobalSelectionStateService } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
 import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
-import { DateFilterComponent } from './../../../../shared/components/ag-grid/filters/mat-date-filter/date-filter.component';
 import { getColumnDefinitions } from './column-definitions';
 
 @Component({
@@ -83,10 +82,6 @@ export class MaterialListTableComponent {
 
   protected selectedMaterialListEntry = signal<MaterialListEntry>(null);
   protected gridApi: GridApi;
-
-  protected components: Record<string, any> = {
-    agDateInput: DateFilterComponent,
-  };
 
   public constructor() {
     effect(() =>

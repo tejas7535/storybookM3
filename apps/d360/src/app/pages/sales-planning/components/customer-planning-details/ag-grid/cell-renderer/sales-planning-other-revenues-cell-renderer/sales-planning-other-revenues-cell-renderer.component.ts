@@ -39,7 +39,7 @@ export class SalesPlanningOtherRevenuesCellRendererComponent<
 
   private readonly dialog = inject(MatDialog);
   private readonly salesPlanningService = inject(SalesPlanningService);
-  private readonly destoryRef = inject(DestroyRef);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly authService = inject(AuthService);
   private readonly translationKeyPrefix =
     'sales_planning.planning_details.edit_modal';
@@ -116,7 +116,7 @@ export class SalesPlanningOtherRevenuesCellRendererComponent<
             this.onReloadData();
           }
         }),
-        takeUntilDestroyed(this.destoryRef)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }

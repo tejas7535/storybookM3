@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 
-import { take, tap } from 'rxjs';
+import { filter, switchMap, take, tap } from 'rxjs';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -17,18 +17,18 @@ import { UserService } from '../../shared/services/user.service';
   templateUrl: './root.component.html',
 })
 export class RootComponent implements OnInit {
-  private readonly destoryRef = inject(DestroyRef);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly userService = inject(UserService);
   private readonly router = inject(Router);
-  public ngOnInit() {
-    this.userService
-      .getStartPage()
+
+  public ngOnInit(): void {
+    this.userService.settingsLoaded$
       .pipe(
+        filter((loaded: boolean) => loaded),
         take(1),
-        tap((startPage: AppRouteValue) => {
-          this.router.navigate([startPage]);
-        }),
-        takeUntilDestroyed(this.destoryRef)
+        switchMap(() => this.userService.getStartPage()),
+        tap((startPage: AppRouteValue) => this.router.navigate([startPage])),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }

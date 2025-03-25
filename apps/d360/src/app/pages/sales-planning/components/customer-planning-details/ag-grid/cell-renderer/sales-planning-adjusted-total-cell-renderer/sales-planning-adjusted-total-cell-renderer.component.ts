@@ -43,7 +43,7 @@ export class SalesPlanningAdjustedTotalCellRendererComponent<
   private readonly numberWithoutFractionDigitsPipe = inject(
     NumberWithoutFractionDigitsPipe
   );
-  private readonly destoryRef = inject(DestroyRef);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly authService = inject(AuthService);
   private readonly translationKeyPrefix =
     'sales_planning.planning_details.edit_modal';
@@ -138,7 +138,7 @@ export class SalesPlanningAdjustedTotalCellRendererComponent<
             this.onReloadData();
           }
         }),
-        takeUntilDestroyed(this.destoryRef)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }

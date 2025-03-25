@@ -35,7 +35,6 @@ import {
   sideBar,
 } from '../../../../shared/ag-grid/grid-defaults';
 import { ActionsMenuCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
-import { DateFilterComponent } from '../../../../shared/components/ag-grid/filters/mat-date-filter/date-filter.component';
 import { NoDataOverlayComponent } from '../../../../shared/components/ag-grid/no-data/no-data.component';
 import { TableToolbarComponent } from '../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
 import { GlobalSelectionStateService } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
@@ -72,10 +71,6 @@ export class AlertTableComponent {
     GlobalSelectionStateService
   );
   private readonly translocoLocaleService = inject(TranslocoLocaleService);
-
-  protected components: Record<string, any> = {
-    agDateInput: DateFilterComponent,
-  };
 
   protected readonly noDataOverlayComponent = NoDataOverlayComponent;
   protected readonly data = this.alertService.getDataFetchedEvent();

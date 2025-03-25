@@ -40,7 +40,6 @@ import {
   formatFilterModelForAgGrid,
   formatFilterModelForBackend,
 } from '../../../../../shared/ag-grid/grid-filter-model';
-import { DateFilterComponent } from '../../../../../shared/components/ag-grid/filters/mat-date-filter/date-filter.component';
 import { TableToolbarComponent } from '../../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
 import {
   GlobalSelectionState,
@@ -87,10 +86,6 @@ export class MaterialCustomerTableComponent implements OnInit {
   public selectionFilter = input.required<GlobalSelectionState>();
 
   public totalRowCount = signal<number>(null);
-
-  protected components: Record<string, any> = {
-    agDateInput: DateFilterComponent,
-  };
 
   public gridApi!: GridApi;
 

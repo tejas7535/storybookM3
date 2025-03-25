@@ -51,6 +51,7 @@ import {
   DATE_FNS_LOOKUP,
   LocaleType,
 } from './shared/constants/available-locales';
+import { UserService } from './shared/services/user.service';
 import { ValidationHelper } from './shared/utils/validation/validation-helper';
 
 @Component({
@@ -80,6 +81,7 @@ export class AppComponent implements OnInit {
     TranslocoLocaleService
   );
   private readonly alertService: AlertService = inject(AlertService);
+  private readonly userService: UserService = inject(UserService);
   private readonly router: Router = inject(Router);
   private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private readonly globalSelectionStateService: GlobalSelectionStateService =
@@ -209,6 +211,7 @@ export class AppComponent implements OnInit {
       .subscribe();
 
     this.alertService.init();
+    this.userService.init();
 
     // add translocoLocaleService to static class.
     ValidationHelper.localeService = this.translocoLocaleService;

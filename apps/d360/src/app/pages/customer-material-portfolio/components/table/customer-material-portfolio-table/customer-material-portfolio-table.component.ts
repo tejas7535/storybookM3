@@ -61,7 +61,6 @@ import {
   customerMaterialPortfolioChangeAllowedRoles,
 } from '../../../../../shared/utils/auth/roles';
 import { CMPAction, CMPModal, statusActions } from '../status-actions';
-import { DateFilterComponent } from './../../../../../shared/components/ag-grid/filters/mat-date-filter/date-filter.component';
 import { CMPColId, columnDefinitions } from './column-definitions';
 
 export interface FilterModel {
@@ -110,10 +109,6 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
     signal<CriteriaFields>(null);
 
   protected gridApi: GridApi | null = null;
-
-  protected components: Record<string, any> = {
-    agDateInput: DateFilterComponent,
-  };
 
   protected getRowIdFn: GetRowIdFunc = (params: GetRowIdParams) =>
     `${params.data.customerNumber}-${params.data.materialNumber}`;

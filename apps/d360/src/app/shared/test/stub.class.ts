@@ -244,9 +244,9 @@ export class Stub {
 
   private static initValidationHelper(): void {
     ValidationHelper.localeService = MockService(TranslocoLocaleService, {
-      getLocale: jest.fn().mockReturnValue('en-US'),
-      localizeDate: jest.fn().mockReturnValue(''),
-      localizeNumber: jest.fn().mockReturnValue(''),
+      getLocale: () => 'en-US',
+      localizeDate: () => '',
+      localizeNumber: () => '',
     });
   }
 
@@ -271,12 +271,14 @@ export class Stub {
     post?: any;
     request?: any;
     delete?: any;
+    put?: any;
   }): HttpClient {
     return {
       get: () => of(data?.get ?? {}),
       post: () => of(data?.post ?? {}),
       request: () => of(data?.request ?? {}),
       delete: () => of(data?.delete ?? {}),
+      put: () => of(data?.put ?? {}),
     } as any;
   }
 
@@ -490,6 +492,7 @@ export class Stub {
           return of([]);
         },
         parseUrl: jest.fn(),
+        navigate: jest.fn(),
       },
       'useValue'
     );
@@ -530,23 +533,31 @@ export class Stub {
   public static getUserServiceProvider(data?: {
     filterVisibleRoutes?: any;
     startPage?: any;
+    userSettings?: any;
     region?: any;
     getStartPage?: any;
-    saveStartPage?: any;
+    updateUserSettings?: any;
     loadRegion?: any;
   }): ValueProvider {
     return MockProvider(
       UserService,
       {
+        settingsLoaded$: new BehaviorSubject<boolean>(false),
+        userSettings: signal(
+          data?.userSettings ?? {
+            startPage: null,
+            demandValidation: null,
+          }
+        ),
         region: data?.region ?? signal(''),
         startPage: data?.startPage ?? signal(AppRoutePath.OverviewPage),
         filterVisibleRoutes: jest
           .fn()
           .mockReturnValue(data?.filterVisibleRoutes ?? []),
         getStartPage: jest.fn().mockReturnValue(of(data?.getStartPage ?? null)),
-        saveStartPage: jest
+        updateUserSettings: jest
           .fn()
-          .mockReturnValue(of(data?.saveStartPage ?? null)),
+          .mockReturnValue(of(data?.updateUserSettings ?? null)),
         loadRegion: jest.fn(() => of(data?.loadRegion ?? '')),
       },
       'useValue'

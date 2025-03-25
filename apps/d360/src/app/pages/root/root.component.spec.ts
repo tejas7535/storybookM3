@@ -1,34 +1,58 @@
-import { Router } from '@angular/router';
-
 import { of } from 'rxjs';
 
-import { createComponentFactory, mockProvider } from '@ngneat/spectator/jest';
-
 import { AppRoutePath } from '../../app.routes.enum';
-import { UserService } from '../../shared/services/user.service';
+import { Stub } from '../../shared/test/stub.class';
 import { RootComponent } from './root.component';
 
 describe('RootComponent', () => {
-  const mockProviders = [mockProvider(Router, { navigate: jest.fn() })];
-  const createComponent = createComponentFactory({
-    component: RootComponent,
-    providers: mockProviders,
-  });
+  let component: RootComponent;
 
-  it('should route european users to OverviewPage', () => {
-    const testRoute = AppRoutePath.TodoPage;
-    const spectator = createComponent({
+  beforeEach(() => {
+    component = Stub.get<RootComponent>({
+      component: RootComponent,
       providers: [
-        ...mockProviders,
-        mockProvider(UserService, {
-          getStartPage() {
-            return of(testRoute);
-          },
-        }),
+        Stub.getAuthServiceProvider(),
+        Stub.getUserServiceProvider(),
+        Stub.getRouterProvider(),
       ],
     });
-    const router = spectator.inject(Router);
+  });
 
-    expect(router.navigate).toHaveBeenCalledWith([testRoute]);
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    it('should navigate to start page on settings loaded', () => {
+      const startPage = AppRoutePath.OverviewPage;
+      component['userService'].settingsLoaded$.next(true);
+      jest
+        .spyOn(component['userService'], 'getStartPage')
+        .mockReturnValue(of(startPage));
+      jest
+        .spyOn(component['router'], 'navigate')
+        .mockImplementation(() => Promise.resolve(true));
+
+      component.ngOnInit();
+
+      expect(component['userService'].settingsLoaded$).toBeTruthy();
+      expect(component['userService'].getStartPage).toHaveBeenCalled();
+      expect(component['router'].navigate).toHaveBeenCalledWith([startPage]);
+    });
+
+    it('should not navigate if settings are not loaded', () => {
+      jest
+        .spyOn(component['userService'], 'getStartPage')
+        .mockReturnValue(of(AppRoutePath.OverviewPage));
+      jest
+        .spyOn(component['router'], 'navigate')
+        .mockImplementation(() => Promise.resolve(true));
+
+      component['userService'].settingsLoaded$.next(false);
+      component.ngOnInit();
+
+      expect(component['userService'].getStartPage).not.toHaveBeenCalled();
+      expect(component['router'].navigate).not.toHaveBeenCalled();
+    });
   });
 });

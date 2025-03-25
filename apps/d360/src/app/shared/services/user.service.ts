@@ -1,38 +1,81 @@
 import { HttpClient } from '@angular/common/http';
-import { DestroyRef, inject, Injectable, signal } from '@angular/core';
+import {
+  DestroyRef,
+  inject,
+  Injectable,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
-import { catchError, map, Observable, of, switchMap, take, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  EMPTY,
+  finalize,
+  map,
+  Observable,
+  of,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 
 import { CustomRoute } from '../../app.routes';
 import { AppRoutePath, AppRouteValue } from '../../app.routes.enum';
+import { KpiType } from '../../feature/demand-validation/model';
 import { Region } from '../../feature/global-selection/model';
+import { FilterValues } from '../../pages/demand-validation/tables/demand-validation-table/column-definitions';
 import { AuthService } from '../utils/auth/auth.service';
 import { checkRoles } from '../utils/auth/roles';
 import { SnackbarService } from '../utils/service/snackbar.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+export enum UserSettingsKey {
+  StartPage = 'startPage',
+  DemandValidation = 'demandValidation',
+}
+export enum DemandValidationUserSettingsKey {
+  Workbench = 'workbench',
+}
+
+export interface DemandValidationSettings {
+  [DemandValidationUserSettingsKey.Workbench]: Omit<
+    FilterValues,
+    KpiType.ValidatedForecast
+  >;
+}
+
+export interface UserSettings {
+  [UserSettingsKey.StartPage]: AppRouteValue | null;
+  [UserSettingsKey.DemandValidation]: DemandValidationSettings | null;
+}
+
+@Injectable({ providedIn: 'root' })
 export class UserService {
   private readonly USER_REGION_API = 'api/user/region';
   private readonly http: HttpClient = inject(HttpClient);
   private readonly snackbarService: SnackbarService = inject(SnackbarService);
   private readonly authService = inject(AuthService);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly START_PAGE_API = 'api/user-settings/general';
+  private readonly USER_SETTINGS_API = 'api/user-settings/general';
 
   private readonly userRoles = toSignal(this.authService.getUserRoles());
 
-  public readonly startPage = signal<AppRouteValue>(null);
-
   public readonly region = signal<Region>(null);
+  public readonly userSettings: WritableSignal<UserSettings | null> = signal({
+    startPage: null,
+    demandValidation: null,
+  });
+  public settingsLoaded$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
 
-  public constructor() {
-    this.loadRegion().pipe(take(1), takeUntilDestroyed()).subscribe();
-    this.getStartPage().pipe(take(1), takeUntilDestroyed()).subscribe();
+  public init(): void {
+    this.loadRegion()
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe();
+    this.loadUserSettings();
   }
 
   public loadRegion() {
@@ -81,19 +124,38 @@ export class UserService {
     return routes?.filter((element) => visibilityFilter(element));
   }
 
-  public saveStartPage(startPage: AppRouteValue): Observable<unknown> {
-    return this.http.post(this.START_PAGE_API, { startPage }).pipe(
-      tap(() => this.startPage.set(startPage)),
-      takeUntilDestroyed(this.destroyRef)
-    );
+  public updateUserSettings<UserSettingsKey extends keyof UserSettings>(
+    key: UserSettingsKey,
+    value: UserSettings[UserSettingsKey]
+  ): void {
+    this.userSettings.update((settings) => ({ ...settings, [key]: value }));
+    this.saveUserSettings();
   }
 
-  private loadStartPage(): Observable<AppRouteValue> {
-    return this.http.get<Record<string, any>>(this.START_PAGE_API).pipe(
-      map((result) => result && (result?.startPage as AppRouteValue)),
-      catchError(() => of(null)),
-      takeUntilDestroyed(this.destroyRef)
-    );
+  private saveUserSettings(): void {
+    this.http
+      .put(this.USER_SETTINGS_API, this.userSettings())
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe();
+  }
+
+  private loadUserSettings(): void {
+    this.http
+      .get<UserSettings>(this.USER_SETTINGS_API)
+      .pipe(
+        take(1),
+        tap((result) =>
+          this.userSettings.update((settings) => ({
+            ...settings,
+            ...(result || ({} as any)),
+          }))
+        ),
+        switchMap(() => this.getStartPage()),
+        finalize(() => this.settingsLoaded$.next(true)),
+        catchError(() => EMPTY),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   /*
@@ -101,27 +163,27 @@ export class UserService {
    * If the user has configured a start-page this is returned
    * Otherwise the default startpage for the corresponding region is returned.
    */
-  public getStartPage() {
-    return this.loadStartPage().pipe(
-      switchMap((startPage) => {
-        if (startPage) {
-          this.startPage.set(startPage);
+  public getStartPage(): Observable<AppRouteValue> {
+    return of(this.userSettings()).pipe(
+      switchMap((settings) =>
+        settings?.startPage
+          ? of(settings.startPage as AppRouteValue)
+          : this.loadRegion().pipe(
+              map((region) => {
+                const fallBackPage =
+                  region === Region.Europe
+                    ? AppRoutePath.OverviewPage
+                    : AppRoutePath.CustomerMaterialDetailsPage;
 
-          return of(startPage);
-        } else {
-          return this.loadRegion().pipe(
-            map((region) => {
-              const fallBackPage =
-                region === Region.Europe
-                  ? AppRoutePath.OverviewPage
-                  : AppRoutePath.CustomerMaterialDetailsPage;
-              this.startPage.set(fallBackPage);
+                this.userSettings.update((currentSettings) => ({
+                  ...currentSettings,
+                  [UserSettingsKey.StartPage]: fallBackPage,
+                }));
 
-              return fallBackPage;
-            })
-          );
-        }
-      }),
+                return fallBackPage;
+              })
+            )
+      ),
       takeUntilDestroyed(this.destroyRef)
     );
   }

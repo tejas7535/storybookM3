@@ -7,6 +7,7 @@ import {
 
 import { GlobalSelectionUtils } from '../../feature/global-selection/global-selection.utils';
 import { CustomerMaterialNumberCellRendererComponent } from '../components/ag-grid/cell-renderer/customer-material-number-cell-renderer/customer-material-number-cell-renderer.component';
+import { DateFilterComponent } from '../components/ag-grid/filters/mat-date-filter/date-filter.component';
 import { getNumberFromLocale } from '../utils/number';
 import { ValidationHelper } from '../utils/validation/validation-helper';
 import { AgGridFilterType } from './grid-types';
@@ -24,6 +25,7 @@ const tableDefaultProps: GridOptions = {
   components: {
     customerMaterialNumberCellRenderer:
       CustomerMaterialNumberCellRendererComponent,
+    agDateInput: DateFilterComponent,
   },
 
   defaultColDef: {

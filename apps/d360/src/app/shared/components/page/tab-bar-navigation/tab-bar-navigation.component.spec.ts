@@ -14,7 +14,9 @@ describe('TabBarNavigationComponent', () => {
       component: TabBarNavigationComponent,
       providers: [
         Stub.getAlertServiceProvider(),
-        Stub.getUserServiceProvider(),
+        Stub.getUserServiceProvider({
+          userSettings: { startPage: AppRoutePath.OverviewPage },
+        }),
       ],
     });
   });

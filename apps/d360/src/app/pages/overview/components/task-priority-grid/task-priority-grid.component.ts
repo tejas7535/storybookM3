@@ -36,7 +36,6 @@ import {
 } from '../../../../feature/alerts/model';
 import { clientSideTableDefaultProps } from '../../../../shared/ag-grid/grid-defaults';
 import { ActionsMenuCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
-import { DateFilterComponent } from '../../../../shared/components/ag-grid/filters/mat-date-filter/date-filter.component';
 import { NoDataOverlayComponent } from '../../../../shared/components/ag-grid/no-data/no-data.component';
 import { GlobalSelectionStateService } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
 import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
@@ -68,10 +67,6 @@ export class TaskPriorityGridComponent {
   private readonly alertService: AlertService = inject(AlertService);
   protected cellStyles: CellStyle = {
     padding: 0,
-  };
-
-  protected components: Record<string, any> = {
-    agDateInput: DateFilterComponent,
   };
 
   protected columnDefs: ColDef[] = [

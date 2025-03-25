@@ -5,6 +5,7 @@ import {
   DestroyRef,
   effect,
   inject,
+  OnInit,
   Signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -24,7 +25,7 @@ import {
   MatSelectChange,
 } from '@angular/material/select';
 
-import { take, tap } from 'rxjs';
+import { tap } from 'rxjs';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -41,7 +42,7 @@ import {
   AVAILABLE_LOCALES,
   DEFAULT_LOCALE,
 } from '../../constants/available-locales';
-import { UserService } from '../../services/user.service';
+import { UserService, UserSettingsKey } from '../../services/user.service';
 import { SelectableValue } from '../inputs/autocomplete/selectable-values.utils';
 import { FilterDropdownComponent } from '../inputs/filter-dropdown/filter-dropdown.component';
 
@@ -64,14 +65,13 @@ import { FilterDropdownComponent } from '../inputs/filter-dropdown/filter-dropdo
   templateUrl: './user-settings.component.html',
   styleUrl: './user-settings.component.scss',
 })
-export class UserSettingsComponent {
+export class UserSettingsComponent implements OnInit {
   protected availableLocales: Locale[] = AVAILABLE_LOCALES;
   protected defaultLocale: Locale = DEFAULT_LOCALE;
   protected availableCurrencies: SelectableValue[] = [];
   protected readonly appRoutes = appRoutes;
   private readonly currencyService: CurrencyService = inject(CurrencyService);
   protected readonly userService: UserService = inject(UserService);
-  private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   protected currencyControl = new FormControl<SelectableValue>(
     null,
@@ -99,17 +99,27 @@ export class UserSettingsComponent {
       ],
     }));
   protected startPageGroups = Object.keys(appRoutes.functions);
+  private readonly destroyRef = inject(DestroyRef);
 
   public constructor() {
+    effect(() => {
+      this.startPageControl.setValue(
+        this.userService.userSettings()?.[UserSettingsKey.StartPage]
+      );
+    });
+  }
+
+  public ngOnInit(): void {
     this.currencyService
       .getCurrentCurrency()
       .pipe(
         tap((value) => {
           this.currencyControl.setValue({ id: value, text: value });
         }),
-        takeUntilDestroyed()
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
+
     this.currencyService
       .getAvailableCurrencies()
       .pipe(
@@ -119,13 +129,9 @@ export class UserSettingsComponent {
             text: currency,
           }));
         }),
-        takeUntilDestroyed()
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
-
-    effect(() => {
-      this.startPageControl.setValue(this.userService.startPage());
-    });
   }
 
   protected onCurrencySelectionChange(currency: SelectableValue) {
@@ -135,9 +141,9 @@ export class UserSettingsComponent {
   }
 
   protected onStartPageSelectionChange(event: MatSelectChange) {
-    this.userService
-      .saveStartPage(event.value as AppRouteValue)
-      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
-      .subscribe();
+    this.userService.updateUserSettings(
+      UserSettingsKey.StartPage,
+      event.value as AppRouteValue
+    );
   }
 }

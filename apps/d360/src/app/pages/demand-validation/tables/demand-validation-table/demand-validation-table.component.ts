@@ -7,6 +7,7 @@ import {
   effect,
   inject,
   input,
+  OnInit,
   output,
   OutputEmitterRef,
   Signal,
@@ -22,7 +23,7 @@ import {
   MatSlideToggleModule,
 } from '@angular/material/slide-toggle';
 
-import { catchError, EMPTY, finalize, take, tap } from 'rxjs';
+import { catchError, EMPTY, filter, finalize, map, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -84,8 +85,12 @@ import {
   getCustomTreeDataAutoGroupColumnDef,
   getDefaultColDef,
 } from './../../../../shared/ag-grid/grid-defaults';
-import { DateFilterComponent } from './../../../../shared/components/ag-grid/filters/mat-date-filter/date-filter.component';
 import { GridTooltipComponent } from './../../../../shared/components/ag-grid/grid-tooltip/grid-tooltip.component';
+import {
+  DemandValidationUserSettingsKey,
+  UserService,
+  UserSettingsKey,
+} from './../../../../shared/services/user.service';
 import {
   demandValidationEditableColor,
   demandValidationInFixZoneColor,
@@ -120,7 +125,7 @@ import { MoreInformationComponent } from './more-information/more-information.co
   templateUrl: './demand-validation-table.component.html',
   styleUrl: './demand-validation-table.component.scss',
 })
-export class DemandValidationTableComponent {
+export class DemandValidationTableComponent implements OnInit {
   protected readonly agGridLocalizationService: AgGridLocalizationService =
     inject(AgGridLocalizationService);
   protected readonly localeService: TranslocoLocaleService = inject(
@@ -132,6 +137,7 @@ export class DemandValidationTableComponent {
   private readonly translocoLocaleService = inject(TranslocoLocaleService);
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly store: Store = inject(Store);
+  private readonly userService: UserService = inject(UserService);
 
   private columnDefinitions: CustomTreeDataAutoGroupColumnDef[] = [];
 
@@ -156,10 +162,6 @@ export class DemandValidationTableComponent {
   protected dataLoaded: Signal<boolean> = computed(() =>
     Boolean(this.kpiData())
   );
-
-  protected components: Record<string, any> = {
-    agDateInput: DateFilterComponent,
-  };
 
   public KpiType: typeof KpiType = KpiType;
 
@@ -266,6 +268,51 @@ export class DemandValidationTableComponent {
         this.updateRowData();
       }
     });
+  }
+
+  /** @inheritdoc */
+  public ngOnInit(): void {
+    this.setPersistedKPIs();
+  }
+
+  /**
+   * Sets the persisted KPIs by subscribing to the user settings loaded observable.
+   * Once the settings are loaded, it updates the filter values with the persisted
+   * workbench settings for demand validation.
+   *
+   * The method performs the following steps:
+   * 1. Waits for the user settings to be loaded.
+   * 2. Takes the first emitted value indicating the settings are loaded.
+   * 3. Maps the user settings to the demand validation workbench settings.
+   * 4. Updates the filter values with the persisted workbench settings, ensuring
+   *    the validated forecast KPI is retained.
+   * 5. Completes the subscription when the component is destroyed.
+   *
+   * @private
+   * @returns {void}
+   * @memberof DemandValidationTableComponent
+   */
+  private setPersistedKPIs(): void {
+    this.userService.settingsLoaded$
+      .pipe(
+        filter((loaded: boolean) => loaded),
+        take(1),
+        map(
+          () =>
+            this.userService.userSettings()?.[
+              UserSettingsKey.DemandValidation
+            ]?.[DemandValidationUserSettingsKey.Workbench]
+        ),
+        tap((filterValues) =>
+          this.filterValues.update((current) => ({
+            ...current,
+            ...(filterValues || ({} as any)),
+            [KpiType.ValidatedForecast]: current.validatedForecast,
+          }))
+        ),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   /**
@@ -399,6 +446,15 @@ export class DemandValidationTableComponent {
       ...current,
       [key]: event.checked,
     }));
+
+    const newSettings = this.filterValues();
+    delete newSettings[KpiType.ValidatedForecast];
+
+    this.userService.updateUserSettings(UserSettingsKey.DemandValidation, {
+      ...(this.userService.userSettings()?.[UserSettingsKey.DemandValidation] ??
+        ({} as any)),
+      [DemandValidationUserSettingsKey.Workbench]: newSettings,
+    });
   }
 
   /**
@@ -586,7 +642,7 @@ export class DemandValidationTableComponent {
       if (
         !editable ||
         (this.planningView() === PlanningView.CONFIRMED &&
-          rowKey === 'validatedForecast')
+          rowKey === KpiType.ValidatedForecast)
       ) {
         return {
           backgroundColor: demandValidationNotEditableColor,
@@ -595,7 +651,7 @@ export class DemandValidationTableComponent {
 
       if (
         isInFixZone(parseISO(data.fromDate)) &&
-        rowKey === 'demandRelevantSales'
+        rowKey === KpiType.DemandRelevantSales
       ) {
         return { backgroundColor: demandValidationInFixZoneColor };
       } else if ((params.data as CustomTreeDataAutoGroupColumnDef)?.editable) {
