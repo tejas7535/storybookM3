@@ -1,10 +1,18 @@
-import { Component, inject, input, InputSignal } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  inject,
+  input,
+  InputSignal,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import { OptionsLoadingResult } from '../../../services/selectable-options.service';
 import { MultiAutocompletePreLoadedComponent } from '../../inputs/autocomplete/multi-autocomplete-pre-loaded/multi-autocomplete-pre-loaded.component';
@@ -37,6 +45,9 @@ type ResolveFunction = (
   styleUrls: ['./pre-loaded-autocomplete-with-multiselect.component.scss'],
 })
 export class PreLoadedAutocompleteWithMultiselectComponent {
+  public destroyRef: DestroyRef = inject(DestroyRef);
+  public changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
+
   public form: InputSignal<FormGroup> = input.required<FormGroup>();
   public control: InputSignal<FormControl> = input.required<FormControl>();
 
@@ -89,22 +100,29 @@ export class PreLoadedAutocompleteWithMultiselectComponent {
    * @memberof PreLoadedAutocompleteWithMultiselectComponent
    */
   public openModal() {
-    this.dialog.open(MultiselectFromClipboardModalComponent, {
-      data: {
-        control: this.control(),
-        form: this.form(),
-        searchControl: this.searchFormControl,
-        autocompleteLabel: this.autocompleteLabel(),
-        getOptionLabel: this.getOptionLabel(),
-        getOptionLabelInTag: this.getOptionLabelInTag(),
-        optionsLoadingResults: this.optionsLoadingResult(),
-        selectableValuesByKeys: (values: string[]) =>
-          this.resolveFunction()(values, this.optionsLoadingResult().options),
-        entityName: this.entityName(),
-        entityNamePlural: this.entityNamePlural(),
-      },
-      maxWidth: '600px',
-      autoFocus: false,
-    });
+    this.dialog
+      .open(MultiselectFromClipboardModalComponent, {
+        data: {
+          control: this.control(),
+          form: this.form(),
+          searchControl: this.searchFormControl,
+          autocompleteLabel: this.autocompleteLabel(),
+          getOptionLabel: this.getOptionLabel(),
+          getOptionLabelInTag: this.getOptionLabelInTag(),
+          optionsLoadingResults: this.optionsLoadingResult(),
+          selectableValuesByKeys: (values: string[]) =>
+            this.resolveFunction()(values, this.optionsLoadingResult().options),
+          entityName: this.entityName(),
+          entityNamePlural: this.entityNamePlural(),
+        },
+        maxWidth: '600px',
+        autoFocus: false,
+      })
+      .afterClosed()
+      .pipe(
+        tap(() => this.changeDetectorRef.markForCheck()),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 }

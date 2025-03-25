@@ -1,10 +1,18 @@
-import { Component, inject, input, InputSignal } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  inject,
+  input,
+  InputSignal,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import { OptionsLoadingResult } from '../../../services/selectable-options.service';
 import { MultiAutocompleteOnTypeComponent } from '../../inputs/autocomplete/multi-autocomplete-on-type/multi-autocomplete-on-type.component';
@@ -34,6 +42,8 @@ type ResolveFunction = (
   styleUrls: ['./on-type-autocomplete-with-multiselect.component.scss'],
 })
 export class OnTypeAutocompleteWithMultiselectComponent {
+  public destroyRef: DestroyRef = inject(DestroyRef);
+  public changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
   /**
    * The MatDialog Service Instance
    *
@@ -72,22 +82,30 @@ export class OnTypeAutocompleteWithMultiselectComponent {
    * @memberof OnTypeAutocompleteWithMultiselectComponent
    */
   public openModal() {
-    this.dialog.open(MultiselectFromClipboardModalComponent, {
-      data: {
-        control: this.control(),
-        form: this.form(),
-        searchControl: this.searchFormControl,
-        autocompleteLabel: this.autocompleteLabel(),
-        getOptionLabel: this.getOptionLabel(),
-        getOptionLabelInTag: this.getOptionLabelInTag(),
-        optionsLoadingResults: this.optionsLoadingResult(),
-        selectableValuesByKeys: this.resolveFunction(),
-        entityName: this.entityName(),
-        entityNamePlural: this.entityNamePlural(),
-        urlBegin: this.urlBegin(),
-      },
-      maxWidth: '600px',
-      autoFocus: false,
-    });
+    this.dialog
+      .open(MultiselectFromClipboardModalComponent, {
+        data: {
+          control: this.control(),
+          form: this.form(),
+          searchControl: this.searchFormControl,
+          autocompleteLabel: this.autocompleteLabel(),
+          getOptionLabel: this.getOptionLabel(),
+          getOptionLabelInTag: this.getOptionLabelInTag(),
+          optionsLoadingResults: this.optionsLoadingResult(),
+          selectableValuesByKeys: this.resolveFunction(),
+          entityName: this.entityName(),
+          entityNamePlural: this.entityNamePlural(),
+          urlBegin: this.urlBegin(),
+        },
+        maxWidth: '600px',
+        autoFocus: false,
+      })
+
+      .afterClosed()
+      .pipe(
+        tap(() => this.changeDetectorRef.markForCheck()),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 }
