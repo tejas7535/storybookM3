@@ -4,6 +4,12 @@
 
 :host {
   @apply flex h-full;
+
+  .auto-zoom {
+    @media screen and (max-height: 985px) {
+      zoom: 0.97;
+    }
+  }
 }
 
 .material-list-table {

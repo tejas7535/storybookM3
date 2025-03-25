@@ -1,10 +1,10 @@
-<div *transloco="let t" class="flex flex-col gap-6 w-full h-full">
+<div *transloco="let t" class="flex flex-col gap-4 w-full h-full">
   <!-- global selection -->
   <d360-global-selection-criteria
     (onGlobalSelectionChange)="onUpdateGlobalSelection($event)"
   />
 
-  <d360-styled-section [grow]="true" class="flex flex-col h-full">
+  <d360-styled-section [grow]="true" class="flex flex-col h-full auto-zoom">
     <!-- headline -->
     <h2 class="text-title-large">
       {{
