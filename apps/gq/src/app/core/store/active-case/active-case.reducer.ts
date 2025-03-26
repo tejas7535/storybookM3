@@ -694,20 +694,25 @@ export const activeCaseFeature = createFeature({
     const getOpenItems = createSelector(
       selectQuotation,
       (quotation: Quotation): QuotationDetail[] =>
-        quotation?.quotationDetails.map((item: QuotationDetail) => ({
-          ...item,
-          detailCosts: {
-            sqvRecalculationReason: getRandomEnumValue(
-              RecalculationReasons
-            ) as RecalculationReasons,
-            sqvApprovalStatus: getRandomEnumValue(
-              SqvApprovalStatus
-            ) as SqvApprovalStatus,
-            sqvCheckStatus: getRandomEnumValue(
-              SqvCheckStatus
-            ) as SqvCheckStatus,
-          },
-        }))
+        quotation?.quotationDetails
+          .filter(
+            (detail: QuotationDetail) =>
+              detail.detailCosts?.sqvRecalculationReason &&
+              detail.detailCosts.sqvRecalculationReason !==
+                RecalculationReasons.VALID
+          )
+          .map((item: QuotationDetail) => ({
+            ...item,
+            detailCosts: {
+              ...item.detailCosts,
+              sqvApprovalStatus: getRandomEnumValue(
+                SqvApprovalStatus
+              ) as SqvApprovalStatus,
+              sqvCheckStatus: getRandomEnumValue(
+                SqvCheckStatus
+              ) as SqvCheckStatus,
+            },
+          }))
     );
 
     const hasOpenItems = createSelector(
