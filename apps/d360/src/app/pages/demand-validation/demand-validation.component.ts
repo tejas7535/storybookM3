@@ -3,6 +3,7 @@ import {
   Component,
   DestroyRef,
   inject,
+  OnInit,
   signal,
   WritableSignal,
 } from '@angular/core';
@@ -55,7 +56,9 @@ import { MaterialListTableComponent } from './tables/material-list-table/materia
   templateUrl: './demand-validation.component.html',
   styleUrl: './demand-validation.component.scss',
 })
-export class DemandValidationComponent implements CanComponentDeactivate {
+export class DemandValidationComponent
+  implements CanComponentDeactivate, OnInit
+{
   protected planningView: PlanningView = PlanningView.REQUESTED;
   protected globalSelection: GlobalSelectionState;
 
@@ -63,7 +66,7 @@ export class DemandValidationComponent implements CanComponentDeactivate {
   protected selectedCustomer = signal<CustomerEntry>(null);
   protected globalSelectionStatus: WritableSignal<GlobalSelectionStatus> =
     signal(null);
-  protected loading: WritableSignal<boolean> = signal(false);
+  protected loading: WritableSignal<boolean> = signal(true);
   protected selectedMaterialListEntry = signal<MaterialListEntry>(null);
   protected unsavedChanges = signal(false);
 
@@ -89,14 +92,23 @@ export class DemandValidationComponent implements CanComponentDeactivate {
   private readonly globalSelectionStateService: GlobalSelectionStateService =
     inject(GlobalSelectionStateService);
 
-  public constructor(
-    private readonly globalSelectionService: GlobalSelectionHelperService
-  ) {
+  /**
+   * The GlobalSelectionHelperService instance
+   *
+   * @private
+   * @type {GlobalSelectionHelperService}
+   * @memberof DemandValidationComponent
+   */
+  private readonly globalSelectionService: GlobalSelectionHelperService =
+    inject(GlobalSelectionHelperService);
+
+  /** @inheritdoc */
+  public ngOnInit(): void {
     this.globalSelection = this.globalSelectionStateService.getState();
-    this.loading.set(true);
     this.updateCustomerData();
   }
 
+  /** @inheritdoc */
   public canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
     if (this.unsavedChanges()) {
       return confirm(translate('error.unsaved_changes'));
@@ -107,12 +119,13 @@ export class DemandValidationComponent implements CanComponentDeactivate {
 
   protected onUpdateGlobalSelection($event: GlobalSelectionState) {
     this.globalSelection = $event;
-    this.loading.set(true);
+    this.selectedMaterialListEntry.set(null);
     this.updateCustomerData();
   }
 
   private updateCustomerData() {
     this.globalSelectionStatus.set(null);
+    this.selectedCustomer.set(undefined);
     this.loading.set(true);
 
     this.globalSelectionService

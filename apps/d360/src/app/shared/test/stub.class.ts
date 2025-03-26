@@ -122,8 +122,8 @@ export class Stub {
     MockProvider(
       GlobalSelectionHelperService,
       {
-        getResultCount: jest.fn().mockReturnValue(of(0)),
-        getCustomersData: jest.fn().mockReturnValue(of([])),
+        getResultCount: () => of(0),
+        getCustomersData: () => of([]),
       },
       'useValue'
     ),
