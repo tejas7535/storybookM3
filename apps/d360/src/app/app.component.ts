@@ -18,7 +18,7 @@ import {
   RouterModule,
 } from '@angular/router';
 
-import { map, Observable } from 'rxjs';
+import { EMPTY, map, Observable, of } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 
 import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
@@ -41,7 +41,7 @@ import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import packageJson from '../../package.json';
-import { appRoutes } from './app.routes';
+import { appRoutes, getAllRoutes } from './app.routes';
 import { AppRoutePath } from './app.routes.enum';
 import { AlertService } from './feature/alerts/alert.service';
 import { GlobalSelectionStateService } from './shared/components/global-selection-criteria/global-selection-state.service';
@@ -84,9 +84,9 @@ export class AppComponent implements OnInit {
   private readonly userService: UserService = inject(UserService);
   private readonly router: Router = inject(Router);
   private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
-  private readonly globalSelectionStateService: GlobalSelectionStateService =
-    inject(GlobalSelectionStateService);
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
+  public readonly globalSelectionStateService: GlobalSelectionStateService =
+    inject(GlobalSelectionStateService);
 
   protected activeUrl = signal('/');
 
@@ -152,11 +152,54 @@ export class AppComponent implements OnInit {
   ];
 
   public constructor() {
-    this.router.events.pipe(takeUntilDestroyed()).subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.activeUrl.set(this.getRelativeUrl(event.url));
-      }
-    });
+    this.router.events
+      .pipe(
+        switchMap((event) => {
+          if (event instanceof NavigationEnd) {
+            this.activeUrl.set(this.getRelativeUrl(event.url));
+
+            return this.activatedRoute.queryParams;
+          }
+
+          return EMPTY;
+        }),
+        switchMap((params: Params) => {
+          if (Object.entries(params).length === 0) {
+            return EMPTY;
+          }
+
+          // we dismiss the parameters:
+          // if we have no module in the url, because we can't guess what the link should show up.
+          if (['/', ''].includes(this.activeUrl())) {
+            return of(true);
+          }
+
+          const foundRoute = getAllRoutes().find((route) =>
+            [
+              route.path,
+              `/${route.path}`,
+              `${route.path}/`,
+              `/${route.path}/`,
+            ].includes(this.activeUrl())
+          );
+
+          // we dismiss the parameters:
+          // if the route has no global selection
+          if (foundRoute?.data?.hasGlobalSelection) {
+            return this.globalSelectionStateService.handleQueryParams$(params);
+          } else if (foundRoute?.data?.hasSalesValidationSelection) {
+            sessionStorage.setItem(
+              AppRoutePath.SalesValidationPage,
+              JSON.stringify(params)
+            );
+          }
+
+          return of(true);
+        }),
+        tap(() => (location.href = this.router.url.split('?')[0])),
+        takeUntilDestroyed()
+      )
+      .subscribe();
 
     // set date locale
     this.translocoLocaleService.localeChanges$
@@ -166,16 +209,6 @@ export class AppComponent implements OnInit {
           DATE_FNS_LOOKUP?.[locale as LocaleType] ?? DATE_FNS_LOOKUP['en-US']
         )
       );
-
-    this.activatedRoute.queryParams
-      .pipe(
-        switchMap((params: Params) =>
-          this.globalSelectionStateService.handleQueryParams$(params)
-        ),
-        tap(() => (location.href = this.router.url.split('?')[0])),
-        takeUntilDestroyed()
-      )
-      .subscribe();
   }
 
   public ngOnInit(): void {
@@ -190,8 +223,8 @@ export class AppComponent implements OnInit {
       .pipe(
         filter(
           (msg: EventMessage) =>
-            msg.eventType === EventType.ACCOUNT_ADDED ||
-            msg.eventType === EventType.ACCOUNT_REMOVED
+            msg?.eventType === EventType.ACCOUNT_ADDED ||
+            msg?.eventType === EventType.ACCOUNT_REMOVED
         )
       )
       .subscribe(() => {
@@ -227,7 +260,7 @@ export class AppComponent implements OnInit {
 
     if (
       !activeAccount &&
-      this.authService.instance.getAllAccounts().length > 0
+      this.authService.instance.getAllAccounts()?.length > 0
     ) {
       const accounts = this.authService.instance.getAllAccounts();
       this.authService.instance.setActiveAccount(accounts[0]);

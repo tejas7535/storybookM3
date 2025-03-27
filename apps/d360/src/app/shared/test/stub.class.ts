@@ -17,6 +17,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -26,6 +27,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { BehaviorSubject, of } from 'rxjs';
 
+import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
 import { TranslocoService } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
@@ -86,12 +88,14 @@ export class Stub {
         },
         setTranslation: () => {},
         getActiveLang: () => 'en',
+        translate: (key: string) => key,
       },
       'useValue'
     ),
     MockProvider(
       TranslocoLocaleService,
       {
+        localeChanges$: of('en-US'),
         getLocale: () => 'en-US',
         localizeDate: () => '',
         localizeNumber: () => '',
@@ -438,10 +442,19 @@ export class Stub {
     );
   }
 
-  public static getSalesPlanningServiceProvider(): ValueProvider {
+  public static getSalesPlanningServiceProvider(data?: {
+    getDetailedCustomerSalesPlan?: any;
+    getCustomerSalesPlan?: any;
+    getCustomerInfo?: any;
+  }): ValueProvider {
     return MockProvider(
       SalesPlanningService,
-      { getDetailedCustomerSalesPlan: jest.fn(() => of([])) },
+      {
+        getDetailedCustomerSalesPlan: () =>
+          of(data?.getDetailedCustomerSalesPlan ?? []),
+        getCustomerSalesPlan: () => of(data?.getCustomerSalesPlan ?? {}),
+        getCustomerInfo: () => of(data?.getCustomerInfo ?? []),
+      },
       'useValue'
     );
   }
@@ -488,9 +501,7 @@ export class Stub {
     return MockProvider(
       Router,
       {
-        get events() {
-          return of([]);
-        },
+        events: new BehaviorSubject([]),
         parseUrl: jest.fn(),
         navigate: jest.fn(),
       },
@@ -514,6 +525,7 @@ export class Stub {
     return MockProvider(
       AlertService,
       {
+        init: () => {},
         allActiveAlerts: signal<Alert[]>(null),
         getRefreshEvent: () => of(true),
         getDataFetchedEvent: () => of(true),
@@ -542,6 +554,7 @@ export class Stub {
     return MockProvider(
       UserService,
       {
+        init: () => {},
         settingsLoaded$: new BehaviorSubject<boolean>(false),
         userSettings: signal(
           data?.userSettings ?? {
@@ -562,5 +575,36 @@ export class Stub {
       },
       'useValue'
     );
+  }
+
+  public static getMsalServiceProvider(): ValueProvider {
+    return MockProvider(
+      MsalService,
+      {
+        handleRedirectObservable: () => of(true),
+        instance: {
+          enableAccountStorageEvents: () => {},
+          setActiveAccount: () => {},
+          getAllAccounts: (): any => [],
+          getActiveAccount: (): any => null,
+        },
+      },
+      'useValue'
+    );
+  }
+
+  public static getMsalBroadcastServiceProvider(
+    msalSubject$: BehaviorSubject<any> = new BehaviorSubject(null),
+    inProgress$: BehaviorSubject<any> = new BehaviorSubject(null)
+  ): ValueProvider {
+    return MockProvider(
+      MsalBroadcastService,
+      { msalSubject$, inProgress$ },
+      'useValue'
+    );
+  }
+
+  public static getDateAdapterProvider(): ValueProvider {
+    return MockProvider(DateAdapter, { setLocale: () => {} }, 'useValue');
   }
 }

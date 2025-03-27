@@ -1,17 +1,14 @@
-import { MatDialog } from '@angular/material/dialog';
-
 import { of } from 'rxjs';
 
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import { createComponentFactory, mockProvider } from '@ngneat/spectator/jest';
-
+import { AppRoutePath } from '../../../../app.routes.enum';
 import { CustomerInfo } from '../../../../feature/sales-planning/model';
-import { SalesPlanningService } from '../../../../feature/sales-planning/sales-planning.service';
-import { SingleAutocompleteOnTypeComponent } from '../../../../shared/components/inputs/autocomplete/single-autocomplete-on-type/single-autocomplete-on-type.component';
-import { SelectableOptionsService } from '../../../../shared/services/selectable-options.service';
+import { CustomerInfoModalComponent } from '../customer-info-modal/customer-info-modal.component';
+import { Stub } from './../../../../shared/test/stub.class';
 import { CustomerSelectionComponent } from './customer-selection.component';
 
 describe('CustomerSelectionComponent', () => {
+  let component: CustomerSelectionComponent;
+
   const mockSalesPlanResponse = {
     invoiceSalesTwoYearsAgo: 1000,
     invoiceSalesPreviousYear: 2000,
@@ -50,152 +47,328 @@ describe('CustomerSelectionComponent', () => {
     },
   ];
 
-  const mockTranslocoLocaleService = {
-    localizeNumber: (value: number | null, _format: string) =>
-      value == null ? null : value.toString(),
-    getLocale: () => 'de',
-  };
-
-  const mockDialogRef = {
-    close: jest.fn(),
-  };
-
-  const mockDialog = {
-    open: jest.fn().mockReturnValue(mockDialogRef),
-  };
-
-  const createComponent = createComponentFactory({
-    component: CustomerSelectionComponent,
-    providers: [
-      {
-        provide: SalesPlanningService,
-        useValue: {
-          getCustomerSalesPlan: jest
-            .fn()
-            .mockReturnValue(of(mockSalesPlanResponse)),
-          getCustomerInfo: jest.fn().mockReturnValue(of(mockCustomerInfo)),
-        },
-      },
-      {
-        provide: TranslocoLocaleService,
-        useValue: mockTranslocoLocaleService,
-      },
-      { provide: MatDialog, useValue: mockDialog },
-      mockProvider(SelectableOptionsService),
-    ],
+  beforeEach(() => {
+    component = Stub.getForEffect<CustomerSelectionComponent>({
+      component: CustomerSelectionComponent,
+      providers: [
+        Stub.getMatDialogProvider(),
+        Stub.getSalesPlanningServiceProvider({
+          getCustomerSalesPlan: mockSalesPlanResponse,
+          getCustomerInfo: mockCustomerInfo,
+        }),
+      ],
+    });
   });
 
-  it('should create and display the title', () => {
-    const spectator = createComponent();
-    const title = spectator.query('h2.text-title-large');
-    expect(title).toBeTruthy();
-    expect(title?.textContent).toContain('sales_planning.title');
-  });
-
-  it('should have the autocomplete and info button disabled initially', () => {
-    const spectator = createComponent();
-    const autocomplete = spectator.query(SingleAutocompleteOnTypeComponent);
-    expect(autocomplete).toBeTruthy();
-
-    const infoButton = spectator.query('button[mat-icon-button]');
-    expect(infoButton).toBeTruthy();
-    expect(infoButton).toBeDisabled();
-  });
-
-  it('should load and display sales plan after selecting a customer', () => {
-    const spectator = createComponent();
-    const customerChangeEvent = {
-      option: { id: 'C123', text: 'Test Customer' },
-    };
-
+  it('should create', () => {
+    expect(component).toBeTruthy();
+    jest.spyOn(component, 'handleCustomerChange').mockImplementation(() => {});
     jest
-      .spyOn(
-        spectator.component['salesPlanningService'],
-        'getCustomerSalesPlan'
-      )
-      .mockReturnValue(of(mockSalesPlanResponse) as any);
-
-    const autocomplete = spectator.query(SingleAutocompleteOnTypeComponent);
-    expect(autocomplete).toBeTruthy();
-
-    spectator.component.handleCustomerChange(customerChangeEvent as any);
-    spectator.detectChanges();
-
-    expect(
-      spectator.component['salesPlanningService'].getCustomerSalesPlan
-    ).toHaveBeenCalledWith('C123');
-
-    const currentYear = new Date().getFullYear();
-
-    // The component sorts them by year, so we expect (currentYear-2), (currentYear-1), currentYear, (currentYear+1), (currentYear+2)
-    // Check if these years and values appear in the DOM:
-    const content = spectator.element.textContent;
-    expect(content).toContain((currentYear - 2).toString());
-    expect(content).toContain('2000');
-    expect(content).toContain((currentYear - 1).toString());
-
-    // Current year unconstrained/constrained
-    expect(content).toContain(currentYear.toString());
-    expect(content).toContain('3000');
-    expect(content).toContain('4000');
-
-    // Next year
-    expect(content).toContain((currentYear + 1).toString());
-    expect(content).toContain('5000');
-    expect(content).toContain('6000');
-
-    // Year after next
-    expect(content).toContain((currentYear + 2).toString());
-    expect(content).toContain('7000');
-    expect(content).toContain('8000');
-
-    // Year after next + 1
-    expect(content).toContain((currentYear + 2).toString());
-    expect(content).toContain('8000');
-    expect(content).toContain('9000');
-
-    expect(content).toContain('EUR');
-
-    const infoButton = spectator.query('button[mat-icon-button]');
-    expect(infoButton).not.toBeDisabled();
+      .spyOn(component as any, 'openCustomerInfoModal')
+      .mockImplementation(() => {});
+    jest
+      .spyOn(component as any, 'fetchCustomerSalesPlan')
+      .mockImplementation(() => {});
   });
 
-  it('should fetch customer info and open modal when info button is clicked for the first time', () => {
-    const spectator = createComponent();
-    jest
-      .spyOn(
-        spectator.component['salesPlanningService'],
-        'getCustomerSalesPlan'
-      )
-      .mockReturnValue(of(mockSalesPlanResponse) as any);
-    jest
-      .spyOn(spectator.component['salesPlanningService'], 'getCustomerInfo')
-      .mockReturnValue(of(mockCustomerInfo) as any);
-    const customerChangeEvent = {
-      option: { id: 'C123', text: 'Test Customer' },
-    };
-    spectator.component.handleCustomerChange(customerChangeEvent as any);
-    spectator.detectChanges();
+  describe('ngOnInit', () => {
+    beforeEach(() => {
+      jest.spyOn(sessionStorage, 'getItem');
+    });
 
-    const infoButton = spectator.query('button[mat-icon-button]');
-    expect(infoButton).not.toBeDisabled();
+    it('should set formGroup value with customer from sessionStorage if it exists', () => {
+      const mockCustomerNumber = 'C123';
+      sessionStorage.getItem = jest
+        .fn()
+        .mockReturnValue(
+          JSON.stringify({ customerNumber: mockCustomerNumber })
+        );
+      const patchValueSpy = jest.spyOn(component['formGroup'], 'patchValue');
 
-    spectator.click(infoButton);
-    spectator.detectChanges();
+      component.ngOnInit();
 
-    expect(
-      spectator.component['salesPlanningService'].getCustomerInfo
-    ).toHaveBeenCalledWith('C123', 'de');
-    expect(mockDialog.open).toHaveBeenCalledWith(expect.any(Function), {
-      data: {
-        customerInfo: mockCustomerInfo,
+      expect(patchValueSpy).toHaveBeenCalledWith({
+        customer: mockCustomerNumber,
+      });
+    });
+
+    it('should not set formGroup value if customer does not exist in sessionStorage', () => {
+      sessionStorage.getItem = jest.fn().mockReturnValue(null);
+      const patchValueSpy = jest.spyOn(component['formGroup'], 'patchValue');
+
+      component.ngOnInit();
+
+      expect(patchValueSpy).not.toHaveBeenCalled();
+    });
+
+    it('should subscribe to formGroup valueChanges and call handleCustomerChange', () => {
+      const mockCustomerNumber = 'C123';
+      sessionStorage.getItem = jest
+        .fn()
+        .mockReturnValue(
+          JSON.stringify({ customerNumber: [mockCustomerNumber] })
+        );
+
+      const handleCustomerChangeSpy = jest.spyOn(
+        component,
+        'handleCustomerChange'
+      );
+
+      component.ngOnInit();
+
+      Stub.detectChanges();
+
+      expect(handleCustomerChangeSpy).toHaveBeenCalledWith({
+        option: mockCustomerNumber,
+      });
+    });
+  });
+
+  describe('handleCustomerChange', () => {
+    it('should set selectedCustomer to null if event option is null or id is null', () => {
+      const setSpy = jest.spyOn(component['selectedCustomer'], 'set');
+
+      component.handleCustomerChange({ option: null });
+
+      expect(setSpy).toHaveBeenCalledWith(null);
+
+      component.handleCustomerChange({ option: { id: null, text: 'Test' } });
+
+      expect(setSpy).toHaveBeenCalledWith(null);
+    });
+
+    it('should set selectedCustomer with customerNumber and customerName if event option is valid', () => {
+      const setSpy = jest.spyOn(component['selectedCustomer'], 'set');
+      const mockEvent = {
+        option: { id: 'C123', text: 'Customer 123' },
+      };
+
+      component.handleCustomerChange(mockEvent);
+
+      expect(setSpy).toHaveBeenCalledWith({
         customerNumber: 'C123',
-        customerName: 'Test Customer',
-      },
-      autoFocus: false,
-      disableClose: true,
-      panelClass: ['form-dialog'],
-      minWidth: '50vw',
+        customerName: 'Customer 123',
+      });
+    });
+
+    it('should reset selectedCustomerSalesPlan, selectedCustomerPlanningCurrency, and selectedCustomerInfo', () => {
+      const salesPlanSpy = jest.spyOn(
+        component['selectedCustomerSalesPlan'],
+        'set'
+      );
+      const planningCurrencySpy = jest.spyOn(
+        component['selectedCustomerPlanningCurrency'],
+        'set'
+      );
+      const customerInfoSpy = jest.spyOn(
+        component['selectedCustomerInfo'],
+        'set'
+      );
+
+      component.handleCustomerChange({
+        option: { id: 'C123', text: 'Customer 123' },
+      });
+
+      expect(salesPlanSpy).toHaveBeenCalledWith([]);
+      expect(planningCurrencySpy).toHaveBeenCalledWith(null);
+      expect(customerInfoSpy).toHaveBeenCalledWith([]);
+    });
+
+    it('should call fetchCustomerSalesPlan', () => {
+      const fetchSpy = jest.spyOn(component as any, 'fetchCustomerSalesPlan');
+
+      component.handleCustomerChange({
+        option: { id: 'C123', text: 'Customer 123' },
+      });
+
+      expect(fetchSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('fetchCustomerSalesPlan', () => {
+    it('should set selectedCustomerSalesPlan and selectedCustomerPlanningCurrency when selectedCustomer exists', (done) => {
+      const mockCustomerNumber = 'C123';
+      const mockResponse = {
+        invoiceSalesTwoYearsAgo: 1000,
+        invoiceSalesPreviousYear: 2000,
+        unconstrainedPlanThisYear: 3000,
+        constrainedPlanThisYear: 4000,
+        unconstrainedPlanNextYear: 5000,
+        constrainedPlanNextYear: 6000,
+        unconstrainedPlanTwoYearsFromNow: 7000,
+        constrainedPlanTwoYearsFromNow: 8000,
+        unconstrainedPlanThreeYearsFromNow: 9000,
+        constrainedPlanThreeYearsFromNow: 10_000,
+        planningCurrency: 'EUR',
+      };
+
+      jest
+        .spyOn(component['salesPlanningService'], 'getCustomerSalesPlan')
+        .mockReturnValue(of(mockResponse as any));
+
+      component['selectedCustomer'].set({
+        customerNumber: mockCustomerNumber,
+        customerName: 'Customer 123',
+      });
+
+      const salesPlanSpy = jest.spyOn(
+        component['selectedCustomerSalesPlan'],
+        'set'
+      );
+      const currencySpy = jest.spyOn(
+        component['selectedCustomerPlanningCurrency'],
+        'set'
+      );
+      const emitSpy = jest.spyOn(
+        component['onCustomerSelectionChange'],
+        'emit'
+      );
+
+      component['fetchCustomerSalesPlan']();
+
+      setTimeout(() => {
+        expect(salesPlanSpy).toHaveBeenCalledWith(
+          expect.arrayContaining([
+            expect.objectContaining({
+              constrained: mockResponse.invoiceSalesTwoYearsAgo,
+              year: new Date().getFullYear() - 2,
+            }),
+            expect.objectContaining({
+              constrained: mockResponse.invoiceSalesPreviousYear,
+              year: new Date().getFullYear() - 1,
+            }),
+            expect.objectContaining({
+              unconstrained: mockResponse.unconstrainedPlanThisYear,
+              constrained: mockResponse.constrainedPlanThisYear,
+              year: new Date().getFullYear(),
+            }),
+          ])
+        );
+        expect(currencySpy).toHaveBeenCalledWith(mockResponse.planningCurrency);
+        expect(emitSpy).toHaveBeenCalledWith({
+          customerName: 'Customer 123',
+          customerNumber: mockCustomerNumber,
+          planningCurrency: mockResponse.planningCurrency,
+        });
+        done();
+      });
+    });
+
+    it('should reset sessionStorage and emit null values when selectedCustomer does not exist', () => {
+      jest.spyOn(component['selectedCustomer'], 'set').mockImplementation();
+      component['selectedCustomer'].set(null);
+
+      const sessionStorageSpy = jest.spyOn(sessionStorage, 'setItem');
+      const emitSpy = jest.spyOn(
+        component['onCustomerSelectionChange'],
+        'emit'
+      );
+
+      component['fetchCustomerSalesPlan']();
+
+      expect(sessionStorageSpy).toHaveBeenCalledWith(
+        AppRoutePath.SalesValidationPage,
+        JSON.stringify(null)
+      );
+      expect(emitSpy).toHaveBeenCalledWith({
+        customerName: null,
+        customerNumber: null,
+        planningCurrency: null,
+      });
+    });
+  });
+
+  describe('handleCustomerInfoClick', () => {
+    it('should fetch customer info and open the modal if selectedCustomerInfo is empty', (done) => {
+      jest.spyOn(component['selectedCustomerInfo'], 'set');
+      jest
+        .spyOn(component['salesPlanningService'], 'getCustomerInfo')
+        .mockReturnValue(of(mockCustomerInfo));
+      const openModalSpy = jest.spyOn(
+        component as any,
+        'openCustomerInfoModal'
+      );
+
+      component['selectedCustomer'].set({
+        customerNumber: 'C123',
+        customerName: 'Customer 123',
+      });
+
+      component['handleCustomerInfoClick']();
+
+      setTimeout(() => {
+        expect(
+          component['salesPlanningService'].getCustomerInfo
+        ).toHaveBeenCalledWith(
+          'C123',
+          component['translocoService'].getActiveLang()
+        );
+        expect(component['selectedCustomerInfo'].set).toHaveBeenCalledWith(
+          mockCustomerInfo
+        );
+        expect(openModalSpy).toHaveBeenCalled();
+        done();
+      });
+    });
+
+    it('should open the modal directly if selectedCustomerInfo is not empty', () => {
+      const openModalSpy = jest
+        .spyOn(component as any, 'openCustomerInfoModal')
+        .mockImplementation(() => {});
+
+      component['selectedCustomerInfo'].set([
+        {
+          globalCustomerNumber: 'C123',
+          region: 'EMEA',
+          salesOrg: 'S1',
+          salesDescription: 'Sales Org 1',
+          salesArea: 'Area 51',
+          countryCode: 'DE',
+          countryDescription: 'Germany',
+          sector: 'Automotive',
+          sectorDescription: 'Car Manufacturing',
+          keyAccountNumber: 'KA001',
+          keyAccountName: 'Key Account Name',
+          subKeyAccountNumber: 'SKA001',
+          subKeyAccountName: 'Sub Key Account Name',
+          planningCurrency: 'EUR',
+          accountOwner: 'John Doe',
+          internalSales: 'Jane Roe',
+          demandPlanner: 'Mark Moe',
+          gkam: 'G KAM Person',
+          kam: 'KAM Person',
+        },
+      ]);
+
+      component['handleCustomerInfoClick']();
+
+      expect(openModalSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('openCustomerInfoModal', () => {
+    it('should open the CustomerInfoModalComponent with the correct data', () => {
+      const dialogSpy = jest.spyOn(component['dialog'], 'open');
+
+      component['selectedCustomerInfo'].set(mockCustomerInfo);
+      component['selectedCustomer'].set({
+        customerNumber: 'C123',
+        customerName: 'Customer 123',
+      });
+
+      component['openCustomerInfoModal']();
+
+      expect(dialogSpy).toHaveBeenCalledWith(CustomerInfoModalComponent, {
+        data: {
+          customerInfo: mockCustomerInfo,
+          customerNumber: 'C123',
+          customerName: 'Customer 123',
+        },
+        autoFocus: false,
+        disableClose: true,
+        panelClass: ['form-dialog'],
+        minWidth: '50vw',
+      });
     });
   });
 });

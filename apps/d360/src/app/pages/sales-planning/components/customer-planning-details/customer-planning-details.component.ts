@@ -167,7 +167,11 @@ export class CustomerPlanningDetailsComponent {
     effect(() => {
       this.planningLevelMaterialConfiguration.set(null);
 
-      if (!this.isNoCustomerSelected()) {
+      if (this.isNoCustomerSelected()) {
+        this.planningLevelMaterialConfiguration.set(null);
+        this.gridApi?.setGridOption('rowData', []);
+        this.rowCount.set(this.gridApi?.getDisplayedRowCount());
+      } else {
         this.fetchPlanningLevelMaterial(this.customerNumber());
         this.setYearlyPlanningData(null);
       }

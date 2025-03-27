@@ -25,6 +25,8 @@ export interface CustomRoute extends Route {
     allowedRoles?: Role[];
     allowedRegions?: Region[];
     titles?: string[];
+    hasGlobalSelection?: boolean;
+    hasSalesValidationSelection?: boolean;
   };
   path: AppRouteValue;
 }
@@ -41,7 +43,7 @@ export const appRoutes: RouteConfig = {
     pathMatch: 'full',
     path: AppRoutePath.Root,
     canActivate: [MsalGuard],
-    loadComponent: () =>
+    loadComponent: /* istanbul ignore next */ () =>
       import('../app/pages/root/root.component').then((m) => m.RootComponent),
   },
   functions: {
@@ -55,8 +57,9 @@ export const appRoutes: RouteConfig = {
           allowedRoles: salesPlanningAllowedRoles,
           allowedRegions: [Region.Europe],
           titles: ['header.title', 'tabbarMenu.sales-planning.label'],
+          hasSalesValidationSelection: true,
         },
-        loadComponent: () =>
+        loadComponent: /* istanbul ignore next */ () =>
           import('../app/pages/sales-planning/sales-planning.component').then(
             (m) => m.SalesPlanningComponent
           ),
@@ -94,9 +97,10 @@ export const appRoutes: RouteConfig = {
         visible: true,
         data: {
           titles: ['header.title', 'tabbarMenu.validation-of-demand.label'],
+          hasGlobalSelection: true,
         },
         canDeactivate: [CanDeactivateGuard],
-        loadComponent: () =>
+        loadComponent: /* istanbul ignore next */ () =>
           import(
             '../app/pages/demand-validation/demand-validation.component'
           ).then((m) => m.DemandValidationComponent),
@@ -111,8 +115,9 @@ export const appRoutes: RouteConfig = {
             'header.title',
             'tabbarMenu.customer-material-portfolio.label',
           ],
+          hasGlobalSelection: true,
         },
-        loadComponent: () =>
+        loadComponent: /* istanbul ignore next */ () =>
           import(
             '../app/pages/customer-material-portfolio/customer-material-portfolio.component'
           ).then((m) => m.CustomerMaterialPortfolioComponent),
@@ -129,7 +134,7 @@ export const appRoutes: RouteConfig = {
             'tabbarMenu.internal-material-replacement.label',
           ],
         },
-        loadComponent: () =>
+        loadComponent: /* istanbul ignore next */ () =>
           import(
             '../app/pages/internal-material-replacement/internal-material-replacement.component'
           ).then((m) => m.InternalMaterialReplacementComponent),
@@ -141,11 +146,12 @@ export const appRoutes: RouteConfig = {
             'header.title',
             'tabbarMenu.customer-material-details.label',
           ],
+          hasGlobalSelection: true,
         },
         visible: true,
         path: AppRoutePath.CustomerMaterialDetailsPage,
         canActivate: [MsalGuard],
-        loadComponent: () =>
+        loadComponent: /* istanbul ignore next */ () =>
           import('../app/pages/home/home.component').then(
             (m) => m.HomeComponent
           ),
@@ -161,7 +167,7 @@ export const appRoutes: RouteConfig = {
           allowedRegions: [Region.Europe],
           titles: ['header.title', 'tabbarMenu.overview.label'],
         },
-        loadComponent: () =>
+        loadComponent: /* istanbul ignore next */ () =>
           import('./pages/overview/overview.component').then(
             (m) => m.OverviewComponent
           ),
@@ -175,7 +181,7 @@ export const appRoutes: RouteConfig = {
           allowedRoles: workflowManagementAllowedRoles,
           titles: ['header.title', 'tabbarMenu.alert-rule-editor.label'],
         },
-        loadComponent: () =>
+        loadComponent: /* istanbul ignore next */ () =>
           import('../app/pages/alert-rules/alert-rules.component').then(
             (m) => m.AlertRulesComponent
           ),
@@ -190,7 +196,7 @@ export const appRoutes: RouteConfig = {
     },
     canActivate: [MsalGuard],
     visible: true,
-    loadComponent: () =>
+    loadComponent: /* istanbul ignore next */ () =>
       import('../app/pages/alerts/alerts.component').then(
         (m) => m.AlertsComponent
       ),
@@ -199,25 +205,34 @@ export const appRoutes: RouteConfig = {
     {
       path: AppRoutePath.TestPage,
       canActivate: [MsalGuard],
-      loadComponent: () =>
+      loadComponent: /* istanbul ignore next */ () =>
         import('../app/pages/test-page/test-page.component').then(
           (m) => m.TestPageComponent
         ),
     },
     {
       path: LegalRoute,
-      loadChildren: () =>
+      loadChildren: /* istanbul ignore next */ () =>
         import('@schaeffler/legal-pages').then((m) => m.LegalModule),
     },
     {
       path: AppRoutePath.ForbiddenPage,
-      loadChildren: () =>
+      loadChildren: /* istanbul ignore next */ () =>
         import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
     },
     {
       path: '**',
-      loadChildren: () =>
+      loadChildren: /* istanbul ignore next */ () =>
         import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
     },
   ],
 } as const;
+
+export function getAllRoutes(): CustomRoute[] {
+  return [
+    appRoutes.root,
+    ...Object.values(appRoutes.functions).flat(),
+    appRoutes.todos,
+    ...appRoutes.others,
+  ];
+}

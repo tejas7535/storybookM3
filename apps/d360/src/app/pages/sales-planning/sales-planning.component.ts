@@ -6,9 +6,9 @@ import { CustomerSalesPlanChartComponent } from './components/customer-sales-pla
 import { CustomerSelectionComponent } from './components/customer-selection/customer-selection.component';
 
 export interface CustomerSelectionChange {
-  customerNumber: string;
-  customerName: string;
-  planningCurrency: string;
+  customerNumber: string | null;
+  customerName: string | null;
+  planningCurrency: string | null;
 }
 
 @Component({
