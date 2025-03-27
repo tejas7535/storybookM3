@@ -319,7 +319,7 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
           // If the value is a SelectableValue, ignore it; otherwise, handle as a search value change
           SelectableValueUtils.isSelectableValue(value)
             ? EMPTY
-            : this.handleSearchValueChange(String(value))
+            : this.handleSearchValueChange(value ? String(value) : null)
         ),
 
         // Handle the search control changes
@@ -337,13 +337,13 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
    * @return {Observable<string>}
    * @memberof AbstractMultiAutocompleteComponent
    */
-  private handleSearchValueChange(next: string): Observable<string> {
+  private handleSearchValueChange(next: string | null): Observable<string> {
     if (this.isPreloaded) {
       // If the data is already preloaded, return the new search string as an observable
       return of(next);
     } else {
       // If the new search string has more than one character, set loading state to true
-      if (next.length > 1) {
+      if ((next || '').length > 1) {
         this.loading.set(true);
       }
 
