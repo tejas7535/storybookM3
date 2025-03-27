@@ -1,3 +1,4 @@
+import { OrgChartFluctuationRate } from '../../../organizational-view/models';
 import { RestResponse } from '../rest-response.model';
 
 export interface EmployeeAttritionMeta extends RestResponse {
@@ -10,4 +11,5 @@ export interface EmployeeAttritionMeta extends RestResponse {
   employeesAdded: number;
   openPositions: number;
   avgHeadcount: number;
+  fluctuationRate: OrgChartFluctuationRate;
 }

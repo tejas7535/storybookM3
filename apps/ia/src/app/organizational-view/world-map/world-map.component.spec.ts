@@ -8,6 +8,7 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { HeatType } from '../../shared/models';
 import { Color } from '../../shared/models/color';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
+import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
 import { ChartType } from '../models';
 import { CountryDataAttrition } from './models/country-data-attrition.model';
 import { WorldMapComponent } from './world-map.component';
@@ -133,7 +134,11 @@ describe('WorldMapComponent', () => {
       component.data = [
         {
           name: 'Italy',
+          countryKey: 'IT',
+          region: 'Europe',
+          regionKey: '2',
           attritionMeta: {
+            title: 'Italy',
             employeesLost: 1,
             remainingFluctuation: 2,
             forcedFluctuation: 3,
@@ -141,9 +146,16 @@ describe('WorldMapComponent', () => {
             resignationsReceived: 5,
             employeesAdded: 6,
             openPositions: 7,
+            avgHeadcount: 32.3,
             responseModified: false,
+            fluctuationRate: {
+              fluctuationRate: 1.2,
+              forcedFluctuationRate: 0.2,
+              unforcedFluctuationRate: 0.3,
+              remainingFluctuationRate: 0.4,
+            },
           },
-        } as any,
+        },
       ];
 
       component.openDialogWithCountryData('Italy');
@@ -164,10 +176,15 @@ describe('WorldMapComponent', () => {
             hideDetailedLeaverStats: false,
             heatType: HeatType.NONE,
             openPositionsAvailable: true,
+            avgHeadcount: 32.3,
+            fluctuationRate: 1.2,
+            forcedFluctuationRate: 0.2,
+            unforcedFluctuationRate: 0.3,
+            remainingFluctuationRate: 0.4,
           },
           selectedTimeRange: '2022',
           showAttritionRates: false,
-        },
+        } as AttritionDialogMeta,
       });
       expect(component.loadCountryMeta.emit).toHaveBeenCalledWith('Italy');
     });

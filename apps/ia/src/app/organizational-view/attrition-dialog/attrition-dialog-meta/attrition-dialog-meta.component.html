@@ -7,7 +7,10 @@
   >
     {{ t('metaTitle') }} ({{ meta?.selectedTimeRange }})
   </h6>
-  @if (meta.data.employeesLost > 5 || meta.data.employeesLost === 0) {
+  @if (
+    meta.data.fluctuationRate &&
+    (meta.data.employeesLost > 5 || meta.data.employeesLost === 0)
+  ) {
     <div class="flex items-center text-body-large leading-8">
       <mat-icon class="mr-1.5 !h-6 !w-6 text-on-surface-variant">
         insert_chart
@@ -94,16 +97,18 @@
       meta.data.resignationsReceived
     }}</span>
   </div>
-  <div class="flex items-center text-body-large leading-8">
-    <mat-icon class="mr-1.5 !h-6 !w-6 text-on-surface-variant"
-      >groups_outlined</mat-icon
-    >
-    <span
-      class="flex text-on-surface-variant"
-      [innerHTML]="t('avgHeadcount') + ':'"
-    ></span>
-    <span class="ml-2 text-on-surface">{{ meta.data.avgHeadcount }}</span>
-  </div>
+  @if (meta.data.avgHeadcount) {
+    <div class="flex items-center text-body-large leading-8">
+      <mat-icon class="mr-1.5 !h-6 !w-6 text-on-surface-variant"
+        >groups_outlined</mat-icon
+      >
+      <span
+        class="flex text-on-surface-variant"
+        [innerHTML]="t('avgHeadcount') + ':'"
+      ></span>
+      <span class="ml-2 text-on-surface">{{ meta.data.avgHeadcount }}</span>
+    </div>
+  }
   <div class="flex items-center text-body-large leading-8">
     <mat-icon class="mr-1.5 !h-6 !w-6 text-on-surface-variant"
       >person_add</mat-icon

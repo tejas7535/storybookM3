@@ -179,6 +179,14 @@ export class WorldMapComponent implements OnInit {
       meta: {
         data: {
           title: name,
+          fluctuationRate: data.attritionMeta.fluctuationRate.fluctuationRate,
+          unforcedFluctuationRate:
+            data.attritionMeta.fluctuationRate.unforcedFluctuationRate,
+          forcedFluctuationRate:
+            data.attritionMeta.fluctuationRate.forcedFluctuationRate,
+          remainingFluctuationRate:
+            data.attritionMeta.fluctuationRate.remainingFluctuationRate,
+          avgHeadcount: data.attritionMeta.avgHeadcount,
           employeesLost: data.attritionMeta.employeesLost,
           remainingFluctuation: data.attritionMeta.remainingFluctuation,
           forcedFluctuation: data.attritionMeta.forcedFluctuation,
