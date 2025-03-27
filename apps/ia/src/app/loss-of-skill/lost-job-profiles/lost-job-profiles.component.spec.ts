@@ -1,5 +1,3 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-
 import { translate } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { AgGridModule } from 'ag-grid-angular';
@@ -32,7 +30,6 @@ describe('LostJobProfilesComponent', () => {
       AgGridModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
-    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });
 
   beforeEach(() => {

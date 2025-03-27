@@ -17,7 +17,7 @@ export function createSolidDoughnutChartBaseOptions(
       text: config.title,
       textStyle: {
         fontFamily: 'Noto Sans',
-        color: Color.TEXT_MEDIUM_EMPHASIS,
+        color: Color.TEXT_SECONDARY,
         fontStyle: 'normal',
         fontWeight: 400,
         align: 'center',

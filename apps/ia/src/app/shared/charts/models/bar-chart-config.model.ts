@@ -8,6 +8,7 @@ export class BarChartConfig {
     public series: BarChartSerie[],
     public categories: string[],
     public referenceValue: ReferenceValue,
-    public xAxisSize?: number
+    public xAxisSize?: number,
+    public comment?: string
   ) {}
 }

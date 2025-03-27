@@ -66,6 +66,7 @@ describe('attrition analytics selector utils', () => {
         order: [1, 2, 3],
         totalEmployees: { headcount: 158, leavers: 7 },
         notApplicableEmployees: { headcount: 2, leavers: 1 },
+        comment: 'This feature is available in Vietnamese only',
       };
 
       const result = sortFeature(feature);
@@ -93,6 +94,7 @@ describe('attrition analytics selector utils', () => {
           headcount: number;
           leavers: number;
         },
+        comment: undefined,
       };
 
       const result = sortFeature(feature);

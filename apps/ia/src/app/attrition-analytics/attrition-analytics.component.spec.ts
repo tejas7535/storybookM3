@@ -1,6 +1,5 @@
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
@@ -49,13 +48,9 @@ describe('AttritionAnalyticsComponent', () => {
           },
         },
       }),
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
     declarations: [
       PushPipe,
-      MockComponent(FeatureAnalysisComponent),
-      MockComponent(LoadingSpinnerComponent),
-      MockComponent(NavButtonsComponent),
       MockComponent(FeatureAnalysisComponent),
       MockComponent(LoadingSpinnerComponent),
       MockComponent(NavButtonsComponent),

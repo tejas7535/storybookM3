@@ -1,6 +1,5 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -37,10 +36,7 @@ describe('FeedbackDialogComponent', () => {
       MatInputModule,
       ReactiveFormsModule,
     ],
-    providers: [
-      { provide: MAT_DIALOG_DATA, useValue: {} },
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
-    ],
+    providers: [{ provide: MAT_DIALOG_DATA, useValue: {} }],
   });
 
   beforeEach(() => {

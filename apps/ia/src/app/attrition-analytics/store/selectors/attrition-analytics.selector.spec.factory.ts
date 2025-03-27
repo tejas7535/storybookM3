@@ -43,6 +43,7 @@ export function createFakeState(): AttritionAnalyticsState {
             headcount: 2,
             leavers: 1,
           },
+          comment: 'This feature is available in Vietnamese only',
         },
       ],
       errorMessage: undefined,
@@ -67,6 +68,7 @@ export function createDummyFeature(name: string): EmployeeAnalytics {
     fluctuation: [2, 5, 7],
     names: ['a', 'b', 'c'],
     order: [2, 3, 1],
+    comment: 'This feature is available in Vietnamese only',
   };
 }
 
@@ -85,7 +87,8 @@ export function createDummyBarchartConfig(
     [serie],
     ['c', 'a', 'b'],
     new ReferenceValue(0.045, 'translate it', 'translate it', 'translate it'),
-    xAxisSize
+    xAxisSize,
+    'This feature is available in Vietnamese only'
   );
 }
 

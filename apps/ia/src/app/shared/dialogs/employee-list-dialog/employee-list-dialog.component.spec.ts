@@ -1,4 +1,3 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -47,7 +46,6 @@ describe('EmployeeListDialogComponent', () => {
           'leavers'
         ),
       },
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
   });
 

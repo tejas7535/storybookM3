@@ -73,7 +73,7 @@ export class ReasonsForLeavingChartComponent {
             icon: {
               fontFamily: 'Material Icons',
               fontSize: 14,
-              color: Color.TEXT_HIGH_EMPHASIS,
+              color: Color.TEXT_PRIMARY,
               padding: [0, 0, 2, 0],
             },
           },

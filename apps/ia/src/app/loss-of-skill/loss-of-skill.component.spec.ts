@@ -1,5 +1,4 @@
 import { MatCardModule } from '@angular/material/card';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
@@ -40,10 +39,7 @@ describe('LossOfSkillComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       PushPipe,
     ],
-    providers: [
-      provideMockStore({}),
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
-    ],
+    providers: [provideMockStore({})],
   });
 
   beforeEach(() => {

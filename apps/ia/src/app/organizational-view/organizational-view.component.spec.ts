@@ -1,5 +1,3 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-
 import { of } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
@@ -45,10 +43,7 @@ describe('OrganizationalViewComponent', () => {
       DrillDownToolPanelModule,
       provideTranslocoTestingModule({ en }),
     ],
-    providers: [
-      provideMockStore({}),
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
-    ],
+    providers: [provideMockStore({})],
   });
 
   beforeEach(() => {

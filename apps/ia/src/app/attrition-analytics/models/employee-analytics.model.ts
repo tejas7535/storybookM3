@@ -14,4 +14,5 @@ export interface EmployeeAnalytics {
     headcount: number;
     leavers: number;
   };
+  comment: string;
 }

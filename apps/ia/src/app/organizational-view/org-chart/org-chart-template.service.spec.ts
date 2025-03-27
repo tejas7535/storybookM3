@@ -195,32 +195,23 @@ describe('OrgChartTemplateService', () => {
     test('should get highlighted border when node is highlighted up to the root', () => {
       const data = { _upToTheRootHighlighted: true } as OrgChartNode;
 
-      const result = service.getRectBorderStyles(
-        data,
-        Color.TEXT_HIGH_EMPHASIS
-      );
+      const result = service.getRectBorderStyles(data, Color.TEXT_PRIMARY);
 
-      expect(result).toEqual(`border: 2px solid ${Color.TEXT_HIGH_EMPHASIS}`);
+      expect(result).toEqual(`border: 2px solid ${Color.TEXT_PRIMARY}`);
     });
 
     test('should get highlighted border when single node is highlighted', () => {
       const data = { _highlighted: true } as OrgChartNode;
 
-      const result = service.getRectBorderStyles(
-        data,
-        Color.TEXT_HIGH_EMPHASIS
-      );
+      const result = service.getRectBorderStyles(data, Color.TEXT_PRIMARY);
 
-      expect(result).toEqual(`border: 2px solid ${Color.TEXT_HIGH_EMPHASIS}`);
+      expect(result).toEqual(`border: 2px solid ${Color.TEXT_PRIMARY}`);
     });
 
     test('should get normal border when node is not highlighted', () => {
       const data = { _upToTheRootHighlighted: false } as OrgChartNode;
 
-      const result = service.getRectBorderStyles(
-        data,
-        Color.TEXT_HIGH_EMPHASIS
-      );
+      const result = service.getRectBorderStyles(data, Color.TEXT_PRIMARY);
 
       expect(result).toEqual(`border: 1px solid rgba(0, 0, 0, 0.32)`);
     });
@@ -230,32 +221,23 @@ describe('OrgChartTemplateService', () => {
     test('should get highlighted border when node is highlighted up to the root', () => {
       const data = { _upToTheRootHighlighted: true } as OrgChartNode;
 
-      const result = service.getHeaderBorderStyles(
-        data,
-        Color.TEXT_HIGH_EMPHASIS
-      );
+      const result = service.getHeaderBorderStyles(data, Color.TEXT_PRIMARY);
 
-      expect(result).toEqual(`border: 1px solid ${Color.TEXT_HIGH_EMPHASIS}`);
+      expect(result).toEqual(`border: 1px solid ${Color.TEXT_PRIMARY}`);
     });
 
     test('should get highlighted border when single node is highlighted', () => {
       const data = { _highlighted: true } as OrgChartNode;
 
-      const result = service.getHeaderBorderStyles(
-        data,
-        Color.TEXT_HIGH_EMPHASIS
-      );
+      const result = service.getHeaderBorderStyles(data, Color.TEXT_PRIMARY);
 
-      expect(result).toEqual(`border: 1px solid ${Color.TEXT_HIGH_EMPHASIS}`);
+      expect(result).toEqual(`border: 1px solid ${Color.TEXT_PRIMARY}`);
     });
 
     test('should unset border when node is not highlighted', () => {
       const data = { _upToTheRootHighlighted: false } as OrgChartNode;
 
-      const result = service.getHeaderBorderStyles(
-        data,
-        Color.TEXT_HIGH_EMPHASIS
-      );
+      const result = service.getHeaderBorderStyles(data, Color.TEXT_PRIMARY);
 
       expect(result).toEqual(`border: none`);
     });

@@ -430,7 +430,7 @@ describe('OrgChartService', () => {
 
       expect(highlightedLink.setAttribute).toHaveBeenCalledWith(
         'stroke',
-        Color.TEXT_HIGH_EMPHASIS
+        Color.TEXT_PRIMARY
       );
       expect(highlightedLink.setAttribute).toHaveBeenCalledWith(
         'stroke-width',

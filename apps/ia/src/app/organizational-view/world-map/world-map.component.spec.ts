@@ -1,4 +1,3 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -31,7 +30,6 @@ describe('WorldMapComponent', () => {
       LoadingSpinnerModule,
       MatDialogModule,
     ],
-    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });
 
   beforeEach(() => {

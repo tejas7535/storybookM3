@@ -24,7 +24,7 @@ export function createBarChartOption(config: BarChartConfig): EChartsOption {
       },
       subtextStyle: {
         fontWeight: 400,
-        color: Color.TEXT_LOW_EMPHASIS,
+        color: Color.TEXT_OUTLINE,
         lineHeight: 16,
       },
     },
@@ -70,7 +70,7 @@ export function createBarChartOption(config: BarChartConfig): EChartsOption {
             fontSize: 14,
             lineHeight: 20,
             letterSpacing: 0.1,
-            color: Color.TEXT_HIGH_EMPHASIS,
+            color: Color.TEXT_PRIMARY,
           },
         },
       } as any,
@@ -180,7 +180,7 @@ export function addVisualMap(
     padding: 16,
     itemGap: 16,
     textStyle: {
-      color: Color.TEXT_MEDIUM_EMPHASIS,
+      color: Color.TEXT_OUTLINE,
       fontWeight: 500,
       lineHeight: 16,
       fontSize: 12,
@@ -229,14 +229,14 @@ export function addSlider(config: BarChartConfig, option: EChartsOption): void {
         filterMode: 'none',
         moveHandleIcon: 'image://data:image/gif;base64',
         moveHandleStyle: {
-          color: Color.TEXT_LOW_EMPHASIS,
+          color: Color.TEXT_OUTLINE,
           borderCap: 'round',
           opacity: 1,
         },
         moveHandleSize: 8,
         emphasis: {
           moveHandleStyle: {
-            color: Color.TEXT_LOW_EMPHASIS,
+            color: Color.TEXT_OUTLINE,
             borderCap: 'round',
           },
         },

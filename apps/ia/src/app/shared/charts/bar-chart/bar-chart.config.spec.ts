@@ -234,7 +234,7 @@ describe('Bar Chart Config', () => {
         orient: 'horizontal',
         textGap: 8,
         textStyle: {
-          color: 'rgba(0, 0, 0, 0.60)',
+          color: '#828282',
           fontWeight: 500,
           lineHeight: 16,
           fontSize: 12,
@@ -269,14 +269,14 @@ describe('Bar Chart Config', () => {
           filterMode: 'none',
           moveHandleIcon: 'image://data:image/gif;base64',
           moveHandleStyle: {
-            color: 'rgba(0, 0, 0, 0.38)',
+            color: '#828282',
             borderCap: 'round',
             opacity: 1,
           },
           moveHandleSize: 8,
           emphasis: {
             moveHandleStyle: {
-              color: 'rgba(0, 0, 0, 0.38)',
+              color: '#828282',
               borderCap: 'round',
             },
           },

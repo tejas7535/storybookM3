@@ -3,7 +3,6 @@ import {
   MatButtonToggleGroup,
   MatButtonToggleModule,
 } from '@angular/material/button-toggle';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -30,7 +29,6 @@ describe('DrillDownToolPanelComponent', () => {
       MatTooltipModule,
       MatMenuModule,
     ],
-    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });
 
   beforeEach(() => {

@@ -1,4 +1,3 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { By } from '@angular/platform-browser';
 
@@ -36,7 +35,6 @@ describe('ChartLegendComponent', () => {
     component: ChartLegendComponent,
     imports: [MatTooltipModule, provideTranslocoTestingModule({ en })],
     declarations: [ChartLegendComponent],
-    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });
 
   beforeEach(() => {

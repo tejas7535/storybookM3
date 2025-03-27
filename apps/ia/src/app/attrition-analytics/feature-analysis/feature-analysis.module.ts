@@ -1,7 +1,4 @@
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 
@@ -16,9 +13,6 @@ import { FeatureAnalysisComponent } from './feature-analysis.component';
   declarations: [FeatureAnalysisComponent],
   imports: [
     SharedModule,
-    MatTooltipModule,
-    MatIconModule,
-    MatButtonModule,
     LoadingSpinnerModule,
     SharedTranslocoModule,
     BarChartModule,

@@ -1,4 +1,3 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatListModule } from '@angular/material/list';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -20,7 +19,6 @@ describe('OpenPositionsListComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       MatListModule,
     ],
-    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });
 
   beforeEach(() => {

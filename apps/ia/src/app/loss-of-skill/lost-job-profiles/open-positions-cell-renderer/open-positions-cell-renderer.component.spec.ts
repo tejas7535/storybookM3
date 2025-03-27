@@ -1,4 +1,3 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -21,7 +20,6 @@ describe('OpenPositionsCellRendererComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
     ],
     declarations: [OpenPositionsCellRendererComponent],
-    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });
 
   beforeEach(() => {

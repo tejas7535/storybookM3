@@ -51,7 +51,8 @@ export function mapEmployeeAnalyticsFeatureToBarChartConfig(
           translate('attritionAnalytics.barChart.belowAverage'),
           translate('attritionAnalytics.barChart.aboveAverage')
         ),
-        xAxisSize
+        xAxisSize,
+        feature.comment
       )
     : undefined;
 }
@@ -127,5 +128,6 @@ export function sortFeature(
     overallFluctuationRate: feature.overallFluctuationRate,
     totalEmployees: feature.totalEmployees,
     notApplicableEmployees: feature.notApplicableEmployees,
+    comment: feature.comment,
   };
 }

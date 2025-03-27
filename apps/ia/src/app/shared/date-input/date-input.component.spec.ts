@@ -1,5 +1,4 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import {
   MatDatepicker,
   MatDatepickerModule,
@@ -38,7 +37,6 @@ describe('DateInputComponent', () => {
     ],
     providers: [
       { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
   });
 

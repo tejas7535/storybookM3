@@ -1,5 +1,4 @@
 import { ComponentFixture } from '@angular/core/testing';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { By } from '@angular/platform-browser';
@@ -58,7 +57,6 @@ describe('EntriesExitsComponent', () => {
           },
         },
       }),
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
     imports: [
       SharedModule,
@@ -90,7 +88,7 @@ describe('EntriesExitsComponent', () => {
         new DoughnutSeriesConfig([{ value: 23 }], 'entries', Color.WHITE),
       ]);
       component.exitsDoughnutConfig = new DoughnutConfig('Demo Exits', [
-        new DoughnutSeriesConfig([{ value: 23 }], 'exits', Color.BLACK),
+        new DoughnutSeriesConfig([{ value: 23 }], 'exits', Color.TEXT_PRIMARY),
       ]);
       component.entriesCount = 65;
       component.exitsCount = 72;

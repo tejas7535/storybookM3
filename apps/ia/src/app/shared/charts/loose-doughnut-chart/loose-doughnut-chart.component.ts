@@ -92,7 +92,7 @@ export class LooseDoughnutChartComponent extends ExternalLegend {
         radius,
         seriesObj.data[0].value,
         totalValue,
-        seriesObj.color ?? Color.BLACK,
+        seriesObj.color ?? Color.TEXT_PRIMARY,
         data.name,
         seriesObj.title
       );

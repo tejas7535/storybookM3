@@ -183,7 +183,7 @@ export class OrgChartService {
   updateLinkStyles(links: any[]): void {
     links.forEach((elem: any) => {
       if (elem.__data__.data._upToTheRootHighlighted) {
-        elem.setAttribute('stroke', Color.TEXT_HIGH_EMPHASIS);
+        elem.setAttribute('stroke', Color.TEXT_PRIMARY);
         elem.setAttribute('stroke-width', '2px');
       } else {
         elem.setAttribute('stroke', 'rgba(0,0,0,0.11)');
@@ -214,7 +214,7 @@ export class OrgChartService {
       data,
       width,
       height,
-      Color.TEXT_HIGH_EMPHASIS
+      Color.TEXT_PRIMARY
     );
 
   getGeneralNodeContent = (
@@ -226,7 +226,7 @@ export class OrgChartService {
       data,
       width,
       height,
-      Color.TEXT_HIGH_EMPHASIS
+      Color.TEXT_PRIMARY
     );
 
   setFluctuationRatesToDisplay(

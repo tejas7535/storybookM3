@@ -1,5 +1,3 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { LegendSelectAction } from '../models';
@@ -12,7 +10,6 @@ describe('ExternalLegendComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ExternalLegendComponent,
-    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });
 
   beforeEach(() => {

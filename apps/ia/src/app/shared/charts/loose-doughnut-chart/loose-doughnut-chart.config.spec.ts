@@ -34,13 +34,13 @@ describe('loose-doughnut-chart config', () => {
           left: 'center',
           top: 'center',
           textStyle: {
-            color: Color.BLACK,
+            color: Color.TEXT_PRIMARY,
             fontSize: 20,
             lineHeight: 30,
           },
           subtext: '',
           subtextStyle: {
-            color: Color.BLACK,
+            color: Color.TEXT_PRIMARY,
             fontSize: 12,
             lineHeight: 20,
           },

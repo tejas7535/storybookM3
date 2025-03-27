@@ -111,6 +111,7 @@ describe('Attrition Analytics Reducer', () => {
             headcount: 2,
             leavers: 1,
           },
+          comment: 'This feature is available for all employees',
         },
       ];
 
@@ -146,6 +147,7 @@ describe('Attrition Analytics Reducer', () => {
                 headcount: 2,
                 leavers: 1,
               },
+              comment: 'This feature is available for San Francisco employees',
             },
           ],
           loading: true,
@@ -196,6 +198,7 @@ describe('Attrition Analytics Reducer', () => {
                 headcount: 2,
                 leavers: 1,
               },
+              comment: 'This feature is based on the age of employees',
             },
           ],
           loading: false,

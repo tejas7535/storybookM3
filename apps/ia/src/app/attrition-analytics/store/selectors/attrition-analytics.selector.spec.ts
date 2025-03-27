@@ -84,6 +84,7 @@ describe('attrition analytics selector', () => {
               ],
             } as BarChartSerie,
           ],
+          comment: 'This feature is available in Vietnamese only',
           xAxisSize: 20,
         } as BarChartConfig,
       ]);
@@ -126,6 +127,7 @@ describe('attrition analytics selector', () => {
             headcount: 2,
             leavers: 1,
           },
+          comment: 'This feature is available in Vietnamese only',
         },
       ]);
     });

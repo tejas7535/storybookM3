@@ -1,4 +1,3 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -20,10 +19,7 @@ describe('AmountCellRendererComponent', () => {
   const createComponent = createComponentFactory({
     component: AmountCellRendererComponent,
     imports: [MatIconModule, MatTooltipModule],
-    providers: [
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
-      mockProvider(TranslocoService, { translate }),
-    ],
+    providers: [mockProvider(TranslocoService, { translate })],
   });
 
   beforeEach(() => {

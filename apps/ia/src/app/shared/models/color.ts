@@ -1,8 +1,8 @@
 export enum Color {
-  TEXT_LOW_EMPHASIS = 'rgba(0, 0, 0, 0.38)',
-  TEXT_MEDIUM_EMPHASIS = 'rgba(0, 0, 0, 0.60)',
-  TEXT_HIGH_EMPHASIS = 'rgba(0, 0, 0, 0.87)',
-  BLACK = '#000',
+  TEXT_PRIMARY = '#343434',
+  TEXT_SECONDARY = '#646464',
+  TEXT_OUTLINE = '#828282',
+  TEXT_OUTLINE_VARIANT = '#d0d0d0',
   WHITE = '#fff',
   GREY = '#ebeef0',
   SHADOW_GREY = 'rgba(0, 0, 0, 0.2)',
