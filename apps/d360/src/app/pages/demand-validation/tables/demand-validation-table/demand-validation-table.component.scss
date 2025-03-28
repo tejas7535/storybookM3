@@ -6,4 +6,10 @@
   transition: all 0.25s ease-in-out;
   will-change: width;
   padding: 0 16px;
+
+  ::ng-deep {
+    .ag-root-wrapper {
+      min-height: 454px !important;
+    }
+  }
 }
