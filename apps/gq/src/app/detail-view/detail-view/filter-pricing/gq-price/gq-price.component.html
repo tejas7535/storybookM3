@@ -2,10 +2,10 @@
   <gq-filter-pricing-card
     *transloco="let t; read: 'detailView.filterPricing.gqPrice'"
     [title]="t('title')"
-    [isSelected]="quotationDetail.priceSource === PriceSource.GQ"
+    [isSelected]="isSelected()"
     (selectManualPrice)="selectPrice()"
     [isLoading]="isLoading"
-    [isDisabled]="isDisabled"
+    [isDisabled]="isDisabled()"
   >
     <div content>
       <div class="flex w-full flex-col flex-wrap sm:flex-row">
@@ -18,11 +18,11 @@
               {{ t('priceLabel') }}:
             </div>
             <span class="font-bold" data-cy="gq-price-value">{{
-              quotationDetail.recommendedPrice | numberCurrency: currency
+              quotationDetail().recommendedPrice | numberCurrency: currency()
             }}</span>
           </div>
         </div>
-        @if (userHasGPCRole) {
+        @if (userHasGPCRole()) {
           <div class="min-w-[8rem] pt-2">
             <div
               class="text-body-2 text-medium-emphasis mb-1"
@@ -32,12 +32,12 @@
             </div>
             <div>
               <span class="font-bold" data-cy="gpi-value">{{
-                gpi | percentage: false
+                gpi() | percentage: false
               }}</span>
             </div>
           </div>
         }
-        @if (userHasSQVRole) {
+        @if (userHasSQVRole()) {
           <div class="min-w-[8rem] pt-2">
             <div
               class="text-body-2 text-medium-emphasis mb-1"
@@ -47,12 +47,12 @@
             </div>
             <div>
               <span class="font-bold" data-cy="gpm-value">{{
-                gpm | percentage: false
+                gpm() | percentage: false
               }}</span>
             </div>
           </div>
         }
-        @if (gpmRfq) {
+        @if (gpmRfq()) {
           <div class="min-w-[8rem] pt-2">
             <div
               class="text-body-2 text-medium-emphasis mb-1"
@@ -62,7 +62,7 @@
             </div>
             <div>
               <span class="font-bold" data-cy="rfq-gpm-value">{{
-                gpmRfq | percentage: false
+                gpmRfq() | percentage: false
               }}</span>
             </div>
           </div>
@@ -75,10 +75,10 @@
             {{ t('quantity') }}:
           </div>
           <gq-quantity-display
-            [quotationDetail]="quotationDetail"
+            [quotationDetail]="quotationDetail()"
           ></gq-quantity-display>
         </div>
-        @if (quotationDetail.gqRating) {
+        @if (quotationDetail().gqRating) {
           <div class="min-w-[8rem] pt-2">
             <div
               class="text-body-2 text-medium-emphasis mb-1"
@@ -88,13 +88,13 @@
             </div>
             <div data-cy="gq-rating-value">
               @for (
-                i of [].constructor(quotationDetail.gqRating);
+                i of [].constructor(quotationDetail().gqRating);
                 track $index
               ) {
                 <mat-icon class="text-link mr-1">star</mat-icon>
               }
               @for (
-                i of [].constructor(3 - quotationDetail.gqRating);
+                i of [].constructor(3 - quotationDetail().gqRating);
                 track $index
               ) {
                 <mat-icon class="text-link mr-1">star_border</mat-icon>
@@ -116,7 +116,7 @@
             </div>
           </div>
         }
-        @if (isDetailsButtonVisible) {
+        @if (isDetailsButtonVisible()) {
           <gq-detail-button
             link
             [text]="t('details')"

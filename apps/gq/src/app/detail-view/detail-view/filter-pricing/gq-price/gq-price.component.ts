@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  computed,
+  EventEmitter,
+  Input,
+  input,
+  Output,
+} from '@angular/core';
 
 import {
   PriceSource,
@@ -15,46 +22,46 @@ import { DetailRoutePath } from '../../../detail-route-path.enum';
   standalone: false,
 })
 export class GqPriceComponent {
-  @Input() userHasGPCRole: boolean;
-  @Input() userHasSQVRole: boolean;
-  @Input() currency: string;
-  @Input() isDisabled: boolean;
-  @Input() isDetailsButtonVisible: boolean;
   @Output() readonly selectGqPrice = new EventEmitter<UpdatePrice>();
 
-  gpi: number;
-  gpm: number;
-  gpmRfq: number;
+  userHasGPCRole = input<boolean>();
+  userHasSQVRole = input<boolean>();
+  currency = input<string>();
+  isDisabled = input<boolean>();
+  isDetailsButtonVisible = input<boolean>();
+  quotationDetail = input<QuotationDetail>();
+
+  gpi = computed(() =>
+    calculateMargin(
+      this.quotationDetail().recommendedPrice,
+      this.quotationDetail().gpc
+    )
+  );
+  gpm = computed(() =>
+    calculateMargin(
+      this.quotationDetail().recommendedPrice,
+      this.quotationDetail().sqv
+    )
+  );
+  gpmRfq = computed(() =>
+    calculateMargin(
+      this.quotationDetail().recommendedPrice,
+      this.quotationDetail().rfqData?.sqv
+    )
+  );
+  isSelected = computed(() =>
+    [PriceSource.GQ, PriceSource.STRATEGIC].includes(
+      this.quotationDetail().priceSource
+    )
+  );
+
   PriceSource = PriceSource;
   DetailRoutePath = DetailRoutePath;
 
-  private _quotationDetail: QuotationDetail;
   private _isLoading: boolean;
 
-  get quotationDetail(): QuotationDetail {
-    return this._quotationDetail;
-  }
   get isLoading(): boolean {
     return this._isLoading;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures,@typescript-eslint/member-ordering
-  @Input() set quotationDetail(quotationDetail: QuotationDetail) {
-    if (quotationDetail) {
-      this.gpi = calculateMargin(
-        quotationDetail.recommendedPrice,
-        quotationDetail.gpc
-      );
-      this.gpm = calculateMargin(
-        quotationDetail.recommendedPrice,
-        quotationDetail.sqv
-      );
-      this.gpmRfq = calculateMargin(
-        quotationDetail.recommendedPrice,
-        quotationDetail.rfqData?.sqv
-      );
-    }
-    this._quotationDetail = quotationDetail;
   }
 
   // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures,@typescript-eslint/member-ordering
@@ -64,12 +71,12 @@ export class GqPriceComponent {
 
   selectPrice(): void {
     this._isLoading = true;
-    const priceSource = this.quotationDetail.strategicPrice
+    const priceSource = this.quotationDetail().strategicPrice
       ? PriceSource.STRATEGIC
       : PriceSource.GQ;
     const price =
-      this.quotationDetail.strategicPrice ??
-      this.quotationDetail.recommendedPrice;
+      this.quotationDetail().strategicPrice ??
+      this.quotationDetail().recommendedPrice;
     this.selectGqPrice.emit(new UpdatePrice(price, priceSource));
   }
 }

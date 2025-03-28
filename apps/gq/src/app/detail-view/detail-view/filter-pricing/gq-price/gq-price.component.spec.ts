@@ -38,8 +38,8 @@ describe('GqPriceComponent', () => {
 
   beforeEach(() => {
     spectator = createComponent();
+    spectator.setInput('quotationDetail', QUOTATION_DETAIL_MOCK);
     component = spectator.debugElement.componentInstance;
-    component.quotationDetail = QUOTATION_DETAIL_MOCK;
   });
 
   test('should create', () => {
@@ -49,24 +49,18 @@ describe('GqPriceComponent', () => {
   describe('set quotationDetail', () => {
     test('should set quotationDetail, gpi, and gpm', () => {
       const detail = {
-        recommendedPrice: 10,
+        recommendedPrice: 15,
         gpc: 12,
-        sqv: 20,
+        sqv: 9,
       } as unknown as QuotationDetail;
 
       jest.spyOn(pricingUtils, 'calculateMargin');
 
-      component.quotationDetail = detail;
+      spectator.setInput('quotationDetail', detail);
 
-      expect(component.quotationDetail).toEqual(detail);
-      expect(pricingUtils.calculateMargin).toHaveBeenCalledWith(
-        detail.recommendedPrice,
-        detail.gpc
-      );
-      expect(pricingUtils.calculateMargin).toHaveBeenCalledWith(
-        detail.recommendedPrice,
-        detail.sqv
-      );
+      expect(component.quotationDetail()).toEqual(detail);
+      expect(component.gpi()).toEqual(0.2);
+      expect(component.gpm()).toEqual(0.4);
     });
 
     test('should set gpmRfq when RFQ data is present', () => {
@@ -81,13 +75,10 @@ describe('GqPriceComponent', () => {
 
       jest.spyOn(pricingUtils, 'calculateMargin');
 
-      component.quotationDetail = detail;
+      spectator.setInput('quotationDetail', detail);
 
-      expect(component.quotationDetail).toEqual(detail);
-      expect(pricingUtils.calculateMargin).toHaveBeenCalledWith(
-        detail.recommendedPrice,
-        detail.rfqData.sqv
-      );
+      expect(component.quotationDetail()).toEqual(detail);
+      expect(component.gpmRfq()).toEqual(-2);
     });
     test('should set gpmRfq to undefined when RFQ data is not present', () => {
       const detail = {
@@ -98,13 +89,26 @@ describe('GqPriceComponent', () => {
 
       jest.spyOn(pricingUtils, 'calculateMargin');
 
-      component.quotationDetail = detail;
+      spectator.setInput('quotationDetail', detail);
 
-      expect(component.quotationDetail).toEqual(detail);
-      expect(pricingUtils.calculateMargin).toHaveBeenCalledWith(
-        detail.recommendedPrice,
-        undefined
-      );
+      expect(component.quotationDetail()).toEqual(detail);
+      expect(component.gpmRfq()).toBeUndefined();
+    });
+    test('should set isSelected to true on gq priceSource', () => {
+      const detail = {
+        priceSource: PriceSource.GQ,
+      } as unknown as QuotationDetail;
+
+      spectator.setInput('quotationDetail', detail);
+      expect(component.isSelected()).toBeTruthy();
+    });
+    test('should set isSelected to true on strategic priceSource', () => {
+      const detail = {
+        priceSource: PriceSource.STRATEGIC,
+      } as unknown as QuotationDetail;
+
+      spectator.setInput('quotationDetail', detail);
+      expect(component.isSelected()).toBeTruthy();
     });
   });
 
@@ -120,8 +124,8 @@ describe('GqPriceComponent', () => {
     });
     test('should emit Output EventEmitter with strategic price', () => {
       component.selectGqPrice.emit = jest.fn();
-      component.quotationDetail.strategicPrice = 10;
-      component.quotationDetail.recommendedPrice = undefined;
+      component.quotationDetail().strategicPrice = 10;
+      component.quotationDetail().recommendedPrice = undefined;
       component.selectPrice();
       const expected = new UpdatePrice(
         QUOTATION_DETAIL_MOCK.strategicPrice,
