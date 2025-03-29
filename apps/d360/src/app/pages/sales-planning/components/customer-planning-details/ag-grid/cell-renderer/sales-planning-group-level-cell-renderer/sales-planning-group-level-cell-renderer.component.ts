@@ -8,7 +8,7 @@ import {
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { DetailedCustomerSalesPlan } from '../../../../../../../feature/sales-planning/model';
-import { AbstractBaseCellRendererComponent } from '../../../../../../../shared/components/ag-grid/cell-renderer/abstract-cell-renderer.component';
+import { AbstractSalesPlanningCellRendererComponent } from '../abstract-sales-planning-cell-renderer.component';
 
 @Component({
   selector: 'd360-sales-planning-group-level-cell-renderer',
@@ -18,9 +18,7 @@ import { AbstractBaseCellRendererComponent } from '../../../../../../../shared/c
   styleUrl: './sales-planning-group-level-cell-renderer.component.scss',
 })
 // TODO: Introduce abstraction for toggling with upcoming cell renderer of D360-164-VOD-DOH
-export class SalesPlanningGroupLevelCellRendererComponent<
-  T = any,
-> extends AbstractBaseCellRendererComponent<T> {
+export class SalesPlanningGroupLevelCellRendererComponent extends AbstractSalesPlanningCellRendererComponent<string> {
   public isGroup!: boolean;
   public isChildElement!: boolean;
   public rowData!: DetailedCustomerSalesPlan;
@@ -37,7 +35,7 @@ export class SalesPlanningGroupLevelCellRendererComponent<
    * @override
    */
   protected setValue(
-    parameters: ICellRendererParams<any, T> & {
+    parameters: ICellRendererParams<DetailedCustomerSalesPlan, string> & {
       clickAction: () => void;
     }
   ): void {

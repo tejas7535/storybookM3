@@ -39,6 +39,7 @@ describe('SalesPlanningSinglePercentageEditCellRendererComponent with Spectator'
       planningCurrency: 'EUR',
       totalSalesPlanUnconstrained: 1000,
       salesPlanUnconstrained: 900,
+      editStatus: '1',
     },
     node: { level: 0 },
     context: {
@@ -80,9 +81,9 @@ describe('SalesPlanningSinglePercentageEditCellRendererComponent with Spectator'
     expect(spectator.component).toBeTruthy();
   });
 
-  describe('setValue', () => {
+  describe('agInit', () => {
     it('should initialize with correct values', () => {
-      spectator.component.setValue(mockParams);
+      spectator.component.agInit(mockParams);
       expect(spectator.component['customerNumber']).toBe('12345');
       expect(spectator.component['planningYear']).toBe('2024');
       expect(spectator.component['planningCurrency']).toBe('EUR');
@@ -93,12 +94,13 @@ describe('SalesPlanningSinglePercentageEditCellRendererComponent with Spectator'
         PercentageEditOption.SalesDeduction
       );
       expect(spectator.component.isYearlyRow).toBe(true);
-      expect(spectator.component.valueFormatted()).toBe('10%');
+      expect(spectator.component['valueFormatted']()).toBe('10%');
+      expect(spectator.component['editStatus']()).toBe('1');
     });
 
     it('should set isYearlyRow to false for non-yearly row', () => {
       const params = { ...mockParams, node: { level: 1 } };
-      spectator.component.setValue(
+      spectator.component.agInit(
         params as ICellRendererParams & {
           percentageValueName: string;
           percentageEditOption: PercentageEditOption;
@@ -109,16 +111,10 @@ describe('SalesPlanningSinglePercentageEditCellRendererComponent with Spectator'
   });
 
   describe('permissions', () => {
-    it('should check user permissions on initialization', () => {
-      const authService = spectator.inject(AuthService);
-      spectator.component.setValue(mockParams);
-      expect(authService.hasUserAccess).toHaveBeenCalledWith(expect.any(Array));
-    });
-
     it('should not show edit button if user lacks permission', () => {
       const authService = spectator.inject(AuthService);
       (authService.hasUserAccess as jest.Mock).mockReturnValue(of(false));
-      spectator.component.setValue(mockParams);
+      spectator.component.agInit(mockParams);
       spectator.detectChanges();
       const button = spectator.query('button');
       expect(button).toBeNull();
@@ -135,7 +131,7 @@ describe('SalesPlanningSinglePercentageEditCellRendererComponent with Spectator'
 
       (dialog.open as jest.Mock).mockReturnValue(dialogRef);
 
-      spectator.component.setValue(mockParams);
+      spectator.component.agInit(mockParams);
       spectator.component.handleEditSinglePercentageValueClicked();
 
       expect(dialog.open).toHaveBeenCalledWith(
@@ -160,7 +156,7 @@ describe('SalesPlanningSinglePercentageEditCellRendererComponent with Spectator'
 
       (dialog.open as jest.Mock).mockReturnValue(dialogRef);
 
-      spectator.component.setValue(mockParams);
+      spectator.component.agInit(mockParams);
       spectator.component.handleEditSinglePercentageValueClicked();
 
       tick();
@@ -176,20 +172,20 @@ describe('SalesPlanningSinglePercentageEditCellRendererComponent with Spectator'
 
       (dialog.open as jest.Mock).mockReturnValue(dialogRef);
 
-      spectator.component.setValue(mockParams);
+      spectator.component.agInit(mockParams);
       spectator.component.handleEditSinglePercentageValueClicked();
 
       tick();
 
       expect(spectator.component.value).toBe(10);
-      expect(spectator.component.valueFormatted()).toBe('10%');
+      expect(spectator.component['valueFormatted']()).toBe('10%');
     }));
   });
 
   describe('updateAdjustedPercentage', () => {
     it('should update sales deductions', () => {
       const salesPlanningService = spectator.inject(SalesPlanningService);
-      spectator.component.setValue(mockParams);
+      spectator.component.agInit(mockParams);
       spectator.component['updateAdjustedPercentage'](15);
       expect(salesPlanningService.updateSalesDeductions).toHaveBeenCalledWith(
         '12345',
@@ -204,7 +200,7 @@ describe('SalesPlanningSinglePercentageEditCellRendererComponent with Spectator'
         ...mockParams,
         percentageEditOption: PercentageEditOption.CashDiscount,
       };
-      spectator.component.setValue(params);
+      spectator.component.agInit(params);
       spectator.component['updateAdjustedPercentage'](15);
       expect(salesPlanningService.updateCashDiscounts).toHaveBeenCalledWith(
         '12345',

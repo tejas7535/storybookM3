@@ -35,6 +35,7 @@ import { GridApi } from 'ag-grid-enterprise';
 import { MockProvider, MockService } from 'ng-mocks';
 
 import { AppRoutePath } from '../../app.routes.enum';
+import { AlertRulesService } from '../../feature/alert-rules/alert-rules.service';
 import { AlertService } from '../../feature/alerts/alert.service';
 import { Alert } from '../../feature/alerts/model';
 import { CMPService } from '../../feature/customer-material-portfolio/cmp.service';
@@ -47,6 +48,7 @@ import { PlanningLevelService } from '../../feature/sales-planning/planning-leve
 import { SalesPlanningService } from '../../feature/sales-planning/sales-planning.service';
 import { AlertRulesColumnSettingsService } from '../../pages/alert-rules/table/services/alert-rules-column-settings.service';
 import { ExportMaterialCustomerService } from '../../pages/home/table/services/export-material-customer.service';
+import { MaterialCustomerTableService } from '../../pages/home/table/services/material-customer-table.service';
 import { MonthlyCustomerPlanningDetailsColumnSettingsService } from '../../pages/sales-planning/components/customer-planning-details/monthly-customer-planning-details-modal/service/monthly-customer-planning-details-column-settings.service';
 import { YearlyCustomerPlanningDetailsColumnSettingsService } from '../../pages/sales-planning/components/customer-planning-details/service/customer-planning-details-column-settings.service';
 import { GlobalSelectionStateService } from '../components/global-selection-criteria/global-selection-state.service';
@@ -57,8 +59,6 @@ import { UserService } from '../services/user.service';
 import { AuthService } from '../utils/auth/auth.service';
 import { SnackbarService } from '../utils/service/snackbar.service';
 import { ValidationHelper } from '../utils/validation/validation-helper';
-import { AlertRulesService } from './../../feature/alert-rules/alert-rules.service';
-import { MaterialCustomerTableService } from './../../pages/home/table/services/material-customer-table.service';
 
 // Angular's effect function depends on a lot of deeper Angular stuff. We want to enable unit testing at the component level, so we need to be able to inject a standalone effect function
 export const EFFECT_FACTORY_TOKEN = new InjectionToken('effect');
@@ -454,6 +454,8 @@ export class Stub {
           of(data?.getDetailedCustomerSalesPlan ?? []),
         getCustomerSalesPlan: () => of(data?.getCustomerSalesPlan ?? {}),
         getCustomerInfo: () => of(data?.getCustomerInfo ?? []),
+        deleteDetailedCustomerSalesPlan: () => of(),
+        updateDetailedCustomerSalesPlan: () => of(),
       },
       'useValue'
     );
@@ -516,7 +518,10 @@ export class Stub {
   public static getAuthServiceProvider(getUserRoles?: any): ValueProvider {
     return MockProvider(
       AuthService,
-      { getUserRoles: () => getUserRoles ?? of([]) },
+      {
+        getUserRoles: () => getUserRoles ?? of([]),
+        hasUserAccess: () => of(true),
+      },
       'useValue'
     );
   }

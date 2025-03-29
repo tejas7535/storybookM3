@@ -694,6 +694,7 @@
       "totalSalesPlanAdjusted": "年度总调整 (Unc)",
       "opportunitiesForecastRelevant": "相关机会 - 服务 (Unc)",
       "opportunitiesNotSalesPlanRelevant": "机会 (Unc)",
+      "opportunitiesTotal": "机会 (Unc)",
       "opportunitiesDemandRelevant": "相关机会 - 产品 (Unc)",
       "opportunitiesDemandRelevantConstrained": "相关机会 - 产品 (Con)",
       "firmBusinessCoverage": "固定业务覆盖 (Unc)",
@@ -711,9 +712,6 @@
       "salesDeduction": "销售扣除(%)",
       "cashDiscount": "现金折扣(%)",
       "otherRevenues": "其他收入",
-      "orderBookBacklogUnconstrained": "订单积压 (Unc)",
-      "orderBookBacklogConstrained": "订单积压 (Con)",
-      "deliveryBacklog": "来自前几年请求的交付 (Con)",
       "openPlannedValueDemand360": "在 Demand360 中的开放计划值 (Unc)",
       "plannedValueDemand360": "在 Demand360 中的计划值 (Unc)",
       "planNetSales": "计划 x+y 净销售",
@@ -739,7 +737,17 @@
         "10": "十月",
         "11": "十一月",
         "12": "十二月"
-      }
+      },
+      "deliveriesAcrossYears": "跨年度交付",
+      "ordersAcrossYearsFuture": "未来几年订单",
+      "ordersAcrossYearsPast": "过去几年订单",
+      "apShareOriginalUnconstrained": "AP 原始份额 (Unc)",
+      "spShareOriginalUnconstrained": "SP 原始份额 (Unc)",
+      "opShareOriginalUnconstrained": "OP 原始份额 (Unc)",
+      "planExistsOnOtherLevel": "计划存在于其他层次级别",
+      "noEntry": "无条目",
+      "notSynchronized": "尚未同步",
+      "synchronized": "已同步"
     }
   },
   "customer": {

@@ -694,6 +694,7 @@
       "totalSalesPlanAdjusted": "Ajuste do Total Anual (Unc)",
       "opportunitiesForecastRelevant": "Oportunidades Relevantes - Serviços (Unc)",
       "opportunitiesNotSalesPlanRelevant": "Oportunidades (Unc)",
+      "opportunitiesTotal": "Oportunidades (Unc)",
       "opportunitiesDemandRelevant": "Oportunidades Relevantes - Produto (Unc)",
       "opportunitiesDemandRelevantConstrained": "Oportunidades Relevantes - Produto (Con)",
       "firmBusinessCoverage": "Cobertura de Negócios Fixo (Unc)",
@@ -711,9 +712,6 @@
       "salesDeduction": "Dedução de Vendas (em %)",
       "cashDiscount": "Descontos à Vista (em %)",
       "otherRevenues": "Outras Receitas",
-      "orderBookBacklogUnconstrained": "Pendência de Pedidos (Unc)",
-      "orderBookBacklogConstrained": "Pendência de Pedidos (Con)",
-      "deliveryBacklog": "Entregas de Anos Anteriores Solicitados (Con)",
       "salesPlanUnconstrained": "Plano de Vendas (Unc)",
       "salesPlanConstrained": "Plano de Vendas (Con)",
       "months": {
@@ -729,7 +727,17 @@
         "10": "Outubro",
         "11": "Novembro",
         "12": "Dezembro"
-      }
+      },
+      "deliveriesAcrossYears": "Entregas ao longo dos Anos",
+      "ordersAcrossYearsFuture": "Pedidos ao longo de Anos Futuros",
+      "ordersAcrossYearsPast": "Pedidos ao longo de Anos Passados",
+      "apShareOriginalUnconstrained": "Participação AP Original (Unc)",
+      "spShareOriginalUnconstrained": "Participação SP Original (Unc)",
+      "opShareOriginalUnconstrained": "Participação OP Original (Unc)",
+      "planExistsOnOtherLevel": "O plano existe em outro nível hierárquico",
+      "noEntry": "Sem entrada",
+      "notSynchronized": "Ainda não sincronizado",
+      "synchronized": "Sincronizado"
     }
   },
   "customer": {

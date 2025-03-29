@@ -10,7 +10,6 @@ import {
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { SalesPlanningService } from '../../../../../../../feature/sales-planning/sales-planning.service';
-import { AuthService } from '../../../../../../../shared/utils/auth/auth.service';
 import { CustomerSalesPlanNumberEditModalComponent } from '../../../customer-sales-plan-number-edit-modal/customer-sales-plan-number-edit-modal.component';
 import { SalesPlanningOtherRevenuesCellRendererComponent } from './sales-planning-other-revenues-cell-renderer.component';
 
@@ -18,7 +17,6 @@ describe('SalesPlanningOtherRevenuesCellRendererComponent', () => {
   let spectator: Spectator<SalesPlanningOtherRevenuesCellRendererComponent>;
   let component: SalesPlanningOtherRevenuesCellRendererComponent;
   let dialogService: MatDialog;
-  let authService: AuthService;
   let salesPlanningService: SalesPlanningService;
   let dialogRefMock: Partial<
     MatDialogRef<CustomerSalesPlanNumberEditModalComponent>
@@ -37,6 +35,7 @@ describe('SalesPlanningOtherRevenuesCellRendererComponent', () => {
       salesPlanUnconstrained: 145_000,
       cashDiscount: 2,
       salesDeduction: 3,
+      editStatus: '1',
     },
     node: {
       level: 0,
@@ -54,9 +53,6 @@ describe('SalesPlanningOtherRevenuesCellRendererComponent', () => {
           afterClosed: jest.fn().mockReturnValue(of(null)),
         }),
       }),
-      mockProvider(AuthService, {
-        hasUserAccess: jest.fn().mockReturnValue(of(true)),
-      }),
       mockProvider(SalesPlanningService, {
         updateOtherRevenues: jest.fn().mockReturnValue(of(0)),
       }),
@@ -67,7 +63,6 @@ describe('SalesPlanningOtherRevenuesCellRendererComponent', () => {
     spectator = createComponent();
     component = spectator.component;
     dialogService = spectator.inject(MatDialog);
-    authService = spectator.inject(AuthService);
     salesPlanningService = spectator.inject(SalesPlanningService);
 
     dialogRefMock = {
@@ -79,7 +74,7 @@ describe('SalesPlanningOtherRevenuesCellRendererComponent', () => {
         dialogRefMock as MatDialogRef<CustomerSalesPlanNumberEditModalComponent>
       );
 
-    component['setValue'](mockCellParams as any);
+    component['agInit'](mockCellParams as any);
   });
 
   afterEach(() => {
@@ -99,10 +94,7 @@ describe('SalesPlanningOtherRevenuesCellRendererComponent', () => {
     expect(component['planningYear']).toBe('2026');
     expect(component['planningCurrency']).toBe('EUR');
     expect(component['onReloadData']).toBe(mockReloadData);
-  });
-
-  it('should check if user has edit access', () => {
-    expect(authService.hasUserAccess).toHaveBeenCalled();
+    expect(component['editStatus']()).toBe('1');
   });
 
   it('should allow editing for yearly rows', () => {

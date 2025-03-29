@@ -3,48 +3,39 @@ import {
   Component,
   DestroyRef,
   inject,
-  signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ValidationErrors } from '@angular/forms';
-import { MatIconButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { MatIcon } from '@angular/material/icon';
 
-import { Observable, take, tap } from 'rxjs';
+import { take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
-import { PushPipe } from '@ngrx/component';
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { DetailedCustomerSalesPlan } from '../../../../../../../feature/sales-planning/model';
 import { SalesPlanningService } from '../../../../../../../feature/sales-planning/sales-planning.service';
-import { AbstractBaseCellRendererComponent } from '../../../../../../../shared/components/ag-grid/cell-renderer/abstract-cell-renderer.component';
 import { NumberWithoutFractionDigitsPipe } from '../../../../../../../shared/pipes/number-without-fraction-digits.pipe';
-import { AuthService } from '../../../../../../../shared/utils/auth/auth.service';
-import { salesPlanningAllowedEditRoles } from '../../../../../../../shared/utils/auth/roles';
 import { CustomerSalesPlanNumberAndPercentageEditModalComponent } from '../../../customer-sales-plan-number-and-percentage-edit-modal/customer-sales-plan-number-and-percentage-edit-modal.component';
+import { SalesPlanningEditButtonComponent } from '../../components/sales-planning-edit-button/sales-planning-edit-button.component';
+import { AbstractSalesPlanningCellRendererComponent } from '../abstract-sales-planning-cell-renderer.component';
 
 @Component({
   selector: 'd360-sales-planning-adjusted-total-cell-renderer',
-  imports: [MatIcon, MatIconButton, SharedTranslocoModule, PushPipe],
+  imports: [SharedTranslocoModule, SalesPlanningEditButtonComponent],
   templateUrl: './sales-planning-adjusted-total-cell-renderer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './sales-planning-adjusted-total-cell-renderer.component.scss',
 })
-export class SalesPlanningAdjustedTotalCellRendererComponent<
-  T = any,
-> extends AbstractBaseCellRendererComponent<T> {
-  public isUserAllowedToEdit$: Observable<boolean>;
-
+export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSalesPlanningCellRendererComponent<number> {
   private readonly dialog = inject(MatDialog);
   private readonly salesPlanningService = inject(SalesPlanningService);
   private readonly numberWithoutFractionDigitsPipe = inject(
     NumberWithoutFractionDigitsPipe
   );
   private readonly destroyRef = inject(DestroyRef);
-  private readonly authService = inject(AuthService);
   private readonly translationKeyPrefix =
     'sales_planning.planning_details.edit_modal';
 
@@ -60,21 +51,16 @@ export class SalesPlanningAdjustedTotalCellRendererComponent<
   private minValidationValue: number;
   private onReloadData: () => void;
 
-  protected valueFormatted = signal<string | null>(null);
-
   /**
    * @inheritdoc
    * @override
    */
-  protected setValue(parameters: ICellRendererParams<any, T>): void {
-    this.valueFormatted.set(parameters.valueFormatted);
-
+  protected setValue(
+    parameters: ICellRendererParams<DetailedCustomerSalesPlan, number>
+  ): void {
     this.value = parameters.value;
     this.isPlanningMaterialRow = parameters.node.level === 1;
     this.parameters = parameters;
-    this.isUserAllowedToEdit$ = this.authService.hasUserAccess(
-      salesPlanningAllowedEditRoles
-    );
 
     this.onReloadData = parameters.context.reloadData;
 

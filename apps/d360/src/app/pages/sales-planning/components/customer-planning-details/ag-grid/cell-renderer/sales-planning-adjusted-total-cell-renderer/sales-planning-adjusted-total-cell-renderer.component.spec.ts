@@ -1,62 +1,26 @@
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
-
-import { SalesPlanningService } from '../../../../../../../feature/sales-planning/sales-planning.service';
-import { AuthService } from '../../../../../../../shared/utils/auth/auth.service';
-import { CustomerSalesPlanNumberEditModalComponent } from '../../../customer-sales-plan-number-edit-modal/customer-sales-plan-number-edit-modal.component';
+import { Stub } from '../../../../../../../shared/test/stub.class';
 import { SalesPlanningAdjustedTotalCellRendererComponent } from './sales-planning-adjusted-total-cell-renderer.component';
 
 describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
-  let spectator: Spectator<SalesPlanningAdjustedTotalCellRendererComponent>;
-  let mockDialog: jest.Mocked<MatDialog>;
-  let mockSalesPlanningService: jest.Mocked<SalesPlanningService>;
-  let mockAuthService: jest.Mocked<AuthService>;
-  let dialogRefMock: Partial<
-    MatDialogRef<CustomerSalesPlanNumberEditModalComponent>
-  >;
-
+  let component: SalesPlanningAdjustedTotalCellRendererComponent;
   const mockReloadData = jest.fn();
 
-  const createComponent = createComponentFactory({
-    component: SalesPlanningAdjustedTotalCellRendererComponent,
-    declarations: [],
-    providers: [
-      mockProvider(MatDialog, { open: jest.fn() }),
-      mockProvider(SalesPlanningService, {
-        deleteDetailedCustomerSalesPlan: jest.fn(),
-        updateDetailedCustomerSalesPlan: jest.fn(),
-      }),
-      mockProvider(AuthService, { hasUserAccess: jest.fn() }),
-    ],
-  });
-
   beforeEach(() => {
-    spectator = createComponent();
+    component = Stub.get({
+      component: SalesPlanningAdjustedTotalCellRendererComponent,
+      providers: [
+        Stub.getMatDialogProvider(),
+        Stub.getSalesPlanningServiceProvider(),
+        Stub.getAuthServiceProvider(),
+        Stub.getNumberWithoutFractionDigitsPipeProvider(),
+      ],
+    });
 
-    mockDialog = spectator.inject(MatDialog) as jest.Mocked<MatDialog>;
-    mockSalesPlanningService = spectator.inject(
-      SalesPlanningService
-    ) as jest.Mocked<SalesPlanningService>;
-    mockAuthService = spectator.inject(AuthService) as jest.Mocked<AuthService>;
-
-    mockAuthService.hasUserAccess.mockReturnValue(of(true));
-
-    dialogRefMock = {
-      afterClosed: jest.fn().mockReturnValue(of(null)),
-    };
-
-    jest
-      .spyOn(mockDialog, 'open')
-      .mockReturnValue(
-        dialogRefMock as MatDialogRef<CustomerSalesPlanNumberEditModalComponent>
-      );
+    jest.spyOn(component['dialog'], 'open');
 
     const mockParams = {
       node: {
@@ -69,52 +33,60 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
         planningLevelMaterialType: 'PL',
         planningCurrency: 'EUR',
         planningYear: '2025',
+        editStatus: '1',
       },
       context: {
         reloadData: mockReloadData,
       },
     } as any;
 
-    spectator.component.agInit(mockParams);
-    spectator.detectChanges();
+    component.agInit(mockParams);
   });
 
   it('should create', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
+  });
+
+  it('should have the correct edit status', () => {
+    expect(component['editStatus']()).toBe('1');
   });
 
   it('should open the edit modal on button click', () => {
-    mockDialog.open.mockReturnValue({ afterClosed: () => of(null) } as any);
+    jest
+      .spyOn(component['dialog'], 'open')
+      .mockReturnValue({ afterClosed: () => of(null) } as MatDialogRef<null>);
+    component['handleEditCustomerSalesPlanNumberClicked']();
 
-    spectator.component.isUserAllowedToEdit$ = of(true);
-    spectator.detectChanges();
-
-    spectator.click('button');
-
-    expect(mockDialog.open).toHaveBeenCalled();
+    expect(component['dialog'].open).toHaveBeenCalled();
   });
 
   it('should call deleteDetailedCustomerSalesPlan on delete', () => {
-    mockSalesPlanningService.deleteDetailedCustomerSalesPlan.mockReturnValue(
-      of()
-    );
-    const deleteFn = spectator.component['onDelete']();
+    jest
+      .spyOn(
+        component['salesPlanningService'],
+        'deleteDetailedCustomerSalesPlan'
+      )
+      .mockReturnValue(of());
+    const deleteFn = component['onDelete']();
     deleteFn();
     expect(
-      mockSalesPlanningService.deleteDetailedCustomerSalesPlan
+      component['salesPlanningService'].deleteDetailedCustomerSalesPlan
     ).toHaveBeenCalled();
   });
 
   it('should call updateDetailedCustomerSalesPlan on save', () => {
-    mockSalesPlanningService.updateDetailedCustomerSalesPlan.mockReturnValue(
-      of()
-    );
-    const saveFn = spectator.component['onSave']();
+    jest
+      .spyOn(
+        component['salesPlanningService'],
+        'updateDetailedCustomerSalesPlan'
+      )
+      .mockReturnValue(of());
+    const saveFn = component['onSave']();
 
     saveFn(15_000);
 
     expect(
-      mockSalesPlanningService.updateDetailedCustomerSalesPlan
+      component['salesPlanningService'].updateDetailedCustomerSalesPlan
     ).toHaveBeenCalledWith('93090', {
       adjustedValue: 15_000,
       planningCurrency: 'EUR',
@@ -143,16 +115,16 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
       },
     } as any;
 
-    spectator.component.agInit(mockParams);
-    spectator.detectChanges();
+    component.agInit(mockParams);
 
-    expect(spectator.component.isEditPossible()).toBe(false);
+    expect(component.isEditPossible()).toBe(false);
   });
 
   it('should trigger reload data when dialog returns a value', () => {
-    jest.spyOn(dialogRefMock, 'afterClosed').mockReturnValue(of(7500));
-
-    spectator.component.handleEditCustomerSalesPlanNumberClicked();
+    jest
+      .spyOn(component['dialog'], 'open')
+      .mockReturnValue({ afterClosed: () => of(7500) } as MatDialogRef<number>);
+    component.handleEditCustomerSalesPlanNumberClicked();
 
     expect(mockReloadData).toHaveBeenCalled();
   });
@@ -175,9 +147,8 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
       },
     } as any;
 
-    spectator.component.agInit(mockParams);
-    spectator.detectChanges();
+    component.agInit(mockParams);
 
-    expect(spectator.component.isEditPossible()).toBe(true);
+    expect(component.isEditPossible()).toBe(true);
   });
 });

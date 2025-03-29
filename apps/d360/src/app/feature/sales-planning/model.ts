@@ -71,6 +71,7 @@ export interface DetailedCustomerSalesPlan {
   opportunitiesDemandRelevantConstrained: number;
   opportunitiesForecastRelevant: number;
   opportunitiesNotSalesPlanRelevant: number;
+  opportunitiesTotal: number;
   plannedValueDemand360: number;
   openPlannedValueDemand360: number;
   apShareConstrained: number;
@@ -90,9 +91,14 @@ export interface DetailedCustomerSalesPlan {
   otherRevenues: number;
   salesPlanUnconstrained: number;
   salesPlanConstrained: number;
-  deliveryBacklog: number;
-  orderBookBacklogUnconstrained: number;
-  orderBookBacklogConstrained: number;
+  deliveriesAcrossYears: number;
+  ordersAcrossYearsFuture: number;
+  ordersAcrossYearsPast: number;
+  editStatus: string;
+  infoIcon: string;
+  apShareOriginalUnconstrained: number;
+  spShareOriginalUnconstrained: number;
+  opShareOriginalUnconstrained: number;
 }
 
 export interface DetailedSalesPlanUpdateRequest {

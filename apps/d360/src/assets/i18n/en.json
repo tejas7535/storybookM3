@@ -706,6 +706,7 @@
       "totalSalesPlanAdjusted": "Total Adjustment (Unc)",
       "opportunitiesForecastRelevant": "relevant Opportunities - Services (Unc)",
       "opportunitiesNotSalesPlanRelevant": "Opportunities (Unc)",
+      "opportunitiesTotal": "Opportunities (Unc)",
       "opportunitiesDemandRelevant": "relevant Opportunities - Product (Unc)",
       "opportunitiesDemandRelevantConstrained": "relevant Opportunities - Product (Con)",
       "firmBusinessCoverage": "Firm Business Coverage (Unc)",
@@ -723,9 +724,6 @@
       "salesDeduction": "Sales Deduction (in %)",
       "cashDiscount": "Cash Discounts (in %)",
       "otherRevenues": "Other Revenues",
-      "orderBookBacklogUnconstrained": "Orderbook Backlog (Unc)",
-      "orderBookBacklogConstrained": "Orderbook Backlog (Con)",
-      "deliveryBacklog": "Deliveries from previous requested years (Con)",
       "openPlannedValueDemand360": "Open planned Value in Demand360 (Unc)",
       "plannedValueDemand360": "Planned Value in Demand360 (Unc)",
       "planNetSales": "Plan x+y Net Sales",
@@ -751,7 +749,17 @@
         "10": "October",
         "11": "November",
         "12": "December"
-      }
+      },
+      "deliveriesAcrossYears": "Deliveries Across Years",
+      "ordersAcrossYearsFuture": "Orders Across Future Years",
+      "ordersAcrossYearsPast": "Orders Across Past Years",
+      "apShareOriginalUnconstrained": "AP Share Original (Unc)",
+      "spShareOriginalUnconstrained": "SP Share Original (Unc)",
+      "opShareOriginalUnconstrained": "OP Share Original (Unc)",
+      "planExistsOnOtherLevel": "Plan exists on other Hierarchy Level",
+      "noEntry": "No entry",
+      "notSynchronized": "Not synchronized yet",
+      "synchronized": "Synchronized"
     }
   },
   "customer": {

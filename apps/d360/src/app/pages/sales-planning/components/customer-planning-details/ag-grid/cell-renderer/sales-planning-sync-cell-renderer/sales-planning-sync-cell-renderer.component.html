@@ -1,0 +1,27 @@
+<div class="flex items-center" *transloco="let t">
+  {{ valueFormatted() }}
+  @if (infoIcon === '') {
+    <mat-icon
+      class="ml-2"
+      inline="true"
+      [matTooltip]="t('sales_planning.table.noEntry')"
+      >trip_origin</mat-icon
+    >
+  }
+  @if (infoIcon === 'S') {
+    <mat-icon
+      class="ml-2"
+      inline="true"
+      [matTooltip]="t('sales_planning.table.synchronized')"
+      >check_circle_outline</mat-icon
+    >
+  }
+  @if (infoIcon === 'N') {
+    <mat-icon
+      class="ml-2"
+      inline="true"
+      [matTooltip]="t('sales_planning.table.notSynchornized')"
+      >sync</mat-icon
+    >
+  }
+</div>

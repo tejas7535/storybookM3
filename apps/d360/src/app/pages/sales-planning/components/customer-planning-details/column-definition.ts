@@ -5,10 +5,12 @@ import { DetailedCustomerSalesPlan } from '../../../../feature/sales-planning/mo
 import { ColumnValueType } from '../../../../shared/ag-grid/grid-types';
 import { SalesPlanningAdjustedTotalCellRendererComponent } from './ag-grid/cell-renderer/sales-planning-adjusted-total-cell-renderer/sales-planning-adjusted-total-cell-renderer.component';
 import { SalesPlanningOtherRevenuesCellRendererComponent } from './ag-grid/cell-renderer/sales-planning-other-revenues-cell-renderer/sales-planning-other-revenues-cell-renderer.component';
+import { SalesPlanningShareEditCellRendererComponent } from './ag-grid/cell-renderer/sales-planning-share-edit-cell-renderer/sales-planning-share-edit-cell-renderer.component';
 import {
   PercentageEditOption,
   SalesPlanningSinglePercentageEditCellRendererComponent,
 } from './ag-grid/cell-renderer/sales-planning-single-percentage-edit-cell-renderer/sales-planning-single-percentage-edit-cell-renderer.component';
+import { SalesPlanningSyncCellRendererComponent } from './ag-grid/cell-renderer/sales-planning-sync-cell-renderer/sales-planning-sync-cell-renderer.component';
 
 const notConfiguredValuePlaceholder = '-';
 const sapMagicNumberValueNotConfigured = -1;
@@ -43,6 +45,7 @@ export const initiallyVisibleColumns: CustomColumnDefinition[] = [
     key: 'totalSalesPlanUnconstrained',
     type: ColumnValueType.Monetary,
     isTimeScopeSpecific: true,
+    cellRenderer: SalesPlanningSyncCellRendererComponent,
   },
   {
     key: 'totalSalesPlanAdjusted',
@@ -79,6 +82,9 @@ export const initiallyVisibleColumns: CustomColumnDefinition[] = [
     },
   },
   { key: 'salesPlanUnconstrained', type: ColumnValueType.Monetary },
+  { key: 'deliveriesAcrossYears', type: ColumnValueType.Monetary },
+  { key: 'ordersAcrossYearsFuture', type: ColumnValueType.Monetary },
+  { key: 'ordersAcrossYearsPast', type: ColumnValueType.Monetary },
 ];
 
 export const unconstrainedColumns: CustomColumnDefinition[] = [
@@ -88,27 +94,50 @@ export const unconstrainedColumns: CustomColumnDefinition[] = [
   { key: 'planNetSales', type: ColumnValueType.Monetary },
   { key: 'firmBusiness', type: ColumnValueType.Monetary },
   { key: 'firmBusinessServices', type: ColumnValueType.Monetary },
-  { key: 'orderBookBacklogUnconstrained', type: ColumnValueType.Monetary },
   { key: 'opportunitiesDemandRelevant', type: ColumnValueType.Monetary },
-  { key: 'opportunitiesNotSalesPlanRelevant', type: ColumnValueType.Monetary },
+  { key: 'opportunitiesTotal', type: ColumnValueType.Monetary },
   { key: 'plannedValueDemand360', type: ColumnValueType.Monetary },
   { key: 'openPlannedValueDemand360', type: ColumnValueType.Monetary },
-  { key: 'apShareAdjustedUnconstrained', type: ColumnValueType.Percentage },
+  {
+    key: 'apShareAdjustedUnconstrained',
+    type: ColumnValueType.Percentage,
+    cellRenderer: SalesPlanningShareEditCellRendererComponent,
+  },
   { key: 'apMaterialDemandPlanCount', type: ColumnValueType.Default },
-  { key: 'spShareAdjustedUnconstrained', type: ColumnValueType.Percentage },
+  {
+    key: 'spShareAdjustedUnconstrained',
+    type: ColumnValueType.Percentage,
+    cellRenderer: SalesPlanningShareEditCellRendererComponent,
+  },
   { key: 'spMaterialDemandPlanCount', type: ColumnValueType.Default },
-  { key: 'opShareAdjustedUnconstrained', type: ColumnValueType.Percentage },
-  { key: 'opMaterialDemandPlanCount', type: ColumnValueType.Default },
+  {
+    key: 'opShareAdjustedUnconstrained',
+    type: ColumnValueType.Percentage,
+    cellRenderer: SalesPlanningShareEditCellRendererComponent,
+  },
+  {
+    key: 'opMaterialDemandPlanCount',
+    type: ColumnValueType.Default,
+  },
+  {
+    key: 'apShareOriginalUnconstrained',
+    type: ColumnValueType.Percentage,
+  },
+  {
+    key: 'spShareOriginalUnconstrained',
+    type: ColumnValueType.Percentage,
+  },
+  {
+    key: 'opShareOriginalUnconstrained',
+    type: ColumnValueType.Percentage,
+  },
 ];
-
 export const constrainedColumns: CustomColumnDefinition[] = [
   {
     key: 'totalSalesPlanConstrained',
     type: ColumnValueType.Monetary,
     isTimeScopeSpecific: true,
   },
-  { key: 'deliveryBacklog', type: ColumnValueType.Monetary },
-  { key: 'orderBookBacklogConstrained', type: ColumnValueType.Monetary },
   {
     key: 'opportunitiesDemandRelevantConstrained',
     type: ColumnValueType.Monetary,

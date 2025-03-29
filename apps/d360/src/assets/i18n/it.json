@@ -694,6 +694,7 @@
       "totalSalesPlanAdjusted": "Adeguamento Totale Annuale (Unc)",
       "opportunitiesForecastRelevant": "Opportunità Rilevanti - Servizi (Unc)",
       "opportunitiesNotSalesPlanRelevant": "Opportunità (Unc)",
+      "opportunitiesTotal": "Opportunità (Unc)",
       "opportunitiesDemandRelevant": "Opportunità Rilevanti - Prodotto (Unc)",
       "opportunitiesDemandRelevantConstrained": "Opportunità Rilevanti - Prodotto (Con)",
       "firmBusinessCoverage": "Copertura del Business (Unc)",
@@ -711,9 +712,6 @@
       "salesDeduction": "Deducción su Vendite (in %)",
       "cashDiscount": "Sconti in Contanti (in %)",
       "otherRevenues": "Altri Ricavi",
-      "orderBookBacklogUnconstrained": "Ritardo dell'Ordine (Unc)",
-      "orderBookBacklogConstrained": "Ritardo dell'Ordine (Con)",
-      "deliveryBacklog": "Consegne degli Anni Precedenti Richiesti (Con)",
       "openPlannedValueDemand360": "Valore Pianificato Aperto in Demand360 (Unc)",
       "plannedValueDemand360": "Valore Pianificato in Demand360 (Unc)",
       "planNetSales": "Vendite Nette Piano x+y",
@@ -739,7 +737,17 @@
         "10": "Ottobre",
         "11": "Novembre",
         "12": "Dicembre"
-      }
+      },
+      "deliveriesAcrossYears": "Consegne negli Anni",
+      "ordersAcrossYearsFuture": "Ordini per Anni Futuri",
+      "ordersAcrossYearsPast": "Ordini Negli Anni Passati",
+      "apShareOriginalUnconstrained": "Quota AP Originale (Unc)",
+      "spShareOriginalUnconstrained": "Quota SP Originale (Unc)",
+      "opShareOriginalUnconstrained": "Quota OP Originale (Unc)",
+      "planExistsOnOtherLevel": "Il piano esiste a un altro livello gerarchico",
+      "noEntry": "Nessun ingresso",
+      "notSynchronized": "Non ancora sincronizzato",
+      "synchronized": "Sincronizzato"
     }
   },
   "customer": {

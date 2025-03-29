@@ -1,0 +1,11 @@
+@if (showEditButton() && isUserAllowedToEdit$ | ngrxPush) {
+  <span [matTooltip]="tooltipText()">
+    <button
+      [disabled]="disableEditButton()"
+      (click)="editClick.emit()"
+      mat-icon-button
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+  </span>
+}

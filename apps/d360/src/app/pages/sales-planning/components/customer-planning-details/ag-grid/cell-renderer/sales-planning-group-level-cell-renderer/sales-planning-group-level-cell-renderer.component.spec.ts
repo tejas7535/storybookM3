@@ -14,7 +14,7 @@ describe('SalesPlanningGroupLevelCellRendererComponent', () => {
     detectChanges: false,
   });
 
-  let mockParams: ICellRendererParams<any, DetailedCustomerSalesPlan> & {
+  let mockParams: ICellRendererParams<DetailedCustomerSalesPlan, string> & {
     clickAction: jest.Mock;
   };
 

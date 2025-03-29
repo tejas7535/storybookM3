@@ -3,26 +3,22 @@ import {
   Component,
   DestroyRef,
   inject,
-  signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatIconButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { MatIcon } from '@angular/material/icon';
 
 import { Observable, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
-import { PushPipe } from '@ngrx/component';
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { DetailedCustomerSalesPlan } from '../../../../../../../feature/sales-planning/model';
 import { SalesPlanningService } from '../../../../../../../feature/sales-planning/sales-planning.service';
-import { AbstractBaseCellRendererComponent } from '../../../../../../../shared/components/ag-grid/cell-renderer/abstract-cell-renderer.component';
-import { AuthService } from '../../../../../../../shared/utils/auth/auth.service';
-import { salesPlanningAllowedEditRoles } from '../../../../../../../shared/utils/auth/roles';
 import { CustomerSalesPlanSinglePercentageEditModalComponent } from '../../../customer-sales-plan-single-percentage-edit-modal/customer-sales-plan-single-percentage-edit-modal.component';
+import { SalesPlanningEditButtonComponent } from '../../components/sales-planning-edit-button/sales-planning-edit-button.component';
+import { AbstractSalesPlanningCellRendererComponent } from '../abstract-sales-planning-cell-renderer.component';
 
 export enum PercentageEditOption {
   SalesDeduction = 'salesDeduction',
@@ -31,22 +27,17 @@ export enum PercentageEditOption {
 
 @Component({
   selector: 'd360-sales-planning-single-percentage-edit-cell-renderer',
-  imports: [MatIcon, MatIconButton, SharedTranslocoModule, PushPipe],
+  imports: [SharedTranslocoModule, SalesPlanningEditButtonComponent],
   templateUrl:
     './sales-planning-single-percentage-edit-cell-renderer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl:
     './sales-planning-single-percentage-edit-cell-renderer.component.scss',
 })
-export class SalesPlanningSinglePercentageEditCellRendererComponent<
-  T = any,
-> extends AbstractBaseCellRendererComponent<T> {
-  public isUserAllowedToEdit$: Observable<boolean>;
-
+export class SalesPlanningSinglePercentageEditCellRendererComponent extends AbstractSalesPlanningCellRendererComponent<number> {
   private readonly dialog = inject(MatDialog);
   private readonly salesPlanningService = inject(SalesPlanningService);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly authService = inject(AuthService);
   private readonly translationKeyPrefix =
     'sales_planning.planning_details.edit_modal';
 
@@ -60,20 +51,16 @@ export class SalesPlanningSinglePercentageEditCellRendererComponent<
 
   private onReloadData: () => void;
 
-  public valueFormatted = signal<string | null>(null);
-
   /**
    * @inheritdoc
    * @override
    */
   public setValue(
-    parameters: ICellRendererParams<any, T> & {
+    parameters: ICellRendererParams<DetailedCustomerSalesPlan, number> & {
       percentageValueName: string;
       percentageEditOption: PercentageEditOption;
     }
   ): void {
-    this.valueFormatted.set(parameters.valueFormatted);
-
     this.value = parameters.value;
     this.parameters = parameters;
 
@@ -86,9 +73,6 @@ export class SalesPlanningSinglePercentageEditCellRendererComponent<
     this.onReloadData = parameters.context.reloadData;
 
     this.isYearlyRow = parameters.node.level === 0;
-    this.isUserAllowedToEdit$ = this.authService.hasUserAccess(
-      salesPlanningAllowedEditRoles
-    );
   }
 
   public handleEditSinglePercentageValueClicked() {
