@@ -119,6 +119,10 @@ export class DataFacade {
     );
   }
 
+  infoSnackBar(message: string) {
+    this.store.dispatch(DataActions.infoSnackBar({ message }));
+  }
+
   errorSnackBar(message: string) {
     this.store.dispatch(DataActions.errorSnackBar({ message }));
   }

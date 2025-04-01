@@ -111,7 +111,7 @@ export class RawMaterialControlPanelComponent
   }
 
   public export(): void {
-    this.applicationInsightsService.logEvent('[MAC - MSD] Export Excel');
+    this.applicationInsightsService.logEvent('[MAC - MSD] Export Excel RAW');
     const visibleColumns = this.getVisibleColumns();
     const dateString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     const columns = visibleColumns.filter(

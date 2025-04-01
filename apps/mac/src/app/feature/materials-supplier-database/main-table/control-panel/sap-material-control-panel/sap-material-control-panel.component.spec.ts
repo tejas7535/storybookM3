@@ -71,6 +71,7 @@ describe('SapMaterialControlPanelComponent', () => {
           agGridFilter$: of(),
           sapMaterialsRows$: of([]),
           hasMatnrUploaderRole$: of(true),
+          infoSnackBar: jest.fn(),
         },
         'useValue'
       ),
@@ -191,38 +192,95 @@ describe('SapMaterialControlPanelComponent', () => {
     }));
   });
 
+  describe('snackBarInfo', () => {
+    it('should call refreshServerSide', () => {
+      component['snackBarInfo']('test');
+      expect(component['dataFacade'].infoSnackBar).toHaveBeenCalledWith(
+        'materialsSupplierDatabase.mainTable.excelExport.info.test'
+      );
+    });
+  });
+
   describe('exportExcelSapMaterials', () => {
+    it('should export when all data is loaded', () => {
+      component['snackBarInfo'] = jest.fn();
+      component['exportDataAsExcel'] = jest.fn();
+      component['agGridApi'] = {
+        getDisplayedRowCount: jest.fn(() => 50),
+        applyServerSideRowData: jest.fn(),
+        updateGridOptions: jest.fn(),
+        addEventListener: jest.fn((_str, fct) => fct({} as any)),
+        removeEventListener: jest.fn(),
+      } as unknown as GridApi;
+
+      component.exportExcelSapMaterials();
+
+      expect(component['agGridApi'].updateGridOptions).toHaveBeenCalledWith({
+        cacheBlockSize: 500,
+      });
+      expect(component['agGridApi'].applyServerSideRowData).toHaveBeenCalled();
+      expect(component['agGridApi'].addEventListener).toHaveBeenCalledWith(
+        expect.stringMatching('modelUpdated'),
+        expect.any(Function)
+      );
+      expect(component['agGridApi'].removeEventListener).toHaveBeenCalled();
+      expect(component['agGridApi'].updateGridOptions).toHaveBeenCalledWith({
+        cacheBlockSize: 100,
+      });
+      expect(component['snackBarInfo']).toHaveBeenCalledTimes(2);
+      expect(component['exportDataAsExcel']).toHaveBeenCalled();
+    });
+    it('should chunk data', () => {
+      component['snackBarInfo'] = jest.fn();
+      component['exportDataAsExcel'] = jest.fn();
+      component['agGridApi'] = {
+        getDisplayedRowCount: jest.fn(() => 32_250),
+        applyServerSideRowData: jest.fn(),
+        updateGridOptions: jest.fn(),
+        addEventListener: jest.fn((_str, fct) => fct({} as any)),
+        ensureIndexVisible: jest.fn(),
+      } as unknown as GridApi;
+
+      component.exportExcelSapMaterials();
+
+      expect(component['agGridApi'].updateGridOptions).toHaveBeenCalledWith({
+        cacheBlockSize: 500,
+      });
+      expect(component['agGridApi'].applyServerSideRowData).toHaveBeenCalled();
+      expect(component['agGridApi'].addEventListener).toHaveBeenCalledWith(
+        expect.stringMatching('modelUpdated'),
+        expect.any(Function)
+      );
+      expect(component['agGridApi'].ensureIndexVisible).toHaveBeenCalled();
+      expect(component['snackBarInfo']).toHaveBeenCalledTimes(2);
+      expect(component['exportDataAsExcel']).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('exportDataAsExcel', () => {
     const toColDef = (s: string | Column): ColDef =>
       ({
         field: s,
         headerName: s,
         headerTooltip: s,
       }) as ColDef;
-    it('should register the event Listener', () => {
+    it('should call agGrid exportDataAsExcel', () => {
       const colDefs = [toColDef('a'), toColDef('b'), toColDef('c')];
-
-      component['agGridApi'] = {} as unknown as GridApi;
-      component['agGridApi'].updateGridOptions = jest.fn();
-      component['agGridApi'].addEventListener = jest.fn((_str, fct) =>
-        fct({} as any)
-      );
-      component['agGridApi'].removeEventListener = jest.fn();
-      component['agGridApi'].getColumnDef = jest.fn((s) => toColDef(s));
-      component['agGridApi'].getColumnDefs = jest.fn(() => colDefs);
-      component['agGridApi'].exportDataAsExcel = jest.fn();
       component['getVisibleColumns'] = jest.fn(() => ['history', 'test']);
+      component['agGridApi'] = {
+        getColumnDef: jest.fn((s) => toColDef(s)),
+        getColumnDefs: jest.fn(() => colDefs),
+        exportDataAsExcel: jest.fn(),
+      } as unknown as GridApi;
 
-      component.exportExcelSapMaterials();
-
-      expect(component['agGridApi'].updateGridOptions).toHaveBeenCalledWith({
-        cacheBlockSize: 100,
-      });
-      expect(component['agGridApi'].addEventListener).toHaveBeenCalledWith(
-        expect.stringMatching('modelUpdated'),
-        expect.any(Function)
+      component['exportDataAsExcel']();
+      expect(component['agGridApi'].exportDataAsExcel).toHaveBeenCalledWith(
+        expect.objectContaining({
+          columnKeys: ['test', 'a', 'b', 'c'],
+          skipColumnGroupHeaders: true,
+          skipColumnHeaders: true,
+        })
       );
-      expect(component['agGridApi'].removeEventListener).toHaveBeenCalled();
-      expect(component['agGridApi'].exportDataAsExcel).toHaveBeenCalled();
     });
   });
 

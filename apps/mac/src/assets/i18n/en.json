@@ -685,7 +685,12 @@
         "sheetName": "MSD-Export",
         "matNrFileNameSuffix": "-MATNR-export.xlsx",
         "matNrSheetName": "MSD-Export",
-        "matNrTooltip": "Only enabled with 100.000 or less materials"
+        "matNrTooltip": "Only enabled with 100.000 or less materials",
+        "info": {
+          "start": "starting to load all data for export - Pleases to not interact with the table",
+          "end": "finished loading - starting export",
+          "progress": "loading data for export - {{percent}} % finished"
+        }
       },
       "rejectedExcelDownload": {
         "matNrFileNameSuffix": "-MATNR-rejected.xlsx",
@@ -1072,14 +1077,12 @@
       "learnMoreLink": "Open learn more page",
       "learnMoreUri": "/learn-more/materials-supplier-database"
     },
-
     "disclaimerDialog": {
       "title": "For internal use only",
       "disclaimer": "The displayed data must not be shared with external partners!",
       "checkbox": "Do not show this message for 7 days",
       "continue": "Continue"
     },
-
     "loading": {
       "loading": "Loading data ...",
       "loadingFailed": "Failed to load data from server! Please try again later or inform Support!",

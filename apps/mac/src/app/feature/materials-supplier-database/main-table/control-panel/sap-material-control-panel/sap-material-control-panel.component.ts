@@ -8,10 +8,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { take } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
-import { LetDirective, PushPipe } from '@ngrx/component';
+import { LetDirective } from '@ngrx/component';
 import {
   ColDef,
   ExcelCell,
+  ModelUpdatedEvent,
   ProcessCellForExportParams,
 } from 'ag-grid-enterprise';
 
@@ -40,7 +41,6 @@ import { BaseControlPanelComponent } from '../base-control-panel.component';
     // libs
     SharedTranslocoModule,
     // ngrx
-    PushPipe,
     LetDirective,
   ],
   templateUrl: './sap-material-control-panel.component.html',
@@ -49,10 +49,10 @@ export class SapMaterialControlPanelComponent
   extends BaseControlPanelComponent
   implements OnInit, OnDestroy
 {
-  public readonly DEFAULT_BLOCK_SIZE = 100;
-  public readonly EXPORT_BLOCK_SIZE = 100_000;
-
+  public readonly LIMIT_EXPORT_ROW_COUNT = 100_000;
   public sapMaterialsRows$ = this.dataFacade.sapMaterialsRows$;
+
+  private readonly DEFAULT_BLOCK_SIZE = 100;
   private hasUploaderRole = false;
 
   public constructor(
@@ -99,66 +99,95 @@ export class SapMaterialControlPanelComponent
   }
 
   public exportExcelSapMaterials(): void {
-    this.applicationInsightsService.logEvent('[MAC - MSD] Export Excel');
-    // event handler function to create the excel file
-    const eventHandler = () => {
-      this.agGridApi.removeEventListener('modelUpdated', eventHandler);
-      // get a sorted list of all columns, starting with visible columns
-      const visibleColumns = this.getVisibleColumns();
-      const columnList: ColDef[] = [
-        ...visibleColumns.map((col) => this.agGridApi.getColumnDef(col)),
-        ...this.agGridApi
-          .getColumnDefs()
-          .filter((column: ColDef) => !visibleColumns.includes(column.field)),
-      ].filter((column: ColDef) => !this.NON_EXCEL_COLUMNS.has(column.field));
-      // list of columns to add to export
-      const columnKeys = columnList.map((column) => column.field);
-      // get list of column headers (translated)
-      const headerCells = columnList
-        .map((column) => column.headerName)
-        .map(this.toExcelCell('header'));
-      // get second header row, column descriptions
-      const descriptionCells = columnList
-        .map((column) =>
-          column.headerTooltip
-            ? translate(
-                `materialsSupplierDatabase.mainTable.tooltip.${column.headerTooltip}`
-              )
-            : undefined
-        )
-        .map(this.toExcelCell('hint'));
+    this.applicationInsightsService.logEvent('[MAC - MSD] Export Excel MATNR');
+    const maxIndex = this.agGridApi.getDisplayedRowCount() - 1;
+    let rowIndex = 0;
+    const chunkSize = 500;
 
-      // Create the excel file
-      const dateString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-      this.agGridApi.exportDataAsExcel({
-        columnKeys,
-        prependContent: [{ cells: headerCells }, { cells: descriptionCells }],
-        skipColumnHeaders: true,
-        skipColumnGroupHeaders: true,
-        author: translate(
-          'materialsSupplierDatabase.mainTable.excelExport.author'
-        ),
-        fileName: `${dateString}${translate(
-          'materialsSupplierDatabase.mainTable.excelExport.matNrFileNameSuffix'
-        )}`,
-        sheetName: translate(
-          'materialsSupplierDatabase.mainTable.excelExport.matNrSheetName'
-        ),
-        processCellCallback: this.hasUploaderRole
-          ? this.getFormattedCellValue
-          : this.getFormattedCellValueNonUploader,
-      });
-      // reset default block size
-      this.agGridApi.updateGridOptions({
-        cacheBlockSize: this.DEFAULT_BLOCK_SIZE,
-      });
+    // event handler function to load all data chunks
+    const eventHandler = (_event: ModelUpdatedEvent) => {
+      rowIndex = Math.min(maxIndex, rowIndex + chunkSize);
+      // once data is available, create the excel file
+
+      if (rowIndex >= maxIndex) {
+        this.agGridApi.removeEventListener('modelUpdated', eventHandler);
+        // reset default block size
+        this.snackBarInfo('end');
+        this.exportDataAsExcel();
+        this.agGridApi.updateGridOptions({
+          cacheBlockSize: this.DEFAULT_BLOCK_SIZE,
+        });
+      } else {
+        const percent = Math.round((rowIndex / maxIndex) * 100);
+        this.snackBarInfo('progress', { percent });
+        this.agGridApi.ensureIndexVisible(rowIndex - 1, 'bottom');
+      }
     };
-    // increasing block size, forcing a data reload
-    this.agGridApi.updateGridOptions({
-      cacheBlockSize: this.EXPORT_BLOCK_SIZE,
+    // drop all data and start at line one
+    this.agGridApi.applyServerSideRowData({
+      startRow: 0,
+      successParams: { rowData: [] },
     });
-    // once data is available, create the excel file
+    this.agGridApi.updateGridOptions({ cacheBlockSize: chunkSize });
     this.agGridApi.addEventListener('modelUpdated', eventHandler);
+    this.snackBarInfo('start');
+  }
+
+  private snackBarInfo(key: string, params?: any) {
+    this.dataFacade.infoSnackBar(
+      translate(
+        `materialsSupplierDatabase.mainTable.excelExport.info.${key}`,
+        params
+      )
+    );
+  }
+
+  private exportDataAsExcel() {
+    const visibleColumns = this.getVisibleColumns();
+    const columnList: ColDef[] = [
+      ...visibleColumns.map((col) => this.agGridApi.getColumnDef(col)),
+      ...this.agGridApi
+        .getColumnDefs()
+        .filter((column: ColDef) => !visibleColumns.includes(column.field)),
+    ].filter((column: ColDef) => !this.NON_EXCEL_COLUMNS.has(column.field));
+    // list of columns to add to export
+    const columnKeys = columnList.map((column) => column.field);
+    // get list of column headers (translated)
+    const headerCells = columnList
+      .map((column) => column.headerName)
+      .map(this.toExcelCell('header'));
+    // get second header row, column descriptions
+    const descriptionCells = columnList
+      .map((column) =>
+        column.headerTooltip
+          ? translate(
+              `materialsSupplierDatabase.mainTable.tooltip.${column.headerTooltip}`
+            )
+          : undefined
+      )
+      .map(this.toExcelCell('hint'));
+
+    // Create the excel file
+    const dateString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    this.agGridApi.exportDataAsExcel({
+      columnKeys,
+      prependContent: [{ cells: headerCells }, { cells: descriptionCells }],
+      skipColumnHeaders: true,
+      skipColumnGroupHeaders: true,
+      author: translate(
+        'materialsSupplierDatabase.mainTable.excelExport.author'
+      ),
+      fileName: `${dateString}${translate(
+        'materialsSupplierDatabase.mainTable.excelExport.matNrFileNameSuffix'
+      )}`,
+      sheetName: translate(
+        'materialsSupplierDatabase.mainTable.excelExport.matNrSheetName'
+      ),
+
+      processCellCallback: this.hasUploaderRole
+        ? this.getFormattedCellValue
+        : this.getFormattedCellValueNonUploader,
+    });
   }
 
   // needed to duplicate code as [this] is not available in callback function

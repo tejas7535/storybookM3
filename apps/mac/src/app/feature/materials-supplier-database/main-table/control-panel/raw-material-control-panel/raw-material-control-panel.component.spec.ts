@@ -199,7 +199,7 @@ describe('RawMaterialControlPanelComponent', () => {
       });
       expect(
         component['applicationInsightsService'].logEvent
-      ).toHaveBeenCalledWith('[MAC - MSD] Export Excel');
+      ).toHaveBeenCalledWith('[MAC - MSD] Export Excel RAW');
     });
 
     it('should call export function with current timestamp without splitting fkts', () => {
@@ -223,7 +223,7 @@ describe('RawMaterialControlPanelComponent', () => {
       });
       expect(
         component['applicationInsightsService'].logEvent
-      ).toHaveBeenCalledWith('[MAC - MSD] Export Excel');
+      ).toHaveBeenCalledWith('[MAC - MSD] Export Excel RAW');
     });
   });
 

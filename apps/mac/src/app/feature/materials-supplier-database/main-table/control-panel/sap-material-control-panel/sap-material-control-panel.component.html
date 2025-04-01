@@ -20,7 +20,8 @@
       (click)="exportExcelSapMaterials()"
       [matTooltip]="t('mainTable.excelExport.matNrTooltip')"
       [disabled]="
-        !hasUploaderRole || sapMaterialsRows?.subTotalRows > EXPORT_BLOCK_SIZE
+        !hasUploaderRole ||
+        sapMaterialsRows?.subTotalRows > LIMIT_EXPORT_ROW_COUNT
       "
     >
       <mat-icon class="material-icons-outlined">download</mat-icon>

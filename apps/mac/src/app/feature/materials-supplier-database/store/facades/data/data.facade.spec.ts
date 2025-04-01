@@ -576,6 +576,15 @@ describe('DataFacade', () => {
     });
   });
 
+  describe('infoSnackBar', () => {
+    it('should dispatch infoSnackBar action', () => {
+      const message = 'test';
+      const action = DataActions.infoSnackBar({ message });
+      facade.infoSnackBar(message);
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
   describe('errorSnackBar', () => {
     it('should dispatch errorSnackBar action', () => {
       const message = 'test';
