@@ -1,4 +1,19 @@
 # Release Notes of Material App Center
+## [1.29.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.28.0...mac-v1.29.0) (2025-04-01)
+
+
+### Features
+
+*  update shared components styles  (UFATBI- 8345) ([#7125](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7125)) ([271c78a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/271c78a6a21135ade7b576afb51ea0255bc5981c))
+* **d360:** add missing tests for cpipo (D360-272) ([#7107](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7107)) ([1768d91](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1768d91240a217754adaa08de0fc8c81169edb16))
+* **mac:** dashboard adjustments (UFTABI-8288) ([#7102](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7102)) ([c9f78f2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c9f78f21568a900df1ead143ae4aba768adb515d))
+* **mac:** revised DSM score visualization (UFTABI-8395) ([#6987](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/6987)) ([4cb7836](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4cb7836ff5aa70a0c8284665a056be3a6a6cb47a))
+
+
+### Bug Fixes
+
+* **mac:** fixing undefined error in MSD raw material ([#7141](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7141)) ([c50a62c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c50a62c9f5f1c1015ef42b4d534a96ec011102b6))
+
 ## [1.28.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.27.4...mac-v1.28.0) (2025-03-05)
 
 
