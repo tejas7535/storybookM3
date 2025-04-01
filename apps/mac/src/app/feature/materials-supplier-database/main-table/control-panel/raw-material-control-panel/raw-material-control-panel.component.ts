@@ -103,7 +103,7 @@ export class RawMaterialControlPanelComponent
 
   // TO DO replace with pipe / event and property / or similar
   public countSelectedNodes(): number {
-    return this.agGridApi?.getSelectedNodes().length;
+    return this.agGridApi?.getSelectedNodes()?.length;
   }
 
   public reload(): void {
