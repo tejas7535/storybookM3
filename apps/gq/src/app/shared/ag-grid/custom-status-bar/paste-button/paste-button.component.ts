@@ -60,7 +60,7 @@ export class PasteButtonComponent {
     matSnackBarRef?.onAction().subscribe(() => {
       window
         .open(
-          'https://worksite.sharepoint.com/:v:/s/OG_18600/ERS7mthtil9Hs6AIFsWkhJEBJdHG-Tau29oC-FoShjjl9g?e=XTRj8w',
+          'https://worksite.sharepoint.com/sites/OG_18600/Shared%20Documents/General/GQ%20Training%20Videos/Enhanced_Paste%20from%20Clipboard.mp4',
           '_blank'
         )
         .focus();
