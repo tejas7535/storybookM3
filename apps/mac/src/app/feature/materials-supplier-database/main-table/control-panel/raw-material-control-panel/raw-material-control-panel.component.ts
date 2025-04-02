@@ -1,10 +1,10 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { take } from 'rxjs';
+import { filter, take, takeUntil } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
@@ -51,6 +51,8 @@ export class RawMaterialControlPanelComponent
 {
   public hasEditorRole = false;
   public isEditable = false;
+  public selectedNodes = signal(0);
+  public displayedRowCount = signal(0);
   public isBulkEditAllowed$ = this.dataFacade.isBulkEditAllowed$;
   public hasMinimizedDialog$ = this.dataFacade.hasMinimizedDialog$;
   public resultCount$ = this.dataFacade.resultCount$;
@@ -77,12 +79,26 @@ export class RawMaterialControlPanelComponent
       .pipe(take(1))
       .subscribe((hasEditorRole) => (this.hasEditorRole = hasEditorRole));
 
-    this.navigation$.subscribe((navigation) => {
+    this.navigation$.pipe(takeUntil(this.destroy$)).subscribe((navigation) => {
       this.isEditable =
         this.hasEditorRole &&
         EDITABLE_MATERIAL_CLASSES.includes(navigation.materialClass) &&
         navigation.navigationLevel !== NavigationLevel.PRODUCT_CATEGORY_RULES;
     });
+
+    this.agGridReadyService.agGridApi$
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe(({ gridApi }) => {
+        gridApi.addEventListener('selectionChanged', (event) =>
+          this.selectedNodes.set(event.api.getSelectedNodes()?.length)
+        );
+        gridApi.addEventListener('rowDataUpdated', (event) =>
+          this.displayedRowCount.set(event.api.getDisplayedRowCount() || 0)
+        );
+        gridApi.addEventListener('filterChanged', (event) =>
+          this.displayedRowCount.set(event.api.getDisplayedRowCount() || 0)
+        );
+      });
   }
 
   public ngOnDestroy(): void {
@@ -99,11 +115,6 @@ export class RawMaterialControlPanelComponent
 
   public openDialogMultiEdit() {
     this.dialogService.openBulkEditDialog(this.agGridApi.getSelectedNodes());
-  }
-
-  // TO DO replace with pipe / event and property / or similar
-  public countSelectedNodes(): number {
-    return this.agGridApi?.getSelectedNodes()?.length;
   }
 
   public reload(): void {

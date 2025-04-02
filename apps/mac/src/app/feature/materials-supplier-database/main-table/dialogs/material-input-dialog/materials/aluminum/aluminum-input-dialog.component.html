@@ -1,12 +1,12 @@
 <mac-base-dialog
   *transloco="let t; read: 'materialsSupplierDatabase.mainTable.dialog'"
-  [txtTitle]="getTitle()"
+  [txtTitle]="title"
   [txtCancel]="t('cancel')"
   [txtConfirm]="
     isEditDialog() && !isCopyDialog() ? t('updateMaterial') : t('addMaterial')
   "
   [isAddDialog]="isCopyDialog() || !isEditDialog()"
-  [valid]="isValidDialog() && (isCo2Valid$ | ngrxPush)"
+  [valid]="createMaterialForm.valid && (isCo2Valid$ | ngrxPush)"
   (accept)="confirmMaterial($event)"
   (minimize)="minimizeDialog()"
   (cancel)="cancelDialog()"

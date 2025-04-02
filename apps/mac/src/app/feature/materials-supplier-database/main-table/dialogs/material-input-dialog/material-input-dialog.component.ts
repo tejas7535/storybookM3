@@ -8,9 +8,10 @@ import {
   OnDestroy,
   OnInit,
   QueryList,
+  signal,
   ViewChildren,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { BehaviorSubject, filter, Subject, take, takeUntil } from 'rxjs';
@@ -105,9 +106,11 @@ export class MaterialInputDialogComponent
 
   public createMaterialForm: FormGroup;
   public countSelected = 0;
-
-  protected isCopy = false;
-  protected isBulkEdit = false;
+  public isEditDialog = signal(false);
+  public isAddDialog = signal(false);
+  public isBulkEditDialog = signal(false);
+  public isCopyDialog = signal(false);
+  public title = '-';
 
   public constructor(
     readonly controlsService: DialogControlsService,
@@ -132,15 +135,18 @@ export class MaterialInputDialogComponent
     if (dialogData.editDialogInformation) {
       this.dialogFacade.openEditDialog(dialogData.editDialogInformation);
     }
-    this.isBulkEdit = dialogData.editDialogInformation?.isBulkEdit;
 
-    this.editLoading$ = new BehaviorSubject(!!dialogData.editDialogInformation);
     this.dataFacade.materialClass$
       .pipe(takeUntil(this.destroy$))
       .subscribe((mc) => (this.materialClass = mc));
+    this.editLoading$ = new BehaviorSubject(!!dialogData.editDialogInformation);
     this.dataFacade.selectedMaterialData$
       .pipe(take(1))
       .subscribe((selected) => (this.countSelected = selected?.rows?.length));
+    this.updateDialogType(
+      dialogData.editDialogInformation?.isBulkEdit,
+      dialogData.editDialogInformation?.isCopy
+    );
   }
 
   public ngOnInit(): void {
@@ -172,16 +178,16 @@ export class MaterialInputDialogComponent
           const materialFormValue: Partial<MaterialFormValue> =
             dialogData.minimizedDialog?.value ??
             dialogData.editMaterial?.parsedMaterial;
-          this.isCopy =
+          const isCopy =
             this.dialogData.editDialogInformation?.isCopy ||
             dialogData.minimizedDialog?.isCopy;
-          this.isBulkEdit =
+          const isBulkEdit =
             this.dialogData.editDialogInformation?.isBulkEdit ||
             dialogData.minimizedDialog?.isBulkEdit;
           this.materialId =
             (dialogData.minimizedDialog ||
               this.dialogData.editDialogInformation) &&
-            !this.isCopy
+            !isCopy
               ? dialogData.minimizedDialog?.id ??
                 dialogData.editMaterial?.row?.id
               : undefined;
@@ -189,11 +195,7 @@ export class MaterialInputDialogComponent
             this.enableEditFields(materialFormValue);
             this.patchFields(materialFormValue);
 
-            if (
-              this.dialogData.isResumeDialog ||
-              this.materialId ||
-              this.isCopy
-            ) {
+            if (this.dialogData.isResumeDialog || this.materialId || isCopy) {
               this.createMaterialForm.markAllAsTouched();
             }
 
@@ -214,6 +216,10 @@ export class MaterialInputDialogComponent
                   this.cdRef
                 )
               );
+          }
+          this.updateDialogType(isBulkEdit, isCopy);
+          if (isBulkEdit) {
+            this.removeRequiredValidation();
           }
           this.editLoading$.next(false);
         });
@@ -251,8 +257,8 @@ export class MaterialInputDialogComponent
     const minimize = {
       id: this.materialId,
       value: this.createMaterialForm.getRawValue(),
-      isCopy: this.isCopy,
-      isBulkEdit: this.isBulkEdit,
+      isCopy: this.isCopyDialog(),
+      isBulkEdit: this.isBulkEditDialog(),
     };
     this.closeDialog(minimize);
   }
@@ -272,60 +278,6 @@ export class MaterialInputDialogComponent
 
     if (materialFormValue.co2PerTon) {
       this.co2ClassificationControl.enable({ emitEvent: false });
-    }
-  }
-
-  // TO DO replace with Pipe or attribute!!!!
-  public isEditDialog(): boolean {
-    return (
-      this.isBulkEdit ||
-      !!this.materialId ||
-      !!this.dialogData?.editDialogInformation
-    );
-  }
-
-  // TO DO replace with Pipe or attribute!!!!
-  public isAddDialog(): boolean {
-    return !(this.isCopy || this.isBulkEditDialog() || this.isEditDialog());
-  }
-
-  // TO DO replace with Pipe or attribute!!!!
-  public isBulkEditDialog(): boolean {
-    return this.isBulkEdit;
-  }
-
-  // TO DO replace with Pipe or attribute!!!!
-  public isCopyDialog(): boolean {
-    return !this.materialId && this.isCopy;
-  }
-
-  // TO DO replace with Pipe or attribute!!!!
-  public getTitle(): string {
-    if (this.isBulkEditDialog()) {
-      return translate(
-        'materialsSupplierDatabase.mainTable.dialog.bulkUpdateTitle',
-        {
-          class: translate(
-            `materialsSupplierDatabase.materialClassValues.${this.materialClass}`
-          ),
-          count: this.countSelected,
-        }
-      );
-    } else if (this.isEditDialog() && !this.isCopyDialog()) {
-      return translate(
-        'materialsSupplierDatabase.mainTable.dialog.updateTitle',
-        {
-          class: translate(
-            `materialsSupplierDatabase.materialClassValues.${this.materialClass}`
-          ),
-        }
-      );
-    } else {
-      return translate('materialsSupplierDatabase.mainTable.dialog.addTitle', {
-        class: translate(
-          `materialsSupplierDatabase.materialClassValues.${this.materialClass}`
-        ),
-      });
     }
   }
 
@@ -382,7 +334,7 @@ export class MaterialInputDialogComponent
       standard,
       supplier,
       material,
-      this.isBulkEdit
+      this.isBulkEditDialog()
     );
     this.awaitMaterialComplete(createAnother);
   }
@@ -397,22 +349,6 @@ export class MaterialInputDialogComponent
         }
         this.dialogFacade.resetMaterialRecord(!!record.error, createAnother);
       });
-  }
-
-  // TO DO replace with Pipe or attribute!!!!
-  public isValidDialog() {
-    if (this.isBulkEditDialog()) {
-      const controls = this.createMaterialForm.controls;
-
-      return (
-        Object.keys(controls)
-          .map((name) => controls[name])
-          .filter((control) => control.errors && !control.errors['required'])
-          .length === 0
-      );
-    } else {
-      return this.createMaterialForm.valid;
-    }
   }
 
   protected buildMaterialStandard(
@@ -514,6 +450,61 @@ export class MaterialInputDialogComponent
         ?.id as string,
       // attachments: '',
     };
+  }
+
+  protected setTitle(): void {
+    if (this.isBulkEditDialog()) {
+      this.title = translate(
+        'materialsSupplierDatabase.mainTable.dialog.bulkUpdateTitle',
+        {
+          class: translate(
+            `materialsSupplierDatabase.materialClassValues.${this.materialClass}`
+          ),
+          count: this.countSelected,
+        }
+      );
+    } else if (this.isEditDialog() && !this.isCopyDialog()) {
+      this.title = translate(
+        'materialsSupplierDatabase.mainTable.dialog.updateTitle',
+        {
+          class: translate(
+            `materialsSupplierDatabase.materialClassValues.${this.materialClass}`
+          ),
+        }
+      );
+    } else {
+      this.title = translate(
+        'materialsSupplierDatabase.mainTable.dialog.addTitle',
+        {
+          class: translate(
+            `materialsSupplierDatabase.materialClassValues.${this.materialClass}`
+          ),
+        }
+      );
+    }
+  }
+
+  private removeRequiredValidation() {
+    const controls = this.createMaterialForm.controls;
+    Object.keys(controls)
+      .map((name) => controls[name])
+      .forEach((control) => {
+        control.removeValidators(Validators.required);
+        control.setErrors(undefined, { emitEvent: false });
+      });
+    this.createMaterialForm.updateValueAndValidity();
+  }
+
+  private updateDialogType(isBulkEdit: boolean, isCopy: boolean) {
+    this.isBulkEditDialog.set(isBulkEdit);
+    this.isEditDialog.set(
+      isBulkEdit ||
+        !!this.materialId ||
+        !!this.dialogData?.editDialogInformation
+    );
+    this.isAddDialog.set(!(isCopy || isBulkEdit || this.isEditDialog()));
+    this.isCopyDialog.set(!this.materialId && isCopy);
+    this.setTitle();
   }
 
   private listToJson(list: any[]) {

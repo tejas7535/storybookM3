@@ -38,10 +38,6 @@ class MockDialogFacade extends DialogFacade {
   materialDialogConfirmed = jest.fn();
 }
 
-jest.mock(
-  '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/material-input-dialog.component'
-);
-
 describe('AluminumInputDialogComponent', () => {
   let component: AluminumInputDialogComponent;
   let spectator: Spectator<AluminumInputDialogComponent>;

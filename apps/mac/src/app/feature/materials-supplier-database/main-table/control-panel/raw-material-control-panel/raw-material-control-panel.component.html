@@ -13,7 +13,7 @@
         <mat-icon class="material-icons-outlined">add</mat-icon>
         <span>{{ t('addItem') }}</span>
       </button>
-      @if (isEditable && countSelectedNodes() >= 2) {
+      @if (isEditable && selectedNodes() >= 2) {
         <button
           mat-raised-button
           class="!bg-nordic-blue"
@@ -21,7 +21,7 @@
         >
           <mat-icon class="material-icons-outlined">edit</mat-icon>
           <span class="text-white">{{
-            t('multiEdit', { count: countSelectedNodes() })
+            t('multiEdit', { count: selectedNodes() })
           }}</span>
         </button>
       }
@@ -67,7 +67,7 @@
           {{ t('subtotal') }}
         </div>
         <div class="text-caption text-high-emphasis">
-          {{ agGridApi?.getDisplayedRowCount() || 0 }}
+          {{ displayedRowCount() }}
         </div>
       </div>
     </div>

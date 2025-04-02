@@ -1,5 +1,10 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Injectable } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { of, Subject } from 'rxjs';
@@ -14,7 +19,12 @@ import { MockModule, MockPipe, MockProvider } from 'ng-mocks';
 import { StringOption } from '@schaeffler/inputs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { DataResult, MaterialForm, MaterialFormValue } from '@mac/msd/models';
+import {
+  DataResult,
+  MaterialForm,
+  MaterialFormValue,
+  SteelMaterialForm,
+} from '@mac/msd/models';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 import {
@@ -348,7 +358,7 @@ describe('MaterialInputDialogComponent', () => {
       component.createMaterialForm.getRawValue = jest.fn(
         () => ({}) as unknown as any
       );
-      component['isCopy'] = true;
+      component.isCopyDialog.set(true);
 
       component.minimizeDialog();
 
@@ -424,12 +434,14 @@ describe('MaterialInputDialogComponent', () => {
       });
 
       it('should return true if editDialogInformation is set', () => {
+        component['updateDialogType'](false, false);
         expect(component.isEditDialog()).toBe(false);
       });
     });
 
     it('should return true if materialId is set', () => {
       component.materialId = 1;
+      component['updateDialogType'](false, false);
 
       expect(component.isEditDialog()).toBe(true);
     });
@@ -439,7 +451,7 @@ describe('MaterialInputDialogComponent', () => {
         row: {} as DataResult,
         column: 'x',
       };
-
+      component['updateDialogType'](false, false);
       expect(component.isEditDialog()).toBe(true);
     });
   });
@@ -447,13 +459,14 @@ describe('MaterialInputDialogComponent', () => {
   describe('isAddDialog', () => {
     describe('with editMaterialInformation', () => {
       beforeEach(() => {
-        component['isCopy'] = false;
-        component['isBulkEdit'] = false;
+        component.isCopyDialog.set(false);
+        component.isBulkEditDialog.set(false);
         component['materialId'] = 0;
         component.dialogData.editDialogInformation = undefined;
       });
 
       it('should return true on default', () => {
+        component['updateDialogType'](false, false);
         expect(component.isAddDialog()).toBe(true);
       });
     });
@@ -461,15 +474,17 @@ describe('MaterialInputDialogComponent', () => {
     it('should return false if materialId is set', () => {
       component.materialId = 1;
 
+      component['updateDialogType'](false, false);
       expect(component.isAddDialog()).toBe(false);
     });
     it('should return false if isCopy is true', () => {
-      component['isCopy'] = true;
-
+      component.isCopyDialog.set(true);
+      component['updateDialogType'](false, true);
       expect(component.isAddDialog()).toBe(false);
     });
     it('should return false if isBulkEdit is true', () => {
-      component['isBulkEdit'] = true;
+      component.isBulkEditDialog.set(true);
+      component['updateDialogType'](true, false);
 
       expect(component.isAddDialog()).toBe(false);
     });
@@ -478,8 +493,7 @@ describe('MaterialInputDialogComponent', () => {
   describe('isCopyDialog', () => {
     it('should return false if materialId is set', () => {
       component.materialId = 1;
-      component['isCopy'] = true;
-
+      component['updateDialogType'](false, true);
       const result = component.isCopyDialog();
 
       expect(result).toBe(false);
@@ -487,7 +501,7 @@ describe('MaterialInputDialogComponent', () => {
 
     it('should return false if isCopy property is false', () => {
       component.materialId = undefined;
-      component['isCopy'] = false;
+      component['updateDialogType'](false, false);
 
       const result = component.isCopyDialog();
 
@@ -496,7 +510,7 @@ describe('MaterialInputDialogComponent', () => {
 
     it('should return true if materialId is not set and isCopy is true', () => {
       component.materialId = undefined;
-      component['isCopy'] = true;
+      component['updateDialogType'](false, true);
 
       const result = component.isCopyDialog();
 
@@ -510,11 +524,11 @@ describe('MaterialInputDialogComponent', () => {
       component.countSelected = 3;
     });
     it('should return the bulkUpdate title', () => {
-      component.isEditDialog = jest.fn(() => true);
-      component.isCopyDialog = jest.fn(() => false);
-      component['isBulkEdit'] = true;
+      component.isEditDialog.set(true);
+      component.isCopyDialog.set(false);
+      component.isBulkEditDialog.set(true);
 
-      const result = component.getTitle();
+      component['setTitle']();
 
       expect(translate).toHaveBeenCalledWith(
         'materialsSupplierDatabase.mainTable.dialog.bulkUpdateTitle',
@@ -524,56 +538,56 @@ describe('MaterialInputDialogComponent', () => {
         }
       );
 
-      expect(result).toEqual(
+      expect(component.title).toEqual(
         'materialsSupplierDatabase.mainTable.dialog.bulkUpdateTitle'
       );
     });
 
     it('should return the update title', () => {
-      component.isEditDialog = jest.fn(() => true);
-      component.isCopyDialog = jest.fn(() => false);
-      component['isBulkEdit'] = false;
+      component.isEditDialog.set(true);
+      component.isCopyDialog.set(false);
+      component.isBulkEditDialog.set(false);
 
-      const result = component.getTitle();
+      component['setTitle']();
 
       expect(translate).toHaveBeenCalledWith(
         'materialsSupplierDatabase.mainTable.dialog.updateTitle',
         { class: 'materialsSupplierDatabase.materialClassValues.cu' }
       );
 
-      expect(result).toEqual(
+      expect(component.title).toEqual(
         'materialsSupplierDatabase.mainTable.dialog.updateTitle'
       );
     });
 
     it('should return the add title', () => {
-      component.isEditDialog = jest.fn(() => false);
-      component.isCopyDialog = jest.fn(() => false);
-      component['isBulkEdit'] = false;
+      component.isEditDialog.set(false);
+      component.isCopyDialog.set(false);
+      component.isBulkEditDialog.set(false);
 
-      const result = component.getTitle();
+      component['setTitle']();
 
       expect(translate).toHaveBeenCalledWith(
         'materialsSupplierDatabase.mainTable.dialog.addTitle',
         { class: 'materialsSupplierDatabase.materialClassValues.cu' }
       );
-      expect(result).toEqual(
+      expect(component.title).toEqual(
         'materialsSupplierDatabase.mainTable.dialog.addTitle'
       );
     });
 
     it('should return the add title if dialog is a copy', () => {
-      component.isEditDialog = jest.fn(() => true);
-      component.isCopyDialog = jest.fn(() => true);
-      component['isBulkEdit'] = false;
+      component.isEditDialog.set(true);
+      component.isCopyDialog.set(true);
+      component.isBulkEditDialog.set(false);
 
-      const result = component.getTitle();
+      component['setTitle']();
 
       expect(translate).toHaveBeenCalledWith(
         'materialsSupplierDatabase.mainTable.dialog.addTitle',
         { class: 'materialsSupplierDatabase.materialClassValues.cu' }
       );
-      expect(result).toEqual(
+      expect(component.title).toEqual(
         'materialsSupplierDatabase.mainTable.dialog.addTitle'
       );
     });
@@ -650,52 +664,19 @@ describe('MaterialInputDialogComponent', () => {
     });
   });
 
-  describe('isValidDialog', () => {
-    let form = {
-      controls: {},
-      valid: true,
-    };
-    beforeEach(() => {
-      component['isBulkEdit'] = false;
-      form = {
-        controls: {},
-        valid: true,
-      };
-      component.createMaterialForm = form as FormGroup;
-    });
-    it('should be valid dialog on default', () => {
-      expect(component.isValidDialog()).toBeTruthy();
-    });
-    it('should be invalid dialog on with no bulk edit and invalid form', () => {
-      form.valid = false;
+  describe('removeRequiredValidation', () => {
+    it('should remove mandatory validation', () => {
+      const control = new FormControl<string>({ value: '1', disabled: false }, [
+        Validators.required,
+      ]);
+      control.setErrors({ required: 'test' });
+      component.createMaterialForm = new FormGroup<SteelMaterialForm>({
+        castingMode: control,
+      } as SteelMaterialForm);
+      component['removeRequiredValidation']();
 
-      expect(component.isValidDialog()).toBeFalsy();
-    });
-    it('should be valid dialog on with bulk edit and valid form', () => {
-      component['isBulkEdit'] = true;
-      expect(component.isValidDialog()).toBeTruthy();
-    });
-
-    it('should be valid dialog on with bulk edit and reuired form', () => {
-      component['isBulkEdit'] = true;
-      form.controls = {
-        test1: {
-          errors: { required: true },
-        },
-      };
-      expect(component.isValidDialog()).toBeTruthy();
-    });
-    it('should be invalid dialog on with bulk edit and invalid form', () => {
-      component['isBulkEdit'] = true;
-      form.controls = {
-        test1: {
-          errors: { required: true },
-        },
-        test2: {
-          errors: { anythg: true },
-        },
-      };
-      expect(component.isValidDialog()).toBeFalsy();
+      expect(control.hasValidator(Validators.required)).toBeFalsy();
+      expect(control.valid).toBeTruthy();
     });
   });
 

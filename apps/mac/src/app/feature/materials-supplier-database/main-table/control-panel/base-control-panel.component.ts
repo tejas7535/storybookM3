@@ -28,7 +28,7 @@ export abstract class BaseControlPanelComponent implements OnInit, OnDestroy {
     ACTION,
   ]);
 
-  private readonly destroy$ = new Subject<void>();
+  protected readonly destroy$ = new Subject<void>();
 
   public constructor(
     protected readonly dataFacade: DataFacade,

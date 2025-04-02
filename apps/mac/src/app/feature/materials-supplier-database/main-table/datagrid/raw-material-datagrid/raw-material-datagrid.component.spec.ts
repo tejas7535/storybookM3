@@ -6,8 +6,9 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { AgGridAngular } from 'ag-grid-angular';
 import { GridApi } from 'ag-grid-community';
-import { MockDirective, MockPipe, MockProvider } from 'ng-mocks';
+import { MockComponent, MockDirective, MockPipe, MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -40,6 +41,7 @@ describe('RawMaterialDatagridComponent', () => {
       MockPipe(PushPipe),
       MockDirective(LetDirective),
       provideTranslocoTestingModule({ en: {} }),
+      MockComponent(AgGridAngular),
     ],
     providers: [
       provideMockStore({}),

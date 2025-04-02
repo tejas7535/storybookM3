@@ -155,43 +155,35 @@ export class MaterialStandardComponent
     this.dialogFacade.addCustomMaterialStandardName(materialName);
   }
 
-  // TO DO replace with Pipe or attribute!!!!
-  public materialNameFilterFnFactory =
-    (standardDocumentsControl: FormControl<StringOption>) =>
-    (option?: StringOption, value?: string) => {
-      if (
-        option.id &&
-        standardDocumentsControl.value &&
-        standardDocumentsControl.value.data &&
-        !standardDocumentsControl.value.data['materialNames'].some(
-          ({ materialName }: { materialName: string }) =>
-            materialName === option.title
-        )
-      ) {
-        return false;
-      }
+  public materialNameFilterFn = (option?: StringOption, value?: string) => {
+    if (
+      option.id &&
+      this.standardDocumentsControl.value?.data &&
+      !this.standardDocumentsControl.value.data['materialNames'].some(
+        ({ materialName }: { materialName: string }) =>
+          materialName === option.title
+      )
+    ) {
+      return false;
+    }
 
-      return util.filterFn(option, value);
-    };
+    return util.filterFn(option, value);
+  };
 
-  // TO DO replace with Pipe or attribute!!!!
-  public standardDocumentFilterFnFactory =
-    (materialNamesControl: FormControl<StringOption>) =>
-    (option?: StringOption, value?: string) => {
-      if (
-        option.id &&
-        materialNamesControl.value &&
-        materialNamesControl.value.data &&
-        !materialNamesControl.value.data['standardDocuments'].some(
-          ({ standardDocument }: { standardDocument: string }) =>
-            standardDocument === option.title
-        )
-      ) {
-        return false;
-      }
+  public standardDocumentFilterFn = (option?: StringOption, value?: string) => {
+    if (
+      option.id &&
+      this.materialNamesControl.value?.data &&
+      !this.materialNamesControl.value.data['standardDocuments'].some(
+        ({ standardDocument }: { standardDocument: string }) =>
+          standardDocument === option.title
+      )
+    ) {
+      return false;
+    }
 
-      return util.filterFn(option, value);
-    };
+    return util.filterFn(option, value);
+  };
 
   private mapToControl(
     control: FormControl<StringOption>,

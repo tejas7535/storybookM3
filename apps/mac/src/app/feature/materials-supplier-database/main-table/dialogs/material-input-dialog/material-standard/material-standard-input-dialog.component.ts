@@ -112,27 +112,6 @@ export class MaterialStandardInputDialogComponent
 
   enableEditFields(): void {}
 
-  // TO DO replace with Pipe or attribute!!!!
-  public getTitle(): string {
-    return this.isEditDialog() && !this.isCopyDialog()
-      ? translate(
-          'materialsSupplierDatabase.mainTable.dialog.updateMaterialStandardTitle',
-          {
-            class: translate(
-              `materialsSupplierDatabase.materialClassValues.${this.materialClass}`
-            ),
-          }
-        )
-      : translate(
-          'materialsSupplierDatabase.mainTable.dialog.addMaterialStandardTitle',
-          {
-            class: translate(
-              `materialsSupplierDatabase.materialClassValues.${this.materialClass}`
-            ),
-          }
-        );
-  }
-
   public confirmMaterial(createAnother: boolean): void {
     const baseMaterial = this.createMaterialForm
       .value as MaterialStandardFormValue;
@@ -157,6 +136,27 @@ export class MaterialStandardInputDialogComponent
       ),
       standardDocument: baseMaterial.standardDocument.title,
     };
+  }
+
+  protected setTitle(): void {
+    this.title =
+      this.isEditDialog() && !this.isCopyDialog()
+        ? translate(
+            'materialsSupplierDatabase.mainTable.dialog.updateMaterialStandardTitle',
+            {
+              class: translate(
+                `materialsSupplierDatabase.materialClassValues.${this.materialClass}`
+              ),
+            }
+          )
+        : translate(
+            'materialsSupplierDatabase.mainTable.dialog.addMaterialStandardTitle',
+            {
+              class: translate(
+                `materialsSupplierDatabase.materialClassValues.${this.materialClass}`
+              ),
+            }
+          );
   }
 
   private createMaterialNumberControl(): FormControl<string> {

@@ -70,12 +70,11 @@ export class ManufacturerSupplierComponent implements OnInit, OnDestroy {
   public supplierCountryEditControl = new FormControl<string>(undefined);
   public viewMode = '';
 
-  // TO DO replace with Pipe or attribute ???
   public filterFn = util.filterFn;
-  public valueTitleToOptionKeyFilterFnFactory =
-    util.valueTitleToOptionKeyFilterFnFactory;
-  public valueOptionKeyToTitleFilterFnFactory =
-    util.valueOptionKeyToTitleFilterFnFactory;
+  public supplierPlantFilterFn: (
+    option?: StringOption,
+    value?: string
+  ) => boolean;
 
   private supplierDependencies: FormGroup<{
     supplierName: FormControl<StringOption>;
@@ -87,6 +86,11 @@ export class ManufacturerSupplierComponent implements OnInit, OnDestroy {
   constructor(private readonly dialogFacade: DialogFacade) {}
 
   ngOnInit(): void {
+    this.supplierPlantFilterFn = util.valueTitleToOptionKeyFilterFnFactory(
+      this.supplierControl,
+      'supplierName'
+    );
+
     if (this.editable) {
       this.viewMode = 'editable';
     } else if (this.readonly) {

@@ -512,13 +512,10 @@ describe('MaterialStandardComponent', () => {
     const option: StringOption = { id: 78, title: 'aBcDeFgH' };
 
     it('should return true with no std doc set', () => {
-      const standardDocumentsControl = new FormControl<StringOption>(undefined);
-      expect(
-        component.materialNameFilterFnFactory(standardDocumentsControl)(
-          option,
-          option.title
-        )
-      ).toBe(true);
+      component.standardDocumentsControl = new FormControl<StringOption>(
+        undefined
+      );
+      expect(component.materialNameFilterFn(option, option.title)).toBe(true);
     });
 
     it('should return true with no "data" in  std doc set', () => {
@@ -526,13 +523,10 @@ describe('MaterialStandardComponent', () => {
         id: 11,
         title: 'aBcDeFgH',
       };
-      const standardDocumentsControl = new FormControl<StringOption>(stdDoc);
-      expect(
-        component.materialNameFilterFnFactory(standardDocumentsControl)(
-          option,
-          option.title
-        )
-      ).toBe(true);
+      component.standardDocumentsControl = new FormControl<StringOption>(
+        stdDoc
+      );
+      expect(component.materialNameFilterFn(option, option.title)).toBe(true);
     });
 
     it('should return true with matching materialName', () => {
@@ -541,10 +535,10 @@ describe('MaterialStandardComponent', () => {
         title: 'aBcDeFgH',
         data: { materialNames: [{ id: 1, materialName: option.title }] },
       };
-      const standardDocumentsControl = new FormControl<StringOption>(stdDoc);
-      expect(
-        component.materialNameFilterFnFactory(standardDocumentsControl)(option)
-      ).toBe(true);
+      component.standardDocumentsControl = new FormControl<StringOption>(
+        stdDoc
+      );
+      expect(component.materialNameFilterFn(option)).toBe(true);
     });
 
     it('should return false with not matching materialname', () => {
@@ -553,13 +547,10 @@ describe('MaterialStandardComponent', () => {
         title: 'aBcDeFgH',
         data: { materialNames: [{ id: 1, materialName: 'other matName' }] },
       };
-      const standardDocumentsControl = new FormControl<StringOption>(stdDoc);
-      expect(
-        component.materialNameFilterFnFactory(standardDocumentsControl)(
-          option,
-          option.title
-        )
-      ).toBeFalsy();
+      component.standardDocumentsControl = new FormControl<StringOption>(
+        stdDoc
+      );
+      expect(component.materialNameFilterFn(option, option.title)).toBeFalsy();
     });
   });
 
@@ -567,14 +558,11 @@ describe('MaterialStandardComponent', () => {
     const option: StringOption = { id: 78, title: 'aBcDeFgH' };
 
     it('should return true with no material name set', () => {
-      const materialNamesControl = new FormControl<StringOption>(undefined);
+      component.materialNamesControl = new FormControl<StringOption>(undefined);
 
-      expect(
-        component.standardDocumentFilterFnFactory(materialNamesControl)(
-          option,
-          option.title
-        )
-      ).toBe(true);
+      expect(component.standardDocumentFilterFn(option, option.title)).toBe(
+        true
+      );
     });
 
     it('should return true with no "data" in  material name set', () => {
@@ -582,13 +570,10 @@ describe('MaterialStandardComponent', () => {
         id: 11,
         title: 'aBcDeFgH',
       };
-      const materialNamesControl = new FormControl<StringOption>(matName);
-      expect(
-        component.standardDocumentFilterFnFactory(materialNamesControl)(
-          option,
-          option.title
-        )
-      ).toBe(true);
+      component.materialNamesControl = new FormControl<StringOption>(matName);
+      expect(component.standardDocumentFilterFn(option, option.title)).toBe(
+        true
+      );
     });
 
     it('should return true with matching standardDocument', () => {
@@ -599,10 +584,8 @@ describe('MaterialStandardComponent', () => {
           standardDocuments: [{ id: 1, standardDocument: option.title }],
         },
       };
-      const materialNamesControl = new FormControl<StringOption>(matName);
-      expect(
-        component.standardDocumentFilterFnFactory(materialNamesControl)(option)
-      ).toBe(true);
+      component.materialNamesControl = new FormControl<StringOption>(matName);
+      expect(component.standardDocumentFilterFn(option)).toBe(true);
     });
 
     it('should return false with not matching standardDocument', () => {
@@ -615,12 +598,9 @@ describe('MaterialStandardComponent', () => {
           ],
         },
       };
-      const materialNamesControl = new FormControl<StringOption>(matName);
+      component.materialNamesControl = new FormControl<StringOption>(matName);
       expect(
-        component.standardDocumentFilterFnFactory(materialNamesControl)(
-          option,
-          option.title
-        )
+        component.standardDocumentFilterFn(option, option.title)
       ).toBeFalsy();
     });
   });

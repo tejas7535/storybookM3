@@ -61,10 +61,6 @@ class MockDialogFacade extends DialogFacade {
   addCustomSupplierBusinessPartnerId = jest.fn();
 }
 
-jest.mock(
-  '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/material-input-dialog.component'
-);
-
 describe('ManufacturerSupplierInputDialogComponent', () => {
   let component: ManufacturerSupplierInputDialogComponent;
   let spectator: Spectator<ManufacturerSupplierInputDialogComponent>;
@@ -284,46 +280,46 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
 
   describe('getTitle', () => {
     it('should return the update title', () => {
-      component.isEditDialog = jest.fn(() => true);
-      component.isCopyDialog = jest.fn(() => false);
+      component.isEditDialog.set(true);
+      component.isCopyDialog.set(false);
 
-      const result = component.getTitle();
+      component['setTitle']();
 
       expect(translate).toHaveBeenCalledWith(
         'materialsSupplierDatabase.mainTable.dialog.updateManufacturerSupplierTitle',
         { class: 'materialsSupplierDatabase.materialClassValues.st' }
       );
-      expect(result).toEqual(
+      expect(component.title).toEqual(
         'materialsSupplierDatabase.mainTable.dialog.updateManufacturerSupplierTitle'
       );
     });
 
     it('should return the add title', () => {
-      component.isEditDialog = jest.fn(() => false);
-      component.isCopyDialog = jest.fn(() => false);
+      component.isEditDialog.set(false);
+      component.isCopyDialog.set(false);
 
-      const result = component.getTitle();
+      component['setTitle']();
 
       expect(translate).toHaveBeenCalledWith(
         'materialsSupplierDatabase.mainTable.dialog.addManufacturerSupplierTitle',
         { class: 'materialsSupplierDatabase.materialClassValues.st' }
       );
-      expect(result).toEqual(
+      expect(component.title).toEqual(
         'materialsSupplierDatabase.mainTable.dialog.addManufacturerSupplierTitle'
       );
     });
 
     it('should return the add title if dialog is a copy', () => {
-      component.isEditDialog = jest.fn(() => true);
-      component.isCopyDialog = jest.fn(() => true);
+      component.isEditDialog.set(true);
+      component.isCopyDialog.set(true);
 
-      const result = component.getTitle();
+      component['setTitle']();
 
       expect(translate).toHaveBeenCalledWith(
         'materialsSupplierDatabase.mainTable.dialog.addManufacturerSupplierTitle',
         { class: 'materialsSupplierDatabase.materialClassValues.st' }
       );
-      expect(result).toEqual(
+      expect(component.title).toEqual(
         'materialsSupplierDatabase.mainTable.dialog.addManufacturerSupplierTitle'
       );
     });
@@ -331,6 +327,7 @@ describe('ManufacturerSupplierInputDialogComponent', () => {
 
   describe('minimizeDialog', () => {
     it('should transform the form value', () => {
+      component.isCopyDialog.set(false);
       const mockValue: ManufacturerSupplierFormValue = {
         name: { title: 'name' } as StringOption,
         plant: { title: 'plant' } as StringOption,

@@ -129,27 +129,6 @@ export class ManufacturerSupplierInputDialogComponent
     this.supplierCountryControl.enable({ emitEvent: false });
   }
 
-  // TO DO replace with Pipe or attribute!!!!
-  public getTitle(): string {
-    return this.isEditDialog() && !this.isCopyDialog()
-      ? translate(
-          'materialsSupplierDatabase.mainTable.dialog.updateManufacturerSupplierTitle',
-          {
-            class: translate(
-              `materialsSupplierDatabase.materialClassValues.${this.materialClass}`
-            ),
-          }
-        )
-      : translate(
-          'materialsSupplierDatabase.mainTable.dialog.addManufacturerSupplierTitle',
-          {
-            class: translate(
-              `materialsSupplierDatabase.materialClassValues.${this.materialClass}`
-            ),
-          }
-        );
-  }
-
   public minimizeDialog(): void {
     const formValue = this.createMaterialForm.getRawValue();
     this.dialogRef.close({
@@ -162,7 +141,7 @@ export class ManufacturerSupplierInputDialogComponent
           manufacturer: formValue.manufacturer,
           businessPartnerIds: formValue.businessPartnerIds,
         },
-        isCopy: this.isCopy,
+        isCopy: this.isCopyDialog(),
       },
     });
   }
@@ -192,5 +171,26 @@ export class ManufacturerSupplierInputDialogComponent
     this.dialogFacade.addCustomSupplierBusinessPartnerId(
       supplierBusinessPartnerId
     );
+  }
+
+  protected setTitle() {
+    this.title =
+      this.isEditDialog() && !this.isCopyDialog()
+        ? translate(
+            'materialsSupplierDatabase.mainTable.dialog.updateManufacturerSupplierTitle',
+            {
+              class: translate(
+                `materialsSupplierDatabase.materialClassValues.${this.materialClass}`
+              ),
+            }
+          )
+        : translate(
+            'materialsSupplierDatabase.mainTable.dialog.addManufacturerSupplierTitle',
+            {
+              class: translate(
+                `materialsSupplierDatabase.materialClassValues.${this.materialClass}`
+              ),
+            }
+          );
   }
 }

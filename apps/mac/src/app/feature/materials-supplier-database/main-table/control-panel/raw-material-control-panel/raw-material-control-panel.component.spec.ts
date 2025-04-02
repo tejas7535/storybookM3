@@ -47,9 +47,9 @@ describe('RawMaterialControlPanelComponent', () => {
   let component: RawMaterialControlPanelComponent;
   let spectator: Spectator<RawMaterialControlPanelComponent>;
   const gridApiMock = {
-    setFilterModel: jest.fn(),
-    onFilterChanged: jest.fn(),
-    getSelectedNodes: jest.fn(),
+    addEventListener: jest.fn((_name, fkt) => fkt({ api: gridApiMock })),
+    getSelectedNodes: jest.fn(() => [1, 2, 3]),
+    getDisplayedRowCount: jest.fn(() => 12),
     exportDataAsExcel: jest.fn(),
     setGridOption: jest.fn(),
     getGridOption: jest.fn(),
@@ -157,11 +157,14 @@ describe('RawMaterialControlPanelComponent', () => {
     });
   });
 
-  describe('countSelectedNodes', () => {
-    it('should return the number of selected nodes', () => {
+  describe('agGridEvents', () => {
+    it('should update signals and return the number of selected nodes', () => {
+      component.ngOnInit();
+
       const item = {} as IRowNode;
       gridApiMock.getSelectedNodes = jest.fn(() => [item, item, item]);
-      expect(component.countSelectedNodes()).toBe(3);
+      expect(component.displayedRowCount()).toBe(12);
+      expect(component.selectedNodes()).toBe(3);
     });
   });
 

@@ -496,7 +496,7 @@ export class SteelInputDialogComponent
           if (supplierId) {
             this.dialogFacade.fetchCastingDiameters(supplierId, castingMode);
           }
-        } else if (!this.isBulkEdit) {
+        } else if (!this.isBulkEditDialog()) {
           this.castingDiameterControl.reset();
           this.castingDiameterControl.disable();
         }
@@ -748,7 +748,6 @@ export class SteelInputDialogComponent
     this.dialogFacade.addCustomCo2Standard(co2Standard);
   }
 
-  // TO DO replace with Pipe or attribute!!!!
   public steelMakingProcessFilterFn = (
     option?: StringOption,
     value?: string
@@ -772,7 +771,7 @@ export class SteelInputDialogComponent
       this.releaseYearControl.removeValidators(Validators.required);
     }
 
-    if (this.isBulkEdit) {
+    if (this.isBulkEditDialog()) {
       this.selfCertifiedControl.enable();
       this.castingDiameterControl.enable();
       this.co2ClassificationControl.enable();

@@ -72,10 +72,6 @@ class MockDialogFacade extends DialogFacade {
   addCustomCo2Standard = jest.fn();
 }
 
-jest.mock(
-  '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/material-input-dialog.component'
-);
-
 jest.mock('@jsverse/transloco', () => ({
   ...jest.requireActual('@jsverse/transloco'),
   translate: jest.fn((key) => key),
@@ -783,40 +779,40 @@ describe('SteelInputDialogComponent', () => {
 
   describe('selectReleaseDateView', () => {
     beforeEach(() => {
-      component.isEditDialog = jest.fn(() => false);
-      component.isCopyDialog = jest.fn(() => false);
-      component.isBulkEditDialog = jest.fn(() => false);
+      component.isEditDialog.set(false);
+      component.isCopyDialog.set(false);
+      component.isBulkEditDialog.set(false);
       component.releaseMonthControl.enable();
       component.releaseYearControl.enable();
     });
     it('should return NEW for ADD Dialog', () => {
-      component.isCopyDialog = jest.fn(() => false);
-      component.isEditDialog = jest.fn(() => false);
-      component.isBulkEditDialog = jest.fn(() => false);
+      component.isCopyDialog.set(false);
+      component.isEditDialog.set(false);
+      component.isBulkEditDialog.set(false);
       expect(component.selectReleaseDateView()).toBe(
         ReleaseDateViewMode.DEFAULT
       );
     });
     it('should return NEW for COPY Dialog', () => {
-      component.isCopyDialog = jest.fn(() => true);
-      component.isEditDialog = jest.fn(() => true);
-      component.isBulkEditDialog = jest.fn(() => false);
+      component.isCopyDialog.set(true);
+      component.isEditDialog.set(true);
+      component.isBulkEditDialog.set(false);
       expect(component.selectReleaseDateView()).toBe(
         ReleaseDateViewMode.DEFAULT
       );
     });
     it('should return NEW for BULK Edit Dialog', () => {
-      component.isCopyDialog = jest.fn(() => false);
-      component.isEditDialog = jest.fn(() => true);
-      component.isBulkEditDialog = jest.fn(() => true);
+      component.isCopyDialog.set(false);
+      component.isEditDialog.set(true);
+      component.isBulkEditDialog.set(true);
       expect(component.selectReleaseDateView()).toBe(
         ReleaseDateViewMode.READONLY
       );
     });
     it('should return READONLY for EDIT Dialog', () => {
-      component.isCopyDialog = jest.fn(() => false);
-      component.isEditDialog = jest.fn(() => true);
-      component.isBulkEditDialog = jest.fn(() => false);
+      component.isCopyDialog.set(false);
+      component.isEditDialog.set(true);
+      component.isBulkEditDialog.set(false);
       component.releaseMonthControl.setValue(1);
       component.releaseYearControl.setValue(33);
       expect(component.selectReleaseDateView()).toBe(
@@ -824,9 +820,9 @@ describe('SteelInputDialogComponent', () => {
       );
     });
     it('should return HISTORIC for EDIT Dialog without full release date (month)', () => {
-      component.isCopyDialog = jest.fn(() => false);
-      component.isEditDialog = jest.fn(() => true);
-      component.isBulkEditDialog = jest.fn(() => false);
+      component.isCopyDialog.set(false);
+      component.isEditDialog.set(true);
+      component.isBulkEditDialog.set(false);
       component.releaseMonthControl.reset();
       component.releaseYearControl.setValue(33);
       expect(component.selectReleaseDateView()).toBe(
@@ -834,9 +830,9 @@ describe('SteelInputDialogComponent', () => {
       );
     });
     it('should return HISTORIC for EDIT Dialog without full release date (Year)', () => {
-      component.isCopyDialog = jest.fn(() => false);
-      component.isEditDialog = jest.fn(() => true);
-      component.isBulkEditDialog = jest.fn(() => false);
+      component.isCopyDialog.set(false);
+      component.isEditDialog.set(true);
+      component.isBulkEditDialog.set(false);
       component.releaseMonthControl.setValue(1);
       component.releaseYearControl.reset();
       expect(component.selectReleaseDateView()).toBe(
@@ -1046,7 +1042,7 @@ describe('SteelInputDialogComponent', () => {
         releaseDateMonth: 1,
         releaseDateYear: 1,
       } as SteelMaterialFormValue;
-      component.isCopyDialog = jest.fn(() => true);
+      component.isCopyDialog.set(true);
 
       component.enableEditFields(mockFormValue);
 

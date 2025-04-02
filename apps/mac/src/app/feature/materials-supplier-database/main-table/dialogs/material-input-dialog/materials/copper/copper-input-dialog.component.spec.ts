@@ -46,10 +46,6 @@ class MockDialogFacade extends DialogFacade {
   materialDialogConfirmed = jest.fn();
 }
 
-jest.mock(
-  '@mac/feature/materials-supplier-database/main-table/dialogs/material-input-dialog/material-input-dialog.component'
-);
-
 const getMockControl = (disabled: boolean): FormControl =>
   new FormControl({ value: undefined, disabled });
 

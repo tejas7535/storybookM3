@@ -63,7 +63,7 @@
           />
         </mat-form-field>
         <mat-form-field appearance="outline" class="w-full" floatLabel="always">
-          <mat-select required [formControl]="supplierCountryEditControl">
+          <mat-select [formControl]="supplierCountryEditControl">
             @for (country of supplierCountries$ | ngrxPush; track country) {
               <mat-option [value]="country.id">{{ country.title }}</mat-option>
             }
@@ -99,12 +99,7 @@
           class="w-full"
           [stringOptions]="supplierPlants$ | ngrxPush"
           [control]="supplierPlantControl"
-          [filterFn]="
-            valueTitleToOptionKeyFilterFnFactory(
-              supplierControl,
-              'supplierName'
-            )
-          "
+          [filterFn]="supplierPlantFilterFn"
           [label]="t('supplierPlant')"
           [addEntry]="true"
           [showTriggerTooltip]="true"
