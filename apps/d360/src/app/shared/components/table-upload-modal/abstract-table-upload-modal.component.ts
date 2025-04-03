@@ -16,6 +16,7 @@ import {
   GridReadyEvent,
   GridSizeChangedEvent,
   IRowNode,
+  PostSortRowsParams,
   ProcessDataFromClipboardParams,
 } from 'ag-grid-enterprise';
 
@@ -324,7 +325,11 @@ export abstract class AbstractTableUploadModalComponent<
    * @memberof AbstractTableUploadModalComponent
    */
   private validateFunctionWithErrors(
-    valFn?: (value: string, rowData: IRowNode) => string | null | undefined
+    valFn?: (
+      value: string,
+      rowData: IRowNode,
+      gridApi?: GridApi
+    ) => string | null | undefined
   ) {
     return (
       value: string,
@@ -332,7 +337,7 @@ export abstract class AbstractTableUploadModalComponent<
       colId?: string
     ): string | null | undefined => {
       if (valFn && value) {
-        const validationResult = valFn(value, rowData);
+        const validationResult = valFn(value, rowData, this.gridApi());
         if (validationResult) {
           return validationResult;
         }
@@ -660,6 +665,23 @@ export abstract class AbstractTableUploadModalComponent<
     this.updateColumnDefinitions();
     event.api.applyTransaction({ add: [{}] });
     event.api.sizeColumnsToFit();
+
+    this.gridApi()?.setGridOption(
+      'postSortRows',
+      (params: PostSortRowsParams) => {
+        const rowNodes = params.nodes;
+
+        rowNodes.sort((a, b) => {
+          if (rowIsEmpty(a)) {
+            return 1;
+          } else if (rowIsEmpty(b)) {
+            return -1;
+          }
+
+          return 0;
+        });
+      }
+    );
   }
 
   /**
@@ -733,6 +755,8 @@ export abstract class AbstractTableUploadModalComponent<
     if (this.gridApi()) {
       ensureEmptyRowAtBottom(this.gridApi());
     }
+
+    this.updateColumnDefinitions();
   }
 
   /**

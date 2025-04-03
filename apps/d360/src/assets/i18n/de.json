@@ -33,6 +33,7 @@
     "download": "Download"
   },
   "error": {
+    "duplicatedMaterialNumber": "Gleiche Materialnummer mehrfach vorhanden",
     "valueTooSmall": "Es sind nur positive Zahlen erlaubt",
     "valueSmallerFirmBusiness": "Validated Customer Forecast kleiner Firm Business",
     "unknown": "Unbekannter Fehler",

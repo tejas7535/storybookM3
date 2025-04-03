@@ -24,6 +24,7 @@
     "download": "Download"
   },
   "error": {
+    "duplicatedMaterialNumber": "Mesmo número de material incluído várias vezes",
     "valueTooSmall": "Só são permitidos números positivos",
     "valueSmallerFirmBusiness": "Validated Customer Forecast é menor do que Firm Business",
     "unknown": "Erro desconhecido",

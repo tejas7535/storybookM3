@@ -9,6 +9,7 @@ import { lastValueFrom, take } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { AgGridModule } from 'ag-grid-angular';
+import { GridApi, IRowNode } from 'ag-grid-enterprise';
 import { parse } from 'date-fns';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -86,6 +87,9 @@ export class CustomerMaterialMultiModalComponent extends AbstractTableUploadModa
     const options: SelectableValue[] = demandCharacteristicOptions.map(
       (id) => ({ id, text: translate(`demand_characteristics.${id}`) })
     );
+    const duplicatedMaterialNumberErrorMessage: string = translate(
+      'error.duplicatedMaterialNumber'
+    );
 
     return [
       {
@@ -94,9 +98,27 @@ export class CustomerMaterialMultiModalComponent extends AbstractTableUploadModa
         ),
         field: 'materialNumber',
         editable: true,
-        validationFn: ValidationHelper.condenseErrorsFromValidation(
-          validateMaterialNumber
-        ),
+        validationFn: (value: string, _rowData: IRowNode, gridApi: GridApi) => {
+          let errors = ValidationHelper.condenseErrorsFromValidation(
+            validateMaterialNumber
+          )(value);
+
+          const counts: Record<string, number> = {};
+          gridApi?.forEachNodeAfterFilterAndSort((row) => {
+            if (row?.data?.materialNumber) {
+              counts[row?.data?.materialNumber] =
+                (counts[row?.data?.materialNumber] || 0) + 1;
+            }
+          });
+
+          if (counts?.[value] > 1) {
+            errors = errors
+              ? `${duplicatedMaterialNumberErrorMessage}, ${errors}`
+              : duplicatedMaterialNumberErrorMessage;
+          }
+
+          return errors;
+        },
       },
       {
         headerName: translate(
