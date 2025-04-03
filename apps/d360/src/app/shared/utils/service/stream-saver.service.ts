@@ -5,15 +5,13 @@ import streamSaver from 'streamsaver';
 
 import { HttpError } from '../http-client';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class StreamSaverService {
-  constructor() {
+  public init() {
     this.initializeStreamSaver();
   }
 
-  private async initializeStreamSaver() {
+  private async initializeStreamSaver(): Promise<void> {
     streamSaver.mitm = '/mitm.html';
 
     if (typeof window !== 'undefined' && window.WritableStream === undefined) {

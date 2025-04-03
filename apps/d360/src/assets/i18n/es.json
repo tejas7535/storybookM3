@@ -1169,8 +1169,8 @@
   },
   "rules": {
     "startDate": "Inicie",
-    "execDay": "¿Cuándo?",
-    "execInterval": "¿Ciclo?",
+    "execDay": "Cuándo?",
+    "execInterval": "Ciclo?",
     "endDate": "Finalizar",
     "deactivated": "Desactivado",
     "activeCount": "Tareas activas",

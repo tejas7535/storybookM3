@@ -58,6 +58,7 @@ import { SelectableOptionsService } from '../services/selectable-options.service
 import { UserService } from '../services/user.service';
 import { AuthService } from '../utils/auth/auth.service';
 import { SnackbarService } from '../utils/service/snackbar.service';
+import { StreamSaverService } from '../utils/service/stream-saver.service';
 import { ValidationHelper } from '../utils/validation/validation-helper';
 
 // Angular's effect function depends on a lot of deeper Angular stuff. We want to enable unit testing at the component level, so we need to be able to inject a standalone effect function
@@ -273,6 +274,7 @@ export class Stub {
   public static getHttpClient(data?: {
     get?: any;
     post?: any;
+    patch?: any;
     request?: any;
     delete?: any;
     put?: any;
@@ -280,6 +282,7 @@ export class Stub {
     return {
       get: () => of(data?.get ?? {}),
       post: () => of(data?.post ?? {}),
+      patch: () => of(data?.patch ?? {}),
       request: () => of(data?.request ?? {}),
       delete: () => of(data?.delete ?? {}),
       put: () => of(data?.put ?? {}),
@@ -605,6 +608,18 @@ export class Stub {
     return MockProvider(
       MsalBroadcastService,
       { msalSubject$, inProgress$ },
+      'useValue'
+    );
+  }
+
+  public static getStreamSaverServiceProvider(): ValueProvider {
+    return MockProvider(
+      StreamSaverService,
+      {
+        init: () => {},
+        initializeStreamSaver: () => Promise.resolve(),
+        streamResponseToFile: () => Promise.resolve(),
+      },
       'useValue'
     );
   }

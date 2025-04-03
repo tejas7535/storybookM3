@@ -34,6 +34,7 @@ describe('AppComponent', () => {
         Stub.getActivatedRouteProvider(),
         Stub.getUserServiceProvider(),
         Stub.getDateAdapterProvider(),
+        Stub.getStreamSaverServiceProvider(),
       ],
     });
   });

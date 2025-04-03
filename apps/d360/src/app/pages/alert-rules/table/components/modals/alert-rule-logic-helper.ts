@@ -1,9 +1,9 @@
 import { translate } from '@jsverse/transloco';
 
 import { AlertRule } from '../../../../../feature/alert-rules/model';
-import { SelectableValue } from '../../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { OptionsLoadingResult } from '../../../../../shared/services/selectable-options.service';
 import { parseDateIfPossible } from '../../../../../shared/utils/parse-values';
+import { parseSelectableValueIfPossible } from './../../../../../feature/alert-rules/alert-rule-value-parser';
 import {
   possibleWhenOptions,
   thresholdAlerts,
@@ -38,27 +38,35 @@ const keyFieldsAlertRule: (keyof Partial<AlertRule>)[] = [
 ] as const;
 
 // Use functions to avoid calling the translation function while the languages are not ready
-// and to asure no typos in the keys
+// and to ensure no typos in the keys
 const keyFieldTranslations = [
   () => translate('alert_rules.edit_modal.label.sales_area'),
   () => translate('alert_rules.edit_modal.label.sales_org'),
-  () => translate('globalSelection.customer'),
+  () => translate('alert_rules.edit_modal.label.customer'),
   () => translate('alert_rules.edit_modal.label.sector_management'),
   () => translate('alert_rules.edit_modal.label.demandPlannerId'),
   () => translate('alert_rules.edit_modal.label.gkamNumber'),
 ];
 
 /**
- * Implemented Checks:
- 1. All 6 of the mandatory fields are filled
- 2. At least one of the 6 key fields is filled
- 3. Alert type and filled thresholds match
- 4. Interval and Exec Day match
- * @param alertRule
- * @param thresholdRequirements
+ * Validates the provided alert rule data and returns a list of error messages if any issues are found.
+ *
+ * The function performs the following checks:
+ * - Ensures mandatory fields are present in the alert rule.
+ * - Validates key fields in the alert rule.
+ * - Checks if the thresholds in the alert rule meet the requirements for the specified alert type.
+ * - Verifies that the `execDay` value is valid for the given `execInterval`.
+ *
+ * @param {AlertRule} alertRule  - The alert rule object to validate.
+ * @param {AlertRule} alertRuleOriginal  - The original alert rule object, used for error identification.
+ * @param {ThresholdsRequiredForAlertType[]} thresholdRequirements  - A list of threshold requirements specific to alert types.
+ *
+ * @returns {ErrorMessage<AlertRule>[]} An array of error messages indicating validation issues with the alert rule.
+ *
  */
 export function checkAlertRuleData(
   alertRule: AlertRule,
+  alertRuleOriginal: AlertRule,
   thresholdRequirements: ThresholdsRequiredForAlertType[]
 ): ErrorMessage<AlertRule>[] {
   const errors: ErrorMessage<AlertRule>[] = [];
@@ -88,7 +96,7 @@ export function checkAlertRuleData(
     const allowedOptions = possibleWhenOptions?.[alertRule.execInterval];
     if (!(allowedOptions || []).includes(alertRule.execDay)) {
       errors.push({
-        dataIdentifier: alertRule,
+        dataIdentifier: alertRuleOriginal,
         specificField: 'execDay',
         errorMessage: translate(
           'alert_rules.multi_modal.error.execDay_not_valid'
@@ -168,6 +176,7 @@ export function getSpecialParseFunctions({
   productLineOptions,
   intervalOpts,
   whenOpts,
+  materialClassification,
 }: {
   alertTypes: OptionsLoadingResult;
   regionOptions: OptionsLoadingResult;
@@ -179,6 +188,7 @@ export function getSpecialParseFunctions({
   productLineOptions: OptionsLoadingResult;
   intervalOpts: OptionsLoadingResult;
   whenOpts: OptionsLoadingResult;
+  materialClassification: OptionsLoadingResult;
 }): Map<keyof AlertRule, (value: string) => string> {
   return new Map([
     ['type', parseSelectableValueIfPossible(alertTypes.options)],
@@ -197,19 +207,11 @@ export function getSpecialParseFunctions({
     ['productLine', parseSelectableValueIfPossible(productLineOptions.options)],
     ['execInterval', parseSelectableValueIfPossible(intervalOpts.options)],
     ['execDay', parseSelectableValueIfPossible(whenOpts.options)],
+    [
+      'materialClassification',
+      parseSelectableValueIfPossible(materialClassification.options),
+    ],
     ['startDate', (value: string) => parseDateIfPossible(value)],
     ['endDate', (value: string) => parseDateIfPossible(value)],
   ]);
 }
-
-export const parseSelectableValueIfPossible =
-  (options: SelectableValue[]) =>
-  (value: string): string => {
-    const foundOpt = options?.find(
-      (opt) =>
-        opt.id.toLowerCase() === value.toLowerCase() ||
-        (opt.text.toLocaleLowerCase() === value.toLowerCase() && value !== '')
-    );
-
-    return foundOpt ? foundOpt.id : value;
-  };

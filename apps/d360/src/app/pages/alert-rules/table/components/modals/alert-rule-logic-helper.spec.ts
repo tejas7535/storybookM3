@@ -7,13 +7,13 @@ import { Region } from '../../../../../feature/global-selection/model';
 import { SelectableValue } from '../../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { OptionsLoadingResult } from '../../../../../shared/services/selectable-options.service';
 import { ValidationHelper } from '../../../../../shared/utils/validation/validation-helper';
+import { parseSelectableValueIfPossible } from './../../../../../feature/alert-rules/alert-rule-value-parser';
 import { ThresholdsRequiredForAlertType } from './alert-rule-edit-single-modal/alert-rule-options-config';
 import {
   checkAlertRuleData,
   getSpecialParseFunctions,
   keyFieldCheckAlertRule,
   mandatoryFieldCheckAlertRule,
-  parseSelectableValueIfPossible,
   thresholdRequirementCheckAlertRule,
 } from './alert-rule-logic-helper';
 
@@ -68,7 +68,7 @@ function getTestRule(testRule?: Partial<AlertRule>): AlertRule {
 
 describe('AlertRuleLogicHelper', () => {
   describe('checkAlertRuleData', () => {
-    it('does not give errors back for a correct alert rule', async () => {
+    it('does not give errors back for a correct alert rule', () => {
       const testRule: AlertRule = getTestRule({
         salesArea: 'DACH',
         type: 'CHKDMP',
@@ -81,7 +81,25 @@ describe('AlertRuleLogicHelper', () => {
         endDate: new Date(),
       });
 
-      const errors = checkAlertRuleData(testRule, []);
+      const errors = checkAlertRuleData(testRule, testRule, []);
+
+      expect(errors.length).toBe(0);
+    });
+
+    it('does not give errors back for a correct all required fields but with missing other fields', () => {
+      const testRule: AlertRule = {
+        salesArea: 'DACH',
+        type: 'CHKDMP',
+        materialNumber: '073659703-0000-10',
+        customerNumber: '0000064900',
+        region: Region.Europe,
+        execInterval: 'M1',
+        execDay: 'M01',
+        startDate: new Date(),
+        endDate: new Date(),
+      } as any;
+
+      const errors = checkAlertRuleData(testRule, testRule, []);
 
       expect(errors.length).toBe(0);
     });
@@ -109,12 +127,14 @@ describe('AlertRuleLogicHelper', () => {
         threshold3: true,
       };
 
-      const errors = checkAlertRuleData(testRule, [thresholdRequirement]);
+      const errors = checkAlertRuleData(testRule, testRule, [
+        thresholdRequirement,
+      ]);
 
       expect(errors.length).toBe(0);
     });
 
-    it('gives errors for missing required fields', async () => {
+    it('gives errors for missing required fields', () => {
       const testRule: AlertRule = getTestRule({
         salesArea: 'DACH',
         type: 'CHKDMP',
@@ -122,7 +142,7 @@ describe('AlertRuleLogicHelper', () => {
         startDate: new Date(),
         endDate: new Date(),
       });
-      const errors = checkAlertRuleData(testRule, []);
+      const errors = checkAlertRuleData(testRule, testRule, []);
 
       expect(errors.length).toBe(4);
       expect(errors[0].specificField).toBe('region');
@@ -156,7 +176,9 @@ describe('AlertRuleLogicHelper', () => {
         threshold3: true,
       };
 
-      const errors = checkAlertRuleData(testRule, [thresholdRequirement]);
+      const errors = checkAlertRuleData(testRule, testRule, [
+        thresholdRequirement,
+      ]);
 
       expect(errors.length).toBe(2);
       expect(errors[0].specificField).toBe('threshold2');
@@ -165,7 +187,7 @@ describe('AlertRuleLogicHelper', () => {
       expect(errors[1].errorMessage).toContain('missing');
     });
 
-    it('gives errors back for interval and day not matching', async () => {
+    it('gives errors back for interval and day not matching', () => {
       const testRule: AlertRule = getTestRule({
         salesArea: 'DACH',
         type: 'CHKDMP',
@@ -178,7 +200,7 @@ describe('AlertRuleLogicHelper', () => {
         endDate: new Date(),
       });
 
-      const errors = checkAlertRuleData(testRule, []);
+      const errors = checkAlertRuleData(testRule, testRule, []);
 
       expect(errors.length).toBe(1);
       expect(errors[0].errorMessage).toContain('execDay_not_valid');
@@ -277,6 +299,29 @@ describe('AlertRuleLogicHelper', () => {
       expect(error.errorMessage).toContain('generic.validation.missing_fields');
     });
 
+    it('should return undefined if a wrong threshold was passed', () => {
+      const testRule: AlertRule = getTestRule({
+        threshold1: '10%',
+        threshold2: null,
+        threshold3: null,
+      });
+
+      const thresholdRequirement: ThresholdsRequiredForAlertType = {
+        alertType: 'CHKDMP',
+        threshold1: true,
+        threshold2: true,
+        threshold3: true,
+      };
+
+      const error = thresholdRequirementCheckAlertRule(
+        '99threshold99' as any,
+        testRule,
+        thresholdRequirement
+      );
+
+      expect(error).toBeUndefined();
+    });
+
     it('should not return an error if all required thresholds are filled', () => {
       const testRule: AlertRule = getTestRule({
         threshold1: '10%',
@@ -306,7 +351,7 @@ describe('AlertRuleLogicHelper', () => {
       const testRule: AlertRule = getTestRule({
         type: null,
         region: null,
-        customerNumber: null,
+        customerNumber: '', // Check also empty string instead of null
         materialNumber: null,
         execInterval: null,
         execDay: null,
@@ -361,9 +406,10 @@ describe('AlertRuleLogicHelper', () => {
         productLineOptions: mockOptions,
         intervalOpts: mockOptions,
         whenOpts: mockOptions,
+        materialClassification: mockOptions,
       });
 
-      expect(result.size).toBe(12);
+      expect(result.size).toBe(13);
       expect(result.get('type')).toBeDefined();
       expect(result.get('region')).toBeDefined();
       expect(result.get('salesArea')).toBeDefined();
@@ -376,6 +422,7 @@ describe('AlertRuleLogicHelper', () => {
       expect(result.get('execDay')).toBeDefined();
       expect(result.get('startDate')).toBeDefined();
       expect(result.get('endDate')).toBeDefined();
+      expect(result.get('materialClassification')).toBeDefined();
     });
 
     it('should parse selectable values correctly', () => {
@@ -390,6 +437,7 @@ describe('AlertRuleLogicHelper', () => {
         productLineOptions: mockOptions,
         intervalOpts: mockOptions,
         whenOpts: mockOptions,
+        materialClassification: mockOptions,
       });
 
       const parseFunction = result.get('type');
@@ -416,9 +464,14 @@ describe('AlertRuleLogicHelper', () => {
         productLineOptions: mockOptions,
         intervalOpts: mockOptions,
         whenOpts: mockOptions,
+        materialClassification: mockOptions,
       });
 
-      const parseFunction = result.get('startDate');
+      let parseFunction = result.get('startDate');
+      expect(parseFunction).toBeDefined();
+      expect(parseFunction('2024-11-23')).toEqual('11/23/2024');
+
+      parseFunction = result.get('endDate');
       expect(parseFunction).toBeDefined();
       expect(parseFunction('2024-11-23')).toEqual('11/23/2024');
     });

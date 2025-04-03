@@ -5,7 +5,7 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -24,31 +24,33 @@ export class HeadersInterceptor implements HttpInterceptor {
   private readonly HEADER_CONTENT_TYPE_JSON = 'application/json';
   private readonly HEADER_ACCEPT_LANGUAGE = 'Accept-Language';
 
-  public constructor(private readonly translocoService: TranslocoService) {}
+  private readonly translocoService: TranslocoService =
+    inject(TranslocoService);
 
-  intercept(
+  public intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const clonedRequest = request.clone();
+    const headers: { [name: string]: string | string[] } = {};
+
+    request.headers.keys().forEach((key: string) => {
+      headers[key] = request.headers.get(key);
+    });
 
     if (request.context.get(AUTO_CONFIGURE_APPLICATION_JSON_HEADER)) {
-      clonedRequest.headers.set(
-        this.HEADER_CONTENT_TYPE,
-        this.HEADER_CONTENT_TYPE_JSON
-      );
+      headers[this.HEADER_CONTENT_TYPE] = this.HEADER_CONTENT_TYPE_JSON;
     }
-
-    const activeLang = this.translocoService.getActiveLang();
 
     if (
       request.url?.startsWith(`/${environment.apiUrl}`) ||
       request.url?.startsWith(environment.apiUrl)
     ) {
-      clonedRequest.headers
-        .set(this.HEADER_LANGUAGE_KEY, activeLang)
-        .set(this.HEADER_ACCEPT_LANGUAGE, activeLang);
+      headers[this.HEADER_LANGUAGE_KEY] = this.translocoService.getActiveLang();
+      headers[this.HEADER_ACCEPT_LANGUAGE] =
+        this.translocoService.getActiveLang();
     }
+
+    const clonedRequest = request.clone({ setHeaders: headers });
 
     return next.handle(clonedRequest);
   }

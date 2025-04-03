@@ -33,7 +33,7 @@ export const USE_DEFAULT_HTTP_ERROR_INTERCEPTOR = new HttpContextToken(
 export class HttpErrorInterceptor implements HttpInterceptor {
   private readonly snackbarService: SnackbarService = inject(SnackbarService);
 
-  intercept(
+  public intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {

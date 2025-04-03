@@ -242,7 +242,7 @@
       "checkInput": "Eingabe überprüfen"
     },
     "filter": {
-      "rootString": "Filter ({{count}})",
+      "rootString": "Filter ({{count}})",
       "customerMaterialNumber": "Kundenmaterialnummer",
       "product_line": "Produktlinie",
       "productionPlant": "Produktionswerk",

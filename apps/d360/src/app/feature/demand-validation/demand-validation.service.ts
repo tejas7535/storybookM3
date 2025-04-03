@@ -429,7 +429,7 @@ export class DemandValidationService {
     };
 
     this.snackBarService.openSnackBar(
-      translate('validation_of_demand.export_modal.download_started', {})
+      translate('validation_of_demand.export_modal.download_started')
     );
 
     return this.http

@@ -3,11 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 import { ICellRendererParams } from 'ag-grid-enterprise';
-import { DetailedCustomerSalesPlan } from 'apps/d360/src/app/feature/sales-planning/model';
 
 import { CustomerSalesPlanShareEditModalComponent } from '../../../customer-sales-plan-share-edit-modal/customer-sales-plan-share-edit-modal.component';
 import { SalesPlanningEditButtonComponent } from '../../components/sales-planning-edit-button/sales-planning-edit-button.component';
 import { AbstractSalesPlanningCellRendererComponent } from '../abstract-sales-planning-cell-renderer.component';
+import { DetailedCustomerSalesPlan } from './../../../../../../../feature/sales-planning/model';
 
 @Component({
   selector: 'd360-sales-planning-share-edit-cell-renderer',

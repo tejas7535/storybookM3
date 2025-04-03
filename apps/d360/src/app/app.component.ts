@@ -52,6 +52,7 @@ import {
   LocaleType,
 } from './shared/constants/available-locales';
 import { UserService } from './shared/services/user.service';
+import { StreamSaverService } from './shared/utils/service/stream-saver.service';
 import { ValidationHelper } from './shared/utils/validation/validation-helper';
 
 @Component({
@@ -82,6 +83,8 @@ export class AppComponent implements OnInit {
   );
   private readonly alertService: AlertService = inject(AlertService);
   private readonly userService: UserService = inject(UserService);
+  private readonly streamSaverService: StreamSaverService =
+    inject(StreamSaverService);
   private readonly router: Router = inject(Router);
   private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
@@ -245,6 +248,7 @@ export class AppComponent implements OnInit {
 
     this.alertService.init();
     this.userService.init();
+    this.streamSaverService.init();
 
     // add translocoLocaleService to static class.
     ValidationHelper.localeService = this.translocoLocaleService;

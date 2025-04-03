@@ -6,9 +6,9 @@ import { lastValueFrom, Observable, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import { IRowNode } from 'ag-grid-enterprise';
+import { IRowNode, ValueGetterParams } from 'ag-grid-enterprise';
 
-import { valueParserForSelectableOptions } from '../../../../../feature/alert-rules/alert-rule-value-parser';
+import { parseSelectableValueIfPossible } from '../../../../../feature/alert-rules/alert-rule-value-parser';
 import { AlertRulesService } from '../../../../../feature/alert-rules/alert-rules.service';
 import {
   AlertRule,
@@ -24,6 +24,7 @@ import {
   errorsFromSAPtoMessage,
   PostResult,
 } from '../../../../../shared/utils/error-handling';
+import { combineParseFunctionsForFields } from '../../../../../shared/utils/parse-values';
 import { validateSelectableOptions } from '../../../../../shared/utils/validation/data-validation';
 import {
   validateCustomerNumber,
@@ -118,6 +119,8 @@ export abstract class AbstractAlertRuleMultiModalComponent
     salesArea: this.optionsService.get('salesArea').options,
     productLine: this.optionsService.get('productLine').options,
     gkam: this.optionsService.get('gkam').options,
+    materialClassification: this.optionsService.get('materialClassification')
+      .options,
   });
 
   /**
@@ -141,7 +144,7 @@ export abstract class AbstractAlertRuleMultiModalComponent
     dryRun: boolean
   ): Promise<PostResult<AlertRuleSaveResponse>> {
     return lastValueFrom(
-      this.apiCall(data, dryRun).pipe(
+      this.apiCall(this.parse(data), dryRun).pipe(
         take(1),
         takeUntilDestroyed(this.destroyRef)
       )
@@ -185,10 +188,37 @@ export abstract class AbstractAlertRuleMultiModalComponent
     const errors: ErrorMessage<AlertRule>[] = [];
 
     data.forEach((alertRule) =>
-      errors.push(...checkAlertRuleData(alertRule, this.thresholdRequirements))
+      errors.push(
+        ...checkAlertRuleData(
+          this.parse(alertRule),
+          alertRule,
+          this.thresholdRequirements
+        )
+      )
     );
 
     return errors;
+  }
+
+  private parse(data: AlertRule | AlertRule[]): any {
+    if (Array.isArray(data)) {
+      // If the input is an array, parse each AlertRule recursively
+      return data.map((alertRule) => this.parse(alertRule));
+    }
+
+    // If the input is a single AlertRule, parse it
+    const alertRule: AlertRule = { ...data };
+    const parser = combineParseFunctionsForFields(
+      this.specialParseFunctionsForFields
+    );
+    Object.keys(data).forEach((fieldName) => {
+      (alertRule as any)[fieldName] = parser(
+        fieldName,
+        (data as any)[fieldName]
+      );
+    });
+
+    return alertRule;
   }
 
   /** @inheritdoc */
@@ -221,6 +251,7 @@ export abstract class AbstractAlertRuleMultiModalComponent
     productLineOptions: this.optionsService.get('productLine'),
     intervalOpts: this.optionsService.get('interval'),
     whenOpts: this.optionsService.get('execDay'),
+    materialClassification: this.optionsService.get('materialClassification'),
   });
 
   /**
@@ -237,6 +268,7 @@ export abstract class AbstractAlertRuleMultiModalComponent
    *     salesArea: SelectableValue[];
    *     salesOrg: SelectableValue[];
    *     sectorManagement: SelectableValue[];
+   *     materialClassification: SelectableValue[];
    *   }} options
    * @return {ColumnForUploadTable<AlertRule>[]}
    * @memberof AbstractAlertRuleMultiModalComponent
@@ -252,98 +284,77 @@ export abstract class AbstractAlertRuleMultiModalComponent
     salesArea: SelectableValue[];
     salesOrg: SelectableValue[];
     sectorManagement: SelectableValue[];
+    materialClassification: SelectableValue[];
   }): ColumnForUploadTable<AlertRule>[] {
+    const getColDef = ({
+      headerName,
+      field,
+      // eslint-disable-next-line @typescript-eslint/no-shadow
+      options,
+      minWidth,
+    }: {
+      headerName: string;
+      field: keyof AlertRule;
+      options: SelectableValue[];
+      minWidth?: number;
+    }): ColumnForUploadTable<AlertRule> => ({
+      field,
+      headerName: translate(`alert_rules.edit_modal.label.${headerName}`),
+      editable: true,
+      validationFn: validateSelectableOptions(options),
+      valueGetter: (params: ValueGetterParams) =>
+        parseSelectableValueIfPossible(options)(params.data[field]),
+      cellRenderer: SelectableValueOrOriginalCellRendererComponent,
+      cellRendererParams: {
+        options,
+        getLabel: DisplayFunctions.displayFnText,
+      },
+      cellEditor: 'agRichSelectCellEditor',
+      cellEditorPopup: true,
+      cellEditorParams: {
+        cellRenderer: SelectableValueOrOriginalCellRendererComponent,
+        values: options.map((option: any) => option.text),
+      },
+      ...(minWidth ? { minWidth } : {}),
+    });
+
     return [
-      {
+      getColDef({
         field: 'type',
-        headerName: translate('alert_rules.edit_modal.label.type'),
-        valueParser: valueParserForSelectableOptions(options.alertType),
-        editable: true,
-        validationFn: validateSelectableOptions(options.alertType),
-        cellRenderer: SelectableValueOrOriginalCellRendererComponent,
-        cellRendererParams: {
-          options: options.alertType,
-          getLabel: DisplayFunctions.displayFnText,
-        },
+        headerName: 'type',
+        options: options.alertType,
         minWidth: 300,
-        cellEditor: 'agRichSelectCellEditor',
-        cellEditorPopup: true,
-        cellEditorParams: {
-          cellRenderer: SelectableValueOrOriginalCellRendererComponent,
-          values: options.alertType.map((option) => option.text),
-        },
-      },
-      {
+      }),
+      getColDef({
         field: 'region',
-        headerName: translate('alert_rules.edit_modal.label.region'),
-        editable: true,
-        valueParser: valueParserForSelectableOptions(options.region),
-        validationFn: validateSelectableOptions(options.region),
-        cellRenderer: SelectableValueOrOriginalCellRendererComponent,
-        cellRendererParams: { options: options.region },
-      },
-      {
+        headerName: 'region',
+        options: options.region,
+      }),
+      getColDef({
         field: 'salesArea',
-        headerName: translate('alert_rules.edit_modal.label.sales_area'),
-        valueParser: valueParserForSelectableOptions(options.salesArea),
-        editable: true,
-        validationFn: validateSelectableOptions(options.salesArea),
-        cellRenderer: SelectableValueOrOriginalCellRendererComponent,
-        cellRendererParams: {
-          options: options.salesArea,
-          values: options.salesArea.map((option) => option.text),
-        },
-      },
-      {
+        headerName: 'sales_area',
+        options: options.salesArea,
+      }),
+      getColDef({
         field: 'salesOrg',
-        headerName: translate('alert_rules.edit_modal.label.sales_org'),
-        valueParser: valueParserForSelectableOptions(options.salesOrg),
-        editable: true,
-        validationFn: validateSelectableOptions(options.salesOrg),
-        cellRenderer: SelectableValueOrOriginalCellRendererComponent,
-        cellRendererParams: {
-          options: options.salesOrg,
-          values: options.salesOrg.map((option) => option.text),
-        },
-      },
-
-      {
+        headerName: 'sales_org',
+        options: options.salesOrg,
+      }),
+      getColDef({
         field: 'sectorManagement',
-        headerName: translate('alert_rules.edit_modal.label.sector_management'),
-        valueParser: valueParserForSelectableOptions(options.sectorManagement),
-        editable: true,
-        validationFn: validateSelectableOptions(options.sectorManagement),
-        cellRenderer: SelectableValueOrOriginalCellRendererComponent,
-        cellRendererParams: {
-          options: options.sectorManagement,
-          values: options.sectorManagement.map((option) => option.text),
-        },
-      },
-
-      {
+        headerName: 'sector_management',
+        options: options.sectorManagement,
+      }),
+      getColDef({
         field: 'demandPlannerId',
-        headerName: translate('alert_rules.edit_modal.label.demandPlannerId'),
-        valueParser: valueParserForSelectableOptions(options.demandPlanner),
-        editable: true,
-        validationFn: validateSelectableOptions(options.demandPlanner),
-        cellRenderer: SelectableValueOrOriginalCellRendererComponent,
-        cellRendererParams: {
-          options: options.demandPlanner,
-          values: options.demandPlanner.map((option) => option.text),
-        },
-      },
-      {
+        headerName: 'demandPlannerId',
+        options: options.demandPlanner,
+      }),
+      getColDef({
         field: 'gkamNumber',
-        headerName: translate('alert_rules.edit_modal.label.gkamNumber'),
-        valueParser: valueParserForSelectableOptions(options.gkam),
-        editable: true,
-        validationFn: validateSelectableOptions(options.gkam),
-        cellRenderer: SelectableValueOrOriginalCellRendererComponent,
-        cellRendererParams: {
-          options: options.gkam,
-          values: options.gkam.map((option) => option.text),
-        },
-      },
+        headerName: 'gkamNumber',
+        options: options.gkam,
+      }),
       {
         field: 'customerNumber',
         headerName: translate('alert_rules.multi_modal.customer'),
@@ -352,25 +363,16 @@ export abstract class AbstractAlertRuleMultiModalComponent
           validateCustomerNumber
         ),
       },
-      {
+      getColDef({
         field: 'materialClassification',
-        headerName: translate(
-          'alert_rules.edit_modal.label.materialClassification'
-        ),
-        editable: true,
-      },
-      {
+        headerName: 'materialClassification',
+        options: options.materialClassification,
+      }),
+      getColDef({
         field: 'productLine',
-        headerName: translate('alert_rules.edit_modal.label.product_line'),
-        valueParser: valueParserForSelectableOptions(options.productLine),
-        editable: true,
-        validationFn: validateSelectableOptions(options.productLine),
-        cellRenderer: SelectableValueOrOriginalCellRendererComponent,
-        cellRendererParams: {
-          options: options.productLine,
-          values: options.productLine.map((option) => option.text),
-        },
-      },
+        headerName: 'product_line',
+        options: options.productLine,
+      }),
       {
         field: 'productionLine',
         headerName: translate('alert_rules.edit_modal.label.production_line'),
@@ -413,32 +415,16 @@ export abstract class AbstractAlertRuleMultiModalComponent
           ValidationHelper.validateDateFormatAndGreaterEqualThanToday,
         cellRenderer: DateOrOriginalCellRendererComponent,
       },
-      {
+      getColDef({
         field: 'execInterval',
-        headerName: translate(
-          'alert_rules.edit_modal.label.interval.rootString'
-        ),
-        valueParser: valueParserForSelectableOptions(options.interval),
-        editable: true,
-        validationFn: validateSelectableOptions(options.interval),
-        cellRenderer: SelectableValueOrOriginalCellRendererComponent,
-        cellRendererParams: {
-          options: options.interval,
-          getLabel: DisplayFunctions.displayFnText,
-        },
-      },
-      {
+        headerName: 'interval.rootString',
+        options: options.interval,
+      }),
+      getColDef({
         field: 'execDay',
-        headerName: translate('alert_rules.edit_modal.label.when.rootString'),
-        valueParser: valueParserForSelectableOptions(options.execDay),
-        editable: true,
-        validationFn: validateSelectableOptions(options.execDay),
-        cellRenderer: SelectableValueOrOriginalCellRendererComponent,
-        cellRendererParams: {
-          options: options.execDay,
-          getLabel: DisplayFunctions.displayFnText,
-        },
-      },
+        headerName: 'when.rootString',
+        options: options.execDay,
+      }),
       {
         field: 'endDate',
         headerName: translate('alert_rules.edit_modal.label.end'),

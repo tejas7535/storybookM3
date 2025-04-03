@@ -49,7 +49,9 @@ export const validateSelectableOptions =
   (options: SelectableValue[]) =>
   (value: string): string | undefined => {
     const foundValue = options.find((option) =>
-      DisplayFunctions.displayFnUnited(option).includes(value)
+      DisplayFunctions.displayFnUnited(option)
+        .replaceAll('\u00A0', ' ')
+        .includes(value.replaceAll('\u00A0', ' '))
     );
     if (!foundValue) {
       return translate('generic.validation.check_inputs');
