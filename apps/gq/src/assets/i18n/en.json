@@ -307,7 +307,8 @@
     },
     "sqvApprovalStatusLabels": {
       "sqvApprovalStatus": "{sqvApprovalStatus,select,APPROVAL_NEEDED{Approve}APPROVED{Approved} other{}}",
-      "sqvApprovalStatusForFilter": "{sqvApprovalStatus,select,APPROVAL_NEEDED{Approve}APPROVED{Approved}NO_APPROVAL{No Approval Needed} other{}}"
+      "sqvApprovalStatusForFilter": "{sqvApprovalStatus,select,APPROVAL_NEEDED{Approve}APPROVED{Approved}NOT_NEEDED{No Approval Needed} other{}}",
+      "tooltip": "{sqvApprovalStatus,select,APPROVED{Click to download attached files}other{}}"
     },
     "customStatusBar": {
       "buttons": {
@@ -618,7 +619,15 @@
       "cancelButton": "Cancel",
       "fileSizeExceedsTooltip": "File exceeds maximum size (2 MB).",
       "fileExitsTooltip": "File already exists.",
-      "fileTypeNotSupportedTooltip": "File type not supported."
+      "fileTypeNotSupportedTooltip": "File type not supported.",
+      "rfqSqvCheckApproval": {
+        "uploadAttachments": {
+          "title": "Approval Needed for Recalculation Request",
+          "subtitle": "SQV Value is below the minimum limit for start a recalculation Process. Use the old SQV or contact your L3 Manager for approval. That can be Upload here:",
+          "warning": "The uploaded Files can not be deleted or edit after clicking “Approve”",
+          "approveButton": "Approve"
+        }
+      }
     },
     "deleteDialog": {
       "title": "Delete Attachment",

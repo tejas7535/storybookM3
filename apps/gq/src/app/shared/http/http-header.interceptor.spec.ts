@@ -1,9 +1,15 @@
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Observable } from 'rxjs';
 
@@ -49,6 +55,20 @@ class ExampleService {
       {}
     );
   }
+
+  public getRfqApprovalAttachments(): Observable<string> {
+    return this.http.get<string>(
+      `${this.apiUrl}/rfq4/12345/download-approval`,
+      {}
+    );
+  }
+
+  public postRfqApprovalAttachments(): Observable<string> {
+    return this.http.post<string>(
+      `${this.apiUrl}/rfq4/12345/upload-approval`,
+      {}
+    );
+  }
 }
 
 describe(`HttpHeaderInterceptor`, () => {
@@ -58,11 +78,10 @@ describe(`HttpHeaderInterceptor`, () => {
 
   const createService = createServiceFactory({
     service: ExampleService,
-    imports: [
-      provideTranslocoTestingModule({ en: {} }),
-      HttpClientTestingModule,
-    ],
+    imports: [provideTranslocoTestingModule({ en: {} }), NoopAnimationsModule],
     providers: [
+      provideHttpClient(withInterceptorsFromDi()),
+      provideHttpClientTesting(),
       {
         provide: HTTP_INTERCEPTORS,
         useClass: HttpHeaderInterceptor,
@@ -76,6 +95,9 @@ describe(`HttpHeaderInterceptor`, () => {
     service = spectator.service;
     httpMock = spectator.inject(HttpTestingController);
   });
+  afterEach(() => {
+    httpMock.verify();
+  });
 
   test('should be truthy', () => {
     expect(service).toBeTruthy();
@@ -86,6 +108,7 @@ describe(`HttpHeaderInterceptor`, () => {
       service.postUserSettings().subscribe((res) => {
         expect(res).toBeTruthy();
       });
+
       const httpRequest = httpMock.expectOne(
         `${environment.baseUrl}/user-settings`
       );
@@ -148,6 +171,39 @@ describe(`HttpHeaderInterceptor`, () => {
 
       expect(
         httpRequest.request.headers.keys().includes('language')
+      ).toBeFalsy();
+    });
+
+    test('should not add header-content to rfq4/{gqPositionId}/upload-approval when post', () => {
+      service.postRfqApprovalAttachments().subscribe((res) => {
+        expect(res).toBeTruthy();
+      });
+      const httpRequest = httpMock.expectOne(
+        `${environment.baseUrl}/rfq4/12345/upload-approval`
+      );
+      expect(httpRequest.request.method).toEqual('POST');
+
+      expect(
+        httpRequest.request.headers.keys().includes('language')
+      ).toBeFalsy();
+      expect(
+        httpRequest.request.headers.keys().includes('content-type')
+      ).toBeFalsy();
+    });
+    test('should not add header-content to rfq4/{gqPositionId}/download-approval when get', () => {
+      service.getRfqApprovalAttachments().subscribe((res) => {
+        expect(res).toBeTruthy();
+      });
+      const httpRequest = httpMock.expectOne(
+        `${environment.baseUrl}/rfq4/12345/download-approval`
+      );
+      expect(httpRequest.request.method).toEqual('GET');
+
+      expect(
+        httpRequest.request.headers.keys().includes('language')
+      ).toBeFalsy();
+      expect(
+        httpRequest.request.headers.keys().includes('content-type')
       ).toBeFalsy();
     });
 

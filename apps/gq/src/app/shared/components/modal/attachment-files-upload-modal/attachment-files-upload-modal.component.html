@@ -3,10 +3,21 @@
   *transloco="let t; read: 'shared.uploadDialog'"
 >
   <gq-dialog-header
-    [title]="t('title')"
+    [title]="modalData.dialogTitle ?? t('title')"
     (closeDialog)="closeDialog()"
   ></gq-dialog-header>
-  @if (!(activeCaseFacade.attachmentsUploading$ | ngrxPush)) {
+  @if (modalData.dialogSubtitle) {
+    <span class="pt-5">{{ modalData.dialogSubtitle }}</span>
+  }
+  @if (modalData.showWarning) {
+    <gq-info-banner
+      class="pb-4"
+      [isWarning]="true"
+      [infoText]="modalData.warningMessage"
+    ></gq-info-banner>
+  }
+
+  @if (!(attachmentsUploading$ | ngrxPush)) {
     <div class="flex-grow mt-4">
       <div
         class="border-2 h-24 border-dashed border-border rounded-lg w-full flex justify-center items-center font-bold cursor-pointer"
@@ -103,7 +114,7 @@
         (click)="upload()"
         [disabled]="filesToUpload.length === 0 || disableUploadButton"
       >
-        {{ t('uploadButton') }}
+        {{ this.modalData.uploadButtonCaption ?? t('uploadButton') }}
       </button>
       <button
         color="primary"

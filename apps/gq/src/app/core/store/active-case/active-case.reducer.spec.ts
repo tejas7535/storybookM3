@@ -10,6 +10,7 @@ import {
 import { SapCallInProgress } from '@gq/shared/models/quotation';
 import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
 import { RecalculationReasons } from '@gq/shared/models/quotation-detail/cost/recalculation-reasons.enum';
+import { SqvApprovalStatus } from '@gq/shared/models/quotation-detail/cost/sqv-approval-status.enum';
 import { Action } from '@ngrx/store';
 
 import { CUSTOMER_MOCK } from '../../../../testing/mocks/models';
@@ -20,6 +21,7 @@ import {
 } from '../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { ACTIVE_CASE_STATE_MOCK } from '../../../../testing/mocks/state/active-case-state.mock';
 import { GREATER_CHINA_SALES_ORGS } from '../approval/model/greater-china-sales-orgs';
+import { RfqSqvCheckAttachmentsActions } from '../rfq-sqv-check-attachments/rfq-sqv-check-attachments.actions';
 import { ActiveCaseActions } from './active-case.action';
 import {
   activeCaseFeature,
@@ -1118,35 +1120,64 @@ describe('Active Case Feature', () => {
       });
     });
 
-    // TODO: use again when GQUOTE-5888 is done
-    //   describe('getOpenItems', () => {
-    //   test('should return open items', () => {
-    //     const state = {
-    //       activeCase: {
-    //         ...ACTIVE_CASE_STATE_MOCK,
-    //         quotation: {
-    //           ...QUOTATION_MOCK,
-    //           quotationDetails: [
-    //             {
-    //               detailCosts: null,
-    //             } as QuotationDetail,
-    //             {
-    //               detailCosts: {
-    //                 sqvRecalculationReason: RecalculationReasons.INVALID,
-    //               },
-    //             } as QuotationDetail,
-    //             {
-    //               detailCosts: {
-    //                 sqvRecalculationReason: RecalculationReasons.VALID,
-    //               },
-    //             } as QuotationDetail,
-    //           ],
-    //         },
-    //       },
-    //     };
-    //     expect(activeCaseFeature.getOpenItems(state).length).toEqual(1);
-    //   });
-    // });
+    describe('RfqSqvCheckAttachmentsActions.uploadAttachmentsSuccess', () => {
+      test('should update the sqvApprovalState by the action.newApprovalState value', () => {
+        const action = RfqSqvCheckAttachmentsActions.uploadAttachmentsSuccess({
+          gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+          newApprovalStatus: SqvApprovalStatus.APPROVED,
+        });
+        const state = activeCaseFeature.reducer(
+          {
+            ...ACTIVE_CASE_STATE_MOCK,
+            quotation: {
+              ...QUOTATION_MOCK,
+              quotationDetails: [
+                {
+                  ...QUOTATION_DETAIL_MOCK,
+                  detailCosts: {
+                    ...QUOTATION_DETAIL_MOCK.detailCosts,
+                    sqvApprovalStatus: SqvApprovalStatus.APPROVAL_NEEDED,
+                  },
+                },
+              ],
+            },
+          },
+          action
+        );
+        expect(
+          state.quotation.quotationDetails[0].detailCosts.sqvApprovalStatus
+        ).toEqual('APPROVED');
+      });
+    });
+
+    describe('getOpenItems', () => {
+      test('should return open items', () => {
+        const state = {
+          activeCase: {
+            ...ACTIVE_CASE_STATE_MOCK,
+            quotation: {
+              ...QUOTATION_MOCK,
+              quotationDetails: [
+                {
+                  detailCosts: null,
+                } as QuotationDetail,
+                {
+                  detailCosts: {
+                    sqvRecalculationReason: RecalculationReasons.INVALID,
+                  },
+                } as QuotationDetail,
+                {
+                  detailCosts: {
+                    sqvRecalculationReason: RecalculationReasons.VALID,
+                  },
+                } as QuotationDetail,
+              ],
+            },
+          },
+        };
+        expect(activeCaseFeature.getOpenItems(state).length).toEqual(1);
+      });
+    });
 
     describe('hasOpenItems', () => {
       test('should return true', () => {
@@ -1176,34 +1207,6 @@ describe('Active Case Feature', () => {
 
         expect(activeCaseFeature.hasOpenItems(state)).toBeTruthy();
       });
-      // TODO: use again when GQUOTE-5888 is done
-      // test('should return false', () => {
-      //   const state = {
-      //     activeCase: {
-      //       ...ACTIVE_CASE_STATE_MOCK,
-      //       quotation: {
-      //         ...QUOTATION_MOCK,
-      //         quotationDetails: [
-      //           {
-      //             detailCosts: null,
-      //           } as QuotationDetail,
-      //           {
-      //             detailCosts: {
-      //               sqvRecalculationReason: RecalculationReasons.VALID,
-      //             },
-      //           } as QuotationDetail,
-      //           {
-      //             detailCosts: {
-      //               sqvRecalculationReason: RecalculationReasons.VALID,
-      //             },
-      //           } as QuotationDetail,
-      //         ],
-      //       },
-      //     },
-      //   };
-
-      //   expect(activeCaseFeature.hasOpenItems(state)).toBeFalsy();
-      // });
     });
   });
 });

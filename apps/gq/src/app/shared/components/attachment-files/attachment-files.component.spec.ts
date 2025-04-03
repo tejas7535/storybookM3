@@ -1,6 +1,8 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
+import { of } from 'rxjs';
+
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { QuotationAttachment } from '@gq/shared/models';
 import {
@@ -14,6 +16,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AttachmentFilesUploadModalComponent } from '../modal/attachment-files-upload-modal/attachment-files-upload-modal.component';
+import { AttachmentDialogData } from '../modal/attachment-files-upload-modal/models/attachment-dialog-data.interface';
 import { DeletingAttachmentModalComponent } from '../modal/delete-attachment-modal/delete-attachment-modal.component';
 import { AttachmentFilesComponent } from './attachment-files.component';
 
@@ -50,15 +53,31 @@ describe('AttachmentFilesComponent', () => {
         }) as any
     );
     component['dialog'].open = openMock;
+    component.activeCaseFacade.uploadAttachmentsSuccess$ = of();
+    component.activeCaseFacade.attachmentsUploading$ = of(false);
+    component.activeCaseFacade.uploadAttachments = jest.fn();
+
+    const expected = [
+      AttachmentFilesUploadModalComponent,
+      {
+        width: '634px',
+        disableClose: true,
+        data: {
+          fileNames: ['test'],
+          upload: jest.fn().bind(component.activeCaseFacade),
+          uploading$: of(false),
+          uploadSuccess$: of(),
+        } as AttachmentDialogData,
+      },
+    ];
 
     component.openAddFileDialog();
 
     expect(openMock).toHaveBeenCalledTimes(1);
-    expect(openMock).toHaveBeenCalledWith(AttachmentFilesUploadModalComponent, {
-      width: '634px',
-      disableClose: true,
-      data: { attachments: component.attachments },
-    });
+    // workAround because strictEquality
+    // get arguments of first mockCall and compare
+    const actualArgs = openMock.mock.calls[0];
+    expect(actualArgs.toString()).toStrictEqual(expected.toString());
   });
 
   test('should open delete dialog', () => {

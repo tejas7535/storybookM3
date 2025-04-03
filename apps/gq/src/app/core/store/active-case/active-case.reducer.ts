@@ -9,15 +9,12 @@ import {
 } from '@gq/shared/models';
 import { QuotationPricingOverview } from '@gq/shared/models/quotation';
 import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
-import {
-  QuotationDetailCosts,
-  SqvCheckStatus,
-} from '@gq/shared/models/quotation-detail/cost';
+import { QuotationDetailCosts } from '@gq/shared/models/quotation-detail/cost';
 import { RecalculationReasons } from '@gq/shared/models/quotation-detail/cost/recalculation-reasons.enum';
-import { SqvApprovalStatus } from '@gq/shared/models/quotation-detail/cost/sqv-approval-status.enum';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
 import { GREATER_CHINA_SALES_ORGS } from '../approval/model/greater-china-sales-orgs';
+import { RfqSqvCheckAttachmentsActions } from '../rfq-sqv-check-attachments/rfq-sqv-check-attachments.actions';
 import { ActiveCaseActions } from './active-case.action';
 import { sortQuotationDetails } from './active-case.utils';
 import { QuotationIdentifier } from './models';
@@ -605,6 +602,29 @@ export const activeCaseFeature = createFeature({
         quotationPricingOverviewErrorMessage: errorMessage,
       })
     ),
+    on(
+      RfqSqvCheckAttachmentsActions.uploadAttachmentsSuccess,
+      (state, { gqPositionId, newApprovalStatus }): ActiveCaseState => ({
+        ...state,
+        quotation: {
+          ...state.quotation,
+          // TODO adjust the new approvalState for the position that has documents uploaded
+          quotationDetails: state.quotation.quotationDetails.map((qd) => {
+            if (qd.gqPositionId === gqPositionId) {
+              return {
+                ...qd,
+                detailCosts: {
+                  ...qd.detailCosts,
+                  sqvApprovalStatus: newApprovalStatus,
+                },
+              };
+            }
+
+            return qd;
+          }),
+        },
+      })
+    ),
     ...QuotationMetadataReducers
   ),
   extraSelectors: ({
@@ -678,41 +698,15 @@ export const activeCaseFeature = createFeature({
         )
     );
 
-    // TODO: Comment in when GQUOTE-5888 is implemented
-    // const getOpenItems = createSelector(
-    //   selectQuotation,
-    //   (quotation: Quotation): QuotationDetail[] =>
-    //     quotation?.quotationDetails.filter(
-    //       (detail: QuotationDetail) =>
-    //         detail.detailCosts?.sqvRecalculationReason &&
-    //         detail.detailCosts.sqvRecalculationReason !==
-    //           RecalculationReasons.VALID
-    //     )
-    // );
-
-    // TODO: this ist testCode to see things, without BE needed see GQUOTE-5888
     const getOpenItems = createSelector(
       selectQuotation,
       (quotation: Quotation): QuotationDetail[] =>
-        quotation?.quotationDetails
-          .filter(
-            (detail: QuotationDetail) =>
-              detail.detailCosts?.sqvRecalculationReason &&
-              detail.detailCosts.sqvRecalculationReason !==
-                RecalculationReasons.VALID
-          )
-          .map((item: QuotationDetail) => ({
-            ...item,
-            detailCosts: {
-              ...item.detailCosts,
-              sqvApprovalStatus: getRandomEnumValue(
-                SqvApprovalStatus
-              ) as SqvApprovalStatus,
-              sqvCheckStatus: getRandomEnumValue(
-                SqvCheckStatus
-              ) as SqvCheckStatus,
-            },
-          }))
+        quotation?.quotationDetails.filter(
+          (detail: QuotationDetail) =>
+            detail.detailCosts?.sqvRecalculationReason &&
+            detail.detailCosts.sqvRecalculationReason !==
+              RecalculationReasons.VALID
+        )
     );
 
     const hasOpenItems = createSelector(
@@ -733,11 +727,3 @@ export const activeCaseFeature = createFeature({
     };
   },
 });
-
-// TODO: for testing purposes
-export function getRandomEnumValue(enumType: any): string {
-  const enumKeys = Object.values(enumType);
-  const randomIndex = Math.floor(Math.random() * enumKeys.length);
-
-  return enumKeys[randomIndex] as string;
-}

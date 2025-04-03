@@ -144,6 +144,7 @@
         "commentLabel": "Comment",
         "attachments": {
           "title": "Attachments",
+          "uploadButtonCaption": "Upload",
           "uploadInformation": "{{at}} by {{by}}",
           "toolTipDeletedDrafts": "Deletion not possible; case is in deleted drafts",
           "toolTipApprovalWorkFlowStarted": "Deletion not possible; Approval Workflow started"

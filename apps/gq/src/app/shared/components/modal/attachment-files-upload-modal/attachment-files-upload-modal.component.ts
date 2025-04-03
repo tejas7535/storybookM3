@@ -1,33 +1,57 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { take } from 'rxjs';
+import { Observable, take } from 'rxjs';
 
-import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
-import { QuotationAttachment } from '@gq/shared/models';
+import { InfoBannerComponent } from '@gq/shared/components/info-banner/info-banner.component';
+import { DragAndDropDirective } from '@gq/shared/directives/drag-and-drop/drag-and-drop-directive';
+import { PushPipe } from '@ngrx/component';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { DialogHeaderModule } from '../../header/dialog-header/dialog-header.module';
+import { AttachmentDialogData } from './models/attachment-dialog-data.interface';
 import { UNSUPPORTED_FILE_TYPES } from './models/file-types.const';
 import { FilesToUploadDisplay } from './models/files-to-upload-display.model';
 
 @Component({
   selector: 'gq-attachment-files-upload-modal',
   templateUrl: './attachment-files-upload-modal.component.html',
-  standalone: false,
+  imports: [
+    DragAndDropDirective,
+    CommonModule,
+    MatIconModule,
+    MatDialogModule,
+    DialogHeaderModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    SharedTranslocoModule,
+    PushPipe,
+    LoadingSpinnerModule,
+    MatTooltipModule,
+    InfoBannerComponent,
+  ],
 })
 export class AttachmentFilesUploadModalComponent {
-  filesToUpload: FilesToUploadDisplay[] = [];
+  private readonly dialogRef: MatDialogRef<AttachmentFilesUploadModalComponent> =
+    inject(MatDialogRef);
 
-  disableUploadButton = false;
+  modalData: AttachmentDialogData = inject(MAT_DIALOG_DATA);
+  attachmentsUploading$: Observable<boolean> = this.modalData.uploading$;
+
   private readonly MAX_FILE_SIZE = 2_000_000; // ~ 2MB
-
-  constructor(
-    public readonly activeCaseFacade: ActiveCaseFacade,
-    @Inject(MAT_DIALOG_DATA)
-    public modalData: {
-      attachments: QuotationAttachment[];
-    },
-    private readonly dialogRef: MatDialogRef<AttachmentFilesUploadModalComponent>
-  ) {}
+  filesToUpload: FilesToUploadDisplay[] = [];
+  disableUploadButton = false;
 
   handleFileInput(event: Event) {
     event.preventDefault();
@@ -43,7 +67,7 @@ export class AttachmentFilesUploadModalComponent {
   }
 
   upload(): void {
-    this.activeCaseFacade.uploadAttachments(
+    this.modalData.upload(
       this.filesToUpload
         .filter(
           (filesToFilter) =>
@@ -51,16 +75,14 @@ export class AttachmentFilesUploadModalComponent {
         )
         .map((file) => file.file)
     );
-
-    this.activeCaseFacade.uploadAttachmentsSuccess$
-      .pipe(take(1))
-      .subscribe(() => {
-        this.closeDialog();
-      });
+    this.modalData.uploadSuccess$.pipe(take(1)).subscribe(() => {
+      this.closeDialog();
+    });
   }
 
   removeFile(file: FilesToUploadDisplay): void {
     this.filesToUpload.splice(this.filesToUpload.indexOf(file), 1);
+    this.updateFileExistsStatus();
     this.checkForDisabledUploadButton();
   }
 
@@ -69,28 +91,27 @@ export class AttachmentFilesUploadModalComponent {
   }
 
   private handleFileSelection(fileList: FileList) {
-    if (fileList) {
-      const fileCount = fileList.length;
-      for (let i = 0; i < fileCount; i = i + 1) {
-        const file: FilesToUploadDisplay = {
-          file: fileList.item(i),
-          sizeExceeded: fileList.item(i).size > this.MAX_FILE_SIZE,
-          exists: this.modalData.attachments?.some(
-            (attachment) =>
-              attachment.fileName.toLocaleLowerCase() ===
-              fileList.item(i).name.toLocaleLowerCase()
-          ),
-          unsupportedFileType: UNSUPPORTED_FILE_TYPES.some(
-            (type) =>
-              type.toLocaleLowerCase() ===
-              this.getFileExtension(fileList.item(i).name)
-          ),
-        };
-        if (file) {
-          this.filesToUpload.push(file);
-        }
+    // combine inputArray and files that are about to be uploaded
+    const fileNamesArray = [
+      ...this.filesToUpload.map((file) => file.file.name),
+      ...this.modalData.fileNames,
+    ].map((fileName) => fileName.toLocaleLowerCase());
+
+    // eslint-disable-next-line unicorn/prefer-spread
+    Array.from(fileList).forEach((file) => {
+      const fileToUpload: FilesToUploadDisplay = {
+        file,
+        sizeExceeded: file.size > this.MAX_FILE_SIZE,
+        exists: this.checkFileNamesExists(fileNamesArray, file.name),
+        unsupportedFileType: UNSUPPORTED_FILE_TYPES.some(
+          (type) =>
+            type.toLocaleLowerCase() === this.getFileExtension(file.name)
+        ),
+      };
+      if (fileToUpload) {
+        this.filesToUpload.push(fileToUpload);
       }
-    }
+    });
 
     this.checkForDisabledUploadButton();
   }
@@ -103,5 +124,21 @@ export class AttachmentFilesUploadModalComponent {
 
   private getFileExtension(fileName: string): string {
     return fileName.split('.').pop().toLocaleLowerCase();
+  }
+
+  private checkFileNamesExists(fileNames: string[], fileName: string): boolean {
+    return fileNames.some(
+      (name) => name.toLocaleLowerCase() === fileName.toLocaleLowerCase()
+    );
+  }
+
+  private updateFileExistsStatus(): void {
+    this.filesToUpload.forEach((item) => ({
+      ...item,
+      exists: this.checkFileNamesExists(
+        this.filesToUpload.map((i) => i.file.name),
+        item.file.name
+      ),
+    }));
   }
 }

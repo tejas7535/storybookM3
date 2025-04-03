@@ -51,6 +51,7 @@ import {
   getQuotationStatus,
   getSapId,
   getSimulationModeEnabled,
+  getTabsForProcessCaseView,
 } from './active-case.selectors';
 import { QuotationIdentifier, UpdateQuotationDetail } from './models';
 
@@ -686,35 +687,34 @@ describe('ActiveCaseFacade', () => {
     );
   });
 
-  // TODO: use tests again when GQUOTE-5888 is done
-  // describe('tabsForProcessCaseView$', () => {
-  //   test(
-  //     'should select tabs for process case view',
-  //     marbles((m) => {
-  //       jest.resetAllMocks();
-  //       const tabs = [
-  //         {
-  //           label: 'processCaseView.tabs.singleQuotes.title',
-  //           link: 'single-quotes',
-  //           parentPath: 'process-case',
-  //           sortOrder: 2,
-  //         },
-  //         {
-  //           label: 'processCaseView.tabs.customerDetails.title',
-  //           link: 'customer-details',
-  //           parentPath: 'process-case',
-  //           sortOrder: 4,
-  //         },
-  //       ] as any;
-  //       mockStore.overrideSelector(activeCaseFeature.hasOpenItems, false);
-  //       mockStore.overrideSelector(getTabsForProcessCaseView(), tabs);
+  describe('tabsForProcessCaseView$', () => {
+    test(
+      'should select tabs for process case view',
+      marbles((m) => {
+        jest.resetAllMocks();
+        const tabs = [
+          {
+            label: 'processCaseView.tabs.singleQuotes.title',
+            link: 'single-quotes',
+            parentPath: 'process-case',
+            sortOrder: 2,
+          },
+          {
+            label: 'processCaseView.tabs.customerDetails.title',
+            link: 'customer-details',
+            parentPath: 'process-case',
+            sortOrder: 4,
+          },
+        ] as any;
+        mockStore.overrideSelector(activeCaseFeature.hasOpenItems, false);
+        mockStore.overrideSelector(getTabsForProcessCaseView(), tabs);
 
-  //       m.expect(facade.tabsForProcessCaseView$).toBeObservable(
-  //         m.cold('a', { a: tabs })
-  //       );
-  //     })
-  //   );
-  // });
+        m.expect(facade.tabsForProcessCaseView$).toBeObservable(
+          m.cold('a', { a: tabs })
+        );
+      })
+    );
+  });
 
   describe('tagType$', () => {
     test(

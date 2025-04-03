@@ -307,7 +307,8 @@
     },
     "sqvApprovalStatusLabels": {
       "sqvApprovalStatus": "{sqvApprovalStatus,select,APPROVAL_NEEDED{Genehmige}APPROVED{Genehmigt} other{}}",
-      "sqvApprovalStatusForFilter": "{sqvApprovalStatus,select,APPROVAL_NEEDED{Genehmige}APPROVED{Genehmigt}NO_APPROVAL{Keine Genehmigung benötigt} other{}}"
+      "sqvApprovalStatusForFilter": "{sqvApprovalStatus,select,APPROVAL_NEEDED{Genehmige}APPROVED{Genehmigt}NOT_NEEDED{Keine Genehmigung benötigt} other{}}",
+      "tooltip": "{sqvApprovalStatus,select,APPROVED{Klick um angehängte Dokumente herunterzuladen}other{}}"
     },
     "customStatusBar": {
       "buttons": {
@@ -617,7 +618,15 @@
       "cancelButton": "Abbrechen",
       "fileSizeExceedsTooltip": "Datei überschreitet maximale Dateigröße (2 MB).",
       "fileExitsTooltip": "Datei bereits vorhanden.",
-      "fileTypeNotSupportedTooltip": "Dateityp nicht untersützt."
+      "fileTypeNotSupportedTooltip": "Dateityp nicht untersützt.",
+      "rfqSqvCheckApproval": {
+        "uploadAttachments": {
+          "title": "Genehmigung für Wiederholkalkulation",
+          "subtitle": "SAW Wert liegt unter dem Grenzwert. Nutze den bestehenden SAW oder kontaktiere deinen L3 Manager für eine Genehmigung. Diese kann hier hochgeladen werden:",
+          "warning": "Dokumente können nicht bearbeitet oder gelöscht werden nach Klick auf “Genehmige”",
+          "approveButton": "Genehmige"
+        }
+      }
     },
     "deleteDialog": {
       "title": "Anhang Löschen",

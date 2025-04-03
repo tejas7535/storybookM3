@@ -10,7 +10,7 @@ import {
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[dragAndDrop]',
-  standalone: false,
+  exportAs: 'dragAndDrop',
 })
 export class DragAndDropDirective {
   @Output() filesDropped = new EventEmitter<FileList>();

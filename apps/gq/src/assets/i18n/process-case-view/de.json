@@ -144,6 +144,7 @@
         "commentLabel": "Kommentar",
         "attachments": {
           "title": "Anhänge",
+          "uploadButtonCaption": "Hochladen",
           "uploadInformation": "{{at}} von {{by}}",
           "toolTipDeletedDrafts": "Löschen nicht möglich; Angebot befindet sich in gelöschten Entwürfen.",
           "toolTipApprovalWorkFlowStarted": "Löschen nicht möglich; Freigabeprozess gestartet."

@@ -2,8 +2,9 @@
   class="flex h-full items-center overflow-hidden"
   *transloco="let t; read: 'shared.sqvApprovalStatusLabels'"
 >
-  @if (sqvApprovalStatus !== 'NO_APPROVAL') {
+  @if (sqvApprovalStatus !== 'NOT_NEEDED') {
     <schaeffler-tag
+      (click)="onTagClick()"
       [value]="
         t('sqvApprovalStatus', {
           sqvApprovalStatus: sqvApprovalStatus
@@ -14,8 +15,13 @@
       [withDot]="false"
       [styleClass]="
         sqvApprovalStatus === 'APPROVED'
-          ? '!rounded-lg  !bg-[#D2E0DB] !text-[#002919] cursor-pointer'
-          : '!rounded-lg !bg-[white] !border-[#828282] !text-[#828282] cursor-pointer'
+          ? '!rounded-lg !bg-[#D2E0DB] !text-[#002919] cursor-pointer hover:shadow-md active:shadow-none'
+          : '!rounded-lg !bg-[transparent] !border-[#828282] !text-[#646464] cursor-pointer hover:!bg-[white] hover:!text-[#555555] active:!text-[#555555] active:!bg-[transparent]'
+      "
+      [matTooltip]="
+        t('tooltip', {
+          sqvApprovalStatus: sqvApprovalStatus
+        })
       "
     >
       @if (sqvApprovalStatus === 'APPROVED') {

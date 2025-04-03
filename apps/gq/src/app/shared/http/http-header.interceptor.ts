@@ -12,6 +12,7 @@ import {} from 'rxjs/operators';
 import { TranslocoService } from '@jsverse/transloco';
 
 import { ApiVersion } from '../models';
+import { RfqSqvCheckPaths } from '../services/rest/attachments/models/rfq-sqv-check-paths.enum';
 import { QuotationPaths } from '../services/rest/quotation/models/quotation-paths.enum';
 
 @Injectable()
@@ -42,7 +43,27 @@ export class HttpHeaderInterceptor implements HttpInterceptor {
       request.url?.endsWith(`${QuotationPaths.PATH_ATTACHMENT_DOWNLOAD}`) &&
       request.method === 'GET';
 
-    if (isAttachmentUpload || isDownloadAttachment || isUserSettingsPost) {
+    const isUploadApprovalAttachment =
+      request.url?.startsWith(
+        `${ApiVersion.V1}/${RfqSqvCheckPaths.RFQ4_PATH}`
+      ) &&
+      request.url?.endsWith(`${RfqSqvCheckPaths.UPLOAD_APPROVAL_PATH}`) &&
+      request.method === 'POST';
+
+    const isDownloadApprovalAttachment =
+      request.url?.startsWith(
+        `${ApiVersion.V1}/${RfqSqvCheckPaths.RFQ4_PATH}`
+      ) &&
+      request.url?.endsWith(`${RfqSqvCheckPaths.DOWNLOAD_APPROVAL_PATH}`) &&
+      request.method === 'GET';
+
+    if (
+      isAttachmentUpload ||
+      isDownloadAttachment ||
+      isUserSettingsPost ||
+      isUploadApprovalAttachment ||
+      isDownloadApprovalAttachment
+    ) {
       return next.handle(request);
     }
 

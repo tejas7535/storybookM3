@@ -36,7 +36,6 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Action, Store } from '@ngrx/store';
-import { saveAs } from 'file-saver';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { ApprovalActions } from '../approval/approval.actions';
@@ -638,7 +637,7 @@ export class ActiveCaseEffects {
       ofType(ActiveCaseActions.uploadAttachments),
       concatLatestFrom(() => this.store.select(getGqId)),
       mergeMap(([action, gqId]) =>
-        this.attachmentsService.uploadFiles(action.files, gqId).pipe(
+        this.attachmentsService.uploadQuotationFiles(action.files, gqId).pipe(
           tap(() => {
             const successMessage = translate(
               'shared.snackBarMessages.attachmentsUploaded'
@@ -681,18 +680,18 @@ export class ActiveCaseEffects {
       ofType(ActiveCaseActions.downloadAttachment),
       concatLatestFrom(() => this.store.select(getGqId)),
       mergeMap(([action]) =>
-        this.attachmentsService.downloadAttachment(action.attachment).pipe(
-          map((attachmentBlob: Blob) => {
-            saveAs(attachmentBlob, action.attachment.fileName);
-
-            return ActiveCaseActions.downloadAttachmentSuccess({
-              fileName: action.attachment.fileName,
-            });
-          }),
-          catchError((errorMessage) =>
-            of(ActiveCaseActions.downloadAttachmentFailure({ errorMessage }))
+        this.attachmentsService
+          .downloadQuotationAttachment(action.attachment)
+          .pipe(
+            map((fileName: string) => {
+              return ActiveCaseActions.downloadAttachmentSuccess({
+                fileName,
+              });
+            }),
+            catchError((errorMessage) =>
+              of(ActiveCaseActions.downloadAttachmentFailure({ errorMessage }))
+            )
           )
-        )
       )
     );
   });

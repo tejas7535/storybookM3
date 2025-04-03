@@ -1,8 +1,7 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router, RouterModule } from '@angular/router';
 
 import { of, throwError } from 'rxjs';
 
@@ -70,11 +69,12 @@ describe('ActiveCaseEffects', () => {
 
   const createService = createServiceFactory({
     service: ActiveCaseEffects,
-    imports: [MatSnackBarModule, RouterTestingModule, HttpClientTestingModule],
+    imports: [MatSnackBarModule, RouterModule.forRoot([])],
     providers: [
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockActions(() => actions$),
       provideMockStore(),
+      provideHttpClientTesting(),
+      provideHttpClient(),
     ],
   });
 
@@ -1543,7 +1543,7 @@ describe('ActiveCaseEffects', () => {
       });
 
       actions$ = of(action);
-      const response = throwError(errorMessage);
+      const response = throwError(() => errorMessage);
 
       effects.updateCosts$.subscribe((res) => {
         expect(res).toEqual(result);
@@ -1607,7 +1607,7 @@ describe('ActiveCaseEffects', () => {
         const attachments: QuotationAttachment[] = [
           { fileName: '1' } as QuotationAttachment,
         ];
-        attachmentService.uploadFiles = jest.fn(() => response);
+        attachmentService.uploadQuotationFiles = jest.fn(() => response);
         snackBar.open = jest.fn();
         store.overrideSelector(getGqId, 1245);
 
@@ -1621,8 +1621,8 @@ describe('ActiveCaseEffects', () => {
 
         m.expect(effects.uploadAttachments$).toBeObservable(expected);
         m.flush();
-        expect(attachmentService.uploadFiles).toHaveBeenCalledTimes(1);
-        expect(attachmentService.uploadFiles).toHaveBeenCalledWith(
+        expect(attachmentService.uploadQuotationFiles).toHaveBeenCalledTimes(1);
+        expect(attachmentService.uploadQuotationFiles).toHaveBeenCalledWith(
           [new File([], 'test')],
           1245
         );
@@ -1633,18 +1633,18 @@ describe('ActiveCaseEffects', () => {
       action = ActiveCaseActions.uploadAttachments({
         files: [new File([], 'test')],
       });
-      attachmentService.uploadFiles = jest.fn(() => response);
+      attachmentService.uploadQuotationFiles = jest.fn(() => response);
       const result = ActiveCaseActions.uploadAttachmentsFailure({
         errorMessage,
       });
 
       actions$ = of(action);
-      const response = throwError(errorMessage);
+      const response = throwError(() => errorMessage);
 
       effects.uploadAttachments$.subscribe((res) => {
         expect(res).toEqual(result);
       });
-      expect(attachmentService.uploadFiles).toHaveBeenCalledTimes(1);
+      expect(attachmentService.uploadQuotationFiles).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -1681,7 +1681,7 @@ describe('ActiveCaseEffects', () => {
       });
 
       actions$ = of(action);
-      const response = throwError(errorMessage);
+      const response = throwError(() => errorMessage);
 
       effects.getAllAttachments$.subscribe((res) => {
         expect(res).toEqual(result);
@@ -1712,15 +1712,9 @@ describe('ActiveCaseEffects', () => {
 
         const downloadAttachmentMock = jest.spyOn(
           attachmentService,
-          'downloadAttachment'
+          'downloadQuotationAttachment'
         );
-        downloadAttachmentMock.mockReturnValue(
-          of(
-            new Blob(['file content'], {
-              type: 'application/octet-stream',
-            })
-          )
-        );
+        downloadAttachmentMock.mockReturnValue(of('test.jpg'));
 
         actions$ = m.hot('-a', { a: action });
 
@@ -1751,9 +1745,10 @@ describe('ActiveCaseEffects', () => {
 
         const downloadAttachmentMock = jest.spyOn(
           attachmentService,
-          'downloadAttachment'
+          'downloadQuotationAttachment'
         );
-        downloadAttachmentMock.mockReturnValue(throwError(errorMessage));
+
+        downloadAttachmentMock.mockReturnValue(throwError(() => errorMessage));
 
         actions$ = m.hot('-a', { a: action });
 
@@ -1817,7 +1812,7 @@ describe('ActiveCaseEffects', () => {
       });
 
       actions$ = of(action);
-      const response = throwError(errorMessage);
+      const response = throwError(() => errorMessage);
 
       effects.deleteAttachment$.subscribe((res) => {
         expect(res).toEqual(result);

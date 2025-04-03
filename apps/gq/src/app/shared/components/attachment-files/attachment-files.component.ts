@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
@@ -10,6 +10,7 @@ import { QuotationAttachment } from '@gq/shared/models';
 import { Store } from '@ngrx/store';
 
 import { AttachmentFilesUploadModalComponent } from '../modal/attachment-files-upload-modal/attachment-files-upload-modal.component';
+import { AttachmentDialogData } from '../modal/attachment-files-upload-modal/models/attachment-dialog-data.interface';
 import { DeletingAttachmentModalComponent } from '../modal/delete-attachment-modal/delete-attachment-modal.component';
 @Component({
   selector: 'gq-attachment-files',
@@ -24,13 +25,12 @@ export class AttachmentFilesComponent implements OnInit {
   @Input() workflowInProgress: boolean;
   @Input() quotationFullyApproved: boolean;
 
+  private readonly dialog: MatDialog = inject(MatDialog);
+  private readonly store: Store = inject(Store);
+  public readonly activeCaseFacade: ActiveCaseFacade = inject(ActiveCaseFacade);
   quotationActive$: Observable<boolean>;
   readonly translocoDatePipeConfig = TRANSLOCO_DATE_PIPE_CONFIG;
-  constructor(
-    private readonly dialog: MatDialog,
-    public readonly activeCaseFacade: ActiveCaseFacade,
-    private readonly store: Store
-  ) {}
+
   ngOnInit(): void {
     this.quotationActive$ = this.store.select(getIsQuotationStatusActive);
   }
@@ -39,7 +39,14 @@ export class AttachmentFilesComponent implements OnInit {
     this.dialog.open(AttachmentFilesUploadModalComponent, {
       width: '634px',
       disableClose: true,
-      data: { attachments: this.attachments },
+      data: {
+        fileNames: this.attachments.map((attachment) => attachment.fileName),
+        upload: this.activeCaseFacade.uploadAttachments.bind(
+          this.activeCaseFacade
+        ),
+        uploading$: this.activeCaseFacade.attachmentsUploading$,
+        uploadSuccess$: this.activeCaseFacade.uploadAttachmentsSuccess$,
+      } as AttachmentDialogData,
     });
   }
 
