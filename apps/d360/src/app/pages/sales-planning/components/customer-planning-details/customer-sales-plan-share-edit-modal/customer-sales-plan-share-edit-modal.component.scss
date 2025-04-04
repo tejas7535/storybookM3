@@ -1,0 +1,23 @@
+mat-form-field {
+  width: 240px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.delete-button {
+  --mat-text-button-state-layer-color: var(--error-color);
+  color: var(--error-color);
+}
+
+mat-hint {
+  opacity: 0.38;
+}

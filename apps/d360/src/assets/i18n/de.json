@@ -757,7 +757,14 @@
       "planExistsOnOtherLevel": "Plan existiert auf anderer Hierarchieebene",
       "noEntry": "Kein Eintrag",
       "notSynchronized": "Noch nicht synchronisiert",
-      "synchronized": "Synchronisiert"
+      "synchronized": "Synchronisiert",
+      "originalAddOneValue": "Ursprünglicher Wert aus ADD*ONE {{value}}%",
+      "adjustedApShare": "AP Anteil Angepasst %",
+      "adjustedSpShare": "SP Anteil Angepasst %",
+      "adjustedOpShare": "OP Anteil Angepasst %",
+      "calculatedApShare": "Berechneter AP-Anteil %",
+      "calculatedSpShare": "Berechneter SP-Anteil %",
+      "calculatedOpShare": "Berechneter OP-Anteil %"
     }
   },
   "customer": {

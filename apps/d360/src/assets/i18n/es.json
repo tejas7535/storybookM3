@@ -748,7 +748,14 @@
       "planExistsOnOtherLevel": "El plan existe en otro nivel jerárquico",
       "noEntry": "Sin entrada",
       "notSynchronized": "Todavía no sincronizado",
-      "synchronized": "Sincronizado"
+      "synchronized": "Sincronizado",
+      "originalAddOneValue": "Valor Original de ADD*ONE {{value}}%",
+      "adjustedApShare": "Participación AP Ajustado %",
+      "adjustedSpShare": "Participación SP Ajustado %",
+      "adjustedOpShare": "Participación OP Ajustado %",
+      "calculatedApShare": "Cuota AP Calculada %",
+      "calculatedSpShare": "Cuota SP Calculada %",
+      "calculatedOpShare": "Cuota OP Calculada %"
     }
   },
   "customer": {

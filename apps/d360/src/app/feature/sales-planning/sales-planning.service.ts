@@ -35,6 +35,9 @@ export class SalesPlanningService {
   private readonly SALES_PLANNING_OTHER_REVENUES_API: string =
     'api/sales-planning/other-revenues';
 
+  private readonly SALES_PLANNING_MATERIAL_SHARE_API: string =
+    'api/sales-planning/material-share';
+
   private readonly translocoService: TranslocoService =
     inject(TranslocoService);
 
@@ -168,5 +171,40 @@ export class SalesPlanningService {
       { planningCurrency, adjustedValue },
       { params }
     );
+  }
+
+  public updateShares(
+    customerNumber: string,
+    planningYear: string,
+    adjustedShares: {
+      apShare: number;
+      spShare: number;
+      opShare: number;
+    }
+  ): Observable<void> {
+    const params = new HttpParams()
+      .set('customerNumber', customerNumber)
+      .set('planningYear', planningYear);
+
+    return this.http.put<void>(
+      this.SALES_PLANNING_MATERIAL_SHARE_API,
+      adjustedShares,
+      {
+        params,
+      }
+    );
+  }
+
+  public deleteShares(
+    customerNumber: string,
+    planningYear: string
+  ): Observable<void> {
+    const params = new HttpParams()
+      .set('customerNumber', customerNumber)
+      .set('planningYear', planningYear);
+
+    return this.http.delete<void>(this.SALES_PLANNING_MATERIAL_SHARE_API, {
+      params,
+    });
   }
 }

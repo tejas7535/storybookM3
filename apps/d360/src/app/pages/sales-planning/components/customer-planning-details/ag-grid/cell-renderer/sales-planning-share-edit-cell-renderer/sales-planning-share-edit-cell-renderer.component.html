@@ -1,7 +1,6 @@
 <div class="icon-wrapper" *transloco="let t">
   <span>{{ valueFormatted() }}</span>
-  <!--  TODO: remove when modal is implemented-->
-  @if (editStatus() === 'TODO') {
+  @if (isYearlyRow) {
     <d360-sales-planning-edit-button
       [editStatus]="editStatus()"
       (editClick)="handleEditShareValueClicked()"

@@ -459,6 +459,8 @@ export class Stub {
         getCustomerInfo: () => of(data?.getCustomerInfo ?? []),
         deleteDetailedCustomerSalesPlan: () => of(),
         updateDetailedCustomerSalesPlan: () => of(),
+        deleteShares: () => of(),
+        updateShares: () => of(),
       },
       'useValue'
     );

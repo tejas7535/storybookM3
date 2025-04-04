@@ -1,1 +1,167 @@
-<p>customer-sales-plan-share-edit-modal works!</p>
+@if (loading()) {
+  <div class="w-32 h-32">
+    <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
+  </div>
+} @else {
+  <div *transloco="let t" class="w-xl">
+    <form [formGroup]="form" (ngSubmit)="onSave()">
+      <div mat-dialog-title class="m-0 pt-0 pb-2">
+        <div class="flex flex-col gap-2">
+          <h2 class="text-headline-small">
+            {{ t('button.edit') }} {{ data.planningYear }}
+          </h2>
+        </div>
+      </div>
+      <mat-dialog-content class="w-xl">
+        <div class="grid grid-cols-2 gap-x-4">
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>
+                {{ t('sales_planning.table.adjustedApShare') }}
+              </mat-label>
+              <input
+                required
+                matInput
+                d360NumberSeparator
+                [allowDecimalPlaces]="false"
+                [allowNegativeNumbers]="false"
+                [attr.aria-label]="t('sales_planning.table.adjustedApShare')"
+                [formControl]="form.controls.adjustedAPValue"
+              />
+              @if (form.controls.adjustedAPValue.hasError('required')) {
+                <mat-error>
+                  {{ t('generic.validation.missing_field') }}
+                </mat-error>
+              }
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>
+                {{ t('sales_planning.table.calculatedApShare') }}
+              </mat-label>
+              <input
+                required
+                matInput
+                d360NumberSeparator
+                [allowDecimalPlaces]="false"
+                [allowNegativeNumbers]="false"
+                [attr.aria-label]="t('sales_planning.table.calculatedApShare')"
+                [formControl]="form.controls.calculatedAPValue"
+              />
+              <mat-hint>
+                {{
+                  t('sales_planning.table.originalAddOneValue', {
+                    value: data.apShareAdjustedUnconstrained
+                  })
+                }}
+              </mat-hint>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>
+                {{ t('sales_planning.table.adjustedOpShare') }}
+              </mat-label>
+              <input
+                required
+                matInput
+                d360NumberSeparator
+                [allowDecimalPlaces]="false"
+                [allowNegativeNumbers]="false"
+                [attr.aria-label]="t('sales_planning.table.adjustedOpShare')"
+                [formControl]="form.controls.adjustedOPValue"
+              />
+              @if (form.controls.adjustedOPValue.hasError('required')) {
+                <mat-error>
+                  {{ t('generic.validation.missing_field') }}
+                </mat-error>
+              }
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>
+                {{ t('sales_planning.table.calculatedOpShare') }}
+              </mat-label>
+              <input
+                required
+                matInput
+                d360NumberSeparator
+                [allowDecimalPlaces]="false"
+                [allowNegativeNumbers]="false"
+                [attr.aria-label]="t('sales_planning.table.calculatedOpShare')"
+                [formControl]="form.controls.calculatedOPValue"
+              />
+              <mat-hint>
+                {{
+                  t('sales_planning.table.originalAddOneValue', {
+                    value: data.opShareAdjustedUnconstrained
+                  })
+                }}
+              </mat-hint>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline" class="ng-invalid">
+              <mat-label>
+                {{ t('sales_planning.table.adjustedSpShare') }}
+              </mat-label>
+              <input
+                required
+                matInput
+                d360NumberSeparator
+                [allowDecimalPlaces]="false"
+                [allowNegativeNumbers]="false"
+                [attr.aria-label]="t('sales_planning.table.adjustedSpShare')"
+                [formControl]="form.controls.adjustedSPValue"
+                class="ng-invalid"
+              />
+              @if (form.controls.adjustedSPValue.hasError('required')) {
+                <mat-error>
+                  {{ t('generic.validation.missing_field') }}
+                </mat-error>
+              }
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="w-60" appearance="outline">
+              <mat-label>
+                {{ t('sales_planning.table.calculatedSpShare') }}
+              </mat-label>
+              <input
+                required
+                matInput
+                d360NumberSeparator
+                [allowDecimalPlaces]="false"
+                [allowNegativeNumbers]="false"
+                [attr.aria-label]="t('sales_planning.table.calculatedSpShare')"
+                [formControl]="form.controls.calculatedSPValue"
+              />
+              <mat-hint>
+                {{
+                  t('sales_planning.table.originalAddOneValue', {
+                    value: data.spShareAdjustedUnconstrained
+                  })
+                }}
+              </mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-dialog-content>
+      <mat-dialog-actions align="end" class="gap-3 dialog-actions">
+        <button mat-button class="delete-button" (click)="onDelete()">
+          {{ t('button.delete') }}
+        </button>
+        <span class="spacer"></span>
+
+        <button mat-button class="cancel-button" (click)="onCancel()">
+          {{ t('button.cancel') }}
+        </button>
+        <button mat-flat-button class="save-button" type="submit">
+          {{ t('button.save') }}
+        </button>
+      </mat-dialog-actions>
+    </form>
+  </div>
+}

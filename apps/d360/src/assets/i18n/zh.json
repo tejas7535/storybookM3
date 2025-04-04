@@ -748,7 +748,13 @@
       "planExistsOnOtherLevel": "计划存在于其他层次级别",
       "noEntry": "无条目",
       "notSynchronized": "尚未同步",
-      "synchronized": "已同步"
+      "synchronized": "已同步",
+      "adjustedApShare": "AP 调整后份额 %",
+      "adjustedSpShare": "SP 调整后份额 %",
+      "adjustedOpShare": "OP 调整后份额 %",
+      "calculatedApShare": "计算的AP份额 %",
+      "calculatedSpShare": "计算的SP份额 %",
+      "calculatedOpShare": "计算的OP份额 %"
     }
   },
   "customer": {
