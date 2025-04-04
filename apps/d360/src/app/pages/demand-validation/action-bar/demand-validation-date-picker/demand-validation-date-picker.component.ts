@@ -19,6 +19,7 @@ import { SelectableValue } from '../../../../shared/components/inputs/autocomple
 import { DisplayFunctions } from '../../../../shared/components/inputs/display-functions.utils';
 import { FilterDropdownComponent } from '../../../../shared/components/inputs/filter-dropdown/filter-dropdown.component';
 import { toNativeDate } from '../../../../shared/utils/date-format';
+import { DateRangePeriod } from '../../../../shared/utils/date-range';
 
 @Component({
   selector: 'd360-demand-validation-date-picker',
@@ -52,6 +53,7 @@ export class DemandValidationDatePickerComponent implements OnInit {
 
   protected readonly DisplayFunctions = DisplayFunctions;
   protected readonly lastViewableDate = lastViewableDate;
+  protected readonly DateRangePeriod = DateRangePeriod;
 
   protected minDateEndDatePeriod1: Date;
   protected minDateEndDatePeriod2: Date;
@@ -67,28 +69,39 @@ export class DemandValidationDatePickerComponent implements OnInit {
 
     this.endDatePeriod1()
       .valueChanges.pipe(
-        tap(this._endDatePeriod1Change.bind(this)),
+        tap((value) => this._endDatePeriod1Change(value)),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+
+    this.startDatePeriod1()
+      .valueChanges.pipe(
+        tap(
+          () =>
+            (this.minDateEndDatePeriod1 = this.startDatePeriod1().getRawValue())
+        ),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
   }
 
   protected onPeriodTypeChange(event: SelectableValue): void {
-    if (event.id === 'WEEKLY' && !this.disableOptionalDate()) {
+    this.endDatePeriod2()?.setValue(null, { emitEvent: false });
+    this.periodType2()?.disable({ emitEvent: false });
+    this.startDatePeriod2()?.disable({ emitEvent: false });
+
+    if (event.id === DateRangePeriod.Weekly && !this.disableOptionalDate()) {
       this._endDatePeriod1Change(this.endDatePeriod1().getRawValue());
-      this.endDatePeriod2().setValue(null);
-      this.periodType2().disable({ emitEvent: false });
-      this.startDatePeriod2().disable({ emitEvent: false });
     }
   }
 
   private _endDatePeriod1Change(value: Date): void {
     const endDate = endOfMonth(toNativeDate(value));
-    this.endDatePeriod1().setValue(endDate);
+    this.endDatePeriod1().setValue(endDate, { emitEvent: false });
 
     if (
       !this.disableOptionalDate() &&
-      this.periodType1().getRawValue()?.id === 'WEEKLY' &&
+      this.periodType1().getRawValue()?.id === DateRangePeriod.Weekly &&
       this.startDatePeriod2()
     ) {
       this.startDatePeriod2().setValue(startOfMonth(addMonths(endDate, 1)));

@@ -19,25 +19,27 @@ import { parseISO, startOfMonth } from 'date-fns';
 import {
   KpiBucketTypeEnum,
   KpiData,
+  KpiDateRanges,
   KpiEntry,
   KpiType,
   MaterialListEntry,
 } from '../../../../feature/demand-validation/model';
 import { clientSideTableDefaultProps } from '../../../../shared/ag-grid/grid-defaults';
 import { TextWithDotCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/text-with-dot-cell-renderer/text-with-dot-cell-renderer.component';
-import { UserSettingsKey } from '../../../../shared/services/user.service';
-import { Stub } from '../../../../shared/test/stub.class';
-import * as Numbers from '../../../../shared/utils/number';
-import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
-import { KpiDateRanges } from './../../../../feature/demand-validation/model';
-import { DemandValidationUserSettingsKey } from './../../../../shared/services/user.service';
+import {
+  DemandValidationUserSettingsKey,
+  UserSettingsKey,
+} from '../../../../shared/models/user-settings.model';
 import {
   demandValidationEditableColor,
   demandValidationInFixZoneColor,
   demandValidationNotEditableColor,
   demandValidationToSmallColor,
   demandValidationWrongInputColor,
-} from './../../../../shared/styles/colors';
+} from '../../../../shared/styles/colors';
+import { Stub } from '../../../../shared/test/stub.class';
+import * as Numbers from '../../../../shared/utils/number';
+import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
 import * as CellClass from './cell-style';
 import * as Columns from './column-definitions';
 import { FilterValues } from './column-definitions';
@@ -969,23 +971,30 @@ describe('DemandValidationTableComponent', () => {
     it('should call updateUserSettings with the correct parameters', () => {
       const updateUserSettingsSpy = jest.spyOn(
         component['userService'],
-        'updateUserSettings'
+        'updateDemandValidationUserSettings'
       );
 
       component['onSlideToggleChange'](event, key);
 
       expect(updateUserSettingsSpy).toHaveBeenCalledWith(
-        UserSettingsKey.DemandValidation,
-        expect.objectContaining({
-          [DemandValidationUserSettingsKey.Workbench]: expect.any(Object),
-        })
+        DemandValidationUserSettingsKey.Workbench,
+        expect.any(Object)
       );
     });
 
     it('should merge newSettings with existing user settings', () => {
       const existingSettings = {
         [DemandValidationUserSettingsKey.Workbench]: {
-          [KpiType.Deliveries]: false,
+          [KpiType.Deliveries]: {
+            deliveries: true,
+            demandRelevantSales: true,
+            firmBusiness: true,
+            forecastProposal: true,
+            forecastProposalDemandPlanner: true,
+            opportunities: true,
+            salesAmbition: true,
+            salesPlan: true,
+          },
         },
       };
       component['userService'].userSettings.set({

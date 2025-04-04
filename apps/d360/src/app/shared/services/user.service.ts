@@ -28,29 +28,18 @@ import { AppRoutePath, AppRouteValue } from '../../app.routes.enum';
 import { KpiType } from '../../feature/demand-validation/model';
 import { Region } from '../../feature/global-selection/model';
 import { FilterValues } from '../../pages/demand-validation/tables/demand-validation-table/column-definitions';
+import {
+  DemandValidationSettings,
+  DemandValidationTimeRangeUserSettings,
+  DemandValidationTimeRangeUserSettingsKey,
+  DemandValidationUserSettingsKey,
+  UserSettings,
+  UserSettingsKey,
+} from '../models/user-settings.model';
 import { AuthService } from '../utils/auth/auth.service';
 import { checkRoles } from '../utils/auth/roles';
+import { DateRangePeriod } from '../utils/date-range';
 import { SnackbarService } from '../utils/service/snackbar.service';
-
-export enum UserSettingsKey {
-  StartPage = 'startPage',
-  DemandValidation = 'demandValidation',
-}
-export enum DemandValidationUserSettingsKey {
-  Workbench = 'workbench',
-}
-
-export interface DemandValidationSettings {
-  [DemandValidationUserSettingsKey.Workbench]: Omit<
-    FilterValues,
-    KpiType.ValidatedForecast
-  >;
-}
-
-export interface UserSettings {
-  [UserSettingsKey.StartPage]: AppRouteValue | null;
-  [UserSettingsKey.DemandValidation]: DemandValidationSettings | null;
-}
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -122,6 +111,52 @@ export class UserService {
         checkRoles(this.userRoles() || [], route.data?.allowedRoles));
 
     return routes?.filter((element) => visibilityFilter(element));
+  }
+
+  public updateDemandValidationUserSettings(
+    key: keyof DemandValidationSettings,
+    value: DemandValidationSettings[keyof DemandValidationSettings]
+  ): void {
+    const currentSettings =
+      this.userSettings()?.[UserSettingsKey.DemandValidation];
+
+    const mergeSettings = <T>(
+      settingKey: DemandValidationUserSettingsKey,
+      defaultValues: T
+    ): T =>
+      ({
+        ...(currentSettings?.[settingKey] || defaultValues),
+        ...(key === settingKey ? value : {}),
+      }) as T;
+
+    const workbench = mergeSettings<
+      Omit<FilterValues, KpiType.ValidatedForecast>
+    >(DemandValidationUserSettingsKey.Workbench, {
+      [KpiType.Deliveries]: true,
+      [KpiType.FirmBusiness]: true,
+      [KpiType.ForecastProposal]: true,
+      [KpiType.ForecastProposalDemandPlanner]: true,
+      [KpiType.DemandRelevantSales]: true,
+      [KpiType.SalesAmbition]: true,
+      [KpiType.Opportunities]: true,
+      [KpiType.SalesPlan]: true,
+    });
+
+    const timeRange = mergeSettings<DemandValidationTimeRangeUserSettings>(
+      DemandValidationUserSettingsKey.TimeRange,
+      {
+        [DemandValidationTimeRangeUserSettingsKey.Type]:
+          DateRangePeriod.Monthly,
+        [DemandValidationTimeRangeUserSettingsKey.StartDate]: -3,
+        [DemandValidationTimeRangeUserSettingsKey.EndDate]: 12,
+        [DemandValidationTimeRangeUserSettingsKey.OptionalEndDate]: null,
+      }
+    );
+
+    this.updateUserSettings(UserSettingsKey.DemandValidation, {
+      workbench,
+      timeRange,
+    });
   }
 
   public updateUserSettings<UserSettingsKey extends keyof UserSettings>(

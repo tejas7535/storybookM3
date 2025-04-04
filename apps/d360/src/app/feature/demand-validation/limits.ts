@@ -7,15 +7,18 @@ import {
 } from 'date-fns';
 import { de } from 'date-fns/locale';
 
-import { DateRangePeriod } from '../../shared/utils/date-range';
+import {
+  DateRangePeriod,
+  DateRangePeriodType,
+} from '../../shared/utils/date-range';
 import { KpiBucketType, KpiBucketTypeEnum } from './model';
 
-export const firstEditableDate = (period: DateRangePeriod) => {
+export const firstEditableDate = (period: DateRangePeriodType) => {
   switch (period) {
-    case 'MONTHLY': {
+    case DateRangePeriod.Monthly: {
       return new Date(new Date().getFullYear(), new Date().getMonth(), 1);
     }
-    case 'WEEKLY': {
+    case DateRangePeriod.Weekly: {
       return startOfWeek(new Date(), { locale: de });
     }
     default: {

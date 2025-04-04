@@ -1,5 +1,6 @@
 import * as dateFns from 'date-fns';
 
+import { DateRangePeriod } from '../../shared/utils/date-range';
 import {
   firstEditableDate,
   firstEditableDateForTodayInBucket,
@@ -24,7 +25,7 @@ describe('Limits', () => {
       jest.setSystemTime(new Date(2022, 3, 2));
 
       jest.spyOn(dateFns, 'startOfMonth').mockReturnValue(new Date(2022, 3, 1));
-      const result = firstEditableDate('MONTHLY');
+      const result = firstEditableDate(DateRangePeriod.Monthly);
       expect(result).toEqual(new Date(2022, 3, 1));
 
       jest.useRealTimers();
@@ -35,7 +36,7 @@ describe('Limits', () => {
       jest.setSystemTime(new Date(2022, 3, 5));
 
       jest.spyOn(dateFns, 'startOfWeek').mockReturnValue(new Date(2022, 3, 4)); // Mocking a Monday in April
-      const result = firstEditableDate('WEEKLY');
+      const result = firstEditableDate(DateRangePeriod.Weekly);
       expect(result).toEqual(new Date(2022, 3, 4));
 
       jest.useRealTimers();

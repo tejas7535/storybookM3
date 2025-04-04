@@ -20,7 +20,8 @@ import { appRoutes, RouteConfig } from '../../../../app.routes';
 import { AppRoutePath } from '../../../../app.routes.enum';
 import { AlertService } from '../../../../feature/alerts/alert.service';
 import { Alert } from '../../../../feature/alerts/model';
-import { UserService, UserSettingsKey } from '../../../services/user.service';
+import { UserSettingsKey } from '../../../models/user-settings.model';
+import { UserService } from '../../../services/user.service';
 
 export enum TabItem {
   StartPage = 'start-page',

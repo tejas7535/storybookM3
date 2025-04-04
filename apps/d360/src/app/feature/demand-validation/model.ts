@@ -1,4 +1,4 @@
-import { DateRange, DateRangePeriod } from '../../shared/utils/date-range';
+import { DateRange, DateRangePeriodType } from '../../shared/utils/date-range';
 import { ResponseWithResultMessage } from '../../shared/utils/error-handling';
 import { GlobalSelectionCriteriaFilters } from '../global-selection/model';
 import { DemandValidationStringFilter } from './demand-validation-filters';
@@ -38,7 +38,7 @@ export interface KpiDataRequest {
 export interface KpiDataRequestDateRange {
   from: string;
   to: string;
-  period: DateRangePeriod;
+  period: DateRangePeriodType;
 }
 
 export type MaterialType = 'schaeffler' | 'customer';

@@ -23,6 +23,7 @@ import { addYears, endOfMonth, endOfYear, startOfMonth } from 'date-fns';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { firstEditableDate } from '../../../../feature/demand-validation/limits';
 import { MaterialType } from '../../../../feature/demand-validation/model';
 import {
   defaultMonthlyPeriodTypeOption,
@@ -30,6 +31,7 @@ import {
 } from '../../../../feature/demand-validation/time-range';
 import { ValidateForm } from '../../../../shared/decorators';
 import { toNativeDate } from '../../../../shared/utils/date-format';
+import { DateRangePeriod } from '../../../../shared/utils/date-range';
 import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
 import { DemandValidationDatePickerComponent } from '../demand-validation-date-picker/demand-validation-date-picker.component';
 import { DemandValidationMultiGridEditComponent } from './demand-validation-multi-grid-edit/demand-validation-multi-grid-edit.component';
@@ -89,6 +91,11 @@ export class DemandValidationMultiGridComponent {
         this.crossFieldValidator('startDatePeriod2', 'endDatePeriod2'),
       ],
     }
+  );
+
+  protected readonly firstEditableDate = firstEditableDate(
+    (this.formGroup.controls.periodType1.getRawValue()
+      ?.id as DateRangePeriod) || DateRangePeriod.Monthly
   );
 
   @ValidateForm('formGroup')

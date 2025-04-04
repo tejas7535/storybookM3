@@ -11,6 +11,7 @@ import { DemandValidationService } from '../../../../feature/demand-validation/d
 import { SingleAutocompletePreLoadedComponent } from '../../../../shared/components/inputs/autocomplete/single-autocomplete-pre-loaded/single-autocomplete-pre-loaded.component';
 import { DemandValidationDatePickerComponent } from '../demand-validation-date-picker/demand-validation-date-picker.component';
 import { Stub } from './../../../../shared/test/stub.class';
+import { DateRangePeriod } from './../../../../shared/utils/date-range';
 import { DemandValidationExportModalComponent } from './demand-validation-export-modal.component';
 
 describe('DemandValidationExportModalComponent', () => {
@@ -29,7 +30,7 @@ describe('DemandValidationExportModalComponent', () => {
           range1: {
             from: new Date(),
             to: new Date(),
-            period: 'WEEKLY',
+            period: DateRangePeriod.Weekly,
           },
         },
         demandValidationFilters: {},

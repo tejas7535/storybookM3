@@ -8,7 +8,7 @@ import { MockProvider } from 'ng-mocks';
 import { AppRoutePath, AppRouteValue } from '../../../app.routes.enum';
 import { Region } from '../../../feature/global-selection/model';
 import { CurrencyService } from '../../../feature/info/currency.service';
-import { UserSettingsKey } from '../../services/user.service';
+import { UserSettingsKey } from '../../models/user-settings.model';
 import { Stub } from '../../test/stub.class';
 import { UserSettingsComponent } from './user-settings.component';
 

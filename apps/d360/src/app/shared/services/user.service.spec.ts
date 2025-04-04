@@ -2,9 +2,17 @@ import { BehaviorSubject, of, throwError } from 'rxjs';
 
 import { CustomRoute } from '../../app.routes';
 import { AppRoutePath } from '../../app.routes.enum';
+import { KpiType } from '../../feature/demand-validation/model';
 import { Region } from '../../feature/global-selection/model';
+import {
+  DemandValidationTimeRangeUserSettingsKey,
+  DemandValidationUserSettingsKey,
+  UserSettings,
+  UserSettingsKey,
+} from '../models/user-settings.model';
 import { Stub } from '../test/stub.class';
-import { UserService, UserSettings, UserSettingsKey } from './user.service';
+import { DateRangePeriod } from '../utils/date-range';
+import { UserService } from './user.service';
 
 const mockGetItem = jest.fn();
 const mockSetItem = jest.fn();
@@ -311,6 +319,105 @@ describe('UserService', () => {
       service.getStartPage().subscribe((page) => {
         expect(page).toBe(AppRoutePath.OverviewPage);
       });
+    });
+  });
+
+  describe('updateDemandValidationUserSettings', () => {
+    it('should update the workbench settings when the key is Workbench', () => {
+      const currentSettings = {
+        [UserSettingsKey.DemandValidation]: {
+          [DemandValidationUserSettingsKey.Workbench]: {
+            [KpiType.Deliveries]: false,
+          },
+        },
+      };
+      service.userSettings.set(currentSettings as any);
+
+      service.updateDemandValidationUserSettings(
+        DemandValidationUserSettingsKey.Workbench,
+        { [KpiType.Deliveries]: true } as any
+      );
+
+      const updatedSettings = service.userSettings();
+      expect(
+        updatedSettings?.[UserSettingsKey.DemandValidation]?.[
+          DemandValidationUserSettingsKey.Workbench
+        ]
+      ).toEqual({
+        [KpiType.Deliveries]: true,
+      });
+    });
+
+    it('should update the timeRange settings when the key is TimeRange', () => {
+      const currentSettings = {
+        [UserSettingsKey.DemandValidation]: {
+          [DemandValidationUserSettingsKey.TimeRange]: {
+            [DemandValidationTimeRangeUserSettingsKey.Type]:
+              DateRangePeriod.Weekly,
+          },
+        },
+      };
+      service.userSettings.set(currentSettings as any);
+
+      service.updateDemandValidationUserSettings(
+        DemandValidationUserSettingsKey.TimeRange,
+        {
+          [DemandValidationTimeRangeUserSettingsKey.Type]:
+            DateRangePeriod.Monthly,
+        } as any
+      );
+
+      const updatedSettings = service.userSettings();
+      expect(
+        updatedSettings?.[UserSettingsKey.DemandValidation]?.[
+          DemandValidationUserSettingsKey.TimeRange
+        ]
+      ).toEqual({
+        [DemandValidationTimeRangeUserSettingsKey.Type]:
+          DateRangePeriod.Monthly,
+      });
+    });
+
+    it('should use default values if no current settings exist', () => {
+      service.userSettings.set(null);
+
+      service.updateDemandValidationUserSettings(
+        DemandValidationUserSettingsKey.Workbench,
+        { [KpiType.Deliveries]: true } as any
+      );
+
+      const updatedSettings = service.userSettings();
+      expect(
+        updatedSettings?.[UserSettingsKey.DemandValidation]?.[
+          DemandValidationUserSettingsKey.Workbench
+        ]
+      ).toEqual({
+        [KpiType.Deliveries]: true,
+        [KpiType.FirmBusiness]: true,
+        [KpiType.ForecastProposal]: true,
+        [KpiType.ForecastProposalDemandPlanner]: true,
+        [KpiType.DemandRelevantSales]: true,
+        [KpiType.SalesAmbition]: true,
+        [KpiType.Opportunities]: true,
+        [KpiType.SalesPlan]: true,
+      });
+    });
+
+    it('should call updateUserSettings with the correct key and value', () => {
+      const updateUserSettingsSpy = jest.spyOn(service, 'updateUserSettings');
+
+      service.updateDemandValidationUserSettings(
+        DemandValidationUserSettingsKey.Workbench,
+        { [KpiType.Deliveries]: true } as any
+      );
+
+      expect(updateUserSettingsSpy).toHaveBeenCalledWith(
+        UserSettingsKey.DemandValidation,
+        expect.objectContaining({
+          workbench: expect.any(Object),
+          timeRange: expect.any(Object),
+        })
+      );
     });
   });
 });

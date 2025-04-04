@@ -23,7 +23,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { take, tap } from 'rxjs';
+import { filter, map, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -46,7 +46,10 @@ import {
   WriteKpiData,
 } from '../../../feature/demand-validation/model';
 import { PlanningView } from '../../../feature/demand-validation/planning-view';
-import { readLocalStorageTimeRange } from '../../../feature/demand-validation/time-range';
+import {
+  convertToKpiDateRanges,
+  convertToTimeRange,
+} from '../../../feature/demand-validation/time-range';
 import { CustomerEntry } from '../../../feature/global-selection/model';
 import { CustomerDropDownComponent } from '../../../shared/components/customer-dropdown/customer-dropdown.component';
 import { SingleAutocompleteSelectedEvent } from '../../../shared/components/inputs/autocomplete/model';
@@ -56,11 +59,17 @@ import {
   getMonthYearDateFormatByCode,
   LocaleType,
 } from '../../../shared/constants/available-locales';
+import {
+  DemandValidationUserSettingsKey,
+  UserSettingsKey,
+} from '../../../shared/models/user-settings.model';
 import { OptionsLoadingResult } from '../../../shared/services/selectable-options.service';
+import { UserService } from '../../../shared/services/user.service';
 import {
   checkRoles,
   demandValidationChangeAllowedRoles,
 } from '../../../shared/utils/auth/roles';
+import { DateRangePeriod } from '../../../shared/utils/date-range';
 import { strictlyParseLocalFloat } from '../../../shared/utils/number';
 import { SnackbarService } from '../../../shared/utils/service/snackbar.service';
 import { ValidationHelper } from '../../../shared/utils/validation/validation-helper';
@@ -131,6 +140,7 @@ export class ActionBarComponent implements OnInit {
   private readonly localeService: TranslocoLocaleService = inject(
     TranslocoLocaleService
   );
+  private readonly userService: UserService = inject(UserService);
   // private readonly appInsights = inject(ApplicationInsights); // TODO: add ApplicationInsights
 
   private readonly backendRoles = toSignal(this.store.select(getBackendRoles));
@@ -231,21 +241,37 @@ export class ActionBarComponent implements OnInit {
 
   protected cleanKPIs: Signal<boolean> = computed(() => !!this.changedKPIs());
 
-  private readonly localStorageTimeRange = readLocalStorageTimeRange();
   private readonly defaultDateRange: KpiDateRanges = {
     range1: {
       from: startOfMonth(startOfDay(addMonths(new Date(), -3))),
       to: endOfMonth(startOfDay(addMonths(new Date(), 12))),
-      period: 'MONTHLY',
+      period: DateRangePeriod.Monthly,
     },
     range2: undefined,
   };
 
-  protected readonly dateRange =
-    this.localStorageTimeRange ?? this.defaultDateRange;
+  protected dateRange: KpiDateRanges | undefined;
 
   public ngOnInit(): void {
-    this.dateRangeChanged.emit(this.dateRange);
+    this.userService.settingsLoaded$
+      .pipe(
+        filter((loaded: boolean) => loaded),
+        take(1),
+        map(
+          () =>
+            convertToKpiDateRanges(
+              this.userService.userSettings()?.[
+                UserSettingsKey.DemandValidation
+              ]?.[DemandValidationUserSettingsKey.TimeRange]
+            ) || this.defaultDateRange
+        ),
+        tap((dateRange) => {
+          this.dateRange = dateRange;
+          this.dateRangeChanged.emit(dateRange);
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
 
     this.customerSelectableValues.set({
       options: this.customerData()?.map((customer) => ({
@@ -264,12 +290,29 @@ export class ActionBarComponent implements OnInit {
     );
   }
 
+  protected onDateSelectionChange(kpiDateRange: KpiDateRanges): void {
+    this.dateRange = kpiDateRange;
+    this.dateRangeChanged.emit(kpiDateRange);
+
+    const newSettings = convertToTimeRange(
+      kpiDateRange.range1,
+      kpiDateRange.range2
+    );
+
+    if (newSettings) {
+      this.userService.updateDemandValidationUserSettings(
+        DemandValidationUserSettingsKey.TimeRange,
+        newSettings
+      );
+    }
+  }
+
   protected handleDownloadButtonClicked() {
     this.dialog.open(DemandValidationExportModalComponent, {
       data: {
         customerData: this.customerData(),
         demandValidationFilters: this.demandValidationFilters(),
-        dateRanges: this.defaultDateRange,
+        dateRanges: this.dateRange,
       },
       disableClose: true,
       autoFocus: false,

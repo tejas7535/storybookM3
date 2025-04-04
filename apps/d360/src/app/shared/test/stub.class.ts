@@ -395,6 +395,7 @@ export class Stub {
     return MockProvider(
       DemandValidationService,
       {
+        saveValidatedDemandSingleMcc: jest.fn().mockReturnValue(of('')),
         getKpiBuckets: jest.fn().mockReturnValue(of([])),
         saveValidatedDemandBatch: jest.fn(),
         getKpiData: jest.fn().mockReturnValue(of({})),
@@ -581,6 +582,7 @@ export class Stub {
         updateUserSettings: jest
           .fn()
           .mockReturnValue(of(data?.updateUserSettings ?? null)),
+        updateDemandValidationUserSettings: jest.fn(() => {}),
         loadRegion: jest.fn(() => of(data?.loadRegion ?? '')),
       },
       'useValue'

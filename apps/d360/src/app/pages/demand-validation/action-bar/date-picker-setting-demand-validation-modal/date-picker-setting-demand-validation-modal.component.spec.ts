@@ -9,6 +9,7 @@ import { MockComponent } from 'ng-mocks';
 
 import { DemandValidationDatePickerComponent } from '../demand-validation-date-picker/demand-validation-date-picker.component';
 import { Stub } from './../../../../shared/test/stub.class';
+import { DateRangePeriod } from './../../../../shared/utils/date-range';
 import { DatePickerSettingDemandValidationModalComponent } from './date-picker-setting-demand-validation-modal.component';
 
 describe('DatePickerSettingDemandValidationModalComponent', () => {
@@ -22,7 +23,7 @@ describe('DatePickerSettingDemandValidationModalComponent', () => {
         range1: {
           from: new Date(),
           to: new Date(),
-          period: 'WEEKLY',
+          period: DateRangePeriod.Weekly,
         },
       }),
       mockProvider(
@@ -40,7 +41,7 @@ describe('DatePickerSettingDemandValidationModalComponent', () => {
           range1: {
             from: new Date(),
             to: new Date(),
-            period: 'WEEKLY',
+            period: DateRangePeriod.Weekly,
           },
         },
         close: () => {},

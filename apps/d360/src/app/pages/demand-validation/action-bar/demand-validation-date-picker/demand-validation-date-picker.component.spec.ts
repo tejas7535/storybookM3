@@ -2,6 +2,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { DateRangePeriod } from './../../../../shared/utils/date-range';
 import { DemandValidationDatePickerComponent } from './demand-validation-date-picker.component';
 
 describe('DemandValidationDatePickerComponent', () => {
@@ -22,7 +23,7 @@ describe('DemandValidationDatePickerComponent', () => {
         startDatePeriod2: new FormControl({ id: '1', text: '' }),
         formGroup: new FormGroup({ period1: new FormControl({}) }),
         disableOptionalDate: true,
-        periodTypes: [{ id: '1', text: 'WEEKLY' }],
+        periodTypes: [{ id: '1', text: DateRangePeriod.Weekly }],
       },
     });
   });

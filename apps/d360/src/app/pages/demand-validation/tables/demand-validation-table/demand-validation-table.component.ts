@@ -68,6 +68,10 @@ import {
   getMonthYearDateFormatByCode,
   LocaleType,
 } from '../../../../shared/constants/available-locales';
+import {
+  DemandValidationUserSettingsKey,
+  UserSettingsKey,
+} from '../../../../shared/models/user-settings.model';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import {
   checkRoles,
@@ -86,11 +90,7 @@ import {
   getDefaultColDef,
 } from './../../../../shared/ag-grid/grid-defaults';
 import { GridTooltipComponent } from './../../../../shared/components/ag-grid/grid-tooltip/grid-tooltip.component';
-import {
-  DemandValidationUserSettingsKey,
-  UserService,
-  UserSettingsKey,
-} from './../../../../shared/services/user.service';
+import { UserService } from './../../../../shared/services/user.service';
 import {
   demandValidationEditableColor,
   demandValidationInFixZoneColor,
@@ -450,11 +450,10 @@ export class DemandValidationTableComponent implements OnInit {
     const newSettings = this.filterValues();
     delete newSettings[KpiType.ValidatedForecast];
 
-    this.userService.updateUserSettings(UserSettingsKey.DemandValidation, {
-      ...(this.userService.userSettings()?.[UserSettingsKey.DemandValidation] ??
-        ({} as any)),
-      [DemandValidationUserSettingsKey.Workbench]: newSettings,
-    });
+    this.userService.updateDemandValidationUserSettings(
+      DemandValidationUserSettingsKey.Workbench,
+      newSettings
+    );
   }
 
   /**

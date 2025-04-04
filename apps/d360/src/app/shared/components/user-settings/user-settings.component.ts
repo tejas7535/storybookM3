@@ -42,7 +42,8 @@ import {
   AVAILABLE_LOCALES,
   DEFAULT_LOCALE,
 } from '../../constants/available-locales';
-import { UserService, UserSettingsKey } from '../../services/user.service';
+import { UserSettingsKey } from '../../models/user-settings.model';
+import { UserService } from '../../services/user.service';
 import { SelectableValue } from '../inputs/autocomplete/selectable-values.utils';
 import { FilterDropdownComponent } from '../inputs/filter-dropdown/filter-dropdown.component';
 

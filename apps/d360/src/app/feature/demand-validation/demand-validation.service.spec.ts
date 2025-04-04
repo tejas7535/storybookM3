@@ -3,7 +3,7 @@ import { HttpContext, HttpParams } from '@angular/common/http';
 import { of, take, throwError } from 'rxjs';
 
 import { Stub } from '../../shared/test/stub.class';
-import { DateRange } from '../../shared/utils/date-range';
+import { DateRange, DateRangePeriod } from '../../shared/utils/date-range';
 import * as SAP from '../../shared/utils/error-handling';
 import { ValidationHelper } from '../../shared/utils/validation/validation-helper';
 import { DemandValidationService } from './demand-validation.service';
@@ -363,12 +363,12 @@ describe('DemandValidationService', () => {
         range1: {
           from: new Date('2023-01-01'),
           to: new Date('2023-01-31'),
-          period: 'MONTHLY',
+          period: DateRangePeriod.Monthly,
         },
         range2: {
           from: new Date('2023-02-01'),
           to: new Date('2023-02-28'),
-          period: 'MONTHLY',
+          period: DateRangePeriod.Monthly,
         },
       };
 
@@ -398,12 +398,12 @@ describe('DemandValidationService', () => {
               range1: {
                 from: '2023-01-01',
                 to: '2023-01-31',
-                period: 'MONTHLY',
+                period: DateRangePeriod.Monthly,
               },
               range2: {
                 from: '2023-02-01',
                 to: '2023-02-28',
-                period: 'MONTHLY',
+                period: DateRangePeriod.Monthly,
               },
             }
           );
@@ -416,7 +416,7 @@ describe('DemandValidationService', () => {
         range1: {
           from: new Date('2023-01-01'),
           to: new Date('2023-01-31'),
-          period: 'MONTHLY',
+          period: DateRangePeriod.Monthly,
         },
         range2: undefined,
       };
@@ -442,7 +442,7 @@ describe('DemandValidationService', () => {
               range1: {
                 from: '2023-01-01',
                 to: '2023-01-31',
-                period: 'MONTHLY',
+                period: DateRangePeriod.Monthly,
               },
               range2: undefined,
             }
@@ -462,12 +462,12 @@ describe('DemandValidationService', () => {
         range1: {
           from: new Date('2023-01-01'),
           to: new Date('2023-01-31'),
-          period: 'MONTHLY',
+          period: DateRangePeriod.Monthly,
         },
         range2: {
           from: new Date('2023-02-01'),
           to: new Date('2023-02-28'),
-          period: 'MONTHLY',
+          period: DateRangePeriod.Monthly,
         },
       };
       const mockExceptions: Date[] = [new Date('2023-01-15')];
@@ -493,12 +493,12 @@ describe('DemandValidationService', () => {
               range1: {
                 from: '2023-01-01',
                 to: '2023-01-31',
-                period: 'MONTHLY',
+                period: DateRangePeriod.Monthly,
               },
               range2: {
                 from: '2023-02-01',
                 to: '2023-02-28',
-                period: 'MONTHLY',
+                period: DateRangePeriod.Monthly,
               },
               exceptions: ['2023-01-15'],
             }
@@ -512,7 +512,7 @@ describe('DemandValidationService', () => {
         range1: {
           from: new Date('2023-01-01'),
           to: new Date('2023-01-31'),
-          period: 'MONTHLY',
+          period: DateRangePeriod.Monthly,
         },
         range2: undefined,
       };
@@ -536,7 +536,7 @@ describe('DemandValidationService', () => {
         range1: {
           from: new Date('2023-01-01'),
           to: new Date('2023-01-31'),
-          period: 'MONTHLY',
+          period: DateRangePeriod.Monthly,
         },
         range2: undefined,
       };
@@ -563,7 +563,7 @@ describe('DemandValidationService', () => {
               range1: {
                 from: '2023-01-01',
                 to: '2023-01-31',
-                period: 'MONTHLY',
+                period: DateRangePeriod.Monthly,
               },
               range2: undefined,
               exceptions: [],
@@ -693,12 +693,12 @@ describe('DemandValidationService', () => {
         range1: {
           from: new Date('2023-01-01'),
           to: new Date('2023-01-31'),
-          period: 'MONTHLY',
+          period: DateRangePeriod.Monthly,
         },
         range2: {
           from: new Date('2023-02-01'),
           to: new Date('2023-02-28'),
-          period: 'MONTHLY',
+          period: DateRangePeriod.Monthly,
         },
       };
       const demandValidationFilters: DemandValidationFilter = {} as any;
@@ -729,12 +729,12 @@ describe('DemandValidationService', () => {
               range1: {
                 from: '2023-01-01',
                 to: '2023-01-31',
-                period: 'MONTHLY',
+                period: DateRangePeriod.Monthly,
               },
               range2: {
                 from: '2023-02-01',
                 to: '2023-02-28',
-                period: 'MONTHLY',
+                period: DateRangePeriod.Monthly,
               },
               translations: expect.any(Object),
             },
@@ -767,7 +767,7 @@ describe('DemandValidationService', () => {
         range1: {
           from: new Date('2023-01-01'),
           to: new Date('2023-01-31'),
-          period: 'MONTHLY',
+          period: DateRangePeriod.Monthly,
         },
       };
       const demandValidationFilters: DemandValidationFilter = {} as any;

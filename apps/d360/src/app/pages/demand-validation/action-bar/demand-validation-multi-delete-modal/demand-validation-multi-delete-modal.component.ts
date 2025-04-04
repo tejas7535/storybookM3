@@ -47,7 +47,10 @@ import { OnTypeAutocompleteWithMultiselectComponent } from '../../../../shared/c
 import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { DisplayFunctions } from '../../../../shared/components/inputs/display-functions.utils';
 import { toNativeDate } from '../../../../shared/utils/date-format';
-import { DateRangePeriod } from '../../../../shared/utils/date-range';
+import {
+  DateRangePeriod,
+  DateRangePeriodType,
+} from '../../../../shared/utils/date-range';
 import { errorsFromSAPtoMessage } from '../../../../shared/utils/error-handling';
 import { getErrorMessage } from '../../../../shared/utils/errors';
 import { SnackbarService } from '../../../../shared/utils/service/snackbar.service';
@@ -116,7 +119,7 @@ export class DemandValidationMultiDeleteModalComponent {
 
   protected readonly firstEditableDate = firstEditableDate(
     (this.formGroup.controls.periodType.getRawValue()?.id as DateRangePeriod) ||
-      'MONTHLY'
+      DateRangePeriod.Monthly
   );
 
   protected readonly DisplayFunctions = DisplayFunctions;
@@ -192,7 +195,7 @@ export class DemandValidationMultiDeleteModalComponent {
 
   protected deleteDemandBatch() {
     const selectedPeriodType = this.formGroup.controls.periodType.getRawValue()
-      .id as DateRangePeriod;
+      .id as DateRangePeriodType;
 
     const startDate = toNativeDate(
       this.formGroup.controls.startDate.getRawValue()
@@ -202,7 +205,7 @@ export class DemandValidationMultiDeleteModalComponent {
       .getRawValue()
       .map((value) => value.id);
 
-    const isWeekly = selectedPeriodType === 'WEEKLY';
+    const isWeekly = selectedPeriodType === DateRangePeriod.Weekly;
     const weekOptions = { weekStartsOn: 1 } as StartOfWeekOptions;
     const formatOptions = { representation: 'date' } as FormatISOOptions;
 

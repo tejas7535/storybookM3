@@ -40,7 +40,10 @@ import {
 import { CustomerEntry } from '../../../../feature/global-selection/model';
 import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { toNativeDate } from '../../../../shared/utils/date-format';
-import { DateRangePeriod } from '../../../../shared/utils/date-range';
+import {
+  DateRangePeriod,
+  DateRangePeriodType,
+} from '../../../../shared/utils/date-range';
 import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
 import { DemandValidationDatePickerComponent } from '../demand-validation-date-picker/demand-validation-date-picker.component';
 import { DemandValidationLoadingModalComponent } from '../demand-validation-loading-modal/demand-validation-loading-modal.component';
@@ -125,7 +128,8 @@ export class DemandValidationExportModalComponent {
       periodType2: new FormControl<SelectableValue>(
         this.periodTypeOptions.find(
           (periodType) =>
-            periodType.id === (this.data.dateRanges.range2?.period || 'MONTHLY')
+            periodType.id ===
+            (this.data.dateRanges.range2?.period || DateRangePeriod.Monthly)
         ) && defaultMonthlyPeriodTypeOption
       ),
     },
@@ -177,7 +181,7 @@ export class DemandValidationExportModalComponent {
           this.dateSelectionFormGroup.controls.endDatePeriod1.value
         ),
         period: this.dateSelectionFormGroup.controls.periodType1.value
-          .id as DateRangePeriod,
+          .id as DateRangePeriodType,
       },
       {
         from: toNativeDate(
@@ -187,7 +191,7 @@ export class DemandValidationExportModalComponent {
           this.dateSelectionFormGroup.controls.endDatePeriod2.value
         ),
         period: this.dateSelectionFormGroup.controls.periodType2.value
-          .id as DateRangePeriod,
+          .id as DateRangePeriodType,
       }
     );
 

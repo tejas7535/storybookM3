@@ -19,6 +19,7 @@ import {
 import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { ValidateForm } from '../../../../shared/decorators';
 import { toNativeDate } from '../../../../shared/utils/date-format';
+import { DateRangePeriod } from '../../../../shared/utils/date-range';
 import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
 import { DemandValidationDatePickerComponent } from '../demand-validation-date-picker/demand-validation-date-picker.component';
 
@@ -44,23 +45,23 @@ export class DatePickerSettingDemandValidationModalComponent implements OnInit {
   public ngOnInit() {
     this.formGroup = new FormGroup(
       {
-        startDatePeriod1: new FormControl(this.data().range1.from, {
+        startDatePeriod1: new FormControl(this.data()?.range1?.from, {
           validators: Validators.required,
         }),
-        endDatePeriod1: new FormControl(this.data().range1.to, {
+        endDatePeriod1: new FormControl(this.data()?.range1?.to, {
           validators: Validators.required,
         }),
         periodType1: new FormControl<SelectableValue>(
           this.defaultPeriodTypes.find(
-            (pt) => pt.id === this.data().range1.period
+            (pt) => pt.id === this.data()?.range1?.period
           ) || defaultMonthlyPeriodTypeOption,
           { validators: Validators.required }
         ),
-        startDatePeriod2: new FormControl(this.data().range2?.from),
-        endDatePeriod2: new FormControl(this.data().range2?.to),
+        startDatePeriod2: new FormControl(this.data()?.range2?.from),
+        endDatePeriod2: new FormControl(this.data()?.range2?.to),
         periodType2: new FormControl<SelectableValue>(
           this.defaultPeriodTypes.find(
-            (pt) => pt.id === this.data().range2?.period
+            (pt) => pt.id === this.data()?.range2?.period
           ) || defaultMonthlyPeriodTypeOption
         ),
       },
@@ -100,7 +101,8 @@ export class DatePickerSettingDemandValidationModalComponent implements OnInit {
           period: this.formGroup.controls.periodType1.getRawValue().id,
         },
         range2:
-          this.formGroup.controls.periodType1.getRawValue().id === 'WEEKLY' &&
+          this.formGroup.controls.periodType1.getRawValue().id ===
+            DateRangePeriod.Weekly &&
           this.formGroup.controls.endDatePeriod2.getRawValue()
             ? {
                 from: toNativeDate(
