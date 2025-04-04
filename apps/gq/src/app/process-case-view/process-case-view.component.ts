@@ -10,9 +10,12 @@ import { TagType } from '@gq/shared/models';
 import { Quotation } from '@gq/shared/models/quotation/quotation.model';
 import { SAP_SYNC_STATUS } from '@gq/shared/models/quotation-detail/sap-sync-status.enum';
 import { BreadcrumbsService } from '@gq/shared/services/breadcrumbs/breadcrumbs.service';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { UpdateQuotationRequest } from '@gq/shared/services/rest/quotation/models/update-quotation-request.model';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
+
+import { ProcessCaseRoutePath } from './process-case-route-path.enum';
 
 @Component({
   selector: 'gq-case-view',
@@ -28,6 +31,10 @@ export class ProcessCaseViewComponent implements OnDestroy {
   private readonly activeCaseFacade: ActiveCaseFacade =
     inject(ActiveCaseFacade);
 
+  private readonly featureToggleService: FeatureToggleConfigService = inject(
+    FeatureToggleConfigService
+  );
+
   showCalcInProgress$ = this.activeCaseFacade.quotationCalculationInProgress$;
   quotation$: Observable<Quotation> = this.activeCaseFacade.quotation$;
   sapStatus$: Observable<SAP_SYNC_STATUS> =
@@ -42,7 +49,19 @@ export class ProcessCaseViewComponent implements OnDestroy {
       )
     );
 
-  tabs$: Observable<Tab[]> = this.activeCaseFacade.tabsForProcessCaseView$;
+  tabs$: Observable<Tab[]> = this.activeCaseFacade.tabsForProcessCaseView$.pipe(
+    map((tabs) => {
+      if (!this.featureToggleService.isEnabled('openItemsTab')) {
+        // filter open items tab if not enabled
+        return tabs.filter(
+          (tab) => tab.link !== ProcessCaseRoutePath.OpenItemsPath
+        );
+      }
+
+      return tabs;
+    })
+  );
+
   tagType$: Observable<TagType> = this.activeCaseFacade.tagType$;
 
   readonly loggedInUserId$ = this.rolesFacade.loggedInUserId$;

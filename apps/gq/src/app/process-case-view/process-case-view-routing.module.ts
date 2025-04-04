@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { OpenItemsTabGuard } from '@gq/core/guards/open-items-tab.guard';
+
 import { ProcessCaseRoutePath } from './process-case-route-path.enum';
 import { ProcessCaseViewComponent } from './process-case-view.component';
 
@@ -36,6 +38,7 @@ const routes: Routes = [
           import('./tabs/open-items-tab/open-items-tab.component').then(
             (m) => m.OpenItemsTabComponent
           ),
+        canActivate: [OpenItemsTabGuard],
       },
       {
         path: ProcessCaseRoutePath.BasePath,
