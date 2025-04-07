@@ -21,39 +21,51 @@ export class CalculationOptionsEffects {
       concatLatestFrom(() => [
         this.calculationSelectionFacade.getBearing$(),
         this.calculationSelectionFacade.getBearingSeatId$(),
+        this.calculationSelectionFacade.getMeasurementMethod$(),
+        this.calculationSelectionFacade.getMountingMethod$(),
         this.calculationSelectionFacade.getCurrentStep$(),
       ]),
-      switchMap(([_action, bearing, bearingSeatId, currentStep]) => {
-        const typeId = bearing?.type?.typeId;
-        const bearingId = bearing?.bearingId;
-        const seriesId = bearing?.series?.seriesId;
-        const seatId = bearingSeatId;
+      switchMap(
+        ([
+          _action,
+          bearing,
+          bearingSeatId,
+          measurementMethod,
+          mountingMethod,
+          currentStep,
+        ]) => {
+          const bearingId = bearing?.bearingId;
 
-        const body: PreflightRequestBody = {
-          IDCO_DESIGNATION: bearingId,
-          RSY_BEARING_TYPE: typeId,
-          RSY_BEARING_SERIES: seriesId,
-          IDMM_BEARING_SEAT: seatId,
-        };
+          const seatId = bearingSeatId;
 
-        return this.restService.getBearingPreflightResponse(body).pipe(
-          mergeMap((preflightOptions) => {
-            const options: PreflightData =
-              this.preflightDataParserService.formatPreflightData(
-                preflightOptions
-              );
+          const body: PreflightRequestBody = {
+            IDCO_DESIGNATION: bearingId,
+            IDMM_BEARING_SEAT: seatId,
+            IDMM_MEASSURING_METHOD: measurementMethod,
+            IDMM_MOUNTING_METHOD: mountingMethod,
+          };
 
-            return currentStep === 4
-              ? of(
-                  CalculationOptionsActions.setCalculationOptions({ options }),
-                  CalculationResultActions.calculateResult()
-                )
-              : of(
-                  CalculationOptionsActions.setCalculationOptions({ options })
+          return this.restService.getBearingPreflightResponse(body).pipe(
+            mergeMap((preflightOptions) => {
+              const options: PreflightData =
+                this.preflightDataParserService.formatPreflightData(
+                  preflightOptions
                 );
-          })
-        );
-      })
+
+              return currentStep === 4
+                ? of(
+                    CalculationOptionsActions.setCalculationOptions({
+                      options,
+                    }),
+                    CalculationResultActions.calculateResult()
+                  )
+                : of(
+                    CalculationOptionsActions.setCalculationOptions({ options })
+                  );
+            })
+          );
+        }
+      )
     );
   });
 

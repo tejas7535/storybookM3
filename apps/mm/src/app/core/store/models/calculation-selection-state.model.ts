@@ -1,5 +1,5 @@
 import { BearingOption } from '@mm/shared/models';
-import { ListValue } from '@mm/shared/models/lazy-list-loader/mm-list-value.model';
+import { ListValue } from '@mm/shared/models/list-value.model';
 
 export interface CalculationSelectionState {
   bearingResultList: BearingOption[];
@@ -16,14 +16,6 @@ export interface CalculationSelectionState {
 export interface Bearing {
   bearingId: string;
   title: string;
-  type?: {
-    typeId: string;
-    title: string;
-  };
-  series?: {
-    seriesId: string;
-    title: string;
-  };
 }
 
 export interface StepSelectionValue {

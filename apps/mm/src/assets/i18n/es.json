@@ -108,11 +108,6 @@
     }
   },
   "settings": "Ajustes",
-  "error": {
-    "content": "Lamentablemente se ha producido un error. Por favor, inténtelo de nuevo más tarde.",
-    "confirm": "Confirmar",
-    "retry": "Reintentar"
-  },
   "shared": {
     "appStoreButtonsTitle": "Accede a los beneficios de la aplicación Mounting Manager - ¡Descárgala ahora!"
   },

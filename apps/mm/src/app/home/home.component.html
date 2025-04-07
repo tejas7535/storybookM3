@@ -61,21 +61,7 @@
               }
             }
             @case (4) {
-              <div class="mb-4 flex w-full justify-end">
-                <mat-slide-toggle
-                  color="primary"
-                  labelPosition="before"
-                  [(ngModel)]="showCompactView"
-                >
-                  {{ 'show compact view' }}
-                </mat-slide-toggle>
-              </div>
-
-              @if (showCompactView()) {
-                <mm-report-result-page> </mm-report-result-page>
-              } @else {
-                <mm-result-page></mm-result-page>
-              }
+              <mm-report-result-page> </mm-report-result-page>
             }
             @default {
               <p>Default content</p>
@@ -89,14 +75,6 @@
             [title]="t('shared.appStoreButtonsTitle')"
           ></mm-app-store-buttons>
         }
-
-        <!-- [aria-labelledby]="
-        step.enabled
-          ? step.index === (currentStep$ | ngrxPush)
-            ? 'active'
-            : 'enabled'
-          : 'disabled'
-      " -->
       }
     </ng-container>
     <ng-template matStepperIcon="edit" let-index="index">

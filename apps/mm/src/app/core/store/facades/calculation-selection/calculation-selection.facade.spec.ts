@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { BearingOption } from '@mm/shared/models';
-import { ListValue } from '@mm/shared/models/lazy-list-loader/mm-list-value.model';
+import { ListValue } from '@mm/shared/models/list-value.model';
 import { Step } from '@mm/shared/models/step.model';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 

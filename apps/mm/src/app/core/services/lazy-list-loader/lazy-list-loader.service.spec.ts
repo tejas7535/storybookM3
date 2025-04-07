@@ -1,44 +1,31 @@
 import { of } from 'rxjs';
 
+import {
+  BEARING_SEATS_RESPONSE,
+  SIMPLE_LIST_RESPONSE,
+} from '@mm/testing/mocks/rest.service.mock';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import {
-  BEARING_PREFLIGHT_RESPONSE_MOCK,
-  LOAD_OPTIONS_RESPONSE_MOCK,
-} from '../../../../testing/mocks/rest.service.mock';
 import { RestService } from '../rest';
-import {
-  LOAD_OPTIONS_RESPONSE_MOCK_COMPLEX,
-  LOAD_OPTIONS_RESPONSE_MOCK_SIMPLE,
-} from './../../../../testing/mocks/rest.service.mock';
 import { LazyListLoaderService } from './lazy-list-loader.service';
 
-describe('LazyListLoaderService testing', () => {
+jest.mock('@mm/environments/environment', () => ({
+  environment: {
+    baseUrl: 'http://mock-base-url/mounting/api/v2/mountingmanager',
+  },
+}));
+
+describe('LazyListLoaderService', () => {
   let service: LazyListLoaderService;
   let spectator: SpectatorService<LazyListLoaderService>;
+  let restService: RestService;
 
   const createService = createServiceFactory({
     service: LazyListLoaderService,
     providers: [
       {
         provide: RestService,
-        useValue: {
-          getLoadOptions: jest.fn((requestUrl) => {
-            // for testing purposes url == complex returns complex response
-            // url == simple returns simple response
-            // other cases return base response
-            if (requestUrl === 'complex') {
-              return of(LOAD_OPTIONS_RESPONSE_MOCK_COMPLEX);
-            } else if (requestUrl === 'simple') {
-              return of(LOAD_OPTIONS_RESPONSE_MOCK_SIMPLE);
-            }
-
-            return of(LOAD_OPTIONS_RESPONSE_MOCK);
-          }),
-          getBearingPreflightResponse: jest.fn(() =>
-            of(BEARING_PREFLIGHT_RESPONSE_MOCK)
-          ),
-        },
+        useValue: { getLoadOptions: jest.fn() },
       },
     ],
   });
@@ -46,77 +33,37 @@ describe('LazyListLoaderService testing', () => {
   beforeEach(() => {
     spectator = createService();
     service = spectator.service;
+    restService = spectator.inject(RestService);
+  });
+
+  describe('#loadBearingSeatsOptions', () => {
+    it('should call loadBearingSeatsOptions url', (done) => {
+      jest
+        .spyOn(restService, 'getLoadOptions')
+        .mockReturnValue(of(BEARING_SEATS_RESPONSE));
+      const mockUrl = `bearingSeatsURL`;
+
+      service.loadBearingSeatsOptions(mockUrl).subscribe((response) => {
+        expect(response).toMatchSnapshot();
+        done();
+      });
+
+      expect(service['restService'].getLoadOptions).toHaveBeenCalledWith(
+        mockUrl
+      );
+    });
   });
 
   describe('#loadOptions', () => {
-    it('should call getLoadOptions if no preflight url (complex request)', (done) => {
-      const mockUrl = `complex`;
-      const mockValues = [
-        {
-          name: 'mockName',
-          value: 'mockValue',
-        },
-      ];
-
-      service.loadOptions(mockUrl, mockValues).subscribe((response) => {
-        expect(response).toEqual([
-          {
-            id: 'mockId',
-            imageUrl: `${service.baseImageURL}/Images/image.png`,
-            text: 'mockTitle',
-          },
-        ]);
-        done();
-      });
-
-      expect(service['restService'].getLoadOptions).toHaveBeenCalledWith(
-        mockUrl
-      );
-    });
-
-    it('should call getLoadOptions if no preflight url (simple request)', (done) => {
+    it('should call getLoadOptions simple request', (done) => {
       const mockUrl = `simple`;
-      const mockValues = [
-        {
-          name: 'mockName',
-          value: 'mockValue',
-        },
-      ];
 
-      service.loadOptions(mockUrl, mockValues).subscribe((response) => {
-        expect(response).toEqual([
-          {
-            id: 'mockId',
-            imageUrl: `${service.baseImageURL}/Images/image.png`,
-            text: 'mockTitle',
-          },
-          { id: 'mockId2', imageUrl: undefined, text: 'mockTitle2' },
-        ]);
-        done();
-      });
+      jest
+        .spyOn(restService, 'getLoadOptions')
+        .mockReturnValue(of(SIMPLE_LIST_RESPONSE));
 
-      expect(service['restService'].getLoadOptions).toHaveBeenCalledWith(
-        mockUrl
-      );
-    });
-
-    it('should not break if neither simple nor complex response is returned', (done) => {
-      const mockUrl = `base`;
-      const mockValues = [
-        {
-          name: 'mockName',
-          value: 'mockValue',
-        },
-      ];
-
-      service.loadOptions(mockUrl, mockValues).subscribe((response) => {
-        expect(response).toEqual([
-          {
-            id: 'some id',
-            text: 'some title',
-            imageUrl: undefined,
-          },
-        ]);
+      service.loadOptions(mockUrl).subscribe((response) => {
+        expect(response).toMatchSnapshot();
         done();
       });
 

@@ -40,6 +40,8 @@ describe('CalculationOptionsEffects', () => {
           getBearing$: jest.fn(),
           getBearingSeatId$: jest.fn(),
           getCurrentStep$: jest.fn(),
+          getMeasurementMethod$: jest.fn(),
+          getMountingMethod$: jest.fn(),
         },
       },
       {
@@ -78,14 +80,14 @@ describe('CalculationOptionsEffects', () => {
     } as Partial<PreflightData> as PreflightData;
 
     const bearing = {
-      type: { typeId: 'type123' },
       bearingId: 'bearing123',
-      series: { seriesId: 'series123' },
-    } as Partial<Bearing> as Bearing;
+    } as Bearing;
 
     facade.getBearing$.mockReturnValue(of(bearing));
     facade.getBearingSeatId$.mockReturnValue(of('seat123'));
     facade.getCurrentStep$.mockReturnValue(of(3));
+    facade.getMeasurementMethod$.mockReturnValue(of('measurement-method'));
+    facade.getMountingMethod$.mockReturnValue(of('mouting-method'));
 
     restService.getBearingPreflightResponse.mockReturnValue(
       of(preflightOptions)

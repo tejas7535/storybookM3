@@ -1,17 +1,23 @@
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { waitForAsync } from '@angular/core/testing';
 
 import { Observable } from 'rxjs';
 
+import { TranslocoService } from '@jsverse/transloco';
 import { environment } from '@mm/environments/environment';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { HttpLocaleInterceptor } from './http-locale.interceptor';
 
@@ -34,29 +40,11 @@ describe(`HttpLocaleInterceptor`, () => {
   let service: ExampleService;
   let spectator: SpectatorService<ExampleService>;
   let httpMock: HttpTestingController;
+  let translocoService: TranslocoService;
 
   const createService = createServiceFactory({
     service: ExampleService,
-    imports: [
-      HttpClientTestingModule,
-      // Translation
-      SharedTranslocoModule.forRoot(
-        true,
-        [
-          { id: 'de', label: 'Deutsch' },
-          { id: 'en', label: 'English' },
-          { id: 'es', label: 'Español' },
-          { id: 'fr', label: 'Français' },
-          { id: 'ru', label: 'русский' },
-          { id: 'zh', label: '中文' },
-        ],
-        'en', // default -> undefined would lead to browser detection
-        'en',
-        'language',
-        true,
-        false
-      ),
-    ],
+    imports: [provideTranslocoTestingModule({ en: {}, de: {} })],
     providers: [
       ExampleService,
       {
@@ -64,6 +52,8 @@ describe(`HttpLocaleInterceptor`, () => {
         useClass: HttpLocaleInterceptor,
         multi: true,
       },
+      provideHttpClient(withInterceptorsFromDi()),
+      provideHttpClientTesting(),
     ],
   });
 
@@ -71,6 +61,7 @@ describe(`HttpLocaleInterceptor`, () => {
     spectator = createService();
     service = spectator.service;
     httpMock = spectator.inject(HttpTestingController);
+    translocoService = spectator.inject(TranslocoService);
   });
 
   it('should be truthy', () => {
@@ -92,7 +83,30 @@ describe(`HttpLocaleInterceptor`, () => {
         expect(response).toBeTruthy();
       });
       const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
-      expect(httpRequest.request.headers.get('Locale')).toBeDefined();
+
+      expect(httpRequest.request.headers.get('x-bearinx-unitset')).toBe(
+        'ID_UNIT_SET_SI'
+      );
+      expect(httpRequest.request.headers.get('x-bearinx-language')).toBe(
+        'LANGUAGE_ENGLISH'
+      );
     }));
+
+    describe('when language is not supported by bearinx API', () => {
+      beforeEach(() => {
+        translocoService.getActiveLang = jest.fn(() => 'pl');
+      });
+
+      it('should have LANGUAGE_ENGLISH as default language', waitForAsync(() => {
+        service.getPosts().subscribe((response: any) => {
+          expect(response).toBeTruthy();
+        });
+        const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+
+        expect(httpRequest.request.headers.get('x-bearinx-language')).toBe(
+          'LANGUAGE_ENGLISH'
+        );
+      }));
+    });
   });
 });

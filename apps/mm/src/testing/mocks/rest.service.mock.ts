@@ -6,36 +6,16 @@ import {
   IDMM_RADIAL_CLEARANCE_REDUCTION,
 } from './../../app/shared/constants/dialog-constant';
 import {
-  MMBaseResponse,
+  BearingSeatsResponse as BearingSeatsResponse,
   MMBearingPreflightResponse,
-  MMComplexResponse,
-  MMSimpleResponse,
-  Report,
   SearchResult,
   ShaftMaterialResponse,
+  SimpleListResponse,
 } from './../../app/shared/models';
 
 export const BEARING_SEARCH_RESULT_MOCK: SearchResult = {
-  data: [
-    {
-      data: {
-        id: 'entryId',
-        title: 'entryTitle',
-      },
-      links: [],
-      _media: 'dont know what this is',
-    },
-  ],
-};
-
-export const BEARING_CALCULATION_RESULT_MOCK: {
-  data: any;
-  state: boolean;
-  _links: Report[];
-} = {
-  data: 'the data',
-  state: false,
-  _links: [],
+  data: ['bearing-123', 'bearing-567'],
+  total: 2,
 };
 
 export const BEARING_PREFLIGHT_EMPTY_MOCK: MMBearingPreflightResponse = {
@@ -83,48 +63,36 @@ export const BEARING_MATERIAL_RESPONSE_MOCK: ShaftMaterialResponse = {
   nue: 'some value',
 };
 
-export const LOAD_OPTIONS_RESPONSE_MOCK: MMBaseResponse = {
-  data: [
-    {
-      id: 'some id',
-      title: 'some title',
-    },
-  ],
-};
-
-export const LOAD_OPTIONS_RESPONSE_MOCK_SIMPLE: MMSimpleResponse = {
-  data: [
-    {
-      data: {
-        id: 'mockId',
-        title: 'mockTitle',
-      },
-      _media: [{ href: 'path/image.png' }],
-    },
-    {
-      data: {
-        id: 'mockId2',
-        title: 'mockTitle2',
-      },
-    },
-  ],
-};
-
-export const LOAD_OPTIONS_RESPONSE_MOCK_COMPLEX: MMComplexResponse = {
-  data: {
-    bearingSeats: [
-      {
-        data: {
-          id: 'mockId',
-          title: 'mockTitle',
-        },
-        _media: [{ href: 'path/image.png' }],
-      },
-    ],
+export const SIMPLE_LIST_RESPONSE: SimpleListResponse = [
+  {
+    id: 'mockId',
+    title: 'mockTitle',
+    available: false,
+    image: 'imageName1.png',
+    selected: false,
   },
+  {
+    id: 'mockId2',
+    title: 'mockTitle2',
+    available: false,
+    image: undefined,
+    selected: false,
+  },
+];
+
+export const BEARING_SEATS_RESPONSE: BearingSeatsResponse = {
+  bearingSeats: [
+    {
+      id: 'mockId',
+      title: 'mockTitle',
+      image: 'imageName.png',
+      available: false,
+    },
+  ],
+  bearingType: '',
 };
 
-export const JSON_REPORT_RESPONSE_MOCK: BearinxOnlineResult = {
+export const REPORT_RESPONSE_MOCK: BearinxOnlineResult = {
   programName: 'some name',
   programNameID: '123',
   isBeta: false,

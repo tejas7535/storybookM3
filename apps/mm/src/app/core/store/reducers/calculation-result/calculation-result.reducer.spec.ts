@@ -3,7 +3,6 @@ import {
   setBearinxVersions,
   unsetBearinxVersions,
 } from '../../actions/calculation-result/calculation-result.actions';
-import { CalculationParameters } from '../../models/calculation-parameters-state.model';
 import {
   CalculationResult,
   CalculationResultState,
@@ -11,49 +10,6 @@ import {
 import { calculationResultReducer } from './calculation-result.reducer';
 
 describe('CalculationParametersReducer', () => {
-  describe('fetch calculation result resources links', () => {
-    it('should set isLoading to true', () => {
-      const initialState: CalculationResultState = {
-        isLoading: false,
-      };
-
-      const newState = calculationResultReducer(
-        initialState,
-        CalculationResultActions.fetchCalculationResultResourcesLinks({
-          formProperties:
-            {} as Partial<CalculationParameters> as CalculationParameters,
-        })
-      );
-
-      expect(newState).toEqual(
-        expect.objectContaining({
-          isLoading: true,
-        })
-      );
-    });
-  });
-
-  describe('fetch calculation result', () => {
-    it('should set isLoading to true', () => {
-      const initialState: CalculationResultState = {
-        isLoading: false,
-      };
-
-      const newState = calculationResultReducer(
-        initialState,
-        CalculationResultActions.fetchCalculationJsonResult({
-          jsonReportUrl: 'https://bearing-api/report.json',
-        })
-      );
-
-      expect(newState).toEqual(
-        expect.objectContaining({
-          isLoading: true,
-        })
-      );
-    });
-  });
-
   describe('set calculation result', () => {
     it('should set isLoading to false and set result', () => {
       const initialState: CalculationResultState = {
@@ -63,7 +19,7 @@ describe('CalculationParametersReducer', () => {
 
       const newState = calculationResultReducer(
         initialState,
-        CalculationResultActions.setCalculationJsonResult({
+        CalculationResultActions.setCalculationResult({
           result: {
             mountingRecommendations: ['test'],
           } as Partial<CalculationResult> as CalculationResult,
@@ -88,8 +44,8 @@ describe('CalculationParametersReducer', () => {
 
       const newState = calculationResultReducer(
         initialState,
-        CalculationResultActions.fetchCalculationJsonResultFailure({
-          error: 'Failed to fetch calculation JSON result',
+        CalculationResultActions.calculateResultFailure({
+          error: 'Failed to fetch calculation result',
         })
       );
 

@@ -4,7 +4,7 @@ import { TestScheduler } from 'rxjs/testing';
 
 import { LazyListLoaderService, RestService } from '@mm/core/services';
 import { BearingOption, SearchResult } from '@mm/shared/models';
-import { ListValue } from '@mm/shared/models/lazy-list-loader/mm-list-value.model';
+import { ListValue } from '@mm/shared/models/list-value.model';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -44,7 +44,10 @@ describe('CalculationSelectionEffects', () => {
       },
       {
         provide: LazyListLoaderService,
-        useValue: { loadOptions: jest.fn() },
+        useValue: {
+          loadOptions: jest.fn(),
+          loadBearingSeatsOptions: jest.fn(),
+        },
       },
     ],
   });
@@ -64,14 +67,11 @@ describe('CalculationSelectionEffects', () => {
   it('should dispatch searchBearingSuccess action when searchBearing$ is successful', () => {
     const query = 'testQuery';
     const response = {
-      data: [
-        { data: { title: 'Bearing 1', id: '1' } },
-        { data: { title: 'Bearing 2', id: '2' } },
-      ],
+      data: ['Bearing 1', 'Bearing 2'],
     } as SearchResult;
     const resultList: BearingOption[] = [
-      { title: 'Bearing 1', id: '1' },
-      { title: 'Bearing 2', id: '2' },
+      { title: 'Bearing 1', id: 'Bearing 1' },
+      { title: 'Bearing 2', id: 'Bearing 2' },
     ];
 
     restService.getBearingSearch.mockReturnValue(of(response));
@@ -87,53 +87,41 @@ describe('CalculationSelectionEffects', () => {
     });
   });
 
-  it('should dispatch multiple actions when fetchBearingData$ is successful', () => {
-    const bearingId = '1';
-    const result = {
-      data: {
-        bearing: { data: { id: '1', title: 'Bearing 1' } },
-        series: { data: { id: '2', title: 'Series 1' } },
-        type: { data: { id: '3', title: 'Type 1' } },
-      },
-    };
-
-    restService.getBearingRelations.mockReturnValue(of(result));
+  it('should dispatch multiple actions when fetchBearingData$ is triggered', () => {
+    const bearingId = '123';
 
     testScheduler.run(({ hot, expectObservable }) => {
       actions$ = hot('-a-', {
         a: CalculationSelectionActions.fetchBearingData({ bearingId }),
       });
 
-      expectObservable(spectator.service.fetchBearingData$).toBe('-(bcdefg)-', {
-        b: CalculationSelectionActions.setBearing({
-          bearingId: '1',
-          title: 'Bearing 1',
+      const expectedActions = [
+        CalculationSelectionActions.setBearing({
+          bearingId: '123',
+          title: '123',
         }),
-        c: CalculationSelectionActions.setBearingType({
-          typeId: '3',
-          title: 'Type 1',
-        }),
-        d: CalculationSelectionActions.setBearingSeries({
-          seriesId: '2',
-          title: 'Series 1',
-        }),
-        e: CalculationSelectionActions.setCurrentStep({ step: 1 }),
-        f: CalculationSelectionActions.fetchBearingSeats(),
-        g: CalculationResultActions.fetchBearinxVersions(),
+        CalculationSelectionActions.setCurrentStep({ step: 1 }),
+        CalculationSelectionActions.fetchBearingSeats(),
+        CalculationResultActions.fetchBearinxVersions(),
+      ];
+
+      expectObservable(spectator.service.fetchBearingData$).toBe('-(bcde)-', {
+        b: expectedActions[0],
+        c: expectedActions[1],
+        d: expectedActions[2],
+        e: expectedActions[3],
       });
     });
   });
 
   it('should dispatch setBearingSeats action when fetchBearingSeats$ is successful', () => {
     const bearing = {
-      type: { typeId: 'type1' },
-      series: { seriesId: 'series1' },
       bearingId: 'bearing1',
     } as Partial<Bearing> as Bearing;
     const bearingSeats: ListValue[] = [{ id: 'seat1', text: 'Seat 1' }];
 
     facade.getBearing$.mockReturnValue(of(bearing));
-    lazyListLoader.loadOptions.mockReturnValue(of(bearingSeats));
+    lazyListLoader.loadBearingSeatsOptions.mockReturnValue(of(bearingSeats));
 
     testScheduler.run(({ hot, expectObservable }) => {
       actions$ = hot('-a-', {

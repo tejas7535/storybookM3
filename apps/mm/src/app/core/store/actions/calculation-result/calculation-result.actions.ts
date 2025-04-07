@@ -1,7 +1,6 @@
 import { CalculationOptionsFormData } from '@mm/steps/calculation-options-step/calculation-selection-step.interface';
 import { createAction, props } from '@ngrx/store';
 
-import { CalculationParameters } from '../../models/calculation-parameters-state.model';
 import { CalculationResult } from '../../models/calculation-result-state.model';
 
 export const calculateResult = createAction(
@@ -13,34 +12,14 @@ export const calculateResultFromForm = createAction(
   props<{ formData: CalculationOptionsFormData }>()
 );
 
-export const fetchCalculationResultResourcesLinks = createAction(
-  '[CalculationResult] Fetch Calculation Result Resources Links',
-  props<{ formProperties: CalculationParameters }>()
-);
-
-export const fetchCalculationResultResourcesLinksFailure = createAction(
-  '[CalculationResult] Fetch Calculation Result Resources Links Failure',
+export const calculateResultFailure = createAction(
+  '[CalculationResult] Calculate Result Failure',
   props<{ error: string }>()
 );
 
-export const fetchCalculationJsonResult = createAction(
-  '[CalculationResult] Fetch Calculation JSON Result',
-  props<{ jsonReportUrl: string }>()
-);
-
-export const setCalculationJsonResult = createAction(
-  '[CalculationResult] Set Calculation JSON Result',
+export const setCalculationResult = createAction(
+  '[CalculationResult] Set Calculation Result',
   props<{ result: CalculationResult }>()
-);
-
-export const fetchCalculationJsonResultFailure = createAction(
-  '[CalculationResult] Fetch Calculation JSON Result Failure',
-  props<{ error: string }>()
-);
-
-export const setCalculationHtmlBodyUrlResult = createAction(
-  '[CalculationResult] Set Calculation Html Body url',
-  props<{ htmlBodyUrl: string }>()
 );
 
 export const fetchBearinxVersions = createAction(

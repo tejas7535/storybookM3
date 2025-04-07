@@ -107,11 +107,7 @@
       "downloadPdf": "Download PDF"
     }
   },
-  "error": {
-    "content": "Unfortunately an error occured. Please try again later.",
-    "confirm": "Confirm",
-    "retry": "Retry"
-  },
+
   "shared": {
     "appStoreButtonsTitle": "Access the benefits of the Mounting Manager App - Download now!"
   },

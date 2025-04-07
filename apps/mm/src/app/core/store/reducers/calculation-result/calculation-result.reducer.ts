@@ -14,13 +14,6 @@ export const initialState: CalculationResultState = {
 export const calculationResultReducer = createReducer(
   initialState,
   on(
-    CalculationResultActions.fetchCalculationResultResourcesLinks,
-    (state): CalculationResultState => ({
-      ...state,
-      isLoading: true,
-    })
-  ),
-  on(
     CalculationResultActions.calculateResult,
     (state): CalculationResultState => ({
       ...state,
@@ -28,14 +21,7 @@ export const calculationResultReducer = createReducer(
     })
   ),
   on(
-    CalculationResultActions.fetchCalculationJsonResult,
-    (state): CalculationResultState => ({
-      ...state,
-      isLoading: true,
-    })
-  ),
-  on(
-    CalculationResultActions.setCalculationJsonResult,
+    CalculationResultActions.setCalculationResult,
     (state, { result }): CalculationResultState => ({
       ...state,
       isLoading: false,
@@ -43,18 +29,10 @@ export const calculationResultReducer = createReducer(
     })
   ),
   on(
-    CalculationResultActions.fetchCalculationJsonResultFailure,
+    CalculationResultActions.calculateResultFailure,
     (state): CalculationResultState => ({
       ...state,
       isLoading: false,
-    })
-  ),
-  on(
-    CalculationResultActions.setCalculationHtmlBodyUrlResult,
-    (state, { htmlBodyUrl }): CalculationResultState => ({
-      ...state,
-      isLoading: false,
-      htmlBodyUrl,
     })
   ),
   on(

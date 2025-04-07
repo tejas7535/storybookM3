@@ -89,11 +89,6 @@ export const getReportSelectionTypes = createSelector(
   }
 );
 
-export const getHtmlBodyUrl = createSelector(
-  getCalculationResultState,
-  (state) => state?.htmlBodyUrl
-);
-
 export const getVersions = createSelector(
   getCalculationResultState,
   (state): string | undefined =>

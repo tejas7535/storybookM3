@@ -33,6 +33,7 @@ export const calculationOptionsReducer = createReducer(
         radialClearanceReduction:
           formData.radialClearanceReduction ??
           state.options.radialClearanceReduction,
+        shaftDiameter: formData.shaftDiameter ?? state.options.shaftDiameter,
       },
     })
   ),

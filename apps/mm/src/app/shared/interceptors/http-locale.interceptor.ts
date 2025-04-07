@@ -11,10 +11,10 @@ import { Observable } from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';
 import { environment } from '@mm/environments/environment';
 
-import { locales, MMLocales } from '../../core/services/locale/locale.enum';
-
 @Injectable()
 export class HttpLocaleInterceptor implements HttpInterceptor {
+  private readonly METRIC_UNIT = 'ID_UNIT_SET_SI';
+
   constructor(private readonly translocoService: TranslocoService) {}
 
   intercept(
@@ -25,20 +25,29 @@ export class HttpLocaleInterceptor implements HttpInterceptor {
       return next.handle(req);
     }
 
+    const bearinxLanguage: string = this.getBearinxLanguage();
+
     const modifiedReq = req.clone({
-      headers: req.headers.set('Locale', this.getCurrentLongLocale()),
+      headers: req.headers
+        .set('x-bearinx-unitset', this.METRIC_UNIT)
+        .set('x-bearinx-language', bearinxLanguage),
     });
 
-    return req.url.includes('bearing-calculation/body')
-      ? next.handle(req)
-      : next.handle(modifiedReq);
+    return next.handle(modifiedReq);
   }
 
-  public getCurrentLongLocale(): string {
-    const lang = this.translocoService.getActiveLang();
+  private getBearinxLanguage(): string {
+    const languageMap: Record<string, string> = {
+      de: 'LANGUAGE_GERMAN',
+      en: 'LANGUAGE_ENGLISH',
+      fr: 'LANGUAGE_FRENCH',
+      ru: 'LANGUAGE_RUSSIAN',
+      es: 'LANGUAGE_SPANISH',
+      zh: 'LANGUAGE_CHINESE',
+    };
 
     return (
-      locales[lang as MMLocales]?.longLocale || locales[MMLocales.en].longLocale
+      languageMap[this.translocoService.getActiveLang()] || 'LANGUAGE_ENGLISH'
     );
   }
 }

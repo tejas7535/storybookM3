@@ -1,12 +1,11 @@
 /* eslint-disable arrow-body-style */
 import { Injectable } from '@angular/core';
 
-import { of } from 'rxjs';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { from, of } from 'rxjs';
+import { concatMap, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import { LazyListLoaderService, RestService } from '@mm/core/services';
 import { environment } from '@mm/environments/environment';
-import { BearingOption, SearchEntry } from '@mm/shared/models';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
 
@@ -24,12 +23,10 @@ export class CalculationSelectionEffects {
       mergeMap((query: string) => {
         return this.restService.getBearingSearch(query).pipe(
           map((response) => {
-            const resultList: BearingOption[] = response.data.map(
-              ({ data: { title, id } }: SearchEntry) => ({
-                title,
-                id,
-              })
-            );
+            const resultList: any[] = response.data.map((item: string) => ({
+              title: item,
+              id: item,
+            }));
 
             return CalculationSelectionActions.searchBearingSuccess({
               resultList,
@@ -43,37 +40,16 @@ export class CalculationSelectionEffects {
   public fetchBearingData$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CalculationSelectionActions.fetchBearingData),
-      switchMap((action) =>
-        this.restService.getBearingRelations(action.bearingId).pipe(
-          mergeMap((result) => {
-            const bearing = result.data.bearing.data;
-            const series = result.data.series.data;
-            const type = result.data.type.data;
-
-            return of(
-              CalculationSelectionActions.setBearing({
-                bearingId: bearing.id,
-                title: bearing.title,
-              }),
-
-              CalculationSelectionActions.setBearingType({
-                typeId: type.id,
-                title: type.title,
-              }),
-
-              CalculationSelectionActions.setBearingSeries({
-                seriesId: series.id,
-                title: series.title,
-              }),
-
-              CalculationSelectionActions.setCurrentStep({ step: 1 }),
-
-              CalculationSelectionActions.fetchBearingSeats(),
-
-              CalculationResultActions.fetchBearinxVersions()
-            );
-          })
-        )
+      concatMap((action) =>
+        from([
+          CalculationSelectionActions.setBearing({
+            bearingId: action.bearingId,
+            title: action.bearingId,
+          }),
+          CalculationSelectionActions.setCurrentStep({ step: 1 }),
+          CalculationSelectionActions.fetchBearingSeats(),
+          CalculationResultActions.fetchBearinxVersions(),
+        ])
       )
     );
   });
@@ -83,11 +59,9 @@ export class CalculationSelectionEffects {
       ofType(CalculationSelectionActions.fetchBearingSeats),
       concatLatestFrom(() => [this.calculationSelectionFacade.getBearing$()]),
       switchMap(([_action, bearing]) => {
-        const typeId = bearing?.type?.typeId;
-        const seriesId = bearing?.series?.seriesId;
-        const url = `${environment.baseUrl}/bearing-types/${typeId}/series/${seriesId}/bearings/${bearing?.bearingId}`;
+        const url = `${environment.baseUrl}/bearings/${encodeURIComponent(bearing.bearingId)}`;
 
-        return this.lazyListLoader.loadOptions(url, []).pipe(
+        return this.lazyListLoader.loadBearingSeatsOptions(url).pipe(
           mergeMap((bearingSeats) => {
             return of(
               CalculationSelectionActions.setBearingSeats({ bearingSeats })
@@ -114,15 +88,12 @@ export class CalculationSelectionEffects {
         this.calculationSelectionFacade.getBearing$(),
         this.calculationSelectionFacade.getBearingSeatId$(),
       ]),
-      switchMap(([_action, bearing, bearingSeatId]) => {
-        const typeId = bearing?.type?.typeId;
-        const bearingId = bearing?.bearingId;
-        const seriesId = bearing?.series?.seriesId;
-        const seatId = bearingSeatId;
+      switchMap(([_action, bearing, _bearingSeatId]) => {
+        const bearingId = encodeURIComponent(bearing?.bearingId);
 
-        const url = `${environment.baseUrl}/bearing-types/${typeId}/series/${seriesId}/bearings/${bearingId}/seats/${seatId}/measuringMethods`;
+        const url = `${environment.baseUrl}/bearings/${bearingId}/measuringmethods`;
 
-        return this.lazyListLoader.loadOptions(url, []).pipe(
+        return this.lazyListLoader.loadOptions(url).pipe(
           mergeMap((measurementMethods) => {
             return of(
               CalculationSelectionActions.setMeasurementMethods({
@@ -173,15 +144,13 @@ export class CalculationSelectionEffects {
         this.calculationSelectionFacade.getMeasurementMethod$(),
       ]),
       switchMap(([_action, bearing, bearingSeatId, measurementMethodId]) => {
-        const typeId = bearing?.type?.typeId;
-        const bearingId = bearing?.bearingId;
-        const seriesId = bearing?.series?.seriesId;
+        const bearingId = encodeURIComponent(bearing?.bearingId);
         const seatId = bearingSeatId;
         const methodId = measurementMethodId;
 
-        const url = `${environment.baseUrl}/bearing-types/${typeId}/series/${seriesId}/bearings/${bearingId}/seats/${seatId}/measuringMethods/${methodId}/mountingMethods`;
+        const url = `${environment.baseUrl}/bearings/${bearingId}/seats/${seatId}/measuringmethods/${methodId}/mountingmethods`;
 
-        return this.lazyListLoader.loadOptions(url, []).pipe(
+        return this.lazyListLoader.loadOptions(url).pipe(
           mergeMap((mountingMethods) => {
             return of(
               CalculationSelectionActions.setMountingMethods({

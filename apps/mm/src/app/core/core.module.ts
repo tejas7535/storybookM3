@@ -18,7 +18,6 @@ import { Capacitor } from '@capacitor/core';
 import { FirebaseAnalytics } from '@capacitor-community/firebase-analytics';
 import { TranslocoService } from '@jsverse/transloco';
 import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
-import { HttpHostMappingInterceptor } from '@mm/shared/interceptors/http-host-mapping.interceptor';
 import { AppDelivery } from '@mm/shared/models';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 
@@ -124,11 +123,6 @@ let providers = [
   {
     provide: HTTP_INTERCEPTORS,
     useClass: HttpLocaleInterceptor,
-    multi: true,
-  },
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: HttpHostMappingInterceptor,
     multi: true,
   },
   provideTranslocoPersistLang({

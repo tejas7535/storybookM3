@@ -1,7 +1,5 @@
 /* dialog pages */
 export const RSY_PAGE_BEARING_TYPE = 'RSY_PAGE_BEARING_TYPE';
-export const RSY_PAGE_BEARING = 'RSY_PAGE_BEARING';
-export const PROPERTY_PAGE_MOUNTING = 'PROPERTY_PAGE_MOUNTING';
 export const PAGE_MOUNTING_MANAGER_SEAT = 'PAGE_MOUNTING_MANAGER_SEAT';
 export const PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS =
   'PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS';
@@ -30,36 +28,3 @@ export const IDMM_NUMBER_OF_PREVIOUS_MOUNTINGS =
   'IDMM_NUMBER_OF_PREVIOUS_MOUNTINGS';
 export const IDMM_CLEARANCE_REDUCTION_INPUT = 'IDMM_CLEARANCE_REDUCTION_INPUT';
 export const IDMM_INNER_SHAFT_DIAMETER = 'IDMM_INNER_SHAFT_DIAMETER';
-
-/* member types */
-export enum MemberTypes {
-  LazyList = 'lazy-list',
-  Boolean = 'boolean',
-  List = 'list',
-  RefList = 'ref-list',
-  Number = 'number',
-}
-
-/* runtime tables */
-export const TBL_BEARING_PREFLIGHT = 'TBL_BEARING_PREFLIGHT';
-export const TBL_SHAFT_MATERIAL = 'TBL_SHAFT_MATERIAL';
-
-/* members by page */
-export const bearingMembers: string[] = [
-  RSY_BEARING_TYPE,
-  RSY_BEARING_SERIES,
-  RSY_BEARING,
-];
-export const bearingSeatMembers: string[] = [IDMM_BEARING_SEAT];
-export const measuringAndMountingMembers: string[] = [
-  IDMM_MEASSURING_METHOD,
-  IDMM_MOUNTING_METHOD,
-];
-export const calculationOptionsMembers: string[] = [
-  IDMM_HYDRAULIC_NUT_TYPE,
-  IDMM_NUMBER_OF_PREVIOUS_MOUNTINGS,
-  IDMM_CLEARANCE_REDUCTION_INPUT,
-  IDMM_RADIAL_CLEARANCE_REDUCTION,
-  IDMM_INNER_SHAFT_DIAMETER,
-  IDMM_SHAFT_MATERIAL,
-];

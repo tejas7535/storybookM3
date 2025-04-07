@@ -1,7 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
+  effect,
   input,
   output,
 } from '@angular/core';
@@ -10,7 +10,6 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -43,32 +42,26 @@ export class MeasuringAndMountingStepComponent {
   bearing = input.required<Bearing>();
   mountingMethodSelectionLabel = input.required<string>();
   measuringMethodLabel = input.required<string>();
+  measurementMethods = input.required<StepSelectionValue>();
 
   public selectedOption = output<string>();
-
   public selectedMeasurementMethod = output<string>();
 
   measurementForm: FormGroup = new FormGroup({
-    measurementMethod: new FormControl(undefined, Validators.required),
+    measurementMethod: new FormControl(undefined),
   });
 
-  public measurementMethod: string | undefined;
-
-  private _measurementMethods: StepSelectionValue | undefined;
-
-  get measurementMethods(): StepSelectionValue | undefined {
-    return this._measurementMethods;
-  }
-
-  @Input()
-  set measurementMethods(value: StepSelectionValue | undefined) {
-    this._measurementMethods = value;
-    this.measurementMethod = value?.selectedValueId;
-    this.measurementForm = new FormGroup({
-      measurementMethod: new FormControl(
-        value?.selectedValueId,
-        Validators.required
-      ),
+  constructor() {
+    effect(() => {
+      const selectedValueId = this.measurementMethods()?.selectedValueId;
+      if (
+        this.measurementForm.get('measurementMethod')?.value !== selectedValueId
+      ) {
+        this.measurementForm.patchValue(
+          { measurementMethod: selectedValueId },
+          { emitEvent: false }
+        );
+      }
     });
   }
 
@@ -78,11 +71,5 @@ export class MeasuringAndMountingStepComponent {
 
   onMeasurementMethodChange(newValue: string): void {
     this.selectedMeasurementMethod.emit(newValue);
-  }
-
-  resetMeasurementMethod() {
-    this.measurementForm.markAsPristine();
-    this.measurementForm.markAsUntouched();
-    this.measurementForm.reset();
   }
 }

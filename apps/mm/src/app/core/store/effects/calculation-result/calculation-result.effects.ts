@@ -5,12 +5,14 @@ import { of } from 'rxjs';
 import { catchError, mergeMap, switchMap, takeUntil } from 'rxjs/operators';
 
 import { RestService } from '@mm/core/services';
+import { BearinxOnlineResult } from '@mm/core/services/bearinx-result.interface';
 import { ReportParserService } from '@mm/core/services/report-parser/report-parser.service';
-import { ResultPageService } from '@mm/core/services/result-page/result-page.service';
-import { Result } from '@mm/shared/models';
-import { CalculationRequestPayload } from '@mm/shared/models/calculation-request/calculation-request.model';
+import { PROPERTIES } from '@mm/shared/constants/tracking-names';
+import { CalculationRequestPayload } from '@mm/shared/models/calculation-request.model';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
+
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { CalculationResultActions } from '../../actions/calculation-result';
 import { CalculationSelectionActions } from '../../actions/calculation-selection';
@@ -28,7 +30,7 @@ export class CalculationResultEffects {
         this.calculationSelectionFacade.getBearingSeatId$(),
         this.calculationSelectionFacade.getMeasurementMethod$(),
         this.calculationSelectionFacade.getMountingMethod$(),
-        this.calculationOptionsFacade.options$,
+        this.calculationOptionsFacade.getOptions$(),
       ]),
       switchMap(
         ([
@@ -54,61 +56,34 @@ export class CalculationResultEffects {
             IDMM_POISSON_RATIO: options.poissonRatio,
             IDMM_RADIAL_CLEARANCE_REDUCTION: options.radialClearanceReduction,
             IDMM_SHAFT_MATERIAL: options.shaftMaterial,
-            RSY_BEARING_SERIES: bearing.series.seriesId,
-            RSY_BEARING_TYPE: bearing.type.typeId,
           };
 
-          return this.resultPageService.getResult(requestPayload).pipe(
-            mergeMap((data: Result) => {
-              return of(
-                CalculationResultActions.fetchCalculationJsonResult({
-                  jsonReportUrl: data.jsonReportUrl,
-                }),
-                CalculationResultActions.setCalculationHtmlBodyUrlResult({
-                  htmlBodyUrl: data.htmlReportUrl,
-                })
-              );
-            }),
-            catchError((_error: HttpErrorResponse) =>
-              of(
-                CalculationResultActions.fetchCalculationResultResourcesLinksFailure(
-                  {
+          this.applicationInsightsService.logEvent(PROPERTIES, requestPayload);
+
+          return this.restService
+            .getBearingCalculationResult(requestPayload)
+            .pipe(
+              mergeMap((data: BearinxOnlineResult) => {
+                const calculationResult: CalculationResult =
+                  this.reportParserService.parseResponse(data);
+
+                return of(
+                  CalculationResultActions.setCalculationResult({
+                    result: calculationResult,
+                  }),
+                  CalculationSelectionActions.setCurrentStep({ step: 4 })
+                );
+              }),
+              catchError((_error: HttpErrorResponse) => {
+                return of(
+                  CalculationResultActions.calculateResultFailure({
                     error: _error.error.detail,
-                  }
-                )
-              )
-            )
-          );
+                  })
+                );
+              })
+            );
         }
       )
-    );
-  });
-
-  public fetchCalculationJsonResult$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(CalculationResultActions.fetchCalculationJsonResult),
-      switchMap((action) => {
-        return this.resultPageService.getJsonReport(action.jsonReportUrl).pipe(
-          mergeMap((data) => {
-            const calculationResult: CalculationResult =
-              this.reportParserService.parseResponse(data);
-
-            return of(
-              CalculationResultActions.setCalculationJsonResult({
-                result: calculationResult,
-              }),
-              CalculationSelectionActions.setCurrentStep({ step: 4 })
-            );
-          }),
-          catchError((_error: HttpErrorResponse) =>
-            of(
-              CalculationResultActions.fetchCalculationJsonResultFailure({
-                error: _error.error.detail,
-              })
-            )
-          )
-        );
-      })
     );
   });
 
@@ -135,9 +110,9 @@ export class CalculationResultEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly restService: RestService,
-    private readonly resultPageService: ResultPageService,
     private readonly reportParserService: ReportParserService,
     private readonly calculationSelectionFacade: CalculationSelectionFacade,
-    private readonly calculationOptionsFacade: CalculationOptionsFacade
+    private readonly calculationOptionsFacade: CalculationOptionsFacade,
+    private readonly applicationInsightsService: ApplicationInsightsService
   ) {}
 }

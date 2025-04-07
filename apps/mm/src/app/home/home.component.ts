@@ -1,6 +1,6 @@
 import { CdkStepperModule, StepperSelectionEvent } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,10 +24,8 @@ import { MeasuringAndMountingStepComponent } from '@mm/steps/measuring-and-mount
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { ReportResultPageComponent } from './report-result-page/report-result-page.component';
-import { ResultPageComponent } from './result-page/result-page.component';
 
 @Component({
-  selector: 'mm-home-new',
   templateUrl: './home.component.html',
   imports: [
     CommonModule,
@@ -47,19 +45,17 @@ import { ResultPageComponent } from './result-page/result-page.component';
     QualtricsInfoBannerComponent,
     AppStoreButtonsComponent,
     ReportResultPageComponent,
-    ResultPageComponent,
   ],
 })
 export class HomeComponent {
   public readonly DEBOUNCE_TIME_DEFAULT = 0; // debounce time required for slider in Application to render properly at the first load.
   public isAppDeliveryEmbedded = detectAppDelivery() === AppDelivery.Embedded;
-  public showCompactView = signal(true);
   selectedBearing = toSignal(this.selectionFacade.getBearing$());
   bearingSeats = toSignal(this.selectionFacade.bearingSeats$);
   selectedBearingOption = toSignal(this.selectionFacade.selectedBearingOption$);
   measurementMethods = toSignal(this.selectionFacade.measurementMethods$);
   mountingMethds = toSignal(this.selectionFacade.mountingMethods$);
-  preflighData = toSignal(this.optionsFacade.options$);
+  preflighData = toSignal(this.optionsFacade.getOptions$());
 
   steps = toSignal(this.selectionFacade.steps$);
   currentStep = toSignal(
@@ -68,7 +64,7 @@ export class HomeComponent {
     )
   );
 
-  public readonly preflighData$ = this.optionsFacade.options$;
+  public readonly preflighData$ = this.optionsFacade.getOptions$();
 
   public constructor(
     private readonly selectionFacade: CalculationSelectionFacade,
@@ -94,7 +90,10 @@ export class HomeComponent {
   }
 
   public selectBearingSeatOption(bearingSeatId: string): void {
-    this.selectionFacade.setBearingSeat(bearingSeatId);
+    if (this.bearingSeats().selectedValueId !== bearingSeatId) {
+      this.selectionFacade.setBearingSeat(bearingSeatId);
+    }
+
     this.selectionFacade.setCurrentStep(2);
   }
 

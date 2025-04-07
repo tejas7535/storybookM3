@@ -103,7 +103,7 @@ export class CalculationOptionsStepComponent
   public hydraulicNutTypeOptions: Signal<HyndraulicNutTypeOption[]>;
 
   public readonly preflightData$: Observable<PreflightData> =
-    this.calculationOptionsFacade.options$;
+    this.calculationOptionsFacade.getOptions$();
 
   public isLoading = toSignal(this.calculationResultFacade.isLoading$);
 

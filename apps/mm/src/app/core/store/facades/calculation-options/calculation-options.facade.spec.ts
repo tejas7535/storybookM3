@@ -32,7 +32,7 @@ describe('CalculationOptionsFacade', () => {
       innerRingExpansion: '134',
     } as Partial<PreflightData> as PreflightData;
     store.overrideSelector(CalculationOptionsSelector.getOptions, options);
-    spectator.service.options$.subscribe((result) => {
+    spectator.service.getOptions$().subscribe((result) => {
       expect(result).toEqual(options);
       done();
     });

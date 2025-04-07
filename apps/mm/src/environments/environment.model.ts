@@ -5,17 +5,12 @@ export interface Environment {
   bearinxApiBaseUrl: string;
   baseUrl: string;
   staticStorageUrl: string;
-  reportSelector: string;
   oneTrustId: string;
   oneTrustMobileStorageLocation: string;
   oneTrustAndroidId: string;
   oneTrustiOSId: string;
   oneTrustAndroidFirebaseCategoryId: string;
   oneTrustiOSFirebaseCategoryId: string;
-  preflightPath: string;
-  materialsPath: string;
-  bearingRelationsPath: string;
-  bearingCalculationPath: string;
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: string;

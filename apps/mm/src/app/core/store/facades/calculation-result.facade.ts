@@ -3,8 +3,6 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { CalculationOptionsActions } from '../actions';
-import { CalculationResultActions } from '../actions/calculation-result';
-import { CalculationParameters } from '../models/calculation-parameters-state.model';
 import { CalculationResultSelector } from '../selectors';
 
 @Injectable({
@@ -43,31 +41,11 @@ export class CalculationResultFacade {
     CalculationResultSelector.getReportSelectionTypes
   );
 
-  public readonly htmlBodyReportUrl$ = this.store.select(
-    CalculationResultSelector.getHtmlBodyUrl
-  );
-
   public readonly bearinxVersions$ = this.store.select(
     CalculationResultSelector.getVersions
   );
 
   constructor(private readonly store: Store) {}
-
-  fetchCalculationResultResourcesLinks(
-    formProperties: CalculationParameters
-  ): void {
-    this.store.dispatch(
-      CalculationResultActions.fetchCalculationResultResourcesLinks({
-        formProperties,
-      })
-    );
-  }
-
-  fetchCalculationResult(jsonReportUrl: string): void {
-    this.store.dispatch(
-      CalculationResultActions.fetchCalculationJsonResult({ jsonReportUrl })
-    );
-  }
 
   calculateResultFromForm(): void {
     this.store.dispatch(CalculationOptionsActions.calculateResultFromOptions());

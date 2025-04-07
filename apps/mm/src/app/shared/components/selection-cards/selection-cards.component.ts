@@ -8,7 +8,7 @@ import {
 
 import { TranslocoTestingModule } from '@jsverse/transloco';
 import { MagneticSliderComponent } from '@mm/shared/components/magnetic-slider/magnetic-slider.component';
-import { ListValue } from '@mm/shared/models/lazy-list-loader/mm-list-value.model';
+import { ListValue } from '@mm/shared/models/list-value.model';
 
 import { PictureCardModule } from '@schaeffler/picture-card';
 @Component({

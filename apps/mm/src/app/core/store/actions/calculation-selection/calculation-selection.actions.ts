@@ -1,5 +1,5 @@
 import { BearingOption } from '@mm/shared/models';
-import { ListValue } from '@mm/shared/models/lazy-list-loader/mm-list-value.model';
+import { ListValue } from '@mm/shared/models/list-value.model';
 import { createAction, props } from '@ngrx/store';
 
 export const searchBearingList = createAction(
@@ -24,16 +24,6 @@ export const fetchBearingData = createAction(
 export const setBearing = createAction(
   '[CalculationSelection] Set Bearing',
   props<{ bearingId: string; title: string }>()
-);
-
-export const setBearingType = createAction(
-  '[CalculationSelection] Set Bearing Type',
-  props<{ typeId: string; title: string }>()
-);
-
-export const setBearingSeries = createAction(
-  '[CalculationSelection] Set Bearing Series',
-  props<{ seriesId: string; title: string }>()
 );
 
 export const setCurrentStep = createAction(

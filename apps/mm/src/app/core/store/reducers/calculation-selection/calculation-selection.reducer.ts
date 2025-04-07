@@ -6,7 +6,7 @@ import { CalculationSelectionState } from '../../models/calculation-selection-st
 export const initialState: CalculationSelectionState = {
   bearingResultList: undefined,
   stepper: {
-    currentStep: undefined,
+    currentStep: 0,
   },
   bearing: undefined,
   bearingSeats: undefined,
@@ -45,33 +45,6 @@ export const calculationSelectionReducer = createReducer(
       },
     })
   ),
-
-  on(
-    CalculationSelectionActions.setBearingType,
-    (state, { typeId, title }): CalculationSelectionState => ({
-      ...state,
-      bearing: {
-        ...state.bearing,
-        type: {
-          typeId,
-          title,
-        },
-      },
-    })
-  ),
-  on(
-    CalculationSelectionActions.setBearingSeries,
-    (state, { seriesId, title }): CalculationSelectionState => ({
-      ...state,
-      bearing: {
-        ...state.bearing,
-        series: {
-          seriesId,
-          title,
-        },
-      },
-    })
-  ),
   on(
     CalculationSelectionActions.setCurrentStep,
     (state, { step }): CalculationSelectionState => ({
@@ -99,6 +72,8 @@ export const calculationSelectionReducer = createReducer(
         ...state?.bearingSeats,
         selectedValueId: bearingSeatId,
       },
+      measurementMethods: undefined,
+      mountingMethods: undefined,
     })
   ),
   on(

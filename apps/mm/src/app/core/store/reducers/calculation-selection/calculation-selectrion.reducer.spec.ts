@@ -1,5 +1,5 @@
 import { BearingOption } from '@mm/shared/models';
-import { ListValue } from '@mm/shared/models/lazy-list-loader/mm-list-value.model';
+import { ListValue } from '@mm/shared/models/list-value.model';
 
 import { CalculationSelectionActions } from '../../actions/calculation-selection';
 import {
@@ -47,27 +47,6 @@ describe('Calculation Selection Reducer', () => {
     const action = CalculationSelectionActions.setBearing({ bearingId, title });
     const state = calculationSelectionReducer(initialState, action);
     expect(state.bearing).toEqual({ bearingId, title });
-  });
-
-  it('should set bearing type on setBearingType', () => {
-    const typeId = 'type1';
-    const title = 'Type 1';
-    const action = CalculationSelectionActions.setBearingType({
-      typeId,
-      title,
-    });
-    const state = calculationSelectionReducer(initialState, action);
-    expect(state.bearing?.type).toEqual({ typeId, title });
-  });
-  it('should set bearing series on setBearingSeries', () => {
-    const seriesId = 'series1';
-    const title = 'Series 1';
-    const action = CalculationSelectionActions.setBearingSeries({
-      seriesId,
-      title,
-    });
-    const state = calculationSelectionReducer(initialState, action);
-    expect(state.bearing?.series).toEqual({ seriesId, title });
   });
 
   it('should set current step on setCurrentStep', () => {

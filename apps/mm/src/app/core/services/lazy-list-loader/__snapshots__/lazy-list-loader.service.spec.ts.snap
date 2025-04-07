@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LazyListLoaderService #loadBearingSeatsOptions should call loadBearingSeatsOptions url 1`] = `
+Array [
+  Object {
+    "id": "mockId",
+    "imageUrl": "http://mock-base-url/mounting/api/images/imageName.png",
+    "text": "mockTitle",
+  },
+]
+`;
+
+exports[`LazyListLoaderService #loadOptions should call getLoadOptions simple request 1`] = `
+Array [
+  Object {
+    "id": "mockId",
+    "imageUrl": "http://mock-base-url/mounting/api/images/imageName1.png",
+    "text": "mockTitle",
+  },
+  Object {
+    "id": "mockId2",
+    "imageUrl": undefined,
+    "text": "mockTitle2",
+  },
+]
+`;

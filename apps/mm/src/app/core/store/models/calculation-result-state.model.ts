@@ -3,7 +3,6 @@ import { CalculationResultReportInput } from './calculation-result-report-input.
 export interface CalculationResultState {
   isLoading: boolean;
   result?: CalculationResult;
-  htmlBodyUrl?: string;
   error?: string;
   versions?: { [key: string]: string };
 }

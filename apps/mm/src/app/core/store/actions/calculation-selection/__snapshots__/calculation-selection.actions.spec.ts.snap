@@ -77,22 +77,6 @@ Object {
 }
 `;
 
-exports[`CalculationSelectionActions should create setBearingSeries action 1`] = `
-Object {
-  "seriesId": "series123",
-  "title": "Series Title",
-  "type": "[CalculationSelection] Set Bearing Series",
-}
-`;
-
-exports[`CalculationSelectionActions should create setBearingType action 1`] = `
-Object {
-  "title": "Type Title",
-  "type": "[CalculationSelection] Set Bearing Type",
-  "typeId": "type123",
-}
-`;
-
 exports[`CalculationSelectionActions should create setCurrentStep action 1`] = `
 Object {
   "step": 1,

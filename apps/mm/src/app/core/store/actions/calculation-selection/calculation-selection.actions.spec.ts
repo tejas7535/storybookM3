@@ -1,5 +1,5 @@
 import { BearingOption } from '@mm/shared/models';
-import { ListValue } from '@mm/shared/models/lazy-list-loader/mm-list-value.model';
+import { ListValue } from '@mm/shared/models/list-value.model';
 
 import { CalculationSelectionActions } from '.';
 
@@ -33,26 +33,6 @@ describe('CalculationSelectionActions', () => {
     const bearingId = '123';
     const title = 'Bearing Title';
     const action = CalculationSelectionActions.setBearing({ bearingId, title });
-    expect(action).toMatchSnapshot();
-  });
-
-  it('should create setBearingType action', () => {
-    const typeId = 'type123';
-    const title = 'Type Title';
-    const action = CalculationSelectionActions.setBearingType({
-      typeId,
-      title,
-    });
-    expect(action).toMatchSnapshot();
-  });
-
-  it('should create setBearingSeries action', () => {
-    const seriesId = 'series123';
-    const title = 'Series Title';
-    const action = CalculationSelectionActions.setBearingSeries({
-      seriesId,
-      title,
-    });
     expect(action).toMatchSnapshot();
   });
 
