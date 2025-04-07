@@ -41,52 +41,45 @@
         <div class="global-selection-criteria-container mt-5">
           <!-- Filter: region -->
           <div class="global-selection-field-container">
-            <d360-filter-dropdown
+            <d360-multi-autocomplete-pre-loaded
+              [autocompleteLabel]="t('globalSelection.region')"
               [control]="globalForm.controls.region"
               [form]="globalForm"
-              [label]="t('globalSelection.region', {})"
-              [loadingError]="
-                selectableOptionsService.get('region')?.loadingError
-              "
-              [loading]="selectableOptionsService.get('region')?.loading"
-              [multiSelect]="true"
-              [formatSelectedValue]="displayFnId"
-              [options]="selectableOptionsService.get('region')?.options ?? []"
+              [searchControl]="searchControls.controls.region"
+              [getOptionLabelInTag]="displayFnId"
+              [getOptionLabel]="displayFnUnited"
+              [optionsLoadingResult]="selectableOptionsService.get('region')"
+              class="w-full"
             />
           </div>
 
           <!-- Filter: salesArea -->
           <div class="global-selection-field-container">
-            <d360-filter-dropdown
+            <d360-multi-autocomplete-pre-loaded
+              [autocompleteLabel]="t('globalSelection.sales_area')"
               [control]="globalForm.controls.salesArea"
               [form]="globalForm"
-              [label]="t('globalSelection.sales_area', {})"
-              [loadingError]="
-                selectableOptionsService.get('salesArea')?.loadingError
-              "
-              [loading]="selectableOptionsService.get('salesArea')?.loading"
-              [multiSelect]="true"
-              [options]="
-                selectableOptionsService.get('salesArea')?.options ?? []
-              "
+              [searchControl]="searchControls.controls.salesArea"
+              [getOptionLabelInTag]="displayFnText"
+              [getOptionLabel]="displayFnText"
+              [optionsLoadingResult]="selectableOptionsService.get('salesArea')"
+              class="w-full"
             />
           </div>
 
           <!-- Filter: sectorManagement -->
           <div class="global-selection-field-container">
-            <d360-filter-dropdown
+            <d360-multi-autocomplete-pre-loaded
+              [autocompleteLabel]="t('globalSelection.sector_management')"
               [control]="globalForm.controls.sectorManagement"
               [form]="globalForm"
-              [label]="t('globalSelection.sector_management', {})"
-              [loadingError]="
-                selectableOptionsService.get('sectorMgmt')?.loadingError
+              [searchControl]="searchControls.controls.sectorManagement"
+              [getOptionLabelInTag]="displayFnId"
+              [getOptionLabel]="displayFnUnited"
+              [optionsLoadingResult]="
+                selectableOptionsService.get('sectorMgmt')
               "
-              [loading]="selectableOptionsService.get('sectorMgmt')?.loading"
-              [multiSelect]="true"
-              [formatSelectedValue]="displayFnId"
-              [options]="
-                selectableOptionsService.get('sectorMgmt')?.options ?? []
-              "
+              class="w-full"
             />
           </div>
 
@@ -168,18 +161,17 @@
 
           <!-- Filter: materialClassification -->
           <div class="global-selection-field-container">
-            <d360-filter-dropdown
+            <d360-multi-autocomplete-pre-loaded
+              [autocompleteLabel]="t('globalSelection.materialClassification')"
               [control]="globalForm.controls.materialClassification"
               [form]="globalForm"
-              [label]="t('globalSelection.materialClassification', {})"
-              [multiSelect]="true"
-              [loading]="false"
-              [loadingError]="null"
-              [options]="
+              [searchControl]="searchControls.controls.materialClassification"
+              [getOptionLabelInTag]="displayFnText"
+              [getOptionLabel]="displayFnText"
+              [optionsLoadingResult]="
                 selectableOptionsService.get('materialClassification')
-                  ?.options ?? []
               "
-              [formatSelectedValue]="displayFnId"
+              class="w-full"
             />
           </div>
 
@@ -246,24 +238,21 @@
 
           <!-- Filter: alertType (open tasks) -->
           <div class="global-selection-field-container">
-            <d360-filter-dropdown
+            <d360-multi-autocomplete-pre-loaded
+              [autocompleteLabel]="t('globalSelection.tasks')"
               [control]="globalForm.controls.alertType"
               [form]="globalForm"
-              [label]="t('globalSelection.tasks')"
-              [loadingError]="
-                selectableOptionsService.get('alertTypes').loadingError
+              [searchControl]="searchControls.controls.alertTypes"
+              [getOptionLabelInTag]="displayFnText"
+              [getOptionLabel]="displayFnText"
+              [optionsLoadingResult]="
+                selectableOptionsService.get('alertTypes')
               "
-              [loading]="selectableOptionsService.get('alertTypes').loading"
-              [multiSelect]="true"
-              [options]="
-                selectableOptionsService.get('alertTypes')?.options ?? []
-              "
-              [formatSelectedValue]="displayFnText"
-              [formatOptionValue]="displayFnText"
+              class="w-full"
               [matTooltipDisabled]="
                 selectableOptionsService.get('alertTypes')?.options?.length > 0
               "
-              [matTooltip]="t('globalSelection.no_open_alert_types', {})"
+              [matTooltip]="t('globalSelection.no_open_alert_types')"
             />
           </div>
         </div>

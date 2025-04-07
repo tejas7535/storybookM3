@@ -11,7 +11,7 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -28,8 +28,8 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { GlobalSelectionHelperService } from '../../../../feature/global-selection/global-selection.service';
 import { SelectableOptionsService } from '../../../services/selectable-options.service';
 import { SnackbarService } from '../../../utils/service/snackbar.service';
+import { MultiAutocompletePreLoadedComponent } from '../../inputs/autocomplete/multi-autocomplete-pre-loaded/multi-autocomplete-pre-loaded.component';
 import { DisplayFunctions } from '../../inputs/display-functions.utils';
-import { FilterDropdownComponent } from '../../inputs/filter-dropdown/filter-dropdown.component';
 import {
   GlobalSelectionFilters,
   GlobalSelectionState,
@@ -50,8 +50,6 @@ import { PreLoadedAutocompleteWithMultiselectComponent } from '../pre-loaded-aut
   selector: 'd360-global-selection-criteria',
   imports: [
     MinimizedGlobalSelectionCriteriaComponent,
-    // ResultCountTitleComponent,
-    FilterDropdownComponent,
     SharedTranslocoModule,
     OnTypeAutocompleteWithMultiselectComponent,
     PreLoadedAutocompleteWithMultiselectComponent,
@@ -61,6 +59,7 @@ import { PreLoadedAutocompleteWithMultiselectComponent } from '../pre-loaded-aut
     PushPipe,
     LoadingSpinnerModule,
     MatTooltipModule,
+    MultiAutocompletePreLoadedComponent,
   ],
   templateUrl: './global-selection-criteria.component.html',
   styleUrls: ['./global-selection-criteria.component.scss'],
@@ -180,6 +179,14 @@ export class GlobalSelectionCriteriaComponent implements OnInit {
   protected readonly displayFnId = DisplayFunctions.displayFnId;
   protected readonly displayFnUnited = DisplayFunctions.displayFnUnited;
   protected readonly displayFnText = DisplayFunctions.displayFnText;
+
+  protected readonly searchControls = new FormGroup({
+    region: new FormControl(''),
+    salesArea: new FormControl(''),
+    sectorManagement: new FormControl(''),
+    materialClassification: new FormControl(''),
+    alertTypes: new FormControl(''),
+  });
 
   /**
    * @inheritdoc
