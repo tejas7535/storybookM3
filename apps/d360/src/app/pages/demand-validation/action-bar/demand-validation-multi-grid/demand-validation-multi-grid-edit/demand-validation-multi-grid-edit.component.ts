@@ -41,6 +41,7 @@ import {
 import {
   errorsFromSAPtoMessage,
   PostResult,
+  ToastResult,
 } from '../../../../../shared/utils/error-handling';
 import {
   parseAndFormatNumber,
@@ -50,6 +51,7 @@ import { validateMaterialNumber } from '../../../../../shared/utils/validation/f
 import { ValidationHelper } from '../../../../../shared/utils/validation/validation-helper';
 import { ErrorMessage } from '../../../../alert-rules/table/components/modals/alert-rule-logic-helper';
 import { DemandValidationKpiHeaderComponent } from '../../../tables/demand-validation-kpi-header/demand-validation-kpi-header.component';
+import { MessageType } from './../../../../../shared/models/message-type.enum';
 
 interface DemandValidationMultiGridEditProps {
   customerName: string;
@@ -135,6 +137,18 @@ export class DemandValidationMultiGridEditComponent
 
               return null;
             },
+            cellClass: (params) => {
+              const result =
+                this.data.materialType === 'schaeffler'
+                  ? validateMaterialNumber(
+                      params.data?.materialNumber || ''
+                    )?.join(', ')
+                  : null;
+
+              return params.data?.materialNumber && result
+                ? 'invalid-entry'
+                : '';
+            },
           },
           ...((this.kpiBuckets() || []).map((bucket) => {
             const date = parseISO(bucket.from);
@@ -158,6 +172,32 @@ export class DemandValidationMultiGridEditComponent
                   : transparent,
               validationFn: (value: string, _rowData: IRowNode) =>
                 ValidationHelper.detectLocaleAndValidateForLocalFloat(value),
+              cellClass: (params) => {
+                const row: number = params.rowIndex;
+                const column: number = params.api
+                  .getColumns()
+                  .findIndex(
+                    (col) => col.getColId() === params.column.getColId()
+                  );
+                const hasValue =
+                  params.value !== undefined &&
+                  params.value !== null &&
+                  params.value !== '';
+
+                const feError: boolean = hasValue
+                  ? Boolean(
+                      ValidationHelper.detectLocaleAndValidateForLocalFloat(
+                        params.value
+                      )
+                    )
+                  : false;
+
+                return (hasValue &&
+                  this.validationError?.[`${row}_${column}`]) ||
+                  feError
+                  ? 'invalid-entry'
+                  : '';
+              },
             };
           }) as ColumnForUploadTable<GridBatchUpload>[]),
         ];
@@ -198,10 +238,9 @@ export class DemandValidationMultiGridEditComponent
     action = action === 'check' ? 'validate' : action;
 
     return (count: number) =>
-      translate(
-        `validation_of_demand.upload_modal.${action}.${action === 'validate' ? 'invalid_rows' : 'invalid_entries'}`,
-        { count }
-      );
+      translate(`validation_of_demand.upload_modal.${action}.invalid_entries`, {
+        count,
+      });
   }
 
   protected override getSuccessMessageFn(
@@ -218,6 +257,10 @@ export class DemandValidationMultiGridEditComponent
     data: GridBatchUpload[],
     dryRun: boolean
   ): Promise<PostResult<DemandValidationBatchResponse>> {
+    this.backendErrors.set([]);
+    this.frontendErrors.set([]);
+    this.validationError = {};
+
     return lastValueFrom(
       this.apiCall(
         this.getDemandData(data),
@@ -228,17 +271,32 @@ export class DemandValidationMultiGridEditComponent
     );
   }
 
+  protected validationError: Record<string, boolean> = {};
+
   protected parseErrorsFromResult(
     result: PostResult<DemandValidationBatchResponse>
   ): ErrorMessage<GridBatchUpload>[] {
     const errors: ErrorMessage<GridBatchUpload>[] = [];
-
     result.response.forEach((response) => {
-      if (response.result.messageType === 'ERROR') {
+      const multiErrors: string[] = [];
+
+      (response?.allErrors || []).forEach((errorEntry) => {
+        const errorMessage: string = errorsFromSAPtoMessage(errorEntry);
+
+        if (errorEntry.messageType === MessageType.Error) {
+          this.validationError[`${response.id || -1}_${errorEntry.id}`] = true;
+
+          if (!multiErrors.includes(errorMessage)) {
+            multiErrors.push(errorMessage);
+          }
+        }
+      });
+
+      if (multiErrors.length > 0) {
         errors.push({
           id: response.id,
           dataIdentifier: { material: response.materialNumber },
-          errorMessage: errorsFromSAPtoMessage(response.result),
+          errorMessage: multiErrors.join('\n'),
         });
       }
     });
@@ -281,11 +339,51 @@ export class DemandValidationMultiGridEditComponent
         // the entire functionality will be refactored in the future and we get a better allocation from
         // error message and the row
         if (response?.hasMultipleEntries) {
-          return response?.hasSuccessEntries;
+          return response?.countSuccesses > 0;
         }
 
-        return response?.result?.messageType === 'SUCCESS';
+        return response?.result?.messageType === MessageType.Success;
       });
+  }
+
+  protected override getMultiPostResultsToUserMessages({
+    postResult,
+    action,
+    errorRowCount,
+  }: {
+    postResult: PostResult<DemandValidationBatchResponse>;
+    action: 'check' | 'save';
+    errorRowCount?: number;
+  }): ToastResult[] {
+    const messages: ToastResult[] = [];
+
+    let successCount = 0;
+    let errorCount = errorRowCount ?? 0;
+
+    postResult.response.forEach((row) => {
+      successCount += row.countSuccesses;
+      errorCount += row.countErrors;
+    });
+
+    if (successCount > 0) {
+      messages.push({
+        variant: 'success',
+        message: this.getSuccessMessageFn(action)(),
+      });
+    }
+    if (errorCount > 0) {
+      messages.push({
+        variant: 'error',
+        message: this.getErrorMessageFn(action)(errorCount),
+      });
+    }
+
+    return messages;
+  }
+
+  protected onReset(): void {
+    super.onReset();
+    this.validationError = {};
   }
 
   protected specialParseFunctionsForFields: Map<
@@ -393,7 +491,7 @@ export class DemandValidationMultiGridEditComponent
 
         if (uploadData[dateString]) {
           kpiEntries.push({
-            idx: this.getCellId(uploadData.id, uploadData, date),
+            idx: this.getCellId(uploadData.id, date),
             fromDate: format(dateString, 'yyyy-MM-dd'),
             bucketType: bucket.type,
             validatedForecast: strictlyParseLocalFloat(
@@ -424,20 +522,16 @@ export class DemandValidationMultiGridEditComponent
    *
    * @private
    * @param {(string | undefined)} rowId
-   * @param {*} data
    * @param {Date} date
    * @return {(number | undefined)}
    * @memberof DemandValidationMultiGridEditComponent
    */
-  private getCellId(
-    rowId: string | undefined,
-    data: any,
-    date: Date
-  ): number | undefined {
+  private getCellId(rowId: string | undefined, date: Date): number | undefined {
     return rowId !== null && rowId !== undefined
-      ? // eslint-disable-next-line unicorn/numeric-separators-style
-        Number.parseInt(rowId, 10) * 100000 +
-          Object.keys(data).indexOf(this.keyFromDate(date))
+      ? this.gridApi()
+          .getColumns()
+          .findIndex((col) => col.getColId() === this.keyFromDate(date)) ||
+          undefined
       : undefined;
   }
 }

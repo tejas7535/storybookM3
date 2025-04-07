@@ -44,6 +44,7 @@ import {
   checkForbiddenFieldsForNewSubstitution,
   checkMissingFields,
 } from '../internal-material-replacement-logic-helper';
+import { MessageType } from './../../../../../shared/models/message-type.enum';
 
 @Component({
   selector: 'd360-internal-material-replacement-multi-substitution-modal',
@@ -217,7 +218,7 @@ export class InternalMaterialReplacementMultiSubstitutionModalComponent
   ): ErrorMessage<IMRSubstitution>[] {
     const errors: ErrorMessage<IMRSubstitution>[] = [];
     res.response.forEach((r) => {
-      if (r.result.messageType === 'ERROR') {
+      if (r.result.messageType === MessageType.Error) {
         errors.push({
           dataIdentifier: {
             replacementType: r.replacementType,

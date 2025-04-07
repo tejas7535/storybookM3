@@ -13,6 +13,7 @@ import {
 import { SortModelItem } from 'ag-grid-enterprise';
 
 import { GlobalSelectionState } from '../../shared/components/global-selection-criteria/global-selection-state.service';
+import { MessageType } from '../../shared/models/message-type.enum';
 import { Stub } from '../../shared/test/stub.class';
 import { CustomerEntry } from '../global-selection/model';
 import { CMPService } from './cmp.service';
@@ -31,7 +32,7 @@ describe('CMPService', () => {
   describe('getForecastActionData', () => {
     it('should return success response when valid cmpData is provided', (done) => {
       const mockResponse = {
-        overallStatus: 'SUCCESS',
+        overallStatus: MessageType.Success,
         overallErrorMsg: null,
         response: [{ id: 1, name: 'Test' }],
       } as any;
@@ -125,7 +126,7 @@ describe('CMPService', () => {
             { params: new HttpParams().set('dryRun', 'true') }
           );
           expect(result).toEqual({
-            overallStatus: 'SUCCESS',
+            overallStatus: MessageType.Success,
             overallErrorMsg: null,
             response: mockResponse.materialResults,
           });
@@ -149,7 +150,7 @@ describe('CMPService', () => {
       ).catch((error) => error);
 
       expect(result).toEqual({
-        overallStatus: 'ERROR',
+        overallStatus: MessageType.Error,
         overallErrorMsg: 'error.unknown',
         response: [],
       });
@@ -188,7 +189,7 @@ describe('CMPService', () => {
             { params: { dryRun: 'false' } }
           );
           expect(result).toEqual({
-            overallStatus: 'WARNING',
+            overallStatus: MessageType.Warning,
             overallErrorMsg:
               'customer.material_portfolio.modal.substitution.warning.add_material',
             response: [mockResponse],
@@ -211,7 +212,7 @@ describe('CMPService', () => {
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual({
-            overallStatus: 'ERROR',
+            overallStatus: MessageType.Error,
             overallErrorMsg: 'error.unknown',
             response: [],
           });
@@ -238,7 +239,7 @@ describe('CMPService', () => {
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual({
-            overallStatus: 'ERROR',
+            overallStatus: MessageType.Error,
             overallErrorMsg: mockError.message,
             response: [],
           });

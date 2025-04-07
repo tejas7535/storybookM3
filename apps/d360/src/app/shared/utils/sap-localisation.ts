@@ -1,4 +1,5 @@
 import { translate } from '@jsverse/transloco';
+import { parse } from 'date-fns';
 
 import { ValidationHelper } from './validation/validation-helper';
 
@@ -53,10 +54,10 @@ export function messageFromSAP(
     : translatedError;
 }
 
-function checkForDateAndLocalize(value: string | null): string | null {
+export function checkForDateAndLocalize(value: string | null): string | null {
   if (value && /^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])$/.test(value)) {
     return ValidationHelper.localeService?.localizeDate(
-      new Date(Date.parse(value))
+      new Date(parse(value, 'yyyyMMdd', new Date()))
     );
   }
 

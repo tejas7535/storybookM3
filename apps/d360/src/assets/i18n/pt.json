@@ -278,6 +278,7 @@
       },
       "validate": {
         "invalid_rows": "{count, plural, one {{count} linha inválida. Por favor, verifique sua entrada.} other {{count} linhas inválidas. Verifique sua entrada.}}",
+        "invalid_entries": "{count, plural, one {{count} entrada inválida. Verifique sua entrada.} other {{count} entradas inválidas. Verifique sua entrada.}}",
         "success": "Todas as linhas são válidas."
       },
       "list": {
@@ -1315,6 +1316,7 @@
       "42": "O status foi definido como {{messageV1}}, pois não há requisitos futuros ou históricos.",
       "51": "A previsão não pode ser alterada no passado ou no mês atual.",
       "52": "A previsão não pode ser alterada no passado.",
+      "53": "As previsões não podem ser distribuídas aos sábados e/ou domingos.",
       "100": "O tipo de substituição {{messageV1}} não é válido.",
       "101": "Uma região válida deve ser passada. {{messageV1}} não é válida.",
       "102": "O registro não existe.",

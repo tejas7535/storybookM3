@@ -278,6 +278,7 @@
       },
       "validate": {
         "invalid_rows": "{count, plural, one {{count} Riga non valida. Si prega di controllare le voci.} other {{count} righe non valide. Si prega di controllare le voci.}}",
+        "invalid_entries": "{count, plural, one {{count} voce non valida. Si prega di controllare l'immissione.} other {{count} voci non valida. Si prega di controllare l'immissione.}}",
         "success": "Tutte le righe valide."
       },
       "list": {
@@ -1325,6 +1326,7 @@
       "42": "Lo stato è stato impostato su {{messageV1}}, poiché non ci sono requisiti futuri o storici.",
       "51": "La previsione non può essere modificata né nel passato né nel mese in corso.",
       "52": "Le previsioni non possono essere modificate nel passato.",
+      "53": "Le previsioni non potevano essere distribuite il sabato e/o la domenica.",
       "100": "Il tipo di sostituzione {{messageV1}} non è valido.",
       "101": "Deve essere passata una regione valida. {{messageV1}} non è valido.",
       "102": "La documentazione non esiste.",

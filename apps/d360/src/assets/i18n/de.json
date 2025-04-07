@@ -281,12 +281,13 @@
         "week": "W"
       },
       "save": {
-        "invalid_rows": "{count, plural, one {{count} Zeile konnten nicht gespeichert werden. Bitte prüfen Sie Ihre Eingaben.} other {{count} Zeilen konnten nicht gespeichert werden. Bitte prüfen Sie Ihre Eingaben.}}",
-        "invalid_entries": "{count, plural, one {{count} Eintrag konnten nicht gespeichert werden. Bitte prüfen Sie Ihre Eingaben.} other {{count} Einträge konnten nicht gespeichert werden. Bitte prüfen Sie Ihre Eingaben.}}",
+        "invalid_rows": "{count, plural, one {{count} Zeile konnte nicht gespeichert werden. Bitte prüfen Sie Ihre Eingaben.} other {{count} Zeilen konnten nicht gespeichert werden. Bitte prüfen Sie Ihre Eingaben.}}",
+        "invalid_entries": "{count, plural, one {{count} Eintrag konnte nicht gespeichert werden. Bitte prüfen Sie Ihre Eingaben.} other {{count} Einträge konnten nicht gespeichert werden. Bitte prüfen Sie Ihre Eingaben.}}",
         "success": "Es wurden alle Zeilen gespeichert."
       },
       "validate": {
         "invalid_rows": "{count, plural, one {{count} Zeile ungültig. Bitte prüfen Sie Ihre Eingaben.} other {{count} Zeilen ungültig. Bitte prüfen Sie Ihre Eingaben.}}",
+        "invalid_entries": "{count, plural, one {{count} Eintrag ungültig. Bitte prüfen Sie Ihre Eingaben.} other {{count} Einträge ungültig. Bitte prüfen Sie Ihre Eingaben.}}",
         "success": "Alle Zeilen gültig."
       },
       "list": {
@@ -852,7 +853,7 @@
       "CHKDMP": "Absatzvalidierung (M)",
       "DPLEOR": "Absatzvalidierung (A)",
       "DMPFIN": "Der Forecast wurde aktualisiert",
-      "DPOPDL": "Neueinstufung SP zu OP, Überprüfung der validierten Prognose",
+      "DPOPDL": "Neueinstufung SP zu OP, prüfe Validated Forecast",
       "CFPRAO": "Prüfe Validated Forecast, Ersetzung rückgängig gemacht",
       "CFSUAO": "Prüfe Validated Forecast, Ersetzung rückgängig gemacht",
       "PINWAO": "Phase-In, Absatzvalidierung",
@@ -1335,6 +1336,7 @@
       "42": "Status wurde auf {{messageV1}} gesetzt, da keine zukünftige oder historische Bedarfe.",
       "51": "Forecast kann nicht in der Vergangenheit und nicht im aktuellen Monat geändert werden.",
       "52": "Forecast kann nicht in der Vergangenheit geändert werden.",
+      "53": "Forecast konnte nicht auf einen Samstag und/oder Sonntag verteilt werden.",
       "100": "Ersetzungstyp {{messageV1}} ist nicht gültig.",
       "101": "Es muss eine gültige Region übergeben werden. {{messageV1}} ist nicht gültig.",
       "102": "Der Datensatz existiert nicht.",

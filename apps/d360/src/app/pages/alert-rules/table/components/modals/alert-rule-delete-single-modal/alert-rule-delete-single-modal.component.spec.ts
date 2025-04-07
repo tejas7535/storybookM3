@@ -2,6 +2,7 @@ import { of } from 'rxjs';
 
 import { AlertRule } from '../../../../../../feature/alert-rules/model';
 import { Stub } from '../../../../../../shared/test/stub.class';
+import { MessageType } from './../../../../../../shared/models/message-type.enum';
 import { AlertRuleDeleteSingleModalComponent } from './alert-rule-delete-single-modal.component';
 
 describe('AlertRuleDeleteSingleModalComponent', () => {
@@ -44,7 +45,7 @@ describe('AlertRuleDeleteSingleModalComponent', () => {
         .spyOn(component['alertRuleService'], 'deleteSingleAlterRule')
         .mockReturnValue(
           of({
-            overallStatus: 'SUCCESS',
+            overallStatus: MessageType.Success,
             overallErrorMsg: null,
             response: [],
           })
@@ -59,7 +60,7 @@ describe('AlertRuleDeleteSingleModalComponent', () => {
       const alertRule = { id: '1' } as AlertRule;
       component.data.alertRule = alertRule;
       const response = {
-        overallStatus: 'SUCCESS',
+        overallStatus: MessageType.Success,
         overallErrorMsg: null,
         response: [],
       } as any;
@@ -94,7 +95,7 @@ describe('AlertRuleDeleteSingleModalComponent', () => {
       const alertRule = { id: '1' } as AlertRule;
       component.data.alertRule = alertRule;
       const response = {
-        overallStatus: 'ERROR',
+        overallStatus: MessageType.Error,
         overallErrorMsg: 'Error',
         response: [],
       } as any;

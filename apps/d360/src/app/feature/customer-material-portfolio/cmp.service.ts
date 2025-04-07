@@ -14,6 +14,7 @@ import {
 
 import { formatFilterModelForBackend } from '../../shared/ag-grid/grid-filter-model';
 import { GlobalSelectionState } from '../../shared/components/global-selection-criteria/global-selection-state.service';
+import { MessageType } from '../../shared/models/message-type.enum';
 import { PostResult } from '../../shared/utils/error-handling';
 import { getErrorMessage } from '../../shared/utils/errors';
 import { GlobalSelectionUtils } from '../global-selection/global-selection.utils';
@@ -103,14 +104,14 @@ export class CMPService {
         map(
           (response) =>
             ({
-              overallStatus: 'SUCCESS',
+              overallStatus: MessageType.Success,
               overallErrorMsg: null,
               response: response.materialResults,
             }) as PostResult<CMPMaterialPhaseInResponse>
         ),
         catchError((error) =>
           of({
-            overallStatus: 'ERROR',
+            overallStatus: MessageType.Error,
             overallErrorMsg: getErrorMessage(error),
             response: [],
           } as PostResult<CMPMaterialPhaseInResponse>)
@@ -126,7 +127,7 @@ export class CMPService {
   ): Observable<PostResult<CMPWriteResponse>> {
     if (!actionURL) {
       return of({
-        overallStatus: 'ERROR',
+        overallStatus: MessageType.Error,
         overallErrorMsg: translate('error.unknown'),
         response: [],
       } as PostResult<CMPWriteResponse>);
@@ -150,7 +151,7 @@ export class CMPService {
           (response as CMPSingleSubstitutionResponse).confirmationNeeded
         ) {
           return {
-            overallStatus: 'WARNING',
+            overallStatus: MessageType.Warning,
             overallErrorMsg: translate(
               'customer.material_portfolio.modal.substitution.warning.add_material'
             ),
@@ -159,14 +160,14 @@ export class CMPService {
         }
 
         return {
-          overallStatus: 'SUCCESS',
+          overallStatus: MessageType.Success,
           overallErrorMsg: null,
           response: [response],
         } as PostResult<CMPWriteResponse>;
       }),
       catchError((error) =>
         of({
-          overallStatus: 'ERROR',
+          overallStatus: MessageType.Error,
           overallErrorMsg: getErrorMessage(error),
           response: [],
         } as PostResult<CMPWriteResponse>)

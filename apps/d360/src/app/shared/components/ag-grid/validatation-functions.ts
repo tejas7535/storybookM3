@@ -42,6 +42,7 @@ export function buildValidationProps(
   return {
     tooltipComponent: GridTooltipComponent,
     tooltipValueGetter: validate,
+    tooltipComponentParams: { lineBreaks: true },
     cellStyle: (params: CellClassParams) =>
       validate(params) ? cellStyleInvalid : defaultStyle,
   };

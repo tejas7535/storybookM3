@@ -9,6 +9,7 @@ import {
 import { SelectableValue } from '../../../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { Stub } from '../../../../../../shared/test/stub.class';
 import { SingleAutocompleteSelectedEvent } from './../../../../../../shared/components/inputs/autocomplete/model';
+import { MessageType } from './../../../../../../shared/models/message-type.enum';
 import { AlertRuleEditSingleModalComponent } from './alert-rule-edit-single-modal.component';
 
 describe('AlertRuleEditSingleModalComponent', () => {
@@ -587,7 +588,7 @@ describe('AlertRuleEditSingleModalComponent', () => {
         .spyOn(component['alertRuleService'], 'saveMultiAlertRules')
         .mockReturnValue(
           of({
-            overallStatus: 'SUCCESS',
+            overallStatus: MessageType.Success,
             overallErrorMsg: null,
             response: [],
           })
@@ -621,10 +622,15 @@ describe('AlertRuleEditSingleModalComponent', () => {
         .spyOn(component['alertRuleService'], 'saveMultiAlertRules')
         .mockReturnValue(
           of({
-            overallStatus: 'ERROR',
+            overallStatus: MessageType.Error,
             overallErrorMsg: 'error.unknown',
             response: [
-              { result: { messageType: 'ERROR', message: 'Error message' } },
+              {
+                result: {
+                  messageType: MessageType.Error,
+                  message: 'Error message',
+                },
+              },
             ] as any,
           })
         );

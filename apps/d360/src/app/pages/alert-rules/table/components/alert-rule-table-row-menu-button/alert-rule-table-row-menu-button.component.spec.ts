@@ -7,6 +7,7 @@ import {
   AlertRuleEditSingleModalComponent,
   AlertRuleModalProps,
 } from '../modals/alert-rule-edit-single-modal/alert-rule-edit-single-modal.component';
+import { MessageType } from './../../../../../shared/models/message-type.enum';
 import { AlertRuleTableRowMenuButtonComponent } from './alert-rule-table-row-menu-button.component';
 
 describe('AlertRuleTableRowMenuButtonComponent', () => {
@@ -96,7 +97,7 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
         .spyOn(component['alertRulesService'], 'saveMultiAlertRules')
         .mockReturnValue(
           of({
-            overallStatus: 'SUCCESS',
+            overallStatus: MessageType.Success,
             overallErrorMsg: null,
             response: [],
           })
@@ -157,7 +158,7 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
         .spyOn(component['alertRulesService'], 'saveMultiAlertRules')
         .mockReturnValue(
           of({
-            overallStatus: 'SUCCESS',
+            overallStatus: MessageType.Success,
             overallErrorMsg: null,
             response: [],
           })

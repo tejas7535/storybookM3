@@ -4,6 +4,7 @@ import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { MockService } from 'ng-mocks';
 
 import { Stub } from '../../../../../shared/test/stub.class';
+import { MessageType } from './../../../../../shared/models/message-type.enum';
 import { ValidationHelper } from './../../../../../shared/utils/validation/validation-helper';
 import { InternalMaterialReplacementMultiSubstitutionModalComponent } from './internal-material-replacement-multi-substitution-modal.component';
 
@@ -47,7 +48,7 @@ describe('InternalMaterialReplacementMultiSubstitutionModalComponent', () => {
       const mockResponse = {
         response: [
           {
-            result: { messageType: 'ERROR' },
+            result: { messageType: MessageType.Error },
             replacementType: 'type',
             region: 'region',
             salesArea: 'area',

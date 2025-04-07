@@ -1,17 +1,13 @@
 import { translate } from '@jsverse/transloco';
 
+import { MessageType, MessageTypes } from '../models/message-type.enum';
 import { messageFromSAP } from './sap-localisation';
-
-/**
- * Result types for a write operation
- */
-export type WriteResult = 'SUCCESS' | 'ERROR' | 'WARNING';
 
 /**
  * The result of a post request
  */
 export interface PostResult<T extends ResponseWithResultMessage> {
-  overallStatus: WriteResult;
+  overallStatus: MessageTypes;
   overallErrorMsg: string | null;
   response: T[];
 }
@@ -27,7 +23,7 @@ export interface ResponseWithResultMessage {
  * The result message from the backend, used to build the FE error or success message
  */
 export interface ResultMessage {
-  messageType: WriteResult;
+  messageType: MessageTypes;
   messageClass: string | null;
   messageNumber: number | null;
   fallbackMessage: string | null;
@@ -58,7 +54,7 @@ export function singlePostResultToUserMessage<
   specificErrorToTextFn: (resultMsg: ResultMessage) => string,
   successText: string
 ): ToastResult {
-  if (result.overallStatus === 'ERROR') {
+  if (result.overallStatus === MessageType.Error) {
     return {
       variant: 'error',
       message: result.overallErrorMsg || translate('error.unknown', {}),
@@ -71,12 +67,12 @@ export function singlePostResultToUserMessage<
 
   result.response.forEach((resp) => {
     const currResult = resp.result;
-    if (currResult.messageType === 'ERROR') {
+    if (currResult.messageType === MessageType.Error) {
       const currErrorMsg = specificErrorToTextFn(currResult);
       errorMsg = errorMsg ? `${errorMsg}, ${currErrorMsg}` : currErrorMsg;
     }
 
-    if (currResult.messageType === 'WARNING') {
+    if (currResult.messageType === MessageType.Warning) {
       const currWarnMsg = specificErrorToTextFn(currResult);
       warningMsg = warningMsg ? `${warningMsg}, ${currWarnMsg}` : currWarnMsg;
     }
@@ -110,7 +106,7 @@ export function multiPostResultsToUserMessages<
   getCountedWarningString: (count: number) => string,
   additionalErrorCount?: number
 ): ToastResult[] {
-  if (result.overallStatus === 'ERROR') {
+  if (result.overallStatus === MessageType.Error) {
     return [
       {
         variant: 'error',
@@ -120,14 +116,15 @@ export function multiPostResultsToUserMessages<
   }
 
   const successCount = result.response.filter(
-    (msg) => msg.result.messageType === 'SUCCESS'
+    (msg) => msg.result.messageType === MessageType.Success
   ).length;
   const warningCount = result.response.filter(
-    (msg) => msg.result.messageType === 'WARNING'
+    (msg) => msg.result.messageType === MessageType.Warning
   ).length;
   const errorCount =
-    result.response.filter((msg) => msg.result.messageType === 'ERROR').length +
-    (additionalErrorCount ?? 0);
+    result.response.filter(
+      (msg) => msg.result.messageType === MessageType.Error
+    ).length + (additionalErrorCount ?? 0);
 
   const messages: ToastResult[] = [];
   if (successCount > 0) {

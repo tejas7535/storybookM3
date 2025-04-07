@@ -43,6 +43,7 @@ import { validateDemandCharacteristicType } from '../../../../../shared/utils/va
 import { validateMaterialNumber } from '../../../../../shared/utils/validation/filter-validation';
 import { ErrorMessage } from '../../../../alert-rules/table/components/modals/alert-rule-logic-helper';
 import { DateOrOriginalCellRendererComponent } from './../../../../../shared/components/ag-grid/cell-renderer/date-or-original-cell-renderer/date-or-original-cell-renderer.component';
+import { MessageType } from './../../../../../shared/models/message-type.enum';
 import { ValidationHelper } from './../../../../../shared/utils/validation/validation-helper';
 
 interface MultiPhaseInData {
@@ -191,7 +192,7 @@ export class CustomerMaterialMultiModalComponent extends AbstractTableUploadModa
   ): ErrorMessage<MultiPhaseInData>[] {
     return result.response
       .map((response) =>
-        response.result.messageType === 'ERROR'
+        response.result.messageType === MessageType.Error
           ? {
               dataIdentifier: { materialNumber: response.materialNumber },
               errorMessage: errorsFromSAPtoMessage(response.result),

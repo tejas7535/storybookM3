@@ -142,9 +142,13 @@ export function parseDemandValidationPeriodTypeIfPossible(
     (['month', 'week'].find(
       (option) =>
         uppercasedInput ===
-        translate(
-          `validation_of_demand.upload_modal.paste.${option}`
-        ).toUpperCase()
+          translate(
+            `validation_of_demand.upload_modal.paste.${option}`
+          ).toUpperCase() ||
+        uppercasedInput ===
+          translate(
+            `validation_of_demand.upload_modal.list.menu_item_${option}`
+          ).toUpperCase()
     ) ||
       ['M', 'W'].find((option) => uppercasedInput === option)) ??
     undefined

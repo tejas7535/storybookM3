@@ -32,6 +32,7 @@ import {
 } from '../../../../../shared/utils/validation/filter-validation';
 import { ValidationHelper } from '../../../../../shared/utils/validation/validation-helper';
 import { DateOrOriginalCellRendererComponent } from './../../../../../shared/components/ag-grid/cell-renderer/date-or-original-cell-renderer/date-or-original-cell-renderer.component';
+import { MessageType } from './../../../../../shared/models/message-type.enum';
 import {
   getThresholdRequirements,
   ThresholdsRequiredForAlertType,
@@ -157,7 +158,7 @@ export abstract class AbstractAlertRuleMultiModalComponent
   ): ErrorMessage<AlertRule>[] {
     const errors: ErrorMessage<AlertRule>[] = [];
     result.response.forEach((response) => {
-      if (response.result.messageType === 'ERROR') {
+      if (response.result.messageType === MessageType.Error) {
         errors.push({
           dataIdentifier: {
             // Ignore ID here because it will be changed for new Alert Rules

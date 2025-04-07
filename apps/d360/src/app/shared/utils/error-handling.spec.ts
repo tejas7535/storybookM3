@@ -1,6 +1,7 @@
 import { translate } from '@jsverse/transloco';
 
 import { CMPMaterialPhaseInResponse } from '../../feature/customer-material-portfolio/model';
+import { MessageType } from '../models/message-type.enum';
 import {
   errorsFromSAPtoMessage,
   multiPostResultsToUserMessages,
@@ -21,13 +22,13 @@ const toWarnStr = jest
 describe('errorhandling single result', () => {
   it('handles success', () => {
     const testResult: PostResult<CMPMaterialPhaseInResponse> = {
-      overallStatus: 'SUCCESS',
+      overallStatus: MessageType.Success,
       overallErrorMsg: null,
       response: [
         {
           materialNumber: '123456789012345',
           result: {
-            messageType: 'SUCCESS',
+            messageType: MessageType.Success,
             messageClass: null,
             messageNumber: null,
             fallbackMessage: null,
@@ -51,7 +52,7 @@ describe('errorhandling single result', () => {
 
   it('handles http Errors', () => {
     const testResult: PostResult<CMPMaterialPhaseInResponse> = {
-      overallStatus: 'ERROR',
+      overallStatus: MessageType.Error,
       overallErrorMsg: '400 Something wrong',
       response: [],
     };
@@ -67,13 +68,13 @@ describe('errorhandling single result', () => {
 
   it('handles SAP error with correct translation', () => {
     const testResult: PostResult<CMPMaterialPhaseInResponse> = {
-      overallStatus: 'SUCCESS',
+      overallStatus: MessageType.Success,
       overallErrorMsg: null,
       response: [
         {
           materialNumber: '123456789012345',
           result: {
-            messageType: 'ERROR',
+            messageType: MessageType.Error,
             messageClass: '/SGD/SCM_SOP_SALES',
             messageNumber: 17,
             fallbackMessage: 'Fallback Error Message',
@@ -99,13 +100,13 @@ describe('errorhandling single result', () => {
 
   it('handles SAP error when there is no translation', () => {
     const testResult: PostResult<CMPMaterialPhaseInResponse> = {
-      overallStatus: 'SUCCESS',
+      overallStatus: MessageType.Success,
       overallErrorMsg: null,
       response: [
         {
           materialNumber: '123456789012345',
           result: {
-            messageType: 'ERROR',
+            messageType: MessageType.Error,
             messageClass: '/SGD/SCM_SOP_SALES',
             messageNumber: -2, // There is no error code -1
             fallbackMessage: 'Fallback Error Message',
@@ -130,13 +131,13 @@ describe('errorhandling single result', () => {
 
   it('handles SAP warning when there is no translation', () => {
     const testResult: PostResult<CMPMaterialPhaseInResponse> = {
-      overallStatus: 'SUCCESS',
+      overallStatus: MessageType.Success,
       overallErrorMsg: null,
       response: [
         {
           materialNumber: '123456789012345',
           result: {
-            messageType: 'WARNING',
+            messageType: MessageType.Warning,
             messageClass: '/SGD/SCM_SOP_SALES',
             messageNumber: -1, // There is no error code -1
             fallbackMessage: 'Fallback Warning Message',
@@ -161,13 +162,13 @@ describe('errorhandling single result', () => {
 
   it('handles SAP error when there is no more than one result', () => {
     const testResult: PostResult<CMPMaterialPhaseInResponse> = {
-      overallStatus: 'SUCCESS',
+      overallStatus: MessageType.Success,
       overallErrorMsg: null,
       response: [
         {
           materialNumber: '123456789012345',
           result: {
-            messageType: 'SUCCESS',
+            messageType: MessageType.Success,
             messageClass: null,
             messageNumber: null,
             fallbackMessage: null,
@@ -180,7 +181,7 @@ describe('errorhandling single result', () => {
         {
           materialNumber: '123456789012345',
           result: {
-            messageType: 'ERROR',
+            messageType: MessageType.Error,
             messageClass: '/SGD/SCM_SOP_SALES',
             messageNumber: 17,
             fallbackMessage: 'Fallback Error Message',
@@ -208,13 +209,13 @@ describe('errorhandling single result', () => {
 describe('errorhandling multi result', () => {
   it('handles success', () => {
     const testResult: PostResult<CMPMaterialPhaseInResponse> = {
-      overallStatus: 'SUCCESS',
+      overallStatus: MessageType.Success,
       overallErrorMsg: null,
       response: [
         {
           materialNumber: '123456789012345',
           result: {
-            messageType: 'SUCCESS',
+            messageType: MessageType.Success,
             messageClass: null,
             messageNumber: null,
             fallbackMessage: null,
@@ -227,7 +228,7 @@ describe('errorhandling multi result', () => {
         {
           materialNumber: '123456789012346',
           result: {
-            messageType: 'SUCCESS',
+            messageType: MessageType.Success,
             messageClass: null,
             messageNumber: null,
             fallbackMessage: null,
@@ -253,7 +254,7 @@ describe('errorhandling multi result', () => {
 
   it('handles http Errors', () => {
     const testResult: PostResult<CMPMaterialPhaseInResponse> = {
-      overallStatus: 'ERROR',
+      overallStatus: MessageType.Error,
       overallErrorMsg: '400 Something wrong',
       response: [],
     };
@@ -271,13 +272,13 @@ describe('errorhandling multi result', () => {
 
   it('handles SAP errors and warnings and succeses', () => {
     const testResult: PostResult<CMPMaterialPhaseInResponse> = {
-      overallStatus: 'SUCCESS',
+      overallStatus: MessageType.Success,
       overallErrorMsg: null,
       response: [
         {
           materialNumber: '123456789012345',
           result: {
-            messageType: 'WARNING',
+            messageType: MessageType.Warning,
             messageClass: '/SGD/SCM_SOP_SALES',
             messageNumber: 17,
             fallbackMessage: 'Fallback Error Message',
@@ -290,7 +291,7 @@ describe('errorhandling multi result', () => {
         {
           materialNumber: '123456789012346',
           result: {
-            messageType: 'ERROR',
+            messageType: MessageType.Error,
             messageClass: '/SGD/SCM_SOP_SALES',
             messageNumber: 17,
             fallbackMessage: 'Fallback Error Message',
@@ -303,7 +304,7 @@ describe('errorhandling multi result', () => {
         {
           materialNumber: '123456789012347',
           result: {
-            messageType: 'SUCCESS',
+            messageType: MessageType.Success,
             messageClass: null,
             messageNumber: null,
             fallbackMessage: null,
@@ -316,7 +317,7 @@ describe('errorhandling multi result', () => {
         {
           materialNumber: '123456789012348',
           result: {
-            messageType: 'ERROR',
+            messageType: MessageType.Error,
             messageClass: '/SGD/SCM_SOP_SALES',
             messageNumber: 18,
             fallbackMessage: 'Fallback Error Message',

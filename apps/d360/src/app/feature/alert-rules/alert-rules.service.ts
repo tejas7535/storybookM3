@@ -15,6 +15,7 @@ import { TranslocoService } from '@jsverse/transloco';
 import { format, parse } from 'date-fns';
 
 import { USE_DEFAULT_HTTP_ERROR_INTERCEPTOR } from '../../shared/interceptors/http-error.interceptor';
+import { MessageType } from '../../shared/models/message-type.enum';
 import { PostResult } from '../../shared/utils/error-handling';
 import { getErrorMessage } from '../../shared/utils/errors';
 import { ValidationHelper } from '../../shared/utils/validation/validation-helper';
@@ -96,7 +97,7 @@ export class AlertRulesService {
   ): Observable<PostResult<AlertRuleSaveResponse>> {
     if (dryRun) {
       return of({
-        overallStatus: 'SUCCESS',
+        overallStatus: MessageType.Success,
         overallErrorMsg: null,
         response: [] as AlertRuleSaveResponse[],
       });
@@ -118,14 +119,14 @@ export class AlertRulesService {
         map(
           (response) =>
             ({
-              overallStatus: 'SUCCESS',
+              overallStatus: MessageType.Success,
               overallErrorMsg: null,
               response,
             }) as PostResult<AlertRuleSaveResponse>
         ),
         catchError((error) =>
           of({
-            overallStatus: 'ERROR',
+            overallStatus: MessageType.Error,
             overallErrorMsg: getErrorMessage(error),
             response: [],
           } as PostResult<AlertRuleSaveResponse>)
@@ -139,7 +140,7 @@ export class AlertRulesService {
   ): Observable<PostResult<AlertRuleSaveResponse>> {
     if (dryRun) {
       return of({
-        overallStatus: 'SUCCESS',
+        overallStatus: MessageType.Success,
         overallErrorMsg: null,
         response: [] as AlertRuleSaveResponse[],
       });
@@ -165,14 +166,14 @@ export class AlertRulesService {
         map(
           (response) =>
             ({
-              overallStatus: 'SUCCESS',
+              overallStatus: MessageType.Success,
               overallErrorMsg: null,
               response,
             }) as PostResult<AlertRuleSaveResponse>
         ),
         catchError((error) =>
           of({
-            overallStatus: 'ERROR',
+            overallStatus: MessageType.Error,
             overallErrorMsg: getErrorMessage(error),
             response: [],
           } as PostResult<AlertRuleSaveResponse>)
@@ -197,14 +198,14 @@ export class AlertRulesService {
         map(
           (response) =>
             ({
-              overallStatus: 'SUCCESS',
+              overallStatus: MessageType.Success,
               overallErrorMsg: null,
               response,
             }) as PostResult<AlertRuleSaveResponse>
         ),
         catchError((error) =>
           of({
-            overallStatus: 'ERROR',
+            overallStatus: MessageType.Error,
             overallErrorMsg: getErrorMessage(error),
             response: [],
           } as PostResult<AlertRuleSaveResponse>)

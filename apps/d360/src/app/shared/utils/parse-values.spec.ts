@@ -4,6 +4,7 @@ import {
   formatISODateToISODateString,
   parseDateIfPossible,
   parseDemandCharacteristicIfPossible,
+  parseDemandValidationPeriodTypeIfPossible,
   parseReplacementTypeIfPossible,
   parseToStringLiteralTypeIfPossible,
 } from './parse-values';
@@ -125,6 +126,38 @@ describe('Parse Values', () => {
       const input = 'invalidOption';
       const stringLiterals: readonly DemandCharacteristic[] = ['OPTION1'];
       const result = parseToStringLiteralTypeIfPossible(input, stringLiterals);
+
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('parseDemandValidationPeriodTypeIfPossible', () => {
+    it('should return "M" when input is "M"', () => {
+      const result = parseDemandValidationPeriodTypeIfPossible('M');
+
+      expect(result).toBe('M');
+    });
+
+    it('should return "W" when input is "W"', () => {
+      const result = parseDemandValidationPeriodTypeIfPossible('W');
+
+      expect(result).toBe('W');
+    });
+
+    it('should return "M" when input is "m"', () => {
+      const result = parseDemandValidationPeriodTypeIfPossible('m');
+
+      expect(result).toBe('M');
+    });
+
+    it('should return "W" when input is "w"', () => {
+      const result = parseDemandValidationPeriodTypeIfPossible('w');
+
+      expect(result).toBe('W');
+    });
+
+    it('should return undefined when input does not match any valid option', () => {
+      const result = parseDemandValidationPeriodTypeIfPossible('INVALID');
 
       expect(result).toBeUndefined();
     });

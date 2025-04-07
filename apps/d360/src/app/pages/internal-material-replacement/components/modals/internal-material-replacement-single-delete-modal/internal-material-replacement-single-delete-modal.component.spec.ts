@@ -6,6 +6,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { IMRService } from '../../../../../feature/internal-material-replacement/imr.service';
 import { SnackbarService } from '../../../../../shared/utils/service/snackbar.service';
+import { MessageType } from './../../../../../shared/models/message-type.enum';
 import { Stub } from './../../../../../shared/test/stub.class';
 import { InternalMaterialReplacementSingleDeleteModalComponent } from './internal-material-replacement-single-delete-modal.component';
 
@@ -34,7 +35,7 @@ describe('InternalMaterialReplacementSingleDeleteModalComponent', () => {
 
     it('should call deleteIMRSubstitution and handle success', () => {
       const mockResponse = {
-        overallStatus: 'SUCCESS',
+        overallStatus: MessageType.Success,
         overallErrorMsg: null,
         response: [
           {
@@ -45,7 +46,7 @@ describe('InternalMaterialReplacementSingleDeleteModalComponent', () => {
             customerNumber: null,
             predecessorMaterial: null,
             result: {
-              messageType: 'SUCCESS',
+              messageType: MessageType.Success,
               messageClass: null,
               messageNumber: null,
               fallbackMessage: null,
@@ -83,7 +84,7 @@ describe('InternalMaterialReplacementSingleDeleteModalComponent', () => {
 
     it('should call deleteIMRSubstitution and handle error', () => {
       const mockResponse = {
-        overallStatus: 'ERROR',
+        overallStatus: MessageType.Error,
         overallErrorMsg: 'This is an error',
         response: [],
       } as any;

@@ -23,12 +23,14 @@ import {
 import { ErrorMessage } from '../../../pages/alert-rules/table/components/modals/alert-rule-logic-helper';
 import { gridParseFromClipboard } from '../../ag-grid/grid-parse-from-clipboard';
 import { ensureEmptyRowAtBottom, resetGrid } from '../../ag-grid/grid-utils';
+import { MessageType } from '../../models/message-type.enum';
 import { AgGridLocalizationService } from '../../services/ag-grid-localization.service';
 import { transparent } from '../../styles/colors';
 import {
   multiPostResultsToUserMessages,
   PostResult,
   ResponseWithResultMessage,
+  ToastResult,
 } from '../../utils/error-handling';
 import { getErrorMessage } from '../../utils/errors';
 import { combineParseFunctionsForFields } from '../../utils/parse-values';
@@ -133,11 +135,11 @@ export abstract class AbstractTableUploadModalComponent<
   /**
    * The grid api instance.
    *
-   * @private
+   * @protected
    * @type {(WritableSignal<GridApi | null>)}
    * @memberof AbstractTableUploadModalComponent
    */
-  private readonly gridApi: WritableSignal<GridApi | null> = signal(null);
+  protected readonly gridApi: WritableSignal<GridApi | null> = signal(null);
 
   /**
    * The default column definitions.
@@ -457,13 +459,11 @@ export abstract class AbstractTableUploadModalComponent<
       this.updateColumnDefinitions();
 
       // TODO: add a generic way to parse ID and IDX in Error Messages.
-      const userMessages = multiPostResultsToUserMessages(
+      const userMessages = this.getMultiPostResultsToUserMessages({
         postResult,
-        this.getSuccessMessageFn(action),
-        this.getErrorMessageFn(action),
-        this.getErrorMessageFn(action),
-        errorRowCount
-      );
+        action,
+        errorRowCount,
+      });
 
       userMessages.forEach((msg) =>
         this.snackbarService.openSnackBar(msg.message)
@@ -486,6 +486,24 @@ export abstract class AbstractTableUploadModalComponent<
     } finally {
       this.loading.set(false);
     }
+  }
+
+  protected getMultiPostResultsToUserMessages({
+    postResult,
+    action,
+    errorRowCount,
+  }: {
+    postResult: PostResult<R>;
+    action: 'check' | 'save';
+    errorRowCount?: number;
+  }): ToastResult[] {
+    return multiPostResultsToUserMessages(
+      postResult,
+      this.getSuccessMessageFn(action),
+      this.getErrorMessageFn(action),
+      this.getErrorMessageFn(action),
+      errorRowCount
+    );
   }
 
   /**
@@ -741,7 +759,7 @@ export abstract class AbstractTableUploadModalComponent<
     this.hasChangedData =
       this.hasChangedData ||
       postResult.response.some(
-        (response) => response?.result?.messageType === 'SUCCESS'
+        (response) => response?.result?.messageType === MessageType.Success
       );
   }
 

@@ -1,15 +1,26 @@
 import { DateRange, DateRangePeriodType } from '../../shared/utils/date-range';
-import { ResponseWithResultMessage } from '../../shared/utils/error-handling';
+import {
+  ResponseWithResultMessage,
+  ResultMessage,
+} from '../../shared/utils/error-handling';
 import { GlobalSelectionCriteriaFilters } from '../global-selection/model';
 import { DemandValidationStringFilter } from './demand-validation-filters';
+
+export enum MultiType {
+  List = 'list',
+  Grid = 'grid',
+}
+
+export type MultiTypes = MultiType.List | MultiType.Grid;
 
 export type DemandValidationBatchResponse = {
   id: string;
   customerNumber: string;
   materialNumber: string;
-  hasMultipleEntries: boolean;
-  hasSuccessEntries: boolean;
-  hasErrorEntries: boolean;
+  hasMultipleEntries?: boolean;
+  countErrors?: number;
+  countSuccesses?: number;
+  allErrors?: (ResultMessage & { id?: number })[];
 } & ResponseWithResultMessage;
 
 export interface DemandValidationBatch {

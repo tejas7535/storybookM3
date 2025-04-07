@@ -18,6 +18,7 @@ import {
   DemandValidationBatch,
   DemandValidationBatchResponse,
   MaterialType,
+  MultiType,
 } from '../../../../../feature/demand-validation/model';
 import { listUploadPeriodTypeValueFormatter } from '../../../../../shared/ag-grid/grid-value-formatter';
 import { DateOrOriginalCellRendererComponent } from '../../../../../shared/components/ag-grid/cell-renderer/date-or-original-cell-renderer/date-or-original-cell-renderer.component';
@@ -34,6 +35,7 @@ import {
 import { validateMaterialNumber } from '../../../../../shared/utils/validation/filter-validation';
 import { ValidationHelper } from '../../../../../shared/utils/validation/validation-helper';
 import { ErrorMessage } from '../../../../alert-rules/table/components/modals/alert-rule-logic-helper';
+import { MessageType } from './../../../../../shared/models/message-type.enum';
 
 interface DemandValidationMultiListEditModalProps {
   customerName: string;
@@ -99,7 +101,8 @@ export class DemandValidationMultiListEditModalComponent extends AbstractTableUp
         data,
         this.data.customerNumber,
         dryRun,
-        this.data.materialType
+        this.data.materialType,
+        MultiType.List
       ).pipe(take(1), takeUntilDestroyed(this.destroyRef))
     );
   }
@@ -107,19 +110,17 @@ export class DemandValidationMultiListEditModalComponent extends AbstractTableUp
   protected parseErrorsFromResult(
     result: PostResult<DemandValidationBatchResponse>
   ): ErrorMessage<DemandValidationBatch>[] {
-    const errors: ErrorMessage<DemandValidationBatch>[] = [];
-
-    result.response.forEach((response) => {
-      if (response.result.messageType === 'ERROR') {
-        errors.push({
-          id: response.id,
-          dataIdentifier: { material: response.materialNumber },
-          errorMessage: errorsFromSAPtoMessage(response.result),
-        });
-      }
-    });
-
-    return errors;
+    return result.response
+      .map((response) =>
+        response.result.messageType === MessageType.Error
+          ? {
+              id: response.id,
+              dataIdentifier: { id: response.id },
+              errorMessage: errorsFromSAPtoMessage(response.result),
+            }
+          : null
+      )
+      .filter((error) => error !== null);
   }
 
   protected columnDefinitions: ColumnForUploadTable<DemandValidationBatch>[] = [

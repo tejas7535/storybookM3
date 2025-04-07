@@ -2,6 +2,7 @@ import { HttpContext, HttpParams } from '@angular/common/http';
 
 import { of, take, throwError } from 'rxjs';
 
+import { MessageType } from '../../shared/models/message-type.enum';
 import { Stub } from '../../shared/test/stub.class';
 import { ValidationHelper } from '../../shared/utils/validation/validation-helper';
 import { AlertRulesService } from './alert-rules.service';
@@ -180,7 +181,7 @@ describe('AlertRulesService', () => {
         .pipe(take(1))
         .subscribe((response) => {
           expect(response).toEqual({
-            overallStatus: 'SUCCESS',
+            overallStatus: MessageType.Success,
             overallErrorMsg: null,
             response: [],
           });
@@ -231,7 +232,7 @@ describe('AlertRulesService', () => {
         .pipe(take(1))
         .subscribe((response) => {
           expect(response).toEqual({
-            overallStatus: 'SUCCESS',
+            overallStatus: MessageType.Success,
             overallErrorMsg: null,
             response: [{ id: '1', name: 'Test Rule' }],
           });
@@ -256,7 +257,7 @@ describe('AlertRulesService', () => {
         .pipe(take(1))
         .subscribe((response) => {
           expect(response).toEqual({
-            overallStatus: 'ERROR',
+            overallStatus: MessageType.Error,
             overallErrorMsg: 'Error',
             response: [],
           });
@@ -272,7 +273,7 @@ describe('AlertRulesService', () => {
         .pipe(take(1))
         .subscribe((response) => {
           expect(response).toEqual({
-            overallStatus: 'SUCCESS',
+            overallStatus: MessageType.Success,
             overallErrorMsg: null,
             response: [],
           });
@@ -319,7 +320,7 @@ describe('AlertRulesService', () => {
         .pipe(take(1))
         .subscribe((response) => {
           expect(response).toEqual({
-            overallStatus: 'SUCCESS',
+            overallStatus: MessageType.Success,
             overallErrorMsg: null,
             response: [],
           });
@@ -373,7 +374,7 @@ describe('AlertRulesService', () => {
         .pipe(take(1))
         .subscribe((response) => {
           expect(response).toEqual({
-            overallStatus: 'SUCCESS',
+            overallStatus: MessageType.Success,
             overallErrorMsg: null,
             response: [{ id: '1', name: 'Test Rule' }],
           });
@@ -398,7 +399,7 @@ describe('AlertRulesService', () => {
         .pipe(take(1))
         .subscribe((response) => {
           expect(response).toEqual({
-            overallStatus: 'ERROR',
+            overallStatus: MessageType.Error,
             overallErrorMsg: 'Error',
             response: [],
           });
@@ -414,7 +415,7 @@ describe('AlertRulesService', () => {
         .pipe(take(1))
         .subscribe((response) => {
           expect(response).toEqual({
-            overallStatus: 'SUCCESS',
+            overallStatus: MessageType.Success,
             overallErrorMsg: null,
             response: [],
           });
@@ -495,7 +496,7 @@ describe('AlertRulesService', () => {
         .pipe(take(1))
         .subscribe((response) => {
           expect(response).toEqual({
-            overallStatus: 'SUCCESS',
+            overallStatus: MessageType.Success,
             overallErrorMsg: null,
             response: [{ id: '1', name: 'Test Rule' }],
           });
@@ -518,7 +519,7 @@ describe('AlertRulesService', () => {
         .pipe(take(1))
         .subscribe((response) => {
           expect(response).toEqual({
-            overallStatus: 'ERROR',
+            overallStatus: MessageType.Error,
             overallErrorMsg: 'Error',
             response: [],
           });
@@ -541,7 +542,7 @@ describe('AlertRulesService', () => {
         .pipe(take(1))
         .subscribe((response) => {
           expect(response).toEqual({
-            overallStatus: 'SUCCESS',
+            overallStatus: MessageType.Success,
             overallErrorMsg: null,
             response: [],
           });

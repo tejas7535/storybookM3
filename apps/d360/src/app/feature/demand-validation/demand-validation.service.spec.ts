@@ -2,6 +2,7 @@ import { HttpContext, HttpParams } from '@angular/common/http';
 
 import { of, take, throwError } from 'rxjs';
 
+import { MessageType } from '../../shared/models/message-type.enum';
 import { Stub } from '../../shared/test/stub.class';
 import { DateRange, DateRangePeriod } from '../../shared/utils/date-range';
 import * as SAP from '../../shared/utils/error-handling';
@@ -18,6 +19,7 @@ import {
   KpiDateRanges,
   KpiType,
   MaterialListEntry,
+  MultiType,
   SelectedKpis,
   WriteKpiData,
 } from './model';
@@ -125,29 +127,26 @@ describe('DemandValidationService', () => {
   });
 
   describe('saveValidatedDemandBatch', () => {
-    it('should call HttpClient.patch with correct URL, formData, and parameters', (done) => {
+    it('should call HttpClient.patch with correct URL and parameters', (done) => {
       const mockData: DemandValidationBatch[] = [
         {
           id: '1',
           material: 'material1',
           dateString: '2023-01-01',
-          periodType: 'month',
           forecast: '100',
+          periodType: 'month',
         } as any,
       ];
       const customerNumber = '12345';
       const dryRun = true;
       const materialType = 'customer';
+      const listOrGrid = MultiType.Grid;
       const mockResponse = [
         {
           ids: ['1'],
           customerNumber: '12345',
           materialNumber: 'material1',
-          results: [
-            {
-              result: { messageType: 'SUCCESS' },
-            },
-          ],
+          results: [] as any,
         },
       ];
 
@@ -158,11 +157,27 @@ describe('DemandValidationService', () => {
           mockData,
           customerNumber,
           dryRun,
-          materialType
+          materialType,
+          listOrGrid
         )
         .pipe(take(1))
         .subscribe((response) => {
-          expect(response.overallStatus).toBe('SUCCESS');
+          expect(response).toEqual({
+            overallStatus: MessageType.Success,
+            overallErrorMsg: null,
+            response: [
+              {
+                id: '1',
+                customerNumber: '12345',
+                materialNumber: 'material1',
+                hasMultipleEntries: false,
+                countErrors: 0,
+                countSuccesses: 0,
+                result: null,
+                allErrors: null,
+              },
+            ],
+          });
           expect(service['http'].patch).toHaveBeenCalledWith(
             service['DEMAND_VALIDATION_API'],
             expect.any(FormData),
@@ -177,58 +192,63 @@ describe('DemandValidationService', () => {
         });
     });
 
-    it('should handle errors and return an error response', (done) => {
-      const mockData: DemandValidationBatch[] = [];
+    it('should handle errors and return a PostResult with error status', (done) => {
+      const mockData: DemandValidationBatch[] = [
+        {
+          id: '1',
+          material: 'material1',
+          dateString: '2023-01-01',
+          forecast: '100',
+          periodType: 'month',
+        } as any,
+      ];
       const customerNumber = '12345';
-      const dryRun = false;
-      const materialType = 'schaeffler';
-      const mockError = new Error('Patch failed');
+      const dryRun = true;
+      const materialType = 'customer';
+      const listOrGrid = MultiType.Grid;
 
       jest
         .spyOn(service['http'], 'patch')
-        .mockReturnValue(throwError(() => mockError));
+        .mockReturnValue(throwError(() => new Error('HTTP error')));
 
       service
         .saveValidatedDemandBatch(
           mockData,
           customerNumber,
           dryRun,
-          materialType
+          materialType,
+          listOrGrid
         )
         .pipe(take(1))
         .subscribe((response) => {
-          expect(response.overallStatus).toBe('ERROR');
-          expect(response.overallErrorMsg).toBe('Patch failed');
+          expect(response).toEqual({
+            overallStatus: MessageType.Error,
+            overallErrorMsg: 'HTTP error',
+            response: [],
+          });
           done();
         });
     });
 
-    it('should correctly map response data to DemandValidationBatchResponse', (done) => {
+    it('should handle listOrGrid as MultiType.List and process combined rows', (done) => {
       const mockData: DemandValidationBatch[] = [
         {
           id: '1',
           material: 'material1',
           dateString: '2023-01-01',
-          periodType: 'month',
           forecast: '100',
+          periodType: 'month',
         } as any,
       ];
       const customerNumber = '12345';
-      const dryRun = false;
+      const dryRun = true;
       const materialType = 'customer';
+      const listOrGrid = MultiType.List;
       const mockResponse = [
         {
-          ids: ['1'],
           customerNumber: '12345',
           materialNumber: 'material1',
-          results: [
-            {
-              result: { messageType: 'ERROR' },
-            },
-            {
-              result: { messageType: 'SUCCESS' },
-            },
-          ],
+          results: [{ idx: 1, result: { messageType: MessageType.Success } }],
         },
       ];
 
@@ -239,21 +259,23 @@ describe('DemandValidationService', () => {
           mockData,
           customerNumber,
           dryRun,
-          materialType
+          materialType,
+          listOrGrid
         )
         .pipe(take(1))
         .subscribe((response) => {
-          expect(response.response).toEqual([
-            {
-              id: '1',
-              customerNumber: '12345',
-              materialNumber: 'material1',
-              hasMultipleEntries: true,
-              hasSuccessEntries: true,
-              hasErrorEntries: true,
-              result: { messageType: 'ERROR' },
-            },
-          ]);
+          expect(response).toEqual({
+            overallStatus: MessageType.Success,
+            overallErrorMsg: null,
+            response: [
+              {
+                id: '1',
+                customerNumber: '12345',
+                materialNumber: 'material1',
+                result: { messageType: MessageType.Success },
+              },
+            ],
+          });
           done();
         });
     });
@@ -292,8 +314,8 @@ describe('DemandValidationService', () => {
       const dryRun = true;
       const mockResponse = {
         results: [
-          { result: { messageType: 'SUCCESS' } },
-          { result: { messageType: 'SUCCESS' } },
+          { result: { messageType: MessageType.Success } },
+          { result: { messageType: MessageType.Success } },
         ],
       };
 
@@ -319,8 +341,11 @@ describe('DemandValidationService', () => {
       const dryRun = false;
       const mockResponse = {
         results: [
-          { result: { messageType: 'SUCCESS' } },
-          { result: { messageType: 'ERROR' }, fromDate: '2023-01-01' },
+          { result: { messageType: MessageType.Success } },
+          {
+            result: { messageType: MessageType.Error },
+            fromDate: '2023-01-01',
+          },
         ],
       };
 

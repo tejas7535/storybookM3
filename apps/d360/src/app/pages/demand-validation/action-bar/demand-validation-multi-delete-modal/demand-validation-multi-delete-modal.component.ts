@@ -57,6 +57,7 @@ import { SnackbarService } from '../../../../shared/utils/service/snackbar.servi
 import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
 import { DemandValidationDatePickerComponent } from '../demand-validation-date-picker/demand-validation-date-picker.component';
 import { DemandValidationLoadingModalComponent } from '../demand-validation-loading-modal/demand-validation-loading-modal.component';
+import { MessageType } from './../../../../shared/models/message-type.enum';
 
 export interface DemandValidationMultiDeleteModalProps {
   customerName: string;
@@ -231,13 +232,13 @@ export class DemandValidationMultiDeleteModalComponent {
       )
       .pipe(
         tap((result) => {
-          if (result.result.messageType === 'ERROR') {
+          if (result.result.messageType === MessageType.Error) {
             throw new Error(errorsFromSAPtoMessage(result.result));
           }
         }),
         tap((result) => {
           const materialsWithError = result.results.filter(
-            (res) => res.result.messageType === 'ERROR'
+            (res) => res.result.messageType === MessageType.Error
           );
 
           if (materialsWithError.length > 0) {

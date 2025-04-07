@@ -11,6 +11,7 @@ import {
 } from 'ag-grid-enterprise';
 
 import { formatFilterModelForBackend } from '../../shared/ag-grid/grid-filter-model';
+import { MessageType } from '../../shared/models/message-type.enum';
 import { PostResult } from '../../shared/utils/error-handling';
 import { getErrorMessage } from '../../shared/utils/errors';
 import { GlobalSelectionCriteriaFilters } from '../global-selection/model';
@@ -53,14 +54,14 @@ export class IMRService {
         map(
           (response) =>
             ({
-              overallStatus: 'SUCCESS',
+              overallStatus: MessageType.Success,
               overallErrorMsg: null,
               response,
             }) as PostResult<IMRSubstitutionResponse>
         ),
         catchError((error) =>
           of({
-            overallStatus: 'ERROR',
+            overallStatus: MessageType.Error,
             overallErrorMsg: getErrorMessage(error),
             response: [],
           } as PostResult<IMRSubstitutionResponse>)
@@ -101,14 +102,14 @@ export class IMRService {
         map(
           (response) =>
             ({
-              overallStatus: 'SUCCESS',
+              overallStatus: MessageType.Success,
               overallErrorMsg: null,
               response: [response],
             }) as PostResult<IMRSubstitutionResponse>
         ),
         catchError((error) =>
           of({
-            overallStatus: 'ERROR',
+            overallStatus: MessageType.Error,
             overallErrorMsg: getErrorMessage(error),
             response: [],
           } as PostResult<IMRSubstitutionResponse>)

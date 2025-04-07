@@ -24,6 +24,10 @@ import { format, formatISO, parse } from 'date-fns';
 import { GlobalSelectionStateService } from '../../shared/components/global-selection-criteria/global-selection-state.service';
 import { AUTO_CONFIGURE_APPLICATION_JSON_HEADER } from '../../shared/interceptors/headers.interceptor';
 import { USE_DEFAULT_HTTP_ERROR_INTERCEPTOR } from '../../shared/interceptors/http-error.interceptor';
+import {
+  MessageType,
+  MessageTypes,
+} from '../../shared/models/message-type.enum';
 import { DateRange } from '../../shared/utils/date-range';
 import {
   errorsFromSAPtoMessage,
@@ -58,6 +62,8 @@ import {
   KpiType,
   MaterialListEntry,
   MaterialType,
+  MultiType,
+  MultiTypes,
   SelectedKpis,
   WriteKpiData,
   WriteKpiDataResponse,
@@ -119,7 +125,8 @@ export class DemandValidationService {
     data: DemandValidationBatch[],
     customerNumber: string,
     dryRun: boolean,
-    materialType: MaterialType
+    materialType: MaterialType,
+    listOrGrid: MultiTypes = MultiType.Grid
   ): Observable<PostResult<DemandValidationBatchResponse>> {
     const writeKpiData: WriteKpiData[] = data.map((entry) => ({
       ids: [entry.id],
@@ -172,59 +179,75 @@ export class DemandValidationService {
         map((response) => {
           const batchResponse: DemandValidationBatchResponse[] = [];
 
-          // TODO: add a generic way to parse ID and IDX in Error Messages.
-          response.forEach((entry) => {
-            if (entry.ids) {
-              const messageStrings = entry.results.map((message) =>
-                JSON.stringify(message)
-              );
+          const getMessages = (
+            row: WriteKpiDataResponse,
+            type: MessageTypes
+          ): (ResultMessage & { id?: number })[] =>
+            row.results
+              .map((entry) => ({
+                ...entry.result,
+                id: entry.idx,
+              }))
+              .filter((result) => result.messageType === type);
 
-              const deduplicatedMessageStrings = [...new Set(messageStrings)];
+          if (listOrGrid === MultiType.Grid) {
+            // TODO: add a generic way to parse ID and IDX in Error Messages.
+            response.forEach((entry) => {
+              if (entry.ids) {
+                entry.ids.forEach((id) => {
+                  const errors: (ResultMessage & { id?: number })[] =
+                    getMessages(entry, MessageType.Error);
+                  const successes: (ResultMessage & { id?: number })[] =
+                    getMessages(entry, MessageType.Success);
 
-              const deduplicatedResultMessages: ResultMessage[] =
-                deduplicatedMessageStrings.map((str) => JSON.parse(str).result);
-
-              entry.ids.forEach((id) => {
-                const firstError: ResultMessage | undefined =
-                  deduplicatedResultMessages.find(
-                    (message) => message.messageType === 'ERROR'
-                  );
-                const firstSuccess: ResultMessage | undefined =
-                  deduplicatedResultMessages.find(
-                    (message) => message.messageType === 'SUCCESS'
-                  );
-
-                batchResponse.push({
-                  id,
-                  customerNumber: entry.customerNumber,
-                  materialNumber: entry.materialNumber,
-                  // TODO: Only fill one error message for now, as we can only handle one error message per row
-                  // the entire functionality will be refactored in the future and we get a better allocation from
-                  // error message and the row
-                  hasMultipleEntries: deduplicatedResultMessages?.length > 1,
-                  hasSuccessEntries: Boolean(firstSuccess),
-                  hasErrorEntries: Boolean(firstError),
-                  result:
-                    deduplicatedResultMessages?.length > 0
-                      ? // Take the first error message
-                        firstError ??
-                        // Or use the first success message
-                        firstSuccess
-                      : null,
+                  batchResponse.push({
+                    id,
+                    customerNumber: entry.customerNumber,
+                    materialNumber: entry.materialNumber,
+                    // TODO: Only fill one error message for now, as we can only handle one error message per row
+                    // the entire functionality will be refactored in the future and we get a better allocation from
+                    // error message and the row
+                    hasMultipleEntries:
+                      errors?.length > 1 || successes?.length > 1,
+                    countErrors: errors.length,
+                    countSuccesses: successes.length,
+                    result:
+                      errors?.length > 0 || successes?.length > 0
+                        ? // Take the first error message
+                          errors?.[0] ??
+                          // Or use the first success message
+                          successes?.[0]
+                        : null,
+                    allErrors:
+                      errors?.length > 0 || successes?.length > 0
+                        ? errors
+                        : null,
+                  });
                 });
-              });
-            }
-          });
+              }
+            });
+          } else {
+            response.forEach((combinedRows) => {
+              batchResponse.push(
+                ...combinedRows.results.map((result) => ({
+                  id: String(result.idx),
+                  customerNumber: combinedRows.customerNumber,
+                  materialNumber: combinedRows.materialNumber,
+                  result: result.result,
+                }))
+              );
+            });
+          }
 
           return {
-            overallStatus: 'SUCCESS',
+            overallStatus: MessageType.Success,
             overallErrorMsg: null,
             response: batchResponse,
           } as PostResult<DemandValidationBatchResponse>;
         }),
         catchError((error) =>
           of({
-            overallStatus: 'ERROR',
+            overallStatus: MessageType.Error,
             overallErrorMsg: getErrorMessage(error),
             response: [],
           } as PostResult<DemandValidationBatchResponse>)
@@ -262,13 +285,15 @@ export class DemandValidationService {
       .pipe(
         map((result) => {
           if (
-            result.results.every((res) => res.result.messageType === 'SUCCESS')
+            result.results.every(
+              (res) => res.result.messageType === MessageType.Success
+            )
           ) {
             return null; // no error, success!
           } else {
             const errorDatesAndCauses = result.results
               .map((val) =>
-                val.result.messageType === 'ERROR'
+                val.result.messageType === MessageType.Error
                   ? `\n ${val.fromDate}: ${errorsFromSAPtoMessage(val.result)}`
                   : null
               )

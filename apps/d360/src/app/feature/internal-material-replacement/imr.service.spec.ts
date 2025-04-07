@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { of, take, throwError } from 'rxjs';
 
+import { MessageType } from '../../shared/models/message-type.enum';
 import { Stub } from '../../shared/test/stub.class';
 import { getErrorMessage } from '../../shared/utils/errors';
 import { IMRService } from './imr.service';
@@ -91,7 +92,7 @@ describe('IMRService', () => {
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual({
-            overallStatus: 'SUCCESS',
+            overallStatus: MessageType.Success,
             overallErrorMsg: null,
             response,
           });
@@ -124,7 +125,7 @@ describe('IMRService', () => {
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual({
-            overallStatus: 'ERROR',
+            overallStatus: MessageType.Error,
             overallErrorMsg: getErrorMessage(error),
             response: [],
           });
@@ -197,7 +198,7 @@ describe('IMRService', () => {
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual({
-            overallStatus: 'SUCCESS',
+            overallStatus: MessageType.Success,
             overallErrorMsg: null,
             response: [response],
           });
@@ -230,7 +231,7 @@ describe('IMRService', () => {
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual({
-            overallStatus: 'ERROR',
+            overallStatus: MessageType.Error,
             overallErrorMsg: getErrorMessage(error),
             response: [],
           });
@@ -303,7 +304,7 @@ describe('IMRService', () => {
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual({
-            overallStatus: 'SUCCESS',
+            overallStatus: MessageType.Success,
             overallErrorMsg: null,
             response: [response],
           });
@@ -336,7 +337,7 @@ describe('IMRService', () => {
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual({
-            overallStatus: 'ERROR',
+            overallStatus: MessageType.Error,
             overallErrorMsg: getErrorMessage(error),
             response: [],
           });
@@ -443,7 +444,7 @@ describe('IMRService', () => {
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual({
-            overallStatus: 'SUCCESS',
+            overallStatus: MessageType.Success,
             overallErrorMsg: null,
             response: [response],
           });
@@ -475,7 +476,7 @@ describe('IMRService', () => {
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual({
-            overallStatus: 'ERROR',
+            overallStatus: MessageType.Error,
             overallErrorMsg: getErrorMessage(error),
             response: [],
           });

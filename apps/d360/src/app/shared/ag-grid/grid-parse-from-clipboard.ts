@@ -1,13 +1,15 @@
-import { Column, GridApi } from 'ag-grid-enterprise';
+import { Column, GridApi, IRowNode } from 'ag-grid-enterprise';
+
+import { rowIsEmpty } from '../components/ag-grid/validatation-functions';
 
 export function gridParseFromClipboard(
   gridApi: GridApi,
   data: string[][],
   parseSpecialFields?: (fieldName: string, cellDataToAdd: string) => string
-): any {
+): void {
   const focusedCell = gridApi.getFocusedCell();
   if (!focusedCell) {
-    return null;
+    return;
   }
 
   const startColumn = focusedCell.column;
@@ -22,46 +24,47 @@ export function gridParseFromClipboard(
 
   let currentEditingRowIndex: number = focusedCell.rowIndex;
 
-  data.forEach((rowData) => {
-    let currentEditingRowData: any = {};
-    let isRowAlreadyInGrid = false;
-    let currentEditingColumn: Column | null = startColumn;
+  data
+    .filter((rowData) => !rowIsEmpty({ data: rowData } as IRowNode))
+    .forEach((rowData) => {
+      let currentEditingRowData: any = {};
+      let isRowAlreadyInGrid = false;
+      let currentEditingColumn: Column | null = startColumn;
 
-    const existingData = existingRowData[currentEditingRowIndex];
-    if (existingData) {
-      currentEditingRowData = existingData;
-      isRowAlreadyInGrid = true;
-    }
-
-    rowData.forEach((cellDataToAdd) => {
-      const fieldName = currentEditingColumn.getColDef().field ?? '';
-      if (!currentEditingColumn || !fieldName) {
-        return;
+      const existingData = existingRowData[currentEditingRowIndex];
+      if (existingData) {
+        currentEditingRowData = existingData;
+        isRowAlreadyInGrid = true;
       }
 
-      const dataToAdd =
-        parseSpecialFields === undefined
-          ? cellDataToAdd
-          : parseSpecialFields(fieldName, cellDataToAdd);
-      currentEditingRowData[fieldName] = (dataToAdd || '').trim();
+      rowData.forEach((cellDataToAdd) => {
+        const fieldName = currentEditingColumn.getColDef().field ?? '';
+        if (!currentEditingColumn || !fieldName) {
+          return;
+        }
 
-      currentEditingColumn = gridApi.getDisplayedColAfter(currentEditingColumn);
+        const dataToAdd =
+          parseSpecialFields === undefined
+            ? cellDataToAdd
+            : parseSpecialFields(fieldName, cellDataToAdd);
+        currentEditingRowData[fieldName] = (dataToAdd || '').trim();
+
+        currentEditingColumn =
+          gridApi.getDisplayedColAfter(currentEditingColumn);
+      });
+
+      currentEditingRowIndex = currentEditingRowIndex + 1;
+
+      if (isRowAlreadyInGrid) {
+        updateRows.push(currentEditingRowData);
+      } else {
+        addRows.push(currentEditingRowData);
+      }
     });
-
-    currentEditingRowIndex = currentEditingRowIndex + 1;
-
-    if (isRowAlreadyInGrid) {
-      updateRows.push(currentEditingRowData);
-    } else {
-      addRows.push(currentEditingRowData);
-    }
-  });
 
   gridApi.applyTransaction({
     addIndex: existingRowData.length,
     add: addRows,
     update: updateRows,
   });
-
-  return null;
 }

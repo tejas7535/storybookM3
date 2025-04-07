@@ -64,6 +64,7 @@ import {
   CMPModal,
   CMPSpecificModal,
 } from '../../table/status-actions';
+import { MessageType } from './../../../../../shared/models/message-type.enum';
 
 export enum SpecificModalContentType {
   PhaseIn = 'PhaseIn',
@@ -589,7 +590,7 @@ export class CustomerMaterialSingleModalComponent implements OnInit {
           if (
             (requestData.portfolioStatus === 'SE' ||
               this.data.modal === CMPSpecificModal.SUBSTITUTION_PROPOSAL) &&
-            result.overallStatus === 'WARNING' &&
+            result.overallStatus === MessageType.Warning &&
             result.overallErrorMsg ===
               translate(
                 'customer.material_portfolio.modal.substitution.warning.add_material'

@@ -290,6 +290,7 @@
       },
       "validate": {
         "invalid_rows": "{count, plural, one {{count} row invalid. Please check your input.} other {{count} rows invalid. Please check your input.}}",
+        "invalid_entries": "{count, plural, one {{count} entry invalid. Please check your input.} other {{count} entries invalid. Please check your input.}}",
         "success": "All rows valid."
       },
       "list": {
@@ -1338,6 +1339,7 @@
       "42": "Status was set to {{messageV1}}, as no future or historical requirements.",
       "51": "Forecast can not be changed in the past or in the current month.",
       "52": "Forecast can not be changed in the past.",
+      "53": "Forecast could not be distributed on a Saturday and/or Sunday.",
       "100": "Substitution type {{messageV1}} is not valid.",
       "101": "A valid region must be passed. {{messageV1}} is not valid.",
       "102": "The record does not exist.",

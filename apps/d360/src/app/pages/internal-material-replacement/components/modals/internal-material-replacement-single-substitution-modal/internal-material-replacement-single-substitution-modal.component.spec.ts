@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { of } from 'rxjs';
 
 import * as ValidateFormDecorator from '../../../../../shared/decorators';
+import { MessageType } from './../../../../../shared/models/message-type.enum';
 import { Stub } from './../../../../../shared/test/stub.class';
 import { InternalMaterialReplacementSingleSubstitutionModalComponent } from './internal-material-replacement-single-substitution-modal.component';
 
@@ -355,7 +356,7 @@ describe('InternalMaterialReplacementSingleSubstitutionModalComponent', () => {
         .spyOn(component['iMRService'], 'saveSingleIMRSubstitution')
         .mockReturnValue(
           of({
-            overallStatus: 'SUCCESS',
+            overallStatus: MessageType.Success,
             overallErrorMsg: '',
             response: [],
           })

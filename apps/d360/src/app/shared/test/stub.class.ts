@@ -194,7 +194,6 @@ export class Stub {
     TestBed.configureTestingModule({
       declarations: [...(declarations ?? [])],
       imports: [component, ...(imports ?? [])],
-      // TODO: check, if component is part of defaultMockedProviders, if it is working
       providers: [this.defaultMockedProviders, ...(providers ?? [])],
       schemas,
     }).compileComponents();
@@ -247,7 +246,7 @@ export class Stub {
     return this.fixture;
   }
 
-  private static initValidationHelper(): void {
+  public static initValidationHelper(): void {
     ValidationHelper.localeService = MockService(TranslocoLocaleService, {
       getLocale: () => 'en-US',
       localizeDate: () => '',

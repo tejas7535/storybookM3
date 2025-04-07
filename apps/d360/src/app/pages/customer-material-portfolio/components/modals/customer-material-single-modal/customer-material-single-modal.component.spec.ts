@@ -7,6 +7,7 @@ import {
   CMPSpecificModal,
 } from '../../table/status-actions';
 import { DemandPlanAdoption } from './../../../../../feature/customer-material-portfolio/cmp-modal-types';
+import { MessageType } from './../../../../../shared/models/message-type.enum';
 import { Stub } from './../../../../../shared/test/stub.class';
 import {
   CustomerMaterialSingleModalComponent,
@@ -587,7 +588,7 @@ describe('CustomerMaterialSingleModalComponent', () => {
               confirmed
                 ? ({ overallStatus: 'success', response: [] } as any)
                 : ({
-                    overallStatus: 'WARNING',
+                    overallStatus: MessageType.Warning,
                     overallErrorMsg:
                       'customer.material_portfolio.modal.substitution.warning.add_material',
                     response: [],

@@ -7,12 +7,13 @@ import {
   AlertRuleSaveResponse,
 } from '../../../../../feature/alert-rules/model';
 import { SelectableValueOrOriginalCellRendererComponent } from '../../../../../shared/components/ag-grid/cell-renderer/selectable-value-or-original/selectable-value-or-original.component';
-import { SelectableValue } from '../../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { AbstractTableUploadModalComponent } from '../../../../../shared/components/table-upload-modal/abstract-table-upload-modal.component';
 import { Stub } from '../../../../../shared/test/stub.class';
 import { PostResult } from '../../../../../shared/utils/error-handling';
 import * as Parser from '../../../../../shared/utils/parse-values';
 import { ValidationHelper } from '../../../../../shared/utils/validation/validation-helper';
+import { SelectableValue } from './../../../../../shared/components/inputs/autocomplete/selectable-values.utils';
+import { MessageType } from './../../../../../shared/models/message-type.enum';
 import { AbstractAlertRuleMultiModalComponent } from './abstract-alert-rule-multi-modal.component';
 import * as OptionsConfig from './alert-rule-edit-single-modal/alert-rule-options-config';
 import * as Helper from './alert-rule-logic-helper';
@@ -23,7 +24,7 @@ class TestComponent extends AbstractAlertRuleMultiModalComponent {
     _dryRun: boolean
   ): Observable<PostResult<AlertRuleSaveResponse>> {
     return of({
-      overallStatus: 'SUCCESS',
+      overallStatus: MessageType.Success,
       overallErrorMsg: null,
       response: [],
     });
@@ -53,7 +54,7 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
     beforeEach(() => {
       apiCallSpy = jest.spyOn(component as any, 'apiCall').mockReturnValue(
         of({
-          overallStatus: 'SUCCESS',
+          overallStatus: MessageType.Success,
           overallErrorMsg: null,
           response: [],
         })
@@ -88,7 +89,7 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
       const result = await component['applyFunction'](mockData, dryRun);
 
       expect(result).toEqual({
-        overallStatus: 'SUCCESS',
+        overallStatus: MessageType.Success,
         overallErrorMsg: null,
         response: [],
       });
@@ -109,11 +110,11 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
   describe('parseErrorsFromResult', () => {
     it('should return an empty array if there are no errors', () => {
       const result: PostResult<AlertRuleSaveResponse> = {
-        overallStatus: 'SUCCESS',
+        overallStatus: MessageType.Success,
         overallErrorMsg: null,
         response: [
           {
-            result: { messageType: 'SUCCESS' },
+            result: { messageType: MessageType.Success },
             type: 'type1',
             region: 'region1',
             salesArea: 'salesArea1',
@@ -137,11 +138,14 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
 
     it('should return an array of errors if there are errors in the response', () => {
       const result: PostResult<AlertRuleSaveResponse> = {
-        overallStatus: 'ERROR',
+        overallStatus: MessageType.Error,
         overallErrorMsg: 'Some error occurred',
         response: [
           {
-            result: { messageType: 'ERROR', message: 'Error message' },
+            result: {
+              messageType: MessageType.Error,
+              message: 'Error message',
+            },
             type: 'type1',
             region: 'region1',
             salesArea: 'salesArea1',
@@ -184,11 +188,14 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
 
     it('should handle multiple errors in the response', () => {
       const result: PostResult<AlertRuleSaveResponse> = {
-        overallStatus: 'ERROR',
+        overallStatus: MessageType.Error,
         overallErrorMsg: 'Some error occurred',
         response: [
           {
-            result: { messageType: 'ERROR', message: 'Error message 1' },
+            result: {
+              messageType: MessageType.Error,
+              message: 'Error message 1',
+            },
             type: 'type1',
             region: 'region1',
             salesArea: 'salesArea1',
@@ -203,7 +210,10 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
             gkamNumber: 'gkamNumber1',
           },
           {
-            result: { messageType: 'ERROR', message: 'Error message 2' },
+            result: {
+              messageType: MessageType.Error,
+              message: 'Error message 2',
+            },
             type: 'type2',
             region: 'region2',
             salesArea: 'salesArea2',

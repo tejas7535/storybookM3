@@ -278,6 +278,7 @@
       },
       "validate": {
         "invalid_rows": "{count, plural, one {{count} ligne n'a pas pu être enregistrée. S'il vous plaît, vérifiez vos entrées.} other {{count} lignes n'ont pas pu être enregistrées. Veuillez vérifier vos entrées.}}",
+        "invalid_entries": "{count, plural, one {{count} entrée invalide. Veuillez vérifier votre saisie.} other {{count} entrées invalides. Veuillez vérifier votre saisie.}}",
         "success": "Toutes les lignes sont valide"
       },
       "list": {
@@ -1326,6 +1327,7 @@
       "42": "Statut fixé à {{messageV1}}, car aucun besoin futur ou historique.",
       "51": "Les prévisions ne peuvent être modifiées ni dans le passé ni dans le mois en cours.",
       "52": "Les prévisions ne peuvent pas être modifiées dans le passé.",
+      "53": "Les prévisions ne pouvaient pas être distribuées un samedi et/ou un dimanche.",
       "100": "Le type de substitution {{messageV1}} n'est pas valide.",
       "101": "Une région valide doit être passée. {messageV1}} n'est pas valide.",
       "102": "L'enregistrement n'existe pas.",
