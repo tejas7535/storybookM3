@@ -488,6 +488,7 @@ export class ActiveCaseEffects {
               quotationToDate: action.quotationToDate,
               validTo: action.validTo,
               customerPurchaseOrderDate: action.customerPurchaseOrderDate,
+              customerInquiryDate: action.customerInquiryDate,
               requestedDelDate: action.requestedDelDate,
               shipToParty: action.shipToParty,
               purchaseOrderTypeId: action.purchaseOrderTypeId,
