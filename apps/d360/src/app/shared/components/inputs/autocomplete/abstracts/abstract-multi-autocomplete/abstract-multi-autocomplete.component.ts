@@ -1,5 +1,4 @@
 /* eslint-disable max-lines */
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import {
   Component,
   DestroyRef,
@@ -213,15 +212,6 @@ export abstract class AbstractMultiAutocompleteComponent implements OnInit {
    */
   @ViewChild(MatAutocompleteTrigger)
   private readonly trigger: MatAutocompleteTrigger;
-
-  /**
-   * The possible keyboard keys.
-   *
-   * @protected
-   * @type {number[]}
-   * @memberof AbstractMultiAutocompleteComponent
-   */
-  protected separatorKeysCodes: number[] = [ENTER, COMMA];
 
   /**
    * The DestroyRef instance used for takeUntilDestroyed().

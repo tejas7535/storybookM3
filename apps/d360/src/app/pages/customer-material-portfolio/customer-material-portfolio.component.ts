@@ -279,13 +279,13 @@ export class CustomerMaterialPortfolioComponent {
         tap((data) => {
           this.customerData.set(data);
 
-          if (this.customerData()) {
+          if (this.customerData().length > 0) {
             const customer: CustomerEntry = this.customerData()[0];
             this.selectedCustomer.set(customer);
             this.formGroup.setValue({
               customerControl: {
-                id: customer.customerNumber,
-                text: customer.customerName,
+                id: customer?.customerNumber,
+                text: customer?.customerName,
               },
             });
           }
