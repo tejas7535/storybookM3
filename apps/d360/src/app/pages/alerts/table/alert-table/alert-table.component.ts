@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {
   Component,
   DestroyRef,
@@ -28,7 +29,13 @@ import {
 } from 'ag-grid-enterprise';
 
 import { AlertService } from '../../../../feature/alerts/alert.service';
-import { Alert, AlertStatus, Priority } from '../../../../feature/alerts/model';
+import {
+  Alert,
+  AlertStatus,
+  alertTypesToActivateToggleViaURL,
+  OpenFunction,
+  Priority,
+} from '../../../../feature/alerts/model';
 import {
   getDefaultColDef,
   serverSideTableDefaultProps,
@@ -133,7 +140,18 @@ export class AlertTableComponent {
                         text: alert.materialDescription,
                       },
                     ],
-                  }
+                  },
+                  alert.openFunction ===
+                    OpenFunction.Customer_Material_Portfolio
+                    ? {
+                        state: {
+                          activateToggle:
+                            alertTypesToActivateToggleViaURL.includes(
+                              alert?.type
+                            ),
+                        },
+                      }
+                    : undefined
                 ),
             },
             {
@@ -154,7 +172,18 @@ export class AlertTableComponent {
                         text: translate(`alert.category.${alert.type}`),
                       },
                     ],
-                  }
+                  },
+                  alert.openFunction ===
+                    OpenFunction.Customer_Material_Portfolio
+                    ? {
+                        state: {
+                          activateToggle:
+                            alertTypesToActivateToggleViaURL.includes(
+                              alert?.type
+                            ),
+                        },
+                      }
+                    : undefined
                 ),
             },
             {
@@ -169,7 +198,18 @@ export class AlertTableComponent {
                         text: alert.customerName,
                       },
                     ],
-                  }
+                  },
+                  alert.openFunction ===
+                    OpenFunction.Customer_Material_Portfolio
+                    ? {
+                        state: {
+                          activateToggle:
+                            alertTypesToActivateToggleViaURL.includes(
+                              alert?.type
+                            ),
+                        },
+                      }
+                    : undefined
                 ),
             },
           ],

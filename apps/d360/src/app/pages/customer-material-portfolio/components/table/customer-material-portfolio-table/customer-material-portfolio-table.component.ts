@@ -97,6 +97,7 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
   > = input.required();
 
   protected showChains = false;
+  protected toggleIsActive = input.required<boolean>();
 
   protected gridOptions: GridOptions = {
     ...serverSideTableDefaultProps,
@@ -190,6 +191,8 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
         this.initializeColumnDefs();
       }
     });
+
+    effect(() => (this.showChains = this.toggleIsActive()));
 
     effect(() => {
       if (this.refreshCounter() > 0) {

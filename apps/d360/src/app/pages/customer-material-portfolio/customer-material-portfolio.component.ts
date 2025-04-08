@@ -14,6 +14,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
+import { NavigationEnd, Router } from '@angular/router';
 
 import { catchError, EMPTY, take, tap } from 'rxjs';
 
@@ -107,6 +108,7 @@ export class CustomerMaterialPortfolioComponent {
   protected readonly selectableOptionsService: SelectableOptionsService =
     inject(SelectableOptionsService);
   private readonly store = inject(Store);
+  private readonly router = inject(Router);
 
   // Signals for managing component state, which are automatically updated in the view
   protected globalSelectionState: WritableSignal<GlobalSelectionState> = signal(
@@ -123,6 +125,8 @@ export class CustomerMaterialPortfolioComponent {
   protected refreshCounter: WritableSignal<number> = signal(0);
   protected customerSelectableValues: WritableSignal<OptionsLoadingResult> =
     signal({ options: [] });
+
+  protected toggleIsActive: WritableSignal<boolean> = signal(false);
 
   protected readonly GlobalSelectionStatus: typeof GlobalSelectionStatus =
     GlobalSelectionStatus;
@@ -170,6 +174,17 @@ export class CustomerMaterialPortfolioComponent {
         })),
       })
     );
+
+    this.router.events.pipe(takeUntilDestroyed()).subscribe((event) => {
+      // Handle URL Switch to detect Reports Page
+      if (event instanceof NavigationEnd) {
+        this.toggleIsActive.set(
+          this.router?.getCurrentNavigation()?.extras.state?.[
+            'activateToggle'
+          ] === true
+        );
+      }
+    });
   }
 
   /**

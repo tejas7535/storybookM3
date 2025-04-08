@@ -8,7 +8,12 @@ import {
   RowClassParams,
 } from 'ag-grid-enterprise';
 
-import { Alert, AlertStatus, Priority } from '../../../../feature/alerts/model';
+import {
+  Alert,
+  AlertStatus,
+  OpenFunction,
+  Priority,
+} from '../../../../feature/alerts/model';
 import {
   serverSideTableDefaultProps,
   sideBar,
@@ -263,20 +268,24 @@ describe('AlertTableComponent', () => {
 
         expect(
           component['globalSelectionStateService'].navigateWithGlobalSelection
-        ).toHaveBeenCalledWith(route, {
-          customerNumber: [
-            {
-              id: alert.customerNumber,
-              text: alert.customerName,
-            },
-          ],
-          materialNumber: [
-            {
-              id: alert.materialNumber,
-              text: alert.materialDescription,
-            },
-          ],
-        });
+        ).toHaveBeenCalledWith(
+          route,
+          {
+            customerNumber: [
+              {
+                id: alert.customerNumber,
+                text: alert.customerName,
+              },
+            ],
+            materialNumber: [
+              {
+                id: alert.materialNumber,
+                text: alert.materialDescription,
+              },
+            ],
+          },
+          undefined
+        );
       });
 
       it('should navigate with global selection for customer category', () => {
@@ -298,20 +307,24 @@ describe('AlertTableComponent', () => {
 
         expect(
           component['globalSelectionStateService'].navigateWithGlobalSelection
-        ).toHaveBeenCalledWith(route, {
-          customerNumber: [
-            {
-              id: alert.customerNumber,
-              text: alert.customerName,
-            },
-          ],
-          alertType: [
-            {
-              id: alert.type,
-              text: `alert.category.${alert.type}`,
-            },
-          ],
-        });
+        ).toHaveBeenCalledWith(
+          route,
+          {
+            customerNumber: [
+              {
+                id: alert.customerNumber,
+                text: alert.customerName,
+              },
+            ],
+            alertType: [
+              {
+                id: alert.type,
+                text: `alert.category.${alert.type}`,
+              },
+            ],
+          },
+          undefined
+        );
       });
 
       it('should navigate with global selection for customer', () => {
@@ -333,14 +346,78 @@ describe('AlertTableComponent', () => {
 
         expect(
           component['globalSelectionStateService'].navigateWithGlobalSelection
-        ).toHaveBeenCalledWith(route, {
-          customerNumber: [
-            {
-              id: alert.customerNumber,
-              text: alert.customerName,
-            },
-          ],
-        });
+        ).toHaveBeenCalledWith(
+          route,
+          {
+            customerNumber: [
+              {
+                id: alert.customerNumber,
+                text: alert.customerName,
+              },
+            ],
+          },
+          undefined
+        );
+      });
+
+      it('should set activateToggle to true if alert.type is included in alertTypesToActivateToggleViaURL', () => {
+        alert = {
+          type: 'someType',
+          openFunction: OpenFunction.Customer_Material_Portfolio,
+        } as any;
+        const alertTypesToActivateToggleViaURL = ['someType', 'anotherType'];
+
+        const result =
+          alert.openFunction === OpenFunction.Customer_Material_Portfolio
+            ? {
+                state: {
+                  activateToggle: alertTypesToActivateToggleViaURL.includes(
+                    alert?.type
+                  ),
+                },
+              }
+            : undefined;
+
+        expect(result?.state?.activateToggle).toBe(true);
+      });
+
+      it('should set activateToggle to false if alert.type is not included in alertTypesToActivateToggleViaURL', () => {
+        alert = {
+          type: 'differentType',
+          openFunction: OpenFunction.Customer_Material_Portfolio,
+        } as any;
+        const alertTypesToActivateToggleViaURL = ['someType', 'anotherType'];
+
+        const result =
+          alert.openFunction === OpenFunction.Customer_Material_Portfolio
+            ? {
+                state: {
+                  activateToggle: alertTypesToActivateToggleViaURL.includes(
+                    alert?.type
+                  ),
+                },
+              }
+            : undefined;
+
+        expect(result?.state?.activateToggle).toBe(false);
+      });
+
+      it('should return undefined if alert.openFunction is not Customer_Material_Portfolio', () => {
+        alert = { type: 'someType', openFunction: 'DifferentFunction' } as any;
+        const alertTypesToActivateToggleViaURL = ['someType', 'anotherType'];
+
+        const result =
+          alert.openFunction === OpenFunction.Customer_Material_Portfolio
+            ? {
+                state: {
+                  activateToggle: alertTypesToActivateToggleViaURL.includes(
+                    alert?.type
+                  ),
+                },
+              }
+            : undefined;
+
+        expect(result).toBeUndefined();
       });
     });
   });

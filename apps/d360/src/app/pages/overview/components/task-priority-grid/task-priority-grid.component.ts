@@ -31,6 +31,8 @@ import {
 } from '../../../../feature/alerts/alert.service';
 import {
   Alert,
+  AlertCategory,
+  alertTypesToActivateToggleViaURL,
   OpenFunction,
   Priority,
 } from '../../../../feature/alerts/model';
@@ -193,7 +195,19 @@ export class TaskPriorityGridComponent {
                       (selectableAlert: AlertType) =>
                         this.getSelectableOptionForAlert(selectableAlert)
                     ),
-                  }
+                  },
+                  alert.openFunction ===
+                    OpenFunction.Customer_Material_Portfolio
+                    ? {
+                        state: {
+                          activateToggle: (
+                            alert?.alertTypes[priority] || []
+                          )?.some((type: AlertCategory) =>
+                            alertTypesToActivateToggleViaURL.includes(type)
+                          ),
+                        },
+                      }
+                    : undefined
                 ),
             });
           }
@@ -223,7 +237,23 @@ export class TaskPriorityGridComponent {
                     ].map((selectableAlert: AlertType) =>
                       this.getSelectableOptionForAlert(selectableAlert)
                     ),
-                  }
+                  },
+                  alert.openFunction ===
+                    OpenFunction.Customer_Material_Portfolio
+                    ? {
+                        state: {
+                          activateToggle: [
+                            ...new Set(
+                              this.priorities().flatMap(
+                                (prio) => alert.alertTypes[prio] || []
+                              )
+                            ),
+                          ]?.some((type) =>
+                            alertTypesToActivateToggleViaURL.includes(type)
+                          ),
+                        },
+                      }
+                    : undefined
                 ),
             },
           ],

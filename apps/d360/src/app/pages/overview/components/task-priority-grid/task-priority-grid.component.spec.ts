@@ -105,6 +105,80 @@ describe('TaskPriorityGridComponent', () => {
     jest.resetAllMocks();
   });
 
+  describe('context', () => {
+    it('should set activateToggle to true if any alert type in alert.alertTypes[priority] is included in alertTypesToActivateToggleViaURL', () => {
+      const alert = {
+        alertTypes: {
+          high: ['type1', 'type2'],
+        },
+        openFunction: OpenFunction.Customer_Material_Portfolio,
+      };
+      const alertTypesToActivateToggleViaURL = ['type2', 'type3'] as any;
+      const priority = 'high';
+
+      const result =
+        alert.openFunction === OpenFunction.Customer_Material_Portfolio
+          ? {
+              state: {
+                activateToggle: (alert?.alertTypes[priority] || [])?.some(
+                  (type: any) => alertTypesToActivateToggleViaURL.includes(type)
+                ),
+              },
+            }
+          : undefined;
+
+      expect(result?.state?.activateToggle).toBe(true);
+    });
+
+    it('should set activateToggle to false if no alert type in alert.alertTypes[priority] is included in alertTypesToActivateToggleViaURL', () => {
+      const alert = {
+        alertTypes: {
+          high: ['type1', 'type4'],
+        },
+        openFunction: OpenFunction.Customer_Material_Portfolio,
+      };
+      const alertTypesToActivateToggleViaURL = ['type2', 'type3'] as any;
+      const priority = 'high';
+
+      const result =
+        alert.openFunction === OpenFunction.Customer_Material_Portfolio
+          ? {
+              state: {
+                activateToggle: (alert?.alertTypes[priority] || [])?.some(
+                  (type: any) => alertTypesToActivateToggleViaURL.includes(type)
+                ),
+              },
+            }
+          : undefined;
+
+      expect(result?.state?.activateToggle).toBe(false);
+    });
+
+    it('should return undefined if alert.openFunction is not Customer_Material_Portfolio', () => {
+      const alert = {
+        alertTypes: {
+          high: ['type1', 'type2'],
+        },
+        openFunction: 'DifferentFunction',
+      };
+      const alertTypesToActivateToggleViaURL = ['type2', 'type3'] as any;
+      const priority = 'high';
+
+      const result =
+        alert.openFunction === OpenFunction.Customer_Material_Portfolio
+          ? {
+              state: {
+                activateToggle: (alert?.alertTypes[priority] || [])?.some(
+                  (type: any) => alertTypesToActivateToggleViaURL.includes(type)
+                ),
+              },
+            }
+          : undefined;
+
+      expect(result).toBeUndefined();
+    });
+  });
+
   describe('unit', () => {
     const createComponent = createComponentFactory({
       component: TaskPriorityGridComponent,
@@ -157,10 +231,14 @@ describe('TaskPriorityGridComponent', () => {
         const menuButton1 = menu[0].submenu[0];
         expect(menuButton1.text).toEqual('overview.yourTasks.priority1');
         menuButton1.onClick();
-        expect(globalNavigate).toHaveBeenCalledWith('demand-validation', {
-          alertType: [aciadpOption],
-          customerNumber: [{ id: '1', text: 'first customer' }],
-        });
+        expect(globalNavigate).toHaveBeenCalledWith(
+          'demand-validation',
+          {
+            alertType: [aciadpOption],
+            customerNumber: [{ id: '1', text: 'first customer' }],
+          },
+          undefined
+        );
       });
 
       it('should call the correct filter for the second priority button', () => {
@@ -173,10 +251,14 @@ describe('TaskPriorityGridComponent', () => {
         const menuButton2 = menu[0].submenu[1];
         expect(menuButton2.text).toEqual('overview.yourTasks.priority2');
         menuButton2.onClick();
-        expect(globalNavigate).toHaveBeenCalledWith('demand-validation', {
-          alertType: [aciadpOption, cfpraoOption],
-          customerNumber: [{ id: '1', text: 'first customer' }],
-        });
+        expect(globalNavigate).toHaveBeenCalledWith(
+          'demand-validation',
+          {
+            alertType: [aciadpOption, cfpraoOption],
+            customerNumber: [{ id: '1', text: 'first customer' }],
+          },
+          undefined
+        );
       });
 
       it('should call the correct filter on selected filter button, when both priorities are selected', () => {
@@ -194,10 +276,14 @@ describe('TaskPriorityGridComponent', () => {
           'overview.yourTasks.selectedPriorities'
         );
         menuButton3.onClick();
-        expect(globalNavigate).toHaveBeenCalledWith('demand-validation', {
-          alertType: [aciadpOption, cfpraoOption],
-          customerNumber: [{ id: '1', text: 'first customer' }],
-        });
+        expect(globalNavigate).toHaveBeenCalledWith(
+          'demand-validation',
+          {
+            alertType: [aciadpOption, cfpraoOption],
+            customerNumber: [{ id: '1', text: 'first customer' }],
+          },
+          undefined
+        );
       });
 
       it('should call the correct filter on selected filter button, when only one priority is selected', () => {
@@ -215,12 +301,17 @@ describe('TaskPriorityGridComponent', () => {
           'overview.yourTasks.selectedPriorities'
         );
         menuButton3.onClick();
-        expect(globalNavigate).toHaveBeenCalledWith('demand-validation', {
-          alertType: [aciadpOption],
-          customerNumber: [{ id: '1', text: 'first customer' }],
-        });
+        expect(globalNavigate).toHaveBeenCalledWith(
+          'demand-validation',
+          {
+            alertType: [aciadpOption],
+            customerNumber: [{ id: '1', text: 'first customer' }],
+          },
+          undefined
+        );
       });
     });
+
     describe('filter', () => {
       it('should filter data by customer numbers', () => {
         spectator = createComponent({
@@ -308,6 +399,7 @@ describe('TaskPriorityGridComponent', () => {
       });
     });
   });
+
   describe('integration', () => {
     const createIntegratedComponent = createComponentFactory({
       component: TaskPriorityGridComponent,

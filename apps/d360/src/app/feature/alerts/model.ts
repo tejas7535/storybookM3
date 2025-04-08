@@ -90,3 +90,13 @@ export enum AlertCategory {
   SINWAO = 'SINWAO',
   NPOSDP = 'NPOSDP',
 }
+
+export const alertTypesToActivateToggleViaURL: AlertCategory[] = [
+  AlertCategory.RESEDP, // Check substitution
+  AlertCategory.REUSAO, // Check substitution, orders for predecessors
+  AlertCategory.SINWAO, // Substitution Schaeffler intern activated
+  AlertCategory.SPCHAO, // Substitution proposal changed
+  AlertCategory.SPCHDP, // Substitution proposal changed
+  AlertCategory.SPNWAO, // Check substitution proposal
+  AlertCategory.SPSBDP, // Substitution proposal blocked
+];

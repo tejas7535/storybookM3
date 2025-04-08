@@ -543,8 +543,8 @@
   "customer_material_portfolio": {
     "title": "Customer Material Portfolio",
     "toolbar": {
-      "expandAll": "fold out",
-      "collapseAll": "fold"
+      "expandAll": "expand",
+      "collapseAll": "collapse"
     },
     "button": {
       "addCustomerMaterial": "Add customer material",

@@ -24,6 +24,7 @@ describe('CustomerMaterialPortfolioTableComponent', () => {
     Stub.setInput('filterModel', {});
     Stub.setInput('refreshCounter', 0);
     Stub.setInput('openSingleDialog', jest.fn());
+    Stub.setInput('toggleIsActive', false);
 
     Stub.detectChanges();
   });
