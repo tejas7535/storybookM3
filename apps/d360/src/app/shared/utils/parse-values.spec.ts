@@ -156,10 +156,10 @@ describe('Parse Values', () => {
       expect(result).toBe('W');
     });
 
-    it('should return undefined when input does not match any valid option', () => {
+    it('should return original value when input does not match any valid option', () => {
       const result = parseDemandValidationPeriodTypeIfPossible('INVALID');
 
-      expect(result).toBeUndefined();
+      expect(result).toBe('INVALID');
     });
   });
 });

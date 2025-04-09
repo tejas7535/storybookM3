@@ -151,6 +151,6 @@ export function parseDemandValidationPeriodTypeIfPossible(
           ).toUpperCase()
     ) ||
       ['M', 'W'].find((option) => uppercasedInput === option)) ??
-    undefined
+    value
   );
 }

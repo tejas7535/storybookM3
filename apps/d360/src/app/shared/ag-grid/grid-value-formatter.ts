@@ -76,8 +76,10 @@ export function listUploadPeriodTypeValueFormatter(): ValueFormatterFunc<DemandV
       return '';
     }
 
-    return translate(
-      `validation_of_demand.upload_modal.list.menu_item_${value}`
+    return translateOr(
+      `validation_of_demand.upload_modal.list.menu_item_${value}`,
+      undefined,
+      value
     );
   };
 }

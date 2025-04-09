@@ -155,6 +155,10 @@ export class DemandValidationMultiListEditModalComponent extends AbstractTableUp
       field: 'periodType',
       editable: true,
       valueFormatter: listUploadPeriodTypeValueFormatter(),
+      validationFn: (value) =>
+        ['week', 'month'].includes(value)
+          ? null
+          : translate('sap_message./SGD/SCM_SOP_SALES.3'),
       cellEditor: 'agRichSelectCellEditor',
       cellEditorPopup: true,
       cellEditorParams: {
