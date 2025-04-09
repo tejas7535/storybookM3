@@ -195,6 +195,25 @@ export class AppComponent implements OnInit {
               AppRoutePath.SalesValidationPage,
               JSON.stringify(params)
             );
+          } else if (
+            foundRoute?.data?.hasTaskRulesSelection &&
+            params?.['createNewTask']
+          ) {
+            sessionStorage.setItem(
+              AppRoutePath.AlertRuleManagementPage,
+              JSON.stringify({
+                customerNumber: params?.['customerNumber'] || null,
+                materialNumber: params?.['materialNumber'] || null,
+                createNewTask: true,
+              })
+            );
+
+            this.router.navigate([AppRoutePath.AlertRuleManagementPage], {
+              onSameUrlNavigation: 'reload',
+              skipLocationChange: false,
+            });
+
+            return EMPTY;
           }
 
           return of(true);

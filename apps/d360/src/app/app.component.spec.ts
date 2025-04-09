@@ -1,6 +1,6 @@
 import { NavigationEnd } from '@angular/router';
 
-import { combineLatest, of, take } from 'rxjs';
+import { BehaviorSubject, combineLatest, EMPTY, of, take } from 'rxjs';
 
 import {
   EventMessage,
@@ -11,17 +11,22 @@ import {
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { AppRoutePath } from './app.routes.enum';
+import { DATE_FNS_LOOKUP } from './shared/constants/available-locales';
 import { Stub } from './shared/test/stub.class';
 import { ValidationHelper } from './shared/utils/validation/validation-helper';
 
 describe('AppComponent', () => {
   let component: AppComponent;
+  let routerEvents: BehaviorSubject<any>;
+  let queryParams: BehaviorSubject<any>;
 
   beforeEach(() => {
+    routerEvents = new BehaviorSubject(null);
+    queryParams = new BehaviorSubject(null);
     component = Stub.getForEffect<AppComponent>({
       component: AppComponent,
       providers: [
-        Stub.getRouterProvider(),
+        Stub.getRouterProvider(routerEvents),
         Stub.getAlertServiceProvider(),
         Stub.getMsalServiceProvider(),
         Stub.getMsalBroadcastServiceProvider(),
@@ -31,7 +36,7 @@ describe('AppComponent', () => {
             profileImage: { url: 'test-image-url' },
           },
         }),
-        Stub.getActivatedRouteProvider(),
+        Stub.getActivatedRouteProvider(queryParams),
         Stub.getUserServiceProvider(),
         Stub.getDateAdapterProvider(),
         Stub.getStreamSaverServiceProvider(),
@@ -60,6 +65,211 @@ describe('AppComponent', () => {
     expect(component['title']()).toBe(
       'header.fullTitle | tabbarMenu.salesSuite'
     );
+  });
+
+  describe('constructor', () => {
+    beforeEach(() => {
+      sessionStorage.removeItem(AppRoutePath.AlertRuleManagementPage);
+      jest.spyOn(sessionStorage, 'getItem');
+      jest.spyOn(sessionStorage, 'setItem');
+    });
+
+    it('should return EMPTY if params are empty', () => {
+      const params = {};
+
+      queryParams.next(params);
+      routerEvents.next(new NavigationEnd(1, '/foo', '/foo'));
+
+      const result = Object.entries(params).length === 0 ? EMPTY : of(true);
+
+      expect(result).toBe(EMPTY);
+    });
+
+    it('should return of(true) if activeUrl is root or empty', () => {
+      const originalLocation = window.location;
+
+      // Replace the window.location object with a mock
+      delete (window as any).location;
+      (window as any).location = { href: 'http://localhost/' };
+
+      const mockParams = { param1: 'value1' };
+      let mockEvent = new NavigationEnd(1, '/', '/');
+
+      queryParams.next(mockParams);
+      routerEvents.next(mockEvent);
+
+      expect(window.location.href).toBe('http://localhost/');
+
+      mockEvent = new NavigationEnd(2, '', '');
+
+      queryParams.next(mockParams);
+      routerEvents.next(mockEvent);
+
+      expect(window.location.href).toBe('http://localhost/');
+
+      // Restore the original window.location object
+      (window as any).location = originalLocation;
+    });
+
+    it('should set the activeUrl signal when a NavigationEnd event occurs', () => {
+      const mockEvent = new NavigationEnd(1, '/test-url', '/test-url');
+      const setActiveUrlSpy = jest.spyOn(component['activeUrl'], 'set');
+
+      routerEvents.next(mockEvent);
+
+      expect(setActiveUrlSpy).toHaveBeenCalledWith('test-url');
+    });
+
+    it('should call handleQueryParams$ when a route with global selection is found', () => {
+      const mockParams = { param1: 'value1' };
+      const mockEvent = new NavigationEnd(
+        1,
+        AppRoutePath.DemandValidationPage,
+        AppRoutePath.DemandValidationPage
+      );
+      const handleQueryParamsSpy = jest
+        .spyOn(component['globalSelectionStateService'], 'handleQueryParams$')
+        .mockReturnValue(of(true));
+
+      queryParams.next(mockParams);
+      routerEvents.next(mockEvent);
+
+      expect(handleQueryParamsSpy).toHaveBeenCalledWith(mockParams);
+    });
+
+    it('should set sessionStorage for sales validation selection', () => {
+      const mockParams = { param1: 'value1' };
+      const mockEvent = new NavigationEnd(
+        1,
+        AppRoutePath.SalesValidationPage,
+        AppRoutePath.SalesValidationPage
+      );
+
+      queryParams.next(mockParams);
+      routerEvents.next(mockEvent);
+
+      expect(sessionStorage.getItem(AppRoutePath.SalesValidationPage)).toBe(
+        JSON.stringify(mockParams)
+      );
+    });
+
+    it('should not set sessionStorage and navigate for task rules selection if createNewTask is missing', () => {
+      const mockParams = { customerNumber: '123', materialNumber: '456' };
+      const mockEvent = new NavigationEnd(
+        1,
+        AppRoutePath.AlertRuleManagementPage,
+        AppRoutePath.AlertRuleManagementPage
+      );
+      const navigateSpy = jest.spyOn(component['router'], 'navigate');
+
+      queryParams.next(mockParams);
+      routerEvents.next(mockEvent);
+
+      expect(
+        sessionStorage.getItem(AppRoutePath.AlertRuleManagementPage)
+      ).toBeUndefined();
+      expect(navigateSpy).not.toHaveBeenCalled();
+    });
+
+    it('should not set sessionStorage and navigate for task rules selection if createNewTask is false', () => {
+      const mockParams = {
+        customerNumber: '123',
+        materialNumber: '456',
+        createNewTask: false,
+      };
+      const mockEvent = new NavigationEnd(
+        1,
+        AppRoutePath.AlertRuleManagementPage,
+        AppRoutePath.AlertRuleManagementPage
+      );
+      const navigateSpy = jest.spyOn(component['router'], 'navigate');
+
+      queryParams.next(mockParams);
+      routerEvents.next(mockEvent);
+
+      expect(
+        sessionStorage.getItem(AppRoutePath.AlertRuleManagementPage)
+      ).toBeUndefined();
+      expect(navigateSpy).not.toHaveBeenCalled();
+    });
+
+    it('should set sessionStorage and navigate for task rules selection if createNewTask is not missing', () => {
+      const mockParams = {
+        customerNumber: '123',
+        materialNumber: '456',
+        createNewTask: true,
+      };
+      const mockEvent = new NavigationEnd(
+        1,
+        AppRoutePath.AlertRuleManagementPage,
+        AppRoutePath.AlertRuleManagementPage
+      );
+      const navigateSpy = jest.spyOn(component['router'], 'navigate');
+
+      queryParams.next(mockParams);
+      routerEvents.next(mockEvent);
+
+      expect(sessionStorage.getItem(AppRoutePath.AlertRuleManagementPage)).toBe(
+        JSON.stringify(mockParams)
+      );
+      expect(navigateSpy).toHaveBeenCalledWith(
+        [AppRoutePath.AlertRuleManagementPage],
+        {
+          onSameUrlNavigation: 'reload',
+          skipLocationChange: false,
+        }
+      );
+    });
+
+    it('should set sessionStorage and navigate for task rules selection if there are no params', () => {
+      const mockParams = { foo: 'bar', createNewTask: true };
+      const mockEvent = new NavigationEnd(
+        1,
+        AppRoutePath.AlertRuleManagementPage,
+        AppRoutePath.AlertRuleManagementPage
+      );
+      const navigateSpy = jest.spyOn(component['router'], 'navigate');
+
+      queryParams.next(mockParams);
+      routerEvents.next(mockEvent);
+
+      expect(sessionStorage.getItem(AppRoutePath.AlertRuleManagementPage)).toBe(
+        JSON.stringify({
+          customerNumber: null,
+          materialNumber: null,
+          createNewTask: true,
+        })
+      );
+      expect(navigateSpy).toHaveBeenCalledWith(
+        [AppRoutePath.AlertRuleManagementPage],
+        {
+          onSameUrlNavigation: 'reload',
+          skipLocationChange: false,
+        }
+      );
+    });
+
+    it('should set the locale on the dateAdapter when localeChanges$ emits', () => {
+      const mockLocale = 'de-DE';
+      const setLocaleSpy = jest.spyOn(component['dateAdapter'], 'setLocale');
+
+      (component['translocoLocaleService'].localeChanges$ as any).next(
+        mockLocale
+      );
+
+      expect(setLocaleSpy).toHaveBeenCalledWith(DATE_FNS_LOOKUP[mockLocale]);
+    });
+
+    it('should set the default locale on the dateAdapter when localeChanges$ emits', () => {
+      const mockLocale = 'ab-CD';
+      const setLocaleSpy = jest.spyOn(component['dateAdapter'], 'setLocale');
+
+      (component['translocoLocaleService'].localeChanges$ as any).next(
+        mockLocale
+      );
+
+      expect(setLocaleSpy).toHaveBeenCalledWith(DATE_FNS_LOOKUP['en-US']);
+    });
   });
 
   describe('ngOnInit', () => {

@@ -37,6 +37,7 @@ import { format } from 'date-fns';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { AppRoutePath } from '../../../../../../app.routes.enum';
 import { AlertRulesService } from '../../../../../../feature/alert-rules/alert-rules.service';
 import {
   AlertRule,
@@ -343,6 +344,8 @@ export class AlertRuleEditSingleModalComponent implements OnInit {
    */
   public ngOnInit(): void {
     this.init();
+
+    sessionStorage.removeItem(AppRoutePath.AlertRuleManagementPage);
   }
 
   /**

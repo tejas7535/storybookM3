@@ -1,8 +1,6 @@
 <div *transloco="let t" class="flex flex-col w-full">
   @if ((selectableOptionsService.loading$ | ngrxPush) || loading()) {
-    <schaeffler-loading-spinner
-      [useBearingLoadingSpinner]="true"
-    ></schaeffler-loading-spinner>
+    <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
   }
 
   <d360-styled-section [grow]="true" class="flex flex-col h-full">
@@ -39,6 +37,6 @@
       [editAlertRuleCallback]="handleCreateSingleAlertRule.bind(this)"
       [loadData$]="loadData$.bind(this)"
       (getApi)="getApi($event)"
-    ></d360-alert-rule-table>
+    />
   </d360-styled-section>
 </div>

@@ -27,6 +27,7 @@ export interface CustomRoute extends Route {
     titles?: string[];
     hasGlobalSelection?: boolean;
     hasSalesValidationSelection?: boolean;
+    hasTaskRulesSelection?: boolean;
   };
   path: AppRouteValue;
 }
@@ -180,6 +181,7 @@ export const appRoutes: RouteConfig = {
         data: {
           allowedRoles: workflowManagementAllowedRoles,
           titles: ['header.title', 'tabbarMenu.alert-rule-editor.label'],
+          hasTaskRulesSelection: true,
         },
         loadComponent: /* istanbul ignore next */ () =>
           import('../app/pages/alert-rules/alert-rules.component').then(

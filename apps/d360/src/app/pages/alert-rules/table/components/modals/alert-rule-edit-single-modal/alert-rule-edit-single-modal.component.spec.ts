@@ -2,6 +2,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { EMPTY, of } from 'rxjs';
 
+import { AppRoutePath } from '../../../../../../app.routes.enum';
 import {
   AlertRuleSaveResponse,
   AlertTypeDescription,
@@ -36,6 +37,7 @@ describe('AlertRuleEditSingleModalComponent', () => {
 
   describe('ngOnInit', () => {
     it('should initialize the component and set initial values', (done) => {
+      jest.spyOn(sessionStorage, 'removeItem').mockImplementation(() => {});
       const alertTypeData = [{ alertType: 'type1' }] as AlertTypeDescription[];
       const currency = 'USD';
 
@@ -60,6 +62,11 @@ describe('AlertRuleEditSingleModalComponent', () => {
         expect(component['updateThresholds']).toHaveBeenCalled();
         expect(component['setIsAtLeastOneRequireStatus']).toHaveBeenCalled();
         expect(component.loading()).toBe(false);
+
+        expect(sessionStorage.removeItem).toHaveBeenCalledWith(
+          AppRoutePath.AlertRuleManagementPage
+        );
+
         done();
       });
     });

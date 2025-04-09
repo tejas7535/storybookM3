@@ -3,6 +3,7 @@ import {
   DestroyRef,
   inject,
   OnDestroy,
+  OnInit,
   signal,
   WritableSignal,
 } from '@angular/core';
@@ -19,6 +20,7 @@ import { GridApi } from 'ag-grid-enterprise';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { AppRoutePath } from '../../app.routes.enum';
 import { AlertRulesService } from '../../feature/alert-rules/alert-rules.service';
 import { AlertRule, AlertRuleResponse } from '../../feature/alert-rules/model';
 import { TableToolbarComponent } from '../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
@@ -53,7 +55,7 @@ import {
   templateUrl: './alert-rules.component.html',
   styleUrl: './alert-rules.component.scss',
 })
-export class AlertRulesComponent implements OnDestroy {
+export class AlertRulesComponent implements OnDestroy, OnInit {
   private readonly alertRuleService: AlertRulesService =
     inject(AlertRulesService);
   private readonly dialog: MatDialog = inject(MatDialog);
@@ -197,12 +199,29 @@ export class AlertRulesComponent implements OnDestroy {
       .subscribe();
   }
 
-  /**
-   * @inheritdoc
-   */
+  /** @inheritdoc */
   public ngOnDestroy(): void {
     // close all open dialogs
     this.dialog.closeAll();
+  }
+
+  /** @inheritdoc */
+  public ngOnInit(): void {
+    try {
+      const urlData: {
+        customerNumber: string | null;
+        materialNumber: string | null;
+        createNewTask?: boolean;
+      } | null = JSON.parse(
+        sessionStorage.getItem(AppRoutePath.AlertRuleManagementPage) || 'null'
+      );
+
+      if (urlData?.createNewTask) {
+        this.handleCreateSingleAlertRule(urlData as AlertRule);
+      }
+    } catch (error: unknown) {
+      console.error(error);
+    }
   }
 
   /**

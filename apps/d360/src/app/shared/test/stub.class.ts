@@ -96,7 +96,7 @@ export class Stub {
     MockProvider(
       TranslocoLocaleService,
       {
-        localeChanges$: of('en-US'),
+        localeChanges$: new BehaviorSubject('en-US'),
         getLocale: () => 'en-US',
         localizeDate: () => '',
         localizeNumber: () => '',
@@ -139,6 +139,7 @@ export class Stub {
         getState: jest.fn().mockReturnValue({}),
         getGlobalSelectionStatus: jest.fn().mockReturnValue(''),
         navigateWithGlobalSelection: jest.fn().mockReturnValue(of(true)),
+        handleQueryParams$: jest.fn().mockReturnValue(of(true)),
       },
       'useValue'
     ),
@@ -504,11 +505,13 @@ export class Stub {
     );
   }
 
-  public static getRouterProvider(): ValueProvider {
+  public static getRouterProvider(
+    events: BehaviorSubject<any> = new BehaviorSubject(null)
+  ): ValueProvider {
     return MockProvider(
       Router,
       {
-        events: new BehaviorSubject([]),
+        events,
         parseUrl: jest.fn(),
         navigate: jest.fn(),
       },
@@ -516,8 +519,10 @@ export class Stub {
     );
   }
 
-  public static getActivatedRouteProvider(): FactoryProvider {
-    return MockProvider(ActivatedRoute);
+  public static getActivatedRouteProvider(
+    queryParams: BehaviorSubject<any> = new BehaviorSubject(null)
+  ): FactoryProvider {
+    return MockProvider(ActivatedRoute, { queryParams });
   }
 
   public static getAuthServiceProvider(getUserRoles?: any): ValueProvider {

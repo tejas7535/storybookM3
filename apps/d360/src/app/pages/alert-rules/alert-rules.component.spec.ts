@@ -2,6 +2,7 @@ import { isEmpty, of, take, throwError } from 'rxjs';
 
 import { GridApi } from 'ag-grid-enterprise';
 
+import { AppRoutePath } from '../../app.routes.enum';
 import { AlertRule, AlertRuleResponse } from '../../feature/alert-rules/model';
 import { Stub } from '../../shared/test/stub.class';
 import { AlertRulesComponent } from './alert-rules.component';
@@ -273,6 +274,82 @@ describe('AlertRulesComponent', () => {
       const closeAllSpy = jest.spyOn(component['dialog'], 'closeAll');
       component.ngOnDestroy();
       expect(closeAllSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('ngOnInit', () => {
+    let handleCreateSingleAlertRuleSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      handleCreateSingleAlertRuleSpy = jest.spyOn(
+        component as any,
+        'handleCreateSingleAlertRule'
+      );
+    });
+
+    it('should call handleCreateSingleAlertRule with parsed sessionStorage data if data exists', () => {
+      const mockUrlData = {
+        customerNumber: '123',
+        materialNumber: '456',
+        createNewTask: true,
+      };
+      sessionStorage.setItem(
+        AppRoutePath.AlertRuleManagementPage,
+        JSON.stringify(mockUrlData)
+      );
+
+      component.ngOnInit();
+
+      expect(handleCreateSingleAlertRuleSpy).toHaveBeenCalledWith(mockUrlData);
+    });
+
+    it('should not call handleCreateSingleAlertRule if createNewTask data is false', () => {
+      sessionStorage.setItem(
+        AppRoutePath.AlertRuleManagementPage,
+        JSON.stringify({
+          customerNumber: '123',
+          materialNumber: '456',
+          createNewTask: false,
+        })
+      );
+
+      component.ngOnInit();
+
+      expect(handleCreateSingleAlertRuleSpy).not.toHaveBeenCalled();
+    });
+
+    it('should not call handleCreateSingleAlertRule if createNewTask data is missing', () => {
+      sessionStorage.setItem(
+        AppRoutePath.AlertRuleManagementPage,
+        JSON.stringify({
+          customerNumber: '123',
+          materialNumber: '456',
+        })
+      );
+
+      component.ngOnInit();
+
+      expect(handleCreateSingleAlertRuleSpy).not.toHaveBeenCalled();
+    });
+
+    it('should not call handleCreateSingleAlertRule if sessionStorage data is null', () => {
+      sessionStorage.removeItem(AppRoutePath.AlertRuleManagementPage);
+
+      component.ngOnInit();
+
+      expect(handleCreateSingleAlertRuleSpy).not.toHaveBeenCalled();
+    });
+
+    it('should handle invalid JSON in sessionStorage gracefully', () => {
+      jest.spyOn(console, 'error').mockImplementation(() => {});
+      sessionStorage.setItem(
+        AppRoutePath.AlertRuleManagementPage,
+        'invalid-json'
+      );
+
+      expect(() => component.ngOnInit()).not.toThrow();
+      expect(handleCreateSingleAlertRuleSpy).not.toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalled();
     });
   });
 
