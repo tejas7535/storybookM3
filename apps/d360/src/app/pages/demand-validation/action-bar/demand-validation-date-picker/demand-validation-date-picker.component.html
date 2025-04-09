@@ -1,6 +1,6 @@
 <div class="form" [formGroup]="formGroup()" *transloco="let t">
   <div class="pt-6 pb-4 grid grid-cols-3 gap-4">
-    @if (periodType1().getRawValue()?.id === DateRangePeriod.Weekly) {
+    @if (periodType1().getRawValue()?.id === DateRangePeriod.Monthly) {
       <d360-date-picker-month-year
         [label]="t('validation_of_demand.date_picker.start_date')"
         [control]="startDatePeriod1()"
@@ -17,7 +17,7 @@
       />
     }
 
-    @if (periodType1().getRawValue()?.id === DateRangePeriod.Weekly) {
+    @if (periodType1().getRawValue()?.id === DateRangePeriod.Monthly) {
       <d360-date-picker-month-year
         [label]="t('validation_of_demand.date_picker.end_date')"
         [minDate]="minDateEndDatePeriod1"
