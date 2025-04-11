@@ -96,6 +96,6 @@ export class DisplayFunctions {
 /**
  * @deprecated use DisplayFunctions.displayFnText instead
  */
-export function displayFnText(option: SelectableValue | string) {
+export function displayFnText(option: SelectableValue | string): string {
   return DisplayFunctions.displayFnText(option);
 }

@@ -6,6 +6,7 @@ import { GetRowIdParams, ICellRendererParams } from 'ag-grid-enterprise';
 
 import { statusActions } from '../status-actions';
 import { CMPEntry } from './../../../../../feature/customer-material-portfolio/model';
+import { ActionsMenuCellRendererComponent } from './../../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
 import { Stub } from './../../../../../shared/test/stub.class';
 import { CustomerMaterialPortfolioTableComponent } from './customer-material-portfolio-table.component';
 
@@ -216,15 +217,52 @@ describe('CustomerMaterialPortfolioTableComponent', () => {
   });
 
   describe('initializeColumnDefs', () => {
-    it('should initialize column definitions correctly', () => {
+    it('should initialize column definitions with correct structure', () => {
       const setGridOptionSpy = jest.spyOn(
         component['gridApi'],
         'setGridOption'
       );
+
+      jest
+        .spyOn(component['selectableOptionsService'].loading$, 'pipe')
+        .mockReturnValue(of(false));
+
       component['initializeColumnDefs']();
+
       expect(setGridOptionSpy).toHaveBeenCalledWith(
         'columnDefs',
-        expect.any(Array)
+        expect.arrayContaining([
+          {
+            cellClass: ['fixed-action-column'],
+            field: 'menu',
+            headerName: '',
+            cellRenderer: ActionsMenuCellRendererComponent,
+            lockVisible: true,
+            pinned: 'right',
+            lockPinned: true,
+            suppressHeaderMenuButton: true,
+            maxWidth: 64,
+            suppressSizeToFit: true,
+          },
+        ])
+      );
+    });
+
+    it('should not set column definitions if loading is true', () => {
+      const setGridOptionSpy = jest.spyOn(
+        component['gridApi'],
+        'setGridOption'
+      );
+      setGridOptionSpy.mockClear();
+      jest
+        .spyOn(component['selectableOptionsService'].loading$, 'pipe')
+        .mockReturnValue(of(true));
+
+      component['initializeColumnDefs']();
+
+      expect(setGridOptionSpy).not.toHaveBeenCalledWith(
+        'columnDefs',
+        expect.anything()
       );
     });
   });

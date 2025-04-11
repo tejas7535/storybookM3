@@ -12,22 +12,25 @@ import {
   demandCharacteristicValueFormatter,
   portfolioStatusValueFormatter,
 } from '../../../shared/ag-grid/grid-value-formatter';
+import { DisplayFunctions } from '../../../shared/components/inputs/display-functions.utils';
 import { AgGridLocalizationService } from '../../../shared/services/ag-grid-localization.service';
+import { SelectableOptionsService } from '../../../shared/services/selectable-options.service';
 
-function translateAbcxClassificationValue(value?: string) {
+export function translateAbcxClassificationValue(value?: string) {
   return translate(
     `field.abcxClassification.value.${(value as AbcxClassification) || '<empty>'}`
   );
 }
 
-function translateForecastMaintainedValue(value?: boolean) {
+export function translateForecastMaintainedValue(value?: boolean) {
   return value
     ? translate(`field.forecastMaintained.value.true`)
     : translate(`field.forecastMaintained.value.false`);
 }
 
 export function columnDefinitions(
-  agGridLocalizationService: AgGridLocalizationService
+  agGridLocalizationService: AgGridLocalizationService,
+  selectableOptionsService: SelectableOptionsService
 ): (ColDef & {
   visible: boolean;
   alwaysVisible: boolean;
@@ -92,6 +95,7 @@ export function columnDefinitions(
       valueFormatter: demandCharacteristicValueFormatter(),
       visible: true,
       alwaysVisible: true,
+      filter: 'agSetColumnFilter',
       filterParams: {
         values: demandCharacteristicOptions,
         valueFormatter: demandCharacteristicValueFormatter(),
@@ -122,7 +126,16 @@ export function columnDefinitions(
         valueFormatter: portfolioStatusValueFormatter(),
       },
     },
-    { colId: 'stochasticType', visible: true, alwaysVisible: false },
+    {
+      colId: 'stochasticType',
+      visible: true,
+      alwaysVisible: false,
+      ...selectableOptionsService.getFilterColDef(
+        'stochasticType',
+        DisplayFunctions.displayFnId,
+        null
+      ),
+    },
     {
       colId: 'successorSchaefflerMaterial',
       visible: true,
@@ -180,7 +193,16 @@ export function columnDefinitions(
     { colId: 'gkamName', visible: true, alwaysVisible: false },
     { colId: 'subKeyAccount', visible: true, alwaysVisible: false },
     { colId: 'subKeyAccountName', visible: true, alwaysVisible: false },
-    { colId: 'productLine', visible: true, alwaysVisible: false },
+    {
+      colId: 'productLine',
+      visible: true,
+      alwaysVisible: false,
+      ...selectableOptionsService.getFilterColDef(
+        'productLine',
+        DisplayFunctions.displayFnId,
+        null
+      ),
+    },
     { colId: 'productLineText', visible: true, alwaysVisible: false },
     {
       colId: 'forecastMaintained',

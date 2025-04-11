@@ -5,17 +5,19 @@ import {
   demandCharacteristicOptions,
   materialClassificationOptions,
 } from '../../../../../feature/material-customer/model';
+import {
+  demandCharacteristicValueFormatter,
+  portfolioStatusValueFormatter,
+} from '../../../../../shared/ag-grid/grid-value-formatter';
 import { TrafficLightCellRendererComponent } from '../../../../../shared/components/ag-grid/cell-renderer/traffic-light-cell-renderer/traffic-light-cell-renderer.component';
 import {
   trafficLightValueFormatter,
   trafficLightValues,
 } from '../../../../../shared/components/ag-grid/traffic-light-shared-functions';
+import { TrafficLightTooltipComponent } from '../../../../../shared/components/ag-grid/traffic-light-tooltip/traffic-light-tooltip.component';
+import { DisplayFunctions } from '../../../../../shared/components/inputs/display-functions.utils';
 import { AgGridLocalizationService } from '../../../../../shared/services/ag-grid-localization.service';
-import {
-  demandCharacteristicValueFormatter,
-  portfolioStatusValueFormatter,
-} from './../../../../../shared/ag-grid/grid-value-formatter';
-import { TrafficLightTooltipComponent } from './../../../../../shared/components/ag-grid/traffic-light-tooltip/traffic-light-tooltip.component';
+import { SelectableOptionsService } from '../../../../../shared/services/selectable-options.service';
 
 export type colType = (ColDef & {
   visible: boolean;
@@ -25,7 +27,8 @@ export type colType = (ColDef & {
 export type CMPColId = colType[number]['colId'];
 
 export function columnDefinitions(
-  agGridLocalizationService: AgGridLocalizationService
+  agGridLocalizationService: AgGridLocalizationService,
+  selectableOptionsService: SelectableOptionsService
 ): (ColDef & {
   visible: boolean;
   alwaysVisible: boolean;
@@ -86,6 +89,11 @@ export function columnDefinitions(
       colId: 'stochasticType',
       visible: true,
       alwaysVisible: false,
+      ...selectableOptionsService.getFilterColDef(
+        'stochasticType',
+        DisplayFunctions.displayFnId,
+        null
+      ),
     },
     {
       colId: 'productionPlant',
@@ -106,6 +114,11 @@ export function columnDefinitions(
       colId: 'productLine',
       visible: true,
       alwaysVisible: false,
+      ...selectableOptionsService.getFilterColDef(
+        'productLine',
+        DisplayFunctions.displayFnId,
+        null
+      ),
     },
     {
       colId: 'productLineText',

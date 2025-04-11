@@ -13,9 +13,9 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 
-import { tap } from 'rxjs';
+import { filter, take, tap } from 'rxjs';
 
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { AgGridModule } from 'ag-grid-angular';
 import {
@@ -52,6 +52,7 @@ import { ColumnLayoutManagementModalComponent } from '../column-layout-managemen
 import { LayoutId } from '../column-layout-management-modal/column-layout-management-modal.model';
 import { ExportTableDialogComponent } from '../export-table-dialog/export-table-dialog.component';
 import { TextTooltipComponent } from '../text-tooltip/text-tooltip.component';
+import { SelectableOptionsService } from './../../../../../shared/services/selectable-options.service';
 
 @Component({
   selector: 'd360-material-customer-table',
@@ -77,11 +78,12 @@ export class MaterialCustomerTableComponent implements OnInit {
   private readonly materialCustomerTableService = inject(
     MaterialCustomerTableService
   );
-  private readonly translocoService = inject(TranslocoService);
 
   protected readonly agGridLocalizationService = inject(
     AgGridLocalizationService
   );
+
+  private readonly selectableOptionsService = inject(SelectableOptionsService);
 
   public selectionFilter = input.required<GlobalSelectionState>();
 
@@ -143,50 +145,63 @@ export class MaterialCustomerTableComponent implements OnInit {
   }
 
   private readonly defaultColDef = () => {
-    if (!this.initialColumns) {
-      this.initialColumns = columnDefinitions(this.agGridLocalizationService);
-    }
+    this.selectableOptionsService.loading$
+      .pipe(
+        filter((loading) => !loading),
+        take(1),
+        tap(() => {
+          const columnDefs = columnDefinitions(
+            this.agGridLocalizationService,
+            this.selectableOptionsService
+          );
 
-    const columnDefs = columnDefinitions(this.agGridLocalizationService).map(
-      ({
-        filter,
-        colId,
-        visible,
-        alwaysVisible,
-        valueGetter,
-        valueFormatter,
-        cellRenderer,
-        filterParams,
-        floatingFilterComponent,
-      }: any) => ({
-        ...getDefaultColDef(
-          this.translocoLocaleService.getLocale(),
-          filter,
-          filterParams
-        ),
-        key: colId,
-        colId,
-        field: colId,
-        lockVisible: alwaysVisible,
-        hide: !visible,
-        headerName: this.translocoService.translate(
-          `material_customer.column.${colId}`,
-          {}
-        ),
-        sortable: this.criteriaData?.sortableFields.includes(colId),
-        tooltipField: colId,
-        tooltipComponent: TextTooltipComponent,
-        // filter,
-        floatingFilterComponent,
-        filter: getColFilter(colId, filter, this.criteriaData),
-        cellRenderer,
-        valueGetter,
-        valueFormatter,
-        lockPinned: true,
-      })
-    );
+          if (!this.initialColumns) {
+            this.initialColumns = [...columnDefs];
+          }
 
-    this.gridApi?.setGridOption('columnDefs', columnDefs);
+          this.gridApi?.setGridOption(
+            'columnDefs',
+            [...columnDefs].map(
+              ({
+                // eslint-disable-next-line @typescript-eslint/no-shadow
+                filter,
+                colId,
+                visible,
+                alwaysVisible,
+                valueGetter,
+                valueFormatter,
+                cellRenderer,
+                filterParams,
+                floatingFilterComponent,
+              }: any) => ({
+                ...getDefaultColDef(
+                  this.translocoLocaleService.getLocale(),
+                  filter,
+                  filterParams
+                ),
+                key: colId,
+                colId,
+                field: colId,
+                lockVisible: alwaysVisible,
+                hide: !visible,
+                headerName: translate(`material_customer.column.${colId}`),
+                sortable: this.criteriaData?.sortableFields.includes(colId),
+                tooltipField: colId,
+                tooltipComponent: TextTooltipComponent,
+                // filter,
+                floatingFilterComponent,
+                filter: getColFilter(colId, filter, this.criteriaData),
+                cellRenderer,
+                valueGetter,
+                valueFormatter,
+                lockPinned: true,
+              })
+            )
+          );
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   };
 
   protected onGridReady = (event: GridReadyEvent) => {
@@ -266,7 +281,11 @@ export class MaterialCustomerTableComponent implements OnInit {
 
   protected openColumnLayoutManagementModal(event: MouseEvent): void {
     const button = event.currentTarget as HTMLElement;
-    const rect = button.getBoundingClientRect();
+    const rect = button?.getBoundingClientRect();
+
+    if (!rect) {
+      return;
+    }
 
     this.dialog.open(ColumnLayoutManagementModalComponent, {
       data: {

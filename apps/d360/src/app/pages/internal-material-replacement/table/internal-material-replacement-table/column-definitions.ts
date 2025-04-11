@@ -8,10 +8,13 @@ import {
   trafficLightValues,
 } from '../../../../shared/components/ag-grid/traffic-light-shared-functions';
 import { TrafficLightTooltipComponent } from '../../../../shared/components/ag-grid/traffic-light-tooltip/traffic-light-tooltip.component';
+import { DisplayFunctions } from '../../../../shared/components/inputs/display-functions.utils';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
+import { SelectableOptionsService } from '../../../../shared/services/selectable-options.service';
 
 export function getIMRColumnDefinitions(
-  agGridLocalizationService: AgGridLocalizationService
+  agGridLocalizationService: AgGridLocalizationService,
+  selectableOptionsService: SelectableOptionsService
 ): (ColDef & {
   property: string;
 })[] {
@@ -28,18 +31,20 @@ export function getIMRColumnDefinitions(
     {
       property: 'salesArea',
       colId: 'material_customer.column.salesArea',
+      ...selectableOptionsService.getFilterColDef('salesArea'),
       cellRenderer: undefined,
-      filter: 'agTextColumnFilter',
-      filterParams: undefined,
       tooltipComponent: undefined,
       tooltipField: undefined,
     },
     {
       property: 'salesOrg',
       colId: 'material_customer.column.salesOrg',
+      ...selectableOptionsService.getFilterColDef(
+        'salesOrg',
+        DisplayFunctions.displayFnId,
+        null
+      ),
       cellRenderer: undefined,
-      filter: 'agTextColumnFilter',
-      filterParams: undefined,
       tooltipComponent: undefined,
       tooltipField: undefined,
     },

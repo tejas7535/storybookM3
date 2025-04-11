@@ -12,7 +12,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 
-import { take, tap } from 'rxjs';
+import { filter, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -41,6 +41,7 @@ import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-l
 import { InternalMaterialReplacementSingleDeleteModalComponent } from '../../components/modals/internal-material-replacement-single-delete-modal/internal-material-replacement-single-delete-modal.component';
 import { InternalMaterialReplacementSingleSubstitutionModalComponent } from '../../components/modals/internal-material-replacement-single-substitution-modal/internal-material-replacement-single-substitution-modal.component';
 import { NoDataOverlayComponent } from './../../../../shared/components/ag-grid/no-data/no-data.component';
+import { SelectableOptionsService } from './../../../../shared/services/selectable-options.service';
 import { getIMRColumnDefinitions } from './column-definitions';
 
 @Component({
@@ -51,6 +52,7 @@ import { getIMRColumnDefinitions } from './column-definitions';
 })
 export class InternalMaterialReplacementTableComponent {
   private readonly translocoLocaleService = inject(TranslocoLocaleService);
+  private readonly selectableOptionsService = inject(SelectableOptionsService);
   public readonly selectedRegion = input.required<string>();
 
   public gridApi: GridApi;
@@ -146,38 +148,48 @@ export class InternalMaterialReplacementTableComponent {
   }
 
   private updateColumnDefs(): void {
-    this.gridApi?.setGridOption('columnDefs', [
-      ...(getIMRColumnDefinitions(this.agGridLocalizationService).map(
-        (col) => ({
-          ...getDefaultColDef(
-            this.translocoLocaleService.getLocale(),
-            col.filter,
-            col.filterParams
-          ),
-          colId: col.property,
-          field: col.property,
-          headerName: translate(col.colId),
-          sortable: true,
-          filter: col.filter,
-          valueFormatter: col.valueFormatter,
-          cellRenderer: col.cellRenderer,
-          tooltipComponent: col.tooltipComponent,
-          tooltipField: col.tooltipField,
-        })
-      ) || []),
-      {
-        cellClass: ['fixed-action-column'],
-        field: 'menu',
-        headerName: '',
-        cellRenderer: ActionsMenuCellRendererComponent,
-        lockVisible: true,
-        pinned: 'right',
-        lockPinned: true,
-        suppressHeaderMenuButton: true,
-        maxWidth: 64,
-        suppressSizeToFit: true,
-      },
-    ] as ColDef[]);
+    this.selectableOptionsService.loading$
+      .pipe(
+        filter((loading) => !loading),
+        take(1),
+        tap(() =>
+          this.gridApi?.setGridOption('columnDefs', [
+            ...(getIMRColumnDefinitions(
+              this.agGridLocalizationService,
+              this.selectableOptionsService
+            ).map((col) => ({
+              ...getDefaultColDef(
+                this.translocoLocaleService.getLocale(),
+                col.filter,
+                col.filterParams
+              ),
+              colId: col.property,
+              field: col.property,
+              headerName: translate(col.colId),
+              sortable: true,
+              filter: col.filter,
+              valueFormatter: col.valueFormatter,
+              cellRenderer: col.cellRenderer,
+              tooltipComponent: col.tooltipComponent,
+              tooltipField: col.tooltipField,
+            })) || []),
+            {
+              cellClass: ['fixed-action-column'],
+              field: 'menu',
+              headerName: '',
+              cellRenderer: ActionsMenuCellRendererComponent,
+              lockVisible: true,
+              pinned: 'right',
+              lockPinned: true,
+              suppressHeaderMenuButton: true,
+              maxWidth: 64,
+              suppressSizeToFit: true,
+            },
+          ] as ColDef[])
+        ),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   private edit(params: ICellRendererParams<any, IMRSubstitution>): void {

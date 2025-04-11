@@ -126,7 +126,9 @@ export function getReplacementTypeLogicForNewSubstitution(
       };
     }
     default: {
-      throw new Error(`Unknown replacement type: ${replacementType}`);
+      console.error(`Unknown replacement type: ${replacementType}`);
+
+      return {} as any;
     }
   }
 }
@@ -138,9 +140,9 @@ export function checkForbiddenFieldsForNewSubstitution(
     return undefined;
   }
 
-  const forbiddenFields = getReplacementTypeLogicForNewSubstitution(
-    substitution.replacementType
-  ).deactivatedFields;
+  const forbiddenFields =
+    getReplacementTypeLogicForNewSubstitution(substitution.replacementType)
+      ?.deactivatedFields ?? [];
 
   const wronglyFilledFields: (keyof IMRSubstitution)[] = [];
   forbiddenFields.forEach((field: keyof IMRSubstitution) => {
@@ -164,9 +166,9 @@ export function checkMissingFields(
   }
 
   // For mandatory fields it is not important if we editing or creating a new substitution, mandatory fields are still mandatory
-  const mandatoryFields = getReplacementTypeLogicForNewSubstitution(
-    substitution.replacementType
-  ).mandatoryFields;
+  const mandatoryFields =
+    getReplacementTypeLogicForNewSubstitution(substitution.replacementType)
+      ?.mandatoryFields ?? [];
 
   const missingFields: (keyof IMRSubstitution)[] = [];
   mandatoryFields.forEach((field: keyof IMRSubstitution) => {
@@ -194,12 +196,12 @@ export function getReplacementTypeLogicForEdit(
   ];
   // Combine old deactivated and key fields and dedupe array using set
   const newDeactivated = [
-    ...new Set([...defaultLogic.deactivatedFields, ...keyFields]),
+    ...new Set([...(defaultLogic?.deactivatedFields ?? []), ...keyFields]),
   ];
 
   return {
     replacementType: defaultLogic.replacementType,
-    mandatoryFields: defaultLogic.mandatoryFields,
+    mandatoryFields: defaultLogic?.mandatoryFields ?? [],
     deactivatedFields: newDeactivated,
   };
 }

@@ -4,6 +4,7 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, map, Observable, take, tap } from 'rxjs';
 
 import { translate, TranslocoService } from '@jsverse/transloco';
+import { ValueFormatterFunc, ValueFormatterParams } from 'ag-grid-enterprise';
 
 import { environment } from '../../../environments/environment';
 import {
@@ -15,6 +16,7 @@ import {
   whenOptions,
 } from '../../pages/alert-rules/table/components/modals/alert-rule-edit-single-modal/alert-rule-options-config';
 import { SelectableValue } from '../components/inputs/autocomplete/selectable-values.utils';
+import { DisplayFunctions } from '../components/inputs/display-functions.utils';
 
 /**
  * The OptionsLoadingResult Interface
@@ -135,6 +137,64 @@ export class SelectableOptionsService {
     return this.http.get<SelectableValue[]>(
       `/api/${urlBegin}?search=${searchTerm}${language}`
     );
+  }
+
+  /**
+   * Generates a column definition object for use with the AG Grid's set column filter.
+   *
+   * The returned object includes:
+   * - `filter`: Specifies the filter type as 'agSetColumnFilter'.
+   * - `filterParams`: Contains the filter values and a value formatter for the filter.
+   * - `valueFormatter` (optional): A value formatter for the grid, if `gridValueFormatter` is provided.
+   *
+   * @param {keyof OptionsTypes} key - The key of the options to retrieve from the service.
+   * @param {((
+   *       option: SelectableValue | string
+   *     ) => string)} [filterValueFormatter=DisplayFunctions.displayFnText] - A function to format the filter values for display. Defaults to `DisplayFunctions.displayFnText`.
+   * @param @param {(((option: SelectableValue | string) => string)
+   *       | null)} [gridValueFormatter=DisplayFunctions.displayFnText] - An optional function to format the grid values for display. Defaults to `DisplayFunctions.displayFnText`.
+   *
+   * @returns {{
+   *     filter: 'agSetColumnFilter';
+   *     filterParams: {
+   *       values: string[];
+   *       valueFormatter: ValueFormatterFunc;
+   *     };
+   *     valueFormatter?: ValueFormatterFunc;
+   *   }} An object containing the filter type, filter parameters, and an optional value formatter for the grid.
+   */
+  public getFilterColDef(
+    key: keyof OptionsTypes,
+    filterValueFormatter: (
+      option: SelectableValue | string
+    ) => string = DisplayFunctions.displayFnText,
+    gridValueFormatter:
+      | ((option: SelectableValue | string) => string)
+      | null = DisplayFunctions.displayFnText
+  ): {
+    filter: 'agSetColumnFilter';
+    filterParams: {
+      values: string[];
+      valueFormatter: ValueFormatterFunc;
+    };
+    valueFormatter?: ValueFormatterFunc;
+  } {
+    const options = this.get(key)?.options ?? [];
+    const getFormatter =
+      (valueFormatter: (option: SelectableValue | string) => string) =>
+      ({ value }: ValueFormatterParams) =>
+        valueFormatter(options?.find((option) => option.id === value) ?? '');
+
+    return {
+      filter: 'agSetColumnFilter',
+      ...(gridValueFormatter
+        ? { valueFormatter: getFormatter(gridValueFormatter) }
+        : {}),
+      filterParams: {
+        values: options?.map((option) => option.id) || [],
+        valueFormatter: getFormatter(filterValueFormatter),
+      },
+    };
   }
 
   /**

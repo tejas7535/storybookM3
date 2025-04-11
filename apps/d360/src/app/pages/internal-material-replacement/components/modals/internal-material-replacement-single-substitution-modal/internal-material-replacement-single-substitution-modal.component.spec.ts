@@ -1,4 +1,9 @@
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 
 import { of } from 'rxjs';
 
@@ -195,47 +200,77 @@ describe('InternalMaterialReplacementSingleSubstitutionModalComponent', () => {
   });
 
   describe('keepMaterialOnPackagingChange', () => {
-    it('should return validation error if materials do not match for PACKAGING_CHANGE', () => {
-      const validatorFn =
-        component['keepMaterialOnPackagingChange']('successorMaterial');
+    let validatorFn: ValidatorFn;
 
-      (component['formGroup'] as any) = new FormGroup({
+    beforeEach(() => {
+      validatorFn =
+        component['keepMaterialOnPackagingChange']('successorMaterial');
+    });
+
+    it('should return validation error if replacementType is PACKAGING_CHANGE and materials do not match', () => {
+      const formGroup = new FormGroup({
         replacementType: new FormControl({ id: 'PACKAGING_CHANGE' }),
         successorMaterial: new FormControl({ id: 'material2' }),
         materialControl: new FormControl({ id: 'material1' }),
       });
 
-      const result = validatorFn(component['formGroup'].get('materialControl'));
+      const result = validatorFn(formGroup.get('materialControl'));
 
       expect(result).toEqual({ keepMaterialOnPackagingChange: true });
+      expect(component['materialCustomErrorMessage']()).toBe(
+        'sap_message./SGD/SCM_SOP_SALES.107'
+      );
     });
 
-    it('should return null if materials match for PACKAGING_CHANGE', () => {
-      const validatorFn =
-        component['keepMaterialOnPackagingChange']('successorMaterial');
-      (component['formGroup'] as any) = new FormGroup({
+    it('should return null if replacementType is PACKAGING_CHANGE and materials match', () => {
+      const formGroup = new FormGroup({
         replacementType: new FormControl({ id: 'PACKAGING_CHANGE' }),
         successorMaterial: new FormControl({ id: 'material1' }),
         materialControl: new FormControl({ id: 'material1' }),
       });
 
-      const result = validatorFn(component['formGroup'].get('materialControl'));
+      const result = validatorFn(formGroup.get('materialControl'));
 
       expect(result).toBeNull();
+      expect(component['materialCustomErrorMessage']()).toBeNull();
     });
 
-    it('should return null if replacement type is not PACKAGING_CHANGE', () => {
-      const validatorFn =
-        component['keepMaterialOnPackagingChange']('successorMaterial');
-      (component['formGroup'] as any) = new FormGroup({
+    it('should return null if replacementType is not PACKAGING_CHANGE', () => {
+      const formGroup = new FormGroup({
         replacementType: new FormControl({ id: 'OTHER_TYPE' }),
         successorMaterial: new FormControl({ id: 'material2' }),
         materialControl: new FormControl({ id: 'material1' }),
       });
 
-      const result = validatorFn(component['formGroup'].get('materialControl'));
+      const result = validatorFn(formGroup.get('materialControl'));
 
       expect(result).toBeNull();
+      expect(component['materialCustomErrorMessage']()).toBeNull();
+    });
+
+    it('should handle undefined materialControl gracefully', () => {
+      const formGroup = new FormGroup({
+        replacementType: new FormControl({ id: 'PACKAGING_CHANGE' }),
+        successorMaterial: new FormControl({ id: 'material2' }),
+      });
+
+      const result = validatorFn(formGroup.get('nonExistentControl'));
+
+      expect(result).toBeNull();
+      expect(component['materialCustomErrorMessage']()).toBeNull();
+    });
+
+    it('should correctly handle material numbers longer than 13 characters', () => {
+      const formGroup = new FormGroup({
+        replacementType: new FormControl({ id: 'PACKAGING_CHANGE' }),
+        successorMaterial: new FormControl({ id: '1234567890123' }),
+        materialControl: new FormControl({ id: '1234567890123-456' }),
+      });
+
+      const result = validatorFn(formGroup.get('materialControl'));
+
+      expect(result).toBeNull();
+      expect(component['materialCustomErrorMessage']()).toBeNull();
     });
   });
 

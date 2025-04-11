@@ -17,6 +17,7 @@ import {
   ColumnSetting,
 } from '../../../../shared/services/abstract-column-settings.service';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
+import { SelectableOptionsService } from '../../../../shared/services/selectable-options.service';
 import { columnDefinitions } from '../column-definition';
 import {
   LAYOUT_IDS,
@@ -31,8 +32,6 @@ export class MaterialCustomerTableService<
   COLUMN_KEYS extends string,
   COLDEF extends ColumnDefinition<COLUMN_KEYS>,
 > extends AbstractColumnSettingsService<COLUMN_KEYS, COLDEF> {
-  private readonly agGridLocalizationService: AgGridLocalizationService;
-
   private readonly dataFetchedEvent = new Subject<{
     totalRowCount: number;
   }>();
@@ -40,12 +39,15 @@ export class MaterialCustomerTableService<
 
   tableName = 'customer-material-1';
 
-  constructor(
-    httpClient: HttpClient,
-    agGridLocalizationService: AgGridLocalizationService
+  public constructor(
+    protected readonly httpClient: HttpClient,
+    protected readonly agGridLocalizationService: AgGridLocalizationService,
+    protected readonly selectableOptionsService: SelectableOptionsService
   ) {
-    super(httpClient, columnDefinitions(agGridLocalizationService));
-    this.agGridLocalizationService = agGridLocalizationService;
+    super(
+      httpClient,
+      columnDefinitions(agGridLocalizationService, selectableOptionsService)
+    );
   }
 
   private getStoredLayout(): LayoutId | null {
@@ -176,11 +178,12 @@ export class MaterialCustomerTableService<
   }
 
   private getDefaultColumnSettings(): ColumnSetting<COLUMN_KEYS>[] {
-    return columnDefinitions(this.agGridLocalizationService).map(
-      ({ colId, visible }) => ({
-        colId: colId as COLUMN_KEYS,
-        visible,
-      })
-    );
+    return columnDefinitions(
+      this.agGridLocalizationService,
+      this.selectableOptionsService
+    ).map(({ colId, visible }) => ({
+      colId: colId as COLUMN_KEYS,
+      visible,
+    }));
   }
 }

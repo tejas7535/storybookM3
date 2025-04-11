@@ -17,6 +17,8 @@ import {
   MatSlideToggleChange,
 } from '@angular/material/slide-toggle';
 
+import { filter, take, tap } from 'rxjs';
+
 import { translate } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { Store } from '@ngrx/store';
@@ -56,6 +58,7 @@ import { ActionsMenuCellRendererComponent } from '../../../../../shared/componen
 import { TableToolbarComponent } from '../../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
 import { GlobalSelectionState } from '../../../../../shared/components/global-selection-criteria/global-selection-state.service';
 import { AgGridLocalizationService } from '../../../../../shared/services/ag-grid-localization.service';
+import { SelectableOptionsService } from '../../../../../shared/services/selectable-options.service';
 import {
   checkRoles,
   customerMaterialPortfolioChangeAllowedRoles,
@@ -82,6 +85,7 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
   private readonly store = inject(Store);
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly translocoLocaleService = inject(TranslocoLocaleService);
+  private readonly selectableOptionsService = inject(SelectableOptionsService);
 
   public selectedCustomer = input.required<CustomerEntry>();
   public globalSelection = input.required<GlobalSelectionState>();
@@ -238,8 +242,7 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
       hide: !def.visible,
       sortable: true,
       headerName: translate(
-        `material_customer.column.${def.colId as CMPColId}`,
-        {}
+        `material_customer.column.${def.colId as CMPColId}`
       ),
       cellRenderer: def.cellRenderer,
       cellRendererParams: def.cellRendererParams,
@@ -249,28 +252,40 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
       valueFormatter: def?.valueFormatter,
     });
 
-    this.gridApi?.setGridOption('columnDefs', [
-      ...columnDefinitions(this.agGridLocalizationService).map((def: any) => ({
-        ...getDefaultColDef(
-          this.translocoLocaleService.getLocale(),
-          def.filter,
-          def.filterParams
+    this.selectableOptionsService.loading$
+      .pipe(
+        filter((loading) => !loading),
+        take(1),
+        tap(() =>
+          this.gridApi?.setGridOption('columnDefs', [
+            ...columnDefinitions(
+              this.agGridLocalizationService,
+              this.selectableOptionsService
+            ).map((def: any) => ({
+              ...getDefaultColDef(
+                this.translocoLocaleService.getLocale(),
+                def.filter,
+                def.filterParams
+              ),
+              ...mapColumnData(def),
+            })),
+            {
+              cellClass: ['fixed-action-column'],
+              field: 'menu',
+              headerName: '',
+              cellRenderer: ActionsMenuCellRendererComponent,
+              lockVisible: true,
+              pinned: 'right',
+              lockPinned: true,
+              suppressHeaderMenuButton: true,
+              maxWidth: 64,
+              suppressSizeToFit: true,
+            },
+          ] as ColDef[])
         ),
-        ...mapColumnData(def),
-      })),
-      {
-        cellClass: ['fixed-action-column'],
-        field: 'menu',
-        headerName: '',
-        cellRenderer: ActionsMenuCellRendererComponent,
-        lockVisible: true,
-        pinned: 'right',
-        lockPinned: true,
-        suppressHeaderMenuButton: true,
-        maxWidth: 64,
-        suppressSizeToFit: true,
-      },
-    ] as ColDef[]);
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 
   /**

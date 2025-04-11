@@ -8,19 +8,27 @@ import {
 import { TrafficLightTooltipComponent } from '../../../../shared/components/ag-grid/traffic-light-tooltip/traffic-light-tooltip.component';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { Stub } from '../../../../shared/test/stub.class';
+import { SelectableOptionsService } from './../../../../shared/services/selectable-options.service';
 import { getIMRColumnDefinitions } from './column-definitions';
 
 describe('getIMRColumnDefinitions', () => {
   let agGridLocalizationService: AgGridLocalizationService;
+  let selectableOptionsService: SelectableOptionsService;
 
   beforeEach(() => {
     agGridLocalizationService = Stub.get<AgGridLocalizationService>({
       component: AgGridLocalizationService,
     });
+    selectableOptionsService = Stub.get<SelectableOptionsService>({
+      component: SelectableOptionsService,
+    });
   });
 
   it('should return column definitions with correct properties', () => {
-    const columns = getIMRColumnDefinitions(agGridLocalizationService);
+    const columns = getIMRColumnDefinitions(
+      agGridLocalizationService,
+      selectableOptionsService
+    );
 
     expect(columns).toBeDefined();
     expect(columns.length).toBeGreaterThan(0);
@@ -67,7 +75,10 @@ describe('getIMRColumnDefinitions', () => {
   });
 
   it('should use agGridLocalizationService for date and number formatting', () => {
-    const columns = getIMRColumnDefinitions(agGridLocalizationService);
+    const columns = getIMRColumnDefinitions(
+      agGridLocalizationService,
+      selectableOptionsService
+    );
 
     const replacementDateColumn = columns.find(
       (col) => col.property === 'replacementDate'

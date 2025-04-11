@@ -202,9 +202,12 @@ describe('Internal Material Replacement Logic Helper', () => {
 
     describe('when replacementType is unknown', () => {
       it('should throw an error for unknown replacementType', () => {
-        expect(() => {
-          Helper.getReplacementTypeLogicForNewSubstitution('UNKNOWN' as any);
-        }).toThrow('Unknown replacement type: UNKNOWN');
+        const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        Helper.getReplacementTypeLogicForNewSubstitution('UNKNOWN' as any);
+
+        expect(spy).toHaveBeenCalledWith('Unknown replacement type: UNKNOWN');
+
+        spy.mockRestore();
       });
     });
   });

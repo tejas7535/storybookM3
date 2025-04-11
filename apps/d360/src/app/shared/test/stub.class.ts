@@ -121,6 +121,7 @@ export class Stub {
             loadingError: null,
           }) as any,
         getOptionsBySearchTerm: jest.fn().mockReturnValue(of([])),
+        getFilterColDef: jest.fn().mockReturnValue(of({})),
       },
       'useValue'
     ),
@@ -140,6 +141,7 @@ export class Stub {
         getGlobalSelectionStatus: jest.fn().mockReturnValue(''),
         navigateWithGlobalSelection: jest.fn().mockReturnValue(of(true)),
         handleQueryParams$: jest.fn().mockReturnValue(of(true)),
+        isEmpty: jest.fn().mockReturnValue(true),
       },
       'useValue'
     ),
@@ -258,6 +260,8 @@ export class Stub {
   public static getGridApi(): GridApi {
     return {
       setGridOption: jest.fn(),
+      addEventListener: jest.fn(),
+      setFilterModel: jest.fn(),
       showNoRowsOverlay: jest.fn(),
       hideOverlay: jest.fn(),
       autoSizeAllColumns: jest.fn(),

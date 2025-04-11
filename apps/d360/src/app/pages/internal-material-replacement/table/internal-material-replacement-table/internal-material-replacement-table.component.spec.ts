@@ -1,3 +1,5 @@
+import { BehaviorSubject, of } from 'rxjs';
+
 import {
   FirstDataRenderedEvent,
   GridApi,
@@ -8,6 +10,7 @@ import { MockProvider } from 'ng-mocks';
 
 import { IMRService } from '../../../../feature/internal-material-replacement/imr.service';
 import { IMRSubstitution } from '../../../../feature/internal-material-replacement/model';
+import { ActionsMenuCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
 import { Stub } from '../../../../shared/test/stub.class';
 import { InternalMaterialReplacementSingleDeleteModalComponent } from '../../components/modals/internal-material-replacement-single-delete-modal/internal-material-replacement-single-delete-modal.component';
 import { InternalMaterialReplacementSingleSubstitutionModalComponent } from '../../components/modals/internal-material-replacement-single-substitution-modal/internal-material-replacement-single-substitution-modal.component';
@@ -167,15 +170,56 @@ describe('InternalMaterialReplacementTableComponent', () => {
   });
 
   describe('updateColumnDefs', () => {
-    it('should set column definitions', () => {
-      const mockGridApi = Stub.getGridApi();
-      component.gridApi = mockGridApi;
+    beforeEach(() => {
+      component['gridApi'] = Stub.getGridApi();
+    });
+
+    it('should initialize column definitions with correct structure', () => {
+      const setGridOptionSpy = jest.spyOn(
+        component['gridApi'],
+        'setGridOption'
+      );
+
+      component['selectableOptionsService'].loading$ = new BehaviorSubject(
+        false
+      );
 
       component['updateColumnDefs']();
 
-      expect(mockGridApi.setGridOption).toHaveBeenCalledWith(
+      expect(setGridOptionSpy).toHaveBeenCalledWith(
         'columnDefs',
-        expect.any(Array)
+        expect.arrayContaining([
+          {
+            cellClass: ['fixed-action-column'],
+            field: 'menu',
+            headerName: '',
+            cellRenderer: ActionsMenuCellRendererComponent,
+            lockVisible: true,
+            pinned: 'right',
+            lockPinned: true,
+            suppressHeaderMenuButton: true,
+            maxWidth: 64,
+            suppressSizeToFit: true,
+          },
+        ])
+      );
+    });
+
+    it('should not set column definitions if loading is true', () => {
+      const setGridOptionSpy = jest.spyOn(
+        component['gridApi'],
+        'setGridOption'
+      );
+      setGridOptionSpy.mockClear();
+      jest
+        .spyOn(component['selectableOptionsService'].loading$, 'pipe')
+        .mockReturnValue(of(true));
+
+      component['updateColumnDefs']();
+
+      expect(setGridOptionSpy).not.toHaveBeenCalledWith(
+        'columnDefs',
+        expect.anything()
       );
     });
   });

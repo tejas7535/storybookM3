@@ -272,18 +272,28 @@ export class InternalMaterialReplacementSingleSubstitutionModalComponent
 
   private keepMaterialOnPackagingChange(opponent: string): ValidatorFn {
     return (materialControl: AbstractControl) => {
-      const type = materialControl.parent
+      const type = materialControl?.parent
         ?.get('replacementType')
         ?.getRawValue()?.id;
       const material = materialControl?.getRawValue()?.id;
-      const opponentMaterialControl = materialControl.parent?.get(opponent);
+      const opponentMaterialControl = materialControl?.parent?.get(opponent);
       const opponentMaterial = opponentMaterialControl?.getRawValue()?.id;
+
+      const getMaterialNumber13 = (value: string) => {
+        let cleaned = String(value).replaceAll('-', '');
+
+        if (cleaned.trim().length > 13) {
+          cleaned = cleaned.slice(0, 13);
+        }
+
+        return cleaned;
+      };
 
       if (
         type === 'PACKAGING_CHANGE' &&
         material &&
         opponentMaterial &&
-        material !== opponentMaterial
+        getMaterialNumber13(material) !== getMaterialNumber13(opponentMaterial)
       ) {
         this.materialCustomErrorMessage.set(
           translate('sap_message./SGD/SCM_SOP_SALES.107')
