@@ -34,7 +34,7 @@ import {
 } from '../../../../../shared/ag-grid/grid-defaults';
 import { NumberWithoutFractionDigitsPipe } from '../../../../../shared/pipes/number-without-fraction-digits.pipe';
 import { AgGridLocalizationService } from '../../../../../shared/services/ag-grid-localization.service';
-import { monthlyCustomerPlanningDetailsColumnDefinitions } from './column-definition';
+import { getColumnDefinitions } from '../column-definition';
 import { MonthlyCustomerPlanningDetailsColumnSettingsService } from './service/monthly-customer-planning-details-column-settings.service';
 
 export interface MonthlyCustomerPlanningDetailsProps {
@@ -51,7 +51,7 @@ export interface MonthlyCustomerPlanningDetailsProps {
 }
 
 type MonthlyCustomerPlanningDetailsColumnDefinitions = ReturnType<
-  typeof monthlyCustomerPlanningDetailsColumnDefinitions
+  typeof getColumnDefinitions
 >[number];
 
 @Component({
@@ -92,6 +92,7 @@ export class MonthlyCustomerPlanningDetailsModalComponent implements OnInit {
     ...clientSideTableDefaultProps,
     context: {
       numberPipe: this.numberWithoutFractionDigitsPipe,
+      reloadData: () => this.fetchData(),
     },
     sideBar: {
       toolPanels: [columnSideBar],
@@ -126,6 +127,10 @@ export class MonthlyCustomerPlanningDetailsModalComponent implements OnInit {
   });
 
   public ngOnInit(): void {
+    this.fetchData();
+  }
+
+  public fetchData(): void {
     this.isLoading.set(true);
 
     this.salesPlanningService
@@ -181,7 +186,8 @@ export class MonthlyCustomerPlanningDetailsModalComponent implements OnInit {
               key: col.colId,
               colId: col.colId,
               field: col.colId,
-              headerName: translate(col.title, {}),
+              headerName: col.title,
+              headerTooltip: col.title,
               filter: col.filter,
               cellRenderer: col.cellRenderer,
               hide: !col.visible,

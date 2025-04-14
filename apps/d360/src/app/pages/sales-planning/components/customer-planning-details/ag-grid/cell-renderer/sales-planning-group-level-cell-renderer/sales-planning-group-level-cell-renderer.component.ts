@@ -17,11 +17,18 @@ import { AbstractSalesPlanningCellRendererComponent } from '../abstract-sales-pl
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './sales-planning-group-level-cell-renderer.component.scss',
 })
-// TODO: Introduce abstraction for toggling with upcoming cell renderer of D360-164-VOD-DOH
 export class SalesPlanningGroupLevelCellRendererComponent extends AbstractSalesPlanningCellRendererComponent<string> {
-  public isGroup!: boolean;
-  public isChildElement!: boolean;
-  public rowData!: DetailedCustomerSalesPlan;
+  public get isGroup(): boolean {
+    return !!this.parameters?.node?.group;
+  }
+
+  public get isChildElement(): boolean {
+    return this.parameters?.node?.level === 1;
+  }
+
+  public get rowData(): DetailedCustomerSalesPlan {
+    return this.parameters?.node?.data;
+  }
 
   public expanded: WritableSignal<boolean> = signal(false);
 
@@ -39,35 +46,32 @@ export class SalesPlanningGroupLevelCellRendererComponent extends AbstractSalesP
       clickAction: () => void;
     }
   ): void {
-    this.value =
-      parameters.node.level === 1 &&
-      ['planningMaterial', 'planningMaterialText'].every((v) =>
-        Object.keys(parameters.data).includes(v)
-      )
-        ? `${parameters.data.planningMaterial} - ${parameters.data.planningMaterialText}`
-        : parameters.data.planningYear;
-
-    this.isGroup = !!parameters.node.group;
     this.parameters = parameters;
-    this.isChildElement = parameters.node.level === 1;
-    this.rowData = parameters.data;
+
+    this.value =
+      this.parameters?.node.level === 1 &&
+      ['planningMaterial', 'planningMaterialText'].every((v) =>
+        Object.keys(this.rowData).includes(v)
+      )
+        ? `${this.rowData.planningMaterial} - ${this.rowData.planningMaterialText}`
+        : this.rowData.planningYear;
 
     this.onClickAction = parameters.clickAction;
-    this.expanded.set(this.parameters.node.expanded);
+    this.expanded.set(this.parameters?.node.expanded);
 
-    this.parameters.node.addEventListener('expandedChanged', this.onExpand);
+    this.parameters?.node.addEventListener('expandedChanged', this.onExpand);
   }
 
   public onClickExpand() {
-    this.expanded.set(!this.parameters.node.expanded);
-    this.parameters.node.setExpanded(!this.parameters.node.expanded);
+    this.expanded.set(!this.parameters?.node.expanded);
+    this.parameters?.node.setExpanded(!this.parameters?.node.expanded);
   }
 
   public destroy() {
-    this.parameters.node.removeEventListener('expandedChanged', this.onExpand);
+    this.parameters?.node.removeEventListener('expandedChanged', this.onExpand);
   }
 
   private readonly onExpand = () => {
-    this.expanded.set(this.parameters.node.expanded);
+    this.expanded.set(this.parameters?.node.expanded);
   };
 }

@@ -1,6 +1,18 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidatorFn,
+} from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -24,18 +36,12 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
 import { DetailedCustomerSalesPlan } from '../../../../../feature/sales-planning/model';
 import { SalesPlanningService } from '../../../../../feature/sales-planning/sales-planning.service';
+import { ValidateForm } from '../../../../../shared/decorators';
 import { NumberSeparatorDirective } from '../../../../../shared/directives';
 import { getErrorMessage } from '../../../../../shared/utils/errors';
 import { SnackbarService } from '../../../../../shared/utils/service/snackbar.service';
-
-export interface CustomerSalesPlanNumberEditModalProps {
-  title: string;
-  customerNumber: string;
-  planningYear: string;
-  currentApShare: number;
-  currentOpShare: number;
-  currentSpShare: number;
-}
+import { ValidationHelper } from '../../../../../shared/utils/validation/validation-helper';
+import { sapMagicNumberValueNotConfigured } from '../column-definition';
 
 @Component({
   selector: 'd360-customer-sales-plan-share-edit-modal',
@@ -63,28 +69,47 @@ export class CustomerSalesPlanShareEditModalComponent {
     inject(MatDialogRef);
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly snackbarService: SnackbarService = inject(SnackbarService);
-
   public readonly data: DetailedCustomerSalesPlan = inject(MAT_DIALOG_DATA);
 
-  protected readonly form = new FormGroup({
-    adjustedAPValue: new FormControl<number>(null),
-    calculatedAPValue: new FormControl({
-      value: this.data.apShareConstrained,
-      disabled: true,
-    }),
-    adjustedOPValue: new FormControl<number>(null),
-    calculatedOPValue: new FormControl({
-      value: this.data.opShareConstrained,
-      disabled: true,
-    }),
-    adjustedSPValue: new FormControl<number>(null),
-    calculatedSPValue: new FormControl({
-      value: this.data.spShareConstrained,
-      disabled: true,
-    }),
-  });
+  protected readonly totalExceedsLimit = 100;
 
-  public readonly loading = signal<boolean>(false);
+  public readonly loading: WritableSignal<boolean> = signal<boolean>(false);
+
+  protected readonly form = new FormGroup(
+    {
+      adjustedAPValue: new FormControl<number>(
+        this.data.apShareAdjustedUnconstrained ===
+        sapMagicNumberValueNotConfigured
+          ? null
+          : this.data.apShareAdjustedUnconstrained
+      ),
+      calculatedAPValue: new FormControl({
+        value: this.data.apShareUnconstrained,
+        disabled: true,
+      }),
+      adjustedOPValue: new FormControl<number>(
+        this.data.opShareAdjustedUnconstrained ===
+        sapMagicNumberValueNotConfigured
+          ? null
+          : this.data.opShareAdjustedUnconstrained
+      ),
+      calculatedOPValue: new FormControl({
+        value: this.data.opShareUnconstrained,
+        disabled: true,
+      }),
+      adjustedSPValue: new FormControl<number>(
+        this.data.spShareAdjustedUnconstrained ===
+        sapMagicNumberValueNotConfigured
+          ? null
+          : this.data.spShareAdjustedUnconstrained
+      ),
+      calculatedSPValue: new FormControl({
+        value: this.data.spShareUnconstrained,
+        disabled: true,
+      }),
+    },
+    { validators: this.crossFieldValidator() }
+  );
 
   protected onDelete() {
     this.loading.set(true);
@@ -97,6 +122,8 @@ export class CustomerSalesPlanShareEditModalComponent {
       )
       .subscribe();
   }
+
+  @ValidateForm('form')
   protected onSave() {
     if (this.form.valid) {
       this.loading.set(true);
@@ -122,5 +149,14 @@ export class CustomerSalesPlanShareEditModalComponent {
 
   protected onCancel() {
     this.dialogRef.close(false);
+  }
+
+  private crossFieldValidator(): ValidatorFn {
+    return (formGroup: AbstractControl) =>
+      ValidationHelper.getCrossTotalExceedsLimit(
+        formGroup as FormGroup,
+        ['adjustedAPValue', 'adjustedOPValue', 'adjustedSPValue'],
+        this.totalExceedsLimit
+      );
   }
 }

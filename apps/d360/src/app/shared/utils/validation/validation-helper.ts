@@ -314,4 +314,83 @@ export class ValidationHelper {
 
     return Object.keys(errors).length > 0 ? errors : null;
   }
+
+  /**
+   * Creates a custom validator function that checks if the sum of the values
+   * of specified form controls in a `FormGroup` exceeds a limit of 100.
+   *
+   * @static
+   * @example
+   * ```typescript
+   * const formGroup = new FormGroup({
+   *   control1: new FormControl(50),
+   *   control2: new FormControl(60),
+   * });
+   *
+   * const validator = ValidationHelper.getCrossTotalExceedsLimitValidator(['control1', 'control2']);
+   * const result = validator(formGroup); // { totalExceedsLimit: true }
+   * ```
+   * @param {string[]} keys - An array of strings representing the keys of the form controls
+   *                          to be included in the validation.
+   * @returns {ValidatorFn} A `ValidatorFn` that validates the sum of the specified form controls.
+   *                        Returns `null` if the total is less than or equal to 100 or if any
+   *                        of the specified keys are missing. Otherwise, returns an error object
+   *                        with the key `totalExceedsLimit`.
+   *
+   * @memberof ValidationHelper
+   */
+  public static getCrossTotalExceedsLimit(
+    formGroup: FormGroup,
+    keys: string[],
+    limit: number
+  ): { totalExceedsLimit: true } | null {
+    const errorKey = 'totalExceedsLimit';
+
+    // Check if all keys are present in the form group
+    const allKeysPresent = keys.every((key) => formGroup.get(key) !== null);
+    if (!allKeysPresent) {
+      return null; // If not all keys are present, skip validation
+    }
+
+    // Calculate the total of the specified keys
+    // and check if it exceeds the specified limit
+    const total = keys.reduce(
+      (sum, key) => sum + Number(formGroup.get(key)?.value || 0),
+      0
+    );
+
+    if (total <= limit) {
+      keys.forEach((key) => {
+        const control = formGroup.get(key);
+        if (control) {
+          // we set the error manually, so we also need to clean up manually ;)
+          let fieldErrors = control.errors;
+          if (fieldErrors?.[errorKey]) {
+            delete fieldErrors[errorKey];
+
+            // if fieldErrors is {} (empty object) after deleting the key,
+            // we need to set null, otherwise it is still shown up as an error
+            fieldErrors =
+              Object.keys(fieldErrors).length === 0 ? null : fieldErrors;
+          }
+
+          // set the new error state
+          control.setErrors(fieldErrors);
+        }
+      });
+
+      return null;
+    }
+
+    keys.forEach((key) => {
+      const control = formGroup.get(key);
+      control.markAsTouched();
+      control.markAsDirty();
+      if (control) {
+        control.setErrors({ [errorKey]: true });
+      }
+    });
+
+    return { [errorKey]: true };
+  }
 }

@@ -36,7 +36,7 @@ describe('MonthlyCustomerPlanningDetailsModalComponent', () => {
       component['salesPlanningService'],
       'getDetailedCustomerSalesPlan'
     );
-    component.ngOnInit();
+    component.fetchData();
     expect(component.isLoading()).toBeFalsy();
     expect(spy).toHaveBeenCalledWith({
       customerNumber: '12345',

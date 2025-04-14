@@ -12,9 +12,6 @@ export const environment: Environment = {
   clientId: '67cdfe6a-e508-419c-9390-49bc6b53f3b5',
   appScope: 'https://worksite.onmicrosoft.com/SG_D360_API_Q/user_impersonation',
 
-  // Cookie Consent Banner
-  oneTrustId: '3cfe21d7-878b-48bc-bd5b-9096021247e3',
-
   // Application Insights
   applicationInsights: {
     applicationInsightsConfig: {

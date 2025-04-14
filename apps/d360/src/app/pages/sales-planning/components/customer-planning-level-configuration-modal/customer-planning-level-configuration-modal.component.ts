@@ -54,7 +54,9 @@ export class CustomerPlanningLevelConfigurationModalComponent {
     inject(MAT_DIALOG_DATA);
   public readonly control = new FormControl();
 
-  protected readonly planningLevelMaterialTypes = ['GP', 'PL', 'PC'];
+  protected readonly planningLevelMaterialTypes = ['GP', 'PL'];
+  // Hint: PC was implemented with D360-138 and was removed with D360-322, because it is not fully implemented by the backend yet.
+  // protected readonly planningLevelMaterialTypes = ['GP', 'PL', 'PC'];
 
   public onSave() {
     if (this.planningLevelMaterialTypeWasNotChanged()) {

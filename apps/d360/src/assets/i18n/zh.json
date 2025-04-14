@@ -1,890 +1,97 @@
 {
-  "header": {
-    "title": "P360",
-    "fullTitle": "Planning360",
-    "overview": "Overview Page",
-    "brand": {
-      "alt": "舍弗勒集团标志"
-    }
-  },
-  "button": {
-    "cancel": "取消",
-    "close": "关闭",
-    "create": "创建",
-    "export": "导出",
-    "load": "载入",
-    "reset": "重置",
-    "save": "保存",
-    "validate": "验证",
-    "edit": "编辑",
-    "delete": "删除",
-    "yes": "是",
-    "no": "不",
-    "change": "变更",
-    "download": "下载"
-  },
-  "error": {
-    "duplicatedMaterialNumber": "多次包含相同的材料编号",
-    "valueTooSmall": "只允许正数",
-    "valueSmallerFirmBusiness": "Validated Customer Forecast 少於 Firm Business",
-    "unknown": "未知错误",
-    "error_with_code": "错误: {{code}}",
-    "network_error": "网络错误：请检查您的网络连接。",
-    "too_many_values": "您输入的值过多。",
-    "not_valid": "以下值无效：",
-    "letters": "仅允许使用不带特殊字符的字母 （A-Z）。",
-    "letters_numbers": "只允许使用不带特殊字符的数字和字母 （A-Z）。",
-    "numbers": {
-      "rootString": "只允许使用数字。",
-      "COMMA": "只允许 1.000,00 格式的数字。",
-      "PERIOD": "只允许 1.000,00 格式的数字。"
-    },
-    "number_stars": "只允许使用数字和占位符 （*）。",
-    "wrong_length": "输入长度不正确，应具有以下长度： {{targetLength}}",
-    "too_long": "输入值太长，应具有以下长度： {{maxLength}}",
-    "too_many_rows_selected": "选择的行太多。请单独选择最多 70 行或选择所有行。",
-    "no_given_name": "没有名字",
-    "no_family_name": "没有姓氏",
-    "no_department": "没有部门",
-    "notValidSalesOrg": "{{formattedValue}} 不是有效的销售组织。",
-    "notValidGkamNumber": "{{formattedValue}} 不是有效的数字。",
-    "notValidCustomerNumber": "{{formattedValue}} 不是有效的客户号。",
-    "notValidMaterialNumber": "{{formattedValue}} 不是有效的物料编号。",
-    "sectorWrongBegin": "扇区值必须以 V 开头。",
-    "save": {
-      "failed": "保存失败"
-    },
-    "toDateAfterFromDate": "结束日期早于开始日期。",
-    "date": {
-      "invalidFormat": "日期格式无效。",
-      "beforeMin": "日期早于最早的可能日期。",
-      "beforeMinEditingExistingRecord": "日期必须与原始日期（{{existingDate}}）一致，或者是最早的可能日期（{{earliestPossibleDate}}。",
-      "afterMax": "日期在最晚的可能日期之后。",
-      "afterMaxEditingExistingRecord": "日期必须与原始日期（{{existingDate}}）一致，或者在可能的最晚日期（{{latestPossibleDate}}）之前。",
-      "emptyDate": "日期不能为空。"
-    },
-    "unsaved_changes": "未保存的更改将被丢弃。是否继续？",
-    "loading_failed": "加载失败",
-    "tooManyValues": "请输入最大 {{maxNumber}} 值。",
-    "valueUnknown": "未知",
-    "loadingConfigurationFailed": "加载配置时出错"
-  },
-  "hint": {
-    "selectData": "请使用过滤器选项查看数据。",
-    "noData": "无可用数据。",
-    "errorLoadingData": "数据选择错误。"
-  },
-  "drawer": {
-    "locale": {
-      "DE_de": "德语",
-      "EN_en": "英语"
-    },
-    "settings": "设置",
-    "user-language-label": "语言",
-    "user-currency-label": "币种",
-    "user-locale-label": "地点",
-    "user-locale-helper": "日期和数字格式",
-    "user-dateformat-label": "日期格式",
-    "user-decimal-separator-label": "小数点分隔符",
-    "user-decimal-COMMA": "逗号：123.456,78",
-    "user-decimal-PERIOD": "点： 123,456.78",
-    "apply": "应用",
-    "version": "软件版本："
-  },
-  "tabbar": {
-    "navigation": {
-      "label": "导航"
-    },
-    "start-page": {
-      "label": "起始页"
-    },
-    "functions": {
-      "label": "功能"
-    },
-    "tasks": {
-      "label": "待办事项"
-    }
-  },
-  "traffic_light": {
-    "GREEN": "绿色",
-    "YELLOW": "黄色",
-    "RED": "红色",
-    "GREY": "空"
-  },
-  "tabbarMenu": {
-    "validation-of-demand": {
-      "label": "客户材料详情"
-    },
-    "customer-material-portfolio": {
-      "label": "客户物料组合"
-    },
-    "customer-material-details": {
-      "label": "客戶材料詳細資料"
-    },
-    "internal-material-replacement": {
-      "label": "中央相位 输入相位 输出"
-    },
-    "ap-portfolio-optimization": {
-      "label": "AP 组合优化"
-    },
-    "regional-ap-portfolio": {
-      "label": "区域AP组合"
-    },
-    "customer-specific-requirements": {
-      "label": "供应概念的要求"
-    },
-    "alert-rule-editor": {
-      "label": "任务条件编辑器"
-    },
-    "sales-planning": {
-      "label": "销售验证"
-    },
-    "overview": {
-      "label": "Overview Page"
-    },
-    "demandSuite": "Demand Suite",
-    "salesSuite": "Sales Suite",
-    "general": "General"
-  },
-  "globalSelection": {
-    "results": "搜索结果 - 数据选择和加载",
-    "region": "区域（公司)",
-    "sales_area": "销售区域（市场)",
-    "sector_management": "工业管理",
-    "gkam": " (G)KAM",
-    "gkam_name": {
-      "rootString": "(G)KAM号",
-      "entity_name": "(G)KAM号",
-      "entity_name_plural": "(G)KAM号"
-    },
-    "sales_org": {
-      "rootString": "销售组织",
-      "entity_name": "销售组织",
-      "entity_name_plural": "销售组织"
-    },
-    "customer": {
-      "rootString": "客户",
-      "entity_name": "客户",
-      "entity_name_plural": "客户"
-    },
-    "material": {
-      "rootString": "物料",
-      "entity_name": "物料",
-      "entity_name_plural": "物料"
-    },
-    "materialClassification": "物料分类",
-    "sector": {
-      "rootString": "分支",
-      "entity_name": "分支",
-      "entity_name_plural": "工业"
-    },
-    "production_segment": {
-      "rootString": "生产部门",
-      "entity_name": "生产部门",
-      "entity_name_plural": "生产部门"
-    },
-    "dropdown": {
-      "loading": "加载中…",
-      "loading_error": "加载选项时出错",
-      "minOne": "请输入至少两个字符"
-    },
-    "productionPlant": {
-      "rootString": "生产工厂",
-      "entity_name": "生产工厂",
-      "entity_name_plural": "生产工厂"
-    },
-    "selection_empty": "必须选择至少一个选择标准。",
-    "tasks": "已开启的任务",
-    "no_open_alert_types": "没有已开启的任务"
-  },
-  "home": {
-    "chart": {
-      "title": "同步销售和需求计划",
-      "pieces_option": "件",
-      "select_to_load": "请选择数据以加载图表。",
-      "loading_failed": "加载失败。",
-      "aria": {
-        "settings_button": "图表设置",
-        "daterange_button": "图表日期范围"
-      },
-      "legend": {
-        "orders": "Firm Business",
-        "deliveries": "Deliveries",
-        "demandPlan": "Demand Plan",
-        "opportunities": "Opportunities",
-        "opAdjustment": "OP Adjustment",
-        "salesPlan": "Sales Plan"
-      }
-    }
-  },
-  "validation_of_demand": {
-    "customer": "客户",
-    "title": "客户材料详情",
-    "vkorg": "销售组织",
-    "actionBar": {
-      "showResultTable": "显示结果表",
-      "hideResultTable": "隐藏结果表",
-      "export": "导出",
-      "editAsList": "列表-上传",
-      "editAsGrid": "网格上传",
-      "bashDelete": "大批量删除",
-      "selectDate": "选择日期",
-      "settings": "设立",
-      "deleteInput": "删除输入",
-      "checkInput": "检查输入"
-    },
-    "filter": {
-      "rootString": "过滤器 ({{count}})",
-      "customerMaterialNumber": "客户物料号",
-      "product_line": "产品线",
-      "productionPlant": "生产工厂",
-      "production_line": "生产线（Train）",
-      "stochasticType": "随机类型"
-    },
-    "date_picker": {
-      "end_date": "结束日期",
-      "error": "结束日期不能早于开始日期",
-      "menu_item_month": "月份",
-      "menu_item_week": "周",
-      "months": "月份",
-      "optional": "可选项",
-      "period_type_label": "周期类型",
-      "period_type_only_months": "周期类型不能更改为周。",
-      "period_type": "周期类型",
-      "start_date": "开始日期",
-      "sub_title": "选择周期类型（周/月）",
-      "title": "选择一个日期",
-      "weeks": "周"
-    },
-    "upload_modal": {
-      "customer_material_number": "客户物料号",
-      "customer_material": "客户物料",
-      "error": {
-        "incomplete_row": "条目不完整。"
-      },
-      "material_number": "物料号",
-      "material_type": {
-        "title": "选择物料类型"
-      },
-      "material": "物料",
-      "paste": {
-        "month": "月",
-        "week": "周"
-      },
-      "save": {
-        "invalid_rows": "{count, plural, one {无法保存 {count} 行。请检查您的输入。} other {无法保存 {count} 行。请检查您的输入。}}",
-        "invalid_entries": "{count, plural, one {{count} 条目无法保存。请检查您的输入} other {{count} 条目无法保存。请检查您的输入}}",
-        "success": "保存所有行。"
-      },
-      "validate": {
-        "invalid_rows": "{count, plural, one {{count} 行无效。请检查您的输入。} other {{count}  行无效。请检查您的输入。}}",
-        "invalid_entries": "{count, plural, one {{count} 個項目無效。请检查您的输入} other {{count} 個參賽作品無效。请检查您的输入}}",
-        "success": "所有行均有效。"
-      },
-      "list": {
-        "date_from": "日期从",
-        "forecast": "预测",
-        "menu_item_month": "月份",
-        "menu_item_week": "周",
-        "period_type": {
-          "title": "选择周期类型",
-          "rootString": "周期类型"
-        },
-        "title": "验证需求清单"
-      },
-      "grid": {
-        "header": {
-          "calendar_week": "{{date}} - CW {{week}}"
-        },
-        "period_type": "周期类型",
-        "title": "需求网格验证",
-        "tooltip": {
-          "customer-material": "指定的客户物料号无效",
-          "material": "指定的物料号无效"
-        }
-      }
-    },
-    "deletion_modal": {
-      "title": "删除经过验证的预测值",
-      "selection_not_complete": "选择未完成。",
-      "confirm_deletion": "是否确实要删除数据？",
-      "delete_button": "删除",
-      "deletion_success": "已成功删除数据。"
-    },
-    "legend": {
-      "title": "图标",
-      "current_date": "T今天",
-      "frozen_zone": "冻结区 (包括 运输时间)",
-      "replenishment_lead_time": "补货周期 (包括 运输时间)"
-    },
-    "menu_item": {
-      "deliveries": "Deliveries",
-      "deliveriesActive": "Deliveries (Active)",
-      "deliveriesCombined": "Deliveries (Combined)",
-      "firmBusiness": "Firm Business",
-      "firmBusinessActive": "Firm Business (Active)",
-      "firmBusinessCombined": "Firm Business (Combined)",
-      "opportunities": "Opportunities",
-      "forecastProposal": "Forecast Proposal (ADD*ONE)",
-      "forecastProposalDemandPlanner": "Forecast Proposal (Demand Planner)",
-      "demandPlan": "Demand Plan",
-      "indicativeDemandPlan": "Demand Plan (Indicative)",
-      "opAdjustment": "OP Adjustment",
-      "activeAndPredecessor": "活动&前续",
-      "validatedForecast": "Validated Customer Forecast",
-      "demandRelevantSales": "Demand Relevant Sales",
-      "onTopOrder": "On Top Order",
-      "onTopCapacityForecast": "On Top Capacity Forecast",
-      "salesAmbition": "Sales Ambition",
-      "salesPlan": "Sales Plan"
-    },
-    "more_information": {
-      "material_and_text": "物料+描述",
-      "packaging_size": "包装规格",
-      "classification": "分类",
-      "current_wbz_schaeffler": "当前舍弗勒RLT",
-      "production_line": "生产线（Train）",
-      "production_segment": "生产部门",
-      "product_line_and_text": "产品线+描述",
-      "pfStatus": {
-        "title": "组合状态",
-        "PO": "逐步淘汰",
-        "PI": "逐步加入",
-        "AC": "活跃",
-        "IA": "无效",
-        "SE": "更换 (客户)",
-        "SB": "否决",
-        "SI": "更换",
-        "SP": "更换建议"
-      },
-      "demandCharacteristics": {
-        "title": "需求特征",
-        "SE": "系列",
-        "SP": "零星"
-      },
-      "dialog": {
-        "tabs": {
-          "material": "物料",
-          "customer": "客户"
-        },
-        "boxes": {
-          "generalMaterialInformation": "一般物料信息",
-          "supplyChain": "供应链",
-          "generalCustomerInformation": "一般客户信息",
-          "contact": "联系"
-        },
-        "demandCharacteristics": {
-          "SE": "系列",
-          "SP": "零星"
-        },
-        "entries": {
-          "<--- Material Box Left -->": "",
-          "materialNumber": "物料",
-          "materialDescription": "物料描述",
-          "materialClassification": "物料分类",
-          "productLine": "产品线",
-          "productLineName": "产品线描述",
-          "productCluster": "Product Cluster",
-          "gpsd": "GPSD",
-          "gpsdName": "GPSD 名称",
-          "successorCustomerMaterial": "后续物料（客户)",
-          "successorCustomerMaterialDescription": "物料描述（客户后续)",
-          "successorSchaefflerMaterial": "后续物料（舍弗勒）",
-          "successorSchaefflerMaterialDescription": "物料描述（舍弗勒后续）",
-          "materialNumberS4": "物料 S/4",
-          "customerMaterialNumber": "客户物料号",
-          "demandCharacteristic": "需求特征",
-          "<--- Material Box Right -->": "",
-          "productionPlant": "生产工厂",
-          "productionPlantName": "生产工厂描述",
-          "productionSegment": "生产部门",
-          "productionLine": "生产线（Train）",
-          "frozenZone": "冻结区 (包括 运输时间)",
-          "currentRLTSchaeffler": "补货周期 (包括 运输时间)",
-          "deliveryPlant": "交货工厂",
-          "planningPlant": "计划工厂",
-          "dispoGroup": "MRP组",
-          "<--- Customer Box Left -->": "",
-          "customerNumber": "客户号",
-          "customerName": "客户名称",
-          "mainCustomerNumber": "主客户号",
-          "mainCustomerName": "主客户名称",
-          "customerClassification": "客户分类（订单优先级）",
-          "region": "区域（公司）",
-          "customerCountry": "国家（客户）",
-          "salesArea": "销售区域（市场）",
-          "sector": "行业",
-          "sectorManagement": "行业管理",
-          "salesOrg": "销售组织",
-          "gkamNumber": "GKAM 号",
-          "keyAccountName": "GKAM 名称",
-          "subKeyAccount": "次级账户",
-          "subKeyAccountName": "次级账户名称",
-          "<--- Customer Box Right -->": "",
-          "accountOwner": "帐户所有者",
-          "internalSales": "I内部销售",
-          "demandPlanner": "需求规划者",
-          "gkam": "GKAM",
-          "kam": "KAM"
-        }
-      }
-    },
-    "supply_concept": {
-      "title": "供应概念",
-      "C": {
-        "rootString": "C - 客户指定安全库存 ({{fixHor}}) 及设置安全库存 (0)",
-        "ss": "C - 客户指定安全库存 ({{fixHor}}) 及设置安全库存 ({{safetyStock}})",
-        "csss": "C - 客户指定安全库存 ({{fixHor}})及ZV98安全库存({{safetyStock}})"
-      },
-      "E": {
-        "rootString": "E - 订单之外的伸延预测 ({{fixHor}})",
-        "ss": "E - 订单之外的伸延预测 ({{fixHor}}) 及设置安全库存  ({{safetyStock}})",
-        "csss": "E - 订单之外的伸延预测 ({{fixHor}})及ZV98安全库存 ({{safetyStock}})"
-      },
-      "F": {
-        "rootString": "F - 滚动预测",
-        "ss": "F - 滚动预测及设置安全库存 ({{safetyStock}})",
-        "csss": "F - 滚动预测及ZV98安全库存({{safetyStock}})"
-      },
-      "S": {
-        "rootString": "S - 安全库存 (0)",
-        "ss": "S - 安全库存 ({{safetyStock}})",
-        "csss": "S - ZV98安全库存 ({{safetyStock}})"
-      },
-      "U": {
-        "rootString": "U - 安全库存(新产品) (0)",
-        "ss": "U - 安全库存(新产品) ({{safetyStock}})",
-        "csss": "U - ZV98安全库存(新产品)( ({{safetyStock}})"
-      },
-      "M": {
-        "rootString": "M - 滚动预测",
-        "ss": "M - 滚动预测及设置安全库存 ({{safetyStock}})",
-        "csss": "M - 滚动预测及ZV98安全库存 ({{safetyStock}})"
-      },
-      "N": {
-        "rootString": "N - 滚动预测(新产品)",
-        "ss": "N - 滚动预测(新产品)及设置安全库存({{safetyStock}})",
-        "csss": "N - 滚动预测(新产品)ZV98安全库存({{safetyStock}})"
-      },
-      "ELSE": "按现有订单及以历史数据来推算所需产能"
-    },
-    "planningTable": {
-      "kpi": "KPI关键绩效指标",
-      "deliveries": "Deliveries (Active)",
-      "deliveriesCombined": "Deliveries (Combined)",
-      "deliveriesActive": "Active",
-      "deliveriesPredecessor": "Predecessor",
-      "demandRelevantSales": "Demand Relevant Sales",
-      "firmBusiness": "Firm Business (Active)",
-      "firmBusinessCombined": "Firm Business (Combined)",
-      "firmBusinessActive": "Active",
-      "firmBusinessPredecessor": "Predecessor",
-      "onTopOrder": "On Top Order",
-      "onTopCapacityForecast": "On Top Capacity Forecast",
-      "opportunities": "Opportunities",
-      "forecastProposal": "Forecast Proposal (ADD*ONE)",
-      "forecastProposalDemandPlanner": "Forecast Proposal (Demand Planner)",
-      "salesAmbition": "Sales Ambition",
-      "salesPlan": "Sales Plan",
-      "validatedForecast": "Validated Customer Forecast",
-      "calendarWeekTableHeaderKw": "CW {{calendar_week}}",
-      "calendarWeekTableHeaderPartWeek": "({{days}}天)"
-    },
-    "export_modal": {
-      "title": "导出",
-      "button_export": "导出",
-      "selected_customer_headline": "已选定客户",
-      "selected_customer": "{{number}} 已选定客户",
-      "date_headline": "选择一个日期",
-      "selected_kpis": "导出已选定的KPIs",
-      "download_started": "导出：下载已开始",
-      "in_progress": "导出正在进行中。这可能需要几分钟时间。",
-      "excel_header_view": "视图"
-    },
-    "error": {
-      "no_data": "没有有效数据。"
-    },
-    "save": {
-      "error_specific": "{{dates}}。",
-      "success": "成功",
-      "error_unspecific": "发生错误。"
-    },
-    "reset": {
-      "success": "重置成功"
-    },
-    "check": {
-      "success": "所有值均有效。",
-      "error_specific": "{{dates}}。"
-    },
-    "confirm": {
-      "override_week_by_month": "此月{{dates}}已维护了基于周的预测。如确认要改为基于月的预测, 基于周的预测将被删除."
-    }
-  },
-  "table": {
-    "toolbar": {
-      "toggleFilters": "過濾器",
-      "currentCount": "当前选择: {{count}}",
-      "activeFilterCount": "当前过滤器: {{count}}",
-      "resetFilters": "重置过滤器"
-    }
-  },
-  "customer_material_portfolio": {
-    "title": "客戶材料組合",
-    "toolbar": {
-      "expandAll": "折叠出来",
-      "collapseAll": "折叠"
-    },
-    "button": {
-      "addCustomerMaterial": "新增客戶材料",
-      "addMultipleCustomerMaterials": "新增多個客戶材料"
-    },
-    "material_info_text": {
-      "head_not_active": "更换链按钮不是活跃物料"
-    },
-    "modal": {
-      "text": "在字段中输入客户号和物料号，然后单击添加。",
-      "subheader": {
-        "substitution": "更换",
-        "phase_in": "逐步加入",
-        "phase_out": "逐步淘汰"
-      },
-      "customer_number": "客户号",
-      "material_number": "物料号",
-      "material": "物料",
-      "start": "开始",
-      "phase_out": {
-        "label": "日期从（客户",
-        "warning": "逐步淘汰日期之后的所有预测值均被删除！"
-      },
-      "substitution": {
-        "label": "日期从（客户"
-      },
-      "datepicker": {
-        "monday": {
-          "hint": "注意：所选日期会自动更改为前一个星期一。"
-        }
-      },
-      "demand_characteristic": "需求页面",
-      "add": "增加",
-      "error": {
-        "no_status": "错误：物料无状态。"
-      },
-      "accept": "接受",
-      "veto": "拒绝",
-      "predecessor_material_number": "前物料",
-      "sucessor_material_number": "后续物料",
-      "substitution_time": "替换期",
-      "substitution_phase_out": {
-        "button": "逐步淘汰"
-      },
-      "substitution_inactive": {
-        "button": "非活跃状态"
-      }
-    },
-    "phase_in_modal": {
-      "headline": "添加客户物料"
-    },
-    "modal_headline": {
-      "EDIT_MODAL": "编辑客户物料",
-      "STATUS_TO_PHASE_IN": "状态改为逐步加入",
-      "STATUS_TO_PHASE_OUT": "状态改为逐步淘汰",
-      "STATUS_TO_SUBSTITUTION": "状态更改为替代（客户）",
-      "STATUS_TO_INACTIVE": "状态变更为非活跃",
-      "STATUS_TO_ACTIVE": "状态变更为活跃",
-      "REVERT_SUBSTITUTION": "撤回替换"
-    },
-    "select_a_customer": "选择客户",
-    "phase_in_out_modal": {
-      "save": "保存"
-    },
-    "replace_cm_modal": {
-      "save": "保存",
-      "valid_from": "客户日期从",
-      "material_number": "物料号",
-      "forecast_text": "是否应该采用预测？",
-      "yes": "是",
-      "no": "不"
-    },
-    "inactive_modal": {
-      "headline": "设置客户物料不活动",
-      "deletion_warning": "删除所有未来预测值！",
-      "date_label": "客户开始日期",
-      "abort": "取消",
-      "confirm": "确认"
-    },
-    "substitution_modal": {
-      "headline": "控制替换提议"
-    },
-    "phase_in_out_single_modal": {
-      "save": {
-        "success": "保存成功"
-      },
-      "check": {
-        "success": "值有效。"
-      }
-    }
-  },
-  "sales_planning": {
-    "title": "销售验证",
-    "customer": "客户",
-    "customer_info_modal": {
-      "customer": "客户",
-      "owner": "所有者",
-      "globalCustomerNumber": "全球客户编号",
-      "region": "区域（公司）",
-      "salesOrg": "销售组织",
-      "salesArea": "销售区域（市场）",
-      "country": "国家（客户）",
-      "sector": "行业",
-      "keyAccount": "关键账户",
-      "subKeyAccount": "次级账户",
-      "planningCurrency": "规划货币",
-      "accountOwner": "帐户所有者",
-      "internalSales": "I内部销售",
-      "demandPlanner": "需求规划者",
-      "gkam": "GKAM",
-      "kam": "KAM"
-    },
-    "planning_details": {
-      "title": "规划细节",
-      "planning_level": "计划级别",
-      "change_history": "变更历史",
-      "filter": "筛选",
-      "planning_level_material_type": {
-        "PL": "产品线",
-        "GP": "GPSD",
-        "PC": "产品集"
-      },
-      "planning_level_material_modal": {
-        "title": "计划级材料",
-        "initial_configuration_hint": "初步规划级别由部门管理设置。",
-        "change_information": "请注意，这一更改不能被撤销。",
-        "change_title": "更改计划级材料",
-        "change_hint": "更改计划级材料时，计划级材料上的计划数据将 <strong>被删除</strong>。",
-        "change_confirmation_question": "您确定要更改计划级材料吗？"
-      },
-      "edit_modal": {
-        "absolute": "绝对值",
-        "relative": "相对值",
-        "yearly_total": "年度总计",
-        "adjusted_yearly_total": "调整后的年度总计",
-        "previous_adjusted_yearly_total": "上次调整后的年度总计",
-        "adjusted_yearly_total_error_message": "您的输入低于最低阈值 {{min_value}}",
-        "percentage_change": "百分比变化",
-        "percentage_change_hint": "对于负变化，请在前面加上减号 (-)",
-        "for": "为",
-        "salesDeduction": "销售扣除",
-        "previous_salesDeduction": "上期销售扣除",
-        "cashDiscount": "现金折扣",
-        "previous_cashDiscount": "上期现金折扣",
-        "daily_rolling_sales_plan": "每日滚动销售计划",
-        "previous_daily_rolling_sales_plan": "上期每日滚动销售计划",
-        "otherRevenues": "其他收入",
-        "previous_otherRevenues": "上期其他收入"
-      }
-    },
-    "table": {
-      "no_data": "请选择一个客户加载数据",
-      "planning": "规划",
-      "yearly": "年度",
-      "monthly": "每月",
-      "planningYear": "年度",
-      "planningMonth": "月份",
-      "autoGroupColumn": "规划细节",
-      "totalSalesPlanUnconstrained": "年总计 (Unc)",
-      "totalSalesPlanConstrained": "年总计 (Con)",
-      "totalSalesPlanAdjusted": "年度总调整 (Unc)",
-      "opportunitiesForecastRelevant": "相关机会 - 服务 (Unc)",
-      "opportunitiesNotSalesPlanRelevant": "机会 (Unc)",
-      "opportunitiesTotal": "机会 (Unc)",
-      "opportunitiesDemandRelevant": "相关机会 - 产品 (Unc)",
-      "opportunitiesDemandRelevantConstrained": "相关机会 - 产品 (Con)",
-      "firmBusinessCoverage": "固定业务覆盖 (Unc)",
-      "firmBusinessServices": "Firm Business - 服务 (Unc)",
-      "firmBusiness": "Firm Business (Unc)",
-      "apShareUnconstrained": "AP份额 (Unc)",
-      "spShareUnconstrained": "SP份额 (Unc)",
-      "opShareUnconstrained": "OP份额 (Unc)",
-      "apShareConstrained": "AP份额 (Con)",
-      "spShareConstrained": "SP份额 (Con)",
-      "opShareConstrained": "OP份额 (Con)",
-      "apShareAdjustedUnconstrained": "调整后的 AP 份额 (Unc)",
-      "spShareAdjustedUnconstrained": "调整后的 SP 份额 (Unc)",
-      "opShareAdjustedUnconstrained": "调整后的 OP 份额 (Unc)",
-      "salesDeduction": "销售扣除(%)",
-      "cashDiscount": "现金折扣(%)",
-      "otherRevenues": "其他收入",
-      "openPlannedValueDemand360": "在 Demand360 中的开放计划值 (Unc)",
-      "plannedValueDemand360": "在 Demand360 中的计划值 (Unc)",
-      "planNetSales": "计划 x+y 净销售",
-      "planInvoiceSales": "计划 x+y 开票金额",
-      "budgetInvoicedSales": "预算开票金额",
-      "budgetNetSales": "预算净销售",
-      "addOneOriginalValue": "来自 ADD*ONE 的原始值 (Unc)",
-      "opMaterialDemandPlanCount": "与需求计划的 OP 材料数量",
-      "spMaterialDemandPlanCount": "与需求计划的 SP 材料数量",
-      "apMaterialDemandPlanCount": "与需求计划的 AP 材料数量",
-      "salesPlanUnconstrained": "销售计划 (Unc)",
-      "salesPlanConstrained": "销售计划 (Con)",
-      "months": {
-        "01": "一月",
-        "02": "二月",
-        "03": "三月",
-        "04": "四月",
-        "05": "五月",
-        "06": "六月",
-        "07": "七月",
-        "08": "八月",
-        "09": "九月",
-        "10": "十月",
-        "11": "十一月",
-        "12": "十二月"
-      },
-      "deliveriesAcrossYears": "跨年度交付",
-      "ordersAcrossYearsFuture": "未来几年订单",
-      "ordersAcrossYearsPast": "过去几年订单",
-      "apShareOriginalUnconstrained": "AP 原始份额 (Unc)",
-      "spShareOriginalUnconstrained": "SP 原始份额 (Unc)",
-      "opShareOriginalUnconstrained": "OP 原始份额 (Unc)",
-      "planExistsOnOtherLevel": "计划存在于其他层次级别",
-      "noEntry": "无条目",
-      "notSynchronized": "尚未同步",
-      "synchronized": "已同步",
-      "adjustedApShare": "AP 调整后份额 %",
-      "adjustedSpShare": "SP 调整后份额 %",
-      "adjustedOpShare": "OP 调整后份额 %",
-      "calculatedApShare": "计算的AP份额 %",
-      "calculatedSpShare": "计算的SP份额 %",
-      "calculatedOpShare": "计算的OP份额 %"
-    }
-  },
-  "customer": {
-    "material_portfolio": {
-      "modal": {
-        "substitution": {
-          "successor": "后续",
-          "transfere_forecast": {
-            "rootString": "将预测转为后续材料",
-            "hint": "在每种情况下，都会从替换日期中删除对前置日期的预测",
-            "delete": "不要接管",
-            "copy": "采用",
-            "add": "添加"
-          },
-          "transfere_forecast_veto": {
-            "hint": "如果否决，则不接受或增加任何预报"
-          },
-          "revert": {
-            "confirmation": "替换是否应该颠倒过来?"
-          },
-          "warning": {
-            "add_material": "请注意，客户的组合中不包括该物料。是否需要添加？"
-          }
-        },
-        "action": {
-          "EDIT": "编辑基础组合",
-          "INACTIVATION": "失活基础组合",
-          "PHASE-OUT": "基础组合逐步淘汰",
-          "SUBSTITUTION": "更换基础组合",
-          "REACTIVATION": "激活基本组合",
-          "SUBSTITUTION-REVERT": "撤销替换",
-          "SUBSTITUTION_PROPOSAL": "控制替换提议",
-          "SUBSTITUTION_TO_SCHAEFFLER": "变更为舍弗勒后续替代物料"
-        },
-        "change_to_schaeffler": {
-          "text": "应客户要求（{{schaefflerSuccessor}}），是否应更换为舍弗勒内部的后续产品（{{sucessor}}）？",
-          "hint": "备注：由于舍弗勒后续物料原因，禁止撤销该客户的已有替代要求。"
-        },
-        "reactivateion": {
-          "hint": "是否应重新激活基础组合？"
-        }
-      }
-    }
-  },
-  "new-customer_material_portfolio": {
-    "modal": {
-      "headline": "添加新的客户物料",
-      "subheadline": "请手动输入或从Excel表中复制该物料号码以及Phase-In物料替代开始日期，并在下拉菜单中选择需求页面。",
-      "successfullyAddBanner": "新的客户物料已创建"
-    }
-  },
-  "customer-material-portfolio": {
-    "upload_modal": {
-      "modal": {
-        "phase_in": "逐步加入的日期",
-        "demand_type": "需求页面（连续的/中断的）"
-      }
-    }
-  },
-  "demand_characteristics": {
-    "SE": "系列",
-    "SP": "零星"
-  },
   "alert": {
-    "customer_number": {
-      "column_header": "客户"
+    "action_menu": {
+      "activate": "激活",
+      "alert_activated": "任务已激活",
+      "alert_completed": "任务已关闭",
+      "alert_deactivated": "任务已停用",
+      "base_combination": "基础组合",
+      "complete": "关闭",
+      "customer": "客户",
+      "customer_category": "客户&类别",
+      "deactivate": "停用",
+      "goto_function": "转到 \"{{function}}\" 缓解 ....."
     },
-    "customer_name": {
-      "column_header": "客户名称"
-    },
-    "process": {
-      "column_header": "处理"
-    },
-    "function": {
-      "column_header": "功能"
-    },
-    "material_number": {
-      "column_header": "物料号"
-    },
-    "material_description": {
-      "column_header": "物料描述"
-    },
+    "active_alerts": "{count, plural, one {1 已开启的任务} other {{count} 已开启的任务}}",
     "category": {
-      "column_header": "类别",
+      "ACIADP": "基本组合 不活动",
+      "CFPRAO": "检查验证预报, 取消更换",
+      "CFSUAO": "检查验证预报, 取消更换",
       "CHKDMP": "客户材料详情 (M)",
-      "DPLEOR": "客户材料详情 (A)",
+      "column_header": "类别",
+      "DEVIFC": "数量/价值偏离预设值",
       "DMPFIN": "预测已更新",
-      "DPOPDL": "将 SP 重新分类为 OP，检查验证预测",
-      "CFPRAO": "检查验证预报，取消更换",
-      "CFSUAO": "检查验证预报，取消更换",
-      "PINWAO": "Phase-In新物料,客户材料详情",
-      "PINWDP": "Phase-In新物料在指定日期加入",
-      "PIOCAO": "Phase-In新物料加入日期已变更（销售订单）",
-      "PIOCDP": "Phase-In新物料加入日期已变更（销售订单）",
+      "DPLEOR": "客户材料详情 (A)",
+      "DPOPDL": "将 SP 重新分类为 OP, 检查验证预测",
+      "IAUSAO": "验证模板状态与/或销售计划的有效性",
+      "IAUSDP": "Phase-Out旧物料禁用日期以变更 (销售订单)",
+      "NPOSDP": "新淘汰的 SP 材料",
       "PINUAO": "当前没有订单或没有输入 Opportunity, 请确认物料有效性",
       "PINUDP": "无订单或销售机会情况下的Phase-In新物料加入",
+      "PINWAO": "Phase-In新物料,客户材料详情",
+      "PINWDP": "Phase-In新物料在指定日期加入",
+      "PIOCAO": "Phase-In新物料加入日期已变更 (销售订单)",
+      "PIOCDP": "Phase-In新物料加入日期已变更 (销售订单)",
       "PONWDP": "Phase-Out旧物料在指定日期禁用",
-      "IAUSDP": "Phase-Out旧物料禁用日期以变更（销售订单）",
-      "IAUSAO": "验证模板状态与/或销售计划的有效性",
-      "ACIADP": "基本组合 不活动",
-      "SPNWAO": "检查替换提议",
-      "SPSBDP": "替换提议已锁",
-      "REUDAO": "取消替代",
-      "REUSAO": "检查替代品、前任的订单",
       "RESEAO": "查看当前订单还有被替换物料",
       "RESEDP": "检查替换",
-      "SPCHDP": "替换提议已修改",
-      "SPCHAO": "替换提议已修改",
-      "DEVIFC": "数量/价值偏离预设值",
+      "REUDAO": "取消替代",
+      "REUSAO": "检查替代品、前任的订单",
       "SINWAO": "替代物料已激活",
-      "NPOSDP": "新淘汰的 SP 材料"
-    },
-    "material_classification": {
-      "column_header": "物料分类"
-    },
-    "customer_material_number": {
-      "column_header": "客户物料号"
-    },
-    "report_date": {
-      "column_header": "报告日期"
-    },
-    "due_date": {
-      "column_header": "截止日期"
+      "SPCHAO": "替换提议已修改",
+      "SPCHDP": "替换提议已修改",
+      "SPNWAO": "检查替换提议",
+      "SPSBDP": "替换提议已锁"
     },
     "comment": {
       "column_header": "备注"
     },
-    "thresholdDeviation": {
-      "column_header": "与阀值的离差"
+    "completed_alerts": "{count, plural, one {1 已完成的任务} other {{count} 已完成的任务}}",
+    "customer_material_number": {
+      "column_header": "客户物料号"
+    },
+    "customer_name": {
+      "column_header": "客户名称"
+    },
+    "customer_number": {
+      "column_header": "客户"
+    },
+    "deactivate_selected": {
+      "menu_title": "停用所选内容"
+    },
+    "deactivated_alerts": "{count, plural, one {1 停用的任务} other {{count} 停用的任务}}",
+    "delete_selected": {
+      "menu_title": "删除所选内容"
+    },
+    "due_date": {
+      "column_header": "截止日期"
+    },
+    "function": {
+      "column_header": "功能"
+    },
+    "loading": "加载中…",
+    "material_classification": {
+      "column_header": "物料分类"
+    },
+    "material_description": {
+      "column_header": "物料描述"
+    },
+    "material_number": {
+      "column_header": "物料号"
+    },
+    "new_data": "提供新的 “待办事项”",
+    "process": {
+      "column_header": "处理"
+    },
+    "refresh": "刷新",
+    "report_date": {
+      "column_header": "报告日期"
+    },
+    "select": {
+      "active": "已开启的任务",
+      "completed": "已完成的任务",
+      "deactivated": "已停用的任务",
+      "label": "状态"
     },
     "threshold1": {
       "column_header": "数值参数1"
@@ -904,247 +111,341 @@
     "threshold3Description": {
       "column_header": "参数描述3"
     },
-    "deactivate_selected": {
-      "menu_title": "停用所选内容"
-    },
-    "delete_selected": {
-      "menu_title": "删除所选内容"
-    },
-    "action_menu": {
-      "complete": "关闭",
-      "deactivate": "停用",
-      "activate": "激活",
-      "goto_function": "转到 \"{{function}}\" 缓解 .....",
-      "base_combination": "基础组合",
-      "customer_category": "客户&类别",
-      "customer": "客户",
-      "alert_completed": "任务已关闭",
-      "alert_deactivated": "任务已停用",
-      "alert_activated": "任务已激活"
-    },
-    "new_data": "提供新的 “待办事项”",
-    "refresh": "刷新",
-    "active_alerts": "{count, plural, one {1 已开启的任务} other {{count} 已开启的任务}}",
-    "completed_alerts": "{count, plural, one {1 已完成的任务} other {{count} 已完成的任务}}",
-    "deactivated_alerts": "{count, plural, one {1 停用的任务} other {{count} 停用的任务}}",
-    "select": {
-      "label": "状态",
-      "active": "已开启的任务",
-      "completed": "已完成的任务",
-      "deactivated": "已停用的任务"
-    },
-    "loading": "加载中…"
+    "thresholdDeviation": {
+      "column_header": "与阀值的离差"
+    }
   },
   "alert_rules": {
-    "title": "任务条件编辑器",
-    "button": {
-      "createRule": "建立規則",
-      "createMultipleRules": "建立多個規則"
-    },
     "action_menu": {
       "activate": "激活",
       "deactivate": "停用",
       "delete": "删除"
     },
-    "table": {
-      "deactivated": {
-        "true": "已停用",
-        "false": "已激活"
-      },
-      "column": {
-        "usernameCreated": "创建者",
-        "usernameLastChanged": "最后编辑者"
-      }
-    },
     "action_menu_activated": "条件已激活",
     "action_menu_deactivated": "条件已停用",
     "action_menu_deleted": "条件已删除",
+    "button": {
+      "createMultipleRules": "建立多個規則",
+      "createRule": "建立規則"
+    },
+    "delete_modal": {
+      "confirmation_text": "您确实想删除该规则？"
+    },
     "edit_modal": {
-      "title": {
-        "create": "创建规则",
-        "edit": "编辑条件"
-      },
-      "label": {
-        "function": "功能",
-        "sales_area": "销售区域",
-        "sales_org": "销售组织",
-        "customer": "客户",
-        "demandPlanner": "需求计划员",
-        "demandPlannerId": "需求规划员 ID",
-        "material": "物料",
-        "materialClassification": "物料分类",
-        "sector_management": "部门管理",
-        "production_line": "生产线（Train）",
-        "product_line": "产品线",
-        "gkam": "GKAM",
-        "gkamNumber": "GKAM 编号",
-        "start": "开始",
-        "when": {
-          "rootString": "时间",
-          "M01": "1. 月",
-          "M15": "15. 月",
-          "W6": "周六",
-          "D": "每日的"
-        },
-        "interval": {
-          "rootString": "间隔",
-          "M1": "每月",
-          "M2": "每 2 个月",
-          "M3": "每 3 个月",
-          "M6": "每 6 个月",
-          "W1": "每周的",
-          "D1": "每日的"
-        },
-        "end": "结束",
-        "remark": "评论",
-        "region": "地区",
-        "type": "提示类型",
-        "none": "取消"
-      },
-      "success": {
-        "alert_rule_created": "条件已成功创建"
-      },
       "data_selection": {
         "dropdown": {
           "loading": "加载中…"
         }
       },
-      "op_classified_material_not_allowed": "无法为 OP 物料创建条件"
+      "label": {
+        "customer": "客户",
+        "demandPlanner": "需求计划员",
+        "demandPlannerId": "需求规划员 ID",
+        "end": "结束",
+        "function": "功能",
+        "gkam": "GKAM",
+        "gkamNumber": "GKAM 编号",
+        "interval": {
+          "D1": "每日的",
+          "M1": "每月",
+          "M2": "每 2 个月",
+          "M3": "每 3 个月",
+          "M6": "每 6 个月",
+          "rootString": "间隔",
+          "W1": "每周的"
+        },
+        "material": "物料",
+        "materialClassification": "物料分类",
+        "none": "取消",
+        "product_line": "产品线",
+        "production_line": "生产线 (Train)",
+        "region": "地区",
+        "remark": "评论",
+        "sales_area": "销售区域",
+        "sales_org": "销售组织",
+        "sector_management": "部门管理",
+        "start": "开始",
+        "type": "提示类型",
+        "when": {
+          "D": "每日的",
+          "M01": "1. 月",
+          "M15": "15. 月",
+          "rootString": "时间",
+          "W6": "周六"
+        }
+      },
+      "op_classified_material_not_allowed": "无法为 OP 物料创建条件",
+      "success": {
+        "alert_rule_created": "条件已成功创建"
+      },
+      "title": {
+        "create": "创建规则",
+        "edit": "编辑条件"
+      }
     },
     "multi_modal": {
+      "customer": "客户",
+      "delete_rules": "删除规则",
       "error": {
         "execDay_not_valid": "数值与输入的时间间隔不匹配"
       },
-      "new_rules": "输入新规则",
-      "delete_rules": "删除规则",
-      "customer": "客户",
-      "material": "材料"
+      "material": "材料",
+      "new_rules": "输入新规则"
     },
-    "delete_modal": {
-      "confirmation_text": "您确实想删除该规则？"
+    "table": {
+      "column": {
+        "usernameCreated": "创建者",
+        "usernameLastChanged": "最后编辑者"
+      },
+      "deactivated": {
+        "false": "已激活",
+        "true": "已停用"
+      }
+    },
+    "title": "任务条件编辑器"
+  },
+  "button": {
+    "cancel": "取消",
+    "change": "变更",
+    "close": "关闭",
+    "create": "创建",
+    "delete": "删除",
+    "download": "下载",
+    "edit": "编辑",
+    "export": "导出",
+    "load": "载入",
+    "no": "不",
+    "reset": "重置",
+    "save": "保存",
+    "validate": "验证",
+    "yes": "是"
+  },
+  "cookie_policy_page": {
+    "headline": "Cookie 政策",
+    "open_settings_button": "Cookie 设置"
+  },
+  "copy_to_clipboard": "复制到剪贴板",
+  "customer": {
+    "material_portfolio": {
+      "modal": {
+        "action": {
+          "EDIT": "编辑基础组合",
+          "INACTIVATION": "失活基础组合",
+          "PHASE-OUT": "基础组合逐步淘汰",
+          "REACTIVATION": "激活基本组合",
+          "SUBSTITUTION": "更换基础组合",
+          "SUBSTITUTION_PROPOSAL": "控制替换提议",
+          "SUBSTITUTION_TO_SCHAEFFLER": "变更为舍弗勒后续替代物料",
+          "SUBSTITUTION-REVERT": "撤销替换"
+        },
+        "change_to_schaeffler": {
+          "hint": "备注：由于舍弗勒后续物料原因, 禁止撤销该客户的已有替代要求。",
+          "text": "应客户要求 ({{schaefflerSuccessor}}), 是否应更换为舍弗勒内部的后续产品 ({{sucessor}})?"
+        },
+        "reactivateion": {
+          "hint": "是否应重新激活基础组合？"
+        },
+        "substitution": {
+          "revert": {
+            "confirmation": "替换是否应该颠倒过来?"
+          },
+          "successor": "后续",
+          "transfere_forecast": {
+            "add": "添加",
+            "copy": "采用",
+            "delete": "不要接管",
+            "hint": "在每种情况下, 都会从替换日期中删除对前置日期的预测",
+            "rootString": "将预测转为后续材料"
+          },
+          "transfere_forecast_veto": {
+            "hint": "如果否决, 则不接受或增加任何预报"
+          },
+          "warning": {
+            "add_material": "请注意, 客户的组合中不包括该物料。是否需要添加？"
+          }
+        }
+      }
     }
   },
-  "material_customer": {
-    "column": {
-      "region": "区域（公司）",
-      "salesArea": "销售区域（市场）",
-      "salesOrg": "销售组织",
-      "mainCustomerNumber": "主客户号",
-      "mainCustomerName": "主客户名称",
-      "customerNumber": "客户号",
-      "customerName": "客户名称",
-      "customerCountry": "国家（客户）",
-      "sector": "行业",
-      "sectorManagement": "行业管理",
-      "customerClassification": "客户分类（订单优先级）",
-      "deliveryPlant": "交货工厂",
-      "planningPlant": "计划工厂",
-      "materialNumber": "物料",
-      "materialDescription": "物料描述",
-      "mrpGroup": "MRP组",
-      "productionPlant": "生产工厂",
-      "productionPlantName": "生产工厂描述",
-      "productionSegment": "生产部门",
-      "productionLine": "生产线（Train）",
-      "packagingSize": "包装规格",
-      "customerMaterialNumber": "客户物料号",
-      "customerMaterialNumber_plural": "客户物料号",
-      "materialClassification": "物料分类",
-      "demandPlanValue": "发票销售 (下一个 12M)",
-      "demandCharacteristic": "需求特征",
-      "currentRLTSchaeffler": "当前舍弗勒RLT",
-      "currentRLTCustomer": "当前客户RLT",
-      "portfolioStatus": "组合状态",
-      "stochasticType": "随机类型",
-      "successorSchaefflerMaterial": "后续物料（舍弗勒）",
-      "successorSchaefflerMaterialDescription": "物料描述（舍弗勒后续）",
-      "successorSchaefflerMaterialPackagingSize": "包装规格（舍弗勒后续）",
-      "successorMaterialClassificationSchaeffler": "物料分类（舍弗勒前续）",
-      "successorMaterialCustomer": "后续物料（客户）",
-      "successorCustomerMaterialDescription": "物料描述（客户后续）",
-      "successorMaterialClassificationCustomer": "物料分类（客户前续）",
-      "successorCustomerMaterialPackagingSize": "包装规格（客户后续）",
-      "pfStatusAutoSwitch": "自动更改状态",
-      "repDate": "更换日期",
-      "accountOwner": "帐户所有者",
-      "accountOwnerID": "帐户所有者 ID",
-      "internalSales": "I内部销售",
-      "internalSalesID": "内部销售ID",
-      "demandPlanner": "需求规划者",
-      "gkam": "GKAM",
-      "gkamID": "GKAM ID",
-      "kam": "KAM",
-      "kamID": "KAM ID",
-      "gkamNumber": "GKAM 号",
-      "gkamName": "GKAM 名称",
-      "subKeyAccount": "次级账户",
-      "subKeyAccountName": "次级账户名称",
-      "productLine": "产品线",
-      "productLineText": "产品线描述",
-      "productCluster": "Product Cluster",
-      "forecastMaintained": "预测得到验证？",
-      "forecastValidated": "确认的客户预测（件，12月）",
-      "forecastValidatedFrom": "验证从",
-      "forecastValidatedTo": "验证以",
-      "forecastValidatedAt": "验证于",
-      "forecastValidatedBy": "验证由",
-      "tooltipTextIA": "物料处于非活动状态",
-      "tooltipTextRE": "更换物料",
-      "abcxClassification": "A/B/C/X 分类",
-      "gpsd": "GPSD",
-      "gpsdName": "GPSD名称",
-      "successorMaterial": "经过验证的后续物料（客户）",
-      "successorMaterialDescription": "物料描述（后续客户）",
-      "successorCustomerMaterialNumber": "客户物料号（后续客户）",
-      "successorMaterialPackagingSize": "包装尺寸（后续客户）",
-      "successorMaterialClassification": "物料分类（后续客户）",
-      "successorStochasticType": "随机类型（后续客户）",
-      "successorProductionPlant": "生产厂（后续客户）",
-      "successorProductionSegment": "生产部门（后续客户)",
-      "successorProductionLine": "生产线（后续客户",
-      "successorProductLine": "生产线（后续客户）",
-      "successorProductLineText": "产品线名称（后续客户）",
-      "deliveryQuantity18Months": "交货（STK，18M）",
-      "orderQuantity": "积压订单 (STK, ∞)",
-      "tlMessageType": "更换情况",
-      "materialNumberS4": "物料 S/4"
+  "customer_material_portfolio": {
+    "button": {
+      "addCustomerMaterial": "新增客戶材料",
+      "addMultipleCustomerMaterials": "新增多個客戶材料"
     },
-    "portfolio_status": {
-      "AC": "活跃",
-      "IA": "无效",
-      "SP": "更换建议",
-      "SE": "更换 (客户)",
-      "SI": "更换",
-      "SB": "否决",
-      "PO": "逐步淘汰",
-      "PI": "逐步加入",
-      "unknown": "未知"
+    "inactive_modal": {
+      "abort": "取消",
+      "confirm": "确认",
+      "date_label": "客户开始日期",
+      "deletion_warning": "删除所有未来预测值！",
+      "headline": "设置客户物料不活动"
     },
+    "material_info_text": {
+      "head_not_active": "更换链按钮不是活跃物料"
+    },
+    "modal": {
+      "accept": "接受",
+      "add": "增加",
+      "customer_number": "客户号",
+      "datepicker": {
+        "monday": {
+          "hint": "注意：所选日期会自动更改为前一个星期一。"
+        }
+      },
+      "demand_characteristic": "需求页面",
+      "error": {
+        "no_status": "错误：物料无状态。"
+      },
+      "material": "物料",
+      "material_number": "物料号",
+      "phase_out": {
+        "label": "日期从 (客户",
+        "warning": "逐步淘汰日期之后的所有预测值均被删除！"
+      },
+      "predecessor_material_number": "前物料",
+      "start": "开始",
+      "subheader": {
+        "phase_in": "逐步加入",
+        "phase_out": "逐步淘汰",
+        "substitution": "更换"
+      },
+      "substitution": {
+        "label": "日期从 (客户"
+      },
+      "substitution_inactive": {
+        "button": "非活跃状态"
+      },
+      "substitution_phase_out": {
+        "button": "逐步淘汰"
+      },
+      "substitution_time": "替换期",
+      "sucessor_material_number": "后续物料",
+      "text": "在字段中输入客户号和物料号, 然后单击添加。",
+      "veto": "拒绝"
+    },
+    "modal_headline": {
+      "EDIT_MODAL": "编辑客户物料",
+      "REVERT_SUBSTITUTION": "撤回替换",
+      "STATUS_TO_ACTIVE": "状态变更为活跃",
+      "STATUS_TO_INACTIVE": "状态变更为非活跃",
+      "STATUS_TO_PHASE_IN": "状态改为逐步加入",
+      "STATUS_TO_PHASE_OUT": "状态改为逐步淘汰",
+      "STATUS_TO_SUBSTITUTION": "状态更改为替代 (客户)"
+    },
+    "phase_in_modal": {
+      "headline": "添加客户物料"
+    },
+    "phase_in_out_modal": {
+      "save": "保存"
+    },
+    "phase_in_out_single_modal": {
+      "check": {
+        "success": "值有效。"
+      },
+      "save": {
+        "success": "保存成功"
+      }
+    },
+    "replace_cm_modal": {
+      "forecast_text": "是否应该采用预测？",
+      "material_number": "物料号",
+      "no": "不",
+      "save": "保存",
+      "valid_from": "客户日期从",
+      "yes": "是"
+    },
+    "select_a_customer": "选择客户",
+    "substitution_modal": {
+      "headline": "控制替换提议"
+    },
+    "title": "客戶材料組合",
     "toolbar": {
-      "menu_label": "更多",
-      "layout_title": "布局",
-      "layout_1": "布局1",
-      "layout_2": "布局2",
-      "reset_layout": "重置布局",
-      "load_layout": "加载布局",
-      "overwrite_layout": "覆盖布局",
-      "selected_row_count": "已选择： {{row_count}}"
-    },
-    "export": {
-      "in_progress": "导出正在进行中。这可能需要几分钟时间。",
-      "max_count_exceeded": "不能导出超过 {{max_count}} 行。",
-      "download_started": "导出：下载已开始",
-      "failed": "导出失败：{{reason}}"
+      "collapseAll": "折叠",
+      "expandAll": "折叠出来"
     }
+  },
+  "customer-material-portfolio": {
+    "upload_modal": {
+      "modal": {
+        "demand_type": "需求页面 (连续的/中断的)",
+        "phase_in": "逐步加入的日期"
+      }
+    }
+  },
+  "demand_characteristics": {
+    "SE": "系列",
+    "SP": "零星"
+  },
+  "drawer": {
+    "apply": "应用",
+    "locale": {
+      "DE_de": "德语",
+      "EN_en": "英语"
+    },
+    "settings": "设置",
+    "user-currency-label": "币种",
+    "user-dateformat-label": "日期格式",
+    "user-decimal-COMMA": "逗号: 123.456,78",
+    "user-decimal-PERIOD": "点: 123,456.78",
+    "user-decimal-separator-label": "小数点分隔符",
+    "user-language-label": "语言",
+    "user-locale-helper": "日期和数字格式",
+    "user-locale-label": "地点",
+    "version": "软件版本："
+  },
+  "error": {
+    "date": {
+      "afterMax": "日期在最晚的可能日期之后。",
+      "afterMaxEditingExistingRecord": "日期必须与原始日期 ({{existingDate}}) 一致, 或者在可能的最晚日期 ({{latestPossibleDate}}) 之前。",
+      "beforeMin": "日期早于最早的可能日期。",
+      "beforeMinEditingExistingRecord": "日期必须与原始日期 ({{existingDate}}) 一致, 或者是最早的可能日期 ({{earliestPossibleDate}}。",
+      "emptyDate": "日期不能为空。",
+      "invalidFormat": "日期格式无效。"
+    },
+    "duplicatedMaterialNumber": "多次包含相同的材料编号",
+    "error_with_code": "错误: {{code}}",
+    "letters": "仅允许使用不带特殊字符的字母  (A-Z)。",
+    "letters_numbers": "只允许使用不带特殊字符的数字和字母  (A-Z)。",
+    "loading_failed": "加载失败",
+    "loadingConfigurationFailed": "加载配置时出错",
+    "network_error": "网络错误：请检查您的网络连接。",
+    "no_department": "没有部门",
+    "no_family_name": "没有姓氏",
+    "no_given_name": "没有名字",
+    "not_valid": "以下值无效：",
+    "notValidCustomerNumber": "{{formattedValue}} 不是有效的客户号。",
+    "notValidGkamNumber": "{{formattedValue}} 不是有效的数字。",
+    "notValidMaterialNumber": "{{formattedValue}} 不是有效的物料编号。",
+    "notValidSalesOrg": "{{formattedValue}} 不是有效的销售组织。",
+    "number_stars": "只允许使用数字和占位符  (*)。",
+    "numbers": {
+      "COMMA": "只允许 1.000,00 格式的数字。",
+      "PERIOD": "只允许 1.000,00 格式的数字。",
+      "rootString": "只允许使用数字。"
+    },
+    "save": {
+      "failed": "保存失败"
+    },
+    "sectorWrongBegin": "扇区值必须以 V 开头。",
+    "toDateAfterFromDate": "结束日期早于开始日期。",
+    "too_long": "输入值太长, 应具有以下长度： {{maxLength}}",
+    "too_many_rows_selected": "选择的行太多。请单独选择最多 70 行或选择所有行。",
+    "too_many_values": "您输入的值过多。",
+    "tooManyValues": "请输入最大 {{maxNumber}} 值。",
+    "unknown": "未知错误",
+    "unsaved_changes": "未保存的更改将被丢弃。是否继续？",
+    "valueSmallerFirmBusiness": "Validated Customer Forecast 少於 Firm Business",
+    "valueTooSmall": "只允许正数",
+    "valueUnknown": "未知",
+    "wrong_length": "输入长度不正确, 应具有以下长度： {{targetLength}}"
   },
   "field": {
     "abcxClassification": {
       "value": {
+        "<empty>": "未指定",
         "A": "A_优选",
         "B": "B_不受限制",
         "C": "C_受限制",
-        "X": "X_不适用于新设计",
-        "<empty>": "未指定"
+        "X": "X_不适用于新设计"
       }
     },
     "demandCharacteristic": {
@@ -1155,35 +456,369 @@
     },
     "forecastMaintained": {
       "value": {
-        "true": "有",
-        "false": "是"
+        "false": "是",
+        "true": "有"
       }
     }
   },
-  "copy_to_clipboard": "复制到剪贴板",
-  "paste_from_clipboard": "从剪贴板粘贴",
+  "generic": {
+    "validation": {
+      "above_max": "值必须小于或等于 {{max}}。",
+      "at_least_one_of": "必须至少填写以下一个字段：{{fieldlist}}.",
+      "below_min": "值必须大于或等于 {{min}}。",
+      "check_inputs": "数据不正确。请检查您的输入。",
+      "missing_field": "必填字段缺失",
+      "missing_fields": "缺少必填字段",
+      "save": {
+        "success": "保存成功"
+      },
+      "totalExceedsLimit": "所有值的总和不得超过 {{max}}。",
+      "upload": {
+        "check": {
+          "error": "{ count, plural, =1 {一行无效。} other {# 行行无效。}}",
+          "success": "{ count, plural, =1 {一行有效。} other {# 行有效。行有效。}}"
+        },
+        "no_entries": "没有可用的条目。",
+        "save": {
+          "error": "{ count, plural, =1 {保存该行失败} other {保存 # 行失败}}",
+          "success": "{ count, plural, =1 {该行已被成功保存} other {# 行已被成功保存}}"
+        },
+        "too_many_entries": "列表中包含太多条目。一次最多可上传 {{maxRows}} 个条目。",
+        "upload_failed": "上传失败：{{reason}}"
+      }
+    }
+  },
+  "globalSelection": {
+    "customer": {
+      "entity_name": "客户",
+      "entity_name_plural": "客户",
+      "rootString": "客户"
+    },
+    "dropdown": {
+      "loading": "加载中…",
+      "loading_error": "加载选项时出错",
+      "minOne": "请输入至少两个字符"
+    },
+    "gkam": " (G)KAM",
+    "gkam_name": {
+      "entity_name": "(G)KAM号",
+      "entity_name_plural": "(G)KAM号",
+      "rootString": "(G)KAM号"
+    },
+    "material": {
+      "entity_name": "物料",
+      "entity_name_plural": "物料",
+      "rootString": "物料"
+    },
+    "materialClassification": "物料分类",
+    "no_open_alert_types": "没有已开启的任务",
+    "production_segment": {
+      "entity_name": "生产部门",
+      "entity_name_plural": "生产部门",
+      "rootString": "生产部门"
+    },
+    "productionPlant": {
+      "entity_name": "生产工厂",
+      "entity_name_plural": "生产工厂",
+      "rootString": "生产工厂"
+    },
+    "region": "区域 (公司)",
+    "results": "搜索结果 - 数据选择和加载",
+    "sales_area": "销售区域 (市场)",
+    "sales_org": {
+      "entity_name": "销售组织",
+      "entity_name_plural": "销售组织",
+      "rootString": "销售组织"
+    },
+    "sector": {
+      "entity_name": "分支",
+      "entity_name_plural": "工业",
+      "rootString": "分支"
+    },
+    "sector_management": "工业管理",
+    "selection_empty": "必须选择至少一个选择标准。",
+    "tasks": "已开启的任务"
+  },
+  "header": {
+    "brand": {
+      "alt": "舍弗勒集团标志"
+    },
+    "fullTitle": "Planning360",
+    "overview": "Overview Page",
+    "title": "P360"
+  },
+  "help_menu": {
+    "label": {
+      "help_center": "帮助中心",
+      "service_now": "立即服务"
+    }
+  },
+  "hint": {
+    "errorLoadingData": "数据选择错误。",
+    "noData": "无可用数据。",
+    "selectData": "请使用过滤器选项查看数据。"
+  },
+  "home": {
+    "chart": {
+      "aria": {
+        "daterange_button": "图表日期范围",
+        "settings_button": "图表设置"
+      },
+      "legend": {
+        "deliveries": "Deliveries",
+        "demandPlan": "Validated Forecast",
+        "onTopCapacityForecast": "On Top Capacity Forecast",
+        "onTopOrder": "On Top Order",
+        "opAdjustment": "OP Adjustment",
+        "opportunities": "Opportunities",
+        "orders": "Firm Business",
+        "salesAmbition": "Sales Ambition",
+        "salesPlan": "Sales Plan"
+      },
+      "loading_failed": "加载失败。",
+      "monthly_option": "Monthly",
+      "pieces_option": "件",
+      "select_to_load": "请选择数据以加载图表。",
+      "title": "同步销售和需求计划",
+      "yearly_option": "Yearly"
+    }
+  },
+  "imprint_page": {
+    "headline": "印记"
+  },
+  "internal_material_replacement": {
+    "button": {
+      "createMultipleSubstitutions": "创建多个替换",
+      "createSubstitution": "创建替代"
+    },
+    "column": {
+      "countBCAutomaticAccepted": "自动转换",
+      "countBCManualAccepted": "接受手动",
+      "countBCManualRejected": "手动拒绝",
+      "countBCOpen": "打开/未选中",
+      "countBCTotal": "受影响的基础组合总数",
+      "countBCVeto": "否决",
+      "cutoverDate": "切换日期",
+      "lastChangeDate": "创建日期",
+      "lastChangeUser": "用户创建/编辑",
+      "note": "评论",
+      "predecessorMaterial": "需更换的物料",
+      "replacementDate": "更换日期",
+      "replacementType": "类型",
+      "startOfProduction": "开始生产",
+      "statusMasterData": {
+        "GREEN": "绿色",
+        "RED": "红色",
+        "rootString": "SAP主数据状态",
+        "YELLOW": "黄色"
+      },
+      "successorMaterial": "后续物料"
+    },
+    "error": {
+      "check_replacement_type": "类型不正确。请选择有效值。",
+      "fieldNotAllowed": "禁止该选项在此使用"
+    },
+    "helper_text": {
+      "note": "提示: 请填写英语",
+      "replacementDate": "备注：由于缺失后续物料, 本字段显示最后可能的生产日期。",
+      "startOfProduction": "备注：由于缺失后续物料, 本字段显示最后可能的生产日期。"
+    },
+    "text": {
+      "deleteSubstitution": "您确实想删除该替换？"
+    },
+    "title": {
+      "editSubstitution": "编辑替换",
+      "newDeletions": "删除替换",
+      "newSubstitution": "创建单个新替换",
+      "newSubstitutions": "创建单个新替换",
+      "rootString": "中央相位 输入相位 输出"
+    }
+  },
+  "legal": {
+    "cookiePolicy": "Cookie Policy",
+    "cookieSettings": "Cookie Settings",
+    "customDataPrivacy": "<h3>Privacy Policy</h3><h5>We are pleased about your interest in the Schaeffler Group (Schaeffler AG and affiliated companies) and our products. The protection of your privacy when using our online offer is very important for us. If personal data is processed, we observe the applicable data protection laws.</h5><br><h5>I. General information about data processing</h5><h5>1. Scope and purpose of processing of personal data</h5><p>In principle, we collect and use your personal data only insofar as it is necessary to provide a functional website as well as our content and services offered on the website. The processing of your personal data takes place either on the basis of your consent or insofar as the legal regulations allow this data processing even without consent.</p><h5>2. Legal basis for data processing.</h5><p>Your personal data is processed on the basis of the EU General Data Protection Regulation (GDPR) and the applicable local data protection law, f.e. the German Federal Data Protection Act (BDSG). Insofar as you have given us consent to process personal data for specific purposes, Art. 6 (1) lit. a GDPR serves as the legal basis for the processing of personal data. Consent given can be revoked by you at any time. Please note that the revocation is only effective for the future. Processing that took place before the revocation is not affected. Processing of personal data in the context of the performance of a contract to which you are a party or in order to take steps prior to entering a contract at your request is based on Art. 6 (1)(b) GDPR. The purposes of data processing are governed by the respective contract documents and the subject matter of the contract. If processing of personal data is necessary to comply with a legal obligation to which we are subject, Art. 6 (1)(c) GDPR serves as a legal basis. If processing is necessary for the purposes of the legitimate interests pursued by Schaeffler or by a third party (e.g., to assert legal claims and defend against legal disputes; to ensure IT security; to prevent criminal acts; for business management measures) and if your interests, fundamental rights and freedoms as data subject do not override the aforementioned interest, Art. 6 (1)(f)GDPR serves as the legal basis for processing.</p><h5>3. Data erasure and retention period</h5><p>We process and store your personal data for as long as this is necessary to satisfy the respective purpose. In addition, such storage may take place in order to comply with a legal obligation by Union or Member State law, regulation or other provision to which we as controller are subject. If the data is no longer necessary or if a retention period prescribed by the aforementioned laws has expired, your data will be erased. In order to maintain comparability and transparency with regard to the offer and sales history, your data will be deleted after 10 years.</p><h5>4. Access to personal data within the Schaeffler Group and by third parties</h5><p>Within the Schaeffler Group, those entities gain access to your data who require it as a part of “least privilege” (assignment of user rights to the lowest possible extent) and the “need-to-know” principle (knowledge of data only if necessary). We may only transfer data to third parties outside the Schaeffler Group if this is necessary, if statutory provision so requires, you have consented or processors engaged by us have contractually agreed to comply with the requirements of the GDPR and applicable local data protection law.</p><p>UUnder these circumstances, recipients of personal data may include: Responsible internal depart-ments such as the project team “Guided Quoting” and the external service provider “Microsoft”, if required.</p><h5>5. Transfer of personal data to a third country or to an international organization</h5><p>A transfer of data to countries outside the EU/EEA (so-called third countries) will only take place as it is necessary or required by law, you have given your consent or as part of data processing by a processor. If service providers in third countries are deployed, in addition to written instructions, they are required to comply with data protection standards in Europe by agreeing on the EU standard contractual clauses.</p><h5>6. IT Security</h5><p>The Schaeffler Group uses technical and organizational security measures to protect the data we have under our control against accidental or intentional destruction, manipulation, loss or against access by unauthorized persons. These security measures are constantly being further developed in accordance with the respective new technical possibilities.</p><h5>7. Obligation to provide personal data</h5><p>While entering into a contract, you must provide the personal data that is necessary to establish, implement and terminate the contract and to satisfy the resulting duties or that Schaeffler must collect due to legal provisions. Without this data, no contract with Schaeffler is concluded. If we provide you with offers and services on this website that you can voluntarily use, there is no duty to provide your data to us, but without your personal data, you may not be able to use our offers and services.</p><h5>8. “Profiling“ and automated decision-making</h5><p>We do not use fully automated decision-making pursuant to Art. 22 GDPR. Schaeffler basically does not use “profiling”. If we use it in individual cases, we will inform you about this separately, if it is required by law and – if necessary - obtain your prior consent.</p><h5>9. Sources of your personal data</h5><p>We use data that we receive from you. We also use data that we receive from the following sys-tems:<ul><li>Azure AD</li><li>SAP</li></ul></p><h5>II. Data processing operations during the provision of the application and during the creation of log files.</h5><p>When you visit our application, our web servers record and collect the name of your Internet service provider, your IP address, the website from which you visit us, the web pages you visit on our site, and the date and duration of your visit. This data is stored in the log files of our systems and is used for problem or error analysis. However, the use of the IP address is limited to the technically necessary extent and is shortened and thus only used anonymously, so that it is not possible to assign the IP address to a user. The data is not merged with personal data.</p><p>The legal basis for the temporary storage of the data is Art. 6 para. 1 lit. f GDPR.</p><p>The temporary storage of the abbreviated IP address by our systems is technically necessary to display the website to your terminal device. Storage in log files is done to ensure the functionality of the website. Data is not being analyzed for marketing purposes in this context. For these purposes, we have legitimate interest in processing of data according to Art. 6 (1) (f) GDPR.</p><p>The collection of data for the provision of the website and the storage of data in log files is essential for the operation of the website. Therefore, there is no possibility for you as a user to object to such processing.</p><h5>III. Data processing for services offered on the website</h5><p>On our website various services are offered, for the use of which we request personal data from you. In this context, it is always optional for you to provide us with personal data. In Guided Quot-ing, your user abbreviation is stored in order to enable transparency with regard to the preparation of offers.<h5>1. Creation of a user profile</h5><p>We process your data to create a user profile. This is used to check the authorization in the application.</p><p>The legal basis for the processing of your personal data after registration is Art. 6 para. 1 lit. f GDPR.</p><p>The data will be deleted as soon as they are no longer required to achieve the purpose for which they were collected. Therefore, the data is stored as long as your consent to data tracking is active.At any time you have the possibility to revoke your consent to the processing of personal data by e-mail to unsubscribe@schaeffler.com or by clicking on the „unsubscribe link” in the received mes-sages with effect for the future and thereby unsubscribe from the data tracking. In this case, all personal data stored in the course of contacting us will be deleted. The revocation of consent does not affect the lawfulness of the processing carried out on the basis of the consent until the revoca-tion.</p><h5>2. Data processing for orders and changes</h5><p>Within the quotation process, it is necessary to assign the corresponding documents to an employ-ee. In addition to the employee abbreviation, their first and last name are also stored. This process follows the official sales process according to the management manual (PD3.3 Quotation prepara-tion and submittal). In order to enable an offer traceability, your data will continue to be stored even after the offer has been submitted. For the authorization check and change history, the saved quotation creation is passed on to the SAP system together with your abbreviation.</p><h5>IV. Use of cookies</h5><p>We use cookies to help you make the best possible use of the website. Cookies are text files that are stored in the Internet browser or by the Internet browser on the user’s device. If a user accesses our website, a cookie may be stored on the user’s operating system. This cookie contains a characteristic string that allows the browser to be uniquely identified when the website is accessed again.</p><p>In the following we inform you in general about the use of cookies on our website and the associated processing of personal data. For more information on specifically used cookies, please refer to the Schaeffler Cookie Policy <a href='/legal/cookie-policy'>(LINK)</a> published on this website.</p><p>We use cookies to make our website more user-friendly. Some elements of our website require that the calling browser can be identified even after a page break.</p><p>In addition, we use cookies on our website that enable an analysis of the user’s surfing behavior.</p><p>When accessing our website, the user is informed about the use of cookies and referred to this privacy policy.</p><p>The purpose of using technically necessary cookies is to simplify the use of our website for the user. Some features of our website cannot be offered without the use of cookies. It is necessary that the browser is recognized even after a page break. The user data collected by technically necessary cookies is not used to create user profiles. For more information, please refer to the Schaeffler Cookie Policy. The use of analytics cookies is for the purpose of improving the quality of our website and its content. Analysis cookies are used to improve the quality of our website and its content. Analysis cookies show us how the website is used, so that we can constantly optimize our offer. Further information can be found in the Schaeffler Cookie Policy.</p><p>The legal basis for the processing of personal data using cookies is Art. 6 (1) lit. f GDPR.</p><p>Cookies are stored on the user’s terminal device and transmitted from it to our website. Therefore, you as a user also have full control over the use of cookies. By changing the settings in your Internet browser, you can deactivate or restrict the transmission of cookies. Cookies that have already been stored can be deleted at any time. This can also be done automatically. If cookies are deactivated for our website, it may no longer be possible to use all functions of the website in full.</p><h5>V. Your rights as data subject</h5><p>If your personal data is being processed, you are the data subject pursuant to the GDPR and you have the following rights:</p><h5>1. Right of access (Art. 15 GDPR)</h5><p>Upon request you can obtain from us confirmation from us as to whether or not your personal data is being processed by us. If this is the case, you can request us to give you access to the information provided for by law (see Art. 15 (1) GDPR). We will also notify you of appropriate safeguards pursuant to Art. 46 GDPR in the context of data transfer in case your personal data is being transferred to a third country or to an international organisation.There are the restrictions according to §§ 34 and 35 German Federal Data Protection Act (BDSG).</p><h5>2. Right to rectification (Art. 16 GDPR)</h5><p>You have a right to rectification and/or completion if the processed personal data is inaccurate or incomplete. We have to rectify the data without due delay.</p><h5>3. Right to restriction of processing (Art. 18 GDPR)</h5><p>Provided that the legal requirements are met (see Art. 18 (1) GDPR), you have the right to restrict processing of your personal data. For consequences of the restrictions please refer to Art. 18 (2) and (3) GDPR.</p><h5>4. Right to erasure (Art. 17 GDPR)</h5><p>You have the right to demand from us erasure of your personal data without undue delay, and we are obliged to immediately erase this data if any of the reasons pursuant to Art. 17 (1) GDPR applies. The right to erasure does not apply in cases of Art. 17 (3) GDPR.Furthermore, there are restrictions according to §§ 34 and 35 BDSG.</p><h5>5. Right to notification</h5><p>If you have exercised your right to rectification, erasure, or restriction of processing, we are obliged to notify each recipient to whom the personal data have been disclosed of this rectification, erasure, or restriction of processing, unless this proves impossible or involves disproportionate effort. We have to inform you about those recipients upon your request.</p><h5>6. Right to data portability (Art. 20 GDPR)</h5><p>You have the right to receive your personal data that you have provided to us in a structured, commonly used and machine-readable format. For details please refer to Art. 20 GDPR.</p><h5>7. Right to object (Art. 21 GDPR)</h5><p>You have the right to object at any time to the processing of your personal data that is based on Art. 6 (1) (e) or (f) GDPR on grounds relating to your particular situation. Further details can be found in Art. 21 GDPR.</p><p>In addition, you have a right to lodge a complaint with a supervisory authority pursuant to Art. 77 GDPR and §19 BDSG.</p><h5>VI. Name and contact details of the controller</h5><p>{{responsiblePerson}}<br>Industriestraße 1-3<br>91074 Herzogenaurach<br>Germany<br>Telephone number: + 49 9132 82-0<br>Fax number: + 49 9132 82 – 49 50<br>E-Mail: <a href='mailto:Datenschutz@schaeffler.com'>Datenschutz@schaeffler.com</a></p><h5>VII. Contact details of the data protection officer</h5><p>Schaeffler AG<br>Data Protection Officer<br>Industrie Straße 1-3<br>91074 Herzogenaurach<br>Germany</p><p>Phone number: +49 9132 82-1476<br>Fax: +49 9132 82-5901<br>E-Mail: <a href='mailto:Datenschutz@schaeffler.com'>Datenschutz@schaeffler.com</a></p><p>Stand: Version 1.0, 03.01.2022</p>",
+    "dataPrivacy": "Data Privacy",
+    "imprint": "Imprint",
+    "purpose": "<p>In this context, we process your personal data exclusively on an anonymous basis in order to enable the following evaluations:</p> <ul><li>- Evaluations of request rates, response times and error rates of the website to find out which pages are most frequently used at what times of the day and where the users are located.</li><li>- Evaluations of page views and loading performance of the website</li><li>- Evaluations of the number of users and sessions</li><li>- Evaluation of user-defined events and metrics</li></ul> <p>In addition, we process your personal data in connection with the user setting. To improve the user experience, application-specific settings such as the favorite table setting for displaying data are saved.</p> <p>Furthermore, to support the S&amp;OP process, data records that you have modified or created are stored in SAP.</p>",
+    "termsOfUse": "Terms of Use"
+  },
+  "material_customer": {
+    "column": {
+      "abcxClassification": "A/B/C/X 分类",
+      "accountOwner": "帐户所有者",
+      "accountOwnerID": "帐户所有者 ID",
+      "currentRLTCustomer": "当前客户RLT",
+      "currentRLTSchaeffler": "当前舍弗勒RLT",
+      "customerClassification": "客户分类 (订单优先级)",
+      "customerCountry": "国家 (客户)",
+      "customerMaterialNumber": "客户物料号",
+      "customerMaterialNumber_plural": "客户物料号",
+      "customerName": "客户名称",
+      "customerNumber": "客户号",
+      "deliveryPlant": "交货工厂",
+      "deliveryQuantity18Months": "交货 (STK, 18M)",
+      "demandCharacteristic": "需求特征",
+      "demandPlanner": "需求规划者",
+      "demandPlanValue": "发票销售 (下一个 12M)",
+      "forecastMaintained": "预测得到验证？",
+      "forecastValidated": "确认的客户预测 (件, 12月)",
+      "forecastValidatedAt": "验证于",
+      "forecastValidatedBy": "验证由",
+      "forecastValidatedFrom": "验证从",
+      "forecastValidatedTo": "验证以",
+      "gkam": "GKAM",
+      "gkamID": "GKAM ID",
+      "gkamName": "GKAM 名称",
+      "gkamNumber": "GKAM 号",
+      "gpsd": "GPSD",
+      "gpsdName": "GPSD名称",
+      "internalSales": "I内部销售",
+      "internalSalesID": "内部销售ID",
+      "kam": "KAM",
+      "kamID": "KAM ID",
+      "mainCustomerName": "主客户名称",
+      "mainCustomerNumber": "主客户号",
+      "materialClassification": "物料分类",
+      "materialDescription": "物料描述",
+      "materialNumber": "物料",
+      "materialNumberS4": "物料 S/4",
+      "mrpGroup": "MRP组",
+      "orderQuantity": "积压订单 (STK, ∞)",
+      "packagingSize": "包装规格",
+      "pfStatusAutoSwitch": "自动更改状态",
+      "planningPlant": "计划工厂",
+      "portfolioStatus": "组合状态",
+      "productCluster": "Product Cluster",
+      "productionLine": "生产线 (Train)",
+      "productionPlant": "生产工厂",
+      "productionPlantName": "生产工厂描述",
+      "productionSegment": "生产部门",
+      "productLine": "产品线",
+      "productLineText": "产品线描述",
+      "region": "区域 (公司)",
+      "repDate": "更换日期",
+      "salesArea": "销售区域 (市场)",
+      "salesOrg": "销售组织",
+      "sector": "行业",
+      "sectorManagement": "行业管理",
+      "stochasticType": "随机类型",
+      "subKeyAccount": "次级账户",
+      "subKeyAccountName": "次级账户名称",
+      "successorCustomerMaterialDescription": "物料描述 (客户后续)",
+      "successorCustomerMaterialNumber": "客户物料号 (后续客户)",
+      "successorCustomerMaterialPackagingSize": "包装规格 (客户后续)",
+      "successorMaterial": "经过验证的后续物料 (客户)",
+      "successorMaterialClassification": "物料分类 (后续客户)",
+      "successorMaterialClassificationCustomer": "物料分类 (客户前续)",
+      "successorMaterialClassificationSchaeffler": "物料分类 (舍弗勒前续)",
+      "successorMaterialCustomer": "后续物料 (客户)",
+      "successorMaterialDescription": "物料描述 (后续客户)",
+      "successorMaterialPackagingSize": "包装尺寸 (后续客户)",
+      "successorProductionLine": "生产线 (后续客户",
+      "successorProductionPlant": "生产厂 (后续客户)",
+      "successorProductionSegment": "生产部门 (后续客户)",
+      "successorProductLine": "生产线 (后续客户)",
+      "successorProductLineText": "产品线名称 (后续客户)",
+      "successorSchaefflerMaterial": "后续物料 (舍弗勒)",
+      "successorSchaefflerMaterialDescription": "物料描述 (舍弗勒后续)",
+      "successorSchaefflerMaterialPackagingSize": "包装规格 (舍弗勒后续)",
+      "successorStochasticType": "随机类型 (后续客户)",
+      "tlMessageType": "更换情况",
+      "tooltipTextIA": "物料处于非活动状态",
+      "tooltipTextRE": "更换物料"
+    },
+    "export": {
+      "download_started": "导出：下载已开始",
+      "failed": "导出失败：{{reason}}",
+      "in_progress": "导出正在进行中。这可能需要几分钟时间。",
+      "max_count_exceeded": "不能导出超过 {{max_count}} 行。"
+    },
+    "portfolio_status": {
+      "AC": "活跃",
+      "IA": "无效",
+      "PI": "逐步加入",
+      "PO": "逐步淘汰",
+      "SB": "否决",
+      "SE": "更换 (客户)",
+      "SI": "更换",
+      "SP": "更换建议",
+      "unknown": "未知"
+    },
+    "toolbar": {
+      "layout_1": "布局1",
+      "layout_2": "布局2",
+      "layout_title": "布局",
+      "load_layout": "加载布局",
+      "menu_label": "更多",
+      "overwrite_layout": "覆盖布局",
+      "reset_layout": "重置布局",
+      "selected_row_count": "已选择： {{row_count}}"
+    }
+  },
   "multiselect": {
     "add_to_selection": "添加到所选内容",
     "apply": "应用",
-    "current_selection": "当前选项",
     "clear_selection": "清除当前选项",
-    "title": "多选 {{entities}}",
-    "instructions": "单击字段以输入单个值，或单击从剪贴板粘贴将 {{entities}} 添加到从电子表格复制的选择中。",
+    "current_selection": "当前选项",
     "error": {
+      "check_input": "请检查您的输入。",
       "ignored_values": "忽略的值：{{values}}",
-      "value_already_selected": "已选择的值。",
-      "check_input": "请检查您的输入。"
+      "value_already_selected": "已选择的值。"
+    },
+    "instructions": "单击字段以输入单个值, 或单击从剪贴板粘贴将 {{entities}} 添加到从电子表格复制的选择中。",
+    "title": "多选 {{entities}}"
+  },
+  "new-customer_material_portfolio": {
+    "modal": {
+      "headline": "添加新的客户物料",
+      "subheadline": "请手动输入或从Excel表中复制该物料号码以及Phase-In物料替代开始日期, 并在下拉菜单中选择需求页面。",
+      "successfullyAddBanner": "新的客户物料已创建"
     }
   },
+  "overview": {
+    "filter": {
+      "customer": "客户 / 账户"
+    },
+    "yourTasks": {
+      "gridHeadline": "任务",
+      "headline": "您的任务",
+      "noTasks": "无任务",
+      "priority1": "优先事项 1",
+      "priority2": "优先事项 2",
+      "priority3": "信息",
+      "selectedPriorities": "选定的优先事项",
+      "taskPriority": "任务优先次序"
+    }
+  },
+  "paste_from_clipboard": "从剪贴板粘贴",
+  "planing_type": {
+    "title": {
+      "yearlyTotal": "年度总计",
+      "CONFIRMED": "有限的",
+      "REQUESTED": "无限的"
+    }
+  },
+  "privacy_policy_page": {
+    "headline": "隐私政策"
+  },
+  "replacement_type": {
+    "CUSTOMER_DROPOUT": "客户不再采购",
+    "DISCONTINUED": "后续已用完",
+    "PACKAGING_CHANGE": "更换包装",
+    "PARTIAL_RELOCATION": "部分变迁",
+    "PRODUCT_DEVELOPMENT": "产品开发",
+    "RELOCATION": "搬迁项目"
+  },
   "rules": {
-    "startDate": "开始",
+    "activeCount": "活动任务",
+    "completedCount": "已完成的任务",
+    "deactivated": "已停用",
+    "endDate": "结束",
     "execDay": "什么时候？",
     "execInterval": "循环？",
-    "endDate": "结束",
-    "deactivated": "已停用",
-    "activeCount": "活动任务",
     "inactiveCount": "已停用的任务",
-    "completedCount": "已完成的任务",
+    "startDate": "开始",
     "threshold1": "数值参数1",
     "threshold1Description": "参数描述1",
     "threshold2": "数值参数2",
@@ -1191,87 +826,141 @@
     "threshold3": "数值参数3",
     "threshold3Description": "参数描述3"
   },
-  "internal_material_replacement": {
-    "title": {
-      "rootString": "中央相位 输入相位 输出",
-      "newSubstitution": "创建单个新替换",
-      "newDeletions": "删除替换",
-      "newSubstitutions": "创建单个新替换",
-      "editSubstitution": "编辑替换"
+  "sales_planning": {
+    "customer": "客户",
+    "customer_info_modal": {
+      "accountOwner": "帐户所有者",
+      "country": "国家 (客户)",
+      "customer": "客户",
+      "demandPlanner": "需求规划者",
+      "gkam": "GKAM",
+      "globalCustomerNumber": "全球客户编号",
+      "internalSales": "I内部销售",
+      "kam": "KAM",
+      "keyAccount": "关键账户",
+      "owner": "所有者",
+      "planningCurrency": "规划货币",
+      "region": "区域 (公司)",
+      "salesArea": "销售区域 (市场)",
+      "salesOrg": "销售组织",
+      "sector": "行业",
+      "subKeyAccount": "次级账户"
     },
-    "column": {
-      "predecessorMaterial": "需更换的物料",
-      "successorMaterial": "后续物料",
-      "replacementDate": "更换日期",
-      "cutoverDate": "切换日期",
-      "startOfProduction": "开始生产",
-      "replacementType": "类型",
-      "lastChangeDate": "创建日期",
-      "lastChangeUser": "用户创建/编辑",
-      "note": "评论",
-      "statusMasterData": {
-        "rootString": "SAP主数据状态",
-        "GREEN": "绿色",
-        "YELLOW": "黄色",
-        "RED": "红色"
+    "planning_details": {
+      "change_history": "变更历史",
+      "edit_modal": {
+        "absolute": "绝对值",
+        "adjusted_yearly_total": "调整后的年度总计",
+        "adjusted_yearly_total_error_message": "您的输入低于最低阈值 {{min_value}}",
+        "cashDiscount": "现金折扣",
+        "daily_rolling_sales_plan": "销售计划",
+        "for": "为",
+        "otherRevenues": "其他收入",
+        "percentage_change": "百分比变化",
+        "percentage_change_hint": "对于负变化, 请在前面加上减号 (-)",
+        "previous_adjusted_yearly_total": "上次调整后的年度总计",
+        "previous_cashDiscount": "上期现金折扣",
+        "previous_daily_rolling_sales_plan": "上期销售计划",
+        "previous_otherRevenues": "上期其他收入",
+        "previous_salesDeduction": "上期销售扣除",
+        "relative": "相对值",
+        "salesDeduction": "销售扣除",
+        "yearly_total": "年度总计"
       },
-      "countBCTotal": "受影响的基础组合总数",
-      "countBCAutomaticAccepted": "自动转换",
-      "countBCManualAccepted": "接受手动",
-      "countBCManualRejected": "手动拒绝",
-      "countBCVeto": "否决",
-      "countBCOpen": "打开/未选中"
-    },
-    "helper_text": {
-      "startOfProduction": "备注：由于缺失后续物料，本字段显示最后可能的生产日期。",
-      "note": "提示: 请填写英语",
-      "replacementDate": "备注：由于缺失后续物料，本字段显示最后可能的生产日期。"
-    },
-    "text": {
-      "deleteSubstitution": "您确实想删除该替换？"
-    },
-    "error": {
-      "fieldNotAllowed": "禁止该选项在此使用",
-      "check_replacement_type": "类型不正确。请选择有效值。"
-    },
-    "button": {
-      "createSubstitution": "创建替代",
-      "createMultipleSubstitutions": "创建多个替换"
-    }
-  },
-  "replacement_type": {
-    "RELOCATION": "搬迁项目",
-    "PARTIAL_RELOCATION": "部分变迁",
-    "PACKAGING_CHANGE": "更换包装",
-    "PRODUCT_DEVELOPMENT": "产品开发",
-    "DISCONTINUED": "后续已用完",
-    "CUSTOMER_DROPOUT": "客户不再采购"
-  },
-  "generic": {
-    "validation": {
-      "missing_fields": "缺少必填字段",
-      "check_inputs": "数据不正确。请检查您的输入。",
-      "missing_field": "必填字段缺失",
-      "above_max": "值必须小于或等于 {{max}}。",
-      "below_min": "值必须大于或等于 {{min}}。",
-      "save": {
-        "success": "保存成功"
+      "filter": "筛选",
+      "planning_level": "计划级别",
+      "planning_level_material_modal": {
+        "change_confirmation_question": "您确定要更改计划级材料吗？",
+        "change_hint": "更改计划级材料时, 计划级材料上的计划数据将 <strong>被删除</strong>。",
+        "change_information": "请注意, 这一更改不能被撤销。",
+        "change_title": "更改计划级材料",
+        "initial_configuration_hint": "初步规划级别由部门管理设置。",
+        "title": "计划级材料"
       },
-      "at_least_one_of": "必须至少填写以下一个字段：{{fieldlist}}.",
-      "upload": {
-        "upload_failed": "上传失败：{{reason}}",
-        "too_many_entries": "列表中包含太多条目。一次最多可上传 {{maxRows}} 个条目。",
-        "no_entries": "没有可用的条目。",
-        "save": {
-          "success": "{ count, plural, =1 {该行已被成功保存} other {# 行已被成功保存}}",
-          "error": "{ count, plural, =1 {保存该行失败} other {保存 # 行失败}}"
-        },
-        "check": {
-          "success": "{ count, plural, =1 {一行有效。} other {# 行有效。行有效。}}",
-          "error": "{ count, plural, =1 {一行无效。} other {# 行行无效。}}"
-        }
-      }
-    }
+      "planning_level_material_type": {
+        "GP": "GPSD",
+        "PC": "产品集",
+        "PL": "产品线"
+      },
+      "title": "规划细节"
+    },
+    "table": {
+      "addOneOriginalValue": "来自 ADD*ONE 的原始值 (Unc)",
+      "adjustedApShare": "AP 调整后份额 %",
+      "adjustedOpShare": "OP 调整后份额 %",
+      "adjustedSpShare": "SP 调整后份额 %",
+      "apMaterialDemandPlanCount": "与需求计划的 AP 材料数量",
+      "apShareAdjustedUnconstrained": "调整后的 AP 份额 (Unc)",
+      "apShareConstrained": "AP份额 (Con)",
+      "apShareOriginalUnconstrained": "AP 原始份额 (Unc)",
+      "apShareUnconstrained": "AP份额 (Unc)",
+      "autoGroupColumn": "规划细节",
+      "budgetInvoicedSales": "预算开票金额",
+      "budgetNetSales": "预算净销售",
+      "calculatedApShare": "计算的AP份额 %",
+      "calculatedOpShare": "计算的OP份额 %",
+      "calculatedSpShare": "计算的SP份额 %",
+      "cashDiscount": "现金折扣(%)",
+      "deliveriesAcrossYears": "跨年度交付",
+      "firmBusiness": "Firm Business (Unc)",
+      "firmBusinessCoverage": "固定业务覆盖 (Unc)",
+      "firmBusinessServices": "Firm Business - 服务 (Unc)",
+      "monthly": "每月",
+      "months": {
+        "01": "一月",
+        "02": "二月",
+        "03": "三月",
+        "04": "四月",
+        "05": "五月",
+        "06": "六月",
+        "07": "七月",
+        "08": "八月",
+        "09": "九月",
+        "10": "十月",
+        "11": "十一月",
+        "12": "十二月"
+      },
+      "no_data": "请选择一个客户加载数据",
+      "noEntry": "无条目",
+      "notSynchronized": "尚未同步",
+      "openPlannedValueDemand360": "开放计划价值需求验证",
+      "opMaterialDemandPlanCount": "与需求计划的 OP 材料数量",
+      "opportunitiesDemandRelevant": "相关机会 - 产品 (Unc)",
+      "opportunitiesDemandRelevantConstrained": "相关机会 - 产品 (Con)",
+      "opportunitiesForecastRelevant": "相关机会 - 服务 (Unc)",
+      "opportunitiesNotSalesPlanRelevant": "机会 (Unc)",
+      "opportunitiesTotal": "机会 (Unc)",
+      "opShareAdjustedUnconstrained": "调整后的 OP 份额 (Unc)",
+      "opShareConstrained": "OP份额 (Con)",
+      "opShareOriginalUnconstrained": "OP 原始份额 (Unc)",
+      "opShareUnconstrained": "OP份额 (Unc)",
+      "ordersAcrossYearsFuture": "未来几年订单",
+      "ordersAcrossYearsPast": "过去几年订单",
+      "originalAddOneValue": "来自 ADD*ONE 的原始值 {{value}}%",
+      "otherRevenues": "其他收入",
+      "planExistsOnOtherLevel": "计划存在于其他层次级别",
+      "planInvoiceSales": "计划 x+y 开票金额",
+      "planOnlyInPlanningCurrency": "仅能以规划货币进行规划",
+      "plannedValueDemand360": "计划价值需求验证",
+      "planNetSales": "计划 x+y 净销售",
+      "planning": "规划",
+      "planningMonth": "月份",
+      "planningYear": "年度",
+      "salesDeduction": "销售扣除(%)",
+      "salesPlanConstrained": "销售计划 (Con)",
+      "salesPlanUnconstrained": "销售计划 (Unc)",
+      "spMaterialDemandPlanCount": "与需求计划的 SP 材料数量",
+      "spShareAdjustedUnconstrained": "调整后的 SP 份额 (Unc)",
+      "spShareConstrained": "SP份额 (Con)",
+      "spShareOriginalUnconstrained": "SP 原始份额 (Unc)",
+      "spShareUnconstrained": "SP份额 (Unc)",
+      "synchronized": "已同步",
+      "totalSalesPlanAdjusted": "年度总调整 (Unc)",
+      "totalSalesPlanConstrained": "年总计 (Con)",
+      "totalSalesPlanUnconstrained": "年总计 (Unc)",
+      "yearly": "年度"
+    },
+    "title": "销售验证"
   },
   "sap_message": {
     "/D360/DEMAND_VALIDATION": {
@@ -1280,10 +969,9 @@
       "2": "SAP 请求超时",
       "3": "无法明确映射客户物料号。必须使用 15 位物料号输入预测。"
     },
-    "error": "找不到{{messageClass}}类和{{messageNumber}}号的信息。",
     "/SGD/SCM_SOP": {
-      "685": "选定 {{messageV1}} 种组合，最多允许 {{messageV2}} 种组合",
-      "712": "必填字段（年份、货币、客户、pl.lvl.type）缺失。",
+      "685": "选定 {{messageV1}} 种组合, 最多允许 {{messageV2}} 种组合",
+      "712": "必填字段 (年份、货币、客户、pl.lvl.type) 缺失。",
       "713": "未找到客户 {{customer}} 或无客户权限。",
       "714": "仅允许在计划货币 {{planningCurrency}} 中进行更新。",
       "715": "不允许使用计划级别 {{wrongPlanningLevel}}。{{correctPlanningLevel}} 已经存在一个计划。",
@@ -1296,37 +984,7 @@
     "/SGD/SCM_SOP_SALES": {
       "0": "无法找到含有以下值的文本：{{messageV1}}、{{messageV2}}、{{messageV3}}、{{messageV4}}。",
       "1": "客户号不存在。",
-      "2": "不存在此客户物料组合。",
-      "3": "无效的周期类型。",
-      "4": "无法保存过去的值。",
-      "5": "无效的材料分类 （OP）。",
-      "6": "无法保存负值。",
-      "7": "由于缺少授权，无法保存预测。 (Code 007)",
       "10": "禁止对该客户的有效预测进行编辑或删除",
-      "16": "您没有客户端 {{messageV1}} 所需的权限。",
-      "17": "未找到条目。",
-      "22": "替换日期（{{messageV1}}）后无法保存预测",
-      "23": "Phase-Out旧物料已变更为{{messageV1}} 因为订单或其他机会",
-      "24": "已删除 {{messageV1}} 的预测。",
-      "25": "物料 {{messageV1}} 不存在。",
-      "26": "无法确定后续物料 {{messageV1}} 的交货工厂。",
-      "27": "循环引用后续替换物料 {{messageV1}}不允许",
-      "28": "创建警报时出错！",
-      "29": "未定义预测副本的操作。",
-      "30": "禁止变更模板状态禁止变更模板状态{{messageV1}} 为状态{{messageV2}}",
-      "31": "更换建议未获通过",
-      "32": "头部链不是活跃物料",
-      "33": "禁止创建该组合，因为存在后续物料{{messageV1}}",
-      "34": "材料 {{messageV1}}和材料{{messageV2}}具有循环引用.",
-      "37": "替代提议开放",
-      "38": "替代提议已锁",
-      "39": "由于 \"替换类型 \"超时，不允许将状态更改为{{messageV1}}！",
-      "40": "状态已变更为{{messageV1}} 因为订单或销售机会的原因",
-      "41": "状态已变更为{{messageV1}}, 因为已经到期",
-      "42": "状态已变更为{{messageV1}}, 因为没有未来或历史需求",
-      "51": "过去或当月的预测均不可更改",
-      "52": "过去的预测无法改变",
-      "53": "预报不能在周六和/或周日发布",
       "100": "该 {{messageV1}}替换类型无效",
       "101": "必须输入一个有效的区域。该 {{messageV1}} 无效。",
       "102": "该记录不存在",
@@ -1347,44 +1005,404 @@
       "117": "DC 组别{{messageV2}}的任何 AP/OP 工厂中都不存在后续{{messageV1}}。",
       "118": "在MARC中{{messageV1}}的后续在工厂{{messageV2}}是不同的：{{messageV3}}",
       "119": "禁止维护该 {{messageV1}} 替换类型在本销售领域内",
-      "123": "不允许 SOP 日期早于切换日期"
-    }
-  },
-  "planing_type": {
-    "title": {
-      "REQUESTED": "无限的",
-      "CONFIRMED": "有限的"
-    }
-  },
-  "privacy_policy_page": {
-    "headline": "隐私政策"
-  },
-  "cookie_policy_page": {
-    "headline": "Cookie 政策",
-    "open_settings_button": "Cookie 设置"
-  },
-  "imprint_page": {
-    "headline": "印记"
-  },
-  "help_menu": {
-    "label": {
-      "service_now": "立即服务",
-      "help_center": "帮助中心"
-    }
-  },
-  "overview": {
-    "filter": {
-      "customer": "客户 / 账户"
+      "123": "不允许 SOP 日期早于切换日期",
+      "16": "您没有客户端 {{messageV1}} 所需的权限。",
+      "17": "未找到条目。",
+      "2": "不存在此客户物料组合。",
+      "22": "替换日期 ({{messageV1}}) 后无法保存预测",
+      "23": "Phase-Out旧物料已变更为{{messageV1}} 因为订单或其他机会",
+      "24": "已删除 {{messageV1}} 的预测。",
+      "25": "物料 {{messageV1}} 不存在。",
+      "26": "无法确定后续物料 {{messageV1}} 的交货工厂。",
+      "27": "循环引用后续替换物料 {{messageV1}}不允许",
+      "28": "创建警报时出错！",
+      "29": "未定义预测副本的操作。",
+      "3": "无效的周期类型。",
+      "30": "禁止变更模板状态禁止变更模板状态{{messageV1}} 为状态{{messageV2}}",
+      "31": "更换建议未获通过",
+      "32": "头部链不是活跃物料",
+      "33": "禁止创建该组合, 因为存在后续物料{{messageV1}}",
+      "34": "材料 {{messageV1}}和材料{{messageV2}}具有循环引用.",
+      "37": "替代提议开放",
+      "38": "替代提议已锁",
+      "39": "由于 \"替换类型 \"超时, 不允许将状态更改为{{messageV1}}!",
+      "4": "无法保存过去的值。",
+      "40": "状态已变更为{{messageV1}} 因为订单或销售机会的原因",
+      "41": "状态已变更为{{messageV1}}, 因为已经到期",
+      "42": "状态已变更为{{messageV1}}, 因为没有未来或历史需求",
+      "5": "无效的材料分类  (OP)。",
+      "51": "过去或当月的预测均不可更改",
+      "52": "过去的预测无法改变",
+      "53": "预报不能在周六和/或周日发布",
+      "6": "无法保存负值。",
+      "7": "由于缺少授权, 无法保存预测。 (Code 007)"
     },
-    "yourTasks": {
-      "headline": "您的任务",
-      "gridHeadline": "任务",
-      "taskPriority": "任务优先次序",
-      "noTasks": "无任务",
-      "priority1": "优先事项 1",
-      "priority2": "优先事项 2",
-      "priority3": "信息",
-      "selectedPriorities": "选定的优先事项"
+    "error": "找不到{{messageClass}}类和{{messageNumber}}号的信息。"
+  },
+  "tabbar": {
+    "functions": {
+      "label": "功能"
+    },
+    "navigation": {
+      "label": "导航"
+    },
+    "start-page": {
+      "label": "起始页"
+    },
+    "tasks": {
+      "label": "待办事项"
     }
+  },
+  "tabbarMenu": {
+    "alert-rule-editor": {
+      "label": "任务条件编辑器"
+    },
+    "ap-portfolio-optimization": {
+      "label": "AP 组合优化"
+    },
+    "customer-material-details": {
+      "label": "客戶材料詳細資料"
+    },
+    "customer-material-portfolio": {
+      "label": "客户物料组合"
+    },
+    "customer-specific-requirements": {
+      "label": "供应概念的要求"
+    },
+    "demandSuite": "Demand Suite",
+    "general": "General",
+    "internal-material-replacement": {
+      "label": "中央相位 输入相位 输出"
+    },
+    "overview": {
+      "label": "Overview Page"
+    },
+    "regional-ap-portfolio": {
+      "label": "区域AP组合"
+    },
+    "sales-planning": {
+      "label": "销售验证"
+    },
+    "salesSuite": "Sales Suite",
+    "validation-of-demand": {
+      "label": "客户材料详情"
+    }
+  },
+  "table": {
+    "toolbar": {
+      "activeFilterCount": "当前过滤器: {{count}}",
+      "currentCount": "当前选择: {{count}}",
+      "resetFilters": "重置过滤器",
+      "toggleFilters": "過濾器"
+    }
+  },
+  "traffic_light": {
+    "GREEN": "绿色",
+    "GREY": "空",
+    "RED": "红色",
+    "YELLOW": "黄色"
+  },
+  "validation_of_demand": {
+    "actionBar": {
+      "bashDelete": "大批量删除",
+      "checkInput": "检查输入",
+      "deleteInput": "删除输入",
+      "editAsGrid": "网格上传",
+      "editAsList": "列表-上传",
+      "export": "导出",
+      "hideResultTable": "隐藏结果表",
+      "selectDate": "选择日期",
+      "settings": "设立",
+      "showResultTable": "显示结果表"
+    },
+    "check": {
+      "error_specific": "{{dates}}。",
+      "success": "所有值均有效。"
+    },
+    "confirm": {
+      "override_week_by_month": "此月{{dates}}已维护了基于周的预测。如确认要改为基于月的预测, 基于周的预测将被删除."
+    },
+    "customer": "客户",
+    "date_picker": {
+      "end_date": "结束日期",
+      "error": "结束日期不能早于开始日期",
+      "menu_item_month": "月份",
+      "menu_item_week": "周",
+      "months": "月份",
+      "optional": "可选项",
+      "period_type": "周期类型",
+      "period_type_label": "周期类型",
+      "period_type_only_months": "周期类型不能更改为周。",
+      "start_date": "开始日期",
+      "sub_title": "选择周期类型 (周/月)",
+      "title": "选择一个日期",
+      "weeks": "周"
+    },
+    "deletion_modal": {
+      "confirm_deletion": "是否确实要删除数据？",
+      "delete_button": "删除",
+      "deletion_success": "已成功删除数据。",
+      "selection_not_complete": "选择未完成。",
+      "title": "删除经过验证的预测值"
+    },
+    "error": {
+      "no_data": "没有有效数据。"
+    },
+    "export_modal": {
+      "button_export": "导出",
+      "date_headline": "选择一个日期",
+      "download_started": "导出：下载已开始",
+      "excel_header_view": "视图",
+      "in_progress": "导出正在进行中。这可能需要几分钟时间。",
+      "selected_customer": "{{number}} 已选定客户",
+      "selected_customer_headline": "已选定客户",
+      "selected_kpis": "导出已选定的KPIs",
+      "title": "导出"
+    },
+    "filter": {
+      "customerMaterialNumber": "客户物料号",
+      "product_line": "产品线",
+      "production_line": "生产线 (Train)",
+      "productionPlant": "生产工厂",
+      "rootString": "过滤器 ({{count}})",
+      "stochasticType": "随机类型"
+    },
+    "legend": {
+      "current_date": "T今天",
+      "frozen_zone": "冻结区 (包括 运输时间)",
+      "replenishment_lead_time": "补货周期 (包括 运输时间)",
+      "title": "图标"
+    },
+    "menu_item": {
+      "activeAndPredecessor": "活动&前续",
+      "deliveries": "Deliveries",
+      "deliveriesActive": "Deliveries (Active)",
+      "deliveriesCombined": "Deliveries (Combined)",
+      "demandPlan": "Demand Plan",
+      "demandRelevantSales": "Demand Relevant Sales",
+      "firmBusiness": "Firm Business",
+      "firmBusinessActive": "Firm Business (Active)",
+      "firmBusinessCombined": "Firm Business (Combined)",
+      "forecastProposal": "Forecast Proposal (ADD*ONE)",
+      "forecastProposalDemandPlanner": "Forecast Proposal (Demand Planner)",
+      "indicativeDemandPlan": "Demand Plan (Indicative)",
+      "onTopCapacityForecast": "On Top Capacity Forecast",
+      "onTopOrder": "On Top Order",
+      "opAdjustment": "OP Adjustment",
+      "opportunities": "Opportunities",
+      "salesAmbition": "Sales Ambition",
+      "salesPlan": "Sales Plan",
+      "validatedForecast": "Validated Customer Forecast"
+    },
+    "more_information": {
+      "classification": "分类",
+      "current_wbz_schaeffler": "当前舍弗勒RLT",
+      "demandCharacteristics": {
+        "SE": "系列",
+        "SP": "零星",
+        "title": "需求特征"
+      },
+      "dialog": {
+        "boxes": {
+          "contact": "联系",
+          "generalCustomerInformation": "一般客户信息",
+          "generalMaterialInformation": "一般物料信息",
+          "supplyChain": "供应链"
+        },
+        "demandCharacteristics": {
+          "SE": "系列",
+          "SP": "零星"
+        },
+        "entries": {
+          "<--- Customer Box Left -->": "",
+          "<--- Customer Box Right -->": "",
+          "<--- Material Box Left -->": "",
+          "<--- Material Box Right -->": "",
+          "accountOwner": "帐户所有者",
+          "currentRLTSchaeffler": "补货周期 (包括 运输时间)",
+          "customerClassification": "客户分类 (订单优先级)",
+          "customerCountry": "国家 (客户)",
+          "customerMaterialNumber": "客户物料号",
+          "customerName": "客户名称",
+          "customerNumber": "客户号",
+          "deliveryPlant": "交货工厂",
+          "demandCharacteristic": "需求特征",
+          "demandPlanner": "需求规划者",
+          "dispoGroup": "MRP组",
+          "frozenZone": "冻结区 (包括 运输时间)",
+          "gkam": "GKAM",
+          "gkamNumber": "GKAM 号",
+          "gpsd": "GPSD",
+          "gpsdName": "GPSD 名称",
+          "internalSales": "I内部销售",
+          "kam": "KAM",
+          "keyAccountName": "GKAM 名称",
+          "mainCustomerName": "主客户名称",
+          "mainCustomerNumber": "主客户号",
+          "materialClassification": "物料分类",
+          "materialDescription": "物料描述",
+          "materialNumber": "物料",
+          "materialNumberS4": "物料 S/4",
+          "planningPlant": "计划工厂",
+          "productCluster": "Product Cluster",
+          "productionLine": "生产线 (Train)",
+          "productionPlant": "生产工厂",
+          "productionPlantName": "生产工厂描述",
+          "productionSegment": "生产部门",
+          "productLine": "产品线",
+          "productLineName": "产品线描述",
+          "region": "区域 (公司)",
+          "salesArea": "销售区域 (市场)",
+          "salesOrg": "销售组织",
+          "sector": "行业",
+          "sectorManagement": "行业管理",
+          "subKeyAccount": "次级账户",
+          "subKeyAccountName": "次级账户名称",
+          "successorCustomerMaterial": "后续物料 (客户)",
+          "successorCustomerMaterialDescription": "物料描述 (客户后续)",
+          "successorSchaefflerMaterial": "后续物料 (舍弗勒)",
+          "successorSchaefflerMaterialDescription": "物料描述 (舍弗勒后续)"
+        },
+        "tabs": {
+          "customer": "客户",
+          "material": "物料"
+        }
+      },
+      "material_and_text": "物料+描述",
+      "packaging_size": "包装规格",
+      "pfStatus": {
+        "AC": "活跃",
+        "IA": "无效",
+        "PI": "逐步加入",
+        "PO": "逐步淘汰",
+        "SB": "否决",
+        "SE": "更换 (客户)",
+        "SI": "更换",
+        "SP": "更换建议",
+        "title": "组合状态"
+      },
+      "product_line_and_text": "产品线+描述",
+      "production_line": "生产线 (Train)",
+      "production_segment": "生产部门"
+    },
+    "planningTable": {
+      "calendarWeekTableHeaderKw": "CW {{calendar_week}}",
+      "calendarWeekTableHeaderPartWeek": "({{days}}天)",
+      "deliveries": "Deliveries (Active)",
+      "deliveriesActive": "Active",
+      "deliveriesCombined": "Deliveries (Combined)",
+      "deliveriesPredecessor": "Predecessor",
+      "demandRelevantSales": "Demand Relevant Sales",
+      "firmBusiness": "Firm Business (Active)",
+      "firmBusinessActive": "Active",
+      "firmBusinessCombined": "Firm Business (Combined)",
+      "firmBusinessPredecessor": "Predecessor",
+      "forecastProposal": "Forecast Proposal (ADD*ONE)",
+      "forecastProposalDemandPlanner": "Forecast Proposal (Demand Planner)",
+      "kpi": "KPI关键绩效指标",
+      "onTopCapacityForecast": "On Top Capacity Forecast",
+      "onTopOrder": "On Top Order",
+      "opportunities": "Opportunities",
+      "salesAmbition": "Sales Ambition",
+      "salesPlan": "Sales Plan",
+      "validatedForecast": "Validated Customer Forecast"
+    },
+    "reset": {
+      "success": "重置成功"
+    },
+    "save": {
+      "error_specific": "{{dates}}。",
+      "error_unspecific": "发生错误。",
+      "success": "成功"
+    },
+    "supply_concept": {
+      "C": {
+        "csss": "C - 客户指定安全库存 ({{fixHor}})及ZV98安全库存({{safetyStock}})",
+        "rootString": "C - 客户指定安全库存 ({{fixHor}}) 及设置安全库存 (0)",
+        "ss": "C - 客户指定安全库存 ({{fixHor}}) 及设置安全库存 ({{safetyStock}})"
+      },
+      "E": {
+        "csss": "E - 订单之外的伸延预测 ({{fixHor}})及ZV98安全库存 ({{safetyStock}})",
+        "rootString": "E - 订单之外的伸延预测 ({{fixHor}})",
+        "ss": "E - 订单之外的伸延预测 ({{fixHor}}) 及设置安全库存  ({{safetyStock}})"
+      },
+      "ELSE": "按现有订单及以历史数据来推算所需产能",
+      "F": {
+        "csss": "F - 滚动预测及ZV98安全库存({{safetyStock}})",
+        "rootString": "F - 滚动预测",
+        "ss": "F - 滚动预测及设置安全库存 ({{safetyStock}})"
+      },
+      "M": {
+        "csss": "M - 滚动预测及ZV98安全库存 ({{safetyStock}})",
+        "rootString": "M - 滚动预测",
+        "ss": "M - 滚动预测及设置安全库存 ({{safetyStock}})"
+      },
+      "N": {
+        "csss": "N - 滚动预测(新产品)ZV98安全库存({{safetyStock}})",
+        "rootString": "N - 滚动预测(新产品)",
+        "ss": "N - 滚动预测(新产品)及设置安全库存({{safetyStock}})"
+      },
+      "S": {
+        "csss": "S - ZV98安全库存 ({{safetyStock}})",
+        "rootString": "S - 安全库存 (0)",
+        "ss": "S - 安全库存 ({{safetyStock}})"
+      },
+      "title": "供应概念",
+      "U": {
+        "csss": "U - ZV98安全库存(新产品)( ({{safetyStock}})",
+        "rootString": "U - 安全库存(新产品) (0)",
+        "ss": "U - 安全库存(新产品) ({{safetyStock}})"
+      }
+    },
+    "title": "客户材料详情",
+    "upload_modal": {
+      "customer_material": "客户物料",
+      "customer_material_number": "客户物料号",
+      "error": {
+        "incomplete_row": "条目不完整。"
+      },
+      "grid": {
+        "header": {
+          "calendar_week": "{{date}} - CW {{week}}"
+        },
+        "period_type": "周期类型",
+        "title": "需求网格验证",
+        "tooltip": {
+          "customer-material": "指定的客户物料号无效",
+          "material": "指定的物料号无效"
+        }
+      },
+      "list": {
+        "date_from": "日期从",
+        "forecast": "预测",
+        "menu_item_month": "月份",
+        "menu_item_week": "周",
+        "period_type": {
+          "rootString": "周期类型",
+          "title": "选择周期类型"
+        },
+        "title": "验证需求清单"
+      },
+      "material": "物料",
+      "material_number": "物料号",
+      "material_type": {
+        "title": "选择物料类型"
+      },
+      "paste": {
+        "month": "月",
+        "week": "周"
+      },
+      "save": {
+        "invalid_entries": "{count, plural, one {{count} 条目无法保存。请检查您的输入} other {{count} 条目无法保存。请检查您的输入}}",
+        "invalid_rows": "{count, plural, one {无法保存 {count} 行。请检查您的输入。} other {无法保存 {count} 行。请检查您的输入。}}",
+        "success": "保存所有行。"
+      },
+      "validate": {
+        "invalid_entries": "{count, plural, one {{count} 個項目無效。请检查您的输入} other {{count} 個參賽作品無效。请检查您的输入}}",
+        "invalid_rows": "{count, plural, one {{count} 行无效。请检查您的输入。} other {{count}  行无效。请检查您的输入。}}",
+        "success": "所有行均有效。"
+      }
+    },
+    "vkorg": "销售组织"
   }
 }

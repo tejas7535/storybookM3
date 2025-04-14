@@ -231,4 +231,110 @@ describe('ValidationHelper', () => {
       expect(result).toEqual({ endDate: ['end-before-start'] });
     });
   });
+
+  describe('getCrossTotalExceedsLimit', () => {
+    it('should return null if all keys are not present in the form group', () => {
+      const formGroup = new FormGroup({
+        key1: new FormControl(10),
+        key2: new FormControl(20),
+      });
+
+      const result = ValidationHelper.getCrossTotalExceedsLimit(
+        formGroup,
+        ['key1', 'key2', 'key3'],
+        100
+      );
+
+      expect(result).toBeNull();
+    });
+
+    it('should return null if the total does not exceed the limit', () => {
+      const formGroup = new FormGroup({
+        key1: new FormControl(10),
+        key2: new FormControl(20),
+        key3: new FormControl(30),
+      });
+
+      const result = ValidationHelper.getCrossTotalExceedsLimit(
+        formGroup,
+        ['key1', 'key2', 'key3'],
+        100
+      );
+
+      expect(result).toBeNull();
+    });
+
+    it('should return an error if the total exceeds the limit', () => {
+      const formGroup = new FormGroup({
+        key1: new FormControl(50),
+        key2: new FormControl(40),
+        key3: new FormControl(30),
+      });
+
+      const result = ValidationHelper.getCrossTotalExceedsLimit(
+        formGroup,
+        ['key1', 'key2', 'key3'],
+        100
+      );
+
+      expect(result).toEqual({ totalExceedsLimit: true });
+    });
+
+    it('should set errors on controls if the total exceeds the limit', () => {
+      const formGroup = new FormGroup({
+        key1: new FormControl(50),
+        key2: new FormControl(40),
+        key3: new FormControl(30),
+      });
+
+      ValidationHelper.getCrossTotalExceedsLimit(
+        formGroup,
+        ['key1', 'key2', 'key3'],
+        100
+      );
+
+      expect(formGroup.get('key1').errors).toEqual({ totalExceedsLimit: true });
+      expect(formGroup.get('key2').errors).toEqual({ totalExceedsLimit: true });
+      expect(formGroup.get('key3').errors).toEqual({ totalExceedsLimit: true });
+    });
+
+    it('should clear errors on controls if the total does not exceed the limit', () => {
+      const formGroup = new FormGroup({
+        key1: new FormControl(50),
+        key2: new FormControl(40),
+        key3: new FormControl(30),
+      });
+
+      // Set initial errors
+      formGroup.get('key1').setErrors({ totalExceedsLimit: true });
+      formGroup.get('key2').setErrors({ totalExceedsLimit: true });
+      formGroup.get('key3').setErrors({ totalExceedsLimit: true });
+
+      ValidationHelper.getCrossTotalExceedsLimit(
+        formGroup,
+        ['key1', 'key2', 'key3'],
+        150
+      );
+
+      expect(formGroup.get('key1').errors).toBeNull();
+      expect(formGroup.get('key2').errors).toBeNull();
+      expect(formGroup.get('key3').errors).toBeNull();
+    });
+
+    it('should handle null or undefined values in controls gracefully', () => {
+      const formGroup = new FormGroup({
+        key1: new FormControl(null),
+        key2: new FormControl(undefined),
+        key3: new FormControl(30),
+      });
+
+      const result = ValidationHelper.getCrossTotalExceedsLimit(
+        formGroup,
+        ['key1', 'key2', 'key3'],
+        100
+      );
+
+      expect(result).toBeNull();
+    });
+  });
 });

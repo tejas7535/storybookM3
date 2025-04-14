@@ -42,6 +42,12 @@ html {
 
   /** Ag-Grid overrides */
   @include agGridOverrides.apply;
+
+  .mat-sidenav-content {
+    &.footer-fixed {
+      overflow: hidden;
+    }
+  }
 }
 
 /** Here we define our global CSS vars */

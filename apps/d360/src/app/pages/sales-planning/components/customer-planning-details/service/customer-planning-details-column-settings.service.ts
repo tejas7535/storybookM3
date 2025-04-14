@@ -5,11 +5,9 @@ import {
   AbstractColumnSettingsService,
   ColumnDefinition,
 } from '../../../../../shared/services/abstract-column-settings.service';
-import { yearlyCustomerPlanningDetailsColumnDefinitions } from '../column-definition';
+import { getColumnDefinitions, TimeScope } from '../column-definition';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class YearlyCustomerPlanningDetailsColumnSettingsService<
   COLUMN_KEYS extends string,
   COLDEF extends ColumnDefinition<COLUMN_KEYS>,
@@ -17,7 +15,7 @@ export class YearlyCustomerPlanningDetailsColumnSettingsService<
   protected readonly tableName = 'sales-planning-customer-details-yearly';
 
   protected constructor(httpClient: HttpClient) {
-    super(httpClient, yearlyCustomerPlanningDetailsColumnDefinitions());
+    super(httpClient, getColumnDefinitions(TimeScope.Yearly));
     this.refreshColumnSettings$().subscribe();
   }
 }

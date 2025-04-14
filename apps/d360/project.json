@@ -93,7 +93,7 @@
           "fileReplacements": [
             {
               "replace": "apps/d360/src/environments/environment.ts",
-              "with": "apps/d360/src/environments/environment.dev.ts"
+              "with": "apps/d360/src/environments/environment.local.ts"
             }
           ]
         }

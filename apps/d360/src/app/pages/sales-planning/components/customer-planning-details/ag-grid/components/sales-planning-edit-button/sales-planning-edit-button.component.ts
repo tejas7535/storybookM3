@@ -28,20 +28,29 @@ import { salesPlanningAllowedEditRoles } from '../../../../../../../shared/utils
 })
 export class SalesPlanningEditButtonComponent {
   private readonly authService: AuthService = inject(AuthService);
+
   protected isUserAllowedToEdit$: Observable<boolean> =
     this.authService.hasUserAccess(salesPlanningAllowedEditRoles);
+
   protected showEditButton: Signal<boolean> = computed(
     () => this.editStatus() !== '2'
   );
-  protected disableEditButton: Signal<boolean> = computed(
-    () => this.editStatus() === '3'
-  );
-  protected tooltipText: Signal<string> = computed(() =>
-    this.editStatus() === '3'
-      ? translate('sales_planning.table.planExistsOnOtherLevel')
-      : null
+
+  protected disableEditButton: Signal<boolean> = computed(() =>
+    ['3', '4'].includes(this.editStatus())
   );
 
+  protected tooltipText: Signal<string> = computed(() => {
+    if (this.editStatus() === '3') {
+      return translate('sales_planning.table.planExistsOnOtherLevel');
+    } else if (this.editStatus() === '4') {
+      return translate('sales_planning.table.planOnlyInPlanningCurrency');
+    }
+
+    return null;
+  });
+
   public editStatus: InputSignal<string> = input.required();
+
   public editClick: OutputEmitterRef<void> = output();
 }

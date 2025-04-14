@@ -52,12 +52,12 @@ import { NumberWithoutFractionDigitsPipe } from '../../../../shared/pipes/number
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { CustomerPlanningLevelConfigurationModalComponent } from '../customer-planning-level-configuration-modal/customer-planning-level-configuration-modal.component';
 import { SalesPlanningGroupLevelCellRendererComponent } from './ag-grid/cell-renderer/sales-planning-group-level-cell-renderer/sales-planning-group-level-cell-renderer.component';
-import { yearlyCustomerPlanningDetailsColumnDefinitions } from './column-definition';
+import { getColumnDefinitions } from './column-definition';
 import { MonthlyCustomerPlanningDetailsModalComponent } from './monthly-customer-planning-details-modal/monthly-customer-planning-details-modal.component';
 import { YearlyCustomerPlanningDetailsColumnSettingsService } from './service/customer-planning-details-column-settings.service';
 
 type YearlyCustomerPlanningDetailsColumnDefinitions = ReturnType<
-  typeof yearlyCustomerPlanningDetailsColumnDefinitions
+  typeof getColumnDefinitions
 >[number];
 
 @Component({
@@ -154,7 +154,7 @@ export class CustomerPlanningDetailsComponent {
         this.fetchPlanningLevelMaterial(this.customerNumber());
       },
     },
-    isGroupOpenByDefault: () => true,
+    isGroupOpenByDefault: () => false,
     suppressGroupRowsSticky: true,
     sideBar: {
       toolPanels: [columnSideBar],
@@ -273,14 +273,15 @@ export class CustomerPlanningDetailsComponent {
               key: col.colId,
               colId: col.colId,
               field: col.colId,
-              headerName: translate(col.title, {}),
+              headerName: col.title,
+              headerTooltip: col.title,
               filter: col.filter,
               cellRenderer: col.cellRenderer,
               cellRendererParams: col.cellRendererParams,
               hide: !col.visible,
               sortable: col.sortable,
               sort: col.sort,
-              lockVisible: col.alwaysVisible,
+              alwaysVisible: col.alwaysVisible,
               lockPinned: true,
               valueFormatter: col.valueFormatter,
               floatingFilter,

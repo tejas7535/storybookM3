@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { of } from 'rxjs';
 
 import { Stub } from '../../../../../../../shared/test/stub.class';
+import { SalesPlanningDetailLevel } from './../../../../../../../feature/sales-planning/model';
 import { SalesPlanningAdjustedTotalCellRendererComponent } from './sales-planning-adjusted-total-cell-renderer.component';
 
 describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
@@ -23,10 +24,8 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
     jest.spyOn(component['dialog'], 'open');
 
     const mockParams = {
-      node: {
-        level: 1,
-      },
       data: {
+        detailLevel: SalesPlanningDetailLevel.MonthlyOnlyDetailLevel,
         customerNumber: '93090',
         planningMaterial: 'I03',
         planningMaterialText: 'Bearings',
@@ -99,10 +98,9 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
 
   it('editing should not be possible on planning material level for current year > year + 2', () => {
     const mockParams = {
-      node: {
-        level: 1,
-      },
       data: {
+        detailLevel:
+          SalesPlanningDetailLevel.MonthlyAndPlanningLevelMaterialDetailLevel,
         customerNumber: '93090',
         planningMaterial: 'I03',
         planningMaterialText: 'Bearings',
@@ -131,10 +129,9 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
 
   it('editing should be possible on year level for year > year + 2', () => {
     const mockParams = {
-      node: {
-        level: 0,
-      },
       data: {
+        detailLevel:
+          SalesPlanningDetailLevel.YearlyAndPlanningLevelMaterialDetailLevel,
         customerNumber: '93090',
         planningMaterial: 'I03',
         planningMaterialText: 'Bearings',

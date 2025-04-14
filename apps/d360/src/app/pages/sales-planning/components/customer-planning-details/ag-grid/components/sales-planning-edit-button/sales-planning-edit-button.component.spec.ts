@@ -36,6 +36,15 @@ describe('SalesPlanningEditButtonComponent', () => {
     );
   });
 
+  it('should show a disabled button and a tooltip for editStatus 4', () => {
+    Stub.setInput('editStatus', '4');
+    expect(component['showEditButton']()).toBe(true);
+    expect(component['disableEditButton']()).toBe(true);
+    expect(component['tooltipText']()).toBe(
+      'sales_planning.table.planOnlyInPlanningCurrency'
+    );
+  });
+
   it('should show the button when the user has edit rights', (done) => {
     component['isUserAllowedToEdit$'].subscribe((isUserAllowedToEdit) => {
       expect(isUserAllowedToEdit).toBe(true);

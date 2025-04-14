@@ -15,9 +15,13 @@ import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { DetailedCustomerSalesPlan } from '../../../../../../../feature/sales-planning/model';
+import {
+  DetailedCustomerSalesPlan,
+  SalesPlanningDetailLevel,
+} from '../../../../../../../feature/sales-planning/model';
 import { SalesPlanningService } from '../../../../../../../feature/sales-planning/sales-planning.service';
 import { NumberWithoutFractionDigitsPipe } from '../../../../../../../shared/pipes/number-without-fraction-digits.pipe';
+import { sapMagicNumberValueNotConfigured } from '../../../column-definition';
 import { CustomerSalesPlanNumberAndPercentageEditModalComponent } from '../../../customer-sales-plan-number-and-percentage-edit-modal/customer-sales-plan-number-and-percentage-edit-modal.component';
 import { SalesPlanningEditButtonComponent } from '../../components/sales-planning-edit-button/sales-planning-edit-button.component';
 import { AbstractSalesPlanningCellRendererComponent } from '../abstract-sales-planning-cell-renderer.component';
@@ -59,7 +63,9 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
     parameters: ICellRendererParams<DetailedCustomerSalesPlan, number>
   ): void {
     this.value = parameters.value;
-    this.isPlanningMaterialRow = parameters.node.level === 1;
+    this.isPlanningMaterialRow =
+      this.parameters.data.detailLevel ===
+      SalesPlanningDetailLevel.MonthlyAndPlanningLevelMaterialDetailLevel;
     this.parameters = parameters;
 
     this.onReloadData = parameters.context.reloadData;
@@ -81,8 +87,6 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
       this.parameters.data.opportunitiesForecastRelevant;
   }
 
-  private readonly SAP_MAGIC_NUMBER_VALUE_NOT_ENTERED: number = -1;
-
   public handleEditCustomerSalesPlanNumberClicked() {
     this.dialog
       .open(CustomerSalesPlanNumberAndPercentageEditModalComponent, {
@@ -99,7 +103,7 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
           ),
           planningCurrency: this.planningCurrency,
           previousValue:
-            this.value === this.SAP_MAGIC_NUMBER_VALUE_NOT_ENTERED
+            this.value === sapMagicNumberValueNotConfigured
               ? this.parameters.data.totalSalesPlanUnconstrained
               : this.value,
           onDelete: this.onDelete(),
