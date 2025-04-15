@@ -632,6 +632,7 @@
         "productCategory": "Product Category",
         "productionProcess": "Production Process",
         "ratingChangeComment": "Reason for change of supplier rating",
+        "steelNumber": "Steel Number(s)",
         "referencedInDocument": "Referenced in document",
         "releaseDateMonth": "Release Month",
         "releaseDateYear": "Release Year",

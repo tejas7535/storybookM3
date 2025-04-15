@@ -27,7 +27,6 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockDirective, MockModule, MockPipe, MockProvider } from 'ng-mocks';
 
 import { SelectedFile } from '@schaeffler/file-upload';
-import { StringOption } from '@schaeffler/inputs';
 import { SelectComponent, SelectModule } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -119,7 +118,7 @@ describe('SteelInputDialogComponent', () => {
       },
     },
   };
-  let matDialogData = {};
+  const matDialogData = {};
   let store: MockStore;
   let smpSpy: MemoizedSelector<any, string[], DefaultProjectorFn<string[]>>;
   let co2Spy: MemoizedSelector<any, any, DefaultProjectorFn<any>>;
@@ -272,60 +271,6 @@ describe('SteelInputDialogComponent', () => {
         reportValidUntil:
           component.reportValidUntilControlMoment.value?.format('YYYY-MM-DD'),
         co2UploadFile: undefined,
-      });
-    });
-  });
-
-  describe('modify rating', () => {
-    beforeEach(() => {
-      component.ratingsControl.reset(undefined, { emitEvent: false });
-    });
-    it('ratingChangeComment should be disabled after init', () => {
-      expect(component.ratingChangeCommentControl.disabled).toBeTruthy();
-    });
-    it('ratingChangeComment should be enabled when rating has been set', () => {
-      component.ratingsControl.setValue(createOption('', 1));
-
-      expect(component.ratingChangeCommentControl.enabled).toBeTruthy();
-      expect(component.ratingChangeCommentControl.invalid).toBeTruthy();
-      expect(component.ratingChangeCommentControl.errors).toStrictEqual({
-        dependency: true,
-      });
-    });
-    it('ratingChangeComment should be disabled when rating is reset', () => {
-      // set and reset
-      component.ratingsControl.setValue(createOption('title'));
-      component.ratingsControl.reset();
-
-      expect(component.ratingChangeCommentControl.disabled).toBeTruthy();
-      expect(component.ratingChangeCommentControl.getRawValue()).toBe(
-        undefined
-      );
-    });
-
-    describe('with editData', () => {
-      beforeEach(() => {
-        matDialogData = {
-          editDialogInformation: {
-            row: {
-              rating: 7,
-            },
-          },
-        };
-        component.ratingsControl.setValue(createOption('title', 7), {
-          emitEvent: false,
-        });
-      });
-      it('ratingChangeComment should be disabled on init', () => {
-        expect(component.ratingChangeCommentControl.disabled).toBeTruthy();
-      });
-      it('ratingChangeComment should be enabled when rating has been modified', () => {
-        component.ratingsControl.setValue({
-          id: 1,
-          title: 'title',
-        } as StringOption);
-
-        expect(component.ratingChangeCommentControl.disabled).toBeFalsy();
       });
     });
   });

@@ -186,10 +186,7 @@ export class SteelInputDialogComponent
   public referenceDocumentControl =
     this.controlsService.getControl<StringOption[]>();
   public ratingRemarkControl = this.controlsService.getControl<string>();
-  public ratingChangeCommentControl = this.controlsService.getControl<string>(
-    undefined,
-    true
-  );
+  public ratingChangeCommentControl = this.controlsService.getControl<string>();
   public isBlockedControl = this.controlsService.getControl<boolean>(false);
   public steelMakingProcessControl =
     this.controlsService.getControl<StringOption>();
@@ -382,20 +379,6 @@ export class SteelInputDialogComponent
     // setup static months and year
     this.months = util.getMonths();
     this.years = util.getYears();
-
-    // enable or disable rating comment, if initial value has been modified
-    this.ratingsControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((value: StringOption) => {
-        if (value?.id === this.dialogData.editDialogInformation?.row?.rating) {
-          this.ratingChangeCommentControl.disable({ emitEvent: false });
-        } else {
-          this.ratingChangeCommentControl.enable({ emitEvent: false });
-        }
-        // this is needed, otherwise field would not be marked as invalid until touched!
-        this.ratingChangeCommentControl.markAsTouched();
-      });
-    this.ratingChangeCommentControl.addValidators(this.dependencyValidatorFn());
 
     // "manufacturer"-field only available for new suppliers. For existing suppliers value will be prefilled
     this.supplierPlantControl.valueChanges
@@ -827,17 +810,6 @@ export class SteelInputDialogComponent
       }
       // if only on field is filled, the other is required
       else if (minFilled && !maxFilled) {
-        return { dependency: true };
-      }
-
-      return undefined;
-    };
-  }
-
-  // validator for a field that is only mandatory depending on input from other fields
-  private dependencyValidatorFn(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      if (!control.value) {
         return { dependency: true };
       }
 
