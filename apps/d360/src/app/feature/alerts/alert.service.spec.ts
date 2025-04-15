@@ -613,6 +613,8 @@ describe('AlertService', () => {
           alertPriority: Priority.Priority1,
           type: 'Type1',
           openFunction: 'Function1',
+          materialNumber: '1',
+          materialDescription: 'Material 1',
         } as any,
         {
           customerNumber: '1',
@@ -620,6 +622,8 @@ describe('AlertService', () => {
           alertPriority: Priority.Priority2,
           type: 'Type2',
           openFunction: 'Function1',
+          materialNumber: '2',
+          materialDescription: 'Material 2',
         } as any,
         {
           customerNumber: '2',
@@ -627,6 +631,8 @@ describe('AlertService', () => {
           alertPriority: Priority.Priority1,
           type: 'Type1',
           openFunction: 'Function2',
+          materialNumber: '2',
+          materialDescription: 'Material 2',
         } as any,
       ];
 
@@ -645,6 +651,10 @@ describe('AlertService', () => {
             [Priority.Priority1]: ['Type1'],
             [Priority.Priority2]: ['Type2'],
           },
+          materialNumbers: {
+            [Priority.Priority1]: [{ id: '1', text: 'Material 1' }],
+            [Priority.Priority2]: [{ id: '2', text: 'Material 2' }],
+          },
         },
         {
           customerNumber: '2',
@@ -655,6 +665,9 @@ describe('AlertService', () => {
           openFunction: 'Function2',
           alertTypes: {
             [Priority.Priority1]: ['Type1'],
+          },
+          materialNumbers: {
+            [Priority.Priority1]: [{ id: '2', text: 'Material 2' }],
           },
         },
       ]);
@@ -668,7 +681,7 @@ describe('AlertService', () => {
       expect(result).toEqual([]);
     });
 
-    it('should handle alerts with undefined customer number', () => {
+    it('should handle alerts with undefined customer number and undefined material', () => {
       const alerts: Alert[] = [
         {
           customerNumber: undefined,
@@ -699,6 +712,9 @@ describe('AlertService', () => {
           alertTypes: {
             [Priority.Priority1]: ['Type1'],
           },
+          materialNumbers: {
+            [Priority.Priority1]: [{ id: undefined, text: undefined }],
+          },
         },
         {
           customerNumber: '1',
@@ -710,11 +726,14 @@ describe('AlertService', () => {
           alertTypes: {
             [Priority.Priority2]: ['Type2'],
           },
+          materialNumbers: {
+            [Priority.Priority2]: [{ id: undefined, text: undefined }],
+          },
         },
       ]);
     });
 
-    it('should handle alerts with null customer number', () => {
+    it('should handle alerts with null customer number and material', () => {
       const alerts: Alert[] = [
         {
           customerNumber: null,
@@ -722,6 +741,8 @@ describe('AlertService', () => {
           alertPriority: Priority.Priority1,
           type: 'Type1',
           openFunction: 'Function1',
+          materialNumber: null,
+          materialDescription: null,
         } as any,
         {
           customerNumber: '1',
@@ -729,6 +750,8 @@ describe('AlertService', () => {
           alertPriority: Priority.Priority2,
           type: 'Type2',
           openFunction: 'Function1',
+          materialNumber: null,
+          materialDescription: null,
         } as any,
       ];
 
@@ -745,6 +768,9 @@ describe('AlertService', () => {
           alertTypes: {
             [Priority.Priority1]: ['Type1'],
           },
+          materialNumbers: {
+            [Priority.Priority1]: [{ id: null, text: null }],
+          },
         },
         {
           customerNumber: '1',
@@ -755,6 +781,9 @@ describe('AlertService', () => {
           openFunction: 'Function1',
           alertTypes: {
             [Priority.Priority2]: ['Type2'],
+          },
+          materialNumbers: {
+            [Priority.Priority2]: [{ id: null, text: null }],
           },
         },
       ]);
@@ -768,6 +797,8 @@ describe('AlertService', () => {
           alertPriority: Priority.Priority1,
           type: 'Type1',
           openFunction: 'Function1',
+          materialNumber: '1',
+          materialDescription: 'Material 1',
         } as any,
         {
           customerNumber: '1',
@@ -775,6 +806,8 @@ describe('AlertService', () => {
           alertPriority: Priority.Priority2,
           type: 'Type2',
           openFunction: 'Function1',
+          materialNumber: '2',
+          materialDescription: 'Material 2',
         } as any,
         {
           customerNumber: '1',
@@ -782,6 +815,8 @@ describe('AlertService', () => {
           alertPriority: Priority.Priority3,
           type: 'Type3',
           openFunction: 'Function1',
+          materialNumber: '3',
+          materialDescription: 'Material 3',
         } as any,
       ];
 
@@ -801,6 +836,11 @@ describe('AlertService', () => {
             [Priority.Priority1]: ['Type1'],
             [Priority.Priority2]: ['Type2'],
             [Priority.Priority3]: ['Type3'],
+          },
+          materialNumbers: {
+            [Priority.Priority1]: [{ id: '1', text: 'Material 1' }],
+            [Priority.Priority2]: [{ id: '2', text: 'Material 2' }],
+            [Priority.Priority3]: [{ id: '3', text: 'Material 3' }],
           },
         },
       ]);
@@ -814,6 +854,8 @@ describe('AlertService', () => {
           alertPriority: Priority.Priority2,
           type: 'Type2',
           openFunction: 'Function1',
+          materialNumber: '2',
+          materialDescription: 'Material 2',
         } as any,
         {
           customerNumber: '1',
@@ -821,6 +863,8 @@ describe('AlertService', () => {
           alertPriority: Priority.Priority1,
           type: 'Type1',
           openFunction: 'Function1',
+          materialNumber: '1',
+          materialDescription: 'Material 1',
         } as any,
         {
           customerNumber: '1',
@@ -828,6 +872,8 @@ describe('AlertService', () => {
           alertPriority: Priority.Priority3,
           type: 'Type3',
           openFunction: 'Function1',
+          materialNumber: '3',
+          materialDescription: 'Material 3',
         } as any,
       ];
 
@@ -847,6 +893,11 @@ describe('AlertService', () => {
             [Priority.Priority1]: ['Type1'],
             [Priority.Priority2]: ['Type2'],
             [Priority.Priority3]: ['Type3'],
+          },
+          materialNumbers: {
+            [Priority.Priority1]: [{ id: '1', text: 'Material 1' }],
+            [Priority.Priority2]: [{ id: '2', text: 'Material 2' }],
+            [Priority.Priority3]: [{ id: '3', text: 'Material 3' }],
           },
         },
       ]);

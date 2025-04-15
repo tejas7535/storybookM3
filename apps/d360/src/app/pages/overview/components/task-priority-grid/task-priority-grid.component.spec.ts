@@ -1,7 +1,5 @@
-import { HttpErrorResponse, provideHttpClient } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-
-import { Observable, of } from 'rxjs';
 
 import {
   createComponentFactory,
@@ -11,7 +9,6 @@ import {
 import { AgGridModule } from 'ag-grid-angular';
 
 import {
-  AlertDataResult,
   AlertService,
   GroupedAlert,
 } from '../../../../feature/alerts/alert.service';
@@ -22,10 +19,8 @@ import {
   Priority,
 } from '../../../../feature/alerts/model';
 import { GlobalSelectionStateService } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
-import {
-  OptionsLoadingResult,
-  SelectableOptionsService,
-} from '../../../../shared/services/selectable-options.service';
+import { SelectableOptionsService } from '../../../../shared/services/selectable-options.service';
+import { Stub } from '../../../../shared/test/stub.class';
 import { TaskPrioritiesComponent } from '../task-priorities/task-priorities.component';
 import {
   aciadpOption,
@@ -45,11 +40,18 @@ describe('TaskPriorityGridComponent', () => {
     customerNumber: '1',
     openFunction: OpenFunction.Validation_Of_Demand,
     priorityCount: { 1: 5, 2: 1 },
+    materialNumbers: {
+      1: [{ id: '1', text: 'Material 1' }],
+      2: [{ id: '2', text: 'Material 2' }],
+      3: [{ id: '3', text: 'Material 3' }],
+    },
   };
   const globalNavigate = jest.fn();
   const testAlert1: Alert = {
     customerName: 'first customer',
     customerNumber: '1',
+    materialNumber: '1',
+    materialDescription: 'Material 1',
     keyAccount: 'gkam1',
     alertPriority: Priority.Priority1,
     open: true,
@@ -61,6 +63,8 @@ describe('TaskPriorityGridComponent', () => {
   const testAlert2: Alert = {
     customerName: 'second customer',
     customerNumber: '2',
+    materialNumber: '2',
+    materialDescription: 'Material 2',
     keyAccount: 'gkam2',
     alertPriority: Priority.Priority2,
     open: true,
@@ -72,6 +76,8 @@ describe('TaskPriorityGridComponent', () => {
   const testAlert3 = {
     customerName: 'third customer',
     customerNumber: '3',
+    materialNumber: '3',
+    materialDescription: 'Material 3',
     keyAccount: 'gkam3',
     alertPriority: Priority.Priority3,
     open: true,
@@ -80,25 +86,6 @@ describe('TaskPriorityGridComponent', () => {
     openFunction: OpenFunction.Validation_Of_Demand,
     type: AlertCategory.NPOSDP,
   };
-
-  const mockedAlertServiceProvider = mockProvider(AlertService, {
-    groupDataByCustomerAndPriority: jest.fn(() => [] as any),
-    getFetchErrorEvent(): Observable<HttpErrorResponse> {
-      return of();
-    },
-    getDataFetchedEvent(): Observable<AlertDataResult> {
-      return of();
-    },
-    getRefreshEvent(): Observable<void> {
-      return of();
-    },
-    getRouteForOpenFunction() {
-      return 'demand-validation';
-    },
-    allActiveAlerts(): Alert[] {
-      return [testAlert1, testAlert2, testAlert3];
-    },
-  });
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -180,36 +167,40 @@ describe('TaskPriorityGridComponent', () => {
   });
 
   describe('unit', () => {
-    const createComponent = createComponentFactory({
-      component: TaskPriorityGridComponent,
-      providers: [
-        mockedAlertServiceProvider,
-        mockProvider(GlobalSelectionStateService, {
-          navigateWithGlobalSelection: globalNavigate,
-        }),
-        mockProvider(SelectableOptionsService, {
-          get: (type: string): OptionsLoadingResult => ({
-            options: [...alertTypeOptionMocks, { id: type, text: type }],
-            loadingError: null,
-          }),
-        }),
-      ],
-      componentMocks: [TaskPrioritiesComponent, AgGridModule],
-    });
-    it('should create', () => {
-      spectator = createComponent({
-        props: { openFunction: OpenFunction.Validation_Of_Demand },
+    let component: TaskPriorityGridComponent;
+    beforeEach(() => {
+      component = Stub.getForEffect({
+        component: TaskPriorityGridComponent,
+        providers: [Stub.getAlertServiceProvider()],
       });
-      const component = spectator.component;
+      jest
+        .spyOn(component['alertService'], 'allActiveAlerts')
+        .mockImplementation(() => [testAlert1, testAlert2, testAlert3]);
+    });
+
+    it('should create', () => {
       expect(component).toBeDefined();
     });
 
     describe('menu', () => {
+      let globalNavigateSpy: jest.SpyInstance;
+      let selectableOptionsSpy: jest.SpyInstance;
+
+      beforeEach(() => {
+        globalNavigateSpy = jest.spyOn(
+          component['globalSelectionStateService'],
+          'navigateWithGlobalSelection'
+        );
+        selectableOptionsSpy = jest
+          .spyOn(component['selectableOptionsService'], 'get')
+          .mockImplementation((type) => ({
+            options: [...alertTypeOptionMocks, { id: type, text: type }],
+            loadingError: null,
+          }));
+      });
+
       it('should generate the correct context menu', () => {
-        spectator = createComponent({
-          props: { openFunction: OpenFunction.Validation_Of_Demand },
-        });
-        const component = spectator.component;
+        Stub.setInput('openFunction', OpenFunction.Validation_Of_Demand);
         const menu = component['context'].getMenu({ data: groupedAlert });
 
         expect(menu.length).toEqual(1);
@@ -221,181 +212,260 @@ describe('TaskPriorityGridComponent', () => {
         );
       });
 
-      it('should call the correct filter for the first priority button', () => {
-        spectator = createComponent({
-          props: { openFunction: OpenFunction.Validation_Of_Demand },
-        });
-        const component = spectator.component;
-        const menu = component['context'].getMenu({ data: groupedAlert });
+      describe('single priority buttons', () => {
+        it('should call the correct filter for the first priority button', () => {
+          Stub.setInput('openFunction', OpenFunction.Validation_Of_Demand);
+          const menu = component['context'].getMenu({ data: groupedAlert });
 
-        const menuButton1 = menu[0].submenu[0];
-        expect(menuButton1.text).toEqual('overview.yourTasks.priority1');
-        menuButton1.onClick();
-        expect(globalNavigate).toHaveBeenCalledWith(
-          'demand-validation',
-          {
-            alertType: [aciadpOption],
-            customerNumber: [{ id: '1', text: 'first customer' }],
-          },
-          undefined
-        );
+          const menuButton1 = menu[0].submenu[0];
+          expect(menuButton1.text).toEqual('overview.yourTasks.priority1');
+          menuButton1.onClick();
+          expect(selectableOptionsSpy).toHaveBeenCalled();
+          expect(globalNavigateSpy).toHaveBeenCalledWith(
+            'demand-validation',
+            {
+              alertType: [aciadpOption],
+              customerNumber: [{ id: '1', text: 'first customer' }],
+              materialNumber: [{ id: '1', text: 'Material 1' }],
+            },
+            undefined
+          );
+        });
+
+        it('should call the correct filter for the first priority button, when alertTypes and materialNumbers are undefined', () => {
+          Stub.setInput('openFunction', OpenFunction.Validation_Of_Demand);
+          const menu = component['context'].getMenu({
+            data: {
+              ...groupedAlert,
+              alertTypes: undefined,
+              materialNumbers: undefined,
+            },
+          });
+
+          const menuButton1 = menu[0].submenu[0];
+          expect(menuButton1.text).toEqual('overview.yourTasks.priority1');
+          menuButton1.onClick();
+          expect(globalNavigateSpy).toHaveBeenCalledWith(
+            'demand-validation',
+            {
+              alertType: [],
+              customerNumber: [{ id: '1', text: 'first customer' }],
+              materialNumber: [],
+            },
+            undefined
+          );
+        });
+
+        it('should call the correct filter for the second priority button', () => {
+          Stub.setInput('openFunction', OpenFunction.Validation_Of_Demand);
+          const menu = component['context'].getMenu({ data: groupedAlert });
+
+          const menuButton2 = menu[0].submenu[1];
+          expect(menuButton2.text).toEqual('overview.yourTasks.priority2');
+          menuButton2.onClick();
+          expect(globalNavigateSpy).toHaveBeenCalledWith(
+            'demand-validation',
+            {
+              alertType: [aciadpOption, cfpraoOption],
+              customerNumber: [{ id: '1', text: 'first customer' }],
+              materialNumber: [{ id: '2', text: 'Material 2' }],
+            },
+            undefined
+          );
+        });
       });
 
-      it('should call the correct filter for the second priority button', () => {
-        spectator = createComponent({
-          props: { openFunction: OpenFunction.Validation_Of_Demand },
+      describe('selected priority button', () => {
+        it('should call the correct filter, when both priorities are selected', () => {
+          Stub.setInputs([
+            {
+              property: 'openFunction',
+              value: OpenFunction.Validation_Of_Demand,
+            },
+            {
+              property: 'priorities',
+              value: [Priority.Priority1, Priority.Priority2],
+            },
+          ]);
+          const menu = component['context'].getMenu({ data: groupedAlert });
+
+          const menuButton3 = menu[0].submenu[2];
+          expect(menuButton3.text).toEqual(
+            'overview.yourTasks.selectedPriorities'
+          );
+          menuButton3.onClick();
+          expect(globalNavigateSpy).toHaveBeenCalledWith(
+            'demand-validation',
+            {
+              alertType: [aciadpOption, cfpraoOption],
+              customerNumber: [{ id: '1', text: 'first customer' }],
+              materialNumber: [
+                { id: '1', text: 'Material 1' },
+                { id: '2', text: 'Material 2' },
+              ],
+            },
+            undefined
+          );
         });
-        const component = spectator.component;
-        const menu = component['context'].getMenu({ data: groupedAlert });
 
-        const menuButton2 = menu[0].submenu[1];
-        expect(menuButton2.text).toEqual('overview.yourTasks.priority2');
-        menuButton2.onClick();
-        expect(globalNavigate).toHaveBeenCalledWith(
-          'demand-validation',
-          {
-            alertType: [aciadpOption, cfpraoOption],
-            customerNumber: [{ id: '1', text: 'first customer' }],
-          },
-          undefined
-        );
-      });
+        it('should call the correct filter, when only one priority is selected', () => {
+          Stub.setInputs([
+            {
+              property: 'openFunction',
+              value: OpenFunction.Validation_Of_Demand,
+            },
+            { property: 'priorities', value: [Priority.Priority1] },
+          ]);
 
-      it('should call the correct filter on selected filter button, when both priorities are selected', () => {
-        spectator = createComponent({
-          props: {
-            openFunction: OpenFunction.Validation_Of_Demand,
-            priorities: [Priority.Priority1, Priority.Priority2],
-          },
+          const menu = component['context'].getMenu({ data: groupedAlert });
+
+          const menuButton3 = menu[0].submenu[2];
+          expect(menuButton3.text).toEqual(
+            'overview.yourTasks.selectedPriorities'
+          );
+          globalNavigateSpy = jest.spyOn(
+            component['globalSelectionStateService'],
+            'navigateWithGlobalSelection'
+          );
+          menuButton3.onClick();
+          expect(globalNavigateSpy).toHaveBeenCalledWith(
+            'demand-validation',
+            {
+              alertType: [aciadpOption],
+              customerNumber: [{ id: '1', text: 'first customer' }],
+              materialNumber: [{ id: '1', text: 'Material 1' }],
+            },
+            undefined
+          );
         });
-        const component = spectator.component;
-        const menu = component['context'].getMenu({ data: groupedAlert });
 
-        const menuButton3 = menu[0].submenu[2];
-        expect(menuButton3.text).toEqual(
-          'overview.yourTasks.selectedPriorities'
-        );
-        menuButton3.onClick();
-        expect(globalNavigate).toHaveBeenCalledWith(
-          'demand-validation',
-          {
-            alertType: [aciadpOption, cfpraoOption],
-            customerNumber: [{ id: '1', text: 'first customer' }],
-          },
-          undefined
-        );
-      });
+        it('should call the correct filter, when priority, alertTypes and materialNumbers are undefined', () => {
+          Stub.setInputs([
+            {
+              property: 'openFunction',
+              value: OpenFunction.Validation_Of_Demand,
+            },
+          ]);
 
-      it('should call the correct filter on selected filter button, when only one priority is selected', () => {
-        spectator = createComponent({
-          props: {
-            openFunction: OpenFunction.Validation_Of_Demand,
-            priorities: [Priority.Priority1],
-          },
+          const menu = component['context'].getMenu({
+            data: {
+              ...groupedAlert,
+              alertTypes: undefined,
+              materialNumbers: undefined,
+            },
+          });
+
+          const menuButton3 = menu[0].submenu[2];
+          expect(menuButton3.text).toEqual(
+            'overview.yourTasks.selectedPriorities'
+          );
+          globalNavigateSpy = jest.spyOn(
+            component['globalSelectionStateService'],
+            'navigateWithGlobalSelection'
+          );
+          menuButton3.onClick();
+          expect(globalNavigateSpy).toHaveBeenCalledWith(
+            'demand-validation',
+            {
+              alertType: [],
+              customerNumber: [{ id: '1', text: 'first customer' }],
+              materialNumber: [],
+            },
+            undefined
+          );
         });
-        const component = spectator.component;
-        const menu = component['context'].getMenu({ data: groupedAlert });
-
-        const menuButton3 = menu[0].submenu[2];
-        expect(menuButton3.text).toEqual(
-          'overview.yourTasks.selectedPriorities'
-        );
-        menuButton3.onClick();
-        expect(globalNavigate).toHaveBeenCalledWith(
-          'demand-validation',
-          {
-            alertType: [aciadpOption],
-            customerNumber: [{ id: '1', text: 'first customer' }],
-          },
-          undefined
-        );
       });
     });
 
     describe('filter', () => {
+      let groupDataSpy: jest.SpyInstance;
+      beforeEach(() => {
+        groupDataSpy = jest.spyOn(
+          component['alertService'],
+          'groupDataByCustomerAndPriority'
+        );
+      });
       it('should filter data by customer numbers', () => {
-        spectator = createComponent({
-          props: {
-            openFunction: OpenFunction.Validation_Of_Demand,
-            customers: ['1', '2'],
+        Stub.setInputs([
+          {
+            property: 'openFunction',
+            value: OpenFunction.Validation_Of_Demand,
           },
-        });
-        const alertServiceSpy = spectator.inject(AlertService);
+          { property: 'customers', value: ['1', '2'] },
+        ]);
+        Stub.detectChanges();
 
-        expect(
-          alertServiceSpy.groupDataByCustomerAndPriority
-        ).toHaveBeenCalledWith([testAlert1, testAlert2]);
+        expect(groupDataSpy).toHaveBeenCalledWith([testAlert1, testAlert2]);
       });
 
       it('should group no data when custom filter is an empty array', () => {
-        spectator = createComponent({
-          props: {
-            openFunction: OpenFunction.Validation_Of_Demand,
-            customers: [],
+        Stub.setInputs([
+          {
+            property: 'openFunction',
+            value: OpenFunction.Validation_Of_Demand,
           },
-        });
-        const alertServiceSpy = spectator.inject(AlertService);
+          { property: 'customers', value: [] },
+        ]);
+        Stub.detectChanges();
 
-        expect(
-          alertServiceSpy.groupDataByCustomerAndPriority
-        ).toHaveBeenCalledWith([]);
+        expect(groupDataSpy).toHaveBeenCalledWith([]);
       });
 
       it('should group all data when no custom filter is passed', () => {
-        spectator = createComponent({
-          props: {
-            openFunction: OpenFunction.Validation_Of_Demand,
+        Stub.setInputs([
+          {
+            property: 'openFunction',
+            value: OpenFunction.Validation_Of_Demand,
           },
-        });
-        const alertServiceSpy = spectator.inject(AlertService);
-
-        expect(
-          alertServiceSpy.groupDataByCustomerAndPriority
-        ).toHaveBeenCalledWith([testAlert1, testAlert2, testAlert3]);
+        ]);
+        Stub.detectChanges();
+        expect(groupDataSpy).toHaveBeenCalledWith([
+          testAlert1,
+          testAlert2,
+          testAlert3,
+        ]);
       });
 
       it('should group only alerts with matching gkam number when gkam filter has entries', () => {
-        spectator = createComponent({
-          props: {
-            openFunction: OpenFunction.Validation_Of_Demand,
-            gkamNumbers: ['gkam3', 'gkam2'],
+        Stub.setInputs([
+          {
+            property: 'openFunction',
+            value: OpenFunction.Validation_Of_Demand,
           },
-        });
+          { property: 'gkamNumbers', value: ['gkam3', 'gkam2'] },
+        ]);
+        Stub.detectChanges();
 
-        const alertServiceMock = spectator.inject(AlertService);
-
-        expect(
-          alertServiceMock.groupDataByCustomerAndPriority
-        ).toHaveBeenCalledWith([testAlert2, testAlert3]);
+        expect(groupDataSpy).toHaveBeenCalledWith([testAlert2, testAlert3]);
       });
 
       it('should group no data when gkam filter is empty array', () => {
-        spectator = createComponent({
-          props: {
-            openFunction: OpenFunction.Validation_Of_Demand,
-            gkamNumbers: [],
+        Stub.setInputs([
+          {
+            property: 'openFunction',
+            value: OpenFunction.Validation_Of_Demand,
           },
-        });
+          { property: 'gkamNumbers', value: [] },
+        ]);
+        Stub.detectChanges();
 
-        const alertServiceMock = spectator.inject(AlertService);
-
-        expect(
-          alertServiceMock.groupDataByCustomerAndPriority
-        ).toHaveBeenCalledWith([]);
+        expect(groupDataSpy).toHaveBeenCalledWith([]);
       });
 
       it('should group complete data when gkam filter is undefined', () => {
-        spectator = createComponent({
-          props: {
-            openFunction: OpenFunction.Validation_Of_Demand,
+        Stub.setInputs([
+          {
+            property: 'openFunction',
+            value: OpenFunction.Validation_Of_Demand,
           },
-        });
+        ]);
+        Stub.detectChanges();
 
-        const alertServiceMock = spectator.inject(AlertService);
-
-        expect(
-          alertServiceMock.groupDataByCustomerAndPriority
-        ).toHaveBeenCalledWith([testAlert1, testAlert2, testAlert3]);
+        expect(groupDataSpy).toHaveBeenCalledWith([
+          testAlert1,
+          testAlert2,
+          testAlert3,
+        ]);
       });
     });
   });
@@ -442,6 +512,14 @@ describe('TaskPriorityGridComponent', () => {
           customerNumber: '1',
           openFunction: OpenFunction.Validation_Of_Demand,
           priorityCount: { 1: 1 },
+          materialNumbers: {
+            '1': [
+              {
+                id: '1',
+                text: 'Material 1',
+              },
+            ],
+          },
         },
         {
           alertTypes: {
@@ -451,6 +529,14 @@ describe('TaskPriorityGridComponent', () => {
           customerNumber: '2',
           openFunction: OpenFunction.Validation_Of_Demand,
           priorityCount: { 2: 1 },
+          materialNumbers: {
+            '2': [
+              {
+                id: '2',
+                text: 'Material 2',
+              },
+            ],
+          },
         },
       ]);
     });
@@ -491,6 +577,14 @@ describe('TaskPriorityGridComponent', () => {
           customerNumber: '1',
           openFunction: OpenFunction.Validation_Of_Demand,
           priorityCount: { 1: 1 },
+          materialNumbers: {
+            '1': [
+              {
+                id: '1',
+                text: 'Material 1',
+              },
+            ],
+          },
         },
         {
           alertTypes: {
@@ -500,6 +594,14 @@ describe('TaskPriorityGridComponent', () => {
           customerNumber: '2',
           openFunction: OpenFunction.Validation_Of_Demand,
           priorityCount: { 2: 1 },
+          materialNumbers: {
+            '2': [
+              {
+                id: '2',
+                text: 'Material 2',
+              },
+            ],
+          },
         },
         {
           alertTypes: {
@@ -509,6 +611,14 @@ describe('TaskPriorityGridComponent', () => {
           customerNumber: '3',
           openFunction: OpenFunction.Validation_Of_Demand,
           priorityCount: { 3: 1 },
+          materialNumbers: {
+            '3': [
+              {
+                id: '3',
+                text: 'Material 3',
+              },
+            ],
+          },
         },
       ]);
     });

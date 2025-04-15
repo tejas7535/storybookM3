@@ -36,6 +36,7 @@ import {
 
 import { AppRoutePath } from '../../app.routes.enum';
 import { formatFilterModelForBackend } from '../../shared/ag-grid/grid-filter-model';
+import { SelectableValue } from '../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { SnackbarService } from '../../shared/utils/service/snackbar.service';
 import { CurrencyService } from '../info/currency.service';
 import {
@@ -55,8 +56,9 @@ export interface GroupedAlert {
   customerNumber: string;
   customerName: string;
   priorityCount: Record<string, number>;
-  openFunction: string;
+  openFunction: OpenFunction;
   alertTypes: Record<string, AlertCategory[]>;
+  materialNumbers: Record<string, SelectableValue[]>;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -319,11 +321,31 @@ export class AlertService {
       );
       const typesByPriority: Record<string, AlertCategory[]> = {};
       const countByPriority: Record<string, number> = {};
+      const materialByPriority: Record<string, SelectableValue[]> = {};
 
       Object.entries(groupedByPriority).forEach(([innerKey, innerValue]) => {
         countByPriority[innerKey] = innerValue.length;
         const allTypes = innerValue.map((alert) => alert.type);
         typesByPriority[innerKey] = [...new Set(allTypes)];
+      });
+
+      Object.entries(groupedByPriority).forEach(([innerKey, innerValue]) => {
+        const allMaterials = innerValue
+          .map((alert) => ({
+            id: alert.materialNumber,
+            text: alert.materialDescription,
+          }))
+          .filter(
+            (
+              selectableValue: SelectableValue,
+              index: number,
+              array: SelectableValue[]
+            ) =>
+              array.findIndex(
+                (arrayValue) => selectableValue.id === arrayValue.id
+              ) === index
+          );
+        materialByPriority[innerKey] = [...new Set(allMaterials)];
       });
 
       groupedResult.push({
@@ -332,6 +354,7 @@ export class AlertService {
         priorityCount: countByPriority,
         openFunction: value[0].openFunction,
         alertTypes: typesByPriority,
+        materialNumbers: materialByPriority,
       });
     });
 

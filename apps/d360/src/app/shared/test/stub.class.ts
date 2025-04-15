@@ -36,7 +36,7 @@ import { MockProvider, MockService } from 'ng-mocks';
 
 import { AppRoutePath } from '../../app.routes.enum';
 import { AlertRulesService } from '../../feature/alert-rules/alert-rules.service';
-import { AlertService } from '../../feature/alerts/alert.service';
+import { AlertService, GroupedAlert } from '../../feature/alerts/alert.service';
 import { Alert } from '../../feature/alerts/model';
 import { CMPService } from '../../feature/customer-material-portfolio/cmp.service';
 import { DemandValidationService } from '../../feature/demand-validation/demand-validation.service';
@@ -554,8 +554,11 @@ export class Stub {
         deactivateAlert: (id: string) => of(id),
         loadActiveAlerts: () => {},
         createAlertDatasource: () => ({ getRows: {} }),
-        getRouteForOpenFunction: () => '',
+        getRouteForOpenFunction: () => AppRoutePath.DemandValidationPage,
         getModuleForOpenFunction: () => '',
+        getLoadingEvent: () => of(false),
+        getFetchErrorEvent: () => of(false),
+        groupDataByCustomerAndPriority: (): GroupedAlert[] => [],
       },
       'useValue'
     );

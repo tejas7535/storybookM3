@@ -161,8 +161,8 @@ export class TaskPriorityGridComponent {
   }
 
   protected context: Record<string, any> = {
-    getMenu: (b: any) => {
-      const alert = b.data;
+    getMenu: (row: any) => {
+      const alert = row.data;
       const customMenu = [];
 
       if (alert.openFunction) {
@@ -191,10 +191,12 @@ export class TaskPriorityGridComponent {
                   route,
                   {
                     ...customerFilter,
-                    alertType: alert.alertTypes[priority].map(
-                      (selectableAlert: AlertType) =>
-                        this.getSelectableOptionForAlert(selectableAlert)
-                    ),
+                    alertType:
+                      alert.alertTypes?.[priority]?.map(
+                        (selectableAlert: AlertType) =>
+                          this.getSelectableOptionForAlert(selectableAlert)
+                      ) ?? [],
+                    materialNumber: alert.materialNumbers?.[priority] ?? [],
                   },
                   alert.openFunction ===
                     OpenFunction.Customer_Material_Portfolio
@@ -230,13 +232,27 @@ export class TaskPriorityGridComponent {
                     ...customerFilter,
                     alertType: [
                       ...new Set(
-                        this.priorities().flatMap(
-                          (prio) => alert.alertTypes[prio] || []
-                        )
+                        this.priorities()?.flatMap(
+                          (prio) => alert.alertTypes?.[prio] || []
+                        ) ?? []
                       ),
                     ].map((selectableAlert: AlertType) =>
                       this.getSelectableOptionForAlert(selectableAlert)
                     ),
+                    materialNumber:
+                      this.priorities()
+                        ?.flatMap((prio) => alert.materialNumbers?.[prio] || [])
+                        ?.filter(
+                          (
+                            selectableValue: SelectableValue,
+                            index: number,
+                            array: SelectableValue[]
+                          ) =>
+                            array.findIndex(
+                              (arrayValue) =>
+                                selectableValue.id === arrayValue.id
+                            ) === index
+                        ) ?? [],
                   },
                   alert.openFunction ===
                     OpenFunction.Customer_Material_Portfolio
