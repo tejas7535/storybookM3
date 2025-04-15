@@ -6,6 +6,7 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  NgZone,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -137,7 +138,8 @@ export class OrgChartComponent implements AfterViewInit {
 
   constructor(
     private readonly orgChartService: OrgChartService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly ngZone: NgZone
   ) {}
 
   @HostListener('document:mouseover', ['$event']) onMouseOver(
@@ -207,7 +209,6 @@ export class OrgChartComponent implements AfterViewInit {
               openPositionsAvailable
             ),
           };
-
           this.dialog.open(AttritionDialogComponent, {
             data,
             width: '50%',
@@ -223,7 +224,6 @@ export class OrgChartComponent implements AfterViewInit {
       }
       case OrgChartConfig.BUTTON_CSS.expand: {
         this.chart.clearHighlighting();
-
         this.chartData
           .filter((data) => data.parentNodeId === datasetId)
           .forEach((data) => this.chart.setUpToTheRootHighlighted(data.nodeId));
@@ -232,7 +232,6 @@ export class OrgChartComponent implements AfterViewInit {
       }
       case headerClassPrefix: {
         this.chart.clearHighlighting();
-
         const ids = this.chartData.find(
           (data) => data.nodeId === datasetId
         ).nodeId;
@@ -282,50 +281,52 @@ export class OrgChartComponent implements AfterViewInit {
     }
 
     // wait until view is initiated
-    setTimeout(() => {
-      const nodeWidth = 298;
-      const nodeHeight =
-        this.orgChartData.dimension === FilterDimension.ORG_UNIT ? 140 : 100;
+    this.ngZone.runOutsideAngular(() => {
+      setTimeout(() => {
+        const nodeWidth = 298;
+        const nodeHeight =
+          this.orgChartData.dimension === FilterDimension.ORG_UNIT ? 140 : 100;
 
-      this.chart
-        .container(this.chartContainer.nativeElement)
-        .data(this.chartData)
-        .svgHeight(
-          this.chartContainer.nativeElement.getBoundingClientRect().height ||
-            376 // default height
-        )
-        .svgWidth(
-          this.chartContainer.nativeElement.getBoundingClientRect().height ||
-            376
-        ) // default width
-        .backgroundColor('white')
-        .initialZoom(1)
-        .nodeWidth(() => nodeWidth)
-        .nodeHeight(() => nodeHeight)
-        .compact(false)
-        .compactMarginBetween((_d: any) => 170)
-        .childrenMargin((_d: any) => 70)
-        .nodeContent(
-          (d: { data: OrgChartNode; width: number; height: number }) =>
-            this.orgChartService.getNodeContent(
-              d.data,
-              d.width,
-              d.height,
-              this.orgChartData.dimension
-            )
-        )
-        .buttonContent(({ node }: any) =>
-          this.orgChartService.getButtonContent(node)
-        )
-        .linkUpdate((_d: any, _i: any, links: any[]) => {
-          this.orgChartService.updateLinkStyles(links);
-        })
-        .nodeUpdate(() => {
-          // needed to disable default behavior because of overriding node styles on export
-        })
-        .render();
+        this.chart
+          .container(this.chartContainer.nativeElement)
+          .data(this.chartData)
+          .svgHeight(
+            this.chartContainer.nativeElement.getBoundingClientRect().height ||
+              376 // default height
+          )
+          .svgWidth(
+            this.chartContainer.nativeElement.getBoundingClientRect().height ||
+              376
+          ) // default width
+          .backgroundColor('white')
+          .initialZoom(1)
+          .nodeWidth(() => nodeWidth)
+          .nodeHeight(() => nodeHeight)
+          .compact(false)
+          .compactMarginBetween((_d: any) => 170)
+          .childrenMargin((_d: any) => 70)
+          .nodeContent(
+            (d: { data: OrgChartNode; width: number; height: number }) =>
+              this.orgChartService.getNodeContent(
+                d.data,
+                d.width,
+                d.height,
+                this.orgChartData.dimension
+              )
+          )
+          .buttonContent(({ node }: any) =>
+            this.orgChartService.getButtonContent(node)
+          )
+          .linkUpdate((_d: any, _i: any, links: any[]) => {
+            this.orgChartService.updateLinkStyles(links);
+          })
+          .nodeUpdate(() => {
+            // needed to disable default behavior because of overriding node styles on export
+          })
+          .render();
 
-      this.chart.fit();
+        this.chart.fit();
+      });
     });
   }
 

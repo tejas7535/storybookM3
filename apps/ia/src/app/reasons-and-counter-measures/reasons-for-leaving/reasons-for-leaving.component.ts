@@ -13,6 +13,7 @@ import { DoughnutChartData } from '../../shared/charts/models';
 import { EmployeeListDialogMetaFilters } from '../../shared/dialogs/employee-list-dialog/models';
 import { IdValue } from '../../shared/models';
 import { NavItem } from '../../shared/nav-buttons/models';
+import { EXIT_SURVEY_URL } from '../../shared/urls';
 import { ReasonForLeavingRank, ReasonForLeavingTab } from '../models';
 import {
   loadComparedLeaversByReason,
@@ -44,9 +45,7 @@ import {
 })
 export class ReasonsForLeavingComponent implements OnInit {
   readonly translationPath = 'reasonsAndCounterMeasures.reasonsForLeaving.tabs';
-  readonly exitSurveyURL =
-    'https://schaefflerhr.qualtrics.com/portals/ui/manager-assist/reporting-dashboard/web/641c5e4f3e004a00083572f1/pages/Page_7b2a5f7e-2ded-43dd-b5a7-2cb98c0304f3/view';
-
+  readonly exitSurveyURL = EXIT_SURVEY_URL;
   navItems: NavItem[] = [
     {
       label: ReasonForLeavingTab.OVERALL_REASONS,

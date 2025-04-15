@@ -1,10 +1,21 @@
 <ng-container *transloco="let t">
-  <div class="flex flex-col lg:grid lg:grid-cols-12 gap-4 pb-4">
-    <div class="col-span-5 self-center mr-auto text-on-surface"></div>
+  <div class="flex">
+    <h5 class="font-bold">
+      {{ t('attritionAnalytics.unforcedFluctuationAnalytics.title') }}
+    </h5>
+    <a
+      mat-icon-button
+      class="ml-auto self-center"
+      aria-label="t('attritionAnalytics.unforcedFluctuationAnalytics.infoTooltip')"
+      target="_blank"
+      [href]="infoUrl"
+      [matTooltip]="
+        t('attritionAnalytics.unforcedFluctuationAnalytics.infoTooltip')
+      "
+    >
+      <mat-icon>info</mat-icon>
+    </a>
   </div>
-  <h5 class="font-bold">
-    {{ t('attritionAnalytics.unforcedFluctuationAnalytics.title') }}
-  </h5>
   <ia-nav-buttons
     [items]="clusters$ | ngrxPush"
     [selectedTab]="selectedCluster$ | ngrxPush"

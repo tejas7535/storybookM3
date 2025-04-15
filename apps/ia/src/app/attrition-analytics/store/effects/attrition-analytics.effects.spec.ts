@@ -157,9 +157,34 @@ describe('Attrition Anayltics Effects', () => {
 
   describe('loadEmployeeAnalytics$', () => {
     test(
-      'should return loadEmployeeAnalytics',
+      'should return loadEmployeeAnalytics on loadEmployeeAnalytics',
       marbles((m) => {
         action = loadEmployeeAnalytics();
+        store.overrideSelector(selectRouterState, {
+          state: {
+            url: `/${AppRoutePath.AnalyticsPath}`,
+          },
+        } as RouterReducerState<RouterStateUrl>);
+        store.overrideSelector(getCurrentFilters, {
+          filterDimension: FilterDimension.COUNTRY,
+          timeRange: '123-321',
+          value: 'PL',
+        });
+        store.overrideSelector(getSelectedCluster, 'Test');
+        actions$ = m.hot('-a', { a: action });
+        const result = loadEmployeeAnalyticsSuccess({ data: [] });
+        const expected = m.cold('-b', {
+          b: result,
+        });
+
+        m.expect(effects.loadEmployeeAnalytics$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should return loadEmployeeAnalytics on selectCluster',
+      marbles((m) => {
+        action = selectCluster({ cluster: 'Test' });
         store.overrideSelector(selectRouterState, {
           state: {
             url: `/${AppRoutePath.AnalyticsPath}`,

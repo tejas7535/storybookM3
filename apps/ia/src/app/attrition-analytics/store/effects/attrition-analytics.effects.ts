@@ -81,7 +81,7 @@ export class AttritionAnalyticsEffects {
 
   loadEmployeeAnalytics$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadEmployeeAnalytics),
+      ofType(loadEmployeeAnalytics, selectCluster),
       concatLatestFrom(() => [
         this.store.select(getCurrentFilters),
         this.store.select(getSelectedCluster),

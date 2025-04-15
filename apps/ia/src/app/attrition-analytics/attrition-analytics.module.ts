@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 import { EffectsModule } from '@ngrx/effects';
@@ -29,6 +31,8 @@ import { AttritionAnalyticsEffects } from './store/effects/attrition-analytics.e
     LoadingSpinnerModule,
     FeatureAnalysisModule,
     NavButtonsComponent,
+    MatIconModule,
+    MatTooltipModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'attrition-analytics' }],
 })

@@ -3,7 +3,8 @@
     "moreFeaturesAvailableTooltip": "More tiles are available! They can be viewed by adjusting the global filters."
   },
   "unforcedFluctuationAnalytics": {
-    "title": "Unforced Fluctuation"
+    "title": "Unforced Fluctuation",
+    "infoTooltip": "Click to explore detailed information about the attributes and dimensions on the official site."
   },
   "barChart": {
     "belowAverage": "below average",
