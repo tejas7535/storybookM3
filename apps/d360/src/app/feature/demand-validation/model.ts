@@ -173,6 +173,7 @@ export interface KpiEntry {
 export interface KpiData {
   customerNumber: string;
   materialNumber: string;
+  isValidatedForecastSynced: boolean;
   data: KpiEntry[];
 }
 

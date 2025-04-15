@@ -4,10 +4,17 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { AbstractBaseCellRendererComponent } from '../abstract-cell-renderer.component';
+
+export type TextWithDotParams<T> = ICellRendererParams<any, T> & {
+  showSyncIcon?: (params: TextWithDotParams<T>) => boolean;
+  syncIconTooltip?: string;
+};
 
 /**
  * This is a custom cell renderer to render the text-with-dot cells.
@@ -19,7 +26,7 @@ import { AbstractBaseCellRendererComponent } from '../abstract-cell-renderer.com
  */
 @Component({
   selector: 'd360-text-with-dot-cell-renderer',
-  imports: [],
+  imports: [MatTooltip, MatIcon],
   templateUrl: './text-with-dot-cell-renderer.component.html',
   styleUrl: './text-with-dot-cell-renderer.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,17 +34,20 @@ import { AbstractBaseCellRendererComponent } from '../abstract-cell-renderer.com
 export class TextWithDotCellRendererComponent<
   T = any,
 > extends AbstractBaseCellRendererComponent<T> {
-  public isGroup!: boolean;
+  protected parameters!: TextWithDotParams<T>;
+  protected isGroup!: boolean;
+  protected syncIconTooltip!: string;
   protected expanded: WritableSignal<boolean> = signal(false);
 
   /**
    * @inheritdoc
    * @override
    */
-  protected setValue(parameters: ICellRendererParams<any, T>): void {
+  protected setValue(parameters: TextWithDotParams<T>): void {
     this.parameters = parameters;
 
     this.isGroup = !!parameters.node.group;
+    this.syncIconTooltip = parameters?.syncIconTooltip ?? '';
     this.expanded.set(this.parameters.node.expanded);
 
     this.parameters.node.addEventListener('expandedChanged', this.onExpand);

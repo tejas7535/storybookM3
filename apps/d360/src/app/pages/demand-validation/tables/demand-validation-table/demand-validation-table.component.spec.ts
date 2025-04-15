@@ -40,6 +40,7 @@ import {
 import { Stub } from '../../../../shared/test/stub.class';
 import * as Numbers from '../../../../shared/utils/number';
 import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
+import { PlanningView } from './../../../../feature/demand-validation/planning-view';
 import * as CellClass from './cell-style';
 import * as Columns from './column-definitions';
 import { FilterValues } from './column-definitions';
@@ -1929,6 +1930,181 @@ describe('DemandValidationTableComponent', () => {
         startOfMonthPeriod1,
         startOfMonthPeriod2,
       ]);
+    });
+  });
+
+  describe('constructor', () => {
+    let materialListEntry: MaterialListEntry;
+    let kpiDateRange: KpiDateRanges;
+    let kpiDateExceptions: Date[];
+
+    beforeEach(() => {
+      materialListEntry = { id: '123' } as MaterialListEntry;
+      kpiDateRange = {} as KpiDateRanges;
+      kpiDateExceptions = [];
+
+      Stub.setInputs([
+        { property: 'materialListEntry', value: materialListEntry },
+        { property: 'planningView', value: PlanningView.REQUESTED },
+        { property: 'kpiDateRange', value: kpiDateRange },
+        { property: 'reloadRequired', value: 0 },
+        { property: 'showLoader', value: false },
+      ]);
+      Stub.detectChanges();
+
+      jest.spyOn(component as any, 'loadKPIs').mockImplementation();
+      jest.spyOn(component as any, 'updateColumnDefs').mockImplementation();
+      jest.spyOn(component as any, 'updateRowData').mockImplementation();
+    });
+
+    it('should call loadKPIs when reloadRequired changes', () => {
+      const loadKPIsSpy = jest.spyOn(component as any, 'loadKPIs');
+
+      Stub.setInput('reloadRequired', 1);
+      Stub.detectChanges();
+
+      expect(loadKPIsSpy).toHaveBeenCalledWith(
+        materialListEntry,
+        kpiDateRange,
+        kpiDateExceptions
+      );
+    });
+
+    it('should not call loadKPIs when reloadRequired is negative', () => {
+      const loadKPIsSpy = jest.spyOn(component as any, 'loadKPIs');
+      loadKPIsSpy.mockClear();
+
+      Stub.setInput('reloadRequired', -1);
+      Stub.detectChanges();
+
+      expect(loadKPIsSpy).not.toHaveBeenCalled();
+    });
+
+    describe('column definitions effect', () => {
+      it('should update column defs when filterValues changes', () => {
+        const updateColumnDefsSpy = jest.spyOn(
+          component as any,
+          'updateColumnDefs'
+        );
+        updateColumnDefsSpy.mockClear();
+
+        component['filterValues'].update(() => ({
+          [KpiType.Deliveries]: false,
+          [KpiType.FirmBusiness]: true,
+          [KpiType.ForecastProposal]: true,
+          [KpiType.ForecastProposalDemandPlanner]: true,
+          [KpiType.ValidatedForecast]: true,
+          [KpiType.DemandRelevantSales]: true,
+          [KpiType.SalesAmbition]: true,
+          [KpiType.Opportunities]: true,
+          [KpiType.SalesPlan]: true,
+        }));
+        Stub.detectChanges();
+
+        expect(updateColumnDefsSpy).toHaveBeenCalledWith(
+          component['kpiData']()
+        );
+      });
+
+      it('should update column defs when kpiData changes', () => {
+        const updateColumnDefsSpy = jest.spyOn(
+          component as any,
+          'updateColumnDefs'
+        );
+        updateColumnDefsSpy.mockClear();
+
+        component['kpiData'].set({} as KpiData);
+        Stub.detectChanges();
+
+        expect(updateColumnDefsSpy).toHaveBeenCalledWith(
+          component['kpiData']()
+        );
+      });
+
+      it('should update cellRendererParams when kpiData is available', () => {
+        // Create a spy for the cellRendererParams.showSyncIcon function to check its implementation
+        const mockCellRendererParams = {
+          showSyncIcon: jest.fn(),
+          syncIconTooltip: '',
+        };
+
+        component['gridOptions'].autoGroupColumnDef.cellRendererParams =
+          mockCellRendererParams;
+
+        // Set kpiData with isValidatedForecastSynced = false
+        component['kpiData'].set({
+          isValidatedForecastSynced: false,
+        } as KpiData);
+        Stub.detectChanges();
+
+        // Create a mock params object that includes KpiType.ValidatedForecast in the path
+        const mockParams = {
+          data: {
+            path: [KpiType.ValidatedForecast],
+          },
+        };
+
+        // Get the updated showSyncIcon function from the component's gridOptions
+        const showSyncIconFn =
+          component['gridOptions'].autoGroupColumnDef.cellRendererParams
+            .showSyncIcon;
+
+        // Call the function with our mock params
+        const result = showSyncIconFn(mockParams as any);
+
+        // It should return true because path includes ValidatedForecast and isValidatedForecastSynced is false
+        expect(result).toBe(true);
+
+        // Now test with a different path that doesn't include ValidatedForecast
+        const otherPathParams = {
+          data: {
+            path: [KpiType.Deliveries],
+          },
+        };
+
+        const otherResult = showSyncIconFn(otherPathParams as any);
+
+        // Should return false as the path doesn't include ValidatedForecast
+        expect(otherResult).toBe(false);
+
+        // Check that syncIconTooltip was set correctly
+        expect(
+          component['gridOptions'].autoGroupColumnDef.cellRendererParams
+            .syncIconTooltip
+        ).toBe('validation_of_demand.planningTable.validatedForecastTooltip');
+      });
+    });
+
+    describe('row data effect', () => {
+      it('should update row data when planningView changes', () => {
+        const updateRowDataSpy = jest.spyOn(component as any, 'updateRowData');
+        updateRowDataSpy.mockClear();
+
+        Stub.setInput('planningView', PlanningView.CONFIRMED);
+        Stub.detectChanges();
+
+        expect(updateRowDataSpy).toHaveBeenCalled();
+      });
+
+      it('should update row data when filterValues changes', () => {
+        const updateRowDataSpy = jest.spyOn(component as any, 'updateRowData');
+        updateRowDataSpy.mockClear();
+
+        component['filterValues'].update(() => ({
+          [KpiType.Deliveries]: false,
+          [KpiType.FirmBusiness]: true,
+          [KpiType.ForecastProposal]: true,
+          [KpiType.ForecastProposalDemandPlanner]: true,
+          [KpiType.ValidatedForecast]: true,
+          [KpiType.DemandRelevantSales]: true,
+          [KpiType.SalesAmbition]: true,
+          [KpiType.Opportunities]: true,
+          [KpiType.SalesPlan]: true,
+        }));
+        Stub.detectChanges();
+
+        expect(updateRowDataSpy).toHaveBeenCalled();
+      });
     });
   });
 });

@@ -1305,7 +1305,8 @@
       "opportunities": "Opportunities",
       "salesAmbition": "Sales Ambition",
       "salesPlan": "Sales Plan",
-      "validatedForecast": "Validated Customer Forecast"
+      "validatedForecast": "Validated Customer Forecast",
+      "validatedForecastTooltip": "Sincronización Pendiente con ADD*ONE"
     },
     "reset": {
       "success": "Restablecimiento con éxito."

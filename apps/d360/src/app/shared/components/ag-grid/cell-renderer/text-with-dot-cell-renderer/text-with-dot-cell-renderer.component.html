@@ -19,3 +19,7 @@
     </span>
   </span>
 }
+
+@if (parameters?.showSyncIcon?.(parameters)) {
+  <mat-icon inline="true" [matTooltip]="syncIconTooltip">sync</mat-icon>
+}

@@ -89,6 +89,7 @@ import {
   getCustomTreeDataAutoGroupColumnDef,
   getDefaultColDef,
 } from './../../../../shared/ag-grid/grid-defaults';
+import { TextWithDotParams } from './../../../../shared/components/ag-grid/cell-renderer/text-with-dot-cell-renderer/text-with-dot-cell-renderer.component';
 import { GridTooltipComponent } from './../../../../shared/components/ag-grid/grid-tooltip/grid-tooltip.component';
 import { UserService } from './../../../../shared/services/user.service';
 import {
@@ -218,6 +219,10 @@ export class DemandValidationTableComponent implements OnInit {
               )
             : '',
         cellRenderer: TextWithDotCellRendererComponent,
+        cellRendererParams: {
+          showSyncIcon: () => false,
+          syncIconTooltip: '',
+        },
         pinned: true,
         width: 300,
       },
@@ -261,6 +266,21 @@ export class DemandValidationTableComponent implements OnInit {
       // set and update column defs
       if (this.filterValues() || this.materialListEntry() || this.kpiData()) {
         this.updateColumnDefs(this.kpiData());
+
+        if (this.kpiData()) {
+          this.gridOptions.autoGroupColumnDef.cellRendererParams = {
+            ...this.gridOptions.autoGroupColumnDef.cellRendererParams,
+            showSyncIcon: (
+              params: TextWithDotParams<CustomTreeDataAutoGroupColumnDef>
+            ) =>
+              params.data?.path.includes(KpiType.ValidatedForecast)
+                ? !this.kpiData().isValidatedForecastSynced
+                : false,
+            syncIconTooltip: translate(
+              'validation_of_demand.planningTable.validatedForecastTooltip'
+            ),
+          };
+        }
       }
 
       // set and update row data
