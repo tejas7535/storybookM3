@@ -1,0 +1,43 @@
+@if (hasResultItems()) {
+  <h3 class="text-title-medium my-4">{{ title() }}</h3>
+  <mat-card class="position-card" appearance="outlined">
+    <mat-card-content>
+      <mm-grid-result-items [resultItems]="resultItems()">
+      </mm-grid-result-items>
+    </mat-card-content>
+    @if (hasAdditionalItems()) {
+      <mat-card-footer class="p-4 pt-0">
+        <mat-divider class="!mt-4"></mat-divider>
+        <button
+          type="button"
+          class="w-full flex items-center justify-between text-left px-4 py-2 mt-4 hover:bg-hover-overlay focus:bg-hover-overlay rounded-lg"
+          (click)="toggleAdditional()"
+        >
+          <span class="text-title-medium text-high-emphasis">
+            {{ expansionButtonText() }}
+          </span>
+          <mat-icon
+            class="text-medium-emphasis transition-transform"
+            [ngClass]="{ 'rotate-180': showAdditional() }"
+          >
+            keyboard_arrow_down
+          </mat-icon>
+        </button>
+
+        <div
+          class="overflow-hidden transition-all duration-300 ease-in-out"
+          [style.maxHeight]="showAdditional() ? '1000px' : '0'"
+          [style.opacity]="showAdditional() ? '1' : '0'"
+        >
+          <mat-divider class="!my-4"></mat-divider>
+
+          <mm-grid-result-items
+            class="test-additional-items-selector"
+            [resultItems]="additionalResultItems()"
+          >
+          </mm-grid-result-items>
+        </div>
+      </mat-card-footer>
+    }
+  </mat-card>
+}

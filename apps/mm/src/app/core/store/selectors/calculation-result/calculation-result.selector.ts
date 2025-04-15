@@ -42,6 +42,26 @@ export const getMountingTools = createSelector(
   (state) => state?.result?.mountingTools
 );
 
+export const getStartPositions = createSelector(
+  getCalculationResultState,
+  (state) => state?.result?.startPositions || []
+);
+
+export const getEndPositions = createSelector(
+  getCalculationResultState,
+  (state) => state?.result?.endPositions || []
+);
+
+export const getRadialClearance = createSelector(
+  getCalculationResultState,
+  (state) => state?.result?.radialClearance || []
+);
+
+export const getClearanceClasses = createSelector(
+  getCalculationResultState,
+  (state) => state?.result?.clearanceClasses || []
+);
+
 export const hasMountingTools = createSelector(
   getMountingTools,
   (mountingTools) =>
@@ -57,13 +77,36 @@ export const getReportSelectionTypes = createSelector(
   hasMountingTools,
   getMountingRecommendations,
   getCalculationMessages,
+  getStartPositions,
+  getEndPositions,
+  getRadialClearance,
+  getClearanceClasses,
   (
     inputs,
     mountingTools,
     mountingRecommendations,
-    messages
+    messages,
+    startPositions,
+    endPositions,
+    radialClearance,
+    clearanceClasses
   ): ResultTypeConfig[] => {
     const reportSelectionTypes: ResultTypeConfig[] = [];
+
+    if (startPositions.length > 0) {
+      reportSelectionTypes.push({ name: 'startPosition' });
+    }
+    if (endPositions.length > 0) {
+      reportSelectionTypes.push({ name: 'endPosition' });
+    }
+
+    if (radialClearance.length > 0) {
+      reportSelectionTypes.push({ name: 'radialClearance' });
+    }
+
+    if (clearanceClasses.length > 0) {
+      reportSelectionTypes.push({ name: 'clearanceClasses' });
+    }
 
     if (inputs) {
       reportSelectionTypes.push({ name: 'reportInputs' });

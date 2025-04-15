@@ -13,8 +13,8 @@ export interface CalculationResult {
   endPositions: ResultItem[];
   mountingTools: MountingTools;
   mountingRecommendations: string[];
-  radialClearance: ResultItemWithTitle[];
-  clearanceClasses: ResultItemWithTitle[];
+  radialClearance: ResultItem[];
+  clearanceClasses: ResultItem[];
   reportMessages: ReportMessages;
 }
 
@@ -23,6 +23,7 @@ export interface ResultItem {
   unit: string;
   abbreviation?: string;
   designation: string;
+  isImportant?: boolean;
 }
 
 export interface ResultItemWithTitle {
@@ -57,6 +58,8 @@ export type ResultType =
   | 'reportInputs'
   | 'startPosition'
   | 'endPosition'
+  | 'radialClearance'
+  | 'clearanceClasses'
   | 'mountingToolsAndUtilities'
   | 'mountingInstructions'
   | 'reportMessages';

@@ -101,10 +101,22 @@
     "reportSelection": {
       "title": "Report",
       "reportInputs": "Input",
+      "startPosition": "Starting position",
+      "endPosition": "End position",
+      "radialClearance": "Radial clearance reduction and axial displacement",
+      "clearanceClasses": "Check values for clearance classes",
       "mountingToolsAndUtilities": "Mounting tools and utilities",
       "mountingInstructions": "Mounting Instructions",
       "reportMessages": "Errors, Warning & Notes",
       "downloadPdf": "Download PDF"
+    },
+    "startPositions": "Starting position",
+    "endPositions": "End position",
+    "radialClearance": "Radial clearance reduction and axial displacement",
+    "clearanceClasses": "Check values for clearance classes",
+    "shared": {
+      "expand": "Show additional values",
+      "collapse": "Hide additional values"
     }
   },
 

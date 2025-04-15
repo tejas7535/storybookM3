@@ -33,6 +33,22 @@ export class CalculationResultFacade {
     CalculationResultSelector.getMountingTools
   );
 
+  public readonly startPositions$ = this.store.select(
+    CalculationResultSelector.getStartPositions
+  );
+
+  public readonly endPositions$ = this.store.select(
+    CalculationResultSelector.getEndPositions
+  );
+
+  public readonly radialClearance$ = this.store.select(
+    CalculationResultSelector.getRadialClearance
+  );
+
+  public readonly radialClearanceClasses$ = this.store.select(
+    CalculationResultSelector.getClearanceClasses
+  );
+
   public readonly hasMountingTools$ = this.store.select(
     CalculationResultSelector.hasMountingTools
   );

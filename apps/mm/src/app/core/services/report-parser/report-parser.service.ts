@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { CalculationResultReportInput } from '@mm/core/store/models/calculation-result-report-input.model';
 import {
@@ -38,21 +38,19 @@ import {
   BearinxOnlineResult,
   BearinxOnlineResultSubordinate,
 } from '../bearinx-result.interface';
+import { ResultPositionsPriorityService } from '../result-positions-priority/result-positions-priority.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReportParserService {
-  public parseResponse(response: BearinxOnlineResult): CalculationResult {
-    const startPositions = this.extractItemsFromPath(response, [
-      { titleID: STRING_OUTP_RESULTS, identifier: BLOCK },
-      { titleID: STRING_OUTP_STARTING_POSITION, identifier: VARIABLE_BLOCK },
-    ]);
+  private readonly resultPositionsPriorityService = inject(
+    ResultPositionsPriorityService
+  );
 
-    const endPositions = this.extractItemsFromPath(response, [
-      { titleID: STRING_OUTP_RESULTS, identifier: BLOCK },
-      { titleID: STRING_OUTP_END_POSITION, identifier: VARIABLE_BLOCK },
-    ]);
+  public parseResponse(response: BearinxOnlineResult): CalculationResult {
+    const startPositions = this.extractStartPositions(response);
+    const endPositions = this.extractEndPositions(response);
 
     return {
       startPositions,
@@ -65,6 +63,28 @@ export class ReportParserService {
       reportMessages: this.extractReportMessages(response),
       inputs: this.parseInputResponse(response),
     };
+  }
+
+  private extractStartPositions(response: BearinxOnlineResult): ResultItem[] {
+    const unorderedStartPositions = this.extractItemsFromPath(response, [
+      { titleID: STRING_OUTP_RESULTS, identifier: BLOCK },
+      { titleID: STRING_OUTP_STARTING_POSITION, identifier: VARIABLE_BLOCK },
+    ]);
+
+    return this.resultPositionsPriorityService.getPrioritizedStartItems(
+      unorderedStartPositions
+    );
+  }
+
+  private extractEndPositions(response: BearinxOnlineResult): ResultItem[] {
+    const unorderedEndPositions = this.extractItemsFromPath(response, [
+      { titleID: STRING_OUTP_RESULTS, identifier: BLOCK },
+      { titleID: STRING_OUTP_END_POSITION, identifier: VARIABLE_BLOCK },
+    ]);
+
+    return this.resultPositionsPriorityService.getPrioritizedEndItems(
+      unorderedEndPositions
+    );
   }
 
   private extractMountingTools(response: BearinxOnlineResult): MountingTools {
@@ -156,20 +176,30 @@ export class ReportParserService {
 
   private extractRadialClearanceReductionAndAxialDisplacement(
     originalResult: BearinxOnlineResult
-  ): ResultItemWithTitle[] {
-    return this.extractTableItemsWithTitle(
+  ): ResultItem[] {
+    const radialClearanceResultData = this.extractTableItemsWithTitle(
       originalResult,
       STRING_OUTP_RADIAL_CLEARANCE_REDUCTION_AND_AXIAL_DISPLACEMENT
+    );
+
+    return this.resultPositionsPriorityService.getPrioritizedAndFormattedRadialClearance(
+      radialClearanceResultData
     );
   }
 
   private extractClearanceClasses(
     originalResult: BearinxOnlineResult
-  ): ResultItemWithTitle[] {
-    return this.extractTableItemsWithTitle(
+  ): ResultItem[] {
+    const clearanceClassesResultData = this.extractTableItemsWithTitle(
       originalResult,
       STRING_OUTP_CHECK_VALUES_FOR_CLEARANCE_CLASSES
     );
+    const clearanceClasses =
+      this.resultPositionsPriorityService.getPrioritizedClearanceClasses(
+        clearanceClassesResultData
+      );
+
+    return clearanceClasses;
   }
 
   private extractTableItemsWithTitle(

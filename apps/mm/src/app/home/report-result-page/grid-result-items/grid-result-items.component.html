@@ -1,0 +1,35 @@
+<mm-responsive-grid [items]="resultItems()">
+  <ng-template let-position let-showDivider="showDivider">
+    <div
+      class="flex justify-between p-4 relative h-full"
+      [ngClass]="{ 'bg-slate-50 rounded': position.isImportant }"
+    >
+      <div class="flex flex-col pr-6">
+        <p
+          class="text-high-emphasi"
+          [ngClass]="
+            position.isImportant
+              ? 'text-title-large'
+              : 'text-title-medium font-medium'
+          "
+        >
+          {{ position.value }} {{ position.unit }}
+        </p>
+        <p
+          class="text-medium-emphasis mt-1"
+          [ngClass]="
+            position.isImportant
+              ? 'text-body-medium'
+              : 'text-title-small font-medium'
+          "
+        >
+          {{ position.designation }}
+        </p>
+      </div>
+
+      @if (showDivider) {
+        <mat-divider class="!mx-2 sm:!mx-4" vertical="true"></mat-divider>
+      }
+    </div>
+  </ng-template>
+</mm-responsive-grid>

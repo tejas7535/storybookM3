@@ -1,13 +1,14 @@
 import { waitForAsync } from '@angular/core/testing';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { CalculationResultFacade } from '@mm/core/store/facades/calculation-result.facade';
 import { CalculationResultReportInput } from '@mm/core/store/models/calculation-result-report-input.model';
 import {
   MountingTools,
   ReportMessages,
+  ResultItem,
   ResultTypeConfig,
 } from '@mm/core/store/models/calculation-result-state.model';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -19,6 +20,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { APP_STATE_MOCK } from '../../../testing/mocks/store/app-state.mock';
 import { AdditionalToolsComponent } from './additional-tools/additional-tools.component';
+import { GridResultItemCardComponent } from './grid-result-item-card/grid-result-item-card.component';
 import { HydraulicOrLockNutComponent } from './hydraulic-or-lock-nut/hydraulic-or-lock-nut.component';
 import { MountingRecommendationComponent } from './mounting-recommendation/mounting-recommendation.component';
 import { ReportPumpsComponent } from './report-pumps/report-pumps.component';
@@ -51,6 +53,39 @@ describe('ReportResultPageComponent', () => {
     ['mountingInstructions']
   );
 
+  const startPositions: ResultItem[] = [
+    {
+      value: 'exampleValue',
+      unit: 'exampleUnit',
+      abbreviation: 'ex',
+      designation: 'exampleDesignation',
+      isImportant: true,
+    },
+    {
+      value: 'exampleValue2',
+      unit: 'exampleUnit2',
+      abbreviation: 'ex',
+      designation: 'exampleDesignation2',
+      isImportant: false,
+    },
+  ];
+
+  const endPositions: ResultItem[] = [
+    {
+      value: 'endPosition1',
+      unit: 'kg',
+      abbreviation: 'ex',
+      designation: 'endPositionDesingation',
+      isImportant: true,
+    },
+    {
+      value: 'endPosition2',
+      unit: 'cm',
+      abbreviation: 'xt',
+      designation: 'endPositionDesingation2',
+    },
+  ];
+
   const createComponent = createComponentFactory({
     component: ReportResultPageComponent,
     imports: [
@@ -61,6 +96,7 @@ describe('ReportResultPageComponent', () => {
       MockComponent(HydraulicOrLockNutComponent),
       MockComponent(MountingRecommendationComponent),
       MockComponent(ReportSelectionComponent),
+      MockComponent(GridResultItemCardComponent),
     ],
     providers: [
       provideMockStore({ initialState: { ...APP_STATE_MOCK } }),
@@ -74,6 +110,10 @@ describe('ReportResultPageComponent', () => {
             mountingRecommendationsSubject.asObservable(),
           mountingTools$: mountingToolsSubject.asObservable(),
           reportSelectionTypes$: selectionTypesSubject.asObservable(),
+          startPositions$: of(startPositions),
+          endPositions$: of(endPositions),
+          radialClearance$: of([]),
+          radialClearanceClasses$: of([]),
           fetchCalculationResultResourcesLinks: jest.fn(),
         },
       },

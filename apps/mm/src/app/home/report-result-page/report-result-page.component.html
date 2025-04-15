@@ -14,8 +14,42 @@
             hasMountingTools: hasMountingTools$ | ngrxPush
           } as data"
         >
+          <mm-grid-result-item-card
+            id="startPosition"
+            [title]="t('startPositions')"
+            [resultItems]="importantStartPositions()"
+            [additionalResultItems]="nonImportantStartPositions()"
+            [expandItemsTitle]="t('shared.expand')"
+            [collapseItemsTitle]="t('shared.collapse')"
+          >
+          </mm-grid-result-item-card>
+
+          <mm-grid-result-item-card
+            id="endPosition"
+            [title]="t('endPositions')"
+            [resultItems]="importantEndPositions()"
+            [additionalResultItems]="nonImportantEndPositions()"
+            [expandItemsTitle]="t('shared.expand')"
+            [collapseItemsTitle]="t('shared.collapse')"
+          >
+          </mm-grid-result-item-card>
+
+          <mm-grid-result-item-card
+            id="radialClearance"
+            [title]="t('radialClearance')"
+            [resultItems]="radialClearance()"
+          >
+          </mm-grid-result-item-card>
+
+          <mm-grid-result-item-card
+            id="clearanceClasses"
+            [title]="t('clearanceClasses')"
+            [resultItems]="clearanceClasses()"
+          >
+          </mm-grid-result-item-card>
+
           @if (data.hasMountingTools) {
-            <h3 id="mountingToolsAndUtilities" class="text-title-medium mb-4">
+            <h3 id="mountingToolsAndUtilities" class="text-title-medium my-4">
               {{ t('mountingToolsAndUtilities') }}
             </h3>
           }

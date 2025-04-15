@@ -1,0 +1,242 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ResultPositionsPriorityService getPrioritizedAndFormattedRadialClearance should correctly transform radial clearance data 1`] = `
+Array [
+  Object {
+    "abbreviation": "c2i1",
+    "designation": "Clearance 2 ( Item 3 )",
+    "isImportant": true,
+    "title": "Original Title 3",
+    "value": "0.3 mm",
+  },
+  Object {
+    "abbreviation": "c1i1",
+    "designation": "Clearance 1 ( Item 1 )",
+    "isImportant": true,
+    "value": "0.1 mm",
+  },
+  Object {
+    "abbreviation": "c1i2",
+    "designation": "Clearance 1 ( Item 2 )",
+    "isImportant": true,
+    "value": "0.2 mm",
+  },
+]
+`;
+
+exports[`ResultPositionsPriorityService getPrioritizedClearanceClasses should transform data correctly 1`] = `
+Array [
+  Object {
+    "abbreviation": "c1i1",
+    "designation": "Class 1 ( Item 1 )",
+    "isImportant": true,
+    "value": "0.1 mm",
+  },
+  Object {
+    "abbreviation": "c1i2",
+    "designation": "Class 1 ( Item 2 )",
+    "isImportant": true,
+    "value": "0.2 mm",
+  },
+  Object {
+    "abbreviation": "c2i1",
+    "designation": "Class 2 ( Item 3 )",
+    "isImportant": true,
+    "value": "0.3 mm",
+  },
+]
+`;
+
+exports[`ResultPositionsPriorityService getPrioritizedEndItems should handle mixed important items and place them in correct order 1`] = `
+Array [
+  Object {
+    "abbreviation": "dx_mnt",
+    "designation": "Displacement (start to end position)",
+    "isImportant": true,
+    "unit": "mm",
+    "value": "5.397",
+  },
+  Object {
+    "abbreviation": "Fx_mnt",
+    "designation": "Required mounting load",
+    "isImportant": true,
+    "unit": "kN",
+    "value": "1482.9",
+  },
+  Object {
+    "abbreviation": "p_jnt_mnt",
+    "designation": "Joint pressure after mounting",
+    "isImportant": false,
+    "unit": "N/mm²",
+    "value": "10.7",
+  },
+  Object {
+    "abbreviation": "σ_t_rcw",
+    "designation": "Tangential stress (raceway)",
+    "isImportant": false,
+    "unit": "N/mm²",
+    "value": "94.1",
+  },
+]
+`;
+
+exports[`ResultPositionsPriorityService getPrioritizedEndItems should mark items as important and put them first in result 1`] = `
+Array [
+  Object {
+    "abbreviation": "dx_mnt",
+    "designation": "Displacement (start to end position)",
+    "isImportant": true,
+    "unit": "mm",
+    "value": "5.397",
+  },
+  Object {
+    "abbreviation": "p_jnt_mnt",
+    "designation": "Joint pressure after mounting",
+    "isImportant": false,
+    "unit": "N/mm²",
+    "value": "10.7",
+  },
+  Object {
+    "abbreviation": "σ_t_b",
+    "designation": "Tangential stress (bore)",
+    "isImportant": false,
+    "unit": "N/mm²",
+    "value": "103.9",
+  },
+]
+`;
+
+exports[`ResultPositionsPriorityService getPrioritizedEndItems should mark no items as important when none match important abbreviations 1`] = `
+Array [
+  Object {
+    "abbreviation": "eps_d_ir",
+    "designation": "Inner raceway expansion",
+    "isImportant": false,
+    "unit": "‰",
+    "value": "0.450",
+  },
+  Object {
+    "abbreviation": "Fx_hld",
+    "designation": "Holding load",
+    "isImportant": false,
+    "unit": "kN",
+    "value": "610.6",
+  },
+]
+`;
+
+exports[`ResultPositionsPriorityService getPrioritizedEndItems should sort important items according to the predefined order 1`] = `
+Array [
+  Object {
+    "abbreviation": "dx_mnt",
+    "designation": "Displacement (start to end position)",
+    "isImportant": true,
+    "unit": "mm",
+    "value": "5.397",
+  },
+  Object {
+    "abbreviation": "Fx_mnt",
+    "designation": "Required mounting load",
+    "isImportant": true,
+    "unit": "kN",
+    "value": "1482.9",
+  },
+]
+`;
+
+exports[`ResultPositionsPriorityService getPrioritizedStartItems should handle mixed important items and place them in correct order 1`] = `
+Array [
+  Object {
+    "abbreviation": "p_oil_ini",
+    "designation": "Required initial oil pressure",
+    "isImportant": true,
+    "unit": "bar",
+    "value": "19.88",
+  },
+  Object {
+    "abbreviation": "n_sld",
+    "designation": "Number of sliding surfaces",
+    "isImportant": true,
+    "unit": "-",
+    "value": "1",
+  },
+  Object {
+    "abbreviation": "p_jnt_ini",
+    "designation": "Initial joint pressure",
+    "isImportant": false,
+    "unit": "N/mm²",
+    "value": "2.1",
+  },
+  Object {
+    "abbreviation": "Fx_ini",
+    "designation": "Required initial load",
+    "isImportant": false,
+    "unit": "kN",
+    "value": "296.6",
+  },
+]
+`;
+
+exports[`ResultPositionsPriorityService getPrioritizedStartItems should mark items as important and put them first in result 1`] = `
+Array [
+  Object {
+    "abbreviation": "p_oil_ini",
+    "designation": "Required initial oil pressure",
+    "isImportant": true,
+    "unit": "bar",
+    "value": "19.88",
+  },
+  Object {
+    "abbreviation": "Fx_ini",
+    "designation": "Required initial load",
+    "isImportant": false,
+    "unit": "kN",
+    "value": "296.6",
+  },
+  Object {
+    "abbreviation": "p_jnt_ini",
+    "designation": "Initial joint pressure",
+    "isImportant": false,
+    "unit": "N/mm²",
+    "value": "2.1",
+  },
+]
+`;
+
+exports[`ResultPositionsPriorityService getPrioritizedStartItems should mark no items as important when none match important abbreviations 1`] = `
+Array [
+  Object {
+    "abbreviation": "Fx_ini",
+    "designation": "Required initial load",
+    "isImportant": false,
+    "unit": "kN",
+    "value": "296.6",
+  },
+  Object {
+    "abbreviation": "p_jnt_ini",
+    "designation": "Initial joint pressure",
+    "isImportant": false,
+    "unit": "N/mm²",
+    "value": "2.1",
+  },
+]
+`;
+
+exports[`ResultPositionsPriorityService getPrioritizedStartItems should sort important items according to the predefined order 1`] = `
+Array [
+  Object {
+    "abbreviation": "p_oil_ini",
+    "designation": "Required initial oil pressure",
+    "isImportant": true,
+    "unit": "bar",
+    "value": "19.88",
+  },
+  Object {
+    "abbreviation": "n_sld",
+    "designation": "Number of sliding surfaces",
+    "isImportant": true,
+    "unit": "-",
+    "value": "1",
+  },
+]
+`;

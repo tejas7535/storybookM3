@@ -101,10 +101,22 @@
     "reportSelection": {
       "title": "Отчет",
       "reportInputs": "Входные данные",
+      "starPosition": "Начальная позиция",
+      "endPosition": "Конечная позиция",
+      "radialClearance": "Уменьшение радиального зазора и осевое смещение",
+      "clearanceClasses": "Контрольные значения для классов зазора подшипника",
       "mountingToolsAndUtilities": "Инструменты и утилиты для монтажа",
       "mountingInstructions": "Инструкции по монтажу",
       "reportMessages": "Ошибки, Предупреждения и Заметки",
       "downloadPdf": "Скачать PDF"
+    },
+    "startPositions": "Начальная позиция",
+    "endPositions": "Конечная позиция",
+    "radialClearance": "Уменьшение радиального зазора и осевое смещение",
+    "clearanceClasses": "Контрольные значения для классов зазора подшипника",
+    "shared": {
+      "expand": "Показать дополнительные значения",
+      "collapse": "Скрыть дополнительные значения"
     }
   },
   "shared": {

@@ -19,6 +19,35 @@ Object {
 }
 `;
 
+exports[`CalculationResultSelector getEndPositions getReportSelectionTypes when multiple conditions are met should include all applicable report selection types 1`] = `
+Array [
+  Object {
+    "name": "startPosition",
+  },
+  Object {
+    "name": "endPosition",
+  },
+  Object {
+    "name": "radialClearance",
+  },
+  Object {
+    "name": "clearanceClasses",
+  },
+  Object {
+    "name": "reportInputs",
+  },
+  Object {
+    "name": "mountingToolsAndUtilities",
+  },
+  Object {
+    "name": "mountingInstructions",
+  },
+  Object {
+    "name": "reportMessages",
+  },
+]
+`;
+
 exports[`CalculationResultSelector getMountingRecommendations when mounting recommendations are defined should return mounting recommendations 1`] = `
 Array [
   "first recommendation",

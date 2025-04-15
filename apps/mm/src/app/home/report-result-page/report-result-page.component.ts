@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+/* eslint-disable @typescript-eslint/member-ordering */
+import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 import { CalculationResultFacade } from '@mm/core/store/facades/calculation-result.facade';
@@ -9,6 +11,7 @@ import { ResultReportComponent } from '@schaeffler/result-report';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AdditionalToolsComponent } from './additional-tools/additional-tools.component';
+import { GridResultItemCardComponent } from './grid-result-item-card/grid-result-item-card.component';
 import { HydraulicOrLockNutComponent } from './hydraulic-or-lock-nut/hydraulic-or-lock-nut.component';
 import { MountingRecommendationComponent } from './mounting-recommendation/mounting-recommendation.component';
 import { ReportPumpsComponent } from './report-pumps/report-pumps.component';
@@ -31,10 +34,12 @@ import { SleeveConnectorComponent } from './sleeve-connector/sleeve-connector.co
     MountingRecommendationComponent,
     SleeveConnectorComponent,
     ReportSelectionComponent,
+    GridResultItemCardComponent,
   ],
 })
 export class ReportResultPageComponent {
   public readonly inputs$ = this.calculationResultFacade.getCalculationInputs$;
+
   public readonly mountingRecommendations$ =
     this.calculationResultFacade.mountingRecommendations$;
 
@@ -54,6 +59,36 @@ export class ReportResultPageComponent {
 
   public readonly bearinxVersions$ =
     this.calculationResultFacade.bearinxVersions$;
+
+  public startPositions = toSignal(
+    this.calculationResultFacade.startPositions$
+  );
+
+  public radialClearance = toSignal(
+    this.calculationResultFacade.radialClearance$
+  );
+
+  public clearanceClasses = toSignal(
+    this.calculationResultFacade.radialClearanceClasses$
+  );
+
+  public endPositions = toSignal(this.calculationResultFacade.endPositions$);
+
+  public importantStartPositions = computed(() =>
+    this.startPositions().filter((position) => position.isImportant)
+  );
+
+  public nonImportantStartPositions = computed(() =>
+    this.startPositions().filter((position) => !position.isImportant)
+  );
+
+  public importantEndPositions = computed(() =>
+    this.endPositions().filter((position) => position.isImportant)
+  );
+
+  public nonImportantEndPositions = computed(() =>
+    this.endPositions().filter((position) => !position.isImportant)
+  );
 
   constructor(
     private readonly calculationResultFacade: CalculationResultFacade

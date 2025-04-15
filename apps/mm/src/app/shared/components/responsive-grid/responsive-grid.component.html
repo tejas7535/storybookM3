@@ -1,0 +1,27 @@
+<div [class]="gridClass()">
+  @for (
+    item of items();
+    track trackItem(i, item);
+    let i = $index;
+    let isLast = $last
+  ) {
+    <div>
+      <ng-container
+        [ngTemplateOutlet]="itemTemplate"
+        [ngTemplateOutletContext]="{
+          $implicit: item,
+          index: i,
+          isLast: isLast,
+          showDivider: shouldShowDivider(i, isLast)
+        }"
+      >
+      </ng-container>
+    </div>
+
+    @if (isEndOfRow(i) && !isLastRow(i)) {
+      <div class="col-span-full w-full">
+        <mat-divider class="!my-4"></mat-divider>
+      </div>
+    }
+  }
+</div>

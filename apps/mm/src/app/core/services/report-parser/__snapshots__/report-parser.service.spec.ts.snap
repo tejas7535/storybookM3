@@ -5,24 +5,22 @@ exports[`ReportParserService parse Response with checknut and clearances when re
 exports[`ReportParserService parse Response with checknut and clearances when result is defined should parse clearance classes data 1`] = `
 Array [
   Object {
-    "items": Array [
-      Object {
-        "designation": "CN",
-        "unit": "µm",
-        "value": "300,0",
-      },
-      Object {
-        "designation": "C3",
-        "unit": "µm",
-        "value": "430,0",
-      },
-      Object {
-        "designation": "C4",
-        "unit": "µm",
-        "value": "640,0",
-      },
-    ],
-    "title": "Check values for clearance classes",
+    "designation": "Check values for clearance classes ( CN )",
+    "isImportant": true,
+    "unit": "µm",
+    "value": "300,0",
+  },
+  Object {
+    "designation": "Check values for clearance classes ( C3 )",
+    "isImportant": true,
+    "unit": "µm",
+    "value": "430,0",
+  },
+  Object {
+    "designation": "Check values for clearance classes ( C4 )",
+    "isImportant": true,
+    "unit": "µm",
+    "value": "640,0",
   },
 ]
 `;
@@ -83,34 +81,28 @@ Array [
 exports[`ReportParserService parse Response with checknut and clearances when result is defined should parse radial clearance data 1`] = `
 Array [
   Object {
-    "items": Array [
-      Object {
-        "designation": "Min",
-        "unit": "µm",
-        "value": "410,0",
-      },
-      Object {
-        "designation": "Max",
-        "unit": "µm",
-        "value": "550,0",
-      },
-    ],
-    "title": "Radial clearance reduction by mounting",
+    "designation": "Axial displacement ( Min )",
+    "isImportant": true,
+    "unit": "µm",
+    "value": "6300,0",
   },
   Object {
-    "items": Array [
-      Object {
-        "designation": "Min",
-        "unit": "µm",
-        "value": "6300,0",
-      },
-      Object {
-        "designation": "Max",
-        "unit": "µm",
-        "value": "8500,0",
-      },
-    ],
-    "title": "Axial displacement",
+    "designation": "Axial displacement ( Max )",
+    "isImportant": true,
+    "unit": "µm",
+    "value": "8500,0",
+  },
+  Object {
+    "designation": "Radial clearance reduction by mounting ( Min )",
+    "isImportant": true,
+    "unit": "µm",
+    "value": "410,0",
+  },
+  Object {
+    "designation": "Radial clearance reduction by mounting ( Max )",
+    "isImportant": true,
+    "unit": "µm",
+    "value": "550,0",
   },
 ]
 `;
@@ -354,12 +346,14 @@ Array [
   Object {
     "abbreviation": "dx_mnt",
     "designation": "Displacement (start to end position)",
+    "isImportant": true,
     "unit": "mm",
     "value": "0,190",
   },
   Object {
     "abbreviation": "delta_sr",
     "designation": "Radial clearance reduction",
+    "isImportant": false,
     "unit": "µm",
     "value": "8,7",
   },

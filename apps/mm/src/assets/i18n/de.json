@@ -100,11 +100,23 @@
     },
     "reportSelection": {
       "title": "Bericht",
-      "reportInputs": "Eingabe",
+      "reportInput": "Eingabe",
+      "starPosition": "Startposition",
+      "endPositions": "Endposition",
+      "radialClearance": "Radialluftminderung und axiale Verschiebung",
+      "clearanceClasses": "Kontrollwerte für die Lagerluftklassen",
       "mountingToolsAndUtilities": "Montagewerkzeuge und -hilfsmittel",
       "mountingInstructions": "Montageanleitung",
       "reportMessages": "Fehler, Warnungen & Hinweise",
       "downloadPdf": "PDF herunterladen"
+    },
+    "startPositions": "Startposition",
+    "endPositions": "Endposition",
+    "radialClearance": "Radialluftminderung und axiale Verschiebung",
+    "clearanceClasses": "Kontrollwerte für die Lagerluftklassen",
+    "shared": {
+      "expand": "Zusätzliche Werte anzeigen",
+      "collapse": "Zusätzliche Werte verbergen"
     }
   },
   "shared": {

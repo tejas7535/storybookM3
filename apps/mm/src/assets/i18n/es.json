@@ -101,10 +101,22 @@
     "reportSelection": {
       "title": "Informe",
       "reportInputs": "Entrada",
+      "starPosition": "Posición inicial",
+      "endPosition": "Posición final",
+      "radialClearance": "Reducción del juego radial y desplazamiento axial",
+      "clearanceClasses": "Valores de control de las clases de juego",
       "mountingToolsAndUtilities": "Herramientas y utilidades de montaje",
       "mountingInstructions": "Instrucciones de montaje",
       "reportMessages": "Errores, Advertencias y Notas",
       "downloadPdf": "Descargar PDF"
+    },
+    "startPositions": "Posición inicial",
+    "endPositions": "Posición final",
+    "radialClearance": "Reducción del juego radial y desplazamiento axial",
+    "clearanceClasses": "Valores de control de las clases de juego",
+    "shared": {
+      "expand": "Mostrar valores adicionales",
+      "collapse": "Ocultar valores adicionales"
     }
   },
   "settings": "Ajustes",
