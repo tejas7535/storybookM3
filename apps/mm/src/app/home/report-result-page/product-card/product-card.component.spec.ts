@@ -1,6 +1,7 @@
 import { NgOptimizedImage } from '@angular/common';
 import { MatCard } from '@angular/material/card';
 
+import { ProductImageComponent } from '@mm/shared/components/product-image/product-image.component';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockComponent, MockDirective } from 'ng-mocks';
 
@@ -20,6 +21,7 @@ describe('ProductCardComponent', () => {
       MockDirective(NgOptimizedImage),
       MockComponent(MediasViewProductButtonComponent),
       MockComponent(MatCard),
+      MockComponent(ProductImageComponent),
     ],
   });
 

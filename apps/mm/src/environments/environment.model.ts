@@ -23,4 +23,5 @@ export interface Environment {
     consent: boolean;
   };
   internalDetectionUrl: string;
+  productImageUrl: string;
 }

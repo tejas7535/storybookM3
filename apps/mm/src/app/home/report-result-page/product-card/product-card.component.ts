@@ -3,6 +3,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 
+import { ProductImageComponent } from '@mm/shared/components/product-image/product-image.component';
+
 import { MediasViewProductButtonComponent } from '../medias-view-product-button/medias-view-product-button.component';
 
 @Component({
@@ -14,6 +16,7 @@ import { MediasViewProductButtonComponent } from '../medias-view-product-button/
     NgClass,
     NgOptimizedImage,
     MediasViewProductButtonComponent,
+    ProductImageComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

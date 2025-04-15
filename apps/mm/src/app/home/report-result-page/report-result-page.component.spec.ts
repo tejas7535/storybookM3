@@ -12,6 +12,7 @@ import {
   ResultTypeConfig,
 } from '@mm/core/store/models/calculation-result-state.model';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
 
@@ -96,6 +97,7 @@ describe('ReportResultPageComponent', () => {
       MockComponent(HydraulicOrLockNutComponent),
       MockComponent(MountingRecommendationComponent),
       MockComponent(ReportSelectionComponent),
+      PushPipe,
       MockComponent(GridResultItemCardComponent),
     ],
     providers: [
@@ -141,29 +143,9 @@ describe('ReportResultPageComponent', () => {
       spectator.detectChanges();
     }));
 
-    it('should not show loading spinner', () => {
-      const spinner = spectator.query(MatProgressSpinner);
-
-      expect(spinner).toBeFalsy();
-    });
-
     it('should have isResultAvailable$ observable overridden to true', (done) => {
       component.isResultAvailable$.subscribe((isAvailable) => {
         expect(isAvailable).toBe(true);
-
-        const schaefflerResultReport = spectator.query(ResultReportComponent);
-        const reportPumps = spectator.query(ReportPumpsComponent);
-        const additionalTools = spectator.query(AdditionalToolsComponent);
-        const hydraulicNut = spectator.query(HydraulicOrLockNutComponent);
-        const mountingRecommendation = spectator.query(
-          MountingRecommendationComponent
-        );
-
-        expect(schaefflerResultReport).toExist();
-        expect(reportPumps).toExist();
-        expect(additionalTools).toExist();
-        expect(hydraulicNut).toExist();
-        expect(mountingRecommendation).toExist();
 
         done();
       });

@@ -26,4 +26,6 @@ export const environment: Environment = {
   },
   internalDetectionUrl:
     'https://bearinxfeinternalcheck.blob.core.windows.net/internal/access.json',
+  productImageUrl:
+    'https://engineeringapps-q.dev.dp.schaeffler/mounting/getProductImages',
 };

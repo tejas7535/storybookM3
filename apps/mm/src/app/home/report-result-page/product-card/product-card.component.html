@@ -6,7 +6,11 @@
   <mat-card-content>
     <div class="flex">
       <div class="flex items-center">
-        <img alt="pump" ngSrc="{{ imagePath }}" width="160" height="88" />
+        <mm-product-image
+          [designation]="productValue"
+          [width]="160"
+          [height]="88"
+        />
       </div>
       <mat-divider class="!mx-2 sm:!mx-4" vertical="true"></mat-divider>
       <div class="flex flex-col flex-grow">

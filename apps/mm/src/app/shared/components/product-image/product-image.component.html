@@ -1,0 +1,12 @@
+<div>
+  <img
+    [src]="imageUrl$ | ngrxPush"
+    [alt]="imageAlt | ngrxPush"
+    [class.hidden]="isLoading"
+    [width]="width"
+    [height]="height"
+  />
+  @if (isLoading) {
+    <mat-spinner [diameter]="loaderSize" mode="indeterminate" />
+  }
+</div>
