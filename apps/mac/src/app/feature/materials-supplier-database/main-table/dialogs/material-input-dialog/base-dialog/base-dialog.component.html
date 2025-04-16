@@ -41,21 +41,19 @@
     @if (isAddDialog) {
       <mat-checkbox
         class="pr-4 text-caption text-high-emphasis"
-        color="primary"
         [formControl]="createAnotherControl"
       >
         {{ t('createAnother') }}</mat-checkbox
       >
     }
     @if (txtCancel) {
-      <button mat-stroked-button (click)="cancelDialog()" color="primary">
+      <button mat-stroked-button (click)="cancelDialog()">
         {{ txtCancel }}
       </button>
     }
     @if (txtConfirm) {
       <button
-        mat-raised-button
-        color="primary"
+        mat-flat-button
         class="!ml-4"
         [disabled]="!valid"
         (click)="confirmDialog()"

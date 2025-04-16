@@ -3,12 +3,7 @@
     class="flex flex-col items-center justify-start gap-4 p-4 pl-0 md:flex-row"
     *ngrxLet="navigation$ as navigation"
   >
-    <button
-      mat-button
-      color="primary"
-      [disabled]="resetFormDisabled"
-      (click)="resetForm()"
-    >
+    <button mat-button [disabled]="resetFormDisabled" (click)="resetForm()">
       <mat-icon class="material-icons-outlined">sync</mat-icon>
       <span>{{ t('resetTable') }}</span>
     </button>
@@ -37,7 +32,7 @@
         </div>
       </div>
     </div>
-    <button mat-button color="primary" (click)="reload()">
+    <button mat-button (click)="reload()">
       <mat-icon class="material-icons-outlined">refresh</mat-icon>
       <span>{{ t('reload') }}</span>
     </button>

@@ -11,7 +11,7 @@
         <span class="font-bold">{{ active.title }}</span>
       </div>
       <button
-        mat-raised-button
+        mat-flat-button
         [disabled]="!(hasEditorRole$ | ngrxPush)"
         (click)="publishPublicChanges()"
       >
@@ -20,45 +20,28 @@
       </button>
     </div>
   }
-  <div class="h-[33px]">
+
+  <div>
     <mat-button-toggle-group
       (change)="onQuickfilterSelect($event)"
       [value]="active"
-      class="!rounded-b-none !border-b-0"
+      class="!rounded-b-none !rounded-t-lg !border-b-0"
       [hideSingleSelectionIndicator]="true"
     >
       <mat-button-toggle
-        class="!text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption !bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8"
         [value]="undefined"
-        [ngClass]="{
-          '!bg-white !text-high-emphasis': item === active
-        }"
         [disabled]="navigationLevel === 'productCategoryRules'"
       >
         <mat-icon class="!h-4 !w-4 !text-[16px]">folder_shared</mat-icon>
       </mat-button-toggle>
 
       @for (item of staticFilters; track item; let i = $index) {
-        <mat-button-toggle
-          class="!text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption !bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8"
-          [value]="item"
-          [ngClass]="{
-            '!bg-white !text-high-emphasis': item === active
-          }"
-        >
+        <mat-button-toggle [value]="item">
           {{ item.title }}
         </mat-button-toggle>
       }
       @for (item of ownFilters$ | ngrxPush; track item) {
-        <mat-button-toggle
-          class="!text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption !bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8"
-          [value]="item"
-          [ngClass]="{
-            '!bg-white !text-high-emphasis':
-              item === active ||
-              (item?.id !== undefined && item?.id === active?.id)
-          }"
-        >
+        <mat-button-toggle [value]="item">
           {{ item.title }}
           @if (item.id !== undefined ? (hasEditorRole$ | ngrxPush) : true) {
             @if (
@@ -81,13 +64,7 @@
         </mat-button-toggle>
       }
       @for (item of subscribedFilters$ | ngrxPush; track item) {
-        <mat-button-toggle
-          class="!text-caption text-medium-emphasis hover:text-high-emphasis [&>button>span]:!text-caption !bg-[#fafafa] px-1 !font-medium [&>.mat-button-toggle-focus-overlay]:hidden [&>button>span]:!leading-8"
-          [value]="item"
-          [ngClass]="{
-            '!bg-white !text-high-emphasis': item === active
-          }"
-        >
+        <mat-button-toggle [value]="item">
           {{ item.title }}
           <mat-icon class="mb-0.5 ml-2.5 !h-3 !w-3 !text-[12px]">star</mat-icon>
         </mat-button-toggle>

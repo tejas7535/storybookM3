@@ -11,16 +11,15 @@
       </div>
     </div>
   </div>
-  <mat-dialog-content class="!px-4 pb-4 text-medium-emphasis">
-    {{ t('disclaimer') }}
-    <div class="pt-4 text-right">
+  <mat-dialog-content class="!px-4 pb-4">
+    <div>{{ t('disclaimer') }}</div>
+    <div class="pt-4 text-right overflow-hidden">
       <mat-checkbox
-        color="primary"
         labelPosition="before"
         [(ngModel)]="storeConsent"
         class="!ml-2"
       >
-        <span class="text-medium-emphasis">
+        <span>
           {{ t('checkbox') }}
         </span>
       </mat-checkbox>
@@ -32,7 +31,6 @@
       mat-button
       mat-dialog-close
       (click)="consent()"
-      color="primary"
       class="!px-4"
       cdkFocusInitial
     >

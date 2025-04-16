@@ -64,21 +64,18 @@
               >
                 <mat-radio-button
                   class="w-full pb-2"
-                  color="primary"
                   [value]="quickFilterType.LOCAL_FROM_CURRENT_VIEW"
                 >
                   {{ t('radio_current') }}
                 </mat-radio-button>
                 <mat-radio-button
                   class="w-full pb-2"
-                  color="primary"
                   [value]="quickFilterType.LOCAL_FROM_STANDARD"
                 >
                   {{ t('radio_default') }}
                 </mat-radio-button>
                 <mat-radio-button
                   class="w-full pb-4"
-                  color="primary"
                   [value]="quickFilterType.PUBLIC"
                   [disabled]="!(hasEditorRole$ | ngrxPush)"
                 >
@@ -99,12 +96,11 @@
 
   <mat-dialog-actions align="end">
     <div class="px-2 pb-2">
-      <button mat-stroked-button (click)="closeDialog()" color="primary">
+      <button mat-stroked-button (click)="closeDialog()">
         {{ t('cancel') }}
       </button>
       <button
-        mat-raised-button
-        color="primary"
+        mat-flat-button
         class="!ml-4"
         (click)="applyDialog()"
         [disabled]="!formGroup.valid"

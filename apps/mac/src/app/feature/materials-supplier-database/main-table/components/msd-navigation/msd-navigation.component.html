@@ -3,7 +3,7 @@
     <ng-container>
       <mat-nav-list
         *ngrxLet="navigation$ as navigation"
-        class="!pt-0 transition-all duration-1000 overflow-auto"
+        class="!pt-0 transition-all duration-1000 overflow-auto mx-1"
         [ngClass]="{
           'max-w-0 opacity-0': minimized,
           'max-w-xl opacity-100': !minimized
@@ -18,7 +18,7 @@
       </mat-nav-list>
       <!-- EDITOR VIEW -->
       <ng-template #editorView let-navigation="navigation">
-        <mat-accordion multi *ngrxLet="navigation$ as navigation">
+        <mat-accordion multi *ngrxLet="navigation$ as navigation" class="mb-1">
           @for (materialClass of rawMaterialClasses; track materialClass) {
             <mat-expansion-panel
               class="!m-0 !rounded-none border-none"
@@ -31,11 +31,11 @@
               <mat-expansion-panel-header
                 class="flex !h-12 flex-row justify-between !pl-4 !pr-2"
               >
-                <mat-panel-title class="text-body-2 text-high-emphasis">
+                <mat-panel-title class="text-body-2">
                   {{ t('materialClassValuesNavigation.' + materialClass) }}
                 </mat-panel-title>
                 <mat-icon
-                  class="text-medium-emphasis transition-all duration-200"
+                  class="transition-all duration-200"
                   [ngClass]="{
                     '-rotate-90': expansionPanel.expanded,
                     'rotate-0': !expansionPanel.expanded
@@ -112,7 +112,7 @@
         <button
           (click)="setActive(materialClass, navigationLevel)"
           mat-list-item
-          class="!text-body-2 !text-high-emphasis hover:bg-hover-overlay !pl-8 !pr-10 text-start !cursor-pointer"
+          class="hover:bg-hover-overlay text-start !cursor-pointer mt-1"
           [disableRipple]="true"
           [ngClass]="{
             '!bg-selected-overlay':
@@ -120,7 +120,9 @@
               navigation.navigationLevel === navigationLevel
           }"
         >
-          {{ t(navigationLevel) }}
+          <span class="!text-body-2">
+            {{ t(navigationLevel) }}
+          </span>
         </button>
       </ng-template>
       <!-- PLAIN ITEM -->
@@ -132,13 +134,15 @@
         <button
           (click)="setActive(materialClass)"
           mat-list-item
-          class="!text-body-2 !text-high-emphasis hover:bg-hover-overlay !pr-10 text-start !cursor-pointer"
+          class="hover:bg-hover-overlay text-start !cursor-pointer mt-2"
           [disableRipple]="true"
           [ngClass]="{
             '!bg-selected-overlay': navigation.materialClass === materialClass
           }"
         >
-          {{ t('materialClassValuesNavigation.' + materialClass) }}
+          <span class="!text-body-2">
+            {{ t('materialClassValuesNavigation.' + materialClass) }}
+          </span>
         </button>
       </ng-template>
     </ng-container>

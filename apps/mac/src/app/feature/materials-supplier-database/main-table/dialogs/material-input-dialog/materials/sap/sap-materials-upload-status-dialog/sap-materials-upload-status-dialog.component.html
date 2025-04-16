@@ -77,8 +77,7 @@
         @if (config.statusAction.button.shouldShow()) {
           <div class="flex flex-1 justify-end">
             <button
-              mat-raised-button
-              color="primary"
+              mat-flat-button
               (click)="config.statusAction.button.action()"
             >
               <mat-icon>{{ config.statusAction.button.icon }}</mat-icon>

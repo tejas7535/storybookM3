@@ -1,16 +1,15 @@
 <div class="flex h-[46px] w-full flex-row">
   @if (isBulkEditAllowed$ | ngrxPush) {
-    <div class="p-2">
+    <button class="my-auto" mat-icon-button (click)="onSelectClick()">
       <mat-icon
-        (click)="onSelectClick()"
-        class="text-medium-emphasis !text-[16px] p-1 cursor-pointer"
+        class="text-medium-emphasis !text-[16px] pr-2 bottom-1 left-1"
         >{{ isSelected() ? 'check_box' : 'check_box_outline_blank' }}</mat-icon
       >
-    </div>
+    </button>
   }
 
   <button
-    class="my-auto !w-10 !h-10"
+    class="my-auto"
     mat-icon-button
     (click)="onCopyClick()"
     [disabled]="activeSelectionOnGrid()"
@@ -19,12 +18,12 @@
       [ngClass]="{
         'line-through': activeSelectionOnGrid()
       }"
-      class="text-medium-emphasis !text-[16px] pr-2"
+      class="text-medium-emphasis !text-[16px] pr-2 bottom-1 left-1"
       >content_copy</mat-icon
     >
   </button>
   <button
-    class="my-auto !w-10 !h-10"
+    class="my-auto"
     [disabled]="activeSelectionOnGrid()"
     mat-icon-button
     (click)="onDeleteClick()"
@@ -33,7 +32,7 @@
       [ngClass]="{
         'line-through': activeSelectionOnGrid()
       }"
-      class="text-medium-emphasis !text-[16px] pr-2"
+      class="text-medium-emphasis !text-[16px] pr-2 bottom-1 left-1"
       >delete_forever</mat-icon
     >
   </button>
