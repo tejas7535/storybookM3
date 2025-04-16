@@ -816,6 +816,7 @@
               "1": "Manual input (outside MSD)",
               "2": "Sec. data (indirectly derived)",
               "3": "Sec. data (w/o reference to Schaeffler specification)",
+              "4": "-",
               "5": "Sec. data from external database",
               "6": "Internal expertise",
               "7": "Internal estimate based on primary data for emission factor of steel source and service weight provided by supplier",

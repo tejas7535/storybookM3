@@ -63,9 +63,9 @@ import {
 } from '@mac/feature/materials-supplier-database/constants';
 import {
   DATE_FILTER_PARAMS,
-  DISTINCT_FILTER_PARAMS,
   DISTINCT_WITH_NAME_FILTER_PARAMS_FACTORY,
   NUMBER_FILTER_PARAMS,
+  REMOTE_SET_FILTER_PARAMS,
   TEXT_FILTER_PARAMS,
   YEAR_FILTER_PARAMS,
 } from '@mac/msd/main-table/table-config';
@@ -210,14 +210,14 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: (ColDef | ColGroupDef)[] = [
     field: SUPPLIER_COUNTRY,
     headerName: SUPPLIER_COUNTRY,
     filter: 'agSetColumnFilter',
-    filterParams: DISTINCT_FILTER_PARAMS,
+    filterParams: REMOTE_SET_FILTER_PARAMS,
     headerTooltip: SUPPLIER_COUNTRY,
   },
   {
     field: SUPPLIER_REGION,
     headerName: SUPPLIER_REGION,
     filter: 'agSetColumnFilter',
-    filterParams: DISTINCT_FILTER_PARAMS,
+    filterParams: REMOTE_SET_FILTER_PARAMS,
     headerTooltip: SUPPLIER_REGION,
   },
   {
@@ -253,7 +253,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: (ColDef | ColGroupDef)[] = [
     valueFormatter: BOOLEAN_VALUE_FORMATTER,
     filter: 'agSetColumnFilter',
     filterParams: {
-      ...DISTINCT_FILTER_PARAMS,
+      ...REMOTE_SET_FILTER_PARAMS,
       valueFormatter: BOOLEAN_VALUE_FORMATTER,
     },
     headerTooltip: 'boolean',
@@ -320,7 +320,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: (ColDef | ColGroupDef)[] = [
     valueFormatter: BOOLEAN_VALUE_FORMATTER,
     filter: 'agSetColumnFilter',
     filterParams: {
-      ...DISTINCT_FILTER_PARAMS,
+      ...REMOTE_SET_FILTER_PARAMS,
       valueFormatter: BOOLEAN_VALUE_FORMATTER,
     },
     headerTooltip: 'boolean',
@@ -341,7 +341,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: (ColDef | ColGroupDef)[] = [
     valueFormatter: BOOLEAN_VALUE_FORMATTER,
     filter: 'agSetColumnFilter',
     filterParams: {
-      ...DISTINCT_FILTER_PARAMS,
+      ...REMOTE_SET_FILTER_PARAMS,
       valueFormatter: BOOLEAN_VALUE_FORMATTER,
     },
     headerTooltip: 'boolean',
@@ -362,7 +362,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: (ColDef | ColGroupDef)[] = [
     valueFormatter: BOOLEAN_VALUE_FORMATTER,
     filter: 'agSetColumnFilter',
     filterParams: {
-      ...DISTINCT_FILTER_PARAMS,
+      ...REMOTE_SET_FILTER_PARAMS,
       valueFormatter: BOOLEAN_VALUE_FORMATTER,
     },
     headerTooltip: 'boolean',
@@ -396,7 +396,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: (ColDef | ColGroupDef)[] = [
     field: WEIGHT_DATA_SOURCE,
     headerName: WEIGHT_DATA_SOURCE,
     filter: 'agSetColumnFilter',
-    filterParams: DISTINCT_FILTER_PARAMS,
+    filterParams: REMOTE_SET_FILTER_PARAMS,
     headerTooltip: WEIGHT_DATA_SOURCE,
     hide: true,
   },
@@ -412,7 +412,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: (ColDef | ColGroupDef)[] = [
     field: MATERIAL_GROUP_OF_RAW_MATERIAL,
     headerName: MATERIAL_GROUP_OF_RAW_MATERIAL,
     filter: 'agSetColumnFilter',
-    filterParams: DISTINCT_FILTER_PARAMS,
+    filterParams: REMOTE_SET_FILTER_PARAMS,
     headerTooltip: MATERIAL_GROUP_OF_RAW_MATERIAL,
     hide: true,
   },
@@ -485,6 +485,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: (ColDef | ColGroupDef)[] = [
   {
     field: YEARS,
     headerName: YEARS,
+    filter: 'agSetColumnFilter',
     filterParams: YEAR_FILTER_PARAMS,
     valueFormatter: ARRAY_SORT_VALUE_FORMATTER,
   },
@@ -519,7 +520,8 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: (ColDef | ColGroupDef)[] = [
         headerName: MATURITY,
         filter: 'agSetColumnFilter',
         filterParams: {
-          values: [0, 2, 5, 6, 7, 8, 9, 10],
+          ...REMOTE_SET_FILTER_PARAMS,
+          values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
           valueFormatter: MATURITY_FORMATTER,
           suppressSorting: true,
         },
@@ -542,13 +544,13 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: (ColDef | ColGroupDef)[] = [
     field: OWNER,
     headerName: OWNER,
     filter: 'agSetColumnFilter',
-    filterParams: DISTINCT_FILTER_PARAMS,
+    filterParams: REMOTE_SET_FILTER_PARAMS,
   },
   {
     field: MODIFIED_BY,
     headerName: MODIFIED_BY,
     filter: 'agSetColumnFilter',
-    filterParams: DISTINCT_FILTER_PARAMS,
+    filterParams: REMOTE_SET_FILTER_PARAMS,
   },
   {
     field: TIMESTAMP,
