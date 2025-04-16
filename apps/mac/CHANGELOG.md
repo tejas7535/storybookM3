@@ -1,4 +1,18 @@
 # Release Notes of Material App Center
+## [1.30.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.29.0...mac-v1.30.0) (2025-04-16)
+
+
+### Features
+
+* **mac:** chunk data load for MATNR export function (UFTABI-8710) ([#7140](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7140)) ([df68b80](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/df68b80011f9c412b5b83e5a949b2100132934e2))
+
+
+### Bug Fixes
+
+* **mac:** apply set filter only after button press (UFTABI-8761) ([#7163](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7163)) ([69c3d26](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/69c3d26f6b74df91310f6f2eeac4fd8dd2418b0f))
+* **mac:** remove disabled status for rating change comment (UFTABI-8762) ([#7165](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7165)) ([33504cd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/33504cd451ed13c77a72734628005d25feea8f17))
+* **mac:** removing function calls from templates (UFTABI-8583) ([#7136](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7136)) ([d0244d8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d0244d8d2e93052ddfe94d3910548463de120d26))
+
 ## [1.29.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.28.0...mac-v1.29.0) (2025-04-01)
 
 
