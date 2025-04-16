@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 
+import { QuotationKpiSimulationEffects } from '@gq/core/store/active-case/quotation-kpi-simulation/quotation-kpi-simulation.effects';
 import { SapSyncStatusEffects } from '@gq/core/store/active-case/sap-sync-status/sap-sync-status.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -16,6 +17,7 @@ import { QuotationMetadataEffects } from './quotation-metadata/quotation-metadat
       ActiveCaseEffects,
       SapSyncStatusEffects,
       QuotationMetadataEffects,
+      QuotationKpiSimulationEffects,
     ]),
   ],
   providers: [ActiveCaseFacade],

@@ -1,6 +1,8 @@
 import { of } from 'rxjs';
 
+import { QuotationKpiSimulationActions } from '@gq/core/store/active-case/quotation-kpi-simulation/quotation-kpi-simulation.action';
 import { ShipToPartyFacade } from '@gq/core/store/ship-to-party/ship-to-party.facade';
+import { PriceSourceOptions } from '@gq/shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import {
   DetailViewQueryParams,
@@ -913,7 +915,7 @@ describe('ActiveCaseFacade', () => {
 
   describe('resetSimulatedQuotation', () => {
     test('should dispatch resetSimulatedQuotation', () => {
-      const action = ActiveCaseActions.resetSimulatedQuotation();
+      const action = QuotationKpiSimulationActions.resetSimulatedQuotation();
       const spy = jest.spyOn(mockStore, 'dispatch');
 
       facade.resetSimulatedQuotation();
@@ -922,18 +924,51 @@ describe('ActiveCaseFacade', () => {
     });
   });
 
-  describe('calculateSimulatedQuotation', () => {
-    test('should dispatch calculateSimulatedQuotation', () => {
+  describe('calculateSimulatedKPI', () => {
+    test('should dispatch calculateSimulatedKPI action', () => {
+      const gqId = 123;
+      const selectedQuotationDetails: QuotationDetail[] = [];
+      const simulatedField = {} as ColumnFields;
+      const simulatedValue = 5;
+      const priceSourceOption = PriceSourceOptions.SAP;
+
+      const action = QuotationKpiSimulationActions.calculateSimulatedKPI({
+        simulationData: {
+          gqId,
+          simulatedField,
+          simulatedValue,
+          priceSourceOption,
+          selectedQuotationDetails,
+        },
+      });
+
+      const spy = jest.spyOn(mockStore, 'dispatch');
+
+      facade.performSimulation(
+        gqId,
+        simulatedField,
+        simulatedValue,
+        priceSourceOption,
+        selectedQuotationDetails
+      );
+
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('calculateSimulatedSummaryForQuotation', () => {
+    test('should dispatch calculateSimulatedSummaryQuotation', () => {
       const gqId = 123;
       const quotationDetails: QuotationDetail[] = [];
       const simulatedField = {} as ColumnFields;
 
-      const action = ActiveCaseActions.calculateSimulatedQuotation({
-        gqId,
-        simulatedQuotationDetails: quotationDetails,
-        simulatedField,
-        selectedQuotationDetails: [],
-      });
+      const action =
+        QuotationKpiSimulationActions.calculateSimulatedSummaryQuotation({
+          gqId,
+          simulatedQuotationDetails: quotationDetails,
+          simulatedField,
+          selectedQuotationDetails: [],
+        });
       const spy = jest.spyOn(mockStore, 'dispatch');
 
       facade.addSimulatedQuotation(gqId, quotationDetails, simulatedField, []);
@@ -1061,7 +1096,7 @@ describe('ActiveCaseFacade', () => {
   });
   describe('confirmSimulatedQuotation', () => {
     test('should dispatch confirm simulated quotation', () => {
-      const action = ActiveCaseActions.confirmSimulatedQuotation();
+      const action = QuotationKpiSimulationActions.confirmSimulatedQuotation();
       const spy = jest.spyOn(mockStore, 'dispatch');
 
       facade.confirmSimulatedQuotation();

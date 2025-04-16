@@ -4,7 +4,7 @@ import { inject, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
-import { forkJoin, from, of, timer } from 'rxjs';
+import { from, of, timer } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -15,7 +15,6 @@ import {
   tap,
 } from 'rxjs/operators';
 
-import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { ErrorId } from '@gq/shared/http/constants/error-id.enum';
 import { URL_SUPPORT } from '@gq/shared/http/constants/urls';
 import { Customer, Quotation, QuotationAttachment } from '@gq/shared/models';
@@ -205,19 +204,6 @@ export class ActiveCaseEffects {
             queryParams: routerState.queryParams,
           }),
         ];
-      })
-    );
-  });
-
-  resetSimulatedQuotation$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(ROUTER_NAVIGATED),
-      map((action: any) => action.payload.routerState),
-      filter((routerState) =>
-        routerState.url.includes(AppRoutePath.ProcessCaseViewPath)
-      ),
-      mergeMap(() => {
-        return [ActiveCaseActions.resetSimulatedQuotation()];
       })
     );
   });
@@ -509,32 +495,6 @@ export class ActiveCaseEffects {
     );
   });
 
-  confirmSimulatedQuotation$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(ActiveCaseActions.confirmSimulatedQuotation),
-      concatLatestFrom(() =>
-        this.store.select(activeCaseFeature.selectSimulatedItem)
-      ),
-      map(([_action, simulatedQuotation]) => simulatedQuotation),
-      mergeMap((simulatedQuotation) => {
-        const updateQuotationDetailList =
-          simulatedQuotation.quotationDetails.map((detail) => ({
-            gqPositionId: detail.gqPositionId,
-            ...(simulatedQuotation.simulatedField === ColumnFields.TARGET_PRICE
-              ? { targetPrice: detail.targetPrice }
-              : { price: detail.price, priceSource: detail.priceSource }),
-          }));
-
-        return [
-          ActiveCaseActions.updateQuotationDetails({
-            updateQuotationDetailList,
-          }),
-          ActiveCaseActions.resetSimulatedQuotation(),
-        ];
-      })
-    );
-  });
-
   createSapQuote$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ActiveCaseActions.createSapQuote),
@@ -713,46 +673,6 @@ export class ActiveCaseEffects {
           ),
           catchError((errorMessage) =>
             of(ActiveCaseActions.deleteAttachmentFailed({ errorMessage }))
-          )
-        )
-      )
-    );
-  });
-
-  calculateSimulatedQuotation$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(ActiveCaseActions.calculateSimulatedQuotation),
-      mergeMap((action) =>
-        forkJoin({
-          simulatedStatusBar:
-            this.calculationService.getQuotationKpiCalculation(
-              quotationDetailsToRequestData(action.simulatedQuotationDetails)
-            ),
-          previousStatusBar: this.calculationService.getQuotationKpiCalculation(
-            quotationDetailsToRequestData(action.selectedQuotationDetails)
-          ),
-        }).pipe(
-          map(({ simulatedStatusBar, previousStatusBar }) => {
-            const { gqId, simulatedField, simulatedQuotationDetails } = action;
-
-            const simulatedQuotation = {
-              gqId,
-              simulatedField,
-              quotationDetails: simulatedQuotationDetails,
-              simulatedStatusBar,
-              previousStatusBar,
-            };
-
-            return ActiveCaseActions.calculateSimulatedQuotationSuccess({
-              simulatedQuotation,
-            });
-          }),
-          catchError((errorMessage) =>
-            of(
-              ActiveCaseActions.calculateSimulatedQuotationFailure({
-                errorMessage,
-              })
-            )
           )
         )
       )

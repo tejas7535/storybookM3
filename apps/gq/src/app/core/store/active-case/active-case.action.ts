@@ -1,10 +1,7 @@
-import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import {
   Quotation,
   QuotationAttachment,
-  QuotationDetail,
   QuotationStatus,
-  SimulatedQuotation,
 } from '@gq/shared/models';
 import { Customer } from '@gq/shared/models/customer';
 import { QuotationPricingOverview } from '@gq/shared/models/quotation';
@@ -88,21 +85,6 @@ export const ActiveCaseActions = createActionGroup({
       quotation: Quotation;
     }>(),
     'Create Sap Quote Failure': props<{
-      errorMessage: string;
-    }>(),
-
-    'Confirm Simulated Quotation': emptyProps(),
-    'Reset Simulated Quotation': emptyProps(),
-    'Calculate Simulated Quotation': props<{
-      gqId: number;
-      simulatedQuotationDetails: QuotationDetail[];
-      simulatedField: ColumnFields;
-      selectedQuotationDetails: QuotationDetail[];
-    }>(),
-    'Calculate Simulated Quotation Success': props<{
-      simulatedQuotation: SimulatedQuotation;
-    }>(),
-    'Calculate Simulated Quotation Failure': props<{
       errorMessage: string;
     }>(),
 

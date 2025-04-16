@@ -1,4 +1,5 @@
 /* eslint-disable max-lines */
+import { QuotationKpiSimulationReducers } from '@gq/core/store/active-case/quotation-kpi-simulation/quotation-kpi-simulation.reducer';
 import {
   Customer,
   DetailViewQueryParams,
@@ -11,6 +12,7 @@ import { QuotationPricingOverview } from '@gq/shared/models/quotation';
 import { QuotationDetailsSummaryKpi } from '@gq/shared/models/quotation/quotation-details-summary-kpi.model';
 import { QuotationDetailCosts } from '@gq/shared/models/quotation-detail/cost';
 import { RecalculationReasons } from '@gq/shared/models/quotation-detail/cost/recalculation-reasons.enum';
+import { QuotationDetailsSimulationKpiData } from '@gq/shared/services/rest/calculation/model/quotation-details-simulation-kpi-data.interface';
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
 import { GREATER_CHINA_SALES_ORGS } from '../approval/model/greater-china-sales-orgs';
@@ -38,6 +40,7 @@ export interface ActiveCaseState {
   quotationPricingOverview: QuotationPricingOverview;
   quotationPricingOverviewLoading: boolean;
   quotationPricingOverviewErrorMessage: string;
+  simulationData: QuotationDetailsSimulationKpiData;
   simulatedItem: SimulatedQuotation;
   selectedQuotationDetail: string;
   quotationLoadingErrorMessage: string;
@@ -70,6 +73,7 @@ export const initialState: ActiveCaseState = {
   quotationPricingOverview: undefined,
   quotationPricingOverviewLoading: false,
   quotationPricingOverviewErrorMessage: undefined,
+  simulationData: undefined,
   simulatedItem: undefined,
   selectedQuotationDetail: undefined,
   quotationLoadingErrorMessage: undefined,
@@ -334,13 +338,6 @@ export const activeCaseFeature = createFeature({
       })
     ),
     on(
-      ActiveCaseActions.resetSimulatedQuotation,
-      (state: ActiveCaseState): ActiveCaseState => ({
-        ...state,
-        simulatedItem: undefined,
-      })
-    ),
-    on(
       ActiveCaseActions.createSapQuote,
       (state: ActiveCaseState, { gqPositionIds }): ActiveCaseState => ({
         ...state,
@@ -366,13 +363,6 @@ export const activeCaseFeature = createFeature({
         quotationLoading: false,
         detailsSyncingToSap: [],
         quotationLoadingErrorMessage: errorMessage,
-      })
-    ),
-    on(
-      ActiveCaseActions.calculateSimulatedQuotationSuccess,
-      (state: ActiveCaseState, { simulatedQuotation }): ActiveCaseState => ({
-        ...state,
-        simulatedItem: simulatedQuotation,
       })
     ),
     on(
@@ -625,7 +615,8 @@ export const activeCaseFeature = createFeature({
         },
       })
     ),
-    ...QuotationMetadataReducers
+    ...QuotationMetadataReducers,
+    ...QuotationKpiSimulationReducers
   ),
   extraSelectors: ({
     selectActiveCaseState,

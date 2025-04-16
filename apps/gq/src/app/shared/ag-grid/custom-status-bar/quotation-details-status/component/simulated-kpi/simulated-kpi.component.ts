@@ -10,6 +10,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
   selector: 'gq-simulated-kpi',
   imports: [CommonModule, SharedTranslocoModule, SharedPipesModule],
   templateUrl: './simulated-kpi.component.html',
+  standalone: true,
 })
 export class SimulatedKpiComponent {
   readonly quotationCurrency: InputSignal<string> = input.required<string>();

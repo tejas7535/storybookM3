@@ -3,7 +3,9 @@ import { inject, Injectable } from '@angular/core';
 
 import { combineLatest, map, Observable } from 'rxjs';
 
+import { QuotationKpiSimulationActions } from '@gq/core/store/active-case/quotation-kpi-simulation/quotation-kpi-simulation.action';
 import { ShipToPartyFacade } from '@gq/core/store/ship-to-party/ship-to-party.facade';
+import { PriceSourceOptions } from '@gq/shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { Tab } from '@gq/shared/components/tabs-header/tab.model';
 import {
@@ -300,6 +302,7 @@ export class ActiveCaseFacade {
   // ##############################################################################################################
   // ############################################# methods ########################################################
   // ##############################################################################################################
+
   selectQuotationDetail(gqPositionId: string): void {
     this.store.dispatch(
       ActiveCaseActions.selectQuotationDetail({ gqPositionId })
@@ -367,7 +370,29 @@ export class ActiveCaseFacade {
   }
 
   confirmSimulatedQuotation(): void {
-    this.store.dispatch(ActiveCaseActions.confirmSimulatedQuotation());
+    this.store.dispatch(
+      QuotationKpiSimulationActions.confirmSimulatedQuotation()
+    );
+  }
+
+  performSimulation(
+    gqId: number,
+    simulatedField: ColumnFields,
+    simulatedValue: number,
+    priceSourceOption: PriceSourceOptions,
+    selectedQuotationDetails: QuotationDetail[]
+  ) {
+    this.store.dispatch(
+      QuotationKpiSimulationActions.calculateSimulatedKPI({
+        simulationData: {
+          gqId,
+          simulatedField,
+          simulatedValue,
+          priceSourceOption,
+          selectedQuotationDetails,
+        },
+      })
+    );
   }
 
   addSimulatedQuotation(
@@ -377,7 +402,7 @@ export class ActiveCaseFacade {
     selectedQuotationDetails: QuotationDetail[]
   ): void {
     this.store.dispatch(
-      ActiveCaseActions.calculateSimulatedQuotation({
+      QuotationKpiSimulationActions.calculateSimulatedSummaryQuotation({
         gqId,
         simulatedQuotationDetails,
         simulatedField,
@@ -387,7 +412,9 @@ export class ActiveCaseFacade {
   }
 
   resetSimulatedQuotation(): void {
-    this.store.dispatch(ActiveCaseActions.resetSimulatedQuotation());
+    this.store.dispatch(
+      QuotationKpiSimulationActions.resetSimulatedQuotation()
+    );
   }
 
   resetEditCaseSettings(): void {

@@ -23,6 +23,7 @@ export const ACTIVE_CASE_STATE_MOCK: ActiveCaseState = {
   selectedQuotationDetails: [],
   quotation: QUOTATION_MOCK,
   removeQuotationDetailsIds: [],
+  simulationData: undefined,
   simulatedItem: undefined,
   updateCostsLoading: false,
   updateRfqInformationLoading: false,

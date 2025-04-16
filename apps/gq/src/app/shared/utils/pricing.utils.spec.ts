@@ -1,3 +1,5 @@
+import { QuotationDetailKpi } from '@gq/shared/services/rest/calculation/model/quotation-detail-kpi.interface';
+
 import { QuotationDetail } from '../models/quotation-detail';
 import * as pricingUtils from './pricing.utils';
 
@@ -177,6 +179,159 @@ describe('PricingUtils', () => {
     test('should round to two decimals', () => {
       const result = pricingUtils.roundPercentageToTwoDecimals(0.5555);
       expect(result).toEqual(55.55);
+    });
+  });
+
+  describe('quotationDetailsForSimulationToRequestData', () => {
+    test('should return simulated quotation details', () => {
+      const simulatedQuotationDetails = [
+        {
+          gqPositionId: '123',
+          price: 200,
+          leadingPriceUnit: 1,
+          netValue: 200,
+          gpi: 10,
+          gpm: 15,
+          priceDiff: 30,
+          orderQuantity: 10,
+          gqRating: 2,
+          material: {
+            materialNumber15: '12345678',
+          },
+          rfqData: {
+            gpm: 15,
+          },
+        } as QuotationDetail,
+      ];
+
+      const quotationDetails = [
+        {
+          gqPositionId: '123',
+          price: 100,
+          leadingPriceUnit: 1,
+          netValue: 100,
+          gpi: 5,
+          gpm: 5,
+          priceDiff: 15,
+          orderQuantity: 10,
+          gqRating: 2,
+          material: {
+            materialNumber15: '12345678',
+          },
+          rfqData: {
+            gpm: 15,
+          },
+        } as QuotationDetail,
+      ];
+
+      const result = pricingUtils.quotationDetailsForSimulationToRequestData(
+        simulatedQuotationDetails,
+        quotationDetails
+      );
+
+      expect(result).toEqual({
+        detailKpiList: [
+          {
+            netValue: 200,
+            gpi: 10,
+            gpm: 15,
+            priceDiff: 30,
+            quantity: 10,
+            gqRating: 2,
+            materialNumber15: '12345678',
+            rfqDataGpm: 15,
+          } as QuotationDetailKpi,
+        ],
+      });
+    });
+
+    test('should return combined quotation details', () => {
+      const simulatedQuotationDetails = [
+        {
+          gqPositionId: '123',
+          price: 200,
+          leadingPriceUnit: 1,
+          netValue: 200,
+          gpi: 10,
+          gpm: 15,
+          priceDiff: 30,
+          orderQuantity: 10,
+          gqRating: 2,
+          material: {
+            materialNumber15: '12345678',
+          },
+          rfqData: {
+            gpm: 15,
+          },
+        } as QuotationDetail,
+      ];
+
+      const quotationDetails = [
+        {
+          gqPositionId: '123',
+          price: 100,
+          leadingPriceUnit: 1,
+          netValue: 100,
+          gpi: 5,
+          gpm: 5,
+          priceDiff: 15,
+          orderQuantity: 10,
+          gqRating: 2,
+          material: {
+            materialNumber15: '12345678',
+          },
+          rfqData: {
+            gpm: 15,
+          },
+        } as QuotationDetail,
+        {
+          gqPositionId: '456',
+          price: 100,
+          leadingPriceUnit: 1,
+          netValue: 100,
+          gpi: 5,
+          gpm: 5,
+          priceDiff: 15,
+          orderQuantity: 10,
+          gqRating: 2,
+          material: {
+            materialNumber15: '12345678',
+          },
+          rfqData: {
+            gpm: 15,
+          },
+        } as QuotationDetail,
+      ];
+
+      const result = pricingUtils.quotationDetailsForSimulationToRequestData(
+        simulatedQuotationDetails,
+        quotationDetails
+      );
+
+      expect(result).toEqual({
+        detailKpiList: [
+          {
+            netValue: 200,
+            gpi: 10,
+            gpm: 15,
+            priceDiff: 30,
+            quantity: 10,
+            gqRating: 2,
+            materialNumber15: '12345678',
+            rfqDataGpm: 15,
+          } as QuotationDetailKpi,
+          {
+            netValue: 100,
+            gpi: 5,
+            gpm: 5,
+            priceDiff: 15,
+            quantity: 10,
+            gqRating: 2,
+            materialNumber15: '12345678',
+            rfqDataGpm: 15,
+          } as QuotationDetailKpi,
+        ],
+      });
     });
   });
 });

@@ -10,15 +10,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import {
-  combineLatest,
-  filter,
-  map,
-  Observable,
-  skip,
-  Subject,
-  tap,
-} from 'rxjs';
+import { combineLatest, filter, map, Observable, skip, tap } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { RolesFacade } from '@gq/core/store/facades';
@@ -150,8 +142,6 @@ export class QuotationDetailsTableComponent
   simulatedPriceSource: PriceSourceOptions;
 
   selectedQuotationIds: string[] = [];
-
-  unsubscribe$: Subject<boolean> = new Subject<boolean>();
 
   ngOnInit(): void {
     this.columnDefs$ = combineLatest([
@@ -389,7 +379,7 @@ export class QuotationDetailsTableComponent
     }
 
     this.selectedRows = event.api.getSelectedNodes();
-    if (this.simulatedPriceSource) {
+    if (this.simulatedPriceSource && this.selectedRows.length > 0) {
       this.onPriceSourceSimulation(this.simulatedPriceSource);
     }
     if (

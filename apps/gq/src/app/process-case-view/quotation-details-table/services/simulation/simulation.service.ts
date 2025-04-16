@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { PriceSourceOptions } from '@gq/shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { KpiValue } from '@gq/shared/components/modal/editing-modal/models/kpi-value.model';
 import { QuotationDetail } from '@gq/shared/models';
@@ -18,40 +19,23 @@ import {
 export class SimulationService {
   private readonly activeCaseFacade = inject(ActiveCaseFacade);
 
-  /**
-   * Update the store with the simulated rows
-   *
-   * @param gqId  the quotation id
-   * @param simulatedRows the simulated rows
-   * @param simulatedField the field that is being simulated
-   * @param selectedRows the selected original rows
-   */
-  public updateStoreForSimulation(
+  public performSimulation(
     gqId: number,
-    simulatedRows: QuotationDetail[],
     simulatedField: ColumnFields,
+    simulatedValue: number,
+    priceSourceOption: PriceSourceOptions,
     selectedRows: QuotationDetail[]
-  ): void {
-    this.activeCaseFacade.addSimulatedQuotation(
+  ) {
+    this.activeCaseFacade.performSimulation(
       gqId,
-      simulatedRows,
       simulatedField,
+      simulatedValue,
+      priceSourceOption,
       selectedRows
     );
   }
 
-  /**
-   * Get the affected KPIs based on the KPI name
-   *
-   * @param kpis the KPIs
-   * @param kpiName the KPI name
-   *
-   * @returns the value
-   */
-  public getAffectedKpi(kpis: KpiValue[], kpiName: string): number | undefined {
-    return kpis.find((kpi: KpiValue) => kpi.key === kpiName)?.value;
-  }
-
+  // todo: Method to remove! Method used in editing modal. Probably should be replaced with BE call to calculate KPIs.
   /**
    * Calculate the affected KPIs based on the value of the field
    *
@@ -124,6 +108,7 @@ export class SimulationService {
     return result;
   };
 
+  // todo: Method to remove!
   private calculateRelativePrice(
     field: ColumnFields,
     detail: QuotationDetail,

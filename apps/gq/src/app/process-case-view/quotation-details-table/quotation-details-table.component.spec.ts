@@ -27,6 +27,7 @@ import {
   GetContextMenuItemsParams,
   GetMainMenuItemsParams,
   GridReadyEvent,
+  IRowNode,
   RowNode,
 } from 'ag-grid-enterprise';
 import { MockProvider } from 'ng-mocks';
@@ -1002,7 +1003,9 @@ describe('QuotationDetailsTableComponent', () => {
           data: QUOTATION_DETAIL_MOCK,
         },
         api: {
-          getSelectedNodes: jest.fn().mockReturnValue([]),
+          getSelectedNodes: jest
+            .fn()
+            .mockReturnValue([{ id: '1' }] as IRowNode[] as any[]),
         },
       } as any);
 
@@ -1010,9 +1013,6 @@ describe('QuotationDetailsTableComponent', () => {
       expect(
         component['priceSimulationService'].simulateSelectedQuotationDetails
       ).not.toHaveBeenCalled();
-      expect(
-        component['activeCaseFacade'].resetSimulatedQuotation
-      ).toHaveBeenCalled();
     });
 
     test('should dispatch select quotation detail', () => {

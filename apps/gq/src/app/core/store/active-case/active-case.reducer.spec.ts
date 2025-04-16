@@ -1,4 +1,3 @@
-import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import {
   PriceSource,
   Quotation,
@@ -11,7 +10,6 @@ import { SapCallInProgress } from '@gq/shared/models/quotation';
 import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
 import { RecalculationReasons } from '@gq/shared/models/quotation-detail/cost/recalculation-reasons.enum';
 import { SqvApprovalStatus } from '@gq/shared/models/quotation-detail/cost/sqv-approval-status.enum';
-import { Action } from '@ngrx/store';
 
 import { CUSTOMER_MOCK } from '../../../../testing/mocks/models';
 import { QUOTATION_MOCK } from '../../../../testing/mocks/models/quotation';
@@ -29,6 +27,7 @@ import {
   initialState,
 } from './active-case.reducer';
 import { QuotationIdentifier } from './models';
+
 describe('Active Case Feature', () => {
   describe('Active Case Feature Reducer', () => {
     const errorMessage = 'An error occured';
@@ -583,39 +582,6 @@ describe('Active Case Feature', () => {
           expect(state.quotationLoading).toBeFalsy();
           expect(state.quotationLoadingErrorMessage).toEqual(errorMessage);
         });
-      });
-    });
-
-    describe('SimulatedQuotation', () => {
-      test('should calculated new simulated quotation success', () => {
-        const quotationDetail: QuotationDetail = {
-          ...QUOTATION_DETAIL_MOCK,
-          rfqData: null,
-        };
-        const simulatedQuotation = {
-          gqId: 1_234_543,
-          simulatedField: ColumnFields.CUSTOMER_MATERIAL,
-          quotationDetails: [quotationDetail],
-          previousStatusBar: SIMULATED_QUOTATION_MOCK.previousStatusBar,
-          simulatedStatusBar: SIMULATED_QUOTATION_MOCK.simulatedStatusBar,
-        };
-
-        const action: Action =
-          ActiveCaseActions.calculateSimulatedQuotationSuccess({
-            simulatedQuotation,
-          });
-
-        const state = activeCaseFeature.reducer(
-          {
-            ...ACTIVE_CASE_STATE_MOCK,
-            simulatedItem: {
-              ...SIMULATED_QUOTATION_MOCK,
-            },
-          },
-          action
-        );
-
-        expect(state.simulatedItem).toEqual(simulatedQuotation);
       });
     });
 

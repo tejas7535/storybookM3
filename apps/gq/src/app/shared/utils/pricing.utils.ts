@@ -126,3 +126,26 @@ export const quotationDetailsToRequestData = (
 
   return { detailKpiList };
 };
+
+export const quotationDetailsForSimulationToRequestData = (
+  simulatedQuotationDetails: QuotationDetail[],
+  selectedQuotationDetails: QuotationDetail[]
+): QuotationKpiRequest => {
+  // If all quotation details are available for simulation - convert all of them to request
+  if (simulatedQuotationDetails.length === selectedQuotationDetails.length) {
+    return quotationDetailsToRequestData(simulatedQuotationDetails);
+  }
+
+  // If just a few quotation details can be simulated we need to combine them with not simulated once
+  const simulatedDetailsIds: Set<string> = new Set(
+    simulatedQuotationDetails.map((sqd) => sqd.gqPositionId)
+  );
+  const combineDetails: QuotationDetail[] = [
+    ...simulatedQuotationDetails,
+    ...selectedQuotationDetails.filter(
+      (selected) => !simulatedDetailsIds.has(selected.gqPositionId)
+    ),
+  ];
+
+  return quotationDetailsToRequestData(combineDetails);
+};

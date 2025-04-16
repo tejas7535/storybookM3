@@ -4,16 +4,21 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 
+import { PriceSourceOptions } from '@gq/shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
+import { PriceSource, SapPriceCondition } from '@gq/shared/models';
 import { ApiVersion } from '@gq/shared/models/api-version.enum';
+import { QuotationDetailsSimulatedKpi } from '@gq/shared/services/rest/calculation/model/quotation-details-simulated-kpi.interface';
+import { QuotationDetailsSimulationKpiData } from '@gq/shared/services/rest/calculation/model/quotation-details-simulation-kpi-data.interface';
+import { QuotationSimulatedKpiRequest } from '@gq/shared/services/rest/calculation/model/quotation-simulated-kpi-request.interface';
 import {
   createServiceFactory,
   HttpMethod,
   SpectatorService,
 } from '@ngneat/spectator/jest';
 
+import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { CalculationService } from './calculation.service';
-import { QuotationDetailKpi } from './model/quotation-detail-kpi.interface';
-import { QuotationKpiRequest } from './model/quotation-kpi-request.interface';
 
 describe('CalculationService', () => {
   let service: CalculationService;
@@ -71,87 +76,108 @@ describe('CalculationService', () => {
     });
   });
 
-  describe('requestHasChanged', () => {
-    test('should return true if request has changed', () => {
-      const bodyPrev: QuotationKpiRequest = {
-        detailKpiList: [],
-      };
-      const prev = {
-        body: bodyPrev,
-      } as any;
-
-      const bodyCurrent: QuotationKpiRequest = {
+  describe('getQuotationSimulationKpiCalculations', () => {
+    test('should get simulated kpi calculations', () => {
+      const requestBody: QuotationSimulatedKpiRequest = {
+        simulatedField: ColumnFields.PRICE,
+        priceSourceOption: PriceSourceOptions.GQ,
         detailKpiList: [
           {
-            materialNumber15: '1233432432',
-            quantity: 5,
-            netValue: 12,
-            gpi: 3,
-            gpm: 2,
-            rfqDataGpm: 11,
-            priceDiff: 23,
-            gqRating: 1,
+            gqPositionId: '1234',
+            priceSource: PriceSource.SAP_STANDARD,
+            sapPriceCondition: SapPriceCondition.STANDARD,
+            leadingSapConditionType: null,
+            orderQuantity: 5,
+            price: 10,
+            recommendedPrice: 20,
+            targetPrice: null,
+            strategicPrice: null,
+            relocationCost: null,
+            sapPrice: 15,
+            sapGrossPrice: 20,
+            lastCustomerPrice: 20,
+            gpc: 1.5,
+            sqv: 5,
+            sapPriceUnit: 1,
+            priceUnit: 1,
           },
         ],
       };
-      const current = {
-        body: bodyCurrent,
-      } as any;
 
-      const result = service['requestHasChanged'](prev, current);
-
-      expect(result).toBeTruthy();
-    });
-
-    test('should return true if there is no prev request', () => {
-      const bodyCurrent: QuotationKpiRequest = {
-        detailKpiList: [
+      const mockResponse: QuotationDetailsSimulatedKpi = {
+        results: [
           {
-            materialNumber15: '1233432432',
-            quantity: 5,
-            netValue: 12,
-            gpi: 3,
-            gpm: 2,
-            rfqDataGpm: 11,
-            priceDiff: 23,
-            gqRating: 1,
+            gqPositionId: '1234',
+            priceSource: PriceSource.GQ,
+            price: 20,
+            simulatedKpis: null,
           },
         ],
       };
-      const current = {
-        body: bodyCurrent,
-      } as any;
 
-      const result = service['requestHasChanged'](undefined, current);
+      service
+        .getQuotationSimulationKpiCalculations(requestBody)
+        .subscribe((res) => expect(res).toEqual(mockResponse));
 
-      expect(result).toBeTruthy();
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${service['PATH_CALCULATION']}/${service['PATH_QUOTATION_DETAILS_SIMULATED_KPI']}`
+      );
+      expect(req.request.method).toBe(HttpMethod.POST);
+      req.flush(mockResponse);
     });
+  });
 
-    test('should return false if request has not changed', () => {
-      const detailKpi: QuotationDetailKpi = {
-        materialNumber15: '1233432432',
-        quantity: 5,
-        netValue: 12,
-        gpi: 3,
-        gpm: 2,
-        rfqDataGpm: 11,
-        priceDiff: 23,
-        gqRating: 1,
+  describe('createRequestForKpiSimulation', () => {
+    test('should return request object', () => {
+      const simulationData: QuotationDetailsSimulationKpiData = {
+        gqId: 123,
+        simulatedField: ColumnFields.PRICE,
+        simulatedValue: 2,
+        priceSourceOption: PriceSourceOptions.GQ,
+        selectedQuotationDetails: [QUOTATION_DETAIL_MOCK],
       };
 
-      const body: QuotationKpiRequest = {
-        detailKpiList: [detailKpi],
+      const requestBody: QuotationSimulatedKpiRequest = {
+        simulatedField: ColumnFields.PRICE,
+        simulatedValue: 2,
+        priceSourceOption: PriceSourceOptions.GQ,
+        detailKpiList: [
+          {
+            gqPositionId: '5694232',
+            priceSource: PriceSource.GQ,
+            sapPriceCondition: SapPriceCondition.STANDARD,
+            leadingSapConditionType: null,
+            orderQuantity: 10,
+            price: 200,
+            recommendedPrice: 250,
+            targetPrice: 90.55,
+            strategicPrice: undefined,
+            relocationCost: 24.5,
+            sapPrice: 80,
+            sapGrossPrice: 100,
+            lastCustomerPrice: 170,
+            gpc: 20,
+            sqv: 30,
+            sapPriceUnit: 1,
+            priceUnit: 1,
+          },
+        ],
       };
-      const prev = {
-        body,
-      } as any;
-      const current = {
-        body,
-      } as any;
 
-      const result = service['requestHasChanged'](prev, current);
+      const result = service.createRequestForKpiSimulation(simulationData);
+      expect(result).toEqual(requestBody);
+    });
+  });
 
-      expect(result).toBeFalsy();
+  describe('requestBodyToHashCode', () => {
+    test('should hash request body', () => {
+      const requestBody = {
+        name: 'Guided Quoting',
+      };
+
+      const result = service['requestBodyToHashCode'](requestBody);
+
+      expect(result).toEqual('12262258836');
     });
   });
 });

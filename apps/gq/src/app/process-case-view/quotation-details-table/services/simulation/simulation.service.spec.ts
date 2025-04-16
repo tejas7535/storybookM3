@@ -1,6 +1,6 @@
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
+import { PriceSourceOptions } from '@gq/shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
-import { KpiValue } from '@gq/shared/components/modal/editing-modal/models/kpi-value.model';
 import { QuotationDetail } from '@gq/shared/models';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
@@ -27,32 +27,34 @@ describe('SimulationService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('updateStoreForSimulation', () => {
-    it('should call addSimulatedQuotation with the correct parameters', () => {
+  describe('performSimulation', () => {
+    test('should call perform simulation', () => {
+      const priceSourceOption = PriceSourceOptions.GQ;
       const gqId = 1;
-      const simulatedRows: QuotationDetail[] = QUOTATION_DETAILS_MOCK;
-      const simulatedField = ColumnFields.PRICE;
-      service['activeCaseFacade'].addSimulatedQuotation = jest.fn();
+      const selectedDetails = [QUOTATION_DETAIL_MOCK];
+      const simulatedField = ColumnFields.PRICE_SOURCE;
+      const simulatedValue = 10;
 
-      service.updateStoreForSimulation(gqId, simulatedRows, simulatedField, []);
+      const performSimulationSpy = jest.spyOn(
+        service['activeCaseFacade'],
+        'performSimulation'
+      );
 
-      expect(
-        service['activeCaseFacade'].addSimulatedQuotation
-      ).toHaveBeenCalledWith(gqId, simulatedRows, simulatedField, []);
-    });
-  });
+      service.performSimulation(
+        gqId,
+        simulatedField,
+        simulatedValue,
+        priceSourceOption,
+        selectedDetails
+      );
 
-  describe('getAffectedKpi', () => {
-    test('should return the value of the KPI', () => {
-      const kpis: KpiValue[] = [
-        { key: 'price', value: 1 },
-        { key: 'gpi', value: 2 },
-      ];
-      const kpiName = 'gpi';
-
-      const result = service.getAffectedKpi(kpis, kpiName);
-
-      expect(result).toBe(2);
+      expect(performSimulationSpy).toHaveBeenCalledWith(
+        gqId,
+        simulatedField,
+        simulatedValue,
+        priceSourceOption,
+        selectedDetails
+      );
     });
   });
 

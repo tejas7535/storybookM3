@@ -6,7 +6,6 @@ import { Router, RouterModule } from '@angular/router';
 import { of, throwError } from 'rxjs';
 
 import { AppRoutePath } from '@gq/app-route-path.enum';
-import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { ErrorId } from '@gq/shared/http/constants/error-id.enum';
 import {
   Quotation,
@@ -37,10 +36,7 @@ import {
   QUOTATION_IDENTIFIER_MOCK,
   QUOTATION_MOCK,
 } from '../../../../testing/mocks/models/quotation';
-import {
-  QUOTATION_DETAIL_MOCK,
-  SIMULATED_QUOTATION_MOCK,
-} from '../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
+import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { ApprovalActions } from '../approval/approval.actions';
 import { getAddQuotationDetailsRequest } from '../process-case';
 import { ActiveCaseActions } from './active-case.action';
@@ -90,81 +86,6 @@ describe('ActiveCaseEffects', () => {
     router = spectator.inject(Router);
     snackBar = spectator.inject(MatSnackBar);
     calculationService = spectator.inject(CalculationService);
-  });
-
-  describe('calculateSimulatedQuotation$', () => {
-    const simulatedQuotationDetails = [QUOTATION_DETAIL_MOCK];
-    const selectedQuotationDetails = [QUOTATION_DETAIL_MOCK];
-    const simulatedField = ColumnFields.PRICE;
-    const gqId = 123;
-
-    action = ActiveCaseActions.calculateSimulatedQuotation({
-      gqId,
-      simulatedField,
-      simulatedQuotationDetails,
-      selectedQuotationDetails,
-    });
-
-    test(
-      'should return calculateSimulatedQuotationSuccess when KPI calculations are successful',
-      marbles((m) => {
-        const simulatedStatusBar = SIMULATED_QUOTATION_MOCK.simulatedStatusBar;
-        const previousStatusBar = SIMULATED_QUOTATION_MOCK.previousStatusBar;
-
-        calculationService.getQuotationKpiCalculation = jest
-          .fn()
-          .mockReturnValueOnce(of(simulatedStatusBar))
-          .mockReturnValueOnce(of(previousStatusBar));
-
-        actions$ = m.hot('-a', { a: action });
-
-        const simulatedQuotation = {
-          gqId,
-          simulatedField,
-          quotationDetails: simulatedQuotationDetails,
-          simulatedStatusBar,
-          previousStatusBar,
-        };
-
-        const result = ActiveCaseActions.calculateSimulatedQuotationSuccess({
-          simulatedQuotation,
-        });
-
-        const expected = m.cold('-b', { b: result });
-
-        m.expect(effects.calculateSimulatedQuotation$).toBeObservable(expected);
-        m.flush();
-
-        expect(
-          calculationService.getQuotationKpiCalculation
-        ).toHaveBeenCalledTimes(2);
-      })
-    );
-
-    test(
-      'should return calculateSimulatedQuotationFailure when KPI calculation fails',
-      marbles((m) => {
-        const err = new Error(errorMessage);
-        calculationService.getQuotationKpiCalculation = jest
-          .fn()
-          .mockReturnValueOnce(throwError(() => err));
-
-        actions$ = m.hot('-a', { a: action });
-
-        const result = ActiveCaseActions.calculateSimulatedQuotationFailure({
-          errorMessage: err as any,
-        });
-
-        const expected = m.cold('-b', { b: result });
-
-        m.expect(effects.calculateSimulatedQuotation$).toBeObservable(expected);
-        m.flush();
-
-        expect(
-          calculationService.getQuotationKpiCalculation
-        ).toHaveBeenCalledTimes(2);
-      })
-    );
   });
 
   describe('customerDetails$', () => {
@@ -1199,99 +1120,6 @@ describe('ActiveCaseEffects', () => {
         m.expect(effects.updateQuotation$).toBeObservable(expected);
         m.flush();
         expect(quotationService.updateQuotation).toHaveBeenCalledTimes(1);
-      })
-    );
-  });
-
-  describe('resetSimulatedQuotation', () => {
-    test(
-      'should reset simulatedQuotation on route change',
-      marbles((m) => {
-        const queryParams = {
-          gqId: 12_334,
-          customerNumber: '3456',
-          salesOrg: '0267',
-          gqPositionId: '5678',
-        };
-
-        action = {
-          type: ROUTER_NAVIGATED,
-          payload: {
-            routerState: {
-              queryParams,
-              url: `/${AppRoutePath.ProcessCaseViewPath}`,
-            },
-          },
-        };
-
-        actions$ = m.hot('-a', { a: action });
-
-        const result = ActiveCaseActions.resetSimulatedQuotation();
-        const expected = m.cold('-b', { b: result });
-
-        m.expect(effects.resetSimulatedQuotation$).toBeObservable(expected);
-        m.flush();
-      })
-    );
-  });
-
-  describe('confirmSimulatedQuotation$', () => {
-    beforeEach(() => {
-      store.overrideSelector(
-        activeCaseFeature.selectSimulatedItem,
-        SIMULATED_QUOTATION_MOCK
-      );
-    });
-
-    test(
-      'should updateQuotationDetails and resetSimulatedQuotation',
-      marbles((m) => {
-        action = ActiveCaseActions.confirmSimulatedQuotation();
-        actions$ = m.hot('-a', { a: action });
-
-        const updateQuotationDetailList: UpdateQuotationDetail[] = [
-          {
-            gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-            price: QUOTATION_DETAIL_MOCK.price,
-            priceSource: QUOTATION_DETAIL_MOCK.priceSource,
-          },
-        ];
-
-        const resultB = ActiveCaseActions.updateQuotationDetails({
-          updateQuotationDetailList,
-        });
-        const resultC = ActiveCaseActions.resetSimulatedQuotation();
-        const expected = m.cold('-(bc)', { b: resultB, c: resultC });
-
-        m.expect(effects.confirmSimulatedQuotation$).toBeObservable(expected);
-      })
-    );
-
-    test(
-      'should updateQuotationDetails and resetSimulatedQuotation for targetPrice',
-      marbles((m) => {
-        store.overrideSelector(activeCaseFeature.selectSimulatedItem, {
-          ...SIMULATED_QUOTATION_MOCK,
-          simulatedField: ColumnFields.TARGET_PRICE,
-        });
-
-        action = ActiveCaseActions.confirmSimulatedQuotation();
-        actions$ = m.hot('-a', { a: action });
-
-        const updateQuotationDetailList: UpdateQuotationDetail[] = [
-          {
-            gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-            targetPrice: QUOTATION_DETAIL_MOCK.targetPrice,
-          },
-        ];
-
-        const resultB = ActiveCaseActions.updateQuotationDetails({
-          updateQuotationDetailList,
-        });
-        const resultC = ActiveCaseActions.resetSimulatedQuotation();
-        const expected = m.cold('-(bc)', { b: resultB, c: resultC });
-
-        m.expect(effects.confirmSimulatedQuotation$).toBeObservable(expected);
       })
     );
   });

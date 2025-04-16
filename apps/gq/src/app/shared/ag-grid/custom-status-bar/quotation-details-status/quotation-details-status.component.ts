@@ -33,6 +33,7 @@ import { selectedQuotationDetailsKpiFeature } from './store/selected-quotation-d
 @Component({
   selector: 'gq-quotation-details-status',
   templateUrl: './quotation-details-status.component.html',
+  standalone: true,
   imports: [
     SharedPipesModule,
     PushPipe,
