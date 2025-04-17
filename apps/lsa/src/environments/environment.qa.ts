@@ -9,4 +9,5 @@ export const environment: Environment = {
     'https://lubricator-selection-assistant-q.dev.dp.schaeffler/api',
   staticStorageUrl: 'https://frontend1apps.z1.web.core.windows.net',
   showDebugJson: false,
+  enablePDFDownload: true,
 };

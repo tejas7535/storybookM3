@@ -26,15 +26,32 @@
         <ng-content></ng-content>
       </div>
       <div class="order-3 min-[1320px]:order-[0] row-span-3 flex flex-col">
-        <h2 class="text-title-small">
-          {{
-            t('heading', {
-              designation: isRecommendedSelected
-                ? validResult.lubricators.recommendedLubricator.name
-                : validResult.lubricators.minimumRequiredLubricator.name
-            })
-          }}
-        </h2>
+        <div class="flex flex-row items-center w-full justify-between">
+          <h2 class="text-title-small">
+            {{
+              t('heading', {
+                designation: isRecommendedSelected
+                  ? validResult.lubricators.recommendedLubricator.name
+                  : validResult.lubricators.minimumRequiredLubricator.name
+              })
+            }}
+          </h2>
+          @if (showPDFDownload) {
+            <div class="flex flex-row">
+              @if (pdfGenerating$$ | ngrxPush) {
+                <mat-spinner diameter="25" />
+              }
+              <button
+                (click)="handlePDFDownload()"
+                mat-flat-button
+                color="primary"
+              >
+                {{ t('pdf_download') }}
+                <mat-icon>download</mat-icon>
+              </button>
+            </div>
+          }
+        </div>
         <lsa-accessory-table
           [accessories]="
             isRecommendedSelected

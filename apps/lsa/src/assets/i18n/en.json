@@ -110,6 +110,7 @@
       "decreaseOne": "Decrease quantity by one",
       "func_principle": "Functional principle",
       "mounting_position": "Mounting position",
+      "pdf_download": "Download PDF",
       "category": {
         "lubricantApplication": "Lubricant application",
         "cartridge": "Cartridge",
@@ -148,6 +149,10 @@
         "adjustedAutomatically": "We could not find a suitable solution within the OPTIME ecosystem. We can provide the following alternatives without OPTIME functionality",
         "noRecommendation": "We could not automatically provide a suitable recommendation for your input parameters. Please get in touch with Schaeffler technical support for specific consultation",
         "usedFallbackGrease": "We cannot provide a detailed recommendation for market available greases. We used a widely compatible Grease from the Schaeffler Arcanol Portfolio for our calculation. Please ensure your Grease in use is comparable in its properties"
+      },
+      "pdf": {
+        "title": "Lubricator Selection Assistant Report",
+        "selection": "Your Lubricator selection"
       }
     }
   },
@@ -178,7 +183,8 @@
     "maxPipeLengthTitle": "Max. pipe length",
     "powerSupplyTitle": "Power supply",
     "optimeTitle": "OPTIME integration",
-    "remoteChanged": "Your initial request with {{original}} did not bring up any valid results. We automatically retried with {{new}} as a possible alternative. Please review to make sure this is compatible with your usecase!"
+    "remoteChanged": "Your initial request with {{original}} did not bring up any valid results. We automatically retried with {{new}} as a possible alternative. Please review to make sure this is compatible with your usecase!",
+    "lubricant": "Lubricant"
   },
   "disclaimer": {
     "text": "Our details take into account those risks which were apparent to us on the basis of your requirements as made available to us. The results shown in the document have been worked out carefully and in accordance with the state of the art, but do not constitute an express or implied guaranty as to quality or durability in the legal sense. You are not dispensed thereby from checking the suitability of the products for your intended use. We shall be liable for the details provided in the recommendation only in the event of willful intent or negligence. Please note: Optime products only work in connection with a Digital Service which must be ordered separately. In case of questions regarding the product, the recommendation or the suitability of the product, please contact here: ",

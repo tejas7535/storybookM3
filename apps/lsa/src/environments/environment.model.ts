@@ -5,4 +5,5 @@ export interface Environment {
   lsaApiBaseUrl: string;
   staticStorageUrl: string;
   showDebugJson: boolean;
+  enablePDFDownload: boolean;
 }

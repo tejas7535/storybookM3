@@ -13,4 +13,5 @@ export const environment: Environment = {
   // lsaApiBaseUrl: 'http://localhost:3000/api',
   staticStorageUrl: 'https://frontend1apps.z1.web.core.windows.net',
   showDebugJson: true,
+  enablePDFDownload: true,
 };

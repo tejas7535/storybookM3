@@ -11,6 +11,7 @@ import { StoreModule } from '@ngrx/store';
 
 import { BannerModule } from '@schaeffler/banner';
 import { FeedbackBannerComponent } from '@schaeffler/feedback-banner';
+import { DEFAULT_FONT, FONT_ASSET_PATH } from '@schaeffler/pdf-generator';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AppComponent } from './app.component';
@@ -20,7 +21,6 @@ import { LsaAppService } from './core/services/lsa-app.service';
 import { StaticStorageService } from './core/services/static-storage';
 import { RecommendationContainerComponent } from './recommendation/recommendation-container.component';
 import { LSALanguageInterceptor } from './shared/interceptors/language.interceptor';
-
 export const APP_ROOT = 'lubricator-selection-assistant';
 
 @NgModule({
@@ -33,6 +33,25 @@ export const APP_ROOT = 'lubricator-selection-assistant';
       provide: HTTP_INTERCEPTORS,
       useClass: LSALanguageInterceptor,
       multi: true,
+    },
+    {
+      provide: FONT_ASSET_PATH,
+      useValue: '/assets/fonts',
+    },
+    {
+      provide: DEFAULT_FONT,
+      useValue: [
+        {
+          fontName: 'Noto',
+          fontStyle: 'normal',
+          fileName: 'NotoSans-Regular.ttf',
+        },
+        {
+          fontName: 'Noto',
+          fontStyle: 'bold',
+          fileName: 'NotoSans-Bold.ttf',
+        },
+      ],
     },
   ],
   imports: [

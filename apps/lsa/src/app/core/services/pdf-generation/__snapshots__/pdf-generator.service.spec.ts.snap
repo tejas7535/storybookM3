@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PDFGeneratorService should format the groups for proper filtering in pdf 1`] = `
+Object {
+  "bundle": Array [
+    Object {
+      "class": "Lubricators",
+      "designation": "Acc #1",
+      "fifteen_digit": "12",
+      "matnr": "12",
+      "pim_code": "12",
+      "qty": 5,
+    },
+    Object {
+      "class": "Cartridges",
+      "designation": "Acc #2",
+      "fifteen_digit": "12",
+      "matnr": "32",
+      "pim_code": "32",
+      "qty": 1,
+    },
+  ],
+  "matNr": "12345",
+  "maxOperatingPressure": 100,
+  "maxTemp": 100,
+  "minTemp": -100,
+  "name": "RECOMMENDATION",
+  "noOfOutlets": 2,
+  "outputDiameter": 1,
+  "technicalAttributes": Object {
+    "dimensions": "20x20x20mm",
+    "func_principle": "Piston Pump",
+    "medium_general": "Grease",
+    "mounting_position": "Arbitrary",
+    "voltage": "30v",
+  },
+  "volume": "250 ml",
+}
+`;
+
+exports[`PDFGeneratorService should format the groups for proper filtering in pdf 2`] = `
+Array [
+  Object {
+    "products": Array [
+      Object {
+        "description": undefined,
+        "designation": "Acc #2",
+        "group": "Lubricators",
+        "id": "32",
+        "imageUrl": undefined,
+        "quantity": 5,
+      },
+    ],
+    "title": undefined,
+  },
+]
+`;
+
+exports[`PDFGeneratorService should select the proper lubricator 1`] = `
+Object {
+  "bundle": Array [
+    Object {
+      "class": "Lubricators",
+      "designation": "Acc #1",
+      "fifteen_digit": "12",
+      "matnr": "12",
+      "pim_code": "12",
+      "qty": 5,
+    },
+    Object {
+      "class": "Cartridges",
+      "designation": "Acc #2",
+      "fifteen_digit": "12",
+      "matnr": "32",
+      "pim_code": "32",
+      "qty": 1,
+    },
+  ],
+  "matNr": "12345",
+  "maxOperatingPressure": 100,
+  "maxTemp": 100,
+  "minTemp": -100,
+  "name": "RECOMMENDATION",
+  "noOfOutlets": 2,
+  "outputDiameter": 1,
+  "technicalAttributes": Object {
+    "dimensions": "20x20x20mm",
+    "func_principle": "Piston Pump",
+    "medium_general": "Grease",
+    "mounting_position": "Arbitrary",
+    "voltage": "30v",
+  },
+  "volume": "250 ml",
+}
+`;

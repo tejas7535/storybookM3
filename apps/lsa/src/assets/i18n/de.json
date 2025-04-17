@@ -110,6 +110,7 @@
       "decreaseOne": "Menge um eins verringern",
       "func_principle": "Funktionsprinzip",
       "mounting_position": "Montageposition",
+      "pdf_download": "PDF Herunterladen",
       "category": {
         "lubricantApplication": "Schmierstoffauftrag",
         "cartridge": "Kartuschen",
@@ -148,6 +149,10 @@
         "adjustedAutomatically": "Wir konnten keine geeignete Lösung innerhalb des OPTIME Ecosystem finden. Wir können die folgenden Alternativen ohne OPTIME-Funktionalität anbieten.",
         "noRecommendation": "Wir konnten Ihnen nicht automatisch eine geeignete Empfehlung für Ihre Eingabeparameter geben. Bitte wenden Sie sich an den technischen Support von Schaeffler für eine spezifische Beratung.",
         "usedFallbackGrease": "Wir können keine detaillierte Empfehlung für auf dem Markt verfügbare Fette geben. Wir haben ein weitgehend kompatibles Fett aus dem Schaeffler Arcanol-Sortiment für unsere Berechnung verwendet. Bitte stellen Sie sicher, dass Ihr verwendetes Fett in seinen Eigenschaften vergleichbar ist."
+      },
+      "pdf": {
+        "title": "Schmierstoffgeber Auswahl Assistent Ergebnis",
+        "selection": "Ihr ausgewählter Schmierstoffgber"
       }
     }
   },
@@ -178,7 +183,8 @@
     "maxPipeLengthTitle": "Max. Länge Schmierstoffleitung",
     "powerSupplyTitle": "Stromversorgung",
     "optimeTitle": "OPTIME-Integration",
-    "remoteChanged": "Für Ihre ursprüngliche Anfrage mit {{original}} konnten keine Ergebnisse gefunden werden. Wir haben automatisch eine erneute Anfrage mit {{new}} als mögliche Alternative erstellt. Bitte überprüfen Sie, ob dies mit Ihrem Anwendungsfall kompatibel ist."
+    "remoteChanged": "Für Ihre ursprüngliche Anfrage mit {{original}} konnten keine Ergebnisse gefunden werden. Wir haben automatisch eine erneute Anfrage mit {{new}} als mögliche Alternative erstellt. Bitte überprüfen Sie, ob dies mit Ihrem Anwendungsfall kompatibel ist.",
+    "lubricant": "Schmierstoff"
   },
   "disclaimer": {
     "text": "Unsere Angaben berücksichtigen diejenigen Risiken, die uns auf Grund der von Ihnen zur Verfügung gestellten Vorgaben erkennbar waren. Die Ergebnisse der Unterlage sind sorgfältig und nach dem Stand der Technik erarbeitet, stellen jedoch im juristischen Sinne keine Beschaffenheits- oder Haltbarkeitsgarantie dar und ersetzen nicht die von Ihnen zu verifizierende Eignung. Wir haften für die Angaben in der Unterlage nur im Falle von Vorsatz und Fahrlässigkeit. Bitte beachten Sie: Optime-Produkte funktionieren nur in Verbindung mit einem Digitalen Service, der separat bestellt werden muss. Bei Fragen zum Produkt, zur Empfehlung oder zur Eignung des Produktes melden Sie sich bitte unter folgendem Link bei uns: ",

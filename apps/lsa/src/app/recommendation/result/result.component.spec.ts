@@ -2,6 +2,7 @@ import { SimpleChanges } from '@angular/core';
 
 import { AddToCartService } from '@lsa/core/services/add-to-cart.service';
 import { GoogleAnalyticsService } from '@lsa/core/services/google-analytics';
+import { PDFGeneratorService } from '@lsa/core/services/pdf-generation/pdf-generator.service';
 import { Lubricator, RecommendationResponse } from '@lsa/shared/models';
 import { RecommendationTableDataPipe } from '@lsa/shared/pipes/recommendation-table-data.pipe';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -45,6 +46,12 @@ describe('ResultComponent', () => {
       {
         provide: GoogleAnalyticsService,
         useValue: googleAnalyticsServiceMock,
+      },
+      {
+        provide: PDFGeneratorService,
+        useValue: {
+          generatePDF: jest.fn(),
+        },
       },
     ],
   });
