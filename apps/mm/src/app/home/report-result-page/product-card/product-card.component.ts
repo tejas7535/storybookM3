@@ -1,4 +1,4 @@
-import { NgClass, NgOptimizedImage } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -14,7 +14,6 @@ import { MediasViewProductButtonComponent } from '../medias-view-product-button/
     MatCardModule,
     MatDividerModule,
     NgClass,
-    NgOptimizedImage,
     MediasViewProductButtonComponent,
     ProductImageComponent,
   ],

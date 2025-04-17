@@ -41,7 +41,7 @@ export class ProductImageComponent implements OnChanges {
 
   protected imageAlt = this.imageDesignation.pipe(
     map((designation) =>
-      this.translocoService.translate('productImage', { designation })
+      this.translocoService.translate('productImage.altText', { designation })
     )
   );
 
