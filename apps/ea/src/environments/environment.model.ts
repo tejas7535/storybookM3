@@ -2,7 +2,6 @@ export interface Environment {
   production: boolean;
   localDev: boolean;
   devToolsEnabled: boolean;
-  bearinxApiBaseUrl: string;
   catalogApiBaseUrl: string;
   co2UpstreamApiBaseUrl: string;
   downstreamCo2ApiUrl: string;

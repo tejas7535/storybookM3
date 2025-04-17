@@ -18,6 +18,7 @@ import {
   ProductCapabilitiesResult,
 } from '../store/models';
 import { BearinxOnlineResult } from './bearinx-result.interface';
+import { CatalogVersionInfoResponse } from './bearinx-version.interface';
 import { CatalogService } from './catalog.service';
 import {
   CatalogServiceBasicFrequenciesResult,
@@ -38,7 +39,6 @@ describe('CatalogService', () => {
   let spectator: SpectatorService<CatalogService>;
   let httpMock: HttpTestingController;
   const baseUrl = `${environment.catalogApiBaseUrl}/v1/CatalogBearing`;
-  const bearinxVersionUrl = `${environment.bearinxApiBaseUrl}/version`;
 
   const createService = createServiceFactory({
     service: CatalogService,
@@ -172,30 +172,6 @@ describe('CatalogService', () => {
       expect(
         firstValueFrom(catalogService.getBasicFrequencies(undefined))
       ).rejects.toThrow());
-  });
-
-  describe('getBearinxVersions', () => {
-    it('should call the service to get bearinx versions', waitForAsync(() => {
-      const mockResult = [
-        {
-          name: 'bearinx',
-          version: '1',
-        },
-      ];
-
-      const expected = {
-        bearinx: '1',
-      };
-
-      firstValueFrom(catalogService.getBearinxVersions()).then((res) => {
-        expect(res).toEqual(expected);
-      });
-
-      const req = httpMock.expectOne(bearinxVersionUrl);
-      expect(req.request.method).toBe('GET');
-
-      req.flush(mockResult);
-    }));
   });
 
   describe('getBasicFrequenciesPdf', () => {
@@ -413,6 +389,88 @@ describe('CatalogService', () => {
         expect(req.request.method).toBe('POST');
 
         req.flush('result');
+      }));
+    });
+    describe('getBearinxVersions', () => {
+      it('should combine data from bearinx versions and catalog version APIs', waitForAsync(() => {
+        const mockBearinxVersions = [
+          {
+            name: 'bearinx',
+            version: '1.0.0',
+          },
+          {
+            name: 'skf',
+            version: '2.3.4',
+          },
+        ];
+
+        const mockCatalogVersion: CatalogVersionInfoResponse = {
+          applicationVersion: '3.2.1',
+          bearinxVersion: '10.0.5',
+          runtimeFrameworkName: 'dotnet',
+          runtimeFrameworkVersion: '1.1.1',
+        };
+
+        const expected = {
+          applicationVersion: '3.2.1',
+          bearinxVersions: '10.0.5',
+          bearinx: '1.0.0',
+          skf: '2.3.4',
+        };
+
+        firstValueFrom(catalogService.getBearinxVersions()).then((res) => {
+          expect(res).toEqual(expected);
+        });
+
+        // Handle first request to bearinxVersionUrl
+        const bearinxVersionReq = httpMock.expectOne(
+          catalogService.bearinxVersionUrl
+        );
+        expect(bearinxVersionReq.request.method).toBe('GET');
+        bearinxVersionReq.flush(mockBearinxVersions);
+
+        // Handle second request to catalogVersionUrl
+        const catalogVersionReq = httpMock.expectOne(
+          catalogService['catalogVersionUrl']
+        );
+        expect(catalogVersionReq.request.method).toBe('GET');
+        catalogVersionReq.flush(mockCatalogVersion);
+      }));
+
+      it('should handle empty response from bearinx versions API', waitForAsync(() => {
+        const mockBearinxVersions = [
+          {
+            name: 'bearinx',
+            version: '1.0.0',
+          },
+        ];
+
+        const mockCatalogVersion: CatalogVersionInfoResponse = {
+          applicationVersion: '3.2.1',
+          bearinxVersion: '10.0.5',
+          runtimeFrameworkName: 'dotnet',
+          runtimeFrameworkVersion: '1.1.1',
+        };
+
+        const expected = {
+          applicationVersion: '3.2.1',
+          bearinxVersions: '10.0.5',
+          bearinx: '1.0.0',
+        };
+
+        firstValueFrom(catalogService.getBearinxVersions()).then((res) => {
+          expect(res).toEqual(expected);
+        });
+
+        const bearinxVersionReq = httpMock.expectOne(
+          catalogService.bearinxVersionUrl
+        );
+        bearinxVersionReq.flush(mockBearinxVersions);
+
+        const catalogVersionReq = httpMock.expectOne(
+          catalogService['catalogVersionUrl']
+        );
+        catalogVersionReq.flush(mockCatalogVersion);
       }));
     });
   });

@@ -1,4 +1,3 @@
-import { environment } from '@ea/environments/environment';
 import {
   createHttpFactory,
   HttpMethod,
@@ -14,10 +13,12 @@ import {
 
 describe('DownstreamCalculationService', () => {
   let spectator: SpectatorHttp<DownstreamCalculationService>;
+  let service: DownstreamCalculationService;
   const createHttp = createHttpFactory(DownstreamCalculationService);
 
   beforeEach(() => {
     spectator = createHttp();
+    service = spectator.service;
   });
 
   it('should be created', () => {
@@ -46,7 +47,7 @@ describe('DownstreamCalculationService', () => {
       });
 
     const req = spectator.expectOne(
-      `${environment.downstreamCo2ApiUrl}co2ecalculation/calculate?designation=${designation}`,
+      `${service.downstreamCo2ApiBaseUrl}co2ecalculation/calculate?designation=${designation}`,
       HttpMethod.POST
     );
 
@@ -64,7 +65,7 @@ describe('DownstreamCalculationService', () => {
     });
 
     const req = spectator.expectOne(
-      `${environment.downstreamCo2ApiUrl}co2ecalculation/cancalculate?designation=${designation}`,
+      `${service.downstreamCo2ApiBaseUrl}co2ecalculation/cancalculate?designation=${designation}`,
       HttpMethod.GET
     );
 

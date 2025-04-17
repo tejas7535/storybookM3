@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { map, Observable, switchMap, throwError } from 'rxjs';
+import { forkJoin, map, Observable, switchMap, throwError } from 'rxjs';
 
 import { environment } from '@ea/environments/environment';
 import { NON_CO2_BEARINGS } from '@ea/shared/constants/non-co2-bearings';
@@ -15,6 +15,7 @@ import {
   ProductCapabilitiesResult,
 } from '../store/models';
 import { BearinxOnlineResult } from './bearinx-result.interface';
+import { CatalogVersionInfoResponse } from './bearinx-version.interface';
 import {
   CatalogServiceBasicFrequenciesResult,
   CatalogServiceBearingSearchResult,
@@ -32,8 +33,9 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class CatalogService {
+  public readonly bearinxVersionUrl = `${environment.downstreamCo2ApiUrl}/version`;
+  public readonly catalogVersionUrl = `${environment.catalogApiBaseUrl}/v1/ServerInfo/server-info`;
   readonly baseUrl = `${environment.catalogApiBaseUrl}/v1/CatalogBearing`;
-  readonly bearinxVersionUrl = `${environment.bearinxApiBaseUrl}/version`;
 
   constructor(
     private readonly httpClient: HttpClient,
@@ -288,15 +290,28 @@ export class CatalogService {
   }
 
   public getBearinxVersions(): Observable<{ [key: string]: string }> {
-    return this.httpClient
-      .get<{ name: string; version: string }[]>(this.bearinxVersionUrl)
-      .pipe(
-        map((response) =>
-          Object.fromEntries(
-            response.map(({ name, version }) => [name, version])
-          )
-        )
-      );
+    return forkJoin({
+      bearinxVersions: this.httpClient.get<{ name: string; version: string }[]>(
+        this.bearinxVersionUrl
+      ),
+      catalogVersion: this.httpClient.get<CatalogVersionInfoResponse>(
+        this.catalogVersionUrl
+      ),
+    }).pipe(
+      map(({ bearinxVersions, catalogVersion }) => {
+        const bearinxEntries = Object.fromEntries(
+          bearinxVersions.map(({ name, version }) => [name, version])
+        );
+
+        const combinedData = {
+          applicationVersion: catalogVersion?.applicationVersion,
+          bearinxVersions: catalogVersion?.bearinxVersion,
+          ...bearinxEntries,
+        };
+
+        return combinedData;
+      })
+    );
   }
 
   private getLoadCasesData(
