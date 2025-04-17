@@ -7,6 +7,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { environment } from '@lsa/environments/environment';
 import { StoreModule } from '@ngrx/store';
 
 import { BannerModule } from '@schaeffler/banner';
@@ -36,7 +37,7 @@ export const APP_ROOT = 'lubricator-selection-assistant';
     },
     {
       provide: FONT_ASSET_PATH,
-      useValue: '/assets/fonts',
+      useValue: `${environment.assetsPath}/fonts`,
     },
     {
       provide: DEFAULT_FONT,
