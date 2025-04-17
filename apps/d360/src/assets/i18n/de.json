@@ -234,9 +234,9 @@
           "PHASE-OUT": "Basiskombination Phase-Out",
           "REACTIVATION": "Basiskombination aktivieren",
           "SUBSTITUTION": "Basiskombination ersetzen",
+          "SUBSTITUTION-REVERT": "Ersetzung rückgängig",
           "SUBSTITUTION_PROPOSAL": "Ersetzungvorschlag steuern",
-          "SUBSTITUTION_TO_SCHAEFFLER": "Wechsel auf Schaeffler Nachfolger",
-          "SUBSTITUTION-REVERT": "Ersetzung rückgängig"
+          "SUBSTITUTION_TO_SCHAEFFLER": "Wechsel auf Schaeffler Nachfolger"
         },
         "change_to_schaeffler": {
           "hint": "Hinweis: Rückgängig machen der initialen Ersetzung  auf Kundenwunsch ist aufgrund Schaeffler Nachfolger nicht möglich.",
@@ -264,6 +264,14 @@
             "add_material": "Achtung, das Material ist nicht im Portfolio des Kunden enthalten. Soll es hinzugefügt werden?"
           }
         }
+      }
+    }
+  },
+  "customer-material-portfolio": {
+    "upload_modal": {
+      "modal": {
+        "demand_type": "Bedarfsbild (Serie/Sporadisch)",
+        "phase_in": "Phase-In Datum"
       }
     }
   },
@@ -361,14 +369,6 @@
     "toolbar": {
       "collapseAll": "einklappen",
       "expandAll": "ausklappen"
-    }
-  },
-  "customer-material-portfolio": {
-    "upload_modal": {
-      "modal": {
-        "demand_type": "Bedarfsbild (Serie/Sporadisch)",
-        "phase_in": "Phase-In Datum"
-      }
     }
   },
   "demand_characteristics": {
@@ -778,7 +778,36 @@
   },
   "overview": {
     "filter": {
-      "customer": "Kunde / Account"
+      "customer": "Kunde / Account",
+      "dataSelection": "Datenselektion"
+    },
+    "yourCustomer": {
+      "assignedToYou": "nur mir zugeordnet",
+      "grid": {
+        "customerName": "Kundenname",
+        "customerNumber": "Kundennummer",
+        "demandPlannedCurrentYear": "Geplante Nachfrage (AJ)",
+        "demandPlannedNextYear": "Geplante Nachfrage (NJ)",
+        "deviationToCurrentYear": "Abweichung zu AJ",
+        "deviationToPreviousYear": "Abweichung zu VJ",
+        "firmBusinessCurrentYear": "Firm Business (AJ)",
+        "firmBusinessNextYear": "Firm Business (NJ)",
+        "firmBusinessPreviousYear": "Firm Business (VJ)",
+        "headline": "Relevante Planning KPIs",
+        "jumpToFunction": "Mit Kunde zu Funktion ... springen",
+        "lastChangeDate": "Letztes Änderungsdatum",
+        "lastPlannedBy": "Zuletzt geplant von",
+        "salesPlannedCurrentYear": "Geplante Verkäufe (AJ)",
+        "salesPlannedNextYear": "Geplante Verkäufe (NJ)",
+        "yearlyTotalCurrentYear": "Jährliche Gesamtsumme (AJ)",
+        "yearlyTotalNextYear": "Jährliche Gesamtsumme (NJ)"
+      },
+      "headline": "Deine Kunden",
+      "layout": {
+        "currentToNext": "Aktuelles Jahr bis zum nächstes Jahr",
+        "label": "Layout",
+        "previousToCurrent": "Letztes Jahr bis zum aktuellen Jahr"
+      }
     },
     "yourTasks": {
       "gridHeadline": "To-Dos",
@@ -794,9 +823,9 @@
   "paste_from_clipboard": "Einfügen aus Zwischenablage",
   "planing_type": {
     "title": {
-      "yearlyTotal": "Jahrestotal",
       "CONFIRMED": "Constrained",
-      "REQUESTED": "Unconstrained"
+      "REQUESTED": "Unconstrained",
+      "yearlyTotal": "Jahrestotal"
     }
   },
   "privacy_policy_page": {
@@ -940,12 +969,12 @@
       "otherRevenues": "Sonstige Einnahmen",
       "planExistsOnOtherLevel": "Plan existiert auf anderer Hierarchieebene",
       "planInvoiceSales": "Plan x+y Fakturierter Wert",
-      "planOnlyInPlanningCurrency": "Planung nur in Planungswährung möglich",
       "plannedValueDemand360": "Geplante Wertnachfrage Validierung",
       "planNetSales": "Plan x+y Nettoumsatz",
       "planning": "Planung",
       "planningMonth": "Monat",
       "planningYear": "Jahr",
+      "planOnlyInPlanningCurrency": "Planung nur in Planungswährung möglich",
       "salesDeduction": "Sales Deduction (in %)",
       "salesPlanConstrained": "Sales Plan (Con)",
       "salesPlanUnconstrained": "Sales Plan (Unc)",
@@ -984,7 +1013,37 @@
     "/SGD/SCM_SOP_SALES": {
       "0": "Text mit den folgenden Werten konnte nicht gefunden werden: {{messageV1}}, {{messageV2}}, {{messageV3}}, {{messageV4}}.",
       "1": "Kundennummer existiert nicht.",
+      "2": "Kundenmaterialkombination existiert nicht.",
+      "3": "Ungültiger Periodentyp.",
+      "4": "Werte in der Vergangenheit können nicht gepflegt werden.",
+      "5": "Ungültige Material Klassifizierung (OP).",
+      "6": "Negative Werte können nicht gepflegt werden.",
+      "7": "Forecast kann aufgrund fehlender Berechtigung nicht gespeichert werden.(Code 007)",
       "10": "Das Bearbeiten/Löschen der validierten Prognose ist für diesen Kunden nicht möglich.",
+      "16": "Sie haben nicht die erforderlichen Berechtigungen für den Kunden {{messageV1}}.",
+      "17": "Kein Eintrag gefunden.",
+      "22": "Forecast kann nicht nach dem Ersetzungsdatum ({{messageV1}}) gespeichert werden.",
+      "23": "Phase-Out aufgrund von Aufträgen / Opportunities auf {{messageV1}} geändert.",
+      "24": "Forecast gelöscht für {{messageV1}}.",
+      "25": "Material {{messageV1}} existiert nicht.",
+      "26": "Lieferwerk für Nachfolgematerial {{messageV1}} konnte nicht ermittelt werden.",
+      "27": "Zirkelbezug! Nachfolger {{messageV1}} ist nicht erlaubt!",
+      "28": "Fehler beim Anlegen des Alerts!",
+      "29": "Aktion für Kopie des Forecast nicht definiert.",
+      "30": "Änderung des Portfoliostatus von {{messageV1}} auf {{messageV2}} ist nicht erlaubt.",
+      "31": "Ersetzungsvorschlag ist nicht angenommen",
+      "32": "Der Kopf der Kette ist nicht das aktive Material",
+      "33": "Kombination nicht angelegt, da Nachfolgematerial {{messageV1}} existiert.",
+      "34": "Zirkelbezug zwischen Material {{messageV1}} und Material {{messageV2}} gefunden.",
+      "37": "Ersetzungsvorschlag offen.",
+      "38": "Ersetzungsvorschlag blockiert.",
+      "39": "Statuswechsel auf {{messageV1}} ist nicht zulässig aufgrund Ersetzungstyp Auslauf ohne Nachfolger!",
+      "40": "Status aufgrund von Aufträgen/Opportunities auf {{messageV1}} angepasst.",
+      "41": "Status geändert auf {{messageV1}}, Auslaufdatum erreicht.",
+      "42": "Status wurde auf {{messageV1}} gesetzt, da keine zukünftige oder historische Bedarfe.",
+      "51": "Forecast kann nicht in der Vergangenheit und nicht im aktuellen Monat geändert werden.",
+      "52": "Forecast kann nicht in der Vergangenheit geändert werden.",
+      "53": "Forecast konnte nicht auf einen Samstag und/oder Sonntag verteilt werden.",
       "100": "Ersetzungstyp {{messageV1}} ist nicht gültig.",
       "101": "Es muss eine gültige Region übergeben werden. {{messageV1}} ist nicht gültig.",
       "102": "Der Datensatz existiert nicht.",
@@ -1005,37 +1064,7 @@
       "117": "Nachfolger {{messageV1}} ist in keinem AP/OP-Werk der DC-Gruppe {{messageV2}} vorhanden.",
       "118": "Nachfolger für {{messageV1}} in Werk {{messageV2}} ist anders in MARC: {{messageV3}}.",
       "119": "Der Vertriebsbereich darf nicht für den Ersetzungstyp {{messageV1}} gepflegt werden.",
-      "123": "SOP Datum darf nicht vor dem cutover Datum liegen",
-      "16": "Sie haben nicht die erforderlichen Berechtigungen für den Kunden {{messageV1}}.",
-      "17": "Kein Eintrag gefunden.",
-      "2": "Kundenmaterialkombination existiert nicht.",
-      "22": "Forecast kann nicht nach dem Ersetzungsdatum ({{messageV1}}) gespeichert werden.",
-      "23": "Phase-Out aufgrund von Aufträgen / Opportunities auf {{messageV1}} geändert.",
-      "24": "Forecast gelöscht für {{messageV1}}.",
-      "25": "Material {{messageV1}} existiert nicht.",
-      "26": "Lieferwerk für Nachfolgematerial {{messageV1}} konnte nicht ermittelt werden.",
-      "27": "Zirkelbezug! Nachfolger {{messageV1}} ist nicht erlaubt!",
-      "28": "Fehler beim Anlegen des Alerts!",
-      "29": "Aktion für Kopie des Forecast nicht definiert.",
-      "3": "Ungültiger Periodentyp.",
-      "30": "Änderung des Portfoliostatus von {{messageV1}} auf {{messageV2}} ist nicht erlaubt.",
-      "31": "Ersetzungsvorschlag ist nicht angenommen",
-      "32": "Der Kopf der Kette ist nicht das aktive Material",
-      "33": "Kombination nicht angelegt, da Nachfolgematerial {{messageV1}} existiert.",
-      "34": "Zirkelbezug zwischen Material {{messageV1}} und Material {{messageV2}} gefunden.",
-      "37": "Ersetzungsvorschlag offen.",
-      "38": "Ersetzungsvorschlag blockiert.",
-      "39": "Statuswechsel auf {{messageV1}} ist nicht zulässig aufgrund Ersetzungstyp Auslauf ohne Nachfolger!",
-      "4": "Werte in der Vergangenheit können nicht gepflegt werden.",
-      "40": "Status aufgrund von Aufträgen/Opportunities auf {{messageV1}} angepasst.",
-      "41": "Status geändert auf {{messageV1}}, Auslaufdatum erreicht.",
-      "42": "Status wurde auf {{messageV1}} gesetzt, da keine zukünftige oder historische Bedarfe.",
-      "5": "Ungültige Material Klassifizierung (OP).",
-      "51": "Forecast kann nicht in der Vergangenheit und nicht im aktuellen Monat geändert werden.",
-      "52": "Forecast kann nicht in der Vergangenheit geändert werden.",
-      "53": "Forecast konnte nicht auf einen Samstag und/oder Sonntag verteilt werden.",
-      "6": "Negative Werte können nicht gepflegt werden.",
-      "7": "Forecast kann aufgrund fehlender Berechtigung nicht gespeichert werden.(Code 007)"
+      "123": "SOP Datum darf nicht vor dem cutover Datum liegen"
     },
     "error": "Nachricht mit Klasse {{messageClass}} und Nummer {{messageNumber}} konnte nicht gefunden werden."
   },

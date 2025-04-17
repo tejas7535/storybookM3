@@ -15,6 +15,17 @@ import {
   PeriodType,
 } from './model';
 
+interface ForecastChartRequest {
+  startDate: string;
+  endDate: string;
+  currency: string;
+  chartUnitMode: ChartUnitMode;
+  planningView: PlanningView;
+  selectionFilters?: GlobalSelectionCriteriaFilters;
+  columnFilters: Record<string, any>[];
+  isCustomerNumberAssignedToMe?: boolean;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -50,9 +61,10 @@ export class ChartSettingsService {
     chartSettings: ChartSettings,
     startDate: string,
     endDate: string,
-    currency: string
+    currency: string,
+    isAssignedToMe?: boolean
   ): Observable<ForecastChartData> | null {
-    const request = {
+    const request: ForecastChartRequest = {
       startDate,
       endDate,
       currency,
@@ -61,6 +73,10 @@ export class ChartSettingsService {
       selectionFilters: globalSelectionFilters,
       columnFilters: [...(columnFilters ? [columnFilters] : [])],
     };
+
+    if (isAssignedToMe !== undefined && isAssignedToMe !== null) {
+      request.isCustomerNumberAssignedToMe = isAssignedToMe;
+    }
 
     return globalSelectionFilters
       ? this.http.post<ForecastChartData>(this.FORECASTCHART_DATA_API, request)

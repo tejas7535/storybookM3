@@ -3,9 +3,11 @@ import {
   Component,
   inject,
   output,
+  OutputEmitterRef,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -28,12 +30,15 @@ export interface OverviewFilterValue {
     MultiAutocompleteOnTypeComponent,
     MatButton,
     ReactiveFormsModule,
+    MatIcon,
   ],
   templateUrl: './overview-filter.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./overview-filter.component.scss'],
 })
 export class OverviewFilterComponent {
-  protected readonly DisplayFunctions = DisplayFunctions;
+  protected readonly DisplayFunctions: typeof DisplayFunctions =
+    DisplayFunctions;
   protected readonly selectableOptionsService: SelectableOptionsService =
     inject(SelectableOptionsService);
 
@@ -43,14 +48,17 @@ export class OverviewFilterComponent {
     gkamSearch: new FormControl('', { nonNullable: true }),
     customerSearch: new FormControl('', { nonNullable: true }),
   });
-  public onFilterChange = output<OverviewFilterValue>();
+  public onFilterChange: OutputEmitterRef<OverviewFilterValue> =
+    output<OverviewFilterValue>();
+  public onReset: OutputEmitterRef<void> = output();
 
-  protected applyFilters = () => {
+  protected applyFilters: () => void = (): void => {
     this.onFilterChange.emit(this.computeReturnFilter(this.filterForm.value));
   };
 
-  protected resetFilters = () => {
+  protected resetFilters: () => void = (): void => {
     this.filterForm.reset();
+    this.onReset.emit();
     this.onFilterChange.emit(this.computeReturnFilter(this.filterForm.value));
   };
 
@@ -58,8 +66,8 @@ export class OverviewFilterComponent {
     filter: OverviewFilterValue
   ): OverviewFilterValue {
     return {
-      gkams: filter.gkams.length > 0 ? filter.gkams : undefined,
-      customers: filter.customers.length > 0 ? filter.customers : undefined,
+      gkams: filter.gkams?.length > 0 ? filter.gkams : undefined,
+      customers: filter.customers?.length > 0 ? filter.customers : undefined,
     };
   }
 }

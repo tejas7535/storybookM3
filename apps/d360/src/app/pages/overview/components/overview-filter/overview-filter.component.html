@@ -1,33 +1,39 @@
-<form [formGroup]="filterForm" class="overflow-hidden">
-  <div *transloco="let t" class="flex md:flex-row py-4 flex-col gap-x-4">
-    <d360-multi-autocomplete-pre-loaded
-      [control]="filterForm.controls.gkams"
-      [form]="filterForm"
-      [autocompleteLabel]="t('globalSelection.gkam')"
-      [searchControl]="filterForm.controls.gkamSearch"
-      [getOptionLabelInTag]="DisplayFunctions.displayFnText"
-      [getOptionLabel]="DisplayFunctions.displayFnUnited"
-      [optionsLoadingResult]="selectableOptionsService.get('gkam')"
-      class="w-full"
-    />
-    <d360-multi-autocomplete-on-type
-      [autocompleteLabel]="t('overview.filter.customer')"
-      [control]="filterForm.controls.customers"
-      [form]="filterForm"
-      urlBegin="global-selection/search-customers"
-      [getOptionLabel]="DisplayFunctions.displayFnUnited"
-      [getOptionLabelInTag]="DisplayFunctions.displayFnText"
-      [searchControl]="filterForm.controls.customerSearch"
-      class="w-full"
-    />
-    <div class="flex justify-end gap-5">
-      <button class="w-auto" mat-button (click)="resetFilters()">
-        {{ t('button.reset') }}
-      </button>
-
-      <button class="w-auto" mat-flat-button (click)="applyFilters()">
-        {{ t('button.load') }}
-      </button>
-    </div>
+<div class="card p-4 pb-0 my-8" *transloco="let t">
+  <div class="title">
+    <mat-icon class="filter-list-icon">filter_list</mat-icon>
+    <h6 class="text-title-large">{{ t('overview.filter.dataSelection') }}</h6>
   </div>
-</form>
+  <form [formGroup]="filterForm" class="overflow-hidden">
+    <div class="flex md:flex-row pt-4 flex-col gap-x-4">
+      <d360-multi-autocomplete-pre-loaded
+        [autocompleteLabel]="t('globalSelection.gkam')"
+        [control]="filterForm.controls.gkams"
+        [form]="filterForm"
+        [getOptionLabelInTag]="DisplayFunctions.displayFnText"
+        [getOptionLabel]="DisplayFunctions.displayFnUnited"
+        [optionsLoadingResult]="selectableOptionsService.get('gkam')"
+        [searchControl]="filterForm.controls.gkamSearch"
+        class="w-full"
+      />
+      <d360-multi-autocomplete-on-type
+        [autocompleteLabel]="t('overview.filter.customer')"
+        [control]="filterForm.controls.customers"
+        [form]="filterForm"
+        [getOptionLabelInTag]="DisplayFunctions.displayFnText"
+        [getOptionLabel]="DisplayFunctions.displayFnUnited"
+        [searchControl]="filterForm.controls.customerSearch"
+        class="w-full"
+        urlBegin="global-selection/search-customers"
+      />
+      <div class="flex justify-end gap-5">
+        <button (click)="resetFilters()" class="w-auto" mat-button>
+          {{ t('button.reset') }}
+        </button>
+
+        <button (click)="applyFilters()" class="w-auto" mat-flat-button>
+          {{ t('button.load') }}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,15 +1,21 @@
 import { MatRadioChange } from '@angular/material/radio';
 
-import { of } from 'rxjs';
+import { of, take } from 'rxjs';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { NGX_ECHARTS_CONFIG, NgxEchartsModule } from 'ngx-echarts';
+import { MockProvider } from 'ng-mocks';
+import { NGX_ECHARTS_CONFIG } from 'ngx-echarts';
 import ResizeObserver from 'resize-observer-polyfill';
 
 import { GlobalSelectionState } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
+import { Stub } from '../../../../shared/test/stub.class';
 import { PlanningView } from '../../../demand-validation/planning-view';
 import { ChartSettingsService } from '../../forecast-chart.service';
-import { ChartSettings, ChartUnitMode, PeriodType } from '../../model';
+import {
+  ChartSettings,
+  ChartUnitMode,
+  ForecastChartData,
+  PeriodType,
+} from '../../model';
 import { ForecastChartComponent } from './forecast-chart.component';
 
 global.ResizeObserver = ResizeObserver;
@@ -40,54 +46,65 @@ const mockForecastChartData = {
   ],
 };
 
-describe('ForecastChartComponent', () => {
-  let spectator: Spectator<ForecastChartComponent>;
-  let chartSettingsService: ChartSettingsService;
+const mockGlobalSelectionState: GlobalSelectionState = {
+  region: [],
+  salesArea: [],
+  sectorManagement: [],
+  salesOrg: [],
+  gkamNumber: [],
+  customerNumber: [],
+  materialClassification: [],
+  sector: [],
+  materialNumber: [],
+  productionPlant: [],
+  productionSegment: [],
+  alertType: [],
+};
 
-  const createComponent = createComponentFactory({
-    component: ForecastChartComponent,
-    mocks: [ChartSettingsService],
-    imports: [NgxEchartsModule],
-    detectChanges: false,
-    providers: [
-      {
-        provide: NGX_ECHARTS_CONFIG,
-        useValue: { echarts: () => import('echarts') },
-      },
-    ],
-  });
+describe('ForecastChartComponent', () => {
+  let component: ForecastChartComponent;
 
   beforeEach(() => {
-    spectator = createComponent({
-      props: {
-        currency: 'USD',
-        globalSelectionState: {} as GlobalSelectionState,
-        columnFilters: {},
-        chartIdentifier: 'test-chart',
-        defaultPeriodType: PeriodType.MONTHLY,
-      },
+    component = Stub.getForEffect({
+      component: ForecastChartComponent,
+      providers: [
+        MockProvider(ChartSettingsService, {
+          getForecastChartData: jest.fn(),
+        }),
+        {
+          provide: NGX_ECHARTS_CONFIG,
+          useValue: { echarts: () => import('echarts') },
+        },
+      ],
     });
-
-    chartSettingsService = spectator.inject(ChartSettingsService);
+    Stub.setInputs([
+      { property: 'globalSelectionState', value: {} },
+      { property: 'customerFilter', value: { id: '1', text: 'customer 1' } },
+      { property: 'currency', value: 'EUR' },
+      { property: 'chartIdentifier', value: 'my-chart' },
+      { property: 'defaultPeriodType', value: PeriodType.MONTHLY },
+      { property: 'columnFilters', value: [] },
+      { property: 'disablePreview', value: true },
+    ]);
   });
 
   it('should create the component', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   describe('Initialization (ngOnInit)', () => {
     beforeEach(() => {
       jest
-        .spyOn(chartSettingsService, 'getChartSettings')
+        .spyOn(component['chartSettingsService'], 'getChartSettings')
         .mockReturnValue(of(mockChartSettings));
       jest
-        .spyOn(chartSettingsService, 'getForecastChartData')
+        .spyOn(component['chartSettingsService'], 'getForecastChartData')
         .mockReturnValue(of(mockForecastChartData));
-      spectator.detectChanges();
+      Stub.detectChanges();
     });
 
     it('should load chart settings and initialize forms', () => {
-      const dateForm = spectator.component.dateForm;
+      const dateForm = component.dateForm;
       expect(dateForm.get('startDate').value).toBe(
         new Date(mockChartSettings.startDate).toISOString()
       );
@@ -95,84 +112,279 @@ describe('ForecastChartComponent', () => {
         new Date(mockChartSettings.endDate).toISOString()
       );
 
-      const typeForm = spectator.component.typeForm;
+      const typeForm = component.typeForm;
       expect(typeForm.get('count').value).toBe(mockChartSettings.planningView);
       expect(typeForm.get('type').value).toBe(mockChartSettings.chartUnitMode);
       expect(typeForm.get('period').value).toBe(mockChartSettings.periodType);
 
-      expect(spectator.component['chartSettingsInitialized']()).toBe(true);
+      expect(component['chartSettingsInitialized']()).toBe(true);
     });
   });
 
   describe('User Interactions', () => {
     beforeEach(() => {
       jest
-        .spyOn(chartSettingsService, 'getChartSettings')
+        .spyOn(component['chartSettingsService'], 'getChartSettings')
         .mockReturnValue(of(mockChartSettings));
       jest
-        .spyOn(chartSettingsService, 'getForecastChartData')
+        .spyOn(component['chartSettingsService'], 'getForecastChartData')
         .mockReturnValue(of(mockForecastChartData));
       jest
-        .spyOn(chartSettingsService, 'updateChartSettings')
+        .spyOn(component['chartSettingsService'], 'updateChartSettings')
         .mockReturnValue(of(null));
-
-      spectator.detectChanges(); // trigger ngOnInit and loadChartSettings
-    });
-
-    it('should toggle KPIs', () => {
-      const initialKpis = spectator.component['toggledKpis']();
-      expect(initialKpis.salesAmbition).toBe(false);
-
-      spectator.component.updateToggledKpis('salesAmbition');
-      const updatedKpis = spectator.component['toggledKpis']();
-      expect(updatedKpis.salesAmbition).toBe(true);
-    });
-
-    it('should change period and update chart settings', () => {
-      const spyUpdateSettings = jest
-        .spyOn(chartSettingsService, 'updateChartSettings')
-        .mockReturnValue(of(null));
-
-      // Simulate period change event
-      spectator.component.onPeriodChange({
-        value: PeriodType.YEARLY,
-      } as MatRadioChange);
-      spectator.detectChanges();
-
-      const typeForm = spectator.component.typeForm;
-      expect(typeForm.get('period').value).toBe(PeriodType.YEARLY);
-      expect(spyUpdateSettings).toHaveBeenCalled();
     });
 
     it('should validate dateForm on update', () => {
+      component['chartSettings'] = mockChartSettings;
       // Invalid date scenario: endDate before startDate
-      spectator.component.dateForm.setValue({
+      component['dateForm'].patchValue({
         startDate: '2021-12-31T00:00:00Z',
         endDate: '2021-01-01T00:00:00Z',
       });
 
-      spectator.component.onUpdateDateSettings();
-      expect(chartSettingsService.updateChartSettings).not.toHaveBeenCalled();
+      component.onUpdateDateSettings();
+      expect(
+        component['chartSettingsService'].updateChartSettings
+      ).not.toHaveBeenCalled();
 
       // Now fix the dates
-      spectator.component.dateForm.setValue({
+      component['dateForm'].patchValue({
         startDate: '2021-01-01T00:00:00Z',
         endDate: '2021-12-31T00:00:00Z',
       });
 
-      spectator.component.onUpdateDateSettings();
+      component.onUpdateDateSettings();
 
       // Now it's valid
-      expect(chartSettingsService.updateChartSettings).toHaveBeenCalled();
+      expect(
+        component['chartSettingsService'].updateChartSettings
+      ).toHaveBeenCalled();
     });
 
     it('should disable settings if loading or preview data rendered', () => {
-      spectator.component['isLoading'].set(true);
-      expect(spectator.component.settingsDisabled()).toBe(true);
+      component['isLoading'].set(true);
+      expect(component.settingsDisabled()).toBe(true);
 
-      spectator.component['isLoading'].set(false);
-      spectator.component['isPreviewDataRendered'].set(true);
-      expect(spectator.component.settingsDisabled()).toBe(true);
+      component['isLoading'].set(false);
+      component['isPreviewDataRendered'].set(true);
+      expect(component.settingsDisabled()).toBe(true);
+    });
+  });
+
+  describe('loadData$', () => {
+    it('should load data', (done) => {
+      const getDataSpy = jest
+        .spyOn(component['chartSettingsService'], 'getForecastChartData')
+        .mockReturnValue(of({ chartEntries: [] } as ForecastChartData));
+      component['chartSettings'] = {
+        startDate: '2021-01-01T00:00:00Z',
+        endDate: '2021-12-31T00:00:00Z',
+        planningView: PlanningView.REQUESTED,
+        chartUnitMode: ChartUnitMode.CURRENCY,
+        periodType: PeriodType.YEARLY,
+      };
+      component['loadData$'](mockGlobalSelectionState, {}, true)
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(getDataSpy).toHaveBeenCalledWith(
+            {},
+            {},
+            {
+              chartUnitMode: 'CURRENCY',
+              endDate: '2021-12-31T00:00:00Z',
+              periodType: 'YEARLY',
+              planningView: 'REQUESTED',
+              startDate: '2021-01-01T00:00:00Z',
+            },
+            '2021-01-01',
+            '2021-12-31',
+            'EUR',
+            true
+          );
+          done();
+        });
+    });
+
+    it('should load the yearly data', (done) => {
+      const getDataSpy = jest
+        .spyOn(component['chartSettingsService'], 'getForecastChartData')
+        .mockReturnValue(of({ chartEntries: [] } as ForecastChartData));
+      component['chartSettings'] = {
+        startDate: '2021-01-01T00:00:00Z',
+        endDate: '2021-12-31T00:00:00Z',
+        planningView: PlanningView.REQUESTED,
+        chartUnitMode: ChartUnitMode.CURRENCY,
+        periodType: PeriodType.YEARLY,
+      };
+
+      component['typeForm'].patchValue({ period: PeriodType.YEARLY });
+      component['loadData$'](mockGlobalSelectionState, {}, true)
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(getDataSpy).toHaveBeenCalledWith(
+            {},
+            {},
+            {
+              chartUnitMode: 'CURRENCY',
+              endDate: '2021-12-31T00:00:00Z',
+              periodType: 'YEARLY',
+              planningView: 'REQUESTED',
+              startDate: '2021-01-01T00:00:00Z',
+            },
+            '2023-01-01',
+            '2028-01-01',
+            'EUR',
+            true
+          );
+          done();
+        });
+    });
+
+    it('should enable the preview', () => {
+      Stub.setInput('disablePreview', false);
+      const getDataSpy = jest
+        .spyOn(component['chartSettingsService'], 'getForecastChartData')
+        .mockReturnValue(of());
+
+      component['typeForm'].patchValue({ period: PeriodType.YEARLY });
+      component['loadData$'](mockGlobalSelectionState, {}, true);
+      expect(getDataSpy).not.toHaveBeenCalledWith();
+    });
+  });
+
+  describe('togglePanel', () => {
+    it('toggle the openPanel', () => {
+      component['togglePanel']('date');
+      expect(component['openPanel']()).toBe('date');
+    });
+    it('reset the openPanel', () => {
+      component['openPanel'].set('date');
+      component['togglePanel']('date');
+      expect(component['openPanel']()).toBeNull();
+    });
+  });
+
+  describe('onChangeCount', () => {
+    it('should set the planning view and trigger change event', () => {
+      const event = { value: PlanningView.CONFIRMED } as MatRadioChange;
+      component['chartSettings'] = mockChartSettings;
+      component['onChartSettingChange'] = jest.fn();
+      component['onChangeCount'](event);
+      expect(component['chartSettings'].planningView).toBe(
+        PlanningView.CONFIRMED
+      );
+      expect(component['onChartSettingChange']).toHaveBeenCalledWith(
+        'count',
+        PlanningView.CONFIRMED
+      );
+    });
+  });
+
+  describe('onChangeType', () => {
+    it('should set the unit type and trigger change event', () => {
+      const event = { value: ChartUnitMode.QUANTITY } as MatRadioChange;
+      component['chartSettings'] = mockChartSettings;
+      component['onChartSettingChange'] = jest.fn();
+      component['onChangeType'](event);
+      expect(component['chartSettings'].chartUnitMode).toBe(
+        ChartUnitMode.QUANTITY
+      );
+      expect(component['onChartSettingChange']).toHaveBeenCalledWith(
+        'type',
+        ChartUnitMode.QUANTITY
+      );
+    });
+  });
+
+  describe('onPeriodChange', () => {
+    it('should set the period, reset the data and trigger change event', () => {
+      const event = { value: PeriodType.YEARLY } as MatRadioChange;
+      component['chartSettings'] = mockChartSettings;
+      component['onChartSettingChange'] = jest.fn();
+      component['onPeriodChange'](event);
+      expect(component['chartSettings'].periodType).toBe(PeriodType.YEARLY);
+      expect(component['chartData']()).toEqual([]);
+      expect(component['onChartSettingChange']).toHaveBeenCalledWith(
+        'period',
+        PeriodType.YEARLY
+      );
+    });
+  });
+
+  describe('onChartSettingChange', () => {
+    it('should set the data and save the chart settings', () => {
+      component['updateAndSaveChartSettings'] = jest.fn();
+      component['onChartSettingChange']('period', PeriodType.YEARLY);
+      expect(component['typeForm'].get('period').getRawValue()).toBe(
+        PeriodType.YEARLY
+      );
+      expect(component['updateAndSaveChartSettings']).toHaveBeenCalledWith();
+    });
+  });
+
+  describe('onUpdateDateSettings', () => {
+    it('should load data', () => {
+      component['chartSettings'] = mockChartSettings;
+      component['dateForm'].setValue({
+        startDate: '2022-01-01T00:00:00Z',
+        endDate: '2022-12-31T00:00:00Z',
+      });
+      component['updateAndSaveChartSettings'] = jest.fn();
+      component['onUpdateDateSettings']();
+      expect(component['chartSettings'].startDate).toBe('2022-01-01T00:00:00Z');
+      expect(component['chartSettings'].endDate).toBe('2022-12-31T00:00:00Z');
+      expect(component['updateAndSaveChartSettings']).toHaveBeenCalledWith();
+    });
+  });
+
+  describe('updateAndSaveChartSettings', () => {
+    it('update and reload the settings', () => {
+      const updateSpy = jest
+        .spyOn(component['chartSettingsService'], 'updateChartSettings')
+        .mockImplementation(() => of(null));
+      component['chartSettings'] = mockChartSettings;
+      component['loadData$'] = jest.fn(() => of());
+      component['updateAndSaveChartSettings']();
+      expect(updateSpy).toHaveBeenCalledWith(mockChartSettings, 'my-chart');
+      expect(component['loadData$']).toHaveBeenCalledWith(
+        {
+          ...mockGlobalSelectionState,
+          customerNumber: [{ id: '1', text: 'customer 1' }],
+        },
+        [],
+        null
+      );
+    });
+  });
+
+  describe('dateSelectionDisabled', () => {
+    it('should disable the date selection when the settings are disabled', () => {
+      component['isYearlyChartSelected'] = jest.fn(() => false);
+      component['settingsDisabled'] = jest.fn(() => true);
+      expect(component['dateSelectionDisabled']()).toBe(true);
+    });
+    it('should disable the date selection when the yearly chart is selected', () => {
+      component['isYearlyChartSelected'] = jest.fn(() => true);
+      component['settingsDisabled'] = jest.fn(() => false);
+      expect(component['dateSelectionDisabled']()).toBe(true);
+    });
+  });
+
+  describe('updateToggledKpis', () => {
+    it('should toggle a KPI', () => {
+      component['toggledKpis'].set({
+        salesAmbition: false,
+        opportunities: false,
+        onTopCapacityForecast: false,
+        onTopOrder: false,
+      });
+      component['updateToggledKpis']('salesAmbition');
+      expect(component['toggledKpis']()).toEqual({
+        salesAmbition: true,
+        opportunities: false,
+        onTopCapacityForecast: false,
+        onTopOrder: false,
+      });
     });
   });
 });

@@ -1,0 +1,26 @@
+<h2 *transloco="let t" class="text-title-large m-4">
+  {{ t('overview.yourCustomer.grid.headline') }}
+</h2>
+<d360-table-toolbar
+  [grid]="gridApi"
+  [rowCount]="(overviewService.dataFetchedEvent | ngrxPush).rowCount"
+></d360-table-toolbar>
+<ag-grid-angular
+  class="ag-theme-material grow"
+  [gridOptions]="gridOptions"
+  [columnDefs]="currentColumnDefs()"
+  [localeText]="agGridLocalizationService.lang()"
+  [context]="context"
+  (gridReady)="onGridReady($event)"
+  (paginationChanged)="onDataUpdated()"
+  [noRowsOverlayComponent]="NoDataOverlayComponent"
+  [getRowId]="getRowId"
+  (cellClicked)="toggleSelection($event)"
+  (dragStopped)="columnSettingsService.saveFromAgGridEvent($event, layout())"
+  (columnVisible)="columnSettingsService.saveFromAgGridEvent($event, layout())"
+  (filterChanged)="columnSettingsService.saveFromAgGridEvent($event, layout())"
+  (sortChanged)="columnSettingsService.saveFromAgGridEvent($event, layout())"
+  (firstDataRendered)="onFirstDataRendered($event)"
+  [tooltipShowDelay]="0"
+  [rowStyle]="rowStyles"
+></ag-grid-angular>

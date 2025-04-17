@@ -234,9 +234,9 @@
           "PHASE-OUT": "基础组合逐步淘汰",
           "REACTIVATION": "激活基本组合",
           "SUBSTITUTION": "更换基础组合",
+          "SUBSTITUTION-REVERT": "撤销替换",
           "SUBSTITUTION_PROPOSAL": "控制替换提议",
-          "SUBSTITUTION_TO_SCHAEFFLER": "变更为舍弗勒后续替代物料",
-          "SUBSTITUTION-REVERT": "撤销替换"
+          "SUBSTITUTION_TO_SCHAEFFLER": "变更为舍弗勒后续替代物料"
         },
         "change_to_schaeffler": {
           "hint": "备注：由于舍弗勒后续物料原因, 禁止撤销该客户的已有替代要求。",
@@ -264,6 +264,14 @@
             "add_material": "请注意, 客户的组合中不包括该物料。是否需要添加？"
           }
         }
+      }
+    }
+  },
+  "customer-material-portfolio": {
+    "upload_modal": {
+      "modal": {
+        "demand_type": "需求页面 (连续的/中断的)",
+        "phase_in": "逐步加入的日期"
       }
     }
   },
@@ -361,14 +369,6 @@
     "toolbar": {
       "collapseAll": "折叠",
       "expandAll": "折叠出来"
-    }
-  },
-  "customer-material-portfolio": {
-    "upload_modal": {
-      "modal": {
-        "demand_type": "需求页面 (连续的/中断的)",
-        "phase_in": "逐步加入的日期"
-      }
     }
   },
   "demand_characteristics": {
@@ -778,7 +778,36 @@
   },
   "overview": {
     "filter": {
-      "customer": "客户 / 账户"
+      "customer": "客户 / 账户",
+      "dataSelection": "数据选择"
+    },
+    "yourCustomer": {
+      "assignedToYou": "只分配给我",
+      "grid": {
+        "customerName": "客户名称",
+        "customerNumber": "客户编号",
+        "demandPlannedCurrentYear": "计划需求（今年)",
+        "demandPlannedNextYear": "计划需求（明年)",
+        "deviationToCurrentYear": "与今年的偏差",
+        "deviationToPreviousYear": "与去年的偏差",
+        "firmBusinessCurrentYear": "Firm Business（今年)",
+        "firmBusinessNextYear": "Firm Business（明年)",
+        "firmBusinessPreviousYear": "Firm Business（去年)",
+        "headline": "相关规划关键绩效指标",
+        "jumpToFunction": "跳转到功能......与客户",
+        "lastChangeDate": "最后更改日期",
+        "lastPlannedBy": "最后计划人",
+        "salesPlannedCurrentYear": "计划销售（今年)",
+        "salesPlannedNextYear": "计划销售（明年)",
+        "yearlyTotalCurrentYear": "年度总计（今年)",
+        "yearlyTotalNextYear": "年度总计（明年)"
+      },
+      "headline": "您的客户",
+      "layout": {
+        "currentToNext": "本年度至下一年度",
+        "label": "Layout",
+        "previousToCurrent": "前一年至本年"
+      }
     },
     "yourTasks": {
       "gridHeadline": "任务",
@@ -794,9 +823,9 @@
   "paste_from_clipboard": "从剪贴板粘贴",
   "planing_type": {
     "title": {
-      "yearlyTotal": "年度总计",
       "CONFIRMED": "有限的",
-      "REQUESTED": "无限的"
+      "REQUESTED": "无限的",
+      "yearlyTotal": "年度总计"
     }
   },
   "privacy_policy_page": {
@@ -940,12 +969,12 @@
       "otherRevenues": "其他收入",
       "planExistsOnOtherLevel": "计划存在于其他层次级别",
       "planInvoiceSales": "计划 x+y 开票金额",
-      "planOnlyInPlanningCurrency": "仅能以规划货币进行规划",
       "plannedValueDemand360": "计划价值需求验证",
       "planNetSales": "计划 x+y 净销售",
       "planning": "规划",
       "planningMonth": "月份",
       "planningYear": "年度",
+      "planOnlyInPlanningCurrency": "仅能以规划货币进行规划",
       "salesDeduction": "销售扣除(%)",
       "salesPlanConstrained": "销售计划 (Con)",
       "salesPlanUnconstrained": "销售计划 (Unc)",
@@ -984,7 +1013,37 @@
     "/SGD/SCM_SOP_SALES": {
       "0": "无法找到含有以下值的文本：{{messageV1}}、{{messageV2}}、{{messageV3}}、{{messageV4}}。",
       "1": "客户号不存在。",
+      "2": "不存在此客户物料组合。",
+      "3": "无效的周期类型。",
+      "4": "无法保存过去的值。",
+      "5": "无效的材料分类  (OP)。",
+      "6": "无法保存负值。",
+      "7": "由于缺少授权, 无法保存预测。 (Code 007)",
       "10": "禁止对该客户的有效预测进行编辑或删除",
+      "16": "您没有客户端 {{messageV1}} 所需的权限。",
+      "17": "未找到条目。",
+      "22": "替换日期 ({{messageV1}}) 后无法保存预测",
+      "23": "Phase-Out旧物料已变更为{{messageV1}} 因为订单或其他机会",
+      "24": "已删除 {{messageV1}} 的预测。",
+      "25": "物料 {{messageV1}} 不存在。",
+      "26": "无法确定后续物料 {{messageV1}} 的交货工厂。",
+      "27": "循环引用后续替换物料 {{messageV1}}不允许",
+      "28": "创建警报时出错！",
+      "29": "未定义预测副本的操作。",
+      "30": "禁止变更模板状态禁止变更模板状态{{messageV1}} 为状态{{messageV2}}",
+      "31": "更换建议未获通过",
+      "32": "头部链不是活跃物料",
+      "33": "禁止创建该组合, 因为存在后续物料{{messageV1}}",
+      "34": "材料 {{messageV1}}和材料{{messageV2}}具有循环引用.",
+      "37": "替代提议开放",
+      "38": "替代提议已锁",
+      "39": "由于 \"替换类型 \"超时, 不允许将状态更改为{{messageV1}}!",
+      "40": "状态已变更为{{messageV1}} 因为订单或销售机会的原因",
+      "41": "状态已变更为{{messageV1}}, 因为已经到期",
+      "42": "状态已变更为{{messageV1}}, 因为没有未来或历史需求",
+      "51": "过去或当月的预测均不可更改",
+      "52": "过去的预测无法改变",
+      "53": "预报不能在周六和/或周日发布",
       "100": "该 {{messageV1}}替换类型无效",
       "101": "必须输入一个有效的区域。该 {{messageV1}} 无效。",
       "102": "该记录不存在",
@@ -1005,37 +1064,7 @@
       "117": "DC 组别{{messageV2}}的任何 AP/OP 工厂中都不存在后续{{messageV1}}。",
       "118": "在MARC中{{messageV1}}的后续在工厂{{messageV2}}是不同的：{{messageV3}}",
       "119": "禁止维护该 {{messageV1}} 替换类型在本销售领域内",
-      "123": "不允许 SOP 日期早于切换日期",
-      "16": "您没有客户端 {{messageV1}} 所需的权限。",
-      "17": "未找到条目。",
-      "2": "不存在此客户物料组合。",
-      "22": "替换日期 ({{messageV1}}) 后无法保存预测",
-      "23": "Phase-Out旧物料已变更为{{messageV1}} 因为订单或其他机会",
-      "24": "已删除 {{messageV1}} 的预测。",
-      "25": "物料 {{messageV1}} 不存在。",
-      "26": "无法确定后续物料 {{messageV1}} 的交货工厂。",
-      "27": "循环引用后续替换物料 {{messageV1}}不允许",
-      "28": "创建警报时出错！",
-      "29": "未定义预测副本的操作。",
-      "3": "无效的周期类型。",
-      "30": "禁止变更模板状态禁止变更模板状态{{messageV1}} 为状态{{messageV2}}",
-      "31": "更换建议未获通过",
-      "32": "头部链不是活跃物料",
-      "33": "禁止创建该组合, 因为存在后续物料{{messageV1}}",
-      "34": "材料 {{messageV1}}和材料{{messageV2}}具有循环引用.",
-      "37": "替代提议开放",
-      "38": "替代提议已锁",
-      "39": "由于 \"替换类型 \"超时, 不允许将状态更改为{{messageV1}}!",
-      "4": "无法保存过去的值。",
-      "40": "状态已变更为{{messageV1}} 因为订单或销售机会的原因",
-      "41": "状态已变更为{{messageV1}}, 因为已经到期",
-      "42": "状态已变更为{{messageV1}}, 因为没有未来或历史需求",
-      "5": "无效的材料分类  (OP)。",
-      "51": "过去或当月的预测均不可更改",
-      "52": "过去的预测无法改变",
-      "53": "预报不能在周六和/或周日发布",
-      "6": "无法保存负值。",
-      "7": "由于缺少授权, 无法保存预测。 (Code 007)"
+      "123": "不允许 SOP 日期早于切换日期"
     },
     "error": "找不到{{messageClass}}类和{{messageNumber}}号的信息。"
   },

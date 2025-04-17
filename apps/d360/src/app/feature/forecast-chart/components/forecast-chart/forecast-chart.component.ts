@@ -2,11 +2,13 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  computed,
   DestroyRef,
   effect,
   inject,
   input,
   OnInit,
+  Signal,
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -42,6 +44,7 @@ import {
 import { ColumnFilters } from '../../../../shared/ag-grid/grid-filter-model';
 import { DatePickerMonthYearComponent } from '../../../../shared/components/date-picker-month-year/date-picker-month-year.component';
 import { GlobalSelectionState } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
+import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { ValidateForm } from '../../../../shared/decorators';
 import { disabledGrey } from '../../../../shared/styles/colors';
 import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
@@ -82,9 +85,31 @@ import { YearlyForecastChartComponent } from '../yearly-forecast-chart/yearly-fo
 export class ForecastChartComponent implements OnInit {
   public currency = input.required<string>();
   public globalSelectionState = input.required<GlobalSelectionState>();
+  public customerFilter = input<SelectableValue>(null);
+  protected readonly currentFilter: Signal<GlobalSelectionState> =
+    computed<GlobalSelectionState>(() =>
+      this.customerFilter()
+        ? {
+            region: [],
+            salesArea: [],
+            sectorManagement: [],
+            salesOrg: [],
+            gkamNumber: [],
+            customerNumber: [this.customerFilter()],
+            materialClassification: [],
+            sector: [],
+            materialNumber: [],
+            productionPlant: [],
+            productionSegment: [],
+            alertType: [],
+          }
+        : this.globalSelectionState()
+    );
   public columnFilters = input.required<ColumnFilters>();
   public chartIdentifier = input.required<string>();
   public defaultPeriodType = input.required<PeriodType>();
+  public isAssignedToMe = input<boolean>(null);
+  public disablePreview = input<boolean>(false);
 
   private readonly destroy = inject(DestroyRef);
   private readonly chartSettingsService: ChartSettingsService =
@@ -111,9 +136,12 @@ export class ForecastChartComponent implements OnInit {
       () =>
         this.chartSettingsInitialized() &&
         this.loadData$(
-          this.globalSelectionState(),
-          this.columnFilters()
-        ).subscribe()
+          this.currentFilter(),
+          this.columnFilters(),
+          this.isAssignedToMe()
+        )
+          .pipe(takeUntilDestroyed(this.destroy))
+          .subscribe()
     );
   }
 
@@ -146,7 +174,11 @@ export class ForecastChartComponent implements OnInit {
     this.loadChartSettings()
       .pipe(
         switchMap(() =>
-          this.loadData$(this.globalSelectionState(), this.columnFilters())
+          this.loadData$(
+            this.currentFilter(),
+            this.columnFilters(),
+            this.isAssignedToMe()
+          )
         ),
         takeUntilDestroyed(this.destroy)
       )
@@ -182,13 +214,17 @@ export class ForecastChartComponent implements OnInit {
 
   private loadData$(
     globalSelectionState: GlobalSelectionState,
-    columnFilters: Record<string, any>
+    columnFilters: Record<string, any>,
+    isAssignedToMe?: boolean
   ): Observable<ForecastChartData> {
     this.isLoading.set(true);
     this.isError.set(false);
     if (
-      !globalSelectionState ||
-      Object.values(globalSelectionState).every((value) => value.length === 0)
+      !this.disablePreview() &&
+      (!globalSelectionState ||
+        Object.values(globalSelectionState).every(
+          (value) => value.length === 0
+        ))
     ) {
       this.chartData.set(
         this.isYearlyChartSelected()
@@ -222,7 +258,8 @@ export class ForecastChartComponent implements OnInit {
           this.chartSettings,
           formatISO(startDate, { representation: 'date' }),
           formatISO(endDate, { representation: 'date' }),
-          this.currency()
+          this.currency(),
+          isAssignedToMe
         )
         .pipe(
           tap((forecastChartData) => {
@@ -232,7 +269,10 @@ export class ForecastChartComponent implements OnInit {
           }),
           catchError((_) => {
             this.isLoading.set(false);
-            this.isPreviewDataRendered.set(true);
+            if (!this.disablePreview()) {
+              this.isPreviewDataRendered.set(true);
+            }
+
             this.isError.set(true);
 
             return EMPTY;
@@ -285,7 +325,11 @@ export class ForecastChartComponent implements OnInit {
       .updateChartSettings(this.chartSettings, this.chartIdentifier())
       .pipe(
         switchMap(() =>
-          this.loadData$(this.globalSelectionState(), this.columnFilters())
+          this.loadData$(
+            this.currentFilter(),
+            this.columnFilters(),
+            this.isAssignedToMe()
+          )
         ),
         takeUntilDestroyed(this.destroy)
       )

@@ -16,7 +16,7 @@ import {
   ValueProvider,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import {
   MAT_DIALOG_DATA,
@@ -44,11 +44,13 @@ import { GlobalSelectionHelperService } from '../../feature/global-selection/glo
 import { CurrencyService } from '../../feature/info/currency.service';
 import { IMRService } from '../../feature/internal-material-replacement/imr.service';
 import { MaterialCustomerService } from '../../feature/material-customer/material-customer.service';
+import { OverviewService } from '../../feature/overview/overview.service';
 import { PlanningLevelService } from '../../feature/sales-planning/planning-level.service';
 import { SalesPlanningService } from '../../feature/sales-planning/sales-planning.service';
 import { AlertRulesColumnSettingsService } from '../../pages/alert-rules/table/services/alert-rules-column-settings.service';
 import { ExportMaterialCustomerService } from '../../pages/home/table/services/export-material-customer.service';
 import { MaterialCustomerTableService } from '../../pages/home/table/services/material-customer-table.service';
+import { CustomerSalesPlanningColumnSettingsService } from '../../pages/overview/services/customer-sales-planning-column-settings.service';
 import { MonthlyCustomerPlanningDetailsColumnSettingsService } from '../../pages/sales-planning/components/customer-planning-details/monthly-customer-planning-details-modal/service/monthly-customer-planning-details-column-settings.service';
 import { YearlyCustomerPlanningDetailsColumnSettingsService } from '../../pages/sales-planning/components/customer-planning-details/service/customer-planning-details-column-settings.service';
 import { GlobalSelectionStateService } from '../components/global-selection-criteria/global-selection-state.service';
@@ -156,6 +158,7 @@ export class Stub {
       'useValue'
     ),
     MockProvider(HttpClient, this.getHttpClient(), 'useValue'),
+    MockProvider(FormBuilder),
   ];
 
   private static fixture: ComponentFixture<any> | null = null;
@@ -434,6 +437,21 @@ export class Stub {
     );
   }
 
+  public static getCustomerSalesPlanningColumnSettingsServiceProvider(): ValueProvider {
+    return MockProvider(
+      CustomerSalesPlanningColumnSettingsService,
+      {
+        useMaterialCustomerColumnLayouts: jest.fn(),
+        createMaterialCustomerDatasource: jest.fn(),
+        getColumnDefs: jest.fn(),
+        loadColumnSettings$: jest.fn(),
+        getColumnSettings: jest.fn(),
+        applyStoredFilters: jest.fn(),
+      },
+      'useValue'
+    );
+  }
+
   public static getPlanningLevelServiceProvider(): ValueProvider {
     return MockProvider(
       PlanningLevelService,
@@ -641,5 +659,24 @@ export class Stub {
 
   public static getDateAdapterProvider(): ValueProvider {
     return MockProvider(DateAdapter, { setLocale: () => {} }, 'useValue');
+  }
+
+  public static getOverviewProvider(): ValueProvider {
+    return MockProvider(
+      OverviewService,
+      {
+        createCustomerSalesPlanningDatasource: jest.fn(),
+        getDataFetchedEvent: () => of(),
+      },
+      'useValue'
+    );
+  }
+
+  public static getTranslocoLocaleServiceProvider(): ValueProvider {
+    return MockProvider(
+      TranslocoLocaleService,
+      { getLocale: jest.fn() },
+      'useValue'
+    );
   }
 }

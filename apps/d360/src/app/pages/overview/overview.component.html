@@ -5,11 +5,70 @@
 } @else {
   <div *transloco="let t">
     <h2 class="text-title-large">{{ t('tabbarMenu.overview.label') }}</h2>
-    <d360-overview-filter (onFilterChange)="overviewFilterValue.set($event)" />
+    <d360-overview-filter
+      (onFilterChange)="overviewFilterValue.set($event)"
+      (onReset)="onOverviewFilterReset()"
+    />
 
-    <div class="gap-4 pb-4">
+    <div class="gap-4 pb-4 my-4">
       <div class="flex flex-row gap-6 justify-between">
-        <span class="sub-headline">{{ t('overview.yourTasks.headline') }}</span>
+        <span class="mt-2">{{ t('overview.yourCustomer.headline') }}</span>
+        <span class="flex flex-row justify-center align-middle">
+          <mat-slide-toggle
+            checked="isAssignedToMe()"
+            (change)="isAssignedToMe.set($event.checked)"
+            class="mr-4 mt-1"
+            labelPosition="before"
+            hideIcon="true"
+            >{{ t('overview.yourCustomer.assignedToYou') }}</mat-slide-toggle
+          >
+
+          <d360-filter-dropdown
+            [control]="yourCustomerForm.controls.layout"
+            [form]="yourCustomerForm"
+            [label]="t('overview.yourCustomer.layout.label')"
+            [formatSelectedValue]="DisplayFunctions.displayFnText"
+            [formatOptionValue]="DisplayFunctions.displayFnText"
+            [options]="layouts"
+            (selectionChange)="onLayoutSelectionChange($any($event))"
+            class="w-[24rem] block"
+          />
+        </span>
+      </div>
+      <div class="your-tasks flex md:flex-row flex-col gap-4">
+        <div class="card h-full md:w-1/2 w-full mb-1">
+          <d360-customer-sales-planning-grid
+            [layout]="selectedLayout()"
+            [isAssignedToMe]="isAssignedToMe()"
+            [gkamNumbers]="gkamFilterIds()"
+            [customerNumbers]="customerFilterIds()"
+            (selectionChanged)="
+              selectedCustomer.set(
+                $event
+                  ? { id: $event.customerNumber, text: $event.customerName }
+                  : null
+              )
+            "
+          ></d360-customer-sales-planning-grid>
+        </div>
+        <div class="card h-full md:w-1/2 w-full p-4 mb-1 forecast-chart">
+          <d360-forecast-chart
+            [currency]="currencyService.getCurrentCurrency() | ngrxPush"
+            [columnFilters]="{}"
+            [globalSelectionState]="globalSelection()"
+            [chartIdentifier]="'overview-page'"
+            [defaultPeriodType]="PeriodType.MONTHLY"
+            [isAssignedToMe]="isAssignedToMe()"
+            [customerFilter]="selectedCustomer()"
+            [disablePreview]="true"
+          />
+        </div>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="gap-6 pb-4 pt-8">
+      <div class="flex flex-row gap-4 justify-between">
+        <span class="mt-2">{{ t('overview.yourTasks.headline') }}</span>
         <d360-priority-dropdown
           (selectionChange)="selectedPriorities.set($event)"
         />
@@ -17,13 +76,10 @@
 
       <div class="your-tasks flex md:flex-row flex-col gap-4">
         <div class="card h-full md:w-1/2 w-full p-4 mb-1">
-          <div>
-            <div class="headline uppercase">
-              {{ t('overview.yourTasks.gridHeadline') }}
-            </div>
-            <div class="sub-headline mb-4">
+          <div class="mb-4">
+            <h2 *transloco="let t" class="text-title-large">
               {{ t('validation_of_demand.title') }}
-            </div>
+            </h2>
           </div>
           <d360-task-priority-grid
             [gkamNumbers]="gkamFilterIds()"
@@ -34,13 +90,10 @@
         </div>
 
         <div class="card h-full md:w-1/2 w-full p-4 mb-1">
-          <div>
-            <div class="headline uppercase">
-              {{ t('overview.yourTasks.gridHeadline') }}
-            </div>
-            <div class="sub-headline mb-4">
+          <div class="mb-4">
+            <h2 *transloco="let t" class="text-title-large">
               {{ t('tabbarMenu.customer-material-portfolio.label') }}
-            </div>
+            </h2>
           </div>
           <d360-task-priority-grid
             [openFunction]="OpenFunction.Customer_Material_Portfolio"

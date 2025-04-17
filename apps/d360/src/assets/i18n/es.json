@@ -234,9 +234,9 @@
           "PHASE-OUT": "Combinación básica Eliminación progresiva",
           "REACTIVATION": "Activar combinación base",
           "SUBSTITUTION": "Sustituir combinación base",
+          "SUBSTITUTION-REVERT": "Deshacer la sustitución",
           "SUBSTITUTION_PROPOSAL": "Propuesta de sustitución de controles",
-          "SUBSTITUTION_TO_SCHAEFFLER": "Cambio de sucesor de Schaeffler",
-          "SUBSTITUTION-REVERT": "Deshacer la sustitución"
+          "SUBSTITUTION_TO_SCHAEFFLER": "Cambio de sucesor de Schaeffler"
         },
         "change_to_schaeffler": {
           "hint": "Nota: La anulación de la sustitución inicial a petición del cliente no es posible debido a los sucesores de Schaeffler.",
@@ -264,6 +264,14 @@
             "add_material": "Atención, el material no está incluido en la cartera del cliente. ¿Debe añadirse?"
           }
         }
+      }
+    }
+  },
+  "customer-material-portfolio": {
+    "upload_modal": {
+      "modal": {
+        "demand_type": "Característica de la demanda (serie/esporádica)",
+        "phase_in": "Fecha de introducción"
       }
     }
   },
@@ -361,14 +369,6 @@
     "toolbar": {
       "collapseAll": "plegar",
       "expandAll": "desplegar"
-    }
-  },
-  "customer-material-portfolio": {
-    "upload_modal": {
-      "modal": {
-        "demand_type": "Característica de la demanda (serie/esporádica)",
-        "phase_in": "Fecha de introducción"
-      }
     }
   },
   "demand_characteristics": {
@@ -778,7 +778,36 @@
   },
   "overview": {
     "filter": {
-      "customer": "Cliente / Account"
+      "customer": "Cliente / Account",
+      "dataSelection": "Selección de datos"
+    },
+    "yourCustomer": {
+      "assignedToYou": "sólo se me asigna a mí",
+      "grid": {
+        "customerName": "Nombre del cliente",
+        "customerNumber": "Número de cliente",
+        "demandPlannedCurrentYear": "Demanda planeada (AÑ)",
+        "demandPlannedNextYear": "Demanda planeada (AÑ)",
+        "deviationToCurrentYear": "Desviación respecto a AÑ",
+        "deviationToPreviousYear": "Desviación respecto a AÑ",
+        "firmBusinessCurrentYear": "Firm Business (AÑ)",
+        "firmBusinessNextYear": "Firm Business (AÑ)",
+        "firmBusinessPreviousYear": "Firm Business (AÑ)",
+        "headline": "Indicadores clave de rendimiento de la planificación",
+        "jumpToFunction": "Saltar a la función... con el cliente",
+        "lastChangeDate": "Última fecha de cambio",
+        "lastPlannedBy": "Últimamente planeado por",
+        "salesPlannedCurrentYear": "Ventas planeadas (AÑ)",
+        "salesPlannedNextYear": "Ventas planeadas (AÑ)",
+        "yearlyTotalCurrentYear": "Total anual (AÑ)",
+        "yearlyTotalNextYear": "Total anual (AÑ)"
+      },
+      "headline": "Su cliente",
+      "layout": {
+        "currentToNext": "Del año en curso al siguiente",
+        "label": "Layout",
+        "previousToCurrent": "Año anterior a año en curso"
+      }
     },
     "yourTasks": {
       "gridHeadline": "To-Dos",
@@ -794,9 +823,9 @@
   "paste_from_clipboard": "Pegar desde el portapapeles",
   "planing_type": {
     "title": {
-      "yearlyTotal": "Total Anual",
       "CONFIRMED": "Constrained",
-      "REQUESTED": "Unconstrained"
+      "REQUESTED": "Unconstrained",
+      "yearlyTotal": "Total Anual"
     }
   },
   "privacy_policy_page": {
@@ -940,12 +969,12 @@
       "otherRevenues": "Otros Ingresos",
       "planExistsOnOtherLevel": "El plan existe en otro nivel jerárquico",
       "planInvoiceSales": "Valor Facturado Plan x+y",
-      "planOnlyInPlanningCurrency": "Planificación solo posible en la moneda de planificación",
       "plannedValueDemand360": "Validación de la Demanda de Valor Planeada",
       "planNetSales": "Ventas Netas Plan x+y",
       "planning": "Planificación",
       "planningMonth": "Mes",
       "planningYear": "Año",
+      "planOnlyInPlanningCurrency": "Planificación solo posible en la moneda de planificación",
       "salesDeduction": "Deducción de Ventas (en %)",
       "salesPlanConstrained": "Plan de Ventas (Con)",
       "salesPlanUnconstrained": "Plan de Ventas (Unc)",
@@ -984,7 +1013,37 @@
     "/SGD/SCM_SOP_SALES": {
       "0": "No se ha podido encontrar el texto con los siguientes valores: {{mensajeV1}}, {{mensajeV2}}, {{mensajeV3}}, {{mensajeV4}}.",
       "1": "El número de cliente no existe.",
+      "2": "La combinación de material del cliente no existe.",
+      "3": "Tipo de período inválido.",
+      "4": "Los valores del pasado no se pueden actualizar.",
+      "5": "Clasificación de material inválida (OP).",
+      "6": "Los valores negativos no se pueden actualizar.",
+      "7": "El pronóstico no se puede guardar debido a que falta autorización. (Código 007)",
       "10": "Este cliente no puede editar ni borrar la previsión validada.",
+      "16": "No tienes los permisos necesarios para el cliente {{messageV1}}.",
+      "17": "No se ha encontrado ninguna entrada.",
+      "22": "La previsión no puede guardarse después de la fecha de sustitución ({{messageV1}}).",
+      "23": "Cambio de fase a {{messageV1}} debido a pedidos / oportunidades.",
+      "24": "Previsión eliminada para {{messageV1}}.",
+      "25": "El material {{messageV1}} no existe.",
+      "26": "No se ha podido determinar el centro de entrega del material de seguimiento {{messageV1}}.",
+      "27": "¡Referencia circular! ¡El sucesor {{mensajeV1}} no está permitido!",
+      "28": "¡Error al crear la alerta!",
+      "29": "Acción de copia de previsión no definida.",
+      "30": "No se permite cambiar el estado de la cartera de {{mensajeV1}} a {{mensajeV2}}.",
+      "31": "No se adopta la propuesta de sustitución",
+      "32": "La cabeza de la cadena no es el material activo",
+      "33": "Combinación no creada, ya que existe material sucesor {{messageV1}}.",
+      "34": "Referencia circular encontrada entre el material {{mensajeV1}} y el material {{mensajeV2}}.",
+      "37": "Propuesta de sustitución abierta.",
+      "38": "Propuesta de sustitución bloqueada.",
+      "39": "El cambio de estado a {{messageV1}} no está permitido debido al agotamiento del tipo de sustitución sin sucesor!",
+      "40": "Estado ajustado a {{messageV1}} debido a pedidos/oportunidades.",
+      "41": "Estado cambiado a {{messageV1}}, fecha de caducidad alcanzada.",
+      "42": "El estado se estableció en {{messageV1}}, ya que no hay requisitos futuros o históricos.",
+      "51": "La previsión no puede modificarse en el pasado ni en el mes en curso.",
+      "52": "La previsión no se puede cambiar en el pasado.",
+      "53": "Las previsiones no podían distribuirse en sábado y/o domingo.",
       "100": "El tipo de sustitución {{messageV1}} no es válido.",
       "101": "Se debe pasar una región válida. {{mensajeV1}} no es válido.",
       "102": "El registro no existe.",
@@ -1005,37 +1064,7 @@
       "117": "El sucesor {{mensajeV1}} no está presente en ninguna planta AP/OP del grupo DC {{mensajeV2}}.",
       "118": "El sucesor de {{mensajeV1}} en la obra {{mensajeV2}} es diferente en MARC: {{mensajeV3}}.",
       "119": "La superficie de venta no debe actualizarse para el tipo de sustitución {{messageV1}}.",
-      "123": "No se permite la fecha SOP anterior a la fecha de corte",
-      "16": "No tienes los permisos necesarios para el cliente {{messageV1}}.",
-      "17": "No se ha encontrado ninguna entrada.",
-      "2": "La combinación de material del cliente no existe.",
-      "22": "La previsión no puede guardarse después de la fecha de sustitución ({{messageV1}}).",
-      "23": "Cambio de fase a {{messageV1}} debido a pedidos / oportunidades.",
-      "24": "Previsión eliminada para {{messageV1}}.",
-      "25": "El material {{messageV1}} no existe.",
-      "26": "No se ha podido determinar el centro de entrega del material de seguimiento {{messageV1}}.",
-      "27": "¡Referencia circular! ¡El sucesor {{mensajeV1}} no está permitido!",
-      "28": "¡Error al crear la alerta!",
-      "29": "Acción de copia de previsión no definida.",
-      "3": "Tipo de período inválido.",
-      "30": "No se permite cambiar el estado de la cartera de {{mensajeV1}} a {{mensajeV2}}.",
-      "31": "No se adopta la propuesta de sustitución",
-      "32": "La cabeza de la cadena no es el material activo",
-      "33": "Combinación no creada, ya que existe material sucesor {{messageV1}}.",
-      "34": "Referencia circular encontrada entre el material {{mensajeV1}} y el material {{mensajeV2}}.",
-      "37": "Propuesta de sustitución abierta.",
-      "38": "Propuesta de sustitución bloqueada.",
-      "39": "El cambio de estado a {{messageV1}} no está permitido debido al agotamiento del tipo de sustitución sin sucesor!",
-      "4": "Los valores del pasado no se pueden actualizar.",
-      "40": "Estado ajustado a {{messageV1}} debido a pedidos/oportunidades.",
-      "41": "Estado cambiado a {{messageV1}}, fecha de caducidad alcanzada.",
-      "42": "El estado se estableció en {{messageV1}}, ya que no hay requisitos futuros o históricos.",
-      "5": "Clasificación de material inválida (OP).",
-      "51": "La previsión no puede modificarse en el pasado ni en el mes en curso.",
-      "52": "La previsión no se puede cambiar en el pasado.",
-      "53": "Las previsiones no podían distribuirse en sábado y/o domingo.",
-      "6": "Los valores negativos no se pueden actualizar.",
-      "7": "El pronóstico no se puede guardar debido a que falta autorización. (Código 007)"
+      "123": "No se permite la fecha SOP anterior a la fecha de corte"
     },
     "error": "No se ha podido encontrar el mensaje con la clase {{messageClass}} y el número {{messageNumber}}."
   },

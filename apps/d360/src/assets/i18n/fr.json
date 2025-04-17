@@ -234,9 +234,9 @@
           "PHASE-OUT": "Combinaison de base phase-out",
           "REACTIVATION": "Activer la combinaison de base",
           "SUBSTITUTION": "Substitude la combinaison de base",
+          "SUBSTITUTION-REVERT": "Annuler le substitut",
           "SUBSTITUTION_PROPOSAL": "Contrôler la proposition de substitution",
-          "SUBSTITUTION_TO_SCHAEFFLER": "Changement de successeur chez Schaeffler",
-          "SUBSTITUTION-REVERT": "Annuler le substitut"
+          "SUBSTITUTION_TO_SCHAEFFLER": "Changement de successeur chez Schaeffler"
         },
         "change_to_schaeffler": {
           "hint": "Remarque : L'annulation du substitution initial à la demande du client n'est pas possible en raison du successeur de Schaeffler.",
@@ -264,6 +264,14 @@
             "add_material": "Attention, le matériel n'est pas inclus dans le portfolio du client. Faut-il l'ajouter ?"
           }
         }
+      }
+    }
+  },
+  "customer-material-portfolio": {
+    "upload_modal": {
+      "modal": {
+        "demand_type": "Écran des besoins (série/sporadique)",
+        "phase_in": "Date de phase d'entrée"
       }
     }
   },
@@ -361,14 +369,6 @@
     "toolbar": {
       "collapseAll": "replier",
       "expandAll": "déplier"
-    }
-  },
-  "customer-material-portfolio": {
-    "upload_modal": {
-      "modal": {
-        "demand_type": "Écran des besoins (série/sporadique)",
-        "phase_in": "Date de phase d'entrée"
-      }
     }
   },
   "demand_characteristics": {
@@ -778,7 +778,36 @@
   },
   "overview": {
     "filter": {
-      "customer": "Client / Account"
+      "customer": "Client / Account",
+      "dataSelection": "Sélection des données"
+    },
+    "yourCustomer": {
+      "assignedToYou": "qui m'a été attribuée",
+      "grid": {
+        "customerName": "Nom du client",
+        "customerNumber": "Numéro de client",
+        "demandPlannedCurrentYear": "Demande planifiée (AN)",
+        "demandPlannedNextYear": "Demande planifiée (AN)",
+        "deviationToCurrentYear": "Écart par rapport à AN",
+        "deviationToPreviousYear": "Écart par rapport à AN",
+        "firmBusinessCurrentYear": "Firm Business (AN)",
+        "firmBusinessNextYear": "Firm Business (AN)",
+        "firmBusinessPreviousYear": "Firm Business (AN)",
+        "headline": "KPIs pertinents pour la planification",
+        "jumpToFunction": "Passer à la fonction... avec le client",
+        "lastChangeDate": "Dernière date de modification",
+        "lastPlannedBy": "Dernière planification par",
+        "salesPlannedCurrentYear": "Ventes prévues (AN)",
+        "salesPlannedNextYear": "Ventes prévues (AN)",
+        "yearlyTotalCurrentYear": "Total annuel (AN)",
+        "yearlyTotalNextYear": "Total annuel (AN)"
+      },
+      "headline": "Vos clients",
+      "layout": {
+        "currentToNext": "De l'année en cours à l'année suivante",
+        "label": "Layout",
+        "previousToCurrent": "De l'année précédente à l'année en cours"
+      }
     },
     "yourTasks": {
       "gridHeadline": "To-Dos",
@@ -794,9 +823,9 @@
   "paste_from_clipboard": "Coller depuis le presse-papiers",
   "planing_type": {
     "title": {
-      "yearlyTotal": "Total Annuel",
       "CONFIRMED": "Constrained",
-      "REQUESTED": "Unconstrained"
+      "REQUESTED": "Unconstrained",
+      "yearlyTotal": "Total Annuel"
     }
   },
   "privacy_policy_page": {
@@ -940,12 +969,12 @@
       "otherRevenues": "Autres Revenus",
       "planExistsOnOtherLevel": "Le plan existe à un autre niveau hiérarchique",
       "planInvoiceSales": "Valeur Facturée Plan x+y",
-      "planOnlyInPlanningCurrency": "Planification uniquement possible dans la devise de planification",
       "plannedValueDemand360": "Validation de la Demande de Valeur Planifiée",
       "planNetSales": "Ventes Nettes Plan x+y",
       "planning": "Planification",
       "planningMonth": "Mois",
       "planningYear": "Année",
+      "planOnlyInPlanningCurrency": "Planification uniquement possible dans la devise de planification",
       "salesDeduction": "Déduction de Ventes (en %)",
       "salesPlanConstrained": "Plan de Ventes (Con)",
       "salesPlanUnconstrained": "Plan de Ventes (Unc)",
@@ -984,7 +1013,37 @@
     "/SGD/SCM_SOP_SALES": {
       "0": "Le texte avec les valeurs suivantes n'a pas pu être trouvé : {{messageV1}}, {{messageV2}}, {{messageV3}}, {{messageV4}}.",
       "1": "Code Client inexistant",
+      "2": "Combinaison article-client inexistante",
+      "3": "Type de Période non valide",
+      "4": "Les valeurs passées ne peuvent pas être enregistrées.",
+      "5": "Classification Article non valide (OP).",
+      "6": "Les valeurs négatives ne peuvent pas être sauvegardé.",
+      "7": "La prévision ne peut pas être enregistrée en raison d'une autorisation manquante. (Code 007)",
       "10": "La modification/suppression de la prévision validée n'est pas possible pour ce client.",
+      "16": "Vous n'avez pas les autorisations nécessaires pour le client {{messageV1}}.",
+      "17": "Aucune entrée trouvée.",
+      "22": "Les prévisions ne peuvent pas être sauvegardées après la date de remplacement ({{messageV1}}).",
+      "23": "Phase-Out en raison de commandes / opportunités changé à {{messageV1}}.",
+      "24": "Prévision supprimée pour {{messageV1}}.",
+      "25": "Le matériel {{messageV1}} n'existe pas.",
+      "26": "La division de livraison pour le matériel de substitution {{messageV1}} n'a pas pu être déterminée.",
+      "27": "Référence circulaire! Le successeur {{messageV1}} n'est pas autorisé !",
+      "28": "Erreur lors de la création de l'alerte !",
+      "29": "Action pour la copie de la prévision non définie",
+      "30": "Changement du statut du portefeuille de {{messageV1}} à {{messageV2}}, n'est pas autorisé.",
+      "31": "La proposition de substitution n'est pas adoptée",
+      "32": "La tête de la chaîne n'est pas le matériau actif",
+      "33": "Combinaison non créée, car il existe un matériau de substitution {{messageV1}}.",
+      "34": "Référence circulaire trouvée entre le matériau {{messageV1}} et le matériau {{messageV2}}.",
+      "37": "Proposition de substitution ouverte.",
+      "38": "Proposition de substitution bloquée.",
+      "39": "Le changement de statut vers {{messageV1}} n'est pas autorisé en raison de l'épuisement du type de substitution sans successeur !",
+      "40": "Statut ajusté à {{messageV1}} en raison des commandes/opportunités.",
+      "41": "Statut modifié à {{messageV1}}, date d'expiration atteinte.",
+      "42": "Statut fixé à {{messageV1}}, car aucun besoin futur ou historique.",
+      "51": "Les prévisions ne peuvent être modifiées ni dans le passé ni dans le mois en cours.",
+      "52": "Les prévisions ne peuvent pas être modifiées dans le passé.",
+      "53": "Les prévisions ne pouvaient pas être distribuées un samedi et/ou un dimanche.",
       "100": "Le type de substitution {{messageV1}} n'est pas valide.",
       "101": "Une région valide doit être passée. {messageV1}} n'est pas valide.",
       "102": "L'enregistrement n'existe pas.",
@@ -1005,37 +1064,7 @@
       "117": "Le successeur {{messageV1}} n'est présent dans aucune usine AP/OP du groupe DC {{messageV2}}.",
       "118": "Le successeur de {{messageV1}} dans la division {{messageV2}} est différent dans MARC : {{messageV3}}.",
       "119": "Le domaine commercial ne doit pas être géré pour le type de substitution {{messageV1}}.",
-      "123": "La date du PIC avant la date de transition n'est pas autorisée",
-      "16": "Vous n'avez pas les autorisations nécessaires pour le client {{messageV1}}.",
-      "17": "Aucune entrée trouvée.",
-      "2": "Combinaison article-client inexistante",
-      "22": "Les prévisions ne peuvent pas être sauvegardées après la date de remplacement ({{messageV1}}).",
-      "23": "Phase-Out en raison de commandes / opportunités changé à {{messageV1}}.",
-      "24": "Prévision supprimée pour {{messageV1}}.",
-      "25": "Le matériel {{messageV1}} n'existe pas.",
-      "26": "La division de livraison pour le matériel de substitution {{messageV1}} n'a pas pu être déterminée.",
-      "27": "Référence circulaire! Le successeur {{messageV1}} n'est pas autorisé !",
-      "28": "Erreur lors de la création de l'alerte !",
-      "29": "Action pour la copie de la prévision non définie",
-      "3": "Type de Période non valide",
-      "30": "Changement du statut du portefeuille de {{messageV1}} à {{messageV2}}, n'est pas autorisé.",
-      "31": "La proposition de substitution n'est pas adoptée",
-      "32": "La tête de la chaîne n'est pas le matériau actif",
-      "33": "Combinaison non créée, car il existe un matériau de substitution {{messageV1}}.",
-      "34": "Référence circulaire trouvée entre le matériau {{messageV1}} et le matériau {{messageV2}}.",
-      "37": "Proposition de substitution ouverte.",
-      "38": "Proposition de substitution bloquée.",
-      "39": "Le changement de statut vers {{messageV1}} n'est pas autorisé en raison de l'épuisement du type de substitution sans successeur !",
-      "4": "Les valeurs passées ne peuvent pas être enregistrées.",
-      "40": "Statut ajusté à {{messageV1}} en raison des commandes/opportunités.",
-      "41": "Statut modifié à {{messageV1}}, date d'expiration atteinte.",
-      "42": "Statut fixé à {{messageV1}}, car aucun besoin futur ou historique.",
-      "5": "Classification Article non valide (OP).",
-      "51": "Les prévisions ne peuvent être modifiées ni dans le passé ni dans le mois en cours.",
-      "52": "Les prévisions ne peuvent pas être modifiées dans le passé.",
-      "53": "Les prévisions ne pouvaient pas être distribuées un samedi et/ou un dimanche.",
-      "6": "Les valeurs négatives ne peuvent pas être sauvegardé.",
-      "7": "La prévision ne peut pas être enregistrée en raison d'une autorisation manquante. (Code 007)"
+      "123": "La date du PIC avant la date de transition n'est pas autorisée"
     },
     "error": "Message de classe {{messageClass}} et de numéro {{messageNumber}} introuvable."
   },

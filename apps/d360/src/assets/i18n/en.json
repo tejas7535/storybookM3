@@ -234,9 +234,9 @@
           "PHASE-OUT": "Phase-Out base combination",
           "REACTIVATION": "Activate base combination",
           "SUBSTITUTION": "Substitute base combination",
+          "SUBSTITUTION-REVERT": "Substitution undo",
           "SUBSTITUTION_PROPOSAL": "Control substitution proposal",
-          "SUBSTITUTION_TO_SCHAEFFLER": "Change to Schaeffler successor",
-          "SUBSTITUTION-REVERT": "Substitution undo"
+          "SUBSTITUTION_TO_SCHAEFFLER": "Change to Schaeffler successor"
         },
         "change_to_schaeffler": {
           "hint": "Note: Undoing the initial substitution at the customer's request is not possible due to Schaeffler successors.",
@@ -264,6 +264,14 @@
             "add_material": "Attention, the material is not included in the customer's portfolio. Should it be added?"
           }
         }
+      }
+    }
+  },
+  "customer-material-portfolio": {
+    "upload_modal": {
+      "modal": {
+        "demand_type": "Demand characteristic (series/sporadic)",
+        "phase_in": "Phase-In Date"
       }
     }
   },
@@ -361,14 +369,6 @@
     "toolbar": {
       "collapseAll": "fold",
       "expandAll": "fold out"
-    }
-  },
-  "customer-material-portfolio": {
-    "upload_modal": {
-      "modal": {
-        "demand_type": "Demand characteristic (series/sporadic)",
-        "phase_in": "Phase-In Date"
-      }
     }
   },
   "demand_characteristics": {
@@ -778,7 +778,36 @@
   },
   "overview": {
     "filter": {
-      "customer": "Customer / Account"
+      "customer": "Customer / Account",
+      "dataSelection": "Data selection"
+    },
+    "yourCustomer": {
+      "assignedToYou": "only assigned to me",
+      "grid": {
+        "customerName": "Customer Name",
+        "customerNumber": "Customer Number",
+        "demandPlannedCurrentYear": "Demand Planned (CY)",
+        "demandPlannedNextYear": "Demand Planned (NY)",
+        "deviationToCurrentYear": "Deviation to CY",
+        "deviationToPreviousYear": "Deviation to PY",
+        "firmBusinessCurrentYear": "Firm Business (CY)",
+        "firmBusinessNextYear": "Firm Business (NY)",
+        "firmBusinessPreviousYear": "Firm Business (PY)",
+        "headline": "Relevant Planning KPIs",
+        "jumpToFunction": "Jump to function... with customer",
+        "lastChangeDate": "Last change date",
+        "lastPlannedBy": "Last Planned by",
+        "salesPlannedCurrentYear": "Sales Planned (CY)",
+        "salesPlannedNextYear": "Sales Planned (NY)",
+        "yearlyTotalCurrentYear": "Yearly Total (CY)",
+        "yearlyTotalNextYear": "Yearly Total (NY)"
+      },
+      "headline": "Your customers",
+      "layout": {
+        "currentToNext": "Current Year to Next Year",
+        "label": "Layout",
+        "previousToCurrent": "Previous Year to Current Year"
+      }
     },
     "yourTasks": {
       "gridHeadline": "To-Dos",
@@ -794,9 +823,9 @@
   "paste_from_clipboard": "Paste from clipboard",
   "planing_type": {
     "title": {
-      "yearlyTotal": "Yearly Total",
       "CONFIRMED": "Constrained",
-      "REQUESTED": "Unconstrained"
+      "REQUESTED": "Unconstrained",
+      "yearlyTotal": "Yearly Total"
     }
   },
   "privacy_policy_page": {
@@ -940,12 +969,12 @@
       "otherRevenues": "Other Revenues",
       "planExistsOnOtherLevel": "Plan exists on other Hierarchy Level",
       "planInvoiceSales": "Plan x+y Invoiced Sales",
-      "planOnlyInPlanningCurrency": "Planning only possible in planning currency",
       "plannedValueDemand360": "Planned Value Demand Validation",
       "planNetSales": "Plan x+y Net Sales",
       "planning": "Planning",
       "planningMonth": "Month",
       "planningYear": "Year",
+      "planOnlyInPlanningCurrency": "Planning only possible in planning currency",
       "salesDeduction": "Sales Deduction (in %)",
       "salesPlanConstrained": "Sales Plan (Con)",
       "salesPlanUnconstrained": "Sales Plan (Unc)",
@@ -984,7 +1013,37 @@
     "/SGD/SCM_SOP_SALES": {
       "0": "Text with the following values could not be found: {{messageV1}}, {{messageV2}}, {{messageV3}}, {{messageV4}}.",
       "1": "Customer number does not exist.",
+      "2": "Customer material combination does not exist.",
+      "3": "Invalid period type.",
+      "4": "Values in the past cannot be saved.",
+      "5": "Invalid material classification (OP).",
+      "6": "Negative values cannot be saved.",
+      "7": "Forecast cannot be saved due to missing authorization.(Code 007)",
       "10": "Editing/deleting the validated forecast is not possible for this customer.",
+      "16": "You do not have the required permissions for the {{messageV1}} customer.",
+      "17": "No entry found.",
+      "22": "Forecast cannot be saved after the replacement date ({{messageV1}}).",
+      "23": "Phase-Out changed to {{messageV1}} due to Orders / Opportunities.",
+      "24": "Forecast deleted for {{messageV1}}.",
+      "25": "Material {{messageV1}} does not exist.",
+      "26": "Delivery plant for follow-up material {{messageV1}} could not be determined.",
+      "27": "Circular reference! Successor {{messageV1}} is not allowed!",
+      "28": "Error when creating the alert!",
+      "29": "Action for copy of forecast not defined.",
+      "30": "Changing the portfolio status from {{messageV1}} to {{messageV2}}, is not allowed.",
+      "31": "Substitution proposal is not accepted",
+      "32": "The head of the chain is not the active material",
+      "33": "Combination not created because successor material {{messageV1}} exists.",
+      "34": "Circular reference found between material {{messageV1}} and material {{messageV2}}.",
+      "37": "Substitution proposal open.",
+      "38": "Substitution proposal blocked.",
+      "39": "Status change to {{messageV1}} is not permitted due to Substitution Type runout without successor!",
+      "40": "Status adjusted to {{messageV1}} due to orders/opportunities.",
+      "41": "Status changed to {{messageV1}}, expiry date reached.",
+      "42": "Status was set to {{messageV1}}, as no future or historical requirements.",
+      "51": "Forecast can not be changed in the past or in the current month.",
+      "52": "Forecast can not be changed in the past.",
+      "53": "Forecast could not be distributed on a Saturday and/or Sunday.",
       "100": "Substitution type {{messageV1}} is not valid.",
       "101": "A valid region must be passed. {{messageV1}} is not valid.",
       "102": "The record does not exist.",
@@ -1005,37 +1064,7 @@
       "117": "Successor {{messageV1}} is not present in any AP/OP plant of DC group {{messageV2}}.",
       "118": "Successor for {{messageV1}} in plant {{messageV2}} is different in MARC: {{messageV3}}.",
       "119": "The sales area must not be maintained for the {{messageV1}} substitution type.",
-      "123": "SOP date before cutover date is not allowed",
-      "16": "You do not have the required permissions for the {{messageV1}} customer.",
-      "17": "No entry found.",
-      "2": "Customer material combination does not exist.",
-      "22": "Forecast cannot be saved after the replacement date ({{messageV1}}).",
-      "23": "Phase-Out changed to {{messageV1}} due to Orders / Opportunities.",
-      "24": "Forecast deleted for {{messageV1}}.",
-      "25": "Material {{messageV1}} does not exist.",
-      "26": "Delivery plant for follow-up material {{messageV1}} could not be determined.",
-      "27": "Circular reference! Successor {{messageV1}} is not allowed!",
-      "28": "Error when creating the alert!",
-      "29": "Action for copy of forecast not defined.",
-      "3": "Invalid period type.",
-      "30": "Changing the portfolio status from {{messageV1}} to {{messageV2}}, is not allowed.",
-      "31": "Substitution proposal is not accepted",
-      "32": "The head of the chain is not the active material",
-      "33": "Combination not created because successor material {{messageV1}} exists.",
-      "34": "Circular reference found between material {{messageV1}} and material {{messageV2}}.",
-      "37": "Substitution proposal open.",
-      "38": "Substitution proposal blocked.",
-      "39": "Status change to {{messageV1}} is not permitted due to Substitution Type runout without successor!",
-      "4": "Values in the past cannot be saved.",
-      "40": "Status adjusted to {{messageV1}} due to orders/opportunities.",
-      "41": "Status changed to {{messageV1}}, expiry date reached.",
-      "42": "Status was set to {{messageV1}}, as no future or historical requirements.",
-      "5": "Invalid material classification (OP).",
-      "51": "Forecast can not be changed in the past or in the current month.",
-      "52": "Forecast can not be changed in the past.",
-      "53": "Forecast could not be distributed on a Saturday and/or Sunday.",
-      "6": "Negative values cannot be saved.",
-      "7": "Forecast cannot be saved due to missing authorization.(Code 007)"
+      "123": "SOP date before cutover date is not allowed"
     },
     "error": "Message with class {{messageClass}} and number {{messageNumber}} could not be found."
   },
