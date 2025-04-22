@@ -26,6 +26,12 @@ export class PictureCardComponent {
     this.active = true;
   }
 
+  public performAction(action: PictureCardAction): void {
+    if (action.click) {
+      action.click();
+    }
+  }
+
   public toggle(active: boolean, selected: boolean): void {
     this.active = active;
     this.selected = selected;

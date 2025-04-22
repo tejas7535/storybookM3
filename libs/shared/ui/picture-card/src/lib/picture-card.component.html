@@ -39,7 +39,7 @@
                     action.toggleAction ? !active : false,
                     action.selectAction ? !selected : false
                   )
-                : action.click
+                : performAction(action)
             "
           ></schaeffler-picture-card-action>
         }
