@@ -11,8 +11,9 @@ import { MatIcon } from '@angular/material/icon';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { MultiAutocompleteOnTypeComponent } from '../../../../shared/components/inputs/autocomplete/multi-autocomplete-on-type/multi-autocomplete-on-type.component';
-import { MultiAutocompletePreLoadedComponent } from '../../../../shared/components/inputs/autocomplete/multi-autocomplete-pre-loaded/multi-autocomplete-pre-loaded.component';
+import { GlobalSelectionHelperService } from '../../../../feature/global-selection/global-selection.service';
+import { OnTypeAutocompleteWithMultiselectComponent } from '../../../../shared/components/global-selection-criteria/on-type-autocomplete-with-multiselect/on-type-autocomplete-with-multiselect.component';
+import { PreLoadedAutocompleteWithMultiselectComponent } from '../../../../shared/components/global-selection-criteria/pre-loaded-autocomplete-with-multiselect/pre-loaded-autocomplete-with-multiselect.component';
 import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { DisplayFunctions } from '../../../../shared/components/inputs/display-functions.utils';
 import { SelectableOptionsService } from '../../../../shared/services/selectable-options.service';
@@ -25,12 +26,12 @@ export interface OverviewFilterValue {
 @Component({
   selector: 'd360-overview-filter',
   imports: [
-    MultiAutocompletePreLoadedComponent,
     TranslocoDirective,
-    MultiAutocompleteOnTypeComponent,
     MatButton,
     ReactiveFormsModule,
     MatIcon,
+    OnTypeAutocompleteWithMultiselectComponent,
+    PreLoadedAutocompleteWithMultiselectComponent,
   ],
   templateUrl: './overview-filter.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,6 +42,8 @@ export class OverviewFilterComponent {
     DisplayFunctions;
   protected readonly selectableOptionsService: SelectableOptionsService =
     inject(SelectableOptionsService);
+  protected readonly globalSelectionHelperService: GlobalSelectionHelperService =
+    inject(GlobalSelectionHelperService);
 
   protected filterForm = new FormGroup({
     gkams: new FormControl<SelectableValue[]>([], { nonNullable: true }),

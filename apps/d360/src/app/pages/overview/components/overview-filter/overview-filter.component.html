@@ -5,25 +5,37 @@
   </div>
   <form [formGroup]="filterForm" class="overflow-hidden">
     <div class="flex md:flex-row pt-4 flex-col gap-x-4">
-      <d360-multi-autocomplete-pre-loaded
-        [autocompleteLabel]="t('globalSelection.gkam')"
+      <d360-pre-loaded-autocomplete-with-multiselect
+        class="flex-1"
         [control]="filterForm.controls.gkams"
         [form]="filterForm"
-        [getOptionLabelInTag]="DisplayFunctions.displayFnText"
+        [autocompleteLabel]="t('globalSelection.gkam')"
+        [entityNamePlural]="t('globalSelection.gkam_name.entity_name_plural')"
+        [entityName]="t('globalSelection.gkam_name.entity_name')"
         [getOptionLabel]="DisplayFunctions.displayFnUnited"
+        [getOptionLabelInTag]="DisplayFunctions.displayFnText"
         [optionsLoadingResult]="selectableOptionsService.get('gkam')"
-        [searchControl]="filterForm.controls.gkamSearch"
-        class="w-full"
+        [resolveFunction]="
+          globalSelectionHelperService.resolveGkamNumber.bind(
+            globalSelectionHelperService
+          )
+        "
       />
-      <d360-multi-autocomplete-on-type
-        [autocompleteLabel]="t('overview.filter.customer')"
+      <d360-on-type-autocomplete-with-multiselect
+        class="flex-1"
+        [autocompleteLabel]="t('globalSelection.customer.rootString')"
+        [entityNamePlural]="t('globalSelection.customer.entity_name_plural')"
+        [entityName]="t('globalSelection.customer.entity_name')"
         [control]="filterForm.controls.customers"
         [form]="filterForm"
-        [getOptionLabelInTag]="DisplayFunctions.displayFnText"
-        [getOptionLabel]="DisplayFunctions.displayFnUnited"
-        [searchControl]="filterForm.controls.customerSearch"
-        class="w-full"
         urlBegin="global-selection/search-customers"
+        [getOptionLabel]="DisplayFunctions.displayFnUnited"
+        [getOptionLabelInTag]="DisplayFunctions.displayFnText"
+        [resolveFunction]="
+          globalSelectionHelperService.resolveCustomerNumbers.bind(
+            globalSelectionHelperService
+          )
+        "
       />
       <div class="flex justify-end gap-5">
         <button (click)="resetFilters()" class="w-auto" mat-button>
