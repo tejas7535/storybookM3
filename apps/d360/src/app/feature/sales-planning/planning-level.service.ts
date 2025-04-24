@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 
 import { PlanningLevelMaterial } from './model';
 
+export const planningLevelMaterialTypes = ['GP', 'PL'];
+
 @Injectable({
   providedIn: 'root',
 })

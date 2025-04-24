@@ -46,13 +46,14 @@ export class AgGridLocalizationService {
 
   public numberFormatter = (
     params: ValueFormatterParams | ITooltipParams,
-    maximumFractionDigits?: number
+    maximumFractionDigits?: number,
+    unit?: string
   ) => {
     if (!params.value && Number.parseInt(params.value, 10) !== 0) {
       return '';
     }
 
-    return this.translocoLocaleService.localizeNumber(
+    return `${this.translocoLocaleService.localizeNumber(
       params.value,
       'decimal',
       this.translocoLocaleService.getLocale(),
@@ -61,7 +62,7 @@ export class AgGridLocalizationService {
         : {
             maximumFractionDigits,
           }
-    );
+    )} ${unit || ''}`.trim();
   };
 
   public dateFormatter = (params: ValueFormatterParams | ITooltipParams) => {

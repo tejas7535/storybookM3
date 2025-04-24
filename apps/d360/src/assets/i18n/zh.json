@@ -856,6 +856,25 @@
     "threshold3Description": "参数描述3"
   },
   "sales_planning": {
+    "changeHistory": {
+      "changeHistoryTypes": {
+        "D": "Delete",
+        "I": "Insert",
+        "U": "Update"
+      },
+      "columnHeadlines": {
+        "changedByUserId": "更改用户ID",
+        "changedByUserName": "更改用户",
+        "changeTimestamp": "修改时间戳",
+        "changeType": "更改类型",
+        "materialDescription": "材料描述",
+        "materialTypeLevel": "材料等级",
+        "planningMonth": "月",
+        "planningYear": "年",
+        "valueNew": "新值",
+        "valueOld": "旧值"
+      }
+    },
     "customer": "客户",
     "customer_info_modal": {
       "accountOwner": "帐户所有者",

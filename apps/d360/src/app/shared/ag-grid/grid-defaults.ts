@@ -114,6 +114,21 @@ export function getCustomTreeDataAutoGroupColumnDef<T = any>(config: {
   };
 }
 
+export const getDefaultColumn = (): ColDef & {
+  title: string;
+  visible: boolean;
+  alwaysVisible: boolean;
+} => ({
+  cellRenderer: undefined,
+  filter: 'agTextColumnFilter',
+  filterParams: undefined,
+  visible: true,
+  alwaysVisible: false,
+  sortable: true,
+  sort: null,
+  title: '',
+});
+
 export const getDefaultColDef = (
   locale: string,
   columnFilterType?: string,

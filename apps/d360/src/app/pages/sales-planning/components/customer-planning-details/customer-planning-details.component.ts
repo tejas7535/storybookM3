@@ -50,6 +50,7 @@ import { NoDataOverlayComponent } from '../../../../shared/components/ag-grid/no
 import { TableToolbarComponent } from '../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
 import { NumberWithoutFractionDigitsPipe } from '../../../../shared/pipes/number-without-fraction-digits.pipe';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
+import { CustomerPlanningDetailsChangeHistoryModalComponent } from '../customer-planning-details-change-history-modal/customer-planning-details-change-history-modal.component';
 import { CustomerPlanningLevelConfigurationModalComponent } from '../customer-planning-level-configuration-modal/customer-planning-level-configuration-modal.component';
 import { SalesPlanningGroupLevelCellRendererComponent } from './ag-grid/cell-renderer/sales-planning-group-level-cell-renderer/sales-planning-group-level-cell-renderer.component';
 import { getColumnDefinitions } from './column-definition';
@@ -214,6 +215,20 @@ export class CustomerPlanningDetailsComponent {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
+  }
+
+  protected handleChartHistoryModalClicked() {
+    this.dialog.open(CustomerPlanningDetailsChangeHistoryModalComponent, {
+      data: {
+        customerName: this.customerName(),
+        customerNumber: this.customerNumber(),
+      },
+      minWidth: '75vw',
+      maxWidth: '100vw',
+      autoFocus: false,
+      disableClose: true,
+      panelClass: 'resizable',
+    });
   }
 
   public isNoCustomerSelected() {

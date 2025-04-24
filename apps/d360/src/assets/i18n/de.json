@@ -856,6 +856,25 @@
     "threshold3Description": "Beschreibung Parameter 3"
   },
   "sales_planning": {
+    "changeHistory": {
+      "changeHistoryTypes": {
+        "D": "Delete",
+        "I": "Insert",
+        "U": "Update"
+      },
+      "columnHeadlines": {
+        "changedByUserId": "ÄnderungsnutzerID",
+        "changedByUserName": "Änderungsnutzer",
+        "changeTimestamp": "Änderungszeitstempel",
+        "changeType": "Änderungsart",
+        "materialDescription": "Materialbeschreibung",
+        "materialTypeLevel": "Materialebene",
+        "planningMonth": "Monat",
+        "planningYear": "Jahr",
+        "valueNew": "Neuer Wert",
+        "valueOld": "Alter Wert"
+      }
+    },
     "customer": "Kunde",
     "customer_info_modal": {
       "accountOwner": "Account Owner",

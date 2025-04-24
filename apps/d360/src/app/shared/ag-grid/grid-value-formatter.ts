@@ -26,6 +26,42 @@ export function demandCharacteristicValueFormatter() {
     );
 }
 
+export function changeTypeValueFormatter(): (params: any) => string {
+  return (params: any): string =>
+    translateOr(
+      `sales_planning.changeHistory.changeHistoryTypes.${params.value}`,
+      undefined,
+      translate('error.valueUnknown')
+    );
+}
+
+export function planningLevelValueFormatter(): (
+  params: ValueFormatterParams
+) => string {
+  return (params: ValueFormatterParams): string =>
+    translateOr(
+      `sales_planning.planning_details.planning_level_material_type.${params.value}`,
+      undefined,
+      params.value
+    );
+}
+
+export function planningMonthValueFormatter(): (
+  params: ValueFormatterParams
+) => string {
+  return (params: ValueFormatterParams): string => {
+    if (params.value === '00') {
+      return '';
+    }
+
+    return translateOr(
+      `sales_planning.table.months.${params.value}`,
+      {},
+      params.value
+    );
+  };
+}
+
 export function translateOr(
   key: TranslateParams,
   params?: HashMap,

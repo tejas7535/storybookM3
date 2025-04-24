@@ -856,6 +856,25 @@
     "threshold3Description": "Descrição Parâmetro 3"
   },
   "sales_planning": {
+    "changeHistory": {
+      "changeHistoryTypes": {
+        "D": "Delete",
+        "I": "Insert",
+        "U": "Update"
+      },
+      "columnHeadlines": {
+        "changedByUserId": "Alterar UserID",
+        "changedByUserName": "Alterar usuário",
+        "changeTimestamp": "Carimbo de data/hora da alteração",
+        "changeType": "Tipo de alteração",
+        "materialDescription": "Descrição do material",
+        "materialTypeLevel": "Nível do material",
+        "planningMonth": "Mês",
+        "planningYear": "Ano",
+        "valueNew": "Valor novo",
+        "valueOld": "Valor antigo"
+      }
+    },
     "customer": "Cliente",
     "customer_info_modal": {
       "accountOwner": "Gerente de conta",

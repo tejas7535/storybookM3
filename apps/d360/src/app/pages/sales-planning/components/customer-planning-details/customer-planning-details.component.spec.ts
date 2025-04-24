@@ -11,6 +11,7 @@ import {
 } from '../../../../feature/sales-planning/model';
 import { Stub } from '../../../../shared/test/stub.class';
 import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
+import { CustomerPlanningDetailsChangeHistoryModalComponent } from '../customer-planning-details-change-history-modal/customer-planning-details-change-history-modal.component';
 import { CustomerPlanningDetailsComponent } from './customer-planning-details.component';
 import { MonthlyCustomerPlanningDetailsModalComponent } from './monthly-customer-planning-details-modal/monthly-customer-planning-details-modal.component';
 
@@ -201,5 +202,24 @@ describe('CustomerPlanningDetailsComponent', () => {
         height: '100vh',
       })
     );
+  });
+
+  describe('handleChartHistoryModalClicked', () => {
+    it('should open the change history dialog with the selected customer', () => {
+      Stub.setInputs([
+        { property: 'customerName', value: 'customer 1' },
+        { property: 'customerNumber', value: '1' },
+      ]);
+
+      const dialogSpy = jest.spyOn(component['dialog'], 'open');
+
+      component['handleChartHistoryModalClicked']();
+      expect(dialogSpy).toHaveBeenCalledWith(
+        CustomerPlanningDetailsChangeHistoryModalComponent,
+        expect.objectContaining({
+          data: { customerName: 'customer 1', customerNumber: '1' },
+        })
+      );
+    });
   });
 });
