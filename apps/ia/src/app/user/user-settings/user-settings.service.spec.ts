@@ -6,7 +6,6 @@ import {
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { FilterDimension } from '../../shared/models';
-import { UserFeedback } from './models';
 import { UserSettings } from './models/user-settings.model';
 import { UserSettingsService } from './user-settings.service';
 
@@ -72,22 +71,6 @@ describe('UserSettingsService', () => {
         dimensionKey,
         dimensionDisplayName,
       });
-    });
-  });
-
-  describe('submitUserFeedback', () => {
-    test('should submit user feedback', () => {
-      const userFeedback: UserFeedback = {
-        category: '0',
-        message: 'new idea',
-      };
-      service.submitUserFeedback(userFeedback).subscribe((response) => {
-        expect(response).toEqual(undefined);
-      });
-
-      const req = httpMock.expectOne('api/v1/user-feedback');
-      expect(req.request.method).toBe('POST');
-      expect(req.request.body).toEqual(userFeedback);
     });
   });
 });

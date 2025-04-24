@@ -1,1 +1,1 @@
-export * from '../../../shared/dialogs/feedback-dialog/models/user-feedback.model';
+export * from './user-settings.model';

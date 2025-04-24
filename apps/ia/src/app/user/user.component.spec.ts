@@ -1,10 +1,7 @@
-import { DialogRef } from '@angular/cdk/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-
-import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
@@ -12,7 +9,6 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { FeedbackDialogComponent } from '../shared/dialogs/feedback-dialog/feedback-dialog.component';
 import { UserComponent } from './user.component';
 import { UserSettingsModule } from './user-settings/user-settings.module';
 
@@ -33,9 +29,7 @@ describe('UserComponent', () => {
       MatButtonModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
-    providers: [
-      provideMockStore({ initialState: { feedback: { loading: false } } }),
-    ],
+    providers: [provideMockStore({})],
   });
 
   beforeEach(() => {
@@ -48,42 +42,5 @@ describe('UserComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('ngOnDestroy', () => {
-    test('should unsubscribe', () => {
-      component.subscription = of({}).subscribe();
-      component.subscription.unsubscribe = jest.fn();
-
-      component.ngOnDestroy();
-
-      expect(component.subscription.unsubscribe).toHaveBeenCalled();
-    });
-  });
-
-  describe('openFeedbackDialog', () => {
-    test('should open dialog with configuration', () => {
-      component['dialog'].open = jest.fn().mockReturnValue({
-        componentInstance: { onFeebackSubmitted: of({}) },
-      } as DialogRef);
-      component.isSubmitInProgress$ = of(true);
-      component.subscription = of({}).subscribe();
-      component.subscription.unsubscribe = jest.fn();
-      const expectedConifg: MatDialogConfig = {
-        panelClass: 'ia-md-dialog',
-        disableClose: true,
-        data: {
-          loading: component.isSubmitInProgress$,
-        },
-      };
-
-      component.openFeedbackDialog();
-
-      expect(component['dialog'].open).toHaveBeenCalledWith(
-        FeedbackDialogComponent,
-        expectedConifg
-      );
-      expect(component.subscription).toBeDefined();
-    });
   });
 });

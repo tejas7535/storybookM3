@@ -16,9 +16,6 @@ import {
   loadUserSettingsDimensionData,
   loadUserSettingsFailure,
   loadUserSettingsSuccess,
-  submitUserFeedback,
-  submitUserFeedbackFailure,
-  submitUserFeedbackSuccess,
   updateUserSettings,
   updateUserSettingsFailure,
   updateUserSettingsSuccess,
@@ -141,32 +138,6 @@ describe('User Reducer', () => {
     const state = userReducer(initialState, action);
 
     expect(state.settings.dialog.selectedDimensionDataLoading).toBeTruthy();
-  });
-
-  test('submitUserFeedback', () => {
-    const action = submitUserFeedback({
-      feedback: { category: 'idea', message: 'new feature' },
-    });
-
-    const state = userReducer(initialState, action);
-
-    expect(state.feedback.loading).toBeTruthy();
-  });
-
-  test('submitUserFeedbackSuccess', () => {
-    const action = submitUserFeedbackSuccess();
-
-    const state = userReducer(initialState, action);
-
-    expect(state.feedback.loading).toBeFalsy();
-  });
-
-  test('submitUserFeedbackFailure', () => {
-    const action = submitUserFeedbackFailure();
-
-    const state = userReducer(initialState, action);
-
-    expect(state.feedback.loading).toBeFalsy();
   });
 
   test('loadSystemMessage', () => {

@@ -23,9 +23,6 @@ import {
   loadUserSettingsFailure,
   loadUserSettingsSuccess,
   openIABanner,
-  submitUserFeedback,
-  submitUserFeedbackFailure,
-  submitUserFeedbackSuccess,
   updateUserSettings,
   updateUserSettingsFailure,
   updateUserSettingsSuccess,
@@ -41,9 +38,6 @@ export interface UserState {
     dialog: {
       selectedDimensionDataLoading: boolean;
     };
-  };
-  feedback: {
-    loading: boolean;
   };
   systemMessage: {
     loading: boolean;
@@ -61,9 +55,6 @@ export const initialState: UserState = {
     dialog: {
       selectedDimensionDataLoading: false,
     },
-  },
-  feedback: {
-    loading: false,
   },
   systemMessage: {
     loading: false,
@@ -184,27 +175,6 @@ export const userReducer = createReducer(
         dialog: {
           selectedDimensionDataLoading: false,
         },
-      },
-    })
-  ),
-  on(
-    submitUserFeedback,
-    (state: UserState): UserState => ({
-      ...state,
-      feedback: {
-        ...state.feedback,
-        loading: true,
-      },
-    })
-  ),
-  on(
-    submitUserFeedbackSuccess,
-    submitUserFeedbackFailure,
-    (state: UserState): UserState => ({
-      ...state,
-      feedback: {
-        ...state.feedback,
-        loading: false,
       },
     })
   ),

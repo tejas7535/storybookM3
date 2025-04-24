@@ -27,29 +27,6 @@
     }
   },
   "feedback": {
-    "feedbackButton": "Feedback",
-    "dialog": {
-      "title": "Feedback",
-      "greetings": "Dear User,",
-      "intro": "With the help of your feedback, we want to further improve our application. Please use this template to submit any problems, questions or ideas for improvement that you identified while using Exit Insights.",
-      "instruction": "Please choose one of the following categories for your request",
-      "options": {
-        "problem": "I got a problem with data quality or availability",
-        "question": "I got a question regarding the usage of the tool",
-        "request": "I need additional or other functionalities or data",
-        "idea": "I got an idea how Exit Insights can be further improved",
-        "other": "I want to adress another issue"
-      },
-      "instruction2": "Please describe your problem, question or idea as detailed as possible to ensure that we can recreate your issue. It helps a lot if you can describe the selected filter values, the affected feature as well as the situation that lead to your issue.",
-      "textAreaLabel": "Please describe your problem, question or idea",
-      "anonymityGuarantee": "Your feedback is completely anonymous and will only be used within the Exit Insights Development Team in order to improve the application.",
-      "updatesInReleaseNotes": "You will be informed about the changes made to the app via the published release notes.",
-      "acknowledgement": "Thank you for your support!",
-      "signature": "The Exit Insights Team",
-      "submit": "Submit Feedback",
-      "cancel": "Cancel",
-      "submitSuccess": "Feedback successfully submitted",
-      "submitFailure": "Failed to submit the feedback"
-    }
+    "feedbackButton": "Feedback"
   }
 }

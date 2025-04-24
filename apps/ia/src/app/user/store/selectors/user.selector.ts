@@ -40,11 +40,6 @@ export const getFavoriteDimensionIdValue = createSelector(
       : undefined
 );
 
-export const getSubmitFeedbackLoading = createSelector(
-  selectUserState,
-  (state: UserState) => state.feedback.loading
-);
-
 export const getSystemMessageData = createSelector(
   selectUserState,
   (state: UserState) => state.systemMessage.data

@@ -9,7 +9,6 @@ import { StoreModule } from '@ngrx/store';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { FeedbackDialogModule } from '../shared/dialogs/feedback-dialog/feedback-dialog.module';
 import { SharedDirectivesModule } from '../shared/directives/shared-directives.module';
 import { SharedModule } from '../shared/shared.module';
 import * as fromUserSettings from './store';
@@ -24,7 +23,6 @@ import { UserSettingsModule } from './user-settings/user-settings.module';
     SharedTranslocoModule,
     SharedDirectivesModule,
     UserSettingsModule,
-    FeedbackDialogModule,
     StoreModule.forFeature(
       fromUserSettings.userFeatureKey,
       fromUserSettings.userReducer
