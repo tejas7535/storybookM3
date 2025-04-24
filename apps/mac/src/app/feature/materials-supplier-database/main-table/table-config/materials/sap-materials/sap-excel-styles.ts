@@ -19,4 +19,8 @@ export const excelStyles: ExcelStyle[] = [
       wrapText: true,
     },
   },
+  {
+    id: 'stringType',
+    dataType: 'String',
+  },
 ];

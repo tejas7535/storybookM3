@@ -916,7 +916,10 @@
       "7": "Secondary Data (supplier-specific)",
       "6": "Secondary Data (internal)",
       "5": "Secondary Data (external)",
+      "4": "Secondary Data (-)",
+      "3": "Secondary Data (-)",
       "2": "Secondary Data (indirect)",
+      "1": "Manual input",
       "0": "SAP BW import"
     },
     "materialClass": "Material Class",

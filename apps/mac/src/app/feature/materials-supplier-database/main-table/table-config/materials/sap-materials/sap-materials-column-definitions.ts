@@ -94,6 +94,7 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: (ColDef | ColGroupDef)[] = [
     headerName: MATERIAL_NUMBER,
     filter: 'agTextColumnFilter',
     filterParams: TEXT_FILTER_PARAMS,
+    cellClass: 'stringType',
     headerTooltip: MATERIAL_NUMBER,
   },
   {

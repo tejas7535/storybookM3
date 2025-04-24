@@ -131,11 +131,11 @@ describe('ExcelValidatorService', () => {
     beforeEach(() => {
       json = [
         {
-          materialNumber: '123456789-1234-12',
+          materialNumber: '123456789123412',
           plant: '1234',
           category: 'ABCD',
           materialGroup: 'M123',
-          businessPartnerId: '12345',
+          businessPartnerId: '1234567890',
           supplierId: 'S123456789',
           supplierCountry: 'DE',
           supplierRegion: 'EU',
