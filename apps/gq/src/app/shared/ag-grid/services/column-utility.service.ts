@@ -345,11 +345,11 @@ export class ColumnUtilityService {
   getMspBlock(params: ValueGetterParams): string {
     const detail = params.data as QuotationDetail;
 
-    if (detail.price > detail.msp) {
-      return Keyboard.DASH;
+    if (detail.price < detail.msp) {
+      return translate('shared.quotationDetailsTable.mspBlock.active');
     }
 
-    return translate('shared.quotationDetailsTable.mspBlock.active');
+    return Keyboard.DASH;
   }
 
   filterSapSyncStatusColumns(colDef: ColDef, tab: QuotationTab) {
