@@ -34,8 +34,7 @@ export const appRoutePaths: Routes = [
 
   {
     path: '**',
-    loadChildren: () =>
-      import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
+    redirectTo: '',
   },
 ];
 

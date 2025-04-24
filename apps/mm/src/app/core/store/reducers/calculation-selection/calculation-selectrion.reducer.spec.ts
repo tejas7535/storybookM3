@@ -1,120 +1,264 @@
-import { BearingOption } from '@mm/shared/models';
 import { ListValue } from '@mm/shared/models/list-value.model';
 
 import { CalculationSelectionActions } from '../../actions/calculation-selection';
+import { CalculationSelectionState } from '../../models/calculation-selection-state.model';
 import {
   calculationSelectionReducer,
   initialState,
 } from './calculation-selection.reducer';
 
-describe('Calculation Selection Reducer', () => {
-  it('should return the initial state', () => {
-    const action = { type: 'Unknown' } as any;
-    const state = calculationSelectionReducer(undefined, action);
-    expect(state).toBe(initialState);
-  });
+describe('CalculationSelectionReducer', () => {
+  describe('resetBearing action', () => {
+    it('should reset state to initial state', () => {
+      const modifiedState: CalculationSelectionState = {
+        ...initialState,
+        bearing: { bearingId: '123', title: 'Test Bearing' },
+        loading: true,
+      };
 
-  it('should reset bearing', () => {
-    const action = CalculationSelectionActions.resetBearing();
-    const state = calculationSelectionReducer(initialState, action);
-    expect(state).toEqual(initialState);
-  });
+      const result = calculationSelectionReducer(
+        modifiedState,
+        CalculationSelectionActions.resetBearing()
+      );
 
-  it('should set loading to true on searchBearingList', () => {
-    const action = CalculationSelectionActions.searchBearingList({
-      query: '123',
+      expect(result).toEqual(initialState);
     });
-    const state = calculationSelectionReducer(initialState, action);
-    expect(state.loading).toBe(true);
   });
 
-  it('should set bearingResultList and loading to false on searchBearingSuccess', () => {
-    const resultList: BearingOption[] = [
-      { id: 'bearing1', title: '1' },
-      { id: 'bearing2', title: '2' },
-    ];
-    const action = CalculationSelectionActions.searchBearingSuccess({
-      resultList,
+  describe('searchBearingList action', () => {
+    it('should set loading to true and reset state', () => {
+      const result = calculationSelectionReducer(
+        initialState,
+        CalculationSelectionActions.searchBearingList({
+          query: '123',
+        })
+      );
+
+      expect(result).toEqual({
+        ...initialState,
+        loading: true,
+      });
     });
-    const state = calculationSelectionReducer(initialState, action);
-    expect(state.bearingResultList).toEqual(resultList);
-    expect(state.loading).toBe(false);
   });
 
-  it('should set bearing on setBearing', () => {
-    const bearingId = 'bearing1';
-    const title = 'Bearing 1';
-    const action = CalculationSelectionActions.setBearing({ bearingId, title });
-    const state = calculationSelectionReducer(initialState, action);
-    expect(state.bearing).toEqual({ bearingId, title });
-  });
+  describe('searchBearingSuccess action', () => {
+    it('should update bearingResultList and set loading to false', () => {
+      const resultList = [{ id: '1', title: 'Bearing 1' }];
+      const state = { ...initialState, loading: true };
 
-  it('should set current step on setCurrentStep', () => {
-    const step = 2;
-    const action = CalculationSelectionActions.setCurrentStep({ step });
-    const state = calculationSelectionReducer(initialState, action);
-    expect(state.stepper?.currentStep).toBe(step);
-  });
+      const result = calculationSelectionReducer(
+        state,
+        CalculationSelectionActions.searchBearingSuccess({ resultList })
+      );
 
-  it('should set bearing seats on setBearingSeats', () => {
-    const bearingSeats: ListValue[] = [
-      { id: 'seat1', text: '1' },
-      { id: 'seat2', text: '2' },
-    ];
-    const action = CalculationSelectionActions.setBearingSeats({
-      bearingSeats,
+      expect(result).toEqual({
+        ...initialState,
+        bearingResultList: resultList,
+        loading: false,
+      });
     });
-    const state = calculationSelectionReducer(initialState, action);
-    expect(state.bearingSeats?.values).toEqual(bearingSeats);
   });
 
-  it('should set selected bearing seat on setBearingSeat', () => {
-    const bearingSeatId = 'seat1';
-    const action = CalculationSelectionActions.setBearingSeat({
-      bearingSeatId,
+  describe('setBearing action', () => {
+    it('should update bearing property', () => {
+      const bearingId = '123';
+      const title = 'Test Bearing';
+
+      const result = calculationSelectionReducer(
+        initialState,
+        CalculationSelectionActions.setBearing({ bearingId, title })
+      );
+
+      expect(result).toEqual({
+        ...initialState,
+        bearing: { bearingId, title },
+      });
     });
-    const state = calculationSelectionReducer(initialState, action);
-    expect(state.bearingSeats?.selectedValueId).toBe(bearingSeatId);
-  });
-  it('should set measurement methods on setMeasurementMethods', () => {
-    const measurementMethods: ListValue[] = [
-      { id: 'method1', text: '1' },
-      { id: 'method2', text: '2' },
-    ];
-    const action = CalculationSelectionActions.setMeasurementMethods({
-      measurementMethods,
-    });
-    const state = calculationSelectionReducer(initialState, action);
-    expect(state.measurementMethods?.values).toEqual(measurementMethods);
   });
 
-  it('should set selected measurement method on setMeasurementMethod', () => {
-    const measurementMethod = 'method1';
-    const action = CalculationSelectionActions.setMeasurementMethod({
-      measurementMethod,
+  describe('setCurrentStep action', () => {
+    it('should update current step in stepper', () => {
+      const step = 2;
+
+      const result = calculationSelectionReducer(
+        initialState,
+        CalculationSelectionActions.setCurrentStep({ step })
+      );
+
+      expect(result).toEqual({
+        ...initialState,
+        stepper: {
+          ...initialState.stepper,
+          currentStep: step,
+        },
+      });
     });
-    const state = calculationSelectionReducer(initialState, action);
-    expect(state.measurementMethods?.selectedValueId).toBe(measurementMethod);
   });
 
-  it('should set mounting methods on setMountingMethods', () => {
-    const mountingMethods: ListValue[] = [
-      { id: 'method1', text: '1' },
-      { id: 'method2', text: '2' },
-    ];
-    const action = CalculationSelectionActions.setMountingMethods({
-      mountingMethods,
+  describe('setBearingSeats action', () => {
+    it('should update bearingSeats property', () => {
+      const bearingSeats: ListValue[] = [{ id: '1', text: 'Seat 1' }];
+
+      const result = calculationSelectionReducer(
+        initialState,
+        CalculationSelectionActions.setBearingSeats({ bearingSeats })
+      );
+
+      expect(result).toEqual({
+        ...initialState,
+        bearingSeats: {
+          values: bearingSeats,
+        },
+      });
     });
-    const state = calculationSelectionReducer(initialState, action);
-    expect(state.mountingMethods?.values).toEqual(mountingMethods);
   });
 
-  it('should set selected mounting method on setMountingMethod', () => {
-    const mountingMethod = 'method1';
-    const action = CalculationSelectionActions.setMountingMethod({
-      mountingMethod,
+  describe('setBearingSeat action', () => {
+    it('should update selected bearing seat and reset methods', () => {
+      const bearingSeatId = '123';
+      const stateWithSeats: CalculationSelectionState = {
+        ...initialState,
+        bearingSeats: {
+          values: [{ id: '123', text: 'Seat 1' }],
+        },
+        measurementMethods: { values: [] },
+        mountingMethods: { values: [] },
+      };
+
+      const result = calculationSelectionReducer(
+        stateWithSeats,
+        CalculationSelectionActions.setBearingSeat({ bearingSeatId })
+      );
+
+      expect(result).toEqual({
+        ...initialState,
+        bearingSeats: {
+          values: [{ id: '123', text: 'Seat 1' }],
+          selectedValueId: bearingSeatId,
+        },
+        measurementMethods: undefined,
+        mountingMethods: undefined,
+      });
     });
-    const state = calculationSelectionReducer(initialState, action);
-    expect(state.mountingMethods?.selectedValueId).toBe(mountingMethod);
+  });
+
+  describe('fetchMeasurementMethods action', () => {
+    it('should set loading to true', () => {
+      const result = calculationSelectionReducer(
+        initialState,
+        CalculationSelectionActions.fetchMeasurementMethods()
+      );
+
+      expect(result).toEqual({
+        ...initialState,
+        loading: true,
+      });
+    });
+  });
+
+  describe('setMeasurementMethods action', () => {
+    it('should update measurement methods and set loading to false', () => {
+      const measurementMethods = [{ id: '1', text: 'Method 1' }];
+      const state = { ...initialState, loading: true };
+
+      const result = calculationSelectionReducer(
+        state,
+        CalculationSelectionActions.setMeasurementMethods({
+          measurementMethods,
+        })
+      );
+
+      expect(result).toEqual({
+        ...initialState,
+        measurementMethods: {
+          values: measurementMethods,
+        },
+        loading: false,
+      });
+    });
+  });
+
+  describe('setMeasurementMethod action', () => {
+    it('should update selected measurement method', () => {
+      const measurementMethod = '123';
+      const stateWithMethods: CalculationSelectionState = {
+        ...initialState,
+        measurementMethods: {
+          values: [{ id: '123', text: 'Method 1' }],
+        },
+      };
+
+      const result = calculationSelectionReducer(
+        stateWithMethods,
+        CalculationSelectionActions.setMeasurementMethod({ measurementMethod })
+      );
+
+      expect(result).toEqual({
+        ...initialState,
+        measurementMethods: {
+          values: [{ id: '123', text: 'Method 1' }],
+          selectedValueId: measurementMethod,
+        },
+      });
+    });
+  });
+
+  describe('fetchMountingMethods action', () => {
+    it('should set loading to true', () => {
+      const result = calculationSelectionReducer(
+        initialState,
+        CalculationSelectionActions.fetchMountingMethods()
+      );
+
+      expect(result).toEqual({
+        ...initialState,
+        loading: true,
+      });
+    });
+  });
+
+  describe('setMountingMethods action', () => {
+    it('should update mounting methods and set loading to false', () => {
+      const mountingMethods: ListValue[] = [{ id: '1', text: 'Method 1' }];
+      const state = { ...initialState, loading: true };
+
+      const result = calculationSelectionReducer(
+        state,
+        CalculationSelectionActions.setMountingMethods({ mountingMethods })
+      );
+
+      expect(result).toEqual({
+        ...initialState,
+        mountingMethods: {
+          values: mountingMethods,
+        },
+        loading: false,
+      });
+    });
+  });
+
+  describe('setMountingMethod action', () => {
+    it('should update selected mounting method', () => {
+      const mountingMethod = '123';
+      const stateWithMethods: CalculationSelectionState = {
+        ...initialState,
+        mountingMethods: {
+          values: [{ id: '123', text: 'Method 1' }],
+        },
+      };
+
+      const result = calculationSelectionReducer(
+        stateWithMethods,
+        CalculationSelectionActions.setMountingMethod({ mountingMethod })
+      );
+
+      expect(result).toEqual({
+        ...initialState,
+        mountingMethods: {
+          values: [{ id: '123', text: 'Method 1' }],
+          selectedValueId: mountingMethod,
+        },
+      });
+    });
   });
 });

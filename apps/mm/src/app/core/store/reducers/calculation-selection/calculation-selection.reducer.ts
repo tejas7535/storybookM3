@@ -77,12 +77,20 @@ export const calculationSelectionReducer = createReducer(
     })
   ),
   on(
+    CalculationSelectionActions.fetchMeasurementMethods,
+    (state): CalculationSelectionState => ({
+      ...state,
+      loading: true,
+    })
+  ),
+  on(
     CalculationSelectionActions.setMeasurementMethods,
     (state, { measurementMethods }): CalculationSelectionState => ({
       ...state,
       measurementMethods: {
         values: measurementMethods,
       },
+      loading: false,
     })
   ),
   on(
@@ -96,12 +104,20 @@ export const calculationSelectionReducer = createReducer(
     })
   ),
   on(
+    CalculationSelectionActions.fetchMountingMethods,
+    (state): CalculationSelectionState => ({
+      ...state,
+      loading: true,
+    })
+  ),
+  on(
     CalculationSelectionActions.setMountingMethods,
     (state, { mountingMethods }): CalculationSelectionState => ({
       ...state,
       mountingMethods: {
         values: mountingMethods,
       },
+      loading: false,
     })
   ),
   on(

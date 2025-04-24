@@ -67,14 +67,22 @@ mat-dialog-container {
   border-right: none !important;
 }
 
+mat-horizontal-stepper {
+  @apply bg-transparent #{!important};
+}
+
 mat-horizontal-stepper.mat-stepper-horizontal
   mat-step-header[aria-selected='false']
   .mat-step-label {
   @apply hidden md:inline-block;
 }
 
-mat-horizontal-stepper {
-  @apply bg-transparent #{!important};
+mat-horizontal-stepper mat-step-header.mat-horizontal-stepper-header {
+  @apply py-0 px-2 sm:px-6;
+}
+
+mat-horizontal-stepper .mat-stepper-horizontal-line {
+  @apply invisible sm:visible;
 }
 
 mat-card {

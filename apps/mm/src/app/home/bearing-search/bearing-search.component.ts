@@ -40,7 +40,7 @@ export class BearingSearchComponent {
   public myControl = new FormControl<string>('');
 
   public bearingSelectionLoading = toSignal(
-    this.calculationSelectionFacade.isLoading$,
+    this.calculationSelectionFacade.isLoading$(),
     { initialValue: false }
   );
 

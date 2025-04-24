@@ -40,7 +40,7 @@ describe('BearingSearchComponent', () => {
             { id: '1', title: 'Bearing 1' },
             { id: '2', title: 'Bearing 2' },
           ]),
-          isLoading$: of(false),
+          isLoading$: jest.fn(() => of(false)),
           resetBearingSelection: jest.fn(),
           searchBearing: jest.fn(),
         },

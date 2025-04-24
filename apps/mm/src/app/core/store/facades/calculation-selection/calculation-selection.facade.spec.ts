@@ -98,7 +98,7 @@ describe('CalculationSelectionFacade', () => {
     );
     store.refreshState();
 
-    facade.isLoading$.subscribe((result) => {
+    facade.isLoading$().subscribe((result) => {
       expect(result).toBe(isLoading);
       done();
     });

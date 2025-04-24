@@ -74,6 +74,7 @@ export class HomeComponent {
   mountingMethods = toSignal(this.selectionFacade.mountingMethods$);
   preflightData = toSignal(this.optionsFacade.getOptions$());
   isAxialBearing = toSignal(this.selectionFacade.isAxialDisplacement$());
+  isLoading = toSignal(this.selectionFacade.isLoading$());
 
   steps = toSignal(this.selectionFacade.steps$);
   currentStep = toSignal(

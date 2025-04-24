@@ -4,6 +4,7 @@
     (selectionChange)="selectStep($event)"
     [selectedIndex]="currentStep()"
     linear="true"
+    class="p-1"
     #stepper
   >
     <ng-container>
@@ -44,6 +45,7 @@
                     [measurementMethods]="measurementMethods()"
                     [mountingMethods]="mountingMethods()"
                     [bearing]="selectedBearing()"
+                    [isLoading]="isLoading()"
                     [mountingMethodSelectionLabel]="
                       t('dialog.selectMountingLabel')
                     "

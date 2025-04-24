@@ -29,10 +29,6 @@ export class CalculationSelectionFacade {
     CalculationSelectionSelector.getBearingsResultList
   );
 
-  public readonly isLoading$ = this.store.select(
-    CalculationSelectionSelector.getBearingSelectionLoading
-  );
-
   public readonly bearingSeats$ = this.store.select(
     CalculationSelectionSelector.getBearingSeats
   );
@@ -46,6 +42,12 @@ export class CalculationSelectionFacade {
   );
 
   constructor(private readonly store: Store) {}
+
+  public isLoading$(): Observable<boolean> {
+    return this.store.select(
+      CalculationSelectionSelector.getBearingSelectionLoading
+    );
+  }
 
   public getCurrentStep$(): Observable<number> {
     return this.store.select(CalculationSelectionSelector.getCurrentStep);
