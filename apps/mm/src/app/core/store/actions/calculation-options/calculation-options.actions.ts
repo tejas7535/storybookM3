@@ -12,6 +12,11 @@ export const setCalculationOptions = createAction(
   props<{ options: PreflightData }>()
 );
 
+export const setCalculationPerformed = createAction(
+  '[CalculationOptions] Set calculation performed',
+  props<{ performed: boolean }>()
+);
+
 export const calculateResultFromOptions = createAction(
   '[CalculationOptions] Calculate result from options'
 );

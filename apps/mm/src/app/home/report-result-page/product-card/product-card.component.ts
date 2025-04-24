@@ -22,7 +22,6 @@ import { MediasViewProductButtonComponent } from '../medias-view-product-button/
 export class ProductCardComponent {
   @Input() productTitle: string;
   @Input() productValue: string;
-  @Input() imagePath: string;
   @Input() cardClass = '';
   @Input() productSectionClass = '';
 }

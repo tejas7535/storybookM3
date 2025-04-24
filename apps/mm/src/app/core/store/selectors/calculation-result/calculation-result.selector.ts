@@ -93,6 +93,10 @@ export const getReportSelectionTypes = createSelector(
   ): ResultTypeConfig[] => {
     const reportSelectionTypes: ResultTypeConfig[] = [];
 
+    if (inputs) {
+      reportSelectionTypes.push({ name: 'reportInputs' });
+    }
+
     if (startPositions.length > 0) {
       reportSelectionTypes.push({ name: 'startPosition' });
     }
@@ -106,10 +110,6 @@ export const getReportSelectionTypes = createSelector(
 
     if (clearanceClasses.length > 0) {
       reportSelectionTypes.push({ name: 'clearanceClasses' });
-    }
-
-    if (inputs) {
-      reportSelectionTypes.push({ name: 'reportInputs' });
     }
 
     if (mountingTools) {

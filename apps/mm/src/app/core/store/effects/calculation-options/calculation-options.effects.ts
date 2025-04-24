@@ -5,6 +5,7 @@ import { map, mergeMap, of, switchMap } from 'rxjs';
 import { RestService } from '@mm/core/services';
 import { PreflightData } from '@mm/core/services/preflght-data-parser/preflight-data.interface';
 import { PreflightDataParserService } from '@mm/core/services/preflght-data-parser/preflight-data-parser.service';
+import { LB_AXIAL_DISPLACEMENT } from '@mm/shared/constants/dialog-constant';
 import { PreflightRequestBody } from '@mm/shared/models';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
@@ -32,7 +33,6 @@ export class CalculationOptionsEffects {
           bearingSeatId,
           measurementMethod,
           mountingMethod,
-          currentStep,
         ]) => {
           const bearingId = bearing?.bearingId;
 
@@ -52,15 +52,15 @@ export class CalculationOptionsEffects {
                   preflightOptions
                 );
 
-              return currentStep === 4
+              return measurementMethod === LB_AXIAL_DISPLACEMENT
                 ? of(
+                    CalculationOptionsActions.setCalculationOptions({ options })
+                  )
+                : of(
                     CalculationOptionsActions.setCalculationOptions({
                       options,
                     }),
                     CalculationResultActions.calculateResult()
-                  )
-                : of(
-                    CalculationOptionsActions.setCalculationOptions({ options })
                   );
             })
           );

@@ -1,3 +1,5 @@
+import { LB_AXIAL_DISPLACEMENT } from '@mm/shared/constants/dialog-constant';
+
 import { Bearing } from '../../models/calculation-selection-state.model';
 import {
   getBearing,
@@ -12,6 +14,7 @@ import {
   getMountingMethods,
   getStepperState,
   getSteps,
+  isAxialDisplacement,
 } from './calculation-selection.selector';
 
 describe('Calculation Selection Selectors', () => {
@@ -90,25 +93,77 @@ describe('Calculation Selection Selectors', () => {
     expect(result).toEqual(initialState.mountingMethods.selectedValueId);
   });
 
-  describe('getSteps Selector', () => {
-    const initState = {
-      bearing: { id: 'bearing1' } as Partial<Bearing> as Bearing,
-      bearingSeatId: 'seat1',
-      mountingMethod: 'method1',
-      measurementMethod: 'LB_AXIAL_DISPLACEMENT',
-      isAvailable: true,
-    };
+  describe('isAxialDisplacement Selector', () => {
+    it('should return true when measurement method is LB_AXIAL_DISPLACEMENT', () => {
+      const result = isAxialDisplacement.projector(LB_AXIAL_DISPLACEMENT);
+      expect(result).toBe(true);
+    });
 
-    it('should return steps with correct properties', () => {
-      const result = getSteps.projector(
-        initState.bearing,
-        initState.bearingSeatId,
-        initState.mountingMethod,
-        initState.measurementMethod,
-        initState.isAvailable
+    it('should return false when measurement method is not LB_AXIAL_DISPLACEMENT', () => {
+      const result = isAxialDisplacement.projector('OTHER_METHOD');
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('getSteps Selector', () => {
+    it('should create steps with calculation options when isAxialBearing is true', () => {
+      const bearing = { id: 'bearing1' } as Partial<Bearing> as Bearing;
+      const bearingSeatId = 'seat1';
+      const mountingMethod = 'method1';
+      const isAxialBearing = true;
+      const isAvailable = true;
+      const optionsCalculationPerformed = true;
+
+      const steps = getSteps.projector(
+        bearing,
+        bearingSeatId,
+        mountingMethod,
+        isAxialBearing,
+        optionsCalculationPerformed,
+        isAvailable
       );
 
-      expect(result).toMatchSnapshot();
+      expect(steps).toMatchSnapshot();
+    });
+
+    it('should create steps without calculation options when isAxialBearing is false', () => {
+      const bearing = { id: 'bearing1' } as Partial<Bearing> as Bearing;
+      const bearingSeatId = 'seat1';
+      const mountingMethod = 'method1';
+      const isAxialBearing = false;
+      const isAvailable = true;
+      const optionsCalculationPerformed = true;
+
+      const steps = getSteps.projector(
+        bearing,
+        bearingSeatId,
+        mountingMethod,
+        isAxialBearing,
+        optionsCalculationPerformed,
+        isAvailable
+      );
+
+      expect(steps).toMatchSnapshot();
+    });
+
+    it('should mark steps as incomplete when conditions are not met', () => {
+      const bearing: Bearing = undefined;
+      const bearingSeatId = '';
+      const mountingMethod = '';
+      const isAxialBearing = false;
+      const isAvailable = false;
+      const optionsCalculationPerformed = false;
+
+      const steps = getSteps.projector(
+        bearing,
+        bearingSeatId,
+        mountingMethod,
+        isAxialBearing,
+        optionsCalculationPerformed,
+        isAvailable
+      );
+
+      expect(steps).toMatchSnapshot();
     });
   });
 });

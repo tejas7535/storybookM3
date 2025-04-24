@@ -22,6 +22,9 @@ Object {
 exports[`CalculationResultSelector getEndPositions getReportSelectionTypes when multiple conditions are met should include all applicable report selection types 1`] = `
 Array [
   Object {
+    "name": "reportInputs",
+  },
+  Object {
     "name": "startPosition",
   },
   Object {
@@ -32,9 +35,6 @@ Array [
   },
   Object {
     "name": "clearanceClasses",
-  },
-  Object {
-    "name": "reportInputs",
   },
   Object {
     "name": "mountingToolsAndUtilities",

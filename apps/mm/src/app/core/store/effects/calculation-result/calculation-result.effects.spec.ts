@@ -16,7 +16,6 @@ import { marbles } from 'rxjs-marbles';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { CalculationResultActions } from '../../actions/calculation-result';
-import { CalculationSelectionActions } from '../../actions/calculation-selection';
 import { CalculationOptionsFacade } from '../../facades/calculation-options/calculation-options.facade';
 import { CalculationSelectionFacade } from '../../facades/calculation-selection/calculation-selection.facade';
 import { CalculationResult } from '../../models/calculation-result-state.model';
@@ -166,11 +165,10 @@ describe('CalculationResultEffects', () => {
         const action = CalculationResultActions.calculateResult();
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-(bc)', {
+        const expected = m.cold('-(b)', {
           b: CalculationResultActions.setCalculationResult({
             result: parsedResult,
           }),
-          c: CalculationSelectionActions.setCurrentStep({ step: 4 }),
         });
 
         m.expect(effects.calculateResult$).toBeObservable(expected);

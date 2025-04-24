@@ -1,7 +1,4 @@
 <ng-container *transloco="let t">
-  <mm-qualtrics-info-banner
-    class="block m-6 mb-3 mr-2"
-  ></mm-qualtrics-info-banner>
   <mat-horizontal-stepper
     schaefflerSeperatedSteps
     (selectionChange)="selectStep($event)"
@@ -11,62 +8,80 @@
   >
     <ng-container>
       @for (step of steps(); track step.name; let index = $index) {
-        <mat-step
-          state="number"
-          [editable]="step.editable"
-          [completed]="step.complete"
-          optional="false"
+        <mat-step state="number" [completed]="step.complete" optional="false"
           ><ng-template matStepLabel>{{ t(step.text) }}</ng-template>
-
-          @switch (index) {
-            @case (0) {
-              <h5>{{ t(step.text) }}</h5>
-              <div class="mt-8 mb-4 max-w-sm sm:mb-8">
-                <mm-bearing-search
-                  (bearing)="selectBearing($event)"
-                  [selectedBearing]="selectedBearingOption()"
-                ></mm-bearing-search>
-              </div>
-            }
-            @case (1) {
-              @if (index === currentStep()) {
+          <div class="pt-2 sm:pt-4">
+            @switch (index) {
+              @case (BEARING_STEP) {
                 <h5>{{ t(step.text) }}</h5>
-                <mm-bearing-seat-step
-                  [bearingSeats]="bearingSeats()"
-                  [bearing]="selectedBearing()"
-                  (selectedOption)="selectBearingSeatOption($event)"
-                ></mm-bearing-seat-step>
+                <div class="mt-8 mb-4 max-w-sm sm:mb-8">
+                  <mm-bearing-search
+                    (bearing)="selectBearing($event)"
+                    [selectedBearing]="selectedBearingOption()"
+                  ></mm-bearing-search>
+                </div>
+                <mm-qualtrics-info-banner
+                  class="block my-3"
+                ></mm-qualtrics-info-banner>
+              }
+              @case (BEARING_SEAT_STEP) {
+                @if (index === currentStep()) {
+                  <h5>{{ t(step.text) }}</h5>
+                  <mm-bearing-seat-step
+                    [bearingSeats]="bearingSeats()"
+                    [bearing]="selectedBearing()"
+                    (selectedOption)="selectBearingSeatOption($event)"
+                  ></mm-bearing-seat-step>
+                  <mm-qualtrics-info-banner
+                    class="block my-3"
+                  ></mm-qualtrics-info-banner>
+                }
+              }
+              @case (MEASURING_MOUNTING_STEP) {
+                @if (index === currentStep()) {
+                  <h5>{{ t(step.text) }}</h5>
+                  <mm-measuring-and-mounting-step
+                    [measurementMethods]="measurementMethods()"
+                    [mountingMethods]="mountingMethods()"
+                    [bearing]="selectedBearing()"
+                    [mountingMethodSelectionLabel]="
+                      t('dialog.selectMountingLabel')
+                    "
+                    [measuringMethodLabel]="t('dialog.measuringMethod')"
+                    (selectedOption)="selectMountingMethod($event)"
+                    (selectedMeasurementMethod)="
+                      selectMeasurementMethod($event)
+                    "
+                  ></mm-measuring-and-mounting-step>
+                  <mm-qualtrics-info-banner
+                    class="block my-3"
+                  ></mm-qualtrics-info-banner>
+                }
+              }
+              @case (CALCULATION_OPTIONS_STEP) {
+                @if (index === currentStep()) {
+                  @if (isAxialBearing()) {
+                    <mm-calculation-options-step
+                      [preflightData]="preflightData()"
+                    >
+                    </mm-calculation-options-step>
+                    <mm-qualtrics-info-banner
+                      class="block my-3"
+                    ></mm-qualtrics-info-banner>
+                  } @else {
+                    <!-- This is for radial bearings at index, which is RADIAL_BEARINGS_RESULT_STEP -->
+                    <mm-report-result-page> </mm-report-result-page>
+                  }
+                }
+              }
+              @case (AXIAL_BEARINGS_RESULT_STEP) {
+                <mm-report-result-page> </mm-report-result-page>
+              }
+              @default {
+                <p>Default content</p>
               }
             }
-            @case (2) {
-              @if (index === currentStep()) {
-                <h5>{{ t(step.text) }}</h5>
-                <mm-measuring-and-mounting-step
-                  [measurementMethods]="measurementMethods()"
-                  [mountingMethods]="mountingMethds()"
-                  [bearing]="selectedBearing()"
-                  [mountingMethodSelectionLabel]="
-                    t('dialog.selectMountingLabel')
-                  "
-                  [measuringMethodLabel]="t('dialog.measuringMethod')"
-                  (selectedOption)="selectMountingMethod($event)"
-                  (selectedMeasurementMethod)="selectMeasurementMethod($event)"
-                ></mm-measuring-and-mounting-step>
-              }
-            }
-            @case (3) {
-              @if (index === currentStep()) {
-                <mm-calculation-options-step [preflightData]="preflighData()">
-                </mm-calculation-options-step>
-              }
-            }
-            @case (4) {
-              <mm-report-result-page> </mm-report-result-page>
-            }
-            @default {
-              <p>Default content</p>
-            }
-          }
+          </div>
         </mat-step>
 
         @if (isAppDeliveryEmbedded) {

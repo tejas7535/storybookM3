@@ -19,9 +19,9 @@ import { environment } from '@mm/environments/environment';
 
 import { ProductDesignation, ProductImagesResponse } from './api.model';
 
-const IMAGE_RESOLUTION_DEBOUNCE_TIME_MS = 800 as const;
+const IMAGE_RESOLUTION_DEBOUNCE_TIME_MS = 800;
 const IMAGE_RESOLUTION_URL = environment.productImageUrl;
-const FALLBACK_IMAGE_URL = '/assets/images/placeholder.png' as const;
+const FALLBACK_IMAGE_URL = '/assets/images/placeholder.png';
 
 @Injectable({ providedIn: 'root' })
 export class ProductImageResolverService {

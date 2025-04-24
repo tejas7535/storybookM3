@@ -5,6 +5,7 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 import { CalculationResultFacade } from '@mm/core/store/facades/calculation-result.facade';
 import { ResultTypeConfig } from '@mm/core/store/models/calculation-result-state.model';
+import { QualtricsInfoBannerComponent } from '@mm/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { ResultReportComponent } from '@schaeffler/result-report';
@@ -35,6 +36,7 @@ import { SleeveConnectorComponent } from './sleeve-connector/sleeve-connector.co
     SleeveConnectorComponent,
     ReportSelectionComponent,
     GridResultItemCardComponent,
+    QualtricsInfoBannerComponent,
   ],
 })
 export class ReportResultPageComponent {

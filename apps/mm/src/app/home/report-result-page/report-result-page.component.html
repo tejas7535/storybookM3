@@ -1,7 +1,7 @@
 <div *transloco="let t; read: 'reportResult'">
   @if (isResultAvailable$ | ngrxPush) {
     <schaeffler-result-report
-      class="flex h-full flex-row justify-between"
+      class="flex h-full flex-row justify-between md:max-h-[75vh]"
       [reportInputs]="inputs$ | ngrxPush"
       [messages]="messages$ | ngrxPush"
       [isMessageSectionExpanded]="false"
@@ -86,7 +86,10 @@
           </mm-mounting-recommendation>
         </ng-container>
       </div>
-      <ng-container report-right-sidebar>
+      <ng-container report-footer-content>
+        <mm-qualtrics-info-banner class="block my-3"></mm-qualtrics-info-banner>
+      </ng-container>
+      <ng-container report-right-sidebar class="overflow-y-auto">
         <mm-report-selection
           [selectionTypes]="reportSelectionTypes$ | ngrxPush"
           (calculationTypeClicked)="scrollIntoView($event)"

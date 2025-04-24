@@ -1,8 +1,7 @@
-import { TestBed } from '@angular/core/testing';
-
 import { BearingOption } from '@mm/shared/models';
 import { ListValue } from '@mm/shared/models/list-value.model';
 import { Step } from '@mm/shared/models/step.model';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { CalculationSelectionActions } from '../../actions/calculation-selection';
@@ -14,20 +13,19 @@ import { CalculationSelectionSelector } from '../../selectors';
 import { CalculationSelectionFacade } from './calculation-selection.facade';
 
 describe('CalculationSelectionFacade', () => {
+  let spectator: SpectatorService<CalculationSelectionFacade>;
   let facade: CalculationSelectionFacade;
   let store: MockStore;
-  const initialState = {};
+
+  const createService = createServiceFactory({
+    service: CalculationSelectionFacade,
+    providers: [provideMockStore({ initialState: {} })],
+  });
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        CalculationSelectionFacade,
-        provideMockStore({ initialState }),
-      ],
-    });
-
-    facade = TestBed.inject(CalculationSelectionFacade);
-    store = TestBed.inject(MockStore);
+    spectator = createService();
+    facade = spectator.service;
+    store = spectator.inject(MockStore);
   });
 
   it('should create the facade', () => {
@@ -39,6 +37,8 @@ describe('CalculationSelectionFacade', () => {
       Step[]
     > as Step[];
     store.overrideSelector(CalculationSelectionSelector.getSteps, steps);
+    store.refreshState();
+
     facade.steps$.subscribe((result) => {
       expect(result).toEqual(steps);
       done();
@@ -51,7 +51,9 @@ describe('CalculationSelectionFacade', () => {
       CalculationSelectionSelector.getCurrentStep,
       currentStep
     );
-    facade.currentStep$.subscribe((result) => {
+    store.refreshState();
+
+    facade.getCurrentStep$().subscribe((result) => {
       expect(result).toBe(currentStep);
       done();
     });
@@ -63,6 +65,8 @@ describe('CalculationSelectionFacade', () => {
       title: 'Bearing 1',
     } as Bearing;
     store.overrideSelector(CalculationSelectionSelector.getBearing, bearing);
+    store.refreshState();
+
     facade.selectedBearingOption$.subscribe((result) => {
       expect(result).toEqual({ id: bearing.bearingId, title: bearing.title });
       done();
@@ -78,6 +82,8 @@ describe('CalculationSelectionFacade', () => {
       CalculationSelectionSelector.getBearingsResultList,
       bearingResultList
     );
+    store.refreshState();
+
     facade.bearingResultList$.subscribe((result) => {
       expect(result).toEqual(bearingResultList);
       done();
@@ -90,6 +96,8 @@ describe('CalculationSelectionFacade', () => {
       CalculationSelectionSelector.getBearingSelectionLoading,
       isLoading
     );
+    store.refreshState();
+
     facade.isLoading$.subscribe((result) => {
       expect(result).toBe(isLoading);
       done();
@@ -106,6 +114,8 @@ describe('CalculationSelectionFacade', () => {
       CalculationSelectionSelector.getBearingSeats,
       bearingSeats
     );
+    store.refreshState();
+
     facade.bearingSeats$.subscribe((result) => {
       expect(result).toEqual(bearingSeats);
       done();
@@ -124,6 +134,8 @@ describe('CalculationSelectionFacade', () => {
       CalculationSelectionSelector.getMeasurementMethods,
       measurementMethods
     );
+    store.refreshState();
+
     facade.measurementMethods$.subscribe((result) => {
       expect(result).toEqual(measurementMethods);
       done();
@@ -143,6 +155,8 @@ describe('CalculationSelectionFacade', () => {
       CalculationSelectionSelector.getMountingMethods,
       mountingMethods
     );
+    store.refreshState();
+
     facade.mountingMethods$.subscribe((result) => {
       expect(result).toEqual(mountingMethods);
       done();
@@ -155,6 +169,8 @@ describe('CalculationSelectionFacade', () => {
       title: 'Bearing 1',
     } as Bearing;
     store.overrideSelector(CalculationSelectionSelector.getBearing, bearing);
+    store.refreshState();
+
     facade.getBearing$().subscribe((result) => {
       expect(result).toEqual(bearing);
       done();
@@ -167,6 +183,8 @@ describe('CalculationSelectionFacade', () => {
       CalculationSelectionSelector.getBearingSeatId,
       bearingSeatId
     );
+    store.refreshState();
+
     facade.getBearingSeatId$().subscribe((result) => {
       expect(result).toBe(bearingSeatId);
       done();
@@ -179,6 +197,8 @@ describe('CalculationSelectionFacade', () => {
       CalculationSelectionSelector.getMeasurementMethod,
       measurementMethod
     );
+    store.refreshState();
+
     facade.getMeasurementMethod$().subscribe((result) => {
       expect(result).toBe(measurementMethod);
       done();
@@ -262,5 +282,33 @@ describe('CalculationSelectionFacade', () => {
         mountingMethod,
       })
     );
+  });
+
+  it('should select isAxialDisplacement$', (done) => {
+    const isAxialDisplacement = true;
+    store.overrideSelector(
+      CalculationSelectionSelector.isAxialDisplacement,
+      isAxialDisplacement
+    );
+    store.refreshState();
+
+    facade.isAxialDisplacement$().subscribe((result) => {
+      expect(result).toBe(isAxialDisplacement);
+      done();
+    });
+  });
+
+  it('should select getMountingMethod$', (done) => {
+    const mountingMethod = 'mounting-method-1';
+    store.overrideSelector(
+      CalculationSelectionSelector.getMountingMethod,
+      mountingMethod
+    );
+    store.refreshState();
+
+    facade.getMountingMethod$().subscribe((result) => {
+      expect(result).toBe(mountingMethod);
+      done();
+    });
   });
 });

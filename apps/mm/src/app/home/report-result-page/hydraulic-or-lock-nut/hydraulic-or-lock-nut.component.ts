@@ -16,5 +16,4 @@ import { ProductCardComponent } from '../product-card/product-card.component';
 export class HydraulicOrLockNutComponent {
   @Input() public hydraulicOrLockNut: ResultItem[] = [];
   @Input() public title: string;
-  public imagePath = 'https://cdn.schaeffler-ecommerce.com/cdn/00160692_d.png'; // todo make dynamic
 }

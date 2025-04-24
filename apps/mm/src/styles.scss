@@ -67,15 +67,10 @@ mat-dialog-container {
   border-right: none !important;
 }
 
-mat-horizontal-stepper.primary-stepper
+mat-horizontal-stepper.mat-stepper-horizontal
   mat-step-header[aria-selected='false']
   .mat-step-label {
-  @apply hidden md:block;
-}
-
-mat-horizontal-stepper.primary-stepper
-  mat-step-header[aria-labelledby='disabled'] {
-  @apply pointer-events-none cursor-not-allowed;
+  @apply hidden md:inline-block;
 }
 
 mat-horizontal-stepper {

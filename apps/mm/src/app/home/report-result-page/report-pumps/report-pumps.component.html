@@ -6,9 +6,6 @@
       @for (pump of pumps; track pump) {
         @if (pump.isRecommended) {
           <mm-product-card
-            [imagePath]="
-              'https://cdn.schaeffler-ecommerce.com/cdn/00168CD8_d.png'
-            "
             [productTitle]="pump.field"
             [productValue]="pump.value"
             [cardClass]="'md:col-span-2 !border-primary'"
@@ -29,9 +26,6 @@
           </mm-product-card>
         } @else {
           <mm-product-card
-            [imagePath]="
-              'https://cdn.schaeffler-ecommerce.com/cdn/00168CD8_d.png'
-            "
             [productTitle]="pump.field"
             [productValue]="pump.value"
           >

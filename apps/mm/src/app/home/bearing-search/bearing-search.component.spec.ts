@@ -1,12 +1,14 @@
+import { ReactiveFormsModule } from '@angular/forms';
+
 import { of } from 'rxjs';
 
 import { CalculationSelectionFacade } from '@mm/core/store/facades/calculation-selection/calculation-selection.facade';
 import { BEARING } from '@mm/shared/constants/tracking-names';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushPipe } from '@ngrx/component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { StringOption } from '@schaeffler/inputs';
+import { SearchModule } from '@schaeffler/inputs/search';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { BearingSearchComponent } from './bearing-search.component';
@@ -19,7 +21,11 @@ describe('BearingSearchComponent', () => {
 
   const createComponent = createComponentFactory({
     component: BearingSearchComponent,
-    imports: [PushPipe, provideTranslocoTestingModule({ en: {} })],
+    imports: [
+      SearchModule,
+      ReactiveFormsModule,
+      provideTranslocoTestingModule({ en: {} }),
+    ],
     providers: [
       {
         provide: ApplicationInsightsService,
@@ -34,6 +40,7 @@ describe('BearingSearchComponent', () => {
             { id: '1', title: 'Bearing 1' },
             { id: '2', title: 'Bearing 2' },
           ]),
+          isLoading$: of(false),
           resetBearingSelection: jest.fn(),
           searchBearing: jest.fn(),
         },
@@ -53,13 +60,12 @@ describe('BearingSearchComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize bearingResultList$ correctly', () => {
-    component.bearingResultList$.subscribe((result) => {
-      expect(result).toEqual([
-        { id: '1', title: 'Bearing 1' },
-        { id: '2', title: 'Bearing 2' },
-      ]);
-    });
+  it('should initialize bearingResultList correctly', () => {
+    // Check that the transformed data is correct
+    expect(component.bearingResultList()).toEqual([
+      { id: '1', title: 'Bearing 1' },
+      { id: '2', title: 'Bearing 2' },
+    ]);
   });
 
   it('should call searchBearing when getBearings is called with valid query', () => {

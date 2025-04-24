@@ -1,51 +1,92 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Calculation Selection Selectors getSteps Selector should return steps with correct properties 1`] = `
+exports[`Calculation Selection Selectors getSteps Selector should create steps with calculation options when isAxialBearing is true 1`] = `
 Array [
   Object {
-    "complete": Object {
-      "id": "bearing1",
-    },
+    "complete": true,
     "customContent": "bearing-selection",
-    "editable": true,
-    "enabled": true,
-    "index": 0,
     "name": "RSY_PAGE_BEARING_TYPE",
     "text": "dialog.bearing",
   },
   Object {
-    "complete": "seat1",
+    "complete": true,
     "customContent": "bearing-seat",
-    "editable": true,
-    "enabled": true,
-    "index": 1,
     "name": "PAGE_MOUNTING_MANAGER_SEAT",
     "text": "dialog.bearingSeat",
   },
   Object {
-    "complete": "method1",
+    "complete": true,
     "customContent": "measuring-and-mounting",
-    "editable": true,
-    "enabled": true,
-    "index": 2,
     "name": "PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS",
     "text": "dialog.measuringAndMounting",
   },
   Object {
     "complete": true,
     "customContent": "calculation-options",
-    "editable": true,
-    "enabled": true,
-    "index": 3,
     "name": "PROPERTY_PAGE_MOUNTING_SITUATION",
     "text": "dialog.calculationOptions",
   },
   Object {
+    "complete": true,
+    "customContent": "calculation-result",
+    "name": "PAGE_RESULT",
+    "text": "dialog.report",
+  },
+]
+`;
+
+exports[`Calculation Selection Selectors getSteps Selector should create steps without calculation options when isAxialBearing is false 1`] = `
+Array [
+  Object {
+    "complete": true,
+    "customContent": "bearing-selection",
+    "name": "RSY_PAGE_BEARING_TYPE",
+    "text": "dialog.bearing",
+  },
+  Object {
+    "complete": true,
+    "customContent": "bearing-seat",
+    "name": "PAGE_MOUNTING_MANAGER_SEAT",
+    "text": "dialog.bearingSeat",
+  },
+  Object {
+    "complete": true,
+    "customContent": "measuring-and-mounting",
+    "name": "PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS",
+    "text": "dialog.measuringAndMounting",
+  },
+  Object {
+    "complete": true,
+    "customContent": "calculation-result",
+    "name": "PAGE_RESULT",
+    "text": "dialog.report",
+  },
+]
+`;
+
+exports[`Calculation Selection Selectors getSteps Selector should mark steps as incomplete when conditions are not met 1`] = `
+Array [
+  Object {
+    "complete": false,
+    "customContent": "bearing-selection",
+    "name": "RSY_PAGE_BEARING_TYPE",
+    "text": "dialog.bearing",
+  },
+  Object {
+    "complete": false,
+    "customContent": "bearing-seat",
+    "name": "PAGE_MOUNTING_MANAGER_SEAT",
+    "text": "dialog.bearingSeat",
+  },
+  Object {
+    "complete": false,
+    "customContent": "measuring-and-mounting",
+    "name": "PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS",
+    "text": "dialog.measuringAndMounting",
+  },
+  Object {
     "complete": false,
     "customContent": "calculation-result",
-    "editable": true,
-    "enabled": true,
-    "index": 4,
     "name": "PAGE_RESULT",
     "text": "dialog.report",
   },

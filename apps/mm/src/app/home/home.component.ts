@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 import { CdkStepperModule, StepperSelectionEvent } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,6 +17,13 @@ import { CalculationSelectionFacade } from '@mm/core/store/facades/calculation-s
 import { BearingSearchComponent } from '@mm/home/bearing-search/bearing-search.component';
 import { AppStoreButtonsComponent } from '@mm/shared/components/app-store-buttons/app-store-buttons.component';
 import { QualtricsInfoBannerComponent } from '@mm/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
+import {
+  AXIAL_BEARINGS_RESULT_STEP,
+  BEARING_SEAT_STEP,
+  BEARING_STEP,
+  CALCULATION_OPTIONS_STEP,
+  MEASURING_MOUNTING_STEP,
+} from '@mm/shared/constants/steps';
 import { AppDelivery } from '@mm/shared/models';
 import { BearingSeatStepComponent } from '@mm/steps/bearing-seat-step/bearing-seat-step.component';
 import { CalculationOptionsStepComponent } from '@mm/steps/calculation-options-step/calculation-options-step.component';
@@ -31,7 +39,6 @@ import { ReportResultPageComponent } from './report-result-page/report-result-pa
     CommonModule,
     SharedTranslocoModule,
     CdkStepperModule,
-    CommonModule,
     MatStepperModule,
     FormsModule,
     ReactiveFormsModule,
@@ -46,43 +53,38 @@ import { ReportResultPageComponent } from './report-result-page/report-result-pa
     AppStoreButtonsComponent,
     ReportResultPageComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
+  private readonly selectionFacade = inject(CalculationSelectionFacade);
+  private readonly optionsFacade = inject(CalculationOptionsFacade);
+
+  readonly BEARING_STEP = BEARING_STEP;
+  readonly BEARING_SEAT_STEP = BEARING_SEAT_STEP;
+  readonly MEASURING_MOUNTING_STEP = MEASURING_MOUNTING_STEP;
+  readonly CALCULATION_OPTIONS_STEP = CALCULATION_OPTIONS_STEP;
+  readonly AXIAL_BEARINGS_RESULT_STEP = AXIAL_BEARINGS_RESULT_STEP;
+
   public readonly DEBOUNCE_TIME_DEFAULT = 0; // debounce time required for slider in Application to render properly at the first load.
   public isAppDeliveryEmbedded = detectAppDelivery() === AppDelivery.Embedded;
   selectedBearing = toSignal(this.selectionFacade.getBearing$());
   bearingSeats = toSignal(this.selectionFacade.bearingSeats$);
   selectedBearingOption = toSignal(this.selectionFacade.selectedBearingOption$);
   measurementMethods = toSignal(this.selectionFacade.measurementMethods$);
-  mountingMethds = toSignal(this.selectionFacade.mountingMethods$);
-  preflighData = toSignal(this.optionsFacade.getOptions$());
+  mountingMethods = toSignal(this.selectionFacade.mountingMethods$);
+  preflightData = toSignal(this.optionsFacade.getOptions$());
+  isAxialBearing = toSignal(this.selectionFacade.isAxialDisplacement$());
 
   steps = toSignal(this.selectionFacade.steps$);
   currentStep = toSignal(
-    this.selectionFacade.currentStep$.pipe(
-      debounceTime(this.DEBOUNCE_TIME_DEFAULT)
-    )
+    this.selectionFacade
+      .getCurrentStep$()
+      .pipe(debounceTime(this.DEBOUNCE_TIME_DEFAULT))
   );
 
-  public readonly preflighData$ = this.optionsFacade.getOptions$();
-
-  public constructor(
-    private readonly selectionFacade: CalculationSelectionFacade,
-    private readonly optionsFacade: CalculationOptionsFacade
-  ) {}
-
-  async selectStep(_event: StepperSelectionEvent): Promise<void> {
-    const items = this.steps();
-
-    const targetRoute = items.find(
-      ({ index }) => index === _event.selectedIndex
-    );
-
-    if (!targetRoute.enabled) {
-      return;
-    }
-
-    this.selectionFacade.setCurrentStep(targetRoute.index);
+  selectStep(_event: StepperSelectionEvent): void {
+    const selectedIndex = _event.selectedIndex;
+    this.selectCurrentStep(selectedIndex);
   }
 
   public selectBearing(id: string): void {
@@ -94,7 +96,7 @@ export class HomeComponent {
       this.selectionFacade.setBearingSeat(bearingSeatId);
     }
 
-    this.selectionFacade.setCurrentStep(2);
+    this.selectCurrentStep(MEASURING_MOUNTING_STEP);
   }
 
   public selectMountingMethod(mountingMethod: string): void {
@@ -103,5 +105,9 @@ export class HomeComponent {
 
   public selectMeasurementMethod(measurementMethod: string): void {
     this.selectionFacade.setMeasurementMethod(measurementMethod);
+  }
+
+  private selectCurrentStep(step: number): void {
+    this.selectionFacade.setCurrentStep(step);
   }
 }
