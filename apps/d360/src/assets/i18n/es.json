@@ -411,7 +411,7 @@
     "no_department": "Sin departamento",
     "no_family_name": "Sin apellido",
     "no_given_name": "Sin nombre",
-    "not_valid": "El siguiente valor no es válido:",
+    "not_valid": "El siguiente valor no es válido: {{formattedValue}}",
     "notValidCustomerNumber": "{{formattedValue}} no es un número de cliente existente.",
     "notValidGkamNumber": "{{formattedValue}} no es un número Gkam existente.",
     "notValidMaterialNumber": "{{formattedValue}} no es un número de material existente.",

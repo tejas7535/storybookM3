@@ -411,7 +411,7 @@
     "no_department": "没有部门",
     "no_family_name": "没有姓氏",
     "no_given_name": "没有名字",
-    "not_valid": "以下值无效：",
+    "not_valid": "以下值无效：{{formattedValue}}",
     "notValidCustomerNumber": "{{formattedValue}} 不是有效的客户号。",
     "notValidGkamNumber": "{{formattedValue}} 不是有效的数字。",
     "notValidMaterialNumber": "{{formattedValue}} 不是有效的物料编号。",

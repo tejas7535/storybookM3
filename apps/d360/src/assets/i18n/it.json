@@ -411,7 +411,7 @@
     "no_department": "Nessun reparto",
     "no_family_name": "Nessun cognome",
     "no_given_name": "Nessun Nome",
-    "not_valid": "Non è consentito il seguente valore :",
+    "not_valid": "Non è consentito il seguente valore : {{formattedValue}}",
     "notValidCustomerNumber": "{{formattedValue}} non è un codice cliente esistente",
     "notValidGkamNumber": "{{formattedValue}} non è un numero Gkam esistente",
     "notValidMaterialNumber": "{{formattedValue}} non è un codice materiale esistente",

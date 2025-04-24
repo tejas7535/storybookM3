@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 
 import { catchError, EMPTY, forkJoin, map, Observable, of } from 'rxjs';
 
+import { translate } from '@jsverse/transloco';
+
 import {
   GlobalSelectionState,
   GlobalSelectionStateKeys,
@@ -95,7 +97,7 @@ export class GlobalSelectionUtils {
       if (!optionExists) {
         const errText = errorTextFunc
           ? errorTextFunc(formattedValue)
-          : `error.not_valid${formattedValue}`;
+          : translate('error.not_valid', { formattedValue });
 
         return { id: value, error: [errText] };
       }

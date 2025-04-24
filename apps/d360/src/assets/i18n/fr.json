@@ -411,7 +411,7 @@
     "no_department": "Département Manquant",
     "no_family_name": "Nom de famille Manquant",
     "no_given_name": "Prénom manquant",
-    "not_valid": "Valeur non valide",
+    "not_valid": "Valeur non valide: {{formattedValue}}",
     "notValidCustomerNumber": "{{formattedValue}} code client existant.",
     "notValidGkamNumber": "{{formattedValue}}  code Gkam existant.",
     "notValidMaterialNumber": "{{formattedValue}} code article existant.",
