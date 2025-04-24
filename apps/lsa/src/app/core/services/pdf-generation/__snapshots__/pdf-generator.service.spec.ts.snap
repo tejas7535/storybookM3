@@ -41,13 +41,18 @@ Object {
 exports[`PDFGeneratorService should format the groups for proper filtering in pdf 2`] = `
 Array [
   Object {
+    "price": "5.00 EUR",
     "products": Array [
       Object {
+        "available": true,
+        "currency": "EUR",
         "description": undefined,
         "designation": "Acc #2",
         "group": "Lubricators",
         "id": "32",
         "imageUrl": undefined,
+        "pimid": "32",
+        "price": 1,
         "quantity": 5,
       },
     ],

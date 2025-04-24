@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/member-ordering */
 import { Injectable, OnDestroy } from '@angular/core';
 
-import { BehaviorSubject, filter, Subject, takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  filter,
+  Subject,
+  takeUntil,
+  withLatestFrom,
+} from 'rxjs';
 
 import { Lubricator, RecommendationResponse } from '@lsa/shared/models';
 import {
@@ -22,6 +28,8 @@ export class PriceAvailabilityService implements OnDestroy {
   private readonly priceAndAvailabilityResponseSubject$ =
     new BehaviorSubject<MediasCallbackResponse>({ items: {} });
 
+  private readonly resolutionQueue = new Subject<MediasCallbackResponse>();
+
   public priceAndAvailabilityRequest$ =
     this.priceAndAvailabilityRequestSubject$.asObservable();
 
@@ -38,6 +46,19 @@ export class PriceAvailabilityService implements OnDestroy {
       )
       .subscribe((response: RecommendationResponse) => {
         this.handleRecommendationResponse(response);
+      });
+    this.resolutionQueue
+      .pipe(
+        takeUntil(this.destroyed$),
+        withLatestFrom(this.priceAndAvailabilityResponse$)
+      )
+      .subscribe(([queueEntry, currentValues]) => {
+        this.priceAndAvailabilityResponseSubject$.next({
+          items: {
+            ...currentValues.items,
+            ...queueEntry.items,
+          },
+        });
       });
   }
 
@@ -111,7 +132,7 @@ export class PriceAvailabilityService implements OnDestroy {
         },
       },
       callback: (result: MediasCallbackResponse) => {
-        this.priceAndAvailabilityResponseSubject$.next(result);
+        this.resolutionQueue.next(result);
       },
     };
 

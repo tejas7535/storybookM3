@@ -20,6 +20,7 @@ import {
 } from '@lsa/shared/components/pdf/selected-product.component';
 import { PowerSupply } from '@lsa/shared/constants';
 import { PipeLength } from '@lsa/shared/constants/tube-length.enum';
+import { UserTier } from '@lsa/shared/constants/user-tier.enum';
 import {
   Accessory,
   Lubricator,
@@ -42,7 +43,9 @@ import {
   Table,
 } from '@schaeffler/pdf-generator';
 
+import { AddToCartService } from '../add-to-cart.service';
 import { LsaFormService } from '../lsa-form.service';
+import { PriceAvailabilityService } from '../price-availability.service';
 import { RestService } from '../rest.service';
 import { ResultInputsService } from '../result-inputs.service';
 import {
@@ -60,6 +63,8 @@ export class PDFGeneratorService {
 
   private readonly recommendation$ = this.restService.recommendation$;
   private readonly tableData$$ = new Subject<FormDataType>();
+  private readonly pricingAndAvailabilityData$$ =
+    this.priceService.priceAndAvailabilityResponse$;
   private readonly forRecommendation$$ = new Subject<boolean>();
 
   private readonly recommendedLubricator$ = this.recommendation$.pipe(
@@ -166,6 +171,25 @@ export class PDFGeneratorService {
     switchMap((products) =>
       this.imagesResolver.fetchImages(products, 'imageUrl')
     ),
+    withLatestFrom(this.pricingAndAvailabilityData$$),
+    map(([products, priceInfo]) => {
+      const priceItems = priceInfo.items;
+
+      return products.map((product) => {
+        const productInfo = priceItems[product.pimid];
+
+        if (!(product.pimid in priceItems)) {
+          return product;
+        }
+        if (this.addToCartService.getUserTier() === UserTier.Business) {
+          product.price = productInfo.price;
+          product.currency = productInfo.currency;
+          product.available = productInfo.available;
+        }
+
+        return product;
+      });
+    }),
     map((products) => makeProductGroups(products)),
     map((productGroups) =>
       productGroups.map((group) => ({
@@ -286,11 +310,24 @@ export class PDFGeneratorService {
         doc.addComponent(
           new ProductList({
             data: [group],
+            showAvailabilityAndPriceWhenAvailabile:
+              this.addToCartService.getUserTier() === UserTier.Business,
             labels: {
               quantity: this.translocoService.translate(
                 'recommendation.result.quantity'
               ),
               id: 'Schaeffler ID',
+              availability: {
+                inStock: this.translocoService.translate(
+                  'recommendation.result.inStock'
+                ),
+                outOfStock: this.translocoService.translate(
+                  'recommendation.result.notInStock'
+                ),
+              },
+              price: this.translocoService.translate(
+                'recommendation.result.perPiece'
+              ),
             },
           })
         );
@@ -307,7 +344,9 @@ export class PDFGeneratorService {
     private readonly imagesResolver: ImageResolverService,
     private readonly fontResolver: FontResolverService,
     private readonly formService: LsaFormService,
-    private readonly resultInputsService: ResultInputsService
+    private readonly resultInputsService: ResultInputsService,
+    private readonly priceService: PriceAvailabilityService,
+    private readonly addToCartService: AddToCartService
   ) {
     this.pdfFile.subscribe((doc) => {
       doc.generate();

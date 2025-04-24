@@ -1,49 +1,16 @@
 /*  eslint max-lines: 0  */
 
 import { Component } from '../../core';
-import { FontOptions } from '../../core/format';
 import { Rect } from '../../core/rect';
 import { mergeDefaults } from '../../core/util';
-import { PrecomputedLayout, Product, ProductGroup, Props, Style } from './data';
-
-const DefaultFont: FontOptions = {
-  fontFamily: 'Noto',
-  fontSize: 8,
-  fontStyle: 'normal',
-} as const;
-
-const DefaultStyles: Style = {
-  headerBackground: '#f6f7f8',
-  imageWidth: 18,
-  gap: 5,
-  designationFont: {
-    ...DefaultFont,
-    fontSize: 11.25,
-    fontStyle: 'bold',
-  },
-  headerFont: {
-    ...DefaultFont,
-    fontSize: 11,
-  },
-  dividerColor: '#f6f7f8',
-  labelFont: DefaultFont,
-  labelColor: '#000',
-  spacing: {
-    header: {
-      left: 2,
-      right: 2,
-      top: 3,
-      bottom: 3,
-    },
-    productRow: {
-      left: 2,
-      right: 2,
-      top: 2,
-      bottom: 2,
-    },
-    designationMargin: 2,
-  },
-};
+import {
+  DefaultStyles,
+  PrecomputedLayout,
+  Product,
+  ProductGroup,
+  Props,
+  Style,
+} from './data';
 
 export class ProductList extends Component {
   private readonly data: Props['data'];
@@ -51,18 +18,33 @@ export class ProductList extends Component {
   private readonly labels: Props['labels'];
   private readonly allowGroupBreaks: boolean = false;
   private readonly props: Props;
+  private readonly showPriceColumnsSetting: boolean;
 
   private computedLayout: PrecomputedLayout[] = [];
 
   constructor(props: Props) {
     super();
-    const { data, style, labels, allowGroupBreaks } = props;
+    const {
+      data,
+      style,
+      labels,
+      allowGroupBreaks,
+      showAvailabilityAndPriceWhenAvailabile,
+    } = props;
     this.props = props;
     this.data = data;
     this.style = mergeDefaults(style, DefaultStyles);
     this.style.spacing = mergeDefaults(style?.spacing, DefaultStyles.spacing);
     this.labels = labels;
     this.allowGroupBreaks = allowGroupBreaks || true;
+    this.showPriceColumnsSetting =
+      showAvailabilityAndPriceWhenAvailabile || false;
+    if (
+      this.showPriceColumnsSetting &&
+      (!this.labels.availability || !this.labels.price)
+    ) {
+      throw new Error('Labels for price and availability are not complete');
+    }
   }
 
   public override evaluate(
@@ -84,6 +66,13 @@ export class ProductList extends Component {
       )
       .includes(true);
 
+    let availabilityColumnWidth = 0;
+    let priceColumnWidth = 0;
+    if (this.showPriceColumnsSetting) {
+      [availabilityColumnWidth, priceColumnWidth] =
+        this.getSpaceRequirementsForAvailability();
+    }
+
     const width =
       this.bounds.width -
       (hasImages ? this.style.imageWidth + this.style.gap : 0);
@@ -103,15 +92,43 @@ export class ProductList extends Component {
 
     const idLabelWidth = this.getTextDimensions(this.labels.id).w;
 
-    const productIdColumnWidth =
-      Math.max(longestIdWidth, idLabelWidth) + 2 * this.style.gap;
+    const productIdColumnWidth = Math.max(longestIdWidth, idLabelWidth);
 
     const productTitleColumnWidth =
-      width - quantityColumnWidth - productIdColumnWidth - this.style.gap;
+      width -
+      quantityColumnWidth -
+      productIdColumnWidth -
+      availabilityColumnWidth -
+      priceColumnWidth -
+      this.style.gap;
 
     const rowStartCoord =
       this.bounds.x + (this.style.spacing.productRow?.left || 0);
 
+    // Layout
+    // Image (if existent) | Product Designation + desc | Availability (if present) | Price (if present) | ID | Qty
+    const imageX = rowStartCoord;
+    const productDetailsX =
+      rowStartCoord + (hasImages ? this.style.imageWidth + this.style.gap : 0);
+    const productDetailsWidth = productTitleColumnWidth;
+
+    const availabilityColumnX = productDetailsX + productDetailsWidth;
+    const priceColumnX =
+      availabilityColumnX +
+      availabilityColumnWidth +
+      (priceColumnWidth > 0 ? this.style.gap / 2 : 0);
+    const productIdX =
+      productDetailsX +
+      productDetailsWidth +
+      availabilityColumnWidth +
+      priceColumnWidth +
+      (priceColumnWidth > 0 ? this.style.gap : 0);
+    const productIdWidth = productIdColumnWidth;
+
+    const quantityColumnX =
+      this.bounds.BottomRight.x -
+      (this.style.spacing.productRow?.right || 0) -
+      quantityColumnWidth;
     const precomputed: PrecomputedLayout[] = this.data.map((group) => {
       const header = group.title;
       const rows = group.products.map((product) => {
@@ -154,23 +171,19 @@ export class ProductList extends Component {
       return {
         header: {
           title: header,
+          price: group.price,
         },
         cell: {
-          imageX: rowStartCoord,
-          productDetailsX:
-            rowStartCoord +
-            (hasImages ? this.style.imageWidth + this.style.gap : 0),
-          productDetailsWidth: productTitleColumnWidth,
-          productIdX:
-            rowStartCoord +
-            (hasImages ? this.style.imageWidth + this.style.gap : 0) +
-            +this.style.gap +
-            productTitleColumnWidth,
-          productIdWidth: productIdColumnWidth,
-          quantityColumnX:
-            this.bounds.BottomRight.x -
-            (this.style.spacing.productRow?.right || 0) -
-            quantityColumnWidth,
+          imageX,
+          productDetailsX,
+          productDetailsWidth,
+          productIdX,
+          productIdWidth,
+          availabilityColumnX,
+          availabilityColumnWidth,
+          priceColumnWidth,
+          priceColumnX,
+          quantityColumnX,
           quantityColumnWidth,
         },
         rows,
@@ -206,7 +219,7 @@ export class ProductList extends Component {
 
     return [false, bounds.height, fittingComponent, overflowComponent];
   }
-
+  /* eslint-disable complexity */
   public override render(): void {
     super.render();
 
@@ -223,6 +236,7 @@ export class ProductList extends Component {
     const headerSpacing =
       (this.style.spacing.header?.top || 0) +
       (this.style.spacing.header?.bottom || 0);
+
     for (const group of layout) {
       doc.setFillColor(this.style.headerBackground);
       doc.setTextColor(0, 0, 0);
@@ -233,7 +247,6 @@ export class ProductList extends Component {
         headerTextHeight + headerSpacing,
         'F'
       );
-
       startY += this.style.spacing.header?.top || 0;
 
       this.text(
@@ -242,22 +255,29 @@ export class ProductList extends Component {
         group.header.title,
         { fontOptions: this.style.headerFont }
       );
-
-      this.text(
+      const quantityXCoord =
         this.alignRight(
           this.bounds.BottomRight.x,
           this.labels.quantity,
           this.style.headerFont
-        ) - (this.style.spacing.header?.right || 0),
-        startY,
-        this.labels.quantity,
-        { fontOptions: this.style.headerFont }
-      );
+        ) - (this.style.spacing.header?.right || 0);
+      this.text(quantityXCoord, startY, this.labels.quantity, {
+        fontOptions: this.style.headerFont,
+      });
+
+      if (group.header.price && this.showPriceColumnsSetting) {
+        const priceColX = group.cell.priceColumnX!;
+        this.text(priceColX, startY, group.header.price, {
+          fontOptions: this.style.headerFont,
+        });
+      }
 
       startY += (this.style.spacing.header?.bottom || 0) + headerTextHeight;
       for (const productRow of group.rows) {
         startY += this.style.spacing.productRow?.top || 0;
         const product = productRow.data;
+        const verticalCenterline = startY + productRow.height / 2;
+
         if (product.imageUrl) {
           this.image(
             product.imageUrl,
@@ -277,6 +297,7 @@ export class ProductList extends Component {
           fontOptions: this.style.designationFont,
           textOptions: { maxWidth: group.cell.productDetailsWidth },
         });
+
         if (product.description) {
           this.text(
             group.cell.productDetailsX,
@@ -291,18 +312,11 @@ export class ProductList extends Component {
           );
         }
         if (product.id) {
-          const idY = this.vcenter(
-            startY,
-            productRow.height,
-            `${this.props.labels.id}: ${product.id}`,
-            group.cell.productIdWidth,
-            this.style.labelFont
-          );
           const textH = this.getTextDimensions('mock', this.style.labelFont).h;
 
           this.text(
             group.cell.productIdX,
-            idY - textH * 0.55 - 0.2,
+            verticalCenterline - textH - this.style.verticalMargin,
             `${product.id}`,
             {
               fontOptions: this.style.labelFont,
@@ -310,13 +324,35 @@ export class ProductList extends Component {
             }
           );
 
-          this.text(
-            group.cell.productIdX,
-            idY + textH * 0.5 + 0.2,
-            this.labels.id,
-            {
-              fontOptions: this.style.labelFont,
-            }
+          this.text(group.cell.productIdX, verticalCenterline, this.labels.id, {
+            fontOptions: this.style.labelFont,
+          });
+        }
+
+        if (
+          product.price &&
+          group.cell.priceColumnX &&
+          group.cell.priceColumnWidth
+        ) {
+          const priceString = `${product.price} ${product.currency}`;
+          this.drawPrice(
+            group.cell.priceColumnX,
+            verticalCenterline,
+            group.cell.priceColumnWidth,
+            priceString
+          );
+        }
+
+        if (
+          product.available !== undefined &&
+          group.cell.availabilityColumnX &&
+          group.cell.availabilityColumnWidth
+        ) {
+          this.drawAvailability(
+            group.cell.availabilityColumnX,
+            verticalCenterline,
+            group.cell.availabilityColumnWidth,
+            product.available
           );
         }
 
@@ -339,6 +375,98 @@ export class ProductList extends Component {
       }
     }
     this.renderBorders(headerTextHeight + headerSpacing);
+  }
+
+  private drawAvailability(
+    x: number,
+    centerY: number,
+    columnWidth: number,
+    available: boolean
+  ) {
+    const doc = this.assertDoc();
+    const RADIUS = 1.12;
+
+    const text = available
+      ? this.labels.availability!.inStock
+      : this.labels.availability!.outOfStock;
+    const textWidth = this.getTextDimensions(text, this.style.labelFont).w;
+    doc.setFillColor(
+      available
+        ? this.style.avilabilityColors.inStock
+        : this.style.avilabilityColors.outOfStock
+    );
+
+    doc.ellipse(x + columnWidth / 2, centerY - 2 * RADIUS, RADIUS, RADIUS, 'F');
+    this.text(x + columnWidth / 2 - textWidth / 2, centerY, text, {
+      fontOptions: this.style.labelFont,
+    });
+  }
+
+  private drawPrice(
+    x: number,
+    centerY: number,
+    columnWidth: number,
+    price: string
+  ) {
+    const label = this.labels.price || 'missing label';
+    const labelWidth = this.getTextDimensions(label, this.style.labelFont).w;
+    this.text(x + columnWidth / 2 - labelWidth / 2, centerY, label, {
+      fontOptions: this.style.labelFont,
+    });
+    const priceTextDimen = this.getTextDimensions(price, this.style.labelFont);
+
+    const priceTextHeight = priceTextDimen.h;
+    this.text(
+      x + columnWidth / 2 - priceTextDimen.w / 2,
+      centerY - priceTextHeight - this.style.verticalMargin,
+      price,
+      {
+        fontOptions: this.style.priceFont,
+      }
+    );
+  }
+
+  private getSpaceRequirementsForAvailability() {
+    const availabilityWidth = Math.max(
+      this.getTextDimensions(
+        this.labels.availability!.outOfStock,
+        this.style.labelFont
+      ).w,
+      this.getTextDimensions(
+        this.labels.availability!.inStock,
+        this.style.labelFont
+      ).w
+    );
+
+    const longestTotalString =
+      this.data
+        .filter((p) => p.price)
+        .map((p) => p.price)
+        .sort((a, b) => a!.length - b!.length)
+        .pop() || '';
+    const totalPriceHeaderWith = this.getTextDimensions(
+      longestTotalString,
+      this.style.headerFont
+    ).w;
+
+    const priceLabelWidth = this.getTextDimensions(
+      this.labels.price!,
+      this.style.labelFont
+    ).w;
+
+    const longestPrice =
+      this.data
+        .flatMap((d) => d.products)
+        .map((p) => `${p.price} ${p.currency}`)
+        .sort((a, b) => a!.length - b!.length)
+        .pop() || '999,99 EUR';
+    const priceColumnWidth = Math.max(
+      priceLabelWidth,
+      this.getTextDimensions(longestPrice, this.style.priceFont).w,
+      totalPriceHeaderWith
+    );
+
+    return [availabilityWidth, priceColumnWidth];
   }
 
   private renderBorders(headerHeight: number) {

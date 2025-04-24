@@ -2,11 +2,13 @@ import { BehaviorSubject, of } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 import { PowerSupply } from '@lsa/shared/constants';
+import { UserTier } from '@lsa/shared/constants/user-tier.enum';
 import {
   Accessory,
   Lubricator,
   RecommendationResponse,
 } from '@lsa/shared/models';
+import { MediasCallbackResponse } from '@lsa/shared/models/price-availibility.model';
 import {
   createServiceFactory,
   mockProvider,
@@ -18,7 +20,9 @@ import {
   ImageResolverService,
 } from '@schaeffler/pdf-generator';
 
+import { AddToCartService } from '../add-to-cart.service';
 import { LsaFormService } from '../lsa-form.service';
+import { PriceAvailabilityService } from '../price-availability.service';
 import { RestService } from '../rest.service';
 import { ResultInputsService } from '../result-inputs.service';
 import { FormDataType, PDFGeneratorService } from './pdf-generator.service';
@@ -99,6 +103,14 @@ describe('PDFGeneratorService', () => {
       }),
       mockProvider(ResultInputsService, {
         getPipeLengthTranslation: jest.fn((a) => of(a)),
+      }),
+      mockProvider(AddToCartService, {
+        getUserTier: jest.fn(() => UserTier.Business),
+      }),
+      mockProvider(PriceAvailabilityService, {
+        priceAndAvailabilityResponse$: of<MediasCallbackResponse>({
+          items: { '32': { available: true, price: 1, currency: 'EUR' } },
+        }),
       }),
     ],
   });

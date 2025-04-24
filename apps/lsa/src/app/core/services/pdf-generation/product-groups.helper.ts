@@ -20,11 +20,15 @@ export const chooseSelectedProducts = (
       }
       products.push({
         group,
+        pimid: accessory.pim_code,
         imageUrl: accessory.product_image,
         designation: accessory.designation,
         description: accessory.description,
         id: accessory.matnr,
         quantity: qty,
+        price: accessory.price,
+        currency: accessory.currency,
+        available: accessory.availability,
       });
     }
   }
@@ -46,8 +50,18 @@ export const makeProductGroups = (inputProducts: CombinedProductType[]) => {
 
   const productGroups: ProductGroup[] = [];
   for (const [group, products] of groupMap.entries()) {
+    const groupTotal = products
+      .reduce((acc, prod) => acc + prod.price * prod.quantity, 0)
+      .toFixed(2);
+    const groupCurrency = products
+      .filter((prod) => prod.currency)
+      .pop()?.currency;
     productGroups.push({
       title: group,
+      price:
+        groupTotal && groupCurrency
+          ? `${groupTotal} ${groupCurrency}`
+          : undefined,
       products,
     });
   }
