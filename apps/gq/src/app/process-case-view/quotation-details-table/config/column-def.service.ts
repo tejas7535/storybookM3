@@ -1,6 +1,28 @@
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
+import {
+  EditCellComponent,
+  EditCellData,
+  FreeStockCellComponent,
+  FreeStockCellParams,
+  GqPriceCellComponent,
+  SapPriceCellComponent,
+} from '@gq/shared/ag-grid/cell-renderer';
+import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
+import {
+  FILTER_PARAMS,
+  MULTI_COLUMN_FILTER,
+  NUMBER_COLUMN_FILTER,
+  TEXT_COLUMN_FILTER,
+} from '@gq/shared/ag-grid/constants/filters';
+import {
+  ColumnUtilityService,
+  ComparatorService,
+} from '@gq/shared/ag-grid/services';
+import { DateFilterParamService } from '@gq/shared/ag-grid/services/date-filter-param/date-filter-param.service';
+import { UserRoles } from '@gq/shared/constants';
+import { Keyboard } from '@gq/shared/models';
 import { roundToTwoDecimals } from '@gq/shared/utils/pricing.utils';
 import { translateTargetPriceSourceValue } from '@gq/shared/utils/translate.utils';
 import { translate, TranslocoService } from '@jsverse/transloco';
@@ -9,23 +31,6 @@ import {
   ValueFormatterParams,
   ValueGetterParams,
 } from 'ag-grid-enterprise';
-
-import { UserRoles } from '../../constants';
-import { Keyboard } from '../../models';
-import { FreeStockCellComponent, FreeStockCellParams } from '../cell-renderer';
-import { GqPriceCellComponent } from '../cell-renderer/gq-price-cell/gq-price-cell.component';
-import { EditCellData } from '../cell-renderer/models/edit-cell-class-params.model';
-import { SapPriceCellComponent } from '../cell-renderer/sap-price-cell/sap-price-cell.component';
-import { ColumnFields } from '../constants/column-fields.enum';
-import {
-  FILTER_PARAMS,
-  MULTI_COLUMN_FILTER,
-  NUMBER_COLUMN_FILTER,
-  TEXT_COLUMN_FILTER,
-} from '../constants/filters';
-import { ColumnUtilityService } from './column-utility.service';
-import { ComparatorService } from './comparator.service';
-import { DateFilterParamService } from './date-filter-param/date-filter-param.service';
 
 @Injectable({
   providedIn: 'root',
@@ -78,7 +83,7 @@ export class ColumnDefService {
       field: ColumnFields.ORDER_QUANTITY,
       valueFormatter: (params) =>
         this.columnUtilityService.numberDashFormatter(params),
-      cellRenderer: 'EditCellComponent',
+      cellRenderer: EditCellComponent,
       cellRendererParams: {
         condition: { enabled: false },
         field: ColumnFields.ORDER_QUANTITY,
@@ -93,7 +98,7 @@ export class ColumnDefService {
         this.columnUtilityService.numberCurrencyFormatter(params),
       filterValueGetter: (params: ValueGetterParams) =>
         roundToTwoDecimals(params.data[ColumnFields.PRICE]),
-      cellRenderer: 'EditCellComponent',
+      cellRenderer: EditCellComponent,
       cellRendererParams: {
         condition: { enabled: false },
         role: UserRoles.MANUAL_PRICE,
@@ -120,7 +125,7 @@ export class ColumnDefService {
             priceSource: params.value,
           }),
       },
-      cellRenderer: 'EditCellComponent',
+      cellRenderer: EditCellComponent,
       cellRendererParams: {
         condition: { enabled: false },
         field: ColumnFields.PRICE_SOURCE,
@@ -182,7 +187,7 @@ export class ColumnDefService {
         roundToTwoDecimals(params.data[ColumnFields.NET_VALUE]),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
-      cellRenderer: 'EditCellComponent',
+      cellRenderer: EditCellComponent,
       cellRendererParams: {
         condition: { enabled: false },
         field: ColumnFields.NET_VALUE,
@@ -299,7 +304,7 @@ export class ColumnDefService {
           params.data[ColumnFields.DISCOUNT]
         ),
       editable: true,
-      cellRenderer: 'EditCellComponent',
+      cellRenderer: EditCellComponent,
       cellRendererParams: {
         condition: { enabled: true, conditionField: 'sapGrossPrice' },
         field: ColumnFields.DISCOUNT,
@@ -333,7 +338,7 @@ export class ColumnDefService {
         this.columnUtilityService.numberCurrencyFormatter(params),
       filterValueGetter: (params: ValueGetterParams) =>
         roundToTwoDecimals(params.data[ColumnFields.TARGET_PRICE]),
-      cellRenderer: 'EditCellComponent',
+      cellRenderer: EditCellComponent,
       cellRendererParams: {
         condition: { enabled: false },
         field: ColumnFields.TARGET_PRICE,
@@ -365,7 +370,7 @@ export class ColumnDefService {
           : ColumnUtilityService.basicTransform({
               value: params.data.targetPriceSource,
             } as ValueFormatterParams),
-      cellRenderer: 'EditCellComponent',
+      cellRenderer: EditCellComponent,
       cellRendererParams: {
         condition: { enabled: false },
         field: ColumnFields.TARGET_PRICE,
@@ -435,7 +440,7 @@ export class ColumnDefService {
         this.columnUtilityService.getPercentageFilterValue(
           params.data[ColumnFields.GPI]
         ),
-      cellRenderer: 'EditCellComponent',
+      cellRenderer: EditCellComponent,
       cellRendererParams: {
         condition: { enabled: true, conditionField: ColumnFields.GPC },
         field: ColumnFields.GPI,
@@ -459,7 +464,7 @@ export class ColumnDefService {
         this.columnUtilityService.getPercentageFilterValue(
           params.data[ColumnFields.GPM]
         ),
-      cellRenderer: 'EditCellComponent',
+      cellRenderer: EditCellComponent,
       cellRendererParams: {
         condition: { enabled: true, conditionField: ColumnFields.SQV },
         field: ColumnFields.GPM,
@@ -515,7 +520,7 @@ export class ColumnDefService {
         ),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
-      cellRenderer: 'EditCellComponent',
+      cellRenderer: EditCellComponent,
       cellRendererParams: {
         condition: { enabled: false },
         field: ColumnFields.RLM,
@@ -640,7 +645,7 @@ export class ColumnDefService {
         ),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
-      cellRenderer: 'EditCellComponent',
+      cellRenderer: EditCellComponent,
       cellRendererParams: {
         condition: { enabled: false },
         field: ColumnFields.PRICE_DIFF,
@@ -664,7 +669,7 @@ export class ColumnDefService {
         ),
       filter: NUMBER_COLUMN_FILTER,
       filterParams: this.columnUtilityService.numberFilterParams,
-      cellRenderer: 'EditCellComponent',
+      cellRenderer: EditCellComponent,
       cellRendererParams: {
         condition: { enabled: false },
         field: ColumnFields.PRICE_DIFF_SAP,
@@ -905,6 +910,11 @@ export class ColumnDefService {
       field: ColumnFields.CUSTOMER_MATERIAL,
       valueFormatter: ColumnUtilityService.basicTransform,
       filterParams: FILTER_PARAMS,
+      cellRenderer: EditCellComponent,
+      cellRendererParams: {
+        condition: { enabled: false },
+        field: ColumnFields.CUSTOMER_MATERIAL,
+      } as EditCellData,
     },
     {
       headerName: translate('shared.quotationDetailsTable.productLine'),

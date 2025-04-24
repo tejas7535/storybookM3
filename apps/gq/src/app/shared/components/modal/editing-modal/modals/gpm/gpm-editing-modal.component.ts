@@ -3,17 +3,17 @@ import { Component } from '@angular/core';
 import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
 import { getPercentageRegex } from '@gq/shared/constants';
 import { PriceSource } from '@gq/shared/models/quotation-detail';
-import { getManualPriceByDiscount } from '@gq/shared/utils/pricing.utils';
+import { getManualPriceByMarginAndCost } from '@gq/shared/utils/pricing.utils';
 import Big from 'big.js';
 
-import { EditingModalComponent } from '../editing-modal.component';
+import { EditingModalComponent } from '../../editing-modal.component';
 
 @Component({
-  selector: 'gq-discount-editing-modal',
-  templateUrl: '../editing-modal.component.html',
+  selector: 'gq-gpm-editing-modal',
+  templateUrl: '../../editing-modal.component.html',
   standalone: false,
 })
-export class DiscountEditingModalComponent extends EditingModalComponent {
+export class GpmEditingModalComponent extends EditingModalComponent {
   handlePriceChangeTypeSwitch: undefined;
   priceChangeSwitched: undefined;
   handleInputFieldKeyDown: undefined;
@@ -28,7 +28,7 @@ export class DiscountEditingModalComponent extends EditingModalComponent {
   }
 
   protected shouldIncrement(value: number): boolean {
-    // discounts should not be higher than 99 %
+    // margins should not be higher than 99 %
     return value < 99;
   }
 
@@ -41,8 +41,8 @@ export class DiscountEditingModalComponent extends EditingModalComponent {
     // tranform to decimal value first
     const percentageValue = new Big(value).div(100);
 
-    const price = getManualPriceByDiscount(
-      this.modalData.quotationDetail.sapGrossPrice,
+    const price = getManualPriceByMarginAndCost(
+      this.modalData.quotationDetail.sqv,
       percentageValue.toNumber()
     );
 

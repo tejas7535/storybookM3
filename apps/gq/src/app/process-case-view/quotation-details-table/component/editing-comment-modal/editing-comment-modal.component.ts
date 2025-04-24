@@ -1,18 +1,40 @@
-import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 import { combineLatest, map, Observable, pairwise, Subscription } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
+import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
+import { LetDirective, PushPipe } from '@ngrx/component';
+
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 @Component({
   selector: 'gq-editing-comment-modal',
   templateUrl: './editing-comment-modal.component.html',
   styleUrls: ['./editing-comment-modal.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [
+    DialogHeaderModule,
+    PushPipe,
+    ReactiveFormsModule,
+    MatButtonModule,
+    LoadingSpinnerModule,
+    MatFormFieldModule,
+    CommonModule,
+    TextFieldModule,
+    SharedTranslocoModule,
+    LetDirective,
+    MatInputModule,
+  ],
 })
 export class EditingCommentModalComponent implements OnInit, OnDestroy {
   @ViewChild('autosize') autosize: CdkTextareaAutosize;

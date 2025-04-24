@@ -11,6 +11,7 @@
     [attr.aria-label]="label()"
     [matAutocomplete]="auto"
     [formControl]="formControl"
+    [maxlength]="maxLength() ?? null"
     (blur)="onBlur()"
     matInput
     type="text"
@@ -19,7 +20,7 @@
   <mat-autocomplete
     #auto="matAutocomplete"
     (optionSelected)="onOptionSelected($event)"
-    [displayWith]="displaySelectableValue"
+    [displayWith]="displaySelectableValue.bind(this)"
   >
     <!-- Options -->
     @for (idValue of filteredOptions(); track idValue) {
@@ -27,8 +28,10 @@
         <span> {{ idValue | displaySelectableValue }} </span>
       </mat-option>
     } @empty {
-      <!-- Show text for no data available -->
-      <mat-option [disabled]="true">{{ t('noResults') }}</mat-option>
+      @if (allowOptionsValuesOnly()) {
+        <!-- Show text for no data available -->
+        <mat-option [disabled]="true">{{ t('noResults') }}</mat-option>
+      }
     }
 
     <!-- Show text for is loading -->
@@ -37,6 +40,11 @@
     }
   </mat-autocomplete>
 
+  @if (maxLength()) {
+    <mat-hint align="end">{{
+      getFormControlValueLength() + ' / ' + maxLength().toString()
+    }}</mat-hint>
+  }
   <!-- Spinner -->
   @if (isLoading()) {
     <mat-spinner matSuffix [diameter]="18"></mat-spinner>

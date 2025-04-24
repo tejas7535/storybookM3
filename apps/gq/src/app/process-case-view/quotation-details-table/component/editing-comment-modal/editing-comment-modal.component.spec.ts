@@ -10,14 +10,16 @@ import { BehaviorSubject } from 'rxjs';
 
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
+import { DragDialogDirective } from '@gq/shared/directives/drag-dialog/drag-dialog.directive';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockDirective } from 'ng-mocks';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
+import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { EditingCommentModalComponent } from './editing-comment-modal.component';
 describe('EditingCommentModalComponent', () => {
   let component: EditingCommentModalComponent;
@@ -41,6 +43,7 @@ describe('EditingCommentModalComponent', () => {
       PushPipe,
       TextFieldModule,
       ReactiveFormsModule,
+      MockDirective(DragDialogDirective),
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

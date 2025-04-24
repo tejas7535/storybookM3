@@ -2,7 +2,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
-import { EditingCommentModalComponent } from '@gq/process-case-view/quotation-details-table/editing-comment-modal/editing-comment-modal.component';
+import { EditingCommentModalComponent } from '@gq/process-case-view/quotation-details-table/component/editing-comment-modal/editing-comment-modal.component';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { SpyObject } from '@ngneat/spectator/jest/lib/mock.js';
 import { provideMockStore } from '@ngrx/store/testing';

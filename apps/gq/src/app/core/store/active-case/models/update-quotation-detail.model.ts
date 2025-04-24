@@ -10,4 +10,5 @@ export class UpdateQuotationDetail {
   priceComment?: string;
   targetPrice?: number;
   targetPriceSource?: TargetPriceSource;
+  customerMaterial?: string;
 }

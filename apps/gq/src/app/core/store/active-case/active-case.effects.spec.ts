@@ -711,7 +711,7 @@ describe('ActiveCaseEffects', () => {
     const updatedQuotation = QUOTATION_MOCK;
 
     test(
-      'should return removePositionsSuccess when REST call is successful',
+      'should return updateQuotationDetailsSuccess when REST call is successful',
       marbles((m) => {
         action = ActiveCaseActions.updateQuotationDetails({
           updateQuotationDetailList,
@@ -745,7 +745,7 @@ describe('ActiveCaseEffects', () => {
     );
 
     test(
-      'should return removePositionsSuccess when REST call is successful and no recommendedPrice',
+      'should return updateQuotationDetailsSuccess when REST call is successful and no recommendedPrice',
       marbles((m) => {
         action = ActiveCaseActions.updateQuotationDetails({
           updateQuotationDetailList,
@@ -1064,6 +1064,18 @@ describe('ActiveCaseEffects', () => {
       );
       expect(effects['snackBar'].open).toHaveBeenCalledWith(
         translate(`shared.snackBarMessages.updateTargetPrice`)
+      );
+    });
+
+    test('should display updateCustomerMaterial', () => {
+      effects['snackBar'].open = jest.fn();
+
+      effects['showUpdateQuotationDetailToast'](
+        { customerMaterial: 'material' } as any,
+        false
+      );
+      expect(effects['snackBar'].open).toHaveBeenCalledWith(
+        translate(`shared.snackBarMessages.updateCustomerMaterial`)
       );
     });
   });

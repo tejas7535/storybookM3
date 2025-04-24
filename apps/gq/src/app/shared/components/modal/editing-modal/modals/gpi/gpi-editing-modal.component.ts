@@ -6,14 +6,14 @@ import { PriceSource } from '@gq/shared/models/quotation-detail';
 import { getManualPriceByMarginAndCost } from '@gq/shared/utils/pricing.utils';
 import Big from 'big.js';
 
-import { EditingModalComponent } from '../editing-modal.component';
+import { EditingModalComponent } from '../../editing-modal.component';
 
 @Component({
-  selector: 'gq-gpm-editing-modal',
-  templateUrl: '../editing-modal.component.html',
+  selector: 'gq-gpi-editing-modal',
+  templateUrl: '../../editing-modal.component.html',
   standalone: false,
 })
-export class GpmEditingModalComponent extends EditingModalComponent {
+export class GpiEditingModalComponent extends EditingModalComponent {
   handlePriceChangeTypeSwitch: undefined;
   priceChangeSwitched: undefined;
   handleInputFieldKeyDown: undefined;
@@ -42,7 +42,7 @@ export class GpmEditingModalComponent extends EditingModalComponent {
     const percentageValue = new Big(value).div(100);
 
     const price = getManualPriceByMarginAndCost(
-      this.modalData.quotationDetail.sqv,
+      this.modalData.quotationDetail.gpc,
       percentageValue.toNumber()
     );
 

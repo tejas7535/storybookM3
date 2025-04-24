@@ -69,7 +69,7 @@
       "priceAssistantButton": "Pricing Assistant",
       "productionCity": "City",
       "productionCountry": "Country",
-      "customerMaterial": "Customer Material",
+      "customerMaterial": "Customer Material Number",
       "productionSegment": "Production Segment",
       "mrpData": {
         "mrpController": "MRP Controller",
@@ -455,10 +455,11 @@
       "materialAdded": "Material(s) added to the case",
       "materialDeleted": "Material(s) deleted from the case",
       "updateSelectedPrice": "Price selection was saved",
-      "updateTargetPrice": "Target Price change was saved",
-      "updateQuantity": "Quantity change was saved",
-      "updateQuantityAffectsGqPrice": "Quantity change was saved. This might lead to a change of the GQ price.",
-      "updateComment": "Comment change was saved",
+      "updateTargetPrice": "Target Price was saved",
+      "updateQuantity": "Quantity was saved",
+      "updateQuantityAffectsGqPrice": "Quantity was saved. This might lead to a change of the GQ price.",
+      "updateComment": "Comment was saved",
+      "updateCustomerMaterial": "Customer Material Number was saved",
       "refreshSapPricingSuccess": "SAP Pricing was refreshed",
       "refreshSapPricingSuccessAsync": "SAP Pricing is being updated",
       "wrongPriceEditInput": "Please enter a numeric price value",
@@ -492,6 +493,7 @@
       "price": "Net Price",
       "targetPrice": "Target Price",
       "orderQuantity": "Quantity",
+      "customerMaterial": "Customer Material Number",
       "relative": "Relative",
       "absolute": "Absolute",
       "confirm": {
@@ -500,7 +502,8 @@
         "gpi": "Set new gpi",
         "gpm": "Set new gpm",
         "discount": "Set new discount",
-        "orderQuantity": "Set new Quantity"
+        "orderQuantity": "Set new Quantity",
+        "customerMaterial": "Save new customer material number"
       },
       "cancel": "Cancel",
       "labels": {
@@ -760,7 +763,7 @@
       "materialNumber": "Material Number (15-Digit)",
       "baseUoM": "Base UoM",
       "deliveryUnit": "Delivery Unit",
-      "customerMaterial": "Customer Material",
+      "customerMaterial": "Customer Material Number",
       "dimensions": "Dimensions",
       "ean11": "EAN Code",
       "followingType": "Following Type",

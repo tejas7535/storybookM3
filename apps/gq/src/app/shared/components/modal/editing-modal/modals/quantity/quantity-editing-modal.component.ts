@@ -10,11 +10,11 @@ import {
 } from '@gq/shared/utils/misc.utils';
 import { translate } from '@jsverse/transloco';
 
-import { EditingModalComponent } from '../editing-modal.component';
+import { EditingModalComponent } from '../../editing-modal.component';
 
 @Component({
   selector: 'gq-quantity-editing-modal',
-  templateUrl: '../editing-modal.component.html',
+  templateUrl: '../../editing-modal.component.html',
   standalone: false,
 })
 export class QuantityEditingModalComponent

@@ -20,11 +20,7 @@ import {
   ProcessCaseActionCellComponent,
   ProcessCaseActionHeaderComponent,
 } from './action-cells';
-import {
-  EditCaseMaterialComponent,
-  EditCellComponent,
-  EditCommentComponent,
-} from './edit-cells';
+import { EditCaseMaterialComponent, EditCommentComponent } from './edit-cells';
 import { FreeStockCellComponent } from './free-stock/free-stock-cell/free-stock-cell.component';
 import { GqIdComponent } from './gq-id/gq-id.component';
 import { GqPriceCellComponent } from './gq-price-cell/gq-price-cell.component';
@@ -50,7 +46,6 @@ import { ShowMoreRowsComponent } from './show-more-rows/show-more-rows.component
     GqIdComponent,
     GqPriceCellComponent,
     EditCommentComponent,
-    EditCellComponent,
     SapStatusCellComponent,
     QuotationStatusCellComponent,
     FreeStockCellComponent,

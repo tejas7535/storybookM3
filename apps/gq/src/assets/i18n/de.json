@@ -454,11 +454,12 @@
     "snackBarMessages": {
       "materialAdded": "Material wurde hinzugefügt",
       "materialDeleted": "Material wurde entfernt",
-      "updateSelectedPrice": "Der Preis wurde gespeichert",
-      "updateTargetPrice": "Der Zielpreis wurde gespeichert",
-      "updateQuantity": "Die Mengenänderung wurde gespeichert",
-      "updateQuantityAffectsGqPrice": "Die Mengenänderung wurde gespeichert. Dies könnte zu einer Aktualisierung des GQ-Preises führen.",
-      "updateComment": "Die Kommentaränderung wurde gespeichert",
+      "updateSelectedPrice": "Preis wurde gespeichert",
+      "updateTargetPrice": "Zielpreis wurde gespeichert",
+      "updateQuantity": "Menge wurde gespeichert",
+      "updateQuantityAffectsGqPrice": "Menge wurde gespeichert. Dies könnte zu einer Aktualisierung des GQ-Preises führen.",
+      "updateComment": "Kommentar wurde gespeichert",
+      "updateCustomerMaterial": "Kundenmaterialnummer wurde gespeichert",
       "refreshSapPricingSuccess": "SAP Preise wurden aktualisiert",
       "refreshSapPricingSuccessAsync": "Preise werden aus SAP aktualisiert",
       "wrongPriceEditInput": "Bitte geben sie einen numerischen Preis ein",
@@ -490,6 +491,7 @@
       "gpi": "GPI % (KHK)",
       "discount": "Rabatt %",
       "price": "Preis",
+      "customerMaterial": "Kundenmaterialnummer",
       "targetPrice": "Zielpreis",
       "orderQuantity": "Menge",
       "relative": "Relativ",
@@ -500,7 +502,8 @@
         "gpi": "Neuen GPI setzen",
         "gpm": "Neuen GPM setzen",
         "discount": "Neuen Rabatt setzen",
-        "orderQuantity": "Neue Menge setzen"
+        "orderQuantity": "Neue Menge setzen",
+        "customerMaterial": "Neue Kundenmaterialnummer setzen"
       },
       "labels": {
         "price": "Preisänderung in %",
@@ -510,7 +513,8 @@
         "discount": "Rabattänderung in %",
         "orderQuantity": "Mengenänderung",
         "priceAbsolute": "Eingabe Nettopreis",
-        "targetPriceAbsolute": "Eingabe Zielpreis"
+        "targetPriceAbsolute": "Eingabe Zielpreis",
+        "customerMaterial": "Kundenmaterialnummer"
       },
       "hints": {
         "price": "Preis ändern",

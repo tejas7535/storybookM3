@@ -770,8 +770,10 @@ export class ActiveCaseEffects {
         : 'updateQuantity';
     } else if (update.targetPrice || update.targetPriceSource) {
       translateString += 'updateTargetPrice';
-    } else {
+    } else if (update.comment) {
       translateString += 'updateComment';
+    } else if (update.customerMaterial) {
+      translateString += 'updateCustomerMaterial';
     }
     this.snackBar.open(translate(translateString));
   }

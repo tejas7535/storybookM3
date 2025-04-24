@@ -18,10 +18,7 @@ import { PriceSourceOptions } from '@gq/shared/ag-grid/column-headers/extended-c
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { excelStyles } from '@gq/shared/ag-grid/custom-status-bar/export-to-excel-button/excel-styles.constants';
 import { AgGridLocale } from '@gq/shared/ag-grid/models/ag-grid-locale.interface';
-import {
-  ColumnDefService,
-  ColumnUtilityService,
-} from '@gq/shared/ag-grid/services';
+import { ColumnUtilityService } from '@gq/shared/ag-grid/services';
 import { LocalizationService } from '@gq/shared/ag-grid/services/localization.service';
 import {
   basicTableStyle,
@@ -64,6 +61,7 @@ import {
   SIDE_BAR,
   STATUS_BAR_CONFIG,
 } from './config';
+import { ColumnDefService } from './config/column-def.service';
 import { TableContext } from './config/tablecontext.model';
 import { PriceSimulationService } from './services/simulation/price-simulation.service';
 import { PriceSourceSimulationService } from './services/simulation/price-source-simulation.service';

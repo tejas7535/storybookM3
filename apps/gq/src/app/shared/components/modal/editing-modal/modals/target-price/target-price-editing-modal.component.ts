@@ -11,11 +11,11 @@ import {
 } from '@gq/shared/utils/misc.utils';
 import { multiplyAndRoundValues } from '@gq/shared/utils/pricing.utils';
 
-import { EditingModalComponent } from '../editing-modal.component';
+import { EditingModalComponent } from '../../editing-modal.component';
 
 @Component({
   selector: 'gq-target-price-editing-modal',
-  templateUrl: '../editing-modal.component.html',
+  templateUrl: '../../editing-modal.component.html',
   standalone: false,
 })
 export class TargetPriceEditingModalComponent extends EditingModalComponent {

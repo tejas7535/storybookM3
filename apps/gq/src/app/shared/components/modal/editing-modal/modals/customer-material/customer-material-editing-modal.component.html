@@ -1,0 +1,61 @@
+<div
+  *transloco="let t; read: 'shared.editingModal'"
+  class="flex h-full flex-col"
+>
+  <gq-dialog-header
+    class="mb-8"
+    [title]="
+      t('title', {
+        id: modalData()?.quotationDetail?.quotationItemId,
+        fieldName: t(modalData().field)
+      })
+    "
+    (closeDialog)="closeDialog()"
+  >
+  </gq-dialog-header>
+  <!-- Customer Material Autocomplete -->
+  @if (
+    (customerMaterialsAreLoading$ | ngrxPush) || (updateLoading$ | ngrxPush)
+  ) {
+    <schaeffler-loading-spinner
+      class="h-full mb-4"
+      backgroundColor="rgba(255,255,255, 0.1)"
+      [relative]="true"
+    ></schaeffler-loading-spinner>
+  } @else {
+    <form [formGroup]="customerMaterialForm">
+      <gq-autocomplete-selection
+        [label]="t(modalData().field)"
+        [customDisplayFunction]="customerMaterialDisplay.bind(this)"
+        [maxLength]="MAX_LENGTH"
+        [allowOptionsValuesOnly]="false"
+        [options]="materialNumberForEditMaterial$ | ngrxPush"
+        [isLoading]="false"
+        formControlName="customerMaterialNumber"
+        [initalValue]="modalData().quotationDetail.customerMaterial"
+      ></gq-autocomplete-selection>
+    </form>
+    <!-- Action Buttons -->
+    <div class="mt-4">
+      <button
+        class="!pl-4 !pr-4"
+        color="primary"
+        mat-raised-button
+        [disabled]="confirmButtonDisabled"
+        (click)="confirmCustomerMaterialNumber()"
+        [attr.data-cy]="modalData().field + '-modal_submit-btn'"
+      >
+        <span> {{ t('confirm.' + modalData().field) | uppercase }} </span>
+      </button>
+      <button
+        class="!ml-4 !pl-4 !pr-4"
+        color="primary"
+        mat-stroked-button
+        (click)="closeDialog()"
+        [attr.data-cy]="modalData().field + '-modal_cancel-btn'"
+      >
+        <span> {{ t('cancel') | uppercase }} </span>
+      </button>
+    </div>
+  }
+</div>

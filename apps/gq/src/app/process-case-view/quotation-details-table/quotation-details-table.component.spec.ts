@@ -6,7 +6,6 @@ import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade'
 import { PriceSourceOptions } from '@gq/shared/ag-grid/column-headers/extended-column-header/models/price-source-options.enum';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import {
-  ColumnDefService,
   ColumnUtilityService,
   LocalizationService,
 } from '@gq/shared/ag-grid/services';
@@ -39,6 +38,7 @@ import { PROCESS_CASE_STATE_MOCK } from '../../../testing/mocks';
 import { QUOTATION_MOCK } from '../../../testing/mocks/models/quotation';
 import { QUOTATION_DETAIL_MOCK } from '../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { AppRoutePath } from '../../app-route-path.enum';
+import { ColumnDefService } from './config/column-def.service';
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';
 import { PriceSimulationService } from './services/simulation/price-simulation.service';
 import { PriceSourceSimulationService } from './services/simulation/price-source-simulation.service';

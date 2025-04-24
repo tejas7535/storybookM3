@@ -31,6 +31,7 @@ import {
 import {
   MatError,
   MatFormField,
+  MatFormFieldModule,
   MatLabel,
   MatSuffix,
 } from '@angular/material/form-field';
@@ -53,6 +54,7 @@ export type Appearance = 'fill' | 'outline';
   imports: [
     CommonModule,
     MatFormField,
+    MatFormFieldModule,
     MatAutocomplete,
     ReactiveFormsModule,
     MatAutocompleteTrigger,
@@ -89,12 +91,18 @@ export class AutocompleteSelectionComponent
   readonly appearance: InputSignal<Appearance> = input<Appearance>('outline');
   readonly isLoading: InputSignal<boolean> = input<boolean>(true);
   readonly isEditMode: InputSignal<boolean> = input<boolean>(false);
+  readonly maxLength: InputSignal<number> = input<number>();
+  readonly allowOptionsValuesOnly: InputSignal<boolean> = input<boolean>(true);
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  readonly customDisplayFunction: InputSignal<Function> = input<Function>();
+  readonly initalValue: InputSignal<string> = input<string>(null);
 
   readonly defaultSelection: Signal<SelectableValue> = computed(() =>
     this.options()?.find((option) => option.defaultSelection)
   );
   options$ = toObservable(this.options);
   readonly defaultSelection$ = toObservable(this.defaultSelection);
+  readonly initialValue$ = toObservable(this.initalValue);
 
   filteredOptions: WritableSignal<SelectableValue[]> = signal([]);
   isDisabled = false;
@@ -122,6 +130,19 @@ export class AutocompleteSelectionComponent
         this.filteredOptions.set(options);
         if (!this.isEditMode()) {
           this.setSelectedValue(null);
+        }
+      });
+
+    // initialValue allows setting an initial value that is not part of the options
+    this.initialValue$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
+        if (value) {
+          this.formControl.setValue({
+            id: null,
+            value: null,
+            value2: value,
+          });
         }
       });
 
@@ -159,15 +180,16 @@ export class AutocompleteSelectionComponent
           })
         );
 
-        // If only one option left during filtering - set it automatically
-        if (this.filteredOptions().length === 1 && value && value !== '') {
-          const option = this.filteredOptions()[0];
-          this.formControl.setValue(option);
-          this.setSelectedValue(option);
-          this.autocomplete.closePanel();
+        if (this.allowOptionsValuesOnly()) {
+          // If only one option left during filtering - set it automatically
+          if (this.filteredOptions().length === 1 && value && value !== '') {
+            const option = this.filteredOptions()[0];
+            this.formControl.setValue(option);
+            this.setSelectedValue(option);
+            this.autocomplete.closePanel();
+          }
+          this.handleErrors(value);
         }
-
-        this.handleErrors(value);
       });
   }
 
@@ -177,6 +199,17 @@ export class AutocompleteSelectionComponent
       .includes(searchValue);
   }
 
+  getFormControlValueLength() {
+    const value = this.formControl.value;
+    if (!value) {
+      return 0;
+    }
+    if (typeof value === 'string') {
+      return value?.length;
+    }
+
+    return this.displaySelectableValue(value).length;
+  }
   /**
    * Implementation of ControlValueAccessor
    * Writes a new value to the formControl
@@ -219,7 +252,11 @@ export class AutocompleteSelectionComponent
     this.onTouched();
   }
 
-  displaySelectableValue(value: SelectableValue) {
+  displaySelectableValue(value: SelectableValue): string {
+    if (this.customDisplayFunction()) {
+      return this.customDisplayFunction()(value) as string;
+    }
+
     return displaySelectableValue(value);
   }
 
@@ -254,15 +291,17 @@ export class AutocompleteSelectionComponent
   }
 
   onBlur() {
-    let error = null;
-    const value = this.formControl.value;
-    if (
-      (typeof value === 'string' && value !== '') ||
-      this.valueNotFound(value)
-    ) {
-      error = { wrongSelection: true };
+    if (this.allowOptionsValuesOnly()) {
+      let error = null;
+      const value = this.formControl.value;
+      if (
+        (typeof value === 'string' && value !== '') ||
+        this.valueNotFound(value)
+      ) {
+        error = { wrongSelection: true };
+      }
+      this.formControl.setErrors(error);
     }
-    this.formControl.setErrors(error);
     this.onTouched();
   }
 }
