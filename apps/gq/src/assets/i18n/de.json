@@ -460,6 +460,7 @@
       "updateQuantityAffectsGqPrice": "Menge wurde gespeichert. Dies könnte zu einer Aktualisierung des GQ-Preises führen.",
       "updateComment": "Kommentar wurde gespeichert",
       "updateCustomerMaterial": "Kundenmaterialnummer wurde gespeichert",
+      "deleteCustomerMaterial": "Kundenmaterialnummer wurde gelöscht",
       "refreshSapPricingSuccess": "SAP Preise wurden aktualisiert",
       "refreshSapPricingSuccessAsync": "Preise werden aus SAP aktualisiert",
       "wrongPriceEditInput": "Bitte geben sie einen numerischen Preis ein",

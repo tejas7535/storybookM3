@@ -460,6 +460,7 @@
       "updateQuantityAffectsGqPrice": "Quantity was saved. This might lead to a change of the GQ price.",
       "updateComment": "Comment was saved",
       "updateCustomerMaterial": "Customer Material Number was saved",
+      "deleteCustomerMaterial": "Customer Material Number was deleted",
       "refreshSapPricingSuccess": "SAP Pricing was refreshed",
       "refreshSapPricingSuccessAsync": "SAP Pricing is being updated",
       "wrongPriceEditInput": "Please enter a numeric price value",

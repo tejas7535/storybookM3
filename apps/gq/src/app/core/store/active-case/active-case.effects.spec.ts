@@ -1078,6 +1078,17 @@ describe('ActiveCaseEffects', () => {
         translate(`shared.snackBarMessages.updateCustomerMaterial`)
       );
     });
+    test('should display deleteCustomerMaterial', () => {
+      effects['snackBar'].open = jest.fn();
+
+      effects['showUpdateQuotationDetailToast'](
+        { customerMaterial: null } as any,
+        false
+      );
+      expect(effects['snackBar'].open).toHaveBeenCalledWith(
+        translate(`shared.snackBarMessages.deleteCustomerMaterial`)
+      );
+    });
   });
 
   describe('updateQuotation$', () => {

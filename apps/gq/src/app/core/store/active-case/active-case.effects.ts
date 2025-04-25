@@ -774,6 +774,8 @@ export class ActiveCaseEffects {
       translateString += 'updateComment';
     } else if (update.customerMaterial) {
       translateString += 'updateCustomerMaterial';
+    } else if (update.customerMaterial === null) {
+      translateString += 'deleteCustomerMaterial';
     }
     this.snackBar.open(translate(translateString));
   }
