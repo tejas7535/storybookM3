@@ -2,8 +2,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
+import { SalesPlanningDetailLevel } from '../../../../../../../feature/sales-planning/model';
 import { Stub } from '../../../../../../../shared/test/stub.class';
-import { SalesPlanningDetailLevel } from './../../../../../../../feature/sales-planning/model';
+import { TimeScope } from '../../../column-definition';
+import { CustomerSalesPlanNumberAndPercentageEditModalComponent } from '../../../customer-sales-plan-number-and-percentage-edit-modal/customer-sales-plan-number-and-percentage-edit-modal.component';
 import { SalesPlanningAdjustedTotalCellRendererComponent } from './sales-planning-adjusted-total-cell-renderer.component';
 
 describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
@@ -37,6 +39,8 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
       context: {
         reloadData: mockReloadData,
       },
+      scope: TimeScope.Monthly,
+      value: 100,
     } as any;
 
     component.agInit(mockParams);
@@ -56,7 +60,26 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
       .mockReturnValue({ afterClosed: () => of(null) } as MatDialogRef<null>);
     component['handleEditCustomerSalesPlanNumberClicked']();
 
-    expect(component['dialog'].open).toHaveBeenCalled();
+    expect(component['dialog'].open).toHaveBeenCalledWith(
+      CustomerSalesPlanNumberAndPercentageEditModalComponent,
+      expect.objectContaining({
+        data: {
+          currentValueLabel:
+            'sales_planning.planning_details.edit_modal.adjusted_monthly_total',
+          formLabel: 'sales_planning.planning_details.edit_modal.monthly_total',
+          inputValidatorErrorMessage:
+            'sales_planning.planning_details.edit_modal.adjusted_total_error_message',
+          inputValidatorFn: expect.any(Function),
+          onDelete: expect.any(Function),
+          onSave: expect.any(Function),
+          planningCurrency: 'EUR',
+          previousValue: 100,
+          previousValueLabel:
+            'sales_planning.planning_details.edit_modal.previous_adjusted_monthly_total',
+          title: '2025',
+        },
+      })
+    );
   });
 
   it('should call deleteDetailedCustomerSalesPlan on delete', () => {

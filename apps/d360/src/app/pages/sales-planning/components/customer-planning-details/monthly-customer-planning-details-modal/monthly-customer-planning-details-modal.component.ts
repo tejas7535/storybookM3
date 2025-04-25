@@ -190,6 +190,7 @@ export class MonthlyCustomerPlanningDetailsModalComponent implements OnInit {
               headerTooltip: col.title,
               filter: col.filter,
               cellRenderer: col.cellRenderer,
+              cellRendererParams: col.cellRendererParams,
               hide: !col.visible,
               sortable: col.sortable,
               sort: col.sort,

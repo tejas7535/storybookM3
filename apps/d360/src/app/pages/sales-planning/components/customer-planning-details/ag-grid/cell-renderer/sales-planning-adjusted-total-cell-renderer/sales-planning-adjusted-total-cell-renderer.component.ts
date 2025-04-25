@@ -21,7 +21,10 @@ import {
 } from '../../../../../../../feature/sales-planning/model';
 import { SalesPlanningService } from '../../../../../../../feature/sales-planning/sales-planning.service';
 import { NumberWithoutFractionDigitsPipe } from '../../../../../../../shared/pipes/number-without-fraction-digits.pipe';
-import { sapMagicNumberValueNotConfigured } from '../../../column-definition';
+import {
+  sapMagicNumberValueNotConfigured,
+  TimeScope,
+} from '../../../column-definition';
 import { CustomerSalesPlanNumberAndPercentageEditModalComponent } from '../../../customer-sales-plan-number-and-percentage-edit-modal/customer-sales-plan-number-and-percentage-edit-modal.component';
 import { SalesPlanningEditButtonComponent } from '../../components/sales-planning-edit-button/sales-planning-edit-button.component';
 import { AbstractSalesPlanningCellRendererComponent } from '../abstract-sales-planning-cell-renderer.component';
@@ -45,6 +48,10 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
 
   private isPlanningMaterialRow: boolean;
 
+  protected parameters: ICellRendererParams<
+    DetailedCustomerSalesPlan,
+    number
+  > & { scope: TimeScope };
   private customerNumber: string;
   private planningYear: string;
   private planningMonth: string;
@@ -53,6 +60,7 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
   private planningLevelMaterialType: string;
   private planningMaterialText: string;
   private minValidationValue: number;
+  private scope: TimeScope;
   private onReloadData: () => void;
 
   /**
@@ -60,7 +68,9 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
    * @override
    */
   protected setValue(
-    parameters: ICellRendererParams<DetailedCustomerSalesPlan, number>
+    parameters: ICellRendererParams<DetailedCustomerSalesPlan, number> & {
+      scope: TimeScope;
+    }
   ): void {
     this.value = parameters.value;
     this.isPlanningMaterialRow =
@@ -78,6 +88,7 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
     this.planningLevelMaterialType =
       this.parameters.data.planningLevelMaterialType;
     this.planningMaterialText = this.parameters.data.planningMaterialText;
+    this.scope = this.parameters.scope;
 
     this.minValidationValue =
       this.parameters.data.firmBusiness +
@@ -94,12 +105,14 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
           title: this.isPlanningMaterialRow
             ? this.getPlanningMaterialText()
             : this.planningYear,
-          formLabel: translate(`${this.translationKeyPrefix}.yearly_total`),
+          formLabel: translate(
+            `${this.translationKeyPrefix}.${this.scope}_total`
+          ),
           currentValueLabel: translate(
-            `${this.translationKeyPrefix}.adjusted_yearly_total`
+            `${this.translationKeyPrefix}.adjusted_${this.scope}_total`
           ),
           previousValueLabel: translate(
-            `${this.translationKeyPrefix}.previous_adjusted_yearly_total`
+            `${this.translationKeyPrefix}.previous_adjusted_${this.scope}_total`
           ),
           planningCurrency: this.planningCurrency,
           previousValue:
@@ -110,7 +123,7 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
           onSave: this.onSave(),
           inputValidatorFn: this.validateEnteredAdjustedYearlyTotal.bind(this),
           inputValidatorErrorMessage: translate(
-            `${this.translationKeyPrefix}.adjusted_yearly_total_error_message`,
+            `${this.translationKeyPrefix}.adjusted_total_error_message`,
             {
               min_value: `${this.numberWithoutFractionDigitsPipe.transform(this.minValidationValue)} ${this.planningCurrency}`,
             }

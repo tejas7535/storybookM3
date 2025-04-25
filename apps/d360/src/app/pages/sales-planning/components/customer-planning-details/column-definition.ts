@@ -111,78 +111,202 @@ export function getColumnDefinitions(scope: TimeScope): (ColDef & {
     valueFormatter: valueFormatters[colDef.type],
   });
 
-  // prettier-ignore
   return [
-    ...(scope === TimeScope.Monthly ? [getDefaults({ key: 'planningMonth', type: ColumnValueType.Months })] : []),
+    ...(scope === TimeScope.Monthly
+      ? [getDefaults({ key: 'planningMonth', type: ColumnValueType.Months })]
+      : []),
     getDefaults({ key: 'budgetNetSales', type: ColumnValueType.Monetary }),
     getDefaults({ key: 'budgetInvoicedSales', type: ColumnValueType.Monetary }),
     getDefaults({ key: 'planNetSales', type: ColumnValueType.Monetary }),
     getDefaults({ key: 'planInvoiceSales', type: ColumnValueType.Monetary }),
-    getDefaults({ key: 'totalSalesPlanUnconstrained', type: ColumnValueType.Monetary, isTimeScopeSpecific: true, cellRenderer: SalesPlanningSyncCellRendererComponent }),
-    getDefaults({ key: 'totalSalesPlanAdjusted', type: ColumnValueType.Monetary, isTimeScopeSpecific: true, cellRenderer: SalesPlanningAdjustedTotalCellRendererComponent }),
+    getDefaults({
+      key: 'totalSalesPlanUnconstrained',
+      type: ColumnValueType.Monetary,
+      isTimeScopeSpecific: true,
+      cellRenderer: SalesPlanningSyncCellRendererComponent,
+    }),
+    getDefaults({
+      key: 'totalSalesPlanAdjusted',
+      type: ColumnValueType.Monetary,
+      isTimeScopeSpecific: true,
+      cellRenderer: SalesPlanningAdjustedTotalCellRendererComponent,
+      cellRendererParams: { scope },
+    }),
     getDefaults({ key: 'addOneOriginalValue', type: ColumnValueType.Monetary }),
-    getDefaults({ key: 'firmBusinessCoverage', type: ColumnValueType.Percentage }),
+    getDefaults({
+      key: 'firmBusinessCoverage',
+      type: ColumnValueType.Percentage,
+    }),
     getDefaults({ key: 'firmBusiness', type: ColumnValueType.Monetary }),
-    getDefaults({ key: 'firmBusinessServices', type: ColumnValueType.Monetary }),
+    getDefaults({
+      key: 'firmBusinessServices',
+      type: ColumnValueType.Monetary,
+    }),
     getDefaults({ key: 'opportunitiesTotal', type: ColumnValueType.Monetary }),
-    getDefaults({ key: 'opportunitiesDemandRelevant', type: ColumnValueType.Monetary }),
-    getDefaults({ key: 'opportunitiesForecastRelevant', type: ColumnValueType.Monetary }),
-    getDefaults({ key: 'plannedValueDemand360', type: ColumnValueType.Monetary }),
-    getDefaults({ key: 'openPlannedValueDemand360', type: ColumnValueType.Monetary }),
-    getDefaults({ key: 'apShareOriginalUnconstrained', type: ColumnValueType.Percentage }),
-    getDefaults({ key: 'apShareUnconstrained', type: ColumnValueType.Percentage }),
-    getDefaults({ key: 'apMaterialDemandPlanCount', type: ColumnValueType.Default }),
-    getDefaults({ key: 'spShareOriginalUnconstrained', type: ColumnValueType.Percentage }),
-    getDefaults({ key: 'spShareUnconstrained', type: ColumnValueType.Percentage }),
-    getDefaults({ key: 'spMaterialDemandPlanCount', type: ColumnValueType.Default }),
-    getDefaults({ key: 'opShareOriginalUnconstrained', type: ColumnValueType.Percentage }),
-    getDefaults({ key: 'opShareUnconstrained', type: ColumnValueType.Percentage }),
-    getDefaults({ key: 'opMaterialDemandPlanCount', type: ColumnValueType.Default }),
+    getDefaults({
+      key: 'opportunitiesDemandRelevant',
+      type: ColumnValueType.Monetary,
+    }),
+    getDefaults({
+      key: 'opportunitiesForecastRelevant',
+      type: ColumnValueType.Monetary,
+    }),
+    getDefaults({
+      key: 'plannedValueDemand360',
+      type: ColumnValueType.Monetary,
+    }),
+    getDefaults({
+      key: 'openPlannedValueDemand360',
+      type: ColumnValueType.Monetary,
+    }),
+    getDefaults({
+      key: 'apShareOriginalUnconstrained',
+      type: ColumnValueType.Percentage,
+    }),
+    getDefaults({
+      key: 'apShareUnconstrained',
+      type: ColumnValueType.Percentage,
+    }),
+    getDefaults({
+      key: 'apMaterialDemandPlanCount',
+      type: ColumnValueType.Default,
+    }),
+    getDefaults({
+      key: 'spShareOriginalUnconstrained',
+      type: ColumnValueType.Percentage,
+    }),
+    getDefaults({
+      key: 'spShareUnconstrained',
+      type: ColumnValueType.Percentage,
+    }),
+    getDefaults({
+      key: 'spMaterialDemandPlanCount',
+      type: ColumnValueType.Default,
+    }),
+    getDefaults({
+      key: 'opShareOriginalUnconstrained',
+      type: ColumnValueType.Percentage,
+    }),
+    getDefaults({
+      key: 'opShareUnconstrained',
+      type: ColumnValueType.Percentage,
+    }),
+    getDefaults({
+      key: 'opMaterialDemandPlanCount',
+      type: ColumnValueType.Default,
+    }),
     getDefaults({
       key: 'salesDeduction',
       type: ColumnValueType.Percentage,
-      ...(scope === TimeScope.Yearly ? { cellRenderer: SalesPlanningSinglePercentageEditCellRendererComponent, cellRendererParams: { percentageEditOption: PercentageEditOption.SalesDeduction, percentageValueName: getTitle('salesDeduction', false, TimeScope.Yearly) } } : {})
+      ...(scope === TimeScope.Yearly
+        ? {
+            cellRenderer:
+              SalesPlanningSinglePercentageEditCellRendererComponent,
+            cellRendererParams: {
+              percentageEditOption: PercentageEditOption.SalesDeduction,
+              percentageValueName: getTitle(
+                'salesDeduction',
+                false,
+                TimeScope.Yearly
+              ),
+            },
+          }
+        : {}),
     }),
     getDefaults({
       key: 'cashDiscount',
       type: ColumnValueType.Percentage,
-      ...(scope === TimeScope.Yearly ? { cellRenderer: SalesPlanningSinglePercentageEditCellRendererComponent, cellRendererParams: { percentageEditOption: PercentageEditOption.CashDiscount, percentageValueName: getTitle('cashDiscount', false, TimeScope.Yearly) } } : {})
+      ...(scope === TimeScope.Yearly
+        ? {
+            cellRenderer:
+              SalesPlanningSinglePercentageEditCellRendererComponent,
+            cellRendererParams: {
+              percentageEditOption: PercentageEditOption.CashDiscount,
+              percentageValueName: getTitle(
+                'cashDiscount',
+                false,
+                TimeScope.Yearly
+              ),
+            },
+          }
+        : {}),
     }),
     getDefaults({
       key: 'otherRevenues',
       type: ColumnValueType.Monetary,
-      ...(scope === TimeScope.Yearly ? { cellRenderer: SalesPlanningOtherRevenuesCellRendererComponent } : {})
+      ...(scope === TimeScope.Yearly
+        ? { cellRenderer: SalesPlanningOtherRevenuesCellRendererComponent }
+        : {}),
     }),
-    getDefaults({ key: 'salesPlanUnconstrained', type: ColumnValueType.Monetary }),
-    getDefaults({ key: 'totalSalesPlanConstrained', type: ColumnValueType.Monetary, isTimeScopeSpecific: true }),
-    getDefaults({ key: 'deliveriesAcrossYears', type: ColumnValueType.Monetary }),
-    getDefaults({ key: 'ordersAcrossYearsFuture', type: ColumnValueType.Monetary }),
-    getDefaults({ key: 'ordersAcrossYearsPast', type: ColumnValueType.Monetary }),
-    getDefaults({ key: 'opportunitiesDemandRelevantConstrained', type: ColumnValueType.Monetary }),
-    getDefaults({ key: 'apShareConstrained', type: ColumnValueType.Percentage }),
-    getDefaults({ key: 'spShareConstrained', type: ColumnValueType.Percentage }),
-    getDefaults({ key: 'opShareConstrained', type: ColumnValueType.Percentage }),
-    getDefaults({ key: 'salesPlanConstrained', type: ColumnValueType.Monetary }),
+    getDefaults({
+      key: 'salesPlanUnconstrained',
+      type: ColumnValueType.Monetary,
+    }),
+    getDefaults({
+      key: 'totalSalesPlanConstrained',
+      type: ColumnValueType.Monetary,
+      isTimeScopeSpecific: true,
+    }),
+    getDefaults({
+      key: 'deliveriesAcrossYears',
+      type: ColumnValueType.Monetary,
+    }),
+    getDefaults({
+      key: 'ordersAcrossYearsFuture',
+      type: ColumnValueType.Monetary,
+    }),
+    getDefaults({
+      key: 'ordersAcrossYearsPast',
+      type: ColumnValueType.Monetary,
+    }),
+    getDefaults({
+      key: 'opportunitiesDemandRelevantConstrained',
+      type: ColumnValueType.Monetary,
+    }),
+    getDefaults({
+      key: 'apShareConstrained',
+      type: ColumnValueType.Percentage,
+    }),
+    getDefaults({
+      key: 'spShareConstrained',
+      type: ColumnValueType.Percentage,
+    }),
+    getDefaults({
+      key: 'opShareConstrained',
+      type: ColumnValueType.Percentage,
+    }),
+    getDefaults({
+      key: 'salesPlanConstrained',
+      type: ColumnValueType.Monetary,
+    }),
 
     // Hint: These 3 columns are implemented with D360-193 and was removed in D360-321, because they are not fully implemented by the backend yet
     // eslint-disable-next-line no-constant-condition
-    ...(false ? [
-      getDefaults({
-        key: 'apShareAdjustedUnconstrained',
-        type: ColumnValueType.Percentage,
-        ...(scope === TimeScope.Yearly ? { cellRenderer: SalesPlanningShareEditCellRendererComponent } : {})
-      }),
-      getDefaults({
-        key: 'spShareAdjustedUnconstrained',
-        type: ColumnValueType.Percentage,
-        ...(scope === TimeScope.Yearly ? { cellRenderer: SalesPlanningShareEditCellRendererComponent } : {})
-      }),
-      getDefaults({
-        key: 'opShareAdjustedUnconstrained',
-        type: ColumnValueType.Percentage,
-        ...(scope === TimeScope.Yearly ? { cellRenderer: SalesPlanningShareEditCellRendererComponent } : {})
-      }),
-    ] : []),
+    ...(false
+      ? [
+          getDefaults({
+            key: 'apShareAdjustedUnconstrained',
+            type: ColumnValueType.Percentage,
+            ...(scope === TimeScope.Yearly
+              ? { cellRenderer: SalesPlanningShareEditCellRendererComponent }
+              : {}),
+          }),
+          getDefaults({
+            key: 'spShareAdjustedUnconstrained',
+            type: ColumnValueType.Percentage,
+            ...(scope === TimeScope.Yearly
+              ? { cellRenderer: SalesPlanningShareEditCellRendererComponent }
+              : {}),
+          }),
+          getDefaults({
+            key: 'opShareAdjustedUnconstrained',
+            type: ColumnValueType.Percentage,
+            ...(scope === TimeScope.Yearly
+              ? { cellRenderer: SalesPlanningShareEditCellRendererComponent }
+              : {}),
+          }),
+        ]
+      : []),
   ] as unknown as (ColDef & {
     title: string;
     visible: boolean;
