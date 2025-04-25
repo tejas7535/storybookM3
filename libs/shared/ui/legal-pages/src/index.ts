@@ -1,5 +1,6 @@
 export { LegalComponent } from './lib/legal.component';
 export {
+  ADDITIONAL_THRID_PARTY_USAGE,
   CUSTOM_DATA_PRIVACY,
   CUSTOM_IMPRINT_DATA,
   DATA_SOURCE,
