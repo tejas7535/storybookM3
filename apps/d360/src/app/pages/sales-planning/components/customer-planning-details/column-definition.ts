@@ -73,7 +73,6 @@ export const initiallyVisibleColumns: {
     'budgetInvoicedSales',
     'firmBusinessCoverage',
     'openPlannedValueDemand360',
-    'salesPlanConstrained',
     'opportunitiesTotal',
   ],
 };
