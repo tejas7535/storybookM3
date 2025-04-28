@@ -51,8 +51,8 @@
           "budgets": [
             {
               "type": "initial",
-              "maximumWarning": "7mb",
-              "maximumError": "8mb"
+              "maximumWarning": "6mb",
+              "maximumError": "7mb"
             },
             {
               "type": "anyComponentStyle",
@@ -60,7 +60,12 @@
               "maximumError": "20kb"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "sourceMap": true,
+          "optimization": true,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "statsJson": true
         },
         "qa": {
           "statsJson": true,
@@ -186,6 +191,13 @@
           "cd dist/apps/d360/browser && zip -r ../../../zips/d360/next.zip *"
         ],
         "parallel": false
+      }
+    },
+    "analyze-bundle": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/esbuild/d360/bundle-report.html"],
+      "options": {
+        "command": "pnpm esbuild-visualizer --metadata dist/apps/d360/stats.json --filename dist/esbuild/d360/bundle-report.html --title 'D360 Bundle Report'"
       }
     },
     "transloco-optimize": {

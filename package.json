@@ -150,6 +150,7 @@
     "cobertura-merge-globby": "1.0.5",
     "commitizen": "4.3.0",
     "cypress": "13.9.0",
+    "esbuild-visualizer": "^0.7.0",
     "eslint": "8.57.0",
     "eslint-config-prettier": "9.0.0",
     "eslint-plugin-cypress": "2.13.4",
