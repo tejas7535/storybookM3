@@ -1070,7 +1070,7 @@
       "42": "El estado se estableció en {{messageV1}}, ya que no hay requisitos futuros o históricos.",
       "51": "La previsión no puede modificarse en el pasado ni en el mes en curso.",
       "52": "La previsión no se puede cambiar en el pasado.",
-      "53": "Las previsiones no podían distribuirse en sábado y/o domingo.",
+      "53": "La previsión no puede distribuirse debido al estado de la cartera.",
       "100": "El tipo de sustitución {{messageV1}} no es válido.",
       "101": "Se debe pasar una región válida. {{mensajeV1}} no es válido.",
       "102": "El registro no existe.",

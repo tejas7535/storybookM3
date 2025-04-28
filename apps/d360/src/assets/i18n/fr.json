@@ -1070,7 +1070,7 @@
       "42": "Statut fixé à {{messageV1}}, car aucun besoin futur ou historique.",
       "51": "Les prévisions ne peuvent être modifiées ni dans le passé ni dans le mois en cours.",
       "52": "Les prévisions ne peuvent pas être modifiées dans le passé.",
-      "53": "Les prévisions ne pouvaient pas être distribuées un samedi et/ou un dimanche.",
+      "53": "Les prévisions ne peuvent pas être distribuées en raison de l'état du portefeuille.",
       "100": "Le type de substitution {{messageV1}} n'est pas valide.",
       "101": "Une région valide doit être passée. {messageV1}} n'est pas valide.",
       "102": "L'enregistrement n'existe pas.",

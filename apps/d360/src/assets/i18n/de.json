@@ -1070,7 +1070,7 @@
       "42": "Status wurde auf {{messageV1}} gesetzt, da keine zukünftige oder historische Bedarfe.",
       "51": "Forecast kann nicht in der Vergangenheit und nicht im aktuellen Monat geändert werden.",
       "52": "Forecast kann nicht in der Vergangenheit geändert werden.",
-      "53": "Forecast konnte nicht auf einen Samstag und/oder Sonntag verteilt werden.",
+      "53": "Forecast kann aufgrund des Portfoliostatus nicht verteilt werden.",
       "100": "Ersetzungstyp {{messageV1}} ist nicht gültig.",
       "101": "Es muss eine gültige Region übergeben werden. {{messageV1}} ist nicht gültig.",
       "102": "Der Datensatz existiert nicht.",
