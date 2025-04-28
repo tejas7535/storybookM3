@@ -83,15 +83,15 @@
                 <p>Default content</p>
               }
             }
+
+            @if (isAppDeliveryEmbedded) {
+              <mm-app-store-buttons
+                class="flex justify-center mb-8"
+                [title]="t('shared.appStoreButtonsTitle')"
+              ></mm-app-store-buttons>
+            }
           </div>
         </mat-step>
-
-        @if (isAppDeliveryEmbedded) {
-          <mm-app-store-buttons
-            class="flex justify-center mb-8"
-            [title]="t('shared.appStoreButtonsTitle')"
-          ></mm-app-store-buttons>
-        }
       }
     </ng-container>
     <ng-template matStepperIcon="edit" let-index="index">

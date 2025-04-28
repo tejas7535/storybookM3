@@ -105,3 +105,11 @@ schaeffler-html-report .mat-expansion-panel-content h2 {
 .schaeffler-header-logo {
   margin-right: env(safe-area-inset-right);
 }
+
+#legal-pages h5 {
+  font-size: inherit;
+}
+
+#legal-pages {
+  @apply prose max-w-2xl prose-p:text-high-emphasis prose-h5:font-semibold;
+}

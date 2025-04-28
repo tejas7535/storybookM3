@@ -134,7 +134,8 @@
     "termsOfUse": "Terms of Use",
     "cookiePolicy": "Cookie Policy",
     "cookieSettings": "Cookie Settings",
-    "purpose": "</br>In the Mounting Manager, user inputs such as bearing selection and operating parameters are used to carry out calculations in order to issue a mounting recommendation. Your anonymized user data is stored on the Microsoft Azure platform and displayed in the form of a dashboard. This gives us the opportunity to evaluate user behavior in the Mounting Manager in order to be able to make strategic decisions about the further development of the Mounting Manager.</br>Your anonymized user data is stored on the Microsoft Azure platform and displayed in the form of a dashboard. This gives us the opportunity to evaluate user behavior in the Mounting Manager in order to be able to make strategic decisions about the further development of the Mounting Manager.",
+    "purpose": "</br>In the Mounting Manager, user inputs such as bearing selection and operating parameters are used to carry out calculations in order to issue a mounting recommendation. Your anonymized user data is stored on the Microsoft Azure platform and displayed in the form of a dashboard. For our mobile applications (Grease App on Android and iOS), the data is collected by the Firebase Platform (Google), according to your opt-in status. This gives us the opportunity to evaluate user behavior in the Mounting Manager in order to be able to make strategic decisions about the further development of the Mounting Manager.",
+    "thirdPartyUsage": ", Google as the provider of Firebase Analytics (mobile applications)",
     "storagePeriod": "one year"
   },
   "productImage": {

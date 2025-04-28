@@ -34,7 +34,7 @@ export class ProductImageResolverService {
 
   private readonly resolvedImages = this.queryTrigger.pipe(
     distinctUntilChanged(
-      (a, b) => JSON.stringify(a.sort()) === JSON.stringify(b.sort())
+      (a, b) => JSON.stringify([...a].sort()) === JSON.stringify([...b].sort())
     ),
     debounceTime(IMAGE_RESOLUTION_DEBOUNCE_TIME_MS),
     switchMap((imageDesignationQueue) =>
