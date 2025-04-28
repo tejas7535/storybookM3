@@ -70,6 +70,7 @@ export class CustomerSalesPlanningColumnSettingsService<
         maxWidth: 50,
         suppressHeaderMenuButton: true,
         suppressSizeToFit: true,
+        suppressColumnsToolPanel: true,
         sortable: false,
       },
     ] as ColDef[];

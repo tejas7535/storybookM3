@@ -10,9 +10,67 @@ describe('ValueBadgeCellRendererComponent', () => {
     component = Stub.get({ component: ValueBadgeCellRendererComponent });
   });
 
-  it('should set the value', () => {
-    component['setValue']({ value: 100 } as ICellRendererParams);
+  describe('setValue', () => {
+    it('should set the value', () => {
+      component['setValue']({ value: 100 } as ICellRendererParams);
 
-    expect(component.value).toBe(100);
+      expect(component.value).toBe(100);
+    });
+
+    it('should show the colored background when the threshold is smaller than the value', () => {
+      component['setValue']({
+        value: 100,
+        threshold: 50,
+      } as ICellRendererParams & { threshold: number });
+
+      expect(component['showColoredBackground']()).toBe(true);
+    });
+
+    it('should not show the colored background when the threshold is larger than the value', () => {
+      component['setValue']({
+        value: 50,
+        threshold: 100,
+      } as ICellRendererParams & { threshold: number });
+
+      expect(component['showColoredBackground']()).toBe(false);
+    });
+
+    it('should show the colored background when the threshold is equal to the value', () => {
+      component['setValue']({
+        value: 50,
+        threshold: 50,
+      } as ICellRendererParams & { threshold: number });
+
+      expect(component['showColoredBackground']()).toBe(true);
+    });
+
+    it('should not show the colored background when the threshold is not set', () => {
+      component['setValue']({ value: 50 } as ICellRendererParams);
+
+      expect(component['showColoredBackground']()).toBe(false);
+    });
+
+    it('should not show the colored background when the threshold is null', () => {
+      component['setValue']({
+        value: 50,
+        threshold: null,
+      } as ICellRendererParams & { threshold: number });
+
+      expect(component['showColoredBackground']()).toBe(false);
+    });
+
+    it('should not show the colored background when the value is not set', () => {
+      component['setValue']({} as ICellRendererParams & { threshold: number });
+
+      expect(component['showColoredBackground']()).toBe(false);
+    });
+
+    it('should not show the colored background when only the threshold is not set', () => {
+      component['setValue']({ threshold: 95 } as ICellRendererParams & {
+        threshold: number;
+      });
+
+      expect(component['showColoredBackground']()).toBe(false);
+    });
   });
 });

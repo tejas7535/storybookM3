@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal, WritableSignal } from '@angular/core';
 
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
@@ -12,7 +12,18 @@ import { AbstractBaseCellRendererComponent } from '../abstract-cell-renderer.com
   styleUrl: './value-badge-cell-renderer.component.scss',
 })
 export class ValueBadgeCellRendererComponent extends AbstractBaseCellRendererComponent<number> {
-  protected setValue(parameters: ICellRendererParams<any, number>): void {
+  private threshold: number;
+  protected showColoredBackground: WritableSignal<boolean> =
+    signal<boolean>(false);
+
+  protected setValue(
+    parameters: ICellRendererParams<any, number> & { threshold?: number }
+  ): void {
     this.value = parameters.value;
+    this.threshold = parameters.threshold;
+
+    if (this.threshold) {
+      this.showColoredBackground.set(this.value >= this.threshold);
+    }
   }
 }

@@ -1,5 +1,6 @@
-import { ValueFormatterParams } from 'ag-grid-enterprise';
+import { ColDef, ValueFormatterParams } from 'ag-grid-enterprise';
 
+import { ValueBadgeCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/value-badge-cell-renderer/value-badge-cell-renderer.component';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { Stub } from '../../../../shared/test/stub.class';
 import { CustomerSalesPlanningLayout } from '../../overview.component';
@@ -86,19 +87,87 @@ describe('CustomerSalesPlanningGrid ColumnDefinitions', () => {
   });
 
   describe('getColumnDefs', () => {
-    it('should have 8 visible default rows for PreviousToCurrent', () => {
-      const columns = getColumnDefs(
-        agGridLocalizationService,
-        CustomerSalesPlanningLayout.PreviousToCurrent
-      ).filter((column) => !column.hide);
-      expect(columns.length).toBe(8);
+    describe('PreviousToCurrent layout', () => {
+      let columns: ColDef[];
+      beforeEach(() => {
+        columns = getColumnDefs(
+          agGridLocalizationService,
+          CustomerSalesPlanningLayout.PreviousToCurrent
+        ).filter((column: ColDef) => !column.hide);
+      });
+
+      it('should have 8 visible default rows for PreviousToCurrent', () => {
+        expect(columns.length).toBe(8);
+      });
+
+      it('should show a colored badge for the salesPlanned and demandPlanned column', () => {
+        const filteredColumns: ColDef[] = columns.filter((column: ColDef) =>
+          ['salesPlannedCurrentYear', 'demandPlannedCurrentYear'].includes(
+            column.colId
+          )
+        );
+        // columns should be visible in the layout
+        expect(filteredColumns.length).toBe(2);
+
+        filteredColumns.forEach((column: ColDef) => {
+          expect(column.cellRenderer).toEqual(ValueBadgeCellRendererComponent);
+          expect(column.cellRendererParams.threshold).toBe(95);
+        });
+      });
+      it('should show an uncolored badge for the devaition column', () => {
+        const filteredColumns: ColDef[] = columns.filter((column: ColDef) =>
+          ['deviationToPreviousYear'].includes(column.colId)
+        );
+
+        // columns should be visible in the layout
+        expect(filteredColumns.length).toBe(1);
+
+        filteredColumns.forEach((column: ColDef) => {
+          expect(column.cellRenderer).toEqual(ValueBadgeCellRendererComponent);
+          expect(column.cellRendererParams?.threshold).toBeUndefined();
+        });
+      });
     });
-    it('should have 9 visible default rows for CurrentToNext', () => {
-      const columns = getColumnDefs(
-        agGridLocalizationService,
-        CustomerSalesPlanningLayout.CurrentToNext
-      ).filter((column) => !column.hide);
-      expect(columns.length).toBe(9);
+
+    describe('CurrentToNext layout', () => {
+      let columns: ColDef[];
+      beforeEach(() => {
+        columns = getColumnDefs(
+          agGridLocalizationService,
+          CustomerSalesPlanningLayout.CurrentToNext
+        ).filter((column: ColDef) => !column.hide);
+      });
+      it('should have 9 visible default rows for CurrentToNext', () => {
+        expect(columns.length).toBe(9);
+      });
+      it('should show a colored badge for the salesPlanned and demandPlanned column', () => {
+        const filteredColumns: ColDef[] = columns.filter((column: ColDef) =>
+          ['salesPlannedNextYear', 'demandPlannedNextYear'].includes(
+            column.colId
+          )
+        );
+
+        // columns should be visible in the layout
+        expect(filteredColumns.length).toBe(2);
+
+        filteredColumns.forEach((column: ColDef) => {
+          expect(column.cellRenderer).toEqual(ValueBadgeCellRendererComponent);
+          expect(column.cellRendererParams.threshold).toBe(95);
+        });
+      });
+      it('should show an uncolored badge for the devaition column', () => {
+        const filteredColumns: ColDef[] = columns.filter((column: ColDef) =>
+          ['deviationToCurrentYear'].includes(column.colId)
+        );
+
+        // columns should be visible in the layout
+        expect(filteredColumns.length).toBe(1);
+
+        filteredColumns.forEach((column: ColDef) => {
+          expect(column.cellRenderer).toEqual(ValueBadgeCellRendererComponent);
+          expect(column.cellRendererParams?.threshold).toBeUndefined();
+        });
+      });
     });
   });
 });

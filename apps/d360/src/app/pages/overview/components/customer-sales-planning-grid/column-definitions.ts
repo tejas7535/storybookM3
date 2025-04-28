@@ -156,6 +156,7 @@ export const getColumnDefs: (
       colId: 'salesPlannedCurrentYear',
       layout: [CustomerSalesPlanningLayout.PreviousToCurrent],
       cellRenderer: ValueBadgeCellRendererComponent,
+      cellRendererParams: { threshold: 95 },
       minWidth: 75,
       width: 75,
       tooltipValueGetter: (params: ITooltipParams) =>
@@ -173,6 +174,7 @@ export const getColumnDefs: (
       colId: 'demandPlannedCurrentYear',
       layout: [CustomerSalesPlanningLayout.PreviousToCurrent],
       cellRenderer: ValueBadgeCellRendererComponent,
+      cellRendererParams: { threshold: 95 },
       minWidth: 75,
       width: 75,
       tooltipValueGetter: (params: ITooltipParams) =>
@@ -239,6 +241,7 @@ export const getColumnDefs: (
       colId: 'salesPlannedNextYear',
       layout: [CustomerSalesPlanningLayout.CurrentToNext],
       cellRenderer: ValueBadgeCellRendererComponent,
+      cellRendererParams: { threshold: 95 },
       minWidth: 75,
       width: 75,
       tooltipValueGetter: (params: ITooltipParams) =>
@@ -256,6 +259,7 @@ export const getColumnDefs: (
       colId: 'demandPlannedNextYear',
       layout: [CustomerSalesPlanningLayout.CurrentToNext],
       cellRenderer: ValueBadgeCellRendererComponent,
+      cellRendererParams: { threshold: 95 },
       minWidth: 75,
       width: 75,
       tooltipValueGetter: (params: ITooltipParams) =>
