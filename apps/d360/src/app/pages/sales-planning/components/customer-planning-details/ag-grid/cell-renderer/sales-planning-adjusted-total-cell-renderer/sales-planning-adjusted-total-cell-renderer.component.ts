@@ -73,9 +73,14 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
     }
   ): void {
     this.value = parameters.value;
+
+    // there are 2 possible cases:
+    // 1. the cell is in the first level of the tree (yearly view + collapsed monthly material)
+    // 2. the cell is in the second level of the tree (click on material)
     this.isPlanningMaterialRow =
+      parameters.node.level === 1 ||
       this.parameters.data.detailLevel ===
-      SalesPlanningDetailLevel.MonthlyAndPlanningLevelMaterialDetailLevel;
+        SalesPlanningDetailLevel.MonthlyAndPlanningLevelMaterialDetailLevel;
     this.parameters = parameters;
 
     this.onReloadData = parameters.context.reloadData;

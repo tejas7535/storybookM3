@@ -41,6 +41,7 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
       },
       scope: TimeScope.Monthly,
       value: 100,
+      node: { level: 0 },
     } as any;
 
     component.agInit(mockParams);
@@ -134,6 +135,7 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
       context: {
         reloadData: mockReloadData,
       },
+      node: { level: 0 },
     } as any;
 
     component.agInit(mockParams);
@@ -165,6 +167,7 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
       context: {
         reloadData: mockReloadData,
       },
+      node: { level: 0 },
     } as any;
 
     component.agInit(mockParams);
