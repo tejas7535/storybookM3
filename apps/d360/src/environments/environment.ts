@@ -19,7 +19,7 @@ export const environment: Environment = {
   // Application Insights
   applicationInsights: {
     applicationInsightsConfig: {
-      instrumentationKey: 'd581edac-1558-4fd6-8062-ead669d064e9',
+      instrumentationKey: '4153f568-d44f-4c35-9fbf-14efe39dcfa6',
       disableCookiesUsage: false,
       autoTrackPageVisitTime: true,
     },

@@ -34,6 +34,8 @@ import { Store } from '@ngrx/store';
 import { GridApi } from 'ag-grid-enterprise';
 import { MockProvider, MockService } from 'ng-mocks';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { AppRoutePath } from '../../app.routes.enum';
 import { AlertRulesService } from '../../feature/alert-rules/alert-rules.service';
 import { AlertService, GroupedAlert } from '../../feature/alerts/alert.service';
@@ -107,7 +109,10 @@ export class Stub {
     ),
     MockProvider(
       MatDialogRef,
-      { afterClosed: () => of({ reloadData: true }), close: () => {} },
+      {
+        afterClosed: () => of({ reloadData: true }),
+        close: () => {},
+      },
       'useValue'
     ),
     MockProvider(IMRService, this.getIMRService(), 'useValue'),
@@ -159,6 +164,9 @@ export class Stub {
     ),
     MockProvider(HttpClient, this.getHttpClient(), 'useValue'),
     MockProvider(FormBuilder),
+    MockProvider(ApplicationInsightsService, {
+      logEvent: jest.fn(),
+    }),
   ];
 
   private static fixture: ComponentFixture<any> | null = null;
@@ -658,7 +666,13 @@ export class Stub {
   }
 
   public static getDateAdapterProvider(): ValueProvider {
-    return MockProvider(DateAdapter, { setLocale: () => {} }, 'useValue');
+    return MockProvider(
+      DateAdapter,
+      {
+        setLocale: () => {},
+      },
+      'useValue'
+    );
   }
 
   public static getOverviewProvider(): ValueProvider {

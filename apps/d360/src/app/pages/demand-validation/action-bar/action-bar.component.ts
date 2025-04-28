@@ -36,6 +36,7 @@ import {
   startOfMonth,
 } from 'date-fns';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { getBackendRoles } from '@schaeffler/azure-auth';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -141,7 +142,7 @@ export class ActionBarComponent implements OnInit {
     TranslocoLocaleService
   );
   private readonly userService: UserService = inject(UserService);
-  // private readonly appInsights = inject(ApplicationInsights); // TODO: add ApplicationInsights
+  private readonly appInsights = inject(ApplicationInsightsService);
 
   private readonly backendRoles = toSignal(this.store.select(getBackendRoles));
 
@@ -335,6 +336,9 @@ export class ActionBarComponent implements OnInit {
       .afterClosed()
       .pipe(
         tap(this.reloadTheValidationTable.bind(this)),
+        tap((_reload) =>
+          this.appInsights.logEvent('[Validated Sales Planning] Upload List')
+        ),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
@@ -355,6 +359,9 @@ export class ActionBarComponent implements OnInit {
       .afterClosed()
       .pipe(
         tap(this.reloadTheValidationTable.bind(this)),
+        tap((_reload) =>
+          this.appInsights.logEvent('[Validated Sales Planning] Upload Grid')
+        ),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
@@ -384,10 +391,9 @@ export class ActionBarComponent implements OnInit {
     this.reloadValidationTable.emit(true);
 
     if (!dryRun) {
-      // TODO: Add ApplicationInsights
-      // this.appInsights.trackEvent({
-      //   name: '[Validated Sales Planning] Upload Single Entries',
-      // });
+      this.appInsights.logEvent(
+        '[Validated Sales Planning] Upload Single Entries'
+      );
     }
 
     const errors = new Set<string>();
@@ -467,10 +473,9 @@ export class ActionBarComponent implements OnInit {
     });
   }
 
-  private readonly onSaveInModal = (_eventName: string) => () => {
+  private readonly onSaveInModal = (eventName: string) => () => {
     this.reloadValidationTable.emit(null);
 
-    // TODO: Implement once we have the AppInsights setup (SFT-1863)
-    // this.appInsights.trackEvent({ name: _eventName, });
+    this.appInsights.logEvent(eventName);
   };
 }

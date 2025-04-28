@@ -784,7 +784,42 @@ describe('DemandValidationService', () => {
         });
     });
 
-    it('should handle errors and show a snackbar with the error message', (done) => {
+    it('should track the export with app insights', (done) => {
+      const selectedKpis: SelectedKpis = {
+        activeAndPredecessor: true,
+      } as any;
+      const filledRange: { range1: DateRange; range2?: DateRange } = {
+        range1: {
+          from: new Date('2023-01-01'),
+          to: new Date('2023-01-31'),
+          period: DateRangePeriod.Monthly,
+        },
+      };
+      const demandValidationFilters: DemandValidationFilter = {} as any;
+
+      jest
+        .spyOn(service['http'], 'post')
+        .mockReturnValue(throwError(() => new Error('HTTP error')));
+
+      jest.spyOn(service['appInsights'], 'logEvent');
+
+      service
+        .triggerExport(selectedKpis, filledRange, demandValidationFilters)
+        .pipe(take(1))
+        .subscribe((value) => {
+          expect(value).toBeNull();
+          expect(service['appInsights'].logEvent).toHaveBeenCalledWith(
+            '[Validated Sales Planning] Export Data'
+          );
+          expect(service['appInsights'].logEvent).toHaveBeenCalledWith(
+            '[Validated Sales Planning] Export Data Failure'
+          );
+
+          done();
+        });
+    });
+
+    it('should handle errors and show a snackbar with the error messages', (done) => {
       const selectedKpis: SelectedKpis = {
         activeAndPredecessor: true,
       } as any;

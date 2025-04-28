@@ -27,6 +27,8 @@ import {
   GridReadyEvent,
 } from 'ag-grid-enterprise';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { GlobalSelectionUtils } from '../../../../../feature/global-selection/global-selection.utils';
 import { MaterialCustomerService } from '../../../../../feature/material-customer/material-customer.service';
 import { CriteriaFields } from '../../../../../feature/material-customer/model';
@@ -82,6 +84,8 @@ export class MaterialCustomerTableComponent implements OnInit {
   protected readonly agGridLocalizationService = inject(
     AgGridLocalizationService
   );
+
+  private readonly appInsights = inject(ApplicationInsightsService);
 
   private readonly selectableOptionsService = inject(SelectableOptionsService);
 
@@ -252,6 +256,11 @@ export class MaterialCustomerTableComponent implements OnInit {
   protected onFilterChange(event: FilterChangedEvent) {
     this.filter = formatFilterModelForBackend(event.api.getFilterModel());
     this.onColumnFilterChange.emit(this.filter);
+
+    this.appInsights.logEvent('[Home] Apply Field List Filter', {
+      appliedFilter: event.columns[0]?.getColDef().headerName,
+      allFilters: this.filter,
+    });
   }
 
   protected getVisibilityBackground = (params: {
