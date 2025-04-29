@@ -215,6 +215,7 @@ describe('UserService', () => {
       const newSettings: UserSettings = {
         startPage: 'newStartPage' as any,
         demandValidation: null,
+        overviewPage: null,
       };
 
       service.updateUserSettings(
@@ -262,6 +263,7 @@ describe('UserService', () => {
       const userSettings: UserSettings = {
         startPage: 'someStartPage' as any,
         demandValidation: null,
+        overviewPage: null,
       };
       jest.spyOn(service['http'], 'get').mockReturnValue(of(userSettings));
 
@@ -305,7 +307,11 @@ describe('UserService', () => {
   describe('getStartPage', () => {
     it('should return the configured start page if available', () => {
       const startPage = 'configuredStartPage' as any;
-      service.userSettings.set({ startPage, demandValidation: null });
+      service.userSettings.set({
+        startPage,
+        demandValidation: null,
+        overviewPage: null,
+      });
 
       service.getStartPage().subscribe((page) => {
         expect(page).toBe(startPage);
@@ -313,7 +319,11 @@ describe('UserService', () => {
     });
 
     it('should return the default start page based on region if not configured', () => {
-      service.userSettings.set({ startPage: null, demandValidation: null });
+      service.userSettings.set({
+        startPage: null,
+        demandValidation: null,
+        overviewPage: null,
+      });
       service.region.set(Region.Europe);
 
       service.getStartPage().subscribe((page) => {

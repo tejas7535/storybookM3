@@ -56,6 +56,7 @@ export class UserService {
   public readonly userSettings: WritableSignal<UserSettings | null> = signal({
     startPage: null,
     demandValidation: null,
+    overviewPage: null,
   });
   public settingsLoaded$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);

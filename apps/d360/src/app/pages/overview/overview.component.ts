@@ -2,15 +2,21 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   inject,
+  OnInit,
   Signal,
   signal,
   viewChild,
   WritableSignal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDivider } from '@angular/material/divider';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
+
+import { take } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
 
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
@@ -26,7 +32,12 @@ import { SelectableValue } from '../../shared/components/inputs/autocomplete/sel
 import { DisplayFunctions } from '../../shared/components/inputs/display-functions.utils';
 import { FilterDropdownComponent } from '../../shared/components/inputs/filter-dropdown/filter-dropdown.component';
 import { PriorityDropdownComponent } from '../../shared/components/priority-dropdown/priority-dropdown.component';
+import {
+  OverviewPageSettingsKey,
+  UserSettingsKey,
+} from '../../shared/models/user-settings.model';
 import { SelectableOptionsService } from '../../shared/services/selectable-options.service';
+import { UserService } from '../../shared/services/user.service';
 import { CustomerSalesPlanningGridComponent } from './components/customer-sales-planning-grid/customer-sales-planning-grid.component';
 import {
   OverviewFilterComponent,
@@ -60,7 +71,7 @@ export enum CustomerSalesPlanningLayout {
   styleUrl: './overview.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OverviewComponent {
+export class OverviewComponent implements OnInit {
   private readonly customerSalesPlanningGrid = viewChild(
     CustomerSalesPlanningGridComponent
   );
@@ -73,6 +84,9 @@ export class OverviewComponent {
   protected readonly currencyService: CurrencyService = inject(CurrencyService);
   protected readonly selectedCustomer: WritableSignal<SelectableValue> =
     signal<SelectableValue>(null);
+
+  private readonly userService: UserService = inject(UserService);
+  private readonly destroyRef = inject(DestroyRef);
 
   protected layouts = [
     {
@@ -129,5 +143,31 @@ export class OverviewComponent {
 
   protected onOverviewFilterReset() {
     this.customerSalesPlanningGrid().resetSelection();
+  }
+
+  public ngOnInit(): void {
+    this.userService.settingsLoaded$
+      .pipe(
+        filter((loaded: boolean) => loaded),
+        take(1),
+        tap(() => {
+          const backendValue =
+            this.userService.userSettings()[UserSettingsKey.OverviewPage]?.[
+              OverviewPageSettingsKey.OnlyAssignedToMe
+            ];
+
+          // If user has no default settings, we configure true
+          this.isAssignedToMe.set(backendValue ?? true);
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+  }
+
+  protected onAssignedToggleChange(newValue: boolean): void {
+    this.isAssignedToMe.set(newValue);
+    this.userService.updateUserSettings(UserSettingsKey.OverviewPage, {
+      [OverviewPageSettingsKey.OnlyAssignedToMe]: newValue,
+    });
   }
 }

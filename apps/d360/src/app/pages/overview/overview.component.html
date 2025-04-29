@@ -15,8 +15,8 @@
         <span class="mt-2">{{ t('overview.yourCustomer.headline') }}</span>
         <span class="flex flex-row justify-center align-middle">
           <mat-slide-toggle
-            checked="isAssignedToMe()"
-            (change)="isAssignedToMe.set($event.checked)"
+            [checked]="isAssignedToMe()"
+            (change)="onAssignedToggleChange($event.checked)"
             class="mr-4 mt-1"
             labelPosition="before"
             hideIcon="true"

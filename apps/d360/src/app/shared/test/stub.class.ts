@@ -609,6 +609,9 @@ export class Stub {
           data?.userSettings ?? {
             startPage: null,
             demandValidation: null,
+            overviewPage: {
+              onlyAssignedToMe: false,
+            },
           }
         ),
         region: data?.region ?? signal(''),
