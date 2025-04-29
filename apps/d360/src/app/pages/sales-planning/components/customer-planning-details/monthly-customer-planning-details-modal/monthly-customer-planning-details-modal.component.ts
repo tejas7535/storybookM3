@@ -88,11 +88,16 @@ export class MonthlyCustomerPlanningDetailsModalComponent implements OnInit {
     inject(AgGridLocalizationService);
   protected gridApi: GridApi | null = null;
 
+  private hasChangedData = false;
+
   protected gridOptions: GridOptions = {
     ...clientSideTableDefaultProps,
     context: {
       numberPipe: this.numberWithoutFractionDigitsPipe,
-      reloadData: () => this.fetchData(),
+      reloadData: () => {
+        this.fetchData();
+        this.hasChangedData = true;
+      },
     },
     sideBar: {
       toolPanels: [columnSideBar],
@@ -156,7 +161,7 @@ export class MonthlyCustomerPlanningDetailsModalComponent implements OnInit {
   }
 
   public onClose() {
-    this.dialogRef.close(false);
+    this.dialogRef.close(this.hasChangedData);
   }
 
   public onGridReady(event: GridReadyEvent): void {

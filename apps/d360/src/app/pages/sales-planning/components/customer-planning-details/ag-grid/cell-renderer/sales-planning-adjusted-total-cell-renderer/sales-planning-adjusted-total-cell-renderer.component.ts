@@ -107,9 +107,7 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
     this.dialog
       .open(CustomerSalesPlanNumberAndPercentageEditModalComponent, {
         data: {
-          title: this.isPlanningMaterialRow
-            ? this.getPlanningMaterialText()
-            : this.planningYear,
+          title: this.getTitle(),
           formLabel: translate(
             `${this.translationKeyPrefix}.${this.scope}_total`
           ),
@@ -159,6 +157,41 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
         this.planningMonth,
         this.isPlanningMaterialRow ? this.planningMaterial : null
       );
+  }
+
+  /**
+   * Returns the title for the edit modal.
+   *
+   * The title is a combination of the planning year, the planning month (if applicable),
+   * and the planning material (if applicable).
+   * - The planning month is only included if the scope is monthly.
+   * - The planning material is only included if the row is a planning material row.
+   * - The title is used to provide context for the user when editing the sales plan.
+   * - The title is constructed by joining the parts with a space.
+   * - The planning month is translated using the `translateOr` function.
+   * - The planning material is formatted using the `getPlanningMaterialText` method.
+   * - The resulting title is a string that represents the context of the edit modal.
+   *
+   * @private
+   * @return {string} -  The title for the edit modal.
+   * @memberof SalesPlanningAdjustedTotalCellRendererComponent
+   */
+  private getTitle(): string {
+    const parts: string[] = [this.planningYear];
+
+    if (this.isPlanningMaterialRow) {
+      parts.push(this.getPlanningMaterialText());
+    }
+
+    if (this.scope === TimeScope.Monthly) {
+      parts.splice(
+        1,
+        0,
+        translate(`sales_planning.table.months.${this.planningMonth}`)
+      );
+    }
+
+    return parts.join(' ').replaceAll('  ', ' ').trim();
   }
 
   private onSave() {

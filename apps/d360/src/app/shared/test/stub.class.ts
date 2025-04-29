@@ -270,19 +270,20 @@ export class Stub {
 
   public static getGridApi(): GridApi {
     return {
-      setGridOption: jest.fn(),
       addEventListener: jest.fn(),
-      setFilterModel: jest.fn(),
-      showNoRowsOverlay: jest.fn(),
-      hideOverlay: jest.fn(),
-      autoSizeAllColumns: jest.fn(),
-      expandAll: jest.fn(),
-      collapseAll: jest.fn(),
-      refreshServerSide: jest.fn(),
-      applyTransaction: jest.fn(),
-      setColumnDefs: jest.fn(),
       applyServerSideTransaction: jest.fn(),
+      applyTransaction: jest.fn(),
+      autoSizeAllColumns: jest.fn(),
+      collapseAll: jest.fn(),
+      expandAll: jest.fn(),
       getDisplayedRowCount: jest.fn(),
+      hideOverlay: jest.fn(),
+      redrawRows: jest.fn(),
+      refreshServerSide: jest.fn(),
+      setColumnDefs: jest.fn(),
+      setFilterModel: jest.fn(),
+      setGridOption: jest.fn(),
+      showNoRowsOverlay: jest.fn(),
     } as any;
   }
 
