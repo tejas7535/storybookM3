@@ -94,6 +94,9 @@ export class CustomerSalesPlanningGridComponent {
       CustomerSalesPlanningColumnDefinitions
     >
   );
+  protected overlayMessage = {
+    message: translate('overview.yourTasks.noTasks'),
+  };
   public layout = input.required<CustomerSalesPlanningLayout>();
   public isAssignedToMe = input.required<boolean>();
   public gkamNumbers = input<string[]>(null);
@@ -128,6 +131,13 @@ export class CustomerSalesPlanningGridComponent {
       .getDataFetchedEvent()
       .pipe(
         tap((data) => {
+          if (data.rowCount === 0) {
+            this.overlayMessage.message = translate('hint.noData');
+            this.gridApi.showNoRowsOverlay();
+          } else {
+            this.gridApi.hideOverlay();
+          }
+
           const customerNumberSelected =
             this.gridApi.getSelectedRows()?.[0]?.customerNumber;
           if (
@@ -136,6 +146,19 @@ export class CustomerSalesPlanningGridComponent {
               .includes(customerNumberSelected)
           ) {
             this.selectionChanged.emit(null);
+          }
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+
+    this.overviewService
+      .getFetchErrorEvent()
+      .pipe(
+        tap((error: any) => {
+          if (error?.message) {
+            this.overlayMessage.message = error.message;
+            this.gridApi.showNoRowsOverlay();
           }
         }),
         takeUntilDestroyed(this.destroyRef)
@@ -162,16 +185,6 @@ export class CustomerSalesPlanningGridComponent {
         )
 
         .subscribe();
-    }
-  }
-
-  protected onDataUpdated(): void {
-    if (this.gridApi) {
-      if (this.gridApi.getDisplayedRowCount() === 0) {
-        this.gridApi.showNoRowsOverlay();
-      } else {
-        this.gridApi.hideOverlay();
-      }
     }
   }
 
@@ -233,6 +246,7 @@ export class CustomerSalesPlanningGridComponent {
     customers: string[]
   ): void {
     if (this.gridApi) {
+      this.gridApi.hideOverlay();
       this.gridApi.setGridOption(
         'serverSideDatasource',
         this.overviewService.createCustomerSalesPlanningDatasource(

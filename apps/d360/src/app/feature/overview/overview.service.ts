@@ -12,6 +12,7 @@ import {
   tap,
 } from 'rxjs';
 
+import { translate } from '@jsverse/transloco';
 import {
   AdvancedFilterModel,
   FilterModel,
@@ -38,6 +39,10 @@ export class OverviewService {
   private readonly http: HttpClient = inject(HttpClient);
   private readonly currencyService: CurrencyService = inject(CurrencyService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly fetchErrorEvent: BehaviorSubject<{ message: string }> =
+    new BehaviorSubject<{
+      message: string;
+    }>(null);
   public readonly dataFetchedEvent: BehaviorSubject<CustomerSalesPlanningResult> =
     new BehaviorSubject({
       rows: [],
@@ -94,6 +99,7 @@ export class OverviewService {
       getRows: (
         params: IServerSideGetRowsParams<CustomerSalesPlanningData>
       ) => {
+        this.fetchErrorEvent.next(null);
         this.getSalesPlanningOverview(
           params.request,
           isAssignedToMe,
@@ -108,8 +114,19 @@ export class OverviewService {
               });
               this.dataFetchedEvent.next(data);
             }),
-            catchError(() => {
-              params.fail();
+            catchError((error: any) => {
+              this.dataFetchedEvent.next({ rows: [], rowCount: 0 });
+              if (error?.details?.values?.['x-sap-messagenumber'] === '133') {
+                params.success({
+                  rowData: [],
+                  rowCount: 0,
+                });
+                this.fetchErrorEvent.next({
+                  message: translate('hint.selectData'),
+                });
+              } else {
+                params.fail();
+              }
 
               return EMPTY;
             }),
@@ -121,5 +138,9 @@ export class OverviewService {
   }
   public getDataFetchedEvent(): BehaviorSubject<CustomerSalesPlanningResult> {
     return this.dataFetchedEvent;
+  }
+
+  public getFetchErrorEvent(): BehaviorSubject<{ message: string }> {
+    return this.fetchErrorEvent;
   }
 }

@@ -1091,7 +1091,8 @@
       "117": "Nachfolger {{messageV1}} ist in keinem AP/OP-Werk der DC-Gruppe {{messageV2}} vorhanden.",
       "118": "Nachfolger für {{messageV1}} in Werk {{messageV2}} ist anders in MARC: {{messageV3}}.",
       "119": "Der Vertriebsbereich darf nicht für den Ersetzungstyp {{messageV1}} gepflegt werden.",
-      "123": "SOP Datum darf nicht vor dem cutover Datum liegen"
+      "123": "SOP Datum darf nicht vor dem cutover Datum liegen",
+      "133": "Es wurden mehr als 2.500 Kunden selektiert. Bitte weiter einschränken."
     },
     "error": "Nachricht mit Klasse {{messageClass}} und Nummer {{messageNumber}} konnte nicht gefunden werden."
   },

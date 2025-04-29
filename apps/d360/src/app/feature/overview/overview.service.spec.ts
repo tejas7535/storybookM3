@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 
-import { of, take } from 'rxjs';
+import { of, take, throwError } from 'rxjs';
 
 import {
   FilterModel,
@@ -10,6 +10,7 @@ import {
 } from 'ag-grid-enterprise';
 
 import { Stub } from '../../shared/test/stub.class';
+import { HttpError } from '../../shared/utils/http-client';
 import { OverviewService } from './overview.service';
 
 describe('OverviewService', () => {
@@ -90,6 +91,33 @@ describe('OverviewService', () => {
       );
       datasource.getRows(params);
       expect(params.success).toHaveBeenCalledWith({ rowData: [], rowCount: 0 });
+    });
+
+    it('should emit an error on SAP error 133', () => {
+      const params = {
+        request: {} as IServerSideGetRowsRequest,
+        success: jest.fn(),
+      } as unknown as IServerSideGetRowsParams;
+
+      jest
+        .spyOn(service as any, 'getSalesPlanningOverview')
+        .mockImplementation(() =>
+          throwError(
+            () =>
+              new HttpError(400, { values: { 'x-sap-messagenumber': '133' } })
+          )
+        );
+
+      const datasource = service.createCustomerSalesPlanningDatasource(
+        true,
+        [],
+        []
+      );
+      datasource.getRows(params);
+      expect(params.success).toHaveBeenCalledWith({ rowData: [], rowCount: 0 });
+      expect(service.getFetchErrorEvent().value).toEqual({
+        message: 'hint.selectData',
+      });
     });
   });
 });

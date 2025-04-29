@@ -1091,7 +1091,8 @@
       "117": "Il successore {{messageV1}} non è presente in nessun impianto AP/OP del gruppo DC {{messageV2}}.",
       "118": "Il successore di {{messageV1}} nell'opera {{messageV2}} è diverso in MARC: {{messageV3}}.",
       "119": "L'area di vendita non deve essere mantenuta per il tipo di sostituzione {{messageV1}}.",
-      "123": "Non è consentita la data SOP prima della data di cutover"
+      "123": "Non è consentita la data SOP prima della data di cutover",
+      "133": "Sono stati selezionati oltre 2.500 clienti. Selezionare ulteriori dati."
     },
     "error": "Non è stato possibile trovare un messaggio con classe {{messageClass}} e numero {{messageNumber}}."
   },

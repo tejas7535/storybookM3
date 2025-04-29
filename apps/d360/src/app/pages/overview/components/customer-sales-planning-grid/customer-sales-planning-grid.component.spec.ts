@@ -79,6 +79,9 @@ describe('CustomerSalesPlanningGridComponent', () => {
       .spyOn(component['overviewService'], 'getDataFetchedEvent')
       .mockReturnValue(of(loadedData) as any);
     jest
+      .spyOn(component['overviewService'], 'getFetchErrorEvent')
+      .mockReturnValue(of() as any);
+    jest
       .spyOn(component['columnSettingsService'], 'loadColumnSettings$')
       .mockReturnValue(of([]));
   });
@@ -95,6 +98,8 @@ describe('CustomerSalesPlanningGridComponent', () => {
         api: {
           setGridOption: jest.fn(),
           getSelectedRows: jest.fn(),
+          hideOverlay: jest.fn(),
+          showNoRowsOverlay: jest.fn(),
         },
       } as unknown as GridReadyEvent;
     });
@@ -108,6 +113,7 @@ describe('CustomerSalesPlanningGridComponent', () => {
         api: {
           setGridOption: jest.fn(),
           getSelectedRows: jest.fn().mockReturnValue([testCustomer2]),
+          hideOverlay: jest.fn(),
         },
       } as unknown as GridReadyEvent;
 
@@ -117,6 +123,30 @@ describe('CustomerSalesPlanningGridComponent', () => {
       const emitSpy = jest.spyOn(component['selectionChanged'], 'emit');
       component['onGridReady'](event);
       expect(emitSpy).toHaveBeenCalledWith(null);
+    });
+
+    it('should show the no data overlay when no data is loaded', () => {
+      jest
+        .spyOn(component['overviewService'], 'getDataFetchedEvent')
+        .mockReturnValue(of({ rowCount: 0, rows: [] }) as any);
+
+      component['onGridReady'](event);
+      expect(component['overlayMessage'].message).toBe('hint.noData');
+      expect(event.api.showNoRowsOverlay).toHaveBeenCalled();
+    });
+
+    it('should hide the no data overlay when there is data in the grid', () => {
+      component['onGridReady'](event);
+      expect(event.api.hideOverlay).toHaveBeenCalled();
+    });
+
+    it('should show the custom error, when the fetchErrorEvent emits an error', () => {
+      jest
+        .spyOn(component['overviewService'], 'getFetchErrorEvent')
+        .mockReturnValue(of({ message: 'too many data' }) as any);
+      component['onGridReady'](event);
+      expect(component['overlayMessage'].message).toBe('too many data');
+      expect(event.api.showNoRowsOverlay).toHaveBeenCalled();
     });
   });
 
@@ -139,27 +169,6 @@ describe('CustomerSalesPlanningGridComponent', () => {
       const testLayout = CustomerSalesPlanningLayout.PreviousToCurrent;
       component['createColumnDefsForLayout'](testLayout);
       expect(columnDefSpy).not.toHaveBeenCalledWith();
-    });
-  });
-
-  describe('onDataUpdated', () => {
-    it('should show the no data overlay when there is no data in the grid', () => {
-      const showNoRowsOverlay = jest.fn();
-      (component as any).gridApi = {
-        getDisplayedRowCount: jest.fn(() => 0),
-        showNoRowsOverlay,
-      };
-      component['onDataUpdated']();
-      expect(showNoRowsOverlay).toHaveBeenCalled();
-    });
-    it('should hide the no data overlay when there is data in the grid', () => {
-      const hideOverlay = jest.fn();
-      (component as any).gridApi = {
-        getDisplayedRowCount: jest.fn(() => 1),
-        hideOverlay,
-      };
-      component['onDataUpdated']();
-      expect(hideOverlay).toHaveBeenCalled();
     });
   });
 

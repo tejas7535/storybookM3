@@ -685,6 +685,7 @@ export class Stub {
       {
         createCustomerSalesPlanningDatasource: jest.fn(),
         getDataFetchedEvent: () => of(),
+        getFetchErrorEvent: () => of(),
       },
       'useValue'
     );
