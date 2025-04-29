@@ -422,6 +422,7 @@
       "PERIOD": "Solo de admiten números en el formato 1,000,00.",
       "rootString": "Solo se admiten números."
     },
+    "onlyValuesWithNumbers": "Sólo se admiten entradas con números",
     "save": {
       "failed": "El ahorro ha fallado"
     },

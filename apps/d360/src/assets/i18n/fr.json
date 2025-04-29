@@ -422,6 +422,7 @@
       "PERIOD": "Seules les nombres au fomat 1,000.00 sont autorisés",
       "rootString": "Seules les nombres sont autorisés"
     },
+    "onlyValuesWithNumbers": "Seules les entrées comportant des chiffres sont autorisées",
     "save": {
       "failed": "La sauvegarde a échoué"
     },

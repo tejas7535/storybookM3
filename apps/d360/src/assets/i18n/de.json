@@ -422,6 +422,7 @@
       "PERIOD": "Es sind nur Zahlen im Format 1,000.00 erlaubt.",
       "rootString": "Es sind nur Zahlen erlaubt."
     },
+    "onlyValuesWithNumbers": "Nur Einträge mit Zahlen sind erlaubt",
     "save": {
       "failed": "Speichern fehlgeschlagen"
     },

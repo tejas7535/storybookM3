@@ -422,6 +422,7 @@
       "PERIOD": "Only numbers in the format 1,000.00 are allowed.",
       "rootString": "Only numbers are allowed."
     },
+    "onlyValuesWithNumbers": "Only entries with numbers are allowed",
     "save": {
       "failed": "Saving failed"
     },

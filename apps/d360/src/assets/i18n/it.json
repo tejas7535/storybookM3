@@ -422,6 +422,7 @@
       "PERIOD": "Sono ammessi solo numeri nel formato 1.000,00",
       "rootString": "Sono ammessi solo numeri"
     },
+    "onlyValuesWithNumbers": "Sono ammesse solo voci con numeri",
     "save": {
       "failed": "Salvataggio fallito"
     },

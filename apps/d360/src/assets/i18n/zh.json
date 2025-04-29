@@ -422,6 +422,7 @@
       "PERIOD": "只允许 1.000,00 格式的数字。",
       "rootString": "只允许使用数字。"
     },
+    "onlyValuesWithNumbers": "只允许输入数字",
     "save": {
       "failed": "保存失败"
     },

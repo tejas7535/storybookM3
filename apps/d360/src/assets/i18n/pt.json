@@ -422,6 +422,7 @@
       "PERIOD": "Apenas números com formato 1,000.00 são permitidos.",
       "rootString": "Apenas números são permitidos."
     },
+    "onlyValuesWithNumbers": "Somente entradas com números são permitidas",
     "save": {
       "failed": "A economia falhou"
     },
