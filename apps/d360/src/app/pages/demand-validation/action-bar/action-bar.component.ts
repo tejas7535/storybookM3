@@ -398,7 +398,12 @@ export class ActionBarComponent implements OnInit {
 
     const errors = new Set<string>();
 
-    this.changedKPIs().kpiEntries.forEach((entry) => {
+    this.changedKPIs()?.kpiEntries.forEach((entry) => {
+      entry.validatedForecast =
+        (entry as any).validatedForecast === ''
+          ? null
+          : entry.validatedForecast;
+
       const parsed = strictlyParseLocalFloat(
         entry.validatedForecast,
         ValidationHelper.getDecimalSeparatorForActiveLocale()
