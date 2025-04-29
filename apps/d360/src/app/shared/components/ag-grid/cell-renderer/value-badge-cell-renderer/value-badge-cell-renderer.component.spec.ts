@@ -72,5 +72,53 @@ describe('ValueBadgeCellRendererComponent', () => {
 
       expect(component['showColoredBackground']()).toBe(false);
     });
+
+    it('should show the colored background when the rounded value equals the threshold', () => {
+      component['setValue']({
+        value: 94.8,
+        threshold: 95,
+      } as ICellRendererParams & {
+        threshold: number;
+      });
+
+      expect(component['value']).toBe(95);
+      expect(component['showColoredBackground']()).toBe(true);
+    });
+
+    it('should not show the colored background when the rounded value is smaller than the threshold', () => {
+      component['setValue']({
+        value: 94.2,
+        threshold: 95,
+      } as ICellRendererParams & {
+        threshold: number;
+      });
+
+      expect(component['value']).toBe(94);
+      expect(component['showColoredBackground']()).toBe(false);
+    });
+
+    it('should show the colored background when the rounded string value equals the threshold', () => {
+      component['setValue']({
+        value: '94.8',
+        threshold: 95,
+      } as ICellRendererParams & {
+        threshold: number;
+      });
+
+      expect(component['value']).toBe(95);
+      expect(component['showColoredBackground']()).toBe(true);
+    });
+
+    it('should not show the colored background when the rounded string value is smaller than the threshold', () => {
+      component['setValue']({
+        value: '94.2',
+        threshold: 95,
+      } as ICellRendererParams & {
+        threshold: number;
+      });
+
+      expect(component['value']).toBe(94);
+      expect(component['showColoredBackground']()).toBe(false);
+    });
   });
 });

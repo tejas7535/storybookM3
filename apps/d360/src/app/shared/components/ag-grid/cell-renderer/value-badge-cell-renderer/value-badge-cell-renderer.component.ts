@@ -11,15 +11,23 @@ import { AbstractBaseCellRendererComponent } from '../abstract-cell-renderer.com
   templateUrl: './value-badge-cell-renderer.component.html',
   styleUrl: './value-badge-cell-renderer.component.scss',
 })
-export class ValueBadgeCellRendererComponent extends AbstractBaseCellRendererComponent<number> {
+export class ValueBadgeCellRendererComponent extends AbstractBaseCellRendererComponent<
+  number | string
+> {
   private threshold: number;
   protected showColoredBackground: WritableSignal<boolean> =
     signal<boolean>(false);
 
   protected setValue(
-    parameters: ICellRendererParams<any, number> & { threshold?: number }
+    parameters: ICellRendererParams<any, number | string> & {
+      threshold?: number;
+    }
   ): void {
-    this.value = parameters.value;
+    this.value =
+      typeof parameters.value === 'number'
+        ? Math.round(parameters.value)
+        : Number.parseInt(String(Math.round(Number(parameters.value))), 10);
+
     this.threshold = parameters.threshold;
 
     if (this.threshold) {
