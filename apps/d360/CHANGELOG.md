@@ -1,4 +1,6 @@
 # Release Notes of Demand360
+## [3.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/d360-v2.0.4...d360-v3.0.0) (2025-04-30)
+
 ## [1.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/d360-v0.1.0...d360-v1.0.0) (2025-04-30)
 
 
