@@ -172,7 +172,28 @@
         "not_available": "Kein SAW vorhanden",
         "invalid": "SAW ist älter als {{months}} Monat{months, plural, =1 {} other {e}}"
       },
-      "approval": "Genehmigung"
+      "approval": "Genehmigung",
+      "actionMenuItems": {
+        "startProcess": "Prozess Starten",
+        "cancelProcess": "Prozess Absagen",
+        "showHistory": "Prozess Historie Anzeigen",
+        "reopenProcess": "Prozess Wiederholen"
+      },
+      "approvalProcesses": {
+        "start": {
+          "title": "Anfrage zur Wiederholkalkulation für Item {posId} senden",
+          "forwardedToLabel": "Anfrage wird weitergeleitet an:",
+          "productionPlantLabel": "Produktionswerk",
+          "productLineLabel": "Produktlinie",
+          "messageLabel": "Nachricht",
+          "messageHint": "Nachricht an Kalkulation",
+          "sendRequestButton": "Anfrage senden",
+          "cancelButton": "Abbrechen"
+        },
+        "cancel": {
+          "title": ""
+        }
+      }
     },
     "breadcrumbs": {
       "caseView": "Case Übersicht",
@@ -302,8 +323,8 @@
         "DISCONTINUED": "Material hat den Status L: Typ entfällt, Abverkauf prüfen"
       }
     },
-    "sqvCheckStatusLabels": {
-      "sqvCheckStatus": "{sqvCheckStatus,select,OPEN{Offen}IN_PROGRESS{In Bearbeitung}CONFIRMED{Bestätigt}CANCELLED{Abgesagt} other{}}"
+    "rfq4StatusLabels": {
+      "rfq4Status": "{rfq4Status,select,OPEN{Offen}IN_PROGRESS{In Bearbeitung}CONFIRMED{Bestätigt}CANCELLED{Abgesagt} other{}}"
     },
     "sqvApprovalStatusLabels": {
       "sqvApprovalStatus": "{sqvApprovalStatus,select,APPROVAL_NEEDED{Genehmige}APPROVED{Genehmigt} other{}}",
@@ -481,7 +502,8 @@
       "attachmentsUploaded": "Anhänge erfolgreich hochgeladen",
       "attachmentsDeleted": "Anhang gelöscht",
       "sharedQuotationSaved": "Dieser Case wurde in dem Reiter \"Geteilte Angebote\" gespeichert.",
-      "sharedQuotationUnsaved": "Dieser Case wurde aus dem Reiter \"Geteilte Angebote\" entfernt."
+      "sharedQuotationUnsaved": "Dieser Case wurde aus dem Reiter \"Geteilte Angebote\" entfernt.",
+      "sqvRecalculateRequestSend": "Anfrage für Wiederholkalkulation gesendet."
     },
     "maintenance": {
       "title": "Guided Quoting ist derzeit wegen Wartungsarbeiten nicht verfügbar"

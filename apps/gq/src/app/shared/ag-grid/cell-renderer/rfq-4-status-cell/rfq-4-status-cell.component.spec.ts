@@ -1,19 +1,19 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { SqvCheckStatus } from '@gq/shared/models/quotation-detail/cost';
+import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { SqvCheckStatusCellComponent } from './sqv-check-status-cell.component';
+import { Rfq4StatusCellComponent } from './rfq-4-status-cell.component';
 
 describe('SqvCheckStatusCellComponent', () => {
-  let component: SqvCheckStatusCellComponent;
-  let spectator: Spectator<SqvCheckStatusCellComponent>;
+  let component: Rfq4StatusCellComponent;
+  let spectator: Spectator<Rfq4StatusCellComponent>;
 
   const createComponent = createComponentFactory({
-    component: SqvCheckStatusCellComponent,
+    component: Rfq4StatusCellComponent,
     imports: [provideTranslocoTestingModule({ en: {} })],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
@@ -36,7 +36,7 @@ describe('SqvCheckStatusCellComponent', () => {
 
     test('should set value from Params', () => {
       component.agInit(cellParams);
-      expect(component['sqvCheckStatus']).toBe('OPEN');
+      expect(component['rfq4Status']).toBe('OPEN');
     });
     test('should set the tagType based on the status', () => {
       component.agInit(cellParams);
@@ -46,25 +46,23 @@ describe('SqvCheckStatusCellComponent', () => {
 
   describe('getTagTypeByStatus', () => {
     test('should return neutral for OPEN status', () => {
-      expect(component['getTagTypeByStatus'](SqvCheckStatus.OPEN)).toBe(
-        'neutral'
-      );
+      expect(component['getTagTypeByStatus'](Rfq4Status.OPEN)).toBe('neutral');
     });
 
     test('should return error for CANCELLED status', () => {
-      expect(component['getTagTypeByStatus'](SqvCheckStatus.CANCELLED)).toBe(
+      expect(component['getTagTypeByStatus'](Rfq4Status.CANCELLED)).toBe(
         'error'
       );
     });
 
     test('should return success for CONFIRMED status', () => {
-      expect(component['getTagTypeByStatus'](SqvCheckStatus.CONFIRMED)).toBe(
+      expect(component['getTagTypeByStatus'](Rfq4Status.CONFIRMED)).toBe(
         'success'
       );
     });
 
     test('should return warning for IN_PROGRESS status', () => {
-      expect(component['getTagTypeByStatus'](SqvCheckStatus.IN_PROGRESS)).toBe(
+      expect(component['getTagTypeByStatus'](Rfq4Status.IN_PROGRESS)).toBe(
         'warning'
       );
     });

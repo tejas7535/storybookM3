@@ -1,0 +1,38 @@
+<ng-container
+  *ngrxLet="
+    findCalculatorsLoading$ || sendRecalculationRequestLoading$;
+    let dataLoading
+  "
+>
+  <div class="flex h-full flex-col gap-6">
+    <gq-dialog-header
+      [title]="title"
+      (closeDialog)="closeDialog()"
+    ></gq-dialog-header>
+    @if (dataLoading) {
+      <schaeffler-loading-spinner
+        class="h-full"
+        backgroundColor="rgba(255,255,255, 0.1)"
+        [relative]="true"
+      ></schaeffler-loading-spinner>
+    } @else {
+      <!-- decide which component to show. Every Component has it's own Logic and handles it themselves-->
+      @switch (modalData.process) {
+        @case (processEnum.START) {
+          <!--depending if calculators could be found or not-->
+          @if ((calculators$ | ngrxPush)?.length > 0) {
+            <gq-start-process
+              [modalData]="modalData"
+              (cancelProcess)="closeDialog()"
+            ></gq-start-process>
+          } @else {
+            <p class="text-error">No Calculator found. Sent this Cool email</p>
+          }
+        }
+        @default {
+          <p class="text-error">process not yet implemented</p>
+        }
+      }
+    }
+  </div>
+</ng-container>

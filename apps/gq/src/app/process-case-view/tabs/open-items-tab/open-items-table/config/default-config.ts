@@ -15,5 +15,5 @@ export const DEFAULT_COL_DEF: ColDef = {
 };
 
 export const GRID_OPTIONS: GridOptions = {
-  suppressMovableColumns: true,
+  suppressDragLeaveHidesColumns: true,
 };

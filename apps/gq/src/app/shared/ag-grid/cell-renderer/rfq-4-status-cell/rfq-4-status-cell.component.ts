@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { SqvCheckStatus } from '@gq/shared/models/quotation-detail/cost';
+import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
 import { TagType } from '@gq/shared/models/tag-type.enum';
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
@@ -8,32 +8,32 @@ import { TagComponent } from '@schaeffler/tag';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
-  selector: 'gq-sqv-check-status-cell',
-  templateUrl: './sqv-check-status-cell.component.html',
+  selector: 'gq-rfq-4-status-cell',
+  templateUrl: './rfq-4-status-cell.component.html',
   standalone: true,
   imports: [TagComponent, SharedTranslocoModule],
 })
-export class SqvCheckStatusCellComponent {
+export class Rfq4StatusCellComponent {
   protected tagType: TagType;
-  protected sqvCheckStatus: SqvCheckStatus;
+  protected rfq4Status: Rfq4Status;
 
   agInit(params: ICellRendererParams): void {
-    this.sqvCheckStatus = params.value;
-    this.tagType = this.getTagTypeByStatus(this.sqvCheckStatus);
+    this.rfq4Status = params.value;
+    this.tagType = this.getTagTypeByStatus(this.rfq4Status);
   }
 
-  private getTagTypeByStatus(status: SqvCheckStatus): TagType {
+  private getTagTypeByStatus(status: Rfq4Status): TagType {
     switch (status) {
-      case SqvCheckStatus.OPEN: {
+      case Rfq4Status.OPEN: {
         return TagType.NEUTRAL;
       }
-      case SqvCheckStatus.CANCELLED: {
+      case Rfq4Status.CANCELLED: {
         return TagType.ERROR;
       }
-      case SqvCheckStatus.CONFIRMED: {
+      case Rfq4Status.CONFIRMED: {
         return TagType.SUCCESS;
       }
-      case SqvCheckStatus.IN_PROGRESS: {
+      case Rfq4Status.IN_PROGRESS: {
         return TagType.WARNING;
       }
       default: {

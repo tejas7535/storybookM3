@@ -6,6 +6,6 @@ import { SqvCheckSource } from '../../../../../app/shared/models/quotation-detai
 export const QUOTATION_DETAIL_COSTS_MOCK: QuotationDetailCosts = {
   sqvCheckResult: 1,
   sqvCheckSource: SqvCheckSource.RELOCATION,
-  sqvRecalculationReason: RecalculationReasons.VALID,
+  sqvCheckStatus: RecalculationReasons.VALID,
   sqvRecalculationValue: undefined,
 };

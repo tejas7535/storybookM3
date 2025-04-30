@@ -33,7 +33,7 @@ describe('columnDefinitionService for openItems Table', () => {
         const valueGetterParams = {
           data: {
             detailCosts: {
-              sqvRecalculationReason: RecalculationReasons.NOT_AVAILABLE,
+              sqvCheckStatus: RecalculationReasons.NOT_AVAILABLE,
             },
           },
         } as ValueGetterParams;
@@ -46,7 +46,7 @@ describe('columnDefinitionService for openItems Table', () => {
         const valueGetterParams = {
           data: {
             detailCosts: {
-              sqvRecalculationReason: RecalculationReasons.INVALID,
+              sqvCheckStatus: RecalculationReasons.INVALID,
               sqvRecalculationValue: 3,
             },
           },

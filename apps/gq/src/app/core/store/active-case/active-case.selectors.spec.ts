@@ -398,7 +398,7 @@ describe('Active Case Selectors', () => {
             quotationDetails: [
               {
                 detailCosts: {
-                  sqvRecalculationReason: RecalculationReasons.INVALID,
+                  sqvCheckStatus: RecalculationReasons.INVALID,
                 },
               } as QuotationDetail,
             ],

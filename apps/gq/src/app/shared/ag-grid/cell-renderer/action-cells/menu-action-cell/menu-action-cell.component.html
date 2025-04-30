@@ -1,0 +1,17 @@
+<button mat-icon-button [matMenuTriggerFor]="menu" [disabled]="menuDisabled">
+  <mat-icon [class.text-icon-inactive]="!menuDisabled">more_vert</mat-icon>
+</button>
+<mat-menu #menu="matMenu" class="action-menu">
+  @for (item of menuItems; track item) {
+    <button
+      mat-menu-item
+      class="text-subtitle-1"
+      [ngClass]="item.classes"
+      [disabled]="item.disabled"
+      (click)="item.onClick()"
+      class="{{ item.classes }}"
+    >
+      {{ item.caption }}
+    </button>
+  }
+</mat-menu>

@@ -172,7 +172,28 @@
         "not_available": "No SQV is available",
         "invalid": "SQV is older than {{months}} month{months, plural, =1 {} other {s}}"
       },
-      "approval": "Approval"
+      "approval": "Approval",
+      "actionMenuItems": {
+        "startProcess": "Start Process",
+        "cancelProcess": "Cancel Process",
+        "showHistory": "Show Process History",
+        "reopenProcess": "Reopen Process"
+      },
+      "approvalProcesses": {
+        "start": {
+          "title": "Send Recalculation Request for Item {posId}",
+          "forwardedToLabel": "Request will be forwarded to:",
+          "productionPlantLabel": "Production Plant",
+          "productLineLabel": "Product Line",
+          "messageLabel": "Message",
+          "messageHint": "Message for Calculation",
+          "sendRequestButton": "Send Request",
+          "cancelButton": "Cancel"
+        },
+        "cancel": {
+          "title": ""
+        }
+      }
     },
     "breadcrumbs": {
       "caseView": "Quotation Cases",
@@ -302,8 +323,8 @@
         "DISCONTINUED": "Material with status L: Type discontinued, check sales availability"
       }
     },
-    "sqvCheckStatusLabels": {
-      "sqvCheckStatus": "{sqvCheckStatus,select,OPEN{Open}IN_PROGRESS{In Progress}CONFIRMED{Confirmed}CANCELLED{Cancelled} other{}}"
+    "rfq4StatusLabels": {
+      "rfq4Status": "{rfq4Status,select,OPEN{Open}IN_PROGRESS{In Progress}CONFIRMED{Confirmed}CANCELLED{Cancelled} other{}}"
     },
     "sqvApprovalStatusLabels": {
       "sqvApprovalStatus": "{sqvApprovalStatus,select,APPROVAL_NEEDED{Approve}APPROVED{Approved} other{}}",
@@ -481,7 +502,8 @@
       "attachmentsUploaded": "Attachments uploaded successfully",
       "attachmentsDeleted": "Attachment deleted",
       "sharedQuotationSaved": "This case was saved to the \"Shared Cases\" tab.",
-      "sharedQuotationUnsaved": "This case was removed from the \"Shared Cases\" tab."
+      "sharedQuotationUnsaved": "This case was removed from the \"Shared Cases\" tab.",
+      "sqvRecalculateRequestSend": "Recalculation Request send."
     },
     "maintenance": {
       "title": "Guided Quoting is currently down for maintenance"

@@ -1,4 +1,4 @@
-export enum SqvCheckStatus {
+export enum Rfq4Status {
   OPEN = 'OPEN',
   IN_PROGRESS = 'IN_PROGRESS',
   CONFIRMED = 'CONFIRMED',

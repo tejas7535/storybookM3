@@ -10,4 +10,9 @@
   [gridOptions]="gridOptions"
   [rowData]="rowData$ | ngrxPush"
   [getContextMenuItems]="getContextMenuItems.bind(this)"
+  (gridReady)="onGridReady($event)"
+  (columnMoved)="onColumnChange($event)"
+  (sortChanged)="onColumnChange($event)"
+  (columnResized)="onColumnChange($event)"
+  (columnPinned)="onColumnChange($event)"
 ></ag-grid-angular>

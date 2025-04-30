@@ -1,13 +1,13 @@
 import { RecalculationReasons } from './recalculation-reasons.enum';
+import { Rfq4Status } from './rfq-4-status.enum';
 import { SqvApprovalStatus } from './sqv-approval-status.enum';
 import { SqvCheckSource } from './sqv-check-source.enum';
-import { SqvCheckStatus } from './sqv-check-status.enum';
 
 export class QuotationDetailCosts {
   public sqvCheckResult?: number;
   public sqvCheckSource?: SqvCheckSource;
-  public sqvRecalculationReason?: RecalculationReasons;
+  public sqvCheckStatus?: RecalculationReasons;
   public sqvRecalculationValue?: number;
-  public sqvCheckStatus?: SqvCheckStatus;
+  public rfq4Status?: Rfq4Status;
   public sqvApprovalStatus?: SqvApprovalStatus;
 }
