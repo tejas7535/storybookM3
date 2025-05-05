@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { Rfq4ProcessFacade } from '@gq/core/store/rfq-4-process/rfq-4-process.facade';
 import { Rfq4ProcessModule } from '@gq/core/store/rfq-4-process/rfq-4-process.module';
@@ -14,6 +15,7 @@ import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
+import { CalculatorMissingComponent } from '../calculator-missing/calculator-missing.component';
 import { ApprovalProcessAction } from '../models/approval-process-action.enum';
 import { ProcessesModalDialogData } from '../models/processes-modal-dialog-data.interface';
 import { StartProcessComponent } from '../start-process/start-process.component';
@@ -25,6 +27,7 @@ import { StartProcessComponent } from '../start-process/start-process.component'
     CommonModule,
     DialogHeaderModule,
     StartProcessComponent,
+    CalculatorMissingComponent,
     PushPipe,
     LetDirective,
     LoadingSpinnerModule,
@@ -36,10 +39,11 @@ export class ProcessesModalWrapperComponent implements OnInit {
     inject(Rfq4ProcessFacade);
   private readonly dialogRef: MatDialogRef<ProcessesModalWrapperComponent> =
     inject(MatDialogRef);
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   processEnum: typeof ApprovalProcessAction = ApprovalProcessAction;
   modalData: ProcessesModalDialogData = inject(MAT_DIALOG_DATA);
-  title: string = this.getTitle(this.modalData.quotationDetail);
+  title = '';
 
   findCalculatorsLoading$: Observable<boolean> =
     this.rfq4ProcessesFacade.findCalculatorsLoading$;
@@ -53,6 +57,9 @@ export class ProcessesModalWrapperComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.modalData.process = ApprovalProcessAction.START;
+    this.getTitle(this.modalData.quotationDetail);
+
     switch (this.modalData.process) {
       case ApprovalProcessAction.START: {
         this.rfq4ProcessesFacade.findCalculators(
@@ -64,17 +71,28 @@ export class ProcessesModalWrapperComponent implements OnInit {
     }
   }
 
-  private getTitle(quotationDetail: QuotationDetail): string {
+  private getTitle(quotationDetail: QuotationDetail): void {
     switch (quotationDetail.detailCosts?.rfq4Status) {
       case Rfq4Status.OPEN: {
-        return translate(
-          'shared.openItemsTable.approvalProcesses.start.title',
-          { posId: quotationDetail.quotationItemId }
-        );
+        this.calculators$
+          .pipe(
+            takeUntilDestroyed(this.destroyRef),
+            map((calculators: string[]) => {
+              this.title =
+                calculators.length > 0
+                  ? translate(
+                      'shared.openItemsTable.approvalProcesses.start.title',
+                      { posId: quotationDetail.quotationItemId }
+                    )
+                  : translate(
+                      'shared.openItemsTable.approvalProcesses.calculatorMissing.title',
+                      { posId: quotationDetail.quotationItemId }
+                    );
+            })
+          )
+          .subscribe();
       }
       // no default
     }
-
-    return '';
   }
 }

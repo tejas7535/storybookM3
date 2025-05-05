@@ -55,6 +55,26 @@ describe('Rfq4Service', () => {
       req.flush(expectedResponse);
     });
 
+    test('getSapMaintainers', () => {
+      const expectedResponse = {
+        processVariables: {
+          sapMaintainers: ['Maintainer1', 'Maintainer2'],
+        },
+      };
+
+      service.getSapMaintainers().subscribe((response) => {
+        expect(response).toEqual(
+          expectedResponse.processVariables.sapMaintainers
+        );
+      });
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${Rfq4PathsEnum.RFQ4_PATH_GET_SAP_MAINTAINERS}`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(expectedResponse);
+    });
+
     test('recalculateSqv', () => {
       const gqPositionId = '12345';
       const message = 'Recalculate SQV';

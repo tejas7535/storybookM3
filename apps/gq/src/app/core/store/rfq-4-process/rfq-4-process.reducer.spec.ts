@@ -14,6 +14,9 @@ describe('rfq4ProcessFeature.reducer', () => {
     findCalculatorsLoading: false,
     sendRecalculateSqvRequestLoading: false,
     foundCalculators: [],
+    sapMaintainers: [],
+    sapMaintainersLoading: false,
+    sendEmailRequestToMaintainCalculatorsLoading: false,
   };
 
   const gqPositionId = '1245';
@@ -34,6 +37,7 @@ describe('rfq4ProcessFeature.reducer', () => {
       };
 
       const action = Rfq4ProcessActions.findCalculatorsSuccess({
+        gqPositionId,
         foundCalculators,
       });
       const state = rfq4ProcessFeature.reducer(fakeState, action);
@@ -91,6 +95,86 @@ describe('rfq4ProcessFeature.reducer', () => {
       const state = rfq4ProcessFeature.reducer(rfq4ProcessesMock, action);
 
       expect(state.sendRecalculateSqvRequestLoading).toEqual(false);
+    });
+  });
+
+  describe('getSapMaintainerUserIds', () => {
+    test('should set sapMaintainersLoading to true', () => {
+      const action = Rfq4ProcessActions.getSapMaintainerUserIds();
+      const state = rfq4ProcessFeature.reducer(rfq4ProcessesMock, action);
+
+      expect(state.sapMaintainersLoading).toEqual(true);
+    });
+    test('should set sapMaintainersLoading to false when error', () => {
+      const action = Rfq4ProcessActions.getSapMaintainerUserIdsError({
+        error: 'an Error',
+      });
+      const state = rfq4ProcessFeature.reducer(rfq4ProcessesMock, action);
+
+      expect(state.sapMaintainersLoading).toEqual(false);
+    });
+  });
+  describe('getActiveDirectoryUserOfSapMaintainerUserIds', () => {
+    test('should set sapMaintainersLoading to false', () => {
+      const action =
+        Rfq4ProcessActions.getActiveDirectoryUserOfSapMaintainerUserIdsSuccess({
+          maintainers: [
+            {
+              userId: 'userId',
+              firstName: 'firstName',
+              lastName: 'lastName',
+              mail: 'mail',
+            },
+          ],
+        });
+      const state = rfq4ProcessFeature.reducer(rfq4ProcessesMock, action);
+
+      expect(state.sapMaintainersLoading).toEqual(false);
+    });
+    test('should set sapMaintainersLoading to false and set sapMaintainers', () => {
+      const action =
+        Rfq4ProcessActions.getActiveDirectoryUserOfSapMaintainerUserIdsSuccess({
+          maintainers: [
+            {
+              userId: 'userId',
+              firstName: 'firstName',
+              lastName: 'lastName',
+              mail: 'mail',
+            },
+          ],
+        });
+      const state = rfq4ProcessFeature.reducer(
+        {
+          ...rfq4ProcessesMock,
+          sapMaintainers: [
+            {
+              userId: 'userId',
+              firstName: null as string,
+              lastName: null as string,
+              mail: null as string,
+            },
+          ],
+        },
+        action
+      );
+
+      expect(state.sapMaintainers).toEqual([
+        {
+          userId: 'userId',
+          firstName: 'firstName',
+          lastName: 'lastName',
+          mail: 'mail',
+        },
+      ]);
+    });
+    test('should set sapMaintainersLoading to false when error', () => {
+      const action =
+        Rfq4ProcessActions.getActiveDirectoryUserOfSapMaintainerUserIdsError({
+          error: 'an Error',
+        });
+      const state = rfq4ProcessFeature.reducer(rfq4ProcessesMock, action);
+
+      expect(state.sapMaintainersLoading).toEqual(false);
     });
   });
 

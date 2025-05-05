@@ -26,7 +26,11 @@
               (cancelProcess)="closeDialog()"
             ></gq-start-process>
           } @else {
-            <p class="text-error">No Calculator found. Sent this Cool email</p>
+            <gq-calculator-missing
+              [modalData]="modalData"
+              (cancelProcess)="closeDialog()"
+            >
+            </gq-calculator-missing>
           }
         }
         @default {

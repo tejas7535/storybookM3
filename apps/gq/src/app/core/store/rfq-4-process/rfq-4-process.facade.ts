@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { ActiveDirectoryUser, QuotationDetail } from '@gq/shared/models';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
@@ -28,6 +29,12 @@ export class Rfq4ProcessFacade {
   sendRecalculateSqvSuccess$: Observable<void> = this.actions$.pipe(
     ofType(Rfq4ProcessActions.sendRecalculateSqvRequestSuccess)
   );
+  getMaintainersLoading$: Observable<boolean> = this.store.select(
+    rfq4ProcessFeature.selectSapMaintainersLoading
+  );
+  maintainers$: Observable<ActiveDirectoryUser[]> = this.store.select(
+    rfq4ProcessFeature.selectSapMaintainers
+  );
 
   // ########################################################
   // ###################  methods  ##########################
@@ -46,6 +53,19 @@ export class Rfq4ProcessFacade {
       Rfq4ProcessActions.sendRecalculateSqvRequest({
         gqPositionId,
         message,
+      })
+    );
+  }
+  getSapMaintainers(): void {
+    this.store.dispatch(Rfq4ProcessActions.getSapMaintainerUserIds());
+  }
+
+  sendEmailRequestToMaintainCalculators(
+    quotationDetail: QuotationDetail
+  ): void {
+    this.store.dispatch(
+      Rfq4ProcessActions.sendEmailRequestToMaintainCalculators({
+        quotationDetail,
       })
     );
   }

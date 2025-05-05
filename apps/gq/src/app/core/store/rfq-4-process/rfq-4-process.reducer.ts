@@ -1,3 +1,4 @@
+import { ActiveDirectoryUser } from '@gq/shared/models/user.model';
 import {
   ActionCreator,
   createFeature,
@@ -16,6 +17,9 @@ export interface Rfq4ProcessState {
   findCalculatorsLoading: boolean;
   sendRecalculateSqvRequestLoading: boolean;
   foundCalculators: string[];
+  sapMaintainersLoading: boolean;
+  sapMaintainers: ActiveDirectoryUser[];
+  sendEmailRequestToMaintainCalculatorsLoading: boolean;
 }
 
 export const initialState: Rfq4ProcessState = {
@@ -24,6 +28,9 @@ export const initialState: Rfq4ProcessState = {
   findCalculatorsLoading: false,
   sendRecalculateSqvRequestLoading: false,
   foundCalculators: [],
+  sapMaintainers: [],
+  sapMaintainersLoading: false,
+  sendEmailRequestToMaintainCalculatorsLoading: false,
 };
 
 export const rfq4ProcessFeature = createFeature({
@@ -86,6 +93,69 @@ export const rfq4ProcessFeature = createFeature({
         ...state,
         gqPositionId: undefined,
         sendRecalculateSqvRequestLoading: false,
+      })
+    ),
+    on(
+      Rfq4ProcessActions.getSapMaintainerUserIds,
+      (state): Rfq4ProcessState => ({
+        ...state,
+        sapMaintainersLoading: true,
+      })
+    ),
+    on(
+      Rfq4ProcessActions.getSapMaintainerUserIdsSuccess,
+      (state, { maintainerUserIds }): Rfq4ProcessState => ({
+        ...state,
+        sapMaintainers: maintainerUserIds.map((maintainer) => ({
+          userId: maintainer,
+          firstName: null as string,
+          lastName: null as string,
+          mail: null as string,
+        })),
+        // maintainers loading stays true
+        // activeDirectory userInfo will be requested afterwards
+        sapMaintainersLoading: true,
+      })
+    ),
+    on(
+      Rfq4ProcessActions.getSapMaintainerUserIdsError,
+      (state): Rfq4ProcessState => ({
+        ...state,
+        sapMaintainersLoading: false,
+        sapMaintainers: [],
+      })
+    ),
+    on(
+      Rfq4ProcessActions.getActiveDirectoryUserOfSapMaintainerUserIdsSuccess,
+      (state, { maintainers }): Rfq4ProcessState => ({
+        ...state,
+        sapMaintainersLoading: false,
+        // update data of maintainers that are already stored
+        sapMaintainers: state.sapMaintainers.map((maintainer) => {
+          const foundMaintainer = maintainers.find(
+            (m) => m.userId.toLowerCase() === maintainer.userId.toLowerCase()
+          );
+          // if found, merge the data
+          // if not found, return the original maintainer
+
+          return foundMaintainer
+            ? { ...maintainer, ...foundMaintainer }
+            : maintainer;
+        }),
+      })
+    ),
+    on(
+      Rfq4ProcessActions.getActiveDirectoryUserOfSapMaintainerUserIdsError,
+      (state): Rfq4ProcessState => ({
+        ...state,
+        sapMaintainersLoading: false,
+      })
+    ),
+    on(
+      Rfq4ProcessActions.clearSapMaintainers,
+      (state): Rfq4ProcessState => ({
+        ...state,
+        sapMaintainers: [],
       })
     )
   ),

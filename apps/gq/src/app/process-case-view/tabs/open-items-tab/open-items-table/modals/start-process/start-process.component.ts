@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, InputSignal, output } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
@@ -11,6 +10,7 @@ import { PushPipe } from '@ngrx/component';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { ModalFooterComponent } from '../modal-footer/modal-footer.component';
 import { ProcessesModalDialogData } from '../models/processes-modal-dialog-data.interface';
 
 @Component({
@@ -21,9 +21,10 @@ import { ProcessesModalDialogData } from '../models/processes-modal-dialog-data.
     ReactiveFormsModule,
     MatInputModule,
     SharedTranslocoModule,
-    MatButtonModule,
     LoadingSpinnerModule,
     CommonModule,
+    PushPipe,
+    ModalFooterComponent,
     PushPipe,
   ],
 })

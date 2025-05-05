@@ -1,3 +1,4 @@
+import { ActiveDirectoryUser, QuotationDetail } from '@gq/shared/models';
 import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
@@ -6,6 +7,7 @@ export const Rfq4ProcessActions = createActionGroup({
   events: {
     'find calculators': props<{ gqPositionId: string }>(),
     'find calculators success': props<{
+      gqPositionId: string;
       foundCalculators: string[];
     }>(),
     'find calculators error': props<{ gqPositionId: string; error: string }>(),
@@ -21,6 +23,25 @@ export const Rfq4ProcessActions = createActionGroup({
     }>(),
     'send recalculate sqv request error': props<{
       error: string;
+    }>(),
+
+    'get sap maintainer user Ids': emptyProps(),
+    'get sap maintainer user Ids success': props<{
+      maintainerUserIds: string[];
+    }>(),
+    'get sap maintainer user Ids error': props<{
+      error: string;
+    }>(),
+    'get active directory user of sap maintainer user ids success': props<{
+      maintainers: ActiveDirectoryUser[];
+    }>(),
+    'get active directory user of sap maintainer user ids error': props<{
+      error: string;
+    }>(),
+    'clear sap maintainers': emptyProps(),
+
+    'send email request to maintain calculators': props<{
+      quotationDetail: QuotationDetail;
     }>(),
   },
 });

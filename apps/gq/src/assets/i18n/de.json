@@ -192,6 +192,12 @@
         },
         "cancel": {
           "title": ""
+        },
+        "calculatorMissing": {
+          "title": "Kein Kalkulator gefunden für Position {posId}",
+          "text": "Benachrichtige {personA} und {personB}, den zuständigen Kalkulator in SAP hinzuzufügen.",
+          "cancelButton": "Abbrechen",
+          "sendMailButton": "E-Mail senden"
         }
       }
     },

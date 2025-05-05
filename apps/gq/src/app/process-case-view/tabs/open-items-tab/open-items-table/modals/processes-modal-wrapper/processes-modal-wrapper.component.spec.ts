@@ -20,6 +20,8 @@ import {
 } from '@ngneat/spectator/jest';
 import { MockDirective, MockModule } from 'ng-mocks';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { ApprovalProcessAction } from '../models/approval-process-action.enum';
 import { ProcessesModalWrapperComponent } from './processes-modal-wrapper.component';
 
@@ -33,6 +35,7 @@ describe('ProcessesModalFrameComponent', () => {
     imports: [
       MockModule(Rfq4ProcessModule),
       MockDirective(DragDialogDirective),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       mockProvider(Rfq4ProcessFacade, {
@@ -101,17 +104,43 @@ describe('ProcessesModalFrameComponent', () => {
   });
 
   describe('getTitle', () => {
-    test('should return the correct title for OPEN status', () => {
-      const quotationDetail: QuotationDetail = {
-        detailCosts: {
-          rfq4Status: Rfq4Status.OPEN,
-        },
-        quotationItemId: '12345',
-      } as unknown as QuotationDetail;
-      const title = component['getTitle'](quotationDetail);
-      expect(title).toBe(
-        translate('shared.openItemsTable.approvalProcesses.start.title')
-      );
+    describe('OPEN Status', () => {
+      test('should return title when calculator found', () => {
+        const quotationDetail: QuotationDetail = {
+          detailCosts: {
+            rfq4Status: Rfq4Status.OPEN,
+          },
+          quotationItemId: '12345',
+        } as unknown as QuotationDetail;
+
+        component.calculators$ = of(['Calculator1']);
+        component['getTitle'](quotationDetail);
+
+        expect(component.title).toBe(
+          translate('shared.openItemsTable.approvalProcesses.start.title', {
+            posId: '12345',
+          })
+        );
+      });
+
+      test('should return title when no calculator found', () => {
+        const quotationDetail: QuotationDetail = {
+          detailCosts: {
+            rfq4Status: Rfq4Status.OPEN,
+          },
+          quotationItemId: '12345',
+        } as unknown as QuotationDetail;
+
+        component.calculators$ = of([]);
+        component['getTitle'](quotationDetail);
+
+        expect(component.title).toBe(
+          translate(
+            'shared.openItemsTable.approvalProcesses.calculatorMissing.title',
+            { posId: '12345' }
+          )
+        );
+      });
     });
   });
 });

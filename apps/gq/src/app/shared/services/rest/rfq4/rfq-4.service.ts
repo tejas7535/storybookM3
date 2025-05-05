@@ -10,6 +10,7 @@ import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/f
 import { FindCalculatorsResponse } from './models/find-calculators-response.interface';
 import { RecalculateSqvResponse } from './models/recalculate-sqv.response.interface';
 import { Rfq4PathsEnum } from './models/rfq-4-paths.enum';
+import { SupportContactResponse } from './models/support-contacts-response.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -44,6 +45,11 @@ export class Rfq4Service {
     );
   }
 
+  getSapMaintainers(): Observable<SupportContactResponse> {
+    return this.http.get<SupportContactResponse>(
+      `${ApiVersion.V1}/${Rfq4PathsEnum.RFQ4_PATH}/${Rfq4PathsEnum.RFQ4_PATH_GET_SAP_MAINTAINERS}`
+    );
+  }
   recalculateSqv(
     gqPositionId: string,
     message: string

@@ -1,3 +1,4 @@
+import { ActiveDirectoryUser, QuotationDetail } from '@gq/shared/models';
 import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
@@ -85,6 +86,33 @@ describe('rfq4ProcessFacade', () => {
         );
       })
     );
+    test(
+      'should provide getMaintainersLoading$',
+      marbles((m) => {
+        const expected = m.cold('a', { a: false });
+        mockStore.overrideSelector(
+          rfq4ProcessFeature.selectSapMaintainersLoading,
+          false
+        );
+        m.expect(facade.getMaintainersLoading$).toBeObservable(expected);
+      })
+    );
+    test(
+      'maintainers$',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: [
+            { userId: 'maintainer1' } as ActiveDirectoryUser,
+            { userId: 'maintainer2' } as ActiveDirectoryUser,
+          ],
+        });
+        mockStore.overrideSelector(rfq4ProcessFeature.selectSapMaintainers, [
+          { userId: 'maintainer1' } as ActiveDirectoryUser,
+          { userId: 'maintainer2' } as ActiveDirectoryUser,
+        ]);
+        m.expect(facade.maintainers$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('methods', () => {
@@ -116,6 +144,29 @@ describe('rfq4ProcessFacade', () => {
         });
         const spy = jest.spyOn(mockStore, 'dispatch');
         facade.sendRecalculateSqvRequest(gqPositionId, message);
+        expect(spy).toHaveBeenCalledWith(action);
+      });
+    });
+
+    describe('getSapMaintainers', () => {
+      test('should dispatch getSapMaintainers action', () => {
+        const action = Rfq4ProcessActions.getSapMaintainerUserIds();
+        const spy = jest.spyOn(mockStore, 'dispatch');
+        facade.getSapMaintainers();
+        expect(spy).toHaveBeenCalledWith(action);
+      });
+    });
+
+    describe('sendEmailRequestToMaintainCalculators', () => {
+      test('should dispatch sendEmailRequestToMaintainCalculators', () => {
+        const quotationDetail = {} as QuotationDetail;
+        const action = Rfq4ProcessActions.sendEmailRequestToMaintainCalculators(
+          {
+            quotationDetail,
+          }
+        );
+        const spy = jest.spyOn(mockStore, 'dispatch');
+        facade.sendEmailRequestToMaintainCalculators(quotationDetail);
         expect(spy).toHaveBeenCalledWith(action);
       });
     });
