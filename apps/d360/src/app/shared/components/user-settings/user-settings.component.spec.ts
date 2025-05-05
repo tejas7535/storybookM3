@@ -169,5 +169,48 @@ describe('UserSettingsComponent', () => {
 
       expect(setValueSpy).toHaveBeenCalledWith(startPage);
     });
+
+    it('should show the current localization in the tooltip', () => {
+      const testLocale = 'en-EN';
+      const testDate = '02.05.2025';
+      const testNumber = '2,893.32';
+
+      jest.replaceProperty(
+        component['translocoLocaleService'],
+        'localeChanges$',
+        of(testLocale)
+      );
+      const localizeDateSpy = jest
+        .spyOn(component['translocoLocaleService'], 'localizeDate')
+        .mockReturnValue(testDate);
+
+      const localizeNumberSpy = jest
+        .spyOn(component['translocoLocaleService'], 'localizeNumber')
+        .mockReturnValue(testNumber);
+
+      const translateSpy = jest.spyOn(
+        component['translocoService'],
+        'translate'
+      );
+      Stub.detectChanges();
+      expect(localizeDateSpy).toHaveBeenCalledWith(
+        expect.any(Date),
+        testLocale,
+        {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+        }
+      );
+      expect(localizeNumberSpy).toHaveBeenCalledWith(
+        2893.32,
+        'decimal',
+        testLocale
+      );
+      expect(translateSpy).toHaveBeenCalledWith('drawer.localization-tooltip', {
+        date: testDate,
+        number: testNumber,
+      });
+    });
   });
 });

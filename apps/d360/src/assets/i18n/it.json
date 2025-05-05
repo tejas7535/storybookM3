@@ -381,6 +381,7 @@
       "DE_de": "Tedesco",
       "EN_en": "Inglese"
     },
+    "localization-tooltip": "Esempio di localizzazione: Date: {{date}}, Numeri: {{number}}",
     "settings": "Impostazioni",
     "user-currency-label": "Valuta",
     "user-dateformat-label": "Formato Data",

@@ -381,6 +381,7 @@
       "DE_de": "德语",
       "EN_en": "英语"
     },
+    "localization-tooltip": "本地化示例： 日期 {{date}}, 数字： {{number}}",
     "settings": "设置",
     "user-currency-label": "币种",
     "user-dateformat-label": "日期格式",

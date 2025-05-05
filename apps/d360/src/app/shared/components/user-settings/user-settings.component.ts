@@ -7,6 +7,8 @@ import {
   inject,
   OnInit,
   Signal,
+  signal,
+  WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -27,7 +29,8 @@ import {
 
 import { tap } from 'rxjs';
 
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
 import {
   LanguageSelectModule,
@@ -73,6 +76,13 @@ export class UserSettingsComponent implements OnInit {
   protected readonly appRoutes = appRoutes;
   private readonly currencyService: CurrencyService = inject(CurrencyService);
   protected readonly userService: UserService = inject(UserService);
+  private readonly translocoLocaleService: TranslocoLocaleService = inject(
+    TranslocoLocaleService
+  );
+  private readonly translocoService: TranslocoService =
+    inject(TranslocoService);
+
+  protected localizationTooltip: WritableSignal<string> = signal(null);
 
   protected currencyControl = new FormControl<SelectableValue>(
     null,
@@ -129,6 +139,32 @@ export class UserSettingsComponent implements OnInit {
             id: currency,
             text: currency,
           }));
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+
+    this.translocoLocaleService.localeChanges$
+      .pipe(
+        tap((locale: string) => {
+          this.localizationTooltip.set(
+            this.translocoService.translate('drawer.localization-tooltip', {
+              date: this.translocoLocaleService.localizeDate(
+                new Date(),
+                locale,
+                {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                }
+              ),
+              number: this.translocoLocaleService.localizeNumber(
+                2893.32,
+                'decimal',
+                locale
+              ),
+            })
+          );
         }),
         takeUntilDestroyed(this.destroyRef)
       )
