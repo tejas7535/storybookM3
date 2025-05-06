@@ -1,5 +1,6 @@
 /* eslint-disable @nx/enforce-module-boundaries */
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Meta, MetaDefinition } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 
@@ -15,6 +16,7 @@ import { Store } from '@ngrx/store';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { getBannerOpen } from '@schaeffler/banner';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import packageJson from '../../package.json';
@@ -37,6 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public cookieSettings = translate('legal.cookieSettings');
   public destroy$ = new Subject<void>();
   public appVersion = packageJson.version;
+  public isBannerOpened = toSignal(this.store.select(getBannerOpen));
 
   public footerLinks$ = new BehaviorSubject<AppShellFooterLink[]>(
     this.updateFooterLinks()

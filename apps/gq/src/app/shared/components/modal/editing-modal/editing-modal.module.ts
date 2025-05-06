@@ -10,6 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { CustomerMaterialEditingModalComponent } from '@gq/shared/components/modal/editing-modal/modals/customer-material/customer-material-editing-modal.component';
 import { TargetPriceSourcePipe } from '@gq/shared/pipes/target-price-source/target-price-source.pipe';
 import { PushPipe } from '@ngrx/component';
 
@@ -22,12 +23,12 @@ import { TargetPriceSourceSelectComponent } from '../../target-price-source-sele
 import { EditingModalWrapperComponent } from './editing-modal-wrapper/editing-modal-wrapper.component';
 import { KpiItemComponent } from './kpi-list/kpi-item/kpi-item.component';
 import { KpiListComponent } from './kpi-list/kpi-list.component';
-import { DiscountEditingModalComponent } from './modals/discount-editing-modal.component';
-import { GpiEditingModalComponent } from './modals/gpi-editing-modal.component';
-import { GpmEditingModalComponent } from './modals/gpm-editing-modal.component';
-import { PriceEditingModalComponent } from './modals/price-editing-modal.component';
-import { QuantityEditingModalComponent } from './modals/quantity-editing-modal.component';
-import { TargetPriceEditingModalComponent } from './modals/target-price-editing-modal.component';
+import { DiscountEditingModalComponent } from './modals/discount/discount-editing-modal.component';
+import { GpiEditingModalComponent } from './modals/gpi/gpi-editing-modal.component';
+import { GpmEditingModalComponent } from './modals/gpm/gpm-editing-modal.component';
+import { PriceEditingModalComponent } from './modals/price/price-editing-modal.component';
+import { QuantityEditingModalComponent } from './modals/quantity/quantity-editing-modal.component';
+import { TargetPriceEditingModalComponent } from './modals/target-price/target-price-editing-modal.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { TargetPriceEditingModalComponent } from './modals/target-price-editing-
     MatProgressSpinnerModule,
     TargetPriceSourceSelectComponent,
     TargetPriceSourcePipe,
+    CustomerMaterialEditingModalComponent,
   ],
   exports: [
     KpiListComponent,

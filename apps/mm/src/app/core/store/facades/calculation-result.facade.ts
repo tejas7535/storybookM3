@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 
+import { AXIAL_BEARINGS_RESULT_STEP } from '@mm/shared/constants/steps';
 import { Store } from '@ngrx/store';
 
 import { CalculationOptionsActions } from '../actions';
 import { CalculationResultSelector } from '../selectors';
+import { CalculationSelectionFacade } from './calculation-selection/calculation-selection.facade';
 
 @Injectable({
   providedIn: 'root',
@@ -61,9 +63,16 @@ export class CalculationResultFacade {
     CalculationResultSelector.getVersions
   );
 
-  constructor(private readonly store: Store) {}
+  constructor(
+    private readonly store: Store,
+    private readonly calculationSelectionFacade: CalculationSelectionFacade
+  ) {}
 
   calculateResultFromForm(): void {
+    this.calculationSelectionFacade.setCurrentStep(AXIAL_BEARINGS_RESULT_STEP);
+    this.store.dispatch(
+      CalculationOptionsActions.setCalculationPerformed({ performed: true })
+    );
     this.store.dispatch(CalculationOptionsActions.calculateResultFromOptions());
   }
 }

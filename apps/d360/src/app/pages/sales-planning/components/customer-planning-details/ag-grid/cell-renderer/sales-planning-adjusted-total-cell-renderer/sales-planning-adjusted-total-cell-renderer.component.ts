@@ -21,7 +21,10 @@ import {
 } from '../../../../../../../feature/sales-planning/model';
 import { SalesPlanningService } from '../../../../../../../feature/sales-planning/sales-planning.service';
 import { NumberWithoutFractionDigitsPipe } from '../../../../../../../shared/pipes/number-without-fraction-digits.pipe';
-import { sapMagicNumberValueNotConfigured } from '../../../column-definition';
+import {
+  sapMagicNumberValueNotConfigured,
+  TimeScope,
+} from '../../../column-definition';
 import { CustomerSalesPlanNumberAndPercentageEditModalComponent } from '../../../customer-sales-plan-number-and-percentage-edit-modal/customer-sales-plan-number-and-percentage-edit-modal.component';
 import { SalesPlanningEditButtonComponent } from '../../components/sales-planning-edit-button/sales-planning-edit-button.component';
 import { AbstractSalesPlanningCellRendererComponent } from '../abstract-sales-planning-cell-renderer.component';
@@ -45,6 +48,10 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
 
   private isPlanningMaterialRow: boolean;
 
+  protected parameters: ICellRendererParams<
+    DetailedCustomerSalesPlan,
+    number
+  > & { scope: TimeScope };
   private customerNumber: string;
   private planningYear: string;
   private planningMonth: string;
@@ -53,6 +60,7 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
   private planningLevelMaterialType: string;
   private planningMaterialText: string;
   private minValidationValue: number;
+  private scope: TimeScope;
   private onReloadData: () => void;
 
   /**
@@ -60,12 +68,19 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
    * @override
    */
   protected setValue(
-    parameters: ICellRendererParams<DetailedCustomerSalesPlan, number>
+    parameters: ICellRendererParams<DetailedCustomerSalesPlan, number> & {
+      scope: TimeScope;
+    }
   ): void {
     this.value = parameters.value;
+
+    // there are 2 possible cases:
+    // 1. the cell is in the first level of the tree (yearly view + collapsed monthly material)
+    // 2. the cell is in the second level of the tree (click on material)
     this.isPlanningMaterialRow =
+      parameters.node.level === 1 ||
       this.parameters.data.detailLevel ===
-      SalesPlanningDetailLevel.MonthlyAndPlanningLevelMaterialDetailLevel;
+        SalesPlanningDetailLevel.MonthlyAndPlanningLevelMaterialDetailLevel;
     this.parameters = parameters;
 
     this.onReloadData = parameters.context.reloadData;
@@ -78,6 +93,7 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
     this.planningLevelMaterialType =
       this.parameters.data.planningLevelMaterialType;
     this.planningMaterialText = this.parameters.data.planningMaterialText;
+    this.scope = this.parameters.scope;
 
     this.minValidationValue =
       this.parameters.data.firmBusiness +
@@ -91,15 +107,15 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
     this.dialog
       .open(CustomerSalesPlanNumberAndPercentageEditModalComponent, {
         data: {
-          title: this.isPlanningMaterialRow
-            ? this.getPlanningMaterialText()
-            : this.planningYear,
-          formLabel: translate(`${this.translationKeyPrefix}.yearly_total`),
+          title: this.getTitle(),
+          formLabel: translate(
+            `${this.translationKeyPrefix}.${this.scope}_total`
+          ),
           currentValueLabel: translate(
-            `${this.translationKeyPrefix}.adjusted_yearly_total`
+            `${this.translationKeyPrefix}.adjusted_${this.scope}_total`
           ),
           previousValueLabel: translate(
-            `${this.translationKeyPrefix}.previous_adjusted_yearly_total`
+            `${this.translationKeyPrefix}.previous_adjusted_${this.scope}_total`
           ),
           planningCurrency: this.planningCurrency,
           previousValue:
@@ -110,7 +126,7 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
           onSave: this.onSave(),
           inputValidatorFn: this.validateEnteredAdjustedYearlyTotal.bind(this),
           inputValidatorErrorMessage: translate(
-            `${this.translationKeyPrefix}.adjusted_yearly_total_error_message`,
+            `${this.translationKeyPrefix}.adjusted_total_error_message`,
             {
               min_value: `${this.numberWithoutFractionDigitsPipe.transform(this.minValidationValue)} ${this.planningCurrency}`,
             }
@@ -141,6 +157,41 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
         this.planningMonth,
         this.isPlanningMaterialRow ? this.planningMaterial : null
       );
+  }
+
+  /**
+   * Returns the title for the edit modal.
+   *
+   * The title is a combination of the planning year, the planning month (if applicable),
+   * and the planning material (if applicable).
+   * - The planning month is only included if the scope is monthly.
+   * - The planning material is only included if the row is a planning material row.
+   * - The title is used to provide context for the user when editing the sales plan.
+   * - The title is constructed by joining the parts with a space.
+   * - The planning month is translated using the `translateOr` function.
+   * - The planning material is formatted using the `getPlanningMaterialText` method.
+   * - The resulting title is a string that represents the context of the edit modal.
+   *
+   * @private
+   * @return {string} -  The title for the edit modal.
+   * @memberof SalesPlanningAdjustedTotalCellRendererComponent
+   */
+  private getTitle(): string {
+    const parts: string[] = [this.planningYear];
+
+    if (this.isPlanningMaterialRow) {
+      parts.push(this.getPlanningMaterialText());
+    }
+
+    if (this.scope === TimeScope.Monthly) {
+      parts.splice(
+        1,
+        0,
+        translate(`sales_planning.table.months.${this.planningMonth}`)
+      );
+    }
+
+    return parts.join(' ').replaceAll('  ', ' ').trim();
   }
 
   private onSave() {

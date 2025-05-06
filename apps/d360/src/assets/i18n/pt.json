@@ -234,9 +234,9 @@
           "PHASE-OUT": "Eliminação gradual da combinação básica",
           "REACTIVATION": "Ativar a combinação de base",
           "SUBSTITUTION": "Substituir a combinação de bases",
+          "SUBSTITUTION-REVERT": "Desfazer substituição",
           "SUBSTITUTION_PROPOSAL": "Proposta de substituição de controle",
-          "SUBSTITUTION_TO_SCHAEFFLER": "Mudança para o sucessor da Schaeffler",
-          "SUBSTITUTION-REVERT": "Desfazer substituição"
+          "SUBSTITUTION_TO_SCHAEFFLER": "Mudança para o sucessor da Schaeffler"
         },
         "change_to_schaeffler": {
           "hint": "Observação: Não é possível desfazer a substituição inicial a pedido do cliente devido aos sucessores da Schaeffler.",
@@ -264,6 +264,14 @@
             "add_material": "Atenção, o material não está incluído no portfólio do cliente. Ele deve ser adicionado?"
           }
         }
+      }
+    }
+  },
+  "customer-material-portfolio": {
+    "upload_modal": {
+      "modal": {
+        "demand_type": "Imagem de demanda (série/sporadic)",
+        "phase_in": "Data de início da fase"
       }
     }
   },
@@ -363,14 +371,6 @@
       "expandAll": "desdobrar"
     }
   },
-  "customer-material-portfolio": {
-    "upload_modal": {
-      "modal": {
-        "demand_type": "Imagem de demanda (série/sporadic)",
-        "phase_in": "Data de início da fase"
-      }
-    }
-  },
   "demand_characteristics": {
     "SE": "Série",
     "SP": "Sporadic"
@@ -381,6 +381,7 @@
       "DE_de": "Alemão",
       "EN_en": "Inglês"
     },
+    "localization-tooltip": "Exemplo de localização: Dates: {{date}}, Números: {{number}}",
     "settings": "Configurações",
     "user-currency-label": "Moeda",
     "user-dateformat-label": "Formato de data",
@@ -411,7 +412,7 @@
     "no_department": "Nenhum departamento",
     "no_family_name": "Sem nome de família",
     "no_given_name": "Nenhum nome dado",
-    "not_valid": "O seguinte valor não é válido:",
+    "not_valid": "O seguinte valor não é válido: {{formattedValue}}",
     "notValidCustomerNumber": "{{formattedValue}} não é um número de cliente válido.",
     "notValidGkamNumber": "{{formattedValue}} não é um número válido.",
     "notValidMaterialNumber": "{{formattedValue}} não é um número de material válido.",
@@ -422,6 +423,7 @@
       "PERIOD": "Apenas números com formato 1,000.00 são permitidos.",
       "rootString": "Apenas números são permitidos."
     },
+    "onlyValuesWithNumbers": "Somente entradas com números são permitidas",
     "save": {
       "failed": "A economia falhou"
     },
@@ -778,7 +780,36 @@
   },
   "overview": {
     "filter": {
-      "customer": "Cliente / Account"
+      "customer": "Cliente / Account",
+      "dataSelection": "Seleção de dados"
+    },
+    "yourCustomer": {
+      "assignedToYou": "somente atribuído a mim",
+      "grid": {
+        "customerName": "Nome do cliente",
+        "customerNumber": "Número do cliente",
+        "demandPlannedCurrentYear": "Demanda planejada (AN)",
+        "demandPlannedNextYear": "Demanda planejada (AN)",
+        "deviationToCurrentYear": "Desvio em relação ao AN",
+        "deviationToPreviousYear": "Desvio em relação ao AN",
+        "firmBusinessCurrentYear": "Firm Business (AN)",
+        "firmBusinessNextYear": "Firm Business (AN)",
+        "firmBusinessPreviousYear": "Firm Business (NO)",
+        "headline": "KPIs de planejamento relevantes",
+        "jumpToFunction": "Ir para a função... com o cliente",
+        "lastChangeDate": "Última data de alteração",
+        "lastPlannedBy": "Última planejamento por",
+        "salesPlannedCurrentYear": "Vendas planejadas (AN)",
+        "salesPlannedNextYear": "Vendas planejadas (AN)",
+        "yearlyTotalCurrentYear": "Total Anual (AN)",
+        "yearlyTotalNextYear": "Total Anual (AN)"
+      },
+      "headline": "Seu cliente",
+      "layout": {
+        "currentToNext": "Do ano atual para o próximo ano",
+        "label": "Layout",
+        "previousToCurrent": "Do ano anterior ao ano atual"
+      }
     },
     "yourTasks": {
       "gridHeadline": "To-Dos",
@@ -794,9 +825,9 @@
   "paste_from_clipboard": "Colar da área de transferência",
   "planing_type": {
     "title": {
-      "yearlyTotal": "Total Anual",
       "CONFIRMED": "Constrained",
-      "REQUESTED": "Unconstrained"
+      "REQUESTED": "Unconstrained",
+      "yearlyTotal": "Total Anual (Valor Faturado)"
     }
   },
   "privacy_policy_page": {
@@ -827,6 +858,25 @@
     "threshold3Description": "Descrição Parâmetro 3"
   },
   "sales_planning": {
+    "changeHistory": {
+      "changeHistoryTypes": {
+        "D": "Delete",
+        "I": "Insert",
+        "U": "Update"
+      },
+      "columnHeadlines": {
+        "changedByUserId": "Alterar UserID",
+        "changedByUserName": "Alterar usuário",
+        "changeTimestamp": "Carimbo de data/hora da alteração",
+        "changeType": "Tipo de alteração",
+        "materialDescription": "Descrição do material",
+        "materialTypeLevel": "Nível do material",
+        "planningMonth": "Mês",
+        "planningYear": "Ano",
+        "valueNew": "Valor novo",
+        "valueOld": "Valor antigo"
+      }
+    },
     "customer": "Cliente",
     "customer_info_modal": {
       "accountOwner": "Gerente de conta",
@@ -850,14 +900,17 @@
       "change_history": "Histórico de mudanças",
       "edit_modal": {
         "absolute": "Absoluto",
+        "adjusted_monthly_total": "Total mensal ajustado",
+        "adjusted_total_error_message": "A sua entrada está abaixo do limite mínimo de {{min_value}}",
         "adjusted_yearly_total": "Total Anual ajustado",
-        "adjusted_yearly_total_error_message": "A sua entrada está abaixo do limite mínimo de {{min_value}}",
         "cashDiscount": "Descontos financeiros",
         "daily_rolling_sales_plan": "Plano de Vendas",
         "for": "para",
+        "monthly_total": "Total mensal",
         "otherRevenues": "Outras receitas",
         "percentage_change": "Mudança em %",
         "percentage_change_hint": "Para mudanças negativas, preceda com um sinal de menos (-)",
+        "previous_adjusted_monthly_total": "Total mensal ajustado anterior",
         "previous_adjusted_yearly_total": "Total Anual ajustado anterior",
         "previous_cashDiscount": "Descontos financeiros anteriores",
         "previous_daily_rolling_sales_plan": "Plano de Vendas anterior",
@@ -902,7 +955,8 @@
       "calculatedSpShare": "Quota de SP Calculada %",
       "cashDiscount": "Descontos à Vista (em %)",
       "deliveriesAcrossYears": "Entregas ao longo dos Anos",
-      "firmBusiness": "Firm Business (Unc)",
+      "editSalesPlanAllowed": "Edição do plano de vendas permitida",
+      "firmBusiness": "Empresa de negócios - Produtos (Unc)",
       "firmBusinessCoverage": "Cobertura de Negócios Fixo (Unc)",
       "firmBusinessServices": "Firm Business - Serviços (Unc)",
       "monthly": "Mensal",
@@ -921,7 +975,10 @@
         "12": "Dezembro"
       },
       "no_data": "Selecione um cliente para carregar os dados.",
+      "noAuthority": "Sem autoridade",
       "noEntry": "Sem entrada",
+      "noMaintenanceInThePastAllowed": "Nenhuma manutenção no passado permitida",
+      "noMaterialsToDistributePlan": "Sem materiais para distribuir o plano",
       "notSynchronized": "Ainda não sincronizado",
       "openPlannedValueDemand360": "Validação da Demanda de Valor Planejado Aberto",
       "opMaterialDemandPlanCount": "Número de materiais OP com Plano de Demanda",
@@ -938,14 +995,15 @@
       "ordersAcrossYearsPast": "Pedidos ao longo de Anos Passados",
       "originalAddOneValue": "Valor Original de ADD*ONE {{value}}%",
       "otherRevenues": "Outras Receitas",
-      "planExistsOnOtherLevel": "O plano existe em outro nível hierárquico",
+      "planExistsOnOtherLevel": "O plano existe em outra hierarquia",
+      "planInvalidOnlyDelete": "Plano inválido, apenas excluir",
       "planInvoiceSales": "Valor Faturado do Plano x+y",
-      "planOnlyInPlanningCurrency": "Planejamento possível apenas na moeda de planejamento",
       "plannedValueDemand360": "Validação da Demanda de Valor Planejado",
       "planNetSales": "Vendas Líquidas do Plano x+y",
       "planning": "Planejamento",
       "planningMonth": "Mês",
       "planningYear": "Ano",
+      "planOnlyInPlanningCurrency": "Planejamento apenas na moeda de planejamento",
       "salesDeduction": "Dedução de Vendas (em %)",
       "salesPlanConstrained": "Plano de Vendas (Con)",
       "salesPlanUnconstrained": "Plano de Vendas (Unc)",
@@ -984,7 +1042,37 @@
     "/SGD/SCM_SOP_SALES": {
       "0": "Não foi possível encontrar o texto com os seguintes valores: {{messageV1}}, {{messageV2}}, {{messageV3}}, {{messageV4}}.",
       "1": "O número do cliente não existe.",
+      "2": "A combinação de material e cliente não existe.",
+      "3": "Tipo de período inválido.",
+      "4": "Valores no passado não podem ser salvos.",
+      "5": "Classificação de material inválida (OP).",
+      "6": "Valores negativos não podem ser salvos.",
+      "7": "A previsão não pode ser salva devido à falta de autorização. (Código 007)",
       "10": "Não é possível editar/excluir a previsão validada para esse cliente.",
+      "16": "Você não tem as permissões necessárias para o cliente {{messageV1}}.",
+      "17": "Nenhuma entrada encontrada.",
+      "22": "A previsão não pode ser salva após a data de substituição ({{messageV1}}).",
+      "23": "A eliminação gradual foi alterada para {{messageV1}} devido a pedidos/oportunidades.",
+      "24": "Previsão excluída para {{messageV1}}.",
+      "25": "O material {{messageV1}} não existe.",
+      "26": "Não foi possível determinar o centro de entrega do material subsequente {{messageV1}}.",
+      "27": "Referencia circular! Sucessor  {{messageV1}} não é permitido!",
+      "28": "Erro ao criar o alerta!",
+      "29": "Ação para cópia da previsão não definida.",
+      "30": "Não é permitido alterar o status do portfólio de {{messageV1}} para {{messageV2}}.",
+      "31": "A proposta de substituição não é adotada",
+      "32": "A cabeça da corrente não é o material ativo",
+      "33": "Combinação não criada, pois existe o material sucessor {{messageV1}}.",
+      "34": "Referência circular encontrada entre o material {{messageV1}} e o material {{messageV2}}.",
+      "37": "Proposta de substituição aberta.",
+      "38": "Proposta de substituição bloqueada.",
+      "39": "A mudança de status para {{messageV1}}não é permitida devido ao facto de o Tipo de Substituição ter terminado sem sucessor!",
+      "40": "Status ajustado para {{messageV1}} devido a pedidos/oportunidades.",
+      "41": "Status alterado para {{messageV1}}, data de expiração atingida.",
+      "42": "O status foi definido como {{messageV1}}, pois não há requisitos futuros ou históricos.",
+      "51": "A previsão não pode ser alterada no passado ou no mês atual.",
+      "52": "A previsão não pode ser alterada no passado.",
+      "53": "A previsão não pode ser distribuída devido ao estado da carteira.",
       "100": "O tipo de substituição {{messageV1}} não é válido.",
       "101": "Uma região válida deve ser passada. {{messageV1}} não é válida.",
       "102": "O registro não existe.",
@@ -1006,36 +1094,7 @@
       "118": "O sucessor de {{messageV1}} na obra {{messageV2}} é diferente no MARC: {{messageV3}}.",
       "119": "A área de vendas não deve ser atualizada para o tipo de substituição {{messageV1}}.",
       "123": "Não é permitida uma data SOP anterior à data de transferência",
-      "16": "Você não tem as permissões necessárias para o cliente {{messageV1}}.",
-      "17": "Nenhuma entrada encontrada.",
-      "2": "A combinação de material e cliente não existe.",
-      "22": "A previsão não pode ser salva após a data de substituição ({{messageV1}}).",
-      "23": "A eliminação gradual foi alterada para {{messageV1}} devido a pedidos/oportunidades.",
-      "24": "Previsão excluída para {{messageV1}}.",
-      "25": "O material {{messageV1}} não existe.",
-      "26": "Não foi possível determinar o centro de entrega do material subsequente {{messageV1}}.",
-      "27": "Referencia circular! Sucessor  {{messageV1}} não é permitido!",
-      "28": "Erro ao criar o alerta!",
-      "29": "Ação para cópia da previsão não definida.",
-      "3": "Tipo de período inválido.",
-      "30": "Não é permitido alterar o status do portfólio de {{messageV1}} para {{messageV2}}.",
-      "31": "A proposta de substituição não é adotada",
-      "32": "A cabeça da corrente não é o material ativo",
-      "33": "Combinação não criada, pois existe o material sucessor {{messageV1}}.",
-      "34": "Referência circular encontrada entre o material {{messageV1}} e o material {{messageV2}}.",
-      "37": "Proposta de substituição aberta.",
-      "38": "Proposta de substituição bloqueada.",
-      "39": "A mudança de status para {{messageV1}}não é permitida devido ao facto de o Tipo de Substituição ter terminado sem sucessor!",
-      "4": "Valores no passado não podem ser salvos.",
-      "40": "Status ajustado para {{messageV1}} devido a pedidos/oportunidades.",
-      "41": "Status alterado para {{messageV1}}, data de expiração atingida.",
-      "42": "O status foi definido como {{messageV1}}, pois não há requisitos futuros ou históricos.",
-      "5": "Classificação de material inválida (OP).",
-      "51": "A previsão não pode ser alterada no passado ou no mês atual.",
-      "52": "A previsão não pode ser alterada no passado.",
-      "53": "As previsões não podem ser distribuídas aos sábados e/ou domingos.",
-      "6": "Valores negativos não podem ser salvos.",
-      "7": "A previsão não pode ser salva devido à falta de autorização. (Código 007)"
+      "133": "Mais de 2.500 clientes foram selecionados. Por favor, selecione outros dados."
     },
     "error": "Não foi possível encontrar a mensagem com a classe {{messageClass}} e o número {{messageNumber}}."
   },

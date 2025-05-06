@@ -1,9 +1,8 @@
-import { NgOptimizedImage } from '@angular/common';
 import { MatCard } from '@angular/material/card';
 
 import { ProductImageComponent } from '@mm/shared/components/product-image/product-image.component';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockComponent, MockDirective } from 'ng-mocks';
+import { MockComponent } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -18,7 +17,6 @@ describe('ProductCardComponent', () => {
     component: ProductCardComponent,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
-      MockDirective(NgOptimizedImage),
       MockComponent(MediasViewProductButtonComponent),
       MockComponent(MatCard),
       MockComponent(ProductImageComponent),

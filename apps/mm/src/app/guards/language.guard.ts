@@ -18,14 +18,12 @@ export class LanguageGuard {
     const pathLanguage = route.paramMap.get('language');
     if (pathLanguage && this.translocoService.isLang(pathLanguage)) {
       this.translocoService.setActiveLang(pathLanguage);
-
-      return true;
-    }
-
-    const language = queryParams?.language;
-    if (language && this.translocoService.isLang(language)) {
-      this.translocoService.setActiveLang(language);
-      this.removeQueryParam(route, 'language');
+    } else {
+      const language = queryParams?.language;
+      if (language && this.translocoService.isLang(language)) {
+        this.translocoService.setActiveLang(language);
+        this.removeQueryParam(route, 'language');
+      }
     }
 
     return true;

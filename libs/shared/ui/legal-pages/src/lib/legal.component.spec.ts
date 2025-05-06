@@ -21,6 +21,7 @@ import { LegalPath, LegalRoute } from '..';
 import * as en from './i18n/en.json';
 import { LegalComponent } from './legal.component';
 import {
+  ADDITIONAL_THRID_PARTY_USAGE,
   CUSTOM_DATA_PRIVACY,
   CUSTOM_IMPRINT_DATA,
   DATA_SOURCE,
@@ -98,6 +99,10 @@ describe('LegalComponent', () => {
       {
         provide: CUSTOM_IMPRINT_DATA,
         useValue: of(customImprintData),
+      },
+      {
+        provide: ADDITIONAL_THRID_PARTY_USAGE,
+        useValue: of(', some third party company as provider'),
       },
       {
         provide: MATERIAL_SANITY_CHECKS,
@@ -206,6 +211,7 @@ describe('LegalComponent', () => {
           dataSource:
             'Sources of data might emerge from ones mind, but not from mine',
           storagePeriod: 'eternity',
+          thirdPartyUsage: ', some third party company as provider',
         });
       })
     );
@@ -215,6 +221,8 @@ describe('LegalComponent', () => {
         component.purpose$ = undefined as unknown as Observable<string>;
         component.dataSource$ = undefined as unknown as Observable<string>;
         component.storagePeriod$ = undefined as unknown as Observable<string>;
+        component.additionalThirdPartyUsage$ =
+          undefined as unknown as Observable<string>;
         component.customImprintData$ =
           undefined as unknown as Observable<string>;
         component.ngOnInit();
@@ -240,6 +248,7 @@ describe('LegalComponent', () => {
           purpose: '',
           dataSource: 'defaultDataSource',
           storagePeriod: 'defaultPeriod',
+          thirdPartyUsage: '',
         });
       })
     );

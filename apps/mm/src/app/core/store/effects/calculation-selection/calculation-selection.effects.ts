@@ -6,6 +6,10 @@ import { concatMap, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import { LazyListLoaderService, RestService } from '@mm/core/services';
 import { environment } from '@mm/environments/environment';
+import {
+  BEARING_SEAT_STEP,
+  CALCULATION_OPTIONS_STEP,
+} from '@mm/shared/constants/steps';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatLatestFrom } from '@ngrx/operators';
 
@@ -46,7 +50,9 @@ export class CalculationSelectionEffects {
             bearingId: action.bearingId,
             title: action.bearingId,
           }),
-          CalculationSelectionActions.setCurrentStep({ step: 1 }),
+          CalculationSelectionActions.setCurrentStep({
+            step: BEARING_SEAT_STEP,
+          }),
           CalculationSelectionActions.fetchBearingSeats(),
           CalculationResultActions.fetchBearinxVersions(),
         ])
@@ -76,7 +82,10 @@ export class CalculationSelectionEffects {
     return this.actions$.pipe(
       ofType(CalculationSelectionActions.setBearingSeat),
       switchMap((_action) => {
-        return of(CalculationSelectionActions.fetchMeasurementMethods());
+        return of(
+          CalculationSelectionActions.fetchMeasurementMethods(),
+          CalculationResultActions.resetCalculationResult()
+        );
       })
     );
   });
@@ -130,7 +139,10 @@ export class CalculationSelectionEffects {
     return this.actions$.pipe(
       ofType(CalculationSelectionActions.setMeasurementMethod),
       switchMap((_action) => {
-        return of(CalculationSelectionActions.fetchMountingMethods());
+        return of(
+          CalculationSelectionActions.fetchMountingMethods(),
+          CalculationResultActions.resetCalculationResult()
+        );
       })
     );
   });
@@ -166,17 +178,15 @@ export class CalculationSelectionEffects {
   public updateMountingMethodAndCurrentStep$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CalculationSelectionActions.updateMountingMethodAndCurrentStep),
-      concatLatestFrom(() => [
-        this.calculationSelectionFacade.getMeasurementMethod$(),
-      ]),
-      switchMap(([action, measurementMethod]) => {
-        const nextStep = measurementMethod === 'LB_AXIAL_DISPLACEMENT' ? 3 : 4;
-
+      switchMap(({ mountingMethod }) => {
         return of(
           CalculationSelectionActions.setMountingMethod({
-            mountingMethod: action.mountingMethod,
+            mountingMethod,
           }),
-          CalculationSelectionActions.setCurrentStep({ step: nextStep }),
+          CalculationResultActions.resetCalculationResult(),
+          CalculationSelectionActions.setCurrentStep({
+            step: CALCULATION_OPTIONS_STEP,
+          }),
           CalculationOptionsActions.fetchPreflightOptions()
         );
       })

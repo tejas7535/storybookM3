@@ -1,49 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component } from '@angular/core';
 
-import { map, Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
-
-import { FeedbackDialogComponent } from '../shared/dialogs/feedback-dialog/feedback-dialog.component';
-import { submitUserFeedback } from './store/actions/user.action';
-import { getSubmitFeedbackLoading } from './store/selectors/user.selector';
+import { FEEDBACK_URL } from '../shared/urls';
 
 @Component({
   selector: 'ia-user',
   templateUrl: './user.component.html',
   standalone: false,
 })
-export class UserComponent implements OnInit, OnDestroy {
-  subscription: Subscription;
+export class UserComponent {
   isSubmitInProgress$: Observable<boolean>;
-
-  constructor(
-    private readonly dialog: MatDialog,
-    private readonly store: Store
-  ) {}
-
-  ngOnInit(): void {
-    this.isSubmitInProgress$ = this.store.select(getSubmitFeedbackLoading);
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-  }
-
-  openFeedbackDialog() {
-    const dialogRef = this.dialog.open(FeedbackDialogComponent, {
-      panelClass: 'ia-md-dialog',
-      disableClose: true,
-      data: {
-        loading: this.isSubmitInProgress$,
-      },
-    });
-
-    this.subscription = dialogRef.componentInstance.onFeebackSubmitted
-      .pipe(
-        map((feedback) => this.store.dispatch(submitUserFeedback({ feedback })))
-      )
-      .subscribe();
-  }
+  feedbackUrl = FEEDBACK_URL;
 }

@@ -1,5 +1,9 @@
 import { SqvApprovalStatus } from '@gq/shared/models/quotation-detail/cost/sqv-approval-status.enum';
 
+import { QUOTATION_MOCK } from '../../../../testing/mocks/models/quotation';
+import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
+import { ACTIVE_CASE_STATE_MOCK } from '../../../../testing/mocks/state';
+import { activeCaseFeature } from '../active-case/active-case.reducer';
 import { RfqSqvCheckAttachmentsActions } from './rfq-sqv-check-attachments.actions';
 import {
   rfqSqvCheckAttachmentsFeature,
@@ -75,5 +79,35 @@ describe('RfqSqvCheckAttachmentsReducer', () => {
 
       expect(state.gqPositionId).toBeUndefined();
     });
+  });
+});
+
+describe('RfqSqvCheckAttachmentsActions.uploadAttachmentsSuccess', () => {
+  test('should update the sqvApprovalState by the action.newApprovalState value', () => {
+    const action = RfqSqvCheckAttachmentsActions.uploadAttachmentsSuccess({
+      gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+      newApprovalStatus: SqvApprovalStatus.APPROVED,
+    });
+    const state = activeCaseFeature.reducer(
+      {
+        ...ACTIVE_CASE_STATE_MOCK,
+        quotation: {
+          ...QUOTATION_MOCK,
+          quotationDetails: [
+            {
+              ...QUOTATION_DETAIL_MOCK,
+              detailCosts: {
+                ...QUOTATION_DETAIL_MOCK.detailCosts,
+                sqvApprovalStatus: SqvApprovalStatus.APPROVAL_NEEDED,
+              },
+            },
+          ],
+        },
+      },
+      action
+    );
+    expect(
+      state.quotation.quotationDetails[0].detailCosts.sqvApprovalStatus
+    ).toEqual('APPROVED');
   });
 });

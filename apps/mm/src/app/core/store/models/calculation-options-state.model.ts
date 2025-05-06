@@ -2,4 +2,5 @@ import { PreflightData } from '@mm/core/services/preflght-data-parser/preflight-
 
 export interface CalculationOptionsState {
   options: PreflightData;
+  calculationPerformed: boolean;
 }

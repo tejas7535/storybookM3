@@ -10,8 +10,8 @@ import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 
 import { combineLatest, map, take } from 'rxjs';
 
+import { ColumnDefService } from '@gq/case-view/case-table/config/column-def.service';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
-import { ColumnDefService } from '@gq/shared/ag-grid/services';
 import { FILTER_PARAM_INDICATOR } from '@gq/shared/constants';
 import { Quotation } from '@gq/shared/models';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';

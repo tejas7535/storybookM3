@@ -62,4 +62,13 @@ describe('calculationResultActions', () => {
       });
     });
   });
+  describe('Reset Calculation Result', () => {
+    it('resetCalculationResult', () => {
+      const action = CalculationResultActions.resetCalculationResult();
+
+      expect(action).toEqual({
+        type: '[CalculationResult] Reset Calculation Result',
+      });
+    });
+  });
 });

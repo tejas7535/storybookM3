@@ -6,6 +6,8 @@ import { catchError, EMPTY, Observable, of, switchMap, take } from 'rxjs';
 import { translate } from '@jsverse/transloco';
 import { GridApi } from 'ag-grid-enterprise';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { GlobalSelectionCriteriaFilters } from '../../../../feature/global-selection/model';
 import { formatFilterModelForBackend } from '../../../../shared/ag-grid/grid-filter-model';
 import { USE_DEFAULT_HTTP_ERROR_INTERCEPTOR } from '../../../../shared/interceptors/http-error.interceptor';
@@ -24,6 +26,7 @@ export class ExportMaterialCustomerService {
   private readonly http = inject(HttpClient);
   private readonly streamSaverService = inject(StreamSaverService);
   private readonly snackBarService = inject(SnackbarService);
+  private readonly appInsights = inject(ApplicationInsightsService);
 
   private readonly EXPORT_MATERIAL_CUSTOMER_API =
     'api/material-customer/export';
@@ -42,6 +45,8 @@ export class ExportMaterialCustomerService {
     if (!gridApi || !globalSelectionFilters) {
       return EMPTY;
     }
+
+    this.appInsights.logEvent('[Home] Export Field List Data');
 
     const columnFilters = [
       formatFilterModelForBackend(gridApi.getFilterModel()),
@@ -105,15 +110,19 @@ export class ExportMaterialCustomerService {
       )
       .pipe(
         take(1),
-        switchMap((response) =>
-          this.streamSaverService.streamResponseToFile('export.xlsx', response)
-        ),
+        switchMap((response) => {
+          this.streamSaverService.streamResponseToFile('export.xlsx', response);
+          this.appInsights.logEvent('[Home] Export Field List Data Success');
+
+          return of(null);
+        }),
         catchError((error) => {
           const errorMessage = translate('material_customer.export.failed', {
             reason: getErrorMessage(error, this.customErrorMessages),
           });
 
           this.snackBarService.openSnackBar(errorMessage);
+          this.appInsights.logEvent('[Home] Export Field List Data Failure');
 
           return of(null);
         })

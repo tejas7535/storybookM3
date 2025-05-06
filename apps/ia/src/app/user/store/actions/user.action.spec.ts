@@ -1,6 +1,5 @@
 import { FilterDimension } from '../../../shared/models';
 import { ISystemMessage } from '../../../shared/models/system-message';
-import { UserFeedback } from '../../user-settings/models';
 import {
   dismissSystemMessage,
   dismissSystemMessageFailure,
@@ -13,9 +12,6 @@ import {
   loadUserSettingsFailure,
   loadUserSettingsSuccess,
   showUserSettingsDialog,
-  submitUserFeedback,
-  submitUserFeedbackFailure,
-  submitUserFeedbackSuccess,
   updateUserSettings,
   updateUserSettingsFailure,
   updateUserSettingsSuccess,
@@ -112,35 +108,6 @@ describe('User Actions', () => {
       type: '[User] Load User Settings Dimension Data',
       searchFor,
       filterDimension,
-    });
-  });
-
-  test('submitUserFeedback', () => {
-    const feedback: UserFeedback = {
-      category: 'Problem',
-      message: 'I found a bug.',
-    };
-    const action = submitUserFeedback({ feedback });
-
-    expect(action).toEqual({
-      type: '[User] Submit User Feedback',
-      feedback,
-    });
-  });
-
-  test('submitUserFeedbackSuccess', () => {
-    const action = submitUserFeedbackSuccess();
-
-    expect(action).toEqual({
-      type: '[User] Submit User Feedback Success',
-    });
-  });
-
-  test('submitUserFeedbackFailure', () => {
-    const action = submitUserFeedbackFailure();
-
-    expect(action).toEqual({
-      type: '[User] Submit User Feedback Failure',
     });
   });
 

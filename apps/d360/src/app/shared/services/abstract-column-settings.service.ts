@@ -65,16 +65,20 @@ export abstract class AbstractColumnSettingsService<
     this.columnDefinitions = columnDefinitions;
   }
 
-  getColumnSettings(): Observable<(ColumnSetting<COLUMN_KEYS> & COLDEF)[]> {
+  public getColumnSettings(): Observable<
+    (ColumnSetting<COLUMN_KEYS> & COLDEF)[]
+  > {
     return this.columnSettings.asObservable();
   }
 
-  protected refreshColumnSettings$(): Observable<ColumnSetting<COLUMN_KEYS>[]> {
+  public refreshColumnSettings$(
+    id?: string
+  ): Observable<ColumnSetting<COLUMN_KEYS>[]> {
     // Make HTTP request to fetch column settings
     return this.http
       .get<
         ColumnSetting<COLUMN_KEYS>[]
-      >(`api/user-settings/tables/${this.tableName}/columns`)
+      >(`api/user-settings/tables/${this.getTableNameForId(id)}/columns`)
       .pipe(
         tap((data) =>
           this.columnSettings.next(
@@ -84,26 +88,33 @@ export abstract class AbstractColumnSettingsService<
       );
   }
 
-  saveColumnSettings$(
-    settings: ColumnSetting<COLUMN_KEYS>[]
+  public saveColumnSettings$(
+    settings: ColumnSetting<COLUMN_KEYS>[],
+    id?: string
   ): Observable<ColumnSetting<COLUMN_KEYS>[]> {
     return this.http
-      .post(`api/user-settings/tables/${this.tableName}/columns`, settings)
-      .pipe(switchMap(() => this.refreshColumnSettings$()));
+      .post(
+        `api/user-settings/tables/${this.getTableNameForId(id)}/columns`,
+        settings
+      )
+      .pipe(switchMap(() => this.refreshColumnSettings$(id)));
   }
 
-  loadColumnSettings$() {
+  public loadColumnSettings$(
+    id?: string
+  ): Observable<ColumnSetting<COLUMN_KEYS>[]> {
     return this.http.get<ColumnSetting<COLUMN_KEYS>[] | null>(
-      `api/user-settings/tables/${this.tableName}/columns`
+      `api/user-settings/tables/${this.getTableNameForId(id)}/columns`
     );
   }
 
-  saveFromAgGridEvent(
+  public saveFromAgGridEvent(
     event:
       | SortChangedEvent
       | ColumnVisibleEvent
       | FilterChangedEvent
-      | DragStoppedEvent
+      | DragStoppedEvent,
+    id?: string
   ): void {
     const rawFilterModel = event.api.getFilterModel();
     const filterModel =
@@ -120,7 +131,9 @@ export abstract class AbstractColumnSettingsService<
       .pipe(
         distinctUntilChanged(undefined, (data) => JSON.stringify(data)),
         take(1), // only trigger once, if same
-        switchMap((columnState: any) => this.saveColumnSettings$(columnState)),
+        switchMap((columnState: any) =>
+          this.saveColumnSettings$(columnState, id)
+        ),
         take(1), // only trigger once, switchMap created a "new" Observable
         takeUntilDestroyed(this.destroyRef)
       )
@@ -189,5 +202,9 @@ export abstract class AbstractColumnSettingsService<
     return Object.values(sortMap).sort(
       (a, b) => (a.order > b.order ? 1 : 0) - (a.order < b.order ? 1 : 0)
     );
+  }
+
+  private getTableNameForId(id?: string): string {
+    return id ? `${this.tableName}-${id}` : this.tableName;
   }
 }

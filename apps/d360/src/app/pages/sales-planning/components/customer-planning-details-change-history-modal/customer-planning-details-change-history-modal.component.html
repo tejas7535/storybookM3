@@ -1,0 +1,46 @@
+<div class="flex flex-col h-full" *transloco="let t">
+  <div
+    mat-dialog-title
+    class="m-0 pt-0 pb-2"
+    cdkDrag
+    cdkDragRootElement=".cdk-overlay-pane"
+    cdkDragBoundary=".cdk-global-overlay-wrapper"
+    cdkDragHandle
+  >
+    <div class="flex flex-col">
+      <h2 class="text-headline-small">
+        {{ t('sales_planning.planning_details.change_history') }}
+      </h2>
+      <p class="text-title-small text-on-surface-variant">
+        {{ data.customerNumber }} - {{ data.customerName }}
+      </p>
+    </div>
+  </div>
+  <mat-dialog-content>
+    <d360-table-toolbar
+      [rowCount]="(changeHistoryService.dataChangedEvent | ngrxPush).rowCount"
+      [grid]="gridApi"
+    />
+    <ag-grid-angular
+      #changeHistoryTable
+      class="ag-theme-material grow bg-white change-grid"
+      rowModelType="serverSide"
+      [gridOptions]="gridOptions"
+      (gridReady)="onGridReady($event)"
+      (dragStopped)="columnSettingsService.saveFromAgGridEvent($event)"
+      (columnVisible)="columnSettingsService.saveFromAgGridEvent($event)"
+      (filterChanged)="columnSettingsService.saveFromAgGridEvent($event)"
+      (sortChanged)="columnSettingsService.saveFromAgGridEvent($event)"
+      (firstDataRendered)="onFirstDataRendered($event)"
+      [noRowsOverlayComponent]="noDataOverlayComponent"
+      (paginationChanged)="onDataUpdated()"
+    />
+  </mat-dialog-content>
+  <mat-dialog-actions align="end" class="gap-3 dialog-actions">
+    <span class="spacer"></span>
+
+    <button mat-button (click)="onCancel()">
+      {{ t('button.close') }}
+    </button>
+  </mat-dialog-actions>
+</div>

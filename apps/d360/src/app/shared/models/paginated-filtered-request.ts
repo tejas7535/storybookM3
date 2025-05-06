@@ -9,3 +9,8 @@ export interface PaginatedFilteredRequest {
   columnFilters: ColumnFilters;
   selectionFilters: Record<string, any>;
 }
+
+export interface PaginatedFilteredResponse<T> {
+  rowCount: number;
+  rows: T[];
+}

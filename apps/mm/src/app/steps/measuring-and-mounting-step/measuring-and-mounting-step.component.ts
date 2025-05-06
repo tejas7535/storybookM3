@@ -21,6 +21,8 @@ import {
 } from '@mm/core/store/models/calculation-selection-state.model';
 import { HorizontalSeparatorComponent } from '@mm/shared/components/horizontal-seperator/horizontal-separator.component';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+
 import { SelectionCardsComponent } from '../../shared/components/selection-cards/selection-cards.component';
 
 @Component({
@@ -35,6 +37,7 @@ import { SelectionCardsComponent } from '../../shared/components/selection-cards
     MatInputModule,
     SelectionCardsComponent,
     HorizontalSeparatorComponent,
+    LoadingSpinnerModule,
   ],
 })
 export class MeasuringAndMountingStepComponent {
@@ -43,6 +46,7 @@ export class MeasuringAndMountingStepComponent {
   mountingMethodSelectionLabel = input.required<string>();
   measuringMethodLabel = input.required<string>();
   measurementMethods = input.required<StepSelectionValue>();
+  isLoading = input.required<boolean>();
 
   public selectedOption = output<string>();
   public selectedMeasurementMethod = output<string>();

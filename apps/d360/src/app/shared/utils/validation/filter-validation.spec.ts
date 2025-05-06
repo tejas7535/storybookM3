@@ -3,12 +3,13 @@ import { Component } from '@angular/core';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { ValidationHelper } from './../validation/validation-helper';
 import {
   validateCustomerNumber,
   validateMaterialNumber,
   validateSalesOrg,
+  validateSectors,
 } from './filter-validation';
+import { ValidationHelper } from './validation-helper';
 @Component({
   selector: 'd360-dummy',
   template: '',
@@ -79,4 +80,31 @@ describe('FilterHelpers', () => {
       expect(resultValid).toBe(isValid);
     }
   );
+
+  describe('validateSectors', () => {
+    test.each`
+      input       | isValid
+      ${''}       | ${false}
+      ${'V'}      | ${false}
+      ${'VVV'}    | ${false}
+      ${'123'}    | ${false}
+      ${'V1'}     | ${true}
+      ${'V123'}   | ${true}
+      ${'V12345'} | ${false}
+      ${'I123'}   | ${false}
+    `(
+      'validates sector number: $input (validates $isValid)',
+      ({ input, isValid }) => {
+        const result = validateSectors(input);
+        const resultValid = result == null;
+        expect(resultValid).toBe(isValid);
+      }
+    );
+
+    it('should return the custom validation message', () => {
+      const result = validateSectors('VVV');
+
+      expect(result.includes('error.onlyValuesWithNumbers')).toBe(true);
+    });
+  });
 });

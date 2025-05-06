@@ -18,6 +18,10 @@ export const CUSTOM_IMPRINT_DATA = new InjectionToken<Observable<any>>('');
 
 export const PURPOSE = new InjectionToken<Observable<any>>('');
 
+export const ADDITIONAL_THRID_PARTY_USAGE = new InjectionToken<
+  Observable<string>
+>('');
+
 export const CUSTOM_DATA_PRIVACY = new InjectionToken<Observable<string>>('');
 
 export const DATA_SOURCE = new InjectionToken<Observable<any>>('');

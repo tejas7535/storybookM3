@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { withCache } from '@ngneat/cashew';
 
 import { ApiVersion } from '../../shared/models';
-import { UserFeedback } from './models';
 import { UserSettings } from './models/user-settings.model';
 
 @Injectable({
@@ -14,7 +13,6 @@ import { UserSettings } from './models/user-settings.model';
 })
 export class UserSettingsService {
   readonly USER_SETTINGS = 'user-settings';
-  readonly FEEDBACK = 'user-feedback';
 
   constructor(private readonly http: HttpClient) {}
 
@@ -34,9 +32,5 @@ export class UserSettingsService {
       `${ApiVersion.V1}/${this.USER_SETTINGS}`,
       userSettings
     );
-  }
-
-  submitUserFeedback(feedback: UserFeedback): Observable<void> {
-    return this.http.post<void>(`${ApiVersion.V1}/${this.FEEDBACK}`, feedback);
   }
 }

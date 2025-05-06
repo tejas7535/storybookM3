@@ -56,6 +56,7 @@ export class UserService {
   public readonly userSettings: WritableSignal<UserSettings | null> = signal({
     startPage: null,
     demandValidation: null,
+    overviewPage: null,
   });
   public settingsLoaded$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
@@ -87,8 +88,10 @@ export class UserService {
           }),
           take(1),
           map((value) => {
-            this.region.set(value as Region);
-            localStorage.setItem('region', value);
+            if (value !== null) {
+              this.region.set(value as Region);
+              localStorage.setItem('region', value);
+            }
 
             return value as Region;
           }),

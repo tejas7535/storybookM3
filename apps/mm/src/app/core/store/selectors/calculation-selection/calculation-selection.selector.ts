@@ -1,14 +1,10 @@
-import {
-  PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS,
-  PAGE_MOUNTING_MANAGER_SEAT,
-  PAGE_RESULT,
-  PROPERTY_PAGE_MOUNTING_SITUATION,
-  RSY_PAGE_BEARING_TYPE,
-} from '@mm/shared/constants/dialog-constant';
-import { steps } from '@mm/shared/constants/steps';
+import { LB_AXIAL_DISPLACEMENT } from '@mm/shared/constants/dialog-constant';
+import { STEP_CONFIG } from '@mm/shared/constants/steps';
+import { Step } from '@mm/shared/models/step.model';
 import { createSelector } from '@ngrx/store';
 
 import { getCalculationSelectionState } from '../../reducers';
+import { getCalculationPerformed } from '../calculation-options/calculation-options.selector';
 import { isResultAvailable } from '../calculation-result/calculation-result.selector';
 
 export const getStepperState = createSelector(
@@ -33,12 +29,12 @@ export const getBearingsResultList = createSelector(
 
 export const getBearingSelectionLoading = createSelector(
   getCalculationSelectionState,
-  (state) => state.loading
+  (state): boolean => state.loading
 );
 
 export const getBearingSeatId = createSelector(
   getCalculationSelectionState,
-  (state) => state?.bearingSeats?.selectedValueId
+  (state): string | undefined => state?.bearingSeats?.selectedValueId
 );
 
 export const getBearingSeats = createSelector(
@@ -66,57 +62,54 @@ export const getMountingMethod = createSelector(
   (state) => state?.mountingMethods?.selectedValueId
 );
 
+export const isAxialDisplacement = createSelector(
+  getMeasurementMethod,
+  (measurementMethod) => measurementMethod === LB_AXIAL_DISPLACEMENT
+);
+
 export const getSteps = createSelector(
   getBearing,
   getBearingSeatId,
   getMountingMethod,
-  getMeasurementMethod,
+  isAxialDisplacement,
+  getCalculationPerformed,
   isResultAvailable,
-  (bearing, bearingSeatId, mountingMethod, measurementMethod, isAvailable) =>
-    steps.map((step) => {
-      switch (step.name) {
-        case RSY_PAGE_BEARING_TYPE:
-          return {
-            ...step,
-            editable: true,
-            enabled: true,
-            complete: bearing,
-          };
-        case PAGE_MOUNTING_MANAGER_SEAT:
-          return {
-            ...step,
-            enabled: true,
-            complete: bearingSeatId,
-            editable: true,
-          };
-        case PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS:
-          return {
-            ...step,
-            enabled: true,
-            editable: true,
-            complete: mountingMethod,
-          };
-        case PROPERTY_PAGE_MOUNTING_SITUATION:
-          return {
-            ...step,
-            enabled:
-              measurementMethod &&
-              measurementMethod === 'LB_AXIAL_DISPLACEMENT',
-            editable: true,
-            complete:
-              (measurementMethod &&
-                measurementMethod !== 'LB_AXIAL_DISPLACEMENT') ||
-              isAvailable,
-          };
-        case PAGE_RESULT:
-          return {
-            ...step,
-            enabled: true,
-            editable: true,
-            complete: false,
-          };
-        default:
-          return step;
-      }
-    })
+
+  (
+    bearing,
+    bearingSeatId,
+    mountingMethod,
+    isAxialBearing,
+    optionsCalculationPerformed,
+    isAvailable
+  ): Step[] => {
+    const steps: Step[] = [
+      {
+        ...STEP_CONFIG.BEARING,
+        complete: bearing !== undefined,
+      },
+      {
+        ...STEP_CONFIG.BEARING_SEAT,
+        complete: !!bearingSeatId,
+      },
+      {
+        ...STEP_CONFIG.MEASURING_MOUNTING,
+        complete: !!mountingMethod,
+      },
+    ];
+
+    if (isAxialBearing) {
+      steps.push({
+        ...STEP_CONFIG.CALCULATION_OPTIONS,
+        complete: optionsCalculationPerformed,
+      });
+    }
+
+    steps.push({
+      ...STEP_CONFIG.RESULT,
+      complete: isAvailable,
+    });
+
+    return steps;
+  }
 );

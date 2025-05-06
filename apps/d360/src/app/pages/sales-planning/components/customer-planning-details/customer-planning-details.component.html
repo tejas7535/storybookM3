@@ -30,7 +30,11 @@
       {{ t('sales_planning.planning_details.planning_level') }}
     </button>
 
-    <button [disabled]="isNoCustomerSelected()" mat-button>
+    <button
+      [disabled]="isNoCustomerSelected()"
+      (click)="handleChartHistoryModalClicked()"
+      mat-button
+    >
       <mat-icon class="icon-button">history</mat-icon>
       {{ t('sales_planning.planning_details.change_history') }}
     </button>

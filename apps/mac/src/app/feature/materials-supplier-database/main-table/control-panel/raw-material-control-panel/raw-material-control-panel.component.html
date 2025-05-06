@@ -5,8 +5,7 @@
   >
     @if (!(hasMinimizedDialog$ | ngrxPush)) {
       <button
-        mat-raised-button
-        color="primary"
+        mat-flat-button
         [disabled]="!isEditable"
         (click)="openDialog(false)"
       >
@@ -15,7 +14,7 @@
       </button>
       @if (isEditable && selectedNodes() >= 2) {
         <button
-          mat-raised-button
+          mat-flat-button
           class="!bg-nordic-blue"
           (click)="openDialogMultiEdit()"
         >
@@ -27,7 +26,7 @@
       }
     } @else {
       <button
-        mat-raised-button
+        mat-flat-button
         class="!bg-nordic-blue"
         [disabled]="!isEditable"
         (click)="resumeDialog()"
@@ -36,16 +35,11 @@
         <span class="text-white">{{ t('resume') }}</span>
       </button>
     }
-    <button mat-button color="primary" (click)="export()">
+    <button mat-button (click)="export()">
       <mat-icon class="material-icons-outlined">download</mat-icon>
       <span>{{ t('export') }}</span>
     </button>
-    <button
-      mat-button
-      color="primary"
-      [disabled]="resetFormDisabled"
-      (click)="resetForm()"
-    >
+    <button mat-button [disabled]="resetFormDisabled" (click)="resetForm()">
       <mat-icon class="material-icons-outlined">sync</mat-icon>
       <span>{{ t('resetTable') }}</span>
     </button>
@@ -71,7 +65,7 @@
         </div>
       </div>
     </div>
-    <button mat-button color="primary" (click)="reload()">
+    <button mat-button (click)="reload()">
       <mat-icon class="material-icons-outlined">refresh</mat-icon>
       <span>{{ t('reload') }}</span>
     </button>

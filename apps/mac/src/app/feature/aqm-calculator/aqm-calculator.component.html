@@ -144,7 +144,7 @@
                       <div
                         class="flex flex-row items-center justify-between gap-1"
                       >
-                        <mat-icon [color]="item.value ? 'primary' : 'error'">{{
+                        <mat-icon [ngClass]="{ '!text-primary': item.value }">{{
                           item.value ? 'check_circle' : 'error'
                         }}</mat-icon>
                         <p>

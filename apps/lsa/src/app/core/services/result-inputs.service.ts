@@ -72,6 +72,34 @@ export class ResultInputsService {
     };
   }
 
+  public getPipeLengthTranslation(pipeLength: PipeLength): Observable<string> {
+    switch (pipeLength) {
+      case PipeLength.Direct:
+        return this.translate(`${PIPE_LENGTH_PATH}.directMontage`);
+      case PipeLength.HalfMeter:
+        return this.translate(`${PIPE_LENGTH_PATH}.lessThan`, { value: 0.5 });
+      case PipeLength.Meter:
+        return this.translate(`${PIPE_LENGTH_PATH}.lessThan`, { value: 1 });
+      case PipeLength.OneToThreeMeter:
+        return this.translate(`${PIPE_LENGTH_PATH}.between`, {
+          from: 1,
+          to: 3,
+        });
+      case PipeLength.ThreeToFiveMeter:
+        return this.translate(`${PIPE_LENGTH_PATH}.between`, {
+          from: 3,
+          to: 5,
+        });
+      case PipeLength.FiveTotenMeter:
+        return this.translate(`${PIPE_LENGTH_PATH}.between`, {
+          from: 5,
+          to: 10,
+        });
+      default:
+        return of('unknown');
+    }
+  }
+
   private getLubricationPointsInputs(
     form: RecommendationFormValue
   ): Observable<LubricationInput[]> {
@@ -154,34 +182,6 @@ export class ResultInputsService {
     recommendations: RecommendationResponse | ErrorResponse
   ): recommendations is ErrorResponse {
     return (recommendations as ErrorResponse).message !== undefined;
-  }
-
-  private getPipeLengthTranslation(pipeLength: PipeLength): Observable<string> {
-    switch (pipeLength) {
-      case PipeLength.Direct:
-        return this.translate(`${PIPE_LENGTH_PATH}.directMontage`);
-      case PipeLength.HalfMeter:
-        return this.translate(`${PIPE_LENGTH_PATH}.lessThan`, { value: 0.5 });
-      case PipeLength.Meter:
-        return this.translate(`${PIPE_LENGTH_PATH}.lessThan`, { value: 1 });
-      case PipeLength.OneToThreeMeter:
-        return this.translate(`${PIPE_LENGTH_PATH}.between`, {
-          from: 1,
-          to: 3,
-        });
-      case PipeLength.ThreeToFiveMeter:
-        return this.translate(`${PIPE_LENGTH_PATH}.between`, {
-          from: 3,
-          to: 5,
-        });
-      case PipeLength.FiveTotenMeter:
-        return this.translate(`${PIPE_LENGTH_PATH}.between`, {
-          from: 5,
-          to: 10,
-        });
-      default:
-        return of('unknown');
-    }
   }
 
   private getLubricantInputs(

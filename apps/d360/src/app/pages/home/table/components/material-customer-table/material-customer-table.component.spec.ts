@@ -324,6 +324,7 @@ describe('MaterialCustomerTableComponent', () => {
   describe('onFilterChange', () => {
     let formatFilterModelForBackendSpy: jest.SpyInstance;
     let emitSpy: jest.SpyInstance;
+    let appInsightsSpy: jest.SpyInstance;
 
     beforeEach(() => {
       formatFilterModelForBackendSpy = jest.spyOn(
@@ -331,6 +332,7 @@ describe('MaterialCustomerTableComponent', () => {
         'formatFilterModelForBackend'
       );
       emitSpy = jest.spyOn(component.onColumnFilterChange, 'emit');
+      appInsightsSpy = jest.spyOn(component['appInsights'], 'logEvent');
     });
 
     it('should format the filter model and emit the filter', () => {
@@ -338,6 +340,7 @@ describe('MaterialCustomerTableComponent', () => {
         api: {
           getFilterModel: jest.fn().mockReturnValue({ testFilter: 'value' }),
         },
+        columns: [],
       } as unknown as FilterChangedEvent;
 
       formatFilterModelForBackendSpy.mockReturnValue({
@@ -359,6 +362,7 @@ describe('MaterialCustomerTableComponent', () => {
         api: {
           getFilterModel: jest.fn().mockReturnValue(null),
         },
+        columns: [],
       } as unknown as FilterChangedEvent;
 
       formatFilterModelForBackendSpy.mockReturnValue(null);
@@ -369,6 +373,37 @@ describe('MaterialCustomerTableComponent', () => {
       expect(formatFilterModelForBackendSpy).toHaveBeenCalledWith(null);
       expect(component.filter).toBeNull();
       expect(emitSpy).toHaveBeenCalledWith(null);
+    });
+
+    it('should track filter change as app insights event', () => {
+      const mockEvent = {
+        api: {
+          getFilterModel: jest.fn().mockReturnValue(null),
+        },
+        columns: [
+          {
+            getColDef: jest.fn().mockReturnValue({
+              headerName: 'Test Header',
+            }),
+          },
+        ],
+      } as unknown as FilterChangedEvent;
+
+      formatFilterModelForBackendSpy.mockReturnValue({
+        formattedFilter: 'value',
+      });
+
+      component['onFilterChange'](mockEvent);
+
+      expect(appInsightsSpy).toHaveBeenCalledWith(
+        '[Home] Apply Field List Filter',
+        {
+          allFilters: {
+            formattedFilter: 'value',
+          },
+          appliedFilter: 'Test Header',
+        }
+      );
     });
   });
 

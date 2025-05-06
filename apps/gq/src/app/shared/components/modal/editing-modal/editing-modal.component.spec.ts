@@ -65,12 +65,12 @@ class TestEditingModalComponent extends EditingModalComponent {
 
 // All subclasses need to be mocked.
 // Otherwise following error is thrown: "Class extends value undefined is not a constructor or null"
-jest.mock('./modals/discount-editing-modal.component');
-jest.mock('./modals/gpi-editing-modal.component');
-jest.mock('./modals/gpm-editing-modal.component');
-jest.mock('./modals/price-editing-modal.component');
-jest.mock('./modals/target-price-editing-modal.component');
-jest.mock('./modals/quantity-editing-modal.component');
+jest.mock('./modals/discount/discount-editing-modal.component');
+jest.mock('./modals/gpi/gpi-editing-modal.component');
+jest.mock('./modals/gpm/gpm-editing-modal.component');
+jest.mock('./modals/price/price-editing-modal.component');
+jest.mock('./modals/target-price/target-price-editing-modal.component');
+jest.mock('./modals/quantity/quantity-editing-modal.component');
 
 describe('TestEditingModalComponent', () => {
   let component: TestEditingModalComponent;

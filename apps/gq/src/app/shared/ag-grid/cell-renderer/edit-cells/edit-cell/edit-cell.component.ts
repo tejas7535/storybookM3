@@ -1,4 +1,7 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { distinctUntilChanged, Observable, of, take } from 'rxjs';
 
@@ -8,7 +11,12 @@ import { QuotationDetailsTableValidationService } from '@gq/process-case-view/qu
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { EditingModalService } from '@gq/shared/components/modal/editing-modal/editing-modal.service';
 import { PRICE_VALIDITY_MARGIN_THRESHOLD } from '@gq/shared/constants';
+import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
+import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { PushPipe } from '@ngrx/component';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { QuotationStatus } from '../../../../models';
 import { QuotationDetail } from '../../../../models/quotation-detail';
@@ -17,7 +25,16 @@ import { ExtendedEditCellClassParams } from '../../models/extended-cell-class-pa
 @Component({
   selector: 'gq-edit-cell',
   templateUrl: './edit-cell.component.html',
-  standalone: false,
+  imports: [
+    MatIconModule,
+    PushPipe,
+    CommonModule,
+    SharedPipesModule,
+    MatTooltipModule,
+    SharedTranslocoModule,
+    SharedDirectivesModule,
+  ],
+  standalone: true,
 })
 export class EditCellComponent implements ICellRendererAngularComp {
   private readonly editingModalService: EditingModalService =
@@ -153,6 +170,7 @@ export class EditCellComponent implements ICellRendererAngularComp {
     this.editingModalService.openEditingModal({
       quotationDetail: this.params.data as QuotationDetail,
       field: this.params.field as ColumnFields,
+      customerId: this.params.context?.quotation.customer.identifier,
     });
   }
 

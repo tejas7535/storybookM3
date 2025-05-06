@@ -27,27 +27,45 @@ import { salesPlanningAllowedEditRoles } from '../../../../../../../shared/utils
   styleUrl: './sales-planning-edit-button.component.scss',
 })
 export class SalesPlanningEditButtonComponent {
+  private readonly disabledStatus: string[] = ['3', '4', '5', '6', '7'];
+  private readonly visibleStatus: string[] = [...this.disabledStatus, '1'];
   private readonly authService: AuthService = inject(AuthService);
 
   protected isUserAllowedToEdit$: Observable<boolean> =
     this.authService.hasUserAccess(salesPlanningAllowedEditRoles);
 
-  protected showEditButton: Signal<boolean> = computed(
-    () => this.editStatus() !== '2'
+  protected showEditButton: Signal<boolean> = computed(() =>
+    this.visibleStatus.includes(this.editStatus())
   );
 
   protected disableEditButton: Signal<boolean> = computed(() =>
-    ['3', '4'].includes(this.editStatus())
+    this.disabledStatus.includes(this.editStatus())
   );
 
   protected tooltipText: Signal<string> = computed(() => {
-    if (this.editStatus() === '3') {
-      return translate('sales_planning.table.planExistsOnOtherLevel');
-    } else if (this.editStatus() === '4') {
-      return translate('sales_planning.table.planOnlyInPlanningCurrency');
+    switch (this.editStatus()) {
+      case '1': {
+        return translate('sales_planning.table.editSalesPlanAllowed');
+      }
+      case '3': {
+        return translate('sales_planning.table.planExistsOnOtherLevel');
+      }
+      case '4': {
+        return translate('sales_planning.table.planOnlyInPlanningCurrency');
+      }
+      case '5': {
+        return translate('sales_planning.table.noMaterialsToDistributePlan');
+      }
+      case '6': {
+        return translate('sales_planning.table.planInvalidOnlyDelete');
+      }
+      case '7': {
+        return translate('sales_planning.table.noMaintenanceInThePastAllowed');
+      }
+      default: {
+        return null;
+      }
     }
-
-    return null;
   });
 
   public editStatus: InputSignal<string> = input.required();

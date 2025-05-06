@@ -1,5 +1,4 @@
 /* eslint-disable max-lines */
-import { QuotationKpiSimulationReducers } from '@gq/core/store/active-case/quotation-kpi-simulation/quotation-kpi-simulation.reducer';
 import {
   Customer,
   DetailViewQueryParams,
@@ -16,10 +15,12 @@ import { QuotationDetailsSimulationKpiData } from '@gq/shared/services/rest/calc
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 
 import { GREATER_CHINA_SALES_ORGS } from '../approval/model/greater-china-sales-orgs';
-import { RfqSqvCheckAttachmentsActions } from '../rfq-sqv-check-attachments/rfq-sqv-check-attachments.actions';
+import { SendRecalculateSqvRequestSuccessReducer } from '../rfq-4-process/rfq-4-process.reducer';
+import { UploadRfqAttachmentsSuccessReducer } from '../rfq-sqv-check-attachments/rfq-sqv-check-attachments.reducer';
 import { ActiveCaseActions } from './active-case.action';
 import { sortQuotationDetails } from './active-case.utils';
 import { QuotationIdentifier } from './models';
+import { QuotationKpiSimulationReducers } from './quotation-kpi-simulation/quotation-kpi-simulation.reducer';
 import { QuotationMetadataReducers } from './quotation-metadata/quotation-metadata.reducer';
 
 /**
@@ -592,31 +593,11 @@ export const activeCaseFeature = createFeature({
         quotationPricingOverviewErrorMessage: errorMessage,
       })
     ),
-    on(
-      RfqSqvCheckAttachmentsActions.uploadAttachmentsSuccess,
-      (state, { gqPositionId, newApprovalStatus }): ActiveCaseState => ({
-        ...state,
-        quotation: {
-          ...state.quotation,
-          // TODO adjust the new approvalState for the position that has documents uploaded
-          quotationDetails: state.quotation.quotationDetails.map((qd) => {
-            if (qd.gqPositionId === gqPositionId) {
-              return {
-                ...qd,
-                detailCosts: {
-                  ...qd.detailCosts,
-                  sqvApprovalStatus: newApprovalStatus,
-                },
-              };
-            }
 
-            return qd;
-          }),
-        },
-      })
-    ),
     ...QuotationMetadataReducers,
-    ...QuotationKpiSimulationReducers
+    ...QuotationKpiSimulationReducers,
+    SendRecalculateSqvRequestSuccessReducer,
+    UploadRfqAttachmentsSuccessReducer
   ),
   extraSelectors: ({
     selectActiveCaseState,
@@ -694,9 +675,8 @@ export const activeCaseFeature = createFeature({
       (quotation: Quotation): QuotationDetail[] =>
         quotation?.quotationDetails.filter(
           (detail: QuotationDetail) =>
-            detail.detailCosts?.sqvRecalculationReason &&
-            detail.detailCosts.sqvRecalculationReason !==
-              RecalculationReasons.VALID
+            detail.detailCosts?.sqvCheckStatus &&
+            detail.detailCosts.sqvCheckStatus !== RecalculationReasons.VALID
         )
     );
 

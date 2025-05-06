@@ -12,8 +12,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, tap } from 'rxjs';
 
+import { PDFGeneratorService } from '@lsa/core/services/pdf-generation/pdf-generator.service';
 import { environment } from '@lsa/environments/environment';
 import { Accessory, AccessoryClassEntry } from '@lsa/shared/models';
 import { MediasCallbackResponse } from '@lsa/shared/models/price-availibility.model';
@@ -78,7 +79,10 @@ export class AccessoryTableComponent implements OnChanges, OnDestroy {
   public imagePlaceholder = `${environment.assetsPath}/images/placeholder.png`;
   public currency: string;
 
-  constructor(private readonly changeDetectorRef: ChangeDetectorRef) {}
+  constructor(
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly pdfService: PDFGeneratorService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.classPriorities?.currentValue) {
@@ -126,9 +130,12 @@ export class AccessoryTableComponent implements OnChanges, OnDestroy {
   generateAccessoriesForInput(): void {
     this.accGroups = transformAccessories(this.accessories, this.priorityMap);
     this.tableFormGroup = generateFormGroup(this.accGroups);
-
+    this.pdfService.setFormData(this.tableFormGroup.getRawValue());
     this.tableFormGroup.valueChanges
-      .pipe(takeUntil(this.formUpdate$))
+      .pipe(
+        takeUntil(this.formUpdate$),
+        tap((newValue) => this.pdfService.setFormData(newValue))
+      )
       .subscribe((newValue) => {
         this.tableSummaryState.totalQty = 0;
         this.tableSummaryState.totalPrice = 0;

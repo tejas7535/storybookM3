@@ -101,7 +101,10 @@
         "libs/shared/utils/transloco/testing/src/index.ts"
       ],
       "@schaeffler/view-toggle": ["libs/shared/ui/view-toggle/src/index.ts"],
-      "jszip": ["node_modules/jszip/dist/jszip.min.js"]
+      "jszip": ["node_modules/jszip/dist/jszip.min.js"],
+      "@schaeffler/pdf-generator": [
+        "libs/shared/utils/pdf-generator/src/index.ts"
+      ]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true

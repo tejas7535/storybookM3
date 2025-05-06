@@ -1,5 +1,12 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
+import {
+  ActionCreator,
+  createFeature,
+  createReducer,
+  on,
+  ReducerTypes,
+} from '@ngrx/store';
 
+import { ActiveCaseState } from '../active-case/active-case.reducer';
 import { RfqSqvCheckAttachmentsActions } from './rfq-sqv-check-attachments.actions';
 
 const RFQ_SQV_CHECK_ATTACHMENTS_FEATURE_KEY = 'rfqSqvCheckAttachments';
@@ -54,3 +61,29 @@ export const rfqSqvCheckAttachmentsFeature = createFeature({
     )
   ),
 });
+
+export const UploadRfqAttachmentsSuccessReducer: ReducerTypes<
+  ActiveCaseState,
+  ActionCreator[]
+> = on(
+  RfqSqvCheckAttachmentsActions.uploadAttachmentsSuccess,
+  (state, { gqPositionId, newApprovalStatus }): ActiveCaseState => ({
+    ...state,
+    quotation: {
+      ...state.quotation,
+      quotationDetails: state.quotation.quotationDetails.map((qd) => {
+        if (qd.gqPositionId === gqPositionId) {
+          return {
+            ...qd,
+            detailCosts: {
+              ...qd.detailCosts,
+              sqvApprovalStatus: newApprovalStatus,
+            },
+          };
+        }
+
+        return qd;
+      }),
+    },
+  })
+);

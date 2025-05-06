@@ -8,7 +8,6 @@ describe('PictureCardActionComponent', () => {
 
   const createComponent = createComponentFactory({
     component: PictureCardActionComponent,
-    declarations: [PictureCardActionComponent],
   });
 
   beforeEach(() => {

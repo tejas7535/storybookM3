@@ -3,7 +3,10 @@ import { mockProvider } from '@ngneat/spectator/jest';
 import { AlertService } from '../../../../feature/alerts/alert.service';
 import { SelectableOptionsService } from '../../../../shared/services/selectable-options.service';
 import { Stub } from '../../../../shared/test/stub.class';
-import { OverviewFilterComponent } from './overview-filter.component';
+import {
+  OverviewFilterComponent,
+  OverviewFilterValue,
+} from './overview-filter.component';
 
 describe('OverviewFilterComponent', () => {
   let component: OverviewFilterComponent;
@@ -11,6 +14,7 @@ describe('OverviewFilterComponent', () => {
     customers: [{ id: 'customer-id', text: 'customer-name' }],
     gkams: [{ id: 'gkam-id', text: 'gkam-name' }],
   };
+  let filterChangeSpy: jest.SpyInstance;
 
   beforeEach(() => {
     component = Stub.get<OverviewFilterComponent>({
@@ -29,27 +33,46 @@ describe('OverviewFilterComponent', () => {
         }),
       ],
     });
+    filterChangeSpy = jest.spyOn(component['onFilterChange'], 'emit');
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should output the filter when the load button is clicked', (done) => {
-    component['filterForm'].patchValue(overviewFilter);
-    component.onFilterChange.subscribe((filter) => {
-      expect(filter).toEqual(overviewFilter);
-      done();
+  describe('applyFilters', () => {
+    it('should output the filter when the load button is clicked', () => {
+      component['filterForm'].patchValue(overviewFilter);
+
+      component['applyFilters']();
+      expect(filterChangeSpy).toHaveBeenCalledWith(overviewFilter);
     });
-    component['applyFilters']();
   });
 
-  it('should output the reseted filter when the rest button is clicked', (done) => {
-    component['filterForm'].patchValue(overviewFilter);
-    component.onFilterChange.subscribe((filter) => {
-      expect(filter).toEqual({ customers: undefined, gkams: undefined });
-      done();
+  describe('resetFilters', () => {
+    it('should output the reseted filter when the rest button is clicked', () => {
+      component['filterForm'].patchValue(overviewFilter);
+      component['resetFilters']();
+      expect(filterChangeSpy).toHaveBeenCalledWith({
+        customers: undefined,
+        gkams: undefined,
+      });
     });
-    component['resetFilters']();
+  });
+
+  describe('computeReturnFilter', () => {
+    it('return the correct filter', () => {
+      const result = component['computeReturnFilter'](overviewFilter);
+      expect(result).toEqual(overviewFilter);
+    });
+
+    it('return undefined when empty', () => {
+      const filter: OverviewFilterValue = {
+        gkams: [],
+        customers: [],
+      };
+      const result = component['computeReturnFilter'](filter);
+      expect(result).toEqual({ customers: undefined, gkams: undefined });
+    });
   });
 });

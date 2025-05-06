@@ -473,10 +473,12 @@ describe('CalculationResultSelector', () => {
             false,
             [],
             { errors: [], warnings: [], notes: [] },
-            [],
-            [],
-            [],
-            []
+            {
+              startPositions: [],
+              endPositions: [],
+              radialClearance: [],
+              clearanceClasses: [],
+            }
           );
           expect(result).toEqual([]);
         });
@@ -489,17 +491,19 @@ describe('CalculationResultSelector', () => {
             false,
             [],
             { errors: [], warnings: [], notes: [] },
-            [
-              {
-                abbreviation: 'pos1',
-                value: '10',
-                designation: 'Position 1',
-                unit: 'mm',
-              },
-            ],
-            [],
-            [],
-            []
+            {
+              startPositions: [
+                {
+                  abbreviation: 'pos1',
+                  value: '10',
+                  designation: 'Position 1',
+                  unit: 'mm',
+                },
+              ],
+              endPositions: [],
+              radialClearance: [],
+              clearanceClasses: [],
+            }
           );
           expect(result).toEqual([{ name: 'startPosition' }]);
         });
@@ -512,17 +516,19 @@ describe('CalculationResultSelector', () => {
             false,
             [],
             { errors: [], warnings: [], notes: [] },
-            [],
-            [
-              {
-                abbreviation: 'pos1',
-                value: '15',
-                designation: 'End Position 1',
-                unit: 'mm',
-              },
-            ],
-            [],
-            []
+            {
+              startPositions: [],
+              endPositions: [
+                {
+                  abbreviation: 'pos1',
+                  value: '15',
+                  designation: 'End Position 1',
+                  unit: 'mm',
+                },
+              ],
+              radialClearance: [],
+              clearanceClasses: [],
+            }
           );
           expect(result).toEqual([{ name: 'endPosition' }]);
         });
@@ -535,10 +541,12 @@ describe('CalculationResultSelector', () => {
             false,
             [],
             { errors: [], warnings: [], notes: [] },
-            [],
-            [],
-            [],
-            []
+            {
+              startPositions: [],
+              endPositions: [],
+              radialClearance: [],
+              clearanceClasses: [],
+            }
           );
           expect(result).toEqual([{ name: 'reportInputs' }]);
         });
@@ -551,10 +559,12 @@ describe('CalculationResultSelector', () => {
             true,
             [],
             { errors: [], warnings: [], notes: [] },
-            [],
-            [],
-            [],
-            []
+            {
+              startPositions: [],
+              endPositions: [],
+              radialClearance: [],
+              clearanceClasses: [],
+            }
           );
           expect(result).toEqual([{ name: 'mountingToolsAndUtilities' }]);
         });
@@ -567,10 +577,12 @@ describe('CalculationResultSelector', () => {
             false,
             ['first recommendation', 'second recommendation'],
             { errors: [], warnings: [], notes: [] },
-            [],
-            [],
-            [],
-            []
+            {
+              startPositions: [],
+              endPositions: [],
+              radialClearance: [],
+              clearanceClasses: [],
+            }
           );
           expect(result).toEqual([{ name: 'mountingInstructions' }]);
         });
@@ -583,10 +595,12 @@ describe('CalculationResultSelector', () => {
             false,
             [],
             { errors: ['some error'], warnings: [], notes: [] },
-            [],
-            [],
-            [],
-            []
+            {
+              startPositions: [],
+              endPositions: [],
+              radialClearance: [],
+              clearanceClasses: [],
+            }
           );
           expect(result).toEqual([{ name: 'reportMessages' }]);
         });
@@ -597,10 +611,12 @@ describe('CalculationResultSelector', () => {
             false,
             [],
             { errors: [], warnings: ['some warning'], notes: [] },
-            [],
-            [],
-            [],
-            []
+            {
+              startPositions: [],
+              endPositions: [],
+              radialClearance: [],
+              clearanceClasses: [],
+            }
           );
           expect(result).toEqual([{ name: 'reportMessages' }]);
         });
@@ -611,10 +627,12 @@ describe('CalculationResultSelector', () => {
             false,
             [],
             { errors: [], warnings: [], notes: ['some note'] },
-            [],
-            [],
-            [],
-            []
+            {
+              startPositions: [],
+              endPositions: [],
+              radialClearance: [],
+              clearanceClasses: [],
+            }
           );
           expect(result).toEqual([{ name: 'reportMessages' }]);
         });
@@ -627,36 +645,38 @@ describe('CalculationResultSelector', () => {
             true,
             ['first recommendation'],
             { errors: ['some error'], warnings: [], notes: [] },
-            [
-              {
-                abbreviation: 'pos1',
-                value: '10',
-                designation: 'Position 1',
-                unit: 'mm',
-              },
-            ],
-            [
-              {
-                abbreviation: 'pos2',
-                value: '15',
-                designation: 'End Position 1',
-                unit: 'mm',
-              },
-            ],
-            [
-              {
-                designation: 'some designation',
-                value: 'some value',
-                unit: 'some unit',
-              },
-            ],
-            [
-              {
-                designation: 'some designation',
-                value: 'some value',
-                unit: 'some unit',
-              },
-            ]
+            {
+              startPositions: [
+                {
+                  abbreviation: 'pos1',
+                  value: '10',
+                  designation: 'Position 1',
+                  unit: 'mm',
+                },
+              ],
+              endPositions: [
+                {
+                  abbreviation: 'pos2',
+                  value: '15',
+                  designation: 'End Position 1',
+                  unit: 'mm',
+                },
+              ],
+              radialClearance: [
+                {
+                  designation: 'some designation',
+                  value: 'some value',
+                  unit: 'some unit',
+                },
+              ],
+              clearanceClasses: [
+                {
+                  designation: 'some designation',
+                  value: 'some value',
+                  unit: 'some unit',
+                },
+              ],
+            }
           );
           expect(result).toMatchSnapshot();
         });

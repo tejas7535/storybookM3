@@ -30,4 +30,12 @@
     >
     </mm-selection-cards>
   }
+
+  @if (isLoading()) {
+    <div>
+      <schaeffler-loading-spinner
+        [relative]="true"
+      ></schaeffler-loading-spinner>
+    </div>
+  }
 </form>

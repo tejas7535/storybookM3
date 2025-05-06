@@ -7,6 +7,7 @@ import { DateRangePeriod } from '../utils/date-range';
 export enum UserSettingsKey {
   StartPage = 'startPage',
   DemandValidation = 'demandValidation',
+  OverviewPage = 'overviewPage',
 }
 export enum DemandValidationUserSettingsKey {
   Workbench = 'workbench',
@@ -35,7 +36,16 @@ export interface DemandValidationSettings {
   [DemandValidationUserSettingsKey.TimeRange]: DemandValidationTimeRangeUserSettings;
 }
 
+export interface OverviewPageSettings {
+  [OverviewPageSettingsKey.OnlyAssignedToMe]: boolean;
+}
+
+export enum OverviewPageSettingsKey {
+  OnlyAssignedToMe = 'onlyAssignedToMe',
+}
+
 export interface UserSettings {
   [UserSettingsKey.StartPage]: AppRouteValue | null;
   [UserSettingsKey.DemandValidation]: DemandValidationSettings | null;
+  [UserSettingsKey.OverviewPage]: OverviewPageSettings | null;
 }

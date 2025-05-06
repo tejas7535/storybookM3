@@ -4,9 +4,9 @@ import { ListValue } from '@mm/shared/models/list-value.model';
 export interface CalculationSelectionState {
   bearingResultList: BearingOption[];
   bearing?: Bearing;
-  bearingSeats?: StepSelectionValue | undefined;
-  measurementMethods?: StepSelectionValue | undefined;
-  mountingMethods?: StepSelectionValue | undefined;
+  bearingSeats?: StepSelectionValue;
+  measurementMethods?: StepSelectionValue;
+  mountingMethods?: StepSelectionValue;
   stepper: {
     currentStep: number;
   };

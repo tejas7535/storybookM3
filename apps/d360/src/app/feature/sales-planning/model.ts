@@ -124,3 +124,20 @@ export interface DetailedCustomerSalesPlanRequest {
   detailLevel?: string;
   planningYear?: string;
 }
+
+export interface ChangeHistoryData {
+  changedByUserName: string;
+  customerNumber: string;
+  planningYear: string;
+  planningMonth: string;
+  planningMaterial: string;
+  changeTimestamp: string;
+  changedByUserId: string;
+  valueOld: number;
+  oldValueCurrency: string;
+  valueNew: number;
+  newValueCurrency: string;
+  changeType: string;
+  materialTypeLevel: string;
+  materialDescription: string;
+}

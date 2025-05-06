@@ -1,0 +1,20 @@
+<div class="footer pt-4">
+  <button
+    class="!pl-4 !pr-4"
+    mat-raised-button
+    (click)="submitAction.emit()"
+    color="primary"
+  >
+    <span class="font-medium">
+      {{ submitText() | uppercase }}
+    </span>
+  </button>
+  <button
+    color="primary"
+    class="!ml-4 text-button font-medium"
+    mat-stroked-button
+    (click)="cancelAction.emit()"
+  >
+    {{ cancelText() | uppercase }}
+  </button>
+</div>

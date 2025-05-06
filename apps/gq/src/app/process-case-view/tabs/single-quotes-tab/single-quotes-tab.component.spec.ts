@@ -4,8 +4,8 @@ import { ActivatedRoute, provideRouter } from '@angular/router';
 
 import { BehaviorSubject, of } from 'rxjs';
 
+import { ColumnDefService } from '@gq/case-view/case-table/config/column-def.service';
 import { ActiveCaseFacade } from '@gq/core/store/active-case/active-case.facade';
-import { ColumnDefService } from '@gq/shared/ag-grid/services';
 import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';

@@ -59,4 +59,8 @@
       [modalData]="modalData"
     ></gq-quantity-editing-modal>
   }
+  @case (columnFields.CUSTOMER_MATERIAL) {
+    <gq-customer-material-editing-modal [modalData]="modalData">
+    </gq-customer-material-editing-modal>
+  }
 }

@@ -1,6 +1,7 @@
+import { provideHttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 
 import {
@@ -9,7 +10,6 @@ import {
   ApprovalWorkflowBaseInformation,
   ApprovalWorkflowEvent,
   ApprovalWorkflowInformation,
-  MicrosoftUsersResponse,
   QuotationStatus,
   TriggerApprovalWorkflowRequest,
   UpdateFunction,
@@ -23,6 +23,7 @@ import {
 } from '@ngneat/spectator/jest';
 
 import { APPROVAL_STATE_MOCK } from '../../../../../testing/mocks/';
+import { MicrosoftGraphMapperService } from '../microsoft-graph-mapper/microsoft-graph-mapper.service';
 import { ApprovalService } from './approval.service';
 import { ApprovalPaths } from './approval-paths.enum';
 
@@ -33,8 +34,13 @@ describe('ApprovalService', () => {
 
   const createService = createServiceFactory({
     service: ApprovalService,
-    imports: [HttpClientTestingModule],
-    providers: [mockProvider(TranslocoLocaleService)],
+
+    providers: [
+      mockProvider(TranslocoLocaleService),
+      mockProvider(MicrosoftGraphMapperService),
+      provideHttpClient(),
+      provideHttpClientTesting(),
+    ],
   });
 
   beforeEach(() => {
@@ -123,60 +129,12 @@ describe('ApprovalService', () => {
   });
 
   describe('getActiveDirectoryUsers', () => {
-    test('should call with correct path and header', () => {
-      const searchExpression = 'test';
-      service.getActiveDirectoryUsers(searchExpression).subscribe();
-      const req = httpMock.expectOne(
-        `${ApprovalPaths.PATH_USERS}?$search="displayName:${searchExpression}" OR "userPrincipalName:${searchExpression}"&$filter=givenName ne null and surname ne null&$orderby=userPrincipalName&$select=givenName,surname,displayName,userPrincipalName&$count=true&$top=20`
-      );
-
-      expect(req.request.method).toBe(HttpMethod.GET);
-      expect(req.request.headers.get('ConsistencyLevel')).toBe('eventual');
-    });
-
-    test('should map', () => {
-      const searchExpression = 'test';
-      const response = {
-        value: [
-          {
-            givenName: 'Stefan',
-            surname: 'Herpich',
-            displayName: 'Herpich, Stefan  SF/HZA-ZC3A',
-            userPrincipalName: 'herpisef@schaeffler.com',
-          },
-          {
-            givenName: 'Stefan',
-            surname: 'Albert',
-            displayName: 'Stefan, Albert  SF/TST-ZC2A',
-            userPrincipalName: 'herpiseg@schaeffler.com',
-          },
-          {
-            givenName: 'Stefanie',
-            surname: 'Schleer',
-            displayName: 'Schleer, Stefanie  SF/HZA-ZC2A',
-            userPrincipalName: 'schlesni@schaeffler.com',
-          },
-
-          {
-            givenName: 'Pascal',
-            surname: 'Soehnlein',
-            displayName: 'Soehnlein, Pascal  SF/HZA-ZC2A',
-            userPrincipalName: 'soehnpsc@schaeffler.com',
-          },
-        ],
-      } as MicrosoftUsersResponse;
-
-      service
-        .getActiveDirectoryUsers(searchExpression)
-        .subscribe((data) =>
-          expect(data).toEqual(APPROVAL_STATE_MOCK.activeDirectoryUsers)
-        );
-
-      const req = httpMock.expectOne(
-        `${ApprovalPaths.PATH_USERS}?$search="displayName:${searchExpression}" OR "userPrincipalName:${searchExpression}"&$filter=givenName ne null and surname ne null&$orderby=userPrincipalName&$select=givenName,surname,displayName,userPrincipalName&$count=true&$top=20`
-      );
-
-      req.flush(response);
+    test('should call msGraphMapperService', () => {
+      service['msGraphService'].getActiveDirectoryUsers = jest.fn();
+      service.getActiveDirectoryUsers(expect.anything());
+      expect(
+        service['msGraphService'].getActiveDirectoryUsers
+      ).toHaveBeenCalledWith(expect.anything());
     });
   });
 

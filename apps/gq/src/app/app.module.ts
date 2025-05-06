@@ -41,6 +41,8 @@ import { AppComponent } from './app.component';
 import { AppRoutePath } from './app-route-path.enum';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
+import { Rfq4ProcessFacade } from './core/store/rfq-4-process/rfq-4-process.facade';
+import { Rfq4ProcessModule } from './core/store/rfq-4-process/rfq-4-process.module';
 import { responsiblePerson } from './shared/constants/legal-constants';
 import { AgGridStateService } from './shared/services/ag-grid-state/ag-grid-state.service';
 import { FeatureToggleConfigService } from './shared/services/feature-toggle/feature-toggle-config.service';
@@ -80,6 +82,7 @@ const FEATURE_TOGGLE_CONFIG_LOCAL_STORAGE = 'gq-feature-config';
     AppRoutingModule,
     CoreModule,
     SharedAzureAuthModule.forRoot(azureConfig),
+    Rfq4ProcessModule,
   ],
   providers: [
     {
@@ -95,17 +98,20 @@ const FEATURE_TOGGLE_CONFIG_LOCAL_STORAGE = 'gq-feature-config';
         (
           featureToggleService: FeatureToggleConfigService,
           agGridStateService: AgGridStateService,
-          userSettings: UserSettingsService
+          userSettings: UserSettingsService,
+          rfq4ProcessFacade: Rfq4ProcessFacade
         ): (() => void) =>
         (): void => {
           featureToggleService.initializeLocalStorage(environment.environment);
           userSettings.initializeUserSettings();
           agGridStateService.renameQuotationIdToActionItemForProcessCaseState();
+          rfq4ProcessFacade.getSapMaintainers();
         }
       )(
         inject(FeatureToggleConfigService),
         inject(AgGridStateService),
-        inject(UserSettingsService)
+        inject(UserSettingsService),
+        inject(Rfq4ProcessFacade)
       );
 
       return initializerFn();

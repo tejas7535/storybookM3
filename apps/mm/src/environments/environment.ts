@@ -8,7 +8,7 @@ export const environment: Environment = {
   production: false,
   localDev: true,
   devToolsEnabled: true,
-  bearinxApiBaseUrl: 'https://bearinx-d.schaeffler.com/api',
+  bearinxApiBaseUrl: 'https://bearinx-d.schaeffler.com/mounting/api',
   baseUrl: 'https://bearinx-d.schaeffler.com/mounting/api/v2/mountingmanager',
   staticStorageUrl: 'https://frontend1apps.z1.web.core.windows.net',
   oneTrustId: '8305e043-6459-42a3-8eae-82173d4456d6-test',
@@ -41,4 +41,3 @@ export const environment: Environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.

@@ -21,6 +21,8 @@ import {
 } from 'ag-grid-enterprise';
 import { format, formatISO, parse } from 'date-fns';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { GlobalSelectionStateService } from '../../shared/components/global-selection-criteria/global-selection-state.service';
 import { AUTO_CONFIGURE_APPLICATION_JSON_HEADER } from '../../shared/interceptors/headers.interceptor';
 import { USE_DEFAULT_HTTP_ERROR_INTERCEPTOR } from '../../shared/interceptors/http-error.interceptor';
@@ -97,6 +99,7 @@ export class DemandValidationService {
   private readonly globalSelectionStateService = inject(
     GlobalSelectionStateService
   );
+  private readonly appInsights = inject(ApplicationInsightsService);
 
   public getDataFetchedEvent(): Observable<{
     rowData: any[];
@@ -457,6 +460,8 @@ export class DemandValidationService {
       translate('validation_of_demand.export_modal.download_started')
     );
 
+    this.appInsights.logEvent('[Validated Sales Planning] Export Data');
+
     return this.http
       .post(
         this.EXPORT_DEMAND_VALIDATION_API,
@@ -497,14 +502,23 @@ export class DemandValidationService {
       )
       .pipe(
         take(1),
-        switchMap((response) =>
+        switchMap((response) => {
           this.streamSaverService.streamResponseToFile(
             'demandValidationExport.xlsx',
             response
-          )
-        ),
+          );
+          this.appInsights.logEvent(
+            '[Validated Sales Planning] Export Data Success'
+          );
+
+          return of(null);
+        }),
         catchError((error) => {
           this.snackBarService.openSnackBar(getErrorMessage(error));
+
+          this.appInsights.logEvent(
+            '[Validated Sales Planning] Export Data Failure'
+          );
 
           return of(null);
         }),

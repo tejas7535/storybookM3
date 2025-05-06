@@ -13,6 +13,7 @@ import { filter, map, mergeMap, startWith } from 'rxjs/operators';
 import { translate } from '@jsverse/transloco';
 
 import {
+  ADDITIONAL_THRID_PARTY_USAGE,
   CUSTOM_DATA_PRIVACY,
   CUSTOM_IMPRINT_DATA,
   DATA_SOURCE,
@@ -46,6 +47,9 @@ export class LegalComponent implements OnInit {
     @Optional()
     @Inject(CUSTOM_IMPRINT_DATA)
     public customImprintData$: Observable<any>,
+    @Inject(ADDITIONAL_THRID_PARTY_USAGE)
+    @Optional()
+    public additionalThirdPartyUsage$: Observable<string>,
     private readonly router: Router,
     private readonly route: ActivatedRoute
   ) {}
@@ -78,13 +82,15 @@ export class LegalComponent implements OnInit {
           this.purpose$ ?? of(''),
           this.dataSource$ ?? of(translate('defaultDataSource')),
           this.storagePeriod$ ?? of(translate('defaultPeriod')),
+          this.additionalThirdPartyUsage$ ?? of(''),
         ]).pipe(
-          map(([purpose, dataSource, storagePeriod]) =>
+          map(([purpose, dataSource, storagePeriod, thirdPartyUsage]) =>
             translate(path, {
               ...defaultTranslateOptions,
               purpose,
               dataSource,
               storagePeriod,
+              thirdPartyUsage,
             })
           )
         );

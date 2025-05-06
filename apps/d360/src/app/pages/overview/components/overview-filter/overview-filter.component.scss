@@ -1,0 +1,15 @@
+.card {
+  border: 1px solid var(--outline-variant-color);
+  border-radius: 4px;
+}
+.title {
+  @apply flex gap-3;
+  align-items: center;
+  flex: 0 0 auto;
+  margin-right: 20px;
+
+  .filter-list-icon {
+    top: 1px;
+    position: relative;
+  }
+}

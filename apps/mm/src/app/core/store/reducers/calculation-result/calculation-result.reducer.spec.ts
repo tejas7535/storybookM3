@@ -87,4 +87,24 @@ describe('CalculationParametersReducer', () => {
       });
     });
   });
+  describe('reset calculation result', () => {
+    it('should reset calculation result to undefined', () => {
+      const initialState: CalculationResultState = {
+        isLoading: false,
+        result: { mountingRecommendations: ['test'] } as CalculationResult,
+        versions: { abc: '123' },
+      };
+
+      const newState = calculationResultReducer(
+        initialState,
+        CalculationResultActions.resetCalculationResult()
+      );
+
+      expect(newState).toEqual({
+        isLoading: false,
+        result: undefined,
+        versions: { abc: '123' },
+      });
+    });
+  });
 });

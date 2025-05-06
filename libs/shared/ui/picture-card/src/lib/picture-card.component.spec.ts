@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { PictureCardAction } from './models';
 import { PictureCardComponent } from './picture-card.component';
 import { PictureCardActionComponent } from './picture-card-action/picture-card-action.component';
 
@@ -51,6 +52,44 @@ describe('PictureCardComponent', () => {
       component.toggle(!component.active, !component.selected);
       expect(originalActive).toBe(!component.active);
       expect(originalSelected).toBe(!component.selected);
+    });
+  });
+  describe('performAction', () => {
+    it('should call the action click function when it exists', () => {
+      const mockClick = jest.fn();
+      const action: PictureCardAction = {
+        click: mockClick,
+      } as Partial<PictureCardAction> as PictureCardAction;
+
+      component.performAction(action);
+
+      expect(mockClick).toHaveBeenCalled();
+    });
+
+    it('should not throw an error when click function does not exist', () => {
+      const action: PictureCardAction =
+        {} as Partial<PictureCardAction> as PictureCardAction;
+
+      expect(() => {
+        component.performAction(action);
+      }).not.toThrow();
+    });
+
+    it('should handle null action gracefully', () => {
+      expect(() => {
+        // eslint-disable-next-line unicorn/no-null
+        component.performAction(null as unknown as PictureCardAction);
+      }).toThrow();
+    });
+
+    it('should handle undefined click property', () => {
+      const action: PictureCardAction = {
+        click: undefined,
+      } as Partial<PictureCardAction> as PictureCardAction;
+
+      expect(() => {
+        component.performAction(action);
+      }).not.toThrow();
     });
   });
 });

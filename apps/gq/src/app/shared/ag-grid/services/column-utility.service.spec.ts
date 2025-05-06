@@ -631,6 +631,12 @@ describe('CreateColumnService', () => {
       } as ValueGetterParams);
       expect(res).toEqual(Keyboard.DASH);
     });
+    test('should return dash if price is equal', () => {
+      const res = service.getMspBlock({
+        data: { msp: 10, price: 10 },
+      } as ValueGetterParams);
+      expect(res).toEqual(Keyboard.DASH);
+    });
     test('should return translated value if msp is higher', () => {
       const res = service.getMspBlock({
         data: { msp: 20, price: 10 },

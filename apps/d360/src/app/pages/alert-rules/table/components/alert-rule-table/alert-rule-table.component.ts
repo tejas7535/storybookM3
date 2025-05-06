@@ -265,6 +265,7 @@ export class AlertRuleTableComponent implements OnInit {
               suppressHeaderMenuButton: true,
               maxWidth: 64,
               suppressSizeToFit: true,
+              sortable: false,
             },
           ] as ColDef[]);
         }),

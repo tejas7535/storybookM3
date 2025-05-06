@@ -32,11 +32,10 @@ import { AgGridModule } from 'ag-grid-angular';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { EditingCommentModalComponent } from './editing-comment-modal/editing-comment-modal.component';
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';
 
 @NgModule({
-  declarations: [QuotationDetailsTableComponent, EditingCommentModalComponent],
+  declarations: [QuotationDetailsTableComponent],
   imports: [
     AutocompleteInputComponent,
     EditCaseHeaderInformationComponent,

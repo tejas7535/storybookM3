@@ -11,7 +11,6 @@ import { LabelValue, LabelValueModule } from '@schaeffler/label-value';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CalculationResultReportInput } from '../../models/calculation-result-report-input.model';
-import { MeaningfulRoundPipe } from '../../pipes/meaningful-round.pipe';
 import { CatalogCalculationInputFormatterService } from '../../services/catalog-calculation-input-formatter.service';
 
 export enum LabelWidth {
@@ -23,7 +22,7 @@ export const elementWidthSmall = 400;
 
 @Component({
   selector: 'schaeffler-calculation-result-report-input-item',
-  imports: [SharedTranslocoModule, LabelValueModule, MeaningfulRoundPipe],
+  imports: [SharedTranslocoModule, LabelValueModule],
   templateUrl: './calculation-result-report-input-item.component.html',
   styleUrls: ['./calculation-result-report-input-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

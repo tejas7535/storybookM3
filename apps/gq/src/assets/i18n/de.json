@@ -172,7 +172,34 @@
         "not_available": "Kein SAW vorhanden",
         "invalid": "SAW ist älter als {{months}} Monat{months, plural, =1 {} other {e}}"
       },
-      "approval": "Genehmigung"
+      "approval": "Genehmigung",
+      "actionMenuItems": {
+        "startProcess": "Prozess Starten",
+        "cancelProcess": "Prozess Absagen",
+        "showHistory": "Prozess Historie Anzeigen",
+        "reopenProcess": "Prozess Wiederholen"
+      },
+      "approvalProcesses": {
+        "start": {
+          "title": "Anfrage zur Wiederholkalkulation für Item {posId} senden",
+          "forwardedToLabel": "Anfrage wird weitergeleitet an:",
+          "productionPlantLabel": "Produktionswerk",
+          "productLineLabel": "Produktlinie",
+          "messageLabel": "Nachricht",
+          "messageHint": "Nachricht an Kalkulation",
+          "sendRequestButton": "Anfrage senden",
+          "cancelButton": "Abbrechen"
+        },
+        "cancel": {
+          "title": ""
+        },
+        "calculatorMissing": {
+          "title": "Kein Kalkulator gefunden für Position {posId}",
+          "text": "Benachrichtige {personA} und {personB}, den zuständigen Kalkulator in SAP hinzuzufügen.",
+          "cancelButton": "Abbrechen",
+          "sendMailButton": "E-Mail senden"
+        }
+      }
     },
     "breadcrumbs": {
       "caseView": "Case Übersicht",
@@ -302,8 +329,8 @@
         "DISCONTINUED": "Material hat den Status L: Typ entfällt, Abverkauf prüfen"
       }
     },
-    "sqvCheckStatusLabels": {
-      "sqvCheckStatus": "{sqvCheckStatus,select,OPEN{Offen}IN_PROGRESS{In Bearbeitung}CONFIRMED{Bestätigt}CANCELLED{Abgesagt} other{}}"
+    "rfq4StatusLabels": {
+      "rfq4Status": "{rfq4Status,select,OPEN{Offen}IN_PROGRESS{In Bearbeitung}CONFIRMED{Bestätigt}CANCELLED{Abgesagt} other{}}"
     },
     "sqvApprovalStatusLabels": {
       "sqvApprovalStatus": "{sqvApprovalStatus,select,APPROVAL_NEEDED{Genehmige}APPROVED{Genehmigt} other{}}",
@@ -454,11 +481,13 @@
     "snackBarMessages": {
       "materialAdded": "Material wurde hinzugefügt",
       "materialDeleted": "Material wurde entfernt",
-      "updateSelectedPrice": "Der Preis wurde gespeichert",
-      "updateTargetPrice": "Der Zielpreis wurde gespeichert",
-      "updateQuantity": "Die Mengenänderung wurde gespeichert",
-      "updateQuantityAffectsGqPrice": "Die Mengenänderung wurde gespeichert. Dies könnte zu einer Aktualisierung des GQ-Preises führen.",
-      "updateComment": "Die Kommentaränderung wurde gespeichert",
+      "updateSelectedPrice": "Preis wurde gespeichert",
+      "updateTargetPrice": "Zielpreis wurde gespeichert",
+      "updateQuantity": "Menge wurde gespeichert",
+      "updateQuantityAffectsGqPrice": "Menge wurde gespeichert. Dies könnte zu einer Aktualisierung des GQ-Preises führen.",
+      "updateComment": "Kommentar wurde gespeichert",
+      "updateCustomerMaterial": "Kundenmaterialnummer wurde gespeichert",
+      "deleteCustomerMaterial": "Kundenmaterialnummer wurde gelöscht",
       "refreshSapPricingSuccess": "SAP Preise wurden aktualisiert",
       "refreshSapPricingSuccessAsync": "Preise werden aus SAP aktualisiert",
       "wrongPriceEditInput": "Bitte geben sie einen numerischen Preis ein",
@@ -479,7 +508,8 @@
       "attachmentsUploaded": "Anhänge erfolgreich hochgeladen",
       "attachmentsDeleted": "Anhang gelöscht",
       "sharedQuotationSaved": "Dieser Case wurde in dem Reiter \"Geteilte Angebote\" gespeichert.",
-      "sharedQuotationUnsaved": "Dieser Case wurde aus dem Reiter \"Geteilte Angebote\" entfernt."
+      "sharedQuotationUnsaved": "Dieser Case wurde aus dem Reiter \"Geteilte Angebote\" entfernt.",
+      "sqvRecalculateRequestSend": "Anfrage für Wiederholkalkulation gesendet."
     },
     "maintenance": {
       "title": "Guided Quoting ist derzeit wegen Wartungsarbeiten nicht verfügbar"
@@ -490,6 +520,7 @@
       "gpi": "GPI % (KHK)",
       "discount": "Rabatt %",
       "price": "Preis",
+      "customerMaterial": "Kundenmaterialnummer",
       "targetPrice": "Zielpreis",
       "orderQuantity": "Menge",
       "relative": "Relativ",
@@ -500,7 +531,8 @@
         "gpi": "Neuen GPI setzen",
         "gpm": "Neuen GPM setzen",
         "discount": "Neuen Rabatt setzen",
-        "orderQuantity": "Neue Menge setzen"
+        "orderQuantity": "Neue Menge setzen",
+        "customerMaterial": "Neue Kundenmaterialnummer setzen"
       },
       "labels": {
         "price": "Preisänderung in %",
@@ -510,7 +542,8 @@
         "discount": "Rabattänderung in %",
         "orderQuantity": "Mengenänderung",
         "priceAbsolute": "Eingabe Nettopreis",
-        "targetPriceAbsolute": "Eingabe Zielpreis"
+        "targetPriceAbsolute": "Eingabe Zielpreis",
+        "customerMaterial": "Kundenmaterialnummer"
       },
       "hints": {
         "price": "Preis ändern",

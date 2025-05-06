@@ -169,6 +169,16 @@ describe('AutocompleteSelectionComponent', () => {
         done();
       }, component['debounceTime']);
     });
+    test('should not set option automatically when only one option is available butallowOptionsValuesOnly is false', (done) => {
+      component.ngOnInit();
+      spectator.setInput('allowOptionsValuesOnly', false);
+      component.formControl.setValue('value');
+      setTimeout(() => {
+        expect(component.formControl.value).toEqual('value');
+        done();
+      }, component['debounceTime']);
+    });
+
     test('should not set option automatically when only one option is available but passed option is null', (done) => {
       component.ngOnInit();
       component.formControl.setValue(null);
@@ -186,6 +196,32 @@ describe('AutocompleteSelectionComponent', () => {
       }, component['debounceTime']);
     });
   });
+
+  describe('getFormControlValueLength', () => {
+    test('should return 0 when formControl value is null', () => {
+      component.formControl.setValue(null);
+      expect(component.getFormControlValueLength()).toEqual(0);
+    });
+    test('should return  when formControl value is string', () => {
+      component.formControl.setValue('test');
+      expect(component.getFormControlValueLength()).toEqual(4);
+    });
+    test('should return when formControl value is object', () => {
+      const value: SelectableValue = {
+        id: '1',
+        value: 'value',
+        value2: 'value2',
+      };
+      spectator.setInput(
+        'customDisplayFunction',
+        (v: SelectableValue) => v.value2
+      );
+
+      component.formControl.setValue(value);
+      expect(component.getFormControlValueLength()).toEqual('value2'.length);
+    });
+  });
+
   describe('writeValue function', () => {
     test('should set option to null when id is not present', () => {
       const value: SelectableValue = {
@@ -236,6 +272,12 @@ describe('AutocompleteSelectionComponent', () => {
   describe('onBlur', () => {
     beforeEach(() => {
       component['onTouched'] = jest.fn();
+    });
+    test('should not set error on blur when allowOptionsValuesOnly is false', () => {
+      spectator.setInput('allowOptionsValuesOnly', false);
+      component.formControl.setValue('test');
+      component.onBlur();
+      expect(component.formControl.errors).toEqual(null);
     });
     test('should set error on blur when selection is a string', () => {
       component.formControl.setValue('test');
@@ -301,6 +343,21 @@ describe('AutocompleteSelectionComponent', () => {
 
       component.defaultSelection$.subscribe((val) => {
         expect(val).toEqual(defaultValue);
+        done();
+      });
+    });
+  });
+
+  describe('initalValue$', () => {
+    test('should set form control value', (done) => {
+      spectator.setInput('initalValue', 'x');
+      component.initialValue$.subscribe((val) => {
+        expect(val).toEqual('x');
+        expect(component.formControl.value).toEqual({
+          id: null,
+          value: null,
+          value2: 'x',
+        });
         done();
       });
     });

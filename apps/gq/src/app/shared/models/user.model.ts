@@ -7,6 +7,7 @@ export interface ActiveDirectoryUser {
   userId: string;
   firstName: string;
   lastName: string;
+  mail?: string;
 }
 
 export interface MicrosoftUser {
@@ -14,6 +15,7 @@ export interface MicrosoftUser {
   surname: string;
   displayName: string;
   userPrincipalName: string;
+  mail: string;
 }
 
 export interface MicrosoftUsersResponse {

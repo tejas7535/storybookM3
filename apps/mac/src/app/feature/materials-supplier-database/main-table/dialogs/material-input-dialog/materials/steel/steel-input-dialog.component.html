@@ -86,7 +86,6 @@
             @if (dialogData.editDialogInformation?.selectedRows?.length > 1) {
               <button
                 mat-icon-button
-                color="primary"
                 class="mt-1 ml-1"
                 (click)="openReferenceDocumentBulkEditDialog()"
               >
@@ -218,7 +217,6 @@
         <div class="-ml-2 flex flex-row gap-x-6">
           <mat-checkbox
             class="text-caption text-high-emphasis"
-            color="primary"
             [formControl]="selfCertifiedControl"
             name="manufacturerSupplierSelfCertified"
             #dialogControl
@@ -236,7 +234,6 @@
         <div class="-ml-2 flex flex-row gap-x-6">
           <mat-checkbox
             class="text-caption text-high-emphasis"
-            color="primary"
             [formControl]="isManufacturerControl"
             name="manufacturer"
             #dialogControl
@@ -479,7 +476,6 @@
         <div class="-ml-2 flex flex-row gap-x-6">
           <mat-checkbox
             class="text-caption text-high-emphasis"
-            color="primary"
             [formControl]="isBlockedControl"
             name="blocked"
             #dialogControl
@@ -508,7 +504,7 @@
             name="co2Upstream"
             #dialogControl
           />
-          <span matSuffix class="text-caption !block !w-16 pt-1">{{
+          <span matSuffix class="text-caption !block !w-20 pt-1">{{
             t('co2PerTon')
           }}</span>
           <mat-hint>{{ co2UpstreamHint }}</mat-hint>
@@ -527,7 +523,7 @@
             name="co2Core"
             #dialogControl
           />
-          <span matSuffix class="text-caption !block !w-16 pt-1">{{
+          <span matSuffix class="text-caption !block !w-20 pt-1">{{
             t('co2PerTon')
           }}</span>
           <mat-hint>{{ co2CoreHint }}</mat-hint>
@@ -546,7 +542,7 @@
             name="co2PerTon"
             #dialogControl
           />
-          <span matSuffix class="text-caption !block !w-16 pt-1">{{
+          <span matSuffix class="text-caption !block !w-20 pt-1">{{
             t('co2PerTon')
           }}</span>
           <mat-hint>{{ co2TotalHint }}</mat-hint>
@@ -655,7 +651,6 @@
         <div class="-ml-2 flex flex-row gap-x-6 justify-end">
           <mat-checkbox
             class="text-caption text-high-emphasis cursor-not-allowed"
-            color="primary"
             name="blocked"
             [checked]="
               productCategoryRuleControl.value?.data?.allocationToSideProducts

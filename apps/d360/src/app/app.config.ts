@@ -6,7 +6,9 @@ import {
 import {
   ApplicationConfig,
   importProvidersFrom,
+  inject,
   isDevMode,
+  provideAppInitializer,
   provideZoneChangeDetection,
 } from '@angular/core';
 import {
@@ -33,6 +35,10 @@ import { StoreModule } from '@ngrx/store';
 import * as echarts from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 
+import {
+  ApplicationInsightsModule,
+  ApplicationInsightsService,
+} from '@schaeffler/application-insights';
 import {
   AzureConfig,
   MsalGuardConfig,
@@ -83,6 +89,18 @@ const azureConfig = new AzureConfig(
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    importProvidersFrom(
+      ApplicationInsightsModule.forRoot(environment.applicationInsights)
+    ),
+    provideAppInitializer(() => {
+      const applicationInsightsService = inject(ApplicationInsightsService);
+
+      applicationInsightsService.addCustomPropertyToTelemetryData(
+        'application',
+        '[d360 - Planning360]'
+      );
+      applicationInsightsService.startTracking(true);
+    }),
     provideHttpClient(withInterceptorsFromDi()),
 
     importProvidersFrom(

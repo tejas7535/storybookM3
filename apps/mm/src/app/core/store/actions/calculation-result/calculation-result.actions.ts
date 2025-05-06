@@ -22,6 +22,10 @@ export const setCalculationResult = createAction(
   props<{ result: CalculationResult }>()
 );
 
+export const resetCalculationResult = createAction(
+  '[CalculationResult] Reset Calculation Result'
+);
+
 export const fetchBearinxVersions = createAction(
   '[CalculationResult] Fetch Bearinx Versions'
 );

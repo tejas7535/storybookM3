@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -50,6 +51,7 @@ import { NoDataOverlayComponent } from '../../../../shared/components/ag-grid/no
 import { TableToolbarComponent } from '../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
 import { NumberWithoutFractionDigitsPipe } from '../../../../shared/pipes/number-without-fraction-digits.pipe';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
+import { CustomerPlanningDetailsChangeHistoryModalComponent } from '../customer-planning-details-change-history-modal/customer-planning-details-change-history-modal.component';
 import { CustomerPlanningLevelConfigurationModalComponent } from '../customer-planning-level-configuration-modal/customer-planning-level-configuration-modal.component';
 import { SalesPlanningGroupLevelCellRendererComponent } from './ag-grid/cell-renderer/sales-planning-group-level-cell-renderer/sales-planning-group-level-cell-renderer.component';
 import { getColumnDefinitions } from './column-definition';
@@ -147,12 +149,7 @@ export class CustomerPlanningDetailsComponent {
     }),
     context: {
       numberPipe: new NumberWithoutFractionDigitsPipe(),
-      reloadData: () => {
-        this.setYearlyPlanningData(
-          this.planningLevelMaterialConfiguration().planningLevelMaterialType
-        );
-        this.fetchPlanningLevelMaterial(this.customerNumber());
-      },
+      reloadData: () => this.reloadData(),
     },
     isGroupOpenByDefault: () => false,
     suppressGroupRowsSticky: true,
@@ -216,6 +213,20 @@ export class CustomerPlanningDetailsComponent {
       .subscribe();
   }
 
+  protected handleChartHistoryModalClicked() {
+    this.dialog.open(CustomerPlanningDetailsChangeHistoryModalComponent, {
+      data: {
+        customerName: this.customerName(),
+        customerNumber: this.customerNumber(),
+      },
+      minWidth: '75vw',
+      maxWidth: '100vw',
+      autoFocus: false,
+      disableClose: true,
+      panelClass: 'resizable',
+    });
+  }
+
   public isNoCustomerSelected() {
     return this.customerName() === null && this.customerNumber() === null;
   }
@@ -244,6 +255,7 @@ export class CustomerPlanningDetailsComponent {
         tap((data) => {
           this.gridApi?.setGridOption('rowData', data);
           this.rowCount.set(this.gridApi?.getDisplayedRowCount());
+          this.gridApi?.redrawRows();
         }),
         finalize(() => this.isLoading.set(false)),
         takeUntilDestroyed(this.destroyRef)
@@ -327,7 +339,10 @@ export class CustomerPlanningDetailsComponent {
     this.planningLevelService
       .getMaterialTypeByCustomerNumber(customerNumber)
       .pipe(
-        tap((data) => this.planningLevelMaterialConfiguration.set(data)),
+        tap((data) => {
+          this.planningLevelMaterialConfiguration.set(data);
+          this.gridApi?.redrawRows();
+        }),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
@@ -354,26 +369,47 @@ export class CustomerPlanningDetailsComponent {
       planningEntry = '';
     }
 
-    this.dialog.open(MonthlyCustomerPlanningDetailsModalComponent, {
-      data: {
-        detailLevel,
-        planningEntry,
-        customerNumber: this.customerNumber(),
-        customerName: this.customerName(),
-        planningCurrency: this.planningCurrency(),
-        planningYear: rowData.planningYear,
-        planningMaterial: rowData.planningMaterial,
-        planningLevelMaterialType:
-          this.planningLevelMaterialConfiguration().planningLevelMaterialType,
-        totalSalesPlanUnconstrained: rowData.totalSalesPlanUnconstrained,
-        totalSalesPlanAdjusted: rowData.totalSalesPlanAdjusted,
-      },
-      autoFocus: false,
-      disableClose: true,
-      hasBackdrop: false,
-      panelClass: 'monthly-customer-planning-details',
-      width: '100vw',
-      height: '100vh',
-    });
+    this.dialog
+      .open(MonthlyCustomerPlanningDetailsModalComponent, {
+        data: {
+          detailLevel,
+          planningEntry,
+          customerNumber: this.customerNumber(),
+          customerName: this.customerName(),
+          planningCurrency: this.planningCurrency(),
+          planningYear: rowData.planningYear,
+          planningMaterial: rowData.planningMaterial,
+          planningLevelMaterialType:
+            this.planningLevelMaterialConfiguration().planningLevelMaterialType,
+          totalSalesPlanUnconstrained: rowData.totalSalesPlanUnconstrained,
+          totalSalesPlanAdjusted: rowData.totalSalesPlanAdjusted,
+        },
+        autoFocus: false,
+        disableClose: true,
+        hasBackdrop: false,
+        panelClass: 'monthly-customer-planning-details',
+        width: '100vw',
+        height: '100vh',
+      })
+      .afterClosed()
+      .pipe(
+        tap(
+          (reloadData) =>
+            detailLevel === SalesPlanningDetailLevel.MonthlyOnlyDetailLevel &&
+            reloadData &&
+            this.reloadData()
+        ),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+  }
+
+  private reloadData(): void {
+    {
+      this.setYearlyPlanningData(
+        this.planningLevelMaterialConfiguration().planningLevelMaterialType
+      );
+      this.fetchPlanningLevelMaterial(this.customerNumber());
+    }
   }
 }

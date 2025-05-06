@@ -55,14 +55,8 @@
             t('dataSource')
           }}</span>
           <mac-maturity-info>
-            <button
-              mat-icon-button
-              class="!w-5 !h-5 !leading-5 !flex !justify-center !items-center"
-            >
-              <mat-icon
-                class="!w-[18px] !h-[18px] !leading-[18px] !text-[18px] !text-[#00000099] absolute"
-                >info_outline</mat-icon
-              >
+            <button mat-icon-button class="!justify-center !items-center">
+              <mat-icon>info_outline</mat-icon>
             </button>
           </mac-maturity-info>
         </div>
@@ -73,7 +67,7 @@
           *transloco="let tr; read: 'materialsSupplierDatabase.dataSource'"
         >
           @for (maturity of possibleMaturity; track maturity) {
-            <mat-radio-button color="primary" class="w-full" [value]="maturity">
+            <mat-radio-button class="w-full" [value]="maturity">
               <div class="w-full flex justify-between items-center gap-x-1">
                 <span> {{ tr(maturity) }} </span>
                 <span
@@ -89,11 +83,7 @@
     </div>
     <div class="w-full flex flex-col gap-2">
       <div>
-        <mat-checkbox
-          color="primary"
-          formControlName="disclaimerAccepted"
-          class="-ml-2"
-        >
+        <mat-checkbox formControlName="disclaimerAccepted" class="-ml-2">
           <span class="!whitespace-normal text-caption block">{{
             t('disclaimer')
           }}</span>
@@ -107,7 +97,7 @@
         (filesChanged)="setFile($event)"
       ></schaeffler-file-upload>
       <div>
-        <button mat-button color="primary" (click)="downloadDataTemplate()">
+        <button mat-button (click)="downloadDataTemplate()">
           <mat-icon class="!absolute !right-0">download</mat-icon>
           <span class="pr-6">{{ t('downloadTemplate') }}</span>
         </button>

@@ -12,7 +12,9 @@
     <ng-container mainContent>
       <div class="h-full w-full">
         <schaeffler-banner></schaeffler-banner>
-        <div class="border-t border-border"></div>
+        @if (isBannerOpened()) {
+          <div class="border-t border-border"></div>
+        }
         <ng-container *ngTemplateOutlet="content"></ng-container>
       </div>
     </ng-container>
@@ -37,14 +39,16 @@
 
 <ng-template #content>
   <div
-    [ngClass]="embedded ? 'bg-surface-legacy' : 'bg-surface'"
+    [ngClass]="embedded ? 'bg-surface-legacy' : 'bg-surface-container-lowest'"
     class="flex min-h-full flex-col"
   >
     <div
-      [ngClass]="embedded ? 'm-0 mt-5 p-0 pt-5' : 'px-4 pb-4 md:m-4'"
-      class="flex flex-auto flex-col bg-surface"
+      [ngClass]="embedded ? 'm-0 mt-5 p-0 pt-5' : ' sm:px-4 pb-4 md:m-4'"
+      class="flex flex-auto flex-col bg-surface-container-lowest"
     >
-      <div class="max-w-full flex-1 bg-surface-container-lowest">
+      <div
+        class="flex-1 bg-surface-container-lowest container mx-auto max-w-screen-xl"
+      >
         <router-outlet></router-outlet>
       </div>
       <div

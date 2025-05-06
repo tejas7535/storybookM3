@@ -29,7 +29,7 @@ export class PreflightDataParserService {
 
     const nutField = allFields.find(({ id }) => id === IDMM_HYDRAULIC_NUT_TYPE);
 
-    if (!nutField || !nutField.range) {
+    if (!nutField?.range) {
       throw new Error(`Cannot find ${IDMM_HYDRAULIC_NUT_TYPE} field`);
     }
 

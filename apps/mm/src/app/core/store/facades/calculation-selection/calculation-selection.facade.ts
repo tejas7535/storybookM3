@@ -4,6 +4,7 @@ import { filter, map, Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
+import { CalculationResultActions } from '../../actions/calculation-result';
 import { CalculationSelectionActions } from '../../actions/calculation-selection';
 import { Bearing } from '../../models/calculation-selection-state.model';
 import { CalculationSelectionSelector } from '../../selectors';
@@ -16,10 +17,6 @@ export class CalculationSelectionFacade {
     CalculationSelectionSelector.getSteps
   );
 
-  public readonly currentStep$ = this.store.select(
-    CalculationSelectionSelector.getCurrentStep
-  );
-
   public readonly selectedBearingOption$ = this.getBearing$().pipe(
     filter((bearing) => !!bearing),
     map((bearing) => ({
@@ -30,10 +27,6 @@ export class CalculationSelectionFacade {
 
   public readonly bearingResultList$ = this.store.select(
     CalculationSelectionSelector.getBearingsResultList
-  );
-
-  public readonly isLoading$ = this.store.select(
-    CalculationSelectionSelector.getBearingSelectionLoading
   );
 
   public readonly bearingSeats$ = this.store.select(
@@ -49,6 +42,12 @@ export class CalculationSelectionFacade {
   );
 
   constructor(private readonly store: Store) {}
+
+  public isLoading$(): Observable<boolean> {
+    return this.store.select(
+      CalculationSelectionSelector.getBearingSelectionLoading
+    );
+  }
 
   public getCurrentStep$(): Observable<number> {
     return this.store.select(CalculationSelectionSelector.getCurrentStep);
@@ -70,6 +69,10 @@ export class CalculationSelectionFacade {
     return this.store.select(CalculationSelectionSelector.getMountingMethod);
   }
 
+  public isAxialDisplacement$(): Observable<boolean> {
+    return this.store.select(CalculationSelectionSelector.isAxialDisplacement);
+  }
+
   searchBearing(query: string): void {
     this.store.dispatch(
       CalculationSelectionActions.searchBearingList({ query })
@@ -78,6 +81,7 @@ export class CalculationSelectionFacade {
 
   resetBearingSelection(): void {
     this.store.dispatch(CalculationSelectionActions.resetBearing());
+    this.store.dispatch(CalculationResultActions.resetCalculationResult());
   }
 
   fetchBearingData(bearingId: string): void {

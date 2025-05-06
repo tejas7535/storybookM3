@@ -6,6 +6,9 @@ export const DEFAULT_CONFIG: GqFeatureToggleConfig = {
   targetPriceSourceColumn: true,
   displaySqvChecks: false,
   openItemsTab: false,
+  findCalculatorsPlantMock: false,
+  findCalculatorsManagerMock: false,
+  findCalculatorsNotFoundMock: false,
 };
 
 export interface GqFeatureToggleConfig {
@@ -16,4 +19,7 @@ export interface GqFeatureToggleConfig {
   targetPriceSourceColumn: boolean;
   displaySqvChecks: boolean;
   openItemsTab: boolean;
+  findCalculatorsPlantMock: boolean;
+  findCalculatorsManagerMock: boolean;
+  findCalculatorsNotFoundMock: boolean;
 }

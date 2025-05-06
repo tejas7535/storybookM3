@@ -22,7 +22,6 @@ import {
 import { FilterDimension, IdValue } from '../../../shared/models';
 import { SystemMessage } from '../../../shared/models/system-message';
 import { SystemMessageService } from '../../system-message/system-message.service';
-import { UserFeedback } from '../../user-settings/models';
 import { UserSettings } from '../../user-settings/models/user-settings.model';
 import { UserSettingsService } from '../../user-settings/user-settings.service';
 import { UserSettingsDialogComponent } from '../../user-settings/user-settings-dialog/user-settings-dialog.component';
@@ -39,9 +38,6 @@ import {
   loadUserSettingsSuccess,
   openIABanner,
   showUserSettingsDialog,
-  submitUserFeedback,
-  submitUserFeedbackFailure,
-  submitUserFeedbackSuccess,
   updateUserSettings,
   updateUserSettingsFailure,
   updateUserSettingsSuccess,
@@ -505,74 +501,6 @@ describe('User Settings Effects', () => {
       snackbar.open = jest.fn();
 
       effects.updateUserSettingsFailure$.subscribe();
-
-      expect(snackbar.open).toHaveBeenCalledWith('translate it');
-    });
-  });
-
-  describe('submitUserFeedback$', () => {
-    const feedback: UserFeedback = { category: 'idea', message: 'new idea' };
-    beforeEach(() => {
-      action = submitUserFeedback({ feedback });
-    });
-
-    test(
-      'should return submitUserFeedbackSuccess on success',
-      marbles((m) => {
-        const result = submitUserFeedbackSuccess();
-
-        actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('--b', { b: result });
-        const response = m.cold('-c', { c: feedback });
-
-        userSettingsService.submitUserFeedback = jest
-          .fn()
-          .mockImplementation(() => response);
-
-        m.expect(effects.submitUserFeedback$).toBeObservable(expected);
-        m.flush();
-        expect(userSettingsService.submitUserFeedback).toHaveBeenCalledWith(
-          feedback
-        );
-      })
-    );
-  });
-
-  describe('submitUserFeedbackSuccess', () => {
-    beforeEach(() => {
-      action = submitUserFeedbackSuccess();
-    });
-
-    test('should close dialog and open snackbar', () => {
-      actions$ = of(action);
-
-      dialog.closeAll = jest.fn();
-      snackbar.open = jest.fn();
-
-      effects.submitUserFeedbackSuccess$.subscribe();
-
-      expect(dialog.closeAll).toHaveBeenCalledTimes(1);
-      expect(snackbar.open).toHaveBeenCalledWith('translate it');
-    });
-  });
-
-  describe('submitUserFeedbackFailure$', () => {
-    beforeEach(() => {
-      action = submitUserFeedbackFailure();
-    });
-    test('should have dispatch set to false', () => {
-      expect(metadata.submitUserFeedbackFailure$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
-
-    test('should show toast message', () => {
-      actions$ = of(action);
-
-      snackbar.open = jest.fn();
-
-      effects.submitUserFeedbackFailure$.subscribe();
 
       expect(snackbar.open).toHaveBeenCalledWith('translate it');
     });

@@ -1,4 +1,12 @@
 # Release Notes of Material App Center
+## [1.31.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.30.0...mac-v1.31.0) (2025-04-30)
+
+
+### Features
+
+* **mac:** alignment with op1 data format (UFTABI-8782) ([#7198](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7198)) ([44e00f3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/44e00f31541eda2b0d167e290a83d054e44bf21f))
+* **mac:** upgrade to material design version 3 (UFTABI-8721) ([#7172](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7172)) ([825ff17](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/825ff17be0006f2fc86103da741c0b9c43eb88b6))
+
 ## [1.30.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.29.0...mac-v1.30.0) (2025-04-16)
 
 

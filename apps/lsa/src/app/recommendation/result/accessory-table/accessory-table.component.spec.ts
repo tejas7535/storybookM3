@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 
+import { PDFGeneratorService } from '@lsa/core/services/pdf-generation/pdf-generator.service';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -27,6 +28,14 @@ describe('AccessoryTableComponent', () => {
   const createComponent = createComponentFactory({
     component: AccessoryTableComponent,
     imports: [provideTranslocoTestingModule({ en: {} })],
+    providers: [
+      {
+        provide: PDFGeneratorService,
+        useValue: {
+          setFormData: jest.fn(),
+        },
+      },
+    ],
   });
 
   beforeEach(() => {

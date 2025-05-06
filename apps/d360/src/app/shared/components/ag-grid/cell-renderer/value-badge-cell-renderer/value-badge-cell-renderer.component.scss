@@ -1,0 +1,11 @@
+.badge {
+  @apply px-5 rounded-xl text-[10px]  h-6 flex items-center self-center justify-center;
+  min-width: 39px;
+  background-color: var(--todo-color-prio2-bg);
+  color: var(--todo-color-prio2-text);
+
+  &.green {
+    background-color: #f1f6e8;
+    color: #3c7029;
+  }
+}

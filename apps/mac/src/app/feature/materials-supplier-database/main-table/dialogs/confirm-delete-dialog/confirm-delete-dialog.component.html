@@ -25,15 +25,10 @@
 
     <mat-dialog-actions align="end" class="-mx-6">
       <div class="px-4 pb-2">
-        <button mat-stroked-button (click)="closeDialog()" color="primary">
+        <button mat-stroked-button (click)="closeDialog()">
           {{ t('cancel') }}
         </button>
-        <button
-          mat-raised-button
-          color="primary"
-          class="!ml-4"
-          (click)="applyDialog()"
-        >
+        <button mat-flat-button class="!ml-4" (click)="applyDialog()">
           {{ t('confirm_delete') }}
         </button>
       </div>

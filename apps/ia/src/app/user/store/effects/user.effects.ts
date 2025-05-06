@@ -34,9 +34,6 @@ import {
   loadUserSettingsSuccess,
   openIABanner,
   showUserSettingsDialog,
-  submitUserFeedback,
-  submitUserFeedbackFailure,
-  submitUserFeedbackSuccess,
   updateUserSettings,
   updateUserSettingsFailure,
   updateUserSettingsSuccess,
@@ -172,49 +169,6 @@ export class UserEffects implements OnInitEffects {
       return this.actions$.pipe(
         ofType(updateUserSettingsFailure),
         tap(() => this.snackbar.open(translate('user.userSettings.saveFailed')))
-      );
-    },
-    { dispatch: false }
-  );
-
-  submitUserFeedback$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(submitUserFeedback),
-      switchMap((feedback) => {
-        return this.userSettingsService
-          .submitUserFeedback(feedback.feedback)
-          .pipe(
-            map(() => submitUserFeedbackSuccess()),
-            catchError(() => of(submitUserFeedbackFailure()))
-          );
-      })
-    );
-  });
-
-  submitUserFeedbackSuccess$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(submitUserFeedbackSuccess),
-        tap(() => {
-          if (this.dialog.openDialogs?.length > 0) {
-            // close dialog if open
-            this.dialog.closeAll();
-          }
-
-          this.snackbar.open(translate('user.feedback.dialog.submitSuccess'));
-        })
-      );
-    },
-    { dispatch: false }
-  );
-
-  submitUserFeedbackFailure$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(submitUserFeedbackFailure),
-        tap(() =>
-          this.snackbar.open(translate('user.feedback.dialog.submitFailure'))
-        )
       );
     },
     { dispatch: false }

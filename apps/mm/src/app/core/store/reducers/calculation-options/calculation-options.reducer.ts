@@ -5,6 +5,7 @@ import { CalculationOptionsState } from '../../models/calculation-options-state.
 
 export const initialState: CalculationOptionsState = {
   options: undefined,
+  calculationPerformed: false,
 };
 
 export const calculationOptionsReducer = createReducer(
@@ -14,6 +15,13 @@ export const calculationOptionsReducer = createReducer(
     (state, { options }): CalculationOptionsState => ({
       ...state,
       options,
+    })
+  ),
+  on(
+    CalculationOptionsActions.setCalculationPerformed,
+    (state, { performed }): CalculationOptionsState => ({
+      ...state,
+      calculationPerformed: performed,
     })
   ),
   on(
@@ -35,6 +43,7 @@ export const calculationOptionsReducer = createReducer(
           state.options.radialClearanceReduction,
         shaftDiameter: formData.shaftDiameter ?? state.options.shaftDiameter,
       },
+      calculationPerformed: false,
     })
   ),
   on(

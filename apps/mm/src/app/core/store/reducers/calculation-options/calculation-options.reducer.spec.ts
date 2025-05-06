@@ -44,6 +44,7 @@ describe('Calculation Options Reducer', () => {
           options: [],
         },
       },
+      calculationPerformed: false,
     };
 
     const state = calculationOptionsReducer(stateWithOptions, action);
@@ -76,5 +77,54 @@ describe('Calculation Options Reducer', () => {
     expect(state.options.shaftMaterial).toEqual(shaftMaterialData.id);
     expect(state.options.modulusOfElasticity).toEqual(shaftMaterialData.emodul);
     expect(state.options.poissonRatio).toEqual(shaftMaterialData.nue);
+  });
+
+  it('should set calculationPerformed on setCalculationPerformed', () => {
+    const action = CalculationOptionsActions.setCalculationPerformed({
+      performed: false,
+    });
+    const state = calculationOptionsReducer(initialState, action);
+    expect(state.calculationPerformed).toBe(false);
+
+    const actionTrue = CalculationOptionsActions.setCalculationPerformed({
+      performed: true,
+    });
+    const stateWithPerformedTrue = {
+      ...initialState,
+      calculationPerformed: true,
+    };
+    const updatedState = calculationOptionsReducer(
+      stateWithPerformedTrue,
+      actionTrue
+    );
+    expect(updatedState.calculationPerformed).toBe(true);
+  });
+
+  it('should reset calculationPerformed to false when updating options from form data', () => {
+    const stateWithCalculationPerformed: CalculationOptionsState = {
+      options: {
+        ...initialState.options,
+        hudraulicNutType: {
+          value: 'oldValue',
+          options: [],
+        },
+      },
+      calculationPerformed: true,
+    };
+
+    const formData = {
+      mountingOption: 'newMountingOption',
+      hydraulicNutType: 'newHydraulicNutType',
+    } as any;
+
+    const action = CalculationOptionsActions.updateOptionsFromFormData({
+      formData,
+    });
+    const state = calculationOptionsReducer(
+      stateWithCalculationPerformed,
+      action
+    );
+
+    expect(state.calculationPerformed).toBe(false);
   });
 });

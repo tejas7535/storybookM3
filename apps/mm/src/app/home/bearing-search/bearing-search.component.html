@@ -1,8 +1,8 @@
 <schaeffler-search
   *transloco="let t"
   appearance="outline"
-  [stringOptions]="bearingResultList$ | ngrxPush"
-  [loading]="bearingSelectionLoading$ | ngrxPush"
+  [stringOptions]="bearingResultList()"
+  [loading]="bearingSelectionLoading()"
   [control]="myControl"
   [label]="t('form.chooseOption')"
   [placeholder]="t('form.chooseOption')"

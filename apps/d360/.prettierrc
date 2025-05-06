@@ -1,0 +1,15 @@
+{
+  "endOfLine": "auto",
+  "overrides": [
+    {
+      "files": ["./src/assets/i18n/*.json"],
+      "options": {
+        "jsonRecursiveSort": true,
+        "jsonSortOrder": "{  \"/.*/\": \"caseInsensitiveNumeric\" }",
+        "plugins": ["prettier-plugin-sort-json"]
+      }
+    }
+  ],
+  "singleQuote": true,
+  "trailingComma": "es5"
+}

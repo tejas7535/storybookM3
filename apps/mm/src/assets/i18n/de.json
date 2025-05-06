@@ -134,6 +134,7 @@
     "cookiePolicy": "Cookie-Richtlinie",
     "cookieSettings": "Cookie Einstellungen",
     "purpose": "</br>Im Mounting Manager werden durch Nutzereingaben wie Lagerauswahl und Betriebsparameter Berechnungen durchgeführt, um eine Montageempfehlung auszugeben.</br>Ihre anonymisierten Nutzerdaten werden auf der Microsoft Plattform Azure gespeichert und in Form eines Dashboards angezeigt. Dadurch haben wir die Möglichkeit das Nutzerverhalten in im Mounting Manager auszuwerten, um somit strategische Entscheidungen zur Weiterentwicklung des Mounting Manager treffen zu können.",
+    "thirdPartyUsage": ", Google als Anbieter von Firebase Analytics (mobile Anwendungen)",
     "storagePeriod": "einem Jahr"
   }
 }

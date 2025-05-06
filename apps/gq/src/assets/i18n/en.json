@@ -69,7 +69,7 @@
       "priceAssistantButton": "Pricing Assistant",
       "productionCity": "City",
       "productionCountry": "Country",
-      "customerMaterial": "Customer Material",
+      "customerMaterial": "Customer Material Number",
       "productionSegment": "Production Segment",
       "mrpData": {
         "mrpController": "MRP Controller",
@@ -172,7 +172,34 @@
         "not_available": "No SQV is available",
         "invalid": "SQV is older than {{months}} month{months, plural, =1 {} other {s}}"
       },
-      "approval": "Approval"
+      "approval": "Approval",
+      "actionMenuItems": {
+        "startProcess": "Start Process",
+        "cancelProcess": "Cancel Process",
+        "showHistory": "Show Process History",
+        "reopenProcess": "Reopen Process"
+      },
+      "approvalProcesses": {
+        "start": {
+          "title": "Send Recalculation Request for Item {posId}",
+          "forwardedToLabel": "Request will be forwarded to:",
+          "productionPlantLabel": "Production Plant",
+          "productLineLabel": "Product Line",
+          "messageLabel": "Message",
+          "messageHint": "Message for Calculation",
+          "sendRequestButton": "Send Request",
+          "cancelButton": "Cancel"
+        },
+        "cancel": {
+          "title": ""
+        },
+        "calculatorMissing": {
+          "title": "Calculator Missing for Item {posId}",
+          "text": "Notify {personA} and {personB} to add the responsible calculator in SAP.",
+          "cancelButton": "Cancel",
+          "sendMailButton": "Send E-Mail"
+        }
+      }
     },
     "breadcrumbs": {
       "caseView": "Quotation Cases",
@@ -302,8 +329,8 @@
         "DISCONTINUED": "Material with status L: Type discontinued, check sales availability"
       }
     },
-    "sqvCheckStatusLabels": {
-      "sqvCheckStatus": "{sqvCheckStatus,select,OPEN{Open}IN_PROGRESS{In Progress}CONFIRMED{Confirmed}CANCELLED{Cancelled} other{}}"
+    "rfq4StatusLabels": {
+      "rfq4Status": "{rfq4Status,select,OPEN{Open}IN_PROGRESS{In Progress}CONFIRMED{Confirmed}CANCELLED{Cancelled} other{}}"
     },
     "sqvApprovalStatusLabels": {
       "sqvApprovalStatus": "{sqvApprovalStatus,select,APPROVAL_NEEDED{Approve}APPROVED{Approved} other{}}",
@@ -455,10 +482,12 @@
       "materialAdded": "Material(s) added to the case",
       "materialDeleted": "Material(s) deleted from the case",
       "updateSelectedPrice": "Price selection was saved",
-      "updateTargetPrice": "Target Price change was saved",
-      "updateQuantity": "Quantity change was saved",
-      "updateQuantityAffectsGqPrice": "Quantity change was saved. This might lead to a change of the GQ price.",
-      "updateComment": "Comment change was saved",
+      "updateTargetPrice": "Target Price was saved",
+      "updateQuantity": "Quantity was saved",
+      "updateQuantityAffectsGqPrice": "Quantity was saved. This might lead to a change of the GQ price.",
+      "updateComment": "Comment was saved",
+      "updateCustomerMaterial": "Customer Material Number was saved",
+      "deleteCustomerMaterial": "Customer Material Number was deleted",
       "refreshSapPricingSuccess": "SAP Pricing was refreshed",
       "refreshSapPricingSuccessAsync": "SAP Pricing is being updated",
       "wrongPriceEditInput": "Please enter a numeric price value",
@@ -479,7 +508,8 @@
       "attachmentsUploaded": "Attachments uploaded successfully",
       "attachmentsDeleted": "Attachment deleted",
       "sharedQuotationSaved": "This case was saved to the \"Shared Cases\" tab.",
-      "sharedQuotationUnsaved": "This case was removed from the \"Shared Cases\" tab."
+      "sharedQuotationUnsaved": "This case was removed from the \"Shared Cases\" tab.",
+      "sqvRecalculateRequestSend": "Recalculation Request send."
     },
     "maintenance": {
       "title": "Guided Quoting is currently down for maintenance"
@@ -492,6 +522,7 @@
       "price": "Net Price",
       "targetPrice": "Target Price",
       "orderQuantity": "Quantity",
+      "customerMaterial": "Customer Material Number",
       "relative": "Relative",
       "absolute": "Absolute",
       "confirm": {
@@ -500,7 +531,8 @@
         "gpi": "Set new gpi",
         "gpm": "Set new gpm",
         "discount": "Set new discount",
-        "orderQuantity": "Set new Quantity"
+        "orderQuantity": "Set new Quantity",
+        "customerMaterial": "Save new customer material number"
       },
       "cancel": "Cancel",
       "labels": {
@@ -760,7 +792,7 @@
       "materialNumber": "Material Number (15-Digit)",
       "baseUoM": "Base UoM",
       "deliveryUnit": "Delivery Unit",
-      "customerMaterial": "Customer Material",
+      "customerMaterial": "Customer Material Number",
       "dimensions": "Dimensions",
       "ean11": "EAN Code",
       "followingType": "Following Type",

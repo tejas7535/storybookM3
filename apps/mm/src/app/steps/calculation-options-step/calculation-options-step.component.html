@@ -1,57 +1,27 @@
-<mat-card *transloco="let t; read: 'dialog'" appearance="outlined">
-  <mat-card-header>
-    <mat-card-title> {{ t('calculationOptionsTitle') }}</mat-card-title>
-  </mat-card-header>
-
-  <mat-card-content>
-    @if (preflightData) {
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div
-          class="min-w-[calc(100vw - 4rem)] my-4 gap-4 space-y-4 md:flex md:items-start md:space-y-0"
+<div *transloco="let t; read: 'dialog'" appearance="outlined">
+  <h5>{{ t('calculationOptionsTitle') }}</h5>
+  @if (preflightData) {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div
+        class="min-w-[calc(100vw - 4rem)] my-4 gap-4 space-y-4 md:flex md:items-start md:space-y-0"
+      >
+        <mat-expansion-panel
+          class="calculation-panel h-[calc(100%)] md:w-1/2"
+          [expanded]="true"
         >
-          <mat-expansion-panel
-            class="calculation-panel h-[calc(100%)] md:w-1/2"
-            [expanded]="true"
+          <mat-expansion-panel-header class="max-h-12">
+            {{ t('mounting') }}</mat-expansion-panel-header
           >
-            <mat-expansion-panel-header class="max-h-12">
-              {{ t('mounting') }}</mat-expansion-panel-header
-            >
-            <div class="flex flex-wrap">
-              <div class="w-full">
-                <div class="flex flex-col lg:flex-row gap-2">
-                  <mat-form-field appearance="outline" class="w-full">
-                    <mat-label> {{ t('hydraulicNutType') }}</mat-label>
-                    <mat-select formControlName="hydraulicNutType">
-                      @for (
-                        option of hydraulicNutTypeOptions();
-                        track option.value
-                      ) {
-                        <mat-option [value]="option.value">{{
-                          option.label
-                        }}</mat-option>
-                      }
-                    </mat-select>
-                  </mat-form-field>
-
-                  <mat-form-field appearance="outline" class="w-full">
-                    <mat-label> {{ t('previousMountings') }}</mat-label>
-                    <mat-select formControlName="previousMountingOption">
-                      @for (
-                        option of previousMountingNumberOptions();
-                        track option.value
-                      ) {
-                        <mat-option [value]="option.value">{{
-                          option.label
-                        }}</mat-option>
-                      }
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-
+          <div class="flex flex-wrap">
+            <div class="w-full">
+              <div class="flex flex-col lg:flex-row gap-2">
                 <mat-form-field appearance="outline" class="w-full">
-                  <mat-label> {{ t('mountingOptions') }}</mat-label>
-                  <mat-select formControlName="mountingOption">
-                    @for (option of mountingOptions(); track option.value) {
+                  <mat-label> {{ t('hydraulicNutType') }}</mat-label>
+                  <mat-select formControlName="hydraulicNutType">
+                    @for (
+                      option of hydraulicNutTypeOptions();
+                      track option.value
+                    ) {
                       <mat-option [value]="option.value">{{
                         option.label
                       }}</mat-option>
@@ -59,113 +29,139 @@
                   </mat-select>
                 </mat-form-field>
 
-                <div class="flex flex-col lg:flex-row gap-2">
-                  <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label>{{ t('innerRingExpansion') }}</mat-label>
-                    <input
-                      type="number"
-                      matInput
-                      formControlName="innerRingExpansion"
-                    />
-                    <span matSuffix>‰</span>
-                  </mat-form-field>
+                <mat-form-field appearance="outline" class="w-full">
+                  <mat-label> {{ t('previousMountings') }}</mat-label>
+                  <mat-select formControlName="previousMountingOption">
+                    @for (
+                      option of previousMountingNumberOptions();
+                      track option.value
+                    ) {
+                      <mat-option [value]="option.value">{{
+                        option.label
+                      }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
 
-                  <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label>{{ t('radialClearanceReduction') }}</mat-label>
-                    <input
-                      type="number"
-                      matInput
-                      formControlName="radialClearanceReduction"
-                    />
-                    <span matSuffix>µm</span>
-                  </mat-form-field>
-                </div>
+              <mat-form-field appearance="outline" class="w-full">
+                <mat-label> {{ t('mountingOptions') }}</mat-label>
+                <mat-select formControlName="mountingOption">
+                  @for (option of mountingOptions(); track option.value) {
+                    <mat-option [value]="option.value">{{
+                      option.label
+                    }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+
+              <div class="flex flex-col lg:flex-row gap-2">
+                <mat-form-field appearance="outline" class="flex-1">
+                  <mat-label>{{ t('innerRingExpansion') }}</mat-label>
+                  <input
+                    type="number"
+                    matInput
+                    formControlName="innerRingExpansion"
+                  />
+                  <span matSuffix>‰</span>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="flex-1">
+                  <mat-label>{{ t('radialClearanceReduction') }}</mat-label>
+                  <input
+                    type="number"
+                    matInput
+                    formControlName="radialClearanceReduction"
+                  />
+                  <span matSuffix>µm</span>
+                </mat-form-field>
               </div>
             </div>
-          </mat-expansion-panel>
+          </div>
+        </mat-expansion-panel>
 
-          <mat-expansion-panel
-            class="calculation-panel h-[calc(100%)] md:w-1/2"
-            [expanded]="true"
-          >
-            <mat-expansion-panel-header class="max-h-12">
-              {{ t('shaftData') }}</mat-expansion-panel-header
-            >
-            <div class="flex flex-wrap">
-              <div class="w-full">
-                <div class="flex flex-col lg:flex-row gap-2">
-                  <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label>{{ t('innerShaftDiameter') }}</mat-label>
-                    <input
-                      type="number"
-                      matInput
-                      formControlName="shaftDiameter"
-                    />
-                    <span matSuffix>mm</span>
-                  </mat-form-field>
-
-                  <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label> {{ t('shaftMaterial') }}</mat-label>
-                    <mat-select formControlName="shaftMaterial">
-                      @for (
-                        option of shaftMaterialOptions();
-                        track option.value
-                      ) {
-                        <mat-option [value]="option.value">{{
-                          option.label
-                        }}</mat-option>
-                      }
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-
-                <div class="flex flex-col lg:flex-row gap-2">
-                  <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label>{{ t('modulusOfElasticity') }}</mat-label>
-                    <input
-                      type="number"
-                      matInput
-                      formControlName="modulusOfElasticity"
-                    />
-                    <span matSuffix> N/mm² </span>
-                  </mat-form-field>
-
-                  <mat-form-field appearance="outline" class="flex-1">
-                    <mat-label>{{ t('poissonRatio') }}</mat-label>
-                    <input
-                      type="number"
-                      matInput
-                      formControlName="poissonRatio"
-                    />
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
-          </mat-expansion-panel>
-        </div>
-        <button
-          *transloco="let f; read: 'form'"
-          mat-flat-button
-          type="submit"
-          [disabled]="form.invalid"
+        <mat-expansion-panel
+          class="calculation-panel h-[calc(100%)] md:w-1/2"
+          [expanded]="true"
         >
-          {{ f('calculateResults') }}
-        </button>
-      </form>
-    } @else {
-      <div>
-        <schaeffler-loading-spinner
-          [relative]="true"
-        ></schaeffler-loading-spinner>
-      </div>
-    }
+          <mat-expansion-panel-header class="max-h-12">
+            {{ t('shaftData') }}</mat-expansion-panel-header
+          >
+          <div class="flex flex-wrap">
+            <div class="w-full">
+              <div class="flex flex-col lg:flex-row gap-2">
+                <mat-form-field appearance="outline" class="flex-1">
+                  <mat-label>{{ t('innerShaftDiameter') }}</mat-label>
+                  <input
+                    type="number"
+                    matInput
+                    formControlName="shaftDiameter"
+                  />
+                  <span matSuffix>mm</span>
+                </mat-form-field>
 
-    @if (isLoading()) {
-      <div>
-        <schaeffler-loading-spinner
-          [relative]="true"
-        ></schaeffler-loading-spinner>
+                <mat-form-field appearance="outline" class="flex-1">
+                  <mat-label> {{ t('shaftMaterial') }}</mat-label>
+                  <mat-select formControlName="shaftMaterial">
+                    @for (
+                      option of shaftMaterialOptions();
+                      track option.value
+                    ) {
+                      <mat-option [value]="option.value">{{
+                        option.label
+                      }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="flex flex-col lg:flex-row gap-2">
+                <mat-form-field appearance="outline" class="flex-1">
+                  <mat-label>{{ t('modulusOfElasticity') }}</mat-label>
+                  <input
+                    type="number"
+                    matInput
+                    formControlName="modulusOfElasticity"
+                  />
+                  <span matSuffix> N/mm² </span>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="flex-1">
+                  <mat-label>{{ t('poissonRatio') }}</mat-label>
+                  <input
+                    type="number"
+                    matInput
+                    formControlName="poissonRatio"
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
       </div>
-    }
-  </mat-card-content>
-</mat-card>
+      <button
+        *transloco="let f; read: 'form'"
+        mat-flat-button
+        type="submit"
+        class="w-full md:w-auto"
+        [disabled]="form.invalid"
+      >
+        {{ f('calculateResults') }}
+      </button>
+    </form>
+  } @else {
+    <div>
+      <schaeffler-loading-spinner
+        [relative]="true"
+      ></schaeffler-loading-spinner>
+    </div>
+  }
+
+  @if (isLoading()) {
+    <div>
+      <schaeffler-loading-spinner
+        [relative]="true"
+      ></schaeffler-loading-spinner>
+    </div>
+  }
+</div>

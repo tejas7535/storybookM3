@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AddToCartService } from '@lsa/core/services/add-to-cart.service';
 import {
@@ -22,6 +23,8 @@ import {
   StepResultSupportLinkEvent,
 } from '@lsa/core/services/google-analytics';
 import { LsaFormService } from '@lsa/core/services/lsa-form.service';
+import { PDFGeneratorService } from '@lsa/core/services/pdf-generation/pdf-generator.service';
+import { environment } from '@lsa/environments/environment';
 import { UserTier } from '@lsa/shared/constants/user-tier.enum';
 import {
   Accessory,
@@ -30,6 +33,7 @@ import {
 } from '@lsa/shared/models';
 import { MediasCallbackResponse } from '@lsa/shared/models/price-availibility.model';
 import { RecommendationTableDataPipe } from '@lsa/shared/pipes/recommendation-table-data.pipe';
+import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -52,6 +56,8 @@ import { RecommendationTableComponent } from './recommendation-table/recommendat
     SharedTranslocoModule,
     AddToCartButtonComponent,
     ErrorContainerComponent,
+    MatProgressSpinnerModule,
+    PushPipe,
   ],
   templateUrl: './result.component.html',
 })
@@ -62,6 +68,7 @@ export class ResultComponent implements OnChanges, OnInit {
   accessoryTableComponent: AccessoryTableComponent;
 
   public readonly businessUserTier = UserTier.Business;
+  public readonly showPDFDownload = environment.enablePDFDownload;
 
   isRecommendedSelected = true;
   validResult?: RecommendationResponse;
@@ -69,11 +76,13 @@ export class ResultComponent implements OnChanges, OnInit {
   userTier: UserTier;
 
   public pricesAndAvailability: MediasCallbackResponse['items'];
+  public pdfGenerating$$ = this.pdfService.loading$$;
 
   constructor(
     private readonly addToCartService: AddToCartService,
     private readonly formService: LsaFormService,
-    private readonly googleAnalyticsService: GoogleAnalyticsService
+    private readonly googleAnalyticsService: GoogleAnalyticsService,
+    private readonly pdfService: PDFGeneratorService
   ) {}
 
   @Input()
@@ -133,6 +142,10 @@ export class ResultComponent implements OnChanges, OnInit {
 
   resetForm() {
     this.formService.reset();
+  }
+
+  protected handlePDFDownload() {
+    this.pdfService.generatePDF(this.isRecommendedSelected);
   }
 
   private logAddToCartEvent(): void {

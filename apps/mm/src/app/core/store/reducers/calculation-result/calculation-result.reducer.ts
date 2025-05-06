@@ -36,6 +36,13 @@ export const calculationResultReducer = createReducer(
     })
   ),
   on(
+    CalculationResultActions.resetCalculationResult,
+    (state): CalculationResultState => ({
+      ...state,
+      result: undefined,
+    })
+  ),
+  on(
     setBearinxVersions,
     (state, { versions }): CalculationResultState => ({
       ...state,

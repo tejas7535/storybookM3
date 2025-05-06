@@ -14,5 +14,4 @@ import { ProductCardComponent } from '../product-card/product-card.component';
 })
 export class AdditionalToolsComponent {
   @Input() public additionalTools: ResultItem[] = [];
-  public imagePath = 'https://cdn.schaeffler-ecommerce.com/cdn/00168CD8_d.png'; // todo make dynamic
 }

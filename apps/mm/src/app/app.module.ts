@@ -11,6 +11,7 @@ import { PushPipe } from '@ngrx/component';
 import { AppShellModule } from '@schaeffler/app-shell';
 import { BannerModule } from '@schaeffler/banner';
 import {
+  ADDITIONAL_THRID_PARTY_USAGE,
   PERSON_RESPONSIBLE,
   PURPOSE,
   STORAGE_PERIOD,
@@ -29,6 +30,10 @@ export function DynamicPurpose(translocoService: TranslocoService) {
 
 export function DynamicStoragePeriod(translocoService: TranslocoService) {
   return translocoService.selectTranslateObject('legal.storagePeriod');
+}
+
+export function DynamicThirdPartyUsage(translocoService: TranslocoService) {
+  return translocoService.selectTranslateObject('legal.thirdPartyUsage');
 }
 
 @NgModule({
@@ -59,6 +64,11 @@ export function DynamicStoragePeriod(translocoService: TranslocoService) {
     {
       provide: STORAGE_PERIOD,
       useFactory: DynamicStoragePeriod,
+      deps: [TranslocoService],
+    },
+    {
+      provide: ADDITIONAL_THRID_PARTY_USAGE,
+      useFactory: DynamicThirdPartyUsage,
       deps: [TranslocoService],
     },
   ],

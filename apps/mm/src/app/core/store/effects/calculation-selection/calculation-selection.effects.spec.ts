@@ -3,6 +3,8 @@ import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
 import { LazyListLoaderService, RestService } from '@mm/core/services';
+import { LB_AXIAL_DISPLACEMENT } from '@mm/shared/constants/dialog-constant';
+import { CALCULATION_OPTIONS_STEP } from '@mm/shared/constants/steps';
 import { BearingOption, SearchResult } from '@mm/shared/models';
 import { ListValue } from '@mm/shared/models/list-value.model';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -134,15 +136,22 @@ describe('CalculationSelectionEffects', () => {
     });
   });
 
-  it('should dispatch fetchMeasurementMethods action when setBearingSeat$ is triggered', () => {
+  it('should dispatch fetchMeasurementMethods and resetCalculationResult actions when setBearingSeat$ is triggered', () => {
     testScheduler.run(({ hot, expectObservable }) => {
       actions$ = hot('-a-', {
         a: CalculationSelectionActions.setBearingSeat({ bearingSeatId: '123' }),
       });
 
-      expectObservable(spectator.service.setBearingSeat$).toBe('-b-', {
+      const expectedMarble = '-(bc)-';
+      const expectedValues = {
         b: CalculationSelectionActions.fetchMeasurementMethods(),
-      });
+        c: CalculationResultActions.resetCalculationResult(),
+      };
+
+      expectObservable(spectator.service.setBearingSeat$).toBe(
+        expectedMarble,
+        expectedValues
+      );
     });
   });
 
@@ -172,6 +181,37 @@ describe('CalculationSelectionEffects', () => {
           measurementMethods,
         }),
       });
+    });
+  });
+
+  it('should return empty observable when setMeasurementMethods$ receives multiple measurement methods', () => {
+    testScheduler.run(({ hot, expectObservable }) => {
+      const measurementMethods: ListValue[] = [
+        { id: 'method1', text: 'Method 1' },
+        { id: 'method2', text: 'Method 2' },
+      ];
+
+      actions$ = hot('-a', {
+        a: CalculationSelectionActions.setMeasurementMethods({
+          measurementMethods,
+        }),
+      });
+
+      expectObservable(spectator.service.setMeasurementMethods$).toBe('');
+    });
+  });
+
+  it('should return empty observable when setMeasurementMethods$ receives empty measurement methods array', () => {
+    testScheduler.run(({ hot, expectObservable }) => {
+      const measurementMethods: ListValue[] = [];
+
+      actions$ = hot('-a', {
+        a: CalculationSelectionActions.setMeasurementMethods({
+          measurementMethods,
+        }),
+      });
+
+      expectObservable(spectator.service.setMeasurementMethods$).toBe('');
     });
   });
 
@@ -256,44 +296,22 @@ describe('CalculationSelectionEffects', () => {
         CalculationSelectionActions.updateMountingMethodAndCurrentStep({
           mountingMethod: 'method1',
         });
-      const measurementMethod = 'LB_AXIAL_DISPLACEMENT';
+      const measurementMethod = LB_AXIAL_DISPLACEMENT;
 
       actions$ = hot('-a', { a: action });
       facade.getMeasurementMethod$.mockReturnValue(of(measurementMethod));
 
-      const expectedMarble = '-(bcd)';
+      const expectedMarble = '-(bcde)';
       const expectedValues = {
         b: CalculationSelectionActions.setMountingMethod({
           mountingMethod: 'method1',
         }),
-        c: CalculationSelectionActions.setCurrentStep({ step: 3 }),
-        d: CalculationOptionsActions.fetchPreflightOptions(),
-      };
+        c: CalculationResultActions.resetCalculationResult(),
 
-      expectObservable(
-        spectator.service.updateMountingMethodAndCurrentStep$
-      ).toBe(expectedMarble, expectedValues);
-    });
-  });
-
-  it('should dispatch setMountingMethod, setCurrentStep, and fetchPreflightOptions actions with different step', () => {
-    testScheduler.run(({ hot, expectObservable }) => {
-      const action =
-        CalculationSelectionActions.updateMountingMethodAndCurrentStep({
-          mountingMethod: 'method2',
-        });
-      const measurementMethod = 'OTHER_METHOD';
-
-      actions$ = hot('-a', { a: action });
-      facade.getMeasurementMethod$.mockReturnValue(of(measurementMethod));
-
-      const expectedMarble = '-(bcd)';
-      const expectedValues = {
-        b: CalculationSelectionActions.setMountingMethod({
-          mountingMethod: 'method2',
+        d: CalculationSelectionActions.setCurrentStep({
+          step: CALCULATION_OPTIONS_STEP,
         }),
-        c: CalculationSelectionActions.setCurrentStep({ step: 4 }),
-        d: CalculationOptionsActions.fetchPreflightOptions(),
+        e: CalculationOptionsActions.fetchPreflightOptions(),
       };
 
       expectObservable(

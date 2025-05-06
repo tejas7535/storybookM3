@@ -41,12 +41,15 @@ export function validateSectors(value: string): string[] | null {
   const validLength = ValidationHelper.validateMaxLength(value, 4);
   const firstChar =
     value[0] === 'V' ? null : translate('error.sectorWrongBegin');
-  const validTypes = ValidationHelper.validateForNumbers(value.slice(1));
+  const validNumber =
+    ValidationHelper.validateForNumbers(value.slice(1)) === null
+      ? null
+      : translate('error.onlyValuesWithNumbers');
 
   return ValidationHelper.condenseValidationResults([
     validLength,
     firstChar,
-    validTypes,
+    validNumber,
   ]);
 }
 

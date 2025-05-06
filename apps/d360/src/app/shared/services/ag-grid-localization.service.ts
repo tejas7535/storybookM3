@@ -5,7 +5,7 @@ import { map } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import { ValueFormatterParams } from 'ag-grid-enterprise';
+import { ITooltipParams, ValueFormatterParams } from 'ag-grid-enterprise';
 
 import {
   AG_GRID_LOCALE_BR,
@@ -44,19 +44,28 @@ export class AgGridLocalizationService {
     );
   }
 
-  public numberFormatter = (params: ValueFormatterParams) => {
+  public numberFormatter = (
+    params: ValueFormatterParams | ITooltipParams,
+    maximumFractionDigits?: number,
+    unit?: string
+  ) => {
     if (!params.value && Number.parseInt(params.value, 10) !== 0) {
       return '';
     }
 
-    return this.translocoLocaleService.localizeNumber(
+    return `${this.translocoLocaleService.localizeNumber(
       params.value,
       'decimal',
-      this.translocoLocaleService.getLocale()
-    );
+      this.translocoLocaleService.getLocale(),
+      maximumFractionDigits === undefined
+        ? {}
+        : {
+            maximumFractionDigits,
+          }
+    )} ${unit || ''}`.trim();
   };
 
-  public dateFormatter = (params: ValueFormatterParams) => {
+  public dateFormatter = (params: ValueFormatterParams | ITooltipParams) => {
     if (!params.value) {
       return '';
     }

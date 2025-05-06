@@ -10,6 +10,7 @@ import {
   ColumnUtilityService,
   LocalizationService,
 } from '@gq/shared/ag-grid/services';
+import { AgGridStateService } from '@gq/shared/services/ag-grid-state/ag-grid-state.service';
 import {
   createComponentFactory,
   mockProvider,
@@ -50,6 +51,7 @@ describe('OpenItemsTableComponent', () => {
         useValue: colDefServiceMock,
       },
       mockProvider(ColumnUtilityService),
+      mockProvider(AgGridStateService),
     ],
 
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

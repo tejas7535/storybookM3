@@ -17,6 +17,8 @@ import {
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { QUOTATION_MOCK } from '../../../../../../testing/mocks/models/quotation';
 import { QUOTATION_DETAIL_MOCK } from '../../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { EditCellComponent } from './edit-cell.component';
@@ -46,6 +48,7 @@ describe('EditCellComponent', () => {
           .mockReturnValueOnce(of(false)),
       }),
     ],
+    imports: [provideTranslocoTestingModule({})],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   });
 

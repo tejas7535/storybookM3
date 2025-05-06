@@ -2,8 +2,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { of } from 'rxjs';
 
+import { SalesPlanningDetailLevel } from '../../../../../../../feature/sales-planning/model';
 import { Stub } from '../../../../../../../shared/test/stub.class';
-import { SalesPlanningDetailLevel } from './../../../../../../../feature/sales-planning/model';
+import { TimeScope } from '../../../column-definition';
+import { CustomerSalesPlanNumberAndPercentageEditModalComponent } from '../../../customer-sales-plan-number-and-percentage-edit-modal/customer-sales-plan-number-and-percentage-edit-modal.component';
 import { SalesPlanningAdjustedTotalCellRendererComponent } from './sales-planning-adjusted-total-cell-renderer.component';
 
 describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
@@ -37,6 +39,9 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
       context: {
         reloadData: mockReloadData,
       },
+      scope: TimeScope.Monthly,
+      value: 100,
+      node: { level: 0 },
     } as any;
 
     component.agInit(mockParams);
@@ -51,12 +56,35 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
   });
 
   it('should open the edit modal on button click', () => {
+    component['planningMonth'] = '01';
     jest
       .spyOn(component['dialog'], 'open')
       .mockReturnValue({ afterClosed: () => of(null) } as MatDialogRef<null>);
     component['handleEditCustomerSalesPlanNumberClicked']();
 
-    expect(component['dialog'].open).toHaveBeenCalled();
+    expect(component['dialog'].open).toHaveBeenCalledWith(
+      CustomerSalesPlanNumberAndPercentageEditModalComponent,
+      {
+        autoFocus: false,
+        data: {
+          currentValueLabel:
+            'sales_planning.planning_details.edit_modal.adjusted_monthly_total',
+          formLabel: 'sales_planning.planning_details.edit_modal.monthly_total',
+          inputValidatorErrorMessage:
+            'sales_planning.planning_details.edit_modal.adjusted_total_error_message',
+          inputValidatorFn: expect.any(Function),
+          onDelete: expect.any(Function),
+          onSave: expect.any(Function),
+          planningCurrency: 'EUR',
+          previousValue: 100,
+          previousValueLabel:
+            'sales_planning.planning_details.edit_modal.previous_adjusted_monthly_total',
+          title: '2025 sales_planning.table.months.01',
+        },
+        disableClose: true,
+        width: '600px',
+      }
+    );
   });
 
   it('should call deleteDetailedCustomerSalesPlan on delete', () => {
@@ -111,6 +139,7 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
       context: {
         reloadData: mockReloadData,
       },
+      node: { level: 0 },
     } as any;
 
     component.agInit(mockParams);
@@ -142,10 +171,67 @@ describe('SalesPlanningAdjustedTotalCellRendererComponent', () => {
       context: {
         reloadData: mockReloadData,
       },
+      node: { level: 0 },
     } as any;
 
     component.agInit(mockParams);
 
     expect(component.isEditPossible()).toBe(true);
+  });
+
+  describe('getTitle', () => {
+    it('should return the correct title for the edit modal when scope is monthly and isPlanningMaterialRow is true', () => {
+      component['planningYear'] = '2025';
+      component['planningMonth'] = '01';
+      component['planningMaterial'] = 'I03';
+      component['planningMaterialText'] = 'Bearings';
+      component['isPlanningMaterialRow'] = true;
+      component['scope'] = TimeScope.Monthly;
+
+      jest
+        .spyOn(component as any, 'getPlanningMaterialText')
+        .mockReturnValue('I03 - Bearings');
+
+      const title = (component as any).getTitle();
+
+      expect(title).toBe('2025 sales_planning.table.months.01 I03 - Bearings');
+    });
+
+    it('should return the correct title for the edit modal when scope is yearly and isPlanningMaterialRow is false', () => {
+      component['planningYear'] = '2025';
+      component['isPlanningMaterialRow'] = false;
+      component['scope'] = TimeScope.Yearly;
+
+      const title = (component as any).getTitle();
+
+      expect(title).toBe('2025');
+    });
+
+    it('should return the correct title for the edit modal when scope is monthly and isPlanningMaterialRow is false', () => {
+      component['planningYear'] = '2025';
+      component['planningMonth'] = '01';
+      component['isPlanningMaterialRow'] = false;
+      component['scope'] = TimeScope.Monthly;
+
+      const title = (component as any).getTitle();
+
+      expect(title).toBe('2025 sales_planning.table.months.01');
+    });
+
+    it('should return the correct title for the edit modal when scope is yearly and isPlanningMaterialRow is true', () => {
+      component['planningYear'] = '2025';
+      component['planningMaterial'] = 'I03';
+      component['planningMaterialText'] = 'Bearings';
+      component['isPlanningMaterialRow'] = true;
+      component['scope'] = TimeScope.Yearly;
+
+      jest
+        .spyOn(component as any, 'getPlanningMaterialText')
+        .mockReturnValue('I03 - Bearings');
+
+      const title = (component as any).getTitle();
+
+      expect(title).toBe('2025 I03 - Bearings');
+    });
   });
 });

@@ -9,7 +9,6 @@ import {
 import { SapCallInProgress } from '@gq/shared/models/quotation';
 import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
 import { RecalculationReasons } from '@gq/shared/models/quotation-detail/cost/recalculation-reasons.enum';
-import { SqvApprovalStatus } from '@gq/shared/models/quotation-detail/cost/sqv-approval-status.enum';
 
 import { CUSTOMER_MOCK } from '../../../../testing/mocks/models';
 import { QUOTATION_MOCK } from '../../../../testing/mocks/models/quotation';
@@ -19,7 +18,6 @@ import {
 } from '../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
 import { ACTIVE_CASE_STATE_MOCK } from '../../../../testing/mocks/state/active-case-state.mock';
 import { GREATER_CHINA_SALES_ORGS } from '../approval/model/greater-china-sales-orgs';
-import { RfqSqvCheckAttachmentsActions } from '../rfq-sqv-check-attachments/rfq-sqv-check-attachments.actions';
 import { ActiveCaseActions } from './active-case.action';
 import {
   activeCaseFeature,
@@ -1086,36 +1084,6 @@ describe('Active Case Feature', () => {
       });
     });
 
-    describe('RfqSqvCheckAttachmentsActions.uploadAttachmentsSuccess', () => {
-      test('should update the sqvApprovalState by the action.newApprovalState value', () => {
-        const action = RfqSqvCheckAttachmentsActions.uploadAttachmentsSuccess({
-          gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-          newApprovalStatus: SqvApprovalStatus.APPROVED,
-        });
-        const state = activeCaseFeature.reducer(
-          {
-            ...ACTIVE_CASE_STATE_MOCK,
-            quotation: {
-              ...QUOTATION_MOCK,
-              quotationDetails: [
-                {
-                  ...QUOTATION_DETAIL_MOCK,
-                  detailCosts: {
-                    ...QUOTATION_DETAIL_MOCK.detailCosts,
-                    sqvApprovalStatus: SqvApprovalStatus.APPROVAL_NEEDED,
-                  },
-                },
-              ],
-            },
-          },
-          action
-        );
-        expect(
-          state.quotation.quotationDetails[0].detailCosts.sqvApprovalStatus
-        ).toEqual('APPROVED');
-      });
-    });
-
     describe('getOpenItems', () => {
       test('should return open items', () => {
         const state = {
@@ -1129,12 +1097,12 @@ describe('Active Case Feature', () => {
                 } as QuotationDetail,
                 {
                   detailCosts: {
-                    sqvRecalculationReason: RecalculationReasons.INVALID,
+                    sqvCheckStatus: RecalculationReasons.INVALID,
                   },
                 } as QuotationDetail,
                 {
                   detailCosts: {
-                    sqvRecalculationReason: RecalculationReasons.VALID,
+                    sqvCheckStatus: RecalculationReasons.VALID,
                   },
                 } as QuotationDetail,
               ],
@@ -1158,12 +1126,12 @@ describe('Active Case Feature', () => {
                 } as QuotationDetail,
                 {
                   detailCosts: {
-                    sqvRecalculationReason: RecalculationReasons.INVALID,
+                    sqvCheckStatus: RecalculationReasons.INVALID,
                   },
                 } as QuotationDetail,
                 {
                   detailCosts: {
-                    sqvRecalculationReason: RecalculationReasons.VALID,
+                    sqvCheckStatus: RecalculationReasons.VALID,
                   },
                 } as QuotationDetail,
               ],
