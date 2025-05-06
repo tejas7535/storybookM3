@@ -827,7 +827,7 @@
     "title": {
       "CONFIRMED": "Constrained",
       "REQUESTED": "Unconstrained",
-      "yearlyTotal": "Jahrestotal"
+      "yearlyTotal": "Jahrestotal (Rechnungswert)"
     }
   },
   "privacy_policy_page": {

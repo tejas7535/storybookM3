@@ -827,7 +827,7 @@
     "title": {
       "CONFIRMED": "有限的",
       "REQUESTED": "无限的",
-      "yearlyTotal": "年度总计"
+      "yearlyTotal": "年度总计 (开票金额)"
     }
   },
   "privacy_policy_page": {
