@@ -32,7 +32,7 @@ import { EMPTY, Observable } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 
 import { TranslocoModule } from '@jsverse/transloco';
-import { formatISO, startOfYear } from 'date-fns';
+import { endOfYear, formatISO, startOfYear } from 'date-fns';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -243,7 +243,7 @@ export class ForecastChartComponent implements OnInit {
         const currentYear = new Date().getFullYear();
 
         startDate = startOfYear(new Date(currentYear - 2, 0, 1));
-        endDate = startOfYear(new Date(currentYear + 3, 0, 1));
+        endDate = endOfYear(new Date(currentYear + 3, 0, 1));
       } else {
         startDate = this.chartSettings.startDate;
         endDate = this.chartSettings.endDate;

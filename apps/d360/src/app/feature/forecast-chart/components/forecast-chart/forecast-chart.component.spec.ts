@@ -232,7 +232,7 @@ describe('ForecastChartComponent', () => {
               startDate: '2021-01-01T00:00:00Z',
             },
             '2023-01-01',
-            '2028-01-01',
+            '2028-12-31',
             'EUR',
             true
           );
