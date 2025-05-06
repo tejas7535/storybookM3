@@ -1031,14 +1031,14 @@ pipeline {
 
                     if (isAppRelease && (isPreReleaseBranch || isHotfixRelease)) {
                         github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', 'git fetch')
-                        sh 'git checkout master'
+                        github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', 'git checkout master')
                         try {
-                            sh "git merge ${env.BRANCH_NAME}"
+                            github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', "git merge ${env.BRANCH_NAME}")
                             github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', 'git push')
                             github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', "git push -d origin ${env.BRANCH_NAME}")
                         } catch(error) {
-                            sh "git reset --hard HEAD"
-                            sh "git checkout ${env.BRANCH_NAME}"
+                            github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', "git reset --hard HEAD")
+                            github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', "git checkout ${env.BRANCH_NAME}")
                             withCredentials([string(credentialsId: 'SVC_FRONTEND_MONO_GH_TOKEN', variable: 'GITHUB_TOKEN')]) {
                                 def version = getPackageVersion(env.RELEASE_SCOPE)
                                 createGitHubPullRequest('master', env.BRANCH_NAME, "chore(${env.RELEASE_SCOPE}): ⚡release ${version} -> master", "Automated merge failed due to conflicts. Please resolve them manually and merge this branch. IMPORTANT: DO NOT SQUASH MERGE, AS THIS WILL CAUSE ISSUES WITH SEMANTIC VERSIONING (SEMVER)!")
