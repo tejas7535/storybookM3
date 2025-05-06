@@ -107,7 +107,7 @@ void defineIsAppRelease(isMain, isPreReleaseBranch) {
 }
 
 void defineIsHotfixRelease(isHotfixBaseBranch) {
-  // hotfix release = merging the related hotfix branch into the hotfix-base branch 
+  // hotfix release = merging the related hotfix branch into the hotfix-base branch
   setupGitCredentials()
   def lastCommitMessage = sh(
     script: "git log -1 --pretty=format:%s",
@@ -151,7 +151,7 @@ def defineIsHotfixTrigger() {
         if (isHotfixTrigger) {
             echo 'Verify hotfix and pre-release branches...'
             // throw error if hotfix-base branch or pre-release already exists
-            
+
             def preReleaseBranchName = preReleaseBranchPrefix + params.RELEASE_SCOPE
             verifyNonExistingBranch("${preReleaseBranchName}", "Pre release already in progress for ${params.RELEASE_SCOPE}")
 
@@ -685,7 +685,7 @@ pipeline {
             steps {
                 echo 'Run Sonar Scan'
                 script {
-                    withCredentials([string(credentialsId: 'SONARQUBE_TOKEN', variable: 'SONAR_TOKEN')]) {  
+                    withCredentials([string(credentialsId: 'SONARQUBE_TOKEN', variable: 'SONAR_TOKEN')]) {
                         sh "NX_SONAR_TOKEN=${SONAR_TOKEN} pnpm nx affected --base=${buildBase} --target sonar  --parallel=3"
                     }
                 }
@@ -767,7 +767,7 @@ pipeline {
                     // if pre release is triggered, rest of the pipeline can be skipped and will be done on pre-release branch
                     if(isPreReleaseTrigger) {
                         // skip the rest of the pipeline
-                        skipBuild = true 
+                        skipBuild = true
                     }
                 }
             }
@@ -927,7 +927,7 @@ pipeline {
 
                         script {
                             sh 'mkdir -p dist/zips'
-                            def appsToDeploy = isAppRelease || isPreRelease || isHotfixRelease ? [env.RELEASE_SCOPE] : affectedApps
+                            def appsToDeploy = isAppRelease || isPreRelease || isHotfixRelease || isValidHotfixBranchRun() ? [env.RELEASE_SCOPE] : affectedApps
 
                             // loop over apps and publish them
                             for (app in appsToDeploy) {
@@ -977,7 +977,7 @@ pipeline {
                             withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_SVC_FRONTEND_MONO', passwordVariable: 'ENCODED_AUTH', usernameVariable: 'USERNAME')]) {
                                 sh "npm config set //artifactory.schaeffler.com/artifactory/api/npm/public-frontend-schaeffler-npm-local/:_authToken '${ENCODED_AUTH}'"
                                 sh "npm config set email=${USERNAME}@schaeffler.com"
-                                sh "pnpm nx affected --base=${buildBase} --target=publish --registry=https://artifactory.schaeffler.com/artifactory/api/npm/public-frontend-schaeffler-npm-local/ --parallel=1" 
+                                sh "pnpm nx affected --base=${buildBase} --target=publish --registry=https://artifactory.schaeffler.com/artifactory/api/npm/public-frontend-schaeffler-npm-local/ --parallel=1"
                             }
                         }
                     }
@@ -1031,14 +1031,14 @@ pipeline {
 
                     if (isAppRelease && (isPreReleaseBranch || isHotfixRelease)) {
                         github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', 'git fetch')
-                        sh 'git checkout master'
+                        github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', 'git checkout master')
                         try {
-                            sh "git merge ${env.BRANCH_NAME}"
+                            github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', "git merge ${env.BRANCH_NAME}")
                             github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', 'git push')
                             github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', "git push -d origin ${env.BRANCH_NAME}")
                         } catch(error) {
-                            sh "git reset --hard HEAD"
-                            sh "git checkout ${env.BRANCH_NAME}"
+                            github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', "git reset --hard HEAD")
+                            github.executeAsGithubUser('SVC_MONO_FRONTEND_USER', "git checkout ${env.BRANCH_NAME}")
                             withCredentials([string(credentialsId: 'SVC_FRONTEND_MONO_GH_TOKEN', variable: 'GITHUB_TOKEN')]) {
                                 def version = getPackageVersion(env.RELEASE_SCOPE)
                                 createGitHubPullRequest('master', env.BRANCH_NAME, "chore(${env.RELEASE_SCOPE}): ⚡release ${version} -> master", "Automated merge failed due to conflicts. Please resolve them manually and merge this branch. IMPORTANT: DO NOT SQUASH MERGE, AS THIS WILL CAUSE ISSUES WITH SEMANTIC VERSIONING (SEMVER)!")

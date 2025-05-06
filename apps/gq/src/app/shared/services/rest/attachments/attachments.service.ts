@@ -115,7 +115,7 @@ export class AttachmentsService {
 
   private saveDownloadFile(response: HttpResponse<Blob>): string {
     const fileName = this.getFileNameFromHeaders(response.headers);
-    saveAs(response.body, fileName);
+    saveAs(response.body, decodeURIComponent(fileName));
 
     return fileName;
   }
@@ -123,7 +123,7 @@ export class AttachmentsService {
   private getFileNameFromHeaders(headers: HttpHeaders): string {
     return headers
       .get('content-disposition')
-      .split('filename=')[1]
+      .split('filename*=UTF-8')[1]
       .replaceAll('"', '');
   }
 }

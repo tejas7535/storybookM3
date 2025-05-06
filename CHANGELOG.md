@@ -5,6 +5,9 @@
 ## 5/6/2025
 * d360: [3.0.0](./apps/d360/CHANGELOG.md)
 
+## 5/2/2025
+* gq: [6.0.1](./apps/gq/CHANGELOG.md)
+
 ## 4/30/2025
 * d360: [3.0.0](./apps/d360/CHANGELOG.md)
 

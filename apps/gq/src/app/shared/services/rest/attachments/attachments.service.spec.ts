@@ -18,6 +18,7 @@ import * as saveAsMock from 'file-saver';
 import { QuotationPaths } from '../quotation/models/quotation-paths.enum';
 import { AttachmentsService } from './attachments.service';
 import { Attachment } from './models/attachment.interface';
+
 jest.mock('file-saver', () => ({
   saveAs: jest.fn(),
 }));
@@ -223,7 +224,9 @@ describe('Service: Attachments', () => {
   describe('getFileNameFromHeaders', () => {
     test('should extract the filename from headers', () => {
       const headers = {
-        get: jest.fn().mockReturnValue('attachment; filename="test-file.txt"'),
+        get: jest
+          .fn()
+          .mockReturnValue('attachment; filename*=UTF-8"test-file.txt"'),
       } as unknown as HttpHeaders;
 
       const fileName = service['getFileNameFromHeaders'](headers);

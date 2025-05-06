@@ -1,4 +1,11 @@
 # Release Notes of Guided Quoting
+## [6.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v6.0.0...gq-v6.0.1) (2025-05-02)
+
+
+### Bug Fixes
+
+* **gq:** ⚡hotfix can't download attachments with korean symbols ([#7229](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7229)) ([7c045aa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7c045aaa481b2b4541214250efba30f219420b2f))
+
 ## [6.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v5.4.0...gq-v6.0.0) (2025-04-23)
 
 
