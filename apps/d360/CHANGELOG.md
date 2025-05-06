@@ -1,4 +1,17 @@
 # Release Notes of Demand360
+## [3.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/d360-v2.0.4...d360-v3.0.0) (2025-05-06)
+
+
+### Features
+
+* **d360:** show current locale with examples in user-settings tooltip (D360-411) ([#7236](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7236)) ([bbd2e4c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bbd2e4cd84ac0647e833679f539e9041e356f2e4))
+* **d360:** update yearlyTotal translations to include invoiced value… ([#7241](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7241)) ([499858f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/499858fbb3675a00d99fb524d14655b67a5e3f2f))
+
+
+### Bug Fixes
+
+* **d360:** load forecast chart yearly until end of year ([#7240](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7240)) ([fda5de5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fda5de51787bad515178268d1487053f901fec03))
+
 ## [3.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/d360-v2.0.4...d360-v3.0.0) (2025-04-30)
 
 ## [1.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/d360-v0.1.0...d360-v1.0.0) (2025-04-30)
