@@ -2,7 +2,7 @@ export const DEFAULT_CONFIG: GqFeatureToggleConfig = {
   editTechnicalValueDriver: false,
   createManualCaseAsView: true,
   createCustomerCaseAsView: true,
-  sapPriceDiffColumn: true,
+  sapPriceDiffColumn: false,
   targetPriceSourceColumn: true,
   displaySqvChecks: false,
   openItemsTab: false,
