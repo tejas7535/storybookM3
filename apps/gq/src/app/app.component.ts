@@ -96,7 +96,7 @@ export class AppComponent implements OnInit {
   @HostListener('window:beforeunload', ['$event'])
   @HostListener('window:blur', ['$event'])
   async handleBeforeUnload() {
-    await this.userSettingsService.updateUserSettingsAsPromise();
+    await this.userSettingsService?.updateUserSettingsAsPromise();
   }
 
   public ngOnInit(): void {
