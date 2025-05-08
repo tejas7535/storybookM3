@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ActiveDirectoryUser, QuotationDetail } from '@gq/shared/models';
+import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
@@ -15,6 +16,9 @@ import { rfq4ProcessFeature } from './rfq-4-process.reducer';
 export class Rfq4ProcessFacade {
   private readonly store: Store = inject(Store);
   private readonly actions$: Actions = inject(Actions);
+  private readonly featureToggleService: FeatureToggleConfigService = inject(
+    FeatureToggleConfigService
+  );
 
   findCalculatorsLoading$: Observable<boolean> = this.store.select(
     rfq4ProcessFeature.selectFindCalculatorsLoading
@@ -57,7 +61,9 @@ export class Rfq4ProcessFacade {
     );
   }
   getSapMaintainers(): void {
-    this.store.dispatch(Rfq4ProcessActions.getSapMaintainerUserIds());
+    if (this.featureToggleService.isEnabled('openItemsTab')) {
+      this.store.dispatch(Rfq4ProcessActions.getSapMaintainerUserIds());
+    }
   }
 
   sendEmailRequestToMaintainCalculators(
