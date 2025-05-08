@@ -237,7 +237,20 @@ export class PDFReportService {
             ),
             icon: FrictionIcon,
             data: await firstValueFrom(
-              this.resultFacade.calculationReportFrictionalPowerloss$
+              this.resultFacade.calculationReportFrictionalPowerloss$.pipe(
+                map((items) =>
+                  items.map((item) => ({
+                    ...item,
+                    value: item.value
+                      ? `${this.translocoService.translate('shortnames.approximate')} ${item.value}`
+                      : item.value,
+                    loadcaseValues: item.loadcaseValues.map((lc) => ({
+                      ...lc,
+                      value: `${this.translocoService.translate('shortnames.approximate')} ${lc.value}`,
+                    })),
+                  }))
+                )
+              )
             ),
           };
           this.loadTranslationBlock(
