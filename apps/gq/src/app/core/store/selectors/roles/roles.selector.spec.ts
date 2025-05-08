@@ -9,7 +9,7 @@ import { marbles } from 'rxjs-marbles';
 
 import {
   filterRoles,
-  getAllRoles,
+  getAllSalesRoles,
   getColumnDefsForRoles,
   userHasGPCRole,
   userHasManualPriceRole,
@@ -18,6 +18,8 @@ import {
   userHasRegionWorldRole,
   userHasRole,
   userHasSQVRole,
+  userIsCalculator,
+  userIsSalesUser,
 } from './roles.selector';
 
 describe('shared selector', () => {
@@ -49,7 +51,7 @@ describe('shared selector', () => {
   beforeEach(() => {
     store = TestBed.inject(MockStore);
   });
-  describe('get all roles', () => {
+  describe('get all sales roles', () => {
     test(
       'should return list of role groups',
       marbles((m) => {
@@ -74,7 +76,7 @@ describe('shared selector', () => {
 
         const expected = m.cold('a', { a: expectedValue });
 
-        const result = store.pipe(getAllRoles);
+        const result = store.pipe(getAllSalesRoles);
 
         m.expect(result).toBeObservable(expected);
       })
@@ -319,6 +321,88 @@ describe('shared selector', () => {
     );
   });
 
+  describe('userIsSalesUser', () => {
+    test(
+      'should return true when user has any sales role',
+      marbles((m) => {
+        store.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [UserRoles.REGION_WORLD],
+              },
+            },
+          },
+        });
+        const expected = m.cold('a', { a: true });
+
+        const result = store.pipe(userIsSalesUser);
+
+        m.expect(result).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should return false, if the user has no salesRule',
+      marbles((m) => {
+        store.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [UserRoles.CALC],
+              },
+            },
+          },
+        });
+        const expected = m.cold('a', { a: false });
+
+        const result = store.pipe(userIsSalesUser);
+
+        m.expect(result).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('userIsCalculator', () => {
+    test(
+      'should return true when user has calculator role',
+      marbles((m) => {
+        store.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [UserRoles.CALC],
+              },
+            },
+          },
+        });
+        const expected = m.cold('a', { a: true });
+
+        const result = store.pipe(userIsCalculator);
+
+        m.expect(result).toBeObservable(expected);
+      })
+    );
+    test(
+      'should return false when user has no calculator role',
+      marbles((m) => {
+        store.setState({
+          'azure-auth': {
+            accountInfo: {
+              idTokenClaims: {
+                roles: [],
+              },
+            },
+          },
+        });
+        const expected = m.cold('a', { a: false });
+
+        const result = store.pipe(userIsCalculator);
+
+        m.expect(result).toBeObservable(expected);
+      })
+    );
+  });
   describe('userHasRole', () => {
     test(
       'should return true',

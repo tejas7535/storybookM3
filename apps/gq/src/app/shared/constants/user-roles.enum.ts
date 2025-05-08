@@ -10,4 +10,5 @@ export enum UserRoles {
   REGION_PREFIX = 'REGION_',
   SECTOR_PREFIX = 'SECTOR_',
   COST_PREFIX = 'COST_',
+  CALC = 'CALC',
 }

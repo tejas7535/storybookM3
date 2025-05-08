@@ -8,7 +8,7 @@ import { ColDef } from 'ag-grid-enterprise';
 
 import { getRoles } from '@schaeffler/azure-auth';
 
-export const getAllRoles = pipe(
+export const getAllSalesRoles = pipe(
   getRoles,
   map((roles) => [
     {
@@ -53,3 +53,9 @@ export const userHasRegionWorldRole = userHasRole(UserRoles.REGION_WORLD);
 export const userHasRegionGreaterChinaRole = userHasRole(
   UserRoles.REGION_GREATER_CHINA
 );
+export const userIsSalesUser = pipe(
+  getAllSalesRoles,
+  map((roles) => !roles.every((role) => role.roles.length === 0))
+);
+
+export const userIsCalculator = userHasRole(UserRoles.CALC);

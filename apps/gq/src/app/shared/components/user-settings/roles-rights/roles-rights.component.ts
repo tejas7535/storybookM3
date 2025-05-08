@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { getAllRoles } from '@gq/core/store/selectors';
+import { getAllSalesRoles } from '@gq/core/store/selectors';
 import { Store } from '@ngrx/store';
 
 import { RoleGroup } from '../../../models/role-group.model';
@@ -13,11 +13,11 @@ import { RoleGroup } from '../../../models/role-group.model';
   standalone: false,
 })
 export class RolesRightsComponent implements OnInit {
-  public allRoles$: Observable<RoleGroup[]>;
+  public allSalesRoles$: Observable<RoleGroup[]>;
 
   constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.allRoles$ = this.store.pipe(getAllRoles);
+    this.allSalesRoles$ = this.store.pipe(getAllSalesRoles);
   }
 }

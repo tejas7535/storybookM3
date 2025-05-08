@@ -7,9 +7,11 @@ import { MsalGuard } from '@azure/msal-angular';
 import { LegalRoute } from '@schaeffler/legal-pages';
 
 import { AppRoutePath } from './app-route-path.enum';
+import { CalculatorRoutes } from './calculator/routing/calculator-routes';
 import { ProdGuard, RoleGuard } from './core/guards';
 import { CreateCustomerCaseGuard } from './core/guards/create-customer-case.guard';
 import { CreateManualCaseGuard } from './core/guards/create-manual-case.guard';
+import { StartPageGuard } from './core/guards/start-page.guard';
 import { FORBIDDEN_ACTION } from './shared/constants';
 
 export const appRoutePaths: Routes = [
@@ -20,7 +22,9 @@ export const appRoutePaths: Routes = [
   },
   {
     path: AppRoutePath.BasePath,
-    redirectTo: `/${AppRoutePath.CaseViewPath}`,
+    canActivate: [StartPageGuard],
+    loadChildren: () =>
+      import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
     pathMatch: 'full',
   },
   {
@@ -82,6 +86,7 @@ export const appRoutePaths: Routes = [
     // TODO: condition can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
     canActivateChild: [CreateCustomerCaseGuard],
   },
+  ...CalculatorRoutes,
   {
     path: AppRoutePath.FeatureToggleConfig,
     loadChildren: () =>

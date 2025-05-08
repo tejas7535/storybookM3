@@ -1,0 +1,23 @@
+<div
+  class="flex h-full w-full flex-col"
+  *transloco="let t; read: 'rfq4Overview'"
+>
+  <div class="pt-5">
+    <schaeffler-subheader [showBackButton]="false">
+      <ng-container subheaderTitleContent>
+        <div class="flex flex-col justify-center">
+          <h6 class="leading-6">{{ t('title') }}</h6>
+        </div>
+      </ng-container>
+    </schaeffler-subheader>
+  </div>
+  <div class="flex h-full flex-col p-4">
+    <schaeffler-view-toggle
+      [views]="rfq4CalculatorViews() | ngrxPush"
+      (selectionChange)="onViewToggle($event)"
+    ></schaeffler-view-toggle>
+    @for (item of rfq4CalculatorItems(); track item) {
+      <p>{{ item }}</p>
+    }
+  </div>
+</div>

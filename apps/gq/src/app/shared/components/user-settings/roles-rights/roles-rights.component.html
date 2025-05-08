@@ -5,9 +5,9 @@
   >
     {{ t('title') }}
   </div>
-  @if (allRoles$ | ngrxPush; as allRoles) {
+  @if (allSalesRoles$ | ngrxPush; as allSalesRoles) {
     <div>
-      @for (groupRoles of allRoles; track $index) {
+      @for (groupRoles of allSalesRoles; track $index) {
         <div class="mb-4">
           <gq-roles-description
             [roles]="groupRoles.roles"

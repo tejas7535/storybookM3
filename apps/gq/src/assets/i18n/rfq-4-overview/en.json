@@ -1,0 +1,10 @@
+{
+  "title": "RFQ 4 Overview",
+  "rfq4OverviewTable": {
+    "viewToggle": {
+      "open": "Open ({count})",
+      "inProgress": "In Progress ({count})",
+      "done": "Done ({count})"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { combineLatest, map, Observable } from 'rxjs';
 
@@ -11,6 +11,8 @@ import {
   userHasRegionWorldRole,
   userHasRole,
   userHasSQVRole,
+  userIsCalculator,
+  userIsSalesUser,
 } from '@gq/core/store/selectors';
 import { UserRoles } from '@gq/shared/constants';
 import { Store } from '@ngrx/store';
@@ -22,6 +24,11 @@ import { getRoles, getUserUniqueIdentifier } from '@schaeffler/azure-auth';
   providedIn: 'root',
 })
 export class RolesFacade {
+  private readonly store: Store = inject(Store);
+
+  userIsCalculator$ = this.store.pipe(userIsCalculator);
+  userIsSalesUser$ = this.store.pipe(userIsSalesUser);
+
   userHasManualPriceRole$ = this.store.pipe(userHasManualPriceRole);
   userHasGPCRole$ = this.store.pipe(userHasGPCRole);
   userHasSQVRole$ = this.store.pipe(userHasSQVRole);
@@ -77,8 +84,6 @@ export class RolesFacade {
         hasRegionGreaterChina || hasRegionWorld
     )
   );
-
-  constructor(private readonly store: Store) {}
 
   userHasRole$(role: UserRoles): Observable<boolean> {
     return this.store.pipe(userHasRole(role));

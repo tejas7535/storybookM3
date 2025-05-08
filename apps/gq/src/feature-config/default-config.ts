@@ -9,6 +9,7 @@ export const DEFAULT_CONFIG: GqFeatureToggleConfig = {
   findCalculatorsPlantMock: false,
   findCalculatorsManagerMock: false,
   findCalculatorsNotFoundMock: false,
+  calculatorOverview: false,
 };
 
 export interface GqFeatureToggleConfig {
@@ -22,4 +23,5 @@ export interface GqFeatureToggleConfig {
   findCalculatorsPlantMock: boolean;
   findCalculatorsManagerMock: boolean;
   findCalculatorsNotFoundMock: boolean;
+  calculatorOverview: boolean;
 }
