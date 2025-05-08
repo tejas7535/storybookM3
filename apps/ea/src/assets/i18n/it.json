@@ -277,7 +277,7 @@
     "emissionsTooltip": "La CO₂ equivalente (CO₂e) è un&apos;unità di misura usata per standardizzare gli effetti sul clima dei vari gas serra. Permette di confrontare miscele diverse di emissioni di gas serra.",
     "overrollingFrequency": "Frequenze di overrolling",
     "overrollingFrequencySubtitle": "Frequenza sull&apos;anello interno (BPFI)",
-    "frictionalPowerloss": "Perdita di potenza da attrito",
+    "frictionalPowerloss": "Perdita di potenza da attrito (circa)",
     "frictionalPowerlossSubtitle": "Perdita di potenza da attrito",
     "frictionalPowerlossUnavailable": "Per il cuscinetto selezionato questo calcolo non è disponibile.",
     "production": "Per produzione",
@@ -287,6 +287,11 @@
     "yearlyEmissionInfo": "(uso 24/7 per un anno)",
     "hourlyEmissionInfo": "{{ unit }} per {{ hours }} h",
     "calculationErrorsTitle": "Errori di calcolo",
+    "frictionTitleTooltip": "Per un calcolo più dettagliato e preciso, contatta i nostri esperti di calcoli tecnici",
+    "frictionValueTooltip": "Il nuovo calcolo offre risultati approssimativi più rapidamente.",
+    "frictionValueTooltipLinkText": "Scopri di più",
+    "frictionTooltipUrlText": "Centri tecnologici Schaeffler",
+    "frictionTooltipUrl": "https://medias.schaeffler.de/en/stc",
     "showErrors": "Mostra errori",
     "downstreamErrors": {
       "modelNotExisting": "The calculation of frictional power losses and CO2e emissions is not provided for this bearing.",
@@ -425,7 +430,16 @@
       "totalFrictionalPowerLoss": "Perdita di potenza per attrito",
       "speedDependentFrictionalTorque": "Coppia di attrito dipendente dalla velocità",
       "loadDependentFrictionalTorque": "Coppia di attrito dipendente dal carico",
-      "thermallySafeOperatingSpeed": "Velocità di funzionamento termicamente sicura"
+      "thermallySafeOperatingSpeed": "Velocità di funzionamento termicamente sicura",
+      "stcReference": {
+        "text": "Per un calcolo più preciso",
+        "urlText": "contatta i nostri esperti di calcolo",
+        "url": "https://medias.schaeffler.de/de/stc"
+      },
+      "disclaimer": {
+        "text": "Nuovo e più rapido metodo di calcolo",
+        "urlText": "Maggiori informazioni"
+      }
     },
     "calculationDisclaimer": {
       "title": "Esclusione di responsabilità per calcolo PCF",
@@ -507,5 +521,8 @@
     "disclaimer": "Tutti i diritti sono riservati in relazione al presente documento, anche nel caso in cui sia necessario concedere un brevetto o registrare un modello di utility. Il documento deve essere trattato in modo confidenziale. Senza il nostro consenso scritto, né il documento, né copie dello stesso o qualsivoglia altra riproduzione del contenuto completo o parziale possono essere resi disponibili a terzi o utilizzati in modo improprio dal destinatario in qualsiasi altro modo. Il documento è stato redatto sulla base delle vostre esigenze, come sopra indicato, e delle nostre ipotesi. I nostri dati tengono conto dei rischi che ci sono sembrati evidenti sulla base dei requisiti resi disponibili per le nostre analisi. Il documento è stato redatto esclusivamente in relazione all&apos;acquisto dei nostri prodotti. I risultati riportati nel documento sono stati elaborati con attenzione e allo stato dell&apos;arte, ma non costituiscono garanzie esplicite o implicite in merito alla qualità o alla durata in senso legale. L&apos;utente non è dispensato dal controllo dell&apos;idoneità dei prodotti. Saremo ritenuti responsabili per i dati forniti nel documento esclusivamente in caso di dolo o negligenza. Se il documento fa parte di un accordo di fornitura, si applicheranno le disposizioni in materia di responsabilità qui concordate.",
     "filename": "Report di calcolo Medias per {{designation}} - {{date}}",
     "page": "Pagina"
+  },
+  "shortnames": {
+    "approximate": "circa"
   }
 }

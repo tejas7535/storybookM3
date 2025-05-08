@@ -277,7 +277,7 @@
     "emissionsTooltip": "CO₂ 換算値（CO₂e）は、さまざまな温室効果ガスの気候に対する影響を標準化するための単位です。これにより、温室効果ガスのさまざまな混合物を比較することができます。",
     "overrollingFrequency": "オーバーロール周波数",
     "overrollingFrequencySubtitle": "内輪の周波数（BPFI）",
-    "frictionalPowerloss": "摩擦力損失",
+    "frictionalPowerloss": "摩擦力損失 （概算）",
     "frictionalPowerlossSubtitle": "摩擦力損失",
     "frictionalPowerlossUnavailable": "選択したベアリングにこの計算は使用できません。",
     "production": "製造関連",
@@ -287,6 +287,11 @@
     "yearlyEmissionInfo": "（1年間24時間365日使用）",
     "hourlyEmissionInfo": "{{ unit }} を {{ hours }} 時間",
     "calculationErrorsTitle": "計算エラー",
+    "frictionTitleTooltip": "より詳細で正確な計算については、当社の技術計算専門家にお問い合わせください",
+    "frictionValueTooltip": "新しい計算は、概算結果をより迅速に提供します。",
+    "frictionValueTooltipLinkText": "詳細を学ぶ",
+    "frictionTooltipUrlText": "シェフラーテクノロジーセンター",
+    "frictionTooltipUrl": "https://medias.schaeffler.de/en/stc",
     "showErrors": "エラーを表示",
     "downstreamErrors": {
       "modelNotExisting": "The calculation of frictional power losses and CO2e emissions is not provided for this bearing.",
@@ -425,7 +430,16 @@
       "totalFrictionalPowerLoss": "摩擦による電力損失",
       "speedDependentFrictionalTorque": "速度依存摩擦トルク",
       "loadDependentFrictionalTorque": "負荷依存摩擦トルク",
-      "thermallySafeOperatingSpeed": "熱的に安全な動作速度"
+      "thermallySafeOperatingSpeed": "熱的に安全な動作速度",
+      "stcReference": {
+        "text": "より正確な計算のために",
+        "urlText": "計算の専門家にお問い合わせください",
+        "url": "https://medias.schaeffler.de/de/stc"
+      },
+      "disclaimer": {
+        "text": "新しいより高速な計算方法",
+        "urlText": "詳細情報"
+      }
     },
     "calculationDisclaimer": {
       "title": "PCF 計算の免責事項",
@@ -507,5 +521,8 @@
     "disclaimer": "特許の取得や実用新案登録の場合でも、この文書に関するすべての権利は、留保されます。本文書は機密として取り扱われます。弊社の書面による同意がない限り、本文書そのもの、その複写、またはそのすべての内容や抜粋の解釈を第三者が利用できるようにすること、または受領者が他の方法で不正に使用することはできません。本文書は、上記の要件および弊社独自の前提条件に基づいて作成されています。弊社の詳細では、提供されたお客様の要件に基づいて当社にとって明らかになったリスクを考慮しています。本文書は、当社製品の購入に関連してのみ作成されています。本文書に記載されている結果は、最新情報に基づいて慎重に作成されていますが、法的な意味での品質または耐久性について明示的または黙示的な保証にはなりません。これにより、お客様は、本製品の適合性を確認することから免除されません。弊社は、故意または過失があった場合にのみ、本文書に記載されている詳細について責任を負います。本文書が供給契約の一部である場合は、合意した責任規定が適用されます。",
     "filename": "{{designation}} - {{date}} の Medias 計算レポート",
     "page": "ページ"
+  },
+  "shortnames": {
+    "approximate": "約"
   }
 }

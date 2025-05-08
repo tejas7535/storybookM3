@@ -277,7 +277,7 @@
     "emissionsTooltip": "CO₂ eş değeri (CO₂e), çeşitli sera gazlarının iklim etkilerini standartlaştırmaya yönelik bir birimdir. Bu nedenle, sera gazı emisyonlarının farklı karışımları karşılaştırılabilir.",
     "overrollingFrequency": "Aşırı yuvarlanma frekansları",
     "overrollingFrequencySubtitle": "İç halkadaki frekans (BPFI)",
-    "frictionalPowerloss": "Sürtünme gücü kaybı",
+    "frictionalPowerloss": "Sürtünme gücü kaybı (tahmini)",
     "frictionalPowerlossSubtitle": "Sürtünme gücü kaybı",
     "frictionalPowerlossUnavailable": "Seçilen rulman için bu hesaplama kullanılamaz.",
     "production": "Üretim için",
@@ -287,6 +287,11 @@
     "yearlyEmissionInfo": "(1 yıl 24/7 kullanım)",
     "hourlyEmissionInfo": "{{ unit }} için {{ hours }} saat",
     "calculationErrorsTitle": "Hesaplama hataları",
+    "frictionTitleTooltip": "Daha ayrıntılı ve hassas hesaplamalar için teknik hesaplama uzmanlarımızla iletişime geçin",
+    "frictionValueTooltip": "Yeni hesaplama, yaklaşık sonuçları daha hızlı verir.",
+    "frictionValueTooltipLinkText": "Daha fazla bilgi edinin",
+    "frictionTooltipUrlText": "Schaeffler Teknoloji Merkezleri",
+    "frictionTooltipUrl": "https://medias.schaeffler.de/en/stc",
     "showErrors": "Hataları göster",
     "downstreamErrors": {
       "modelNotExisting": "The calculation of frictional power losses and CO2e emissions is not provided for this bearing.",
@@ -425,7 +430,16 @@
       "totalFrictionalPowerLoss": "Sürtünme gücü kaybı",
       "speedDependentFrictionalTorque": "Hıza bağlı sürtünme torku",
       "loadDependentFrictionalTorque": "Yüke bağlı sürtünme torku",
-      "thermallySafeOperatingSpeed": "Termal olarak güvenli çalışma hızı"
+      "thermallySafeOperatingSpeed": "Termal olarak güvenli çalışma hızı",
+      "stcReference": {
+        "text": "Daha hassas bir hesaplama için",
+        "urlText": "hesaplama uzmanlarımıza ulaşın",
+        "url": "https://medias.schaeffler.de/de/stc"
+      },
+      "disclaimer": {
+        "text": "Yeni ve daha hızlı hesaplama yöntemi",
+        "urlText": "Daha fazla bilgi"
+      }
     },
     "calculationDisclaimer": {
       "title": "PCF hesaplaması için sorumluluk reddi",
@@ -507,5 +521,8 @@
     "disclaimer": "Bir patentin verilmesi veya bir yardımcı program modelinin kaydedilmesi gerekse bile bu belgeyle ilgili tüm haklar saklıdır. Belge gizli tutulmalıdır. Yazılı onayımız olmadan ne belgenin kendisi ne de kopyaları veya komple içeriğin ya da alıntı yapılan içeriğin diğer basımları üçüncü taraflara verilemez veya alıcı tarafından başka bir şekilde kötüye kullanılamaz. Belge, yukarıda belirtilen gereklilikleriniz ve kendi varsayımlarımız temelinde hazırlanmıştır. Verdiğimiz ayrıntılarda, bize sunulan gereklilikleriniz temelinde bizim için belirgin olan riskler dikkate alınır. Belge, yalnızca ürünlerimizi satın almayla ilgili olarak hazırlanmıştır. Belgede gösterilen sonuçlar, dikkatli bir şekilde ve son teknolojiye uygun olarak hazırlanmıştır ancak yasal açıdan kalite veya dayanıklılık konusunda açık veya zımni bir garanti teşkil etmez. Bu nedenle ürünlerin uygunluğunu kontrol etmekten muaf tutulmazsınız. Belgede verilen ayrıntılardan yalnızca kasıtlı bir niyet veya ihmal durumunda sorumlu olacağız. Belge bir tedarik sözleşmesinin parçasıysa ilgili sözleşmede kabul edilen sorumluluk hükümleri geçerli olacaktır.",
     "filename": "{{designation}} - {{date}} için Medias Hesaplama Raporu",
     "page": "Sayfa"
+  },
+  "shortnames": {
+    "approximate": "tah."
   }
 }

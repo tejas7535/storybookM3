@@ -96,9 +96,18 @@ export class PDFReportService {
       this.resultFacade.calculationReportWarnings$
     );
 
-    const notes = await firstValueFrom(
-      this.resultFacade.calculationReportNotes$
-    );
+    let notes = await firstValueFrom(this.resultFacade.calculationReportNotes$);
+
+    const att = [
+      `${this.translocoService.translate('calculationResult.frictionalPowerlossSubtitle')}: ` +
+        `${this.translocoService.translate('calculationResult.frictionValueTooltip')} ${this.translocoService.translate('calculationResult.frictionTitleTooltip')}`,
+      this.translocoService.translate('calculationResult.frictionTooltipUrl'),
+    ];
+    if (notes && notes.length > 0) {
+      notes.push(...att);
+    } else {
+      notes = att;
+    }
 
     const versionText: string | undefined = await firstValueFrom(
       this.resultFacade.getBearinxVersions$.pipe(
@@ -273,40 +282,39 @@ export class PDFReportService {
                   const hasMultipleLoadcases =
                     emissions.co2_downstream.loadcases?.length > 1;
 
-                  const total: ResultReportLargeItem[] = emissions
-                    .co2_downstream.emission
-                    ? [
-                        {
-                          title: totalTitle,
-                          value: this.roundPipe.transform(
-                            emissions.co2_downstream.emission
-                          ),
-                          unit: 'kg',
-                          short: 'CO₂e',
-                          titleTooltip: hasMultipleLoadcases
-                            ? ''
-                            : CHARTS_COLORS[1],
-                          warning: downstreamDisclaimer,
-                        },
-                        {
-                          title: totalTitle,
-                          value: this.roundPipe.transform(
-                            emissions.co2_downstream.emissionPercentage
-                          ),
-                          unit: '%',
-                          short: emissionPercentLabel,
-                        },
-                        {
-                          title: totalTitle,
-                          value: totalOperatingTime,
-                          unit: 'h',
-                          short: this.translateEmission(
-                            'co2EmissionOperatingHours',
-                            languageCode
-                          ),
-                        },
-                      ]
-                    : undefined;
+                  const total: (ResultReportLargeItem & { prefix?: string })[] =
+                    emissions.co2_downstream.emission
+                      ? [
+                          {
+                            title: totalTitle,
+                            prefix: '≈',
+                            value: `${this.translocoService.translate('shortnames.approximate')} ${this.roundPipe.transform(emissions.co2_downstream.emission)}`,
+                            unit: 'kg',
+                            short: 'CO₂e',
+                            titleTooltip: hasMultipleLoadcases
+                              ? ''
+                              : CHARTS_COLORS[1],
+                            warning: downstreamDisclaimer,
+                          },
+                          {
+                            title: totalTitle,
+                            value: this.roundPipe.transform(
+                              emissions.co2_downstream.emissionPercentage
+                            ),
+                            unit: '%',
+                            short: emissionPercentLabel,
+                          },
+                          {
+                            title: totalTitle,
+                            value: totalOperatingTime,
+                            unit: 'h',
+                            short: this.translateEmission(
+                              'co2EmissionOperatingHours',
+                              languageCode
+                            ),
+                          },
+                        ]
+                      : undefined;
 
                   let commingSoonSection: ComingSoonSection;
                   if (

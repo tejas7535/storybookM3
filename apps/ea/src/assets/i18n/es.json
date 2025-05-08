@@ -277,7 +277,7 @@
     "emissionsTooltip": "Un equivalente de CO₂ (CO₂e) es una unidad para estandarizar los efectos climáticos de diversos gases de efecto invernadero. Por lo tanto, se pueden comparar diferentes mezclas de emisiones de gases de efecto invernadero.",
     "overrollingFrequency": "Frecuencias de sobrepaso",
     "overrollingFrequencySubtitle": "Frecuencia en el anillo interior (BPFI)",
-    "frictionalPowerloss": "Pérdida de potencia por fricción",
+    "frictionalPowerloss": "Pérdida de potencia por fricción (aprox.)",
     "frictionalPowerlossSubtitle": "Pérdida de potencia por fricción",
     "frictionalPowerlossUnavailable": "Este cálculo no está disponible para el rodamiento seleccionado.",
     "production": "Para producción",
@@ -287,6 +287,11 @@
     "yearlyEmissionInfo": "(uso 24/7 durante un año)",
     "hourlyEmissionInfo": "{{ unit }} por {{ hours }} h",
     "calculationErrorsTitle": "Errores de cálculo",
+    "frictionTitleTooltip": "Para un cálculo más detallado y preciso, contacte a nuestros expertos en cálculos técnicos",
+    "frictionValueTooltip": "El nuevo cálculo proporciona resultados aproximados más rápido.",
+    "frictionValueTooltipLinkText": "Aprende más",
+    "frictionTooltipUrlText": "Centros de Tecnología de Schaeffler",
+    "frictionTooltipUrl": "https://medias.schaeffler.de/de/stc",
     "showErrors": "Mostrar errores",
     "downstreamErrors": {
       "modelNotExisting": "The calculation of frictional power losses and CO2e emissions is not provided for this bearing.",
@@ -425,7 +430,16 @@
       "totalFrictionalPowerLoss": "Pérdida de potencia por fricción",
       "speedDependentFrictionalTorque": "Par de fricción variable en función de la velocidad",
       "loadDependentFrictionalTorque": "Par de fricción variable en función de la carga",
-      "thermallySafeOperatingSpeed": "Velocidad de funcionamiento con seguridad térmica"
+      "thermallySafeOperatingSpeed": "Velocidad de funcionamiento con seguridad térmica",
+      "stcReference": {
+        "text": "Para un cálculo más preciso",
+        "urlText": "contacte a nuestros expertos en cálculos",
+        "url": "https://medias.schaeffler.de/de/stc"
+      },
+      "disclaimer": {
+        "text": "Nuevo y más rápido método de cálculo",
+        "urlText": "Más información"
+      }
     },
     "calculationDisclaimer": {
       "title": "Exención de responsabilidad para el cálculo de PCF",
@@ -507,5 +521,8 @@
     "disclaimer": "Se reservan todos los derechos sobre este documento, incluso en el caso de concesión de patentes o de registro de modelos de utilidad. El documento debe tratarse de forma confidencial. Sin nuestro consentimiento por escrito, ni el documento en sí ni copias del mismo, ni tampoco otras formas de reproducción de los contenidos, ya sean completas o fragmentarias, podrán ponerse a disposición de terceros ni ser utilizados indebidamente por el destinatario de ninguna otra manera. El documento se ha elaborado en función de sus requisitos, tal y como se establece anteriormente, y de nuestras propias suposiciones. Nuestros datos tienen en cuenta los riesgos que nos resultaron evidentes a partir de los requisitos que nos comunicó. El documento se ha elaborado únicamente en relación con la compra de nuestros productos. Los resultados del documento se han elaborado cuidadosamente y de acuerdo con el estado actual de la tecnología; sin embargo, no constituyen una garantía expresa o implícita de calidad o durabilidad en el sentido jurídico. No se le exime de comprobar la adecuación de los productos. Solo seremos responsables de los detalles proporcionados en el documento en caso de dolo o negligencia. Si el documento forma parte de un acuerdo de suministro, se aplicarán las disposiciones de responsabilidad acordadas en el mismo.",
     "filename": "Informe de cálculo de Medias de {{designation}} - {{date}}",
     "page": "Página"
+  },
+  "shortnames": {
+    "approximate": "aprox."
   }
 }

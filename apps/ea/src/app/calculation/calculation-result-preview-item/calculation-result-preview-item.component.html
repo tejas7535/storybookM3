@@ -16,12 +16,39 @@
         >
           {{ t(_item.title) }}
         </div>
+
         @if (_item.titleTooltip) {
-          <ea-info-button
-            class="ml-1 h-4 text-body-small text-medium-emphasis font-medium"
-            [inline]="true"
-            [tooltip]="t(_item.titleTooltip)"
-          ></ea-info-button>
+          @if (!hasRichTooltip()) {
+            <ea-info-button
+              class="ml-1 h-4 text-body-small text-medium-emphasis font-medium"
+              [inline]="true"
+              [tooltip]="t(_item.titleTooltip)"
+            ></ea-info-button>
+          } @else {
+            <mat-icon
+              class="cursor-help ml-1 h-4 text-body-small text-medium-emphasis font-medium"
+              cdkOverlayOrigin
+              [inline]="true"
+              #tooltipIcon="cdkOverlayOrigin"
+              >info_outline</mat-icon
+            >
+            <schaeffler-rich-tooltip
+              [tooltipShowDelay]="200"
+              [tooltipHideDelay]="200"
+              [tooltipOrigin]="tooltipIcon"
+            >
+              {{ t(_item.titleTooltip) }}
+              <a
+                class="hover:cursor-pointer underline ml-1"
+                [href]="t(_item.titleTooltipUrl)"
+                target="_blank"
+                >{{ t(_item.titleTooltipUrlText) }}
+                <mat-icon [inline]="true" class="ml-0.5 !h-3"
+                  >open_in_new</mat-icon
+                >
+              </a>
+            </schaeffler-rich-tooltip>
+          }
         }
       </div>
       <div class="flex flex-row">
@@ -40,6 +67,35 @@
               [class.text-center]="isSingleItem"
             >
               {{ value.title && t(value.title) }}
+
+              @if (value.title === 'frictionalPowerlossSubtitle') {
+                <ng-container>
+                  <mat-icon
+                    class="inline-flex align-bottom cursor-help ml-1 h-4 text-body-small text-medium-emphasis font-medium"
+                    cdkOverlayOrigin
+                    [inline]="true"
+                    #frictionTooltip="cdkOverlayOrigin"
+                    >info_outline</mat-icon
+                  >
+                  <schaeffler-rich-tooltip
+                    [tooltipShowDelay]="200"
+                    [tooltipHideDelay]="200"
+                    [tooltipOrigin]="frictionTooltip"
+                  >
+                    {{ t('frictionValueTooltip') }}
+                    <a
+                      class="hover:cursor-pointer underline ml-1"
+                      (click)="handleDisclaimer()"
+                      target="_blank"
+                      >{{ t('frictionValueTooltipLinkText') }}
+                      <mat-icon [inline]="true" class="ml-0.5 !h-3"
+                        >open_in_new</mat-icon
+                      >
+                    </a>
+                  </schaeffler-rich-tooltip>
+                </ng-container>
+              }
+
               @if (value.displayNewBadge) {
                 <mat-icon
                   class="!text-primary !h-4 align-bottom"

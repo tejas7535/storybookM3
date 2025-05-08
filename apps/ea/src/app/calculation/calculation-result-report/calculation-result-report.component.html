@@ -1,3 +1,22 @@
+<!-- Disclaimer for Friction values with new calculation method -->
+<ng-template #frictionDisclaimer>
+  <div
+    class="flex flex-row items-center mt-4"
+    *transloco="let t; read: 'calculationResultReport.frictionalPowerloss'"
+  >
+    <div class="flex items-center flex-shrink-0">
+      <mat-icon class="text-primary">info_outline</mat-icon>
+    </div>
+    <div class="ml-2 text-body-2 text-medium-emphasis">
+      <p>
+        {{ t('disclaimer.text') }} -
+        <a (click)="openDisclaimer()" class="text-primary cursor-pointer">{{
+          t('disclaimer.urlText')
+        }}</a>
+      </p>
+    </div>
+  </div>
+</ng-template>
 <div class="dialog-parent">
   <ng-container *transloco="let t; read: 'calculationResultReport'">
     <ng-container *ngrxLet="bearingDesignation$ as bearingDesignation">
@@ -152,7 +171,30 @@
                       <ea-calculation-result-report-large-items
                         [items]="frictionalPowerloss"
                         translocoRoot="calculationResultReport.frictionalPowerloss"
-                      ></ea-calculation-result-report-large-items>
+                        [contextKeys]="[
+                          'totalFrictionalPowerLoss',
+                          'totalFrictionalTorque'
+                        ]"
+                        [disclaimerTemplate]="frictionDisclaimer"
+                      >
+                      </ea-calculation-result-report-large-items>
+                      <div
+                        class="border-border flex flex-row items-center border-t px-4 py-2"
+                      >
+                        <div class="mr-2 flex-shrink-0 items-center">
+                          <mat-icon class="text-primary">info</mat-icon>
+                        </div>
+                        <div class="text-body-2 text-medium-emphasis">
+                          {{ t('stcReference.text') }}
+                          <a
+                            class="text-primary"
+                            [href]="t('stcReference.url')"
+                            target="_blank"
+                            rel="noopener"
+                            >{{ t('stcReference.urlText') }}</a
+                          >
+                        </div>
+                      </div>
                     } @else {
                       <div
                         class="item-center flex content-center p-4 md:p-8 w-full border-border border-t"

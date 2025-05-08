@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PDFReportService loadTranslationBlock should match snapshot 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "short": "abc",
+      "title": undefined,
+      "unit": "abc",
+      "value": 1,
+    },
+    Object {
+      "short": "abc",
+      "title": undefined,
+      "unit": "abc",
+      "value": 10,
+    },
+  ],
+  "header": "Test",
+}
+`;
+
+exports[`PDFReportService localize number formats should match snapshot 1`] = `undefined`;
+
+exports[`PDFReportService translate emission should match snapshot 1`] = `undefined`;

@@ -1,10 +1,14 @@
 import { MatDialog } from '@angular/material/dialog';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { DisclaimerService } from '@ea/core/services/disclaimer.service';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { CalculationDisclaimerComponent } from '../calculation-disclaimer/calculation-disclaimer.component';
 import { CalculationResultPreviewEmissionsTooltipComponent } from './calculation-result-preview-emissions-tooltip.component';
 
 describe('CalculationResultPreviewEmissionsTooltipComponent', () => {
@@ -21,12 +25,14 @@ describe('CalculationResultPreviewEmissionsTooltipComponent', () => {
           open: jest.fn(),
         },
       },
+      mockProvider(DisclaimerService),
     ],
   });
 
   describe('when upstream tooltip', () => {
     beforeEach(() => {
       spectator = createComponent();
+      spectator.setInput('isDownstream', false);
       component = spectator.component;
     });
 
@@ -42,18 +48,9 @@ describe('CalculationResultPreviewEmissionsTooltipComponent', () => {
       it('should open the dialog', () => {
         component.openMoreInformation();
 
-        expect(component['dialog'].open).toHaveBeenCalledWith(
-          CalculationDisclaimerComponent,
-          {
-            hasBackdrop: true,
-            autoFocus: true,
-            maxWidth: '750px',
-            panelClass: 'legal-disclaimer-dialog',
-            data: {
-              isDownstreamDisclaimer: undefined,
-            },
-          }
-        );
+        expect(
+          component['disclaimerServie'].openCO2Disclaimer
+        ).toHaveBeenCalledWith(false);
       });
     });
   });
@@ -76,18 +73,9 @@ describe('CalculationResultPreviewEmissionsTooltipComponent', () => {
       it('should open the dialog', () => {
         component.openMoreInformation();
 
-        expect(component['dialog'].open).toHaveBeenCalledWith(
-          CalculationDisclaimerComponent,
-          {
-            hasBackdrop: true,
-            autoFocus: true,
-            maxWidth: '750px',
-            panelClass: 'legal-disclaimer-dialog',
-            data: {
-              isDownstreamDisclaimer: true,
-            },
-          }
-        );
+        expect(
+          component['disclaimerServie'].openCO2Disclaimer
+        ).toHaveBeenCalledWith(true);
       });
     });
   });

@@ -287,6 +287,11 @@
     "yearlyEmissionInfo": "（全天候使用一年）",
     "hourlyEmissionInfo": "{{ unit }} 每 {{ hours }} 小时",
     "calculationErrorsTitle": "计算错误",
+    "frictionTitleTooltip": "如需更详细和精确的计算，请联系我们的技术计算专家",
+    "frictionValueTooltip": "新的计算更快提供大致结果。",
+    "frictionValueTooltipLinkText": "了解更多",
+    "frictionTooltipUrlText": "舍弗勒技术中心",
+    "frictionTooltipUrl": "https://medias.schaeffler.de/en/stc",
     "showErrors": "显示错误",
     "downstreamErrors": {
       "modelNotExisting": "The calculation of frictional power losses and CO2e emissions is not provided for this bearing.",
@@ -425,7 +430,16 @@
       "totalFrictionalPowerLoss": "摩擦功率损失",
       "speedDependentFrictionalTorque": "取决于速度的摩擦力矩",
       "loadDependentFrictionalTorque": "取决于载荷的摩擦力矩",
-      "thermallySafeOperatingSpeed": "热安全工作转速"
+      "thermallySafeOperatingSpeed": "热安全工作转速",
+      "stcReference": {
+        "text": "为了更精确的计算",
+        "urlText": "联系我们的计算专家",
+        "url": "https://medias.schaeffler.de/de/stc"
+      },
+      "disclaimer": {
+        "text": "新的、更快速的计算方法",
+        "urlText": "更多信息"
+      }
     },
     "calculationDisclaimer": {
       "title": "PCF 计算免责声明",
@@ -507,5 +521,8 @@
     "disclaimer": "本文档的所有权利归本公司所有，包括授予专利及注册实用新型的权利。本文档必须得到严格保密。未经我们书面同意，本文档正本及其副本、完整内容或摘录内容的其他副本均不得提供给第三方，或被接收方以任何其他方式滥用。本文档是基于您的上述要求，并结合我们自身的假设编写而成的。我们的详细信息考虑了根据您提供给我们的要求，我们明显察觉到的那些风险。本文档仅与购买我们的产品有关。文档中所展示的结果是基于现有技术发展水平而仔细计算的，但并不构成法律意义上明示或暗示的质量或耐用性保证。因此，您有责任检查产品的适用性。我们仅对因故意或疏忽行为导致的文档中详细信息的错误或遗漏承担责任。如果本文档是供货协议的一部分，则其中协商的责任条款适用。",
     "filename": "{{designation}} 的 Medias 计算报告 - {{date}}",
     "page": "页面"
+  },
+  "shortnames": {
+    "approximate": "约"
   }
 }

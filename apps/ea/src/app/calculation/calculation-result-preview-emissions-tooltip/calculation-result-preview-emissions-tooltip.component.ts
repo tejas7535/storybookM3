@@ -3,15 +3,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+
+import { DisclaimerService } from '@ea/core/services/disclaimer.service';
 
 import { RichTooltipComponent } from '@schaeffler/rich-tooltip';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
-
-import { CalculationDisclaimerComponent } from '../calculation-disclaimer/calculation-disclaimer.component';
 
 @Component({
   selector: 'ea-calculation-result-preview-emissions-tooltip',
@@ -26,22 +26,12 @@ import { CalculationDisclaimerComponent } from '../calculation-disclaimer/calcul
 })
 export class CalculationResultPreviewEmissionsTooltipComponent {
   isDownstream = input<boolean>();
-
+  disclaimerServie = inject(DisclaimerService);
   hintTranslationKey = computed(() =>
     this.isDownstream() ? 'downstreamHint' : 'upstreamHint'
   );
 
-  constructor(private readonly dialog: MatDialog) {}
-
   public openMoreInformation() {
-    this.dialog.open(CalculationDisclaimerComponent, {
-      hasBackdrop: true,
-      autoFocus: true,
-      maxWidth: '750px',
-      panelClass: 'legal-disclaimer-dialog',
-      data: {
-        isDownstreamDisclaimer: this.isDownstream(),
-      },
-    });
+    this.disclaimerServie.openCO2Disclaimer(this.isDownstream());
   }
 }

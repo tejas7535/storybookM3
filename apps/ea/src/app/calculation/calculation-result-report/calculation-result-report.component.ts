@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { map } from 'rxjs';
 
+import { DisclaimerService } from '@ea/core/services/disclaimer.service';
 import { PDFReportService } from '@ea/core/services/pdf-report.service';
 import { PdfFileSaveService } from '@ea/core/services/pdfreport/pdf-file-save.service';
 import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
@@ -106,7 +107,8 @@ export class CalculationResultReportComponent {
     private readonly translocoSevice: TranslocoService,
     private readonly trackingService: TrackingService,
     private readonly reportService: PDFReportService,
-    private readonly pdfFileSaveService: PdfFileSaveService
+    private readonly pdfFileSaveService: PdfFileSaveService,
+    private readonly disclaimerService: DisclaimerService
   ) {}
 
   closeDialog() {
@@ -119,6 +121,10 @@ export class CalculationResultReportComponent {
       block: 'start',
     };
     document.querySelector(`#${itemName}`)?.scrollIntoView(scrollOptions);
+  }
+
+  openDisclaimer() {
+    this.disclaimerService.openCO2Disclaimer(true);
   }
 
   async downloadPdfReport() {

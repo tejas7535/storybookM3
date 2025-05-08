@@ -277,7 +277,7 @@
     "emissionsTooltip": "Ekwiwalent CO₂ (CO₂e) to standardowa jednostka kalkulacji wpływu na klimat różnych gazów cieplarnianych. Pozwala ona porównanie emisji różnych mieszanin gazów cieplarnianych.",
     "overrollingFrequency": "Częstotliwość przetaczania",
     "overrollingFrequencySubtitle": "Częstotliwość przechodzenia elementu tocznego przez bieżnię wewnętrzną (BPFI)",
-    "frictionalPowerloss": "Utrata mocy wskutek tarcia",
+    "frictionalPowerloss": "Utrata mocy wskutek tarcia (ok.)",
     "frictionalPowerlossSubtitle": "Utrata mocy wskutek tarcia",
     "frictionalPowerlossUnavailable": "To obliczenie nie jest dostępne z wybranym łożyskiem.",
     "production": "Do produkcji",
@@ -287,6 +287,11 @@
     "yearlyEmissionInfo": "(24/7 używanie przez rok)",
     "hourlyEmissionInfo": "{{ unit }} na {{ hours }} godz",
     "calculationErrorsTitle": "Błędy obliczeń",
+    "frictionTitleTooltip": "Aby uzyskać bardziej szczegółowe i precyzyjne obliczenia, skontaktuj się z naszymi ekspertami ds. obliczeń technicznych",
+    "frictionValueTooltip": "Nowy kalkulator szybko daje przybliżone wyniki.",
+    "frictionValueTooltipLinkText": "Dowiedz się więcej",
+    "frictionTooltipUrlText": "Centra technologiczne Schaefflera",
+    "frictionTooltipUrl": "https://medias.schaeffler.de/en/stc",
     "showErrors": "Pokaż błędy",
     "downstreamErrors": {
       "modelNotExisting": "The calculation of frictional power losses and CO2e emissions is not provided for this bearing.",
@@ -425,7 +430,16 @@
       "totalFrictionalPowerLoss": "Strata mocy w wyniku tarcia",
       "speedDependentFrictionalTorque": "Moment tarcia zależny od prędkości obrotowej",
       "loadDependentFrictionalTorque": "Moment tarcia zależny od obciążenia",
-      "thermallySafeOperatingSpeed": "Robocza prędkość obrotowa dopuszczalna termicznie"
+      "thermallySafeOperatingSpeed": "Robocza prędkość obrotowa dopuszczalna termicznie",
+      "stcReference": {
+        "text": "Dla dokładniejszego obliczenia",
+        "urlText": "skontaktuj się z naszymi ekspertami ds. obliczeń",
+        "url": "https://medias.schaeffler.de/de/stc"
+      },
+      "disclaimer": {
+        "text": "Nowa i szybsza metoda obliczeń",
+        "urlText": "Więcej informacji"
+      }
     },
     "calculationDisclaimer": {
       "title": "Zastrzeżenie dotyczące obliczania PCF",
@@ -507,5 +521,8 @@
     "disclaimer": "Wszelkie prawa zastrzeżone w odniesieniu do tego dokumentu, nawet w przypadku udzielenia patentu lub zastrzeżenia wzoru użytkowego. Dokument musi być traktowany jako poufny. Bez naszej pisemnej zgody ani sam dokument, ani jego kopie lub inne reprodukcje treści lub jej fragmentów nie mogą być udostępniane osobom trzecim ani wykorzystywane przez odbiorcę w jakikolwiek inny sposób niezgodny z przeznaczeniem. Dokument został sporządzony na podstawie podanych wymagań, które są wymienione powyżej, i naszych własnych założeń. W naszych szczegółach bierzemy pod uwagę ryzyka, które dostrzegliśmy na podstawie udostępnionych nam wymagań. Dokument został sporządzony wyłącznie w związku z zakupem naszych produktów. Wyniki pokazane w dokumencie zostały starannie opracowane zgodnie ze sztuką, ale nie stanowią wyraźnej ani dorozumianej gwarancji jakości lub trwałości w rozumieniu prawnym. Nie zwalniają one zatem z powinności przeprowadzenia kontroli zdatności produktów. Ponosimy odpowiedzialność za szczegóły podane w dokumencie tylko w przypadku działania umyślnego lub rażącej niedbałości. Jeśli dokument stanowi część umowy dostawy, podlega zawartym w niej zasadom podziału odpowiedzialności.",
     "filename": "Raport obliczeń Medias dla {{designation}} - {{date}}",
     "page": "Strona"
+  },
+  "shortnames": {
+    "approximate": "ok."
   }
 }

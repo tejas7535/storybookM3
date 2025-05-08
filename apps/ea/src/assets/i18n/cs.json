@@ -277,7 +277,7 @@
     "emissionsTooltip": "Ekvivalent CO₂ (CO₂e) je jednotka pro standardizaci klimatických účinků různých skleníkových plynů. Lze tak porovnávat různé směsi emisí skleníkových plynů.",
     "overrollingFrequency": "Frekvence převalování",
     "overrollingFrequencySubtitle": "Frekvence na vnitřním kroužku (BPFI)",
-    "frictionalPowerloss": "Třecí ztráty výkonu",
+    "frictionalPowerloss": "Třecí ztráty výkonu (přibližně)",
     "frictionalPowerlossSubtitle": "Třecí ztráty výkonu",
     "frictionalPowerlossUnavailable": "Pro vybrané ložisko není tento výpočet k dispozici.",
     "production": "Při výrobě",
@@ -287,6 +287,11 @@
     "yearlyEmissionInfo": "(24/7 použití na jeden rok)",
     "hourlyEmissionInfo": "{{ unit }} po dobu {{ hours }} h",
     "calculationErrorsTitle": "Chyby výpočtu",
+    "frictionTitleTooltip": "Pro podrobnější a přesnější výpočty kontaktujte naše odborníky na technické výpočty",
+    "frictionValueTooltip": "Nový výpočet poskytuje přibližné výsledky rychleji.",
+    "frictionValueTooltipLinkText": "Zjistit více",
+    "frictionTooltipUrlText": "Technologická centra Schaeffler",
+    "frictionTooltipUrl": "https://medias.schaeffler.de/en/stc",
     "showErrors": "Zobrazit chyby",
     "downstreamErrors": {
       "modelNotExisting": "The calculation of frictional power losses and CO2e emissions is not provided for this bearing.",
@@ -425,7 +430,16 @@
       "totalFrictionalPowerLoss": "Ztráta výkonu třením",
       "speedDependentFrictionalTorque": "Třecí moment závislý na rychlosti",
       "loadDependentFrictionalTorque": "Třecí moment závislý na zatížení",
-      "thermallySafeOperatingSpeed": "Tepelně bezpečná provozní rychlost"
+      "thermallySafeOperatingSpeed": "Tepelně bezpečná provozní rychlost",
+      "stcReference": {
+        "text": "Pro přesnější výpočet",
+        "urlText": "kontaktujte naše výpočetní experty",
+        "url": "https://medias.schaeffler.de/de/stc"
+      },
+      "disclaimer": {
+        "text": "Nová a rychlejší výpočetní metoda",
+        "urlText": "Více informací"
+      }
     },
     "calculationDisclaimer": {
       "title": "Zřeknutí se odpovědnosti za výpočet PCF",
@@ -507,5 +521,8 @@
     "disclaimer": "Veškerá práva k tomuto dokumentu jsou vyhrazena, a to i v případě, že by byl udělen patent nebo zapsán užitný vzor. S dokumentem musí být nakládáno jako s důvěrným. Bez našeho písemného souhlasu nesmí být samotný dokument ani jeho kopie či jiné interpretace celého obsahu nebo výňatků z něj poskytnuty třetím stranám nebo jakýmkoli jiným způsobem zneužity příjemcem. Dokument byl připraven na základě vašich požadavků uvedených výše a našich vlastních předpokladů. Naše údaje berou v úvahu ta rizika, která nám byla zřejmá na základě vašich požadavků, jak jste nám je poskytli. Tento dokument byl vypracován výhradně v souvislosti s nákupem našich produktů. Výsledky uvedené v tomto dokumentu byly pečlivě zpracovány v souladu se stavem techniky, ale nepředstavují výslovnou ani nevyjádřenou záruku kvality nebo trvanlivosti v právním smyslu. Tím nejste zbaveni povinnosti kontrolovat vhodnost výrobků. Za údaje uvedené v dokumentu odpovídáme pouze v případě úmyslného jednání nebo nedbalosti. Pokud je dokument součástí smlouvy o dodávkách, použijí se ustanovení o odpovědnosti sjednaná v této smlouvě.",
     "filename": "Zpráva s výpočtem Medias pro {{designation}} – {{date}}",
     "page": "Stránka"
+  },
+  "shortnames": {
+    "approximate": "přibl."
   }
 }

@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { provideRouter } from '@angular/router';
 
+import { DisclaimerService } from '@ea/core/services/disclaimer.service';
 import { PDFReportService } from '@ea/core/services/pdf-report.service';
 import { TrackingService } from '@ea/core/services/tracking-service/tracking.service';
 import { AppStoreButtonsComponent } from '@ea/shared/app-store-buttons/app-store-buttons.component';
@@ -54,6 +55,7 @@ describe('CalculationResultReportComponent', () => {
       { provide: DialogRef, useValue: dialogRefMock },
       mockProvider(PDFReportService),
       provideRouter([]),
+      mockProvider(DisclaimerService),
     ],
     mocks: [TrackingService, MatDialog],
   });
@@ -72,6 +74,11 @@ describe('CalculationResultReportComponent', () => {
   it('should close the dialog', () => {
     component.closeDialog();
     expect(dialogRefMock.close).toHaveBeenCalled();
+  });
+
+  it('should open disclaimer', () => {
+    component['openDisclaimer']();
+    expect(component['disclaimerService'].openCO2Disclaimer).toHaveBeenCalled();
   });
 
   describe('when store button is clicked', () => {

@@ -12,6 +12,13 @@ export interface CalculationResultPreviewItem {
   titleTooltip?: string;
 
   /**
+   *
+   */
+  titleTooltipUrl?: string;
+
+  titleTooltipUrlText?: string;
+
+  /**
    * Material SVG icon name
    */
   svgIcon?: string;

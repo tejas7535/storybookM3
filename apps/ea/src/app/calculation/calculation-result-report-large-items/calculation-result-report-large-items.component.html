@@ -164,6 +164,9 @@
           ></ea-info-button>
         }
       </div>
+      @if (hasContext(item.title) && this.disclaimerTemplate) {
+        <ng-container *ngTemplateOutlet="disclaimerTemplate" />
+      }
     </div>
     @if ((isOdd || item.loadcaseValues?.length > 4) && !isLast) {
       <div

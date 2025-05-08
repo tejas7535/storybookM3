@@ -277,7 +277,7 @@
     "emissionsTooltip": "CO₂ 당량(CO₂e)은 다양한 온실 가스의 기후 영향을 표준화하는 단위입니다. 따라서 온실 가스 배출량의 다양한 혼합을 비교할 수 있습니다.",
     "overrollingFrequency": "오버롤링 주파수",
     "overrollingFrequencySubtitle": "내륜의 주파수(BPFI)",
-    "frictionalPowerloss": "마찰 전력 손실",
+    "frictionalPowerloss": "마찰 전력 손실(대략)",
     "frictionalPowerlossSubtitle": "마찰 전력 손실",
     "frictionalPowerlossUnavailable": "선택한 베어링의 경우 이 계산을 사용할 수 없습니다.",
     "production": "생산용",
@@ -287,6 +287,11 @@
     "yearlyEmissionInfo": "(1년간 24/7 사용)",
     "hourlyEmissionInfo": "{{ unit }} 동안 {{ hours }} 시간",
     "calculationErrorsTitle": "계산 오류",
+    "frictionTitleTooltip": "보다 상세하고 정밀한 계산을 원하시면 당사의 기술 계산 전문가에게 문의하세요",
+    "frictionValueTooltip": "새 계산은 대략적인 결과를 더 빠르게 제공합니다.",
+    "frictionValueTooltipLinkText": "자세히 알아보기",
+    "frictionTooltipUrlText": "셰플러 기술 센터",
+    "frictionTooltipUrl": "https://medias.schaeffler.de/en/stc",
     "showErrors": "오류 표시",
     "downstreamErrors": {
       "modelNotExisting": "The calculation of frictional power losses and CO2e emissions is not provided for this bearing.",
@@ -425,7 +430,16 @@
       "totalFrictionalPowerLoss": "마찰 전력 손실",
       "speedDependentFrictionalTorque": "속도에 따른 마찰 토크",
       "loadDependentFrictionalTorque": "하중에 따른 마찰 토크",
-      "thermallySafeOperatingSpeed": "열 안전 작동 속도"
+      "thermallySafeOperatingSpeed": "열 안전 작동 속도",
+      "stcReference": {
+        "text": "정확한 계산을 위해",
+        "urlText": "저희 계산 전문가에게 문의하세요",
+        "url": "https://medias.schaeffler.de/de/stc"
+      },
+      "disclaimer": {
+        "text": "새로운 및 더 빠른 계산 방법",
+        "urlText": "자세한 정보"
+      }
     },
     "calculationDisclaimer": {
       "title": "PCF 계산에 대한 면책 조항",
@@ -507,5 +521,8 @@
     "disclaimer": "특허가 부여되거나 실용신안이 등록된 경우에도 본 문서와 관련된 모든 권리는 보유됩니다. 본 문서는 기밀로 취급해야 합니다. 당사의 서면 동의 없이는 문서 자체, 문서 사본이나 전체 내용 또는 발췌한 내용의 기타 번역문을 제3자에게 제공하거나 수령인이 다른 방식으로 부적절하게 사용할 수 없습니다. 본 문서는 위에 명시된 귀하의 요구사항과 당사의 가정에 기초하여 작성되었습니다. 당사의 세부정보는 당사가 이용할 수 있는 귀하의 요구사항에 근거하여 당사에 명백히 드러난 위험을 고려합니다. 이 문서는 당사 제품 구매와 관련된 목적으로만 작성되었습니다. 문서에 표시된 결과는 최신 기술에 따라 신중하게 작성되었지만 법적 의미에서 품질이나 내구성에 대한 명시적 또는 묵시적 보증을 구성하지 않습니다. 이로 인해 귀하는 제품의 적합성을 확인해야 합니다. 당사는 고의 또는 과실이 있는 경우에만 문서에 제공된 세부정보에 대해 책임을 집니다. 문서가 공급 계약의 일부인 경우 합의된 책임 조항이 적용됩니다.",
     "filename": "{{designation}}에 대한 Medias 계산 보고서 - {{date}}",
     "page": "페이지"
+  },
+  "shortnames": {
+    "approximate": "약"
   }
 }

@@ -1,5 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Calculation Result Selector co2Downstream should return the downstream co2 result 1`] = `
+Object {
+  "additionalData": Object {
+    "operatingTimeInHours": undefined,
+  },
+  "calculationError": undefined,
+  "isLoading": false,
+  "unit": "",
+  "value": undefined,
+  "valueLoadcaseName": "Workload",
+}
+`;
+
+exports[`Calculation Result Selector co2Downstream should return undefined if no downstream co2 result is available 1`] = `
+Object {
+  "additionalData": Object {
+    "operatingTimeInHours": undefined,
+  },
+  "calculationError": undefined,
+  "isLoading": false,
+  "unit": "",
+  "value": undefined,
+  "valueLoadcaseName": "Workload",
+}
+`;
+
 exports[`Calculation Result Selector co2Upstream should return the upstream co2 result 1`] = `
 Object {
   "calculationError": undefined,
@@ -14,6 +40,24 @@ Object {
   "calculationError": undefined,
   "isLoading": undefined,
   "unit": undefined,
+  "value": undefined,
+}
+`;
+
+exports[`Calculation Result Selector downstreamFrictionalPowerlossValue should return the frictional powerloss value 1`] = `
+Object {
+  "calculationError": undefined,
+  "isLoading": false,
+  "unit": "",
+  "value": undefined,
+}
+`;
+
+exports[`Calculation Result Selector downstreamFrictionalPowerlossValue should return undefined if no downstream friction result is available 1`] = `
+Object {
+  "calculationError": undefined,
+  "isLoading": false,
+  "unit": "",
   "value": undefined,
 }
 `;
@@ -52,6 +96,9 @@ Array [
     "icon": "compress",
     "loadcaseName": "Workload",
     "title": "frictionalPowerloss",
+    "titleTooltip": "frictionTitleTooltip",
+    "titleTooltipUrl": "frictionTooltipUrl",
+    "titleTooltipUrlText": "frictionTooltipUrlText",
     "values": Array [
       Object {
         "calculationError": undefined,
@@ -120,6 +167,9 @@ Array [
     "icon": "compress",
     "loadcaseName": "Workload",
     "title": "frictionalPowerloss",
+    "titleTooltip": "frictionTitleTooltip",
+    "titleTooltipUrl": "frictionTooltipUrl",
+    "titleTooltipUrlText": "frictionTooltipUrlText",
     "values": Array [
       Object {
         "calculationError": undefined,

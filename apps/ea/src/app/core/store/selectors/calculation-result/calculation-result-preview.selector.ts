@@ -126,7 +126,7 @@ export const co2DownstreamEmissionValue = createSelector(
       isLoading: isDownstreamLoading,
       calculationError: errors?.[0],
       unit: value ? 'kg' : '',
-      value,
+      value: value ? `≈ ${value.toFixed(0)}` : undefined,
       valueLoadcaseName,
       additionalData: { operatingTimeInHours },
     };
@@ -146,7 +146,7 @@ export const downstreamFrictionalPowerlossValue = createSelector(
       isLoading: isDownstreamLoading,
       calculationError: undefined,
       unit: value ? 'W' : '',
-      value,
+      value: value ? `≈ ${value}` : undefined,
     };
   }
 );
@@ -221,6 +221,9 @@ export const getCalculationResultPreviewData = createSelector(
       previewData.push({
         title: 'frictionalPowerloss',
         icon: 'compress',
+        titleTooltip: 'frictionTitleTooltip',
+        titleTooltipUrl: 'frictionTooltipUrl',
+        titleTooltipUrlText: 'frictionTooltipUrlText',
         values: [
           {
             title: calculationTypes.frictionalPowerloss.disabled

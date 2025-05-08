@@ -280,7 +280,7 @@
     "emissionsTooltip": "Ein CO₂-Äquivalent (CO₂e) ist eine Einheit zur Standardisierung der Klimawirkungen verschiedener Treibhausgase. So können Emissionen verschiedener Treibhausgasgemische verglichen werden.",
     "overrollingFrequency": "Überrollfrequenzen bei Betriebsdrehzahl",
     "overrollingFrequencySubtitle": "Frequenz am Innenring (BPFI)",
-    "frictionalPowerloss": "Reibungsverlustleistung",
+    "frictionalPowerloss": "Reibungsverlustleistung (ca.)",
     "frictionalPowerlossSubtitle": "Reibungsverlustleistung",
     "frictionalPowerlossUnavailable": "Für das ausgewählte Lager ist diese Berechnung nicht verfügbar.",
     "production": "Für die Produktion",
@@ -290,6 +290,8 @@
     "yearlyEmissionInfo": "(24/7 Betrieb für ein Jahr)",
     "hourlyEmissionInfo": "{{ unit }} in {{ hours }} h",
     "calculationErrorsTitle": "Berechnungsfehler",
+    "frictionTitleTooltip": "Für genauere Berechnungen, kontaktieren Sie unsere technischen Experten",
+    "frictionTooltip": "Unsere neue Berechnungsmethode liefert Nährungswerte schneller als vorherige Versionen",
     "showErrors": "Fehler anzeigen",
     "downstreamErrors": {
       "modelNotExisting": "Die Berechnung der Reibungsverluste und CO2e-Emissionen wird für dieses Lager nicht zur Verfügung gestellt.",
@@ -420,7 +422,7 @@
       "guideIntervalRelubrication": "Richtwert für die Nachschmierfrist"
     },
     "frictionalPowerloss": {
-      "title": "Reibungsverluste",
+      "title": "Reibungsverluste (ca.)",
       "totalFrictionalTorque": "Reibmoment",
       "totalFrictionalPowerLoss": "Reibleistung",
       "speedDependentFrictionalTorque": "Drehzahlabhängiges Reibmoment",
@@ -431,6 +433,15 @@
         "line2": "Für weitere Informationen kontaktieren Sie bitte unseren",
         "linkText": "Kundensupport",
         "link": "https://medias.schaeffler.de/de/stc"
+      },
+      "stcReference": {
+        "text": "Für eine präzisere Berechnung",
+        "urlText": "kontaktieren Sie unsere Berechnungs Experten",
+        "url": "https://medias.schaeffler.de/de/stc"
+      },
+      "disclaimer": {
+        "text": "Neue und schnellere Berechnungsmethode",
+        "urlText": "Mehr Informationen"
       }
     },
     "calculationDisclaimer": {
@@ -517,5 +528,8 @@
     "disclaimer": "All rights are reserved with regard to this document, even in the event that a patent should be granted or a utility model registered. The document must be treated confidentially. Without our written consent, neither the document itself, nor copies thereof or any other renderings of the complete contents or of extracts therefrom may be made available to third parties or put to improper use by the recipient in any other way. The document has been prepared on the basis of your requirements as set forth above and our own assumptions. Our details take into account those risks which were apparent to us on the basis of your requirements as made available to us. The document has been prepared solely in connection with the purchase of our products. The results shown in the document have been worked out carefully and in accordance with the state of the art, but do not constitute an express or implied guaranty as to quality or durability in the legal sense. You are not dispensed thereby from checking the suitability of the products. We shall be liable for the details provided in the document only in the event of willful intent or negligence. If the document is part of a supply agreement, the liability provisions agreed there shall apply.",
     "filename": "medias Lagerberechnung für {{designation}} - {{date}}",
     "page": "Seite"
+  },
+  "shortnames": {
+    "approximate": "ca."
   }
 }

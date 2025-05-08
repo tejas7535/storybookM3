@@ -172,11 +172,11 @@ Array [
     "loadcaseValues": Array [
       Object {
         "loadcaseName": "Loadcase 1",
-        "value": 3,
+        "value": "≈ 3",
       },
       Object {
         "loadcaseName": "Loadcase 2",
-        "value": 5,
+        "value": "≈ 5",
       },
     ],
     "short": "NR",
@@ -187,31 +187,16 @@ Array [
     "loadcaseValues": Array [
       Object {
         "loadcaseName": "Loadcase 1",
-        "value": 0.03,
+        "value": "≈ 0.03",
       },
       Object {
         "loadcaseName": "Loadcase 2",
-        "value": 0.041,
+        "value": "≈ 0.041",
       },
     ],
     "short": "MR",
     "title": "totalFrictionalTorque",
     "unit": "N m",
-  },
-  Object {
-    "loadcaseValues": Array [
-      Object {
-        "loadcaseName": "Loadcase 1",
-        "value": 1272,
-      },
-      Object {
-        "loadcaseName": "Loadcase 2",
-        "value": 1008,
-      },
-    ],
-    "short": "n_theta",
-    "title": "thermallySafeOperatingSpeed",
-    "unit": "1/min",
   },
 ]
 `;

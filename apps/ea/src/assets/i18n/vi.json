@@ -277,7 +277,7 @@
     "emissionsTooltip": "CO₂ tương đương (CO₂e) là đơn vị để chuẩn hóa ảnh hưởng khí hậu của các loại khí nhà kính khác nhau. Nhờ đó, có thể so sánh các hỗn hợp khí thải nhà kính khác nhau.",
     "overrollingFrequency": "Tần suất lăn quá mức",
     "overrollingFrequencySubtitle": "Tần số ở vòng trong (BPFI)",
-    "frictionalPowerloss": "Tổn thất công suất do ma sát",
+    "frictionalPowerloss": "Tổn thất công suất do ma sát (khoảng)",
     "frictionalPowerlossSubtitle": "Tổn thất công suất do ma sát",
     "frictionalPowerlossUnavailable": "Đối với vòng bi đã chọn, phép tính này không khả dụng.",
     "production": "Dành cho sản xuất",
@@ -287,6 +287,11 @@
     "yearlyEmissionInfo": "(sử dụng 24/7 trong một năm)",
     "hourlyEmissionInfo": "{{ unit }} cho {{ hours }} giờ",
     "calculationErrorsTitle": "Lỗi tính toán",
+    "frictionTitleTooltip": "Để có tính toán chi tiết và chính xác hơn, hãy liên hệ với các chuyên gia tính toán kỹ thuật của chúng tôi",
+    "frictionValueTooltip": "Tính toán mới cung cấp kết quả xấp xỉ nhanh hơn.",
+    "frictionValueTooltipLinkText": "Tìm hiểu thêm",
+    "frictionTooltipUrlText": "Trung tâm công nghệ Schaeffler",
+    "frictionTooltipUrl": "https://medias.schaeffler.de/en/stc",
     "showErrors": "Hiển thị lỗi",
     "downstreamErrors": {
       "modelNotExisting": "The calculation of frictional power losses and CO2e emissions is not provided for this bearing.",
@@ -425,7 +430,16 @@
       "totalFrictionalPowerLoss": "Tổn thất công suất do ma sát",
       "speedDependentFrictionalTorque": "Mô-men xoắn ma sát phụ thuộc vào tốc độ",
       "loadDependentFrictionalTorque": "Mô-men xoắn ma sát phụ thuộc vào tải",
-      "thermallySafeOperatingSpeed": "Tốc độ vận hành an toàn về nhiệt"
+      "thermallySafeOperatingSpeed": "Tốc độ vận hành an toàn về nhiệt",
+      "stcReference": {
+        "text": "Để tính toán chính xác hơn",
+        "urlText": "liên hệ với các chuyên gia tính toán của chúng tôi",
+        "url": "https://medias.schaeffler.de/de/stc"
+      },
+      "disclaimer": {
+        "text": "Phương pháp tính toán mới và nhanh hơn",
+        "urlText": "Thêm thông tin"
+      }
     },
     "calculationDisclaimer": {
       "title": "Tuyên bố miễn trừ trách nhiệm đối với việc tính toán PCF",
@@ -507,5 +521,8 @@
     "disclaimer": "Tất cả các quyền đều được bảo lưu đối với tài liệu này, ngay cả trong trường hợp cần cấp bằng sáng chế hoặc đăng ký mô hình tiện ích. Phải xem đây là tài liệu mật. Nếu không có sự đồng ý bằng văn bản của chúng tôi, không được cung cấp tài liệu cũng như bản sao của tài liệu hoặc các bản sao khác của nội dung hoàn chỉnh hoặc trích dẫn cho các bên thứ ba và người nhận không được sử dụng tài liệu sai mục đích theo bất kỳ cách nào khác. Tài liệu này đã được chuẩn bị trên cơ sở các yêu cầu của bạn như nêu trên và giả định của chúng tôi. Thông tin chi tiết của chúng tôi có tính đến những rủi ro mà chúng tôi thấy rõ trên cơ sở các yêu cầu của bạn được cung cấp cho chúng tôi. Tài liệu này chỉ được soạn thảo liên quan đến việc mua sản phẩm của chúng tôi. Các kết quả được trình bày trong tài liệu đã được tính toán cẩn thận và phù hợp với công nghệ hiện đại nhưng không cấu thành sự bảo đảm rõ ràng hay ngụ ý về chất lượng hoặc độ bền theo nghĩa pháp lý. Do đó, bạn không được miễn trách nhiệm kiểm tra tính phù hợp của sản phẩm. Chúng tôi sẽ chỉ chịu trách nhiệm về các chi tiết được cung cấp trong tài liệu trong trường hợp cố tình sai sót hoặc sơ suất. Nếu tài liệu là một phần của thỏa thuận cung cấp thì các điều khoản về trách nhiệm pháp lý đã thỏa thuận sẽ được áp dụng.",
     "filename": "Báo cáo tính toán Medias cho {{designation}} - {{date}}",
     "page": "Trang"
+  },
+  "shortnames": {
+    "approximate": "xấp xỉ"
   }
 }

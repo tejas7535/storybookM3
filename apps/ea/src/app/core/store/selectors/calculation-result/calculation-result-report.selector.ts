@@ -108,18 +108,18 @@ export const getFrictionalalPowerlossReport = createSelector(
 
     const result: LoadcaseResultCombinedItem[] = [];
     if (loadcaseEmissions) {
-      const config: { [key: string]: { unit: string; short: string } } = {
+      const config: {
+        [key: string]: { unit: string; short: string; approx: boolean };
+      } = {
         totalFrictionalPowerLoss: {
           unit: 'W',
           short: 'NR',
+          approx: true,
         },
         totalFrictionalTorque: {
           unit: 'N m',
           short: 'MR',
-        },
-        thermallySafeOperatingSpeed: {
-          unit: '1/min',
-          short: 'n_theta',
+          approx: true,
         },
       };
 
@@ -129,8 +129,8 @@ export const getFrictionalalPowerlossReport = createSelector(
         Object.entries(values).forEach(([key, value]) => {
           if (configKeys.includes(key)) {
             let item = result.find((r) => r.title === key);
+            const { unit, short, approx } = config[key];
             if (!item) {
-              const { unit, short } = config[key];
               item = {
                 title: key,
                 unit,
@@ -141,7 +141,7 @@ export const getFrictionalalPowerlossReport = createSelector(
             }
             item.loadcaseValues.push({
               loadcaseName,
-              value,
+              value: approx && !!value ? `≈ ${value}` : value,
             });
           }
         });

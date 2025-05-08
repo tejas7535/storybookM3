@@ -6,7 +6,9 @@ import {
 
 import { AppState } from '../../reducers';
 import {
+  co2DownstreamEmissionValue,
   co2Upstream,
+  downstreamFrictionalPowerlossValue,
   getCalculationResultPreviewData,
   isCalculationResultReportAvailable,
 } from './calculation-result-preview.selector';
@@ -129,6 +131,36 @@ describe('Calculation Result Selector', () => {
     it('should return undefined if no upstream co2 result is available', () => {
       expect(
         co2Upstream({ ...mockState, co2UpstreamCalculationResult: {} })
+      ).toMatchSnapshot();
+    });
+  });
+
+  describe('co2Downstream', () => {
+    it('should return the downstream co2 result', () => {
+      expect(co2DownstreamEmissionValue(mockState)).toMatchSnapshot();
+    });
+
+    it('should return undefined if no downstream co2 result is available', () => {
+      expect(
+        co2DownstreamEmissionValue({
+          ...mockState,
+          cownstreamCalculationState: { isLoading: false, result: {} },
+        })
+      ).toMatchSnapshot();
+    });
+  });
+
+  describe('downstreamFrictionalPowerlossValue', () => {
+    it('should return the frictional powerloss value', () => {
+      expect(downstreamFrictionalPowerlossValue(mockState)).toMatchSnapshot();
+    });
+
+    it('should return undefined if no downstream friction result is available', () => {
+      expect(
+        downstreamFrictionalPowerlossValue({
+          ...mockState,
+          cownstreamCalculationState: { isLoading: false, result: {} },
+        })
       ).toMatchSnapshot();
     });
   });
