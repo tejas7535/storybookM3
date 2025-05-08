@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, input, InputSignal } from '@angular/core';
 
 @Component({
   selector: 'd360-styled-section',
@@ -8,7 +8,8 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./styled-section.component.scss'],
 })
 export class StyledSectionComponent {
-  @Input() last?: boolean;
-  @Input() grow?: boolean;
-  @Input() fullHeight?: boolean;
+  public last: InputSignal<boolean> = input<boolean>(false);
+  public grow: InputSignal<boolean> = input<boolean>(false);
+  public fullHeight: InputSignal<boolean> = input<boolean>(false);
+  public suppressPadding: InputSignal<boolean> = input<boolean>(false);
 }

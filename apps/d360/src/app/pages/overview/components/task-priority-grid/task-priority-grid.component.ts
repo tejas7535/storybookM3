@@ -58,6 +58,7 @@ export class TaskPriorityGridComponent {
   };
   private gridApi: GridApi = null;
   public openFunction = input.required<OpenFunction>();
+  public headline = input.required<string>();
   public gkamNumbers = input<string[]>(null);
   public customers = input<string[]>(null);
   public priorities = input<Priority[]>(null);

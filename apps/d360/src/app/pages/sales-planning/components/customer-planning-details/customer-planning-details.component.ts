@@ -49,6 +49,7 @@ import {
 import { AgGridFilterType } from '../../../../shared/ag-grid/grid-types';
 import { NoDataOverlayComponent } from '../../../../shared/components/ag-grid/no-data/no-data.component';
 import { TableToolbarComponent } from '../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
+import { StyledSectionComponent } from '../../../../shared/components/styled-section/styled-section.component';
 import { NumberWithoutFractionDigitsPipe } from '../../../../shared/pipes/number-without-fraction-digits.pipe';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { CustomerPlanningDetailsChangeHistoryModalComponent } from '../customer-planning-details-change-history-modal/customer-planning-details-change-history-modal.component';
@@ -72,6 +73,7 @@ type YearlyCustomerPlanningDetailsColumnDefinitions = ReturnType<
     MatButton,
     AgGridAngular,
     TableToolbarComponent,
+    StyledSectionComponent,
   ],
   templateUrl: './customer-planning-details.component.html',
 })

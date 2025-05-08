@@ -1,71 +1,73 @@
-<section class="flex flex-col p-4 gap-6" *transloco="let t">
-  <h2 class="text-title-large">{{ t('sales_planning.title') }}</h2>
+<d360-styled-section *transloco="let t">
+  <div class="flex flex-col gap-6">
+    <h2 class="text-title-large">{{ t('sales_planning.title') }}</h2>
 
-  <div class="flex flex-col w-1/4">
-    <div class="flex items-center gap-2 mb-4">
-      <d360-single-autocomplete-on-type
-        class="compact flex-grow bg-white"
-        [form]="formGroup"
-        [control]="$any(formGroup.controls.customer)"
-        [label]="t('sales_planning.customer')"
-        [displayFn]="DisplayFunctions.displayFnUnitedNullable"
-        urlBegin="global-selection/search-customers"
-        [requestWithLang]="true"
-        [addClearButton]="true"
-        (selectionChange)="handleCustomerChange($event)"
-      />
+    <div class="flex flex-col w-1/4">
+      <div class="flex items-center gap-2 mb-4">
+        <d360-single-autocomplete-on-type
+          class="compact flex-grow bg-white"
+          [form]="formGroup"
+          [control]="$any(formGroup.controls.customer)"
+          [label]="t('sales_planning.customer')"
+          [displayFn]="DisplayFunctions.displayFnUnitedNullable"
+          urlBegin="global-selection/search-customers"
+          [requestWithLang]="true"
+          [addClearButton]="true"
+          (selectionChange)="handleCustomerChange($event)"
+        />
 
-      <button
-        mat-icon-button
-        class="text-body-small"
-        [disabled]="selectedCustomer() === null"
-        (click)="handleCustomerInfoClick()"
-      >
-        <mat-icon>info_outline</mat-icon>
-      </button>
-    </div>
-  </div>
-
-  @if (selectedCustomerSalesPlan().length > 0) {
-    <div class="flex flex-col max-w-[1400px] space-y-4">
-      <div class="grid grid-flow-col auto-cols-auto justify-between gap-4">
-        <div class="grid grid-row-3 gap-1">
-          <div class="text-body-small">
-            {{ t('planing_type.title.yearlyTotal') }}
-          </div>
-          <span class="text-body-small text-on-surface-variant">{{
-            t('planing_type.title.REQUESTED')
-          }}</span>
-          <span class="text-body-small text-on-surface-variant">{{
-            t('planing_type.title.CONFIRMED')
-          }}</span>
-        </div>
-        @for (
-          item of selectedCustomerSalesPlan();
-          track item;
-          let last = $last
-        ) {
-          <div class="grid grid-row-3 gap-1">
-            <span class="text-body-small text-on-surface-variant mb-2">{{
-              item.year
-            }}</span>
-            <span class="text-body-medium"
-              >{{ (item.unconstrained | numberWithoutFractionDigits) || '-' }}
-              @if (item.unconstrained) {
-                {{ selectedCustomerPlanningCurrency() }}
-              }
-            </span>
-            <span class="text-body-small text-on-surface-variant"
-              >{{ (item.constrained | numberWithoutFractionDigits) || '-' }}
-              {{ selectedCustomerPlanningCurrency() }}</span
-            >
-          </div>
-
-          @if (!last) {
-            <mat-divider vertical="true"></mat-divider>
-          }
-        }
+        <button
+          mat-icon-button
+          class="text-body-small"
+          [disabled]="selectedCustomer() === null"
+          (click)="handleCustomerInfoClick()"
+        >
+          <mat-icon>info_outline</mat-icon>
+        </button>
       </div>
     </div>
-  }
-</section>
+
+    @if (selectedCustomerSalesPlan().length > 0) {
+      <div class="flex flex-col max-w-[1400px] space-y-4">
+        <div class="grid grid-flow-col auto-cols-auto justify-between gap-4">
+          <div class="grid grid-row-3 gap-1">
+            <div class="text-body-small">
+              {{ t('planing_type.title.yearlyTotal') }}
+            </div>
+            <span class="text-body-small text-on-surface-variant">
+              {{ t('planing_type.title.REQUESTED') }}
+            </span>
+            <span class="text-body-small text-on-surface-variant">
+              {{ t('planing_type.title.CONFIRMED') }}
+            </span>
+          </div>
+          @for (
+            item of selectedCustomerSalesPlan();
+            track item;
+            let last = $last
+          ) {
+            <div class="grid grid-row-3 gap-1">
+              <span class="text-body-small text-on-surface-variant mb-2">
+                {{ item.year }}
+              </span>
+              <span class="text-body-medium">
+                {{ (item.unconstrained | numberWithoutFractionDigits) || '-' }}
+                @if (item.unconstrained) {
+                  {{ selectedCustomerPlanningCurrency() }}
+                }
+              </span>
+              <span class="text-body-small text-on-surface-variant">
+                {{ (item.constrained | numberWithoutFractionDigits) || '-' }}
+                {{ selectedCustomerPlanningCurrency() }}
+              </span>
+            </div>
+
+            @if (!last) {
+              <mat-divider vertical="true"></mat-divider>
+            }
+          }
+        </div>
+      </div>
+    }
+  </div>
+</d360-styled-section>

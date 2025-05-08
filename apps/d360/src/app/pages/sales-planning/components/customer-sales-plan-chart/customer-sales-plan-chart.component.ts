@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, input, Signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { TranslocoDirective } from '@jsverse/transloco';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -10,6 +9,7 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { ForecastChartComponent } from '../../../../feature/forecast-chart/components/forecast-chart/forecast-chart.component';
 import { PeriodType } from '../../../../feature/forecast-chart/model';
 import { GlobalSelectionState } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
+import { StyledSectionComponent } from '../../../../shared/components/styled-section/styled-section.component';
 
 const EMPTY_GLOBAL_SELECTION_STATE: GlobalSelectionState = {
   alertType: [],
@@ -30,11 +30,11 @@ const EMPTY_GLOBAL_SELECTION_STATE: GlobalSelectionState = {
   selector: 'd360-customer-sales-plan-chart',
   imports: [
     CommonModule,
-    TranslocoDirective,
     ReactiveFormsModule,
     LoadingSpinnerModule,
     NgxEchartsModule,
     ForecastChartComponent,
+    StyledSectionComponent,
   ],
   templateUrl: './customer-sales-plan-chart.component.html',
 })

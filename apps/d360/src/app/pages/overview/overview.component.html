@@ -4,13 +4,13 @@
   </div>
 } @else {
   <div *transloco="let t">
-    <h2 class="text-title-large">{{ t('tabbarMenu.overview.label') }}</h2>
+    <h2 class="text-title-large mb-8">{{ t('tabbarMenu.overview.label') }}</h2>
     <d360-overview-filter
       (onFilterChange)="overviewFilterValue.set($event)"
       (onReset)="onOverviewFilterReset()"
     />
 
-    <div class="gap-4 pb-4 my-4">
+    <div class="gap-4 pb-4 my-8">
       <div class="flex flex-row gap-6 justify-between">
         <span class="mt-2">{{ t('overview.yourCustomer.headline') }}</span>
         <span class="flex flex-row justify-center align-middle">
@@ -36,7 +36,10 @@
         </span>
       </div>
       <div class="your-tasks flex md:flex-row flex-col gap-4">
-        <div class="card h-full md:w-1/2 w-full mb-1">
+        <d360-styled-section
+          class="h-full md:w-1/2 w-full mb-1"
+          [suppressPadding]="true"
+        >
           <d360-customer-sales-planning-grid
             [layout]="selectedLayout()"
             [isAssignedToMe]="isAssignedToMe()"
@@ -50,9 +53,10 @@
               )
             "
           ></d360-customer-sales-planning-grid>
-        </div>
-        <div class="card h-full md:w-1/2 w-full p-4 mb-1 forecast-chart">
+        </d360-styled-section>
+        <d360-styled-section class="h-full md:w-1/2 w-full mb-1">
           <d360-forecast-chart
+            class="forecast-chart"
             [currency]="currencyService.getCurrentCurrency() | ngrxPush"
             [columnFilters]="{}"
             [globalSelectionState]="globalSelection()"
@@ -62,7 +66,7 @@
             [customerFilter]="selectedCustomer()"
             [disablePreview]="true"
           />
-        </div>
+        </d360-styled-section>
       </div>
     </div>
     <mat-divider></mat-divider>
@@ -75,33 +79,25 @@
       </div>
 
       <div class="your-tasks flex md:flex-row flex-col gap-4">
-        <div class="card h-full md:w-1/2 w-full p-4 mb-1">
-          <div class="mb-4">
-            <h2 *transloco="let t" class="text-title-large">
-              {{ t('validation_of_demand.title') }}
-            </h2>
-          </div>
+        <d360-styled-section class="card h-full md:w-1/2 w-full mb-1">
           <d360-task-priority-grid
+            [headline]="t('validation_of_demand.title')"
             [gkamNumbers]="gkamFilterIds()"
             [customers]="customerFilterIds()"
             [openFunction]="OpenFunction.Validation_Of_Demand"
             [priorities]="selectedPriorities()"
           />
-        </div>
+        </d360-styled-section>
 
-        <div class="card h-full md:w-1/2 w-full p-4 mb-1">
-          <div class="mb-4">
-            <h2 *transloco="let t" class="text-title-large">
-              {{ t('tabbarMenu.customer-material-portfolio.label') }}
-            </h2>
-          </div>
+        <d360-styled-section class="card h-full md:w-1/2 w-full mb-1">
           <d360-task-priority-grid
+            [headline]="t('tabbarMenu.customer-material-portfolio.label')"
             [openFunction]="OpenFunction.Customer_Material_Portfolio"
             [gkamNumbers]="gkamFilterIds()"
             [customers]="customerFilterIds()"
             [priorities]="selectedPriorities()"
           />
-        </div>
+        </d360-styled-section>
       </div>
     </div>
   </div>

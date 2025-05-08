@@ -221,7 +221,7 @@ export class Stub {
   public static setInputs(inputs: { property: string; value: any }[]): void {
     if (!this.fixture) {
       throw new Error(
-        '[Stub] No fixture available, did you used stub.get() instead of Stub.getWithEffect()?'
+        '[Stub] No fixture available, did you used stub.get() instead of Stub.getForEffect()?'
       );
     }
 
@@ -233,7 +233,7 @@ export class Stub {
   public static setInput(property: string, value: any): void {
     if (!this.fixture) {
       throw new Error(
-        '[Stub] No fixture available, did you used stub.get() instead of Stub.getWithEffect()?'
+        '[Stub] No fixture available, did you used stub.get() instead of Stub.getForEffect()?'
       );
     }
 
@@ -243,7 +243,7 @@ export class Stub {
   public static detectChanges(): void {
     if (!this.fixture) {
       throw new Error(
-        '[Stub] No fixture available, did you used stub.get() instead of Stub.getWithEffect()?'
+        '[Stub] No fixture available, did you used stub.get() instead of Stub.getForEffect()?'
       );
     }
 

@@ -1,4 +1,8 @@
-<section class="flex flex-col p-4 gap-4 h-full" *transloco="let t">
+<d360-styled-section
+  [grow]="true"
+  class="flex flex-col gap-4 h-full"
+  *transloco="let t"
+>
   <div class="flex justify-between">
     <h2 class="text-title-large">
       {{ t('sales_planning.planning_details.title') }}
@@ -80,4 +84,4 @@
       [tooltipHideDelay]="300000"
     />
   </div>
-</section>
+</d360-styled-section>

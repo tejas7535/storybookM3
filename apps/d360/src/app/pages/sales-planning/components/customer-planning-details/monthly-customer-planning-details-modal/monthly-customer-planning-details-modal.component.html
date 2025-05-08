@@ -12,9 +12,9 @@
     </div>
   </div>
 
-  <div class="flex h-full w-full">
+  <d360-styled-section [grow]="true" class="flex flex-col h-full w-full">
     <ag-grid-angular
-      class="ag-theme-material grow h-full monthly-sales-plan-grid"
+      class="ag-theme-material h-full"
       [gridOptions]="gridOptions"
       [loading]="isLoading()"
       [localeText]="agGridLocalizationService.lang()"
@@ -25,5 +25,5 @@
       [tooltipShowDelay]="150"
       [tooltipHideDelay]="300000"
     />
-  </div>
+  </d360-styled-section>
 </div>

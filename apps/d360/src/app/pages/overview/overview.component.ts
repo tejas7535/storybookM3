@@ -32,6 +32,7 @@ import { SelectableValue } from '../../shared/components/inputs/autocomplete/sel
 import { DisplayFunctions } from '../../shared/components/inputs/display-functions.utils';
 import { FilterDropdownComponent } from '../../shared/components/inputs/filter-dropdown/filter-dropdown.component';
 import { PriorityDropdownComponent } from '../../shared/components/priority-dropdown/priority-dropdown.component';
+import { StyledSectionComponent } from '../../shared/components/styled-section/styled-section.component';
 import {
   OverviewPageSettingsKey,
   UserSettingsKey,
@@ -66,6 +67,7 @@ export enum CustomerSalesPlanningLayout {
     ReactiveFormsModule,
     ForecastChartComponent,
     MatDivider,
+    StyledSectionComponent,
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss',

@@ -30,6 +30,7 @@ import { SelectableOptionsService } from '../../../services/selectable-options.s
 import { SnackbarService } from '../../../utils/service/snackbar.service';
 import { MultiAutocompletePreLoadedComponent } from '../../inputs/autocomplete/multi-autocomplete-pre-loaded/multi-autocomplete-pre-loaded.component';
 import { DisplayFunctions } from '../../inputs/display-functions.utils';
+import { StyledSectionComponent } from '../../styled-section/styled-section.component';
 import {
   GlobalSelectionFilters,
   GlobalSelectionState,
@@ -60,6 +61,7 @@ import { PreLoadedAutocompleteWithMultiselectComponent } from '../pre-loaded-aut
     LoadingSpinnerModule,
     MatTooltipModule,
     MultiAutocompletePreLoadedComponent,
+    StyledSectionComponent,
   ],
   templateUrl: './global-selection-criteria.component.html',
   styleUrls: ['./global-selection-criteria.component.scss'],

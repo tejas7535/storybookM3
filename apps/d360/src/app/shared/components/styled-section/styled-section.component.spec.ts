@@ -1,37 +1,40 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-
+import { Stub } from '../../test/stub.class';
 import { StyledSectionComponent } from './styled-section.component';
 
 describe('StyledSectionComponent', () => {
-  let spectator: Spectator<StyledSectionComponent>;
-
-  const createComponent = createComponentFactory({
-    component: StyledSectionComponent,
-  });
+  let component: StyledSectionComponent;
 
   beforeEach(() => {
-    spectator = createComponent();
+    component = Stub.getForEffect({
+      component: StyledSectionComponent,
+    });
   });
 
   it('should create', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   it('should set last property', () => {
-    const newValue = true; // Ersetzen Sie dies durch den gewünschten Wert
-    spectator.component.last = newValue;
-    expect(spectator.component.last).toEqual(newValue);
+    const newValue = true;
+    Stub.setInput('last', newValue);
+    expect(component.last()).toEqual(newValue);
   });
 
   it('should set grow property', () => {
-    const newValue = false; // Ersetzen Sie dies durch den gewünschten Wert
-    spectator.component.grow = newValue;
-    expect(spectator.component.grow).toEqual(newValue);
+    const newValue = false;
+    Stub.setInput('grow', newValue);
+    expect(component.grow()).toEqual(newValue);
   });
 
   it('should set fullHeight property', () => {
-    const newValue = true; // Ersetzen Sie dies durch den gewünschten Wert
-    spectator.component.fullHeight = newValue;
-    expect(spectator.component.fullHeight).toEqual(newValue);
+    const newValue = true;
+    Stub.setInput('fullHeight', newValue);
+    expect(component.fullHeight()).toEqual(newValue);
+  });
+
+  it('should set suppressPadding property', () => {
+    const newValue = true;
+    Stub.setInput('suppressPadding', newValue);
+    expect(component.suppressPadding()).toEqual(newValue);
   });
 });

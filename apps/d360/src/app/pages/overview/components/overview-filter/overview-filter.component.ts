@@ -16,6 +16,7 @@ import { OnTypeAutocompleteWithMultiselectComponent } from '../../../../shared/c
 import { PreLoadedAutocompleteWithMultiselectComponent } from '../../../../shared/components/global-selection-criteria/pre-loaded-autocomplete-with-multiselect/pre-loaded-autocomplete-with-multiselect.component';
 import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { DisplayFunctions } from '../../../../shared/components/inputs/display-functions.utils';
+import { StyledSectionComponent } from '../../../../shared/components/styled-section/styled-section.component';
 import { SelectableOptionsService } from '../../../../shared/services/selectable-options.service';
 
 export interface OverviewFilterValue {
@@ -32,6 +33,7 @@ export interface OverviewFilterValue {
     MatIcon,
     OnTypeAutocompleteWithMultiselectComponent,
     PreLoadedAutocompleteWithMultiselectComponent,
+    StyledSectionComponent,
   ],
   templateUrl: './overview-filter.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -392,6 +392,7 @@ describe('TaskPriorityGridComponent', () => {
             value: OpenFunction.Validation_Of_Demand,
           },
           { property: 'customers', value: ['1', '2'] },
+          { property: 'headline', value: 'test headline' },
         ]);
         Stub.detectChanges();
 
@@ -405,6 +406,7 @@ describe('TaskPriorityGridComponent', () => {
             value: OpenFunction.Validation_Of_Demand,
           },
           { property: 'customers', value: [] },
+          { property: 'headline', value: 'test headline' },
         ]);
         Stub.detectChanges();
 
@@ -417,6 +419,7 @@ describe('TaskPriorityGridComponent', () => {
             property: 'openFunction',
             value: OpenFunction.Validation_Of_Demand,
           },
+          { property: 'headline', value: 'test headline' },
         ]);
         Stub.detectChanges();
         expect(groupDataSpy).toHaveBeenCalledWith([
@@ -433,6 +436,7 @@ describe('TaskPriorityGridComponent', () => {
             value: OpenFunction.Validation_Of_Demand,
           },
           { property: 'gkamNumbers', value: ['gkam3', 'gkam2'] },
+          { property: 'headline', value: 'test headline' },
         ]);
         Stub.detectChanges();
 
@@ -446,6 +450,7 @@ describe('TaskPriorityGridComponent', () => {
             value: OpenFunction.Validation_Of_Demand,
           },
           { property: 'gkamNumbers', value: [] },
+          { property: 'headline', value: 'test headline' },
         ]);
         Stub.detectChanges();
 
@@ -458,6 +463,7 @@ describe('TaskPriorityGridComponent', () => {
             property: 'openFunction',
             value: OpenFunction.Validation_Of_Demand,
           },
+          { property: 'headline', value: 'test headline' },
         ]);
         Stub.detectChanges();
 
@@ -495,6 +501,7 @@ describe('TaskPriorityGridComponent', () => {
           openFunction: OpenFunction.Validation_Of_Demand,
           customers: ['1', '2'],
           priorities: [Priority.Priority1, Priority.Priority2],
+          headline: 'test headline',
         },
       });
       const alertService = spectator.inject(AlertService);
@@ -547,6 +554,7 @@ describe('TaskPriorityGridComponent', () => {
           openFunction: OpenFunction.Validation_Of_Demand,
           customers: ['1', '2'],
           priorities: [],
+          headline: 'test headline',
         },
       });
       const alertService = spectator.inject(AlertService);
@@ -561,6 +569,7 @@ describe('TaskPriorityGridComponent', () => {
       spectator = createIntegratedComponent({
         props: {
           openFunction: OpenFunction.Validation_Of_Demand,
+          headline: 'test headline',
         },
       });
       const alertService = spectator.inject(AlertService);

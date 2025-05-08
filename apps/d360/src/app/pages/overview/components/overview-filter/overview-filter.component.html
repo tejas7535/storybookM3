@@ -1,51 +1,53 @@
-<div class="card p-4 pb-0 my-8" *transloco="let t">
-  <div class="title">
-    <mat-icon class="filter-list-icon">filter_list</mat-icon>
-    <h6 class="text-title-large">{{ t('overview.filter.dataSelection') }}</h6>
-  </div>
-  <form [formGroup]="filterForm" class="overflow-hidden">
-    <div class="flex md:flex-row pt-4 flex-col gap-x-4">
-      <d360-pre-loaded-autocomplete-with-multiselect
-        class="flex-1"
-        [control]="filterForm.controls.gkams"
-        [form]="filterForm"
-        [autocompleteLabel]="t('globalSelection.gkam')"
-        [entityNamePlural]="t('globalSelection.gkam_name.entity_name_plural')"
-        [entityName]="t('globalSelection.gkam_name.entity_name')"
-        [getOptionLabel]="DisplayFunctions.displayFnUnited"
-        [getOptionLabelInTag]="DisplayFunctions.displayFnText"
-        [optionsLoadingResult]="selectableOptionsService.get('gkam')"
-        [resolveFunction]="
-          globalSelectionHelperService.resolveGkamNumber.bind(
-            globalSelectionHelperService
-          )
-        "
-      />
-      <d360-on-type-autocomplete-with-multiselect
-        class="flex-1"
-        [autocompleteLabel]="t('globalSelection.customer.rootString')"
-        [entityNamePlural]="t('globalSelection.customer.entity_name_plural')"
-        [entityName]="t('globalSelection.customer.entity_name')"
-        [control]="filterForm.controls.customers"
-        [form]="filterForm"
-        urlBegin="global-selection/search-customers"
-        [getOptionLabel]="DisplayFunctions.displayFnUnited"
-        [getOptionLabelInTag]="DisplayFunctions.displayFnText"
-        [resolveFunction]="
-          globalSelectionHelperService.resolveCustomerNumbers.bind(
-            globalSelectionHelperService
-          )
-        "
-      />
-      <div class="flex justify-end gap-5">
-        <button (click)="resetFilters()" class="w-auto" mat-button>
-          {{ t('button.reset') }}
-        </button>
-
-        <button (click)="applyFilters()" class="w-auto" mat-flat-button>
-          {{ t('button.load') }}
-        </button>
-      </div>
+<d360-styled-section *transloco="let t" [suppressPadding]="true">
+  <div class="p-4 pb-0">
+    <div class="title">
+      <mat-icon class="filter-list-icon">filter_list</mat-icon>
+      <h6 class="text-title-large">{{ t('overview.filter.dataSelection') }}</h6>
     </div>
-  </form>
-</div>
+    <form [formGroup]="filterForm" class="overflow-hidden">
+      <div class="flex md:flex-row pt-4 flex-col gap-x-4">
+        <d360-pre-loaded-autocomplete-with-multiselect
+          class="flex-1"
+          [control]="filterForm.controls.gkams"
+          [form]="filterForm"
+          [autocompleteLabel]="t('globalSelection.gkam')"
+          [entityNamePlural]="t('globalSelection.gkam_name.entity_name_plural')"
+          [entityName]="t('globalSelection.gkam_name.entity_name')"
+          [getOptionLabel]="DisplayFunctions.displayFnUnited"
+          [getOptionLabelInTag]="DisplayFunctions.displayFnText"
+          [optionsLoadingResult]="selectableOptionsService.get('gkam')"
+          [resolveFunction]="
+            globalSelectionHelperService.resolveGkamNumber.bind(
+              globalSelectionHelperService
+            )
+          "
+        />
+        <d360-on-type-autocomplete-with-multiselect
+          class="flex-1"
+          [autocompleteLabel]="t('globalSelection.customer.rootString')"
+          [entityNamePlural]="t('globalSelection.customer.entity_name_plural')"
+          [entityName]="t('globalSelection.customer.entity_name')"
+          [control]="filterForm.controls.customers"
+          [form]="filterForm"
+          urlBegin="global-selection/search-customers"
+          [getOptionLabel]="DisplayFunctions.displayFnUnited"
+          [getOptionLabelInTag]="DisplayFunctions.displayFnText"
+          [resolveFunction]="
+            globalSelectionHelperService.resolveCustomerNumbers.bind(
+              globalSelectionHelperService
+            )
+          "
+        />
+        <div class="flex justify-end gap-5">
+          <button (click)="resetFilters()" class="w-auto" mat-button>
+            {{ t('button.reset') }}
+          </button>
+
+          <button (click)="applyFilters()" class="w-auto" mat-flat-button>
+            {{ t('button.load') }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</d360-styled-section>

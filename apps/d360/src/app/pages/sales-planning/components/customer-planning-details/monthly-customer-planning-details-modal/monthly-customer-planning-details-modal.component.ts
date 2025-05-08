@@ -32,6 +32,7 @@ import {
   columnSideBar,
   getDefaultColDef,
 } from '../../../../../shared/ag-grid/grid-defaults';
+import { StyledSectionComponent } from '../../../../../shared/components/styled-section/styled-section.component';
 import { NumberWithoutFractionDigitsPipe } from '../../../../../shared/pipes/number-without-fraction-digits.pipe';
 import { AgGridLocalizationService } from '../../../../../shared/services/ag-grid-localization.service';
 import { getColumnDefinitions } from '../column-definition';
@@ -56,9 +57,14 @@ type MonthlyCustomerPlanningDetailsColumnDefinitions = ReturnType<
 
 @Component({
   selector: 'd360-monthly-customer-planning-details-modal',
-  imports: [CommonModule, MatIcon, MatIconButton, AgGridAngular],
+  imports: [
+    CommonModule,
+    MatIcon,
+    MatIconButton,
+    AgGridAngular,
+    StyledSectionComponent,
+  ],
   templateUrl: './monthly-customer-planning-details-modal.component.html',
-  styleUrl: './monthly-customer-planning-details-modal.component.scss',
 })
 export class MonthlyCustomerPlanningDetailsModalComponent implements OnInit {
   protected readonly dialogRef: MatDialogRef<MonthlyCustomerPlanningDetailsModalComponent> =

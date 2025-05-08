@@ -1,3 +1,10 @@
-<section [ngClass]="{ last: last, grow: grow, 'full-height': fullHeight }">
+<section
+  [ngClass]="{
+    last: last(),
+    grow: grow(),
+    'full-height': fullHeight(),
+    'p-4': !suppressPadding()
+  }"
+>
   <ng-content></ng-content>
 </section>

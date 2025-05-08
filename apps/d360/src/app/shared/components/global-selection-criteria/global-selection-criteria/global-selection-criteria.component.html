@@ -1,9 +1,12 @@
-<section *transloco="let t" class="global-selection-criteria-section">
+<d360-styled-section
+  *transloco="let t"
+  class="global-selection-criteria-section"
+>
   @if (selectableOptionsService.loading$ | ngrxPush) {
     <!--  loading spinner -->
     <div class="global-selection-criteria-container mt-5 relative">
       <div
-        class="absolute top-0 left-0 w-full h-full bg-white/70 flex rounded-sm items-center justify-center z-40"
+        class="absolute top-0 left-0 w-full h-full flex rounded-sm items-center justify-center z-40"
       >
         <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
       </div>
@@ -284,4 +287,4 @@
       }
     </form>
   }
-</section>
+</d360-styled-section>
