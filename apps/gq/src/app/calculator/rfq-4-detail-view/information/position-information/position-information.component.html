@@ -1,0 +1,40 @@
+<ng-container
+  *transloco="let t; read: 'calculator.rfq4DetailView.positionInformation'"
+>
+  <gq-kpi-status-card [title]="t('title')">
+    <gq-label-text>
+      <span label> {{ t('materialDescription') }}</span>
+      <span text>6052-M-C3#N5</span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ t('quantity') }}</span>
+      <span text>200</span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ t('deliveryUnit') }}</span>
+      <span text>100</span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ t('materialNumber') }}</span>
+      <span text>123456789-001327</span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ t('productHierarchy') }}</span>
+      <span text>80F1236003</span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ t('dimension') }}</span>
+      <span text>10,000X18,000</span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ t('assignedTo') }}</span>
+      <span text class="text-primary cursor-pointer hover:underline">
+        {{ t('assignToMe') }}</span
+      >
+    </gq-label-text>
+    <gq-label-text [marginBottom]="false">
+      <span label>{{ t('comment') }}</span>
+      <span text>Could you recalculate this SQV?</span>
+    </gq-label-text>
+  </gq-kpi-status-card>
+</ng-container>

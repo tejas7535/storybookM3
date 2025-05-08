@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { CalculatorPaths } from '@gq/calculator/routing/calculator-routes';
 import {
   DetailViewQueryParams,
   ProcessCaseViewQueryParams,
@@ -19,6 +20,14 @@ export class BreadcrumbsService {
     label: translate('shared.breadcrumbs.caseView'),
     url: `/${AppRoutePath.CaseViewPath}`,
   };
+  rfq4OverviewBreadcrumb: Breadcrumb = {
+    label: translate('shared.breadcrumbs.rfq4Overview'),
+    url: `/${CalculatorPaths.CalculatorOverviewPath}`,
+  };
+
+  getRfq4OverviewBreadcrumb(): Breadcrumb {
+    return this.rfq4OverviewBreadcrumb;
+  }
 
   getCaseViewBreadcrumb(): Breadcrumb {
     return this.caseViewBreadcrumb;
@@ -41,6 +50,14 @@ export class BreadcrumbsService {
     };
 
     return [this.getCaseViewBreadcrumb(), quotationBreadCrumb];
+  }
+
+  getRfqDetailViewBreadcrumbs(rfqId: string): Breadcrumb[] {
+    const rfqDetailBreadcrumb: Breadcrumb = {
+      label: translate('shared.breadcrumbs.rfq4DetailView', { rfqId }),
+    };
+
+    return [this.getRfq4OverviewBreadcrumb(), rfqDetailBreadcrumb];
   }
 
   getDetailViewBreadcrumbs(

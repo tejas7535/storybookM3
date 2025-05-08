@@ -1,0 +1,74 @@
+{
+  "rfq4DetailView": {
+    "header": {
+      "title": "Recalculation ID: 4-{rfqId}",
+      "confirmButton": "Bestätigen"
+    },
+    "positionInformation": {
+      "title": "Positions Informationen",
+      "materialDescription": "Material Beschreibung",
+      "quantity": "Menge",
+      "deliveryUnit": "Liefereinheit",
+      "materialNumber": "Materialnummer",
+      "productHierarchy": "Produkthierarchie",
+      "dimension": "Dimensionen",
+      "assignedTo": "Zugewiesen an",
+      "assignToMe": "Mir zuweisen",
+      "comment": "Nachricht"
+    },
+    "headerInformation": {
+      "title": "Kopf Informationen",
+      "quotationToDate": "Angebot bis",
+      "customerDeliveryDate": "Wunschlieferdatum",
+      "currency": "Währung",
+      "caseCreatedBy": "Angebot erstellt von",
+      "rfqStartedBy": "Gestartet von",
+      "rfqStartedOn": "Gestartet am"
+    },
+    "recalculation": {
+      "title": "Rekalkulation",
+      "saveButton": "Speichern",
+      "mandatoryInputHint": "*Pflichtfeld",
+      "inputs": {
+        "currency": {
+          "title": "Individuelle Währung",
+          "titleCustomerCurrency": "Währung",
+          "hint": "Wähle die Währung für die Kalkulation",
+          "subitle": "Währung des Angebotes"
+        },
+        "sqv": {
+          "label": "SAW"
+        },
+        "lotSize": {
+          "label": "Losgröße"
+        },
+        "priceUnit": {
+          "label": "Preiseinheit"
+        },
+        "toolCost": {
+          "label": "Werkzeugkosten"
+        },
+        "productionPlant": {
+          "label": "Produktionswerk"
+        },
+        "comment": {
+          "label": "Kommentar",
+          "hint": "Einsehbar für alle Nutzer"
+        },
+        "calculatorDetails": {
+          "label": "Kalkulations Details",
+          "hint": "Einsehbar für Nutzer mit Kosten sicht"
+        },
+        "deliveryTime": {
+          "label": "Lieferzeit",
+          "hint": "Lieferzeit nach Auftrag eingang AE",
+          "select": {
+            "YEARS": "Jahre",
+            "MONTHS": "Monate",
+            "DAYS": "Tage"
+          }
+        }
+      }
+    }
+  }
+}

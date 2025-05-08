@@ -1,0 +1,13 @@
+<span
+  *transloco="let t; read: 'shared.customerInfo'"
+  class="text-caption text-medium-emphasis"
+  [attr.data-cy]="'customer-info_customer_country_salesOrg'"
+>
+  {{ customer().name }} | {{ customer().identifier.customerId }} |
+  {{ customer().country | nullableString }}
+  {{
+    displaySalesOrg()
+      ? ' | ' + t('salesOrg') + ' ' + customer().identifier.salesOrg
+      : ''
+  }}</span
+>

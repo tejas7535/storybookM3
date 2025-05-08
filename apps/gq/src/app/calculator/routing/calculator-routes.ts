@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 export enum CalculatorPaths {
   CalculatorOverviewPath = 'calculator-overview',
   ActiveTabPath = ':calculatorTab',
+  Rfq4DetailViewPath = 'rfq-4-detail-view',
 }
 
 export const CalculatorRoutes: Routes = [
@@ -27,5 +28,12 @@ export const CalculatorRoutes: Routes = [
         pathMatch: 'full',
       },
     ],
+  },
+  {
+    path: CalculatorPaths.Rfq4DetailViewPath,
+    loadComponent: () =>
+      import('../rfq-4-detail-view/rfq-4-detail-view.component').then(
+        (m) => m.Rfq4DetailViewComponent
+      ),
   },
 ];

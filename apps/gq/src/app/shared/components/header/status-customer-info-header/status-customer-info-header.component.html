@@ -61,18 +61,10 @@
     <span class="ml-[10px] mr-[10px] pt-2 text-caption opacity-[0.12]">|</span>
   }
 
-  <span
-    *transloco="let t; read: 'shared.customerInfo'"
-    class="pt-2 text-caption text-medium-emphasis"
+  <gq-customer-subheader-content
+    class="pt-2 text-caption"
     [ngClass]="!showStatus ? paddingLeftClass : ''"
-    [attr.data-cy]="'customer-info_customer_country_salesOrg'"
-  >
-    {{ customer.name }} | {{ customer.identifier.customerId }} |
-    {{ customer.country | nullableString }}
-    {{
-      displaySalesOrg
-        ? ' | ' + t('salesOrg') + ' ' + customer.identifier.salesOrg
-        : ''
-    }}</span
-  >
+    [customer]="customer"
+    [displaySalesOrg]="displaySalesOrg"
+  ></gq-customer-subheader-content>
 </div>

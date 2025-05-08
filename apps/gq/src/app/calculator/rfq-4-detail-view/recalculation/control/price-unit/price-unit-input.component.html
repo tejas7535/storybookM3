@@ -1,0 +1,12 @@
+<div
+  [formGroup]="form"
+  *transloco="
+    let t;
+    read: 'calculator.rfq4DetailView.recalculation.inputs.priceUnit'
+  "
+>
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>{{ t('label') }}</mat-label>
+    <input matInput type="text" [formControlName]="formControlName()" />
+  </mat-form-field>
+</div>

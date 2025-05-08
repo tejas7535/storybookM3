@@ -205,7 +205,9 @@
       "caseView": "Quotation Cases",
       "transactionView": "GQ Pricing Details",
       "position": "Item",
-      "sapView": "SAP Price"
+      "sapView": "SAP Price",
+      "rfq4Overview": "Process View",
+      "rfq4DetailView": "RFQ4-{{rfqId}}"
     },
     "caseMaterial": {
       "salesOrg": "Sales Org",

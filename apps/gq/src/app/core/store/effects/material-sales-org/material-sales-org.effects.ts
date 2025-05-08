@@ -23,7 +23,7 @@ export class MaterialSalesOrgEffect {
       ofType(ROUTER_NAVIGATED),
       map((action: any) => action.payload.routerState),
       filter((routerState: RouterStateUrl) =>
-        routerState.url.includes(`${AppRoutePath.DetailViewPath}`)
+        routerState.url.includes(`/${AppRoutePath.DetailViewPath}`)
       ),
       map((routerState) =>
         loadMaterialSalesOrg({

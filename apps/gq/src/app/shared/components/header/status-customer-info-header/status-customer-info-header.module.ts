@@ -8,6 +8,7 @@ import { PushPipe } from '@ngrx/component';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedPipesModule } from '../../../pipes/shared-pipes.module';
+import { CustomerSubheaderContentComponent } from '../customer-subheader-content/customer-subheader-content.component';
 import { StatusCustomerInfoHeaderComponent } from './status-customer-info-header.component';
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { StatusCustomerInfoHeaderComponent } from './status-customer-info-header
     PushPipe,
     MatIconModule,
     MatTooltipModule,
+    CustomerSubheaderContentComponent,
   ],
   declarations: [StatusCustomerInfoHeaderComponent],
   exports: [StatusCustomerInfoHeaderComponent],
