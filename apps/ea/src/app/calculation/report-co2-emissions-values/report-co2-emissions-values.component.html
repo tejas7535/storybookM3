@@ -6,7 +6,10 @@
           class="flex flex-row items-center justify-center py-2 pr-2 sm:pr-4"
         >
           <div class="text-body-large sm:text-title-large text-high-emphasis">
-            ≈ {{ (co2Emission | meaningfulRound) || '-' }}
+            @if (showApprox) {
+              ≈
+            }
+            {{ (co2Emission | meaningfulRound) || '-' }}
           </div>
           <div
             class="text-body-small sm:text-body-medium text-high-emphasis pl-1"

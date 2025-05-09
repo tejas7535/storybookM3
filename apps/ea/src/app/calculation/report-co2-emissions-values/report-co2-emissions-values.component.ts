@@ -32,6 +32,9 @@ export class ReportCo2EmissionsValuesComponent {
   @Input()
   public downstreamError?: string;
 
+  @Input()
+  public showApprox = false;
+
   private readonly assetsPath = `${getAssetsPath()}/images/`;
 
   public getImagePath = (image: string): string => `${this.assetsPath}${image}`;

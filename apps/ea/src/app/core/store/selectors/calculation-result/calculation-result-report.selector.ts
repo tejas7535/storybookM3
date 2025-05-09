@@ -141,7 +141,7 @@ export const getFrictionalalPowerlossReport = createSelector(
             }
             item.loadcaseValues.push({
               loadcaseName,
-              value: approx && !!value ? `${value}` : value,
+              value: approx && !!value ? `≈ ${value}` : value,
             });
           }
         });
