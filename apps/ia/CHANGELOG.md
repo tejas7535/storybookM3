@@ -1,4 +1,20 @@
 # Release Notes of Insight Attrition
+## [1.4.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.4.2...ia-v1.4.3) (2025-05-09)
+
+
+### Features
+
+*  update shared components styles  (UFATBI- 8345) ([#7125](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7125)) ([271c78a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/271c78a6a21135ade7b576afb51ea0255bc5981c))
+* **ia:** add analytics comments (IA-1551) ([#7135](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7135)) ([2a7dea2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2a7dea22271e4f27dd8b10a64f6dbe7b461bab62))
+* **ia:** create info icon on analytics tab (IA-1571) ([#7175](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7175)) ([62939b9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/62939b966223a3a47d9f346c880b5c055ff67d04))
+* **ia:** migrate ia to m3 styles ([#7010](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7010)) ([1bc61ad](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1bc61ad18f26e2cafe65990596bb8c7c0ac45ef3))
+* **ia:** remove feedback feature (IA-1572) ([#7188](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7188)) ([a96c6f7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a96c6f7a7a42c62961de70785aaecf7eb3bf3408))
+
+
+### Bug Fixes
+
+* **ia:** fix missing rates on world map (IA-1150) ([#7142](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7142)) ([335c692](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/335c69267beb49709efed081f400a3bd9d12b7a0))
+
 ## [1.4.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ia-v1.4.1...ia-v1.4.2) (2025-03-11)
 
 
