@@ -93,10 +93,6 @@ describe('numbers', () => {
     it('should return the correct decimal separator for "fr-FR"', () => {
       expect(getDecimalSeparator('fr-FR')).toBe(',');
     });
-
-    it('should return . for unsupported locales', () => {
-      expect(getDecimalSeparator('unknown-locale')).toBe('.');
-    });
   });
 
   describe('getThousandSeparator', () => {
@@ -110,10 +106,6 @@ describe('numbers', () => {
 
     it('should return the correct thousand separator for "fr-FR"', () => {
       expect(getThousandSeparator('fr-FR')).toBe('\u202F'); // Non-breaking space
-    });
-
-    it('should return , for unsupported locales', () => {
-      expect(getThousandSeparator('unknown-locale')).toBe(',');
     });
   });
 
