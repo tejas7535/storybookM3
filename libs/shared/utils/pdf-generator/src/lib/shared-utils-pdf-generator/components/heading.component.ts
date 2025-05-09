@@ -1,30 +1,46 @@
-import { Component, FontOptions, Rect } from '../core';
+import { Component, FontOptions, Margins, Rect } from '../core';
 
 export const HeadingFonts: { [key: string]: FontOptions } = {
   main: {
-    fontSize: 12,
-    fontFamily: 'Noto',
-    fontStyle: 'bold',
-  },
-  medium: {
     fontSize: 10,
     fontFamily: 'Noto',
-    fontStyle: 'bold',
+  },
+  medium: {
+    fontSize: 8,
+    fontFamily: 'Noto',
   },
 };
 
 interface Props {
-  font: FontOptions;
+  font?: FontOptions;
   text: string;
+  underline?: boolean;
+  strokeWidth?: number;
+  dividerColor?: string;
+  spacing?: Margins;
 }
 export class SectionHeading extends Component {
   private readonly fontPreference: FontOptions;
   private readonly textValue: string;
 
+  private readonly spacing: Margins;
+  private readonly underline: boolean;
+  private readonly strokeWidth: number;
+  private readonly dividerColor: string;
+
   constructor(private readonly props: Props) {
     super();
-    this.fontPreference = props.font;
+    this.fontPreference = props.font || HeadingFonts['main'];
     this.textValue = props.text;
+    this.underline = props.underline ?? true;
+    this.strokeWidth = props.strokeWidth || 0.5;
+    this.spacing = props.spacing || {
+      left: 2,
+      top: 1.15,
+      right: 2,
+      bottom: 2.5,
+    };
+    this.dividerColor = props.dividerColor || '#d0d7db';
   }
 
   public override evaluate(
@@ -34,10 +50,11 @@ export class SectionHeading extends Component {
     const textHeight = this.getTextDimensions(this.textValue, {
       ...this.fontPreference,
     }).h;
-    const fits = this.bounds.height >= textHeight;
+    const vSpace = this.spacing.top + this.spacing.bottom;
+    const fits = this.bounds.height >= textHeight + vSpace + this.strokeWidth;
 
     if (fits) {
-      return [true, textHeight];
+      return [true, textHeight + vSpace + this.strokeWidth];
     }
 
     return [
@@ -50,8 +67,28 @@ export class SectionHeading extends Component {
 
   public override render(): void {
     super.render();
-    this.text(this.bounds.x, this.bounds.y, this.textValue, {
-      fontOptions: this.fontPreference,
-    });
+    const doc = this.assertDoc();
+    const textHeight = this.getTextDimensions(
+      this.textValue,
+      this.fontPreference
+    ).h;
+
+    this.text(
+      this.bounds.x + this.spacing.left,
+      this.bounds.y + this.spacing.top,
+      this.textValue,
+      {
+        fontOptions: this.fontPreference,
+      }
+    );
+
+    if (this.underline) {
+      const ycoord =
+        this.bounds.y + this.spacing.top + this.spacing.bottom + textHeight;
+      doc.stroke();
+      doc.setDrawColor(this.dividerColor);
+      doc.setLineWidth(this.strokeWidth);
+      doc.line(this.bounds.x, ycoord, this.bounds.BottomRight.x, ycoord);
+    }
   }
 }

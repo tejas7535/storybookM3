@@ -99,12 +99,6 @@ describe('SelectedProductComponent', () => {
     component.render();
 
     expect(mockDoc.setTextColor).toHaveBeenCalledWith(Colors.TextHighEmphasis);
-    expect(mockDoc.text).toHaveBeenCalledWith(
-      mockData.selectionTitle,
-      expect.any(Number),
-      expect.any(Number),
-      undefined
-    );
     expect(component['image']).toHaveBeenCalledWith(
       mockData.productImage,
       expect.any(Number),

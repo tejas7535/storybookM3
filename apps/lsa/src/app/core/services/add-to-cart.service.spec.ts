@@ -68,6 +68,10 @@ describe('AddToCartService', () => {
 
       service.addToCartEvent(accessories, formGroup);
     });
+
+    it('should return shouldShowPrices false', () => {
+      expect(service.shouldShowPrices()).toEqual(false);
+    });
   });
 
   describe('when user tier is business', () => {
@@ -94,6 +98,10 @@ describe('AddToCartService', () => {
       });
 
       service.addToCartEvent(accessories, formGroup);
+    });
+
+    it('should return shouldShowPrices true', () => {
+      expect(service.shouldShowPrices()).toEqual(true);
     });
   });
 });

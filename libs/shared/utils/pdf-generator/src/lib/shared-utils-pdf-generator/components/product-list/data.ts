@@ -69,8 +69,6 @@ export interface PrecomputedLayout {
     imageX: number;
     productDetailsX: number;
     productDetailsWidth: number;
-    productIdX: number;
-    productIdWidth: number;
     quantityColumnX: number;
     quantityColumnWidth: number;
     priceColumnX?: number;

@@ -151,8 +151,8 @@
         "usedFallbackGrease": "We cannot provide a detailed recommendation for market available greases. We used a widely compatible Grease from the Schaeffler Arcanol Portfolio for our calculation. Please ensure your Grease in use is comparable in its properties"
       },
       "pdf": {
-        "title": "Lubricator Selection Assistant Report",
-        "selection": "Your Lubricator selection"
+        "title": "Report - Lubricator Selection Assistant",
+        "selection": "Your selected lubricator"
       }
     }
   },

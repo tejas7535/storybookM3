@@ -1,6 +1,7 @@
 import { BehaviorSubject, of } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { PowerSupply } from '@lsa/shared/constants';
 import { UserTier } from '@lsa/shared/constants/user-tier.enum';
 import {
@@ -84,6 +85,9 @@ describe('PDFGeneratorService', () => {
     service: PDFGeneratorService,
     providers: [
       mockProvider(TranslocoService),
+      mockProvider(TranslocoLocaleService, {
+        localizeDate: jest.fn(() => '1.1.1970'),
+      }),
       mockProvider(RestService, {
         recommendation$: new BehaviorSubject<RecommendationResponse>(
           MOCK_RECOMMENDATION_RESPONSE
@@ -177,6 +181,23 @@ describe('PDFGeneratorService', () => {
     service.generatePDF(true);
   });
 
+  it('should select the proper lubricator for recommendation false', (done) => {
+    const testResponse: RecommendationResponse = {
+      lubricators: {
+        minimumRequiredLubricator: { ...MOCK_LUBRICATOR, name: 'MINIMUM' },
+        recommendedLubricator: { ...MOCK_LUBRICATOR, name: 'RECOMMENDATION' },
+      },
+    } as unknown as RecommendationResponse;
+
+    service['recommendedLubData'].subscribe((lubricator) => {
+      expect(lubricator).toMatchSnapshot();
+      done();
+    });
+    service.setFormData(MOCK_TABLE_DATA);
+    service['restService'].recommendation$.next(testResponse);
+    service.generatePDF(false);
+  });
+
   it('should format the groups for proper filtering in pdf', (done) => {
     const testResponse: RecommendationResponse = {
       lubricators: {
@@ -192,5 +213,15 @@ describe('PDFGeneratorService', () => {
     service.setFormData(MOCK_TABLE_DATA);
     service['restService'].recommendation$.next(testResponse);
     service.generatePDF(true);
+  });
+
+  it('getReportFilename should use the transloco service to get a properly localized date', () => {
+    (service['translocoService'].translate as jest.Mock).mockReturnValueOnce(
+      'PDF TITLE'
+    );
+    const returnValue = service['getReportFilename']();
+    expect(service['translocoService'].translate).toHaveBeenCalled();
+    expect(service['localeService'].localizeDate).toHaveBeenCalled();
+    expect(returnValue).toEqual('PDF_TITLE_-_1.1.1970.pdf');
   });
 });

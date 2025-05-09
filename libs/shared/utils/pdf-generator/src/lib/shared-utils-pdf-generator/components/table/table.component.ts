@@ -18,13 +18,13 @@ interface Props {
 
 const DefaultStyles: Style = {
   fontStyle: {
-    fontFamily: 'Noto',
-    fontSize: 10,
+    fontFamily: 'Arial',
+    fontSize: 6,
     fontStyle: 'normal',
   },
   cellSpacing: {
-    top: 3,
-    bottom: 2,
+    top: 4,
+    bottom: 5,
     left: 2,
     right: 2,
   },

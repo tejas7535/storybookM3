@@ -28,7 +28,7 @@ export interface PDFHeaderProps {
 
 const QR_CODE_SIZE = 25;
 const VERTICAL_MARGIN = 5;
-const LOGO_HEIGHT = 7;
+const LOGO_HEIGHT = 4;
 
 const Defaults: FormatProps = {
   title: {
@@ -108,10 +108,15 @@ export class PDFHeader extends Component {
     const pdf = this.assertDoc();
 
     pdf.setFont('Noto');
-    let dateTextOffset = LOGO_HEIGHT;
-
     if (!this.includeQR) {
-      this.image(LOGO, this.bounds.x, this.bounds.y, undefined, LOGO_HEIGHT);
+      const logoWidth = this.scaleImage(LOGO, undefined, LOGO_HEIGHT)[0];
+      this.image(
+        LOGO,
+        this.bounds.BottomRight.x - logoWidth,
+        this.bounds.y,
+        undefined,
+        LOGO_HEIGHT
+      );
     }
 
     let headerLinkOffsetRight = 0;
@@ -125,7 +130,6 @@ export class PDFHeader extends Component {
         QR_CODE_SIZE,
         QR_CODE_SIZE
       );
-      dateTextOffset = QR_CODE_SIZE;
 
       this.image(
         LOGO,
@@ -156,21 +160,21 @@ export class PDFHeader extends Component {
 
     // Creation date
     this.text(
-      this.bounds.BottomRight.x -
-        this.getTextDimensions(this.creationDate, { ...this.dateFontFormat }).w,
-      this.bounds.y + dateTextOffset + VERTICAL_MARGIN,
+      this.hcenter(
+        this.bounds.x,
+        this.bounds.width,
+        this.creationDate,
+        this.dateFontFormat
+      ),
+      this.vcenter(
+        this.bounds.y,
+        LOGO_HEIGHT,
+        this.creationDate,
+        99_999,
+        this.dateFontFormat
+      ),
       this.creationDate,
       { fontOptions: this.dateFontFormat }
-    );
-
-    // Report title
-    this.text(
-      this.bounds.x,
-      this.bounds.y + dateTextOffset + VERTICAL_MARGIN,
-      this.reportTitle,
-      {
-        fontOptions: this.titleFormat,
-      }
     );
   }
 
@@ -184,11 +188,6 @@ export class PDFHeader extends Component {
       );
     }
 
-    return (
-      LOGO_HEIGHT +
-      VERTICAL_MARGIN +
-      this.getTextDimensions(this.reportTitle, { ...this.titleFormat }).h *
-        this._doc!.getLineHeightFactor()
-    );
+    return LOGO_HEIGHT;
   }
 }

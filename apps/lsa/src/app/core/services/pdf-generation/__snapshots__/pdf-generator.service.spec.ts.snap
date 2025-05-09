@@ -39,20 +39,58 @@ Object {
 `;
 
 exports[`PDFGeneratorService should format the groups for proper filtering in pdf 2`] = `
+Object {
+  "bundle": Array [
+    Object {
+      "class": "Lubricators",
+      "designation": "Acc #1",
+      "fifteen_digit": "12",
+      "matnr": "12",
+      "pim_code": "12",
+      "qty": 5,
+    },
+    Object {
+      "class": "Cartridges",
+      "designation": "Acc #2",
+      "fifteen_digit": "12",
+      "matnr": "32",
+      "pim_code": "32",
+      "qty": 1,
+    },
+  ],
+  "matNr": "12345",
+  "maxOperatingPressure": 100,
+  "maxTemp": 100,
+  "minTemp": -100,
+  "name": "MINIMUM",
+  "noOfOutlets": 2,
+  "outputDiameter": 1,
+  "technicalAttributes": Object {
+    "dimensions": "20x20x20mm",
+    "func_principle": "Piston Pump",
+    "medium_general": "Grease",
+    "mounting_position": "Arbitrary",
+    "voltage": "30v",
+  },
+  "volume": "250 ml",
+}
+`;
+
+exports[`PDFGeneratorService should format the groups for proper filtering in pdf 3`] = `
 Array [
   Object {
-    "price": "5.00 EUR",
+    "price": undefined,
     "products": Array [
       Object {
-        "available": true,
-        "currency": "EUR",
+        "available": undefined,
+        "currency": undefined,
         "description": undefined,
         "designation": "Acc #2",
         "group": "Lubricators",
         "id": "32",
-        "imageUrl": undefined,
+        "imageUrl": "/assets/images/placeholder.png",
         "pimid": "32",
-        "price": 1,
+        "price": undefined,
         "quantity": 5,
       },
     ],
@@ -86,6 +124,82 @@ Object {
   "maxTemp": 100,
   "minTemp": -100,
   "name": "RECOMMENDATION",
+  "noOfOutlets": 2,
+  "outputDiameter": 1,
+  "technicalAttributes": Object {
+    "dimensions": "20x20x20mm",
+    "func_principle": "Piston Pump",
+    "medium_general": "Grease",
+    "mounting_position": "Arbitrary",
+    "voltage": "30v",
+  },
+  "volume": "250 ml",
+}
+`;
+
+exports[`PDFGeneratorService should select the proper lubricator for recommendation false 1`] = `
+Object {
+  "bundle": Array [
+    Object {
+      "class": "Lubricators",
+      "designation": "Acc #1",
+      "fifteen_digit": "12",
+      "matnr": "12",
+      "pim_code": "12",
+      "qty": 5,
+    },
+    Object {
+      "class": "Cartridges",
+      "designation": "Acc #2",
+      "fifteen_digit": "12",
+      "matnr": "32",
+      "pim_code": "32",
+      "qty": 1,
+    },
+  ],
+  "matNr": "12345",
+  "maxOperatingPressure": 100,
+  "maxTemp": 100,
+  "minTemp": -100,
+  "name": "RECOMMENDATION",
+  "noOfOutlets": 2,
+  "outputDiameter": 1,
+  "technicalAttributes": Object {
+    "dimensions": "20x20x20mm",
+    "func_principle": "Piston Pump",
+    "medium_general": "Grease",
+    "mounting_position": "Arbitrary",
+    "voltage": "30v",
+  },
+  "volume": "250 ml",
+}
+`;
+
+exports[`PDFGeneratorService should select the proper lubricator for recommendation false 2`] = `
+Object {
+  "bundle": Array [
+    Object {
+      "class": "Lubricators",
+      "designation": "Acc #1",
+      "fifteen_digit": "12",
+      "matnr": "12",
+      "pim_code": "12",
+      "qty": 5,
+    },
+    Object {
+      "class": "Cartridges",
+      "designation": "Acc #2",
+      "fifteen_digit": "12",
+      "matnr": "32",
+      "pim_code": "32",
+      "qty": 1,
+    },
+  ],
+  "matNr": "12345",
+  "maxOperatingPressure": 100,
+  "maxTemp": 100,
+  "minTemp": -100,
+  "name": "MINIMUM",
   "noOfOutlets": 2,
   "outputDiameter": 1,
   "technicalAttributes": Object {

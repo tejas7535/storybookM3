@@ -79,8 +79,6 @@ export class SelectedProductComponent extends Component {
     ).h;
 
     const textHeight =
-      selectionTitleHeight +
-      this.verticalSpacing +
       itemTitleHeight +
       this.verticalSpacing +
       itemDescription +
@@ -115,26 +113,21 @@ export class SelectedProductComponent extends Component {
     let xPosition = this.bounds.x;
     let yPosition = this.bounds.y + this.verticalSpacing;
 
-    this.text(xPosition, yPosition, this.selectionTitle, {
-      fontOptions: this.titleStyle,
-    });
-
-    const textHeight = this.getTextDimensions(
-      this.selectionTitle,
-      this.titleStyle
-    ).h;
-
-    yPosition += textHeight + this.verticalSpacing;
-
     this.image(this.productImage, xPosition, yPosition, 50);
 
     xPosition += imageOffset;
-
+    const itemTitleDimen = this.getTextDimensions(
+      this.itemTitle,
+      this.titleStyle
+    );
     this.text(xPosition, yPosition, this.itemTitle, {
       fontOptions: this.titleStyle,
     });
 
-    this.renderChip(this.bounds.width - 50, yPosition);
+    this.renderChip(
+      xPosition + itemTitleDimen.w + this.verticalSpacing,
+      yPosition
+    );
 
     const itemTitleHeight = this.getTextDimensions(
       this.itemTitle,

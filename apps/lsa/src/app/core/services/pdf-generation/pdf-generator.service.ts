@@ -3,8 +3,10 @@ import { Injectable } from '@angular/core';
 
 import {
   BehaviorSubject,
+  debounceTime,
   map,
   Observable,
+  of,
   Subject,
   switchMap,
   tap,
@@ -13,6 +15,8 @@ import {
 } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
+import { environment } from '@lsa/environments/environment';
 import { toCamelCase } from '@lsa/recommendation/result/accessory-table/accessory-table.helper';
 import {
   SelectedProductComponent,
@@ -20,7 +24,6 @@ import {
 } from '@lsa/shared/components/pdf/selected-product.component';
 import { PowerSupply } from '@lsa/shared/constants';
 import { PipeLength } from '@lsa/shared/constants/tube-length.enum';
-import { UserTier } from '@lsa/shared/constants/user-tier.enum';
 import {
   Accessory,
   Lubricator,
@@ -39,6 +42,7 @@ import {
   PDFHeader,
   ProductGroup,
   ProductList,
+  ProductListSummary,
   SectionHeading,
   Table,
 } from '@schaeffler/pdf-generator';
@@ -51,11 +55,14 @@ import { ResultInputsService } from '../result-inputs.service';
 import {
   chooseSelectedProducts,
   makeProductGroups,
+  summarizeProductGroups,
 } from './product-groups.helper';
 
 export type FormDataType = Partial<{
   [key: string]: Partial<{ [key: string]: number }>;
 }>;
+
+const IMAGE_FALLBACK_URL = `${environment.assetsPath}/images/placeholder.png`;
 
 @Injectable({ providedIn: 'root' })
 export class PDFGeneratorService {
@@ -163,10 +170,21 @@ export class PDFGeneratorService {
     })
   );
 
-  private readonly productGroups$ = this.recommendedLubData.pipe(
+  private readonly productGroups$ = zip([
+    this.recommendedLubData,
+    this.forRecommendation$$.pipe(
+      switchMap(() =>
+        this.addToCartService.shouldShowPrices()
+          ? this.priceService.priceAndAvailabilityResponse$.pipe(
+              debounceTime(3500)
+            )
+          : of(true)
+      )
+    ),
+  ]).pipe(
     withLatestFrom(this.tableData$$, this.accessoryLookupMap$),
     map(([_, tableData, lookupMap]) =>
-      chooseSelectedProducts(tableData, lookupMap)
+      chooseSelectedProducts(tableData, lookupMap, IMAGE_FALLBACK_URL)
     ),
     switchMap((products) =>
       this.imagesResolver.fetchImages(products, 'imageUrl')
@@ -181,7 +199,7 @@ export class PDFGeneratorService {
         if (!(product.pimid in priceItems)) {
           return product;
         }
-        if (this.addToCartService.getUserTier() === UserTier.Business) {
+        if (this.addToCartService.shouldShowPrices()) {
           product.price = productInfo.price;
           product.currency = productInfo.currency;
           product.available = productInfo.available;
@@ -263,11 +281,24 @@ export class PDFGeneratorService {
               'recommendation.result.pdf.title'
             ),
             date: {
-              dateLocale: this.translocoService.getActiveLang(),
+              formattedDate: this.getFormattedDate(),
             },
           })
         )
         .setComponentSpacing(3)
+        .addComponent(
+          new SectionHeading({
+            font: {
+              fontFamily: 'Noto',
+              fontSize: 12,
+              fontStyle: 'bold',
+            },
+            text: this.translocoService.translate(
+              'recommendation.result.pdf.title'
+            ),
+            strokeWidth: 0.75,
+          })
+        )
         .addComponent(
           new SectionHeading({
             font: HeadingFonts.main,
@@ -282,6 +313,13 @@ export class PDFGeneratorService {
             data: input,
           })
         )
+        .addComponent(
+          new SectionHeading({
+            text: this.translocoService.translate(
+              'recommendation.result.pdf.selection'
+            ),
+          })
+        )
         .addComponent(new SelectedProductComponent(productData))
         .addComponent(
           new Table({
@@ -292,7 +330,7 @@ export class PDFGeneratorService {
                 fontFamily: 'Noto',
                 fontSize: 8,
               },
-              background: ['#eee', '#fff'],
+              background: ['#f6f7f8', '#FFF'],
             },
           })
         )
@@ -311,7 +349,7 @@ export class PDFGeneratorService {
           new ProductList({
             data: [group],
             showAvailabilityAndPriceWhenAvailabile:
-              this.addToCartService.getUserTier() === UserTier.Business,
+              this.addToCartService.shouldShowPrices(),
             labels: {
               quantity: this.translocoService.translate(
                 'recommendation.result.quantity'
@@ -332,6 +370,28 @@ export class PDFGeneratorService {
           })
         );
       }
+      const [totalPieces, totalPrice] = summarizeProductGroups(
+        productGroups,
+        this.addToCartService.shouldShowPrices()
+      );
+      doc.addComponent(
+        new ProductListSummary({
+          data: [
+            {
+              label: this.translocoService.translate(
+                'recommendation.result.totalPrice'
+              ),
+              value: totalPrice,
+            },
+            {
+              label: this.translocoService.translate(
+                'recommendation.result.totalPieces'
+              ),
+              value: `${totalPieces}`,
+            },
+          ],
+        })
+      );
 
       return doc;
     }),
@@ -346,17 +406,13 @@ export class PDFGeneratorService {
     private readonly formService: LsaFormService,
     private readonly resultInputsService: ResultInputsService,
     private readonly priceService: PriceAvailabilityService,
-    private readonly addToCartService: AddToCartService
+    private readonly addToCartService: AddToCartService,
+    private readonly localeService: TranslocoLocaleService
   ) {
     this.pdfFile.subscribe((doc) => {
       doc.generate();
-      const reportTitle = this.translocoService.translate(
-        'recommendation.result.pdf.title'
-      );
-      const reportDate = new Intl.DateTimeFormat(
-        this.translocoService.getActiveLang()
-      ).format(Date.now());
-      doc.save(`${reportTitle} - ${reportDate}.pdf`);
+      const filename = this.getReportFilename();
+      doc.save(filename);
     });
   }
 
@@ -366,6 +422,22 @@ export class PDFGeneratorService {
 
   public generatePDF(forRecommendation: boolean) {
     this.forRecommendation$$.next(forRecommendation);
+  }
+
+  private getFormattedDate() {
+    return this.localeService.localizeDate(
+      Date.now(),
+      this.translocoService.getActiveLang()
+    );
+  }
+
+  private getReportFilename() {
+    const reportTitle = this.translocoService.translate(
+      'recommendation.result.pdf.title'
+    );
+    const reportDate = this.getFormattedDate().replaceAll('/', '-');
+
+    return `${reportTitle} - ${reportDate}.pdf`.replaceAll(' ', '_');
   }
 
   private extractDetailsTable(lubricator: Lubricator): string[][] {

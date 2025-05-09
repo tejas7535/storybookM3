@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { jsPDF } from 'jspdf';
 
 import { FontOptions } from './format';
@@ -248,6 +249,16 @@ export abstract class Component {
     pdf.addImage(imageData, x, y, imageWidth!, imageHeight!);
   }
 
+  /**
+   * Utilility function to get aspect ratio preserving scaling done for images supplied to the function. Scaling can be done either by supplying the height
+   * or the width of the image.
+   *
+   * If both values passed are undefined, the native dimensions of the provided image resource are returned
+   *
+   * @param width (optional) the target width of the image. Will be derived from the supplied hight if undefined, retaining the aspect ratio
+   * @param height (optional) the target height of the image. Will be derived from the supplied widht if undefined, retaining the aspect ratio
+   * @returns an array with the resulting image with at index 0 and the height at 0
+   **/
   protected scaleImage(
     imageData: Parameters<jsPDF['getImageProperties']>[0],
     width?: number,
@@ -366,6 +377,26 @@ export abstract class Component {
     const textHeight = this.getMultilineTextHeight(text, maxWidth, fontOptions);
 
     return y + height / 2 - textHeight / 2;
+  }
+
+  /**
+   * Utility function to help with centering a text horizontally in a given box
+   *
+   * @param width of the box to center in
+   * @param text to center inside
+   * @param fontOptions (optional) to apply when calculating the width
+   *
+   * @returns the x coordinate of the top left text anchor
+   **/
+  protected hcenter(
+    x: number,
+    width: number,
+    text: string,
+    fontOptions?: FontOptions
+  ) {
+    const textWidth = this.getTextDimensions(text, fontOptions).w;
+
+    return x + (width / 2 - textWidth / 2);
   }
 
   private drawDebug() {

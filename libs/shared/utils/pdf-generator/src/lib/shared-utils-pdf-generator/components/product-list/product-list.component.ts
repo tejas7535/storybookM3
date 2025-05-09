@@ -81,23 +81,9 @@ export class ProductList extends Component {
       this.style.labelFont
     ).w;
 
-    // const coreLayoutSpace = width - quantityColumnWidth - this.style.gap;
-
-    const longestProductId = Math.max(
-      ...this.data
-        .flatMap((data) => data.products)
-        .map((product) => `${product.id || 0}`.length)
-    );
-    const longestIdWidth = this.getTextDimensions(`${longestProductId}`).w;
-
-    const idLabelWidth = this.getTextDimensions(this.labels.id).w;
-
-    const productIdColumnWidth = Math.max(longestIdWidth, idLabelWidth);
-
     const productTitleColumnWidth =
       width -
       quantityColumnWidth -
-      productIdColumnWidth -
       availabilityColumnWidth -
       priceColumnWidth -
       this.style.gap;
@@ -106,29 +92,26 @@ export class ProductList extends Component {
       this.bounds.x + (this.style.spacing.productRow?.left || 0);
 
     // Layout
-    // Image (if existent) | Product Designation + desc | Availability (if present) | Price (if present) | ID | Qty
-    const imageX = rowStartCoord;
-    const productDetailsX =
-      rowStartCoord + (hasImages ? this.style.imageWidth + this.style.gap : 0);
-    const productDetailsWidth = productTitleColumnWidth;
-
-    const availabilityColumnX = productDetailsX + productDetailsWidth;
-    const priceColumnX =
-      availabilityColumnX +
-      availabilityColumnWidth +
-      (priceColumnWidth > 0 ? this.style.gap / 2 : 0);
-    const productIdX =
-      productDetailsX +
-      productDetailsWidth +
-      availabilityColumnWidth +
-      priceColumnWidth +
-      (priceColumnWidth > 0 ? this.style.gap : 0);
-    const productIdWidth = productIdColumnWidth;
+    // Image (if existent) | Product Designation + desc | Availability (if present) | Price (if present) | Qty
 
     const quantityColumnX =
       this.bounds.BottomRight.x -
       (this.style.spacing.productRow?.right || 0) -
       quantityColumnWidth;
+
+    const imageX = rowStartCoord;
+    const productDetailsX =
+      rowStartCoord + (hasImages ? this.style.imageWidth + this.style.gap : 0);
+    const productDetailsWidth = productTitleColumnWidth;
+
+    const priceColumnX =
+      quantityColumnX -
+      priceColumnWidth -
+      (priceColumnWidth > 0 ? 2 * this.style.gap : 0);
+
+    const availabilityColumnX =
+      priceColumnX - availabilityColumnWidth - (this.style.gap || 0);
+
     const precomputed: PrecomputedLayout[] = this.data.map((group) => {
       const header = group.title;
       const rows = group.products.map((product) => {
@@ -144,6 +127,11 @@ export class ProductList extends Component {
               this.style.labelFont
             )
           : 0;
+
+        const productIdHeight = this.getTextDimensions(
+          `${this.labels.id} ${product.id}`,
+          this.style.labelFont
+        ).h;
 
         let imageHeight = 0;
         if (product.imageUrl) {
@@ -161,7 +149,8 @@ export class ProductList extends Component {
           height: Math.max(
             designationHeight +
               descriptionHeight +
-              (this.style.spacing.designationMargin || 0),
+              productIdHeight +
+              2 * (this.style.spacing.designationMargin || 0),
             imageHeight
           ),
           data: product,
@@ -177,8 +166,6 @@ export class ProductList extends Component {
           imageX,
           productDetailsX,
           productDetailsWidth,
-          productIdX,
-          productIdWidth,
           availabilityColumnX,
           availabilityColumnWidth,
           priceColumnWidth,
@@ -315,18 +302,16 @@ export class ProductList extends Component {
           const textH = this.getTextDimensions('mock', this.style.labelFont).h;
 
           this.text(
-            group.cell.productIdX,
-            verticalCenterline - textH - this.style.verticalMargin,
-            `${product.id}`,
+            group.cell.productDetailsX,
+            startY +
+              designationTextHeight +
+              2 * (this.style.spacing.designationMargin || 1) +
+              textH,
+            `${this.labels.id} ${product.id}`,
             {
               fontOptions: this.style.labelFont,
-              textOptions: { maxWidth: group.cell.productIdWidth },
             }
           );
-
-          this.text(group.cell.productIdX, verticalCenterline, this.labels.id, {
-            fontOptions: this.style.labelFont,
-          });
         }
 
         if (
@@ -362,12 +347,11 @@ export class ProductList extends Component {
             startY,
             productRow.height,
             qtyText,
-            group.cell.productIdWidth,
+            group.cell.quantityColumnWidth,
             this.style.labelFont
           );
           this.text(group.cell.quantityColumnX, qtyY, qtyText, {
             fontOptions: this.style.labelFont,
-            textOptions: { maxWidth: group.cell.productIdWidth },
           });
         }
         startY +=

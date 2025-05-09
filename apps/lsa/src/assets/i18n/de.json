@@ -110,7 +110,7 @@
       "decreaseOne": "Menge um eins verringern",
       "func_principle": "Funktionsprinzip",
       "mounting_position": "Montageposition",
-      "pdf_download": "PDF Herunterladen",
+      "pdf_download": "PDF herunterladen",
       "category": {
         "lubricantApplication": "Schmierstoffauftrag",
         "cartridge": "Kartuschen",
@@ -151,8 +151,8 @@
         "usedFallbackGrease": "Wir können keine detaillierte Empfehlung für auf dem Markt verfügbare Fette geben. Wir haben ein weitgehend kompatibles Fett aus dem Schaeffler Arcanol-Sortiment für unsere Berechnung verwendet. Bitte stellen Sie sicher, dass Ihr verwendetes Fett in seinen Eigenschaften vergleichbar ist."
       },
       "pdf": {
-        "title": "Schmierstoffgeber Auswahl Assistent Ergebnis",
-        "selection": "Ihr ausgewählter Schmierstoffgber"
+        "title": "Ergebnis - Schmierstoffgeber-Auswahlassistent",
+        "selection": "Ihr ausgewählter Schmierstoffgeber"
       }
     }
   },

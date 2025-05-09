@@ -27,6 +27,10 @@ export class AddToCartService {
     return this.userTier;
   }
 
+  public shouldShowPrices(): boolean {
+    return this.getUserTier() === UserTier.Business;
+  }
+
   public addToCartEvent(
     accessories: Accessory[],
     formGroup: AccessoryTableFormGroup

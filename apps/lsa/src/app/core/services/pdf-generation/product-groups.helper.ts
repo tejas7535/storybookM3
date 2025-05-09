@@ -8,7 +8,8 @@ type CombinedProductType = { group: string } & Product;
 
 export const chooseSelectedProducts = (
   tableData: FormDataType,
-  lookupMap: Map<string, Accessory>
+  lookupMap: Map<string, Accessory>,
+  fallbackImageUrl: string
 ) => {
   const products: CombinedProductType[] = [];
 
@@ -21,7 +22,7 @@ export const chooseSelectedProducts = (
       products.push({
         group,
         pimid: accessory.pim_code,
-        imageUrl: accessory.product_image,
+        imageUrl: accessory.product_image || fallbackImageUrl,
         designation: accessory.designation,
         description: accessory.description,
         id: accessory.matnr,
@@ -67,4 +68,28 @@ export const makeProductGroups = (inputProducts: CombinedProductType[]) => {
   }
 
   return productGroups;
+};
+
+export const summarizeProductGroups = (
+  productGroups: ProductGroup[],
+  includePrice: boolean
+): [number, string] => {
+  let totalPrice = 0;
+  let totalPieces = 0;
+  let currency: string;
+
+  productGroups
+    .flatMap((group) => group.products)
+    .forEach((product) => {
+      if (includePrice && product.price) {
+        totalPrice += product.price * product.quantity;
+        currency = product.currency;
+      }
+      totalPieces += product.quantity;
+    });
+
+  return [
+    totalPieces,
+    includePrice ? `${totalPrice.toFixed(2)} ${currency}` : undefined,
+  ];
 };

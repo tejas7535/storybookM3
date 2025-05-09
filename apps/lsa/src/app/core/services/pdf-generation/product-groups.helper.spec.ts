@@ -1,11 +1,12 @@
 import { Accessory } from '@lsa/shared/models';
 
-import { Product } from '@schaeffler/pdf-generator';
+import { Product, ProductGroup } from '@schaeffler/pdf-generator';
 
 import { FormDataType } from './pdf-generator.service';
 import {
   chooseSelectedProducts,
   makeProductGroups,
+  summarizeProductGroups,
 } from './product-groups.helper';
 
 describe('ProductGroupsHelper', () => {
@@ -30,7 +31,11 @@ describe('ProductGroupsHelper', () => {
         '99': 0,
       },
     };
-    const returnValue = chooseSelectedProducts(tableData, fakeLookupMap);
+    const returnValue = chooseSelectedProducts(
+      tableData,
+      fakeLookupMap,
+      'FAKEURL'
+    );
     expect(fakeLookupMap.get as jest.Func).toHaveBeenCalledTimes(3);
     expect(returnValue.length).toEqual(2);
   });
@@ -57,5 +62,35 @@ describe('ProductGroupsHelper', () => {
     expect(
       groups.find((group) => group.title === 'Lubricators').products.length
     ).toEqual(2);
+  });
+
+  describe('summarizeProductGroups', () => {
+    const MOCK_PRODUCT_GROUP: ProductGroup[] = [
+      {
+        title: 'anything',
+        products: [
+          { price: 1.5, currency: 'EUR', quantity: 5 } as Product,
+          { price: 4, currency: 'EUR', quantity: 1 } as Product,
+        ],
+      },
+      {
+        title: 'really anything',
+        products: [
+          { price: 1.5, currency: 'EUR', quantity: 5 } as Product,
+          { price: 4, currency: 'EUR', quantity: 1 } as Product,
+        ],
+      },
+    ];
+    it('should return undefined for the price when called with false', () => {
+      const [pieces, price] = summarizeProductGroups(MOCK_PRODUCT_GROUP, false);
+      expect(price).toBeUndefined();
+      expect(pieces).toEqual(12);
+    });
+
+    it('should return two valid values when called with true', () => {
+      const [pieces, price] = summarizeProductGroups(MOCK_PRODUCT_GROUP, true);
+      expect(price).toEqual('23.00 EUR');
+      expect(pieces).toEqual(12);
+    });
   });
 });
