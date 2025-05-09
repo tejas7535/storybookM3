@@ -1,4 +1,17 @@
 # Release Notes of Engineering App
+## [1.15.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.15.0...ea-v1.15.1) (2025-05-09)
+
+
+### Features
+
+* **ea:** Update disclaimers for new bearinx calculation method - UFTABI-8863 ([#7237](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7237)) ([2f567dd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f567ddf572c10ee42f49fc9272877e29be4b65e))
+* **ea:** update versions urls(UFTABI-8615) ([#7192](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7192)) ([b423c67](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b423c67e313f5dfa6caf29d252f645ce5ddd90a7))
+
+
+### Bug Fixes
+
+* **ea:** circa prefix in PDF missing on friction block ([#7251](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7251)) ([5d4294f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5d4294ffabd2f854615a578b7436ddcada4a49ed))
+
 ## [1.15.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.14.2...ea-v1.15.0) (2025-03-19)
 
 
