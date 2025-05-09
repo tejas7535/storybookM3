@@ -1,4 +1,11 @@
 # Release Notes of Engineering App
+## [1.15.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.15.1...ea-v1.15.2) (2025-05-09)
+
+
+### Bug Fixes
+
+* **ea:** approximate signs in report and PDF ([#7253](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7253)) ([1c4f895](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1c4f89551c9ec6b6e32ef48276830200bfa726fd))
+
 ## [1.15.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.15.0...ea-v1.15.1) (2025-05-09)
 
 
