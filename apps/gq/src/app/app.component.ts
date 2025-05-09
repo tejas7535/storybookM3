@@ -76,6 +76,11 @@ export class AppComponent implements OnInit {
       external: false,
     },
     {
+      link: 'https://worksite.sharepoint.com/sites/Bearings-Industrial-Solutions-Sales-Management-Marketing/SitePages/Guided-Quoting---Training-Material-%26-FAQ.aspx',
+      title: this.translocoService.translate('legal.trainingMaterial'),
+      external: true,
+    },
+    {
       link: 'https://worksite.sharepoint.com/sites/Bearings-Industrial-Solutions-Sales-Management-Marketing/SitePages/Guided-Quoting.aspx',
       title: 'GQ@MySchaeffler',
       external: true,
