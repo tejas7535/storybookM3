@@ -1,14 +1,3 @@
-.panel-wrapper {
-  @apply relative;
-  .panel {
-    @apply absolute right-2 top-12 drop-shadow-md p-5 z-30 bg-surface-container-high rounded-sm;
-  }
-}
-
 .forecast-chart-render-container {
   @apply min-h-[350px];
-}
-
-section {
-  @apply p-8;
 }

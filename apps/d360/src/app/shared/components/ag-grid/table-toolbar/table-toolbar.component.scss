@@ -16,4 +16,7 @@
     justify-content: center;
     font-size: 1.125rem;
   }
+  ::ng-deep .mat-mdc-button {
+    margin-right: 16px;
+  }
 }

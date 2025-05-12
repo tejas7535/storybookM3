@@ -10,6 +10,7 @@ import {
   OnInit,
   Signal,
   signal,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -45,6 +46,7 @@ import { ColumnFilters } from '../../../../shared/ag-grid/grid-filter-model';
 import { DatePickerMonthYearComponent } from '../../../../shared/components/date-picker-month-year/date-picker-month-year.component';
 import { GlobalSelectionState } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
 import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
+import { MenuPanelButtonComponent } from '../../../../shared/components/menu-panel-button/menu-panel-button.component';
 import { ValidateForm } from '../../../../shared/decorators';
 import { disabledGrey } from '../../../../shared/styles/colors';
 import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
@@ -78,6 +80,7 @@ import { YearlyForecastChartComponent } from '../yearly-forecast-chart/yearly-fo
     LoadingSpinnerModule,
     YearlyForecastChartComponent,
     MonthlyForecastChartComponent,
+    MenuPanelButtonComponent,
   ],
   templateUrl: './forecast-chart.component.html',
   styleUrl: './forecast-chart.component.scss',
@@ -130,6 +133,8 @@ export class ForecastChartComponent implements OnInit {
   });
 
   protected chartSettingsInitialized = signal<boolean>(false);
+  private readonly typeSettings =
+    viewChild<MenuPanelButtonComponent>('typeSettings');
 
   constructor() {
     effect(
@@ -147,7 +152,6 @@ export class ForecastChartComponent implements OnInit {
 
   protected chartData = signal<MonthlyChartEntry[]>([]);
 
-  protected readonly openPanel = signal<string>(null);
   protected readonly openPanelContent = signal(true);
 
   private chartSettings: ChartSettings;
@@ -282,10 +286,6 @@ export class ForecastChartComponent implements OnInit {
     }
   }
 
-  protected togglePanel(id: string) {
-    this.openPanel.set(this.openPanel() === id ? null : id);
-  }
-
   protected onChangeCount(event: MatRadioChange) {
     this.chartSettings.planningView = event.value;
     this.onChartSettingChange('count', event.value);
@@ -334,7 +334,7 @@ export class ForecastChartComponent implements OnInit {
         takeUntilDestroyed(this.destroy)
       )
       .subscribe();
-    this.openPanel.set(null);
+    this.typeSettings()?.closeMenu();
   }
 
   public settingsDisabled(): boolean {

@@ -5,7 +5,7 @@
     <div class="flex flex-col w-1/4">
       <div class="flex items-center gap-2 mb-4">
         <d360-single-autocomplete-on-type
-          class="compact flex-grow bg-white"
+          class="compact flex-grow"
           [form]="formGroup"
           [control]="$any(formGroup.controls.customer)"
           [label]="t('sales_planning.customer')"
@@ -15,7 +15,6 @@
           [addClearButton]="true"
           (selectionChange)="handleCustomerChange($event)"
         />
-
         <button
           mat-icon-button
           class="text-body-small"

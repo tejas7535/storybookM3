@@ -4,6 +4,7 @@
   }
 
   .mat-mdc-button-base {
+    line-height: normal;
     &.error-variant {
       @apply bg-error;
       @apply text-on-error;

@@ -28,11 +28,9 @@
     --mat-menu-item-hover-state-layer-color: transparent;
 
     &.mat-mdc-menu-panel {
-      &.date-range {
-        max-width: 580px;
-        width: 580px;
+      &.menu-panel-button-content {
+        max-width: unset;
       }
-
       .mat-mdc-menu-content {
         padding: 24px 12px;
       }

@@ -5,3 +5,61 @@
 .expanded {
   @apply h-full;
 }
+
+.show-animation {
+  opacity: 0;
+  animation-duration: 0.4s, 0.4s;
+  animation-delay: 0s, 0.1s;
+  animation-name: slide-out, fade-in;
+  animation-fill-mode: forwards, forwards;
+}
+.hide-animation {
+  animation-duration: 0.4s, 0.4s;
+  animation-delay: 0s, 0s;
+  animation-name: fade-out, slide-in;
+  animation-fill-mode: forwards, forwards;
+}
+
+@keyframes slide-in {
+  from {
+    max-height: 1000px;
+    margin-bottom: 16px;
+  }
+
+  to {
+    max-height: 0;
+    margin-bottom: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out {
+  to {
+    max-height: 1000px;
+    margin-bottom: 16px;
+  }
+
+  from {
+    max-height: 0;
+    margin-bottom: 0;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}

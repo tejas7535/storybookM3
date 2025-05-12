@@ -1,0 +1,37 @@
+<span [matTooltip]="tooltip()">
+  <button
+    mat-icon-button
+    [matMenuTriggerFor]="menu"
+    #menuTrigger="matMenuTrigger"
+    [disabled]="disabled()"
+  >
+    <mat-icon>{{ icon() }}</mat-icon>
+  </button>
+  <mat-menu
+    #menu="matMenu"
+    class="no-ripple as-dialog menu-panel-button-content"
+  >
+    <ng-template matMenuContent>
+      <div
+        (click)="$event.stopPropagation()"
+        (keydown)="$event.stopPropagation()"
+      >
+        <div class="flex flex-col gap-4">
+          @if (title() || subtitle()) {
+            <div>
+              <h6 class="text-title-large">
+                {{ title() }}
+              </h6>
+
+              <p class="text-title-small">
+                {{ subtitle() }}
+              </p>
+            </div>
+          }
+
+          <ng-content></ng-content>
+        </div>
+      </div>
+    </ng-template>
+  </mat-menu>
+</span>

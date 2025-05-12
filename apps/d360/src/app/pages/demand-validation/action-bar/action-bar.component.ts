@@ -56,6 +56,7 @@ import { CustomerDropDownComponent } from '../../../shared/components/customer-d
 import { SingleAutocompleteSelectedEvent } from '../../../shared/components/inputs/autocomplete/model';
 import { SelectableValue } from '../../../shared/components/inputs/autocomplete/selectable-values.utils';
 import { DisplayFunctions } from '../../../shared/components/inputs/display-functions.utils';
+import { MenuPanelButtonComponent } from '../../../shared/components/menu-panel-button/menu-panel-button.component';
 import {
   getMonthYearDateFormatByCode,
   LocaleType,
@@ -115,6 +116,7 @@ interface Button {
     MatMenuModule,
     DatePickerSettingDemandValidationModalComponent,
     DemandValidationSettingModalComponent,
+    MenuPanelButtonComponent,
   ],
   templateUrl: './action-bar.component.html',
   styleUrl: './action-bar.component.scss',

@@ -1,4 +1,4 @@
-<div *transloco="let t" class="action-bar">
+<div class="action-bar">
   <div class="flex flex-col gap-4 mb-3">
     <div class="flex justify-between items-center pt-4 flex-wrap">
       <!-- left side of buttons -->
@@ -79,60 +79,37 @@
 
         <!-- date-filter -->
         @case ('date-filter') {
-          <span [matTooltip]="t('validation_of_demand.actionBar.selectDate')">
-            <button
-              mat-icon-button
-              [matMenuTriggerFor]="dateRangeMenu"
-              #dateTrigger="matMenuTrigger"
-              [disabled]="item?.disabled ?? false"
-            >
-              <mat-icon>date_range</mat-icon>
-            </button>
-            <mat-menu
-              #dateRangeMenu="matMenu"
-              class="no-ripple as-dialog date-range"
-            >
-              <div
-                (click)="$event.stopPropagation()"
-                (keydown)="$event.stopPropagation()"
-              >
-                <d360-date-picker-setting-demand-validation-modal
-                  [data]="dateRange"
-                  (selectionChange)="onDateSelectionChange($event)"
-                  [close]="dateTrigger.toggleMenu.bind(dateTrigger)"
-                />
-              </div>
-            </mat-menu>
-          </span>
+          <d360-menu-panel-button
+            #dateButton
+            icon="date_range"
+            [disabled]="item?.disabled ?? false"
+            [tooltip]="t('validation_of_demand.actionBar.selectDate')"
+          >
+            <d360-date-picker-setting-demand-validation-modal
+              [data]="dateRange"
+              (selectionChange)="onDateSelectionChange($event)"
+              [close]="dateButton.closeMenu.bind(dateButton)"
+            />
+          </d360-menu-panel-button>
         }
 
         <!-- settings-filter -->
         @case ('settings') {
-          <span [matTooltip]="t('validation_of_demand.actionBar.settings')">
-            <button
-              mat-icon-button
-              [matMenuTriggerFor]="settingsMenu"
-              #settingsTrigger="matMenuTrigger"
-              [disabled]="item?.disabled ?? false"
-            >
-              <mat-icon>settings</mat-icon>
-            </button>
-            <mat-menu #settingsMenu="matMenu" class="no-ripple as-dialog small">
-              <div
-                (click)="$event.stopPropagation()"
-                (keydown)="$event.stopPropagation()"
-              >
-                <d360-demand-validation-setting-modal
-                  [data]="planningView()"
-                  (selectionChange)="
-                    handleDemandValidationSettingsChange($event);
-                    settingsTrigger.toggleMenu()
-                  "
-                  [close]="settingsTrigger.toggleMenu.bind(settingsTrigger)"
-                />
-              </div>
-            </mat-menu>
-          </span>
+          <d360-menu-panel-button
+            #settingsButton
+            icon="settings"
+            [disabled]="item?.disabled ?? false"
+            [tooltip]="t('validation_of_demand.actionBar.settings')"
+          >
+            <d360-demand-validation-setting-modal
+              [data]="planningView()"
+              (selectionChange)="
+                handleDemandValidationSettingsChange($event);
+                settingsButton.closeMenu()
+              "
+              [close]="settingsButton.closeMenu.bind(settingsButton)"
+            />
+          </d360-menu-panel-button>
         }
 
         @default {}

@@ -252,18 +252,6 @@ describe('ForecastChartComponent', () => {
     });
   });
 
-  describe('togglePanel', () => {
-    it('toggle the openPanel', () => {
-      component['togglePanel']('date');
-      expect(component['openPanel']()).toBe('date');
-    });
-    it('reset the openPanel', () => {
-      component['openPanel'].set('date');
-      component['togglePanel']('date');
-      expect(component['openPanel']()).toBeNull();
-    });
-  });
-
   describe('onChangeCount', () => {
     it('should set the planning view and trigger change event', () => {
       const event = { value: PlanningView.CONFIRMED } as MatRadioChange;

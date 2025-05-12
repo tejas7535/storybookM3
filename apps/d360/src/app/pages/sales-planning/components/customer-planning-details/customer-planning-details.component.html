@@ -3,7 +3,7 @@
   class="flex flex-col gap-4 h-full"
   *transloco="let t"
 >
-  <div class="flex justify-between">
+  <div class="flex justify-between items-center">
     <h2 class="text-title-large">
       {{ t('sales_planning.planning_details.title') }}
     </h2>
@@ -11,9 +11,9 @@
     <div class="flex">
       <button mat-icon-button (click)="toggleSection()()">
         @if (collapsedSection()) {
-          <mat-icon>arrow_drop_down</mat-icon>
+          <mat-icon>keyboard_arrow_down</mat-icon>
         } @else {
-          <mat-icon>arrow_drop_up</mat-icon>
+          <mat-icon>keyboard_arrow_up</mat-icon>
         }
       </button>
     </div>

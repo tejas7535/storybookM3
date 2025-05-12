@@ -26,7 +26,7 @@ export class SalesPlanningComponent {
   protected readonly planningCurrency = signal<string | null>(null);
   protected readonly customerName = signal<string | null>(null);
   protected readonly customerNumber = signal<string | null>(null);
-  protected readonly openFullscreen = signal<boolean>(false);
+  protected readonly openFullscreen = signal<boolean>(null);
   protected readonly collapsedSection = signal<boolean>(false);
 
   protected onCustomerSelectionChange(event: CustomerSelectionChange) {
