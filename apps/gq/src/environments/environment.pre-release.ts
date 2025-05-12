@@ -5,9 +5,9 @@ export const environment: Environment = {
   production: false,
   localDev: false,
   devToolsEnabled: true,
-  clientId: '3d3c5cf5-a4e6-4a86-95db-6eb387d7255f',
+  clientId: 'e9fb595d-79b2-47c1-b421-9fbbcd24d58a',
   tenantId: '67416604-6509-4014-9859-45e709f53d3f',
-  appScope: 'api://ab371c43-8740-4102-b4ad-f49e68270f1a/gqapi',
+  appScope: 'api://e7a6c97c-19b8-4b2b-b9f8-c832025a78b4/gqapi',
   envName: 'https://guided-quoting-q-1.dev.dp.schaeffler (pre-release)',
   oneTrustId: '01909c11-f004-7794-a10a-ee843a798ffc',
   applicationInsights: {
