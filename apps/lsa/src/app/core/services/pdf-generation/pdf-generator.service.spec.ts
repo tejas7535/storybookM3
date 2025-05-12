@@ -110,6 +110,7 @@ describe('PDFGeneratorService', () => {
       }),
       mockProvider(AddToCartService, {
         getUserTier: jest.fn(() => UserTier.Business),
+        shouldShowPrices: jest.fn(() => true),
       }),
       mockProvider(PriceAvailabilityService, {
         priceAndAvailabilityResponse$: of<MediasCallbackResponse>({
@@ -215,6 +216,25 @@ describe('PDFGeneratorService', () => {
     service.generatePDF(true);
   });
 
+  it('should not show prices if the cart service says so', (done) => {
+    const testResponse: RecommendationResponse = {
+      lubricators: {
+        minimumRequiredLubricator: { ...MOCK_LUBRICATOR, name: 'MINIMUM' },
+        recommendedLubricator: { ...MOCK_LUBRICATOR, name: 'RECOMMENDATION' },
+      },
+    } as unknown as RecommendationResponse;
+    (
+      service['addToCartService']['shouldShowPrices'] as jest.Mock
+    ).mockReturnValueOnce(false);
+    service['productGroups$'].subscribe((groups) => {
+      expect(groups).toMatchSnapshot();
+      done();
+    });
+    service.setFormData(MOCK_TABLE_DATA);
+    service['restService'].recommendation$.next(testResponse);
+    service.generatePDF(true);
+  });
+
   it('getReportFilename should use the transloco service to get a properly localized date', () => {
     (service['translocoService'].translate as jest.Mock).mockReturnValueOnce(
       'PDF TITLE'
@@ -223,5 +243,35 @@ describe('PDFGeneratorService', () => {
     expect(service['translocoService'].translate).toHaveBeenCalled();
     expect(service['localeService'].localizeDate).toHaveBeenCalled();
     expect(returnValue).toEqual('PDF_TITLE_-_1.1.1970.pdf');
+  });
+
+  describe('stripUnsupportedChars', () => {
+    it('should deal with combined ≤ and ≥', () => {
+      expect(service['stripUnsupportedChars']('≤ and ≥')).toEqual('<= and >=');
+    });
+
+    it('should leave unaffected strings in tact', () => {
+      const inputstring = 'this string is unaffected < > and *';
+      expect(service['stripUnsupportedChars'](inputstring)).toEqual(
+        inputstring
+      );
+    });
+  });
+
+  describe('extractDetailsTable', () => {
+    it('should not append ml if the volume already has a unit', () => {
+      expect(
+        service['extractDetailsTable']({
+          ...MOCK_LUBRICATOR,
+          volume: '100 cm³',
+        })
+      ).toMatchSnapshot();
+    });
+
+    it('should append ml if the volume already does not have a unit', () => {
+      expect(
+        service['extractDetailsTable']({ ...MOCK_LUBRICATOR, volume: '100' })
+      ).toMatchSnapshot();
+    });
   });
 });

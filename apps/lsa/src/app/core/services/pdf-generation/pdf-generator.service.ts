@@ -454,11 +454,13 @@ export class PDFGeneratorService {
       ],
       [
         this.translocoService.translate(`${baseString}.volume`),
-        `${lubricator.volume} ml`,
+        !lubricator.volume.includes('ml') && !lubricator.volume.includes('cm³')
+          ? `${lubricator.volume} ml`
+          : lubricator.volume,
       ],
       [
         this.translocoService.translate(`${baseString}.maxOperatingPressure`),
-        `${lubricator.maxOperatingPressure} bar`,
+        this.stripUnsupportedChars(`${lubricator.maxOperatingPressure} bar`),
       ],
       [
         this.translocoService.translate(`${baseString}.voltage`),
@@ -466,7 +468,9 @@ export class PDFGeneratorService {
       ],
       [
         this.translocoService.translate(`${baseString}.medium_general`),
-        lubricator.technicalAttributes['medium_general'],
+        this.stripUnsupportedChars(
+          lubricator.technicalAttributes['medium_general']
+        ),
       ],
       [
         this.translocoService.translate(`${baseString}.tempRange`),
@@ -502,5 +506,9 @@ export class PDFGeneratorService {
       default:
         return 'unknown';
     }
+  }
+
+  private stripUnsupportedChars(input: string) {
+    return input.replaceAll('≤', '<=').replaceAll('≥', '>=');
   }
 }

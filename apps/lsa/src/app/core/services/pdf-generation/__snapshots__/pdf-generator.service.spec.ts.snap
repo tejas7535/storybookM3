@@ -1,5 +1,87 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`PDFGeneratorService extractDetailsTable should append ml if the volume already does not have a unit 1`] = `
+Array [
+  Array [
+    undefined,
+    "Piston Pump",
+  ],
+  Array [
+    undefined,
+    "20x20x20mm",
+  ],
+  Array [
+    undefined,
+    "100 ml",
+  ],
+  Array [
+    undefined,
+    "100 bar",
+  ],
+  Array [
+    undefined,
+    "30v",
+  ],
+  Array [
+    undefined,
+    "Grease",
+  ],
+  Array [
+    undefined,
+    undefined,
+  ],
+  Array [
+    undefined,
+    "2",
+  ],
+  Array [
+    undefined,
+    "Arbitrary",
+  ],
+]
+`;
+
+exports[`PDFGeneratorService extractDetailsTable should not append ml if the volume already has a unit 1`] = `
+Array [
+  Array [
+    undefined,
+    "Piston Pump",
+  ],
+  Array [
+    undefined,
+    "20x20x20mm",
+  ],
+  Array [
+    undefined,
+    "100 cm³",
+  ],
+  Array [
+    undefined,
+    "100 bar",
+  ],
+  Array [
+    undefined,
+    "30v",
+  ],
+  Array [
+    undefined,
+    "Grease",
+  ],
+  Array [
+    undefined,
+    undefined,
+  ],
+  Array [
+    undefined,
+    "2",
+  ],
+  Array [
+    undefined,
+    "Arbitrary",
+  ],
+]
+`;
+
 exports[`PDFGeneratorService should format the groups for proper filtering in pdf 1`] = `
 Object {
   "bundle": Array [
@@ -79,18 +161,117 @@ Object {
 exports[`PDFGeneratorService should format the groups for proper filtering in pdf 3`] = `
 Array [
   Object {
-    "price": undefined,
+    "price": "5.00 EUR",
     "products": Array [
       Object {
-        "available": undefined,
-        "currency": undefined,
+        "available": true,
+        "currency": "EUR",
         "description": undefined,
         "designation": "Acc #2",
         "group": "Lubricators",
         "id": "32",
         "imageUrl": "/assets/images/placeholder.png",
         "pimid": "32",
-        "price": undefined,
+        "price": 1,
+        "quantity": 5,
+      },
+    ],
+    "title": undefined,
+  },
+]
+`;
+
+exports[`PDFGeneratorService should not show prices if the cart service says so 1`] = `
+Object {
+  "bundle": Array [
+    Object {
+      "class": "Lubricators",
+      "designation": "Acc #1",
+      "fifteen_digit": "12",
+      "matnr": "12",
+      "pim_code": "12",
+      "qty": 5,
+    },
+    Object {
+      "class": "Cartridges",
+      "designation": "Acc #2",
+      "fifteen_digit": "12",
+      "matnr": "32",
+      "pim_code": "32",
+      "qty": 1,
+    },
+  ],
+  "matNr": "12345",
+  "maxOperatingPressure": 100,
+  "maxTemp": 100,
+  "minTemp": -100,
+  "name": "RECOMMENDATION",
+  "noOfOutlets": 2,
+  "outputDiameter": 1,
+  "technicalAttributes": Object {
+    "dimensions": "20x20x20mm",
+    "func_principle": "Piston Pump",
+    "medium_general": "Grease",
+    "mounting_position": "Arbitrary",
+    "voltage": "30v",
+  },
+  "volume": "250 ml",
+}
+`;
+
+exports[`PDFGeneratorService should not show prices if the cart service says so 2`] = `
+Object {
+  "bundle": Array [
+    Object {
+      "class": "Lubricators",
+      "designation": "Acc #1",
+      "fifteen_digit": "12",
+      "matnr": "12",
+      "pim_code": "12",
+      "qty": 5,
+    },
+    Object {
+      "class": "Cartridges",
+      "designation": "Acc #2",
+      "fifteen_digit": "12",
+      "matnr": "32",
+      "pim_code": "32",
+      "qty": 1,
+    },
+  ],
+  "matNr": "12345",
+  "maxOperatingPressure": 100,
+  "maxTemp": 100,
+  "minTemp": -100,
+  "name": "MINIMUM",
+  "noOfOutlets": 2,
+  "outputDiameter": 1,
+  "technicalAttributes": Object {
+    "dimensions": "20x20x20mm",
+    "func_principle": "Piston Pump",
+    "medium_general": "Grease",
+    "mounting_position": "Arbitrary",
+    "voltage": "30v",
+  },
+  "volume": "250 ml",
+}
+`;
+
+exports[`PDFGeneratorService should not show prices if the cart service says so 3`] = `
+Array [
+  Object {
+    "price": "5.00 EUR",
+    "products": Array [
+      Object {
+        "available": true,
+        "currency": "EUR",
+        "description": undefined,
+        "designation": "Acc #2",
+        "group": "Lubricators",
+        "id": "32",
+        "imageUrl": "/assets/images/placeholder.png",
+        "pimid": "32",
+        "price": 1,
         "quantity": 5,
       },
     ],
