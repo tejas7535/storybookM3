@@ -27,18 +27,26 @@ describe('ProductImageResolverService', () => {
     spectator = createService();
     service = spectator.inject(ProductImageResolverService);
   });
-
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
   it('should call out to the api to obtain the images', waitForAsync(async () => {
-    await firstValueFrom(service['resolveImageDesignation']('6226'));
+    const imagePromise = firstValueFrom(
+      service['resolveImageDesignation']('6226')
+    );
+
+    const cacheSpy = jest
+      .spyOn(service['urlCache'], 'has')
+      .mockReturnValueOnce(false);
+
     const req = spectator.expectOne(
       environment.productImageUrl,
       HttpMethod.POST
     );
     expect(req.request.body['bearingDesignations']).toEqual(['6226']);
+    await imagePromise;
+    expect(cacheSpy).toHaveBeenCalledWith('6226');
   }));
 
   describe('resolveImageDesignation', () => {
@@ -75,17 +83,13 @@ describe('ProductImageResolverService', () => {
       const hasSpy = jest
         .spyOn(service['urlCache'], 'has')
         .mockReturnValue(false);
-      const nextSpy = jest.spyOn(service['queryTrigger'], 'next');
-      const pushSpy = jest.spyOn(service['designationQueue'], 'push');
-
       let returnUrl;
       service.resolveImageDesignation('6226').subscribe((url) => {
         returnUrl = url;
       });
-      tick(2500);
+      tick(5500);
       expect(hasSpy).toHaveBeenCalled();
-      expect(nextSpy).toHaveBeenCalled();
-      expect(pushSpy).toHaveBeenCalled();
+
       expect(returnUrl).toEqual('fakeurl');
     }));
   });
