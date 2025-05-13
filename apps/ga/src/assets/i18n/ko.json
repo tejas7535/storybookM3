@@ -10,6 +10,15 @@
         "button": "medias EasyCalc",
         "tag": "새로운"
       },
+      "lsa": {
+        "title": {
+          "main": "윤활제 선택 도우미",
+          "sub": "앱에 적합한 윤활제를 찾으세요 – 새로운 윤활제 선택 도우미와 함께! 빠르고, 쉽고, 무료! 직접 확인해보세요"
+        },
+        "button": "윤활제 선택 도우미",
+        "tag": "신규",
+        "externalUrl": "https://medias.schaeffler.kr/ko/lubrication-selection-assistant"
+      },
       "calculator": {
         "title": {
           "main": "그리스 계산기",

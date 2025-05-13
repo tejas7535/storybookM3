@@ -13,7 +13,7 @@ import { QualtricsInfoBannerComponent } from '@ga/shared/components/qualtrics-in
 import { QuickBearingSelectionComponent } from '@ga/shared/components/quick-bearing-selection';
 
 import { HomepageCardComponent } from './components';
-import { EasyCalcCardComponent } from './components/easy-calc-card/easy-calc-card.component';
+import { AppAdCardComponent } from './components/app-ad-card/app-ad-card.component';
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeCardsService } from './services/home-cards.service';
@@ -30,7 +30,7 @@ import { HomeCardsService } from './services/home-cards.service';
     ApplicationInsightsModule,
     PushPipe,
     QualtricsInfoBannerComponent,
-    EasyCalcCardComponent,
+    AppAdCardComponent,
     AppStoreButtonsComponent,
 
     // Translation

@@ -10,6 +10,15 @@
         "button": "medias EasyCalc",
         "tag": "Baru"
       },
+      "lsa": {
+        "title": {
+          "main": "Asisten Pemilihan Pelumas",
+          "sub": "Temukan pelumas yang tepat untuk aplikasi Anda – dengan Asisten Pemilihan Pelumas baru kami! Cepat, mudah, dan gratis! Coba sendiri"
+        },
+        "button": "Asisten Pemilihan Pelumas",
+        "tag": "Baru",
+        "externalUrl": "https://medias.schaeffler.de/en/lubrication-selection-assistant"
+      },
       "calculator": {
         "title": {
           "main": "Kalkulator Grease",

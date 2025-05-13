@@ -10,6 +10,15 @@
         "button": "medias EasyCalc",
         "tag": "New"
       },
+      "lsa": {
+        "title": {
+          "main": "Lubricator Selection Assistant",
+          "sub": "Find the lubricator that fits your application - with the new Lubricator Selection Assistant! It's quick, easy and free! Try it out yourself"
+        },
+        "button": "Lubricator Selection Assistant",
+        "tag": "New",
+        "externalUrl": "https://medias.schaeffler.de/en/lubrication-selection-assistant"
+      },
       "calculator": {
         "title": {
           "main": "Grease Calculator",

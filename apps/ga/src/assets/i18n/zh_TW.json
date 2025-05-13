@@ -10,6 +10,15 @@
         "button": "medias EasyCalc",
         "tag": "新"
       },
+      "lsa": {
+        "title": {
+          "main": "潤滑劑選擇助手",
+          "sub": "尋找適合您應用的潤滑劑 – 使用我們的全新潤滑劑選擇助手！快速、簡單且免費！自己嘗試一下"
+        },
+        "button": "潤滑劑選擇助手",
+        "tag": "新",
+        "externalUrl": "https://medias.schaeffler.cn/zh_TW/lubrication-selection-assistant"
+      },
       "calculator": {
         "title": {
           "main": "潤滑油計算器",

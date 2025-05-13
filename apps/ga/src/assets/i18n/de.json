@@ -10,6 +10,15 @@
         "button": "medias EasyCalc",
         "tag": "Neu"
       },
+      "lsa": {
+        "title": {
+          "main": "Schmierstoffgeber-Auswahlassistent",
+          "sub": "Finden Sie den passenden Schmierstoffgeber für Ihre Anwendung – mit unserem neuen Schmierstoffgeber-Auswahlassistent! Schnell, einfach und kostenlos! Probieren Sie es selbst aus"
+        },
+        "button": "Schmierstoffgeber-Auswahlassistent",
+        "tag": "Neu",
+        "externalUrl": "https://medias.schaeffler.de/de/lubrication-selection-assistant"
+      },
       "calculator": {
         "title": {
           "main": "Grease Calculator",

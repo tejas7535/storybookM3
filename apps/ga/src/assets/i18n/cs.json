@@ -10,6 +10,15 @@
         "button": "medias EasyCalc",
         "tag": "Nový"
       },
+      "lsa": {
+        "title": {
+          "main": "Asistent pro výběr mazacího zařízení",
+          "sub": "Najděte vhodné mazací zařízení pro vaši aplikaci – s naším novým asistentem pro výběr mazacího zařízení! Rychle, snadno a zdarma! Vyzkoušejte si sami"
+        },
+        "button": "Asistent pro výběr mazacího zařízení",
+        "tag": "Nový",
+        "externalUrl": "https://medias.schaeffler.cz/cs/lubrication-selection-assistant"
+      },
       "calculator": {
         "title": {
           "main": "Kalkulačka maziva",

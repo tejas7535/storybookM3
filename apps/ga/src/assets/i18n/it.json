@@ -10,6 +10,15 @@
         "button": "medias EasyCalc",
         "tag": "Nuovo"
       },
+      "lsa": {
+        "title": {
+          "main": "Assistente di selezione del lubrificante",
+          "sub": "Trova il lubrificante adatto per la tua applicazione – con il nostro nuovo assistente di selezione del lubrificante! Veloce, facile e gratuito! Provalo tu stesso"
+        },
+        "button": "Assistente di selezione del lubrificante",
+        "tag": "Nuovo",
+        "externalUrl": "https://medias.schaeffler.it/it/lubrication-selection-assistant"
+      },
       "calculator": {
         "title": {
           "main": "Calcolatore di grasso",

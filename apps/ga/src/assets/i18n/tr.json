@@ -10,6 +10,15 @@
         "button": "medias EasyCalc",
         "tag": "Yeni"
       },
+      "lsa": {
+        "title": {
+          "main": "Yağlama Malzemesi Seçim Asistanı",
+          "sub": "Uygulamanız için uygun yağlama malzemesini bulun – yeni Yağlama Malzemesi Seçim Asistanımızla! Hızlı, kolay ve ücretsiz! Kendiniz deneyin"
+        },
+        "button": "Yağlama Malzemesi Seçim Asistanı",
+        "tag": "Yeni",
+        "externalUrl": "https://medias.schaeffler.de/tr/lubrication-selection-assistant"
+      },
       "calculator": {
         "title": {
           "main": "Gres Hesaplayıcı",

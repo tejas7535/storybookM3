@@ -10,6 +10,15 @@
         "button": "medias EasyCalc",
         "tag": "新しい"
       },
+      "lsa": {
+        "title": {
+          "main": "潤滑剤選択アシスタント",
+          "sub": "あなたのアプリケーションに適した潤滑剤を見つけましょう – 新しい潤滑剤選択アシスタントを使って！迅速、簡単、無料！ぜひお試しください"
+        },
+        "button": "潤滑剤選択アシスタント",
+        "tag": "新しい",
+        "externalUrl": "https://medias.schaeffler.jp/ja/lubrication-selection-assistant"
+      },
       "calculator": {
         "title": {
           "main": "グリース計算機",

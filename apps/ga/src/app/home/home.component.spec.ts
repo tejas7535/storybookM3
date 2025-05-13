@@ -23,7 +23,7 @@ import { TRACKING_APP_STORE_LINK_CLICK } from '@ga/shared/constants';
 import { HOMEPAGE_CARD_MOCK } from '@ga/testing/mocks/models/homepage-card.mock';
 
 import { HomepageCardComponent } from './components';
-import { EasyCalcCardComponent } from './components/easy-calc-card/easy-calc-card.component';
+import { AppAdCardComponent } from './components/app-ad-card/app-ad-card.component';
 import { HomeComponent } from './home.component';
 import { HomeCardsService } from './services/home-cards.service';
 
@@ -36,11 +36,11 @@ describe('HomeComponent', () => {
     declarations: [HomeComponent],
     imports: [
       MockComponent(AppLogoComponent),
-      MockComponent(EasyCalcCardComponent),
       MockComponent(HomepageCardComponent),
       MockComponent(QuickBearingSelectionComponent),
       MockComponent(QualtricsInfoBannerComponent),
       MockComponent(AppStoreButtonsComponent),
+      MockComponent(AppAdCardComponent),
       RouterTestingModule,
       PushPipe,
       provideTranslocoTestingModule({ en: {} }),

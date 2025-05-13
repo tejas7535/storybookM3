@@ -1,28 +1,32 @@
 <div
-  *transloco="let t; read: 'homepage.cards.easyCalc'"
   class="flex items-center rounded-2xl border border-border px-4 py-2 md:px-6 md:py-4"
 >
-  <div class="mr-1 sm:mr-4 md:mr-8">
-    <div
-      class="w-10 h-10 sm:w-16 sm:h-16 mx-4 aspect-video rounded-b bg-cover"
-      [ngStyle]="{
-        'background-image': 'url( ' + imageUrl + ')'
-      }"
-    ></div>
-  </div>
+  @if (imageUrl()) {
+    <div class="mr-1 sm:mr-4 md:mr-8">
+      <div
+        class="promo-app-icon w-10 h-10 sm:w-16 sm:h-16 mx-4 aspect-video rounded-b bg-cover"
+        [ngStyle]="{
+          'background-image': 'url( ' + imageUrl() + ')'
+        }"
+      ></div>
+    </div>
+  }
+
   <div class="flex flex-col md:flex-row gap-2 items-center">
     <div class="flex flex-col gap-2 items-baseline">
       <div class="flex flex-row gap-2 items-center">
         <schaeffler-tag
-          [value]="t('tag')"
+          [value]="getTranslation('tag')"
           type="primary"
           [withDot]="false"
           [withBorder]="true"
         ></schaeffler-tag>
-        <p class="text-center text-overline">{{ t('title.main') }}</p>
+        <p class="text-center text-overline">
+          {{ getTranslation('title.main') }}
+        </p>
       </div>
       <div class="text-body-medium leading-6 font-medium">
-        {{ t('title.sub') }}
+        {{ getTranslation('title.sub') }}
       </div>
     </div>
     <div class="w-full md:w-auto">
@@ -30,12 +34,12 @@
         mat-stroked-button
         color="primary"
         class="whitespace-nowrap w-full"
-        [href]="appUrl"
+        [href]="ctaURL()"
         target="_blank"
       >
         <mat-icon class="pr-4">open_in_new</mat-icon>
         <span class="normal-case">
-          {{ t('button') }}
+          {{ getTranslation('button') }}
         </span>
       </a>
     </div>

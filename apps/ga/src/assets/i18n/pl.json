@@ -10,6 +10,15 @@
         "button": "medias EasyCalc",
         "tag": "Nowość"
       },
+      "lsa": {
+        "title": {
+          "main": "Asystent wyboru środka smarnego",
+          "sub": "Znajdź odpowiedni środek smarny dla swojego zastosowania – z naszym nowym asystentem wyboru środka smarnego! Szybko, łatwo i bezpłatnie! Wypróbuj sam"
+        },
+        "button": "Asystent wyboru środka smarnego",
+        "tag": "Nowy",
+        "externalUrl": "https://medias.schaeffler.pl/pl/lubrication-selection-assistant"
+      },
       "calculator": {
         "title": {
           "main": "Kalkulator smarowania",

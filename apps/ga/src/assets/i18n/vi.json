@@ -10,6 +10,15 @@
         "button": "medias EasyCalc",
         "tag": "Mới"
       },
+      "lsa": {
+        "title": {
+          "main": "Trợ lý lựa chọn chất bôi trơn",
+          "sub": "Tìm chất bôi trơn phù hợp cho ứng dụng của bạn – với trợ lý lựa chọn chất bôi trơn mới của chúng tôi! Nhanh chóng, dễ dàng và miễn phí! Hãy tự mình thử"
+        },
+        "button": "Trợ lý lựa chọn chất bôi trơn",
+        "tag": "Mới",
+        "externalUrl": "https://medias.schaeffler.vn/vn/lubrication-selection-assistant"
+      },
       "calculator": {
         "title": {
           "main": "Máy tính mỡ",

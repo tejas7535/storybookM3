@@ -10,6 +10,15 @@
         "button": "medias EasyCalc",
         "tag": "ใหม่"
       },
+      "lsa": {
+        "title": {
+          "main": "ผู้ช่วยการเลือกสารหล่อลื่น",
+          "sub": "ค้นหาสารหล่อลื่นที่เหมาะสมสำหรับการใช้งานของคุณ – กับผู้ช่วยการเลือกสารหล่อลื่นใหม่ของเรา! รวดเร็ว ง่าย และฟรี! ลองด้วยตัวคุณเอง"
+        },
+        "button": "ผู้ช่วยการเลือกสารหล่อลื่น",
+        "tag": "ใหม่",
+        "externalUrl": "https://medias.schaeffler.co.th/th/lubrication-selection-assistant"
+      },
       "calculator": {
         "title": {
           "main": "เครื่องคำนวณจาระบี",
