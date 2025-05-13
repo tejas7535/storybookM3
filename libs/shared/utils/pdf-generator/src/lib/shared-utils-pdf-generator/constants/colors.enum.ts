@@ -10,4 +10,8 @@ export enum Colors {
   TextHighEmphasis = '#343434',
   TextMediumEmphasis = '#646464',
   TextLowEmphasis = '#34343400', // might not work as jsPDF had problems with opacity values in hex
+
+  Surface = '#ffffff',
+  Outline = '#d0d7db',
+  DarkGreyVariant = '#515151',
 }
