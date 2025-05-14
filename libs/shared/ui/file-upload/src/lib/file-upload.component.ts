@@ -59,8 +59,8 @@ export class FileUploadComponent implements OnInit {
     // eslint-disable-next-line unicorn/no-useless-undefined
   ) => string | undefined;
 
+  @Input() public files: File[] = [];
   public internalMessages: Message[] = [];
-  public files: File[] = [];
   private readonly selectedFiles: SelectedFile[] = [];
 
   public constructor(private readonly translocoService: TranslocoService) {}
@@ -99,7 +99,7 @@ export class FileUploadComponent implements OnInit {
       // eslint-disable-next-line unicorn/prefer-spread
       const filesArray = Array.from(files);
       if (this.checkFileCount(filesArray)) {
-        this.files.push(...filesArray);
+        this.files?.push(...filesArray);
       }
     }
     (event.target as HTMLInputElement).value = '';
@@ -112,7 +112,7 @@ export class FileUploadComponent implements OnInit {
     );
 
     if (this.checkFileCount(filesArray)) {
-      this.files.push(...filesArray);
+      this.files?.push(...filesArray);
     }
   }
 

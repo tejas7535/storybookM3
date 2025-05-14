@@ -112,6 +112,7 @@ This type is given out from the user input and returned from the filesChanged ev
 | disableDragAndDrop        | (optional) (default: false) when enabled drag and drop is not possible for file selection (boolean)                                                                                                       |
 | unknownFileTypeText       | (optional) (default: 'unknown file type') text to display in case the selected file has no extension (string)                                                                                             |
 | statusTextFn              | (optional) function to set a text to display behind the filename of a file ((file: File, progress: number, manualProgress: number) => string | undefined)                                                 |
+| files                     | (optional) (default: []) an array of files to show as selected on load of the component                                                 |
 
 **Outputs**
 
@@ -139,6 +140,7 @@ The lib comes with translations for the following languages:
   [displayMaxFileCountError]="false"
   [autoReadFileData]="false"
   [messages]="messages"
+  [files]="preSelectedFiles"
   acceptTypeString="xlsx"
   fileHint="Excel (.xlsx) files with maximum 5MB. Must provide 3 files."
   [disableDragAndDrop]="true"
@@ -162,6 +164,14 @@ class MyComponent {
       description: 'My informative description'
     }
   ]
+  const file1 = new File(["Hello, world! First File"], "example1.txt", {
+    type: "text/plain",
+  });
+  const file2 = new File(["Hello, world! Second File"], "example2.txt", {
+    type: "text/plain",
+  });
+
+  public preSelectedFiles = [file1, file2];
 
   // use the statusTextFn to display the numeric progress of a file upload behind the title
   public statusTextFn(_file?: File, _progress?: number, manualProgress?: number): string | undefined {
