@@ -105,11 +105,10 @@ export class SelectedProductComponent extends Component {
 
   render(): void {
     super.render();
-    const initialTextColor = this._doc.getTextColor();
 
     const imageOffset = 50;
 
-    this.setTextColor(Colors.TextHighEmphasis);
+    const resetText = this.setTextColor(Colors.TextHighEmphasis);
     let xPosition = this.bounds.x;
     let yPosition = this.bounds.y + this.verticalSpacing;
 
@@ -158,7 +157,7 @@ export class SelectedProductComponent extends Component {
       fontOptions: this.valueStyle,
     });
 
-    this.setTextColor(initialTextColor);
+    resetText();
   }
 
   private conservativeTextHeight(
@@ -169,11 +168,6 @@ export class SelectedProductComponent extends Component {
     const dimen = this.getTextDimensions(text, { ...font, maxWidth } as any);
 
     return Math.max(dimen.h, this.getMultilineTextHeight(text, maxWidth, font));
-  }
-
-  private setTextColor(color: string): void {
-    const doc = this.assertDoc();
-    doc.setTextColor(color);
   }
 
   private renderChip(startX: number, startY: number) {

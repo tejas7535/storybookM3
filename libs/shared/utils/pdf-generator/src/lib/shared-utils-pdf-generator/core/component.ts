@@ -223,6 +223,23 @@ export abstract class Component {
     }
   }
 
+  /*
+   * Helper method to set the text color of the document
+   * @param color the color to set
+   * @returns a function that resets the text color to the original value
+   **/
+  protected setTextColor(color: string): () => void {
+    const doc = this.assertDoc();
+    const originalTextColor = doc.getTextColor();
+    doc.setTextColor(color);
+
+    const resetClosure = () => {
+      doc.setTextColor(originalTextColor);
+    };
+
+    return resetClosure;
+  }
+
   /**
    * Helper method to draw an image to the page.
    * The scaling behaviour differs based on the supplied arguments

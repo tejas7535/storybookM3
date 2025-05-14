@@ -1,3 +1,4 @@
+import { Colors } from '../constants';
 import { Component, FontOptions, Margins, Rect } from '../core';
 
 export const HeadingFonts: { [key: string]: FontOptions } = {
@@ -18,6 +19,7 @@ interface Props {
   strokeWidth?: number;
   dividerColor?: string;
   spacing?: Margins;
+  textColor?: string;
 }
 export class SectionHeading extends Component {
   private readonly fontPreference: FontOptions;
@@ -27,6 +29,7 @@ export class SectionHeading extends Component {
   private readonly underline: boolean;
   private readonly strokeWidth: number;
   private readonly dividerColor: string;
+  private readonly textColor: string;
 
   constructor(private readonly props: Props) {
     super();
@@ -41,6 +44,7 @@ export class SectionHeading extends Component {
       bottom: 2.5,
     };
     this.dividerColor = props.dividerColor || '#d0d7db';
+    this.textColor = props.textColor || Colors.DarkGreyVariant;
   }
 
   public override evaluate(
@@ -73,6 +77,8 @@ export class SectionHeading extends Component {
       this.fontPreference
     ).h;
 
+    const resetTextColor = this.setTextColor(this.textColor);
+
     this.text(
       this.bounds.x + this.spacing.left,
       this.bounds.y + this.spacing.top,
@@ -81,6 +87,8 @@ export class SectionHeading extends Component {
         fontOptions: this.fontPreference,
       }
     );
+
+    resetTextColor();
 
     if (this.underline) {
       const ycoord =
