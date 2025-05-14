@@ -349,7 +349,7 @@ describe('TimeRange', () => {
         },
         range2: {
           from: addMonths(addDays(new Date(), 7), 1),
-          to: addMonths(new Date(), 2),
+          to: endOfMonth(addMonths(new Date(), 2)),
           period: DateRangePeriod.Monthly,
         },
       });
@@ -444,6 +444,93 @@ describe('TimeRange', () => {
       const result = convertToTimeRange(dateRange1);
 
       expect(result).toBeNull();
+    });
+
+    it('should set range1.to to end of month when type is Weekly and optionalEndDate exists', () => {
+      const now = new Date();
+      jest.useFakeTimers();
+      jest.setSystemTime(now);
+
+      const data = {
+        [DemandValidationTimeRangeUserSettingsKey.Type]: DateRangePeriod.Weekly,
+        [DemandValidationTimeRangeUserSettingsKey.StartDate]: -7,
+        [DemandValidationTimeRangeUserSettingsKey.EndDate]: 14,
+        [DemandValidationTimeRangeUserSettingsKey.OptionalEndDate]: 3,
+      };
+
+      const result = convertToKpiDateRanges(data);
+
+      expect(result).toEqual({
+        range1: {
+          from: addDays(now, -7),
+          to: endOfMonth(addDays(now, 14)),
+          period: DateRangePeriod.Weekly,
+        },
+        range2: {
+          from: addMonths(addDays(now, 14), 1),
+          to: endOfMonth(addMonths(now, 3)),
+          period: DateRangePeriod.Monthly,
+        },
+      });
+
+      jest.useRealTimers();
+    });
+
+    it('should set range1.to to regular date when type is Weekly and optionalEndDate is null', () => {
+      const now = new Date();
+      jest.useFakeTimers();
+      jest.setSystemTime(now);
+
+      const data = {
+        [DemandValidationTimeRangeUserSettingsKey.Type]: DateRangePeriod.Weekly,
+        [DemandValidationTimeRangeUserSettingsKey.StartDate]: -14,
+        [DemandValidationTimeRangeUserSettingsKey.EndDate]: 21,
+        [DemandValidationTimeRangeUserSettingsKey.OptionalEndDate]: null,
+      } as any;
+
+      const result = convertToKpiDateRanges(data);
+
+      expect(result).toEqual({
+        range1: {
+          from: addDays(now, -14),
+          to: addDays(now, 21),
+          period: DateRangePeriod.Weekly,
+        },
+        range2: undefined,
+      });
+
+      jest.useRealTimers();
+    });
+
+    it('should handle empty data properly', () => {
+      expect(convertToKpiDateRanges({} as any)).toBeUndefined();
+    });
+
+    it('should handle large date differences in monthly range', () => {
+      const now = new Date();
+      jest.useFakeTimers();
+      jest.setSystemTime(now);
+
+      const data = {
+        [DemandValidationTimeRangeUserSettingsKey.Type]:
+          DateRangePeriod.Monthly,
+        [DemandValidationTimeRangeUserSettingsKey.StartDate]: -12,
+        [DemandValidationTimeRangeUserSettingsKey.EndDate]: 12,
+        [DemandValidationTimeRangeUserSettingsKey.OptionalEndDate]: null,
+      } as any;
+
+      const result = convertToKpiDateRanges(data);
+
+      expect(result).toEqual({
+        range1: {
+          from: startOfMonth(addMonths(now, -12)),
+          to: endOfMonth(addMonths(now, 12)),
+          period: DateRangePeriod.Monthly,
+        },
+        range2: undefined,
+      });
+
+      jest.useRealTimers();
     });
   });
 });

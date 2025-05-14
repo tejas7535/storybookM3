@@ -1,55 +1,149 @@
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
-import { MockComponent } from 'ng-mocks';
-
-import { DemandValidationService } from '../../../../feature/demand-validation/demand-validation.service';
-import { SingleAutocompletePreLoadedComponent } from '../../../../shared/components/inputs/autocomplete/single-autocomplete-pre-loaded/single-autocomplete-pre-loaded.component';
-import { DemandValidationDatePickerComponent } from '../demand-validation-date-picker/demand-validation-date-picker.component';
-import { Stub } from './../../../../shared/test/stub.class';
-import { DateRangePeriod } from './../../../../shared/utils/date-range';
+import * as TimeRange from '../../../../feature/demand-validation/time-range';
+import { Stub } from '../../../../shared/test/stub.class';
+import { DateRangePeriod } from '../../../../shared/utils/date-range';
+import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
 import { DemandValidationExportModalComponent } from './demand-validation-export-modal.component';
 
 describe('DemandValidationExportModalComponent', () => {
-  let spectator: Spectator<DemandValidationExportModalComponent>;
-
-  const createComponent = createComponentFactory({
-    component: DemandValidationExportModalComponent,
-    imports: [
-      MockComponent(DemandValidationDatePickerComponent),
-      MockComponent(SingleAutocompletePreLoadedComponent),
-    ],
-    providers: [
-      Stub.getMatDialogDataProvider({
-        customerData: [],
-        dateRanges: {
-          range1: {
-            from: new Date(),
-            to: new Date(),
-            period: DateRangePeriod.Weekly,
-          },
-        },
-        demandValidationFilters: {},
-      }),
-      mockProvider(DemandValidationService),
-      mockProvider(MatDialogRef, {
-        close: jest.fn(),
-      }),
-      mockProvider(MatDialog, {
-        open: jest.fn(),
-      }),
-    ],
-  });
+  let component: DemandValidationExportModalComponent;
 
   beforeEach(() => {
-    spectator = createComponent();
+    component = Stub.get<DemandValidationExportModalComponent>({
+      component: DemandValidationExportModalComponent,
+      providers: [
+        FormBuilder,
+        Stub.getMatDialogDataProvider({
+          customerData: [],
+          dateRanges: {
+            range1: {
+              from: new Date(),
+              to: new Date(),
+              period: DateRangePeriod.Weekly,
+            },
+          },
+          demandValidationFilters: {},
+        }),
+        Stub.getDemandValidationServiceProvider(),
+        Stub.getMatDialogProvider(),
+      ],
+    });
   });
 
   it('should create', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
+  });
+
+  describe('handleExcelExport', () => {
+    it('should return early if form has errors', () => {
+      jest
+        .spyOn(component as any, 'demandValidationDatePickerHasError')
+        .mockReturnValue(true);
+      const dialogSpy = jest.spyOn(component['dialog'], 'open');
+
+      component['handleExcelExport']();
+
+      expect(dialogSpy).not.toHaveBeenCalled();
+    });
+
+    it('should open loading dialog if filled range is valid', () => {
+      jest
+        .spyOn(component as any, 'demandValidationDatePickerHasError')
+        .mockReturnValue(false);
+      jest
+        .spyOn(TimeRange, 'fillGapBetweenRanges')
+        .mockReturnValue({ range1: {}, range2: {} } as any);
+      const dialogSpy = jest.spyOn(component['dialog'], 'open');
+
+      component['handleExcelExport']();
+
+      expect(dialogSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('triggerExport', () => {
+    it('should call demandValidationService.triggerExport with correct params', () => {
+      const serviceSpy = jest.spyOn(
+        component['demandValidationService'],
+        'triggerExport'
+      );
+      const selectedKpis = { key: 'value' } as any;
+      const filledRange = { range1: {} } as any;
+      const filters = { filter: 'test' } as any;
+
+      component['triggerExport'](selectedKpis, filledRange, filters);
+
+      expect(serviceSpy).toHaveBeenCalledWith(
+        selectedKpis,
+        filledRange,
+        filters
+      );
+    });
+  });
+
+  describe('onClose', () => {
+    it('should close the dialog', () => {
+      const closeSpy = jest.spyOn(component['dialogRef'], 'close');
+
+      component['onClose']();
+
+      expect(closeSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('demandValidationDatePickerHasError', () => {
+    it('should return dateSelectionFormGroup.invalid', () => {
+      component['dateSelectionFormGroup'].setErrors({ error: true });
+
+      const result = component['demandValidationDatePickerHasError']();
+
+      expect(result).toBe(true);
+    });
+  });
+
+  describe('translateConfirmedToggleType', () => {
+    it('should transform confirmed toggle type correctly', () => {
+      const result = component['translateConfirmedToggleType'](
+        'confirmedSalesAmbition'
+      );
+
+      expect(result).toBe('validation_of_demand.menu_item.salesAmbition');
+    });
+
+    it('should handle different confirmed toggle types', () => {
+      const result1 = component['translateConfirmedToggleType'](
+        'confirmedDeliveries'
+      );
+      const result2 = component['translateConfirmedToggleType'](
+        'confirmedOnTopOrder'
+      );
+
+      expect(result1).toBe('validation_of_demand.menu_item.deliveries');
+      expect(result2).toBe('validation_of_demand.menu_item.onTopOrder');
+    });
+  });
+
+  describe('crossFieldValidator', () => {
+    it('should call ValidationHelper with correct parameters', () => {
+      const validationHelperSpy = jest.spyOn(
+        ValidationHelper,
+        'getStartEndDateValidationErrors'
+      );
+      const formGroup = new FormGroup({
+        start: new FormGroup({}),
+        end: new FormGroup({}),
+      });
+
+      const validator = component['crossFieldValidator']('start', 'end');
+      validator(formGroup);
+
+      expect(validationHelperSpy).toHaveBeenCalledWith(
+        formGroup,
+        true,
+        'start',
+        'end'
+      );
+    });
   });
 });

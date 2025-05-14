@@ -30,7 +30,7 @@ import {
   MessageType,
   MessageTypes,
 } from '../../shared/models/message-type.enum';
-import { DateRange } from '../../shared/utils/date-range';
+import { DateRange, DateRangePeriod } from '../../shared/utils/date-range';
 import {
   errorsFromSAPtoMessage,
   PostResult,
@@ -322,15 +322,20 @@ export class DemandValidationService {
         to: formatISO(kpiDateRanges.range1.to, { representation: 'date' }),
         period: kpiDateRanges.range1.period,
       },
-      range2: kpiDateRanges.range2
-        ? {
-            from: formatISO(kpiDateRanges.range2.from, {
-              representation: 'date',
-            }),
-            to: formatISO(kpiDateRanges.range2.to, { representation: 'date' }),
-            period: kpiDateRanges.range2.period,
-          }
-        : undefined,
+      range2:
+        kpiDateRanges.range2 &&
+        // it's only possible to have a range2 if the period is weekly
+        kpiDateRanges.range1.period === DateRangePeriod.Weekly
+          ? {
+              from: formatISO(kpiDateRanges.range2.from, {
+                representation: 'date',
+              }),
+              to: formatISO(kpiDateRanges.range2.to, {
+                representation: 'date',
+              }),
+              period: kpiDateRanges.range2.period,
+            }
+          : undefined,
     };
 
     return this.http.post<KpiBucket[]>(
@@ -380,17 +385,20 @@ export class DemandValidationService {
               }),
               period: kpiDateRanges.range1.period,
             },
-            range2: kpiDateRanges.range2
-              ? {
-                  from: formatISO(kpiDateRanges.range2.from, {
-                    representation: 'date',
-                  }),
-                  to: formatISO(kpiDateRanges.range2.to, {
-                    representation: 'date',
-                  }),
-                  period: kpiDateRanges.range2.period,
-                }
-              : undefined,
+            range2:
+              kpiDateRanges.range2 &&
+              // it's only possible to have a range2 if the period is weekly
+              kpiDateRanges.range1.period === DateRangePeriod.Weekly
+                ? {
+                    from: formatISO(kpiDateRanges.range2.from, {
+                      representation: 'date',
+                    }),
+                    to: formatISO(kpiDateRanges.range2.to, {
+                      representation: 'date',
+                    }),
+                    period: kpiDateRanges.range2.period,
+                  }
+                : undefined,
             exceptions: exceptions.map((e) =>
               formatISO(e, { representation: 'date' })
             ),
@@ -475,17 +483,20 @@ export class DemandValidationService {
             to: formatISO(filledRange.range1.to, { representation: 'date' }),
             period: filledRange.range1.period,
           },
-          range2: filledRange.range2
-            ? {
-                from: formatISO(filledRange.range2.from, {
-                  representation: 'date',
-                }),
-                to: formatISO(filledRange.range2.to, {
-                  representation: 'date',
-                }),
-                period: filledRange.range2.period,
-              }
-            : undefined,
+          range2:
+            filledRange.range2 &&
+            // it's only possible to have a range2 if the period is weekly
+            filledRange.range1.period === DateRangePeriod.Weekly
+              ? {
+                  from: formatISO(filledRange.range2.from, {
+                    representation: 'date',
+                  }),
+                  to: formatISO(filledRange.range2.to, {
+                    representation: 'date',
+                  }),
+                  period: filledRange.range2.period,
+                }
+              : undefined,
           translations: getTranslationsForExport(
             selectedKpis.activeAndPredecessor,
             this.translocoLocaleService.getLocale()

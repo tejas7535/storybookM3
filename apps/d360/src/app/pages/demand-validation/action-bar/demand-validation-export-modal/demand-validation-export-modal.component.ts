@@ -118,19 +118,19 @@ export class DemandValidationExportModalComponent {
       periodType1: new FormControl<SelectableValue>(
         this.periodTypeOptions.find(
           (periodType) => periodType.id === this.data.dateRanges.range1.period
-        ) && defaultMonthlyPeriodTypeOption
+        ) || defaultMonthlyPeriodTypeOption
       ),
       startDatePeriod2: new FormControl(
         this.data.dateRanges.range2?.from ||
           addMonths(this.data.dateRanges.range1.to, 1)
       ),
-      endDatePeriod2: new FormControl(this.data.dateRanges.range2?.to),
+      endDatePeriod2: new FormControl(this.data.dateRanges?.range2?.to),
       periodType2: new FormControl<SelectableValue>(
         this.periodTypeOptions.find(
           (periodType) =>
             periodType.id ===
-            (this.data.dateRanges.range2?.period || DateRangePeriod.Monthly)
-        ) && defaultMonthlyPeriodTypeOption
+            (this.data.dateRanges?.range2?.period || DateRangePeriod.Monthly)
+        ) || defaultMonthlyPeriodTypeOption
       ),
     },
     {

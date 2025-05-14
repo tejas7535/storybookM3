@@ -415,6 +415,7 @@ export class Stub {
         getKpiBuckets: jest.fn().mockReturnValue(of([])),
         saveValidatedDemandBatch: jest.fn(),
         getKpiData: jest.fn().mockReturnValue(of({})),
+        triggerExport: jest.fn().mockReturnValue(of({})),
       },
       'useValue'
     );

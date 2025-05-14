@@ -85,9 +85,13 @@ export function convertToKpiDateRanges(
                   ),
                   1
                 ),
-                to: addMonths(
-                  now,
-                  data[DemandValidationTimeRangeUserSettingsKey.OptionalEndDate]
+                to: endOfMonth(
+                  addMonths(
+                    now,
+                    data[
+                      DemandValidationTimeRangeUserSettingsKey.OptionalEndDate
+                    ]
+                  )
                 ),
                 period: DateRangePeriod.Monthly,
               }

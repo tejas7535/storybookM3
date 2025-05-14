@@ -85,11 +85,13 @@
             [disabled]="item?.disabled ?? false"
             [tooltip]="t('validation_of_demand.actionBar.selectDate')"
           >
-            <d360-date-picker-setting-demand-validation-modal
-              [data]="dateRange"
-              (selectionChange)="onDateSelectionChange($event)"
-              [close]="dateButton.closeMenu.bind(dateButton)"
-            />
+            @if (dateRange) {
+              <d360-date-picker-setting-demand-validation-modal
+                [data]="dateRange"
+                (selectionChange)="onDateSelectionChange($event)"
+                [close]="dateButton.closeMenu.bind(dateButton)"
+              />
+            }
           </d360-menu-panel-button>
         }
 

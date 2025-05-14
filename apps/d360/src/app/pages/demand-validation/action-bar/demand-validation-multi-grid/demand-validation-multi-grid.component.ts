@@ -120,17 +120,21 @@ export class DemandValidationMultiGridComponent {
               ),
               period: this.formGroup.get('periodType1').getRawValue()?.id,
             },
-            range2: this.formGroup.get('endDatePeriod2').getRawValue()
-              ? {
-                  from: toNativeDate(
-                    this.formGroup.get('startDatePeriod2').getRawValue()
-                  ),
-                  to: toNativeDate(
-                    this.formGroup.get('endDatePeriod2').getRawValue()
-                  ),
-                  period: this.formGroup.get('periodType2').getRawValue()?.id,
-                }
-              : undefined,
+            range2:
+              this.formGroup.get('endDatePeriod2').getRawValue() &&
+              // it's only possible to have a range2 if the period is weekly
+              this.formGroup.get('periodType1').getRawValue()?.id ===
+                DateRangePeriod.Weekly
+                ? {
+                    from: toNativeDate(
+                      this.formGroup.get('startDatePeriod2').getRawValue()
+                    ),
+                    to: toNativeDate(
+                      this.formGroup.get('endDatePeriod2').getRawValue()
+                    ),
+                    period: this.formGroup.get('periodType2').getRawValue()?.id,
+                  }
+                : undefined,
           },
         },
         panelClass: ['form-dialog', 'demand-validation-multi-edit'],

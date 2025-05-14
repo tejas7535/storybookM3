@@ -101,6 +101,7 @@ export class DatePickerSettingDemandValidationModalComponent implements OnInit {
           period: this.formGroup.controls.periodType1.getRawValue().id,
         },
         range2:
+          // it's only possible to have a range2 if the period is weekly
           this.formGroup.controls.periodType1.getRawValue().id ===
             DateRangePeriod.Weekly &&
           this.formGroup.controls.endDatePeriod2.getRawValue()

@@ -86,9 +86,12 @@ export class DemandValidationDatePickerComponent implements OnInit {
   }
 
   protected onPeriodTypeChange(event: SelectableValue): void {
-    this.endDatePeriod2()?.setValue(null, { emitEvent: false });
-    this.periodType2()?.disable({ emitEvent: false });
     this.startDatePeriod2()?.disable({ emitEvent: false });
+    this.periodType2()?.disable({ emitEvent: false });
+
+    if (event.id === DateRangePeriod.Monthly) {
+      this.endDatePeriod2()?.setValue(null, { emitEvent: false });
+    }
 
     if (event.id === DateRangePeriod.Weekly && !this.disableOptionalDate()) {
       this._endDatePeriod1Change(this.endDatePeriod1().getRawValue());

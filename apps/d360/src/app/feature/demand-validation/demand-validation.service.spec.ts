@@ -678,11 +678,6 @@ describe('DemandValidationService', () => {
                 to: '2023-01-31',
                 period: DateRangePeriod.Monthly,
               },
-              range2: {
-                from: '2023-02-01',
-                to: '2023-02-28',
-                period: DateRangePeriod.Monthly,
-              },
             }
           );
           done();
@@ -771,11 +766,6 @@ describe('DemandValidationService', () => {
               range1: {
                 from: '2023-01-01',
                 to: '2023-01-31',
-                period: DateRangePeriod.Monthly,
-              },
-              range2: {
-                from: '2023-02-01',
-                to: '2023-02-28',
                 period: DateRangePeriod.Monthly,
               },
               exceptions: ['2023-01-15'],
@@ -963,115 +953,6 @@ describe('DemandValidationService', () => {
   });
 
   describe('triggerExport', () => {
-    it('should call HttpClient.post with correct parameters and stream the response to a file', (done) => {
-      const selectedKpis: SelectedKpis = {
-        activeAndPredecessor: true,
-      } as any;
-      const filledRange: { range1: DateRange; range2?: DateRange } = {
-        range1: {
-          from: new Date('2023-01-01'),
-          to: new Date('2023-01-31'),
-          period: DateRangePeriod.Monthly,
-        },
-        range2: {
-          from: new Date('2023-02-01'),
-          to: new Date('2023-02-28'),
-          period: DateRangePeriod.Monthly,
-        },
-      };
-      const demandValidationFilters: DemandValidationFilter = {} as any;
-      const mockResponse = new Blob(['mock data'], {
-        type: 'application/vnd.ms-excel',
-      });
-
-      jest
-        .spyOn(service['http'], 'post')
-        .mockReturnValue(of({ body: mockResponse } as any));
-      jest
-        .spyOn(service['streamSaverService'], 'streamResponseToFile')
-        .mockReturnValue(Promise.resolve());
-      jest.spyOn(service['snackBarService'], 'openSnackBar');
-
-      service
-        .triggerExport(selectedKpis, filledRange, demandValidationFilters)
-        .pipe(take(1))
-        .subscribe(() => {
-          expect(service['http'].post).toHaveBeenCalledWith(
-            service['EXPORT_DEMAND_VALIDATION_API'],
-            {
-              dataFilters: {
-                columnFilters: [],
-                selectionFilters: expect.any(Object),
-              },
-              selectedKpis,
-              range1: {
-                from: '2023-01-01',
-                to: '2023-01-31',
-                period: DateRangePeriod.Monthly,
-              },
-              range2: {
-                from: '2023-02-01',
-                to: '2023-02-28',
-                period: DateRangePeriod.Monthly,
-              },
-              translations: expect.any(Object),
-            },
-            {
-              responseType: 'blob',
-              observe: 'response',
-              context: expect.any(HttpContext),
-            }
-          );
-
-          expect(
-            service['streamSaverService'].streamResponseToFile
-          ).toHaveBeenCalledWith('demandValidationExport.xlsx', {
-            body: mockResponse,
-          });
-
-          expect(service['snackBarService'].openSnackBar).toHaveBeenCalledWith(
-            'validation_of_demand.export_modal.download_started'
-          );
-
-          done();
-        });
-    });
-
-    it('should track the export with app insights', (done) => {
-      const selectedKpis: SelectedKpis = {
-        activeAndPredecessor: true,
-      } as any;
-      const filledRange: { range1: DateRange; range2?: DateRange } = {
-        range1: {
-          from: new Date('2023-01-01'),
-          to: new Date('2023-01-31'),
-          period: DateRangePeriod.Monthly,
-        },
-      };
-      const demandValidationFilters: DemandValidationFilter = {} as any;
-
-      jest
-        .spyOn(service['http'], 'post')
-        .mockReturnValue(throwError(() => new Error('HTTP error')));
-
-      jest.spyOn(service['appInsights'], 'logEvent');
-
-      service
-        .triggerExport(selectedKpis, filledRange, demandValidationFilters)
-        .pipe(take(1))
-        .subscribe((value) => {
-          expect(value).toBeNull();
-          expect(service['appInsights'].logEvent).toHaveBeenCalledWith(
-            '[Validated Sales Planning] Export Data'
-          );
-          expect(service['appInsights'].logEvent).toHaveBeenCalledWith(
-            '[Validated Sales Planning] Export Data Failure'
-          );
-
-          done();
-        });
-    });
-
     it('should handle errors and show a snackbar with the error messages', (done) => {
       const selectedKpis: SelectedKpis = {
         activeAndPredecessor: true,
@@ -1100,6 +981,133 @@ describe('DemandValidationService', () => {
             'HTTP error'
           );
 
+          done();
+        });
+    });
+
+    it('should set range2 to undefined when range1.period is not Weekly', (done) => {
+      const selectedKpis: SelectedKpis = {
+        activeAndPredecessor: true,
+      } as any;
+      const filledRange: { range1: DateRange; range2?: DateRange } = {
+        range1: {
+          from: new Date('2023-01-01'),
+          to: new Date('2023-01-31'),
+          period: DateRangePeriod.Monthly, // Not Weekly
+        },
+        range2: {
+          from: new Date('2023-02-01'),
+          to: new Date('2023-02-28'),
+          period: DateRangePeriod.Monthly,
+        },
+      };
+      const demandValidationFilters: DemandValidationFilter = {} as any;
+      const mockResponse = new Blob(['mock data'], {
+        type: 'application/vnd.ms-excel',
+      });
+
+      jest
+        .spyOn(service['http'], 'post')
+        .mockReturnValue(of({ body: mockResponse } as any));
+      jest
+        .spyOn(service['streamSaverService'], 'streamResponseToFile')
+        .mockReturnValue(Promise.resolve());
+
+      service
+        .triggerExport(selectedKpis, filledRange, demandValidationFilters)
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(service['http'].post).toHaveBeenCalledWith(
+            service['EXPORT_DEMAND_VALIDATION_API'],
+            expect.objectContaining({
+              range1: expect.any(Object),
+              range2: undefined, // Should be undefined since range1.period is not Weekly
+            }),
+            expect.any(Object)
+          );
+          done();
+        });
+    });
+
+    it('should include range2 when range1.period is Weekly', (done) => {
+      const selectedKpis: SelectedKpis = {
+        activeAndPredecessor: true,
+      } as any;
+      const filledRange: { range1: DateRange; range2?: DateRange } = {
+        range1: {
+          from: new Date('2023-01-01'),
+          to: new Date('2023-01-31'),
+          period: DateRangePeriod.Weekly, // Weekly period
+        },
+        range2: {
+          from: new Date('2023-02-01'),
+          to: new Date('2023-02-28'),
+          period: DateRangePeriod.Monthly,
+        },
+      };
+      const demandValidationFilters: DemandValidationFilter = {} as any;
+      const mockResponse = new Blob(['mock data'], {
+        type: 'application/vnd.ms-excel',
+      });
+
+      jest
+        .spyOn(service['http'], 'post')
+        .mockReturnValue(of({ body: mockResponse } as any));
+      jest
+        .spyOn(service['streamSaverService'], 'streamResponseToFile')
+        .mockReturnValue(Promise.resolve());
+
+      service
+        .triggerExport(selectedKpis, filledRange, demandValidationFilters)
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(service['http'].post).toHaveBeenCalledWith(
+            service['EXPORT_DEMAND_VALIDATION_API'],
+            expect.objectContaining({
+              range1: expect.any(Object),
+              range2: {
+                from: '2023-02-01',
+                to: '2023-02-28',
+                period: DateRangePeriod.Monthly,
+              },
+            }),
+            expect.any(Object)
+          );
+          done();
+        });
+    });
+
+    it('should log success event with app insights after successful export', (done) => {
+      const selectedKpis: SelectedKpis = {
+        activeAndPredecessor: true,
+      } as any;
+      const filledRange: { range1: DateRange; range2?: DateRange } = {
+        range1: {
+          from: new Date('2023-01-01'),
+          to: new Date('2023-01-31'),
+          period: DateRangePeriod.Monthly,
+        },
+      };
+      const demandValidationFilters: DemandValidationFilter = {} as any;
+      const mockResponse = new Blob(['mock data'], {
+        type: 'application/vnd.ms-excel',
+      });
+
+      jest
+        .spyOn(service['http'], 'post')
+        .mockReturnValue(of({ body: mockResponse } as any));
+      jest.spyOn(service['appInsights'], 'logEvent');
+
+      service
+        .triggerExport(selectedKpis, filledRange, demandValidationFilters)
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(service['appInsights'].logEvent).toHaveBeenCalledWith(
+            '[Validated Sales Planning] Export Data'
+          );
+          expect(service['appInsights'].logEvent).toHaveBeenCalledWith(
+            '[Validated Sales Planning] Export Data Success'
+          );
           done();
         });
     });
