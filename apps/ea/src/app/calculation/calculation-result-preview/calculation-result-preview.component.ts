@@ -54,7 +54,7 @@ export class CalculationResultPreviewComponent {
   public selectedLoadcase$ =
     this.calculationParametersFacade.getSelectedLoadcase$;
   public calculationErrors$ =
-    this.calculationResultFacade.calculationReportErrors$;
+    this.calculationResultFacade.filteredCalculationReportErrors$;
   public calculationDownstreamErrors$ =
     this.calculationResultFacade.calculationReportDownstreamErrors$;
   public calculationGeneralError$ =

@@ -48,6 +48,9 @@ export class CalculationResultFacade {
   public readonly calculationReportErrors$ = this.store.select(
     CalculationResultReportSelector.getReportErrors
   );
+  public readonly filteredCalculationReportErrors$ = this.store.select(
+    CalculationResultReportSelector.getFilteredReportErrors
+  );
 
   public readonly calculationReportDownstreamErrors$ = this.store.select(
     CalculationResultReportSelector.getReportDownstreamErrors
@@ -55,6 +58,10 @@ export class CalculationResultFacade {
 
   public readonly getAllErrors$ = this.store.select(
     CalculationResultReportSelector.getAllErrors
+  );
+
+  public readonly getAllErrorsFiltered$ = this.store.select(
+    CalculationResultReportSelector.getAllFilteredErrors
   );
 
   public readonly calculationReportWarnings$ = this.store.select(

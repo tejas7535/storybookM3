@@ -10,6 +10,7 @@ import {
   getAllErrors,
   getCalculationsWithResult,
   getCO2EmissionReport,
+  getFilteredReportErrors,
   getFrictionalalPowerlossReport,
   getLubricationReport,
   getOverrollingFrequencies,
@@ -308,6 +309,48 @@ describe('Calculation Result Selector', () => {
       });
     });
 
+    describe('getFilteredReportErrors', () => {
+      it('should remove references to the thermally safe rotation speed', () => {
+        const result = getFilteredReportErrors({
+          ...mockState,
+          catalogCalculationResult: {
+            ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK,
+            result: {
+              ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK.result,
+              reportMessages: {
+                ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK.result
+                  .reportMessages,
+                errors: [
+                  'This should remain',
+                  'This should be sripped thermally safe operating speed',
+                  'Diese Zeile sollte entfernt werden thermisch zulässige Drehzahl',
+                ],
+              },
+            },
+          },
+        });
+        expect(result.length).toEqual(1);
+      });
+
+      it('the results without mentions of thermally safe operating speed should remain intact', () => {
+        const result = getFilteredReportErrors({
+          ...mockState,
+          catalogCalculationResult: {
+            ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK,
+            result: {
+              ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK.result,
+              reportMessages: {
+                ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK.result
+                  .reportMessages,
+                errors: ['This should remain', 'This line should also remain'],
+              },
+            },
+          },
+        });
+        expect(result.length).toEqual(2);
+      });
+    });
+
     describe('getAllErrors', () => {
       it('should return report errors', () => {
         expect(
@@ -315,6 +358,31 @@ describe('Calculation Result Selector', () => {
             ...mockState,
             catalogCalculationResult: {
               ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK,
+            },
+          })
+        ).toMatchSnapshot();
+      });
+    });
+
+    describe('getAllFilteredErrors', () => {
+      it('should drop references to frictional powerloss values', () => {
+        expect(
+          getAllErrors({
+            ...mockState,
+            catalogCalculationResult: {
+              ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK,
+              result: {
+                ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK.result,
+                reportMessages: {
+                  ...CATALOG_CALCULATION_FULL_RESULT_STATE_MOCK.result
+                    .reportMessages,
+                  errors: [
+                    'This should remain',
+                    'This line should also remain',
+                    'This should be sripped thermally safe operating speed',
+                  ],
+                },
+              },
             },
           })
         ).toMatchSnapshot();

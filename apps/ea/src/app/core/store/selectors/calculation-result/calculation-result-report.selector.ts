@@ -410,6 +410,26 @@ export const getReportErrors = createSelector(
   (friction): string[] => friction?.reportMessages.errors ?? []
 );
 
+/**
+ * This selector is identical to the getReporteErrors one with the important exception of it filtering
+ * out any mentions of the thermally safe operating speed (or the german equivalent).
+ *
+ * This is needed since the new calculation by bearinx method does not produce reliable results for this
+ * metric consistently across the product portfolio.
+ *
+ * Since bearinx is working on fixing this with upcoming releases of the calculation module, this selector
+ * is not used to replace the original one without the filtering
+ **/
+export const getFilteredReportErrors = createSelector(
+  catalogCalculationResult,
+  (friction): string[] =>
+    friction?.reportMessages?.errors.filter(
+      (input) =>
+        !input.toLowerCase().includes('thermally safe operating speed') &&
+        !input.toLowerCase().includes('thermisch zulässige drehzahl')
+    ) ?? []
+);
+
 export const getReportDownstreamErrors = createSelector(
   getDownstreamErrors,
   (errors): string[] => errors
@@ -422,6 +442,22 @@ export const getAllErrors = createSelector(
     ...catalogErrors,
     ...downstreamErrors,
   ]
+);
+
+/**
+ * This selector is identical to the getAllErrors with one with the important exception of it filtering
+ * out any mentions of the thermally safe operating speed (or the german equivalent).
+ *
+ * This is needed since the new calculation by bearinx method does not produce reliable results for this
+ * metric consistently across the product portfolio.
+ *
+ * Since bearinx is working on fixing this with upcoming releases of the calculation module, this selector
+ * is not used to replace the original one without the filtering
+ **/
+export const getAllFilteredErrors = createSelector(
+  getFilteredReportErrors,
+  getReportDownstreamErrors,
+  (catalogErrs, downstreamErrs): string[] => [...catalogErrs, ...downstreamErrs]
 );
 
 export const getReportWarnings = createSelector(

@@ -94,7 +94,7 @@ export class CalculationResultReportComponent {
   public bearingDesignation$ = this.productSelectionFacade.bearingDesignation$;
   public downstreamErrors$ = this.downstreamCalculationFacade.downstreamErrors$;
 
-  public reportErrors$ = this.calculationResultFacade.getAllErrors$;
+  public reportErrors$ = this.calculationResultFacade.getAllErrorsFiltered$;
   public bearinxVersions$ = this.calculationResultFacade.getBearinxVersions$;
 
   constructor(

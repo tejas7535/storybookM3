@@ -115,6 +115,14 @@ Array [
 ]
 `;
 
+exports[`Calculation Result Selector full result getAllFilteredErrors should drop references to frictional powerloss values 1`] = `
+Array [
+  "This should remain",
+  "This line should also remain",
+  "This should be sripped thermally safe operating speed",
+]
+`;
+
 exports[`Calculation Result Selector full result getCO2EmissionReport should return the co2 emission report data 1`] = `
 Object {
   "co2_downstream": Object {
