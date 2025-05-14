@@ -211,7 +211,7 @@ export class DemandValidationService {
                     // the entire functionality will be refactored in the future and we get a better allocation from
                     // error message and the row
                     hasMultipleEntries:
-                      errors?.length > 1 || successes?.length > 1,
+                      (errors?.length ?? 0) + (successes?.length ?? 0) > 1,
                     countErrors: errors.length,
                     countSuccesses: successes.length,
                     result:

@@ -279,6 +279,259 @@ describe('DemandValidationService', () => {
           done();
         });
     });
+
+    it('should handle results with both errors and successes', (done) => {
+      const mockData: DemandValidationBatch[] = [
+        {
+          id: '1',
+          material: 'material1',
+          dateString: '2023-01-01',
+          forecast: '100',
+          periodType: 'month',
+        } as any,
+      ];
+      const customerNumber = '12345';
+      const dryRun = true;
+      const materialType = 'schaeffler';
+      const listOrGrid = MultiType.Grid;
+      const mockResponse = [
+        {
+          ids: ['1'],
+          customerNumber: '12345',
+          materialNumber: 'material1',
+          results: [
+            {
+              idx: 1,
+              result: { messageType: MessageType.Error, message: 'Error 1' },
+            },
+            {
+              idx: 2,
+              result: {
+                messageType: MessageType.Success,
+                message: 'Success 1',
+              },
+            },
+          ],
+        },
+      ];
+
+      jest.spyOn(service['http'], 'patch').mockReturnValue(of(mockResponse));
+
+      service
+        .saveValidatedDemandBatch(
+          mockData,
+          customerNumber,
+          dryRun,
+          materialType,
+          listOrGrid
+        )
+        .pipe(take(1))
+        .subscribe((response) => {
+          expect(response).toEqual({
+            overallStatus: MessageType.Success,
+            overallErrorMsg: null,
+            response: [
+              {
+                id: '1',
+                customerNumber: '12345',
+                materialNumber: 'material1',
+                hasMultipleEntries: true,
+                countErrors: 1,
+                countSuccesses: 1,
+                result: {
+                  messageType: MessageType.Error,
+                  message: 'Error 1',
+                  id: 1,
+                },
+                allErrors: [
+                  { messageType: MessageType.Error, message: 'Error 1', id: 1 },
+                ],
+              },
+            ],
+          });
+          expect(service['http'].patch).toHaveBeenCalledWith(
+            service['DEMAND_VALIDATION_API'],
+            expect.any(FormData),
+            {
+              params: new HttpParams()
+                .set('dryRun', dryRun.toString())
+                .set('useCustomerMaterials', 'false'),
+              context: expect.any(HttpContext),
+            }
+          );
+          done();
+        });
+    });
+
+    it('should handle non-customer material type correctly', (done) => {
+      const mockData: DemandValidationBatch[] = [
+        {
+          id: '1',
+          material: 'material1',
+          dateString: '2023-01-01',
+          forecast: '100',
+          periodType: 'week',
+        } as any,
+      ];
+      const customerNumber = '12345';
+      const dryRun = false;
+      const materialType = 'schaeffler';
+      const listOrGrid = MultiType.Grid;
+      const mockResponse = [
+        {
+          ids: ['1'],
+          customerNumber: '12345',
+          materialNumber: 'material1',
+          results: [] as any,
+        },
+      ];
+
+      jest.spyOn(service['http'], 'patch').mockReturnValue(of(mockResponse));
+
+      service
+        .saveValidatedDemandBatch(
+          mockData,
+          customerNumber,
+          dryRun,
+          materialType,
+          listOrGrid
+        )
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(service['http'].patch).toHaveBeenCalledWith(
+            service['DEMAND_VALIDATION_API'],
+            expect.any(FormData),
+            {
+              params: new HttpParams()
+                .set('dryRun', 'false')
+                .set('useCustomerMaterials', 'false'),
+              context: expect.any(HttpContext),
+            }
+          );
+          done();
+        });
+    });
+
+    it('should use existing kpiEntries if available', (done) => {
+      const mockData: DemandValidationBatch[] = [
+        {
+          id: '1',
+          material: 'material1',
+          dateString: '2023-01-01',
+          forecast: '100',
+          periodType: 'month',
+          kpiEntries: [
+            {
+              idx: 123,
+              fromDate: '2023-01-01',
+              bucketType: KpiBucketTypeEnum.MONTH,
+              validatedForecast: 200,
+            },
+          ],
+        } as any,
+      ];
+      const customerNumber = '12345';
+      const dryRun = true;
+      const materialType = 'customer';
+      const mockResponse = [
+        {
+          ids: ['1'],
+          customerNumber: '12345',
+          materialNumber: 'material1',
+          results: [] as any,
+        },
+      ];
+
+      jest.spyOn(service['http'], 'patch').mockReturnValue(of(mockResponse));
+
+      service
+        .saveValidatedDemandBatch(
+          mockData,
+          customerNumber,
+          dryRun,
+          materialType
+        )
+        .pipe(take(1))
+        .subscribe(() => {
+          // Verify FormData content
+          const patchCall = jest.mocked(service['http'].patch).mock.calls[0];
+          const formData = patchCall[1] as FormData;
+          const jsonBlob = formData.get('data') as Blob;
+
+          // Read the blob content to verify it contains the existing kpiEntries
+          const reader = new FileReader();
+          // eslint-disable-next-line unicorn/prefer-add-event-listener
+          reader.onload = () => {
+            const jsonContent = JSON.parse(reader.result as string);
+            expect(jsonContent[0].kpiEntries).toEqual([
+              {
+                idx: 123,
+                fromDate: '2023-01-01',
+                bucketType: KpiBucketTypeEnum.MONTH,
+                validatedForecast: 200,
+              },
+            ]);
+            done();
+          };
+          // eslint-disable-next-line unicorn/prefer-blob-reading-methods
+          reader.readAsText(jsonBlob);
+        });
+    });
+
+    it('should handle entries with no results', (done) => {
+      const mockData: DemandValidationBatch[] = [
+        {
+          id: '1',
+          material: 'material1',
+          dateString: '2023-01-01',
+          forecast: '100',
+          periodType: 'month',
+        } as any,
+      ];
+      const customerNumber = '12345';
+      const dryRun = true;
+      const materialType = 'customer';
+      const listOrGrid = MultiType.Grid;
+      const mockResponse = [
+        {
+          ids: ['1'],
+          customerNumber: '12345',
+          materialNumber: 'material1',
+          results: [] as any,
+        },
+      ];
+
+      jest.spyOn(service['http'], 'patch').mockReturnValue(of(mockResponse));
+
+      service
+        .saveValidatedDemandBatch(
+          mockData,
+          customerNumber,
+          dryRun,
+          materialType,
+          listOrGrid
+        )
+        .pipe(take(1))
+        .subscribe((response) => {
+          expect(response).toEqual({
+            overallStatus: MessageType.Success,
+            overallErrorMsg: null,
+            response: [
+              {
+                id: '1',
+                customerNumber: '12345',
+                materialNumber: 'material1',
+                hasMultipleEntries: false,
+                countErrors: 0,
+                countSuccesses: 0,
+                result: null,
+                allErrors: null,
+              },
+            ],
+          });
+          done();
+        });
+    });
   });
 
   describe('saveValidatedDemandSingleMcc', () => {
