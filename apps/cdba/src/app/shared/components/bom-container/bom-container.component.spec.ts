@@ -1,7 +1,6 @@
 import { fakeAsync, tick } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -89,10 +88,6 @@ describe('BomContainerComponent', () => {
       }),
       mockProvider(ApplicationInsightsService),
       mockProvider(TranslocoLocaleService),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
     ],
   });
 

@@ -24,6 +24,7 @@ import { BomTableModule } from '@cdba/shared/components';
 import { ColumnDefinitionService } from '@cdba/shared/components/bom-table/config';
 import { BomItem } from '@cdba/shared/models';
 import { MaterialNumberModule } from '@cdba/shared/pipes';
+import { LocalStorageService } from '@cdba/shared/services';
 import { BOM_MOCK } from '@cdba/testing/mocks';
 
 import { BomTableComponent } from './bom-table.component';
@@ -32,6 +33,7 @@ import { TotalCostShareComponentModule } from './bom-table-status-bar/total-cost
 describe('BomTableComponent', () => {
   let component: BomTableComponent;
   let spectator: Spectator<BomTableComponent>;
+  let localStorageService: LocalStorageService;
 
   const createComponent = createComponentFactory({
     component: BomTableComponent,
@@ -46,12 +48,15 @@ describe('BomTableComponent', () => {
       mockProvider(ColumnDefinitionService, {
         getColDef: jest.fn(() => [] as (ColDef | ColGroupDef)[]),
       }),
+      mockProvider(LocalStorageService),
     ],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
+
+    localStorageService = spectator.inject(LocalStorageService);
   });
 
   it('should create', () => {
@@ -378,14 +383,15 @@ describe('BomTableComponent', () => {
     } as unknown as ColumnPinnedEvent;
 
     beforeEach(() => {
-      component.localStorage.clear();
-      component.localStorage.setItem = jest.fn();
-      JSON.stringify = jest.fn().mockReturnValue(columnsState.toString());
+      localStorageService.setItem = jest
+        .fn()
+        .mockReturnValue(columnsState.toString());
     });
 
     it('should have initially empty storage', () => {
-      const customColumnsOrder = component.localStorage.getItem(
-        component['customColumnsOrderKey']
+      const customColumnsOrder = localStorageService.getItem(
+        component['customColumnsOrderKey'],
+        false
       );
 
       expect(customColumnsOrder).toBeUndefined();
@@ -396,9 +402,10 @@ describe('BomTableComponent', () => {
       component.onColumnMoved(mockedColumnMovedEvt);
 
       expect(onColumnMovedSpy).toHaveBeenCalled();
-      expect(component.localStorage.setItem).toHaveBeenCalledWith(
+      expect(localStorageService.setItem).toHaveBeenCalledWith(
         columnKey,
-        JSON.stringify(columnsState)
+        columnsState,
+        true
       );
     });
     it('should save custom columns order when pinning column', () => {
@@ -407,9 +414,10 @@ describe('BomTableComponent', () => {
       component.onColumnPinned(mockedColumnPinnedEvt);
 
       expect(onColumnPinnedSpy).toHaveBeenCalled();
-      expect(component.localStorage.setItem).toHaveBeenCalledWith(
+      expect(localStorageService.setItem).toHaveBeenCalledWith(
         columnKey,
-        JSON.stringify(columnsState)
+        columnsState,
+        true
       );
     });
   });

@@ -1,4 +1,3 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
@@ -45,10 +44,6 @@ describe('BomChartComponent', () => {
         getChartSeries: jest.fn(() => [{}]),
       }),
       mockProvider(TranslocoLocaleService),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
     ],
     disableAnimations: true,
     detectChanges: false,

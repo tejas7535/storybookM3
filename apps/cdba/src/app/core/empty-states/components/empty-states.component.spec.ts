@@ -1,12 +1,12 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter, RouterOutlet } from '@angular/router';
 
 import {
   createComponentFactory,
   Spectator,
   SpyObject,
 } from '@ngneat/spectator/jest';
+import { MockDirective } from 'ng-mocks';
 
 import { EmptyStatesComponent } from './empty-states.component';
 
@@ -17,13 +17,8 @@ describe('EmptyStatesComponent', () => {
 
   const createComponent = createComponentFactory({
     component: EmptyStatesComponent,
-    imports: [RouterTestingModule, MatDialogModule],
-    providers: [
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
-    ],
+    imports: [MatDialogModule, MockDirective(RouterOutlet)],
+    providers: [provideRouter([])],
     mocks: [MatDialog],
   });
 

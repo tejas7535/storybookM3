@@ -1,4 +1,3 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import {
@@ -19,13 +18,7 @@ describe('ActionsCellRendererComponent', () => {
   const createComponent = createComponentFactory({
     component: ActionsCellRendererComponent,
     imports: [MatIconModule],
-    providers: [
-      mockProvider(ApplicationInsightsService),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
-    ],
+    providers: [mockProvider(ApplicationInsightsService)],
   });
 
   beforeEach(() => {

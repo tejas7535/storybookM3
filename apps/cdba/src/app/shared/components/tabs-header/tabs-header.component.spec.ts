@@ -1,9 +1,8 @@
 import { MatButtonModule } from '@angular/material/button';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
@@ -18,19 +17,14 @@ describe('TabsHeaderComponent', () => {
   const createComponent = createComponentFactory({
     component: TabsHeaderComponent,
     imports: [
+      RouterModule.forRoot([]),
       MatIconModule,
       MatTabsModule,
       MatButtonModule,
       MatTooltipModule,
-      RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
-    providers: [
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
-    ],
+
     declarations: [TabsHeaderComponent],
   });
 

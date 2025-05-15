@@ -1,7 +1,8 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { ColumnState } from 'ag-grid-enterprise';
+
+import { LocalStorageService } from '../local-storage/local-storage.service';
 
 interface AgGridState {
   columnState: ColumnState[];
@@ -11,19 +12,27 @@ interface AgGridState {
   providedIn: 'root',
 })
 export class AgGridStateService {
-  constructor(@Inject(LOCAL_STORAGE) readonly localStorage: Storage) {}
+  constructor(private readonly localStorageService: LocalStorageService) {}
 
   public getColumnState(key: string): ColumnState[] {
-    return JSON.parse(this.localStorage.getItem(key))?.columnState;
+    return this.localStorageService.getItem<AgGridState>(key, true)
+      ?.columnState;
   }
 
   public setColumnState(key: string, columnState: ColumnState[]): void {
-    const state: AgGridState = JSON.parse(this.localStorage.getItem(key));
+    const state: AgGridState = this.localStorageService.getItem(key, true);
 
     if (state) {
-      this.localStorage.setItem(key, JSON.stringify({ ...state, columnState }));
+      this.localStorageService.setItem<AgGridState>(
+        key,
+        {
+          ...state,
+          columnState,
+        },
+        true
+      );
     } else {
-      this.localStorage.setItem(key, JSON.stringify({ columnState }));
+      this.localStorageService.setItem<AgGridState>(key, { columnState }, true);
     }
   }
 }

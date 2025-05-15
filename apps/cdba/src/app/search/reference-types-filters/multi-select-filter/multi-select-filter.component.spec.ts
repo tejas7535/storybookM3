@@ -2,7 +2,6 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -46,14 +45,7 @@ describe('MultiSelectFilterComponent', () => {
       LoadingSpinnerModule,
     ],
     declarations: [MultiSelectValuePipe, NoResultsFoundPipe, FormatValuePipe],
-    providers: [
-      SearchUtilityService,
-      MaterialNumberPipe,
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
-    ],
+    providers: [SearchUtilityService, MaterialNumberPipe],
     disableAnimations: true,
     detectChanges: false,
   });

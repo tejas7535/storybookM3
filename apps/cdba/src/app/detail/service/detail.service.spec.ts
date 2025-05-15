@@ -1,11 +1,10 @@
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, provideHttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { waitForAsync } from '@angular/core/testing';
 
-import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { withCache } from '@ngneat/cashew';
 import {
   createServiceFactory,
@@ -18,6 +17,7 @@ import {
   CostComponentSplit,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
+import { LocalStorageService } from '@cdba/shared/services';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 import {
   BOM_IDENTIFIER_MOCK,
@@ -29,7 +29,6 @@ import {
   EXCLUDED_CALCULATIONS_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
-import { LocalStorageMock } from '@cdba/testing/mocks/storage/local-storage.mock';
 
 import { CalculationsResponse } from '../../core/store/reducers/detail/models';
 import { ProductDetailService } from './detail.service';
@@ -38,29 +37,29 @@ describe('ProductDetailService', () => {
   let spectator: SpectatorService<ProductDetailService>;
   let service: ProductDetailService;
   let httpMock: HttpTestingController;
-  let localStorage: LocalStorageMock;
+  let localStorageService: LocalStorageService;
 
   const createService = createServiceFactory({
     service: ProductDetailService,
-    imports: [HttpClientTestingModule],
-    providers: [mockProvider(BetaFeatureService)],
+    providers: [
+      provideHttpClient(),
+      provideHttpClientTesting(),
+      mockProvider(BetaFeatureService),
+      mockProvider(LocalStorageService),
+    ],
   });
 
   beforeEach(() => {
     spectator = createService();
     service = spectator.inject(ProductDetailService);
     httpMock = spectator.inject(HttpTestingController);
+    localStorageService = spectator.inject(LocalStorageService);
 
-    localStorage = spectator.inject(
-      LOCAL_STORAGE
-    ) as unknown as LocalStorageMock;
-
-    localStorage.clear();
-    localStorage.setItem('language', 'en');
+    localStorageService.getItem = jest.fn().mockReturnValue('en');
   });
 
   describe('getDetails', () => {
-    test('should get detail result', () => {
+    it('should get detail result', () => {
       const mock = REFERENCE_TYPE_MOCK;
       const expectedParams = new HttpParams()
         .set('material_number', mock.materialNumber)
@@ -85,7 +84,7 @@ describe('ProductDetailService', () => {
   });
 
   describe('calculations', () => {
-    test('should get calculations result', () => {
+    it('should get calculations result', () => {
       const mock = new CalculationsResponse(
         CALCULATIONS_MOCK,
         EXCLUDED_CALCULATIONS_MOCK
@@ -105,7 +104,7 @@ describe('ProductDetailService', () => {
   });
 
   describe('getBom', () => {
-    test('should get bom entries', () => {
+    it('should get bom entries', () => {
       const mock = BOM_MOCK;
       const bomIdentifier: BomIdentifier = {
         costingDate: '20200604',
@@ -131,7 +130,7 @@ describe('ProductDetailService', () => {
   });
 
   describe('getDrawings', () => {
-    test('should get drawings', () => {
+    it('should get drawings', () => {
       const mock = DRAWINGS_MOCK;
 
       service.getDrawings('2345', '0061').subscribe((response) => {
@@ -148,7 +147,7 @@ describe('ProductDetailService', () => {
   });
 
   describe('getCostComponentSplit', () => {
-    test('should get cost component split + summary', waitForAsync(() => {
+    it('should get cost component split + summary', waitForAsync(() => {
       const mock = COST_COMPONENT_SPLIT_ITEMS_MOCK;
       const bomIdentifier = BOM_IDENTIFIER_MOCK;
 

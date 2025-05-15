@@ -1,7 +1,6 @@
 import { MatButtonModule } from '@angular/material/button';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -38,15 +37,11 @@ describe('LoadBomButtonComponent', () => {
     imports: [
       MatButtonModule,
       MatTooltipModule,
-      RouterTestingModule,
+      RouterModule.forRoot([]),
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       provideMockStore({ initialState: { detail: DETAIL_STATE_MOCK } }),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
     ],
   });
 

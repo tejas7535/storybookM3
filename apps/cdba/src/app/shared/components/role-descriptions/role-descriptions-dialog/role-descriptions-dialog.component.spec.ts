@@ -1,4 +1,3 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -23,12 +22,6 @@ describe('RoleDescriptionsDialogComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       MockModule(RolesAndRightsModule),
       MockModule(RoleDescriptionsModule),
-    ],
-    providers: [
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
     ],
   });
 

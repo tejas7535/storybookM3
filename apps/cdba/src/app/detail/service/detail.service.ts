@@ -1,10 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { withCache } from '@ngneat/cashew';
 
 import { API, ProductDetailPath } from '@cdba/shared/constants/api';
@@ -15,6 +14,7 @@ import {
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
 import { BomIdentifier, BomItem } from '@cdba/shared/models/bom-item.model';
+import { LocalStorageService } from '@cdba/shared/services';
 
 import { CalculationsResponse } from '../../core/store/reducers/detail/models';
 
@@ -37,7 +37,7 @@ export class ProductDetailService {
 
   public constructor(
     private readonly httpClient: HttpClient,
-    @Inject(LOCAL_STORAGE) readonly localStorage: Storage
+    private readonly localStorageService: LocalStorageService
   ) {}
 
   private static defineBomTreeForAgGrid(
@@ -110,7 +110,10 @@ export class ProductDetailService {
     const params: HttpParams = new HttpParams()
       .set(this.PARAM_MATERIAL_NUMBER, item.materialNumber)
       .set(this.PARAM_PLANT, item.plant)
-      .set(this.PARAM_LANGUAGE, this.localStorage.getItem('language'));
+      .set(
+        this.PARAM_LANGUAGE,
+        this.localStorageService.getItem<string>('language', false)
+      );
 
     const path = `${API.v1}/${ProductDetailPath.Detail}`;
 

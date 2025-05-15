@@ -1,15 +1,15 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { withCache } from '@ngneat/cashew';
 
 import { API, BomExportPath } from '@cdba/shared/constants/api';
 import { HttpParamsEncoder } from '@cdba/shared/http';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models/reference-type-identifier.model';
+import { LocalStorageService } from '@cdba/shared/services';
 
 import {
   FilterItem,
@@ -35,7 +35,7 @@ export class SearchService {
 
   public constructor(
     private readonly httpClient: HttpClient,
-    @Inject(LOCAL_STORAGE) readonly localStorage: Storage
+    private readonly localStorageService: LocalStorageService
   ) {}
 
   public getInitialFilters(): Observable<FilterItem[]> {
@@ -49,7 +49,7 @@ export class SearchService {
   public search(filters: FilterItem[]): Observable<SearchResult> {
     const params: HttpParams = new HttpParams().set(
       this.PARAM_LANGUAGE,
-      this.localStorage.getItem('language')
+      this.localStorageService.getItem<string>('language', false)
     );
 
     const payload = this.prepareSearchPayload(filters);

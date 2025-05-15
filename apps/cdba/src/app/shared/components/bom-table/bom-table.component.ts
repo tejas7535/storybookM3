@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Inject,
   Input,
   OnChanges,
   Output,
@@ -10,7 +9,6 @@ import {
 } from '@angular/core';
 
 import { translate } from '@jsverse/transloco';
-import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import {
   CellRange,
   ColumnMovedEvent,
@@ -25,7 +23,7 @@ import {
 } from 'ag-grid-enterprise';
 
 import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
-import { CostShareService } from '@cdba/shared/services';
+import { CostShareService, LocalStorageService } from '@cdba/shared/services';
 
 import { BomItem } from '../../models';
 import { NoRowsParams } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
@@ -94,7 +92,7 @@ export class BomTableComponent implements OnChanges {
     protected sidebarService: SidebarService,
     protected scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe,
     private readonly costShareService: CostShareService,
-    @Inject(LOCAL_STORAGE) readonly localStorage: Storage
+    private readonly localStorageService: LocalStorageService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -239,11 +237,14 @@ export class BomTableComponent implements OnChanges {
   }
 
   private saveCustomColumnsState(columnState: ColumnState[]): void {
-    const columnStateJSON = JSON.stringify(columnState);
-    this.localStorage.setItem(this.customColumnsOrderKey, columnStateJSON);
+    this.localStorageService.setItem(
+      this.customColumnsOrderKey,
+      columnState,
+      true
+    );
   }
 
-  private loadCustomColumnsOrder(key: string): any {
-    return JSON.parse(this.localStorage.getItem(key));
+  private loadCustomColumnsOrder(key: string): ColumnState[] {
+    return this.localStorageService.getItem<ColumnState[]>(key, true);
   }
 }

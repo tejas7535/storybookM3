@@ -8,14 +8,17 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 
-import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { withCache } from '@ngneat/cashew';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
 
 import { StringOption } from '@schaeffler/inputs';
 
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
-import { LocalStorageMock } from '@cdba/testing/mocks/storage/local-storage.mock';
+import { LocalStorageService } from '@cdba/shared/services';
 
 import {
   FilterItem,
@@ -27,24 +30,24 @@ describe('SearchService', () => {
   let spectator: SpectatorService<SearchService>;
   let service: SearchService;
   let httpMock: HttpTestingController;
-  let localStorage: LocalStorageMock;
+  let localStorageService: LocalStorageService;
 
   const createService = createServiceFactory({
     service: SearchService,
-    providers: [provideHttpClient(), provideHttpClientTesting()],
+    providers: [
+      provideHttpClient(),
+      provideHttpClientTesting(),
+      mockProvider(LocalStorageService),
+    ],
   });
 
   beforeEach(() => {
     spectator = createService();
     service = spectator.inject(SearchService);
     httpMock = spectator.inject(HttpTestingController);
+    localStorageService = spectator.inject(LocalStorageService);
 
-    localStorage = spectator.inject(
-      LOCAL_STORAGE
-    ) as unknown as LocalStorageMock;
-
-    localStorage.clear();
-    localStorage.setItem('language', 'en');
+    localStorageService.getItem = jest.fn().mockReturnValue('en');
   });
 
   afterEach(() => {

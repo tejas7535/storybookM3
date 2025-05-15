@@ -1,28 +1,28 @@
-import { LOCAL_STORAGE } from '@ng-web-apis/common';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
 
-import { LocalStorageMock } from '@cdba/testing/mocks/storage/local-storage.mock';
-
+import { LocalStorageService } from '../local-storage/local-storage.service';
 import { BetaFeatureService } from './beta-feature.service';
 
 describe('BetaFeatureService', () => {
   let spectator: SpectatorService<BetaFeatureService>;
   let service: BetaFeatureService;
-  let localStorage: LocalStorageMock;
+  let localStorageService: LocalStorageService;
 
   const createService = createServiceFactory({
     service: BetaFeatureService,
-    providers: [{ provide: LOCAL_STORAGE, useClass: LocalStorageMock }],
+    providers: [mockProvider(LocalStorageService)],
   });
 
   beforeEach(() => {
     spectator = createService();
     service = spectator.inject(BetaFeatureService);
-    localStorage = spectator.inject(
-      LOCAL_STORAGE
-    ) as unknown as LocalStorageMock;
+    localStorageService = spectator.inject(LocalStorageService);
 
-    localStorage.clear();
+    localStorageService.getItem = jest.fn().mockReturnValue(undefined);
   });
 
   it('should be created', () => {
@@ -30,13 +30,12 @@ describe('BetaFeatureService', () => {
   });
 
   describe('getBetaFeature', () => {
-    it('should return null if theres no entry in localstorage', () => {
-      expect(service.getBetaFeature(undefined)).toBeNull();
+    it('should return undefined if theres no entry in localstorage', () => {
+      expect(service.getBetaFeature(undefined)).toBeUndefined();
     });
 
     it('should return value for beta feature', () => {
-      const mockStore = { beta_feature_portfolioAnalysis: 'true' };
-      localStorage.setStore(mockStore);
+      localStorageService.getItem = jest.fn().mockReturnValue(true);
 
       expect(service.getBetaFeature('portfolioAnalysis')).toBe(true);
     });
@@ -44,9 +43,15 @@ describe('BetaFeatureService', () => {
 
   describe('setBetaFeature', () => {
     it('should set value for beta feature', () => {
+      const spy = jest.spyOn(localStorageService, 'setItem');
+
       service.setBetaFeature('portfolioAnalysis', true);
 
-      expect(localStorage.store['beta_feature_portfolioAnalysis']).toBe('true');
+      expect(spy).toHaveBeenCalledWith(
+        'beta_feature_portfolioAnalysis',
+        true,
+        false
+      );
     });
   });
 });

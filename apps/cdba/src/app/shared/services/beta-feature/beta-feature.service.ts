@@ -1,30 +1,29 @@
-import { Inject, Injectable } from '@angular/core';
-
-import { LOCAL_STORAGE } from '@ng-web-apis/common';
+import { Injectable } from '@angular/core';
 
 import { BetaFeature } from '@cdba/shared/constants/beta-feature';
+
+import { LocalStorageService } from '../local-storage/local-storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BetaFeatureService {
-  public storageKeyPrefix = 'beta_feature';
+  storageKeyPrefix = 'beta_feature';
 
-  constructor(@Inject(LOCAL_STORAGE) readonly localStorage: Storage) {}
+  constructor(private readonly localStorageService: LocalStorageService) {}
 
-  public getBetaFeature(key: `${BetaFeature}`): boolean {
-    return JSON.parse(
-      this.localStorage.getItem(`${this.storageKeyPrefix}_${key}`)
+  getBetaFeature(key: `${BetaFeature}`): boolean {
+    return this.localStorageService.getItem<boolean>(
+      `${this.storageKeyPrefix}_${key}`,
+      false
     );
   }
 
-  public setBetaFeature(
-    key: `${BetaFeature}`,
-    betaFeatureState: boolean
-  ): void {
-    this.localStorage.setItem(
+  setBetaFeature(key: `${BetaFeature}`, betaFeatureState: boolean): void {
+    this.localStorageService.setItem(
       `${this.storageKeyPrefix}_${key}`,
-      JSON.stringify(betaFeatureState)
+      betaFeatureState,
+      false
     );
   }
 }
