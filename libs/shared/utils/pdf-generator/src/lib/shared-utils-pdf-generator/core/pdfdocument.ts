@@ -104,6 +104,15 @@ export class PDFDocument {
     return this;
   }
 
+  /*
+   * Set the default text color for the document
+   **/
+  public setTextColor(color: string): this {
+    this.pdfDoc.setTextColor(color);
+
+    return this;
+  }
+
   /**
    * Add the document header
    *
@@ -240,7 +249,7 @@ export class PDFDocument {
     this.pdfDoc.setFontSize(this.defaultFontSize);
     this.pdfDoc.setFillColor(this.defaultFillColor);
     this.pdfDoc.setLineWidth(this.defaultLineWith);
-    this.pdfDoc.setFont(this.defaultFont, 'regular');
+    this.pdfDoc.setFont(this.defaultFont, 'normal');
     this.pdfDoc.setDrawColor('#000');
   }
 
