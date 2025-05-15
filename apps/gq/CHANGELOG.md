@@ -1,4 +1,30 @@
 # Release Notes of Guided Quoting
+## [6.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v6.0.1...gq-v6.1.0) (2025-05-15)
+
+
+### Features
+
+* **gq:** add link for GQ Training (GQUOTE-6014) ([#7256](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7256)) ([e8f66f3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e8f66f34c2dd185052f6226d88112f02d07f7c12))
+* **gq:** add modal for editing customer material number (GQUOTE-5803) ([#7180](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7180)) ([cefd828](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cefd82885074014b45a6f4806b9290a4e1f1393b))
+* **gq:** add rfq 4 detail page for calculator (GQUOTE-6035) ([#7228](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7228)) ([5c9894b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5c9894b2e8bf5a950d0e54064d9906d5ab1d78ae))
+* **gq:** adjust link to pastFromClipboardVideo (GQUOTE-6090) ([#7243](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7243)) ([bdb07ad](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bdb07ad85d09de9d7623fe0b179bea7ebaa430b3))
+* **gq:** create folder structure and place emptyFiles for calculator package (GQUOTE-6070) ([#7217](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7217)) ([091eab5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/091eab5f46c55e63cfbe6a11bc593d89786fe06a))
+* **gq:** disable feature toggle for sapPriceDiffColumn (GQUOTE-6071) ([#7248](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7248)) ([5337a6e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5337a6e8fb0422553d6edd2306caadf9022ee21a))
+* **gq:** preparation for Calculator HomePage (GQUOTE-6032) ([#7235](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7235)) ([1e43f99](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1e43f9908afdb70274991be7dd3afd441ec91c75))
+* **gq:** send Recalculation Request for quotationDetail (GQUOTE-5645) ([#7169](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7169)) ([0045971](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/00459711e41a38394395d79a64b4f6af5c520daf))
+* **gq:** show "calculator missing" when no calculator found and notify RFQ Support (GQUOTE-5955) ([#7187](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7187)) ([10edc5d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/10edc5d4fa08174eaf1763ad08bce764d27bdcc2))
+
+
+### Bug Fixes
+
+* **gq:** add toast message for customer material deletion (GQUOTE-6060) ([#7209](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7209)) ([e21ec60](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e21ec606f883e4229cfdbffccfec888c91dbc551))
+* **gq:** featureToggle sap support contact request (GQUOTE-6096) ([#7244](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7244)) ([b5d0525](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b5d0525feffe5e432ddd98e52bb19bc0cf93b2b8))
+* **gq:** missing forwarded to label in recalculation modal (GQUOTE-5645) ([#7227](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7227)) ([56a1240](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/56a1240eeb3334d826c9eaae0a2e5831fc321bea))
+* **gq:** msp block wrongly displayed in excel download (GQUOTE-5990) ([#7204](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7204)) ([0eafcec](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0eafcec43f430dd2c7954a347e9fd3c58a9bacfc))
+* **gq:** remove duplicate label for forwarding (GQUOTE-5648) ([#7246](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7246)) ([ca0f8ed](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ca0f8ed38372d91dfc50bb6755ade7ca42290f9d))
+* **gq:** use correct ColDefService in SingleQuotesTabComponent (GQUOTE-6099) ([#7245](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7245)) ([9c44bfe](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9c44bfef8720cc3b28344e52922f35752795f43d))
+* **gq:** use schaeffler green within ag grid ([#7207](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7207)) ([e5c3ff9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e5c3ff9a97e5dfc8bbd587bfdfecc3a5651812bb))
+
 ## [6.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v6.0.0...gq-v6.0.1) (2025-05-02)
 
 
