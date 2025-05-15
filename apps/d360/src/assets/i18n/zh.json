@@ -367,8 +367,7 @@
     },
     "title": "客戶材料組合",
     "toolbar": {
-      "collapseAll": "折叠",
-      "expandAll": "折叠出来"
+      "showPredecessors": "显示前辈"
     }
   },
   "demand_characteristics": {

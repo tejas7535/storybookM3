@@ -2,15 +2,11 @@
   @if (gridApi) {
     <!-- table tool bar -->
     <d360-table-toolbar [rowCount]="rowCount()" [grid]="gridApi">
-      <span class="mx-2">|</span>
-
       <!-- Row expansion toggle -->
-      <div class="text-body-medium capitalize">
-        @if (showChains) {
-          {{ t('customer_material_portfolio.toolbar.collapseAll', {}) }}
-        } @else {
-          {{ t('customer_material_portfolio.toolbar.expandAll', {}) }}
-        }
+      <div class="text-body-medium capitalize flex items-center">
+        <span>
+          {{ t('customer_material_portfolio.toolbar.showPredecessors') }}
+        </span>
         <mat-slide-toggle
           class="ml-1"
           [checked]="showChains"

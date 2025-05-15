@@ -4,6 +4,9 @@
   }
 
   .mat-mdc-button-base {
+    & + .mat-mdc-button-base:not(.mat-mdc-icon-button) {
+      @apply ml-4;
+    }
     line-height: normal;
     &.error-variant {
       @apply bg-error;

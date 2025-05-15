@@ -367,8 +367,7 @@
     },
     "title": "Carteira de materiais do cliente",
     "toolbar": {
-      "collapseAll": "dobrar",
-      "expandAll": "desdobrar"
+      "showPredecessors": "Mostrar predecessores"
     }
   },
   "demand_characteristics": {

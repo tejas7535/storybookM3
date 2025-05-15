@@ -367,8 +367,7 @@
     },
     "title": "Portefeuille de matériel des clients",
     "toolbar": {
-      "collapseAll": "replier",
-      "expandAll": "déplier"
+      "showPredecessors": "Afficher les prédécesseurs"
     }
   },
   "demand_characteristics": {

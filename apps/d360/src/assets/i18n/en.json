@@ -367,8 +367,7 @@
     },
     "title": "Customer Material Portfolio",
     "toolbar": {
-      "collapseAll": "fold",
-      "expandAll": "fold out"
+      "showPredecessors": "Show Predecessors"
     }
   },
   "demand_characteristics": {

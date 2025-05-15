@@ -1,7 +1,7 @@
 <div *transloco="let t">
   <!-- title -->
   <div mat-dialog-title class="m-0 pt-0">
-    <div class="flex">
+    <div class="flex items-center">
       <h2 class="text-title-large flex-auto">{{ title }}</h2>
 
       <!-- reset button -->
@@ -45,7 +45,7 @@
   </mat-dialog-content>
 
   <!--  buttons -->
-  <mat-dialog-actions align="end" class="gap-3">
+  <mat-dialog-actions align="end">
     <!-- close button -->
     <button (click)="onClose()" [disabled]="loading()" mat-button>
       {{ t('button.close') }}

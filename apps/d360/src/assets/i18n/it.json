@@ -367,8 +367,7 @@
     },
     "title": "Portafoglio di materiali per i clienti",
     "toolbar": {
-      "collapseAll": "ripiegare in",
-      "expandAll": "ripiegare"
+      "showPredecessors": "Mostra predecessori"
     }
   },
   "demand_characteristics": {

@@ -34,32 +34,35 @@
         {{ t('material_customer.toolbar.load_layout') }}
       </button>
 
-      <button
-        class="mb-3"
-        mat-button
-        (click)="
-          data.saveLayout(
-            layoutForm.controls['currentLayout'].getRawValue().id
-          );
-          dialog.closeAll()
-        "
-      >
-        <mat-icon>restart_alt</mat-icon>
-        {{ t('material_customer.toolbar.overwrite_layout') }}
-      </button>
-
-      <button
-        mat-button
-        (click)="
-          data.resetLayout(
-            layoutForm.controls['currentLayout'].getRawValue().id
-          );
-          dialog.closeAll()
-        "
-      >
-        <mat-icon>undo</mat-icon>
-        {{ t('material_customer.toolbar.reset_layout') }}
-      </button>
+      <span>
+        <button
+          class="mb-3"
+          mat-button
+          (click)="
+            data.saveLayout(
+              layoutForm.controls['currentLayout'].getRawValue().id
+            );
+            dialog.closeAll()
+          "
+        >
+          <mat-icon>restart_alt</mat-icon>
+          {{ t('material_customer.toolbar.overwrite_layout') }}
+        </button>
+      </span>
+      <span>
+        <button
+          mat-button
+          (click)="
+            data.resetLayout(
+              layoutForm.controls['currentLayout'].getRawValue().id
+            );
+            dialog.closeAll()
+          "
+        >
+          <mat-icon>undo</mat-icon>
+          {{ t('material_customer.toolbar.reset_layout') }}
+        </button>
+      </span>
     </div>
   </mat-dialog-content>
 </div>
