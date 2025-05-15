@@ -1,4 +1,11 @@
 # Release Notes of Engineering App
+## [1.15.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.15.2...ea-v1.15.3) (2025-05-15)
+
+
+### Bug Fixes
+
+* **ea:** remove references to thermally safe speed ([#7274](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7274)) ([f8247f9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f8247f9cc6d03dd867686ff626e6bfe370a84891))
+
 ## [1.15.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.15.1...ea-v1.15.2) (2025-05-09)
 
 
