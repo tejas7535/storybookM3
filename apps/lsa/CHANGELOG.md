@@ -1,4 +1,22 @@
 # Release Notes of Lubricator selection assistant
+## [0.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/lsa-v0.0.3...lsa-v0.1.0) (2025-05-15)
+
+
+### Features
+
+*  update shared components styles  (UFATBI- 8345) ([#7125](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7125)) ([271c78a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/271c78a6a21135ade7b576afb51ea0255bc5981c))
+* **lsa:** pdf product price and availability - UFTABI-8860 ([a6e6de9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a6e6de9f3bf6d034d64d7836543edea7c3e5145a))
+* **pdf-generator:** adjust header to accept custom text color ([#7277](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7277)) ([3b7532a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3b7532a31010f7e7e332071f38caa72701ae9e7a))
+* **pdf-generator:** basic library and LSA PDF implementation - UFTABI-8591 ([#7091](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7091)) ([532df78](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/532df78a4fafb84c80a0bec805fd0c8f0f435328))
+
+
+### Bug Fixes
+
+* **lsa:** add robots.txt disallow rule for lsa ([#7267](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7267)) ([8896f70](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8896f708e6dfd7f589d65ae95def46e33a866a6d))
+* **lsa:** adjust PDF components to by default resemble medias design lang ([#7215](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7215)) ([715d1f7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/715d1f751dfd5f03cccbafacf85f849a2871c249))
+* **lsa:** fix loading pdf fonts on medias embed ([#7191](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7191)) ([4d71445](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4d7144547452debaac88cc5ac68f684e0bfdbfc9))
+* **lsa:** remove invisible characters from LSA PDF ([#7260](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7260)) ([2db54c7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2db54c7f3c0613bc339c024f75af1c52ebca3b40))
+
 ## [0.0.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/lsa-v0.0.2...lsa-v0.0.3) (2025-03-03)
 
 
