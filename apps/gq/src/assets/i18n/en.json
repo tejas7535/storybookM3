@@ -648,10 +648,10 @@
     "uploadDialog": {
       "title": "Upload Documents",
       "dialogOptionInfo": "or Drop Files",
-      "dialogInfo": "Max file size 2MB",
+      "dialogInfo": "Max file size 5MB",
       "uploadButton": "Upload",
       "cancelButton": "Cancel",
-      "fileSizeExceedsTooltip": "File exceeds maximum size (2 MB).",
+      "fileSizeExceedsTooltip": "File exceeds maximum size (5 MB).",
       "fileExitsTooltip": "File already exists.",
       "fileTypeNotSupportedTooltip": "File type not supported.",
       "rfqSqvCheckApproval": {

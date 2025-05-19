@@ -49,7 +49,7 @@ export class AttachmentFilesUploadModalComponent {
   modalData: AttachmentDialogData = inject(MAT_DIALOG_DATA);
   attachmentsUploading$: Observable<boolean> = this.modalData.uploading$;
 
-  private readonly MAX_FILE_SIZE = 2_000_000; // ~ 2MB
+  private readonly MAX_FILE_SIZE = 5_240_000; // ~ 5MB
   filesToUpload: FilesToUploadDisplay[] = [];
   disableUploadButton = false;
 
