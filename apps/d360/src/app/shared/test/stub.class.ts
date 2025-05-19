@@ -414,6 +414,7 @@ export class Stub {
         saveValidatedDemandSingleMcc: jest.fn().mockReturnValue(of('')),
         getKpiBuckets: jest.fn().mockReturnValue(of([])),
         saveValidatedDemandBatch: jest.fn(),
+        deleteValidatedDemandBatch: jest.fn(),
         getKpiData: jest.fn().mockReturnValue(of({})),
         triggerExport: jest.fn().mockReturnValue(of({})),
       },

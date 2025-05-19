@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, input } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
@@ -59,8 +59,6 @@ export class DemandValidationMultiGridComponent {
   private readonly dialogRef: MatDialogRef<DemandValidationMultiGridComponent> =
     inject(MatDialogRef<DemandValidationMultiGridComponent>);
 
-  public customerName = input.required<string>();
-
   protected data: DemandValidationMultiListEditModalProps =
     inject(MAT_DIALOG_DATA);
 
@@ -93,10 +91,12 @@ export class DemandValidationMultiGridComponent {
     }
   );
 
-  protected readonly firstEditableDate = firstEditableDate(
-    (this.formGroup.controls.periodType1.getRawValue()
-      ?.id as DateRangePeriod) || DateRangePeriod.Monthly
-  );
+  protected get firstEditableDate(): Date {
+    return firstEditableDate(
+      (this.formGroup.controls.periodType1.getRawValue()
+        ?.id as DateRangePeriod) || DateRangePeriod.Monthly
+    );
+  }
 
   @ValidateForm('formGroup')
   protected create() {

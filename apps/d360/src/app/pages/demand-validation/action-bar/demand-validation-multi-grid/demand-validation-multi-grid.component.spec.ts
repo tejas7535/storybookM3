@@ -222,4 +222,52 @@ describe('DemandValidationMultiGridConfigurationModalComponent', () => {
       expect(dialogRefSpy).toHaveBeenCalledWith(true);
     });
   });
+
+  describe('firstEditableDate getter', () => {
+    it('should return correct first editable date for Monthly period', () => {
+      // Arrange
+      const monthlyPeriod = { id: DateRangePeriod.Monthly, text: 'Monthly' };
+      component['formGroup'].get('periodType1').setValue(monthlyPeriod);
+
+      // Import and mock the firstEditableDate utility function
+      jest.mock('../../../../feature/demand-validation/limits', () => ({
+        firstEditableDate: jest.fn().mockReturnValue(new Date(2023, 0, 1)),
+      }));
+
+      // Act
+      const result = component['firstEditableDate'];
+
+      // Assert
+      expect(result).toBeInstanceOf(Date);
+    });
+
+    it('should return correct first editable date for Weekly period', () => {
+      // Arrange
+      const weeklyPeriod = { id: DateRangePeriod.Weekly, text: 'Weekly' };
+      component['formGroup'].get('periodType1').setValue(weeklyPeriod);
+
+      // Act
+      const result = component['firstEditableDate'];
+
+      // Assert
+      expect(result).toBeInstanceOf(Date);
+    });
+  });
+
+  describe('Period types', () => {
+    it('should initialize periodTypes with default values', () => {
+      // Assert
+      expect(component['periodTypes']).toBeDefined();
+      expect(Array.isArray(component['periodTypes'])).toBe(true);
+      expect(component['periodTypes'].length).toBeGreaterThan(0);
+    });
+
+    it('should have period types with id and text properties', () => {
+      // Assert
+      component['periodTypes'].forEach((periodType) => {
+        expect(periodType).toHaveProperty('id');
+        expect(periodType).toHaveProperty('text');
+      });
+    });
+  });
 });

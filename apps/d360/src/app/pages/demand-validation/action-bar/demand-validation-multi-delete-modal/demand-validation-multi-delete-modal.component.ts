@@ -118,10 +118,12 @@ export class DemandValidationMultiDeleteModalComponent {
     }
   );
 
-  protected readonly firstEditableDate = firstEditableDate(
-    (this.formGroup.controls.periodType.getRawValue()?.id as DateRangePeriod) ||
-      DateRangePeriod.Monthly
-  );
+  protected get firstEditableDate(): Date {
+    return firstEditableDate(
+      (this.formGroup.controls.periodType.getRawValue()
+        ?.id as DateRangePeriod) || DateRangePeriod.Monthly
+    );
+  }
 
   protected readonly DisplayFunctions = DisplayFunctions;
 
