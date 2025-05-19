@@ -20,8 +20,6 @@ import {
   KpiBucketTypeEnum,
   KpiEntry,
 } from '../../../../feature/demand-validation/model';
-import { getMonthYearDateFormatByCode } from '../../../../shared/constants/available-locales';
-import { LocaleType } from './../../../../shared/constants/available-locales';
 
 export interface ICustomHeaderParams extends IHeaderParams {
   kpiEntry: KpiEntry;
@@ -78,19 +76,12 @@ export class DemandValidationKpiHeaderComponent implements IHeaderAngularComp {
   }
 
   protected getDate(input: string, bucketType: KpiBucketType): string {
-    if (bucketType === 'MONTH') {
-      return format(
-        input,
-        getMonthYearDateFormatByCode(
-          this.translocoLocaleService.getLocale() as LocaleType
-        ).display.dateInput
-      );
-    }
-
     return this.translocoLocaleService.localizeDate(
       input,
       this.translocoLocaleService.getLocale(),
-      { day: '2-digit', month: '2-digit', year: 'numeric' }
+      bucketType === 'MONTH'
+        ? { month: '2-digit', year: 'numeric' }
+        : { day: '2-digit', month: '2-digit', year: 'numeric' }
     );
   }
 
