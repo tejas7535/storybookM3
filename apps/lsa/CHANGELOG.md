@@ -1,4 +1,11 @@
 # Release Notes of Lubricator selection assistant
+## [0.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/lsa-v0.1.0...lsa-v0.1.1) (2025-05-19)
+
+
+### Bug Fixes
+
+* **lsa:** enable PDF download button ([#7282](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7282)) ([1572f54](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1572f54e6d7cc9241d1600f27b3ebcdecbf8ad7b))
+
 ## [0.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/lsa-v0.0.3...lsa-v0.1.0) (2025-05-15)
 
 
