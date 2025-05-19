@@ -1,4 +1,6 @@
 # Release Notes of Engineering App
+## [1.15.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.15.3...ea-v1.15.4) (2025-05-19)
+
 ## [1.15.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.15.2...ea-v1.15.3) (2025-05-15)
 
 
