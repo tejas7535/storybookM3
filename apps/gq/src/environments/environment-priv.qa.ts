@@ -9,18 +9,20 @@ export const environment: Environment = {
   tenantId: '67416604-6509-4014-9859-45e709f53d3f',
   appScope: 'api://ab371c43-8740-4102-b4ad-f49e68270f1a/gqapi',
   envName: 'https://guided-quoting.de-q.aks.schaeffler.com (qa)',
-  oneTrustId: '0193d3bb-3bcb-7123-a053-4ddec6431adc',
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: '8c7ca8f2-fad3-48e2-8c61-cc0c44417772',
       disableCookiesUsage: false,
       autoTrackPageVisitTime: true,
     },
-    consent: true,
     enableGlobalErrorHandler: true,
     enableNgrxMetaReducer: true,
     ngrxIgnorePattern: ['@ngrx/*'],
     trackPageViewUsingUriAsName: true,
+    customProps: {
+      tag: 'application',
+      value: '[GQ - Guided Quoting QA]',
+    },
   },
   environment: EnvironmentEnum.qa,
 };

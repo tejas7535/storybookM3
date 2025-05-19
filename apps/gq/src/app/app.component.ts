@@ -1,16 +1,9 @@
 /* eslint-disable ngrx/avoid-mapping-selectors */
-import {
-  Component,
-  HostListener,
-  inject,
-  OnInit,
-  Optional,
-} from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
 import { filter, map, merge, Observable, of, take } from 'rxjs';
 
-import { OneTrustService } from '@altack/ngx-onetrust';
 import { TranslocoService } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
 
@@ -45,8 +38,7 @@ export class AppComponent implements OnInit {
   );
   private readonly userSettingsService: UserSettingsService =
     inject(UserSettingsService);
-  @Optional() private readonly oneTrustService: OneTrustService =
-    inject(OneTrustService);
+
   readonly healthCheckFacade: HealthCheckFacade = inject(HealthCheckFacade);
 
   title = 'Guided Quoting';
@@ -68,11 +60,6 @@ export class AppComponent implements OnInit {
     {
       link: `${LegalRoute}/${LegalPath.TermsPath}`,
       title: this.translocoService.translate('legal.termsOfUse'),
-      external: false,
-    },
-    {
-      link: `${LegalRoute}/${LegalPath.CookiePath}`,
-      title: this.translocoService.translate('legal.cookiePolicy'),
       external: false,
     },
     {
@@ -111,10 +98,6 @@ export class AppComponent implements OnInit {
 
     this.handleCurrentRoute();
 
-    this.translocoService.langChanges$.subscribe((language) => {
-      this.oneTrustService?.translateBanner(language, true);
-    });
-
     this.appInsightsService.addCustomPropertyToTelemetryData(
       'appVersion',
       this.appVersion
@@ -134,10 +117,6 @@ export class AppComponent implements OnInit {
     const routerEvents = this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd),
       map((event) => (event as unknown as NavigationEnd)?.url)
-    );
-    // check if current route is cookie page
-    this.isCookieRouteActive$ = merge(initialLoad, routerEvents).pipe(
-      map((url) => url.split('/').pop() === LegalPath.CookiePath)
     );
 
     this.showGlobalSearch$ = merge(initialLoad, routerEvents).pipe(

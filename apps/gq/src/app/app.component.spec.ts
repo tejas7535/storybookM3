@@ -1,10 +1,12 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { ActivatedRoute, Router, RouterEvent } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterEvent,
+} from '@angular/router';
 
 import { ReplaySubject } from 'rxjs';
 
-import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
-import { TranslocoModule } from '@jsverse/transloco';
 import {
   createComponentFactory,
   mockProvider,
@@ -16,14 +18,11 @@ import { MockComponent } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { AppShellModule } from '@schaeffler/app-shell';
-import {
-  ApplicationInsightsService,
-  COOKIE_GROUPS,
-} from '@schaeffler/application-insights';
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { MaintenanceModule } from '@schaeffler/empty-states';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
+import { LegalPath } from '@schaeffler/legal-pages';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -34,11 +33,6 @@ import { HealthCheckFacade } from './core/store/health-check/health-check.facade
 import { GlobalSearchBarModule } from './shared/components/global-search-bar/global-search-bar.module';
 import { UserSettingsComponent } from './shared/components/user-settings/user-settings.component';
 import { UserSettingsService } from './shared/services/rest/user-settings/user-settings.service';
-
-jest.mock('@jsverse/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 
 const eventSubject = new ReplaySubject<RouterEvent>(1);
 
@@ -52,7 +46,6 @@ describe('AppComponent', () => {
   let component: AppComponent;
   let spectator: Spectator<AppComponent>;
   let store: MockStore;
-  let oneTrustService: OneTrustService;
 
   const createComponent = createComponentFactory({
     component: AppComponent,
@@ -65,10 +58,6 @@ describe('AppComponent', () => {
       MaintenanceModule,
       AppRoutingModule,
       GlobalSearchBarModule,
-      OneTrustModule.forRoot({
-        cookiesGroups: COOKIE_GROUPS,
-        domainScript: 'mockOneTrustId',
-      }),
     ],
     providers: [
       provideMockStore({
@@ -77,10 +66,7 @@ describe('AppComponent', () => {
           healthCheck: HEALTH_CHECK_STATE_MOCK,
         },
       }),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
+
       {
         provide: Router,
         useValue: routerMock,
@@ -96,7 +82,6 @@ describe('AppComponent', () => {
       mockProvider(UserSettingsService, {
         updateUserSettings: jest.fn(),
       }),
-      mockProvider(OneTrustService),
       mockProvider(HealthCheckFacade),
       mockProvider(ApplicationInsightsService),
     ],
@@ -107,7 +92,6 @@ describe('AppComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(MockStore);
-    oneTrustService = spectator.inject(OneTrustService);
   });
 
   test('should create the app', () => {
@@ -124,7 +108,6 @@ describe('AppComponent', () => {
   });
   describe('ngOnInit', () => {
     test('should set observables and dispatch login', () => {
-      oneTrustService.translateBanner = jest.fn();
       store.dispatch = jest.fn();
       component.handleCurrentRoute = jest.fn();
 
@@ -132,31 +115,51 @@ describe('AppComponent', () => {
 
       expect(component.username$).toBeDefined();
       expect(component.handleCurrentRoute).toHaveBeenCalledTimes(1);
-      expect(oneTrustService.translateBanner).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('handleCurrentRoute', () => {
     test(
-      'should consider initial routing event - cookie route inactive',
+      'should set showGlobalSearch$ to true when url starts with /case-view',
       marbles((m) => {
+        // Arrange
+        const url = '/case-view/123';
+        routerMock.url = url;
+        // Simulate NavigationEnd event
+        const navigationEnd = {
+          url,
+          instanceof: () => true,
+        } as unknown as NavigationEnd;
+        eventSubject.next(navigationEnd);
+
+        // Act
         component.handleCurrentRoute();
 
-        m.expect(component.isCookieRouteActive$).toBeObservable(
-          m.cold('a', { a: false })
-        );
+        // Assert
+        const expected$ = m.cold('(a)', { a: true });
+        m.expect(component.showGlobalSearch$).toBeObservable(expected$);
       })
     );
 
     test(
-      'should consider initial routing event - cookie route active',
+      'should set showGlobalSearch$ to false when url does not start with /case-view',
       marbles((m) => {
-        routerMock.url = `${LegalRoute}/${LegalPath.CookiePath}`;
+        // Arrange
+        const url = '/other-route';
+        routerMock.url = url;
+        // Simulate NavigationEnd event
+        const navigationEnd = {
+          url,
+          instanceof: () => true,
+        } as unknown as NavigationEnd;
+        eventSubject.next(navigationEnd);
+
+        // Act
         component.handleCurrentRoute();
 
-        m.expect(component.isCookieRouteActive$).toBeObservable(
-          m.cold('a', { a: true })
-        );
+        // Assert
+        const expected$ = m.cold('(a)', { a: false });
+        m.expect(component.showGlobalSearch$).toBeObservable(expected$);
       })
     );
   });

@@ -28,6 +28,7 @@ Make sure, you have them installed via `npm` properly.
             enableNgrxMetaReducer: false|true, // optional - default is false
             ngrxIgnorePattern: ['@ngrx/*'], // optional - default is undefined, but it is recommened to exclude `@ngrx/*` actions
             trackPageViewUsingUriAsName: false|true, // optional - default is false, but it is recommended to switch to true for production builds as the default component names are minified and not readable in prod builds
+            customProps: CustomProps // optional - sets custom props in case no consent is required.
         },
     };
    ```
@@ -64,6 +65,20 @@ If you want to log additonal custom properties for any event (pageView, customEv
 
         this.applicationInsights.addCustomPropertyToTelemetryData(tag, value);
     }
+```
+In case you do not need the consent of the user, you can provide the optional property `customProps?: CustomProps` in your `ApplicationInsightsModuleConfig`:
+```typescript
+    export const environment = {
+        ...
+        applicationInsights: {
+            ...
+            consent: false // no consent required
+            customProps: { // optional
+                tag: 'application',
+                value: '[GQ - Guided Quoting DEV]',
+            }
+        },
+    };
 ```
 
 **Optional**:  

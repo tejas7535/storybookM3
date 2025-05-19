@@ -24,20 +24,6 @@
         @if (healthCheckFacade.healthCheckAvailable$ | ngrxPush) {
           <div class="h-full w-full">
             <router-outlet></router-outlet>
-            <div
-              *transloco="let t; read: 'legal'"
-              class="bg-surface-legacy mx-auto w-full max-w-screen-md"
-              [ngClass]="{ hidden: !(isCookieRouteActive$ | ngrxPush) }"
-            >
-              <div class="px-4 py-3">
-                <button id="ot-sdk-btn" class="ot-sdk-show-settings">
-                  {{ t('cookieSettings') }}
-                </button>
-              </div>
-              <div class="py-3 md:px-4">
-                <div id="ot-sdk-cookie-policy"></div>
-              </div>
-            </div>
           </div>
         } @else {
           <schaeffler-maintenance

@@ -1,3 +1,4 @@
+import { CustomProps } from '@schaeffler/application-insights';
 import { EnvironmentEnum } from '../app/shared/models';
 
 export interface Environment {
@@ -8,18 +9,17 @@ export interface Environment {
   clientId: string;
   appScope: string;
   envName: string;
-  oneTrustId: string;
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: string;
       disableCookiesUsage: boolean;
       autoTrackPageVisitTime: boolean;
     };
-    consent: boolean;
     enableGlobalErrorHandler: boolean;
     enableNgrxMetaReducer: boolean;
     ngrxIgnorePattern: string[];
     trackPageViewUsingUriAsName: boolean;
+    customProps: CustomProps;
   };
   environment: EnvironmentEnum;
 }

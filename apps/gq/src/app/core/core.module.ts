@@ -1,5 +1,5 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { inject, NgModule, provideAppInitializer } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import {
@@ -9,7 +9,6 @@ import {
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
-import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import { GlobalSearchBarModule } from '@gq/shared/components/global-search-bar/global-search-bar.module';
 import { UserSettingsComponent } from '@gq/shared/components/user-settings/user-settings.component';
 import {
@@ -24,12 +23,7 @@ import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
 import { PushPipe } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
-import {
-  ApplicationInsightsModule,
-  ApplicationInsightsService,
-  COOKIE_GROUPS,
-  CustomProps,
-} from '@schaeffler/application-insights';
+import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { MaintenanceModule } from '@schaeffler/empty-states';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -39,23 +33,6 @@ import { environment } from '../../environments/environment';
 import { ENV, getEnv } from '../../environments/environments.provider';
 import { AppComponent } from '../app.component';
 import { StoreModule } from './store';
-
-export function appInitializer(
-  oneTrustService: OneTrustService,
-  applicationInsightsService: ApplicationInsightsService
-) {
-  const customProps: CustomProps = {
-    tag: 'application',
-    value: '[GQ - Guided Quoting]',
-  };
-
-  applicationInsightsService.initTracking(
-    oneTrustService.consentChanged$(),
-    customProps
-  );
-
-  return () => oneTrustService.loadOneTrust();
-}
 
 @NgModule({
   declarations: [AppComponent],
@@ -88,10 +65,6 @@ export function appInitializer(
     ),
     // Cookie Tracking
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
-    OneTrustModule.forRoot({
-      cookiesGroups: COOKIE_GROUPS,
-      domainScript: environment.oneTrustId,
-    }),
   ],
   providers: [
     provideTranslocoPersistLang({
@@ -99,14 +72,6 @@ export function appInitializer(
       storage: {
         useValue: localStorage,
       },
-    }),
-    provideAppInitializer(() => {
-      const initializerFn = appInitializer(
-        inject(OneTrustService),
-        inject(ApplicationInsightsService)
-      );
-
-      return initializerFn();
     }),
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,

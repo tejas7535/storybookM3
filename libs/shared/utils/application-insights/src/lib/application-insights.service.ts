@@ -44,8 +44,15 @@ export class ApplicationInsightsService {
       });
 
       if (!moduleConfig.consent) {
-        this.appInsights.loadAppInsights();
-        this.startTracking(false);
+        this.startTracking(true);
+        const customProps = moduleConfig.customProps;
+
+        if (customProps) {
+          const { tag, value } = customProps;
+          this.addCustomPropertyToTelemetryData(tag, value);
+        }
+
+        this.trackInitalPageView();
       }
     }
   }
