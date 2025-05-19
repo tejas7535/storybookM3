@@ -1,0 +1,195 @@
+{
+  "appTitle": "Asistent pro výběr maznice",
+  "pages": {
+    "lubricationPoints": {
+      "title": "Mazací body"
+    },
+    "lubricant": {
+      "title": "Mazivo"
+    },
+    "application": {
+      "title": "Nanášení"
+    },
+    "result": {
+      "title": "Výsledek"
+    }
+  },
+  "recommendation": {
+    "lubricationPoints": {
+      "questionLubricationPoints": "Kolik mazacích míst chcete mazat?",
+      "questionRelubricationQuantity": "Jak vysoké je množství domazávání na jedno mazací místo?",
+      "perRelubricationInterval": "za {{ interval }}",
+      "year": "rok",
+      "month": "měsíc",
+      "day": "den",
+      "lubricationQuantityValue": "< {{ value }} cm³",
+      "lubricationQuantity": "Množství domazávání",
+      "questionOptime": "Chcete do svého mazacího systému integrovat OPTIME?",
+      "optime": {
+        "1": "Ano",
+        "0": "Ne",
+        "2": "Ještě nevím"
+      },
+      "questionPipeLength": "Jaká je maximální délka potrubí?",
+      "pipeLengthOptions": {
+        "directMontage": "Přímá montáž",
+        "lessThan": "< {{value}} m",
+        "between": "{{from}}–{{to}} m"
+      }
+    },
+    "lubrication": {
+      "questionLubricantType": "Používáte mazivo Schaeffler Arcanol?",
+      "options": {
+        "arcanol": "Ano",
+        "grease": "Jiné mazivo než Schaeffler",
+        "oil": "Jiný olej než Schaeffler"
+      },
+      "questionSchaefflerArcanol": "Jaké mazivo Schaeffler Arcanol používáte?",
+      "searchHint": "Příklad hodnoty: Arcanol MULTI2",
+      "label": "Typ maziva Arcanol"
+    },
+    "application": {
+      "questionAmbientTemperature": "Jak vysoká je okolní teplota v místě aplikace?",
+      "labels": {
+        "min": "Min.",
+        "max": "Max."
+      },
+      "questionPowerType": "Jak byste chtěli mazací systém napájet?",
+      "powerOptions": {
+        "external": "Externí napájení 24 V DC",
+        "battery": "Baterie",
+        "noPreference": "Ještě nevím"
+      }
+    },
+    "result": {
+      "minimumRequirements": "minimální požadavky",
+      "recommended": "doporučeno",
+      "schaefflerId": "Schaeffler ID",
+      "outputDiameter": "Výstupní průměr",
+      "maxOperatingPressure": "Provozní tlak",
+      "noOfOutlets": "Počet výstupů",
+      "maxTemp": "Maximální teplota",
+      "minTemp": "Minimální teplota",
+      "batteryPowered": "Napájení z baterie",
+      "medium": "Mazací médium",
+      "productSeries": "Řada produktu",
+      "volume": "Objem",
+      "isOptime": "OPTIME",
+      "smallerEqual": "≤",
+      "meter": "m",
+      "centimeter": "cm",
+      "cubiccentimeter": "cm³",
+      "degreeCelsius": "°C",
+      "bar": "bar",
+      "millilitre": "ml",
+      "tempRange": "Teplotní rozsah",
+      "tempRangeValues": "{{min}} až {{max}} °C",
+      "voltage": "Provozní napětí",
+      "dimensions": "Rozměry (mm)",
+      "yes": "Ano",
+      "no": "Ne",
+      "heading": "Seznam dílů pro {{ designation }}",
+      "share": "Sdílet",
+      "reset": "Resetovat vstupy",
+      "addToCart": "Přidat do košíku",
+      "addToCartMessage": "Produkty / příslušenství přidané do košíku",
+      "medium_general": "Médium",
+      "product": "Produkt",
+      "actions": "Akce",
+      "pieces": "Kusy",
+      "availability": "Dostupnost",
+      "quantity": "Množství",
+      "price": "Cena",
+      "perPiece": "za kus",
+      "totalPieces": "Celkem kusů",
+      "totalPrice": "Celková čistá hodnota",
+      "configSummary": "Shrnutí konfigurace",
+      "inStock": "Skladem",
+      "notInStock": "Není skladem",
+      "increaseOne": "Zvýšit množství o jedna",
+      "decreaseOne": "Snížit množství o jedna",
+      "func_principle": "Funkční princip",
+      "mounting_position": "Montážní poloha",
+      "category": {
+        "lubricantApplication": "Aplikace maziva",
+        "cartridge": "Kartuš",
+        "gateway": "Brána",
+        "subDistributors": "Subdistributoři",
+        "accessories": "Příslušenství",
+        "fittings": "Armatury",
+        "lubricator": "Maznice",
+        "hoses": "Hadice"
+      },
+      "error": {
+        "heading": "Žádné kompatibilní zařízení",
+        "body": "Nepodařilo se nám najít zařízení, které by odpovídalo vámi zadaným kritériím aplikace. Chcete-li získat pomoc při hledání vhodného mazacího řešení, obraťte se na naše odborníky na technické podpoře.",
+        "ctaLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
+        "ctaText": "Technická podpora společnosti Schaeffler"
+      },
+      "errors": {
+        "compatability": {
+          "pressure": {
+            "title": "Požadavky na tlak jsou příliš vysoké",
+            "body": "Vypočtené požadavky na tlak pro vaši konfiguraci jsou příliš vysoké. Zkuste umístit maznici blíže k mazacím místům, abyste zkrátili délku trubky."
+          }
+        },
+        "lubrication": {
+          "quantityLow": {
+            "title": "Malé množství maziva",
+            "body": "Vaše konfigurace ukazuje na velmi malé množství maziva. Při takto malém množství mohou maziva překročit svou konstrukční životnost. Zvažte místo toho ruční mazání."
+          },
+          "quantityHigh": {
+            "title": "Velké množství maziva",
+            "body": "Množství maziva pro vaši konfiguraci přesahuje možnosti našeho portfolia výrobků."
+          }
+        }
+      },
+      "warning": {
+        "adjustedAutomatically": "V ekosystému OPTIME jsme nenašli vhodné řešení. Můžeme poskytnout následující alternativy bez funkce OPTIME.",
+        "noRecommendation": "Pro vaše vstupní parametry jsme nemohli automaticky poskytnout vhodné doporučení. Kontaktujte prosím technickou podporu společnosti Schaeffler pro konzultaci.",
+        "usedFallbackGrease": "Nemůžeme poskytnout podrobné doporučení pro maziva dostupná na trhu. Pro náš výpočet jsme použili široce kompatibilní mazivo z portfolia Schaeffler Arcanol. Ujistěte se, že používané mazivo má srovnatelné vlastnosti."
+      }
+    }
+  },
+  "tooltips": {
+    "lubricationPoints": {
+      "quantity": "Zde uveďte průměrné množství maziva potřebné na mazací místo a interval. Pokud se jednotlivá mazací množství na mazací místo výrazně liší, může být nutné provést samostatné výpočty.",
+      "pipeLength": "",
+      "optime": "Ekosystém OPTIME společnosti Schaeffler umožňuje integraci nejrůznějších systémů údržby do jednoho digitálního řešení a vyznačuje se velmi jasným přehledem a jednoduchou obsluhou. Pokud považujete integraci mazacího systému do systému OPTIME za důležité kritérium, odpovězte na tuto otázku „ano“."
+    },
+    "application": {
+      "temps": "Zde uveďte možné hodnoty MIN. a MAX. okolní teploty, ve které je mazací systém instalován. Upozorňujeme, že se jedná o místo instalace maznice, nikoli např. o teplotu ložiska."
+    },
+    "lubricant": {
+      "lubricant": "Maziva společnosti Schaeffler byla speciálně vyvinuta pro použití ve valivých ložiskách a optimalizována s ohledem na jejich výkon. Společnost Schaeffler nabízí rozsáhlé portfolio různých maziv pro všechny možné aplikace a požadavky."
+    }
+  },
+  "inputs": {
+    "title": "Vaše vstupy",
+    "relubricationQuantity": {
+      "title": "Množství domazávání na místo",
+      "value": "< {{quantity}} cm³ per {{interval}}"
+    },
+    "temperature": {
+      "title": "Okolní teplota v aplikaci",
+      "value": "{{min}} až {{max}} °C"
+    },
+    "lubricationPoints": "Počet mazacích míst",
+    "maxPipeLengthTitle": "Maximální délka potrubí",
+    "powerSupplyTitle": "Napájení",
+    "optimeTitle": "Integrace OPTIME",
+    "remoteChanged": "Váš původní požadavek s {{original}} nepřinesl žádné platné výsledky. Jako možnou alternativu jsme automaticky zkusili použít {{new}}. Zkontrolujte, zda je kompatibilní s vaším případem použití!"
+  },
+  "disclaimer": {
+    "text": "Naše údaje berou v úvahu ta rizika, která nám byla zřejmá na základě vašich požadavků, jak jste nám je poskytli. Výsledky uvedené v tomto dokumentu byly pečlivě zpracovány v souladu se stavem techniky, ale nepředstavují výslovnou ani nevyjádřenou záruku kvality nebo trvanlivosti v právním smyslu. Proto nejste zbaveni povinnosti kontrolovat vhodnost výrobků pro zamýšlené použití. Za údaje uvedené v doporučení odpovídáme pouze v případě úmyslného jednání nebo nedbalosti. Upozornění: Produkty Optime fungují pouze ve spojení s digitální službou, kterou je třeba objednat zvlášť. V případě dotazů týkajících se výrobku, doporučení nebo vhodnosti výrobku nás kontaktujte:",
+    "linkText": "Kontaktujte nás",
+    "link": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
+    "showMore": "Zobrazit více",
+    "showLess": "Zobrazit méně"
+  },
+  "feedback": {
+    "text": "Vaše zpětná vazba nám pomáhá neustále zlepšovat náš produkt.",
+    "button": "Zpětná vazba",
+    "surveyUrl": "https://schaefflertech.qualtrics.com/jfe/form/SV_6J4IWTJrKCo6nY2?Q_Language="
+  }
+}

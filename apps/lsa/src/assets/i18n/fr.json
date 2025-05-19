@@ -1,0 +1,195 @@
+{
+  "appTitle": "Assistant de sélection des lubrificateurs",
+  "pages": {
+    "lubricationPoints": {
+      "title": "Points de lubrification"
+    },
+    "lubricant": {
+      "title": "Lubrifiant"
+    },
+    "application": {
+      "title": "Application"
+    },
+    "result": {
+      "title": "Résultat"
+    }
+  },
+  "recommendation": {
+    "lubricationPoints": {
+      "questionLubricationPoints": "Combien de points de lubrification souhaitez-vous lubrifier ?",
+      "questionRelubricationQuantity": "Quelle est la quantité de relubrification par point de lubrification ?",
+      "perRelubricationInterval": "par {{ interval }}",
+      "year": "an",
+      "month": "mois",
+      "day": "jour",
+      "lubricationQuantityValue": "< {{ value }} cm³",
+      "lubricationQuantity": "Quantité de relubrification",
+      "questionOptime": "Voulez-vous intégrer OPTIME dans votre système de lubrification ?",
+      "optime": {
+        "1": "Oui",
+        "0": "Non",
+        "2": "Je ne sais pas encore"
+      },
+      "questionPipeLength": "Quelle est la longueur maximale du tuyau ?",
+      "pipeLengthOptions": {
+        "directMontage": "Montage direct",
+        "lessThan": "< {{value}} m",
+        "between": "{{from}} - {{to}} m"
+      }
+    },
+    "lubrication": {
+      "questionLubricantType": "Utilisez-vous un lubrifiant Schaeffler Arcanol ?",
+      "options": {
+        "arcanol": "Oui",
+        "grease": "Graisse non Schaeffler",
+        "oil": "Huile non Schaeffler"
+      },
+      "questionSchaefflerArcanol": "Quel lubrifiant Schaeffler Arcanol utilisez-vous ?",
+      "searchHint": "Exemple de valeur : Arcanol MULTI2",
+      "label": "Type d’Arcanol"
+    },
+    "application": {
+      "questionAmbientTemperature": "Quelle est la température ambiante de l’application ?",
+      "labels": {
+        "min": "Min.",
+        "max": "Max."
+      },
+      "questionPowerType": "Comment souhaitez-vous alimenter votre système de lubrification ?",
+      "powerOptions": {
+        "external": "Alimentation externe 24 V CC",
+        "battery": "Batterie",
+        "noPreference": "Je ne sais pas encore"
+      }
+    },
+    "result": {
+      "minimumRequirements": "exigences minimales",
+      "recommended": "recommandé",
+      "schaefflerId": "Schaeffler ID",
+      "outputDiameter": "Diamètre de sortie",
+      "maxOperatingPressure": "Pression de fonctionnement",
+      "noOfOutlets": "Nombre de sorties",
+      "maxTemp": "Température maximale",
+      "minTemp": "Température minimale",
+      "batteryPowered": "Alimentation par batterie",
+      "medium": "Produit de graissage",
+      "productSeries": "Série de produits",
+      "volume": "Volume",
+      "isOptime": "OPTIME",
+      "smallerEqual": "≤",
+      "meter": "m",
+      "centimeter": "cm",
+      "cubiccentimeter": "cm³",
+      "degreeCelsius": "°C",
+      "bar": "bar",
+      "millilitre": "ml",
+      "tempRange": "Plage de températures",
+      "tempRangeValues": "{{min}} °C à {{max}} °C",
+      "voltage": "Tension de fonctionnement",
+      "dimensions": "Cotes (mm)",
+      "yes": "Oui",
+      "no": "Non",
+      "heading": "Liste de pièces pour {{ designation }}",
+      "share": "Partager",
+      "reset": "Réinitialisation des entrées",
+      "addToCart": "Ajouter au panier",
+      "addToCartMessage": "Produits / Accessoires ajoutés au panier",
+      "medium_general": "Moyen",
+      "product": "Produit",
+      "actions": "Actions",
+      "pieces": "Pièces",
+      "availability": "Disponibilité",
+      "quantity": "Quantité",
+      "price": "Prix",
+      "perPiece": "par pièce",
+      "totalPieces": "Nombre total de pièces",
+      "totalPrice": "Valeur totale nette",
+      "configSummary": "Résumé de la configuration",
+      "inStock": "En stock",
+      "notInStock": "En rupture de stock",
+      "increaseOne": "Augmenter la quantité d’une unité",
+      "decreaseOne": "Diminuer la quantité d’une unité",
+      "func_principle": "Principe fonctionnel",
+      "mounting_position": "Position de montage",
+      "category": {
+        "lubricantApplication": "Application de lubrifiant",
+        "cartridge": "Cartouche",
+        "gateway": "Passerelle",
+        "subDistributors": "Sous-distributeurs",
+        "accessories": "Accessoires",
+        "fittings": "Raccords",
+        "lubricator": "Lubrificateur",
+        "hoses": "Flexibles"
+      },
+      "error": {
+        "heading": "Aucun appareil compatible",
+        "body": "Nous n’avons pas trouvé d’appareil correspondant aux critères d’application que vous avez fournis. Si vous souhaitez obtenir de l’aide pour trouver une solution de lubrification appropriée, veuillez contacter nos experts de l’assistance technique",
+        "ctaLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
+        "ctaText": "Assistance technique Schaeffler"
+      },
+      "errors": {
+        "compatability": {
+          "pressure": {
+            "title": "Les exigences de pression sont trop élevées",
+            "body": "Les exigences de pression calculées pour votre configuration sont trop élevées. Essayez de placer le lubrificateur plus près des points de lubrification pour réduire la longueur du tube"
+          }
+        },
+        "lubrication": {
+          "quantityLow": {
+            "title": "Quantité de lubrification faible",
+            "body": "Votre configuration indique une quantité de lubrification très faible. Pour des quantités aussi faibles, les lubrifiants peuvent dépasser leur durée de vie prévue. Envisagez plutôt une lubrification manuelle"
+          },
+          "quantityHigh": {
+            "title": "Quantité de lubrification élevée",
+            "body": "La quantité de lubrification pour votre configuration dépasse les capacités de notre gamme de produits"
+          }
+        }
+      },
+      "warning": {
+        "adjustedAutomatically": "Nous n’avons pas trouvé de solution adaptée dans l’écosystème OPTIME. Nous pouvons fournir les alternatives suivantes sans la fonctionnalité OPTIME",
+        "noRecommendation": "Nous n’avons pas pu proposer automatiquement une recommandation appropriée pour vos paramètres de saisie. Veuillez contacter l’assistance technique Schaeffler pour une consultation spécifique",
+        "usedFallbackGrease": "Nous ne pouvons pas proposer de recommandation détaillée pour les graisses disponibles sur le marché. Nous avons utilisé une graisse de la gamme Schaeffler Arcanol compatible avec de nombreux produits pour nos calculs. Veuillez vous assurer que les propriétés de la graisse que vous utilisez sont similaires"
+      }
+    }
+  },
+  "tooltips": {
+    "lubricationPoints": {
+      "quantity": "Veuillez spécifier ici la quantité moyenne de lubrifiant requise par point et intervalle de lubrification. Si les quantités de lubrifiant par point de lubrification diffèrent de manière significative, il peut être nécessaire d’effectuer des calculs distincts.",
+      "pipeLength": "",
+      "optime": "L’écosystème OPTIME de Schaeffler permet l’intégration d’une grande variété de systèmes de maintenance dans une solution numérique unique et se caractérise par une vue d’ensemble très claire et une grande facilité d’utilisation. Si vous considérez que l’intégration du système de lubrification dans OPTIME est un critère important, veuillez répondre « oui » à cette question."
+    },
+    "application": {
+      "temps": "Veuillez spécifier ici les valeurs MIN et MAX possibles pour la température ambiante du lieu d’installation du système de lubrification. Veuillez noter que ceci se réfère à l’emplacement d’installation du lubrificateur et non, par exemple, à la température des roulements."
+    },
+    "lubricant": {
+      "lubricant": "Les lubrifiants Schaeffler ont été spécialement développés pour être utilisés dans les roulements à galets et leurs performances ont été optimisées. Schaeffler propose une large gamme de lubrifiants différents pour toutes les applications et exigences possibles."
+    }
+  },
+  "inputs": {
+    "title": "Vos saisies",
+    "relubricationQuantity": {
+      "title": "Quantité de relubrification par point",
+      "value": "< {{quantity}} cm³ per {{interval}}"
+    },
+    "temperature": {
+      "title": "Température ambiante de l’application",
+      "value": "{{min}} °C à {{max}} °C"
+    },
+    "lubricationPoints": "Nombre de points de lubrification",
+    "maxPipeLengthTitle": "Longueur max. du tuyau",
+    "powerSupplyTitle": "Alimentation en tension",
+    "optimeTitle": "Intégration OPTIME",
+    "remoteChanged": "Votre demande initiale avec {{original}} n’a pas donné de résultats valides. Nous avons automatiquement réessayé avec {{new}} comme alternative possible. Veuillez vérifier que cette solution est compatible avec votre cas d’utilisation !"
+  },
+  "disclaimer": {
+    "text": "Nos informations prennent en compte les risques qui nous sont apparus, sur la base de vos besoins tels qu’ils nous ont été fournis. Les résultats affichés dans ce document ont été obtenus de manière minutieuse, en prenant en compte des facteurs de pointe, mais ne constituent aucunement une garantie expresse ou implicite de la qualité ou de la durabilité en termes juridiques. Ils ne vous dispensent nullement de la vérification de l’adaptabilité des produits à l’usage que vous souhaitez en faire. Nous ne sommes responsables des détails fournis dans la recommandation qu’en cas de négligence ou d’intention malveillante. Note : les produits Optime fonctionnent uniquement en combinaison avec un service numérique qui doit être commandé séparément. Pour toute question concernant le produit, la recommandation ou l’adéquation du produit, veuillez nous contacter :",
+    "linkText": "Contactez-nous",
+    "link": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
+    "showMore": "Afficher plus",
+    "showLess": "Afficher moins"
+  },
+  "feedback": {
+    "text": "Votre retour d’informations nous permet d’améliorer notre produit en continu.",
+    "button": "Retour d’informations",
+    "surveyUrl": "https://schaefflertech.qualtrics.com/jfe/form/SV_6J4IWTJrKCo6nY2?Q_Language="
+  }
+}

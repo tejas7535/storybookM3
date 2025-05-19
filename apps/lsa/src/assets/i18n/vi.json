@@ -1,0 +1,195 @@
+{
+  "appTitle": "Công cụ hỗ trợ lựa chọn chất bôi trơn",
+  "pages": {
+    "lubricationPoints": {
+      "title": "Điểm bôi trơn"
+    },
+    "lubricant": {
+      "title": "Chất bôi trơn"
+    },
+    "application": {
+      "title": "Nơi tra dầu bôi trơn"
+    },
+    "result": {
+      "title": "Kết quả"
+    }
+  },
+  "recommendation": {
+    "lubricationPoints": {
+      "questionLubricationPoints": "Bạn muốn tra dầu cho bao nhiêu điểm bôi trơn?",
+      "questionRelubricationQuantity": "Hãy cho biết số lần tra dầu lại cho mỗi điểm bôi trơn.",
+      "perRelubricationInterval": "/ {{ interval }}",
+      "year": "năm",
+      "month": "tháng",
+      "day": "ngày",
+      "lubricationQuantityValue": "< {{ value }} cm³",
+      "lubricationQuantity": "Số lần tra dầu lại",
+      "questionOptime": "Bạn có muốn tích hợp OPTIME vào hệ thống bôi trơn của mình không?",
+      "optime": {
+        "1": "Có",
+        "0": "Không",
+        "2": "Chưa quyết định"
+      },
+      "questionPipeLength": "Chiều dài tối đa của đường ống là bao nhiêu?",
+      "pipeLengthOptions": {
+        "directMontage": "Gắn trực tiếp",
+        "lessThan": "< {{value}} m",
+        "between": "{{from}} - {{to}} m"
+      }
+    },
+    "lubrication": {
+      "questionLubricantType": "Bạn có đang dùng sản phẩm bôi trơn của Schaeffler Arcanol không?",
+      "options": {
+        "arcanol": "Có",
+        "grease": "Mỡ bôi không thuộc Schaeffler",
+        "oil": "Dầu bôi không thuộc Schaeffler"
+      },
+      "questionSchaefflerArcanol": "Bạn đang sử dụng sản phẩm bôi trơn nào của Schaeffler Arcanol?",
+      "searchHint": "Giá trị mẫu: Arcanol MULTI2",
+      "label": "Loại Arcanol"
+    },
+    "application": {
+      "questionAmbientTemperature": "Hãy cho biết khoảng nhiệt độ xung quanh để tra dầu bôi trơn.",
+      "labels": {
+        "min": "Tối thiểu",
+        "max": "Tối đa"
+      },
+      "questionPowerType": "Bạn muốn dùng nguồn điện nào cho hệ thống bôi trơn của mình?",
+      "powerOptions": {
+        "external": "Nguồn điện bên ngoài DC 24 V",
+        "battery": "Pin",
+        "noPreference": "Chưa quyết định"
+      }
+    },
+    "result": {
+      "minimumRequirements": "yêu cầu tối thiểu",
+      "recommended": "đề xuất",
+      "schaefflerId": "Schaeffler ID",
+      "outputDiameter": "Đường kính bên ngoài",
+      "maxOperatingPressure": "Áp suất hoạt động",
+      "noOfOutlets": "Số lượng ống xả",
+      "maxTemp": "Nhiệt độ tối đa",
+      "minTemp": "Nhiệt độ tối thiểu",
+      "batteryPowered": "Dùng pin",
+      "medium": "Dung môi bôi trơn",
+      "productSeries": "Dòng sản phẩm",
+      "volume": "Khối lượng",
+      "isOptime": "OPTIME",
+      "smallerEqual": "≤",
+      "meter": "m",
+      "centimeter": "cm",
+      "cubiccentimeter": "cm³",
+      "degreeCelsius": "°C",
+      "bar": "bar",
+      "millilitre": "ml",
+      "tempRange": "Dãy nhiệt độ",
+      "tempRangeValues": "{{min}} °C đến {{max}} °C",
+      "voltage": "Điện áp hoạt động",
+      "dimensions": "Kích thước (mm)",
+      "yes": "Có",
+      "no": "Không",
+      "heading": "Bản kê chi tiết cho {{ designation }}",
+      "share": "Chia sẻ",
+      "reset": "Đặt lại thông tin đầu vào",
+      "addToCart": "Thêm vào giỏ hàng",
+      "addToCartMessage": "Sản phẩm / Phụ kiện đã thêm vào giỏ hàng",
+      "medium_general": "Dung môi",
+      "product": "Sản phẩm",
+      "actions": "Hoạt động",
+      "pieces": "Chiếc",
+      "availability": "Tình trạng còn hàng",
+      "quantity": "Số lượng",
+      "price": "Giá",
+      "perPiece": "/chiếc",
+      "totalPieces": "Tổng số chiếc",
+      "totalPrice": "Tổng giá trị ròng",
+      "configSummary": "Tóm tắt cấu hình",
+      "inStock": "Đang có hàng",
+      "notInStock": "Hết hàng",
+      "increaseOne": "Tăng thêm một",
+      "decreaseOne": "Giảm đi một",
+      "func_principle": "Nguyên lý chức năng",
+      "mounting_position": "Vị trí gắn",
+      "category": {
+        "lubricantApplication": "Nơi tra dầu bôi trơn",
+        "cartridge": "Lõi",
+        "gateway": "Cổng",
+        "subDistributors": "Bộ phân phối con",
+        "accessories": "Phụ kiện",
+        "fittings": "Các phụ kiện",
+        "lubricator": "Dụng cụ bôi trơn",
+        "hoses": "Vòi"
+      },
+      "error": {
+        "heading": "Không có thiết bị tương thích",
+        "body": "Chúng tôi không tìm thấy thiết bị phù hợp với tiêu chí nơi tra dầu bôi trơn bạn đã cung cấp. Để nhận trợ giúp tìm kiếm giải pháp bôi trơn phù hợp, vui lòng liên hệ với các chuyên gia của chúng tôi tại bộ phận hỗ trợ kỹ thuật",
+        "ctaLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
+        "ctaText": "Bộ phận Hỗ trợ kỹ thuật Schaeffler"
+      },
+      "errors": {
+        "compatability": {
+          "pressure": {
+            "title": "Yêu cầu áp suất quá cao",
+            "body": "Yêu cầu áp suất dự tính cho cấu hình của bạn quá cao. Để giảm chiều dài ống, hãy đưa dụng cụ bôi trơn đến sát điểm bôi trơn hơn"
+          }
+        },
+        "lubrication": {
+          "quantityLow": {
+            "title": "Số lần bôi trơn ít",
+            "body": "Cấu hình của bạn cho thấy số lần bôi trơn rất ít. Với số lần bôi ít như vậy, chất bôi trơn có thể sẽ bị quá hạn sử dụng chỉ định. Hãy cân nhắc thay bằng phương pháp bôi trơn thủ công"
+          },
+          "quantityHigh": {
+            "title": "Số lần bôi trơn nhiều",
+            "body": "Số lần bôi trơn cho cấu hình của bạn vượt quá khả năng cung cấp trong danh mục sản phẩm của chúng tôi"
+          }
+        }
+      },
+      "warning": {
+        "adjustedAutomatically": "Chúng tôi không tìm thấy giải pháp phù hợp trong hệ sinh thái OPTIME. Chúng tôi có thể cung cấp các giải pháp khác không cần dùng OPTIME sau",
+        "noRecommendation": "Chúng tôi không thể tự động đưa ra đề xuất phù hợp cho các thông số đầu vào của bạn. Vui lòng liên hệ bộ phận hỗ trợ kỹ thuật của Schaeffler để được tư vấn cụ thể",
+        "usedFallbackGrease": "Chúng tôi không thể đưa ra đề xuất chi tiết cho các loại mỡ bôi trơn có trên thị trường. Để tính toán, chúng tôi đã sử dụng một loại Mỡ bôi có khả năng ứng dụng rộng rãi từ Danh mục Schaeffler Arcanol. Vui lòng đảm bảo loại Mỡ bôi bạn đang sử dụng tương thích với các thuộc tính"
+      }
+    }
+  },
+  "tooltips": {
+    "lubricationPoints": {
+      "quantity": "Vui lòng điền vào đây số lần bôi trơn trung bình cần thiết cho mỗi điểm bôi trơn và chu kỳ. Nếu số lần bôi trơn riêng lẻ trên mỗi điểm bôi trơn chênh lệch nhiều, bạn có thể sẽ cần thực hiện tính toán riêng.",
+      "pipeLength": "",
+      "optime": "Hệ sinh thái OPTIME của Schaeffler cho phép tích hợp rất nhiều hệ thống bảo trì vào một giải pháp kỹ thuật số, đồng thời có phần tổng quan rất rõ ràng và dễ sử dụng. Nếu bạn xem việc tích hợp hệ thống bôi trơn vào OPTIME là một tiêu chí quan trọng, vui lòng trả lời “có” cho câu hỏi này."
+    },
+    "application": {
+      "temps": "Vui lòng điền vào đây giá trị NHỎ NHẤT và LỚN NHẤT có thể của nhiệt độ xung quanh để lắp đặt hệ thống bôi trơn. Xin lưu ý rằng thao tác này đề cập đến vị trí lắp đặt dụng cụ bôi trơn và không liên quan đến yếu tố khác như nhiệt độ vòng bi."
+    },
+    "lubricant": {
+      "lubricant": "Các chất bôi trơn của Schaeffler được phát triển chuyên biệt để sử dụng trong các ổ quay con lăn và mang lại hiệu suất tối ưu cho các ổ quay đó. Schaeffler mang đến danh mục sản phẩm đa dạng gồm nhiều chất bôi trơn khác nhau, phù hợp với mọi yêu cầu và nơi cần tra dầu bôi trơn có thể có."
+    }
+  },
+  "inputs": {
+    "title": "Thông tin đầu vào",
+    "relubricationQuantity": {
+      "title": "Số lần tra dầu lại cho mỗi điểm",
+      "value": "< {{quantity}} cm³ per {{interval}}"
+    },
+    "temperature": {
+      "title": "Nhiệt độ xung quanh khi tra dầu bôi trơn",
+      "value": "{{min}} °C đến {{max}} °C"
+    },
+    "lubricationPoints": "Số điểm bôi trơn",
+    "maxPipeLengthTitle": "Chiều dài tối đa của đường ống",
+    "powerSupplyTitle": "Nguồn điện",
+    "optimeTitle": "Tích hợp OPTIME",
+    "remoteChanged": "Yêu cầu ban đầu của bạn với {{original}} không cho kết quả hợp lệ nào. Để tìm cách thay thế khả thi, chúng tôi đã tự động thử lại với {{new}}. Vui lòng xem lại để đảm bảo giải pháp này phù hợp với tình huống sử dụng của bạn!"
+  },
+  "disclaimer": {
+    "text": "Thông tin chi tiết của chúng tôi có tính đến những rủi ro mà chúng tôi thấy rõ trên cơ sở các yêu cầu của bạn được cung cấp cho chúng tôi. Các kết quả được trình bày trong tài liệu đã được tính toán cẩn thận và phù hợp với công nghệ hiện đại nhưng không cấu thành sự bảo đảm rõ ràng hay ngụ ý về chất lượng hoặc độ bền theo nghĩa pháp lý. Do đó, bạn không được bỏ qua việc kiểm tra tính phù hợp của sản phẩm cho mục đích sử dụng của mình. Chúng tôi sẽ chỉ chịu trách nhiệm về các chi tiết được cung cấp trong thông tin đề xuất trong trường hợp có cố ý sai sót hoặc sơ suất. Xin lưu ý: Các sản phẩm Optime chỉ hoạt động khi được kết nối với Dịch vụ số được mua riêng. Nếu có thắc mắc về sản phẩm, đề xuất hoặc tính phù hợp của sản phẩm, vui lòng liên hệ tại đây:",
+    "linkText": "Liên hệ chúng tôi",
+    "link": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
+    "showMore": "Hiện thêm",
+    "showLess": "Ẩn bớt"
+  },
+  "feedback": {
+    "text": "Phản hồi của bạn giúp chúng tôi liên tục cải thiện sản phẩm của mình.",
+    "button": "Phản hồi",
+    "surveyUrl": "https://schaefflertech.qualtrics.com/jfe/form/SV_6J4IWTJrKCo6nY2?Q_Language="
+  }
+}

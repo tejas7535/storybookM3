@@ -1,0 +1,195 @@
+{
+  "appTitle": "윤활 장치 선택 도우미",
+  "pages": {
+    "lubricationPoints": {
+      "title": "윤활 포인트"
+    },
+    "lubricant": {
+      "title": "윤활유"
+    },
+    "application": {
+      "title": "적용"
+    },
+    "result": {
+      "title": "결과"
+    }
+  },
+  "recommendation": {
+    "lubricationPoints": {
+      "questionLubricationPoints": "윤활을 원하는 윤활 포인트는 몇 개입니까?",
+      "questionRelubricationQuantity": "윤활 포인트당 재윤활량은 얼마나 됩니까?",
+      "perRelubricationInterval": "{{ interval }}당",
+      "year": "년",
+      "month": "월",
+      "day": "일",
+      "lubricationQuantityValue": "< {{ value }} cm³",
+      "lubricationQuantity": "재윤활량",
+      "questionOptime": "OPTIME을 윤활 시스템에 통합하시겠습니까?",
+      "optime": {
+        "1": "예",
+        "0": "아니요",
+        "2": "아직 모르겠음"
+      },
+      "questionPipeLength": "최대 파이프 길이는 얼마입니까?",
+      "pipeLengthOptions": {
+        "directMontage": "직접 장착",
+        "lessThan": "< {{value}} m",
+        "between": "{{from}}~{{to}}m"
+      }
+    },
+    "lubrication": {
+      "questionLubricantType": "Schaeffler Arcanol 윤활유를 사용하고 계십니까?",
+      "options": {
+        "arcanol": "예",
+        "grease": "비 Schaeffler 그리스",
+        "oil": "비 Schaeffler 오일"
+      },
+      "questionSchaefflerArcanol": "사용 중인 Schaeffler Arcanol 윤활유는 무엇입니까?",
+      "searchHint": "예시 값: Arcanol MULTI2",
+      "label": "Arcanol 유형"
+    },
+    "application": {
+      "questionAmbientTemperature": "적용 환경의 주변 온도는 얼마입니까?",
+      "labels": {
+        "min": "최소",
+        "max": "최대"
+      },
+      "questionPowerType": "윤활 시스템에 어떤 방식으로 전원을 공급하시겠습니까?",
+      "powerOptions": {
+        "external": "DC 24V 외부 전원 공급 장치",
+        "battery": "배터리",
+        "noPreference": "아직 모르겠음"
+      }
+    },
+    "result": {
+      "minimumRequirements": "최소 요구사항",
+      "recommended": "권장",
+      "schaefflerId": "Schaeffler ID",
+      "outputDiameter": "출력 직경",
+      "maxOperatingPressure": "작동 압력",
+      "noOfOutlets": "토출구 수",
+      "maxTemp": "최대 온도",
+      "minTemp": "최소 온도",
+      "batteryPowered": "배터리로 작동됨",
+      "medium": "그리스 매체",
+      "productSeries": "제품 시리즈",
+      "volume": "용량",
+      "isOptime": "OPTIME",
+      "smallerEqual": "≤",
+      "meter": "m",
+      "centimeter": "cm",
+      "cubiccentimeter": "cm³",
+      "degreeCelsius": "°C",
+      "bar": "bar",
+      "millilitre": "ml",
+      "tempRange": "온도 범위",
+      "tempRangeValues": "{{min}}~{{max}}°C",
+      "voltage": "작동 전압",
+      "dimensions": "치수(mm)",
+      "yes": "예",
+      "no": "아니요",
+      "heading": "{{ designation }}용 부품 목록",
+      "share": "공유",
+      "reset": "입력 재설정",
+      "addToCart": "장바구니에 추가",
+      "addToCartMessage": "장바구니에 추가된 제품/부속품",
+      "medium_general": "매체",
+      "product": "제품",
+      "actions": "작업",
+      "pieces": "개",
+      "availability": "가용성",
+      "quantity": "양",
+      "price": "가격",
+      "perPiece": "개당",
+      "totalPieces": "총 개수",
+      "totalPrice": "총 순가치",
+      "configSummary": "구성 요약",
+      "inStock": "재고 있음",
+      "notInStock": "재고 없음",
+      "increaseOne": "양 증가(1개)",
+      "decreaseOne": "양 감소(1개)",
+      "func_principle": "작동 원리",
+      "mounting_position": "장착 위치",
+      "category": {
+        "lubricantApplication": "윤활유 적용",
+        "cartridge": "카트리지",
+        "gateway": "게이트웨이",
+        "subDistributors": "하위 유통업체",
+        "accessories": "부속품",
+        "fittings": "부품",
+        "lubricator": "윤활 장치",
+        "hoses": "호스"
+      },
+      "error": {
+        "heading": "호환되는 장치가 없음",
+        "body": "제공하신 적용 기준에 맞는 장치를 찾을 수 없습니다. 적합한 윤활 솔루션을 검색하는 데 도움이 필요한 경우 기술 지원팀의 전문가에게 문의하십시오.",
+        "ctaLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
+        "ctaText": "Schaeffler 기술 지원팀"
+      },
+      "errors": {
+        "compatability": {
+          "pressure": {
+            "title": "압력 요구사항이 너무 높음",
+            "body": "구성에 대해 계산된 압력 요구사항이 너무 높습니다. 윤활 장치를 윤활 포인트에 더 가까이 배치하여 튜브 길이를 줄여 보십시오."
+          }
+        },
+        "lubrication": {
+          "quantityLow": {
+            "title": "윤활량 낮음",
+            "body": "구성이 제공하는 윤활량이 매우 적습니다. 양이 이 정도로 적으면 윤활유가 설계 수명을 초과할 수 있습니다. 대신 수동 윤활을 고려해 보십시오."
+          },
+          "quantityHigh": {
+            "title": "윤활량 높음",
+            "body": "구성이 제공하는 윤활량이 당사 제품 포트폴리오의 역량을 초과합니다."
+          }
+        }
+      },
+      "warning": {
+        "adjustedAutomatically": "OPTIME Ecosystem 내에서 적합한 솔루션을 찾을 수 없습니다. OPTIME 기능이 없는 다음과 같은 대안을 제공해 드릴 수 있습니다.",
+        "noRecommendation": "귀하의 입력 매개 변수에 적합한 제품을 자동으로 추천해 드릴 수 없습니다. 구체적인 상담이 필요한 경우 Schaeffler 기술 지원팀에 연락하십시오.",
+        "usedFallbackGrease": "시판 중인 그리스에 대해 상세하게 추천해 드릴 수 없습니다. Schaeffler Arcanol 포트폴리오에서 제공하는 널리 호환되는 그리스를 사용하여 산출했습니다. 사용 중인 그리스와 특성이 유사한지 확인하십시오."
+      }
+    }
+  },
+  "tooltips": {
+    "lubricationPoints": {
+      "quantity": "여기에서 윤활 포인트당 필요한 윤활유의 평균량과 간격을 명시하십시오. 윤활 포인트당 개별 윤활량이 크게 다를 경우, 별도의 계산을 수행해야 할 수 있습니다.",
+      "pipeLength": "",
+      "optime": "Schaeffler의 OPTIME Ecosystem은 다양한 유지보수 시스템을 하나의 디지털 솔루션에 통합할 수 있도록 지원하며, 명확한 개요와 간편한 사용성이 특징입니다. OPTIME에 윤활 시스템을 통합하는 것이 중요한 기준이라면 이 질문에 &apos;예&apos;라고 답변하십시오."
+    },
+    "application": {
+      "temps": "여기에서 윤활 시스템이 설치된 환경의 가능한 최소 및 최대 주변 온도를 명시하십시오. 참고로 이 온도는 윤활 장치가 설치된 위치의 온도를 의미하며, 베어링 온도 등을 의미하는 것이 아닙니다."
+    },
+    "lubricant": {
+      "lubricant": "Schaeffler 윤활유는 롤링 베어링에 사용하기 위해 특별히 개발되었으며 성능 측면에서 최적화되었습니다. Schaeffler는 모든 가능한 적용 환경 및 요구사항에 맞는 다양한 윤활유 포트폴리오를 제공합니다."
+    }
+  },
+  "inputs": {
+    "title": "입력",
+    "relubricationQuantity": {
+      "title": "포인트당 재윤활량",
+      "value": "< {{quantity}} cm³ per {{interval}}"
+    },
+    "temperature": {
+      "title": "적용 환경 주변 온도",
+      "value": "{{min}}~{{max}}°C"
+    },
+    "lubricationPoints": "윤활 포인트 수",
+    "maxPipeLengthTitle": "최대 파이프 길이",
+    "powerSupplyTitle": "전원 공급",
+    "optimeTitle": "OPTIME 통합",
+    "remoteChanged": "{{Original}}을(를) 사용한 초기 요청이 유효한 결과를 반환하지 않았습니다. 대체 옵션으로 {{new}}을(를) 사용하여 자동으로 재시도했습니다. 이 내용이 귀하의 사용 사례와 호환되는지 확인하십시오."
+  },
+  "disclaimer": {
+    "text": "당사의 세부정보는 당사가 이용할 수 있는 귀하의 요구사항에 근거하여 당사에 명백히 드러난 위험을 고려합니다. 문서에 표시된 결과는 최신 기술에 따라 신중하게 작성되었지만 법적 의미에서 품질이나 내구성에 대한 명시적 또는 묵시적 보증을 구성하지 않습니다. 이로 인해 귀하의 용도에 대한 제품 적합성 확인 의무가 면제되는 것은 아닙니다. 당사는 고의 또는 과실이 있는 경우에만 추천 사항에 제공된 세부정보에 대해 책임을 집니다. 참고: OPTIME 제품은 별도로 주문해야 하는 Digital Service와 함께 사용해야 합니다. 제품, 추천 사항 또는 제품의 적합성에 대한 질문이 있는 경우 다음을 통해 문의하십시오.",
+    "linkText": "문의",
+    "link": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
+    "showMore": "자세히 보기",
+    "showLess": "간단히 보기"
+  },
+  "feedback": {
+    "text": "귀하의 피드백은 제품을 지속적으로 개선하는 데 도움이 됩니다.",
+    "button": "피드백",
+    "surveyUrl": "https://schaefflertech.qualtrics.com/jfe/form/SV_6J4IWTJrKCo6nY2?Q_Language="
+  }
+}

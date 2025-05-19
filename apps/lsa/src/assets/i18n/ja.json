@@ -1,0 +1,195 @@
+{
+  "appTitle": "潤滑剤選定アシスタント",
+  "pages": {
+    "lubricationPoints": {
+      "title": "潤滑ポイント"
+    },
+    "lubricant": {
+      "title": "潤滑油"
+    },
+    "application": {
+      "title": "用途"
+    },
+    "result": {
+      "title": "結果"
+    }
+  },
+  "recommendation": {
+    "lubricationPoints": {
+      "questionLubricationPoints": "潤滑ポイントは何ヵ所ですか？",
+      "questionRelubricationQuantity": "潤滑ポイントあたりの再潤滑量はどれくらいですか？",
+      "perRelubricationInterval": "{{ interval }} あたり",
+      "year": "年",
+      "month": "月",
+      "day": "日",
+      "lubricationQuantityValue": "< {{ value }} cm³",
+      "lubricationQuantity": "再潤滑量",
+      "questionOptime": "潤滑システムに OPTIME を統合しますか？",
+      "optime": {
+        "1": "はい",
+        "0": "いいえ",
+        "2": "まだわかりません"
+      },
+      "questionPipeLength": "パイプの最大長はどれくらいですか？",
+      "pipeLengthOptions": {
+        "directMontage": "直接取付け",
+        "lessThan": "< {{value}} m",
+        "between": "{{from}} ～ {{to}} m"
+      }
+    },
+    "lubrication": {
+      "questionLubricantType": "Schaeffler Arcanol 潤滑剤を使用していますか？",
+      "options": {
+        "arcanol": "はい",
+        "grease": "Schaeffler 製以外のグリース",
+        "oil": "Schaeffler 製以外のオイル"
+      },
+      "questionSchaefflerArcanol": "使用している Schaeffler Arcanol 潤滑剤はどれですか？",
+      "searchHint": "値の例： Arcanol MULTI2",
+      "label": "Arcanol タイプ"
+    },
+    "application": {
+      "questionAmbientTemperature": "アプリケーションの周囲温度はどれくらいですか？",
+      "labels": {
+        "min": "最小",
+        "max": "最大"
+      },
+      "questionPowerType": "潤滑システムをどのように動かしたいですか？",
+      "powerOptions": {
+        "external": "DC 24 V 外部電源",
+        "battery": "電池",
+        "noPreference": "まだわかりません"
+      }
+    },
+    "result": {
+      "minimumRequirements": "最低要件",
+      "recommended": "推奨",
+      "schaefflerId": "Schaeffler ID",
+      "outputDiameter": "出力直径",
+      "maxOperatingPressure": "使用圧力",
+      "noOfOutlets": "吐出口の数",
+      "maxTemp": "最高温度",
+      "minTemp": "最低温度",
+      "batteryPowered": "電池駆動",
+      "medium": "潤滑剤",
+      "productSeries": "製品シリーズ",
+      "volume": "量",
+      "isOptime": "OPTIME",
+      "smallerEqual": "≤",
+      "meter": "m",
+      "centimeter": "cm",
+      "cubiccentimeter": "cm³",
+      "degreeCelsius": "°C",
+      "bar": "bar",
+      "millilitre": "ml",
+      "tempRange": "温度範囲",
+      "tempRangeValues": "{{min}}℃～{{max}}℃",
+      "voltage": "動作電圧",
+      "dimensions": "寸法（mm）",
+      "yes": "はい",
+      "no": "いいえ",
+      "heading": "{{ designation }} の部品リスト",
+      "share": "共有",
+      "reset": "入力のリセット",
+      "addToCart": "カートに入れる",
+      "addToCartMessage": "カートに追加された製品/アクセサリ",
+      "medium_general": "媒体",
+      "product": "製品",
+      "actions": "アクション",
+      "pieces": "個",
+      "availability": "在庫状況",
+      "quantity": "数量",
+      "price": "価格",
+      "perPiece": "1 個あたり",
+      "totalPieces": "合計数",
+      "totalPrice": "合計正味価値",
+      "configSummary": "構成の概要",
+      "inStock": "在庫",
+      "notInStock": "在庫切れ",
+      "increaseOne": "数量を 1 つ増やします",
+      "decreaseOne": "数量を 1 つ減らします",
+      "func_principle": "機能原理",
+      "mounting_position": "取付け位置",
+      "category": {
+        "lubricantApplication": "潤滑剤の塗布",
+        "cartridge": "カートリッジ",
+        "gateway": "ゲートウェイ",
+        "subDistributors": "サブ代理店",
+        "accessories": "アクセサリ",
+        "fittings": "フィッティング",
+        "lubricator": "潤滑装置",
+        "hoses": "ホース"
+      },
+      "error": {
+        "heading": "互換性のある装置がありません",
+        "body": "指定した適用基準に一致する装置が見つかりませんでした。適切な潤滑剤の検索については、当社の技術サポートの専門家にお問い合わせください",
+        "ctaLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
+        "ctaText": "Schaeffler 技術サポート"
+      },
+      "errors": {
+        "compatability": {
+          "pressure": {
+            "title": "圧力要件が高すぎます",
+            "body": "ご使用の構成では、計算された圧力要件が高すぎます。潤滑装置を潤滑ポイントに近づけて、チューブの長さを短くしてください"
+          }
+        },
+        "lubrication": {
+          "quantityLow": {
+            "title": "潤滑量が少ない",
+            "body": "ご使用の構成は、潤滑量が非常に少ないことを示しています。少量では、潤滑剤の設計寿命を超える可能性があります。代わりに手動潤滑を検討してください"
+          },
+          "quantityHigh": {
+            "title": "潤滑量が多い",
+            "body": "ご使用の構成では、当社の製品ポートフォリオの能力を超えています"
+          }
+        }
+      },
+      "warning": {
+        "adjustedAutomatically": "OPTIME Ecosystem 内に適切なソリューションが見つかりませんでした。OPTIME 機能を使用しないで、次の代替品を提供できます",
+        "noRecommendation": "入力パラメータに適した推奨事項を自動的に提供できませんでした。具体的なご相談については、Schaeffler 技術サポートにお問い合わせください",
+        "usedFallbackGrease": "市場で入手可能なグリースの詳細な推奨は提供できません。計算には、Schaeffler Arcanol Portfolio から広く互換性のあるグリースを使用しました。使用しているグリースの特性と同等であることを確認してください"
+      }
+    }
+  },
+  "tooltips": {
+    "lubricationPoints": {
+      "quantity": "ここでは、潤滑ポイントおよび間隔ごとに必要な潤滑剤の平均量を指定してください。潤滑ポイントごとに個別の潤滑量が大幅に異なる場合は、個別の計算を行う必要がある場合があります。",
+      "pipeLength": "",
+      "optime": "Schaeffler の OPTIME Ecosystem は、1 つのデジタルソリューションにさまざまなメンテナンスシステムを統合し、非常に明確な概要とシンプルな操作性を備えています。OPTIME での潤滑システムの統合が重要な基準であると考えられる場合は、この質問に「はい」と答えてください。"
+    },
+    "application": {
+      "temps": "ここで、潤滑システムが取り付けられている周囲温度の可能な最小値と最大値を指定してください。これは、潤滑装置の設置場所を指し、ベアリング温度などとは異なります。"
+    },
+    "lubricant": {
+      "lubricant": "Schaeffler 潤滑剤は、転がり軸受に使用するために特別に開発され、その性能に関して最適化されています。Schaeffler は、可能なすべての用途と要件に対応するさまざまな潤滑剤の幅広いポートフォリオを提供しています。"
+    }
+  },
+  "inputs": {
+    "title": "入力",
+    "relubricationQuantity": {
+      "title": "1 ポイントあたりの再潤滑量",
+      "value": "< {{quantity}} cm³ per {{interval}}"
+    },
+    "temperature": {
+      "title": "アプリケーションの周囲温度",
+      "value": "{{min}}℃～{{max}}℃"
+    },
+    "lubricationPoints": "潤滑ポイント数",
+    "maxPipeLengthTitle": "最大パイプ長",
+    "powerSupplyTitle": "電源",
+    "optimeTitle": "OPTIME の統合",
+    "remoteChanged": "{{original}} に対する最初のリクエストで有効な結果が得られませんでした。可能な代替手段として、{{new}} を使用して自動的に再試行しました。これがお客様の使用条件に適合していることを確認してください。"
+  },
+  "disclaimer": {
+    "text": "弊社の詳細では、提供されたお客様の要件に基づいて当社にとって明らかになったリスクを考慮しています。本文書に記載されている結果は、最新情報に基づいて慎重に作成されていますが、法的な意味での品質または耐久性について明示的または黙示的な保証にはなりません。これにより、本製品が目的に適合しているか確認する義務を免除されることはありません。弊社は、故意または過失があった場合にのみ、推奨事項に記載されている詳細について責任を負います。注意：Optime 製品は、別途注文する必要がある Digital Service に接続してのみ動作します。製品、推奨、または製品の適合性に関するご質問については、以下までお問い合わせください。",
+    "linkText": "お問い合わせ",
+    "link": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
+    "showMore": "表示を増やす",
+    "showLess": "表示を減らす"
+  },
+  "feedback": {
+    "text": "お客様のご意見は、当社の製品の品質向上に役立ちます。",
+    "button": "フィードバック",
+    "surveyUrl": "https://schaefflertech.qualtrics.com/jfe/form/SV_6J4IWTJrKCo6nY2?Q_Language="
+  }
+}

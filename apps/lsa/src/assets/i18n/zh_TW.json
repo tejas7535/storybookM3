@@ -1,0 +1,195 @@
+{
+  "appTitle": "潤滑劑選擇助手",
+  "pages": {
+    "lubricationPoints": {
+      "title": "潤滑點"
+    },
+    "lubricant": {
+      "title": "潤滑油"
+    },
+    "application": {
+      "title": "應用"
+    },
+    "result": {
+      "title": "結果"
+    }
+  },
+  "recommendation": {
+    "lubricationPoints": {
+      "questionLubricationPoints": "您想要潤滑多少個潤滑點？",
+      "questionRelubricationQuantity": "每個潤滑點的再潤滑量有多高？",
+      "perRelubricationInterval": "每{{ interval }}",
+      "year": "年",
+      "month": "月",
+      "day": "天",
+      "lubricationQuantityValue": "< {{ value }} cm³",
+      "lubricationQuantity": "再潤滑量",
+      "questionOptime": "是否要將 OPTIME 整合至潤滑系統？",
+      "optime": {
+        "1": "是",
+        "0": "否",
+        "2": "我還不知道"
+      },
+      "questionPipeLength": "最大管線長度為何？",
+      "pipeLengthOptions": {
+        "directMontage": "直接安裝",
+        "lessThan": "< {{value}} m",
+        "between": "{{from}} - {{to}} m"
+      }
+    },
+    "lubrication": {
+      "questionLubricantType": "您是否正在使用舍弗勒 Arcanol 潤滑劑？",
+      "options": {
+        "arcanol": "是",
+        "grease": "非舍弗勒潤滑油",
+        "oil": "非舍弗勒油"
+      },
+      "questionSchaefflerArcanol": "您使用哪種舍弗勒 Arcanol 潤滑劑？",
+      "searchHint": "範例值： Arcanol MULTI2",
+      "label": "Arcanol 類型"
+    },
+    "application": {
+      "questionAmbientTemperature": "使用時周圍溫度多高？",
+      "labels": {
+        "min": "最小",
+        "max": "最大"
+      },
+      "questionPowerType": "您想要如何為潤滑系統供電？",
+      "powerOptions": {
+        "external": "DC 24 V 外部電源供應",
+        "battery": "電池",
+        "noPreference": "我還不知道"
+      }
+    },
+    "result": {
+      "minimumRequirements": "最低要求",
+      "recommended": "建議",
+      "schaefflerId": "Schaeffler ID",
+      "outputDiameter": "輸出直徑",
+      "maxOperatingPressure": "操作壓力",
+      "noOfOutlets": "網點數量",
+      "maxTemp": "最高溫度",
+      "minTemp": "最低溫度",
+      "batteryPowered": "電池供電",
+      "medium": "潤滑介質",
+      "productSeries": "產品系列",
+      "volume": "體積",
+      "isOptime": "OPTIME",
+      "smallerEqual": "≤",
+      "meter": "m",
+      "centimeter": "cm",
+      "cubiccentimeter": "cm³",
+      "degreeCelsius": "°C",
+      "bar": "巴",
+      "millilitre": "ml",
+      "tempRange": "溫度範圍",
+      "tempRangeValues": "{{min}} °C 至 {{max}} °C",
+      "voltage": "操作電壓",
+      "dimensions": "尺寸（mm）",
+      "yes": "是",
+      "no": "否",
+      "heading": "{{ designation }} 的零件清單",
+      "share": "分享",
+      "reset": "重設輸入",
+      "addToCart": "加入購物車",
+      "addToCartMessage": "產品 / 配件已加入購物車",
+      "medium_general": "介質",
+      "product": "產品",
+      "actions": "動作",
+      "pieces": "單品",
+      "availability": "貨期",
+      "quantity": "數量",
+      "price": "價格",
+      "perPiece": "每件單品",
+      "totalPieces": "所有單品",
+      "totalPrice": "總淨值",
+      "configSummary": "配置摘要",
+      "inStock": "有庫存",
+      "notInStock": "缺貨",
+      "increaseOne": "數量增加一個",
+      "decreaseOne": "數量減少一個",
+      "func_principle": "功能原則",
+      "mounting_position": "安裝位置",
+      "category": {
+        "lubricantApplication": "潤滑劑使用",
+        "cartridge": "筒匣",
+        "gateway": "閘道",
+        "subDistributors": "次分配器",
+        "accessories": "配件",
+        "fittings": "接頭",
+        "lubricator": "潤滑劑",
+        "hoses": "軟管"
+      },
+      "error": {
+        "heading": "沒有相容的裝置",
+        "body": "我們找不到符合您提供之應用標準的裝置。如需協助搜尋合適的潤滑解決方案，請聯絡我們的技術支援團隊",
+        "ctaLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
+        "ctaText": "舍弗勒技術支援"
+      },
+      "errors": {
+        "compatability": {
+          "pressure": {
+            "title": "壓力要求過高",
+            "body": "計算出的壓力要求對於您的配置來說過高。請嘗試將潤滑劑靠近潤滑點，以縮短管長"
+          }
+        },
+        "lubrication": {
+          "quantityLow": {
+            "title": "低潤滑量",
+            "body": "您的配置顯示非常低的潤滑量。在如此低量的情況下，潤滑劑可能會超過其設計壽命。請考慮改用手動潤滑"
+          },
+          "quantityHigh": {
+            "title": "高潤滑量",
+            "body": "您配置的潤滑量超出我們產品組合的適用範圍"
+          }
+        }
+      },
+      "warning": {
+        "adjustedAutomatically": "我們在 OPTIME 生態系中找不到合適的解決方案。我們可以提供以下不具 OPTIME 功能的替代方案",
+        "noRecommendation": "我們無法自動為您的輸入參數提供合適建議。請聯絡舍弗勒技術支援以獲得特定諮詢",
+        "usedFallbackGrease": "我們無法提供市場可用潤滑油的詳細建議。我們在計算中使用舍弗勒 Arcanol 組合中一種可廣泛相容的潤滑油。請確保使用中的潤滑油屬性相當"
+      }
+    }
+  },
+  "tooltips": {
+    "lubricationPoints": {
+      "quantity": "請在此處說明每個潤滑點和間隔所需的平均潤滑劑量。如果每個潤滑點的個別潤滑量有顯著不同，則可能需要執行個別計算。",
+      "pipeLength": "",
+      "optime": "舍弗勒的 OPTIME 生態系可將多個維護系統整合至單一數位解決方案，並提供相當清晰的概覽，輕鬆即可使用。如果您認為在 OPTIME 中整合潤滑系統是重要標準，請以「是」回答這個問題。"
+    },
+    "application": {
+      "temps": "請在此處指定安裝潤滑系統時，周圍溫度可能的最小值和最大值。請注意，這是指潤滑器安裝位置的環境溫度，而非軸承溫度等其他項目。"
+    },
+    "lubricant": {
+      "lubricant": "舍弗勒的潤滑劑專為使用滾動軸承而開發，並在性能方面進行最佳化。舍弗勒提供多種不同的潤滑劑組合，適用所有可能的應用和要求。"
+    }
+  },
+  "inputs": {
+    "title": "您的輸入",
+    "relubricationQuantity": {
+      "title": "每個潤滑點的再潤滑量",
+      "value": "< {{quantity}} cm³ per {{interval}}"
+    },
+    "temperature": {
+      "title": "使用時的周圍溫度",
+      "value": "{{min}} °C 至 {{max}} °C"
+    },
+    "lubricationPoints": "潤滑點數量",
+    "maxPipeLengthTitle": "最大管線長度",
+    "powerSupplyTitle": "電源供應",
+    "optimeTitle": "OPTIME 整合",
+    "remoteChanged": "您對 {{original}} 的初始要求未產生任何有效結果。我們自動以 {{new}} 重新嘗試，作為可能的替代方案。請予以檢查，確保此項目與您的使用案例相容！"
+  },
+  "disclaimer": {
+    "text": "我方的詳細資料會依據您所提供之要求考量顯而易見的風險。本文件中顯示的結果業經審慎編製且符合技術發展現狀，但並不構成法律意義上對於品質或耐用性的明示或默示保證。您無法因此而免於檢查產品對於您預期用途的適用性。僅在蓄意或疏忽的情況下，我方才會對本建議中提供的詳細資料負責。請注意：Optime 產品僅在與必須另行訂購的數位服務連結時才能使用。如果您對產品、建議或產品的適用性有任何疑問，請透過以下方式聯絡：",
+    "linkText": "聯絡我們",
+    "link": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
+    "showMore": "顯示更多",
+    "showLess": "顯示更少"
+  },
+  "feedback": {
+    "text": "您的意見反應有助於我們持續改善產品。",
+    "button": "意見反應",
+    "surveyUrl": "https://schaefflertech.qualtrics.com/jfe/form/SV_6J4IWTJrKCo6nY2?Q_Language="
+  }
+}

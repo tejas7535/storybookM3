@@ -1,0 +1,195 @@
+{
+  "appTitle": "Yağlama Cihazı Seçim Asistanı",
+  "pages": {
+    "lubricationPoints": {
+      "title": "Yağlama Noktaları"
+    },
+    "lubricant": {
+      "title": "Yağlayıcı"
+    },
+    "application": {
+      "title": "Uygulama"
+    },
+    "result": {
+      "title": "Sonuç"
+    }
+  },
+  "recommendation": {
+    "lubricationPoints": {
+      "questionLubricationPoints": "Kaç yağlama noktasını yağlamak istersiniz?",
+      "questionRelubricationQuantity": "Yağlama noktası başına yeniden yağlama miktarı ne?",
+      "perRelubricationInterval": "her {{interval}}",
+      "year": "yıl",
+      "month": "ay",
+      "day": "gün",
+      "lubricationQuantityValue": "< {{ value }} cm³",
+      "lubricationQuantity": "Yeniden yağlama miktarı",
+      "questionOptime": "Yağlama sisteminize OPTIME entegre etmek istiyor musunuz?",
+      "optime": {
+        "1": "Evet",
+        "0": "Hayır",
+        "2": "Henüz bilmiyorum"
+      },
+      "questionPipeLength": "Maksimum boru uzunluğu nedir?",
+      "pipeLengthOptions": {
+        "directMontage": "Doğrudan montaj",
+        "lessThan": "< {{value}} m",
+        "between": "{{from}} - {{to}} m"
+      }
+    },
+    "lubrication": {
+      "questionLubricantType": "Schaeffler Arcanol yağlayıcı kullanıyor musunuz?",
+      "options": {
+        "arcanol": "Evet",
+        "grease": "Schaeffler dışındaki gresler",
+        "oil": "Schaeffler dışındaki yağlar"
+      },
+      "questionSchaefflerArcanol": "Hangi Schaeffler Arcanol yağlayıcıyı kullanıyorsunuz?",
+      "searchHint": "Örnek değer: Arcanol MULTI2",
+      "label": "Arcanol tipi"
+    },
+    "application": {
+      "questionAmbientTemperature": "Uygulamada ortam sıcaklığı ne?",
+      "labels": {
+        "min": "Min.",
+        "max": "Maks."
+      },
+      "questionPowerType": "Yağlama sisteminize nasıl güç vereceksiniz?",
+      "powerOptions": {
+        "external": "DC 24 V harici güç kaynağı",
+        "battery": "Batarya",
+        "noPreference": "Henüz bilmiyorum"
+      }
+    },
+    "result": {
+      "minimumRequirements": "minimum gereksinimler",
+      "recommended": "önerilen",
+      "schaefflerId": "Schaeffler Kimliği",
+      "outputDiameter": "Çıkış çapı",
+      "maxOperatingPressure": "Çalışma basıncı",
+      "noOfOutlets": "Çıkış sayısı",
+      "maxTemp": "Maksimum sıcaklık",
+      "minTemp": "Minimum sıcaklık",
+      "batteryPowered": "Bataryalı",
+      "medium": "Gresleme ortamı",
+      "productSeries": "Ürün Serisi",
+      "volume": "Hacim",
+      "isOptime": "OPTIME",
+      "smallerEqual": "≤",
+      "meter": "m",
+      "centimeter": "cm",
+      "cubiccentimeter": "cm³",
+      "degreeCelsius": "°C",
+      "bar": "bar",
+      "millilitre": "ml",
+      "tempRange": "Sıcaklık aralığı",
+      "tempRangeValues": "{{min}} °C - {{max}} °C",
+      "voltage": "Çalışma voltajı",
+      "dimensions": "Boyutlar (mm)",
+      "yes": "Evet",
+      "no": "Hayır",
+      "heading": "{{ designation }} için parça listesi",
+      "share": "Paylaş",
+      "reset": "Girişleri sıfırla",
+      "addToCart": "Sepete ekle",
+      "addToCartMessage": "Sepete eklenen Ürünler/Aksesuarlar",
+      "medium_general": "Ortam",
+      "product": "Ürün",
+      "actions": "Eylemler",
+      "pieces": "Parça sayısı",
+      "availability": "Stok bilgisi",
+      "quantity": "Adet",
+      "price": "Fiyat",
+      "perPiece": "Parça başına",
+      "totalPieces": "Toplam parça",
+      "totalPrice": "Toplam net değer",
+      "configSummary": "Yapılandırma özeti",
+      "inStock": "Stokta",
+      "notInStock": "Stokta yok",
+      "increaseOne": "Miktarı bir artır",
+      "decreaseOne": "Miktarı bir azalt",
+      "func_principle": "İşlev prensibi",
+      "mounting_position": "Montaj konumu",
+      "category": {
+        "lubricantApplication": "Yağlayıcı uygulaması",
+        "cartridge": "Kartuş",
+        "gateway": "Ağ geçidi",
+        "subDistributors": "Alt distribütörler",
+        "accessories": "Aksesuarlar",
+        "fittings": "Bağlantı parçaları",
+        "lubricator": "Yağlama cihazı",
+        "hoses": "Hortumlar"
+      },
+      "error": {
+        "heading": "Uyumlu cihaz yok",
+        "body": "Sağladığınız uygulama kriterleriyle eşleşen bir cihaz bulamadık. Uygun bir yağlama çözümü aramanızla ilgili yardım almak için lütfen teknik destek departmanındaki uzmanlarımızla iletişime geçin",
+        "ctaLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
+        "ctaText": "Schaeffler Teknik Destek"
+      },
+      "errors": {
+        "compatability": {
+          "pressure": {
+            "title": "Basınç gereksinimleri çok yüksek",
+            "body": "Yapılandırmanız için hesaplanan basınç gereksinimleri çok yüksek. Boru uzunluğunu azaltmak için yağlama cihazını yağlama noktalarına daha yakın yerleştirmeyi deneyin"
+          }
+        },
+        "lubrication": {
+          "quantityLow": {
+            "title": "Yağlama miktarı düşük",
+            "body": "Yapılandırmanızın gösterdiği yağlama miktarı çok düşük. Bu kadar düşük miktarlar için kullanıldığında yağlayıcılar kullanım ömrünü aşabilir. Bunun yerine manuel yağlamayı değerlendirin"
+          },
+          "quantityHigh": {
+            "title": "Yağlama miktarı yüksek",
+            "body": "Yapılandırmanızın yağlama miktarı, ürün portföyümüzün kapasitesini aşmaktadır"
+          }
+        }
+      },
+      "warning": {
+        "adjustedAutomatically": "OPTIME ekosisteminde uygun bir çözüm bulamadık. OPTIME işlevi olmadan aşağıdaki alternatifleri sağlayabiliriz",
+        "noRecommendation": "Giriş parametreleriniz için otomatik olarak uygun bir öneri sağlayamadık. Özel danışmanlık için lütfen Schaeffler teknik destek ile iletişime geçin",
+        "usedFallbackGrease": "Piyasada bulunan gresler için ayrıntılı bir öneri sunamıyoruz. Hesaplamamızda Schaeffler Arcanol Portföyünden ürününüzle oldukça uyumlu bir Gres kullandık. Lütfen kullandığınız gresin özelliklerinin bununla benzer olduğunu kontrol edin"
+      }
+    }
+  },
+  "tooltips": {
+    "lubricationPoints": {
+      "quantity": "Lütfen burada yağlama noktası ve aralığı başına gerekli olan ortalama yağlayıcı miktarını belirtin. Ayrı yağlama noktalarının yağlama miktarları önemli ölçüde farklılık gösterirse ayrı hesaplamalar yapılması gerekebilir.",
+      "pipeLength": "",
+      "optime": "Schaeffler&apos;ın OPTIME Ekosistemi, çok çeşitli bakım sistemlerinin tek bir dijital çözümde entegre edilmesini sağlar. OPTIME Ekosistemi çok net bir genel bakış ve basit kullanım sunar. Yağlama sisteminin OPTIME entegrasyonu sizin için önemli bir kriterse lütfen bu soruyu &quot;evet&quot; olarak yanıtlayın."
+    },
+    "application": {
+      "temps": "Lütfen burada yağlama sisteminin takılı olduğu ortam sıcaklığının olası MİN. ve MAKS. değerlerini belirtin. Burada örneğin yatak sıcaklığı değil, yağlama cihazınızın montaj konumunu ifade edilir."
+    },
+    "lubricant": {
+      "lubricant": "Schaeffler yağlayıcılar, yuvarlanan yataklarda kullanım için özel olarak geliştirilmiş ve performansları açısından optimize edilmiştir. Schaeffler, tüm olası uygulamalar ve gereksinimler için farklı yağlayıcıların bulunduğu geniş bir portföy sunar."
+    }
+  },
+  "inputs": {
+    "title": "Girişleriniz",
+    "relubricationQuantity": {
+      "title": "Nokta başına yeniden yağlama miktarı",
+      "value": "< {{quantity}} cm³ per {{interval}}"
+    },
+    "temperature": {
+      "title": "Uygulamada ortam sıcaklığı",
+      "value": "{{min}} °C - {{max}} °C"
+    },
+    "lubricationPoints": "Yağlama Noktası Sayısı",
+    "maxPipeLengthTitle": "Maks. boru uzunluğu",
+    "powerSupplyTitle": "Güç kaynağı",
+    "optimeTitle": "OPTIME entegrasyonu",
+    "remoteChanged": "{{original}} ile ilk talebiniz geçerli bir sonuç vermedi. Olası bir alternatif olarak {{new}} ile otomatik olarak tekrar denedik. Lütfen bu durumun kendi kullanımınız ile uyumlu olduğunu kontrol edin."
+  },
+  "disclaimer": {
+    "text": "Verdiğimiz ayrıntılarda, bize sunulan gereklilikleriniz temelinde bizim için belirgin olan riskler dikkate alınır. Belgede gösterilen sonuçlar, dikkatli bir şekilde ve son teknolojiye uygun olarak hazırlanmıştır ancak yasal açıdan kalite veya dayanıklılık konusunda açık veya zımni bir garanti teşkil etmez. Bu nedenle ürünlerin amacınıza uygunluğunu kontrol etmekten muaf tutulmazsınız. Öneride verilen ayrıntılardan yalnızca kasıtlı bir niyet veya ihmal durumunda sorumlu olacağız. Lütfen dikkat: Optime ürünleri yalnızca ayrı olarak sipariş edilmesi gereken bir Dijital Hizmet ile birlikte çalışır. Ürün, öneri veya ürün uygunluğu ile ilgili sorularınız için lütfen buradan iletişime geçin:",
+    "linkText": "Bize ulaşın",
+    "link": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
+    "showMore": "Daha fazla göster",
+    "showLess": "Daha az göster"
+  },
+  "feedback": {
+    "text": "Geri bildiriminiz, ürünümüzü sürekli olarak geliştirmemize yardımcı olur.",
+    "button": "Geri bildirim",
+    "surveyUrl": "https://schaefflertech.qualtrics.com/jfe/form/SV_6J4IWTJrKCo6nY2?Q_Language="
+  }
+}

@@ -1,0 +1,195 @@
+{
+  "appTitle": "注脂器选型助手",
+  "pages": {
+    "lubricationPoints": {
+      "title": "注脂点"
+    },
+    "lubricant": {
+      "title": "润滑油脂"
+    },
+    "application": {
+      "title": "应用"
+    },
+    "result": {
+      "title": "结果"
+    }
+  },
+  "recommendation": {
+    "lubricationPoints": {
+      "questionLubricationPoints": "您想润滑多少个注脂点？",
+      "questionRelubricationQuantity": "每个注脂点的润滑加脂量有多大？",
+      "perRelubricationInterval": "每 {{ interval }}",
+      "year": "年",
+      "month": "月",
+      "day": "天",
+      "lubricationQuantityValue": "< {{ value }} cm³",
+      "lubricationQuantity": "润滑加脂量",
+      "questionOptime": "是否要将 OPTIME 集成到您的润滑系统中？",
+      "optime": {
+        "1": "是",
+        "0": "否",
+        "2": "我还不确定"
+      },
+      "questionPipeLength": "最大管道长度是多少？",
+      "pipeLengthOptions": {
+        "directMontage": "直接安装",
+        "lessThan": "< {{value}} m",
+        "between": "{{from}} - {{to}} 米"
+      }
+    },
+    "lubrication": {
+      "questionLubricantType": "您是否使用 Schaeffler Arcanol 润滑油脂？",
+      "options": {
+        "arcanol": "是",
+        "grease": "非 Schaeffler 润滑脂",
+        "oil": "非 Schaeffler 润滑油"
+      },
+      "questionSchaefflerArcanol": "您使用的是哪种 Schaeffler Arcanol 润滑油脂？",
+      "searchHint": "示例值： Arcanol MULTI2",
+      "label": "Arcanol 类型"
+    },
+    "application": {
+      "questionAmbientTemperature": "应用中的环境温度有多高？",
+      "labels": {
+        "min": "最小",
+        "max": "最大"
+      },
+      "questionPowerType": "您希望如何为润滑系统供电？",
+      "powerOptions": {
+        "external": "直流 24 V 外接电源",
+        "battery": "电池",
+        "noPreference": "我还不确定"
+      }
+    },
+    "result": {
+      "minimumRequirements": "最低要求",
+      "recommended": "推荐",
+      "schaefflerId": "Schaeffler ID",
+      "outputDiameter": "输出直径",
+      "maxOperatingPressure": "工作压力",
+      "noOfOutlets": "注脂器出口数量",
+      "maxTemp": "最高温度",
+      "minTemp": "最低温度",
+      "batteryPowered": "电池供电",
+      "medium": "润滑介质",
+      "productSeries": "产品系列",
+      "volume": "容量",
+      "isOptime": "OPTIME",
+      "smallerEqual": "≤",
+      "meter": "m",
+      "centimeter": "cm",
+      "cubiccentimeter": "cm³",
+      "degreeCelsius": "°C",
+      "bar": "bar",
+      "millilitre": "ml",
+      "tempRange": "温度范围",
+      "tempRangeValues": "{{min}} °C 至 {{max}} °C",
+      "voltage": "工作电压",
+      "dimensions": "尺寸 (mm)",
+      "yes": "是",
+      "no": "否",
+      "heading": "{{ designation }} 的零件列表",
+      "share": "分享",
+      "reset": "重置输入",
+      "addToCart": "添加到购物车",
+      "addToCartMessage": "产品/附件已添加到购物车",
+      "medium_general": "介质",
+      "product": "产品",
+      "actions": "操作",
+      "pieces": "件数",
+      "availability": "供应情况",
+      "quantity": "数量",
+      "price": "价格",
+      "perPiece": "每件",
+      "totalPieces": "总件数",
+      "totalPrice": "总净值",
+      "configSummary": "配置摘要",
+      "inStock": "库存量",
+      "notInStock": "缺货",
+      "increaseOne": "数量加一",
+      "decreaseOne": "数量减一",
+      "func_principle": "功能原理",
+      "mounting_position": "安装位置",
+      "category": {
+        "lubricantApplication": "润滑油脂应用",
+        "cartridge": "润滑脂杯",
+        "gateway": "网关",
+        "subDistributors": "子分销器",
+        "accessories": "附件",
+        "fittings": "配件",
+        "lubricator": "注脂器",
+        "hoses": "软管"
+      },
+      "error": {
+        "heading": "无兼容设备",
+        "body": "我们找不到与您提供的应用条件匹配的设备。要获得有关搜寻合适润滑解决方案的帮助，请联系我们的技术支持专家",
+        "ctaLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
+        "ctaText": "Schaeffler 技术支持"
+      },
+      "errors": {
+        "compatability": {
+          "pressure": {
+            "title": "压力要求过高",
+            "body": "对于您的配置，计算出的压力要求过高。尝试将注脂器放在更靠近注脂点的位置，以缩短管长度"
+          }
+        },
+        "lubrication": {
+          "quantityLow": {
+            "title": "润滑量低",
+            "body": "您的配置表明润滑量非常低。对于这样低的润滑量，润滑油脂可能会超出其设计使用期限。请考虑改用手动润滑"
+          },
+          "quantityHigh": {
+            "title": "润滑量高",
+            "body": "对于您的配置，润滑量超过了我们的产品组合所能满足的水平"
+          }
+        }
+      },
+      "warning": {
+        "adjustedAutomatically": "我们在 OPTIME Ecosystem 中找不到合适的解决方案。我们可以提供以下不具有 OPTIME 功能的替代方案",
+        "noRecommendation": "我们无法自动为您的输入参数提供合适的建议。请联系 Schaeffler 技术支持以进行具体咨询",
+        "usedFallbackGrease": "我们不能就市场上销售的润滑脂提供详细的建议。我们使用了 Schaeffler Arcanol 产品组合中广泛兼容的润滑脂来进行计算。请确保您使用的润滑脂与之性能相当"
+      }
+    }
+  },
+  "tooltips": {
+    "lubricationPoints": {
+      "quantity": "请在此处指定每个注脂点和间隔所需的润滑油脂平均用量。如果每个注脂点的单次润滑量存在显著差异，则可能需要执行单独的计算。",
+      "pipeLength": "",
+      "optime": "Schaeffler 的 OPTIME Ecosystem 使得能够将各种维护系统集成到一个数字解决方案中，并且具有非常清晰的概览和简单的可用性。如果您认为在 OPTIME 中集成润滑系统是一个重要标准，请为此问题选择回答“是”。"
+    },
+    "application": {
+      "temps": "请在此处标明安装润滑系统时环境温度的可能最小值和最大值。请注意，这是指注脂器的安装位置，而不是轴承温度等。"
+    },
+    "lubricant": {
+      "lubricant": "专门开发的 Schaeffler 润滑油脂适用于滚动轴承，并针对其性能进行了优化。Schaeffler 提供多种不同润滑油脂组合，适用于所有可能的应用和要求。"
+    }
+  },
+  "inputs": {
+    "title": "您的输入",
+    "relubricationQuantity": {
+      "title": "每点润滑量",
+      "value": "< {{quantity}} cm³ per {{interval}}"
+    },
+    "temperature": {
+      "title": "应用中的环境温度",
+      "value": "{{min}} °C 至 {{max}} °C"
+    },
+    "lubricationPoints": "注脂点数量",
+    "maxPipeLengthTitle": "最大管道长度",
+    "powerSupplyTitle": "电源",
+    "optimeTitle": "OPTIME 集成",
+    "remoteChanged": "对于您使用 {{original}} 的初始请求，未返回任何有效结果。作为可能的替代方案，我们自动使用 {{new}} 进行了重试。请仔细查看，以确保这与您的用例兼容！"
+  },
+  "disclaimer": {
+    "text": "我们的详细信息考虑了根据您提供给我们的要求，我们明显察觉到的那些风险。文档中显示的结果是基于现有技术发展水平仔细计算得出的，但并不构成法律意义上明示或暗示的质量或耐用性保证。因此，您有责任针对预期用途检查产品的适用性。我们仅对因故意或疏忽行为导致的建议中详细信息的错误或遗漏承担责任。请注意：Optime 产品只能与数字服务配合使用，该服务必须单独订购。如果对产品、建议或产品适用性有任何疑问，请点击此处联系：",
+    "linkText": "联系我们",
+    "link": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
+    "showMore": "显示更多",
+    "showLess": "显示更少"
+  },
+  "feedback": {
+    "text": "您的反馈有助于我们持续改进产品。",
+    "button": "反馈",
+    "surveyUrl": "https://schaefflertech.qualtrics.com/jfe/form/SV_6J4IWTJrKCo6nY2?Q_Language="
+  }
+}

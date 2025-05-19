@@ -427,7 +427,9 @@ export class PDFGeneratorService {
   private getFormattedDate() {
     return this.localeService.localizeDate(
       Date.now(),
-      this.translocoService.getActiveLang()
+      this.translocoService.getActiveLang() !== 'zh_TW'
+        ? this.translocoService.getActiveLang()
+        : 'zh'
     );
   }
 

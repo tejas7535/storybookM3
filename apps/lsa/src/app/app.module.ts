@@ -12,7 +12,11 @@ import { StoreModule } from '@ngrx/store';
 
 import { BannerModule } from '@schaeffler/banner';
 import { FeedbackBannerComponent } from '@schaeffler/feedback-banner';
-import { DEFAULT_FONT, FONT_ASSET_PATH } from '@schaeffler/pdf-generator';
+import {
+  DEFAULT_FONT,
+  FONT_ASSET_PATH,
+  LANGUAGE_FONT_MAPPINGS,
+} from '@schaeffler/pdf-generator';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AppComponent } from './app.component';
@@ -53,6 +57,59 @@ export const APP_ROOT = 'lubricator-selection-assistant';
           fileName: 'NotoSans-Bold.ttf',
         },
       ],
+    },
+    {
+      provide: LANGUAGE_FONT_MAPPINGS,
+      useValue: {
+        ja: [
+          {
+            fontName: 'Noto',
+            fontStyle: 'normal',
+            fileName: 'NotoSansJP-Regular.ttf',
+          },
+          {
+            fontName: 'Noto',
+            fontStyle: 'bold',
+            fileName: 'NotoSansJP-Bold.ttf',
+          },
+        ],
+        ko: [
+          {
+            fontName: 'Noto',
+            fontStyle: 'normal',
+            fileName: 'NotoSansKR-Regular.ttf',
+          },
+          {
+            fontName: 'Noto',
+            fontStyle: 'bold',
+            fileName: 'NotoSansKR-Bold.ttf',
+          },
+        ],
+        zh: [
+          {
+            fontName: 'Noto',
+            fontStyle: 'normal',
+            fileName: 'NotoSansSC-Regular.ttf',
+          },
+          {
+            fontName: 'Noto',
+            fontStyle: 'bold',
+            fileName: 'NotoSansSC-Bold.ttf',
+          },
+        ],
+        zh_TW: [
+          {
+            fontName: 'Noto',
+            fontStyle: 'normal',
+            fileName: 'NotoSansTC-Regular.ttf',
+          },
+          {
+            fontName: 'Noto',
+            fontStyle: 'bold',
+            fileName: 'NotoSansTC-Bold.ttf',
+          },
+        ],
+      },
     },
   ],
   imports: [

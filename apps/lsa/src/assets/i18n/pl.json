@@ -1,0 +1,195 @@
+{
+  "appTitle": "Asystent wyboru smarownicy",
+  "pages": {
+    "lubricationPoints": {
+      "title": "Punkty smarowania"
+    },
+    "lubricant": {
+      "title": "Smar"
+    },
+    "application": {
+      "title": "Zastosowanie"
+    },
+    "result": {
+      "title": "Wynik"
+    }
+  },
+  "recommendation": {
+    "lubricationPoints": {
+      "questionLubricationPoints": "Ile punktów smarowania chcesz smarować?",
+      "questionRelubricationQuantity": "Ile wynosi ilość smaru na punkt smarowania?",
+      "perRelubricationInterval": "na {{ interval }}",
+      "year": "rok",
+      "month": "miesiąc",
+      "day": "dzień",
+      "lubricationQuantityValue": "< {{ value }} cm³",
+      "lubricationQuantity": "Ilość smaru",
+      "questionOptime": "Czy chcesz zintegrować OPTIME ze swoim systemem smarowania?",
+      "optime": {
+        "1": "Tak",
+        "0": "Nie",
+        "2": "Jeszcze nie wiem"
+      },
+      "questionPipeLength": "Jaka jest maksymalna długość rury?",
+      "pipeLengthOptions": {
+        "directMontage": "Bezpośrednie mocowanie",
+        "lessThan": "< {{value}} m",
+        "between": "{{from}} – {{to}} m"
+      }
+    },
+    "lubrication": {
+      "questionLubricantType": "Czy używasz smaru Schaeffler Arcanol?",
+      "options": {
+        "arcanol": "Tak",
+        "grease": "Smar innej firmy niż Schaeffler",
+        "oil": "Olej innej firmy niż Schaeffler"
+      },
+      "questionSchaefflerArcanol": "Jakiego smaru Schaeffler Arcanol używasz?",
+      "searchHint": "Przykładowa wartość: Arcanol MULTI2",
+      "label": "Typ smaru Arcanol"
+    },
+    "application": {
+      "questionAmbientTemperature": "Ile wynosi temperatura otoczenia w miejscu zastosowania?",
+      "labels": {
+        "min": "Min.",
+        "max": "Maks."
+      },
+      "questionPowerType": "Jak system smarowania ma być zasilany?",
+      "powerOptions": {
+        "external": "Zewnętrzny zasilacz DC 24 V",
+        "battery": "Akumulator",
+        "noPreference": "Jeszcze nie wiem"
+      }
+    },
+    "result": {
+      "minimumRequirements": "minimalne wymagania",
+      "recommended": "zalecane",
+      "schaefflerId": "Schaeffler ID",
+      "outputDiameter": "Średnica zewnętrzna",
+      "maxOperatingPressure": "Ciśnienie robocze",
+      "noOfOutlets": "Liczba wylotów",
+      "maxTemp": "Maksymalna temperatura",
+      "minTemp": "Minimalna temperatura",
+      "batteryPowered": "Zasilanie akumulatorowe",
+      "medium": "Medium smarujące",
+      "productSeries": "Seria produktów",
+      "volume": "Objętość",
+      "isOptime": "OPTIME",
+      "smallerEqual": "≤",
+      "meter": "m",
+      "centimeter": "cm",
+      "cubiccentimeter": "cm³",
+      "degreeCelsius": "°C",
+      "bar": "bar",
+      "millilitre": "ml",
+      "tempRange": "Zakres temperatur",
+      "tempRangeValues": "{{min}}–{{max}}°C",
+      "voltage": "Napięcie robocze",
+      "dimensions": "Wymiary (mm)",
+      "yes": "Tak",
+      "no": "Nie",
+      "heading": "Lista części produktu {{ designation }}",
+      "share": "Udostępnij",
+      "reset": "Zresetuj dane wejściowe",
+      "addToCart": "Dodaj do koszyka",
+      "addToCartMessage": "Produkty/akcesoria dodane do koszyka",
+      "medium_general": "Medium",
+      "product": "Produkt",
+      "actions": "Działania",
+      "pieces": "Sztuki",
+      "availability": "Dostępność",
+      "quantity": "Ilość",
+      "price": "Cena",
+      "perPiece": "za sztukę",
+      "totalPieces": "Liczba sztuk",
+      "totalPrice": "Całkowita wartość netto",
+      "configSummary": "Podsumowanie konfiguracji",
+      "inStock": "W magazynie",
+      "notInStock": "W tej chwili brak w magazynie",
+      "increaseOne": "Zwiększ ilość o jeden",
+      "decreaseOne": "Zmniejsz ilość o jeden",
+      "func_principle": "Zasada działania",
+      "mounting_position": "Pozycja montażu",
+      "category": {
+        "lubricantApplication": "Aplikowanie smaru",
+        "cartridge": "Kartridż",
+        "gateway": "Brama",
+        "subDistributors": "Poddystrybutorzy",
+        "accessories": "Akcesoria",
+        "fittings": "Złączki",
+        "lubricator": "Smarownica",
+        "hoses": "Przewody elastyczne"
+      },
+      "error": {
+        "heading": "Brak kompatybilnego urządzenia",
+        "body": "Nie znaleziono urządzenia spełniającego podane kryteria zastosowania. Jeśli potrzebujesz pomocy w znalezieniu odpowiedniego rozwiązania do smarowania, skontaktuj się z ekspertami z działu pomocy technicznej",
+        "ctaLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
+        "ctaText": "Pomoc techniczna Schaeffler"
+      },
+      "errors": {
+        "compatability": {
+          "pressure": {
+            "title": "Wymagane ciśnienie jest zbyt wysokie",
+            "body": "Obliczone wymagane ciśnienie w podanej konfiguracji jest zbyt wysokie. Spróbuj umieścić smarownicę bliżej punktów smarowania, aby rura była krótsza"
+          }
+        },
+        "lubrication": {
+          "quantityLow": {
+            "title": "Niska ilość smaru",
+            "body": "Z konfiguracji wynika bardzo niska ilość smaru. Przy tak małych ilościach może zostać przekroczona znamionowa żywotność smarów. Rozważ użycie ręcznego smarowania"
+          },
+          "quantityHigh": {
+            "title": "Wysoka ilość smaru",
+            "body": "Ilość smaru w tej konfiguracji przekracza możliwości naszych produktów"
+          }
+        }
+      },
+      "warning": {
+        "adjustedAutomatically": "W ekosystemie OPTIME nie znaleziono pasującego rozwiązania. Możemy zaoferować następujące zamienniki bez funkcji OPTIME",
+        "noRecommendation": "Nie możemy automatycznie przedstawić zaleceń pasujących do podanych parametrów. Zwróć się do pomocy technicznej Schaeffler z prośbą o indywidualną konsultację",
+        "usedFallbackGrease": "Nie możemy przedstawić szczegółowych zaleceń dotyczących smarów dostępnych na rynku. Obliczenie zostało dokonane na przykładzie smaru z Schaeffler Arcanol o szerokim zakresie kompatybilności. Należy użyć smaru o porównywalnych właściwościach"
+      }
+    }
+  },
+  "tooltips": {
+    "lubricationPoints": {
+      "quantity": "Podaj w tym miejscu średnią ilość smaru wymaganą na punkt smarowania i cykl. W przypadku dużych różnic między indywidualnymi wymaganiami punktów smarowania może być konieczne wykonanie oddzielnych obliczeń.",
+      "pipeLength": "",
+      "optime": "Ekosystem OPTIME Schaeffler umożliwia integrację szerokiej gamy systemów utrzymania ruchu w jednym cyfrowym rozwiązaniu i odznacza się przejrzystością i prostą obsługą. Jeśli uważasz integrację systemu smarowania z OPTIME za ważne kryterium, wybierz odpowiedź „tak” na to pytanie."
+    },
+    "application": {
+      "temps": "Podaj tutaj w miarę możliwości wartości MIN i MAX temperatury otoczenia w miejscu, gdzie będzie zamontowany system smarowania. Chodzi tu o miejsce montażu smarownicy, a nie temperaturę np. łożyska."
+    },
+    "lubricant": {
+      "lubricant": "Smary Schaeffler są specjalnie przystosowane do łożysk tocznych i zoptymalizowane pod kątem ich działania. Schaeffler oferuje szeroki asortyment innych smarów do wszystkich możliwych zastosowań i wymagań."
+    }
+  },
+  "inputs": {
+    "title": "Dane wejściowe",
+    "relubricationQuantity": {
+      "title": "Ilość smaru na punkt",
+      "value": "< {{quantity}} cm³ per {{interval}}"
+    },
+    "temperature": {
+      "title": "Temperatura otoczenia w miejscu zastosowania",
+      "value": "{{min}}–{{max}}°C"
+    },
+    "lubricationPoints": "Liczba punktów smarowania",
+    "maxPipeLengthTitle": "Maks. długość rury",
+    "powerSupplyTitle": "Zasilanie elektryczne",
+    "optimeTitle": "Integracja z OPTIME",
+    "remoteChanged": "Nie zostały znaleziono żadne wyniki spełniające początkowe kryteria z {{original}}. Automatycznie ponowiliśmy próbę z {{new}} jako możliwym zamiennikiem. Sprawdź, czy produkt ten jest kompatybilny z przypadkiem użycia!"
+  },
+  "disclaimer": {
+    "text": "W naszych szczegółach bierzemy pod uwagę ryzyka, które dostrzegliśmy na podstawie udostępnionych nam wymagań. Wyniki pokazane w dokumencie zostały starannie opracowane zgodnie ze sztuką, ale nie stanowią wyraźnej ani dorozumianej gwarancji jakości lub trwałości w rozumieniu prawnym. Nie zwalniają one zatem z powinności przeprowadzenia kontroli zdatności produktów do danego zastosowania. Ponosimy odpowiedzialność za szczegóły podane w zaleceniu tylko w przypadku działania umyślnego lub rażącej niedbałości. Uwaga: Produkty Optime działają tylko w połączeniu z usługą cyfrową, która musi zostać zamówiona oddzielnie. W przypadku pytań dotyczących produktu, zalecenia lub zdatności produktu, należy skontaktować się za pomocą następującego formularza:",
+    "linkText": "Kontakt z nami",
+    "link": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
+    "showMore": "Pokaż więcej",
+    "showLess": "Pokaż mniej"
+  },
+  "feedback": {
+    "text": "Twoja opinia pomoże nam w ciągłym doskonaleniu produktu.",
+    "button": "Opinia",
+    "surveyUrl": "https://schaefflertech.qualtrics.com/jfe/form/SV_6J4IWTJrKCo6nY2?Q_Language="
+  }
+}
