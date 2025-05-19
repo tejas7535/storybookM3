@@ -634,7 +634,7 @@ pipeline {
                     sh "pnpm nx affected:test --base=${buildBase} --parallel=2"
                     sh 'mkdir -p coverage'
                     // merge reports
-                    sh "pnpm cobertura-merge-globby -o coverage/cobertura-coverage.xml --files='coverage/**/cobertura-coverage.xml'"
+                    sh "npx cobertura-merge-globby -o coverage/cobertura-coverage.xml --files='coverage/**/cobertura-coverage.xml'"
                 }
             }
             post {

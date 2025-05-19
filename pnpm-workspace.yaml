@@ -1,3 +1,2 @@
 packages:
   - 'apps/*'
-  - 'libs/shared/utils/pdf-generator'
