@@ -41,8 +41,7 @@ export class Table extends Component {
   private readonly columnTemplates?: string[];
   private readonly fontStyles: FontOptions | FontOptions[];
 
-  private readonly rowConfigurations: { height: number; cells: string[] }[] =
-    [];
+  private rowConfigurations: { height: number; cells: string[] }[] = [];
   private readonly style: Style;
   private readonly cellSpacing: Paddings;
 
@@ -151,6 +150,14 @@ export class Table extends Component {
       }
       ycursor += row.height + this.cellSpacing.top + this.cellSpacing.bottom;
     }
+  }
+
+  /**
+   * way to clear row cnfiguration when table spans into multiple
+   * pages wrongly assign rows configuration which causing duplicated row displayed on the new page.
+   */
+  public clearRowConfiguration(): void {
+    this.rowConfigurations = [];
   }
 
   private makeClone(data: string[][]) {

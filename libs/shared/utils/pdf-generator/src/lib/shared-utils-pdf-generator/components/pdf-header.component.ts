@@ -24,11 +24,13 @@ export interface PDFHeaderProps {
     showQRCode?: boolean;
   };
   format?: Partial<FormatProps>;
+  heading?: string;
 }
 
 const QR_CODE_SIZE = 25;
 const VERTICAL_MARGIN = 5;
 const LOGO_HEIGHT = 4;
+const ADDITIONAL_BOTTOM_MARGIN = 4;
 
 const Defaults: FormatProps = {
   title: {
@@ -50,6 +52,7 @@ export class PDFHeader extends Component {
   private readonly creationDate: string;
   private readonly headerLink?: string;
   private readonly headerLinkText?: string;
+  private readonly heading?: string;
 
   private readonly includeQR: boolean = false;
   private readonly reportTitle: string;
@@ -87,6 +90,8 @@ export class PDFHeader extends Component {
       this.headerLinkText = props.headerLink.linkText;
       this.includeQR = !!props.headerLink.showQRCode;
     }
+
+    this.heading = props?.heading;
   }
 
   public override evaluate(
@@ -176,15 +181,42 @@ export class PDFHeader extends Component {
       this.creationDate,
       { fontOptions: this.dateFontFormat }
     );
+
+    if (this.heading) {
+      const headingDimensions = this.getTextDimensions(this.heading, {
+        ...this.titleFormat,
+      });
+
+      const yPosition = this.includeQR
+        ? this.bounds.y + QR_CODE_SIZE + VERTICAL_MARGIN
+        : this.bounds.y + LOGO_HEIGHT + VERTICAL_MARGIN;
+
+      this.text(this.bounds.x, yPosition + headingDimensions.h, this.heading, {
+        fontOptions: this.titleFormat,
+      });
+    }
   }
 
   private getRequiredVerticalSpace() {
+    const doc = this.assertDoc();
+
     if (this.includeQR) {
       return (
         QR_CODE_SIZE +
         VERTICAL_MARGIN +
         this.getTextDimensions(this.reportTitle, { ...this.titleFormat }).h *
-          this._doc!.getLineHeightFactor()
+          doc.getLineHeightFactor() +
+        (this.heading ? ADDITIONAL_BOTTOM_MARGIN : 0)
+      );
+    }
+
+    if (this.heading) {
+      return (
+        LOGO_HEIGHT +
+        VERTICAL_MARGIN +
+        this.getTextDimensions(this.heading, { ...this.titleFormat }).h *
+          doc.getLineHeightFactor() +
+        ADDITIONAL_BOTTOM_MARGIN
       );
     }
 
