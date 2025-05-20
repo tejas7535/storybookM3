@@ -432,6 +432,9 @@ export class Stub {
             sortableFields: [],
           })
         ),
+        getMaterialCustomerData: jest
+          .fn()
+          .mockReturnValue(of({ rows: [], rowCount: 0 })),
       },
       'useValue'
     );

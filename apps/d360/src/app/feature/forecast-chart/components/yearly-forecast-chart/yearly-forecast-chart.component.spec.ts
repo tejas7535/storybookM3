@@ -1,152 +1,186 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { SeriesOption } from 'echarts';
 import { NGX_ECHARTS_CONFIG, NgxEchartsModule } from 'ngx-echarts';
 import ResizeObserver from 'resize-observer-polyfill';
 
+import {
+  chartSeriesConfig,
+  KpiValues,
+  MonthlyChartEntry,
+  YearlyChartEntry,
+} from '../../model';
+import { Stub } from './../../../../shared/test/stub.class';
 import { YearlyForecastChartComponent } from './yearly-forecast-chart.component';
 
 global.ResizeObserver = ResizeObserver;
 
 describe('YearlyForecastChartComponent', () => {
-  let spectator: Spectator<YearlyForecastChartComponent>;
-  const createComponent = createComponentFactory({
-    component: YearlyForecastChartComponent,
-    imports: [NgxEchartsModule],
-    providers: [
-      {
-        provide: NGX_ECHARTS_CONFIG,
-        useValue: { echarts: () => import('echarts') },
-      },
-    ],
+  let component: YearlyForecastChartComponent;
+
+  beforeEach(() => {
+    component = Stub.getForEffect<YearlyForecastChartComponent>({
+      component: YearlyForecastChartComponent,
+      imports: [NgxEchartsModule],
+      providers: [
+        {
+          provide: NGX_ECHARTS_CONFIG,
+          useValue: { echarts: () => import('echarts') },
+        },
+      ],
+    });
   });
 
-  it('should create the component', () => {
-    spectator = createComponent({
-      props: {
-        data: [],
-        toggledKpis: {},
-      },
-    });
-    expect(spectator.component).toBeTruthy();
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
-  it('should generate chartOptions when data is provided', () => {
-    const mockData = [
-      {
-        yearMonth: '2021-01',
-        deliveries: 100,
-        orders: 200,
-        onTopOrder: 50,
-        salesAmbition: 300,
-        onTopCapacityForecast: 400,
-        opportunities: 150,
-        salesPlan: 250,
-      },
-      {
-        yearMonth: '2021-02',
-        deliveries: 110,
-        orders: 210,
-        onTopOrder: 60,
-        salesAmbition: 310,
-        onTopCapacityForecast: 410,
-        opportunities: 160,
-        salesPlan: 260,
-      },
-      {
-        yearMonth: '2022-01',
-        deliveries: 110,
-        orders: 210,
-        onTopOrder: 60,
-        salesAmbition: 310,
-        onTopCapacityForecast: 410,
-        opportunities: 160,
-        salesPlan: 260,
-      },
-    ];
-
-    spectator = createComponent({
-      props: {
-        data: mockData,
-        toggledKpis: {},
-      },
+  describe('formatXAxisData', () => {
+    it('should extract unique years from MonthlyChartEntry data', () => {
+      const data: MonthlyChartEntry[] = [
+        {
+          yearMonth: '2023-01',
+          orders: 0,
+          deliveries: 0,
+          opportunities: 0,
+          salesAmbition: 0,
+          onTopCapacityForecast: 0,
+          onTopOrder: 0,
+          salesPlan: 0,
+        },
+        {
+          yearMonth: '2023-02',
+          orders: 0,
+          deliveries: 0,
+          opportunities: 0,
+          salesAmbition: 0,
+          onTopCapacityForecast: 0,
+          onTopOrder: 0,
+          salesPlan: 0,
+        },
+        {
+          yearMonth: '2024-01',
+          orders: 0,
+          deliveries: 0,
+          opportunities: 0,
+          salesAmbition: 0,
+          onTopCapacityForecast: 0,
+          onTopOrder: 0,
+          salesPlan: 0,
+        },
+      ];
+      const result = component['formatXAxisData'](data);
+      expect(result).toEqual([2023, 2024]);
     });
-
-    const options = spectator.component['chartOptions']();
-    expect(options).toBeDefined();
-
-    const xAxisData = options.xAxis as any;
-    expect(xAxisData.data).toEqual([2021, 2022]);
-
-    const series = spectator.component['chartOptions']()
-      .series as SeriesOption[];
-
-    expect(series.length).toBeGreaterThan(0);
-    const deliveriesSeries = series.find((s: any) => s.kpi === 'deliveries');
-    expect(deliveriesSeries).toBeDefined();
-    expect(deliveriesSeries.data).toEqual([210, 110]);
   });
 
-  it('should filter out toggled KPIs from the chart series', () => {
-    const mockData = [
-      {
-        yearMonth: '2021-01',
-        deliveries: 100,
-        orders: 200,
-        onTopOrder: 50,
-        salesAmbition: 300,
-        onTopCapacityForecast: 400,
-        opportunities: 150,
-        salesPlan: 250,
-      },
-    ];
-
-    const toggledKpis = {
-      orders: true,
-    };
-
-    spectator = createComponent({
-      props: {
-        data: mockData,
-        toggledKpis,
-      },
+  describe('createSeries', () => {
+    it('should create series based on aggregated yearly data', () => {
+      const data: MonthlyChartEntry[] = [
+        {
+          yearMonth: '2023-01',
+          orders: 10,
+          deliveries: 20,
+          opportunities: 5,
+          salesAmbition: 15,
+          onTopCapacityForecast: 8,
+          onTopOrder: 3,
+          salesPlan: 12,
+        },
+        {
+          yearMonth: '2023-02',
+          orders: 5,
+          deliveries: 10,
+          opportunities: 2,
+          salesAmbition: 7,
+          onTopCapacityForecast: 4,
+          onTopOrder: 1,
+          salesPlan: 6,
+        },
+      ];
+      const series = component['createSeries'](data);
+      expect(series.length).toBe(8); // 7 bar series + 1 dummy sales plan series
+      expect(series[0].name).toBe('home.chart.legend.deliveries');
+      expect(series[7].name).toBe('home.chart.legend.salesPlan');
     });
-
-    const series = spectator.component['chartOptions']()
-      .series as SeriesOption[];
-
-    const ordersSeries = series.find((s: any) => s.kpi === 'orders');
-    expect(ordersSeries).toBeUndefined();
-
-    const deliveriesSeries = series.find((s: any) => s.kpi === 'deliveries');
-    expect(deliveriesSeries).toBeDefined();
   });
 
-  it('should update chartOptions when inputs change', () => {
-    const initialData = [
-      {
-        yearMonth: '2022-01',
-        deliveries: 500,
-        orders: 600,
-        onTopOrder: 70,
-        salesAmbition: 800,
-        onTopCapacityForecast: 1000,
-        opportunities: 900,
-        salesPlan: 700,
-      },
-    ];
-
-    spectator = createComponent({
-      props: {
-        data: initialData,
-        toggledKpis: {},
-      },
+  describe('aggregateByYear', () => {
+    it('should aggregate MonthlyChartEntry data by year', () => {
+      const data: MonthlyChartEntry[] = [
+        {
+          yearMonth: '2023-01',
+          orders: 10,
+          deliveries: 20,
+          opportunities: 5,
+          salesAmbition: 15,
+          onTopCapacityForecast: 8,
+          onTopOrder: 3,
+          salesPlan: 12,
+        },
+        {
+          yearMonth: '2023-02',
+          orders: 5,
+          deliveries: 10,
+          opportunities: 2,
+          salesAmbition: 7,
+          onTopCapacityForecast: 4,
+          onTopOrder: 1,
+          salesPlan: 6,
+        },
+      ];
+      const result = component['aggregateByYear'](data);
+      expect(result).toEqual([
+        {
+          year: 2023,
+          orders: 15,
+          deliveries: 30,
+          opportunities: 7,
+          salesAmbition: 22,
+          onTopCapacityForecast: 12,
+          onTopOrder: 4,
+          salesPlan: 18,
+        },
+      ]);
     });
+  });
 
-    let series = spectator.component['chartOptions']().series as SeriesOption[];
-    expect(series.find((s: any) => s.kpi === 'orders')).toBeDefined();
+  describe('createBarSeries', () => {
+    it('should create a bar series for a given KPI and data', () => {
+      const data: YearlyChartEntry[] = [
+        {
+          year: 2023,
+          orders: 15,
+          deliveries: 30,
+          opportunities: 7,
+          salesAmbition: 22,
+          onTopCapacityForecast: 12,
+          onTopOrder: 4,
+          salesPlan: 18,
+        },
+      ];
+      const series = component['createBarSeries'](KpiValues.Orders, data);
+      expect(series.name).toBe('home.chart.legend.orders');
+      expect(series.data).toEqual([15]);
+      expect(series.color).toBe(chartSeriesConfig[KpiValues.Orders].color);
+    });
+  });
 
-    spectator.setInput('toggledKpis', { orders: true });
-    series = spectator.component['chartOptions']().series as SeriesOption[];
-    expect(series.find((s: any) => s.kpi === 'orders')).toBeUndefined();
+  describe('createDummySalesPlanSeries', () => {
+    it('should create a dummy sales plan series for tooltip rendering', () => {
+      const data: YearlyChartEntry[] = [
+        {
+          year: 2023,
+          orders: 15,
+          deliveries: 30,
+          opportunities: 7,
+          salesAmbition: 22,
+          onTopCapacityForecast: 12,
+          onTopOrder: 4,
+          salesPlan: 18,
+        },
+      ];
+      const series = component['createDummySalesPlanSeries'](data);
+      expect(series.name).toBe('home.chart.legend.salesPlan');
+      expect(series.data).toEqual([18]);
+      expect(series.itemStyle.opacity).toBe(0);
+    });
   });
 });

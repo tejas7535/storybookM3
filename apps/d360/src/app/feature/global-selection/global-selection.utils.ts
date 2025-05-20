@@ -50,10 +50,10 @@ export class GlobalSelectionUtils {
    * @static
    * @param {any[]} inputArray
    * @param {number} length
-   * @return
+   * @return {any[][]}
    * @memberof GlobalSelectionUtils
    */
-  public static splitToChunks(inputArray: any[], length: number) {
+  public static splitToChunks(inputArray: any[], length: number): any[][] {
     const chunks = [];
 
     for (let index = 0; index < inputArray.length; index += length) {

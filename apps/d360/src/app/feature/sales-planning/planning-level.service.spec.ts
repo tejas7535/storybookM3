@@ -1,65 +1,67 @@
-import { take } from 'rxjs';
-
-import {
-  createHttpFactory,
-  HttpMethod,
-  SpectatorHttp,
-} from '@ngneat/spectator/jest';
-
-import { PlanningLevelMaterial } from './model';
+import { Stub } from '../../shared/test/stub.class';
 import { PlanningLevelService } from './planning-level.service';
 
 describe('PlanningLevelService', () => {
-  let spectator: SpectatorHttp<PlanningLevelService>;
-
-  const createService = createHttpFactory({
-    service: PlanningLevelService,
-  });
+  let service: PlanningLevelService;
+  let http: any;
 
   beforeEach(() => {
-    spectator = createService();
+    service = Stub.get<PlanningLevelService>({
+      component: PlanningLevelService,
+    });
+    http = (service as any).http;
   });
 
-  it('should fetch material type by customer number', (done) => {
-    const mockData: PlanningLevelMaterial = {
-      customerNumber: '1230',
-      planningLevelMaterialType: 'PL',
-      isDefaultPlanningLevelMaterialType: true,
-    };
-    const customerNumber = '12345';
-
-    spectator.service
-      .getMaterialTypeByCustomerNumber(customerNumber)
-      .pipe(take(1))
-      .subscribe((data) => {
-        expect(data).toEqual(mockData);
-        done();
-      });
-
-    spectator
-      .expectOne(
-        `api/sales-planning/planning-level?customerNumber=${customerNumber}`,
-        HttpMethod.GET
-      )
-      .flush(mockData);
+  it('should be created', () => {
+    expect(service).toBeTruthy();
   });
 
-  it('should delete material type by customer number', (done) => {
-    const customerNumber = '12345';
+  describe('getMaterialTypeByCustomerNumber', () => {
+    it('should call http.get with the correct URL and return the result', (done) => {
+      const customerNumber = '12345';
+      const mockResponse = {
+        planningLevelMaterialType: 'GP',
+        isDefaultPlanningLevelMaterialType: true,
+      };
+      const spy = jest.spyOn(http, 'get').mockReturnValueOnce({
+        subscribe: (cb: any) => {
+          cb(mockResponse);
 
-    spectator.service
-      .deleteMaterialTypeByCustomerNumber(customerNumber)
-      .pipe(take(1))
-      .subscribe((response) => {
-        expect(response).toBeNull();
-        done();
+          return { unsubscribe() {} };
+        },
       });
 
-    spectator
-      .expectOne(
-        `api/sales-planning/planning-level?customerNumber=${customerNumber}`,
-        HttpMethod.DELETE
-      )
-      .flush(null);
+      service
+        .getMaterialTypeByCustomerNumber(customerNumber)
+        .subscribe((result) => {
+          expect(spy).toHaveBeenCalledWith(
+            `api/sales-planning/planning-level?customerNumber=${customerNumber}`
+          );
+          expect(result).toEqual(mockResponse);
+          done();
+        });
+    });
+  });
+
+  describe('deleteMaterialTypeByCustomerNumber', () => {
+    it('should call http.delete with the correct URL', (done) => {
+      const customerNumber = '12345';
+      const spy = jest.spyOn(http, 'delete').mockReturnValueOnce({
+        subscribe: (cb: any) => {
+          cb();
+
+          return { unsubscribe() {} };
+        },
+      });
+
+      service
+        .deleteMaterialTypeByCustomerNumber(customerNumber)
+        .subscribe(() => {
+          expect(spy).toHaveBeenCalledWith(
+            `api/sales-planning/planning-level?customerNumber=${customerNumber}`
+          );
+          done();
+        });
+    });
   });
 });

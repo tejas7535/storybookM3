@@ -4,9 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { BehaviorSubject, catchError, EMPTY, tap } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class CurrencyService {
   private readonly CURRENT_CURRENCY_API = 'api/info/currencies';
   private readonly DEFAULT_CURRENCY = 'EUR';
@@ -15,8 +13,9 @@ export class CurrencyService {
   );
   private readonly availableCurrencies = new BehaviorSubject<string[]>([]);
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
+  private readonly http: HttpClient = inject(HttpClient);
 
-  constructor(private readonly http: HttpClient) {
+  public constructor() {
     this.fetchAvailableCurrencies();
   }
 
