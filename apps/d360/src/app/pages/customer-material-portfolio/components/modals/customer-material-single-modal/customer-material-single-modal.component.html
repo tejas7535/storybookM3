@@ -34,7 +34,7 @@
               materialNumber;
               context: {
                 label: t('customer_material_portfolio.modal.material'),
-                displayFn: displayFnText
+                displayFn: displayFnText,
               }
             "
           />
@@ -94,7 +94,7 @@
                   data.type === types.PhaseOut
                     ? 'customer_material_portfolio.modal.phase_out.warning'
                     : 'customer_material_portfolio.inactive_modal.deletion_warning'
-                )
+                ),
               }
             "
           />
@@ -109,7 +109,7 @@
                 label: t(
                   'customer_material_portfolio.modal.predecessor_material_number'
                 ),
-                displayFn: displayFnId
+                displayFn: displayFnId,
               }
             "
           />
@@ -122,7 +122,7 @@
                 label: t(
                   'customer_material_portfolio.modal.sucessor_material_number'
                 ),
-                displayFn: displayFnUnited
+                displayFn: displayFnUnited,
               }
             "
           />
@@ -134,7 +134,7 @@
             *ngTemplateOutlet="
               repDate;
               context: {
-                label: t('customer_material_portfolio.modal.substitution_time')
+                label: t('customer_material_portfolio.modal.substitution_time'),
               }
             "
           />
@@ -167,7 +167,7 @@
                 label: t(
                   'customer.material_portfolio.modal.substitution.successor'
                 ),
-                displayFn: displayFnText
+                displayFn: displayFnText,
               }
             "
           />
@@ -177,7 +177,9 @@
             *ngTemplateOutlet="
               repDate;
               context: {
-                label: t('customer_material_portfolio.modal.substitution.label')
+                label: t(
+                  'customer_material_portfolio.modal.substitution.label'
+                ),
               }
             "
           />
@@ -314,7 +316,7 @@
 <ng-template #radioGroupForecast>
   <ng-container *transloco="let t">
     <!-- Label -->
-    <label id="demandPlanLabel"
+    <label id="demandPlanLabel" for="demandPlan"
       >{{
         t(
           'customer.material_portfolio.modal.substitution.transfere_forecast.rootString'
@@ -324,6 +326,8 @@
 
     <!-- Radio Group -->
     <mat-radio-group
+      id="demandPlan"
+      class="flex gap-4"
       aria-labelledby="demandPlanLabel"
       [formControl]="$any(formGroup.get('demandPlanAdoption'))"
     >
