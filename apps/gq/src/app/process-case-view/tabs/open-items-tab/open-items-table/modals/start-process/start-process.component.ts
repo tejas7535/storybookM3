@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input, InputSignal, output } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  input,
+  InputSignal,
+  output,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -30,6 +38,8 @@ import { ProcessesModalDialogData } from '../models/processes-modal-dialog-data.
 })
 export class StartProcessComponent {
   private readonly rfq4ProcessesFacade = inject(Rfq4ProcessFacade);
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
+
   modalData: InputSignal<ProcessesModalDialogData> =
     input<ProcessesModalDialogData>(null);
   cancelProcess = output();
@@ -44,9 +54,9 @@ export class StartProcessComponent {
   );
 
   sendRequest(): void {
-    this.rfq4ProcessesFacade.sendRecalculateSqvSuccess$.subscribe(() =>
-      this.closeDialog()
-    );
+    this.rfq4ProcessesFacade.sendRecalculateSqvSuccess$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.closeDialog());
     this.rfq4ProcessesFacade.sendRecalculateSqvRequest(
       this.modalData().quotationDetail.gqPositionId,
       this.messageControl.value

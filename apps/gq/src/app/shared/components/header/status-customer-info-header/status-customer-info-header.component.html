@@ -13,7 +13,7 @@
             statusOfQuotation === quotationStatus.IN_APPROVAL,
           'text-quotation-status-green':
             statusOfQuotation === quotationStatus.APPROVED,
-          'text-error': statusOfQuotation === quotationStatus.REJECTED
+          'text-error': statusOfQuotation === quotationStatus.REJECTED,
         }"
       >
         <span
@@ -45,7 +45,7 @@
           'text-error':
             ((sapStatus$ | ngrxPush) === sapSyncStatus.NOT_SYNCED &&
               errorCode) ||
-            sapSyncStatus.SYNC_FAILED
+            sapSyncStatus.SYNC_FAILED,
         }"
         *transloco="let t; read: 'shared.sapStatusLabels'"
         [matTooltip]="errorCode ? t('errorCodes.' + errorCode) : undefined"
@@ -53,7 +53,7 @@
       >
         {{
           t('sapSyncStatus', {
-            sapSyncStatus: (sapStatus$ | ngrxPush)
+            sapSyncStatus: (sapStatus$ | ngrxPush),
           })
         }}
       </span>

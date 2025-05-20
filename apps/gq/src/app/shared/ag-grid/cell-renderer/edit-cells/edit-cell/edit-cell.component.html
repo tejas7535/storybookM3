@@ -4,7 +4,7 @@
     class="float-left w-full truncate"
     [ngClass]="{
       'text-error': isInvalidPriceError,
-      'text-on-warning-container': isWarningEnabled
+      'text-on-warning-container': isWarningEnabled,
     }"
   >
     @if (isWarningEnabled) {
@@ -12,7 +12,7 @@
         [matTooltip]="
           t(warningTooltip, {
             deliveryUnit: params.data.deliveryUnit,
-            uom: params.data.material?.baseUoM | uom
+            uom: params.data.material?.baseUoM | uom,
           })
         "
         class="!text-caption mr-[10px] !w-3 cursor-help align-text-top"
@@ -24,7 +24,7 @@
         'bg-[#e9b300]':
           (simulatedQuotation$ | ngrxPush) &&
           params.formatValue((simulatedQuotation$ | ngrxPush)[params.field]) !==
-            '-'
+            '-',
       }"
       class="p-1"
     >
@@ -44,6 +44,14 @@
       (click)="onIconClick()"
       >mode_edit</mat-icon
     >
+  } @else {
+    @if (params.field === columnFields.ORDER_QUANTITY) {
+      <mat-icon
+        *hideIfQuotationNotActiveOrPending
+        class="text-medium-emphasis align-text-top !text-[16px] cursor-not-allowed"
+        >edit_off</mat-icon
+      >
+    }
   }
 </div>
 <ng-template #novalue> </ng-template>

@@ -60,7 +60,6 @@ export class Rfq4Service {
         { message }
       )
       .pipe(
-        take(1),
         map(
           (response: RecalculateSqvResponse) =>
             response.processVariables.rfq4Status

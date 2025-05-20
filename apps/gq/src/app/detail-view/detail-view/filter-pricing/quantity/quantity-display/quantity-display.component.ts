@@ -1,38 +1,34 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, computed, inject, input, InputSignal } from '@angular/core';
 
-import { Observable } from 'rxjs';
-
-import { isManualCase } from '@gq/core/store/active-case/active-case.selectors';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { EditingModalService } from '@gq/shared/components/modal/editing-modal/editing-modal.service';
 import { QuotationStatus } from '@gq/shared/models';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail';
-import { Store } from '@ngrx/store';
+import { isRfq4ProcessOngoingForQuotationDetail } from '@gq/shared/utils/rfq-4-utils';
 
 @Component({
   selector: 'gq-quantity-display',
   templateUrl: './quantity-display.component.html',
   standalone: false,
 })
-export class QuantityDisplayComponent implements OnInit {
-  @Input()
-  readonly quotationDetail: QuotationDetail;
+export class QuantityDisplayComponent {
+  private readonly editingModalService: EditingModalService =
+    inject(EditingModalService);
+
+  readonly quotationDetail: InputSignal<QuotationDetail> =
+    input<QuotationDetail>();
   readonly quotationStatus = QuotationStatus;
 
-  isManualCase$: Observable<boolean>;
-
-  constructor(
-    private readonly editingModalService: EditingModalService,
-    private readonly store: Store
-  ) {}
-
-  ngOnInit(): void {
-    this.isManualCase$ = this.store.select(isManualCase);
-  }
+  isRfq4ProcessOngoing = computed(() =>
+    isRfq4ProcessOngoingForQuotationDetail(this.quotationDetail())
+  );
 
   openEditing(): void {
+    if (this.isRfq4ProcessOngoing()) {
+      return;
+    }
     this.editingModalService.openEditingModal({
-      quotationDetail: this.quotationDetail,
+      quotationDetail: this.quotationDetail(),
       field: ColumnFields.ORDER_QUANTITY,
     });
   }

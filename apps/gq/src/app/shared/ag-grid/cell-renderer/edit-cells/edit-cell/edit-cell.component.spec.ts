@@ -8,6 +8,8 @@ import { RolesFacade } from '@gq/core/store/facades';
 import { ColumnFields } from '@gq/shared/ag-grid/constants/column-fields.enum';
 import { EditingModalService } from '@gq/shared/components/modal/editing-modal/editing-modal.service';
 import { UserRoles } from '@gq/shared/constants';
+import { QuotationDetail } from '@gq/shared/models';
+import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost';
 import {
   createComponentFactory,
   mockProvider,
@@ -254,6 +256,7 @@ describe('EditCellComponent', () => {
     });
 
     test('should disable cell editing when condition enabled and field is RLM', () => {
+      component.isCellEditingAllowed = true;
       const params = {
         data: QUOTATION_DETAIL_MOCK,
         condition: {
@@ -369,6 +372,43 @@ describe('EditCellComponent', () => {
       component.handleCellEditing(params);
 
       expect(component.isCellEditingAllowed).toBeFalsy();
+    });
+    test('should not allow cell editing for the quantity field when there is rfq4Status in progress', () => {
+      const params = {
+        data: {
+          ...QUOTATION_DETAIL_MOCK,
+          detailCosts: {
+            rfq4Status: Rfq4Status.IN_PROGRESS,
+          },
+        } as QuotationDetail,
+        field: ColumnFields.ORDER_QUANTITY,
+        condition: {
+          enabled: false,
+        },
+      } as any;
+
+      component.handleCellEditing(params);
+
+      expect(component.isCellEditingAllowed).toBeFalsy();
+    });
+
+    test('should Do allow cell editing for the quantity field when there is rfq4Status open', () => {
+      const params = {
+        data: {
+          ...QUOTATION_DETAIL_MOCK,
+          detailCosts: {
+            rfq4Status: Rfq4Status.OPEN,
+          },
+        } as QuotationDetail,
+        field: ColumnFields.ORDER_QUANTITY,
+        condition: {
+          enabled: false,
+        },
+      } as any;
+
+      component.handleCellEditing(params);
+
+      expect(component.isCellEditingAllowed).toBeTruthy();
     });
   });
 

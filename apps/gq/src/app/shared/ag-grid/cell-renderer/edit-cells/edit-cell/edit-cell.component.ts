@@ -13,6 +13,7 @@ import { EditingModalService } from '@gq/shared/components/modal/editing-modal/e
 import { PRICE_VALIDITY_MARGIN_THRESHOLD } from '@gq/shared/constants';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
+import { isRfq4ProcessOngoingForQuotationDetail } from '@gq/shared/utils/rfq-4-utils';
 import { PushPipe } from '@ngrx/component';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 
@@ -48,6 +49,7 @@ export class EditCellComponent implements ICellRendererAngularComp {
   isWarningEnabled: boolean;
   isInvalidPriceError: boolean;
   warningTooltip = '';
+  columnFields: typeof ColumnFields = ColumnFields;
 
   simulatedQuotation$: Observable<QuotationDetail>;
   quotationStatus = QuotationStatus;
@@ -192,5 +194,10 @@ export class EditCellComponent implements ICellRendererAngularComp {
       params.field !== ColumnFields.RLM &&
       params.field !== ColumnFields.NET_VALUE &&
       params.field !== ColumnFields.PRICE_SOURCE;
+    if (params.field === ColumnFields.ORDER_QUANTITY) {
+      this.isCellEditingAllowed =
+        this.isCellEditingAllowed &&
+        !isRfq4ProcessOngoingForQuotationDetail(params.data);
+    }
   }
 }

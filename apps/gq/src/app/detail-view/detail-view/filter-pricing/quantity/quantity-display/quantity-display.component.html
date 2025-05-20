@@ -1,17 +1,16 @@
 <div>
   <span class="font-bold" data-cy="quantity-value">{{
-    quotationDetail?.orderQuantity
+    quotationDetail()?.orderQuantity
   }}</span>
-  @if (isManualCase$ | ngrxPush) {
-    <span
-      class="text-medium-emphasis ml-1 cursor-pointer"
-      (click)="openEditing()"
-    >
-      <mat-icon
-        class="!text-body-1 align-bottom !leading-6"
-        *hideIfQuotationNotActiveOrPending
-        >mode_edit</mat-icon
-      >
-    </span>
-  }
+
+  <span
+    *hideIfQuotationNotActiveOrPending
+    class="text-medium-emphasis ml-1"
+    [ngClass]="isRfq4ProcessOngoing() ? 'cursor-not-allowed' : 'cursor-pointer'"
+    (click)="openEditing()"
+  >
+    <mat-icon class="!text-body-1 align-bottom !leading-6">{{
+      isRfq4ProcessOngoing() ? 'edit_off' : 'mode_edit'
+    }}</mat-icon>
+  </span>
 </div>

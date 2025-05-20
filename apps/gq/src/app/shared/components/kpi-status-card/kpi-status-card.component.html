@@ -11,7 +11,7 @@
           [ngClass]="{
             'bg-success-container': rating === ratingStatus.GOOD,
             'bg-error-container': rating === ratingStatus.LOW,
-            'bg-warning-container': rating === ratingStatus.MEDIUM
+            'bg-warning-container': rating === ratingStatus.MEDIUM,
           }"
         >
           <div
@@ -19,7 +19,7 @@
             [ngClass]="{
               'bg-[#a1c861]': rating === ratingStatus.GOOD,
               'bg-[#cb0b15]': rating === ratingStatus.LOW,
-              'bg-[#e9b300]': rating === ratingStatus.MEDIUM
+              'bg-[#e9b300]': rating === ratingStatus.MEDIUM,
             }"
           ></div>
         </div>
@@ -43,7 +43,7 @@
           [ngClass]="{
             '!text-success': rating === ratingStatus.GOOD,
             '!text-error': rating === ratingStatus.LOW,
-            '!text-on-warning-container': rating === ratingStatus.MEDIUM
+            '!text-on-warning-container': rating === ratingStatus.MEDIUM,
           }"
           >{{ t('status.' + ratingText) }}
         </span>
