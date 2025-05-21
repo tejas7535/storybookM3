@@ -138,12 +138,7 @@ export class AppComponent implements OnInit {
       external: false,
     },
     {
-      link: `${LegalRoute}/${LegalPath.CookiePath}`,
-      title: this.translocoService.translate('legal.cookiePolicy'),
-      external: false,
-    },
-    {
-      link: 'https://worksite.sharepoint.com/:u:/r/sites/Bearings-Industrial-Solutions-Sales-Operations-Planning/SitePages/Synchronized-Sales-%26-Demand-Planning---Overview.aspx?csf=1&web=1&e=Gal3OO',
+      link: 'https://worksite.sharepoint.com/:u:/r/sites/Bearings-Industrial-Solutions-Sales-Management-Marketing/SitePages/Planning360-Home.aspx?csf=1&web=1&e=q2rCbU',
       title: 'Planning360@MySchaeffler',
       external: true,
     },
