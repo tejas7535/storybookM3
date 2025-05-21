@@ -905,6 +905,8 @@
         "cashDiscount": "Descontos financeiros",
         "daily_rolling_sales_plan": "Plano de Vendas",
         "for": "para",
+        "minimum": "Definir no limite mínimo",
+        "minimum_tooltip": "Entregas + Livro de encomendas + Oportunidades + Valor aberto da validação da demanda",
         "monthly_total": "Total mensal",
         "otherRevenues": "Outras receitas",
         "percentage_change": "Mudança em %",

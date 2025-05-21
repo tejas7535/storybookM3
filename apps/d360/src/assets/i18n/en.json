@@ -905,6 +905,8 @@
         "cashDiscount": "Cash Discounts",
         "daily_rolling_sales_plan": "Sales Plan",
         "for": "for",
+        "minimum": "Set to minimum Threshold",
+        "minimum_tooltip": "Deliveries + Orderbook + Opportunities + Open Value from Demand Validation",
         "monthly_total": "Monthly Total",
         "otherRevenues": "Other Revenues",
         "percentage_change": "change in %",

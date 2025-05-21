@@ -905,6 +905,8 @@
         "cashDiscount": "现金折扣",
         "daily_rolling_sales_plan": "销售计划",
         "for": "为",
+        "minimum": "设置为最低阈值",
+        "minimum_tooltip": "交付 + 订单簿 + 机会 + 来自需求验证的开放价值",
         "monthly_total": "每月总计",
         "otherRevenues": "其他收入",
         "percentage_change": "百分比变化",

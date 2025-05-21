@@ -905,6 +905,8 @@
         "cashDiscount": "Cash Discount",
         "daily_rolling_sales_plan": "Verkaufsplan",
         "for": "für",
+        "minimum": "Auf unteren Schwellwert setzen",
+        "minimum_tooltip": "Lieferungen + Auftragsbuch + Chancen + Offener Wert aus der Bedarfsvalidierung",
         "monthly_total": "Monatsplanung",
         "otherRevenues": "Sonstige Einnahmen",
         "percentage_change": "Änderung in %",

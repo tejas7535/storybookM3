@@ -16,7 +16,7 @@
         <div [formGroup]="form">
           <mat-radio-group
             formControlName="adjustmentOption"
-            (change)="onChangeAdjustmentOption()"
+            (change)="onChangeAdjustmentOption($event)"
             class="flex flex-col mb-3"
           >
             <mat-radio-button [value]="AdjustmentOption.Absolute">
@@ -25,6 +25,21 @@
 
             <mat-radio-button [value]="AdjustmentOption.Relative">
               {{ t('sales_planning.planning_details.edit_modal.relative') }}
+            </mat-radio-button>
+
+            <mat-radio-button [value]="AdjustmentOption.Minimum">
+              <span class="flex items-center">
+                {{ t('sales_planning.planning_details.edit_modal.minimum') }}
+                <mat-icon
+                  class="ml-4"
+                  [matTooltip]="
+                    t(
+                      'sales_planning.planning_details.edit_modal.minimum_tooltip'
+                    )
+                  "
+                  >info_outline</mat-icon
+                >
+              </span>
             </mat-radio-button>
           </mat-radio-group>
 

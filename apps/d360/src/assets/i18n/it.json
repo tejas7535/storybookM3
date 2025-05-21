@@ -905,6 +905,8 @@
         "cashDiscount": "Sconti per pagamento immediato",
         "daily_rolling_sales_plan": "Piano di Vendita",
         "for": "per",
+        "minimum": "Impostare alla soglia minima",
+        "minimum_tooltip": "Consegne + Portafoglio ordini + Opportunità + Valore aperto dalla validazione della domanda",
         "monthly_total": "Totale mensile",
         "otherRevenues": "Altri ricavi",
         "percentage_change": "Variazione in %",

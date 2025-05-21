@@ -905,6 +905,8 @@
         "cashDiscount": "Descuentos por pronto pago",
         "daily_rolling_sales_plan": "Plan de Ventas",
         "for": "para",
+        "minimum": "Establecer al umbral mínimo",
+        "minimum_tooltip": "Entregas + Libro de pedidos + Oportunidades + Valor abierto de validación de demanda",
         "monthly_total": "Total mensual",
         "otherRevenues": "Otros ingresos",
         "percentage_change": "Cambio en %",

@@ -905,6 +905,8 @@
         "cashDiscount": "Escomptes",
         "daily_rolling_sales_plan": "Plan de Vente",
         "for": "pour",
+        "minimum": "Fixer au seuil minimum",
+        "minimum_tooltip": "Livraisons + Carnet de commandes + Opportunités + Valeur ouverte de validation de la demande",
         "monthly_total": "Total mensuel",
         "otherRevenues": "Autres revenus",
         "percentage_change": "Changement en %",

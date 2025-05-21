@@ -22,8 +22,14 @@ import {
   MatHint,
   MatLabel,
 } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
+import {
+  MatRadioButton,
+  MatRadioChange,
+  MatRadioGroup,
+} from '@angular/material/radio';
+import { MatTooltip } from '@angular/material/tooltip';
 
 import { finalize, Observable, tap } from 'rxjs';
 
@@ -45,6 +51,7 @@ export interface CustomerSalesPlanNumberAndPercentageEditProps {
   previousValueLabel: string;
   onSave: (newValue: number) => Observable<void>;
   onDelete: () => Observable<void>;
+  minValue: string;
   inputValidatorFn: (value: number) => ValidationErrors | null;
   inputValidatorErrorMessage: string;
 }
@@ -52,6 +59,7 @@ export interface CustomerSalesPlanNumberAndPercentageEditProps {
 export enum AdjustmentOption {
   Absolute = 'ABSOLUTE',
   Relative = 'RELATIVE',
+  Minimum = 'MINIMUM',
 }
 
 @Component({
@@ -74,6 +82,8 @@ export enum AdjustmentOption {
     MatError,
     LoadingSpinnerModule,
     NumberSeparatorDirective,
+    MatIcon,
+    MatTooltip,
   ],
   templateUrl:
     './customer-sales-plan-number-and-percentage-edit-modal.component.html',
@@ -148,15 +158,23 @@ export class CustomerSalesPlanNumberAndPercentageEditModalComponent {
     }
   }
 
-  public onChangeAdjustmentOption() {
-    this.form.controls.adjustedValue.setValue(null);
-    this.isEnteringRelativeValue.set(
-      this.form.controls.adjustmentOption.value === AdjustmentOption.Relative
-    );
-    this.configuredValue.set(null);
+  protected onChangeAdjustmentOption(event: MatRadioChange) {
+    const adjustedValueControl = this.form.controls.adjustedValue;
+
+    if (event.value === AdjustmentOption.Minimum) {
+      const value = this.data.minValue;
+      adjustedValueControl.setValue(value);
+      adjustedValueControl.disable();
+    } else {
+      adjustedValueControl.setValue(null);
+      adjustedValueControl.enable();
+
+      this.configuredValue.set(null);
+    }
+    this.isEnteringRelativeValue.set(event.value === AdjustmentOption.Relative);
   }
 
-  public onInput(_: Event) {
+  protected onInput(_: Event) {
     const controlValue = this.form.controls.adjustedValue.value;
 
     if ([null, ''].includes(controlValue)) {

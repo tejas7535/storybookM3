@@ -124,6 +124,9 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
               : this.value,
           onDelete: this.onDelete(),
           onSave: this.onSave(),
+          minValue: this.numberWithoutFractionDigitsPipe.transform(
+            this.minValidationValue
+          ),
           inputValidatorFn: this.validateEnteredAdjustedYearlyTotal.bind(this),
           inputValidatorErrorMessage: translate(
             `${this.translationKeyPrefix}.adjusted_total_error_message`,
@@ -216,7 +219,7 @@ export class SalesPlanningAdjustedTotalCellRendererComponent extends AbstractSal
       return null;
     }
 
-    return adjustedYearlyTotal >= this.minValidationValue
+    return adjustedYearlyTotal >= Math.round(this.minValidationValue)
       ? null
       : { invalid: true };
   }
