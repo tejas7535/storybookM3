@@ -82,11 +82,12 @@
     "startNewCalculation": "Commencer un nouveau calcul"
   },
   "reportResult": {
+    "title": "Rapport pour le roulement {{ designation }}",
     "mediasBaseUrl": "https://medias.schaeffler.de/en",
     "calculatedWith": "Calculé avec {{versions}}",
     "viewProductButton": "Voir le Produit",
     "mountingInstructions": "Instructions de Montage",
-    "mountingToolsAndUtilities": "Outils et Accessoires de Montage",
+    "mountingToolsAndUtilities": "Outils et Accessoires de Montage (requis)",
     "hydraulicNut": "Écrou Hydraulique",
     "lockNut": "Écrou de blocage",
     "sleeveConnectors": "connecteurs de manche",
@@ -95,9 +96,6 @@
       "recommended": "Recommandé",
       "alternative": "Alternative"
     },
-    "additionalTools": {
-      "title": "Outils Additionnels"
-    },
     "reportSelection": {
       "title": "Rapport",
       "reportInputs": "Entrée",
@@ -105,7 +103,7 @@
       "endPosition": "Position finale",
       "radialClearance": "Réduction du jeu radial et déplacement axial",
       "clearanceClasses": "Valeurs de contrôle pour les classes de jeu",
-      "mountingToolsAndUtilities": "Outils et utilitaires de montage",
+      "mountingToolsAndUtilities": "Outils et utilitaires de montage (requis)",
       "mountingInstructions": "Instructions de montage",
       "reportMessages": "Erreurs, Avertissements et Notes",
       "downloadPdf": "Télécharger le PDF"
@@ -135,5 +133,13 @@
     "cookieSettings": "Paramètres des cookies",
     "purpose": "</br>In the Mounting Manager, user inputs such as bearing selection and operating parameters are used to carry out calculations in order to issue a mounting recommendation. Your anonymized user data is stored on the Microsoft Azure platform and displayed in the form of a dashboard. This gives us the opportunity to evaluate user behavior in the Mounting Manager in order to be able to make strategic decisions about the further development of the Mounting Manager.</br>Your anonymized user data is stored on the Microsoft Azure platform and displayed in the form of a dashboard. This gives us the opportunity to evaluate user behavior in the Mounting Manager in order to be able to make strategic decisions about the further development of the Mounting Manager.",
     "storagePeriod": "one year"
+  },
+  "pdf": {
+    "generationError": "Une erreur PDF est survenue. Réessayez ou contactez le support.",
+    "close": "Fermer",
+    "title": "Rapport pour le roulement {{ designation }}",
+    "inputsTitle": "Vos entrées",
+    "resultsTitle": "Résultats",
+    "disclaimer": "All rights are reserved, even in the event that a patent is granted or a utility model is registered. The document is to be treated confidentially. Without our written consent, neither the document itself nor copies thereof or other reproductions of the entire contents or excerpts thereof may be made available to third parties or misused in any other way by the recipient. Our dimensioning is based on your specifications and the information provided by you. Our dimensioning takes into account those risks which were recognizable to us on the basis of the information and specifications provided by you. Our dimensioning is made exclusively in connection with the purchase of our products. We do not assume any warranty in connection with the use of third-party products. The results have been worked out carefully and according to the state of the art, but do not represent any (explicit or implicit) guarantee of quality or durability in the legal sense. We are liable for the dimensioning and its results only in the case of intent and gross negligence. Unless expressly agreed otherwise, we are responsible for our scope of delivery only in accordance with the specifications documented herein, which form the basis of our dimensioning. We only perform component and system validations pertaining to the scope of services described herein. The responsibility for the overall system, of which our scope of delivery is only a part, is exclusively with you. All tasks and liabilities associated with the overall system and the integration of our scope of supply are your sole responsibility. In this respect, you are not released from the obligation to check our products for their suitability in the application with suitable methods or tests. If the document or the dimensioning is part of a supply contract or other agreement, the liability provisions agreed therein shall apply"
   }
 }

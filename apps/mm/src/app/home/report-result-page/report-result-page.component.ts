@@ -1,12 +1,33 @@
 /* eslint-disable @typescript-eslint/member-ordering */
-import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { CalculationResultFacade } from '@mm/core/store/facades/calculation-result.facade';
+import { TranslocoService } from '@jsverse/transloco';
 import { ResultTypeConfig } from '@mm/core/store/models/calculation-result-state.model';
 import { QualtricsInfoBannerComponent } from '@mm/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
-import { LetDirective, PushPipe } from '@ngrx/component';
+import {
+  PdfCardFactory,
+  PdfComponentFactory,
+  PdfGenerationService,
+  PdfImagesProviderService,
+  PdfInputsService,
+  PdfLayoutService,
+  PdfMountingToolsService,
+  PdfProductQrLinkService,
+  PdfRecommendationService,
+  PdfResultsService,
+  PdfTableFactory,
+} from '@mm/shared/services/pdf';
+import { PdfFileSaveService } from '@mm/shared/services/pdf/pdf-file-save.service';
+import { QrCodeService } from '@mm/shared/services/pdf/qr-code.service';
+import { ResultDataService } from '@mm/shared/services/result-data.service';
 
 import { ResultReportComponent } from '@schaeffler/result-report';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -14,6 +35,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { AdditionalToolsComponent } from './additional-tools/additional-tools.component';
 import { GridResultItemCardComponent } from './grid-result-item-card/grid-result-item-card.component';
 import { HydraulicOrLockNutComponent } from './hydraulic-or-lock-nut/hydraulic-or-lock-nut.component';
+import { MobileDownloadPdfButtonComponent } from './mobile-download-pdf-button/mobile-download-pdf-button.component';
 import { MountingRecommendationComponent } from './mounting-recommendation/mounting-recommendation.component';
 import { ReportPumpsComponent } from './report-pumps/report-pumps.component';
 import { ReportSelectionComponent } from './report-selection/report-selection.component';
@@ -24,8 +46,6 @@ import { SleeveConnectorComponent } from './sleeve-connector/sleeve-connector.co
   templateUrl: './report-result-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    PushPipe,
-    LetDirective,
     SharedTranslocoModule,
     MatProgressSpinner,
     ResultReportComponent,
@@ -37,44 +57,73 @@ import { SleeveConnectorComponent } from './sleeve-connector/sleeve-connector.co
     ReportSelectionComponent,
     GridResultItemCardComponent,
     QualtricsInfoBannerComponent,
+    MobileDownloadPdfButtonComponent,
+  ],
+  providers: [
+    PdfGenerationService,
+    PdfInputsService,
+    PdfCardFactory,
+    PdfComponentFactory,
+    PdfLayoutService,
+    PdfMountingToolsService,
+    PdfTableFactory,
+    PdfRecommendationService,
+    PdfResultsService,
+    PdfImagesProviderService,
+    PdfProductQrLinkService,
+    QrCodeService,
+    PdfFileSaveService,
   ],
 })
 export class ReportResultPageComponent {
-  public readonly inputs$ = this.calculationResultFacade.getCalculationInputs$;
+  private readonly pdfGenerationService = inject(PdfGenerationService);
+  private readonly dataService = inject(ResultDataService);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly translocoService = inject(TranslocoService);
 
-  public readonly mountingRecommendations$ =
-    this.calculationResultFacade.mountingRecommendations$;
+  private readonly _isGeneratingPdf = signal(false);
+  public isGeneratingPdf = this._isGeneratingPdf.asReadonly();
 
-  public readonly mountingTools$ = this.calculationResultFacade.mountingTools$;
+  public readonly selectedBearing = this.dataService.selectedBearing;
 
-  public readonly messages$ =
-    this.calculationResultFacade.getCalulationMessages$;
+  public readonly inputs = this.dataService.inputs;
+  public readonly messages = this.dataService.categorizedMessages;
 
-  public readonly isResultAvailable$ =
-    this.calculationResultFacade.isResultAvailable$;
+  public readonly mountingRecommendations =
+    this.dataService.mountingRecommendations;
 
-  public readonly hasMountingTools$ =
-    this.calculationResultFacade.hasMountingTools$;
+  public readonly mountingTools = this.dataService.mountingTools;
 
-  public readonly reportSelectionTypes$ =
-    this.calculationResultFacade.reportSelectionTypes$;
+  public readonly isResultAvailable = this.dataService.isResultAvailable;
 
-  public readonly bearinxVersions$ =
-    this.calculationResultFacade.bearinxVersions$;
+  public readonly hasMountingTools = this.dataService.hasMountingTools;
 
-  public startPositions = toSignal(
-    this.calculationResultFacade.startPositions$
-  );
+  public readonly reportSelectionTypes = this.dataService.reportSelectionTypes;
 
-  public radialClearance = toSignal(
-    this.calculationResultFacade.radialClearance$
-  );
+  public startPositions = this.dataService.startPositions;
 
-  public clearanceClasses = toSignal(
-    this.calculationResultFacade.radialClearanceClasses$
-  );
+  public radialClearance = this.dataService.radialClearance;
 
-  public endPositions = toSignal(this.calculationResultFacade.endPositions$);
+  public clearanceClasses = this.dataService.clearanceClasses;
+  public endPositions = this.dataService.endPositions;
+
+  public sleeveConnectors = this.dataService.sleeveConnectors;
+  public readonly pumpsTitle = this.dataService.pumpsTile;
+  public readonly pumps = this.dataService.allPumps;
+
+  public hydraulicNut = computed(() => {
+    const mountingTools = this.mountingTools();
+
+    return mountingTools.hydraulicNut;
+  });
+
+  public lockNut = computed(() => {
+    const mountingTools = this.mountingTools();
+
+    return mountingTools.locknut;
+  });
+
+  public additionalTools = this.dataService.additionalTools;
 
   public importantStartPositions = computed(() =>
     this.startPositions().filter((position) => position.isImportant)
@@ -92,15 +141,29 @@ export class ReportResultPageComponent {
     this.endPositions().filter((position) => !position.isImportant)
   );
 
-  constructor(
-    private readonly calculationResultFacade: CalculationResultFacade
-  ) {}
-
   scrollIntoView(itemName: ResultTypeConfig['name']) {
     const scrollOptions: ScrollIntoViewOptions = {
       behavior: 'smooth',
       block: 'start',
     };
     document.querySelector(`#${itemName}`)?.scrollIntoView(scrollOptions);
+  }
+
+  public async generatePDF(): Promise<void> {
+    try {
+      this._isGeneratingPdf.set(true);
+      await this.pdfGenerationService.generatePdf();
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      this.showErrorMessage();
+    } finally {
+      this._isGeneratingPdf.set(false);
+    }
+  }
+
+  private showErrorMessage() {
+    const text = this.translocoService.translate('pdf.generationError');
+    const action = this.translocoService.translate('pdf.close');
+    this.snackBar.open(text, action);
   }
 }

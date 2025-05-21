@@ -6,6 +6,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslocoService } from '@jsverse/transloco';
+import { environment } from '@mm/environments/environment';
 import { PushPipe } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
@@ -16,6 +17,11 @@ import {
   PURPOSE,
   STORAGE_PERIOD,
 } from '@schaeffler/legal-pages';
+import {
+  DEFAULT_FONT,
+  FONT_ASSET_PATH,
+  LANGUAGE_FONT_MAPPINGS,
+} from '@schaeffler/pdf-generator';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -70,6 +76,42 @@ export function DynamicThirdPartyUsage(translocoService: TranslocoService) {
       provide: ADDITIONAL_THRID_PARTY_USAGE,
       useFactory: DynamicThirdPartyUsage,
       deps: [TranslocoService],
+    },
+    {
+      provide: FONT_ASSET_PATH,
+      useValue: `${environment.assetsPath}/fonts`,
+    },
+    {
+      provide: DEFAULT_FONT,
+      useValue: [
+        {
+          fontName: 'Noto',
+          fontStyle: 'normal',
+          fileName: 'NotoSans-Regular.ttf',
+        },
+        {
+          fontName: 'Noto',
+          fontStyle: 'bold',
+          fileName: 'NotoSans-Bold.ttf',
+        },
+      ],
+    },
+    {
+      provide: LANGUAGE_FONT_MAPPINGS,
+      useValue: {
+        zh: [
+          {
+            fontName: 'Noto',
+            fontStyle: 'normal',
+            fileName: 'NotoSansSC-Regular.ttf',
+          },
+          {
+            fontName: 'Noto',
+            fontStyle: 'bold',
+            fileName: 'NotoSansSC-Bold.ttf',
+          },
+        ],
+      },
     },
   ],
   bootstrap: [AppComponent],

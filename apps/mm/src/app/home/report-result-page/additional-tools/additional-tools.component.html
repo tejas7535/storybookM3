@@ -1,17 +1,11 @@
 @if (additionalTools.length > 0) {
-  <ng-container
-    class="mt-8"
-    *transloco="let t; read: 'reportResult.additionalTools'"
-  >
-    <h3 class="text-title-medium my-4">{{ t('title') }}</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      @for (tool of additionalTools; track tool) {
-        <mm-product-card
-          [productTitle]="tool.designation"
-          [productValue]="tool.value"
-        >
-        </mm-product-card>
-      }
-    </div>
-  </ng-container>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+    @for (tool of additionalTools; track tool) {
+      <mm-product-card
+        [productTitle]="tool.designation"
+        [productValue]="tool.value"
+      >
+      </mm-product-card>
+    }
+  </div>
 }

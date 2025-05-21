@@ -1,98 +1,99 @@
 <div *transloco="let t; read: 'reportResult'">
-  @if (isResultAvailable$ | ngrxPush) {
+  @if (isResultAvailable()) {
+    <div class="text-subtitle-1 pb-2">
+      {{ t('title', { designation: selectedBearing() }) }}
+    </div>
+    <mm-mobile-download-pdf-button
+      class="md:hidden"
+      [isPdfGenerating]="isGeneratingPdf()"
+      (downloadPdfClicked)="generatePDF()"
+    ></mm-mobile-download-pdf-button>
     <schaeffler-result-report
-      class="flex h-full flex-row justify-between md:max-h-[75vh]"
-      [reportInputs]="inputs$ | ngrxPush"
-      [messages]="messages$ | ngrxPush"
+      class="flex h-full flex-row justify-between md:max-h-[calc(100vh-320px)]"
+      [reportInputs]="inputs()"
+      [messages]="messages()"
       [isMessageSectionExpanded]="false"
     >
       <div class="my-8 flex flex-col" report-main-content>
-        <ng-container
-          *ngrxLet="{
-            recommendations: mountingRecommendations$ | ngrxPush,
-            tools: mountingTools$ | ngrxPush,
-            hasMountingTools: hasMountingTools$ | ngrxPush
-          } as data"
+        <mm-grid-result-item-card
+          id="startPosition"
+          [title]="t('startPositions')"
+          [resultItems]="importantStartPositions()"
+          [additionalResultItems]="nonImportantStartPositions()"
+          [expandItemsTitle]="t('shared.expand')"
+          [collapseItemsTitle]="t('shared.collapse')"
         >
-          <mm-grid-result-item-card
-            id="startPosition"
-            [title]="t('startPositions')"
-            [resultItems]="importantStartPositions()"
-            [additionalResultItems]="nonImportantStartPositions()"
-            [expandItemsTitle]="t('shared.expand')"
-            [collapseItemsTitle]="t('shared.collapse')"
-          >
-          </mm-grid-result-item-card>
+        </mm-grid-result-item-card>
 
-          <mm-grid-result-item-card
-            id="endPosition"
-            [title]="t('endPositions')"
-            [resultItems]="importantEndPositions()"
-            [additionalResultItems]="nonImportantEndPositions()"
-            [expandItemsTitle]="t('shared.expand')"
-            [collapseItemsTitle]="t('shared.collapse')"
-          >
-          </mm-grid-result-item-card>
+        <mm-grid-result-item-card
+          id="endPosition"
+          [title]="t('endPositions')"
+          [resultItems]="importantEndPositions()"
+          [additionalResultItems]="nonImportantEndPositions()"
+          [expandItemsTitle]="t('shared.expand')"
+          [collapseItemsTitle]="t('shared.collapse')"
+        >
+        </mm-grid-result-item-card>
 
-          <mm-grid-result-item-card
-            id="radialClearance"
-            [title]="t('radialClearance')"
-            [resultItems]="radialClearance()"
-          >
-          </mm-grid-result-item-card>
+        <mm-grid-result-item-card
+          id="radialClearance"
+          [title]="t('radialClearance')"
+          [resultItems]="radialClearance()"
+        >
+        </mm-grid-result-item-card>
 
-          <mm-grid-result-item-card
-            id="clearanceClasses"
-            [title]="t('clearanceClasses')"
-            [resultItems]="clearanceClasses()"
-          >
-          </mm-grid-result-item-card>
+        <mm-grid-result-item-card
+          id="clearanceClasses"
+          [title]="t('clearanceClasses')"
+          [resultItems]="clearanceClasses()"
+        >
+        </mm-grid-result-item-card>
 
-          @if (data.hasMountingTools) {
-            <h3 id="mountingToolsAndUtilities" class="text-title-medium my-4">
-              {{ t('mountingToolsAndUtilities') }}
-            </h3>
-          }
+        @if (hasMountingTools()) {
+          <h3 id="mountingToolsAndUtilities" class="text-title-medium my-4">
+            {{ t('mountingToolsAndUtilities') }}
+          </h3>
+        }
 
-          <mm-hydraulic-or-lock-nut
-            [hydraulicOrLockNut]="data.tools.hydraulicNut"
-            [title]="t('hydraulicNut')"
-          ></mm-hydraulic-or-lock-nut>
+        <mm-hydraulic-or-lock-nut
+          [hydraulicOrLockNut]="hydraulicNut()"
+          [title]="t('hydraulicNut')"
+        ></mm-hydraulic-or-lock-nut>
 
-          <mm-hydraulic-or-lock-nut
-            [hydraulicOrLockNut]="data.tools.locknut"
-            [title]="t('lockNut')"
-          ></mm-hydraulic-or-lock-nut>
+        <mm-hydraulic-or-lock-nut
+          [hydraulicOrLockNut]="lockNut()"
+          [title]="t('lockNut')"
+        ></mm-hydraulic-or-lock-nut>
 
-          <mm-additional-tools [additionalTools]="data.tools.additionalTools">
-          </mm-additional-tools>
+        <mm-additional-tools [additionalTools]="additionalTools()">
+        </mm-additional-tools>
 
-          <mm-report-pumps
-            [pumps]="data.tools.pumps.items"
-            [subTitle]="data.tools.pumps.title"
-          ></mm-report-pumps>
+        <mm-report-pumps
+          [pumps]="pumps()"
+          [subTitle]="pumpsTitle()"
+        ></mm-report-pumps>
 
-          <mm-sleeve-connector
-            [title]="t('sleeveConnectors')"
-            [sleeveConnectors]="data.tools.sleeveConnectors"
-          >
-          </mm-sleeve-connector>
+        <mm-sleeve-connector
+          [title]="t('sleeveConnectors')"
+          [sleeveConnectors]="sleeveConnectors()"
+        >
+        </mm-sleeve-connector>
 
-          <mm-mounting-recommendation
-            id="mountingInstructions"
-            [mountingRecommendations]="data.recommendations"
-            [versions]="bearinxVersions$ | ngrxPush"
-          >
-          </mm-mounting-recommendation>
-        </ng-container>
+        <mm-mounting-recommendation
+          id="mountingInstructions"
+          [mountingRecommendations]="mountingRecommendations()"
+        >
+        </mm-mounting-recommendation>
       </div>
       <ng-container report-footer-content>
         <mm-qualtrics-info-banner class="block my-3"></mm-qualtrics-info-banner>
       </ng-container>
       <ng-container report-right-sidebar class="overflow-y-auto">
         <mm-report-selection
-          [selectionTypes]="reportSelectionTypes$ | ngrxPush"
+          [selectionTypes]="reportSelectionTypes()"
           (calculationTypeClicked)="scrollIntoView($event)"
+          [isPdfGenerating]="isGeneratingPdf()"
+          (downloadPdfClicked)="generatePDF()"
         ></mm-report-selection>
       </ng-container>
     </schaeffler-result-report>

@@ -243,7 +243,7 @@ export class ReportParserService {
       pumpsSubordinates?.data?.items
         .filter(([firstItem, secondItem]) => firstItem && secondItem)
         .map(([firstItem, secondItem]) => ({
-          isRecommended: firstItem.value === 'recommended',
+          isRecommended: this.isRecommendedPump(firstItem.value),
           field: secondItem.field,
           value: secondItem.value,
         })) || [];
@@ -252,6 +252,17 @@ export class ReportParserService {
       title: this.extractPumpsTitle(pumpsSubordinates),
       items,
     };
+  }
+
+  private isRecommendedPump(value: string): boolean {
+    return (
+      value === 'recommended' ||
+      value === 'empfohlen' ||
+      value === 'se recomienda' ||
+      value === 'recommandé' ||
+      value === 'рекомендуется' ||
+      value === '推荐'
+    );
   }
 
   private extractPumpsTitle(

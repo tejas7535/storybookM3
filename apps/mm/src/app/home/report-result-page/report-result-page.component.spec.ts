@@ -1,58 +1,62 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { signal } from '@angular/core';
 import { waitForAsync } from '@angular/core/testing';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { BehaviorSubject, of } from 'rxjs';
+import { of } from 'rxjs';
 
-import { CalculationResultFacade } from '@mm/core/store/facades/calculation-result.facade';
-import { CalculationResultReportInput } from '@mm/core/store/models/calculation-result-report-input.model';
+import { TranslocoService } from '@jsverse/transloco';
 import {
   MountingTools,
   ReportMessages,
   ResultItem,
-  ResultTypeConfig,
 } from '@mm/core/store/models/calculation-result-state.model';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { PushPipe } from '@ngrx/component';
-import { provideMockStore } from '@ngrx/store/testing';
+import { QualtricsInfoBannerComponent } from '@mm/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
+import { PdfGenerationService } from '@mm/shared/services/pdf';
+import { ResultDataService } from '@mm/shared/services/result-data.service';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { MockComponent } from 'ng-mocks';
 
+import { FontResolverService } from '@schaeffler/pdf-generator';
 import { ResultReportComponent } from '@schaeffler/result-report';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { APP_STATE_MOCK } from '../../../testing/mocks/store/app-state.mock';
 import { AdditionalToolsComponent } from './additional-tools/additional-tools.component';
 import { GridResultItemCardComponent } from './grid-result-item-card/grid-result-item-card.component';
 import { HydraulicOrLockNutComponent } from './hydraulic-or-lock-nut/hydraulic-or-lock-nut.component';
+import { MobileDownloadPdfButtonComponent } from './mobile-download-pdf-button/mobile-download-pdf-button.component';
 import { MountingRecommendationComponent } from './mounting-recommendation/mounting-recommendation.component';
 import { ReportPumpsComponent } from './report-pumps/report-pumps.component';
 import { ReportResultPageComponent } from './report-result-page.component';
 import { ReportSelectionComponent } from './report-selection/report-selection.component';
+import { SleeveConnectorComponent } from './sleeve-connector/sleeve-connector.component';
 
 describe('ReportResultPageComponent', () => {
   let spectator: Spectator<ReportResultPageComponent>;
   let component: ReportResultPageComponent;
 
-  const inputsSubject = new BehaviorSubject<CalculationResultReportInput[]>([]);
-  const messagesSubject = new BehaviorSubject<ReportMessages>({
+  const messages: ReportMessages = {
     notes: ['some note'],
     warnings: [],
     errors: [],
-  });
+  };
 
-  const mountingRecommendationsSubject = new BehaviorSubject<string[]>([]);
-  const mountingToolsSubject = new BehaviorSubject<MountingTools>({
+  const mountingTools: MountingTools = {
     additionalTools: [],
     hydraulicNut: [],
     pumps: { title: '', items: [] },
     locknut: [],
     sleeveConnectors: [],
-  });
+  };
 
-  const isResultAvailableSubject = new BehaviorSubject<boolean>(false);
+  const selectionTypes = ['mountingInstructions'];
 
-  const selectionTypesSubject = new BehaviorSubject<ResultTypeConfig['name'][]>(
-    ['mountingInstructions']
-  );
+  const isResultAvailable = signal(false);
 
   const startPositions: ResultItem[] = [
     {
@@ -90,35 +94,52 @@ describe('ReportResultPageComponent', () => {
   const createComponent = createComponentFactory({
     component: ReportResultPageComponent,
     imports: [
+      HttpClientTestingModule,
       provideTranslocoTestingModule({ en: {} }),
       MockComponent(ResultReportComponent),
       MockComponent(ReportPumpsComponent),
       MockComponent(AdditionalToolsComponent),
       MockComponent(HydraulicOrLockNutComponent),
       MockComponent(MountingRecommendationComponent),
+      MockComponent(SleeveConnectorComponent),
       MockComponent(ReportSelectionComponent),
-      PushPipe,
+      MockComponent(QualtricsInfoBannerComponent),
       MockComponent(GridResultItemCardComponent),
+      MockComponent(MobileDownloadPdfButtonComponent),
     ],
     providers: [
-      provideMockStore({ initialState: { ...APP_STATE_MOCK } }),
       {
-        provide: CalculationResultFacade,
+        provide: ResultDataService,
         useValue: {
-          getCalculationInputs$: inputsSubject.asObservable(),
-          getCalculationMessages$: messagesSubject.asObservable(),
-          isResultAvailable$: isResultAvailableSubject.asObservable(),
-          mountingRecommendations$:
-            mountingRecommendationsSubject.asObservable(),
-          mountingTools$: mountingToolsSubject.asObservable(),
-          reportSelectionTypes$: selectionTypesSubject.asObservable(),
-          startPositions$: of(startPositions),
-          endPositions$: of(endPositions),
-          radialClearance$: of([]),
-          radialClearanceClasses$: of([]),
-          fetchCalculationResultResourcesLinks: jest.fn(),
+          startPositions: signal(startPositions),
+          endPositions: signal(endPositions),
+          radialClearance: signal([]),
+          clearanceClasses: signal([]),
+          inputs: signal([]),
+          categorizedMessages: signal(messages),
+          mountingRecommendations: signal([]),
+          mountingTools: signal(mountingTools),
+          isResultAvailable,
+          hasMountingTools: signal(false),
+          reportSelectionTypes: signal(selectionTypes),
+          pumpsTile: signal('pumpsTitle'),
+          sleeveConnectors: signal([]),
+          allPumps: signal([]),
+          additionalTools: signal([]),
+          selectedBearing: signal('bearing-123'),
         },
       },
+      {
+        provide: PdfGenerationService,
+        useValue: {
+          // eslint-disable-next-line unicorn/no-useless-undefined
+          generatePdf: jest.fn().mockResolvedValue(undefined),
+        },
+      },
+      mockProvider(FontResolverService, {
+        fetchForLocale: jest.fn().mockReturnValue(of([])),
+      }),
+      mockProvider(MatSnackBar),
     ],
   });
 
@@ -130,25 +151,19 @@ describe('ReportResultPageComponent', () => {
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
+  it('should show loading spinner before data loads', waitForAsync(() => {
+    spectator.detectChanges();
 
-  it('should show loading spinner before data loads', () => {
-    const spinner = spectator.query(MatProgressSpinner);
-
-    expect(spinner).toBeTruthy();
-  });
+    spectator.fixture.whenStable().then(() => {
+      const spinner = spectator.query(MatProgressSpinner);
+      expect(spinner).toBeTruthy();
+    });
+  }));
 
   describe('when data is loaded', () => {
-    beforeEach(waitForAsync(() => {
-      isResultAvailableSubject.next(true);
+    beforeEach(() => {
+      isResultAvailable.set(true);
       spectator.detectChanges();
-    }));
-
-    it('should have isResultAvailable$ observable overridden to true', (done) => {
-      component.isResultAvailable$.subscribe((isAvailable) => {
-        expect(isAvailable).toBe(true);
-
-        done();
-      });
     });
 
     describe('when is loaded', () => {
@@ -192,6 +207,54 @@ describe('ReportResultPageComponent', () => {
           });
         });
       });
+    });
+  });
+
+  describe('generatePDF', () => {
+    const originalConsoleError = console.error;
+    beforeAll(() => {
+      console.error = jest.fn();
+    });
+
+    afterAll(() => {
+      console.error = originalConsoleError;
+    });
+    it('should set isGeneratingPdf to true while generating the PDF and set it back to false afterwards', async () => {
+      expect(component.isGeneratingPdf()).toBe(false);
+
+      const generatePromise = component.generatePDF();
+      expect(component.isGeneratingPdf()).toBe(true);
+
+      await generatePromise;
+      expect(component.isGeneratingPdf()).toBe(false);
+    });
+
+    it('should set isGeneratingPdf back to false even if an error occurs', async () => {
+      const pdfService = spectator.inject(PdfGenerationService);
+      const snackBar = spectator.inject(MatSnackBar);
+      const snackBarSpy = jest.spyOn(snackBar, 'open');
+      const translocoService = spectator.inject(TranslocoService);
+
+      const translateSpy = jest.spyOn(translocoService, 'translate');
+      translateSpy.mockImplementation(String);
+
+      jest
+        .spyOn(pdfService, 'generatePdf')
+        .mockRejectedValueOnce(new Error('PDF generation failed'));
+
+      expect(component.isGeneratingPdf()).toBe(false);
+
+      await component.generatePDF();
+
+      expect(component.isGeneratingPdf()).toBe(false);
+      expect(console.error).toHaveBeenCalled();
+
+      expect(translateSpy).toHaveBeenCalledWith('pdf.generationError');
+      expect(translateSpy).toHaveBeenCalledWith('pdf.close');
+      expect(snackBarSpy).toHaveBeenCalledWith(
+        'pdf.generationError',
+        'pdf.close'
+      );
     });
   });
 });

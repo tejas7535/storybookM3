@@ -32,6 +32,7 @@ export const environment: Environment = {
     'https://bearinxfeinternalcheck.blob.core.windows.net/internal/access.json',
   productImageUrl:
     'https://engineeringapps-d.dev.dp.schaeffler/mounting/getProductImages',
+  assetsPath: '/assets',
 };
 
 /*

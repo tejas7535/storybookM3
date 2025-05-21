@@ -82,11 +82,12 @@
     "startNewCalculation": "Neue Berechnung starten"
   },
   "reportResult": {
+    "title": "Bericht für Lager {{ designation }}",
     "mediasBaseUrl": "https://medias.schaeffler.de/de",
     "calculatedWith": "Berechnet mit {{versions}}",
     "viewProductButton": "Produkt anzeigen",
     "mountingInstructions": "Montageanleitung",
-    "mountingToolsAndUtilities": "Montagewerkzeuge und -hilfsmittel",
+    "mountingToolsAndUtilities": "Montagewerkzeuge und - hilfsmittel (erfoderlich)",
     "hydraulicNut": "Hydraulische Mutter",
     "sleeveConnectors": "Sleeve-Steckverbinder",
     "lockNut": "Sicherungsmutter",
@@ -95,9 +96,6 @@
       "recommended": "Empfohlen",
       "alternative": "Alternative"
     },
-    "additionalTools": {
-      "title": "Zusatzwerkzeuge"
-    },
     "reportSelection": {
       "title": "Bericht",
       "reportInput": "Eingabe",
@@ -105,7 +103,7 @@
       "endPositions": "Endposition",
       "radialClearance": "Radialluftminderung und axiale Verschiebung",
       "clearanceClasses": "Kontrollwerte für die Lagerluftklassen",
-      "mountingToolsAndUtilities": "Montagewerkzeuge und -hilfsmittel",
+      "mountingToolsAndUtilities": "Montagewerkzeuge und - hilfsmittel (erfoderlich)",
       "mountingInstructions": "Montageanleitung",
       "reportMessages": "Fehler, Warnungen & Hinweise",
       "downloadPdf": "PDF herunterladen"
@@ -136,5 +134,13 @@
     "purpose": "</br>Im Mounting Manager werden durch Nutzereingaben wie Lagerauswahl und Betriebsparameter Berechnungen durchgeführt, um eine Montageempfehlung auszugeben.</br>Ihre anonymisierten Nutzerdaten werden auf der Microsoft Plattform Azure gespeichert und in Form eines Dashboards angezeigt. Dadurch haben wir die Möglichkeit das Nutzerverhalten in im Mounting Manager auszuwerten, um somit strategische Entscheidungen zur Weiterentwicklung des Mounting Manager treffen zu können.",
     "thirdPartyUsage": ", Google als Anbieter von Firebase Analytics (mobile Anwendungen)",
     "storagePeriod": "einem Jahr"
+  },
+  "pdf": {
+    "generationError": "Ein PDF-Fehler ist aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support.",
+    "close": "Schließen",
+    "title": "Bericht für Lager {{ designation }}",
+    "inputsTitle": "Ihre Eingaben",
+    "resultsTitle": "Ergebnisse",
+    "disclaimer": "Alle Rechte sind vorbehalten, auch für den Fall, dass ein Patent erteilt oder ein Gebrauchsmuster eingetragen wird. Das Dokument ist vertraulich zu behandeln. Ohne unsere schriftliche Zustimmung dürfen weder das Dokument selbst, noch Kopien davon oder sonstige Wiedergaben des gesamten Inhalts oder von Auszügen daraus Dritten zugänglich gemacht oder vom Empfänger in sonstiger Weise missbräuchlich verwendet werden. Basis unserer Auslegung sind Ihre Vorgaben und die von Ihnen zur Verfügung gestellten Informationen. Unsere Auslegung berücksichtigt diejenigen Risiken, welche für uns auf Grund der von Ihnen zur Verfügung gestellten Informationen und Vorgaben erkennbar waren. Unsere Auslegung erfolgt ausschließlich im Zusammenhang mit dem Erwerb unserer Produkte. Wir übernehmen keine Gewähr im Zusammenhang mit der Verwendung von Produkten Dritter. Die Ergebnisse sind sorgfältig und nach dem Stand der Technik erarbeitet, stellen jedoch im juristischen Sinne keine (ausdrückliche oder stillschweigende) Beschaffenheits- oder Haltbarkeitsgarantie dar. Wir haften für die Auslegung und deren Ergebnisse nur im Falle von Vorsatz und grober Fahrlässigkeit. Soweit nicht ausdrücklich etwas anderes vereinbart ist, sind wir für unseren Lieferumfang nur nach den hier dokumentierten Spezifikationen verantwortlich, die Grundlage unserer Auslegung sind. Wir führen nur Komponenten- und Systemvalidierungen durch, die sich auf den hier beschriebenen Leistungsumfang beziehen. Die Verantwortung für das Gesamtsystem, von dem unser Lieferumfang nur einen Teil darstellt, liegt ausschließlich bei Ihnen. Alle mit dem Gesamtsystem und der Integration unseres Lieferumfangs verbundenen Aufgaben und Haftungen liegen in der alleinigen Verantwortung von Ihnen. Sie sind insofern nicht davon entbunden, unsere Produkte auf ihre Eignung in der Anwendung mit geeigneten Methoden oder Tests zu überprüfen. Ist das Dokument respektive die Auslegung Teil eines Liefervertrages oder einer sonstigen Vereinbarung, so gelten die dort vereinbarten Haftungsregelungen."
   }
 }

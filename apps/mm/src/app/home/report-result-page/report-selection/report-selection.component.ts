@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { ResultTypeConfig } from '@mm/core/store/models/calculation-result-state.model';
 
@@ -15,15 +16,23 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
     MatButtonModule,
     MatIconModule,
     SharedTranslocoModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class ReportSelectionComponent {
+  @Input() isPdfGenerating: boolean;
   @Input() selectionTypes: ResultTypeConfig[] = [];
   @Output() readonly calculationTypeClicked: EventEmitter<
     ResultTypeConfig['name']
   > = new EventEmitter();
 
+  readonly downloadPdfClicked = output();
+
   onCalculationTypeClicked(configName: ResultTypeConfig['name']): void {
     this.calculationTypeClicked.emit(configName);
+  }
+
+  onDownloaPdfClicked(): void {
+    this.downloadPdfClicked.emit();
   }
 }

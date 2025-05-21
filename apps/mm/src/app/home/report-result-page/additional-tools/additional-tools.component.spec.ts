@@ -45,10 +45,6 @@ describe('AdditionalToolsComponent', () => {
       expect(spectator.queryAll('mm-product-card')).toHaveLength(2);
     });
 
-    it('should dispaly title', () => {
-      expect(spectator.query('h3')).toExist();
-    });
-
     it('should pass values to the product card component', () => {
       const productCards = spectator.queryAll(ProductCardComponent);
 

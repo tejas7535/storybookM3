@@ -26,6 +26,50 @@ describe('ReportParserService', () => {
     expect(service).toBeTruthy();
   });
 
+  describe('isRecommendedPump', () => {
+    let isRecommendedPump: (value: string) => boolean;
+
+    beforeEach(() => {
+      isRecommendedPump = (service as any)['isRecommendedPump'].bind(service);
+    });
+
+    it('should identify "recommended" as a recommended pump', () => {
+      expect(isRecommendedPump('recommended')).toBe(true);
+    });
+
+    it('should identify "empfohlen" (German) as a recommended pump', () => {
+      expect(isRecommendedPump('empfohlen')).toBe(true);
+    });
+
+    it('should identify "se recomienda" (Spanish) as a recommended pump', () => {
+      expect(isRecommendedPump('se recomienda')).toBe(true);
+    });
+
+    it('should identify "recommandé" (French) as a recommended pump', () => {
+      expect(isRecommendedPump('recommandé')).toBe(true);
+    });
+
+    it('should identify "рекомендуется" (Russian) as a recommended pump', () => {
+      expect(isRecommendedPump('рекомендуется')).toBe(true);
+    });
+
+    it('should identify "推荐" (Chinese) as a recommended pump', () => {
+      expect(isRecommendedPump('推荐')).toBe(true);
+    });
+
+    it('should not identify "alternative" as a recommended pump', () => {
+      expect(isRecommendedPump('alternative')).toBe(false);
+    });
+
+    it('should not identify empty string as a recommended pump', () => {
+      expect(isRecommendedPump('')).toBe(false);
+    });
+
+    it('should not identify any other string as a recommended pump', () => {
+      expect(isRecommendedPump('some other value')).toBe(false);
+    });
+  });
+
   describe('parseResponse', () => {
     describe('when result is defined', () => {
       beforeEach(() => {
