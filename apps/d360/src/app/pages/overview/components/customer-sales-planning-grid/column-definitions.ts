@@ -7,7 +7,7 @@ import {
 import { ValueBadgeCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/value-badge-cell-renderer/value-badge-cell-renderer.component';
 import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
 import { CustomerSalesPlanningLayout } from '../../overview.component';
-import { CustomerSalesPlanningData } from './customer-sales-planning-grid.component';
+import { CustomerSalesPlanningData } from './model';
 
 export const moneyFormatter = (
   params:

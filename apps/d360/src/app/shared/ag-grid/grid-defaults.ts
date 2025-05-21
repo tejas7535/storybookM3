@@ -8,6 +8,7 @@ import {
 import { GlobalSelectionUtils } from '../../feature/global-selection/global-selection.utils';
 import { CustomerMaterialNumberCellRendererComponent } from '../components/ag-grid/cell-renderer/customer-material-number-cell-renderer/customer-material-number-cell-renderer.component';
 import { DateFilterComponent } from '../components/ag-grid/filters/mat-date-filter/date-filter.component';
+import { CustomTreeData } from '../components/table';
 import { getNumberFromLocale } from '../utils/number';
 import { ValidationHelper } from '../utils/validation/validation-helper';
 import { AgGridFilterType } from './grid-types';
@@ -82,16 +83,24 @@ export enum KeyEventEnum {
   Enter = 'Enter',
 }
 
-export function getCustomTreeDataAutoGroupColumnDef<T = any>(config: {
+export function getCustomTreeDataAutoGroupColumnDef<T = any>({
+  autoGroupColumnDef,
+  getDataPath,
+  isGroupOpenByDefault = true,
+  suppressGroupRowsSticky = false,
+}: {
   autoGroupColumnDef: ColDef;
   getDataPath: (data: T) => string[];
-}) {
+  isGroupOpenByDefault?: boolean;
+  suppressGroupRowsSticky?: boolean;
+}): CustomTreeData {
   return {
-    treeData: true,
-    getDataPath: config.getDataPath,
+    isGroupOpenByDefault: () => isGroupOpenByDefault,
+    suppressGroupRowsSticky,
+    getDataPath,
     autoGroupColumnDef: {
       ...getDefaultColDef(ValidationHelper.localeService.getLocale()),
-      ...config.autoGroupColumnDef,
+      ...autoGroupColumnDef,
     },
     onCellDoubleClicked: (params: CellDoubleClickedEvent<T>): void => {
       if (params.colDef.showRowGroup) {

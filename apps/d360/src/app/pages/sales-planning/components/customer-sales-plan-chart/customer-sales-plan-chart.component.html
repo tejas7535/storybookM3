@@ -1,6 +1,6 @@
 <d360-styled-section>
   <d360-forecast-chart
-    [currency]="planningCurrency()"
+    [currency]="customer().planningCurrency"
     [columnFilters]="{}"
     [globalSelectionState]="globalSelectionState()"
     [chartIdentifier]="'sales-planning'"

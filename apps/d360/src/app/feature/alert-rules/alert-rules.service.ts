@@ -14,6 +14,7 @@ import {
 import { TranslocoService } from '@jsverse/transloco';
 import { format, parse } from 'date-fns';
 
+import { FrontendTableResponse } from '../../shared/components/table';
 import { USE_DEFAULT_HTTP_ERROR_INTERCEPTOR } from '../../shared/interceptors/http-error.interceptor';
 import { MessageType } from '../../shared/models/message-type.enum';
 import { PostResult } from '../../shared/utils/error-handling';
@@ -22,7 +23,6 @@ import { ValidationHelper } from '../../shared/utils/validation/validation-helpe
 import { CurrencyService } from '../info/currency.service';
 import {
   AlertRule,
-  AlertRuleResponse,
   AlertRuleSaveResponse,
   AlertTypeDescription,
   dataToAlertRuleRequest,
@@ -79,12 +79,12 @@ export class AlertRulesService {
     return this.ruleTypeData$;
   }
 
-  public getAlertRuleData(): Observable<AlertRuleResponse> {
+  public getAlertRuleData(): Observable<FrontendTableResponse> {
     return this.currencyService.getCurrentCurrency().pipe(
       switchMap((currentCurrency) => {
         const params = new HttpParams().set('currency', currentCurrency);
 
-        return this.http.get<AlertRuleResponse>(this.ALERT_RULES_API, {
+        return this.http.get<FrontendTableResponse>(this.ALERT_RULES_API, {
           params,
         });
       })

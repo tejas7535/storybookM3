@@ -5,7 +5,7 @@ import { CustomerPlanningDetailsComponent } from './components/customer-planning
 import { CustomerSalesPlanChartComponent } from './components/customer-sales-plan-chart/customer-sales-plan-chart.component';
 import { CustomerSelectionComponent } from './components/customer-selection/customer-selection.component';
 
-export interface CustomerSelectionChange {
+export interface Customer {
   customerNumber: string | null;
   customerName: string | null;
   planningCurrency: string | null;
@@ -23,23 +23,14 @@ export interface CustomerSelectionChange {
   styleUrl: './sales-planning.component.scss',
 })
 export class SalesPlanningComponent {
-  protected readonly planningCurrency = signal<string | null>(null);
-  protected readonly customerName = signal<string | null>(null);
-  protected readonly customerNumber = signal<string | null>(null);
-  protected readonly openFullscreen = signal<boolean>(null);
-  protected readonly collapsedSection = signal<boolean>(false);
+  protected readonly customer = signal<Customer>({
+    customerNumber: null,
+    customerName: null,
+    planningCurrency: null,
+  });
+  protected readonly tableInFullscreen = signal<boolean | null>(null);
 
-  protected onCustomerSelectionChange(event: CustomerSelectionChange) {
-    this.customerName.set(event.customerName);
-    this.customerNumber.set(event.customerNumber);
-    this.planningCurrency.set(event.planningCurrency);
-  }
-
-  public toggleFullscreen() {
-    this.openFullscreen.update((open) => !open);
-  }
-
-  public toggleSection() {
-    this.collapsedSection.update((collapsed) => !collapsed);
+  public toggleTableFullscreen(): void {
+    this.tableInFullscreen.update((open) => !open);
   }
 }

@@ -1149,6 +1149,18 @@
     }
   },
   "table": {
+    "defaultTab": "Predefinito",
+    "dialog": {
+      "createOrUpdate": {
+        "layoutLabel": "Copia di",
+        "title": {
+          "add": "Crea nuovo layout",
+          "edit": "Modifica layout"
+        },
+        "titleLabel": "Nome"
+      },
+      "deleteTab": "Il layout deve essere eliminato in modo irrevocabile?"
+    },
     "toolbar": {
       "activeFilterCount": "Filtri attivi: {{count}}",
       "currentCount": "Selezione corrente: {{count}}",

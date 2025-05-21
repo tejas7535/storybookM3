@@ -3,18 +3,11 @@
     {{ headline() }}
   </h2>
 </div>
-<ag-grid-angular
-  class="ag-theme-material grow"
-  [headerHeight]="0"
-  [gridOptions]="gridOptions"
-  [columnDefs]="columnDefs"
-  [localeText]="agGridLocalizationService.lang()"
-  [context]="context"
-  (gridReady)="onGridReady($event)"
-  (paginationChanged)="onDataUpdated()"
-  [noRowsOverlayComponent]="NoDataOverlayComponent"
-  [noRowsOverlayComponentParams]="noOverlayMessage"
-  [getRowId]="getRowId"
-  [rowStyle]="rowStyles"
-  [loading]="isLoading$ | ngrxPush"
+
+<d360-frontend-table
+  class="!flex flex-col w-full small"
+  [config]="config()!"
+  [getData]="getData$"
+  (getGridApi)="setGridApi($event)"
+  [reload$]="reload$()"
 />

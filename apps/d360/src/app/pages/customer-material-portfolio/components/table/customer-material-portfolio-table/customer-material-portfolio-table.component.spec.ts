@@ -1,13 +1,10 @@
-import { signal } from '@angular/core';
-
 import { of } from 'rxjs';
 
-import { GetRowIdParams, ICellRendererParams } from 'ag-grid-enterprise';
-
-import { statusActions } from '../status-actions';
-import { CMPEntry } from './../../../../../feature/customer-material-portfolio/model';
-import { ActionsMenuCellRendererComponent } from './../../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
-import { Stub } from './../../../../../shared/test/stub.class';
+import {
+  RequestType,
+  TableCreator,
+} from '../../../../../shared/components/table';
+import { Stub } from '../../../../../shared/test/stub.class';
 import { CustomerMaterialPortfolioTableComponent } from './customer-material-portfolio-table.component';
 
 describe('CustomerMaterialPortfolioTableComponent', () => {
@@ -20,17 +17,18 @@ describe('CustomerMaterialPortfolioTableComponent', () => {
     });
     component['gridApi'] = Stub.getGridApi();
 
-    Stub.setInput('selectedCustomer', { customerNumber: 'abc-123' });
-    Stub.setInput('globalSelection', {});
-    Stub.setInput('filterModel', {});
-    Stub.setInput('refreshCounter', 0);
-    Stub.setInput('openSingleDialog', jest.fn());
-    Stub.setInput('toggleIsActive', false);
+    Stub.setInputs([
+      { property: 'selectedCustomer', value: { customerNumber: '12345' } },
+      { property: 'globalSelection', value: {} },
+      { property: 'refreshCounter', value: 0 },
+      { property: 'openSingleDialog', value: jest.fn() },
+      { property: 'toggleIsActive', value: false },
+    ]);
 
     Stub.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
@@ -52,148 +50,6 @@ describe('CustomerMaterialPortfolioTableComponent', () => {
     });
   });
 
-  describe('getRowIdFn', () => {
-    it('should return the correct row ID based on customerNumber and materialNumber', () => {
-      const params = {
-        data: {
-          customerNumber: 'cust-001',
-          materialNumber: 'mat-001',
-        },
-      } as GetRowIdParams;
-
-      const result = component['getRowIdFn'](params);
-
-      expect(result).toBe('cust-001-mat-001');
-    });
-
-    it('should return a different row ID for different customerNumber and materialNumber', () => {
-      const params = {
-        data: {
-          customerNumber: 'cust-002',
-          materialNumber: 'mat-002',
-        },
-      } as GetRowIdParams;
-
-      const result = component['getRowIdFn'](params);
-
-      expect(result).toBe('cust-002-mat-002');
-    });
-
-    it('should handle empty customerNumber and materialNumber', () => {
-      const params = {
-        data: {
-          customerNumber: '',
-          materialNumber: '',
-        },
-      } as GetRowIdParams;
-
-      const result = component['getRowIdFn'](params);
-
-      expect(result).toBe('-');
-    });
-  });
-
-  describe('context', () => {
-    describe('isDisabled', () => {
-      it('should return true if authorizedToChange is false', () => {
-        (component as any)['authorizedToChange'] = signal(false);
-        expect(component['context'].isDisabled()).toBe(true);
-      });
-
-      it('should return false if authorizedToChange is true', () => {
-        (component as any)['authorizedToChange'] = signal(true);
-        expect(component['context'].isDisabled()).toBe(false);
-      });
-    });
-
-    describe('getMenu', () => {
-      it('should return filtered and mapped actions based on portfolioStatus and successorSchaefflerMaterial', () => {
-        const params = {
-          node: {
-            data: {
-              portfolioStatus: 'someStatus',
-              successorSchaefflerMaterial: 'someMaterial',
-            },
-          },
-        } as ICellRendererParams<any, CMPEntry>;
-
-        const mockActions = [
-          {
-            name: 'action1',
-            isAllowed: jest.fn().mockReturnValue(true),
-            modal: 'modal1',
-            changeToStatus: 'status1',
-          },
-        ] as any;
-
-        jest
-          .spyOn(component, 'openSingleDialog')
-          .mockReturnValue(signal(jest.fn()));
-        jest.spyOn(statusActions, 'filter').mockReturnValue(mockActions);
-
-        const result = component['context'].getMenu(params);
-
-        expect(result).toEqual([
-          {
-            text: 'customer.material_portfolio.modal.action.action1',
-            onClick: expect.any(Function),
-          },
-        ]);
-
-        result[0].onClick();
-        expect(component.openSingleDialog).toHaveBeenCalled();
-      });
-
-      it('should return an empty array if no actions are allowed', () => {
-        const params = {
-          node: {
-            data: {
-              portfolioStatus: 'someStatus',
-              successorSchaefflerMaterial: 'someMaterial',
-            },
-          },
-        } as ICellRendererParams<any, CMPEntry>;
-
-        const mockActions = [] as any;
-
-        jest.spyOn(statusActions, 'filter').mockReturnValue(mockActions);
-
-        const result = component['context'].getMenu(params);
-
-        expect(result).toEqual([]);
-      });
-    });
-  });
-
-  describe('getServerSideGroup', () => {
-    it('should return true if data has children', () => {
-      const data = { hasChildren: true };
-      const result = component['getServerSideGroup'](data);
-      expect(result).toBe(true);
-    });
-
-    it('should return false if data does not have children', () => {
-      const data = { hasChildren: false };
-      const result = component['getServerSideGroup'](data);
-      expect(result).toBe(false);
-    });
-  });
-
-  describe('getServerSideGroupOpenByDefault', () => {
-    it('should return false', () => {
-      const result = component['getServerSideGroupOpenByDefault'](null);
-      expect(result).toBe(false);
-    });
-  });
-
-  describe('getServerSideGroupKey', () => {
-    it('should return material number', () => {
-      const data = { materialNumber: '123' };
-      const result = component['getServerSideGroupKey'](data);
-      expect(result).toBe('123');
-    });
-  });
-
   describe('ngOnInit', () => {
     it('should call fetchCriteriaData', () => {
       const fetchCriteriaDataSpy = jest.spyOn(
@@ -201,6 +57,17 @@ describe('CustomerMaterialPortfolioTableComponent', () => {
         'fetchCriteriaData'
       );
       component.ngOnInit();
+      expect(fetchCriteriaDataSpy).toHaveBeenCalled();
+    });
+
+    it('should fetch criteria data on initialization', () => {
+      const fetchCriteriaDataSpy = jest.spyOn<any, any>(
+        component,
+        'fetchCriteriaData'
+      );
+
+      component.ngOnInit();
+
       expect(fetchCriteriaDataSpy).toHaveBeenCalled();
     });
   });
@@ -214,169 +81,202 @@ describe('CustomerMaterialPortfolioTableComponent', () => {
       component['fetchCriteriaData']();
       expect(component['criteriaData']()).toEqual(criteriaData);
     });
+
+    it('should update criteriaData with fetched data', () => {
+      const mockCriteriaData = { field1: 'value1' } as any;
+      jest
+        .spyOn(component['cmpService'], 'getCMPCriteriaData')
+        .mockReturnValue(of(mockCriteriaData));
+
+      component['fetchCriteriaData']();
+
+      expect(component['criteriaData']()).toEqual(mockCriteriaData);
+    });
   });
 
-  describe('initializeColumnDefs', () => {
-    it('should initialize column definitions with correct structure', () => {
-      const setGridOptionSpy = jest.spyOn(
-        component['gridApi'],
-        'setGridOption'
-      );
-
+  describe('getData', () => {
+    it('should return empty rows if global selection is empty', () => {
       jest
-        .spyOn(component['selectableOptionsService'].loading$, 'pipe')
-        .mockReturnValue(of(false));
+        .spyOn(component['globalSelectionStateService'], 'isEmpty')
+        .mockReturnValue(true);
 
-      component['initializeColumnDefs']();
-
-      expect(setGridOptionSpy).toHaveBeenCalledWith(
-        'columnDefs',
-        expect.arrayContaining([
-          {
-            cellClass: ['fixed-action-column'],
-            field: 'menu',
-            headerName: '',
-            cellRenderer: ActionsMenuCellRendererComponent,
-            lockVisible: true,
-            pinned: 'right',
-            lockPinned: true,
-            suppressHeaderMenuButton: true,
-            maxWidth: 64,
-            suppressSizeToFit: true,
-          },
-        ])
+      component['getData$']({} as any, RequestType.Fetch).subscribe(
+        (result) => {
+          expect(result).toEqual({ rows: [], rowCount: 0 });
+        }
       );
     });
 
-    it('should not set column definitions if loading is true', () => {
-      const setGridOptionSpy = jest.spyOn(
-        component['gridApi'],
-        'setGridOption'
+    it('should return cached materials if group key exists in materialCache', () => {
+      const mockParams = { groupKeys: ['material1'] } as any;
+      component['materialCache'].set('material1', [
+        {
+          region: 'EU',
+          tlMessageType: '',
+          tlMessage: '',
+          tlMessageNumber: 0,
+          tlMessageId: '',
+          tlMessageV1: '',
+          tlMessageV2: '',
+          tlMessageV3: '',
+          tlMessageV4: '',
+        },
+      ]);
+
+      component['getData$'](mockParams, RequestType.GroupClick).subscribe(
+        (result) => {
+          expect(result).toEqual({ rows: [{ id: 1 }], rowCount: 1 });
+        }
       );
-      setGridOptionSpy.mockClear();
-      jest
-        .spyOn(component['selectableOptionsService'].loading$, 'pipe')
-        .mockReturnValue(of(true));
+    });
 
-      component['initializeColumnDefs']();
+    it('should fetch data from cmpService if group key does not exist in materialCache', () => {
+      const mockParams = { groupKeys: ['material2'], columnFilters: [] } as any;
+      const cmpServiceSpy = jest
+        .spyOn(component['cmpService'], 'getCMPData')
+        .mockReturnValue(
+          of({
+            childOfHeadMaterial: { material2: [{ id: 2 }] },
+            headMaterials: [{ id: 3 }],
+          } as any)
+        );
 
-      expect(setGridOptionSpy).not.toHaveBeenCalledWith(
-        'columnDefs',
-        expect.anything()
+      component['getData$'](mockParams, RequestType.GroupClick).subscribe(
+        (result) => {
+          expect(cmpServiceSpy).toHaveBeenCalled();
+          expect(result).toEqual([{ id: 3 }]);
+          expect(component['materialCache'].get('material2')).toEqual([
+            { id: 2 },
+          ]);
+        }
       );
     });
   });
 
   describe('handleExpandAllChange', () => {
-    it('should expand all rows when showChains is true', () => {
+    it('should expand all rows when toggle is checked', () => {
+      const gridApiSpy = jest.spyOn(component['gridApi'], 'expandAll');
       component['handleExpandAllChange']({ checked: true } as any);
-      expect(component['gridApi'].expandAll).toHaveBeenCalledWith();
+
+      expect(component['showChains']).toBe(true);
+      expect(gridApiSpy).toHaveBeenCalled();
     });
 
-    it('should collapse all rows when showChains is false', () => {
+    it('should collapse all rows when toggle is unchecked', () => {
+      const gridApiSpy = jest.spyOn(component['gridApi'], 'collapseAll');
       component['handleExpandAllChange']({ checked: false } as any);
-      expect(component['gridApi'].collapseAll).toHaveBeenCalledWith();
+
+      expect(component['showChains']).toBe(false);
+      expect(gridApiSpy).toHaveBeenCalled();
     });
   });
 
-  describe('onGridReady', () => {
-    it('should set gridApi and call setServerSideDatasource and handleDataFetchedEvents', () => {
-      const setServerSideDatasourceSpy = jest
-        .spyOn(component as any, 'setServerSideDatasource')
-        .mockImplementation(() => {});
-      const handleDataFetchedEventsSpy = jest
-        .spyOn(component as any, 'handleDataFetchedEvents')
-        .mockImplementation(() => {});
-      const gridApi = Stub.getGridApi();
+  describe('constructor', () => {
+    it('should clear materialCache and refresh gridApi when refreshCounter changes', () => {
+      const refreshSpy = jest.spyOn(component['gridApi'], 'refreshServerSide');
+      Stub.setInput('refreshCounter', 1);
+      Stub.detectChanges();
 
-      component['onGridReady']({ api: gridApi } as any);
+      expect(component['materialCache'].size).toBe(0);
+      expect(refreshSpy).toHaveBeenCalled();
+    });
 
-      expect(component['gridApi']).toBe(gridApi);
-      expect(setServerSideDatasourceSpy).toHaveBeenCalledWith();
-      expect(handleDataFetchedEventsSpy).toHaveBeenCalledWith();
+    it('should update showChains when toggleIsActive changes', () => {
+      Stub.setInput('toggleIsActive', true);
+      Stub.detectChanges();
+
+      expect(component['showChains']).toBe(true);
+    });
+
+    it('should call setColumnDefinitions when selectedCustomer or globalSelection changes', () => {
+      const reloadSpy = jest.spyOn<any, any>(component['reload$'](), 'next');
+
+      Stub.setInput('selectedCustomer', { customerNumber: '67890' });
+      Stub.detectChanges();
+
+      expect(reloadSpy).toHaveBeenCalled();
     });
   });
 
-  describe('setServerSideDatasource', () => {
-    it('should set serverSideDatasource correctly', () => {
-      const setGridOptionSpy = jest.spyOn(
-        component['gridApi'],
-        'setGridOption'
-      );
-
-      jest
-        .spyOn(
-          component['cmpService'],
-          'createCustomerMaterialPortfolioDatasource'
-        )
-        .mockReturnValue({ foo: 'bar' } as any);
-
-      component['setServerSideDatasource']();
-
-      expect(setGridOptionSpy).toHaveBeenCalledWith('serverSideDatasource', {
-        foo: 'bar',
-      } as any);
-    });
-  });
-
-  describe('handleDataFetchedEvents', () => {
-    it('should update rowCount and show/hide overlay correctly', () => {
-      const showNoRowsOverlaySpy = jest.spyOn(
-        component['gridApi'],
-        'showNoRowsOverlay'
-      );
-      const hideOverlaySpy = jest.spyOn(component['gridApi'], 'hideOverlay');
-      const expandAllSpy = jest.spyOn(component['gridApi'], 'expandAll');
-
-      jest
-        .spyOn(component['cmpService'], 'getDataFetchedEvent')
-        .mockReturnValue(of({ headMaterials: { rowCount: 1 } } as any));
-
+  describe('handleDataFetchedEvent', () => {
+    it('should expand all rows if showChains is true', () => {
       component['showChains'] = true;
+      const gridApiSpy = jest.spyOn(component['gridApi'], 'expandAll');
 
-      component['handleDataFetchedEvents']();
+      component['handleDataFetchedEvent']();
 
-      expect(component['rowCount']()).toBe(1);
-      expect(hideOverlaySpy).toHaveBeenCalled();
-      expect(showNoRowsOverlaySpy).not.toHaveBeenCalled();
-      expect(expandAllSpy).toHaveBeenCalled();
+      expect(gridApiSpy).toHaveBeenCalled();
     });
 
-    it('should show no rows overlay when rowCount is 0', () => {
-      const showNoRowsOverlaySpy = jest.spyOn(
-        component['gridApi'],
-        'showNoRowsOverlay'
-      );
-      jest
-        .spyOn(component['cmpService'], 'getDataFetchedEvent')
-        .mockReturnValue(of({ headMaterials: { rowCount: 0 } } as any));
-      component['handleDataFetchedEvents']();
-      expect(component['rowCount']()).toBe(0);
-      expect(showNoRowsOverlaySpy).toHaveBeenCalled();
-    });
+    it('should not expand rows if showChains is false', () => {
+      component['showChains'] = false;
+      const gridApiSpy = jest.spyOn(component['gridApi'], 'expandAll');
 
-    it('should call nothing, if no gridAPI is available', () => {
-      component['gridApi'] = null;
+      component['handleDataFetchedEvent']();
 
-      jest
-        .spyOn(component['cmpService'], 'getDataFetchedEvent')
-        .mockReturnValue(of({ headMaterials: { rowCount: 1 } } as any));
-
-      component['showChains'] = true;
-
-      component['handleDataFetchedEvents']();
-
-      expect(component['rowCount']()).toBe(1);
+      expect(gridApiSpy).not.toHaveBeenCalled();
     });
   });
 
-  describe('onFirstDataRendered', () => {
-    it('should auto size all columns', () => {
-      const autoSizeAllColumnsSpy = jest.fn();
-      component['onFirstDataRendered']({
-        api: { autoSizeAllColumns: autoSizeAllColumnsSpy },
-      } as any);
-      expect(autoSizeAllColumnsSpy).toHaveBeenCalled();
+  describe('setConfig', () => {
+    it('should set the table configuration with column definitions', () => {
+      const mockColumnDefs = [
+        { field: 'materialNumber', headerName: 'Material Number' },
+      ];
+      const tableCreatorSpy = jest.spyOn(TableCreator, 'get');
+
+      component['setConfig'](mockColumnDefs);
+
+      expect(tableCreatorSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          table: expect.objectContaining({
+            tableId: 'customer-material-portfolio',
+            columnDefs: [
+              {
+                columnDefs: mockColumnDefs,
+                layoutId: 0,
+                title: 'table.defaultTab',
+              },
+            ],
+          }),
+        })
+      );
+    });
+
+    it('should configure the context menu with allowed actions', () => {
+      const mockColumnDefs = [] as any;
+      const mockParams = {
+        node: {
+          data: {
+            portfolioStatus: 'SE',
+            successorSchaefflerMaterial: true,
+          },
+        },
+      } as any;
+
+      component['setConfig'](mockColumnDefs);
+
+      const data = component['config']().table.context.getMenu(mockParams);
+
+      expect(data).toEqual([
+        {
+          onClick: expect.any(Function),
+          text: 'customer.material_portfolio.modal.action.EDIT',
+        },
+        {
+          onClick: expect.any(Function),
+          text: 'customer.material_portfolio.modal.action.SUBSTITUTION_TO_SCHAEFFLER',
+        },
+      ]);
+    });
+
+    it('should disable actions if the user is not authorized', () => {
+      const mockColumnDefs = [] as any;
+      jest.spyOn(component as any, 'backendRoles').mockReturnValue([]);
+
+      component['setConfig'](mockColumnDefs);
+
+      expect(component['config']().table.context.isDisabled()).toBe(true);
     });
   });
 });

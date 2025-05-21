@@ -1,71 +1,109 @@
 import { HttpClient } from '@angular/common/http';
 
-import { of, take } from 'rxjs';
+import { of } from 'rxjs';
 
-import {
-  IServerSideGetRowsParams,
-  IServerSideGetRowsRequest,
-} from 'ag-grid-enterprise';
-
-import { PaginatedFilteredResponse } from '../../shared/models/paginated-filtered-request';
+import { BackendTableResponse } from '../../shared/components/table';
 import { Stub } from '../../shared/test/stub.class';
 import { ChangeHistoryService } from './change-history.service';
-import { ChangeHistoryData } from './model';
 
 describe('ChangeHistoryService', () => {
   let service: ChangeHistoryService;
   let httpClient: HttpClient;
-  let postSpy: jest.SpyInstance;
+
   beforeEach(() => {
     service = Stub.get({ component: ChangeHistoryService });
     httpClient = service['http'];
-    postSpy = jest.spyOn(httpClient, 'post');
   });
+
   describe('getChangeHistory', () => {
-    it('should request the change history data', (done) => {
+    it('should call HttpClient.post with the correct URL and payload', (done) => {
+      // Arrange
+      const mockParams = {
+        startRow: 0,
+        endRow: 10,
+        sortModel: [{ colId: 'name', sort: 'asc' }],
+        columnFilters: [{ colId: 'status', filter: 'active' }],
+      } as any;
+      const mockSelectionFilters = { customerNumber: ['12345'] };
+      const mockResponse: BackendTableResponse = { rows: [], rowCount: 0 };
+
+      jest.spyOn(httpClient, 'post').mockReturnValue(of(mockResponse));
+
+      // Act
       service
-        .getChangeHistory(
-          {
-            startRow: 1,
-            endRow: 100,
-            filterModel: {},
-            sortModel: [],
-          },
-          '0000023226'
-        )
-        .pipe(take(1))
-        .subscribe(() => {
-          expect(postSpy).toHaveBeenCalledWith(service['CHANGE_HISTORY_API'], {
-            columnFilters: [{}],
-            endRow: 100,
-            selectionFilters: { customerNumber: ['0000023226'] },
-            sortModel: [],
-            startRow: 1,
-          });
+        .getChangeHistory(mockParams, mockSelectionFilters)
+        .subscribe((response) => {
+          // Assert
+          expect(httpClient.post).toHaveBeenCalledWith(
+            '/api/sales-planning/detailed-customer-sales-plan/change-history',
+            {
+              startRow: mockParams.startRow,
+              endRow: mockParams.endRow,
+              sortModel: mockParams.sortModel,
+              selectionFilters: mockSelectionFilters,
+              columnFilters: mockParams.columnFilters,
+            }
+          );
+          expect(response).toEqual(mockResponse);
           done();
         });
     });
-  });
 
-  describe('createChangeHistoryDatasource', () => {
-    it('should create a datasource for the change history', (done) => {
-      const params = {
-        request: {} as IServerSideGetRowsRequest,
-        success: jest.fn(),
-      } as unknown as IServerSideGetRowsParams;
-      jest
-        .spyOn(service, 'getChangeHistory')
-        .mockReturnValue(of({ rows: [{} as ChangeHistoryData], rowCount: 1 }));
-      const datasource = service.createChangeHistoryDatasource('0000023226');
-      datasource.getRows(params);
-      expect(params.success).toHaveBeenCalledWith({
+    it('should handle empty parameters gracefully', (done) => {
+      // Arrange
+      const mockParams = {
+        startRow: undefined,
+        endRow: undefined,
+        sortModel: undefined,
+        columnFilters: undefined,
+      } as any;
+      const mockSelectionFilters = {};
+      const mockResponse: BackendTableResponse = { rows: [], rowCount: 0 };
+
+      jest.spyOn(httpClient, 'post').mockReturnValue(of(mockResponse));
+
+      // Act
+      service
+        .getChangeHistory(mockParams as any, mockSelectionFilters)
+        .subscribe((response) => {
+          // Assert
+          expect(httpClient.post).toHaveBeenCalledWith(
+            '/api/sales-planning/detailed-customer-sales-plan/change-history',
+            {
+              startRow: undefined,
+              endRow: undefined,
+              sortModel: undefined,
+              selectionFilters: mockSelectionFilters,
+              columnFilters: undefined,
+            }
+          );
+          expect(response).toEqual(mockResponse);
+          done();
+        });
+    });
+
+    it('should return the response from HttpClient.post', (done) => {
+      // Arrange
+      const mockParams = {
+        startRow: 0,
+        endRow: 10,
+        sortModel: [],
+        columnFilters: [],
+      } as any;
+      const mockSelectionFilters = { customerNumber: ['12345'] };
+      const mockResponse: BackendTableResponse = {
+        rows: [{ id: 1 }],
         rowCount: 1,
-        rowData: [{}],
-      });
-      service.dataChangedEvent
-        .pipe(take(1))
-        .subscribe((data: PaginatedFilteredResponse<ChangeHistoryData>) => {
-          expect(data).toEqual({ rows: [{}], rowCount: 1 });
+      };
+
+      jest.spyOn(httpClient, 'post').mockReturnValue(of(mockResponse));
+
+      // Act
+      service
+        .getChangeHistory(mockParams, mockSelectionFilters)
+        .subscribe((response) => {
+          // Assert
+          expect(response).toEqual(mockResponse);
           done();
         });
     });

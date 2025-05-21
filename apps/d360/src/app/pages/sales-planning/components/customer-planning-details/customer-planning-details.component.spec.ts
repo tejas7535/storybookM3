@@ -1,333 +1,527 @@
-import { fakeAsync, tick } from '@angular/core/testing';
+import { of, take } from 'rxjs';
 
-import { of } from 'rxjs';
+import { ColDef } from 'ag-grid-enterprise';
 
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import { GridApi, GridReadyEvent } from 'ag-grid-enterprise';
-
-import {
-  DetailedCustomerSalesPlan,
-  SalesPlanningDetailLevel,
-} from '../../../../feature/sales-planning/model';
+import { SalesPlanningDetailLevel } from '../../../../feature/sales-planning/model';
+import { AgGridFilterType } from '../../../../shared/ag-grid/grid-types';
 import { Stub } from '../../../../shared/test/stub.class';
-import { ValidationHelper } from '../../../../shared/utils/validation/validation-helper';
-import { CustomerPlanningDetailsChangeHistoryModalComponent } from '../customer-planning-details-change-history-modal/customer-planning-details-change-history-modal.component';
+import { SalesPlanningGroupLevelCellRendererComponent } from './ag-grid/cell-renderer/sales-planning-group-level-cell-renderer/sales-planning-group-level-cell-renderer.component';
+import * as Helper from './column-definition';
 import { CustomerPlanningDetailsComponent } from './customer-planning-details.component';
-import { MonthlyCustomerPlanningDetailsModalComponent } from './monthly-customer-planning-details-modal/monthly-customer-planning-details-modal.component';
 
 describe('CustomerPlanningDetailsComponent', () => {
   let component: CustomerPlanningDetailsComponent;
-  let mockTranslocoLocaleService: jest.Mocked<TranslocoLocaleService>;
-  let gridApiMock: GridApi;
 
   beforeEach(() => {
-    gridApiMock = {
-      setGridOption: jest.fn(),
-      getDisplayedRowCount: jest.fn().mockReturnValue(10),
-      redrawRows: jest.fn(),
-    } as unknown as GridApi;
-
-    mockTranslocoLocaleService = {
-      getLocale: jest.fn().mockReturnValue('en'),
-    } as unknown as jest.Mocked<TranslocoLocaleService>;
-
-    Object.defineProperty(ValidationHelper, 'localeService', {
-      value: mockTranslocoLocaleService,
-      writable: true,
-      configurable: true,
-    });
-
     component = Stub.getForEffect<CustomerPlanningDetailsComponent>({
       component: CustomerPlanningDetailsComponent,
       providers: [
         Stub.getMatDialogProvider(),
         Stub.getPlanningLevelServiceProvider(),
         Stub.getPlanningLevelServiceProvider(),
-        Stub.getYearlyCustomerPlanningDetailsColumnSettingsServiceProvider(),
+        Stub.getSalesPlanningServiceProvider({
+          getDetailedCustomerSalesPlan: [
+            { planningYear: '2023', planningMaterial: 'Material1' },
+          ],
+        }),
+        Stub.getNumberWithoutFractionDigitsPipeProvider(),
+        Stub.getTranslocoLocaleServiceProvider(),
       ],
     });
 
-    component.onGridReady({
-      api: gridApiMock,
-    } as GridReadyEvent);
-
     Stub.setInputs([
-      { property: 'customerName', value: 'Tesla Inc' },
-      { property: 'customerNumber', value: '0000086023' },
-      { property: 'planningCurrency', value: 'USD' },
-      { property: 'openFullscreen', value: false },
-      { property: 'collapsedSection', value: false },
+      {
+        property: 'customer',
+        value: {
+          customerName: 'Tesla Inc',
+          customerNumber: '0000086023',
+          planningCurrency: 'USD',
+        },
+      },
+      { property: 'tableInFullscreen', value: false },
+      { property: 'toggleFullscreen', value: () => {} },
     ]);
 
     Stub.detectChanges();
   });
 
-  it('should fetch planning level material on initialization', () => {
-    expect(
-      component['planningLevelService'].getMaterialTypeByCustomerNumber
-    ).toHaveBeenCalledWith('0000086023');
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
-  it('should close dialog and delete data when modal confirms deletion', () => {
-    jest.spyOn(component['dialog'], 'open').mockImplementation(
-      () =>
-        ({
-          afterClosed: jest.fn().mockReturnValue(
-            of({
-              deleteExistingPlanningData: true,
-              newPlanningLevelMaterialType: null,
-            })
-          ),
-        }) as any
-    );
+  describe('constructor', () => {
+    it('should reset planningLevelMaterialConfiguration and call loadData if a customer is selected', () => {
+      const loadDataSpy = jest.spyOn<any, any>(component, 'loadData');
+      const setSpy = jest.spyOn(
+        component['planningLevelMaterialConfiguration'],
+        'set'
+      );
 
-    component.handlePlanningLevelModalClicked();
+      // Mock customer input
+      Stub.setInput('customer', {
+        customerName: 'Customer A',
+        customerNumber: '12345',
+      });
 
-    expect(
-      component['planningLevelService'].deleteMaterialTypeByCustomerNumber
-    ).toHaveBeenCalledWith('0000086023');
+      Stub.detectChanges();
+
+      expect(setSpy).toHaveBeenCalledWith(null);
+      expect(loadDataSpy).toHaveBeenCalled();
+    });
+
+    it('should reset planningLevelMaterialConfiguration and trigger reload$ if no customer is selected', () => {
+      const reloadSpy = jest.spyOn(component['reload$'](), 'next');
+      const setSpy = jest.spyOn(
+        component['planningLevelMaterialConfiguration'],
+        'set'
+      );
+
+      // Mock customer input
+      Stub.setInput('customer', {
+        customerName: '',
+        customerNumber: '',
+      });
+
+      Stub.detectChanges();
+
+      expect(setSpy).toHaveBeenCalledWith(null);
+      expect(reloadSpy).toHaveBeenCalledWith(true);
+    });
   });
 
-  it('should override the planning level material when changed in dialog', fakeAsync(() => {
-    jest.spyOn(component['dialog'], 'open').mockImplementation(
-      () =>
-        ({
-          afterClosed: jest.fn().mockReturnValue(
+  describe('getData', () => {
+    it('should fetch data when a customer is selected', (done) => {
+      const salesPlanningServiceSpy = jest.spyOn(
+        component['salesPlanningService'],
+        'getDetailedCustomerSalesPlan'
+      );
+
+      component['getData$']().subscribe((response) => {
+        expect(response.content).toEqual([
+          { planningYear: '2023', planningMaterial: 'Material1' },
+        ]);
+        expect(salesPlanningServiceSpy).toHaveBeenCalledWith({
+          customerNumber: '0000086023',
+          planningCurrency: 'USD',
+          planningLevelMaterialType: 'GP',
+          detailLevel:
+            SalesPlanningDetailLevel.YearlyAndPlanningLevelMaterialDetailLevel,
+        });
+        done();
+      });
+    });
+
+    it('should return an empty content array when no customer is selected', (done) => {
+      Stub.setInput('customer', { customerName: '', customerNumber: '' });
+
+      component['getData$']()
+        .pipe(take(1))
+        .subscribe((response) => {
+          expect(response.content).toEqual([]);
+          done();
+        });
+    });
+  });
+
+  describe('setConfig', () => {
+    it('should configure the table with the correct settings', () => {
+      const mockColumnDefs: ColDef[] = [
+        { colId: 'col1', field: 'field1', headerName: 'Header 1' },
+        { colId: 'col2', field: 'field2', headerName: 'Header 2' },
+      ];
+
+      const configSetSpy = jest.spyOn(component['config'], 'set');
+      const getDataPathSpy = jest.spyOn<any, any>(component, 'getDataPath');
+      const reloadSpy = jest.spyOn(component as any, 'loadData');
+
+      component['setConfig'](mockColumnDefs);
+
+      expect(configSetSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          table: expect.objectContaining({
+            tableId: 'sales-planning-customer-details-yearly',
+            columnDefs: [
+              {
+                columnDefs: mockColumnDefs,
+                layoutId: 0,
+                title: 'table.defaultTab',
+              },
+            ],
+            context: expect.objectContaining({
+              numberPipe: component['numberPipe'],
+              reloadData: expect.any(Function),
+            }),
+            customTreeData: expect.objectContaining({
+              autoGroupColumnDef: expect.objectContaining({
+                headerName: 'sales_planning.table.autoGroupColumn',
+                colId: 'autoGroup',
+                rowGroup: true,
+                filter: AgGridFilterType.Text,
+                cellRenderer: SalesPlanningGroupLevelCellRendererComponent,
+                cellRendererParams: expect.objectContaining({
+                  clickAction: expect.any(Function),
+                }),
+              }),
+              getDataPath: expect.any(Function),
+            }),
+            getRowId: expect.any(Function),
+            sideBar: expect.objectContaining({
+              toolPanels: [expect.any(Object)],
+            }),
+            noRowsMessage: 'sales_planning.table.no_data',
+          }),
+          isLoading$: expect.any(Object),
+          hasTabView: true,
+          renderFloatingFilter: false,
+          maxAllowedTabs: 5,
+        })
+      );
+
+      // Test the reloadData function
+      const reloadDataFn =
+        configSetSpy.mock.calls[0][0].table.context.reloadData;
+      reloadDataFn();
+      expect(reloadSpy).toHaveBeenCalled();
+
+      // Test the getDataPath function
+      const mockData = { planningYear: '2023', planningMaterial: 'Material1' };
+      getDataPathSpy.mockReturnValue(['2023', 'Material1']);
+      const dataPathFn =
+        configSetSpy.mock.calls[0][0].table.customTreeData.getDataPath;
+      expect(dataPathFn(mockData)).toEqual(['2023', 'Material1']);
+    });
+  });
+
+  describe('setColumnDefinitions', () => {
+    it('should configure the table with the correct column definitions', () => {
+      const mockColumnDefinitions = [
+        {
+          colId: 'col1',
+          title: 'Column 1',
+          filter: 'agTextColumnFilter',
+          filterParams: {},
+          cellRenderer: null,
+          cellRendererParams: null,
+          visible: true,
+          sortable: true,
+          sort: 'asc',
+          alwaysVisible: false,
+          valueFormatter: null,
+          maxWidth: 200,
+          tooltipComponent: null,
+          tooltipComponentParams: null,
+          tooltipField: null,
+        },
+      ] as any;
+      const getColumnDefinitionsSpy = jest
+        .spyOn(Helper, 'getColumnDefinitions')
+        .mockReturnValue(mockColumnDefinitions);
+
+      const setConfigSpy = jest.spyOn<any, any>(component, 'setConfig');
+
+      component['setColumnDefinitions']();
+
+      expect(getColumnDefinitionsSpy).toHaveBeenCalledWith(
+        Helper.TimeScope.Yearly
+      );
+      expect(setConfigSpy).toHaveBeenCalledWith([
+        {
+          alwaysVisible: false,
+          cellRenderer: null,
+          cellRendererParams: null,
+          colId: 'col1',
+          field: 'col1',
+          filter: 'agTextColumnFilter',
+          filterParams: {
+            buttons: ['reset', 'apply'],
+            closeOnApply: true,
+            filterOptions: ['equals', 'contains', 'startsWith', 'endsWith'],
+            maxNumConditions: 1,
+            numberParser: expect.any(Function),
+          },
+          headerName: 'Column 1',
+          headerTooltip: 'Column 1',
+          hide: false,
+          key: 'col1',
+          lockPinned: true,
+          maxWidth: 200,
+          resizable: true,
+          sort: 'asc',
+          sortable: true,
+          suppressHeaderFilterButton: true,
+          suppressHeaderMenuButton: true,
+          tooltipComponent: null,
+          tooltipComponentParams: null,
+          tooltipField: null,
+          valueFormatter: null,
+          visible: true,
+        },
+      ]);
+    });
+  });
+
+  describe('handlePlanningLevelModalClicked', () => {
+    it('should open the modal and update planning level material when newPlanningLevelMaterialType is provided', () => {
+      const dialogSpy = jest
+        .spyOn(component['dialog'], 'open')
+        .mockReturnValue({
+          afterClosed: () =>
             of({
               deleteExistingPlanningData: false,
-              newPlanningLevelMaterialType: 'PL',
-            })
-          ),
-        }) as any
-    );
+              newPlanningLevelMaterialType: 'NewType',
+            }),
+        } as any);
 
-    component.handlePlanningLevelModalClicked();
+      const planningLevelMaterialSpy = jest.spyOn(
+        component['planningLevelMaterialConfiguration'],
+        'set'
+      );
+      const reloadSpy = jest.spyOn(component['reload$'](), 'next');
 
-    tick();
+      component['handlePlanningLevelModalClicked']();
 
-    expect(
-      component.planningLevelMaterialConfiguration().planningLevelMaterialType
-    ).toBe('PL');
-  }));
+      expect(dialogSpy).toHaveBeenCalledWith(expect.any(Function), {
+        autoFocus: false,
+        data: {
+          customerName: 'Tesla Inc',
+          customerNumber: '0000086023',
+          planningLevelMaterial: {
+            isDefaultPlanningLevelMaterialType: true,
+            planningLevelMaterialType: 'GP',
+          },
+        },
+        disableClose: true,
+        maxWidth: '900px',
+        width: '600px',
+      });
 
-  it('should not delete data when modal does not confirm deletion', () => {
-    jest.spyOn(component['dialog'], 'open').mockReturnValue({
-      afterClosed: jest.fn(() =>
-        of({
-          deleteExistingPlanningData: false,
-          newPlanningLevelMaterialType: null,
-        })
-      ),
-    } as any);
+      expect(planningLevelMaterialSpy).toHaveBeenCalledWith({
+        isDefaultPlanningLevelMaterialType: true,
+        planningLevelMaterialType: 'NewType',
+      });
+      expect(reloadSpy).toHaveBeenCalledWith(true);
+    });
 
-    component.handlePlanningLevelModalClicked();
+    it('should delete existing planning data when deleteExistingPlanningData is true', () => {
+      jest.spyOn(component['dialog'], 'open').mockReturnValue({
+        afterClosed: () =>
+          of({
+            deleteExistingPlanningData: true,
+            newPlanningLevelMaterialType: 'NewType',
+          }),
+      } as any);
 
-    expect(
-      component['planningLevelService'].deleteMaterialTypeByCustomerNumber
-    ).not.toHaveBeenCalled();
+      const deleteMaterialTypeSpy = jest.spyOn(
+        component['planningLevelService'],
+        'deleteMaterialTypeByCustomerNumber'
+      );
+
+      component['handlePlanningLevelModalClicked']();
+
+      expect(deleteMaterialTypeSpy).toHaveBeenCalledWith('0000086023');
+    });
+
+    it('should not update planning level material when newPlanningLevelMaterialType is not provided', () => {
+      const dialogSpy = jest
+        .spyOn(component['dialog'], 'open')
+        .mockReturnValue({
+          afterClosed: () => of({}),
+        } as any);
+
+      const planningLevelMaterialSpy = jest.spyOn(
+        component['planningLevelMaterialConfiguration'],
+        'set'
+      );
+
+      component['handlePlanningLevelModalClicked']();
+
+      expect(dialogSpy).toHaveBeenCalled();
+      expect(planningLevelMaterialSpy).not.toHaveBeenCalled();
+    });
   });
 
-  describe('onFilterChanged', () => {
-    it('should update row count on filter change', () => {
-      component.onFilterChanged();
+  describe('toggleSection', () => {
+    it('should toggle the collapsedSection signal value', () => {
+      const updateSpy = jest.spyOn(component['collapsedSection'], 'update');
 
-      expect(component.rowCount()).toBe(10);
+      // Initial state
+      component['collapsedSection'].set(false);
+
+      // Toggle to true
+      component['toggleSection']();
+      expect(updateSpy).toHaveBeenCalledWith(expect.any(Function));
+      expect(component['collapsedSection']()).toBe(true);
+
+      // Toggle back to false
+      component['toggleSection']();
+      expect(updateSpy).toHaveBeenCalledWith(expect.any(Function));
+      expect(component['collapsedSection']()).toBe(false);
     });
   });
 
   describe('handleChartHistoryModalClicked', () => {
-    it('should open the change history dialog with the selected customer', () => {
-      Stub.setInputs([
-        { property: 'customerName', value: 'customer 1' },
-        { property: 'customerNumber', value: '1' },
-      ]);
-
+    it('should open the CustomerPlanningDetailsChangeHistoryModalComponent with the correct configuration', () => {
       const dialogSpy = jest.spyOn(component['dialog'], 'open');
 
       component['handleChartHistoryModalClicked']();
+
       expect(dialogSpy).toHaveBeenCalledWith(
-        CustomerPlanningDetailsChangeHistoryModalComponent,
+        expect.any(Function),
         expect.objectContaining({
-          data: { customerName: 'customer 1', customerNumber: '1' },
+          data: {
+            customerName: 'Tesla Inc',
+            customerNumber: '0000086023',
+          },
+          minWidth: '75vw',
+          maxWidth: '100vw',
+          autoFocus: false,
+          disableClose: true,
+          panelClass: 'resizable',
         })
-      );
-    });
-  });
-
-  describe('reloadData', () => {
-    it('should call setYearlyPlanningData with the correct planningLevelMaterialType', () => {
-      const setYearlyPlanningDataSpy = jest.spyOn(
-        component as any,
-        'setYearlyPlanningData'
-      );
-      const fetchPlanningLevelMaterialSpy = jest.spyOn(
-        component as any,
-        'fetchPlanningLevelMaterial'
-      );
-
-      const mockPlanningLevelMaterialType = 'PL';
-      component['planningLevelMaterialConfiguration'].set({
-        planningLevelMaterialType: mockPlanningLevelMaterialType,
-      } as any);
-
-      component['reloadData']();
-
-      expect(setYearlyPlanningDataSpy).toHaveBeenCalledWith(
-        mockPlanningLevelMaterialType
-      );
-      expect(fetchPlanningLevelMaterialSpy).toHaveBeenCalledWith(
-        component.customerNumber()
-      );
-    });
-
-    it('should call fetchPlanningLevelMaterial with the correct customerNumber', () => {
-      const fetchPlanningLevelMaterialSpy = jest.spyOn(
-        component as any,
-        'fetchPlanningLevelMaterial'
-      );
-
-      component['reloadData']();
-
-      expect(fetchPlanningLevelMaterialSpy).toHaveBeenCalledWith(
-        component.customerNumber()
       );
     });
   });
 
   describe('handleYearlyAggregationClicked', () => {
-    it('should open the modal with MonthlyOnlyDetailLevel when isYearlyAggregationRowClicked is true', () => {
-      const rowData: DetailedCustomerSalesPlan = {
-        planningMaterial: 'I03',
-        planningMaterialText: 'Bearings',
-        planningYear: '2025',
+    it('should open the MonthlyCustomerPlanningDetailsModalComponent with correct data for yearly aggregation row', () => {
+      const dialogSpy = jest
+        .spyOn(component['dialog'], 'open')
+        .mockReturnValue({
+          afterClosed: () => of(true),
+        } as any);
+
+      const loadDataSpy = jest.spyOn<any, any>(component, 'loadData');
+
+      const rowData = {
+        planningYear: '2023',
+        planningMaterial: 'Material1',
+        planningMaterialText: 'Material Text',
         totalSalesPlanUnconstrained: 1000,
-        totalSalesPlanAdjusted: 900,
+        totalSalesPlanAdjusted: 500,
       } as any;
 
-      const isYearlyAggregationRowClicked = true;
+      component['handleYearlyAggregationClicked'](rowData, true);
 
-      component.handleYearlyAggregationClicked(
-        rowData,
-        isYearlyAggregationRowClicked
-      );
+      expect(dialogSpy).toHaveBeenCalledWith(expect.any(Function), {
+        autoFocus: false,
+        data: {
+          customerName: 'Tesla Inc',
+          customerNumber: '0000086023',
+          detailLevel: '3',
+          planningCurrency: 'USD',
+          planningEntry: '',
+          planningLevelMaterialType: 'GP',
+          planningMaterial: 'Material1',
+          planningYear: '2023',
+          totalSalesPlanAdjusted: 500,
+          totalSalesPlanUnconstrained: 1000,
+        },
+        disableClose: true,
+        hasBackdrop: false,
+        height: '100vh',
+        panelClass: 'monthly-customer-planning-details',
+        width: '100vw',
+      });
 
-      expect(component['dialog'].open).toHaveBeenCalledWith(
-        MonthlyCustomerPlanningDetailsModalComponent,
-        expect.objectContaining({
-          data: {
-            detailLevel: SalesPlanningDetailLevel.MonthlyOnlyDetailLevel,
-            planningEntry: '',
-            customerNumber: component.customerNumber(),
-            customerName: component.customerName(),
-            planningCurrency: component.planningCurrency(),
-            planningYear: rowData.planningYear,
-            planningMaterial: rowData.planningMaterial,
-            planningLevelMaterialType:
-              component.planningLevelMaterialConfiguration()
-                .planningLevelMaterialType,
-            totalSalesPlanUnconstrained: rowData.totalSalesPlanUnconstrained,
-            totalSalesPlanAdjusted: rowData.totalSalesPlanAdjusted,
-          },
-          autoFocus: false,
-          disableClose: true,
-          hasBackdrop: false,
-          panelClass: 'monthly-customer-planning-details',
-          width: '100vw',
-          height: '100vh',
-        })
-      );
+      expect(loadDataSpy).toHaveBeenCalled();
     });
 
-    it('should open the modal with MonthlyAndPlanningLevelMaterialDetailLevel when isYearlyAggregationRowClicked is false', () => {
-      const rowData: DetailedCustomerSalesPlan = {
-        planningMaterial: 'I03',
-        planningMaterialText: 'Bearings',
-        planningYear: '2025',
+    it('should open the MonthlyCustomerPlanningDetailsModalComponent with correct data for non-yearly aggregation row', () => {
+      const dialogSpy = jest
+        .spyOn(component['dialog'], 'open')
+        .mockReturnValue({
+          afterClosed: () => of(false),
+        } as any);
+
+      const rowData = {
+        planningYear: '2023',
+        planningMaterial: 'Material1',
+        planningMaterialText: 'Material Text',
         totalSalesPlanUnconstrained: 1000,
-        totalSalesPlanAdjusted: 900,
+        totalSalesPlanAdjusted: 500,
       } as any;
 
-      const isYearlyAggregationRowClicked = false;
+      component['handleYearlyAggregationClicked'](rowData, false);
 
-      component.handleYearlyAggregationClicked(
-        rowData,
-        isYearlyAggregationRowClicked
-      );
+      expect(dialogSpy).toHaveBeenCalledWith(expect.any(Function), {
+        autoFocus: false,
+        data: {
+          customerName: 'Tesla Inc',
+          customerNumber: '0000086023',
+          detailLevel: '4',
+          planningCurrency: 'USD',
+          planningEntry: 'Material1 - Material Text',
+          planningLevelMaterialType: 'GP',
+          planningMaterial: 'Material1',
+          planningYear: '2023',
+          totalSalesPlanAdjusted: 500,
+          totalSalesPlanUnconstrained: 1000,
+        },
+        disableClose: true,
+        hasBackdrop: false,
+        height: '100vh',
+        panelClass: 'monthly-customer-planning-details',
+        width: '100vw',
+      });
+    });
+  });
 
-      expect(component['dialog'].open).toHaveBeenCalledWith(
-        MonthlyCustomerPlanningDetailsModalComponent,
-        expect.objectContaining({
-          data: {
-            detailLevel:
-              SalesPlanningDetailLevel.MonthlyAndPlanningLevelMaterialDetailLevel,
-            planningEntry: 'I03 - Bearings',
-            customerNumber: component.customerNumber(),
-            customerName: component.customerName(),
-            planningCurrency: component.planningCurrency(),
-            planningYear: rowData.planningYear,
-            planningMaterial: rowData.planningMaterial,
-            planningLevelMaterialType:
-              component.planningLevelMaterialConfiguration()
-                .planningLevelMaterialType,
-            totalSalesPlanUnconstrained: rowData.totalSalesPlanUnconstrained,
-            totalSalesPlanAdjusted: rowData.totalSalesPlanAdjusted,
-          },
-          autoFocus: false,
-          disableClose: true,
-          hasBackdrop: false,
-          panelClass: 'monthly-customer-planning-details',
-          width: '100vw',
-          height: '100vh',
-        })
-      );
+  describe('getDataPath', () => {
+    it('should return an empty array if data is null or undefined', () => {
+      expect(component['getDataPath'](null)).toEqual([]);
+      expect(component['getDataPath'](undefined as any)).toEqual([]);
     });
 
-    it('should call reloadData when the modal is closed with reloadData set to true and detailLevel is MonthlyOnlyDetailLevel', () => {
-      const reloadDataSpy = jest.spyOn(component as any, 'reloadData');
-      jest.spyOn(component['dialog'], 'open').mockReturnValue({
-        afterClosed: jest.fn().mockReturnValue(of(true)),
-      } as any);
-
-      const rowData: DetailedCustomerSalesPlan = {
-        planningMaterial: 'I03',
-        planningMaterialText: 'Bearings',
-        planningYear: '2025',
-        totalSalesPlanUnconstrained: 1000,
-        totalSalesPlanAdjusted: 900,
-      } as any;
-
-      const isYearlyAggregationRowClicked = true;
-
-      component.handleYearlyAggregationClicked(
-        rowData,
-        isYearlyAggregationRowClicked
-      );
-
-      expect(reloadDataSpy).toHaveBeenCalled();
+    it('should return an array with only the planningYear if planningMaterial is not present', () => {
+      const data = { planningYear: '2023', planningMaterial: null } as any;
+      expect(component['getDataPath'](data)).toEqual(['2023']);
     });
 
-    it('should not call reloadData when the modal is closed with reloadData set to false', () => {
-      const reloadDataSpy = jest.spyOn(component as any, 'reloadData');
-      jest.spyOn(component['dialog'], 'open').mockReturnValue({
-        afterClosed: jest.fn().mockReturnValue(of(false)),
-      } as any);
-
-      const rowData: DetailedCustomerSalesPlan = {
-        planningMaterial: 'I03',
-        planningMaterialText: 'Bearings',
-        planningYear: '2025',
-        totalSalesPlanUnconstrained: 1000,
-        totalSalesPlanAdjusted: 900,
+    it('should return an array with planningYear and planningMaterial if both are present', () => {
+      const data = {
+        planningYear: '2023',
+        planningMaterial: 'Material1',
       } as any;
+      expect(component['getDataPath'](data)).toEqual(['2023', 'Material1']);
+    });
+  });
 
-      const isYearlyAggregationRowClicked = true;
+  describe('fetchPlanningLevelMaterial', () => {
+    it('should fetch planning level material and update the configuration', () => {
+      const planningLevelServiceSpy = jest.spyOn(
+        component['planningLevelService'],
+        'getMaterialTypeByCustomerNumber'
+      );
+      const planningLevelMaterialSpy = jest.spyOn(
+        component['planningLevelMaterialConfiguration'],
+        'set'
+      );
+      const reloadSpy = jest.spyOn(component['reload$'](), 'next');
 
-      component.handleYearlyAggregationClicked(
-        rowData,
-        isYearlyAggregationRowClicked
+      planningLevelServiceSpy.mockReturnValue(
+        of({ planningLevelMaterialType: 'GP' }) as any
       );
 
-      expect(reloadDataSpy).not.toHaveBeenCalled();
+      component['fetchPlanningLevelMaterial']('12345');
+
+      expect(planningLevelServiceSpy).toHaveBeenCalledWith('12345');
+      expect(planningLevelMaterialSpy).toHaveBeenCalledWith({
+        planningLevelMaterialType: 'GP',
+      });
+      expect(reloadSpy).toHaveBeenCalledWith(true);
+    });
+  });
+
+  describe('loadData', () => {
+    it('should call fetchPlanningLevelMaterial with the correct customer number', () => {
+      const fetchPlanningLevelMaterialSpy = jest.spyOn<any, any>(
+        component,
+        'fetchPlanningLevelMaterial'
+      );
+
+      component['loadData']();
+
+      expect(fetchPlanningLevelMaterialSpy).toHaveBeenCalledWith('0000086023');
     });
   });
 });

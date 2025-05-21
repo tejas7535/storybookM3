@@ -1,0 +1,10 @@
+:host {
+  ::ng-deep {
+    d360-backend-table {
+      .ag-root-wrapper {
+        min-height: 366px !important;
+        max-height: 366px !important;
+      }
+    }
+  }
+}

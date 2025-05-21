@@ -52,7 +52,9 @@ export class CustomerPlanningLevelConfigurationModalComponent {
 
   protected readonly data: CustomerPlanningLevelConfigurationModalProps =
     inject(MAT_DIALOG_DATA);
-  public readonly control = new FormControl();
+  public readonly control = new FormControl(
+    this.data?.planningLevelMaterial?.planningLevelMaterialType
+  );
 
   protected readonly planningLevelMaterialTypes = ['GP', 'PL'];
   // Hint: PC was implemented with D360-138 and was removed with D360-322, because it is not fully implemented by the backend yet.

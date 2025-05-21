@@ -45,7 +45,7 @@ import { InternalMaterialReplacementTableComponent } from './table/internal-mate
   styleUrl: './internal-material-replacement.component.scss',
 })
 export class InternalMaterialReplacementComponent implements OnInit {
-  private gridApi: GridApi | null = null;
+  protected gridApi: GridApi | null = null;
 
   protected loading$: BehaviorSubject<boolean>;
   protected selectedRegion = signal<string>(null);
@@ -78,10 +78,6 @@ export class InternalMaterialReplacementComponent implements OnInit {
             this.selectableOptionsService.get('region').options[0]
           )
       );
-  }
-
-  protected getApi(api: GridApi): void {
-    this.gridApi = api;
   }
 
   protected updateRegion(event: Partial<SelectableValue>) {

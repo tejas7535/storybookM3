@@ -10,6 +10,7 @@ import { ForecastChartComponent } from '../../../../feature/forecast-chart/compo
 import { PeriodType } from '../../../../feature/forecast-chart/model';
 import { GlobalSelectionState } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
 import { StyledSectionComponent } from '../../../../shared/components/styled-section/styled-section.component';
+import { Customer } from '../../sales-planning.component';
 
 const EMPTY_GLOBAL_SELECTION_STATE: GlobalSelectionState = {
   alertType: [],
@@ -39,9 +40,7 @@ const EMPTY_GLOBAL_SELECTION_STATE: GlobalSelectionState = {
   templateUrl: './customer-sales-plan-chart.component.html',
 })
 export class CustomerSalesPlanChartComponent {
-  protected readonly planningCurrency = input.required<string>();
-  protected readonly customerName = input.required<string>();
-  protected readonly customerNumber = input.required<string>();
+  protected readonly customer = input.required<Customer>();
 
   protected readonly PeriodType = PeriodType;
 
@@ -52,8 +51,8 @@ export class CustomerSalesPlanChartComponent {
    */
   protected readonly globalSelectionState: Signal<GlobalSelectionState> =
     computed(() => {
-      const customerName = this.customerName();
-      const customerNumber = this.customerNumber();
+      const customerName = this.customer().customerName;
+      const customerNumber = this.customer().customerNumber;
 
       return customerName && customerNumber
         ? {

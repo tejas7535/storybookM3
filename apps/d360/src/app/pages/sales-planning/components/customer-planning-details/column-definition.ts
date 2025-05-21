@@ -1,5 +1,5 @@
 import { translate } from '@jsverse/transloco';
-import { ColDef } from 'ag-grid-enterprise';
+import { ColDef, IRowNode } from 'ag-grid-enterprise';
 
 import { DetailedCustomerSalesPlan } from '../../../../feature/sales-planning/model';
 import { ColumnValueType } from '../../../../shared/ag-grid/grid-types';
@@ -93,6 +93,26 @@ export function getTitle(
   return titles.join(' ');
 }
 
+export const customComparatorForCustomerPlanningDetails = <
+  TValue extends string,
+  TData,
+>(
+  valueA: TValue | null | undefined,
+  valueB: TValue | null | undefined,
+  nodeA: IRowNode<TData>,
+  nodeB: IRowNode<TData>
+) => {
+  if (nodeA.level === 0 || nodeB.level === 0) {
+    return 0;
+  }
+
+  if (valueA === valueB) {
+    return 0;
+  }
+
+  return valueA > valueB ? 1 : -1;
+};
+
 export function getColumnDefinitions(scope: TimeScope): (ColDef & {
   title: string;
   visible: boolean;
@@ -103,11 +123,12 @@ export function getColumnDefinitions(scope: TimeScope): (ColDef & {
   ): CustomColumnDefinition => ({
     ...colDef,
     title: getTitle(colDef.key, colDef.isTimeScopeSpecific, scope),
-    sortable: false,
+    sortable: true,
     colId: colDef.key,
     alwaysVisible: false,
     visible: initiallyVisibleColumns[scope].includes(colDef.key),
     valueFormatter: valueFormatters[colDef.type],
+    comparator: customComparatorForCustomerPlanningDetails,
   });
 
   return [

@@ -1,5 +1,3 @@
-import { GridApi } from 'ag-grid-enterprise';
-
 import { Stub } from '../../shared/test/stub.class';
 import { InternalMaterialReplacementMultiSubstitutionModalComponent } from './components/modals/internal-material-replacement-multi-substitution-modal/internal-material-replacement-multi-substitution-modal.component';
 import { InternalMaterialReplacementSingleSubstitutionModalComponent } from './components/modals/internal-material-replacement-single-substitution-modal/internal-material-replacement-single-substitution-modal.component';
@@ -31,20 +29,6 @@ describe('InternalMaterialReplacementComponent', () => {
         id: 'region1',
         text: 'Region 1',
       });
-    });
-  });
-
-  describe('getApi', () => {
-    it('should set gridApi property with the provided GridApi instance', () => {
-      const mockGridApi: GridApi = {
-        refreshServerSide: jest.fn(),
-      } as any;
-      component['gridApi'] = null;
-      expect(component['gridApi']).toBeNull();
-
-      component['getApi'](mockGridApi);
-
-      expect(component['gridApi']).toBe(mockGridApi);
     });
   });
 

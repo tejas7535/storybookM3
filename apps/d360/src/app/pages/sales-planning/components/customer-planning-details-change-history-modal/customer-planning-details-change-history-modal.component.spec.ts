@@ -1,5 +1,6 @@
-import { GridReadyEvent } from 'ag-grid-enterprise';
+import { of } from 'rxjs';
 
+import { RequestType } from '../../../../shared/components/table';
 import { Stub } from '../../../../shared/test/stub.class';
 import { CustomerPlanningDetailsChangeHistoryModalComponent } from './customer-planning-details-change-history-modal.component';
 
@@ -9,91 +10,69 @@ describe('CustomerPlanningDetailsChangeHistoryModalComponent', () => {
   beforeEach(() => {
     component = Stub.getForEffect({
       component: CustomerPlanningDetailsChangeHistoryModalComponent,
-      providers: [Stub.getMatDialogDataProvider({})],
+      providers: [
+        Stub.getMatDialogDataProvider({
+          customerNumber: '12345',
+          customerName: 'any name',
+        }),
+      ],
     });
   });
 
-  it('should create', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('onGridReady', () => {
-    it('should initialize columns and set datasource', () => {
-      jest.spyOn(component as any, 'createColumnDefs');
-      jest.spyOn(component as any, 'setServerSideDatasource');
-      component['onGridReady']({} as GridReadyEvent);
-      expect(component['createColumnDefs']).toHaveBeenCalled();
-      expect(component['setServerSideDatasource']).toHaveBeenCalled();
+  describe('ngOnInit', () => {
+    it('should call setColumnDefinitions', () => {
+      const setColumnDefinitionsSpy = jest.spyOn(
+        component as any,
+        'setColumnDefinitions'
+      );
+
+      component.ngOnInit();
+
+      expect(setColumnDefinitionsSpy).toHaveBeenCalled();
     });
   });
-  describe('createColumnDefs', () => {
-    it('should create the columns from backend settings', () => {
-      jest
-        .spyOn(component['columnSettingsService'], 'getDefaultColumns')
-        .mockReturnValue([]);
-      (component as any).gridApi = {
-        setGridOption: jest.fn(() => 0),
-      };
-      component['createColumnDefs']();
-      expect(component['gridApi'].setGridOption).toHaveBeenCalledWith(
-        'columnDefs',
-        []
+
+  describe('getData', () => {
+    it('should call changeHistoryService.getChangeHistory with correct parameters', (done) => {
+      const mockParams = { startRow: 0, endRow: 10 } as any;
+      const mockResponse = { rows: [], rowCount: 0 } as any;
+      const changeHistoryServiceSpy = jest
+        .spyOn(component['changeHistoryService'], 'getChangeHistory')
+        .mockReturnValue(of(mockResponse));
+
+      component['getData$'](mockParams, RequestType.Fetch).subscribe(
+        (result) => {
+          expect(changeHistoryServiceSpy).toHaveBeenCalledWith(mockParams, {
+            customerNumber: ['12345'],
+          });
+          expect(result).toEqual(mockResponse);
+          done();
+        }
       );
     });
   });
 
-  describe('setServerSideDatasource', () => {
-    it('should set the datasource', () => {
-      (component as any).gridApi = {
-        setGridOption: jest.fn(() => 0),
-      };
-      component['setServerSideDatasource']();
-      expect(component['gridApi'].setGridOption).toHaveBeenCalledWith(
-        'serverSideDatasource',
-        { getRows: expect.any(Function) }
-      );
+  describe('setColumnDefinitions', () => {
+    it('should call setConfig with column definitions', () => {
+      const setConfigSpy = jest.spyOn(component as any, 'setConfig');
+
+      component['setColumnDefinitions']();
+
+      expect(setConfigSpy).toHaveBeenCalled();
     });
   });
 
   describe('onCancel', () => {
-    it('should close the dialog', () => {
-      const dialogSpy = jest.spyOn(component['dialogRef'], 'close');
+    it('should call close', () => {
+      const closeSpy = jest.spyOn(component['dialogRef'], 'close');
+
       component['onCancel']();
-      expect(dialogSpy).toHaveBeenCalled();
-    });
-  });
 
-  describe('onDataUpdated', () => {
-    beforeEach(() => {
-      component['gridApi'] = Stub.getGridApi();
-    });
-
-    it('should show no rows overlay if displayed row count is 0', () => {
-      jest
-        .spyOn(component['gridApi'], 'getDisplayedRowCount')
-        .mockReturnValue(0);
-      jest.spyOn(component['gridApi'], 'showNoRowsOverlay');
-
-      component['onDataUpdated']();
-
-      expect(component['gridApi'].showNoRowsOverlay).toHaveBeenCalled();
-    });
-
-    it('should hide overlay if displayed row count is greater than 0', () => {
-      jest
-        .spyOn(component['gridApi'], 'getDisplayedRowCount')
-        .mockReturnValue(1);
-      jest.spyOn(component['gridApi'], 'hideOverlay');
-
-      component['onDataUpdated']();
-
-      expect(component['gridApi'].hideOverlay).toHaveBeenCalled();
-    });
-
-    it('should not throw an error if gridApi is not defined', () => {
-      component['gridApi'] = undefined;
-
-      expect(() => component['onDataUpdated']()).not.toThrow();
+      expect(closeSpy).toHaveBeenCalledWith(null);
     });
   });
 });

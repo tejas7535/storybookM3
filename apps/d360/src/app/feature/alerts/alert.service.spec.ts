@@ -1,6 +1,6 @@
-import { EMPTY, of, Subscription, throwError } from 'rxjs';
+import { HttpParams } from '@angular/common/http';
 
-import { IServerSideGetRowsParams } from 'ag-grid-enterprise';
+import { EMPTY, of, Subscription, throwError } from 'rxjs';
 
 import { AppRoutePath } from '../../app.routes.enum';
 import { Stub } from '../../shared/test/stub.class';
@@ -268,19 +268,6 @@ describe('AlertService', () => {
     });
   });
 
-  describe('getDataFetchedEvent', () => {
-    it('should return an observable of dataFetchedEvent', () => {
-      const dataFetchedEventSpy = jest.spyOn(
-        service['dataFetchedEvent'],
-        'asObservable'
-      );
-
-      service.getDataFetchedEvent();
-
-      expect(dataFetchedEventSpy).toHaveBeenCalled();
-    });
-  });
-
   describe('getFetchErrorEvent', () => {
     it('should return an observable of fetchErrorEvent', () => {
       const fetchErrorEventSpy = jest.spyOn(
@@ -317,67 +304,6 @@ describe('AlertService', () => {
       service.getLoadingEvent();
 
       expect(loadingEventSpy).toHaveBeenCalled();
-    });
-  });
-
-  describe('createAlertDatasource', () => {
-    it('should return a datasource with getRows method', () => {
-      const datasource = service.createAlertDatasource(AlertStatus.ACTIVE, [
-        Priority.Priority1,
-      ]);
-
-      expect(datasource.getRows).toBeDefined();
-    });
-
-    it('should call requestAlerts with correct parameters in getRows', () => {
-      const params = {
-        request: {
-          startRow: 0,
-          endRow: 100,
-          sortModel: [],
-          filterModel: [],
-        },
-        success: jest.fn(),
-        fail: jest.fn(),
-      } as unknown as IServerSideGetRowsParams<Alert>;
-
-      const requestAlertsSpy = jest
-        .spyOn(service as any, 'requestAlerts')
-        .mockReturnValue(
-          of({
-            rows: [],
-            rowCount: 0,
-          })
-        );
-
-      const datasource = service.createAlertDatasource(AlertStatus.ACTIVE, [
-        Priority.Priority1,
-      ]);
-      datasource.getRows(params);
-
-      expect(requestAlertsSpy).toHaveBeenCalledWith(
-        params.request,
-        AlertStatus.ACTIVE,
-        [Priority.Priority1]
-      );
-    });
-
-    it('should call success with empty data if selectedPriorities is empty', () => {
-      const params = {
-        request: {
-          startRow: 0,
-          endRow: 100,
-          sortModel: [],
-          filterModel: [],
-        },
-        success: jest.fn(),
-        fail: jest.fn(),
-      } as unknown as IServerSideGetRowsParams<Alert>;
-
-      const datasource = service.createAlertDatasource(AlertStatus.ACTIVE, []);
-      datasource.getRows(params);
-
-      expect(params.success).toHaveBeenCalledWith({ rowData: [], rowCount: 0 });
     });
   });
 
@@ -901,6 +827,153 @@ describe('AlertService', () => {
           },
         },
       ]);
+    });
+  });
+
+  describe('getAlertData', () => {
+    it('should get the current currency and make a post request with the correct parameters', (done) => {
+      // Arrange
+      const mockCurrency = 'EUR';
+      const mockStatus = AlertStatus.ACTIVE;
+      const mockPriorities = [Priority.Priority1, Priority.Priority2];
+      const mockParams = {
+        startRow: 0,
+        endRow: 50,
+        sortModel: [{ colId: 'id', sort: 'asc' }],
+        columnFilters: [{ filterType: 'text', colId: 'name', value: 'test' }],
+      } as any;
+
+      const mockResponse = { rows: [], rowCount: 0 } as any;
+
+      jest
+        .spyOn(service['currencyService'], 'getCurrentCurrency')
+        .mockReturnValue(of(mockCurrency));
+      const httpSpy = jest
+        .spyOn(service['http'], 'post')
+        .mockReturnValue(of(mockResponse));
+
+      // Act
+      service
+        .getAlertData(mockStatus, mockPriorities, mockParams)
+        .subscribe((result) => {
+          // Assert
+          expect(
+            service['currencyService'].getCurrentCurrency
+          ).toHaveBeenCalled();
+
+          const expectedQueryParams = new HttpParams()
+            .set('status', mockStatus)
+            .set('currency', mockCurrency);
+
+          const expectedRequestBody = {
+            startRow: mockParams.startRow,
+            endRow: mockParams.endRow,
+            sortModel: mockParams.sortModel,
+            columnFilters: mockParams.columnFilters,
+            selectionFilters: { alertPriority: mockPriorities },
+          };
+
+          expect(httpSpy).toHaveBeenCalledWith(
+            'api/alerts',
+            expectedRequestBody,
+            { params: expectedQueryParams }
+          );
+
+          expect(result).toEqual(mockResponse);
+          done();
+        });
+    });
+
+    it('should handle the case with undefined parameters', (done) => {
+      // Arrange
+      const mockCurrency = 'USD';
+      const mockStatus = AlertStatus.COMPLETED;
+      const mockPriorities = undefined as any;
+      const mockParams = {
+        startRow: undefined,
+        endRow: undefined,
+        sortModel: undefined,
+        columnFilters: undefined,
+      } as any;
+
+      const mockResponse = { rows: [], rowCount: 0 } as any;
+
+      jest
+        .spyOn(service['currencyService'], 'getCurrentCurrency')
+        .mockReturnValue(of(mockCurrency));
+      const httpSpy = jest
+        .spyOn(service['http'], 'post')
+        .mockReturnValue(of(mockResponse));
+
+      // Act
+      service
+        .getAlertData(mockStatus, mockPriorities, mockParams as any)
+        .subscribe(() => {
+          // Assert
+          const expectedQueryParams = new HttpParams()
+            .set('status', mockStatus)
+            .set('currency', mockCurrency);
+
+          const expectedRequestBody = {
+            startRow: undefined,
+            endRow: undefined,
+            sortModel: undefined,
+            columnFilters: undefined,
+            selectionFilters: { alertPriority: undefined },
+          } as any;
+
+          expect(httpSpy).toHaveBeenCalledWith(
+            'api/alerts',
+            expectedRequestBody,
+            { params: expectedQueryParams }
+          );
+
+          done();
+        });
+    });
+
+    it('should handle all priority values', (done) => {
+      // Arrange
+      const mockCurrency = 'EUR';
+      const mockStatus = AlertStatus.ACTIVE;
+      const mockPriorities = [
+        Priority.Priority1,
+        Priority.Priority2,
+        Priority.Priority3,
+      ];
+      const mockParams = {
+        startRow: 0,
+        endRow: 50,
+        sortModel: [],
+        columnFilters: [],
+      } as any;
+
+      const mockResponse = { rows: [], rowCount: 0 } as any;
+
+      jest
+        .spyOn(service['currencyService'], 'getCurrentCurrency')
+        .mockReturnValue(of(mockCurrency));
+      const httpSpy = jest
+        .spyOn(service['http'], 'post')
+        .mockReturnValue(of(mockResponse));
+
+      // Act
+      service
+        .getAlertData(mockStatus, mockPriorities, mockParams)
+        .subscribe(() => {
+          // Assert
+          const expectedSelectionFilters = { alertPriority: mockPriorities };
+
+          expect(httpSpy).toHaveBeenCalledWith(
+            expect.any(String),
+            expect.objectContaining({
+              selectionFilters: expectedSelectionFilters,
+            }),
+            expect.any(Object)
+          );
+
+          done();
+        });
     });
   });
 });

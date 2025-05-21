@@ -1149,6 +1149,18 @@
     }
   },
   "table": {
+    "defaultTab": "Predeterminado",
+    "dialog": {
+      "createOrUpdate": {
+        "layoutLabel": "Copia de",
+        "title": {
+          "add": "Crear nuevo diseño",
+          "edit": "Editar diseño"
+        },
+        "titleLabel": "Nombre"
+      },
+      "deleteTab": "Debe eliminarse el diseño de forma irrevocable?"
+    },
     "toolbar": {
       "activeFilterCount": "Filtros actual: {{count}}",
       "currentCount": "Selección actual: {{count}}",

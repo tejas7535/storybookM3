@@ -1,87 +1,66 @@
 <d360-styled-section
   [grow]="true"
-  class="flex flex-col gap-4 h-full"
+  class="flex flex-col gap-4"
   *transloco="let t"
+  [class.h-full]="!collapsedSection()"
 >
   <div class="flex justify-between items-center">
     <h2 class="text-title-large">
       {{ t('sales_planning.planning_details.title') }}
     </h2>
 
-    <div class="flex">
-      <button mat-icon-button (click)="toggleSection()()">
-        @if (collapsedSection()) {
-          <mat-icon>keyboard_arrow_down</mat-icon>
-        } @else {
-          <mat-icon>keyboard_arrow_up</mat-icon>
-        }
-      </button>
-    </div>
+    @if (!tableInFullscreen()) {
+      <div class="flex">
+        <button mat-icon-button (click)="toggleSection()">
+          @if (collapsedSection()) {
+            <mat-icon>keyboard_arrow_down</mat-icon>
+          } @else {
+            <mat-icon>keyboard_arrow_up</mat-icon>
+          }
+        </button>
+      </div>
+    }
   </div>
 
-  <d360-table-toolbar
-    [hidden]="collapsedSection()"
-    [rowCount]="rowCount()"
-    [renderFloatingFilter]="false"
-    [grid]="gridApi"
-  >
-    <button
-      [disabled]="planningLevelMaterialConfiguration() === null"
-      (click)="handlePlanningLevelModalClicked()"
-      mat-button
+  <div [hidden]="collapsedSection()" class="h-full mt-4">
+    <d360-frontend-table
+      class="!flex flex-col w-full h-full"
+      [config]="config()!"
+      [getData]="getData$"
+      [reload$]="reload$()"
     >
-      <mat-icon class="icon-button">settings</mat-icon>
-      {{ t('sales_planning.planning_details.planning_level') }}
-    </button>
+      <div toolbarRight class="flex items-center">
+        <button
+          [disabled]="planningLevelMaterialConfiguration() === null"
+          (click)="handlePlanningLevelModalClicked()"
+          mat-button
+        >
+          <mat-icon class="icon-button">settings</mat-icon>
+          {{ t('sales_planning.planning_details.planning_level') }}
+        </button>
 
-    <button
-      [disabled]="isNoCustomerSelected()"
-      (click)="handleChartHistoryModalClicked()"
-      mat-button
-    >
-      <mat-icon class="icon-button">history</mat-icon>
-      {{ t('sales_planning.planning_details.change_history') }}
-    </button>
+        <button
+          [disabled]="!isCustomerSelected()"
+          (click)="handleChartHistoryModalClicked()"
+          mat-button
+        >
+          <mat-icon class="icon-button">history</mat-icon>
+          {{ t('sales_planning.planning_details.change_history') }}
+        </button>
 
-    @if (openFullscreen()) {
-      <button
-        [disabled]="isNoCustomerSelected()"
-        (click)="toggleFullscreen()()"
-        class="text-body-small"
-        mat-icon-button
-      >
-        <mat-icon>fullscreen_exit</mat-icon>
-      </button>
-    } @else {
-      <button
-        [disabled]="isNoCustomerSelected()"
-        (click)="toggleFullscreen()()"
-        class="text-body-small"
-        mat-icon-button
-      >
-        <mat-icon>fullscreen</mat-icon>
-      </button>
-    }
-  </d360-table-toolbar>
-
-  <div [hidden]="collapsedSection()" class="h-full">
-    <ag-grid-angular
-      #salesPlanningGrid
-      class="ag-theme-material grow h-full"
-      [gridOptions]="gridOptions"
-      [localeText]="agGridLocalizationService.lang()"
-      (firstDataRendered)="onFirstDataRendered($event)"
-      (dragStopped)="columnSettingsService.saveFromAgGridEvent($event)"
-      (columnVisible)="columnSettingsService.saveFromAgGridEvent($event)"
-      (filterChanged)="onFilterChanged()"
-      (sortChanged)="columnSettingsService.saveFromAgGridEvent($event)"
-      (rowGroupOpened)="onRowGroupOpened($event)"
-      (gridReady)="onGridReady($event)"
-      [loading]="isLoading()"
-      [noRowsOverlayComponent]="noDataOverlayComponent"
-      [noRowsOverlayComponentParams]="noDataOverlayMessage"
-      [tooltipShowDelay]="150"
-      [tooltipHideDelay]="300000"
-    />
+        <button
+          [disabled]="!isCustomerSelected()"
+          (click)="toggleFullscreen()()"
+          class="text-body-small"
+          mat-icon-button
+        >
+          @if (tableInFullscreen()) {
+            <mat-icon>fullscreen_exit</mat-icon>
+          } @else {
+            <mat-icon>fullscreen</mat-icon>
+          }
+        </button>
+      </div>
+    </d360-frontend-table>
   </div>
 </d360-styled-section>

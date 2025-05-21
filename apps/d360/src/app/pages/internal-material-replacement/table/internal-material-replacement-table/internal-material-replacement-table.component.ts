@@ -1,159 +1,98 @@
-import { CommonModule } from '@angular/common';
-import {
-  Component,
-  DestroyRef,
-  effect,
-  inject,
-  input,
-  output,
-  OutputEmitterRef,
-  signal,
-} from '@angular/core';
+import { Component, effect, inject, input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 
-import { filter, take, tap } from 'rxjs';
+import { filter, Observable, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import { AgGridModule } from 'ag-grid-angular';
-import {
-  ColDef,
-  FirstDataRenderedEvent,
-  GetRowIdFunc,
-  GetRowIdParams,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-  ICellRendererParams,
-} from 'ag-grid-enterprise';
+import { GetRowIdParams, ICellRendererParams } from 'ag-grid-enterprise';
 
 import { IMRService } from '../../../../feature/internal-material-replacement/imr.service';
 import { IMRSubstitution } from '../../../../feature/internal-material-replacement/model';
-import {
-  getDefaultColDef,
-  serverSideTableDefaultProps,
-  sideBar,
-} from '../../../../shared/ag-grid/grid-defaults';
+import { getDefaultColDef } from '../../../../shared/ag-grid/grid-defaults';
 import { ActionsMenuCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
-import { TableToolbarComponent } from '../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
-import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
+import {
+  AbstractBackendTableComponent,
+  BackendTableComponent,
+  BackendTableResponse,
+  ExtendedColumnDefs,
+  RequestParams,
+  TableCreator,
+} from '../../../../shared/components/table';
 import { InternalMaterialReplacementSingleDeleteModalComponent } from '../../components/modals/internal-material-replacement-single-delete-modal/internal-material-replacement-single-delete-modal.component';
 import { InternalMaterialReplacementSingleSubstitutionModalComponent } from '../../components/modals/internal-material-replacement-single-substitution-modal/internal-material-replacement-single-substitution-modal.component';
-import { NoDataOverlayComponent } from './../../../../shared/components/ag-grid/no-data/no-data.component';
-import { SelectableOptionsService } from './../../../../shared/services/selectable-options.service';
 import { getIMRColumnDefinitions } from './column-definitions';
 
 @Component({
   selector: 'd360-internal-material-replacement-table',
-  imports: [CommonModule, AgGridModule, TableToolbarComponent],
+  imports: [BackendTableComponent],
   templateUrl: './internal-material-replacement-table.component.html',
   styleUrl: './internal-material-replacement-table.component.scss',
 })
-export class InternalMaterialReplacementTableComponent {
-  private readonly translocoLocaleService = inject(TranslocoLocaleService);
-  private readonly selectableOptionsService = inject(SelectableOptionsService);
+export class InternalMaterialReplacementTableComponent
+  extends AbstractBackendTableComponent
+  implements OnInit
+{
+  protected readonly imrService: IMRService = inject(IMRService);
+  protected readonly dialog: MatDialog = inject(MatDialog);
+
   public readonly selectedRegion = input.required<string>();
 
-  public gridApi: GridApi;
+  public constructor() {
+    super();
 
-  public getApi: OutputEmitterRef<GridApi> = output();
-
-  protected readonly isGridAutoSized = signal(false);
-  protected readonly rowCount = signal(0);
-
-  protected readonly destroyRef = inject(DestroyRef);
-
-  protected readonly noDataOverlayComponent = NoDataOverlayComponent;
-
-  /**
-   * The table context to pass the getMenu method used in ActionsMenuCellRendererComponent.
-   *
-   * @protected
-   * @type {Record<string, any>}
-   * @memberof AlertRuleTableComponent
-   */
-  protected context: Record<string, any> = {
-    getMenu: (params: ICellRendererParams<any, IMRSubstitution>) => [
-      {
-        text: translate('button.edit'),
-        onClick: () => this.edit(params),
-      },
-      {
-        text: translate('button.delete'),
-        onClick: () => this.delete(params),
-      },
-    ],
-  };
-
-  protected gridOptions: GridOptions = {
-    ...serverSideTableDefaultProps,
-    sideBar,
-  };
-
-  public constructor(
-    protected readonly imrService: IMRService,
-    protected readonly dialog: MatDialog,
-    protected readonly agGridLocalizationService: AgGridLocalizationService
-  ) {
-    effect(() => this.setServerSideDatasource(this.selectedRegion()));
+    effect(() => this.selectedRegion() && this.reload$().next(true));
   }
 
-  protected onGridReady(event: GridReadyEvent): void {
-    this.gridApi = event.api;
-    this.getApi.emit(event.api);
+  protected readonly getData$: (
+    params: RequestParams
+  ) => Observable<BackendTableResponse> = (params: RequestParams) =>
+    this.imrService.getIMRData({ region: [this.selectedRegion()] }, params);
 
-    this.setServerSideDatasource(this.selectedRegion());
-    if (this.gridApi) {
-      this.updateColumnDefs();
-
-      this.imrService
-        .getDataFetchedEvent()
-        .pipe(
-          tap((value) => {
-            this.rowCount.set(value.rowCount);
-            if (this.rowCount() === 0) {
-              this.gridApi.showNoRowsOverlay();
-            } else {
-              this.gridApi.hideOverlay();
-            }
-          }),
-          takeUntilDestroyed(this.destroyRef)
-        )
-        .subscribe();
-
-      this.imrService
-        .getDataFetchedEvent()
-        .pipe(
-          tap((_) => {
-            if (!this.isGridAutoSized()) {
-              this.isGridAutoSized.set(true);
-              this.gridApi?.autoSizeAllColumns();
-            }
-          }),
-          takeUntilDestroyed(this.destroyRef)
-        )
-        .subscribe();
-    }
-  }
-
-  private setServerSideDatasource(selectedRegion: string): void {
-    this.rowCount.set(0);
-    this.gridApi?.setGridOption(
-      'serverSideDatasource',
-      this.imrService.createInternalMaterialReplacementDatasource(
-        selectedRegion
-      )
+  protected setConfig(columnDefs: ExtendedColumnDefs[]): void {
+    this.config.set(
+      TableCreator.get({
+        table: TableCreator.getTable({
+          tableId: 'internal-material-replacement',
+          context: {
+            getMenu: (params: ICellRendererParams<any, IMRSubstitution>) => [
+              {
+                text: translate('button.edit'),
+                onClick: () => this.edit(params),
+              },
+              {
+                text: translate('button.delete'),
+                onClick: () => this.delete(params),
+              },
+            ],
+          },
+          columnDefs,
+          getRowId: ({ data }: GetRowIdParams): string =>
+            // those five values are defined as the entity key in SAP and uniquely identify a row as they can't be changed
+            [
+              data?.customerNumber,
+              data?.predecessorMaterial,
+              data?.region,
+              data?.salesArea,
+              data?.salesOrg,
+            ]
+              .filter(Boolean)
+              .join('-'),
+        }),
+        isLoading$: this.selectableOptionsService.loading$,
+        hasTabView: true,
+        maxAllowedTabs: 5,
+      })
     );
   }
 
-  private updateColumnDefs(): void {
+  protected setColumnDefinitions(): void {
     this.selectableOptionsService.loading$
       .pipe(
         filter((loading) => !loading),
         take(1),
         tap(() =>
-          this.gridApi?.setGridOption('columnDefs', [
+          this.setConfig([
             ...(getIMRColumnDefinitions(
               this.agGridLocalizationService,
               this.selectableOptionsService
@@ -172,6 +111,7 @@ export class InternalMaterialReplacementTableComponent {
               cellRenderer: col.cellRenderer,
               tooltipComponent: col.tooltipComponent,
               tooltipField: col.tooltipField,
+              visible: true,
             })) || []),
             {
               cellClass: ['fixed-action-column'],
@@ -185,8 +125,9 @@ export class InternalMaterialReplacementTableComponent {
               maxWidth: 64,
               suppressSizeToFit: true,
             },
-          ] as ColDef[])
+          ])
         ),
+
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
@@ -206,7 +147,6 @@ export class InternalMaterialReplacementTableComponent {
       })
       .afterClosed()
       .pipe(
-        take(1),
         tap(({ reloadData, redefinedSubstitution }) => {
           if (reloadData) {
             this.gridApi.applyServerSideTransaction({
@@ -228,28 +168,28 @@ export class InternalMaterialReplacementTableComponent {
       })
       .afterClosed()
       .pipe(
-        take(1),
         tap((reloadData) => {
           if (reloadData) {
             params.api.applyServerSideTransaction({
               remove: [params.data],
             });
-            this.rowCount.update((count) => count - 1);
+
+            this.dataFetchedEvent$
+              .pipe(
+                take(1),
+                tap((data) => {
+                  this.dataFetchedEvent$.next({
+                    ...data,
+                    rowCount: data.rowCount - 1,
+                  });
+                }),
+                takeUntilDestroyed(this.destroyRef)
+              )
+              .subscribe();
           }
         }),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
-  }
-
-  protected getRowId: GetRowIdFunc = (params: GetRowIdParams): string => {
-    const data = params.data;
-
-    // those five values are defined as the entity key in SAP and uniquely identify a row as they can't be changed
-    return `${data?.customerNumber ?? ''}-${data?.predecessorMaterial ?? ''}-${data?.region ?? ''}-${data?.salesArea ?? ''}-${data?.salesOrg ?? ''}`;
-  };
-
-  protected onFirstDataRendered($event: FirstDataRenderedEvent): void {
-    $event.api.autoSizeAllColumns();
   }
 }

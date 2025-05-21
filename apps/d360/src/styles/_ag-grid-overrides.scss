@@ -165,4 +165,16 @@
       }
     }
   }
+
+  .mat-mdc-dialog-content {
+    d360-table-toolbar {
+      background-color: #fff;
+    }
+
+    .ag {
+      &-theme-material {
+        --ag-background-color: #fff;
+      }
+    }
+  }
 }

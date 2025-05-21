@@ -28,23 +28,9 @@ export class TableToolbarComponent {
   public grid = input.required<GridApi>();
   public renderFloatingFilter = input<boolean>(true);
   public openFloatingFilters = input<boolean>(false);
-  public customOnResetFilters = input<() => void>(() => {
-    this.grid()?.setFilterModel({});
-  });
 
-  public customGetFilterCount = input<() => number>(() => {
-    if (!this.grid()) {
-      return 0;
-    }
-
-    const filterModel = this.grid().getFilterModel();
-
-    if (!filterModel) {
-      return 0;
-    }
-
-    return Object.keys(filterModel).length;
-  });
+  public customOnResetFilters = input<(() => void) | null>(null);
+  public customGetFilterCount = input<(() => number) | null>(null);
 
   private readonly translocoLocaleService: TranslocoLocaleService = inject(
     TranslocoLocaleService
@@ -68,11 +54,31 @@ export class TableToolbarComponent {
   }
 
   protected onResetFilters(): void {
-    this.customOnResetFilters()();
+    if (this.customOnResetFilters()) {
+      this.customOnResetFilters()();
+
+      return;
+    }
+
+    this.grid()?.setFilterModel({});
   }
 
   protected getFilterCount(): number {
-    return this.customGetFilterCount()();
+    if (this.customGetFilterCount()) {
+      return this.customGetFilterCount()();
+    }
+
+    if (!this.grid()) {
+      return 0;
+    }
+
+    const filterModel = this.grid().getFilterModel();
+
+    if (!filterModel) {
+      return 0;
+    }
+
+    return Object.keys(filterModel).length;
   }
 
   protected getFilterCountText(): string {

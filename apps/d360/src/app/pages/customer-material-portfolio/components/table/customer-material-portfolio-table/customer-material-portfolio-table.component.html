@@ -1,35 +1,20 @@
-<ng-container *transloco="let t">
-  @if (gridApi) {
-    <!-- table tool bar -->
-    <d360-table-toolbar [rowCount]="rowCount()" [grid]="gridApi">
-      <!-- Row expansion toggle -->
-      <div class="text-body-medium capitalize flex items-center">
-        <span>
-          {{ t('customer_material_portfolio.toolbar.showPredecessors') }}
-        </span>
-        <mat-slide-toggle
-          class="ml-1"
-          [checked]="showChains"
-          (change)="handleExpandAllChange($event)"
-        />
-      </div>
-    </d360-table-toolbar>
-  }
-
-  <!-- table -->
-  <ag-grid-angular
-    #customerPortfolioGrid
-    class="ag-theme-material h-full"
-    [gridOptions]="gridOptions"
-    (gridReady)="onGridReady($event)"
-    [autoGroupColumnDef]="autoGroupColumnDef"
-    [treeData]="true"
-    [getRowId]="getRowIdFn"
-    [isServerSideGroup]="getServerSideGroup"
-    [isServerSideGroupOpenByDefault]="getServerSideGroupOpenByDefault"
-    [getServerSideGroupKey]="getServerSideGroupKey"
-    [localeText]="agGridLocalizationService.lang()"
-    (firstDataRendered)="onFirstDataRendered($event)"
-    [context]="context"
-  />
-</ng-container>
+<d360-backend-table
+  *transloco="let t"
+  [config]="config()!"
+  [getData]="getData$"
+  (getGridApi)="gridApi = $event"
+  [dataFetchedEvent$]="dataFetchedEvent$"
+  [reload$]="reload$()"
+>
+  <!-- Row expansion toggle -->
+  <div class="text-body-medium capitalize flex items-center">
+    <span>
+      {{ t('customer_material_portfolio.toolbar.showPredecessors') }}
+    </span>
+    <mat-slide-toggle
+      class="ml-1"
+      [checked]="showChains"
+      (change)="handleExpandAllChange($event)"
+    />
+  </div>
+</d360-backend-table>

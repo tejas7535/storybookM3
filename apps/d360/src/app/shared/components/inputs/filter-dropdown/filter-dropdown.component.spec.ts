@@ -4,7 +4,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { FilterDropdownComponent } from './filter-dropdown.component';
 
-describe('SingleAutocompletePreLoadedComponent', () => {
+describe('FilterDropdownComponent', () => {
   let spectator: Spectator<FilterDropdownComponent>;
 
   const createComponent = createComponentFactory({

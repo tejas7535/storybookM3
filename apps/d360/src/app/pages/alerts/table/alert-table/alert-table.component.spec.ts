@@ -1,36 +1,29 @@
 import { of } from 'rxjs';
 
-import {
-  FirstDataRenderedEvent,
-  GetRowIdParams,
-  GridApi,
-  GridReadyEvent,
-  RowClassParams,
-} from 'ag-grid-enterprise';
+import { GridApi, RowClassParams } from 'ag-grid-enterprise';
 
+import { AlertService } from '../../../../feature/alerts/alert.service';
 import {
   Alert,
   AlertStatus,
   OpenFunction,
   Priority,
 } from '../../../../feature/alerts/model';
-import {
-  serverSideTableDefaultProps,
-  sideBar,
-} from '../../../../shared/ag-grid/grid-defaults';
-import { ActionsMenuCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
+import { RequestType } from '../../../../shared/components/table';
 import { Stub } from '../../../../shared/test/stub.class';
 import { AlertTableComponent } from './alert-table.component';
-import * as ColDefHelper from './column-definitions';
 
 describe('AlertTableComponent', () => {
   let component: AlertTableComponent;
+  let alertService: AlertService;
 
   beforeEach(() => {
     component = Stub.getForEffect<AlertTableComponent>({
       component: AlertTableComponent,
       providers: [Stub.getAlertServiceProvider()],
     });
+
+    alertService = component['alertService'];
 
     Stub.setInputs([
       { property: 'priorities', value: [Priority.Priority1] },
@@ -44,18 +37,10 @@ describe('AlertTableComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('gridOptions', () => {
-    it('should have the correct default properties', () => {
-      expect(component['gridOptions']).toEqual(
-        expect.objectContaining({
-          ...serverSideTableDefaultProps,
-          sideBar,
-        })
-      );
-    });
-
+  describe('rowClassRules', () => {
+    beforeEach(() => component['setConfig']([]));
     it('should have the correct row class rules', () => {
-      const rowClassRules = component['gridOptions'].rowClassRules as any;
+      const rowClassRules = component['config']().table.rowClassRules as any;
 
       expect(rowClassRules['is-active']).toBeDefined();
       expect(rowClassRules['is-prio1']).toBeDefined();
@@ -66,7 +51,7 @@ describe('AlertTableComponent', () => {
     });
 
     it('should apply "is-active" class if alert is open', () => {
-      const rowClassRules = component['gridOptions'].rowClassRules as any;
+      const rowClassRules = component['config']().table.rowClassRules as any;
       const params = { data: { open: true } } as RowClassParams<Alert>;
       const result = rowClassRules['is-active'](params);
 
@@ -74,7 +59,7 @@ describe('AlertTableComponent', () => {
     });
 
     it('should apply "is-prio1" class if alert is open and priority is 1', () => {
-      const rowClassRules = component['gridOptions'].rowClassRules as any;
+      const rowClassRules = component['config']().table.rowClassRules as any;
       const params = {
         data: { open: true, alertPriority: 1 },
       } as RowClassParams<Alert>;
@@ -84,7 +69,7 @@ describe('AlertTableComponent', () => {
     });
 
     it('should apply "is-prio2" class if alert is open and priority is 2', () => {
-      const rowClassRules = component['gridOptions'].rowClassRules as any;
+      const rowClassRules = component['config']().table.rowClassRules as any;
       const params = {
         data: { open: true, alertPriority: 2 },
       } as RowClassParams<Alert>;
@@ -94,7 +79,7 @@ describe('AlertTableComponent', () => {
     });
 
     it('should apply "is-info" class if alert is open and priority is 3', () => {
-      const rowClassRules = component['gridOptions'].rowClassRules as any;
+      const rowClassRules = component['config']().table.rowClassRules as any;
       const params = {
         data: { open: true, alertPriority: 3 },
       } as RowClassParams<Alert>;
@@ -104,7 +89,7 @@ describe('AlertTableComponent', () => {
     });
 
     it('should apply "is-deactivated" class if alert is deactivated', () => {
-      const rowClassRules = component['gridOptions'].rowClassRules as any;
+      const rowClassRules = component['config']().table.rowClassRules as any;
       const params = { data: { deactivated: true } } as RowClassParams<Alert>;
       const result = rowClassRules['is-deactivated'](params);
 
@@ -112,7 +97,7 @@ describe('AlertTableComponent', () => {
     });
 
     it('should apply "is-closed" class if alert is not open', () => {
-      const rowClassRules = component['gridOptions'].rowClassRules as any;
+      const rowClassRules = component['config']().table.rowClassRules as any;
       const params = { data: { open: false } } as RowClassParams<Alert>;
       const result = rowClassRules['is-closed'](params);
 
@@ -126,6 +111,7 @@ describe('AlertTableComponent', () => {
       let rowData: { data: Alert };
 
       beforeEach(() => {
+        component['setConfig']([]);
         alert = {
           id: '1',
           openFunction: 'Function1',
@@ -147,7 +133,7 @@ describe('AlertTableComponent', () => {
           .spyOn(component['alertService'], 'getModuleForOpenFunction')
           .mockReturnValue('Module 1');
 
-        const menu = component['context'].getMenu(rowData);
+        const menu = component['config']().table.context.getMenu(rowData);
 
         expect(menu.length).toBeGreaterThan(0);
         expect(menu[0].text).toBe('alert.action_menu.goto_function');
@@ -165,7 +151,7 @@ describe('AlertTableComponent', () => {
           applyServerSideTransaction: jest.fn(),
         } as unknown as GridApi<Alert>;
 
-        const menu = component['context'].getMenu(rowData);
+        const menu = component['config']().table.context.getMenu(rowData);
         const completeAction = menu.find(
           (item: any) => item.text === 'alert.action_menu.complete'
         );
@@ -198,7 +184,7 @@ describe('AlertTableComponent', () => {
           applyServerSideTransaction: jest.fn(),
         } as unknown as GridApi<Alert>;
 
-        const menu = component['context'].getMenu(rowData);
+        const menu = component['config']().table.context.getMenu(rowData);
         const activateAction = menu.find(
           (item: any) => item.text === 'alert.action_menu.activate'
         );
@@ -229,7 +215,7 @@ describe('AlertTableComponent', () => {
           applyServerSideTransaction: jest.fn(),
         } as unknown as GridApi<Alert>;
 
-        const menu = component['context'].getMenu(rowData);
+        const menu = component['config']().table.context.getMenu(rowData);
         const deactivateAction = menu.find(
           (item: any) => item.text === 'alert.action_menu.deactivate'
         );
@@ -259,7 +245,7 @@ describe('AlertTableComponent', () => {
           'navigateWithGlobalSelection'
         );
 
-        const menu = component['context'].getMenu(rowData);
+        const menu = component['config']().table.context.getMenu(rowData);
         const baseCombinationAction = menu[0].submenu.find(
           (item: any) => item.text === 'alert.action_menu.base_combination'
         );
@@ -298,7 +284,7 @@ describe('AlertTableComponent', () => {
           'navigateWithGlobalSelection'
         );
 
-        const menu = component['context'].getMenu(rowData);
+        const menu = component['config']().table.context.getMenu(rowData);
         const customerCategoryAction = menu[0].submenu.find(
           (item: any) => item.text === 'alert.action_menu.customer_category'
         );
@@ -337,7 +323,7 @@ describe('AlertTableComponent', () => {
           'navigateWithGlobalSelection'
         );
 
-        const menu = component['context'].getMenu(rowData);
+        const menu = component['config']().table.context.getMenu(rowData);
         const customerAction = menu[0].submenu.find(
           (item: any) => item.text === 'alert.action_menu.customer'
         );
@@ -422,12 +408,99 @@ describe('AlertTableComponent', () => {
     });
   });
 
-  describe('constructor', () => {
-    it('should call setServerSideDatasource with status and priorities', () => {
-      const setServerSideDatasourceSpy = jest.spyOn(
-        component as any,
-        'setServerSideDatasource'
+  describe('getData', () => {
+    it('should call alertService.getAlertData with correct parameters', () => {
+      // Arrange
+      const mockParams = { startRow: 0, endRow: 10 } as any;
+      const getAlertDataSpy = jest
+        .spyOn(alertService, 'getAlertData')
+        .mockReturnValue(of({ rows: [], rowCount: 0 }));
+
+      // Act
+      component['getData$'](mockParams, RequestType.Fetch).subscribe();
+
+      // Assert
+      expect(getAlertDataSpy).toHaveBeenCalledWith(
+        AlertStatus.ACTIVE,
+        [Priority.Priority1],
+        mockParams
       );
+    });
+
+    it('should use the current status and priorities inputs', () => {
+      // Arrange
+      const mockParams = { startRow: 0, endRow: 10 } as any;
+      const getAlertDataSpy = jest
+        .spyOn(alertService, 'getAlertData')
+        .mockReturnValue(of({ rows: [], rowCount: 0 }));
+
+      // Change inputs to different values
+      Stub.setInputs([
+        { property: 'priorities', value: [Priority.Priority3] },
+        { property: 'status', value: AlertStatus.COMPLETED },
+      ]);
+      Stub.detectChanges();
+
+      // Act
+      component['getData$'](mockParams, RequestType.Fetch).subscribe();
+
+      // Assert
+      expect(getAlertDataSpy).toHaveBeenCalledWith(
+        AlertStatus.COMPLETED,
+        [Priority.Priority3],
+        mockParams
+      );
+    });
+
+    it('should forward the response from alertService.getAlertData', (done) => {
+      // Arrange
+      const mockParams = { startRow: 0, endRow: 10 } as any;
+      const mockResponse = { rows: [{ id: '1' }], rowCount: 1 };
+      jest
+        .spyOn(alertService, 'getAlertData')
+        .mockReturnValue(of(mockResponse));
+
+      // Act
+      component['getData$'](mockParams, RequestType.Fetch).subscribe(
+        (response) => {
+          // Assert
+          expect(response).toEqual(mockResponse);
+          done();
+        }
+      );
+    });
+
+    it('should ignore the requestType parameter', () => {
+      // Arrange
+      const mockParams = { startRow: 0, endRow: 10 } as any;
+      const getAlertDataSpy = jest
+        .spyOn(alertService, 'getAlertData')
+        .mockReturnValue(of({ rows: [], rowCount: 0 }));
+
+      // Act - call with different requestTypes
+      component['getData$'](mockParams, RequestType.Fetch).subscribe();
+      component['getData$'](mockParams, RequestType.GroupClick).subscribe();
+
+      // Assert - all calls should be identical
+      expect(getAlertDataSpy).toHaveBeenCalledTimes(2);
+      expect(getAlertDataSpy).toHaveBeenNthCalledWith(
+        1,
+        AlertStatus.ACTIVE,
+        [Priority.Priority1],
+        mockParams
+      );
+      expect(getAlertDataSpy).toHaveBeenNthCalledWith(
+        2,
+        AlertStatus.ACTIVE,
+        [Priority.Priority1],
+        mockParams
+      );
+    });
+  });
+
+  describe('constructor', () => {
+    it('should call setColumnDefinitions with status and priorities', () => {
+      const reloadSpy = jest.spyOn(component['reload$'](), 'next');
 
       Stub.setInputs([
         { property: 'priorities', value: [Priority.Priority3] },
@@ -436,396 +509,161 @@ describe('AlertTableComponent', () => {
 
       Stub.detectChanges();
 
-      expect(setServerSideDatasourceSpy).toHaveBeenCalledWith(
-        AlertStatus.COMPLETED,
-        [Priority.Priority3]
-      );
-    });
-
-    it('should subscribe to alertService.getRefreshEvent and call setServerSideDatasource and refreshHashTimer', () => {
-      const setServerSideDatasourceSpy = jest.spyOn(
-        component as any,
-        'setServerSideDatasource'
-      );
-
-      jest
-        .spyOn(component['alertService'], 'getRefreshEvent')
-        .mockReturnValue(of(true) as any);
-
-      Stub.setInputs([
-        { property: 'priorities', value: [Priority.Priority2] },
-        { property: 'status', value: AlertStatus.DEACTIVATED },
-      ]);
-      Stub.detectChanges();
-
-      expect(setServerSideDatasourceSpy).toHaveBeenCalledWith(
-        AlertStatus.DEACTIVATED,
-        [Priority.Priority2]
-      );
+      expect(reloadSpy).toHaveBeenCalledWith(true);
     });
   });
 
-  describe('updateColumnDefs', () => {
-    it('should set column definitions on gridApi', () => {
-      component.gridApi = Stub.getGridApi();
-      jest.spyOn(component.gridApi, 'setGridOption');
-      jest
-        .spyOn(component['selectableOptionsService'], 'get')
-        .mockReturnValue({ options: [] });
-
-      component['updateColumnDefs']();
-
-      expect(component.gridApi.setGridOption).toHaveBeenCalledWith(
-        'columnDefs',
-        expect.any(Array)
+  describe('ngOnInit', () => {
+    it('should call setColumnDefinitions', () => {
+      const setColumnDefinitionsSpy = jest.spyOn<any, any>(
+        component,
+        'setColumnDefinitions'
       );
+
+      component.ngOnInit();
+
+      expect(setColumnDefinitionsSpy).toHaveBeenCalled();
     });
 
-    it('should call getAlertTableColumnDefinitions with correct parameters', () => {
-      component.gridApi = Stub.getGridApi();
-      jest.spyOn(component.gridApi, 'setGridOption');
-      const getAlertTableColumnDefinitionsSpy = jest.spyOn(
-        ColDefHelper,
-        'getAlertTableColumnDefinitions'
+    it('should subscribe to the alertService refresh event and call refreshHashTimer', () => {
+      const refreshHashTimerSpy = jest.spyOn(
+        component['alertService'],
+        'refreshHashTimer'
       );
-      jest
-        .spyOn(component['selectableOptionsService'], 'get')
-        .mockReturnValue({ options: [] });
-
-      component['updateColumnDefs']();
-
-      expect(getAlertTableColumnDefinitionsSpy).toHaveBeenCalledWith(
-        component['agGridLocalizationService'],
-        []
+      const getRefreshEventSpy = jest.spyOn(
+        component['alertService'],
+        'getRefreshEvent'
       );
+
+      component.ngOnInit();
+      component['alertService']['refreshEvent'].next();
+
+      expect(getRefreshEventSpy).toHaveBeenCalled();
+      expect(refreshHashTimerSpy).toHaveBeenCalled();
     });
+  });
 
-    it('should map column definitions correctly', () => {
-      component.gridApi = Stub.getGridApi();
-      jest.spyOn(component.gridApi, 'setGridOption');
-      jest
-        .spyOn(component['selectableOptionsService'], 'get')
-        .mockReturnValue({ options: [] });
-      const columnDefinitions = [
-        {
-          field: 'testField',
-          colId: 'testColId',
-          filter: 'testFilter',
-          filterParams: 'testFilterParams',
-          sortable: true,
-          flex: 1,
-          type: 'testType',
-          cellRenderer: 'testCellRenderer',
-          minWidth: 100,
-          maxWidth: 200,
-          tooltipValueGetter: 'testTooltipValueGetter',
-          tooltipField: 'testTooltipField',
-          valueFormatter: 'testValueFormatter',
-        },
+  describe('setConfig', () => {
+    it('should set the table configuration with the provided column definitions', () => {
+      const mockColumnDefs = [
+        { field: 'col1', headerName: 'Column 1' },
+        { field: 'col2', headerName: 'Column 2' },
       ];
+      const setSpy = jest.spyOn(component['config'], 'set');
 
-      jest
-        .spyOn(ColDefHelper, 'getAlertTableColumnDefinitions')
-        .mockReturnValue(columnDefinitions as any);
+      component['setConfig'](mockColumnDefs);
 
-      component['updateColumnDefs']();
+      expect(setSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          table: expect.objectContaining({
+            tableId: 'alerts',
+            columnDefs: [
+              {
+                columnDefs: [
+                  { field: 'col1', headerName: 'Column 1' },
+                  { field: 'col2', headerName: 'Column 2' },
+                ],
+                layoutId: 0,
+                title: 'table.defaultTab',
+              },
+            ],
+          }),
+        })
+      );
+    });
 
-      expect(component.gridApi.setGridOption).toHaveBeenCalledWith(
-        'columnDefs',
+    it('should add context menu entries for alerts with openFunction', () => {
+      const mockColumnDefs = [] as any;
+      const mockAlert = {
+        id: '1',
+        openFunction: 'someFunction',
+        customerNumber: '123',
+        customerName: 'Customer Name',
+        materialNumber: '456',
+        materialDescription: 'Material Description',
+        type: 'alertType',
+      };
+      component['setConfig'](mockColumnDefs);
+      const getMenu = component['config']()['table'].context.getMenu;
+
+      const menu = getMenu({ data: mockAlert });
+
+      expect(menu).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            field: 'testField',
-            headerName: 'testColId',
-            sortable: true,
-            filter: 'testFilter',
-            flex: 1,
-            type: 'testType',
-            cellRenderer: 'testCellRenderer',
-            minWidth: 100,
-            maxWidth: 200,
-            tooltipValueGetter: 'testTooltipValueGetter',
-            tooltipField: 'testTooltipField',
-            colId: 'testField',
-            valueFormatter: 'testValueFormatter',
+            text: expect.any(String),
+            submenu: expect.any(Array),
           }),
         ])
       );
     });
 
-    it('should add fixed action column definition', () => {
-      component.gridApi = Stub.getGridApi();
-      jest.spyOn(component.gridApi, 'setGridOption');
-      jest
-        .spyOn(component['selectableOptionsService'], 'get')
-        .mockReturnValue({ options: [] });
+    it('should add a "complete" menu entry for open alerts', () => {
+      const mockColumnDefs = [] as any;
+      const mockAlert = {
+        id: '1',
+        open: true,
+        deactivated: false,
+      };
+      const completeAlertSpy = jest
+        .spyOn(component['alertService'], 'completeAlert')
+        .mockReturnValue(of(null));
+      component['setConfig'](mockColumnDefs);
+      const getMenu = component['config']()['table'].context.getMenu;
 
-      component['updateColumnDefs']();
-
-      expect(component.gridApi.setGridOption).toHaveBeenCalledWith(
-        'columnDefs',
-        expect.arrayContaining([
-          expect.objectContaining({
-            cellClass: ['fixed-action-column'],
-            field: 'menu',
-            headerName: '',
-            cellRenderer: ActionsMenuCellRendererComponent,
-            lockVisible: true,
-            pinned: 'right',
-            lockPinned: true,
-            suppressHeaderMenuButton: true,
-            maxWidth: 64,
-            suppressSizeToFit: true,
-          }),
-        ])
+      const menu = getMenu({ data: mockAlert });
+      const completeMenu = menu.find((item: any) =>
+        item.text.includes('alert.action_menu.complete')
       );
-    });
-  });
 
-  describe('onGridReady', () => {
-    let event: GridReadyEvent<Alert>;
-
-    beforeEach(() => {
-      event = {
-        api: Stub.getGridApi(),
-      } as GridReadyEvent<Alert>;
-      component.gridApi = event.api;
-
-      jest.spyOn(component.getApi, 'emit');
-      jest.spyOn(component as any, 'updateColumnDefs');
-      jest.spyOn(component as any, 'setServerSideDatasource');
-      jest
-        .spyOn(component['alertService'], 'getDataFetchedEvent')
-        .mockReturnValue(of({ rowCount: 10 } as any));
+      expect(completeMenu).toBeDefined();
+      completeMenu.onClick();
+      expect(completeAlertSpy).toHaveBeenCalledWith('1');
     });
 
-    it('should set gridApi and emit the event', () => {
-      component['onGridReady'](event);
+    it('should add an "activate" menu entry for deactivated alerts', () => {
+      const mockColumnDefs = [] as any;
+      const mockAlert = {
+        id: '1',
+        deactivated: true,
+      };
+      const activateAlertSpy = jest
+        .spyOn(component['alertService'], 'activateAlert')
+        .mockReturnValue(of(null));
+      component['setConfig'](mockColumnDefs);
+      const getMenu = component['config']()['table'].context.getMenu;
 
-      expect(component.gridApi).toBe(event.api);
-      expect(component.getApi.emit).toHaveBeenCalledWith(event.api);
-    });
-
-    it('should call updateColumnDefs if gridApi is set', () => {
-      component['onGridReady'](event);
-
-      expect(component['updateColumnDefs']).toHaveBeenCalled();
-    });
-
-    it('should call setServerSideDatasource with status and priorities if gridApi is set', () => {
-      component['onGridReady'](event);
-
-      expect(component['setServerSideDatasource']).toHaveBeenCalledWith(
-        AlertStatus.ACTIVE,
-        [Priority.Priority1]
+      const menu = getMenu({ data: mockAlert });
+      const activateMenu = menu.find((item: any) =>
+        item.text.includes('alert.action_menu.activate')
       );
+
+      expect(activateMenu).toBeDefined();
+      activateMenu.onClick();
+      expect(activateAlertSpy).toHaveBeenCalledWith('1');
     });
 
-    it('should subscribe to alertService.getDataFetchedEvent and set rowCount', (done) => {
-      component['onGridReady'](event);
+    it('should add a "deactivate" menu entry for active alerts', () => {
+      const mockColumnDefs = [] as any;
+      const mockAlert = {
+        id: '1',
+        open: true,
+        deactivated: false,
+      };
+      const deactivateAlertSpy = jest
+        .spyOn(component['alertService'], 'deactivateAlert')
+        .mockReturnValue(of(null));
+      component['setConfig'](mockColumnDefs);
+      const getMenu = component['config']()['table'].context.getMenu;
 
-      setTimeout(() => {
-        expect(component['rowCount']()).toBe(10);
-        done();
-      });
-    });
-
-    it('should set isGridAutoSized to true and call autoSizeAllColumns if not already set', () => {
-      component['isGridAutoSized'].set(false);
-      jest.spyOn(component['isGridAutoSized'], 'set');
-      jest.spyOn(event.api, 'autoSizeAllColumns');
-
-      component['onGridReady'](event);
-
-      expect(component['isGridAutoSized'].set).toHaveBeenCalledWith(true);
-      expect(event.api.autoSizeAllColumns).toHaveBeenCalled();
-    });
-
-    it('should not call autoSizeAllColumns if isGridAutoSized is already set', () => {
-      component['isGridAutoSized'].set(true);
-      jest.spyOn(event.api, 'autoSizeAllColumns');
-
-      component['onGridReady'](event);
-
-      expect(event.api.autoSizeAllColumns).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('getRowId', () => {
-    it('should return the id of the alert', () => {
-      const params = {
-        data: { id: '123' },
-      } as GetRowIdParams<Alert>;
-
-      const result = component['getRowId'](params);
-
-      expect(result).toBe('123');
-    });
-
-    it('should return undefined if the alert id is not present', () => {
-      const params = {
-        data: {},
-      } as GetRowIdParams<Alert>;
-
-      const result = component['getRowId'](params);
-
-      expect(result).toBeUndefined();
-    });
-
-    it('should handle null data gracefully', () => {
-      const params = {
-        data: null,
-      } as GetRowIdParams<Alert>;
-
-      const result = component['getRowId'](params);
-
-      expect(result).toBeUndefined();
-    });
-
-    it('should handle undefined data gracefully', () => {
-      const params = {
-        data: undefined,
-      } as GetRowIdParams<Alert>;
-
-      const result = component['getRowId'](params);
-
-      expect(result).toBeUndefined();
-    });
-  });
-
-  describe('onFirstDataRendered', () => {
-    it('should call autoSizeAllColumns on the grid API', () => {
-      const event = {
-        api: {
-          autoSizeAllColumns: jest.fn(),
-        },
-      } as unknown as FirstDataRenderedEvent;
-
-      component['onFirstDataRendered'](event);
-
-      expect(event.api.autoSizeAllColumns).toHaveBeenCalled();
-    });
-
-    it('should handle null event gracefully', () => {
-      const event = null as unknown as FirstDataRenderedEvent;
-
-      expect(() => component['onFirstDataRendered'](event)).not.toThrow();
-    });
-
-    it('should handle undefined event gracefully', () => {
-      const event = undefined as unknown as FirstDataRenderedEvent;
-
-      expect(() => component['onFirstDataRendered'](event)).not.toThrow();
-    });
-
-    it('should handle event with null API gracefully', () => {
-      const event = {
-        api: null,
-      } as unknown as FirstDataRenderedEvent;
-
-      expect(() => component['onFirstDataRendered'](event)).not.toThrow();
-    });
-
-    it('should handle event with undefined API gracefully', () => {
-      const event = {
-        api: undefined,
-      } as unknown as FirstDataRenderedEvent;
-
-      expect(() => component['onFirstDataRendered'](event)).not.toThrow();
-    });
-  });
-
-  describe('setServerSideDatasource', () => {
-    it('should set serverSideDatasource on gridApi', () => {
-      component.gridApi = Stub.getGridApi();
-      jest.spyOn(component.gridApi, 'setGridOption');
-      jest
-        .spyOn(component['alertService'], 'createAlertDatasource')
-        .mockReturnValue({} as any);
-
-      component['setServerSideDatasource'](AlertStatus.ACTIVE, [
-        Priority.Priority1,
-      ]);
-
-      expect(component.gridApi.setGridOption).toHaveBeenCalledWith(
-        'serverSideDatasource',
-        expect.any(Object)
+      const menu = getMenu({ data: mockAlert });
+      const deactivateMenu = menu.find((item: any) =>
+        item.text.includes('alert.action_menu.deactivate')
       );
-    });
 
-    it('should call createAlertDatasource with correct parameters', () => {
-      component.gridApi = Stub.getGridApi();
-      const createAlertDatasourceSpy = jest
-        .spyOn(component['alertService'], 'createAlertDatasource')
-        .mockReturnValue({} as any);
-
-      component['setServerSideDatasource'](AlertStatus.ACTIVE, [
-        Priority.Priority1,
-      ]);
-
-      expect(createAlertDatasourceSpy).toHaveBeenCalledWith(
-        AlertStatus.ACTIVE,
-        [Priority.Priority1]
-      );
-    });
-
-    it('should handle null status and priorities gracefully', () => {
-      component.gridApi = Stub.getGridApi();
-      jest.spyOn(component.gridApi, 'setGridOption');
-      jest
-        .spyOn(component['alertService'], 'createAlertDatasource')
-        .mockReturnValue({} as any);
-
-      component['setServerSideDatasource'](null, null);
-
-      expect(component.gridApi.setGridOption).toHaveBeenCalledWith(
-        'serverSideDatasource',
-        expect.any(Object)
-      );
-    });
-
-    it('should handle empty priorities array gracefully', () => {
-      component.gridApi = Stub.getGridApi();
-      jest.spyOn(component.gridApi, 'setGridOption');
-      jest
-        .spyOn(component['alertService'], 'createAlertDatasource')
-        .mockReturnValue({} as any);
-
-      component['setServerSideDatasource'](AlertStatus.ACTIVE, []);
-
-      expect(component.gridApi.setGridOption).toHaveBeenCalledWith(
-        'serverSideDatasource',
-        expect.any(Object)
-      );
-    });
-  });
-
-  describe('onDataUpdated', () => {
-    beforeEach(() => {
-      component.gridApi = Stub.getGridApi();
-    });
-
-    it('should show no rows overlay if displayed row count is 0', () => {
-      jest.spyOn(component.gridApi, 'getDisplayedRowCount').mockReturnValue(0);
-      jest.spyOn(component.gridApi, 'showNoRowsOverlay');
-
-      component['onDataUpdated']();
-
-      expect(component.gridApi.showNoRowsOverlay).toHaveBeenCalled();
-    });
-
-    it('should hide overlay if displayed row count is greater than 0', () => {
-      jest.spyOn(component.gridApi, 'getDisplayedRowCount').mockReturnValue(1);
-      jest.spyOn(component.gridApi, 'hideOverlay');
-
-      component['onDataUpdated']();
-
-      expect(component.gridApi.hideOverlay).toHaveBeenCalled();
-    });
-
-    it('should not throw an error if gridApi is not defined', () => {
-      component.gridApi = undefined;
-
-      expect(() => component['onDataUpdated']()).not.toThrow();
+      expect(deactivateMenu).toBeDefined();
+      deactivateMenu.onClick();
+      expect(deactivateAlertSpy).toHaveBeenCalledWith('1');
     });
   });
 });

@@ -1,8 +1,6 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
-  DestroyRef,
   effect,
   inject,
   input,
@@ -17,48 +15,45 @@ import {
   MatSlideToggleChange,
 } from '@angular/material/slide-toggle';
 
-import { filter, take, tap } from 'rxjs';
+import { filter, map, Observable, of, take, tap } from 'rxjs';
 
-import { translate } from '@jsverse/transloco';
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 import { Store } from '@ngrx/store';
-import { AgGridModule } from 'ag-grid-angular';
-import {
-  ColDef,
-  FirstDataRenderedEvent,
-  GetRowIdFunc,
-  GetRowIdParams,
-  GetServerSideGroupKey,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-  ICellRendererParams,
-  IsServerSideGroup,
-  IsServerSideGroupOpenByDefaultParams,
-} from 'ag-grid-enterprise';
+import { GetRowIdParams, ICellRendererParams } from 'ag-grid-enterprise';
 
 import { getBackendRoles } from '@schaeffler/azure-auth';
-import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CMPService } from '../../../../../feature/customer-material-portfolio/cmp.service';
 import {
   parsePortfolioStatusOrNull,
   PortfolioStatus,
 } from '../../../../../feature/customer-material-portfolio/cmp-modal-types';
-import { CMPEntry } from '../../../../../feature/customer-material-portfolio/model';
+import {
+  CMPEntry,
+  CMPResponse,
+} from '../../../../../feature/customer-material-portfolio/model';
+/* eslint-disable max-lines */
+import { GlobalSelectionUtils } from '../../../../../feature/global-selection/global-selection.utils';
 import { CustomerEntry } from '../../../../../feature/global-selection/model';
 import { CriteriaFields } from '../../../../../feature/material-customer/model';
 import {
   getColFilter,
   getDefaultColDef,
-  serverSideTableDefaultProps,
-  sideBar,
 } from '../../../../../shared/ag-grid/grid-defaults';
 import { ActionsMenuCellRendererComponent } from '../../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
-import { TableToolbarComponent } from '../../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
-import { GlobalSelectionState } from '../../../../../shared/components/global-selection-criteria/global-selection-state.service';
-import { AgGridLocalizationService } from '../../../../../shared/services/ag-grid-localization.service';
-import { SelectableOptionsService } from '../../../../../shared/services/selectable-options.service';
+import {
+  GlobalSelectionState,
+  GlobalSelectionStateService,
+} from '../../../../../shared/components/global-selection-criteria/global-selection-state.service';
+import {
+  AbstractBackendTableComponent,
+  BackendTableComponent,
+  BackendTableResponse,
+  ExtendedColumnDefs,
+  RequestParams,
+  RequestType,
+  TableCreator,
+} from '../../../../../shared/components/table';
 import {
   checkRoles,
   customerMaterialPortfolioChangeAllowedRoles,
@@ -66,31 +61,23 @@ import {
 import { CMPAction, CMPModal, statusActions } from '../status-actions';
 import { CMPColId, columnDefinitions } from './column-definitions';
 
-export interface FilterModel {
-  [key: string]: any;
-}
-
 @Component({
   selector: 'd360-customer-material-portfolio-table',
-  imports: [
-    CommonModule,
-    TableToolbarComponent,
-    SharedTranslocoModule,
-    MatSlideToggle,
-    AgGridModule,
-  ],
+  imports: [TranslocoDirective, MatSlideToggle, BackendTableComponent],
   templateUrl: './customer-material-portfolio-table.component.html',
 })
-export class CustomerMaterialPortfolioTableComponent implements OnInit {
+export class CustomerMaterialPortfolioTableComponent
+  extends AbstractBackendTableComponent
+  implements OnInit
+{
   private readonly store = inject(Store);
-  private readonly destroyRef: DestroyRef = inject(DestroyRef);
-  private readonly translocoLocaleService = inject(TranslocoLocaleService);
-  private readonly selectableOptionsService = inject(SelectableOptionsService);
+  private readonly globalSelectionStateService = inject(
+    GlobalSelectionStateService
+  );
+  private readonly cmpService = inject(CMPService);
 
   public selectedCustomer = input.required<CustomerEntry>();
   public globalSelection = input.required<GlobalSelectionState>();
-  public filterModel = input.required<FilterModel>();
-
   public refreshCounter: InputSignal<number> = input.required<number>();
   public openSingleDialog: InputSignal<
     (
@@ -99,31 +86,58 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
       changeToStatus: PortfolioStatus
     ) => void
   > = input.required();
-
-  protected showChains = false;
   protected toggleIsActive = input.required<boolean>();
 
-  protected gridOptions: GridOptions = {
-    ...serverSideTableDefaultProps,
-    sideBar,
-  };
-  protected childMaterialsCache: Map<string, CMPEntry[]> = new Map();
-  protected rowCount = signal<number>(0);
+  protected showChains = false;
+
+  private readonly materialCache: Map<string, CMPEntry[]> = new Map();
 
   protected criteriaData: WritableSignal<CriteriaFields> =
     signal<CriteriaFields>(null);
 
-  protected gridApi: GridApi | null = null;
+  /** @inheritdoc */
+  protected readonly getData$ = (
+    params: RequestParams,
+    requestType: RequestType
+  ): Observable<BackendTableResponse> => {
+    if (this.globalSelectionStateService.isEmpty()) {
+      return of({ rows: [], rowCount: 0 });
+    }
 
-  protected getRowIdFn: GetRowIdFunc = (params: GetRowIdParams) =>
-    `${params.data.customerNumber}-${params.data.materialNumber}`;
+    let selectionFilters = {
+      ...GlobalSelectionUtils.globalSelectionCriteriaToFilter(
+        this.globalSelection()
+      ),
+      customerNumber: [this.selectedCustomer().customerNumber],
+    };
+    const requestParams = { ...params };
 
-  protected autoGroupColumnDef: ColDef | undefined = {
-    field: 'materialNumber',
-    headerName: translate(`material_customer.column.materialNumber`),
-    minWidth: 280,
-    pinned: 'left',
-    lockPinned: true,
+    if (requestType === RequestType.GroupClick) {
+      const headMaterialNumber = params.groupKeys[0];
+      if (this.materialCache.has(headMaterialNumber)) {
+        const materials = this.materialCache.get(headMaterialNumber) ?? [];
+
+        return of({ rows: materials, rowCount: materials.length });
+      } else {
+        selectionFilters = {
+          customerNumber: [this.selectedCustomer().customerNumber],
+          materialNumber: [headMaterialNumber],
+        };
+        requestParams.columnFilters = [];
+      }
+    }
+
+    return this.cmpService.getCMPData(selectionFilters, requestParams).pipe(
+      map((response: CMPResponse) => {
+        const { childOfHeadMaterial, headMaterials } = response;
+        for (const [key, value] of Object.entries(childOfHeadMaterial)) {
+          this.materialCache.set(key, value);
+        }
+
+        return headMaterials;
+      }),
+      takeUntilDestroyed(this.destroyRef)
+    );
   };
 
   private readonly backendRoles = toSignal(this.store.select(getBackendRoles));
@@ -137,79 +151,91 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
       : false
   );
 
-  protected context: Record<string, any> = {
-    isDisabled: () => !this.authorizedToChange(),
-    getMenu: (params: ICellRendererParams<any, CMPEntry>) =>
-      statusActions
-        .filter((cmpAction: CMPAction) =>
-          cmpAction.isAllowed(
-            parsePortfolioStatusOrNull(params.node.data.portfolioStatus),
-            !!params.node.data.successorSchaefflerMaterial &&
-              params.node.data.successorSchaefflerMaterial
-          )
-        )
-        .map((cmpAction: CMPAction) => ({
-          text: translate(
-            `customer.material_portfolio.modal.action.${cmpAction.name}`
-          ),
-          onClick: () =>
-            this.openSingleDialog()(
-              cmpAction.modal,
-              params.node.data,
-              cmpAction.changeToStatus
-            ),
-        })),
-  };
-
-  protected getServerSideGroup: IsServerSideGroup | undefined = (data) =>
-    data.hasChildren;
-
-  protected getServerSideGroupOpenByDefault:
-    | ((params: IsServerSideGroupOpenByDefaultParams) => boolean)
-    | undefined = () => false;
-
-  protected getServerSideGroupKey: GetServerSideGroupKey | undefined = (data) =>
-    data.materialNumber;
+  private readonly params = computed(() => ({
+    selectedCustomer: this.selectedCustomer(),
+    globalSelection: this.globalSelection(),
+    criteriaData: this.criteriaData(),
+  }));
 
   /**
    * Constructor for the CustomerMaterialPortfolioTableComponent.
    * It sets up effects to react to changes in selected customer, global selection, filter model, and refresh counter.
    * Also initializes AG-Grid options and fetches criteria data on component initialization.
    *
-   * @param {CMPService} cmpService
-   * @param {AgGridLocalizationService} agGridLocalizationService
    * @memberof CustomerMaterialPortfolioTableComponent
    */
-  public constructor(
-    private readonly cmpService: CMPService,
-    protected readonly agGridLocalizationService: AgGridLocalizationService
-  ) {
-    effect(
-      () =>
-        (this.selectedCustomer() || this.globalSelection()) &&
-        this.setServerSideDatasource()
-    );
+  public constructor() {
+    super();
 
-    effect(() => {
-      if (this.criteriaData()) {
-        this.initializeColumnDefs();
-      }
-    });
+    effect(() => this.params() && this.reload$().next(true));
 
     effect(() => (this.showChains = this.toggleIsActive()));
 
     effect(() => {
       if (this.refreshCounter() > 0) {
-        const groupIds = [...this.childMaterialsCache.keys()];
-        this.childMaterialsCache.clear();
+        this.materialCache.clear();
 
         this.gridApi?.refreshServerSide();
 
-        groupIds.forEach((key: string) =>
+        [...this.materialCache.keys()].forEach((key: string) =>
           this.gridApi.refreshServerSide({ route: [key], purge: true })
         );
       }
     });
+  }
+
+  /** @inheritdoc */
+  protected setConfig(columnDefs: ExtendedColumnDefs[]): void {
+    this.config.set(
+      TableCreator.get({
+        table: TableCreator.getTable({
+          tableId: 'customer-material-portfolio',
+          context: {
+            isDisabled: () => !this.authorizedToChange(),
+            getMenu: (params: ICellRendererParams<any, CMPEntry>) =>
+              statusActions
+                .filter((cmpAction: CMPAction) =>
+                  cmpAction.isAllowed(
+                    parsePortfolioStatusOrNull(
+                      params.node.data.portfolioStatus
+                    ),
+                    !!params.node.data.successorSchaefflerMaterial &&
+                      params.node.data.successorSchaefflerMaterial
+                  )
+                )
+                .map((cmpAction: CMPAction) => ({
+                  text: translate(
+                    `customer.material_portfolio.modal.action.${cmpAction.name}`
+                  ),
+                  onClick: () =>
+                    this.openSingleDialog()(
+                      cmpAction.modal,
+                      params.node.data,
+                      cmpAction.changeToStatus
+                    ),
+                })),
+          },
+          columnDefs,
+          getRowId: ({ data }: GetRowIdParams) =>
+            `${data.customerNumber}-${data.materialNumber}`,
+          serverSideAutoGroup: TableCreator.getServerSideAutoGroup({
+            autoGroupColumnDef: {
+              field: 'materialNumber',
+              headerName: translate(`material_customer.column.materialNumber`),
+              minWidth: 280,
+              pinned: 'left',
+              lockPinned: true,
+            },
+            isServerSideGroup: (data) => data.hasChildren,
+            getServerSideGroupKey: (data) => data.materialNumber,
+          }),
+        }),
+        isLoading$: this.selectableOptionsService.loading$,
+        hasTabView: true,
+        maxAllowedTabs: 5,
+        callbacks: { onFirstDataRendered: () => this.handleDataFetchedEvent() },
+      })
+    );
   }
 
   /** @inheritdoc */
@@ -226,16 +252,19 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
   private fetchCriteriaData(): void {
     this.cmpService
       .getCMPCriteriaData()
+      .pipe(
+        take(1),
+        tap((criteriaData: CriteriaFields) => {
+          this.criteriaData.set(criteriaData);
+          this.setColumnDefinitions();
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe((criteriaData) => this.criteriaData.set(criteriaData));
   }
 
-  /**
-   * Initialize column definitions for AG-Grid based on fetched criteria data
-   *
-   * @private
-   * @memberof CustomerMaterialPortfolioTableComponent
-   */
-  private initializeColumnDefs(): void {
+  /** @inheritdoc */
+  protected setColumnDefinitions(): void {
     const mapColumnData = (def: any) => ({
       field: def.colId,
       lockVisible: def.alwaysVisible,
@@ -250,6 +279,7 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
       tooltipComponent: def.tooltipComponent,
       tooltipField: def.tooltipField,
       valueFormatter: def?.valueFormatter,
+      visible: def.visible,
     });
 
     this.selectableOptionsService.loading$
@@ -257,7 +287,7 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
         filter((loading) => !loading),
         take(1),
         tap(() =>
-          this.gridApi?.setGridOption('columnDefs', [
+          this.setConfig([
             ...columnDefinitions(
               this.agGridLocalizationService,
               this.selectableOptionsService
@@ -281,7 +311,7 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
               maxWidth: 64,
               suppressSizeToFit: true,
             },
-          ] as ColDef[])
+          ])
         ),
         takeUntilDestroyed(this.destroyRef)
       )
@@ -303,37 +333,6 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
       this.gridApi?.collapseAll();
     }
   }
-  /**
-   * Handle AG-Grid's gridReady event, set up data source and handle events
-   *
-   * @protected
-   * @param {GridReadyEvent} event
-   * @memberof CustomerMaterialPortfolioTableComponent
-   */
-  protected onGridReady(event: GridReadyEvent): void {
-    this.gridApi = event.api;
-    this.setServerSideDatasource();
-    this.handleDataFetchedEvents();
-  }
-
-  /**
-   * Set up a server-side datasource for AG-Grid based on selected customer and global selection state
-   *
-   * @private
-   * @memberof CustomerMaterialPortfolioTableComponent
-   */
-  private setServerSideDatasource(): void {
-    this.rowCount.set(0);
-    this.gridApi?.setGridOption(
-      'serverSideDatasource',
-      this.cmpService.createCustomerMaterialPortfolioDatasource(
-        this.selectedCustomer(),
-        this.globalSelection(),
-        this.childMaterialsCache,
-        this.gridApi
-      )
-    );
-  }
 
   /**
    * Handle events related to data fetching, such as updating the row count and showing/hiding the no rows overlay
@@ -341,33 +340,13 @@ export class CustomerMaterialPortfolioTableComponent implements OnInit {
    * @private
    * @memberof CustomerMaterialPortfolioTableComponent
    */
-  private handleDataFetchedEvents(): void {
-    this.cmpService
-      .getDataFetchedEvent()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((value) => {
-        this.rowCount.set(value.headMaterials.rowCount);
-        if (this.rowCount() === 0) {
-          this.gridApi?.showNoRowsOverlay();
-        } else {
-          this.gridApi?.hideOverlay();
-
-          // if the rows are expanded, we need to expand the reloaded data too.
-          if (this.showChains) {
-            this.gridApi?.expandAll();
-          }
-        }
-      });
-  }
-
-  /**
-   * Handle AG-Grid's firstDataRendered event, typically used for auto-resizing columns
-   *
-   * @protected
-   * @param {FirstDataRenderedEvent} $event
-   * @memberof CustomerMaterialPortfolioTableComponent
-   */
-  protected onFirstDataRendered($event: FirstDataRenderedEvent): void {
-    $event.api.autoSizeAllColumns();
+  private handleDataFetchedEvent(): void {
+    this.dataFetchedEvent$
+      .pipe(
+        take(1),
+        tap(() => this.showChains && this.gridApi?.expandAll()),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
   }
 }

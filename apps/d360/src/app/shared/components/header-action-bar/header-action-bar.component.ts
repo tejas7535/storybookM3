@@ -6,7 +6,6 @@ import {
   InputSignal,
   QueryList,
 } from '@angular/core';
-import { MatDividerModule } from '@angular/material/divider';
 
 @Directive({
   selector: '[d360HeaderActionBarButtons], [d360HeaderActionBarChildren]',
@@ -15,7 +14,7 @@ export class ProjectedContendDirective {}
 
 @Component({
   selector: 'd360-header-action-bar',
-  imports: [MatDividerModule],
+  imports: [],
   templateUrl: './header-action-bar.component.html',
   styleUrls: ['./header-action-bar.component.scss'],
 })

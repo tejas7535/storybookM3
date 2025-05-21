@@ -1,8 +1,4 @@
 <div *transloco="let t" class="flex flex-col w-full">
-  @if ((selectableOptionsService.loading$ | ngrxPush) || loading()) {
-    <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
-  }
-
   <d360-styled-section [grow]="true" class="flex flex-col h-full">
     <h2 class="text-title-large">{{ t('alert_rules.title', {}) }}</h2>
 
@@ -25,18 +21,12 @@
       </div>
     </d360-header-action-bar>
 
-    <d360-table-toolbar
-      [rowCount]="gridApi?.getDisplayedRowCount()"
-      [grid]="gridApi"
-      [openFloatingFilters]="gridApi && hasFilters()"
-    />
-
     <!-- Alert Rule Table  -->
     <d360-alert-rule-table
       #alertRuleTableComponent
       [editAlertRuleCallback]="handleCreateSingleAlertRule.bind(this)"
-      [loadData$]="loadData$.bind(this)"
-      (getApi)="getApi($event)"
+      (getApi)="gridApi = $event"
+      [reload$]="reload$"
     />
   </d360-styled-section>
 </div>

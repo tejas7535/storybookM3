@@ -1,10 +1,5 @@
-import { translate } from '@jsverse/transloco';
-
 import { Stub } from '../../shared/test/stub.class';
-import {
-  CustomerSalesPlanningLayout,
-  OverviewComponent,
-} from './overview.component';
+import { OverviewComponent } from './overview.component';
 
 describe('OverviewComponent', () => {
   let component: OverviewComponent;
@@ -39,24 +34,6 @@ describe('OverviewComponent', () => {
       });
       expect(component['gkamFilterIds']()).toEqual(['gkam-id']);
       expect(component['customerFilterIds']()).toEqual(['customer-id']);
-    });
-
-    it('should have the previousToCurrent layout by default', () => {
-      expect(component['selectedLayout']()).toBe(
-        CustomerSalesPlanningLayout.PreviousToCurrent
-      );
-    });
-  });
-
-  describe('onLayoutSelectionChange', () => {
-    it('should select the column layout', () => {
-      component['onLayoutSelectionChange']({
-        id: CustomerSalesPlanningLayout.CurrentToNext,
-        text: translate('overview.yourCustomer.layout.currentToNext'),
-      });
-      expect(component['selectedLayout']()).toBe(
-        CustomerSalesPlanningLayout.CurrentToNext
-      );
     });
   });
 

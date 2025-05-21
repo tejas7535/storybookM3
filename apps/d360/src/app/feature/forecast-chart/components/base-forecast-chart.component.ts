@@ -15,10 +15,7 @@ import { TopLevelFormatterParams } from 'echarts/types/src/component/tooltip/Too
 import { dimmedGrey } from '../../../shared/styles/colors';
 import { KpiSeriesOption, MonthlyChartEntry } from '../model';
 
-@Component({
-  template: '',
-  standalone: false,
-})
+@Component({ template: '' })
 export abstract class BaseForecastChartComponent {
   public data = input.required<MonthlyChartEntry[]>();
   public toggledKpis = input.required<Record<string, boolean>>();

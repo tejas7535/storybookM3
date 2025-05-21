@@ -7,23 +7,18 @@
     </div>
 
     <div class="flex flex-col gap-2">
-      <h2 class="text-headline-small">{{ title() }}</h2>
-      <p class="text-body-small text-medium-emphasis">{{ subtitle() }}</p>
+      <h2 class="text-headline-small">{{ title }}</h2>
+      <p class="text-body-small text-medium-emphasis">{{ subtitle }}</p>
     </div>
   </div>
 
   <d360-styled-section [grow]="true" class="flex flex-col h-full w-full">
-    <ag-grid-angular
-      class="ag-theme-material h-full"
-      [gridOptions]="gridOptions"
-      [loading]="isLoading()"
-      [localeText]="agGridLocalizationService.lang()"
-      (dragStopped)="columnSettingsService.saveFromAgGridEvent($event)"
-      (columnVisible)="columnSettingsService.saveFromAgGridEvent($event)"
-      (sortChanged)="columnSettingsService.saveFromAgGridEvent($event)"
-      (gridReady)="onGridReady($event)"
-      [tooltipShowDelay]="150"
-      [tooltipHideDelay]="300000"
+    <d360-frontend-table
+      class="!flex flex-col w-full h-full"
+      [config]="config()!"
+      [getData]="getData$"
+      (getGridApi)="setGridApi($event)"
+      [reload$]="reload$()"
     />
   </d360-styled-section>
 </div>

@@ -25,7 +25,7 @@ import {
 } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 
 import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
 import { TranslocoService } from '@jsverse/transloco';
@@ -49,13 +49,10 @@ import { MaterialCustomerService } from '../../feature/material-customer/materia
 import { OverviewService } from '../../feature/overview/overview.service';
 import { PlanningLevelService } from '../../feature/sales-planning/planning-level.service';
 import { SalesPlanningService } from '../../feature/sales-planning/sales-planning.service';
-import { AlertRulesColumnSettingsService } from '../../pages/alert-rules/table/services/alert-rules-column-settings.service';
 import { ExportMaterialCustomerService } from '../../pages/home/table/services/export-material-customer.service';
 import { MaterialCustomerTableService } from '../../pages/home/table/services/material-customer-table.service';
-import { CustomerSalesPlanningColumnSettingsService } from '../../pages/overview/services/customer-sales-planning-column-settings.service';
-import { MonthlyCustomerPlanningDetailsColumnSettingsService } from '../../pages/sales-planning/components/customer-planning-details/monthly-customer-planning-details-modal/service/monthly-customer-planning-details-column-settings.service';
-import { YearlyCustomerPlanningDetailsColumnSettingsService } from '../../pages/sales-planning/components/customer-planning-details/service/customer-planning-details-column-settings.service';
 import { GlobalSelectionStateService } from '../components/global-selection-criteria/global-selection-state.service';
+import { TableService } from '../components/table';
 import { NumberWithoutFractionDigitsPipe } from '../pipes/number-without-fraction-digits.pipe';
 import { AgGridLocalizationService } from '../services/ag-grid-localization.service';
 import { SelectableOptionsService } from '../services/selectable-options.service';
@@ -271,13 +268,21 @@ export class Stub {
   public static getGridApi(): GridApi {
     return {
       addEventListener: jest.fn(),
+      applyColumnState: jest.fn(),
       applyServerSideTransaction: jest.fn(),
       applyTransaction: jest.fn(),
       autoSizeAllColumns: jest.fn(),
       collapseAll: jest.fn(),
+      deselectAll: jest.fn(),
       expandAll: jest.fn(),
+      getColumnDefs: jest.fn(),
+      getColumnState: jest.fn(),
       getDisplayedRowCount: jest.fn(),
+      getFilterModel: jest.fn(),
+      getSelectedRows: jest.fn(),
       hideOverlay: jest.fn(),
+      isDestroyed: jest.fn(),
+      onFilterChanged: jest.fn(),
       redrawRows: jest.fn(),
       refreshServerSide: jest.fn(),
       setColumnDefs: jest.fn(),
@@ -309,10 +314,8 @@ export class Stub {
     return {
       saveSingleIMRSubstitution: jest.fn(),
       saveMultiIMRSubstitution: jest.fn().mockReturnValue(of({} as any)),
-      createInternalMaterialReplacementDatasource: jest
-        .fn()
-        .mockReturnValue(() => {}),
       getDataFetchedEvent: jest.fn().mockReturnValue(of({ rowCount: 10 })),
+      getIMRData: jest.fn().mockReturnValue(of([])),
     } as any;
   }
 
@@ -370,17 +373,6 @@ export class Stub {
     return MockProvider(MAT_DIALOG_DATA, data, 'useValue');
   }
 
-  public static getAlertRulesColumnSettingsServiceProvider(): ValueProvider {
-    return MockProvider(
-      AlertRulesColumnSettingsService,
-      {
-        getColumnSettings: jest.fn().mockReturnValue(of([])),
-        applyStoredFilters: jest.fn(),
-      },
-      'useValue'
-    );
-  }
-
   public static getStoreProvider(returnValue?: any): ValueProvider {
     return MockProvider(
       Store,
@@ -401,7 +393,7 @@ export class Stub {
             sortableFields: [],
           })
         ),
-        createCustomerMaterialPortfolioDatasource: jest.fn(),
+        getCMPData: jest.fn().mockReturnValue(of([])),
       },
       'useValue'
     );
@@ -414,6 +406,7 @@ export class Stub {
         saveValidatedDemandSingleMcc: jest.fn().mockReturnValue(of('')),
         getKpiBuckets: jest.fn().mockReturnValue(of([])),
         saveValidatedDemandBatch: jest.fn(),
+        getMaterialCustomerData: jest.fn(),
         deleteValidatedDemandBatch: jest.fn(),
         getKpiData: jest.fn().mockReturnValue(of({})),
         triggerExport: jest.fn().mockReturnValue(of({})),
@@ -443,25 +436,7 @@ export class Stub {
   public static getMaterialCustomerTableServiceProvider(): ValueProvider {
     return MockProvider(
       MaterialCustomerTableService,
-      {
-        useMaterialCustomerColumnLayouts: jest.fn(),
-        createMaterialCustomerDatasource: jest.fn(),
-      },
-      'useValue'
-    );
-  }
-
-  public static getCustomerSalesPlanningColumnSettingsServiceProvider(): ValueProvider {
-    return MockProvider(
-      CustomerSalesPlanningColumnSettingsService,
-      {
-        useMaterialCustomerColumnLayouts: jest.fn(),
-        createMaterialCustomerDatasource: jest.fn(),
-        getColumnDefs: jest.fn(),
-        loadColumnSettings$: jest.fn(),
-        getColumnSettings: jest.fn(),
-        applyStoredFilters: jest.fn(),
-      },
+      { getMaterialCustomerData: jest.fn() },
       'useValue'
     );
   }
@@ -503,32 +478,10 @@ export class Stub {
     );
   }
 
-  public static getYearlyCustomerPlanningDetailsColumnSettingsServiceProvider(): ValueProvider {
-    return MockProvider(
-      YearlyCustomerPlanningDetailsColumnSettingsService,
-      { getColumnSettings: jest.fn(() => of([])) },
-      'useValue'
-    );
-  }
-
   public static getExportMaterialCustomerServiceProvider(): ValueProvider {
     return MockProvider(
       ExportMaterialCustomerService,
       { triggerExport: jest.fn().mockReturnValue(of(null)) },
-      'useValue'
-    );
-  }
-
-  public static getMonthlyCustomerPlanningDetailsColumnSettingsServiceProvider(): ValueProvider {
-    return MockProvider(
-      MonthlyCustomerPlanningDetailsColumnSettingsService,
-      {
-        getColumnSettings: jest.fn(),
-        saveColumnSettings$: jest.fn(),
-        loadColumnSettings$: jest.fn(),
-        saveFromAgGridEvent: jest.fn(),
-        applyStoredFilters: jest.fn(),
-      },
       'useValue'
     );
   }
@@ -577,6 +530,7 @@ export class Stub {
       AlertService,
       {
         init: () => {},
+        refreshEvent: new Subject<void>(),
         allActiveAlerts: signal<Alert[]>(null),
         getRefreshEvent: () => of(true),
         getDataFetchedEvent: () => of(true),
@@ -591,6 +545,7 @@ export class Stub {
         getLoadingEvent: () => of(false),
         getFetchErrorEvent: () => of(false),
         groupDataByCustomerAndPriority: (): GroupedAlert[] => [],
+        getAlertData: () => of({}),
       },
       'useValue'
     );
@@ -687,10 +642,22 @@ export class Stub {
   public static getOverviewProvider(): ValueProvider {
     return MockProvider(
       OverviewService,
+      { getRelevantPlanningKPIs: () => of() },
+      'useValue'
+    );
+  }
+
+  public static getTableServiceProvider(): ValueProvider {
+    return MockProvider(
+      TableService,
       {
-        createCustomerSalesPlanningDatasource: jest.fn(),
-        getDataFetchedEvent: () => of(),
-        getFetchErrorEvent: () => of(),
+        tableId: 'testTable',
+        columnDefinitions: [],
+        gridApi: Stub.getGridApi(),
+        addId: 999_999,
+        tableSettings$: new BehaviorSubject<any[]>([]),
+        init: () => {},
+        setTableSettings$: () => of(true),
       },
       'useValue'
     );

@@ -34,7 +34,7 @@ import { SingleAutocompleteOnTypeComponent } from '../../../../shared/components
 import { DisplayFunctions } from '../../../../shared/components/inputs/display-functions.utils';
 import { StyledSectionComponent } from '../../../../shared/components/styled-section/styled-section.component';
 import { NumberWithoutFractionDigitsPipe } from '../../../../shared/pipes/number-without-fraction-digits.pipe';
-import { CustomerSelectionChange } from '../../sales-planning.component';
+import { Customer } from '../../sales-planning.component';
 import { CustomerInfoModalComponent } from '../customer-info-modal/customer-info-modal.component';
 
 @Component({
@@ -57,8 +57,7 @@ export class CustomerSelectionComponent implements OnInit {
     customer: new FormControl<SelectableValue | null | string>(null),
   });
 
-  protected readonly onCustomerSelectionChange =
-    output<CustomerSelectionChange>();
+  protected readonly onCustomerSelectionChange = output<Customer>();
 
   protected selectedCustomer = signal<CustomerEntry>(null);
   protected selectedCustomerInfo = signal<CustomerInfo[]>([]);

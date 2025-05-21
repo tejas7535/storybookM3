@@ -1,26 +1,20 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { DestroyRef, inject, Injectable } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { inject, Injectable } from '@angular/core';
 
-import { map, Observable, of, Subject, tap } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import {
-  IServerSideDatasource,
-  IServerSideGetRowsParams,
-} from 'ag-grid-enterprise';
-
-import { formatFilterModelForBackend } from '../../shared/ag-grid/grid-filter-model';
+  BackendTableResponse,
+  RequestParams,
+} from '../../shared/components/table';
 import { MessageType } from '../../shared/models/message-type.enum';
 import { PostResult } from '../../shared/utils/error-handling';
 import { getErrorMessage } from '../../shared/utils/errors';
-import { GlobalSelectionCriteriaFilters } from '../global-selection/model';
-import { IMRRequest, IMRSubstitution, IMRSubstitutionResponse } from './model';
+import { IMRSubstitution, IMRSubstitutionResponse } from './model';
 import { dataToIMRSubstitutionRequest } from './request-helper';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class IMRService {
   private readonly IMR_MULTI_SUBSTITUTION_API =
     'api/internal-material-replacement/multi-substitution';
@@ -28,13 +22,6 @@ export class IMRService {
     'api/internal-material-replacement/single-substitution';
   private readonly IMR_API = 'api/internal-material-replacement';
 
-  private readonly dataFetchedEvent = new Subject<{
-    rowData: any[];
-    rowCount: number;
-  }>();
-  private readonly fetchErrorEvent = new Subject<any>();
-
-  private readonly destroyRef = inject(DestroyRef);
   private readonly http = inject(HttpClient);
 
   public saveMultiIMRSubstitution(
@@ -117,49 +104,16 @@ export class IMRService {
       );
   }
 
-  public createInternalMaterialReplacementDatasource(
-    selectedRegion: string
-  ): IServerSideDatasource {
-    return {
-      getRows: (params: IServerSideGetRowsParams) => {
-        const { startRow, endRow, sortModel, filterModel } = params.request;
-        const columnFilters = formatFilterModelForBackend(filterModel);
-
-        const selectionFilter: GlobalSelectionCriteriaFilters = {
-          region: [selectedRegion],
-        };
-        const request: IMRRequest = {
-          selectionFilters: selectionFilter,
-          columnFilters: [columnFilters],
-          sortModel,
-          startRow: startRow || 0,
-          endRow: endRow || 50,
-        };
-
-        this.http
-          .post<{ rows: any[]; rowCount: number }>(this.IMR_API, request)
-          .pipe(
-            tap(({ rows, rowCount }) => {
-              params.success({ rowData: rows, rowCount });
-              this.dataFetchedEvent.next({ rowData: rows, rowCount });
-            }),
-            catchError((error) => {
-              params.fail();
-              this.fetchErrorEvent.next(error);
-
-              return of();
-            }),
-            takeUntilDestroyed(this.destroyRef)
-          )
-          .subscribe();
-      },
-    };
-  }
-
-  public getDataFetchedEvent(): Observable<{
-    rowData: any[];
-    rowCount: number;
-  }> {
-    return this.dataFetchedEvent.asObservable();
+  public getIMRData(
+    selectionFilters: any,
+    params: RequestParams
+  ): Observable<BackendTableResponse> {
+    return this.http.post<BackendTableResponse>(this.IMR_API, {
+      startRow: params.startRow,
+      endRow: params.endRow,
+      sortModel: params.sortModel,
+      selectionFilters,
+      columnFilters: params.columnFilters,
+    });
   }
 }

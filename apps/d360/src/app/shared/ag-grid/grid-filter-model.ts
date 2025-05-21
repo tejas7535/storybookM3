@@ -13,9 +13,9 @@ export function formatFilterModelForBackend(filterModel: any): ColumnFilters {
       const refinedValue = { ...value };
 
       // convert bad formatted date value (e.g. '2022-09-16 14:56:00') to ISO 8601 date
-      if (refinedValue.filterType.toLowerCase() === 'date') {
-        refinedValue.dateFrom = refinedValue.dateFrom.replace(' ', 'T');
-        const timeStringArray = refinedValue.dateFrom.split(/[+,-]/);
+      if (refinedValue?.filterType?.toLowerCase() === 'date') {
+        refinedValue['dateFrom'] = refinedValue?.dateFrom?.replace(' ', 'T');
+        const timeStringArray = refinedValue?.dateFrom?.split(/[+,-]/) ?? [];
 
         if (timeStringArray.length === 4) {
           timeStringArray.pop();
@@ -24,17 +24,16 @@ export function formatFilterModelForBackend(filterModel: any): ColumnFilters {
         refinedValue.dateFrom = timeStringArray.join('-');
       }
       // agGrid generates null for empty strings - fix this to not confuse our backend
-      if (refinedValue.filterType.toLowerCase() === 'set') {
-        refinedValue.values = refinedValue.values.map((x: string) =>
-          x == null ? '' : x
-        );
+      if (refinedValue?.filterType?.toLowerCase() === 'set') {
+        refinedValue['values'] =
+          refinedValue?.values.map((x: string) => (x == null ? '' : x)) ?? [];
       }
 
-      processedFilterModel[key] = refinedValue.operator
+      processedFilterModel[key] = refinedValue?.operator
         ? {
-            condition1: refinedValue.condition1,
-            condition2: refinedValue.condition2,
-            filterType: refinedValue.operator.toLowerCase(),
+            condition1: refinedValue?.condition1,
+            condition2: refinedValue?.condition2,
+            filterType: refinedValue?.operator.toLowerCase(),
           }
         : refinedValue;
     });

@@ -227,6 +227,7 @@ export class DemandValidationTableComponent implements OnInit {
         width: 300,
       },
     }),
+    treeData: true,
   };
 
   protected defaultColDef: ColDef = {

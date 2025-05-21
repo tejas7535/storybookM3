@@ -2,9 +2,7 @@ import { inject, Injectable, Pipe, PipeTransform } from '@angular/core';
 
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 
-@Pipe({
-  name: 'numberWithoutFractionDigits',
-})
+@Pipe({ name: 'numberWithoutFractionDigits' })
 @Injectable({ providedIn: 'root' })
 export class NumberWithoutFractionDigitsPipe implements PipeTransform {
   private readonly translocoLocaleService: TranslocoLocaleService = inject(
@@ -25,9 +23,7 @@ export class NumberWithoutFractionDigitsPipe implements PipeTransform {
       numberValue,
       'decimal',
       this.translocoLocaleService.getLocale(),
-      {
-        maximumFractionDigits: 0,
-      }
+      { maximumFractionDigits: 0 }
     );
   }
 }

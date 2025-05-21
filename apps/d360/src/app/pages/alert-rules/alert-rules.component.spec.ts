@@ -1,9 +1,9 @@
-import { isEmpty, of, take, throwError } from 'rxjs';
+import { of } from 'rxjs';
 
 import { GridApi } from 'ag-grid-enterprise';
 
 import { AppRoutePath } from '../../app.routes.enum';
-import { AlertRule, AlertRuleResponse } from '../../feature/alert-rules/model';
+import { AlertRule } from '../../feature/alert-rules/model';
 import { Stub } from '../../shared/test/stub.class';
 import { AlertRulesComponent } from './alert-rules.component';
 import { AlertRuleDeleteMultiModalComponent } from './table/components/modals/alert-rule-delete-multi-modal/alert-rule-delete-multi-modal.component';
@@ -27,47 +27,6 @@ describe('AlertRulesComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('hasFilters', () => {
-    it('should return false if gridApi is null', () => {
-      component['gridApi'] = null;
-      const result = component['hasFilters']();
-      expect(result).toBe(false);
-    });
-
-    it('should return false if gridApi has no filters', () => {
-      component['gridApi'] = {
-        getFilterModel: jest.fn().mockReturnValue({}),
-      } as unknown as GridApi;
-      const result = component['hasFilters']();
-      expect(result).toBe(false);
-    });
-
-    it('should return true if gridApi has filters', () => {
-      component['gridApi'] = {
-        getFilterModel: jest.fn().mockReturnValue({ filter1: true }),
-      } as unknown as GridApi;
-      const result = component['hasFilters']();
-      expect(result).toBe(true);
-    });
-
-    it('should call getFilterModel on gridApi', () => {
-      const getFilterModelSpy = jest.fn().mockReturnValue({});
-      component['gridApi'] = {
-        getFilterModel: getFilterModelSpy,
-      } as unknown as GridApi;
-      component['hasFilters']();
-      expect(getFilterModelSpy).toHaveBeenCalled();
-    });
-  });
-
-  describe('getApi', () => {
-    it('sets gridApi correctly', () => {
-      component['getApi']({ foo: 'bar' } as any);
-
-      expect(component['gridApi']).toEqual({ foo: 'bar' } as any);
-    });
   });
 
   describe('handleCreateSingleAlertRule', () => {
@@ -166,16 +125,14 @@ describe('AlertRulesComponent', () => {
   describe('handleCreateMultiAlertRule', () => {
     let dialogOpenSpy: jest.SpyInstance;
     let afterClosedSpy: jest.SpyInstance;
-    let loadDataSpy: jest.SpyInstance;
+    let reloadSpy: jest.SpyInstance;
 
     beforeEach(() => {
       afterClosedSpy = jest.fn().mockReturnValue(of(true));
       dialogOpenSpy = jest.spyOn(component['dialog'], 'open').mockReturnValue({
         afterClosed: afterClosedSpy,
       } as any);
-      loadDataSpy = jest
-        .spyOn(component as any, 'loadData$')
-        .mockReturnValue(of({} as AlertRuleResponse));
+      reloadSpy = jest.spyOn(component['reload$'], 'next');
     });
 
     it('should open the dialog with correct configuration', () => {
@@ -194,23 +151,23 @@ describe('AlertRulesComponent', () => {
       );
     });
 
-    it('should call loadData$ if afterClosed returns true', (done) => {
+    it('should call reload$ if afterClosed returns true', (done) => {
       component['handleCreateMultiAlertRule']();
 
       setTimeout(() => {
         expect(afterClosedSpy).toHaveBeenCalled();
-        expect(loadDataSpy).toHaveBeenCalled();
+        expect(reloadSpy).toHaveBeenCalled();
         done();
       });
     });
 
-    it('should not call loadData$ if afterClosed returns false', (done) => {
+    it('should not call reload$ if afterClosed returns false', (done) => {
       afterClosedSpy.mockReturnValue(of(false));
       component['handleCreateMultiAlertRule']();
 
       setTimeout(() => {
         expect(afterClosedSpy).toHaveBeenCalled();
-        expect(loadDataSpy).not.toHaveBeenCalled();
+        expect(reloadSpy).not.toHaveBeenCalled();
         done();
       });
     });
@@ -219,16 +176,14 @@ describe('AlertRulesComponent', () => {
   describe('handleDeleteMultiAlertRule', () => {
     let dialogOpenSpy: jest.SpyInstance;
     let afterClosedSpy: jest.SpyInstance;
-    let loadDataSpy: jest.SpyInstance;
+    let reloadSpy: jest.SpyInstance;
 
     beforeEach(() => {
       afterClosedSpy = jest.fn().mockReturnValue(of(true));
       dialogOpenSpy = jest.spyOn(component['dialog'], 'open').mockReturnValue({
         afterClosed: afterClosedSpy,
       } as any);
-      loadDataSpy = jest
-        .spyOn(component as any, 'loadData$')
-        .mockReturnValue(of({} as AlertRuleResponse));
+      reloadSpy = jest.spyOn(component['reload$'], 'next');
     });
 
     it('should open the dialog with correct configuration', () => {
@@ -247,23 +202,23 @@ describe('AlertRulesComponent', () => {
       );
     });
 
-    it('should call loadData$ if afterClosed returns true', (done) => {
+    it('should call reload$ if afterClosed returns true', (done) => {
       component['handleDeleteMultiAlertRule']();
 
       setTimeout(() => {
         expect(afterClosedSpy).toHaveBeenCalled();
-        expect(loadDataSpy).toHaveBeenCalled();
+        expect(reloadSpy).toHaveBeenCalled();
         done();
       });
     });
 
-    it('should not call loadData$ if afterClosed returns false', (done) => {
+    it('should not call reload$ if afterClosed returns false', (done) => {
       afterClosedSpy.mockReturnValue(of(false));
       component['handleDeleteMultiAlertRule']();
 
       setTimeout(() => {
         expect(afterClosedSpy).toHaveBeenCalled();
-        expect(loadDataSpy).not.toHaveBeenCalled();
+        expect(reloadSpy).not.toHaveBeenCalled();
         done();
       });
     });
@@ -350,75 +305,6 @@ describe('AlertRulesComponent', () => {
       expect(() => component.ngOnInit()).not.toThrow();
       expect(handleCreateSingleAlertRuleSpy).not.toHaveBeenCalled();
       expect(console.error).toHaveBeenCalled();
-    });
-  });
-
-  describe('loadData$', () => {
-    let setGridOptionSpy: jest.SpyInstance;
-    let getAlertRuleDataSpy: jest.SpyInstance;
-
-    beforeEach(() => {
-      setGridOptionSpy = jest.fn();
-      component['gridApi'] = {
-        setGridOption: setGridOptionSpy,
-      } as unknown as GridApi;
-      getAlertRuleDataSpy = jest.spyOn(
-        component['alertRuleService'],
-        'getAlertRuleData'
-      );
-    });
-
-    it('should set grid option loading to true initially', () => {
-      getAlertRuleDataSpy.mockReturnValue(of({} as AlertRuleResponse));
-      component['loadData$']().pipe(take(1)).subscribe();
-      expect(setGridOptionSpy).toHaveBeenCalledWith('loading', true);
-    });
-
-    it('should set grid option rowData and loading to false on success', (done) => {
-      const mockResponse: AlertRuleResponse = {
-        count: 1,
-        content: [{ id: '1', name: 'Test Rule' } as any],
-      };
-      getAlertRuleDataSpy.mockReturnValue(of(mockResponse));
-
-      component['loadData$']()
-        .pipe(take(1))
-        .subscribe(() => {
-          expect(setGridOptionSpy).toHaveBeenCalledWith(
-            'rowData',
-            mockResponse.content
-          );
-          expect(setGridOptionSpy).toHaveBeenCalledWith('loading', false);
-          done();
-        });
-    });
-
-    it('should set grid option loading to false on error', (done) => {
-      getAlertRuleDataSpy.mockReturnValue(throwError(() => new Error('Error')));
-
-      component['loadData$']()
-        .pipe(take(1), isEmpty())
-        .subscribe({
-          next: (result) => {
-            expect(result).toEqual(true);
-            done();
-          },
-          error: () => {
-            expect(setGridOptionSpy).toHaveBeenCalledWith('loading', false);
-            done();
-          },
-        });
-    });
-
-    it('should handle empty response gracefully', (done) => {
-      getAlertRuleDataSpy.mockReturnValue(of({} as AlertRuleResponse));
-
-      component['loadData$']()
-        .pipe(take(1))
-        .subscribe(() => {
-          expect(setGridOptionSpy).toHaveBeenCalledWith('loading', false);
-          done();
-        });
     });
   });
 });

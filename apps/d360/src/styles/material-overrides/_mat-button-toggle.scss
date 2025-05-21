@@ -1,0 +1,14 @@
+@mixin mat-button-toggle() {
+  schaeffler-view-toggle {
+    .mat-button-toggle-group {
+      flex-wrap: wrap;
+      border-radius: 6px 6px 0 0;
+    }
+
+    .mat-button-toggle-appearance-standard {
+      &.mat-button-toggle-disabled {
+        background-color: #ddd !important;
+      }
+    }
+  }
+}

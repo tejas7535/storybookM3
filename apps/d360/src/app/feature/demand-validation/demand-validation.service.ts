@@ -3,27 +3,19 @@ import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { DestroyRef, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import {
-  catchError,
-  map,
-  Observable,
-  of,
-  Subject,
-  switchMap,
-  take,
-} from 'rxjs';
+import { catchError, map, Observable, of, switchMap, take } from 'rxjs';
 
 import { translate, TranslocoService } from '@jsverse/transloco';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import {
-  IServerSideDatasource,
-  IServerSideGetRowsParams,
-} from 'ag-grid-enterprise';
 import { format, formatISO, parse } from 'date-fns';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { GlobalSelectionStateService } from '../../shared/components/global-selection-criteria/global-selection-state.service';
+import {
+  BackendTableResponse,
+  RequestParams,
+} from '../../shared/components/table';
 import { AUTO_CONFIGURE_APPLICATION_JSON_HEADER } from '../../shared/interceptors/headers.interceptor';
 import { USE_DEFAULT_HTTP_ERROR_INTERCEPTOR } from '../../shared/interceptors/http-error.interceptor';
 import {
@@ -42,17 +34,14 @@ import { SnackbarService } from '../../shared/utils/service/snackbar.service';
 import { StreamSaverService } from '../../shared/utils/service/stream-saver.service';
 import { ValidationHelper } from '../../shared/utils/validation/validation-helper';
 import { GlobalSelectionUtils } from '../global-selection/global-selection.utils';
-import { GlobalSelectionCriteriaFilters } from '../global-selection/model';
 import {
   DemandValidationFilter,
   demandValidationFilterToStringFilter,
-  DemandValidationStringFilter,
 } from './demand-validation-filters';
 import {
   BucketRequest,
   DeleteKpiDataRequest,
   DeleteKpiDataResponse,
-  DemandMaterialCustomerRequest,
   DemandValidationBatch,
   DemandValidationBatchResponse,
   KpiBucket,
@@ -82,13 +71,8 @@ export class DemandValidationService {
   private readonly DEMAND_VALIDATION_KPI_API = 'api/demand-validation/kpis';
   private readonly DEMAND_VALIDATION_CUSTOMER_MATERIAL_LIST_API =
     'api/demand-validation/material-customer-list';
-  private readonly dataFetchedEvent = new Subject<{
-    rowData: any[];
-    rowCount: number;
-  }>();
   private readonly EXPORT_DEMAND_VALIDATION_API =
     'api/demand-validation/export';
-  private readonly fetchErrorEvent = new Subject<any>();
 
   private readonly http = inject(HttpClient);
   private readonly destroyRef = inject(DestroyRef);
@@ -100,17 +84,6 @@ export class DemandValidationService {
     GlobalSelectionStateService
   );
   private readonly appInsights = inject(ApplicationInsightsService);
-
-  public getDataFetchedEvent(): Observable<{
-    rowData: any[];
-    rowCount: number;
-  }> {
-    return this.dataFetchedEvent.asObservable();
-  }
-
-  public getFetchErrorEvent(): Observable<any> {
-    return this.fetchErrorEvent.asObservable();
-  }
 
   public deleteValidatedDemandBatch(
     data: DeleteKpiDataRequest,
@@ -217,9 +190,9 @@ export class DemandValidationService {
                     result:
                       errors?.length > 0 || successes?.length > 0
                         ? // Take the first error message
-                          errors?.[0] ??
+                          (errors?.[0] ??
                           // Or use the first success message
-                          successes?.[0]
+                          successes?.[0])
                         : null,
                     allErrors:
                       errors?.length > 0 || successes?.length > 0
@@ -410,43 +383,29 @@ export class DemandValidationService {
       : of(null);
   }
 
-  public createDemandMaterialCustomerDatasource(
-    selectionFilters: GlobalSelectionCriteriaFilters &
-      DemandValidationStringFilter
-  ): IServerSideDatasource {
-    return {
-      getRows: (params: IServerSideGetRowsParams) => {
-        const { startRow, endRow, sortModel } = params.request;
-
-        const request: DemandMaterialCustomerRequest = {
-          selectionFilters,
-          sortModel,
-          startRow: startRow || 0,
-          endRow: endRow || 50,
-        };
-
-        this.http
-          .post<{
-            rows: any[];
-            rowCount: number;
-          }>(this.DEMAND_VALIDATION_CUSTOMER_MATERIAL_LIST_API, request, {
-            params: new HttpParams().set(
-              'language',
-              this.translocoService.getActiveLang()
-            ),
-          })
-          .subscribe({
-            next: ({ rows, rowCount }) => {
-              params.success({ rowData: rows, rowCount });
-              this.dataFetchedEvent.next({ rowData: rows, rowCount });
-            },
-            error: (error) => {
-              params.fail();
-              this.fetchErrorEvent.next(error);
-            },
-          });
+  public getMaterialCustomerData(
+    selectionFilters: any,
+    params: RequestParams
+  ): Observable<BackendTableResponse> {
+    return this.http.post<{
+      rows: any[];
+      rowCount: number;
+    }>(
+      this.DEMAND_VALIDATION_CUSTOMER_MATERIAL_LIST_API,
+      {
+        startRow: params.startRow,
+        endRow: params.endRow,
+        sortModel: params.sortModel,
+        selectionFilters,
+        columnFilters: params.columnFilters,
       },
-    };
+      {
+        params: new HttpParams().set(
+          'language',
+          this.translocoService.getActiveLang()
+        ),
+      }
+    );
   }
 
   public triggerExport(

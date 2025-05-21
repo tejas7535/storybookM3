@@ -1,119 +1,58 @@
 import {
   Component,
   computed,
-  DestroyRef,
   effect,
   inject,
   input,
+  OnInit,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { tap } from 'rxjs';
+import { combineLatest, map, Observable, of, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
-import { PushPipe } from '@ngrx/component';
-import { AgGridModule } from 'ag-grid-angular';
-import {
-  CellStyle,
-  ColDef,
-  GetRowIdFunc,
-  GetRowIdParams,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-} from 'ag-grid-enterprise';
 
 import { AlertType } from '@schaeffler/alert';
 
+import { AlertService } from '../../../../feature/alerts/alert.service';
 import {
-  AlertService,
-  GroupedAlert,
-} from '../../../../feature/alerts/alert.service';
-import {
-  Alert,
   AlertCategory,
   alertTypesToActivateToggleViaURL,
   OpenFunction,
   Priority,
 } from '../../../../feature/alerts/model';
-import { clientSideTableDefaultProps } from '../../../../shared/ag-grid/grid-defaults';
 import { ActionsMenuCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
-import { NoDataOverlayComponent } from '../../../../shared/components/ag-grid/no-data/no-data.component';
 import { GlobalSelectionStateService } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
 import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
-import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
-import { SelectableOptionsService } from '../../../../shared/services/selectable-options.service';
+import {
+  AbstractFrontendTableComponent,
+  ExtendedColumnDefs,
+  FrontendTableComponent,
+  FrontendTableResponse,
+  TableCreator,
+} from '../../../../shared/components/table';
 import { TaskPrioritiesComponent } from '../task-priorities/task-priorities.component';
 
 @Component({
   selector: 'd360-task-priority-grid',
-  imports: [AgGridModule, PushPipe],
+  imports: [FrontendTableComponent],
   templateUrl: './task-priority-grid.component.html',
   styleUrl: './task-priority-grid.component.scss',
 })
-export class TaskPriorityGridComponent {
-  private readonly selectableOptionsService = inject(SelectableOptionsService);
-  protected noOverlayMessage = {
-    message: translate('overview.yourTasks.noTasks'),
-  };
-  private gridApi: GridApi = null;
+export class TaskPriorityGridComponent
+  extends AbstractFrontendTableComponent
+  implements OnInit
+{
+  private readonly alertService: AlertService = inject(AlertService);
+  private readonly globalSelectionStateService: GlobalSelectionStateService =
+    inject(GlobalSelectionStateService);
+
   public openFunction = input.required<OpenFunction>();
   public headline = input.required<string>();
   public gkamNumbers = input<string[]>(null);
   public customers = input<string[]>(null);
   public priorities = input<Priority[]>(null);
-  protected gridOptions: GridOptions = {
-    ...clientSideTableDefaultProps,
-    cellSelection: false,
-    suppressCellFocus: true,
-  };
-  private readonly alertService: AlertService = inject(AlertService);
-  protected cellStyles: CellStyle = {
-    padding: 0,
-  };
 
-  protected columnDefs: ColDef[] = [
-    {
-      field: 'customerNumber',
-      colId: 'alert.customer_number.column_header',
-      minWidth: 90,
-      maxWidth: 90,
-      cellStyle: this.cellStyles,
-    },
-    {
-      field: 'customerName',
-      colId: 'alert.customer_name.column_header',
-      flex: 1,
-      cellStyle: this.cellStyles,
-    },
-    {
-      field: 'priorityCount',
-      cellRenderer: TaskPrioritiesComponent,
-      cellStyle: this.cellStyles,
-      minWidth: 145,
-      maxWidth: 145,
-    },
-    {
-      cellClass: ['fixed-action-column'],
-      field: 'menu',
-      headerName: '',
-      cellRenderer: ActionsMenuCellRendererComponent,
-      lockVisible: true,
-      pinned: 'right',
-      lockPinned: true,
-      cellStyle: { ...this.cellStyles, borderLeft: 0 },
-      minWidth: 50,
-      maxWidth: 50,
-    },
-  ];
-  protected readonly destroyRef = inject(DestroyRef);
-  protected readonly NoDataOverlayComponent = NoDataOverlayComponent;
-  protected readonly agGridLocalizationService: AgGridLocalizationService =
-    inject(AgGridLocalizationService);
-  private readonly globalSelectionStateService = inject(
-    GlobalSelectionStateService
-  );
-  protected rowStyles = { fontSize: '12px' };
   protected isLoading$ = this.alertService.getLoadingEvent();
   private readonly filteredData = computed(() =>
     this.alertService
@@ -134,33 +73,13 @@ export class TaskPriorityGridComponent {
       ?.filter(
         (alert) =>
           !this.priorities() ||
+          (Array.isArray(this.priorities()) &&
+            this.priorities().length === 0) ||
           this.priorities()?.some(
             (requestedPriority) => alert.priorityCount[requestedPriority] > 0
           )
       )
   );
-
-  public constructor() {
-    effect(() => {
-      this.reloadGrid(this.filteredData());
-    });
-    this.alertService
-      .getFetchErrorEvent()
-      .pipe(
-        tap((hasError: boolean) => {
-          if (hasError) {
-            this.reloadGrid([]);
-          }
-        }),
-        takeUntilDestroyed()
-      )
-      .subscribe();
-  }
-
-  private reloadGrid(data: GroupedAlert[]) {
-    this.gridApi?.setGridOption('rowData', data);
-  }
-
   protected context: Record<string, any> = {
     getMenu: (row: any) => {
       const alert = row.data;
@@ -173,10 +92,7 @@ export class TaskPriorityGridComponent {
 
         const customerFilter = {
           customerNumber: [
-            {
-              id: alert.customerNumber,
-              text: alert.customerName,
-            },
+            { id: alert.customerNumber, text: alert.customerName },
           ],
         };
         const submenu: { text: string; onClick: () => void }[] = [];
@@ -280,30 +196,93 @@ export class TaskPriorityGridComponent {
       return customMenu;
     },
   };
-  protected onGridReady(event: GridReadyEvent): void {
-    this.gridApi = event.api;
-    if (this.filteredData()) {
-      this.reloadGrid(this.filteredData());
-    }
-  }
-  protected getRowId: GetRowIdFunc = (params: GetRowIdParams<Alert>) =>
-    params.data.customerNumber;
 
-  protected onDataUpdated() {
-    if (this.gridApi) {
-      if (this.gridApi.getDisplayedRowCount() === 0) {
-        this.gridApi.showNoRowsOverlay();
-      } else {
-        this.gridApi.hideOverlay();
-      }
-    }
+  protected override readonly getData$ =
+    (): Observable<FrontendTableResponse> =>
+      of(this.filteredData()).pipe(map((content) => ({ content })));
+
+  public constructor() {
+    super();
+
+    effect(() => this.filteredData() && this.reload$().next(true));
+  }
+
+  public ngOnInit(): void {
+    super.ngOnInit();
+
+    this.alertService
+      .getFetchErrorEvent()
+      .pipe(
+        tap((hasError: boolean) => hasError && this.reload$().next(true)),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe();
+  }
+
+  protected override setConfig(columnDefs: ExtendedColumnDefs[]): void {
+    this.config.set(
+      TableCreator.get({
+        table: TableCreator.getTable({
+          tableId: `task-priority-grid${this.openFunction()}`,
+          context: this.context,
+          columnDefs,
+          noRowsMessage: translate('overview.yourTasks.noTasks'),
+          getRowId: (params) => params.data.customerNumber,
+          autoSizeStrategy: false,
+          sideBar: {},
+          headerHeight: 0,
+          cellSelection: false,
+          suppressCellFocus: true,
+        }),
+        isLoading$: combineLatest([
+          this.isLoading$,
+          this.selectableOptionsService.loading$,
+        ]).pipe(
+          map((isLoading, loading) => !!isLoading || !!loading),
+          takeUntilDestroyed(this.destroyRef)
+        ),
+        hasTabView: false,
+        hasToolbar: false,
+        callbacks: { onGridReady: () => this.reload$().next(true) },
+      })
+    );
+  }
+
+  protected override setColumnDefinitions(): void {
+    this.setConfig([
+      {
+        field: 'customerNumber',
+        width: 90,
+        cellStyle: { padding: 0 },
+      },
+      {
+        field: 'customerName',
+        flex: 1,
+        cellStyle: { padding: 0 },
+      },
+      {
+        field: 'priorityCount',
+        width: 145,
+        cellRenderer: TaskPrioritiesComponent,
+        cellStyle: { padding: 0 },
+      },
+      {
+        cellClass: ['fixed-action-column'],
+        field: 'menu',
+        width: 50,
+        cellRenderer: ActionsMenuCellRendererComponent,
+        cellStyle: { borderLeft: 0 },
+      },
+    ]);
   }
 
   private getSelectableOptionForAlert(alertType: AlertType): SelectableValue {
     const alertTypeOptions = this.selectableOptionsService.get('alertTypes');
 
     return alertTypeOptions.loadingError === null
-      ? alertTypeOptions?.options?.find((option) => option.id === alertType)
+      ? alertTypeOptions?.options?.find(
+          (option) => option.id === alertType
+        ) || { id: alertType, text: alertType }
       : { id: alertType, text: alertType };
   }
 }

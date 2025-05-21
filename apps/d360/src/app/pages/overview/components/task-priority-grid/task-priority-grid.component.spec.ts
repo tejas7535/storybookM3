@@ -1,635 +1,565 @@
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { of, take } from 'rxjs';
 
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
-import { AgGridModule } from 'ag-grid-angular';
+import { ColDef } from 'ag-grid-enterprise';
 
-import {
-  AlertService,
-  GroupedAlert,
-} from '../../../../feature/alerts/alert.service';
-import {
-  Alert,
-  AlertCategory,
-  OpenFunction,
-  Priority,
-} from '../../../../feature/alerts/model';
+import { AlertService } from '../../../../feature/alerts/alert.service';
+import { OpenFunction, Priority } from '../../../../feature/alerts/model';
+import { ActionsMenuCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
 import { GlobalSelectionStateService } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
-import { SelectableOptionsService } from '../../../../shared/services/selectable-options.service';
+import { AbstractFrontendTableComponent } from '../../../../shared/components/table';
 import { Stub } from '../../../../shared/test/stub.class';
 import { TaskPrioritiesComponent } from '../task-priorities/task-priorities.component';
-import {
-  aciadpOption,
-  alertTypeOptionMocks,
-  cfpraoOption,
-} from './alert.service.mocks';
 import { TaskPriorityGridComponent } from './task-priority-grid.component';
 
 describe('TaskPriorityGridComponent', () => {
-  let spectator: Spectator<TaskPriorityGridComponent>;
-  const groupedAlert: GroupedAlert = {
-    alertTypes: {
-      1: [AlertCategory.ACIADP],
-      2: [AlertCategory.ACIADP, AlertCategory.CFPRAO],
-    },
-    customerName: 'first customer',
-    customerNumber: '1',
-    openFunction: OpenFunction.Validation_Of_Demand,
-    priorityCount: { 1: 5, 2: 1 },
-    materialNumbers: {
-      1: [{ id: '1', text: 'Material 1' }],
-      2: [{ id: '2', text: 'Material 2' }],
-      3: [{ id: '3', text: 'Material 3' }],
-    },
-  };
-  const globalNavigate = jest.fn();
-  const testAlert1: Alert = {
-    customerName: 'first customer',
-    customerNumber: '1',
-    materialNumber: '1',
-    materialDescription: 'Material 1',
-    keyAccount: 'gkam1',
-    alertPriority: Priority.Priority1,
-    open: true,
-    priority: false,
-    deactivated: false,
-    openFunction: OpenFunction.Validation_Of_Demand,
-    type: AlertCategory.ACIADP,
-  };
-  const testAlert2: Alert = {
-    customerName: 'second customer',
-    customerNumber: '2',
-    materialNumber: '2',
-    materialDescription: 'Material 2',
-    keyAccount: 'gkam2',
-    alertPriority: Priority.Priority2,
-    open: true,
-    priority: false,
-    deactivated: false,
-    openFunction: OpenFunction.Validation_Of_Demand,
-    type: AlertCategory.CFPRAO,
-  };
-  const testAlert3 = {
-    customerName: 'third customer',
-    customerNumber: '3',
-    materialNumber: '3',
-    materialDescription: 'Material 3',
-    keyAccount: 'gkam3',
-    alertPriority: Priority.Priority3,
-    open: true,
-    priority: false,
-    deactivated: false,
-    openFunction: OpenFunction.Validation_Of_Demand,
-    type: AlertCategory.NPOSDP,
-  };
+  let component: TaskPriorityGridComponent;
+  let alertService: AlertService;
+  let globalSelectionStateService: GlobalSelectionStateService;
 
-  afterEach(() => {
-    jest.clearAllMocks();
-    jest.resetAllMocks();
+  beforeEach(() => {
+    component = Stub.getForEffect<TaskPriorityGridComponent>({
+      component: TaskPriorityGridComponent,
+      providers: [Stub.getAlertServiceProvider()],
+    });
+
+    alertService = component['alertService'];
+    globalSelectionStateService = component['globalSelectionStateService'];
+
+    Stub.setInput('openFunction', OpenFunction.Validation_Of_Demand);
+    Stub.setInput('customers', ['Customer1']);
+    Stub.setInput('gkamNumbers', ['GKAM1']);
+    Stub.setInput('priorities', [Priority.Priority1]);
+    Stub.setInput('headline', 'any headline');
+  });
+
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
+
+  describe('constructor', () => {
+    it('should trigger reload$ when filteredData changes', () => {
+      const reloadSpy = jest.spyOn(component['reload$'](), 'next');
+      const filteredDataSpy = jest.spyOn<any, any>(component, 'filteredData');
+
+      // Mock filteredData to return a value
+      filteredDataSpy.mockReturnValue([{ customerNumber: '123' }]);
+
+      // Trigger the effect
+      Stub.detectChanges();
+
+      expect(filteredDataSpy).toHaveBeenCalled();
+      expect(reloadSpy).toHaveBeenCalledWith(true);
+    });
+
+    it('should not trigger reload$ when filteredData is empty', () => {
+      const reloadSpy = jest.spyOn(component['reload$'](), 'next');
+      const filteredDataSpy = jest.spyOn<any, any>(component, 'filteredData');
+
+      // Mock filteredData to return an empty array
+      filteredDataSpy.mockReturnValue(false);
+
+      // Trigger the effect
+      Stub.detectChanges();
+
+      expect(filteredDataSpy).toHaveBeenCalled();
+      expect(reloadSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('ngOnInit', () => {
+    it('should call super.ngOnInit and subscribe to fetch error events', () => {
+      const superNgOnInitSpy = jest.spyOn(
+        AbstractFrontendTableComponent.prototype,
+        'ngOnInit'
+      );
+      const reloadSpy = jest.spyOn(component['reload$'](), 'next');
+      const alertServiceSpy = jest
+        .spyOn(component['alertService'], 'getFetchErrorEvent')
+        .mockReturnValue(of(true));
+
+      component.ngOnInit();
+
+      expect(superNgOnInitSpy).toHaveBeenCalled();
+      expect(alertServiceSpy).toHaveBeenCalled();
+      expect(reloadSpy).toHaveBeenCalledWith(true);
+    });
+
+    it('should not trigger reload$ if there is no fetch error', () => {
+      const reloadSpy = jest.spyOn(component['reload$'](), 'next');
+      jest
+        .spyOn(component['alertService'], 'getFetchErrorEvent')
+        .mockReturnValue(of(false));
+
+      component.ngOnInit();
+
+      expect(reloadSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('filteredData', () => {
+    it('should filter alerts by openFunction, customers, gkamNumbers, and priorities', () => {
+      const mockAlerts = [
+        {
+          openFunction: OpenFunction.Validation_Of_Demand,
+          customerNumber: 'Customer1',
+          keyAccount: 'GKAM1',
+          priorityCount: { [Priority.Priority1]: 1 },
+        },
+        {
+          openFunction: OpenFunction.Customer_Material_Portfolio,
+          customerNumber: 'Customer2',
+          keyAccount: 'GKAM2',
+          priorityCount: { [Priority.Priority2]: 1 },
+        },
+      ];
+
+      jest
+        .spyOn(alertService, 'allActiveAlerts')
+        .mockReturnValue(mockAlerts as any);
+      jest
+        .spyOn(alertService, 'groupDataByCustomerAndPriority')
+        .mockImplementation((alerts) => alerts as any);
+
+      const result = component['filteredData']();
+
+      expect(result).toEqual([
+        {
+          openFunction: OpenFunction.Validation_Of_Demand,
+          customerNumber: 'Customer1',
+          keyAccount: 'GKAM1',
+          priorityCount: { [Priority.Priority1]: 1 },
+        },
+      ]);
+    });
+
+    it('should return an empty array if no alerts match the filters', () => {
+      const mockAlerts = [
+        {
+          openFunction: OpenFunction.Customer_Material_Portfolio,
+          customerNumber: 'Customer2',
+          keyAccount: 'GKAM2',
+          priorityCount: { [Priority.Priority2]: 1 },
+        },
+      ];
+
+      jest
+        .spyOn(alertService, 'allActiveAlerts')
+        .mockReturnValue(mockAlerts as any);
+      jest
+        .spyOn(alertService, 'groupDataByCustomerAndPriority')
+        .mockImplementation((alerts) => alerts as any);
+
+      const result = component['filteredData']();
+
+      expect(result).toEqual([]);
+    });
+
+    it('should not filter by customers, gkamNumbers, or priorities if they are not set', () => {
+      Stub.setInput('customers', null);
+      Stub.setInput('gkamNumbers', null);
+      Stub.setInput('priorities', null);
+
+      const mockAlerts = [
+        {
+          openFunction: OpenFunction.Validation_Of_Demand,
+          customerNumber: 'Customer1',
+          keyAccount: 'GKAM1',
+          priorityCount: { [Priority.Priority1]: 1 },
+        },
+        {
+          openFunction: OpenFunction.Validation_Of_Demand,
+          customerNumber: 'Customer2',
+          keyAccount: 'GKAM2',
+          priorityCount: { [Priority.Priority2]: 1 },
+        },
+      ];
+
+      jest
+        .spyOn(alertService, 'allActiveAlerts')
+        .mockReturnValue(mockAlerts as any);
+      jest
+        .spyOn(alertService, 'groupDataByCustomerAndPriority')
+        .mockImplementation((alerts) => alerts as any);
+
+      const result = component['filteredData']();
+
+      expect(result).toEqual(mockAlerts);
+    });
+
+    it('should not filter if priorities is an empty array', () => {
+      Stub.setInput('customers', null);
+      Stub.setInput('gkamNumbers', null);
+      Stub.setInput('priorities', []);
+
+      const mockedAlerts = [
+        {
+          openFunction: OpenFunction.Validation_Of_Demand,
+          customerNumber: 'Customer1',
+          keyAccount: 'GKAM1',
+          priorityCount: { [Priority.Priority1]: 1 },
+        },
+        {
+          openFunction: OpenFunction.Validation_Of_Demand,
+          customerNumber: 'Customer2',
+          keyAccount: 'GKAM2',
+          priorityCount: { [Priority.Priority2]: 1 },
+        },
+      ];
+
+      jest
+        .spyOn(alertService, 'allActiveAlerts')
+        .mockReturnValue(mockedAlerts as any);
+      jest
+        .spyOn(alertService, 'groupDataByCustomerAndPriority')
+        .mockImplementation((alerts) => alerts as any);
+
+      const result = component['filteredData']();
+
+      expect(result).toEqual(mockedAlerts);
+    });
+
+    it('should filter entries that contain least one alert with the priority', () => {
+      Stub.setInput('customers', null);
+      Stub.setInput('gkamNumbers', null);
+      Stub.setInput('priorities', [Priority.Priority1]);
+
+      const mockAlerts = [
+        {
+          openFunction: OpenFunction.Validation_Of_Demand,
+          customerNumber: 'Customer1',
+          keyAccount: 'GKAM1',
+          priorityCount: { [Priority.Priority1]: 1 },
+        },
+        {
+          openFunction: OpenFunction.Validation_Of_Demand,
+          customerNumber: 'Customer2',
+          keyAccount: 'GKAM2',
+          priorityCount: { [Priority.Priority2]: 1 },
+        },
+        {
+          openFunction: OpenFunction.Validation_Of_Demand,
+          customerNumber: 'Customer3',
+          keyAccount: 'GKAM3',
+          priorityCount: { [Priority.Priority1]: 1, [Priority.Priority2]: 1 },
+        },
+      ];
+
+      jest
+        .spyOn(alertService, 'allActiveAlerts')
+        .mockReturnValue(mockAlerts as any);
+      jest
+        .spyOn(alertService, 'groupDataByCustomerAndPriority')
+        .mockImplementation((alerts) => alerts as any);
+
+      const result = component['filteredData']();
+
+      expect(result).toEqual([
+        {
+          openFunction: OpenFunction.Validation_Of_Demand,
+          customerNumber: 'Customer1',
+          keyAccount: 'GKAM1',
+          priorityCount: { [Priority.Priority1]: 1 },
+        },
+        {
+          openFunction: OpenFunction.Validation_Of_Demand,
+          customerNumber: 'Customer3',
+          keyAccount: 'GKAM3',
+          priorityCount: { [Priority.Priority1]: 1, [Priority.Priority2]: 1 },
+        },
+      ]);
+    });
   });
 
   describe('context', () => {
-    it('should set activateToggle to true if any alert type in alert.alertTypes[priority] is included in alertTypesToActivateToggleViaURL', () => {
-      const alert = {
-        alertTypes: {
-          high: ['type1', 'type2'],
+    it('should return a custom menu with priorities and selected priorities', () => {
+      const mockRow = {
+        data: {
+          openFunction: OpenFunction.Customer_Material_Portfolio,
+          customerNumber: '12345',
+          customerName: 'Customer A',
+          priorityCount: { [Priority.Priority1]: 1 },
+          alertTypes: {
+            [Priority.Priority1]: ['RESEDP'],
+          },
+          materialNumbers: {
+            [Priority.Priority1]: [{ id: 'M1', text: 'Material 1' }],
+          },
         },
-        openFunction: OpenFunction.Customer_Material_Portfolio,
       };
-      const alertTypesToActivateToggleViaURL = ['type2', 'type3'] as any;
-      const priority = 'high';
 
-      const result =
-        alert.openFunction === OpenFunction.Customer_Material_Portfolio
-          ? {
-              state: {
-                activateToggle: (alert?.alertTypes[priority] || [])?.some(
-                  (type: any) => alertTypesToActivateToggleViaURL.includes(type)
-                ),
-              },
-            }
-          : undefined;
-
-      expect(result?.state?.activateToggle).toBe(true);
-    });
-
-    it('should set activateToggle to false if no alert type in alert.alertTypes[priority] is included in alertTypesToActivateToggleViaURL', () => {
-      const alert = {
-        alertTypes: {
-          high: ['type1', 'type4'],
-        },
-        openFunction: OpenFunction.Customer_Material_Portfolio,
-      };
-      const alertTypesToActivateToggleViaURL = ['type2', 'type3'] as any;
-      const priority = 'high';
-
-      const result =
-        alert.openFunction === OpenFunction.Customer_Material_Portfolio
-          ? {
-              state: {
-                activateToggle: (alert?.alertTypes[priority] || [])?.some(
-                  (type: any) => alertTypesToActivateToggleViaURL.includes(type)
-                ),
-              },
-            }
-          : undefined;
-
-      expect(result?.state?.activateToggle).toBe(false);
-    });
-
-    it('should return undefined if alert.openFunction is not Customer_Material_Portfolio', () => {
-      const alert = {
-        alertTypes: {
-          high: ['type1', 'type2'],
-        },
-        openFunction: 'DifferentFunction',
-      };
-      const alertTypesToActivateToggleViaURL = ['type2', 'type3'] as any;
-      const priority = 'high';
-
-      const result =
-        alert.openFunction === OpenFunction.Customer_Material_Portfolio
-          ? {
-              state: {
-                activateToggle: (alert?.alertTypes[priority] || [])?.some(
-                  (type: any) => alertTypesToActivateToggleViaURL.includes(type)
-                ),
-              },
-            }
-          : undefined;
-
-      expect(result).toBeUndefined();
-    });
-  });
-
-  describe('unit', () => {
-    let component: TaskPriorityGridComponent;
-    beforeEach(() => {
-      component = Stub.getForEffect({
-        component: TaskPriorityGridComponent,
-        providers: [Stub.getAlertServiceProvider()],
-      });
       jest
-        .spyOn(component['alertService'], 'allActiveAlerts')
-        .mockImplementation(() => [testAlert1, testAlert2, testAlert3]);
+        .spyOn(alertService, 'getRouteForOpenFunction')
+        .mockReturnValue('/route' as any);
+
+      jest
+        .spyOn(component as any, 'getSelectableOptionForAlert')
+        .mockReturnValue({ id: 'RESEDP', text: 'RESEDP' });
+      jest
+        .spyOn(alertService, 'getModuleForOpenFunction')
+        .mockReturnValue('Module');
+      const navigateSpy = jest.spyOn(
+        globalSelectionStateService,
+        'navigateWithGlobalSelection'
+      );
+
+      const menu = component['context'].getMenu(mockRow);
+
+      expect(menu).toEqual([
+        {
+          text: 'alert.action_menu.goto_function',
+          submenu: [
+            {
+              text: 'overview.yourTasks.priority1',
+              onClick: expect.any(Function),
+            },
+            {
+              text: 'overview.yourTasks.selectedPriorities',
+              onClick: expect.any(Function),
+            },
+          ],
+        },
+      ]);
+
+      // Test submenu actions
+      menu[0].submenu[0].onClick();
+      expect(navigateSpy).toHaveBeenCalledWith(
+        '/route',
+        {
+          customerNumber: [{ id: '12345', text: 'Customer A' }],
+          alertType: [{ id: 'RESEDP', text: 'RESEDP' }],
+          materialNumber: [{ id: 'M1', text: 'Material 1' }],
+        },
+        { state: { activateToggle: true } }
+      );
+
+      menu[0].submenu[1].onClick();
+      expect(navigateSpy).toHaveBeenCalledWith(
+        '/route',
+        {
+          customerNumber: [{ id: '12345', text: 'Customer A' }],
+          alertType: [{ id: 'RESEDP', text: 'RESEDP' }],
+          materialNumber: [{ id: 'M1', text: 'Material 1' }],
+        },
+        { state: { activateToggle: true } }
+      );
     });
 
-    it('should create', () => {
-      expect(component).toBeDefined();
-    });
+    it('should return an empty menu if openFunction is not defined', () => {
+      const mockRow = { data: { openFunction: null } as any };
 
-    describe('menu', () => {
-      let globalNavigateSpy: jest.SpyInstance;
-      let selectableOptionsSpy: jest.SpyInstance;
+      const menu = component['context'].getMenu(mockRow);
 
-      beforeEach(() => {
-        globalNavigateSpy = jest.spyOn(
-          component['globalSelectionStateService'],
-          'navigateWithGlobalSelection'
-        );
-        selectableOptionsSpy = jest
-          .spyOn(component['selectableOptionsService'], 'get')
-          .mockImplementation((type) => ({
-            options: [...alertTypeOptionMocks, { id: type, text: type }],
-            loadingError: null,
-          }));
-      });
-
-      it('should generate the correct context menu', () => {
-        Stub.setInput('openFunction', OpenFunction.Validation_Of_Demand);
-        const menu = component['context'].getMenu({ data: groupedAlert });
-
-        expect(menu.length).toEqual(1);
-        expect(menu[0].submenu.length).toEqual(3);
-        expect(menu[0].submenu[0].text).toEqual('overview.yourTasks.priority1');
-        expect(menu[0].submenu[1].text).toEqual('overview.yourTasks.priority2');
-        expect(menu[0].submenu[2].text).toEqual(
-          'overview.yourTasks.selectedPriorities'
-        );
-      });
-
-      describe('single priority buttons', () => {
-        it('should call the correct filter for the first priority button', () => {
-          Stub.setInput('openFunction', OpenFunction.Validation_Of_Demand);
-          const menu = component['context'].getMenu({ data: groupedAlert });
-
-          const menuButton1 = menu[0].submenu[0];
-          expect(menuButton1.text).toEqual('overview.yourTasks.priority1');
-          menuButton1.onClick();
-          expect(selectableOptionsSpy).toHaveBeenCalled();
-          expect(globalNavigateSpy).toHaveBeenCalledWith(
-            'demand-validation',
-            {
-              alertType: [aciadpOption],
-              customerNumber: [{ id: '1', text: 'first customer' }],
-              materialNumber: [{ id: '1', text: 'Material 1' }],
-            },
-            undefined
-          );
-        });
-
-        it('should call the correct filter for the first priority button, when alertTypes and materialNumbers are undefined', () => {
-          Stub.setInput('openFunction', OpenFunction.Validation_Of_Demand);
-          const menu = component['context'].getMenu({
-            data: {
-              ...groupedAlert,
-              alertTypes: undefined,
-              materialNumbers: undefined,
-            },
-          });
-
-          const menuButton1 = menu[0].submenu[0];
-          expect(menuButton1.text).toEqual('overview.yourTasks.priority1');
-          menuButton1.onClick();
-          expect(globalNavigateSpy).toHaveBeenCalledWith(
-            'demand-validation',
-            {
-              alertType: [],
-              customerNumber: [{ id: '1', text: 'first customer' }],
-              materialNumber: [],
-            },
-            undefined
-          );
-        });
-
-        it('should call the correct filter for the second priority button', () => {
-          Stub.setInput('openFunction', OpenFunction.Validation_Of_Demand);
-          const menu = component['context'].getMenu({ data: groupedAlert });
-
-          const menuButton2 = menu[0].submenu[1];
-          expect(menuButton2.text).toEqual('overview.yourTasks.priority2');
-          menuButton2.onClick();
-          expect(globalNavigateSpy).toHaveBeenCalledWith(
-            'demand-validation',
-            {
-              alertType: [aciadpOption, cfpraoOption],
-              customerNumber: [{ id: '1', text: 'first customer' }],
-              materialNumber: [{ id: '2', text: 'Material 2' }],
-            },
-            undefined
-          );
-        });
-      });
-
-      describe('selected priority button', () => {
-        it('should call the correct filter, when both priorities are selected', () => {
-          Stub.setInputs([
-            {
-              property: 'openFunction',
-              value: OpenFunction.Validation_Of_Demand,
-            },
-            {
-              property: 'priorities',
-              value: [Priority.Priority1, Priority.Priority2],
-            },
-          ]);
-          const menu = component['context'].getMenu({ data: groupedAlert });
-
-          const menuButton3 = menu[0].submenu[2];
-          expect(menuButton3.text).toEqual(
-            'overview.yourTasks.selectedPriorities'
-          );
-          menuButton3.onClick();
-          expect(globalNavigateSpy).toHaveBeenCalledWith(
-            'demand-validation',
-            {
-              alertType: [aciadpOption, cfpraoOption],
-              customerNumber: [{ id: '1', text: 'first customer' }],
-              materialNumber: [
-                { id: '1', text: 'Material 1' },
-                { id: '2', text: 'Material 2' },
-              ],
-            },
-            undefined
-          );
-        });
-
-        it('should call the correct filter, when only one priority is selected', () => {
-          Stub.setInputs([
-            {
-              property: 'openFunction',
-              value: OpenFunction.Validation_Of_Demand,
-            },
-            { property: 'priorities', value: [Priority.Priority1] },
-          ]);
-
-          const menu = component['context'].getMenu({ data: groupedAlert });
-
-          const menuButton3 = menu[0].submenu[2];
-          expect(menuButton3.text).toEqual(
-            'overview.yourTasks.selectedPriorities'
-          );
-          globalNavigateSpy = jest.spyOn(
-            component['globalSelectionStateService'],
-            'navigateWithGlobalSelection'
-          );
-          menuButton3.onClick();
-          expect(globalNavigateSpy).toHaveBeenCalledWith(
-            'demand-validation',
-            {
-              alertType: [aciadpOption],
-              customerNumber: [{ id: '1', text: 'first customer' }],
-              materialNumber: [{ id: '1', text: 'Material 1' }],
-            },
-            undefined
-          );
-        });
-
-        it('should call the correct filter, when priority, alertTypes and materialNumbers are undefined', () => {
-          Stub.setInputs([
-            {
-              property: 'openFunction',
-              value: OpenFunction.Validation_Of_Demand,
-            },
-          ]);
-
-          const menu = component['context'].getMenu({
-            data: {
-              ...groupedAlert,
-              alertTypes: undefined,
-              materialNumbers: undefined,
-            },
-          });
-
-          const menuButton3 = menu[0].submenu[2];
-          expect(menuButton3.text).toEqual(
-            'overview.yourTasks.selectedPriorities'
-          );
-          globalNavigateSpy = jest.spyOn(
-            component['globalSelectionStateService'],
-            'navigateWithGlobalSelection'
-          );
-          menuButton3.onClick();
-          expect(globalNavigateSpy).toHaveBeenCalledWith(
-            'demand-validation',
-            {
-              alertType: [],
-              customerNumber: [{ id: '1', text: 'first customer' }],
-              materialNumber: [],
-            },
-            undefined
-          );
-        });
-      });
-    });
-
-    describe('filter', () => {
-      let groupDataSpy: jest.SpyInstance;
-      beforeEach(() => {
-        groupDataSpy = jest.spyOn(
-          component['alertService'],
-          'groupDataByCustomerAndPriority'
-        );
-      });
-      it('should filter data by customer numbers', () => {
-        Stub.setInputs([
-          {
-            property: 'openFunction',
-            value: OpenFunction.Validation_Of_Demand,
-          },
-          { property: 'customers', value: ['1', '2'] },
-          { property: 'headline', value: 'test headline' },
-        ]);
-        Stub.detectChanges();
-
-        expect(groupDataSpy).toHaveBeenCalledWith([testAlert1, testAlert2]);
-      });
-
-      it('should group no data when custom filter is an empty array', () => {
-        Stub.setInputs([
-          {
-            property: 'openFunction',
-            value: OpenFunction.Validation_Of_Demand,
-          },
-          { property: 'customers', value: [] },
-          { property: 'headline', value: 'test headline' },
-        ]);
-        Stub.detectChanges();
-
-        expect(groupDataSpy).toHaveBeenCalledWith([]);
-      });
-
-      it('should group all data when no custom filter is passed', () => {
-        Stub.setInputs([
-          {
-            property: 'openFunction',
-            value: OpenFunction.Validation_Of_Demand,
-          },
-          { property: 'headline', value: 'test headline' },
-        ]);
-        Stub.detectChanges();
-        expect(groupDataSpy).toHaveBeenCalledWith([
-          testAlert1,
-          testAlert2,
-          testAlert3,
-        ]);
-      });
-
-      it('should group only alerts with matching gkam number when gkam filter has entries', () => {
-        Stub.setInputs([
-          {
-            property: 'openFunction',
-            value: OpenFunction.Validation_Of_Demand,
-          },
-          { property: 'gkamNumbers', value: ['gkam3', 'gkam2'] },
-          { property: 'headline', value: 'test headline' },
-        ]);
-        Stub.detectChanges();
-
-        expect(groupDataSpy).toHaveBeenCalledWith([testAlert2, testAlert3]);
-      });
-
-      it('should group no data when gkam filter is empty array', () => {
-        Stub.setInputs([
-          {
-            property: 'openFunction',
-            value: OpenFunction.Validation_Of_Demand,
-          },
-          { property: 'gkamNumbers', value: [] },
-          { property: 'headline', value: 'test headline' },
-        ]);
-        Stub.detectChanges();
-
-        expect(groupDataSpy).toHaveBeenCalledWith([]);
-      });
-
-      it('should group complete data when gkam filter is undefined', () => {
-        Stub.setInputs([
-          {
-            property: 'openFunction',
-            value: OpenFunction.Validation_Of_Demand,
-          },
-          { property: 'headline', value: 'test headline' },
-        ]);
-        Stub.detectChanges();
-
-        expect(groupDataSpy).toHaveBeenCalledWith([
-          testAlert1,
-          testAlert2,
-          testAlert3,
-        ]);
-      });
+      expect(menu).toEqual([]);
     });
   });
 
-  describe('integration', () => {
-    const createIntegratedComponent = createComponentFactory({
-      component: TaskPriorityGridComponent,
-      providers: [
-        AlertService,
-        provideHttpClient(),
-        provideHttpClientTesting(),
-        mockProvider(GlobalSelectionStateService, {
-          navigateWithGlobalSelection: globalNavigate,
-        }),
-        mockProvider(SelectableOptionsService),
-      ],
-      componentMocks: [TaskPrioritiesComponent, AgGridModule],
+  describe('getData', () => {
+    it('should return filtered data wrapped in a FrontendTableResponse', (done) => {
+      const mockFilteredData = [
+        { customerNumber: '123', customerName: 'Customer A' },
+        { customerNumber: '456', customerName: 'Customer B' },
+      ];
+
+      jest
+        .spyOn(component as any, 'filteredData')
+        .mockReturnValue(mockFilteredData);
+
+      component['getData$']()
+        .pipe(take(1))
+        .subscribe((response) => {
+          expect(response).toEqual({ content: mockFilteredData });
+          done();
+        });
     });
 
-    let gridApi: any;
-    beforeEach(() => {
-      gridApi = { setGridOption: jest.fn() };
+    it('should return an empty content array if filteredData is empty', (done) => {
+      jest.spyOn(component as any, 'filteredData').mockReturnValue([]);
+
+      component['getData$']()
+        .pipe(take(1))
+        .subscribe((response) => {
+          expect(response).toEqual({ content: [] });
+          done();
+        });
     });
-    it('should show the correct data in the grid, when a priority filter is set', () => {
-      spectator = createIntegratedComponent({
-        props: {
-          openFunction: OpenFunction.Validation_Of_Demand,
-          customers: ['1', '2'],
-          priorities: [Priority.Priority1, Priority.Priority2],
-          headline: 'test headline',
-        },
-      });
-      const alertService = spectator.inject(AlertService);
-      alertService.allActiveAlerts.set([testAlert1, testAlert2, testAlert3]);
-      const component = spectator.component;
+  });
 
-      component['onGridReady']({ api: gridApi } as any);
+  describe('setConfig', () => {
+    it('should configure the table with the correct settings', () => {
+      const mockColumnDefs: ColDef[] = [
+        { field: 'customerNumber', width: 90 },
+        { field: 'customerName', flex: 1 },
+      ];
 
-      expect(gridApi.setGridOption).toHaveBeenCalledWith('rowData', [
-        {
-          alertTypes: {
-            1: [AlertCategory.ACIADP],
-          },
-          customerName: 'first customer',
-          customerNumber: '1',
-          openFunction: OpenFunction.Validation_Of_Demand,
-          priorityCount: { 1: 1 },
-          materialNumbers: {
-            '1': [
+      const configSetSpy = jest.spyOn(component['config'], 'set');
+      const reloadSpy = jest.spyOn(component['reload$'](), 'next');
+
+      component['selectableOptionsService'].loading$.next(false);
+      jest.spyOn(component['isLoading$'], 'pipe').mockReturnValue(of(false));
+
+      component['setConfig'](mockColumnDefs);
+
+      expect(configSetSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          table: expect.objectContaining({
+            tableId: `task-priority-grid${component.openFunction()}`,
+            context: component['context'],
+            columnDefs: [
               {
-                id: '1',
-                text: 'Material 1',
+                columnDefs: mockColumnDefs,
+                layoutId: 0,
+                title: 'table.defaultTab',
               },
             ],
+            noRowsMessage: 'overview.yourTasks.noTasks',
+            getRowId: expect.any(Function),
+            autoSizeStrategy: false,
+            sideBar: {},
+            headerHeight: 0,
+            cellSelection: false,
+            suppressCellFocus: true,
+          }),
+          isLoading$: expect.any(Object),
+          hasTabView: false,
+          hasToolbar: false,
+          callbacks: {
+            onGridReady: expect.any(Function),
           },
+        })
+      );
+
+      // Test getRowId function
+      const getRowIdFn = configSetSpy.mock.calls[0][0].table.getRowId as any;
+      const mockRowData = { customerNumber: '12345' };
+      expect(getRowIdFn({ data: mockRowData })).toBe('12345');
+
+      // Test onGridReady callback
+      const onGridReadyFn = configSetSpy.mock.calls[0][0].callbacks
+        .onGridReady as any;
+      onGridReadyFn();
+      expect(reloadSpy).toHaveBeenCalledWith(true);
+    });
+
+    it('should combine isLoading$ and selectableOptionsService.loading$ for isLoading$', (done) => {
+      component['selectableOptionsService'].loading$.next(true);
+      component['isLoading$'] = of(false);
+
+      component['setConfig']([]);
+
+      component['config']()
+        .isLoading$.pipe(take(1))
+        .subscribe((isLoading) => {
+          expect(isLoading).toBe(true);
+          done();
+        });
+    });
+  });
+
+  describe('setColumnDefinitions', () => {
+    it('should configure the table with the correct column definitions', () => {
+      const setConfigSpy = jest.spyOn<any, any>(component, 'setConfig');
+
+      component['setColumnDefinitions']();
+
+      expect(setConfigSpy).toHaveBeenCalledWith([
+        {
+          field: 'customerNumber',
+          width: 90,
+          cellStyle: { padding: 0 },
         },
         {
-          alertTypes: {
-            2: [AlertCategory.CFPRAO],
-          },
-          customerName: 'second customer',
-          customerNumber: '2',
-          openFunction: OpenFunction.Validation_Of_Demand,
-          priorityCount: { 2: 1 },
-          materialNumbers: {
-            '2': [
-              {
-                id: '2',
-                text: 'Material 2',
-              },
-            ],
-          },
+          field: 'customerName',
+          flex: 1,
+          cellStyle: { padding: 0 },
+        },
+        {
+          field: 'priorityCount',
+          width: 145,
+          cellRenderer: TaskPrioritiesComponent,
+          cellStyle: { padding: 0 },
+        },
+        {
+          cellClass: ['fixed-action-column'],
+          field: 'menu',
+          width: 50,
+          cellRenderer: ActionsMenuCellRendererComponent,
+          cellStyle: { borderLeft: 0 },
         },
       ]);
     });
+  });
 
-    it('should show the correct data in the grid, when the priority filter is an empty array', () => {
-      spectator = createIntegratedComponent({
-        props: {
-          openFunction: OpenFunction.Validation_Of_Demand,
-          customers: ['1', '2'],
-          priorities: [],
-          headline: 'test headline',
-        },
-      });
-      const alertService = spectator.inject(AlertService);
-      alertService.allActiveAlerts.set([testAlert1, testAlert2, testAlert3]);
-      const component = spectator.component;
-      component['onGridReady']({ api: gridApi } as any);
+  describe('getSelectableOptionForAlert', () => {
+    it('should return the matching option when loadingError is null', () => {
+      const mockOptions = {
+        loadingError: null,
+        options: [
+          { id: 'success', text: 'success' },
+          { id: 'info', text: 'info' },
+        ],
+      } as any;
 
-      expect(gridApi.setGridOption).toHaveBeenCalledWith('rowData', []);
+      jest
+        .spyOn(component['selectableOptionsService'], 'get')
+        .mockReturnValue(mockOptions);
+
+      const result = component['getSelectableOptionForAlert']('success');
+
+      expect(result).toEqual({ id: 'success', text: 'success' });
     });
 
-    it('should show the correct data in the grid, when no filter is set', () => {
-      spectator = createIntegratedComponent({
-        props: {
-          openFunction: OpenFunction.Validation_Of_Demand,
-          headline: 'test headline',
-        },
-      });
-      const alertService = spectator.inject(AlertService);
-      alertService.allActiveAlerts.set([testAlert1, testAlert2, testAlert3]);
-      const component = spectator.component;
-      component['onGridReady']({ api: gridApi } as any);
+    it('should return a fallback option when loadingError is not null', () => {
+      const mockOptions = {
+        loadingError: 'Error loading options',
+        options: [],
+      } as any;
 
-      expect(gridApi.setGridOption).toHaveBeenCalledWith('rowData', [
-        {
-          alertTypes: {
-            1: [AlertCategory.ACIADP],
-          },
-          customerName: 'first customer',
-          customerNumber: '1',
-          openFunction: OpenFunction.Validation_Of_Demand,
-          priorityCount: { 1: 1 },
-          materialNumbers: {
-            '1': [
-              {
-                id: '1',
-                text: 'Material 1',
-              },
-            ],
-          },
-        },
-        {
-          alertTypes: {
-            2: [AlertCategory.CFPRAO],
-          },
-          customerName: 'second customer',
-          customerNumber: '2',
-          openFunction: OpenFunction.Validation_Of_Demand,
-          priorityCount: { 2: 1 },
-          materialNumbers: {
-            '2': [
-              {
-                id: '2',
-                text: 'Material 2',
-              },
-            ],
-          },
-        },
-        {
-          alertTypes: {
-            3: [AlertCategory.NPOSDP],
-          },
-          customerName: 'third customer',
-          customerNumber: '3',
-          openFunction: OpenFunction.Validation_Of_Demand,
-          priorityCount: { 3: 1 },
-          materialNumbers: {
-            '3': [
-              {
-                id: '3',
-                text: 'Material 3',
-              },
-            ],
-          },
-        },
-      ]);
+      jest
+        .spyOn(component['selectableOptionsService'], 'get')
+        .mockReturnValue(mockOptions);
+
+      const result = component['getSelectableOptionForAlert']('success');
+
+      expect(result).toEqual({
+        id: 'success',
+        text: 'success',
+      });
+    });
+
+    it('should return a fallback option when no matching option is found', () => {
+      const mockOptions = {
+        loadingError: null,
+        options: [{ id: 'info', text: 'info' }],
+      } as any;
+
+      jest
+        .spyOn(component['selectableOptionsService'], 'get')
+        .mockReturnValue(mockOptions);
+
+      const result = component['getSelectableOptionForAlert']('success');
+
+      expect(result).toEqual({
+        id: 'success',
+        text: 'success',
+      });
+    });
+
+    it('should return a fallback option if loadingError is not null', () => {
+      const mockOptions = {
+        loadingError: true,
+        options: [],
+      } as any;
+
+      jest
+        .spyOn(component['selectableOptionsService'], 'get')
+        .mockReturnValue(mockOptions);
+
+      const result = component['getSelectableOptionForAlert']('success');
+
+      expect(result).toEqual({
+        id: 'success',
+        text: 'success',
+      });
     });
   });
 });

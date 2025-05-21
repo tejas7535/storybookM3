@@ -1149,6 +1149,18 @@
     }
   },
   "table": {
+    "defaultTab": "默认",
+    "dialog": {
+      "createOrUpdate": {
+        "layoutLabel": "副本",
+        "title": {
+          "add": "创建新布局",
+          "edit": "编辑布局"
+        },
+        "titleLabel": "名称"
+      },
+      "deleteTab": "是否确实要永久删除该布局?"
+    },
     "toolbar": {
       "activeFilterCount": "当前过滤器: {{count}}",
       "currentCount": "当前选择: {{count}}",

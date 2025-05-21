@@ -1,0 +1,61 @@
+<ng-container *transloco="let t">
+  <!-- Dialog Title -->
+  <div mat-dialog-title class="m-0 pt-0">
+    <div class="flex">
+      <h2 class="text-title-large flex-auto">
+        {{
+          t(
+            'table.dialog.createOrUpdate.title.' +
+              (data.action === TabAction.Add ? 'add' : 'edit')
+          )
+        }}
+      </h2>
+    </div>
+  </div>
+
+  <!-- Dialog Content -->
+  <mat-dialog-content>
+    <form [class.mt-4]="true" [formGroup]="form">
+      <!-- layout select -->
+      <d360-filter-dropdown
+        [form]="form"
+        [control]="$any(form.controls.layoutId)"
+        [label]="layoutLabel"
+        [options]="data.layouts"
+        [formatSelectedValue]="DisplayFunctions.displayFnText"
+        [formatOptionValue]="DisplayFunctions.displayFnText"
+      />
+
+      <!-- title input field -->
+      <mat-form-field appearance="outline">
+        <mat-label>{{ t(titleLabel) }}</mat-label>
+        <input
+          matInput
+          [attr.aria-label]="t(titleLabel)"
+          [formControl]="$any(form.controls.title)"
+          type="text"
+          #input
+          [maxLength]="maxLength"
+        />
+
+        <!-- Character Count -->
+        <mat-hint align="end">
+          {{ input.value?.length || 0 }} / {{ maxLength }}
+        </mat-hint>
+
+        <!-- Validation Error -->
+        @if (form.controls.title.hasError('required')) {
+          <mat-error>{{ t('generic.validation.missing_fields') }}</mat-error>
+        }
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+
+  <!-- Dialog Actions -->
+  <mat-dialog-actions align="end" class="gap-3">
+    <button mat-button mat-dialog-close>{{ t('button.cancel', {}) }}</button>
+    <button mat-flat-button (click)="onSave()">
+      {{ t('button.save', {}) }}
+    </button>
+  </mat-dialog-actions>
+</ng-container>

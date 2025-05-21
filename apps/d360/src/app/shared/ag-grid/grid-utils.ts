@@ -1,6 +1,6 @@
 import { GridApi } from 'ag-grid-enterprise';
 
-import { ColumnSetting } from '../services/abstract-column-settings.service';
+import { ColumnSetting } from '../components/table';
 
 export function showFloatingFilters(gridApi: GridApi, visible: boolean) {
   const columnDefs = gridApi.getColumnDefs();
@@ -32,7 +32,7 @@ export function applyColumnSettings<ColId extends string>(
     state: columnDefinitions.map((col) => ({
       colId: col.colId,
       hide: !col.visible,
-      sort: col.sort,
+      sort: col.sort || null,
     })),
     applyOrder: true,
   });

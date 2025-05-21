@@ -8,13 +8,13 @@ import { DataHintComponent } from '../../data-hint/data-hint.component';
 
 @Component({
   selector: 'd360-no-data-overlay',
-  template: ` <d360-data-hint [text]="text"></d360-data-hint>`,
+  template: '<d360-data-hint [text]="text" />',
   imports: [DataHintComponent],
 })
 export class NoDataOverlayComponent implements INoRowsOverlayAngularComp {
-  protected text: string;
+  protected text = '';
 
-  agInit(params: INoRowsOverlayParams & { message: string }): void {
+  public agInit(params: INoRowsOverlayParams & { message: string }): void {
     this.text = params.message || translate('hint.noData');
   }
 }

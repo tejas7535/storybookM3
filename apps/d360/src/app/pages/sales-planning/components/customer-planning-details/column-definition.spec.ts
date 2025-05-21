@@ -97,7 +97,7 @@ describe('Column Definitions', () => {
         (col) => col.colId === 'budgetNetSales'
       );
       expect(sampleColumn).toMatchObject({
-        sortable: false,
+        sortable: true,
         alwaysVisible: false,
         valueFormatter: valueFormatters.monetary,
       });

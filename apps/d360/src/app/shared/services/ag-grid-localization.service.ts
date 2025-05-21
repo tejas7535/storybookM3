@@ -3,10 +3,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import { map } from 'rxjs';
 
-import { TranslocoService } from '@jsverse/transloco';
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import { ITooltipParams, ValueFormatterParams } from 'ag-grid-enterprise';
-
 import {
   AG_GRID_LOCALE_BR,
   AG_GRID_LOCALE_CN,
@@ -15,8 +11,10 @@ import {
   AG_GRID_LOCALE_ES,
   AG_GRID_LOCALE_FR,
   AG_GRID_LOCALE_IT,
-} from '../ag-grid/grid-locale';
-
+} from '@ag-grid-community/locale';
+import { TranslocoService } from '@jsverse/transloco';
+import { TranslocoLocaleService } from '@jsverse/transloco-locale';
+import { ITooltipParams, ValueFormatterParams } from 'ag-grid-enterprise';
 @Injectable({
   providedIn: 'root',
 })

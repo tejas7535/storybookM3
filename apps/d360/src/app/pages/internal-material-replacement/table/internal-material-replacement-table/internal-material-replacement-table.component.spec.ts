@@ -1,19 +1,9 @@
-import { BehaviorSubject, of } from 'rxjs';
+import { of } from 'rxjs';
 
-import {
-  FirstDataRenderedEvent,
-  GridApi,
-  GridReadyEvent,
-  ICellRendererParams,
-} from 'ag-grid-enterprise';
 import { MockProvider } from 'ng-mocks';
 
 import { IMRService } from '../../../../feature/internal-material-replacement/imr.service';
-import { IMRSubstitution } from '../../../../feature/internal-material-replacement/model';
-import { ActionsMenuCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
 import { Stub } from '../../../../shared/test/stub.class';
-import { InternalMaterialReplacementSingleDeleteModalComponent } from '../../components/modals/internal-material-replacement-single-delete-modal/internal-material-replacement-single-delete-modal.component';
-import { InternalMaterialReplacementSingleSubstitutionModalComponent } from '../../components/modals/internal-material-replacement-single-substitution-modal/internal-material-replacement-single-substitution-modal.component';
 import { InternalMaterialReplacementTableComponent } from './internal-material-replacement-table.component';
 
 describe('InternalMaterialReplacementTableComponent', () => {
@@ -30,239 +20,101 @@ describe('InternalMaterialReplacementTableComponent', () => {
     });
 
     // Mock the selectedRegion input
-    (component as any)['selectedRegion'] = jest.fn().mockReturnValue('region1');
+    Stub.setInput('selectedRegion', 'region1');
   });
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('context', () => {
-    it('should return the correct menu items for edit and delete', () => {
-      const params = {
-        data: {
-          customerNumber: '123',
-          predecessorMaterial: '456',
-          region: '789',
-          salesArea: '012',
-          salesOrg: '345',
-        },
-      } as ICellRendererParams<any, IMRSubstitution>;
+  describe('getData', () => {
+    it('should call imrService.getIMRData with correct parameters', () => {
+      const mockParams = { page: 1, pageSize: 10 };
+      const imrServiceSpy = jest.spyOn(component['imrService'], 'getIMRData');
 
-      const editSpy = jest.spyOn(component as any, 'edit');
-      const deleteSpy = jest.spyOn(component as any, 'delete');
+      component['getData$'](mockParams as any).subscribe();
 
-      const menu = component['context'].getMenu(params);
-
-      expect(menu).toHaveLength(2);
-
-      expect(menu[0].text).toBe('button.edit');
-      menu[0].onClick();
-      expect(editSpy).toHaveBeenCalledWith(params);
-
-      expect(menu[1].text).toBe('button.delete');
-      menu[1].onClick();
-      expect(deleteSpy).toHaveBeenCalledWith(params);
+      expect(imrServiceSpy).toHaveBeenCalledWith(
+        { region: ['region1'] },
+        mockParams
+      );
     });
   });
 
-  describe('onGridReady', () => {
-    it('should set gridApi and call setServerSideDatasource', () => {
-      const mockGridApi: GridApi = Stub.getGridApi();
-      jest.spyOn(component as any, 'setServerSideDatasource');
+  describe('setColumnDefinitions', () => {
+    it('should set column definitions when loading$ emits false', () => {
+      const setConfigSpy = jest.spyOn<any, any>(component, 'setConfig');
+      const selectableOptionsService = component['selectableOptionsService'];
+      selectableOptionsService.loading$.next(false);
 
-      const event = { api: mockGridApi } as GridReadyEvent;
+      component['setColumnDefinitions']();
 
-      component['onGridReady'](event);
-
-      expect(component.gridApi).toBe(mockGridApi);
-      expect(component['setServerSideDatasource']).toHaveBeenCalledWith(
-        'region1'
-      );
-    });
-
-    it('should handle null gridApi gracefully', () => {
-      const event = { api: null } as GridReadyEvent;
-      expect(() => component['onGridReady'](event)).not.toThrow();
-    });
-  });
-
-  describe('setServerSideDatasource', () => {
-    it('should set serverSideDatasource with selectedRegion', () => {
-      const mockGridApi = Stub.getGridApi();
-      component.gridApi = mockGridApi;
-
-      component['setServerSideDatasource']('region1');
-
-      expect(mockGridApi.setGridOption).toHaveBeenCalledWith(
-        'serverSideDatasource',
-        expect.any(Function)
-      );
-    });
-
-    it('should handle null gridApi gracefully', () => {
-      component.gridApi = null;
-      expect(() =>
-        component['setServerSideDatasource']('region1')
-      ).not.toThrow();
+      expect(setConfigSpy).toHaveBeenCalled();
     });
   });
 
   describe('edit', () => {
-    it('should open the edit dialog and update the grid on success', () => {
-      const params = {
-        data: {},
-        api: Stub.getGridApi(),
-      } as any;
-
-      component['edit'](params);
-
-      expect(component['dialog'].open).toHaveBeenCalledWith(
-        InternalMaterialReplacementSingleSubstitutionModalComponent,
-        {
-          data: {
-            substitution: params.data,
-            isNewSubstitution: false,
-            gridApi: params.api,
-          },
-          panelClass: ['form-dialog', 'internal-material-replacement'],
-          disableClose: true,
-          autoFocus: false,
-        }
+    it('should open the substitution modal and update data if reloadData is true', () => {
+      component['gridApi'] = Stub.getGridApi();
+      const mockParams = { data: {}, api: component['gridApi'] } as any;
+      const dialogSpy = jest
+        .spyOn(component['dialog'], 'open')
+        .mockReturnValue({
+          afterClosed: () =>
+            of({ reloadData: true, redefinedSubstitution: {} }),
+        } as any);
+      const applyTransactionSpy = jest.spyOn(
+        component['gridApi'],
+        'applyServerSideTransaction'
       );
+
+      component['edit'](mockParams);
+
+      expect(dialogSpy).toHaveBeenCalled();
+      expect(applyTransactionSpy).toHaveBeenCalledWith({
+        update: [{}],
+      });
     });
   });
 
   describe('delete', () => {
-    it('should open the delete dialog and update the grid on success', () => {
-      const mockGridApi = {
-        applyServerSideTransaction: jest.fn(),
-      };
-      const params = {
-        data: {},
-        api: mockGridApi,
-      } as any;
-
-      component['delete'](params);
-
-      expect(component['dialog'].open).toHaveBeenCalledWith(
-        InternalMaterialReplacementSingleDeleteModalComponent,
-        {
-          data: params.data,
-          autoFocus: false,
-          disableClose: true,
-        }
+    it('should open the delete modal and remove data if reloadData is true', () => {
+      const mockParams = { data: {}, api: Stub.getGridApi() } as any;
+      const dialogSpy = jest
+        .spyOn(component['dialog'], 'open')
+        .mockReturnValue({
+          afterClosed: () => of(true),
+        } as any);
+      const applyTransactionSpy = jest.spyOn(
+        mockParams.api,
+        'applyServerSideTransaction'
       );
+      const dataFetchedEventSpy = jest.spyOn(
+        component['dataFetchedEvent$'],
+        'next'
+      );
+
+      component['delete'](mockParams);
+
+      expect(dialogSpy).toHaveBeenCalled();
+      expect(applyTransactionSpy).toHaveBeenCalledWith({
+        remove: [{}],
+      });
+      expect(dataFetchedEventSpy).toHaveBeenCalled();
     });
   });
 
-  describe('onFirstDataRendered', () => {
-    it('should auto size all columns', () => {
-      const mockGridApi = {
-        autoSizeAllColumns: jest.fn(),
-      } as any;
-      const event = { api: mockGridApi } as FirstDataRenderedEvent;
-
-      component['onFirstDataRendered'](event);
-
-      expect(mockGridApi.autoSizeAllColumns).toHaveBeenCalled();
-    });
-  });
-
-  describe('updateColumnDefs', () => {
-    beforeEach(() => {
-      component['gridApi'] = Stub.getGridApi();
-    });
-
-    it('should initialize column definitions with correct structure', () => {
-      const setGridOptionSpy = jest.spyOn(
-        component['gridApi'],
-        'setGridOption'
+  describe('constructor', () => {
+    it('should call setColumnDefinitions when selectedRegion changes', () => {
+      const setColumnDefinitionsSpy = jest.spyOn<any, any>(
+        component,
+        'setColumnDefinitions'
       );
 
-      component['selectableOptionsService'].loading$ = new BehaviorSubject(
-        false
-      );
+      Stub.setInput('selectedRegion', 'region2');
+      Stub.detectChanges();
 
-      component['updateColumnDefs']();
-
-      expect(setGridOptionSpy).toHaveBeenCalledWith(
-        'columnDefs',
-        expect.arrayContaining([
-          {
-            cellClass: ['fixed-action-column'],
-            field: 'menu',
-            headerName: '',
-            cellRenderer: ActionsMenuCellRendererComponent,
-            lockVisible: true,
-            pinned: 'right',
-            lockPinned: true,
-            suppressHeaderMenuButton: true,
-            maxWidth: 64,
-            suppressSizeToFit: true,
-          },
-        ])
-      );
-    });
-
-    it('should not set column definitions if loading is true', () => {
-      const setGridOptionSpy = jest.spyOn(
-        component['gridApi'],
-        'setGridOption'
-      );
-      setGridOptionSpy.mockClear();
-      jest
-        .spyOn(component['selectableOptionsService'].loading$, 'pipe')
-        .mockReturnValue(of(true));
-
-      component['updateColumnDefs']();
-
-      expect(setGridOptionSpy).not.toHaveBeenCalledWith(
-        'columnDefs',
-        expect.anything()
-      );
-    });
-  });
-
-  describe('getRowId', () => {
-    it('should return the concatenated id of the row', () => {
-      const params = {
-        data: {
-          customerNumber: '123',
-          predecessorMaterial: '456',
-          region: '789',
-          salesArea: '012',
-          salesOrg: '345',
-        },
-      } as any;
-      const rowId = component['getRowId'](params);
-      expect(rowId).toBe('123-456-789-012-345');
-    });
-
-    it('should handle missing data fields gracefully', () => {
-      const params = {
-        data: {
-          customerNumber: '123',
-          predecessorMaterial: null,
-          region: '789',
-          salesArea: undefined,
-          salesOrg: '345',
-        },
-      } as any;
-      const rowId = component['getRowId'](params);
-      expect(rowId).toBe('123--789--345');
-    });
-
-    it('should return a string with empty fields if data is null', () => {
-      const params = { data: null } as any;
-      const rowId = component['getRowId'](params);
-      expect(rowId).toBe('----');
-    });
-
-    it('should return a string with empty fields if data is undefined', () => {
-      const params = { data: undefined } as any;
-      const rowId = component['getRowId'](params);
-      expect(rowId).toBe('----');
+      expect(setColumnDefinitionsSpy).toHaveBeenCalled();
     });
   });
 });

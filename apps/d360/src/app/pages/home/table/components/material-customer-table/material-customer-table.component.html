@@ -1,35 +1,15 @@
-<d360-table-toolbar
-  [rowCount]="totalRowCount()"
-  [grid]="gridApi"
+<d360-backend-table
   *transloco="let t"
+  [config]="config()!"
+  [getData]="getData$"
+  (onColumnFilterChange)="onColumnFilterChange.emit($event)"
+  (getGridApi)="gridApi = $event"
+  [reload$]="reload$()"
 >
-  <div class="flex items-center">
+  <div toolbarRight class="flex items-center">
     <button mat-button [disabled]="isExportDisabled()" (click)="openExport()">
       <mat-icon>swap_vert</mat-icon>
       {{ t('button.export') }}
     </button>
-
-    <div class="relative">
-      <button mat-icon-button (click)="openColumnLayoutManagementModal($event)">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-    </div>
   </div>
-</d360-table-toolbar>
-
-<ag-grid-angular
-  #materialCustomerGrid
-  [gridOptions]="gridOptions"
-  (gridReady)="onGridReady($event)"
-  [localeText]="agGridLocalizationService.lang()"
-  class="ag-theme-material grow"
-  [tooltipShowDelay]="0"
-  (filterChanged)="onFilterChange($event)"
-  [getRowStyle]="getVisibilityBackground"
-  [getRowId]="getIdForRow"
-  [defaultColDef]="defaultCol"
-  [stopEditingWhenCellsLoseFocus]="true"
-  [suppressColumnVirtualisation]="true"
-  [cellSelection]="{ handle: { mode: 'range' } }"
-  (firstDataRendered)="onFirstDataRendered($event)"
-/>
+</d360-backend-table>

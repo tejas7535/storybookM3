@@ -42,6 +42,7 @@
     }
   },
   "dependencies": {
+    "@ag-grid-community/locale": "32.3.3",
     "@altack/ngx-onetrust": "1.5.0",
     "@angular/animations": "19.2.11",
     "@angular/cdk": "19.2.16",

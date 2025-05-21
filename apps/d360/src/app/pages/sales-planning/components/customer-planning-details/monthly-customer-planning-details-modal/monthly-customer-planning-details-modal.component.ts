@@ -1,42 +1,30 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  computed,
-  DestroyRef,
-  inject,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatIconButton } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 
-import { finalize, map, tap } from 'rxjs';
+import { BehaviorSubject, finalize, map, Observable } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import { AgGridAngular } from 'ag-grid-angular';
-import {
-  ColDef,
-  GetRowIdParams,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-} from 'ag-grid-enterprise';
+import { GetRowIdParams } from 'ag-grid-enterprise';
 
-import { DetailedCustomerSalesPlan } from '../../../../../feature/sales-planning/model';
 import { SalesPlanningService } from '../../../../../feature/sales-planning/sales-planning.service';
 import {
-  clientSideTableDefaultProps,
   columnSideBar,
   getDefaultColDef,
 } from '../../../../../shared/ag-grid/grid-defaults';
 import { StyledSectionComponent } from '../../../../../shared/components/styled-section/styled-section.component';
+import {
+  AbstractFrontendTableComponent,
+  ExtendedColumnDefs,
+  FrontendTableComponent,
+  FrontendTableResponse,
+  TableCreator,
+} from '../../../../../shared/components/table';
 import { NumberWithoutFractionDigitsPipe } from '../../../../../shared/pipes/number-without-fraction-digits.pipe';
-import { AgGridLocalizationService } from '../../../../../shared/services/ag-grid-localization.service';
-import { getColumnDefinitions } from '../column-definition';
-import { MonthlyCustomerPlanningDetailsColumnSettingsService } from './service/monthly-customer-planning-details-column-settings.service';
+import { getColumnDefinitions, TimeScope } from '../column-definition';
 
 export interface MonthlyCustomerPlanningDetailsProps {
   customerName: string;
@@ -50,101 +38,75 @@ export interface MonthlyCustomerPlanningDetailsProps {
   totalSalesPlanUnconstrained: number;
   totalSalesPlanAdjusted: number;
 }
-
-type MonthlyCustomerPlanningDetailsColumnDefinitions = ReturnType<
-  typeof getColumnDefinitions
->[number];
-
 @Component({
   selector: 'd360-monthly-customer-planning-details-modal',
+
   imports: [
     CommonModule,
     MatIcon,
     MatIconButton,
-    AgGridAngular,
+    FrontendTableComponent,
     StyledSectionComponent,
   ],
   templateUrl: './monthly-customer-planning-details-modal.component.html',
 })
-export class MonthlyCustomerPlanningDetailsModalComponent implements OnInit {
+export class MonthlyCustomerPlanningDetailsModalComponent extends AbstractFrontendTableComponent {
   protected readonly dialogRef: MatDialogRef<MonthlyCustomerPlanningDetailsModalComponent> =
     inject(MatDialogRef<MonthlyCustomerPlanningDetailsModalComponent>);
 
   protected readonly data: MonthlyCustomerPlanningDetailsProps =
     inject(MAT_DIALOG_DATA);
 
-  protected readonly columnSettingsService: MonthlyCustomerPlanningDetailsColumnSettingsService<
-    string,
-    MonthlyCustomerPlanningDetailsColumnDefinitions
-  > = inject(
-    MonthlyCustomerPlanningDetailsColumnSettingsService<
-      string,
-      MonthlyCustomerPlanningDetailsColumnDefinitions
-    >
-  );
-
-  private readonly translocoLocaleService = inject(TranslocoLocaleService);
-  private readonly destroyRef = inject(DestroyRef);
   private readonly salesPlanningService = inject(SalesPlanningService);
   private readonly numberWithoutFractionDigitsPipe = inject(
     NumberWithoutFractionDigitsPipe
   );
 
-  protected readonly agGridLocalizationService: AgGridLocalizationService =
-    inject(AgGridLocalizationService);
-  protected gridApi: GridApi | null = null;
-
   private hasChangedData = false;
 
-  protected gridOptions: GridOptions = {
-    ...clientSideTableDefaultProps,
-    context: {
-      numberPipe: this.numberWithoutFractionDigitsPipe,
-      reloadData: () => {
-        this.fetchData();
-        this.hasChangedData = true;
-      },
-    },
-    sideBar: {
-      toolPanels: [columnSideBar],
-    },
-    suppressGroupRowsSticky: true,
-    getRowId: (params: GetRowIdParams<DetailedCustomerSalesPlan>): string =>
-      `${params.data.customerNumber}-${params.data.planningYear}-${params.data.planningMonth}-${params.data.planningMaterial}`,
-  };
+  private firstCall = true;
+  private readonly isLoading$ = new BehaviorSubject<boolean>(true);
 
-  public readonly isLoading = signal(false);
-
-  public readonly title = computed(() => {
-    const planning = translate('sales_planning.table.planning');
-
-    return `${planning} ${this.data.planningYear} ${this.data.planningEntry}`;
-  });
-
-  public readonly subtitle = computed(() => {
-    const yearly = translate('sales_planning.table.yearly');
-    const totalSalesPlanUnconstrained = translate(
-      'sales_planning.table.totalSalesPlanUnconstrained'
-    );
-    const totalSalesPlanAdjusted = translate(
-      'sales_planning.table.totalSalesPlanAdjusted'
-    );
-
+  public get title(): string {
     return [
-      `${yearly} ${totalSalesPlanUnconstrained} ${this.numberWithoutFractionDigitsPipe.transform(this.data.totalSalesPlanUnconstrained)}`,
-      `${yearly} ${totalSalesPlanAdjusted} ${this.data.totalSalesPlanAdjusted === -1 ? '-' : this.numberWithoutFractionDigitsPipe.transform(this.data.totalSalesPlanAdjusted)}`,
-      this.data.customerName,
-    ].join(' | ');
-  });
-
-  public ngOnInit(): void {
-    this.fetchData();
+      translate('sales_planning.table.planning'),
+      this.data.planningYear,
+      this.data.planningEntry,
+    ].join(' ');
   }
 
-  public fetchData(): void {
-    this.isLoading.set(true);
+  public get subtitle(): string {
+    const yearly = translate('sales_planning.table.yearly');
 
-    this.salesPlanningService
+    return [
+      [
+        yearly,
+        `${translate('sales_planning.table.totalSalesPlanUnconstrained')}:`,
+        this.numberWithoutFractionDigitsPipe.transform(
+          this.data.totalSalesPlanUnconstrained
+        ),
+      ].join(' '),
+      [
+        yearly,
+        `${translate('sales_planning.table.totalSalesPlanAdjusted')}:`,
+        this.data.totalSalesPlanAdjusted === -1
+          ? '-'
+          : this.numberWithoutFractionDigitsPipe.transform(
+              this.data.totalSalesPlanAdjusted
+            ),
+      ].join(' '),
+      this.data.customerName,
+    ].join(' | ');
+  }
+
+  /** @inheritdoc */
+  protected readonly getData$: () => Observable<FrontendTableResponse> = () => {
+    if (this.firstCall) {
+      this.isLoading$.next(true);
+      this.firstCall = false;
+    }
+
+    return this.salesPlanningService
       .getDetailedCustomerSalesPlan({
         customerNumber: this.data.customerNumber,
         planningCurrency: this.data.planningCurrency,
@@ -157,67 +119,76 @@ export class MonthlyCustomerPlanningDetailsModalComponent implements OnInit {
         map((allMonths) =>
           allMonths.filter((month) => month.planningMonth !== '00')
         ),
-        tap((data) => {
-          this.gridApi?.setGridOption('rowData', data);
-        }),
-        finalize(() => this.isLoading.set(false)),
+        map((content) => ({ content })),
+        finalize(() => this.isLoading$.next(false)), // Close loading overlay
         takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
+      );
+  };
+
+  /** @inheritdoc */
+  protected override setConfig(columnDefs: ExtendedColumnDefs[]): void {
+    this.config.set(
+      TableCreator.get({
+        table: TableCreator.getTable({
+          tableId: 'sales-planning-customer-details-monthly',
+          context: {
+            numberPipe: this.numberWithoutFractionDigitsPipe,
+            reloadData: () => {
+              this.reload$().next(true);
+              this.hasChangedData = true;
+            },
+          },
+          columnDefs,
+          getRowId: ({ data }: GetRowIdParams): string =>
+            [
+              data.customerNumber,
+              data.planningYear,
+              data.planningMonth,
+              data.planningMaterial,
+            ].join('-'),
+          sideBar: { toolPanels: [columnSideBar] },
+        }),
+        isLoading$: this.isLoading$,
+        hasToolbar: false,
+        hasTabView: true,
+        maxAllowedTabs: 5,
+      })
+    );
+  }
+
+  /** @inheritdoc */
+  protected override setColumnDefinitions(): void {
+    this.setConfig([
+      ...(getColumnDefinitions(TimeScope.Monthly).map((col) => ({
+        ...getDefaultColDef(
+          this.translocoLocaleService.getLocale(),
+          col.filter,
+          col.filterParams
+        ),
+        key: col.colId,
+        colId: col.colId,
+        field: col.colId,
+        headerName: col.title,
+        headerTooltip: col.title,
+        filter: col.filter,
+        cellRenderer: col.cellRenderer,
+        cellRendererParams: col.cellRendererParams,
+        hide: !col.visible,
+        sortable: col.sortable,
+        sort: col.sort,
+        lockVisible: col.alwaysVisible,
+        lockPinned: true,
+        valueFormatter: col.valueFormatter,
+        maxWidth: col?.maxWidth,
+        tooltipComponent: col?.tooltipComponent,
+        tooltipComponentParams: col?.tooltipComponentParams,
+        tooltipField: col?.tooltipField,
+        visible: col.visible,
+      })) || []),
+    ]);
   }
 
   public onClose() {
     this.dialogRef.close(this.hasChangedData);
-  }
-
-  public onGridReady(event: GridReadyEvent): void {
-    this.gridApi = event.api;
-    this.createColumnDefs();
-  }
-
-  private createColumnDefs() {
-    this.columnSettingsService
-      .getColumnSettings()
-      .pipe(
-        tap((columnSettings) => {
-          const floatingFilter =
-            // eslint-disable-next-line unicorn/no-array-reduce
-            columnSettings.reduce(
-              (current, next) => current || !!next.filterModel,
-              false
-            );
-
-          this.gridApi?.setGridOption('columnDefs', [
-            ...(columnSettings.map((col) => ({
-              ...getDefaultColDef(
-                this.translocoLocaleService.getLocale(),
-                col.filter,
-                col.filterParams
-              ),
-              key: col.colId,
-              colId: col.colId,
-              field: col.colId,
-              headerName: col.title,
-              headerTooltip: col.title,
-              filter: col.filter,
-              cellRenderer: col.cellRenderer,
-              cellRendererParams: col.cellRendererParams,
-              hide: !col.visible,
-              sortable: col.sortable,
-              sort: col.sort,
-              lockVisible: col.alwaysVisible,
-              lockPinned: true,
-              valueFormatter: col.valueFormatter,
-              floatingFilter,
-              maxWidth: col?.maxWidth,
-              tooltipComponent: col?.tooltipComponent,
-              tooltipComponentParams: col?.tooltipComponentParams,
-              tooltipField: col?.tooltipField,
-            })) || []),
-          ] as ColDef[]);
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
   }
 }

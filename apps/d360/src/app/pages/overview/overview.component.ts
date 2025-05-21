@@ -11,14 +11,14 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDivider } from '@angular/material/divider';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 
 import { take } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 
-import { translate, TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { PushPipe } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -29,8 +29,6 @@ import { PeriodType } from '../../feature/forecast-chart/model';
 import { CurrencyService } from '../../feature/info/currency.service';
 import { GlobalSelectionState } from '../../shared/components/global-selection-criteria/global-selection-state.service';
 import { SelectableValue } from '../../shared/components/inputs/autocomplete/selectable-values.utils';
-import { DisplayFunctions } from '../../shared/components/inputs/display-functions.utils';
-import { FilterDropdownComponent } from '../../shared/components/inputs/filter-dropdown/filter-dropdown.component';
 import { PriorityDropdownComponent } from '../../shared/components/priority-dropdown/priority-dropdown.component';
 import { StyledSectionComponent } from '../../shared/components/styled-section/styled-section.component';
 import {
@@ -60,7 +58,6 @@ export enum CustomerSalesPlanningLayout {
     OverviewFilterComponent,
     PushPipe,
     LoadingSpinnerModule,
-    FilterDropdownComponent,
     CustomerSalesPlanningGridComponent,
     MatSlideToggle,
     FormsModule,
@@ -79,10 +76,8 @@ export class OverviewComponent implements OnInit {
   );
   protected readonly selectableOptionsService: SelectableOptionsService =
     inject(SelectableOptionsService);
-  protected readonly DisplayFunctions = DisplayFunctions;
   protected readonly PeriodType = PeriodType;
   protected readonly OpenFunction = OpenFunction;
-  private readonly formBuilder: FormBuilder = inject(FormBuilder);
   protected readonly currencyService: CurrencyService = inject(CurrencyService);
   protected readonly selectedCustomer: WritableSignal<SelectableValue> =
     signal<SelectableValue>(null);
@@ -90,26 +85,7 @@ export class OverviewComponent implements OnInit {
   private readonly userService: UserService = inject(UserService);
   private readonly destroyRef = inject(DestroyRef);
 
-  protected layouts = [
-    {
-      id: CustomerSalesPlanningLayout.PreviousToCurrent,
-      text: translate('overview.yourCustomer.layout.previousToCurrent'),
-    },
-    {
-      id: CustomerSalesPlanningLayout.CurrentToNext,
-      text: translate('overview.yourCustomer.layout.currentToNext'),
-    },
-  ];
-  protected yourCustomerForm = this.formBuilder.group<{
-    layout: SelectableValue;
-  }>({
-    layout: this.layouts[0],
-  });
-
   protected selectedPriorities = signal<Priority[]>(null);
-  protected selectedLayout = signal<CustomerSalesPlanningLayout>(
-    CustomerSalesPlanningLayout.PreviousToCurrent
-  );
   protected isAssignedToMe = signal<boolean>(true);
   protected overviewFilterValue = signal<OverviewFilterValue>(null);
   protected gkamFilterIds: Signal<string[]> = computed(() =>
@@ -138,10 +114,6 @@ export class OverviewComponent implements OnInit {
       (selectableCustomer) => selectableCustomer.id
     )
   );
-
-  protected onLayoutSelectionChange(value: any) {
-    this.selectedLayout.set(value?.id);
-  }
 
   protected onOverviewFilterReset() {
     this.customerSalesPlanningGrid().resetSelection();

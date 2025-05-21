@@ -12,24 +12,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 
-import { catchError, EMPTY, Observable, switchMap, take, tap } from 'rxjs';
+import { BehaviorSubject, take, tap } from 'rxjs';
 
-import { PushPipe } from '@ngrx/component';
 import { GridApi } from 'ag-grid-enterprise';
 
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AppRoutePath } from '../../app.routes.enum';
-import { AlertRulesService } from '../../feature/alert-rules/alert-rules.service';
 import { AlertRule, AlertRuleResponse } from '../../feature/alert-rules/model';
-import { TableToolbarComponent } from '../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
 import {
   HeaderActionBarComponent,
   ProjectedContendDirective,
 } from '../../shared/components/header-action-bar/header-action-bar.component';
 import { StyledSectionComponent } from '../../shared/components/styled-section/styled-section.component';
-import { SelectableOptionsService } from '../../shared/services/selectable-options.service';
 import { AlertRuleTableComponent } from './table/components/alert-rule-table/alert-rule-table.component';
 import { AlertRuleDeleteMultiModalComponent } from './table/components/modals/alert-rule-delete-multi-modal/alert-rule-delete-multi-modal.component';
 import { AlertRuleEditMultiModalComponent } from './table/components/modals/alert-rule-edit-multi-modal/alert-rule-edit-multi-modal.component';
@@ -47,20 +42,21 @@ import {
     MatButtonModule,
     ProjectedContendDirective,
     MatIcon,
-    PushPipe,
-    LoadingSpinnerModule,
     StyledSectionComponent,
-    TableToolbarComponent,
   ],
   templateUrl: './alert-rules.component.html',
   styleUrl: './alert-rules.component.scss',
 })
 export class AlertRulesComponent implements OnDestroy, OnInit {
-  private readonly alertRuleService: AlertRulesService =
-    inject(AlertRulesService);
   private readonly dialog: MatDialog = inject(MatDialog);
-  protected readonly selectableOptionsService: SelectableOptionsService =
-    inject(SelectableOptionsService);
+
+  /**
+   * This behavior subject is used to trigger a reload of the table data.
+   *
+   * @protected
+   * @memberof AlertRulesComponent
+   */
+  protected readonly reload$ = new BehaviorSubject<boolean>(false);
 
   /**
    * The DestroyRef instance used for takeUntilDestroyed().
@@ -87,25 +83,6 @@ export class AlertRulesComponent implements OnDestroy, OnInit {
    * @memberof AlertRulesComponent
    */
   protected gridApi: GridApi | null = null;
-
-  protected hasFilters(): boolean {
-    if (!this.gridApi) {
-      return false;
-    }
-
-    return Object.keys(this.gridApi.getFilterModel()).length > 0;
-  }
-
-  /**
-   * Receive the grid api.
-   *
-   * @protected
-   * @param {GridApi} api
-   * @memberof AlertRulesComponent
-   */
-  protected getApi(api: GridApi): void {
-    this.gridApi = api;
-  }
 
   /**
    * Opens the AlertRuleEditSingleModal.
@@ -163,9 +140,7 @@ export class AlertRulesComponent implements OnDestroy, OnInit {
       .afterClosed()
       .pipe(
         take(1),
-        switchMap((reloadData: boolean) =>
-          reloadData ? this.loadData$() : EMPTY
-        ),
+        tap((reloadData: boolean) => reloadData && this.reload$.next(true)),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
@@ -190,10 +165,7 @@ export class AlertRulesComponent implements OnDestroy, OnInit {
       .afterClosed()
       .pipe(
         take(1),
-        switchMap((reloadData: boolean) =>
-          reloadData ? this.loadData$() : EMPTY
-        ),
-
+        tap((reloadData: boolean) => reloadData && this.reload$.next(true)),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe();
@@ -222,31 +194,5 @@ export class AlertRulesComponent implements OnDestroy, OnInit {
     } catch (error: unknown) {
       console.error(error);
     }
-  }
-
-  /**
-   * Reloads the data and sets them to the available grid
-   *
-   * @protected
-   * @return {Observable<AlertRuleResponse>}
-   * @memberof AlertRulesComponent
-   */
-  protected loadData$(): Observable<AlertRuleResponse> {
-    this.gridApi?.setGridOption('loading', true);
-
-    return this.alertRuleService.getAlertRuleData().pipe(
-      tap((response: AlertRuleResponse) => {
-        if (response?.content) {
-          this.gridApi?.setGridOption('rowData', response.content);
-        }
-        this.gridApi?.setGridOption('loading', false);
-      }),
-      catchError(() => {
-        this.gridApi?.setGridOption('loading', false);
-
-        return EMPTY;
-      }),
-      takeUntilDestroyed(this.destroyRef)
-    );
   }
 }

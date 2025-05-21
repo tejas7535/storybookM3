@@ -1,123 +1,121 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-
-import { of, take, throwError } from 'rxjs';
-
-import {
-  FilterModel,
-  IServerSideGetRowsParams,
-  IServerSideGetRowsRequest,
-  SortModelItem,
-} from 'ag-grid-enterprise';
+import { of, take } from 'rxjs';
 
 import { Stub } from '../../shared/test/stub.class';
-import { HttpError } from '../../shared/utils/http-client';
 import { OverviewService } from './overview.service';
 
 describe('OverviewService', () => {
   let service: OverviewService;
-  let httpClient: HttpClient;
-  const testCurrency = 'EUR';
 
   beforeEach(() => {
     service = Stub.get<OverviewService>({
       component: OverviewService,
     });
-    httpClient = service['http'];
   });
 
   it('should create', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getSalesPlanningOverview', () => {
-    it('should request data from the server', (done) => {
-      const postSpy = jest.spyOn(httpClient, 'post');
-      jest
-        .spyOn(service['currencyService'], 'getCurrentCurrency')
-        .mockReturnValue(of(testCurrency));
+  describe('getRelevantPlanningKPIs', () => {
+    it('should call the API with the correct parameters and return the response', (done) => {
+      const httpSpy = jest.spyOn(service['http'], 'post').mockReturnValue(
+        of({
+          rows: [{ id: 1, name: 'KPI A' }],
+          rowCount: 1,
+        })
+      );
 
-      const isAssignedToMe = true;
-      const requestParams = {
-        startRow: 0,
-        endRow: 100,
-        filterModel: [] as FilterModel[],
-        sortModel: [] as SortModelItem[],
+      const currencySpy = jest
+        .spyOn(service['currencyService'], 'getCurrentCurrency')
+        .mockReturnValue(of('USD'));
+
+      const selectionFilters = {
+        keyAccountNumber: ['KA1'],
+        customerNumber: ['C1'],
       };
-      const httpParams: HttpParams = new HttpParams()
-        .set('isCustomerNumberAssignedToMe', isAssignedToMe)
-        .set('currency', testCurrency);
+      const isAssignedToMe = true;
+      const params = {
+        startRow: 0,
+        endRow: 10,
+        sortModel: [{ colId: 'name', sort: 'asc' }],
+        columnFilters: { columnKey: 'columnValue' },
+      } as any;
+
       service
-        .getSalesPlanningOverview(
-          requestParams,
-          isAssignedToMe,
-          ['gkam1'],
-          ['customer1']
-        )
+        .getRelevantPlanningKPIs(selectionFilters, isAssignedToMe, params)
         .pipe(take(1))
-        .subscribe(() => {
-          expect(postSpy).toHaveBeenCalledWith(
-            service['SALES_PLANNING_OVERVIEW_API'],
+        .subscribe((response) => {
+          expect(response).toEqual({
+            rows: [{ id: 1, name: 'KPI A' }],
+            rowCount: 1,
+          });
+
+          expect(currencySpy).toHaveBeenCalled();
+          expect(httpSpy).toHaveBeenCalledWith(
+            'api/sales-planning/overview',
             {
               startRow: 0,
-              endRow: 100,
-              sortModel: [],
-              columnFilters: [{}],
-              selectionFilters: {
-                customerNumber: ['customer1'],
-                keyAccountNumber: ['gkam1'],
-              },
+              endRow: 10,
+              sortModel: [{ colId: 'name', sort: 'asc' }],
+              selectionFilters,
+              columnFilters: { columnKey: 'columnValue' },
             },
-            expect.objectContaining({ params: httpParams })
+            {
+              params: {
+                cloneFrom: {
+                  cloneFrom: null,
+                  encoder: {},
+                  map: null,
+                  updates: null,
+                },
+                encoder: {},
+                map: null,
+                updates: [
+                  {
+                    op: 's',
+                    param: 'isCustomerNumberAssignedToMe',
+                    value: true,
+                  },
+                  {
+                    op: 's',
+                    param: 'currency',
+                    value: 'USD',
+                  },
+                ],
+              },
+            }
           );
+
           done();
         });
     });
-  });
 
-  describe('createCustomerSalesPlanningDatasource', () => {
-    it('create a sales planning overview datasource', () => {
-      const params = {
-        request: {} as IServerSideGetRowsRequest,
-        success: jest.fn(),
-      } as unknown as IServerSideGetRowsParams;
+    it('should handle an empty response gracefully', (done) => {
+      jest.spyOn(service['http'], 'post').mockReturnValue(
+        of({
+          rows: [],
+          rowCount: 0,
+        })
+      );
 
       jest
-        .spyOn(service, 'getSalesPlanningOverview')
-        .mockReturnValue(of({ rows: [], rowCount: 0 }));
-      const datasource = service.createCustomerSalesPlanningDatasource(
-        true,
-        [],
-        []
-      );
-      datasource.getRows(params);
-      expect(params.success).toHaveBeenCalledWith({ rowData: [], rowCount: 0 });
-    });
+        .spyOn(service['currencyService'], 'getCurrentCurrency')
+        .mockReturnValue(of('EUR'));
 
-    it('should emit an error on SAP error 133', () => {
-      const params = {
-        request: {} as IServerSideGetRowsRequest,
-        success: jest.fn(),
-      } as unknown as IServerSideGetRowsParams;
-
-      jest
-        .spyOn(service as any, 'getSalesPlanningOverview')
-        .mockImplementation(() =>
-          throwError(
-            () =>
-              new HttpError(400, { values: { 'x-sap-messagenumber': '133' } })
-          )
-        );
-
-      const datasource = service.createCustomerSalesPlanningDatasource(
-        true,
-        [],
-        []
-      );
-      datasource.getRows(params);
-      expect(params.success).toHaveBeenCalledWith({ rowData: [], rowCount: 0 });
-      expect(service.getFetchErrorEvent().value).toEqual({
-        message: 'hint.selectData',
-      });
+      service
+        .getRelevantPlanningKPIs(
+          { keyAccountNumber: [], customerNumber: [] },
+          false,
+          { startRow: 0, endRow: 10, sortModel: [], columnFilters: {} } as any
+        )
+        .pipe(take(1))
+        .subscribe((response) => {
+          expect(response).toEqual({
+            rows: [],
+            rowCount: 0,
+          });
+          done();
+        });
     });
   });
 });

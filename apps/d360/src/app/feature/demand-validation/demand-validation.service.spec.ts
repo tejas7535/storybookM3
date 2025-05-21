@@ -47,60 +47,6 @@ describe('DemandValidationService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getDataFetchedEvent', () => {
-    it('should return an observable of dataFetchedEvent', (done) => {
-      const mockEvent = { rowData: [{ id: 1 }], rowCount: 1 };
-
-      service
-        .getDataFetchedEvent()
-        .pipe(take(1))
-        .subscribe((event) => {
-          expect(event).toEqual(mockEvent);
-          done();
-        });
-
-      service['dataFetchedEvent'].next(mockEvent);
-    });
-
-    it('should complete the observable when unsubscribed', () => {
-      const subscription = service
-        .getDataFetchedEvent()
-        .pipe(take(1))
-        .subscribe();
-      expect(subscription.closed).toBe(false);
-
-      subscription.unsubscribe();
-      expect(subscription.closed).toBe(true);
-    });
-  });
-
-  describe('getFetchErrorEvent', () => {
-    it('should return an observable of fetchErrorEvent', (done) => {
-      const mockError = { message: 'Error occurred' };
-
-      service
-        .getFetchErrorEvent()
-        .pipe(take(1))
-        .subscribe((error) => {
-          expect(error).toEqual(mockError);
-          done();
-        });
-
-      service['fetchErrorEvent'].next(mockError);
-    });
-
-    it('should complete the observable when unsubscribed', () => {
-      const subscription = service
-        .getFetchErrorEvent()
-        .pipe(take(1))
-        .subscribe();
-      expect(subscription.closed).toBe(false);
-
-      subscription.unsubscribe();
-      expect(subscription.closed).toBe(true);
-    });
-  });
-
   describe('deleteValidatedDemandBatch', () => {
     it('should call HttpClient.delete with correct URL and parameters', (done) => {
       const mockData: DeleteKpiDataRequest = { ids: [1, 2, 3] } as any;
@@ -842,116 +788,6 @@ describe('DemandValidationService', () => {
     });
   });
 
-  describe('createDemandMaterialCustomerDatasource', () => {
-    it('should return a valid IServerSideDatasource', () => {
-      const selectionFilters = {
-        filter1: 'value1',
-        filter2: 'value2',
-      } as any;
-
-      const datasource =
-        service.createDemandMaterialCustomerDatasource(selectionFilters);
-
-      expect(datasource).toBeDefined();
-      expect(datasource.getRows).toBeInstanceOf(Function);
-    });
-
-    it('should call HttpClient.post with correct parameters in getRows', (done) => {
-      const selectionFilters = {
-        filter1: 'value1',
-        filter2: 'value2',
-      } as any;
-
-      const mockParams = {
-        request: {
-          startRow: 0,
-          endRow: 50,
-          sortModel: [{ colId: 'column1', sort: 'asc' }],
-        },
-        success: jest.fn(),
-        fail: jest.fn(),
-      } as any;
-
-      const mockResponse = {
-        rows: [{ id: 1, name: 'Row 1' }],
-        rowCount: 1,
-      };
-
-      jest.spyOn(service['http'], 'post').mockReturnValue(of(mockResponse));
-      jest.spyOn(service['dataFetchedEvent'], 'next');
-
-      const datasource =
-        service.createDemandMaterialCustomerDatasource(selectionFilters);
-
-      datasource.getRows(mockParams);
-
-      setTimeout(() => {
-        expect(service['http'].post).toHaveBeenCalledWith(
-          service['DEMAND_VALIDATION_CUSTOMER_MATERIAL_LIST_API'],
-          {
-            selectionFilters,
-            sortModel: [{ colId: 'column1', sort: 'asc' }],
-            startRow: 0,
-            endRow: 50,
-          },
-          {
-            params: new HttpParams().set(
-              'language',
-              service['translocoService'].getActiveLang()
-            ),
-          }
-        );
-
-        expect(mockParams.success).toHaveBeenCalledWith({
-          rowData: mockResponse.rows,
-          rowCount: mockResponse.rowCount,
-        });
-
-        expect(service['dataFetchedEvent'].next).toHaveBeenCalledWith({
-          rowData: mockResponse.rows,
-          rowCount: mockResponse.rowCount,
-        });
-
-        done();
-      });
-    });
-
-    it('should call fail and emit fetchErrorEvent on error', (done) => {
-      const selectionFilters = {
-        filter1: 'value1',
-        filter2: 'value2',
-      } as any;
-
-      const mockParams = {
-        request: {
-          startRow: 0,
-          endRow: 50,
-          sortModel: [],
-        },
-        success: jest.fn(),
-        fail: jest.fn(),
-      } as any;
-
-      const mockError = new Error('HTTP error');
-
-      jest
-        .spyOn(service['http'], 'post')
-        .mockReturnValue(throwError(() => mockError));
-      jest.spyOn(service['fetchErrorEvent'], 'next');
-
-      const datasource =
-        service.createDemandMaterialCustomerDatasource(selectionFilters);
-
-      datasource.getRows(mockParams);
-
-      setTimeout(() => {
-        expect(mockParams.fail).toHaveBeenCalled();
-        expect(service['fetchErrorEvent'].next).toHaveBeenCalledWith(mockError);
-        done();
-      });
-    });
-  });
-
   describe('triggerExport', () => {
     it('should handle errors and show a snackbar with the error messages', (done) => {
       const selectedKpis: SelectedKpis = {
@@ -1108,6 +944,96 @@ describe('DemandValidationService', () => {
           expect(service['appInsights'].logEvent).toHaveBeenCalledWith(
             '[Validated Sales Planning] Export Data Success'
           );
+          done();
+        });
+    });
+  });
+
+  describe('getMaterialCustomerData', () => {
+    it('should call the API with the correct parameters and return the response', (done) => {
+      const httpSpy = jest.spyOn(service['http'], 'post').mockReturnValue(
+        of({
+          rows: [{ id: 1, name: 'Material A' }],
+          rowCount: 1,
+        })
+      );
+
+      const selectionFilters = { filterKey: 'filterValue' };
+      const params = {
+        startRow: 0,
+        endRow: 10,
+        sortModel: [{ colId: 'name', sort: 'asc' }],
+        columnFilters: { columnKey: 'columnValue' },
+      } as any;
+
+      service
+        .getMaterialCustomerData(selectionFilters, params)
+        .subscribe((response) => {
+          expect(response).toEqual({
+            rows: [{ id: 1, name: 'Material A' }],
+            rowCount: 1,
+          });
+
+          expect(httpSpy).toHaveBeenCalledWith(
+            service['DEMAND_VALIDATION_CUSTOMER_MATERIAL_LIST_API'],
+            {
+              startRow: 0,
+              endRow: 10,
+              sortModel: [{ colId: 'name', sort: 'asc' }],
+              selectionFilters,
+              columnFilters: { columnKey: 'columnValue' },
+            },
+            {
+              params: expect.any(Object),
+            }
+          );
+
+          done();
+        });
+    });
+
+    it('should include the active language in the request parameters', (done) => {
+      const httpSpy = jest
+        .spyOn(service['http'], 'post')
+        .mockReturnValue(of({ rows: [], rowCount: 0 }));
+      const translocoSpy = jest
+        .spyOn(service['translocoService'], 'getActiveLang')
+        .mockReturnValue('en');
+
+      service
+        .getMaterialCustomerData({}, {
+          startRow: 0,
+          endRow: 10,
+          sortModel: [],
+          columnFilters: {},
+        } as any)
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(translocoSpy).toHaveBeenCalled();
+          expect(httpSpy).toHaveBeenCalledWith(
+            service['DEMAND_VALIDATION_CUSTOMER_MATERIAL_LIST_API'],
+            expect.any(Object),
+            {
+              params: {
+                cloneFrom: {
+                  cloneFrom: null,
+                  encoder: {},
+                  map: null,
+                  updates: null,
+                },
+                encoder: {},
+                map: null,
+                updates: [
+                  {
+                    op: 's',
+                    param: 'language',
+                    value: 'en',
+                  },
+                ],
+              },
+            }
+          );
+
           done();
         });
     });

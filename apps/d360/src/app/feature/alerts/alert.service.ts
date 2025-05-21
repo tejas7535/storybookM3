@@ -1,9 +1,5 @@
 /* eslint-disable max-lines */
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpParams,
-} from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { DestroyRef, inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -29,14 +25,16 @@ import { translate } from '@jsverse/transloco';
 import {
   AdvancedFilterModel,
   FilterModel,
-  IServerSideDatasource,
-  IServerSideGetRowsParams,
   SortModelItem,
 } from 'ag-grid-enterprise';
 
 import { AppRoutePath } from '../../app.routes.enum';
 import { formatFilterModelForBackend } from '../../shared/ag-grid/grid-filter-model';
 import { SelectableValue } from '../../shared/components/inputs/autocomplete/selectable-values.utils';
+import {
+  BackendTableResponse,
+  RequestParams,
+} from '../../shared/components/table';
 import { SnackbarService } from '../../shared/utils/service/snackbar.service';
 import { CurrencyService } from '../info/currency.service';
 import {
@@ -71,7 +69,6 @@ export class AlertService {
   private readonly ALERT_HASH_API = 'api/alerts/hash';
   private readonly ALERT_API = 'api/alerts';
 
-  private readonly dataFetchedEvent = new Subject<AlertDataResult>();
   private readonly fetchErrorEvent = new Subject<any>();
   private readonly loadingEvent = new BehaviorSubject<boolean>(true);
   private readonly refreshEvent = new Subject<void>();
@@ -200,10 +197,6 @@ export class AlertService {
     return this.http.get<string>(this.ALERT_HASH_API, { responseType: 'text' });
   }
 
-  public getDataFetchedEvent(): Observable<AlertDataResult> {
-    return this.dataFetchedEvent.asObservable();
-  }
-
   public getFetchErrorEvent(): Observable<boolean> {
     return this.fetchErrorEvent.asObservable();
   }
@@ -216,46 +209,31 @@ export class AlertService {
     return this.loadingEvent.asObservable();
   }
 
-  public createAlertDatasource(
+  public getAlertData(
     selectedStatus: AlertStatus,
-    selectedPriorities: Priority[]
-  ): IServerSideDatasource {
-    return {
-      getRows: (params: IServerSideGetRowsParams<Alert>) => {
-        if (selectedPriorities.length > 0) {
-          this.requestAlerts(params.request, selectedStatus, selectedPriorities)
-            .pipe(
-              tap(({ rows, rowCount }) => {
-                params.success({
-                  rowData: rows,
-                  rowCount,
-                });
-                this.dataFetchedEvent.next({
-                  rows,
-                  rowCount,
-                });
-              }),
-              catchError((error: HttpErrorResponse) => {
-                params.fail();
-                this.fetchErrorEvent.next(error);
+    selectedPriorities: Priority[],
+    params: RequestParams
+  ): Observable<BackendTableResponse> {
+    return this.currencyService.getCurrentCurrency().pipe(
+      take(1),
+      switchMap((currency: string) => {
+        const queryParams = new HttpParams()
+          .set('status', selectedStatus)
+          .set('currency', currency);
 
-                return of(error);
-              }),
-              takeUntilDestroyed(this.destroyRef)
-            )
-            .subscribe();
-        } else {
-          params.success({
-            rowData: [],
-            rowCount: 0,
-          });
-          this.dataFetchedEvent.next({
-            rows: [],
-            rowCount: 0,
-          });
-        }
-      },
-    };
+        return this.http.post<BackendTableResponse>(
+          this.ALERT_API,
+          {
+            startRow: params.startRow,
+            endRow: params.endRow,
+            sortModel: params.sortModel,
+            columnFilters: params.columnFilters,
+            selectionFilters: { alertPriority: selectedPriorities },
+          },
+          { params: queryParams }
+        );
+      })
+    );
   }
 
   private requestAlerts(

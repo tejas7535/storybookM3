@@ -1,32 +1,18 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
-  DestroyRef,
   effect,
   inject,
   input,
+  OnInit,
   output,
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import { AgGridModule } from 'ag-grid-angular';
-import {
-  CellClickedEvent,
-  ColDef,
-  GetRowIdFunc,
-  GetRowIdParams,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-  IRowNode,
-} from 'ag-grid-enterprise';
-
-import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { CellClickedEvent, GetRowIdParams, IRowNode } from 'ag-grid-enterprise';
 
 import { DemandValidationService } from '../../../../feature/demand-validation/demand-validation.service';
 import {
@@ -35,36 +21,33 @@ import {
 } from '../../../../feature/demand-validation/demand-validation-filters';
 import { MaterialListEntry } from '../../../../feature/demand-validation/model';
 import { GlobalSelectionUtils } from '../../../../feature/global-selection/global-selection.utils';
-import {
-  getDefaultColDef,
-  serverSideTableDefaultProps,
-} from '../../../../shared/ag-grid/grid-defaults';
-import { TableToolbarComponent } from '../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
+import { getDefaultColDef } from '../../../../shared/ag-grid/grid-defaults';
 import { GlobalSelectionStateService } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
 import { SelectableValue } from '../../../../shared/components/inputs/autocomplete/selectable-values.utils';
-import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
+import {
+  AbstractBackendTableComponent,
+  BackendTableComponent,
+  BackendTableResponse,
+  ExtendedColumnDefs,
+  RequestParams,
+  RequestType,
+  TableCreator,
+} from '../../../../shared/components/table';
 import { getColumnDefinitions } from './column-definitions';
 
 @Component({
   selector: 'd360-material-list-table',
-  imports: [
-    CommonModule,
-    SharedTranslocoModule,
-    TableToolbarComponent,
-    AgGridModule,
-  ],
+  imports: [BackendTableComponent],
   templateUrl: './material-list-table.component.html',
   styleUrl: './material-list-table.component.scss',
 })
-export class MaterialListTableComponent {
+export class MaterialListTableComponent
+  extends AbstractBackendTableComponent
+  implements OnInit
+{
   private readonly demandValidationService = inject(DemandValidationService);
-  private readonly translocoLocaleService = inject(TranslocoLocaleService);
   private readonly globalSelectionStateService = inject(
     GlobalSelectionStateService
-  );
-  private readonly destroyRef = inject(DestroyRef);
-  protected readonly agGridLocalizationService = inject(
-    AgGridLocalizationService
   );
 
   public visible = input.required<boolean>();
@@ -75,46 +58,75 @@ export class MaterialListTableComponent {
   public demandValidationFilterChange = output<DemandValidationFilter>();
 
   protected rowCount = signal<number>(0);
-  protected gridOptions: GridOptions = {
-    ...serverSideTableDefaultProps,
-    autoSizeStrategy: { type: 'fitGridWidth' },
-  };
 
   protected selectedMaterialListEntry = signal<MaterialListEntry>(null);
-  protected gridApi: GridApi;
 
   public constructor() {
-    effect(() =>
-      this.refreshGridData(
-        this.selectedCustomerNumber(),
-        this.demandValidationFilters()
-      )
+    super();
+
+    effect(
+      () =>
+        !!this.selectedCustomerNumber() &&
+        !!this.demandValidationFilters() &&
+        this.reload$().next(true)
     );
   }
 
-  protected onGridReady(event: GridReadyEvent) {
-    this.gridApi = event.api;
-
-    this.gridApi.sizeColumnsToFit();
-
-    this.updateColumnDefs();
-
-    this.setServerSideDatasource(
-      this.selectedCustomerNumber(),
-      this.demandValidationFilters()
+  protected readonly getData$: (
+    params: RequestParams,
+    requestType: RequestType
+  ) => Observable<BackendTableResponse> = (params: RequestParams) =>
+    this.demandValidationService.getMaterialCustomerData(
+      {
+        ...GlobalSelectionUtils.globalSelectionCriteriaToFilter(
+          this.globalSelectionStateService.getState()
+        ),
+        ...demandValidationFilterToStringFilter(this.demandValidationFilters()),
+        customerNumber: [this.selectedCustomerNumber()],
+      },
+      params
     );
 
-    this.demandValidationService
-      .getDataFetchedEvent()
-      .pipe(
-        tap((value) => {
-          this.rowCount.set(value.rowCount);
-          if (this.rowCount() === 0) {
-            this.gridApi.showNoRowsOverlay();
-          } else {
-            this.gridApi.hideOverlay();
-          }
+  protected setConfig(columnDefs: ExtendedColumnDefs[]): void {
+    this.config.set(
+      TableCreator.get({
+        table: TableCreator.getTable({
+          tableId: 'material-list-table',
+          columnDefs,
+          getRowId: ({ data }: GetRowIdParams) => data.materialNumber,
+          sideBar: {},
+          defaultColDef: { suppressMovable: true },
+          autoSizeStrategy: { type: 'fitGridWidth' },
+        }),
+        hasTabView: false,
+        renderFloatingFilter: false,
+        callbacks: {
+          onFirstDataRendered: this.onFirstDataRendered.bind(this),
+          onCellClicked: this.onCellClicked.bind(this),
+        },
+        customOnResetFilters: this.onResetFilters.bind(this),
+        customGetFilterCount: this.getFilterCount.bind(this),
+      })
+    );
+  }
 
+  protected setColumnDefinitions(): void {
+    this.setConfig(
+      getColumnDefinitions(this.agGridLocalizationService).map((def) => ({
+        ...getDefaultColDef(this.translocoLocaleService.getLocale()),
+        ...def,
+        field: def.colId,
+        headerName: translate(`material_customer.column.${def.colId}`, {}),
+        headerTooltip: translate(`material_customer.column.${def.colId}`, {}),
+        suppressHeaderMenuButton: true,
+      }))
+    );
+  }
+
+  public onFirstDataRendered(): void {
+    this.dataFetchedEvent$
+      .pipe(
+        tap(() => {
           const nodes = this.gridApi.getRenderedNodes();
 
           if (nodes?.length) {
@@ -127,32 +139,29 @@ export class MaterialListTableComponent {
       .subscribe();
   }
 
-  protected onResetFilters(): () => void {
-    return () =>
-      this.demandValidationFilterChange.emit({
-        productionLine: [],
-        productLine: [],
-        customerMaterialNumber: [],
-        stochasticType: [],
-      });
+  protected onResetFilters(): void {
+    this.demandValidationFilterChange.emit({
+      productionLine: [],
+      productLine: [],
+      customerMaterialNumber: [],
+      stochasticType: [],
+    });
   }
 
-  protected getFilterCount(): () => number {
-    return () => {
-      if (!this.selectedCustomerNumber() || !this.demandValidationFilters()) {
-        return 0;
-      }
+  protected getFilterCount(): number {
+    if (!this.selectedCustomerNumber() || !this.demandValidationFilters()) {
+      return 0;
+    }
 
-      // eslint-disable-next-line unicorn/no-array-reduce
-      return Object.values(this.demandValidationFilters()).reduce(
-        (prev: number, current: SelectableValue[]) =>
-          prev + (current || []).length,
-        0
-      );
-    };
+    // eslint-disable-next-line unicorn/no-array-reduce
+    return Object.values(this.demandValidationFilters()).reduce(
+      (prev: number, current: SelectableValue[]) =>
+        prev + (current || []).length,
+      0
+    );
   }
 
-  protected onCellClicked($event: CellClickedEvent) {
+  protected onCellClicked($event: CellClickedEvent): void {
     if (!$event.data) {
       return;
     }
@@ -180,63 +189,5 @@ export class MaterialListTableComponent {
     selectedNode.setSelected(true, true);
     this.selectedMaterialListEntry.set(selectedNode.data);
     this.selectedMaterialListEntryChange.emit(selectedNode.data);
-  }
-
-  protected getRowId: GetRowIdFunc = (params: GetRowIdParams) =>
-    params.data.materialNumber as string;
-
-  protected defaultColDef: ColDef | undefined = {
-    sortable: true,
-    suppressMovable: true,
-    lockVisible: true,
-    menuTabs: [],
-  };
-
-  private updateColumnDefs(): void {
-    this.gridApi?.setGridOption('columnDefs', [
-      ...(getColumnDefinitions(this.agGridLocalizationService).map((def) => ({
-        ...getDefaultColDef(this.translocoLocaleService.getLocale()),
-        ...def,
-        field: def.colId,
-        headerName: translate(`material_customer.column.${def.colId}`, {}),
-        headerTooltip: translate(`material_customer.column.${def.colId}`, {}),
-        suppressHeaderMenuButton: true,
-      })) as ColDef[]),
-    ]);
-  }
-
-  private setServerSideDatasource(
-    customerNumber: string,
-    demandValidationFilters: DemandValidationFilter
-  ) {
-    this.rowCount.set(0);
-    this.gridApi.setGridOption(
-      'serverSideDatasource',
-      this.demandValidationService.createDemandMaterialCustomerDatasource(
-        this.getSelectionFilters(customerNumber, demandValidationFilters)
-      )
-    );
-  }
-
-  private getSelectionFilters(
-    customerNumber: string,
-    demandValidationFilters: DemandValidationFilter
-  ) {
-    return {
-      ...GlobalSelectionUtils.globalSelectionCriteriaToFilter(
-        this.globalSelectionStateService.getState()
-      ),
-      ...demandValidationFilterToStringFilter(demandValidationFilters),
-      customerNumber: [customerNumber],
-    };
-  }
-
-  private refreshGridData(
-    customerNumber: string,
-    demandValidationFilters: DemandValidationFilter
-  ) {
-    if (this.gridApi) {
-      this.setServerSideDatasource(customerNumber, demandValidationFilters);
-    }
   }
 }

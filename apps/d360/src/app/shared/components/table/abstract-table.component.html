@@ -1,0 +1,49 @@
+@if (isBrowser) {
+  <!-- tabs for multi-layouts -->
+  @if (hasTabView) {
+    <schaeffler-view-toggle
+      class="flex"
+      [views]="tableService.tableSettings$ | ngrxPush"
+      (selectionChange)="handleTabClick($event)"
+      (iconClicked)="handleTabClick($event)"
+    />
+  }
+
+  <!-- the table toolbar -->
+  @if (hasToolbar) {
+    <d360-table-toolbar
+      [class.border-for-tabs]="hasTabView"
+      [class.inner-space]="!renderFloatingFilter && hasTabView"
+      [rowCount]="
+        type === TableType.Frontend && !!gridApi
+          ? gridApi.getDisplayedRowCount()
+          : (dataFetchedEvent$() | ngrxPush)?.rowCount
+      "
+      [grid]="gridApi"
+      [openFloatingFilters]="gridApi && hasFilters()"
+      [renderFloatingFilter]="renderFloatingFilter"
+      [customOnResetFilters]="
+        customOnResetFilters ? customOnResetFilters.bind(this) : null
+      "
+      [customGetFilterCount]="
+        customGetFilterCount ? customGetFilterCount.bind(this) : null
+      "
+    >
+      <!-- additional toolbar content -->
+      <ng-content select="[toolbarRight]" />
+    </d360-table-toolbar>
+  }
+
+  <!-- ag grid -->
+  @if (gridOptions) {
+    <ag-grid-angular
+      #grid
+      [class]="themeClass"
+      [class.border-for-tabs]="hasTabView"
+      [class.!border-t-0]="hasTabView && hasToolbar"
+      [gridOptions]="gridOptions"
+      [loadingOverlayComponent]="loadingOverlayComponent"
+      [noRowsOverlayComponent]="noRowsOverlayComponent"
+    />
+  }
+}

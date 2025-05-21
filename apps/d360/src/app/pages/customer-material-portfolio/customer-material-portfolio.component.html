@@ -8,7 +8,7 @@
   <d360-styled-section [grow]="true" class="contents">
     <!-- Headline -->
     <h2 class="text-title-large">
-      {{ t('customer_material_portfolio.title', {}) }}
+      {{ t('customer_material_portfolio.title') }}
     </h2>
 
     @if (
@@ -67,7 +67,6 @@
       <!-- Table -->
       <d360-customer-material-portfolio-table
         class="contents"
-        [filterModel]=""
         [selectedCustomer]="selectedCustomer()"
         [globalSelection]="globalSelectionState()"
         [refreshCounter]="refreshCounter()"

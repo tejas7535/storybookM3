@@ -1,138 +1,121 @@
 import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
-import { Component, DestroyRef, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
-  MatDialogActions,
-  MatDialogContent,
+  MatDialogModule,
   MatDialogRef,
-  MatDialogTitle,
 } from '@angular/material/dialog';
 
-import { tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { TranslocoDirective } from '@jsverse/transloco';
-import { PushPipe } from '@ngrx/component';
-import { AgGridAngular } from 'ag-grid-angular';
-import {
-  FirstDataRenderedEvent,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-} from 'ag-grid-enterprise';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
+import { GetRowIdParams } from 'ag-grid-enterprise';
 
 import { ChangeHistoryService } from '../../../../feature/sales-planning/change-history.service';
-import { serverSideTableDefaultProps } from '../../../../shared/ag-grid/grid-defaults';
-import { applyColumnSettings } from '../../../../shared/ag-grid/grid-utils';
-import { NoDataOverlayComponent } from '../../../../shared/components/ag-grid/no-data/no-data.component';
-import { TableToolbarComponent } from '../../../../shared/components/ag-grid/table-toolbar/table-toolbar.component';
-import { AgGridLocalizationService } from '../../../../shared/services/ag-grid-localization.service';
+import { getDefaultColDef } from '../../../../shared/ag-grid/grid-defaults';
+import {
+  AbstractBackendTableComponent,
+  BackendTableComponent,
+  BackendTableResponse,
+  ExtendedColumnDefs,
+  RequestParams,
+  RequestType,
+  TableCreator,
+} from '../../../../shared/components/table';
+import { ChangeHistoryData } from './../../../../feature/sales-planning/model';
 import { changeHistoryColumnDefinitions } from './column-definition';
-import { ChangeHistoryColumnSettingsService } from './customer-planning-details-change-history-column-settings.service';
-
-type ChangeHistoryColumnDefinitions = ReturnType<
-  typeof changeHistoryColumnDefinitions
->[number];
-
-export interface ChangeHistoryModalProps {
-  customerNumber: string;
-  customerName: string;
-}
 
 @Component({
   selector: 'd360-customer-planning-details-change-history-modal',
   imports: [
-    AgGridAngular,
-    TableToolbarComponent,
     TranslocoDirective,
     MatButton,
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle,
+    MatDialogModule,
     CdkDrag,
     CdkDragHandle,
-    PushPipe,
+    BackendTableComponent,
   ],
   templateUrl:
     './customer-planning-details-change-history-modal.component.html',
   styleUrl: './customer-planning-details-change-history-modal.component.scss',
 })
-export class CustomerPlanningDetailsChangeHistoryModalComponent {
-  protected readonly agGridLocalizationService: AgGridLocalizationService =
-    inject(AgGridLocalizationService);
+export class CustomerPlanningDetailsChangeHistoryModalComponent
+  extends AbstractBackendTableComponent
+  implements OnInit
+{
   protected readonly changeHistoryService: ChangeHistoryService =
     inject(ChangeHistoryService);
-  protected readonly noDataOverlayComponent = NoDataOverlayComponent;
 
-  private readonly destroyRef: DestroyRef = inject(DestroyRef);
   private readonly dialogRef: MatDialogRef<CustomerPlanningDetailsChangeHistoryModalComponent> =
     inject(MatDialogRef);
 
-  public readonly data: ChangeHistoryModalProps = inject(MAT_DIALOG_DATA);
-  public readonly columnSettingsService: ChangeHistoryColumnSettingsService<
-    string,
-    ChangeHistoryColumnDefinitions
-  > = inject(
-    ChangeHistoryColumnSettingsService<string, ChangeHistoryColumnDefinitions>
-  );
-  protected gridApi: GridApi | null = null;
-  protected gridOptions: GridOptions = {
-    ...serverSideTableDefaultProps,
-  };
+  public readonly data: {
+    customerNumber: string;
+    customerName: string;
+  } = inject(MAT_DIALOG_DATA);
 
-  public onGridReady(event: GridReadyEvent): void {
-    this.gridApi = event.api;
-    this.setServerSideDatasource();
+  protected readonly getData$: (
+    params: RequestParams,
+    requestType: RequestType
+  ) => Observable<BackendTableResponse> = (params: RequestParams) =>
+    this.changeHistoryService.getChangeHistory(params, {
+      customerNumber: [this.data.customerNumber],
+    });
 
-    this.createColumnDefs();
-  }
-
-  protected onDataUpdated(): void {
-    if (this.gridApi) {
-      if (this.gridApi.getDisplayedRowCount() === 0) {
-        this.gridApi.showNoRowsOverlay();
-      } else {
-        this.gridApi.hideOverlay();
-      }
-    }
-  }
-
-  private createColumnDefs(): void {
-    this.gridApi?.setGridOption(
-      'columnDefs',
-      this.columnSettingsService.getDefaultColumns()
-    );
-    this.columnSettingsService
-      .loadColumnSettings$()
-      .pipe(
-        tap((settings) => {
-          if (settings) {
-            applyColumnSettings(this.gridApi, settings);
-          }
+  protected setConfig(columnDefs: ExtendedColumnDefs[]): void {
+    this.config.set(
+      TableCreator.get({
+        table: TableCreator.getTable({
+          tableId: 'customer-planning-details-change-history',
+          columnDefs,
+          getRowId: ({ data }: GetRowIdParams<ChangeHistoryData>) =>
+            [
+              data.customerNumber,
+              data.planningYear,
+              data.planningMonth,
+              data.planningMaterial,
+              data.changeTimestamp,
+            ].join('-'),
         }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe();
+        hasTabView: true,
+        maxAllowedTabs: 5,
+      })
+    );
   }
 
-  private setServerSideDatasource(): void {
-    if (this.gridApi) {
-      this.gridApi.setGridOption(
-        'serverSideDatasource',
-        this.changeHistoryService.createChangeHistoryDatasource(
-          this.data.customerNumber
-        )
-      );
-    }
+  protected setColumnDefinitions(): void {
+    this.setConfig(
+      changeHistoryColumnDefinitions(this.agGridLocalizationService).map(
+        (col) => ({
+          ...getDefaultColDef(
+            this.translocoLocaleService.getLocale(),
+            col.filter,
+            col.filterParams
+          ),
+          title: col.colId,
+          key: col.colId,
+          colId: col.colId,
+          field: col.colId,
+          headerName: translate(
+            `sales_planning.changeHistory.columnHeadlines.${col.title}`
+          ),
+          filter: col?.filter ?? null,
+          cellRenderer: col.cellRenderer,
+          hide: !col.visible,
+          sortable: col.sortable,
+          sort: col.sort,
+          lockVisible: col.alwaysVisible,
+          valueFormatter: col.valueFormatter,
+          minWidth: col?.minWidth,
+          flex: col?.flex,
+          visible: col?.visible,
+        })
+      )
+    );
   }
 
   protected onCancel(): void {
     this.dialogRef.close(null);
-  }
-
-  protected onFirstDataRendered(event: FirstDataRenderedEvent): void {
-    this.columnSettingsService.applyStoredFilters(event.api);
-    this.gridApi.autoSizeAllColumns();
   }
 }

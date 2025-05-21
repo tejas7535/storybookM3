@@ -1,29 +1,23 @@
 <div class="flex flex-col h-full">
   <d360-customer-selection
-    class="sales-planning-section mb-4"
-    [class.show-animation]="openFullscreen() === false"
-    [class.hide-animation]="openFullscreen() === true"
-    (onCustomerSelectionChange)="onCustomerSelectionChange($event)"
+    class="mb-4"
+    [class.show-animation]="tableInFullscreen() === false"
+    [class.hide-animation]="tableInFullscreen() === true"
+    (onCustomerSelectionChange)="customer.set($event)"
   />
 
   <d360-customer-sales-plan-chart
-    class="sales-planning-section mb-4"
-    [class.show-animation]="openFullscreen() === false"
-    [class.hide-animation]="openFullscreen() === true"
-    [planningCurrency]="planningCurrency()"
-    [customerName]="customerName()"
-    [customerNumber]="customerNumber()"
+    class="mb-4"
+    [class.show-animation]="tableInFullscreen() === false"
+    [class.hide-animation]="tableInFullscreen() === true"
+    [customer]="customer()"
   />
 
   <d360-customer-planning-details
-    class="sales-planning-section"
-    [class.expanded]="openFullscreen() || !collapsedSection()"
-    [planningCurrency]="planningCurrency()"
-    [customerName]="customerName()"
-    [customerNumber]="customerNumber()"
-    [collapsedSection]="collapsedSection()"
-    [toggleSection]="toggleSection.bind(this)"
-    [openFullscreen]="openFullscreen()"
-    [toggleFullscreen]="toggleFullscreen.bind(this)"
+    class="contents"
+    [class.h-full]="tableInFullscreen()"
+    [customer]="customer()"
+    [tableInFullscreen]="tableInFullscreen()"
+    [toggleFullscreen]="toggleTableFullscreen.bind(this)"
   />
 </div>

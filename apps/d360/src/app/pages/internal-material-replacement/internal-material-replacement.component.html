@@ -1,8 +1,6 @@
 <div *transloco="let t" class="flex flex-col w-full h-full">
   @if (loading$ | ngrxPush) {
-    <schaeffler-loading-spinner
-      [useBearingLoadingSpinner]="true"
-    ></schaeffler-loading-spinner>
+    <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
   } @else {
     <d360-styled-section [grow]="true" class="flex flex-col h-full">
       <h2 class="text-title-large">
@@ -24,6 +22,7 @@
             }}
           </button>
         </div>
+
         <div d360HeaderActionBarChildren class="wrapper">
           <d360-filter-dropdown
             class="compact"
@@ -32,7 +31,7 @@
             [form]="formGroup"
             [control]="regionControl"
             (selectionChange)="updateRegion($any($event))"
-          ></d360-filter-dropdown>
+          />
         </div>
       </d360-header-action-bar>
 
@@ -40,8 +39,8 @@
         <d360-internal-material-replacement-table
           #internalMaterialReplacementTableComponent
           [selectedRegion]="selectedRegion()"
-          (getApi)="getApi($event)"
-        ></d360-internal-material-replacement-table>
+          (getApi)="gridApi = $event"
+        />
       }
     </d360-styled-section>
   }

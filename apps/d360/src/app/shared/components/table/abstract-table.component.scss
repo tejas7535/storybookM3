@@ -1,0 +1,55 @@
+:host {
+  $border: 1px solid var(--outline-variant-color);
+
+  --mat-standard-button-toggle-shape: 4px;
+  --mat-standard-button-toggle-divider-color: var(--outline-variant-color);
+
+  display: contents;
+
+  ::ng-deep {
+    d360-table-toolbar {
+      &.inner-space {
+        .toolbar-container {
+          padding: 0 4px 0 16px;
+        }
+      }
+    }
+  }
+
+  .border-for-tabs {
+    border: $border;
+  }
+
+  &.small {
+    .ag-theme-material {
+      --ag-font-size: 12px;
+    }
+  }
+
+  &.border-left-none {
+    .border-for-tabs {
+      border-left: 0;
+    }
+
+    schaeffler-view-toggle {
+      margin-left: -1px;
+    }
+  }
+
+  &.border-right-none {
+    .border-for-tabs {
+      border-right: 0;
+    }
+  }
+
+  &.border-bottom-none {
+    .border-for-tabs {
+      border-bottom: 0;
+    }
+  }
+
+  ag-grid-angular {
+    border-radius: 0 0 6px 6px;
+    overflow: hidden;
+  }
+}

@@ -26,7 +26,6 @@ export function getColumnDefinitions(
       colId: 'demandPlanValue',
       valueFormatter: agGridLocalizationService.numberFormatter,
       width: 120,
-      flex: 1,
     },
   ];
 }
