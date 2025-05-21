@@ -1,7 +1,4 @@
 {
   "name": "d360",
-  "version": "3.0.0",
-  "devDependencies": {
-    "prettier-plugin-sort-json": "^4.1.1"
-  }
+  "version": "3.0.0"
 }
