@@ -129,7 +129,9 @@ export function numberIsAtStartOfDecimal(
 }
 
 export function getDecimalSeparator(locale: string): string {
-  const parts: string[] | null = (1234.5)
+  // We need to use a number that is bigger than 1_000, because in some locales ('es-ES', 'pt-PT')
+  // 1_000 does not have a thousand separator!!
+  const parts: string[] | null = (123_400.5)
     .toLocaleString(locale)
     .match(/(\D+)/g);
 
@@ -141,7 +143,9 @@ export function getDecimalSeparator(locale: string): string {
 }
 
 export function getThousandSeparator(locale: string): string {
-  const parts: string[] | null = (1234.5)
+  // We need to use a number that is bigger than 1_000, because in some locales ('es-ES', 'pt-PT')
+  // 1_000 does not have a thousand separator!!
+  const parts: string[] | null = (123_400.5)
     .toLocaleString(locale)
     .match(/(\D+)/g);
 

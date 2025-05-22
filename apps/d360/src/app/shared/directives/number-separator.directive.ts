@@ -116,7 +116,7 @@ export class NumberSeparatorDirective implements OnInit {
       this.translocoLocaleService.getLocale(),
       {
         minimumFractionDigits: 0,
-        maximumFractionDigits: this.allowDecimalPlaces ? 2 : 0,
+        maximumFractionDigits: this.allowDecimalPlaces() ? 2 : 0,
       }
     );
 

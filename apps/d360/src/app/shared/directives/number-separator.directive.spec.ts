@@ -18,7 +18,7 @@ describe('NumberSeparatorDirective', () => {
         control: { patchValue: jest.fn() },
       }),
     ],
-    detectChanges: false,
+    detectChanges: true,
   });
 
   describe('when allowDecimalPlaces and allowNegativeNumbers are false', () => {
