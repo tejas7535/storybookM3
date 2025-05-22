@@ -269,7 +269,6 @@ describe('DeleteItemsButtonComponent', () => {
       );
       expect(component['dialog'].open).toHaveBeenCalledTimes(1);
       expect(dialog.open).toHaveBeenCalledWith(ConfirmationModalComponent, {
-        maxWidth: 711,
         data: {
           title: 'translate it',
           subtitle: 'translate it',

@@ -13,8 +13,9 @@ export class ImportCaseButtonComponent implements OnDestroy {
   agInit() {}
   importCase(): void {
     this.dialog.open(ImportCaseComponent, {
-      width: '60%',
-      height: '324px',
+      // aligned with UX. we will have some changes later see GQUOTE-6175
+      width: '550px',
+      height: '238px',
     });
   }
   ngOnDestroy(): void {

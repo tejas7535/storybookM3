@@ -89,7 +89,8 @@ export class UpdateCaseStatusButtonComponent {
     };
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       maxHeight: '80%',
-      width: '40%',
+      // aligned with UX. we will have some changes later see GQUOTE-6175
+      // width: '40%',
       data,
       autoFocus: false,
     });

@@ -1,6 +1,10 @@
 <div class="flex h-full flex-col">
   <div class="h-full">
-    <h6>{{ data.title }}</h6>
+    <gq-dialog-header
+      [title]="data.title"
+      (closeDialog)="closeDialog($event)"
+    ></gq-dialog-header>
+
     @if (data.subtitle) {
       <div class="text-body-1 text-medium-emphasis mt-2">
         {{ data.subtitle }}

@@ -107,7 +107,8 @@ export class DeleteItemsButtonComponent {
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       data: this.getConfirmModalData(rfqDetails),
       // maxWidth is defined in figma design
-      maxWidth: 711,
+      // aligned with UX. we will have some changes later see GQUOTE-6175
+      // maxWidth: 711,
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
