@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 
 import { catchError, map, Observable, of } from 'rxjs';
 
@@ -9,12 +9,19 @@ import { environment } from '@mm/environments/environment';
   providedIn: 'root',
 })
 export class InternalDetectionService {
-  public constructor(private readonly httpClient: HttpClient) {}
+  private readonly internalUserErrorCode = 409;
+  private readonly httpClient: HttpClient = inject(HttpClient);
 
   public getInternalHelloEndpoint(): Observable<boolean> {
-    return this.httpClient.get(environment.internalDetectionUrl).pipe(
+    return this.httpClient.get<unknown>(environment.internalDetectionUrl).pipe(
       map(Boolean),
-      catchError(() => of(false))
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === this.internalUserErrorCode) {
+          return of(true);
+        }
+
+        return of(false);
+      })
     );
   }
 }
