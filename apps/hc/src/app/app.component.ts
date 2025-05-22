@@ -16,6 +16,7 @@ import {
 import { TranslocoService } from '@jsverse/transloco';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import packageJson from '../../package.json';
@@ -41,7 +42,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     public readonly authService: AuthService,
-    private readonly internalDetection: InternalUserCheckService
+    private readonly internalDetection: InternalUserCheckService,
+    private readonly appInsightService: ApplicationInsightsService
   ) {}
 
   ngOnInit(): void {
@@ -80,11 +82,18 @@ export class AppComponent implements OnInit {
       .isInternalUser()
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        switchMap((internal) =>
-          internal
+        switchMap((internal) => {
+          this.appInsightService.addCustomPropertyToTelemetryData(
+            'internalUser',
+            `${internal}`
+          );
+
+          const shouldLogin = internal
             ? this.authService.isLoggedin().pipe(map((val) => !val))
-            : of(false)
-        ),
+            : of(false);
+
+          return shouldLogin;
+        }),
         debounceTime(500),
         tap((shouldLogin) =>
           shouldLogin ? this.authService.login() : undefined

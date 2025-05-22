@@ -13,6 +13,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent, MockModule } from 'ng-mocks';
 
 import { AppShellComponent, AppShellModule } from '@schaeffler/app-shell';
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SharedAzureAuthModule } from '@schaeffler/azure-auth';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -71,6 +72,12 @@ describe('AppComponent', () => {
         provide: InternalUserCheckService,
         useValue: {
           isInternalUser: jest.fn(() => of(true)),
+        },
+      },
+      {
+        provide: ApplicationInsightsService,
+        useValue: {
+          addCustomPropertyToTelemetryData: jest.fn(),
         },
       },
     ],
