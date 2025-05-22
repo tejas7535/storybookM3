@@ -1,6 +1,7 @@
+import { provideHttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -16,8 +17,12 @@ describe('InternalDetectionService', () => {
 
   const createService = createServiceFactory({
     service: InternalDetectionService,
-    imports: [HttpClientTestingModule],
-    providers: [InternalDetectionService],
+    imports: [],
+    providers: [
+      InternalDetectionService,
+      provideHttpClient(),
+      provideHttpClientTesting(),
+    ],
   });
 
   beforeEach(() => {
@@ -31,7 +36,7 @@ describe('InternalDetectionService', () => {
   });
 
   describe('getInternalHelloEndpoint', () => {
-    it('should return true on positive response', (done) => {
+    it('should return true on 409 error', (done) => {
       service.getInternalHelloEndpoint().subscribe((result: boolean) => {
         expect(result).toBe(true);
         done();
@@ -39,10 +44,10 @@ describe('InternalDetectionService', () => {
 
       const req = httpMock.expectOne(environment.internalDetectionUrl);
       expect(req.request.method).toBe('GET');
-      req.flush('successful response');
+      req.flush('some error', { status: 409, statusText: 'Conflict' });
     });
 
-    it('should return false on error', (done) => {
+    it('should return false on other errors', (done) => {
       service.getInternalHelloEndpoint().subscribe((result: boolean) => {
         expect(result).toBe(false);
         done();
