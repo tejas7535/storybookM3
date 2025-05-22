@@ -5,7 +5,7 @@ export const environment: Environment = {
   localDev: false,
   devToolsEnabled: false,
   bearinxApiBaseUrl: 'https://bearinx.schaeffler.com/grease/api',
-  baseUrl: 'https://bearinx.schaeffler.com/grease_api/v1.3/greaseservice',
+  baseUrl: 'https://bearinx.schaeffler.com/grease/api/v1.3/greaseservice',
   staticStorageUrl: 'https://frontend1apps.z1.web.core.windows.net',
   internalDetectionUrl:
     'https://bearinxfeinternalcheck.blob.core.windows.net/internal/access.json',
