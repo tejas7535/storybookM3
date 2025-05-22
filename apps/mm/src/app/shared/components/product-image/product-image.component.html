@@ -1,7 +1,7 @@
 <div>
   <img
-    [src]="imageUrl$ | ngrxPush"
-    [alt]="imageAlt | ngrxPush"
+    [src]="imageUrl()"
+    [alt]="imageAlt()"
     [class.hidden]="isLoading"
     [width]="width"
     [height]="height"
