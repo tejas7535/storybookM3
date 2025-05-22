@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 
+import { CalculatorGuard } from './calculator.guard';
+
 export enum CalculatorPaths {
   CalculatorOverviewPath = 'calculator-overview',
   ActiveTabPath = ':calculatorTab',
@@ -35,5 +37,6 @@ export const CalculatorRoutes: Routes = [
       import('../rfq-4-detail-view/rfq-4-detail-view.component').then(
         (m) => m.Rfq4DetailViewComponent
       ),
+    canActivate: [CalculatorGuard],
   },
 ];

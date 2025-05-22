@@ -7,6 +7,10 @@ import { Keyboard } from '../../models';
 })
 export class UndefinedToDashPipe implements PipeTransform {
   transform(value: any): any {
-    return value === undefined || value === null ? Keyboard.DASH : value;
+    if (!value || (typeof value === 'string' && value.trim() === '')) {
+      return Keyboard.DASH;
+    }
+
+    return value;
   }
 }

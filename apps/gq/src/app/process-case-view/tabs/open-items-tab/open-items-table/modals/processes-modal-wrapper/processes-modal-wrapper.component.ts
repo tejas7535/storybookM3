@@ -7,6 +7,7 @@ import { map, Observable } from 'rxjs';
 
 import { Rfq4ProcessFacade } from '@gq/core/store/rfq-4-process/rfq-4-process.facade';
 import { Rfq4ProcessModule } from '@gq/core/store/rfq-4-process/rfq-4-process.module';
+import { CalculatorMissingComponent } from '@gq/process-case-view/tabs/open-items-tab/open-items-table/modals/calculator-missing/calculator-missing.component';
 import { DialogHeaderModule } from '@gq/shared/components/header/dialog-header/dialog-header.module';
 import { Rfq4Status } from '@gq/shared/models/quotation-detail/cost/rfq-4-status.enum';
 import { QuotationDetail } from '@gq/shared/models/quotation-detail/quotation-detail.model';
@@ -15,7 +16,6 @@ import { LetDirective, PushPipe } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
-import { CalculatorMissingComponent } from '../calculator-missing/calculator-missing.component';
 import { ApprovalProcessAction } from '../models/approval-process-action.enum';
 import { ProcessesModalDialogData } from '../models/processes-modal-dialog-data.interface';
 import { StartProcessComponent } from '../start-process/start-process.component';

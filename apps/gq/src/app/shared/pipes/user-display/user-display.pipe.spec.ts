@@ -47,6 +47,19 @@ describe('Pipe: UserDisplayText', () => {
     expect(result).toBe('(LASTFIRST) firstname lastname');
   });
 
+  it('should not display the userId', () => {
+    const pipe = new UserDisplayPipe();
+    const approver = {
+      firstName: 'firstname',
+      lastName: 'lastname',
+      userId: 'lastfirst',
+    } as ActiveDirectoryUser;
+
+    const result = pipe.transform(approver, true);
+
+    expect(result).toBe('firstname lastname');
+  });
+
   it('should not display first and last name, if they are undefined', () => {
     const pipe = new UserDisplayPipe();
     const approver = {

@@ -2,6 +2,7 @@
   "rfq4DetailView": {
     "header": {
       "title": "Recalculation ID: 4-{rfqId}",
+      "recalculateSqvStatus": "{status, select, OPEN{Open}IN_PROGRESS{In Progress}REOPEN{Reopen}CONFIRMED{Confirmed} other{}}",
       "confirmButton": "Confirm"
     },
     "positionInformation": {
@@ -14,15 +15,15 @@
       "dimension": "Dimension",
       "assignedTo": "Assigned To",
       "assignToMe": "Assign it to me",
-      "comment": "Comment"
+      "message": "Comment"
     },
     "headerInformation": {
       "title": "Header Information",
-      "quotationToDate": "Quotation to Date",
-      "customerDeliveryDate": "Customer requ. Delivery Date",
+      "quotationToDate": "Quotation To Date",
+      "customerDeliveryDate": "Requested Delivery Date",
       "currency": "Currency",
       "caseCreatedBy": "Case Created By",
-      "rfqStartedBy": "Process started by",
+      "rfqStartedBy": "Process started By",
       "rfqStartedOn": "Process started"
     },
     "recalculation": {
@@ -56,7 +57,7 @@
           "hint": "Visible for all Users"
         },
         "calculatorDetails": {
-          "label": "Calculator Details",
+          "label": "Calculation Details",
           "hint": "Visible for all Users with the rights to see costs"
         },
         "deliveryTime": {

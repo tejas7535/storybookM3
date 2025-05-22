@@ -10,3 +10,7 @@ export const getRouteParams = createSelector(
   getRouteState,
   (routerState) => routerState.params
 );
+export const getRouteQueryParams = createSelector(
+  getRouteState,
+  (routerState) => routerState.queryParams
+);

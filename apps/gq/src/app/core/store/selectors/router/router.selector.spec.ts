@@ -5,7 +5,7 @@ describe('RouterSelector', () => {
   const fakeState: RouterStateUrl = {
     url: 'case-view/QUOTATION',
     params: { quotationTab: 'QUOTATION' },
-    queryParams: {},
+    queryParams: { rfqId: '6' },
   };
   describe('getRouteState', () => {
     test('should return the router state', () => {
@@ -23,6 +23,13 @@ describe('RouterSelector', () => {
       expect(fromRouterSelectors.getRouteParams.projector(fakeState)).toEqual(
         fakeState.params
       );
+    });
+  });
+  describe('getQueryParams', () => {
+    test('should return the routeParams', () => {
+      expect(
+        fromRouterSelectors.getRouteQueryParams.projector(fakeState)
+      ).toEqual(fakeState.queryParams);
     });
   });
 });

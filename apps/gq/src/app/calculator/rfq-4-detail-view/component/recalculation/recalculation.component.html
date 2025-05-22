@@ -1,0 +1,84 @@
+<ng-container
+  *transloco="let t; read: 'calculator.rfq4DetailView.recalculation'"
+>
+  <mat-card
+    appearance="outlined"
+    class="mat-elevation-z0 border-x-border border-y-border w-full grow rounded border-[1px]"
+  >
+    <!-- Header, did not use mat-card-title here to avoid required deep overwrites-->
+    <div class="!flex !flex-row !justify-between p-4">
+      <span class="!text-high-emphasis !gq-text-5 !leading-6">
+        {{ t('title') }} </span
+      ><span class="text-caption text-medium-emphasis">
+        {{ t('mandatoryInputHint') }}</span
+      >
+    </div>
+
+    <!--Content-->
+    <mat-card-content>
+      <div class="pb-4">
+        <ng-container [formGroup]="recalculationForm">
+          <div class="flex flex-col">
+            <div class="flex flex-row">
+              <gq-currency-input
+                class="w-full"
+                formControlName="currency"
+              ></gq-currency-input>
+            </div>
+          </div>
+          <div class="flex flex-row">
+            <gq-sqv-input class="w-full" formControlName="sqv"> </gq-sqv-input>
+          </div>
+          <div class="flex flex-row gap-6">
+            <div class="w-1/2">
+              <gq-lot-size-input formControlName="lotSize"></gq-lot-size-input>
+            </div>
+            <div class="w-1/2">
+              <gq-price-unit-input
+                formControlName="priceUnit"
+              ></gq-price-unit-input>
+            </div>
+          </div>
+          <div class="flex flex-row gap-6">
+            <div class="w-1/2">
+              <gq-tool-cost-input
+                formControlName="toolCost"
+              ></gq-tool-cost-input>
+            </div>
+            <div class="w-1/2">
+              <gq-prod-plant-input
+                formControlName="prodPlant"
+              ></gq-prod-plant-input>
+            </div>
+          </div>
+          <div>
+            <gq-comment-input formControlName="comment"></gq-comment-input>
+          </div>
+          <div>
+            <gq-calculator-details-input
+              formControlName="calculatorDetails"
+            ></gq-calculator-details-input>
+          </div>
+          <div class="flex flex-row">
+            <gq-delivery-time-input
+              class="w-full"
+              formControlName="deliveryTime"
+              deliveryTimeUnitFormControlName="deliveryTimeUnit"
+            >
+            </gq-delivery-time-input>
+          </div>
+        </ng-container>
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="recalculationForm.invalid"
+        mat-stroked-button
+        color="primary"
+        (click)="submit()"
+      >
+        {{ t('saveButton') }}
+      </button></mat-card-content
+    >
+  </mat-card>
+</ng-container>

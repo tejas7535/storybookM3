@@ -1,11 +1,15 @@
 <div *transloco="let t; read: 'calculator.rfq4DetailView'">
-  <gq-rfq-4-detail-view-header> </gq-rfq-4-detail-view-header>
-  <div class="flex flex-col md:flex-row p-6">
-    <div class="w-full md:w-1/2 pr-0 md:pr-3">
-      <gq-rfq-4-detail-view-information></gq-rfq-4-detail-view-information>
+  @if (loading()) {
+    <schaeffler-loading-spinner></schaeffler-loading-spinner>
+  } @else {
+    <gq-rfq-4-detail-view-header> </gq-rfq-4-detail-view-header>
+    <div class="flex flex-col md:flex-row p-6">
+      <div class="w-full md:w-1/2 pr-0 md:pr-3">
+        <gq-rfq-4-detail-view-information></gq-rfq-4-detail-view-information>
+      </div>
+      <div class="w-full md:w-1/2 pl-0 md:pl-3 pt-6 md:pt-0">
+        <gq-rfq-4-detail-view-recalculation></gq-rfq-4-detail-view-recalculation>
+      </div>
     </div>
-    <div class="w-full md:w-1/2 pl-0 md:pl-3 pt-6 md:pt-0">
-      <gq-rfq-4-detail-view-recalculation></gq-rfq-4-detail-view-recalculation>
-    </div>
-  </div>
+  }
 </div>

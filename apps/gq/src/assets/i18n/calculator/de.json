@@ -2,6 +2,7 @@
   "rfq4DetailView": {
     "header": {
       "title": "Recalculation ID: 4-{rfqId}",
+      "recalculateSqvStatus": "{status, select, OPEN{Offen}IN_PROGRESS{In Bearbeitung}REOPEN{Wiedereröffnet}CONFIRMED{Bestätigt} other{}}",
       "confirmButton": "Bestätigen"
     },
     "positionInformation": {
@@ -14,7 +15,7 @@
       "dimension": "Dimensionen",
       "assignedTo": "Zugewiesen an",
       "assignToMe": "Mir zuweisen",
-      "comment": "Nachricht"
+      "message": "Nachricht"
     },
     "headerInformation": {
       "title": "Kopf Informationen",
@@ -31,10 +32,10 @@
       "mandatoryInputHint": "*Pflichtfeld",
       "inputs": {
         "currency": {
-          "title": "Individuelle Währung",
-          "titleCustomerCurrency": "Währung",
+          "label": "Währung",
+          "labelCustomerCurrency": "Währung",
           "hint": "Wähle die Währung für die Kalkulation",
-          "subitle": "Währung des Angebotes"
+          "subtitle": "Währung des Angebotes"
         },
         "sqv": {
           "label": "SAW"

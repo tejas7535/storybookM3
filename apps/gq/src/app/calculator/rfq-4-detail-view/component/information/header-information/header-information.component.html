@@ -1,0 +1,38 @@
+<ng-container
+  *transloco="let t; read: 'calculator.rfq4DetailView.headerInformation'"
+>
+  @if (headerData() && rfq4ProcessData()) {
+    <gq-kpi-status-card class="!mt-8" [title]="t('title')">
+      <gq-label-text>
+        <span label>{{ t('quotationToDate') }}</span>
+        <span text>{{
+          headerData().sapQuotationToDate | translocoDate | undefinedToDash
+        }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('customerDeliveryDate') }}</span>
+        <span text>
+          {{ headerData().requestedDelDate | translocoDate | undefinedToDash }}
+        </span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('currency') }}</span>
+        <span text>{{ headerData().currency | nullableString }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('caseCreatedBy') }}</span>
+        <span text>{{
+          headerData().gqCreatedByUser.name | nullableString
+        }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('rfqStartedBy') }}</span>
+        <span text>{{ processStartedByAdUser() | userDisplay: true }}</span>
+      </gq-label-text>
+      <gq-label-text [marginBottom]="false">
+        <span label>{{ t('rfqStartedOn') }}</span>
+        <span text>{{ rfq4ProcessData().startedOn | translocoDate }}</span>
+      </gq-label-text>
+    </gq-kpi-status-card>
+  }
+</ng-container>

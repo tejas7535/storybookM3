@@ -8,9 +8,9 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { Rfq4DetailViewHeaderComponent } from './header/rfq-4-detail-view-header.component';
-import { InformationComponent } from './information/information.component';
-import { RecalculationComponent } from './recalculation/recalculation.component';
+import { Rfq4DetailViewHeaderComponent } from './component/header/rfq-4-detail-view-header.component';
+import { InformationComponent } from './component/information/information.component';
+import { RecalculationComponent } from './component/recalculation/recalculation.component';
 import { Rfq4DetailViewComponent } from './rfq-4-detail-view.component';
 
 describe('Rfq4DetailViewComponent', () => {

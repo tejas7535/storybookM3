@@ -1,0 +1,58 @@
+<ng-container
+  *transloco="let t; read: 'calculator.rfq4DetailView.positionInformation'"
+>
+  @if (positionInformation() && rfq4ProcessData()) {
+    <gq-kpi-status-card [title]="t('title')">
+      <gq-label-text>
+        <span label> {{ t('materialDescription') }}</span>
+        <span text>{{
+          positionInformation().materialData.materialDescription
+            | nullableString
+        }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('quantity') }}</span>
+        <span text>{{
+          positionInformation().orderQuantity?.toString() | nullableString
+        }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('deliveryUnit') }}</span>
+        <span text>{{
+          positionInformation().deliveryUnit?.toString() | nullableString
+        }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('materialNumber') }}</span>
+        <span text>{{
+          positionInformation().materialData.materialNumber15
+            | materialTransform
+        }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('productHierarchy') }}</span>
+        <span text>{{
+          positionInformation().materialData.productHierarchy | nullableString
+        }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('dimension') }}</span>
+        <span text>{{
+          positionInformation().materialData.dimensions | nullableString
+        }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('assignedTo') }}</span>
+        <span text class="text-primary cursor-pointer hover:underline">
+          {{ t('assignToMe') }}</span
+        >
+      </gq-label-text>
+      <gq-label-text [marginBottom]="false">
+        <span label>{{ t('message') }}</span>
+        <span text>{{
+          rfq4ProcessData().recalculationMessage | nullableString
+        }}</span>
+      </gq-label-text>
+    </gq-kpi-status-card>
+  }
+</ng-container>

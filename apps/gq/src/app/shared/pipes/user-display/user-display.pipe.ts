@@ -11,14 +11,15 @@ import {
   standalone: false,
 })
 export class UserDisplayPipe implements PipeTransform {
-  transform(user: ActiveDirectoryUser): string {
+  transform(user: ActiveDirectoryUser, excludeUserId?: boolean): string {
     if (!user) {
       return '';
     }
-
-    let displayValue = `(${user.userId.toLocaleUpperCase()}) ${
-      user.firstName || ''
-    } ${user.lastName || ''}`.trim();
+    let displayValue = '';
+    if (!excludeUserId) {
+      displayValue += `(${user.userId.toLocaleUpperCase()}) `;
+    }
+    displayValue += `${user.firstName || ''} ${user.lastName || ''}`;
 
     const approver = user as Approver;
 
@@ -28,6 +29,6 @@ export class UserDisplayPipe implements PipeTransform {
       }`;
     }
 
-    return displayValue;
+    return displayValue.trim();
   }
 }

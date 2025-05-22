@@ -1,0 +1,36 @@
+<ng-container *transloco="let t; read: 'calculator.rfq4DetailView.header'">
+  <schaeffler-subheader
+    [breadcrumbs]="breadcrumbs()"
+    [subheaderTitle]="
+      t('title', { rfqId: rfq4DetailViewData()?.rfq4ProcessData.rfqId })
+    "
+  >
+    <ng-container subheaderStatusIcon>
+      <schaeffler-tag
+        [type]="tagType()"
+        class="subheader-status-icon"
+      ></schaeffler-tag>
+    </ng-container>
+    <ng-container subheaderInlineContent>
+      <schaeffler-share-button></schaeffler-share-button>
+      <button color="primary" [disabled]="true" mat-raised-button>
+        {{ t('confirmButton') }}
+      </button>
+    </ng-container>
+    <ng-container subheaderBlockContent>
+      <div class="flex flex-row pt-2 text-caption pl-9">
+        <span class="text-medium-emphasis">{{
+          t('recalculateSqvStatus', {
+            status:
+              rfq4DetailViewData()?.rfq4ProcessData
+                .calculatorRequestRecalculationStatus,
+          })
+        }}</span>
+        <span class="ml-[10px] mr-[10px] text-caption opacity-[0.12]">|</span>
+        <gq-customer-subheader-content
+          [customer]="rfq4DetailViewData()?.customerData"
+        ></gq-customer-subheader-content>
+      </div>
+    </ng-container>
+  </schaeffler-subheader>
+</ng-container>

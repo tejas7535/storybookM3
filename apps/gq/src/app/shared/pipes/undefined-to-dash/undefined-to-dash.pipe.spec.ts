@@ -25,4 +25,10 @@ describe('UndefinedToDashPipe', () => {
     const result = pipe.transform(value);
     expect(result).toBe(value);
   });
+  test('should return dash for empty string', () => {
+    const pipe = new UndefinedToDashPipe();
+
+    const result = pipe.transform('');
+    expect(result).toBe('-');
+  });
 });
