@@ -1,4 +1,17 @@
 # Release Notes of Hardness Converter
+## [0.2.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hc-v0.2.1...hc-v0.2.2) (2025-05-22)
+
+
+### Features
+
+*  update shared components styles  (UFATBI- 8345) ([#7125](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7125)) ([271c78a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/271c78a6a21135ade7b576afb51ea0255bc5981c))
+* **hc:** migrate to m3 styles ([#7045](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7045)) ([14e4b9a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/14e4b9a90badf279456b373b43c7b5ad4750bd8e))
+
+
+### Bug Fixes
+
+* **hc:** add internal user tracking in hc (UFTABI-8892) ([#7308](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7308)) ([28d86de](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/28d86deb68b2371b5106d5f7abbe7901103954df))
+
 ## [0.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hc-v0.2.0...hc-v0.2.1) (2025-02-03)
 
 
