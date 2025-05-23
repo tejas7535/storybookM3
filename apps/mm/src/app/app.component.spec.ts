@@ -1,52 +1,46 @@
 /* eslint-disable @nx/enforce-module-boundaries */
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { Meta } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
+import { NavigationEnd, provideRouter, Router } from '@angular/router';
 
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
-import { OneTrustModule } from '@altack/ngx-onetrust';
+import { TranslocoService } from '@jsverse/transloco';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
-import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent, MockModule } from 'ng-mocks';
 
-import { AppShellModule } from '@schaeffler/app-shell';
-import {
-  ApplicationInsightsModule,
-  ApplicationInsightsService,
-  COOKIE_GROUPS,
-} from '@schaeffler/application-insights';
+import { AppShellFooterLink, AppShellModule } from '@schaeffler/app-shell';
 import { BannerModule } from '@schaeffler/banner';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { LanguageSelectModule } from '@schaeffler/transloco/components';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { SettingsComponent } from './core/components/settings/settings.component';
-import { detectAppDelivery } from './core/helpers/settings-helpers';
-import { InternalDetectionService } from './core/services/internal-detection/internal-detection.service';
 import { OneTrustMobileService } from './core/services/tracking/one-trust-mobile.service';
+import { GlobalFacade } from './core/store/facades/global/global.facade';
 import { AppDelivery } from './shared/models';
-
-jest.mock('./core/helpers/settings-helpers');
-const mockedDetectAppDelivery = jest.mocked(detectAppDelivery, {
-  shallow: true,
-});
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let spectator: Spectator<AppComponent>;
-  let onetrustMobileService: OneTrustMobileService;
+  let meta: Meta;
+  let globalFacade: GlobalFacade;
+  let router: Router;
+  let translocoService: TranslocoService;
+
+  let routerEventsMock: Subject<any>;
+  const mockFn = jest.fn();
 
   const createComponent = createComponentFactory({
     component: AppComponent,
@@ -60,132 +54,186 @@ describe('AppComponent', () => {
       MockModule(MatIconModule),
       MockComponent(SettingsComponent),
       MatIconTestingModule,
-      RouterTestingModule,
       PushPipe,
       provideTranslocoTestingModule({ en: {} }),
-
-      ApplicationInsightsModule.forRoot(environment.applicationInsights),
-      OneTrustModule.forRoot({
-        cookiesGroups: COOKIE_GROUPS,
-        domainScript: 'mockOneTrustId',
-      }),
     ],
     providers: [
-      provideMockStore(),
       {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
+        provide: GlobalFacade,
+        useValue: {
+          isBannerOpened$: of(true),
+          appDelivery$: of(AppDelivery.Embedded),
+          isInitialized$: of(true),
+          isStandalone$: of(false),
+          initGlobal: jest.fn(),
+        },
       },
       mockProvider(OneTrustMobileService),
-      mockProvider(ApplicationInsightsService),
-      mockProvider(InternalDetectionService, {
-        getInternalHelloEndpoint: () => of(true),
-      }),
+      provideRouter([]),
+      {
+        provide: Router,
+        useFactory: () => {
+          routerEventsMock = new Subject<any>();
+
+          return {
+            events: routerEventsMock,
+            // eslint-disable-next-line unicorn/no-null
+            getCurrentNavigation: jest.fn((): any => null),
+            // eslint-disable-next-line unicorn/no-null
+            lastSuccessfulNavigation: null as any,
+            initialNavigation: jest.fn(),
+          };
+        },
+      },
+      {
+        provide: OneTrustMobileService,
+        useValue: {
+          showPreferenceCenterUI: mockFn,
+        },
+      },
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
     declarations: [AppComponent],
+    detectChanges: false,
   });
 
   beforeEach(() => {
     jest.resetAllMocks();
-    mockedDetectAppDelivery.mockImplementation(() => AppDelivery.Embedded);
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    onetrustMobileService = spectator.inject(OneTrustMobileService);
+    meta = spectator.inject(Meta);
+    router = spectator.inject(Router);
+    globalFacade = spectator.inject(GlobalFacade);
+    translocoService = spectator.inject(TranslocoService);
+
+    translocoService.translate = jest.fn((key: string) => key) as any;
   });
 
-  it('should create the app', () => {
+  it('should create the app component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set embedded to true if in iframe', () => {
-    expect(component.embedded).toBe(true);
-  });
+  describe('ngOnInit', () => {
+    it('should set meta tags', () => {
+      meta.addTags = jest.fn();
 
-  describe('#checkIframe', () => {
-    it('should set embedded to true if in iframe', () => {
-      mockedDetectAppDelivery.mockImplementation(() => AppDelivery.Embedded);
+      spectator.detectChanges();
+      component.ngOnInit();
 
-      component.checkIframe();
-      expect(component.embedded).toBe(true);
+      expect(meta.addTags).toHaveBeenCalledWith(component['metaTags']);
+    });
+
+    it('should call init global on navigation end', () => {
+      spectator.detectChanges();
+      component.ngOnInit();
+
+      routerEventsMock.next(new NavigationEnd(1, '', ''));
+
+      expect(globalFacade.initGlobal).toHaveBeenCalled();
+    });
+
+    it('should populate the footerLinks', () => {
+      component.footerLinks$.next = jest.fn();
+      component['getFooterLinks'] = jest.fn((): any[] => []);
+
+      spectator.detectChanges();
+      component.ngOnInit();
+
+      expect(component.footerLinks$.next).toHaveBeenCalledWith([]);
+      expect(component['getFooterLinks']).toHaveBeenCalledWith(
+        AppDelivery.Embedded
+      );
+    });
+
+    it('should call initial navigation', () => {
+      spectator.detectChanges();
+      component.ngOnInit();
+
+      expect(router.initialNavigation).toHaveBeenCalled();
     });
   });
 
-  describe('#updateFooterLinks', () => {
-    it('should contain translated footerLinks', () => {
-      mockedDetectAppDelivery.mockImplementation(() => AppDelivery.Standalone);
+  describe('ngOnDestroy', () => {
+    it('should complete destroy$', () => {
+      component['destroy$'].next = jest.fn();
+      component['destroy$'].complete = jest.fn();
 
-      const footerLinksResult = component['updateFooterLinks']();
+      spectator.detectChanges();
+      component.ngOnDestroy();
 
-      expect(footerLinksResult).toStrictEqual([
-        {
-          link: `${LegalRoute}/${LegalPath.ImprintPath}`,
-          title: 'legal.imprint',
-          external: false,
-        },
-        {
-          link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
-          title: 'legal.dataPrivacy',
-          external: false,
-        },
-        {
-          link: `${LegalRoute}/${LegalPath.TermsPath}`,
-          title: 'legal.termsOfUse',
-          external: false,
-        },
-        {
-          link: `${LegalRoute}/${LegalPath.CookiePath}`,
-          title: 'legal.cookiePolicy',
-          external: false,
-        },
-      ]);
+      expect(component['destroy$'].next).toHaveBeenCalled();
+      expect(component['destroy$'].complete).toHaveBeenCalled();
+    });
+  });
+
+  describe('getFooterLinks', () => {
+    const defaultLinks: AppShellFooterLink[] = [
+      {
+        link: `${LegalRoute}/${LegalPath.ImprintPath}`,
+        title: 'legal.imprint',
+        external: false,
+      },
+      {
+        link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
+        title: 'legal.dataPrivacy',
+        external: false,
+      },
+      {
+        link: `${LegalRoute}/${LegalPath.TermsPath}`,
+        title: 'legal.termsOfUse',
+        external: false,
+      },
+    ];
+
+    const nativeLink: AppShellFooterLink = {
+      link: undefined,
+      title: 'legal.cookiePolicy',
+      external: false,
+      onClick: ($event: MouseEvent) => {
+        $event.preventDefault();
+        mockFn();
+      },
+    };
+
+    const embeddedLink: AppShellFooterLink = {
+      link: `${LegalRoute}/${LegalPath.CookiePath}`,
+      title: 'legal.cookiePolicy',
+      external: false,
+    };
+
+    it('should return the footer links for native', () => {
+      const appDelivery = AppDelivery.Native;
+
+      const result = component['getFooterLinks'](appDelivery);
+
+      expect(JSON.stringify(result)).toEqual(
+        JSON.stringify([...defaultLinks, nativeLink])
+      );
     });
 
-    describe('when app delivery is native', () => {
-      beforeEach(() => {
-        mockedDetectAppDelivery.mockImplementation(() => AppDelivery.Native);
-      });
+    it('native cookie link should open ot preference center ui', () => {
+      const appDelivery = AppDelivery.Native;
 
-      it('should contain translated footerLinks for native apps excluding standalone cookie path', () => {
-        const footerLinksResult = component['updateFooterLinks']();
-        expect(footerLinksResult).toStrictEqual([
-          {
-            link: `${LegalRoute}/${LegalPath.ImprintPath}`,
-            title: 'legal.imprint',
-            external: false,
-          },
-          {
-            link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
-            title: 'legal.dataPrivacy',
-            external: false,
-          },
-          {
-            link: `${LegalRoute}/${LegalPath.TermsPath}`,
-            title: 'legal.termsOfUse',
-            external: false,
-          },
-          {
-            link: undefined,
-            title: 'legal.cookiePolicy',
-            external: false,
-            onClick: expect.any(Function),
-          },
-        ]);
-      });
+      const result = component['getFooterLinks'](appDelivery);
 
-      it('should perform onClick action', () => {
-        const footerLinks = component['updateFooterLinks']();
+      const mockEvent = {
+        preventDefault: jest.fn(),
+      };
 
-        const onClick = footerLinks[3].onClick as (event: MouseEvent) => void;
+      result.at(-1)?.onClick(mockEvent as unknown as MouseEvent);
 
-        const event = {
-          preventDefault: jest.fn(),
-        } as Partial<MouseEvent> as MouseEvent;
+      expect(mockEvent.preventDefault).toHaveBeenCalled();
+      expect(mockFn).toHaveBeenCalled();
+    });
 
-        onClick(event);
+    it('should return the footer links for embedded', () => {
+      const appDelivery = AppDelivery.Embedded;
 
-        expect(event.preventDefault).toHaveBeenCalled();
-        expect(onetrustMobileService.showPreferenceCenterUI).toHaveBeenCalled();
-      });
+      const result = component['getFooterLinks'](appDelivery);
+
+      expect(JSON.stringify(result)).toEqual(
+        JSON.stringify([...defaultLinks, embeddedLink])
+      );
     });
   });
 });

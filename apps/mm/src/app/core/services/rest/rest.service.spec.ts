@@ -7,6 +7,7 @@ import { waitForAsync } from '@angular/core/testing';
 
 import { firstValueFrom } from 'rxjs';
 
+import { TranslocoService } from '@jsverse/transloco';
 import {
   CalculationRequestPayload,
   MMBearingPreflightResponse,
@@ -37,7 +38,15 @@ describe('RestService', () => {
   const createService = createServiceFactory({
     service: RestService,
     imports: [],
-    providers: [RestService, provideHttpClient(), provideHttpClientTesting()],
+    providers: [
+      RestService,
+      provideHttpClient(),
+      provideHttpClientTesting(),
+      {
+        provide: TranslocoService,
+        useValue: { getActiveLang: jest.fn(() => 'en') },
+      },
+    ],
   });
 
   beforeEach(() => {
@@ -111,7 +120,7 @@ describe('RestService', () => {
         `${environment.baseUrl}/materials/${mockShaftMaterial}`
       );
       expect(req.request.method).toBe('GET');
-      expect(req.request.context).toEqual(withCache());
+      expect(req.request.context).toEqual(withCache({ version: 'en' }));
       req.flush(BEARING_MATERIAL_RESPONSE_MOCK);
     });
   });
@@ -127,7 +136,7 @@ describe('RestService', () => {
 
       const req = httpMock.expectOne('aUrl');
       expect(req.request.method).toBe('GET');
-      expect(req.request.context).toEqual(withCache());
+      expect(req.request.context).toEqual(withCache({ version: 'en' }));
       req.flush(SIMPLE_LIST_RESPONSE);
     });
   });

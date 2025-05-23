@@ -11,7 +11,7 @@ export const environment: Environment = {
   bearinxApiBaseUrl: 'https://bearinx-d.schaeffler.com/mounting/api',
   baseUrl: 'https://bearinx-d.schaeffler.com/mounting/api/v2/mountingmanager',
   staticStorageUrl: 'https://frontend1apps.z1.web.core.windows.net',
-  assetsPath: '/assets',
+  assetsPath: 'http://localhost:8000/assets',
   oneTrustId: '8305e043-6459-42a3-8eae-82173d4456d6-test',
   oneTrustMobileStorageLocation: 'cdn.cookielaw.org',
   oneTrustAndroidId: '01912d27-3de3-76d5-89e4-e27b52d60db6-test',

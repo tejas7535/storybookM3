@@ -1,8 +1,10 @@
 /* eslint-disable @nx/enforce-module-boundaries */
-import { NgModule } from '@angular/core';
+import { ApplicationRef, DoBootstrap, Injector, NgModule } from '@angular/core';
+import { createCustomElement } from '@angular/elements';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslocoService } from '@jsverse/transloco';
@@ -42,13 +44,16 @@ export function DynamicThirdPartyUsage(translocoService: TranslocoService) {
   return translocoService.selectTranslateObject('legal.thirdPartyUsage');
 }
 
+export const APP_ROOT = 'mounting-manager';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    BrowserModule,
     BrowserAnimationsModule,
+    StoreModule,
     AppRoutingModule,
     CoreModule,
-    StoreModule,
     AppShellModule,
     MatSidenavModule,
     MatIconModule,
@@ -114,6 +119,18 @@ export function DynamicThirdPartyUsage(translocoService: TranslocoService) {
       },
     },
   ],
-  bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule implements DoBootstrap {
+  constructor(readonly injector: Injector) {
+    // check if app is already initialized. It should prevent from intialization called multiple times
+    if (!customElements.get(APP_ROOT)) {
+      const webComponent = createCustomElement(AppComponent, { injector });
+      customElements.define(APP_ROOT, webComponent);
+    }
+  }
+
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
+  ngDoBootstrap(_appRef: ApplicationRef) {
+    // this function is required by Angular but not actually necessary since we create a web component here
+  }
+}

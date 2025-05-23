@@ -11,9 +11,11 @@ import { environment } from '../../../../environments/environment';
 import { CalculationOptionsState } from '../models/calculation-options-state.model';
 import { CalculationResultState } from '../models/calculation-result-state.model';
 import { CalculationSelectionState } from '../models/calculation-selection-state.model';
+import { GlobalState } from '../models/global-state.model';
 import { calculationOptionsReducer } from './calculation-options/calculation-options.reducer';
 import { calculationResultReducer } from './calculation-result/calculation-result.reducer';
 import { calculationSelectionReducer } from './calculation-selection/calculation-selection.reducer';
+import { globalReducer } from './global/global.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -26,6 +28,7 @@ export interface AppState {
   calculationSelection: CalculationSelectionState;
   calculationResult: CalculationResultState;
   calculationOptions: CalculationOptionsState;
+  global: GlobalState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -33,6 +36,7 @@ export const reducers: ActionReducerMap<AppState> = {
   calculationSelection: calculationSelectionReducer,
   calculationResult: calculationResultReducer,
   calculationOptions: calculationOptionsReducer,
+  global: globalReducer,
 };
 
 // eslint-disable-next-line unicorn/no-negated-condition
@@ -53,6 +57,8 @@ export const getRouterState =
   createFeatureSelector<fromRouter.RouterReducerState<RouterStateUrl>>(
     'router'
   );
+
+export const getGlobalState = createFeatureSelector<GlobalState>('global');
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl>

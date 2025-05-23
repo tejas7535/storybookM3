@@ -52,7 +52,20 @@
             "allowCircularSelfDependency": true
           }
         ],
-        "@angular-eslint/prefer-standalone": "off"
+        "@angular-eslint/prefer-standalone": "off",
+        "@typescript-eslint/member-ordering": [
+          "error",
+          {
+            "classes": [
+              "private-readonly-field",
+              "public-field",
+              "private-field",
+              "constructor",
+              "public-method",
+              "private-method"
+            ]
+          }
+        ]
       }
     },
     {

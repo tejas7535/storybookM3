@@ -1,49 +1,44 @@
-@if (!embedded) {
-  <schaeffler-app-shell
-    [appTitle]="title"
-    [appTitleLink]="'/'"
-    [hasSidebarLeft]="true"
-    [footerLinks]="footerLinks$ | ngrxPush"
-    [appVersion]="appVersion"
-  >
-    <ng-container sidenavBody>
-      <mm-settings></mm-settings>
-    </ng-container>
-    <ng-container mainContent>
-      <div class="h-full w-full">
-        <schaeffler-banner></schaeffler-banner>
-        @if (isBannerOpened()) {
-          <div class="border-t border-border"></div>
-        }
-        <ng-container *ngTemplateOutlet="content"></ng-container>
-      </div>
-    </ng-container>
-  </schaeffler-app-shell>
-}
-@if (embedded) {
-  <div class="fixed h-full w-full">
-    <div class="fixed z-10 bg-surface-legacy">
-      <button (click)="drawer.toggle()" mat-icon-button aria-label="settings">
-        <mat-icon class="text-icon">menu</mat-icon>
-      </button>
-    </div>
-    <mat-drawer-container class="h-full">
-      <mat-drawer #drawer class="example-sidenav" mode="over">
-        <mm-settings #sidebar [embedded]="embedded"></mm-settings>
-      </mat-drawer>
+<ng-container>
+  @if (standalone()) {
+    <schaeffler-app-shell
+      [appTitle]="title"
+      [appTitleLink]="'/'"
+      [hasSidebarLeft]="true"
+      [footerLinks]="footerLinks$ | ngrxPush"
+      [appVersion]="appVersion"
+    >
+      <ng-container sidenavBody>
+        <mm-settings></mm-settings>
+      </ng-container>
+      <ng-container mainContent>
+        <div class="h-full w-full">
+          <schaeffler-banner></schaeffler-banner>
+          @if (isBannerOpened()) {
+            <div class="border-t border-border"></div>
+          }
+          <ng-container *ngTemplateOutlet="content"></ng-container>
+        </div>
+      </ng-container>
+    </schaeffler-app-shell>
+  } @else {
+    <div
+      class="flex h-full w-full flex-1 flex-col items-center relative !max-w-[calc(100vw-32px-40px-2px)]"
+    >
       <schaeffler-banner></schaeffler-banner>
       <ng-container *ngTemplateOutlet="content"></ng-container>
-    </mat-drawer-container>
-  </div>
-}
+    </div>
+  }
+</ng-container>
 
 <ng-template #content>
   <div
-    [ngClass]="embedded ? 'bg-surface-legacy' : 'bg-surface-container-lowest'"
-    class="flex min-h-full flex-col"
+    [ngClass]="
+      !isStandalone() ? 'bg-surface-legacy' : 'bg-surface-container-lowest'
+    "
+    class="flex min-h-full w-full flex-col flex-1"
   >
     <div
-      [ngClass]="embedded ? 'm-0 mt-5 p-0 pt-5' : ' sm:px-4 pb-4 md:m-4'"
+      [ngClass]="!isStandalone() ? 'm-0 mt-5 p-0 pt-5' : ' sm:px-4 pb-4 md:m-4'"
       class="flex flex-auto flex-col bg-surface-container-lowest"
     >
       <div

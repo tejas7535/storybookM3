@@ -1,13 +1,17 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
+
+import { getAssetsPath } from '@mm/core/services/assets-path-resolver/assets-path-resolver.helper';
 
 @Component({
   selector: 'mm-app-store-buttons',
   templateUrl: './app-store-buttons.component.html',
 })
 export class AppStoreButtonsComponent {
-  @Input() public title?: string;
+  public title? = input<string>();
 
-  @Output() public appStoreClick = new EventEmitter<string>();
+  public appStoreClick = output<string>();
+
+  public assetsPath = getAssetsPath();
 
   public onAppStoreClick(storeName: string): void {
     this.appStoreClick.emit(storeName);

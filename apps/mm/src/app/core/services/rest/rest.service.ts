@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
+import { TranslocoService } from '@jsverse/transloco';
 import { CalculationRequestPayload } from '@mm/shared/models/calculation-request.model';
 import { withCache } from '@ngneat/cashew';
 
@@ -19,15 +20,10 @@ import { BearinxOnlineResult } from '../bearinx-result.interface';
   providedIn: 'root',
 })
 export class RestService {
-  private currentLanguage: string;
+  private readonly httpClient = inject(HttpClient);
+  private readonly translocoService = inject(TranslocoService);
 
   private readonly bearingCalculationPath = `${environment.baseUrl}/calculate`;
-
-  public constructor(private readonly httpClient: HttpClient) {}
-
-  public setCurrentLanguage(language: string): void {
-    this.currentLanguage = language;
-  }
 
   public getBearingSearch(searchQuery: string): Observable<SearchResult> {
     return this.httpClient.get<SearchResult>(
@@ -60,13 +56,13 @@ export class RestService {
   ): Observable<ShaftMaterialResponse> {
     return this.httpClient.get<ShaftMaterialResponse>(
       `${environment.baseUrl}/materials/${idmmShaftMaterial}`,
-      { context: withCache({ version: this.currentLanguage }) }
+      { context: withCache({ version: this.translocoService.getActiveLang() }) }
     );
   }
 
   public getLoadOptions<T>(requestUrl: string): Observable<T> {
     return this.httpClient.get<T>(requestUrl, {
-      context: withCache({ version: this.currentLanguage }),
+      context: withCache({ version: this.translocoService.getActiveLang() }),
     });
   }
 

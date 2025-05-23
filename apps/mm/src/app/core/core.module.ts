@@ -18,6 +18,7 @@ import { Capacitor } from '@capacitor/core';
 import { FirebaseAnalytics } from '@capacitor-community/firebase-analytics';
 import { TranslocoService } from '@jsverse/transloco';
 import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
+import { AVAILABLE_LANGUAGES } from '@mm/shared/constants/available-languages';
 import { AppDelivery } from '@mm/shared/models';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 
@@ -33,8 +34,11 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { environment } from '../../environments/environment';
 import { HttpLocaleInterceptor } from '../shared/interceptors/http-locale.interceptor';
 import { detectAppDelivery } from './helpers/settings-helpers';
+import { getAssetsPath } from './services/assets-path-resolver/assets-path-resolver.helper';
 import { ConsentValues } from './services/tracking/one-trust.interface';
 import { OneTrustMobileService } from './services/tracking/one-trust-mobile.service';
+
+const assetsPath = getAssetsPath();
 
 export class DynamicLocaleId extends String {
   public constructor(protected translocoService: TranslocoService) {
@@ -148,19 +152,14 @@ if (detectAppDelivery() !== AppDelivery.Standalone || environment.localDev) {
     AppShellModule,
     SharedTranslocoModule.forRoot(
       environment.production,
-      [
-        { id: 'de', label: 'Deutsch' },
-        { id: 'en', label: 'English' },
-        { id: 'es', label: 'Español' },
-        { id: 'fr', label: 'Français' },
-        { id: 'ru', label: 'русский' },
-        { id: 'zh', label: '中文' },
-      ],
+      AVAILABLE_LANGUAGES,
       undefined, // default -> undefined would lead to browser detection
       'en',
       'language',
       true,
-      !environment.localDev
+      !environment.localDev,
+      undefined,
+      `${assetsPath}/i18n/`
     ),
     // Monitoring
     ...Tracking,

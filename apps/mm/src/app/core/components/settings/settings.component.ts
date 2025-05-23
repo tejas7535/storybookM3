@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 import { OneTrustService } from '@altack/ngx-onetrust';
 import { TranslocoService } from '@jsverse/transloco';
@@ -34,7 +34,14 @@ interface AvailableOption {
   ],
 })
 export class SettingsComponent implements OnInit, OnDestroy {
-  @Input() public embedded = false;
+  private readonly translocoService = inject(TranslocoService);
+  private readonly localeService = inject(LocaleService);
+  private readonly oneTrustService = inject(OneTrustService, {
+    optional: true,
+  });
+
+  private readonly destroy$ = new Subject<void>();
+
   languageSelectComponent = LanguageSelectComponent;
 
   public separatorSelectControl: UntypedFormControl = new UntypedFormControl(
@@ -46,29 +53,22 @@ export class SettingsComponent implements OnInit, OnDestroy {
     { id: '.', label: 'decimalSeparatorPoint' },
   ];
 
-  private readonly subscription = new Subscription();
-
-  public constructor(
-    private readonly translocoService: TranslocoService,
-    private readonly localeService: LocaleService,
-    @Optional() private readonly oneTrustService: OneTrustService
-  ) {}
-
   public ngOnInit(): void {
-    this.subscription.add(
-      this.translocoService.langChanges$.subscribe((language) => {
+    this.translocoService.langChanges$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((language) => {
         this.oneTrustService?.translateBanner(language, true);
-      })
-    );
-    this.subscription.add(
-      this.localeService.separator$.subscribe((separator: MMSeparator) => {
+      });
+    this.localeService.separator$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((separator: MMSeparator) => {
         this.separatorSelectControl.setValue(separator);
-      })
-    );
+      });
   }
 
   public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   public setSeparator(separator: MMSeparator): void {

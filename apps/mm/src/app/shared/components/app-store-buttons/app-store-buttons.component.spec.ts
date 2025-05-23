@@ -17,7 +17,7 @@ describe('AppStoreButtonsComponent', () => {
   describe('when the title is set', () => {
     it('should display the title', () => {
       const title = 'Download the app title';
-      spectator.component.title = title;
+      spectator.setInput('title', title);
       spectator.detectChanges();
       const titleElement = spectator.query('p');
 

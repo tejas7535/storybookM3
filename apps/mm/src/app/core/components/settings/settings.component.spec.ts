@@ -74,12 +74,14 @@ describe('SettingsComponent', () => {
   });
 
   describe('#ngOnDestroy', () => {
-    it('should unsubscribe on destroy', () => {
-      component['subscription'].unsubscribe = jest.fn();
+    it('should complete destroy$', () => {
+      component['destroy$'].next = jest.fn();
+      component['destroy$'].complete = jest.fn();
 
       component.ngOnDestroy();
 
-      expect(component['subscription'].unsubscribe).toHaveBeenCalled();
+      expect(component['destroy$'].next).toHaveBeenCalled();
+      expect(component['destroy$'].complete).toHaveBeenCalled();
     });
   });
 });

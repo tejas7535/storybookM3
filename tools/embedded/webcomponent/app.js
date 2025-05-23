@@ -24,6 +24,13 @@ createApp({
           height: 1300,
           width: 1400,
         },
+        'mounting-manager': {
+          wrapperAppTitle: 'Mounting Manager - Embedded App',
+          tag: '<mounting-manager bearing="230/1000-K-MB" language="en" separator="."></mounting-manager>',
+          src: 'http://localhost:8000/mm-webcomponent.js',
+          height: 1300,
+          width: 1400,
+        },
         // Add more configurations as needed
       },
     };
@@ -54,7 +61,7 @@ createApp({
     },
   },
   mounted() {
-    const configuration = 0;
+    const configuration = 2;
     this.selectedComponent = Object.keys(this.configurations)[configuration];
     this.updateConfigurations();
   },

@@ -7,6 +7,7 @@ export const environment: Environment = {
   bearinxApiBaseUrl: 'https://mountingmanager-cae.schaeffler.com/mounting/api',
   baseUrl: 'https://mountingmanager-cae.schaeffler.com/api/v1',
   staticStorageUrl: 'https://frontend1apps.z1.web.core.windows.net',
+  assetsPath: 'https://mountingmanager.com/assets',
   oneTrustId: '56bbef2e-9bc2-43ca-bcd8-edf6d40aa44f',
   oneTrustMobileStorageLocation: 'cdn.cookielaw.org',
   oneTrustAndroidId: '01912d27-3de3-76d5-89e4-e27b52d60db6',
@@ -28,5 +29,4 @@ export const environment: Environment = {
     'https://bearinxfeinternalcheck.blob.core.windows.net/internal/access.json',
   productImageUrl:
     'https://engineeringapps.dp.schaeffler/mounting/getProductImages',
-  assetsPath: '/assets',
 };

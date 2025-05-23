@@ -5,6 +5,7 @@ export interface Environment {
   bearinxApiBaseUrl: string;
   baseUrl: string;
   staticStorageUrl: string;
+  assetsPath: string;
   oneTrustId: string;
   oneTrustMobileStorageLocation: string;
   oneTrustAndroidId: string;
@@ -24,5 +25,4 @@ export interface Environment {
   };
   internalDetectionUrl: string;
   productImageUrl: string;
-  assetsPath: string;
 }

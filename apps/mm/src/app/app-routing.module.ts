@@ -7,8 +7,7 @@ import { LegalRoute } from '@schaeffler/legal-pages';
 import { LanguageGuard } from './guards/language.guard';
 
 export enum RoutePath {
-  BasePath = '',
-  HomePath = 'app',
+  HomePath = '',
   LegalPath = 'legal',
 }
 
@@ -20,12 +19,6 @@ export const appRoutePaths: Routes = [
     canActivate: [LanguageGuard],
   },
   {
-    path: `${RoutePath.HomePath}/:step/:id/:language/:separator/:head/:iframe`,
-    loadComponent: () =>
-      import('./home/home.component').then((m) => m.HomeComponent),
-    canActivate: [LanguageGuard],
-  },
-  {
     path: RoutePath.HomePath,
     loadComponent: () =>
       import('./home/home.component').then((m) => m.HomeComponent),
@@ -34,7 +27,7 @@ export const appRoutePaths: Routes = [
 
   {
     path: '**',
-    redirectTo: '',
+    redirectTo: RoutePath.HomePath,
   },
 ];
 

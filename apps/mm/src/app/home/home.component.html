@@ -3,13 +3,21 @@
     schaefflerSeperatedSteps
     (selectionChange)="selectStep($event)"
     [selectedIndex]="currentStep()"
+    [ngClass]="{
+      '[&_mat-step-header:first-of-type]:pointer-events-none':
+        isAppDeliveryEmbedded(),
+    }"
     linear="true"
     class="p-1"
     #stepper
   >
     <ng-container>
       @for (step of steps(); track step.name; let index = $index) {
-        <mat-step state="number" [completed]="step.complete" optional="false"
+        <mat-step
+          state="number"
+          [completed]="step.complete"
+          [editable]="!isAppDeliveryEmbedded() || index !== BEARING_STEP"
+          optional="false"
           ><ng-template matStepLabel>{{ t(step.text) }}</ng-template>
           <div class="pt-2 sm:pt-4">
             @switch (index) {
@@ -84,7 +92,7 @@
               }
             }
 
-            @if (isAppDeliveryEmbedded) {
+            @if (isAppDeliveryEmbedded()) {
               <mm-app-store-buttons
                 class="flex justify-center mb-8"
                 [title]="t('shared.appStoreButtonsTitle')"

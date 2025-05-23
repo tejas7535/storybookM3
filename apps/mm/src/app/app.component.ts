@@ -1,117 +1,150 @@
 /* eslint-disable @nx/enforce-module-boundaries */
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Meta, MetaDefinition } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 
-import { BehaviorSubject, filter, startWith, Subject, takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  filter,
+  merge,
+  Subject,
+  switchMap,
+  take,
+  takeUntil,
+} from 'rxjs';
 
 import {
   LoadedEvent,
-  translate,
   TranslocoEvents,
   TranslocoService,
 } from '@jsverse/transloco';
-import { Store } from '@ngrx/store';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { getBannerOpen } from '@schaeffler/banner';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import packageJson from '../../package.json';
-import { RoutePath } from './app-routing.module';
-import { detectAppDelivery } from './core/helpers/settings-helpers';
-import { InternalDetectionService } from './core/services/internal-detection/internal-detection.service';
+import { MMSeparator } from './core/services';
 import { OneTrustMobileService } from './core/services/tracking/one-trust-mobile.service';
-import { StorageMessagesActions } from './core/store/actions';
+import { GlobalFacade } from './core/store/facades/global/global.facade';
 import { AppDelivery } from './shared/models';
 
 @Component({
-  selector: 'mm-root',
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'mounting-manager',
   templateUrl: './app.component.html',
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class AppComponent implements OnInit, OnDestroy {
-  public title = 'Mounting Manager';
-  public embedded = detectAppDelivery() === AppDelivery.Embedded;
-  public isCookiePage = false;
-  public cookieSettings = translate('legal.cookieSettings');
-  public destroy$ = new Subject<void>();
-  public appVersion = packageJson.version;
-  public isBannerOpened = toSignal(this.store.select(getBannerOpen));
+  private readonly router = inject(Router);
+  private readonly meta = inject(Meta);
+  private readonly translocoService = inject(TranslocoService);
+  private readonly oneTrustMobileService = inject(OneTrustMobileService);
+  private readonly globalFacade = inject(GlobalFacade);
 
-  public footerLinks$ = new BehaviorSubject<AppShellFooterLink[]>(
-    this.updateFooterLinks()
+  public title = 'Mounting Manager';
+  public appVersion = packageJson.version;
+
+  public standalone = input<boolean>();
+  public bearing = input<string>();
+  public separator = input<MMSeparator>();
+  public language = input<string>();
+
+  public isCookiePage = false;
+  public cookieSettings = this.translocoService.translate(
+    'legal.cookieSettings'
   );
 
-  metaTags: MetaDefinition[] = [
-    { name: 'title', content: translate('meta.title') },
-    { name: 'description', content: translate('meta.description') },
+  public isBannerOpened = toSignal(this.globalFacade.isBannerOpened$);
+  public isStandalone = toSignal(this.globalFacade.isStandalone$);
+
+  public appDelivery$ = this.globalFacade.appDelivery$;
+
+  public isInitialized$ = this.globalFacade.isInitialized$;
+  public destroy$ = new Subject<void>();
+
+  public footerLinks$ = new BehaviorSubject<AppShellFooterLink[]>([]);
+
+  public metaTags: MetaDefinition[] = [
+    { name: 'title', content: this.translocoService.translate('meta.title') },
+    {
+      name: 'description',
+      content: this.translocoService.translate('meta.description'),
+    },
     // Open Graph / Facebook
-    { name: 'og:title', content: translate('meta.title') },
-    { name: 'og:description', content: translate('meta.description') },
+    {
+      name: 'og:title',
+      content: this.translocoService.translate('meta.title'),
+    },
+    {
+      name: 'og:description',
+      content: this.translocoService.translate('meta.description'),
+    },
     // Twitter
-    { name: 'twitter:title', content: translate('meta.title') },
-    { name: 'twitter:description', content: translate('meta.description') },
+    {
+      name: 'twitter:title',
+      content: this.translocoService.translate('meta.title'),
+    },
+    {
+      name: 'twitter:description',
+      content: this.translocoService.translate('meta.description'),
+    },
   ];
 
-  public constructor(
-    private readonly router: Router,
-    private readonly meta: Meta,
-    private readonly translocoService: TranslocoService,
-    private readonly store: Store,
-    private readonly oneTrustMobileService: OneTrustMobileService,
-    private readonly internalDetection: InternalDetectionService,
-    private readonly appInsights: ApplicationInsightsService
-  ) {
-    this.meta.addTags(this.metaTags);
-  }
-
   public ngOnInit(): void {
-    this.checkIframe();
+    this.meta.addTags(this.metaTags);
+
     this.router.events
       .pipe(
-        takeUntil(this.destroy$),
         filter((event) => event instanceof NavigationEnd),
-        startWith('')
+        take(1)
       )
-      .subscribe((event) => {
-        const url = (event as NavigationEnd).url;
-        this.isCookiePage = url?.split('/').pop() === LegalPath.CookiePath;
-        const parsedUrl = window.location;
-        if (url && parsedUrl.pathname === '/') {
-          this.router.navigate([RoutePath.HomePath], {
-            queryParamsHandling: 'preserve',
-          });
-        }
+      .subscribe(() => {
+        this.globalFacade.initGlobal(
+          this.standalone(),
+          this.bearing(),
+          this.separator(),
+          this.language()
+        );
       });
 
-    this.translocoService.events$
+    this.isInitialized$
       .pipe(
-        filter(
-          (event: TranslocoEvents) =>
-            !(event as LoadedEvent).wasFailure &&
-            event.type === 'translationLoadSuccess'
-        )
+        filter((isInitialized) => isInitialized),
+        switchMap(() =>
+          merge([
+            this.appDelivery$,
+            this.translocoService.events$.pipe(
+              filter(
+                (event: TranslocoEvents) =>
+                  !(event as LoadedEvent).wasFailure &&
+                  event.type === 'translationLoadSuccess'
+              )
+            ),
+            this.translocoService.langChanges$,
+          ])
+        ),
+        switchMap(() => this.appDelivery$)
       )
-      .subscribe(() => this.footerLinks$.next(this.updateFooterLinks()));
-
-    this.translocoService.langChanges$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.footerLinks$.next(this.updateFooterLinks()));
+      .subscribe((appDelivery) => {
+        this.footerLinks$.next(this.getFooterLinks(appDelivery));
+      });
 
-    this.internalDetection
-      .getInternalHelloEndpoint()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((isInternalUser) =>
-        this.appInsights.addCustomPropertyToTelemetryData(
-          'internalUser',
-          `${isInternalUser}`
-        )
-      );
-
-    this.store.dispatch(StorageMessagesActions.getStorageMessage());
+    if (
+      !this.router.getCurrentNavigation() &&
+      !this.router.lastSuccessfulNavigation
+    ) {
+      this.router.initialNavigation();
+    }
   }
 
   public ngOnDestroy() {
@@ -119,14 +152,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  public checkIframe(): void {
-    if (detectAppDelivery() === AppDelivery.Embedded) {
-      this.embedded = true;
-    }
-  }
-
-  private updateFooterLinks(): AppShellFooterLink[] {
-    const appDelivery = detectAppDelivery();
+  private getFooterLinks(appDelivery: AppDelivery): AppShellFooterLink[] {
     const footerLinks: AppShellFooterLink[] = [
       {
         link: `${LegalRoute}/${LegalPath.ImprintPath}`,
@@ -145,28 +171,23 @@ export class AppComponent implements OnInit, OnDestroy {
       },
     ];
 
-    if (appDelivery === AppDelivery.Standalone) {
-      const cookieLink = {
-        link: `${LegalRoute}/${LegalPath.CookiePath}`,
-        title: this.translocoService.translate('legal.cookiePolicy'),
-        external: false,
-      };
-
-      footerLinks.push(cookieLink);
-    }
-
-    if (appDelivery === AppDelivery.Native) {
-      footerLinks.push({
-        link: undefined,
-        title: translate('legal.cookiePolicy'),
-        external: false,
-        onClick: ($event: MouseEvent) => {
-          $event.preventDefault();
-          this.oneTrustMobileService.showPreferenceCenterUI();
-        },
-      });
-    }
-
-    return footerLinks;
+    return [
+      ...footerLinks,
+      appDelivery === AppDelivery.Native
+        ? {
+            link: undefined,
+            title: this.translocoService.translate('legal.cookiePolicy'),
+            external: false,
+            onClick: ($event: MouseEvent) => {
+              $event.preventDefault();
+              this.oneTrustMobileService.showPreferenceCenterUI();
+            },
+          }
+        : {
+            link: `${LegalRoute}/${LegalPath.CookiePath}`,
+            title: this.translocoService.translate('legal.cookiePolicy'),
+            external: false,
+          },
+    ];
   }
 }

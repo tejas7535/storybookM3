@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/member-ordering */
 import { CdkStepperModule, StepperSelectionEvent } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
@@ -11,9 +10,9 @@ import { MatStepperModule } from '@angular/material/stepper';
 
 import { debounceTime } from 'rxjs';
 
-import { detectAppDelivery } from '@mm/core/helpers/settings-helpers';
 import { CalculationOptionsFacade } from '@mm/core/store/facades/calculation-options/calculation-options.facade';
 import { CalculationSelectionFacade } from '@mm/core/store/facades/calculation-selection/calculation-selection.facade';
+import { GlobalFacade } from '@mm/core/store/facades/global/global.facade';
 import { BearingSearchComponent } from '@mm/home/bearing-search/bearing-search.component';
 import { AppStoreButtonsComponent } from '@mm/shared/components/app-store-buttons/app-store-buttons.component';
 import { QualtricsInfoBannerComponent } from '@mm/shared/components/qualtrics-info-banner/qualtrics-info-banner.component';
@@ -24,7 +23,6 @@ import {
   CALCULATION_OPTIONS_STEP,
   MEASURING_MOUNTING_STEP,
 } from '@mm/shared/constants/steps';
-import { AppDelivery } from '@mm/shared/models';
 import { BearingSeatStepComponent } from '@mm/steps/bearing-seat-step/bearing-seat-step.component';
 import { CalculationOptionsStepComponent } from '@mm/steps/calculation-options-step/calculation-options-step.component';
 import { MeasuringAndMountingStepComponent } from '@mm/steps/measuring-and-mounting-step/measuring-and-mounting-step.component';
@@ -58,6 +56,7 @@ import { ReportResultPageComponent } from './report-result-page/report-result-pa
 export class HomeComponent {
   private readonly selectionFacade = inject(CalculationSelectionFacade);
   private readonly optionsFacade = inject(CalculationOptionsFacade);
+  private readonly globalFacade = inject(GlobalFacade);
 
   readonly BEARING_STEP = BEARING_STEP;
   readonly BEARING_SEAT_STEP = BEARING_SEAT_STEP;
@@ -66,7 +65,9 @@ export class HomeComponent {
   readonly AXIAL_BEARINGS_RESULT_STEP = AXIAL_BEARINGS_RESULT_STEP;
 
   public readonly DEBOUNCE_TIME_DEFAULT = 0; // debounce time required for slider in Application to render properly at the first load.
-  public isAppDeliveryEmbedded = detectAppDelivery() === AppDelivery.Embedded;
+  public isAppDeliveryEmbedded = toSignal(
+    this.globalFacade.appDeliveryEmbedded$
+  );
   selectedBearing = toSignal(this.selectionFacade.getBearing$());
   bearingSeats = toSignal(this.selectionFacade.bearingSeats$);
   selectedBearingOption = toSignal(this.selectionFacade.selectedBearingOption$);

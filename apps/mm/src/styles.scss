@@ -19,7 +19,9 @@
    * see https://tailwindcss.com/docs
    */
 @tailwind base;
-@tailwind components;
+mounting-manager {
+  @tailwind components;
+}
 @tailwind utilities;
 
 /***************************************************************************************************
@@ -28,82 +30,86 @@
 
 @layer base {
   :root {
-    --mat-stepper-line-color: var(--outline-variant-color);
-    --mat-stepper-header-done-state-icon-background-color: var(
-      --primary-color-hex
-    );
-    --mat-stepper-header-done-state-icon-foreground-color: var(
-      --on-primary-color
-    );
+    mounting-manager {
+      --mat-stepper-line-color: var(--outline-variant-color);
+      --mat-stepper-header-done-state-icon-background-color: var(
+        --primary-color-hex
+      );
+      --mat-stepper-header-done-state-icon-foreground-color: var(
+        --on-primary-color
+      );
+    }
   }
 }
 
-button {
-  outline: none !important;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  @apply m-0;
-}
-
-/* Firefox */
-input[type='number'] {
-  -moz-appearance: textfield;
-}
-
-mat-dialog-container {
-  &.mat-dialog-container {
-    @apply rounded-none;
+mounting-manager {
+  button {
+    outline: none !important;
   }
-}
-/*
-  weird border issue Angular material with Tailwind https://github.com/tailwindlabs/tailwindcss/discussions/9993
-  in preflight style of tailwinds sets border-style to solid, other way to fix it, would be to adjust
-  preflight, which can case other issues for tailwind
-  */
-.mdc-notched-outline__notch {
-  border-right: none !important;
-}
 
-mat-horizontal-stepper {
-  @apply bg-transparent #{!important};
-}
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    @apply m-0;
+  }
 
-mat-horizontal-stepper.mat-stepper-horizontal
-  mat-step-header[aria-selected='false']
-  .mat-step-label {
-  @apply hidden md:inline-block;
-}
+  /* Firefox */
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
 
-mat-horizontal-stepper mat-step-header.mat-horizontal-stepper-header {
-  @apply py-0 px-2 sm:px-6;
-}
+  mat-dialog-container {
+    &.mat-dialog-container {
+      @apply rounded-none;
+    }
+  }
+  /*
+    weird border issue Angular material with Tailwind https://github.com/tailwindlabs/tailwindcss/discussions/9993
+    in preflight style of tailwinds sets border-style to solid, other way to fix it, would be to adjust
+    preflight, which can case other issues for tailwind
+    */
+  .mdc-notched-outline__notch {
+    border-right: none !important;
+  }
 
-mat-horizontal-stepper .mat-stepper-horizontal-line {
-  @apply invisible sm:visible;
-}
+  mat-horizontal-stepper {
+    @apply bg-transparent #{!important};
+  }
 
-mat-card {
-  @apply bg-white #{!important};
-}
+  mat-horizontal-stepper.mat-stepper-horizontal
+    mat-step-header[aria-selected='false']
+    .mat-step-label {
+    @apply hidden md:inline-block;
+  }
 
-mat-expansion-panel {
-  @apply bg-white #{!important};
-}
+  mat-horizontal-stepper mat-step-header.mat-horizontal-stepper-header {
+    @apply py-0 px-2 sm:px-6;
+  }
 
-schaeffler-html-report .mat-expansion-panel-content h2 {
-  @apply text-title-large sm:text-headline-small;
-}
+  mat-horizontal-stepper .mat-stepper-horizontal-line {
+    @apply invisible sm:visible;
+  }
 
-// devices with top notch iOS and newer Android devices
-.mat-drawer-inner-container {
-  padding-top: env(safe-area-inset-top);
-}
+  mat-card {
+    @apply bg-white #{!important};
+  }
 
-.schaeffler-header-logo {
-  margin-right: env(safe-area-inset-right);
+  mat-expansion-panel {
+    @apply bg-white #{!important};
+  }
+
+  schaeffler-html-report .mat-expansion-panel-content h2 {
+    @apply text-title-large sm:text-headline-small;
+  }
+
+  // devices with top notch iOS and newer Android devices
+  .mat-drawer-inner-container {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .schaeffler-header-logo {
+    margin-right: env(safe-area-inset-right);
+  }
 }
 
 #legal-pages h5 {

@@ -4,7 +4,6 @@ export const environment: Environment = {
   production: false,
   localDev: true,
   devToolsEnabled: true,
-  bearinxApiBaseUrl: 'https://bearinx-d.schaeffler.com/api',
   catalogApiBaseUrl: 'https://bearinx-d.schaeffler.com/catalogue/api',
   co2UpstreamApiBaseUrl: 'https://co2-api-d.dev.dp.schaeffler/api/v2/',
   staticStorageUrl: 'https://frontend1apps.z1.web.core.windows.net',

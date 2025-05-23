@@ -10,6 +10,7 @@ import { environment } from '../../../environments/environment';
 import { CalculationOptionsEffects } from './effects/calculation-options/calculation-options.effects';
 import { CalculationResultEffects } from './effects/calculation-result/calculation-result.effects';
 import { CalculationSelectionEffects } from './effects/calculation-selection/calculation-selection.effects';
+import * as GlobalEffects from './effects/global/global.effects';
 import { StorageMessagesEffects } from './effects/storage-messages/storage-messages.effects';
 import { CustomSerializer, metaReducers, reducers } from './reducers';
 
@@ -28,6 +29,7 @@ import { CustomSerializer, metaReducers, reducers } from './reducers';
       CalculationResultEffects,
       CalculationSelectionEffects,
       CalculationOptionsEffects,
+      GlobalEffects,
     ]),
     StoreRouterConnectingModule.forRoot({
       serializer: CustomSerializer,
