@@ -2,7 +2,7 @@
   "appTitle": "Lubricator Selection Assistant",
   "pages": {
     "lubricationPoints": {
-      "title": "Lubrication Points"
+      "title": "Lubrication points"
     },
     "lubricant": {
       "title": "Lubricant"
@@ -28,9 +28,9 @@
       "optime": {
         "1": "Yes",
         "0": "No",
-        "2": "I don`t know yet"
+        "2": "I don't know yet"
       },
-      "questionPipeLength": "What is the maximum pipe length?",
+      "questionPipeLength": "What is the length of the longest lubrication line?",
       "pipeLengthOptions": {
         "directMontage": "Direct mounting",
         "lessThan": "< {{value}} m",
@@ -41,8 +41,8 @@
       "questionLubricantType": "Are you using a Schaeffler Arcanol lubricant?",
       "options": {
         "arcanol": "Yes",
-        "grease": "Non Schaeffler grease",
-        "oil": "Non Schaeffler oil"
+        "grease": "Non-Schaeffler grease",
+        "oil": "Non-Schaeffler oil"
       },
       "questionSchaefflerArcanol": "Which Schaeffler Arcanol lubricant are you using?",
       "searchHint": "Example value: Arcanol MULTI2",
@@ -51,14 +51,14 @@
     "application": {
       "questionAmbientTemperature": "How high is the ambient temperature in the application?",
       "labels": {
-        "min": "Min",
-        "max": "Max"
+        "min": "Min.",
+        "max": "Max."
       },
       "questionPowerType": "How would you like to power your lubrication system?",
       "powerOptions": {
         "external": "DC 24 V external power supply",
         "battery": "Battery",
-        "noPreference": "I don`t know yet"
+        "noPreference": "I don't know yet"
       }
     },
     "result": {
@@ -72,28 +72,28 @@
       "minTemp": "Minimum temperature",
       "batteryPowered": "Battery powered",
       "medium": "Greasing medium",
-      "productSeries": "Product Series",
-      "volume": "Volume",
+      "productSeries": "Product series",
+      "volume": "Lubricant volume",
       "isOptime": "OPTIME",
       "smallerEqual": "≤",
+      "tempRange": "Temperature range",
+      "tempRangeValues": "{{min}} °C to {{max}} °C",
+      "voltage": "Operating voltage",
+      "dimensions": "Dimensions (mm)",
       "meter": "m",
       "centimeter": "cm",
       "cubiccentimeter": "cm³",
       "degreeCelsius": "°C",
       "bar": "bar",
       "millilitre": "ml",
-      "tempRange": "Temperature range",
-      "tempRangeValues": "{{min}} °C to {{max}} °C",
-      "voltage": "Operating voltage",
-      "dimensions": "Dimensions (mm)",
       "yes": "Yes",
       "no": "No",
       "heading": "Parts list for {{ designation }}",
       "share": "Share",
       "reset": "Reset inputs",
-      "addToCart": "Add to Cart",
+      "addToCart": "Add to cart",
       "addToCartMessage": "Products / Accessories added to cart",
-      "medium_general": "Medium",
+      "medium_general": "Lubricant",
       "product": "Product",
       "actions": "Actions",
       "pieces": "Pieces",
@@ -119,36 +119,36 @@
         "accessories": "Accessories",
         "fittings": "Fittings",
         "lubricator": "Lubricator",
-        "hoses": "Hoses"
+        "hoses": "Lubricatiioin lines"
       },
       "error": {
         "heading": "No compatible device",
-        "body": "We could not find a device that matches the application criteria you provided. To get help with your search for a suitable lubrication solution, please get in contact with our experts at the technical support",
+        "body": "Based on your input, we could not find a compatible product. Contact us for expert advice on selecting a suitable lubrication solution.",
         "ctaLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
         "ctaText": "Schaeffler Technical Support"
       },
       "errors": {
         "compatability": {
           "pressure": {
-            "title": "Pressure requirements are too high",
-            "body": "The calculated pressure requirements for your configuration are too high. Try placing the lubricator closer to the lubrication points to reduce the tube length"
+            "title": "Operating pressure too high",
+            "body": "Your configuration exceeds the permissible values for the operating pressure. Place the lubricator closer to the lubrication points to shorten the lubricant line and reduce the pressure."
           }
         },
         "lubrication": {
           "quantityLow": {
-            "title": "Lubrication quantity low",
-            "body": "Your configuration indicates a very low lubrication quantity. For quantities this low, lubricants may exceed their design lifespan. Consider using manual lubrication instead"
+            "title": "Relubrication quantity too low",
+            "body": "Your configuration has a very low relubrication quantity. As a result, the lubricant may exceed its design lifespan. Consider manual relubrication."
           },
           "quantityHigh": {
-            "title": "Lubrication quantity high",
-            "body": "The lubrication quantity for your configuration exceeds the capabilities of our product portfolio"
+            "title": "Relubrication quantity too high",
+            "body": "The relubrication quantity of your configuration exceeds the performance limits of our product portfolio. Contact us for expert advice on selecting a suitable lubrication solution."
           }
         }
       },
       "warning": {
-        "adjustedAutomatically": "We could not find a suitable solution within the OPTIME ecosystem. We can provide the following alternatives without OPTIME functionality",
-        "noRecommendation": "We could not automatically provide a suitable recommendation for your input parameters. Please get in touch with Schaeffler technical support for specific consultation",
-        "usedFallbackGrease": "We cannot provide a detailed recommendation for market available greases. We used a widely compatible Grease from the Schaeffler Arcanol Portfolio for our calculation. Please ensure your Grease in use is comparable in its properties"
+        "adjustedAutomatically": "No suitable solution has been found within the OPTIME ecosystem. Alternatively, the following products are available without OPTIME integration.",
+        "noRecommendation": "No suitable recommendation could be found based on your input. Contact us for expert advice on selecting a suitable lubrication solution.",
+        "usedFallbackGrease": "We cannot provide a detailed recommendation for non-Schaeffler greases. In our calculation, we have used a largely compatible grease from the Schaeffler Arcanol portfolio. Please ensure that your grease has comparable properties."
       },
       "pdf": {
         "title": "Report - Lubricator Selection Assistant",
@@ -160,10 +160,10 @@
     "lubricationPoints": {
       "quantity": "Please specify here the average quantity of lubricant required per lubrication point and interval. If the individual lubrication quantities per lubrication point differ significantly, it may be required to carry out separate calculations.",
       "pipeLength": "",
-      "optime": "Schaeffler's OPTIME Ecosystem enables the integration of a wide variety of maintenance systems in one digital solution and features a very clear overview and simple usability. \n\nIf you consider the integration of the lubrication system in OPTIME to be an important criteria, please answer this question with \"yes\"."
+      "optime": "Schaeffler's OPTIME ecosystem enables the integration of a wide variety of maintenance systems in one digital solution and features a very clear overview and simple usability. \n\nIf you consider the integration of the lubrication system in OPTIME to be an important criteria, please answer this question with \"Yes\"."
     },
     "application": {
-      "temps": "Please specify here the possible MIN and MAX values of the ambient temperature in which the lubrication system is installed. Please note that this refers to the installation location of the lubricator and not, e.g. the bearing temperature."
+      "temps": "Please specify here the possible minimum and maximum values of the ambient temperature in which the lubrication system is installed. Please note that this refers to the installation location of the lubricator and not, e.g. the bearing temperature."
     },
     "lubricant": {
       "lubricant": "Schaeffler lubricants have been specially developed for use in rolling bearings and optimized with regard to their performance. Schaeffler offers an extensive portfolio of different lubricants for all possible applications and requirements."
@@ -176,22 +176,22 @@
       "value": "< {{quantity}} cm³ per {{interval}}"
     },
     "temperature": {
-      "title": "Ambient temperature in application",
+      "title": "Ambient temperature",
       "value": "{{min}} °C to {{max}} °C"
     },
-    "lubricationPoints": "No. Lubrication Points",
-    "maxPipeLengthTitle": "Max. pipe length",
+    "lubricationPoints": "No. of lubrication points",
+    "maxPipeLengthTitle": "Max. length of lubrication line",
     "powerSupplyTitle": "Power supply",
     "optimeTitle": "OPTIME integration",
-    "remoteChanged": "Your initial request with {{original}} did not bring up any valid results. We automatically retried with {{new}} as a possible alternative. Please review to make sure this is compatible with your usecase!",
+    "remoteChanged": "Your initial request with \"{{original}}\" did not bring up any valid results. We automatically retried with \"{{new}}\" as a possible alternative. Please review to make sure this is compatible with your use case!",
     "lubricant": "Lubricant"
   },
   "disclaimer": {
-    "text": "Our details take into account those risks which were apparent to us on the basis of your requirements as made available to us. The results shown in the document have been worked out carefully and in accordance with the state of the art, but do not constitute an express or implied guaranty as to quality or durability in the legal sense. You are not dispensed thereby from checking the suitability of the products for your intended use. We shall be liable for the details provided in the recommendation only in the event of willful intent or negligence. Please note: Optime products only work in connection with a Digital Service which must be ordered separately. In case of questions regarding the product, the recommendation or the suitability of the product, please contact here: ",
+    "text": "Our details take into account those risks which were apparent to us on the basis of your requirements as made available to us. The results shown in the document have been worked out carefully and in accordance with the state of the art, but do not constitute an express or implied guaranty as to quality or durability in the legal sense. You are not dispensed thereby from checking the suitability of the products for your intended use. We shall be liable for the details provided in the recommendation only in the event of willful intent or negligence. Please note: OPTIME products only work in connection with a Digital Service which must be ordered separately. In case of questions regarding the product, the recommendation or the suitability of the product, please contact us using the following link: ",
     "linkText": "Contact us",
     "link": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=en",
-    "showMore": "Show More",
-    "showLess": "Show Less"
+    "showMore": "Show more",
+    "showLess": "Show less"
   },
   "feedback": {
     "text": "Your feedback helps us to continuously improve our product.",

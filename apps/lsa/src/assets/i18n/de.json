@@ -2,10 +2,10 @@
   "appTitle": "Schmierstoffgeber-Auswahlassistent",
   "pages": {
     "lubricationPoints": {
-      "title": "Schmierstellen"
+      "title": "Schmierpunkte"
     },
     "lubricant": {
-      "title": "Schmiermittel"
+      "title": "Schmierstoff"
     },
     "application": {
       "title": "Anwendung"
@@ -16,15 +16,15 @@
   },
   "recommendation": {
     "lubricationPoints": {
-      "questionLubricationPoints": "Wie viele Schmierstellen möchten Sie schmieren?",
-      "questionRelubricationQuantity": "Wie hoch ist die Nachschmiermenge pro Schmierstelle?",
+      "questionLubricationPoints": "Wie viele Schmierpunkte möchten Sie schmieren?",
+      "questionRelubricationQuantity": "Wie hoch ist die Nachschmiermenge pro Schmierpunkt?",
       "perRelubricationInterval": "pro {{ interval }}",
       "year": "Jahr",
       "month": "Monat",
       "day": "Tag",
       "lubricationQuantityValue": "< {{ value }} cm³",
       "lubricationQuantity": "Nachschmiermenge",
-      "questionOptime": "Möchten Sie OPTIME in ihr Schmiersystem integrieren?",
+      "questionOptime": "Möchten Sie OPTIME in Ihr Schmiersystem integrieren?",
       "optime": {
         "1": "Ja",
         "0": "Nein",
@@ -44,15 +44,15 @@
         "grease": "Nicht-Schaeffler-Fett",
         "oil": "Nicht-Schaeffler-Öl"
       },
-      "questionSchaefflerArcanol": "Welches Schaeffler Arcanol Schmiermittel verwenden Sie?",
+      "questionSchaefflerArcanol": "Welchen Schaeffler Arcanol Schmierstoff verwenden Sie?",
       "searchHint": "Beispielwert: Arcanol MULTI2",
       "label": "Arcanol Typ"
     },
     "application": {
       "questionAmbientTemperature": "Wie hoch ist die Umgebungstemperatur in der Anwendung?",
       "labels": {
-        "min": "Min",
-        "max": "Max"
+        "min": "Min.",
+        "max": "Max."
       },
       "questionPowerType": "Wie möchten Sie Ihr Schmiersystem mit Strom versorgen?",
       "powerOptions": {
@@ -67,13 +67,13 @@
       "schaefflerId": "Schaeffler ID",
       "outputDiameter": "Ausgangsdurchmesser",
       "maxOperatingPressure": "Betriebsdruck",
-      "noOfOutlets": "Schmierstellenanzahl",
+      "noOfOutlets": "Schmierpunktanzahl",
       "maxTemp": "Maximale Temperatur",
       "minTemp": "Minimale Temperatur",
       "batteryPowered": "Batteriebetrieben",
       "medium": "Schmierstoff",
       "productSeries": "Produktreihe",
-      "volume": "Volumen",
+      "volume": "Schmierstoffvolumen",
       "isOptime": "OPTIME",
       "smallerEqual": "≤",
       "tempRange": "Temperaturbereich",
@@ -119,36 +119,36 @@
         "accessories": "Zubehör",
         "fittings": "Fittings",
         "lubricator": "Schmierstoffgeber",
-        "hoses": "Schläuche"
+        "hoses": "Schmierstoffleitungen"
       },
       "error": {
-        "heading": "Kein kompatibles Gerät verfügbar",
-        "body": "Basierend auf Ihren angaben konnte kein passendes Produkt gefunden werden. Kontaktieren Sie den technischen Support um Hilfe bei der Auswahl einer geeigneten Schmierlösung zu erhalten.",
+        "heading": "Keine kompatiblen Produkte gefunden",
+        "body": "Basierend auf Ihren Eingaben konnten wir kein kompatibles Produkt finden. Nehmen Sie Kontakt mit uns auf und lassen Sie sich bei der Auswahl einer geeigneten Schmierlösung fachkundig beraten.",
         "ctaLink": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=de",
         "ctaText": "Schaeffler Technischer Support"
       },
       "errors": {
         "compatability": {
           "pressure": {
-            "title": "Druckanforderungen sind zu hoch",
-            "body": "Die berechneten Druckanforderungen für Ihre Konfiguration sind zu hoch. Versuchen Sie, den Schmierstoffgeber näher an die Schmierpunkte zu bringen, um die Schlauchlänge zu reduzieren."
+            "title": "Betriebsdruck zu hoch",
+            "body": "Ihre Konfiguration überschreitet die zulässigen Werte für den Betriebsdruck. Platzieren Sie den Schmierstoffgeber näher an den Schmierpunkten, um die Schmierstoffleitung zu verkürzen und den Druck zu verringern."
           }
         },
         "lubrication": {
           "quantityLow": {
-            "title": "Schmiermenge niedrig",
-            "body": "Ihre Konfiguration zeigt eine sehr niedrige Schmiermenge an. Bei solch niedrigen Mengen können die Schmierstoffe ihre vorgesehene Lebensdauer überschreiten. Ziehen Sie in Betracht, manuelle Schmierung zu verwenden."
+            "title": "Nachschmiermenge zu gering",
+            "body": "Ihre Konfiguration weist eine sehr geringe Nachschmiermenge auf. Dadurch kann der Schmierstoff seine vorgesehene Lebensdauer überschreiten. Ziehen Sie eine manuelle Nachschmierung in Betracht."
           },
           "quantityHigh": {
-            "title": "Schmiermenge hoch",
-            "body": "Die Schmiermenge für Ihre Konfiguration überschreitet die Fähigkeiten unseres Produktportfolios."
+            "title": "Nachschmiermenge zu hoch",
+            "body": "Die Nachschmiermenge für Ihre Konfiguration liegt über den Leistungsgrenzen unseres Produktportfolios. Nehmen Sie Kontakt mit uns auf und lassen Sie sich bei der Auswahl einer geeigneten Schmierlösung fachkundig beraten."
           }
         }
       },
       "warning": {
-        "adjustedAutomatically": "Wir konnten keine geeignete Lösung innerhalb des OPTIME Ecosystem finden. Wir können die folgenden Alternativen ohne OPTIME-Funktionalität anbieten.",
-        "noRecommendation": "Wir konnten Ihnen nicht automatisch eine geeignete Empfehlung für Ihre Eingabeparameter geben. Bitte wenden Sie sich an den technischen Support von Schaeffler für eine spezifische Beratung.",
-        "usedFallbackGrease": "Wir können keine detaillierte Empfehlung für auf dem Markt verfügbare Fette geben. Wir haben ein weitgehend kompatibles Fett aus dem Schaeffler Arcanol-Sortiment für unsere Berechnung verwendet. Bitte stellen Sie sicher, dass Ihr verwendetes Fett in seinen Eigenschaften vergleichbar ist."
+        "adjustedAutomatically": "Innerhalb des OPTIME Ecosystems wurde keine geeignete Lösung gefunden. Alternativ stehen folgende Produkte ohne OPTIME-Integration zur Verfügung.",
+        "noRecommendation": "Auf Basis Ihrer Eingaben konnte keine passende Empfehlung ermittelt werden. Nehmen Sie Kontakt mit uns auf und lassen Sie sich bei der Auswahl einer geeigneten Schmierlösung fachkundig beraten.",
+        "usedFallbackGrease": "Wir können keine detaillierte Empfehlung für Nicht-Schaeffler-Fette geben. In unserer Berechnung haben wir ein weitgehend kompatibles Fett aus dem Schaeffler Arcanol Portfolio verwendet. Bitte stellen Sie sicher, dass Ihr Fett vergleichbare Eigenschaften aufweist"
       },
       "pdf": {
         "title": "Ergebnis - Schmierstoffgeber-Auswahlassistent",
@@ -158,12 +158,12 @@
   },
   "tooltips": {
     "lubricationPoints": {
-      "quantity": "Bitte geben Sie hier die durchschnittlich benötigte Schmierstoffmenge pro Schmierstelle und Intervall an. Weichen die einzelnen Schmierstoffmengen pro Schmierstelle stark voneinander ab, kann es erforderlich sein, separate Berechnungen durchzuführen.",
+      "quantity": "Bitte geben Sie hier die durchschnittlich benötigte Schmierstoffmenge pro Schmierpunkt und Intervall an. Weichen die einzelnen Schmierstoffmengen pro Schmierpunkt stark voneinander ab, kann es erforderlich sein, separate Berechnungen durchzuführen.",
       "pipeLength": "",
       "optime": "Das OPTIME Ecosystem von Schaeffler ermöglicht die Integration verschiedenster Instandhaltungssysteme in einer digitalen Lösung und zeichnet sich durch eine sehr gute Übersichtlichkeit und einfache Bedienbarkeit aus. Wenn die Integration des Schmiersystems in OPTIME für Sie ein wichtiges Kriterium ist, beantworten Sie diese Frage bitte mit „ja“."
     },
     "application": {
-      "temps": "Bitte geben Sie hier die möglichen MIN- und MAX-Werte der Umgebungstemperatur an, in der das Schmiersystem installiert ist. Bitte beachten Sie, dass sich dies auf den Einbauort des Schmierstoffgebers bezieht und nicht z.B. auf die Lagertemperatur."
+      "temps": "Bitte geben Sie hier die möglichen Minimal- und Maximalwerte der Umgebungstemperatur an, in der das Schmiersystem installiert ist. Bitte beachten Sie, dass sich dies auf den Einbauort des Schmierstoffgebers bezieht und nicht z.B. auf die Lagertemperatur."
     },
     "lubricant": {
       "lubricant": "Schaeffler-Schmierstoffe wurden speziell für den Einsatz in Wälzlagern entwickelt und hinsichtlich ihrer Leistungsfähigkeit optimiert. Schaeffler bietet ein umfangreiches Portfolio an unterschiedlichen Schmierstoffen für alle möglichen Anwendungen und Anforderungen."
@@ -172,7 +172,7 @@
   "inputs": {
     "title": "Ihre Eingaben",
     "relubricationQuantity": {
-      "title": "Nachschmiermenge pro Schmierstelle",
+      "title": "Nachschmiermenge pro Schmierpunkt",
       "value": "< {{quantity}} cm³ pro {{interval}}"
     },
     "temperature": {
@@ -180,14 +180,14 @@
       "value": "{{min}} °C bis {{max}} °C"
     },
     "lubricationPoints": "Anzahl an Schmierstellen",
-    "maxPipeLengthTitle": "Max. Länge Schmierstoffleitung",
+    "maxPipeLengthTitle": "Max. Länge der Schmierstoffleitung",
     "powerSupplyTitle": "Stromversorgung",
     "optimeTitle": "OPTIME-Integration",
-    "remoteChanged": "Für Ihre ursprüngliche Anfrage mit {{original}} konnten keine Ergebnisse gefunden werden. Wir haben automatisch eine erneute Anfrage mit {{new}} als mögliche Alternative erstellt. Bitte überprüfen Sie, ob dies mit Ihrem Anwendungsfall kompatibel ist.",
+    "remoteChanged": "Für Ihre ursprüngliche Anfrage mit \"{{original}}\" wurden keine Ergebnisse gefunden. Wir haben automatisch eine neue Anfrage mit \"{{new}}\" als mögliche Alternative erstellt. Bitte überprüfen Sie, ob dies mit Ihrem Anwendungsfall kompatibel ist.",
     "lubricant": "Schmierstoff"
   },
   "disclaimer": {
-    "text": "Unsere Angaben berücksichtigen diejenigen Risiken, die uns auf Grund der von Ihnen zur Verfügung gestellten Vorgaben erkennbar waren. Die Ergebnisse der Unterlage sind sorgfältig und nach dem Stand der Technik erarbeitet, stellen jedoch im juristischen Sinne keine Beschaffenheits- oder Haltbarkeitsgarantie dar und ersetzen nicht die von Ihnen zu verifizierende Eignung. Wir haften für die Angaben in der Unterlage nur im Falle von Vorsatz und Fahrlässigkeit. Bitte beachten Sie: Optime-Produkte funktionieren nur in Verbindung mit einem Digitalen Service, der separat bestellt werden muss. Bei Fragen zum Produkt, zur Empfehlung oder zur Eignung des Produktes melden Sie sich bitte unter folgendem Link bei uns: ",
+    "text": "Unsere Angaben berücksichtigen diejenigen Risiken, die uns auf Grund der von Ihnen zur Verfügung gestellten Vorgaben erkennbar waren. Die Ergebnisse der Unterlage sind sorgfältig und nach dem Stand der Technik erarbeitet, stellen jedoch im juristischen Sinne keine Beschaffenheits- oder Haltbarkeitsgarantie dar und ersetzen nicht die von Ihnen zu verifizierende Eignung. Wir haften für die Angaben in der Unterlage nur im Falle von Vorsatz und Fahrlässigkeit. Bitte beachten Sie: OPTIME-Produkte funktionieren nur in Verbindung mit einem Digitalen Service, der separat bestellt werden muss. Bei Fragen zum Produkt, zur Empfehlung oder zur Eignung des Produktes kontaktieren Sie uns bitte unter folgendem Link: ",
     "linkText": "Kontakt",
     "link": "https://cloud.mail.schaeffler/contactus_lifetime-solutions?plang=de",
     "showMore": "Mehr anzeigen",
