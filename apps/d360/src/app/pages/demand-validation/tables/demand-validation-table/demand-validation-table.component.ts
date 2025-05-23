@@ -226,6 +226,7 @@ export class DemandValidationTableComponent implements OnInit {
         pinned: true,
         width: 300,
       },
+      isGroupOpenByDefault: false,
     }),
     treeData: true,
   };
