@@ -14,7 +14,7 @@ import { BomMaterialDesignationCellRenderComponent } from './bom-material-design
 import { BomTableComponent } from './bom-table.component';
 import { AggregationComponentModule } from './bom-table-status-bar/aggregation/aggregation.component';
 import { TotalCostShareComponentModule } from './bom-table-status-bar/total-cost-share/total-cost-share.component';
-import { ColumnDefinitionService, SidebarService } from './config';
+import { ColumnDefinitionService } from './config';
 
 @NgModule({
   declarations: [BomTableComponent, BomMaterialDesignationCellRenderComponent],
@@ -29,7 +29,7 @@ import { ColumnDefinitionService, SidebarService } from './config';
     MatIconModule,
     SharedTranslocoModule,
   ],
-  providers: [ColumnDefinitionService, SidebarService],
+  providers: [ColumnDefinitionService],
   exports: [BomTableComponent],
 })
 export class BomTableModule {}

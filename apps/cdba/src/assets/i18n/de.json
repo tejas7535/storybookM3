@@ -6,6 +6,9 @@
     "blockUi": {
       "inProgress": "Ihre Anfrage wird bearbeitet!"
     },
+    "filter": {
+      "search": "Suche"
+    },
     "breadcrumbs": {
       "search": "Suche",
       "results": "Ergebnisse",
@@ -36,7 +39,8 @@
       },
       "sidebar": {
         "columns": "Spalten",
-        "filters": "Filter"
+        "filters": "Filter",
+        "navigate": "Navigieren"
       },
       "noDataToDisplay": "Keine Daten zum Anzeigen"
     },

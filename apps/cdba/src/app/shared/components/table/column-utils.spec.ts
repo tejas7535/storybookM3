@@ -1,4 +1,6 @@
 import {
+  ColDef,
+  ColGroupDef,
   GetMainMenuItemsParams,
   IMenuActionParams,
   MenuItemDef,
@@ -13,6 +15,7 @@ import {
   formatMaterialNumber,
   formatMaterialNumberFromString,
   getMainMenuItems,
+  getVisibleColumns,
   matchAllFractionsForIntegerValue,
   valueGetterDate,
   valueGetterFromArray,
@@ -229,6 +232,43 @@ describe('ColumnUtils', () => {
       const result = matchAllFractionsForIntegerValue([42], 43.678);
 
       expect(result).toBeFalsy();
+    });
+  });
+
+  describe('getVisibleColumns', () => {
+    it('should return only visible columns', () => {
+      const colDefs = [
+        { colId: 'col1', hide: undefined },
+        { colId: 'col2', hide: true },
+        { colId: 'col3', hide: undefined },
+      ];
+
+      const result = getVisibleColumns(colDefs);
+
+      expect(result).toEqual([
+        { colId: 'col1', hide: undefined },
+        { colId: 'col3', hide: undefined },
+      ]);
+    });
+
+    it('should handle column groups with visible children', () => {
+      const colDefs = [
+        {
+          headerName: 'group1',
+          children: [
+            { colId: 'col1', hide: undefined },
+            { colId: 'col2', hide: true },
+          ],
+        } as ColGroupDef,
+        { colId: 'col3', hide: undefined } as ColDef,
+      ];
+
+      const result = getVisibleColumns(colDefs);
+
+      expect(result).toEqual([
+        { colId: 'col1', hide: undefined },
+        { colId: 'col3', hide: undefined },
+      ]);
     });
   });
 });

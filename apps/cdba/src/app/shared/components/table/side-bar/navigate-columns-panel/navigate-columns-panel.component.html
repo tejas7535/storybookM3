@@ -1,0 +1,22 @@
+<div
+  class="h-full w-full flex flex-col gap-4 p-2 relative"
+  *transloco="let t; read: 'shared'"
+>
+  <div class="sticky-filter">
+    <cdba-filter
+      [(value)]="filterInput"
+      (valueChange)="onFilter($event)"
+    ></cdba-filter>
+  </div>
+  <div class="scrollable-content">
+    @for (colDef of visibleColDefs$ | async; track colDef.colId) {
+      <div class="flex w-full justify-between min-w-[200px]">
+        <button
+          class="ag-icon ag-icon-eye cursor-pointer"
+          (click)="onNavigate(colDef)"
+        ></button>
+        {{ colDef.headerName }}
+      </div>
+    }
+  </div>
+</div>

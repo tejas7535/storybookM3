@@ -3,6 +3,9 @@
     "basic": {
       "learnMore": "Learn More"
     },
+    "filter": {
+      "search": "Search"
+    },
     "blockUi": {
       "inProgress": "Your request is being processed!"
     },
@@ -36,7 +39,8 @@
       },
       "sidebar": {
         "columns": "Columns",
-        "filters": "Filters"
+        "filters": "Filters",
+        "navigate": "Navigate"
       },
       "noDataToDisplay": "No data to display"
     },

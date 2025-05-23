@@ -1,0 +1,19 @@
+<div *transloco="let t; read: 'shared.filter'">
+  <mat-form-field>
+    <mat-label>{{ t('search') }}</mat-label>
+    <input
+      matInput
+      type="text"
+      [ngModel]="value"
+      (ngModelChange)="updateFilter($event)"
+    />
+    <button
+      matSuffix
+      mat-icon-button
+      [disabled]="clearButtonDisabled()"
+      (click)="clearFilter()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>

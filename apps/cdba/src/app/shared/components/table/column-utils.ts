@@ -1,5 +1,7 @@
 import { translate } from '@jsverse/transloco';
 import {
+  ColDef,
+  ColGroupDef,
   GetMainMenuItemsParams,
   MenuItemDef,
   ValueFormatterParams,
@@ -180,4 +182,32 @@ export const filterParamsForDecimalValues = {
     'inRange',
     'empty',
   ],
+};
+
+/**
+ *
+ * Extracts the visible columns from the provided column definitions.
+ * Follows AG Grid logic where a column is considered visible if the `hide` property is set to undefined.
+ *
+ * @param colDefs - The column definitions to filter.
+ * @returns array of visible column definitions.
+ */
+export const getVisibleColumns = (
+  colDefs: (ColDef | ColGroupDef)[]
+): ColDef[] => {
+  const visibleColumns: ColDef[] = [];
+
+  colDefs.forEach((colDef) => {
+    if ((colDef as ColGroupDef).children) {
+      const filteredChildren: ColDef[] = (
+        colDef as ColGroupDef
+      ).children.filter((child) => (child as ColDef).hide === undefined);
+
+      visibleColumns.push(...filteredChildren);
+    } else if ((colDef as ColDef).hide === undefined) {
+      visibleColumns.push(colDef as ColDef);
+    }
+  });
+
+  return visibleColumns;
 };

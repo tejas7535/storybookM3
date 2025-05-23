@@ -26,6 +26,7 @@ import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
 import { CostShareService, LocalStorageService } from '@cdba/shared/services';
 
 import { BomItem } from '../../models';
+import { SideBarService } from '../table';
 import { NoRowsParams } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
 import {
   BOM_ROW_CLASS_RULES,
@@ -33,7 +34,6 @@ import {
   BOM_TABLE_EXCEL_STYLES,
   BOM_TABLE_STATUS_BAR_CONFIG,
   ColumnDefinitionService,
-  SidebarService,
 } from './config';
 
 @Component({
@@ -72,9 +72,11 @@ export class BomTableComponent implements OnChanges {
   autoGroupColumnDef = this.columnDefinitionService.AUTO_GROUP_COLUMN_DEF;
   groupDefaultExpanded = 1;
 
+  icons = this.sidebarService.ICONS;
+
   statusBar = BOM_TABLE_STATUS_BAR_CONFIG;
   components = BOM_TABLE_COMPONENTS;
-  sideBar = this.sidebarService.SIDE_BAR_CONFIG;
+  sideBar = this.sidebarService.BOM_SIDE_BAR_CONFIG;
   excelStyles = BOM_TABLE_EXCEL_STYLES;
   rowClassRules = BOM_ROW_CLASS_RULES;
   loadingOverlayComponent = 'customLoadingOverlay';
@@ -89,8 +91,8 @@ export class BomTableComponent implements OnChanges {
 
   constructor(
     protected columnDefinitionService: ColumnDefinitionService,
-    protected sidebarService: SidebarService,
     protected scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe,
+    private readonly sidebarService: SideBarService,
     private readonly costShareService: CostShareService,
     private readonly localStorageService: LocalStorageService
   ) {}

@@ -33,6 +33,7 @@ import { getPaginationState, updatePaginationState } from '@cdba/core/store';
 import { PaginationState } from '@cdba/core/store/reducers/search/search.reducer';
 import { CustomLoadingOverlayComponent } from '@cdba/shared/components/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import { PaginationControlsService } from '@cdba/shared/components/table/pagination-controls/service/pagination-controls.service';
+import { SideBarService } from '@cdba/shared/components/table/side-bar/side-bar.service';
 import { ResultsStatusBarComponent } from '@cdba/shared/components/table/status-bar/results-status-bar';
 import {
   DEFAULT_GRID_OPTIONS,
@@ -43,10 +44,7 @@ import { MIN_PAGE_SIZE } from '@cdba/shared/constants/pagination';
 import { ReferenceType } from '@cdba/shared/models';
 import { AgGridStateService } from '@cdba/shared/services';
 
-import {
-  getMainMenuItems,
-  SIDE_BAR_CONFIG,
-} from '../../shared/components/table';
+import { getMainMenuItems } from '../../shared/components/table';
 import {
   CustomNoRowsOverlayComponent,
   NoRowsParams,
@@ -103,7 +101,9 @@ export class ReferenceTypesTableComponent implements OnInit, OnDestroy {
     statusPanels: StatusPanelDef[];
   } = STATUS_BAR_CONFIG;
 
-  sideBar: SideBarDef = SIDE_BAR_CONFIG;
+  icons = this.sidebarService.ICONS;
+
+  sideBar: SideBarDef = this.sidebarService.NAVIGATE_SIDE_BAR_CONFIG;
 
   getMainMenuItems = getMainMenuItems;
 
@@ -118,6 +118,7 @@ export class ReferenceTypesTableComponent implements OnInit, OnDestroy {
     private readonly agGridStateService: AgGridStateService,
     private readonly columnDefinitionService: ColumnDefinitionService,
     private readonly paginationControlsService: PaginationControlsService,
+    private readonly sidebarService: SideBarService,
     private readonly tableStore: TableStore,
     private readonly store: Store
   ) {}

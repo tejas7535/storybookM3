@@ -1,0 +1,7 @@
+.sticky-filter {
+  @apply sticky top-0;
+}
+
+.scrollable-content {
+  @apply overflow-y-auto flex flex-grow flex-col gap-4 pt-1;
+}

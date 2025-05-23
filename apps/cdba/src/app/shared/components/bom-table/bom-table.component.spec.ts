@@ -17,7 +17,7 @@ import {
   RowClickedEvent,
   RowNode,
 } from 'ag-grid-enterprise';
-import { MockModule } from 'ng-mocks';
+import { MockComponent, MockModule } from 'ng-mocks';
 
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import { BomTableModule } from '@cdba/shared/components';
@@ -27,6 +27,7 @@ import { MaterialNumberModule } from '@cdba/shared/pipes';
 import { LocalStorageService } from '@cdba/shared/services';
 import { BOM_MOCK } from '@cdba/testing/mocks';
 
+import { NavigateColumnsPanelComponent } from '../table/side-bar/navigate-columns-panel';
 import { BomTableComponent } from './bom-table.component';
 import { TotalCostShareComponentModule } from './bom-table-status-bar/total-cost-share/total-cost-share.component';
 
@@ -40,6 +41,7 @@ describe('BomTableComponent', () => {
     imports: [
       AgGridModule,
       MaterialNumberModule,
+      MockComponent(NavigateColumnsPanelComponent),
       MockModule(BomTableModule),
       MockModule(TotalCostShareComponentModule),
     ],

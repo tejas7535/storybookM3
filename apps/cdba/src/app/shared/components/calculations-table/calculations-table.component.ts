@@ -27,8 +27,9 @@ import { arrayEquals } from '@cdba/shared/utils';
 
 import { Calculation } from '../../models';
 import { AgGridStateService } from '../../services';
-import { getMainMenuItems, SIDE_BAR_CONFIG } from '../table';
+import { getMainMenuItems } from '../table';
 import { NoRowsParams } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
+import { SideBarService } from '../table/side-bar/side-bar.service';
 import {
   ColumnDefinitionService,
   DEFAULT_COLUMN_DEFINITION,
@@ -89,7 +90,8 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
 
   constructor(
     private readonly agGridStateService: AgGridStateService,
-    private readonly columnDefinitionService: ColumnDefinitionService
+    private readonly columnDefinitionService: ColumnDefinitionService,
+    private readonly sidebarService: SideBarService
   ) {}
 
   ngOnInit(): void {
@@ -205,7 +207,9 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
     this.columnDefs = this.columnDefinitionService.getColDef();
     this.defaultColDef = { ...this.defaultColDef, floatingFilter: !minified };
 
-    this.sideBar = minified ? undefined : SIDE_BAR_CONFIG;
+    this.sideBar = minified
+      ? undefined
+      : this.sidebarService.DEFAULT_SIDE_BAR_CONFIG;
     this.statusBar = minified ? undefined : STATUS_BAR_CONFIG;
 
     this.components = minified
