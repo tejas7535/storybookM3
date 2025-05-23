@@ -29,6 +29,7 @@ import {
   ServerSideAutoGroupProps,
   TableSetting,
 } from './interfaces';
+import { TableService } from './services';
 
 jest.mock('@angular/common', () => ({
   ...jest.requireActual('@angular/common'),
@@ -973,7 +974,6 @@ describe('AbstractTableComponent', () => {
           sort: colDef.sort || null,
           filterModel: colDef.filterModel || undefined,
           filter: colDef.filter || undefined,
-          order: colDef.order || undefined,
           alwaysVisible: colDef.alwaysVisible || undefined,
         }))
       );
@@ -989,7 +989,7 @@ describe('AbstractTableComponent', () => {
   describe('handleTabClick', () => {
     it('should call handleTab with TabAction.Add when add view toggle is clicked', () => {
       const handleTabSpy = jest.spyOn<any, any>(component, 'handleTab');
-      const mockEvent = { id: component['tableService'].addId };
+      const mockEvent = { id: TableService.addId };
 
       component['handleTabClick'](mockEvent);
 
@@ -1148,6 +1148,59 @@ describe('AbstractTableComponent', () => {
       expect(setActiveTabSpy).not.toHaveBeenCalled();
       expect(checkAddButtonSpy).not.toHaveBeenCalled();
       expect(setTableSettingsSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('getNewTabIndex', () => {
+    it('should return max ID + 1 when custom tabs exist', () => {
+      const tabs = [
+        { id: 1, defaultSetting: false },
+        { id: 3, defaultSetting: false }, // Highest ID custom tab
+        { id: 2, defaultSetting: true },
+        { id: TableService.addId, defaultSetting: false }, // Add button tab
+      ] as TableSetting<string>[];
+
+      const result = component['getNewTabIndex'](tabs);
+      expect(result).toBe(4); // 3 + 1
+    });
+
+    it('should return second-to-last tab ID + 1 when no custom tabs exist', () => {
+      const tabs = [
+        { id: 1, defaultSetting: true },
+        { id: 2, defaultSetting: true }, // Second-to-last tab
+        { id: TableService.addId, defaultSetting: false }, // Add button tab
+      ] as TableSetting<string>[];
+
+      const result = component['getNewTabIndex'](tabs);
+      expect(result).toBe(3); // 2 + 1
+    });
+
+    it('should handle empty array gracefully', () => {
+      const tabs = [] as TableSetting<string>[];
+
+      expect(component['getNewTabIndex'](tabs)).toBe(1); // Default to 1
+    });
+
+    it('should ignore add button when calculating next ID', () => {
+      const tabs = [
+        { id: 1, defaultSetting: true },
+        { id: TableService.addId, defaultSetting: false },
+      ] as TableSetting<string>[];
+
+      const result = component['getNewTabIndex'](tabs);
+      expect(result).toBe(2); // 1 + 1, not influenced by the large addId value
+    });
+
+    it('should work with non-sequential IDs', () => {
+      const tabs = [
+        { id: 5, defaultSetting: false },
+        { id: 10, defaultSetting: false }, // Highest custom tab ID
+        { id: 2, defaultSetting: true },
+        { id: TableService.addId, defaultSetting: false },
+      ] as TableSetting<string>[];
+
+      const result = component['getNewTabIndex'](tabs);
+      expect(result).toBe(11); // 10 + 1
     });
   });
 

@@ -789,7 +789,6 @@ export abstract class AbstractTableComponent implements OnInit {
               sort: colDef.sort || null,
               filterModel: colDef.filterModel || undefined,
               filter: colDef.filter || undefined,
-              order: colDef.order || undefined,
               alwaysVisible: colDef.alwaysVisible || undefined,
             })
           )
@@ -810,7 +809,7 @@ export abstract class AbstractTableComponent implements OnInit {
     const tabs = this.tableService.tableSettings$.getValue();
 
     // check if the add view toggle was clicked and add a new view toggle
-    if ([$event?.id, $event?.viewId].includes(this.tableService.addId)) {
+    if ([$event?.id, $event?.viewId].includes(TableService.addId)) {
       this.handleTab(TabAction.Add, $event);
     }
     // check if the delete icon was clicked and remove the view toggle
@@ -886,8 +885,7 @@ export abstract class AbstractTableComponent implements OnInit {
             }
 
             if (action === TabAction.Add) {
-              const newIndex = tabs.at(-2).id + 1;
-
+              const newIndex = this.getNewTabIndex(tabs);
               tabs.splice(-1, 0, {
                 id: newIndex,
                 layoutId,
@@ -921,6 +919,23 @@ export abstract class AbstractTableComponent implements OnInit {
   }
 
   /**
+   * Generates a new tab index based on the existing tabs.
+   *
+   * @private
+   * @param {TableSetting<string>[]} tabs
+   * @return {number}
+   * @memberof AbstractTableComponent
+   */
+  private getNewTabIndex(tabs: TableSetting<string>[]): number {
+    // Get all tabs that are between the initial default tabs and the add tab
+    const customTabs = tabs?.filter((tab) => tab.id < TableService.addId);
+
+    return customTabs?.length > 0
+      ? Math.max(...customTabs.map((tab) => tab.id)) + 1
+      : 1;
+  }
+
+  /**
    * This method checks if the add button should be enabled or disabled.
    *
    * @private
@@ -931,11 +946,11 @@ export abstract class AbstractTableComponent implements OnInit {
   private checkAddButton(tabs: TableSetting<string>[]): TableSetting<string>[] {
     // Check if the number of tabs exceeds the limit
     const customTabs = tabs.filter(
-      (tab) => !tab.defaultSetting && tab.id !== this.tableService.addId
+      (tab) => !tab.defaultSetting && tab.id !== TableService.addId
     );
 
     // Disable the add button if there are 5 or more non-default tabs
-    const addButton = tabs.find((tab) => tab.id === this.tableService.addId);
+    const addButton = tabs.find((tab) => tab.id === TableService.addId);
     if (addButton) {
       addButton.disabled =
         this.maxAllowedTabs <= 0 ||

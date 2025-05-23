@@ -114,9 +114,10 @@ export class TableService<COLUMN_KEYS extends string> {
   /**
    * The ID used for the "Add" tab in the table settings.
    *
+   * @static
    * @memberof TableService
    */
-  public readonly addId = 999_999;
+  public static readonly addId = 999_999;
 
   /**
    * The maximum number of tabs allowed in the table.
@@ -215,7 +216,7 @@ export class TableService<COLUMN_KEYS extends string> {
             .post<TableSetting<COLUMN_KEYS>[] | null>(
               `${this.URL}${this.tableId}`,
               tableSettings.filter(
-                (settings) => ![this.addId].includes(settings.id)
+                (settings) => ![TableService.addId].includes(settings.id)
               )
             )
             // This catchError operator is used to make sure that the save logic still works
@@ -334,24 +335,39 @@ export class TableService<COLUMN_KEYS extends string> {
           const missingDefaults = this.getMissingDefaults(settings);
 
           return [
-            ...(missingDefaults.length === this.columnDefinitions.length
-              ? []
-              : this.columnDefinitions
-                  .filter((colDef) => missingDefaults.includes(colDef.layoutId))
-                  .map((columnDefinitions) => ({
-                    id: columnDefinitions.layoutId,
-                    layoutId: columnDefinitions.layoutId,
-                    active: false,
-                    title:
-                      columnDefinitions.title || translate('table.defaultTab'),
-                    defaultSetting: true,
-                    disabled: false,
-                    icons: [{ name: IconType.Lock, disabled: true }],
-                    columns: [] as any,
-                  }))),
-            ...settings,
+            // add all missing default settings (first time on page or if there are new default settings)
+            ...this.columnDefinitions
+              .filter((colDef) => missingDefaults.includes(colDef.layoutId))
+              .map((columnDefinitions) => ({
+                id: columnDefinitions.layoutId,
+                layoutId: columnDefinitions.layoutId,
+                active: false,
+                title: columnDefinitions.title || translate('table.defaultTab'),
+                defaultSetting: true,
+                disabled: false,
+                icons: [{ name: IconType.Lock, disabled: true }],
+                columns: [] as any,
+              })),
+            ...settings.map((setting) => {
+              // Set the new title for the default setting
+              // if the setting is not the default setting and the title is the default title
+              // this could be necessary if the default tabs were changed from a single default tab to multiple default tabs
+              // or if the default tab was renamed
+              if (setting.defaultSetting) {
+                const colDefTitle = this.columnDefinitions.find(
+                  (colDef) => colDef.layoutId === setting.layoutId
+                )?.title;
+
+                setting.title =
+                  colDefTitle && colDefTitle !== setting.title
+                    ? colDefTitle
+                    : setting.title;
+              }
+
+              return { ...setting };
+            }),
             {
-              id: this.addId,
+              id: TableService.addId,
               active: false,
               defaultSetting: false,
               disabled:
@@ -446,42 +462,59 @@ export class TableService<COLUMN_KEYS extends string> {
   }
 
   /**
-   * Applies the column settings to the column definitions.
+   * Applies user-defined column settings to the base column definitions.
+   * This method merges and organizes columns based on user preferences while
+   * preserving visibility constraints, sorting, and filtering settings.
    *
    * @private
-   * @param {((ColumnSetting<COLUMN_KEYS> & ColDef)[])} columnDefinitions
-   * @param {ColumnSetting<COLUMN_KEYS>[]} columnSettings
-   * @return {((ColumnSetting<COLUMN_KEYS> & ColDef)[])}
-   * @memberof TableService
+   * @param {(ColumnSetting<COLUMN_KEYS> & ColDef)[]} columnDefinitions - Base column definitions
+   * @param {ColumnSetting<COLUMN_KEYS>[]} columnSettings - User's custom column settings
+   * @return {(ColumnSetting<COLUMN_KEYS> & ColDef)[]} Merged and ordered column definitions
    */
   private applyColumnSettings(
     columnDefinitions: (ColumnSetting<COLUMN_KEYS> & ColDef)[],
     columnSettings: ColumnSetting<COLUMN_KEYS>[]
   ): (ColumnSetting<COLUMN_KEYS> & ColDef)[] {
-    const sortMap = Object.fromEntries(
-      columnDefinitions.map((col, i) => [
-        col.colId,
-        {
-          ...col,
-          order: i + columnSettings.length,
-        } as ColumnSetting<COLUMN_KEYS> & ColDef,
-      ])
-    );
+    // Initialize column map with base definitions
+    // eslint-disable-next-line unicorn/no-array-reduce
+    const columnMap = columnDefinitions.reduce<
+      Record<
+        string,
+        ColumnSetting<COLUMN_KEYS> &
+          ColDef & {
+            order: number;
+          }
+      >
+    >((acc, column, index) => {
+      const colId = column.colId as string;
+      acc[colId] = {
+        ...column,
+        order: (columnSettings?.length ?? 0) + index, // Position after user settings
+      };
 
-    columnSettings
-      .filter((column) => sortMap[column.colId])
-      .forEach((column, i) => {
-        const colId: string = column.colId as string;
-        sortMap[colId].order = i;
-        sortMap[colId].visible = sortMap[colId].alwaysVisible || column.visible;
-        sortMap[colId].sort = column.sort;
-        sortMap[colId].filterModel = column.filter;
-      });
+      return acc;
+    }, {});
 
-    return Object.values(sortMap).sort(
-      (current, next) =>
-        (current.order > next.order ? 1 : 0) -
-        (current.order < next.order ? 1 : 0)
+    // Apply settings from user configuration
+    columnSettings?.forEach((setting, index) => {
+      const colId = setting.colId as string;
+      if (columnMap[colId]) {
+        columnMap[colId] = {
+          ...columnMap[colId],
+          order: index, // Preserve user's column ordering
+          visible: columnMap[colId].alwaysVisible || setting.visible,
+          sort: setting.sort,
+          filterModel: setting.filter,
+        };
+      }
+    });
+
+    // Sort by order and remove the temporary ordering property
+    return (
+      Object.values(columnMap)
+        .sort((a, b) => a.order - b.order)
+        // eslint-disable-next-line unused-imports/no-unused-vars
+        .map(({ order, ...columnProps }) => columnProps)
     );
   }
 }

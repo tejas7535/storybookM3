@@ -2,11 +2,11 @@ import { fakeAsync, tick } from '@angular/core/testing';
 
 import { of, take, throwError } from 'rxjs';
 
-import { ColDef, ColumnState } from 'ag-grid-enterprise';
+import { ColumnState } from 'ag-grid-enterprise';
 
 import { Stub } from '../../../test/stub.class';
 import { IconType } from '../enums';
-import { ColumnSetting, NamedColumnDefs, TableSetting } from '../interfaces';
+import { NamedColumnDefs, TableSetting } from '../interfaces';
 import { TableService } from './table.service';
 
 describe('TableService', () => {
@@ -167,6 +167,50 @@ describe('TableService', () => {
         mockTableSettings
       );
     }));
+
+    it('should filter out the add tab during dataToSave$', (done) => {
+      service['_tableId'] = 'testTableId';
+      service['maxAllowedTabs'] = 5;
+
+      const mockTableSettings = [
+        { id: 1, layoutId: 1, active: true, title: 'Test', columns: [] },
+        {
+          id: TableService.addId,
+          active: false,
+          defaultSetting: false,
+          columns: [],
+        },
+      ] as any;
+      jest
+        .spyOn<any, any>(service, 'loadTableSettings$')
+        .mockReturnValue(of([]));
+
+      const httpPostSpy = jest
+        .spyOn(service['http'], 'post')
+        .mockReturnValue(of(null));
+
+      // Initialize the service first
+      service.init({
+        tableId: 'testTableId',
+        columnDefinitions: [
+          { layoutId: 1, title: 'Test Layout', columnDefs: [] },
+        ],
+        gridApi: Stub.getGridApi(),
+        maxAllowedTabs: 5,
+      });
+
+      // Then emit data to save
+      service['dataToSave$'].next(mockTableSettings);
+
+      // Wait for debounce time
+      setTimeout(() => {
+        expect(httpPostSpy).toHaveBeenCalledWith(
+          `${service['URL']}${service['_tableId']}`,
+          [{ id: 1, layoutId: 1, active: true, title: 'Test', columns: [] }]
+        );
+        done();
+      }, 200);
+    });
   });
 
   describe('setTableSettings$', () => {
@@ -571,7 +615,7 @@ describe('TableService', () => {
               title: 'Another Layout',
             },
             {
-              id: service['addId'],
+              id: TableService.addId,
               active: false,
               defaultSetting: false,
               disabled: false,
@@ -596,7 +640,7 @@ describe('TableService', () => {
         .subscribe((response) => {
           expect(response).toEqual([
             {
-              id: service['addId'],
+              id: TableService.addId,
               active: false,
               disabled: false,
               defaultSetting: false,
@@ -606,6 +650,50 @@ describe('TableService', () => {
           ]);
 
           expect(tableSettingsSpy).toHaveBeenCalled();
+          done();
+        });
+    });
+
+    it('should add all default settings when the backend returns an empty array', (done) => {
+      service['_columnDefinitions'] = [
+        { layoutId: 1, title: 'Layout 1', columnDefs: [] },
+        { layoutId: 2, title: 'Layout 2', columnDefs: [] },
+      ];
+
+      jest.spyOn(service['http'], 'get').mockReturnValue(of([]));
+
+      service['loadTableSettings$']()
+        .pipe(take(1))
+        .subscribe((response) => {
+          // Should contain 2 default settings + 1 add tab
+          expect(response.length).toBe(3);
+
+          // Verify default settings are created correctly
+          const defaultSettings = response.filter(
+            (setting) => setting.id !== TableService.addId
+          );
+          expect(defaultSettings.length).toBe(2);
+
+          // Check first default setting
+          expect(defaultSettings[0].layoutId).toBe(1);
+          expect(defaultSettings[0].title).toBe('Layout 1');
+          expect(defaultSettings[0].defaultSetting).toBe(true);
+          expect(defaultSettings[0].active).toBe(false);
+          expect(defaultSettings[0].disabled).toBe(false);
+          expect(defaultSettings[0].icons.length).toBe(1);
+          expect(defaultSettings[0].icons[0].name).toBe('lock');
+          expect(defaultSettings[0].icons[0].disabled).toBe(true);
+
+          // Check second default setting
+          expect(defaultSettings[1].layoutId).toBe(2);
+          expect(defaultSettings[1].title).toBe('Layout 2');
+          expect(defaultSettings[1].defaultSetting).toBe(true);
+
+          // Verify add tab is present
+          const addTab = response.find((tab) => tab.id === TableService.addId);
+          expect(addTab).toBeDefined();
+          expect(addTab.icons[0].name).toBe(IconType.Add);
+
           done();
         });
     });
@@ -621,7 +709,7 @@ describe('TableService', () => {
         .subscribe((response) => {
           expect(response).toEqual([
             {
-              id: service['addId'],
+              id: TableService.addId,
               active: false,
               defaultSetting: false,
               disabled: false,
@@ -633,6 +721,382 @@ describe('TableService', () => {
           expect(tableSettingsSpy).toHaveBeenCalled();
           done();
         });
+    });
+
+    describe('sorting logic', () => {
+      beforeEach(() => {
+        service['_columnDefinitions'] = [
+          { layoutId: 1, title: 'Test Layout', columnDefs: [] },
+        ];
+      });
+
+      it('should sort table settings with defaultSetting=true first', (done) => {
+        const mockSettings: TableSetting<string>[] = [
+          { id: 1, layoutId: 1, defaultSetting: false, columns: [] },
+          { id: 2, layoutId: 1, defaultSetting: true, columns: [] },
+          { id: 3, layoutId: 1, defaultSetting: false, columns: [] },
+        ] as any;
+
+        jest.spyOn(service['http'], 'get').mockReturnValue(of(mockSettings));
+        jest
+          .spyOn(service, 'applyColumnSettings' as any)
+          .mockImplementation((_columnDefs, settings) => settings);
+
+        service['loadTableSettings$']()
+          .pipe(take(1))
+          .subscribe(() => {
+            const settings = service['tableSettings$'].getValue();
+
+            // Filter out the add tab
+            const filteredSetting = settings.find(
+              (tab) => tab.id !== TableService.addId
+            );
+
+            // First item should be the default setting
+            expect(filteredSetting.defaultSetting).toBe(true);
+            expect(filteredSetting.id).toBe(2);
+
+            done();
+          });
+      });
+
+      it('should sort by id when multiple items have the same defaultSetting value', (done) => {
+        const mockSettings: TableSetting<string>[] = [
+          { id: 3, layoutId: 1, defaultSetting: false, columns: [] },
+          { id: 1, layoutId: 1, defaultSetting: false, columns: [] },
+          { id: 4, layoutId: 1, defaultSetting: true, columns: [] },
+          { id: 2, layoutId: 1, defaultSetting: true, columns: [] },
+        ] as any;
+
+        jest.spyOn(service['http'], 'get').mockReturnValue(of(mockSettings));
+        jest
+          .spyOn(service, 'applyColumnSettings' as any)
+          .mockImplementation((_columnDefs, settings) => settings);
+
+        service['loadTableSettings$']()
+          .pipe(take(1))
+          .subscribe(() => {
+            const settings = service['tableSettings$'].getValue();
+
+            // Filter out the add tab
+            const filteredSettings = settings.filter(
+              (tab) => tab.id !== TableService.addId
+            );
+
+            // First two items should be default settings sorted by id
+            expect(filteredSettings[0].defaultSetting).toBe(true);
+            expect(filteredSettings[0].id).toBe(2);
+
+            expect(filteredSettings[1].defaultSetting).toBe(true);
+            expect(filteredSettings[1].id).toBe(4);
+
+            // Next two items should be non-default settings sorted by id
+            expect(filteredSettings[2].defaultSetting).toBe(false);
+            expect(filteredSettings[2].id).toBe(1);
+
+            expect(filteredSettings[3].defaultSetting).toBe(false);
+            expect(filteredSettings[3].id).toBe(3);
+
+            done();
+          });
+      });
+    });
+
+    describe('with maxAllowedTabs', () => {
+      beforeEach(() => {
+        service['_columnDefinitions'] = [
+          { layoutId: 1, title: 'Test Layout', columnDefs: [] },
+        ];
+      });
+
+      it('should disable the add button when maximum tabs are reached', (done) => {
+        service['maxAllowedTabs'] = 2;
+
+        const mockSettings: TableSetting<string>[] = [
+          { id: 1, layoutId: 1, defaultSetting: true, columns: [] },
+          { id: 2, layoutId: 1, defaultSetting: false, columns: [] },
+          { id: 3, layoutId: 1, defaultSetting: false, columns: [] },
+        ] as any;
+
+        jest.spyOn(service['http'], 'get').mockReturnValue(of(mockSettings));
+
+        service['loadTableSettings$']()
+          .pipe(take(1))
+          .subscribe((response) => {
+            const addTab = response.find(
+              (tab) => tab.id === TableService.addId
+            );
+            expect(addTab.disabled).toBe(true);
+            done();
+          });
+      });
+
+      it('should not count default settings towards maxAllowedTabs', (done) => {
+        service['maxAllowedTabs'] = 2;
+
+        const mockSettings: TableSetting<string>[] = [
+          { id: 1, layoutId: 1, defaultSetting: true, columns: [] },
+          { id: 2, layoutId: 1, defaultSetting: true, columns: [] },
+          { id: 3, layoutId: 1, defaultSetting: false, columns: [] },
+        ] as any;
+
+        jest.spyOn(service['http'], 'get').mockReturnValue(of(mockSettings));
+
+        service['loadTableSettings$']()
+          .pipe(take(1))
+          .subscribe((response) => {
+            const addTab = response.find(
+              (tab) => tab.id === TableService.addId
+            );
+            expect(addTab.disabled).toBe(false);
+            done();
+          });
+      });
+
+      it('should disable the add button when maxAllowedTabs is 0 or negative', (done) => {
+        service['maxAllowedTabs'] = 0;
+
+        const mockSettings: TableSetting<string>[] = [
+          { id: 1, layoutId: 1, defaultSetting: true, columns: [] },
+        ] as any;
+
+        jest.spyOn(service['http'], 'get').mockReturnValue(of(mockSettings));
+
+        service['loadTableSettings$']()
+          .pipe(take(1))
+          .subscribe((response) => {
+            const addTab = response.find(
+              (tab) => tab.id === TableService.addId
+            );
+            expect(addTab.disabled).toBe(true);
+            done();
+          });
+      });
+    });
+
+    describe('handling renamed column definitions', () => {
+      it('should update default setting title when column definition title has changed', (done) => {
+        // Define column definitions with a specific title
+        service['_columnDefinitions'] = [
+          { layoutId: 1, title: 'New Layout Title', columnDefs: [] },
+        ];
+
+        // Mock response where the default setting has an old/different title
+        const mockResponse: TableSetting<string>[] = [
+          {
+            id: 1,
+            layoutId: 1,
+            active: true,
+            title: 'Old Layout Title',
+            defaultSetting: true,
+            disabled: false,
+            icons: [],
+            columns: [],
+          },
+        ];
+
+        jest.spyOn(service['http'], 'get').mockReturnValue(of(mockResponse));
+        jest
+          .spyOn(service, 'applyColumnSettings' as any)
+          .mockImplementation((_columnDefs, settings) => settings);
+
+        service['loadTableSettings$']()
+          .pipe(take(1))
+          .subscribe(() => {
+            const settings = service['tableSettings$'].getValue();
+
+            // Find the default setting
+            const defaultSetting = settings.find(
+              (tab) => tab.defaultSetting && tab.layoutId === 1
+            );
+
+            // Verify title was updated to match the column definition
+            expect(defaultSetting.title).toBe('New Layout Title');
+            done();
+          });
+      });
+
+      it('should not update default setting title when column definition title is the same', (done) => {
+        service['_columnDefinitions'] = [
+          { layoutId: 1, title: 'Same Title', columnDefs: [] },
+        ];
+
+        const mockResponse: TableSetting<string>[] = [
+          {
+            id: 1,
+            layoutId: 1,
+            active: true,
+            title: 'Same Title',
+            defaultSetting: true,
+            disabled: false,
+            icons: [],
+            columns: [],
+          },
+        ];
+
+        jest.spyOn(service['http'], 'get').mockReturnValue(of(mockResponse));
+        jest
+          .spyOn(service, 'applyColumnSettings' as any)
+          .mockImplementation((_columnDefs, settings) => settings);
+
+        service['loadTableSettings$']()
+          .pipe(take(1))
+          .subscribe(() => {
+            const settings = service['tableSettings$'].getValue();
+            const defaultSetting = settings.find(
+              (tab) => tab.defaultSetting && tab.layoutId === 1
+            );
+
+            expect(defaultSetting.title).toBe('Same Title');
+            done();
+          });
+      });
+
+      it('should not update non-default setting title even if column definition title has changed', (done) => {
+        service['_columnDefinitions'] = [
+          { layoutId: 1, title: 'New Default Title', columnDefs: [] },
+        ];
+
+        const mockResponse: TableSetting<string>[] = [
+          {
+            id: 1,
+            layoutId: 1,
+            active: true,
+            title: 'Custom User Title',
+            defaultSetting: false, // Not a default setting
+            disabled: false,
+            icons: [],
+            columns: [],
+          },
+        ];
+
+        jest.spyOn(service['http'], 'get').mockReturnValue(of(mockResponse));
+        jest
+          .spyOn(service, 'applyColumnSettings' as any)
+          .mockImplementation((_columnDefs, settings) => settings);
+
+        service['loadTableSettings$']()
+          .pipe(take(1))
+          .subscribe(() => {
+            const settings = service['tableSettings$'].getValue();
+            const userSetting = settings.find(
+              (tab) => !tab.defaultSetting && tab.id === 1
+            );
+
+            // Title should remain unchanged for user settings
+            expect(userSetting.title).toBe('Custom User Title');
+            done();
+          });
+      });
+
+      it('should handle case when default setting has no matching column definition', (done) => {
+        service['_columnDefinitions'] = [
+          { layoutId: 2, title: 'Layout 2', columnDefs: [] }, // No layoutId 1
+        ];
+
+        const mockResponse: TableSetting<string>[] = [
+          {
+            id: 1,
+            layoutId: 1, // This layoutId doesn't exist in columnDefinitions
+            active: true,
+            title: 'Original Title',
+            defaultSetting: true,
+            disabled: false,
+            icons: [],
+            columns: [],
+          },
+        ];
+
+        jest.spyOn(service['http'], 'get').mockReturnValue(of(mockResponse));
+        jest
+          .spyOn(service, 'applyColumnSettings' as any)
+          .mockImplementation((_columnDefs, settings) => settings);
+
+        service['loadTableSettings$']()
+          .pipe(take(1))
+          .subscribe(() => {
+            const settings = service['tableSettings$'].getValue();
+            const defaultSetting = settings.find(
+              (tab) => tab.defaultSetting && tab.layoutId === 1
+            );
+
+            // Title should remain unchanged if no matching colDef is found
+            expect(defaultSetting.title).toBe('Original Title');
+            done();
+          });
+      });
+
+      it('should handle multiple default settings with different layoutIds correctly', (done) => {
+        service['_columnDefinitions'] = [
+          { layoutId: 1, title: 'Updated Layout 1', columnDefs: [] },
+          { layoutId: 2, title: 'Updated Layout 2', columnDefs: [] },
+          { layoutId: 3, title: 'Layout 3', columnDefs: [] },
+        ];
+
+        const mockResponse: TableSetting<string>[] = [
+          {
+            id: 1,
+            layoutId: 1,
+            active: true,
+            title: 'Old Layout 1',
+            defaultSetting: true,
+            disabled: false,
+            icons: [],
+            columns: [],
+          },
+          {
+            id: 2,
+            layoutId: 2,
+            active: false,
+            title: 'Old Layout 2',
+            defaultSetting: true,
+            disabled: false,
+            icons: [],
+            columns: [],
+          },
+          {
+            id: 3,
+            layoutId: 3,
+            active: false,
+            title: 'Layout 3', // Same as colDef title
+            defaultSetting: true,
+            disabled: false,
+            icons: [],
+            columns: [],
+          },
+        ];
+
+        jest.spyOn(service['http'], 'get').mockReturnValue(of(mockResponse));
+        jest
+          .spyOn(service, 'applyColumnSettings' as any)
+          .mockImplementation((_columnDefs, settings) => settings);
+
+        service['loadTableSettings$']()
+          .pipe(take(1))
+          .subscribe(() => {
+            const settings = service['tableSettings$'].getValue();
+
+            // First default setting should be updated
+            const setting1 = settings.find(
+              (tab) => tab.defaultSetting && tab.layoutId === 1
+            );
+            expect(setting1.title).toBe('Updated Layout 1');
+
+            // Second default setting should be updated
+            const setting2 = settings.find(
+              (tab) => tab.defaultSetting && tab.layoutId === 2
+            );
+            expect(setting2.title).toBe('Updated Layout 2');
+
+            // Third default setting should remain the same (title unchanged)
+            const setting3 = settings.find(
+              (tab) => tab.defaultSetting && tab.layoutId === 3
+            );
+            expect(setting3.title).toBe('Layout 3');
+
+            done();
+          });
+      });
     });
   });
 
@@ -711,97 +1175,258 @@ describe('TableService', () => {
   });
 
   describe('applyColumnSettings', () => {
-    it('should apply column settings and return sorted column definitions', () => {
-      const mockColumnDefinitions: (ColumnSetting<string> & ColDef)[] = [
-        { colId: 'col1', alwaysVisible: false, order: 0 },
-        { colId: 'col2', alwaysVisible: true, order: 0 },
-        { colId: 'col3', alwaysVisible: false, order: 0 },
-      ] as any;
+    it('should apply user column settings to base column definitions', () => {
+      const columnDefinitions = [
+        { colId: 'col1', headerName: 'Column 1' },
+        { colId: 'col2', headerName: 'Column 2' },
+      ];
 
-      const mockColumnSettings: ColumnSetting<string>[] = [
-        { colId: 'col3', visible: true, sort: 'asc', filter: 'filter3' },
+      const columnSettings = [
+        {
+          colId: 'col2',
+          visible: true,
+          sort: 'asc',
+          filter: { type: 'text', value: 'test' },
+        },
         { colId: 'col1', visible: false, sort: null, filter: null },
       ];
 
       const result = service['applyColumnSettings'](
-        mockColumnDefinitions,
-        mockColumnSettings
+        columnDefinitions as any,
+        columnSettings as any
       );
 
-      expect(result).toEqual([
-        {
-          colId: 'col3',
-          alwaysVisible: false,
-          order: 0,
-          visible: true,
-          sort: 'asc',
-          filterModel: 'filter3',
-        },
-        {
-          colId: 'col1',
-          alwaysVisible: false,
-          order: 1,
-          visible: false,
-          sort: null,
-          filterModel: null,
-        },
-        {
-          colId: 'col2',
-          alwaysVisible: true,
-          order: 3,
-        },
-      ]);
+      // Result should maintain the order from columnSettings
+      expect(result[0].colId).toBe('col2');
+      expect(result[1].colId).toBe('col1');
+
+      // Should preserve properties from both sources
+      expect(result[0].headerName).toBe('Column 2');
+      expect(result[0].visible).toBe(true);
+      expect(result[0].sort).toBe('asc');
+      expect(result[0].filterModel).toEqual({ type: 'text', value: 'test' });
+
+      expect(result[1].headerName).toBe('Column 1');
+      expect(result[1].visible).toBe(false);
+      expect(result[1].sort).toBeNull();
+      expect(result[1].filterModel).toBeNull();
     });
 
-    it('should handle column settings with missing columns gracefully', () => {
-      const mockColumnDefinitions: (ColumnSetting<string> & ColDef)[] = [
-        { colId: 'col1', alwaysVisible: false, order: 0 },
-        { colId: 'col2', alwaysVisible: true, order: 0 },
-      ] as any;
+    it('should respect the alwaysVisible property regardless of user settings', () => {
+      const columnDefinitions = [
+        { colId: 'col1', headerName: 'Column 1', alwaysVisible: true },
+        { colId: 'col2', headerName: 'Column 2', alwaysVisible: false },
+      ];
 
-      const mockColumnSettings: ColumnSetting<string>[] = [
-        { colId: 'col3', visible: true, sort: 'asc', filter: 'filter3' },
+      const columnSettings = [
+        { colId: 'col1', visible: false }, // Trying to hide an always visible column
+        { colId: 'col2', visible: false },
       ];
 
       const result = service['applyColumnSettings'](
-        mockColumnDefinitions,
-        mockColumnSettings
+        columnDefinitions as any,
+        columnSettings as any
       );
 
-      expect(result).toEqual([
-        {
-          colId: 'col1',
-          alwaysVisible: false,
-          order: 1,
-        },
-        {
-          colId: 'col2',
-          alwaysVisible: true,
-          order: 2,
-        },
-      ]);
+      // Column1 should remain visible despite user settings
+      expect(result[0].colId).toBe('col1');
+      expect(result[0].visible).toBe(true);
+
+      // Column2 should respect user settings
+      expect(result[1].colId).toBe('col2');
+      expect(result[1].visible).toBe(false);
     });
 
-    it('should handle empty column settings and return default column definitions', () => {
-      const mockColumnDefinitions: (ColumnSetting<string> & ColDef)[] = [
-        { colId: 'col1', alwaysVisible: false, order: 0 },
-        { colId: 'col2', alwaysVisible: true, order: 0 },
-      ] as any;
+    it('should handle missing columns in user settings', () => {
+      const columnDefinitions = [
+        { colId: 'col1', headerName: 'Column 1' },
+        { colId: 'col2', headerName: 'Column 2' },
+        { colId: 'col3', headerName: 'Column 3' },
+      ];
 
-      const result = service['applyColumnSettings'](mockColumnDefinitions, []);
+      const columnSettings = [
+        { colId: 'col1', visible: true },
+        // col2 is missing from settings
+        // col3 is missing from settings
+      ];
 
-      expect(result).toEqual([
+      const result = service['applyColumnSettings'](
+        columnDefinitions as any,
+        columnSettings as any
+      );
+
+      expect(result.length).toBe(3);
+
+      // Columns in user settings should come first
+      expect(result[0].colId).toBe('col1');
+      expect(result[0].visible).toBe(true);
+
+      // Missing columns should still be included with original properties
+      expect(result[1].colId).toBe('col2');
+      expect(result[1].headerName).toBe('Column 2');
+
+      expect(result[2].colId).toBe('col3');
+      expect(result[2].headerName).toBe('Column 3');
+    });
+
+    it('should ignore settings for columns not present in column definitions', () => {
+      const columnDefinitions = [
+        { colId: 'col1', headerName: 'Column 1' },
+        { colId: 'col2', headerName: 'Column 2' },
+      ];
+
+      const columnSettings = [
+        { colId: 'col1', visible: true },
+        { colId: 'col3', visible: true }, // This column doesn't exist in definitions
+      ];
+
+      const result = service['applyColumnSettings'](
+        columnDefinitions as any,
+        columnSettings as any
+      );
+
+      expect(result.length).toBe(2);
+      expect(result.map((col) => col.colId)).toEqual(['col1', 'col2']);
+    });
+
+    it('should handle empty column settings by using default order', () => {
+      const columnDefinitions = [
+        { colId: 'col1', headerName: 'Column 1' },
+        { colId: 'col2', headerName: 'Column 2' },
+      ];
+
+      const columnSettings: any[] = [];
+
+      const result = service['applyColumnSettings'](
+        columnDefinitions as any,
+        columnSettings
+      );
+
+      expect(result.length).toBe(2);
+      expect(result[0].colId).toBe('col1');
+      expect(result[1].colId).toBe('col2');
+    });
+
+    it('should preserve sort and filter information from column settings', () => {
+      const columnDefinitions = [
+        { colId: 'col1', headerName: 'Column 1' },
+        { colId: 'col2', headerName: 'Column 2' },
+      ];
+
+      const columnSettings = [
         {
           colId: 'col1',
-          alwaysVisible: false,
-          order: 0,
+          visible: true,
+          sort: 'desc',
+          filter: { filterType: 'number', type: 'equals', filter: 42 },
         },
         {
           colId: 'col2',
-          alwaysVisible: true,
-          order: 1,
+          visible: true,
+          sort: 'asc',
+          filter: { filterType: 'text', type: 'contains', filter: 'test' },
         },
-      ]);
+      ];
+
+      const result = service['applyColumnSettings'](
+        columnDefinitions as any,
+        columnSettings as any
+      );
+
+      expect(result[0].sort).toBe('desc');
+      expect(result[0].filterModel).toEqual({
+        filterType: 'number',
+        type: 'equals',
+        filter: 42,
+      });
+
+      expect(result[1].sort).toBe('asc');
+      expect(result[1].filterModel).toEqual({
+        filterType: 'text',
+        type: 'contains',
+        filter: 'test',
+      });
+    });
+
+    it('should remove temporary order property from final result', () => {
+      const columnDefinitions = [
+        { colId: 'col1', headerName: 'Column 1' },
+        { colId: 'col2', headerName: 'Column 2' },
+      ];
+
+      const columnSettings = [
+        { colId: 'col2', visible: true },
+        { colId: 'col1', visible: true },
+      ];
+
+      const result = service['applyColumnSettings'](
+        columnDefinitions as any,
+        columnSettings as any
+      );
+
+      // Verify order property is not present in the result
+      expect(result[0]).not.toHaveProperty('order');
+      expect(result[1]).not.toHaveProperty('order');
+    });
+
+    it('should handle null or undefined column settings as empty array', () => {
+      const columnDefinitions = [
+        { colId: 'col1', headerName: 'Column 1' },
+        { colId: 'col2', headerName: 'Column 2' },
+      ];
+
+      // Test with null
+      let result = service['applyColumnSettings'](
+        columnDefinitions as any,
+        null
+      );
+      expect(result.length).toBe(2);
+      expect(result[0].colId).toBe('col1');
+      expect(result[1].colId).toBe('col2');
+
+      // Test with undefined
+      result = service['applyColumnSettings'](
+        columnDefinitions as any,
+        undefined as any
+      );
+      expect(result.length).toBe(2);
+      expect(result[0].colId).toBe('col1');
+      expect(result[1].colId).toBe('col2');
+    });
+
+    it('should handle column settings with non-existent colIds', () => {
+      const columnDefinitions = [{ colId: 'col1', headerName: 'Column 1' }];
+
+      const columnSettings = [
+        { colId: 'nonExistentCol', visible: true },
+        { colId: 'col1', visible: false },
+      ];
+
+      const result = service['applyColumnSettings'](
+        columnDefinitions as any,
+        columnSettings as any
+      );
+
+      // Should only include columns from definitions
+      expect(result.length).toBe(1);
+      expect(result[0].colId).toBe('col1');
+      expect(result[0].visible).toBe(false);
+    });
+
+    it('should handle empty column definitions gracefully', () => {
+      const columnDefinitions = [] as any;
+      const columnSettings = [
+        { colId: 'col1', visible: true },
+        { colId: 'col2', visible: false },
+      ];
+
+      const result = service['applyColumnSettings'](
+        columnDefinitions as any,
+        columnSettings as any
+      );
+
+      // Should return empty array when no column definitions exist
+      expect(result).toEqual([]);
     });
   });
 });
