@@ -54,9 +54,11 @@ import { PlanningView } from '../../../demand-validation/planning-view';
 import { GlobalSelectionUtils } from '../../../global-selection/global-selection.utils';
 import { ChartSettingsService } from '../../forecast-chart.service';
 import {
+  ChartSeriesConfig,
   chartSeriesConfig,
   ChartSettings,
   ChartUnitMode,
+  ChartValues,
   ForecastChartData,
   MonthlyChartEntry,
   PeriodType,
@@ -111,6 +113,7 @@ export class ForecastChartComponent implements OnInit {
   public columnFilters = input.required<ColumnFilters>();
   public chartIdentifier = input.required<string>();
   public defaultPeriodType = input.required<PeriodType>();
+  public includeSalesData = input<boolean>(false);
   public isAssignedToMe = input<boolean>(null);
   public disablePreview = input<boolean>(false);
 
@@ -118,12 +121,22 @@ export class ForecastChartComponent implements OnInit {
   private readonly chartSettingsService: ChartSettingsService =
     inject(ChartSettingsService);
 
-  protected readonly chartSeriesConfig = chartSeriesConfig;
+  protected get chartSeriesConfig(): ChartSeriesConfig {
+    const config = { ...chartSeriesConfig };
+
+    if (!this.includeSalesData()) {
+      delete config?.bwDelta;
+    }
+
+    return config;
+  }
   protected readonly disabledGray = disabledGrey;
 
-  protected readonly kpiTypes = Object.entries(chartSeriesConfig)
-    .sort(([, a], [, b]) => a.order - b.order)
-    .map(([key]) => key) as (keyof typeof chartSeriesConfig)[];
+  protected get kpiTypes(): (keyof ChartSeriesConfig)[] {
+    return Object.entries(this.chartSeriesConfig)
+      .sort(([, a], [, b]) => a.order - b.order)
+      .map(([key]) => key) as (keyof ChartSeriesConfig)[];
+  }
 
   protected toggledKpis = signal<any>({
     salesAmbition: false,
@@ -254,17 +267,19 @@ export class ForecastChartComponent implements OnInit {
       }
 
       return this.chartSettingsService
-        .getForecastChartData(
-          GlobalSelectionUtils.globalSelectionCriteriaToFilter(
-            globalSelectionState
-          ),
+        .getForecastChartData({
+          globalSelectionFilters:
+            GlobalSelectionUtils.globalSelectionCriteriaToFilter(
+              globalSelectionState
+            ),
           columnFilters,
-          this.chartSettings,
-          formatISO(startDate, { representation: 'date' }),
-          formatISO(endDate, { representation: 'date' }),
-          this.currency(),
-          isAssignedToMe
-        )
+          chartSettings: this.chartSettings,
+          startDate: formatISO(startDate, { representation: 'date' }),
+          endDate: formatISO(endDate, { representation: 'date' }),
+          currency: this.currency(),
+          isAssignedToMe,
+          includeSalesData: this.includeSalesData(),
+        })
         .pipe(
           tap((forecastChartData) => {
             this.chartData.set(forecastChartData.chartEntries);
@@ -360,7 +375,7 @@ export class ForecastChartComponent implements OnInit {
       );
   }
 
-  public updateToggledKpis(kpi: keyof typeof chartSeriesConfig) {
+  public updateToggledKpis(kpi: ChartValues) {
     this.toggledKpis.set({
       ...this.toggledKpis(),
       [kpi]: !this.toggledKpis()[kpi],

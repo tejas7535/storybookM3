@@ -1,3 +1,4 @@
+export const darkGrey = '#c0c0c0';
 export const dimmedRed = '#A31839';
 export const dimmedBlue = '#A4CADE';
 export const dimmedYellow = '#E3D07D';

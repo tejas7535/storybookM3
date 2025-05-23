@@ -1,6 +1,7 @@
 import { SeriesOption } from 'echarts';
 
 import {
+  darkGrey,
   dimmedBlue,
   dimmedGreen,
   dimmedGrey,
@@ -18,34 +19,54 @@ export interface ForecastChartData {
   chartEntries: MonthlyChartEntry[];
 }
 
-export const chartSeriesConfig = {
+export interface SeriesConfig {
+  color: string;
+  isToggleable: boolean;
+  order: number;
+}
+
+export interface ChartSeriesConfig {
+  [KpiValues.BwDelta]?: SeriesConfig;
+  [KpiValues.Deliveries]: SeriesConfig;
+  [KpiValues.Orders]: SeriesConfig;
+  [KpiValues.OnTopOrder]: SeriesConfig;
+  [KpiValues.OnTopCapacityForecast]: SeriesConfig;
+  [KpiValues.SalesAmbition]: SeriesConfig;
+  [KpiValues.Opportunities]: SeriesConfig;
+  [KpiValues.SalesPlan]: SeriesConfig;
+}
+
+export const chartSeriesConfig: ChartSeriesConfig = {
+  bwDelta: { color: darkGrey, isToggleable: false, order: 2 }, // optional, only for sales data
   deliveries: { color: dimmedGrey, isToggleable: false, order: 1 },
-  orders: { color: dimmedYellow, isToggleable: false, order: 2 },
-  onTopOrder: { color: dimmedGreen, isToggleable: true, order: 3 },
-  onTopCapacityForecast: { color: dimmedBlue, isToggleable: true, order: 4 },
-  salesAmbition: { color: dimmedPurple, isToggleable: true, order: 5 },
-  opportunities: { color: dimmedRed, isToggleable: true, order: 6 },
-  salesPlan: { color: textDarkGrey, isToggleable: false, order: 7 },
+  onTopCapacityForecast: { color: dimmedBlue, isToggleable: true, order: 5 },
+  onTopOrder: { color: dimmedGreen, isToggleable: true, order: 4 },
+  opportunities: { color: dimmedRed, isToggleable: true, order: 7 },
+  orders: { color: dimmedYellow, isToggleable: false, order: 3 },
+  salesAmbition: { color: dimmedPurple, isToggleable: true, order: 6 },
+  salesPlan: { color: textDarkGrey, isToggleable: false, order: 8 },
 } as const;
 
 export enum KpiValues {
+  BwDelta = 'bwDelta',
   Deliveries = 'deliveries',
-  Orders = 'orders',
-  OnTopOrder = 'onTopOrder',
   OnTopCapacityForecast = 'onTopCapacityForecast',
-  SalesAmbition = 'salesAmbition',
+  OnTopOrder = 'onTopOrder',
   Opportunities = 'opportunities',
+  Orders = 'orders',
+  SalesAmbition = 'salesAmbition',
   SalesPlan = 'salesPlan',
 }
 
 export type ChartValues = keyof typeof chartSeriesConfig;
 
 export interface ChartEntry {
-  orders: number;
+  bwDelta: number | null;
   deliveries: number;
-  onTopOrder: number;
   onTopCapacityForecast: number;
+  onTopOrder: number;
   opportunities: number;
+  orders: number;
   salesAmbition: number;
   salesPlan: number | null;
 }
@@ -58,6 +79,11 @@ export type YearlyChartEntry = ChartEntry & {
   year: number;
 };
 
+export interface CleanedUpNegativeData {
+  actualValue: number;
+  value: number;
+}
+
 export type KpiSeriesOption = SeriesOption & { kpi?: string };
 
 export enum ChartUnitMode {
@@ -66,22 +92,22 @@ export enum ChartUnitMode {
 }
 
 export enum PeriodType {
-  YEARLY = 'YEARLY',
   MONTHLY = 'MONTHLY',
+  YEARLY = 'YEARLY',
 }
 
 export interface ChartSettings {
-  startDate: Date | string;
-  endDate: Date | string;
-  planningView: PlanningView;
   chartUnitMode: ChartUnitMode;
+  endDate: Date | string;
   periodType: PeriodType;
+  planningView: PlanningView;
+  startDate: Date | string;
 }
 
 export interface ChartSettingsStored {
-  startDate: string;
-  endDate: string;
-  planningView: string;
   chartUnitMode: string;
+  endDate: string;
   periodType: string;
+  planningView: string;
+  startDate: string;
 }

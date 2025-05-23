@@ -562,6 +562,7 @@
         "settings_button": "Configurações do gráfico"
       },
       "legend": {
+        "bwDelta": "BW Delta",
         "deliveries": "Deliveries",
         "demandPlan": "Validated Forecast",
         "onTopCapacityForecast": "On Top Capacity Forecast",

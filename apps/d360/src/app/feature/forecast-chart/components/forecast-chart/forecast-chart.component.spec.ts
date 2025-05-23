@@ -14,6 +14,7 @@ import {
   ChartSettings,
   ChartUnitMode,
   ForecastChartData,
+  KpiValues,
   PeriodType,
 } from '../../model';
 import { ForecastChartComponent } from './forecast-chart.component';
@@ -42,6 +43,7 @@ const mockForecastChartData = {
       onTopCapacityForecast: 400,
       opportunities: 150,
       salesPlan: 500,
+      bwDelta: 50,
     },
   ],
 };
@@ -186,21 +188,22 @@ describe('ForecastChartComponent', () => {
       component['loadData$'](mockGlobalSelectionState, {}, true)
         .pipe(take(1))
         .subscribe(() => {
-          expect(getDataSpy).toHaveBeenCalledWith(
-            {},
-            {},
-            {
+          expect(getDataSpy).toHaveBeenCalledWith({
+            chartSettings: {
               chartUnitMode: 'CURRENCY',
               endDate: '2021-12-31T00:00:00Z',
               periodType: 'YEARLY',
               planningView: 'REQUESTED',
               startDate: '2021-01-01T00:00:00Z',
             },
-            '2021-01-01',
-            '2021-12-31',
-            'EUR',
-            true
-          );
+            columnFilters: {},
+            currency: 'EUR',
+            endDate: '2021-12-31',
+            globalSelectionFilters: {},
+            includeSalesData: false,
+            isAssignedToMe: true,
+            startDate: '2021-01-01',
+          });
           done();
         });
     });
@@ -221,21 +224,22 @@ describe('ForecastChartComponent', () => {
       component['loadData$'](mockGlobalSelectionState, {}, true)
         .pipe(take(1))
         .subscribe(() => {
-          expect(getDataSpy).toHaveBeenCalledWith(
-            {},
-            {},
-            {
+          expect(getDataSpy).toHaveBeenCalledWith({
+            chartSettings: {
               chartUnitMode: 'CURRENCY',
               endDate: '2021-12-31T00:00:00Z',
               periodType: 'YEARLY',
               planningView: 'REQUESTED',
               startDate: '2021-01-01T00:00:00Z',
             },
-            '2023-01-01',
-            '2028-12-31',
-            'EUR',
-            true
-          );
+            columnFilters: {},
+            currency: 'EUR',
+            endDate: '2028-12-31',
+            globalSelectionFilters: {},
+            includeSalesData: false,
+            isAssignedToMe: true,
+            startDate: '2023-01-01',
+          });
           done();
         });
     });
@@ -366,11 +370,97 @@ describe('ForecastChartComponent', () => {
         onTopCapacityForecast: false,
         onTopOrder: false,
       });
-      component['updateToggledKpis']('salesAmbition');
+      component['updateToggledKpis'](KpiValues.SalesAmbition);
       expect(component['toggledKpis']()).toEqual({
         salesAmbition: true,
         opportunities: false,
         onTopCapacityForecast: false,
+        onTopOrder: false,
+      });
+    });
+
+    it('should toggle multiple KPIs independently', () => {
+      component['toggledKpis'].set({
+        salesAmbition: false,
+        opportunities: false,
+        onTopCapacityForecast: false,
+        onTopOrder: false,
+      });
+
+      component['updateToggledKpis'](KpiValues.SalesAmbition);
+      component['updateToggledKpis'](KpiValues.Opportunities);
+
+      expect(component['toggledKpis']()).toEqual({
+        salesAmbition: true,
+        opportunities: true,
+        onTopCapacityForecast: false,
+        onTopOrder: false,
+      });
+    });
+
+    it('should toggle a KPI back to false if already true', () => {
+      component['toggledKpis'].set({
+        salesAmbition: true,
+        opportunities: false,
+        onTopCapacityForecast: false,
+        onTopOrder: false,
+      });
+
+      component['updateToggledKpis'](KpiValues.SalesAmbition);
+
+      expect(component['toggledKpis']()).toEqual({
+        salesAmbition: false,
+        opportunities: false,
+        onTopCapacityForecast: false,
+        onTopOrder: false,
+      });
+    });
+
+    it('should toggle all KPIs one by one', () => {
+      component['toggledKpis'].set({
+        salesAmbition: false,
+        opportunities: false,
+        onTopCapacityForecast: false,
+        onTopOrder: false,
+      });
+
+      component['updateToggledKpis'](KpiValues.SalesAmbition);
+      expect(component['toggledKpis']()[KpiValues.SalesAmbition]).toBe(true);
+
+      component['updateToggledKpis'](KpiValues.Opportunities);
+      expect(component['toggledKpis']()[KpiValues.Opportunities]).toBe(true);
+
+      component['updateToggledKpis'](KpiValues.OnTopCapacityForecast);
+      expect(component['toggledKpis']()[KpiValues.OnTopCapacityForecast]).toBe(
+        true
+      );
+
+      component['updateToggledKpis'](KpiValues.OnTopOrder);
+      expect(component['toggledKpis']()[KpiValues.OnTopOrder]).toBe(true);
+
+      // Final state check
+      expect(component['toggledKpis']()).toEqual({
+        salesAmbition: true,
+        opportunities: true,
+        onTopCapacityForecast: true,
+        onTopOrder: true,
+      });
+    });
+
+    it('should preserve other KPI states when toggling one KPI', () => {
+      component['toggledKpis'].set({
+        salesAmbition: true,
+        opportunities: true,
+        onTopCapacityForecast: false,
+        onTopOrder: false,
+      });
+
+      component['updateToggledKpis'](KpiValues.OnTopCapacityForecast);
+
+      expect(component['toggledKpis']()).toEqual({
+        salesAmbition: true,
+        opportunities: true,
+        onTopCapacityForecast: true,
         onTopOrder: false,
       });
     });

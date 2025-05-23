@@ -23,6 +23,7 @@ interface ForecastChartRequest {
   planningView: PlanningView;
   selectionFilters?: GlobalSelectionCriteriaFilters;
   columnFilters: Record<string, any>[];
+  includeSalesData: boolean;
   isCustomerNumberAssignedToMe?: boolean;
 }
 
@@ -55,15 +56,25 @@ export class ChartSettingsService {
     };
   }
 
-  public getForecastChartData(
-    globalSelectionFilters: GlobalSelectionCriteriaFilters | undefined,
-    columnFilters: Record<string, any>,
-    chartSettings: ChartSettings,
-    startDate: string,
-    endDate: string,
-    currency: string,
-    isAssignedToMe?: boolean
-  ): Observable<ForecastChartData> | null {
+  public getForecastChartData({
+    globalSelectionFilters,
+    columnFilters,
+    chartSettings,
+    startDate,
+    endDate,
+    currency,
+    isAssignedToMe,
+    includeSalesData,
+  }: {
+    globalSelectionFilters: GlobalSelectionCriteriaFilters | undefined;
+    columnFilters: Record<string, any>;
+    chartSettings: ChartSettings;
+    startDate: string;
+    endDate: string;
+    currency: string;
+    includeSalesData?: boolean;
+    isAssignedToMe?: boolean;
+  }): Observable<ForecastChartData> | null {
     const request: ForecastChartRequest = {
       startDate,
       endDate,
@@ -72,6 +83,9 @@ export class ChartSettingsService {
       planningView: chartSettings.planningView,
       selectionFilters: globalSelectionFilters,
       columnFilters: [...(columnFilters ? [columnFilters] : [])],
+      includeSalesData: [null, undefined].includes(includeSalesData)
+        ? false
+        : includeSalesData,
     };
 
     if (isAssignedToMe !== undefined && isAssignedToMe !== null) {

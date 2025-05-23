@@ -44,6 +44,7 @@ describe('YearlyForecastChartComponent', () => {
           onTopCapacityForecast: 0,
           onTopOrder: 0,
           salesPlan: 0,
+          bwDelta: 0,
         },
         {
           yearMonth: '2023-02',
@@ -54,6 +55,7 @@ describe('YearlyForecastChartComponent', () => {
           onTopCapacityForecast: 0,
           onTopOrder: 0,
           salesPlan: 0,
+          bwDelta: 0,
         },
         {
           yearMonth: '2024-01',
@@ -64,6 +66,7 @@ describe('YearlyForecastChartComponent', () => {
           onTopCapacityForecast: 0,
           onTopOrder: 0,
           salesPlan: 0,
+          bwDelta: 0,
         },
       ];
       const result = component['formatXAxisData'](data);
@@ -83,6 +86,7 @@ describe('YearlyForecastChartComponent', () => {
           onTopCapacityForecast: 8,
           onTopOrder: 3,
           salesPlan: 12,
+          bwDelta: 10,
         },
         {
           yearMonth: '2023-02',
@@ -93,6 +97,7 @@ describe('YearlyForecastChartComponent', () => {
           onTopCapacityForecast: 4,
           onTopOrder: 1,
           salesPlan: 6,
+          bwDelta: 5,
         },
       ];
       const series = component['createSeries'](data);
@@ -114,6 +119,7 @@ describe('YearlyForecastChartComponent', () => {
           onTopCapacityForecast: 8,
           onTopOrder: 3,
           salesPlan: 12,
+          bwDelta: 10,
         },
         {
           yearMonth: '2023-02',
@@ -124,6 +130,7 @@ describe('YearlyForecastChartComponent', () => {
           onTopCapacityForecast: 4,
           onTopOrder: 1,
           salesPlan: 6,
+          bwDelta: 5,
         },
       ];
       const result = component['aggregateByYear'](data);
@@ -133,10 +140,17 @@ describe('YearlyForecastChartComponent', () => {
           orders: 15,
           deliveries: 30,
           opportunities: 7,
-          salesAmbition: 22,
+          salesAmbition: {
+            actualValue: 22,
+            value: 22,
+          },
           onTopCapacityForecast: 12,
           onTopOrder: 4,
           salesPlan: 18,
+          bwDelta: {
+            actualValue: 15,
+            value: 15,
+          },
         },
       ]);
     });
@@ -154,6 +168,7 @@ describe('YearlyForecastChartComponent', () => {
           onTopCapacityForecast: 12,
           onTopOrder: 4,
           salesPlan: 18,
+          bwDelta: 20,
         },
       ];
       const series = component['createBarSeries'](KpiValues.Orders, data);
@@ -175,12 +190,112 @@ describe('YearlyForecastChartComponent', () => {
           onTopCapacityForecast: 12,
           onTopOrder: 4,
           salesPlan: 18,
+          bwDelta: 16,
         },
       ];
       const series = component['createDummySalesPlanSeries'](data);
       expect(series.name).toBe('home.chart.legend.salesPlan');
       expect(series.data).toEqual([18]);
-      expect(series.itemStyle.opacity).toBe(0);
+      expect((series as any).itemStyle.opacity).toBe(0);
+    });
+  });
+
+  describe('boundaryGap', () => {
+    it('should set boundaryGap to true', () => {
+      expect(component['boundaryGap']).toBe(true);
+    });
+  });
+
+  describe('createSeries with includeSalesData', () => {
+    it('should include BwDelta series when includeSalesData returns true', () => {
+      jest.spyOn(component as any, 'includeSalesData').mockReturnValue(true);
+
+      const data: MonthlyChartEntry[] = [
+        {
+          yearMonth: '2023-01',
+          orders: 10,
+          deliveries: 20,
+          opportunities: 5,
+          salesAmbition: 15,
+          onTopCapacityForecast: 8,
+          onTopOrder: 3,
+          salesPlan: 12,
+          bwDelta: 10,
+        },
+      ];
+
+      const series = component['createSeries'](data);
+      expect(series[1].kpi).toBe(KpiValues.BwDelta);
+      expect(series.length).toBe(9); // All 8 series + BwDelta
+    });
+
+    it('should not include BwDelta series when includeSalesData returns false', () => {
+      jest.spyOn(component as any, 'includeSalesData').mockReturnValue(false);
+
+      const data: MonthlyChartEntry[] = [
+        {
+          yearMonth: '2023-01',
+          orders: 10,
+          deliveries: 20,
+          opportunities: 5,
+          salesAmbition: 15,
+          onTopCapacityForecast: 8,
+          onTopOrder: 3,
+          salesPlan: 12,
+          bwDelta: 10,
+        },
+      ];
+
+      const series = component['createSeries'](data);
+      expect(series[0].kpi).toBe(KpiValues.Deliveries);
+      expect(series.length).toBe(8); // 7 bar series + 1 dummy without BwDelta
+    });
+  });
+
+  describe('aggregateByYear with negative values', () => {
+    it('should clean up negative values for salesAmbition and bwDelta', () => {
+      const data: MonthlyChartEntry[] = [
+        {
+          yearMonth: '2023-01',
+          orders: 10,
+          deliveries: 20,
+          opportunities: 5,
+          salesAmbition: -15, // Negative value
+          onTopCapacityForecast: 8,
+          onTopOrder: 3,
+          salesPlan: 12,
+          bwDelta: -10, // Negative value
+        },
+      ];
+
+      const result = component['aggregateByYear'](data);
+
+      // Negative values should be cleaned up (value = 0, but actualValue preserves the negative)
+      expect((result[0].salesAmbition as any).value).toBe(0);
+      expect((result[0].salesAmbition as any).actualValue).toBe(-15);
+      expect((result[0].bwDelta as any).value).toBe(0);
+      expect((result[0].bwDelta as any).actualValue).toBe(-10);
+    });
+
+    it('should handle null values in optional fields', () => {
+      const data: MonthlyChartEntry[] = [
+        {
+          yearMonth: '2023-01',
+          orders: 10,
+          deliveries: 20,
+          opportunities: 5,
+          salesAmbition: 15,
+          onTopCapacityForecast: 8,
+          onTopOrder: 3,
+          salesPlan: null,
+          bwDelta: null,
+        },
+      ];
+
+      const result = component['aggregateByYear'](data);
+      expect(result[0].salesPlan as any).toBe(0);
+      expect((result[0].bwDelta as any).actualValue).toBe(0);
+      expect((result[0].bwDelta as any).value).toBe(0);
     });
   });
 });

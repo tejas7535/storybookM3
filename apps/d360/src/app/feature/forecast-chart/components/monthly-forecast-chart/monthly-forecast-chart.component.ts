@@ -10,7 +10,13 @@ import {
   LocaleType,
 } from '../../../../shared/constants/available-locales';
 import { schaefflerColor } from '../../../../shared/styles/colors';
-import { chartSeriesConfig, KpiValues, MonthlyChartEntry } from '../../model';
+import {
+  chartSeriesConfig,
+  ChartValues,
+  CleanedUpNegativeData,
+  KpiValues,
+  MonthlyChartEntry,
+} from '../../model';
 import { BaseForecastChartComponent } from '../base-forecast-chart.component';
 
 @Component({
@@ -33,6 +39,9 @@ export class MonthlyForecastChartComponent extends BaseForecastChartComponent {
   protected createSeries(data: MonthlyChartEntry[]): any[] {
     return [
       this.createLineSeries(KpiValues.Deliveries, data),
+      ...(this.includeSalesData()
+        ? [this.createLineSeries(KpiValues.BwDelta, data)]
+        : []),
       this.createLineSeries(KpiValues.Orders, data),
       this.createLineSeries(KpiValues.OnTopOrder, data),
       this.createLineSeries(KpiValues.OnTopCapacityForecast, data),
@@ -81,18 +90,26 @@ export class MonthlyForecastChartComponent extends BaseForecastChartComponent {
     ];
   }
 
+  private getCleanedUpNegativeValues(
+    kpi: ChartValues,
+    entries: MonthlyChartEntry[]
+  ): CleanedUpNegativeData[] {
+    return entries.map((data: MonthlyChartEntry) => ({
+      value: data[kpi] < 0 ? 0 : data[kpi],
+      actualValue: data[kpi],
+    }));
+  }
+
   private createLineSeries(
-    kpi: keyof typeof chartSeriesConfig,
+    kpi: ChartValues,
     entries: MonthlyChartEntry[]
   ): any {
-    let seriesData: number[] | { actualValue: number; value: number }[] =
-      entries.map((data) => data[kpi]);
+    let seriesData: number[] | CleanedUpNegativeData[] = entries.map(
+      (data) => data[kpi]
+    );
 
-    if (kpi === KpiValues.SalesAmbition) {
-      seriesData = entries.map((data) => ({
-        value: data[kpi] < 0 ? 0 : data[kpi],
-        actualValue: data[kpi],
-      }));
+    if ([KpiValues.SalesAmbition, KpiValues.BwDelta].includes(kpi)) {
+      seriesData = this.getCleanedUpNegativeValues(kpi, entries);
     }
 
     return {

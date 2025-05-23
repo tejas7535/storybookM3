@@ -85,6 +85,34 @@ describe('BaseForecastChartComponent', () => {
     });
   });
 
+  describe('includeSalesData input', () => {
+    it('should have default value of false', () => {
+      expect(component.includeSalesData()).toBe(false);
+    });
+
+    it('should update when set', () => {
+      Stub.setInput('includeSalesData', true);
+      expect(component.includeSalesData()).toBe(true);
+    });
+
+    it('should trigger chart options regeneration when changed', () => {
+      const spy = jest.spyOn(component as any, 'generateChartOptions');
+      Stub.setInput('data', [{ yearMonth: '2023-01', orders: 10 }]);
+      Stub.setInput('toggledKpis', { orders: false });
+
+      // Reset the spy to isolate the next call
+      spy.mockClear();
+
+      // Change includeSalesData and verify it triggers generateChartOptions
+      Stub.setInput('includeSalesData', true);
+      Stub.detectChanges();
+
+      expect(spy).toHaveBeenCalledWith([{ yearMonth: '2023-01', orders: 10 }], {
+        orders: false,
+      });
+    });
+  });
+
   describe('generateChartOptions', () => {
     it('should return null if data or toggledKpis are not provided', () => {
       const result = (component as any).generateChartOptions(null, null);

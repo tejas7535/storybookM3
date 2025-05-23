@@ -23,6 +23,7 @@ export function previewDataMonthly(): ForecastChartData {
         opportunities: 0,
         salesAmbition: 0,
         salesPlan: null,
+        bwDelta: 0,
       },
       {
         yearMonth: format(subMonths(currentDate, 2), 'yyyy-MM-dd'),
@@ -33,6 +34,7 @@ export function previewDataMonthly(): ForecastChartData {
         salesAmbition: 0,
         opportunities: 0,
         salesPlan: null,
+        bwDelta: 0,
       },
       {
         yearMonth: format(subMonths(currentDate, 1), 'yyyy-MM-dd'),
@@ -43,6 +45,7 @@ export function previewDataMonthly(): ForecastChartData {
         salesAmbition: 0,
         opportunities: 0,
         salesPlan: null,
+        bwDelta: 0,
       },
       {
         yearMonth: format(currentDate, 'yyyy-MM-dd'),
@@ -53,6 +56,7 @@ export function previewDataMonthly(): ForecastChartData {
         salesAmbition: 0,
         opportunities: 0,
         salesPlan: null,
+        bwDelta: 0,
       },
       {
         yearMonth: format(addMonths(currentDate, 1), 'yyyy-MM-dd'),
@@ -63,6 +67,7 @@ export function previewDataMonthly(): ForecastChartData {
         salesAmbition: 300,
         opportunities: 500,
         salesPlan: 6200,
+        bwDelta: 620,
       },
       {
         yearMonth: format(addMonths(currentDate, 2), 'yyyy-MM-dd'),
@@ -73,6 +78,7 @@ export function previewDataMonthly(): ForecastChartData {
         salesAmbition: 200,
         opportunities: 400,
         salesPlan: 6300,
+        bwDelta: 630,
       },
       {
         yearMonth: format(addMonths(currentDate, 3), 'yyyy-MM-dd'),
@@ -83,6 +89,7 @@ export function previewDataMonthly(): ForecastChartData {
         salesAmbition: 300,
         opportunities: 600,
         salesPlan: 7900,
+        bwDelta: 790,
       },
       {
         yearMonth: format(addMonths(currentDate, 4), 'yyyy-MM-dd'),
@@ -93,6 +100,7 @@ export function previewDataMonthly(): ForecastChartData {
         salesAmbition: 600,
         opportunities: 100,
         salesPlan: 5200,
+        bwDelta: 520,
       },
       {
         yearMonth: format(addMonths(currentDate, 5), 'yyyy-MM-dd'),
@@ -103,6 +111,7 @@ export function previewDataMonthly(): ForecastChartData {
         salesAmbition: 600,
         opportunities: 600,
         salesPlan: 5700,
+        bwDelta: 570,
       },
       {
         yearMonth: format(addMonths(currentDate, 6), 'yyyy-MM-dd'),
@@ -113,6 +122,7 @@ export function previewDataMonthly(): ForecastChartData {
         salesAmbition: 600,
         opportunities: 500,
         salesPlan: 6600,
+        bwDelta: 660,
       },
       {
         yearMonth: format(addMonths(currentDate, 7), 'yyyy-MM-dd'),
@@ -123,6 +133,7 @@ export function previewDataMonthly(): ForecastChartData {
         salesAmbition: 900,
         opportunities: 800,
         salesPlan: 6200,
+        bwDelta: 620,
       },
       {
         yearMonth: format(addMonths(currentDate, 8), 'yyyy-MM-dd'),
@@ -133,6 +144,7 @@ export function previewDataMonthly(): ForecastChartData {
         salesAmbition: 300,
         opportunities: 800,
         salesPlan: 6100,
+        bwDelta: 610,
       },
     ],
   };
@@ -155,6 +167,7 @@ export function previewDataYearly(): ForecastChartData {
         salesAmbition: 0,
         opportunities: 0,
         salesPlan: null,
+        bwDelta: 0,
       },
       {
         yearMonth: format(new Date(currentYear - 1, 0, 1), 'yyyy-MM-dd'),
@@ -165,6 +178,7 @@ export function previewDataYearly(): ForecastChartData {
         salesAmbition: 0,
         opportunities: 0,
         salesPlan: null,
+        bwDelta: 0,
       },
       {
         yearMonth: format(new Date(currentYear, 0, 1), 'yyyy-MM-dd'),
@@ -175,6 +189,7 @@ export function previewDataYearly(): ForecastChartData {
         salesAmbition: 0,
         opportunities: 0,
         salesPlan: null,
+        bwDelta: 0,
       },
       {
         yearMonth: format(new Date(currentYear + 1, 0, 1), 'yyyy-MM-dd'),
@@ -185,6 +200,7 @@ export function previewDataYearly(): ForecastChartData {
         salesAmbition: 500,
         opportunities: 500,
         salesPlan: 6500,
+        bwDelta: 650,
       },
       {
         yearMonth: format(new Date(currentYear + 2, 0, 1), 'yyyy-MM-dd'),
@@ -195,6 +211,7 @@ export function previewDataYearly(): ForecastChartData {
         salesAmbition: 400,
         opportunities: 500,
         salesPlan: 5500,
+        bwDelta: 550,
       },
       {
         yearMonth: format(new Date(currentYear + 3, 0, 1), 'yyyy-MM-dd'),
@@ -205,6 +222,7 @@ export function previewDataYearly(): ForecastChartData {
         salesAmbition: 300,
         opportunities: 700,
         salesPlan: 8000,
+        bwDelta: 800,
       },
     ],
   };

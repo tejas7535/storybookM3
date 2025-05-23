@@ -19,6 +19,7 @@ import { KpiSeriesOption, MonthlyChartEntry } from '../model';
 export abstract class BaseForecastChartComponent {
   public data = input.required<MonthlyChartEntry[]>();
   public toggledKpis = input.required<Record<string, boolean>>();
+  public includeSalesData = input<boolean>(false);
 
   protected chartOptions: WritableSignal<EChartsOption | null> = signal(null);
   protected boundaryGap = false;
@@ -89,8 +90,10 @@ export abstract class BaseForecastChartComponent {
             param.marker ||
             `<span class="inline-block mr-1 rounded-full w-2.5 h-2.5 bg-[${param.color}]"></span>`;
 
-          // @ts-expect-error we enrich the data with the actualValue property
-          const value = param?.data?.actualValue ?? param.data;
+          const value =
+            typeof param.data === 'object' && 'actualValue' in param.data
+              ? param.data.actualValue
+              : param.data;
 
           const formattedValue = this.translocoLocaleService.localizeNumber(
             value as string | number,

@@ -39,6 +39,7 @@ describe('MonthlyForecastChartComponent', () => {
       onTopCapacityForecast: 400,
       opportunities: 150,
       salesPlan: 250,
+      bwDelta: 50,
     },
     {
       yearMonth: '2021-02',
@@ -49,6 +50,7 @@ describe('MonthlyForecastChartComponent', () => {
       onTopCapacityForecast: 410,
       opportunities: 160,
       salesPlan: 260,
+      bwDelta: 60,
     },
   ];
 
@@ -164,5 +166,117 @@ describe('MonthlyForecastChartComponent', () => {
     ) as SeriesOption;
 
     expect(salesAmbitionSeries.data).toEqual([{ actualValue: -500, value: 0 }]);
+  });
+
+  it('should replace negative BwDelta data with 0 and maintain the actual value in the chart', () => {
+    Stub.setInputs([
+      {
+        property: 'data',
+        value: [
+          {
+            yearMonth: '2021-02',
+            deliveries: 110,
+            orders: 210,
+            onTopOrder: 60,
+            salesAmbition: 310,
+            onTopCapacityForecast: 410,
+            opportunities: 160,
+            salesPlan: 260,
+            bwDelta: -75,
+          },
+        ],
+      },
+      { property: 'toggledKpis', value: {} },
+      { property: 'includeSalesData', value: true },
+    ]);
+
+    Stub.detectChanges();
+
+    const options = component['chartOptions']();
+    const seriesArray = options.series as echarts.EChartsOption['series'][];
+
+    const bwDeltaSeries = seriesArray.find(
+      (series: any) => series.kpi === KpiValues.BwDelta
+    ) as SeriesOption;
+
+    expect(bwDeltaSeries.data).toEqual([{ actualValue: -75, value: 0 }]);
+  });
+
+  it('should not include BwDelta series when includeSalesData is false', () => {
+    Stub.setInputs([
+      { property: 'data', value: testData },
+      { property: 'toggledKpis', value: {} },
+      { property: 'includeSalesData', value: false },
+    ]);
+
+    Stub.detectChanges();
+
+    const options = component['chartOptions']();
+    const seriesArray = options.series as echarts.EChartsOption['series'][];
+
+    const bwDeltaSeries = seriesArray.find(
+      (series: any) => series.kpi === KpiValues.BwDelta
+    ) as SeriesOption;
+
+    expect(bwDeltaSeries).toBeUndefined();
+  });
+
+  it('should format the x-axis data using translocoLocaleService', () => {
+    const mockLocalizedDates = ['01/2021', '02/2021'];
+    const localizeDateSpy = jest
+      .spyOn(component['translocoLocaleService'], 'localizeDate')
+      .mockImplementation((date, _locale, _options) =>
+        date === '2021-01' ? mockLocalizedDates[0] : mockLocalizedDates[1]
+      );
+
+    const formattedData = component['formatXAxisData'](testData);
+
+    expect(formattedData).toEqual(mockLocalizedDates);
+    expect(localizeDateSpy).toHaveBeenCalledTimes(2);
+    expect(localizeDateSpy).toHaveBeenCalledWith(
+      '2021-01',
+      component['translocoLocaleService'].getLocale(),
+      { month: '2-digit', year: 'numeric' }
+    );
+  });
+
+  it('should create series with correct configuration', () => {
+    const series = component['createSeries'](testData);
+
+    expect(series.length).toBe(8); // 7 data series + reference line
+
+    // Check if a specific series has correct configuration
+    const opportunitySeries = series.find(
+      (s: any) => s.kpi === KpiValues.Opportunities
+    );
+
+    expect(opportunitySeries).toBeDefined();
+    expect(opportunitySeries.type).toBe('line');
+    expect(opportunitySeries.stack).toBe('Total');
+    expect(opportunitySeries.areaStyle.opacity).toBe(1);
+    expect(opportunitySeries.data).toEqual([150, 160]);
+  });
+
+  it('should include a reference line for the current month', () => {
+    Stub.setInputs([
+      { property: 'data', value: testData },
+      { property: 'toggledKpis', value: {} },
+    ]);
+
+    Stub.detectChanges();
+
+    const options = component['chartOptions']();
+    const seriesArray = options.series as echarts.EChartsOption['series'][];
+
+    // Find the reference line series
+    const referenceSeries = seriesArray.find(
+      (s: any) => s.type === 'line' && s.markLine
+    ) as any;
+
+    expect(referenceSeries).toBeDefined();
+    expect(referenceSeries?.markLine?.lineStyle?.width).toBe(1);
+    expect(referenceSeries?.markLine?.lineStyle?.type).toBe('solid');
+    expect(referenceSeries?.markLine?.symbol).toBe('none');
+    expect(referenceSeries?.markLine?.data.length).toBe(1);
   });
 });

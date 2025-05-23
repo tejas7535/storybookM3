@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 
+import { of, throwError } from 'rxjs';
+
 import { Stub } from '../../shared/test/stub.class';
 import { PlanningView } from '../demand-validation/planning-view';
 import { GlobalSelectionCriteriaFilters } from '../global-selection/model';
@@ -79,15 +81,15 @@ describe('ChartSettingsService', () => {
 
   describe('getForecastChartData', () => {
     it('should request the data that is assigned to me', () => {
-      service.getForecastChartData(
-        mockGlobalSelectionState,
-        {},
-        mockChartSettings,
-        testStartDate,
-        testEndDate,
-        testCurrency,
-        true
-      );
+      service.getForecastChartData({
+        globalSelectionFilters: mockGlobalSelectionState,
+        columnFilters: {},
+        chartSettings: mockChartSettings,
+        startDate: testStartDate,
+        endDate: testEndDate,
+        currency: testCurrency,
+        isAssignedToMe: true,
+      });
       expect(postSpy).toHaveBeenCalledWith(service['FORECASTCHART_DATA_API'], {
         chartUnitMode: 'CURRENCY',
         columnFilters: [{}],
@@ -97,18 +99,19 @@ describe('ChartSettingsService', () => {
         planningView: 'CONFIRMED',
         selectionFilters: mockGlobalSelectionState,
         startDate: testStartDate,
+        includeSalesData: false,
       });
     });
 
     it('should request all data', () => {
-      service.getForecastChartData(
-        mockGlobalSelectionState,
-        {},
-        mockChartSettings,
-        testStartDate,
-        testEndDate,
-        testCurrency
-      );
+      service.getForecastChartData({
+        globalSelectionFilters: mockGlobalSelectionState,
+        columnFilters: {},
+        chartSettings: mockChartSettings,
+        startDate: testStartDate,
+        endDate: testEndDate,
+        currency: testCurrency,
+      });
       expect(postSpy).toHaveBeenCalledWith(service['FORECASTCHART_DATA_API'], {
         chartUnitMode: 'CURRENCY',
         columnFilters: [{}],
@@ -117,29 +120,206 @@ describe('ChartSettingsService', () => {
         planningView: 'CONFIRMED',
         selectionFilters: mockGlobalSelectionState,
         startDate: testStartDate,
+        includeSalesData: false,
       });
     });
 
     it('should return null for an empty global selection', () => {
-      const result = service.getForecastChartData(
-        undefined,
-        {},
-        mockChartSettings,
-        testStartDate,
-        testEndDate,
-        testCurrency
-      );
+      const result = service.getForecastChartData({
+        globalSelectionFilters: undefined,
+        columnFilters: {},
+        chartSettings: mockChartSettings,
+        startDate: testStartDate,
+        endDate: testEndDate,
+        currency: testCurrency,
+      });
       expect(result).toBeNull();
       expect(postSpy).not.toHaveBeenCalledWith();
     });
-  });
-  describe('getChartSettings', () => {
-    it('should load the chart settings', () => {
-      const getSpy = jest.spyOn(httpClient, 'get');
-      service.getChartSettings(testId, PeriodType.MONTHLY);
-      expect(getSpy).toHaveBeenCalledWith(
-        'api/user-settings/chart?chartIdentifier=my-chart'
+
+    it('should include sales data when includeSalesData is true', () => {
+      service.getForecastChartData({
+        globalSelectionFilters: mockGlobalSelectionState,
+        columnFilters: {},
+        chartSettings: mockChartSettings,
+        startDate: testStartDate,
+        endDate: testEndDate,
+        currency: testCurrency,
+        includeSalesData: true,
+      });
+
+      expect(postSpy).toHaveBeenCalledWith(service['FORECASTCHART_DATA_API'], {
+        chartUnitMode: 'CURRENCY',
+        columnFilters: [{}],
+        currency: testCurrency,
+        endDate: testEndDate,
+        planningView: 'CONFIRMED',
+        selectionFilters: mockGlobalSelectionState,
+        startDate: testStartDate,
+        includeSalesData: true,
+      });
+    });
+
+    it('should handle null or undefined includeSalesData parameter', () => {
+      service.getForecastChartData({
+        globalSelectionFilters: mockGlobalSelectionState,
+        columnFilters: {},
+        chartSettings: mockChartSettings,
+        startDate: testStartDate,
+        endDate: testEndDate,
+        currency: testCurrency,
+        includeSalesData: null,
+      });
+
+      expect(postSpy).toHaveBeenCalledWith(
+        service['FORECASTCHART_DATA_API'],
+        expect.objectContaining({
+          includeSalesData: false,
+        })
       );
+
+      postSpy.mockClear();
+
+      service.getForecastChartData({
+        globalSelectionFilters: mockGlobalSelectionState,
+        columnFilters: {},
+        chartSettings: mockChartSettings,
+        startDate: testStartDate,
+        endDate: testEndDate,
+        currency: testCurrency,
+        includeSalesData: undefined,
+      });
+
+      expect(postSpy).toHaveBeenCalledWith(
+        service['FORECASTCHART_DATA_API'],
+        expect.objectContaining({
+          includeSalesData: false,
+        })
+      );
+    });
+
+    it('should handle empty columnFilters', () => {
+      service.getForecastChartData({
+        globalSelectionFilters: mockGlobalSelectionState,
+        columnFilters: null,
+        chartSettings: mockChartSettings,
+        startDate: testStartDate,
+        endDate: testEndDate,
+        currency: testCurrency,
+      });
+
+      expect(postSpy).toHaveBeenCalledWith(
+        service['FORECASTCHART_DATA_API'],
+        expect.objectContaining({
+          columnFilters: [],
+        })
+      );
+    });
+
+    it('should not include isCustomerNumberAssignedToMe when isAssignedToMe is undefined', () => {
+      service.getForecastChartData({
+        globalSelectionFilters: mockGlobalSelectionState,
+        columnFilters: {},
+        chartSettings: mockChartSettings,
+        startDate: testStartDate,
+        endDate: testEndDate,
+        currency: testCurrency,
+        isAssignedToMe: undefined,
+      });
+
+      const calledRequest = postSpy.mock.calls[0][1];
+      expect(calledRequest).not.toHaveProperty('isCustomerNumberAssignedToMe');
+    });
+
+    it('should include isCustomerNumberAssignedToMe as false when provided', () => {
+      service.getForecastChartData({
+        globalSelectionFilters: mockGlobalSelectionState,
+        columnFilters: {},
+        chartSettings: mockChartSettings,
+        startDate: testStartDate,
+        endDate: testEndDate,
+        currency: testCurrency,
+        isAssignedToMe: false,
+      });
+
+      expect(postSpy).toHaveBeenCalledWith(
+        service['FORECASTCHART_DATA_API'],
+        expect.objectContaining({
+          isCustomerNumberAssignedToMe: false,
+        })
+      );
+    });
+  });
+
+  describe('getChartSettings', () => {
+    it('should load the chart settings', (done) => {
+      const getSpy = jest.spyOn(httpClient, 'get');
+      service.getChartSettings(testId, PeriodType.MONTHLY).subscribe(() => {
+        expect(getSpy).toHaveBeenCalledWith(
+          'api/user-settings/chart?chartIdentifier=my-chart'
+        );
+        done();
+      });
+    });
+
+    it('should return default settings when API call fails', (done) => {
+      jest
+        .spyOn(httpClient, 'get')
+        .mockReturnValue(throwError(() => new Error('API error')));
+
+      const result = service.getChartSettings(testId, PeriodType.YEARLY);
+
+      // Verify that default settings would be returned through the catchError operator
+      result.subscribe({
+        next: (err) => {
+          expect(err).toEqual(
+            expect.objectContaining({
+              planningView: PlanningView.REQUESTED,
+              chartUnitMode: ChartUnitMode.CURRENCY,
+              periodType: PeriodType.YEARLY,
+            })
+          );
+          done();
+        },
+      });
+    });
+
+    it('should parse the response correctly', (done) => {
+      const mockResponse = {
+        startDate: '2022-01-01',
+        endDate: '2022-12-31',
+        planningView: 'CONFIRMED',
+        chartUnitMode: 'QUANTITY',
+        periodType: 'YEARLY',
+      };
+
+      jest.spyOn(httpClient, 'get').mockReturnValue(of(mockResponse));
+
+      service
+        .getChartSettings(testId, PeriodType.MONTHLY)
+        .subscribe((result) => {
+          expect(result).toEqual({
+            startDate: new Date('2022-01-01'),
+            endDate: new Date('2022-12-31'),
+            planningView: PlanningView.CONFIRMED,
+            chartUnitMode: ChartUnitMode.QUANTITY,
+            periodType: PeriodType.YEARLY,
+          });
+          done();
+        });
+    });
+
+    it('should use the provided default period type in case of error', (done) => {
+      jest
+        .spyOn(httpClient, 'get')
+        .mockReturnValue(throwError(() => new Error('API error')));
+
+      service
+        .getChartSettings(testId, PeriodType.YEARLY)
+        .subscribe((result) => {
+          expect(result.periodType).toBe(PeriodType.YEARLY);
+          done();
+        });
     });
   });
 
@@ -156,6 +336,36 @@ describe('ChartSettingsService', () => {
           startDate: '2021-01-01',
         }
       );
+    });
+
+    it('should properly format dates when updating chart settings', () => {
+      const customSettings = {
+        ...mockChartSettings,
+        startDate: new Date('2023-05-15'),
+        endDate: new Date('2023-12-31'),
+      };
+
+      service.updateChartSettings(customSettings, testId);
+
+      expect(postSpy).toHaveBeenCalledWith(
+        'api/user-settings/chart?chartIdentifier=my-chart',
+        {
+          chartUnitMode: 'CURRENCY',
+          endDate: '2023-12-31',
+          periodType: 'MONTHLY',
+          planningView: 'CONFIRMED',
+          startDate: '2023-05-15',
+        }
+      );
+    });
+
+    it('should return the HTTP post response', () => {
+      const mockResponse = of({ success: true });
+      postSpy.mockReturnValue(mockResponse);
+
+      const result = service.updateChartSettings(mockChartSettings, testId);
+
+      expect(result).toBe(mockResponse);
     });
   });
 });

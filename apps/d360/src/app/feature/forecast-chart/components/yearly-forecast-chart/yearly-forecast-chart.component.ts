@@ -8,11 +8,17 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import {
   chartSeriesConfig,
+  ChartValues,
+  CleanedUpNegativeData,
   KpiValues,
   MonthlyChartEntry,
   YearlyChartEntry,
 } from '../../model';
 import { BaseForecastChartComponent } from '../base-forecast-chart.component';
+
+type ExtendedSeriesOption = SeriesOption & {
+  kpi?: KpiValues;
+};
 
 @Component({
   selector: 'd360-yearly-forecast-chart',
@@ -27,11 +33,14 @@ export class YearlyForecastChartComponent extends BaseForecastChartComponent {
     return [...new Set(data.map((entry) => getYear(entry.yearMonth)))];
   }
 
-  protected createSeries(data: MonthlyChartEntry[]): SeriesOption[] {
+  protected createSeries(data: MonthlyChartEntry[]): ExtendedSeriesOption[] {
     const yearlyAggregation = this.aggregateByYear(data);
 
     return [
       this.createBarSeries(KpiValues.Deliveries, yearlyAggregation),
+      ...(this.includeSalesData()
+        ? [this.createBarSeries(KpiValues.BwDelta, yearlyAggregation)]
+        : []),
       this.createBarSeries(KpiValues.Orders, yearlyAggregation),
       this.createBarSeries(KpiValues.OnTopOrder, yearlyAggregation),
       this.createBarSeries(KpiValues.OnTopCapacityForecast, yearlyAggregation),
@@ -39,7 +48,7 @@ export class YearlyForecastChartComponent extends BaseForecastChartComponent {
       this.createBarSeries(KpiValues.Opportunities, yearlyAggregation),
       {
         name: translate('home.chart.legend.salesPlan'),
-        kpi: 'salesPlan',
+        kpi: KpiValues.SalesPlan,
         type: 'bar',
         data: yearlyAggregation.map((entry) => entry.salesPlan),
         barGap: '-100%',
@@ -62,6 +71,13 @@ export class YearlyForecastChartComponent extends BaseForecastChartComponent {
   }
 
   private aggregateByYear(entries: MonthlyChartEntry[]): YearlyChartEntry[] {
+    const getCleanedUpNegativeValues = (
+      value: number
+    ): CleanedUpNegativeData => ({
+      value: value < 0 ? 0 : value || 0,
+      actualValue: value || 0,
+    });
+
     // To favor readability & concise code, we use map/reduce to aggregate the data by year.
     // eslint-disable-next-line unicorn/no-array-reduce
     const aggregationByYear = entries.reduce((acc, entry) => {
@@ -76,6 +92,7 @@ export class YearlyForecastChartComponent extends BaseForecastChartComponent {
           onTopCapacityForecast: 0,
           onTopOrder: 0,
           salesPlan: 0,
+          bwDelta: 0,
         });
       }
 
@@ -86,18 +103,23 @@ export class YearlyForecastChartComponent extends BaseForecastChartComponent {
       agg.salesAmbition += entry.salesAmbition;
       agg.onTopCapacityForecast += entry.onTopCapacityForecast;
       agg.onTopOrder += entry.onTopOrder;
-      agg.salesPlan += entry.salesPlan ?? 0;
+      agg.salesPlan += entry.salesPlan || 0;
+      agg.bwDelta += entry.bwDelta || 0;
 
       return acc;
     }, new Map<number, YearlyChartEntry>());
 
-    return [...aggregationByYear.values()];
+    return [...aggregationByYear.values()].map((entry) => ({
+      ...entry,
+      salesAmbition: getCleanedUpNegativeValues(entry.salesAmbition),
+      bwDelta: getCleanedUpNegativeValues(entry.bwDelta),
+    })) as unknown as YearlyChartEntry[];
   }
 
   private createBarSeries(
-    kpi: keyof typeof chartSeriesConfig,
+    kpi: ChartValues,
     data: YearlyChartEntry[]
-  ): any {
+  ): ExtendedSeriesOption {
     return {
       name: translate(`home.chart.legend.${kpi}`),
       kpi,
@@ -119,15 +141,13 @@ export class YearlyForecastChartComponent extends BaseForecastChartComponent {
    */
   private createDummySalesPlanSeries(
     yearlyAggregation: YearlyChartEntry[]
-  ): any {
+  ): SeriesOption {
     return {
       name: translate('home.chart.legend.salesPlan'),
       type: 'bar',
       color: chartSeriesConfig.salesPlan.color,
       data: yearlyAggregation.map((entry) => entry.salesPlan),
-      itemStyle: {
-        opacity: 0,
-      },
+      itemStyle: { opacity: 0 },
     };
   }
 }
