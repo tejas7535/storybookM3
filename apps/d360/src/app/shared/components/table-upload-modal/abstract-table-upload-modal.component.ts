@@ -15,6 +15,7 @@ import {
   GridApi,
   GridReadyEvent,
   GridSizeChangedEvent,
+  ICellRendererParams,
   IRowNode,
   PostSortRowsParams,
   ProcessDataFromClipboardParams,
@@ -275,6 +276,19 @@ export abstract class AbstractTableUploadModalComponent<
     this.dialogRef.close(this.hasChangedData);
   }
 
+  /**
+   * The onDeleteCallback.
+   *
+   * @protected
+   * @param {ICellRendererParams} _params
+   * @memberof AbstractTableUploadModalComponent
+   */
+  protected onDeleteCallback(_params: ICellRendererParams): void {
+    // this method is empty, but can be overridden
+    // to handle the delete button click
+    // in the cell renderer
+  }
+
   /** @inheritdoc */
   public ngOnInit(): void {
     this.updateColumnDefinitions();
@@ -309,6 +323,9 @@ export abstract class AbstractTableUploadModalComponent<
         field: 'DELETE',
         headerName: '',
         cellRenderer: DeleteButtonCellRendererComponent,
+        cellRendererParams: {
+          onClickCallback: this.onDeleteCallback.bind(this),
+        },
         minWidth: 68,
         maxWidth: 68,
       },

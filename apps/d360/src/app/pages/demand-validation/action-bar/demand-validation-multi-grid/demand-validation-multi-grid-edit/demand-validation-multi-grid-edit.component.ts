@@ -16,7 +16,11 @@ import { lastValueFrom, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { AgGridModule } from 'ag-grid-angular';
-import { IRowNode, ValueFormatterParams } from 'ag-grid-enterprise';
+import {
+  ICellRendererParams,
+  IRowNode,
+  ValueFormatterParams,
+} from 'ag-grid-enterprise';
 import { format, parseISO } from 'date-fns';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -173,7 +177,7 @@ export class DemandValidationMultiGridEditComponent
               validationFn: (value: string, _rowData: IRowNode) =>
                 ValidationHelper.detectLocaleAndValidateForLocalFloat(value),
               cellClass: (params) => {
-                const row: number = params.rowIndex;
+                const row: number = Number.parseInt(params.node.id, 10);
                 const column: number = params.api
                   .getColumns()
                   .findIndex(
@@ -272,6 +276,15 @@ export class DemandValidationMultiGridEditComponent
   }
 
   protected validationError: Record<string, boolean> = {};
+
+  protected override onDeleteCallback(params: ICellRendererParams): void {
+    // delete the error message for the deleted row
+    Object.keys(this.validationError).forEach((key) => {
+      if (key.startsWith(`${params.node.id}_`)) {
+        delete this.validationError[key];
+      }
+    });
+  }
 
   protected parseErrorsFromResult(
     result: PostResult<DemandValidationBatchResponse>
