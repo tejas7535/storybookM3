@@ -1,12 +1,14 @@
 import { SapCallInProgress } from '@gq/shared/models/quotation';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
+import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CalculationInProgressComponent } from './calculation-in-progress.component';
 
 describe('CalculationInProgressComponent', () => {
+  let component: CalculationInProgressComponent;
   let spectator: Spectator<CalculationInProgressComponent>;
 
   const createComponent = createComponentFactory({
@@ -17,6 +19,7 @@ describe('CalculationInProgressComponent', () => {
 
   beforeEach(() => {
     spectator = createComponent();
+    component = spectator.component;
   });
 
   test('should create', () => {
@@ -24,6 +27,39 @@ describe('CalculationInProgressComponent', () => {
     expect(spectator.debugElement.componentInstance).toBeTruthy();
   });
 
+  describe('ngOnInit', () => {
+    test(
+      'should emit true when translations are already loaded',
+      marbles((m) => {
+        component['translocoService'].getTranslation = jest
+          .fn()
+          .mockReturnValue({ 'process-case-view': {} });
+        component.ngOnInit();
+        m.expect(component.translationsLoaded$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+    test(
+      'Should emit true when translations are loaded',
+      marbles((m) => {
+        component['translocoService'].getTranslation = jest
+          .fn()
+          .mockReturnValue({});
+        component['translocoService'].events$ = m.cold('a', {
+          a: {
+            type: 'translationLoadSuccess',
+            payload: { scope: 'process-case-view' },
+          } as any,
+        });
+
+        component.ngOnInit();
+        m.expect(component.translationsLoaded$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+  });
   describe('reload', () => {
     test('should reload page', () => {
       delete window.location;

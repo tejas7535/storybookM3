@@ -1,9 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 
 import { SapCallInProgress } from '@gq/shared/models/quotation';
 import { TranslocoService } from '@jsverse/transloco';
+import { isEmpty } from 'lodash';
 
 @Component({
   selector: 'gq-calculation-in-progress',
@@ -11,9 +13,14 @@ import { TranslocoService } from '@jsverse/transloco';
   standalone: false,
 })
 export class CalculationInProgressComponent implements OnInit {
+  private readonly translationLoadedSubject: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
+
   public imagePath: string;
   public translationSource = '';
-  public translationsLoaded$: Observable<boolean>;
+  public translationsLoaded$: Observable<boolean> =
+    this.translationLoadedSubject.asObservable();
 
   @Input() amountDetails: number;
   @Input() sapCallInProgress: SapCallInProgress;
@@ -25,9 +32,23 @@ export class CalculationInProgressComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.translationsLoaded$ = this.translocoService
-      .selectTranslateObject('processCaseView', {}, '')
-      .pipe(map((res) => typeof res !== 'string'));
+    // check if translation is loaded already, otherwise subscribe to the events and wait until load is complete
+    if (isEmpty(this.translocoService.getTranslation('process-case-view'))) {
+      this.translocoService.events$
+        .pipe(
+          takeUntilDestroyed(this.destroyRef),
+          map(
+            (event) =>
+              event.type === 'translationLoadSuccess' &&
+              event.payload?.scope === 'process-case-view'
+          )
+        )
+        .subscribe((result) => {
+          this.translationLoadedSubject.next(result);
+        });
+    } else {
+      this.translationLoadedSubject.next(true);
+    }
 
     this.translationSource = this.sapCallInProgress
       ? `processCaseView.sapCallInProgress.${
