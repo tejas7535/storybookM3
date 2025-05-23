@@ -148,6 +148,10 @@
         "adjustedAutomatically": "W ekosystemie OPTIME nie znaleziono pasującego rozwiązania. Możemy zaoferować następujące zamienniki bez funkcji OPTIME",
         "noRecommendation": "Nie możemy automatycznie przedstawić zaleceń pasujących do podanych parametrów. Zwróć się do pomocy technicznej Schaeffler z prośbą o indywidualną konsultację",
         "usedFallbackGrease": "Nie możemy przedstawić szczegółowych zaleceń dotyczących smarów dostępnych na rynku. Obliczenie zostało dokonane na przykładzie smaru z Schaeffler Arcanol o szerokim zakresie kompatybilności. Należy użyć smaru o porównywalnych właściwościach"
+      },
+      "pdf": {
+        "title": "Raport - Asystent wyboru smarów",
+        "selection": "Wybrany przez Ciebie smar"
       }
     }
   },

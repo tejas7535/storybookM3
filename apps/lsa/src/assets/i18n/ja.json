@@ -148,6 +148,10 @@
         "adjustedAutomatically": "OPTIME Ecosystem 内に適切なソリューションが見つかりませんでした。OPTIME 機能を使用しないで、次の代替品を提供できます",
         "noRecommendation": "入力パラメータに適した推奨事項を自動的に提供できませんでした。具体的なご相談については、Schaeffler 技術サポートにお問い合わせください",
         "usedFallbackGrease": "市場で入手可能なグリースの詳細な推奨は提供できません。計算には、Schaeffler Arcanol Portfolio から広く互換性のあるグリースを使用しました。使用しているグリースの特性と同等であることを確認してください"
+      },
+      "pdf": {
+        "title": "レポート - 潤滑剤選択アシスタント",
+        "selection": "選択された潤滑剤"
       }
     }
   },

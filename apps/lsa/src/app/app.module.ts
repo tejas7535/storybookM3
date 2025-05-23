@@ -49,12 +49,12 @@ export const APP_ROOT = 'lubricator-selection-assistant';
         {
           fontName: 'Noto',
           fontStyle: 'normal',
-          fileName: 'NotoSans-Regular.ttf',
+          fileName: 'EASans-Regular.ttf',
         },
         {
           fontName: 'Noto',
           fontStyle: 'bold',
-          fileName: 'NotoSans-Bold.ttf',
+          fileName: 'EASans-Bold.ttf',
         },
       ],
     },
@@ -65,19 +65,19 @@ export const APP_ROOT = 'lubricator-selection-assistant';
           {
             fontName: 'Noto',
             fontStyle: 'normal',
-            fileName: 'NotoSansJP-Regular.ttf',
+            fileName: 'EASansJP-Regular.ttf',
           },
           {
             fontName: 'Noto',
             fontStyle: 'bold',
-            fileName: 'NotoSansJP-Bold.ttf',
+            fileName: 'EASansJP-Bold.ttf',
           },
         ],
         ko: [
           {
             fontName: 'Noto',
             fontStyle: 'normal',
-            fileName: 'NotoSansKR-Regular.ttf',
+            fileName: 'EASansKR-Regular.ttf',
           },
           {
             fontName: 'Noto',
@@ -89,24 +89,24 @@ export const APP_ROOT = 'lubricator-selection-assistant';
           {
             fontName: 'Noto',
             fontStyle: 'normal',
-            fileName: 'NotoSansSC-Regular.ttf',
+            fileName: 'EASansSC-Regular.ttf',
           },
           {
             fontName: 'Noto',
             fontStyle: 'bold',
-            fileName: 'NotoSansSC-Bold.ttf',
+            fileName: 'EASansSC-Bold.ttf',
           },
         ],
         zh_TW: [
           {
             fontName: 'Noto',
             fontStyle: 'normal',
-            fileName: 'NotoSansTC-Regular.ttf',
+            fileName: 'EASansTC-Regular.ttf',
           },
           {
             fontName: 'Noto',
             fontStyle: 'bold',
-            fileName: 'NotoSansTC-Bold.ttf',
+            fileName: 'EASansTC-Bold.ttf',
           },
         ],
       },

@@ -148,6 +148,10 @@
         "adjustedAutomatically": "Não foi possível encontrar uma solução adequada no OPTIME Ecosystem. Podemos fornecer as seguintes alternativas sem a funcionalidade OPTIME.",
         "noRecommendation": "Não foi possível fornecer automaticamente uma recomendação adequada para os seus parâmetros de entrada. Contacte o apoio técnico da Schaeffler para obter um aconselhamento específico.",
         "usedFallbackGrease": "Não é possível fornecer uma recomendação detalhada sobre as massas lubrificantes disponíveis no mercado. Para o nosso cálculo, utilizámos uma massa lubrificante amplamente compatível do portefólio Schaeffler Arcanol. Certifique-se de que a massa lubrificante utilizada é comparável nas suas propriedades."
+      },
+      "pdf": {
+        "title": "Relatório - Assistente de Seleção de Lubrificadores",
+        "selection": "Seu lubrificador selecionado"
       }
     }
   },

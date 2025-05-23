@@ -148,6 +148,10 @@
         "adjustedAutomatically": "Chúng tôi không tìm thấy giải pháp phù hợp trong hệ sinh thái OPTIME. Chúng tôi có thể cung cấp các giải pháp khác không cần dùng OPTIME sau",
         "noRecommendation": "Chúng tôi không thể tự động đưa ra đề xuất phù hợp cho các thông số đầu vào của bạn. Vui lòng liên hệ bộ phận hỗ trợ kỹ thuật của Schaeffler để được tư vấn cụ thể",
         "usedFallbackGrease": "Chúng tôi không thể đưa ra đề xuất chi tiết cho các loại mỡ bôi trơn có trên thị trường. Để tính toán, chúng tôi đã sử dụng một loại Mỡ bôi có khả năng ứng dụng rộng rãi từ Danh mục Schaeffler Arcanol. Vui lòng đảm bảo loại Mỡ bôi bạn đang sử dụng tương thích với các thuộc tính"
+      },
+      "pdf": {
+        "title": "Báo cáo - Trợ lý lựa chọn chất bôi trơn",
+        "selection": "Chất bôi trơn bạn đã chọn"
       }
     }
   },

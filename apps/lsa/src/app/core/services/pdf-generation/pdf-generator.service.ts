@@ -427,9 +427,9 @@ export class PDFGeneratorService {
   private getFormattedDate() {
     return this.localeService.localizeDate(
       Date.now(),
-      this.translocoService.getActiveLang() !== 'zh_TW'
-        ? this.translocoService.getActiveLang()
-        : 'zh'
+      this.translocoService.getActiveLang() === 'zh_TW'
+        ? 'zh'
+        : this.translocoService.getActiveLang()
     );
   }
 
@@ -462,7 +462,7 @@ export class PDFGeneratorService {
       ],
       [
         this.translocoService.translate(`${baseString}.maxOperatingPressure`),
-        this.stripUnsupportedChars(`${lubricator.maxOperatingPressure} bar`),
+        `${lubricator.maxOperatingPressure} bar`,
       ],
       [
         this.translocoService.translate(`${baseString}.voltage`),
@@ -470,9 +470,7 @@ export class PDFGeneratorService {
       ],
       [
         this.translocoService.translate(`${baseString}.medium_general`),
-        this.stripUnsupportedChars(
-          lubricator.technicalAttributes['medium_general']
-        ),
+        lubricator.technicalAttributes['medium_general'],
       ],
       [
         this.translocoService.translate(`${baseString}.tempRange`),
@@ -508,9 +506,5 @@ export class PDFGeneratorService {
       default:
         return 'unknown';
     }
-  }
-
-  private stripUnsupportedChars(input: string) {
-    return input.replaceAll('≤', '<=').replaceAll('≥', '>=');
   }
 }

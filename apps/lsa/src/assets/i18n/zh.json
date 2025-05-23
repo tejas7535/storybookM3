@@ -148,6 +148,10 @@
         "adjustedAutomatically": "我们在 OPTIME Ecosystem 中找不到合适的解决方案。我们可以提供以下不具有 OPTIME 功能的替代方案",
         "noRecommendation": "我们无法自动为您的输入参数提供合适的建议。请联系 Schaeffler 技术支持以进行具体咨询",
         "usedFallbackGrease": "我们不能就市场上销售的润滑脂提供详细的建议。我们使用了 Schaeffler Arcanol 产品组合中广泛兼容的润滑脂来进行计算。请确保您使用的润滑脂与之性能相当"
+      },
+      "pdf": {
+        "title": "报告 - 润滑剂选择助手",
+        "selection": "您选择的润滑剂"
       }
     }
   },

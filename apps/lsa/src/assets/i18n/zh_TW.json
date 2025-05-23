@@ -148,6 +148,10 @@
         "adjustedAutomatically": "我們在 OPTIME 生態系中找不到合適的解決方案。我們可以提供以下不具 OPTIME 功能的替代方案",
         "noRecommendation": "我們無法自動為您的輸入參數提供合適建議。請聯絡舍弗勒技術支援以獲得特定諮詢",
         "usedFallbackGrease": "我們無法提供市場可用潤滑油的詳細建議。我們在計算中使用舍弗勒 Arcanol 組合中一種可廣泛相容的潤滑油。請確保使用中的潤滑油屬性相當"
+      },
+      "pdf": {
+        "title": "報告 - 潤滑劑選擇助手",
+        "selection": "您選擇的潤滑劑"
       }
     }
   },

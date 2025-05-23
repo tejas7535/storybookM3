@@ -148,6 +148,10 @@
         "adjustedAutomatically": "Nous n’avons pas trouvé de solution adaptée dans l’écosystème OPTIME. Nous pouvons fournir les alternatives suivantes sans la fonctionnalité OPTIME",
         "noRecommendation": "Nous n’avons pas pu proposer automatiquement une recommandation appropriée pour vos paramètres de saisie. Veuillez contacter l’assistance technique Schaeffler pour une consultation spécifique",
         "usedFallbackGrease": "Nous ne pouvons pas proposer de recommandation détaillée pour les graisses disponibles sur le marché. Nous avons utilisé une graisse de la gamme Schaeffler Arcanol compatible avec de nombreux produits pour nos calculs. Veuillez vous assurer que les propriétés de la graisse que vous utilisez sont similaires"
+      },
+      "pdf": {
+        "title": "Rapport - Assistant de sélection de lubrificateurs",
+        "selection": "Votre lubrificateur sélectionné"
       }
     }
   },

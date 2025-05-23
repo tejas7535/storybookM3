@@ -148,6 +148,10 @@
         "adjustedAutomatically": "OPTIME ekosisteminde uygun bir çözüm bulamadık. OPTIME işlevi olmadan aşağıdaki alternatifleri sağlayabiliriz",
         "noRecommendation": "Giriş parametreleriniz için otomatik olarak uygun bir öneri sağlayamadık. Özel danışmanlık için lütfen Schaeffler teknik destek ile iletişime geçin",
         "usedFallbackGrease": "Piyasada bulunan gresler için ayrıntılı bir öneri sunamıyoruz. Hesaplamamızda Schaeffler Arcanol Portföyünden ürününüzle oldukça uyumlu bir Gres kullandık. Lütfen kullandığınız gresin özelliklerinin bununla benzer olduğunu kontrol edin"
+      },
+      "pdf": {
+        "title": "Rapor - Yağlayıcı Seçim Yardımcısı",
+        "selection": "Seçilen yağlayıcınız"
       }
     }
   },

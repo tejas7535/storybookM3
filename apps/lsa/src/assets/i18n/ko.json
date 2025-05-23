@@ -148,6 +148,10 @@
         "adjustedAutomatically": "OPTIME Ecosystem 내에서 적합한 솔루션을 찾을 수 없습니다. OPTIME 기능이 없는 다음과 같은 대안을 제공해 드릴 수 있습니다.",
         "noRecommendation": "귀하의 입력 매개 변수에 적합한 제품을 자동으로 추천해 드릴 수 없습니다. 구체적인 상담이 필요한 경우 Schaeffler 기술 지원팀에 연락하십시오.",
         "usedFallbackGrease": "시판 중인 그리스에 대해 상세하게 추천해 드릴 수 없습니다. Schaeffler Arcanol 포트폴리오에서 제공하는 널리 호환되는 그리스를 사용하여 산출했습니다. 사용 중인 그리스와 특성이 유사한지 확인하십시오."
+      },
+      "pdf": {
+        "title": "보고서 - 윤활제 선택 도우미",
+        "selection": "선택한 윤활제"
       }
     }
   },

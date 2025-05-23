@@ -245,19 +245,6 @@ describe('PDFGeneratorService', () => {
     expect(returnValue).toEqual('PDF_TITLE_-_1.1.1970.pdf');
   });
 
-  describe('stripUnsupportedChars', () => {
-    it('should deal with combined ≤ and ≥', () => {
-      expect(service['stripUnsupportedChars']('≤ and ≥')).toEqual('<= and >=');
-    });
-
-    it('should leave unaffected strings in tact', () => {
-      const inputstring = 'this string is unaffected < > and *';
-      expect(service['stripUnsupportedChars'](inputstring)).toEqual(
-        inputstring
-      );
-    });
-  });
-
   describe('extractDetailsTable', () => {
     it('should not append ml if the volume already has a unit', () => {
       expect(

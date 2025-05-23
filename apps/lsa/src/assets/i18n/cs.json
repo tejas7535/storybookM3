@@ -148,6 +148,10 @@
         "adjustedAutomatically": "V ekosystému OPTIME jsme nenašli vhodné řešení. Můžeme poskytnout následující alternativy bez funkce OPTIME.",
         "noRecommendation": "Pro vaše vstupní parametry jsme nemohli automaticky poskytnout vhodné doporučení. Kontaktujte prosím technickou podporu společnosti Schaeffler pro konzultaci.",
         "usedFallbackGrease": "Nemůžeme poskytnout podrobné doporučení pro maziva dostupná na trhu. Pro náš výpočet jsme použili široce kompatibilní mazivo z portfolia Schaeffler Arcanol. Ujistěte se, že používané mazivo má srovnatelné vlastnosti."
+      },
+      "pdf": {
+        "title": "Zpráva - Asistent výběru mazacího zařízení",
+        "selection": "Vámi vybrané mazací zařízení"
       }
     }
   },
