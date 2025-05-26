@@ -167,13 +167,13 @@
             <d360-yearly-forecast-chart
               [data]="chartData()"
               [toggledKpis]="toggledKpis()"
-              [includeSalesData]="includeSalesData()"
+              [includeSalesData]="getIncludeSalesDataWithPlanningView()"
             />
           } @else {
             <d360-monthly-forecast-chart
               [data]="chartData()"
               [toggledKpis]="toggledKpis()"
-              [includeSalesData]="includeSalesData()"
+              [includeSalesData]="getIncludeSalesDataWithPlanningView()"
             />
           }
 

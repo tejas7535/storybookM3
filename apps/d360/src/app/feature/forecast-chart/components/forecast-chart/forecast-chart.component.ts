@@ -124,7 +124,7 @@ export class ForecastChartComponent implements OnInit {
   protected get chartSeriesConfig(): ChartSeriesConfig {
     const config = { ...chartSeriesConfig };
 
-    if (!this.includeSalesData()) {
+    if (!this.getIncludeSalesDataWithPlanningView()) {
       delete config?.bwDelta;
     }
 
@@ -168,6 +168,13 @@ export class ForecastChartComponent implements OnInit {
   protected readonly openPanelContent = signal(true);
 
   private chartSettings: ChartSettings;
+
+  protected getIncludeSalesDataWithPlanningView(): boolean {
+    return (
+      this.chartSettings.planningView === PlanningView.CONFIRMED &&
+      this.includeSalesData()
+    );
+  }
 
   public dateForm = new FormGroup(
     {
@@ -278,7 +285,7 @@ export class ForecastChartComponent implements OnInit {
           endDate: formatISO(endDate, { representation: 'date' }),
           currency: this.currency(),
           isAssignedToMe,
-          includeSalesData: this.includeSalesData(),
+          includeSalesData: this.getIncludeSalesDataWithPlanningView(),
         })
         .pipe(
           tap((forecastChartData) => {
