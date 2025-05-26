@@ -102,20 +102,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.meta.addTags(this.metaTags);
 
-    this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationEnd),
-        take(1)
-      )
-      .subscribe(() => {
-        this.globalFacade.initGlobal(
-          this.standalone(),
-          this.bearing(),
-          this.separator(),
-          this.language()
-        );
-      });
-
     this.isInitialized$
       .pipe(
         filter((isInitialized) => isInitialized),
@@ -139,9 +125,33 @@ export class AppComponent implements OnInit, OnDestroy {
         this.footerLinks$.next(this.getFooterLinks(appDelivery));
       });
 
+    if (this.standalone()) {
+      this.router.events
+        .pipe(
+          filter((event) => event instanceof NavigationEnd),
+          take(1)
+        )
+        .subscribe(() => {
+          this.globalFacade.initGlobal(
+            this.standalone(),
+            this.bearing(),
+            this.separator(),
+            this.language()
+          );
+        });
+    } else {
+      this.globalFacade.initGlobal(
+        this.standalone(),
+        this.bearing(),
+        this.separator(),
+        this.language()
+      );
+    }
+
     if (
       !this.router.getCurrentNavigation() &&
-      !this.router.lastSuccessfulNavigation
+      !this.router.lastSuccessfulNavigation &&
+      this.standalone()
     ) {
       this.router.initialNavigation();
     }

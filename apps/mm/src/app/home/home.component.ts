@@ -52,6 +52,7 @@ import { ReportResultPageComponent } from './report-result-page/report-result-pa
     ReportResultPageComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'mm-home',
 })
 export class HomeComponent {
   private readonly selectionFacade = inject(CalculationSelectionFacade);

@@ -44,7 +44,11 @@
       <div
         class="flex-1 bg-surface-container-lowest container mx-auto max-w-screen-xl"
       >
-        <router-outlet></router-outlet>
+        @if (standalone()) {
+          <router-outlet></router-outlet>
+        } @else {
+          <mm-home></mm-home>
+        }
       </div>
       <div
         class="mx-auto w-full max-w-screen-md"

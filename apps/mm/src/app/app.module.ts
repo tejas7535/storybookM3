@@ -30,6 +30,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { SettingsComponent } from './core/components/settings/settings.component';
 import { CoreModule } from './core/core.module';
 import { StoreModule } from './core/store/store.module';
+import { HomeComponent } from './home/home.component';
 import { responsiblePerson } from './shared/constants/legal-constants';
 
 export function DynamicPurpose(translocoService: TranslocoService) {
@@ -61,6 +62,7 @@ export const APP_ROOT = 'mounting-manager';
     PushPipe,
     BannerModule,
     SettingsComponent,
+    HomeComponent,
   ],
   providers: [
     {

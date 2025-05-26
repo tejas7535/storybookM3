@@ -123,11 +123,20 @@ describe('AppComponent', () => {
       expect(meta.addTags).toHaveBeenCalledWith(component['metaTags']);
     });
 
-    it('should call init global on navigation end', () => {
+    it('should call init global on navigation end for standalone version', () => {
+      spectator.setInput('standalone', true);
       spectator.detectChanges();
       component.ngOnInit();
 
       routerEventsMock.next(new NavigationEnd(1, '', ''));
+
+      expect(globalFacade.initGlobal).toHaveBeenCalled();
+    });
+
+    it('should call init global immediately for non standalone version', () => {
+      spectator.setInput('standalone', false);
+      spectator.detectChanges();
+      component.ngOnInit();
 
       expect(globalFacade.initGlobal).toHaveBeenCalled();
     });
@@ -145,11 +154,20 @@ describe('AppComponent', () => {
       );
     });
 
-    it('should call initial navigation', () => {
+    it('should call initial navigation if standalone', () => {
+      spectator.setInput('standalone', true);
       spectator.detectChanges();
       component.ngOnInit();
 
       expect(router.initialNavigation).toHaveBeenCalled();
+    });
+
+    it('should not call initial navigation if not standalone', () => {
+      spectator.setInput('standalone', false);
+      spectator.detectChanges();
+      component.ngOnInit();
+
+      expect(router.initialNavigation).not.toHaveBeenCalled();
     });
   });
 
