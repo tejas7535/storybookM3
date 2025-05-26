@@ -72,10 +72,10 @@ describe('FontsLoaderService', () => {
 
   describe('when created', () => {
     it('should load inital fonts', () => {
-      const regularFontUrl = `${assetBasePath}/fonts/NotoSans-Regular.ttf`;
-      const boldFontUrl = `${assetBasePath}/fonts/NotoSans-Bold.ttf`;
-      const chineseRegularFontUrl = `${assetBasePath}/fonts/NotoSansSC-Regular.ttf`;
-      const chineseBoldFontUrl = `${assetBasePath}/fonts/NotoSansSC-Bold.ttf`;
+      const regularFontUrl = `${assetBasePath}/fonts/EASans-Regular.ttf`;
+      const boldFontUrl = `${assetBasePath}/fonts/EASans-Bold.ttf`;
+      const chineseRegularFontUrl = `${assetBasePath}/fonts/EASansSC-Regular.ttf`;
+      const chineseBoldFontUrl = `${assetBasePath}/fonts/EASansSC-Bold.ttf`;
 
       const regularFontRequest = httpMock.expectOne(regularFontUrl);
       expect(regularFontRequest.request.method).toBe('GET');
@@ -100,45 +100,45 @@ describe('FontsLoaderService', () => {
       service.loadFonts(jspdfReport);
 
       expect(jspdfReport.addFileToVFS).toHaveBeenCalledWith(
-        'NotoSans-Regular.ttf',
+        'EASans-Regular.ttf',
         undefined
       );
 
       expect(jspdfReport.addFileToVFS).toHaveBeenCalledWith(
-        'NotoSans-Bold.ttf',
+        'EASans-Bold.ttf',
         undefined
       );
 
       expect(jspdfReport.addFont).toHaveBeenCalledWith(
-        'NotoSans-Regular.ttf',
+        'EASans-Regular.ttf',
         DocumentFonts.family,
         DocumentFonts.style.normal
       );
 
       expect(jspdfReport.addFont).toHaveBeenCalledWith(
-        'NotoSans-Bold.ttf',
+        'EASans-Bold.ttf',
         DocumentFonts.family,
         DocumentFonts.style.bold
       );
 
       expect(jspdfReport.addFileToVFS).toHaveBeenCalledWith(
-        'NotoSansSC-Regular.ttf',
+        'EASansSC-Regular.ttf',
         undefined
       );
 
       expect(jspdfReport.addFileToVFS).toHaveBeenCalledWith(
-        'NotoSansSC-Bold.ttf',
+        'EASansSC-Bold.ttf',
         undefined
       );
 
       expect(jspdfReport.addFont).toHaveBeenCalledWith(
-        'NotoSansSC-Regular.ttf',
+        'EASansSC-Regular.ttf',
         DocumentFonts.family,
         DocumentFonts.style.normal
       );
 
       expect(jspdfReport.addFont).toHaveBeenCalledWith(
-        'NotoSansSC-Bold.ttf',
+        'EASansSC-Bold.ttf',
         DocumentFonts.family,
         DocumentFonts.style.bold
       );
@@ -151,8 +151,8 @@ describe('FontsLoaderService', () => {
     });
 
     it('should load additional font', waitForAsync(() => {
-      const regularFontUrl = `${assetBasePath}/fonts/NotoSansTC-Regular.ttf`;
-      const boldFontUrl = `${assetBasePath}/fonts/NotoSansTC-Bold.ttf`;
+      const regularFontUrl = `${assetBasePath}/fonts/EASansTC-Regular.ttf`;
+      const boldFontUrl = `${assetBasePath}/fonts/EASansTC-Bold.ttf`;
 
       const regularFontRequest = httpMock.expectOne(regularFontUrl);
       expect(regularFontRequest.request.method).toBe('GET');

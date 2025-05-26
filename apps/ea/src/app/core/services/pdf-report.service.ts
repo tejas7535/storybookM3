@@ -241,12 +241,10 @@ export class PDFReportService {
                 map((items) =>
                   items.map((item) => ({
                     ...item,
-                    value: item.value
-                      ? `${this.translocoService.translate('shortnames.approximate')} ${item.value}`
-                      : item.value,
+                    value: item.value ? `${item.value}` : item.value,
                     loadcaseValues: item.loadcaseValues.map((lc) => ({
                       ...lc,
-                      value: `${this.translocoService.translate('shortnames.approximate')} ${lc.value}`,
+                      value: `${lc.value}`,
                     })),
                   }))
                 )
@@ -301,7 +299,7 @@ export class PDFReportService {
                           {
                             title: totalTitle,
                             prefix: '≈',
-                            value: `${this.translocoService.translate('shortnames.approximate')} ${this.roundPipe.transform(emissions.co2_downstream.emission)}`,
+                            value: `≈ ${this.roundPipe.transform(emissions.co2_downstream.emission)}`,
                             unit: 'kg',
                             short: 'CO₂e',
                             titleTooltip: hasMultipleLoadcases

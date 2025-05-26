@@ -4,7 +4,12 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { getAssetsPath } from '@ea/core/services/assets-path-resolver/assets-path-resolver.helper';
-import { LANGUAGE_ZH, LANGUAGE_ZH_TW } from '@ea/shared/constants/language';
+import {
+  LANGUAGE_JA,
+  LANGUAGE_KO,
+  LANGUAGE_ZH,
+  LANGUAGE_ZH_TW,
+} from '@ea/shared/constants/language';
 import { TranslocoService } from '@jsverse/transloco';
 import jsPDF from 'jspdf';
 
@@ -23,22 +28,36 @@ export class FontsLoaderService implements OnDestroy {
     [
       'defaultFont',
       {
-        regularFontName: 'NotoSans-Regular.ttf',
-        boldFontName: 'NotoSans-Bold.ttf',
+        regularFontName: 'EASans-Regular.ttf',
+        boldFontName: 'EASans-Bold.ttf',
       },
     ],
     [
       LANGUAGE_ZH.id,
       {
-        regularFontName: 'NotoSansSC-Regular.ttf',
-        boldFontName: 'NotoSansSC-Bold.ttf',
+        regularFontName: 'EASansSC-Regular.ttf',
+        boldFontName: 'EASansSC-Bold.ttf',
       },
     ],
     [
       LANGUAGE_ZH_TW.id,
       {
-        regularFontName: 'NotoSansTC-Regular.ttf',
-        boldFontName: 'NotoSansTC-Bold.ttf',
+        regularFontName: 'EASansTC-Regular.ttf',
+        boldFontName: 'EASansTC-Bold.ttf',
+      },
+    ],
+    [
+      LANGUAGE_JA.id,
+      {
+        regularFontName: 'EASansJP-Regular.ttf',
+        boldFontName: 'EASansJP-Bold.ttf',
+      },
+    ],
+    [
+      LANGUAGE_KO.id,
+      {
+        regularFontName: 'EASansKR-Regular.ttf',
+        boldFontName: 'EASansKR-Bold.ttf',
       },
     ],
   ]);
