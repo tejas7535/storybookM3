@@ -1,4 +1,17 @@
 # Release Notes of Cost Database Analytics
+## [5.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v5.4.0...cdba-v5.5.0) (2025-05-26)
+
+
+### Features
+
+*  update shared components styles  (UFATBI- 8345) ([#7125](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7125)) ([271c78a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/271c78a6a21135ade7b576afb51ea0255bc5981c))
+* **cdba:** grid column navigation ([#7254](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7254)) ([2aa9a19](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2aa9a1964e1841a686d9eb104f352c53ed6202ad))
+
+
+### Bug Fixes
+
+* **cdba:** workspace config ([#7120](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7120)) ([dd68b48](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/dd68b48b7ffda6c5a3ea24bfe57528b3de6f441e))
+
 ## [5.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v5.3.0...cdba-v5.4.0) (2025-02-18)
 
 
