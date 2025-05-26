@@ -260,12 +260,13 @@ export class CustomerMaterialPortfolioTableComponent
         }),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe((criteriaData) => this.criteriaData.set(criteriaData));
+      .subscribe();
   }
 
   /** @inheritdoc */
   protected setColumnDefinitions(): void {
     const mapColumnData = (def: any) => ({
+      colId: def.colId,
       field: def.colId,
       lockVisible: def.alwaysVisible,
       hide: !def.visible,

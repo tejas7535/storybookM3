@@ -1111,17 +1111,17 @@ describe('TableService', () => {
       service['_columnDefinitions'] = mockColumnDefinitions;
     });
 
-    it('should return all default IDs when settings are null', () => {
+    it('should return all layout IDs when settings is null', () => {
       const result = service['getMissingDefaults'](null);
       expect(result).toEqual([1, 2, 3]);
     });
 
-    it('should return all default IDs when settings are empty array', () => {
+    it('should return all layout IDs when settings is an empty array', () => {
       const result = service['getMissingDefaults']([]);
       expect(result).toEqual([1, 2, 3]);
     });
 
-    it('should return all default IDs when no settings have defaultSetting=true', () => {
+    it('should return all layout IDs when no settings have defaultSetting=true', () => {
       const settings: TableSetting<string>[] = [
         { id: 101, layoutId: 1, defaultSetting: false, columns: [] },
         { id: 102, layoutId: 2, defaultSetting: false, columns: [] },
@@ -1146,6 +1146,7 @@ describe('TableService', () => {
         { id: 101, layoutId: 1, defaultSetting: true, columns: [] },
         { id: 102, layoutId: 2, defaultSetting: true, columns: [] },
         { id: 103, layoutId: 3, defaultSetting: true, columns: [] },
+        // Extra non-default setting shouldn't affect result
         { id: 104, layoutId: 4, defaultSetting: false, columns: [] },
       ] as any;
 
@@ -1153,7 +1154,7 @@ describe('TableService', () => {
       expect(result).toEqual([]);
     });
 
-    it('should handle case when settings have layoutIds not in column definitions', () => {
+    it('should handle settings with layouts not in column definitions', () => {
       const settings: TableSetting<string>[] = [
         { id: 101, layoutId: 1, defaultSetting: true, columns: [] },
         { id: 102, layoutId: 5, defaultSetting: true, columns: [] }, // Not in column definitions
@@ -1163,7 +1164,7 @@ describe('TableService', () => {
       expect(result).toEqual([2, 3]);
     });
 
-    it('should treat settings with undefined layoutId correctly', () => {
+    it('should handle settings with undefined layoutId correctly', () => {
       const settings: TableSetting<string>[] = [
         { id: 101, layoutId: 1, defaultSetting: true, columns: [] },
         { id: 102, defaultSetting: true, columns: [] }, // Undefined layoutId
@@ -1171,6 +1172,38 @@ describe('TableService', () => {
 
       const result = service['getMissingDefaults'](settings);
       expect(result).toEqual([2, 3]);
+    });
+
+    it('should handle settings with null layoutId correctly', () => {
+      const settings: TableSetting<string>[] = [
+        { id: 101, layoutId: 1, defaultSetting: true, columns: [] },
+        { id: 102, layoutId: null as any, defaultSetting: true, columns: [] }, // Null layoutId
+      ] as any;
+
+      const result = service['getMissingDefaults'](settings);
+      expect(result).toEqual([2, 3]);
+    });
+
+    it('should handle mixed defaultSetting values correctly', () => {
+      const settings: TableSetting<string>[] = [
+        { id: 101, layoutId: 1, defaultSetting: true, columns: [] },
+        { id: 102, layoutId: 2, defaultSetting: false, columns: [] }, // Not a default setting
+        { id: 103, layoutId: 3, defaultSetting: true, columns: [] },
+      ] as any;
+
+      const result = service['getMissingDefaults'](settings);
+      expect(result).toEqual([2]);
+    });
+
+    it('should handle settings with same layoutId but different defaultSetting values', () => {
+      const settings: TableSetting<string>[] = [
+        { id: 101, layoutId: 1, defaultSetting: true, columns: [] },
+        { id: 102, layoutId: 1, defaultSetting: false, columns: [] }, // Duplicate layoutId but not default
+        { id: 103, layoutId: 2, defaultSetting: true, columns: [] },
+      ] as any;
+
+      const result = service['getMissingDefaults'](settings);
+      expect(result).toEqual([3]);
     });
   });
 
@@ -1427,6 +1460,102 @@ describe('TableService', () => {
 
       // Should return empty array when no column definitions exist
       expect(result).toEqual([]);
+    });
+
+    it('should handle column definitions with special characters in colId', () => {
+      const columnDefinitions = [
+        { colId: 'col-1', headerName: 'Column 1' },
+        { colId: 'col.2', headerName: 'Column 2' },
+        { colId: 'col_3[0]', headerName: 'Column 3' },
+      ];
+
+      const columnSettings = [
+        { colId: 'col-1', visible: true },
+        { colId: 'col.2', visible: false },
+        { colId: 'col_3[0]', visible: true },
+      ];
+
+      const result = service['applyColumnSettings'](
+        columnDefinitions as any,
+        columnSettings as any
+      );
+
+      expect(result.length).toBe(3);
+      expect(result[0].colId).toBe('col-1');
+      expect(result[0].visible).toBe(true);
+      expect(result[1].colId).toBe('col.2');
+      expect(result[1].visible).toBe(false);
+      expect(result[2].colId).toBe('col_3[0]');
+      expect(result[2].visible).toBe(true);
+    });
+
+    it('should handle column settings with extra properties', () => {
+      const columnDefinitions = [{ colId: 'col1', headerName: 'Column 1' }];
+
+      const columnSettings = [
+        {
+          colId: 'col1',
+          visible: true,
+          extraProp1: 'extra1',
+          extraProp2: 42,
+          nestedProp: { key: 'value' },
+        },
+      ];
+
+      const result = service['applyColumnSettings'](
+        columnDefinitions as any,
+        columnSettings as any
+      );
+
+      // Should not copy extra properties that aren't defined in the method
+      expect(result[0].colId).toBe('col1');
+      expect(result[0].visible).toBe(true);
+      expect(result[0].headerName).toBe('Column 1');
+      expect((result[0] as any).extraProp1).toBeUndefined();
+      expect((result[0] as any).extraProp2).toBeUndefined();
+      expect((result[0] as any).nestedProp).toBeUndefined();
+    });
+
+    it('should preserve (pseudo) numerical colIds', () => {
+      const columnDefinitions = [
+        { colId: '1', headerName: 'Column 1' },
+        { colId: '2', headerName: 'Column 2' },
+      ];
+
+      const columnSettings = [
+        { colId: '2', visible: true },
+        { colId: '1', visible: false },
+      ];
+
+      const result = service['applyColumnSettings'](
+        columnDefinitions as any,
+        columnSettings as any
+      );
+
+      expect(result[0].colId).toBe('2');
+      expect(result[1].colId).toBe('1');
+    });
+
+    it('should handle mixed case sensitivity in colIds', () => {
+      const columnDefinitions = [
+        { colId: 'COL1', headerName: 'Column 1' },
+        { colId: 'col2', headerName: 'Column 2' },
+      ];
+
+      const columnSettings = [
+        { colId: 'COL1', visible: true }, // Same case
+        { colId: 'col2', visible: false }, // Same case
+      ];
+
+      const result = service['applyColumnSettings'](
+        columnDefinitions as any,
+        columnSettings as any
+      );
+
+      expect(result[0].colId).toBe('COL1');
+      expect(result[0].visible).toBe(true);
+      expect(result[1].colId).toBe('col2');
+      expect(result[1].visible).toBe(false);
     });
   });
 });

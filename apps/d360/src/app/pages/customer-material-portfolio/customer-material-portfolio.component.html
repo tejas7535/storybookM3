@@ -79,7 +79,7 @@
       globalSelectionStatus() === GlobalSelectionStatus.DATA_LOADING ||
       loading()
     ) {
-      @if ((selectableOptionsService.loading$ | async) === false) {
+      @if ((selectableOptionsService.loading$ | ngrxPush) === false) {
         <schaeffler-loading-spinner [useBearingLoadingSpinner]="true" />
       }
     }

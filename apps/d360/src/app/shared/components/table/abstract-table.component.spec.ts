@@ -784,6 +784,227 @@ describe('AbstractTableComponent', () => {
       });
     });
 
+    it('should configure toolPanels for default tab when sideBar is undefined', () => {
+      // Mock getSideBar to return toolPanels
+      jest.spyOn(component as any, 'getSideBar').mockReturnValue({
+        toolPanels: [
+          { id: 'columns', labelDefault: 'Columns' },
+          { id: 'filters', labelDefault: 'Filters' },
+        ],
+      });
+
+      // Configure component.config to return undefined sideBar
+      Stub.setInput('config', {
+        table: {
+          sideBar: undefined,
+        },
+      });
+
+      Stub.detectChanges();
+
+      const setGridOptionSpy = jest.spyOn(
+        component['gridApi'],
+        'setGridOption'
+      );
+
+      // Call the method with isDefaultTab = true
+      (component as any).applyGridOptions(true);
+
+      // Verify toolPanels were configured correctly
+      expect(setGridOptionSpy).toHaveBeenCalledWith('sideBar', {
+        toolPanels: [
+          {
+            id: 'filters',
+            labelDefault: 'Filters',
+            labelKey: 'filters',
+            iconKey: 'filter',
+            toolPanel: 'agFiltersToolPanel',
+          },
+        ],
+      });
+    });
+
+    it('should configure toolPanels for custom tab when sideBar is undefined', () => {
+      // Mock getSideBar to return toolPanels
+      jest.spyOn(component as any, 'getSideBar').mockReturnValue({
+        toolPanels: [
+          { id: 'columns', labelDefault: 'Columns' },
+          { id: 'filters', labelDefault: 'Filters' },
+        ],
+      });
+
+      // Configure component.config to return undefined sideBar
+      Stub.setInput('config', {
+        table: {
+          sideBar: undefined,
+        },
+      });
+
+      Stub.detectChanges();
+
+      const setGridOptionSpy = jest.spyOn(
+        component['gridApi'],
+        'setGridOption'
+      );
+
+      // Call the method with isDefaultTab = false
+      (component as any).applyGridOptions(false);
+
+      // Verify toolPanels were configured correctly
+      expect(setGridOptionSpy).toHaveBeenCalledWith('sideBar', {
+        toolPanels: [
+          {
+            id: 'columns',
+            labelKey: 'columns',
+            labelDefault: 'Columns',
+            iconKey: 'columns',
+            toolPanel: 'agColumnsToolPanel',
+            toolPanelParams: {
+              suppressPivotMode: true,
+              suppressRowGroups: true,
+              suppressValues: true,
+            },
+          },
+          {
+            id: 'filters',
+            labelDefault: 'Filters',
+            labelKey: 'filters',
+            iconKey: 'filter',
+            toolPanel: 'agFiltersToolPanel',
+          },
+        ],
+      });
+    });
+
+    it('should remove column panel for default tab when custom sideBar is provided', () => {
+      // Mock getSideBar to return custom toolPanels
+      const customSideBar = {
+        toolPanels: [
+          { id: 'columns', labelDefault: 'Custom Columns' },
+          { id: 'filters', labelDefault: 'Custom Filters' },
+          { id: 'custom', labelDefault: 'Custom Panel' },
+        ],
+      };
+
+      jest.spyOn(component as any, 'getSideBar').mockReturnValue(customSideBar);
+
+      // Configure component.config to return custom sideBar
+      Stub.setInput('config', {
+        table: {
+          sideBar: customSideBar,
+        },
+      });
+
+      Stub.detectChanges();
+
+      const setGridOptionSpy = jest.spyOn(
+        component['gridApi'],
+        'setGridOption'
+      );
+
+      // Call the method with isDefaultTab = true
+      (component as any).applyGridOptions(true);
+
+      // Verify column panel was removed
+      const expectedToolPanels = [...customSideBar.toolPanels];
+      expectedToolPanels.splice(0, 1); // Remove columns panel
+
+      expect(setGridOptionSpy).toHaveBeenCalledWith('sideBar', {
+        toolPanels: expectedToolPanels,
+      });
+    });
+
+    it('should set suppressMovable and mainMenuItems for columns in default tab', () => {
+      // Mock getColumnDefs to return some columns
+      const mockColumns = [
+        { colId: 'col1', field: 'col1' },
+        { colId: 'col2', field: 'col2' },
+      ];
+
+      jest
+        .spyOn(component['gridApi'], 'getColumnDefs')
+        .mockReturnValue(mockColumns);
+
+      // Mock hasFilters to return true
+      jest.spyOn(component as any, 'hasFilters').mockReturnValue(true);
+
+      const setGridOptionSpy = jest.spyOn(
+        component['gridApi'],
+        'setGridOption'
+      );
+
+      // Call the method with isDefaultTab = true
+      (component as any).applyGridOptions(true);
+
+      // Verify columnDefs were configured correctly
+      expect(setGridOptionSpy).toHaveBeenCalledWith('columnDefs', [
+        {
+          colId: 'col1',
+          field: 'col1',
+          suppressMovable: true,
+          mainMenuItems: [
+            'sortAscending',
+            'sortDescending',
+            'separator',
+            'columnFilter',
+            'separator',
+            'autoSizeThis',
+            'autoSizeAll',
+          ],
+        },
+        {
+          colId: 'col2',
+          field: 'col2',
+          suppressMovable: true,
+          mainMenuItems: [
+            'sortAscending',
+            'sortDescending',
+            'separator',
+            'columnFilter',
+            'separator',
+            'autoSizeThis',
+            'autoSizeAll',
+          ],
+        },
+      ]);
+    });
+
+    it('should set suppressMovable to false and mainMenuItems to null for non-default tab', () => {
+      // Mock getColumnDefs to return some columns
+      const mockColumns = [
+        { colId: 'col1', field: 'col1' },
+        { colId: 'col2', field: 'col2' },
+      ];
+
+      jest
+        .spyOn(component['gridApi'], 'getColumnDefs')
+        .mockReturnValue(mockColumns);
+
+      const setGridOptionSpy = jest.spyOn(
+        component['gridApi'],
+        'setGridOption'
+      );
+
+      // Call the method with isDefaultTab = false
+      (component as any).applyGridOptions(false);
+
+      // Verify columnDefs were configured correctly
+      expect(setGridOptionSpy).toHaveBeenCalledWith('columnDefs', [
+        {
+          colId: 'col1',
+          field: 'col1',
+          suppressMovable: false,
+          mainMenuItems: null,
+        },
+        {
+          colId: 'col2',
+          mainMenuItems: null,
+          suppressMovable: false,
+          field: 'col2',
+        },
+      ]);
+    });
+
     describe('toolPanels configuration', () => {
       it('should clear toolPanels and add filter panel when sideBar is undefined and isDefaultTab is true', () => {
         const setGridOptionSpy = jest.spyOn(

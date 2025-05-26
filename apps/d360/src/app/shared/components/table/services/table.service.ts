@@ -475,43 +475,25 @@ export class TableService<COLUMN_KEYS extends string> {
     columnDefinitions: (ColumnSetting<COLUMN_KEYS> & ColDef)[],
     columnSettings: ColumnSetting<COLUMN_KEYS>[]
   ): (ColumnSetting<COLUMN_KEYS> & ColDef)[] {
-    // Initialize column map with base definitions
-    // eslint-disable-next-line unicorn/no-array-reduce
-    const columnMap = columnDefinitions.reduce<
-      Record<
-        string,
-        ColumnSetting<COLUMN_KEYS> &
-          ColDef & {
-            order: number;
-          }
-      >
-    >((acc, column, index) => {
-      const colId = column.colId as string;
-      acc[colId] = {
-        ...column,
-        order: (columnSettings?.length ?? 0) + index, // Position after user settings
-      };
+    const sortMap = Object.fromEntries(
+      columnDefinitions.map((column, index) => [
+        column.colId,
+        { ...column, order: index + (columnSettings?.length ?? 0) },
+      ])
+    );
 
-      return acc;
-    }, {});
+    columnSettings
+      ?.filter((column) => sortMap[column.colId])
+      ?.forEach((column, i) => {
+        const colId: string = column.colId as string;
+        sortMap[colId].order = i;
+        sortMap[colId].visible = sortMap[colId].alwaysVisible || column.visible;
+        sortMap[colId].sort = column.sort;
+        sortMap[colId].filterModel = column.filter;
+      });
 
-    // Apply settings from user configuration
-    columnSettings?.forEach((setting, index) => {
-      const colId = setting.colId as string;
-      if (columnMap[colId]) {
-        columnMap[colId] = {
-          ...columnMap[colId],
-          order: index, // Preserve user's column ordering
-          visible: columnMap[colId].alwaysVisible || setting.visible,
-          sort: setting.sort,
-          filterModel: setting.filter,
-        };
-      }
-    });
-
-    // Sort by order and remove the temporary ordering property
     return (
-      Object.values(columnMap)
+      Object.values(sortMap)
         .sort((a, b) => a.order - b.order)
         // eslint-disable-next-line unused-imports/no-unused-vars
         .map(({ order, ...columnProps }) => columnProps)

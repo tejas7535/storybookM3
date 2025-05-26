@@ -5,10 +5,10 @@
     class="!rounded-b-none"
     [hideSingleSelectionIndicator]="true"
     [ngClass]="{
-      '!border-b-0': !displayBorderBottom
+      '!border-b-0': !displayBorderBottom,
     }"
   >
-    @for (item of items; track item; let i = $index) {
+    @for (item of items; track item.id; let i = $index) {
       <mat-button-toggle
         class="h-8 !bg-[#fafafa] px-1 !leading-8 !text-medium-emphasis [&>button>span]:!text-caption [&>.mat-button-toggle-focus-overlay]:!hidden"
         [value]="item"
@@ -16,7 +16,7 @@
           '!bg-secondary-legacy !font-medium !text-high-emphasis':
             item.id === active.id,
           'hover:!font-medium hover:!text-high-emphasis ': !item.disabled,
-          '!text-low-emphasis': item.disabled
+          '!text-low-emphasis': item.disabled,
         }"
         [disabled]="item.disabled"
         [attr.cy-view-toggle-id]="item.id"
@@ -36,7 +36,7 @@
           @if (item.title) {
             <span
               [ngClass]="{
-                '!cursor-not-allowed ': item.disabled
+                '!cursor-not-allowed ': item.disabled,
               }"
             >
               {{ item.title }}
@@ -44,14 +44,14 @@
           }
           @if (item.icons && item.icons.length > 0) {
             <div class="flex" [ngClass]="{ 'ml-1': item.title }">
-              @for (icon of item.icons; track icon) {
+              @for (icon of item.icons; track icon.name) {
                 <button
                   mat-icon-button
                   class="flex"
                   [ngClass]="{
                     ' !text-high-emphasis': item.id === active.id,
                     ' !text-medium-emphasis': item.id !== active.id,
-                    '!text-low-emphasis': icon.disabled
+                    '!text-low-emphasis': icon.disabled,
                   }"
                   (click)="onIconClicked($event, item.id, icon.name)"
                   [disabled]="icon.disabled"

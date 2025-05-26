@@ -19,6 +19,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { catchError, EMPTY, take, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
+import { PushPipe } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { parseISO } from 'date-fns';
 
@@ -94,6 +95,7 @@ import {
     MatButtonModule,
     MatIcon,
     ProjectedContendDirective,
+    PushPipe,
   ],
   templateUrl: './customer-material-portfolio.component.html',
   styleUrl: './customer-material-portfolio.component.scss',

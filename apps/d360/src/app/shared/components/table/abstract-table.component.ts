@@ -608,7 +608,7 @@ export abstract class AbstractTableComponent implements OnInit {
     id: number
   ): TableSetting<string>[] {
     const returnTabs = tabs.map((tab) => {
-      tab.active = tab.id === id ? true : false;
+      tab.active = tab.id === id;
 
       if (tab.active) {
         this.activeTab.set(tab.id);
@@ -711,23 +711,18 @@ export abstract class AbstractTableComponent implements OnInit {
       this.gridApi?.getColumnDefs().map((col) => ({
         ...col,
         suppressMovable: isDefaultTab,
-      }))
-    );
-
-    this.gridApi?.setGridOption('defaultColDef', {
-      ...this.config()?.table?.defaultColDef,
-      ...(isDefaultTab
-        ? {
-            mainMenuItems: [
+        mainMenuItems: isDefaultTab
+          ? [
               'sortAscending',
               'sortDescending',
+              ...(this.hasFilters ? ['separator', 'columnFilter'] : []),
               'separator',
               'autoSizeThis',
               'autoSizeAll',
-            ],
-          }
-        : {}),
-    });
+            ]
+          : null,
+      }))
+    );
   }
 
   /**
@@ -775,23 +770,26 @@ export abstract class AbstractTableComponent implements OnInit {
             this.config()?.table?.initialColumnDefs?.find(
               (colDef) => colDef.layoutId === layoutId
             )?.columnDefs ?? []
-          ).map(
-            (
-              colDef: ColDef & {
-                visible?: boolean;
-                alwaysVisible?: boolean;
-                order?: number;
-                filterModel?: any;
-              }
-            ) => ({
-              colId: colDef.colId,
-              visible: colDef.visible,
-              sort: colDef.sort || null,
-              filterModel: colDef.filterModel || undefined,
-              filter: colDef.filter || undefined,
-              alwaysVisible: colDef.alwaysVisible || undefined,
-            })
           )
+            // copy the column definitions to avoid mutating the original array
+            .map((columnDef) => ({ ...columnDef }))
+            .map(
+              (
+                colDef: ColDef & {
+                  visible?: boolean;
+                  alwaysVisible?: boolean;
+                  order?: number;
+                  filterModel?: any;
+                }
+              ) => ({
+                colId: colDef.colId,
+                visible: colDef.visible,
+                sort: colDef.sort || null,
+                filterModel: colDef.filterModel || undefined,
+                filter: colDef.filter || undefined,
+                alwaysVisible: colDef.alwaysVisible || undefined,
+              })
+            )
     );
   }
 
