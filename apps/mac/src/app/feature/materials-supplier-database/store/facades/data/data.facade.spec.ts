@@ -356,6 +356,7 @@ describe('DataFacade', () => {
             materialClass: MaterialClass.STEEL,
             navigationLevel: NavigationLevel.MATERIAL,
             agGridFilter: '{}',
+            src: 'msd',
           },
         });
 
@@ -510,6 +511,23 @@ describe('DataFacade', () => {
       const filterModel = {};
       const action = DataActions.setAgGridFilter({ filterModel });
       facade.setAgGridFilter(filterModel);
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('setAgGridFilterForNavigation', () => {
+    it('should dispatch setAgGridFilterForNavigation action', () => {
+      const params = {
+        filterModel: {},
+        materialClass: MaterialClass.STEEL,
+        navigationLevel: NavigationLevel.MATERIAL,
+      };
+      const action = DataActions.setAgGridFilterForNavigation(params);
+      facade.setAgGridFilterForNavigation(
+        params.filterModel,
+        params.materialClass,
+        params.navigationLevel
+      );
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
   });

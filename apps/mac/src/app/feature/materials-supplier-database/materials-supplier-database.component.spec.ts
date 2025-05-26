@@ -89,6 +89,7 @@ describe('MaterialsSupplierDatabaseComponent', () => {
         materialClass: MaterialClass.STEEL,
         navigationLevel: NavigationLevel.MATERIAL,
         agGridFilter: 'some ag grid filter',
+        src: 'msd',
       };
       component['dataFacade'].shareQueryParams$ = of(mockParams);
 
@@ -123,6 +124,7 @@ describe('MaterialsSupplierDatabaseComponent', () => {
         materialClass: MaterialClass.STEEL,
         navigationLevel: NavigationLevel.MATERIAL,
         agGridFilter: 'some ag grid filter',
+        src: 'msd',
       };
       component['dataFacade'].shareQueryParams$ = of(mockParams);
 

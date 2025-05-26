@@ -90,6 +90,20 @@ export class DataFacade {
     this.store.dispatch(DataActions.setAgGridFilter({ filterModel }));
   }
 
+  setAgGridFilterForNavigation(
+    filterModel: { [key: string]: any },
+    materialClass: MaterialClass,
+    navigationLevel: NavigationLevel
+  ) {
+    this.store.dispatch(
+      DataActions.setAgGridFilterForNavigation({
+        filterModel,
+        materialClass,
+        navigationLevel,
+      })
+    );
+  }
+
   setAgGridColumns(agGridColumns: string) {
     this.store.dispatch(DataActions.setAgGridColumns({ agGridColumns }));
   }

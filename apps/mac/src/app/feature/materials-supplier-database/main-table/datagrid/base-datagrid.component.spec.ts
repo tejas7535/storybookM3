@@ -118,30 +118,6 @@ describe('MockMaterialDatagridComponent', () => {
   describe('ngOnInit', () => {
     const colState = (str?: string) =>
       ({ colId: str }) as unknown as ColumnState;
-    it('should set filter model for non-empty values', () => {
-      component['agGridApi'] = {
-        setFilterModel: jest.fn(),
-      } as unknown as GridApi;
-
-      const data = { 'some filter': 'some value' };
-      (component['dataFacade'].agGridFilter$ as Subject<any>).next({
-        filterModel: data,
-      });
-
-      expect(component['agGridApi'].setFilterModel).toHaveBeenCalledWith({
-        filterModel: data,
-      });
-    });
-
-    it('should ignore filter model for empty values', () => {
-      component['agGridApi'] = {
-        setFilterModel: jest.fn(),
-      } as unknown as GridApi;
-      const x: any = undefined;
-      (component['dataFacade'].agGridFilter$ as Subject<any>).next(x);
-
-      expect(component['agGridApi'].setFilterModel).not.toHaveBeenCalled();
-    });
 
     it('should subscribe to the columnDefinitions', () => {
       component['getColumnDefs'] = jest.fn();
@@ -185,10 +161,12 @@ describe('MockMaterialDatagridComponent', () => {
   describe('onGridReady', () => {
     const mockApi = {
       applyColumnState: jest.fn(),
+      setFilterModel: jest.fn(),
     } as unknown as GridApi;
     beforeEach(() => {
       component['agGridApi'] = undefined;
       component['agGridReadyService'].agGridApiready = jest.fn();
+      mockApi.setFilterModel = jest.fn();
     });
     it('should dispatch agGridReadyEvent', () => {
       component['restoredColumnState'] = undefined;
@@ -213,6 +191,38 @@ describe('MockMaterialDatagridComponent', () => {
         component['agGridReadyService'].agGridApiready
       ).toHaveBeenCalledWith(mockApi);
       expect(mockApi.applyColumnState).toHaveBeenCalled();
+    });
+
+    it('should set filter model for non-empty values', (done) => {
+      component.onGridReady({
+        api: mockApi,
+      });
+
+      const data = { 'some filter': 'some value' };
+      (component['dataFacade'].agGridFilter$ as Subject<any>).next({
+        filterModel: data,
+      });
+      // set timeout to mock delay
+      setTimeout(() => {
+        expect(component['agGridApi'].setFilterModel).toHaveBeenCalledWith({
+          filterModel: data,
+        });
+        done();
+      }, 1000);
+    });
+
+    it('should ignore filter model for empty values', (done) => {
+      component.onGridReady({
+        api: mockApi,
+      });
+      const x: any = undefined;
+      (component['dataFacade'].agGridFilter$ as Subject<any>).next(x);
+
+      // set timeout to mock delay
+      setTimeout(() => {
+        expect(component['agGridApi'].setFilterModel).not.toHaveBeenCalled();
+        done();
+      }, 1000);
     });
   });
 

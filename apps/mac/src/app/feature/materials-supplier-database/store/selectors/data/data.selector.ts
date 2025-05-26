@@ -44,6 +44,7 @@ export const getShareQueryParams = createSelector(
   getNavigation,
   getFilter,
   ({ materialClass, navigationLevel }, { agGridFilter }) => ({
+    src: 'msd',
     materialClass,
     navigationLevel,
     agGridFilter: agGridFilter[materialClass][navigationLevel],

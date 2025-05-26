@@ -16,6 +16,7 @@ import { Subject } from 'rxjs';
 
 import { LetDirective, PushPipe } from '@ngrx/component';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
@@ -80,7 +81,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly quickFilterFacade: QuickFilterFacade,
     private readonly dialogService: MsdDialogService,
-    private readonly stateService: MsdAgGridStateService
+    private readonly stateService: MsdAgGridStateService,
+    private readonly insightsService: ApplicationInsightsService
   ) {}
 
   public ngOnInit(): void {
@@ -101,15 +103,16 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private parseQueryParams(): void {
-    const materialClass: MaterialClass = this.route.snapshot.queryParamMap.get(
+    const queryParams = this.route.snapshot.queryParamMap;
+
+    const materialClass: MaterialClass = queryParams.get(
       'materialClass'
     ) as MaterialClass;
-    const navigationLevel: NavigationLevel =
-      this.route.snapshot.queryParamMap.get(
-        'navigationLevel'
-      ) as NavigationLevel;
-    const agGridFilterString =
-      this.route.snapshot.queryParamMap.get('agGridFilter');
+    const navigationLevel: NavigationLevel = queryParams.get(
+      'navigationLevel'
+    ) as NavigationLevel;
+    const linkSrc = queryParams.get('src') || 'msd';
+    const agGridFilterString = queryParams.get('agGridFilter');
 
     if (materialClass && navigationLevel) {
       this.activeNavigationLevel = {
@@ -118,7 +121,12 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       };
     }
     if (agGridFilterString) {
-      this.setParamAgGridFilter(agGridFilterString);
+      this.insightsService.logEvent('shareFilterUsed', { src: linkSrc });
+      this.setParamAgGridFilter(
+        agGridFilterString,
+        materialClass,
+        navigationLevel
+      );
     }
 
     this.router.navigate([], { relativeTo: this.route, queryParams: {} });
@@ -126,11 +134,18 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  private setParamAgGridFilter(filterModelString: string): void {
+  private setParamAgGridFilter(
+    filterModelString: string,
+    materialClass = MaterialClass.STEEL,
+    navigationLevel = NavigationLevel.MATERIAL
+  ): void {
     const filterModel = JSON.parse(filterModelString);
-    if (!filterModel) {
-      return;
+    if (filterModel) {
+      this.dataFacade.setAgGridFilterForNavigation(
+        filterModel,
+        materialClass,
+        navigationLevel
+      );
     }
-    this.dataFacade.setAgGridFilter(filterModel);
   }
 }

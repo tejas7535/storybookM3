@@ -207,6 +207,7 @@ describe('DataSelectors', () => {
     const materialClass = MaterialClass.STEEL;
     const navigationLevel = NavigationLevel.MATERIAL;
     const agGridFilter = 'some filter';
+    const src = 'msd';
 
     expect(
       DataSelectors.getShareQueryParams.projector(
@@ -229,6 +230,7 @@ describe('DataSelectors', () => {
       materialClass,
       navigationLevel,
       agGridFilter,
+      src,
     });
   });
 

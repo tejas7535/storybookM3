@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { delay, filter, take, takeUntil } from 'rxjs/operators';
 
 import { translate } from '@jsverse/transloco';
 import {
@@ -71,14 +71,6 @@ export abstract class BaseDatagridComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.dataFacade.agGridFilter$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((filterModel: { [key: string]: any }) => {
-        if (this.agGridApi && filterModel) {
-          this.agGridApi.setFilterModel(filterModel);
-        }
-      });
-
     this.agGridConfigService.columnDefinitions$
       .pipe(takeUntil(this.destroy$))
       .subscribe(({ defaultColumnDefinitions, savedColumnState }) => {
@@ -95,6 +87,7 @@ export abstract class BaseDatagridComponent implements OnInit, OnDestroy {
 
         this.defaultColumnDefs = defaultColumnDefinitions;
         this.columnDefs = this.getColumnDefs();
+        // restore grid columns after switching grids
         if (this.agGridApi) {
           setTimeout(() =>
             this.agGridApi.applyColumnState({
@@ -114,15 +107,22 @@ export abstract class BaseDatagridComponent implements OnInit, OnDestroy {
   // AgGrid Events
   public onGridReady({ api }: { api: GridApi }): void {
     this.agGridApi = api;
-
     this.agGridReadyService.agGridApiready(this.agGridApi);
 
+    // restore columns on initial grid ready state
     if (this.restoredColumnState) {
       api.applyColumnState({
         state: this.restoredColumnState,
         applyOrder: true,
       });
     }
+
+    // restore filter model from share query params (only required once)
+    this.dataFacade.agGridFilter$
+      .pipe(take(1), filter(Boolean), delay(500))
+      .subscribe((filterModel: { [key: string]: any }) => {
+        this.agGridApi.setFilterModel(filterModel);
+      });
   }
 
   public onColumnChange(): void {

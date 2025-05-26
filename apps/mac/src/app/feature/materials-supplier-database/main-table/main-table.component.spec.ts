@@ -58,6 +58,7 @@ jest.mock(
 class MockDataFacade extends DataFacade {
   fetchClassOptions = jest.fn();
   setAgGridFilter = jest.fn();
+  setAgGridFilterForNavigation = jest.fn();
 }
 
 describe('MainTableComponent', () => {
@@ -259,7 +260,9 @@ describe('MainTableComponent', () => {
         'agGridFilter'
       );
       expect(component['setParamAgGridFilter']).toHaveBeenCalledWith(
-        'some params'
+        'some params',
+        'st',
+        'materials'
       );
 
       expect(component.activeNavigationLevel).toEqual({
@@ -285,7 +288,7 @@ describe('MainTableComponent', () => {
 
       component['setParamAgGridFilter'](mockFilterString);
 
-      expect(dataFacade.setAgGridFilter).not.toHaveBeenCalled();
+      expect(dataFacade.setAgGridFilterForNavigation).not.toHaveBeenCalled();
 
       spy.mockRestore();
     });
@@ -305,8 +308,10 @@ describe('MainTableComponent', () => {
 
       component['setParamAgGridFilter'](mockFilterString);
 
-      expect(dataFacade.setAgGridFilter).toHaveBeenLastCalledWith(
-        mockFilterModel
+      expect(dataFacade.setAgGridFilterForNavigation).toHaveBeenLastCalledWith(
+        mockFilterModel,
+        MaterialClass.STEEL,
+        NavigationLevel.MATERIAL
       );
 
       spy.mockRestore();
