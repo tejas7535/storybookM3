@@ -1,4 +1,11 @@
 # Release Notes of Library Shared UI Picture Card
+## [1.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/picture-card-v1.4.1...picture-card-v1.5.0) (2025-05-27)
+
+
+### Features
+
+* **picture-card:** fix picture card action console warnings (UFTABI-8413) ([#7194](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7194)) ([cdf9332](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cdf9332f704829fb2f3ddcac57a61df6e6c6015f))
+
 ## [1.4.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/picture-card-v1.4.0...picture-card-v1.4.1) (2025-03-21)
 
 ## [1.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/picture-card-v1.3.0...picture-card-v1.4.0) (2024-07-15)
