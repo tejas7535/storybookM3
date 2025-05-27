@@ -7,6 +7,9 @@ import { translate } from '@jsverse/transloco';
 })
 export class ErrorMessagePipe implements PipeTransform {
   public transform(errors: { [key: string]: any }): string {
+    if (!errors) {
+      return undefined;
+    }
     if (errors.required) {
       return this.translateError('required');
     }
@@ -28,6 +31,9 @@ export class ErrorMessagePipe implements PipeTransform {
     }
     if (errors.invalidBusinessPartnerId) {
       return this.translateError('invalidBusinessPartnerId');
+    }
+    if (errors.checkbox_required) {
+      return this.translateError('checkbox_required');
     }
 
     return this.translateError('generic');

@@ -78,8 +78,6 @@ describe('MaterialInputDialogComponent', () => {
           manufacturerSuppliersLoading: true,
           ratings: ['1'],
           ratingsLoading: true,
-          steelMakingProcesses: ['1'],
-          steelMakingProcessesLoading: true,
           co2Classifications: ['1'],
           co2ClassificationsLoading: true,
           castingModes: ['1'],

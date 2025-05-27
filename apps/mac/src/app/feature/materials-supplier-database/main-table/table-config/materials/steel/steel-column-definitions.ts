@@ -19,6 +19,9 @@ import {
   MATERIAL_STANDARD_STOFF_ID,
   MAX_DIMENSION,
   MIN_DIMENSION,
+  PROCESS_JSON,
+  PROCESS_TECHNOLOGY,
+  PROCESS_TECHNOLOGY_COMMENT,
   PRODUCT_CATEGORY,
   PRODUCT_CATEGORY_RULE,
   RATING,
@@ -29,10 +32,11 @@ import {
   RELEASE_DATE,
   RELEASE_RESTRICTIONS,
   RELEASED_STATUS,
-  STEEL_MAKING_PROCESS,
 } from '@mac/msd/constants';
 import { FILTER_PARAMS } from '@mac/msd/main-table/table-config/filter-params';
 import {
+  JSON_VALUE_FORMATTER_FACTORY,
+  JSON_VALUE_TOOLTIP_FORMATTER,
   MANUFACTURER_VALUE_GETTER,
   MATERIALSTANDARD_LINK_FORMATTER,
   MATERIALSTOFFID_LINK_FORMATTER,
@@ -178,14 +182,6 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     cellRenderer: EditCellRendererComponent,
   },
   {
-    field: STEEL_MAKING_PROCESS,
-    headerName: STEEL_MAKING_PROCESS,
-    filterParams: FILTER_PARAMS,
-    hide: true,
-    headerTooltip: STEEL_MAKING_PROCESS,
-    cellRenderer: EditCellRendererComponent,
-  },
-  {
     field: RECYCLING_RATE,
     headerName: RECYCLING_RATE,
     filter: 'agNumberColumnFilter',
@@ -202,6 +198,9 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     valueGetter: RELEASE_DATE_VALUE_GETTER,
     headerTooltip: RELEASE_DATE,
     filter: 'agDateColumnFilter',
+    filterParams: {
+      maxNumConditions: 1,
+    },
   },
   {
     field: MANUFACTURER_SUPPLIER_SELFCERTIFIED,
@@ -271,5 +270,31 @@ export const STEEL_COLUMN_DEFINITIONS: ColDef[] = [
     },
     hide: true,
     cellRenderer: Co2UploadFileCellRendererComponent,
+  },
+  {
+    field: PROCESS_TECHNOLOGY,
+    headerName: PROCESS_TECHNOLOGY,
+    filter: false,
+    hide: true,
+    valueFormatter: TRANSLATE_VALUE_FORMATTER_FACTORY(
+      'materialsSupplierDatabase.mainTable.dialog.steelmaking'
+    ),
+    tooltipField: PROCESS_TECHNOLOGY_COMMENT,
+    tooltipComponentParams: {
+      translate: false,
+    },
+  },
+  {
+    field: PROCESS_JSON,
+    headerName: PROCESS_JSON,
+    filter: false,
+    hide: true,
+    valueFormatter: JSON_VALUE_FORMATTER_FACTORY(
+      'materialsSupplierDatabase.mainTable.dialog.ironmaking'
+    ),
+    tooltipValueGetter: JSON_VALUE_TOOLTIP_FORMATTER,
+    tooltipComponentParams: {
+      translate: false,
+    },
   },
 ];

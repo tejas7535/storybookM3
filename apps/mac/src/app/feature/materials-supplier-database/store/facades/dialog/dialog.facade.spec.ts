@@ -94,6 +94,8 @@ describe('DialogFacade', () => {
                 customReferenceDocuments: ['reference2'],
                 referenceDocumentsLoading: false,
                 steelMakingProcessesInUse: ['BF+BOF'],
+                processTechnologyComments: ['bof comment'],
+                processJsonComments: { test: ['bf comment'] },
                 co2Values: [
                   {
                     co2PerTon: 3,
@@ -336,26 +338,6 @@ describe('DialogFacade', () => {
     );
   });
 
-  describe('steelMakingProcesses$', () => {
-    it(
-      'should provide the steel making processes',
-      marbles((m) => {
-        const expected = m.cold('a', {
-          a: [
-            {
-              id: 'process',
-              title: 'process',
-              tooltip: 'process',
-              tooltipDelay: 1500,
-            },
-          ],
-        });
-
-        m.expect(facade.steelMakingProcess$).toBeObservable(expected);
-      })
-    );
-  });
-
   describe('productionProcesses$', () => {
     it(
       'should provide the production processes',
@@ -480,44 +462,28 @@ describe('DialogFacade', () => {
     );
   });
 
-  describe('steelMakingProcessInUse$', () => {
+  describe('processTechnologyComments$', () => {
     it(
-      'should return the steel making processes in use',
+      'should return the process technology comments in use',
       marbles((m) => {
         const expected = m.cold('a', {
-          a: ['BF+BOF'],
+          a: ['bof comment'],
         });
 
-        m.expect(facade.steelMakingProcessesInUse$).toBeObservable(expected);
+        m.expect(facade.processTechnologyComments$).toBeObservable(expected);
       })
     );
   });
 
-  describe('co2ValuesForSupplierSteelMakingProcess$', () => {
+  describe('processJsonComments$', () => {
     it(
-      'should return co2 values',
+      'should return the process json comments in use',
       marbles((m) => {
         const expected = m.cold('a', {
-          a: {
-            co2Values: {
-              co2PerTon: 3,
-              co2Scope1: 1,
-              co2Scope2: 1,
-              co2Scope3: 1,
-              co2Classification: {
-                id: undefined,
-                title: 'materialsSupplierDatabase.mainTable.dialog.none',
-                tooltip: 'materialsSupplierDatabase.mainTable.dialog.none',
-                tooltipDelay: 1500,
-              },
-            },
-            otherValues: 0,
-          },
+          a: { test: ['bf comment'] },
         });
 
-        m.expect(facade.co2ValuesForSupplierSteelMakingProcess$).toBeObservable(
-          expected
-        );
+        m.expect(facade.processJsonComments$).toBeObservable(expected);
       })
     );
   });
@@ -1004,33 +970,29 @@ describe('DialogFacade', () => {
     });
   });
 
-  describe('resetSteelMakingProcessInUse', () => {
-    it('should resetSteelMakingProcessInUse', () => {
-      facade.resetSteelMakingProcessInUse();
+  describe('getProcessTechnologyComments', () => {
+    it('should getProcessTechnologyComments', () => {
+      const technology = 'eaf';
+
+      facade.fetchProcessTechnologyComments(technology);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        DialogActions.resetSteelMakingProcessInUse()
+        DialogActions.fetchProcessTechnologyComments({
+          technology,
+        })
       );
     });
   });
 
-  describe('fetchSteelMakingProcessesInUse', () => {
-    it('should fetchSteelMakingProcessesInUse', () => {
-      const supplierId = 1;
-      const castingMode = 'mode';
-      const castingDiameter = 'diameter';
+  describe('getProcessJsonComments', () => {
+    it('should getProcessJsonComments', () => {
+      const technology = 'sr';
 
-      facade.fetchSteelMakingProcessesInUse(
-        supplierId,
-        castingMode,
-        castingDiameter
-      );
+      facade.fetchProcessJsonComments(technology);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        DialogActions.fetchSteelMakingProcessesInUse({
-          supplierId,
-          castingMode,
-          castingDiameter,
+        DialogActions.fetchProcessJsonComments({
+          technology,
         })
       );
     });
@@ -1044,28 +1006,6 @@ describe('DialogFacade', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         DialogActions.addCustomDataOwner({ dataOwner })
-      );
-    });
-  });
-
-  describe('fetchCo2ValuesForSupplierSteelMakingProcess', () => {
-    it('should fetchCo2ValuesForSupplierSteelMakingProcess', () => {
-      const supplierId = 1;
-      const steelMakingProcess = 'process';
-      const productCategory = 'tube';
-
-      facade.fetchCo2ValuesForSupplierSteelMakingProcess(
-        supplierId,
-        steelMakingProcess,
-        productCategory
-      );
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        DialogActions.fetchCo2ValuesForSupplierSteelMakingProcess({
-          supplierId,
-          steelMakingProcess,
-          productCategory,
-        })
       );
     });
   });

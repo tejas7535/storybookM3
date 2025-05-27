@@ -119,7 +119,6 @@ export const getMaterialDialogOptionsLoading = createSelector(
       dialogOptions.castingModesLoading ||
       dialogOptions.materialStandardsLoading ||
       dialogOptions.co2ClassificationsLoading ||
-      dialogOptions.steelMakingProcessesLoading ||
       dialogOptions.productionProcessesLoading ||
       dialogOptions.manufacturerSuppliersLoading ||
       dialogOptions.productCategoriesLoading ||
@@ -134,7 +133,6 @@ export const getMaterialDialogOptionsLoadingError = createSelector(
     dialogOptions.castingModesLoading === undefined ||
     dialogOptions.materialStandardsLoading === undefined ||
     dialogOptions.co2ClassificationsLoading === undefined ||
-    dialogOptions.steelMakingProcessesLoading === undefined ||
     dialogOptions.productionProcessesLoading === undefined ||
     dialogOptions.manufacturerSuppliersLoading === undefined ||
     dialogOptions.productCategoriesLoading === undefined ||
@@ -179,10 +177,6 @@ export const getMaterialDialogMaterialStandards = createSelector(
 export const getMaterialDialogRatings = createSelector(
   getMaterialDialogOptions,
   (dialogOptions) => dialogOptions.ratings
-);
-export const getMaterialDialogSteelMakingProcesses = createSelector(
-  getMaterialDialogOptions,
-  (dialogOptions) => dialogOptions.steelMakingProcesses
 );
 export const getMaterialDialogProductionProcesses = createSelector(
   getMaterialDialogOptions,
@@ -732,79 +726,13 @@ export const validateCo2Scope = createSelector(
   }
 );
 
-export const getSteelMakingProcessesInUse = createSelector(
+export const getProcessTechnologyComments = createSelector(
   getMaterialDialogOptions,
-  (dialogOptions) => dialogOptions.steelMakingProcessesInUse
+  (dialogOptions) => dialogOptions.processTechnologyComments
 );
-
-export const getCo2ValuesForSupplierSteelMakingProcess = createSelector(
+export const getProcessJsonComments = createSelector(
   getMaterialDialogOptions,
-  (dialogOptions) => dialogOptions.co2Values
-);
-
-export const getHighestCo2Values = createSelector(
-  getCo2ValuesForSupplierSteelMakingProcess,
-  (
-    co2Values
-  ): {
-    co2Values: {
-      co2PerTon: number;
-      co2Scope1: number;
-      co2Scope2: number;
-      co2Scope3: number;
-      co2Classification: StringOption;
-    };
-    otherValues: number;
-  } => {
-    if (!co2Values || co2Values.length === 0) {
-      return {
-        co2Values: undefined,
-        otherValues: undefined,
-      };
-    } else if (co2Values.length > 1) {
-      const sortedCo2Values = [...co2Values]
-        .filter((co2Value) => !!co2Value.co2PerTon)
-        .sort((a, b) => b.co2PerTon - a.co2PerTon);
-      const highestCo2Value = sortedCo2Values[0];
-      const title = translate(
-        highestCo2Value.co2Classification
-          ? `materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.${highestCo2Value.co2Classification.toLowerCase()}`
-          : 'materialsSupplierDatabase.mainTable.dialog.none'
-      );
-
-      return {
-        co2Values: {
-          ...highestCo2Value,
-          co2Classification: {
-            id: highestCo2Value.co2Classification ?? undefined,
-            tooltip: title,
-            tooltipDelay: TOOLTIP_DELAY,
-            title,
-          },
-        },
-        otherValues: co2Values.length - 1,
-      };
-    }
-
-    const co2Value = co2Values[0];
-    const title = translate(
-      co2Value.co2Classification ??
-        'materialsSupplierDatabase.mainTable.dialog.none'
-    );
-
-    return {
-      co2Values: {
-        ...co2Value,
-        co2Classification: {
-          id: co2Value.co2Classification ?? undefined,
-          tooltip: title,
-          tooltipDelay: TOOLTIP_DELAY,
-          title,
-        },
-      },
-      otherValues: 0,
-    };
-  }
+  (dialogOptions) => dialogOptions.processJsonComments
 );
 
 export const getSapMaterialsDataOwners = createSelector(

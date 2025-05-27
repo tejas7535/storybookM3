@@ -48,8 +48,6 @@ export interface DialogState {
     customReferenceDocuments: string[];
     ratings: string[];
     ratingsLoading: boolean;
-    steelMakingProcesses: string[];
-    steelMakingProcessesLoading: boolean;
     co2Classifications: StringOption[];
     co2ClassificationsLoading: boolean;
     castingModes: string[];
@@ -71,7 +69,8 @@ export interface DialogState {
       co2Scope3: number;
       co2Classification: string;
     }[];
-    steelMakingProcessesInUse: string[];
+    processTechnologyComments: string[];
+    processJsonComments: object;
     loading: boolean;
     error: boolean;
   };
@@ -135,7 +134,6 @@ export const dialogReducer = createReducer(
         materialStandards: undefined,
         manufacturerSuppliers: undefined,
         ratings: undefined,
-        steelMakingProcesses: undefined,
         productionProcesses: undefined,
         productCategories: undefined,
         co2Classifications: undefined,
@@ -143,8 +141,8 @@ export const dialogReducer = createReducer(
         castingDiameters: undefined,
         referenceDocuments: undefined,
         dataOwners: undefined,
-        co2Values: undefined,
-        steelMakingProcessesInUse: [],
+        processTechnologyComments: undefined,
+        processJsonComments: {},
         productCategoryRules: undefined,
         co2Standards: undefined,
         error: undefined,
@@ -203,16 +201,6 @@ export const dialogReducer = createReducer(
       dialogOptions: {
         ...state.dialogOptions,
         ratingsLoading: true,
-      },
-    })
-  ),
-  on(
-    DialogActions.fetchSteelMakingProcesses,
-    (state): DialogState => ({
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        steelMakingProcessesLoading: true,
       },
     })
   ),
@@ -403,29 +391,6 @@ export const dialogReducer = createReducer(
         ...state.dialogOptions,
         ratings: undefined,
         ratingsLoading: undefined,
-        error: true,
-      },
-    })
-  ),
-  on(
-    DialogActions.fetchSteelMakingProcessesSuccess,
-    (state, { steelMakingProcesses }): DialogState => ({
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        steelMakingProcesses,
-        steelMakingProcessesLoading: false,
-      },
-    })
-  ),
-  on(
-    DialogActions.fetchSteelMakingProcessesFailure,
-    (state): DialogState => ({
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        steelMakingProcesses: undefined,
-        steelMakingProcessesLoading: undefined,
         error: true,
       },
     })
@@ -713,7 +678,8 @@ export const dialogReducer = createReducer(
         customCo2Standards: undefined,
         // reset loading fields
         co2Values: undefined,
-        steelMakingProcessesInUse: [],
+        processTechnologyComments: undefined,
+        processJsonComments: {},
         castingDiameters: undefined,
         referenceDocuments: undefined,
         productCategoryRules: undefined,
@@ -1059,68 +1025,51 @@ export const dialogReducer = createReducer(
   ),
 
   on(
-    DialogActions.fetchSteelMakingProcessesInUseSuccess,
-    (state, { steelMakingProcessesInUse }): DialogState => ({
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        steelMakingProcessesInUse,
-      },
-    })
-  ),
-  on(
-    DialogActions.fetchSteelMakingProcessesInUseFailure,
+    DialogActions.fetchProcessTechnologyComments,
     (state): DialogState => ({
       ...state,
       dialogOptions: {
         ...state.dialogOptions,
-        steelMakingProcessesInUse: [],
+        processTechnologyComments: undefined,
+      },
+    })
+  ),
+  on(
+    DialogActions.fetchProcessTechnologyCommentsSuccess,
+    (state, { values }): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        processTechnologyComments: values,
+      },
+    })
+  ),
+  on(
+    DialogActions.fetchProcessTechnologyCommentsFailure,
+    (state): DialogState => ({
+      ...state,
+      dialogOptions: {
+        ...state.dialogOptions,
+        processTechnologyComments: undefined,
         error: true,
-      },
-    })
-  ),
-  on(
-    DialogActions.resetSteelMakingProcessInUse,
-    (state): DialogState => ({
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        steelMakingProcessesInUse: [],
       },
     })
   ),
 
   on(
-    DialogActions.fetchCo2ValuesForSupplierSteelMakingProcessSuccess,
-    (state, { co2Values }): DialogState => ({
+    DialogActions.fetchProcessJsonCommentsSuccess,
+    (state, { technology, comments }): DialogState => ({
       ...state,
       dialogOptions: {
         ...state.dialogOptions,
-        co2Values,
+        processJsonComments: {
+          ...state.dialogOptions.processJsonComments,
+          [technology]: comments,
+        },
       },
     })
   ),
-  on(
-    DialogActions.fetchCo2ValuesForSupplierSteelMakingProcessFailure,
-    (state): DialogState => ({
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        co2Values: undefined,
-        error: true,
-      },
-    })
-  ),
-  on(
-    DialogActions.resetCo2ValuesForSupplierSteelMakingProcess,
-    (state): DialogState => ({
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        co2Values: undefined,
-      },
-    })
-  ),
+
   on(
     DialogActions.uploadSapMaterials,
     (state): DialogState => ({

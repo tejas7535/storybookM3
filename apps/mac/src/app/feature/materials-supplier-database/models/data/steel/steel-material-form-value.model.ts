@@ -6,9 +6,7 @@ import { BaseMaterialFormValue } from '@mac/msd/models';
 
 export interface SteelMaterialFormValue extends BaseMaterialFormValue {
   referenceDoc: StringOption[];
-  releaseDateYear: number;
-
-  releaseDateMonth: number;
+  releaseDate: number;
   blocked: boolean;
   castingMode: string;
   castingDiameter: StringOption;
@@ -22,6 +20,9 @@ export interface SteelMaterialFormValue extends BaseMaterialFormValue {
   manufacturer: boolean;
   minRecyclingRate: number;
   maxRecyclingRate: number;
+  processTechnology: string;
+  processTechnologyComment: string;
+  processJson: { [key: string]: string };
 
   co2Upstream: number;
   co2Core: number;

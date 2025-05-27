@@ -37,7 +37,6 @@ describe('dialogReducer', () => {
         materialStandards: [{} as MaterialStandard],
         manufacturerSuppliers: [{} as ManufacturerSupplier],
         ratings: ['1'],
-        steelMakingProcesses: ['1'],
         productionProcesses: [{ id: '1', title: '1' }],
         productCategories: [{ id: 'raw', title: 'raw' }],
         co2Classifications: [{ id: 'c1', title: '1' }],
@@ -67,14 +66,14 @@ describe('dialogReducer', () => {
         materialStandards: undefined,
         manufacturerSuppliers: undefined,
         ratings: undefined,
-        steelMakingProcesses: undefined,
         productionProcesses: undefined,
         productCategories: undefined,
         co2Classifications: undefined,
         castingModes: undefined,
         referenceDocuments: undefined,
         co2Values: undefined,
-        steelMakingProcessesInUse: [],
+        processJsonComments: {},
+        processTechnologyComments: undefined,
         error: undefined,
       },
       editMaterial: undefined,
@@ -108,20 +107,6 @@ describe('dialogReducer', () => {
       dialogOptions: {
         ...state.dialogOptions,
         ratingsLoading: true,
-        error: undefined,
-      },
-    });
-  });
-
-  it('should set the loading state for the steelMakingProcesses to true', () => {
-    const action = DialogActions.fetchSteelMakingProcesses();
-    const newState = dialogReducer(state, action);
-
-    expect(newState).toEqual({
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        steelMakingProcessesLoading: true,
         error: undefined,
       },
     });
@@ -447,49 +432,6 @@ describe('dialogReducer', () => {
     });
   });
 
-  it('should set the steel making processes', () => {
-    const steelMakingProcesses = ['1', '2'];
-    const action = DialogActions.fetchSteelMakingProcessesSuccess({
-      steelMakingProcesses,
-    });
-    const newState = dialogReducer(state, action);
-
-    expect(newState).toEqual({
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        steelMakingProcesses,
-        steelMakingProcessesLoading: false,
-      },
-    });
-  });
-
-  it('should set the steel making processes and the loading state to undefined', () => {
-    const steelMakingProcesses = ['1', '2'];
-    const action = DialogActions.fetchSteelMakingProcessesFailure();
-    const newState = dialogReducer(
-      {
-        ...state,
-        dialogOptions: {
-          ...state.dialogOptions,
-          steelMakingProcesses,
-          steelMakingProcessesLoading: false,
-        },
-      },
-      action
-    );
-
-    expect(newState).toEqual({
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        steelMakingProcesses: undefined,
-        steelMakingProcessesLoading: undefined,
-        error: true,
-      },
-    });
-  });
-
   it('should set the production processes', () => {
     const productionProcesses = [
       { id: '1', title: '1' },
@@ -533,7 +475,6 @@ describe('dialogReducer', () => {
       dialogOptions: {
         ...state.dialogOptions,
         steelMakingProcesses: undefined,
-        steelMakingProcessesLoading: undefined,
         error: true,
       },
     });
@@ -773,7 +714,6 @@ describe('dialogReducer', () => {
             co2Classification: 's',
           },
         ],
-        steelMakingProcessesInUse: ['1'],
         castingDiameters: ['1'],
         referenceDocuments: ['1'],
         co2Standards: ['1'],
@@ -794,9 +734,10 @@ describe('dialogReducer', () => {
         customManufacturerSupplierPlants: undefined,
         customMaterialStandardNames: undefined,
         customCo2Standards: undefined,
+        processTechnologyComments: undefined,
+        processJsonComments: {},
         // reset loading fields
         co2Values: undefined,
-        steelMakingProcessesInUse: [],
         castingDiameters: undefined,
         referenceDocuments: undefined,
         co2Standards: undefined,
@@ -1611,164 +1552,126 @@ describe('dialogReducer', () => {
     });
   });
 
-  it('should set the steel making processes in use', () => {
-    const action = DialogActions.fetchSteelMakingProcessesInUseSuccess({
-      steelMakingProcessesInUse: ['BF+BOF'],
-    });
-    const newState = dialogReducer(
-      {
-        ...state,
-        dialogOptions: {
-          ...state.dialogOptions,
-          steelMakingProcessesInUse: undefined,
-        },
-      },
-      action
-    );
-
-    expect(newState).toEqual({
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        steelMakingProcessesInUse: ['BF+BOF'],
-      },
-    });
-  });
-
-  it('should set the steel making processes in use on failure', () => {
-    const action = DialogActions.fetchSteelMakingProcessesInUseFailure();
-    const newState = dialogReducer(
-      {
-        ...state,
-        dialogOptions: {
-          ...state.dialogOptions,
-          steelMakingProcessesInUse: ['BF+BOF'],
-        },
-      },
-      action
-    );
-
-    expect(newState).toEqual({
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        steelMakingProcessesInUse: [],
-        error: true,
-      },
-    });
-  });
-
-  it('should reset the steel making processes in use', () => {
-    const action = DialogActions.resetSteelMakingProcessInUse();
-    const newState = dialogReducer(
-      {
-        ...state,
-        dialogOptions: {
-          ...state.dialogOptions,
-          steelMakingProcessesInUse: ['BF+BOF'],
-        },
-      },
-      action
-    );
-
-    expect(newState).toEqual({
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        steelMakingProcessesInUse: [],
-      },
-    });
-  });
-
-  it('should set the co2 values', () => {
-    const mockCo2Values = {
-      co2PerTon: 3,
-      co2Scope1: 1,
-      co2Scope2: 1,
-      co2Scope3: 1,
-      co2Classification: 'c1',
-    };
-    const action =
-      DialogActions.fetchCo2ValuesForSupplierSteelMakingProcessSuccess({
-        co2Values: [mockCo2Values],
+  describe('fetchProcessTechnology', () => {
+    it('should reset the process technology on call', () => {
+      const action = DialogActions.fetchProcessTechnologyComments({
+        technology: 'some',
       });
-    const newState = dialogReducer(
-      {
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            processTechnologyComments: ['some'],
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
         ...state,
         dialogOptions: {
           ...state.dialogOptions,
-          co2Values: undefined,
+          processTechnologyComments: undefined,
         },
-      },
-      action
-    );
+      });
+    });
+    it('should reset the error on error', () => {
+      const action = DialogActions.fetchProcessTechnologyCommentsFailure();
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            processTechnologyComments: ['some'],
+            error: false,
+          },
+        },
+        action
+      );
 
-    expect(newState).toEqual({
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        co2Values: [mockCo2Values],
-      },
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          processTechnologyComments: undefined,
+          error: true,
+        },
+      });
+    });
+    it('should set the process technology on success', () => {
+      const action = DialogActions.fetchProcessTechnologyCommentsSuccess({
+        values: ['a', 'b'],
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            processTechnologyComments: undefined,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        dialogOptions: {
+          ...state.dialogOptions,
+          processTechnologyComments: ['a', 'b'],
+        },
+      });
     });
   });
 
-  it('should set the co2 values on failure', () => {
-    const mockCo2Values = {
-      co2PerTon: 3,
-      co2Scope1: 1,
-      co2Scope2: 1,
-      co2Scope3: 1,
-      co2Classification: 'c1',
-    };
-    const action =
-      DialogActions.fetchCo2ValuesForSupplierSteelMakingProcessFailure();
-    const newState = dialogReducer(
-      {
+  describe('fetchProcessJsonComments', () => {
+    it('should store the process technology on success', () => {
+      const action = DialogActions.fetchProcessJsonCommentsSuccess({
+        technology: 'test',
+        comments: ['a', 'b'],
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            processJsonComments: undefined,
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
         ...state,
         dialogOptions: {
           ...state.dialogOptions,
-          co2Values: [mockCo2Values],
+          processJsonComments: { test: ['a', 'b'] },
         },
-      },
-      action
-    );
-
-    expect(newState).toEqual({
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        co2Values: undefined,
-        error: true,
-      },
+      });
     });
-  });
+    it('should attach the process technology on success', () => {
+      const action = DialogActions.fetchProcessJsonCommentsSuccess({
+        technology: 'test',
+        comments: ['a', 'b'],
+      });
+      const newState = dialogReducer(
+        {
+          ...state,
+          dialogOptions: {
+            ...state.dialogOptions,
+            processJsonComments: { a: [] },
+          },
+        },
+        action
+      );
 
-  it('should reset the co2 values', () => {
-    const mockCo2Values = {
-      co2PerTon: 3,
-      co2Scope1: 1,
-      co2Scope2: 1,
-      co2Scope3: 1,
-      co2Classification: 'c1',
-    };
-    const action = DialogActions.resetCo2ValuesForSupplierSteelMakingProcess();
-    const newState = dialogReducer(
-      {
+      expect(newState).toEqual({
         ...state,
         dialogOptions: {
           ...state.dialogOptions,
-          co2Values: [mockCo2Values],
+          processJsonComments: { a: [], test: ['a', 'b'] },
         },
-      },
-      action
-    );
-
-    expect(newState).toEqual({
-      ...state,
-      dialogOptions: {
-        ...state.dialogOptions,
-        co2Values: undefined,
-      },
+      });
     });
   });
 

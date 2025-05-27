@@ -89,7 +89,6 @@ export class DialogEffects {
               ...baseActions,
               DialogActions.fetchProductCategories(),
               DialogActions.fetchRatings(),
-              DialogActions.fetchSteelMakingProcesses(),
               DialogActions.fetchCastingModes(),
               DialogActions.fetchReferenceDocuments(),
               DialogActions.fetchProductCategoryRules(),
@@ -206,23 +205,6 @@ export class DialogEffects {
           ),
           // TODO: implement proper error handling
           catchError(() => of(DialogActions.fetchRatingsFailure()))
-        )
-      )
-    );
-  });
-
-  public fetchSteelMakingProcesses$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(DialogActions.fetchSteelMakingProcesses),
-      switchMap(() =>
-        this.msdDataService.fetchSteelMakingProcesses().pipe(
-          map((steelMakingProcesses: string[]) =>
-            DialogActions.fetchSteelMakingProcessesSuccess({
-              steelMakingProcesses,
-            })
-          ),
-          // TODO: implement proper error handling
-          catchError(() => of(DialogActions.fetchSteelMakingProcessesFailure()))
         )
       )
     );
@@ -1051,17 +1033,16 @@ export class DialogEffects {
                 : 'materialsSupplierDatabase.mainTable.dialog.none'
             ),
           },
-          releaseDateYear: material.releaseDateYear,
-          releaseDateMonth: material.releaseDateMonth,
+          releaseDate: material.releaseDate,
           releaseRestrictions: material.releaseRestrictions,
           blocked: material.blocked,
           castingMode: material.castingMode,
           castingDiameter: asStringOptionOrUndefined(material.castingDiameter),
           maxDimension: material.maxDimension,
           minDimension: material.minDimension,
-          steelMakingProcess: asStringOptionOrUndefined(
-            material.steelMakingProcess
-          ),
+          processTechnology: material.processTechnology,
+          processTechnologyComment: material.processTechnologyComment,
+          processJson: material.processJson,
           productionProcess: asStringOptionOrUndefined(
             material.productionProcess,
             translate(
@@ -1076,6 +1057,7 @@ export class DialogEffects {
               translate('materialsSupplierDatabase.mainTable.dialog.none')
           ),
           ratingRemark: material.ratingRemark,
+          ratingChangeComment: material.ratingChangeComment,
           materialNumber: material.materialNumbers
             ? material.materialNumbers.join(', ')
             : undefined,
@@ -1165,60 +1147,51 @@ export class DialogEffects {
     );
   });
 
-  public fetchSteelMakingProcessesInUse$ = createEffect(() => {
+  public fetchProcessTechnologyComments$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(DialogActions.fetchSteelMakingProcessesInUse),
-      switchMap(({ supplierId, castingMode, castingDiameter }) =>
+      ofType(DialogActions.fetchProcessTechnologyComments),
+      concatLatestFrom(() => this.dataFacade.materialClass$),
+      switchMap(([{ technology }, materialClass]) =>
         this.msdDataService
-          .fetchSteelMakingProcessesForSupplierPlantCastingModeCastingDiameter(
-            supplierId,
-            castingMode,
-            castingDiameter
-          )
+          .fetchProcessTechnologyComments(technology, materialClass)
           .pipe(
-            map((steelMakingProcessesInUse) =>
-              DialogActions.fetchSteelMakingProcessesInUseSuccess({
-                steelMakingProcessesInUse,
+            map((values) =>
+              DialogActions.fetchProcessTechnologyCommentsSuccess({
+                values,
               })
             ),
             catchError(() =>
-              of(DialogActions.fetchSteelMakingProcessesInUseFailure())
+              of(DialogActions.fetchProcessTechnologyCommentsFailure())
             )
           )
       )
     );
   });
 
-  public fetchCo2ValuesForSupplierSteelMakingProcess$ = createEffect(() => {
+  public fetchProcessJsonComments$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(DialogActions.fetchCo2ValuesForSupplierSteelMakingProcess),
+      ofType(DialogActions.fetchProcessJsonComments),
       concatLatestFrom(() => this.dataFacade.materialClass$),
-      switchMap(
-        ([
-          { supplierId, steelMakingProcess, productCategory },
-          materialClass,
-        ]) =>
-          this.msdDataService
-            .fetchCo2ValuesForSupplierPlantProcess(
-              supplierId,
-              materialClass,
-              steelMakingProcess,
-              productCategory
-            )
-            .pipe(
-              map((co2Values) =>
-                DialogActions.fetchCo2ValuesForSupplierSteelMakingProcessSuccess(
-                  {
-                    co2Values,
-                  }
-                )
-              ),
-              catchError(() =>
-                of(
-                  DialogActions.fetchCo2ValuesForSupplierSteelMakingProcessFailure()
-                )
+      switchMap(([{ technology }, materialClass]) =>
+        this.msdDataService
+          .fetchProcessJsonComments(technology, materialClass)
+          .pipe(
+            map((comments: string[]) =>
+              DialogActions.fetchProcessJsonCommentsSuccess({
+                technology,
+                comments,
+              })
+            ),
+            catchError(() =>
+              of(
+                DataActions.errorSnackBar({
+                  message: translate(
+                    'materialsSupplierDatabase.mainTable.uploadDialog.uploadFailure'
+                  ),
+                })
               )
             )
+          )
       )
     );
   });

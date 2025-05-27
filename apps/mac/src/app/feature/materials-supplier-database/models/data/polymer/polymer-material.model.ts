@@ -5,6 +5,5 @@ export interface PolymerMaterial extends BaseMaterial {
   generalDescription?: string;
   materialNumbers?: string[];
   referenceDoc?: string[];
-  releaseDateYear?: number;
-  releaseDateMonth?: number;
+  releaseDate?: number;
 }

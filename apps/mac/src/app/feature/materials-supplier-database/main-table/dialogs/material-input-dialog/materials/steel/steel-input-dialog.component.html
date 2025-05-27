@@ -216,7 +216,14 @@
         </div>
         <div class="-ml-2 flex flex-row gap-x-6">
           <mat-checkbox
-            class="text-caption text-high-emphasis"
+            class="w-1/2"
+            [formControl]="supplierIronSteelManufacturerControl"
+            name="manufacturer"
+            #dialogControl
+          >
+            {{ t('manufacturer') }}
+          </mat-checkbox>
+          <mat-checkbox
             [formControl]="selfCertifiedControl"
             name="manufacturerSupplierSelfCertified"
             #dialogControl
@@ -231,20 +238,17 @@
             >
           </mat-checkbox>
         </div>
-        <div class="-ml-2 flex flex-row gap-x-6">
-          <mat-checkbox
-            class="text-caption text-high-emphasis"
-            [formControl]="isManufacturerControl"
-            name="manufacturer"
-            #dialogControl
-          >
-            {{ t('manufacturer') }}
-          </mat-checkbox>
-        </div>
-        <!-- CO2 Block -->
+        <!-- Production process Block -->
         <div class="text-subtitle-2 text-high-emphasis">
           {{ t('productInformationTitle') }}
         </div>
+        <!-- Iron & Steelmaking -->
+        <mac-iron-technology
+          [ironTechnologyGroup]="ironTechnologyGroup"
+          [steelTechnologyControl]="steelTechnologyControl"
+          [steelTechnologyCommentControl]="steelTechnologyCommentControl"
+          [disableControl]="supplierIronSteelManufacturerControl"
+        ></mac-iron-technology>
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-full">
             <mat-label class="leading-6">{{ t('maxDim') }}</mat-label>
@@ -291,6 +295,7 @@
         </div>
         <div class="flex flex-row gap-x-6">
           <schaeffler-select
+            class="w-1/2"
             appearance="outline"
             [stringOptions]="categories$ | ngrxPush"
             [control]="categoriesControl"
@@ -310,22 +315,7 @@
               </span>
             }
           </schaeffler-select>
-          <schaeffler-select
-            preCo2Classification
-            appearance="outline"
-            [stringOptions]="steelMakingProcess$ | ngrxPush"
-            [control]="steelMakingProcessControl"
-            [filterFn]="steelMakingProcessFilterFn"
-            [label]="t('steelMakingProcess')"
-            [showTriggerTooltip]="true"
-            [formFieldHint]="getHint(hintData, 'steelMakingProcess')"
-            triggerTooltipDelay="1500"
-            tooltipPosition="right"
-            name="steelMakingProcess"
-            #dialogControl
-            #steelMakingProcessSelect
-          ></schaeffler-select>
-          <mat-form-field appearance="outline" class="w-1/5">
+          <mat-form-field appearance="outline" class="w-1/4">
             <mat-label class="leading-6">{{ t('minRecyclingRate') }}</mat-label>
             <input
               matInput
@@ -344,7 +334,7 @@
               }}</mat-error>
             }
           </mat-form-field>
-          <mat-form-field appearance="outline" class="w-1/5">
+          <mat-form-field appearance="outline" class="w-1/4">
             <mat-label class="leading-6">{{ t('maxRecyclingRate') }}</mat-label>
             <input
               matInput
@@ -377,105 +367,38 @@
           </mat-form-field>
         </div>
         <div class="flex flex-row gap-x-6">
-          @switch (selectReleaseDateView()) {
-            @case ('READONLY') {
-              <mat-form-field appearance="outline" class="w-full">
-                <mat-label
-                  >{{ t('releaseDateYear') }} {{ t('readonly') }}</mat-label
-                >
-                <input
-                  matInput
-                  [value]="releaseYearControl.value || ''"
-                  name="releaseDate"
-                  #dialogControl
-                  readonly="true"
-                />
-              </mat-form-field>
-              @if (releaseMonthControl.value) {
-                <mat-form-field appearance="outline" class="w-full">
-                  <mat-label
-                    >{{ t('releaseDateMonth') }} {{ t('readonly') }}</mat-label
-                  >
-                  <input
-                    matInput
-                    [value]="t('month.' + releaseMonthControl.value)"
-                    name="releaseDateMonth"
-                    #dialogControl
-                    readonly="true"
-                  />
-                </mat-form-field>
-              }
-            }
-            @case ('HISTORIC') {
-              <mat-form-field appearance="outline" class="w-full">
-                <mat-label
-                  >{{ t('releaseDate') }} {{ t('readonly') }}</mat-label
-                >
-                <input
-                  matInput
-                  [value]="t('historicallyApproved')"
-                  name="releaseDate"
-                  #dialogControl
-                  readonly="true"
-                />
-              </mat-form-field>
-            }
-            <!-- DEFAULT == EDIT-->
-            @default {
-              <mat-form-field appearance="outline" class="w-full">
-                <mat-label class="leading-6">{{
-                  t('releaseDateYear')
-                }}</mat-label>
-                <mat-select
-                  [formControl]="releaseYearControl"
-                  name="releaseDate"
-                  #dialogControl
-                >
-                  @for (year of years; track year) {
-                    <mat-option [value]="year">
-                      {{ year }}
-                    </mat-option>
-                  }
-                </mat-select>
-                <mat-hint>
-                  {{ getHint(hintData, 'releaseDateYear') }}
-                </mat-hint>
-                @if (releaseYearControl.invalid) {
-                  <mat-error class="text-caption">{{
-                    t('error.required')
-                  }}</mat-error>
-                }
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="w-full">
-                <mat-label class="leading-6">{{
-                  t('releaseDateMonth')
-                }}</mat-label>
-                <mat-select
-                  [formControl]="releaseMonthControl"
-                  name="releaseDateMonth"
-                  #dialogControl
-                >
-                  @for (month of months; track month) {
-                    <mat-option [value]="month">
-                      {{ t('month.' + month) }}
-                    </mat-option>
-                  }
-                </mat-select>
-                @if (releaseMonthControl.invalid) {
-                  <mat-error class="text-caption">{{
-                    t('error.required')
-                  }}</mat-error>
-                }
-                <mat-hint>
-                  {{ getHint(hintData, 'releaseDateMonth') }}
-                </mat-hint>
-              </mat-form-field>
-            }
-          }
-        </div>
-        <div class="-ml-2 flex flex-row gap-x-6">
+          <mat-form-field class="w-1/3">
+            <mat-label>{{ t('releaseDate') }}</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              [matDatepickerFilter]="calendarYearFilter"
+              [formControl]="releaseDateControlMoment"
+              name="releaseDateControl"
+              #dialogControl
+            />
+            <mat-hint>
+              {{ getHint(hintData, 'releaseDate') }}
+            </mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
           <mat-checkbox
-            class="text-caption text-high-emphasis"
+            class="text-caption text-high-emphasis w-1/3"
+            color="primary"
+            [formControl]="isHistoricSupplierControl"
+            #dialogControl
+            name="isHistoricSupplier"
+          >
+            {{ t('historicallyApproved') }}
+          </mat-checkbox>
+
+          <mat-checkbox
+            class="text-caption text-high-emphasis w-1/3"
             [formControl]="isBlockedControl"
             name="blocked"
             #dialogControl
@@ -491,6 +414,7 @@
           </mat-checkbox>
         </div>
       </ng-container>
+      <!-- CO2 Block -->
       <div class="text-subtitle-2 text-high-emphasis">
         {{ t('co2InformationTitle') }}
       </div>

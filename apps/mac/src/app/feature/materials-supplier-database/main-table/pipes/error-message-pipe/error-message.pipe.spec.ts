@@ -28,6 +28,8 @@ describe('MaterialEmissionClassificationColorPipe', () => {
       'co2TooHighShort12',
     ],
     ['{ nothing: true }', 'generic'],
+    [undefined, ''],
+    ['{checkbox_required:true}', 'checkbox_required'],
   ])('errorpipe with [%s] should return [%s]', (errorObj: any, expected) => {
     spectator = createPipe(`{{ ${errorObj} | errorMessage }}`);
     expect(spectator.element).toHaveText(expected);

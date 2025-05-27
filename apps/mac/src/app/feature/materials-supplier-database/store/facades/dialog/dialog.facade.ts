@@ -20,7 +20,6 @@ import {
   getDialogError,
   getEditMaterialData,
   getEditMaterialDataLoaded,
-  getHighestCo2Values,
   getMaterialDialogCastingDiametersLoading,
   getMaterialDialogCastingDiameterStringOptions,
   getMaterialDialogCastingModes,
@@ -34,15 +33,15 @@ import {
   getMaterialDialogRatings,
   getMaterialDialogReferenceDocumentsLoading,
   getMaterialDialogReferenceDocumentsStringOptions,
-  getMaterialDialogSteelMakingProcesses,
   getMaterialNameStringOptionsMerged,
   getMaterialStandardDocumentStringOptionsMerged,
+  getProcessJsonComments,
+  getProcessTechnologyComments,
   getProductCategories,
   getResumeDialogData,
   getSapMaterialsDatabaseUploadStatus,
   getSapMaterialsDataOwners,
   getSapMaterialsFileUploadProgress,
-  getSteelMakingProcessesInUse,
   getStringOptions,
   getSupplierBusinessPartnerIdsStringOptionsMerged,
   getSupplierCountryStringOptions,
@@ -87,9 +86,6 @@ export class DialogFacade {
       },
     ])
   );
-  steelMakingProcess$ = this.store.select(
-    getStringOptions(getMaterialDialogSteelMakingProcesses)
-  );
   productionProcesses$ = this.store.select(
     getMaterialDialogProductionProcesses
   );
@@ -120,10 +116,6 @@ export class DialogFacade {
   co2StandardsLoading$ = this.store.select(
     getMaterialDialogCo2StandardsLoading
   );
-
-  steelMakingProcessesInUse$ = this.store.select(getSteelMakingProcessesInUse);
-  co2ValuesForSupplierSteelMakingProcess$ =
-    this.store.select(getHighestCo2Values);
 
   sapMaterialsDataOwners$ = this.store.select(
     getStringOptions(getSapMaterialsDataOwners)
@@ -160,6 +152,9 @@ export class DialogFacade {
   bulkEditMaterialsSucceeded$ = this.actions$.pipe(
     ofType(DialogActions.bulkEditMaterialsSuccess)
   );
+
+  processTechnologyComments$ = this.store.select(getProcessTechnologyComments);
+  processJsonComments$ = this.store.select(getProcessJsonComments);
 
   constructor(
     private readonly store: Store,
@@ -318,36 +313,14 @@ export class DialogFacade {
     this.store.dispatch(DialogActions.downloadRejectedSapMaterials());
   }
 
-  resetSteelMakingProcessInUse(): void {
-    this.store.dispatch(DialogActions.resetSteelMakingProcessInUse());
-  }
-
-  fetchSteelMakingProcessesInUse(
-    supplierId: number,
-    castingMode: string,
-    castingDiameter: string
-  ): void {
+  fetchProcessTechnologyComments(technology: string): void {
     this.store.dispatch(
-      DialogActions.fetchSteelMakingProcessesInUse({
-        supplierId,
-        castingMode,
-        castingDiameter,
-      })
+      DialogActions.fetchProcessTechnologyComments({ technology })
     );
   }
 
-  fetchCo2ValuesForSupplierSteelMakingProcess(
-    supplierId: number,
-    steelMakingProcess: string,
-    productCategory: string
-  ): void {
-    this.store.dispatch(
-      DialogActions.fetchCo2ValuesForSupplierSteelMakingProcess({
-        supplierId,
-        steelMakingProcess,
-        productCategory,
-      })
-    );
+  fetchProcessJsonComments(technology: string) {
+    this.store.dispatch(DialogActions.fetchProcessJsonComments({ technology }));
   }
 
   minimizeDialog(

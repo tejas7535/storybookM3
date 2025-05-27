@@ -9,6 +9,5 @@ export interface PolymerMaterialResponse extends BaseMaterialResponse {
   manufacturerSupplier: PolymerManufacturerSupplier;
   generalDescription?: string;
   referenceDoc?: string[];
-  releaseDateYear?: number;
-  releaseDateMonth?: number;
+  releaseDate?: number;
 }

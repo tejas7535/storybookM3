@@ -379,6 +379,41 @@ export class MsdDataService {
     );
   }
 
+  public fetchProcessTechnologyComments(
+    processTechnology: string,
+    materialClass: MaterialClass
+  ) {
+    const body = {
+      select: ['processTechnologyComment'],
+      where: [
+        {
+          col: 'processTechnology',
+          op: 'IN',
+          values: [processTechnology],
+        },
+      ],
+      distinct: true,
+    };
+
+    return this.httpClient.post<string[]>(
+      `${this.BASE_URL}/materials/${materialClass}/query`,
+      body
+    );
+  }
+
+  public fetchProcessJsonComments(
+    processTechnology: string,
+    materialClass: MaterialClass
+  ) {
+    return this.httpClient
+      .get<
+        string[]
+      >(`${this.BASE_URL}/materials/${materialClass}/queryJson/processJson/${processTechnology}`)
+      .pipe(
+        map((comments: string[]) => comments.filter((comment) => !!comment))
+      );
+  }
+
   public fetchManufacturerSuppliersForSupplierName(
     supplierName: string,
     materialClass: MaterialClass
@@ -457,59 +492,6 @@ export class MsdDataService {
           steelMakingProcesses.filter(
             (steelMakingProcess) => !!steelMakingProcess
           )
-        )
-      );
-  }
-
-  public fetchCo2ValuesForSupplierPlantProcess(
-    supplierId: number,
-    materialClass: MaterialClass,
-    steelMakingProcess?: string,
-    productCategory?: string
-  ) {
-    const where: { col: string; op: string; values: number[] | string[] }[] = [
-      { col: 'manufacturerSupplier.id', op: 'IN', values: [supplierId] },
-    ];
-    if (steelMakingProcess) {
-      where.push({
-        col: 'steelMakingProcess',
-        op: 'IN',
-        values: [steelMakingProcess],
-      });
-    }
-    if (productCategory) {
-      where.push({
-        col: 'productCategory',
-        op: 'IN',
-        values: [productCategory],
-      });
-    }
-    const body = {
-      select: [
-        'co2PerTon',
-        'co2Scope1',
-        'co2Scope2',
-        'co2Scope3',
-        'co2Classification',
-      ],
-      distinct: true,
-      where,
-    };
-
-    return this.httpClient
-      .post<
-        [number, number, number, number, string][]
-      >(`${this.BASE_URL}/materials/${materialClass}/query`, body)
-      .pipe(
-        map((co2Values) => co2Values.filter(Boolean)),
-        map((co2Values) =>
-          co2Values.map((co2Value) => ({
-            co2PerTon: co2Value[0],
-            co2Scope1: co2Value[1],
-            co2Scope2: co2Value[2],
-            co2Scope3: co2Value[3],
-            co2Classification: co2Value[4],
-          }))
         )
       );
   }
@@ -788,8 +770,7 @@ export class MsdDataService {
       co2Scope3: materialResponse.co2Scope3,
       co2PerTon: materialResponse.co2PerTon,
       co2Classification: materialResponse.co2Classification,
-      releaseDateYear: findProperty(materialResponse, 'releaseDateYear'),
-      releaseDateMonth: findProperty(materialResponse, 'releaseDateMonth'),
+      releaseDate: findProperty(materialResponse, 'releaseDate'),
       releaseRestrictions: materialResponse.releaseRestrictions,
       blocked: findProperty(materialResponse, 'blocked'),
       castingMode: findProperty(materialResponse, 'castingMode'),
@@ -820,6 +801,12 @@ export class MsdDataService {
           `materialsSupplierDatabase.condition.${materialResponse.materialClass}.${val}`
         )
       ),
+      processTechnology: findProperty(materialResponse, 'processTechnology'),
+      processTechnologyComment: findProperty(
+        materialResponse,
+        'processTechnologyComment'
+      ),
+      processJson: findProperty(materialResponse, 'processJson'),
       co2Type: findProperty(materialResponse, 'co2Type'),
       materialSapId: findProperty(materialResponse, 'materialSapId'),
       co2Upstream: findProperty(materialResponse, 'co2Upstream'),
@@ -979,6 +966,8 @@ export class MsdDataService {
       indirectSupplierEmissions: sapMaterial.indirectSupplierEmissions,
       upstreamEmissions: sapMaterial.upstreamEmissions,
       stoffId: sapMaterial.stoffId,
+      wiamId: sapMaterial.wiamId,
+      productionProcess: sapMaterial.productionProcess,
       owner: sapMaterial.owner,
       maturity: sapMaterial.maturity,
       modifiedBy: sapMaterial.modifiedBy,

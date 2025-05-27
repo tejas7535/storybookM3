@@ -10,6 +10,7 @@ export * from './distinct-value-getter';
 export * from './distinct-with-name-value-getter';
 export * from './emission-factors-value-formatter';
 export * from './empty-value-formatter';
+export * from './json-value-formatter';
 export * from './link-value-formatter';
 export * from './manufacturer-value-getter';
 export * from './maturity-value-formatter';

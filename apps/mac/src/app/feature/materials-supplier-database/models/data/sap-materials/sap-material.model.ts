@@ -51,6 +51,7 @@ export interface SAPMaterial {
   upstreamEmissions: number;
   stoffId: string;
   wiamId?: string;
+  productionProcess: string;
   owner: string;
   maturity: number;
   modifiedBy: string;
@@ -107,6 +108,8 @@ export interface SAPMaterialHistoryValue {
   indirectSupplierEmissions: number;
   upstreamEmissions: number;
   stoffId: string;
+  wiamId: string;
+  productionProcess: string;
   owner: string;
   maturity: number;
   modifiedBy: string;

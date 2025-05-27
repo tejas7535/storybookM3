@@ -6,8 +6,6 @@ import {
   Component,
   Inject,
   OnInit,
-  QueryList,
-  ViewChildren,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -19,6 +17,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -37,16 +36,16 @@ import {
 
 import {
   BehaviorSubject,
+  debounceTime,
   distinctUntilChanged,
   filter,
-  map,
   takeUntil,
   tap,
 } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 
 import {
   FileUploadComponent,
@@ -54,7 +53,7 @@ import {
   SelectedFile,
 } from '@schaeffler/file-upload';
 import { StringOption } from '@schaeffler/inputs';
-import { SelectComponent, SelectModule } from '@schaeffler/inputs/select';
+import { SelectModule } from '@schaeffler/inputs/select';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
@@ -86,17 +85,16 @@ import {
 import { DialogFacade } from '@mac/msd/store/facades/dialog';
 
 import { BaseDialogComponent } from '../../base-dialog/base-dialog.component';
+import { IronTechnologyComponent } from '../../components/iron-technology-component/iron-technology.component';
 import { ManufacturerSupplierComponent } from '../../components/manufacturer-supplier/manufacturer-supplier.component';
 import { MaterialDialogBasePartDirective } from '../../components/material-dialog-base-part/material-dialog-base-part.directive';
 import { MaterialStandardComponent } from '../../components/material-standard/material-standard.component';
-import * as util from '../../util';
-import { ReleaseDateViewMode } from './constants/release-date-view-mode.enum';
 
 const DATE_FORMATS = {
-  parse: { dateInput: 'YYYY-MM-DD' },
+  parse: { dateInput: 'DD.MM.YYYY' },
   display: {
     ...MAT_MOMENT_DATE_FORMATS.display,
-    dateInput: 'YYYY-MM-DD',
+    dateInput: 'DD.MM.YYYY',
   },
 };
 
@@ -112,7 +110,9 @@ const DATE_FORMATS = {
     ManufacturerSupplierComponent,
     MaterialDialogBasePartDirective,
     ErrorMessagePipe,
+    IronTechnologyComponent,
     // angular material
+    MatAutocompleteModule,
     MatFormFieldModule,
     MatIconModule,
     MatCheckboxModule,
@@ -123,6 +123,7 @@ const DATE_FORMATS = {
     MatInputModule,
     MatDatepickerModule,
     MatMomentDateModule,
+    MatDatepickerModule,
     // forms
     ReactiveFormsModule,
     // libs
@@ -139,9 +140,6 @@ export class SteelInputDialogComponent
   extends MaterialInputDialogComponent
   implements OnInit, AfterViewInit
 {
-  @ViewChildren('steelMakingProcessSelect', { read: SelectComponent })
-  private readonly steelMakingProcessSelectQueryList: QueryList<SelectComponent>;
-
   public readonly co2ClassificationsNew: StringOption[] = [
     THIRD_PARTY_VERIFIED_OPTION,
     SCHAEFFLER_EXPERTS_OPTION,
@@ -161,7 +159,6 @@ export class SteelInputDialogComponent
   public co2Classification$ = this.dialogFacade.co2Classification$;
   public ratings$ = this.dialogFacade.ratings$;
   public categories$ = this.dialogFacade.categories$;
-  public steelMakingProcess$ = this.dialogFacade.steelMakingProcess$;
   public castingDiameters$ = this.dialogFacade.castingDiameters$;
   public referenceDocuments$ = this.dialogFacade.referenceDocuments$;
   public productCategoryRules$ = this.dialogFacade.productCategoryRules$;
@@ -180,16 +177,11 @@ export class SteelInputDialogComponent
   public ratingsControl = this.controlsService.getControl<StringOption>();
   public maxDimControl = this.controlsService.getNumberControl();
   public minDimControl = this.controlsService.getNumberControl();
-  public releaseMonthControl =
-    this.controlsService.getRequiredControl<number>();
-  public releaseYearControl = this.controlsService.getRequiredControl<number>();
   public referenceDocumentControl =
     this.controlsService.getControl<StringOption[]>();
   public ratingRemarkControl = this.controlsService.getControl<string>();
   public ratingChangeCommentControl = this.controlsService.getControl<string>();
   public isBlockedControl = this.controlsService.getControl<boolean>(false);
-  public steelMakingProcessControl =
-    this.controlsService.getControl<StringOption>();
   public minRecyclingRateControl = this.controlsService.getNumberControl(
     undefined,
     false,
@@ -202,10 +194,20 @@ export class SteelInputDialogComponent
     0,
     100
   );
-  public isManufacturerControl = this.controlsService.getControl<boolean>(
-    false,
-    true
-  );
+
+  public supplierIronSteelManufacturerControl =
+    this.controlsService.getControl<boolean>(false);
+  public ironTechnologyGroup = new FormGroup({});
+  public steelTechnologyControl = this.controlsService.getControl<string>();
+  public steelTechnologyCommentControl =
+    this.controlsService.getControl<string>();
+
+  // release controls - MomentJs is not allowed in the formControl, so we need to two controls and transfer the data
+  public releaseDateControl = this.controlsService.getRequiredNumberControl();
+  public releaseDateControlMoment =
+    this.controlsService.getRequiredControl<Moment>();
+  public isHistoricSupplierControl =
+    this.controlsService.getControl<boolean>(false);
 
   // new co2 controls
   public co2UpstreamControl = this.controlsService.getNumberControl();
@@ -257,13 +259,6 @@ export class SteelInputDialogComponent
     true
   );
 
-  // steel making processes
-  public steelMakingProcessesInUse: string[] = [];
-
-  // releasedate year & month
-  public years: number[];
-  public months: number[];
-
   public readonly uploadMessages$ = new BehaviorSubject<Message[] | undefined>(
     undefined
   );
@@ -276,16 +271,13 @@ export class SteelInputDialogComponent
     supplierId: FormControl<number>;
     castingMode: FormControl<string>;
   }>;
-  private readonly STEEL_MAKING_PROCESS_SEARCH_STRING = 'in use by supplier';
+
+  // calendar will only allow years between past and next year
+  private readonly CALENDAR_FILTER_MIN_YEAR = 2020;
+  private readonly CALENDAR_FILTER_MAX_YEAR = moment().year() + 1;
 
   // co2 dependencies
-  private readonly co2ValuesForSupplierSteelMakingProcess$ =
-    this.dialogFacade.co2ValuesForSupplierSteelMakingProcess$;
   private co2Controls: FormArray<FormControl<number>>;
-
-  // autofiller for steelMakingprocess
-  private readonly steelMakingProcessesInUse$ =
-    this.dialogFacade.steelMakingProcessesInUse$;
 
   public constructor(
     readonly controlsService: DialogControlsService,
@@ -361,7 +353,7 @@ export class SteelInputDialogComponent
       blocked: this.isBlockedControl,
       castingDiameter: this.castingDiameterControl,
       castingMode: this.castingModesControl,
-      manufacturer: this.isManufacturerControl,
+      manufacturer: this.supplierIronSteelManufacturerControl,
       materialNumber: this.steelNumberControl,
       maxDimension: this.maxDimControl,
       minDimension: this.minDimControl,
@@ -369,16 +361,14 @@ export class SteelInputDialogComponent
       ratingChangeComment: this.ratingChangeCommentControl,
       ratingRemark: this.ratingRemarkControl,
       referenceDoc: this.referenceDocumentControl,
-      releaseDateMonth: this.releaseMonthControl,
-      releaseDateYear: this.releaseYearControl,
+      releaseDate: this.releaseDateControl,
       selfCertified: this.selfCertifiedControl,
-      steelMakingProcess: this.steelMakingProcessControl,
       minRecyclingRate: this.minRecyclingRateControl,
       maxRecyclingRate: this.maxRecyclingRateControl,
+      processTechnology: this.steelTechnologyControl,
+      processTechnologyComment: this.steelTechnologyCommentControl,
+      processJson: this.ironTechnologyGroup,
     });
-    // setup static months and year
-    this.months = util.getMonths();
-    this.years = util.getYears();
 
     // "manufacturer"-field only available for new suppliers. For existing suppliers value will be prefilled
     this.supplierPlantControl.valueChanges
@@ -387,12 +377,12 @@ export class SteelInputDialogComponent
         // disable field for existing suppliers and on empty plant selection
         if (!supplierPlant || !!supplierPlant.data) {
           const isManufacturer = supplierPlant?.data['manufacturer'] || false;
-          this.isManufacturerControl.setValue(isManufacturer);
-          this.isManufacturerControl.disable();
+          this.supplierIronSteelManufacturerControl.setValue(isManufacturer);
+          this.supplierIronSteelManufacturerControl.disable();
         } else {
           // enable only for new suppliers
-          this.isManufacturerControl.enable();
-          this.isManufacturerControl.setValue(false);
+          this.supplierIronSteelManufacturerControl.enable();
+          this.supplierIronSteelManufacturerControl.setValue(false);
         }
       });
 
@@ -472,8 +462,6 @@ export class SteelInputDialogComponent
     this.castingDiameterDep.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(({ supplierId, castingMode }) => {
-        // reset steel Making process
-        this.dialogFacade.resetSteelMakingProcessInUse();
         if (castingMode) {
           this.castingDiameterControl.enable();
           if (supplierId) {
@@ -486,65 +474,6 @@ export class SteelInputDialogComponent
         this.createMaterialForm.updateValueAndValidity({
           emitEvent: false,
         });
-      });
-
-    this.castingDiameterControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        map((castingDiameter) => ({
-          supplierId: this.manufacturerSupplierIdControl.value,
-          castingMode: this.castingModesControl.value,
-          castingDiameter: castingDiameter?.title,
-        })),
-        filter(
-          ({ supplierId, castingMode, castingDiameter }) =>
-            !!supplierId && !!castingMode && !!castingDiameter
-        )
-      )
-      .subscribe(({ supplierId, castingMode, castingDiameter }) =>
-        this.dialogFacade.fetchSteelMakingProcessesInUse(
-          supplierId,
-          castingMode,
-          castingDiameter
-        )
-      );
-
-    this.steelMakingProcessesInUse$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((steelMakingProcessesInUse) => {
-        this.steelMakingProcessesInUse = steelMakingProcessesInUse || [];
-        const searchVal =
-          this.steelMakingProcessesInUse.length > 0
-            ? this.STEEL_MAKING_PROCESS_SEARCH_STRING
-            : '';
-        this.steelMakingProcessSelectQueryList?.first?.searchControl.setValue(
-          searchVal,
-          { emitEvent: false }
-        );
-      });
-
-    // co2classification can be ignored here, as it is just available after filling in a co2Value
-    const someCo2 = () =>
-      this.co2Scope1Control.value ||
-      this.co2Scope2Control.value ||
-      this.co2Scope3Control.value ||
-      this.co2TotalControl.value;
-    this.co2ValuesForSupplierSteelMakingProcess$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter(({ co2Values }) => co2Values && !someCo2())
-      )
-      .subscribe(({ co2Values, otherValues }) => {
-        this.co2ClassificationControl.enable({ emitEvent: false });
-        this.createMaterialForm.patchValue(co2Values);
-        this.snackbar.infoTranslated(
-          translate(
-            otherValues > 0
-              ? 'materialsSupplierDatabase.mainTable.dialog.co2ValuesFilledWithOtherValues'
-              : 'materialsSupplierDatabase.mainTable.dialog.co2ValuesFilled',
-            otherValues > 0 ? { otherValues } : undefined
-          )
-        );
       });
 
     // recyclingRate validation
@@ -593,16 +522,22 @@ export class SteelInputDialogComponent
         this.reportValidUntilControl.setValue(value?.format('YYYY-MM-DD'));
       });
 
-    this.createMaterialForm.valueChanges.subscribe((val) => {
-      const cleanedValue = {
-        ...val,
-        reportValidUntil:
-          this.reportValidUntilControlMoment.value?.format('YYYY-MM-DD'),
-        co2UploadFile: undefined,
-      };
+    this.createMaterialForm.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        // debounce to prevent slowdown of app while typing long comments
+        debounceTime(500)
+      )
+      .subscribe((val) => {
+        const cleanedValue = {
+          ...val,
+          reportValidUntil:
+            this.reportValidUntilControlMoment.value?.format('YYYY-MM-DD'),
+          co2UploadFile: undefined,
+        };
 
-      this.dialogFacade.updateCreateMaterialDialogValues(cleanedValue);
-    });
+        this.dialogFacade.updateCreateMaterialDialogValues(cleanedValue);
+      });
 
     this.co2UploadFileIdControl.valueChanges
       .pipe(takeUntil(this.destroy$))
@@ -617,6 +552,36 @@ export class SteelInputDialogComponent
         this.uploadMessages$.next(this.getUploadMessages());
       });
 
+    // releaseDate config
+    this.isHistoricSupplierControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((setAsHistoric) => {
+        if (setAsHistoric) {
+          // if historic is set, reset release date fields and remove 'required' validators
+          this.releaseDateControl.removeValidators(Validators.required);
+          this.releaseDateControlMoment.disable({ emitEvent: false });
+          this.releaseDateControlMoment.removeValidators(Validators.required);
+          this.releaseDateControlMoment.reset();
+        } else {
+          // if historic is unset, set release date fields and add 'required' validators
+          this.releaseDateControl.addValidators(Validators.required);
+          this.releaseDateControlMoment.enable({ emitEvent: false });
+          this.releaseDateControlMoment.addValidators(Validators.required);
+          this.releaseDateControlMoment.setValue(moment());
+        }
+      });
+
+    this.releaseDateControlMoment.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((momentVal: Moment) => {
+        if (momentVal) {
+          const nbr = Number.parseInt(momentVal.format('YYYYMMDD'), 10);
+          this.releaseDateControl.setValue(nbr);
+        } else {
+          this.releaseDateControl.reset();
+        }
+      });
+
     if (this.dialogData.editDialogInformation?.selectedRows?.length > 1) {
       this.referenceDocumentControl.disable();
     }
@@ -624,35 +589,6 @@ export class SteelInputDialogComponent
 
   public ngAfterViewInit(): void {
     super.ngAfterViewInit();
-
-    // setup co2Dependencies
-    if (this.isAddDialog()) {
-      // skip prefill of co2 values on edited / added items
-      this.steelMakingProcessControl.valueChanges
-        .pipe(
-          takeUntil(this.destroy$),
-          filter(
-            (steelMakingProcess) =>
-              !!this.manufacturerSupplierIdControl.value && !!steelMakingProcess
-          ),
-          map((steelMakingProcess) => ({
-            supplierId: this.manufacturerSupplierIdControl.value,
-            steelMakingProcess: steelMakingProcess.title,
-            productCategory: this.categoriesControl.value.id as string,
-          }))
-        )
-        .subscribe(({ supplierId, steelMakingProcess, productCategory }) => {
-          // TO DO: remove workaround asap
-          this.createMaterialForm.updateValueAndValidity({
-            emitEvent: false,
-          });
-          this.dialogFacade.fetchCo2ValuesForSupplierSteelMakingProcess(
-            supplierId,
-            steelMakingProcess,
-            productCategory
-          );
-        });
-    }
 
     if (this.dialogData.editDialogInformation?.row?.reportValidUntil) {
       this.reportValidUntilControlMoment.setValue(
@@ -705,20 +641,6 @@ export class SteelInputDialogComponent
       : undefined;
   }
 
-  // TO DO replace with Pipe or attribute!!!!
-  public selectReleaseDateView() {
-    if (!this.isEditDialog() || this.isCopyDialog()) {
-      return ReleaseDateViewMode.DEFAULT;
-    } else if (
-      this.isBulkEditDialog() ||
-      (this.releaseMonthControl.value && this.releaseYearControl.value)
-    ) {
-      return ReleaseDateViewMode.READONLY;
-    } else {
-      return ReleaseDateViewMode.HISTORIC;
-    }
-  }
-
   public addReferenceDocument(referenceDocument: string): void {
     this.dialogFacade.addCustomReferenceDocument(referenceDocument);
   }
@@ -731,28 +653,29 @@ export class SteelInputDialogComponent
     this.dialogFacade.addCustomCo2Standard(co2Standard);
   }
 
-  public steelMakingProcessFilterFn = (
-    option?: StringOption,
-    value?: string
-  ) => {
-    if (value === this.STEEL_MAKING_PROCESS_SEARCH_STRING) {
-      return this.steelMakingProcessesInUse.includes(option?.title);
+  patchFields(materialFormValue: Partial<SteelMaterialFormValue>): void {
+    super.patchFields(materialFormValue);
+
+    if (materialFormValue.processJson) {
+      Object.keys(materialFormValue.processJson).forEach((key) => {
+        this.ironTechnologyGroup.addControl(
+          key,
+          this.controlsService.getControl(materialFormValue.processJson[key])
+        );
+      });
     }
 
-    return util.filterFn(option, value);
-  };
+    if (materialFormValue.releaseDate) {
+      this.releaseDateControlMoment.setValue(
+        moment(materialFormValue.releaseDate, 'YYYYMMDD')
+      );
+    } else if (!this.isBulkEditDialog()) {
+      this.isHistoricSupplierControl.setValue(true);
+    }
+  }
 
   enableEditFields(materialFormValue: Partial<SteelMaterialFormValue>): void {
     super.enableEditFields(materialFormValue);
-
-    if (
-      (!materialFormValue.releaseDateMonth ||
-        !materialFormValue.releaseDateYear) &&
-      !this.isCopyDialog()
-    ) {
-      this.releaseMonthControl.removeValidators(Validators.required);
-      this.releaseYearControl.removeValidators(Validators.required);
-    }
 
     if (this.isBulkEditDialog()) {
       this.selfCertifiedControl.enable();
@@ -768,6 +691,15 @@ export class SteelInputDialogComponent
       this.dialogData.editDialogInformation.selectedRows
     );
   }
+
+  calendarYearFilter = (m: Moment | null): boolean => {
+    const year = (m || moment()).year();
+
+    return (
+      year >= this.CALENDAR_FILTER_MIN_YEAR &&
+      year <= this.CALENDAR_FILTER_MAX_YEAR
+    );
+  };
 
   // validator for both recycling rate input fields
   private minRecycleRateValidatorFn(): ValidatorFn {

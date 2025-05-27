@@ -1,4 +1,4 @@
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 import { StringOption } from '@schaeffler/inputs';
 
@@ -6,14 +6,12 @@ import { BaseMaterialForm } from '@mac/msd/models';
 
 export interface SteelMaterialForm extends BaseMaterialForm {
   referenceDoc: FormControl<StringOption[]>;
-  releaseDateYear: FormControl<number>;
-  releaseDateMonth: FormControl<number>;
+  releaseDate: FormControl<number>;
   blocked: FormControl<boolean>;
   castingMode: FormControl<string>;
   castingDiameter: FormControl<StringOption>;
   maxDimension: FormControl<number>;
   minDimension: FormControl<number>;
-  steelMakingProcess: FormControl<StringOption>;
   rating: FormControl<StringOption>;
   ratingRemark: FormControl<string>;
   ratingChangeComment: FormControl<string>;
@@ -21,6 +19,9 @@ export interface SteelMaterialForm extends BaseMaterialForm {
   manufacturer: FormControl<boolean>;
   minRecyclingRate: FormControl<number>;
   maxRecyclingRate: FormControl<number>;
+  processTechnology: FormControl<string>;
+  processTechnologyComment: FormControl<string>;
+  processJson: FormGroup;
 
   co2Upstream: FormControl<number>;
   co2Core: FormControl<number>;

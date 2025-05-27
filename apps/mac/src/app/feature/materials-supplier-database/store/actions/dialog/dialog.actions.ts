@@ -117,19 +117,6 @@ export const fetchCo2ClassificationsFailure = createAction(
   '[MSD - Dialog] Fetch CO2 Classifications Failure'
 );
 
-export const fetchSteelMakingProcesses = createAction(
-  '[MSD - Dialog] Fetch Steel Making Processes'
-);
-
-export const fetchSteelMakingProcessesSuccess = createAction(
-  '[MSD - Dialog] Fetch Steel Making Processes Success',
-  props<{ steelMakingProcesses: string[] }>()
-);
-
-export const fetchSteelMakingProcessesFailure = createAction(
-  '[MSD - Dialog] Fetch Steel Making Processes Failure'
-);
-
 export const fetchProductionProcesses = createAction(
   '[MSD - Dialog] Fetch Production Processes'
 );
@@ -411,52 +398,30 @@ export const minimizeDialog = createAction(
   }>()
 );
 
-export const fetchSteelMakingProcessesInUse = createAction(
-  '[MSD - Dialog] Fetch Steel Making Processes In Use',
-  props<{ supplierId: number; castingMode: string; castingDiameter: string }>()
-);
-
-export const fetchSteelMakingProcessesInUseSuccess = createAction(
-  '[MSD - Dialog] Fetch Steel Making Processes In Use Success',
-  props<{ steelMakingProcessesInUse: string[] }>()
-);
-
-export const fetchSteelMakingProcessesInUseFailure = createAction(
-  '[MSD - Dialog] Fetch Steel Making Processes In Use Failure'
-);
-
-export const resetSteelMakingProcessInUse = createAction(
-  '[MSD - Dialog] Reset Steel Making Processes In Use'
-);
-
-export const fetchCo2ValuesForSupplierSteelMakingProcess = createAction(
-  '[MSD - Dialog] Fetch CO2 Values For Supplier Steel Making Process',
+export const fetchProcessTechnologyComments = createAction(
+  '[MSD - Dialog] Fetch Comments for Process Technology',
   props<{
-    supplierId: number;
-    steelMakingProcess: string;
-    productCategory: string;
+    technology: string;
   }>()
 );
 
-export const fetchCo2ValuesForSupplierSteelMakingProcessSuccess = createAction(
-  '[MSD - Dialog] Fetch CO2 Values For Supplier Steel Making Process Success',
-  props<{
-    co2Values: {
-      co2PerTon: number;
-      co2Scope1: number;
-      co2Scope2: number;
-      co2Scope3: number;
-      co2Classification: string;
-    }[];
-  }>()
+export const fetchProcessTechnologyCommentsSuccess = createAction(
+  '[MSD - Dialog] Fetch Comments for Process Technology Success',
+  props<{ values: string[] }>()
 );
 
-export const fetchCo2ValuesForSupplierSteelMakingProcessFailure = createAction(
-  '[MSD - Dialog] Fetch CO2 Values For Supplier Steel Making Process Failure'
+export const fetchProcessTechnologyCommentsFailure = createAction(
+  '[MSD - Dialog] Fetch Comments for Process Technology Failure'
 );
 
-export const resetCo2ValuesForSupplierSteelMakingProcess = createAction(
-  '[MSD - Dialog] Reset CO2 Values For Supplier Steel Making Process'
+export const fetchProcessJsonComments = createAction(
+  '[MSD - Dialog] Fetch Process Json Comments',
+  props<{ technology: string }>()
+);
+
+export const fetchProcessJsonCommentsSuccess = createAction(
+  '[MSD - Dialog] Fetch process json Comments Success',
+  props<{ technology: string; comments: string[] }>()
 );
 
 export const updateCreateMaterialDialogValues = createAction(

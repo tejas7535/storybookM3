@@ -4,10 +4,12 @@ import { TranslocoModule } from '@jsverse/transloco';
 import {
   ColDef,
   HeaderClassParams,
+  ITooltipParams,
   SetFilterValuesFuncParams,
   ValueFormatterParams,
   ValueGetterParams,
 } from 'ag-grid-community';
+import moment from 'moment';
 
 import { Status } from '@mac/feature/materials-supplier-database/constants';
 import {
@@ -29,6 +31,8 @@ import {
   EMISSION_FACTORS_FORMATTER,
   EMPTY_VALUE_FORMATTER,
   excludeColumn,
+  JSON_VALUE_FORMATTER_FACTORY,
+  JSON_VALUE_TOOLTIP_FORMATTER,
   lockColumns,
   MANUFACTURER_VALUE_GETTER,
   MATERIALSTANDARD_LINK_FORMATTER,
@@ -113,19 +117,9 @@ describe('helpers', () => {
   });
 
   describe('RELEASE_DATE_VALUE_GETTER', () => {
-    it('should return undefined if the releaseDateYear is undefined', () => {
+    it('should return undefined if the releaseDate is undefined', () => {
       const mockParams = {
-        data: { releaseDateMonth: 1 } as DataResult,
-      } as ValueGetterParams<DataResult>;
-
-      const result = RELEASE_DATE_VALUE_GETTER(mockParams);
-
-      expect(result).toEqual(undefined);
-    });
-
-    it('should return undefined if the releaseDateMonth is undefined', () => {
-      const mockParams = {
-        data: { releaseDateYear: 2000 } as DataResult,
+        data: { releaseDate: undefined } as DataResult,
       } as ValueGetterParams<DataResult>;
 
       const result = RELEASE_DATE_VALUE_GETTER(mockParams);
@@ -135,15 +129,12 @@ describe('helpers', () => {
 
     it('should return a date', () => {
       const mockParams = {
-        data: {
-          releaseDateYear: 2000,
-          releaseDateMonth: 1,
-        } as DataResult,
+        data: { releaseDate: 20_230_429 } as DataResult,
       } as ValueGetterParams<DataResult>;
 
       const result = RELEASE_DATE_VALUE_GETTER(mockParams);
 
-      expect(result).toEqual(new Date(2000, 0));
+      expect(result).toEqual(new Date(2023, 3, 29));
     });
   });
 
@@ -214,12 +205,12 @@ describe('helpers', () => {
 
     it('should return the date as string formatted to MM/YY', () => {
       const mockParams = {
-        value: new Date(2000, 0),
+        value: moment('20230429', 'YYYYMMDD').toDate(),
       } as ValueFormatterParams<any, Date>;
 
       const result = RELEASE_DATE_FORMATTER(mockParams);
 
-      expect(result).toEqual('01/00');
+      expect(result).toEqual('04/23');
     });
   });
 
@@ -295,6 +286,41 @@ describe('helpers', () => {
       const result = formatter(params);
 
       expect(result).toEqual('prefix.something');
+    });
+  });
+  describe('JSON_VALUE_FORMATTER_FACTORY', () => {
+    it('should return "" if the value is undefined', () => {
+      const formatter = JSON_VALUE_FORMATTER_FACTORY();
+      const params = { value: undefined } as ValueFormatterParams;
+
+      expect(formatter(params)).toEqual('');
+    });
+    it('should return concatenated string otherwise', () => {
+      const formatter = JSON_VALUE_FORMATTER_FACTORY();
+      const params = { value: { a: 1, b: 2, c: 3 } } as ValueFormatterParams;
+
+      expect(formatter(params)).toEqual('a / b / c');
+    });
+    it('should return concatenated prefixed string otherwise', () => {
+      const formatter = JSON_VALUE_FORMATTER_FACTORY('prefix');
+      const params = { value: { a: 1, b: 2, c: 3 } } as ValueFormatterParams;
+
+      expect(formatter(params)).toEqual('prefix.a / prefix.b / prefix.c');
+    });
+  });
+
+  describe('JSON_VALUE_TOOLTIP_FORMATTER', () => {
+    it('should return "" if the value is undefined', () => {
+      const formatter = JSON_VALUE_TOOLTIP_FORMATTER;
+      const params = { value: undefined } as ITooltipParams;
+
+      expect(formatter(params)).toEqual('');
+    });
+    it('should return concatenated string otherwise', () => {
+      const formatter = JSON_VALUE_TOOLTIP_FORMATTER;
+      const params = { value: { a: 1, b: 2, c: 3 } } as ITooltipParams;
+
+      expect(formatter(params)).toEqual('1 / 2 / 3');
     });
   });
 

@@ -85,12 +85,6 @@ describe('DialogSelectors', () => {
     ],
     [
       {
-        steelMakingProcessesLoading: undefined,
-      },
-      true,
-    ],
-    [
-      {
         productionProcessesLoading: undefined,
       },
       true,
@@ -115,7 +109,6 @@ describe('DialogSelectors', () => {
         castingModesLoading: boolean;
         materialStandardsLoading: boolean;
         co2ClassificationsLoading: boolean;
-        steelMakingProcessesLoading: boolean;
         productionProcessesLoading: boolean;
         manufacturerSuppliersLoading: boolean;
         productCategoriesLoading: boolean;
@@ -125,7 +118,6 @@ describe('DialogSelectors', () => {
         castingModesLoading: false,
         materialStandardsLoading: false,
         co2ClassificationsLoading: false,
-        steelMakingProcessesLoading: false,
         productionProcessesLoading: false,
         manufacturerSuppliersLoading: false,
         productCategoriesLoading: false,
@@ -148,7 +140,6 @@ describe('DialogSelectors', () => {
       castingModesLoading: false,
       materialStandardsLoading: false,
       co2ClassificationsLoading: false,
-      steelMakingProcessesLoading: false,
       productionProcessesLoading: false,
       manufacturerSuppliersLoading: false,
       productCategoriesLoading: false,
@@ -191,12 +182,6 @@ describe('DialogSelectors', () => {
     ],
     [
       {
-        steelMakingProcessesLoading: true,
-      },
-      true,
-    ],
-    [
-      {
         productionProcessesLoading: true,
       },
       true,
@@ -233,7 +218,6 @@ describe('DialogSelectors', () => {
         castingModesLoading: false,
         materialStandardsLoading: false,
         co2ClassificationsLoading: false,
-        steelMakingProcessesLoading: false,
         productionProcessesLoading: false,
         manufacturerSuppliersLoading: false,
         productCategoriesLoading: false,
@@ -256,7 +240,6 @@ describe('DialogSelectors', () => {
       castingModesLoading: false,
       materialStandardsLoading: false,
       co2ClassificationsLoading: false,
-      steelMakingProcessesLoading: false,
       productionProcessesLoading: false,
       manufacturerSuppliersLoading: false,
       productCategoriesLoading: false,
@@ -337,14 +320,6 @@ describe('DialogSelectors', () => {
     expect(
       DialogSelectors.getMaterialDialogRatings.projector({
         ratings: ['1', '2'],
-      } as any)
-    ).toEqual(['1', '2']);
-  });
-
-  it('should return the steelMakingProcesses', () => {
-    expect(
-      DialogSelectors.getMaterialDialogSteelMakingProcesses.projector({
-        steelMakingProcesses: ['1', '2'],
       } as any)
     ).toEqual(['1', '2']);
   });
@@ -1654,166 +1629,23 @@ describe('DialogSelectors', () => {
     });
   });
 
-  describe('getSteelMakingProcessesInUse', () => {
-    it('should return the steel making processes in use', () => {
+  describe('getProcessTechnologyComments', () => {
+    it('should return the process technology comments values (empty)', () => {
       expect(
-        DialogSelectors.getSteelMakingProcessesInUse.projector({
-          steelMakingProcessesInUse: ['BF+BOF'],
+        DialogSelectors.getProcessTechnologyComments.projector({
+          processTechnologyComments: ['one', 'two'],
         } as any)
-      ).toEqual(['BF+BOF']);
+      ).toEqual(['one', 'two']);
     });
   });
 
-  describe('getCo2ValuesForSupplierSteelMakingProcess', () => {
-    it('should return the co2 values', () => {
+  describe('getProcessJsonComments', () => {
+    it('should return the process technology comments values', () => {
       expect(
-        DialogSelectors.getCo2ValuesForSupplierSteelMakingProcess.projector({
-          co2Values: [],
+        DialogSelectors.getProcessJsonComments.projector({
+          processJsonComments: ['one', 'two'],
         } as any)
-      ).toEqual([]);
-    });
-  });
-
-  describe('getHighestCo2Values', () => {
-    it('should return the highest value with other values count', () => {
-      expect(
-        DialogSelectors.getHighestCo2Values.projector([
-          {
-            co2PerTon: 3,
-            co2Scope1: 1,
-            co2Scope2: 1,
-            co2Scope3: 1,
-            co2Classification: 'c1',
-          },
-          {
-            co2PerTon: 1,
-            co2Scope1: undefined,
-            co2Scope2: undefined,
-            co2Scope3: undefined,
-            co2Classification: undefined,
-          },
-        ])
-      ).toEqual({
-        co2Values: {
-          co2PerTon: 3,
-          co2Scope1: 1,
-          co2Scope2: 1,
-          co2Scope3: 1,
-          co2Classification: {
-            id: 'c1',
-            title: 'c1',
-            tooltip: 'c1',
-            tooltipDelay: 1500,
-          },
-        },
-        otherValues: 1,
-      });
-    });
-
-    it('should return the highest value with other values count without classification', () => {
-      expect(
-        DialogSelectors.getHighestCo2Values.projector([
-          {
-            co2PerTon: 3,
-            co2Scope1: 1,
-            co2Scope2: 1,
-            co2Scope3: 1,
-            co2Classification: 'c1',
-          },
-          {
-            co2PerTon: 10,
-            co2Scope1: undefined,
-            co2Scope2: undefined,
-            co2Scope3: undefined,
-            co2Classification: undefined,
-          },
-        ])
-      ).toEqual({
-        co2Values: {
-          co2PerTon: 10,
-          co2Scope1: undefined,
-          co2Scope2: undefined,
-          co2Scope3: undefined,
-          co2Classification: {
-            id: undefined,
-            title: 'none',
-            tooltip: 'none',
-            tooltipDelay: 1500,
-          },
-        },
-        otherValues: 1,
-      });
-    });
-
-    it('should return undefined values for undefined co2Values', () => {
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      expect(DialogSelectors.getHighestCo2Values.projector(undefined)).toEqual({
-        co2Values: undefined,
-        otherValues: undefined,
-      });
-    });
-
-    it('should return undefined values for empty co2Values', () => {
-      expect(DialogSelectors.getHighestCo2Values.projector([])).toEqual({
-        co2Values: undefined,
-        otherValues: undefined,
-      });
-    });
-
-    it('should return highest value if only one value', () => {
-      expect(
-        DialogSelectors.getHighestCo2Values.projector([
-          {
-            co2PerTon: 3,
-            co2Scope1: 1,
-            co2Scope2: 1,
-            co2Scope3: 1,
-            co2Classification: 'c1',
-          },
-        ])
-      ).toEqual({
-        co2Values: {
-          co2PerTon: 3,
-          co2Scope1: 1,
-          co2Scope2: 1,
-          co2Scope3: 1,
-          co2Classification: {
-            id: 'c1',
-            title: 'c1',
-            tooltip: 'c1',
-            tooltipDelay: 1500,
-          },
-        },
-        otherValues: 0,
-      });
-    });
-
-    it('should return highest value if only one value without classification', () => {
-      expect(
-        DialogSelectors.getHighestCo2Values.projector([
-          {
-            co2PerTon: 10,
-            co2Scope1: undefined,
-            co2Scope2: undefined,
-            co2Scope3: undefined,
-            co2Classification: undefined,
-          },
-        ])
-      ).toEqual({
-        co2Values: {
-          co2PerTon: 10,
-          co2Scope1: undefined,
-          co2Scope2: undefined,
-          co2Scope3: undefined,
-          co2Classification: {
-            id: undefined,
-            title: 'none',
-            tooltip: 'none',
-            tooltipDelay: 1500,
-          },
-        },
-        otherValues: 0,
-      });
+      ).toEqual(['one', 'two']);
     });
   });
 

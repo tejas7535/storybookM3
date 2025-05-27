@@ -188,8 +188,8 @@ export class MaterialInputDialogComponent
             (dialogData.minimizedDialog ||
               this.dialogData.editDialogInformation) &&
             !isCopy
-              ? dialogData.minimizedDialog?.id ??
-                dialogData.editMaterial?.row?.id
+              ? (dialogData.minimizedDialog?.id ??
+                dialogData.editMaterial?.row?.id)
               : undefined;
           if (materialFormValue) {
             this.enableEditFields(materialFormValue);
@@ -421,8 +421,7 @@ export class MaterialInputDialogComponent
       co2UploadFileId: findProperty(baseMaterial, 'co2UploadFileId'),
       co2Comment: findProperty(baseMaterial, 'co2Comment'),
 
-      releaseDateYear: findProperty(baseMaterial, 'releaseDateYear'),
-      releaseDateMonth: findProperty(baseMaterial, 'releaseDateMonth'),
+      releaseDate: findProperty(baseMaterial, 'releaseDate'),
       releaseRestrictions: baseMaterial.releaseRestrictions,
       blocked: findProperty(baseMaterial, 'blocked'),
       castingMode: findProperty(baseMaterial, 'castingMode'),
@@ -446,9 +445,15 @@ export class MaterialInputDialogComponent
       selfCertified: findProperty(baseMaterial, 'selfCertified'),
       minRecyclingRate: findProperty(baseMaterial, 'minRecyclingRate'),
       maxRecyclingRate: findProperty(baseMaterial, 'maxRecyclingRate'),
+      processTechnology: findProperty(baseMaterial, 'processTechnology'),
+      processTechnologyComment: findProperty(
+        baseMaterial,
+        'processTechnologyComment'
+      ),
+      processJson: findProperty(baseMaterial, 'processJson'),
+
       condition: findProperty<StringOption>(baseMaterial, 'condition')
         ?.id as string,
-      // attachments: '',
     };
   }
 

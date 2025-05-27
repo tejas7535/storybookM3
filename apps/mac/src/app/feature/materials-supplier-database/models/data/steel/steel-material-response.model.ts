@@ -12,8 +12,7 @@ export interface SteelMaterialResponse extends BaseMaterialResponse {
   blocked: boolean;
   productCategory: string;
   referenceDoc?: string[];
-  releaseDateYear?: number;
-  releaseDateMonth?: number;
+  releaseDate?: number;
   castingMode: string;
   castingDiameter: string;
   minDimension?: number;
@@ -24,6 +23,10 @@ export interface SteelMaterialResponse extends BaseMaterialResponse {
   ratingChangeComment?: string;
   minRecyclingRate?: number;
   maxRecyclingRate?: number;
+  processTechnology: string;
+  processTechnologyComment: string;
+  processJson: string;
+
   co2Upstream?: number;
   co2Core?: number;
   co2ClassificationNew?: string;

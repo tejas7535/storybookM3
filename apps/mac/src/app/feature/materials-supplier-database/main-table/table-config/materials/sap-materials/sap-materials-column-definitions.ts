@@ -40,6 +40,7 @@ import {
   PLANT_TEXT,
   PRIMARY_DATA_SHARE,
   PROCESS_SURCHARGE,
+  PRODUCTION_PROCESS,
   RAW_MATERIAL,
   RAW_MATERIAL_EMISSION_FACTOR,
   RAW_MATERIAL_MANUFACTURER,
@@ -558,5 +559,11 @@ export const SAP_MATERIALS_COLUMN_DEFINITIONS: (ColDef | ColGroupDef)[] = [
     headerName: TIMESTAMP,
     filter: false,
     valueFormatter: CUSTOM_DATE_FORMATTER,
+  },
+  {
+    field: PRODUCTION_PROCESS,
+    headerName: PRODUCTION_PROCESS,
+    filter: 'agTextColumnFilter',
+    filterParams: TEXT_FILTER_PARAMS,
   },
 ];

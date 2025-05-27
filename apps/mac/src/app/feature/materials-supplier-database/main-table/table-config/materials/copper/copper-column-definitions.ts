@@ -6,7 +6,7 @@ import {
   MATERIAL_NUMBERS,
   MATERIAL_STANDARD_STOFF_ID,
   MAX_DIMENSION,
-  PRODUCTION_PROCESS,
+  PRODUCTION_PROCESS_TEXT,
   RECYCLING_RATE,
   REFERENCE_DOCUMENT,
 } from '@mac/msd/constants';
@@ -59,8 +59,8 @@ export const COPPER_COLUMN_DEFINITIONS: ColDef[] = [
     cellRenderer: EditCellRendererComponent,
   },
   {
-    field: PRODUCTION_PROCESS,
-    headerName: PRODUCTION_PROCESS,
+    field: PRODUCTION_PROCESS_TEXT,
+    headerName: PRODUCTION_PROCESS_TEXT,
     filterParams: FILTER_PARAMS,
     hide: true,
     cellRenderer: EditCellRendererComponent,

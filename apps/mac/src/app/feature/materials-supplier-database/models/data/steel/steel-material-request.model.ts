@@ -4,8 +4,7 @@ export interface SteelMaterialRequest extends BaseMaterialRequest {
   selfCertified: boolean;
   blocked: boolean;
   referenceDoc?: string[];
-  releaseDateYear?: number;
-  releaseDateMonth?: number;
+  releaseDate?: number;
   castingMode: string;
   castingDiameter: string;
   minDimension?: number;
@@ -16,6 +15,10 @@ export interface SteelMaterialRequest extends BaseMaterialRequest {
   ratingChangeComment?: string;
   minRecyclingRate?: number;
   maxRecyclingRate?: number;
+  processTechnology: string;
+  processTechnologyComment: string;
+  processJson: object;
+
   co2Upstream?: number;
   co2Core?: number;
   co2ClassificationNew?: string;

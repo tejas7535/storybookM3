@@ -44,12 +44,16 @@ export const GRADE = 'grade';
 export const SAP_MATERIAL_ID = 'materialSapId';
 export const CO2TYPE = 'co2Type';
 export const CONDITION = 'conditionText';
-export const PRODUCTION_PROCESS = 'productionProcessText';
+export const PRODUCTION_PROCESS = 'productionProcess';
+export const PRODUCTION_PROCESS_TEXT = 'productionProcessText';
 export const CO2_CLASSIFICATION_NEW = 'co2ClassificationNew';
 export const CO2_STANDARD = 'co2Standard';
 export const CO2_COMMENT = 'co2Comment';
 export const CO2_UPLOAD_FILE = 'co2UploadFileId';
 export const PRODUCT_CATEGORY_RULE = 'productCategoryRuleTitle';
+export const PROCESS_TECHNOLOGY = 'processTechnology';
+export const PROCESS_JSON = 'processJson';
+export const PROCESS_TECHNOLOGY_COMMENT = 'processTechnologyComment';
 
 /* SAP columns */
 export const MATERIAL_NUMBER = 'materialNumber';

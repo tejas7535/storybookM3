@@ -904,6 +904,57 @@ describe('MsdDataService', () => {
     });
   });
 
+  describe('fetchProcessTechnologyComments', () => {
+    it('should post a query for comments', (done) => {
+      const mockResponse = ['comment1', 'comment2'];
+      const expectedBody = {
+        select: ['processTechnologyComment'],
+        where: [
+          {
+            col: 'processTechnology',
+            op: 'IN',
+            values: ['tech1'],
+          },
+        ],
+        distinct: true,
+      };
+
+      service
+        .fetchProcessTechnologyComments('tech1', MaterialClass.STEEL)
+        .subscribe((result) => {
+          expect(result).toEqual(mockResponse);
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/query`
+      );
+      expect(req.request.method).toEqual('POST');
+      expect(req.request.body).toEqual(expectedBody);
+      req.flush(mockResponse);
+    });
+  });
+
+  describe('fetchProcessJsonComments', () => {
+    it('should post a query for comments', (done) => {
+      const mockResponse = [undefined, 'comment1', 'comment2'];
+      const fktResponse = ['comment1', 'comment2'];
+
+      service
+        .fetchProcessJsonComments('tech1', MaterialClass.STEEL)
+        .subscribe((result) => {
+          expect(result).toEqual(fktResponse);
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials/st/queryJson/processJson/tech1`
+      );
+      expect(req.request.method).toEqual('GET');
+      req.flush(mockResponse);
+    });
+  });
+
   describe('fetchMaterialNamesForStandardDocuments', () => {
     it('should post a query for material names', (done) => {
       const mockResponse = [
@@ -1008,123 +1059,6 @@ describe('MsdDataService', () => {
           'ESR',
           '1x1'
         )
-        .subscribe((result) => {
-          expect(result).toEqual(mockResult);
-          done();
-        });
-
-      const req = httpMock.expectOne(
-        `${service['BASE_URL']}/materials/st/query`
-      );
-      expect(req.request.method).toEqual('POST');
-      expect(req.request.body).toEqual(expectedBody);
-      req.flush(mockResponse);
-    });
-  });
-
-  describe('fetchCo2ValuesForSupplierPlantProcess', () => {
-    it('should return the co2 values', (done) => {
-      const mockResponse = [
-        // eslint-disable-next-line unicorn/no-null
-        null,
-        [1, undefined, undefined, undefined, undefined],
-        [3, 1, 1, 1, 'c1'],
-      ];
-      const mockResult = [
-        {
-          co2PerTon: 1,
-          co2Scope1: undefined,
-          co2Scope2: undefined,
-          co2Scope3: undefined,
-          co2Classification: undefined,
-        },
-        {
-          co2PerTon: 3,
-          co2Scope1: 1,
-          co2Scope2: 1,
-          co2Scope3: 1,
-          co2Classification: 'c1',
-        },
-      ];
-      const expectedBody = {
-        select: [
-          'co2PerTon',
-          'co2Scope1',
-          'co2Scope2',
-          'co2Scope3',
-          'co2Classification',
-        ],
-        where: [
-          {
-            col: 'manufacturerSupplier.id',
-            op: 'IN',
-            values: [1],
-          },
-          {
-            col: 'steelMakingProcess',
-            op: 'IN',
-            values: ['BF+BOF'],
-          },
-          {
-            col: 'productCategory',
-            op: 'IN',
-            values: ['brightBar'],
-          },
-        ],
-        distinct: true,
-      };
-
-      service
-        .fetchCo2ValuesForSupplierPlantProcess(
-          1,
-          MaterialClass.STEEL,
-          'BF+BOF',
-          'brightBar'
-        )
-        .subscribe((result) => {
-          expect(result).toEqual(mockResult);
-          done();
-        });
-
-      const req = httpMock.expectOne(
-        `${service['BASE_URL']}/materials/st/query`
-      );
-      expect(req.request.method).toEqual('POST');
-      expect(req.request.body).toEqual(expectedBody);
-      req.flush(mockResponse);
-    });
-
-    it('should return the co2 values without steelmaking, category', (done) => {
-      const mockResponse = [[6, 1, 2, 3, 'c1']];
-      const mockResult = [
-        {
-          co2PerTon: 6,
-          co2Scope1: 1,
-          co2Scope2: 2,
-          co2Scope3: 3,
-          co2Classification: 'c1',
-        },
-      ];
-      const expectedBody = {
-        select: [
-          'co2PerTon',
-          'co2Scope1',
-          'co2Scope2',
-          'co2Scope3',
-          'co2Classification',
-        ],
-        where: [
-          {
-            col: 'manufacturerSupplier.id',
-            op: 'IN',
-            values: [1],
-          },
-        ],
-        distinct: true,
-      };
-
-      service
-        .fetchCo2ValuesForSupplierPlantProcess(1, MaterialClass.STEEL)
         .subscribe((result) => {
           expect(result).toEqual(mockResult);
           done();

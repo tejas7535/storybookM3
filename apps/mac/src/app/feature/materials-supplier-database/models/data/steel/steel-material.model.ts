@@ -4,14 +4,11 @@ export interface SteelMaterial extends BaseMaterial {
   materialNumbers?: string[];
   materialStandardWiamId?: string;
   materialStandardStoffId?: string;
-
   manufacturer: boolean;
-
   selfCertified: boolean;
   blocked: boolean;
   referenceDoc?: string[];
-  releaseDateYear?: number;
-  releaseDateMonth?: number;
+  releaseDate?: number;
   castingMode: string;
   castingDiameter: string;
   minDimension?: number;
@@ -22,6 +19,9 @@ export interface SteelMaterial extends BaseMaterial {
   ratingChangeComment?: string;
   minRecyclingRate: number;
   maxRecyclingRate: number;
+  processTechnology: string;
+  processTechnologyComment: string;
+  processJson: object;
 
   co2Upstream?: number;
   co2Core?: number;

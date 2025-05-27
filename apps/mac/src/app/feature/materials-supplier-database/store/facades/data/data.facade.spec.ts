@@ -47,8 +47,7 @@ describe('DataFacade', () => {
       productCategory: 'barBright',
       productCategoryText: 'Bright bar',
       co2PerTon: 6666,
-      releaseDateYear: 2022,
-      releaseDateMonth: 1,
+      releaseDate: 20_220_101,
       releaseRestrictions: 'TEST',
       castingMode: 'Ingot',
       castingDiameter: '200x300',
@@ -57,6 +56,9 @@ describe('DataFacade', () => {
       blocked: false,
       minRecyclingRate: 42,
       maxRecyclingRate: 42,
+      processTechnology: 'bof',
+      processTechnologyComment: 'bof comment',
+      processJson: { bf: 'bf comment' },
     },
   ];
   const mockNavigation = {

@@ -80,9 +80,6 @@ import {
   fetchCo2Standards,
   fetchCo2StandardsFailure,
   fetchCo2StandardsSuccess,
-  fetchCo2ValuesForSupplierSteelMakingProcess,
-  fetchCo2ValuesForSupplierSteelMakingProcessFailure,
-  fetchCo2ValuesForSupplierSteelMakingProcessSuccess,
   fetchConditions,
   fetchConditionsFailure,
   fetchConditionsSuccess,
@@ -104,6 +101,11 @@ import {
   fetchMaterialStandards,
   fetchMaterialStandardsFailure,
   fetchMaterialStandardsSuccess,
+  fetchProcessJsonComments,
+  fetchProcessJsonCommentsSuccess,
+  fetchProcessTechnologyComments,
+  fetchProcessTechnologyCommentsFailure,
+  fetchProcessTechnologyCommentsSuccess,
   fetchProductCategories,
   fetchProductCategoriesFailure,
   fetchProductCategoriesSuccess,
@@ -119,12 +121,6 @@ import {
   fetchReferenceDocuments,
   fetchReferenceDocumentsFailure,
   fetchReferenceDocumentsSuccess,
-  fetchSteelMakingProcesses,
-  fetchSteelMakingProcessesFailure,
-  fetchSteelMakingProcessesInUse,
-  fetchSteelMakingProcessesInUseFailure,
-  fetchSteelMakingProcessesInUseSuccess,
-  fetchSteelMakingProcessesSuccess,
   getSapMaterialsDatabaseUploadStatusFailure,
   getSapMaterialsDatabaseUploadStatusSuccess,
   manufacturerSupplierDialogCanceled,
@@ -222,17 +218,16 @@ describe('Dialog Effects', () => {
         action = materialDialogOpened();
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-(bcdefghijk)', {
+        const expected = m.cold('-(bcdefghij)', {
           b: fetchMaterialStandards(),
           c: fetchCo2Classifications(),
           d: fetchManufacturerSuppliers(),
           e: fetchProductCategories(),
           f: fetchRatings(),
-          g: fetchSteelMakingProcesses(),
-          h: fetchCastingModes(),
-          i: fetchReferenceDocuments(),
-          j: fetchProductCategoryRules(),
-          k: fetchCo2Standards(),
+          g: fetchCastingModes(),
+          h: fetchReferenceDocuments(),
+          i: fetchProductCategoryRules(),
+          j: fetchCo2Standards(),
         });
 
         m.expect(effects.materialDialogOpened$).toBeObservable(expected);
@@ -541,50 +536,6 @@ describe('Dialog Effects', () => {
         m.flush();
 
         expect(msdDataService.fetchRatings).toHaveBeenCalled();
-      })
-    );
-  });
-
-  describe('fetchSteelMakingProcesses$', () => {
-    it(
-      'should fetch steel making processes and return success action on success',
-      marbles((m) => {
-        action = fetchSteelMakingProcesses();
-        actions$ = m.hot('-a', { a: action });
-
-        const resultMock: string[] = ['1', '2'];
-        const response = m.cold('-a|', { a: resultMock });
-        msdDataService.fetchSteelMakingProcesses = jest.fn(() => response);
-
-        const result = fetchSteelMakingProcessesSuccess({
-          steelMakingProcesses: resultMock,
-        });
-        const expected = m.cold('--b', { b: result });
-
-        m.expect(effects.fetchSteelMakingProcesses$).toBeObservable(expected);
-        m.flush();
-
-        expect(msdDataService.fetchSteelMakingProcesses).toHaveBeenCalled();
-      })
-    );
-
-    it(
-      'should fetch steel making processes and return failure action on failure',
-      marbles((m) => {
-        action = fetchSteelMakingProcesses();
-        actions$ = m.hot('-a', { a: action });
-
-        msdDataService.fetchSteelMakingProcesses = jest
-          .fn()
-          .mockReturnValue(throwError(() => 'error'));
-
-        const result = fetchSteelMakingProcessesFailure();
-        const expected = m.cold('-b', { b: result });
-
-        m.expect(effects.fetchSteelMakingProcesses$).toBeObservable(expected);
-        m.flush();
-
-        expect(msdDataService.fetchSteelMakingProcesses).toHaveBeenCalled();
       })
     );
   });
@@ -2467,15 +2418,13 @@ describe('Dialog Effects', () => {
             co2Scope3: 1,
             co2PerTon: 3,
             co2Classification: 'C1',
-            releaseDateYear: 1,
-            releaseDateMonth: 1,
+            releaseDate: 1,
             releaseRestrictions: 'restriction',
             blocked: false,
             castingMode: 'mode',
             castingDiameter: 'diameter',
             minDimension: 1,
             maxDimension: 1,
-            steelMakingProcess: 'process',
             rating: 'rating',
             ratingRemark: 'remark',
             ratingChangeComment: 'comment',
@@ -2493,6 +2442,9 @@ describe('Dialog Effects', () => {
             co2UploadFileFilename: 'filename',
             productCategoryRuleId: productCategoryRule?.id,
             productCategoryRuleTitle: productCategoryRule?.title,
+            processTechnology: 'bof',
+            processTechnologyComment: 'comment',
+            processJson: { test: 'comment' },
             co2ClassificationNew,
             co2Standard,
           } as DataResult;
@@ -2511,18 +2463,17 @@ describe('Dialog Effects', () => {
               id: 'C1',
               title: 'c1',
             },
-            releaseDateYear: 1,
-            releaseDateMonth: 1,
+            releaseDate: 1,
             releaseRestrictions: 'restriction',
             blocked: false,
             castingMode: 'mode',
             castingDiameter: asStringOptionOrUndefined('diameter'),
             maxDimension: 1,
             minDimension: 1,
-            steelMakingProcess: asStringOptionOrUndefined('process'),
             productionProcess: undefined,
             rating: asStringOption('rating'),
             ratingRemark: 'remark',
+            ratingChangeComment: 'comment',
             selfCertified: true,
             minRecyclingRate: 44,
             maxRecyclingRate: 44,
@@ -2574,6 +2525,9 @@ describe('Dialog Effects', () => {
             co2ClassificationNew: expectedClassification,
             co2ClassificationNewSecondary: expectedClassificationSecondary,
             co2Standard: expectedStandard,
+            processTechnology: 'bof',
+            processTechnologyComment: 'comment',
+            processJson: { test: 'comment' },
           };
 
           const editMaterial: any = {
@@ -2606,7 +2560,6 @@ describe('Dialog Effects', () => {
         }
       )
     );
-
     it(
       'should return set material form value action with partial data',
       marbles((m) => {
@@ -2630,8 +2583,7 @@ describe('Dialog Effects', () => {
           co2Scope2: 1,
           co2Scope3: 1,
           co2PerTon: 3,
-          releaseDateYear: 1,
-          releaseDateMonth: 1,
+          releaseDate: 1,
           releaseRestrictions: 'restriction',
           blocked: false,
           castingMode: 'mode',
@@ -2644,6 +2596,10 @@ describe('Dialog Effects', () => {
           maxRecyclingRate: 33,
           manufacturer: false,
           condition: 'condition',
+          processTechnology: 'bof',
+          processTechnologyComment: 'comment',
+          processJson: { test: 'comment' },
+          castingDiameter: undefined,
         } as DataResult;
 
         const expectedFormValue: Partial<MaterialFormValue> = {
@@ -2659,18 +2615,17 @@ describe('Dialog Effects', () => {
             id: undefined,
             title: 'none',
           },
-          releaseDateYear: 1,
-          releaseDateMonth: 1,
+          releaseDate: 1,
           releaseRestrictions: 'restriction',
           blocked: false,
           castingMode: 'mode',
           castingDiameter: undefined,
           maxDimension: 1,
           minDimension: 1,
-          steelMakingProcess: undefined,
           productionProcess: asStringOptionOrUndefined('something'),
           rating: asStringOption(undefined, 'none'),
           ratingRemark: 'remark',
+          ratingChangeComment: 'comment',
           materialNumber: '1, 2',
           selfCertified: false,
           minRecyclingRate: 33,
@@ -2713,6 +2668,9 @@ describe('Dialog Effects', () => {
           co2UploadFileId: undefined,
           co2UploadFileFilename: undefined,
           productCategoryRule: undefined,
+          processTechnology: 'bof',
+          processTechnologyComment: 'comment',
+          processJson: { test: 'comment' },
         };
 
         const editMaterial: any = {
@@ -2758,140 +2716,111 @@ describe('Dialog Effects', () => {
     );
   });
 
-  describe('fetchSteelMakingProcessInUse$', () => {
+  describe('fetchProcessTechnologyComments$', () => {
     it(
-      'should fetch the steel making processes in use',
+      'should fetch the process technology comments and return success action',
       marbles((m) => {
-        action = fetchSteelMakingProcessesInUse({
-          supplierId: 1,
-          castingMode: 'ESR',
-          castingDiameter: '1x1',
+        action = fetchProcessTechnologyComments({
+          technology: 'bof',
         });
         actions$ = m.hot('-a', { a: action });
 
-        const resultMock: string[] = ['BF+BOF'];
+        const resultMock = ['a', 'b'];
         const response = m.cold('-a|', { a: resultMock });
-        msdDataService.fetchSteelMakingProcessesForSupplierPlantCastingModeCastingDiameter =
-          jest.fn(() => response);
+        msdDataService.fetchProcessTechnologyComments = jest.fn(() => response);
 
-        const result = fetchSteelMakingProcessesInUseSuccess({
-          steelMakingProcessesInUse: ['BF+BOF'],
+        const result = fetchProcessTechnologyCommentsSuccess({
+          values: ['a', 'b'],
         });
         const expected = m.cold('--b', { b: result });
 
-        m.expect(effects.fetchSteelMakingProcessesInUse$).toBeObservable(
+        m.expect(effects.fetchProcessTechnologyComments$).toBeObservable(
           expected
         );
         m.flush();
 
         expect(
-          msdDataService.fetchSteelMakingProcessesForSupplierPlantCastingModeCastingDiameter
-        ).toHaveBeenCalledWith(1, 'ESR', '1x1');
+          msdDataService.fetchProcessTechnologyComments
+        ).toHaveBeenCalledWith('bof', MaterialClass.STEEL);
       })
     );
 
     it(
-      'should fetch the steel making processes in use and return failure action on failure',
+      'should fetch the process technology comments and return failure action on failure',
       marbles((m) => {
-        action = fetchSteelMakingProcessesInUse({
-          supplierId: 1,
-          castingMode: 'ESR',
-          castingDiameter: '1x1',
-        });
+        action = fetchProcessTechnologyComments({ technology: 'bof' });
         actions$ = m.hot('-a', { a: action });
 
-        msdDataService.fetchSteelMakingProcessesForSupplierPlantCastingModeCastingDiameter =
-          jest.fn().mockReturnValue(throwError(() => 'error'));
+        msdDataService.fetchProcessTechnologyComments = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
 
-        const result = fetchSteelMakingProcessesInUseFailure();
+        const result = fetchProcessTechnologyCommentsFailure();
         const expected = m.cold('-b', { b: result });
 
-        m.expect(effects.fetchSteelMakingProcessesInUse$).toBeObservable(
+        m.expect(effects.fetchProcessTechnologyComments$).toBeObservable(
           expected as any
         );
         m.flush();
 
         expect(
-          msdDataService.fetchSteelMakingProcessesForSupplierPlantCastingModeCastingDiameter
-        ).toHaveBeenCalledWith(1, 'ESR', '1x1');
+          msdDataService.fetchProcessTechnologyComments
+        ).toHaveBeenCalledWith('bof', MaterialClass.STEEL);
       })
     );
   });
 
-  describe('fetchCo2ValuesForSupplierSteelMakingProcess$', () => {
+  describe('fetchProcessJsonComments$', () => {
     it(
-      'should fetch the co2 values and return success action',
+      'should fetch the process json comments and return success action',
       marbles((m) => {
-        action = fetchCo2ValuesForSupplierSteelMakingProcess({
-          supplierId: 1,
-          steelMakingProcess: 'BF+BOF',
-          productCategory: 'brightBar',
+        action = fetchProcessJsonComments({
+          technology: 'dr',
         });
         actions$ = m.hot('-a', { a: action });
 
-        const resultMock = [
-          {
-            co2PerTon: 3,
-            co2Scope1: 1,
-            co2Scope2: 1,
-            co2Scope3: 1,
-            co2Classification: 'c1',
-          },
-        ];
+        const resultMock = ['a', 'b'];
         const response = m.cold('-a|', { a: resultMock });
-        msdDataService.fetchCo2ValuesForSupplierPlantProcess = jest.fn(
-          () => response
-        );
+        msdDataService.fetchProcessJsonComments = jest.fn(() => response);
 
-        const result = fetchCo2ValuesForSupplierSteelMakingProcessSuccess({
-          co2Values: [
-            {
-              co2PerTon: 3,
-              co2Scope1: 1,
-              co2Scope2: 1,
-              co2Scope3: 1,
-              co2Classification: 'c1',
-            },
-          ],
+        const result = fetchProcessJsonCommentsSuccess({
+          technology: 'dr',
+          comments: ['a', 'b'],
         });
         const expected = m.cold('--b', { b: result });
 
-        m.expect(
-          effects.fetchCo2ValuesForSupplierSteelMakingProcess$
-        ).toBeObservable(expected);
+        m.expect(effects.fetchProcessJsonComments$).toBeObservable(expected);
         m.flush();
 
-        expect(
-          msdDataService.fetchCo2ValuesForSupplierPlantProcess
-        ).toHaveBeenCalledWith(1, MaterialClass.STEEL, 'BF+BOF', 'brightBar');
+        expect(msdDataService.fetchProcessJsonComments).toHaveBeenCalledWith(
+          'dr',
+          MaterialClass.STEEL
+        );
       })
     );
 
     it(
-      'should fetch the co2 values and return failure action on failure',
+      'should fetch the process Json comments and return failure action on failure',
       marbles((m) => {
-        action = fetchCo2ValuesForSupplierSteelMakingProcess({
-          supplierId: 1,
-          steelMakingProcess: 'BF+BOF',
-          productCategory: 'brightBar',
-        });
+        action = fetchProcessJsonComments({ technology: 'dr' });
         actions$ = m.hot('-a', { a: action });
 
-        msdDataService.fetchCo2ValuesForSupplierPlantProcess = jest
+        msdDataService.fetchProcessJsonComments = jest
           .fn()
           .mockReturnValue(throwError(() => 'error'));
 
-        const result = fetchCo2ValuesForSupplierSteelMakingProcessFailure();
+        const result = errorSnackBar({ message: 'uploadFailure' });
         const expected = m.cold('-b', { b: result });
 
-        m.expect(
-          effects.fetchCo2ValuesForSupplierSteelMakingProcess$
-        ).toBeObservable(expected as any);
+        m.expect(effects.fetchProcessJsonComments$).toBeObservable(
+          expected as any
+        );
         m.flush();
 
-        expect(
-          msdDataService.fetchCo2ValuesForSupplierPlantProcess
-        ).toHaveBeenCalledWith(1, MaterialClass.STEEL, 'BF+BOF', 'brightBar');
+        expect(msdDataService.fetchProcessJsonComments).toHaveBeenCalledWith(
+          'dr',
+          MaterialClass.STEEL
+        );
       })
     );
   });

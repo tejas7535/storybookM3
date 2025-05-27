@@ -1,0 +1,85 @@
+<ng-container
+  *transloco="let t; read: 'materialsSupplierDatabase.mainTable.dialog'"
+>
+  <div class="-ml-2">
+    <mat-checkbox
+      [formControl]="ironMakingControl"
+      name="ironMaking"
+      #dialogControl
+    >
+      {{ t('ironmaking.control') }}
+    </mat-checkbox>
+    @if (ironTechnologyGroup.invalid) {
+      <mat-error class="text-caption">{{
+        ironTechnologyGroup.errors | errorMessage
+      }}</mat-error>
+    }
+  </div>
+  <div class="columns-2" [ngClass]="{ hidden: !ironMakingControl.value }">
+    @for (conf of config; track conf) {
+      <div>
+        <mat-checkbox [formControl]="conf.ctrl" #dialogControl class="w-full">{{
+          t('ironmaking.' + conf.tech)
+        }}</mat-checkbox>
+        <mat-form-field
+          appearance="outline"
+          class="w-full"
+          [ngClass]="{ '!hidden': !conf.ctrl.value }"
+        >
+          <mat-label>{{ t('ironmaking.comments') }}</mat-label>
+          <input
+            type="text"
+            matInput
+            [matAutocomplete]="AcPreviousComments"
+            [formControl]="conf.cmnt"
+          />
+          <mat-autocomplete #AcPreviousComments="matAutocomplete">
+            @for (comment of conf.observable | ngrxPush; track comment) {
+              <mat-option [value]="comment">{{ comment }}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    }
+  </div>
+  <div class="-ml-2 flex flex-row gap-x-6">
+    <mat-checkbox
+      [formControl]="steelMakingControl"
+      name="steelMaking"
+      #dialogControl
+    >
+      {{ t('steelmaking.control') }}
+    </mat-checkbox>
+  </div>
+  <div
+    class="flex flex-row gap-x-6"
+    [ngClass]="{ hidden: !steelMakingControl.value }"
+  >
+    <mat-form-field appearance="outline" class="w-1/3">
+      <mat-label class="leading-6">{{ t('steelmaking.control') }}</mat-label>
+      <mat-select
+        name="technology"
+        #dialogControl
+        [formControl]="steelTechnologyControl"
+      >
+        @for (tech of steelTechnologies; track tech) {
+          <mat-option [value]="tech">{{ t('steelmaking.' + tech) }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-2/3">
+      <mat-label>{{ t('steelmaking.comments') }}</mat-label>
+      <input
+        type="text"
+        matInput
+        [matAutocomplete]="steelTechnologyCommentAC"
+        [formControl]="steelTechnologyCommentControl"
+      />
+      <mat-autocomplete #steelTechnologyCommentAC="matAutocomplete">
+        @for (comment of steelTechnologyComments$ | ngrxPush; track comment) {
+          <mat-option [value]="comment">{{ comment }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+</ng-container>

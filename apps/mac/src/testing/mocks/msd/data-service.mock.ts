@@ -25,8 +25,7 @@ export const msdServiceSteelMockResponse: SteelMaterialResponse[] = [
     co2PerTon: 2183,
     rating: 'RSI',
     steelMakingProcess: 'BF + BOF',
-    releaseDateYear: 2021,
-    releaseDateMonth: 10,
+    releaseDate: 20_211_001,
     releaseRestrictions: '',
     productCategory: 'strip',
     manufacturerSupplier: {
@@ -50,6 +49,9 @@ export const msdServiceSteelMockResponse: SteelMaterialResponse[] = [
     selfCertified: false,
     minRecyclingRate: 55,
     maxRecyclingRate: 55,
+    processTechnology: 'bof',
+    processTechnologyComment: 'bof comment',
+    processJson: '{}',
     blocked: false,
   },
   {
@@ -61,8 +63,7 @@ export const msdServiceSteelMockResponse: SteelMaterialResponse[] = [
     co2PerTon: 2183,
     rating: undefined,
     steelMakingProcess: 'BF + BOF',
-    releaseDateYear: 2004,
-    releaseDateMonth: 6,
+    releaseDate: 20_040_601,
     releaseRestrictions: '',
     productCategory: 'strip',
     manufacturerSupplier: {
@@ -82,6 +83,9 @@ export const msdServiceSteelMockResponse: SteelMaterialResponse[] = [
     selfCertified: false,
     minRecyclingRate: 22,
     maxRecyclingRate: 77,
+    processTechnology: 'bof',
+    processTechnologyComment: 'bof comment',
+    processJson: '{}',
     blocked: false,
   },
 ];
@@ -114,8 +118,7 @@ export const msdServiceSteelMockResult: SteelMaterial[] = [
     castingDiameter: undefined,
     rating: 'RSI',
     steelMakingProcess: 'BF + BOF',
-    releaseDateYear: 2021,
-    releaseDateMonth: 10,
+    releaseDate: 20_211_001,
     releaseRestrictions: '',
     materialNumbers: ['1.1234'],
     co2Scope1: undefined,
@@ -130,6 +133,9 @@ export const msdServiceSteelMockResult: SteelMaterial[] = [
     modifiedBy: undefined,
     minRecyclingRate: 55,
     maxRecyclingRate: 55,
+    processTechnology: 'bof',
+    processTechnologyComment: 'bof comment',
+    processJson: {},
   },
   {
     id: 128,
@@ -153,8 +159,7 @@ export const msdServiceSteelMockResult: SteelMaterial[] = [
     maxDimension: 0,
     co2PerTon: 2183,
     steelMakingProcess: 'BF + BOF',
-    releaseDateYear: 2004,
-    releaseDateMonth: 6,
+    releaseDate: 20_040_601,
     releaseRestrictions: '',
     castingDiameter: undefined,
     castingMode: undefined,
@@ -171,6 +176,9 @@ export const msdServiceSteelMockResult: SteelMaterial[] = [
     lastModified: undefined,
     minRecyclingRate: 22,
     maxRecyclingRate: 77,
+    processTechnology: 'bof',
+    processTechnologyComment: 'bof comment',
+    processJson: {},
   },
 ];
 
@@ -178,8 +186,7 @@ export const msdServicePolymerMockResponse: PolymerMaterialResponse[] = [
   {
     id: 127,
     co2PerTon: 2183,
-    releaseDateYear: 2021,
-    releaseDateMonth: 10,
+    releaseDate: 20_211_001,
     releaseRestrictions: '',
     productCategory: 'strip',
     manufacturerSupplier: {
@@ -200,8 +207,7 @@ export const msdServicePolymerMockResponse: PolymerMaterialResponse[] = [
   {
     id: 128,
     co2PerTon: 2183,
-    releaseDateYear: 2004,
-    releaseDateMonth: 6,
+    releaseDate: 20_040_601,
     releaseRestrictions: '',
     productCategory: 'strip',
     manufacturerSupplier: {
@@ -238,8 +244,7 @@ export const msdServicePolymerMockResult: PolymerMaterial[] = [
     productCategoryText:
       'materialsSupplierDatabase.productCategoryValues.strip',
     co2PerTon: 2183,
-    releaseDateYear: 2021,
-    releaseDateMonth: 10,
+    releaseDate: 20_211_001,
     releaseRestrictions: '',
     co2Scope1: undefined,
     co2Scope2: undefined,
@@ -265,8 +270,7 @@ export const msdServicePolymerMockResult: PolymerMaterial[] = [
     productCategoryText:
       'materialsSupplierDatabase.productCategoryValues.strip',
     co2PerTon: 2183,
-    releaseDateYear: 2004,
-    releaseDateMonth: 6,
+    releaseDate: 20_040_601,
     releaseRestrictions: '',
     co2Scope1: undefined,
     co2Scope2: undefined,

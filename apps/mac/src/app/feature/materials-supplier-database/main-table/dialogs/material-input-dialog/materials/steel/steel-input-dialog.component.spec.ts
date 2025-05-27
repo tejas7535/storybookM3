@@ -2,11 +2,9 @@ import {
   CUSTOM_ELEMENTS_SCHEMA,
   Injectable,
   NO_ERRORS_SCHEMA,
-  QueryList,
 } from '@angular/core';
 import {
   FormControl,
-  FormGroup,
   ReactiveFormsModule,
   ValidationErrors,
   Validators,
@@ -22,12 +20,12 @@ import {
 } from '@ngneat/spectator/jest';
 import { LetDirective, PushPipe } from '@ngrx/component';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import moment from 'moment';
 import { MockDirective, MockModule, MockPipe, MockProvider } from 'ng-mocks';
 
 import { SelectedFile } from '@schaeffler/file-upload';
-import { SelectComponent, SelectModule } from '@schaeffler/inputs/select';
+import { SelectModule } from '@schaeffler/inputs/select';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
@@ -38,12 +36,7 @@ import {
   THIRD_PARTY_VERIFIED_OPTION,
 } from '@mac/feature/materials-supplier-database/constants/co2-classification-options';
 import { MsdDialogService } from '@mac/feature/materials-supplier-database/services';
-import {
-  getHighestCo2Values,
-  getSteelMakingProcessesInUse,
-} from '@mac/feature/materials-supplier-database/store';
 import { DialogFacade } from '@mac/feature/materials-supplier-database/store/facades/dialog';
-import { SteelMaterialFormValue } from '@mac/msd/models';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 import {
@@ -55,7 +48,6 @@ import { assignDialogValues } from '@mac/testing/mocks/msd/mock-input-dialog-val
 
 import * as en from '../../../../../../../../assets/i18n/en.json';
 import { DialogControlsService, FileService } from '../../services';
-import { ReleaseDateViewMode } from './constants/release-date-view-mode.enum';
 import { SteelInputDialogComponent } from './steel-input-dialog.component';
 
 @Injectable()
@@ -63,10 +55,7 @@ class MockDialogFacade extends DialogFacade {
   addCustomCastingDiameter = jest.fn();
   addCustomReferenceDocument = jest.fn();
   fetchCastingDiameters = jest.fn();
-  fetchCo2ValuesForSupplierSteelMakingProcess = jest.fn();
-  fetchSteelMakingProcessesInUse = jest.fn();
   materialDialogConfirmed = jest.fn();
-  resetSteelMakingProcessInUse = jest.fn();
   updateCreateMaterialDialogValues = jest.fn();
   addCustomCo2Standard = jest.fn();
 }
@@ -84,9 +73,6 @@ describe('SteelInputDialogComponent', () => {
   let spectator: Spectator<SteelInputDialogComponent>;
   let dialogFacade: DialogFacade;
 
-  const setSilent = <T>(control: FormControl<T> | FormGroup, value?: T) =>
-    control.setValue(value, { emitEvent: false });
-
   const initialState = {
     msd: {
       data: {
@@ -102,8 +88,6 @@ describe('SteelInputDialogComponent', () => {
           manufacturerSuppliersLoading: true,
           ratings: ['1'],
           ratingsLoading: true,
-          steelMakingProcesses: ['1'],
-          steelMakingProcessesLoading: true,
           co2Classifications: ['1'],
           co2ClassificationsLoading: true,
           castingModes: ['1'],
@@ -119,10 +103,6 @@ describe('SteelInputDialogComponent', () => {
     },
   };
   const matDialogData = {};
-  let store: MockStore;
-  let smpSpy: MemoizedSelector<any, string[], DefaultProjectorFn<string[]>>;
-  let co2Spy: MemoizedSelector<any, any, DefaultProjectorFn<any>>;
-
   const createComponent = createComponentFactory({
     component: SteelInputDialogComponent,
     imports: [
@@ -167,10 +147,6 @@ describe('SteelInputDialogComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    const spy = spectator.inject(MockStore);
-    co2Spy = spy.overrideSelector(getHighestCo2Values, {});
-    smpSpy = spy.overrideSelector(getSteelMakingProcessesInUse, []);
-    store = spy;
 
     assignDialogValues(component, {
       steelNumberControl: getMockControl(false),
@@ -186,7 +162,6 @@ describe('SteelInputDialogComponent', () => {
       ratingRemarksControl: getMockControl(false),
       ratingChangeCommentControl: getMockControl(true),
       isBlockedControl: getMockControl(false),
-      steelMakingProcessControl: getMockControl(false),
       minRecyclingRateControl: new FormControl(undefined, [
         Validators.min(0),
         Validators.max(100),
@@ -195,7 +170,7 @@ describe('SteelInputDialogComponent', () => {
         Validators.min(0),
         Validators.max(100),
       ]),
-      isManufacturerControl: getMockControl(false),
+      supplierIronSteelManufacturerControl: getMockControl(false),
       destroy$: new Subject<void>(),
       isAddDialog: jest.fn(() => true),
     });
@@ -237,32 +212,26 @@ describe('SteelInputDialogComponent', () => {
     });
 
     describe('static', () => {
-      it('should create an array of months with length 12', () => {
-        expect(component.months).toHaveLength(12);
+      it('should define min year for calendar filter', () => {
+        expect(component['CALENDAR_FILTER_MIN_YEAR']).toBe(2020);
       });
-      it('should create an array of months with all months', () => {
-        expect(component.months).toEqual(
-          expect.arrayContaining([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
-        );
-      });
-      it('should create an array of years starting 2000', () => {
+      it('should max year for calendar filter', () => {
         const curYear = new Date().getFullYear();
-        expect(component.years).toEqual(
-          expect.arrayContaining([2000, curYear])
-        );
-      });
-      it('should create an array of years ending current year', () => {
-        const curYear = new Date().getFullYear();
-        expect(component.years).toEqual(
-          expect.not.arrayContaining([1999, curYear + 1])
-        );
+        expect(component['CALENDAR_FILTER_MAX_YEAR']).toEqual(curYear + 1);
       });
     });
   });
 
   describe('updateCreateMaterialDialogValues', () => {
+    afterAll(() => jest.useRealTimers());
     it('should assign the material form', () => {
+      jest.useFakeTimers();
       component.minDimControl.setValue(99);
+
+      // 🔦 to make tests less brittle, wait for the task to finish with `runOnlyPendingTimers` or `runOnlyPendingTimers` instead of advancing the time with `advanceTimersByTime`.
+      // This makes sure that the test isn't impacted when the duration is modified.
+      jest.advanceTimersByTime(1000);
+      jest.runOnlyPendingTimers();
 
       expect(
         dialogFacade.updateCreateMaterialDialogValues
@@ -275,7 +244,7 @@ describe('SteelInputDialogComponent', () => {
     });
   });
 
-  describe('isManufacturerControl', () => {
+  describe('supplierIronSteelManufacturerControl', () => {
     beforeEach(() => {
       component.supplierPlantControl.patchValue(
         createOption('plant', 1, { manufacturer: true })
@@ -283,26 +252,34 @@ describe('SteelInputDialogComponent', () => {
     });
     it('should unset and disable manufacturer with empty supplier data', () => {
       component.supplierPlantControl.reset();
-      expect(component.isManufacturerControl.enabled).toBeFalsy();
-      expect(component.isManufacturerControl.value).toBeFalsy();
+      expect(
+        component.supplierIronSteelManufacturerControl.enabled
+      ).toBeFalsy();
+      expect(component.supplierIronSteelManufacturerControl.value).toBeFalsy();
     });
     it('should set and disable manufacturer for existing supplier', () => {
       const option = createOption('plant', 2, { manufacturer: true });
       component.supplierPlantControl.patchValue(option);
-      expect(component.isManufacturerControl.enabled).toBeFalsy();
-      expect(component.isManufacturerControl.value).toBeTruthy();
+      expect(
+        component.supplierIronSteelManufacturerControl.enabled
+      ).toBeFalsy();
+      expect(component.supplierIronSteelManufacturerControl.value).toBeTruthy();
     });
     it('should unset and disable manufacturer for existing supplier', () => {
       const option = createOption('plant', 2, { manufacturer: false });
       component.supplierPlantControl.patchValue(option);
-      expect(component.isManufacturerControl.enabled).toBeFalsy();
-      expect(component.isManufacturerControl.value).toBeFalsy();
+      expect(
+        component.supplierIronSteelManufacturerControl.enabled
+      ).toBeFalsy();
+      expect(component.supplierIronSteelManufacturerControl.value).toBeFalsy();
     });
     it('should enable manufacturerControl for new supplier', () => {
       const option = createOption('plant');
       component.supplierPlantControl.patchValue(option);
-      expect(component.isManufacturerControl.enabled).toBeTruthy();
-      expect(component.isManufacturerControl.value).toBeFalsy();
+      expect(
+        component.supplierIronSteelManufacturerControl.enabled
+      ).toBeTruthy();
+      expect(component.supplierIronSteelManufacturerControl.value).toBeFalsy();
     });
   });
 
@@ -455,337 +432,6 @@ describe('SteelInputDialogComponent', () => {
     });
   });
 
-  describe('castingMode / supplier dependencies', () => {
-    beforeEach(() => {
-      component.castingModesControl.enable();
-      setSilent(component.castingDiameterDep, {
-        supplierId: 11,
-        castingMode: 'sth',
-      });
-    });
-    it('should enable castingDiameter with new casting mode', () => {
-      component.castingDiameterDep.patchValue({
-        castingMode: 'new',
-      });
-      expect(component.castingDiameterControl.enabled).toBeTruthy();
-      expect(dialogFacade.resetSteelMakingProcessInUse).toHaveBeenCalled();
-    });
-    it('should disable castingDiameter with casting mode reset', () => {
-      component.castingDiameterDep.patchValue({
-        castingMode: undefined,
-      });
-      expect(component.castingDiameterControl.disabled).toBeTruthy();
-      expect(dialogFacade.resetSteelMakingProcessInUse).toHaveBeenCalled();
-    });
-    it('should fetchCastingDiameters', () => {
-      component.castingDiameterDep.setValue({
-        supplierId: 99,
-        castingMode: 'new',
-      });
-      expect(dialogFacade.resetSteelMakingProcessInUse).toHaveBeenCalled();
-      expect(dialogFacade.fetchCastingDiameters).toHaveBeenCalledWith(
-        99,
-        'new'
-      );
-    });
-    it('should not fetchCastingDiameters without castingMode', () => {
-      component.castingDiameterDep.patchValue({
-        castingMode: undefined,
-      });
-      expect(dialogFacade.resetSteelMakingProcessInUse).toHaveBeenCalled();
-      expect(dialogFacade.fetchCastingDiameters).not.toHaveBeenCalledWith(
-        99,
-        // eslint-disable-next-line unicorn/no-useless-undefined
-        undefined
-      );
-    });
-    it('should not fetchCastingDiameters without supplierId', () => {
-      component.castingDiameterDep.patchValue({
-        supplierId: undefined,
-      });
-
-      expect(dialogFacade.resetSteelMakingProcessInUse).toHaveBeenCalled();
-      expect(dialogFacade.fetchCastingDiameters).not.toHaveBeenCalledWith(
-        99,
-        // eslint-disable-next-line unicorn/no-useless-undefined
-        undefined
-      );
-    });
-  });
-
-  describe('castingDiameter update', () => {
-    const supplierId = 3;
-    const castingMode = 'ignot';
-    let castingDiameter = '1x1';
-    beforeEach(() => {
-      component.castingDiameterControl.enable();
-      setSilent(
-        component.castingDiameterControl,
-        createOption(castingDiameter)
-      );
-      setSilent(component.manufacturerSupplierIdControl, supplierId);
-      setSilent(component.castingModesControl, castingMode);
-    });
-    it('should fetch steelMakingProcesses', () => {
-      castingDiameter = '2x2';
-      component.castingDiameterControl.setValue(createOption(castingDiameter));
-      expect(dialogFacade.fetchSteelMakingProcessesInUse).toHaveBeenCalledWith(
-        supplierId,
-        castingMode,
-        castingDiameter
-      );
-    });
-    it('should not fetch processes with empty diameter', () => {
-      component.castingDiameterControl.reset();
-      expect(
-        dialogFacade.fetchSteelMakingProcessesInUse
-      ).not.toHaveBeenCalled();
-    });
-    it('should not fetch processes with empty casting mode', () => {
-      setSilent(component.castingModesControl);
-      component.castingDiameterControl.setValue(createOption('test'));
-      expect(
-        dialogFacade.fetchSteelMakingProcessesInUse
-      ).not.toHaveBeenCalled();
-    });
-    it('should not fetch processes with empty id', () => {
-      setSilent(component.manufacturerSupplierIdControl);
-      component.castingDiameterControl.setValue(createOption('test'));
-      expect(
-        dialogFacade.fetchSteelMakingProcessesInUse
-      ).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('co2Dependencies', () => {
-    beforeEach(() => {
-      component.steelMakingProcessControl.enable();
-      setSilent(component.manufacturerSupplierIdControl, 1);
-      setSilent(component.steelMakingProcessControl, createOption('initial'));
-    });
-    it('should dispatch the fetch action on update of SMP', () => {
-      component.createMaterialForm.updateValueAndValidity = jest.fn();
-
-      component.categoriesControl.setValue(createOption('xxx', 'brightBar'));
-      component.steelMakingProcessControl.setValue(createOption('BF+BOF'));
-
-      expect(
-        dialogFacade.fetchCo2ValuesForSupplierSteelMakingProcess
-      ).toHaveBeenCalledWith(1, 'BF+BOF', 'brightBar');
-      expect(
-        component.createMaterialForm.updateValueAndValidity
-      ).toHaveBeenCalled();
-    });
-    it('should dispatch the fetch action on update of SupplierId', () => {
-      component.createMaterialForm.updateValueAndValidity = jest.fn();
-
-      component.manufacturerSupplierIdControl.setValue(7);
-      component.categoriesControl.setValue(createOption('xxx', 'brightBar'));
-      component.steelMakingProcessControl.setValue(createOption('initial'));
-
-      expect(
-        dialogFacade.fetchCo2ValuesForSupplierSteelMakingProcess
-      ).toHaveBeenCalledWith(7, 'initial', 'brightBar');
-      expect(
-        component.createMaterialForm.updateValueAndValidity
-      ).toHaveBeenCalled();
-    });
-    it('should not dispatch the fetch action with no SMP', () => {
-      component.steelMakingProcessControl.reset();
-
-      expect(
-        dialogFacade.fetchCo2ValuesForSupplierSteelMakingProcess
-      ).not.toHaveBeenCalledWith(7, undefined, 'brightBar');
-    });
-    it('should not dispatch the fetch action with no supplierId', () => {
-      setSilent(component.manufacturerSupplierIdControl);
-      component.steelMakingProcessControl.setValue({ id: 0, title: 'process' });
-
-      expect(
-        dialogFacade.fetchCo2ValuesForSupplierSteelMakingProcess
-      ).not.toHaveBeenCalledWith(undefined, undefined, 'brightBar');
-    });
-  });
-
-  describe('steelmakingProcessesInUse', () => {
-    const sc = new SelectComponent();
-    const update = (arr?: string[]) => {
-      smpSpy.setResult(arr);
-      store.refreshState();
-    };
-    beforeEach(() => {
-      const ql = Object.assign(new QueryList(), {
-        first: sc,
-      }) as QueryList<SelectComponent>;
-      Object.assign(component['steelMakingProcessSelectQueryList'], ql);
-    });
-    it('should set initialSearchValue to "inuseFilter"', () => {
-      update(['1']);
-      expect(sc.searchControl.value).not.toBe('');
-    });
-    it('should set initialSearchValue to empty filter', () => {
-      update([]);
-      expect(sc.searchControl.value).toBe('');
-    });
-    it('should set initialSearchValue to', () => {
-      update();
-      expect(sc.searchControl.value).toBe('');
-    });
-  });
-
-  describe('co2ValuesForSupplierSteelMakingProcess', () => {
-    beforeEach(() => {
-      setSilent(component.co2Scope1Control);
-      setSilent(component.co2Scope2Control);
-      setSilent(component.co2Scope3Control);
-      setSilent(component.co2TotalControl);
-      setSilent(component.co2ClassificationControl);
-      component.co2ClassificationControl.disable();
-      component['snackbar'].infoTranslated = jest.fn();
-    });
-    const update = (
-      arr?: number[],
-      co2Classification?: string,
-      otherValues = 0
-    ) => {
-      if (arr) {
-        co2Spy.setResult({
-          co2Values: {
-            co2Scope1: arr[0],
-            co2Scope2: arr[1],
-            co2Scope3: arr[2],
-            co2PerTon: arr[3],
-            co2Classification,
-          },
-          otherValues,
-        });
-      } else {
-        co2Spy.setResult({});
-      }
-      store.refreshState();
-    };
-    it('should update co2Dialog values', () => {
-      update([1, 2, 3, 4], 'yes', 8);
-
-      expect(component['snackbar'].infoTranslated).toHaveBeenCalled();
-      expect(component.co2ClassificationControl.enabled).toBe(true);
-      expect(component.co2ClassificationControl.value).toBe('yes');
-      expect(component.co2Scope1Control.value).toBe(1);
-      expect(component.co2Scope2Control.value).toBe(2);
-      expect(component.co2Scope3Control.value).toBe(3);
-      expect(component.co2TotalControl.value).toBe(4);
-    });
-    it('should partial update co2Dialog values', () => {
-      update([1, undefined, undefined, 4]);
-
-      expect(component['snackbar'].infoTranslated).toHaveBeenCalled();
-      expect(component.co2ClassificationControl.enabled).toBe(true);
-      expect(component.co2ClassificationControl.value).toBeFalsy();
-      expect(component.co2Scope1Control.value).toBe(1);
-      expect(component.co2Scope2Control.value).toBeFalsy();
-      expect(component.co2Scope3Control.value).toBeFalsy();
-      expect(component.co2TotalControl.value).toBe(4);
-    });
-    it('should not update co2Dialog values with no values given', () => {
-      update();
-
-      expect(component['snackbar'].infoTranslated).not.toHaveBeenCalled();
-      expect(component.co2ClassificationControl.enabled).toBe(false);
-    });
-    it('should not update co2Dialog values with value set for scope1', () => {
-      setSilent(component.co2Scope1Control, 400);
-      update([1, 2, 3, 4]);
-
-      expect(component['snackbar'].infoTranslated).not.toHaveBeenCalled();
-      expect(component.co2ClassificationControl.enabled).toBe(false);
-    });
-    it('should not update co2Dialog values with value set for scope2', () => {
-      setSilent(component.co2Scope2Control, 99);
-      update([1, 2, 3, 4]);
-
-      expect(component['snackbar'].infoTranslated).not.toHaveBeenCalled();
-      expect(component.co2ClassificationControl.enabled).toBe(false);
-    });
-    it('should not update co2Dialog values with value set for scope3', () => {
-      setSilent(component.co2Scope3Control, 66);
-      update([1, 2, 3, 4]);
-
-      expect(component['snackbar'].infoTranslated).not.toHaveBeenCalled();
-      expect(component.co2ClassificationControl.enabled).toBe(false);
-    });
-    it('should not update co2Dialog values with value set for co2Total given', () => {
-      setSilent(component.co2TotalControl, 3);
-      update([1, 2, 3, 4]);
-
-      expect(component['snackbar'].infoTranslated).not.toHaveBeenCalled();
-      expect(component.co2ClassificationControl.enabled).toBe(false);
-    });
-  });
-
-  describe('selectReleaseDateView', () => {
-    beforeEach(() => {
-      component.isEditDialog.set(false);
-      component.isCopyDialog.set(false);
-      component.isBulkEditDialog.set(false);
-      component.releaseMonthControl.enable();
-      component.releaseYearControl.enable();
-    });
-    it('should return NEW for ADD Dialog', () => {
-      component.isCopyDialog.set(false);
-      component.isEditDialog.set(false);
-      component.isBulkEditDialog.set(false);
-      expect(component.selectReleaseDateView()).toBe(
-        ReleaseDateViewMode.DEFAULT
-      );
-    });
-    it('should return NEW for COPY Dialog', () => {
-      component.isCopyDialog.set(true);
-      component.isEditDialog.set(true);
-      component.isBulkEditDialog.set(false);
-      expect(component.selectReleaseDateView()).toBe(
-        ReleaseDateViewMode.DEFAULT
-      );
-    });
-    it('should return NEW for BULK Edit Dialog', () => {
-      component.isCopyDialog.set(false);
-      component.isEditDialog.set(true);
-      component.isBulkEditDialog.set(true);
-      expect(component.selectReleaseDateView()).toBe(
-        ReleaseDateViewMode.READONLY
-      );
-    });
-    it('should return READONLY for EDIT Dialog', () => {
-      component.isCopyDialog.set(false);
-      component.isEditDialog.set(true);
-      component.isBulkEditDialog.set(false);
-      component.releaseMonthControl.setValue(1);
-      component.releaseYearControl.setValue(33);
-      expect(component.selectReleaseDateView()).toBe(
-        ReleaseDateViewMode.READONLY
-      );
-    });
-    it('should return HISTORIC for EDIT Dialog without full release date (month)', () => {
-      component.isCopyDialog.set(false);
-      component.isEditDialog.set(true);
-      component.isBulkEditDialog.set(false);
-      component.releaseMonthControl.reset();
-      component.releaseYearControl.setValue(33);
-      expect(component.selectReleaseDateView()).toBe(
-        ReleaseDateViewMode.HISTORIC
-      );
-    });
-    it('should return HISTORIC for EDIT Dialog without full release date (Year)', () => {
-      component.isCopyDialog.set(false);
-      component.isEditDialog.set(true);
-      component.isBulkEditDialog.set(false);
-      component.releaseMonthControl.setValue(1);
-      component.releaseYearControl.reset();
-      expect(component.selectReleaseDateView()).toBe(
-        ReleaseDateViewMode.HISTORIC
-      );
-    });
-  });
-
   describe('getCo2ClassificationsNew', () => {
     it('should return the co2Classifications', () => {
       const result = component.co2ClassificationsNew;
@@ -896,108 +542,107 @@ describe('SteelInputDialogComponent', () => {
     });
   });
 
-  describe('steelMakingProcessFilterFn', () => {
-    it('should return the false', () => {
-      const result = component.steelMakingProcessFilterFn(
-        { id: 'BF+BOF', title: 'BF+BOF' },
-        'a'
-      );
-
-      expect(result).toBe(false);
+  describe('releaseDateControls', () => {
+    beforeEach(() => {
+      component.releaseDateControl.addValidators = jest.fn();
+      component.releaseDateControl.removeValidators = jest.fn();
+      component.releaseDateControl.reset = jest.fn();
+      component.releaseDateControlMoment.reset = jest.fn();
+      component.releaseDateControlMoment.enable = jest.fn();
+      component.releaseDateControlMoment.disable = jest.fn();
+      component.releaseDateControlMoment.addValidators = jest.fn();
+      component.releaseDateControlMoment.removeValidators = jest.fn();
     });
-
-    it('should return the true', () => {
-      const result = component.steelMakingProcessFilterFn(
-        { id: 'BF+BOF', title: 'BF+BOF' },
-        'bof'
-      );
-
-      expect(result).toBe(true);
+    it('should check initial state', () => {
+      expect(
+        component.releaseDateControl.hasValidator(Validators.required)
+      ).toBeTruthy();
+      expect(
+        component.releaseDateControlMoment.hasValidator(Validators.required)
+      ).toBeTruthy();
+      expect(component.isHistoricSupplierControl.value).toBeFalsy();
     });
+    it('should disable releasedate control for historic supplier', () => {
+      component.isHistoricSupplierControl.setValue(true);
 
-    it('should return true if the title is within the used processes', () => {
-      component['steelMakingProcessesInUse'] = ['BF+BOF'];
-      const result = component.steelMakingProcessFilterFn(
-        { id: 'BF+BOF', title: 'BF+BOF' },
-        'in use by supplier'
+      expect(component.releaseDateControl.removeValidators).toHaveBeenCalled();
+      expect(component.releaseDateControl.addValidators).not.toHaveBeenCalled();
+      expect(
+        component.releaseDateControlMoment.removeValidators
+      ).toHaveBeenCalled();
+      expect(
+        component.releaseDateControlMoment.addValidators
+      ).not.toHaveBeenCalled();
+      expect(component.releaseDateControlMoment.disable).toHaveBeenCalled();
+      expect(component.releaseDateControlMoment.reset).toHaveBeenCalled();
+      expect(component.releaseDateControl.value).toBeFalsy();
+    });
+    it('should enable the releasedate control for non-historic supplier', () => {
+      component.isHistoricSupplierControl.setValue(false);
+
+      expect(
+        component.releaseDateControl.removeValidators
+      ).not.toHaveBeenCalled();
+      expect(component.releaseDateControl.addValidators).toHaveBeenCalled();
+      expect(
+        component.releaseDateControlMoment.removeValidators
+      ).not.toHaveBeenCalled();
+      expect(
+        component.releaseDateControlMoment.addValidators
+      ).toHaveBeenCalled();
+      expect(component.releaseDateControlMoment.disable).not.toHaveBeenCalled();
+      expect(component.releaseDateControlMoment.reset).not.toHaveBeenCalled();
+      expect(component.releaseDateControl.value).toBeTruthy();
+    });
+    it('should transfer the releasedate control value to the form', () => {
+      const date = '20230403';
+      component.releaseDateControlMoment.setValue(moment(date, 'YYYYMMDD'));
+
+      expect(component.releaseDateControl.value).toBe(
+        Number.parseInt(date, 10)
       );
+    });
+    it('should reset the releasedate control value to the form', () => {
+      component.releaseDateControlMoment.setValue(moment(), {
+        emitEvent: false,
+      });
+      component.releaseDateControlMoment.setValue(undefined);
 
-      expect(result).toBe(true);
+      expect(component.releaseDateControl.reset).toHaveBeenCalled();
     });
   });
 
-  describe('enableEditFields', () => {
+  describe('patchFields', () => {
     beforeEach(() => {
-      component.releaseMonthControl.removeValidators = jest.fn();
-      component.releaseYearControl.removeValidators = jest.fn();
+      component.isHistoricSupplierControl.setValue(false, { emitEvent: false });
+      component.releaseDateControlMoment.setValue(undefined, {
+        emitEvent: false,
+      });
     });
-    it('should call the parent function and do nothing if a release date is present', () => {
-      const mockFormValue = {
-        releaseDateMonth: 1,
-        releaseDateYear: 1,
-      } as SteelMaterialFormValue;
+    it('should preset release date', () => {
+      const date = '20230403';
+      const form = {
+        releaseDate: Number.parseInt(date, 10),
+      };
+      component.patchFields(form);
 
-      component.enableEditFields(mockFormValue);
-
-      // expect(mockSuperEnableEditFields).toHaveBeenCalledWith(mockFormValue);
       expect(
-        component.releaseMonthControl.removeValidators
-      ).not.toHaveBeenCalled();
-      expect(
-        component.releaseYearControl.removeValidators
-      ).not.toHaveBeenCalled();
+        component.releaseDateControlMoment.value.isSame(
+          moment(date, 'YYYYMMDD')
+        )
+      ).toBeTruthy();
+      expect(component.isHistoricSupplierControl.value).toBeFalsy();
     });
+    it('should preset historic', () => {
+      component.patchFields({});
 
-    it('should call the parent function and remove the required validators if no release date month is present', () => {
-      const mockFormValue = {
-        releaseDateMonth: undefined,
-        releaseDateYear: 1,
-      } as SteelMaterialFormValue;
-
-      component.enableEditFields(mockFormValue);
-
-      // expect(mockSuperEnableEditFields).toHaveBeenCalledWith(mockFormValue);
-      expect(
-        component.releaseMonthControl.removeValidators
-      ).toHaveBeenCalledWith(Validators.required);
-      expect(
-        component.releaseYearControl.removeValidators
-      ).toHaveBeenCalledWith(Validators.required);
+      expect(component.isHistoricSupplierControl.value).toBeTruthy();
     });
+    it('should not preset historic on bulk edit', () => {
+      component.isBulkEditDialog.set(true);
+      component.patchFields({});
 
-    it('should call the parent function and remove the required validators if no release date year is present', () => {
-      const mockFormValue = {
-        releaseDateMonth: 1,
-        releaseDateYear: undefined,
-      } as SteelMaterialFormValue;
-
-      component.enableEditFields(mockFormValue);
-
-      // expect(mockSuperEnableEditFields).toHaveBeenCalledWith(mockFormValue);
-      expect(
-        component.releaseMonthControl.removeValidators
-      ).toHaveBeenCalledWith(Validators.required);
-      expect(
-        component.releaseYearControl.removeValidators
-      ).toHaveBeenCalledWith(Validators.required);
-    });
-
-    it('should call the parent function and not remove the validators in copy dialog', () => {
-      const mockFormValue = {
-        releaseDateMonth: 1,
-        releaseDateYear: 1,
-      } as SteelMaterialFormValue;
-      component.isCopyDialog.set(true);
-
-      component.enableEditFields(mockFormValue);
-
-      // expect(mockSuperEnableEditFields).toHaveBeenCalledWith(mockFormValue);
-      expect(
-        component.releaseMonthControl.removeValidators
-      ).not.toHaveBeenCalled();
-      expect(
-        component.releaseYearControl.removeValidators
-      ).not.toHaveBeenCalled();
+      expect(component.isHistoricSupplierControl.value).toBeFalsy();
     });
   });
 

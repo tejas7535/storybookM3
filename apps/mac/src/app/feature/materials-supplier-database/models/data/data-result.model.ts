@@ -22,8 +22,7 @@ export interface DataResult {
   co2Scope3?: number;
   co2PerTon?: number;
   co2Classification?: string;
-  releaseDateYear: number;
-  releaseDateMonth: number;
+  releaseDate: number;
   releaseRestrictions?: string;
   blocked?: boolean;
   castingMode: string;
@@ -40,6 +39,9 @@ export interface DataResult {
   lastModified?: number;
   condition?: string;
   grade?: string;
+  processTechnology: string;
+  processTechnologyComment: string;
+  processJson: { [key: string]: string };
 
   co2Upstream?: number;
   co2Core?: number;
