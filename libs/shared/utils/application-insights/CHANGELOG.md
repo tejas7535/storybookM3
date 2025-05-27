@@ -1,4 +1,11 @@
 # Release Notes of Library Shared Utils Application Insights
+## [1.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v1.5.1...application-insights-v1.6.0) (2025-05-27)
+
+
+### Features
+
+* **gq:** remove cookie banner (GQUOTE-6065) ([#7275](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7275)) ([9229349](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/92293490fc4cae965518212d60ff48eec14cd09e))
+
 ## [1.5.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v1.5.0...application-insights-v1.5.1) (2025-03-21)
 
 ## 1.5.0 (2024-10-25)
