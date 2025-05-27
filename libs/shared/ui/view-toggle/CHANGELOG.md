@@ -1,4 +1,11 @@
 # Release Notes of Library Shared UI View Toggle
+## [2.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/view-toggle-v2.0.1...view-toggle-v2.1.0) (2025-05-27)
+
+
+### Features
+
+* **d360:** generic table wrapper (D360-373) ([#7321](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7321)) ([bcbd855](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bcbd85520b3d211bf748c8788cccacf9d4457c2f))
+
 ## [2.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/view-toggle-v2.0.0...view-toggle-v2.0.1) (2025-03-21)
 
 ## 2.0.0 (2024-10-25)
