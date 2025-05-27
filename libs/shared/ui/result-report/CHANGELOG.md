@@ -1,4 +1,11 @@
 # Release Notes of Library Shared UI Result Report
+## [0.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/result-report-v0.1.0...result-report-v0.2.0) (2025-05-27)
+
+
+### Features
+
+* **result-report:** remove unused import (UFTABI-8413) ([#7193](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7193)) ([bb3d3a2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bb3d3a20293ac0b03abbca84ee910f9ad16ee5d4))
+
 ## 0.1.0 (2025-03-21)
 
 
