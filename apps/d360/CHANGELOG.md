@@ -1,4 +1,39 @@
 # Release Notes of Demand360
+## [3.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/d360-v3.0.0...d360-v3.0.1) (2025-05-27)
+
+
+### Features
+
+* **d360:** added missing tests in feature folder (D360-427) ([#7278](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7278)) ([b4c27aa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b4c27aaacbb34ae9237c662caf9b2bbc57a0744c))
+* **d360:** adjust german transaltions (D360-457, D360-459) ([#7322](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7322)) ([60fec51](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/60fec5103ec9d983d1be86a9b1cd067574bda46d))
+* **d360:** fix wrong expansion state in the demand validation table (D360-456) ([#7311](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7311)) ([0a50ac2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0a50ac28a6c3c08669696d67188fda22bb3c0054))
+* **d360:** fix wrong row style after deleting an row in batch uploads (D360-453) ([#7310](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7310)) ([1969f41](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1969f41998835a2110184b60cf67054f20c2ddb2))
+* **d360:** gaps between radio buttons (D360-416) ([#7287](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7287)) ([35a7b35](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/35a7b35d6f77dcbc7e6f17778ff7278fc01b4eff))
+* **d360:** generic table wrapper (D360-373, D360-438, D360-434) ([#7200](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7200)) ([fa4e0c8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fa4e0c848e1fc78a98155401bea4f944d55487cb))
+* **d360:** generic table wrapper (D360-373) ([#7304](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7304)) ([46d4204](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/46d42041a0954a9868e448fce21b0fa5e68ac38d))
+* **d360:** generic table wrapper (D360-373) ([#7321](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7321)) ([bcbd855](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bcbd85520b3d211bf748c8788cccacf9d4457c2f))
+* **d360:** generic table wrapper (D360-373) ([#7324](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7324)) ([5e7a003](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5e7a003953f70b401c831588b92c97c98dee2eb3))
+* **d360:** generic table wrapper (D360-373) ([#7325](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7325)) ([9a05bee](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9a05bee1decfa6019e6788e2a77d920e12d8c71a))
+* **d360:** graphic adjustment for sales validation (D360-433) ([#7300](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7300)) ([5751d45](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5751d459e21a51f681798ff500b47dc08be3df12))
+* **d360:** grid icon in primary color (D360-413) ([#7239](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7239)) ([de742ba](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/de742ba9b772653aa2bba9296e70184797739f92))
+* **d360:** outlines for sections (D360-412) ([#7238](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7238)) ([21b65a3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/21b65a3388fc7df112e9bd2be306446ad12a2b36))
+* **d360:** set minimum value (D360-442) ([#7283](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7283)) ([b24e97a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b24e97aefe800010c6b5b24a03c08855d6835ecc))
+* **d360:** UI improvements for sales validation (D360-414) ([#7257](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7257)) ([fc80ed8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fc80ed846edd73815b53cfaa95581bfe3f6dab01))
+* **d360:** ui improvements in customer material portfolio (D360-415) ([#7261](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7261)) ([9315b73](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9315b73d3806b7ddb35a6c938f544fef0cc6afdc))
+* **d360:** update links in the footer (D360-424) ([#7294](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7294)) ([4616ebc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4616ebcf1f3d9170f8ec7809d535a316cb402769))
+* **d360:** update sales data handling for planning view on chart ([#7320](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7320)) ([172cc81](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/172cc810b60d0e584d7403507e7e1e65092d3bfe))
+
+
+### Bug Fixes
+
+* **d360:** deterministic tests (D360-410) ([#7252](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7252)) ([311ec15](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/311ec1566254d3fafc62af8011fc4c6075fdac1d))
+* **d360:** disable correct dates in the past (D360-437) ([#7289](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7289)) ([ad9aee1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ad9aee132f40e7776f126304780cedca6efc87c2))
+* **d360:** fix number entry restriction for spanish (D360-451) ([#7295](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7295)) ([e117977](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e117977b749a498048922e0deafb6d880966fa2b))
+* **d360:** update translations for sales planning terminology across … ([#7330](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7330)) ([7ae629e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7ae629e5f5bf6b78ddbb1434003676b139c1beeb))
+* **d360:** wrong data for demand validation date ranges (D360-431) ([#7271](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7271)) ([665ae4d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/665ae4d3b48656edfb381af7d419442c6596726f))
+* **d360:** wrong date in validation of demand (D360-448) ([#7288](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7288)) ([122d564](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/122d564bdf5c0e9de1627b1f567afa18ca70661a))
+* **d360:** wrong value for hasChangedData (D360-432) ([#7272](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7272)) ([93af17a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/93af17a2efc5a672ce69f582255a490e5d9a8aad))
+
 ## [3.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/d360-v2.0.4...d360-v3.0.0) (2025-05-06)
 
 
