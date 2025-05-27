@@ -105,7 +105,7 @@ describe('HeaderContentComponent', () => {
           data: {
             caseName: undefined,
             bindingPeriodValidityEndDate: undefined,
-            customerPurchaseOrderDate: undefined,
+            customerInquiryDate: undefined,
             enableSapFieldEditing: false,
             quotationToDate: undefined,
             requestedDeliveryDate: undefined,
@@ -150,7 +150,7 @@ describe('HeaderContentComponent', () => {
           data: {
             caseName: 'case-name',
             bindingPeriodValidityEndDate: undefined,
-            customerPurchaseOrderDate: undefined,
+            customerInquiryDate: undefined,
             enableSapFieldEditing: false,
             quotationToDate: undefined,
             requestedDeliveryDate: undefined,
@@ -185,7 +185,7 @@ describe('HeaderContentComponent', () => {
           data: {
             caseName: 'case-name',
             bindingPeriodValidityEndDate: undefined,
-            customerPurchaseOrderDate: undefined,
+            customerInquiryDate: undefined,
             enableSapFieldEditing: false,
             quotationToDate: undefined,
             requestedDeliveryDate: undefined,
@@ -218,7 +218,7 @@ describe('HeaderContentComponent', () => {
           data: {
             caseName: undefined,
             bindingPeriodValidityEndDate: undefined,
-            customerPurchaseOrderDate: undefined,
+            customerInquiryDate: undefined,
             enableSapFieldEditing: false,
             quotationToDate: undefined,
             requestedDeliveryDate: undefined,

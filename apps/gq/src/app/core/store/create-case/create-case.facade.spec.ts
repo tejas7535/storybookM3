@@ -205,8 +205,8 @@ describe('CreateCaseFacade', () => {
         );
       });
     });
-    describe('createNewOgpCase', () => {
-      test('should dispatch createNewOgpCase action', () => {
+    describe('createNewCase', () => {
+      test('should dispatch createNewCase action', () => {
         mockStore.dispatch = jest.fn();
         const inputHeaderInformation: HeaderInformationData = {
           bindingPeriodValidityEndDate: moment(new Date('2025-02-17')),
@@ -246,17 +246,17 @@ describe('CreateCaseFacade', () => {
             salesOrg: inputHeaderInformation.salesOrg.id,
           },
         };
-        facade.createNewOgpCase(inputHeaderInformation);
+        facade.createNewCase(inputHeaderInformation);
 
         expect(mockStore.dispatch).toHaveBeenCalledWith({
           createCaseData: expectedActionInput,
-          type: '[Create Case] Create OGP Case',
+          type: '[Create Case] Create Case',
         });
       });
     });
 
-    describe('createNewCustomerOgpCase', () => {
-      test('should dispatch createCustomerOgpCase action', () => {
+    describe('createNewCustomerCase', () => {
+      test('should dispatch createCustomerCase action', () => {
         mockStore.dispatch = jest.fn();
         const inputHeaderInformation: HeaderInformationData = {
           bindingPeriodValidityEndDate: moment(new Date('2025-02-17')),
@@ -296,11 +296,11 @@ describe('CreateCaseFacade', () => {
             salesOrg: inputHeaderInformation.salesOrg.id,
           },
         };
-        facade.createNewCustomerOgpCase(inputHeaderInformation);
+        facade.createNewCustomerCase(inputHeaderInformation);
 
         expect(mockStore.dispatch).toHaveBeenCalledWith({
           createCaseData: expectedActionInput,
-          type: '[Create Case] Create Customer OGP Case',
+          type: '[Create Case] Create Customer Case',
         });
       });
     });

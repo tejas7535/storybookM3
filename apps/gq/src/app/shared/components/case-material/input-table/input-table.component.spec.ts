@@ -8,7 +8,6 @@ import {
   ProcessCaseActionHeaderComponent,
 } from '@gq/shared/ag-grid/cell-renderer';
 import { AddMaterialButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/add-material-button/add-material-button.component';
-import { CreateCaseButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/create-case-button/create-case-button.component';
 import { CreateCaseResetAllButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';
 import { ProcessCaseResetAllButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
 import { RemoveAllFilteredButtonComponent } from '@gq/shared/ag-grid/custom-status-bar/case-material-table/remove-all-filtered-button/remove-all-filtered-button.component';
@@ -35,7 +34,7 @@ describe('InputTableComponent', () => {
   let component: InputTableComponent;
   let spectator: Spectator<InputTableComponent>;
 
-  const BASE_COLUMN_DEFS = [
+  const COLUMN_DEFS = [
     {
       headerName: translate('shared.caseMaterial.table.materialDescription'),
       field: 'materialDescription',
@@ -58,7 +57,7 @@ describe('InputTableComponent', () => {
       headerName: translate('shared.caseMaterial.table.info.title'),
       field: 'info',
       cellRenderer: 'infoCellComponent',
-      flex: 0.1,
+      flex: null as number,
       sortable: true,
     },
   ];
@@ -69,7 +68,6 @@ describe('InputTableComponent', () => {
       PushPipe,
       provideTranslocoTestingModule({ en: {} }),
       MockComponent(AddMaterialButtonComponent),
-      MockComponent(CreateCaseButtonComponent),
       MockComponent(CreateCaseResetAllButtonComponent),
       MockComponent(ProcessCaseResetAllButtonComponent),
       MockComponent(RemoveAllFilteredButtonComponent),
@@ -94,7 +92,7 @@ describe('InputTableComponent', () => {
         useValue: {},
       },
       MockProvider(InputTableColumnDefService, {
-        BASE_COLUMN_DEFS: [],
+        COLUMN_DEFS: [],
       }),
       MockProvider(LocalizationService),
       MockProvider(FeatureToggleConfigService, {
@@ -115,48 +113,7 @@ describe('InputTableComponent', () => {
 
   describe('initStatusBar', () => {
     test('should return StatusBarConfig for createCase', () => {
-      const result = component.initStatusBar(
-        true,
-        false,
-        BASE_STATUS_BAR_CONFIG
-      );
-
-      const expected: StatusBarConfig = {
-        statusPanels: [
-          ...BASE_STATUS_BAR_CONFIG.statusPanels,
-          {
-            statusPanel: CreateCaseButtonComponent,
-            align: 'left',
-          },
-          {
-            statusPanel: PasteButtonComponent,
-            align: 'left',
-            statusPanelParams: {
-              isCaseView: true,
-              isNewCaseCreationView: false,
-            },
-          },
-          {
-            statusPanel: RemoveAllFilteredButtonComponent,
-            align: 'right',
-            statusPanelParams: {
-              isCaseView: true,
-            },
-          },
-          {
-            statusPanel: CreateCaseResetAllButtonComponent,
-            align: 'right',
-          },
-        ],
-      };
-      expect(JSON.stringify(result)).toEqual(JSON.stringify(expected));
-    });
-    test('should return StatusBarConfig for newCreateCase', () => {
-      const result = component.initStatusBar(
-        true,
-        true,
-        BASE_STATUS_BAR_CONFIG
-      );
+      const result = component.initStatusBar(true, BASE_STATUS_BAR_CONFIG);
 
       const expected: StatusBarConfig = {
         statusPanels: [
@@ -166,7 +123,6 @@ describe('InputTableComponent', () => {
             align: 'left',
             statusPanelParams: {
               isCaseView: true,
-              isNewCaseCreationView: true,
             },
           },
           {
@@ -187,7 +143,7 @@ describe('InputTableComponent', () => {
     test('should return StatusBarConfig for processCase', () => {
       const result = component.initStatusBar(
         false,
-        false,
+
         BASE_STATUS_BAR_CONFIG
       );
 
@@ -203,7 +159,6 @@ describe('InputTableComponent', () => {
             align: 'left',
             statusPanelParams: {
               isCaseView: false,
-              isNewCaseCreationView: false,
             },
           },
           {
@@ -225,13 +180,13 @@ describe('InputTableComponent', () => {
 
   describe('initColDef', () => {
     test('should return ColDef for createCase', () => {
-      const result = component.initColDef(true, BASE_COLUMN_DEFS);
+      const result = component.initColDef(true, COLUMN_DEFS);
 
       const expected: ColDef[] = [
-        ...BASE_COLUMN_DEFS,
+        ...COLUMN_DEFS,
         {
           cellRenderer: CreateCaseActionCellComponent,
-          flex: 0.2,
+          flex: 0,
           filter: false,
           floatingFilter: false,
           headerComponent: CreateCaseActionHeaderComponent,
@@ -241,13 +196,13 @@ describe('InputTableComponent', () => {
       expect(JSON.stringify(result)).toEqual(JSON.stringify(expected));
     });
     test('should return ColDef for processCase', () => {
-      const result = component.initColDef(false, BASE_COLUMN_DEFS);
+      const result = component.initColDef(false, COLUMN_DEFS);
 
       const expected: ColDef[] = [
-        ...BASE_COLUMN_DEFS,
+        ...COLUMN_DEFS,
         {
           cellRenderer: ProcessCaseActionCellComponent,
-          flex: 0.2,
+          flex: 0,
           filter: false,
           floatingFilter: false,
           headerComponent: ProcessCaseActionHeaderComponent,

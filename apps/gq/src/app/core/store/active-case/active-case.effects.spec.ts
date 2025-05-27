@@ -1098,7 +1098,7 @@ describe('ActiveCaseEffects', () => {
       action = ActiveCaseActions.updateQuotation({
         caseName,
         currency,
-        customerPurchaseOrderDate: '',
+        customerInquiryDate: '',
         validTo: '',
         quotationToDate: '',
         requestedDelDate: '',

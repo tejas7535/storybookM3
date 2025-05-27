@@ -31,7 +31,6 @@ export const QUOTATION_MOCK: Quotation = {
   status: QuotationStatus.ACTIVE,
   sapSyncStatus: SAP_SYNC_STATUS.NOT_SYNCED,
   sapQuotationToDate: '',
-  sapCustomerPurchaseOrderDate: '',
   sapCustomerInquiryDate: '',
   origin: CASE_ORIGIN.CREATED_MANUALLY,
   shipToParty: {

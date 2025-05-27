@@ -70,7 +70,6 @@ describe('QuantityEditingModalComponent', () => {
     });
     test('should call setIncrementsAndDecrementSteps', () => {
       EditingModalComponent.prototype.ngOnInit = jest.fn();
-      Object.defineProperty(component, 'isNewCaseCreation', { value: true });
       component['setIncrementsAndDecrementSteps'] = jest.fn();
       component.ngOnInit();
       expect(component['setIncrementsAndDecrementSteps']).toHaveBeenCalled();
@@ -162,9 +161,8 @@ describe('QuantityEditingModalComponent', () => {
       expect(getQuantityRegexSpy).toHaveBeenCalledWith(locale);
     });
 
-    test('should set error when Validation Failed and isNewCaseCreation', () => {
+    test('should set error when Validation Failed', () => {
       isOrderQuantityInvalidSpy.mockReturnValue(true);
-      Object.defineProperty(component, 'isNewCaseCreation', { value: true });
 
       component['validateInput']('12');
 

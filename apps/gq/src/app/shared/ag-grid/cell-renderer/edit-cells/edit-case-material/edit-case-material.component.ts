@@ -9,7 +9,6 @@ import { AutoCompleteFacade } from '@gq/core/store/facades';
 import { ProcessCaseFacade } from '@gq/core/store/process-case';
 import { EditMaterialModalData } from '@gq/shared/components/modal/editing-material-modal/edit-material-modal-data.model';
 import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.module';
-import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -44,11 +43,7 @@ export class EditCaseMaterialComponent {
     inject(CreateCaseFacade);
   private readonly processCaseFacade: ProcessCaseFacade =
     inject(ProcessCaseFacade);
-  private readonly featureToggleConfigService: FeatureToggleConfigService =
-    inject(FeatureToggleConfigService);
-  newCaseCreation: boolean = this.featureToggleConfigService.isEnabled(
-    'createManualCaseAsView'
-  );
+
   private tableItem: MaterialTableItem;
 
   agInit(params: ICellRendererParams): void {
@@ -78,7 +73,7 @@ export class EditCaseMaterialComponent {
     const previousData = this.params.data;
     this.dialog
       .open(EditingMaterialModalComponent, {
-        width: this.newCaseCreation ? '990px' : '660px',
+        width: '990px',
         data: {
           material: this.params.data,
           field: this.params.colDef.field,
@@ -94,7 +89,7 @@ export class EditCaseMaterialComponent {
         }
 
         this.autoCompleteFacade.resetAutocompleteMaterials();
-        if (this.newCaseCreation && this.isCaseView) {
+        if (this.isCaseView) {
           this.autoCompleteFacade.initFacade(
             AutocompleteRequestDialog.CREATE_CASE
           );

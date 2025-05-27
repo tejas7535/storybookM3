@@ -26,7 +26,7 @@ import {
   Severity,
 } from '@gq/shared/services/rest/material/models';
 import { QuotationService } from '@gq/shared/services/rest/quotation/quotation.service';
-import { CreateCustomerCase } from '@gq/shared/services/rest/search/models/create-customer-case.model';
+import { CreateCustomerCaseMaterialData } from '@gq/shared/services/rest/search/models/create-customer-case.model';
 import { PLsSeriesRequest } from '@gq/shared/services/rest/search/models/pls-series-request.model';
 import { PLsSeriesResponse } from '@gq/shared/services/rest/search/models/pls-series-response.model';
 import { SearchService } from '@gq/shared/services/rest/search/search.service';
@@ -34,7 +34,6 @@ import { translate } from '@jsverse/transloco';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { createSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockProvider } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
@@ -52,12 +51,6 @@ import {
   createCustomerCase,
   createCustomerCaseFailure,
   createCustomerCaseSuccess,
-  createCustomerOgpCase,
-  createCustomerOgpCaseFailure,
-  createCustomerOgpCaseSuccess,
-  createOgpCase,
-  createOgpCaseFailure,
-  createOgpCaseSuccess,
   getPLsAndSeries,
   getPLsAndSeriesFailure,
   getPLsAndSeriesSuccess,
@@ -77,12 +70,11 @@ import {
 } from '../../actions';
 import { RolesFacade } from '../../facades';
 import { initialState } from '../../reducers/create-case/create-case.reducer';
+import { CreateCase } from '../../reducers/create-case/models/create-case.interface';
 import { CreateCaseHeaderData } from '../../reducers/create-case/models/create-case-header-data.interface';
-import { CreateCaseOgp } from '../../reducers/create-case/models/create-case-ogp.interface';
-import { CreateCustomerCaseOgp } from '../../reducers/create-case/models/create-customer-case-ogp.interface';
+import { CreateCustomerCase } from '../../reducers/create-case/models/create-customer-case.interface';
 import {
   CaseFilterItem,
-  CreateCase,
   CreateCaseResponse,
   PLsAndSeries,
   SalesIndication,
@@ -96,7 +88,6 @@ import {
   getSelectedQuotation,
   getSelectedSalesOrg,
 } from '../../selectors';
-import * as fromSelectors from '../../selectors/create-case/create-case.selector';
 import { CreateCaseEffects } from './create-case.effects';
 import { CreationType } from './creation-type.enum';
 
@@ -455,7 +446,6 @@ describe('Create Case Effects', () => {
         ];
         const result = validateMaterialsOnCustomerAndSalesOrgSuccess({
           materialValidations,
-          isNewCaseCreation: false,
         });
         const correctedQuantity = 7;
 
@@ -560,95 +550,6 @@ describe('Create Case Effects', () => {
   });
 
   describe('createCase', () => {
-    const createCaseData: CreateCase = {
-      customer: {
-        customerId: '1234',
-        salesOrg: '0267',
-      },
-      materialQuantities: [
-        {
-          materialId: '333',
-          quantity: 10,
-          quotationItemId: 10,
-        },
-      ],
-    };
-    beforeEach(() => {
-      jest.resetAllMocks();
-      jest
-        .spyOn(fromSelectors, 'getCreateCaseData')
-        .mockImplementation((_userHasOfferTypeAccess: boolean = false) =>
-          createSelector(() => ({
-            customer: {
-              customerId: '1234',
-              salesOrg: '0267',
-            },
-            materialQuantities: [
-              {
-                materialId: '333',
-                quantity: 10,
-                quotationItemId: 10,
-              },
-            ],
-          }))
-        );
-    });
-
-    test(
-      'should return validateMaterialsOnCustomerAndSalesOrgSuccess when REST call is successful',
-      marbles((m) => {
-        router.navigate = jest.fn();
-        snackBar.open = jest.fn();
-        action = createCase();
-
-        const createdCase: CreateCaseResponse = {
-          customerId: '',
-          gqId: 0,
-          salesOrg: '',
-        };
-        const result = createCaseSuccess({ createdCase });
-
-        actions$ = m.hot('--a', { a: action });
-        const response = m.cold('--a|', {
-          a: createdCase,
-        });
-        quotationService.createCase = jest.fn(() => response);
-
-        const expected = m.cold('----b', { b: result });
-        m.expect(effects.createCase$).toBeObservable(expected);
-        m.flush();
-
-        expect(quotationService.createCase).toHaveBeenCalledTimes(1);
-        expect(quotationService.createCase).toHaveBeenCalledWith(
-          createCaseData
-        );
-        expect(router.navigate).toHaveBeenCalledTimes(1);
-        expect(snackBar.open).toHaveBeenCalledTimes(1);
-      })
-    );
-
-    test(
-      'should return validateFailure on REST error',
-      marbles((m) => {
-        const errorMessage = 'errorMessage';
-
-        const result = createCaseFailure({ errorMessage });
-
-        actions$ = m.hot('-a', { a: action });
-        const response = m.cold('-#|', undefined, errorMessage);
-        const expected = m.cold('--b', { b: result });
-
-        quotationService.createCase = jest.fn(() => response);
-
-        m.expect(effects.createCase$).toBeObservable(expected);
-        m.flush();
-
-        expect(quotationService.createCase).toHaveBeenCalledTimes(1);
-      })
-    );
-  });
-
-  describe('createCaseOgp', () => {
     const materialTableItems: MaterialTableItem[] = [
       {
         materialNumber: '333',
@@ -680,11 +581,11 @@ describe('Create Case Effects', () => {
       store.overrideSelector(getCaseRowData, materialTableItems);
     });
     test(
-      'should return createOgpCaseSuccess when REST call is successful',
+      'should return createCaseSuccess when REST call is successful',
       marbles((m) => {
         router.navigate = jest.fn();
         snackBar.open = jest.fn();
-        action = createOgpCase({ createCaseData });
+        action = createCase({ createCaseData });
         const materialQuantities: MaterialQuantities[] = [
           {
             materialId: '333',
@@ -692,7 +593,7 @@ describe('Create Case Effects', () => {
             quotationItemId: 10,
           },
         ];
-        const expectedRequest: CreateCaseOgp = {
+        const expectedRequest: CreateCase = {
           headerInformation: createCaseData,
           materialQuantities,
         };
@@ -701,7 +602,7 @@ describe('Create Case Effects', () => {
           gqId: 0,
           salesOrg: '',
         };
-        const result = createOgpCaseSuccess({
+        const result = createCaseSuccess({
           createdCase: createdCaseResponse,
         });
 
@@ -709,14 +610,14 @@ describe('Create Case Effects', () => {
         const response = m.cold('--a|', {
           a: createdCaseResponse,
         });
-        quotationService.createOgpCase = jest.fn(() => response);
+        quotationService.createCase = jest.fn(() => response);
 
         const expected = m.cold('----b', { b: result });
-        m.expect(effects.createCaseOgp$).toBeObservable(expected);
+        m.expect(effects.createCase$).toBeObservable(expected);
         m.flush();
 
-        expect(quotationService.createOgpCase).toHaveBeenCalledTimes(1);
-        expect(quotationService.createOgpCase).toHaveBeenCalledWith(
+        expect(quotationService.createCase).toHaveBeenCalledTimes(1);
+        expect(quotationService.createCase).toHaveBeenCalledWith(
           expectedRequest
         );
         expect(router.navigate).toHaveBeenCalledTimes(1);
@@ -729,18 +630,18 @@ describe('Create Case Effects', () => {
       marbles((m) => {
         const errorMessage = 'errorMessage';
 
-        const result = createOgpCaseFailure({ errorMessage });
+        const result = createCaseFailure({ errorMessage });
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-#|', undefined, errorMessage);
         const expected = m.cold('--b', { b: result });
 
-        quotationService.createOgpCase = jest.fn(() => response);
+        quotationService.createCase = jest.fn(() => response);
 
-        m.expect(effects.createCaseOgp$).toBeObservable(expected);
+        m.expect(effects.createCase$).toBeObservable(expected);
         m.flush();
 
-        expect(quotationService.createOgpCase).toHaveBeenCalledTimes(1);
+        expect(quotationService.createCase).toHaveBeenCalledTimes(1);
       })
     );
   });
@@ -960,53 +861,7 @@ describe('Create Case Effects', () => {
   });
 
   describe('createCustomerCase', () => {
-    beforeEach(() => {
-      store.overrideSelector(getCreateCustomerCasePayload, {} as any);
-    });
-    test('should return createCustomerCaseSuccess', () => {
-      marbles((m) => {
-        const responseObject: CreateCaseResponse = {
-          customerId: '1',
-          salesOrg: '2',
-          gqId: 3,
-        };
-
-        action = createCustomerCase();
-        quotationService.createCustomerCase = jest.fn(() => response);
-        const result = createCustomerCaseSuccess();
-
-        actions$ = m.hot('-a', { a: action });
-        const response = m.cold('-a|', {
-          a: responseObject,
-        });
-
-        const expected = m.cold('--b', { b: result });
-
-        m.expect(effects.createCustomerCase$).toBeObservable(expected);
-        m.flush();
-        expect(quotationService.createCustomerCase).toHaveBeenCalledTimes(1);
-        expect(quotationService.createCustomerCase).toHaveBeenCalledWith({});
-      });
-    });
-
-    test('should return getPLsAndSeriesFailure on REST error', () => {
-      marbles((m) => {
-        const errorMessage = `Hello, i'm an error`;
-        const result = createCustomerCaseFailure({ errorMessage });
-        actions$ = m.hot('-a', { a: action });
-
-        const response = m.cold('-#|', undefined, errorMessage);
-        const expected = m.cold('--b', { b: result });
-
-        quotationService.createCustomerCase = jest.fn(() => response);
-        m.expect(effects.createCustomerCase$).toBeObservable(expected);
-        expect(quotationService.createCustomerCase).toHaveBeenCalledTimes(1);
-      });
-    });
-  });
-
-  describe('createCustomerOgpCase', () => {
-    const customerPayload: CreateCustomerCase = {
+    const customerPayload: CreateCustomerCaseMaterialData = {
       gpsdGroupIds: ['groupId1', 'groupId2'],
       historicalDataLimitInYear: 0,
       includeQuotationHistory: false,
@@ -1044,9 +899,9 @@ describe('Create Case Effects', () => {
       marbles((m) => {
         router.navigate = jest.fn();
         snackBar.open = jest.fn();
-        action = createCustomerOgpCase({ createCaseData });
+        action = createCustomerCase({ createCaseData });
 
-        const expectedRequest: CreateCustomerCaseOgp = {
+        const expectedRequest: CreateCustomerCase = {
           headerInformation: createCaseData,
           gpsdGroupIds: customerPayload.gpsdGroupIds,
           historicalDataLimitInYear: customerPayload.historicalDataLimitInYear,
@@ -1060,7 +915,7 @@ describe('Create Case Effects', () => {
           gqId: 0,
           salesOrg: '',
         };
-        const result = createCustomerOgpCaseSuccess({
+        const result = createCustomerCaseSuccess({
           createdCase: createdCaseResponse,
         });
 
@@ -1068,14 +923,14 @@ describe('Create Case Effects', () => {
         const response = m.cold('--a|', {
           a: createdCaseResponse,
         });
-        quotationService.createCustomerOgpCase = jest.fn(() => response);
+        quotationService.createCustomerCase = jest.fn(() => response);
 
         const expected = m.cold('----b', { b: result });
-        m.expect(effects.createCustomerOgpCase$).toBeObservable(expected);
+        m.expect(effects.createCustomerCase$).toBeObservable(expected);
         m.flush();
 
-        expect(quotationService.createCustomerOgpCase).toHaveBeenCalledTimes(1);
-        expect(quotationService.createCustomerOgpCase).toHaveBeenCalledWith(
+        expect(quotationService.createCustomerCase).toHaveBeenCalledTimes(1);
+        expect(quotationService.createCustomerCase).toHaveBeenCalledWith(
           expectedRequest
         );
         expect(router.navigate).toHaveBeenCalledTimes(1);
@@ -1088,18 +943,18 @@ describe('Create Case Effects', () => {
       marbles((m) => {
         const errorMessage = 'errorMessage';
 
-        const result = createCustomerOgpCaseFailure({ errorMessage });
+        const result = createCustomerCaseFailure({ errorMessage });
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-#|', undefined, errorMessage);
         const expected = m.cold('--b', { b: result });
 
-        quotationService.createCustomerOgpCase = jest.fn(() => response);
+        quotationService.createCustomerCase = jest.fn(() => response);
 
-        m.expect(effects.createCustomerOgpCase$).toBeObservable(expected);
+        m.expect(effects.createCustomerCase$).toBeObservable(expected);
         m.flush();
 
-        expect(quotationService.createCustomerOgpCase).toHaveBeenCalledTimes(1);
+        expect(quotationService.createCustomerCase).toHaveBeenCalledTimes(1);
       })
     );
   });

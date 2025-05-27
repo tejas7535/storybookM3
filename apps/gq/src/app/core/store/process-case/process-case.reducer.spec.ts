@@ -246,7 +246,6 @@ describe('Process Case Reducer', () => {
         ];
         const action = ProcessCaseActions.validateMaterialTableItemsSuccess({
           materialValidations,
-          isNewCaseCreation: false,
         });
 
         const fakeState = {

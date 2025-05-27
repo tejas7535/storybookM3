@@ -232,7 +232,6 @@ describe('TestEditingModalComponent', () => {
       expect(component['validateInput']).toHaveBeenCalledWith('10');
     });
     test('should setInitialValue', () => {
-      Object.defineProperty(component, 'isNewCaseCreation', { value: true });
       component.getInitialValue = jest.fn().mockReturnValue(10);
       component.ngAfterViewInit();
       expect(

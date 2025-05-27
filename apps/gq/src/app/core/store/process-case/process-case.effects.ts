@@ -6,7 +6,6 @@ import { catchError, filter, map, mergeMap } from 'rxjs/operators';
 import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reducer';
 import { Customer } from '@gq/shared/models/customer';
 import { MaterialTableItem } from '@gq/shared/models/table';
-import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { MaterialService } from '@gq/shared/services/rest/material/material.service';
 import {
   AddDetailsValidationRequest,
@@ -25,9 +24,6 @@ export class ProcessCaseEffects {
   private readonly actions$: Actions = inject(Actions);
   private readonly store: Store = inject(Store);
   private readonly materialService: MaterialService = inject(MaterialService);
-  private readonly featureToggleService: FeatureToggleConfigService = inject(
-    FeatureToggleConfigService
-  );
 
   validateAfterItemAdded$ = createEffect(() => {
     return this.actions$.pipe(
@@ -72,10 +68,6 @@ export class ProcessCaseEffects {
 
               return ProcessCaseActions.validateMaterialTableItemsSuccess({
                 materialValidations,
-                // TODO: condition can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
-                isNewCaseCreation: this.featureToggleService.isEnabled(
-                  'createManualCaseAsView'
-                ),
               });
             }),
             catchError((errorMessage) =>

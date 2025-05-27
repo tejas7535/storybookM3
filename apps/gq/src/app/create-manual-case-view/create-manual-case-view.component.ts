@@ -100,7 +100,7 @@ export class CreateManualCaseViewComponent implements AfterViewInit {
       type: CASE_CREATION_TYPES.MANUAL,
     } as CaseCreationEventParams);
     // collect all data needed for CaseCreation
-    this.createCaseFacade.createNewOgpCase(this.headerInformationData);
+    this.createCaseFacade.createNewCase(this.headerInformationData);
   }
 
   ngAfterViewInit() {

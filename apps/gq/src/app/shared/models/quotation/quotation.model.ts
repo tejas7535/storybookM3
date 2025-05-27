@@ -34,8 +34,6 @@ export class Quotation {
   status: QuotationStatus;
   sapSyncStatus: SAP_SYNC_STATUS;
   sapQuotationToDate: string;
-  // TODO: remove when createManualCaseAsView feature toggle is removed
-  sapCustomerPurchaseOrderDate: string;
   sapCustomerInquiryDate: string;
   origin: CASE_ORIGIN;
   shipToParty: Customer;

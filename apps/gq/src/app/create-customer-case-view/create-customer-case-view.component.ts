@@ -10,7 +10,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { BehaviorSubject, combineLatest, map, Observable, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 
 import { ActiveCaseModule } from '@gq/core/store/active-case/active-case.module';
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
@@ -26,7 +26,6 @@ import {
   EVENT_NAMES,
 } from '@gq/shared/models/tracking/gq-events';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
-import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { TRANSLOCO_SCOPE } from '@jsverse/transloco';
 import { LetDirective, PushPipe } from '@ngrx/component';
 
@@ -69,7 +68,6 @@ export class CreateCustomerCaseViewComponent implements AfterViewInit {
     ApplicationInsightsService
   );
   private readonly createCaseFacade = inject(CreateCaseFacade);
-  private readonly featureToggleConfig = inject(FeatureToggleConfigService);
 
   private readonly headerInformationIsValidSubject$$: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
@@ -85,12 +83,10 @@ export class CreateCustomerCaseViewComponent implements AfterViewInit {
   headerInformationIsValid$: Observable<boolean> =
     this.headerInformationIsValidSubject$$.asObservable();
 
-  resetButtonDisabled$: Observable<boolean> = combineLatest([
-    of(this.featureToggleConfig.isEnabled('createCustomerCaseAsView')),
-    this.createCaseFacade.customerIdForCaseCreation$,
-  ]).pipe(
-    map(([isManualCaseAsView, customerId]) => isManualCaseAsView && !customerId)
-  );
+  resetButtonDisabled$: Observable<boolean> =
+    this.createCaseFacade.customerIdForCaseCreation$.pipe(
+      map((customerId) => !customerId)
+    );
 
   createCaseButtonDisabled$: Observable<boolean> = combineLatest([
     this.headerInformationHasChanges$,
@@ -112,7 +108,7 @@ export class CreateCustomerCaseViewComponent implements AfterViewInit {
     this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_FINISHED, {
       type: CASE_CREATION_TYPES.FROM_CUSTOMER,
     } as CaseCreationEventParams);
-    this.createCaseFacade.createNewCustomerOgpCase(this.headerInformationData);
+    this.createCaseFacade.createNewCustomerCase(this.headerInformationData);
   }
 
   ngAfterViewInit() {

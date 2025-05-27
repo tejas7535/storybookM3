@@ -148,7 +148,6 @@ describe('ProcessCaseEffects', () => {
 
         const result = ProcessCaseActions.validateMaterialTableItemsSuccess({
           materialValidations,
-          isNewCaseCreation: false,
         });
 
         const correctedQuantity = 7;

@@ -29,7 +29,6 @@ import { activeCaseFeature } from '@gq/core/store/active-case/active-case.reduce
 import { UpdateQuotationDetail } from '@gq/core/store/active-case/models';
 import { SimulationService } from '@gq/process-case-view/quotation-details-table/services/simulation/simulation.service';
 import { PercentColumns } from '@gq/shared/ag-grid/constants/column-fields.enum';
-import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import {
   getNextHigherPossibleMultiple,
@@ -62,10 +61,6 @@ export abstract class EditingModalComponent
   private readonly changeDetectorRef: ChangeDetectorRef =
     inject(ChangeDetectorRef);
 
-  private readonly featureToggleService: FeatureToggleConfigService = inject(
-    FeatureToggleConfigService
-  );
-
   @Input() modalData: EditingModal;
   @Input() isDialog = true;
   @Input() isDisabled = false;
@@ -77,14 +72,6 @@ export abstract class EditingModalComponent
   @Output() isInvalidOrUnchanged: EventEmitter<boolean> = new EventEmitter();
 
   @ViewChild('editInputField') editInputField: ElementRef;
-
-  readonly isNewCaseCreation = this.featureToggleService.isEnabled(
-    'createManualCaseAsView'
-  );
-
-  readonly isTargetPriceSourceEditable = this.featureToggleService.isEnabled(
-    'targetPriceSourceColumn'
-  );
 
   readonly VALUE_FORM_CONTROL_NAME = 'valueInput';
   readonly IS_RELATIVE_PRICE_CONTROL_NAME = 'isRelativePriceChangeRadioGroup';
@@ -161,14 +148,13 @@ export abstract class EditingModalComponent
 
     this.editInputField?.nativeElement.focus();
     this.changeDetectorRef.detectChanges();
-    if (this.isNewCaseCreation) {
-      const initialValue = this.getInitialValue?.(this.value);
-      if (initialValue) {
-        this.value = initialValue;
-        this.editingFormGroup
-          .get(this.VALUE_FORM_CONTROL_NAME)
-          .setValue(`${initialValue}`);
-      }
+
+    const initialValue = this.getInitialValue?.(this.value);
+    if (initialValue) {
+      this.value = initialValue;
+      this.editingFormGroup
+        .get(this.VALUE_FORM_CONTROL_NAME)
+        .setValue(`${initialValue}`);
     }
 
     // validate input initially

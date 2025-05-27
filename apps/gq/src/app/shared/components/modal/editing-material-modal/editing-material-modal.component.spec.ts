@@ -116,8 +116,7 @@ describe('EditingMaterialModalComponent', () => {
   });
 
   describe('addSubscriptions', () => {
-    test('should subscribe to targetPriceSource for new case creation', () => {
-      component.isNewCaseCreation = true;
+    test('should subscribe to targetPriceSource', () => {
       const control = {
         setValue: jest.fn(),
         valueChanges: of(undefined as any),
@@ -139,32 +138,6 @@ describe('EditingMaterialModalComponent', () => {
       expect(component.rowInputValid).toHaveBeenCalled();
       expect(getTargetPriceValue).toHaveBeenCalledTimes(1);
       expect(getTargetPriceSourceValue).toHaveBeenCalledTimes(1);
-      expect(control.updateValueAndValidity).toHaveBeenCalledTimes(2);
-    });
-
-    test('should not subscribe to targetPriceSource for old case creation', () => {
-      component.isNewCaseCreation = false;
-      const control = {
-        setValue: jest.fn(),
-        valueChanges: of(undefined as any),
-        updateValueAndValidity: jest.fn(),
-      };
-      const getTargetPriceValue = jest.spyOn(miscUtils, 'getTargetPriceValue');
-      const getTargetPriceSourceValue = jest.spyOn(
-        miscUtils,
-        'getTargetPriceSourceValue'
-      );
-
-      component.editFormGroup = {
-        get: jest.fn(() => control),
-      } as any;
-      component.rowInputValid = jest.fn();
-
-      component.addSubscriptions();
-
-      expect(component.rowInputValid).toHaveBeenCalled();
-      expect(getTargetPriceValue).not.toHaveBeenCalled();
-      expect(getTargetPriceSourceValue).not.toHaveBeenCalled();
       expect(control.updateValueAndValidity).toHaveBeenCalledTimes(2);
     });
   });
@@ -626,9 +599,8 @@ describe('EditingMaterialModalComponent', () => {
 
   describe('update', () => {
     test('should close dialog with updated material', () => {
-      component.isNewCaseCreation = true;
       component.ngOnInit();
-      component.isNewCaseCreation = true;
+
       component.modalData = {
         material: {
           ...MATERIAL_TABLE_ITEM_MOCK,
@@ -708,24 +680,14 @@ describe('EditingMaterialModalComponent', () => {
     });
 
     test('should set quantityValidator to FormControl', () => {
-      component.isNewCaseCreation = true;
       component.ngOnInit();
       expect(
         component.editFormGroup.get(MaterialColumnFields.QUANTITY)
           .asyncValidator
       ).toBeTruthy();
     });
-    test('should NOT set quantityValidator to FormControl', () => {
-      component.isNewCaseCreation = false;
-      component.ngOnInit();
-      expect(
-        component.editFormGroup.get(MaterialColumnFields.QUANTITY)
-          .asyncValidator
-      ).toBeFalsy();
-    });
 
     test('should adjust the quantity when isQuantityValidation is true considering the deliveryUnit of the selected Material', () => {
-      component.isNewCaseCreation = true;
       component['adjustQuantityFormFieldToDeliveryUnit'] = jest.fn();
       component.ngOnInit();
       component.selectedMaterialAutocomplete$ = of({

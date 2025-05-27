@@ -2,10 +2,9 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { combineLatest, map, Observable, of } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
-import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { PushPipe } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -17,17 +16,11 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 })
 export class CreateCaseResetAllButtonComponent {
   private readonly createCaseFacade = inject(CreateCaseFacade);
-  private readonly featureToggleConfig = inject(FeatureToggleConfigService);
 
-  buttonDisabled$: Observable<boolean> = combineLatest([
-    of(this.featureToggleConfig.isEnabled('createManualCaseAsView')),
-    this.createCaseFacade.customerIdForCaseCreation$,
-  ]).pipe(
-    map(
-      ([isCreateManualCaseAsView, customerId]) =>
-        isCreateManualCaseAsView && !customerId
-    )
-  );
+  buttonDisabled$: Observable<boolean> =
+    this.createCaseFacade.customerIdForCaseCreation$.pipe(
+      map((customerId) => !customerId)
+    );
 
   agInit(): void {}
   resetAll(): void {

@@ -13,8 +13,6 @@ import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { ViewToggleModule } from '@schaeffler/view-toggle';
 
-import { CreateCustomerCaseModule } from './case-creation/create-customer-case/create-customer-case.module';
-import { CreateManualCaseModule } from './case-creation/create-manual-case/create-manual-case.module';
 import { ImportCaseModule } from './case-creation/import-case/import-case.module';
 import { CaseTableModule } from './case-table/case-table.module';
 import { CaseViewComponent } from './case-view.component';
@@ -27,11 +25,11 @@ import { CaseViewRoutingModule } from './case-view-routing.module';
     MatDialogModule,
     MatButtonModule,
     SharedTranslocoModule,
-    CreateCustomerCaseModule,
+
     LoadingSpinnerModule,
     PushPipe,
     ImportCaseModule,
-    CreateManualCaseModule,
+
     ConfirmationModalModule,
     CommonModule,
     ViewToggleModule,

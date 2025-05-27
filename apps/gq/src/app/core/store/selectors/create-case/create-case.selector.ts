@@ -5,7 +5,7 @@ import { OfferType } from '@gq/shared/models/offer-type.interface';
 import { IdValue } from '@gq/shared/models/search';
 import { SectorGpsd } from '@gq/shared/models/sector-gpsd.interface';
 import { MaterialQuantities, MaterialTableItem } from '@gq/shared/models/table';
-import { CreateCustomerCase } from '@gq/shared/services/rest/search/models/create-customer-case.model';
+import { CreateCustomerCaseMaterialData } from '@gq/shared/services/rest/search/models/create-customer-case.model';
 import { TableService } from '@gq/shared/services/table/table.service';
 import { createSelector } from '@ngrx/store';
 
@@ -264,7 +264,7 @@ export const getCreateCustomerCaseDisabled = createSelector(
 
 export const getCreateCustomerCasePayload = createSelector(
   getCaseState,
-  (state: CreateCaseState): CreateCustomerCase => ({
+  (state: CreateCaseState): CreateCustomerCaseMaterialData => ({
     customer: {
       customerId: state.customer.customerId,
       salesOrg: state.customer.salesOrgs.find((salesOrg) => salesOrg.selected)

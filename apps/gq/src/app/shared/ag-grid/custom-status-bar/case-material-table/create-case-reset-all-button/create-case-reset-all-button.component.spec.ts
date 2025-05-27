@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { BehaviorSubject } from 'rxjs';
@@ -10,7 +9,6 @@ import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/f
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushPipe } from '@ngrx/component';
 import { MockProvider } from 'ng-mocks';
-import { marbles } from 'rxjs-marbles';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -42,7 +40,6 @@ describe('ResetAllButtonComponent', () => {
       MockProvider(FeatureToggleConfigService, {
         isEnabled: jest.fn(() => true),
       }),
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
   });
 
@@ -55,39 +52,6 @@ describe('ResetAllButtonComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('should set buttonDisabled$', () => {
-    test(
-      'should set disabled to false if createManualCaseAsView is enabled and customerId is set',
-      marbles((m) => {
-        m.expect(component.buttonDisabled$).toBeObservable(
-          m.cold('a', { a: false })
-        );
-      })
-    );
-
-    test(
-      'should set disabled to false if createManualCaseAsView is disabled and customerId is set',
-      marbles((m) => {
-        component['featureToggleConfig'].isEnabled = jest.fn(() => false);
-        customerId$$.next('anyId');
-
-        m.expect(component.buttonDisabled$).toBeObservable(
-          m.cold('a', { a: false })
-        );
-      })
-    );
-    test(
-      'should set disabled to true if createManualCaseAsView is enabled and customerId is undefined',
-      marbles((m) => {
-        component['featureToggleConfig'].isEnabled = jest.fn(() => true);
-        customerId$$.next(undefined as any);
-
-        m.expect(component.buttonDisabled$).toBeObservable(
-          m.cold('a', { a: true })
-        );
-      })
-    );
-  });
   describe('resetAll', () => {
     test('should dispatch action', () => {
       component.resetAll();

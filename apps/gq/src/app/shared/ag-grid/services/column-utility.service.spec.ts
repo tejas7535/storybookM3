@@ -53,7 +53,7 @@ import {
   openInNew,
 } from '../services/column-utility.service';
 
-describe('CreateColumnService', () => {
+describe('ColumnUtilityService', () => {
   let service: ColumnUtilityService;
   let spectator: SpectatorService<ColumnUtilityService>;
   let roles: string[];
@@ -320,21 +320,6 @@ describe('CreateColumnService', () => {
       expect(res).toEqual([
         { field: ColumnFields.MATERIAL_NUMBER_15 },
         { field: ColumnFields.PRICING_ASSISTANT },
-      ]);
-    });
-  });
-
-  describe('filterTargetPriceSourceColumn', () => {
-    test('should remove targetPriceSource Column', () => {
-      const colDefs: ColDef[] = [
-        { field: ColumnFields.MATERIAL_NUMBER_15 },
-        { field: ColumnFields.TARGET_PRICE_SOURCE },
-        { field: ColumnFields.PRICE_DIFF_SAP },
-      ];
-      const res = ColumnUtilityService.filterTargetPriceSourceColumn(colDefs);
-      expect(res).toEqual([
-        { field: ColumnFields.MATERIAL_NUMBER_15 },
-        { field: ColumnFields.PRICE_DIFF_SAP },
       ]);
     });
   });

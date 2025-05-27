@@ -61,7 +61,7 @@ describe('manualCaseViewComponent', () => {
         newCaseRowData$: rowData$$.asObservable(),
         createCaseLoading$: of(false),
         resetCaseCreationInformation: jest.fn(),
-        createNewOgpCase: jest.fn(),
+        createNewCase: jest.fn(),
       }),
     ],
     declarations: [
@@ -153,14 +153,14 @@ describe('manualCaseViewComponent', () => {
   });
 
   describe('createCase', () => {
-    test('should call insightsService.logEvent and createCaseFacade.createNewOgpCase', () => {
+    test('should call insightsService.logEvent and createCaseFacade.createNewCase', () => {
       component['insightsService'].logEvent = jest.fn();
       component.createCase();
       expect(component['insightsService'].logEvent).toHaveBeenCalledWith(
         EVENT_NAMES.CASE_CREATION_FINISHED,
         expect.any(Object)
       );
-      expect(component['createCaseFacade'].createNewOgpCase).toHaveBeenCalled();
+      expect(component['createCaseFacade'].createNewCase).toHaveBeenCalled();
     });
   });
   describe('toggleHeader', () => {

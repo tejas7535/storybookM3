@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
@@ -57,10 +56,7 @@ describe('EditCaseMaterialComponent', () => {
         updateItemFromMaterialTable: jest.fn(),
       }),
       provideMockStore({}),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
+
       MockProvider(Router, {
         url: routerUrlSubject.value,
       } as unknown as Router),
@@ -192,7 +188,6 @@ describe('EditCaseMaterialComponent', () => {
     });
     test('should initAutoCompleteFacade with CREATE_CASE', () => {
       component.isCaseView = true;
-      component.newCaseCreation = true;
       component.onIconClick();
 
       expect(component['autoCompleteFacade'].initFacade).toHaveBeenCalledWith(

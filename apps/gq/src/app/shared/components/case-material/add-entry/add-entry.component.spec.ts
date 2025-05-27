@@ -144,7 +144,6 @@ describe('AddEntryComponent', () => {
     });
 
     test('should reset inputFields, when For CreateCase, the CustomerId changes', () => {
-      component.newCaseCreation = true;
       Object.defineProperty(component, 'isCaseView', {
         value: true,
       });
@@ -155,7 +154,6 @@ describe('AddEntryComponent', () => {
       expect(component['clearFields']).toHaveBeenCalled();
     });
     test('should clearFields when ForCreateCase and selectedCustomerSalesOrg changes', () => {
-      component.newCaseCreation = true;
       Object.defineProperty(component, 'isCaseView', {
         value: true,
       });
@@ -171,29 +169,15 @@ describe('AddEntryComponent', () => {
         writable: true,
       });
       component['clearFields'] = jest.fn();
-      component.newCaseCreation = true;
-      component.autoCompleteFacade.initFacade = jest.fn();
+
+      component['autoCompleteFacade'].initFacade = jest.fn();
       component.ngOnInit();
-      expect(component.autoCompleteFacade.initFacade).toHaveBeenCalledWith(
+      expect(component['autoCompleteFacade'].initFacade).toHaveBeenCalledWith(
         AutocompleteRequestDialog.CREATE_CASE
-      );
-    });
-    test('should init AutocompleteFacade with Add_ENTRY for old CaseCreation', () => {
-      Object.defineProperty(component, 'isCaseView', {
-        value: true,
-        writable: true,
-      });
-      component['clearFields'] = jest.fn();
-      component.newCaseCreation = false;
-      component.autoCompleteFacade.initFacade = jest.fn();
-      component.ngOnInit();
-      expect(component.autoCompleteFacade.initFacade).toHaveBeenCalledWith(
-        AutocompleteRequestDialog.ADD_ENTRY
       );
     });
 
     test('should enable nonAutocompleteFields when CustomerId is set', () => {
-      component.newCaseCreation = true;
       Object.defineProperty(component, 'isCaseView', {
         value: true,
         writable: true,
@@ -207,7 +191,7 @@ describe('AddEntryComponent', () => {
 
     test('should set the quantity to the next multiple of deliveryUnit when quantity < deliveryUnit', () => {
       component['clearFields'] = jest.fn();
-      component.newCaseCreation = true;
+
       component.quantityFormControl.setValue('2');
       selectedMaterialAutocompleteSubject.next(
         new IdValue('MatNumber', 'MatDesc', true, null, 6, 'PC')
@@ -216,7 +200,6 @@ describe('AddEntryComponent', () => {
       expect(component.quantityFormControl.value).toEqual(6);
     });
     test('should set the quantity to the next multiple of deliveryUnit when quantity > deliveryUnit', () => {
-      component.newCaseCreation = true;
       component.quantityFormControl.setValue('8');
       selectedMaterialAutocompleteSubject.next(
         new IdValue('MatNumber', 'MatDesc', true, null, 6, 'PC')
@@ -225,7 +208,6 @@ describe('AddEntryComponent', () => {
       expect(component.quantityFormControl.value).toEqual(12);
     });
     test('should set the quantity to deliveryUnit when quantity is falsy', () => {
-      component.newCaseCreation = true;
       component.quantityFormControl.setValue('');
       selectedMaterialAutocompleteSubject.next(
         new IdValue('MatNumber', 'MatDesc', true, null, 6, 'PC')
@@ -234,23 +216,12 @@ describe('AddEntryComponent', () => {
       expect(component.quantityFormControl.value).toEqual(6);
     });
 
-    test('should not adjust the quantity when deliveryUnit if not newCaseCreation', () => {
-      component.newCaseCreation = false;
-      component.quantityFormControl.setValue('8');
-      selectedMaterialAutocompleteSubject.next(
-        new IdValue('MatNumber', 'MatDesc', true, null, 6, 'PC')
-      );
-      component.ngOnInit();
-      expect(component.quantityFormControl.value).toEqual('8');
-    });
-
     describe('changes on RequestDialog', () => {
       beforeEach(() => {
         customerIdForCaseCreationSubject.next(null);
         selectedCustomerSalesOrgSubject.next(null);
       });
       test('should clear fields, when RequestDialog is EditMaterial', () => {
-        component.newCaseCreation = true;
         component['clearFields'] = jest.fn();
         selectedAutocompleteRequestDialogSubject.next(
           AutocompleteRequestDialog.EDIT_MATERIAL
@@ -260,8 +231,6 @@ describe('AddEntryComponent', () => {
       });
 
       test('should not clear fields, when RequestDialog is not EditMaterial', () => {
-        component.newCaseCreation = true;
-
         component['clearFields'] = jest.fn();
         selectedAutocompleteRequestDialogSubject.next(
           AutocompleteRequestDialog.CREATE_CASE
@@ -402,7 +371,6 @@ describe('AddEntryComponent', () => {
 
     describe('enableNonAutoCompleteFields', () => {
       test('should enableNonAutocompleteFields when CustomerId is present', () => {
-        component.newCaseCreation = true;
         component['enableNonAutoCompleteFields'] = jest.fn();
         customerIdForCaseCreationSubject.next('555');
         component.addSubscriptions();
@@ -410,7 +378,6 @@ describe('AddEntryComponent', () => {
       });
 
       test('should enableNonAutocompleteFields when CustomerId is present on active case', () => {
-        component.newCaseCreation = true;
         component['isCaseView'] = false;
         component['enableNonAutoCompleteFields'] = jest.fn();
         component.addSubscriptions();
@@ -418,19 +385,11 @@ describe('AddEntryComponent', () => {
       });
 
       test('should call disableNonAutocompleteFields when CustomerId is not present', () => {
-        component.newCaseCreation = true;
         component['isCaseView'] = true;
         component['disableNonAutoCompleteFields'] = jest.fn();
         customerIdForCaseCreationSubject.next(null);
         component.addSubscriptions();
         expect(component['disableNonAutoCompleteFields']).toHaveBeenCalled();
-      });
-      test('should call enableNonAutoCompleteFields for oldCaseCreation', () => {
-        component.newCaseCreation = false;
-        component['enableNonAutoCompleteFields'] = jest.fn();
-        customerIdForCaseCreationSubject.next(null);
-        component.addSubscriptions();
-        expect(component['enableNonAutoCompleteFields']).toHaveBeenCalled();
       });
     });
   });
@@ -541,7 +500,6 @@ describe('AddEntryComponent', () => {
         setValue: jest.fn(),
       } as any;
 
-      component.newCaseCreation = true;
       component.addRow();
       expect(
         component['processCaseFacade'].addItemsToMaterialTable
@@ -599,7 +557,6 @@ describe('AddEntryComponent', () => {
         setValue: jest.fn(),
       } as any;
 
-      component.newCaseCreation = true;
       component.targetPriceFormControl.setValue(null);
 
       component.addRow();
@@ -651,7 +608,6 @@ describe('AddEntryComponent', () => {
         setValue: jest.fn(),
       } as any;
 
-      component.newCaseCreation = true;
       component.targetPriceFormControl.setValue('123');
 
       component.addRow();

@@ -1,14 +1,13 @@
-import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
-import { CreateCaseOgp } from '@gq/core/store/reducers/create-case/models/create-case-ogp.interface';
-import { CreateCustomerCaseOgp } from '@gq/core/store/reducers/create-case/models/create-customer-case-ogp.interface';
-import { CreateCase, CreateCaseResponse } from '@gq/core/store/reducers/models';
-import { SHOW_DEFAULT_SNACKBAR_ACTION } from '@gq/shared/http/http-error.interceptor';
+import { CreateCase } from '@gq/core/store/reducers/create-case/models/create-case.interface';
+import { CreateCustomerCase } from '@gq/core/store/reducers/create-case/models/create-customer-case.interface';
+import { CreateCaseResponse } from '@gq/core/store/reducers/models';
 import { OfferTypeResponse } from '@gq/shared/models/offer-type.interface';
 import { QuotationSapSyncStatusResult } from '@gq/shared/models/quotation/quotation-sap-sync-status-result.model';
 import { GetQuotationsCountResponse } from '@gq/shared/services/rest/quotation/models/get-quotations-count-response.interface';
@@ -21,7 +20,6 @@ import {
   Quotation,
   QuotationStatus,
 } from '../../../models';
-import { CreateCustomerCase } from '../search/models/create-customer-case.model';
 import { GetQuotationToDateRequest } from './models/get-quotation-to-date-request.interface';
 import { GetQuotationToDateResponse } from './models/get-quotation-to-date-response.interface';
 import { GetQuotationsResponse } from './models/get-quotations-response.interface';
@@ -110,30 +108,10 @@ export class QuotationService {
     );
   }
 
-  // TODO: can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
   createCase(createCaseData: CreateCase): Observable<CreateCaseResponse> {
     return this.#http
       .post<CreateCaseResponse>(
         `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`,
-        createCaseData
-      )
-      .pipe(
-        map((res: any) => {
-          const response: CreateCaseResponse = {
-            gqId: res.gqId,
-            customerId: res.customer.identifier.customerId,
-            salesOrg: res.customer.identifier.salesOrg,
-          };
-
-          return response;
-        })
-      );
-  }
-
-  createOgpCase(createCaseData: CreateCaseOgp): Observable<CreateCaseResponse> {
-    return this.#http
-      .post<CreateCaseResponse>(
-        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS_OGP}`,
         createCaseData
       )
       .pipe(
@@ -156,37 +134,12 @@ export class QuotationService {
     );
   }
 
-  // TODO: can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
   createCustomerCase(
-    requestPayload: CreateCustomerCase
-  ): Observable<CreateCaseResponse> {
-    return this.#http
-      .post(
-        `${ApiVersion.V1}/${QuotationPaths.PATH_CUSTOMER_QUOTATION}`,
-        requestPayload,
-        {
-          context: new HttpContext().set(SHOW_DEFAULT_SNACKBAR_ACTION, false),
-        }
-      )
-      .pipe(
-        map((res: any) => {
-          const response: CreateCaseResponse = {
-            gqId: res.gqId,
-            customerId: res.customer.identifier.customerId,
-            salesOrg: res.customer.identifier.salesOrg,
-          };
-
-          return response;
-        })
-      );
-  }
-
-  createCustomerOgpCase(
-    createCaseData: CreateCustomerCaseOgp
+    createCaseData: CreateCustomerCase
   ): Observable<CreateCaseResponse> {
     return this.#http
       .post<CreateCaseResponse>(
-        `${ApiVersion.V1}/${QuotationPaths.PATH_CUSTOMER_QUOTATION_OGP}`,
+        `${ApiVersion.V1}/${QuotationPaths.PATH_CUSTOMER_QUOTATION}`,
         createCaseData
       )
       .pipe(

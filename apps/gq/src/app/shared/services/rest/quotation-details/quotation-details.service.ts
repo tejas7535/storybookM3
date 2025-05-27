@@ -13,7 +13,6 @@ import {
   SapPriceConditionDetail,
 } from '@gq/core/store/reducers/models';
 import { ComparableLinkedTransactionResponse } from '@gq/core/store/transactions/models/comparable-linked-transaction-response.interface';
-import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 
 import { ApiVersion, Quotation, RfqData } from '../../../models';
 import { MaterialComparableCost } from '../../../models/quotation-detail/material-comparable-cost.model';
@@ -23,11 +22,10 @@ import { MaterialSalesOrg } from '../../../models/quotation-detail/material-sale
   providedIn: 'root',
 })
 export class QuotationDetailsService {
-  private readonly featureToggleService = inject(FeatureToggleConfigService);
   private readonly http = inject(HttpClient);
 
   private readonly PATH_QUOTATION_DETAILS = 'quotation-details';
-  private readonly PATH_QUOTATION_DETAILS_OGP = 'quotation-details-ogp';
+
   private readonly PATH_QUOTATIONS = 'quotations';
   private readonly PATH_TRANSACTIONS = 'comparable-transactions';
   private readonly PATH_MATERIAL_COMPARABLE_COSTS = 'material-comparable-costs';
@@ -47,12 +45,10 @@ export class QuotationDetailsService {
   public addQuotationDetails(
     tableData: AddQuotationDetailsRequest
   ): Observable<Quotation> {
-    let path = this.PATH_QUOTATION_DETAILS;
-    if (this.featureToggleService.isEnabled('createManualCaseAsView')) {
-      path = this.PATH_QUOTATION_DETAILS_OGP;
-    }
-
-    return this.http.post<Quotation>(`${ApiVersion.V1}/${path}`, tableData);
+    return this.http.post<Quotation>(
+      `${ApiVersion.V1}/${this.PATH_QUOTATION_DETAILS}`,
+      tableData
+    );
   }
 
   public deleteQuotationDetail(qgPositionIds: string[]): Observable<Quotation> {

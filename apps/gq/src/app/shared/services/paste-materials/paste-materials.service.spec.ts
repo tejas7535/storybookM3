@@ -123,7 +123,7 @@ describe('PasteMaterialsService', () => {
         },
       });
 
-      await service.onPasteStart(true, true);
+      await service.onPasteStart(true);
 
       expect(service['createCaseFacade'].addRowDataItems).toHaveBeenCalledWith(
         combinedArray
@@ -148,7 +148,7 @@ describe('PasteMaterialsService', () => {
 
       const combinedItem = combinedArrayWithTargetPrice;
 
-      await service.onPasteStart(true, true);
+      await service.onPasteStart(true);
 
       expect(service['createCaseFacade'].addRowDataItems).toHaveBeenCalledWith(
         combinedItem
@@ -171,7 +171,7 @@ describe('PasteMaterialsService', () => {
         },
       });
 
-      await service.onPasteStart(true, true);
+      await service.onPasteStart(true);
 
       expect(service['createCaseFacade'].addRowDataItems).toHaveBeenCalledWith(
         combinedArrayWithTargetPrice
@@ -194,7 +194,7 @@ describe('PasteMaterialsService', () => {
         },
       });
 
-      await service.onPasteStart(true, true);
+      await service.onPasteStart(true);
 
       expect(service['createCaseFacade'].addRowDataItems).toHaveBeenCalledWith(
         combinedArrayWithTargetPrice
@@ -241,7 +241,7 @@ describe('PasteMaterialsService', () => {
         },
       });
 
-      await service.onPasteStart(true, true);
+      await service.onPasteStart(true);
       combinedArrayWithTargetPrice[1].targetPriceSource = 'CUSTOMER';
 
       expect(service['createCaseFacade'].addRowDataItems).toHaveBeenCalledWith(
@@ -272,7 +272,7 @@ describe('PasteMaterialsService', () => {
         },
       ];
 
-      await service.onPasteStart(true, true);
+      await service.onPasteStart(true);
 
       expect(service['createCaseFacade'].addRowDataItems).toHaveBeenCalledWith(
         combinedItem
@@ -301,7 +301,7 @@ describe('PasteMaterialsService', () => {
         },
       ];
 
-      await service.onPasteStart(true, true);
+      await service.onPasteStart(true);
 
       expect(service['createCaseFacade'].addRowDataItems).toHaveBeenCalledWith(
         combinedItem
@@ -318,7 +318,7 @@ describe('PasteMaterialsService', () => {
         },
       });
 
-      await service.onPasteStart(false, true);
+      await service.onPasteStart(false);
 
       expect(
         service['processCaseFacade'].addItemsToMaterialTable
@@ -331,7 +331,7 @@ describe('PasteMaterialsService', () => {
         },
       });
 
-      await service.onPasteStart(false, true);
+      await service.onPasteStart(false);
       expect(
         service['processCaseFacade'].addItemsToMaterialTable
       ).toHaveBeenCalledWith([
@@ -358,7 +358,7 @@ describe('PasteMaterialsService', () => {
         },
       });
 
-      await service.onPasteStart(false, false);
+      await service.onPasteStart(false);
 
       expect(snackBar.open).toHaveBeenCalledTimes(1);
       expect(snackBar.open).toHaveBeenCalledWith(

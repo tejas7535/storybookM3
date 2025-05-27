@@ -133,9 +133,7 @@ export class TableService {
 
   static validateData(
     el: MaterialTableItem,
-    materialValidation: MaterialValidation,
-    // TODO: condition can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
-    isNewCaseCreation: boolean = false
+    materialValidation: MaterialValidation
   ): MaterialTableItem {
     const updatedRow = { ...el };
     if (isEmpty(updatedRow.materialNumber)) {
@@ -148,11 +146,7 @@ export class TableService {
     updatedRow.deliveryUnit = materialValidation?.deliveryUnit;
 
     TableService.validateInfoAndErrorCodes(materialValidation, updatedRow);
-    TableService.validateQuantity(
-      isNewCaseCreation,
-      materialValidation,
-      updatedRow
-    );
+    TableService.validateQuantity(materialValidation, updatedRow);
 
     if (updatedRow.info.description.length === 0) {
       updatedRow.info.description = TableService.addDesc(
@@ -187,14 +181,11 @@ export class TableService {
   }
 
   private static validateQuantity(
-    isNewCaseCreation: boolean,
     materialValidation: MaterialValidation,
     updatedRow: MaterialTableItem
   ) {
-    // if materialValidation has correctedQuantity and customerMaterial, useIt when FeatureToggle is enabled
-    const quantityToUse = isNewCaseCreation
-      ? materialValidation?.correctedQuantity ?? updatedRow.quantity
-      : updatedRow.quantity;
+    const quantityToUse =
+      materialValidation?.correctedQuantity ?? updatedRow.quantity;
 
     const hasQuantity =
       typeof quantityToUse === 'number' && quantityToUse > 0

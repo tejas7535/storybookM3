@@ -8,7 +8,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CreateManualCaseButtonComponent } from './create-manual-case-button.component';
 
-describe('CreateManualCaseComponent', () => {
+describe('CreateManualCaseButtonComponent', () => {
   let component: CreateManualCaseButtonComponent;
   let spectator: Spectator<CreateManualCaseButtonComponent>;
 
@@ -33,30 +33,11 @@ describe('CreateManualCaseComponent', () => {
 
   describe('createManualCase', () => {
     test('should create manual case', () => {
-      component['featureToggleConfigService'].isEnabled = jest
-        .fn()
-        .mockReturnValue(true);
       component['router'].navigate = jest.fn();
       component.createManualCase();
       expect(component['router'].navigate).toHaveBeenCalledWith([
         AppRoutePath.CreateManualCasePath,
       ]);
-    });
-
-    test('should open create manual case modal', () => {
-      component['featureToggleConfigService'].isEnabled = jest
-        .fn()
-        .mockReturnValue(false);
-      component['dialog'].open = jest.fn();
-      component.createManualCase();
-      expect(component['dialog'].open).toHaveBeenCalledWith(
-        expect.any(Function),
-        {
-          width: '70%',
-          height: '95%',
-          panelClass: 'create-manual-case-modal',
-        }
-      );
     });
   });
 });

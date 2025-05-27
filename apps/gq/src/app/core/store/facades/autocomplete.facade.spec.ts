@@ -408,19 +408,6 @@ describe('autocompleteFacade', () => {
     });
   });
 
-  describe('setSelectedAutocompleteOption', () => {
-    test('should dispatch setSelectedAutocompleteOption action', () => {
-      mockStore.dispatch = jest.fn();
-      const option = new IdValue('aud', 'Audi', true);
-      const filter = FilterNames.CUSTOMER;
-      service.selectMaterialNumberOrDescription(option, filter);
-
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        setSelectedAutocompleteOption({ option, filter })
-      );
-    });
-  });
-
   describe('selectMaterialNumberDescriptionOrCustomerMaterial', () => {
     test('should dispatch setSelectedAutocompleteOption action for MaterialNumber', () => {
       mockStore.dispatch = jest.fn();

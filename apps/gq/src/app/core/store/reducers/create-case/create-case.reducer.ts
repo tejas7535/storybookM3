@@ -27,18 +27,12 @@ import {
   clearPurchaseOrderType,
   clearSectorGpsd,
   clearShipToParty,
-  createCase,
-  createCaseFailure,
-  createCaseSuccess,
   createCustomerCase,
   createCustomerCaseFailure,
   createCustomerCaseSuccess,
-  createCustomerOgpCase,
-  createCustomerOgpCaseFailure,
-  createCustomerOgpCaseSuccess,
-  createOgpCase,
-  createOgpCaseFailure,
-  createOgpCaseSuccess,
+  createCase,
+  createCaseFailure,
+  createCaseSuccess,
   deleteRowDataItem,
   duplicateRowDataItem,
   getPLsAndSeries,
@@ -382,13 +376,7 @@ export const createCaseReducer = createReducer(
   on(addRowDataItems, (state: CreateCaseState, { items }) => ({
     ...state,
     rowData: TableService.addItems(
-      // the "old" case Creation needs the Currency of selectedSalesOrg
-      // TODO: condition can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
-      TableService.addCurrencyToMaterialItems(
-        items,
-        state.rowDataCurrency ??
-          getCurrencyOfSelectedSalesOrg(state.customer.salesOrgs)
-      ),
+      TableService.addCurrencyToMaterialItems(items, state.rowDataCurrency),
       [...state.rowData]
     ),
     validationLoading: true,
@@ -400,13 +388,7 @@ export const createCaseReducer = createReducer(
   on(updateRowDataItem, (state: CreateCaseState, { item, revalidate }) => ({
     ...state,
     rowData: TableService.updateItem(
-      // the "old" case Creation needs the Currency of selectedSalesOrg
-      // TODO: condition can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
-      TableService.addCurrencyToMaterialItem(
-        item,
-        state.rowDataCurrency ??
-          getCurrencyOfSelectedSalesOrg(state.customer.salesOrgs)
-      ),
+      TableService.addCurrencyToMaterialItem(item, state.rowDataCurrency),
       state.rowData,
       revalidate
     ),
@@ -431,13 +413,12 @@ export const createCaseReducer = createReducer(
   ),
   on(
     validateMaterialsOnCustomerAndSalesOrgSuccess,
-    (state: CreateCaseState, { materialValidations, isNewCaseCreation }) => ({
+    (state: CreateCaseState, { materialValidations }) => ({
       ...state,
       rowData: [...state.rowData].map((el) =>
         TableService.validateData(
           { ...el },
-          materialValidations.find((item) => item.id === el.id),
-          isNewCaseCreation
+          materialValidations.find((item) => item.id === el.id)
         )
       ),
       validationLoading: false,
@@ -484,33 +465,6 @@ export const createCaseReducer = createReducer(
   ),
   on(
     createCaseFailure,
-    (state: CreateCaseState, { errorMessage }): CreateCaseState => ({
-      ...state,
-      errorMessage,
-      createCaseLoading: false,
-    })
-  ),
-  on(
-    createOgpCase,
-    (state: CreateCaseState): CreateCaseState => ({
-      ...state,
-      createCaseLoading: true,
-    })
-  ),
-  on(
-    createOgpCaseSuccess,
-    (state: CreateCaseState, { createdCase }): CreateCaseState => ({
-      ...state,
-      createdCase,
-      createCaseLoading: false,
-      autocompleteItems: initialState.autocompleteItems,
-      customer: initialState.customer,
-      rowData: initialState.rowData,
-      purchaseOrderType: initialState.purchaseOrderType,
-    })
-  ),
-  on(
-    createOgpCaseFailure,
     (state: CreateCaseState, { errorMessage }): CreateCaseState => ({
       ...state,
       errorMessage,
@@ -739,31 +693,6 @@ export const createCaseReducer = createReducer(
   ),
   on(
     createCustomerCaseSuccess,
-    (state: CreateCaseState): CreateCaseState => ({
-      ...state,
-      createCaseLoading: false,
-      autocompleteItems: initialState.autocompleteItems,
-      plSeries: initialState.plSeries,
-      customer: initialState.customer,
-    })
-  ),
-  on(
-    createCustomerCaseFailure,
-    (state: CreateCaseState, { errorMessage }): CreateCaseState => ({
-      ...state,
-      createCaseLoading: false,
-      errorMessage,
-    })
-  ),
-  on(
-    createCustomerOgpCase,
-    (state: CreateCaseState): CreateCaseState => ({
-      ...state,
-      createCaseLoading: true,
-    })
-  ),
-  on(
-    createCustomerOgpCaseSuccess,
     (state: CreateCaseState, { createdCase }): CreateCaseState => ({
       ...state,
       createCaseLoading: false,
@@ -774,7 +703,7 @@ export const createCaseReducer = createReducer(
     })
   ),
   on(
-    createCustomerOgpCaseFailure,
+    createCustomerCaseFailure,
     (state: CreateCaseState, { errorMessage }): CreateCaseState => ({
       ...state,
       createCaseLoading: false,

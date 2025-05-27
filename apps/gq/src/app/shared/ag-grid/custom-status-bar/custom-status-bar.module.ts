@@ -13,11 +13,8 @@ import { SharedDirectivesModule } from '../../directives/shared-directives.modul
 import { SharedPipesModule } from '../../pipes/shared-pipes.module';
 import { AddItemsButtonComponent } from './add-items-button/add-items-button.component';
 import { AddMaterialButtonComponent } from './case-material-table/add-material-button/add-material-button.component';
-import { CreateCaseButtonComponent } from './case-material-table/create-case-button/create-case-button.component';
 import { ProcessCaseResetAllButtonComponent } from './case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
 import { RemoveAllFilteredButtonComponent } from './case-material-table/remove-all-filtered-button/remove-all-filtered-button.component';
-import { CreateCustomerCaseButtonComponent } from './case-view/create-customer-case-button/create-customer-case-button.component';
-import { CreateManualCaseButtonComponent } from './case-view/create-manual-case-button/create-manual-case-button.component';
 import { ImportCaseButtonComponent } from './case-view/import-case-button/import-case-button.component';
 import { ConfirmSimulationButtonComponent } from './confirm-simulation-button/confirm-simulation-button.component';
 import { DiscardSimulationButtonComponent } from './discard-simulation-button/discard-simulation-button.component';
@@ -32,7 +29,7 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
 @NgModule({
   declarations: [
     AddMaterialButtonComponent,
-    CreateCaseButtonComponent,
+
     UpdateCaseStatusButtonComponent,
     ExportToExcelButtonComponent,
     UploadSelectionToSapButtonComponent,
@@ -40,8 +37,6 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     RemoveAllFilteredButtonComponent,
     ProcessCaseResetAllButtonComponent,
     ImportCaseButtonComponent,
-    CreateManualCaseButtonComponent,
-    CreateCustomerCaseButtonComponent,
     AddItemsButtonComponent,
     RefreshSapPriceComponent,
     ConfirmSimulationButtonComponent,
@@ -63,7 +58,6 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
   ],
   exports: [
     AddMaterialButtonComponent,
-    CreateCaseButtonComponent,
     UpdateCaseStatusButtonComponent,
     ExportToExcelButtonComponent,
     UploadSelectionToSapButtonComponent,
@@ -71,8 +65,6 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     RemoveAllFilteredButtonComponent,
     ProcessCaseResetAllButtonComponent,
     ImportCaseButtonComponent,
-    CreateManualCaseButtonComponent,
-    CreateCustomerCaseButtonComponent,
     AddItemsButtonComponent,
     RefreshSapPriceComponent,
     ConfirmSimulationButtonComponent,

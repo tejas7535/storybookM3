@@ -30,7 +30,6 @@ import { SharedDirectivesModule } from '@gq/shared/directives/shared-directives.
 import { TargetPriceSource } from '@gq/shared/models/quotation/target-price-source.enum';
 import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
-import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import {
   getNextHigherPossibleMultiple,
   getTargetPriceSourceValue,
@@ -84,8 +83,8 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   @ViewChild('customerMaterialNumberInput')
   customerMatNumberInput: AutocompleteInputComponent;
 
-  // TODO: make this private when the new case creation is fully implemented
-  readonly autoCompleteFacade: AutoCompleteFacade = inject(AutoCompleteFacade);
+  private readonly autoCompleteFacade: AutoCompleteFacade =
+    inject(AutoCompleteFacade);
   private readonly createCaseFacade = inject(CreateCaseFacade);
   private readonly activeCaseFacade = inject(ActiveCaseFacade);
   private readonly processCaseFacade = inject(ProcessCaseFacade);
@@ -98,9 +97,6 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   private readonly translocoLocaleService: TranslocoLocaleService = inject(
     TranslocoLocaleService
   );
-
-  private readonly featureToggleConfigService: FeatureToggleConfigService =
-    inject(FeatureToggleConfigService);
 
   // ########################################################################
   // ######################### Observables ##################################
@@ -141,10 +137,6 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   selectedAutocompleteRequestDialog$: Observable<AutocompleteRequestDialog> =
     this.autoCompleteFacade.getSelectedAutocompleteRequestDialog$;
 
-  newCaseCreation: boolean = this.featureToggleConfigService.isEnabled(
-    'createManualCaseAsView'
-  );
-
   CUSTOMER_MATERIAL_MAX_LENGTH = 35;
   materialNumber$: Observable<CaseFilterItem>;
   materialDesc$: Observable<CaseFilterItem>;
@@ -158,9 +150,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   quantityFormControl: FormControl = new FormControl(
     { value: null, disabled: true },
     [],
-    this.newCaseCreation
-      ? [quantityDeliveryUnitValidator(this.selectedMaterialAutocomplete$)]
-      : []
+    [quantityDeliveryUnitValidator(this.selectedMaterialAutocomplete$)]
   );
   targetPriceFormControl: FormControl = new FormControl({
     value: undefined,
@@ -177,17 +167,16 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   });
 
   public ngOnInit(): void {
-    if (this.newCaseCreation) {
-      this.selectedAutocompleteRequestDialog$
-        .pipe(
-          takeUntilDestroyed(this.destroyRef),
-          filter((dialog) => dialog === AutocompleteRequestDialog.EDIT_MATERIAL)
-        )
-        .subscribe(() => {
-          this.clearFields();
-        });
-    }
-    if (this.newCaseCreation && this.isCaseView) {
+    this.selectedAutocompleteRequestDialog$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((dialog) => dialog === AutocompleteRequestDialog.EDIT_MATERIAL)
+      )
+      .subscribe(() => {
+        this.clearFields();
+      });
+
+    if (this.isCaseView) {
       this.autoCompleteFacade.initFacade(AutocompleteRequestDialog.CREATE_CASE);
 
       combineLatest([
@@ -239,33 +228,29 @@ export class AddEntryComponent implements OnInit, OnDestroy {
         this.rowInputValid();
       });
 
-    if (this.newCaseCreation) {
-      this.selectedMaterialAutocomplete$
-        .pipe(
-          takeUntilDestroyed(this.destroyRef),
-          filter((material) => !!material)
-        )
-        .subscribe(({ deliveryUnit }) => {
-          this.adjustQuantityFormFieldToDeliveryUnit(deliveryUnit);
-        });
-
-      // get the customer depending on the page
-      iif(
-        () => this.isCaseView,
-        this.customerIdForCaseCreation$,
-        this.customerIdentifierForActiveCase$
+    this.selectedMaterialAutocomplete$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((material) => !!material)
       )
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe((customer: string | CustomerId) => {
-          if (customer) {
-            this.enableNonAutoCompleteFields();
-          } else {
-            this.disableNonAutoCompleteFields();
-          }
-        });
-    } else {
-      this.enableNonAutoCompleteFields();
-    }
+      .subscribe(({ deliveryUnit }) => {
+        this.adjustQuantityFormFieldToDeliveryUnit(deliveryUnit);
+      });
+
+    // get the customer depending on the page
+    iif(
+      () => this.isCaseView,
+      this.customerIdForCaseCreation$,
+      this.customerIdentifierForActiveCase$
+    )
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((customer: string | CustomerId) => {
+        if (customer) {
+          this.enableNonAutoCompleteFields();
+        } else {
+          this.disableNonAutoCompleteFields();
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -309,12 +294,11 @@ export class AddEntryComponent implements OnInit, OnDestroy {
             this.targetPriceFormControl.value?.toString(),
             this.translocoLocaleService.getLocale()
           ) ?? undefined,
-        customerMaterialNumber: this.newCaseCreation
-          ? this.customerMatNumberInput.searchFormControl.value
-          : undefined,
-        targetPriceSource: this.newCaseCreation
-          ? targetPriceSourceValue
-          : undefined,
+        customerMaterialNumber:
+          this.customerMatNumberInput.searchFormControl.value,
+
+        targetPriceSource: targetPriceSourceValue,
+
         info: {
           valid: false,
           description: [ValidationDescription.Not_Validated],
@@ -341,10 +325,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   }
 
   pasteFromClipboard() {
-    this.pasteMaterialsService.onPasteStart(
-      this.isCaseView,
-      this.newCaseCreation
-    );
+    this.pasteMaterialsService.onPasteStart(this.isCaseView);
   }
 
   displaySnackBar(): void {
@@ -401,26 +382,22 @@ export class AddEntryComponent implements OnInit, OnDestroy {
 
     this.materialInputIsValid = false;
 
-    if (this.newCaseCreation) {
-      this.customerMatNumberInput.clearInput();
-      this.targetPriceSourceFormControl.setValue(TargetPriceSource.NO_ENTRY);
-    }
+    this.customerMatNumberInput.clearInput();
+    this.targetPriceSourceFormControl.setValue(TargetPriceSource.NO_ENTRY);
   }
 
   private enableNonAutoCompleteFields(): void {
     this.quantityFormControl.enable();
     this.targetPriceFormControl.enable();
-    if (this.newCaseCreation) {
-      this.targetPriceSourceFormControl.enable();
-    }
+
+    this.targetPriceSourceFormControl.enable();
   }
 
   private disableNonAutoCompleteFields(): void {
     this.quantityFormControl.disable();
     this.targetPriceFormControl.disable();
-    if (this.newCaseCreation) {
-      this.targetPriceSourceFormControl.disable();
-    }
+
+    this.targetPriceSourceFormControl.disable();
   }
   /**
    * The quantity form Field will have a value that is a multiple of the delivery unit

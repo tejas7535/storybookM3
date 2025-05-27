@@ -7,7 +7,6 @@ import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-nam
 import { MATERIAL_FILTERS } from '@gq/shared/constants';
 import { CustomerId } from '@gq/shared/models';
 import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
-import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
@@ -41,8 +40,6 @@ import {
 export class AutoCompleteFacade {
   private readonly store: Store = inject(Store);
   private readonly actions$: Actions = inject(Actions);
-  private readonly featureToggleConfigService: FeatureToggleConfigService =
-    inject(FeatureToggleConfigService);
 
   getSelectedAutocompleteRequestDialog$: Observable<AutocompleteRequestDialog> =
     this.store.select(getSelectedAutocompleteRequestDialog);
@@ -115,12 +112,7 @@ export class AutoCompleteFacade {
     );
 
   createCaseCustomer$: Observable<CaseFilterItem> = this.store.select(
-    getCaseCustomer(
-      this.featureToggleConfigService.isEnabled('createManualCaseAsView') ||
-        this.featureToggleConfigService.isEnabled('createCustomerCaseAsView')
-        ? AutocompleteRequestDialog.CREATE_CASE
-        : AutocompleteRequestDialog.ADD_ENTRY
-    )
+    getCaseCustomer(AutocompleteRequestDialog.CREATE_CASE)
   );
 
   createCaseCustomerAddEntry$: Observable<CaseFilterItem> = this.store.select(
@@ -190,16 +182,6 @@ export class AutoCompleteFacade {
 
   selectCustomer(option: IdValue, filter: string): void {
     this.store.dispatch(selectAutocompleteOption({ filter, option }));
-  }
-
-  // TODO: check if can be removed when oldCaseCreation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
-  selectMaterialNumberOrDescription(option: IdValue, filter: string): void {
-    this.store.dispatch(
-      setSelectedAutocompleteOption({
-        filter,
-        option,
-      })
-    );
   }
 
   // see https://confluence.schaeffler.com/display/PARS/GQ+Autocomplete+Component

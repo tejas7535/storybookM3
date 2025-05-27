@@ -9,8 +9,6 @@ import { LegalRoute } from '@schaeffler/legal-pages';
 import { AppRoutePath } from './app-route-path.enum';
 import { CalculatorRoutes } from './calculator/routing/calculator-routes';
 import { ProdGuard, RoleGuard } from './core/guards';
-import { CreateCustomerCaseGuard } from './core/guards/create-customer-case.guard';
-import { CreateManualCaseGuard } from './core/guards/create-manual-case.guard';
 import { StartPageGuard } from './core/guards/start-page.guard';
 import { FORBIDDEN_ACTION } from './shared/constants';
 
@@ -74,8 +72,6 @@ export const appRoutePaths: Routes = [
       import(
         './create-manual-case-view/create-manual-case-view.component'
       ).then((m) => m.CreateManualCaseViewComponent),
-    // TODO: condition can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
-    canActivateChild: [CreateManualCaseGuard],
   },
   {
     path: AppRoutePath.CreateCaseFromCustomerPath,
@@ -83,8 +79,6 @@ export const appRoutePaths: Routes = [
       import(
         './create-customer-case-view/create-customer-case-view.component'
       ).then((m) => m.CreateCustomerCaseViewComponent),
-    // TODO: condition can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
-    canActivateChild: [CreateCustomerCaseGuard],
   },
   ...CalculatorRoutes,
   {

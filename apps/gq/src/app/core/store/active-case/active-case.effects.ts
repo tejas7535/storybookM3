@@ -473,7 +473,6 @@ export class ActiveCaseEffects {
               currency: action.currency,
               quotationToDate: action.quotationToDate,
               validTo: action.validTo,
-              customerPurchaseOrderDate: action.customerPurchaseOrderDate,
               customerInquiryDate: action.customerInquiryDate,
               requestedDelDate: action.requestedDelDate,
               shipToParty: action.shipToParty,

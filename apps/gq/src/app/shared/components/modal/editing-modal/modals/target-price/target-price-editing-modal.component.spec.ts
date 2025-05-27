@@ -384,17 +384,5 @@ describe('TargetPriceEditingModalComponent', () => {
         expect(targetPriceSourceFormControl.value).toBe('noEntry');
       });
     });
-    describe('isTargetPriceSourceEditable is false', () => {
-      test('should stop when isTargetPriceSourceEditable is false', () => {
-        jest.resetAllMocks();
-        component['editingFormGroup'] = editingFormGroup;
-        Object.defineProperty(component, 'isTargetPriceSourceEditable', {
-          value: false,
-        });
-        component.editingFormGroup.get = jest.fn();
-        component.handleAdditionalContent();
-        expect(component.editingFormGroup.get).not.toHaveBeenCalled();
-      });
-    });
   });
 });

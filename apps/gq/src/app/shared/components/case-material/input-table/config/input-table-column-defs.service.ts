@@ -17,13 +17,13 @@ import { ColumnUtilityService } from '../../../../ag-grid/services/column-utilit
 })
 export class InputTableColumnDefService {
   constructor(private readonly columnUtilityService: ColumnUtilityService) {}
-  BASE_COLUMN_DEFS: ColDef[] = [
+  COLUMN_DEFS: ColDef[] = [
     {
       headerName: translate('shared.caseMaterial.table.info.title'),
       field: 'info',
       cellRenderer: 'infoCellComponent',
-      flex: 0.15,
       sortable: true,
+      width: 120,
       filterParams: FILTER_PARAMS,
       filterValueGetter: (params) => {
         // the info column only considers SAP Codes, CustomerValidation needs to be ignored
@@ -44,15 +44,18 @@ export class InputTableColumnDefService {
     {
       headerName: translate('shared.caseMaterial.table.materialDescription'),
       field: 'materialDescription',
-      flex: 0.25,
       sortable: true,
-      filterParams: FILTER_PARAMS,
+      filterParams: {
+        ...FILTER_PARAMS,
+        valueFormatter: (params: ValueFormatterParams) =>
+          ColumnUtilityService.basicTransform(params),
+      },
+      valueFormatter: (params) => ColumnUtilityService.basicTransform(params),
       cellRenderer: EditCaseMaterialComponent,
     },
     {
       headerName: translate('shared.caseMaterial.table.materialNumber'),
       field: 'materialNumber',
-      flex: 0.25,
       sortable: true,
       filterParams: {
         ...FILTER_PARAMS,
@@ -63,71 +66,6 @@ export class InputTableColumnDefService {
       valueFormatter: (params) =>
         this.columnUtilityService.materialTransform(params),
     },
-    {
-      headerName: translate('shared.caseMaterial.table.quantity'),
-      field: 'quantity',
-      flex: 0.15,
-      sortable: true,
-      filter: NUMBER_COLUMN_FILTER,
-      filterParams: ColumnUtilityService.integerFilterParams,
-      cellRenderer: EditCaseMaterialComponent,
-      valueFormatter: (params) =>
-        this.columnUtilityService.numberFormatter(params),
-    },
-    {
-      headerName: translate('shared.caseMaterial.table.targetPrice'),
-      field: 'targetPrice',
-      flex: 0.15,
-      sortable: true,
-      filter: NUMBER_COLUMN_FILTER,
-      filterParams: this.columnUtilityService.numberFilterParams,
-      cellRenderer: EditCaseMaterialComponent,
-      valueFormatter: (params) =>
-        this.columnUtilityService.targetPriceFormatter(params),
-      headerComponentParams: {
-        tooltipText: translate('shared.caseMaterial.table.targetPriceInfoText'),
-        editableColumn: true,
-      },
-    },
-    {
-      headerName: translate('shared.caseMaterial.table.priceUnitOfTargetPrice'),
-      field: 'priceUnit',
-      flex: 0.15,
-      sortable: true,
-      filterParams: FILTER_PARAMS,
-      valueFormatter: (params) =>
-        this.columnUtilityService.numberDashFormatter(params),
-    },
-    {
-      headerName: translate('shared.caseMaterial.table.UoM'),
-      field: 'UoM',
-      flex: 0.15,
-      sortable: true,
-      filterParams: {
-        ...FILTER_PARAMS,
-        valueFormatter: (params: ValueFormatterParams) =>
-          this.columnUtilityService.transformConditionUnit(params) ??
-          Keyboard.DASH,
-      },
-      valueFormatter: (params: ValueFormatterParams) =>
-        this.columnUtilityService.transformConditionUnit(params) ??
-        Keyboard.DASH,
-    },
-  ];
-
-  NEW_CASE_CREATION_COLUMN_DEFS: ColDef[] = [
-    { ...this.BASE_COLUMN_DEFS[0], flex: null, width: 120 },
-    {
-      ...this.BASE_COLUMN_DEFS[1],
-      flex: null,
-      filterParams: {
-        ...FILTER_PARAMS,
-        valueFormatter: (params: ValueFormatterParams) =>
-          ColumnUtilityService.basicTransform(params),
-      },
-      valueFormatter: (params) => ColumnUtilityService.basicTransform(params),
-    },
-    { ...this.BASE_COLUMN_DEFS[2], flex: null },
     {
       headerName: translate('shared.caseMaterial.table.customerMaterialNumber'),
       field: 'customerMaterialNumber',
@@ -140,8 +78,31 @@ export class InputTableColumnDefService {
       valueFormatter: (params) => ColumnUtilityService.basicTransform(params),
       cellRenderer: EditCaseMaterialComponent,
     },
-    { ...this.BASE_COLUMN_DEFS[3], flex: null, width: 140 },
-    { ...this.BASE_COLUMN_DEFS[4], flex: null },
+    {
+      headerName: translate('shared.caseMaterial.table.quantity'),
+      field: 'quantity',
+      width: 140,
+      sortable: true,
+      filter: NUMBER_COLUMN_FILTER,
+      filterParams: ColumnUtilityService.integerFilterParams,
+      cellRenderer: EditCaseMaterialComponent,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberFormatter(params),
+    },
+    {
+      headerName: translate('shared.caseMaterial.table.targetPrice'),
+      field: 'targetPrice',
+      sortable: true,
+      filter: NUMBER_COLUMN_FILTER,
+      filterParams: this.columnUtilityService.numberFilterParams,
+      cellRenderer: EditCaseMaterialComponent,
+      valueFormatter: (params) =>
+        this.columnUtilityService.targetPriceFormatter(params),
+      headerComponentParams: {
+        tooltipText: translate('shared.caseMaterial.table.targetPriceInfoText'),
+        editableColumn: true,
+      },
+    },
     {
       headerName: translate('shared.caseMaterial.table.targetPriceSource'),
       field: 'targetPriceSource',
@@ -165,7 +126,29 @@ export class InputTableColumnDefService {
             } as ValueFormatterParams),
       cellRenderer: EditCaseMaterialComponent,
     },
-    { ...this.BASE_COLUMN_DEFS[5], flex: null, width: 120 },
-    { ...this.BASE_COLUMN_DEFS[6], flex: null, width: 120 },
+    {
+      headerName: translate('shared.caseMaterial.table.priceUnitOfTargetPrice'),
+      field: 'priceUnit',
+      width: 120,
+      sortable: true,
+      filterParams: FILTER_PARAMS,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberDashFormatter(params),
+    },
+    {
+      headerName: translate('shared.caseMaterial.table.UoM'),
+      field: 'UoM',
+      width: 120,
+      sortable: true,
+      filterParams: {
+        ...FILTER_PARAMS,
+        valueFormatter: (params: ValueFormatterParams) =>
+          this.columnUtilityService.transformConditionUnit(params) ??
+          Keyboard.DASH,
+      },
+      valueFormatter: (params: ValueFormatterParams) =>
+        this.columnUtilityService.transformConditionUnit(params) ??
+        Keyboard.DASH,
+    },
   ];
 }

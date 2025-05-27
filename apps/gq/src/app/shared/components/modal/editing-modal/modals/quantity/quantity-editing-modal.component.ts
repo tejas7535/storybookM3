@@ -33,9 +33,8 @@ export class QuantityEditingModalComponent
   ngOnInit(): void {
     super.ngOnInit();
     this.setHintTextParams();
-    if (this.isNewCaseCreation) {
-      this.setIncrementsAndDecrementSteps();
-    }
+
+    this.setIncrementsAndDecrementSteps();
   }
 
   handleInputFieldKeyDown(event: KeyboardEvent): void {
@@ -64,7 +63,7 @@ export class QuantityEditingModalComponent
         deliveryUnit
       );
 
-    if (this.isNewCaseCreation && isOrderQuantityInvalid) {
+    if (isOrderQuantityInvalid) {
       this.editingFormGroup
         .get(this.VALUE_FORM_CONTROL_NAME)
         .setErrors({ invalidInput: true });

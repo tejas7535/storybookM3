@@ -5,10 +5,9 @@ import {
 } from '@angular/common/http/testing';
 
 import { QuotationTab } from '@gq/core/store/overview-cases/models/quotation-tab.enum';
+import { CreateCase } from '@gq/core/store/reducers/create-case/models/create-case.interface';
 import { CreateCaseHeaderData } from '@gq/core/store/reducers/create-case/models/create-case-header-data.interface';
-import { CreateCaseOgp } from '@gq/core/store/reducers/create-case/models/create-case-ogp.interface';
-import { CreateCustomerCaseOgp } from '@gq/core/store/reducers/create-case/models/create-customer-case-ogp.interface';
-import { CreateCase, SalesIndication } from '@gq/core/store/reducers/models';
+import { CreateCustomerCase } from '@gq/core/store/reducers/create-case/models/create-customer-case.interface';
 import {
   ApiVersion,
   CustomerId,
@@ -23,7 +22,6 @@ import {
 } from '@ngneat/spectator/jest';
 
 import { CUSTOMER_MOCK } from '../../../../../testing/mocks';
-import { CreateCustomerCase } from '../search/models/create-customer-case.model';
 import { GetQuotationToDateResponse } from './models/get-quotation-to-date-response.interface';
 import { QuotationPaths } from './models/quotation-paths.enum';
 import { ShipToParty } from './models/ship-to-party';
@@ -173,10 +171,12 @@ describe('QuotationService', () => {
   describe('createCase', () => {
     test('should call', () => {
       const mockBody: CreateCase = {
-        customer: {
-          customerId: '1234',
-          salesOrg: '0267',
-        },
+        headerInformation: {
+          customer: {
+            customerId: '1234',
+            salesOrg: '0267',
+          },
+        } as CreateCaseHeaderData,
         materialQuantities: [
           { materialId: '123', quantity: 10, quotationItemId: 10 },
         ],
@@ -190,32 +190,8 @@ describe('QuotationService', () => {
       expect(req.request.method).toBe(HttpMethod.POST);
       req.flush(mockBody);
     });
-  });
-
-  describe('createOgpCase', () => {
-    test('should call', () => {
-      const mockBody: CreateCaseOgp = {
-        headerInformation: {
-          customer: {
-            customerId: '1234',
-            salesOrg: '0267',
-          },
-        } as CreateCaseHeaderData,
-        materialQuantities: [
-          { materialId: '123', quantity: 10, quotationItemId: 10 },
-        ],
-      };
-      service.createOgpCase(mockBody).subscribe((response) => {
-        expect(response).toEqual([]);
-      });
-      const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS_OGP}`
-      );
-      expect(req.request.method).toBe(HttpMethod.POST);
-      req.flush(mockBody);
-    });
     test('should map response to CreateCaseResponse', () => {
-      const mockBody: CreateCaseOgp = {
+      const mockBody: CreateCase = {
         headerInformation: {
           customer: {
             customerId: '1234',
@@ -231,11 +207,11 @@ describe('QuotationService', () => {
         customerId: '1234',
         salesOrg: '0267',
       };
-      service.createOgpCase(mockBody).subscribe((response) => {
+      service.createCase(mockBody).subscribe((response) => {
         expect(response).toEqual(expectedReturnValue);
       });
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS_OGP}`
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`
       );
       expect(req.request.method).toBe(HttpMethod.POST);
       req.flush({
@@ -266,31 +242,6 @@ describe('QuotationService', () => {
   describe('createCustomerCase', () => {
     test('should call', () => {
       const mockBody: CreateCustomerCase = {
-        customer: {
-          customerId: '1234',
-          salesOrg: '0267',
-        },
-        includeQuotationHistory: true,
-        productLines: ['1'],
-        series: ['2'],
-        gpsdGroupIds: ['F02'],
-        salesIndications: [SalesIndication.INVOICE],
-        historicalDataLimitInYear: 2,
-      };
-      service.createCustomerCase(mockBody).subscribe((response) => {
-        expect(response).toEqual([]);
-      });
-      const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${QuotationPaths.PATH_CUSTOMER_QUOTATION}`
-      );
-      expect(req.request.method).toBe(HttpMethod.POST);
-      req.flush(mockBody);
-    });
-  });
-
-  describe('createCustomerOgpCase', () => {
-    test('should call', () => {
-      const mockBody: CreateCustomerCaseOgp = {
         headerInformation: {
           customer: {
             customerId: '1234',
@@ -304,17 +255,17 @@ describe('QuotationService', () => {
         salesIndications: [],
         series: [],
       };
-      service.createCustomerOgpCase(mockBody).subscribe((response) => {
+      service.createCustomerCase(mockBody).subscribe((response) => {
         expect(response).toEqual([]);
       });
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${QuotationPaths.PATH_CUSTOMER_QUOTATION_OGP}`
+        `${ApiVersion.V1}/${QuotationPaths.PATH_CUSTOMER_QUOTATION}`
       );
       expect(req.request.method).toBe(HttpMethod.POST);
       req.flush(mockBody);
     });
     test('should map response to CreateCaseResponse', () => {
-      const mockBody: CreateCustomerCaseOgp = {
+      const mockBody: CreateCustomerCase = {
         headerInformation: {
           customer: {
             customerId: '1234',
@@ -333,11 +284,11 @@ describe('QuotationService', () => {
         customerId: '1234',
         salesOrg: '0267',
       };
-      service.createCustomerOgpCase(mockBody).subscribe((response) => {
+      service.createCustomerCase(mockBody).subscribe((response) => {
         expect(response).toEqual(expectedReturnValue);
       });
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${QuotationPaths.PATH_CUSTOMER_QUOTATION_OGP}`
+        `${ApiVersion.V1}/${QuotationPaths.PATH_CUSTOMER_QUOTATION}`
       );
       expect(req.request.method).toBe(HttpMethod.POST);
       req.flush({
@@ -358,7 +309,7 @@ describe('QuotationService', () => {
         currency: 'EUR',
         quotationToDate: '',
         validTo: '',
-        customerPurchaseOrderDate: '',
+        customerInquiryDate: '',
         requestedDelDate: '',
         shipToParty: {
           customerId: '1234',

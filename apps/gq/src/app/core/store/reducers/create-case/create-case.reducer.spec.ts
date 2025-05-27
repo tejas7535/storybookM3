@@ -26,12 +26,6 @@ import {
   createCustomerCase,
   createCustomerCaseFailure,
   createCustomerCaseSuccess,
-  createCustomerOgpCase,
-  createCustomerOgpCaseFailure,
-  createCustomerOgpCaseSuccess,
-  createOgpCase,
-  createOgpCaseFailure,
-  createOgpCaseSuccess,
   deleteRowDataItem,
   duplicateRowDataItem,
   getPLsAndSeries,
@@ -661,6 +655,7 @@ describe('Create Case Reducer', () => {
             salesOrgs: [{ currency: 'EUR', selected: true } as SalesOrg],
           },
           rowData: fakeData,
+          rowDataCurrency: 'EUR',
         };
 
         const action = addRowDataItems({ items });
@@ -779,6 +774,7 @@ describe('Create Case Reducer', () => {
             salesOrgs: [{ currency: 'EUR', selected: true } as SalesOrg],
           },
           rowData: mockedRowData,
+          rowDataCurrency: 'EUR',
         };
 
         const action = updateRowDataItem({ item, revalidate: true });
@@ -1029,7 +1025,6 @@ describe('Create Case Reducer', () => {
         ];
         const action = validateMaterialsOnCustomerAndSalesOrgSuccess({
           materialValidations,
-          isNewCaseCreation: false,
         });
 
         const state = createCaseReducer(fakeState, action);
@@ -1079,40 +1074,10 @@ describe('Create Case Reducer', () => {
       });
     });
   });
-  describe('createCase Actions', () => {
-    describe('createCase', () => {
-      test('should set createCaseLoading', () => {
-        const action = createCase();
-        const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
-        expect(state.createCaseLoading).toBeTruthy();
-      });
-    });
-    describe('createCaseSuccess', () => {
-      test('should set createCaseLoading to false', () => {
-        const createdCase: CreateCaseResponse = {
-          salesOrg: '0267',
-          customerId: '123',
-          gqId: 1010,
-        };
-        const action = createCaseSuccess({ createdCase });
-        const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
-        expect(state.createdCase).toEqual(createdCase);
-      });
-    });
-    describe('createCaseFailure', () => {
-      test('should set createCaseLoading to false', () => {
-        const errorMessage = 'error';
-        const action = createCaseFailure({ errorMessage });
-        const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
-        expect(state.createCaseLoading).toBeFalsy();
-        expect(state.errorMessage).toBe(errorMessage);
-      });
-    });
-  });
 
-  describe('create ogp Case Actions', () => {
+  describe('create Case Actions', () => {
     test('should set createCaseLoading to true', () => {
-      const action = createOgpCase({ createCaseData: undefined });
+      const action = createCase({ createCaseData: undefined });
       const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
       expect(state.createCaseLoading).toBeTruthy();
     });
@@ -1123,13 +1088,13 @@ describe('Create Case Reducer', () => {
         customerId: '123',
         gqId: 1010,
       };
-      const action = createOgpCaseSuccess({ createdCase });
+      const action = createCaseSuccess({ createdCase });
       const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
       expect(state.createdCase).toEqual(createdCase);
     });
     test('should set createCaseLoading to false when failure', () => {
       const errorMessage = 'error';
-      const action = createOgpCaseFailure({ errorMessage });
+      const action = createCaseFailure({ errorMessage });
       const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
       expect(state.createCaseLoading).toBeFalsy();
       expect(state.errorMessage).toBe(errorMessage);
@@ -1505,43 +1470,11 @@ describe('Create Case Reducer', () => {
         expect(state.plSeries).toEqual(initialState.plSeries);
       });
     });
-
-    describe('createCustomerCase Actions', () => {
-      describe('createCustomerCase', () => {
-        test('should set loading true', () => {
-          const action = createCustomerCase();
-
-          const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
-
-          expect(state.createCaseLoading).toBeTruthy();
-        });
-      });
-
-      describe('createCustomerCaseSuccess', () => {
-        test('should set loading to false', () => {
-          const action = createCustomerCaseSuccess();
-
-          const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
-          expect(state.createCaseLoading).toBeFalsy();
-        });
-      });
-
-      describe('createCustomerCaseFailure', () => {
-        test('should save error message', () => {
-          const errorMessage = 'errorMessage';
-          const action = createCustomerCaseFailure({ errorMessage });
-
-          const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
-
-          expect(state.errorMessage).toEqual(errorMessage);
-        });
-      });
-    });
   });
 
-  describe('createCustomerOgpCase Actions', () => {
+  describe('createCustomerCase Actions', () => {
     test('should set createCaseLoading to true', () => {
-      const action = createCustomerOgpCase({ createCaseData: undefined });
+      const action = createCustomerCase({ createCaseData: undefined });
       const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
       expect(state.createCaseLoading).toBeTruthy();
     });
@@ -1551,13 +1484,13 @@ describe('Create Case Reducer', () => {
         customerId: '123',
         gqId: 1010,
       };
-      const action = createCustomerOgpCaseSuccess({ createdCase });
+      const action = createCustomerCaseSuccess({ createdCase });
       const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
       expect(state.createdCase).toEqual(createdCase);
     });
     test('should set createCaseLoading to false when failure', () => {
       const errorMessage = 'error';
-      const action = createCustomerOgpCaseFailure({ errorMessage });
+      const action = createCustomerCaseFailure({ errorMessage });
       const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
       expect(state.createCaseLoading).toBeFalsy();
       expect(state.errorMessage).toBe(errorMessage);

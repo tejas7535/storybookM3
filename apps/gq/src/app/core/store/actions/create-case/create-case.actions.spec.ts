@@ -24,12 +24,6 @@ import {
   createCustomerCase,
   createCustomerCaseFailure,
   createCustomerCaseSuccess,
-  createCustomerOgpCase,
-  createCustomerOgpCaseFailure,
-  createCustomerOgpCaseSuccess,
-  createOgpCase,
-  createOgpCaseFailure,
-  createOgpCaseSuccess,
   deleteRowDataItem,
   getPLsAndSeries,
   getPLsAndSeriesFailure,
@@ -193,42 +187,8 @@ describe('Create Actions', () => {
     });
   });
 
-  describe('createCase Actions', () => {
-    test('createCase', () => {
-      const action = createCase();
-
-      expect(action).toEqual({
-        type: '[Create Case] CreateCase from table and selected customer',
-      });
-    });
-
-    test('createCaseSuccess', () => {
-      const createdCase: CreateCaseResponse = {
-        customerId: '1',
-        gqId: 2,
-        salesOrg: '3',
-      };
-      const action = createCaseSuccess({ createdCase });
-
-      expect(action).toEqual({
-        createdCase,
-        type: '[Create Case] CreateCase from table and selected customer Success',
-      });
-    });
-
-    test('createCaseFailure', () => {
-      const errorMessage = 'Hello i am an error';
-      const action = createCaseFailure({ errorMessage });
-
-      expect(action).toEqual({
-        errorMessage,
-        type: '[Create Case] CreateCase from table and selected customer Failure',
-      });
-    });
-  });
-
-  describe('create ogp case actions', () => {
-    test('createOgpCase', () => {
+  describe('create case actions', () => {
+    test('create Case', () => {
       const createCaseData = {
         customer: {
           customerId: '1234',
@@ -249,35 +209,35 @@ describe('Create Actions', () => {
         purchaseOrderTypeId: 'purchaseOrderTypeId',
         requestedDeliveryDate: '2021-08-01T00:00:00.000Z',
       } as CreateCaseHeaderData;
-      const action = createOgpCase({ createCaseData });
+      const action = createCase({ createCaseData });
 
       expect(action).toEqual({
         createCaseData,
-        type: '[Create Case] Create OGP Case',
+        type: '[Create Case] Create Case',
       });
     });
 
-    test('createOgpCaseSuccess', () => {
+    test('create CaseSuccess', () => {
       const createdCase: CreateCaseResponse = {
         customerId: '1',
         gqId: 2,
         salesOrg: '3',
       };
-      const action = createOgpCaseSuccess({ createdCase });
+      const action = createCaseSuccess({ createdCase });
 
       expect(action).toEqual({
         createdCase,
-        type: '[Create Case] Create OGP Case Success',
+        type: '[Create Case] Create Case Success',
       });
     });
 
-    test('createOgpCaseFailure', () => {
+    test('create CaseFailure', () => {
       const errorMessage = 'Hello i am an error';
-      const action = createOgpCaseFailure({ errorMessage });
+      const action = createCaseFailure({ errorMessage });
 
       expect(action).toEqual({
         errorMessage,
-        type: '[Create Case] Create OGP Case Failure',
+        type: '[Create Case] Create Case Failure',
       });
     });
   });
@@ -446,25 +406,29 @@ describe('Create Actions', () => {
       });
     });
   });
+
   describe('createCustomerCase', () => {
     test('createCustomerCase', () => {
-      const action = createCustomerCase();
+      const createCaseData = {
+        customerId: '1234',
+        salesOrg: '256',
+      } as unknown as CreateCaseHeaderData;
+      const action = createCustomerCase({ createCaseData });
 
       expect(action).toEqual({
+        createCaseData,
         type: '[Create Case] Create Customer Case',
       });
     });
-  });
-  describe('createCustomerCaseSuccess', () => {
+
     test('createCustomerCaseSuccess', () => {
-      const action = createCustomerCaseSuccess();
+      const action = createCustomerCaseSuccess({ createdCase: undefined });
 
       expect(action).toEqual({
         type: '[Create Case] Create Customer Case Success',
       });
     });
-  });
-  describe('createCustomerCaseFailure', () => {
+
     test('createCustomerCaseFailure', () => {
       const errorMessage = 'errorMessage';
       const action = createCustomerCaseFailure({ errorMessage });
@@ -472,39 +436,6 @@ describe('Create Actions', () => {
       expect(action).toEqual({
         errorMessage,
         type: '[Create Case] Create Customer Case Failure',
-      });
-    });
-  });
-
-  describe('createCustomerOgpCase', () => {
-    test('createCustomerOgpCase', () => {
-      const createCaseData = {
-        customerId: '1234',
-        salesOrg: '256',
-      } as unknown as CreateCaseHeaderData;
-      const action = createCustomerOgpCase({ createCaseData });
-
-      expect(action).toEqual({
-        createCaseData,
-        type: '[Create Case] Create Customer OGP Case',
-      });
-    });
-
-    test('createCustomerOgpCaseSuccess', () => {
-      const action = createCustomerOgpCaseSuccess({ createdCase: undefined });
-
-      expect(action).toEqual({
-        type: '[Create Case] Create Customer OGP Case Success',
-      });
-    });
-
-    test('createCustomerOgpCaseFailure', () => {
-      const errorMessage = 'errorMessage';
-      const action = createCustomerOgpCaseFailure({ errorMessage });
-
-      expect(action).toEqual({
-        errorMessage,
-        type: '[Create Case] Create Customer OGP Case Failure',
       });
     });
   });
@@ -558,12 +489,10 @@ describe('Create Actions', () => {
       const materialValidations: any[] = [];
       const action = validateMaterialsOnCustomerAndSalesOrgSuccess({
         materialValidations,
-        isNewCaseCreation: false,
       });
 
       expect(action).toEqual({
         materialValidations,
-        isNewCaseCreation: false,
         type: '[Create Case] Get Validation for RowData on Customer and SalesOrg: Validation Success',
       });
     });

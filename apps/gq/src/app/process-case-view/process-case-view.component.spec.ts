@@ -157,7 +157,7 @@ describe('ProcessCaseViewComponent', () => {
         currency: 'USD',
         quotationToDate: '',
         validTo: '',
-        customerPurchaseOrderDate: '',
+        customerInquiryDate: '',
         requestedDelDate: '',
         shipToParty: {
           customerId: '12345',

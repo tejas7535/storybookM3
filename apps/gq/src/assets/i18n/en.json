@@ -600,7 +600,6 @@
       "additionalInformation": "Additional Information",
       "quotationToDateLabel": "Quotation to",
       "requestedDeliveryDateLabel": "Requested delivery date",
-      "customerPurchaseOrderDateLabel": "PO Date",
       "customerInquiryDateLabel": "Inquiry Date",
       "bindingPeriodValidityEndDateLabel": "Valid to",
       "dateBeforeTodayValidationMessage": "Select Date in the future.",
@@ -610,24 +609,6 @@
       "dateInPastValidationMessage": "{date,select, today{Select today or future date.} caseCreation{ Select date from and including 'Case Created On'.} other{Select today or future date.}}",
       "dateNotInFutureValidationMessage": "{date,select, today{Select future date.} caseCreation{ Select date from 'Case Created On'.} other{Select future date.}}",
       "validateDateMoreThan18MonthsInFutureFromReferenceDate": "{date,select,today{Select a date up to a max of 18 months in the future.}caseCreation{Select date up to a max of 18 months from 'Case Created On'.} other{Select a date up to a max of 18 months in the future.}}",
-      "updateSapCase": "Update SAP Quote"
-    },
-    "caseModal": {
-      "title": "Case settings",
-      "cancel": "Cancel",
-      "confirm": "Confirm",
-      "nameLabel": "Case Name",
-      "currencyLabel": "Custom Currency",
-      "generalInformation": "General",
-      "shipToParty": "Ship-to Party",
-      "commentLabel": "Note",
-      "additionalInformation": "Additional Information",
-      "quotationToDateLabel": "Quotation to",
-      "requestedDeliveryDateLabel": "Requested delivery date",
-      "customerPurchaseOrderDateLabel": "PO Date",
-      "bindingPeriodValidityEndDateLabel": "Valid to",
-      "dateBeforeTodayValidationMessage": "Date is in the past, please check.",
-      "smallerThanPoDateValidationMessage": "Date must be equal to or greater than purchase order date.",
       "updateSapCase": "Update SAP Quote"
     },
     "customMainMenuItems": {

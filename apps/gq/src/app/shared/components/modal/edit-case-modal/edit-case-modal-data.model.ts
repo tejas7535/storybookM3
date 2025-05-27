@@ -11,8 +11,6 @@ export interface EditCaseModalData {
   shipToParty?: IdValue;
   quotationToDate?: string;
   requestedDeliveryDate?: string;
-  // TODO: remove customerPurchaseOrderDate when createManualCaseAsView feature toggle is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
-  customerPurchaseOrderDate?: string;
   customerInquiryDate?: string;
   bindingPeriodValidityEndDate?: string;
   shipToPartySalesOrg?: string;

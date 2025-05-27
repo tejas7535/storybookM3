@@ -8,7 +8,7 @@
       [title]="
         t('title', {
           id: modalData?.quotationDetail?.quotationItemId,
-          fieldName: t(modalData.field)
+          fieldName: t(modalData.field),
         })
       "
       (closeDialog)="closeDialog()"
@@ -76,7 +76,7 @@
               t('hints.fieldHint', {
                 field: modalData.field,
                 param1: hintMsgParams1,
-                param2: hintMsgParams2
+                param2: hintMsgParams2,
               })
             }}</mat-hint>
           }
@@ -84,7 +84,7 @@
             t('errors.invalidInput', {
               field: modalData.field,
               param1: errorMsgParams1,
-              param2: errorMsgParams2
+              param2: errorMsgParams2,
             })
           }}</mat-error>
         </mat-form-field>
@@ -115,17 +115,15 @@
         container to show additional content provided and handled by a child component
         the FormControl of the additional content is passed to the child component
       -->
-      <!--the targetPriceSource will introduce the template, can be removed when TargetPriceSourceColumn will be released-->
-      @if (isTargetPriceSourceEditable) {
-        <ng-container
-          *ngTemplateOutlet="
-            additionalContentTemplate;
-            context: {
-              formControl: editingFormGroup.get(ADDITIONAL_CONTENT_CONTROL_NAME)
-            }
-          "
-        ></ng-container>
-      }
+
+      <ng-container
+        *ngTemplateOutlet="
+          additionalContentTemplate;
+          context: {
+            formControl: editingFormGroup.get(ADDITIONAL_CONTENT_CONTROL_NAME),
+          }
+        "
+      ></ng-container>
 
       @if (warningText) {
         <div class="mt-2">
@@ -143,17 +141,17 @@
         container to show additional kpi content provided and handled by a child component.
         The FormControl of the additional content and the quotationDetail object is passed to the child component
       -->
-      @if (isTargetPriceSourceEditable) {
-        <ng-container
-          *ngTemplateOutlet="
-            kpiAdditionalContentTemplate;
-            context: {
-              quotationDetail: modalData.quotationDetail,
-              formControl: editingFormGroup.get(ADDITIONAL_CONTENT_CONTROL_NAME)
-            }
-          "
-        ></ng-container>
-      }
+
+      <ng-container
+        *ngTemplateOutlet="
+          kpiAdditionalContentTemplate;
+          context: {
+            quotationDetail: modalData.quotationDetail,
+            formControl: editingFormGroup.get(ADDITIONAL_CONTENT_CONTROL_NAME),
+          }
+        "
+      ></ng-container>
+
       <ng-container
         *ngTemplateOutlet="warningTemplate || defaultTemplate"
       ></ng-container>

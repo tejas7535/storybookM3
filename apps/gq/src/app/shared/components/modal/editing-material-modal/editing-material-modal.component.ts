@@ -33,7 +33,6 @@ import { Customer, CustomerId } from '@gq/shared/models';
 import { TargetPriceSource } from '@gq/shared/models/quotation/target-price-source.enum';
 import { AutocompleteSearch, IdValue } from '@gq/shared/models/search';
 import { SharedPipesModule } from '@gq/shared/pipes/shared-pipes.module';
-import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { TransformationService } from '@gq/shared/services/transformation/transformation.service';
 import {
   getNextHigherPossibleMultiple,
@@ -109,16 +108,10 @@ export class EditingMaterialModalComponent
     MAT_DIALOG_DATA
   ) as EditMaterialModalData;
 
-  private readonly featureToggleConfigService: FeatureToggleConfigService =
-    inject(FeatureToggleConfigService);
-
   private readonly createCaseFacade = inject(CreateCaseFacade);
   private readonly activeCaseFacade = inject(ActiveCaseFacade);
   private readonly destroyRef = inject(DestroyRef);
 
-  isNewCaseCreation = this.featureToggleConfigService.isEnabled(
-    'createManualCaseAsView'
-  );
   materialDescForEditMaterial$ =
     this.autoCompleteFacade.materialDescForEditMaterial$;
   materialDescAutocompleteLoading$ =
@@ -188,9 +181,7 @@ export class EditingMaterialModalComponent
       quantity: new FormControl(
         undefined,
         [Validators.required],
-        this.isNewCaseCreation
-          ? [quantityDeliveryUnitValidator(this.selectedMaterialAutocomplete$)]
-          : []
+        [quantityDeliveryUnitValidator(this.selectedMaterialAutocomplete$)]
       ),
       targetPrice: new FormControl(undefined, [
         priceValidator(this.translocoLocaleService.getLocale()).bind(this),
@@ -223,50 +214,46 @@ export class EditingMaterialModalComponent
             .updateValueAndValidity({ emitEvent: false });
           this.rowInputValid();
 
-          if (this.isNewCaseCreation) {
-            this.editFormGroup
-              .get(TARGET_PRICE_SOURCE_FORM_CONTROL_NAME)
-              .setValue(
-                getTargetPriceSourceValue(
-                  data,
-                  this.editFormGroup.get(TARGET_PRICE_FORM_CONTROL_NAME).valid,
-                  this.editFormGroup.get(TARGET_PRICE_SOURCE_FORM_CONTROL_NAME)
-                    .value
-                ),
-                { emitEvent: false }
-              );
-          }
+          this.editFormGroup
+            .get(TARGET_PRICE_SOURCE_FORM_CONTROL_NAME)
+            .setValue(
+              getTargetPriceSourceValue(
+                data,
+                this.editFormGroup.get(TARGET_PRICE_FORM_CONTROL_NAME).valid,
+                this.editFormGroup.get(TARGET_PRICE_SOURCE_FORM_CONTROL_NAME)
+                  .value
+              ),
+              { emitEvent: false }
+            );
         })
     );
 
-    if (this.isNewCaseCreation) {
-      this.subscription.add(
-        this.editFormGroup
-          .get(TARGET_PRICE_SOURCE_FORM_CONTROL_NAME)
-          .valueChanges.subscribe((data) => {
-            this.editFormGroup
-              .get(TARGET_PRICE_FORM_CONTROL_NAME)
-              .setValue(
-                getTargetPriceValue(
-                  data,
-                  this.editFormGroup.get(TARGET_PRICE_FORM_CONTROL_NAME).value
-                ),
-                { emitEvent: false }
-              );
+    this.subscription.add(
+      this.editFormGroup
+        .get(TARGET_PRICE_SOURCE_FORM_CONTROL_NAME)
+        .valueChanges.subscribe((data) => {
+          this.editFormGroup
+            .get(TARGET_PRICE_FORM_CONTROL_NAME)
+            .setValue(
+              getTargetPriceValue(
+                data,
+                this.editFormGroup.get(TARGET_PRICE_FORM_CONTROL_NAME).value
+              ),
+              { emitEvent: false }
+            );
 
-            this.rowInputValid();
-          })
-      );
+          this.rowInputValid();
+        })
+    );
 
-      this.selectedMaterialAutocomplete$
-        .pipe(
-          takeUntilDestroyed(this.destroyRef),
-          filter((material) => !!material)
-        )
-        .subscribe(({ deliveryUnit }) => {
-          this.adjustQuantityFormFieldToDeliveryUnit(deliveryUnit);
-        });
-    }
+    this.selectedMaterialAutocomplete$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((material) => !!material)
+      )
+      .subscribe(({ deliveryUnit }) => {
+        this.adjustQuantityFormFieldToDeliveryUnit(deliveryUnit);
+      });
   }
 
   ngAfterViewInit(): void {
@@ -351,17 +338,14 @@ export class EditingMaterialModalComponent
       this.targetPrice !==
       (targetPriceFormValue === '' ? undefined : targetPriceFormValue);
 
-    return this.isNewCaseCreation
-      ? materialDescriptionChanged ||
-          materialNumberChanged ||
-          customerMaterialChanged ||
-          quantityChanged ||
-          targetPriceChanged ||
-          targetPriceSourceChanged
-      : materialDescriptionChanged ||
-          materialNumberChanged ||
-          quantityChanged ||
-          targetPriceChanged;
+    return (
+      materialDescriptionChanged ||
+      materialNumberChanged ||
+      customerMaterialChanged ||
+      quantityChanged ||
+      targetPriceChanged ||
+      targetPriceSourceChanged
+    );
   }
 
   handleQuantityKeyDown(event: KeyboardEvent): void {
@@ -382,9 +366,8 @@ export class EditingMaterialModalComponent
       deliveryUnit,
       materialDescription: this.matDescInput.valueInput.nativeElement.value,
       materialNumber: this.matNumberInput.valueInput.nativeElement.value,
-      customerMaterialNumber: this.isNewCaseCreation
-        ? this.getCustomerMaterialNumber()
-        : undefined,
+      customerMaterialNumber: this.getCustomerMaterialNumber(),
+
       quantity: this.editFormGroup.get(QUANTITY_FORM_CONTROL_NAME).value,
       targetPrice: parseNullableLocalizedInputValue(
         this.editFormGroup
@@ -392,9 +375,8 @@ export class EditingMaterialModalComponent
           .value?.toString(),
         this.translocoLocaleService.getLocale()
       ),
-      targetPriceSource: this.isNewCaseCreation
-        ? this.editFormGroup.get('targetPriceSource')?.value
-        : undefined,
+      targetPriceSource: this.editFormGroup.get('targetPriceSource')?.value,
+
       id: this.modalData.material.id,
       info: {
         valid: true,

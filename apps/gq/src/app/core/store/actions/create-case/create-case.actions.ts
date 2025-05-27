@@ -88,35 +88,20 @@ export const validateMaterialsOnCustomerAndSalesOrgSuccess = createAction(
   '[Create Case] Get Validation for RowData on Customer and SalesOrg: Validation Success',
   props<{
     materialValidations: MaterialValidation[];
-    isNewCaseCreation: boolean;
   }>()
 );
 
 export const createCase = createAction(
-  '[Create Case] CreateCase from table and selected customer'
-);
-
-export const createCaseSuccess = createAction(
-  '[Create Case] CreateCase from table and selected customer Success',
-  props<{ createdCase: CreateCaseResponse }>()
-);
-
-export const createCaseFailure = createAction(
-  '[Create Case] CreateCase from table and selected customer Failure',
-  props<{ errorMessage: string }>()
-);
-
-export const createOgpCase = createAction(
-  '[Create Case] Create OGP Case',
+  '[Create Case] Create Case',
   props<{ createCaseData: CreateCaseHeaderData }>()
 );
 
-export const createOgpCaseSuccess = createAction(
-  '[Create Case] Create OGP Case Success',
+export const createCaseSuccess = createAction(
+  '[Create Case] Create Case Success',
   props<{ createdCase: CreateCaseResponse }>()
 );
-export const createOgpCaseFailure = createAction(
-  '[Create Case] Create OGP Case Failure',
+export const createCaseFailure = createAction(
+  '[Create Case] Create Case Failure',
   props<{ errorMessage: string }>()
 );
 
@@ -189,30 +174,17 @@ export const resetProductLineAndSeries = createAction(
 );
 
 export const createCustomerCase = createAction(
-  '[Create Case] Create Customer Case'
+  '[Create Case] Create Customer Case',
+  props<{ createCaseData: CreateCaseHeaderData }>()
 );
 
 export const createCustomerCaseSuccess = createAction(
-  '[Create Case] Create Customer Case Success'
+  '[Create Case] Create Customer Case Success',
+  props<{ createdCase: CreateCaseResponse }>()
 );
 
 export const createCustomerCaseFailure = createAction(
   '[Create Case] Create Customer Case Failure',
-  props<{ errorMessage: string }>()
-);
-
-export const createCustomerOgpCase = createAction(
-  '[Create Case] Create Customer OGP Case',
-  props<{ createCaseData: CreateCaseHeaderData }>()
-);
-
-export const createCustomerOgpCaseSuccess = createAction(
-  '[Create Case] Create Customer OGP Case Success',
-  props<{ createdCase: CreateCaseResponse }>()
-);
-
-export const createCustomerOgpCaseFailure = createAction(
-  '[Create Case] Create Customer OGP Case Failure',
   props<{ errorMessage: string }>()
 );
 
@@ -273,11 +245,11 @@ const all = union({
   autocompleteSuccess,
   clearCreateCaseRowData,
   createCase,
-  createCaseFailure,
   createCaseSuccess,
-  createOgpCase,
-  createOgpCaseSuccess,
-  createOgpCaseFailure,
+  createCaseFailure,
+  createCustomerCase,
+  createCustomerCaseSuccess,
+  createCustomerCaseFailure,
   deleteRowDataItem,
   setSelectedAutocompleteOption,
   selectAutocompleteOption,

@@ -1,36 +1,29 @@
-import { Component, inject, OnDestroy } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 
 import { AppRoutePath } from '@gq/app-route-path.enum';
-import { CreateManualCaseComponent } from '@gq/case-view/case-creation/create-manual-case/create-manual-case.component';
-import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @Component({
   selector: 'gq-create-manual-case',
   templateUrl: './create-manual-case-button.component.html',
-  standalone: false,
+  imports: [
+    MatIconModule,
+    MatButtonModule,
+    CommonModule,
+    SharedTranslocoModule,
+  ],
 })
-export class CreateManualCaseButtonComponent implements OnDestroy {
-  private readonly featureToggleConfigService: FeatureToggleConfigService =
-    inject(FeatureToggleConfigService);
-  private readonly dialog: MatDialog = inject(MatDialog);
+export class CreateManualCaseButtonComponent {
   private readonly router: Router = inject(Router);
 
   agInit(): void {}
 
   createManualCase(): void {
-    if (this.featureToggleConfigService.isEnabled('createManualCaseAsView')) {
-      this.router.navigate([AppRoutePath.CreateManualCasePath]);
-    } else {
-      this.dialog.open(CreateManualCaseComponent, {
-        width: '70%',
-        height: '95%',
-        panelClass: 'create-manual-case-modal',
-      });
-    }
-  }
-  ngOnDestroy(): void {
-    this.dialog.closeAll();
+    this.router.navigate([AppRoutePath.CreateManualCasePath]);
   }
 }

@@ -20,7 +20,6 @@ import { MATERIAL_FILTERS } from '@gq/shared/constants/material-filters.const';
 import { Quotation } from '@gq/shared/models';
 import { IdValue } from '@gq/shared/models/search';
 import { MaterialTableItem } from '@gq/shared/models/table';
-import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import { CustomerService } from '@gq/shared/services/rest/customer/customer.service';
 import {
   CustomerSalesOrgsCurrenciesResponse,
@@ -53,12 +52,6 @@ import {
   createCustomerCase,
   createCustomerCaseFailure,
   createCustomerCaseSuccess,
-  createCustomerOgpCase,
-  createCustomerOgpCaseFailure,
-  createCustomerOgpCaseSuccess,
-  createOgpCase,
-  createOgpCaseFailure,
-  createOgpCaseSuccess,
   getPLsAndSeries,
   getPLsAndSeriesFailure,
   getPLsAndSeriesSuccess,
@@ -78,10 +71,9 @@ import {
 } from '../../actions';
 import { CreateCaseFacade } from '../../create-case/create-case.facade';
 import { RolesFacade } from '../../facades';
-import { CreateCaseOgp } from '../../reducers/create-case/models/create-case-ogp.interface';
-import { CreateCustomerCaseOgp } from '../../reducers/create-case/models/create-customer-case-ogp.interface';
+import { CreateCase } from '../../reducers/create-case/models/create-case.interface';
+import { CreateCustomerCase } from '../../reducers/create-case/models/create-customer-case.interface';
 import {
-  CreateCase,
   CreateCaseResponse,
   PLsAndSeries,
   SalesOrg,
@@ -90,7 +82,6 @@ import { SectorGpsdFacade } from '../../sector-gpsd/sector-gpsd.facade';
 import {
   getAutoSelectMaterial,
   getCaseRowData,
-  getCreateCaseData,
   getCreateCustomerCasePayload,
   getSelectedCustomerId,
   getSelectedQuotation,
@@ -115,9 +106,6 @@ export class CreateCaseEffects {
   private readonly sectorGpsdFacade: SectorGpsdFacade =
     inject(SectorGpsdFacade);
   private readonly rolesFacade: RolesFacade = inject(RolesFacade);
-  private readonly featureToggleService: FeatureToggleConfigService = inject(
-    FeatureToggleConfigService
-  );
   private readonly shipToPartyFacade: ShipToPartyFacade =
     inject(ShipToPartyFacade);
 
@@ -294,10 +282,6 @@ export class CreateCaseEffects {
 
               return validateMaterialsOnCustomerAndSalesOrgSuccess({
                 materialValidations,
-                // TODO: condition can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
-                isNewCaseCreation: this.featureToggleService.isEnabled(
-                  'createManualCaseAsView'
-                ),
               });
             }),
             catchError((_e) =>
@@ -322,53 +306,16 @@ export class CreateCaseEffects {
       )
     );
   });
-
-  /**
-   * Create Case
-   */
   createCase$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(createCase.type),
-      concatLatestFrom(
-        () => this.rolesFacade.userHasRegionWorldOrGreaterChinaRole$
-      ),
-      concatLatestFrom(([_action, userHasAccess]) =>
-        this.store.select(getCreateCaseData(userHasAccess))
-      ),
-      map(([[_action, _userHasAccess], createCaseData]) => createCaseData),
-      mergeMap((createCaseData: CreateCase) =>
-        this.quotationService.createCase(createCaseData).pipe(
-          tap((createdCase: CreateCaseResponse) => {
-            this.navigateAfterCaseCreate(
-              createdCase.customerId,
-              createdCase.salesOrg,
-              createdCase.gqId,
-              CreationType.CREATE_CASE
-            );
-          }),
-          map((createdCase: CreateCaseResponse) =>
-            createCaseSuccess({ createdCase })
-          ),
-          catchError((errorMessage) => of(createCaseFailure({ errorMessage })))
-        )
-      )
-    );
-  });
-
-  /**
-   * Create Case Ogp
-   */
-  // TODO: condition can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
-  createCaseOgp$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(createOgpCase),
+      ofType(createCase),
       concatLatestFrom(() => [
         this.rolesFacade.userHasRegionWorldOrGreaterChinaRole$,
         this.store.select(getCaseRowData),
       ]),
       mergeMap(
         ([action, userHasRegionGreaterChinaRole, rowData]: [
-          ReturnType<typeof createOgpCase>,
+          ReturnType<typeof createCase>,
           boolean,
           any[],
         ]) => {
@@ -376,7 +323,7 @@ export class CreateCaseEffects {
             rowData,
             0
           );
-          const requestData: CreateCaseOgp = {
+          const requestData: CreateCase = {
             headerInformation: {
               ...action.createCaseData,
               offerTypeId: userHasRegionGreaterChinaRole
@@ -386,7 +333,7 @@ export class CreateCaseEffects {
             materialQuantities: materials,
           };
 
-          return this.quotationService.createOgpCase(requestData).pipe(
+          return this.quotationService.createCase(requestData).pipe(
             tap((createdCase: CreateCaseResponse) => {
               this.navigateAfterCaseCreate(
                 createdCase.customerId,
@@ -396,10 +343,10 @@ export class CreateCaseEffects {
               );
             }),
             map((createdCase: CreateCaseResponse) =>
-              createOgpCaseSuccess({ createdCase })
+              createCaseSuccess({ createdCase })
             ),
             catchError((errorMessage) =>
-              of(createOgpCaseFailure({ errorMessage }))
+              of(createCaseFailure({ errorMessage }))
             )
           );
         }
@@ -498,43 +445,15 @@ export class CreateCaseEffects {
     );
   });
 
-  /*
-   * Create Customer Case
-   */
-  // TODO: can be removed when old case creation is removed see https://jira.schaeffler.com/browse/GQUOTE-5048
   createCustomerCase$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(createCustomerCase),
-      concatLatestFrom(() => this.store.select(getCreateCustomerCasePayload)),
-      map(([_action, requestPayload]) => requestPayload),
-      mergeMap((requestPayload) =>
-        this.quotationService.createCustomerCase(requestPayload).pipe(
-          tap((response) =>
-            this.navigateAfterCaseCreate(
-              response.customerId,
-              response.salesOrg,
-              response.gqId,
-              CreationType.CREATE_CASE
-            )
-          ),
-          map(() => createCustomerCaseSuccess()),
-          catchError((errorMessage) =>
-            of(createCustomerCaseFailure({ errorMessage }))
-          )
-        )
-      )
-    );
-  });
-
-  createCustomerOgpCase$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(createCustomerOgpCase),
       concatLatestFrom(() => [
         this.rolesFacade.userHasRegionWorldOrGreaterChinaRole$,
         this.store.select(getCreateCustomerCasePayload),
       ]),
       mergeMap(([action, userHasRegionGreaterChinaRole, requestPayload]) => {
-        const requestData: CreateCustomerCaseOgp = {
+        const requestData: CreateCustomerCase = {
           headerInformation: {
             ...action.createCaseData,
             offerTypeId: userHasRegionGreaterChinaRole
@@ -549,7 +468,7 @@ export class CreateCaseEffects {
           includeQuotationHistory: requestPayload.includeQuotationHistory,
         };
 
-        return this.quotationService.createCustomerOgpCase(requestData).pipe(
+        return this.quotationService.createCustomerCase(requestData).pipe(
           tap((createdCase: CreateCaseResponse) =>
             this.navigateAfterCaseCreate(
               createdCase.customerId,
@@ -559,10 +478,10 @@ export class CreateCaseEffects {
             )
           ),
           map((createdCase: CreateCaseResponse) =>
-            createCustomerOgpCaseSuccess({ createdCase })
+            createCustomerCaseSuccess({ createdCase })
           ),
           catchError((errorMessage) =>
-            of(createCustomerOgpCaseFailure({ errorMessage }))
+            of(createCustomerCaseFailure({ errorMessage }))
           )
         );
       })

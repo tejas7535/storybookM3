@@ -54,8 +54,6 @@ export class HeaderContentComponent {
 
       this.quotationToDate = value.sapQuotationToDate ?? undefined;
       this.requestedDeliveryDate = value.requestedDelDate ?? undefined;
-      this.customerPurchaseOrderDate =
-        value.sapCustomerPurchaseOrderDate ?? undefined;
       this.customerInquiryDate = value.sapCustomerInquiryDate ?? undefined;
       this.bindingPeriodValidityEndDate = value.validTo ?? undefined;
       this.enableSapFieldEditing = value.status === QuotationStatus.ACTIVE;
@@ -99,7 +97,6 @@ export class HeaderContentComponent {
   enableSapFieldEditing = false;
   quotationToDate: string;
   requestedDeliveryDate: string;
-  customerPurchaseOrderDate: string;
   customerInquiryDate: string;
   bindingPeriodValidityEndDate: string;
   showEditIcon: boolean;
@@ -132,7 +129,6 @@ export class HeaderContentComponent {
           enableSapFieldEditing: this.enableSapFieldEditing,
           quotationToDate: this.quotationToDate,
           requestedDeliveryDate: this.requestedDeliveryDate,
-          customerPurchaseOrderDate: this.customerPurchaseOrderDate,
           customerInquiryDate: this.customerInquiryDate,
           bindingPeriodValidityEndDate: this.bindingPeriodValidityEndDate,
           shipToParty: {

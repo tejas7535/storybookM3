@@ -4,11 +4,11 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { MaterialSelectionComponent } from '@gq/case-view/case-creation/create-customer-case/material-selection/material-selection.component';
 import { CreateCaseFacade } from '@gq/core/store/create-case/create-case.facade';
 import { CreateCaseHeaderInformationComponent } from '@gq/shared/components/case-header-information/create-case-header-information/create-case-header-information.component';
 import { HeaderInformationData } from '@gq/shared/components/case-header-information/models/header-information-data.interface';
 import { AdditionalFiltersComponent } from '@gq/shared/components/case-material/additional-filters/additional-filters.component';
+import { MaterialSelectionComponent } from '@gq/shared/components/case-material/material-selection/material-selection.component';
 import { EVENT_NAMES } from '@gq/shared/models';
 import { TranslocoLocaleService } from '@jsverse/transloco-locale';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -88,11 +88,8 @@ describe('CreateCustomerCaseViewComponent', () => {
     );
 
     test(
-      'should return false if featureToggleConfig.isEnabled is true and customer set',
+      'should return false if customer set',
       marbles((m) => {
-        component['featureToggleConfig'].isEnabled = jest
-          .fn()
-          .mockReturnValue(true);
         customerIdForCaseCreation$$.next('id');
 
         m.expect(component.resetButtonDisabled$).toBeObservable(
@@ -102,12 +99,9 @@ describe('CreateCustomerCaseViewComponent', () => {
     );
 
     test(
-      'should return true if featureToggleConfig.isEnabled is true and no customer',
+      'should return true if no customer',
       marbles((m) => {
-        component['featureToggleConfig'].isEnabled = jest
-          .fn()
-          .mockReturnValue(true);
-        customerIdForCaseCreation$$.next(undefined as any);
+        customerIdForCaseCreation$$.next(undefined as string);
 
         m.expect(component.resetButtonDisabled$).toBeObservable(
           m.cold('a', { a: true })
@@ -163,7 +157,7 @@ describe('CreateCustomerCaseViewComponent', () => {
   describe('createCase', () => {
     test('should call createCaseFacade.createCase and insightService.logEvent', () => {
       component['insightsService'].logEvent = jest.fn();
-      component['createCaseFacade'].createNewCustomerOgpCase = jest.fn();
+      component['createCaseFacade'].createNewCustomerCase = jest.fn();
       component.headerInformationData = { test: 'test' } as any;
       component.createCase();
       expect(component['insightsService'].logEvent).toHaveBeenCalledWith(
@@ -171,7 +165,7 @@ describe('CreateCustomerCaseViewComponent', () => {
         expect.any(Object)
       );
       expect(
-        component['createCaseFacade'].createNewCustomerOgpCase
+        component['createCaseFacade'].createNewCustomerCase
       ).toHaveBeenCalledWith(component.headerInformationData);
     });
   });

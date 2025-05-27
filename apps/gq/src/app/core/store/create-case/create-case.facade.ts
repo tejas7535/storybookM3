@@ -19,8 +19,8 @@ import {
   clearPurchaseOrderType,
   clearSectorGpsd,
   clearShipToParty,
-  createCustomerOgpCase,
-  createOgpCase,
+  createCase,
+  createCustomerCase,
   getPLsAndSeries,
   navigateToCaseOverView,
   resetAllAutocompleteOptions,
@@ -128,18 +128,18 @@ export class CreateCaseFacade {
     this.shipToPartyFacade.resetAllShipToParties();
   }
 
-  createNewOgpCase(headerInformationData: HeaderInformationData): void {
+  createNewCase(headerInformationData: HeaderInformationData): void {
     const requestData: CreateCaseHeaderData = this.getHeaderRequestData(
       headerInformationData
     );
-    this.store.dispatch(createOgpCase({ createCaseData: requestData }));
+    this.store.dispatch(createCase({ createCaseData: requestData }));
   }
 
-  createNewCustomerOgpCase(headerInformationData: HeaderInformationData): void {
+  createNewCustomerCase(headerInformationData: HeaderInformationData): void {
     const requestData: CreateCaseHeaderData = this.getHeaderRequestData(
       headerInformationData
     );
-    this.store.dispatch(createCustomerOgpCase({ createCaseData: requestData }));
+    this.store.dispatch(createCustomerCase({ createCaseData: requestData }));
   }
 
   updateCurrencyOfPositionItems(currency: string): void {

@@ -1,6 +1,7 @@
+import { provideHttpClient } from '@angular/common/http';
 import {
-  HttpClientTestingModule,
   HttpTestingController,
+  provideHttpClientTesting,
 } from '@angular/common/http/testing';
 
 import {
@@ -8,13 +9,11 @@ import {
   UpdateQuotationDetail,
 } from '@gq/core/store/active-case/models';
 import { TargetPriceSource } from '@gq/shared/models/quotation/target-price-source.enum';
-import { FeatureToggleConfigService } from '@gq/shared/services/feature-toggle/feature-toggle-config.service';
 import {
   createServiceFactory,
   HttpMethod,
   SpectatorService,
 } from '@ngneat/spectator/jest';
-import { MockProvider } from 'ng-mocks';
 
 import { CUSTOMER_MOCK } from '../../../../../testing/mocks';
 import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks/models/quotation-detail/quotation-details.mock';
@@ -28,8 +27,8 @@ describe('QuotationDetailsService', (): void => {
 
   const createService = createServiceFactory({
     service: QuotationDetailsService,
-    imports: [HttpClientTestingModule],
-    providers: [MockProvider(FeatureToggleConfigService)],
+    imports: [],
+    providers: [provideHttpClient(), provideHttpClientTesting()],
   });
 
   beforeEach(() => {
@@ -47,40 +46,7 @@ describe('QuotationDetailsService', (): void => {
   });
 
   describe('addMaterial', () => {
-    test('should call', () => {
-      service['featureToggleService'].isEnabled = jest
-        .fn()
-        .mockReturnValue(false);
-
-      const tableData: AddQuotationDetailsRequest = {
-        gqId: 12_345,
-        items: [
-          {
-            materialId: '123456',
-            quantity: 100,
-            quotationItemId: 10,
-          },
-        ],
-      };
-      const mock = {
-        quotationDetails: [CUSTOMER_MOCK],
-      };
-      service.addQuotationDetails(tableData).subscribe((response) => {
-        expect(response).toEqual(mock.quotationDetails);
-      });
-
-      const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${service['PATH_QUOTATION_DETAILS']}`
-      );
-      req.flush(mock);
-
-      expect(req.request.method).toBe(HttpMethod.POST);
-    });
-    test('should call OGP endpoint', () => {
-      service['featureToggleService'].isEnabled = jest
-        .fn()
-        .mockReturnValue(true);
-
+    test('should call endpoint', () => {
       const tableData: AddQuotationDetailsRequest = {
         gqId: 12_345,
         items: [
@@ -102,7 +68,7 @@ describe('QuotationDetailsService', (): void => {
       });
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${service['PATH_QUOTATION_DETAILS_OGP']}`
+        `${ApiVersion.V1}/${service['PATH_QUOTATION_DETAILS']}`
       );
       req.flush(mock);
 

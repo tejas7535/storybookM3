@@ -2,7 +2,7 @@ import { AutocompleteRequestDialog } from '@gq/shared/components/autocomplete-in
 import { FilterNames } from '@gq/shared/components/autocomplete-input/filter-names.enum';
 import { IdValue } from '@gq/shared/models/search';
 import { ValidationDescription } from '@gq/shared/models/table';
-import { CreateCustomerCase } from '@gq/shared/services/rest/search/models/create-customer-case.model';
+import { CreateCustomerCaseMaterialData } from '@gq/shared/services/rest/search/models/create-customer-case.model';
 
 import {
   CreateCaseState,
@@ -409,7 +409,7 @@ describe('Create Case Selector', () => {
         },
       } as unknown as CreateCaseState;
 
-      const expected: CreateCustomerCase = {
+      const expected: CreateCustomerCaseMaterialData = {
         customer: {
           customerId: '1234',
           salesOrg: '1',

@@ -95,9 +95,6 @@ export class TargetPriceEditingModalComponent extends EditingModalComponent {
 
   handleAdditionalContent(): void {
     // handle input Changes and align targetPrice and targetPriceSource
-    if (!this.isTargetPriceSourceEditable) {
-      return;
-    }
     const control = this.editingFormGroup.get(this.VALUE_FORM_CONTROL_NAME);
 
     const targetPriceSource = this.editingFormGroup.get(

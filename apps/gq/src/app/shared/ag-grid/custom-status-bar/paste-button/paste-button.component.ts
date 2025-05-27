@@ -35,20 +35,15 @@ export class PasteButtonComponent {
   private readonly createCaseFacade: CreateCaseFacade =
     inject(CreateCaseFacade);
   isCaseView: boolean;
-  isNewCaseCreationView: boolean;
   customerIdentifier$: Observable<string> =
     this.createCaseFacade.customerIdForCaseCreation$;
 
   agInit(params: isCaseViewParams): void {
     this.isCaseView = params.isCaseView;
-    this.isNewCaseCreationView = params.isNewCaseCreationView;
   }
 
   pasteFromClipboard(): void {
-    this.pasteMaterialsService.onPasteStart(
-      this.isCaseView,
-      this.isNewCaseCreationView
-    );
+    this.pasteMaterialsService.onPasteStart(this.isCaseView);
   }
 
   displaySnackBar(): void {

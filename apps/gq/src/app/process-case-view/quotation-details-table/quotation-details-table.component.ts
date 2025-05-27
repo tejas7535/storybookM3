@@ -175,12 +175,6 @@ export class QuotationDetailsTableComponent
             ? columnDef
             : ColumnUtilityService.filterSapPriceDiffColumn(columnDef);
 
-          columnDef = this.featureToggleService.isEnabled(
-            'targetPriceSourceColumn'
-          )
-            ? columnDef
-            : ColumnUtilityService.filterTargetPriceSourceColumn(columnDef);
-
           columnDef =
             hasFNumberMaterials && !syncPending
               ? columnDef
