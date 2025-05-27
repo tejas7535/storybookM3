@@ -3,11 +3,17 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatRadioModule } from '@angular/material/radio';
 
 import { TranslocoModule } from '@jsverse/transloco';
+import { EnhanceImageDirective } from '@lsa/shared/directives/enhance-image.directive';
 import { RecommendationLubricatorHeaderData } from '@lsa/shared/models';
 
 @Component({
   selector: 'lsa-lubricator-header',
-  imports: [CommonModule, MatRadioModule, TranslocoModule],
+  imports: [
+    CommonModule,
+    MatRadioModule,
+    TranslocoModule,
+    EnhanceImageDirective,
+  ],
   templateUrl: './lubricator-header.component.html',
 })
 export class LubricatorHeaderComponent {

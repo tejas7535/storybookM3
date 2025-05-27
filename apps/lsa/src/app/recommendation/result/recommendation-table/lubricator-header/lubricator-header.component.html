@@ -2,7 +2,7 @@
   <div
     class="relative top-0 left-0 bottom-0 right-0 h-full px-2"
     [ngClass]="{
-      'pl-2 pr-0': isLastColumn
+      'pl-2 pr-0': isLastColumn,
     }"
   >
     <div
@@ -25,7 +25,11 @@
         </span>
       </mat-radio-button>
       <div class="w-48 h-32 self-center flex justify-center items-center">
-        <img [src]="headerData.productImageUrl" crossorigin="anonymous" />
+        <img
+          [src]="headerData.productImageUrl"
+          crossorigin="anonymous"
+          lsaEnhanceImage
+        />
       </div>
       <span class="text-title-medium text-medium-emphasis h-12">{{
         headerData.name

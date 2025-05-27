@@ -16,6 +16,7 @@ import { Subject, takeUntil, tap } from 'rxjs';
 
 import { PDFGeneratorService } from '@lsa/core/services/pdf-generation/pdf-generator.service';
 import { environment } from '@lsa/environments/environment';
+import { EnhanceImageDirective } from '@lsa/shared/directives/enhance-image.directive';
 import { Accessory, AccessoryClassEntry } from '@lsa/shared/models';
 import { MediasCallbackResponse } from '@lsa/shared/models/price-availibility.model';
 import { LsaCurrencyPipe } from '@lsa/shared/pipes/lsa-currency.pipe';
@@ -31,6 +32,7 @@ import {
   AccessoryTableFormGroup,
   TableGroupState,
 } from './accessory-table.model';
+import { PdpPageUrlPipe } from './pdp-url.pipe';
 import { SortedAccessoryListPipe } from './sorted-accessory-list.pipe';
 
 @Component({
@@ -45,6 +47,8 @@ import { SortedAccessoryListPipe } from './sorted-accessory-list.pipe';
     SharedTranslocoModule,
     SortedAccessoryListPipe,
     LsaCurrencyPipe,
+    EnhanceImageDirective,
+    PdpPageUrlPipe,
   ],
 })
 export class AccessoryTableComponent implements OnChanges, OnDestroy {

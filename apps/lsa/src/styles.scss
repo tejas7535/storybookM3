@@ -61,6 +61,9 @@ lubricator-selection-assistant {
     --mat-radio-checked-ripple-color: none;
   }
 
+  img[lsaEnhanceImage] {
+    @apply cursor-zoom-in;
+  }
   .mat-mdc-radio-button {
     @apply text-title-small;
 
