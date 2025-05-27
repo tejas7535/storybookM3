@@ -1,4 +1,11 @@
 # Release Notes of Library Shared UI File Upload
+## [0.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/file-upload-v0.4.0...file-upload-v0.5.0) (2025-05-27)
+
+
+### Features
+
+* **file-upload:** add default files as input to file upload ([#7231](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7231)) ([b26d952](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b26d95285104803af620c87189b558c281780e68))
+
 ## [0.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/file-upload-v0.3.0...file-upload-v0.4.0) (2025-03-21)
 
 
