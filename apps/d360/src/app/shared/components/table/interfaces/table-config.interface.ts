@@ -16,6 +16,8 @@ import {
   SizeColumnsToFitProvidedWidthStrategy,
 } from 'ag-grid-enterprise';
 
+import { HttpError } from '../../../utils/http-client';
+
 /**
  * The Table Config Interface.
  * Most of the properties are ag-grid defaults, so please check ag-grid docs
@@ -191,6 +193,13 @@ export interface TableConfig {
    * @memberof TableConfig
    */
   suppressCellFocus?: boolean;
+
+  /**
+   * A custom function to HTTP loading handle errors.
+   *
+   * @memberof TableConfig
+   */
+  customErrorMessageFn?: (error: HttpError) => string;
 }
 /**
  * The Is Server Side Group Open By Default Type.

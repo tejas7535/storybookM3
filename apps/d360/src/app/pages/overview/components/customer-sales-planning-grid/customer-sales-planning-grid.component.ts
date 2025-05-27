@@ -20,9 +20,9 @@ import { CellClickedEvent } from 'ag-grid-enterprise';
 import { AppRoutePath } from '../../../../app.routes.enum';
 import { OverviewService } from '../../../../feature/overview/overview.service';
 import { getDefaultColDef } from '../../../../shared/ag-grid/grid-defaults';
+import { ActionsMenuCellRendererComponent } from '../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
 import { GlobalSelectionStateService } from '../../../../shared/components/global-selection-criteria/global-selection-state.service';
 import { CustomerSalesPlanningLayout } from '../../overview.component';
-import { ActionsMenuCellRendererComponent } from './../../../../shared/components/ag-grid/cell-renderer/actions-menu-cell-renderer/actions-menu-cell-renderer.component';
 import {
   AbstractBackendTableComponent,
   BackendTableComponent,
@@ -150,6 +150,10 @@ export class CustomerSalesPlanningGridComponent
           noRowsMessage: translate('hint.noData'),
           getRowId: (params) => params.data.customerNumber,
           autoSizeStrategy: false,
+          customErrorMessageFn: (error: any) =>
+            error?.details?.values?.['x-sap-messagenumber'] === '133'
+              ? translate('hint.selectData')
+              : '',
         }),
         isLoading$: this.selectableOptionsService.loading$,
         hasTabView: true,

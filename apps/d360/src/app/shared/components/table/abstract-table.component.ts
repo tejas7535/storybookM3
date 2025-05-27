@@ -1304,8 +1304,9 @@ export abstract class AbstractTableComponent implements OnInit {
     error: HttpError,
     params: IServerSideGetRowsParams | null
   ): Observable<never> {
-    let errorMessage = '';
-    if (isProblemDetail(error?.details)) {
+    let errorMessage = this.getCustomError(error);
+
+    if (!errorMessage && isProblemDetail(error?.details)) {
       const values = error?.details?.values ?? {};
 
       if (values && values[SapErrorMessageHeader.MessageId]) {
@@ -1319,7 +1320,7 @@ export abstract class AbstractTableComponent implements OnInit {
           values[SapErrorMessageHeader.MessageV4]
         );
       }
-    } else {
+    } else if (!errorMessage) {
       errorMessage = translate('error.loading_failed');
     }
 
@@ -1366,5 +1367,19 @@ export abstract class AbstractTableComponent implements OnInit {
   protected hideOverlays(): void {
     this.gridApi?.setGridOption('loading', false);
     this.gridApi?.hideOverlay();
+  }
+
+  /**
+   * Retrieves a custom error message based on the provided error.
+   *
+   * @private
+   * @param {HttpError} error
+   * @return {string}
+   * @memberof AbstractTableComponent
+   */
+  private getCustomError(error: HttpError): string {
+    const fn = this.config()?.table?.customErrorMessageFn;
+
+    return fn && typeof fn === 'function' ? fn(error) : '';
   }
 }

@@ -349,6 +349,7 @@ describe('CustomerSalesPlanningGridComponent', () => {
               title: 'table.defaultTab',
             },
           ],
+          customErrorMessageFn: expect.any(Function),
           loadingMessage: '',
           noRowsMessage: 'hint.noData',
           serverSideAutoGroup: undefined,
@@ -356,6 +357,24 @@ describe('CustomerSalesPlanningGridComponent', () => {
         },
         tableClass: 'grow',
       });
+
+      // Test customErrorMessageFn function
+      const customErrorMessageFn =
+        configSetSpy.mock.calls[0][0].table.customErrorMessageFn;
+      expect(
+        customErrorMessageFn({
+          details: {
+            values: { 'x-sap-messagenumber': '133' },
+          },
+        } as any)
+      ).toBe('hint.selectData');
+      expect(
+        customErrorMessageFn({
+          details: {
+            values: { 'x-sap-messagenumber': 'abc' },
+          },
+        } as any)
+      ).toBe('');
 
       // Test getRowId function
       const getRowIdFn = configSetSpy.mock.calls[0][0].table.getRowId;
