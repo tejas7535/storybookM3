@@ -1,4 +1,11 @@
 # Release Notes of Material App Center
+## [1.31.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.31.0...mac-v1.31.1) (2025-05-27)
+
+
+### Bug Fixes
+
+* **mac:** repair share link function (UFTABI-8894) ([#7299](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7299)) ([0585698](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0585698918b4d813be4d5354625c22e12e8c71c8))
+
 ## [1.31.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v1.30.0...mac-v1.31.0) (2025-04-30)
 
 
