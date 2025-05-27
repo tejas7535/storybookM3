@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { of, Subject } from 'rxjs';
+import { of } from 'rxjs';
 
 import { TranslocoModule } from '@jsverse/transloco';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -11,15 +11,11 @@ import { MockComponent, MockDirective, MockPipe, MockProvider } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import {
-  MaterialClass,
-  NavigationLevel,
-} from '@mac/feature/materials-supplier-database/constants';
 import { MsdAgGridReadyService } from '@mac/feature/materials-supplier-database/services';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 
 import { BaseControlPanelComponent } from '../base-control-panel/base-control-panel.component';
-import { VitescoMaterialControlPanelComponent } from './vitesco-material-control-panel.component';
+import { EstimationMatrixControlPanelComponent } from './estimation-matrix-control-panel.component';
 
 jest.mock('@jsverse/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
@@ -30,16 +26,21 @@ jest.mock('../../util', () => ({
   getStatus: jest.fn(),
 }));
 
-describe('VitescoMaterialControlPanelComponent', () => {
-  let component: VitescoMaterialControlPanelComponent;
-  let spectator: Spectator<VitescoMaterialControlPanelComponent>;
+describe('EstimationMatrixControlPanelComponent', () => {
+  let component: EstimationMatrixControlPanelComponent;
+  let spectator: Spectator<EstimationMatrixControlPanelComponent>;
+
   const gridApiMock = {
     refreshServerSide: jest.fn(),
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    getColumnDef: jest.fn(),
+    exportDataAsExcel: jest.fn(),
+    setCacheBlockSize: jest.fn(),
   } as unknown as GridApi;
-  const navigationMock = new Subject();
 
   const createComponent = createComponentFactory({
-    component: VitescoMaterialControlPanelComponent,
+    component: EstimationMatrixControlPanelComponent,
     imports: [
       MockPipe(PushPipe),
       MockDirective(LetDirective),
@@ -52,7 +53,7 @@ describe('VitescoMaterialControlPanelComponent', () => {
         DataFacade,
         {
           agGridFilter$: of(),
-          navigation$: navigationMock,
+          estimationMatrixResult$: of([]),
         },
         'useValue'
       ),
@@ -70,14 +71,16 @@ describe('VitescoMaterialControlPanelComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    navigationMock.next({
-      materialClass: MaterialClass.STEEL,
-      navigationLevel: NavigationLevel.MATERIAL,
-    });
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    it('should set agGridApi and agGridColumnApi', () => {
+      expect(component['agGridApi']).toBe(gridApiMock);
+    });
   });
 
   describe('ngOnDestroy', () => {

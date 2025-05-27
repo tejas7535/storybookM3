@@ -15,7 +15,7 @@ import {
   GridApi,
   ProcessCellForExportParams,
 } from 'ag-grid-community';
-import { MockDirective, MockPipe, MockProvider } from 'ng-mocks';
+import { MockComponent, MockDirective, MockPipe, MockProvider } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -32,6 +32,7 @@ import { DataFacade } from '@mac/feature/materials-supplier-database/store/facad
 
 import { SapMaterialsUploadDialogComponent } from '../../dialogs/material-input-dialog/materials/sap/sap-materials-upload-dialog.component';
 import { SapMaterialsUploadStatusDialogComponent } from '../../dialogs/material-input-dialog/materials/sap/sap-materials-upload-status-dialog/sap-materials-upload-status-dialog.component';
+import { BaseControlPanelComponent } from '../base-control-panel/base-control-panel.component';
 import { SapMaterialControlPanelComponent } from './sap-material-control-panel.component';
 
 jest.mock('@jsverse/transloco', () => ({
@@ -62,6 +63,7 @@ describe('SapMaterialControlPanelComponent', () => {
       MockPipe(PushPipe),
       MockDirective(LetDirective),
       provideTranslocoTestingModule({ en: {} }),
+      MockComponent(BaseControlPanelComponent),
     ],
     providers: [
       provideMockStore({}),

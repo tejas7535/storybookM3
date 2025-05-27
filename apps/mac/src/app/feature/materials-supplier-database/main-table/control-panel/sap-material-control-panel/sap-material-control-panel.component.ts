@@ -26,7 +26,8 @@ import {
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 import { EMISSION_FACTOR_KG, EMISSION_FACTOR_PC } from '@mac/msd/constants';
 
-import { BaseControlPanelComponent } from '../base-control-panel.component';
+import { AbstractControlPanelComponent } from '../abstract-control-panel.component';
+import { BaseControlPanelComponent } from '../base-control-panel/base-control-panel.component';
 
 @Component({
   selector: 'mac-sap-material-control-panel',
@@ -42,11 +43,13 @@ import { BaseControlPanelComponent } from '../base-control-panel.component';
     SharedTranslocoModule,
     // ngrx
     LetDirective,
+    // msd
+    BaseControlPanelComponent,
   ],
   templateUrl: './sap-material-control-panel.component.html',
 })
 export class SapMaterialControlPanelComponent
-  extends BaseControlPanelComponent
+  extends AbstractControlPanelComponent
   implements OnInit, OnDestroy
 {
   public readonly LIMIT_EXPORT_ROW_COUNT = 100_000;
@@ -62,24 +65,10 @@ export class SapMaterialControlPanelComponent
     protected readonly applicationInsightsService: ApplicationInsightsService,
     protected readonly dialogService: MsdDialogService
   ) {
-    super(
-      dataFacade,
-      agGridReadyService,
-      datePipe,
-      applicationInsightsService,
-      dialogService
-    );
+    super(dataFacade, agGridReadyService);
     this.dataFacade.hasMatnrUploaderRole$
       .pipe(take(1))
       .subscribe((hasRole) => (this.hasUploaderRole = hasRole));
-  }
-
-  public ngOnInit(): void {
-    super.ngOnInit();
-  }
-
-  public ngOnDestroy(): void {
-    super.ngOnDestroy();
   }
 
   public reload(): void {

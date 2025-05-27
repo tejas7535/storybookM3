@@ -288,5 +288,12 @@ describe('MsdNavigationComponent', () => {
 
       expect(result).toBe(false);
     });
+    it('should return false if class is estimation matrix', () => {
+      const result = component['hasNavigationLevels'](
+        MaterialClass.DS_ESTIMATIONMATRIX
+      );
+
+      expect(result).toBe(false);
+    });
   });
 });

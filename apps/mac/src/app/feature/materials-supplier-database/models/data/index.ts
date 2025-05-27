@@ -5,6 +5,7 @@ export * from './ceramic';
 export * from './copper';
 export * from './data-result.model';
 export * from './dialog-data.model';
+export * from './estimation-matrix';
 export * from './lubricant';
 export * from './material-record-model';
 export * from './polymer';

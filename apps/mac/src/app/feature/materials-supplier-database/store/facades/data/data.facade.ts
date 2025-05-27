@@ -18,6 +18,7 @@ import {
   getAgGridFilter,
   getEditMaterialData,
   getEditMaterialDataLoaded,
+  getEstimationMatrixResult,
   getHasMinimizedDialog,
   getLoading,
   getMaterialClass,
@@ -53,6 +54,7 @@ export class DataFacade {
   resultCount$ = this.store.select(getResultCount);
   sapMaterialsRows$ = this.store.select(getSAPMaterialsRows);
   vitescoResult$ = this.store.select(getVitescoResult);
+  estimationMatrixResult$ = this.store.select(getEstimationMatrixResult);
 
   hasEditorRole$ = this.store.pipe(hasIdTokenRole(this.EDITOR_ROLE));
   hasMatnrUploaderRole$ = this.store.pipe(
@@ -118,6 +120,10 @@ export class DataFacade {
 
   fetchVitescoMaterials(request: ServerSideMaterialsRequest) {
     this.store.dispatch(DataActions.fetchVitescoMaterials({ request }));
+  }
+
+  fetchEstimationMatrix(request: ServerSideMaterialsRequest) {
+    this.store.dispatch(DataActions.fetchEstimationMatrix({ request }));
   }
 
   openMultiEditDialog(rows: DataResult[], combinedRows: DataResult) {

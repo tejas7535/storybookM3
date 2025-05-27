@@ -115,7 +115,11 @@ describe('DataSelectors', () => {
           ...initialState,
           materialClasses: [MaterialClass.STEEL],
         })
-      ).toEqual([MaterialClass.STEEL, MaterialClass.SAP_MATERIAL]);
+      ).toEqual([
+        MaterialClass.STEEL,
+        MaterialClass.SAP_MATERIAL,
+        MaterialClass.DS_ESTIMATIONMATRIX,
+      ]);
     });
 
     it('should get filter out disabled material classes', () => {
@@ -124,7 +128,11 @@ describe('DataSelectors', () => {
           ...initialState,
           materialClasses: [MaterialClass.STEEL, 'CheeseCake' as MaterialClass],
         })
-      ).toEqual([MaterialClass.STEEL, MaterialClass.SAP_MATERIAL]);
+      ).toEqual([
+        MaterialClass.STEEL,
+        MaterialClass.SAP_MATERIAL,
+        MaterialClass.DS_ESTIMATIONMATRIX,
+      ]);
     });
   });
 
@@ -341,6 +349,48 @@ describe('DataSelectors', () => {
       ).toEqual(undefined);
     });
   });
+
+  it('getEstimationMatrixRows', () => {
+    expect(
+      DataSelectors.getEstimationMatrixRows.projector(initialState)
+    ).toEqual(undefined);
+  });
+
+  describe('getEstimationMatrixResult', () => {
+    it('should get Estimation matrix and result', () => {
+      expect(
+        DataSelectors.getEstimationMatrixResult.projector(
+          {
+            ...initialState,
+            result: {
+              [MaterialClass.DS_ESTIMATIONMATRIX]: {
+                materials: [],
+              },
+            },
+          },
+          {
+            lastRow: -1,
+            totalRows: 300,
+            subTotalRows: 100,
+            startRow: 0,
+          }
+        )
+      ).toEqual({
+        data: [],
+        lastRow: -1,
+        totalRows: 300,
+        subTotalRows: 100,
+        startRow: 0,
+      } as VitescoMaterialsResponse);
+    });
+
+    it('should return undefined if estimation matrix data is undefined', () => {
+      expect(
+        DataSelectors.getEstimationMatrixResult.projector(undefined, [] as any)
+      ).toEqual(undefined);
+    });
+  });
+
   it('should get allowance for bulk edit', () => {
     expect(
       DataSelectors.isBulkEditAllowed.projector({

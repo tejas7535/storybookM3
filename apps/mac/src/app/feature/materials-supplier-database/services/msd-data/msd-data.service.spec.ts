@@ -17,6 +17,7 @@ import {
   AluminumManufacturerSupplier,
   AluminumMaterial,
   AluminumMaterialStandard,
+  EstimationMatrixResponse,
   ManufacturerSupplier,
   ManufacturerSupplierTableValue,
   Material,
@@ -1462,6 +1463,7 @@ describe('MsdDataService', () => {
       req.flush(mockResponse);
     });
   });
+
   describe('fetchVitescoMaterials', () => {
     it('should fetch Vitesco materials', (done) => {
       const mockRequest = {} as ServerSideMaterialsRequest;
@@ -1479,6 +1481,29 @@ describe('MsdDataService', () => {
 
       const req = httpMock.expectOne(
         `${service['BASE_URL_SAP']}/vitesco/query`
+      );
+      expect(req.request.method).toBe('POST');
+      req.flush(mockResponse);
+    });
+  });
+
+  describe('fetchEstimationMatrix', () => {
+    it('should fetch Estimation matrix values', (done) => {
+      const mockRequest = {} as ServerSideMaterialsRequest;
+      const mockResponse = {
+        data: [],
+        lastRow: -1,
+        totalRows: 300,
+        subTotalRows: 100,
+      } as EstimationMatrixResponse;
+
+      service.fetchEstimationMatrix(mockRequest).subscribe((result: any) => {
+        expect(result).toEqual(mockResponse);
+        done();
+      });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL_SAP']}/pcfdatasource/query/estimationmatrix`
       );
       expect(req.request.method).toBe('POST');
       req.flush(mockResponse);

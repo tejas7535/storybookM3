@@ -26,9 +26,11 @@ import { DataFacade } from '@mac/msd/store/facades/data';
 import { MsdAgGridStateService, MsdDialogService } from '../services';
 import { QuickFilterFacade } from '../store/facades/quickfilter';
 import { MsdNavigationComponent } from './components/msd-navigation/msd-navigation.component';
+import { EstimationMatrixControlPanelComponent } from './control-panel/estimation-matrix-control-panel/estimation-matrix-control-panel.component';
 import { RawMaterialControlPanelComponent } from './control-panel/raw-material-control-panel/raw-material-control-panel.component';
 import { SapMaterialControlPanelComponent } from './control-panel/sap-material-control-panel/sap-material-control-panel.component';
 import { VitescoMaterialControlPanelComponent } from './control-panel/vitesco-material-control-panel/vitesco-material-control-panel.component';
+import { EstimationMatrixDatagridComponent } from './datagrid/estimation-matrix-datagrid/estimation-matrix-datagrid.component';
 import { RawMaterialDatagridComponent } from './datagrid/raw-material-datagrid/raw-material-datagrid.component';
 import { SapMaterialDatagridComponent } from './datagrid/sap-material-datagrid/sap-material-datagrid.component';
 import { VitescoMaterialDatagridComponent } from './datagrid/vitesco-material-datagrid/vitesco-material-datagrid.component';
@@ -47,10 +49,12 @@ import { QuickFilterManagementComponent } from './quick-filter/quick-filter-mana
     QuickFilterManagementComponent,
     SapMaterialDatagridComponent,
     VitescoMaterialDatagridComponent,
+    EstimationMatrixDatagridComponent,
     RawMaterialDatagridComponent,
     RawMaterialControlPanelComponent,
     SapMaterialControlPanelComponent,
     VitescoMaterialControlPanelComponent,
+    EstimationMatrixControlPanelComponent,
     // angular material
     MatIconModule,
     MatButtonModule,

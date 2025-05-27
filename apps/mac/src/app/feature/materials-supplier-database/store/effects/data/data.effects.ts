@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -13,6 +14,7 @@ import {
   MaterialClass,
   NavigationLevel,
 } from '@mac/feature/materials-supplier-database/constants';
+import { EstimationMatrixResponse } from '@mac/feature/materials-supplier-database/models/data/estimation-matrix/estimation-matrix-response.model';
 import {
   DataResult,
   ManufacturerSupplierTableValue,
@@ -37,9 +39,11 @@ export class DataEffects {
       concatLatestFrom(() => this.dataFacade.navigation$),
       switchMap(([_action, { navigationLevel, materialClass }]) => {
         if (
-          [MaterialClass.SAP_MATERIAL, MaterialClass.VITESCO].includes(
-            materialClass
-          )
+          [
+            MaterialClass.SAP_MATERIAL,
+            MaterialClass.VITESCO,
+            MaterialClass.DS_ESTIMATIONMATRIX,
+          ].includes(materialClass)
         ) {
           return [];
         }
@@ -72,7 +76,6 @@ export class DataEffects {
           const sort = request.sortModel.map((s) => s.colId);
           const filter = Object.keys(request.filterModel).map((f) => f);
 
-          // this.applicationInsightsService.logPageView('SAPMaterialsQuery', {});
           this.applicationInsightsService.logEvent(
             '[MAC - MSD] fetchMaterials',
             {
@@ -148,6 +151,32 @@ export class DataEffects {
             this.handleError(
               e,
               DataActions.fetchVitescoMaterialsFailure({
+                startRow: action.request.startRow,
+                errorCode: e.status || 0,
+                retryCount: action.request.retryCount || 0,
+              })
+            )
+          )
+        );
+      })
+    );
+  });
+
+  public fetchEstimationMatrix$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DataActions.fetchEstimationMatrix),
+      switchMap((action) => {
+        return this.msdDataService.fetchEstimationMatrix(action.request).pipe(
+          map((result: EstimationMatrixResponse) =>
+            DataActions.fetchEstimationMatrixSuccess({
+              ...result,
+              startRow: action.request.startRow,
+            })
+          ),
+          catchError((e: HttpErrorResponse) =>
+            this.handleError(
+              e,
+              DataActions.fetchEstimationMatrixFailure({
                 startRow: action.request.startRow,
                 errorCode: e.status || 0,
                 retryCount: action.request.retryCount || 0,

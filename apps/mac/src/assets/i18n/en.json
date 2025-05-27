@@ -270,6 +270,16 @@
     "mainTable": {
       "open": "open",
       "columns": {
+        "mappingId": "Mapping ID",
+        "productGroup": "Product Group",
+        "productGroupId": "Product Group ID",
+        "supplierRegionCode": "Region Code",
+        "comment": "Comment",
+        "pcfMaterial": "Raw Material PCF",
+        "materialUtilization": "Utilization Rate",
+        "pcfProcess": "Process PCF",
+        "pcfPerKg": "PCF per kg",
+
         "blocked": "blocked",
         "castingDiameter": "Cast/Remelt Product Information",
         "castingMode": "Casting / Remelting process",
@@ -931,7 +941,8 @@
       "ce": "Ceramic",
       "lu": "Lubricants",
       "sap": "SAP Materials",
-      "vitesco": "Vitesco Materials"
+      "vitesco": "Vitesco Materials",
+      "estimationmatrix": "Estimation Matrix"
     },
     "materialClassValuesNavigation": {
       "st": "Steel",
@@ -941,7 +952,8 @@
       "ce": "Ceramics",
       "lu": "Lubricants",
       "sap": "SAP material numbers",
-      "vitesco": "Vitesco Materials"
+      "vitesco": "Vitesco Materials",
+      "estimationmatrix": "Estimation Matrix"
     },
     "status": {
       "statusValues": {

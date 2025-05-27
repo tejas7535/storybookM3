@@ -145,7 +145,11 @@ describe('DataFacade', () => {
       'should provide material class options',
       marbles((m) => {
         const expected = m.cold('a', {
-          a: [...mockMaterialClassOptions, MaterialClass.SAP_MATERIAL],
+          a: [
+            ...mockMaterialClassOptions,
+            MaterialClass.SAP_MATERIAL,
+            MaterialClass.DS_ESTIMATIONMATRIX,
+          ],
         });
 
         m.expect(facade.materialClassOptions$).toBeObservable(expected);
@@ -567,6 +571,18 @@ describe('DataFacade', () => {
       } as ServerSideMaterialsRequest;
       const action = DataActions.fetchVitescoMaterials({ request });
       facade.fetchVitescoMaterials(request);
+      expect(store.dispatch).toHaveBeenCalledWith(action);
+    });
+  });
+
+  describe('fetchEstimationMatrix', () => {
+    it('should dispatch fetchEstimationMatrix action', () => {
+      const request = {
+        startRow: 0,
+        endRow: 100,
+      } as ServerSideMaterialsRequest;
+      const action = DataActions.fetchEstimationMatrix({ request });
+      facade.fetchEstimationMatrix(request);
       expect(store.dispatch).toHaveBeenCalledWith(action);
     });
   });

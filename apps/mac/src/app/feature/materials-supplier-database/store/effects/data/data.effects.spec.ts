@@ -17,6 +17,7 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import {
+  EstimationMatrixResponse,
   ManufacturerSupplier,
   ManufacturerSupplierTableValue,
   Material,
@@ -41,6 +42,9 @@ import {
   fetchClassOptions,
   fetchClassOptionsFailure,
   fetchClassOptionsSuccess,
+  fetchEstimationMatrix,
+  fetchEstimationMatrixFailure,
+  fetchEstimationMatrixSuccess,
   fetchManufacturerSuppliers,
   fetchManufacturerSuppliersFailure,
   fetchManufacturerSuppliersSuccess,
@@ -358,6 +362,81 @@ describe('Data Effects', () => {
         m.flush();
 
         expect(msdDataService.fetchVitescoMaterials).toHaveBeenCalledWith({
+          startRow: 0,
+          retryCount: 2,
+        } as SAPMaterialsRequest);
+      })
+    );
+  });
+
+  describe('fetchEstimationMatrix$', () => {
+    it(
+      'should fetch sap materials and return success action on success',
+      marbles((m) => {
+        msdDataFacade.navigation$ = of({
+          materialClass: MaterialClass.DS_ESTIMATIONMATRIX,
+          navigationLevel: NavigationLevel.MATERIAL,
+        });
+
+        action = fetchEstimationMatrix({
+          request: { startRow: 0 } as ServerSideMaterialsRequest,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock: EstimationMatrixResponse = {
+          data: [],
+          lastRow: -1,
+          totalRows: 300,
+          subTotalRows: 100,
+        };
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.fetchEstimationMatrix = jest.fn(() => response);
+
+        const result = fetchEstimationMatrixSuccess({
+          ...resultMock,
+          startRow: 0,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.fetchEstimationMatrix$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchEstimationMatrix).toHaveBeenCalledWith({
+          startRow: 0,
+        } as SAPMaterialsRequest);
+      })
+    );
+
+    it(
+      'should fetch sap materials and return failure action on failure',
+      marbles((m) => {
+        msdDataFacade.navigation$ = of({
+          materialClass: MaterialClass.SAP_MATERIAL,
+          navigationLevel: NavigationLevel.MATERIAL,
+        });
+
+        action = fetchEstimationMatrix({
+          request: { startRow: 0, retryCount: 2 } as SAPMaterialsRequest,
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.fetchEstimationMatrix = jest
+          .fn()
+          .mockReturnValue(
+            throwError(() => new HttpErrorResponse({ status: 404 }))
+          );
+
+        const result = fetchEstimationMatrixFailure({
+          startRow: 0,
+          errorCode: 404,
+          retryCount: 2,
+        });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.fetchEstimationMatrix$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchEstimationMatrix).toHaveBeenCalledWith({
           startRow: 0,
           retryCount: 2,
         } as SAPMaterialsRequest);

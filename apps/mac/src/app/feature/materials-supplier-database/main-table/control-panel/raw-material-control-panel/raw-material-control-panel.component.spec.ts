@@ -13,7 +13,7 @@ import {
   IRowNode,
   ProcessCellForExportParams,
 } from 'ag-grid-community';
-import { MockDirective, MockPipe, MockProvider } from 'ng-mocks';
+import { MockComponent, MockDirective, MockPipe, MockProvider } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -32,6 +32,7 @@ import {
 } from '@mac/feature/materials-supplier-database/services';
 import { DataFacade } from '@mac/feature/materials-supplier-database/store/facades/data';
 
+import { BaseControlPanelComponent } from '../base-control-panel/base-control-panel.component';
 import { RawMaterialControlPanelComponent } from './raw-material-control-panel.component';
 
 jest.mock('@jsverse/transloco', () => ({
@@ -62,6 +63,7 @@ describe('RawMaterialControlPanelComponent', () => {
       MockPipe(PushPipe),
       MockDirective(LetDirective),
       provideTranslocoTestingModule({ en: {} }),
+      MockComponent(BaseControlPanelComponent),
     ],
     providers: [
       provideMockStore({}),

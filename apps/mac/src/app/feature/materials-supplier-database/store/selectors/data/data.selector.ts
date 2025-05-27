@@ -61,6 +61,7 @@ export const getMaterialClassOptions = createSelector(
           ...dataState.materialClasses,
           MaterialClass.SAP_MATERIAL,
           MaterialClass.VITESCO,
+          MaterialClass.DS_ESTIMATIONMATRIX,
         ].filter((mc: MaterialClass) => SupportedMaterialClasses.includes(mc))
       : undefined
 );
@@ -95,6 +96,11 @@ export const getSAPMaterialsRows = createSelector(
 export const getVitescoMaterialsRows = createSelector(
   getDataState,
   (state) => state.vitescoMaterialsRows
+);
+
+export const getEstimationMatrixRows = createSelector(
+  getDataState,
+  (state) => state.estimationMatrixRows
 );
 
 export const getSAPResult = createSelector(
@@ -148,6 +154,33 @@ export const getVitescoResult = createSelector(
             NavigationLevel.MATERIAL
           ],
           ...vitescoMaterialsRows,
+        }
+);
+
+export const getEstimationMatrixResult = createSelector(
+  getDataState,
+  getEstimationMatrixRows,
+  (
+    state,
+    estimationMatrixRows
+  ):
+    | {
+        data?: Material[];
+        lastRow?: number;
+        totalRows?: number;
+        subTotalRows?: number;
+        startRow?: number;
+        errorCode?: number;
+        retryCount?: number;
+      }
+    | undefined =>
+    estimationMatrixRows?.startRow === undefined
+      ? undefined
+      : {
+          data: state.result?.[MaterialClass.DS_ESTIMATIONMATRIX]?.[
+            NavigationLevel.MATERIAL
+          ],
+          ...estimationMatrixRows,
         }
 );
 

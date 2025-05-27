@@ -38,6 +38,7 @@ import {
   CopperMaterialStandardForm,
   CopperMaterialStandardFormValue,
   CopperMaterialStandardTableValue,
+  EstimationMatrix,
   LubricantMaterial,
   LubricantMaterialResponse,
   PolymerManufacturerSupplier,
@@ -73,6 +74,7 @@ export type Material =
   | CeramicMaterial
   | SAPMaterial
   | VitescoMaterial
+  | EstimationMatrix
   | LubricantMaterial;
 export type MaterialResponse =
   | AluminumMaterialResponse

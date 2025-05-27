@@ -13,9 +13,11 @@
     *ngrxLet="navigation$ as navigation"
   >
     <ng-container>
-      <mac-quick-filter
-        (managementTabSelected)="quickFilterManagementTabActive = $event"
-      ></mac-quick-filter>
+      @if (navigation.materialClass !== 'estimationmatrix') {
+        <mac-quick-filter
+          (managementTabSelected)="quickFilterManagementTabActive = $event"
+        ></mac-quick-filter>
+      }
 
       <div class="flex w-full h-[calc(100%-33px)] flex-1">
         <div class="h-full w-full">
@@ -29,6 +31,8 @@
               <mac-sap-material-datagrid></mac-sap-material-datagrid>
             } @else if (navigation.materialClass === 'vitesco') {
               <mac-vitesco-material-datagrid></mac-vitesco-material-datagrid>
+            } @else if (navigation.materialClass === 'estimationmatrix') {
+              <mac-estimation-matrix-datagrid></mac-estimation-matrix-datagrid>
             } @else {
               <mac-raw-material-datagrid></mac-raw-material-datagrid>
             }
@@ -41,6 +45,8 @@
         <mac-sap-material-control-panel></mac-sap-material-control-panel>
       } @else if (navigation.materialClass === 'vitesco') {
         <mac-vitesco-material-control-panel></mac-vitesco-material-control-panel>
+      } @else if (navigation.materialClass === 'estimationmatrix') {
+        <mac-estimation-matrix-control-panel></mac-estimation-matrix-control-panel>
       } @else {
         <mac-raw-material-control-panel></mac-raw-material-control-panel>
       }

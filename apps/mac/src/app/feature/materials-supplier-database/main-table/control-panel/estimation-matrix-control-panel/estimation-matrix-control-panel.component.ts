@@ -13,7 +13,7 @@ import { AbstractControlPanelComponent } from '../abstract-control-panel.compone
 import { BaseControlPanelComponent } from '../base-control-panel/base-control-panel.component';
 
 @Component({
-  selector: 'mac-vitesco-material-control-panel',
+  selector: 'mac-estimation-matrix-control-panel',
   imports: [
     // default
     CommonModule,
@@ -26,13 +26,13 @@ import { BaseControlPanelComponent } from '../base-control-panel/base-control-pa
     // msd
     BaseControlPanelComponent,
   ],
-  templateUrl: './vitesco-material-control-panel.component.html',
+  templateUrl: './estimation-matrix-control-panel.component.html',
 })
-export class VitescoMaterialControlPanelComponent
+export class EstimationMatrixControlPanelComponent
   extends AbstractControlPanelComponent
   implements OnInit, OnDestroy
 {
-  public rowData$ = this.dataFacade.vitescoResult$;
+  public rowData$ = this.dataFacade.estimationMatrixResult$;
 
   public constructor(
     protected readonly dataFacade: DataFacade,
@@ -40,6 +40,7 @@ export class VitescoMaterialControlPanelComponent
   ) {
     super(dataFacade, agGridReadyService);
   }
+
   public reload(): void {
     this.agGridApi?.refreshServerSide();
   }

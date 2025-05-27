@@ -26,7 +26,8 @@ import {
   RELEASE_DATE,
 } from '@mac/msd/constants';
 
-import { BaseControlPanelComponent } from '../base-control-panel.component';
+import { AbstractControlPanelComponent } from '../abstract-control-panel.component';
+import { BaseControlPanelComponent } from '../base-control-panel/base-control-panel.component';
 
 @Component({
   selector: 'mac-raw-material-control-panel',
@@ -42,11 +43,13 @@ import { BaseControlPanelComponent } from '../base-control-panel.component';
     // ngrx
     PushPipe,
     LetDirective,
+    // msd
+    BaseControlPanelComponent,
   ],
   templateUrl: './raw-material-control-panel.component.html',
 })
 export class RawMaterialControlPanelComponent
-  extends BaseControlPanelComponent
+  extends AbstractControlPanelComponent
   implements OnInit, OnDestroy
 {
   public hasEditorRole = false;
@@ -64,13 +67,7 @@ export class RawMaterialControlPanelComponent
     protected readonly applicationInsightsService: ApplicationInsightsService,
     protected readonly dialogService: MsdDialogService
   ) {
-    super(
-      dataFacade,
-      agGridReadyService,
-      datePipe,
-      applicationInsightsService,
-      dialogService
-    );
+    super(dataFacade, agGridReadyService);
   }
 
   public ngOnInit(): void {
@@ -99,10 +96,6 @@ export class RawMaterialControlPanelComponent
           this.displayedRowCount.set(event.api.getDisplayedRowCount() || 0)
         );
       });
-  }
-
-  public ngOnDestroy(): void {
-    super.ngOnDestroy();
   }
 
   public resumeDialog(): void {

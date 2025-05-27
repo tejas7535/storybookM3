@@ -1,8 +1,12 @@
-<ng-container *transloco="let t; read: 'materialsSupplierDatabase'">
-  <div
-    class="flex flex-col items-center justify-start gap-4 p-4 pl-0 md:flex-row"
-    *ngrxLet="navigation$ as navigation"
-  >
+<mac-base-control-panel
+  *ngrxLet="resultCount$ as resultCount"
+  [data$]="{
+    totalRows: resultCount,
+    subTotalRows: displayedRowCount(),
+  }"
+  (reload)="reload()"
+>
+  <ng-container *transloco="let t; read: 'materialsSupplierDatabase'">
     @if (!(hasMinimizedDialog$ | ngrxPush)) {
       <button
         mat-flat-button
@@ -39,35 +43,5 @@
       <mat-icon class="material-icons-outlined">download</mat-icon>
       <span>{{ t('export') }}</span>
     </button>
-    <button mat-button [disabled]="resetFormDisabled" (click)="resetForm()">
-      <mat-icon class="material-icons-outlined">sync</mat-icon>
-      <span>{{ t('resetTable') }}</span>
-    </button>
-    <div class="flex flex-grow flex-row items-center justify-start gap-4">
-      <div class="flex flex-col">
-        <div class="text-caption text-low-emphasis">
-          {{
-            t('allClass', {
-              class: t(navigation.navigationLevel)
-            })
-          }}
-        </div>
-        <div class="text-caption text-high-emphasis">
-          {{ (resultCount$ | ngrxPush) || 0 }}
-        </div>
-      </div>
-      <div class="flex flex-col">
-        <div class="text-caption text-low-emphasis">
-          {{ t('subtotal') }}
-        </div>
-        <div class="text-caption text-high-emphasis">
-          {{ displayedRowCount() }}
-        </div>
-      </div>
-    </div>
-    <button mat-button (click)="reload()">
-      <mat-icon class="material-icons-outlined">refresh</mat-icon>
-      <span>{{ t('reload') }}</span>
-    </button>
-  </div>
-</ng-container>
+  </ng-container>
+</mac-base-control-panel>

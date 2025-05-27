@@ -205,6 +205,111 @@ describe('dataReducer', () => {
       });
     });
 
+    describe('fetchEstimationMatrix', () => {
+      it('should reset result on fetchEstimationMatrix', () => {
+        const action = DataActions.fetchEstimationMatrix({
+          request: {} as ServerSideMaterialsRequest,
+        });
+        const newState = dataReducer(
+          {
+            ...state,
+            estimationMatrixRows: {
+              startRow: 0,
+            },
+            result: {
+              ...state.result,
+              [MaterialClass.DS_ESTIMATIONMATRIX]: {
+                materials: [],
+              },
+            },
+          },
+          action
+        );
+
+        expect(newState).toEqual({
+          ...initialState,
+          estimationMatrixRows: {
+            lastRow: undefined,
+            startRow: undefined,
+          },
+          result: {
+            ...initialState.result,
+            [MaterialClass.DS_ESTIMATIONMATRIX]: {
+              materials: undefined,
+            },
+          },
+        });
+      });
+
+      it('should set estimationMatrixRows and result', () => {
+        const action = DataActions.fetchEstimationMatrixSuccess({
+          data: [],
+          lastRow: -1,
+          totalRows: 300,
+          subTotalRows: 100,
+          startRow: 0,
+        });
+        const newState = dataReducer({ ...state }, action);
+
+        expect(newState).toEqual({
+          ...initialState,
+          estimationMatrixRows: {
+            lastRow: -1,
+            totalRows: 300,
+            subTotalRows: 100,
+            startRow: 0,
+          },
+          result: {
+            ...initialState.result,
+            [MaterialClass.DS_ESTIMATIONMATRIX]: {
+              ...initialState.result[MaterialClass.DS_ESTIMATIONMATRIX],
+              materials: [],
+            },
+          },
+        });
+      });
+
+      it('should set the startRow and unset the result', () => {
+        const action = DataActions.fetchEstimationMatrixFailure({
+          startRow: 0,
+          errorCode: 1,
+          retryCount: 2,
+        });
+        const newState = dataReducer(
+          {
+            ...state,
+            estimationMatrixRows: {
+              startRow: 100,
+              lastRow: 100,
+              totalRows: 100,
+              subTotalRows: 100,
+            },
+            result: {
+              ...state.result,
+              [MaterialClass.DS_ESTIMATIONMATRIX]: {
+                materials: [],
+              },
+            },
+          },
+          action
+        );
+
+        expect(newState).toEqual({
+          ...initialState,
+          estimationMatrixRows: {
+            startRow: 0,
+            errorCode: 1,
+            retryCount: 2,
+          },
+          result: {
+            [MaterialClass.DS_ESTIMATIONMATRIX]: {
+              materials: undefined,
+            },
+          },
+        });
+      });
+    });
+
     describe('fetchMaterialsSuccess', () => {
       it.each([
         [MaterialClass.STEEL, [] as DataResult[]],

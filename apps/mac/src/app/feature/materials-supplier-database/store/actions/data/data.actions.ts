@@ -2,6 +2,7 @@ import { createAction, props } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
 
+import { EstimationMatrix } from '@mac/feature/materials-supplier-database/models/data/estimation-matrix/estimation-matrix.model';
 import { VitescoMaterial } from '@mac/feature/materials-supplier-database/models/data/vitesco-material/vitesco-material.model';
 import { ServerSideMaterialsRequest } from '@mac/feature/materials-supplier-database/models/data/vitesco-material/vitesco-materials-request.model';
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
@@ -52,6 +53,11 @@ export const fetchVitescoMaterials = createAction(
   props<{ request: ServerSideMaterialsRequest }>()
 );
 
+export const fetchEstimationMatrix = createAction(
+  '[MSD - Data] Fetch Estimation Matrix',
+  props<{ request: ServerSideMaterialsRequest }>()
+);
+
 export const fetchMaterialsSuccess = createAction(
   '[MSD - Data] Fetch Materials Success',
   props<{
@@ -82,6 +88,17 @@ export const fetchVitescoMaterialsSuccess = createAction(
   }>()
 );
 
+export const fetchEstimationMatrixSuccess = createAction(
+  '[MSD - Data] Fetch Estimation Matrix Success',
+  props<{
+    data: EstimationMatrix[];
+    lastRow: number;
+    totalRows: number;
+    subTotalRows: number;
+    startRow: number;
+  }>()
+);
+
 export const fetchMaterialsFailure = createAction(
   '[MSD - Data] Fetch Materials Failure'
 );
@@ -97,6 +114,15 @@ export const fetchSAPMaterialsFailure = createAction(
 
 export const fetchVitescoMaterialsFailure = createAction(
   '[MSD - Data] Fetch Vitesco Materials Failure',
+  props<{
+    startRow: number;
+    errorCode: number;
+    retryCount: number;
+  }>()
+);
+
+export const fetchEstimationMatrixFailure = createAction(
+  '[MSD - Data] Fetch Estimation Matrix Failure',
   props<{
     startRow: number;
     errorCode: number;

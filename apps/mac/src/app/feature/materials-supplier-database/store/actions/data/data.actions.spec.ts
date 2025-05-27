@@ -1,6 +1,7 @@
 import { MaterialClass, NavigationLevel } from '@mac/msd/constants';
 import {
   DataResult,
+  EstimationMatrix,
   ManufacturerSupplierTableValue,
   MaterialStandardTableValue,
   ProductCategoryRuleTableValue,
@@ -14,6 +15,9 @@ import {
   fetchClassOptions,
   fetchClassOptionsFailure,
   fetchClassOptionsSuccess,
+  fetchEstimationMatrix,
+  fetchEstimationMatrixFailure,
+  fetchEstimationMatrixSuccess,
   fetchManufacturerSuppliers,
   fetchManufacturerSuppliersFailure,
   fetchManufacturerSuppliersSuccess,
@@ -154,6 +158,48 @@ describe('Data Actions', () => {
 
       expect(action).toEqual({
         type: '[MSD - Data] Fetch Vitesco Materials Failure',
+        startRow: 1,
+        errorCode: 2,
+        retryCount: 0,
+      });
+    });
+  });
+
+  describe('Fetch estimation matrix', () => {
+    it('fetchEstimationMatrix', () => {
+      const action = fetchEstimationMatrix({
+        request: {} as ServerSideMaterialsRequest,
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Data] Fetch Estimation Matrix',
+        request: {} as ServerSideMaterialsRequest,
+      });
+    });
+    it('fetchEstimationMatrixSuccess', () => {
+      const props = {
+        data: [] as EstimationMatrix[],
+        lastRow: -1,
+        totalRows: 144,
+        subTotalRows: 23,
+        startRow: 84,
+      };
+      const action = fetchEstimationMatrixSuccess(props);
+
+      expect(action).toEqual({
+        type: '[MSD - Data] Fetch Estimation Matrix Success',
+        ...props,
+      });
+    });
+    it('fetchEstimationMatrixFailure', () => {
+      const action = fetchEstimationMatrixFailure({
+        startRow: 1,
+        errorCode: 2,
+        retryCount: 0,
+      });
+
+      expect(action).toEqual({
+        type: '[MSD - Data] Fetch Estimation Matrix Failure',
         startRow: 1,
         errorCode: 2,
         retryCount: 0,

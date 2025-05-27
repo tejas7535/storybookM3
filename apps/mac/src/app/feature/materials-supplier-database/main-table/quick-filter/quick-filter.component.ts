@@ -188,7 +188,10 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
         this.materialClass = materialClass;
         this.navigationLevel = navigationLevel;
 
-        if (navigationLevel !== NavigationLevel.PRODUCT_CATEGORY_RULES) {
+        if (
+          navigationLevel !== NavigationLevel.PRODUCT_CATEGORY_RULES &&
+          materialClass !== MaterialClass.DS_ESTIMATIONMATRIX
+        ) {
           this.qfFacade.fetchPublishedQuickFilters(
             materialClass,
             navigationLevel
@@ -311,10 +314,9 @@ export class QuickFilterComponent implements OnDestroy, OnInit {
 
   // get list of visible columns from current agGrid configuration
   private getCurrentColumns(): string[] {
-    return this.agGridApi
-      .getColumnState()
-      .filter((state) => !state.hide)
-      .map((state) => state.colId);
+    const columns = this.agGridApi.getColumnState() || [];
+
+    return columns.filter((state) => !state.hide).map((state) => state.colId);
   }
 
   // triggered by close event of dialog

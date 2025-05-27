@@ -12,6 +12,9 @@ import {
   fetchClassOptions,
   fetchClassOptionsFailure,
   fetchClassOptionsSuccess,
+  fetchEstimationMatrix,
+  fetchEstimationMatrixFailure,
+  fetchEstimationMatrixSuccess,
   fetchManufacturerSuppliers,
   fetchManufacturerSuppliersFailure,
   fetchManufacturerSuppliersSuccess,
@@ -72,6 +75,14 @@ export interface DataState {
     errorCode?: number;
     retryCount?: number;
   };
+  estimationMatrixRows: {
+    lastRow?: number;
+    totalRows?: number;
+    subTotalRows?: number;
+    startRow: number;
+    errorCode?: number;
+    retryCount?: number;
+  };
   result: {
     [key in MaterialClass]?: {
       [NavigationLevel.MATERIAL]?: Material[];
@@ -96,6 +107,7 @@ export const initialState: DataState = {
   materialClassLoading: undefined,
   sapMaterialsRows: undefined,
   vitescoMaterialsRows: undefined,
+  estimationMatrixRows: undefined,
   result: {},
 };
 
@@ -153,6 +165,24 @@ export const dataReducer = createReducer(
         ...state.result,
         [MaterialClass.VITESCO]: {
           ...state.result[MaterialClass.VITESCO],
+          materials: undefined,
+        },
+      },
+    })
+  ),
+  on(
+    fetchEstimationMatrix,
+    (state): DataState => ({
+      ...state,
+      estimationMatrixRows: {
+        ...state.estimationMatrixRows,
+        lastRow: undefined,
+        startRow: undefined,
+      },
+      result: {
+        ...state.result,
+        [MaterialClass.DS_ESTIMATIONMATRIX]: {
+          ...state.result[MaterialClass.DS_ESTIMATIONMATRIX],
           materials: undefined,
         },
       },
@@ -260,6 +290,46 @@ export const dataReducer = createReducer(
         ...state.result,
         [MaterialClass.VITESCO]: {
           ...state.result[MaterialClass.VITESCO],
+          materials: undefined,
+        },
+      },
+    })
+  ),
+  on(
+    fetchEstimationMatrixSuccess,
+    (
+      state,
+      { data, lastRow, totalRows, subTotalRows, startRow }
+    ): DataState => ({
+      ...state,
+      estimationMatrixRows: {
+        lastRow,
+        totalRows,
+        subTotalRows,
+        startRow,
+      },
+      result: {
+        ...state.result,
+        [MaterialClass.DS_ESTIMATIONMATRIX]: {
+          ...state.result[MaterialClass.DS_ESTIMATIONMATRIX],
+          materials: data,
+        },
+      },
+    })
+  ),
+  on(
+    fetchEstimationMatrixFailure,
+    (state, { startRow, errorCode, retryCount }): DataState => ({
+      ...state,
+      estimationMatrixRows: {
+        startRow,
+        errorCode,
+        retryCount,
+      },
+      result: {
+        ...state.result,
+        [MaterialClass.DS_ESTIMATIONMATRIX]: {
+          ...state.result[MaterialClass.DS_ESTIMATIONMATRIX],
           materials: undefined,
         },
       },

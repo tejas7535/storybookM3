@@ -16,6 +16,7 @@ import {
   SupportedMaterialClasses,
 } from '@mac/msd/constants';
 import {
+  EstimationMatrixResponse,
   ManufacturerSupplier,
   ManufacturerSupplierTableValue,
   Material,
@@ -604,6 +605,13 @@ export class MsdDataService {
   public fetchVitescoMaterials(request: ServerSideMaterialsRequest) {
     return this.httpClient.post<VitescoMaterialsResponse>(
       `${this.BASE_URL_SAP}/vitesco/query`,
+      request
+    );
+  }
+
+  public fetchEstimationMatrix(request: ServerSideMaterialsRequest) {
+    return this.httpClient.post<EstimationMatrixResponse>(
+      `${this.BASE_URL_SAP}/pcfdatasource/query/estimationmatrix`,
       request
     );
   }
