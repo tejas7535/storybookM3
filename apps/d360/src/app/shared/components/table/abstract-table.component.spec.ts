@@ -918,7 +918,7 @@ describe('AbstractTableComponent', () => {
       // Mock getColumnDefs to return some columns
       const mockColumns = [
         { colId: 'col1', field: 'col1' },
-        { colId: 'col2', field: 'col2' },
+        { colId: 'col2', field: 'col2', filter: 'any-ag-filter' },
       ];
 
       jest
@@ -946,8 +946,6 @@ describe('AbstractTableComponent', () => {
             'sortAscending',
             'sortDescending',
             'separator',
-            'columnFilter',
-            'separator',
             'autoSizeThis',
             'autoSizeAll',
           ],
@@ -956,6 +954,7 @@ describe('AbstractTableComponent', () => {
           colId: 'col2',
           field: 'col2',
           suppressMovable: true,
+          filter: 'any-ag-filter',
           mainMenuItems: [
             'sortAscending',
             'sortDescending',

@@ -708,14 +708,16 @@ export abstract class AbstractTableComponent implements OnInit {
     // activate / deactivate movable
     this.gridApi?.setGridOption(
       'columnDefs',
-      this.gridApi?.getColumnDefs().map((col) => ({
+      this.gridApi?.getColumnDefs().map((col: ColDef) => ({
         ...col,
         suppressMovable: isDefaultTab,
         mainMenuItems: isDefaultTab
           ? [
               'sortAscending',
               'sortDescending',
-              ...(this.hasFilters ? ['separator', 'columnFilter'] : []),
+              ...(col?.filter && !!col.filter
+                ? ['separator', 'columnFilter']
+                : []),
               'separator',
               'autoSizeThis',
               'autoSizeAll',
