@@ -1,4 +1,12 @@
 # Release Notes of Library Shared UI Legal Pages
+## [1.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/legal-pages-v1.4.1...legal-pages-v1.5.0) (2025-05-27)
+
+
+### Features
+
+* **legal-pages:** add export of constant (UFTABI-8712) ([#7212](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7212)) ([4250c39](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4250c397b6a847a63f070dad2b5f9de6aa543bce))
+* **legal-pages:** extend legal pages with third party usage parameter (UFTABI-8712) ([#7211](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7211)) ([5c28a4b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5c28a4b964c0c0f7acc11bf37981cf0ee2888fb8))
+
 ## [1.4.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/legal-pages-v1.4.0...legal-pages-v1.4.1) (2025-03-21)
 
 ## 1.4.0 (2024-10-25)
