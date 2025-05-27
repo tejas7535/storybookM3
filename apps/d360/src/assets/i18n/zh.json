@@ -1008,9 +1008,9 @@
       "spShareOriginalUnconstrained": "SP 原始份额 (Unc)",
       "spShareUnconstrained": "SP份额 (Unc)",
       "synchronized": "已同步",
-      "totalSalesPlanAdjusted": "年度总调整 (Unc)",
-      "totalSalesPlanConstrained": "年总计 (Con)",
-      "totalSalesPlanUnconstrained": "年总计 (Unc)",
+      "totalSalesPlanAdjusted": "规划调整 (Unc)",
+      "totalSalesPlanConstrained": "规划 (Con)",
+      "totalSalesPlanUnconstrained": "规划 (Unc)",
       "yearly": "年度"
     },
     "title": "销售验证"

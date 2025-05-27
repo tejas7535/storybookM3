@@ -1008,9 +1008,9 @@
       "spShareOriginalUnconstrained": "Quota SP Originale (Unc)",
       "spShareUnconstrained": "Quota SP (Unc)",
       "synchronized": "Sincronizzato",
-      "totalSalesPlanAdjusted": "Adeguamento Totale Annuale (Unc)",
-      "totalSalesPlanConstrained": "Totale Annuale (Con)",
-      "totalSalesPlanUnconstrained": "Totale Annuale (Unc)",
+      "totalSalesPlanAdjusted": "Pianificazione modificata (Unc)",
+      "totalSalesPlanConstrained": "Pianificazione (Con)",
+      "totalSalesPlanUnconstrained": "Pianificazione (Unc)",
       "yearly": "Annuale"
     },
     "title": "Convalida delle vendite"

@@ -1008,9 +1008,9 @@
       "spShareOriginalUnconstrained": "Participação SP Original (Unc)",
       "spShareUnconstrained": "Participação de SP (Unc)",
       "synchronized": "Sincronizado",
-      "totalSalesPlanAdjusted": "Ajuste do Total Anual (Unc)",
-      "totalSalesPlanConstrained": "Total Anual (Con)",
-      "totalSalesPlanUnconstrained": "Total Anual (Unc)",
+      "totalSalesPlanAdjusted": "Planejamento ajustado (Unc)",
+      "totalSalesPlanConstrained": "Planejamento (Con)",
+      "totalSalesPlanUnconstrained": "Planejamento (Unc)",
       "yearly": "Anual"
     },
     "title": "Validação de vendas"

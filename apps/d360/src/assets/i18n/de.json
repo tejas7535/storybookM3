@@ -1008,9 +1008,9 @@
       "spShareOriginalUnconstrained": "SP Share Original (Unc)",
       "spShareUnconstrained": "SP Share (Unc)",
       "synchronized": "Synchronisiert",
-      "totalSalesPlanAdjusted": "Anpassung Jahresplanung (Unc)",
-      "totalSalesPlanConstrained": "Jahresplanung (Con)",
-      "totalSalesPlanUnconstrained": "Jahresplanung (Unc)",
+      "totalSalesPlanAdjusted": "Planung angepasst (Unc)",
+      "totalSalesPlanConstrained": "Planung (Con)",
+      "totalSalesPlanUnconstrained": "Planung (Unc)",
       "yearly": "Jährliche"
     },
     "title": "Umsatzvalidierung"
