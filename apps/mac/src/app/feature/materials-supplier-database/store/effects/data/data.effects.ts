@@ -114,6 +114,23 @@ export class DataEffects {
     return this.actions$.pipe(
       ofType(DataActions.fetchSAPMaterials),
       switchMap((action) => {
+        if (Object.keys(action.request.filterModel).length === 0) {
+          return [
+            DataActions.fetchSAPMaterialsSuccess({
+              startRow: action.request.startRow,
+              data: [],
+              subTotalRows: 0,
+              lastRow: 0,
+              totalRows: 0,
+            }),
+            DataActions.errorSnackBar({
+              message: translate(
+                'materialsSupplierDatabase.loading.snackbar.nofilternodata'
+              ),
+            }),
+          ];
+        }
+
         return this.msdDataService.fetchSAPMaterials(action.request).pipe(
           map((result: SAPMaterialsResponse) =>
             DataActions.fetchSAPMaterialsSuccess({

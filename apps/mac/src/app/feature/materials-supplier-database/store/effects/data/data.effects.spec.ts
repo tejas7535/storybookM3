@@ -223,6 +223,12 @@ describe('Data Effects', () => {
   });
 
   describe('fetchSapMaterials$', () => {
+    const requestWithFilter = {
+      request: {
+        startRow: 0,
+        filterModel: { column: {} },
+      } as any as SAPMaterialsRequest,
+    };
     it(
       'should fetch sap materials and return success action on success',
       marbles((m) => {
@@ -231,9 +237,7 @@ describe('Data Effects', () => {
           navigationLevel: NavigationLevel.MATERIAL,
         });
 
-        action = fetchSAPMaterials({
-          request: { startRow: 0 } as SAPMaterialsRequest,
-        });
+        action = fetchSAPMaterials(requestWithFilter);
         actions$ = m.hot('-a', { a: action });
 
         const resultMock: SAPMaterialsResponse = {
@@ -251,12 +255,46 @@ describe('Data Effects', () => {
         m.expect(effects.fetchSapMaterials$).toBeObservable(expected);
         m.flush();
 
-        expect(msdDataService.fetchSAPMaterials).toHaveBeenCalledWith({
-          startRow: 0,
-        } as SAPMaterialsRequest);
+        expect(msdDataService.fetchSAPMaterials).toHaveBeenCalledWith(
+          requestWithFilter.request
+        );
       })
     );
+    it(
+      'should fetch sap materials without filter and return snackbar action',
+      marbles((m) => {
+        msdDataFacade.navigation$ = of({
+          materialClass: MaterialClass.SAP_MATERIAL,
+          navigationLevel: NavigationLevel.MATERIAL,
+        });
 
+        const req = {
+          ...requestWithFilter,
+          request: { ...requestWithFilter.request, filterModel: {} },
+        };
+
+        action = fetchSAPMaterials(req);
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock: SAPMaterialsResponse = {
+          data: [],
+          lastRow: 0,
+          totalRows: 0,
+          subTotalRows: 0,
+        };
+
+        const result = fetchSAPMaterialsSuccess({ ...resultMock, startRow: 0 });
+        const snackbar = errorSnackBar({ message: 'nofilternodata' });
+        const expected = m.cold('-(ab)', { a: result, b: snackbar });
+
+        m.expect(effects.fetchSapMaterials$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchSAPMaterials).toHaveBeenCalledWith(
+          requestWithFilter.request
+        );
+      })
+    );
     it(
       'should fetch sap materials and return failure action on failure',
       marbles((m) => {
@@ -264,10 +302,11 @@ describe('Data Effects', () => {
           materialClass: MaterialClass.SAP_MATERIAL,
           navigationLevel: NavigationLevel.MATERIAL,
         });
-
-        action = fetchSAPMaterials({
-          request: { startRow: 0, retryCount: 2 } as SAPMaterialsRequest,
-        });
+        const req = {
+          ...requestWithFilter,
+          request: { ...requestWithFilter.request, retryCount: 2 },
+        };
+        action = fetchSAPMaterials(req);
         actions$ = m.hot('-a', { a: action });
 
         msdDataService.fetchSAPMaterials = jest
@@ -286,10 +325,9 @@ describe('Data Effects', () => {
         m.expect(effects.fetchSapMaterials$).toBeObservable(expected);
         m.flush();
 
-        expect(msdDataService.fetchSAPMaterials).toHaveBeenCalledWith({
-          startRow: 0,
-          retryCount: 2,
-        } as SAPMaterialsRequest);
+        expect(msdDataService.fetchSAPMaterials).toHaveBeenCalledWith(
+          req.request
+        );
       })
     );
   });

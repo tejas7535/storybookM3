@@ -1131,7 +1131,8 @@
       "loadingFailed": "Failed to load data from server! Please try again later or inform Support!",
       "snackbar": {
         "failedDataLoad": "Failed to load data from server! Retrying (#{{retryCount}}) in {{seconds}} seconds",
-        "failedDataLoadFinal": "Failed to load data from server! Please try again later or inform Support!"
+        "failedDataLoadFinal": "Failed to load data from server! Please try again later or inform Support!",
+        "nofilternodata": "For performance reasons, the SAP data is only loaded if you have set a filter!"
       }
     },
     "reload": "Reload",
