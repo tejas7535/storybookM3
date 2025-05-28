@@ -33,7 +33,7 @@
       "questionPipeLength": "最大管道长度是多少？",
       "pipeLengthOptions": {
         "directMontage": "直接安装",
-        "lessThan": "< {{value}} m",
+        "lessThan": "< {{value}} 米",
         "between": "{{from}} - {{to}} 米"
       }
     },

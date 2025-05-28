@@ -34,7 +34,7 @@
       "pipeLengthOptions": {
         "directMontage": "직접 장착",
         "lessThan": "< {{value}} m",
-        "between": "{{from}}~{{to}}m"
+        "between": "{{from}}~{{to}} m"
       }
     },
     "lubrication": {

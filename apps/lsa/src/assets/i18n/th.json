@@ -33,7 +33,7 @@
       "questionPipeLength": "ความยาวสูงสุดของท่ออยู่ที่เท่าไหร่",
       "pipeLengthOptions": {
         "directMontage": "การติดตั้งโดยตรง",
-        "lessThan": "< {{value}} m",
+        "lessThan": "< {{value}} ม.",
         "between": "{{from}} - {{to}} ม."
       }
     },
