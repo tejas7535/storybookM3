@@ -1,3 +1,5 @@
+import { fakeAsync, tick } from '@angular/core/testing';
+
 import { of, take } from 'rxjs';
 
 import { ColDef, GetRowIdParams } from 'ag-grid-enterprise';
@@ -53,7 +55,7 @@ describe('MaterialListTableComponent', () => {
       expect(reloadSpy).toHaveBeenCalledWith(true);
     });
 
-    it('should not trigger reload$ when selectedCustomerNumber or demandValidationFilters are not set', () => {
+    it('should trigger reload$ when selectedCustomerNumber is set and demandValidationFilters is not set', () => {
       const reloadSpy = jest.spyOn(component['reload$'](), 'next');
 
       // Set only one input
@@ -62,7 +64,19 @@ describe('MaterialListTableComponent', () => {
 
       Stub.detectChanges();
 
-      expect(reloadSpy).not.toHaveBeenCalled();
+      expect(reloadSpy).toHaveBeenCalled();
+    });
+
+    it('should trigger reload$ when selectedCustomerNumber is not set and demandValidationFilters is set', () => {
+      const reloadSpy = jest.spyOn(component['reload$'](), 'next');
+
+      // Set only one input
+      Stub.setInput('selectedCustomerNumber', null);
+      Stub.setInput('demandValidationFilters', { filterKey: 'filterValue' });
+
+      Stub.detectChanges();
+
+      expect(reloadSpy).toHaveBeenCalled();
     });
   });
 
@@ -111,21 +125,25 @@ describe('MaterialListTableComponent', () => {
   });
 
   describe('onFirstDataRendered', () => {
-    it('should select the first row when data is rendered', () => {
+    it('should select the first row when data is rendered', fakeAsync(() => {
       const gridApiMock = {
         getRenderedNodes: jest.fn().mockReturnValue([{ data: { id: 1 } }]),
         deselectAll: jest.fn(),
       };
       component['gridApi'] = gridApiMock as any;
 
-      const selectGridRowSpy = jest.spyOn<any, any>(component, 'selectGridRow');
+      const selectGridRowSpy = jest
+        .spyOn<any, any>(component, 'selectGridRow')
+        .mockImplementation(() => {});
 
       component['onFirstDataRendered']();
+
+      tick(150);
 
       expect(gridApiMock.getRenderedNodes).toHaveBeenCalled();
       expect(gridApiMock.deselectAll).toHaveBeenCalled();
       expect(selectGridRowSpy).toHaveBeenCalledWith({ data: { id: 1 } });
-    });
+    }));
   });
 
   describe('onResetFilters', () => {

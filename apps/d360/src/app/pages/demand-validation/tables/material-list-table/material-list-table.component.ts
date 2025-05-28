@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   effect,
   inject,
   input,
@@ -9,7 +10,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { Observable, tap } from 'rxjs';
+import { debounceTime, Observable, tap } from 'rxjs';
 
 import { translate } from '@jsverse/transloco';
 import { CellClickedEvent, GetRowIdParams, IRowNode } from 'ag-grid-enterprise';
@@ -61,15 +62,15 @@ export class MaterialListTableComponent
 
   protected selectedMaterialListEntry = signal<MaterialListEntry>(null);
 
+  protected params = computed(() => ({
+    selectedCustomerNumber: this.selectedCustomerNumber(),
+    demandValidationFilters: this.demandValidationFilters(),
+  }));
+
   public constructor() {
     super();
 
-    effect(
-      () =>
-        !!this.selectedCustomerNumber() &&
-        !!this.demandValidationFilters() &&
-        this.reload$().next(true)
-    );
+    effect(() => this.params() && this.reload$().next(true));
   }
 
   protected readonly getData$: (
@@ -126,6 +127,7 @@ export class MaterialListTableComponent
   public onFirstDataRendered(): void {
     this.dataFetchedEvent$
       .pipe(
+        debounceTime(150),
         tap(() => {
           const nodes = this.gridApi.getRenderedNodes();
 

@@ -247,6 +247,17 @@ export class DemandValidationTableComponent implements OnInit {
       : false
   );
 
+  private readonly tableParams = computed(() => ({
+    filterValues: this.filterValues(),
+    materialListEntry: this.materialListEntry(),
+    kpiData: this.kpiData(),
+  }));
+
+  private readonly updateRowDataParams = computed(() => ({
+    planningView: this.planningView(),
+    filterValues: this.filterValues(),
+  }));
+
   /**
    * Creates an instance of DemandValidationTableComponent.
    *
@@ -265,8 +276,8 @@ export class DemandValidationTableComponent implements OnInit {
     );
 
     effect(() => {
-      // set and update column defs
-      if (this.filterValues() || this.materialListEntry() || this.kpiData()) {
+      if (this.tableParams()) {
+        // set and update column defs
         this.updateColumnDefs(this.kpiData());
 
         if (this.kpiData()) {
@@ -284,9 +295,11 @@ export class DemandValidationTableComponent implements OnInit {
           };
         }
       }
+    });
 
+    effect(() => {
       // set and update row data
-      if (this.planningView() || this.filterValues()) {
+      if (this.updateRowDataParams()) {
         this.updateRowData();
       }
     });
