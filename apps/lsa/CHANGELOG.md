@@ -1,4 +1,20 @@
 # Release Notes of Lubricator selection assistant
+## [0.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/lsa-v0.1.1...lsa-v0.2.0) (2025-06-02)
+
+
+### Features
+
+* **lsa:** add medias translations for LSA - UFTABI-8064 ([#7281](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7281)) ([e02ae28](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e02ae289a3bdec8b1eecd57cc103e15ea453f24a))
+* **lsa:** basic LSA enhancements - UFTABI-8906 ([#7326](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7326)) ([1ff876f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1ff876f4d84cf4339fe87c63819f08bcb2a12d1e))
+
+
+### Bug Fixes
+
+* **lsa:** add font remix for special characters ([#7307](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7307)) ([6b691b6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6b691b6c3199d44a1611978c328628b8acc5aee8))
+* **lsa:** add product link in lsa ([#7339](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7339)) ([c5c6f9e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c5c6f9e1c4c41f79f3c9ee2709e6021503ac73d2))
+* **lsa:** collection of minor fixes UFTABI-8883 ([#7315](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7315)) ([8ab8709](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8ab87091d78b595a85ff5768581bbf70b9cd27a8))
+* **lsa:** translation consistency LSA chinese ([#7331](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7331)) ([29a11d2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/29a11d226071770c2381ce080bd0daeba56c067e))
+
 ## [0.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/lsa-v0.1.0...lsa-v0.1.1) (2025-05-19)
 
 
