@@ -56,36 +56,3 @@ export function ensureEmptyRowAtBottom(gridApi: GridApi) {
     gridApi.applyTransaction({ addIndex: rowCount, add: [{}] });
   }
 }
-
-export function addRowsFromClipboard(gridApi: GridApi, data: string[][]): any {
-  const focusedCell = gridApi.getFocusedCell();
-  if (!focusedCell) {
-    return null;
-  }
-
-  const newRows = data.map((row) => {
-    const newRow: any = {};
-    let currColumn = focusedCell.column;
-
-    for (const columnData of row) {
-      const fieldName = currColumn.getColDef().field;
-      if (!fieldName) {
-        continue;
-      }
-
-      newRow[fieldName] = columnData;
-
-      const nextColumn = gridApi.getDisplayedColAfter(currColumn);
-      if (!nextColumn) {
-        return;
-      } // no more in row -> cancel
-      currColumn = nextColumn;
-    }
-
-    return newRow;
-  });
-
-  gridApi.applyTransaction({ addIndex: focusedCell.rowIndex, add: newRows });
-
-  return null;
-}

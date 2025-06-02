@@ -1,24 +1,27 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-
+import { Stub } from '../../test/stub.class';
 import { DataHintComponent } from './data-hint.component';
 
 describe('DataHintComponent', () => {
-  let spectator: Spectator<DataHintComponent>;
-
-  const createComponent = createComponentFactory({
-    component: DataHintComponent,
-    imports: [],
-  });
+  let component: DataHintComponent;
 
   beforeEach(() => {
-    spectator = createComponent({
-      props: {
-        text: 'Hello from Test',
-      },
+    component = Stub.getForEffect<DataHintComponent>({
+      component: DataHintComponent,
     });
   });
 
   it('should create', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
+  });
+
+  it('should have an empty text input by default', () => {
+    expect(component.text()).toBe('');
+  });
+
+  it('should allow setting text input', () => {
+    const testText = 'Test hint text';
+    Stub.setInput('text', testText);
+    Stub.detectChanges();
+    expect(component.text()).toBe(testText);
   });
 });

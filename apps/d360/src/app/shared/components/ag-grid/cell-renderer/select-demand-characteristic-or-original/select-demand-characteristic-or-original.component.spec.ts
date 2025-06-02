@@ -1,24 +1,21 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
+import { Stub } from '../../../../test/stub.class';
 import * as parseValuesModule from '../../../../utils/parse-values';
 import { SelectDemandCharacteristicOrOriginalCellRendererComponent } from './select-demand-characteristic-or-original.component';
 
 describe('SelectValueOrOriginalCellRendererComponent', () => {
-  let spectator: Spectator<SelectDemandCharacteristicOrOriginalCellRendererComponent>;
-
-  const createComponent = createComponentFactory({
-    component: SelectDemandCharacteristicOrOriginalCellRendererComponent,
-    imports: [],
-    providers: [],
-  });
+  let component: SelectDemandCharacteristicOrOriginalCellRendererComponent;
 
   beforeEach(() => {
-    spectator = createComponent();
+    component =
+      Stub.get<SelectDemandCharacteristicOrOriginalCellRendererComponent>({
+        component: SelectDemandCharacteristicOrOriginalCellRendererComponent,
+      });
   });
 
   it('should create', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   describe('setValue', () => {
@@ -31,9 +28,9 @@ describe('SelectValueOrOriginalCellRendererComponent', () => {
         .spyOn(parseValuesModule, 'parseDemandCharacteristicIfPossible')
         .mockReturnValue('PARSED_VALUE');
 
-      spectator.component['setValue'](mockParams);
+      component['setValue'](mockParams);
 
-      expect(spectator.component['value']).toEqual('');
+      expect(component['value']).toEqual('');
     });
 
     it('should set value correctly when params.value is falsy', () => {
@@ -41,9 +38,9 @@ describe('SelectValueOrOriginalCellRendererComponent', () => {
         value: undefined,
       } as any;
 
-      spectator.component['setValue'](mockParams);
+      component['setValue'](mockParams);
 
-      expect(spectator.component['value']).toBeNull();
+      expect(component['value']).toBeNull();
     });
   });
 });

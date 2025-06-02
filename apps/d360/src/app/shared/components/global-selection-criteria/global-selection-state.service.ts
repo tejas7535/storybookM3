@@ -411,7 +411,7 @@ export class GlobalSelectionStateService {
 
     return resolvedData$.pipe(
       map((data) => {
-        const values: SelectableValue[] = data
+        const values: SelectableValue[] = (data || [])
           .filter((result) => !!result && result.selectableValue)
           .map((result) => result.selectableValue);
 

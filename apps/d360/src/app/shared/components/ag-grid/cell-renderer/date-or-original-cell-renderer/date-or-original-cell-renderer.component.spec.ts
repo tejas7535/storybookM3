@@ -1,28 +1,16 @@
-import {
-  createComponentFactory,
-  Spectator,
-  SpyObject,
-} from '@ngneat/spectator/jest';
-import { ICellRendererParams } from 'ag-grid-enterprise';
-
 import * as parseValues from '../../../../utils/parse-values';
 import { ValidationHelper } from '../../../../utils/validation/validation-helper';
+import { Stub } from './../../../../test/stub.class';
 import { DateOrOriginalCellRendererComponent } from './date-or-original-cell-renderer.component';
 
 describe('DateOrOriginalCellRendererComponent', () => {
-  let spectator: Spectator<DateOrOriginalCellRendererComponent>;
   let component: DateOrOriginalCellRendererComponent;
-  const mockParams = {} as SpyObject<ICellRendererParams>;
-
-  const factory = createComponentFactory({
-    component: DateOrOriginalCellRendererComponent,
-    detectChanges: false,
-    providers: [],
-  });
+  const mockParams = {} as any;
 
   beforeEach(() => {
-    spectator = factory();
-    component = spectator.component;
+    component = Stub.get<DateOrOriginalCellRendererComponent>({
+      component: DateOrOriginalCellRendererComponent,
+    });
   });
 
   describe('setValue', () => {

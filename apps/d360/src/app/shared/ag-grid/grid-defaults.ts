@@ -15,7 +15,7 @@ import { AgGridFilterType } from './grid-types';
 
 export const defaultRowHeight = 42;
 
-const tableDefaultProps: GridOptions = {
+export const tableDefaultProps: GridOptions = {
   stopEditingWhenCellsLoseFocus: true, // no need for manually deselecting the cell before clicking 'save'
   suppressColumnVirtualisation: true, // column virtualization prevents hidden columns to be autosized
   cellSelection: { handle: { mode: 'range' } },

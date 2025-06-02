@@ -6,14 +6,6 @@ import {
   ValidationHelper,
 } from './validation/validation-helper';
 
-export function strictlyParseInteger(value: string): number {
-  if (/^\d+$/.test(value)) {
-    return Number(value);
-  }
-
-  return Number.NaN;
-}
-
 /**
  * Parses a string to a float.
  * @param value The value to parse

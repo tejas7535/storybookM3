@@ -52,7 +52,7 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
       dialogOpenSpy = jest.spyOn(component['dialog'], 'open').mockReturnValue({
         afterClosed: afterClosedSpy,
       } as any);
-      handleCloseSpy = jest.spyOn(component, 'handleClose');
+      handleCloseSpy = jest.spyOn(component as any, 'handleClose');
     });
 
     it('should open the dialog with correct configuration', () => {
@@ -107,7 +107,7 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
         'openSnackBar'
       );
       updateDataSpy = jest.spyOn(component as any, 'updateData');
-      handleCloseSpy = jest.spyOn(component, 'handleClose');
+      handleCloseSpy = jest.spyOn(component as any, 'handleClose');
     });
 
     it('should not proceed if data is null', () => {
@@ -168,7 +168,7 @@ describe('AlertRuleTableRowMenuButtonComponent', () => {
         'openSnackBar'
       );
       updateDataSpy = jest.spyOn(component as any, 'updateData');
-      handleCloseSpy = jest.spyOn(component, 'handleClose');
+      handleCloseSpy = jest.spyOn(component as any, 'handleClose');
     });
 
     it('should not proceed if data is null', () => {

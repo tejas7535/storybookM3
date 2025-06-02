@@ -94,4 +94,107 @@ describe('RegionGuardService', () => {
         done();
       });
   });
+
+  it('should return undefined if allowedRegions is defined but null', (done) => {
+    jest
+      .spyOn(guard['userService'], 'loadRegion')
+      .mockReturnValue(of(Region.Europe));
+
+    guard
+      .canActivate(
+        MockService(ActivatedRouteSnapshot, {
+          routeConfig: { data: { allowedRegions: null } },
+        }),
+        {} as any
+      )
+      .pipe(take(1))
+      .subscribe((value) => {
+        expect(value).toBeUndefined();
+        done();
+      });
+  });
+
+  it('should return undefined if allowedRegions is an empty array', (done) => {
+    jest
+      .spyOn(guard['userService'], 'loadRegion')
+      .mockReturnValue(of(Region.Europe));
+
+    guard
+      .canActivate(
+        MockService(ActivatedRouteSnapshot, {
+          routeConfig: { data: { allowedRegions: [] } },
+        }),
+        {} as any
+      )
+      .pipe(take(1))
+      .subscribe((value) => {
+        expect(value).toBeUndefined();
+        done();
+      });
+  });
+
+  it('should return true if user region is in multiple allowed regions', (done) => {
+    jest
+      .spyOn(guard['userService'], 'loadRegion')
+      .mockReturnValue(of(Region.Americas));
+
+    guard
+      .canActivate(
+        MockService(ActivatedRouteSnapshot, {
+          routeConfig: {
+            data: {
+              allowedRegions: [
+                Region.Europe,
+                Region.Americas,
+                Region.GreaterChina,
+              ],
+            },
+          },
+        }),
+        {} as any
+      )
+      .pipe(take(1))
+      .subscribe((value) => {
+        expect(value).toBe(true);
+        done();
+      });
+  });
+
+  it('should handle error in loadRegion and return forbidden route', (done) => {
+    jest.spyOn(guard['userService'], 'loadRegion').mockReturnValue(of(null));
+
+    guard
+      .canActivate(
+        MockService(ActivatedRouteSnapshot, {
+          routeConfig: { data: { allowedRegions: [Region.Europe] } },
+        }),
+        {} as any
+      )
+      .pipe(take(1))
+      .subscribe((value) => {
+        expect(value).toEqual(
+          guard['router'].parseUrl(AppRoutePath.ForbiddenPage)
+        );
+        done();
+      });
+  });
+
+  it('should handle undefined routeConfig gracefully', (done) => {
+    jest
+      .spyOn(guard['userService'], 'loadRegion')
+      .mockReturnValue(of(Region.Europe));
+
+    guard
+      .canActivate(
+        MockService(ActivatedRouteSnapshot, {
+          routeConfig: undefined,
+        }),
+        {} as any
+      )
+      .pipe(take(1))
+      .subscribe((value) => {
+        expect(value).toBe(true);
+        done();
+      });
+  });
 });

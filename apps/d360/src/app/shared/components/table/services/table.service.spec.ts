@@ -668,7 +668,6 @@ describe('TableService', () => {
           // Should contain 2 default settings + 1 add tab
           expect(response.length).toBe(3);
 
-          // Verify default settings are created correctly
           const defaultSettings = response.filter(
             (setting) => setting.id !== TableService.addId
           );
@@ -689,7 +688,7 @@ describe('TableService', () => {
           expect(defaultSettings[1].title).toBe('Layout 2');
           expect(defaultSettings[1].defaultSetting).toBe(true);
 
-          // Verify add tab is present
+          // Check add tab is present
           const addTab = response.find((tab) => tab.id === TableService.addId);
           expect(addTab).toBeDefined();
           expect(addTab.icons[0].name).toBe(IconType.Add);
@@ -910,7 +909,7 @@ describe('TableService', () => {
               (tab) => tab.defaultSetting && tab.layoutId === 1
             );
 
-            // Verify title was updated to match the column definition
+            // Check title was updated to match the column definition
             expect(defaultSetting.title).toBe('New Layout Title');
             done();
           });
@@ -1397,7 +1396,7 @@ describe('TableService', () => {
         columnSettings as any
       );
 
-      // Verify order property is not present in the result
+      // Check order property is not present in the result
       expect(result[0]).not.toHaveProperty('order');
       expect(result[1]).not.toHaveProperty('order');
     });

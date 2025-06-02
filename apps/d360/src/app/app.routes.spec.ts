@@ -6,7 +6,7 @@ import { LegalRoute } from '@schaeffler/legal-pages';
 import { appRoutes, getAllRoutes } from './app.routes';
 import { AppRoutePath } from './app.routes.enum';
 import { Region } from './feature/global-selection/model';
-import { ProductType } from './shared/components/page/tab-bar-navigation/tab-bar-navigation.component';
+import { ProductType } from './shared/components/tab-bar-navigation/tab-bar-navigation.component';
 import { CanDeactivateGuard } from './shared/utils/auth/can-deactivate-guard.service';
 import { RegionGuard } from './shared/utils/auth/region-guard.service';
 import { RoleGuard } from './shared/utils/auth/role-guard.service';
@@ -94,13 +94,6 @@ describe('appRoutes', () => {
 
   it('should define other routes with correct configuration', () => {
     const otherRoutes = appRoutes.others;
-    expect(otherRoutes).toContainEqual(
-      expect.objectContaining({
-        path: AppRoutePath.TestPage,
-        canActivate: [MsalGuard],
-        loadComponent: expect.any(Function),
-      })
-    );
     expect(otherRoutes).toContainEqual(
       expect.objectContaining({
         path: LegalRoute,

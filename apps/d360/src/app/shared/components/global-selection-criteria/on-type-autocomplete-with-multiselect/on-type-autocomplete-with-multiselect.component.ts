@@ -42,16 +42,11 @@ type ResolveFunction = (
   styleUrls: ['./on-type-autocomplete-with-multiselect.component.scss'],
 })
 export class OnTypeAutocompleteWithMultiselectComponent {
-  public destroyRef: DestroyRef = inject(DestroyRef);
-  public changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
-  /**
-   * The MatDialog Service Instance
-   *
-   * @private
-   * @type {MatDialog}
-   * @memberof OnTypeAutocompleteWithMultiselectComponent
-   */
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
+  private readonly changeDetectorRef: ChangeDetectorRef =
+    inject(ChangeDetectorRef);
   private readonly dialog: MatDialog = inject(MatDialog);
+
   public form: InputSignal<FormGroup> = input.required<FormGroup>();
   public control: InputSignal<FormControl> = input.required<FormControl>();
   public urlBegin: InputSignal<string> = input.required<string>();

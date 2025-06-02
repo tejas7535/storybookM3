@@ -22,11 +22,11 @@ export class TrafficLightTooltipComponent implements ITooltipAngularComp {
     tlMessageV4: string | null;
   }>;
 
-  agInit(params: ITooltipParams): void {
+  public agInit(params: ITooltipParams): void {
     this.params = params;
   }
 
-  get tooltipMessage(): string | null {
+  public get tooltipMessage(): string | null {
     const fallbackMessage = this.params.value;
     const message = messageFromSAP(
       fallbackMessage,

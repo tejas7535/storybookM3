@@ -123,7 +123,6 @@ describe('TextWithDotCellRendererComponent', () => {
     });
 
     it('should handle the onExpand callback correctly', () => {
-      // First setup component with initial state
       const mockNode = {
         group: true,
         expanded: false,
@@ -137,13 +136,10 @@ describe('TextWithDotCellRendererComponent', () => {
       component['setValue'](mockParams);
       expect(component['expanded']()).toBe(false);
 
-      // Now simulate the node expansion change
       mockNode.expanded = true;
 
-      // Call the onExpand handler directly (it's stored during setValue)
       component['onExpand']();
 
-      // Check that the expanded signal was updated
       expect(component['expanded']()).toBe(true);
     });
   });

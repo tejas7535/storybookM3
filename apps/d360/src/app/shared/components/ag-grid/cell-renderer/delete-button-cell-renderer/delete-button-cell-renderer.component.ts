@@ -14,22 +14,22 @@ import { ICellRendererParams } from 'ag-grid-enterprise';
 export class DeleteButtonCellRendererComponent
   implements ICellRendererAngularComp
 {
-  params!: ICellRendererParams & {
+  protected params!: ICellRendererParams & {
     onClickCallback?: (params: ICellRendererParams) => void;
   };
 
-  agInit(params: ICellRendererParams): void {
+  public agInit(params: ICellRendererParams): void {
     this.params = params;
   }
 
   // Return Cell Value
-  refresh(params: ICellRendererParams): boolean {
+  public refresh(params: ICellRendererParams): boolean {
     this.params = params;
 
     return true;
   }
 
-  onDeleteRow() {
+  public onDeleteRow() {
     if (this.params?.onClickCallback) {
       this.params.onClickCallback(this.params);
     }

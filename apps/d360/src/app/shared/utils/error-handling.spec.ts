@@ -342,4 +342,136 @@ describe('errorhandling multi result', () => {
     expect(toWarnStr).toHaveBeenCalledWith(1);
     expect(toErrStr).toHaveBeenCalledWith(2);
   });
+
+  it('handles SAP errors with additional error count', () => {
+    const testResult: PostResult<CMPMaterialPhaseInResponse> = {
+      overallStatus: MessageType.Success,
+      overallErrorMsg: null,
+      response: [
+        {
+          materialNumber: '123456789012345',
+          result: {
+            messageType: MessageType.Error,
+            messageClass: '/SGD/SCM_SOP_SALES',
+            messageNumber: 17,
+            fallbackMessage: 'Fallback Error Message',
+            param1: null,
+            param2: null,
+            param3: null,
+            param4: null,
+          },
+        },
+        {
+          materialNumber: '123456789012346',
+          result: {
+            messageType: MessageType.Error,
+            messageClass: '/SGD/SCM_SOP_SALES',
+            messageNumber: 18,
+            fallbackMessage: 'Another Error Message',
+            param1: null,
+            param2: null,
+            param3: null,
+            param4: null,
+          },
+        },
+      ],
+    };
+
+    const additionalErrorCount = 3;
+    const toast = multiPostResultsToUserMessages(
+      testResult,
+      toSucStr,
+      toErrStr,
+      toWarnStr,
+      additionalErrorCount
+    );
+
+    expect(toast.length).toBe(1);
+    expect(toErrStr).toHaveBeenCalledWith(5); // 2 from response + 3 additional
+    expect(toast[0].variant).toBe('error');
+  });
+
+  it('handles http Error with null overallErrorMsg', () => {
+    const testResult: PostResult<CMPMaterialPhaseInResponse> = {
+      overallStatus: MessageType.Error,
+      overallErrorMsg: null,
+      response: [],
+    };
+
+    const toast = multiPostResultsToUserMessages(
+      testResult,
+      toSucStr,
+      toErrStr,
+      toWarnStr
+    );
+    expect(toast.length).toBe(1);
+    expect(toast[0].variant).toBe('error');
+    expect(toast[0].message).toBe(translate('error.unknown', {}));
+  });
+
+  it('handles multiple warnings only', () => {
+    const testResult: PostResult<CMPMaterialPhaseInResponse> = {
+      overallStatus: MessageType.Success,
+      overallErrorMsg: null,
+      response: [
+        {
+          materialNumber: '123456789012345',
+          result: {
+            messageType: MessageType.Warning,
+            messageClass: '/SGD/SCM_SOP_SALES',
+            messageNumber: 17,
+            fallbackMessage: 'Warning Message 1',
+            param1: null,
+            param2: null,
+            param3: null,
+            param4: null,
+          },
+        },
+        {
+          materialNumber: '123456789012346',
+          result: {
+            messageType: MessageType.Warning,
+            messageClass: '/SGD/SCM_SOP_SALES',
+            messageNumber: 18,
+            fallbackMessage: 'Warning Message 2',
+            param1: null,
+            param2: null,
+            param3: null,
+            param4: null,
+          },
+        },
+      ],
+    };
+
+    const toast = multiPostResultsToUserMessages(
+      testResult,
+      toSucStr,
+      toErrStr,
+      toWarnStr
+    );
+
+    expect(toast.length).toBe(1);
+    expect(toWarnStr).toHaveBeenCalledWith(2);
+    expect(toast[0].variant).toBe('warning');
+  });
+
+  it('handles empty response array', () => {
+    const testResult: PostResult<CMPMaterialPhaseInResponse> = {
+      overallStatus: MessageType.Success,
+      overallErrorMsg: null,
+      response: [],
+    };
+
+    const toast = multiPostResultsToUserMessages(
+      testResult,
+      toSucStr,
+      toErrStr,
+      toWarnStr
+    );
+
+    expect(toast.length).toBe(0);
+    expect(toSucStr).not.toHaveBeenCalled();
+    expect(toWarnStr).not.toHaveBeenCalled();
+    expect(toErrStr).not.toHaveBeenCalled();
+  });
 });

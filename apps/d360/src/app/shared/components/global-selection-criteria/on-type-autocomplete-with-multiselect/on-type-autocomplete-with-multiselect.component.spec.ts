@@ -1,47 +1,100 @@
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
-import { MockComponent } from 'ng-mocks';
+import { of } from 'rxjs';
 
-import { MultiAutocompleteOnTypeComponent } from '../../inputs/autocomplete/multi-autocomplete-on-type/multi-autocomplete-on-type.component';
+import { Stub } from '../../../test/stub.class';
 import { OnTypeAutocompleteWithMultiselectComponent } from './on-type-autocomplete-with-multiselect.component';
 
 describe('OnTypeAutocompleteWithMultiselectComponent', () => {
-  let spectator: Spectator<OnTypeAutocompleteWithMultiselectComponent>;
-
-  const createComponent = createComponentFactory({
-    component: OnTypeAutocompleteWithMultiselectComponent,
-    imports: [MockComponent(MultiAutocompleteOnTypeComponent)],
-    providers: [mockProvider(MatDialog)],
-  });
+  let component: OnTypeAutocompleteWithMultiselectComponent;
+  let dialogSpy: jest.SpyInstance;
+  let dialogRefSpyObj: { afterClosed: jest.Mock };
 
   beforeEach(() => {
-    spectator = createComponent({
-      props: {
-        urlBegin: 'test',
-        resolveFunction: jest.fn(),
-        control: new FormControl(),
-        form: new FormGroup({}),
-        autocompleteLabel: 'test',
-        getOptionLabel: jest.fn(),
-        getOptionLabelInTag: jest.fn(),
-        optionsLoadingResult: {
+    component = Stub.getForEffect<OnTypeAutocompleteWithMultiselectComponent>({
+      component: OnTypeAutocompleteWithMultiselectComponent,
+      providers: [Stub.getMatDialogProvider()],
+    });
+
+    dialogRefSpyObj = { afterClosed: jest.fn().mockReturnValue(of(true)) };
+    dialogSpy = jest
+      .spyOn(component['dialog'], 'open')
+      .mockReturnValue(dialogRefSpyObj as any);
+
+    Stub.setInputs([
+      { property: 'urlBegin', value: 'test' },
+      { property: 'resolveFunction', value: jest.fn() },
+      { property: 'control', value: new FormControl() },
+      { property: 'form', value: new FormGroup({}) },
+      { property: 'autocompleteLabel', value: 'test' },
+      { property: 'getOptionLabel', value: jest.fn() },
+      { property: 'getOptionLabelInTag', value: jest.fn() },
+      {
+        property: 'optionsLoadingResult',
+        value: {
           options: [],
           loading: false,
           loadingError: null,
         },
-        entityName: 'test',
-        entityNamePlural: 'tests',
       },
-    });
+      { property: 'entityName', value: 'test' },
+      { property: 'entityNamePlural', value: 'tests' },
+    ]);
+
+    Stub.detectChanges();
   });
 
   it('should create', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
+  });
+
+  describe('openModal', () => {
+    it('should open dialog with correct parameters', () => {
+      component.openModal();
+
+      expect(dialogSpy).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({
+          data: expect.objectContaining({
+            control: component['control'](),
+            form: component['form'](),
+            searchControl: component['searchFormControl'],
+            autocompleteLabel: component['autocompleteLabel'](),
+            getOptionLabel: component['getOptionLabel'](),
+            getOptionLabelInTag: component['getOptionLabelInTag'](),
+            optionsLoadingResults: component['optionsLoadingResult'](),
+            selectableValuesByKeys: component['resolveFunction'](),
+            entityName: component['entityName'](),
+            entityNamePlural: component['entityNamePlural'](),
+            urlBegin: component['urlBegin'](),
+          }),
+          maxWidth: '600px',
+          autoFocus: false,
+        })
+      );
+    });
+
+    it('should handle dialog closed event', () => {
+      const markForCheckSpy = jest.spyOn(
+        component['changeDetectorRef'],
+        'markForCheck'
+      );
+
+      component.openModal();
+
+      expect(dialogRefSpyObj.afterClosed).toHaveBeenCalled();
+      expect(markForCheckSpy).toHaveBeenCalled();
+    });
+
+    it('should subscribe to afterClosed observable', () => {
+      const afterClosedSpy = jest.fn().mockReturnValue(of(true));
+      jest.spyOn(component['dialog'], 'open').mockReturnValue({
+        afterClosed: afterClosedSpy,
+      } as any);
+
+      component.openModal();
+
+      expect(afterClosedSpy).toHaveBeenCalled();
+    });
   });
 });

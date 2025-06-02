@@ -40,7 +40,7 @@ import { DeleteButtonCellRendererComponent } from '../ag-grid/cell-renderer/dele
 import {
   buildValidationProps,
   rowIsEmpty,
-} from '../ag-grid/validatation-functions';
+} from '../ag-grid/validation-functions';
 import { ColumnForUploadTable } from './models';
 
 /**

@@ -16,7 +16,7 @@ import {
   ValueProvider,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import {
   MAT_DIALOG_DATA,
@@ -134,18 +134,45 @@ export class Stub {
       {
         getResultCount: () => of(0),
         getCustomersData: () => of([]),
+        resolveAlertTypes: jest.fn(),
+        resolveCustomerNumbers: jest.fn(),
+        resolveGkamNumber: jest.fn(),
+        resolveFor2Characters: jest.fn(),
+        resolveMaterialNumbers: jest.fn(),
+        resolveProductionPlants: jest.fn(),
+        resolveProductionSegment: jest.fn(),
+        resolveForText: jest.fn(),
+        resolveSalesOrg: jest.fn(),
+        resolveSectors: jest.fn(),
       },
       'useValue'
     ),
     MockProvider(
       GlobalSelectionStateService,
       {
-        form: jest.fn().mockReturnValue(new FormGroup({})),
+        form: signal(
+          new FormGroup({
+            region: new FormControl([]),
+            salesArea: new FormControl([]),
+            sectorManagement: new FormControl([]),
+            salesOrg: new FormControl([]),
+            gkamNumber: new FormControl([]),
+            customerNumber: new FormControl([]),
+            materialClassification: new FormControl([]),
+            sector: new FormControl([]),
+            materialNumber: new FormControl([]),
+            productionPlant: new FormControl([]),
+            productionSegment: new FormControl([]),
+            alertType: new FormControl([]),
+          })
+        ),
         getState: jest.fn().mockReturnValue({}),
         getGlobalSelectionStatus: jest.fn().mockReturnValue(''),
         navigateWithGlobalSelection: jest.fn().mockReturnValue(of(true)),
         handleQueryParams$: jest.fn().mockReturnValue(of(true)),
         isEmpty: jest.fn().mockReturnValue(true),
+        resetState: jest.fn(),
+        saveState: jest.fn(),
       },
       'useValue'
     ),
@@ -257,6 +284,16 @@ export class Stub {
     return this.fixture;
   }
 
+  public static inject<T = any>(element: ProviderToken<T>): T {
+    if (!this.fixture) {
+      throw new Error(
+        '[Stub] No fixture available, did you used stub.get() instead of Stub.getWithEffect()?'
+      );
+    }
+
+    return TestBed.inject(element);
+  }
+
   public static initValidationHelper(): void {
     ValidationHelper.localeService = MockService(TranslocoLocaleService, {
       getLocale: () => 'en-US',
@@ -275,20 +312,25 @@ export class Stub {
       collapseAll: jest.fn(),
       deselectAll: jest.fn(),
       expandAll: jest.fn(),
+      forEachNode: jest.fn(),
       getColumnDefs: jest.fn(),
       getColumnState: jest.fn(),
+      getDisplayedRowAtIndex: jest.fn(),
       getDisplayedRowCount: jest.fn(),
       getFilterModel: jest.fn(),
+      getFocusedCell: jest.fn(),
       getSelectedRows: jest.fn(),
       hideOverlay: jest.fn(),
       isDestroyed: jest.fn(),
       onFilterChanged: jest.fn(),
       redrawRows: jest.fn(),
+      refreshHeader: jest.fn(),
       refreshServerSide: jest.fn(),
       setColumnDefs: jest.fn(),
       setFilterModel: jest.fn(),
       setGridOption: jest.fn(),
       showNoRowsOverlay: jest.fn(),
+      sizeColumnsToFit: jest.fn(),
     } as any;
   }
 
@@ -376,7 +418,10 @@ export class Stub {
   public static getStoreProvider(returnValue?: any): ValueProvider {
     return MockProvider(
       Store,
-      { select: jest.fn().mockReturnValue(of(returnValue ?? [])) },
+      {
+        select: jest.fn().mockReturnValue(of(returnValue ?? [])),
+        pipe: jest.fn(),
+      },
       'useValue'
     );
   }

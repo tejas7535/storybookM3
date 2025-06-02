@@ -26,6 +26,6 @@ export class HeaderActionBarComponent {
   protected projectedContent: QueryList<ProjectedContendDirective>;
 
   protected get shouldRenderDivider(): boolean {
-    return this.projectedContent && this.projectedContent.length === 2;
+    return !!this.projectedContent && this.projectedContent.length === 2;
   }
 }

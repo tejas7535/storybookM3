@@ -785,7 +785,6 @@ describe('AbstractTableComponent', () => {
     });
 
     it('should configure toolPanels for default tab when sideBar is undefined', () => {
-      // Mock getSideBar to return toolPanels
       jest.spyOn(component as any, 'getSideBar').mockReturnValue({
         toolPanels: [
           { id: 'columns', labelDefault: 'Columns' },
@@ -793,7 +792,6 @@ describe('AbstractTableComponent', () => {
         ],
       });
 
-      // Configure component.config to return undefined sideBar
       Stub.setInput('config', {
         table: {
           sideBar: undefined,
@@ -807,10 +805,8 @@ describe('AbstractTableComponent', () => {
         'setGridOption'
       );
 
-      // Call the method with isDefaultTab = true
       (component as any).applyGridOptions(true);
 
-      // Verify toolPanels were configured correctly
       expect(setGridOptionSpy).toHaveBeenCalledWith('sideBar', {
         toolPanels: [
           {
@@ -825,7 +821,6 @@ describe('AbstractTableComponent', () => {
     });
 
     it('should configure toolPanels for custom tab when sideBar is undefined', () => {
-      // Mock getSideBar to return toolPanels
       jest.spyOn(component as any, 'getSideBar').mockReturnValue({
         toolPanels: [
           { id: 'columns', labelDefault: 'Columns' },
@@ -833,7 +828,6 @@ describe('AbstractTableComponent', () => {
         ],
       });
 
-      // Configure component.config to return undefined sideBar
       Stub.setInput('config', {
         table: {
           sideBar: undefined,
@@ -847,10 +841,8 @@ describe('AbstractTableComponent', () => {
         'setGridOption'
       );
 
-      // Call the method with isDefaultTab = false
       (component as any).applyGridOptions(false);
 
-      // Verify toolPanels were configured correctly
       expect(setGridOptionSpy).toHaveBeenCalledWith('sideBar', {
         toolPanels: [
           {
@@ -877,7 +869,6 @@ describe('AbstractTableComponent', () => {
     });
 
     it('should remove column panel for default tab when custom sideBar is provided', () => {
-      // Mock getSideBar to return custom toolPanels
       const customSideBar = {
         toolPanels: [
           { id: 'columns', labelDefault: 'Custom Columns' },
@@ -888,7 +879,6 @@ describe('AbstractTableComponent', () => {
 
       jest.spyOn(component as any, 'getSideBar').mockReturnValue(customSideBar);
 
-      // Configure component.config to return custom sideBar
       Stub.setInput('config', {
         table: {
           sideBar: customSideBar,
@@ -902,10 +892,8 @@ describe('AbstractTableComponent', () => {
         'setGridOption'
       );
 
-      // Call the method with isDefaultTab = true
       (component as any).applyGridOptions(true);
 
-      // Verify column panel was removed
       const expectedToolPanels = [...customSideBar.toolPanels];
       expectedToolPanels.splice(0, 1); // Remove columns panel
 
@@ -915,7 +903,6 @@ describe('AbstractTableComponent', () => {
     });
 
     it('should set suppressMovable and mainMenuItems for columns in default tab', () => {
-      // Mock getColumnDefs to return some columns
       const mockColumns = [
         { colId: 'col1', field: 'col1' },
         { colId: 'col2', field: 'col2', filter: 'any-ag-filter' },
@@ -925,7 +912,6 @@ describe('AbstractTableComponent', () => {
         .spyOn(component['gridApi'], 'getColumnDefs')
         .mockReturnValue(mockColumns);
 
-      // Mock hasFilters to return true
       jest.spyOn(component as any, 'hasFilters').mockReturnValue(true);
 
       const setGridOptionSpy = jest.spyOn(
@@ -933,10 +919,8 @@ describe('AbstractTableComponent', () => {
         'setGridOption'
       );
 
-      // Call the method with isDefaultTab = true
       (component as any).applyGridOptions(true);
 
-      // Verify columnDefs were configured correctly
       expect(setGridOptionSpy).toHaveBeenCalledWith('columnDefs', [
         {
           colId: 'col1',
@@ -969,7 +953,6 @@ describe('AbstractTableComponent', () => {
     });
 
     it('should set suppressMovable to false and mainMenuItems to null for non-default tab', () => {
-      // Mock getColumnDefs to return some columns
       const mockColumns = [
         { colId: 'col1', field: 'col1' },
         { colId: 'col2', field: 'col2' },
@@ -984,10 +967,8 @@ describe('AbstractTableComponent', () => {
         'setGridOption'
       );
 
-      // Call the method with isDefaultTab = false
       (component as any).applyGridOptions(false);
 
-      // Verify columnDefs were configured correctly
       expect(setGridOptionSpy).toHaveBeenCalledWith('columnDefs', [
         {
           colId: 'col1',

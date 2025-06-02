@@ -45,7 +45,7 @@ import { appRoutes, getAllRoutes } from './app.routes';
 import { AppRoutePath } from './app.routes.enum';
 import { AlertService } from './feature/alerts/alert.service';
 import { GlobalSelectionStateService } from './shared/components/global-selection-criteria/global-selection-state.service';
-import { TabBarNavigationComponent } from './shared/components/page/tab-bar-navigation/tab-bar-navigation.component';
+import { TabBarNavigationComponent } from './shared/components/tab-bar-navigation/tab-bar-navigation.component';
 import { UserSettingsComponent } from './shared/components/user-settings/user-settings.component';
 import {
   DATE_FNS_LOOKUP,

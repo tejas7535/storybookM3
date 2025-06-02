@@ -17,7 +17,6 @@ describe('ChangeHistoryService', () => {
 
   describe('getChangeHistory', () => {
     it('should call HttpClient.post with the correct URL and payload', (done) => {
-      // Arrange
       const mockParams = {
         startRow: 0,
         endRow: 10,
@@ -29,11 +28,9 @@ describe('ChangeHistoryService', () => {
 
       jest.spyOn(httpClient, 'post').mockReturnValue(of(mockResponse));
 
-      // Act
       service
         .getChangeHistory(mockParams, mockSelectionFilters)
         .subscribe((response) => {
-          // Assert
           expect(httpClient.post).toHaveBeenCalledWith(
             '/api/sales-planning/detailed-customer-sales-plan/change-history',
             {
@@ -50,7 +47,6 @@ describe('ChangeHistoryService', () => {
     });
 
     it('should handle empty parameters gracefully', (done) => {
-      // Arrange
       const mockParams = {
         startRow: undefined,
         endRow: undefined,
@@ -62,11 +58,9 @@ describe('ChangeHistoryService', () => {
 
       jest.spyOn(httpClient, 'post').mockReturnValue(of(mockResponse));
 
-      // Act
       service
         .getChangeHistory(mockParams as any, mockSelectionFilters)
         .subscribe((response) => {
-          // Assert
           expect(httpClient.post).toHaveBeenCalledWith(
             '/api/sales-planning/detailed-customer-sales-plan/change-history',
             {
@@ -83,7 +77,6 @@ describe('ChangeHistoryService', () => {
     });
 
     it('should return the response from HttpClient.post', (done) => {
-      // Arrange
       const mockParams = {
         startRow: 0,
         endRow: 10,
@@ -98,11 +91,9 @@ describe('ChangeHistoryService', () => {
 
       jest.spyOn(httpClient, 'post').mockReturnValue(of(mockResponse));
 
-      // Act
       service
         .getChangeHistory(mockParams, mockSelectionFilters)
         .subscribe((response) => {
-          // Assert
           expect(response).toEqual(mockResponse);
           done();
         });

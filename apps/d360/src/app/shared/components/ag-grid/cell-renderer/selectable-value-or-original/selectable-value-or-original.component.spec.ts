@@ -1,25 +1,21 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ICellRendererParams } from 'ag-grid-enterprise';
 
+import { Stub } from '../../../../test/stub.class';
 import * as selectableValuesUtilsModule from '../../../inputs/autocomplete/selectable-values.utils';
 import * as displayFunctionsModule from '../../../inputs/display-functions.utils';
 import { SelectableValueOrOriginalCellRendererComponent } from './selectable-value-or-original.component';
 
 describe('SelectableValueOrOriginalCellRendererComponent', () => {
-  let spectator: Spectator<SelectableValueOrOriginalCellRendererComponent>;
-
-  const createComponent = createComponentFactory({
-    component: SelectableValueOrOriginalCellRendererComponent,
-    imports: [],
-    providers: [],
-  });
+  let component: SelectableValueOrOriginalCellRendererComponent;
 
   beforeEach(() => {
-    spectator = createComponent();
+    component = Stub.get<SelectableValueOrOriginalCellRendererComponent>({
+      component: SelectableValueOrOriginalCellRendererComponent,
+    });
   });
 
   it('should create', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   describe('setValue', () => {
@@ -32,9 +28,9 @@ describe('SelectableValueOrOriginalCellRendererComponent', () => {
         options: [{ id: '1', text: 'Option 1' }],
       } as any;
 
-      spectator.component['setValue'](mockParams);
+      component['setValue'](mockParams);
 
-      expect(spectator.component['value']).toEqual('1 - Option 1');
+      expect(component['value']).toEqual('1 - Option 1');
     });
 
     it('should set value correctly when foundValue does not exist but params.value is SelectableValue', () => {
@@ -55,9 +51,9 @@ describe('SelectableValueOrOriginalCellRendererComponent', () => {
         )
         .mockReturnValue(true);
 
-      spectator.component['setValue'](mockParams as any);
+      component['setValue'](mockParams as any);
 
-      expect(spectator.component['value']).toEqual('1 - Option 1');
+      expect(component['value']).toEqual('1 - Option 1');
     });
 
     it('should set value correctly when foundValue does not exist and params.value is not SelectableValue', () => {
@@ -72,9 +68,9 @@ describe('SelectableValueOrOriginalCellRendererComponent', () => {
         .spyOn(displayFunctionsModule.DisplayFunctions, 'displayFnId')
         .mockReturnValue('DISPLAYED_VALUE');
 
-      spectator.component['setValue'](mockParams as any);
+      component['setValue'](mockParams as any);
 
-      expect(spectator.component['value']).toEqual('DISPLAYED_VALUE');
+      expect(component['value']).toEqual('DISPLAYED_VALUE');
     });
 
     it.each([
@@ -95,9 +91,9 @@ describe('SelectableValueOrOriginalCellRendererComponent', () => {
           options,
         } as any;
 
-        spectator.component['setValue'](mockParams);
+        component['setValue'](mockParams);
 
-        expect(spectator.component['value']).toBe('');
+        expect(component['value']).toBe('');
       }
     );
   });

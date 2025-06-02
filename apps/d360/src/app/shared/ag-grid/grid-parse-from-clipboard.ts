@@ -1,6 +1,6 @@
 import { Column, GridApi, IRowNode } from 'ag-grid-enterprise';
 
-import { rowIsEmpty } from '../components/ag-grid/validatation-functions';
+import { rowIsEmpty } from '../components/ag-grid/validation-functions';
 
 export function gridParseFromClipboard(
   gridApi: GridApi,
@@ -38,7 +38,7 @@ export function gridParseFromClipboard(
       }
 
       rowData.forEach((cellDataToAdd) => {
-        const fieldName = currentEditingColumn.getColDef().field ?? '';
+        const fieldName = currentEditingColumn?.getColDef().field ?? '';
         if (!currentEditingColumn || !fieldName) {
           return;
         }

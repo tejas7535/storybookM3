@@ -1,17 +1,11 @@
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-
+import { Stub } from '../../test/stub.class';
 import { ValidationHelper } from './validation-helper';
 
 describe('ValidationHelper', () => {
-  let spectator: SpectatorService<TranslocoLocaleService>;
-  const createService = createServiceFactory(TranslocoLocaleService);
-
   beforeEach(() => {
-    spectator = createService();
-    ValidationHelper.localeService = spectator.service;
+    Stub.initValidationHelper();
   });
 
   it('should define the availableDecimalSeparators constant', () => {
@@ -20,7 +14,9 @@ describe('ValidationHelper', () => {
 
   describe('getDecimalSeparatorForActiveLocale', () => {
     it('should return COMMA for locales with comma as decimal separator', () => {
-      jest.spyOn(spectator.service, 'localizeNumber').mockReturnValue('1,5');
+      jest
+        .spyOn(ValidationHelper.localeService, 'localizeNumber')
+        .mockReturnValue('1,5');
 
       expect(ValidationHelper.getDecimalSeparatorForActiveLocale()).toEqual(
         'PERIOD'
@@ -28,7 +24,9 @@ describe('ValidationHelper', () => {
     });
 
     it('should return PERIOD for locales with period as decimal separator', () => {
-      jest.spyOn(spectator.service, 'localizeNumber').mockReturnValue('1.5');
+      jest
+        .spyOn(ValidationHelper.localeService, 'localizeNumber')
+        .mockReturnValue('1.5');
 
       expect(ValidationHelper.getDecimalSeparatorForActiveLocale()).toEqual(
         'COMMA'
@@ -112,7 +110,7 @@ describe('ValidationHelper', () => {
   describe('getDateFormat', () => {
     it('should return the correct date format for the active locale', () => {
       jest
-        .spyOn(spectator.service, 'localizeDate')
+        .spyOn(ValidationHelper.localeService, 'localizeDate')
         .mockReturnValue('23.11.2024');
       expect(ValidationHelper.getDateFormat()).toEqual('dd.MM.yyyy');
     });
@@ -153,6 +151,10 @@ describe('ValidationHelper', () => {
     it('should return error message for valid date format input but less than today', () => {
       jest.spyOn(ValidationHelper, 'validateDateFormat').mockReturnValue(null);
       jest.mock('date-fns', () => ({ isMatch: jest.fn(() => true) }));
+
+      jest
+        .spyOn(ValidationHelper, 'getDateFormat')
+        .mockReturnValue('dd-yyyy-MM');
 
       const result =
         ValidationHelper.validateDateFormatAndGreaterEqualThanToday(
@@ -335,6 +337,159 @@ describe('ValidationHelper', () => {
       );
 
       expect(result).toBeNull();
+    });
+
+    it('should preserve other errors when clearing totalExceedsLimit error', () => {
+      const formGroup = new FormGroup({
+        key1: new FormControl(30),
+        key2: new FormControl(20),
+      });
+
+      // Set initial mixed errors
+      formGroup.get('key1').setErrors({
+        totalExceedsLimit: true,
+        required: true,
+      });
+
+      ValidationHelper.getCrossTotalExceedsLimit(
+        formGroup,
+        ['key1', 'key2'],
+        100
+      );
+
+      // Should keep the required error but remove totalExceedsLimit
+      expect(formGroup.get('key1').errors).toEqual({ required: true });
+    });
+  });
+
+  describe('condenseErrorsFromValidation', () => {
+    it('should return a function that joins error messages with commas', () => {
+      const mockValidator = () => ['Error1', 'Error2'];
+      const condenseFn =
+        ValidationHelper.condenseErrorsFromValidation(mockValidator);
+
+      expect(typeof condenseFn).toBe('function');
+      expect(condenseFn('test')).toEqual('Error1, Error2');
+    });
+
+    it('should return undefined when validator returns null', () => {
+      const mockValidator = () => null as any;
+      const condenseFn =
+        ValidationHelper.condenseErrorsFromValidation(mockValidator);
+
+      expect(condenseFn('test')).toBeUndefined();
+    });
+
+    it('should handle empty array of errors', () => {
+      const mockValidator = () => [] as any;
+      const condenseFn =
+        ValidationHelper.condenseErrorsFromValidation(mockValidator);
+
+      expect(condenseFn('test')).toEqual('');
+    });
+  });
+
+  describe('fillZeroOnValueFunc', () => {
+    it('should fill string with leading zeros to target length', () => {
+      expect(ValidationHelper.fillZeroOnValueFunc(5, '123')).toEqual('00123');
+    });
+
+    it('should not add zeros when string is already at target length', () => {
+      expect(ValidationHelper.fillZeroOnValueFunc(3, '123')).toEqual('123');
+    });
+
+    it('should not truncate string longer than target length', () => {
+      expect(ValidationHelper.fillZeroOnValueFunc(3, '12345')).toEqual('12345');
+    });
+
+    it('should handle empty string', () => {
+      expect(ValidationHelper.fillZeroOnValueFunc(3, '')).toEqual('000');
+    });
+  });
+
+  describe('validateForLocalFloat with additional test cases', () => {
+    it('should validate number with thousands separators for PERIOD format', () => {
+      const result = ValidationHelper.validateForLocalFloat(
+        '1,234.56',
+        'PERIOD'
+      );
+      expect(result).toBeNull();
+    });
+
+    it('should validate number with thousands separators for COMMA format', () => {
+      const result = ValidationHelper.validateForLocalFloat(
+        '1.234,56',
+        'COMMA'
+      );
+      expect(result).toBeNull();
+    });
+
+    it('should reject invalid format with wrong separators for PERIOD', () => {
+      const result = ValidationHelper.validateForLocalFloat(
+        '1.234,56',
+        'PERIOD'
+      );
+      expect(result).toEqual('error.numbers.PERIOD');
+    });
+
+    it('should reject invalid format with wrong separators for COMMA', () => {
+      const result = ValidationHelper.validateForLocalFloat(
+        '1,234.56',
+        'COMMA'
+      );
+      expect(result).toEqual('error.numbers.COMMA');
+    });
+
+    it('should reject string with letters for any format', () => {
+      expect(
+        ValidationHelper.validateForLocalFloat('123abc', 'PERIOD')
+      ).toEqual('error.numbers.PERIOD');
+      expect(ValidationHelper.validateForLocalFloat('123abc', 'COMMA')).toEqual(
+        'error.numbers.COMMA'
+      );
+    });
+
+    it('should reject negative numbers for any format', () => {
+      expect(
+        ValidationHelper.validateForLocalFloat('-123.45', 'PERIOD')
+      ).toEqual('error.numbers.PERIOD');
+      expect(
+        ValidationHelper.validateForLocalFloat('-123,45', 'COMMA')
+      ).toEqual('error.numbers.COMMA');
+    });
+  });
+
+  describe('getStartEndDateValidationErrors with custom field names', () => {
+    it('should work with custom control names', () => {
+      const formGroup = new FormGroup({
+        fromDate: new FormControl(new Date('2024-01-01')),
+        endDate: new FormControl(new Date('2023-12-31')),
+      });
+
+      const result = ValidationHelper.getStartEndDateValidationErrors(
+        formGroup,
+        false,
+        'fromDate',
+        'endDate'
+      );
+
+      expect(result).toEqual({ endDate: ['end-before-start'] });
+      expect(formGroup.get('endDate').errors).toHaveProperty(
+        'toDateAfterFromDate'
+      );
+    });
+
+    it('should mark fields as touched when touchFields is true', () => {
+      const formGroup = new FormGroup({
+        startDate: new FormControl(new Date('2023-01-01')),
+        endDate: new FormControl(new Date('2023-12-31')),
+      });
+
+      const touchSpy = jest.spyOn(formGroup, 'markAllAsTouched');
+
+      ValidationHelper.getStartEndDateValidationErrors(formGroup, true);
+
+      expect(touchSpy).toHaveBeenCalled();
     });
   });
 });

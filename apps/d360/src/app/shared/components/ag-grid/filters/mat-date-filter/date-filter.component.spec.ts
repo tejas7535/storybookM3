@@ -1,50 +1,41 @@
 import { FormControl } from '@angular/forms';
 
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import {
-  createComponentFactory,
-  createServiceFactory,
-  Spectator,
-  SpectatorService,
-} from '@ngneat/spectator/jest';
-import type { IDateParams } from 'ag-grid-enterprise';
+import { IDateParams } from 'ag-grid-enterprise';
 
-import { ValidationHelper } from '../../../../utils/validation/validation-helper';
+import { Stub } from '../../../../test/stub.class';
 import { DateFilterComponent } from './date-filter.component';
 
 describe('DateFilterComponent', () => {
-  let spectator: Spectator<DateFilterComponent>;
-  let spectator2: SpectatorService<TranslocoLocaleService>;
-
-  const createService = createServiceFactory(TranslocoLocaleService);
-  const createComponent = createComponentFactory({
-    component: DateFilterComponent,
-  });
+  let component: DateFilterComponent;
 
   beforeEach(() => {
-    spectator2 = createService();
-    ValidationHelper.localeService = spectator2.service;
-    spectator = createComponent();
+    component = Stub.getForEffect<DateFilterComponent>({
+      component: DateFilterComponent,
+    });
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
   describe('agInit', () => {
     it('should initialize the params', () => {
       const mockParams: IDateParams = { onDateChanged: jest.fn() } as any;
 
-      spectator.component.agInit(mockParams);
+      component.agInit(mockParams);
 
-      expect(spectator.component['params']).toEqual(mockParams);
+      expect(component['params']).toEqual(mockParams);
     });
   });
 
   describe('onDateChanged', () => {
     it('should call the onDateChanged method from params', () => {
       const mockOnDateChanged = jest.fn();
-      spectator.component['params'] = {
+      component['params'] = {
         onDateChanged: mockOnDateChanged,
       } as any;
 
-      spectator.component.onDateChanged();
+      component.onDateChanged();
 
       expect(mockOnDateChanged).toHaveBeenCalledTimes(1);
     });
@@ -52,11 +43,11 @@ describe('DateFilterComponent', () => {
 
   describe('getDate', () => {
     it('should return the control value', () => {
-      spectator.component['control'] = new FormControl(null);
+      component['control'] = new FormControl(null);
       const mockDate = new Date();
-      spectator.component['control'].setValue(mockDate);
+      component['control'].setValue(mockDate);
 
-      const result = spectator.component.getDate();
+      const result = component.getDate();
 
       expect(result).toEqual(mockDate);
     });
@@ -64,36 +55,56 @@ describe('DateFilterComponent', () => {
 
   describe('setDate', () => {
     it('should set the control value', () => {
-      spectator.component['control'] = new FormControl(null);
+      component['control'] = new FormControl(null);
       const mockDate = new Date();
 
-      spectator.component.setDate(mockDate);
+      component.setDate(mockDate);
 
-      expect(spectator.component['control'].getRawValue()).toEqual(mockDate);
+      expect(component['control'].getRawValue()).toEqual(mockDate);
+    });
+
+    it('should set the control value to null when date is falsy', () => {
+      component['control'] = new FormControl(new Date());
+
+      component.setDate(null);
+
+      expect(component['control'].getRawValue()).toBeNull();
     });
   });
 
   describe('setInputPlaceholder', () => {
-    it('should set the input placeholder attribute', () => {
-      const mockFormat = 'mm/dd/yyyy';
-      jest.spyOn(ValidationHelper, 'getDateFormat').mockReturnValue(mockFormat);
+    it('should set the placeholder attribute on the native element', () => {
+      // Mock the mdcInput element reference
+      const mockNativeElement = { setAttribute: jest.fn() };
+      (component as any)['mdcInput'] = jest
+        .fn()
+        .mockReturnValue({ nativeElement: mockNativeElement });
+      component['placeholder'] = 'test-placeholder';
 
-      spectator.component.setInputPlaceholder();
+      component.setInputPlaceholder();
 
-      expect(spectator.query('input')).toHaveAttribute(
+      expect(mockNativeElement.setAttribute).toHaveBeenCalledWith(
         'placeholder',
-        mockFormat
+        'test-placeholder'
       );
     });
   });
 
   describe('setInputAriaLabel', () => {
-    it('should set the input aria-label attribute', () => {
-      const mockLabel = 'Date Label';
+    it('should set the aria-label attribute on the native element', () => {
+      // Mock the mdcInput element reference
+      const mockNativeElement = { setAttribute: jest.fn() };
+      (component as any)['mdcInput'] = jest
+        .fn()
+        .mockReturnValue({ nativeElement: mockNativeElement });
+      const testLabel = 'test-aria-label';
 
-      spectator.component.setInputAriaLabel(mockLabel);
+      component.setInputAriaLabel(testLabel);
 
-      expect(spectator.query('input')).toHaveAttribute('aria-label', mockLabel);
+      expect(mockNativeElement.setAttribute).toHaveBeenCalledWith(
+        'aria-label',
+        testLabel
+      );
     });
   });
 });

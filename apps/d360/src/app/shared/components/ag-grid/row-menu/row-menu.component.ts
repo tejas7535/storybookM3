@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  input,
+  InputSignal,
+  output,
+  OutputEmitterRef,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -10,33 +16,31 @@ import { ICellRendererParams } from 'ag-grid-enterprise';
   selector: 'd360-row-menu',
   imports: [MatMenuModule, MatButtonModule, MatIconModule],
   templateUrl: './row-menu.component.html',
-  styleUrls: ['./row-menu.component.css'],
+  styleUrls: ['./row-menu.component.scss'],
 })
 export class RowMenuComponent<PARAM_INTERFACE>
   implements ICellRendererAngularComp
 {
-  anchroEl!: HTMLButtonElement;
-  @Input({ required: true }) open!: boolean;
-  @Output() openChange = new EventEmitter<boolean>();
+  public open: InputSignal<boolean> = input.required<boolean>();
+  public openChange: OutputEmitterRef<boolean> = output<boolean>();
+
   protected params: ICellRendererParams;
   protected data: PARAM_INTERFACE;
 
-  handleOpen(event: MouseEvent) {
-    this.anchroEl = event.currentTarget as HTMLButtonElement;
+  protected handleOpen(): void {
     this.openChange.emit(true);
   }
 
-  handleClose() {
-    this.anchroEl = null;
+  protected handleClose(): void {
     this.openChange.emit(false);
   }
 
-  agInit(params: ICellRendererParams<PARAM_INTERFACE>): void {
+  public agInit(params: ICellRendererParams<PARAM_INTERFACE>): void {
     this.data = params.data as PARAM_INTERFACE;
     this.params = params;
   }
 
-  refresh(_: ICellRendererParams): boolean {
+  public refresh(_: ICellRendererParams): boolean {
     return false;
   }
 

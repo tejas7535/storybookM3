@@ -1,49 +1,23 @@
-import { CommonModule } from '@angular/common';
 import { signal } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { FormControl } from '@angular/forms';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
 import { provideDateFnsAdapter } from '@angular/material-date-fns-adapter';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
-
+import { Stub } from '../../test/stub.class';
 import { DatePickerComponent } from './date-picker.component';
 
 describe('DatePickerComponent', () => {
   let component: DatePickerComponent;
-  let spectator: Spectator<DatePickerComponent>;
-
-  const createComponent = createComponentFactory({
-    component: DatePickerComponent,
-    imports: [
-      DatePickerComponent,
-      CommonModule,
-      MatButtonModule,
-      MatInputModule,
-      MatDatepickerModule,
-      ReactiveFormsModule,
-      BrowserAnimationsModule,
-    ],
-    providers: [
-      { provide: MAT_DATE_LOCALE, useValue: 'de-DE' },
-      provideDateFnsAdapter(),
-      mockProvider(TranslocoLocaleService, {
-        getLocale: () => 'DE-de',
-      }),
-    ],
-  });
 
   beforeEach(() => {
-    spectator = createComponent();
-    component = spectator.component;
+    component = Stub.getForEffect<DatePickerComponent>({
+      component: DatePickerComponent,
+      providers: [
+        { provide: MAT_DATE_LOCALE, useValue: 'de-DE' },
+        provideDateFnsAdapter(),
+        Stub.getTranslocoLocaleServiceProvider(),
+      ],
+    });
   });
 
   it('should create', () => {
@@ -57,12 +31,68 @@ describe('DatePickerComponent', () => {
     component['errorMessage'] = signal('Invalid date') as any;
     component['control'] = signal(new FormControl()) as any;
 
-    spectator.detectChanges();
+    Stub.detectChanges();
 
     expect(component['label']()).toEqual('Select Date');
     expect(component['appearance']()).toEqual('fill');
     expect(component['hint']()).toEqual('Select a date');
     expect(component['errorMessage']()).toEqual('Invalid date');
     expect(component['control']()).toBeInstanceOf(FormControl);
+  });
+
+  it('should have correct minDate and maxDate inputs', () => {
+    const minDate = new Date('2023-01-01T00:00:00');
+    const maxDate = new Date('2023-12-31T23:59:59');
+
+    component['minDate'] = signal(minDate) as any;
+    component['maxDate'] = signal(maxDate) as any;
+
+    Stub.detectChanges();
+
+    expect(component['minDate']()).toEqual(minDate);
+    expect(component['maxDate']()).toEqual(maxDate);
+  });
+
+  describe('ngOnInit', () => {
+    it('should convert string value to Date object', () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date(2023, 10, 26));
+      const control = new FormControl('2023-10-26');
+      component['control'] = signal(control) as any;
+
+      component.ngOnInit();
+
+      expect(control.value).toBeInstanceOf(Date);
+      expect(control.value).toEqual(new Date('2023-10-26T00:00:00.000Z'));
+      jest.useRealTimers();
+    });
+
+    it('should not convert if value is already a Date object', () => {
+      const initialDate = new Date();
+      const control = new FormControl(initialDate);
+      component['control'] = signal(control) as any;
+
+      component.ngOnInit();
+
+      expect(control.value).toBe(initialDate);
+    });
+
+    it('should not convert if value is null', () => {
+      const control = new FormControl(null);
+      component['control'] = signal(control) as any;
+
+      component.ngOnInit();
+
+      expect(control.value).toBeNull();
+    });
+
+    it('should not convert if value is undefined', () => {
+      const control = new FormControl(undefined);
+      component['control'] = signal(control) as any;
+
+      component.ngOnInit();
+
+      expect(control.value).toBeNull();
+    });
   });
 });

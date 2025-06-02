@@ -74,7 +74,7 @@ export class CustomerMaterialNumberCellRendererComponent
   }
 
   protected openDialog(): void {
-    if (this.customerMaterialNumbers.length === 0) {
+    if (this.customerMaterialNumbers().length === 0) {
       this.fetchAllCustomerMaterialNumbers().subscribe();
     }
 

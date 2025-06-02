@@ -86,6 +86,75 @@ describe('DataValidations', () => {
     });
   });
 
+  describe('isEqual with edge cases', () => {
+    it('should handle undefined values correctly', () => {
+      expect(isEqual(undefined as any, undefined as any)).toBe(true);
+      expect(isEqual(undefined, null)).toBe(false);
+      expect(isEqual(1, undefined as any)).toBe(false);
+    });
+
+    it('should handle null values correctly', () => {
+      expect(isEqual(null, null)).toBe(true);
+      expect(isEqual(null, undefined as any)).toBe(false);
+      expect(isEqual(0, null)).toBe(false);
+    });
+
+    it('should correctly compare nested arrays', () => {
+      expect(
+        isEqual(
+          [
+            [1, 2],
+            [3, 4],
+          ],
+          [
+            [1, 2],
+            [3, 4],
+          ]
+        )
+      ).toBe(true);
+      expect(
+        isEqual(
+          [
+            [1, 2],
+            [3, 4],
+          ],
+          [
+            [1, 2],
+            [3, 5],
+          ]
+        )
+      ).toBe(false);
+      expect(
+        isEqual(
+          [
+            [1, 2],
+            [3, 4],
+          ],
+          [
+            [3, 4],
+            [1, 2],
+          ]
+        )
+      ).toBe(false);
+    });
+
+    it('should correctly compare objects containing arrays', () => {
+      expect(isEqual({ arr: [1, 2, 3] }, { arr: [1, 2, 3] })).toBe(true);
+      expect(isEqual({ arr: [1, 2, 3] }, { arr: [1, 2, 4] })).toBe(false);
+    });
+
+    it('should correctly compare arrays containing objects', () => {
+      expect(isEqual([{ a: 1 }, { b: 2 }], [{ a: 1 }, { b: 2 }])).toBe(true);
+      expect(isEqual([{ a: 1 }, { b: 2 }], [{ a: 1 }, { b: 3 }])).toBe(false);
+    });
+
+    it('should handle empty objects and arrays', () => {
+      expect(isEqual({}, {})).toBe(true);
+      expect(isEqual([], [])).toBe(true);
+      expect(isEqual({}, [])).toBe(false);
+    });
+  });
+
   describe('validateSelectableOptions', () => {
     const mockOptions: SelectableValue[] = [
       { text: 'Option 1', id: '1' },
@@ -111,6 +180,35 @@ describe('DataValidations', () => {
       const result = validate('Option\u00A01');
 
       expect(result).toBeUndefined();
+    });
+  });
+
+  describe('validateSelectableOptions additional tests', () => {
+    const mockOptions: SelectableValue[] = [
+      { text: 'Option 1', id: '1' },
+      { text: 'Option 2', id: '2' },
+      { text: 'Partial Match Option', id: '3' },
+    ];
+
+    it('should match partial text correctly', () => {
+      const validate = validateSelectableOptions(mockOptions);
+      expect(validate('Partial Match')).toBeUndefined();
+    });
+
+    it('should handle case sensitivity', () => {
+      const validate = validateSelectableOptions(mockOptions);
+      // Current implementation is case-sensitive
+      expect(validate('option 1')).toBe('generic.validation.check_inputs');
+    });
+
+    it('should work with empty options array', () => {
+      const validate = validateSelectableOptions([]);
+      expect(validate('any value')).toBe('generic.validation.check_inputs');
+    });
+
+    it('should handle empty input string', () => {
+      const validate = validateSelectableOptions(mockOptions);
+      expect(validate('')).toBeUndefined();
     });
   });
 
@@ -157,6 +255,17 @@ describe('DataValidations', () => {
       const result = validateDemandCharacteristicType('invalidCharacteristic');
 
       expect(result).toBe('generic.validation.check_inputs');
+    });
+
+    it('should call parseToStringLiteralTypeIfPossible with correct parameters', () => {
+      const spy = jest.spyOn(Parser, 'parseToStringLiteralTypeIfPossible');
+      validateDemandCharacteristicType('testValue');
+
+      expect(spy).toHaveBeenCalledWith(
+        'testValue',
+        expect.any(Array),
+        expect.any(Function)
+      );
     });
   });
 });

@@ -57,6 +57,7 @@ globalThis.ngJest = {
 jest.mock('@jsverse/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@jsverse/transloco'),
   translate: (key: string) => key,
+  getBrowserCultureLang: jest.fn(),
 }));
 
 setupGridLicense();

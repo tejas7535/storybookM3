@@ -269,7 +269,6 @@ describe('ChartSettingsService', () => {
 
       const result = service.getChartSettings(testId, PeriodType.YEARLY);
 
-      // Verify that default settings would be returned through the catchError operator
       result.subscribe({
         next: (err) => {
           expect(err).toEqual(

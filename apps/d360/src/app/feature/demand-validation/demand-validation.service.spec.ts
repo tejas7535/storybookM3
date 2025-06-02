@@ -399,12 +399,10 @@ describe('DemandValidationService', () => {
         )
         .pipe(take(1))
         .subscribe(() => {
-          // Verify FormData content
           const patchCall = jest.mocked(service['http'].patch).mock.calls[0];
           const formData = patchCall[1] as FormData;
           const jsonBlob = formData.get('data') as Blob;
 
-          // Read the blob content to verify it contains the existing kpiEntries
           const reader = new FileReader();
           // eslint-disable-next-line unicorn/prefer-add-event-listener
           reader.onload = () => {

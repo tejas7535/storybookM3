@@ -22,7 +22,7 @@ class TestComponent extends AbstractMultiAutocompleteComponent {
   protected isPreloaded = false;
 }
 
-describe('AbstractSingleAutocompleteComponent', () => {
+describe('AbstractMultiAutocompleteComponent', () => {
   let component: TestComponent;
   let form: FormGroup;
   let control: FormControl;

@@ -100,10 +100,8 @@ describe('BaseForecastChartComponent', () => {
       Stub.setInput('data', [{ yearMonth: '2023-01', orders: 10 }]);
       Stub.setInput('toggledKpis', { orders: false });
 
-      // Reset the spy to isolate the next call
       spy.mockClear();
 
-      // Change includeSalesData and verify it triggers generateChartOptions
       Stub.setInput('includeSalesData', true);
       Stub.detectChanges();
 

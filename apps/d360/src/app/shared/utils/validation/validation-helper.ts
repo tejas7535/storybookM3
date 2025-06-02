@@ -113,7 +113,7 @@ export class ValidationHelper {
     const formattedDate: string =
       ValidationHelper.localeService?.localizeDate(dateInput);
 
-    const separator: string = formattedDate.match(/[./-]/)[0];
+    const separator: string = formattedDate.match(/[./-]/)?.[0];
     const dateParts: string[] = formattedDate.split(/[./-]/);
 
     const year = dateParts[0]; // Germany: 2024

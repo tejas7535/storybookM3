@@ -7,7 +7,7 @@ import { LegalRoute } from '@schaeffler/legal-pages';
 
 import { AppRoutePath, AppRouteValue } from './app.routes.enum';
 import { Region } from './feature/global-selection/model';
-import { ProductType } from './shared/components/page/tab-bar-navigation/tab-bar-navigation.component';
+import { ProductType } from './shared/components/tab-bar-navigation/tab-bar-navigation.component';
 import { CanDeactivateGuard } from './shared/utils/auth/can-deactivate-guard.service';
 import { RegionGuard } from './shared/utils/auth/region-guard.service';
 import { RoleGuard } from './shared/utils/auth/role-guard.service';
@@ -204,14 +204,6 @@ export const appRoutes: RouteConfig = {
       ),
   },
   others: [
-    {
-      path: AppRoutePath.TestPage,
-      canActivate: [MsalGuard],
-      loadComponent: /* istanbul ignore next */ () =>
-        import('../app/pages/test-page/test-page.component').then(
-          (m) => m.TestPageComponent
-        ),
-    },
     {
       path: LegalRoute,
       loadChildren: /* istanbul ignore next */ () =>

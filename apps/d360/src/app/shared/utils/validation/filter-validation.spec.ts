@@ -1,31 +1,20 @@
-import { Component } from '@angular/core';
-
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-
+import { Stub } from '../../test/stub.class';
 import {
+  validateAlertTypes,
   validateCustomerNumber,
+  validateFor2Characters,
+  validateForText,
+  validateGkamNumber,
   validateMaterialNumber,
+  validateProductionPlants,
+  validateProductionSegment,
   validateSalesOrg,
   validateSectors,
 } from './filter-validation';
-import { ValidationHelper } from './validation-helper';
-@Component({
-  selector: 'd360-dummy',
-  template: '',
-})
-class DummyComponent {}
 
 describe('FilterHelpers', () => {
-  let spectator: Spectator<DummyComponent>;
-
-  const createComponent = createComponentFactory({
-    component: DummyComponent,
-  });
-
   beforeEach(() => {
-    spectator = createComponent();
-    ValidationHelper.localeService = spectator.query(TranslocoLocaleService);
+    Stub.initValidationHelper();
   });
 
   test.each`
@@ -106,5 +95,104 @@ describe('FilterHelpers', () => {
 
       expect(result.includes('error.onlyValuesWithNumbers')).toBe(true);
     });
+  });
+
+  test.each`
+    input        | isValid
+    ${'123456'}  | ${true}
+    ${'6'}       | ${true}
+    ${'1234567'} | ${false}
+    ${'ABC'}     | ${false}
+    ${'123 45'}  | ${false}
+    ${'123.45'}  | ${false}
+  `(
+    'validates GKAM number: $input (validates $isValid)',
+    ({ input, isValid }) => {
+      const result = validateGkamNumber(input);
+      const resultValid = result == null;
+      expect(resultValid).toBe(isValid);
+    }
+  );
+
+  test.each`
+    input        | isValid
+    ${'123456'}  | ${true}
+    ${'6'}       | ${true}
+    ${'1234567'} | ${false}
+    ${'ABC'}     | ${false}
+    ${'123 45'}  | ${false}
+    ${'123.45'}  | ${false}
+  `(
+    'validates production segment: $input (validates $isValid)',
+    ({ input, isValid }) => {
+      const result = validateProductionSegment(input);
+      const resultValid = result == null;
+      expect(resultValid).toBe(isValid);
+    }
+  );
+
+  test.each`
+    input      | isValid
+    ${'1234'}  | ${true}
+    ${'6'}     | ${true}
+    ${'12345'} | ${false}
+    ${'ABC'}   | ${false}
+    ${'12 3'}  | ${false}
+    ${'12.3'}  | ${false}
+  `(
+    'validates production plants: $input (validates $isValid)',
+    ({ input, isValid }) => {
+      const result = validateProductionPlants(input);
+      const resultValid = result == null;
+      expect(resultValid).toBe(isValid);
+    }
+  );
+
+  test.each`
+    input        | isValid
+    ${'ABCDEF'}  | ${true}
+    ${'XYZABC'}  | ${true}
+    ${'ABC'}     | ${false}
+    ${'ABCDEFG'} | ${false}
+    ${'ABC123'}  | ${false}
+    ${'ABC DEF'} | ${false}
+  `(
+    'validates alert types: $input (validates $isValid)',
+    ({ input, isValid }) => {
+      const result = validateAlertTypes(input);
+      const resultValid = result == null;
+      expect(resultValid).toBe(isValid);
+    }
+  );
+
+  test.each`
+    input    | isValid
+    ${'AB'}  | ${true}
+    ${'XY'}  | ${true}
+    ${'A'}   | ${false}
+    ${'ABC'} | ${false}
+    ${'A1'}  | ${false}
+    ${'A B'} | ${false}
+  `(
+    'validates for 2 characters: $input (validates $isValid)',
+    ({ input, isValid }) => {
+      const result = validateFor2Characters(input);
+      const resultValid = result == null;
+      expect(resultValid).toBe(isValid);
+    }
+  );
+
+  test.each`
+    input       | isValid
+    ${'ABC'}    | ${true}
+    ${'Text'}   | ${true}
+    ${'ABC123'} | ${false}
+    ${'123'}    | ${false}
+    ${'AB 12'}  | ${false}
+    ${'A.B'}    | ${false}
+  `('validates for text: $input (validates $isValid)', ({ input, isValid }) => {
+    const result = validateForText(input);
+    const resultValid = result == null;
+    expect(resultValid).toBe(isValid);
   });
 });

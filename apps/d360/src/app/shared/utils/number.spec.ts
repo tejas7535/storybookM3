@@ -1,57 +1,16 @@
-import { Component } from '@angular/core';
-
-import { TranslocoLocaleService } from '@jsverse/transloco-locale';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-
+import { Stub } from '../test/stub.class';
 import {
   getDecimalSeparator,
   getNumberFromLocale,
   getThousandSeparator,
   numberIsAtStartOfDecimal,
-  strictlyParseInteger,
+  parseAndFormatNumber,
   strictlyParseLocalFloat,
 } from './number';
 import { ValidationHelper } from './validation/validation-helper';
 
-@Component({
-  selector: 'd360-dummy',
-  template: '',
-})
-class DummyComponent {}
-
 describe('numbers', () => {
-  let spectator: Spectator<DummyComponent>;
-
-  const createComponent = createComponentFactory({
-    component: DummyComponent,
-  });
-
-  beforeEach(() => {
-    spectator = createComponent();
-    ValidationHelper.localeService = spectator.query(TranslocoLocaleService);
-  });
-
-  test.each`
-    input        | isValid
-    ${'1'}       | ${true}
-    ${'1200'}    | ${true}
-    ${'1.2'}     | ${false}
-    ${'1.2'}     | ${false}
-    ${'1,1'}     | ${false}
-    ${'1.200,5'} | ${false}
-    ${'1,200.5'} | ${false}
-    ${'-5'}      | ${false}
-    ${'1,1,3'}   | ${false}
-    ${'1.1.3'}   | ${false}
-    ${'eins'}    | ${false}
-    ${'0b101'}   | ${false}
-    ${'0o13'}    | ${false}
-    ${'0x0A'}    | ${false}
-  `('strictlyParseInt parses $input correctly', ({ input, isValid }) => {
-    const result = strictlyParseInteger(input);
-    const resultValid = !Number.isNaN(result);
-    expect(resultValid).toBe(isValid);
-  });
+  beforeEach(() => Stub.initValidationHelper());
 
   test.each`
     input        | decimalSeparator | isValid
@@ -155,6 +114,86 @@ describe('numbers', () => {
 
     it('should return true if the decimal separator is at the end of an incomplete number', () => {
       expect(numberIsAtStartOfDecimal('1 234,', 'fr-FR')).toBe(true);
+    });
+  });
+
+  describe('parseAndFormatNumber', () => {
+    let agGridLocalizationServiceMock: {
+      numberFormatter: jest.Mock;
+    };
+
+    beforeEach(() => {
+      agGridLocalizationServiceMock = {
+        numberFormatter: jest
+          .fn()
+          .mockImplementation((params) => `formatted-${params.value}`),
+      };
+
+      jest
+        .spyOn(ValidationHelper, 'getDecimalSeparatorForActiveLocale')
+        .mockReturnValue('COMMA');
+    });
+
+    it('should format string values by parsing and formatting them', () => {
+      const params = { value: '1200,5' };
+
+      const result = parseAndFormatNumber(
+        params as any,
+        agGridLocalizationServiceMock as any
+      );
+
+      expect(
+        ValidationHelper.getDecimalSeparatorForActiveLocale
+      ).toHaveBeenCalled();
+      expect(result).toBe('formatted-1200.5');
+      expect(
+        agGridLocalizationServiceMock.numberFormatter
+      ).toHaveBeenCalledWith({
+        ...params,
+        value: 1200.5,
+      });
+    });
+
+    it('should return the original string value if parsing fails', () => {
+      const params = { value: 'invalid-number' };
+
+      const result = parseAndFormatNumber(
+        params as any,
+        agGridLocalizationServiceMock as any
+      );
+
+      expect(result).toBe('invalid-number');
+      expect(
+        agGridLocalizationServiceMock.numberFormatter
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should directly format number values without parsing', () => {
+      const params = { value: 1234.56 };
+
+      const result = parseAndFormatNumber(
+        params as any,
+        agGridLocalizationServiceMock as any
+      );
+
+      expect(result).toBe('formatted-1234.56');
+      expect(
+        agGridLocalizationServiceMock.numberFormatter
+      ).toHaveBeenCalledWith(params);
+    });
+
+    it('should return the original value for non-string, non-number inputs', () => {
+      const params = { value: null } as any;
+
+      const result = parseAndFormatNumber(
+        params as any,
+        agGridLocalizationServiceMock as any
+      );
+
+      expect(result).toBe(null);
+      expect(
+        agGridLocalizationServiceMock.numberFormatter
+      ).not.toHaveBeenCalled();
     });
   });
 });

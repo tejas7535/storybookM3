@@ -45,7 +45,7 @@ export class TableToolbarComponent {
     });
   }
 
-  protected toggleFloatingFilter() {
+  protected toggleFloatingFilter(): void {
     this.showFloatingFilters = !this.showFloatingFilters;
 
     if (this.grid()) {

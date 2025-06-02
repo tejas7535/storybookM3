@@ -678,7 +678,6 @@ export abstract class AbstractTableComponent implements OnInit {
     const toolPanels = [...(this.getSideBar()?.toolPanels ?? [])];
 
     if (this.config()?.table?.sideBar === undefined) {
-      // For custom toolpanels setup
       toolPanels.length = 0; // Clear the array
 
       if (!isDefaultTab) {

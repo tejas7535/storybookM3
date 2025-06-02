@@ -212,5 +212,117 @@ describe('UserSettingsComponent', () => {
         number: testNumber,
       });
     });
+
+    it('should handle errors when localizing data', () => {
+      const testLocale = 'en-EN';
+      jest.replaceProperty(
+        component['translocoLocaleService'],
+        'localeChanges$',
+        of(testLocale)
+      );
+
+      jest
+        .spyOn(component['translocoLocaleService'], 'localizeDate')
+        .mockImplementation(() => {
+          throw new Error('Localization error');
+        });
+
+      // Should not throw when a localization error occurs
+      expect(() => {
+        component.ngOnInit();
+      }).not.toThrow();
+    });
+  });
+
+  describe('availableFunctions', () => {
+    it('should group routes by function category', () => {
+      const routesMock = {
+        salesSuite: [{ path: 'sales1' }, { path: 'sales2' }],
+        demandSuite: [{ path: 'demand1' }],
+        general: [{ path: 'general1' }],
+      };
+
+      jest
+        .spyOn(component['userService'], 'filterVisibleRoutes')
+        .mockImplementation((routes) => {
+          switch (routes) {
+            case component['appRoutes'].functions.salesSuite: {
+              return routesMock.salesSuite as any[];
+            }
+            case component['appRoutes'].functions.demandSuite: {
+              return routesMock.demandSuite as any[];
+            }
+            case component['appRoutes'].functions.general: {
+              return routesMock.general as any[];
+            }
+            // No default
+          }
+
+          return [];
+        });
+
+      Stub.detectChanges();
+
+      const result = component['availableFunctions']();
+      expect(result.salesSuite).toEqual(routesMock.salesSuite);
+      expect(result.demandSuite).toEqual(routesMock.demandSuite);
+      expect(result.general.length).toEqual(2); // general routes + todos route
+    });
+
+    it('should include the todos route in the general category', () => {
+      jest
+        .spyOn(component['userService'], 'filterVisibleRoutes')
+        .mockReturnValue([]);
+
+      Stub.detectChanges();
+
+      const result = component['availableFunctions']();
+      expect(result.general).toContain(component['appRoutes'].todos);
+    });
+  });
+
+  describe('form controls', () => {
+    it('should initialize currencyControl and startPageControl with validators', () => {
+      expect(component['currencyControl'].valid).toBeFalsy();
+      expect(component['startPageControl'].valid).toBeFalsy();
+
+      component['currencyControl'].setValue({ id: 'USD', text: 'USD' });
+      component['startPageControl'].setValue(
+        AppRoutePath.AlertRuleManagementPage
+      );
+
+      expect(component['currencyControl'].valid).toBeTruthy();
+      expect(component['startPageControl'].valid).toBeTruthy();
+    });
+
+    it('should include both controls in the userSettingsForm', () => {
+      expect(component['userSettingsForm'].contains('currency')).toBeTruthy();
+      expect(component['userSettingsForm'].contains('startPage')).toBeTruthy();
+    });
+  });
+
+  describe('localizationTooltip', () => {
+    it('should initialize as null', () => {
+      expect(component['localizationTooltip']()).toBeNull();
+    });
+
+    it('should update when locale changes', () => {
+      const testLocale = 'en-EN';
+      const tooltipText = 'Localized tooltip text';
+
+      jest.replaceProperty(
+        component['translocoLocaleService'],
+        'localeChanges$',
+        of(testLocale)
+      );
+
+      jest
+        .spyOn(component['translocoService'], 'translate')
+        .mockReturnValue(tooltipText);
+
+      component.ngOnInit();
+
+      expect(component['localizationTooltip']()).toBe(tooltipText);
+    });
   });
 });

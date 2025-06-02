@@ -832,7 +832,6 @@ describe('AlertService', () => {
 
   describe('getAlertData', () => {
     it('should get the current currency and make a post request with the correct parameters', (done) => {
-      // Arrange
       const mockCurrency = 'EUR';
       const mockStatus = AlertStatus.ACTIVE;
       const mockPriorities = [Priority.Priority1, Priority.Priority2];
@@ -852,11 +851,9 @@ describe('AlertService', () => {
         .spyOn(service['http'], 'post')
         .mockReturnValue(of(mockResponse));
 
-      // Act
       service
         .getAlertData(mockStatus, mockPriorities, mockParams)
         .subscribe((result) => {
-          // Assert
           expect(
             service['currencyService'].getCurrentCurrency
           ).toHaveBeenCalled();
@@ -885,7 +882,6 @@ describe('AlertService', () => {
     });
 
     it('should handle the case with undefined parameters', (done) => {
-      // Arrange
       const mockCurrency = 'USD';
       const mockStatus = AlertStatus.COMPLETED;
       const mockPriorities = undefined as any;
@@ -905,11 +901,9 @@ describe('AlertService', () => {
         .spyOn(service['http'], 'post')
         .mockReturnValue(of(mockResponse));
 
-      // Act
       service
         .getAlertData(mockStatus, mockPriorities, mockParams as any)
         .subscribe(() => {
-          // Assert
           const expectedQueryParams = new HttpParams()
             .set('status', mockStatus)
             .set('currency', mockCurrency);
@@ -933,7 +927,6 @@ describe('AlertService', () => {
     });
 
     it('should handle all priority values', (done) => {
-      // Arrange
       const mockCurrency = 'EUR';
       const mockStatus = AlertStatus.ACTIVE;
       const mockPriorities = [
@@ -957,11 +950,9 @@ describe('AlertService', () => {
         .spyOn(service['http'], 'post')
         .mockReturnValue(of(mockResponse));
 
-      // Act
       service
         .getAlertData(mockStatus, mockPriorities, mockParams)
         .subscribe(() => {
-          // Assert
           const expectedSelectionFilters = { alertPriority: mockPriorities };
 
           expect(httpSpy).toHaveBeenCalledWith(

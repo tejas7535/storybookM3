@@ -1,29 +1,22 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ITooltipParams } from 'ag-grid-enterprise';
-
+import { Stub } from '../../../test/stub.class';
 import { GridTooltipComponent } from './grid-tooltip.component';
 
 describe('GridTooltipComponent', () => {
-  let spectator: Spectator<GridTooltipComponent>;
-
-  const createComponent = createComponentFactory({
-    component: GridTooltipComponent,
-    imports: [],
-  });
+  let component: GridTooltipComponent;
 
   beforeEach(() => {
-    spectator = createComponent({ detectChanges: false });
-    spectator.component.agInit({} as ITooltipParams);
-    spectator.detectChanges();
+    component = Stub.get<GridTooltipComponent>({
+      component: GridTooltipComponent,
+    });
   });
 
   it('should create', () => {
-    expect(spectator.component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   describe('agInit', () => {
     it('sets correct data', () => {
-      spectator.component.agInit({
+      component.agInit({
         wide: true,
         lineBreaks: true,
         textLeft: true,
@@ -31,7 +24,7 @@ describe('GridTooltipComponent', () => {
         value: '123',
       } as any);
 
-      expect(spectator.component.params).toEqual({
+      expect(component.params).toEqual({
         wide: true,
         lineBreaks: true,
         textLeft: true,

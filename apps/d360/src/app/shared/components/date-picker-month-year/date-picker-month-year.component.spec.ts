@@ -3,9 +3,9 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { provideDateFnsAdapter } from '@angular/material-date-fns-adapter';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { addMonths, endOfMonth, startOfMonth, subMonths } from 'date-fns';
 
+import { Stub } from '../../test/stub.class';
 import { DatePickerMonthYearComponent } from './date-picker-month-year.component';
 
 jest.mock('../../constants/available-locales', () => ({
@@ -21,44 +21,46 @@ jest.mock('../../constants/available-locales', () => ({
 }));
 
 describe('DatePickerMonthYearComponent', () => {
-  let spectator: Spectator<DatePickerMonthYearComponent>;
-
-  const createComponent = createComponentFactory({
-    component: DatePickerMonthYearComponent,
-    imports: [],
-    providers: [
-      { provide: MAT_DATE_LOCALE, useValue: 'de-DE' },
-      provideDateFnsAdapter(),
-    ],
-    detectChanges: false,
-  });
+  let component: DatePickerMonthYearComponent;
 
   beforeEach(() => {
-    spectator = createComponent({
-      props: {
-        control: new FormControl(null),
-        endOf: false,
-      } as any,
+    component = Stub.getForEffect<DatePickerMonthYearComponent>({
+      component: DatePickerMonthYearComponent,
+      imports: [],
+      providers: [
+        { provide: MAT_DATE_LOCALE, useValue: 'de-DE' },
+        provideDateFnsAdapter(),
+      ],
     });
+
+    Stub.setInputs([
+      { property: 'label', value: 'Select Month and Year' },
+      { property: 'control', value: new FormControl(null) },
+      { property: 'hint', value: 'Please select a month and year' },
+      { property: 'errorMessage', value: 'Invalid date' },
+      { property: 'endOf', value: false },
+    ]);
+
+    Stub.detectChanges();
   });
 
   describe('ngOnInit', () => {
     it('should initialize the component with a date value', () => {
       const testDate = new Date();
-      spectator.component['control']().setValue(testDate);
+      component['control']().setValue(testDate);
 
-      spectator.component.ngOnInit();
+      component.ngOnInit();
 
-      expect(spectator.component['control']().getRawValue()).toEqual(testDate);
+      expect(component['control']().getRawValue()).toEqual(testDate);
     });
 
     it('should initialize the component with a string date value', () => {
       const testDate = '2024/12/31';
-      spectator.component['control']().setValue(testDate);
+      component['control']().setValue(testDate);
 
-      spectator.component.ngOnInit();
+      component.ngOnInit();
 
-      expect(spectator.component['control']().getRawValue()).toEqual(
+      expect(component['control']().getRawValue()).toEqual(
         startOfMonth(new Date(testDate))
       );
     });
@@ -67,24 +69,24 @@ describe('DatePickerMonthYearComponent', () => {
   describe('onSelectMonth', () => {
     it('should set the value of control to start of month when endOf is false', () => {
       const testDate = new Date();
-      jest.spyOn(spectator.component as any, 'endOf').mockReturnValue(false);
-      spectator.component['onSelectMonth'](testDate, {
+      jest.spyOn(component as any, 'endOf').mockReturnValue(false);
+      component['onSelectMonth'](testDate, {
         close: jest.fn(),
       } as any as MatDatepicker<Date>);
 
-      expect(spectator.component['control']().getRawValue()).toEqual(
+      expect(component['control']().getRawValue()).toEqual(
         startOfMonth(testDate)
       );
     });
 
     it('should set the value of control to end of month when endOf is true', () => {
       const testDate = new Date();
-      jest.spyOn(spectator.component as any, 'endOf').mockReturnValue(true);
-      spectator.component['onSelectMonth'](testDate, {
+      jest.spyOn(component as any, 'endOf').mockReturnValue(true);
+      component['onSelectMonth'](testDate, {
         close: jest.fn(),
       } as any as MatDatepicker<Date>);
 
-      expect(spectator.component['control']().getRawValue()).toEqual(
+      expect(component['control']().getRawValue()).toEqual(
         endOfMonth(testDate)
       );
     });
@@ -92,16 +94,16 @@ describe('DatePickerMonthYearComponent', () => {
 
   describe('input values', () => {
     it('should have default value for minDate and maxDate', () => {
-      expect(spectator.component['minDate']()).toEqual(
+      expect(component['minDate']()).toEqual(
         startOfMonth(subMonths(new Date(), 36))
       );
-      expect(spectator.component['maxDate']()).toEqual(
+      expect(component['maxDate']()).toEqual(
         endOfMonth(addMonths(new Date(), 36))
       );
     });
 
     it('should have default value for endOf', () => {
-      expect(spectator.component['endOf']()).toBeFalsy();
+      expect(component['endOf']()).toBeFalsy();
     });
   });
 });

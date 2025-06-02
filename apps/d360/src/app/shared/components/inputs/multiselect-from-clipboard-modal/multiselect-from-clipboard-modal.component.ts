@@ -1,7 +1,6 @@
 import {
   Component,
   DestroyRef,
-  Inject,
   inject,
   signal,
   WritableSignal,
@@ -82,6 +81,14 @@ interface ClipboardErrors {
 })
 export class MultiselectFromClipboardModalComponent {
   /**
+   * The data passed to the dialog.
+   *
+   * @type {ClipboardDialogData}
+   * @memberof MultiselectFromClipboardModalComponent
+   */
+  public data: ClipboardDialogData = inject(MAT_DIALOG_DATA);
+
+  /**
    * The current loading state.
    *
    * @protected
@@ -123,12 +130,9 @@ export class MultiselectFromClipboardModalComponent {
   /**
    * Creates an instance of MultiselectFromClipboardModalComponent.
    *
-   * @param {ClipboardDialogData} data
    * @memberof MultiselectFromClipboardModalComponent
    */
-  public constructor(
-    @Inject(MAT_DIALOG_DATA) public data: ClipboardDialogData
-  ) {
+  public constructor() {
     // init unsaved values with the values of the given form control.
     this.unsavedValues = new FormControl([...this.data.control.value]);
   }

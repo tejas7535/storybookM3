@@ -10,10 +10,6 @@ import {
 } from './parse-values';
 import { ValidationHelper } from './validation/validation-helper';
 
-jest.mock('@jsverse/transloco', () => ({
-  translate: jest.fn((key, _) => `${key}`),
-}));
-
 describe('Parse Values', () => {
   describe('parseDateIfPossible', () => {
     it('should return the same string if date validation fails', () => {

@@ -24,7 +24,7 @@ export class RegionGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     _state: RouterStateSnapshot
   ) {
-    const allowedRegions = route.routeConfig.data?.allowedRegions;
+    const allowedRegions = route.routeConfig?.data?.allowedRegions;
 
     return this.userService.loadRegion().pipe(
       map(

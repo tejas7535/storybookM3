@@ -1,6 +1,6 @@
 import {
   Component,
-  Inject,
+  inject,
   OnInit,
   signal,
   WritableSignal,
@@ -32,19 +32,17 @@ export interface CustomerMaterialNumbersDialogData {
   ],
 })
 export class CustomerMaterialNumbersModalComponent implements OnInit {
-  isLoading: WritableSignal<boolean> = signal(false);
-  customerMaterialNumbers: WritableSignal<string[]> = signal([]);
+  protected isLoading: WritableSignal<boolean> = signal(false);
+  protected customerMaterialNumbers: WritableSignal<string[]> = signal([]);
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) protected data: CustomerMaterialNumbersDialogData
-  ) {}
+  protected data: CustomerMaterialNumbersDialogData = inject(MAT_DIALOG_DATA);
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.isLoading = this.data.isLoading;
     this.customerMaterialNumbers = this.data.customerMaterialNumbers;
   }
 
-  copyCustomerMaterialNumbersToClipboard() {
+  protected copyCustomerMaterialNumbersToClipboard(): void {
     navigator.clipboard.writeText(this.customerMaterialNumbers().join('\n'));
   }
 }
