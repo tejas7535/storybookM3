@@ -35,6 +35,7 @@ export interface Lubricator {
   productSeries: string;
   volume: string;
   isOptime: 0 | 1;
+  pim_id: string;
   productImageUrl: string;
   bundle?: Accessory[];
   technicalAttributes: { [key: string]: string };

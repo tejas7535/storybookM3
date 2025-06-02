@@ -31,9 +31,13 @@
           lsaEnhanceImage
         />
       </div>
-      <span class="text-title-medium text-medium-emphasis h-12">{{
-        headerData.name
-      }}</span>
+
+      <a
+        class="text-title-medium text-medium-emphasis underline hover:no-underline h-12"
+        target="_blank"
+        [href]="headerData.pimId | pdpurl"
+        >{{ headerData.name }}</a
+      >
       <p class="text-body-small text-medium-emphasis flex-1">
         {{ headerData.description }}
       </p>

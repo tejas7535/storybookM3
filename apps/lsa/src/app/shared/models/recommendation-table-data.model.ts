@@ -4,6 +4,7 @@ export interface RecommendationLubricatorHeaderData {
   matNr: string;
   name: string;
   description: string;
+  pimId: string;
 }
 
 export interface RecommendationTableRow {

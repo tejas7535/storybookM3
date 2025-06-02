@@ -32,6 +32,7 @@ export class RecommendationTableDataPipe implements PipeTransform {
         matNr: lubricators.recommendedLubricator.matNr,
         name: lubricators.recommendedLubricator.name,
         description: lubricators.recommendedLubricator.description,
+        pimId: lubricators.recommendedLubricator.pim_id,
       };
     }
 
@@ -46,6 +47,7 @@ export class RecommendationTableDataPipe implements PipeTransform {
         matNr: lubricators.minimumRequiredLubricator.matNr,
         name: lubricators.minimumRequiredLubricator.name,
         description: lubricators.minimumRequiredLubricator.description,
+        pimId: lubricators.minimumRequiredLubricator.pim_id,
       };
     }
 

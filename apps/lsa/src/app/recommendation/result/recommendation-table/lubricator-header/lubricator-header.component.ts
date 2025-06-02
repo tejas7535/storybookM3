@@ -6,6 +6,8 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { EnhanceImageDirective } from '@lsa/shared/directives/enhance-image.directive';
 import { RecommendationLubricatorHeaderData } from '@lsa/shared/models';
 
+import { PdpPageUrlPipe } from '../../accessory-table/pdp-url.pipe';
+
 @Component({
   selector: 'lsa-lubricator-header',
   imports: [
@@ -13,6 +15,7 @@ import { RecommendationLubricatorHeaderData } from '@lsa/shared/models';
     MatRadioModule,
     TranslocoModule,
     EnhanceImageDirective,
+    PdpPageUrlPipe,
   ],
   templateUrl: './lubricator-header.component.html',
 })

@@ -19,6 +19,7 @@ export const mockResponse: RecommendationResponse = {
       productSeries: 'C1',
       volume: '60',
       isOptime: 0,
+      pim_id: '00321450',
       productImageUrl:
         'https://cdn.schaeffler-ecommerce.com/cdn/00171550_d.png',
       technicalAttributes: {
@@ -40,6 +41,7 @@ export const mockResponse: RecommendationResponse = {
       productSeries: 'C2',
       volume: '600',
       isOptime: 1,
+      pim_id: '00123450',
       productImageUrl:
         'https://cdn.schaeffler-ecommerce.com/cdn/00171550_d.png',
       technicalAttributes: {
