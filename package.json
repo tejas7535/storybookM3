@@ -28,8 +28,7 @@
     "embed-app:iframe": "http-server tools/embedded/iframe",
     "embed-app:webcomponent": "http-server tools/embedded/webcomponent",
     "embed-app:ea": "npm run embed-app:webcomponent & nx run ea:build:local --watch & http-server --cors --c-1 --port 8000 dist/apps/ea",
-    "help": "nx help",
-    "renovate": "renovate"
+    "help": "nx help"
   },
   "lint-staged": {
     "**/*/assets/i18n/*.json": [
@@ -189,7 +188,6 @@
     "pretty-quick": "4.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "renovate": "37.410.1",
     "resize-observer-polyfill": "1.5.1",
     "rxjs-marbles": "7.0.1",
     "storybook": "7.6.20",

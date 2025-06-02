@@ -48,8 +48,6 @@ boolean isLibsRelease = false
 @Field
 boolean runQualityStage = true
 @Field
-boolean isRenovate = false
-@Field
 boolean buildStorybook = false
 @Field
 boolean publishStorybook = false
@@ -60,7 +58,7 @@ boolean storybookAffected = false
 @Field
 boolean skipBuild = false
 @Field
-def buildTypes = [ NORMAL: 'normal', PRE_RELEASE : 'pre-release', RELEASE : 'release', RENOVATE : 'renovate', HOTFIX: 'hotfix' ]
+def buildTypes = [ NORMAL: 'normal', PRE_RELEASE : 'pre-release', RELEASE : 'release', HOTFIX: 'hotfix' ]
 @Field
 def releasableApps = ['cdba', 'ia', 'mac', 'mm', 'ga', 'ea', 'lsa', 'hc', 'd360']
 @Field
@@ -229,16 +227,6 @@ void defineRunTriggerAppDeploymentsStage(isNightly) {
     // it is not a hotfix base run without any change
 
     triggerAppDeployments = !skipBuild && !isNightly && !isLibsRelease && !isDepUpdate() && !isPreReleaseTrigger && !isHotfixTrigger && !isHotfixBaseWithoutChanges
-}
-
-void defineIsRenovate() {
-    if (params.BUILD_TYPE == buildTypes.RENOVATE) {
-        isRenovate = true
-        runQualityStage = false
-        buildStorybook = false
-        publishStorybook = false
-        triggerAppDeployments = false
-    }
 }
 
 void defineBuildBase(isMain) {
@@ -442,7 +430,7 @@ pipeline {
                         if(BRANCH.startsWith("${buildTypes.PRE_RELEASE}")) {
                             types = types + ["${buildTypes.RELEASE}"]
                         } else if (BRANCH.startsWith('master')) {
-                            types = types + ["${buildTypes.PRE_RELEASE}","${buildTypes.RELEASE}", "${buildTypes.RENOVATE}","${buildTypes.HOTFIX}"]
+                            types = types + ["${buildTypes.PRE_RELEASE}","${buildTypes.RELEASE}","${buildTypes.HOTFIX}"]
                         }
 
                         return types
@@ -527,7 +515,6 @@ pipeline {
                     defineBuildStorybook(isRelease)
                     definePublishStorybook(isMain)
                     defineRunTriggerAppDeploymentsStage(isNightly)
-                    defineIsRenovate()
 
                     sh "pnpm config set store-dir $PNPM_HOME/.pnpm-store"
                     sh 'pnpm install'
@@ -535,25 +522,6 @@ pipeline {
                     defineBuildBase(isMain)
                     defineAffectedAppsAndLibs()
                     setGitUser()
-                }
-            }
-        }
-
-        stage('Renovate') {
-            when {
-                expression {
-                    return isNightly || isRenovate
-                }
-            }
-            environment {
-                RENOVATE_CONFIG_FILE = 'renovate-config.js'
-            }
-            steps {
-                echo 'Renovate'
-                withCredentials([string(credentialsId: 'SVC_FRONTEND_MONO_GH_TOKEN', variable: 'RENOVATE_TOKEN')]) {
-                    sh """
-                        pnpm run renovate --token=${RENOVATE_TOKEN}
-                    """
                 }
             }
         }
@@ -864,7 +832,7 @@ pipeline {
         stage('Build:Apps') {
             when {
                 expression {
-                    return !skipBuild && !isLibsRelease && !isRenovate && !isHotfixBaseWithoutChanges
+                    return !skipBuild && !isLibsRelease && !isHotfixBaseWithoutChanges
                 }
             }
             steps {
@@ -911,7 +879,7 @@ pipeline {
         stage('Deliver') {
             when {
                 expression {
-                    return !skipBuild && !isNightly && !isRenovate
+                    return !skipBuild && !isNightly
                 }
             }
             failFast true
