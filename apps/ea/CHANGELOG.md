@@ -1,4 +1,17 @@
 # Release Notes of Engineering App
+## [1.15.5](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.15.4...ea-v1.15.5) (2025-06-02)
+
+
+### Features
+
+* **mm:** migrate to webcomponent ([#7314](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7314)) ([ded6a0a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ded6a0a8d76bfa0e43186cc66c86259ab2cce055))
+
+
+### Bug Fixes
+
+* **ea:** add remixed font for better PDF support - UTFABI-8907 ([#7318](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7318)) ([a5c70f0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a5c70f09813dcd2f2bd512ccda02f30184d47e92))
+* **ea:** fix mobile layout to display value ([#7337](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/7337)) ([205d929](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/205d929a00b9245e6b91eb8cfa6131f324917804))
+
 ## [1.15.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.15.3...ea-v1.15.4) (2025-05-19)
 
 ## [1.15.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ea-v1.15.2...ea-v1.15.3) (2025-05-15)
